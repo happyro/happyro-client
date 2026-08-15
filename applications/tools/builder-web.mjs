@@ -395,6 +395,7 @@ ${buttons}
         </div>    
   
         <script src="Config.js"></script>    
+        <script src="Config.happyro.js"></script>
         <script>    
             // Load optional Config.local.js for overrides (fails silently if not present)    
             (function() {    
@@ -421,8 +422,9 @@ ${buttons}
             }    
     
             window.addEventListener("load", (event) => {    
-                // Merge Config.js defaults with Config.local.js overrides    
+                // Merge defaults, required HappyRO LAN settings, then optional local overrides.
                 var config = deepMerge({}, window.ROConfigBase || {});    
+                config = deepMerge(config, window.ROConfigHappyRO || {});
                 if (window.ROConfigLocal) {    
                     config = deepMerge(config, window.ROConfigLocal);    
                 }    
@@ -510,6 +512,7 @@ window.ROConfigBase = {
 };  
 `;
 	fs.writeFileSync(dist + platform + '/Config.js', configContent, { encoding: 'utf8' });
+	fs.copyFileSync('./applications/pwa/Config.happyro.js', dist + platform + '/Config.happyro.js');
 }
 
 function createApiHTML() {
@@ -574,6 +577,7 @@ function createApiHTML() {
         </div>    
     
         <script src="Config.js"></script>    
+        <script src="Config.happyro.js"></script>
         <script>    
             (function() {    
                 var script = document.createElement('script');    
@@ -612,6 +616,7 @@ function createApiHTML() {
             function loadApp(appName, extraConfig) {    
                 var scriptFile = APP_SCRIPTS[appName] || 'Online.js';    
                 var config = deepMerge({}, window.ROConfigBase || {});    
+                config = deepMerge(config, window.ROConfigHappyRO || {});
                 if (window.ROConfigLocal) { config = deepMerge(config, window.ROConfigLocal); }    
                 if (extraConfig) { config = deepMerge(config, extraConfig); }    
                 window.ROConfig = config;    

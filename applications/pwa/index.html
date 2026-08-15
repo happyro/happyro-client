@@ -106,6 +106,7 @@
 
 		<script type="text/javascript" src="../api/api.js"></script>
 		<script type="text/javascript" src="Config.js"></script>
+		<script type="text/javascript" src="Config.happyro.js"></script>
 		<script type="text/javascript">
 			// Load optional Config.local.js for overrides (fails silently if not present)
 			(function () {
@@ -132,8 +133,9 @@
 			}
 
 			function initialize(gitHash) {
-				// Merge Config.js defaults with Config.local.js overrides
+				// Merge defaults, required HappyRO LAN settings, then optional local overrides.
 				var baseConfig = deepMerge({}, window.ROConfigBase || {});
+				baseConfig = deepMerge(baseConfig, window.ROConfigHappyRO || {});
 				if (window.ROConfigLocal) {
 					baseConfig = deepMerge(baseConfig, window.ROConfigLocal);
 				}
