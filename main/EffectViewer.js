@@ -221436,6 +221436,8 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 	* @var {Image} minimap image
 	*/
 	const _map = createAsyncImage();
+	let _fallbackMap = null;
+	let _mapRequestId = 0;
 	/**
 	* @var {CanvasRenderingContext2D} canvas context
 	*/
@@ -221519,15 +221521,83 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 	* @param {string} mapname
 	*/
 	MiniMap.setMap = function setMap(mapname) {
+		const requestId = ++_mapRequestId;
 		_map.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+		_fallbackMap = null;
 		_towninfo = DB.getTownInfo(mapname.replace(/\..*/, ""));
 		let path = DB.INTERFACE_PATH.replace("data/texture/", "") + "map/" + mapname.replace(/\..*/, ".bmp");
 		path = path.replace(/\//g, "\\");
 		path = DB.mapalias[path] || path;
 		Client.loadFile(`data/texture/${path}`, (dataURI) => {
-			_map.src = dataURI;
+			if (requestId !== _mapRequestId) return;
+			const candidate = createAsyncImage();
+			candidate.onload = () => {
+				if (requestId !== _mapRequestId) return;
+				if (hasVisiblePixels(candidate)) _map.src = dataURI;
+				else _fallbackMap = createAltitudeFallback();
+			};
+			candidate.onerror = () => {
+				if (requestId === _mapRequestId) _fallbackMap = createAltitudeFallback();
+			};
+			candidate.src = dataURI;
+		}, () => {
+			if (requestId === _mapRequestId) _fallbackMap = createAltitudeFallback();
 		});
 	};
+	function hasVisiblePixels(image) {
+		const canvas = document.createElement("canvas");
+		canvas.width = image.naturalWidth;
+		canvas.height = image.naturalHeight;
+		const context = canvas.getContext("2d", { willReadFrequently: true });
+		context.drawImage(image, 0, 0);
+		const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+		for (let offset = 3; offset < pixels.length; offset += 4) if (pixels[offset] !== 0) return true;
+		return false;
+	}
+	function createAltitudeFallback() {
+		const width = Altitude.width;
+		const height = Altitude.height;
+		if (!width || !height) return null;
+		const size = 512;
+		const max = Math.max(width, height);
+		const scale = size / max;
+		const offsetX = (max - width) / 2;
+		const offsetY = (max - height) / 2;
+		const canvas = document.createElement("canvas");
+		canvas.width = size;
+		canvas.height = size;
+		const context = canvas.getContext("2d");
+		const image = context.createImageData(size, size);
+		const pixels = image.data;
+		for (let pixelY = 0; pixelY < size; pixelY++) {
+			const y = height - 1 - Math.floor(pixelY / scale - offsetY);
+			if (y < 0 || y >= height) continue;
+			for (let pixelX = 0; pixelX < size; pixelX++) {
+				const x = Math.floor(pixelX / scale - offsetX);
+				if (x < 0 || x >= width) continue;
+				const type = Altitude.getCellType(x, y);
+				const offset = (pixelX + pixelY * size) * 4;
+				if (type & Altitude.TYPE.WATER) {
+					pixels[offset] = 74;
+					pixels[offset + 1] = 137;
+					pixels[offset + 2] = 164;
+					pixels[offset + 3] = 230;
+				} else if (type & Altitude.TYPE.WALKABLE) {
+					pixels[offset] = 205;
+					pixels[offset + 1] = 211;
+					pixels[offset + 2] = 198;
+					pixels[offset + 3] = 230;
+				} else if (type & Altitude.TYPE.SNIPABLE) {
+					pixels[offset] = 105;
+					pixels[offset + 1] = 113;
+					pixels[offset + 2] = 108;
+					pixels[offset + 3] = 190;
+				}
+			}
+		}
+		context.putImageData(image, 0, 0);
+		return canvas;
+	}
 	/**
 	* KeyDown Handler
 	*
@@ -221734,9 +221804,10 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 			start_y = (height - max) / 2 * f;
 			if (coordinates) MiniMap.updateCoordinates(pos[0], pos[1]);
 			_ctx.clearRect(0, 0, 128, 128);
-			if (_map.complete && _map.width) {
-				if (zoom === 1) _ctx.drawImage(_map, 0, 0, 128, 128);
-				else _ctx.drawImage(_map, (start_x + pos[0] * f) * 4 - ZOOM_SIZE * zoom | 0, (start_y + 128 - pos[1] * f) * 4 - ZOOM_SIZE * zoom | 0, ZOOM_SIZE * zoom * 2, ZOOM_SIZE * zoom * 2, 0, 0, 128, 128);
+			const map = _fallbackMap || _map;
+			if (map && map.width) {
+				if (zoom === 1) _ctx.drawImage(map, 0, 0, 128, 128);
+				else _ctx.drawImage(map, (start_x + pos[0] * f) * 4 - ZOOM_SIZE * zoom | 0, (start_y + 128 - pos[1] * f) * 4 - ZOOM_SIZE * zoom | 0, ZOOM_SIZE * zoom * 2, ZOOM_SIZE * zoom * 2, 0, 0, 128, 128);
 			}
 			if (_towninfo && (townInfoToggle ? _preferences.townInfoShow : _towninfo.length)) {
 				count = _towninfo.length;
