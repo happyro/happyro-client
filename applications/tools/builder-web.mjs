@@ -397,17 +397,6 @@ ${buttons}
         <script src="Config.js"></script>    
         <script src="Config.happyro.js"></script>
         <script>    
-            // Load optional Config.local.js for overrides (fails silently if not present)    
-            (function() {    
-                var script = document.createElement('script');    
-                script.src = 'Config.local.js';    
-                script.onerror = function() {    
-                    console.log('Config.local.js not found, using defaults from Config.js');    
-                };    
-                document.head.appendChild(script);    
-            })();    
-        </script>    
-        <script>    
             function deepMerge(target, source) {    
                 for (var key in source) {    
                     if (source.hasOwnProperty(key)) {    
