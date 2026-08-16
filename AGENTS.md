@@ -1,5 +1,24 @@
 # AI Agent Instructions for roBrowserLegacy
 
+## HappyRO Repository Rules
+
+- Every HappyRO-authored commit must use `type(scope): subject`.
+- The scope is mandatory, lowercase, and hyphen-separated when needed.
+- Allowed types are `feat`, `fix`, `config`, `docs`, `refactor`, `test`, `build`, `ci`, `chore`, `perf`, `style`, and `revert`.
+- Write the subject in imperative English, without a trailing period, and keep the complete first line at 72 characters or fewer.
+- Examples: `fix(minimap): render a GAT fallback` and `config(locale): use the official kRO baseline`.
+- Use `type(scope)!: subject` for a breaking change and explain the migration in the commit body.
+- Keep one logical change per commit. Upstream merge commits and upstream-authored commits are exempt from the HappyRO message format.
+- Use `main` for HappyRO development. Push only to `origin`; never push to `upstream`.
+- Do not commit or push unless the user explicitly asks.
+- Keep HappyRO changes narrowly scoped so future `upstream/master` merges remain reviewable.
+- Keep `PACKETVER=20211103`, Renewal mode, packet obfuscation, and the server configuration aligned.
+- Runtime resources must use the verified official kRO 2021-11-05 baseline and LAN-hosted services only.
+- Do not add third-party bulk translation tables or translated client packs. Locale data must use official resource paths and identifiers, with HappyRO-owned translations reviewed item by item.
+- Do not commit generated PWA output, client assets, secrets, screenshots, or runtime locale packs.
+- Run `npm test` and `npm run build:pwa` for HappyRO client changes. Run focused tests for the subsystem touched.
+- Preserve upstream style, line endings, public APIs, and established component/version patterns.
+
 ## Project Overview
 
 roBrowserLegacy is a web-based Ragnarok Online client built with ES6 modules and WebGL. It supports multiple platforms (browser, PWA, Electron desktop) and provides a complete game client experience.
