@@ -10920,6 +10920,18 @@ PACKET.ZC.FASTMOVE = function PACKET_ZC_FASTMOVE(fp, end) {
 };
 PACKET.ZC.FASTMOVE.size = 10;
 
+// 0x8e2
+PACKET.ZC.NAVIGATE_TO = function PACKET_ZC_NAVIGATE_TO(fp, end) {
+	this.type = fp.readUChar();
+	this.services = fp.readUChar();
+	this.hideWindow = fp.readUChar();
+	this.mapName = fp.readBinaryString(16).replace(/\0.*$/, '');
+	this.x = fp.readUShort();
+	this.y = fp.readUShort();
+	this.mobId = fp.readUShort();
+};
+PACKET.ZC.NAVIGATE_TO.size = 27;
+
 // 0x8fe
 PACKET.ZC.UPDATE_MISSION_HUNT2 = function PACKET_ZC_UPDATE_MISSION_HUNT2(fp, end) {
 	this.questCount = ((end - fp.tell()) / 12) | 0; // workaround
