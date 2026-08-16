@@ -230088,13 +230088,212 @@ var init_GraphicsOption = __esmMin((() => {
 //#region src/UI/Components/ShortCutOption/ShortCutOption.html?raw
 var ShortCutOption_default$2;
 var init_ShortCutOption$2 = __esmMin((() => {
-	ShortCutOption_default$2 = "<div id=\"ShortCutOption\" class=\"pt-page-fadeIn1\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\"><span class=\"text\">Shortcut key setting window</span></div>\r\n\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"tabs\">\r\n			<button class=\"t_skillbar selectedtab\" data-index=\"t_skillbar\">Skill Bar</button\r\n			><button class=\"t_ui\" data-index=\"t_ui\">Interface</button\r\n			><button class=\"t_macro\" data-index=\"t_macro\">Macros</button\r\n			><button class=\"t_gamepad\" data-index=\"t_gamepad\">Gamepad</button>\r\n		</div>\r\n		<div class=\"panel\">\r\n			<div class=\"content t_skillbar selectedtab\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Skill bar 1-1</td>\r\n							<td data-button=\"F1_1\" class=\"customize\"></td>\r\n							<td>Skill bar 2-1</td>\r\n							<td data-button=\"F2_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-2</td>\r\n							<td data-button=\"F1_2\" class=\"customize\"></td>\r\n							<td>Skill bar 2-2</td>\r\n							<td data-button=\"F2_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-3</td>\r\n							<td data-button=\"F1_3\" class=\"customize\"></td>\r\n							<td>Skill bar 2-3</td>\r\n							<td data-button=\"F2_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-4</td>\r\n							<td data-button=\"F1_4\" class=\"customize\"></td>\r\n							<td>Skill bar 2-4</td>\r\n							<td data-button=\"F2_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-5</td>\r\n							<td data-button=\"F1_5\" class=\"customize\"></td>\r\n							<td>Skill bar 2-5</td>\r\n							<td data-button=\"F2_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-6</td>\r\n							<td data-button=\"F1_6\" class=\"customize\"></td>\r\n							<td>Skill bar 2-6</td>\r\n							<td data-button=\"F2_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-7</td>\r\n							<td data-button=\"F1_7\" class=\"customize\"></td>\r\n							<td>Skill bar 2-7</td>\r\n							<td data-button=\"F2_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-8</td>\r\n							<td data-button=\"F1_8\" class=\"customize\"></td>\r\n							<td>Skill bar 2-8</td>\r\n							<td data-button=\"F2_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-9</td>\r\n							<td data-button=\"F1_9\" class=\"customize\"></td>\r\n							<td>Skill bar 2-9</td>\r\n							<td data-button=\"F2_9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-1</td>\r\n							<td data-button=\"F3_1\" class=\"customize\"></td>\r\n							<td>Skill bar 4-1</td>\r\n							<td data-button=\"F4_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-2</td>\r\n							<td data-button=\"F3_2\" class=\"customize\"></td>\r\n							<td>Skill bar 4-2</td>\r\n							<td data-button=\"F4_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-3</td>\r\n							<td data-button=\"F3_3\" class=\"customize\"></td>\r\n							<td>Skill bar 4-3</td>\r\n							<td data-button=\"F4_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-4</td>\r\n							<td data-button=\"F3_4\" class=\"customize\"></td>\r\n							<td>Skill bar 4-4</td>\r\n							<td data-button=\"F4_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-5</td>\r\n							<td data-button=\"F3_5\" class=\"customize\"></td>\r\n							<td>Skill bar 4-5</td>\r\n							<td data-button=\"F4_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-6</td>\r\n							<td data-button=\"F3_6\" class=\"customize\"></td>\r\n							<td>Skill bar 4-6</td>\r\n							<td data-button=\"F4_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-7</td>\r\n							<td data-button=\"F3_7\" class=\"customize\"></td>\r\n							<td>Skill bar 4-7</td>\r\n							<td data-button=\"F4_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-8</td>\r\n							<td data-button=\"F3_8\" class=\"customize\"></td>\r\n							<td>Skill bar 4-8</td>\r\n							<td data-button=\"F4_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-9</td>\r\n							<td data-button=\"F3_9\" class=\"customize\"></td>\r\n							<td>Skill bar 4-9</td>\r\n							<td data-button=\"F4_9\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_ui\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Basic Info</td>\r\n							<td data-button=\"BasicInfo\" class=\"customize\"></td>\r\n							<td>Character Info</td>\r\n							<td data-button=\"Equipment\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill List</td>\r\n							<td data-button=\"SkillList\" class=\"customize\"></td>\r\n							<td>Emotion List</td>\r\n							<td data-button=\"Emotions\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Friends List</td>\r\n							<td data-button=\"Friends\" class=\"customize\"></td>\r\n							<td>Party Window</td>\r\n							<td data-button=\"Party\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Pet Info</td>\r\n							<td data-button=\"PetInfo\" class=\"customize\"></td>\r\n							<td>Chat Room</td>\r\n							<td data-button=\"ChatRoom\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Cart Window</td>\r\n							<td data-button=\"PushCart\" class=\"customize\"></td>\r\n							<td>Item Window</td>\r\n							<td data-button=\"Inventory\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>World Map</td>\r\n							<td data-button=\"WorldMap\" class=\"customize\"></td>\r\n							<td>Guild Info</td>\r\n							<td data-button=\"Guild\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus Info</td>\r\n							<td data-button=\"HomunInfo\" class=\"customize\"></td>\r\n							<td>Mercenary Info</td>\r\n							<td data-button=\"MercInfo\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus State</td>\r\n							<td data-button=\"HomunState\" class=\"customize\"></td>\r\n							<td>Mercenary State</td>\r\n							<td data-button=\"MercState\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Sit/Stand</td>\r\n							<td data-button=\"Sit\" class=\"customize\"></td>\r\n							<td>Short Cuts</td>\r\n							<td data-button=\"ShortCuts\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Chat Bar Size</td>\r\n							<td data-button=\"ChatSize\" class=\"customize\"></td>\r\n							<td>Skill Bar Size</td>\r\n							<td data-button=\"SkillBarSize\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Quest</td>\r\n							<td data-button=\"Quest\" class=\"customize\"></td>\r\n							<td>Bank</td>\r\n							<td data-button=\"Bank\" class=\"customize\"></td>\r\n						</tr>\r\n						<!--<tr>\r\n                     <td>MobileUI</td>\r\n                     <td data-button=\"M_UI\" class=\"customize\"></td>\r\n                     <td>MUi-Toggle</td>\r\n                     <td data-button=\"M_Toggle\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-TG</td>\r\n                     <td data-button=\"M_Targeting\" class=\"customize\"></td>\r\n                     <td>MUi-AT</td>\r\n                     <td data-button=\"M_AutoTarget\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-ATK</td>\r\n                     <td data-button=\"M_Attack\" class=\"customize\"></td>\r\n                  </tr>-->\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_macro\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Macro 1</td>\r\n							<td data-button=\"Macro1\" class=\"customize\"></td>\r\n							<td>Flag 1</td>\r\n							<td data-button=\"Flag1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 2</td>\r\n							<td data-button=\"Macro2\" class=\"customize\"></td>\r\n							<td>Flag 2</td>\r\n							<td data-button=\"Flag2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 3</td>\r\n							<td data-button=\"Macro3\" class=\"customize\"></td>\r\n							<td>Flag 3</td>\r\n							<td data-button=\"Flag3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 4</td>\r\n							<td data-button=\"Macro4\" class=\"customize\"></td>\r\n							<td>Flag 4</td>\r\n							<td data-button=\"Flag4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 5</td>\r\n							<td data-button=\"Macro5\" class=\"customize\"></td>\r\n							<td>Flag 5</td>\r\n							<td data-button=\"Flag5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 6</td>\r\n							<td data-button=\"Macro6\" class=\"customize\"></td>\r\n							<td>Flag 6</td>\r\n							<td data-button=\"Flag6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 7</td>\r\n							<td data-button=\"Macro7\" class=\"customize\"></td>\r\n							<td>Flag 7</td>\r\n							<td data-button=\"Flag7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 8</td>\r\n							<td data-button=\"Macro8\" class=\"customize\"></td>\r\n							<td>Flag 8</td>\r\n							<td data-button=\"Flag8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 9</td>\r\n							<td data-button=\"Macro9\" class=\"customize\"></td>\r\n							<td>Flag 9</td>\r\n							<td data-button=\"Flag9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 10</td>\r\n							<td data-button=\"Macro10\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_gamepad\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr title=\"Define how targets are selected in combat\">\r\n							<td>Attack Target Mode</td>\r\n							<td>\r\n								<select class=\"attackTargetMode\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Lowest HP</option>\r\n									<option value=\"2\">Closest</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Choose how skills are cast with gamepad\">\r\n							<td>Quick-Cast Mode</td>\r\n							<td>\r\n								<select class=\"joyQuick\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Release Mode</option>\r\n									<option value=\"2\">Instant Mode</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Adjust mouse movement sensitivity for R3 stick\">\r\n							<td>Mouse Move</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Sensitivity:\r\n									<input\r\n										class=\"joySense\"\r\n										type=\"range\"\r\n										value=\"25.0\"\r\n										min=\"1.0\"\r\n										max=\"100.0\"\r\n										step=\"1.0\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Disable mouse input from gamepad for UI interaction\">\r\n							<td>Disable Virtual Mouse</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyDisableVirtualMouse\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Swap L3 and R3 stick functions\">\r\n							<td>Swap L3-R3 Sticks</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyReverseStick\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Automatically hide UI during gameplay mouse movement\">\r\n							<td>Auto Hide UI</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyAutoHide\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Set deadzone threshold for analog sticks\">\r\n							<td>Axis Threshold</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Deadline:\r\n									<input\r\n										class=\"joyDeadline\"\r\n										type=\"range\"\r\n										value=\"0.10\"\r\n										min=\"0.0\"\r\n										max=\"1.0\"\r\n										step=\"0.1\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<button\r\n				class=\"button reset left\"\r\n				data-background=\"btn_reset.bmp\"\r\n				data-hover=\"btn_reset_a.bmp\"\r\n				data-down=\"btn_reset_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button ok right\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button cancel right\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button close right\"\r\n				data-background=\"btn_close.bmp\"\r\n				data-hover=\"btn_close_a.bmp\"\r\n				data-down=\"btn_close_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	ShortCutOption_default$2 = "<div id=\"ShortCutOption\" class=\"pt-page-fadeIn1\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\"><span class=\"text\">Shortcut key setting window</span></div>\r\n\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"tabs\">\r\n			<button class=\"t_skillbar selectedtab\" data-index=\"t_skillbar\">Skill Bar</button\r\n			><button class=\"t_ui\" data-index=\"t_ui\">Interface</button\r\n			><button class=\"t_macro\" data-index=\"t_macro\">Macros</button\r\n			><button class=\"t_gamepad\" data-index=\"t_gamepad\">Gamepad</button>\r\n		</div>\r\n		<div class=\"panel\">\r\n			<div class=\"content t_skillbar selectedtab\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Skill bar 1-1</td>\r\n							<td data-button=\"F1_1\" class=\"customize\"></td>\r\n							<td>Skill bar 2-1</td>\r\n							<td data-button=\"F2_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-2</td>\r\n							<td data-button=\"F1_2\" class=\"customize\"></td>\r\n							<td>Skill bar 2-2</td>\r\n							<td data-button=\"F2_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-3</td>\r\n							<td data-button=\"F1_3\" class=\"customize\"></td>\r\n							<td>Skill bar 2-3</td>\r\n							<td data-button=\"F2_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-4</td>\r\n							<td data-button=\"F1_4\" class=\"customize\"></td>\r\n							<td>Skill bar 2-4</td>\r\n							<td data-button=\"F2_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-5</td>\r\n							<td data-button=\"F1_5\" class=\"customize\"></td>\r\n							<td>Skill bar 2-5</td>\r\n							<td data-button=\"F2_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-6</td>\r\n							<td data-button=\"F1_6\" class=\"customize\"></td>\r\n							<td>Skill bar 2-6</td>\r\n							<td data-button=\"F2_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-7</td>\r\n							<td data-button=\"F1_7\" class=\"customize\"></td>\r\n							<td>Skill bar 2-7</td>\r\n							<td data-button=\"F2_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-8</td>\r\n							<td data-button=\"F1_8\" class=\"customize\"></td>\r\n							<td>Skill bar 2-8</td>\r\n							<td data-button=\"F2_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-9</td>\r\n							<td data-button=\"F1_9\" class=\"customize\"></td>\r\n							<td>Skill bar 2-9</td>\r\n							<td data-button=\"F2_9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-1</td>\r\n							<td data-button=\"F3_1\" class=\"customize\"></td>\r\n							<td>Skill bar 4-1</td>\r\n							<td data-button=\"F4_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-2</td>\r\n							<td data-button=\"F3_2\" class=\"customize\"></td>\r\n							<td>Skill bar 4-2</td>\r\n							<td data-button=\"F4_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-3</td>\r\n							<td data-button=\"F3_3\" class=\"customize\"></td>\r\n							<td>Skill bar 4-3</td>\r\n							<td data-button=\"F4_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-4</td>\r\n							<td data-button=\"F3_4\" class=\"customize\"></td>\r\n							<td>Skill bar 4-4</td>\r\n							<td data-button=\"F4_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-5</td>\r\n							<td data-button=\"F3_5\" class=\"customize\"></td>\r\n							<td>Skill bar 4-5</td>\r\n							<td data-button=\"F4_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-6</td>\r\n							<td data-button=\"F3_6\" class=\"customize\"></td>\r\n							<td>Skill bar 4-6</td>\r\n							<td data-button=\"F4_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-7</td>\r\n							<td data-button=\"F3_7\" class=\"customize\"></td>\r\n							<td>Skill bar 4-7</td>\r\n							<td data-button=\"F4_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-8</td>\r\n							<td data-button=\"F3_8\" class=\"customize\"></td>\r\n							<td>Skill bar 4-8</td>\r\n							<td data-button=\"F4_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-9</td>\r\n							<td data-button=\"F3_9\" class=\"customize\"></td>\r\n							<td>Skill bar 4-9</td>\r\n							<td data-button=\"F4_9\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_ui\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_BASICINFOWND_MINI\">Basic Info</td>\r\n							<td data-button=\"BasicInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"MSI_HK_EQUIPWND_ONOFF\">Character Info</td>\r\n							<td data-button=\"Equipment\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_SKILLWND_ONOFF\">Skill List</td>\r\n							<td data-button=\"SkillList\" class=\"customize\"></td>\r\n							<td>Emotion List</td>\r\n							<td data-button=\"Emotions\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_FRIENDWND_ONOFF\">Friends List</td>\r\n							<td data-button=\"Friends\" class=\"customize\"></td>\r\n							<td data-locale-key=\"MSI_HK_PARTYWND_ONOFF\">Party Window</td>\r\n							<td data-button=\"Party\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Pet Info</td>\r\n							<td data-button=\"PetInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"MSI_HK_CHATWND_MAKE\">Chat Room</td>\r\n							<td data-button=\"ChatRoom\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_CARTWND_ONOFF\">Cart Window</td>\r\n							<td data-button=\"PushCart\" class=\"customize\"></td>\r\n							<td data-locale-key=\"MSI_HK_ITEMWND_ONOFF\">Item Window</td>\r\n							<td data-button=\"Inventory\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_MAPWND_ONOFF\">World Map</td>\r\n							<td data-button=\"WorldMap\" class=\"customize\"></td>\r\n							<td>Guild Info</td>\r\n							<td data-button=\"Guild\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus Info</td>\r\n							<td data-button=\"HomunInfo\" class=\"customize\"></td>\r\n							<td>Mercenary Info</td>\r\n							<td data-button=\"MercInfo\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus State</td>\r\n							<td data-button=\"HomunState\" class=\"customize\"></td>\r\n							<td>Mercenary State</td>\r\n							<td data-button=\"MercState\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Sit/Stand</td>\r\n							<td data-button=\"Sit\" class=\"customize\"></td>\r\n							<td>Short Cuts</td>\r\n							<td data-button=\"ShortCuts\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Chat Bar Size</td>\r\n							<td data-button=\"ChatSize\" class=\"customize\"></td>\r\n							<td>Skill Bar Size</td>\r\n							<td data-button=\"SkillBarSize\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_QUESTWND_ONOFF\">Quest</td>\r\n							<td data-button=\"Quest\" class=\"customize\"></td>\r\n							<td>Bank</td>\r\n							<td data-button=\"Bank\" class=\"customize\"></td>\r\n						</tr>\r\n						<!--<tr>\r\n                     <td>MobileUI</td>\r\n                     <td data-button=\"M_UI\" class=\"customize\"></td>\r\n                     <td>MUi-Toggle</td>\r\n                     <td data-button=\"M_Toggle\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-TG</td>\r\n                     <td data-button=\"M_Targeting\" class=\"customize\"></td>\r\n                     <td>MUi-AT</td>\r\n                     <td data-button=\"M_AutoTarget\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-ATK</td>\r\n                     <td data-button=\"M_Attack\" class=\"customize\"></td>\r\n                  </tr>-->\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_macro\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Macro 1</td>\r\n							<td data-button=\"Macro1\" class=\"customize\"></td>\r\n							<td>Flag 1</td>\r\n							<td data-button=\"Flag1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 2</td>\r\n							<td data-button=\"Macro2\" class=\"customize\"></td>\r\n							<td>Flag 2</td>\r\n							<td data-button=\"Flag2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 3</td>\r\n							<td data-button=\"Macro3\" class=\"customize\"></td>\r\n							<td>Flag 3</td>\r\n							<td data-button=\"Flag3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 4</td>\r\n							<td data-button=\"Macro4\" class=\"customize\"></td>\r\n							<td>Flag 4</td>\r\n							<td data-button=\"Flag4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 5</td>\r\n							<td data-button=\"Macro5\" class=\"customize\"></td>\r\n							<td>Flag 5</td>\r\n							<td data-button=\"Flag5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 6</td>\r\n							<td data-button=\"Macro6\" class=\"customize\"></td>\r\n							<td>Flag 6</td>\r\n							<td data-button=\"Flag6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 7</td>\r\n							<td data-button=\"Macro7\" class=\"customize\"></td>\r\n							<td>Flag 7</td>\r\n							<td data-button=\"Flag7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 8</td>\r\n							<td data-button=\"Macro8\" class=\"customize\"></td>\r\n							<td>Flag 8</td>\r\n							<td data-button=\"Flag8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 9</td>\r\n							<td data-button=\"Macro9\" class=\"customize\"></td>\r\n							<td>Flag 9</td>\r\n							<td data-button=\"Flag9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 10</td>\r\n							<td data-button=\"Macro10\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_gamepad\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr title=\"Define how targets are selected in combat\">\r\n							<td>Attack Target Mode</td>\r\n							<td>\r\n								<select class=\"attackTargetMode\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Lowest HP</option>\r\n									<option value=\"2\">Closest</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Choose how skills are cast with gamepad\">\r\n							<td>Quick-Cast Mode</td>\r\n							<td>\r\n								<select class=\"joyQuick\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Release Mode</option>\r\n									<option value=\"2\">Instant Mode</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Adjust mouse movement sensitivity for R3 stick\">\r\n							<td>Mouse Move</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Sensitivity:\r\n									<input\r\n										class=\"joySense\"\r\n										type=\"range\"\r\n										value=\"25.0\"\r\n										min=\"1.0\"\r\n										max=\"100.0\"\r\n										step=\"1.0\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Disable mouse input from gamepad for UI interaction\">\r\n							<td>Disable Virtual Mouse</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyDisableVirtualMouse\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Swap L3 and R3 stick functions\">\r\n							<td>Swap L3-R3 Sticks</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyReverseStick\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Automatically hide UI during gameplay mouse movement\">\r\n							<td>Auto Hide UI</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyAutoHide\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Set deadzone threshold for analog sticks\">\r\n							<td>Axis Threshold</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Deadline:\r\n									<input\r\n										class=\"joyDeadline\"\r\n										type=\"range\"\r\n										value=\"0.10\"\r\n										min=\"0.0\"\r\n										max=\"1.0\"\r\n										step=\"0.1\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<button\r\n				class=\"button reset left\"\r\n				data-background=\"btn_reset.bmp\"\r\n				data-hover=\"btn_reset_a.bmp\"\r\n				data-down=\"btn_reset_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button ok right\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button cancel right\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button close right\"\r\n				data-background=\"btn_close.bmp\"\r\n				data-hover=\"btn_close_a.bmp\"\r\n				data-down=\"btn_close_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ShortCutOption/ShortCutOption.css?raw
 var ShortCutOption_default$1;
 var init_ShortCutOption$1 = __esmMin((() => {
-	ShortCutOption_default$1 = ":host {\r\n	width: 430px;\r\n	height: 465px;\r\n	top: 300px;\r\n	left: 300px;\r\n}\r\n\r\n#ShortCutOption {\r\n	position: absolute;\r\n	width: 430px;\r\n	height: 465px;\r\n	background: white;\r\n	border-radius: 3px;\r\n	border: solid 1px #aaa;\r\n	border-top: none;\r\n}\r\n#ShortCutOption .border {\r\n}\r\n#ShortCutOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	border-bottom: solid 1px #eee;\r\n}\r\n#ShortCutOption .titlebar .base {\r\n	width: 20px;\r\n	height: 100%;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n	background-position: 8px 2px;\r\n}\r\n#ShortCutOption .titlebar .base.close {\r\n	color: #ccc;\r\n}\r\n#ShortCutOption .titlebar .text {\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	line-height: 17px;\r\n	margin-left: 5px;\r\n}\r\n#ShortCutOption .titlebar .left {\r\n	float: left;\r\n}\r\n#ShortCutOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n	height: 100%;\r\n}\r\n#ShortCutOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n#ShortCutOption .tabs {\r\n	position: relative;\r\n	top: 1px;\r\n	border-right: solid 1px #ccc;\r\n}\r\n#ShortCutOption .tabs button.selectedtab {\r\n	border-bottom: solid 1px transparent;\r\n}\r\n#ShortCutOption .tabs button {\r\n	width: 57px;\r\n	height: 18px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #fff;\r\n	border: solid 1px #bbb;\r\n	border-top-right-radius: 3px;\r\n	border-top-left-radius: 3px;\r\n}\r\n#ShortCutOption .tabs button:nth-child(1) {\r\n	border-right: none;\r\n}\r\n#ShortCutOption .panel {\r\n	padding: 5px;\r\n	border-top: solid 1px #ccc;\r\n}\r\n#ShortCutOption .panel .content {\r\n	display: none;\r\n}\r\n#ShortCutOption .content.selectedtab {\r\n	display: block;\r\n}\r\n#ShortCutOption .content table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n	color: #222;\r\n}\r\n#ShortCutOption .content table tr {\r\n	height: 22px;\r\n}\r\n#ShortCutOption .content table td {\r\n	text-align: center;\r\n}\r\n#ShortCutOption .content table td:nth-child(1),\r\n#ShortCutOption .content table td:nth-child(3) {\r\n	width: 30%;\r\n}\r\n#ShortCutOption .content table td:nth-child(2),\r\n#ShortCutOption .content table td:nth-child(4) {\r\n	width: 20%;\r\n	background-color: #eee;\r\n}\r\n#ShortCutOption .content table td.customize {\r\n	background-color: #ffffe0;\r\n}\r\n#ShortCutOption .content table td.changed {\r\n	background-color: #ffe4e1;\r\n}\r\n#ShortCutOption .content table td.selected {\r\n	background-color: #ffb6c1;\r\n}\r\n#ShortCutOption .resolution {\r\n	display: none;\r\n}\r\n#ShortCutOption .panel .button {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	width: 42px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCutOption .panel .button.reset {\r\n	left: 3px;\r\n}\r\n#ShortCutOption .panel .button.ok {\r\n	right: 93px;\r\n}\r\n#ShortCutOption .panel .button.cancel {\r\n	right: 48px;\r\n}\r\n#ShortCutOption .panel .button.close {\r\n	right: 3px;\r\n}\r\n";
+	ShortCutOption_default$1 = ":host {\r\n	width: 430px;\r\n	height: 465px;\r\n	top: 300px;\r\n	left: 300px;\r\n}\r\n\r\n#ShortCutOption {\r\n	position: absolute;\r\n	box-sizing: border-box;\r\n	width: 430px;\r\n	height: 465px;\r\n	background: white;\r\n	border-radius: 3px;\r\n	border: solid 1px #aaa;\r\n	border-top: none;\r\n}\r\n#ShortCutOption .border {\r\n}\r\n#ShortCutOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	border-bottom: solid 1px #eee;\r\n}\r\n#ShortCutOption .titlebar .base {\r\n	width: 20px;\r\n	height: 100%;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n	background-position: 8px 2px;\r\n}\r\n#ShortCutOption .titlebar .base.close {\r\n	color: #ccc;\r\n}\r\n#ShortCutOption .titlebar .text {\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	line-height: 17px;\r\n	margin-left: 5px;\r\n}\r\n#ShortCutOption .titlebar .left {\r\n	float: left;\r\n}\r\n#ShortCutOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n	height: 100%;\r\n}\r\n#ShortCutOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n#ShortCutOption .tabs {\r\n	position: relative;\r\n	top: 1px;\r\n	border-right: solid 1px #ccc;\r\n}\r\n#ShortCutOption .tabs button.selectedtab {\r\n	border-bottom: solid 1px transparent;\r\n}\r\n#ShortCutOption .tabs button {\r\n	width: 57px;\r\n	height: 18px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #fff;\r\n	border: solid 1px #bbb;\r\n	border-top-right-radius: 3px;\r\n	border-top-left-radius: 3px;\r\n}\r\n#ShortCutOption .tabs button:nth-child(1) {\r\n	border-right: none;\r\n}\r\n#ShortCutOption .panel {\r\n	padding: 5px;\r\n	border-top: solid 1px #ccc;\r\n}\r\n#ShortCutOption .panel .content {\r\n	display: none;\r\n}\r\n#ShortCutOption .content.selectedtab {\r\n	display: block;\r\n}\r\n#ShortCutOption .content table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n	color: #222;\r\n}\r\n#ShortCutOption .content table tr {\r\n	height: 22px;\r\n}\r\n#ShortCutOption .content table td {\r\n	text-align: center;\r\n}\r\n#ShortCutOption .content table td:nth-child(1),\r\n#ShortCutOption .content table td:nth-child(3) {\r\n	width: 30%;\r\n}\r\n#ShortCutOption .content table td:nth-child(2),\r\n#ShortCutOption .content table td:nth-child(4) {\r\n	width: 20%;\r\n	background-color: #eee;\r\n}\r\n#ShortCutOption .content table td.customize {\r\n	background-color: #ffffe0;\r\n}\r\n#ShortCutOption .content table td.changed {\r\n	background-color: #ffe4e1;\r\n}\r\n#ShortCutOption .content table td.selected {\r\n	background-color: #ffb6c1;\r\n}\r\n#ShortCutOption .resolution {\r\n	display: none;\r\n}\r\n#ShortCutOption .panel .button {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	width: 42px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCutOption .panel .button.reset {\r\n	left: 3px;\r\n}\r\n#ShortCutOption .panel .button.ok {\r\n	right: 93px;\r\n}\r\n#ShortCutOption .panel .button.cancel {\r\n	right: 48px;\r\n}\r\n#ShortCutOption .panel .button.close {\r\n	right: 3px;\r\n}\r\n";
+})), $schema, source, entries$1, messages_default;
+var init_messages = __esmMin((() => {
+	$schema = "../schema/client-message-catalog.schema.json";
+	source = {
+		"client": "kro-20211105",
+		"resourcePath": "data\\luafiles514\\lua files\\msgstring_kr.lub",
+		"sha256": "f9514048e6bde7af1a6f7368c35ba38a2c070e9cda3de02f01849180f6e9f07b",
+		"format": "lua-5.1-bytecode",
+		"table": "MsgStrID",
+		"auditTool": {
+			"repository": "https://github.com/viruscamp/luadec",
+			"commit": "895d92313fabaee260121c758c8320d1b21dd741"
+		}
+	};
+	entries$1 = [
+		{
+			"key": "MSI_HK_BASICINFOWND_MINI",
+			"sourceText": "기본 정보 창 최소/최대",
+			"sourceSha256": "a27ee5bc3443014bcd6a3e3315918b872a02d16f2020c03ab30cddbbf94ab39f",
+			"context": "Hotkey description for minimizing or maximizing the basic information window.",
+			"translations": {
+				"en": {
+					"text": "Minimize/maximize basic information window",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "基本信息窗最小/最大",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_EQUIPWND_ONOFF",
+			"sourceText": "장비 창 On/Off",
+			"sourceSha256": "9ddeccadf35dd4378d4d6f55661daacda2ea2b4ff3388a8c54ae7cb4a22063f3",
+			"context": "Hotkey description for toggling the equipment window.",
+			"translations": {
+				"en": {
+					"text": "Toggle equipment window",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "装备窗口开关",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLWND_ONOFF",
+			"sourceText": "스킬 목록 창 On/Off",
+			"sourceSha256": "49a61f23c7488c3f291e006293d062bc9b1942e311ff2054f64ca9ed52328f2f",
+			"context": "Hotkey description for toggling the skill list window.",
+			"translations": {
+				"en": {
+					"text": "Toggle skill list window",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "技能列表开关",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_QUESTWND_ONOFF",
+			"sourceText": "퀘스트 목록 창 On/Off",
+			"sourceSha256": "53d1bf9a413f11372cd1a49f9c205a3c207101995bd85ea135753e1a4d0bdd62",
+			"context": "Hotkey description for toggling the quest list window.",
+			"translations": {
+				"en": {
+					"text": "Toggle quest list window",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "任务列表开关",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_FRIENDWND_ONOFF",
+			"sourceText": "친구 창 On/Off",
+			"sourceSha256": "68b300444a767dceee48e6983c67462838893dcb5f3eca398f5b220c467acd33",
+			"context": "Hotkey description for toggling the friends window.",
+			"translations": {
+				"en": {
+					"text": "Toggle friends window",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "好友窗口开关",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_PARTYWND_ONOFF",
+			"sourceText": "파티 창 On/Off",
+			"sourceSha256": "d6dc73edde41c8e58007ca8d49276f4ec054ee94d2d4116f443644ee5d114d1e",
+			"context": "Hotkey description for toggling the party window.",
+			"translations": {
+				"en": {
+					"text": "Toggle party window",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "队伍窗口开关",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_CHATWND_MAKE",
+			"sourceText": "대화방 만들기",
+			"sourceSha256": "c57efe5ddebbcc8bdd8e2715d214e341bea376dcf0d613f28b4b7400e3c70e25",
+			"context": "Hotkey description for opening the create-chat-room flow.",
+			"translations": {
+				"en": {
+					"text": "Create chat room",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "创建聊天室",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_CARTWND_ONOFF",
+			"sourceText": "카트 창 On/Off",
+			"sourceSha256": "9a7080624993983a410876f1da043c22d63988819d4d0383caa42de8d43fffd0",
+			"context": "Hotkey description for toggling the cart window.",
+			"translations": {
+				"en": {
+					"text": "Toggle cart window",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "手推车窗口开关",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_MAPWND_ONOFF",
+			"sourceText": "지도 On/Off",
+			"sourceSha256": "adf9740cd8f0153bb967cc6efc0d8517eab4fc21bee7ee5ffeb337967c0410c7",
+			"context": "Hotkey description for toggling the map.",
+			"translations": {
+				"en": {
+					"text": "Toggle map",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "地图开关",
+					"translator": "Codex"
+				}
+			}
+		},
+		{
+			"key": "MSI_HK_ITEMWND_ONOFF",
+			"sourceText": "아이템 창 On/Off",
+			"sourceSha256": "71421464b9feee0dea7b303c3d04f0c4a495424b1af4f0d1b6ff441c60c4c8fe",
+			"context": "Hotkey description for toggling the inventory window.",
+			"translations": {
+				"en": {
+					"text": "Toggle inventory window",
+					"translator": "Codex"
+				},
+				"zh-CN": {
+					"text": "物品栏开关",
+					"translator": "Codex"
+				}
+			}
+		}
+	];
+	messages_default = {
+		$schema,
+		catalogVersion: 1,
+		source,
+		entries: entries$1
+	};
+}));
+//#endregion
+//#region src/Localization/MessageCatalog.js
+function getMessageForLocale(key, locale, fallback = "") {
+	const entry = entries.get(key);
+	if (!entry) return fallback;
+	if (locale === "ko-KR") return entry.sourceText;
+	return entry.translations[locale]?.text || fallback || entry.sourceText;
+}
+function getMessage(key, fallback = "") {
+	return getMessageForLocale(key, Configs.get("locale", "en"), fallback);
+}
+var entries;
+var init_MessageCatalog = __esmMin((() => {
+	init_Configs();
+	init_messages();
+	entries = new Map(messages_default.entries.map((entry) => [entry.key, entry]));
 }));
 //#endregion
 //#region src/UI/Components/ShortCutOption/ShortCutOption.js
@@ -230277,6 +230476,7 @@ var init_ShortCutOption = __esmMin((() => {
 	init_ShortCutOption$2();
 	init_ShortCutOption$1();
 	init_Controls();
+	init_MessageCatalog();
 	ShortCutOption = new GUIComponent("ShortCutOption", ShortCutOption_default$1);
 	ShortCuts$1 = ShortCutControls_default.ShortCuts;
 	ShortCutsTemp = {};
@@ -230294,6 +230494,9 @@ var init_ShortCutOption = __esmMin((() => {
 	*/
 	ShortCutOption.init = function() {
 		const root = this.getRoot();
+		root.querySelectorAll("[data-locale-key]").forEach((element) => {
+			element.textContent = getMessage(element.dataset.localeKey, element.textContent);
+		});
 		let close = root.querySelector(".close");
 		function closebtn(btn) {
 			if (btn) {

@@ -1,5 +1,6 @@
 window.ROConfigHappyRO = {
 	development: true,
+	locale: 'zh-CN',
 	remoteClient: `${window.location.origin}/`,
 	servers: [
 		{
