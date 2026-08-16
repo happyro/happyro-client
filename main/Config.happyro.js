@@ -8,7 +8,7 @@ window.ROConfigHappyRO = {
 			address: '10.24.1.1',
 			port: 6900,
 			version: 25,
-			langtype: 12,
+			langtype: 0,
 			packetver: 20211103,
 			renewal: true,
 			worldMapSettings: { episode: 18 },
