@@ -164865,6 +164865,16 @@ var init_PacketStructure = __esmMin((() => {
 		this.targetYpos = fp.readShort();
 	};
 	PACKET.ZC.FASTMOVE.size = 10;
+	PACKET.ZC.NAVIGATE_TO = function PACKET_ZC_NAVIGATE_TO(fp, end) {
+		this.type = fp.readUChar();
+		this.services = fp.readUChar();
+		this.hideWindow = fp.readUChar();
+		this.mapName = fp.readBinaryString(16).replace(/\0.*$/, "");
+		this.x = fp.readUShort();
+		this.y = fp.readUShort();
+		this.mobId = fp.readUShort();
+	};
+	PACKET.ZC.NAVIGATE_TO.size = 27;
 	PACKET.ZC.UPDATE_MISSION_HUNT2 = function PACKET_ZC_UPDATE_MISSION_HUNT2(fp, end) {
 		this.questCount = (end - fp.tell()) / 12 | 0;
 		this.hunt = (function(questCount) {
@@ -202777,6 +202787,7 @@ var init_PacketRegister = __esmMin((() => {
 		2257: PACKET.ZC.REQ_TAKEOFF_EQUIP_ACK2,
 		2258: PACKET.ZC.FASTMOVE,
 		2262: PACKET.ZC.CLOSE_SCRIPT,
+		2274: PACKET.ZC.NAVIGATE_TO,
 		2302: PACKET.ZC.UPDATE_MISSION_HUNT2,
 		2303: PACKET.ZC.MSG_STATE_CHANGE3,
 		2310: PACKET.ZC.EQUIPWIN_MICROSCOPE_V3,
