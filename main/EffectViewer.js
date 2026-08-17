@@ -205476,6 +205476,39 @@ var init_NodeSocket = __esmMin((() => {
 			}
 		}
 	};
+})), $schema, namespaces, messages_default;
+var init_messages = __esmMin((() => {
+	$schema = "../schema/client-message-catalog.schema.json";
+	namespaces = /*#__PURE__*/ JSON.parse("{\"gravity.MsgStrID\":{\"sourceLocale\":\"ko-KR\",\"source\":{\"client\":\"kro-20211105\",\"resourcePath\":\"data\\\\luafiles514\\\\lua files\\\\msgstring_kr.lub\",\"sha256\":\"f9514048e6bde7af1a6f7368c35ba38a2c070e9cda3de02f01849180f6e9f07b\",\"format\":\"lua-5.1-bytecode\",\"table\":\"MsgStrID\",\"auditTool\":{\"repository\":\"https://github.com/viruscamp/luadec\",\"commit\":\"895d92313fabaee260121c758c8320d1b21dd741\"}},\"entries\":[{\"key\":\"MSI_HK_BASICINFOWND_MINI\",\"sourceText\":\"기본 정보 창 최소/최대\",\"sourceSha256\":\"a27ee5bc3443014bcd6a3e3315918b872a02d16f2020c03ab30cddbbf94ab39f\",\"context\":\"Hotkey description for minimizing or maximizing the basic information window.\",\"translations\":{\"en\":{\"text\":\"Minimize/maximize basic information window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"基本信息窗最小/最大\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_EQUIPWND_ONOFF\",\"sourceText\":\"장비 창 On/Off\",\"sourceSha256\":\"9ddeccadf35dd4378d4d6f55661daacda2ea2b4ff3388a8c54ae7cb4a22063f3\",\"context\":\"Hotkey description for toggling the equipment window.\",\"translations\":{\"en\":{\"text\":\"Toggle equipment window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLWND_ONOFF\",\"sourceText\":\"스킬 목록 창 On/Off\",\"sourceSha256\":\"49a61f23c7488c3f291e006293d062bc9b1942e311ff2054f64ca9ed52328f2f\",\"context\":\"Hotkey description for toggling the skill list window.\",\"translations\":{\"en\":{\"text\":\"Toggle skill list window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能列表开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_QUESTWND_ONOFF\",\"sourceText\":\"퀘스트 목록 창 On/Off\",\"sourceSha256\":\"53d1bf9a413f11372cd1a49f9c205a3c207101995bd85ea135753e1a4d0bdd62\",\"context\":\"Hotkey description for toggling the quest list window.\",\"translations\":{\"en\":{\"text\":\"Toggle quest list window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"任务列表开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_FRIENDWND_ONOFF\",\"sourceText\":\"친구 창 On/Off\",\"sourceSha256\":\"68b300444a767dceee48e6983c67462838893dcb5f3eca398f5b220c467acd33\",\"context\":\"Hotkey description for toggling the friends window.\",\"translations\":{\"en\":{\"text\":\"Toggle friends window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"好友窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_PARTYWND_ONOFF\",\"sourceText\":\"파티 창 On/Off\",\"sourceSha256\":\"d6dc73edde41c8e58007ca8d49276f4ec054ee94d2d4116f443644ee5d114d1e\",\"context\":\"Hotkey description for toggling the party window.\",\"translations\":{\"en\":{\"text\":\"Toggle party window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_CHATWND_MAKE\",\"sourceText\":\"대화방 만들기\",\"sourceSha256\":\"c57efe5ddebbcc8bdd8e2715d214e341bea376dcf0d613f28b4b7400e3c70e25\",\"context\":\"Hotkey description for opening the create-chat-room flow.\",\"translations\":{\"en\":{\"text\":\"Create chat room\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"创建聊天室\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_CARTWND_ONOFF\",\"sourceText\":\"카트 창 On/Off\",\"sourceSha256\":\"9a7080624993983a410876f1da043c22d63988819d4d0383caa42de8d43fffd0\",\"context\":\"Hotkey description for toggling the cart window.\",\"translations\":{\"en\":{\"text\":\"Toggle cart window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"手推车窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_MAPWND_ONOFF\",\"sourceText\":\"지도 On/Off\",\"sourceSha256\":\"adf9740cd8f0153bb967cc6efc0d8517eab4fc21bee7ee5ffeb337967c0410c7\",\"context\":\"Hotkey description for toggling the map.\",\"translations\":{\"en\":{\"text\":\"Toggle map\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"地图开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_ITEMWND_ONOFF\",\"sourceText\":\"아이템 창 On/Off\",\"sourceSha256\":\"71421464b9feee0dea7b303c3d04f0c4a495424b1af4f0d1b6ff441c60c4c8fe\",\"context\":\"Hotkey description for toggling the inventory window.\",\"translations\":{\"en\":{\"text\":\"Toggle inventory window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"物品栏开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_1\",\"sourceText\":\"스킬바 1-1번\",\"sourceSha256\":\"8865b253ed55657ecb3ce99aa15dbc01b470cf6809f5db37433b984561c3440b\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_1.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-1\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-1\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_2\",\"sourceText\":\"스킬바 1-2번\",\"sourceSha256\":\"9a7b6dfd9771b76594de023c033fb2fba9fa15d2edd3f8166080dc49a0c4e0a4\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_2.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-2\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_3\",\"sourceText\":\"스킬바 1-3번\",\"sourceSha256\":\"4dd163c7b174a0da526db115f8cf6ef65e04265f192914c268cccf1440f48608\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_3.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-3\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-3\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_4\",\"sourceText\":\"스킬바 1-4번\",\"sourceSha256\":\"5a81951de3685d9aa3122271e489eeb5831936ea768c31f3183ba07639892b66\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_4.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-4\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_5\",\"sourceText\":\"스킬바 1-5번\",\"sourceSha256\":\"f95a049dc76699cc55993df157b804bb3f9a467b2b1c5aca7aa48adbd822e08b\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_5.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-5\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-5\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_6\",\"sourceText\":\"스킬바 1-6번\",\"sourceSha256\":\"b8103bb88ae280e29bdcf306ac8843c630177de9d2f300e250ed8f942df5695c\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_6.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-6\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-6\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_7\",\"sourceText\":\"스킬바 1-7번\",\"sourceSha256\":\"11f2e9649fc5abe66ec33cea6121bcd73414d9f39a2934662beebd173ef3ee18\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_7.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-7\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-7\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_8\",\"sourceText\":\"스킬바 1-8번\",\"sourceSha256\":\"d69ed3eb0c798a9764c036929bc64cb7df2c310862e409b09b229544d3056618\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_8.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-8\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-8\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_9\",\"sourceText\":\"스킬바 1-9번\",\"sourceSha256\":\"dd11fe5e49217bc3ec7d0100f5f466f5de0d683c2bf7d2b0a19a9c8f79a338bf\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_9.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-9\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-9\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_1\",\"sourceText\":\"스킬바 2-1번\",\"sourceSha256\":\"c5402ecf19b2d1f6907857969db0ee7e8c7be01a0a354ace4f7536cf2278cee7\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_1.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-1\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-1\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_2\",\"sourceText\":\"스킬바 2-2번\",\"sourceSha256\":\"5c26a8216d74ee312475557cba0de4428bc616fd3d72ad5b9c4784a0fd9e4c63\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_2.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-2\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_3\",\"sourceText\":\"스킬바 2-3번\",\"sourceSha256\":\"176d821f2ad4db7d1b82110960146e5416d87f83ea4713eb1c5916ca8e0866df\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_3.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-3\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-3\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_4\",\"sourceText\":\"스킬바 2-4번\",\"sourceSha256\":\"9567b967e2ad63d3eb2773d5f065eadf206ac67da2d2604a1daa0f0ef27b0f3c\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_4.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-4\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_5\",\"sourceText\":\"스킬바 2-5번\",\"sourceSha256\":\"8d2da445c51e7f88527324dfc80a751d715687c6b62ce71f5cac01c204cb956e\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_5.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-5\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-5\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_6\",\"sourceText\":\"스킬바 2-6번\",\"sourceSha256\":\"d920fea281797c26061dfc3f9e639b2f8541e2436500ce5d600dcb1e6453444c\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_6.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-6\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-6\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_7\",\"sourceText\":\"스킬바 2-7번\",\"sourceSha256\":\"66595138e283ceceaa879831795cf180f7068d44eaf19eb36964de75985050fd\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_7.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-7\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-7\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_8\",\"sourceText\":\"스킬바 2-8번\",\"sourceSha256\":\"8169c68d70e4cc4245e526498869e436c32f0b35af34a84ee493eb7dd201dd64\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_8.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-8\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-8\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_9\",\"sourceText\":\"스킬바 2-9번\",\"sourceSha256\":\"e2a0a76b059427262da103fa7335f77613a62ba2b5c23d57192e0596c43442fd\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_9.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-9\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-9\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_1\",\"sourceText\":\"스킬바 3-1번\",\"sourceSha256\":\"9de3d043bdf89e669577ddabc65f78d4fb4abfcb476f013064a5807573c8cacf\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_1.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-1\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-1\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_2\",\"sourceText\":\"스킬바 3-2번\",\"sourceSha256\":\"88fa8431394efa11a3e845bf911c4261cec61a0e144862655020b681ef594d15\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_2.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-2\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_3\",\"sourceText\":\"스킬바 3-3번\",\"sourceSha256\":\"d2bb737d46f7d796d70cc03555b2727f3d14f32383459c8557dbdb43cad90adb\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_3.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-3\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-3\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_4\",\"sourceText\":\"스킬바 3-4번\",\"sourceSha256\":\"c3d4f0f62c47c00c594af20deb63f5434b5f0e1991c89290367329184af0314f\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_4.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-4\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_5\",\"sourceText\":\"스킬바 3-5번\",\"sourceSha256\":\"0c65ba154184c0e3687fa2f664e4a869403e65a8ef30371f4a7d66137cbcba5c\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_5.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-5\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-5\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_6\",\"sourceText\":\"스킬바 3-6번\",\"sourceSha256\":\"46fd05078ad3b0a6e695d41d9ba35b39215b2299351ae2ecdb796b908a58bbbe\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_6.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-6\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-6\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_7\",\"sourceText\":\"스킬바 3-7번\",\"sourceSha256\":\"7a464541c3e6ba6bee5088932b2e103cb23b055e78ad44cde5befcba1058a4fe\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_7.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-7\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-7\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_8\",\"sourceText\":\"스킬바 3-8번\",\"sourceSha256\":\"b43674c40ee4c060d40f4257352e3436f5f1d00bb951dea5342bb4957c2e51c9\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_8.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-8\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-8\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_9\",\"sourceText\":\"스킬바 3-9번\",\"sourceSha256\":\"1026a50a8a3b417cd7a1f5f93b3036729c67229a5789be8be1a2d1607283dea5\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_9.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-9\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-9\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_1\",\"sourceText\":\"스킬바 4-1번\",\"sourceSha256\":\"4990864487beb324bd480496d16e80aa6d413b8734d47f5a74b54ea6b5bcad25\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_1.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-1\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-1\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_2\",\"sourceText\":\"스킬바 4-2번\",\"sourceSha256\":\"8ee5c5e1fc9028749fdf5db79ab5ff2815d8156829ded7fb3c2a51744659c328\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_2.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-2\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_3\",\"sourceText\":\"스킬바 4-3번\",\"sourceSha256\":\"8829a2ec725c06e927b28b970f1858c16b6c8be213f37f5a418e22abfa64da07\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_3.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-3\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-3\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_4\",\"sourceText\":\"스킬바 4-4번\",\"sourceSha256\":\"14f19acc2226c017f56199eb8b8a98f106a2ef5e87b8b9091543577f8d08a52d\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_4.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-4\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_5\",\"sourceText\":\"스킬바 4-5번\",\"sourceSha256\":\"dc2481a6491a4c331b457b846f8b831a5a434cb60dea8dbb83658f9f22afc3e9\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_5.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-5\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-5\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_6\",\"sourceText\":\"스킬바 4-6번\",\"sourceSha256\":\"fc146f6f43e0d70d8c52999552de792f5cb9eaff109500b87b5563fc99f0f686\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_6.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-6\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-6\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_7\",\"sourceText\":\"스킬바 4-7번\",\"sourceSha256\":\"bbbb598b3e1e1b40f504ba491e9a8cbd387454489f76c5eb7982143df566affa\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_7.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-7\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-7\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_8\",\"sourceText\":\"스킬바 4-8번\",\"sourceSha256\":\"7940543b6b950e50e21d5b11e2ec00183b1061a3154f8d94196cde3b06b9cdb9\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_8.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-8\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-8\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_9\",\"sourceText\":\"스킬바 4-9번\",\"sourceSha256\":\"7094908732d3bea219970c79ae7471bb9fb2a2903365bb785584e949b9e09c93\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_9.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-9\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-9\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_GUILDWND_ONOFF\",\"sourceText\":\"길드 창 On/Off\",\"sourceSha256\":\"457aeda0ff678c1c4d8e3df02dbb9dd422f20f3ca1701c1bdb169fe907a9d2d3\",\"context\":\"Official kRO hotkey label. Guild shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle guild window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_EMOTIONWND_ONOFF\",\"sourceText\":\"이모션 목록 창 On/Off\",\"sourceSha256\":\"de40d3baa592034f23769a1ee40e917e30a6f056b8082ded587efe0d973da9e5\",\"context\":\"Official kRO hotkey label. Emotion-list shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle emotion list window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"表情列表开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SITORSTAND\",\"sourceText\":\"앉기/서기\",\"sourceSha256\":\"36bd2bc5171916e86b152983127cda95862488a1dd66f7dc3affb8674becb643\",\"context\":\"Official kRO hotkey label. Sit or stand shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Sit/stand\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"坐下/站立\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_MACROWND_ONOFF\",\"sourceText\":\"단축키 목록 창 On/Off\",\"sourceSha256\":\"6ebc569a38369dbf78946eb1bc5193cb5c5574f3239ea614f901d91f3d65c744\",\"context\":\"Official kRO hotkey label. Shortcut-bar visibility control in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle shortcut list window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"快捷键栏开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_CHATWND_ZOOM\",\"sourceText\":\"채팅창 크기 확대/축소\",\"sourceSha256\":\"44de3d3a90ad251d6bab137b787a11e8a003f617c065511b64cd369aecc9d34e\",\"context\":\"Official kRO hotkey label. Chat window size shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Resize chat window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"调整聊天窗口大小\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_PETWND_ONOFF\",\"sourceText\":\"펫 정보 창 On/Off\",\"sourceSha256\":\"6cebc425cb07dfbe1d7970c361609d1df30a198aa2c77f830a876b5a828aa2d5\",\"context\":\"Official kRO hotkey label. Pet information shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle pet information window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"宠物信息窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_HOMUNWND_ONOFF\",\"sourceText\":\"호문 정보 창 On/Off\",\"sourceSha256\":\"b331e031b6f69ff49e295835b665f5472ddd3d07995490779070fc5547288fef\",\"context\":\"Official kRO hotkey label. Homunculus information shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle Homunculus information window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"生命体信息窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_MERWND_ONOFF\",\"sourceText\":\"용병 정보 창 On/Off\",\"sourceSha256\":\"742260bc344728d36528cb20cb1603355fb1ae23ec9b5399ca5944f6c86e73b6\",\"context\":\"Official kRO hotkey label. Mercenary information shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle mercenary information window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"佣兵信息窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_BANK\",\"sourceText\":\"은행 창\",\"sourceSha256\":\"6f792965d0a6c56d8d8d3220c11f07e89cb3f242665982f0d90a15ad6d60f4ab\",\"context\":\"Official kRO hotkey label. Bank shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Bank window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"银行窗口\",\"translator\":\"Codex\"}}}]},\"robrowser.ui\":{\"sourceLocale\":\"en\",\"source\":{\"repository\":\"https://github.com/MrAntares/roBrowserLegacy.git\",\"identity\":\"component-and-message-key\"},\"entries\":[{\"key\":\"common.ok\",\"sourceText\":\"OK\",\"sourceSha256\":\"565339bc4d33d72817b583024112eb7f5cdf3e5eef0252d6ec1b9c9a94e12bb3\",\"context\":\"Affirmative button created by UIManager for message and error dialogs.\",\"translations\":{\"en\":{\"text\":\"OK\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"确定\",\"translator\":\"Codex\"}}},{\"key\":\"common.cancel\",\"sourceText\":\"Cancel\",\"sourceSha256\":\"19766ed6ccb2f4a32778eed80d1928d2c87a18d7c275ccb163ec6709d3eb2e27\",\"context\":\"Negative button created by UIManager for prompt dialogs.\",\"translations\":{\"en\":{\"text\":\"Cancel\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"取消\",\"translator\":\"Codex\"}}},{\"key\":\"common.yes\",\"sourceText\":\"Yes\",\"sourceSha256\":\"85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e\",\"context\":\"Positive choice button created by UIManager for prompt dialogs.\",\"translations\":{\"en\":{\"text\":\"Yes\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"是\",\"translator\":\"Codex\"}}},{\"key\":\"common.no\",\"sourceText\":\"No\",\"sourceSha256\":\"1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d\",\"context\":\"Negative choice button created by UIManager for prompt dialogs.\",\"translations\":{\"en\":{\"text\":\"No\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"否\",\"translator\":\"Codex\"}}},{\"key\":\"common.close\",\"sourceText\":\"Close\",\"sourceSha256\":\"7d9eb7acb13e24625c404401d8e88b2350e32162455885f18276cf802f7701ed\",\"context\":\"Close button created by UIManager for dismissible dialogs.\",\"translations\":{\"en\":{\"text\":\"Close\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"关闭\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.account\",\"sourceText\":\"Account\",\"sourceSha256\":\"7e1b0d5641f2640ce9a953ec231eea2c27a2a7633f7d3c273e5735e2b30c10b7\",\"context\":\"Placeholder and accessible label for the account input in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Account\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"账号\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.password\",\"sourceText\":\"Password\",\"sourceSha256\":\"e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a\",\"context\":\"Placeholder and accessible label for the password input in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Password\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"密码\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.remember-account\",\"sourceText\":\"Remember account\",\"sourceSha256\":\"761988b22fb2a80ed7d41c4ff521bb2b5111fcf13d6485c1829d0ee81309eb24\",\"context\":\"Accessible label for the saved-account toggle in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Remember account\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"记住账号\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.log-in\",\"sourceText\":\"Log in\",\"sourceSha256\":\"c189840cf7e2d6f6fdeefde1ac59dfdf50bb75642eb569b4e38a5614d6f12ac2\",\"context\":\"Accessible label for the image-backed login button in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Log in\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"登录\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.create-account\",\"sourceText\":\"Create account\",\"sourceSha256\":\"798ca2ce18bf2038bc13aaa33ebfe6db7020df5b4bba40f68e21462a9207db3d\",\"context\":\"Visible text and accessible label for the registration button in WinLoginV2.\",\"translations\":{\"en\":{\"text\":\"Create account\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"注册账号\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.exit\",\"sourceText\":\"Exit\",\"sourceSha256\":\"d17d84a604994b722db37b35860b1ac7e8d9e43e725d0eb50702a9f7228a2999\",\"context\":\"Accessible label for the image-backed exit button in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Exit\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"退出\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.open-registration\",\"sourceText\":\"Open the account registration page?\",\"sourceSha256\":\"255af589f796f589c9bfaf0f6778a43b34aa2687057e6fc53ac55b63f55f0e20\",\"context\":\"Confirmation shown before WinLogin opens a configured registration URL.\",\"translations\":{\"en\":{\"text\":\"Open the account registration page?\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"打开账号注册页面？\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.registration-unavailable\",\"sourceText\":\"Account registration is not available. Contact the server administrator.\",\"sourceSha256\":\"b00ffe14638c2b5f36a18f54ed855d1dd0093f34a485fd0757df107fed47bb65\",\"context\":\"Message shown when WinLogin has no configured registration URL.\",\"translations\":{\"en\":{\"text\":\"Account registration is not available. Contact the server administrator.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"暂未开放账号注册，请联系服务器管理员。\",\"translator\":\"Codex\"}}},{\"key\":\"login.status.connecting\",\"sourceText\":\"Connecting to the server...\",\"sourceSha256\":\"e8d4b1e0c8fa1bc71394159551d105dad7afc13821678b6ca5133d7aff490a97\",\"context\":\"Text shown in WinLoading while LoginEngine connects to the login or character server.\",\"translations\":{\"en\":{\"text\":\"Connecting to the server...\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"正在连接服务器...\",\"translator\":\"Codex\"}}},{\"key\":\"login.error.connection-failed\",\"sourceText\":\"Unable to connect to the server.\",\"sourceSha256\":\"3178867204715b04bb047bf900d12e5aa68c45cc3f8cc61c875f600ecd21bc33\",\"context\":\"LoginEngine message when the login server socket cannot be opened.\",\"translations\":{\"en\":{\"text\":\"Unable to connect to the server.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"无法连接服务器。\",\"translator\":\"Codex\"}}},{\"key\":\"login.error.connection-lost\",\"sourceText\":\"Connection to the server was lost.\",\"sourceSha256\":\"f2680dac335f4beccc3d04763f08a9cbb499517e276e1802037fa57d10b981fd\",\"context\":\"Message shown when the network disconnects without a phase-specific handler.\",\"translations\":{\"en\":{\"text\":\"Connection to the server was lost.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"与服务器的连接已断开。\",\"translator\":\"Codex\"}}},{\"key\":\"login.error.packetver-missing\",\"sourceText\":\"No PACKETVER configuration was found.\",\"sourceSha256\":\"3b4f515ea270ee1287edf13cd449ff9a064a38815931b11beb8b9e41578ebf7e\",\"context\":\"LoginEngine fatal configuration error when PACKETVER is unavailable.\",\"translations\":{\"en\":{\"text\":\"No PACKETVER configuration was found.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"找不到 PACKETVER 配置。\",\"translator\":\"Codex\"}}},{\"key\":\"login.error.password-encryption\",\"sourceText\":\"Password encryption failed because the client configuration is invalid.\",\"sourceSha256\":\"7d9532d5d8b6274a99f2e2d7d1a0144c40b274b66215ac1fcd43c99600ea36bd\",\"context\":\"LoginEngine fatal error when configured Rijndael password encryption cannot run.\",\"translations\":{\"en\":{\"text\":\"Password encryption failed because the client configuration is invalid.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"客户端配置无效，密码加密失败。\",\"translator\":\"Codex\"}}},{\"key\":\"char-select.back-to-login\",\"sourceText\":\"Back to login\",\"sourceSha256\":\"3e3806ff17302cbacbd9a4d29022558ed71334907a93083490ca2bf2dcb176b3\",\"context\":\"Accessible label for the image-backed close button in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Back to login\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回登录\",\"translator\":\"Codex\"}}},{\"key\":\"char-select.empty-slot\",\"sourceText\":\"Create character\",\"sourceSha256\":\"a367a9cea7fc86b7926227c6962e51f28886aa8a3309f2df6eb9eaa440b02703\",\"context\":\"Accessible label for an empty character slot in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Create character\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"创建角色\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.name\",\"sourceText\":\"Character name\",\"sourceSha256\":\"faf3e90bda9293d831003480485271b1a827ac10b74ed1f591be2a2dc7e01034\",\"context\":\"Placeholder and accessible label for the character name input.\",\"translations\":{\"en\":{\"text\":\"Character name\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"角色名称\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.male\",\"sourceText\":\"Male\",\"sourceSha256\":\"03f8c1273e3da99bb315fe7b71c8e45159c826e6d3f42eecd4612078248f73a1\",\"context\":\"Accessible label for the male character option in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Male\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"男\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.female\",\"sourceText\":\"Female\",\"sourceSha256\":\"e8cca808ae5aaa03a7fc3060856e6d4ad776fb1cb8cfe441a9bd240988cde151\",\"context\":\"Accessible label for the female character option in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Female\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"女\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.rotate-left\",\"sourceText\":\"Rotate left\",\"sourceSha256\":\"54c46b33d80973707f50a6dcde8a0726db3c286c4d79c17c629ec4d74f05294f\",\"context\":\"Accessible label for the left model rotation button in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Rotate left\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"向左旋转\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.rotate-right\",\"sourceText\":\"Rotate right\",\"sourceSha256\":\"9938c21d2cedb4170f1ff2d186c8112b832c660f8c76325fd9e5fae246c56c9d\",\"context\":\"Accessible label for the right model rotation button in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Rotate right\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"向右旋转\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.title\",\"sourceText\":\"Basic Information\",\"sourceSha256\":\"d094b334d8099b1ee806d7f61a4c8a7123bffb2036d7b49a85337547f6c6d3a0\",\"context\":\"Title of the expanded BasicInfo window.\",\"translations\":{\"en\":{\"text\":\"Basic Information\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"基本信息\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.base-level\",\"sourceText\":\"Base Lv.\",\"sourceSha256\":\"3c183dc69e1dc0b66b7f8515dbb80a57c53adc324afae00b6f2b03bf9e486738\",\"context\":\"Base level label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Base Lv.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"基本等级\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.job-level\",\"sourceText\":\"Job Lv.\",\"sourceSha256\":\"25d55647eebe26d603828c9fe7c506eeb2b4e56ca9efd1ad59075d22ba0d6b88\",\"context\":\"Job level label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Job Lv.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"职业等级\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.weight\",\"sourceText\":\"Weight\",\"sourceSha256\":\"81d27ef6d5033c3e1d46b7b2b50868604fd432ddb77716b5ed9383c30c08432f\",\"context\":\"Carried weight label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Weight\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"负重\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.zeny\",\"sourceText\":\"Zeny\",\"sourceSha256\":\"ac90f5a5babe9851d645f2d64b97282273a08b88faa3c2941dd794a0e9fc92d2\",\"context\":\"Currency label in BasicInfo; official proper name retained.\",\"translations\":{\"en\":{\"text\":\"Zeny\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"Zeny\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.level\",\"sourceText\":\"Lv.\",\"sourceSha256\":\"619683f98eb9e8dad44affeed6b79d1bcf7c0e1d8efecdfd0fa42846e9e2ccac\",\"context\":\"Compact level label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Lv.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"等级\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.experience\",\"sourceText\":\"Exp.\",\"sourceSha256\":\"c0532edf2920e01503cfc7ea05fc03ca0fcc3b8a373c029fd60cf567c198a665\",\"context\":\"Compact experience label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Exp.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"经验\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.status\",\"sourceText\":\"Status (Alt + A)\",\"sourceSha256\":\"4b1ebc2218ea5fd41843bca7f2587db46e527360643eea71615d6586fc4b4a49\",\"context\":\"BasicInfo main-menu status button.\",\"translations\":{\"en\":{\"text\":\"Status (Alt + A)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"状态 (Alt + A)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.equipment\",\"sourceText\":\"Equipment (Alt + Q)\",\"sourceSha256\":\"e95f18ec8944a691012b373a341a172111c910190007847272e60af11cfbbaec\",\"context\":\"BasicInfo main-menu equipment button.\",\"translations\":{\"en\":{\"text\":\"Equipment (Alt + Q)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备 (Alt + Q)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.inventory\",\"sourceText\":\"Inventory (Alt + E)\",\"sourceSha256\":\"2239dfa3e4cca34024a48c91001741853e9641d8f852d2d7edb355580ae90d2d\",\"context\":\"BasicInfo main-menu inventory button.\",\"translations\":{\"en\":{\"text\":\"Inventory (Alt + E)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"物品栏 (Alt + E)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.skills\",\"sourceText\":\"Skill Tree (Alt + S)\",\"sourceSha256\":\"d54202ccef151011b27aeb13f721137002de26c4594699dfcff15c2877a86555\",\"context\":\"BasicInfo main-menu skill-tree button.\",\"translations\":{\"en\":{\"text\":\"Skill Tree (Alt + S)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能树 (Alt + S)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.party\",\"sourceText\":\"Party (Alt + Z)\",\"sourceSha256\":\"0de40da1feef07377d68b688bbfee24519f2b1ef8cd42640a9640009788a4701\",\"context\":\"BasicInfo main-menu party button.\",\"translations\":{\"en\":{\"text\":\"Party (Alt + Z)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍 (Alt + Z)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.guild\",\"sourceText\":\"Guild (Alt + G)\",\"sourceSha256\":\"3b655073a4abb9859b26486dd2383627593a1d44bc990aff6d046ab3422b8e52\",\"context\":\"BasicInfo main-menu guild button.\",\"translations\":{\"en\":{\"text\":\"Guild (Alt + G)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会 (Alt + G)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.battleground\",\"sourceText\":\"Battleground\",\"sourceSha256\":\"40964db2e3f24a23b10f24f0f4d892a89c768781984266fecce1442c9dd8a9b0\",\"context\":\"BasicInfo main-menu battleground button.\",\"translations\":{\"en\":{\"text\":\"Battleground\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"战场\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.quest\",\"sourceText\":\"Quest List (Alt + U)\",\"sourceSha256\":\"6983eee7a74de39c2c90c06e6921bab8e305588c790b191672992c3b9c5c9001\",\"context\":\"BasicInfo main-menu quest-list button.\",\"translations\":{\"en\":{\"text\":\"Quest List (Alt + U)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"任务列表 (Alt + U)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.world-map\",\"sourceText\":\"World Map (Ctrl + ')\",\"sourceSha256\":\"7e92c27d4aa2a8dbc3398ebbf03c27ff27d3b0577f495a6248b67f25a7413861\",\"context\":\"BasicInfo main-menu world-map button.\",\"translations\":{\"en\":{\"text\":\"World Map (Ctrl + ')\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"世界地图 (Ctrl + ')\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.navigation\",\"sourceText\":\"Navigation\",\"sourceSha256\":\"3db65f8c2a7d1861b4bca37da3adec5aa7905931eb6faddbc595a35f75e6ca40\",\"context\":\"BasicInfo main-menu navigation button.\",\"translations\":{\"en\":{\"text\":\"Navigation\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"导航\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.options\",\"sourceText\":\"Options (Esc)\",\"sourceSha256\":\"82e6c3d55d0c3bc142caf4f203f1c69fcecfb560bab610a6ea32020ca9c59885\",\"context\":\"BasicInfo main-menu options button.\",\"translations\":{\"en\":{\"text\":\"Options (Esc)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"设置 (Esc)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.bank\",\"sourceText\":\"Bank (Ctrl + B)\",\"sourceSha256\":\"9f1b98b75698da1be994505e4dac87e2d4ff8666e80a281564163809c488fe79\",\"context\":\"BasicInfo main-menu bank button.\",\"translations\":{\"en\":{\"text\":\"Bank (Ctrl + B)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"银行 (Ctrl + B)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.replay\",\"sourceText\":\"Replay\",\"sourceSha256\":\"c8dae6371b33b8d67fdbd138fd28e89eefbd7af6b764f282b0872812b06a150c\",\"context\":\"BasicInfo main-menu replay button.\",\"translations\":{\"en\":{\"text\":\"Replay\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"回放\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.mail\",\"sourceText\":\"Mail\",\"sourceSha256\":\"07ed6ccf6bf6393d18684d1d4f774639d44c7d2d2895fd30491ccc50614ed4ea\",\"context\":\"BasicInfo main-menu mail button.\",\"translations\":{\"en\":{\"text\":\"Mail\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"邮件\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.achievement\",\"sourceText\":\"Achievement\",\"sourceSha256\":\"293523c3bf5bf430b2fff06cd20f620382fdba701eb6d779afe36acfa27542b7\",\"context\":\"BasicInfo main-menu achievement button.\",\"translations\":{\"en\":{\"text\":\"Achievement\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"成就\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.tips\",\"sourceText\":\"Tips (Alt + D)\",\"sourceSha256\":\"3fa176032f67afa98d9fdc130e6d1e58ab181a5b7cff43a88fcd36d46aff6130\",\"context\":\"BasicInfo main-menu tips button.\",\"translations\":{\"en\":{\"text\":\"Tips (Alt + D)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"提示 (Alt + D)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.hotkey-help\",\"sourceText\":\"Hotkey Help\",\"sourceSha256\":\"9b4377b3659a4901b0c60f10ff5dc69a3e6460bde60d913d22b6b8e9b21b2ac1\",\"context\":\"BasicInfo main-menu hotkey-help button.\",\"translations\":{\"en\":{\"text\":\"Hotkey Help\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"快捷键说明\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.attendance\",\"sourceText\":\"Attendance\",\"sourceSha256\":\"4cecc708584fc197b32b39cac65d3e4bf3fe15cf7b0d8bb4d1faa0af363a6d3b\",\"context\":\"BasicInfo main-menu attendance button.\",\"translations\":{\"en\":{\"text\":\"Attendance\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"签到\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.agency\",\"sourceText\":\"Adventurer's Agency (Ctrl + Z)\",\"sourceSha256\":\"3c7f23f6db4d87b344b818d09744f2475b3c1d5c860c2d464a6e7a376db57724\",\"context\":\"BasicInfo main-menu adventurer-agency button.\",\"translations\":{\"en\":{\"text\":\"Adventurer's Agency (Ctrl + Z)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"冒险家中介 (Ctrl + Z)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.reputation\",\"sourceText\":\"Reputation Status\",\"sourceSha256\":\"6df8de5b648a85071a06453caacd0ca9581b656c2d5478992432b29151644497\",\"context\":\"BasicInfo main-menu reputation button.\",\"translations\":{\"en\":{\"text\":\"Reputation Status\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"声望状态\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.show\",\"sourceText\":\"Show main menu\",\"sourceSha256\":\"96a220c30d257344f8acf80452453791ea539ac7f64c8c4f7d0e7483e8b218be\",\"context\":\"Accessible label for expanding the BasicInfo main menu.\",\"translations\":{\"en\":{\"text\":\"Show main menu\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"展开主菜单\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.hide\",\"sourceText\":\"Hide main menu\",\"sourceSha256\":\"ab9bdf668345de2f0a2b8fd9319e3a6cea4f9c8caaa479b00006cbd2bf066e16\",\"context\":\"Accessible label for collapsing the BasicInfo main menu.\",\"translations\":{\"en\":{\"text\":\"Hide main menu\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"收起主菜单\",\"translator\":\"Codex\"}}},{\"key\":\"escape.title\",\"sourceText\":\"Select Option\",\"sourceSha256\":\"d88604eca1c2807fb74e6b518c400876c838ed8e05af3277e1906737235eba15\",\"context\":\"Title of the Escape menu.\",\"translations\":{\"en\":{\"text\":\"Select Option\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"选择操作\",\"translator\":\"Codex\"}}},{\"key\":\"escape.resurrect\",\"sourceText\":\"Resurrect\",\"sourceSha256\":\"1b6153f884c0bdeb6aa1d23cc248c4b14f38bdffbf4ad459de0a079192c779a4\",\"context\":\"Escape death-menu resurrection button.\",\"translations\":{\"en\":{\"text\":\"Resurrect\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"复活\",\"translator\":\"Codex\"}}},{\"key\":\"escape.save-point\",\"sourceText\":\"Return to Save Point\",\"sourceSha256\":\"e3c07330ca31c611b524e8eee2c10d355ef59220ec5dd8cc8293deeb0cc49db3\",\"context\":\"Escape death-menu save-point button.\",\"translations\":{\"en\":{\"text\":\"Return to Save Point\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回存档点\",\"translator\":\"Codex\"}}},{\"key\":\"escape.character-select\",\"sourceText\":\"Return to Character Select\",\"sourceSha256\":\"a7f7874725d9cbe50b7cd79cf85562b6994356bab8b500050a3700e37bfa3841\",\"context\":\"Escape menu character-selection button.\",\"translations\":{\"en\":{\"text\":\"Return to Character Select\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回角色选择\",\"translator\":\"Codex\"}}},{\"key\":\"escape.graphics\",\"sourceText\":\"Graphics Settings\",\"sourceSha256\":\"0b5de9334cbb9ac9667b11699bb6941f2bdea423ccaa84992a1b48118466884a\",\"context\":\"Escape menu graphics-settings button.\",\"translations\":{\"en\":{\"text\":\"Graphics Settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"图像设置\",\"translator\":\"Codex\"}}},{\"key\":\"escape.sound\",\"sourceText\":\"Sound Settings\",\"sourceSha256\":\"6ba2d782cb45c5111dd2859a569310a2f5961e1a96afb2868ec8ea619a0fd013\",\"context\":\"Escape menu sound-settings button.\",\"translations\":{\"en\":{\"text\":\"Sound Settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"声音设置\",\"translator\":\"Codex\"}}},{\"key\":\"escape.hotkeys\",\"sourceText\":\"Hotkey Settings\",\"sourceSha256\":\"55f815ab0c3ad92353e7d48ffb42f0d713504a2b888e3eb90908a19fc6065e24\",\"context\":\"Escape menu hotkey-settings button.\",\"translations\":{\"en\":{\"text\":\"Hotkey Settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"快捷键设置\",\"translator\":\"Codex\"}}},{\"key\":\"escape.exit\",\"sourceText\":\"Exit Game\",\"sourceSha256\":\"cd3943f36e0179bab65bbcaf374a19b464f030d0c753489d6ae44425e3dac25e\",\"context\":\"Escape menu exit-game button.\",\"translations\":{\"en\":{\"text\":\"Exit Game\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"退出游戏\",\"translator\":\"Codex\"}}},{\"key\":\"escape.return\",\"sourceText\":\"Return to Game\",\"sourceSha256\":\"0a05934599e16df02def50493098486a28ee05449c0be880e69b8a8e74540eda\",\"context\":\"Escape menu dismiss button.\",\"translations\":{\"en\":{\"text\":\"Return to Game\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回游戏\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.title\",\"sourceText\":\"Status\",\"sourceSha256\":\"920e413c7d411b61ef3e8c63b1cb6ad058d5f95f8b481dbafe60248387d8c355\",\"context\":\"Title of the WinStats window.\",\"translations\":{\"en\":{\"text\":\"Status\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"状态\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.collapse\",\"sourceText\":\"Collapse or expand status window\",\"sourceSha256\":\"437997b4d2dbc2b0ff15715762f0070e022858318fb7399ef49678ad38351380\",\"context\":\"Accessible label for the WinStats minimize button.\",\"translations\":{\"en\":{\"text\":\"Collapse or expand status window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"收起或展开状态窗口\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.close\",\"sourceText\":\"Close status window\",\"sourceSha256\":\"8432184841b208a23cf19af5651c084499d5b8c83deca0b1fda5aa340a6296d6\",\"context\":\"Accessible label for the WinStats close button.\",\"translations\":{\"en\":{\"text\":\"Close status window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"关闭状态窗口\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.str-description\",\"sourceText\":\"STR: Physical attack power and carrying capacity.\",\"sourceSha256\":\"46bf3d08cf5ddc5f74eac790b2fd5b275d8ff7598f5adc976b697f29082f49a5\",\"context\":\"WinStats STR tooltip.\",\"translations\":{\"en\":{\"text\":\"STR: Physical attack power and carrying capacity.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"STR：提高物理攻击力和负重上限。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.agi-description\",\"sourceText\":\"AGI: Attack speed and flee rate.\",\"sourceSha256\":\"c730bf8a3cdbd70423a919aeb9a632daea24b0135194825f5aae1b4ff4f1fd7e\",\"context\":\"WinStats AGI tooltip.\",\"translations\":{\"en\":{\"text\":\"AGI: Attack speed and flee rate.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"AGI：提高攻击速度和闪避率。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.vit-description\",\"sourceText\":\"VIT: Maximum HP, HP recovery, and physical defense.\",\"sourceSha256\":\"ef28018c90d77a30c21a03bc0bee309c3e281caa64b6d7b2d8b7614d1d7e5346\",\"context\":\"WinStats VIT tooltip.\",\"translations\":{\"en\":{\"text\":\"VIT: Maximum HP, HP recovery, and physical defense.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"VIT：提高最大 HP、HP 恢复和物理防御。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.int-description\",\"sourceText\":\"INT: Maximum SP, magic attack, and magic defense.\",\"sourceSha256\":\"96aa3972f53c57dbfe8c504a453d4669a1c5175d9e062f70a03042c6cd39dc06\",\"context\":\"WinStats INT tooltip.\",\"translations\":{\"en\":{\"text\":\"INT: Maximum SP, magic attack, and magic defense.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"INT：提高最大 SP、魔法攻击和魔法防御。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.dex-description\",\"sourceText\":\"DEX: Accuracy, casting time, and ranged attack power.\",\"sourceSha256\":\"c1170785f2ea3f69e8a7b1d22a0742ff85ada007ab8b03d97ca09dde846c40cc\",\"context\":\"WinStats DEX tooltip.\",\"translations\":{\"en\":{\"text\":\"DEX: Accuracy, casting time, and ranged attack power.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"DEX：提高命中、缩短施法时间并提高远程攻击力。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.luk-description\",\"sourceText\":\"LUK: Critical rate, perfect dodge, and other combat bonuses.\",\"sourceSha256\":\"2d0e150585479e1ddadf147667f991adf28d2b8982fd40a75710b9821a042434\",\"context\":\"WinStats LUK tooltip.\",\"translations\":{\"en\":{\"text\":\"LUK: Critical rate, perfect dodge, and other combat bonuses.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"LUK：提高暴击率、完全回避和其他战斗收益。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.atk-description\",\"sourceText\":\"ATK: Physical attack power.\",\"sourceSha256\":\"d3224c99f484a512f45689c913924c6a4724cf833a2125c41abe21c677ea4b92\",\"context\":\"WinStats ATK tooltip.\",\"translations\":{\"en\":{\"text\":\"ATK: Physical attack power.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"ATK：物理攻击力。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.matk-description\",\"sourceText\":\"MATK: Magic attack power.\",\"sourceSha256\":\"54fc1975b545d1a8b7e573be7f5663d27e21d4640d9f6177cb0065d634828ca3\",\"context\":\"WinStats MATK tooltip.\",\"translations\":{\"en\":{\"text\":\"MATK: Magic attack power.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"MATK：魔法攻击力。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.hit-description\",\"sourceText\":\"HIT: Accuracy.\",\"sourceSha256\":\"8d8134c287c49c89296bff0bff58c54174f9da254c77750742763470499134b5\",\"context\":\"WinStats HIT tooltip.\",\"translations\":{\"en\":{\"text\":\"HIT: Accuracy.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"HIT：命中率。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.critical-description\",\"sourceText\":\"Critical: Critical attack rate.\",\"sourceSha256\":\"2a230574aa43ca3c3c72b1504b6a616113f69b21020efffb7e29081ea0c527be\",\"context\":\"WinStats critical-rate tooltip.\",\"translations\":{\"en\":{\"text\":\"Critical: Critical attack rate.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"暴击：暴击攻击率。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.status-point-description\",\"sourceText\":\"Status Point: Points available for base attributes.\",\"sourceSha256\":\"8691c4d7c8ea8105f24f4530f3d9baac82d60979ea4a657df93eba5cb99d16a6\",\"context\":\"WinStats remaining status-point tooltip.\",\"translations\":{\"en\":{\"text\":\"Status Point: Points available for base attributes.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"属性点：可用于提升基础属性的点数。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.guild-description\",\"sourceText\":\"Guild: Current guild name.\",\"sourceSha256\":\"e3aa9c43cfb48bb2f609ffe77c2b6a5284dcff857e5a2fcb7ad0f33e14662517\",\"context\":\"WinStats guild-name tooltip.\",\"translations\":{\"en\":{\"text\":\"Guild: Current guild name.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会：当前公会名称。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.def-description\",\"sourceText\":\"DEF: Physical defense.\",\"sourceSha256\":\"0d79121ce3e96ad1bfbbac2ffb15d9baa9305a8c3ca0dc06dd6fbeb622be61b2\",\"context\":\"WinStats DEF tooltip.\",\"translations\":{\"en\":{\"text\":\"DEF: Physical defense.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"DEF：物理防御。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.mdef-description\",\"sourceText\":\"MDEF: Magic defense.\",\"sourceSha256\":\"816a4b3cae77f6c87e7e5078284c42e37d0af65b268d7d67f60ee239ad13d02e\",\"context\":\"WinStats MDEF tooltip.\",\"translations\":{\"en\":{\"text\":\"MDEF: Magic defense.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"MDEF：魔法防御。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.flee-description\",\"sourceText\":\"FLEE: Evasion rate.\",\"sourceSha256\":\"f58a1032c42de5b60bed2a69df7afac4d1eda4ed07b56b69fad4874e892d43c5\",\"context\":\"WinStats FLEE tooltip.\",\"translations\":{\"en\":{\"text\":\"FLEE: Evasion rate.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"FLEE：闪避率。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.aspd-description\",\"sourceText\":\"ASPD: Attack speed.\",\"sourceSha256\":\"37006240f9821011b939f771f2bd6c61e3737d75743db098dc1c54284e77fbc8\",\"context\":\"WinStats ASPD tooltip.\",\"translations\":{\"en\":{\"text\":\"ASPD: Attack speed.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"ASPD：攻击速度。\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.public-log\",\"sourceText\":\"Public Log\",\"sourceSha256\":\"2ac52562ad505b0d7375fe39e8389d8c55b5ac65dd0df90703a5b33ef08172c0\",\"context\":\"Default ChatBox tab containing public and system messages.\",\"translations\":{\"en\":{\"text\":\"Public Log\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公共记录\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.battle-log\",\"sourceText\":\"Battle Log\",\"sourceSha256\":\"eb70afb22a6b3aac00a5b8c276fc0ec89d4943d13e2f7c6db7407df5edd9bc86\",\"context\":\"Default ChatBox tab reserved for battle messages.\",\"translations\":{\"en\":{\"text\":\"Battle Log\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"战斗记录\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.new-tab\",\"sourceText\":\"New Tab\",\"sourceSha256\":\"b2f8fd639208870b67e12dcab7e8ca9b82426c2b01e62dfbcfe20d85134b38e5\",\"context\":\"Default name assigned to a user-created ChatBox tab.\",\"translations\":{\"en\":{\"text\":\"New Tab\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"新标签\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.target.public\",\"sourceText\":\"Public\",\"sourceSha256\":\"591935b15b1c88e2d5f6be0a054604fcf36f0585a6f51098fa3803826fff278c\",\"context\":\"ChatBox send-target menu entry for public chat.\",\"translations\":{\"en\":{\"text\":\"Public\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公共\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.target.party\",\"sourceText\":\"Party\",\"sourceSha256\":\"dfa82f21b3f3709c94f525d2d63cb6b2955e5a5d2430757cbedfa230f116b2ed\",\"context\":\"ChatBox send-target menu entry for party chat.\",\"translations\":{\"en\":{\"text\":\"Party\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.target.guild\",\"sourceText\":\"Guild\",\"sourceSha256\":\"298ffc494f6348d8cd14dd0091fdf9bfa7ff6b7fa0600610f88356c40d9894c3\",\"context\":\"ChatBox send-target menu entry for guild chat.\",\"translations\":{\"en\":{\"text\":\"Guild\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.target.clan\",\"sourceText\":\"Clan\",\"sourceSha256\":\"bda5ce1bf8f0a0bf795d6644a66ab57b01e56a05945fadaae9b4171647865c89\",\"context\":\"ChatBox send-target menu entry for clan chat.\",\"translations\":{\"en\":{\"text\":\"Clan\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"氏族\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.font-100\",\"sourceText\":\"Chat font x1.0\",\"sourceSha256\":\"9767550c86eae028ced5d3b19ed5701b840740e304d4dbcab3a0f1d9a4a30f11\",\"context\":\"ChatBox context-menu option for normal font scale.\",\"translations\":{\"en\":{\"text\":\"Chat font x1.0\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"聊天字体 x1.0\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.font-120\",\"sourceText\":\"Chat font x1.2\",\"sourceSha256\":\"ad4d23e86bd1dc90b8007dc6a6254c3b8aad6220f864a904a83ef1f467079add\",\"context\":\"ChatBox context-menu option for 120 percent font scale.\",\"translations\":{\"en\":{\"text\":\"Chat font x1.2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"聊天字体 x1.2\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.font-140\",\"sourceText\":\"Chat font x1.4\",\"sourceSha256\":\"6fc547bca655fec8b0879d2460d42b5f7199b45816a952d6aa50873853ebc459\",\"context\":\"ChatBox context-menu option for 140 percent font scale.\",\"translations\":{\"en\":{\"text\":\"Chat font x1.4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"聊天字体 x1.4\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.toggle-input\",\"sourceText\":\"Toggle chat input\",\"sourceSha256\":\"dadf2d4e23ede0ea6e81833159cfce06b223fcb0256f6a5b132cfb03c203ba14\",\"context\":\"Accessible label for toggling the ChatBox input row.\",\"translations\":{\"en\":{\"text\":\"Toggle chat input\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"切换聊天输入栏\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.settings\",\"sourceText\":\"Chat log settings\",\"sourceSha256\":\"822e116f107b02199e77ef3eec1e4df7295e5ea31e96dbd0b3a2737893efcc5c\",\"context\":\"Accessible label for opening ChatBox message filters.\",\"translations\":{\"en\":{\"text\":\"Chat log settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"聊天记录设置\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.pin\",\"sourceText\":\"Pin chat window\",\"sourceSha256\":\"43cc952751188339d0f3927c5b8b7b5068c55c4cee001f388465030aa7b3b747\",\"context\":\"Accessible label for the ChatBox pin control.\",\"translations\":{\"en\":{\"text\":\"Pin chat window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"固定聊天窗口\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.add-tab\",\"sourceText\":\"Add chat tab\",\"sourceSha256\":\"f2a161321c74c1a43184fec0f63506ee4d1637d8d3ecf8a516706e133aa3b0b6\",\"context\":\"Accessible label for adding a ChatBox tab.\",\"translations\":{\"en\":{\"text\":\"Add chat tab\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"新增聊天标签\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.remove-tab\",\"sourceText\":\"Remove chat tab\",\"sourceSha256\":\"58241ab59bf4c9595535863e3e6d6755113b13bb84d3ca66a9f3bab416eced01\",\"context\":\"Accessible label for removing the active ChatBox tab.\",\"translations\":{\"en\":{\"text\":\"Remove chat tab\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"删除聊天标签\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.lock\",\"sourceText\":\"Lock chat window\",\"sourceSha256\":\"46d205f52138ef6960e284f896bc241d0e161480003db80d261c8b663884abaf\",\"context\":\"Accessible label for the ChatBox drag-lock control.\",\"translations\":{\"en\":{\"text\":\"Lock chat window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"锁定聊天窗口\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.whisper-recipient\",\"sourceText\":\"Select whisper recipient\",\"sourceSha256\":\"d40a72f6ea4b12e74d055d3bc88e4cd06ead1952e923f8e8b51bf0ec332aa5c9\",\"context\":\"Accessible label for selecting a recent whisper recipient.\",\"translations\":{\"en\":{\"text\":\"Select whisper recipient\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"选择私聊对象\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.channel\",\"sourceText\":\"Select chat channel\",\"sourceSha256\":\"1e11a95b8b6bdac85b3c55ea5407e1c107ee627a87decf96a9e207248a902194\",\"context\":\"Accessible label for selecting the outgoing chat channel.\",\"translations\":{\"en\":{\"text\":\"Select chat channel\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"选择聊天频道\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.resize\",\"sourceText\":\"Resize chat window\",\"sourceSha256\":\"7955794d24e931d09b77bf42b5e64ab781c32b67ce4123bd83c4f6606d45c730\",\"context\":\"Accessible label for resizing the ChatBox.\",\"translations\":{\"en\":{\"text\":\"Resize chat window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"调整聊天窗口大小\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.title\",\"sourceText\":\"%s Message Log Settings\",\"sourceSha256\":\"4a4d78d53d87b595f971d8a626a1d77a9e88428f2345eb025d33e29b7697a674\",\"context\":\"ChatBoxSettings title; %s is the active tab name.\",\"translations\":{\"en\":{\"text\":\"%s Message Log Settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"%s 消息记录设置\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.close\",\"sourceText\":\"Close message log settings\",\"sourceSha256\":\"5533bb2597d21e70fbe8d3c03083b4241554ee3118d975414c7c2e7822e756bb\",\"context\":\"Accessible label for closing ChatBoxSettings.\",\"translations\":{\"en\":{\"text\":\"Close message log settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"关闭消息记录设置\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.all-on\",\"sourceText\":\"All on\",\"sourceSha256\":\"9a1858dbc4617fdcbdb8f8c4863f6b7ff5f336520f66b7620cedc4a20f6ac4e7\",\"context\":\"ChatBoxSettings footer label for the all-enabled state.\",\"translations\":{\"en\":{\"text\":\"All on\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"全部开启\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.public-log\",\"sourceText\":\"Public Log\",\"sourceSha256\":\"2ac52562ad505b0d7375fe39e8389d8c55b5ac65dd0df90703a5b33ef08172c0\",\"context\":\"ChatBoxSettings filter 0 for public and system logs.\",\"translations\":{\"en\":{\"text\":\"Public Log\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公共记录\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.public-chat\",\"sourceText\":\"Public Chat\",\"sourceSha256\":\"f73b495201cbee91b0c389a0ee2b8e7dcd58dd0f7703075a2c6360c0ba8466ea\",\"context\":\"ChatBoxSettings filter 1 for public chat.\",\"translations\":{\"en\":{\"text\":\"Public Chat\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公共聊天\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.whisper\",\"sourceText\":\"Whisper\",\"sourceSha256\":\"41714d2cdc780e91028e222f1a1b62b0926e0f2416e14e71065c3b08c10348b0\",\"context\":\"ChatBoxSettings filter 2 for whispers.\",\"translations\":{\"en\":{\"text\":\"Whisper\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"私聊\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party\",\"sourceText\":\"Party\",\"sourceSha256\":\"dfa82f21b3f3709c94f525d2d63cb6b2955e5a5d2430757cbedfa230f116b2ed\",\"context\":\"ChatBoxSettings filter 3 for party chat.\",\"translations\":{\"en\":{\"text\":\"Party\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.guild\",\"sourceText\":\"Guild\",\"sourceSha256\":\"298ffc494f6348d8cd14dd0091fdf9bfa7ff6b7fa0600610f88356c40d9894c3\",\"context\":\"ChatBoxSettings filter 4 for guild chat.\",\"translations\":{\"en\":{\"text\":\"Guild\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.item\",\"sourceText\":\"Item\",\"sourceSha256\":\"652bcc3a478428893cc505ae19f847b49be52f861bedc64bb192ceed409fa733\",\"context\":\"ChatBoxSettings filter 5 for item messages.\",\"translations\":{\"en\":{\"text\":\"Item\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"物品\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.equipment\",\"sourceText\":\"Equipment\",\"sourceSha256\":\"7f2465ac7cefab2766e6ee0714647089df9364b0ff09858c84b21b8a436a845d\",\"context\":\"ChatBoxSettings filter 6 for equipment messages.\",\"translations\":{\"en\":{\"text\":\"Equipment\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.abnormal-status\",\"sourceText\":\"Abnormal Status\",\"sourceSha256\":\"fb67713cf4cc8462a39acfa0c0247a4c6fd77411f7422cff8cd35cee14a5fe65\",\"context\":\"ChatBoxSettings filter 7 for abnormal-status messages.\",\"translations\":{\"en\":{\"text\":\"Abnormal Status\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"异常状态\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-item\",\"sourceText\":\"Party Item\",\"sourceSha256\":\"2175c0a387e61d1fe79157c13c368fc40524c114f7e63dc1c7ace04a621a3b73\",\"context\":\"ChatBoxSettings filter 8 for party item messages.\",\"translations\":{\"en\":{\"text\":\"Party Item\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍物品\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-status\",\"sourceText\":\"Party Status\",\"sourceSha256\":\"f19ec4f5b7fb6a3ae19bbcbfd7d58955484562a41c12deb96ce27ce08cc32fe9\",\"context\":\"ChatBoxSettings filter 9 for party status messages.\",\"translations\":{\"en\":{\"text\":\"Party Status\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍状态\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.skill-fail\",\"sourceText\":\"Skill Fail\",\"sourceSha256\":\"f3bbf7855eb59d1d3d2bd85e83a42434fefbe8f2aacea2c7516e7e5c20c74e8b\",\"context\":\"ChatBoxSettings filter 10 for skill-failure messages.\",\"translations\":{\"en\":{\"text\":\"Skill Fail\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能失败\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-setup\",\"sourceText\":\"Party Setup\",\"sourceSha256\":\"37a071faabf4570f236bd1ccfbdd348d1cf90bd17463bd63b776f7ba1d34fb8f\",\"context\":\"ChatBoxSettings filter 11 for party configuration messages.\",\"translations\":{\"en\":{\"text\":\"Party Setup\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍设置\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.equip-damage\",\"sourceText\":\"Equip Damage\",\"sourceSha256\":\"85402dca9e5d33c05c88cf0a87fa1bc948ed9bbf394c4b7960749daf7ace3c6a\",\"context\":\"ChatBoxSettings filter 12 for damaged-equipment messages.\",\"translations\":{\"en\":{\"text\":\"Equip Damage\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备损坏\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.woe\",\"sourceText\":\"WOE\",\"sourceSha256\":\"7579344e30f8be851690c35f8f8f290c257bf19414bd5e9779ed20ec6509d5f6\",\"context\":\"ChatBoxSettings filter 13 for War of Emperium messages.\",\"translations\":{\"en\":{\"text\":\"WOE\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"攻城战\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-search\",\"sourceText\":\"Party Search\",\"sourceSha256\":\"e18013e04616a0cd63dc21dcdca2437b4c46b83cb481607c92f7cd033ccc9439\",\"context\":\"ChatBoxSettings filter 14 for party-search messages.\",\"translations\":{\"en\":{\"text\":\"Party Search\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍搜索\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.battle\",\"sourceText\":\"Battle\",\"sourceSha256\":\"1b18ebbc3f490c845c2ebeca8853fcc82daefc66068eb984a445f8b1b7068438\",\"context\":\"ChatBoxSettings filter 15 for battle messages.\",\"translations\":{\"en\":{\"text\":\"Battle\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"战斗\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-battle\",\"sourceText\":\"Party Battle\",\"sourceSha256\":\"e6e1016fb01326d64f98fe344aded05b629309f3ac41993c4e0eae724ca4b8c5\",\"context\":\"ChatBoxSettings filter 16 for party battle messages.\",\"translations\":{\"en\":{\"text\":\"Party Battle\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍战斗\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.exp\",\"sourceText\":\"EXP\",\"sourceSha256\":\"06a1ad637e7f4fbad56e29164490368f0526f429ee39a31dd1180c3722af1e4e\",\"context\":\"ChatBoxSettings filter 17 for experience messages.\",\"translations\":{\"en\":{\"text\":\"EXP\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"经验\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-exp\",\"sourceText\":\"Party EXP\",\"sourceSha256\":\"c97831818c4f8d80284c2b92e34557e2a4cf9ea01c5990960908571115ed2917\",\"context\":\"ChatBoxSettings filter 18 for party experience messages.\",\"translations\":{\"en\":{\"text\":\"Party EXP\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍经验\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.quest\",\"sourceText\":\"Quest\",\"sourceSha256\":\"233259128db1f0c07dcf68f001d34b46cb58f436bb4565bf9f6441b87d8b86d8\",\"context\":\"ChatBoxSettings filter 19 for quest messages.\",\"translations\":{\"en\":{\"text\":\"Quest\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"任务\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.battlefield\",\"sourceText\":\"Battlefield\",\"sourceSha256\":\"0395164a7c807d730e1e1e1384515ae89fbb048d212fe21c631773c0cc0b1c74\",\"context\":\"ChatBoxSettings filter 20 for battlefield messages.\",\"translations\":{\"en\":{\"text\":\"Battlefield\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"战场\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.clan\",\"sourceText\":\"Clan\",\"sourceSha256\":\"bda5ce1bf8f0a0bf795d6644a66ab57b01e56a05945fadaae9b4171647865c89\",\"context\":\"ChatBoxSettings filter 21 for clan messages.\",\"translations\":{\"en\":{\"text\":\"Clan\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"氏族\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.title\",\"sourceText\":\"Shortcut key settings\",\"sourceSha256\":\"6745365e3f76a19a7215a434bad311fbc367156e1efa9cfec0f4bdaf344d4270\",\"context\":\"Title of the ShortCutOption window.\",\"translations\":{\"en\":{\"text\":\"Shortcut key settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"快捷键设置\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.tab.skill-bar\",\"sourceText\":\"Skill Bar\",\"sourceSha256\":\"8b8ef3ff864398e0d50a4cc64f8fcb0a4953a1da995448dbad1f378591d33ed9\",\"context\":\"Skill-bar tab in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Skill Bar\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.tab.interface\",\"sourceText\":\"Interface\",\"sourceSha256\":\"c26b3ed4ce70e202816608a9ca6cc14da9ed4a5cf14c7c758be0e2c20344ed82\",\"context\":\"Interface tab in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Interface\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"界面\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.tab.macros\",\"sourceText\":\"Macros\",\"sourceSha256\":\"866dcd98eca7475c2199ad8a55fbdea2dca67cbdaa65166aa1864b5b452dfd17\",\"context\":\"Macros tab in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Macros\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"宏\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.tab.gamepad\",\"sourceText\":\"Gamepad\",\"sourceSha256\":\"8da7edfe7189432c8817e9f7f9aa6fff396dca6c192c0165b4fec7a5542862f7\",\"context\":\"Gamepad tab in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Gamepad\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"手柄\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.reset\",\"sourceText\":\"Reset to defaults\",\"sourceSha256\":\"e240e635ff6dce4ff2ac0b90a84889cff420f2c9a56014543e78f366681820db\",\"context\":\"Accessible label for the ShortCutOption reset button.\",\"translations\":{\"en\":{\"text\":\"Reset to defaults\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"恢复默认\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.homunculus-behavior\",\"sourceText\":\"Homunculus behavior\",\"sourceSha256\":\"62ad61a7116564a86ec89a3b6f8df060dc4c15cbb246f56ab81f2b894a50add4\",\"context\":\"ShortCutOption label for the Homunculus AGGRESSIVE behavior shortcut; kept separate from the official follow command.\",\"translations\":{\"en\":{\"text\":\"Homunculus behavior\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"生命体行为模式\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.mercenary-behavior\",\"sourceText\":\"Mercenary behavior\",\"sourceSha256\":\"0b187ea0a635924252f0de520535afb10f0059c2a8950be292cf9a422f4174c5\",\"context\":\"ShortCutOption label for the mercenary AGGRESSIVE behavior shortcut; kept separate from the official follow command.\",\"translations\":{\"en\":{\"text\":\"Mercenary behavior\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"佣兵行为模式\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.skill-bar-size\",\"sourceText\":\"Skill bar size\",\"sourceSha256\":\"09725b305f1bb3e782617730a0c1a7fab3f3ce6351f6fd70992982ba402db4be\",\"context\":\"ShortCutOption label for changing the visible skill-bar size.\",\"translations\":{\"en\":{\"text\":\"Skill bar size\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏尺寸\",\"translator\":\"Codex\"}}}]},\"robrowser.legacy\":{\"sourceLocale\":\"en\",\"source\":{\"repository\":\"https://github.com/MrAntares/roBrowserLegacy.git\",\"identity\":\"DB.getMessage numeric ID\"},\"entries\":[{\"key\":\"6\",\"sourceText\":\"Unregistered account.\",\"sourceSha256\":\"574c1c29920a25aea623a44c085f25f29e0c7c4b3b6a9d27049a4d0fbf70ea29\",\"context\":\"Login refusal code 0 maps to DB message 6; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"Unregistered account.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"未注册的账号。\",\"translator\":\"Codex\"}}},{\"key\":\"267\",\"sourceText\":\"Incorrect password.\",\"sourceSha256\":\"30f89744a6f3319d34d17d7ca1b57d71925fe149bdfa1aa7aec8edafc223ab78\",\"context\":\"Login refusal code 1 maps to DB message 267; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"Incorrect password.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"密码错误。\",\"translator\":\"Codex\"}}},{\"key\":\"8\",\"sourceText\":\"This account has expired.\",\"sourceSha256\":\"41e59776a2cd9d24e695d0eeea4d8bea10363960e1fe89bd97ca09cf9be8092b\",\"context\":\"Login refusal code 2 maps to DB message 8; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"This account has expired.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"该账号已过期。\",\"translator\":\"Codex\"}}},{\"key\":\"3\",\"sourceText\":\"Rejected by the server.\",\"sourceSha256\":\"e1b88f07d5773ad844a2b2d09590ab7b7a4af7cb07d6a56b7d69615a7e43a3cb\",\"context\":\"Login refusal code 3 maps to DB message 3; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"Rejected by the server.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"服务器拒绝了连接。\",\"translator\":\"Codex\"}}},{\"key\":\"310\",\"sourceText\":\"Your game client is not the latest version.\",\"sourceSha256\":\"e9227c75b5e4780c89eed494e843b1128008316682719270e6795dadf5e903a6\",\"context\":\"Login refusal code 5 maps to DB message 310; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"Your game client is not the latest version.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"游戏客户端不是最新版本。\",\"translator\":\"Codex\"}}},{\"key\":\"449\",\"sourceText\":\"Login is prohibited until %s.\",\"sourceSha256\":\"b7231d0e9fcf084f703614a51b192a061a95045438c528bbbc098306b158fbca\",\"context\":\"Login refusal code 6 maps to DB message 449 and substitutes the server unblock date for %s.\",\"translations\":{\"en\":{\"text\":\"Login is prohibited until %s.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"禁止登录至 %s。\",\"translator\":\"Codex\"}}},{\"key\":\"439\",\"sourceText\":\"The server is full. Please try again later.\",\"sourceSha256\":\"5ed968437f29b6f5260a6d058c71d26728599fa066c70405a12a09a88747cf0e\",\"context\":\"Login refusal code 7 maps to DB message 439; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"The server is full. Please try again later.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"服务器已满，请稍后重试。\",\"translator\":\"Codex\"}}},{\"key\":\"10\",\"sourceText\":\"A character with this name already exists.\",\"sourceSha256\":\"4bd0610974fa93af724844a0e459eee062b295f707f2c511cf94dfe685855a5e\",\"context\":\"Character creation refusal 0x00; confirmed by rAthena chclif_createnewchar_refuse and CharEngine.\",\"translations\":{\"en\":{\"text\":\"A character with this name already exists.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"该角色名称已存在。\",\"translator\":\"Codex\"}}},{\"key\":\"11\",\"sourceText\":\"Character creation was denied.\",\"sourceSha256\":\"ea2ad478780378cc792a5e0f7e71b3edcdc03b10bf9a2a1c260338ce9698203c\",\"context\":\"Default character creation refusal 0xff; confirmed by rAthena and CharEngine.\",\"translations\":{\"en\":{\"text\":\"Character creation was denied.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"服务器拒绝创建角色。\",\"translator\":\"Codex\"}}},{\"key\":\"17\",\"sourceText\":\"Return to the login screen?\",\"sourceSha256\":\"717970ba49dfdad1a9924d5a06b15a0d0cb1513203c32c38a66226ff609689a3\",\"context\":\"Confirmation used when leaving CharSelectV4 for the login screen.\",\"translations\":{\"en\":{\"text\":\"Return to the login screen?\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回登录界面？\",\"translator\":\"Codex\"}}},{\"key\":\"19\",\"sourceText\":\"Delete this character?\",\"sourceSha256\":\"82a0428ced0dd7f7b0ea6a154e34678e995c6776d5833ef70be0e891f4c943be\",\"context\":\"Confirmation shown before CharEngine asks for deletion verification.\",\"translations\":{\"en\":{\"text\":\"Delete this character?\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"删除这个角色？\",\"translator\":\"Codex\"}}},{\"key\":\"298\",\"sourceText\":\"This account is not eligible to create a character.\",\"sourceSha256\":\"d428fc1f6e70570a1e04bf03fbc70b4d77de2c71df61e70be869f50987b357db\",\"context\":\"Character creation refusal 0x01, historically the account age restriction.\",\"translations\":{\"en\":{\"text\":\"This account is not eligible to create a character.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"此账号不符合创建角色的条件。\",\"translator\":\"Codex\"}}},{\"key\":\"301\",\"sourceText\":\"The email address is incorrect.\",\"sourceSha256\":\"e6caabf349718b2955d8db8bd9d3750114962b49d033cb3e71c866cf169f0500\",\"context\":\"Legacy character deletion verification failure for an incorrect email address.\",\"translations\":{\"en\":{\"text\":\"The email address is incorrect.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"邮箱地址不正确。\",\"translator\":\"Codex\"}}},{\"key\":\"1272\",\"sourceText\":\"Symbols are not allowed in character names.\",\"sourceSha256\":\"6fa5fd69363801c3c55c6c0ac257045bbcb9d29f9c271e57c6cc420984c30011\",\"context\":\"Character creation refusal 0x02; mapped by CharEngine.\",\"translations\":{\"en\":{\"text\":\"Symbols are not allowed in character names.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"角色名称不能包含符号。\",\"translator\":\"Codex\"}}},{\"key\":\"1355\",\"sourceText\":\"This character slot is unavailable.\",\"sourceSha256\":\"3bca86acbc3a7456c5bc7d2be2b5d32303b91a6ed4937fa7ea5a1d52c5811b65\",\"context\":\"Character creation refusal 0x03 for an ineligible slot; confirmed by rAthena and CharEngine.\",\"translations\":{\"en\":{\"text\":\"This character slot is unavailable.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"该角色栏位不可用。\",\"translator\":\"Codex\"}}},{\"key\":\"1811\",\"sourceText\":\"No map server is available.\",\"sourceSha256\":\"2a0bc7233ee992e3a11eade36b168d57df02003f90042e5a2aa71670e41ca2f4\",\"context\":\"CharEngine message when the selected character has no available map server.\",\"translations\":{\"en\":{\"text\":\"No map server is available.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"当前没有可用的地图服务器。\",\"translator\":\"Codex\"}}},{\"key\":\"1815\",\"sourceText\":\"Enter your date of birth (YYYYMMDD).\",\"sourceSha256\":\"6abd7fdb55419d73052c9fddc8f31f55e1fbf59e119f04b432c002cd30697836\",\"context\":\"InputBox label for modern character deletion verification; client sends YYMMDD to rAthena.\",\"translations\":{\"en\":{\"text\":\"Enter your date of birth (YYYYMMDD).\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"请输入出生日期（YYYYMMDD）。\",\"translator\":\"Codex\"}}},{\"key\":\"1817\",\"sourceText\":\"A database error occurred.\",\"sourceSha256\":\"be03065be9207660a19c4a7222f7df025cd8e27983b84e36b0204c74fb1cf053\",\"context\":\"Character deletion result 3 from rAthena.\",\"translations\":{\"en\":{\"text\":\"A database error occurred.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"数据库发生错误。\",\"translator\":\"Codex\"}}},{\"key\":\"1818\",\"sourceText\":\"Leave the guild before deleting this character.\",\"sourceSha256\":\"8f9cc1f3656728a28edc2470faf390ec1e1fe6a90d2fa32a1a003f54b2fb8c53\",\"context\":\"Character deletion reservation result 4 from rAthena.\",\"translations\":{\"en\":{\"text\":\"Leave the guild before deleting this character.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"请先退出公会，再删除该角色。\",\"translator\":\"Codex\"}}},{\"key\":\"1819\",\"sourceText\":\"Leave the party before deleting this character.\",\"sourceSha256\":\"9054e85b5f95e1e3adfbeeb8d017a811b6f39898bbe2986de29de4d509991f82\",\"context\":\"Character deletion reservation result 5 from rAthena.\",\"translations\":{\"en\":{\"text\":\"Leave the party before deleting this character.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"请先退出队伍，再删除该角色。\",\"translator\":\"Codex\"}}},{\"key\":\"1820\",\"sourceText\":\"The deletion waiting period has not ended.\",\"sourceSha256\":\"289742cae552b016e08583a8b1c357db23104cfc5ee0da15ba0e0cfb60885b7a\",\"context\":\"Character deletion result 4 from rAthena when the delay has not elapsed.\",\"translations\":{\"en\":{\"text\":\"The deletion waiting period has not ended.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"角色删除等待时间尚未结束。\",\"translator\":\"Codex\"}}},{\"key\":\"1821\",\"sourceText\":\"Character deletion is unavailable due to server settings.\",\"sourceSha256\":\"ee86adfbf85f27cb8c6c637ba0f2b802d4fe6b6568b9f8f5f1bddb5d54d754d7\",\"context\":\"Character deletion result 0, 2, or 6 as grouped by CharSelect.\",\"translations\":{\"en\":{\"text\":\"Character deletion is unavailable due to server settings.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"因服务器设置，当前无法删除角色。\",\"translator\":\"Codex\"}}},{\"key\":\"1822\",\"sourceText\":\"The date of birth does not match.\",\"sourceSha256\":\"425a274fed48f212b50d5cd2ba84dae31c3374d0d9b9172f9a8b3a559d798191\",\"context\":\"Character deletion result 5 from rAthena.\",\"translations\":{\"en\":{\"text\":\"The date of birth does not match.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"出生日期不匹配。\",\"translator\":\"Codex\"}}},{\"key\":\"3016\",\"sourceText\":\"Human\",\"sourceSha256\":\"9ffa865f2bc6e850157bb454ef3e00fa789e3f8cc631552941a99ba3fcddde51\",\"context\":\"Human race title in the active CharCreateV4 layout.\",\"translations\":{\"en\":{\"text\":\"Human\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"人类\",\"translator\":\"Codex\"}}},{\"key\":\"3018\",\"sourceText\":\"Doram\",\"sourceSha256\":\"37bab264970e2fdc19f00a8f522abfefe2436fdf0cd9d822924f656fbda9a0dc\",\"context\":\"Doram race title in the active CharCreateV4 layout; proper name retained pending a verified official Simplified Chinese term.\",\"translations\":{\"en\":{\"text\":\"Doram\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"Doram\",\"translator\":\"Codex\"}}},{\"key\":\"3020\",\"sourceText\":\"Humans can choose from a variety of jobs.\",\"sourceSha256\":\"8b8f9a8c8147266e8049d5765f62b53c6948e72325d142eb9c9669ddacc64194\",\"context\":\"Human race description in CharCreateV4, based on its multi-job selection behavior.\",\"translations\":{\"en\":{\"text\":\"Humans can choose from a variety of jobs.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"人类可以选择多种职业。\",\"translator\":\"Codex\"}}},{\"key\":\"3021\",\"sourceText\":\"Doram characters begin as Summoners.\",\"sourceSha256\":\"0f698ae820cd39f1c892a11a13d3ffc75533218345cf4594784d4567e53e3e47\",\"context\":\"Doram race description in CharCreateV4, confirmed by the starting job sent to rAthena.\",\"translations\":{\"en\":{\"text\":\"Doram characters begin as Summoners.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"Doram 角色初始职业为召唤师。\",\"translator\":\"Codex\"}}},{\"key\":\"3339\",\"sourceText\":\"Reserve deletion\",\"sourceSha256\":\"1eb46e54ffae738f42d96584ee2e15d4a709872df39ac01a0ecaf87c040e0886\",\"context\":\"Button that starts the delayed deletion reservation in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Reserve deletion\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"申请删除\",\"translator\":\"Codex\"}}},{\"key\":\"3340\",\"sourceText\":\"Cancel deletion\",\"sourceSha256\":\"d37a8ffcd96dd5c11317c741ba53caa555c54eb5ff4d33d2301d6c9ce31ddb92\",\"context\":\"Button that cancels a character deletion reservation in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Cancel deletion\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"取消删除\",\"translator\":\"Codex\"}}},{\"key\":\"3341\",\"sourceText\":\"Start game\",\"sourceSha256\":\"dc58131a08f4009891d2e333cd6cd573dc0441bfa1bd01b8d60fdec76205f0d7\",\"context\":\"Button that enters the game with the selected character in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Start game\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"开始游戏\",\"translator\":\"Codex\"}}},{\"key\":\"3342\",\"sourceText\":\"Delete character\",\"sourceSha256\":\"7ede8c92eda0f491a9da7589439947818b874424ffe2ebc041839a89ae7f1571\",\"context\":\"Button that completes a ready character deletion in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Delete character\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"删除角色\",\"translator\":\"Codex\"}}},{\"key\":\"3345\",\"sourceText\":\"Create\",\"sourceSha256\":\"4759498ac2a719c619e2c8cf8ee60af2d2407425e95d308eb208425b2a6d427a\",\"context\":\"Create-character submission button in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Create\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"创建\",\"translator\":\"Codex\"}}},{\"key\":\"3346\",\"sourceText\":\"Hair Style\",\"sourceSha256\":\"72995a619735750cf9e3c0a1b12758aec2d65d3b8765e3a1a9224da3317a1aae\",\"context\":\"Hair style section title in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Hair Style\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"发型\",\"translator\":\"Codex\"}}},{\"key\":\"3347\",\"sourceText\":\"Hair Color\",\"sourceSha256\":\"1367986aa8ccd6eb227709ce43e49673f87715a3b15e393ce6064b8ed47f586d\",\"context\":\"Hair color section title in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Hair Color\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"发色\",\"translator\":\"Codex\"}}},{\"key\":\"3349\",\"sourceText\":\"%02d:%02d:%02d\",\"sourceSha256\":\"8b922733ea8b376098a1200ec1a57ef9951ad08a699c1dddd709bb3a74668bee\",\"context\":\"Hours, minutes, and seconds format for the CharSelectV4 deletion countdown.\",\"translations\":{\"en\":{\"text\":\"%02d:%02d:%02d\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"%02d:%02d:%02d\",\"translator\":\"Codex\"}}},{\"key\":\"3351\",\"sourceText\":\"Back\",\"sourceSha256\":\"76900f1bfd16c8d4dd3d25e6f46638d7165aee23883ccea6bfe071c514421769\",\"context\":\"Return button in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Back\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回\",\"translator\":\"Codex\"}}},{\"key\":\"3355\",\"sourceText\":\"Create Character\",\"sourceSha256\":\"fd8c3b1965fdb4d2d44f2597ac081124fcad68f3fa3811d118eca2ba3e9b46ee\",\"context\":\"Title of the active CharCreateV4 window.\",\"translations\":{\"en\":{\"text\":\"Create Character\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"创建角色\",\"translator\":\"Codex\"}}},{\"key\":\"1325\",\"sourceText\":\"Block all party invitations.\",\"sourceSha256\":\"8e34f53a1b2bb4a61e769b228fbd68a1f2afb1196d6219890209a3ce3cb1309a\",\"context\":\"PARTY_CONFIG notice when party invitations are blocked; confirmed by rAthena, Group.js, and the roBrowser message table.\",\"translations\":{\"en\":{\"text\":\"Block all party invitations.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"阻止所有队伍邀请。\",\"translator\":\"Codex\"}}},{\"key\":\"1326\",\"sourceText\":\"Allow all party invitations.\",\"sourceSha256\":\"003dc58e223001d5191a4fc3c6a1a01bf861f736d4141dd2fcc4c67d81bcbce9\",\"context\":\"PARTY_CONFIG notice when party invitations are allowed; confirmed by rAthena, Group.js, and the roBrowser message table.\",\"translations\":{\"en\":{\"text\":\"Allow all party invitations.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"允许所有队伍邀请。\",\"translator\":\"Codex\"}}},{\"key\":\"1358\",\"sourceText\":\"Equipment information not open to the public.\",\"sourceSha256\":\"a210212f274117ba8558026fe494bb6584f65ae4a55edbbef8c8b47f5d488414\",\"context\":\"CONFIG notice when equipment information is private; confirmed by rAthena and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Equipment information not open to the public.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备信息未公开。\",\"translator\":\"Codex\"}}},{\"key\":\"1359\",\"sourceText\":\"Equipment information open to the public.\",\"sourceSha256\":\"ef71f81e995eeaaa08de115f3b52854400e06a3c1a7647ea2d09fabd6c13bde0\",\"context\":\"CONFIG notice when equipment information is public; confirmed by rAthena and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Equipment information open to the public.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备信息已公开。\",\"translator\":\"Codex\"}}},{\"key\":\"2579\",\"sourceText\":\"Pet auto-feeding is enabled.\",\"sourceSha256\":\"e914827f8aa79fb1fb4fffb1a74a0419a3ff8d8ef1cf14e7036bb000b5148af1\",\"context\":\"CONFIG_PET_AUTOFEED notice when enabled; confirmed by rAthena clif_configuration and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Pet auto-feeding is enabled.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"宠物自动喂食已开启。\",\"translator\":\"Codex\"}}},{\"key\":\"2580\",\"sourceText\":\"Pet auto-feeding is disabled.\",\"sourceSha256\":\"e4097bdf48eac5e80b9c5767a7653302054ef7b00fdb62c4849c62a31c6a58f8\",\"context\":\"CONFIG_PET_AUTOFEED notice when disabled; confirmed by rAthena clif_configuration and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Pet auto-feeding is disabled.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"宠物自动喂食已关闭。\",\"translator\":\"Codex\"}}},{\"key\":\"2978\",\"sourceText\":\"Call requests are blocked.\",\"sourceSha256\":\"e18a2717aa019a97502c4c8e03803027545b99a8f5fefab5527f70dab7027e25\",\"context\":\"CONFIG_CALL notice when calls are blocked; confirmed by rAthena disable_call and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Call requests are blocked.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"呼叫请求已屏蔽。\",\"translator\":\"Codex\"}}},{\"key\":\"2979\",\"sourceText\":\"Call requests are allowed.\",\"sourceSha256\":\"c203ce63918413728d5c7306de3ff035370f21003893a1690aa47f37a6d0a182\",\"context\":\"CONFIG_CALL notice when calls are allowed; confirmed by rAthena disable_call and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Call requests are allowed.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"呼叫请求已允许。\",\"translator\":\"Codex\"}}},{\"key\":\"3282\",\"sourceText\":\"Homunculus auto-feeding is enabled.\",\"sourceSha256\":\"a40ffc3a6855fbc648a97d2e75d3dec26d1318d28af19bdfee89401d0cb09650\",\"context\":\"CONFIG_HOMUNCULUS_AUTOFEED notice when enabled; confirmed by rAthena and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Homunculus auto-feeding is enabled.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"生命体自动喂食已开启。\",\"translator\":\"Codex\"}}},{\"key\":\"3283\",\"sourceText\":\"Homunculus auto-feeding is disabled.\",\"sourceSha256\":\"a3da7b4f1eac8f1b55ba38b5cd9c0e82aa17ef6e337af9a3a37fbd1b0d0c2879\",\"context\":\"CONFIG_HOMUNCULUS_AUTOFEED notice when disabled; confirmed by rAthena and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Homunculus auto-feeding is disabled.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"生命体自动喂食已关闭。\",\"translator\":\"Codex\"}}}]}}");
+	messages_default = {
+		$schema,
+		catalogVersion: 2,
+		namespaces
+	};
+}));
+//#endregion
+//#region src/Localization/MessageCatalog.js
+function getMessageForLocale(key, locale, fallback = "") {
+	const entry = entries.get(key);
+	if (!entry) return fallback;
+	if (locale === entry.sourceLocale) return entry.sourceText;
+	return entry.translations[locale]?.text || fallback || entry.sourceText;
+}
+function getMessage(key, fallback = "") {
+	return getMessageForLocale(key, Configs.get("locale", "en"), fallback);
+}
+function getLegacyMessage(id, fallback = "") {
+	return getMessage(`robrowser.legacy.${id}`, fallback);
+}
+var entries;
+var init_MessageCatalog = __esmMin((() => {
+	init_Configs();
+	init_messages();
+	entries = /* @__PURE__ */ new Map();
+	for (const [namespace, group] of Object.entries(messages_default.namespaces)) for (const entry of group.entries) entries.set(`${namespace}.${entry.key}`, {
+		...entry,
+		sourceLocale: group.sourceLocale
+	});
 }));
 //#endregion
 //#region src/Network/NetworkManager.js
@@ -205660,7 +205693,7 @@ function onClose$9() {
 		if (_socket.ping) clearInterval(_socket.ping);
 		if (_onDisconnect) _onDisconnect();
 		else __vitePreload(() => Promise.resolve().then(() => (init_UIManager(), UIManager_exports)).then((UIManager) => {
-			UIManager.default.showErrorBox("Disconnected from Server.");
+			UIManager.default.showErrorBox(getMessage("robrowser.ui.login.error.connection-lost", "Connection to the server was lost."));
 		}), void 0, import.meta.url);
 	}
 	if (idx !== -1) _sockets.splice(idx, 1);
@@ -205738,6 +205771,7 @@ var init_NetworkManager = __esmMin((() => {
 	init_PacketLength();
 	init_WebSocket();
 	init_NodeSocket();
+	init_MessageCatalog();
 	init_preload_helper();
 	_sockets = [];
 	_socketFactory = null;
@@ -218361,7 +218395,7 @@ var init_ChatBox$1 = __esmMin((() => {
 //#region src/UI/Components/ChatBoxSettings/ChatBoxSettings.html?raw
 var ChatBoxSettings_default$2;
 var init_ChatBoxSettings$2 = __esmMin((() => {
-	ChatBoxSettings_default$2 = "<div id=\"ChatBoxSettings\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"title\"><span class=\"tabname\"></span> message log settings</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\" data-background=\"basic_interface/chatwin1_mid.bmp\">\r\n		<div class=\"content resize\">\r\n			<div class=\"listoption\">\r\n				<button data-id=\"0\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1291\">\r\n					Public Log\r\n				</button>\r\n				<button data-id=\"1\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1277\">\r\n					Public Chat\r\n				</button>\r\n				<button data-id=\"2\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1278\">Whisper</button>\r\n				<button data-id=\"3\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1279\">Party</button>\r\n				<button data-id=\"4\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1280\">Guild</button>\r\n				<button data-id=\"5\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1281\">Item</button>\r\n				<button data-id=\"6\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1282\">\r\n					Equipment on/off\r\n				</button>\r\n				<button data-id=\"7\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1283\">\r\n					Abnormal Status\r\n				</button>\r\n				<button data-id=\"8\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1284\">\r\n					Party Item\r\n				</button>\r\n				<button data-id=\"9\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1285\">\r\n					Party Status\r\n				</button>\r\n				<button data-id=\"10\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1286\">\r\n					Skill Fail\r\n				</button>\r\n				<button data-id=\"11\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1287\">\r\n					Party Setup\r\n				</button>\r\n				<button data-id=\"12\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1288\">\r\n					Equip Damage\r\n				</button>\r\n				<button data-id=\"13\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1289\">WOE</button>\r\n				<button data-id=\"14\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1549\">\r\n					Party Search\r\n				</button>\r\n				<button data-id=\"15\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1618\">Battle</button>\r\n				<button data-id=\"16\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1619\">\r\n					Party Battle\r\n				</button>\r\n				<button data-id=\"17\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1620\">EXP</button>\r\n				<button data-id=\"18\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1621\">\r\n					Party EXP\r\n				</button>\r\n				<button data-id=\"19\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1622\">Quest</button>\r\n				<button data-id=\"20\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1623\">\r\n					Battlefield\r\n				</button>\r\n				<button data-id=\"21\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"2365\">Clan</button>\r\n				<!--<button data-id=\"22\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"\">Call</button>-->\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n			<div class=\"footer-opt\">All on</div>\r\n		</div>\r\n	</div>\r\n	<button class=\"extend\"></button>\r\n</div>\r\n";
+	ChatBoxSettings_default$2 = "<div id=\"ChatBoxSettings\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"title\"></span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\" data-background=\"basic_interface/chatwin1_mid.bmp\">\r\n		<div class=\"content resize\">\r\n			<div class=\"listoption\">\r\n				<button data-id=\"0\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1291\">\r\n					Public Log\r\n				</button>\r\n				<button data-id=\"1\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1277\">\r\n					Public Chat\r\n				</button>\r\n				<button data-id=\"2\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1278\">Whisper</button>\r\n				<button data-id=\"3\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1279\">Party</button>\r\n				<button data-id=\"4\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1280\">Guild</button>\r\n				<button data-id=\"5\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1281\">Item</button>\r\n				<button data-id=\"6\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1282\">\r\n					Equipment on/off\r\n				</button>\r\n				<button data-id=\"7\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1283\">\r\n					Abnormal Status\r\n				</button>\r\n				<button data-id=\"8\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1284\">\r\n					Party Item\r\n				</button>\r\n				<button data-id=\"9\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1285\">\r\n					Party Status\r\n				</button>\r\n				<button data-id=\"10\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1286\">\r\n					Skill Fail\r\n				</button>\r\n				<button data-id=\"11\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1287\">\r\n					Party Setup\r\n				</button>\r\n				<button data-id=\"12\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1288\">\r\n					Equip Damage\r\n				</button>\r\n				<button data-id=\"13\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1289\">WOE</button>\r\n				<button data-id=\"14\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1549\">\r\n					Party Search\r\n				</button>\r\n				<button data-id=\"15\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1618\">Battle</button>\r\n				<button data-id=\"16\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1619\">\r\n					Party Battle\r\n				</button>\r\n				<button data-id=\"17\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1620\">EXP</button>\r\n				<button data-id=\"18\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1621\">\r\n					Party EXP\r\n				</button>\r\n				<button data-id=\"19\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1622\">Quest</button>\r\n				<button data-id=\"20\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1623\">\r\n					Battlefield\r\n				</button>\r\n				<button data-id=\"21\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"2365\">Clan</button>\r\n				<!--<button data-id=\"22\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"\">Call</button>-->\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n			<div class=\"footer-opt\">All on</div>\r\n		</div>\r\n	</div>\r\n	<button class=\"extend\"></button>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ChatBoxSettings/ChatBoxSettings.css?raw
@@ -218371,6 +218405,20 @@ var init_ChatBoxSettings$1 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/ChatBoxSettings/ChatBoxSettings.js
+function localizeSettings(root) {
+	root.querySelectorAll(".listoption button").forEach((button) => {
+		const index = Number(button.dataset.id);
+		const fallback = button.textContent.trim();
+		button.textContent = getMessage(`robrowser.ui.chat-settings.filter.${FILTER_KEYS[index]}`, fallback);
+	});
+	root.querySelector(".footer-opt").textContent = getMessage("robrowser.ui.chat-settings.all-on", "All on");
+	const closeBtn = root.querySelector(".close");
+	if (closeBtn) {
+		const label = getMessage("robrowser.ui.chat-settings.close", "Close message log settings");
+		closeBtn.title = label;
+		closeBtn.setAttribute("aria-label", label);
+	}
+}
 /**
 * Handle option button click
 */
@@ -218430,7 +218478,7 @@ function resize$5(height) {
 	_preferences$42.height = height;
 	_preferences$42.save();
 }
-var ChatBoxSettings, _preferences$42, ChatBoxSettings_default;
+var FILTER_KEYS, ChatBoxSettings, _preferences$42, ChatBoxSettings_default;
 var init_ChatBoxSettings = __esmMin((() => {
 	init_DBManager();
 	init_Preferences$1();
@@ -218441,6 +218489,31 @@ var init_ChatBoxSettings = __esmMin((() => {
 	init_GUIComponent();
 	init_ChatBoxSettings$2();
 	init_ChatBoxSettings$1();
+	init_MessageCatalog();
+	FILTER_KEYS = [
+		"public-log",
+		"public-chat",
+		"whisper",
+		"party",
+		"guild",
+		"item",
+		"equipment",
+		"abnormal-status",
+		"party-item",
+		"party-status",
+		"skill-fail",
+		"party-setup",
+		"equip-damage",
+		"woe",
+		"party-search",
+		"battle",
+		"party-battle",
+		"exp",
+		"party-exp",
+		"quest",
+		"battlefield",
+		"clan"
+	];
 	ChatBoxSettings = new GUIComponent("ChatBoxSettings", ChatBoxSettings_default$1);
 	/**
 	* Render HTML
@@ -218463,6 +218536,7 @@ var init_ChatBoxSettings = __esmMin((() => {
 	*/
 	ChatBoxSettings.init = function init() {
 		const root = this.getRoot();
+		localizeSettings(root);
 		const extendBtn = root.querySelector(".extend");
 		if (extendBtn) extendBtn.addEventListener("mousedown", onResize$8);
 		const closeBtn = root.querySelector(".close");
@@ -218491,6 +218565,7 @@ var init_ChatBoxSettings = __esmMin((() => {
 	*/
 	ChatBoxSettings.onKeyDown = function onKeyDown(event) {};
 	ChatBoxSettings.toggle = function toggle() {
+		localizeSettings(this.getRoot());
 		if (this._host.style.display === "none") this.ui.show();
 		else this.ui.hide();
 	};
@@ -218499,7 +218574,7 @@ var init_ChatBoxSettings = __esmMin((() => {
 		const optList = ChatBoxSettings.tabOption[tabID];
 		const buttons = root.querySelectorAll(".content .listoption button");
 		this.activeTab = tabID;
-		root.querySelector(".tabname").textContent = tabName;
+		root.querySelector(".title").textContent = getMessage("robrowser.ui.chat-settings.title", "%s Message Log Settings").replace("%s", tabName);
 		buttons.forEach((btn) => {
 			btn.classList.remove("on");
 			Client.loadFile(DB.INTERFACE_PATH + "basic_interface/grp_offline.bmp", (data) => {
@@ -218531,6 +218606,30 @@ var init_ChatBoxSettings = __esmMin((() => {
 */
 function _root$18() {
 	return ChatBox._shadow || ChatBox._host;
+}
+function localizeDefaultTabName(name) {
+	const publicNames = [
+		"NO MSG 1291",
+		"Public Log",
+		"公共记录"
+	];
+	const battleNames = [
+		"NO MSG 1292",
+		"Battle Log",
+		"战斗记录"
+	];
+	if (publicNames.includes(name)) return getMessage("robrowser.ui.chat-box.public-log", "Public Log");
+	if (battleNames.includes(name)) return getMessage("robrowser.ui.chat-box.battle-log", "Battle Log");
+	return name;
+}
+function localizeChatControls(root) {
+	for (const [className, [key, fallback]] of Object.entries(CHAT_CONTROL_LABELS)) {
+		const control = root.querySelector(`.${className}`);
+		if (!control) continue;
+		const label = getMessage(key, fallback);
+		control.title = label;
+		control.setAttribute("aria-label", label);
+	}
 }
 /**
 * Extract plain chat text from the contenteditable input while preserving item links.
@@ -218766,7 +218865,7 @@ function makeResizableDiv() {
 		window.addEventListener("mouseup", stopResize);
 	});
 }
-var MAX_MSG, MAX_LENGTH, MAGIC_NUMBER, _historyMessage, _historyNickName, _heightIndex, _messageBuffer, _rafScheduled, _preferences$41, ChatBox, ChatBox_default;
+var MAX_MSG, MAX_LENGTH, MAGIC_NUMBER, _historyMessage, _historyNickName, _heightIndex, _messageBuffer, _rafScheduled, _preferences$41, ChatBox, CHAT_CONTROL_LABELS, ChatBox_default;
 var init_ChatBox = __esmMin((() => {
 	init_DBManager();
 	init_Renderer();
@@ -218788,6 +218887,7 @@ var init_ChatBox = __esmMin((() => {
 	init_ChatBoxSettings();
 	init_Configs();
 	init_EntityManager();
+	init_MessageCatalog();
 	MAX_MSG = 400;
 	MAX_LENGTH = 100;
 	MAGIC_NUMBER = 42;
@@ -218810,6 +218910,17 @@ var init_ChatBox = __esmMin((() => {
 		activeTab: 0
 	}, 1);
 	ChatBox = new GUIComponent("ChatBox", ChatBox_default$1);
+	CHAT_CONTROL_LABELS = {
+		chatmode: ["robrowser.ui.chat-box.toggle-input", "Toggle chat input"],
+		battleopt: ["robrowser.ui.chat-box.settings", "Chat log settings"],
+		stickfucn: ["robrowser.ui.chat-box.pin", "Pin chat window"],
+		battleopt2: ["robrowser.ui.chat-box.add-tab", "Add chat tab"],
+		wndminib: ["robrowser.ui.chat-box.remove-tab", "Remove chat tab"],
+		lockdragwnd: ["robrowser.ui.chat-box.lock", "Lock chat window"],
+		list: ["robrowser.ui.chat-box.whisper-recipient", "Select whisper recipient"],
+		filter: ["robrowser.ui.chat-box.channel", "Select chat channel"],
+		size: ["robrowser.ui.chat-box.resize", "Resize chat window"]
+	};
 	/**
 	* Render HTML
 	*/
@@ -218879,6 +218990,7 @@ var init_ChatBox = __esmMin((() => {
 	*/
 	ChatBox.init = function init() {
 		const root = _root$18();
+		localizeChatControls(root);
 		if (!ContextMenu_default.__loaded) ContextMenu_default.prepare();
 		_heightIndex = _preferences$41.height - 1;
 		ChatBox.updateHeight();
@@ -219061,10 +219173,10 @@ var init_ChatBox = __esmMin((() => {
 				const ui = ContextMenu_default.ui.find(".menu");
 				ContextMenu_default.remove();
 				ContextMenu_default.append();
-				ContextMenu_default.addElement(DB.getMessage(85), onChangeTargetMessage(ChatBox.TYPE.PUBLIC));
-				ContextMenu_default.addElement(DB.getMessage(86), onChangeTargetMessage(ChatBox.TYPE.PARTY));
-				ContextMenu_default.addElement(DB.getMessage(437), onChangeTargetMessage(ChatBox.TYPE.GUILD));
-				ContextMenu_default.addElement(DB.getMessage(2361), onChangeTargetMessage(ChatBox.TYPE.CLAN));
+				ContextMenu_default.addElement(getMessage("robrowser.ui.chat-box.target.public", "Public"), onChangeTargetMessage(ChatBox.TYPE.PUBLIC));
+				ContextMenu_default.addElement(getMessage("robrowser.ui.chat-box.target.party", "Party"), onChangeTargetMessage(ChatBox.TYPE.PARTY));
+				ContextMenu_default.addElement(getMessage("robrowser.ui.chat-box.target.guild", "Guild"), onChangeTargetMessage(ChatBox.TYPE.GUILD));
+				ContextMenu_default.addElement(getMessage("robrowser.ui.chat-box.target.clan", "Clan"), onChangeTargetMessage(ChatBox.TYPE.CLAN));
 				ui.css({
 					top: pos.top - ui.height() - 5,
 					left: pos.left - ui.width() + 25
@@ -219132,9 +219244,9 @@ var init_ChatBox = __esmMin((() => {
 				Mouse.screen.y = event.pageY;
 				ContextMenu_default.remove();
 				ContextMenu_default.append();
-				ContextMenu_default.addElement("Chat font x1.0", setChatFontScale(1));
-				ContextMenu_default.addElement("Chat font x1.2", setChatFontScale(1.2));
-				ContextMenu_default.addElement("Chat font x1.4", setChatFontScale(1.4));
+				ContextMenu_default.addElement(getMessage("robrowser.ui.chat-box.font-100", "Chat font x1.0"), setChatFontScale(1));
+				ContextMenu_default.addElement(getMessage("robrowser.ui.chat-box.font-120", "Chat font x1.2"), setChatFontScale(1.2));
+				ContextMenu_default.addElement(getMessage("robrowser.ui.chat-box.font-140", "Chat font x1.4"), setChatFontScale(1.4));
 			}
 		});
 		if (chatboxEl) chatboxEl.addEventListener("mousedown", (event) => {
@@ -219176,13 +219288,13 @@ var init_ChatBox = __esmMin((() => {
 		ChatBoxSettings_default.append();
 		if (_preferences$41.tabs.length > 0 && _preferences$41.tabs.length == _preferences$41.tabOption.length) {
 			for (let i = 0; i < _preferences$41.tabs.length; i++) if (_preferences$41.tabs[i]) {
-				const tabName = _preferences$41.tabs[i].name;
+				const tabName = localizeDefaultTabName(_preferences$41.tabs[i].name);
 				const tabSettings = _preferences$41.tabOption[i];
 				ChatBox.addNewTab(tabName, tabSettings);
 			}
 			if (_preferences$41.activeTab !== void 0 && ChatBox.tabs[_preferences$41.activeTab]) ChatBox.switchTab(_preferences$41.activeTab);
 		} else {
-			const firstTab = ChatBox.addNewTab(DB.getMessage(1291), [
+			const firstTab = ChatBox.addNewTab(getLegacyMessage(1291, "Public Log"), [
 				ChatBox.FILTER.PUBLIC_LOG,
 				ChatBox.FILTER.PUBLIC_CHAT,
 				ChatBox.FILTER.WHISPER,
@@ -219202,7 +219314,7 @@ var init_ChatBox = __esmMin((() => {
 				ChatBox.FILTER.BATTLEFIELD,
 				ChatBox.FILTER.CLAN
 			]);
-			ChatBox.addNewTab(DB.getMessage(1292));
+			ChatBox.addNewTab(getLegacyMessage(1292, "Battle Log"));
 			ChatBox.switchTab(firstTab);
 		}
 		makeResizableDiv();
@@ -219252,7 +219364,7 @@ var init_ChatBox = __esmMin((() => {
 	};
 	ChatBox.addNewTab = function addNewTab(name, settings) {
 		const root = _root$18();
-		if (!name) name = "New Tab";
+		if (!name) name = getMessage("robrowser.ui.chat-box.new-tab", "New Tab");
 		if (!settings) settings = [
 			ChatBox.FILTER.PUBLIC_LOG,
 			ChatBox.FILTER.PUBLIC_CHAT,
@@ -219328,6 +219440,15 @@ var init_ChatBox = __esmMin((() => {
 	*/
 	ChatBox.onAppend = function OnAppend() {
 		const root = _root$18();
+		localizeChatControls(root);
+		root.querySelectorAll("table.header tr td.tab").forEach((tabElement) => {
+			const tabID = Number(tabElement.dataset.tab);
+			const input = tabElement.querySelector("input");
+			if (!input) return;
+			const localizedName = localizeDefaultTabName(input.value);
+			input.value = localizedName;
+			if (this.tabs[tabID]) this.tabs[tabID].name = localizedName;
+		});
 		const inputEl = root.querySelector(".input");
 		if (inputEl) inputEl.style.display = "none";
 		const bmEl = root.querySelector(".battlemode");
@@ -220697,6 +220818,7 @@ var init_InputBox = __esmMin((() => {
 	init_Elements();
 	init_InputBox$2();
 	init_InputBox$1();
+	init_MessageCatalog();
 	InputBox = new GUIComponent("InputBox", InputBox_default$1);
 	InputBox.render = () => InputBox_default$2;
 	/**
@@ -220823,7 +220945,7 @@ var init_InputBox = __esmMin((() => {
 				break;
 			case "birthdate":
 				innerRoot.classList.remove("number");
-				if (textEl) textEl.textContent = DB.getMessage(1815);
+				if (textEl) textEl.textContent = getMessage("robrowser.legacy.1815", DB.getMessage(1815));
 				if (input) input.type = "text";
 				break;
 			case "item":
@@ -227948,6 +228070,15 @@ function createWinStats({ name, htmlText, cssText, hasTraits }) {
 		this.t_statuspoint = 0;
 		this.draggable(".titlebar");
 		_root = this.getRoot();
+		setText(".titlebar .text", getMessage("robrowser.ui.win-stats.title", "Status"));
+		const baseDescriptions = _root.querySelectorAll(".status_panel_tooltip .hover");
+		BASE_STAT_DESCRIPTIONS.forEach((message, index) => {
+			if (baseDescriptions[index]) baseDescriptions[index].textContent = getMessage(message[0], message[1]);
+		});
+		const combatDescriptions = [..._root.querySelectorAll(".column1_tooltip .hover"), ..._root.querySelectorAll(".column2_tooltip .hover")];
+		COMBAT_STAT_DESCRIPTIONS.forEach((message, index) => {
+			if (combatDescriptions[index]) combatDescriptions[index].textContent = getMessage(message[0], message[1]);
+		});
 		_root.querySelectorAll(".up button").forEach((btn) => {
 			btn.addEventListener("mousedown", () => {
 				const id = statButtonMap[btn.className];
@@ -227962,6 +228093,8 @@ function createWinStats({ name, htmlText, cssText, hasTraits }) {
 		});
 		const miniBtn = _root.querySelector(".titlebar .mini");
 		if (miniBtn) {
+			miniBtn.title = getMessage("robrowser.ui.win-stats.collapse", "Collapse or expand status window");
+			miniBtn.setAttribute("aria-label", miniBtn.title);
 			miniBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
 			miniBtn.addEventListener("click", () => {
 				const panel = _root.querySelector(".panel");
@@ -227970,6 +228103,8 @@ function createWinStats({ name, htmlText, cssText, hasTraits }) {
 		}
 		const closeBtn = _root.querySelector(".titlebar .close");
 		if (closeBtn) {
+			closeBtn.title = getMessage("robrowser.ui.win-stats.close", "Close status window");
+			closeBtn.setAttribute("aria-label", closeBtn.title);
 			closeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
 			closeBtn.addEventListener("click", () => {
 				this._host.style.display = "none";
@@ -228184,6 +228319,7 @@ function createWinStats({ name, htmlText, cssText, hasTraits }) {
 	Component.onRequestUpdate = function onRequestUpdate() {};
 	return UIManager.addComponent(Component);
 }
+var BASE_STAT_DESCRIPTIONS, COMBAT_STAT_DESCRIPTIONS;
 var init_WinStatsCommon = __esmMin((() => {
 	init_DBManager();
 	init_Client();
@@ -228192,6 +228328,27 @@ var init_WinStatsCommon = __esmMin((() => {
 	init_SessionStorage();
 	init_Preferences$1();
 	init_Renderer();
+	init_MessageCatalog();
+	BASE_STAT_DESCRIPTIONS = [
+		["robrowser.ui.win-stats.str-description", "STR: Physical attack power and carrying capacity."],
+		["robrowser.ui.win-stats.agi-description", "AGI: Attack speed and flee rate."],
+		["robrowser.ui.win-stats.vit-description", "VIT: Maximum HP, HP recovery, and physical defense."],
+		["robrowser.ui.win-stats.int-description", "INT: Maximum SP, magic attack, and magic defense."],
+		["robrowser.ui.win-stats.dex-description", "DEX: Accuracy, casting time, and ranged attack power."],
+		["robrowser.ui.win-stats.luk-description", "LUK: Critical rate, perfect dodge, and other combat bonuses."]
+	];
+	COMBAT_STAT_DESCRIPTIONS = [
+		["robrowser.ui.win-stats.atk-description", "ATK: Physical attack power."],
+		["robrowser.ui.win-stats.matk-description", "MATK: Magic attack power."],
+		["robrowser.ui.win-stats.hit-description", "HIT: Accuracy."],
+		["robrowser.ui.win-stats.critical-description", "Critical: Critical attack rate."],
+		["robrowser.ui.win-stats.status-point-description", "Status Point: Points available for base attributes."],
+		["robrowser.ui.win-stats.guild-description", "Guild: Current guild name."],
+		["robrowser.ui.win-stats.def-description", "DEF: Physical defense."],
+		["robrowser.ui.win-stats.mdef-description", "MDEF: Magic defense."],
+		["robrowser.ui.win-stats.flee-description", "FLEE: Evasion rate."],
+		["robrowser.ui.win-stats.aspd-description", "ASPD: Attack speed."]
+	];
 }));
 //#endregion
 //#region src/UI/Components/WinStats/WinStats/WinStats.js
@@ -230051,215 +230208,34 @@ var init_GraphicsOption = __esmMin((() => {
 //#region src/UI/Components/ShortCutOption/ShortCutOption.html?raw
 var ShortCutOption_default$2;
 var init_ShortCutOption$2 = __esmMin((() => {
-	ShortCutOption_default$2 = "<div id=\"ShortCutOption\" class=\"pt-page-fadeIn1\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\"><span class=\"text\">Shortcut key setting window</span></div>\r\n\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"tabs\">\r\n			<button class=\"t_skillbar selectedtab\" data-index=\"t_skillbar\">Skill Bar</button\r\n			><button class=\"t_ui\" data-index=\"t_ui\">Interface</button\r\n			><button class=\"t_macro\" data-index=\"t_macro\">Macros</button\r\n			><button class=\"t_gamepad\" data-index=\"t_gamepad\">Gamepad</button>\r\n		</div>\r\n		<div class=\"panel\">\r\n			<div class=\"content t_skillbar selectedtab\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Skill bar 1-1</td>\r\n							<td data-button=\"F1_1\" class=\"customize\"></td>\r\n							<td>Skill bar 2-1</td>\r\n							<td data-button=\"F2_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-2</td>\r\n							<td data-button=\"F1_2\" class=\"customize\"></td>\r\n							<td>Skill bar 2-2</td>\r\n							<td data-button=\"F2_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-3</td>\r\n							<td data-button=\"F1_3\" class=\"customize\"></td>\r\n							<td>Skill bar 2-3</td>\r\n							<td data-button=\"F2_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-4</td>\r\n							<td data-button=\"F1_4\" class=\"customize\"></td>\r\n							<td>Skill bar 2-4</td>\r\n							<td data-button=\"F2_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-5</td>\r\n							<td data-button=\"F1_5\" class=\"customize\"></td>\r\n							<td>Skill bar 2-5</td>\r\n							<td data-button=\"F2_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-6</td>\r\n							<td data-button=\"F1_6\" class=\"customize\"></td>\r\n							<td>Skill bar 2-6</td>\r\n							<td data-button=\"F2_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-7</td>\r\n							<td data-button=\"F1_7\" class=\"customize\"></td>\r\n							<td>Skill bar 2-7</td>\r\n							<td data-button=\"F2_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-8</td>\r\n							<td data-button=\"F1_8\" class=\"customize\"></td>\r\n							<td>Skill bar 2-8</td>\r\n							<td data-button=\"F2_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-9</td>\r\n							<td data-button=\"F1_9\" class=\"customize\"></td>\r\n							<td>Skill bar 2-9</td>\r\n							<td data-button=\"F2_9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-1</td>\r\n							<td data-button=\"F3_1\" class=\"customize\"></td>\r\n							<td>Skill bar 4-1</td>\r\n							<td data-button=\"F4_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-2</td>\r\n							<td data-button=\"F3_2\" class=\"customize\"></td>\r\n							<td>Skill bar 4-2</td>\r\n							<td data-button=\"F4_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-3</td>\r\n							<td data-button=\"F3_3\" class=\"customize\"></td>\r\n							<td>Skill bar 4-3</td>\r\n							<td data-button=\"F4_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-4</td>\r\n							<td data-button=\"F3_4\" class=\"customize\"></td>\r\n							<td>Skill bar 4-4</td>\r\n							<td data-button=\"F4_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-5</td>\r\n							<td data-button=\"F3_5\" class=\"customize\"></td>\r\n							<td>Skill bar 4-5</td>\r\n							<td data-button=\"F4_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-6</td>\r\n							<td data-button=\"F3_6\" class=\"customize\"></td>\r\n							<td>Skill bar 4-6</td>\r\n							<td data-button=\"F4_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-7</td>\r\n							<td data-button=\"F3_7\" class=\"customize\"></td>\r\n							<td>Skill bar 4-7</td>\r\n							<td data-button=\"F4_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-8</td>\r\n							<td data-button=\"F3_8\" class=\"customize\"></td>\r\n							<td>Skill bar 4-8</td>\r\n							<td data-button=\"F4_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-9</td>\r\n							<td data-button=\"F3_9\" class=\"customize\"></td>\r\n							<td>Skill bar 4-9</td>\r\n							<td data-button=\"F4_9\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_ui\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_BASICINFOWND_MINI\">Basic Info</td>\r\n							<td data-button=\"BasicInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"MSI_HK_EQUIPWND_ONOFF\">Character Info</td>\r\n							<td data-button=\"Equipment\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_SKILLWND_ONOFF\">Skill List</td>\r\n							<td data-button=\"SkillList\" class=\"customize\"></td>\r\n							<td>Emotion List</td>\r\n							<td data-button=\"Emotions\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_FRIENDWND_ONOFF\">Friends List</td>\r\n							<td data-button=\"Friends\" class=\"customize\"></td>\r\n							<td data-locale-key=\"MSI_HK_PARTYWND_ONOFF\">Party Window</td>\r\n							<td data-button=\"Party\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Pet Info</td>\r\n							<td data-button=\"PetInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"MSI_HK_CHATWND_MAKE\">Chat Room</td>\r\n							<td data-button=\"ChatRoom\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_CARTWND_ONOFF\">Cart Window</td>\r\n							<td data-button=\"PushCart\" class=\"customize\"></td>\r\n							<td data-locale-key=\"MSI_HK_ITEMWND_ONOFF\">Item Window</td>\r\n							<td data-button=\"Inventory\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_MAPWND_ONOFF\">World Map</td>\r\n							<td data-button=\"WorldMap\" class=\"customize\"></td>\r\n							<td>Guild Info</td>\r\n							<td data-button=\"Guild\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus Info</td>\r\n							<td data-button=\"HomunInfo\" class=\"customize\"></td>\r\n							<td>Mercenary Info</td>\r\n							<td data-button=\"MercInfo\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus State</td>\r\n							<td data-button=\"HomunState\" class=\"customize\"></td>\r\n							<td>Mercenary State</td>\r\n							<td data-button=\"MercState\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Sit/Stand</td>\r\n							<td data-button=\"Sit\" class=\"customize\"></td>\r\n							<td>Short Cuts</td>\r\n							<td data-button=\"ShortCuts\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Chat Bar Size</td>\r\n							<td data-button=\"ChatSize\" class=\"customize\"></td>\r\n							<td>Skill Bar Size</td>\r\n							<td data-button=\"SkillBarSize\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"MSI_HK_QUESTWND_ONOFF\">Quest</td>\r\n							<td data-button=\"Quest\" class=\"customize\"></td>\r\n							<td>Bank</td>\r\n							<td data-button=\"Bank\" class=\"customize\"></td>\r\n						</tr>\r\n						<!--<tr>\r\n                     <td>MobileUI</td>\r\n                     <td data-button=\"M_UI\" class=\"customize\"></td>\r\n                     <td>MUi-Toggle</td>\r\n                     <td data-button=\"M_Toggle\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-TG</td>\r\n                     <td data-button=\"M_Targeting\" class=\"customize\"></td>\r\n                     <td>MUi-AT</td>\r\n                     <td data-button=\"M_AutoTarget\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-ATK</td>\r\n                     <td data-button=\"M_Attack\" class=\"customize\"></td>\r\n                  </tr>-->\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_macro\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Macro 1</td>\r\n							<td data-button=\"Macro1\" class=\"customize\"></td>\r\n							<td>Flag 1</td>\r\n							<td data-button=\"Flag1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 2</td>\r\n							<td data-button=\"Macro2\" class=\"customize\"></td>\r\n							<td>Flag 2</td>\r\n							<td data-button=\"Flag2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 3</td>\r\n							<td data-button=\"Macro3\" class=\"customize\"></td>\r\n							<td>Flag 3</td>\r\n							<td data-button=\"Flag3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 4</td>\r\n							<td data-button=\"Macro4\" class=\"customize\"></td>\r\n							<td>Flag 4</td>\r\n							<td data-button=\"Flag4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 5</td>\r\n							<td data-button=\"Macro5\" class=\"customize\"></td>\r\n							<td>Flag 5</td>\r\n							<td data-button=\"Flag5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 6</td>\r\n							<td data-button=\"Macro6\" class=\"customize\"></td>\r\n							<td>Flag 6</td>\r\n							<td data-button=\"Flag6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 7</td>\r\n							<td data-button=\"Macro7\" class=\"customize\"></td>\r\n							<td>Flag 7</td>\r\n							<td data-button=\"Flag7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 8</td>\r\n							<td data-button=\"Macro8\" class=\"customize\"></td>\r\n							<td>Flag 8</td>\r\n							<td data-button=\"Flag8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 9</td>\r\n							<td data-button=\"Macro9\" class=\"customize\"></td>\r\n							<td>Flag 9</td>\r\n							<td data-button=\"Flag9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 10</td>\r\n							<td data-button=\"Macro10\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_gamepad\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr title=\"Define how targets are selected in combat\">\r\n							<td>Attack Target Mode</td>\r\n							<td>\r\n								<select class=\"attackTargetMode\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Lowest HP</option>\r\n									<option value=\"2\">Closest</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Choose how skills are cast with gamepad\">\r\n							<td>Quick-Cast Mode</td>\r\n							<td>\r\n								<select class=\"joyQuick\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Release Mode</option>\r\n									<option value=\"2\">Instant Mode</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Adjust mouse movement sensitivity for R3 stick\">\r\n							<td>Mouse Move</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Sensitivity:\r\n									<input\r\n										class=\"joySense\"\r\n										type=\"range\"\r\n										value=\"25.0\"\r\n										min=\"1.0\"\r\n										max=\"100.0\"\r\n										step=\"1.0\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Disable mouse input from gamepad for UI interaction\">\r\n							<td>Disable Virtual Mouse</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyDisableVirtualMouse\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Swap L3 and R3 stick functions\">\r\n							<td>Swap L3-R3 Sticks</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyReverseStick\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Automatically hide UI during gameplay mouse movement\">\r\n							<td>Auto Hide UI</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyAutoHide\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Set deadzone threshold for analog sticks\">\r\n							<td>Axis Threshold</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Deadline:\r\n									<input\r\n										class=\"joyDeadline\"\r\n										type=\"range\"\r\n										value=\"0.10\"\r\n										min=\"0.0\"\r\n										max=\"1.0\"\r\n										step=\"0.1\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<button\r\n				class=\"button reset left\"\r\n				data-background=\"btn_reset.bmp\"\r\n				data-hover=\"btn_reset_a.bmp\"\r\n				data-down=\"btn_reset_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button ok right\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button cancel right\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button close right\"\r\n				data-background=\"btn_close.bmp\"\r\n				data-hover=\"btn_close_a.bmp\"\r\n				data-down=\"btn_close_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	ShortCutOption_default$2 = "<div id=\"ShortCutOption\" class=\"pt-page-fadeIn1\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\">\r\n				<span class=\"text\" data-locale-key=\"robrowser.ui.shortcut-settings.title\">Shortcut key settings</span>\r\n			</div>\r\n\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"tabs\">\r\n			<button\r\n				class=\"t_skillbar selectedtab\"\r\n				data-index=\"t_skillbar\"\r\n				data-locale-key=\"robrowser.ui.shortcut-settings.tab.skill-bar\"\r\n			>\r\n				Skill Bar</button\r\n			><button class=\"t_ui\" data-index=\"t_ui\" data-locale-key=\"robrowser.ui.shortcut-settings.tab.interface\">\r\n				Interface</button\r\n			><button class=\"t_macro\" data-index=\"t_macro\" data-locale-key=\"robrowser.ui.shortcut-settings.tab.macros\">\r\n				Macros</button\r\n			><button\r\n				class=\"t_gamepad\"\r\n				data-index=\"t_gamepad\"\r\n				data-locale-key=\"robrowser.ui.shortcut-settings.tab.gamepad\"\r\n			>\r\n				Gamepad\r\n			</button>\r\n		</div>\r\n		<div class=\"panel\">\r\n			<div class=\"content t_skillbar selectedtab\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Skill bar 1-1</td>\r\n							<td data-button=\"F1_1\" class=\"customize\"></td>\r\n							<td>Skill bar 2-1</td>\r\n							<td data-button=\"F2_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-2</td>\r\n							<td data-button=\"F1_2\" class=\"customize\"></td>\r\n							<td>Skill bar 2-2</td>\r\n							<td data-button=\"F2_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-3</td>\r\n							<td data-button=\"F1_3\" class=\"customize\"></td>\r\n							<td>Skill bar 2-3</td>\r\n							<td data-button=\"F2_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-4</td>\r\n							<td data-button=\"F1_4\" class=\"customize\"></td>\r\n							<td>Skill bar 2-4</td>\r\n							<td data-button=\"F2_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-5</td>\r\n							<td data-button=\"F1_5\" class=\"customize\"></td>\r\n							<td>Skill bar 2-5</td>\r\n							<td data-button=\"F2_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-6</td>\r\n							<td data-button=\"F1_6\" class=\"customize\"></td>\r\n							<td>Skill bar 2-6</td>\r\n							<td data-button=\"F2_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-7</td>\r\n							<td data-button=\"F1_7\" class=\"customize\"></td>\r\n							<td>Skill bar 2-7</td>\r\n							<td data-button=\"F2_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-8</td>\r\n							<td data-button=\"F1_8\" class=\"customize\"></td>\r\n							<td>Skill bar 2-8</td>\r\n							<td data-button=\"F2_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-9</td>\r\n							<td data-button=\"F1_9\" class=\"customize\"></td>\r\n							<td>Skill bar 2-9</td>\r\n							<td data-button=\"F2_9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-1</td>\r\n							<td data-button=\"F3_1\" class=\"customize\"></td>\r\n							<td>Skill bar 4-1</td>\r\n							<td data-button=\"F4_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-2</td>\r\n							<td data-button=\"F3_2\" class=\"customize\"></td>\r\n							<td>Skill bar 4-2</td>\r\n							<td data-button=\"F4_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-3</td>\r\n							<td data-button=\"F3_3\" class=\"customize\"></td>\r\n							<td>Skill bar 4-3</td>\r\n							<td data-button=\"F4_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-4</td>\r\n							<td data-button=\"F3_4\" class=\"customize\"></td>\r\n							<td>Skill bar 4-4</td>\r\n							<td data-button=\"F4_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-5</td>\r\n							<td data-button=\"F3_5\" class=\"customize\"></td>\r\n							<td>Skill bar 4-5</td>\r\n							<td data-button=\"F4_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-6</td>\r\n							<td data-button=\"F3_6\" class=\"customize\"></td>\r\n							<td>Skill bar 4-6</td>\r\n							<td data-button=\"F4_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-7</td>\r\n							<td data-button=\"F3_7\" class=\"customize\"></td>\r\n							<td>Skill bar 4-7</td>\r\n							<td data-button=\"F4_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-8</td>\r\n							<td data-button=\"F3_8\" class=\"customize\"></td>\r\n							<td>Skill bar 4-8</td>\r\n							<td data-button=\"F4_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-9</td>\r\n							<td data-button=\"F3_9\" class=\"customize\"></td>\r\n							<td>Skill bar 4-9</td>\r\n							<td data-button=\"F4_9\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_ui\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_BASICINFOWND_MINI\">Basic Info</td>\r\n							<td data-button=\"BasicInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_EQUIPWND_ONOFF\">Character Info</td>\r\n							<td data-button=\"Equipment\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_SKILLWND_ONOFF\">Skill List</td>\r\n							<td data-button=\"SkillList\" class=\"customize\"></td>\r\n							<td>Emotion List</td>\r\n							<td data-button=\"Emotions\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_FRIENDWND_ONOFF\">Friends List</td>\r\n							<td data-button=\"Friends\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_PARTYWND_ONOFF\">Party Window</td>\r\n							<td data-button=\"Party\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Pet Info</td>\r\n							<td data-button=\"PetInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_CHATWND_MAKE\">Chat Room</td>\r\n							<td data-button=\"ChatRoom\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_CARTWND_ONOFF\">Cart Window</td>\r\n							<td data-button=\"PushCart\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_ITEMWND_ONOFF\">Item Window</td>\r\n							<td data-button=\"Inventory\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_MAPWND_ONOFF\">World Map</td>\r\n							<td data-button=\"WorldMap\" class=\"customize\"></td>\r\n							<td>Guild Info</td>\r\n							<td data-button=\"Guild\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus Info</td>\r\n							<td data-button=\"HomunInfo\" class=\"customize\"></td>\r\n							<td>Mercenary Info</td>\r\n							<td data-button=\"MercInfo\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus State</td>\r\n							<td data-button=\"HomunState\" class=\"customize\"></td>\r\n							<td>Mercenary State</td>\r\n							<td data-button=\"MercState\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Sit/Stand</td>\r\n							<td data-button=\"Sit\" class=\"customize\"></td>\r\n							<td>Short Cuts</td>\r\n							<td data-button=\"ShortCuts\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Chat Bar Size</td>\r\n							<td data-button=\"ChatSize\" class=\"customize\"></td>\r\n							<td>Skill Bar Size</td>\r\n							<td data-button=\"SkillBarSize\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_QUESTWND_ONOFF\">Quest</td>\r\n							<td data-button=\"Quest\" class=\"customize\"></td>\r\n							<td>Bank</td>\r\n							<td data-button=\"Bank\" class=\"customize\"></td>\r\n						</tr>\r\n						<!--<tr>\r\n                     <td>MobileUI</td>\r\n                     <td data-button=\"M_UI\" class=\"customize\"></td>\r\n                     <td>MUi-Toggle</td>\r\n                     <td data-button=\"M_Toggle\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-TG</td>\r\n                     <td data-button=\"M_Targeting\" class=\"customize\"></td>\r\n                     <td>MUi-AT</td>\r\n                     <td data-button=\"M_AutoTarget\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-ATK</td>\r\n                     <td data-button=\"M_Attack\" class=\"customize\"></td>\r\n                  </tr>-->\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_macro\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Macro 1</td>\r\n							<td data-button=\"Macro1\" class=\"customize\"></td>\r\n							<td>Flag 1</td>\r\n							<td data-button=\"Flag1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 2</td>\r\n							<td data-button=\"Macro2\" class=\"customize\"></td>\r\n							<td>Flag 2</td>\r\n							<td data-button=\"Flag2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 3</td>\r\n							<td data-button=\"Macro3\" class=\"customize\"></td>\r\n							<td>Flag 3</td>\r\n							<td data-button=\"Flag3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 4</td>\r\n							<td data-button=\"Macro4\" class=\"customize\"></td>\r\n							<td>Flag 4</td>\r\n							<td data-button=\"Flag4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 5</td>\r\n							<td data-button=\"Macro5\" class=\"customize\"></td>\r\n							<td>Flag 5</td>\r\n							<td data-button=\"Flag5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 6</td>\r\n							<td data-button=\"Macro6\" class=\"customize\"></td>\r\n							<td>Flag 6</td>\r\n							<td data-button=\"Flag6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 7</td>\r\n							<td data-button=\"Macro7\" class=\"customize\"></td>\r\n							<td>Flag 7</td>\r\n							<td data-button=\"Flag7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 8</td>\r\n							<td data-button=\"Macro8\" class=\"customize\"></td>\r\n							<td>Flag 8</td>\r\n							<td data-button=\"Flag8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 9</td>\r\n							<td data-button=\"Macro9\" class=\"customize\"></td>\r\n							<td>Flag 9</td>\r\n							<td data-button=\"Flag9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 10</td>\r\n							<td data-button=\"Macro10\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_gamepad\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr title=\"Define how targets are selected in combat\">\r\n							<td>Attack Target Mode</td>\r\n							<td>\r\n								<select class=\"attackTargetMode\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Lowest HP</option>\r\n									<option value=\"2\">Closest</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Choose how skills are cast with gamepad\">\r\n							<td>Quick-Cast Mode</td>\r\n							<td>\r\n								<select class=\"joyQuick\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Release Mode</option>\r\n									<option value=\"2\">Instant Mode</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Adjust mouse movement sensitivity for R3 stick\">\r\n							<td>Mouse Move</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Sensitivity:\r\n									<input\r\n										class=\"joySense\"\r\n										type=\"range\"\r\n										value=\"25.0\"\r\n										min=\"1.0\"\r\n										max=\"100.0\"\r\n										step=\"1.0\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Disable mouse input from gamepad for UI interaction\">\r\n							<td>Disable Virtual Mouse</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyDisableVirtualMouse\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Swap L3 and R3 stick functions\">\r\n							<td>Swap L3-R3 Sticks</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyReverseStick\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Automatically hide UI during gameplay mouse movement\">\r\n							<td>Auto Hide UI</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyAutoHide\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Set deadzone threshold for analog sticks\">\r\n							<td>Axis Threshold</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Deadline:\r\n									<input\r\n										class=\"joyDeadline\"\r\n										type=\"range\"\r\n										value=\"0.10\"\r\n										min=\"0.0\"\r\n										max=\"1.0\"\r\n										step=\"0.1\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<button\r\n				class=\"button reset left\"\r\n				data-background=\"btn_reset.bmp\"\r\n				data-hover=\"btn_reset_a.bmp\"\r\n				data-down=\"btn_reset_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button ok right\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button cancel right\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button close right\"\r\n				data-background=\"btn_close.bmp\"\r\n				data-hover=\"btn_close_a.bmp\"\r\n				data-down=\"btn_close_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ShortCutOption/ShortCutOption.css?raw
 var ShortCutOption_default$1;
 var init_ShortCutOption$1 = __esmMin((() => {
-	ShortCutOption_default$1 = ":host {\r\n	width: 430px;\r\n	height: 465px;\r\n	top: 300px;\r\n	left: 300px;\r\n}\r\n\r\n#ShortCutOption {\r\n	position: absolute;\r\n	box-sizing: border-box;\r\n	width: 430px;\r\n	height: 465px;\r\n	background: white;\r\n	border-radius: 3px;\r\n	border: solid 1px #aaa;\r\n	border-top: none;\r\n}\r\n#ShortCutOption .border {\r\n}\r\n#ShortCutOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	border-bottom: solid 1px #eee;\r\n}\r\n#ShortCutOption .titlebar .base {\r\n	width: 20px;\r\n	height: 100%;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n	background-position: 8px 2px;\r\n}\r\n#ShortCutOption .titlebar .base.close {\r\n	color: #ccc;\r\n}\r\n#ShortCutOption .titlebar .text {\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	line-height: 17px;\r\n	margin-left: 5px;\r\n}\r\n#ShortCutOption .titlebar .left {\r\n	float: left;\r\n}\r\n#ShortCutOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n	height: 100%;\r\n}\r\n#ShortCutOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n#ShortCutOption .tabs {\r\n	position: relative;\r\n	top: 1px;\r\n	border-right: solid 1px #ccc;\r\n}\r\n#ShortCutOption .tabs button.selectedtab {\r\n	border-bottom: solid 1px transparent;\r\n}\r\n#ShortCutOption .tabs button {\r\n	width: 57px;\r\n	height: 18px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #fff;\r\n	border: solid 1px #bbb;\r\n	border-top-right-radius: 3px;\r\n	border-top-left-radius: 3px;\r\n}\r\n#ShortCutOption .tabs button:nth-child(1) {\r\n	border-right: none;\r\n}\r\n#ShortCutOption .panel {\r\n	padding: 5px;\r\n	border-top: solid 1px #ccc;\r\n}\r\n#ShortCutOption .panel .content {\r\n	display: none;\r\n}\r\n#ShortCutOption .content.selectedtab {\r\n	display: block;\r\n}\r\n#ShortCutOption .content table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n	color: #222;\r\n}\r\n#ShortCutOption .content table tr {\r\n	height: 22px;\r\n}\r\n#ShortCutOption .content table td {\r\n	text-align: center;\r\n}\r\n#ShortCutOption .content table td:nth-child(1),\r\n#ShortCutOption .content table td:nth-child(3) {\r\n	width: 30%;\r\n}\r\n#ShortCutOption .content table td:nth-child(2),\r\n#ShortCutOption .content table td:nth-child(4) {\r\n	width: 20%;\r\n	background-color: #eee;\r\n}\r\n#ShortCutOption .content table td.customize {\r\n	background-color: #ffffe0;\r\n}\r\n#ShortCutOption .content table td.changed {\r\n	background-color: #ffe4e1;\r\n}\r\n#ShortCutOption .content table td.selected {\r\n	background-color: #ffb6c1;\r\n}\r\n#ShortCutOption .resolution {\r\n	display: none;\r\n}\r\n#ShortCutOption .panel .button {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	width: 42px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCutOption .panel .button.reset {\r\n	left: 3px;\r\n}\r\n#ShortCutOption .panel .button.ok {\r\n	right: 93px;\r\n}\r\n#ShortCutOption .panel .button.cancel {\r\n	right: 48px;\r\n}\r\n#ShortCutOption .panel .button.close {\r\n	right: 3px;\r\n}\r\n";
-})), $schema, source, entries$1, messages_default;
-var init_messages = __esmMin((() => {
-	$schema = "../schema/client-message-catalog.schema.json";
-	source = {
-		"client": "kro-20211105",
-		"resourcePath": "data\\luafiles514\\lua files\\msgstring_kr.lub",
-		"sha256": "f9514048e6bde7af1a6f7368c35ba38a2c070e9cda3de02f01849180f6e9f07b",
-		"format": "lua-5.1-bytecode",
-		"table": "MsgStrID",
-		"auditTool": {
-			"repository": "https://github.com/viruscamp/luadec",
-			"commit": "895d92313fabaee260121c758c8320d1b21dd741"
-		}
-	};
-	entries$1 = [
-		{
-			"key": "MSI_HK_BASICINFOWND_MINI",
-			"sourceText": "기본 정보 창 최소/최대",
-			"sourceSha256": "a27ee5bc3443014bcd6a3e3315918b872a02d16f2020c03ab30cddbbf94ab39f",
-			"context": "Hotkey description for minimizing or maximizing the basic information window.",
-			"translations": {
-				"en": {
-					"text": "Minimize/maximize basic information window",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "基本信息窗最小/最大",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_EQUIPWND_ONOFF",
-			"sourceText": "장비 창 On/Off",
-			"sourceSha256": "9ddeccadf35dd4378d4d6f55661daacda2ea2b4ff3388a8c54ae7cb4a22063f3",
-			"context": "Hotkey description for toggling the equipment window.",
-			"translations": {
-				"en": {
-					"text": "Toggle equipment window",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "装备窗口开关",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_SKILLWND_ONOFF",
-			"sourceText": "스킬 목록 창 On/Off",
-			"sourceSha256": "49a61f23c7488c3f291e006293d062bc9b1942e311ff2054f64ca9ed52328f2f",
-			"context": "Hotkey description for toggling the skill list window.",
-			"translations": {
-				"en": {
-					"text": "Toggle skill list window",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "技能列表开关",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_QUESTWND_ONOFF",
-			"sourceText": "퀘스트 목록 창 On/Off",
-			"sourceSha256": "53d1bf9a413f11372cd1a49f9c205a3c207101995bd85ea135753e1a4d0bdd62",
-			"context": "Hotkey description for toggling the quest list window.",
-			"translations": {
-				"en": {
-					"text": "Toggle quest list window",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "任务列表开关",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_FRIENDWND_ONOFF",
-			"sourceText": "친구 창 On/Off",
-			"sourceSha256": "68b300444a767dceee48e6983c67462838893dcb5f3eca398f5b220c467acd33",
-			"context": "Hotkey description for toggling the friends window.",
-			"translations": {
-				"en": {
-					"text": "Toggle friends window",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "好友窗口开关",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_PARTYWND_ONOFF",
-			"sourceText": "파티 창 On/Off",
-			"sourceSha256": "d6dc73edde41c8e58007ca8d49276f4ec054ee94d2d4116f443644ee5d114d1e",
-			"context": "Hotkey description for toggling the party window.",
-			"translations": {
-				"en": {
-					"text": "Toggle party window",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "队伍窗口开关",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_CHATWND_MAKE",
-			"sourceText": "대화방 만들기",
-			"sourceSha256": "c57efe5ddebbcc8bdd8e2715d214e341bea376dcf0d613f28b4b7400e3c70e25",
-			"context": "Hotkey description for opening the create-chat-room flow.",
-			"translations": {
-				"en": {
-					"text": "Create chat room",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "创建聊天室",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_CARTWND_ONOFF",
-			"sourceText": "카트 창 On/Off",
-			"sourceSha256": "9a7080624993983a410876f1da043c22d63988819d4d0383caa42de8d43fffd0",
-			"context": "Hotkey description for toggling the cart window.",
-			"translations": {
-				"en": {
-					"text": "Toggle cart window",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "手推车窗口开关",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_MAPWND_ONOFF",
-			"sourceText": "지도 On/Off",
-			"sourceSha256": "adf9740cd8f0153bb967cc6efc0d8517eab4fc21bee7ee5ffeb337967c0410c7",
-			"context": "Hotkey description for toggling the map.",
-			"translations": {
-				"en": {
-					"text": "Toggle map",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "地图开关",
-					"translator": "Codex"
-				}
-			}
-		},
-		{
-			"key": "MSI_HK_ITEMWND_ONOFF",
-			"sourceText": "아이템 창 On/Off",
-			"sourceSha256": "71421464b9feee0dea7b303c3d04f0c4a495424b1af4f0d1b6ff441c60c4c8fe",
-			"context": "Hotkey description for toggling the inventory window.",
-			"translations": {
-				"en": {
-					"text": "Toggle inventory window",
-					"translator": "Codex"
-				},
-				"zh-CN": {
-					"text": "物品栏开关",
-					"translator": "Codex"
-				}
-			}
-		}
-	];
-	messages_default = {
-		$schema,
-		catalogVersion: 1,
-		source,
-		entries: entries$1
-	};
-}));
-//#endregion
-//#region src/Localization/MessageCatalog.js
-function getMessageForLocale(key, locale, fallback = "") {
-	const entry = entries.get(key);
-	if (!entry) return fallback;
-	if (locale === "ko-KR") return entry.sourceText;
-	return entry.translations[locale]?.text || fallback || entry.sourceText;
-}
-function getMessage(key, fallback = "") {
-	return getMessageForLocale(key, Configs.get("locale", "en"), fallback);
-}
-var entries;
-var init_MessageCatalog = __esmMin((() => {
-	init_Configs();
-	init_messages();
-	entries = new Map(messages_default.entries.map((entry) => [entry.key, entry]));
+	ShortCutOption_default$1 = ":host {\r\n	width: 430px;\r\n	height: 465px;\r\n	top: 300px;\r\n	left: 300px;\r\n}\r\n\r\n#ShortCutOption {\r\n	position: absolute;\r\n	box-sizing: border-box;\r\n	width: 430px;\r\n	height: 465px;\r\n	background: white;\r\n	border-radius: 3px;\r\n	border: solid 1px #aaa;\r\n	border-top: none;\r\n}\r\n#ShortCutOption .border {\r\n}\r\n#ShortCutOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	border-bottom: solid 1px #eee;\r\n}\r\n#ShortCutOption .titlebar .base {\r\n	width: 20px;\r\n	height: 100%;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n	background-position: 8px 2px;\r\n}\r\n#ShortCutOption .titlebar .base.close {\r\n	color: #ccc;\r\n}\r\n#ShortCutOption .titlebar .text {\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	line-height: 17px;\r\n	margin-left: 5px;\r\n}\r\n#ShortCutOption .titlebar .left {\r\n	float: left;\r\n}\r\n#ShortCutOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n	height: 100%;\r\n}\r\n#ShortCutOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n#ShortCutOption .tabs {\r\n	position: relative;\r\n	top: 1px;\r\n	border-right: solid 1px #ccc;\r\n}\r\n#ShortCutOption .tabs button.selectedtab {\r\n	border-bottom: solid 1px transparent;\r\n}\r\n#ShortCutOption .tabs button {\r\n	width: 57px;\r\n	height: 18px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #fff;\r\n	border: solid 1px #bbb;\r\n	border-top-right-radius: 3px;\r\n	border-top-left-radius: 3px;\r\n}\r\n#ShortCutOption .tabs button:nth-child(1) {\r\n	border-right: none;\r\n}\r\n#ShortCutOption .panel {\r\n	padding: 5px;\r\n	border-top: solid 1px #ccc;\r\n}\r\n#ShortCutOption .panel .content {\r\n	display: none;\r\n}\r\n#ShortCutOption .content.selectedtab {\r\n	display: block;\r\n}\r\n#ShortCutOption .content table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n	color: #222;\r\n}\r\n#ShortCutOption .content table tr {\r\n	height: 22px;\r\n}\r\n#ShortCutOption .content table td {\r\n	text-align: center;\r\n}\r\n#ShortCutOption .content table td:nth-child(1),\r\n#ShortCutOption .content table td:nth-child(3) {\r\n	width: 30%;\r\n}\r\n#ShortCutOption .content table td:nth-child(2),\r\n#ShortCutOption .content table td:nth-child(4) {\r\n	width: 20%;\r\n	background-color: #eee;\r\n}\r\n#ShortCutOption .content table td.customize {\r\n	background-color: #ffffe0;\r\n}\r\n#ShortCutOption .content table td.changed {\r\n	background-color: #ffe4e1;\r\n}\r\n#ShortCutOption .content table td.selected {\r\n	background-color: #ffb6c1;\r\n}\r\n#ShortCutOption .resolution {\r\n	display: none;\r\n}\r\n#ShortCutOption .panel .button {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	width: 42px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCutOption .panel .button.localized-text-button {\r\n	box-sizing: border-box;\r\n	height: 20px;\r\n	padding: 0 4px;\r\n	background-image: none !important;\r\n	background-color: #f4f4f4;\r\n	border: 1px solid #999;\r\n	border-radius: 2px;\r\n	color: #222;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	white-space: nowrap;\r\n}\r\n#ShortCutOption .panel .button.localized-text-button:hover {\r\n	background-color: #fff;\r\n}\r\n#ShortCutOption .panel .button.localized-text-button:active {\r\n	background-color: #ddd;\r\n}\r\n#ShortCutOption .panel .button.reset {\r\n	left: 3px;\r\n	width: 58px;\r\n}\r\n#ShortCutOption .panel .button.ok {\r\n	right: 93px;\r\n}\r\n#ShortCutOption .panel .button.cancel {\r\n	right: 48px;\r\n}\r\n#ShortCutOption .panel .button.close {\r\n	right: 3px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ShortCutOption/ShortCutOption.js
+function localizeShortCutOption(root) {
+	root.querySelectorAll("[data-locale-key]").forEach((element) => {
+		element.textContent = getMessage(element.dataset.localeKey, element.textContent.trim());
+	});
+	for (const [buttonName, key] of Object.entries(BUTTON_LOCALE_KEYS)) {
+		const labelCell = root.querySelector(`td[data-button="${buttonName}"]`)?.previousElementSibling;
+		if (labelCell) labelCell.textContent = getMessage(key, labelCell.textContent.trim());
+	}
+	for (const [selector, [key, fallback, visible]] of Object.entries(ACTION_LABELS)) root.querySelectorAll(selector).forEach((button) => {
+		const label = getMessage(key, fallback);
+		button.title = label;
+		button.setAttribute("aria-label", label);
+		if (visible) {
+			button.textContent = label;
+			button.classList.add("localized-text-button");
+		}
+	});
+}
 /**
 * Checks if there is a match in the temporary settings
 * Returns the name of the conflicting shortcut, or false if no conflict
@@ -230427,7 +230403,7 @@ function onUpdateDisableVirtualMouse() {
 	Controls_default.joyDisableVirtualMouse = !!this.checked;
 	Controls_default.save();
 }
-var ShortCutOption, ShortCuts$1, ShortCutsTemp, _preferences$31, ShortCutOption_default;
+var BUTTON_LOCALE_KEYS, ACTION_LABELS, ShortCutOption, ShortCuts$1, ShortCutsTemp, _preferences$31, ShortCutOption_default;
 var init_ShortCutOption = __esmMin((() => {
 	init_KeyEventHandler();
 	init_Preferences$1();
@@ -230440,6 +230416,83 @@ var init_ShortCutOption = __esmMin((() => {
 	init_ShortCutOption$1();
 	init_Controls();
 	init_MessageCatalog();
+	BUTTON_LOCALE_KEYS = {
+		F1_1: "gravity.MsgStrID.MSI_HK_SKILLBAR1_1",
+		F1_2: "gravity.MsgStrID.MSI_HK_SKILLBAR1_2",
+		F1_3: "gravity.MsgStrID.MSI_HK_SKILLBAR1_3",
+		F1_4: "gravity.MsgStrID.MSI_HK_SKILLBAR1_4",
+		F1_5: "gravity.MsgStrID.MSI_HK_SKILLBAR1_5",
+		F1_6: "gravity.MsgStrID.MSI_HK_SKILLBAR1_6",
+		F1_7: "gravity.MsgStrID.MSI_HK_SKILLBAR1_7",
+		F1_8: "gravity.MsgStrID.MSI_HK_SKILLBAR1_8",
+		F1_9: "gravity.MsgStrID.MSI_HK_SKILLBAR1_9",
+		F2_1: "gravity.MsgStrID.MSI_HK_SKILLBAR2_1",
+		F2_2: "gravity.MsgStrID.MSI_HK_SKILLBAR2_2",
+		F2_3: "gravity.MsgStrID.MSI_HK_SKILLBAR2_3",
+		F2_4: "gravity.MsgStrID.MSI_HK_SKILLBAR2_4",
+		F2_5: "gravity.MsgStrID.MSI_HK_SKILLBAR2_5",
+		F2_6: "gravity.MsgStrID.MSI_HK_SKILLBAR2_6",
+		F2_7: "gravity.MsgStrID.MSI_HK_SKILLBAR2_7",
+		F2_8: "gravity.MsgStrID.MSI_HK_SKILLBAR2_8",
+		F2_9: "gravity.MsgStrID.MSI_HK_SKILLBAR2_9",
+		F3_1: "gravity.MsgStrID.MSI_HK_SKILLBAR3_1",
+		F3_2: "gravity.MsgStrID.MSI_HK_SKILLBAR3_2",
+		F3_3: "gravity.MsgStrID.MSI_HK_SKILLBAR3_3",
+		F3_4: "gravity.MsgStrID.MSI_HK_SKILLBAR3_4",
+		F3_5: "gravity.MsgStrID.MSI_HK_SKILLBAR3_5",
+		F3_6: "gravity.MsgStrID.MSI_HK_SKILLBAR3_6",
+		F3_7: "gravity.MsgStrID.MSI_HK_SKILLBAR3_7",
+		F3_8: "gravity.MsgStrID.MSI_HK_SKILLBAR3_8",
+		F3_9: "gravity.MsgStrID.MSI_HK_SKILLBAR3_9",
+		F4_1: "gravity.MsgStrID.MSI_HK_SKILLBAR4_1",
+		F4_2: "gravity.MsgStrID.MSI_HK_SKILLBAR4_2",
+		F4_3: "gravity.MsgStrID.MSI_HK_SKILLBAR4_3",
+		F4_4: "gravity.MsgStrID.MSI_HK_SKILLBAR4_4",
+		F4_5: "gravity.MsgStrID.MSI_HK_SKILLBAR4_5",
+		F4_6: "gravity.MsgStrID.MSI_HK_SKILLBAR4_6",
+		F4_7: "gravity.MsgStrID.MSI_HK_SKILLBAR4_7",
+		F4_8: "gravity.MsgStrID.MSI_HK_SKILLBAR4_8",
+		F4_9: "gravity.MsgStrID.MSI_HK_SKILLBAR4_9",
+		Guild: "gravity.MsgStrID.MSI_HK_GUILDWND_ONOFF",
+		Emotions: "gravity.MsgStrID.MSI_HK_EMOTIONWND_ONOFF",
+		Sit: "gravity.MsgStrID.MSI_HK_SITORSTAND",
+		ShortCuts: "gravity.MsgStrID.MSI_HK_MACROWND_ONOFF",
+		ChatSize: "gravity.MsgStrID.MSI_HK_CHATWND_ZOOM",
+		PetInfo: "gravity.MsgStrID.MSI_HK_PETWND_ONOFF",
+		HomunInfo: "gravity.MsgStrID.MSI_HK_HOMUNWND_ONOFF",
+		MercInfo: "gravity.MsgStrID.MSI_HK_MERWND_ONOFF",
+		Bank: "gravity.MsgStrID.MSI_HK_BANK",
+		HomunState: "robrowser.ui.shortcut-settings.homunculus-behavior",
+		MercState: "robrowser.ui.shortcut-settings.mercenary-behavior",
+		SkillBarSize: "robrowser.ui.shortcut-settings.skill-bar-size"
+	};
+	ACTION_LABELS = {
+		".button.reset": [
+			"robrowser.ui.shortcut-settings.reset",
+			"Reset to defaults",
+			true
+		],
+		".button.ok": [
+			"robrowser.ui.common.ok",
+			"OK",
+			true
+		],
+		".button.cancel": [
+			"robrowser.ui.common.cancel",
+			"Cancel",
+			true
+		],
+		".button.close": [
+			"robrowser.ui.common.close",
+			"Close",
+			true
+		],
+		".titlebar .close": [
+			"robrowser.ui.common.close",
+			"Close",
+			false
+		]
+	};
 	ShortCutOption = new GUIComponent("ShortCutOption", ShortCutOption_default$1);
 	ShortCuts$1 = ShortCutControls_default.ShortCuts;
 	ShortCutsTemp = {};
@@ -230457,9 +230510,7 @@ var init_ShortCutOption = __esmMin((() => {
 	*/
 	ShortCutOption.init = function() {
 		const root = this.getRoot();
-		root.querySelectorAll("[data-locale-key]").forEach((element) => {
-			element.textContent = getMessage(element.dataset.localeKey, element.textContent);
-		});
+		localizeShortCutOption(root);
 		let close = root.querySelector(".close");
 		function closebtn(btn) {
 			if (btn) {
@@ -230533,6 +230584,7 @@ var init_ShortCutOption = __esmMin((() => {
 	* Apply preferences once append to body
 	*/
 	ShortCutOption.onAppend = function() {
+		localizeShortCutOption(this.getRoot());
 		this._host.style.left = _preferences$31.x + "px";
 		this._host.style.top = _preferences$31.y + "px";
 		this._host.style.zIndex = 100;
@@ -230625,7 +230677,7 @@ var init_Escape$2 = __esmMin((() => {
 //#region src/UI/Components/Escape/Escape.css?raw
 var Escape_default$1;
 var init_Escape$1 = __esmMin((() => {
-	Escape_default$1 = ":host {\r\n	width: 280px;\r\n	height: auto;\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#Escape {\r\n	width: 280px;\r\n	height: auto;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Escape .top .node {\r\n	width: 11px;\r\n	height: 11px;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Escape .top .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n\r\n#Escape .container {\r\n	width: 220px;\r\n	height: auto;\r\n	padding: 20px 30px 6px 30px;\r\n}\r\n\r\n#Escape .container button {\r\n	width: 221px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n";
+	Escape_default$1 = ":host {\r\n	width: 280px;\r\n	height: auto;\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#Escape {\r\n	width: 280px;\r\n	height: auto;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Escape .top .node {\r\n	width: 11px;\r\n	height: 11px;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Escape .top .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n\r\n#Escape .container {\r\n	width: 220px;\r\n	height: auto;\r\n	padding: 20px 30px 6px 30px;\r\n}\r\n\r\n#Escape .container button {\r\n	width: 221px;\r\n	min-height: 24px;\r\n	margin-top: 3px;\r\n	border: 1px solid #a8a8a8;\r\n	background-color: #f7f7f7;\r\n	background-repeat: no-repeat;\r\n	background-image: none !important;\r\n	color: #222;\r\n	font-size: 12px;\r\n}\r\n\r\n#Escape .container button:hover {\r\n	background-color: #e9f2ff;\r\n	border-color: #7299c6;\r\n}\r\n\r\n#Escape .container button:active {\r\n	background-color: #d9e8f8;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Escape/Escape.js
@@ -230650,7 +230702,7 @@ function onToggleShortcutUI() {
 	if (!ShortCutOption_default._host || !ShortCutOption_default._host.parentNode) ShortCutOption_default.append();
 	else ShortCutOption_default.remove();
 }
-var Escape, Escape_default;
+var ESCAPE_MESSAGES, Escape, Escape_default;
 var init_Escape = __esmMin((() => {
 	init_KeyEventHandler();
 	init_Renderer();
@@ -230661,6 +230713,17 @@ var init_Escape = __esmMin((() => {
 	init_ShortCutOption();
 	init_Escape$2();
 	init_Escape$1();
+	init_MessageCatalog();
+	ESCAPE_MESSAGES = {
+		resurection: ["robrowser.ui.escape.resurrect", "Resurrect"],
+		savepoint: ["robrowser.ui.escape.save-point", "Return to Save Point"],
+		charselect: ["robrowser.ui.escape.character-select", "Return to Character Select"],
+		graphics: ["robrowser.ui.escape.graphics", "Graphics Settings"],
+		sound: ["robrowser.ui.escape.sound", "Sound Settings"],
+		hotkey: ["robrowser.ui.escape.hotkeys", "Hotkey Settings"],
+		exit: ["robrowser.ui.escape.exit", "Exit Game"],
+		cancel: ["robrowser.ui.escape.return", "Return to Game"]
+	};
 	Escape = new GUIComponent("Escape", Escape_default$1);
 	/**
 	* Render HTML
@@ -230675,6 +230738,14 @@ var init_Escape = __esmMin((() => {
 		this._host.style.top = (Renderer.height - rect.height) * .75 + "px";
 		this._host.style.left = (Renderer.width - rect.width) * .5 + "px";
 		this.draggable();
+		root.querySelector(".title").textContent = getMessage("robrowser.ui.escape.title", "Select Option");
+		for (const [className, message] of Object.entries(ESCAPE_MESSAGES)) {
+			const button = root.querySelector(`.${className}`);
+			const text = getMessage(message[0], message[1]);
+			button.textContent = text;
+			button.title = text;
+			button.setAttribute("aria-label", text);
+		}
 		const nodeBtn = root.querySelector(".node");
 		if (nodeBtn) nodeBtn.addEventListener("mousedown", function(event) {
 			event.stopImmediatePropagation();
@@ -234127,6 +234198,12 @@ var init_Reputation = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoCommon.js
+function replaceText(element, source, replacement) {
+	if (!element) return;
+	const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+	let node;
+	while (node = walker.nextNode()) if (node.nodeValue.includes(source)) node.nodeValue = node.nodeValue.replace(source, replacement);
+}
 function createBasicInfo(config) {
 	const { name, htmlText, cssText, prefKey, reduceDefault = true, innerId, topbarItemSelector = ".topbar button", topbarDblClick = false, toggleButtonsEvent = "mousedown", buttonsSelector = ".buttons button", buttonsEvent = "mousedown", buttonKeyBy = "class", infoOpensWinStats = true, partyViaGetUI = false, hasToolbarToggle = false, miniLayout = false, hideIds = [], barScale = 1.27, hasApBar = false } = config;
 	const Component = new GUIComponent(name, cssText);
@@ -234241,6 +234318,35 @@ function createBasicInfo(config) {
 	*/
 	Component.init = function init() {
 		const root = this.getRoot();
+		const title = root.querySelector(".large .title");
+		if (title) title.textContent = getMessage("robrowser.ui.basic-info.title", "Basic Information");
+		replaceText(root.querySelector(".large .blvl"), "Base Lv.", getMessage("robrowser.ui.basic-info.base-level", "Base Lv."));
+		replaceText(root.querySelector(".large .jlvl"), "Job Lv.", getMessage("robrowser.ui.basic-info.job-level", "Job Lv."));
+		replaceText(root.querySelector(".large .weight"), "Weight", getMessage("robrowser.ui.basic-info.weight", "Weight"));
+		replaceText(root.querySelector(".large .extra"), "Zeny", getMessage("robrowser.ui.basic-info.zeny", "Zeny"));
+		const compact = root.querySelector(".small .line2");
+		replaceText(compact, "Lv.", getMessage("robrowser.ui.basic-info.level", "Lv."));
+		replaceText(compact, "Exp.", getMessage("robrowser.ui.basic-info.experience", "Exp."));
+		replaceText(root.querySelector(".small .expcontainer"), "Exp.", getMessage("robrowser.ui.basic-info.experience", "Exp."));
+		for (const [id, message] of Object.entries(BASIC_INFO_BUTTON_MESSAGES)) {
+			const button = root.querySelector(`#${id}`);
+			if (!button) continue;
+			const text = getMessage(message[0], message[1]);
+			const label = button.querySelector(".name");
+			if (label) label.textContent = text;
+			button.title = text;
+			button.setAttribute("aria-label", text);
+		}
+		const open = root.querySelector(".btn_open");
+		if (open) {
+			open.title = getMessage("robrowser.ui.basic-info.menu.show", "Show main menu");
+			open.setAttribute("aria-label", open.title);
+		}
+		const close = root.querySelector(".btn_close");
+		if (close) {
+			close.title = getMessage("robrowser.ui.basic-info.menu.hide", "Hide main menu");
+			close.setAttribute("aria-label", close.title);
+		}
 		root.querySelectorAll(topbarItemSelector).forEach((el) => {
 			el.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
 		});
@@ -234495,6 +234601,7 @@ function createBasicInfo(config) {
 	*/
 	return UIManager.addComponent(Component);
 }
+var BASIC_INFO_BUTTON_MESSAGES;
 var init_BasicInfoCommon = __esmMin((() => {
 	init_DBManager();
 	init_Configs();
@@ -234522,6 +234629,29 @@ var init_BasicInfoCommon = __esmMin((() => {
 	init_Quest$1();
 	init_Achievement$1();
 	init_Reputation();
+	init_MessageCatalog();
+	BASIC_INFO_BUTTON_MESSAGES = {
+		info: ["robrowser.ui.basic-info.menu.status", "Status (Alt + A)"],
+		equip: ["robrowser.ui.basic-info.menu.equipment", "Equipment (Alt + Q)"],
+		item: ["robrowser.ui.basic-info.menu.inventory", "Inventory (Alt + E)"],
+		skill: ["robrowser.ui.basic-info.menu.skills", "Skill Tree (Alt + S)"],
+		party: ["robrowser.ui.basic-info.menu.party", "Party (Alt + Z)"],
+		guild: ["robrowser.ui.basic-info.menu.guild", "Guild (Alt + G)"],
+		battle: ["robrowser.ui.basic-info.menu.battleground", "Battleground"],
+		quest: ["robrowser.ui.basic-info.menu.quest", "Quest List (Alt + U)"],
+		map: ["robrowser.ui.basic-info.menu.world-map", "World Map (Ctrl + ')"],
+		navigation: ["robrowser.ui.basic-info.menu.navigation", "Navigation"],
+		option: ["robrowser.ui.basic-info.menu.options", "Options (Esc)"],
+		bank: ["robrowser.ui.basic-info.menu.bank", "Bank (Ctrl + B)"],
+		replay: ["robrowser.ui.basic-info.menu.replay", "Replay"],
+		mail: ["robrowser.ui.basic-info.menu.mail", "Mail"],
+		achievment: ["robrowser.ui.basic-info.menu.achievement", "Achievement"],
+		tipbox: ["robrowser.ui.basic-info.menu.tips", "Tips (Alt + D)"],
+		shortcut: ["robrowser.ui.basic-info.menu.hotkey-help", "Hotkey Help"],
+		attendance: ["robrowser.ui.basic-info.menu.attendance", "Attendance"],
+		agency: ["robrowser.ui.basic-info.menu.agency", "Adventurer's Agency (Ctrl + Z)"],
+		repute: ["robrowser.ui.basic-info.menu.reputation", "Reputation Status"]
+	};
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV1/BasicInfoV1.js
@@ -243772,7 +243902,8 @@ function onPartyOption(pkt) {
 * @param {object} pkt - PACKET.ZC.PARTY_CONFIG
 */
 function onPartyConfig(pkt) {
-	ChatBox_default.addText(DB.getMessage(pkt.bRefuseJoinMsg ? 1325 : 1326), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PARTY_SETUP);
+	const id = pkt.bRefuseJoinMsg ? 1325 : 1326;
+	ChatBox_default.addText(getLegacyMessage(id, DB.getMessage(id)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PARTY_SETUP);
 }
 /**
 * Get a request from someone to join a team
@@ -243842,6 +243973,7 @@ var init_Group = __esmMin((() => {
 	init_WorldMap();
 	init_MiniMap();
 	init_PartyFriends();
+	init_MessageCatalog();
 	_partyName = "";
 	GroupEngine = class GroupEngine {
 		/**
@@ -317636,7 +317768,7 @@ var init_WinPopup$2 = __esmMin((() => {
 //#region src/UI/Components/WinPopup/WinPopup.css?raw
 var WinPopup_default$1;
 var init_WinPopup$1 = __esmMin((() => {
-	WinPopup_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#win_popup {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n	z-index: 999;\r\n}\r\n\r\n#win_popup .container {\r\n	position: absolute;\r\n	height: 70px;\r\n	width: 270px;\r\n	top: 20px;\r\n	overflow: auto;\r\n}\r\n\r\n#win_popup .text {\r\n	padding: 5px 10px 0px 10px;\r\n}\r\n\r\n#win_popup .buttonscontainer {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 280px;\r\n	top: 95px;\r\n}\r\n\r\n#win_popup .btns {\r\n	position: absolute;\r\n	bottom: 2px;\r\n	right: 3px;\r\n}\r\n\r\n#win_popup .btn {\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	margin-left: 3px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
+	WinPopup_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#win_popup {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n	z-index: 999;\r\n}\r\n\r\n#win_popup .container {\r\n	position: absolute;\r\n	height: 70px;\r\n	width: 270px;\r\n	top: 20px;\r\n	overflow: auto;\r\n}\r\n\r\n#win_popup .text {\r\n	padding: 5px 10px 0px 10px;\r\n}\r\n\r\n#win_popup .buttonscontainer {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 280px;\r\n	top: 95px;\r\n}\r\n\r\n#win_popup .btns {\r\n	position: absolute;\r\n	bottom: 2px;\r\n	right: 3px;\r\n}\r\n\r\n#win_popup .btn {\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	margin-left: 3px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#win_popup .btn.localized-text {\r\n	width: auto;\r\n	min-width: 48px;\r\n	padding: 0 8px;\r\n	border: 1px solid #8a8a8a;\r\n	border-radius: 2px;\r\n	background: #f2f2f2;\r\n	color: #222;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n}\r\n\r\n#win_popup .btn.localized-text:hover {\r\n	background: #fff;\r\n}\r\n\r\n#win_popup .btn.localized-text:active {\r\n	background: #ddd;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinPopup/WinPopup.js
@@ -328580,19 +328712,19 @@ function onConfig(pkt) {
 	switch (pkt.Config) {
 		case 0:
 			EquipmentController.getUI().setEquipConfig(pkt.Value);
-			ChatBox_default.addText(DB.getMessage(1358 + (pkt.Value ? 1 : 0)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+			ChatBox_default.addText(getLegacyMessage(1358 + (pkt.Value ? 1 : 0), DB.getMessage(1358 + (pkt.Value ? 1 : 0))), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 1:
 			SessionStorage_default.Entity.call_flag = pkt.Value;
-			ChatBox_default.addText(DB.getMessage(2978 + (pkt.Value ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+			ChatBox_default.addText(getLegacyMessage(2978 + (pkt.Value ? 0 : 1), DB.getMessage(2978 + (pkt.Value ? 0 : 1))), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 2:
 			PetInformations_default.setFeedConfig(pkt.Value);
-			ChatBox_default.addText(DB.getMessage(2579 + (pkt.Value ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+			ChatBox_default.addText(getLegacyMessage(2579 + (pkt.Value ? 0 : 1), DB.getMessage(2579 + (pkt.Value ? 0 : 1))), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 3:
 			HomunInformations_default.setFeedConfig(pkt.Value);
-			ChatBox_default.addText(DB.getMessage(3282 + (pkt.Value ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+			ChatBox_default.addText(getLegacyMessage(3282 + (pkt.Value ? 0 : 1), DB.getMessage(3282 + (pkt.Value ? 0 : 1))), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 5:
 			EquipmentController.getUI().setCostumeConfig(pkt.Value);
@@ -328608,19 +328740,19 @@ function onConfig(pkt) {
 function onConfigNotify(pkt) {
 	if (typeof pkt.show_eq_flag !== "undefined") {
 		EquipmentController.getUI().setEquipConfig(pkt.show_eq_flag);
-		ChatBox_default.addText(DB.getMessage(1358 + (pkt.show_eq_flag ? 1 : 0)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+		ChatBox_default.addText(getLegacyMessage(1358 + (pkt.show_eq_flag ? 1 : 0), DB.getMessage(1358 + (pkt.show_eq_flag ? 1 : 0))), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 	}
 	if (typeof pkt.pet_autofeeding_flag !== "undefined") {
 		PetInformations_default.setFeedConfig(pkt.pet_autofeeding_flag);
-		ChatBox_default.addText(DB.getMessage(2579 + (pkt.pet_autofeeding_flag ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+		ChatBox_default.addText(getLegacyMessage(2579 + (pkt.pet_autofeeding_flag ? 0 : 1), DB.getMessage(2579 + (pkt.pet_autofeeding_flag ? 0 : 1))), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 	}
 	if (typeof pkt.call_flag !== "undefined") {
 		SessionStorage_default.Entity.call_flag = pkt.call_flag;
-		ChatBox_default.addText(DB.getMessage(2978 + (pkt.call_flag ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+		ChatBox_default.addText(getLegacyMessage(2978 + (pkt.call_flag ? 0 : 1), DB.getMessage(2978 + (pkt.call_flag ? 0 : 1))), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 	}
 	if (typeof pkt.homunculus_autofeeding_flag !== "undefined") {
 		HomunInformations_default.setFeedConfig(pkt.homunculus_autofeeding_flag);
-		ChatBox_default.addText(DB.getMessage(3282 + (pkt.homunculus_autofeeding_flag ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+		ChatBox_default.addText(getLegacyMessage(3282 + (pkt.homunculus_autofeeding_flag ? 0 : 1), DB.getMessage(3282 + (pkt.homunculus_autofeeding_flag ? 0 : 1))), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 	}
 }
 /**
@@ -329235,6 +329367,7 @@ var init_MapEngine = __esmMin((() => {
 	init_Clan$1();
 	init_WhisperBox();
 	init_PluginManager();
+	init_MessageCatalog();
 	init_SignboardManager();
 	init_PvPTimer();
 	init_PvPCount();
@@ -329967,6 +330100,10 @@ var init_CharSelect$2 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelectCommon.js
+function getCharSelectMessage(id, fallback) {
+	const key = CHAR_SELECT_MESSAGES.get(id);
+	return key ? getMessage(key, fallback) : fallback;
+}
 function createCharSelect(config) {
 	const { name, htmlText, cssText, gridLayout = false, hostHeight = 342, defaultMaxSlots = 27, deleteReservation = false, packetverGatedDelete = false, pageBalls = false } = config;
 	const Component = new GUIComponent(name, cssText);
@@ -330023,6 +330160,22 @@ function createCharSelect(config) {
 	Component.init = function init() {
 		const root = this.getRoot();
 		if (gridLayout) {
+			[
+				[".delete", 3339],
+				[".canceldelete", 3340],
+				[".ok", 3341],
+				[".finaldelete", 3342]
+			].forEach(([selector, id]) => {
+				const button = root.querySelector(selector);
+				const text = getCharSelectMessage(id, DB.getMessage(id));
+				const textNode = button.querySelector("ui-text");
+				if (textNode) textNode.textContent = text;
+				button.title = text;
+				button.setAttribute("aria-label", text);
+			});
+			const cancelText = getMessage("robrowser.ui.char-select.back-to-login", "Back to login");
+			root.querySelector(".cancel").title = cancelText;
+			root.querySelector(".cancel").setAttribute("aria-label", cancelText);
 			root.querySelector(".ok").addEventListener("click", connect);
 			root.querySelector(".cancel").addEventListener("click", cancel);
 			root.querySelector(".delete").addEventListener("click", reserve);
@@ -330218,19 +330371,19 @@ function createCharSelect(config) {
 			case 0:
 			case 2:
 			case 6:
-				UIManager.showMessageBox(DB.getMessage(1821), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(1821, DB.getMessage(1821)), "ok");
 				return;
 			case 3:
-				UIManager.showMessageBox(DB.getMessage(1817), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(1817, DB.getMessage(1817)), "ok");
 				return;
 			case 4:
-				UIManager.showMessageBox(DB.getMessage(1820), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(1820, DB.getMessage(1820)), "ok");
 				return;
 			case 5:
-				UIManager.showMessageBox(DB.getMessage(1822), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(1822, DB.getMessage(1822)), "ok");
 				return;
 			case 7:
-				UIManager.showMessageBox(DB.getMessage(301), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(301, DB.getMessage(301)), "ok");
 				return;
 		}
 		if (deleteReservation && (!packetverGatedDelete || PacketVerManager_default.value >= 20100803)) {
@@ -330255,19 +330408,19 @@ function createCharSelect(config) {
 				case 0:
 				case 2:
 				case 6:
-					UIManager.showMessageBox(DB.getMessage(1821), "ok");
+					UIManager.showMessageBox(getCharSelectMessage(1821, DB.getMessage(1821)), "ok");
 					return;
 				case 3:
-					UIManager.showMessageBox(DB.getMessage(1817), "ok");
+					UIManager.showMessageBox(getCharSelectMessage(1817, DB.getMessage(1817)), "ok");
 					return;
 				case 4:
-					UIManager.showMessageBox(DB.getMessage(1820), "ok");
+					UIManager.showMessageBox(getCharSelectMessage(1820, DB.getMessage(1820)), "ok");
 					return;
 				case 5:
-					UIManager.showMessageBox(DB.getMessage(1822), "ok");
+					UIManager.showMessageBox(getCharSelectMessage(1822, DB.getMessage(1822)), "ok");
 					return;
 				case 7:
-					UIManager.showMessageBox(DB.getMessage(301), "ok");
+					UIManager.showMessageBox(getCharSelectMessage(301, DB.getMessage(301)), "ok");
 					return;
 			}
 		} else switch (error) {
@@ -330287,7 +330440,7 @@ function createCharSelect(config) {
 				return;
 			}
 			default:
-			case 0: UIManager.showMessageBox(DB.getMessage(301), "ok");
+			case 0: UIManager.showMessageBox(getCharSelectMessage(301, DB.getMessage(301)), "ok");
 		}
 	};
 	/**
@@ -330386,12 +330539,12 @@ function createCharSelect(config) {
 	function cancel() {
 		if (_disable_UI === false) {
 			if (gridLayout) {
-				UIManager.showPromptBox(DB.getMessage(17), "ok", "cancel", () => {
+				UIManager.showPromptBox(getCharSelectMessage(17, DB.getMessage(17)), "ok", "cancel", () => {
 					Component.onExitRequest();
 					Component.clearAllSlots();
 				}, null);
 				stopCountdownInterval();
-			} else UIManager.showPromptBox(DB.getMessage(17), "ok", "cancel", () => {
+			} else UIManager.showPromptBox(getCharSelectMessage(17, DB.getMessage(17)), "ok", "cancel", () => {
 				Component.onExitRequest();
 			}, null);
 		}
@@ -330462,10 +330615,10 @@ function createCharSelect(config) {
 				break;
 			case 3: return;
 			case 4:
-				UIManager.showMessageBox(DB.getMessage(1818), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(1818, DB.getMessage(1818)), "ok");
 				break;
 			case 5:
-				UIManager.showMessageBox(DB.getMessage(1819), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(1819, DB.getMessage(1819)), "ok");
 				break;
 			default: return;
 		}
@@ -330484,10 +330637,10 @@ function createCharSelect(config) {
 			}
 			case 3: return;
 			case 4:
-				UIManager.showMessageBox(DB.getMessage(1818), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(1818, DB.getMessage(1818)), "ok");
 				break;
 			case 5:
-				UIManager.showMessageBox(DB.getMessage(1819), "ok");
+				UIManager.showMessageBox(getCharSelectMessage(1819, DB.getMessage(1819)), "ok");
 				break;
 			default: return;
 		}
@@ -330761,8 +330914,9 @@ function createCharSelect(config) {
 		const hours = Math.floor(seconds / 3600);
 		const minutes = Math.floor(seconds % 3600 / 60);
 		const remainingSeconds = seconds % 60;
-		const replacer = DB.getMessage(3349).includes("%d") ? "%d" : "%02d";
-		return DB.getMessage(3349).replace(replacer, hours.toString().padStart(2, "0")).replace(replacer, minutes.toString().padStart(2, "0")).replace(replacer, remainingSeconds.toString().padStart(2, "0"));
+		const template = getCharSelectMessage(3349, DB.getMessage(3349));
+		const replacer = template.includes("%d") ? "%d" : "%02d";
+		return template.replace(replacer, hours.toString().padStart(2, "0")).replace(replacer, minutes.toString().padStart(2, "0")).replace(replacer, remainingSeconds.toString().padStart(2, "0"));
 	}
 	/**
 	* Countdown for delay in deletion (V4)
@@ -330881,9 +331035,13 @@ function createCharSelect(config) {
 			if (!_slots[i]) {
 				if (jobIcons[i]) jobIcons[i].style.backgroundImage = "";
 				const slotCanvas = root.querySelector(`#slot${i}`);
-				if (slotCanvas) Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, (dataURI) => {
-					slotCanvas.style.backgroundImage = `url(${dataURI})`;
-				});
+				if (slotCanvas) {
+					slotCanvas.title = getMessage("robrowser.ui.char-select.empty-slot", "Create character");
+					slotCanvas.setAttribute("aria-label", slotCanvas.title);
+					Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, (dataURI) => {
+						slotCanvas.style.backgroundImage = `url(${dataURI})`;
+					});
+				}
 				const countdown = root.querySelector(`.timedelete.slot${i}`);
 				if (countdown) {
 					countdown.dataset.duration = 0;
@@ -330892,9 +331050,13 @@ function createCharSelect(config) {
 				}
 			} else {
 				const slotCanvas = root.querySelector(`#slot${i}`);
-				if (slotCanvas) Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, (dataURI) => {
-					slotCanvas.style.backgroundImage = `url(${dataURI})`;
-				});
+				if (slotCanvas) {
+					slotCanvas.title = _slots[i].name;
+					slotCanvas.setAttribute("aria-label", _slots[i].name);
+					Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, (dataURI) => {
+						slotCanvas.style.backgroundImage = `url(${dataURI})`;
+					});
+				}
 				if (jobIcons[i]) {
 					const slotJobIcon = jobIcons[i];
 					Client.loadFile(`${DB.INTERFACE_PATH}renewalparty/icon_jobs_${_slots[i].job}.bmp`, (dataURI) => {
@@ -330939,6 +331101,7 @@ function createCharSelect(config) {
 	*/
 	return UIManager.addComponent(Component);
 }
+var CHAR_SELECT_MESSAGES;
 var init_CharSelectCommon = __esmMin((() => {
 	init_DBManager();
 	init_MonsterTable();
@@ -330954,6 +331117,22 @@ var init_CharSelectCommon = __esmMin((() => {
 	init_GUIComponent();
 	init_Elements();
 	init_PacketVerManager();
+	init_MessageCatalog();
+	CHAR_SELECT_MESSAGES = /* @__PURE__ */ new Map([
+		[17, "robrowser.legacy.17"],
+		[301, "robrowser.legacy.301"],
+		[1817, "robrowser.legacy.1817"],
+		[1818, "robrowser.legacy.1818"],
+		[1819, "robrowser.legacy.1819"],
+		[1820, "robrowser.legacy.1820"],
+		[1821, "robrowser.legacy.1821"],
+		[1822, "robrowser.legacy.1822"],
+		[3339, "robrowser.legacy.3339"],
+		[3340, "robrowser.legacy.3340"],
+		[3341, "robrowser.legacy.3341"],
+		[3342, "robrowser.legacy.3342"],
+		[3349, "robrowser.legacy.3349"]
+	]);
 }));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelect/CharSelect.js
@@ -331035,7 +331214,7 @@ var init_CharSelectV4$2 = __esmMin((() => {
 //#region src/UI/Components/CharSelect/CharSelectV4/CharSelectV4.css?raw
 var CharSelectV4_default$1;
 var init_CharSelectV4$1 = __esmMin((() => {
-	CharSelectV4_default$1 = ":host {\r\n	top: 0;\r\n	left: 0;\r\n	min-width: 100%;\r\n	min-height: 100%;\r\n}\r\n\r\n#CharSelectV4 {\r\n	position: absolute;\r\n	min-width: 100%;\r\n	min-height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	flex-direction: column;\r\n}\r\n\r\n#CharSelectV4 .char_select_container {\r\n	position: absolute;\r\n	display: flex;\r\n	flex-direction: row;\r\n	background-color: rgba(0, 0, 0, 0.1);\r\n	border-radius: 5px;\r\n	padding-top: 20px;\r\n	padding-left: 5px;\r\n}\r\n\r\n/** Box **/\r\n#CharSelectV4 .char_list {\r\n	flex: 1;\r\n	max-width: 800px;\r\n	min-width: 157px;\r\n	height: 595px;\r\n	max-height: 80vh;\r\n	display: flex;\r\n	flex-direction: row;\r\n	flex-wrap: wrap;\r\n	overflow-y: auto;\r\n}\r\n\r\n#CharSelectV4 .box_select {\r\n	position: absolute;\r\n	width: 157px;\r\n	height: 159px;\r\n	top: 40px;\r\n	margin-left: -5px;\r\n}\r\n#CharSelectV4 .char_canvas {\r\n	width: 157px;\r\n	height: 195px;\r\n	position: relative;\r\n	z-index: 10;\r\n}\r\n#CharSelectV4 .char_canvas .name {\r\n	position: absolute;\r\n	bottom: 17px;\r\n	width: 100%;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #15154a;\r\n}\r\n\r\n#CharSelectV4 .char_canvas .job_icon {\r\n	position: absolute;\r\n	top: 15px;\r\n	right: 12px;\r\n	width: 25px;\r\n	height: 25px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n/** Slot info **/\r\n#CharSelectV4 .slotinfo {\r\n	position: absolute;\r\n	top: 195px;\r\n	right: 10px;\r\n	height: 20px;\r\n	display: block;\r\n	border: 1px solid #c6cee7;\r\n	border-radius: 4px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#CharSelectV4 .slotinfo .number {\r\n	color: #58709e;\r\n	font-weight: bold;\r\n	margin-right: 10px;\r\n}\r\n#CharSelectV4 .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#CharSelectV4 .pageinfo {\r\n	position: absolute;\r\n	left: 275px;\r\n	top: 185px;\r\n	font-weight: bold;\r\n	color: #646464;\r\n}\r\n#CharSelectV4 .pageinfo .current {\r\n	color: #fe3b7d;\r\n}\r\n\r\n/** Characters infos **/\r\n#CharSelectV4 .charinfo {\r\n	height: 585px;\r\n	max-height: 80vh;\r\n	width: 185px;\r\n	background-repeat: no-repeat;\r\n	margin-top: 10px;\r\n	margin-left: 10px;\r\n	position: relative;\r\n}\r\n#CharSelectV4 .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#CharSelectV4 .charinfo .name {\r\n	left: 52px;\r\n	top: 2px;\r\n	white-space: nowrap;\r\n}\r\n#CharSelectV4 .charinfo .job {\r\n	left: 60px;\r\n	top: 105px;\r\n}\r\n#CharSelectV4 .charinfo .lvl {\r\n	left: 60px;\r\n	top: 123px;\r\n}\r\n#CharSelectV4 .charinfo .exp {\r\n	left: 60px;\r\n	top: 140px;\r\n}\r\n#CharSelectV4 .charinfo .hp {\r\n	left: 60px;\r\n	top: 157px;\r\n}\r\n#CharSelectV4 .charinfo .sp {\r\n	left: 60px;\r\n	top: 174px;\r\n}\r\n#CharSelectV4 .charinfo .map {\r\n	left: 60px;\r\n	top: 89px;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n#CharSelectV4 .charinfo .str {\r\n	left: 60px;\r\n	top: 191px;\r\n}\r\n#CharSelectV4 .charinfo .agi {\r\n	left: 60px;\r\n	top: 208px;\r\n}\r\n#CharSelectV4 .charinfo .vit {\r\n	left: 60px;\r\n	top: 225px;\r\n}\r\n#CharSelectV4 .charinfo .int {\r\n	left: 60px;\r\n	top: 242px;\r\n}\r\n#CharSelectV4 .charinfo .dex {\r\n	left: 60px;\r\n	top: 259px;\r\n}\r\n#CharSelectV4 .charinfo .luk {\r\n	left: 60px;\r\n	top: 276px;\r\n}\r\n\r\n/** Buttons **/\r\n#CharSelectV4 .btn.delete {\r\n	position: absolute;\r\n	width: 131px;\r\n	height: 24px;\r\n}\r\n\r\n#CharSelectV4 .btn.canceldelete {\r\n	position: absolute;\r\n	width: 131px;\r\n	height: 24px;\r\n}\r\n\r\n#CharSelectV4 .btn.finaldelete {\r\n	position: absolute;\r\n	width: 131px;\r\n	height: 24px;\r\n}\r\n\r\n#CharSelectV4 .btn.delete,\r\n#CharSelectV4 .btn.canceldelete,\r\n#CharSelectV4 .btn.finaldelete {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	text-align: center;\r\n	line-height: 24px;\r\n}\r\n\r\n#CharSelectV4 .btn.ok {\r\n	position: absolute;\r\n	width: 165px;\r\n	height: 110px;\r\n	color: white;\r\n	padding-top: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	text-align: center;\r\n}\r\n\r\n#CharSelectV4 .btn.ok:hover {\r\n	text-shadow: #000 1px 1px;\r\n}\r\n\r\n#CharSelectV4 .ok,\r\n#CharSelectV4 .make {\r\n	right: 15px;\r\n	top: 380px;\r\n}\r\n#CharSelectV4 .cancel {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 5px;\r\n	width: 17px;\r\n	height: 18px;\r\n}\r\n#CharSelectV4 .delete {\r\n	right: 33px;\r\n	top: 300px;\r\n}\r\n\r\n#CharSelectV4 .canceldelete {\r\n	right: 33px;\r\n	top: 300px;\r\n}\r\n\r\n#CharSelectV4 .finaldelete {\r\n	right: 33px;\r\n	top: 330px;\r\n}\r\n\r\n#CharSelectV4 .timedelete {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 100px;\r\n	top: -150px;\r\n	left: 55px;\r\n}\r\n\r\n#CharSelectV4 .hidden {\r\n	display: none;\r\n}\r\n";
+	CharSelectV4_default$1 = ":host {\r\n	top: 0;\r\n	left: 0;\r\n	min-width: 100%;\r\n	min-height: 100%;\r\n}\r\n\r\n#CharSelectV4 {\r\n	position: absolute;\r\n	min-width: 100%;\r\n	min-height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	flex-direction: column;\r\n}\r\n\r\n#CharSelectV4 .char_select_container {\r\n	position: absolute;\r\n	display: flex;\r\n	flex-direction: row;\r\n	background-color: rgba(0, 0, 0, 0.1);\r\n	border-radius: 5px;\r\n	padding-top: 20px;\r\n	padding-left: 5px;\r\n}\r\n\r\n/** Box **/\r\n#CharSelectV4 .char_list {\r\n	flex: 1;\r\n	max-width: 800px;\r\n	min-width: 157px;\r\n	height: 595px;\r\n	max-height: 80vh;\r\n	display: flex;\r\n	flex-direction: row;\r\n	flex-wrap: wrap;\r\n	overflow-y: auto;\r\n}\r\n\r\n#CharSelectV4 .box_select {\r\n	position: absolute;\r\n	width: 157px;\r\n	height: 159px;\r\n	top: 40px;\r\n	margin-left: -5px;\r\n}\r\n#CharSelectV4 .char_canvas {\r\n	width: 157px;\r\n	height: 195px;\r\n	position: relative;\r\n	z-index: 10;\r\n}\r\n#CharSelectV4 .char_canvas .name {\r\n	position: absolute;\r\n	bottom: 17px;\r\n	width: 100%;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #15154a;\r\n}\r\n\r\n#CharSelectV4 .char_canvas .job_icon {\r\n	position: absolute;\r\n	top: 15px;\r\n	right: 12px;\r\n	width: 25px;\r\n	height: 25px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n/** Slot info **/\r\n#CharSelectV4 .slotinfo {\r\n	position: absolute;\r\n	top: 195px;\r\n	right: 10px;\r\n	height: 20px;\r\n	display: block;\r\n	border: 1px solid #c6cee7;\r\n	border-radius: 4px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#CharSelectV4 .slotinfo .number {\r\n	color: #58709e;\r\n	font-weight: bold;\r\n	margin-right: 10px;\r\n}\r\n#CharSelectV4 .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#CharSelectV4 .pageinfo {\r\n	position: absolute;\r\n	left: 275px;\r\n	top: 185px;\r\n	font-weight: bold;\r\n	color: #646464;\r\n}\r\n#CharSelectV4 .pageinfo .current {\r\n	color: #fe3b7d;\r\n}\r\n\r\n/** Characters infos **/\r\n#CharSelectV4 .charinfo {\r\n	height: 585px;\r\n	max-height: 80vh;\r\n	width: 185px;\r\n	background-repeat: no-repeat;\r\n	margin-top: 10px;\r\n	margin-left: 10px;\r\n	position: relative;\r\n}\r\n#CharSelectV4 .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#CharSelectV4 .charinfo .name {\r\n	left: 52px;\r\n	top: 2px;\r\n	white-space: nowrap;\r\n}\r\n#CharSelectV4 .charinfo .job {\r\n	left: 60px;\r\n	top: 105px;\r\n}\r\n#CharSelectV4 .charinfo .lvl {\r\n	left: 60px;\r\n	top: 123px;\r\n}\r\n#CharSelectV4 .charinfo .exp {\r\n	left: 60px;\r\n	top: 140px;\r\n}\r\n#CharSelectV4 .charinfo .hp {\r\n	left: 60px;\r\n	top: 157px;\r\n}\r\n#CharSelectV4 .charinfo .sp {\r\n	left: 60px;\r\n	top: 174px;\r\n}\r\n#CharSelectV4 .charinfo .map {\r\n	left: 60px;\r\n	top: 89px;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n#CharSelectV4 .charinfo .str {\r\n	left: 60px;\r\n	top: 191px;\r\n}\r\n#CharSelectV4 .charinfo .agi {\r\n	left: 60px;\r\n	top: 208px;\r\n}\r\n#CharSelectV4 .charinfo .vit {\r\n	left: 60px;\r\n	top: 225px;\r\n}\r\n#CharSelectV4 .charinfo .int {\r\n	left: 60px;\r\n	top: 242px;\r\n}\r\n#CharSelectV4 .charinfo .dex {\r\n	left: 60px;\r\n	top: 259px;\r\n}\r\n#CharSelectV4 .charinfo .luk {\r\n	left: 60px;\r\n	top: 276px;\r\n}\r\n\r\n/** Buttons **/\r\n#CharSelectV4 .btn.delete {\r\n	position: absolute;\r\n	width: 131px;\r\n	height: 24px;\r\n}\r\n\r\n#CharSelectV4 .btn.canceldelete {\r\n	position: absolute;\r\n	width: 131px;\r\n	height: 24px;\r\n}\r\n\r\n#CharSelectV4 .btn.finaldelete {\r\n	position: absolute;\r\n	width: 131px;\r\n	height: 24px;\r\n}\r\n\r\n#CharSelectV4 .btn.delete,\r\n#CharSelectV4 .btn.canceldelete,\r\n#CharSelectV4 .btn.finaldelete {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	text-align: center;\r\n	line-height: 24px;\r\n}\r\n\r\n#CharSelectV4 .btn.ok {\r\n	position: absolute;\r\n	width: 165px;\r\n	height: 110px;\r\n	color: white;\r\n	padding-top: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	text-align: center;\r\n	font-weight: 600;\r\n	text-shadow: 0 1px 2px #5b2942;\r\n}\r\n\r\n#CharSelectV4 .btn.ok:hover {\r\n	text-shadow: #000 1px 1px;\r\n}\r\n\r\n#CharSelectV4 .ok,\r\n#CharSelectV4 .make {\r\n	right: 15px;\r\n	top: 380px;\r\n}\r\n#CharSelectV4 .cancel {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 5px;\r\n	width: 17px;\r\n	height: 18px;\r\n}\r\n#CharSelectV4 .delete {\r\n	right: 33px;\r\n	top: 300px;\r\n}\r\n\r\n#CharSelectV4 .canceldelete {\r\n	right: 33px;\r\n	top: 300px;\r\n}\r\n\r\n#CharSelectV4 .finaldelete {\r\n	right: 33px;\r\n	top: 330px;\r\n}\r\n\r\n#CharSelectV4 .timedelete {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 100px;\r\n	top: -150px;\r\n	left: 55px;\r\n}\r\n\r\n#CharSelectV4 .hidden {\r\n	display: none;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelectV4/CharSelectV4.js
@@ -331091,6 +331270,10 @@ var init_CharCreate$2 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreateCommon.js
+function getCharCreateMessage(id, fallback) {
+	const key = CHAR_CREATE_MESSAGES.get(id);
+	return key ? getMessage(key, fallback) : fallback;
+}
 function createCharCreate(config) {
 	const { name, htmlText, cssText, hostHeight = 342, hostWidth = 576, hasStats = false, hasRace = false, gridHairstyle = false, chargenCanvasSelector = ".content canvas", graphCanvasSelector = ".graph canvas", statButtonsSelector = ".graph ui-button", hairArrows = [], humanCanvasSelector = "#canvas_human", doramCanvasSelector = "#canvas_doram", modelCanvasSelector = "#canvas_model", nameInputSelector = "input", nameInputEvent = "mousedown", cancelSelectors = [".cancel"], makeSelector = ".make" } = config;
 	const Component = new GUIComponent(name, cssText);
@@ -331174,6 +331357,8 @@ function createCharCreate(config) {
 			});
 		}
 		const input = root.querySelector(nameInputSelector);
+		input.placeholder = getMessage("robrowser.ui.char-create.name", "Character name");
+		input.setAttribute("aria-label", input.placeholder);
 		input.addEventListener(nameInputEvent, (event) => {
 			input.focus();
 			event.stopImmediatePropagation();
@@ -331182,8 +331367,21 @@ function createCharCreate(config) {
 			root.querySelector(selector).addEventListener("click", cancel);
 		});
 		root.querySelector(makeSelector).addEventListener("click", create);
-		if (hasRace) applyRaceMessages(root);
+		if (hasRace) {
+			applyRaceMessages(root);
+			if (gridHairstyle) {
+				setAccessibleLabel(root.querySelector("#male_container"), getMessage("robrowser.ui.char-create.male", "Male"));
+				setAccessibleLabel(root.querySelector("#female_container"), getMessage("robrowser.ui.char-create.female", "Female"));
+				setAccessibleLabel(root.querySelector(".rot_left"), getMessage("robrowser.ui.char-create.rotate-left", "Rotate left"));
+				setAccessibleLabel(root.querySelector(".rot_right"), getMessage("robrowser.ui.char-create.rotate-right", "Rotate right"));
+			}
+		}
 	};
+	function setAccessibleLabel(element, text) {
+		if (!element) return;
+		element.title = text;
+		element.setAttribute("aria-label", text);
+	}
 	/**
 	* Setter for AccountSex
 	*
@@ -331404,15 +331602,15 @@ function createCharCreate(config) {
 	*/
 	function applyRaceMessages(root) {
 		if (gridHairstyle) {
-			root.querySelector(".title").textContent = DB.getMessage(3355);
-			root.querySelector(".human_title").textContent = DB.getMessage(3016);
-			root.querySelector(".human_desc").textContent = DB.getMessage(3020);
-			root.querySelector(".doram_title").textContent = DB.getMessage(3018);
-			root.querySelector(".doram_desc").textContent = DB.getMessage(3021);
-			root.querySelector(".hair_style_title").textContent = DB.getMessage(3346);
-			root.querySelector(".hair_color_title").textContent = DB.getMessage(3347);
-			root.querySelector(".return").textContent = DB.getMessage(3351);
-			root.querySelector(".make").textContent = DB.getMessage(3345);
+			root.querySelector(".title").textContent = getCharCreateMessage(3355, DB.getMessage(3355));
+			root.querySelector(".human_title").textContent = getCharCreateMessage(3016, DB.getMessage(3016));
+			root.querySelector(".human_desc").textContent = getCharCreateMessage(3020, DB.getMessage(3020));
+			root.querySelector(".doram_title").textContent = getCharCreateMessage(3018, DB.getMessage(3018));
+			root.querySelector(".doram_desc").textContent = getCharCreateMessage(3021, DB.getMessage(3021));
+			root.querySelector(".hair_style_title").textContent = getCharCreateMessage(3346, DB.getMessage(3346));
+			root.querySelector(".hair_color_title").textContent = getCharCreateMessage(3347, DB.getMessage(3347));
+			root.querySelector(".return").textContent = getCharCreateMessage(3351, DB.getMessage(3351));
+			root.querySelector(".make").textContent = getCharCreateMessage(3345, DB.getMessage(3345));
 		} else {
 			root.querySelector(".race_select .human .title").textContent = DB.getMessage(3016);
 			root.querySelector(".race_select .human .desc").textContent = DB.getMessage(3020);
@@ -331775,7 +331973,7 @@ function createCharCreate(config) {
 	*/
 	return UIManager.addComponent(Component);
 }
-var TYPE, GENDER, RACE, DIRECTION, VALUE, CAP, RACE_MARK;
+var CHAR_CREATE_MESSAGES, TYPE, GENDER, RACE, DIRECTION, VALUE, CAP, RACE_MARK;
 var init_CharCreateCommon = __esmMin((() => {
 	init_DBManager();
 	init_Renderer();
@@ -331786,7 +331984,19 @@ var init_CharCreateCommon = __esmMin((() => {
 	init_Client();
 	init_UIManager();
 	init_GUIComponent();
+	init_MessageCatalog();
 	init_Elements();
+	CHAR_CREATE_MESSAGES = /* @__PURE__ */ new Map([
+		[3016, "robrowser.legacy.3016"],
+		[3018, "robrowser.legacy.3018"],
+		[3020, "robrowser.legacy.3020"],
+		[3021, "robrowser.legacy.3021"],
+		[3345, "robrowser.legacy.3345"],
+		[3346, "robrowser.legacy.3346"],
+		[3347, "robrowser.legacy.3347"],
+		[3351, "robrowser.legacy.3351"],
+		[3355, "robrowser.legacy.3355"]
+	]);
 	TYPE = {
 		RACE: 1,
 		GENDER: 2,
@@ -331972,7 +332182,7 @@ var init_CharCreatev4$2 = __esmMin((() => {
 //#region src/UI/Components/CharCreate/CharCreatev4/CharCreatev4.css?raw
 var CharCreatev4_default$1;
 var init_CharCreatev4$1 = __esmMin((() => {
-	CharCreatev4_default$1 = ":host {\r\n	width: 794px;\r\n	height: 422px;\r\n}\r\n\r\n#charcreate_v4 {\r\n	position: absolute;\r\n	width: 794px;\r\n	height: 422px;\r\n}\r\n\r\n#charcreate_v4 .title {\r\n	position: absolute;\r\n	left: 45px;\r\n	top: 15px;\r\n	height: 20px;\r\n	width: 200px;\r\n}\r\n\r\n#charcreate_v4 .human::before,\r\n#charcreate_v4 .doram::before,\r\n#charcreate_v4 .human::after,\r\n#charcreate_v4 .doram::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#charcreate_v4 .human::after,\r\n#charcreate_v4 .doram::after {\r\n	clear: both;\r\n}\r\n#charcreate_v4 .race {\r\n	display: none;\r\n}\r\n\r\n/** Human Race **/\r\n#charcreate_v4 .human_label {\r\n	position: absolute;\r\n	width: 370px;\r\n	height: 170px;\r\n	top: 35px;\r\n	left: 20px;\r\n	outline: none;\r\n	background-repeat: no-repeat;\r\n}\r\n#charcreate_v4 .human_title {\r\n	position: absolute;\r\n	color: white;\r\n	top: 22px;\r\n	left: 45px;\r\n	height: 20px;\r\n	width: 50px;\r\n}\r\n#charcreate_v4 .human_desc {\r\n	position: relative;\r\n	top: 22px;\r\n	left: 110px;\r\n	height: 60px;\r\n	width: 220px;\r\n}\r\n/** Human Chargen **/\r\n#charcreate_v4 .human .chargen canvas {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 25px;\r\n}\r\n\r\n/** Doram Race **/\r\n#charcreate_v4 .doram_label {\r\n	position: absolute;\r\n	width: 370px;\r\n	height: 170px;\r\n	top: 210px;\r\n	left: 20px;\r\n	outline: none;\r\n	background-repeat: no-repeat;\r\n}\r\n#charcreate_v4 .doram_title {\r\n	position: absolute;\r\n	color: white;\r\n	top: 22px;\r\n	left: 45px;\r\n	height: 20px;\r\n	width: 50px;\r\n}\r\n#charcreate_v4 .doram_desc {\r\n	position: relative;\r\n	top: 22px;\r\n	left: 110px;\r\n	height: 60px;\r\n	width: 220px;\r\n}\r\n/** Doram Chargen **/\r\n#charcreate_v4 .doram .chargen_doram canvas {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 25px;\r\n}\r\n\r\n/* Style */\r\n#charcreate_v4 #style {\r\n	position: relative;\r\n	left: 395px;\r\n	top: 30px;\r\n	width: 200px;\r\n	height: 270px;\r\n}\r\n#charcreate_v4 .gender_button {\r\n	display: none;\r\n}\r\n\r\n#charcreate_v4 #style .gender {\r\n	position: absolute;\r\n	top: 25px;\r\n	left: 40px;\r\n	height: 26px;\r\n	width: 130px;\r\n}\r\n#charcreate_v4 #male_container {\r\n	position: relative;\r\n	height: 25px;\r\n	width: 62px;\r\n	white-space: nowrap;\r\n}\r\n#charcreate_v4 #female_container {\r\n	position: relative;\r\n	left: 61px;\r\n	top: -25px;\r\n	height: 25px;\r\n	width: 62px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#charcreate_v4 #style .male_button {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 62px;\r\n}\r\n#charcreate_v4 #style .female_button {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 62px;\r\n}\r\n\r\n/** Style Model **/\r\n#charcreate_v4 .model {\r\n	position: relative;\r\n	top: 115px;\r\n	left: 55px;\r\n	width: 100px;\r\n}\r\n#charcreate_v4 .model canvas {\r\n	position: relative;\r\n	top: -5px;\r\n	left: 17px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate_v4 #style .rot_left {\r\n	position: relative;\r\n	top: 40px;\r\n	left: 30px;\r\n	height: 23px;\r\n	width: 22px;\r\n}\r\n#charcreate_v4 #style .rot_right {\r\n	position: relative;\r\n	top: 40px;\r\n	left: 130px;\r\n	height: 23px;\r\n	width: 22px;\r\n}\r\n\r\n/** Char Name **/\r\n#charcreate_v4 #char_name {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 140px;\r\n	top: 115px;\r\n	left: -20px;\r\n	border-width: 0px;\r\n}\r\n\r\n/** Hair Settings **/\r\n#charcreate_v4 #hair_setting {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 600px;\r\n	height: 380px;\r\n	width: 185px;\r\n}\r\n\r\n#charcreate_v4 .hair_style_title {\r\n	position: relative;\r\n	height: 15px;\r\n	width: 60px;\r\n	top: 10px;\r\n	left: 10px;\r\n}\r\n\r\n#charcreate_v4 .hairstyle_row {\r\n	position: relative;\r\n	display: flex;\r\n	top: 10px;\r\n	left: 10px;\r\n}\r\n#charcreate_v4 .styleCol {\r\n	position: relative;\r\n	width: 36px;\r\n	height: 37px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#charcreate_v4 .hstyle {\r\n	display: none;\r\n}\r\n#charcreate_v4 .hstyle_button {\r\n	position: absolute;\r\n	width: 36px;\r\n	height: 37px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charcreate_v4 .hair-styles {\r\n	position: relative;\r\n	width: 100px;\r\n	height: 100px;\r\n}\r\n#charcreate_v4 .hair-style {\r\n	position: absolute;\r\n	height: 225px;\r\n	top: 12px;\r\n	left: -2px;\r\n	display: none;\r\n}\r\n\r\n#charcreate_v4 .hair_color_title {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 60px;\r\n	top: 230px;\r\n	left: 10px;\r\n}\r\n\r\n#charcreate_v4 .hair_colors {\r\n	position: absolute;\r\n	top: 265px;\r\n	left: 15px;\r\n}\r\n#charcreate_v4 .haircolor_row {\r\n	position: relative;\r\n	display: flex;\r\n}\r\n#charcreate_v4 .colorCol {\r\n	position: relative;\r\n	width: 22px;\r\n	height: 22px;\r\n	white-space: nowrap;\r\n	margin: 2px 2px;\r\n}\r\n#charcreate_v4 .hcolor {\r\n	display: none;\r\n}\r\n#charcreate_v4 .hcolor_button {\r\n	position: absolute;\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n#charcreate_v4 .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate_v4 .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate_v4 .make {\r\n	right: 25px;\r\n	top: -20px;\r\n	height: 27px;\r\n	width: 152px;\r\n}\r\n#charcreate_v4 .cancel {\r\n	right: -15px;\r\n	top: -389px;\r\n}\r\n#charcreate_v4 .return {\r\n	width: 152px;\r\n	height: 27px;\r\n	top: -20px;\r\n	left: 25px;\r\n}\r\n\r\n#charcreate_v4 .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
+	CharCreatev4_default$1 = ":host {\r\n	width: 794px;\r\n	height: 422px;\r\n}\r\n\r\n#charcreate_v4 {\r\n	position: absolute;\r\n	width: 794px;\r\n	height: 422px;\r\n}\r\n\r\n#charcreate_v4 .title {\r\n	position: absolute;\r\n	left: 45px;\r\n	top: 15px;\r\n	height: 20px;\r\n	width: 200px;\r\n}\r\n\r\n#charcreate_v4 .human::before,\r\n#charcreate_v4 .doram::before,\r\n#charcreate_v4 .human::after,\r\n#charcreate_v4 .doram::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#charcreate_v4 .human::after,\r\n#charcreate_v4 .doram::after {\r\n	clear: both;\r\n}\r\n#charcreate_v4 .race {\r\n	display: none;\r\n}\r\n\r\n/** Human Race **/\r\n#charcreate_v4 .human_label {\r\n	position: absolute;\r\n	width: 370px;\r\n	height: 170px;\r\n	top: 35px;\r\n	left: 20px;\r\n	outline: none;\r\n	background-repeat: no-repeat;\r\n}\r\n#charcreate_v4 .human_title {\r\n	position: absolute;\r\n	color: #333;\r\n	top: 22px;\r\n	left: 45px;\r\n	height: 20px;\r\n	width: 50px;\r\n}\r\n#charcreate_v4 .human_desc {\r\n	position: relative;\r\n	top: 22px;\r\n	left: 110px;\r\n	height: 60px;\r\n	width: 220px;\r\n}\r\n/** Human Chargen **/\r\n#charcreate_v4 .human .chargen canvas {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 25px;\r\n}\r\n\r\n/** Doram Race **/\r\n#charcreate_v4 .doram_label {\r\n	position: absolute;\r\n	width: 370px;\r\n	height: 170px;\r\n	top: 210px;\r\n	left: 20px;\r\n	outline: none;\r\n	background-repeat: no-repeat;\r\n}\r\n#charcreate_v4 .doram_title {\r\n	position: absolute;\r\n	color: #333;\r\n	top: 22px;\r\n	left: 45px;\r\n	height: 20px;\r\n	width: 50px;\r\n}\r\n#charcreate_v4 .doram_desc {\r\n	position: relative;\r\n	top: 22px;\r\n	left: 110px;\r\n	height: 60px;\r\n	width: 220px;\r\n}\r\n/** Doram Chargen **/\r\n#charcreate_v4 .doram .chargen_doram canvas {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 25px;\r\n}\r\n\r\n/* Style */\r\n#charcreate_v4 #style {\r\n	position: relative;\r\n	left: 395px;\r\n	top: 30px;\r\n	width: 200px;\r\n	height: 270px;\r\n}\r\n#charcreate_v4 .gender_button {\r\n	display: none;\r\n}\r\n\r\n#charcreate_v4 #style .gender {\r\n	position: absolute;\r\n	top: 25px;\r\n	left: 40px;\r\n	height: 26px;\r\n	width: 130px;\r\n}\r\n#charcreate_v4 #male_container {\r\n	position: relative;\r\n	height: 25px;\r\n	width: 62px;\r\n	white-space: nowrap;\r\n}\r\n#charcreate_v4 #female_container {\r\n	position: relative;\r\n	left: 61px;\r\n	top: -25px;\r\n	height: 25px;\r\n	width: 62px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#charcreate_v4 #style .male_button {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 62px;\r\n}\r\n#charcreate_v4 #style .female_button {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 62px;\r\n}\r\n\r\n/** Style Model **/\r\n#charcreate_v4 .model {\r\n	position: relative;\r\n	top: 115px;\r\n	left: 55px;\r\n	width: 100px;\r\n}\r\n#charcreate_v4 .model canvas {\r\n	position: relative;\r\n	top: -5px;\r\n	left: 17px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate_v4 #style .rot_left {\r\n	position: relative;\r\n	top: 40px;\r\n	left: 30px;\r\n	height: 23px;\r\n	width: 22px;\r\n}\r\n#charcreate_v4 #style .rot_right {\r\n	position: relative;\r\n	top: 40px;\r\n	left: 130px;\r\n	height: 23px;\r\n	width: 22px;\r\n}\r\n\r\n/** Char Name **/\r\n#charcreate_v4 #char_name {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 140px;\r\n	top: 115px;\r\n	left: -20px;\r\n	border-width: 0px;\r\n}\r\n\r\n/** Hair Settings **/\r\n#charcreate_v4 #hair_setting {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 600px;\r\n	height: 380px;\r\n	width: 185px;\r\n}\r\n\r\n#charcreate_v4 .hair_style_title {\r\n	position: relative;\r\n	height: 15px;\r\n	width: 60px;\r\n	top: 10px;\r\n	left: 10px;\r\n}\r\n\r\n#charcreate_v4 .hairstyle_row {\r\n	position: relative;\r\n	display: flex;\r\n	top: 10px;\r\n	left: 10px;\r\n}\r\n#charcreate_v4 .styleCol {\r\n	position: relative;\r\n	width: 36px;\r\n	height: 37px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#charcreate_v4 .hstyle {\r\n	display: none;\r\n}\r\n#charcreate_v4 .hstyle_button {\r\n	position: absolute;\r\n	width: 36px;\r\n	height: 37px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charcreate_v4 .hair-styles {\r\n	position: relative;\r\n	width: 100px;\r\n	height: 100px;\r\n}\r\n#charcreate_v4 .hair-style {\r\n	position: absolute;\r\n	height: 225px;\r\n	top: 12px;\r\n	left: -2px;\r\n	display: none;\r\n}\r\n\r\n#charcreate_v4 .hair_color_title {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 60px;\r\n	top: 230px;\r\n	left: 10px;\r\n}\r\n\r\n#charcreate_v4 .hair_colors {\r\n	position: absolute;\r\n	top: 265px;\r\n	left: 15px;\r\n}\r\n#charcreate_v4 .haircolor_row {\r\n	position: relative;\r\n	display: flex;\r\n}\r\n#charcreate_v4 .colorCol {\r\n	position: relative;\r\n	width: 22px;\r\n	height: 22px;\r\n	white-space: nowrap;\r\n	margin: 2px 2px;\r\n}\r\n#charcreate_v4 .hcolor {\r\n	display: none;\r\n}\r\n#charcreate_v4 .hcolor_button {\r\n	position: absolute;\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n#charcreate_v4 .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate_v4 .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate_v4 .make {\r\n	right: 25px;\r\n	top: -20px;\r\n	height: 27px;\r\n	width: 152px;\r\n}\r\n#charcreate_v4 .cancel {\r\n	right: -15px;\r\n	top: -389px;\r\n}\r\n#charcreate_v4 .return {\r\n	width: 152px;\r\n	height: 27px;\r\n	top: -20px;\r\n	left: 25px;\r\n}\r\n\r\n#charcreate_v4 .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreatev4/CharCreatev4.js
@@ -332030,6 +332240,10 @@ var init_Player = __esmMin((() => {
 //#endregion
 //#region src/Engine/CharEngine.js
 var CharEngine_exports = /* @__PURE__ */ __exportAll({ default: () => CharEngine });
+function getCharEngineMessage(id, fallback) {
+	const key = CHAR_ENGINE_MESSAGES.get(id);
+	return key ? getMessage(key, fallback) : fallback;
+}
 /**
 * Request to go back to Login Window
 */
@@ -332154,7 +332368,7 @@ function onConnectionRefused$1(pkt) {
 * @param {object} pkt - PACKET.HC.NOTIFY_ACCESSIBLE_MAPNAME
 */
 function onMapUnavailable(pkt) {
-	UIManager.showMessageBox(DB.getMessage(1811), "ok", () => {
+	UIManager.showMessageBox(getCharEngineMessage(1811, DB.getMessage(1811)), "ok", () => {
 		UIManager.getComponent("WinLoading").remove();
 		Controller$2.getUI().append();
 	}, true);
@@ -332226,7 +332440,7 @@ function onDeleteRequest(charID) {
 		_overlay.style.zIndex = "51";
 		_ui_box.append();
 	}
-	_ui_box = UIManager.showPromptBox(DB.getMessage(19), "ok", "cancel", onOk, onCancel);
+	_ui_box = UIManager.showPromptBox(getCharEngineMessage(19, DB.getMessage(19)), "ok", "cancel", onOk, onCancel);
 	const _overlay = document.createElement("div");
 	_overlay.className = "win_popup_overlay";
 	document.body.appendChild(_overlay);
@@ -332370,7 +332584,7 @@ function onCreationFail(pkt) {
 		default:
 		case 255: msg_id = 11;
 	}
-	UIManager.showMessageBox(DB.getMessage(msg_id), "ok");
+	UIManager.showMessageBox(getCharEngineMessage(msg_id, DB.getMessage(msg_id)), "ok");
 }
 function onPincodeCheckRequest(pincode) {
 	const pkt = new PACKET.CH.PINCODE_CHECK();
@@ -332540,7 +332754,7 @@ function onReceiveMapInfo(pkt) {
 	SessionStorage_default.GID = pkt.GID;
 	MapEngine.init(pkt.addr.ip, pkt.addr.port, pkt.mapName);
 }
-var _server$1, _creationSlot, _pincodeAttempts, _inAuthPincodeReset, _resettingPincode, _creatingPincode, CharEngine, retryCount;
+var CHAR_ENGINE_MESSAGES, _server$1, _creationSlot, _pincodeAttempts, _inAuthPincodeReset, _resettingPincode, _creatingPincode, CharEngine, retryCount;
 var init_CharEngine = __esmMin((() => {
 	init_DBManager();
 	init_Configs();
@@ -332560,7 +332774,17 @@ var init_CharEngine = __esmMin((() => {
 	init_CharSelect();
 	init_CharCreate();
 	init_Player();
+	init_MessageCatalog();
 	init_preload_helper();
+	CHAR_ENGINE_MESSAGES = /* @__PURE__ */ new Map([
+		[10, "robrowser.legacy.10"],
+		[11, "robrowser.legacy.11"],
+		[19, "robrowser.legacy.19"],
+		[298, "robrowser.legacy.298"],
+		[1272, "robrowser.legacy.1272"],
+		[1355, "robrowser.legacy.1355"],
+		[1811, "robrowser.legacy.1811"]
+	]);
 	_server$1 = null;
 	_creationSlot = 0;
 	_pincodeAttempts = 0;
@@ -332577,7 +332801,7 @@ var init_CharEngine = __esmMin((() => {
 			const ip = forceAddress ? server_info.address : Network.utils.longToIP(server.ip);
 			Network.connect(ip, server.port, (success) => {
 				if (!success) {
-					UIManager.showErrorBox(DB.getMessage(1));
+					UIManager.showErrorBox(getMessage("robrowser.ui.login.error.connection-failed", "Unable to connect to the server."));
 					return;
 				}
 				const pkt = new PACKET.CH.ENTER();
@@ -335541,6 +335765,22 @@ function createWinLogin({ name, htmlText, cssText }) {
 		_inputUsername = root.querySelector(".user");
 		_inputPassword = root.querySelector(".pass");
 		_buttonSave = root.querySelector(".save");
+		const buttonSignup = root.querySelector(".signup");
+		const buttonConnect = root.querySelector(".connect");
+		const buttonExit = root.querySelector(".exit");
+		_inputUsername.placeholder = getMessage("robrowser.ui.win-login.account", "Account");
+		_inputUsername.setAttribute("aria-label", _inputUsername.placeholder);
+		_inputPassword.placeholder = getMessage("robrowser.ui.win-login.password", "Password");
+		_inputPassword.setAttribute("aria-label", _inputPassword.placeholder);
+		_buttonSave.title = getMessage("robrowser.ui.win-login.remember-account", "Remember account");
+		_buttonSave.setAttribute("aria-label", _buttonSave.title);
+		buttonConnect.title = getMessage("robrowser.ui.win-login.log-in", "Log in");
+		buttonConnect.setAttribute("aria-label", buttonConnect.title);
+		buttonSignup.title = getMessage("robrowser.ui.win-login.create-account", "Create account");
+		buttonSignup.setAttribute("aria-label", buttonSignup.title);
+		if (name !== "WinLogin") buttonSignup.textContent = buttonSignup.title;
+		buttonExit.title = getMessage("robrowser.ui.win-login.exit", "Exit");
+		buttonExit.setAttribute("aria-label", buttonExit.title);
 		_inputUsername.addEventListener("mousedown", function(event) {
 			this.focus();
 			this.value = "";
@@ -335555,9 +335795,9 @@ function createWinLogin({ name, htmlText, cssText }) {
 			toggleSaveButton();
 			event.stopImmediatePropagation();
 		});
-		root.querySelector(".signup").addEventListener("click", signup);
-		root.querySelector(".connect").addEventListener("click", connect);
-		root.querySelector(".exit").addEventListener("click", exit);
+		buttonSignup.addEventListener("click", signup);
+		buttonConnect.addEventListener("click", connect);
+		buttonExit.addEventListener("click", exit);
 	};
 	Component.onAppend = function onAppend() {
 		_inputUsername.value = _preferences.saveID ? _preferences.ID : "";
@@ -335616,10 +335856,10 @@ function createWinLogin({ name, htmlText, cssText }) {
 	}
 	function signup() {
 		const url = Configs.get("registrationweb");
-		if (url) UIManager.showPromptBox(DB.getMessage(662), "ok", "cancel", () => {
+		if (url) UIManager.showPromptBox(getMessage("robrowser.ui.win-login.open-registration", "Open the account registration page?"), "ok", "cancel", () => {
 			window.open(url);
 		}, null);
-		else UIManager.showPromptBox("No registration URL was provided.\nIf this server uses simplified registration, then input your new:\n - Username followed by _M for Male and _F for Female account (Eg: MyUser_M)\n - Password.", "ok", "cancel", null, null);
+		else UIManager.showPromptBox(getMessage("robrowser.ui.win-login.registration-unavailable", "Account registration is not available. Contact the server administrator."), "ok", "cancel", null, null);
 	}
 	Component.onConnectionRequest = function onConnectionRequest() {};
 	Component.onExitRequest = function onExitRequest() {};
@@ -335633,6 +335873,7 @@ var init_WinLoginCommon = __esmMin((() => {
 	init_KeyEventHandler();
 	init_UIManager();
 	init_GUIComponent();
+	init_MessageCatalog();
 	init_Elements();
 }));
 //#endregion
@@ -335709,6 +335950,10 @@ var init_WinLogin = __esmMin((() => {
 //#endregion
 //#region src/Engine/LoginEngine.js
 var LoginEngine_exports = /* @__PURE__ */ __exportAll({ default: () => LoginEngine });
+function getLoginMessage(id, fallback) {
+	const key = LOGIN_LEGACY_MESSAGE_KEYS.get(id);
+	return key ? getMessage(key, fallback) : fallback;
+}
 /**
 * Trying to connect to Login server
 *
@@ -335722,7 +335967,8 @@ function onConnectionRequest(username, password) {
 	_loginID = username;
 	Network.connect(_server.address, _server.port, (success) => {
 		if (!success) {
-			UIManager.showMessageBox(DB.getMessage(1), "ok", () => {
+			WinLoading.remove();
+			UIManager.showMessageBox(getMessage("robrowser.ui.login.error.connection-failed", "Unable to connect to the server."), "ok", () => {
 				UIManager.removeComponents();
 				Controller.getUI().append();
 			}, true);
@@ -335772,7 +336018,7 @@ function onConnectionRequest(username, password) {
 				for (let i = 0; i < password.length; i++) paddedPassword[i] = password.charCodeAt(i);
 				const encryptedPassword = Rijndael.encrypt(paddedPassword, Configs.get("rijndaelKey"), Configs.get("rijndaelChain"), 24, "ecb");
 				if (!encryptedPassword) {
-					UIManager.showErrorBox("Rijndael encryption failed. Check rijndaelKey and rijndaelChain config.");
+					UIManager.showErrorBox(getMessage("robrowser.ui.login.error.password-encryption", "Password encryption failed because the client configuration is invalid."));
 					return;
 				}
 				pkt = new PACKET.CA.LOGIN_HAN();
@@ -335895,7 +336141,7 @@ function onTarenConnectionRefused(pkt) {
 			break;
 		default: msg_id = 3202;
 	}
-	UIManager.showMessageBox(DB.getMessage(msg_id), "ok", () => {
+	UIManager.showMessageBox(getLoginMessage(msg_id, DB.getMessage(msg_id)), "ok", () => {
 		UIManager.removeComponents();
 		Controller.getUI().append();
 	}, true);
@@ -335943,7 +336189,7 @@ function onTarenConnectionRefused2(pkt) {
 			break;
 		default: msg_id = 3202;
 	}
-	UIManager.showMessageBox(DB.getMessage(msg_id).replace("%s", pkt.blockDate), "ok", () => {
+	UIManager.showMessageBox(getLoginMessage(msg_id, DB.getMessage(msg_id)).replace("%s", pkt.blockDate), "ok", () => {
 		UIManager.removeComponents();
 		Controller.getUI().append();
 	}, true);
@@ -336001,7 +336247,7 @@ function onInternationalConnectionRefused(pkt) {
 			break;
 		case 5214: msg_id = 3328;
 	}
-	UIManager.showMessageBox(DB.getMessage(msg_id).replace("%d", pkt.blockDate), "ok", () => {
+	UIManager.showMessageBox(getLoginMessage(msg_id, DB.getMessage(msg_id)).replace("%d", pkt.blockDate), "ok", () => {
 		UIManager.removeComponents();
 		Controller.getUI().append();
 	}, true);
@@ -336013,6 +336259,7 @@ function onInternationalConnectionRefused(pkt) {
 * @param {object} pkt - PACKET.AC.REFUSE_LOGIN
 */
 function onConnectionRefused(pkt) {
+	WinLoading.remove();
 	let error = 9;
 	switch (pkt.ErrorCode) {
 		case 0:
@@ -336201,7 +336448,7 @@ function onConnectionRefused(pkt) {
 			break;
 		case 5301: error = 3539;
 	}
-	UIManager.showMessageBox(DB.getMessage(error).replace("%s", pkt.blockDate), "ok", () => {
+	UIManager.showMessageBox(getLoginMessage(error, DB.getMessage(error)).replace("%s", pkt.blockDate), "ok", () => {
 		UIManager.removeComponents();
 		Controller.getUI().append();
 	}, true);
@@ -336302,13 +336549,13 @@ function onServerClosed(pkt) {
 			break;
 		case 110: msg_id = 1589;
 	}
-	UIManager.showMessageBox(DB.getMessage(msg_id), "ok", () => {
+	UIManager.showMessageBox(getLoginMessage(msg_id, DB.getMessage(msg_id)), "ok", () => {
 		UIManager.removeComponents();
 		Controller.getUI().append();
 	}, true);
 	Network.close();
 }
-var WinLoading, _server, _charServers, _loginID, LoginEngine;
+var LOGIN_LEGACY_MESSAGE_KEYS, WinLoading, _server, _charServers, _loginID, LoginEngine;
 var init_LoginEngine = __esmMin((() => {
 	init_CodepageManager();
 	init_DBManager();
@@ -336330,15 +336577,25 @@ var init_LoginEngine = __esmMin((() => {
 	init_Background();
 	init_spark_md5_min();
 	init_Rijndael();
+	init_MessageCatalog();
 	init_WinLogin();
 	init_preload_helper();
+	LOGIN_LEGACY_MESSAGE_KEYS = /* @__PURE__ */ new Map([
+		[3, "robrowser.legacy.3"],
+		[6, "robrowser.legacy.6"],
+		[8, "robrowser.legacy.8"],
+		[267, "robrowser.legacy.267"],
+		[310, "robrowser.legacy.310"],
+		[439, "robrowser.legacy.439"],
+		[449, "robrowser.legacy.449"]
+	]);
 	WinLoading = WinPopup_default.clone("WinLoading");
 	WinLoading.init = function() {
 		Object.assign(this._host.style, {
 			top: (Renderer.height - 120) / 1.5 + "px",
 			left: (Renderer.width - 280) / 2 + "px"
 		});
-		this._shadow.querySelector(".text").textContent = DB.getMessage(121);
+		this._shadow.querySelector(".text").textContent = getMessage("robrowser.ui.login.status.connecting", "Connecting to the server...");
 	};
 	UIManager.addComponent(WinLoading);
 	_server = null;
@@ -336368,7 +336625,7 @@ var init_LoginEngine = __esmMin((() => {
 				if (packetver.match(/^\d+$/)) PacketVerManager_default.value = parseInt(packetver, 10);
 			}
 			if (!PacketVerManager_default.value) {
-				UIManager.showErrorBox("Sorry, no PACKETVER configs found.");
+				UIManager.showErrorBox(getMessage("robrowser.ui.login.error.packetver-missing", "No PACKETVER configuration was found."));
 				return;
 			}
 			if (remoteClient) {
@@ -336398,7 +336655,7 @@ var init_LoginEngine = __esmMin((() => {
 			Controller.getUI().onConnectionRequest = onConnectionRequest;
 			Controller.getUI().onExitRequest = onExitRequest;
 			Network.onDisconnect = () => {
-				UIManager.showMessageBox(DB.getMessage(1), "ok", () => {
+				UIManager.showMessageBox(getMessage("robrowser.ui.login.error.connection-lost", "Connection to the server was lost."), "ok", () => {
 					UIManager.removeComponents();
 					Controller.getUI().append();
 				}, true);
@@ -337471,16 +337728,23 @@ function _popupPosition() {
 function _createButton(name, onClick) {
 	const btn = document.createElement("button");
 	btn.className = "btn";
-	btn.dataset.background = `btn_${name}.bmp`;
-	btn.dataset.hover = `btn_${name}_a.bmp`;
-	btn.dataset.down = `btn_${name}_b.bmp`;
+	const message = BUTTON_MESSAGES[name];
+	if (message) {
+		btn.classList.add("localized-text");
+		btn.textContent = getMessage(message[0], message[1]);
+		btn.title = btn.textContent;
+	} else {
+		btn.dataset.background = `btn_${name}.bmp`;
+		btn.dataset.hover = `btn_${name}_a.bmp`;
+		btn.dataset.down = `btn_${name}_b.bmp`;
+	}
 	let clicked = false;
 	btn.addEventListener("click", () => {
 		if (clicked) return;
 		clicked = true;
 		onClick();
 	});
-	GUIComponent.processDataAttrs(btn);
+	if (!message) GUIComponent.processDataAttrs(btn);
 	return btn;
 }
 /**
@@ -337503,14 +337767,22 @@ function _prioritizeKeyDown() {
 		window.addEventListener("keydown", this._keyHandler, true);
 	}
 }
-var UIManager;
+var BUTTON_MESSAGES, UIManager;
 var init_UIManager = __esmMin((() => {
 	init_GUIComponent();
 	init_Common$1();
 	init_UIVersionManager();
 	init_KeyEventHandler();
 	init_ClampToViewport();
+	init_MessageCatalog();
 	init_preload_helper();
+	BUTTON_MESSAGES = {
+		ok: ["robrowser.ui.common.ok", "OK"],
+		cancel: ["robrowser.ui.common.cancel", "Cancel"],
+		yes: ["robrowser.ui.common.yes", "Yes"],
+		no: ["robrowser.ui.common.no", "No"],
+		close: ["robrowser.ui.common.close", "Close"]
+	};
 	(function injectCommonCSS() {
 		let style = document.querySelector("style[data-common]");
 		if (!style) {
