@@ -205476,9 +205476,9 @@ var init_NodeSocket = __esmMin((() => {
 			}
 		}
 	};
-})), $schema$10, namespaces$1, manifest_default;
+})), $schema$12, namespaces$1, manifest_default;
 var init_manifest = __esmMin((() => {
-	$schema$10 = "../schema/client-message-catalog.schema.json";
+	$schema$12 = "../schema/client-message-catalog.schema.json";
 	namespaces$1 = {
 		"gravity.MsgStrID": {
 			"sourceLocale": "ko-KR",
@@ -205507,7 +205507,9 @@ var init_manifest = __esmMin((() => {
 				"ui/main-ui.json",
 				"ui/chat.json",
 				"ui/shortcuts.json",
-				"ui/commands.json"
+				"ui/commands.json",
+				"ui/items-inventory.json",
+				"ui/items-equipment.json"
 			]
 		},
 		"robrowser.legacy": {
@@ -205524,17 +205526,17 @@ var init_manifest = __esmMin((() => {
 		}
 	};
 	manifest_default = {
-		$schema: $schema$10,
+		$schema: $schema$12,
 		catalogVersion: 3,
 		namespaces: namespaces$1
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/gravity/msgstrid.json
-var $schema$9, entries$10, msgstrid_default;
+var $schema$11, entries$12, msgstrid_default;
 var init_msgstrid = __esmMin((() => {
-	$schema$9 = "../../schema/client-message-fragment.schema.json";
-	entries$10 = [
+	$schema$11 = "../../schema/client-message-fragment.schema.json";
+	entries$12 = [
 		{
 			"key": "MSI_HK_BASICINFOWND_MINI",
 			"sourceText": "기본 정보 창 최소/최대",
@@ -206500,16 +206502,16 @@ var init_msgstrid = __esmMin((() => {
 		}
 	];
 	msgstrid_default = {
-		$schema: $schema$9,
-		entries: entries$10
+		$schema: $schema$11,
+		entries: entries$12
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/common.json
-var $schema$8, entries$9, common_default;
+var $schema$10, entries$11, common_default;
 var init_common = __esmMin((() => {
-	$schema$8 = "../../schema/client-message-fragment.schema.json";
-	entries$9 = [
+	$schema$10 = "../../schema/client-message-fragment.schema.json";
+	entries$11 = [
 		{
 			"key": "common.ok",
 			"sourceText": "OK",
@@ -206554,19 +206556,28 @@ var init_common = __esmMin((() => {
 				"en": "Close",
 				"zh-CN": "关闭"
 			}
+		},
+		{
+			"key": "common.minimize",
+			"sourceText": "Minimize",
+			"context": "Accessible label for minimizing a window to its title bar.",
+			"translations": {
+				"en": "Minimize",
+				"zh-CN": "最小化"
+			}
 		}
 	];
 	common_default = {
-		$schema: $schema$8,
-		entries: entries$9
+		$schema: $schema$10,
+		entries: entries$11
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/auth.json
-var $schema$7, entries$8, auth_default;
+var $schema$9, entries$10, auth_default;
 var init_auth = __esmMin((() => {
-	$schema$7 = "../../schema/client-message-fragment.schema.json";
-	entries$8 = [
+	$schema$9 = "../../schema/client-message-fragment.schema.json";
+	entries$10 = [
 		{
 			"key": "win-login.account",
 			"sourceText": "Account",
@@ -206749,16 +206760,16 @@ var init_auth = __esmMin((() => {
 		}
 	];
 	auth_default = {
-		$schema: $schema$7,
-		entries: entries$8
+		$schema: $schema$9,
+		entries: entries$10
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/main-ui.json
-var $schema$6, entries$7, main_ui_default;
+var $schema$8, entries$9, main_ui_default;
 var init_main_ui = __esmMin((() => {
-	$schema$6 = "../../schema/client-message-fragment.schema.json";
-	entries$7 = [
+	$schema$8 = "../../schema/client-message-fragment.schema.json";
+	entries$9 = [
 		{
 			"key": "basic-info.title",
 			"sourceText": "Basic Information",
@@ -207274,16 +207285,16 @@ var init_main_ui = __esmMin((() => {
 		}
 	];
 	main_ui_default = {
-		$schema: $schema$6,
-		entries: entries$7
+		$schema: $schema$8,
+		entries: entries$9
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/chat.json
-var $schema$5, entries$6, chat_default;
+var $schema$7, entries$8, chat_default;
 var init_chat = __esmMin((() => {
-	$schema$5 = "../../schema/client-message-fragment.schema.json";
-	entries$6 = [
+	$schema$7 = "../../schema/client-message-fragment.schema.json";
+	entries$8 = [
 		{
 			"key": "chat-box.public-log",
 			"sourceText": "Public Log",
@@ -207682,16 +207693,16 @@ var init_chat = __esmMin((() => {
 		}
 	];
 	chat_default = {
-		$schema: $schema$5,
-		entries: entries$6
+		$schema: $schema$7,
+		entries: entries$8
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/shortcuts.json
-var $schema$4, entries$5, shortcuts_default;
+var $schema$6, entries$7, shortcuts_default;
 var init_shortcuts = __esmMin((() => {
-	$schema$4 = "../../schema/client-message-fragment.schema.json";
-	entries$5 = [
+	$schema$6 = "../../schema/client-message-fragment.schema.json";
+	entries$7 = [
 		{
 			"key": "shortcut-settings.title",
 			"sourceText": "Shortcut key settings",
@@ -207982,16 +207993,16 @@ var init_shortcuts = __esmMin((() => {
 		}
 	];
 	shortcuts_default = {
-		$schema: $schema$4,
-		entries: entries$5
+		$schema: $schema$6,
+		entries: entries$7
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/commands.json
-var $schema$3, entries$4, commands_default;
+var $schema$5, entries$6, commands_default;
 var init_commands = __esmMin((() => {
-	$schema$3 = "../../schema/client-message-fragment.schema.json";
-	entries$4 = [
+	$schema$5 = "../../schema/client-message-fragment.schema.json";
+	entries$6 = [
 		{
 			"key": "command-help.available",
 			"sourceText": "Available Commands:",
@@ -208489,6 +208500,210 @@ var init_commands = __esmMin((() => {
 		}
 	];
 	commands_default = {
+		$schema: $schema$5,
+		entries: entries$6
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/items-inventory.json
+var $schema$4, entries$5, items_inventory_default;
+var init_items_inventory = __esmMin((() => {
+	$schema$4 = "../../schema/client-message-fragment.schema.json";
+	entries$5 = [
+		{
+			"key": "inventory.title",
+			"sourceText": "Inventory",
+			"context": "Title of the active 2021 InventoryV3 window.",
+			"translations": {
+				"en": "Inventory",
+				"zh-CN": "物品栏"
+			}
+		},
+		{
+			"key": "inventory.tab.items",
+			"sourceText": "Items",
+			"context": "InventoryV3 tab for usable and consumable items.",
+			"translations": {
+				"en": "Items",
+				"zh-CN": "道具"
+			}
+		},
+		{
+			"key": "inventory.tab.equipment",
+			"sourceText": "Equip",
+			"context": "InventoryV3 tab for equippable items; kept short for the vertical tab.",
+			"translations": {
+				"en": "Equip",
+				"zh-CN": "装备"
+			}
+		},
+		{
+			"key": "inventory.tab.miscellaneous",
+			"sourceText": "Etc.",
+			"context": "InventoryV3 tab for miscellaneous items; kept short for the vertical tab.",
+			"translations": {
+				"en": "Etc.",
+				"zh-CN": "其他"
+			}
+		},
+		{
+			"key": "inventory.tab.favorites",
+			"sourceText": "Fav.",
+			"context": "InventoryV3 favorites tab; kept short for the vertical tab.",
+			"translations": {
+				"en": "Fav.",
+				"zh-CN": "收藏"
+			}
+		},
+		{
+			"key": "inventory.npc-sale-locked",
+			"sourceText": "NPC selling is locked.",
+			"context": "InventoryV3 overlay shown after enabling the NPC sale lock.",
+			"translations": {
+				"en": "NPC selling is locked.",
+				"zh-CN": "NPC 出售已锁定。"
+			}
+		},
+		{
+			"key": "inventory.expand",
+			"sourceText": "Expand inventory",
+			"context": "InventoryV3 inventory-slot expansion control and hover label.",
+			"translations": {
+				"en": "Expand inventory",
+				"zh-CN": "扩充物品栏"
+			}
+		},
+		{
+			"key": "inventory.drop-lock",
+			"sourceText": "Drop lock",
+			"context": "InventoryV3 control that prevents dropping protected items.",
+			"translations": {
+				"en": "Drop lock",
+				"zh-CN": "防丢弃"
+			}
+		},
+		{
+			"key": "inventory.compare",
+			"sourceText": "Compare items",
+			"context": "InventoryV3 control that toggles item comparison.",
+			"translations": {
+				"en": "Compare items",
+				"zh-CN": "物品比较"
+			}
+		},
+		{
+			"key": "inventory.npc-sale-lock",
+			"sourceText": "NPC sale lock",
+			"context": "InventoryV3 control that prevents selling items to NPC shops.",
+			"translations": {
+				"en": "NPC sale lock",
+				"zh-CN": "NPC 出售锁定"
+			}
+		},
+		{
+			"key": "inventory.sort",
+			"sourceText": "Sort items",
+			"context": "InventoryV3 control that requests server-side item sorting.",
+			"translations": {
+				"en": "Sort items",
+				"zh-CN": "整理物品"
+			}
+		},
+		{
+			"key": "inventory.resize",
+			"sourceText": "Resize inventory",
+			"context": "Accessible label for the InventoryV3 resize handle.",
+			"translations": {
+				"en": "Resize inventory",
+				"zh-CN": "调整物品栏大小"
+			}
+		}
+	];
+	items_inventory_default = {
+		$schema: $schema$4,
+		entries: entries$5
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/items-equipment.json
+var $schema$3, entries$4, items_equipment_default;
+var init_items_equipment = __esmMin((() => {
+	$schema$3 = "../../schema/client-message-fragment.schema.json";
+	entries$4 = [
+		{
+			"key": "equipment.title",
+			"sourceText": "Equipment",
+			"context": "Title of the active 2021 EquipmentV3 window.",
+			"translations": {
+				"en": "Equipment",
+				"zh-CN": "装备"
+			}
+		},
+		{
+			"key": "equipment.tab.general",
+			"sourceText": "General",
+			"context": "EquipmentV3 tab for normal equipment.",
+			"translations": {
+				"en": "General",
+				"zh-CN": "普通"
+			}
+		},
+		{
+			"key": "equipment.tab.costume",
+			"sourceText": "Costume",
+			"context": "EquipmentV3 tab for costume and shadow equipment.",
+			"translations": {
+				"en": "Costume",
+				"zh-CN": "时装"
+			}
+		},
+		{
+			"key": "equipment.tab.title",
+			"sourceText": "Title",
+			"context": "EquipmentV3 tab for character titles.",
+			"translations": {
+				"en": "Title",
+				"zh-CN": "称号"
+			}
+		},
+		{
+			"key": "equipment.cart-items",
+			"sourceText": "Cart items",
+			"context": "Accessible label for the EquipmentV3 cart-items button.",
+			"translations": {
+				"en": "Cart items",
+				"zh-CN": "手推车物品"
+			}
+		},
+		{
+			"key": "equipment.remove-cart",
+			"sourceText": "Remove cart",
+			"context": "Accessible label for the EquipmentV3 button that sends REQ_CARTOFF.",
+			"translations": {
+				"en": "Remove cart",
+				"zh-CN": "卸下手推车"
+			}
+		},
+		{
+			"key": "equipment.show-equipment",
+			"sourceText": "Show equipment",
+			"context": "EquipmentV3 control for making equipment information visible to other players.",
+			"translations": {
+				"en": "Show equipment",
+				"zh-CN": "公开装备"
+			}
+		},
+		{
+			"key": "equipment.switch-set",
+			"sourceText": "Switch equipment set",
+			"context": "Accessible label for opening the EquipmentV3 equipment-switch panel.",
+			"translations": {
+				"en": "Switch equipment set",
+				"zh-CN": "切换装备套装"
+			}
+		}
+	];
+	items_equipment_default = {
 		$schema: $schema$3,
 		entries: entries$4
 	};
@@ -208964,6 +209179,8 @@ var init_catalog = __esmMin((() => {
 	init_chat();
 	init_shortcuts();
 	init_commands();
+	init_items_inventory();
+	init_items_equipment();
 	init_login();
 	init_character();
 	init_game_entry();
@@ -208975,6 +209192,8 @@ var init_catalog = __esmMin((() => {
 		"ui/chat.json": chat_default,
 		"ui/shortcuts.json": shortcuts_default,
 		"ui/commands.json": commands_default,
+		"ui/items-inventory.json": items_inventory_default,
+		"ui/items-equipment.json": items_equipment_default,
 		"legacy/login.json": login_default,
 		"legacy/character.json": character_default,
 		"legacy/game-entry.json": game_entry_default
@@ -242417,6 +242636,21 @@ var init_WriteRodex = __esmMin((() => {
 	WriteRodex_default = UIManager.addComponent(WriteRodex);
 }));
 //#endregion
+//#region src/Localization/LocalizeDOM.js
+function applyLocaleAttributes(root) {
+	root.querySelectorAll("[data-locale-key]").forEach((element) => {
+		element.textContent = getMessage(element.dataset.localeKey, element.textContent.trim());
+	});
+	root.querySelectorAll("[data-locale-title-key]").forEach((element) => {
+		const label = getMessage(element.dataset.localeTitleKey, element.title);
+		element.title = label;
+		element.setAttribute("aria-label", label);
+	});
+}
+var init_LocalizeDOM = __esmMin((() => {
+	init_MessageCatalog();
+}));
+//#endregion
 //#region src/UI/Components/Inventory/InventoryCommon.js
 function _sanitizeHtml$7(str) {
 	const whitelist = [
@@ -242500,6 +242734,7 @@ function createInventory(config) {
 	*/
 	Component.init = function Init() {
 		const root = Component.getRoot();
+		applyLocaleAttributes(root);
 		const baseBtn = root.querySelector(".titlebar .base");
 		if (baseBtn) baseBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
 		const miniBtn = root.querySelector(".titlebar .mini");
@@ -243543,6 +243778,7 @@ var init_InventoryCommon = __esmMin((() => {
 	init_Enchant();
 	init_Mail$1();
 	init_WriteRodex();
+	init_LocalizeDOM();
 }));
 //#endregion
 //#region src/UI/Components/Inventory/InventoryV0/InventoryV0.js
@@ -243620,13 +243856,13 @@ var init_InventoryV2 = __esmMin((() => {
 //#region src/UI/Components/Inventory/InventoryV3/InventoryV3.html?raw
 var InventoryV3_default$2;
 var init_InventoryV3$2 = __esmMin((() => {
-	InventoryV3_default$2 = "<div id=\"InventoryV3\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"106\">Inventory</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base mini\"\r\n				data-background=\"basic_interface/sys_mini_off.bmp\"\r\n				data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"middle\">\r\n			<div class=\"tabs\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n				<button class=\"item tab\" data-tab=\"item\" data-text=\"1465\"></button>\r\n				<button class=\"equip tab\" data-tab=\"equip\" data-text=\"2050\"></button>\r\n				<button class=\"etc tab\" data-tab=\"etc\" data-text=\"1471\"></button>\r\n				<button class=\"fav tab\" data-tab=\"fav\" data-text=\"2051\"></button>\r\n			</div>\r\n			<div class=\"container\">\r\n				<div class=\"scroll-host\">\r\n					<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n				</div>\r\n				<div class=\"lockoverlay hidden\"></div>\r\n\r\n				<div class=\"lockoverlaymsg hidden\" data-background=\"inventory/popup_itemdeal_lock.bmp\">\r\n					<span class=\"msg\" data-text=\"2951\"></span>\r\n					<div class=\"lockoverlayclose\" data-background=\"inventory/bt_close.bmp\"></div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n			<div class=\"expand\">\r\n				<button\r\n					class=\"item_expansion\"\r\n					data-background=\"inventory/icon_num.bmp\"\r\n					data-text=\"Expand Items\"\r\n				></button>\r\n				<span class=\"name\" data-text=\"3560\"></span>\r\n				<span class=\"ncnt\"></span><span class=\"mcnt\"></span>\r\n			</div>\r\n			<div class=\"droplock\">\r\n				<button\r\n					class=\"item_drop_lock\"\r\n					data-background=\"inventory/item_drop_lock_off.bmp\"\r\n					data-text=\"Drop Lock\"\r\n				></button>\r\n				<span class=\"name\" data-text=\"2843\"></span>\r\n			</div>\r\n			<div class=\"compare\">\r\n				<button\r\n					class=\"item_compare\"\r\n					data-background=\"inventory/item_compare_off.bmp\"\r\n					data-text=\"Compare Items\"\r\n				></button>\r\n				<span class=\"name\" data-text=\"2842\"></span>\r\n			</div>\r\n			<div class=\"deallock_on hidden\">\r\n				<button\r\n					class=\"deal_lock item_deal_lock_on\"\r\n					data-background=\"inventory/bt_itemdeal_lock_on.bmp\"\r\n					data-hover=\"inventory/bt_itemdeal_lock_on_over.bmp\"\r\n					data-down=\"inventory/bt_itemdeal_lock_on_press.bmp\"\r\n					data-text=\"Deal Lock On\"\r\n				></button>\r\n				<span class=\"name\" data-text=\"2952\"></span>\r\n			</div>\r\n			<div class=\"deallock_off hidden\">\r\n				<button\r\n					class=\"deal_lock item_deal_lock_off\"\r\n					data-background=\"inventory/bt_itemdeal_lock_off.bmp\"\r\n					data-hover=\"inventory/bt_itemdeal_lock_over.bmp\"\r\n					data-down=\"inventory/bt_itemdeal_lock_press.bmp\"\r\n					data-text=\"Deal Lock Off\"\r\n				></button>\r\n				<span class=\"name\" data-text=\"2952\"></span>\r\n			</div>\r\n			<div class=\"sort hidden\">\r\n				<button\r\n					class=\"item_sort\"\r\n					data-background=\"inventory/bt_sort.bmp\"\r\n					data-hover=\"inventory/bt_sort_over.bmp\"\r\n					data-down=\"inventory/bt_sort_press.bmp\"\r\n					data-text=\"Sort Items\"\r\n				></button>\r\n				<span class=\"name\" data-text=\"3007\"></span>\r\n			</div>\r\n			<button class=\"extend\" data-background=\"btn_resize.bmp\" data-text=\"Extend\"></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	InventoryV3_default$2 = "<div id=\"InventoryV3\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.inventory.title\">Inventory</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base mini\"\r\n				data-background=\"basic_interface/sys_mini_off.bmp\"\r\n				data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n				data-locale-title-key=\"robrowser.ui.common.minimize\"\r\n			></button>\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				data-locale-title-key=\"robrowser.ui.common.close\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"middle\">\r\n			<div class=\"tabs\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n				<button class=\"item tab\" data-tab=\"item\" data-locale-key=\"robrowser.ui.inventory.tab.items\">\r\n					Items\r\n				</button>\r\n				<button class=\"equip tab\" data-tab=\"equip\" data-locale-key=\"robrowser.ui.inventory.tab.equipment\">\r\n					Equip\r\n				</button>\r\n				<button class=\"etc tab\" data-tab=\"etc\" data-locale-key=\"robrowser.ui.inventory.tab.miscellaneous\">\r\n					Etc.\r\n				</button>\r\n				<button class=\"fav tab\" data-tab=\"fav\" data-locale-key=\"robrowser.ui.inventory.tab.favorites\">\r\n					Fav.\r\n				</button>\r\n			</div>\r\n			<div class=\"container\">\r\n				<div class=\"scroll-host\">\r\n					<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n				</div>\r\n				<div class=\"lockoverlay hidden\"></div>\r\n\r\n				<div class=\"lockoverlaymsg hidden\" data-background=\"inventory/popup_itemdeal_lock.bmp\">\r\n					<span class=\"msg\" data-locale-key=\"robrowser.ui.inventory.npc-sale-locked\">\r\n						NPC selling is locked.\r\n					</span>\r\n					<div class=\"lockoverlayclose\" data-background=\"inventory/bt_close.bmp\"></div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n			<div class=\"expand\">\r\n				<button\r\n					class=\"item_expansion\"\r\n					data-background=\"inventory/icon_num.bmp\"\r\n					data-locale-title-key=\"robrowser.ui.inventory.expand\"\r\n				></button>\r\n				<span class=\"name\" data-locale-key=\"robrowser.ui.inventory.expand\">Expand inventory</span>\r\n				<span class=\"ncnt\"></span><span class=\"mcnt\"></span>\r\n			</div>\r\n			<div class=\"droplock\">\r\n				<button\r\n					class=\"item_drop_lock\"\r\n					data-background=\"inventory/item_drop_lock_off.bmp\"\r\n					data-locale-title-key=\"robrowser.ui.inventory.drop-lock\"\r\n				></button>\r\n				<span class=\"name\" data-locale-key=\"robrowser.ui.inventory.drop-lock\">Drop lock</span>\r\n			</div>\r\n			<div class=\"compare\">\r\n				<button\r\n					class=\"item_compare\"\r\n					data-background=\"inventory/item_compare_off.bmp\"\r\n					data-locale-title-key=\"robrowser.ui.inventory.compare\"\r\n				></button>\r\n				<span class=\"name\" data-locale-key=\"robrowser.ui.inventory.compare\">Compare items</span>\r\n			</div>\r\n			<div class=\"deallock_on hidden\">\r\n				<button\r\n					class=\"deal_lock item_deal_lock_on\"\r\n					data-background=\"inventory/bt_itemdeal_lock_on.bmp\"\r\n					data-hover=\"inventory/bt_itemdeal_lock_on_over.bmp\"\r\n					data-down=\"inventory/bt_itemdeal_lock_on_press.bmp\"\r\n					data-locale-title-key=\"robrowser.ui.inventory.npc-sale-lock\"\r\n				></button>\r\n				<span class=\"name\" data-locale-key=\"robrowser.ui.inventory.npc-sale-lock\">NPC sale lock</span>\r\n			</div>\r\n			<div class=\"deallock_off hidden\">\r\n				<button\r\n					class=\"deal_lock item_deal_lock_off\"\r\n					data-background=\"inventory/bt_itemdeal_lock_off.bmp\"\r\n					data-hover=\"inventory/bt_itemdeal_lock_over.bmp\"\r\n					data-down=\"inventory/bt_itemdeal_lock_press.bmp\"\r\n					data-locale-title-key=\"robrowser.ui.inventory.npc-sale-lock\"\r\n				></button>\r\n				<span class=\"name\" data-locale-key=\"robrowser.ui.inventory.npc-sale-lock\">NPC sale lock</span>\r\n			</div>\r\n			<div class=\"sort hidden\">\r\n				<button\r\n					class=\"item_sort\"\r\n					data-background=\"inventory/bt_sort.bmp\"\r\n					data-hover=\"inventory/bt_sort_over.bmp\"\r\n					data-down=\"inventory/bt_sort_press.bmp\"\r\n					data-locale-title-key=\"robrowser.ui.inventory.sort\"\r\n				></button>\r\n				<span class=\"name\" data-locale-key=\"robrowser.ui.inventory.sort\">Sort items</span>\r\n			</div>\r\n			<button\r\n				class=\"extend\"\r\n				data-background=\"btn_resize.bmp\"\r\n				data-locale-title-key=\"robrowser.ui.inventory.resize\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Inventory/InventoryV3/InventoryV3.css?raw
 var InventoryV3_default$1;
 var init_InventoryV3$1 = __esmMin((() => {
-	InventoryV3_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n/* ── Root ────────────────────────────────────────────────── */\r\n#InventoryV3 {\r\n	position: relative;\r\n	height: 194px;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n\r\n/* ── Titlebar ─────────────────────────────────────────────── */\r\n#InventoryV3 .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#InventoryV3 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#InventoryV3 .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#InventoryV3 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#InventoryV3 .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#InventoryV3 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n/* ── Panel / layout ───────────────────────────────────────── */\r\n#InventoryV3 .panel {\r\n	border-radius: 0px 0px 3px 3px;\r\n	padding: 0px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	background-color: transparent;\r\n}\r\n\r\n#InventoryV3 .middle {\r\n	display: flex;\r\n	flex: 1;\r\n	overflow: hidden;\r\n}\r\n\r\n/* ── Tabs ─────────────────────────────────────────────────── */\r\n#InventoryV3 .tabs {\r\n	width: 23px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background-repeat: round;\r\n	background-size: auto 10px;\r\n}\r\n\r\n#InventoryV3 .tabs button {\r\n	width: 20px;\r\n	font-size: 11px;\r\n	flex: 1;\r\n	border: 1px solid #ccc;\r\n	background-color: white;\r\n	display: block;\r\n	text-align: center;\r\n	position: relative;\r\n	left: 5px;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	transition: all 0.3s;\r\n	border-right: none;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n#InventoryV3 .tabs .tab {\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n}\r\n\r\n#InventoryV3 .tab:last-child {\r\n	background-color: #cedeff;\r\n}\r\n\r\n#InventoryV3 .tab.selected {\r\n	z-index: 25;\r\n	-webkit-transform-origin-x: left;\r\n	transform: scale(1.1, 1) translateX(-2px);\r\n}\r\n\r\n/* ── Container / scroll area ──────────────────────────────── */\r\n#InventoryV3 .container {\r\n	flex: 1;\r\n	padding-left: 14px;\r\n	border-right: 1px solid #ccc;\r\n	background-clip: padding-box;\r\n	box-shadow: inset 40px 0px 0px 2px #ffffff;\r\n	position: relative;\r\n	border-left: 1px solid #ccc;\r\n	border-bottom: 1px solid #ccc;\r\n	background-color: white;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n}\r\n\r\n#InventoryV3 .scroll-host {\r\n	overflow-y: auto;\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	display: block;\r\n\r\n	/* Hide native scrollbar but allow detection */\r\n	scrollbar-width: none;\r\n	-ms-overflow-style: none;\r\n}\r\n\r\n#InventoryV3 .scroll-host::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n\r\n#InventoryV3 .content {\r\n	width: 100%;\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fill, 32px);\r\n	grid-auto-rows: 32px;\r\n	min-height: 100%;\r\n	background-color: white;\r\n	background-repeat: repeat;\r\n	background-origin: border-box;\r\n	background-clip: border-box;\r\n	box-sizing: border-box;\r\n	padding-top: 0px;\r\n	margin-left: 15px;\r\n}\r\n\r\n/* ── Items ────────────────────────────────────────────────── */\r\n#InventoryV3 .content .item {\r\n	display: block;\r\n	width: 32px;\r\n	height: 32px;\r\n	margin: 0;\r\n	position: relative;\r\n}\r\n\r\n#InventoryV3 .content .item .icon {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	z-index: 2;\r\n}\r\n\r\n#InventoryV3 .content .item .amount {\r\n	position: absolute;\r\n	top: 15px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n	z-index: 10;\r\n}\r\n\r\n#InventoryV3 .content .item .switch1 {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n	z-index: 3;\r\n	opacity: 0.1;\r\n}\r\n\r\n#InventoryV3 .content .item .switch2 {\r\n	position: absolute;\r\n	width: 13px;\r\n	height: 16px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n	z-index: 3;\r\n}\r\n\r\n#InventoryV3 .content .item .grade {\r\n	position: absolute;\r\n	top: 15px;\r\n	width: 12px;\r\n	height: 12px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n	z-index: 2;\r\n}\r\n\r\n#InventoryV3 .content .item .new_item {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 32px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n}\r\n\r\n/* ── Overlay (tooltip) ────────────────────────────────────── */\r\n#InventoryV3 .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 15px;\r\n	line-height: 15px;\r\n	border-radius: 3px;\r\n	padding: 4px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#InventoryV3 .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/* ── Footer ───────────────────────────────────────────────── */\r\n#InventoryV3 .footer {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	flex-shrink: 0;\r\n}\r\n\r\n#InventoryV3 .footer .cnt {\r\n	position: absolute;\r\n	left: 10px;\r\n	bottom: 6px;\r\n}\r\n\r\n#InventoryV3 .footer button {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#InventoryV3 .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n/* ── Footer buttons (shared position: absolute) ───────────── */\r\n#InventoryV3 .expand,\r\n#InventoryV3 .droplock,\r\n#InventoryV3 .compare,\r\n#InventoryV3 .deallock_on,\r\n#InventoryV3 .deallock_off,\r\n#InventoryV3 .sort {\r\n	position: absolute;\r\n}\r\n\r\n#InventoryV3 .expand {\r\n	left: 30px;\r\n	top: 3px;\r\n	width: 60px;\r\n	height: 14px;\r\n}\r\n\r\n#InventoryV3 .item_expansion {\r\n	position: absolute;\r\n	height: 14px;\r\n	width: 11px;\r\n}\r\n\r\n#InventoryV3 .droplock {\r\n	left: 90px;\r\n	top: 4px;\r\n}\r\n\r\n#InventoryV3 .compare {\r\n	left: 110px;\r\n	top: 3px;\r\n}\r\n\r\n#InventoryV3 .deallock_on,\r\n#InventoryV3 .deallock_off {\r\n	left: 130px;\r\n	top: 1px;\r\n}\r\n\r\n#InventoryV3 .sort {\r\n	left: 163px;\r\n	top: 1px;\r\n}\r\n\r\n#InventoryV3 .item_drop_lock {\r\n	height: 14px;\r\n	width: 14px;\r\n}\r\n\r\n#InventoryV3 .item_compare {\r\n	height: 12px;\r\n	width: 12px;\r\n}\r\n\r\n#InventoryV3 button.item_deal_lock_on,\r\n#InventoryV3 button.item_deal_lock_off {\r\n	height: 17px;\r\n	width: 26px;\r\n}\r\n\r\n#InventoryV3 .item_sort {\r\n	height: 17px;\r\n	width: 25px;\r\n}\r\n\r\n/* ── Counter labels ───────────────────────────────────────── */\r\n#InventoryV3 span.ncnt {\r\n	left: 12px;\r\n	position: relative;\r\n}\r\n\r\n#InventoryV3 span.mcnt {\r\n	position: relative;\r\n	left: 10px;\r\n}\r\n\r\n/* ── Tooltip names on hover ───────────────────────────────── */\r\n#InventoryV3 .hidden {\r\n	display: none;\r\n}\r\n\r\n#InventoryV3 span.name {\r\n	display: none;\r\n	/* Hide the span by default */\r\n	position: absolute;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n\r\n#InventoryV3 .footer div button:hover + .name {\r\n	display: table;\r\n}\r\n\r\n/* ── NPC lock overlay ─────────────────────────────────────── */\r\n#InventoryV3 .lockoverlay {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1;\r\n	background-color: #dee7ff;\r\n	overflow: hidden;\r\n	opacity: 0.3;\r\n}\r\n\r\n#InventoryV3 .lockoverlaymsg {\r\n	position: absolute;\r\n	height: 26px;\r\n	width: 100%;\r\n	max-width: 242px;\r\n	z-index: 1;\r\n	color: white;\r\n	top: 192px;\r\n	left: 20px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n}\r\n\r\n#InventoryV3 .msg {\r\n	position: absolute;\r\n	height: 10px;\r\n	width: 100px;\r\n	left: 60px;\r\n	top: 2px;\r\n}\r\n\r\n#InventoryV3 .lockoverlayclose {\r\n	position: absolute;\r\n	height: 7px;\r\n	width: 7px;\r\n	left: 230px;\r\n	cursor: pointer;\r\n	top: 3px;\r\n}\r\n";
+	InventoryV3_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n/* ── Root ────────────────────────────────────────────────── */\r\n#InventoryV3 {\r\n	position: relative;\r\n	height: 194px;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n\r\n/* ── Titlebar ─────────────────────────────────────────────── */\r\n#InventoryV3 .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#InventoryV3 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#InventoryV3 .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	min-width: 48px;\r\n	width: auto;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#InventoryV3 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#InventoryV3 .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#InventoryV3 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n/* ── Panel / layout ───────────────────────────────────────── */\r\n#InventoryV3 .panel {\r\n	border-radius: 0px 0px 3px 3px;\r\n	padding: 0px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	background-color: transparent;\r\n}\r\n\r\n#InventoryV3 .middle {\r\n	display: flex;\r\n	flex: 1;\r\n	overflow: hidden;\r\n}\r\n\r\n/* ── Tabs ─────────────────────────────────────────────────── */\r\n#InventoryV3 .tabs {\r\n	width: 23px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background-repeat: round;\r\n	background-size: auto 10px;\r\n}\r\n\r\n#InventoryV3 .tabs button {\r\n	width: 20px;\r\n	font-size: 11px;\r\n	flex: 1;\r\n	border: 1px solid #ccc;\r\n	background-color: white;\r\n	display: block;\r\n	text-align: center;\r\n	position: relative;\r\n	left: 5px;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	transition: all 0.3s;\r\n	border-right: none;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n#InventoryV3 .tabs .tab {\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n}\r\n\r\n#InventoryV3 .tab:last-child {\r\n	background-color: #cedeff;\r\n}\r\n\r\n#InventoryV3 .tab.selected {\r\n	z-index: 25;\r\n	-webkit-transform-origin-x: left;\r\n	transform: scale(1.1, 1) translateX(-2px);\r\n}\r\n\r\n/* ── Container / scroll area ──────────────────────────────── */\r\n#InventoryV3 .container {\r\n	flex: 1;\r\n	padding-left: 14px;\r\n	border-right: 1px solid #ccc;\r\n	background-clip: padding-box;\r\n	box-shadow: inset 40px 0px 0px 2px #ffffff;\r\n	position: relative;\r\n	border-left: 1px solid #ccc;\r\n	border-bottom: 1px solid #ccc;\r\n	background-color: white;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n}\r\n\r\n#InventoryV3 .scroll-host {\r\n	overflow-y: auto;\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	display: block;\r\n\r\n	/* Hide native scrollbar but allow detection */\r\n	scrollbar-width: none;\r\n	-ms-overflow-style: none;\r\n}\r\n\r\n#InventoryV3 .scroll-host::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n\r\n#InventoryV3 .content {\r\n	width: 100%;\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fill, 32px);\r\n	grid-auto-rows: 32px;\r\n	min-height: 100%;\r\n	background-color: white;\r\n	background-repeat: repeat;\r\n	background-origin: border-box;\r\n	background-clip: border-box;\r\n	box-sizing: border-box;\r\n	padding-top: 0px;\r\n	margin-left: 15px;\r\n}\r\n\r\n/* ── Items ────────────────────────────────────────────────── */\r\n#InventoryV3 .content .item {\r\n	display: block;\r\n	width: 32px;\r\n	height: 32px;\r\n	margin: 0;\r\n	position: relative;\r\n}\r\n\r\n#InventoryV3 .content .item .icon {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	z-index: 2;\r\n}\r\n\r\n#InventoryV3 .content .item .amount {\r\n	position: absolute;\r\n	top: 15px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n	z-index: 10;\r\n}\r\n\r\n#InventoryV3 .content .item .switch1 {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n	z-index: 3;\r\n	opacity: 0.1;\r\n}\r\n\r\n#InventoryV3 .content .item .switch2 {\r\n	position: absolute;\r\n	width: 13px;\r\n	height: 16px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n	z-index: 3;\r\n}\r\n\r\n#InventoryV3 .content .item .grade {\r\n	position: absolute;\r\n	top: 15px;\r\n	width: 12px;\r\n	height: 12px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n	z-index: 2;\r\n}\r\n\r\n#InventoryV3 .content .item .new_item {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 32px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n}\r\n\r\n/* ── Overlay (tooltip) ────────────────────────────────────── */\r\n#InventoryV3 .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 15px;\r\n	line-height: 15px;\r\n	border-radius: 3px;\r\n	padding: 4px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#InventoryV3 .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/* ── Footer ───────────────────────────────────────────────── */\r\n#InventoryV3 .footer {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	flex-shrink: 0;\r\n}\r\n\r\n#InventoryV3 .footer .cnt {\r\n	position: absolute;\r\n	left: 10px;\r\n	bottom: 6px;\r\n}\r\n\r\n#InventoryV3 .footer button {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#InventoryV3 .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n/* ── Footer buttons (shared position: absolute) ───────────── */\r\n#InventoryV3 .expand,\r\n#InventoryV3 .droplock,\r\n#InventoryV3 .compare,\r\n#InventoryV3 .deallock_on,\r\n#InventoryV3 .deallock_off,\r\n#InventoryV3 .sort {\r\n	position: absolute;\r\n}\r\n\r\n#InventoryV3 .expand {\r\n	left: 30px;\r\n	top: 3px;\r\n	width: 60px;\r\n	height: 14px;\r\n}\r\n\r\n#InventoryV3 .item_expansion {\r\n	position: absolute;\r\n	height: 14px;\r\n	width: 11px;\r\n}\r\n\r\n#InventoryV3 .droplock {\r\n	left: 90px;\r\n	top: 4px;\r\n}\r\n\r\n#InventoryV3 .compare {\r\n	left: 110px;\r\n	top: 3px;\r\n}\r\n\r\n#InventoryV3 .deallock_on,\r\n#InventoryV3 .deallock_off {\r\n	left: 130px;\r\n	top: 1px;\r\n}\r\n\r\n#InventoryV3 .sort {\r\n	left: 163px;\r\n	top: 1px;\r\n}\r\n\r\n#InventoryV3 .item_drop_lock {\r\n	height: 14px;\r\n	width: 14px;\r\n}\r\n\r\n#InventoryV3 .item_compare {\r\n	height: 12px;\r\n	width: 12px;\r\n}\r\n\r\n#InventoryV3 button.item_deal_lock_on,\r\n#InventoryV3 button.item_deal_lock_off {\r\n	height: 17px;\r\n	width: 26px;\r\n}\r\n\r\n#InventoryV3 .item_sort {\r\n	height: 17px;\r\n	width: 25px;\r\n}\r\n\r\n/* ── Counter labels ───────────────────────────────────────── */\r\n#InventoryV3 span.ncnt {\r\n	left: 12px;\r\n	position: relative;\r\n}\r\n\r\n#InventoryV3 span.mcnt {\r\n	position: relative;\r\n	left: 10px;\r\n}\r\n\r\n/* ── Tooltip names on hover ───────────────────────────────── */\r\n#InventoryV3 .hidden {\r\n	display: none;\r\n}\r\n\r\n#InventoryV3 span.name {\r\n	display: none;\r\n	/* Hide the span by default */\r\n	position: absolute;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n\r\n#InventoryV3 .footer div button:hover + .name {\r\n	display: table;\r\n}\r\n\r\n/* ── NPC lock overlay ─────────────────────────────────────── */\r\n#InventoryV3 .lockoverlay {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1;\r\n	background-color: #dee7ff;\r\n	overflow: hidden;\r\n	opacity: 0.3;\r\n}\r\n\r\n#InventoryV3 .lockoverlaymsg {\r\n	position: absolute;\r\n	height: 26px;\r\n	width: 100%;\r\n	max-width: 242px;\r\n	z-index: 1;\r\n	color: white;\r\n	top: 192px;\r\n	left: 20px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n}\r\n\r\n#InventoryV3 .msg {\r\n	position: absolute;\r\n	height: 10px;\r\n	width: 100px;\r\n	left: 60px;\r\n	top: 2px;\r\n}\r\n\r\n#InventoryV3 .lockoverlayclose {\r\n	position: absolute;\r\n	height: 7px;\r\n	width: 7px;\r\n	left: 230px;\r\n	cursor: pointer;\r\n	top: 3px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Inventory/InventoryV3/InventoryV3.js
@@ -245066,6 +245302,7 @@ function createEquipment({ name, htmlText, cssText, entityRender = true, enchant
 	let switchUIopen;
 	Component.init = function init() {
 		const root = Component.getRoot();
+		applyLocaleAttributes(root);
 		const canvases = root.querySelectorAll("canvas");
 		if (canvases[0]) _ctx.push(canvases[0].getContext("2d"));
 		if (canvases[1]) _ctx.push(canvases[1].getContext("2d"));
@@ -245796,6 +246033,7 @@ var init_EquipmentCommon = __esmMin((() => {
 	init_Graphics();
 	init_Inventory();
 	init_Entity$1();
+	init_LocalizeDOM();
 }));
 //#endregion
 //#region src/UI/Components/Equipment/EquipmentV0/EquipmentV0.html?raw
@@ -245878,13 +246116,13 @@ var init_EquipmentV2 = __esmMin((() => {
 //#region src/UI/Components/Equipment/EquipmentV3/EquipmentV3.html?raw
 var EquipmentV3_default$2;
 var init_EquipmentV3$2 = __esmMin((() => {
-	EquipmentV3_default$2 = "<div id=\"EquipmentV3\" data-repload=\"basic_interface/item_invert.bmp\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"104\">Equipment</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base mini\"\r\n				data-background=\"basic_interface/sys_mini_off.bmp\"\r\n				data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"tab-manager\" id=\"tabs\">\r\n		<div class=\"tab\">\r\n			<a href=\"#general\"><span data-text=\"3158\">General</span></a>\r\n		</div>\r\n		<div class=\"tab\">\r\n			<a href=\"#costume\"><span data-text=\"3159\">Costume</span></a>\r\n		</div>\r\n		<div class=\"tab\">\r\n			<a href=\"#title\"><span data-text=\"3160\">Title</span></a>\r\n		</div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<table class=\"content\" id=\"general\" data-background=\"basic_interface/equipwin_bg.bmp\">\r\n			<tr>\r\n				<td class=\"head_top col1\"></td>\r\n				<td rowspan=\"6\">\r\n					<!-- avoid applying css on td directly-->\r\n					<div class=\"col2 ammo_container\">\r\n						<div class=\"ammo\"></div>\r\n						<button\r\n							class=\"cartitems\"\r\n							data-background=\"basic_interface/btn_items_off.bmp\"\r\n							data-hover=\"basic_interface/btn_items_on.bmp\"\r\n						></button>\r\n						<button class=\"removeOption\" data-background=\"basic_interface/btn_off.bmp\"></button>\r\n						<canvas width=\"55\" height=\"125\"></canvas>\r\n					</div>\r\n				</td>\r\n				<td class=\"head_mid col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"head_bottom col1\"></td>\r\n				<td class=\"armor col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"weapon col1\"></td>\r\n				<td class=\"shield col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"garment col1\"></td>\r\n				<td class=\"shoes col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"accessory1 col1\"></td>\r\n				<td class=\"accessory2 col3\"></td>\r\n			</tr>\r\n		</table>\r\n		<table class=\"content\" id=\"costume\" data-background=\"basic_interface/equipwin_special.bmp\">\r\n			<tr>\r\n				<td class=\"costume_head_top col1\"></td>\r\n				<td rowspan=\"6\">\r\n					<!-- avoid applying css on td directly-->\r\n					<div class=\"col2 ammo_container\">\r\n						<canvas width=\"55\" height=\"125\"></canvas>\r\n					</div>\r\n				</td>\r\n				<td class=\"costume_head_mid col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"costume_head_bottom col1\"></td>\r\n				<td class=\"shadow_armor col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"shadow_weapon col1\"></td>\r\n				<td class=\"shadow_shield col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"shadow_garment col1\"></td>\r\n				<td class=\"shadow_shoes col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"shadow_accessory1 col1\"></td>\r\n				<td class=\"shadow_accessory2 col3\"></td>\r\n			</tr>\r\n		</table>\r\n		<table class=\"content\" id=\"title\">\r\n			<tr>\r\n				<td colspan=\"3\">\r\n					<div class=\"title-list\" id=\"title_list\"></div>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n		<div class=\"footer\" id=\"equipment_footer\" data-background=\"basic_interface/equipwin_bg2.bmp\">\r\n			<div class=\"left\">\r\n				<button class=\"show_equip\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n				<span data-text=\"1362\">Show Equip</span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"switch_equip\"\r\n					data-background=\"basic_interface/btn_e_change_a.bmp\"\r\n					data-hover=\"basic_interface/btn_e_change_b.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"remove_equip\"\r\n					data-background=\"basic_interface/btn_e_off_a.bmp\"\r\n					data-hover=\"basic_interface/btn_e_off_b.bmp\"\r\n				></button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"status_component\">\r\n			<!-- Import status component -->\r\n		</div>\r\n	</div>\r\n	<button\r\n		id=\"lvlup_base\"\r\n		data-background=\"basic_interface/lv_up_off.bmp\"\r\n		data-sown=\"basic_interface/lv_up_on.bmp\"\r\n	></button>\r\n</div>\r\n";
+	EquipmentV3_default$2 = "<div id=\"EquipmentV3\" data-repload=\"basic_interface/item_invert.bmp\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.equipment.title\">Equipment</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base mini\"\r\n				data-background=\"basic_interface/sys_mini_off.bmp\"\r\n				data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n				data-locale-title-key=\"robrowser.ui.common.minimize\"\r\n			></button>\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				data-locale-title-key=\"robrowser.ui.common.close\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"tab-manager\" id=\"tabs\">\r\n		<div class=\"tab\">\r\n			<a href=\"#general\"><span data-locale-key=\"robrowser.ui.equipment.tab.general\">General</span></a>\r\n		</div>\r\n		<div class=\"tab\">\r\n			<a href=\"#costume\"><span data-locale-key=\"robrowser.ui.equipment.tab.costume\">Costume</span></a>\r\n		</div>\r\n		<div class=\"tab\">\r\n			<a href=\"#title\"><span data-locale-key=\"robrowser.ui.equipment.tab.title\">Title</span></a>\r\n		</div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<table class=\"content\" id=\"general\" data-background=\"basic_interface/equipwin_bg.bmp\">\r\n			<tr>\r\n				<td class=\"head_top col1\"></td>\r\n				<td rowspan=\"6\">\r\n					<!-- avoid applying css on td directly-->\r\n					<div class=\"col2 ammo_container\">\r\n						<div class=\"ammo\"></div>\r\n						<button\r\n							class=\"cartitems\"\r\n							data-background=\"basic_interface/btn_items_off.bmp\"\r\n							data-hover=\"basic_interface/btn_items_on.bmp\"\r\n							data-locale-title-key=\"robrowser.ui.equipment.cart-items\"\r\n						></button>\r\n						<button\r\n							class=\"removeOption\"\r\n							data-background=\"basic_interface/btn_off.bmp\"\r\n							data-locale-title-key=\"robrowser.ui.equipment.remove-cart\"\r\n						></button>\r\n						<canvas width=\"55\" height=\"125\"></canvas>\r\n					</div>\r\n				</td>\r\n				<td class=\"head_mid col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"head_bottom col1\"></td>\r\n				<td class=\"armor col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"weapon col1\"></td>\r\n				<td class=\"shield col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"garment col1\"></td>\r\n				<td class=\"shoes col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"accessory1 col1\"></td>\r\n				<td class=\"accessory2 col3\"></td>\r\n			</tr>\r\n		</table>\r\n		<table class=\"content\" id=\"costume\" data-background=\"basic_interface/equipwin_special.bmp\">\r\n			<tr>\r\n				<td class=\"costume_head_top col1\"></td>\r\n				<td rowspan=\"6\">\r\n					<!-- avoid applying css on td directly-->\r\n					<div class=\"col2 ammo_container\">\r\n						<canvas width=\"55\" height=\"125\"></canvas>\r\n					</div>\r\n				</td>\r\n				<td class=\"costume_head_mid col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"costume_head_bottom col1\"></td>\r\n				<td class=\"shadow_armor col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"shadow_weapon col1\"></td>\r\n				<td class=\"shadow_shield col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"shadow_garment col1\"></td>\r\n				<td class=\"shadow_shoes col3\"></td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"shadow_accessory1 col1\"></td>\r\n				<td class=\"shadow_accessory2 col3\"></td>\r\n			</tr>\r\n		</table>\r\n		<table class=\"content\" id=\"title\">\r\n			<tr>\r\n				<td colspan=\"3\">\r\n					<div class=\"title-list\" id=\"title_list\"></div>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n		<div class=\"footer\" id=\"equipment_footer\" data-background=\"basic_interface/equipwin_bg2.bmp\">\r\n			<div class=\"left\">\r\n				<button class=\"show_equip\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n				<span data-locale-key=\"robrowser.ui.equipment.show-equipment\">Show equipment</span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"switch_equip\"\r\n					data-background=\"basic_interface/btn_e_change_a.bmp\"\r\n					data-hover=\"basic_interface/btn_e_change_b.bmp\"\r\n					data-locale-title-key=\"robrowser.ui.equipment.switch-set\"\r\n				></button>\r\n				<button\r\n					class=\"remove_equip\"\r\n					data-background=\"basic_interface/btn_e_off_a.bmp\"\r\n					data-hover=\"basic_interface/btn_e_off_b.bmp\"\r\n				></button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"status_component\">\r\n			<!-- Import status component -->\r\n		</div>\r\n	</div>\r\n	<button\r\n		id=\"lvlup_base\"\r\n		data-background=\"basic_interface/lv_up_off.bmp\"\r\n		data-sown=\"basic_interface/lv_up_on.bmp\"\r\n	></button>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Equipment/EquipmentV3/EquipmentV3.css?raw
 var EquipmentV3_default$1;
 var init_EquipmentV3$1 = __esmMin((() => {
-	EquipmentV3_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#EquipmentV3 {\r\n	position: relative;\r\n	width: 280px;\r\n}\r\n\r\n#EquipmentV3 .clear {\r\n	clear: both;\r\n}\r\n\r\n#EquipmentV3 .titlebar {\r\n	width: 280px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#EquipmentV3 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#EquipmentV3 .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#EquipmentV3 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#EquipmentV3 .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#EquipmentV3 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#EquipmentV3 .tab-manager {\r\n	position: relative;\r\n	width: inherit;\r\n	background-color: white;\r\n	height: 15px;\r\n	display: flex;\r\n}\r\n\r\n#EquipmentV3 .tab a {\r\n	width: 60px;\r\n	height: 100%;\r\n	color: #42454a;\r\n	border: 1px solid #c9c3ba;\r\n	border-bottom: none;\r\n	text-decoration: none;\r\n	display: inline-block;\r\n	vertical-align: bottom;\r\n	border-radius: 3px 3px 0 0;\r\n	text-align: center;\r\n}\r\n#EquipmentV3 .tab a.selected {\r\n	color: #000;\r\n	font-weight: bold;\r\n	border-bottom: 1px solid white;\r\n	position: relative;\r\n	z-index: 100;\r\n	background-color: white;\r\n}\r\n#EquipmentV3 .tab a.selected:after {\r\n	content: '';\r\n	display: block;\r\n	height: 1px;\r\n	width: 1px;\r\n	position: absolute;\r\n	bottom: -1px;\r\n	left: -1px;\r\n}\r\n\r\n#EquipmentV3 .panel {\r\n	background-color: white;\r\n	border-top: 1px solid gray;\r\n	height: 150px;\r\n}\r\n#EquipmentV3 .equipmentV0 .panel {\r\n	background-color: inherit;\r\n}\r\n#EquipmentV3 table.content {\r\n	width: 280px;\r\n	height: 130px;\r\n	border-spacing: 0;\r\n}\r\n#EquipmentV3 table.content.hide {\r\n	display: none;\r\n}\r\n#EquipmentV3 .content {\r\n	display: inline-block;\r\n	width: 280px;\r\n	height: 130px;\r\n	border-spacing: 0;\r\n}\r\n#EquipmentV3 .col1,\r\n#EquipmentV3 .col3 {\r\n	width: 115px;\r\n	height: 24px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#EquipmentV3 .col1 {\r\n	background-position: 5% 50%;\r\n	min-width: 110px;\r\n}\r\n#EquipmentV3 .col3 {\r\n	background-position: 95% 50%;\r\n	min-width: 110px;\r\n}\r\n\r\n#EquipmentV3 .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#EquipmentV3 .item button {\r\n	width: 24px;\r\n	height: 24px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	border: none;\r\n}\r\n#EquipmentV3 .item span {\r\n	width: 80px;\r\n	height: 24px;\r\n	display: inline-block;\r\n	line-height: 12px;\r\n	word-break: break-all;\r\n	overflow: hidden;\r\n	text-shadow: 1px 1px white;\r\n}\r\n\r\n#EquipmentV3 .col3 .item button,\r\n#EquipmentV3 .col3 .item span {\r\n	float: right;\r\n}\r\n#EquipmentV3 .col1 .item button,\r\n#EquipmentV3 .col1 .item span {\r\n	float: left;\r\n}\r\n#EquipmentV3 .col1 .item {\r\n	padding-left: 4px;\r\n}\r\n#EquipmentV3 .col3 .item {\r\n	padding-right: 4px;\r\n}\r\n#EquipmentV3 .col1 .item .itemName {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n#EquipmentV3 .col3 .item .itemName {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#EquipmentV3 .ammo_container {\r\n	position: relative;\r\n}\r\n#EquipmentV3 .ammo {\r\n	position: absolute;\r\n	top: 30px;\r\n}\r\n#EquipmentV3 .ammo .item {\r\n	text-align: center;\r\n}\r\n#EquipmentV3 .ammo .item span {\r\n	width: 45px;\r\n}\r\n#EquipmentV3 .cartitems {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 14px;\r\n	width: 36px;\r\n	height: 36px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	display: none;\r\n}\r\n#EquipmentV3 .removeOption {\r\n	position: absolute;\r\n	top: 90px;\r\n	left: 12px;\r\n	width: 36px;\r\n	height: 36px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	display: none;\r\n}\r\n\r\n#EquipmentV3 .footer {\r\n	height: 20px;\r\n	border-bottom: 1px solid #c0c0c0;\r\n	background-position: 0px -130px;\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n#EquipmentV3 .footer .left {\r\n	float: left;\r\n	text-align: left;\r\n	margin-left: 5px;\r\n	margin-top: 3px;\r\n}\r\n#EquipmentV3 .footer .right {\r\n	float: right;\r\n	text-align: right;\r\n	margin-right: 5px;\r\n	margin-top: 3px;\r\n}\r\n#EquipmentV3 .footer .view_status {\r\n	width: 9px;\r\n	height: 14px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#EquipmentV3 .footer .show_equip {\r\n	width: 10px;\r\n	height: 12px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#EquipmentV3 .footer .switch_equip {\r\n	width: 40px;\r\n	height: 20px;\r\n	border: none;\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n#EquipmentV3 .footer .remove_equip {\r\n	width: 40px;\r\n	height: 20px;\r\n	border: none;\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n\r\n#lvlup_base {\r\n	z-index: 51;\r\n	position: absolute;\r\n	left: 0px;\r\n	bottom: 0px;\r\n	width: 43px;\r\n	height: 43px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#EquipmentV3 .item .grade {\r\n	position: relative;\r\n	width: 12px;\r\n	height: 12px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n	z-index: 2;\r\n	top: 5px;\r\n}\r\n\r\n#EquipmentV3 #title .title-list {\r\n	height: 125px;\r\n	width: 280px;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	padding: 8px 8px;\r\n	border: 1px solid #c0c0c0;\r\n	background-color: #f8f8f8;\r\n}\r\n\r\n#EquipmentV3 .title-option {\r\n	padding: 1px;\r\n	margin: 1px 0;\r\n	cursor: pointer;\r\n	background-color: transparent;\r\n	border: 1px solid transparent;\r\n	white-space: nowrap;\r\n	width: 100%;\r\n}\r\n\r\n#EquipmentV3 .title-option.selected {\r\n	background-color: #e0e0e0;\r\n	font-weight: bold;\r\n}\r\n\r\n#EquipmentV3 .title-option:hover {\r\n	background-color: #e0e0e0;\r\n}\r\n";
+	EquipmentV3_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#EquipmentV3 {\r\n	position: relative;\r\n	width: 280px;\r\n}\r\n\r\n#EquipmentV3 .clear {\r\n	clear: both;\r\n}\r\n\r\n#EquipmentV3 .titlebar {\r\n	width: 280px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#EquipmentV3 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#EquipmentV3 .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	min-width: 48px;\r\n	width: auto;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#EquipmentV3 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#EquipmentV3 .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#EquipmentV3 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#EquipmentV3 .tab-manager {\r\n	position: relative;\r\n	width: inherit;\r\n	background-color: white;\r\n	height: 15px;\r\n	display: flex;\r\n}\r\n\r\n#EquipmentV3 .tab a {\r\n	width: 60px;\r\n	height: 100%;\r\n	color: #42454a;\r\n	border: 1px solid #c9c3ba;\r\n	border-bottom: none;\r\n	text-decoration: none;\r\n	display: inline-block;\r\n	vertical-align: bottom;\r\n	border-radius: 3px 3px 0 0;\r\n	text-align: center;\r\n}\r\n#EquipmentV3 .tab a.selected {\r\n	color: #000;\r\n	font-weight: bold;\r\n	border-bottom: 1px solid white;\r\n	position: relative;\r\n	z-index: 100;\r\n	background-color: white;\r\n}\r\n#EquipmentV3 .tab a.selected:after {\r\n	content: '';\r\n	display: block;\r\n	height: 1px;\r\n	width: 1px;\r\n	position: absolute;\r\n	bottom: -1px;\r\n	left: -1px;\r\n}\r\n\r\n#EquipmentV3 .panel {\r\n	background-color: white;\r\n	border-top: 1px solid gray;\r\n	height: 150px;\r\n}\r\n#EquipmentV3 .equipmentV0 .panel {\r\n	background-color: inherit;\r\n}\r\n#EquipmentV3 table.content {\r\n	width: 280px;\r\n	height: 130px;\r\n	border-spacing: 0;\r\n}\r\n#EquipmentV3 table.content.hide {\r\n	display: none;\r\n}\r\n#EquipmentV3 .content {\r\n	display: inline-block;\r\n	width: 280px;\r\n	height: 130px;\r\n	border-spacing: 0;\r\n}\r\n#EquipmentV3 .col1,\r\n#EquipmentV3 .col3 {\r\n	width: 115px;\r\n	height: 24px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#EquipmentV3 .col1 {\r\n	background-position: 5% 50%;\r\n	min-width: 110px;\r\n}\r\n#EquipmentV3 .col3 {\r\n	background-position: 95% 50%;\r\n	min-width: 110px;\r\n}\r\n\r\n#EquipmentV3 .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#EquipmentV3 .item button {\r\n	width: 24px;\r\n	height: 24px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	border: none;\r\n}\r\n#EquipmentV3 .item span {\r\n	width: 80px;\r\n	height: 24px;\r\n	display: inline-block;\r\n	line-height: 12px;\r\n	word-break: break-all;\r\n	overflow: hidden;\r\n	text-shadow: 1px 1px white;\r\n}\r\n\r\n#EquipmentV3 .col3 .item button,\r\n#EquipmentV3 .col3 .item span {\r\n	float: right;\r\n}\r\n#EquipmentV3 .col1 .item button,\r\n#EquipmentV3 .col1 .item span {\r\n	float: left;\r\n}\r\n#EquipmentV3 .col1 .item {\r\n	padding-left: 4px;\r\n}\r\n#EquipmentV3 .col3 .item {\r\n	padding-right: 4px;\r\n}\r\n#EquipmentV3 .col1 .item .itemName {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n#EquipmentV3 .col3 .item .itemName {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#EquipmentV3 .ammo_container {\r\n	position: relative;\r\n}\r\n#EquipmentV3 .ammo {\r\n	position: absolute;\r\n	top: 30px;\r\n}\r\n#EquipmentV3 .ammo .item {\r\n	text-align: center;\r\n}\r\n#EquipmentV3 .ammo .item span {\r\n	width: 45px;\r\n}\r\n#EquipmentV3 .cartitems {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 14px;\r\n	width: 36px;\r\n	height: 36px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	display: none;\r\n}\r\n#EquipmentV3 .removeOption {\r\n	position: absolute;\r\n	top: 90px;\r\n	left: 12px;\r\n	width: 36px;\r\n	height: 36px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	display: none;\r\n}\r\n\r\n#EquipmentV3 .footer {\r\n	height: 20px;\r\n	border-bottom: 1px solid #c0c0c0;\r\n	background-position: 0px -130px;\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n#EquipmentV3 .footer .left {\r\n	float: left;\r\n	text-align: left;\r\n	margin-left: 5px;\r\n	margin-top: 3px;\r\n}\r\n#EquipmentV3 .footer .right {\r\n	float: right;\r\n	text-align: right;\r\n	margin-right: 5px;\r\n	margin-top: 3px;\r\n}\r\n#EquipmentV3 .footer .view_status {\r\n	width: 9px;\r\n	height: 14px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#EquipmentV3 .footer .show_equip {\r\n	width: 10px;\r\n	height: 12px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#EquipmentV3 .footer .switch_equip {\r\n	width: 40px;\r\n	height: 20px;\r\n	border: none;\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n#EquipmentV3 .footer .remove_equip {\r\n	width: 40px;\r\n	height: 20px;\r\n	border: none;\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n\r\n#lvlup_base {\r\n	z-index: 51;\r\n	position: absolute;\r\n	left: 0px;\r\n	bottom: 0px;\r\n	width: 43px;\r\n	height: 43px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#EquipmentV3 .item .grade {\r\n	position: relative;\r\n	width: 12px;\r\n	height: 12px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n	z-index: 2;\r\n	top: 5px;\r\n}\r\n\r\n#EquipmentV3 #title .title-list {\r\n	height: 125px;\r\n	width: 280px;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	padding: 8px 8px;\r\n	border: 1px solid #c0c0c0;\r\n	background-color: #f8f8f8;\r\n}\r\n\r\n#EquipmentV3 .title-option {\r\n	padding: 1px;\r\n	margin: 1px 0;\r\n	cursor: pointer;\r\n	background-color: transparent;\r\n	border: 1px solid transparent;\r\n	white-space: nowrap;\r\n	width: 100%;\r\n}\r\n\r\n#EquipmentV3 .title-option.selected {\r\n	background-color: #e0e0e0;\r\n	font-weight: bold;\r\n}\r\n\r\n#EquipmentV3 .title-option:hover {\r\n	background-color: #e0e0e0;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Equipment/EquipmentV3/EquipmentV3.js
