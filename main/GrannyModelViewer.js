@@ -205476,9 +205476,9 @@ var init_NodeSocket = __esmMin((() => {
 			}
 		}
 	};
-})), $schema$12, namespaces$1, manifest_default;
+})), $schema$13, namespaces$1, manifest_default;
 var init_manifest = __esmMin((() => {
-	$schema$12 = "../schema/client-message-catalog.schema.json";
+	$schema$13 = "../schema/client-message-catalog.schema.json";
 	namespaces$1 = {
 		"gravity.MsgStrID": {
 			"sourceLocale": "ko-KR",
@@ -205509,7 +205509,8 @@ var init_manifest = __esmMin((() => {
 				"ui/shortcuts.json",
 				"ui/commands.json",
 				"ui/items-inventory.json",
-				"ui/items-equipment.json"
+				"ui/items-equipment.json",
+				"ui/items-info.json"
 			]
 		},
 		"robrowser.legacy": {
@@ -205526,17 +205527,17 @@ var init_manifest = __esmMin((() => {
 		}
 	};
 	manifest_default = {
-		$schema: $schema$12,
+		$schema: $schema$13,
 		catalogVersion: 3,
 		namespaces: namespaces$1
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/gravity/msgstrid.json
-var $schema$11, entries$12, msgstrid_default;
+var $schema$12, entries$13, msgstrid_default;
 var init_msgstrid = __esmMin((() => {
-	$schema$11 = "../../schema/client-message-fragment.schema.json";
-	entries$12 = [
+	$schema$12 = "../../schema/client-message-fragment.schema.json";
+	entries$13 = [
 		{
 			"key": "MSI_HK_BASICINFOWND_MINI",
 			"sourceText": "기본 정보 창 최소/최대",
@@ -206502,16 +206503,16 @@ var init_msgstrid = __esmMin((() => {
 		}
 	];
 	msgstrid_default = {
-		$schema: $schema$11,
-		entries: entries$12
+		$schema: $schema$12,
+		entries: entries$13
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/common.json
-var $schema$10, entries$11, common_default;
+var $schema$11, entries$12, common_default;
 var init_common = __esmMin((() => {
-	$schema$10 = "../../schema/client-message-fragment.schema.json";
-	entries$11 = [
+	$schema$11 = "../../schema/client-message-fragment.schema.json";
+	entries$12 = [
 		{
 			"key": "common.ok",
 			"sourceText": "OK",
@@ -206568,16 +206569,16 @@ var init_common = __esmMin((() => {
 		}
 	];
 	common_default = {
-		$schema: $schema$10,
-		entries: entries$11
+		$schema: $schema$11,
+		entries: entries$12
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/auth.json
-var $schema$9, entries$10, auth_default;
+var $schema$10, entries$11, auth_default;
 var init_auth = __esmMin((() => {
-	$schema$9 = "../../schema/client-message-fragment.schema.json";
-	entries$10 = [
+	$schema$10 = "../../schema/client-message-fragment.schema.json";
+	entries$11 = [
 		{
 			"key": "win-login.account",
 			"sourceText": "Account",
@@ -206760,16 +206761,16 @@ var init_auth = __esmMin((() => {
 		}
 	];
 	auth_default = {
-		$schema: $schema$9,
-		entries: entries$10
+		$schema: $schema$10,
+		entries: entries$11
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/main-ui.json
-var $schema$8, entries$9, main_ui_default;
+var $schema$9, entries$10, main_ui_default;
 var init_main_ui = __esmMin((() => {
-	$schema$8 = "../../schema/client-message-fragment.schema.json";
-	entries$9 = [
+	$schema$9 = "../../schema/client-message-fragment.schema.json";
+	entries$10 = [
 		{
 			"key": "basic-info.title",
 			"sourceText": "Basic Information",
@@ -207285,16 +207286,16 @@ var init_main_ui = __esmMin((() => {
 		}
 	];
 	main_ui_default = {
-		$schema: $schema$8,
-		entries: entries$9
+		$schema: $schema$9,
+		entries: entries$10
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/chat.json
-var $schema$7, entries$8, chat_default;
+var $schema$8, entries$9, chat_default;
 var init_chat = __esmMin((() => {
-	$schema$7 = "../../schema/client-message-fragment.schema.json";
-	entries$8 = [
+	$schema$8 = "../../schema/client-message-fragment.schema.json";
+	entries$9 = [
 		{
 			"key": "chat-box.public-log",
 			"sourceText": "Public Log",
@@ -207693,16 +207694,16 @@ var init_chat = __esmMin((() => {
 		}
 	];
 	chat_default = {
-		$schema: $schema$7,
-		entries: entries$8
+		$schema: $schema$8,
+		entries: entries$9
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/shortcuts.json
-var $schema$6, entries$7, shortcuts_default;
+var $schema$7, entries$8, shortcuts_default;
 var init_shortcuts = __esmMin((() => {
-	$schema$6 = "../../schema/client-message-fragment.schema.json";
-	entries$7 = [
+	$schema$7 = "../../schema/client-message-fragment.schema.json";
+	entries$8 = [
 		{
 			"key": "shortcut-settings.title",
 			"sourceText": "Shortcut key settings",
@@ -207993,16 +207994,16 @@ var init_shortcuts = __esmMin((() => {
 		}
 	];
 	shortcuts_default = {
-		$schema: $schema$6,
-		entries: entries$7
+		$schema: $schema$7,
+		entries: entries$8
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/commands.json
-var $schema$5, entries$6, commands_default;
+var $schema$6, entries$7, commands_default;
 var init_commands = __esmMin((() => {
-	$schema$5 = "../../schema/client-message-fragment.schema.json";
-	entries$6 = [
+	$schema$6 = "../../schema/client-message-fragment.schema.json";
+	entries$7 = [
 		{
 			"key": "command-help.available",
 			"sourceText": "Available Commands:",
@@ -208500,16 +208501,16 @@ var init_commands = __esmMin((() => {
 		}
 	];
 	commands_default = {
-		$schema: $schema$5,
-		entries: entries$6
+		$schema: $schema$6,
+		entries: entries$7
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/items-inventory.json
-var $schema$4, entries$5, items_inventory_default;
+var $schema$5, entries$6, items_inventory_default;
 var init_items_inventory = __esmMin((() => {
-	$schema$4 = "../../schema/client-message-fragment.schema.json";
-	entries$5 = [
+	$schema$5 = "../../schema/client-message-fragment.schema.json";
+	entries$6 = [
 		{
 			"key": "inventory.title",
 			"sourceText": "Inventory",
@@ -208620,16 +208621,16 @@ var init_items_inventory = __esmMin((() => {
 		}
 	];
 	items_inventory_default = {
-		$schema: $schema$4,
-		entries: entries$5
+		$schema: $schema$5,
+		entries: entries$6
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/items-equipment.json
-var $schema$3, entries$4, items_equipment_default;
+var $schema$4, entries$5, items_equipment_default;
 var init_items_equipment = __esmMin((() => {
-	$schema$3 = "../../schema/client-message-fragment.schema.json";
-	entries$4 = [
+	$schema$4 = "../../schema/client-message-fragment.schema.json";
+	entries$5 = [
 		{
 			"key": "equipment.title",
 			"sourceText": "Equipment",
@@ -208704,6 +208705,135 @@ var init_items_equipment = __esmMin((() => {
 		}
 	];
 	items_equipment_default = {
+		$schema: $schema$4,
+		entries: entries$5
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/items-info.json
+var $schema$3, entries$4, items_info_default;
+var init_items_info = __esmMin((() => {
+	$schema$3 = "../../schema/client-message-fragment.schema.json";
+	entries$4 = [
+		{
+			"key": "item-info.preview",
+			"sourceText": "Preview equipment",
+			"context": "Accessible label for previewing a wearable item on the character model.",
+			"translations": {
+				"en": "Preview equipment",
+				"zh-CN": "装备预览"
+			}
+		},
+		{
+			"key": "item-info.view-card",
+			"sourceText": "View card illustration",
+			"context": "Accessible label for opening a card item's full illustration.",
+			"translations": {
+				"en": "View card illustration",
+				"zh-CN": "查看卡片插画"
+			}
+		},
+		{
+			"key": "item-info.read",
+			"sourceText": "Read",
+			"context": "Item information action for opening readable book content.",
+			"translations": {
+				"en": "Read",
+				"zh-CN": "阅读"
+			}
+		},
+		{
+			"key": "item-info.auto-read",
+			"sourceText": "Auto-read",
+			"context": "Item information action for automatically highlighting readable book content.",
+			"translations": {
+				"en": "Auto-read",
+				"zh-CN": "自动阅读"
+			}
+		},
+		{
+			"key": "item-info.resize",
+			"sourceText": "Resize item information",
+			"context": "Accessible label for the item information resize handle.",
+			"translations": {
+				"en": "Resize item information",
+				"zh-CN": "调整物品信息大小"
+			}
+		},
+		{
+			"key": "item-info.restrictions",
+			"sourceText": "Item movement restrictions",
+			"context": "Hoverable label shown when an item has movement restrictions.",
+			"translations": {
+				"en": "Item movement restrictions",
+				"zh-CN": "物品移动限制"
+			}
+		},
+		{
+			"key": "item-info.cannot-drop",
+			"sourceText": "Cannot be dropped.",
+			"context": "ItemMoveInfo restriction for dropping an item on the ground.",
+			"translations": {
+				"en": "Cannot be dropped.",
+				"zh-CN": "不可丢弃。"
+			}
+		},
+		{
+			"key": "item-info.cannot-store",
+			"sourceText": "Cannot be stored.",
+			"context": "ItemMoveInfo restriction for placing an item in personal storage.",
+			"translations": {
+				"en": "Cannot be stored.",
+				"zh-CN": "不可存入仓库。"
+			}
+		},
+		{
+			"key": "item-info.cannot-cart",
+			"sourceText": "Cannot be placed in a cart.",
+			"context": "ItemMoveInfo restriction for placing an item in a cart.",
+			"translations": {
+				"en": "Cannot be placed in a cart.",
+				"zh-CN": "不可放入手推车。"
+			}
+		},
+		{
+			"key": "item-info.cannot-mail",
+			"sourceText": "Cannot be mailed.",
+			"context": "ItemMoveInfo restriction for attaching an item to mail.",
+			"translations": {
+				"en": "Cannot be mailed.",
+				"zh-CN": "不可邮寄。"
+			}
+		},
+		{
+			"key": "item-info.cannot-trade",
+			"sourceText": "Cannot be traded.",
+			"context": "ItemMoveInfo restriction for exchanging an item with another player.",
+			"translations": {
+				"en": "Cannot be traded.",
+				"zh-CN": "不可交易。"
+			}
+		},
+		{
+			"key": "item-info.cannot-guild-store",
+			"sourceText": "Cannot be stored in guild storage.",
+			"context": "ItemMoveInfo restriction for placing an item in guild storage.",
+			"translations": {
+				"en": "Cannot be stored in guild storage.",
+				"zh-CN": "不可存入公会仓库。"
+			}
+		},
+		{
+			"key": "item-info.cannot-sell-npc",
+			"sourceText": "Cannot be sold to NPCs.",
+			"context": "ItemMoveInfo restriction for selling an item to an NPC shop.",
+			"translations": {
+				"en": "Cannot be sold to NPCs.",
+				"zh-CN": "不可出售给 NPC。"
+			}
+		}
+	];
+	items_info_default = {
 		$schema: $schema$3,
 		entries: entries$4
 	};
@@ -209181,6 +209311,7 @@ var init_catalog = __esmMin((() => {
 	init_commands();
 	init_items_inventory();
 	init_items_equipment();
+	init_items_info();
 	init_login();
 	init_character();
 	init_game_entry();
@@ -209194,6 +209325,7 @@ var init_catalog = __esmMin((() => {
 		"ui/commands.json": commands_default,
 		"ui/items-inventory.json": items_inventory_default,
 		"ui/items-equipment.json": items_equipment_default,
+		"ui/items-info.json": items_info_default,
 		"legacy/login.json": login_default,
 		"legacy/character.json": character_default,
 		"legacy/game-entry.json": game_entry_default
@@ -224436,7 +224568,7 @@ var init_ItemPreview = __esmMin((() => {
 //#region src/UI/Components/ItemInfo/ItemInfo.html?raw
 var ItemInfo_default$2;
 var init_ItemInfo$2 = __esmMin((() => {
-	ItemInfo_default$2 = "<div class=\"ItemInfo\">\r\n	<div class=\"container\" data-background=\"basic_interface/collection_bg.bmp\">\r\n		<div class=\"collection\"></div>\r\n		<div class=\"preview-action\">\r\n			<button\r\n				class=\"btn_mounting\"\r\n				data-background=\"equip_preview\\btn_mounting_normal.bmp\"\r\n				data-down=\"equip_preview\\btn_mounting_press.bmp\"\r\n				data-hover=\"equip_preview\\btn_mounting_over.bmp\"\r\n				type=\"button\"\r\n				data-text=\"2922\"\r\n			></button>\r\n		</div>\r\n		<div class=\"event_view\">\r\n			<button\r\n				class=\"view\"\r\n				data-background=\"btn_view.bmp\"\r\n				data-down=\"btn_view_a.bmp\"\r\n				data-hover=\"btn_view_b.bmp\"\r\n			></button>\r\n			<span class=\"overlay_open\" data-text=\"1294\">Read</span>\r\n			<span class=\"overlay_read\" data-text=\"1295\">Auto Read</span>\r\n		</div>\r\n		<div class=\"title\"></div>\r\n		<button\r\n			class=\"close\"\r\n			data-background=\"basic_interface/sys_close_off.bmp\"\r\n			data-hover=\"basic_interface/sys_close_on.bmp\"\r\n		></button>\r\n		<div class=\"description\">\r\n			<div class=\"description-inner\"></div>\r\n		</div>\r\n		<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n	</div>\r\n	<div class=\"option-container\"></div>\r\n	<div class=\"cardlist\">\r\n		<div class=\"border\"></div>\r\n	</div>\r\n</div>\r\n\r\n<div id=\"moveinfo-tooltip\"></div>\r\n";
+	ItemInfo_default$2 = "<div class=\"ItemInfo\">\r\n	<div class=\"container\" data-background=\"basic_interface/collection_bg.bmp\">\r\n		<div class=\"collection\"></div>\r\n		<div class=\"preview-action\">\r\n			<button\r\n				class=\"btn_mounting\"\r\n				data-background=\"equip_preview\\btn_mounting_normal.bmp\"\r\n				data-down=\"equip_preview\\btn_mounting_press.bmp\"\r\n				data-hover=\"equip_preview\\btn_mounting_over.bmp\"\r\n				type=\"button\"\r\n				data-locale-title-key=\"robrowser.ui.item-info.preview\"\r\n			></button>\r\n		</div>\r\n		<div class=\"event_view\">\r\n			<button\r\n				class=\"view\"\r\n				data-background=\"btn_view.bmp\"\r\n				data-down=\"btn_view_a.bmp\"\r\n				data-hover=\"btn_view_b.bmp\"\r\n				data-locale-title-key=\"robrowser.ui.item-info.view-card\"\r\n			></button>\r\n			<span class=\"overlay_open\" data-locale-key=\"robrowser.ui.item-info.read\">Read</span>\r\n			<span class=\"overlay_read\" data-locale-key=\"robrowser.ui.item-info.auto-read\">Auto-read</span>\r\n		</div>\r\n		<div class=\"title\"></div>\r\n		<button\r\n			class=\"close\"\r\n			data-background=\"basic_interface/sys_close_off.bmp\"\r\n			data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			data-locale-title-key=\"robrowser.ui.common.close\"\r\n		></button>\r\n		<div class=\"description\">\r\n			<div class=\"description-inner\"></div>\r\n		</div>\r\n		<button\r\n			class=\"extend\"\r\n			data-background=\"btn_resize.bmp\"\r\n			data-locale-title-key=\"robrowser.ui.item-info.resize\"\r\n		></button>\r\n	</div>\r\n	<div class=\"option-container\"></div>\r\n	<div class=\"cardlist\">\r\n		<div class=\"border\"></div>\r\n	</div>\r\n</div>\r\n\r\n<div id=\"moveinfo-tooltip\"></div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ItemInfo/ItemInfo.css?raw
@@ -246423,12 +246555,12 @@ function eventsBooks() {
 function validateFieldsExist(event) {
 	const root = ItemInfo.getRoot();
 	if (!event) {
-		const validExitElement = "<div class=\"event_view\"><button class=\"view\" data-background=\"btn_view.bmp\" data-down=\"btn_view_a.bmp\" data-hover=\"btn_view_b.bmp\"></button><span class=\"overlay_open\">" + DB.getMessage(1294) + "</span><span class=\"overlay_read\">" + DB.getMessage(1295) + "</span></div>";
+		const validExitElement = "<div class=\"event_view\"><button class=\"view\" data-background=\"btn_view.bmp\" data-down=\"btn_view_a.bmp\" data-hover=\"btn_view_b.bmp\"></button><span class=\"overlay_open\">" + getMessage("robrowser.ui.item-info.read", "Read") + "</span><span class=\"overlay_read\">" + getMessage("robrowser.ui.item-info.auto-read", "Auto-read") + "</span></div>";
 		const collection = root.querySelector(".collection");
 		if (collection) collection.insertAdjacentHTML("afterend", validExitElement);
 		return false;
 	}
-	if (!root.querySelector(".overlay_open") && !root.querySelector(".overlay_read")) event.insertAdjacentHTML("beforeend", "<span class=\"overlay_open\">" + DB.getMessage(1294) + "</span><span class=\"overlay_read\">" + DB.getMessage(1295) + "</span>");
+	if (!root.querySelector(".overlay_open") && !root.querySelector(".overlay_read")) event.insertAdjacentHTML("beforeend", "<span class=\"overlay_open\">" + getMessage("robrowser.ui.item-info.read", "Read") + "</span><span class=\"overlay_read\">" + getMessage("robrowser.ui.item-info.auto-read", "Auto-read") + "</span>");
 	if (!event.querySelector("button")) event.insertAdjacentHTML("beforeend", "<button class=\"view\" data-background=\"btn_view.bmp\" data-down=\"btn_view_a.bmp\" data-hover=\"btn_view_b.bmp\"></button>");
 	return true;
 }
@@ -246467,7 +246599,7 @@ function onItemPreview(pkt) {
 */
 function buildMoveInfoTooltip(moveInfo) {
 	const lines = [];
-	for (const entry of MOVE_INFO_MESSAGES) if (moveInfo[entry.key] === true) lines.push(DB.getMessage(entry.msgId));
+	for (const entry of MOVE_INFO_MESSAGES) if (moveInfo[entry.key] === true) lines.push(entry.message);
 	return lines.map((l) => `<div>${l}</div>`).join("");
 }
 var ItemInfo, _sprite$3, _action$3, _ctx$1, _type$5, _start$1, MOVE_INFO_MESSAGES, rendering$2, ItemInfo_default;
@@ -246497,6 +246629,8 @@ var init_ItemInfo = __esmMin((() => {
 	init_Entity$1();
 	init_Equipment();
 	init_Inventory();
+	init_MessageCatalog();
+	init_LocalizeDOM();
 	ItemInfo = new GUIComponent("ItemInfo", ItemInfo_default$1);
 	ItemInfo.render = () => ItemInfo_default$2;
 	_type$5 = 0;
@@ -246508,31 +246642,31 @@ var init_ItemInfo = __esmMin((() => {
 	MOVE_INFO_MESSAGES = [
 		{
 			key: "Drop",
-			msgId: 2788
+			message: getMessage("robrowser.ui.item-info.cannot-drop", "Cannot be dropped.")
 		},
 		{
 			key: "Storage",
-			msgId: 2789
+			message: getMessage("robrowser.ui.item-info.cannot-store", "Cannot be stored.")
 		},
 		{
 			key: "Cart",
-			msgId: 2790
+			message: getMessage("robrowser.ui.item-info.cannot-cart", "Cannot be placed in a cart.")
 		},
 		{
 			key: "Mail",
-			msgId: 2791
+			message: getMessage("robrowser.ui.item-info.cannot-mail", "Cannot be mailed.")
 		},
 		{
 			key: "Exchange",
-			msgId: 2792
+			message: getMessage("robrowser.ui.item-info.cannot-trade", "Cannot be traded.")
 		},
 		{
 			key: "GuildStorage",
-			msgId: 2794
+			message: getMessage("robrowser.ui.item-info.cannot-guild-store", "Cannot be stored in guild storage.")
 		},
 		{
 			key: "NPCSale",
-			msgId: 2795
+			message: getMessage("robrowser.ui.item-info.cannot-sell-npc", "Cannot be sold to NPCs.")
 		}
 	];
 	/**
@@ -246567,6 +246701,7 @@ var init_ItemInfo = __esmMin((() => {
 	*/
 	ItemInfo.init = function init() {
 		const root = ItemInfo.getRoot();
+		applyLocaleAttributes(root);
 		this._host.style.top = "200px";
 		this._host.style.left = "480px";
 		const extendBtn = root.querySelector(".extend");
@@ -246644,29 +246779,28 @@ var init_ItemInfo = __esmMin((() => {
 			const tooltipHtml = buildMoveInfoTooltip(it.moveInfo);
 			if (tooltipHtml) {
 				const label = document.createElement("span");
-				label.textContent = DB.getMessage(2796);
+				label.textContent = getMessage("robrowser.ui.item-info.restrictions", "Item movement restrictions");
 				label.className = "moveinfo-label";
 				if (descInner) descInner.appendChild(label);
-				let tooltip = document.getElementById("moveinfo-tooltip");
-				if (!tooltip) {
-					tooltip = document.createElement("div");
-					tooltip.id = "moveinfo-tooltip";
-					document.body.appendChild(tooltip);
-				}
+				const tooltip = root.querySelector("#moveinfo-tooltip");
+				if (!tooltip) return;
+				const positionTooltip = (event, offsetX) => {
+					const hostRect = ItemInfo._host.getBoundingClientRect();
+					tooltip.style.left = `${event.clientX - hostRect.left + offsetX}px`;
+					tooltip.style.top = `${event.clientY - hostRect.top + 2}px`;
+				};
 				label.addEventListener("mouseenter", (e) => {
 					Cursor.setType(Cursor.ACTION.CLICK);
 					tooltip.innerHTML = tooltipHtml;
 					tooltip.style.display = "block";
-					tooltip.style.left = `${e.pageX + 15}px`;
-					tooltip.style.top = `${e.pageY + 2}px`;
+					positionTooltip(e, 15);
 				});
 				label.addEventListener("mouseleave", () => {
 					tooltip.style.display = "none";
 					Cursor.setType(Cursor.ACTION.DEFAULT);
 				});
 				label.addEventListener("mousemove", (e) => {
-					tooltip.style.left = `${e.pageX + 20}px`;
-					tooltip.style.top = `${e.pageY + 2}px`;
+					positionTooltip(e, 20);
 				});
 			}
 		}
@@ -246725,7 +246859,7 @@ var init_ItemInfo = __esmMin((() => {
 	* Called when ItemInfo UI is removed.
 	*/
 	ItemInfo.hideMoveInfoTooltip = function hideMoveInfoTooltip() {
-		const tooltip = document.getElementById("moveinfo-tooltip");
+		const tooltip = ItemInfo.getRoot().querySelector("#moveinfo-tooltip");
 		if (tooltip) tooltip.style.display = "none";
 		Cursor.setType(Cursor.ACTION.DEFAULT);
 	};
