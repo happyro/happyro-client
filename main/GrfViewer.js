@@ -205509,13 +205509,3519 @@ var init_NodeSocket = __esmMin((() => {
 			}
 		}
 	};
-})), $schema, namespaces, messages_default;
-var init_messages = __esmMin((() => {
-	$schema = "../schema/client-message-catalog.schema.json";
-	namespaces = /*#__PURE__*/ JSON.parse("{\"gravity.MsgStrID\":{\"sourceLocale\":\"ko-KR\",\"source\":{\"client\":\"kro-20211105\",\"resourcePath\":\"data\\\\luafiles514\\\\lua files\\\\msgstring_kr.lub\",\"sha256\":\"f9514048e6bde7af1a6f7368c35ba38a2c070e9cda3de02f01849180f6e9f07b\",\"format\":\"lua-5.1-bytecode\",\"table\":\"MsgStrID\",\"auditTool\":{\"repository\":\"https://github.com/viruscamp/luadec\",\"commit\":\"895d92313fabaee260121c758c8320d1b21dd741\"}},\"entries\":[{\"key\":\"MSI_HK_BASICINFOWND_MINI\",\"sourceText\":\"기본 정보 창 최소/최대\",\"sourceSha256\":\"a27ee5bc3443014bcd6a3e3315918b872a02d16f2020c03ab30cddbbf94ab39f\",\"context\":\"Hotkey description for minimizing or maximizing the basic information window.\",\"translations\":{\"en\":{\"text\":\"Minimize/maximize basic information window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"基本信息窗最小/最大\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_EQUIPWND_ONOFF\",\"sourceText\":\"장비 창 On/Off\",\"sourceSha256\":\"9ddeccadf35dd4378d4d6f55661daacda2ea2b4ff3388a8c54ae7cb4a22063f3\",\"context\":\"Hotkey description for toggling the equipment window.\",\"translations\":{\"en\":{\"text\":\"Toggle equipment window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLWND_ONOFF\",\"sourceText\":\"스킬 목록 창 On/Off\",\"sourceSha256\":\"49a61f23c7488c3f291e006293d062bc9b1942e311ff2054f64ca9ed52328f2f\",\"context\":\"Hotkey description for toggling the skill list window.\",\"translations\":{\"en\":{\"text\":\"Toggle skill list window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能列表开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_QUESTWND_ONOFF\",\"sourceText\":\"퀘스트 목록 창 On/Off\",\"sourceSha256\":\"53d1bf9a413f11372cd1a49f9c205a3c207101995bd85ea135753e1a4d0bdd62\",\"context\":\"Hotkey description for toggling the quest list window.\",\"translations\":{\"en\":{\"text\":\"Toggle quest list window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"任务列表开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_FRIENDWND_ONOFF\",\"sourceText\":\"친구 창 On/Off\",\"sourceSha256\":\"68b300444a767dceee48e6983c67462838893dcb5f3eca398f5b220c467acd33\",\"context\":\"Hotkey description for toggling the friends window.\",\"translations\":{\"en\":{\"text\":\"Toggle friends window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"好友窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_PARTYWND_ONOFF\",\"sourceText\":\"파티 창 On/Off\",\"sourceSha256\":\"d6dc73edde41c8e58007ca8d49276f4ec054ee94d2d4116f443644ee5d114d1e\",\"context\":\"Hotkey description for toggling the party window.\",\"translations\":{\"en\":{\"text\":\"Toggle party window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_CHATWND_MAKE\",\"sourceText\":\"대화방 만들기\",\"sourceSha256\":\"c57efe5ddebbcc8bdd8e2715d214e341bea376dcf0d613f28b4b7400e3c70e25\",\"context\":\"Hotkey description for opening the create-chat-room flow.\",\"translations\":{\"en\":{\"text\":\"Create chat room\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"创建聊天室\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_CARTWND_ONOFF\",\"sourceText\":\"카트 창 On/Off\",\"sourceSha256\":\"9a7080624993983a410876f1da043c22d63988819d4d0383caa42de8d43fffd0\",\"context\":\"Hotkey description for toggling the cart window.\",\"translations\":{\"en\":{\"text\":\"Toggle cart window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"手推车窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_MAPWND_ONOFF\",\"sourceText\":\"지도 On/Off\",\"sourceSha256\":\"adf9740cd8f0153bb967cc6efc0d8517eab4fc21bee7ee5ffeb337967c0410c7\",\"context\":\"Hotkey description for toggling the map.\",\"translations\":{\"en\":{\"text\":\"Toggle map\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"地图开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_ITEMWND_ONOFF\",\"sourceText\":\"아이템 창 On/Off\",\"sourceSha256\":\"71421464b9feee0dea7b303c3d04f0c4a495424b1af4f0d1b6ff441c60c4c8fe\",\"context\":\"Hotkey description for toggling the inventory window.\",\"translations\":{\"en\":{\"text\":\"Toggle inventory window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"物品栏开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_1\",\"sourceText\":\"스킬바 1-1번\",\"sourceSha256\":\"8865b253ed55657ecb3ce99aa15dbc01b470cf6809f5db37433b984561c3440b\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_1.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-1\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-1\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_2\",\"sourceText\":\"스킬바 1-2번\",\"sourceSha256\":\"9a7b6dfd9771b76594de023c033fb2fba9fa15d2edd3f8166080dc49a0c4e0a4\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_2.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-2\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_3\",\"sourceText\":\"스킬바 1-3번\",\"sourceSha256\":\"4dd163c7b174a0da526db115f8cf6ef65e04265f192914c268cccf1440f48608\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_3.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-3\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-3\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_4\",\"sourceText\":\"스킬바 1-4번\",\"sourceSha256\":\"5a81951de3685d9aa3122271e489eeb5831936ea768c31f3183ba07639892b66\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_4.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-4\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_5\",\"sourceText\":\"스킬바 1-5번\",\"sourceSha256\":\"f95a049dc76699cc55993df157b804bb3f9a467b2b1c5aca7aa48adbd822e08b\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_5.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-5\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-5\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_6\",\"sourceText\":\"스킬바 1-6번\",\"sourceSha256\":\"b8103bb88ae280e29bdcf306ac8843c630177de9d2f300e250ed8f942df5695c\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_6.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-6\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-6\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_7\",\"sourceText\":\"스킬바 1-7번\",\"sourceSha256\":\"11f2e9649fc5abe66ec33cea6121bcd73414d9f39a2934662beebd173ef3ee18\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_7.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-7\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-7\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_8\",\"sourceText\":\"스킬바 1-8번\",\"sourceSha256\":\"d69ed3eb0c798a9764c036929bc64cb7df2c310862e409b09b229544d3056618\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_8.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-8\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-8\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR1_9\",\"sourceText\":\"스킬바 1-9번\",\"sourceSha256\":\"dd11fe5e49217bc3ec7d0100f5f466f5de0d683c2bf7d2b0a19a9c8f79a338bf\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_9.\",\"translations\":{\"en\":{\"text\":\"Skill bar 1-9\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 1-9\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_1\",\"sourceText\":\"스킬바 2-1번\",\"sourceSha256\":\"c5402ecf19b2d1f6907857969db0ee7e8c7be01a0a354ace4f7536cf2278cee7\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_1.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-1\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-1\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_2\",\"sourceText\":\"스킬바 2-2번\",\"sourceSha256\":\"5c26a8216d74ee312475557cba0de4428bc616fd3d72ad5b9c4784a0fd9e4c63\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_2.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-2\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_3\",\"sourceText\":\"스킬바 2-3번\",\"sourceSha256\":\"176d821f2ad4db7d1b82110960146e5416d87f83ea4713eb1c5916ca8e0866df\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_3.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-3\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-3\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_4\",\"sourceText\":\"스킬바 2-4번\",\"sourceSha256\":\"9567b967e2ad63d3eb2773d5f065eadf206ac67da2d2604a1daa0f0ef27b0f3c\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_4.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-4\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_5\",\"sourceText\":\"스킬바 2-5번\",\"sourceSha256\":\"8d2da445c51e7f88527324dfc80a751d715687c6b62ce71f5cac01c204cb956e\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_5.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-5\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-5\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_6\",\"sourceText\":\"스킬바 2-6번\",\"sourceSha256\":\"d920fea281797c26061dfc3f9e639b2f8541e2436500ce5d600dcb1e6453444c\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_6.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-6\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-6\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_7\",\"sourceText\":\"스킬바 2-7번\",\"sourceSha256\":\"66595138e283ceceaa879831795cf180f7068d44eaf19eb36964de75985050fd\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_7.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-7\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-7\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_8\",\"sourceText\":\"스킬바 2-8번\",\"sourceSha256\":\"8169c68d70e4cc4245e526498869e436c32f0b35af34a84ee493eb7dd201dd64\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_8.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-8\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-8\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR2_9\",\"sourceText\":\"스킬바 2-9번\",\"sourceSha256\":\"e2a0a76b059427262da103fa7335f77613a62ba2b5c23d57192e0596c43442fd\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_9.\",\"translations\":{\"en\":{\"text\":\"Skill bar 2-9\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 2-9\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_1\",\"sourceText\":\"스킬바 3-1번\",\"sourceSha256\":\"9de3d043bdf89e669577ddabc65f78d4fb4abfcb476f013064a5807573c8cacf\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_1.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-1\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-1\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_2\",\"sourceText\":\"스킬바 3-2번\",\"sourceSha256\":\"88fa8431394efa11a3e845bf911c4261cec61a0e144862655020b681ef594d15\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_2.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-2\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_3\",\"sourceText\":\"스킬바 3-3번\",\"sourceSha256\":\"d2bb737d46f7d796d70cc03555b2727f3d14f32383459c8557dbdb43cad90adb\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_3.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-3\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-3\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_4\",\"sourceText\":\"스킬바 3-4번\",\"sourceSha256\":\"c3d4f0f62c47c00c594af20deb63f5434b5f0e1991c89290367329184af0314f\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_4.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-4\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_5\",\"sourceText\":\"스킬바 3-5번\",\"sourceSha256\":\"0c65ba154184c0e3687fa2f664e4a869403e65a8ef30371f4a7d66137cbcba5c\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_5.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-5\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-5\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_6\",\"sourceText\":\"스킬바 3-6번\",\"sourceSha256\":\"46fd05078ad3b0a6e695d41d9ba35b39215b2299351ae2ecdb796b908a58bbbe\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_6.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-6\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-6\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_7\",\"sourceText\":\"스킬바 3-7번\",\"sourceSha256\":\"7a464541c3e6ba6bee5088932b2e103cb23b055e78ad44cde5befcba1058a4fe\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_7.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-7\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-7\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_8\",\"sourceText\":\"스킬바 3-8번\",\"sourceSha256\":\"b43674c40ee4c060d40f4257352e3436f5f1d00bb951dea5342bb4957c2e51c9\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_8.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-8\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-8\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR3_9\",\"sourceText\":\"스킬바 3-9번\",\"sourceSha256\":\"1026a50a8a3b417cd7a1f5f93b3036729c67229a5789be8be1a2d1607283dea5\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_9.\",\"translations\":{\"en\":{\"text\":\"Skill bar 3-9\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 3-9\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_1\",\"sourceText\":\"스킬바 4-1번\",\"sourceSha256\":\"4990864487beb324bd480496d16e80aa6d413b8734d47f5a74b54ea6b5bcad25\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_1.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-1\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-1\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_2\",\"sourceText\":\"스킬바 4-2번\",\"sourceSha256\":\"8ee5c5e1fc9028749fdf5db79ab5ff2815d8156829ded7fb3c2a51744659c328\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_2.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-2\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_3\",\"sourceText\":\"스킬바 4-3번\",\"sourceSha256\":\"8829a2ec725c06e927b28b970f1858c16b6c8be213f37f5a418e22abfa64da07\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_3.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-3\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-3\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_4\",\"sourceText\":\"스킬바 4-4번\",\"sourceSha256\":\"14f19acc2226c017f56199eb8b8a98f106a2ef5e87b8b9091543577f8d08a52d\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_4.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-4\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_5\",\"sourceText\":\"스킬바 4-5번\",\"sourceSha256\":\"dc2481a6491a4c331b457b846f8b831a5a434cb60dea8dbb83658f9f22afc3e9\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_5.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-5\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-5\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_6\",\"sourceText\":\"스킬바 4-6번\",\"sourceSha256\":\"fc146f6f43e0d70d8c52999552de792f5cb9eaff109500b87b5563fc99f0f686\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_6.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-6\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-6\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_7\",\"sourceText\":\"스킬바 4-7번\",\"sourceSha256\":\"bbbb598b3e1e1b40f504ba491e9a8cbd387454489f76c5eb7982143df566affa\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_7.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-7\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-7\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_8\",\"sourceText\":\"스킬바 4-8번\",\"sourceSha256\":\"7940543b6b950e50e21d5b11e2ec00183b1061a3154f8d94196cde3b06b9cdb9\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_8.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-8\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-8\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SKILLBAR4_9\",\"sourceText\":\"스킬바 4-9번\",\"sourceSha256\":\"7094908732d3bea219970c79ae7471bb9fb2a2903365bb785584e949b9e09c93\",\"context\":\"Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_9.\",\"translations\":{\"en\":{\"text\":\"Skill bar 4-9\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏 4-9\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_GUILDWND_ONOFF\",\"sourceText\":\"길드 창 On/Off\",\"sourceSha256\":\"457aeda0ff678c1c4d8e3df02dbb9dd422f20f3ca1701c1bdb169fe907a9d2d3\",\"context\":\"Official kRO hotkey label. Guild shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle guild window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_EMOTIONWND_ONOFF\",\"sourceText\":\"이모션 목록 창 On/Off\",\"sourceSha256\":\"de40d3baa592034f23769a1ee40e917e30a6f056b8082ded587efe0d973da9e5\",\"context\":\"Official kRO hotkey label. Emotion-list shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle emotion list window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"表情列表开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_SITORSTAND\",\"sourceText\":\"앉기/서기\",\"sourceSha256\":\"36bd2bc5171916e86b152983127cda95862488a1dd66f7dc3affb8674becb643\",\"context\":\"Official kRO hotkey label. Sit or stand shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Sit/stand\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"坐下/站立\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_MACROWND_ONOFF\",\"sourceText\":\"단축키 목록 창 On/Off\",\"sourceSha256\":\"6ebc569a38369dbf78946eb1bc5193cb5c5574f3239ea614f901d91f3d65c744\",\"context\":\"Official kRO hotkey label. Shortcut-bar visibility control in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle shortcut list window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"快捷键栏开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_CHATWND_ZOOM\",\"sourceText\":\"채팅창 크기 확대/축소\",\"sourceSha256\":\"44de3d3a90ad251d6bab137b787a11e8a003f617c065511b64cd369aecc9d34e\",\"context\":\"Official kRO hotkey label. Chat window size shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Resize chat window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"调整聊天窗口大小\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_PETWND_ONOFF\",\"sourceText\":\"펫 정보 창 On/Off\",\"sourceSha256\":\"6cebc425cb07dfbe1d7970c361609d1df30a198aa2c77f830a876b5a828aa2d5\",\"context\":\"Official kRO hotkey label. Pet information shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle pet information window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"宠物信息窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_HOMUNWND_ONOFF\",\"sourceText\":\"호문 정보 창 On/Off\",\"sourceSha256\":\"b331e031b6f69ff49e295835b665f5472ddd3d07995490779070fc5547288fef\",\"context\":\"Official kRO hotkey label. Homunculus information shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle Homunculus information window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"生命体信息窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_MERWND_ONOFF\",\"sourceText\":\"용병 정보 창 On/Off\",\"sourceSha256\":\"742260bc344728d36528cb20cb1603355fb1ae23ec9b5399ca5944f6c86e73b6\",\"context\":\"Official kRO hotkey label. Mercenary information shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Toggle mercenary information window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"佣兵信息窗口开关\",\"translator\":\"Codex\"}}},{\"key\":\"MSI_HK_BANK\",\"sourceText\":\"은행 창\",\"sourceSha256\":\"6f792965d0a6c56d8d8d3220c11f07e89cb3f242665982f0d90a15ad6d60f4ab\",\"context\":\"Official kRO hotkey label. Bank shortcut in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Bank window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"银行窗口\",\"translator\":\"Codex\"}}}]},\"robrowser.ui\":{\"sourceLocale\":\"en\",\"source\":{\"repository\":\"https://github.com/MrAntares/roBrowserLegacy.git\",\"identity\":\"component-and-message-key\"},\"entries\":[{\"key\":\"common.ok\",\"sourceText\":\"OK\",\"sourceSha256\":\"565339bc4d33d72817b583024112eb7f5cdf3e5eef0252d6ec1b9c9a94e12bb3\",\"context\":\"Affirmative button created by UIManager for message and error dialogs.\",\"translations\":{\"en\":{\"text\":\"OK\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"确定\",\"translator\":\"Codex\"}}},{\"key\":\"common.cancel\",\"sourceText\":\"Cancel\",\"sourceSha256\":\"19766ed6ccb2f4a32778eed80d1928d2c87a18d7c275ccb163ec6709d3eb2e27\",\"context\":\"Negative button created by UIManager for prompt dialogs.\",\"translations\":{\"en\":{\"text\":\"Cancel\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"取消\",\"translator\":\"Codex\"}}},{\"key\":\"common.yes\",\"sourceText\":\"Yes\",\"sourceSha256\":\"85a39ab345d672ff8ca9b9c6876f3adcacf45ee7c1e2dbd2408fd338bd55e07e\",\"context\":\"Positive choice button created by UIManager for prompt dialogs.\",\"translations\":{\"en\":{\"text\":\"Yes\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"是\",\"translator\":\"Codex\"}}},{\"key\":\"common.no\",\"sourceText\":\"No\",\"sourceSha256\":\"1ea442a134b2a184bd5d40104401f2a37fbc09ccf3f4bc9da161c6099be3691d\",\"context\":\"Negative choice button created by UIManager for prompt dialogs.\",\"translations\":{\"en\":{\"text\":\"No\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"否\",\"translator\":\"Codex\"}}},{\"key\":\"common.close\",\"sourceText\":\"Close\",\"sourceSha256\":\"7d9eb7acb13e24625c404401d8e88b2350e32162455885f18276cf802f7701ed\",\"context\":\"Close button created by UIManager for dismissible dialogs.\",\"translations\":{\"en\":{\"text\":\"Close\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"关闭\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.account\",\"sourceText\":\"Account\",\"sourceSha256\":\"7e1b0d5641f2640ce9a953ec231eea2c27a2a7633f7d3c273e5735e2b30c10b7\",\"context\":\"Placeholder and accessible label for the account input in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Account\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"账号\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.password\",\"sourceText\":\"Password\",\"sourceSha256\":\"e7cf3ef4f17c3999a94f2c6f612e8a888e5b1026878e4e19398b23bd38ec221a\",\"context\":\"Placeholder and accessible label for the password input in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Password\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"密码\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.remember-account\",\"sourceText\":\"Remember account\",\"sourceSha256\":\"761988b22fb2a80ed7d41c4ff521bb2b5111fcf13d6485c1829d0ee81309eb24\",\"context\":\"Accessible label for the saved-account toggle in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Remember account\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"记住账号\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.log-in\",\"sourceText\":\"Log in\",\"sourceSha256\":\"c189840cf7e2d6f6fdeefde1ac59dfdf50bb75642eb569b4e38a5614d6f12ac2\",\"context\":\"Accessible label for the image-backed login button in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Log in\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"登录\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.create-account\",\"sourceText\":\"Create account\",\"sourceSha256\":\"798ca2ce18bf2038bc13aaa33ebfe6db7020df5b4bba40f68e21462a9207db3d\",\"context\":\"Visible text and accessible label for the registration button in WinLoginV2.\",\"translations\":{\"en\":{\"text\":\"Create account\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"注册账号\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.exit\",\"sourceText\":\"Exit\",\"sourceSha256\":\"d17d84a604994b722db37b35860b1ac7e8d9e43e725d0eb50702a9f7228a2999\",\"context\":\"Accessible label for the image-backed exit button in WinLogin.\",\"translations\":{\"en\":{\"text\":\"Exit\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"退出\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.open-registration\",\"sourceText\":\"Open the account registration page?\",\"sourceSha256\":\"255af589f796f589c9bfaf0f6778a43b34aa2687057e6fc53ac55b63f55f0e20\",\"context\":\"Confirmation shown before WinLogin opens a configured registration URL.\",\"translations\":{\"en\":{\"text\":\"Open the account registration page?\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"打开账号注册页面？\",\"translator\":\"Codex\"}}},{\"key\":\"win-login.registration-unavailable\",\"sourceText\":\"Account registration is not available. Contact the server administrator.\",\"sourceSha256\":\"b00ffe14638c2b5f36a18f54ed855d1dd0093f34a485fd0757df107fed47bb65\",\"context\":\"Message shown when WinLogin has no configured registration URL.\",\"translations\":{\"en\":{\"text\":\"Account registration is not available. Contact the server administrator.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"暂未开放账号注册，请联系服务器管理员。\",\"translator\":\"Codex\"}}},{\"key\":\"login.status.connecting\",\"sourceText\":\"Connecting to the server...\",\"sourceSha256\":\"e8d4b1e0c8fa1bc71394159551d105dad7afc13821678b6ca5133d7aff490a97\",\"context\":\"Text shown in WinLoading while LoginEngine connects to the login or character server.\",\"translations\":{\"en\":{\"text\":\"Connecting to the server...\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"正在连接服务器...\",\"translator\":\"Codex\"}}},{\"key\":\"login.error.connection-failed\",\"sourceText\":\"Unable to connect to the server.\",\"sourceSha256\":\"3178867204715b04bb047bf900d12e5aa68c45cc3f8cc61c875f600ecd21bc33\",\"context\":\"LoginEngine message when the login server socket cannot be opened.\",\"translations\":{\"en\":{\"text\":\"Unable to connect to the server.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"无法连接服务器。\",\"translator\":\"Codex\"}}},{\"key\":\"login.error.connection-lost\",\"sourceText\":\"Connection to the server was lost.\",\"sourceSha256\":\"f2680dac335f4beccc3d04763f08a9cbb499517e276e1802037fa57d10b981fd\",\"context\":\"Message shown when the network disconnects without a phase-specific handler.\",\"translations\":{\"en\":{\"text\":\"Connection to the server was lost.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"与服务器的连接已断开。\",\"translator\":\"Codex\"}}},{\"key\":\"login.error.packetver-missing\",\"sourceText\":\"No PACKETVER configuration was found.\",\"sourceSha256\":\"3b4f515ea270ee1287edf13cd449ff9a064a38815931b11beb8b9e41578ebf7e\",\"context\":\"LoginEngine fatal configuration error when PACKETVER is unavailable.\",\"translations\":{\"en\":{\"text\":\"No PACKETVER configuration was found.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"找不到 PACKETVER 配置。\",\"translator\":\"Codex\"}}},{\"key\":\"login.error.password-encryption\",\"sourceText\":\"Password encryption failed because the client configuration is invalid.\",\"sourceSha256\":\"7d9532d5d8b6274a99f2e2d7d1a0144c40b274b66215ac1fcd43c99600ea36bd\",\"context\":\"LoginEngine fatal error when configured Rijndael password encryption cannot run.\",\"translations\":{\"en\":{\"text\":\"Password encryption failed because the client configuration is invalid.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"客户端配置无效，密码加密失败。\",\"translator\":\"Codex\"}}},{\"key\":\"char-select.back-to-login\",\"sourceText\":\"Back to login\",\"sourceSha256\":\"3e3806ff17302cbacbd9a4d29022558ed71334907a93083490ca2bf2dcb176b3\",\"context\":\"Accessible label for the image-backed close button in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Back to login\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回登录\",\"translator\":\"Codex\"}}},{\"key\":\"char-select.empty-slot\",\"sourceText\":\"Create character\",\"sourceSha256\":\"a367a9cea7fc86b7926227c6962e51f28886aa8a3309f2df6eb9eaa440b02703\",\"context\":\"Accessible label for an empty character slot in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Create character\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"创建角色\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.name\",\"sourceText\":\"Character name\",\"sourceSha256\":\"faf3e90bda9293d831003480485271b1a827ac10b74ed1f591be2a2dc7e01034\",\"context\":\"Placeholder and accessible label for the character name input.\",\"translations\":{\"en\":{\"text\":\"Character name\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"角色名称\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.male\",\"sourceText\":\"Male\",\"sourceSha256\":\"03f8c1273e3da99bb315fe7b71c8e45159c826e6d3f42eecd4612078248f73a1\",\"context\":\"Accessible label for the male character option in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Male\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"男\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.female\",\"sourceText\":\"Female\",\"sourceSha256\":\"e8cca808ae5aaa03a7fc3060856e6d4ad776fb1cb8cfe441a9bd240988cde151\",\"context\":\"Accessible label for the female character option in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Female\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"女\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.rotate-left\",\"sourceText\":\"Rotate left\",\"sourceSha256\":\"54c46b33d80973707f50a6dcde8a0726db3c286c4d79c17c629ec4d74f05294f\",\"context\":\"Accessible label for the left model rotation button in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Rotate left\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"向左旋转\",\"translator\":\"Codex\"}}},{\"key\":\"char-create.rotate-right\",\"sourceText\":\"Rotate right\",\"sourceSha256\":\"9938c21d2cedb4170f1ff2d186c8112b832c660f8c76325fd9e5fae246c56c9d\",\"context\":\"Accessible label for the right model rotation button in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Rotate right\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"向右旋转\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.title\",\"sourceText\":\"Basic Information\",\"sourceSha256\":\"d094b334d8099b1ee806d7f61a4c8a7123bffb2036d7b49a85337547f6c6d3a0\",\"context\":\"Title of the expanded BasicInfo window.\",\"translations\":{\"en\":{\"text\":\"Basic Information\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"基本信息\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.base-level\",\"sourceText\":\"Base Lv.\",\"sourceSha256\":\"3c183dc69e1dc0b66b7f8515dbb80a57c53adc324afae00b6f2b03bf9e486738\",\"context\":\"Base level label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Base Lv.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"基本等级\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.job-level\",\"sourceText\":\"Job Lv.\",\"sourceSha256\":\"25d55647eebe26d603828c9fe7c506eeb2b4e56ca9efd1ad59075d22ba0d6b88\",\"context\":\"Job level label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Job Lv.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"职业等级\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.weight\",\"sourceText\":\"Weight\",\"sourceSha256\":\"81d27ef6d5033c3e1d46b7b2b50868604fd432ddb77716b5ed9383c30c08432f\",\"context\":\"Carried weight label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Weight\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"负重\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.zeny\",\"sourceText\":\"Zeny\",\"sourceSha256\":\"ac90f5a5babe9851d645f2d64b97282273a08b88faa3c2941dd794a0e9fc92d2\",\"context\":\"Currency label in BasicInfo; official proper name retained.\",\"translations\":{\"en\":{\"text\":\"Zeny\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"Zeny\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.level\",\"sourceText\":\"Lv.\",\"sourceSha256\":\"619683f98eb9e8dad44affeed6b79d1bcf7c0e1d8efecdfd0fa42846e9e2ccac\",\"context\":\"Compact level label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Lv.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"等级\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.experience\",\"sourceText\":\"Exp.\",\"sourceSha256\":\"c0532edf2920e01503cfc7ea05fc03ca0fcc3b8a373c029fd60cf567c198a665\",\"context\":\"Compact experience label in BasicInfo.\",\"translations\":{\"en\":{\"text\":\"Exp.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"经验\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.status\",\"sourceText\":\"Status (Alt + A)\",\"sourceSha256\":\"4b1ebc2218ea5fd41843bca7f2587db46e527360643eea71615d6586fc4b4a49\",\"context\":\"BasicInfo main-menu status button.\",\"translations\":{\"en\":{\"text\":\"Status (Alt + A)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"状态 (Alt + A)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.equipment\",\"sourceText\":\"Equipment (Alt + Q)\",\"sourceSha256\":\"e95f18ec8944a691012b373a341a172111c910190007847272e60af11cfbbaec\",\"context\":\"BasicInfo main-menu equipment button.\",\"translations\":{\"en\":{\"text\":\"Equipment (Alt + Q)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备 (Alt + Q)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.inventory\",\"sourceText\":\"Inventory (Alt + E)\",\"sourceSha256\":\"2239dfa3e4cca34024a48c91001741853e9641d8f852d2d7edb355580ae90d2d\",\"context\":\"BasicInfo main-menu inventory button.\",\"translations\":{\"en\":{\"text\":\"Inventory (Alt + E)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"物品栏 (Alt + E)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.skills\",\"sourceText\":\"Skill Tree (Alt + S)\",\"sourceSha256\":\"d54202ccef151011b27aeb13f721137002de26c4594699dfcff15c2877a86555\",\"context\":\"BasicInfo main-menu skill-tree button.\",\"translations\":{\"en\":{\"text\":\"Skill Tree (Alt + S)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能树 (Alt + S)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.party\",\"sourceText\":\"Party (Alt + Z)\",\"sourceSha256\":\"0de40da1feef07377d68b688bbfee24519f2b1ef8cd42640a9640009788a4701\",\"context\":\"BasicInfo main-menu party button.\",\"translations\":{\"en\":{\"text\":\"Party (Alt + Z)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍 (Alt + Z)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.guild\",\"sourceText\":\"Guild (Alt + G)\",\"sourceSha256\":\"3b655073a4abb9859b26486dd2383627593a1d44bc990aff6d046ab3422b8e52\",\"context\":\"BasicInfo main-menu guild button.\",\"translations\":{\"en\":{\"text\":\"Guild (Alt + G)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会 (Alt + G)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.battleground\",\"sourceText\":\"Battleground\",\"sourceSha256\":\"40964db2e3f24a23b10f24f0f4d892a89c768781984266fecce1442c9dd8a9b0\",\"context\":\"BasicInfo main-menu battleground button.\",\"translations\":{\"en\":{\"text\":\"Battleground\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"战场\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.quest\",\"sourceText\":\"Quest List (Alt + U)\",\"sourceSha256\":\"6983eee7a74de39c2c90c06e6921bab8e305588c790b191672992c3b9c5c9001\",\"context\":\"BasicInfo main-menu quest-list button.\",\"translations\":{\"en\":{\"text\":\"Quest List (Alt + U)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"任务列表 (Alt + U)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.world-map\",\"sourceText\":\"World Map (Ctrl + ')\",\"sourceSha256\":\"7e92c27d4aa2a8dbc3398ebbf03c27ff27d3b0577f495a6248b67f25a7413861\",\"context\":\"BasicInfo main-menu world-map button.\",\"translations\":{\"en\":{\"text\":\"World Map (Ctrl + ')\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"世界地图 (Ctrl + ')\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.navigation\",\"sourceText\":\"Navigation\",\"sourceSha256\":\"3db65f8c2a7d1861b4bca37da3adec5aa7905931eb6faddbc595a35f75e6ca40\",\"context\":\"BasicInfo main-menu navigation button.\",\"translations\":{\"en\":{\"text\":\"Navigation\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"导航\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.options\",\"sourceText\":\"Options (Esc)\",\"sourceSha256\":\"82e6c3d55d0c3bc142caf4f203f1c69fcecfb560bab610a6ea32020ca9c59885\",\"context\":\"BasicInfo main-menu options button.\",\"translations\":{\"en\":{\"text\":\"Options (Esc)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"设置 (Esc)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.bank\",\"sourceText\":\"Bank (Ctrl + B)\",\"sourceSha256\":\"9f1b98b75698da1be994505e4dac87e2d4ff8666e80a281564163809c488fe79\",\"context\":\"BasicInfo main-menu bank button.\",\"translations\":{\"en\":{\"text\":\"Bank (Ctrl + B)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"银行 (Ctrl + B)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.replay\",\"sourceText\":\"Replay\",\"sourceSha256\":\"c8dae6371b33b8d67fdbd138fd28e89eefbd7af6b764f282b0872812b06a150c\",\"context\":\"BasicInfo main-menu replay button.\",\"translations\":{\"en\":{\"text\":\"Replay\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"回放\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.mail\",\"sourceText\":\"Mail\",\"sourceSha256\":\"07ed6ccf6bf6393d18684d1d4f774639d44c7d2d2895fd30491ccc50614ed4ea\",\"context\":\"BasicInfo main-menu mail button.\",\"translations\":{\"en\":{\"text\":\"Mail\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"邮件\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.achievement\",\"sourceText\":\"Achievement\",\"sourceSha256\":\"293523c3bf5bf430b2fff06cd20f620382fdba701eb6d779afe36acfa27542b7\",\"context\":\"BasicInfo main-menu achievement button.\",\"translations\":{\"en\":{\"text\":\"Achievement\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"成就\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.tips\",\"sourceText\":\"Tips (Alt + D)\",\"sourceSha256\":\"3fa176032f67afa98d9fdc130e6d1e58ab181a5b7cff43a88fcd36d46aff6130\",\"context\":\"BasicInfo main-menu tips button.\",\"translations\":{\"en\":{\"text\":\"Tips (Alt + D)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"提示 (Alt + D)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.hotkey-help\",\"sourceText\":\"Hotkey Help\",\"sourceSha256\":\"9b4377b3659a4901b0c60f10ff5dc69a3e6460bde60d913d22b6b8e9b21b2ac1\",\"context\":\"BasicInfo main-menu hotkey-help button.\",\"translations\":{\"en\":{\"text\":\"Hotkey Help\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"快捷键说明\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.attendance\",\"sourceText\":\"Attendance\",\"sourceSha256\":\"4cecc708584fc197b32b39cac65d3e4bf3fe15cf7b0d8bb4d1faa0af363a6d3b\",\"context\":\"BasicInfo main-menu attendance button.\",\"translations\":{\"en\":{\"text\":\"Attendance\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"签到\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.agency\",\"sourceText\":\"Adventurer's Agency (Ctrl + Z)\",\"sourceSha256\":\"3c7f23f6db4d87b344b818d09744f2475b3c1d5c860c2d464a6e7a376db57724\",\"context\":\"BasicInfo main-menu adventurer-agency button.\",\"translations\":{\"en\":{\"text\":\"Adventurer's Agency (Ctrl + Z)\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"冒险家中介 (Ctrl + Z)\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.reputation\",\"sourceText\":\"Reputation Status\",\"sourceSha256\":\"6df8de5b648a85071a06453caacd0ca9581b656c2d5478992432b29151644497\",\"context\":\"BasicInfo main-menu reputation button.\",\"translations\":{\"en\":{\"text\":\"Reputation Status\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"声望状态\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.show\",\"sourceText\":\"Show main menu\",\"sourceSha256\":\"96a220c30d257344f8acf80452453791ea539ac7f64c8c4f7d0e7483e8b218be\",\"context\":\"Accessible label for expanding the BasicInfo main menu.\",\"translations\":{\"en\":{\"text\":\"Show main menu\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"展开主菜单\",\"translator\":\"Codex\"}}},{\"key\":\"basic-info.menu.hide\",\"sourceText\":\"Hide main menu\",\"sourceSha256\":\"ab9bdf668345de2f0a2b8fd9319e3a6cea4f9c8caaa479b00006cbd2bf066e16\",\"context\":\"Accessible label for collapsing the BasicInfo main menu.\",\"translations\":{\"en\":{\"text\":\"Hide main menu\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"收起主菜单\",\"translator\":\"Codex\"}}},{\"key\":\"escape.title\",\"sourceText\":\"Select Option\",\"sourceSha256\":\"d88604eca1c2807fb74e6b518c400876c838ed8e05af3277e1906737235eba15\",\"context\":\"Title of the Escape menu.\",\"translations\":{\"en\":{\"text\":\"Select Option\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"选择操作\",\"translator\":\"Codex\"}}},{\"key\":\"escape.resurrect\",\"sourceText\":\"Resurrect\",\"sourceSha256\":\"1b6153f884c0bdeb6aa1d23cc248c4b14f38bdffbf4ad459de0a079192c779a4\",\"context\":\"Escape death-menu resurrection button.\",\"translations\":{\"en\":{\"text\":\"Resurrect\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"复活\",\"translator\":\"Codex\"}}},{\"key\":\"escape.save-point\",\"sourceText\":\"Return to Save Point\",\"sourceSha256\":\"e3c07330ca31c611b524e8eee2c10d355ef59220ec5dd8cc8293deeb0cc49db3\",\"context\":\"Escape death-menu save-point button.\",\"translations\":{\"en\":{\"text\":\"Return to Save Point\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回存档点\",\"translator\":\"Codex\"}}},{\"key\":\"escape.character-select\",\"sourceText\":\"Return to Character Select\",\"sourceSha256\":\"a7f7874725d9cbe50b7cd79cf85562b6994356bab8b500050a3700e37bfa3841\",\"context\":\"Escape menu character-selection button.\",\"translations\":{\"en\":{\"text\":\"Return to Character Select\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回角色选择\",\"translator\":\"Codex\"}}},{\"key\":\"escape.graphics\",\"sourceText\":\"Graphics Settings\",\"sourceSha256\":\"0b5de9334cbb9ac9667b11699bb6941f2bdea423ccaa84992a1b48118466884a\",\"context\":\"Escape menu graphics-settings button.\",\"translations\":{\"en\":{\"text\":\"Graphics Settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"图像设置\",\"translator\":\"Codex\"}}},{\"key\":\"escape.sound\",\"sourceText\":\"Sound Settings\",\"sourceSha256\":\"6ba2d782cb45c5111dd2859a569310a2f5961e1a96afb2868ec8ea619a0fd013\",\"context\":\"Escape menu sound-settings button.\",\"translations\":{\"en\":{\"text\":\"Sound Settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"声音设置\",\"translator\":\"Codex\"}}},{\"key\":\"escape.hotkeys\",\"sourceText\":\"Hotkey Settings\",\"sourceSha256\":\"55f815ab0c3ad92353e7d48ffb42f0d713504a2b888e3eb90908a19fc6065e24\",\"context\":\"Escape menu hotkey-settings button.\",\"translations\":{\"en\":{\"text\":\"Hotkey Settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"快捷键设置\",\"translator\":\"Codex\"}}},{\"key\":\"escape.exit\",\"sourceText\":\"Exit Game\",\"sourceSha256\":\"cd3943f36e0179bab65bbcaf374a19b464f030d0c753489d6ae44425e3dac25e\",\"context\":\"Escape menu exit-game button.\",\"translations\":{\"en\":{\"text\":\"Exit Game\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"退出游戏\",\"translator\":\"Codex\"}}},{\"key\":\"escape.return\",\"sourceText\":\"Return to Game\",\"sourceSha256\":\"0a05934599e16df02def50493098486a28ee05449c0be880e69b8a8e74540eda\",\"context\":\"Escape menu dismiss button.\",\"translations\":{\"en\":{\"text\":\"Return to Game\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回游戏\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.title\",\"sourceText\":\"Status\",\"sourceSha256\":\"920e413c7d411b61ef3e8c63b1cb6ad058d5f95f8b481dbafe60248387d8c355\",\"context\":\"Title of the WinStats window.\",\"translations\":{\"en\":{\"text\":\"Status\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"状态\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.collapse\",\"sourceText\":\"Collapse or expand status window\",\"sourceSha256\":\"437997b4d2dbc2b0ff15715762f0070e022858318fb7399ef49678ad38351380\",\"context\":\"Accessible label for the WinStats minimize button.\",\"translations\":{\"en\":{\"text\":\"Collapse or expand status window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"收起或展开状态窗口\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.close\",\"sourceText\":\"Close status window\",\"sourceSha256\":\"8432184841b208a23cf19af5651c084499d5b8c83deca0b1fda5aa340a6296d6\",\"context\":\"Accessible label for the WinStats close button.\",\"translations\":{\"en\":{\"text\":\"Close status window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"关闭状态窗口\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.str-description\",\"sourceText\":\"STR: Physical attack power and carrying capacity.\",\"sourceSha256\":\"46bf3d08cf5ddc5f74eac790b2fd5b275d8ff7598f5adc976b697f29082f49a5\",\"context\":\"WinStats STR tooltip.\",\"translations\":{\"en\":{\"text\":\"STR: Physical attack power and carrying capacity.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"STR：提高物理攻击力和负重上限。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.agi-description\",\"sourceText\":\"AGI: Attack speed and flee rate.\",\"sourceSha256\":\"c730bf8a3cdbd70423a919aeb9a632daea24b0135194825f5aae1b4ff4f1fd7e\",\"context\":\"WinStats AGI tooltip.\",\"translations\":{\"en\":{\"text\":\"AGI: Attack speed and flee rate.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"AGI：提高攻击速度和闪避率。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.vit-description\",\"sourceText\":\"VIT: Maximum HP, HP recovery, and physical defense.\",\"sourceSha256\":\"ef28018c90d77a30c21a03bc0bee309c3e281caa64b6d7b2d8b7614d1d7e5346\",\"context\":\"WinStats VIT tooltip.\",\"translations\":{\"en\":{\"text\":\"VIT: Maximum HP, HP recovery, and physical defense.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"VIT：提高最大 HP、HP 恢复和物理防御。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.int-description\",\"sourceText\":\"INT: Maximum SP, magic attack, and magic defense.\",\"sourceSha256\":\"96aa3972f53c57dbfe8c504a453d4669a1c5175d9e062f70a03042c6cd39dc06\",\"context\":\"WinStats INT tooltip.\",\"translations\":{\"en\":{\"text\":\"INT: Maximum SP, magic attack, and magic defense.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"INT：提高最大 SP、魔法攻击和魔法防御。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.dex-description\",\"sourceText\":\"DEX: Accuracy, casting time, and ranged attack power.\",\"sourceSha256\":\"c1170785f2ea3f69e8a7b1d22a0742ff85ada007ab8b03d97ca09dde846c40cc\",\"context\":\"WinStats DEX tooltip.\",\"translations\":{\"en\":{\"text\":\"DEX: Accuracy, casting time, and ranged attack power.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"DEX：提高命中、缩短施法时间并提高远程攻击力。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.luk-description\",\"sourceText\":\"LUK: Critical rate, perfect dodge, and other combat bonuses.\",\"sourceSha256\":\"2d0e150585479e1ddadf147667f991adf28d2b8982fd40a75710b9821a042434\",\"context\":\"WinStats LUK tooltip.\",\"translations\":{\"en\":{\"text\":\"LUK: Critical rate, perfect dodge, and other combat bonuses.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"LUK：提高暴击率、完全回避和其他战斗收益。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.atk-description\",\"sourceText\":\"ATK: Physical attack power.\",\"sourceSha256\":\"d3224c99f484a512f45689c913924c6a4724cf833a2125c41abe21c677ea4b92\",\"context\":\"WinStats ATK tooltip.\",\"translations\":{\"en\":{\"text\":\"ATK: Physical attack power.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"ATK：物理攻击力。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.matk-description\",\"sourceText\":\"MATK: Magic attack power.\",\"sourceSha256\":\"54fc1975b545d1a8b7e573be7f5663d27e21d4640d9f6177cb0065d634828ca3\",\"context\":\"WinStats MATK tooltip.\",\"translations\":{\"en\":{\"text\":\"MATK: Magic attack power.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"MATK：魔法攻击力。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.hit-description\",\"sourceText\":\"HIT: Accuracy.\",\"sourceSha256\":\"8d8134c287c49c89296bff0bff58c54174f9da254c77750742763470499134b5\",\"context\":\"WinStats HIT tooltip.\",\"translations\":{\"en\":{\"text\":\"HIT: Accuracy.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"HIT：命中率。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.critical-description\",\"sourceText\":\"Critical: Critical attack rate.\",\"sourceSha256\":\"2a230574aa43ca3c3c72b1504b6a616113f69b21020efffb7e29081ea0c527be\",\"context\":\"WinStats critical-rate tooltip.\",\"translations\":{\"en\":{\"text\":\"Critical: Critical attack rate.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"暴击：暴击攻击率。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.status-point-description\",\"sourceText\":\"Status Point: Points available for base attributes.\",\"sourceSha256\":\"8691c4d7c8ea8105f24f4530f3d9baac82d60979ea4a657df93eba5cb99d16a6\",\"context\":\"WinStats remaining status-point tooltip.\",\"translations\":{\"en\":{\"text\":\"Status Point: Points available for base attributes.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"属性点：可用于提升基础属性的点数。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.guild-description\",\"sourceText\":\"Guild: Current guild name.\",\"sourceSha256\":\"e3aa9c43cfb48bb2f609ffe77c2b6a5284dcff857e5a2fcb7ad0f33e14662517\",\"context\":\"WinStats guild-name tooltip.\",\"translations\":{\"en\":{\"text\":\"Guild: Current guild name.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会：当前公会名称。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.def-description\",\"sourceText\":\"DEF: Physical defense.\",\"sourceSha256\":\"0d79121ce3e96ad1bfbbac2ffb15d9baa9305a8c3ca0dc06dd6fbeb622be61b2\",\"context\":\"WinStats DEF tooltip.\",\"translations\":{\"en\":{\"text\":\"DEF: Physical defense.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"DEF：物理防御。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.mdef-description\",\"sourceText\":\"MDEF: Magic defense.\",\"sourceSha256\":\"816a4b3cae77f6c87e7e5078284c42e37d0af65b268d7d67f60ee239ad13d02e\",\"context\":\"WinStats MDEF tooltip.\",\"translations\":{\"en\":{\"text\":\"MDEF: Magic defense.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"MDEF：魔法防御。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.flee-description\",\"sourceText\":\"FLEE: Evasion rate.\",\"sourceSha256\":\"f58a1032c42de5b60bed2a69df7afac4d1eda4ed07b56b69fad4874e892d43c5\",\"context\":\"WinStats FLEE tooltip.\",\"translations\":{\"en\":{\"text\":\"FLEE: Evasion rate.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"FLEE：闪避率。\",\"translator\":\"Codex\"}}},{\"key\":\"win-stats.aspd-description\",\"sourceText\":\"ASPD: Attack speed.\",\"sourceSha256\":\"37006240f9821011b939f771f2bd6c61e3737d75743db098dc1c54284e77fbc8\",\"context\":\"WinStats ASPD tooltip.\",\"translations\":{\"en\":{\"text\":\"ASPD: Attack speed.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"ASPD：攻击速度。\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.public-log\",\"sourceText\":\"Public Log\",\"sourceSha256\":\"2ac52562ad505b0d7375fe39e8389d8c55b5ac65dd0df90703a5b33ef08172c0\",\"context\":\"Default ChatBox tab containing public and system messages.\",\"translations\":{\"en\":{\"text\":\"Public Log\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公共记录\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.battle-log\",\"sourceText\":\"Battle Log\",\"sourceSha256\":\"eb70afb22a6b3aac00a5b8c276fc0ec89d4943d13e2f7c6db7407df5edd9bc86\",\"context\":\"Default ChatBox tab reserved for battle messages.\",\"translations\":{\"en\":{\"text\":\"Battle Log\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"战斗记录\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.new-tab\",\"sourceText\":\"New Tab\",\"sourceSha256\":\"b2f8fd639208870b67e12dcab7e8ca9b82426c2b01e62dfbcfe20d85134b38e5\",\"context\":\"Default name assigned to a user-created ChatBox tab.\",\"translations\":{\"en\":{\"text\":\"New Tab\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"新标签\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.target.public\",\"sourceText\":\"Public\",\"sourceSha256\":\"591935b15b1c88e2d5f6be0a054604fcf36f0585a6f51098fa3803826fff278c\",\"context\":\"ChatBox send-target menu entry for public chat.\",\"translations\":{\"en\":{\"text\":\"Public\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公共\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.target.party\",\"sourceText\":\"Party\",\"sourceSha256\":\"dfa82f21b3f3709c94f525d2d63cb6b2955e5a5d2430757cbedfa230f116b2ed\",\"context\":\"ChatBox send-target menu entry for party chat.\",\"translations\":{\"en\":{\"text\":\"Party\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.target.guild\",\"sourceText\":\"Guild\",\"sourceSha256\":\"298ffc494f6348d8cd14dd0091fdf9bfa7ff6b7fa0600610f88356c40d9894c3\",\"context\":\"ChatBox send-target menu entry for guild chat.\",\"translations\":{\"en\":{\"text\":\"Guild\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.target.clan\",\"sourceText\":\"Clan\",\"sourceSha256\":\"bda5ce1bf8f0a0bf795d6644a66ab57b01e56a05945fadaae9b4171647865c89\",\"context\":\"ChatBox send-target menu entry for clan chat.\",\"translations\":{\"en\":{\"text\":\"Clan\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"氏族\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.font-100\",\"sourceText\":\"Chat font x1.0\",\"sourceSha256\":\"9767550c86eae028ced5d3b19ed5701b840740e304d4dbcab3a0f1d9a4a30f11\",\"context\":\"ChatBox context-menu option for normal font scale.\",\"translations\":{\"en\":{\"text\":\"Chat font x1.0\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"聊天字体 x1.0\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.font-120\",\"sourceText\":\"Chat font x1.2\",\"sourceSha256\":\"ad4d23e86bd1dc90b8007dc6a6254c3b8aad6220f864a904a83ef1f467079add\",\"context\":\"ChatBox context-menu option for 120 percent font scale.\",\"translations\":{\"en\":{\"text\":\"Chat font x1.2\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"聊天字体 x1.2\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.font-140\",\"sourceText\":\"Chat font x1.4\",\"sourceSha256\":\"6fc547bca655fec8b0879d2460d42b5f7199b45816a952d6aa50873853ebc459\",\"context\":\"ChatBox context-menu option for 140 percent font scale.\",\"translations\":{\"en\":{\"text\":\"Chat font x1.4\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"聊天字体 x1.4\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.toggle-input\",\"sourceText\":\"Toggle chat input\",\"sourceSha256\":\"dadf2d4e23ede0ea6e81833159cfce06b223fcb0256f6a5b132cfb03c203ba14\",\"context\":\"Accessible label for toggling the ChatBox input row.\",\"translations\":{\"en\":{\"text\":\"Toggle chat input\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"切换聊天输入栏\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.settings\",\"sourceText\":\"Chat log settings\",\"sourceSha256\":\"822e116f107b02199e77ef3eec1e4df7295e5ea31e96dbd0b3a2737893efcc5c\",\"context\":\"Accessible label for opening ChatBox message filters.\",\"translations\":{\"en\":{\"text\":\"Chat log settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"聊天记录设置\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.pin\",\"sourceText\":\"Pin chat window\",\"sourceSha256\":\"43cc952751188339d0f3927c5b8b7b5068c55c4cee001f388465030aa7b3b747\",\"context\":\"Accessible label for the ChatBox pin control.\",\"translations\":{\"en\":{\"text\":\"Pin chat window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"固定聊天窗口\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.add-tab\",\"sourceText\":\"Add chat tab\",\"sourceSha256\":\"f2a161321c74c1a43184fec0f63506ee4d1637d8d3ecf8a516706e133aa3b0b6\",\"context\":\"Accessible label for adding a ChatBox tab.\",\"translations\":{\"en\":{\"text\":\"Add chat tab\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"新增聊天标签\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.remove-tab\",\"sourceText\":\"Remove chat tab\",\"sourceSha256\":\"58241ab59bf4c9595535863e3e6d6755113b13bb84d3ca66a9f3bab416eced01\",\"context\":\"Accessible label for removing the active ChatBox tab.\",\"translations\":{\"en\":{\"text\":\"Remove chat tab\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"删除聊天标签\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.lock\",\"sourceText\":\"Lock chat window\",\"sourceSha256\":\"46d205f52138ef6960e284f896bc241d0e161480003db80d261c8b663884abaf\",\"context\":\"Accessible label for the ChatBox drag-lock control.\",\"translations\":{\"en\":{\"text\":\"Lock chat window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"锁定聊天窗口\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.whisper-recipient\",\"sourceText\":\"Select whisper recipient\",\"sourceSha256\":\"d40a72f6ea4b12e74d055d3bc88e4cd06ead1952e923f8e8b51bf0ec332aa5c9\",\"context\":\"Accessible label for selecting a recent whisper recipient.\",\"translations\":{\"en\":{\"text\":\"Select whisper recipient\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"选择私聊对象\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.channel\",\"sourceText\":\"Select chat channel\",\"sourceSha256\":\"1e11a95b8b6bdac85b3c55ea5407e1c107ee627a87decf96a9e207248a902194\",\"context\":\"Accessible label for selecting the outgoing chat channel.\",\"translations\":{\"en\":{\"text\":\"Select chat channel\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"选择聊天频道\",\"translator\":\"Codex\"}}},{\"key\":\"chat-box.resize\",\"sourceText\":\"Resize chat window\",\"sourceSha256\":\"7955794d24e931d09b77bf42b5e64ab781c32b67ce4123bd83c4f6606d45c730\",\"context\":\"Accessible label for resizing the ChatBox.\",\"translations\":{\"en\":{\"text\":\"Resize chat window\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"调整聊天窗口大小\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.title\",\"sourceText\":\"%s Message Log Settings\",\"sourceSha256\":\"4a4d78d53d87b595f971d8a626a1d77a9e88428f2345eb025d33e29b7697a674\",\"context\":\"ChatBoxSettings title; %s is the active tab name.\",\"translations\":{\"en\":{\"text\":\"%s Message Log Settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"%s 消息记录设置\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.close\",\"sourceText\":\"Close message log settings\",\"sourceSha256\":\"5533bb2597d21e70fbe8d3c03083b4241554ee3118d975414c7c2e7822e756bb\",\"context\":\"Accessible label for closing ChatBoxSettings.\",\"translations\":{\"en\":{\"text\":\"Close message log settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"关闭消息记录设置\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.all-on\",\"sourceText\":\"All on\",\"sourceSha256\":\"9a1858dbc4617fdcbdb8f8c4863f6b7ff5f336520f66b7620cedc4a20f6ac4e7\",\"context\":\"ChatBoxSettings footer label for the all-enabled state.\",\"translations\":{\"en\":{\"text\":\"All on\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"全部开启\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.public-log\",\"sourceText\":\"Public Log\",\"sourceSha256\":\"2ac52562ad505b0d7375fe39e8389d8c55b5ac65dd0df90703a5b33ef08172c0\",\"context\":\"ChatBoxSettings filter 0 for public and system logs.\",\"translations\":{\"en\":{\"text\":\"Public Log\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公共记录\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.public-chat\",\"sourceText\":\"Public Chat\",\"sourceSha256\":\"f73b495201cbee91b0c389a0ee2b8e7dcd58dd0f7703075a2c6360c0ba8466ea\",\"context\":\"ChatBoxSettings filter 1 for public chat.\",\"translations\":{\"en\":{\"text\":\"Public Chat\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公共聊天\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.whisper\",\"sourceText\":\"Whisper\",\"sourceSha256\":\"41714d2cdc780e91028e222f1a1b62b0926e0f2416e14e71065c3b08c10348b0\",\"context\":\"ChatBoxSettings filter 2 for whispers.\",\"translations\":{\"en\":{\"text\":\"Whisper\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"私聊\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party\",\"sourceText\":\"Party\",\"sourceSha256\":\"dfa82f21b3f3709c94f525d2d63cb6b2955e5a5d2430757cbedfa230f116b2ed\",\"context\":\"ChatBoxSettings filter 3 for party chat.\",\"translations\":{\"en\":{\"text\":\"Party\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.guild\",\"sourceText\":\"Guild\",\"sourceSha256\":\"298ffc494f6348d8cd14dd0091fdf9bfa7ff6b7fa0600610f88356c40d9894c3\",\"context\":\"ChatBoxSettings filter 4 for guild chat.\",\"translations\":{\"en\":{\"text\":\"Guild\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"公会\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.item\",\"sourceText\":\"Item\",\"sourceSha256\":\"652bcc3a478428893cc505ae19f847b49be52f861bedc64bb192ceed409fa733\",\"context\":\"ChatBoxSettings filter 5 for item messages.\",\"translations\":{\"en\":{\"text\":\"Item\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"物品\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.equipment\",\"sourceText\":\"Equipment\",\"sourceSha256\":\"7f2465ac7cefab2766e6ee0714647089df9364b0ff09858c84b21b8a436a845d\",\"context\":\"ChatBoxSettings filter 6 for equipment messages.\",\"translations\":{\"en\":{\"text\":\"Equipment\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.abnormal-status\",\"sourceText\":\"Abnormal Status\",\"sourceSha256\":\"fb67713cf4cc8462a39acfa0c0247a4c6fd77411f7422cff8cd35cee14a5fe65\",\"context\":\"ChatBoxSettings filter 7 for abnormal-status messages.\",\"translations\":{\"en\":{\"text\":\"Abnormal Status\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"异常状态\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-item\",\"sourceText\":\"Party Item\",\"sourceSha256\":\"2175c0a387e61d1fe79157c13c368fc40524c114f7e63dc1c7ace04a621a3b73\",\"context\":\"ChatBoxSettings filter 8 for party item messages.\",\"translations\":{\"en\":{\"text\":\"Party Item\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍物品\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-status\",\"sourceText\":\"Party Status\",\"sourceSha256\":\"f19ec4f5b7fb6a3ae19bbcbfd7d58955484562a41c12deb96ce27ce08cc32fe9\",\"context\":\"ChatBoxSettings filter 9 for party status messages.\",\"translations\":{\"en\":{\"text\":\"Party Status\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍状态\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.skill-fail\",\"sourceText\":\"Skill Fail\",\"sourceSha256\":\"f3bbf7855eb59d1d3d2bd85e83a42434fefbe8f2aacea2c7516e7e5c20c74e8b\",\"context\":\"ChatBoxSettings filter 10 for skill-failure messages.\",\"translations\":{\"en\":{\"text\":\"Skill Fail\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能失败\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-setup\",\"sourceText\":\"Party Setup\",\"sourceSha256\":\"37a071faabf4570f236bd1ccfbdd348d1cf90bd17463bd63b776f7ba1d34fb8f\",\"context\":\"ChatBoxSettings filter 11 for party configuration messages.\",\"translations\":{\"en\":{\"text\":\"Party Setup\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍设置\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.equip-damage\",\"sourceText\":\"Equip Damage\",\"sourceSha256\":\"85402dca9e5d33c05c88cf0a87fa1bc948ed9bbf394c4b7960749daf7ace3c6a\",\"context\":\"ChatBoxSettings filter 12 for damaged-equipment messages.\",\"translations\":{\"en\":{\"text\":\"Equip Damage\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备损坏\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.woe\",\"sourceText\":\"WOE\",\"sourceSha256\":\"7579344e30f8be851690c35f8f8f290c257bf19414bd5e9779ed20ec6509d5f6\",\"context\":\"ChatBoxSettings filter 13 for War of Emperium messages.\",\"translations\":{\"en\":{\"text\":\"WOE\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"攻城战\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-search\",\"sourceText\":\"Party Search\",\"sourceSha256\":\"e18013e04616a0cd63dc21dcdca2437b4c46b83cb481607c92f7cd033ccc9439\",\"context\":\"ChatBoxSettings filter 14 for party-search messages.\",\"translations\":{\"en\":{\"text\":\"Party Search\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍搜索\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.battle\",\"sourceText\":\"Battle\",\"sourceSha256\":\"1b18ebbc3f490c845c2ebeca8853fcc82daefc66068eb984a445f8b1b7068438\",\"context\":\"ChatBoxSettings filter 15 for battle messages.\",\"translations\":{\"en\":{\"text\":\"Battle\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"战斗\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-battle\",\"sourceText\":\"Party Battle\",\"sourceSha256\":\"e6e1016fb01326d64f98fe344aded05b629309f3ac41993c4e0eae724ca4b8c5\",\"context\":\"ChatBoxSettings filter 16 for party battle messages.\",\"translations\":{\"en\":{\"text\":\"Party Battle\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍战斗\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.exp\",\"sourceText\":\"EXP\",\"sourceSha256\":\"06a1ad637e7f4fbad56e29164490368f0526f429ee39a31dd1180c3722af1e4e\",\"context\":\"ChatBoxSettings filter 17 for experience messages.\",\"translations\":{\"en\":{\"text\":\"EXP\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"经验\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.party-exp\",\"sourceText\":\"Party EXP\",\"sourceSha256\":\"c97831818c4f8d80284c2b92e34557e2a4cf9ea01c5990960908571115ed2917\",\"context\":\"ChatBoxSettings filter 18 for party experience messages.\",\"translations\":{\"en\":{\"text\":\"Party EXP\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"队伍经验\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.quest\",\"sourceText\":\"Quest\",\"sourceSha256\":\"233259128db1f0c07dcf68f001d34b46cb58f436bb4565bf9f6441b87d8b86d8\",\"context\":\"ChatBoxSettings filter 19 for quest messages.\",\"translations\":{\"en\":{\"text\":\"Quest\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"任务\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.battlefield\",\"sourceText\":\"Battlefield\",\"sourceSha256\":\"0395164a7c807d730e1e1e1384515ae89fbb048d212fe21c631773c0cc0b1c74\",\"context\":\"ChatBoxSettings filter 20 for battlefield messages.\",\"translations\":{\"en\":{\"text\":\"Battlefield\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"战场\",\"translator\":\"Codex\"}}},{\"key\":\"chat-settings.filter.clan\",\"sourceText\":\"Clan\",\"sourceSha256\":\"bda5ce1bf8f0a0bf795d6644a66ab57b01e56a05945fadaae9b4171647865c89\",\"context\":\"ChatBoxSettings filter 21 for clan messages.\",\"translations\":{\"en\":{\"text\":\"Clan\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"氏族\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.title\",\"sourceText\":\"Shortcut key settings\",\"sourceSha256\":\"6745365e3f76a19a7215a434bad311fbc367156e1efa9cfec0f4bdaf344d4270\",\"context\":\"Title of the ShortCutOption window.\",\"translations\":{\"en\":{\"text\":\"Shortcut key settings\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"快捷键设置\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.tab.skill-bar\",\"sourceText\":\"Skill Bar\",\"sourceSha256\":\"8b8ef3ff864398e0d50a4cc64f8fcb0a4953a1da995448dbad1f378591d33ed9\",\"context\":\"Skill-bar tab in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Skill Bar\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.tab.interface\",\"sourceText\":\"Interface\",\"sourceSha256\":\"c26b3ed4ce70e202816608a9ca6cc14da9ed4a5cf14c7c758be0e2c20344ed82\",\"context\":\"Interface tab in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Interface\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"界面\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.tab.macros\",\"sourceText\":\"Macros\",\"sourceSha256\":\"866dcd98eca7475c2199ad8a55fbdea2dca67cbdaa65166aa1864b5b452dfd17\",\"context\":\"Macros tab in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Macros\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"宏\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.tab.gamepad\",\"sourceText\":\"Gamepad\",\"sourceSha256\":\"8da7edfe7189432c8817e9f7f9aa6fff396dca6c192c0165b4fec7a5542862f7\",\"context\":\"Gamepad tab in ShortCutOption.\",\"translations\":{\"en\":{\"text\":\"Gamepad\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"手柄\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.reset\",\"sourceText\":\"Reset to defaults\",\"sourceSha256\":\"e240e635ff6dce4ff2ac0b90a84889cff420f2c9a56014543e78f366681820db\",\"context\":\"Accessible label for the ShortCutOption reset button.\",\"translations\":{\"en\":{\"text\":\"Reset to defaults\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"恢复默认\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.homunculus-behavior\",\"sourceText\":\"Homunculus behavior\",\"sourceSha256\":\"62ad61a7116564a86ec89a3b6f8df060dc4c15cbb246f56ab81f2b894a50add4\",\"context\":\"ShortCutOption label for the Homunculus AGGRESSIVE behavior shortcut; kept separate from the official follow command.\",\"translations\":{\"en\":{\"text\":\"Homunculus behavior\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"生命体行为模式\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.mercenary-behavior\",\"sourceText\":\"Mercenary behavior\",\"sourceSha256\":\"0b187ea0a635924252f0de520535afb10f0059c2a8950be292cf9a422f4174c5\",\"context\":\"ShortCutOption label for the mercenary AGGRESSIVE behavior shortcut; kept separate from the official follow command.\",\"translations\":{\"en\":{\"text\":\"Mercenary behavior\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"佣兵行为模式\",\"translator\":\"Codex\"}}},{\"key\":\"shortcut-settings.skill-bar-size\",\"sourceText\":\"Skill bar size\",\"sourceSha256\":\"09725b305f1bb3e782617730a0c1a7fab3f3ce6351f6fd70992982ba402db4be\",\"context\":\"ShortCutOption label for changing the visible skill-bar size.\",\"translations\":{\"en\":{\"text\":\"Skill bar size\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"技能栏尺寸\",\"translator\":\"Codex\"}}}]},\"robrowser.legacy\":{\"sourceLocale\":\"en\",\"source\":{\"repository\":\"https://github.com/MrAntares/roBrowserLegacy.git\",\"identity\":\"DB.getMessage numeric ID\"},\"entries\":[{\"key\":\"6\",\"sourceText\":\"Unregistered account.\",\"sourceSha256\":\"574c1c29920a25aea623a44c085f25f29e0c7c4b3b6a9d27049a4d0fbf70ea29\",\"context\":\"Login refusal code 0 maps to DB message 6; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"Unregistered account.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"未注册的账号。\",\"translator\":\"Codex\"}}},{\"key\":\"267\",\"sourceText\":\"Incorrect password.\",\"sourceSha256\":\"30f89744a6f3319d34d17d7ca1b57d71925fe149bdfa1aa7aec8edafc223ab78\",\"context\":\"Login refusal code 1 maps to DB message 267; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"Incorrect password.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"密码错误。\",\"translator\":\"Codex\"}}},{\"key\":\"8\",\"sourceText\":\"This account has expired.\",\"sourceSha256\":\"41e59776a2cd9d24e695d0eeea4d8bea10363960e1fe89bd97ca09cf9be8092b\",\"context\":\"Login refusal code 2 maps to DB message 8; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"This account has expired.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"该账号已过期。\",\"translator\":\"Codex\"}}},{\"key\":\"3\",\"sourceText\":\"Rejected by the server.\",\"sourceSha256\":\"e1b88f07d5773ad844a2b2d09590ab7b7a4af7cb07d6a56b7d69615a7e43a3cb\",\"context\":\"Login refusal code 3 maps to DB message 3; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"Rejected by the server.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"服务器拒绝了连接。\",\"translator\":\"Codex\"}}},{\"key\":\"310\",\"sourceText\":\"Your game client is not the latest version.\",\"sourceSha256\":\"e9227c75b5e4780c89eed494e843b1128008316682719270e6795dadf5e903a6\",\"context\":\"Login refusal code 5 maps to DB message 310; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"Your game client is not the latest version.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"游戏客户端不是最新版本。\",\"translator\":\"Codex\"}}},{\"key\":\"449\",\"sourceText\":\"Login is prohibited until %s.\",\"sourceSha256\":\"b7231d0e9fcf084f703614a51b192a061a95045438c528bbbc098306b158fbca\",\"context\":\"Login refusal code 6 maps to DB message 449 and substitutes the server unblock date for %s.\",\"translations\":{\"en\":{\"text\":\"Login is prohibited until %s.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"禁止登录至 %s。\",\"translator\":\"Codex\"}}},{\"key\":\"439\",\"sourceText\":\"The server is full. Please try again later.\",\"sourceSha256\":\"5ed968437f29b6f5260a6d058c71d26728599fa066c70405a12a09a88747cf0e\",\"context\":\"Login refusal code 7 maps to DB message 439; confirmed by rAthena loginclif.cpp and LoginEngine.\",\"translations\":{\"en\":{\"text\":\"The server is full. Please try again later.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"服务器已满，请稍后重试。\",\"translator\":\"Codex\"}}},{\"key\":\"10\",\"sourceText\":\"A character with this name already exists.\",\"sourceSha256\":\"4bd0610974fa93af724844a0e459eee062b295f707f2c511cf94dfe685855a5e\",\"context\":\"Character creation refusal 0x00; confirmed by rAthena chclif_createnewchar_refuse and CharEngine.\",\"translations\":{\"en\":{\"text\":\"A character with this name already exists.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"该角色名称已存在。\",\"translator\":\"Codex\"}}},{\"key\":\"11\",\"sourceText\":\"Character creation was denied.\",\"sourceSha256\":\"ea2ad478780378cc792a5e0f7e71b3edcdc03b10bf9a2a1c260338ce9698203c\",\"context\":\"Default character creation refusal 0xff; confirmed by rAthena and CharEngine.\",\"translations\":{\"en\":{\"text\":\"Character creation was denied.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"服务器拒绝创建角色。\",\"translator\":\"Codex\"}}},{\"key\":\"17\",\"sourceText\":\"Return to the login screen?\",\"sourceSha256\":\"717970ba49dfdad1a9924d5a06b15a0d0cb1513203c32c38a66226ff609689a3\",\"context\":\"Confirmation used when leaving CharSelectV4 for the login screen.\",\"translations\":{\"en\":{\"text\":\"Return to the login screen?\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回登录界面？\",\"translator\":\"Codex\"}}},{\"key\":\"19\",\"sourceText\":\"Delete this character?\",\"sourceSha256\":\"82a0428ced0dd7f7b0ea6a154e34678e995c6776d5833ef70be0e891f4c943be\",\"context\":\"Confirmation shown before CharEngine asks for deletion verification.\",\"translations\":{\"en\":{\"text\":\"Delete this character?\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"删除这个角色？\",\"translator\":\"Codex\"}}},{\"key\":\"298\",\"sourceText\":\"This account is not eligible to create a character.\",\"sourceSha256\":\"d428fc1f6e70570a1e04bf03fbc70b4d77de2c71df61e70be869f50987b357db\",\"context\":\"Character creation refusal 0x01, historically the account age restriction.\",\"translations\":{\"en\":{\"text\":\"This account is not eligible to create a character.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"此账号不符合创建角色的条件。\",\"translator\":\"Codex\"}}},{\"key\":\"301\",\"sourceText\":\"The email address is incorrect.\",\"sourceSha256\":\"e6caabf349718b2955d8db8bd9d3750114962b49d033cb3e71c866cf169f0500\",\"context\":\"Legacy character deletion verification failure for an incorrect email address.\",\"translations\":{\"en\":{\"text\":\"The email address is incorrect.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"邮箱地址不正确。\",\"translator\":\"Codex\"}}},{\"key\":\"1272\",\"sourceText\":\"Symbols are not allowed in character names.\",\"sourceSha256\":\"6fa5fd69363801c3c55c6c0ac257045bbcb9d29f9c271e57c6cc420984c30011\",\"context\":\"Character creation refusal 0x02; mapped by CharEngine.\",\"translations\":{\"en\":{\"text\":\"Symbols are not allowed in character names.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"角色名称不能包含符号。\",\"translator\":\"Codex\"}}},{\"key\":\"1355\",\"sourceText\":\"This character slot is unavailable.\",\"sourceSha256\":\"3bca86acbc3a7456c5bc7d2be2b5d32303b91a6ed4937fa7ea5a1d52c5811b65\",\"context\":\"Character creation refusal 0x03 for an ineligible slot; confirmed by rAthena and CharEngine.\",\"translations\":{\"en\":{\"text\":\"This character slot is unavailable.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"该角色栏位不可用。\",\"translator\":\"Codex\"}}},{\"key\":\"1811\",\"sourceText\":\"No map server is available.\",\"sourceSha256\":\"2a0bc7233ee992e3a11eade36b168d57df02003f90042e5a2aa71670e41ca2f4\",\"context\":\"CharEngine message when the selected character has no available map server.\",\"translations\":{\"en\":{\"text\":\"No map server is available.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"当前没有可用的地图服务器。\",\"translator\":\"Codex\"}}},{\"key\":\"1815\",\"sourceText\":\"Enter your date of birth (YYYYMMDD).\",\"sourceSha256\":\"6abd7fdb55419d73052c9fddc8f31f55e1fbf59e119f04b432c002cd30697836\",\"context\":\"InputBox label for modern character deletion verification; client sends YYMMDD to rAthena.\",\"translations\":{\"en\":{\"text\":\"Enter your date of birth (YYYYMMDD).\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"请输入出生日期（YYYYMMDD）。\",\"translator\":\"Codex\"}}},{\"key\":\"1817\",\"sourceText\":\"A database error occurred.\",\"sourceSha256\":\"be03065be9207660a19c4a7222f7df025cd8e27983b84e36b0204c74fb1cf053\",\"context\":\"Character deletion result 3 from rAthena.\",\"translations\":{\"en\":{\"text\":\"A database error occurred.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"数据库发生错误。\",\"translator\":\"Codex\"}}},{\"key\":\"1818\",\"sourceText\":\"Leave the guild before deleting this character.\",\"sourceSha256\":\"8f9cc1f3656728a28edc2470faf390ec1e1fe6a90d2fa32a1a003f54b2fb8c53\",\"context\":\"Character deletion reservation result 4 from rAthena.\",\"translations\":{\"en\":{\"text\":\"Leave the guild before deleting this character.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"请先退出公会，再删除该角色。\",\"translator\":\"Codex\"}}},{\"key\":\"1819\",\"sourceText\":\"Leave the party before deleting this character.\",\"sourceSha256\":\"9054e85b5f95e1e3adfbeeb8d017a811b6f39898bbe2986de29de4d509991f82\",\"context\":\"Character deletion reservation result 5 from rAthena.\",\"translations\":{\"en\":{\"text\":\"Leave the party before deleting this character.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"请先退出队伍，再删除该角色。\",\"translator\":\"Codex\"}}},{\"key\":\"1820\",\"sourceText\":\"The deletion waiting period has not ended.\",\"sourceSha256\":\"289742cae552b016e08583a8b1c357db23104cfc5ee0da15ba0e0cfb60885b7a\",\"context\":\"Character deletion result 4 from rAthena when the delay has not elapsed.\",\"translations\":{\"en\":{\"text\":\"The deletion waiting period has not ended.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"角色删除等待时间尚未结束。\",\"translator\":\"Codex\"}}},{\"key\":\"1821\",\"sourceText\":\"Character deletion is unavailable due to server settings.\",\"sourceSha256\":\"ee86adfbf85f27cb8c6c637ba0f2b802d4fe6b6568b9f8f5f1bddb5d54d754d7\",\"context\":\"Character deletion result 0, 2, or 6 as grouped by CharSelect.\",\"translations\":{\"en\":{\"text\":\"Character deletion is unavailable due to server settings.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"因服务器设置，当前无法删除角色。\",\"translator\":\"Codex\"}}},{\"key\":\"1822\",\"sourceText\":\"The date of birth does not match.\",\"sourceSha256\":\"425a274fed48f212b50d5cd2ba84dae31c3374d0d9b9172f9a8b3a559d798191\",\"context\":\"Character deletion result 5 from rAthena.\",\"translations\":{\"en\":{\"text\":\"The date of birth does not match.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"出生日期不匹配。\",\"translator\":\"Codex\"}}},{\"key\":\"3016\",\"sourceText\":\"Human\",\"sourceSha256\":\"9ffa865f2bc6e850157bb454ef3e00fa789e3f8cc631552941a99ba3fcddde51\",\"context\":\"Human race title in the active CharCreateV4 layout.\",\"translations\":{\"en\":{\"text\":\"Human\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"人类\",\"translator\":\"Codex\"}}},{\"key\":\"3018\",\"sourceText\":\"Doram\",\"sourceSha256\":\"37bab264970e2fdc19f00a8f522abfefe2436fdf0cd9d822924f656fbda9a0dc\",\"context\":\"Doram race title in the active CharCreateV4 layout; proper name retained pending a verified official Simplified Chinese term.\",\"translations\":{\"en\":{\"text\":\"Doram\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"Doram\",\"translator\":\"Codex\"}}},{\"key\":\"3020\",\"sourceText\":\"Humans can choose from a variety of jobs.\",\"sourceSha256\":\"8b8f9a8c8147266e8049d5765f62b53c6948e72325d142eb9c9669ddacc64194\",\"context\":\"Human race description in CharCreateV4, based on its multi-job selection behavior.\",\"translations\":{\"en\":{\"text\":\"Humans can choose from a variety of jobs.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"人类可以选择多种职业。\",\"translator\":\"Codex\"}}},{\"key\":\"3021\",\"sourceText\":\"Doram characters begin as Summoners.\",\"sourceSha256\":\"0f698ae820cd39f1c892a11a13d3ffc75533218345cf4594784d4567e53e3e47\",\"context\":\"Doram race description in CharCreateV4, confirmed by the starting job sent to rAthena.\",\"translations\":{\"en\":{\"text\":\"Doram characters begin as Summoners.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"Doram 角色初始职业为召唤师。\",\"translator\":\"Codex\"}}},{\"key\":\"3339\",\"sourceText\":\"Reserve deletion\",\"sourceSha256\":\"1eb46e54ffae738f42d96584ee2e15d4a709872df39ac01a0ecaf87c040e0886\",\"context\":\"Button that starts the delayed deletion reservation in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Reserve deletion\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"申请删除\",\"translator\":\"Codex\"}}},{\"key\":\"3340\",\"sourceText\":\"Cancel deletion\",\"sourceSha256\":\"d37a8ffcd96dd5c11317c741ba53caa555c54eb5ff4d33d2301d6c9ce31ddb92\",\"context\":\"Button that cancels a character deletion reservation in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Cancel deletion\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"取消删除\",\"translator\":\"Codex\"}}},{\"key\":\"3341\",\"sourceText\":\"Start game\",\"sourceSha256\":\"dc58131a08f4009891d2e333cd6cd573dc0441bfa1bd01b8d60fdec76205f0d7\",\"context\":\"Button that enters the game with the selected character in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Start game\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"开始游戏\",\"translator\":\"Codex\"}}},{\"key\":\"3342\",\"sourceText\":\"Delete character\",\"sourceSha256\":\"7ede8c92eda0f491a9da7589439947818b874424ffe2ebc041839a89ae7f1571\",\"context\":\"Button that completes a ready character deletion in CharSelectV4.\",\"translations\":{\"en\":{\"text\":\"Delete character\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"删除角色\",\"translator\":\"Codex\"}}},{\"key\":\"3345\",\"sourceText\":\"Create\",\"sourceSha256\":\"4759498ac2a719c619e2c8cf8ee60af2d2407425e95d308eb208425b2a6d427a\",\"context\":\"Create-character submission button in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Create\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"创建\",\"translator\":\"Codex\"}}},{\"key\":\"3346\",\"sourceText\":\"Hair Style\",\"sourceSha256\":\"72995a619735750cf9e3c0a1b12758aec2d65d3b8765e3a1a9224da3317a1aae\",\"context\":\"Hair style section title in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Hair Style\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"发型\",\"translator\":\"Codex\"}}},{\"key\":\"3347\",\"sourceText\":\"Hair Color\",\"sourceSha256\":\"1367986aa8ccd6eb227709ce43e49673f87715a3b15e393ce6064b8ed47f586d\",\"context\":\"Hair color section title in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Hair Color\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"发色\",\"translator\":\"Codex\"}}},{\"key\":\"3349\",\"sourceText\":\"%02d:%02d:%02d\",\"sourceSha256\":\"8b922733ea8b376098a1200ec1a57ef9951ad08a699c1dddd709bb3a74668bee\",\"context\":\"Hours, minutes, and seconds format for the CharSelectV4 deletion countdown.\",\"translations\":{\"en\":{\"text\":\"%02d:%02d:%02d\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"%02d:%02d:%02d\",\"translator\":\"Codex\"}}},{\"key\":\"3351\",\"sourceText\":\"Back\",\"sourceSha256\":\"76900f1bfd16c8d4dd3d25e6f46638d7165aee23883ccea6bfe071c514421769\",\"context\":\"Return button in CharCreateV4.\",\"translations\":{\"en\":{\"text\":\"Back\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"返回\",\"translator\":\"Codex\"}}},{\"key\":\"3355\",\"sourceText\":\"Create Character\",\"sourceSha256\":\"fd8c3b1965fdb4d2d44f2597ac081124fcad68f3fa3811d118eca2ba3e9b46ee\",\"context\":\"Title of the active CharCreateV4 window.\",\"translations\":{\"en\":{\"text\":\"Create Character\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"创建角色\",\"translator\":\"Codex\"}}},{\"key\":\"1325\",\"sourceText\":\"Block all party invitations.\",\"sourceSha256\":\"8e34f53a1b2bb4a61e769b228fbd68a1f2afb1196d6219890209a3ce3cb1309a\",\"context\":\"PARTY_CONFIG notice when party invitations are blocked; confirmed by rAthena, Group.js, and the roBrowser message table.\",\"translations\":{\"en\":{\"text\":\"Block all party invitations.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"阻止所有队伍邀请。\",\"translator\":\"Codex\"}}},{\"key\":\"1326\",\"sourceText\":\"Allow all party invitations.\",\"sourceSha256\":\"003dc58e223001d5191a4fc3c6a1a01bf861f736d4141dd2fcc4c67d81bcbce9\",\"context\":\"PARTY_CONFIG notice when party invitations are allowed; confirmed by rAthena, Group.js, and the roBrowser message table.\",\"translations\":{\"en\":{\"text\":\"Allow all party invitations.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"允许所有队伍邀请。\",\"translator\":\"Codex\"}}},{\"key\":\"1358\",\"sourceText\":\"Equipment information not open to the public.\",\"sourceSha256\":\"a210212f274117ba8558026fe494bb6584f65ae4a55edbbef8c8b47f5d488414\",\"context\":\"CONFIG notice when equipment information is private; confirmed by rAthena and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Equipment information not open to the public.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备信息未公开。\",\"translator\":\"Codex\"}}},{\"key\":\"1359\",\"sourceText\":\"Equipment information open to the public.\",\"sourceSha256\":\"ef71f81e995eeaaa08de115f3b52854400e06a3c1a7647ea2d09fabd6c13bde0\",\"context\":\"CONFIG notice when equipment information is public; confirmed by rAthena and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Equipment information open to the public.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"装备信息已公开。\",\"translator\":\"Codex\"}}},{\"key\":\"2579\",\"sourceText\":\"Pet auto-feeding is enabled.\",\"sourceSha256\":\"e914827f8aa79fb1fb4fffb1a74a0419a3ff8d8ef1cf14e7036bb000b5148af1\",\"context\":\"CONFIG_PET_AUTOFEED notice when enabled; confirmed by rAthena clif_configuration and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Pet auto-feeding is enabled.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"宠物自动喂食已开启。\",\"translator\":\"Codex\"}}},{\"key\":\"2580\",\"sourceText\":\"Pet auto-feeding is disabled.\",\"sourceSha256\":\"e4097bdf48eac5e80b9c5767a7653302054ef7b00fdb62c4849c62a31c6a58f8\",\"context\":\"CONFIG_PET_AUTOFEED notice when disabled; confirmed by rAthena clif_configuration and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Pet auto-feeding is disabled.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"宠物自动喂食已关闭。\",\"translator\":\"Codex\"}}},{\"key\":\"2978\",\"sourceText\":\"Call requests are blocked.\",\"sourceSha256\":\"e18a2717aa019a97502c4c8e03803027545b99a8f5fefab5527f70dab7027e25\",\"context\":\"CONFIG_CALL notice when calls are blocked; confirmed by rAthena disable_call and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Call requests are blocked.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"呼叫请求已屏蔽。\",\"translator\":\"Codex\"}}},{\"key\":\"2979\",\"sourceText\":\"Call requests are allowed.\",\"sourceSha256\":\"c203ce63918413728d5c7306de3ff035370f21003893a1690aa47f37a6d0a182\",\"context\":\"CONFIG_CALL notice when calls are allowed; confirmed by rAthena disable_call and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Call requests are allowed.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"呼叫请求已允许。\",\"translator\":\"Codex\"}}},{\"key\":\"3282\",\"sourceText\":\"Homunculus auto-feeding is enabled.\",\"sourceSha256\":\"a40ffc3a6855fbc648a97d2e75d3dec26d1318d28af19bdfee89401d0cb09650\",\"context\":\"CONFIG_HOMUNCULUS_AUTOFEED notice when enabled; confirmed by rAthena and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Homunculus auto-feeding is enabled.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"生命体自动喂食已开启。\",\"translator\":\"Codex\"}}},{\"key\":\"3283\",\"sourceText\":\"Homunculus auto-feeding is disabled.\",\"sourceSha256\":\"a3da7b4f1eac8f1b55ba38b5cd9c0e82aa17ef6e337af9a3a37fbd1b0d0c2879\",\"context\":\"CONFIG_HOMUNCULUS_AUTOFEED notice when disabled; confirmed by rAthena and MapEngine.js.\",\"translations\":{\"en\":{\"text\":\"Homunculus auto-feeding is disabled.\",\"translator\":\"Codex\"},\"zh-CN\":{\"text\":\"生命体自动喂食已关闭。\",\"translator\":\"Codex\"}}}]}}");
-	messages_default = {
+})), $schema$10, namespaces$1, manifest_default;
+var init_manifest = __esmMin((() => {
+	$schema$10 = "../schema/client-message-catalog.schema.json";
+	namespaces$1 = {
+		"gravity.MsgStrID": {
+			"sourceLocale": "ko-KR",
+			"source": {
+				"client": "kro-20211105",
+				"resourcePath": "data\\luafiles514\\lua files\\msgstring_kr.lub",
+				"sha256": "f9514048e6bde7af1a6f7368c35ba38a2c070e9cda3de02f01849180f6e9f07b",
+				"format": "lua-5.1-bytecode",
+				"table": "MsgStrID",
+				"auditTool": {
+					"repository": "https://github.com/viruscamp/luadec",
+					"commit": "895d92313fabaee260121c758c8320d1b21dd741"
+				}
+			},
+			"fragments": ["gravity/msgstrid.json"]
+		},
+		"robrowser.ui": {
+			"sourceLocale": "en",
+			"source": {
+				"repository": "https://github.com/MrAntares/roBrowserLegacy.git",
+				"identity": "component-and-message-key"
+			},
+			"fragments": [
+				"ui/common.json",
+				"ui/auth.json",
+				"ui/main-ui.json",
+				"ui/chat.json",
+				"ui/shortcuts.json",
+				"ui/commands.json"
+			]
+		},
+		"robrowser.legacy": {
+			"sourceLocale": "en",
+			"source": {
+				"repository": "https://github.com/MrAntares/roBrowserLegacy.git",
+				"identity": "DB.getMessage numeric ID"
+			},
+			"fragments": [
+				"legacy/login.json",
+				"legacy/character.json",
+				"legacy/game-entry.json"
+			]
+		}
+	};
+	manifest_default = {
+		$schema: $schema$10,
+		catalogVersion: 3,
+		namespaces: namespaces$1
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/gravity/msgstrid.json
+var $schema$9, entries$10, msgstrid_default;
+var init_msgstrid = __esmMin((() => {
+	$schema$9 = "../../schema/client-message-fragment.schema.json";
+	entries$10 = [
+		{
+			"key": "MSI_HK_BASICINFOWND_MINI",
+			"sourceText": "기본 정보 창 최소/최대",
+			"context": "Hotkey description for minimizing or maximizing the basic information window.",
+			"translations": {
+				"en": "Minimize/maximize basic information window",
+				"zh-CN": "基本信息窗最小/最大"
+			}
+		},
+		{
+			"key": "MSI_HK_EQUIPWND_ONOFF",
+			"sourceText": "장비 창 On/Off",
+			"context": "Hotkey description for toggling the equipment window.",
+			"translations": {
+				"en": "Toggle equipment window",
+				"zh-CN": "装备窗口开关"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLWND_ONOFF",
+			"sourceText": "스킬 목록 창 On/Off",
+			"context": "Hotkey description for toggling the skill list window.",
+			"translations": {
+				"en": "Toggle skill list window",
+				"zh-CN": "技能列表开关"
+			}
+		},
+		{
+			"key": "MSI_HK_QUESTWND_ONOFF",
+			"sourceText": "퀘스트 목록 창 On/Off",
+			"context": "Hotkey description for toggling the quest list window.",
+			"translations": {
+				"en": "Toggle quest list window",
+				"zh-CN": "任务列表开关"
+			}
+		},
+		{
+			"key": "MSI_HK_FRIENDWND_ONOFF",
+			"sourceText": "친구 창 On/Off",
+			"context": "Hotkey description for toggling the friends window.",
+			"translations": {
+				"en": "Toggle friends window",
+				"zh-CN": "好友窗口开关"
+			}
+		},
+		{
+			"key": "MSI_HK_PARTYWND_ONOFF",
+			"sourceText": "파티 창 On/Off",
+			"context": "Hotkey description for toggling the party window.",
+			"translations": {
+				"en": "Toggle party window",
+				"zh-CN": "队伍窗口开关"
+			}
+		},
+		{
+			"key": "MSI_HK_CHATWND_MAKE",
+			"sourceText": "대화방 만들기",
+			"context": "Hotkey description for opening the create-chat-room flow.",
+			"translations": {
+				"en": "Create chat room",
+				"zh-CN": "创建聊天室"
+			}
+		},
+		{
+			"key": "MSI_HK_CARTWND_ONOFF",
+			"sourceText": "카트 창 On/Off",
+			"context": "Hotkey description for toggling the cart window.",
+			"translations": {
+				"en": "Toggle cart window",
+				"zh-CN": "手推车窗口开关"
+			}
+		},
+		{
+			"key": "MSI_HK_MAPWND_ONOFF",
+			"sourceText": "지도 On/Off",
+			"context": "Hotkey description for toggling the map.",
+			"translations": {
+				"en": "Toggle map",
+				"zh-CN": "地图开关"
+			}
+		},
+		{
+			"key": "MSI_HK_ITEMWND_ONOFF",
+			"sourceText": "아이템 창 On/Off",
+			"context": "Hotkey description for toggling the inventory window.",
+			"translations": {
+				"en": "Toggle inventory window",
+				"zh-CN": "物品栏开关"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_1",
+			"sourceText": "스킬바 1-1번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_1.",
+			"translations": {
+				"en": "Skill bar 1-1",
+				"zh-CN": "技能栏 1-1"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_2",
+			"sourceText": "스킬바 1-2번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_2.",
+			"translations": {
+				"en": "Skill bar 1-2",
+				"zh-CN": "技能栏 1-2"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_3",
+			"sourceText": "스킬바 1-3번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_3.",
+			"translations": {
+				"en": "Skill bar 1-3",
+				"zh-CN": "技能栏 1-3"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_4",
+			"sourceText": "스킬바 1-4번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_4.",
+			"translations": {
+				"en": "Skill bar 1-4",
+				"zh-CN": "技能栏 1-4"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_5",
+			"sourceText": "스킬바 1-5번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_5.",
+			"translations": {
+				"en": "Skill bar 1-5",
+				"zh-CN": "技能栏 1-5"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_6",
+			"sourceText": "스킬바 1-6번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_6.",
+			"translations": {
+				"en": "Skill bar 1-6",
+				"zh-CN": "技能栏 1-6"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_7",
+			"sourceText": "스킬바 1-7번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_7.",
+			"translations": {
+				"en": "Skill bar 1-7",
+				"zh-CN": "技能栏 1-7"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_8",
+			"sourceText": "스킬바 1-8번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_8.",
+			"translations": {
+				"en": "Skill bar 1-8",
+				"zh-CN": "技能栏 1-8"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR1_9",
+			"sourceText": "스킬바 1-9번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F1_9.",
+			"translations": {
+				"en": "Skill bar 1-9",
+				"zh-CN": "技能栏 1-9"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_1",
+			"sourceText": "스킬바 2-1번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_1.",
+			"translations": {
+				"en": "Skill bar 2-1",
+				"zh-CN": "技能栏 2-1"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_2",
+			"sourceText": "스킬바 2-2번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_2.",
+			"translations": {
+				"en": "Skill bar 2-2",
+				"zh-CN": "技能栏 2-2"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_3",
+			"sourceText": "스킬바 2-3번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_3.",
+			"translations": {
+				"en": "Skill bar 2-3",
+				"zh-CN": "技能栏 2-3"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_4",
+			"sourceText": "스킬바 2-4번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_4.",
+			"translations": {
+				"en": "Skill bar 2-4",
+				"zh-CN": "技能栏 2-4"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_5",
+			"sourceText": "스킬바 2-5번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_5.",
+			"translations": {
+				"en": "Skill bar 2-5",
+				"zh-CN": "技能栏 2-5"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_6",
+			"sourceText": "스킬바 2-6번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_6.",
+			"translations": {
+				"en": "Skill bar 2-6",
+				"zh-CN": "技能栏 2-6"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_7",
+			"sourceText": "스킬바 2-7번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_7.",
+			"translations": {
+				"en": "Skill bar 2-7",
+				"zh-CN": "技能栏 2-7"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_8",
+			"sourceText": "스킬바 2-8번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_8.",
+			"translations": {
+				"en": "Skill bar 2-8",
+				"zh-CN": "技能栏 2-8"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR2_9",
+			"sourceText": "스킬바 2-9번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F2_9.",
+			"translations": {
+				"en": "Skill bar 2-9",
+				"zh-CN": "技能栏 2-9"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_1",
+			"sourceText": "스킬바 3-1번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_1.",
+			"translations": {
+				"en": "Skill bar 3-1",
+				"zh-CN": "技能栏 3-1"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_2",
+			"sourceText": "스킬바 3-2번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_2.",
+			"translations": {
+				"en": "Skill bar 3-2",
+				"zh-CN": "技能栏 3-2"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_3",
+			"sourceText": "스킬바 3-3번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_3.",
+			"translations": {
+				"en": "Skill bar 3-3",
+				"zh-CN": "技能栏 3-3"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_4",
+			"sourceText": "스킬바 3-4번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_4.",
+			"translations": {
+				"en": "Skill bar 3-4",
+				"zh-CN": "技能栏 3-4"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_5",
+			"sourceText": "스킬바 3-5번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_5.",
+			"translations": {
+				"en": "Skill bar 3-5",
+				"zh-CN": "技能栏 3-5"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_6",
+			"sourceText": "스킬바 3-6번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_6.",
+			"translations": {
+				"en": "Skill bar 3-6",
+				"zh-CN": "技能栏 3-6"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_7",
+			"sourceText": "스킬바 3-7번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_7.",
+			"translations": {
+				"en": "Skill bar 3-7",
+				"zh-CN": "技能栏 3-7"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_8",
+			"sourceText": "스킬바 3-8번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_8.",
+			"translations": {
+				"en": "Skill bar 3-8",
+				"zh-CN": "技能栏 3-8"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR3_9",
+			"sourceText": "스킬바 3-9번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F3_9.",
+			"translations": {
+				"en": "Skill bar 3-9",
+				"zh-CN": "技能栏 3-9"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_1",
+			"sourceText": "스킬바 4-1번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_1.",
+			"translations": {
+				"en": "Skill bar 4-1",
+				"zh-CN": "技能栏 4-1"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_2",
+			"sourceText": "스킬바 4-2번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_2.",
+			"translations": {
+				"en": "Skill bar 4-2",
+				"zh-CN": "技能栏 4-2"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_3",
+			"sourceText": "스킬바 4-3번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_3.",
+			"translations": {
+				"en": "Skill bar 4-3",
+				"zh-CN": "技能栏 4-3"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_4",
+			"sourceText": "스킬바 4-4번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_4.",
+			"translations": {
+				"en": "Skill bar 4-4",
+				"zh-CN": "技能栏 4-4"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_5",
+			"sourceText": "스킬바 4-5번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_5.",
+			"translations": {
+				"en": "Skill bar 4-5",
+				"zh-CN": "技能栏 4-5"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_6",
+			"sourceText": "스킬바 4-6번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_6.",
+			"translations": {
+				"en": "Skill bar 4-6",
+				"zh-CN": "技能栏 4-6"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_7",
+			"sourceText": "스킬바 4-7번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_7.",
+			"translations": {
+				"en": "Skill bar 4-7",
+				"zh-CN": "技能栏 4-7"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_8",
+			"sourceText": "스킬바 4-8번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_8.",
+			"translations": {
+				"en": "Skill bar 4-8",
+				"zh-CN": "技能栏 4-8"
+			}
+		},
+		{
+			"key": "MSI_HK_SKILLBAR4_9",
+			"sourceText": "스킬바 4-9번",
+			"context": "Official kRO hotkey label consumed by ShortCutOption skill-bar cell F4_9.",
+			"translations": {
+				"en": "Skill bar 4-9",
+				"zh-CN": "技能栏 4-9"
+			}
+		},
+		{
+			"key": "MSI_HK_GUILDWND_ONOFF",
+			"sourceText": "길드 창 On/Off",
+			"context": "Official kRO hotkey label. Guild shortcut in ShortCutOption.",
+			"translations": {
+				"en": "Toggle guild window",
+				"zh-CN": "公会窗口开关"
+			}
+		},
+		{
+			"key": "MSI_HK_EMOTIONWND_ONOFF",
+			"sourceText": "이모션 목록 창 On/Off",
+			"context": "Official kRO hotkey label. Emotion-list shortcut in ShortCutOption.",
+			"translations": {
+				"en": "Toggle emotion list window",
+				"zh-CN": "表情列表开关"
+			}
+		},
+		{
+			"key": "MSI_HK_SITORSTAND",
+			"sourceText": "앉기/서기",
+			"context": "Official kRO hotkey label. Sit or stand shortcut in ShortCutOption.",
+			"translations": {
+				"en": "Sit/stand",
+				"zh-CN": "坐下/站立"
+			}
+		},
+		{
+			"key": "MSI_HK_MACROWND_ONOFF",
+			"sourceText": "단축키 목록 창 On/Off",
+			"context": "Official kRO hotkey label. Shortcut-bar visibility control in ShortCutOption.",
+			"translations": {
+				"en": "Toggle shortcut list window",
+				"zh-CN": "快捷键栏开关"
+			}
+		},
+		{
+			"key": "MSI_HK_CHATWND_ZOOM",
+			"sourceText": "채팅창 크기 확대/축소",
+			"context": "Official kRO hotkey label. Chat window size shortcut in ShortCutOption.",
+			"translations": {
+				"en": "Resize chat window",
+				"zh-CN": "调整聊天窗口大小"
+			}
+		},
+		{
+			"key": "MSI_HK_PETWND_ONOFF",
+			"sourceText": "펫 정보 창 On/Off",
+			"context": "Official kRO hotkey label. Pet information shortcut in ShortCutOption.",
+			"translations": {
+				"en": "Toggle pet information window",
+				"zh-CN": "宠物信息窗口开关"
+			}
+		},
+		{
+			"key": "MSI_HK_HOMUNWND_ONOFF",
+			"sourceText": "호문 정보 창 On/Off",
+			"context": "Official kRO hotkey label. Homunculus information shortcut in ShortCutOption.",
+			"translations": {
+				"en": "Toggle Homunculus information window",
+				"zh-CN": "生命体信息窗口开关"
+			}
+		},
+		{
+			"key": "MSI_HK_MERWND_ONOFF",
+			"sourceText": "용병 정보 창 On/Off",
+			"context": "Official kRO hotkey label. Mercenary information shortcut in ShortCutOption.",
+			"translations": {
+				"en": "Toggle mercenary information window",
+				"zh-CN": "佣兵信息窗口开关"
+			}
+		},
+		{
+			"key": "MSI_HK_BANK",
+			"sourceText": "은행 창",
+			"context": "Official kRO hotkey label. Bank shortcut in ShortCutOption.",
+			"translations": {
+				"en": "Bank window",
+				"zh-CN": "银行窗口"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_1",
+			"sourceText": "매크로 1",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 1",
+				"zh-CN": "宏 1"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_2",
+			"sourceText": "매크로 2",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 2",
+				"zh-CN": "宏 2"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_3",
+			"sourceText": "매크로 3",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 3",
+				"zh-CN": "宏 3"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_4",
+			"sourceText": "매크로 4",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 4",
+				"zh-CN": "宏 4"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_5",
+			"sourceText": "매크로 5",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 5",
+				"zh-CN": "宏 5"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_6",
+			"sourceText": "매크로 6",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 6",
+				"zh-CN": "宏 6"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_7",
+			"sourceText": "매크로 7",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 7",
+				"zh-CN": "宏 7"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_8",
+			"sourceText": "매크로 8",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 8",
+				"zh-CN": "宏 8"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_9",
+			"sourceText": "매크로 9",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 9",
+				"zh-CN": "宏 9"
+			}
+		},
+		{
+			"key": "MSI_HK_MACRO_10",
+			"sourceText": "매크로 10",
+			"context": "Official kRO hotkey label consumed by ShortCutOption macro cell.",
+			"translations": {
+				"en": "Macro 10",
+				"zh-CN": "宏 10"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_1",
+			"sourceText": "깃발 1",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 1",
+				"zh-CN": "旗标 1"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_2",
+			"sourceText": "깃발 2",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 2",
+				"zh-CN": "旗标 2"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_3",
+			"sourceText": "깃발 3",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 3",
+				"zh-CN": "旗标 3"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_4",
+			"sourceText": "깃발 4",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 4",
+				"zh-CN": "旗标 4"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_5",
+			"sourceText": "깃발 5",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 5",
+				"zh-CN": "旗标 5"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_6",
+			"sourceText": "깃발 6",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 6",
+				"zh-CN": "旗标 6"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_7",
+			"sourceText": "깃발 7",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 7",
+				"zh-CN": "旗标 7"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_8",
+			"sourceText": "깃발 8",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 8",
+				"zh-CN": "旗标 8"
+			}
+		},
+		{
+			"key": "MSI_HK_FLAG_9",
+			"sourceText": "깃발 9",
+			"context": "Official kRO hotkey label consumed by ShortCutOption flag cell.",
+			"translations": {
+				"en": "Flag 9",
+				"zh-CN": "旗标 9"
+			}
+		},
+		{
+			"key": "MSI_SOUND",
+			"sourceText": "/효과음 : 효과음 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /sound.",
+			"translations": {
+				"en": "Toggles playing of sound effects",
+				"zh-CN": "开启或关闭音效"
+			}
+		},
+		{
+			"key": "MSI_BGM",
+			"sourceText": "/음악 : 배경음악 ON OFF",
+			"context": "Official kRO command help consumed by ProcessCommand /bgm.",
+			"translations": {
+				"en": "Toggles playing of background music",
+				"zh-CN": "开启或关闭背景音乐"
+			}
+		},
+		{
+			"key": "MSI_EFFECT",
+			"sourceText": "/이펙트 : 이펙트 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /effect.",
+			"translations": {
+				"en": "Toggles the display of anything but basic graphical effects",
+				"zh-CN": "开启或关闭非基础画面特效"
+			}
+		},
+		{
+			"key": "MSI_MINEFFECT_ONOFF",
+			"sourceText": "/mineffect : 이펙트 간략화 On/off",
+			"context": "Official kRO command help consumed by ProcessCommand /mineffect.",
+			"translations": {
+				"en": "Enables less graphically intense effects. This command does not work for Wizard's AoE skills.",
+				"zh-CN": "启用低负载特效；不影响巫师的范围技能"
+			}
+		},
+		{
+			"key": "MSI_MISS",
+			"sourceText": "/miss : 미스표시 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /miss.",
+			"translations": {
+				"en": "Toggles display of the ‘miss’ animation",
+				"zh-CN": "显示或隐藏 MISS 动画"
+			}
+		},
+		{
+			"key": "MSI_AURA",
+			"sourceText": "/aura : 오오라를 간략화 시킬수있습니다 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /aura.",
+			"translations": {
+				"en": "Minimizes the aura effect for level 99 and 175 characters",
+				"zh-CN": "简化 99 级和 175 级角色的光环特效"
+			}
+		},
+		{
+			"key": "MSI_AURA2",
+			"sourceText": "/aura2 : 오오라를 완전히 Off 시킬수있습니다 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /aura2.",
+			"translations": {
+				"en": "Disables the aura effect for level 99 and 175 characters",
+				"zh-CN": "关闭 99 级和 175 级角色的光环特效"
+			}
+		},
+		{
+			"key": "MSI_CAMERA",
+			"sourceText": "/camera : 카메라를 고정합니다. ON OFF",
+			"context": "Official kRO command help consumed by ProcessCommand /camera.",
+			"translations": {
+				"en": "Turns camera 'smoothing' off and on.",
+				"zh-CN": "开启或关闭镜头平滑"
+			}
+		},
+		{
+			"key": "MSI_FOG",
+			"sourceText": "/fog : FOG이펙트를 키거나 끌수있습니다 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /fog.",
+			"translations": {
+				"en": "Turns fog on and off",
+				"zh-CN": "开启或关闭雾效"
+			}
+		},
+		{
+			"key": "MSI_LIGHTMAP",
+			"sourceText": "/lightmap : 맵에 음영부분을 표시해 줍니다. On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /lightmap.",
+			"translations": {
+				"en": "Removes shade effects and a majority of lighting effects",
+				"zh-CN": "移除阴影和大部分光照效果"
+			}
+		},
+		{
+			"key": "MSI_NOCTRL",
+			"sourceText": "/noctrl : 콘트롤을 누르지않아도 자동공격이 됩니다. On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /noctrl.",
+			"translations": {
+				"en": "Allows attacking monsters continuously with only one left-click",
+				"zh-CN": "单击一次即可持续攻击魔物"
+			}
+		},
+		{
+			"key": "MSI_SNAP",
+			"sourceText": "/snap : 공격 대상의 근처에서 마우스 커서를 유도합니다. ON OFF",
+			"context": "Official kRO command help consumed by ProcessCommand /snap.",
+			"translations": {
+				"en": "The mouse cursor semi-automatically moves to the target",
+				"zh-CN": "鼠标指针半自动吸附到攻击目标"
+			}
+		},
+		{
+			"key": "MSI_ITEMSNAP",
+			"sourceText": "/itemsnap : 아이템의 근처에서 마우스 커서를 유도합니다. ON OFF",
+			"context": "Official kRO command help consumed by ProcessCommand /itemsnap.",
+			"translations": {
+				"en": "The mouse cursor semi-automatically moves to the loot",
+				"zh-CN": "鼠标指针半自动吸附到掉落物品"
+			}
+		},
+		{
+			"key": "MSI_WINDOW",
+			"sourceText": "/window : 창 위치 이동시 다른 창과 달라붙는 속성이 들어갑니다 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /window.",
+			"translations": {
+				"en": "Toggles snapping/magnetism between windows",
+				"zh-CN": "开启或关闭窗口相互吸附"
+			}
+		},
+		{
+			"key": "MSI_SIT",
+			"sourceText": "/앉기 or /sit : 앉기. 앉아있을때 서기",
+			"context": "Official kRO command help consumed by ProcessCommand /stand.",
+			"translations": {
+				"en": "Makes your character sit or stand",
+				"zh-CN": "让角色坐下或站立"
+			}
+		},
+		{
+			"key": "MSI_DORIDORI",
+			"sourceText": "/doridori : 연속해서 이 명령어를 쳐주면 캐릭터가 도리도리 ^^;;",
+			"context": "Official kRO command help consumed by ProcessCommand /doridori.",
+			"translations": {
+				"en": "Moves your character's head from side to side",
+				"zh-CN": "让角色左右摇头"
+			}
+		},
+		{
+			"key": "MSI_BINGBING",
+			"sourceText": "/bangbang : 연속해서 이 명령어를 쳐주면 캐릭터가 뱅글뱅글 ^^;;",
+			"context": "Official kRO command help consumed by ProcessCommand /bangbang.",
+			"translations": {
+				"en": "Rotates your character clockwise",
+				"zh-CN": "让角色顺时针转向"
+			}
+		},
+		{
+			"key": "MSI_BANGBANG",
+			"sourceText": "/bingbing : 연속해서 이 명령어를 쳐주면 캐릭터가 빙글빙글 ^^;;",
+			"context": "Official kRO command help consumed by ProcessCommand /bingbing.",
+			"translations": {
+				"en": "Rotates your character counterclockwise",
+				"zh-CN": "让角色逆时针转向"
+			}
+		},
+		{
+			"key": "MSI_WHERE",
+			"sourceText": "/좌표 or /장소: 현재 위치 표시",
+			"context": "Official kRO command help consumed by ProcessCommand /where.",
+			"translations": {
+				"en": "Shows your character's location as a map name and set of coordinates",
+				"zh-CN": "显示角色当前地图和坐标"
+			}
+		},
+		{
+			"key": "MSI_WHO",
+			"sourceText": "/w or /who or /접속자 or /누구: 현재 접속자수 보기",
+			"context": "Official kRO command help consumed by ProcessCommand /who.",
+			"translations": {
+				"en": "Shows the current number of players on the server",
+				"zh-CN": "显示服务器当前在线人数"
+			}
+		},
+		{
+			"key": "MSI_CHAT",
+			"sourceText": "/채팅방 or /chat : 채팅방 만들기창 띄우기",
+			"context": "Official kRO command help consumed by ProcessCommand /chat.",
+			"translations": {
+				"en": "Creates a chat room",
+				"zh-CN": "创建聊天室"
+			}
+		},
+		{
+			"key": "MSI_Q",
+			"sourceText": "/q : 채팅방 나가기",
+			"context": "Official kRO command help consumed by ProcessCommand /q.",
+			"translations": {
+				"en": "Leaves a chat room",
+				"zh-CN": "离开聊天室"
+			}
+		},
+		{
+			"key": "MSI_LEAVE",
+			"sourceText": "/탈퇴 or /leave : 파티 탈퇴",
+			"context": "Official kRO command help consumed by ProcessCommand /leave.",
+			"translations": {
+				"en": "Allows one to leave a party",
+				"zh-CN": "离开队伍"
+			}
+		},
+		{
+			"key": "MSI_PARTY_BOOKING_INVITE",
+			"sourceText": "/초대 ‘아이디’: 지정한 캐릭터를 파티에 초대합니다.",
+			"context": "Official kRO command help consumed by ProcessCommand /invite.",
+			"translations": {
+				"en": "\"<name>\" Invite a person to your party. Works across different maps",
+				"zh-CN": "“<角色名>”邀请角色加入队伍，可跨地图使用"
+			}
+		},
+		{
+			"key": "MSI_PARTY_BOOKING_MAKE",
+			"sourceText": "/결성 ‘파티 이름’: 새로운 파티를 만듭니다.",
+			"context": "Official kRO command help consumed by ProcessCommand /organize.",
+			"translations": {
+				"en": "Creates a party named <Party Name>",
+				"zh-CN": "创建名为 <队伍名称> 的队伍"
+			}
+		},
+		{
+			"key": "MSI_HI",
+			"sourceText": "/hi 또는 /hi 문장 : 친구로 등록된 캐릭터들에게 인사를 합니다.",
+			"context": "Official kRO command help consumed by ProcessCommand /hi.",
+			"translations": {
+				"en": "Sends the specified message to everyone on your friend list",
+				"zh-CN": "向好友列表中的所有角色发送指定消息"
+			}
+		},
+		{
+			"key": "MSI_ALCHEMIST",
+			"sourceText": "/alchemist : 알케미스트의 상위 10위권 랭킹을 보여줍니다.",
+			"context": "Official kRO command help consumed by ProcessCommand /alchemist.",
+			"translations": {
+				"en": "Shows the top 10 brewing Alchemists in the server.",
+				"zh-CN": "显示服务器炼金术士制药排行前 10 名"
+			}
+		},
+		{
+			"key": "MSI_BLACKSMITH",
+			"sourceText": "/blacksmith : 블랙스미스의 상위 10위권 랭킹을 보여줍니다.",
+			"context": "Official kRO command help consumed by ProcessCommand /blacksmith.",
+			"translations": {
+				"en": "Shows the top 10 forging/upgrading Blacksmiths in the server",
+				"zh-CN": "显示服务器铁匠锻造排行前 10 名"
+			}
+		},
+		{
+			"key": "MSI_HOAI",
+			"sourceText": "/hoai : 호문클루스의 사용자 인공지능을 사용합니다. ON OFF",
+			"context": "Official kRO command help consumed by ProcessCommand /hoai.",
+			"translations": {
+				"en": "Switches Homunculus AI between default and custom mode",
+				"zh-CN": "切换生命体的默认或自定义 AI"
+			}
+		},
+		{
+			"key": "MSI_MERAI",
+			"sourceText": "/merai : 용병의 사용자 인공지능을 사용합니다. ON OFF",
+			"context": "Official kRO command help consumed by ProcessCommand /merai.",
+			"translations": {
+				"en": "Switches Mercenary AI between default and custom mode",
+				"zh-CN": "切换佣兵的默认或自定义 AI"
+			}
+		},
+		{
+			"key": "MSI_CALL_COMMAND_ONOFF",
+			"sourceText": "/call : 호출기능 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /call.",
+			"translations": {
+				"en": "Toggles the ability to be Urgent Called.",
+				"zh-CN": "开启或关闭紧急召集功能"
+			}
+		},
+		{
+			"key": "MSI_HELP",
+			"sourceText": "/h or /help: 명령어 일람",
+			"context": "Official kRO command help consumed by ProcessCommand /commands.",
+			"translations": {
+				"en": "Show available commands.",
+				"zh-CN": "显示可用命令列表"
+			}
+		},
+		{
+			"key": "MSI_NOSHIFT",
+			"sourceText": "/noshift : 쉬프트를 누르지않고 힐로 적을 공격할수있게됩니다 On Off",
+			"context": "Official kRO command help consumed by ProcessCommand /noshift.",
+			"translations": {
+				"en": "Allows targeting monsters or other players in PvP arenas with support skills without having to press the Shift key",
+				"zh-CN": "无需按 Shift 即可用辅助技能选中魔物或 PvP 玩家"
+			}
+		}
+	];
+	msgstrid_default = {
+		$schema: $schema$9,
+		entries: entries$10
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/common.json
+var $schema$8, entries$9, common_default;
+var init_common = __esmMin((() => {
+	$schema$8 = "../../schema/client-message-fragment.schema.json";
+	entries$9 = [
+		{
+			"key": "common.ok",
+			"sourceText": "OK",
+			"context": "Affirmative button created by UIManager for message and error dialogs.",
+			"translations": {
+				"en": "OK",
+				"zh-CN": "确定"
+			}
+		},
+		{
+			"key": "common.cancel",
+			"sourceText": "Cancel",
+			"context": "Negative button created by UIManager for prompt dialogs.",
+			"translations": {
+				"en": "Cancel",
+				"zh-CN": "取消"
+			}
+		},
+		{
+			"key": "common.yes",
+			"sourceText": "Yes",
+			"context": "Positive choice button created by UIManager for prompt dialogs.",
+			"translations": {
+				"en": "Yes",
+				"zh-CN": "是"
+			}
+		},
+		{
+			"key": "common.no",
+			"sourceText": "No",
+			"context": "Negative choice button created by UIManager for prompt dialogs.",
+			"translations": {
+				"en": "No",
+				"zh-CN": "否"
+			}
+		},
+		{
+			"key": "common.close",
+			"sourceText": "Close",
+			"context": "Close button created by UIManager for dismissible dialogs.",
+			"translations": {
+				"en": "Close",
+				"zh-CN": "关闭"
+			}
+		}
+	];
+	common_default = {
+		$schema: $schema$8,
+		entries: entries$9
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/auth.json
+var $schema$7, entries$8, auth_default;
+var init_auth = __esmMin((() => {
+	$schema$7 = "../../schema/client-message-fragment.schema.json";
+	entries$8 = [
+		{
+			"key": "win-login.account",
+			"sourceText": "Account",
+			"context": "Placeholder and accessible label for the account input in WinLogin.",
+			"translations": {
+				"en": "Account",
+				"zh-CN": "账号"
+			}
+		},
+		{
+			"key": "win-login.password",
+			"sourceText": "Password",
+			"context": "Placeholder and accessible label for the password input in WinLogin.",
+			"translations": {
+				"en": "Password",
+				"zh-CN": "密码"
+			}
+		},
+		{
+			"key": "win-login.remember-account",
+			"sourceText": "Remember account",
+			"context": "Accessible label for the saved-account toggle in WinLogin.",
+			"translations": {
+				"en": "Remember account",
+				"zh-CN": "记住账号"
+			}
+		},
+		{
+			"key": "win-login.log-in",
+			"sourceText": "Log in",
+			"context": "Accessible label for the image-backed login button in WinLogin.",
+			"translations": {
+				"en": "Log in",
+				"zh-CN": "登录"
+			}
+		},
+		{
+			"key": "win-login.create-account",
+			"sourceText": "Create account",
+			"context": "Visible text and accessible label for the registration button in WinLoginV2.",
+			"translations": {
+				"en": "Create account",
+				"zh-CN": "注册账号"
+			}
+		},
+		{
+			"key": "win-login.exit",
+			"sourceText": "Exit",
+			"context": "Accessible label for the image-backed exit button in WinLogin.",
+			"translations": {
+				"en": "Exit",
+				"zh-CN": "退出"
+			}
+		},
+		{
+			"key": "win-login.open-registration",
+			"sourceText": "Open the account registration page?",
+			"context": "Confirmation shown before WinLogin opens a configured registration URL.",
+			"translations": {
+				"en": "Open the account registration page?",
+				"zh-CN": "打开账号注册页面？"
+			}
+		},
+		{
+			"key": "win-login.registration-unavailable",
+			"sourceText": "Account registration is not available. Contact the server administrator.",
+			"context": "Message shown when WinLogin has no configured registration URL.",
+			"translations": {
+				"en": "Account registration is not available. Contact the server administrator.",
+				"zh-CN": "暂未开放账号注册，请联系服务器管理员。"
+			}
+		},
+		{
+			"key": "login.status.connecting",
+			"sourceText": "Connecting to the server...",
+			"context": "Text shown in WinLoading while LoginEngine connects to the login or character server.",
+			"translations": {
+				"en": "Connecting to the server...",
+				"zh-CN": "正在连接服务器..."
+			}
+		},
+		{
+			"key": "login.error.connection-failed",
+			"sourceText": "Unable to connect to the server.",
+			"context": "LoginEngine message when the login server socket cannot be opened.",
+			"translations": {
+				"en": "Unable to connect to the server.",
+				"zh-CN": "无法连接服务器。"
+			}
+		},
+		{
+			"key": "login.error.connection-lost",
+			"sourceText": "Connection to the server was lost.",
+			"context": "Message shown when the network disconnects without a phase-specific handler.",
+			"translations": {
+				"en": "Connection to the server was lost.",
+				"zh-CN": "与服务器的连接已断开。"
+			}
+		},
+		{
+			"key": "login.error.packetver-missing",
+			"sourceText": "No PACKETVER configuration was found.",
+			"context": "LoginEngine fatal configuration error when PACKETVER is unavailable.",
+			"translations": {
+				"en": "No PACKETVER configuration was found.",
+				"zh-CN": "找不到 PACKETVER 配置。"
+			}
+		},
+		{
+			"key": "login.error.password-encryption",
+			"sourceText": "Password encryption failed because the client configuration is invalid.",
+			"context": "LoginEngine fatal error when configured Rijndael password encryption cannot run.",
+			"translations": {
+				"en": "Password encryption failed because the client configuration is invalid.",
+				"zh-CN": "客户端配置无效，密码加密失败。"
+			}
+		},
+		{
+			"key": "char-select.back-to-login",
+			"sourceText": "Back to login",
+			"context": "Accessible label for the image-backed close button in CharSelectV4.",
+			"translations": {
+				"en": "Back to login",
+				"zh-CN": "返回登录"
+			}
+		},
+		{
+			"key": "char-select.empty-slot",
+			"sourceText": "Create character",
+			"context": "Accessible label for an empty character slot in CharSelectV4.",
+			"translations": {
+				"en": "Create character",
+				"zh-CN": "创建角色"
+			}
+		},
+		{
+			"key": "char-create.name",
+			"sourceText": "Character name",
+			"context": "Placeholder and accessible label for the character name input.",
+			"translations": {
+				"en": "Character name",
+				"zh-CN": "角色名称"
+			}
+		},
+		{
+			"key": "char-create.male",
+			"sourceText": "Male",
+			"context": "Accessible label for the male character option in CharCreateV4.",
+			"translations": {
+				"en": "Male",
+				"zh-CN": "男"
+			}
+		},
+		{
+			"key": "char-create.female",
+			"sourceText": "Female",
+			"context": "Accessible label for the female character option in CharCreateV4.",
+			"translations": {
+				"en": "Female",
+				"zh-CN": "女"
+			}
+		},
+		{
+			"key": "char-create.rotate-left",
+			"sourceText": "Rotate left",
+			"context": "Accessible label for the left model rotation button in CharCreateV4.",
+			"translations": {
+				"en": "Rotate left",
+				"zh-CN": "向左旋转"
+			}
+		},
+		{
+			"key": "char-create.rotate-right",
+			"sourceText": "Rotate right",
+			"context": "Accessible label for the right model rotation button in CharCreateV4.",
+			"translations": {
+				"en": "Rotate right",
+				"zh-CN": "向右旋转"
+			}
+		}
+	];
+	auth_default = {
+		$schema: $schema$7,
+		entries: entries$8
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/main-ui.json
+var $schema$6, entries$7, main_ui_default;
+var init_main_ui = __esmMin((() => {
+	$schema$6 = "../../schema/client-message-fragment.schema.json";
+	entries$7 = [
+		{
+			"key": "basic-info.title",
+			"sourceText": "Basic Information",
+			"context": "Title of the expanded BasicInfo window.",
+			"translations": {
+				"en": "Basic Information",
+				"zh-CN": "基本信息"
+			}
+		},
+		{
+			"key": "basic-info.base-level",
+			"sourceText": "Base Lv.",
+			"context": "Base level label in BasicInfo.",
+			"translations": {
+				"en": "Base Lv.",
+				"zh-CN": "基本等级"
+			}
+		},
+		{
+			"key": "basic-info.job-level",
+			"sourceText": "Job Lv.",
+			"context": "Job level label in BasicInfo.",
+			"translations": {
+				"en": "Job Lv.",
+				"zh-CN": "职业等级"
+			}
+		},
+		{
+			"key": "basic-info.weight",
+			"sourceText": "Weight",
+			"context": "Carried weight label in BasicInfo.",
+			"translations": {
+				"en": "Weight",
+				"zh-CN": "负重"
+			}
+		},
+		{
+			"key": "basic-info.zeny",
+			"sourceText": "Zeny",
+			"context": "Currency label in BasicInfo; official proper name retained.",
+			"translations": {
+				"en": "Zeny",
+				"zh-CN": "Zeny"
+			}
+		},
+		{
+			"key": "basic-info.level",
+			"sourceText": "Lv.",
+			"context": "Compact level label in BasicInfo.",
+			"translations": {
+				"en": "Lv.",
+				"zh-CN": "等级"
+			}
+		},
+		{
+			"key": "basic-info.experience",
+			"sourceText": "Exp.",
+			"context": "Compact experience label in BasicInfo.",
+			"translations": {
+				"en": "Exp.",
+				"zh-CN": "经验"
+			}
+		},
+		{
+			"key": "basic-info.menu.status",
+			"sourceText": "Status (Alt + A)",
+			"context": "BasicInfo main-menu status button.",
+			"translations": {
+				"en": "Status (Alt + A)",
+				"zh-CN": "状态 (Alt + A)"
+			}
+		},
+		{
+			"key": "basic-info.menu.equipment",
+			"sourceText": "Equipment (Alt + Q)",
+			"context": "BasicInfo main-menu equipment button.",
+			"translations": {
+				"en": "Equipment (Alt + Q)",
+				"zh-CN": "装备 (Alt + Q)"
+			}
+		},
+		{
+			"key": "basic-info.menu.inventory",
+			"sourceText": "Inventory (Alt + E)",
+			"context": "BasicInfo main-menu inventory button.",
+			"translations": {
+				"en": "Inventory (Alt + E)",
+				"zh-CN": "物品栏 (Alt + E)"
+			}
+		},
+		{
+			"key": "basic-info.menu.skills",
+			"sourceText": "Skill Tree (Alt + S)",
+			"context": "BasicInfo main-menu skill-tree button.",
+			"translations": {
+				"en": "Skill Tree (Alt + S)",
+				"zh-CN": "技能树 (Alt + S)"
+			}
+		},
+		{
+			"key": "basic-info.menu.party",
+			"sourceText": "Party (Alt + Z)",
+			"context": "BasicInfo main-menu party button.",
+			"translations": {
+				"en": "Party (Alt + Z)",
+				"zh-CN": "队伍 (Alt + Z)"
+			}
+		},
+		{
+			"key": "basic-info.menu.guild",
+			"sourceText": "Guild (Alt + G)",
+			"context": "BasicInfo main-menu guild button.",
+			"translations": {
+				"en": "Guild (Alt + G)",
+				"zh-CN": "公会 (Alt + G)"
+			}
+		},
+		{
+			"key": "basic-info.menu.battleground",
+			"sourceText": "Battleground",
+			"context": "BasicInfo main-menu battleground button.",
+			"translations": {
+				"en": "Battleground",
+				"zh-CN": "战场"
+			}
+		},
+		{
+			"key": "basic-info.menu.quest",
+			"sourceText": "Quest List (Alt + U)",
+			"context": "BasicInfo main-menu quest-list button.",
+			"translations": {
+				"en": "Quest List (Alt + U)",
+				"zh-CN": "任务列表 (Alt + U)"
+			}
+		},
+		{
+			"key": "basic-info.menu.world-map",
+			"sourceText": "World Map (Ctrl + ')",
+			"context": "BasicInfo main-menu world-map button.",
+			"translations": {
+				"en": "World Map (Ctrl + ')",
+				"zh-CN": "世界地图 (Ctrl + ')"
+			}
+		},
+		{
+			"key": "basic-info.menu.navigation",
+			"sourceText": "Navigation",
+			"context": "BasicInfo main-menu navigation button.",
+			"translations": {
+				"en": "Navigation",
+				"zh-CN": "导航"
+			}
+		},
+		{
+			"key": "basic-info.menu.options",
+			"sourceText": "Options (Esc)",
+			"context": "BasicInfo main-menu options button.",
+			"translations": {
+				"en": "Options (Esc)",
+				"zh-CN": "设置 (Esc)"
+			}
+		},
+		{
+			"key": "basic-info.menu.bank",
+			"sourceText": "Bank (Ctrl + B)",
+			"context": "BasicInfo main-menu bank button.",
+			"translations": {
+				"en": "Bank (Ctrl + B)",
+				"zh-CN": "银行 (Ctrl + B)"
+			}
+		},
+		{
+			"key": "basic-info.menu.replay",
+			"sourceText": "Replay",
+			"context": "BasicInfo main-menu replay button.",
+			"translations": {
+				"en": "Replay",
+				"zh-CN": "回放"
+			}
+		},
+		{
+			"key": "basic-info.menu.mail",
+			"sourceText": "Mail",
+			"context": "BasicInfo main-menu mail button.",
+			"translations": {
+				"en": "Mail",
+				"zh-CN": "邮件"
+			}
+		},
+		{
+			"key": "basic-info.menu.achievement",
+			"sourceText": "Achievement",
+			"context": "BasicInfo main-menu achievement button.",
+			"translations": {
+				"en": "Achievement",
+				"zh-CN": "成就"
+			}
+		},
+		{
+			"key": "basic-info.menu.tips",
+			"sourceText": "Tips (Alt + D)",
+			"context": "BasicInfo main-menu tips button.",
+			"translations": {
+				"en": "Tips (Alt + D)",
+				"zh-CN": "提示 (Alt + D)"
+			}
+		},
+		{
+			"key": "basic-info.menu.hotkey-help",
+			"sourceText": "Hotkey Help",
+			"context": "BasicInfo main-menu hotkey-help button.",
+			"translations": {
+				"en": "Hotkey Help",
+				"zh-CN": "快捷键说明"
+			}
+		},
+		{
+			"key": "basic-info.menu.attendance",
+			"sourceText": "Attendance",
+			"context": "BasicInfo main-menu attendance button.",
+			"translations": {
+				"en": "Attendance",
+				"zh-CN": "签到"
+			}
+		},
+		{
+			"key": "basic-info.menu.agency",
+			"sourceText": "Adventurer's Agency (Ctrl + Z)",
+			"context": "BasicInfo main-menu adventurer-agency button.",
+			"translations": {
+				"en": "Adventurer's Agency (Ctrl + Z)",
+				"zh-CN": "冒险家中介 (Ctrl + Z)"
+			}
+		},
+		{
+			"key": "basic-info.menu.reputation",
+			"sourceText": "Reputation Status",
+			"context": "BasicInfo main-menu reputation button.",
+			"translations": {
+				"en": "Reputation Status",
+				"zh-CN": "声望状态"
+			}
+		},
+		{
+			"key": "basic-info.menu.show",
+			"sourceText": "Show main menu",
+			"context": "Accessible label for expanding the BasicInfo main menu.",
+			"translations": {
+				"en": "Show main menu",
+				"zh-CN": "展开主菜单"
+			}
+		},
+		{
+			"key": "basic-info.menu.hide",
+			"sourceText": "Hide main menu",
+			"context": "Accessible label for collapsing the BasicInfo main menu.",
+			"translations": {
+				"en": "Hide main menu",
+				"zh-CN": "收起主菜单"
+			}
+		},
+		{
+			"key": "escape.title",
+			"sourceText": "Select Option",
+			"context": "Title of the Escape menu.",
+			"translations": {
+				"en": "Select Option",
+				"zh-CN": "选择操作"
+			}
+		},
+		{
+			"key": "escape.resurrect",
+			"sourceText": "Resurrect",
+			"context": "Escape death-menu resurrection button.",
+			"translations": {
+				"en": "Resurrect",
+				"zh-CN": "复活"
+			}
+		},
+		{
+			"key": "escape.save-point",
+			"sourceText": "Return to Save Point",
+			"context": "Escape death-menu save-point button.",
+			"translations": {
+				"en": "Return to Save Point",
+				"zh-CN": "返回存档点"
+			}
+		},
+		{
+			"key": "escape.character-select",
+			"sourceText": "Return to Character Select",
+			"context": "Escape menu character-selection button.",
+			"translations": {
+				"en": "Return to Character Select",
+				"zh-CN": "返回角色选择"
+			}
+		},
+		{
+			"key": "escape.graphics",
+			"sourceText": "Graphics Settings",
+			"context": "Escape menu graphics-settings button.",
+			"translations": {
+				"en": "Graphics Settings",
+				"zh-CN": "图像设置"
+			}
+		},
+		{
+			"key": "escape.sound",
+			"sourceText": "Sound Settings",
+			"context": "Escape menu sound-settings button.",
+			"translations": {
+				"en": "Sound Settings",
+				"zh-CN": "声音设置"
+			}
+		},
+		{
+			"key": "escape.hotkeys",
+			"sourceText": "Hotkey Settings",
+			"context": "Escape menu hotkey-settings button.",
+			"translations": {
+				"en": "Hotkey Settings",
+				"zh-CN": "快捷键设置"
+			}
+		},
+		{
+			"key": "escape.exit",
+			"sourceText": "Exit Game",
+			"context": "Escape menu exit-game button.",
+			"translations": {
+				"en": "Exit Game",
+				"zh-CN": "退出游戏"
+			}
+		},
+		{
+			"key": "escape.return",
+			"sourceText": "Return to Game",
+			"context": "Escape menu dismiss button.",
+			"translations": {
+				"en": "Return to Game",
+				"zh-CN": "返回游戏"
+			}
+		},
+		{
+			"key": "win-stats.title",
+			"sourceText": "Status",
+			"context": "Title of the WinStats window.",
+			"translations": {
+				"en": "Status",
+				"zh-CN": "状态"
+			}
+		},
+		{
+			"key": "win-stats.collapse",
+			"sourceText": "Collapse or expand status window",
+			"context": "Accessible label for the WinStats minimize button.",
+			"translations": {
+				"en": "Collapse or expand status window",
+				"zh-CN": "收起或展开状态窗口"
+			}
+		},
+		{
+			"key": "win-stats.close",
+			"sourceText": "Close status window",
+			"context": "Accessible label for the WinStats close button.",
+			"translations": {
+				"en": "Close status window",
+				"zh-CN": "关闭状态窗口"
+			}
+		},
+		{
+			"key": "win-stats.str-description",
+			"sourceText": "STR: Physical attack power and carrying capacity.",
+			"context": "WinStats STR tooltip.",
+			"translations": {
+				"en": "STR: Physical attack power and carrying capacity.",
+				"zh-CN": "STR：提高物理攻击力和负重上限。"
+			}
+		},
+		{
+			"key": "win-stats.agi-description",
+			"sourceText": "AGI: Attack speed and flee rate.",
+			"context": "WinStats AGI tooltip.",
+			"translations": {
+				"en": "AGI: Attack speed and flee rate.",
+				"zh-CN": "AGI：提高攻击速度和闪避率。"
+			}
+		},
+		{
+			"key": "win-stats.vit-description",
+			"sourceText": "VIT: Maximum HP, HP recovery, and physical defense.",
+			"context": "WinStats VIT tooltip.",
+			"translations": {
+				"en": "VIT: Maximum HP, HP recovery, and physical defense.",
+				"zh-CN": "VIT：提高最大 HP、HP 恢复和物理防御。"
+			}
+		},
+		{
+			"key": "win-stats.int-description",
+			"sourceText": "INT: Maximum SP, magic attack, and magic defense.",
+			"context": "WinStats INT tooltip.",
+			"translations": {
+				"en": "INT: Maximum SP, magic attack, and magic defense.",
+				"zh-CN": "INT：提高最大 SP、魔法攻击和魔法防御。"
+			}
+		},
+		{
+			"key": "win-stats.dex-description",
+			"sourceText": "DEX: Accuracy, casting time, and ranged attack power.",
+			"context": "WinStats DEX tooltip.",
+			"translations": {
+				"en": "DEX: Accuracy, casting time, and ranged attack power.",
+				"zh-CN": "DEX：提高命中、缩短施法时间并提高远程攻击力。"
+			}
+		},
+		{
+			"key": "win-stats.luk-description",
+			"sourceText": "LUK: Critical rate, perfect dodge, and other combat bonuses.",
+			"context": "WinStats LUK tooltip.",
+			"translations": {
+				"en": "LUK: Critical rate, perfect dodge, and other combat bonuses.",
+				"zh-CN": "LUK：提高暴击率、完全回避和其他战斗收益。"
+			}
+		},
+		{
+			"key": "win-stats.atk-description",
+			"sourceText": "ATK: Physical attack power.",
+			"context": "WinStats ATK tooltip.",
+			"translations": {
+				"en": "ATK: Physical attack power.",
+				"zh-CN": "ATK：物理攻击力。"
+			}
+		},
+		{
+			"key": "win-stats.matk-description",
+			"sourceText": "MATK: Magic attack power.",
+			"context": "WinStats MATK tooltip.",
+			"translations": {
+				"en": "MATK: Magic attack power.",
+				"zh-CN": "MATK：魔法攻击力。"
+			}
+		},
+		{
+			"key": "win-stats.hit-description",
+			"sourceText": "HIT: Accuracy.",
+			"context": "WinStats HIT tooltip.",
+			"translations": {
+				"en": "HIT: Accuracy.",
+				"zh-CN": "HIT：命中率。"
+			}
+		},
+		{
+			"key": "win-stats.critical-description",
+			"sourceText": "Critical: Critical attack rate.",
+			"context": "WinStats critical-rate tooltip.",
+			"translations": {
+				"en": "Critical: Critical attack rate.",
+				"zh-CN": "暴击：暴击攻击率。"
+			}
+		},
+		{
+			"key": "win-stats.status-point-description",
+			"sourceText": "Status Point: Points available for base attributes.",
+			"context": "WinStats remaining status-point tooltip.",
+			"translations": {
+				"en": "Status Point: Points available for base attributes.",
+				"zh-CN": "属性点：可用于提升基础属性的点数。"
+			}
+		},
+		{
+			"key": "win-stats.guild-description",
+			"sourceText": "Guild: Current guild name.",
+			"context": "WinStats guild-name tooltip.",
+			"translations": {
+				"en": "Guild: Current guild name.",
+				"zh-CN": "公会：当前公会名称。"
+			}
+		},
+		{
+			"key": "win-stats.def-description",
+			"sourceText": "DEF: Physical defense.",
+			"context": "WinStats DEF tooltip.",
+			"translations": {
+				"en": "DEF: Physical defense.",
+				"zh-CN": "DEF：物理防御。"
+			}
+		},
+		{
+			"key": "win-stats.mdef-description",
+			"sourceText": "MDEF: Magic defense.",
+			"context": "WinStats MDEF tooltip.",
+			"translations": {
+				"en": "MDEF: Magic defense.",
+				"zh-CN": "MDEF：魔法防御。"
+			}
+		},
+		{
+			"key": "win-stats.flee-description",
+			"sourceText": "FLEE: Evasion rate.",
+			"context": "WinStats FLEE tooltip.",
+			"translations": {
+				"en": "FLEE: Evasion rate.",
+				"zh-CN": "FLEE：闪避率。"
+			}
+		},
+		{
+			"key": "win-stats.aspd-description",
+			"sourceText": "ASPD: Attack speed.",
+			"context": "WinStats ASPD tooltip.",
+			"translations": {
+				"en": "ASPD: Attack speed.",
+				"zh-CN": "ASPD：攻击速度。"
+			}
+		}
+	];
+	main_ui_default = {
+		$schema: $schema$6,
+		entries: entries$7
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/chat.json
+var $schema$5, entries$6, chat_default;
+var init_chat = __esmMin((() => {
+	$schema$5 = "../../schema/client-message-fragment.schema.json";
+	entries$6 = [
+		{
+			"key": "chat-box.public-log",
+			"sourceText": "Public Log",
+			"context": "Default ChatBox tab containing public and system messages.",
+			"translations": {
+				"en": "Public Log",
+				"zh-CN": "公共记录"
+			}
+		},
+		{
+			"key": "chat-box.battle-log",
+			"sourceText": "Battle Log",
+			"context": "Default ChatBox tab reserved for battle messages.",
+			"translations": {
+				"en": "Battle Log",
+				"zh-CN": "战斗记录"
+			}
+		},
+		{
+			"key": "chat-box.new-tab",
+			"sourceText": "New Tab",
+			"context": "Default name assigned to a user-created ChatBox tab.",
+			"translations": {
+				"en": "New Tab",
+				"zh-CN": "新标签"
+			}
+		},
+		{
+			"key": "chat-box.target.public",
+			"sourceText": "Public",
+			"context": "ChatBox send-target menu entry for public chat.",
+			"translations": {
+				"en": "Public",
+				"zh-CN": "公共"
+			}
+		},
+		{
+			"key": "chat-box.target.party",
+			"sourceText": "Party",
+			"context": "ChatBox send-target menu entry for party chat.",
+			"translations": {
+				"en": "Party",
+				"zh-CN": "队伍"
+			}
+		},
+		{
+			"key": "chat-box.target.guild",
+			"sourceText": "Guild",
+			"context": "ChatBox send-target menu entry for guild chat.",
+			"translations": {
+				"en": "Guild",
+				"zh-CN": "公会"
+			}
+		},
+		{
+			"key": "chat-box.target.clan",
+			"sourceText": "Clan",
+			"context": "ChatBox send-target menu entry for clan chat.",
+			"translations": {
+				"en": "Clan",
+				"zh-CN": "氏族"
+			}
+		},
+		{
+			"key": "chat-box.font-100",
+			"sourceText": "Chat font x1.0",
+			"context": "ChatBox context-menu option for normal font scale.",
+			"translations": {
+				"en": "Chat font x1.0",
+				"zh-CN": "聊天字体 x1.0"
+			}
+		},
+		{
+			"key": "chat-box.font-120",
+			"sourceText": "Chat font x1.2",
+			"context": "ChatBox context-menu option for 120 percent font scale.",
+			"translations": {
+				"en": "Chat font x1.2",
+				"zh-CN": "聊天字体 x1.2"
+			}
+		},
+		{
+			"key": "chat-box.font-140",
+			"sourceText": "Chat font x1.4",
+			"context": "ChatBox context-menu option for 140 percent font scale.",
+			"translations": {
+				"en": "Chat font x1.4",
+				"zh-CN": "聊天字体 x1.4"
+			}
+		},
+		{
+			"key": "chat-box.toggle-input",
+			"sourceText": "Toggle chat input",
+			"context": "Accessible label for toggling the ChatBox input row.",
+			"translations": {
+				"en": "Toggle chat input",
+				"zh-CN": "切换聊天输入栏"
+			}
+		},
+		{
+			"key": "chat-box.settings",
+			"sourceText": "Chat log settings",
+			"context": "Accessible label for opening ChatBox message filters.",
+			"translations": {
+				"en": "Chat log settings",
+				"zh-CN": "聊天记录设置"
+			}
+		},
+		{
+			"key": "chat-box.pin",
+			"sourceText": "Pin chat window",
+			"context": "Accessible label for the ChatBox pin control.",
+			"translations": {
+				"en": "Pin chat window",
+				"zh-CN": "固定聊天窗口"
+			}
+		},
+		{
+			"key": "chat-box.add-tab",
+			"sourceText": "Add chat tab",
+			"context": "Accessible label for adding a ChatBox tab.",
+			"translations": {
+				"en": "Add chat tab",
+				"zh-CN": "新增聊天标签"
+			}
+		},
+		{
+			"key": "chat-box.remove-tab",
+			"sourceText": "Remove chat tab",
+			"context": "Accessible label for removing the active ChatBox tab.",
+			"translations": {
+				"en": "Remove chat tab",
+				"zh-CN": "删除聊天标签"
+			}
+		},
+		{
+			"key": "chat-box.lock",
+			"sourceText": "Lock chat window",
+			"context": "Accessible label for the ChatBox drag-lock control.",
+			"translations": {
+				"en": "Lock chat window",
+				"zh-CN": "锁定聊天窗口"
+			}
+		},
+		{
+			"key": "chat-box.whisper-recipient",
+			"sourceText": "Select whisper recipient",
+			"context": "Accessible label for selecting a recent whisper recipient.",
+			"translations": {
+				"en": "Select whisper recipient",
+				"zh-CN": "选择私聊对象"
+			}
+		},
+		{
+			"key": "chat-box.channel",
+			"sourceText": "Select chat channel",
+			"context": "Accessible label for selecting the outgoing chat channel.",
+			"translations": {
+				"en": "Select chat channel",
+				"zh-CN": "选择聊天频道"
+			}
+		},
+		{
+			"key": "chat-box.resize",
+			"sourceText": "Resize chat window",
+			"context": "Accessible label for resizing the ChatBox.",
+			"translations": {
+				"en": "Resize chat window",
+				"zh-CN": "调整聊天窗口大小"
+			}
+		},
+		{
+			"key": "chat-settings.title",
+			"sourceText": "%s Message Log Settings",
+			"context": "ChatBoxSettings title; %s is the active tab name.",
+			"translations": {
+				"en": "%s Message Log Settings",
+				"zh-CN": "%s 消息记录设置"
+			}
+		},
+		{
+			"key": "chat-settings.close",
+			"sourceText": "Close message log settings",
+			"context": "Accessible label for closing ChatBoxSettings.",
+			"translations": {
+				"en": "Close message log settings",
+				"zh-CN": "关闭消息记录设置"
+			}
+		},
+		{
+			"key": "chat-settings.all-on",
+			"sourceText": "All on",
+			"context": "ChatBoxSettings footer label for the all-enabled state.",
+			"translations": {
+				"en": "All on",
+				"zh-CN": "全部开启"
+			}
+		},
+		{
+			"key": "chat-settings.filter.public-log",
+			"sourceText": "Public Log",
+			"context": "ChatBoxSettings filter 0 for public and system logs.",
+			"translations": {
+				"en": "Public Log",
+				"zh-CN": "公共记录"
+			}
+		},
+		{
+			"key": "chat-settings.filter.public-chat",
+			"sourceText": "Public Chat",
+			"context": "ChatBoxSettings filter 1 for public chat.",
+			"translations": {
+				"en": "Public Chat",
+				"zh-CN": "公共聊天"
+			}
+		},
+		{
+			"key": "chat-settings.filter.whisper",
+			"sourceText": "Whisper",
+			"context": "ChatBoxSettings filter 2 for whispers.",
+			"translations": {
+				"en": "Whisper",
+				"zh-CN": "私聊"
+			}
+		},
+		{
+			"key": "chat-settings.filter.party",
+			"sourceText": "Party",
+			"context": "ChatBoxSettings filter 3 for party chat.",
+			"translations": {
+				"en": "Party",
+				"zh-CN": "队伍"
+			}
+		},
+		{
+			"key": "chat-settings.filter.guild",
+			"sourceText": "Guild",
+			"context": "ChatBoxSettings filter 4 for guild chat.",
+			"translations": {
+				"en": "Guild",
+				"zh-CN": "公会"
+			}
+		},
+		{
+			"key": "chat-settings.filter.item",
+			"sourceText": "Item",
+			"context": "ChatBoxSettings filter 5 for item messages.",
+			"translations": {
+				"en": "Item",
+				"zh-CN": "物品"
+			}
+		},
+		{
+			"key": "chat-settings.filter.equipment",
+			"sourceText": "Equipment",
+			"context": "ChatBoxSettings filter 6 for equipment messages.",
+			"translations": {
+				"en": "Equipment",
+				"zh-CN": "装备"
+			}
+		},
+		{
+			"key": "chat-settings.filter.abnormal-status",
+			"sourceText": "Abnormal Status",
+			"context": "ChatBoxSettings filter 7 for abnormal-status messages.",
+			"translations": {
+				"en": "Abnormal Status",
+				"zh-CN": "异常状态"
+			}
+		},
+		{
+			"key": "chat-settings.filter.party-item",
+			"sourceText": "Party Item",
+			"context": "ChatBoxSettings filter 8 for party item messages.",
+			"translations": {
+				"en": "Party Item",
+				"zh-CN": "队伍物品"
+			}
+		},
+		{
+			"key": "chat-settings.filter.party-status",
+			"sourceText": "Party Status",
+			"context": "ChatBoxSettings filter 9 for party status messages.",
+			"translations": {
+				"en": "Party Status",
+				"zh-CN": "队伍状态"
+			}
+		},
+		{
+			"key": "chat-settings.filter.skill-fail",
+			"sourceText": "Skill Fail",
+			"context": "ChatBoxSettings filter 10 for skill-failure messages.",
+			"translations": {
+				"en": "Skill Fail",
+				"zh-CN": "技能失败"
+			}
+		},
+		{
+			"key": "chat-settings.filter.party-setup",
+			"sourceText": "Party Setup",
+			"context": "ChatBoxSettings filter 11 for party configuration messages.",
+			"translations": {
+				"en": "Party Setup",
+				"zh-CN": "队伍设置"
+			}
+		},
+		{
+			"key": "chat-settings.filter.equip-damage",
+			"sourceText": "Equip Damage",
+			"context": "ChatBoxSettings filter 12 for damaged-equipment messages.",
+			"translations": {
+				"en": "Equip Damage",
+				"zh-CN": "装备损坏"
+			}
+		},
+		{
+			"key": "chat-settings.filter.woe",
+			"sourceText": "WOE",
+			"context": "ChatBoxSettings filter 13 for War of Emperium messages.",
+			"translations": {
+				"en": "WOE",
+				"zh-CN": "攻城战"
+			}
+		},
+		{
+			"key": "chat-settings.filter.party-search",
+			"sourceText": "Party Search",
+			"context": "ChatBoxSettings filter 14 for party-search messages.",
+			"translations": {
+				"en": "Party Search",
+				"zh-CN": "队伍搜索"
+			}
+		},
+		{
+			"key": "chat-settings.filter.battle",
+			"sourceText": "Battle",
+			"context": "ChatBoxSettings filter 15 for battle messages.",
+			"translations": {
+				"en": "Battle",
+				"zh-CN": "战斗"
+			}
+		},
+		{
+			"key": "chat-settings.filter.party-battle",
+			"sourceText": "Party Battle",
+			"context": "ChatBoxSettings filter 16 for party battle messages.",
+			"translations": {
+				"en": "Party Battle",
+				"zh-CN": "队伍战斗"
+			}
+		},
+		{
+			"key": "chat-settings.filter.exp",
+			"sourceText": "EXP",
+			"context": "ChatBoxSettings filter 17 for experience messages.",
+			"translations": {
+				"en": "EXP",
+				"zh-CN": "经验"
+			}
+		},
+		{
+			"key": "chat-settings.filter.party-exp",
+			"sourceText": "Party EXP",
+			"context": "ChatBoxSettings filter 18 for party experience messages.",
+			"translations": {
+				"en": "Party EXP",
+				"zh-CN": "队伍经验"
+			}
+		},
+		{
+			"key": "chat-settings.filter.quest",
+			"sourceText": "Quest",
+			"context": "ChatBoxSettings filter 19 for quest messages.",
+			"translations": {
+				"en": "Quest",
+				"zh-CN": "任务"
+			}
+		},
+		{
+			"key": "chat-settings.filter.battlefield",
+			"sourceText": "Battlefield",
+			"context": "ChatBoxSettings filter 20 for battlefield messages.",
+			"translations": {
+				"en": "Battlefield",
+				"zh-CN": "战场"
+			}
+		},
+		{
+			"key": "chat-settings.filter.clan",
+			"sourceText": "Clan",
+			"context": "ChatBoxSettings filter 21 for clan messages.",
+			"translations": {
+				"en": "Clan",
+				"zh-CN": "氏族"
+			}
+		}
+	];
+	chat_default = {
+		$schema: $schema$5,
+		entries: entries$6
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/shortcuts.json
+var $schema$4, entries$5, shortcuts_default;
+var init_shortcuts = __esmMin((() => {
+	$schema$4 = "../../schema/client-message-fragment.schema.json";
+	entries$5 = [
+		{
+			"key": "shortcut-settings.title",
+			"sourceText": "Shortcut key settings",
+			"context": "Title of the ShortCutOption window.",
+			"translations": {
+				"en": "Shortcut key settings",
+				"zh-CN": "快捷键设置"
+			}
+		},
+		{
+			"key": "shortcut-settings.tab.skill-bar",
+			"sourceText": "Skill Bar",
+			"context": "Skill-bar tab in ShortCutOption.",
+			"translations": {
+				"en": "Skill Bar",
+				"zh-CN": "技能栏"
+			}
+		},
+		{
+			"key": "shortcut-settings.tab.interface",
+			"sourceText": "Interface",
+			"context": "Interface tab in ShortCutOption.",
+			"translations": {
+				"en": "Interface",
+				"zh-CN": "界面"
+			}
+		},
+		{
+			"key": "shortcut-settings.tab.macros",
+			"sourceText": "Macros",
+			"context": "Macros tab in ShortCutOption.",
+			"translations": {
+				"en": "Macros",
+				"zh-CN": "宏"
+			}
+		},
+		{
+			"key": "shortcut-settings.tab.gamepad",
+			"sourceText": "Gamepad",
+			"context": "Gamepad tab in ShortCutOption.",
+			"translations": {
+				"en": "Gamepad",
+				"zh-CN": "手柄"
+			}
+		},
+		{
+			"key": "shortcut-settings.reset",
+			"sourceText": "Reset to defaults",
+			"context": "Accessible label for the ShortCutOption reset button.",
+			"translations": {
+				"en": "Reset to defaults",
+				"zh-CN": "恢复默认"
+			}
+		},
+		{
+			"key": "shortcut-settings.homunculus-behavior",
+			"sourceText": "Homunculus behavior",
+			"context": "ShortCutOption label for the Homunculus AGGRESSIVE behavior shortcut; kept separate from the official follow command.",
+			"translations": {
+				"en": "Homunculus behavior",
+				"zh-CN": "生命体行为模式"
+			}
+		},
+		{
+			"key": "shortcut-settings.mercenary-behavior",
+			"sourceText": "Mercenary behavior",
+			"context": "ShortCutOption label for the mercenary AGGRESSIVE behavior shortcut; kept separate from the official follow command.",
+			"translations": {
+				"en": "Mercenary behavior",
+				"zh-CN": "佣兵行为模式"
+			}
+		},
+		{
+			"key": "shortcut-settings.skill-bar-size",
+			"sourceText": "Skill bar size",
+			"context": "ShortCutOption label for changing the visible skill-bar size.",
+			"translations": {
+				"en": "Skill bar size",
+				"zh-CN": "技能栏尺寸"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.target-help",
+			"sourceText": "Define how targets are selected in combat",
+			"context": "Tooltip for the gamepad attack-target mode.",
+			"translations": {
+				"en": "Define how targets are selected in combat",
+				"zh-CN": "设置战斗中的目标选择方式"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.target-mode",
+			"sourceText": "Attack Target Mode",
+			"context": "Gamepad attack-target mode label.",
+			"translations": {
+				"en": "Attack Target Mode",
+				"zh-CN": "攻击目标模式"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.off",
+			"sourceText": "Off",
+			"context": "Shared disabled option in gamepad selectors.",
+			"translations": {
+				"en": "Off",
+				"zh-CN": "关闭"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.lowest-hp",
+			"sourceText": "Lowest HP",
+			"context": "Lowest-HP gamepad target option.",
+			"translations": {
+				"en": "Lowest HP",
+				"zh-CN": "最低 HP"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.closest",
+			"sourceText": "Closest",
+			"context": "Closest gamepad target option.",
+			"translations": {
+				"en": "Closest",
+				"zh-CN": "最近目标"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.quick-cast-help",
+			"sourceText": "Choose how skills are cast with gamepad",
+			"context": "Tooltip for gamepad quick-cast mode.",
+			"translations": {
+				"en": "Choose how skills are cast with gamepad",
+				"zh-CN": "设置使用手柄施放技能的方式"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.quick-cast-mode",
+			"sourceText": "Quick-Cast Mode",
+			"context": "Gamepad quick-cast mode label.",
+			"translations": {
+				"en": "Quick-Cast Mode",
+				"zh-CN": "快速施法模式"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.release-mode",
+			"sourceText": "Release Mode",
+			"context": "Gamepad release-to-cast option.",
+			"translations": {
+				"en": "Release Mode",
+				"zh-CN": "松开施法"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.instant-mode",
+			"sourceText": "Instant Mode",
+			"context": "Gamepad instant-cast option.",
+			"translations": {
+				"en": "Instant Mode",
+				"zh-CN": "即时施法"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.mouse-move-help",
+			"sourceText": "Adjust mouse movement sensitivity for R3 stick",
+			"context": "Tooltip for R3 mouse movement sensitivity.",
+			"translations": {
+				"en": "Adjust mouse movement sensitivity for R3 stick",
+				"zh-CN": "调整 R3 摇杆控制鼠标时的灵敏度"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.mouse-move",
+			"sourceText": "Mouse Move",
+			"context": "Gamepad mouse-movement label.",
+			"translations": {
+				"en": "Mouse Move",
+				"zh-CN": "鼠标移动"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.sensitivity",
+			"sourceText": "Sensitivity:",
+			"context": "Gamepad mouse sensitivity range label.",
+			"translations": {
+				"en": "Sensitivity:",
+				"zh-CN": "灵敏度："
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.disable-virtual-mouse-help",
+			"sourceText": "Disable mouse input from gamepad for UI interaction",
+			"context": "Tooltip for disabling the gamepad virtual mouse.",
+			"translations": {
+				"en": "Disable mouse input from gamepad for UI interaction",
+				"zh-CN": "禁用手柄用于界面操作的虚拟鼠标输入"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.disable-virtual-mouse",
+			"sourceText": "Disable Virtual Mouse",
+			"context": "Gamepad virtual-mouse toggle label.",
+			"translations": {
+				"en": "Disable Virtual Mouse",
+				"zh-CN": "禁用虚拟鼠标"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.swap-sticks-help",
+			"sourceText": "Swap L3 and R3 stick functions",
+			"context": "Tooltip for swapping gamepad sticks.",
+			"translations": {
+				"en": "Swap L3 and R3 stick functions",
+				"zh-CN": "交换 L3 与 R3 摇杆功能"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.swap-sticks",
+			"sourceText": "Swap L3-R3 Sticks",
+			"context": "Gamepad stick-swap toggle label.",
+			"translations": {
+				"en": "Swap L3-R3 Sticks",
+				"zh-CN": "交换 L3/R3 摇杆"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.auto-hide-help",
+			"sourceText": "Automatically hide UI during gameplay mouse movement",
+			"context": "Tooltip for automatic UI hiding.",
+			"translations": {
+				"en": "Automatically hide UI during gameplay mouse movement",
+				"zh-CN": "游戏中移动鼠标时自动隐藏界面"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.auto-hide",
+			"sourceText": "Auto Hide UI",
+			"context": "Gamepad automatic UI-hiding toggle label.",
+			"translations": {
+				"en": "Auto Hide UI",
+				"zh-CN": "自动隐藏界面"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.deadzone-help",
+			"sourceText": "Set deadzone threshold for analog sticks",
+			"context": "Tooltip for the analog-stick deadzone threshold.",
+			"translations": {
+				"en": "Set deadzone threshold for analog sticks",
+				"zh-CN": "设置模拟摇杆的死区阈值"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.axis-threshold",
+			"sourceText": "Axis Threshold",
+			"context": "Gamepad analog-axis threshold label.",
+			"translations": {
+				"en": "Axis Threshold",
+				"zh-CN": "摇杆死区"
+			}
+		},
+		{
+			"key": "shortcut-settings.gamepad.deadzone",
+			"sourceText": "Deadzone:",
+			"context": "Gamepad deadzone range label; corrects the upstream Deadline typo.",
+			"translations": {
+				"en": "Deadzone:",
+				"zh-CN": "死区："
+			}
+		},
+		{
+			"key": "shortcuts.title",
+			"sourceText": "Shortcuts",
+			"context": "Title of the ShortCuts macro editor.",
+			"translations": {
+				"en": "Shortcuts",
+				"zh-CN": "快捷指令"
+			}
+		},
+		{
+			"key": "shortcuts.emoticons",
+			"sourceText": "Emoticons",
+			"context": "Accessible label for the emoticon button in the ShortCuts macro editor.",
+			"translations": {
+				"en": "Emoticons",
+				"zh-CN": "表情"
+			}
+		}
+	];
+	shortcuts_default = {
+		$schema: $schema$4,
+		entries: entries$5
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/commands.json
+var $schema$3, entries$4, commands_default;
+var init_commands = __esmMin((() => {
+	$schema$3 = "../../schema/client-message-fragment.schema.json";
+	entries$4 = [
+		{
+			"key": "command-help.available",
+			"sourceText": "Available Commands:",
+			"context": "Heading for built-in commands printed by /commands.",
+			"translations": {
+				"en": "Available Commands:",
+				"zh-CN": "可用命令："
+			}
+		},
+		{
+			"key": "command-help.custom",
+			"sourceText": "Custom Commands:",
+			"context": "Heading for registered custom commands printed by /commands.",
+			"translations": {
+				"en": "Custom Commands:",
+				"zh-CN": "自定义命令："
+			}
+		},
+		{
+			"key": "command-help.unknown",
+			"sourceText": "Unknown description.",
+			"context": "Fallback used when a registered command has no description.",
+			"translations": {
+				"en": "Unknown description.",
+				"zh-CN": "暂无说明。"
+			}
+		},
+		{
+			"key": "command-help.showname",
+			"sourceText": "Returns to the original font",
+			"context": "ProcessCommand /showname help without an exact official command-description key.",
+			"translations": {
+				"en": "Returns to the original font",
+				"zh-CN": "恢复原始字体"
+			}
+		},
+		{
+			"key": "command-help.smoothlight",
+			"sourceText": "Cycles the posterization effect of the lightmap: on, off, off with gamma correction",
+			"context": "ProcessCommand /smoothlight help for a roBrowser-specific renderer control.",
+			"translations": {
+				"en": "Cycles the posterization effect of the lightmap: on, off, off with gamma correction",
+				"zh-CN": "循环切换光照色阶：开启、关闭、关闭并启用伽马校正"
+			}
+		},
+		{
+			"key": "command-help.memo",
+			"sourceText": "Memorizes a location for use with the Warp Portal skill",
+			"context": "ProcessCommand /memo help; official MSI_MEMO is a result message, not command help.",
+			"translations": {
+				"en": "Memorizes a location for use with the Warp Portal skill",
+				"zh-CN": "记录当前位置，供传送之阵技能使用"
+			}
+		},
+		{
+			"key": "command-help.guild",
+			"sourceText": "Creates a guild named <Guild Name>. This requires an Emperium to be in the creator's inventory",
+			"context": "ProcessCommand /guild help without an exact official command-description key.",
+			"translations": {
+				"en": "Creates a guild named <Guild Name>. This requires an Emperium to be in the creator's inventory",
+				"zh-CN": "创建名为 <公会名称> 的公会；背包中必须持有华丽金属"
+			}
+		},
+		{
+			"key": "command-help.breakguild",
+			"sourceText": "Disbands a guild. Can only be used by the guild leader. All members must be expelled first",
+			"context": "ProcessCommand /breakguild help without an exact official command-description key.",
+			"translations": {
+				"en": "Disbands a guild. Can only be used by the guild leader. All members must be expelled first",
+				"zh-CN": "解散公会；仅公会会长可用，且必须先移除所有成员"
+			}
+		},
+		{
+			"key": "command-help.taekwon",
+			"sourceText": "Shows the top 10 TaeKwon Kids based on completion of TaeKwon Missions in the server",
+			"context": "ProcessCommand /taekwon help without an exact official command-description key.",
+			"translations": {
+				"en": "Shows the top 10 TaeKwon Kids based on completion of TaeKwon Missions in the server",
+				"zh-CN": "显示服务器跆拳少年任务完成排行前 10 名"
+			}
+		},
+		{
+			"key": "command-help.clan-chat",
+			"sourceText": "Sends a message to the player clan.",
+			"context": "ProcessCommand /cl help for the roBrowser clan-chat packet.",
+			"translations": {
+				"en": "Sends a message to the player clan.",
+				"zh-CN": "向氏族成员发送消息。"
+			}
+		},
+		{
+			"key": "command-help.navigation",
+			"sourceText": "Navigate to a map location. Usage: /navi mapname x y",
+			"context": "ProcessCommand /navi help for the roBrowser navigation UI.",
+			"translations": {
+				"en": "Navigate to a map location. Usage: /navi mapname x y",
+				"zh-CN": "导航到指定地图坐标。用法：/navi 地图名 x y"
+			}
+		},
+		{
+			"key": "command-help.broadcast",
+			"sourceText": "Sends a broadcast message with your name (yellow).",
+			"context": "ProcessCommand /broadcast GM command help.",
+			"translations": {
+				"en": "Sends a broadcast message with your name (yellow).",
+				"zh-CN": "发送带角色名的黄色全服公告。"
+			}
+		},
+		{
+			"key": "command-help.no-name-broadcast",
+			"sourceText": "Sends a broadcast message without your name (yellow).",
+			"context": "ProcessCommand /nb GM command help.",
+			"translations": {
+				"en": "Sends a broadcast message without your name (yellow).",
+				"zh-CN": "发送不带角色名的黄色全服公告。"
+			}
+		},
+		{
+			"key": "command-help.local-broadcast",
+			"sourceText": "Sends a local broadcast message with your name. (yellow)",
+			"context": "ProcessCommand /localbroadcast GM command help.",
+			"translations": {
+				"en": "Sends a local broadcast message with your name. (yellow)",
+				"zh-CN": "发送带角色名的黄色本地图公告。"
+			}
+		},
+		{
+			"key": "command-help.local-broadcast-no-name",
+			"sourceText": "Sends a local broadcast message without your name. (yellow)",
+			"context": "ProcessCommand /nlb GM command help.",
+			"translations": {
+				"en": "Sends a local broadcast message without your name. (yellow)",
+				"zh-CN": "发送不带角色名的黄色本地图公告。"
+			}
+		},
+		{
+			"key": "command-help.map-move",
+			"sourceText": "Move to map x y.",
+			"context": "ProcessCommand /mapmove GM command help.",
+			"translations": {
+				"en": "Move to map x y.",
+				"zh-CN": "移动到指定地图坐标。"
+			}
+		},
+		{
+			"key": "command-help.shift",
+			"sourceText": "Warp to a character.",
+			"context": "ProcessCommand /shift GM command help.",
+			"translations": {
+				"en": "Warp to a character.",
+				"zh-CN": "传送到指定角色身边。"
+			}
+		},
+		{
+			"key": "command-help.summon",
+			"sourceText": "Recall a player to your position.",
+			"context": "ProcessCommand /summon GM command help.",
+			"translations": {
+				"en": "Recall a player to your position.",
+				"zh-CN": "将指定角色召唤到当前位置。"
+			}
+		},
+		{
+			"key": "command-help.recall",
+			"sourceText": "Recall a player by account name.",
+			"context": "ProcessCommand /recall GM command help.",
+			"translations": {
+				"en": "Recall a player by account name.",
+				"zh-CN": "按账号名召回玩家。"
+			}
+		},
+		{
+			"key": "command-help.hide",
+			"sourceText": "Toggle Perfect Hide.",
+			"context": "ProcessCommand /hide GM command help.",
+			"translations": {
+				"en": "Toggle Perfect Hide.",
+				"zh-CN": "开启或关闭完全隐身。"
+			}
+		},
+		{
+			"key": "command-help.kill",
+			"sourceText": "Disconnect a player (needs account id).",
+			"context": "ProcessCommand /kill GM command help.",
+			"translations": {
+				"en": "Disconnect a player (needs account id).",
+				"zh-CN": "断开指定玩家连接（需要账号 ID）。"
+			}
+		},
+		{
+			"key": "command-help.kill-all",
+			"sourceText": "Disconnect all players.",
+			"context": "ProcessCommand /killall GM command help.",
+			"translations": {
+				"en": "Disconnect all players.",
+				"zh-CN": "断开所有玩家连接。"
+			}
+		},
+		{
+			"key": "command-help.item",
+			"sourceText": "Create Item or Monster (uses AEGIS name).",
+			"context": "ProcessCommand /item and /monster GM command help.",
+			"translations": {
+				"en": "Create Item or Monster (uses AEGIS name).",
+				"zh-CN": "创建物品或魔物（使用 AEGIS 名称）。"
+			}
+		},
+		{
+			"key": "command-help.reset-state",
+			"sourceText": "Reset Stats.",
+			"context": "ProcessCommand /resetstate GM command help.",
+			"translations": {
+				"en": "Reset Stats.",
+				"zh-CN": "重置属性点。"
+			}
+		},
+		{
+			"key": "command-help.reset-skill",
+			"sourceText": "Reset Skills.",
+			"context": "ProcessCommand /resetskill GM command help.",
+			"translations": {
+				"en": "Reset Skills.",
+				"zh-CN": "重置技能。"
+			}
+		},
+		{
+			"key": "command-help.remove",
+			"sourceText": "Remove a player (need account name)",
+			"context": "ProcessCommand /remove GM command help.",
+			"translations": {
+				"en": "Remove a player (need account name)",
+				"zh-CN": "移除指定玩家（需要账号名）。"
+			}
+		},
+		{
+			"key": "command-help.change-map-type",
+			"sourceText": "Change a cell type (x,y,type).",
+			"context": "ProcessCommand /changemaptype GM command help.",
+			"translations": {
+				"en": "Change a cell type (x,y,type).",
+				"zh-CN": "修改地图格类型（x、y、类型）。"
+			}
+		},
+		{
+			"key": "command-help.check",
+			"sourceText": "Check stats of a player (GM command).",
+			"context": "ProcessCommand /check GM command help.",
+			"translations": {
+				"en": "Check stats of a player (GM command).",
+				"zh-CN": "查看指定玩家的属性（GM 命令）。"
+			}
+		},
+		{
+			"key": "command-help.macro-register",
+			"sourceText": "Open the interface to upload image to captcha system",
+			"context": "ProcessCommand /macro_register captcha command help.",
+			"translations": {
+				"en": "Open the interface to upload image to captcha system",
+				"zh-CN": "打开验证码图片上传界面。"
+			}
+		},
+		{
+			"key": "command-help.macro-detector",
+			"sourceText": "Open the macro detector interface",
+			"context": "ProcessCommand /macro_detector captcha command help.",
+			"translations": {
+				"en": "Open the macro detector interface",
+				"zh-CN": "打开宏检测界面。"
+			}
+		},
+		{
+			"key": "command-help.macro-preview",
+			"sourceText": "Request to preview a captcha image",
+			"context": "ProcessCommand /macro_preview captcha command help.",
+			"translations": {
+				"en": "Request to preview a captcha image",
+				"zh-CN": "请求预览验证码图片。"
+			}
+		},
+		{
+			"key": "command-help.weather",
+			"sourceText": "Dev-only weather toggle. Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off",
+			"context": "Development-only ProcessCommand /weather help.",
+			"translations": {
+				"en": "Dev-only weather toggle. Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off",
+				"zh-CN": "仅开发模式使用的天气切换。用法：/weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off"
+			}
+		},
+		{
+			"key": "command-help.save-chat",
+			"sourceText": "Saves the current chat tab to an HTML file.",
+			"context": "ChatBox dynamically registered /savechat command help.",
+			"translations": {
+				"en": "Saves the current chat tab to an HTML file.",
+				"zh-CN": "将当前聊天标签保存为 HTML 文件。"
+			}
+		},
+		{
+			"key": "command-help.effect-manager",
+			"sourceText": "Print EffectManager list to console.",
+			"context": "EffectManager dynamically registered development command help.",
+			"translations": {
+				"en": "Print EffectManager list to console.",
+				"zh-CN": "将 EffectManager 列表输出到控制台。"
+			}
+		},
+		{
+			"key": "command-feedback.fog-on",
+			"sourceText": "Fog on.",
+			"context": "ProcessCommand /fog enabled feedback.",
+			"translations": {
+				"en": "Fog on.",
+				"zh-CN": "雾效已开启。"
+			}
+		},
+		{
+			"key": "command-feedback.fog-off",
+			"sourceText": "Fog off.",
+			"context": "ProcessCommand /fog disabled feedback.",
+			"translations": {
+				"en": "Fog off.",
+				"zh-CN": "雾效已关闭。"
+			}
+		},
+		{
+			"key": "command-feedback.posterization-on",
+			"sourceText": "Posterization on.",
+			"context": "ProcessCommand /smoothlight posterization-mode feedback.",
+			"translations": {
+				"en": "Posterization on.",
+				"zh-CN": "光照色阶已开启。"
+			}
+		},
+		{
+			"key": "command-feedback.smooth-light-on",
+			"sourceText": "Smooth lighting on.",
+			"context": "ProcessCommand /smoothlight smooth-mode feedback.",
+			"translations": {
+				"en": "Smooth lighting on.",
+				"zh-CN": "平滑光照已开启。"
+			}
+		},
+		{
+			"key": "command-feedback.smooth-light-gamma-on",
+			"sourceText": "Smooth lighting with gamma correction on.",
+			"context": "ProcessCommand /smoothlight gamma-corrected mode feedback.",
+			"translations": {
+				"en": "Smooth lighting with gamma correction on.",
+				"zh-CN": "平滑光照与伽马校正已开启。"
+			}
+		},
+		{
+			"key": "command-feedback.window-magnet-on",
+			"sourceText": "Window magnet on.",
+			"context": "ProcessCommand /window enabled feedback.",
+			"translations": {
+				"en": "Window magnet on.",
+				"zh-CN": "窗口吸附已开启。"
+			}
+		},
+		{
+			"key": "command-feedback.window-magnet-off",
+			"sourceText": "Window magnet off.",
+			"context": "ProcessCommand /window disabled feedback.",
+			"translations": {
+				"en": "Window magnet off.",
+				"zh-CN": "窗口吸附已关闭。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-usage",
+			"sourceText": "Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off",
+			"context": "ProcessCommand /weather usage feedback.",
+			"translations": {
+				"en": "Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off",
+				"zh-CN": "用法：/weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off"
+			}
+		},
+		{
+			"key": "command-feedback.weather-snow",
+			"sourceText": "Snow started.",
+			"context": "ProcessCommand /weather snow feedback.",
+			"translations": {
+				"en": "Snow started.",
+				"zh-CN": "降雪已开始。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-rain",
+			"sourceText": "Rain started.",
+			"context": "ProcessCommand /weather rain feedback.",
+			"translations": {
+				"en": "Rain started.",
+				"zh-CN": "降雨已开始。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-sakura",
+			"sourceText": "Cherry blossoms started falling.",
+			"context": "ProcessCommand /weather sakura feedback.",
+			"translations": {
+				"en": "Cherry blossoms started falling.",
+				"zh-CN": "樱花已开始飘落。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-leaves",
+			"sourceText": "Leaves started falling.",
+			"context": "ProcessCommand /weather leaves feedback.",
+			"translations": {
+				"en": "Leaves started falling.",
+				"zh-CN": "落叶已开始飘落。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-fireworks",
+			"sourceText": "Fireworks started.",
+			"context": "ProcessCommand /weather fireworks feedback.",
+			"translations": {
+				"en": "Fireworks started.",
+				"zh-CN": "烟花已开始绽放。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-cloud",
+			"sourceText": "Clouds appeared.",
+			"context": "ProcessCommand /weather cloud feedback.",
+			"translations": {
+				"en": "Clouds appeared.",
+				"zh-CN": "云层已出现。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-cloud-alt",
+			"sourceText": "Alternative clouds appeared.",
+			"context": "ProcessCommand /weather cloud2 feedback.",
+			"translations": {
+				"en": "Alternative clouds appeared.",
+				"zh-CN": "另一种云层已出现。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-stopped",
+			"sourceText": "Weather stopped.",
+			"context": "ProcessCommand /weather off feedback.",
+			"translations": {
+				"en": "Weather stopped.",
+				"zh-CN": "天气效果已停止。"
+			}
+		},
+		{
+			"key": "command-feedback.weather-unknown",
+			"sourceText": "Unknown weather. Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off",
+			"context": "ProcessCommand /weather invalid-mode feedback.",
+			"translations": {
+				"en": "Unknown weather. Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off",
+				"zh-CN": "未知天气。用法：/weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off"
+			}
+		},
+		{
+			"key": "command-feedback.unknown-command",
+			"sourceText": "Unknown command.",
+			"context": "ProcessCommand fallback for an unrecognized slash command.",
+			"translations": {
+				"en": "Unknown command.",
+				"zh-CN": "未知命令。"
+			}
+		},
+		{
+			"key": "chat-history.title",
+			"sourceText": "Chat History",
+			"context": "Title and download filename used by ChatBox /savechat.",
+			"translations": {
+				"en": "Chat History",
+				"zh-CN": "聊天记录"
+			}
+		},
+		{
+			"key": "chat-history.download-link",
+			"sourceText": "clicking here",
+			"context": "Download link label produced by ChatBox /savechat.",
+			"translations": {
+				"en": "clicking here",
+				"zh-CN": "点击这里"
+			}
+		},
+		{
+			"key": "chat-history.ready",
+			"sourceText": "Chat History [{tab}] {date} can be saved by {link}.",
+			"context": "Download-ready message produced by ChatBox /savechat; brace tokens are replaced at runtime.",
+			"translations": {
+				"en": "Chat History [{tab}] {date} can be saved by {link}.",
+				"zh-CN": "聊天记录 [{tab}] {date} 可通过{link}保存。"
+			}
+		}
+	];
+	commands_default = {
+		$schema: $schema$3,
+		entries: entries$4
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/legacy/login.json
+var $schema$2, entries$3, login_default;
+var init_login = __esmMin((() => {
+	$schema$2 = "../../schema/client-message-fragment.schema.json";
+	entries$3 = [
+		{
+			"key": "6",
+			"sourceText": "Unregistered account.",
+			"context": "Login refusal code 0 maps to DB message 6; confirmed by rAthena loginclif.cpp and LoginEngine.",
+			"translations": {
+				"en": "Unregistered account.",
+				"zh-CN": "未注册的账号。"
+			}
+		},
+		{
+			"key": "267",
+			"sourceText": "Incorrect password.",
+			"context": "Login refusal code 1 maps to DB message 267; confirmed by rAthena loginclif.cpp and LoginEngine.",
+			"translations": {
+				"en": "Incorrect password.",
+				"zh-CN": "密码错误。"
+			}
+		},
+		{
+			"key": "8",
+			"sourceText": "This account has expired.",
+			"context": "Login refusal code 2 maps to DB message 8; confirmed by rAthena loginclif.cpp and LoginEngine.",
+			"translations": {
+				"en": "This account has expired.",
+				"zh-CN": "该账号已过期。"
+			}
+		},
+		{
+			"key": "3",
+			"sourceText": "Rejected by the server.",
+			"context": "Login refusal code 3 maps to DB message 3; confirmed by rAthena loginclif.cpp and LoginEngine.",
+			"translations": {
+				"en": "Rejected by the server.",
+				"zh-CN": "服务器拒绝了连接。"
+			}
+		},
+		{
+			"key": "310",
+			"sourceText": "Your game client is not the latest version.",
+			"context": "Login refusal code 5 maps to DB message 310; confirmed by rAthena loginclif.cpp and LoginEngine.",
+			"translations": {
+				"en": "Your game client is not the latest version.",
+				"zh-CN": "游戏客户端不是最新版本。"
+			}
+		},
+		{
+			"key": "449",
+			"sourceText": "Login is prohibited until %s.",
+			"context": "Login refusal code 6 maps to DB message 449 and substitutes the server unblock date for %s.",
+			"translations": {
+				"en": "Login is prohibited until %s.",
+				"zh-CN": "禁止登录至 %s。"
+			}
+		},
+		{
+			"key": "439",
+			"sourceText": "The server is full. Please try again later.",
+			"context": "Login refusal code 7 maps to DB message 439; confirmed by rAthena loginclif.cpp and LoginEngine.",
+			"translations": {
+				"en": "The server is full. Please try again later.",
+				"zh-CN": "服务器已满，请稍后重试。"
+			}
+		}
+	];
+	login_default = {
+		$schema: $schema$2,
+		entries: entries$3
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/legacy/character.json
+var $schema$1, entries$2, character_default;
+var init_character = __esmMin((() => {
+	$schema$1 = "../../schema/client-message-fragment.schema.json";
+	entries$2 = [
+		{
+			"key": "10",
+			"sourceText": "A character with this name already exists.",
+			"context": "Character creation refusal 0x00; confirmed by rAthena chclif_createnewchar_refuse and CharEngine.",
+			"translations": {
+				"en": "A character with this name already exists.",
+				"zh-CN": "该角色名称已存在。"
+			}
+		},
+		{
+			"key": "11",
+			"sourceText": "Character creation was denied.",
+			"context": "Default character creation refusal 0xff; confirmed by rAthena and CharEngine.",
+			"translations": {
+				"en": "Character creation was denied.",
+				"zh-CN": "服务器拒绝创建角色。"
+			}
+		},
+		{
+			"key": "17",
+			"sourceText": "Return to the login screen?",
+			"context": "Confirmation used when leaving CharSelectV4 for the login screen.",
+			"translations": {
+				"en": "Return to the login screen?",
+				"zh-CN": "返回登录界面？"
+			}
+		},
+		{
+			"key": "19",
+			"sourceText": "Delete this character?",
+			"context": "Confirmation shown before CharEngine asks for deletion verification.",
+			"translations": {
+				"en": "Delete this character?",
+				"zh-CN": "删除这个角色？"
+			}
+		},
+		{
+			"key": "298",
+			"sourceText": "This account is not eligible to create a character.",
+			"context": "Character creation refusal 0x01, historically the account age restriction.",
+			"translations": {
+				"en": "This account is not eligible to create a character.",
+				"zh-CN": "此账号不符合创建角色的条件。"
+			}
+		},
+		{
+			"key": "301",
+			"sourceText": "The email address is incorrect.",
+			"context": "Legacy character deletion verification failure for an incorrect email address.",
+			"translations": {
+				"en": "The email address is incorrect.",
+				"zh-CN": "邮箱地址不正确。"
+			}
+		},
+		{
+			"key": "1272",
+			"sourceText": "Symbols are not allowed in character names.",
+			"context": "Character creation refusal 0x02; mapped by CharEngine.",
+			"translations": {
+				"en": "Symbols are not allowed in character names.",
+				"zh-CN": "角色名称不能包含符号。"
+			}
+		},
+		{
+			"key": "1355",
+			"sourceText": "This character slot is unavailable.",
+			"context": "Character creation refusal 0x03 for an ineligible slot; confirmed by rAthena and CharEngine.",
+			"translations": {
+				"en": "This character slot is unavailable.",
+				"zh-CN": "该角色栏位不可用。"
+			}
+		},
+		{
+			"key": "1811",
+			"sourceText": "No map server is available.",
+			"context": "CharEngine message when the selected character has no available map server.",
+			"translations": {
+				"en": "No map server is available.",
+				"zh-CN": "当前没有可用的地图服务器。"
+			}
+		},
+		{
+			"key": "1815",
+			"sourceText": "Enter your date of birth (YYYYMMDD).",
+			"context": "InputBox label for modern character deletion verification; client sends YYMMDD to rAthena.",
+			"translations": {
+				"en": "Enter your date of birth (YYYYMMDD).",
+				"zh-CN": "请输入出生日期（YYYYMMDD）。"
+			}
+		},
+		{
+			"key": "1817",
+			"sourceText": "A database error occurred.",
+			"context": "Character deletion result 3 from rAthena.",
+			"translations": {
+				"en": "A database error occurred.",
+				"zh-CN": "数据库发生错误。"
+			}
+		},
+		{
+			"key": "1818",
+			"sourceText": "Leave the guild before deleting this character.",
+			"context": "Character deletion reservation result 4 from rAthena.",
+			"translations": {
+				"en": "Leave the guild before deleting this character.",
+				"zh-CN": "请先退出公会，再删除该角色。"
+			}
+		},
+		{
+			"key": "1819",
+			"sourceText": "Leave the party before deleting this character.",
+			"context": "Character deletion reservation result 5 from rAthena.",
+			"translations": {
+				"en": "Leave the party before deleting this character.",
+				"zh-CN": "请先退出队伍，再删除该角色。"
+			}
+		},
+		{
+			"key": "1820",
+			"sourceText": "The deletion waiting period has not ended.",
+			"context": "Character deletion result 4 from rAthena when the delay has not elapsed.",
+			"translations": {
+				"en": "The deletion waiting period has not ended.",
+				"zh-CN": "角色删除等待时间尚未结束。"
+			}
+		},
+		{
+			"key": "1821",
+			"sourceText": "Character deletion is unavailable due to server settings.",
+			"context": "Character deletion result 0, 2, or 6 as grouped by CharSelect.",
+			"translations": {
+				"en": "Character deletion is unavailable due to server settings.",
+				"zh-CN": "因服务器设置，当前无法删除角色。"
+			}
+		},
+		{
+			"key": "1822",
+			"sourceText": "The date of birth does not match.",
+			"context": "Character deletion result 5 from rAthena.",
+			"translations": {
+				"en": "The date of birth does not match.",
+				"zh-CN": "出生日期不匹配。"
+			}
+		},
+		{
+			"key": "3016",
+			"sourceText": "Human",
+			"context": "Human race title in the active CharCreateV4 layout.",
+			"translations": {
+				"en": "Human",
+				"zh-CN": "人类"
+			}
+		},
+		{
+			"key": "3018",
+			"sourceText": "Doram",
+			"context": "Doram race title in the active CharCreateV4 layout; proper name retained pending a verified official Simplified Chinese term.",
+			"translations": {
+				"en": "Doram",
+				"zh-CN": "Doram"
+			}
+		},
+		{
+			"key": "3020",
+			"sourceText": "Humans can choose from a variety of jobs.",
+			"context": "Human race description in CharCreateV4, based on its multi-job selection behavior.",
+			"translations": {
+				"en": "Humans can choose from a variety of jobs.",
+				"zh-CN": "人类可以选择多种职业。"
+			}
+		},
+		{
+			"key": "3021",
+			"sourceText": "Doram characters begin as Summoners.",
+			"context": "Doram race description in CharCreateV4, confirmed by the starting job sent to rAthena.",
+			"translations": {
+				"en": "Doram characters begin as Summoners.",
+				"zh-CN": "Doram 角色初始职业为召唤师。"
+			}
+		},
+		{
+			"key": "3339",
+			"sourceText": "Reserve deletion",
+			"context": "Button that starts the delayed deletion reservation in CharSelectV4.",
+			"translations": {
+				"en": "Reserve deletion",
+				"zh-CN": "申请删除"
+			}
+		},
+		{
+			"key": "3340",
+			"sourceText": "Cancel deletion",
+			"context": "Button that cancels a character deletion reservation in CharSelectV4.",
+			"translations": {
+				"en": "Cancel deletion",
+				"zh-CN": "取消删除"
+			}
+		},
+		{
+			"key": "3341",
+			"sourceText": "Start game",
+			"context": "Button that enters the game with the selected character in CharSelectV4.",
+			"translations": {
+				"en": "Start game",
+				"zh-CN": "开始游戏"
+			}
+		},
+		{
+			"key": "3342",
+			"sourceText": "Delete character",
+			"context": "Button that completes a ready character deletion in CharSelectV4.",
+			"translations": {
+				"en": "Delete character",
+				"zh-CN": "删除角色"
+			}
+		},
+		{
+			"key": "3345",
+			"sourceText": "Create",
+			"context": "Create-character submission button in CharCreateV4.",
+			"translations": {
+				"en": "Create",
+				"zh-CN": "创建"
+			}
+		},
+		{
+			"key": "3346",
+			"sourceText": "Hair Style",
+			"context": "Hair style section title in CharCreateV4.",
+			"translations": {
+				"en": "Hair Style",
+				"zh-CN": "发型"
+			}
+		},
+		{
+			"key": "3347",
+			"sourceText": "Hair Color",
+			"context": "Hair color section title in CharCreateV4.",
+			"translations": {
+				"en": "Hair Color",
+				"zh-CN": "发色"
+			}
+		},
+		{
+			"key": "3349",
+			"sourceText": "%02d:%02d:%02d",
+			"context": "Hours, minutes, and seconds format for the CharSelectV4 deletion countdown.",
+			"translations": {
+				"en": "%02d:%02d:%02d",
+				"zh-CN": "%02d:%02d:%02d"
+			}
+		},
+		{
+			"key": "3351",
+			"sourceText": "Back",
+			"context": "Return button in CharCreateV4.",
+			"translations": {
+				"en": "Back",
+				"zh-CN": "返回"
+			}
+		},
+		{
+			"key": "3355",
+			"sourceText": "Create Character",
+			"context": "Title of the active CharCreateV4 window.",
+			"translations": {
+				"en": "Create Character",
+				"zh-CN": "创建角色"
+			}
+		}
+	];
+	character_default = {
+		$schema: $schema$1,
+		entries: entries$2
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/legacy/game-entry.json
+var $schema, entries$1, game_entry_default;
+var init_game_entry = __esmMin((() => {
+	$schema = "../../schema/client-message-fragment.schema.json";
+	entries$1 = [
+		{
+			"key": "1325",
+			"sourceText": "Block all party invitations.",
+			"context": "PARTY_CONFIG notice when party invitations are blocked; confirmed by rAthena, Group.js, and the roBrowser message table.",
+			"translations": {
+				"en": "Block all party invitations.",
+				"zh-CN": "阻止所有队伍邀请。"
+			}
+		},
+		{
+			"key": "1326",
+			"sourceText": "Allow all party invitations.",
+			"context": "PARTY_CONFIG notice when party invitations are allowed; confirmed by rAthena, Group.js, and the roBrowser message table.",
+			"translations": {
+				"en": "Allow all party invitations.",
+				"zh-CN": "允许所有队伍邀请。"
+			}
+		},
+		{
+			"key": "1358",
+			"sourceText": "Equipment information not open to the public.",
+			"context": "CONFIG notice when equipment information is private; confirmed by rAthena and MapEngine.js.",
+			"translations": {
+				"en": "Equipment information not open to the public.",
+				"zh-CN": "装备信息未公开。"
+			}
+		},
+		{
+			"key": "1359",
+			"sourceText": "Equipment information open to the public.",
+			"context": "CONFIG notice when equipment information is public; confirmed by rAthena and MapEngine.js.",
+			"translations": {
+				"en": "Equipment information open to the public.",
+				"zh-CN": "装备信息已公开。"
+			}
+		},
+		{
+			"key": "2579",
+			"sourceText": "Pet auto-feeding is enabled.",
+			"context": "CONFIG_PET_AUTOFEED notice when enabled; confirmed by rAthena clif_configuration and MapEngine.js.",
+			"translations": {
+				"en": "Pet auto-feeding is enabled.",
+				"zh-CN": "宠物自动喂食已开启。"
+			}
+		},
+		{
+			"key": "2580",
+			"sourceText": "Pet auto-feeding is disabled.",
+			"context": "CONFIG_PET_AUTOFEED notice when disabled; confirmed by rAthena clif_configuration and MapEngine.js.",
+			"translations": {
+				"en": "Pet auto-feeding is disabled.",
+				"zh-CN": "宠物自动喂食已关闭。"
+			}
+		},
+		{
+			"key": "2978",
+			"sourceText": "Call requests are blocked.",
+			"context": "CONFIG_CALL notice when calls are blocked; confirmed by rAthena disable_call and MapEngine.js.",
+			"translations": {
+				"en": "Call requests are blocked.",
+				"zh-CN": "呼叫请求已屏蔽。"
+			}
+		},
+		{
+			"key": "2979",
+			"sourceText": "Call requests are allowed.",
+			"context": "CONFIG_CALL notice when calls are allowed; confirmed by rAthena disable_call and MapEngine.js.",
+			"translations": {
+				"en": "Call requests are allowed.",
+				"zh-CN": "呼叫请求已允许。"
+			}
+		},
+		{
+			"key": "3282",
+			"sourceText": "Homunculus auto-feeding is enabled.",
+			"context": "CONFIG_HOMUNCULUS_AUTOFEED notice when enabled; confirmed by rAthena and MapEngine.js.",
+			"translations": {
+				"en": "Homunculus auto-feeding is enabled.",
+				"zh-CN": "生命体自动喂食已开启。"
+			}
+		},
+		{
+			"key": "3283",
+			"sourceText": "Homunculus auto-feeding is disabled.",
+			"context": "CONFIG_HOMUNCULUS_AUTOFEED notice when disabled; confirmed by rAthena and MapEngine.js.",
+			"translations": {
+				"en": "Homunculus auto-feeding is disabled.",
+				"zh-CN": "生命体自动喂食已关闭。"
+			}
+		}
+	];
+	game_entry_default = {
 		$schema,
-		catalogVersion: 2,
+		entries: entries$1
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/index.js
+var fragments, namespaces, catalog_default;
+var init_catalog = __esmMin((() => {
+	init_manifest();
+	init_msgstrid();
+	init_common();
+	init_auth();
+	init_main_ui();
+	init_chat();
+	init_shortcuts();
+	init_commands();
+	init_login();
+	init_character();
+	init_game_entry();
+	fragments = {
+		"gravity/msgstrid.json": msgstrid_default,
+		"ui/common.json": common_default,
+		"ui/auth.json": auth_default,
+		"ui/main-ui.json": main_ui_default,
+		"ui/chat.json": chat_default,
+		"ui/shortcuts.json": shortcuts_default,
+		"ui/commands.json": commands_default,
+		"legacy/login.json": login_default,
+		"legacy/character.json": character_default,
+		"legacy/game-entry.json": game_entry_default
+	};
+	namespaces = {};
+	for (const [namespace, group] of Object.entries(manifest_default.namespaces)) {
+		const { fragments: paths, ...metadata } = group;
+		namespaces[namespace] = {
+			...metadata,
+			entries: paths.flatMap((path) => fragments[path].entries)
+		};
+	}
+	catalog_default = {
+		catalogVersion: manifest_default.catalogVersion,
 		namespaces
 	};
 }));
@@ -205525,7 +209031,7 @@ function getMessageForLocale(key, locale, fallback = "") {
 	const entry = entries.get(key);
 	if (!entry) return fallback;
 	if (locale === entry.sourceLocale) return entry.sourceText;
-	return entry.translations[locale]?.text || fallback || entry.sourceText;
+	return entry.translations[locale] || fallback || entry.sourceText;
 }
 function getMessage(key, fallback = "") {
 	return getMessageForLocale(key, Configs.get("locale", "en"), fallback);
@@ -205536,9 +209042,9 @@ function getLegacyMessage(id, fallback = "") {
 var entries;
 var init_MessageCatalog = __esmMin((() => {
 	init_Configs();
-	init_messages();
+	init_catalog();
 	entries = /* @__PURE__ */ new Map();
-	for (const [namespace, group] of Object.entries(messages_default.namespaces)) for (const entry of group.entries) entries.set(`${namespace}.${entry.key}`, {
+	for (const [namespace, group] of Object.entries(catalog_default.namespaces)) for (const entry of group.entries) entries.set(`${namespace}.${entry.key}`, {
 		...entry,
 		sourceLocale: group.sourceLocale
 	});
@@ -219351,9 +222857,9 @@ var init_ChatBox = __esmMin((() => {
 			ChatBox.switchTab(firstTab);
 		}
 		makeResizableDiv();
-		ProcessCommand_default.add("savechat", "Saves current chat tab to txt file.", () => {
+		ProcessCommand_default.add("savechat", "Saves the current chat tab to an HTML file.", () => {
 			ChatBox.saveCurrentTabChat();
-		}, ["sc"], false);
+		}, ["sc"], false, "robrowser.ui.command-help.save-chat");
 		ChatBox._setupItemLinkHandler();
 	};
 	/**
@@ -219799,11 +223305,15 @@ var init_ChatBox = __esmMin((() => {
 		const timezone = (/* @__PURE__ */ new Date()).getTimezoneOffset() / 60;
 		const date = `${localISOTime} (GMT ${timezone > 0 ? "-" : "+"}${Math.abs(timezone).toString()})`;
 		const contentEl = root.querySelector(`.content[data-content="${ChatBox.activeTab}"]`);
-		data = "<html><head><title>Chat History</title><style> body { background-color: DarkSlateGray; } </style></head><body>";
+		const historyTitle = getMessage("robrowser.ui.chat-history.title", "Chat History");
+		const tabName = ChatBox.tabs[ChatBox.activeTab].name;
+		data = `<html><head><title>${historyTitle}</title><style> body { background-color: DarkSlateGray; } </style></head><body>`;
 		data += contentEl ? contentEl.outerHTML : "";
 		data += "</body></html>";
-		const url = window.URL.createObjectURL(new Blob([data], { type: "text/plain" }));
-		ChatBox.addText(`Chat History [${ChatBox.tabs[ChatBox.activeTab].name}] ${date} can be saved by <a style="color:#F88" download="ChatHistory [${ChatBox.tabs[ChatBox.activeTab].name}] (${date.replace("/", "-")}).html" href="${url}" target="_blank">clicking here</a>.`, ChatBox.TYPE.PUBLIC, ChatBox.FILTER.PUBLIC_LOG, null, true);
+		const url = window.URL.createObjectURL(new Blob([data], { type: "text/html" }));
+		const link = `<a style="color:#F88" download="${historyTitle} [${tabName}] (${date.replace("/", "-")}).html" href="${url}" target="_blank">${getMessage("robrowser.ui.chat-history.download-link", "clicking here")}</a>`;
+		const message = getMessage("robrowser.ui.chat-history.ready", "Chat History [{tab}] {date} can be saved by {link}.").replace("{tab}", tabName).replace("{date}", date).replace("{link}", link);
+		ChatBox.addText(message, ChatBox.TYPE.PUBLIC, ChatBox.FILTER.PUBLIC_LOG, null, true);
 	};
 	ChatBox.applyFontScale = function applyFontScale() {
 		const root = _root$18();
@@ -230241,7 +233751,7 @@ var init_GraphicsOption = __esmMin((() => {
 //#region src/UI/Components/ShortCutOption/ShortCutOption.html?raw
 var ShortCutOption_default$2;
 var init_ShortCutOption$2 = __esmMin((() => {
-	ShortCutOption_default$2 = "<div id=\"ShortCutOption\" class=\"pt-page-fadeIn1\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\">\r\n				<span class=\"text\" data-locale-key=\"robrowser.ui.shortcut-settings.title\">Shortcut key settings</span>\r\n			</div>\r\n\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"tabs\">\r\n			<button\r\n				class=\"t_skillbar selectedtab\"\r\n				data-index=\"t_skillbar\"\r\n				data-locale-key=\"robrowser.ui.shortcut-settings.tab.skill-bar\"\r\n			>\r\n				Skill Bar</button\r\n			><button class=\"t_ui\" data-index=\"t_ui\" data-locale-key=\"robrowser.ui.shortcut-settings.tab.interface\">\r\n				Interface</button\r\n			><button class=\"t_macro\" data-index=\"t_macro\" data-locale-key=\"robrowser.ui.shortcut-settings.tab.macros\">\r\n				Macros</button\r\n			><button\r\n				class=\"t_gamepad\"\r\n				data-index=\"t_gamepad\"\r\n				data-locale-key=\"robrowser.ui.shortcut-settings.tab.gamepad\"\r\n			>\r\n				Gamepad\r\n			</button>\r\n		</div>\r\n		<div class=\"panel\">\r\n			<div class=\"content t_skillbar selectedtab\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Skill bar 1-1</td>\r\n							<td data-button=\"F1_1\" class=\"customize\"></td>\r\n							<td>Skill bar 2-1</td>\r\n							<td data-button=\"F2_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-2</td>\r\n							<td data-button=\"F1_2\" class=\"customize\"></td>\r\n							<td>Skill bar 2-2</td>\r\n							<td data-button=\"F2_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-3</td>\r\n							<td data-button=\"F1_3\" class=\"customize\"></td>\r\n							<td>Skill bar 2-3</td>\r\n							<td data-button=\"F2_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-4</td>\r\n							<td data-button=\"F1_4\" class=\"customize\"></td>\r\n							<td>Skill bar 2-4</td>\r\n							<td data-button=\"F2_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-5</td>\r\n							<td data-button=\"F1_5\" class=\"customize\"></td>\r\n							<td>Skill bar 2-5</td>\r\n							<td data-button=\"F2_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-6</td>\r\n							<td data-button=\"F1_6\" class=\"customize\"></td>\r\n							<td>Skill bar 2-6</td>\r\n							<td data-button=\"F2_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-7</td>\r\n							<td data-button=\"F1_7\" class=\"customize\"></td>\r\n							<td>Skill bar 2-7</td>\r\n							<td data-button=\"F2_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-8</td>\r\n							<td data-button=\"F1_8\" class=\"customize\"></td>\r\n							<td>Skill bar 2-8</td>\r\n							<td data-button=\"F2_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-9</td>\r\n							<td data-button=\"F1_9\" class=\"customize\"></td>\r\n							<td>Skill bar 2-9</td>\r\n							<td data-button=\"F2_9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-1</td>\r\n							<td data-button=\"F3_1\" class=\"customize\"></td>\r\n							<td>Skill bar 4-1</td>\r\n							<td data-button=\"F4_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-2</td>\r\n							<td data-button=\"F3_2\" class=\"customize\"></td>\r\n							<td>Skill bar 4-2</td>\r\n							<td data-button=\"F4_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-3</td>\r\n							<td data-button=\"F3_3\" class=\"customize\"></td>\r\n							<td>Skill bar 4-3</td>\r\n							<td data-button=\"F4_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-4</td>\r\n							<td data-button=\"F3_4\" class=\"customize\"></td>\r\n							<td>Skill bar 4-4</td>\r\n							<td data-button=\"F4_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-5</td>\r\n							<td data-button=\"F3_5\" class=\"customize\"></td>\r\n							<td>Skill bar 4-5</td>\r\n							<td data-button=\"F4_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-6</td>\r\n							<td data-button=\"F3_6\" class=\"customize\"></td>\r\n							<td>Skill bar 4-6</td>\r\n							<td data-button=\"F4_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-7</td>\r\n							<td data-button=\"F3_7\" class=\"customize\"></td>\r\n							<td>Skill bar 4-7</td>\r\n							<td data-button=\"F4_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-8</td>\r\n							<td data-button=\"F3_8\" class=\"customize\"></td>\r\n							<td>Skill bar 4-8</td>\r\n							<td data-button=\"F4_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-9</td>\r\n							<td data-button=\"F3_9\" class=\"customize\"></td>\r\n							<td>Skill bar 4-9</td>\r\n							<td data-button=\"F4_9\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_ui\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_BASICINFOWND_MINI\">Basic Info</td>\r\n							<td data-button=\"BasicInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_EQUIPWND_ONOFF\">Character Info</td>\r\n							<td data-button=\"Equipment\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_SKILLWND_ONOFF\">Skill List</td>\r\n							<td data-button=\"SkillList\" class=\"customize\"></td>\r\n							<td>Emotion List</td>\r\n							<td data-button=\"Emotions\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_FRIENDWND_ONOFF\">Friends List</td>\r\n							<td data-button=\"Friends\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_PARTYWND_ONOFF\">Party Window</td>\r\n							<td data-button=\"Party\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Pet Info</td>\r\n							<td data-button=\"PetInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_CHATWND_MAKE\">Chat Room</td>\r\n							<td data-button=\"ChatRoom\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_CARTWND_ONOFF\">Cart Window</td>\r\n							<td data-button=\"PushCart\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_ITEMWND_ONOFF\">Item Window</td>\r\n							<td data-button=\"Inventory\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_MAPWND_ONOFF\">World Map</td>\r\n							<td data-button=\"WorldMap\" class=\"customize\"></td>\r\n							<td>Guild Info</td>\r\n							<td data-button=\"Guild\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus Info</td>\r\n							<td data-button=\"HomunInfo\" class=\"customize\"></td>\r\n							<td>Mercenary Info</td>\r\n							<td data-button=\"MercInfo\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus State</td>\r\n							<td data-button=\"HomunState\" class=\"customize\"></td>\r\n							<td>Mercenary State</td>\r\n							<td data-button=\"MercState\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Sit/Stand</td>\r\n							<td data-button=\"Sit\" class=\"customize\"></td>\r\n							<td>Short Cuts</td>\r\n							<td data-button=\"ShortCuts\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Chat Bar Size</td>\r\n							<td data-button=\"ChatSize\" class=\"customize\"></td>\r\n							<td>Skill Bar Size</td>\r\n							<td data-button=\"SkillBarSize\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_QUESTWND_ONOFF\">Quest</td>\r\n							<td data-button=\"Quest\" class=\"customize\"></td>\r\n							<td>Bank</td>\r\n							<td data-button=\"Bank\" class=\"customize\"></td>\r\n						</tr>\r\n						<!--<tr>\r\n                     <td>MobileUI</td>\r\n                     <td data-button=\"M_UI\" class=\"customize\"></td>\r\n                     <td>MUi-Toggle</td>\r\n                     <td data-button=\"M_Toggle\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-TG</td>\r\n                     <td data-button=\"M_Targeting\" class=\"customize\"></td>\r\n                     <td>MUi-AT</td>\r\n                     <td data-button=\"M_AutoTarget\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-ATK</td>\r\n                     <td data-button=\"M_Attack\" class=\"customize\"></td>\r\n                  </tr>-->\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_macro\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Macro 1</td>\r\n							<td data-button=\"Macro1\" class=\"customize\"></td>\r\n							<td>Flag 1</td>\r\n							<td data-button=\"Flag1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 2</td>\r\n							<td data-button=\"Macro2\" class=\"customize\"></td>\r\n							<td>Flag 2</td>\r\n							<td data-button=\"Flag2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 3</td>\r\n							<td data-button=\"Macro3\" class=\"customize\"></td>\r\n							<td>Flag 3</td>\r\n							<td data-button=\"Flag3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 4</td>\r\n							<td data-button=\"Macro4\" class=\"customize\"></td>\r\n							<td>Flag 4</td>\r\n							<td data-button=\"Flag4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 5</td>\r\n							<td data-button=\"Macro5\" class=\"customize\"></td>\r\n							<td>Flag 5</td>\r\n							<td data-button=\"Flag5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 6</td>\r\n							<td data-button=\"Macro6\" class=\"customize\"></td>\r\n							<td>Flag 6</td>\r\n							<td data-button=\"Flag6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 7</td>\r\n							<td data-button=\"Macro7\" class=\"customize\"></td>\r\n							<td>Flag 7</td>\r\n							<td data-button=\"Flag7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 8</td>\r\n							<td data-button=\"Macro8\" class=\"customize\"></td>\r\n							<td>Flag 8</td>\r\n							<td data-button=\"Flag8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 9</td>\r\n							<td data-button=\"Macro9\" class=\"customize\"></td>\r\n							<td>Flag 9</td>\r\n							<td data-button=\"Flag9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 10</td>\r\n							<td data-button=\"Macro10\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_gamepad\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr title=\"Define how targets are selected in combat\">\r\n							<td>Attack Target Mode</td>\r\n							<td>\r\n								<select class=\"attackTargetMode\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Lowest HP</option>\r\n									<option value=\"2\">Closest</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Choose how skills are cast with gamepad\">\r\n							<td>Quick-Cast Mode</td>\r\n							<td>\r\n								<select class=\"joyQuick\">\r\n									<option value=\"0\">Off</option>\r\n									<option value=\"1\">Release Mode</option>\r\n									<option value=\"2\">Instant Mode</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Adjust mouse movement sensitivity for R3 stick\">\r\n							<td>Mouse Move</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Sensitivity:\r\n									<input\r\n										class=\"joySense\"\r\n										type=\"range\"\r\n										value=\"25.0\"\r\n										min=\"1.0\"\r\n										max=\"100.0\"\r\n										step=\"1.0\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Disable mouse input from gamepad for UI interaction\">\r\n							<td>Disable Virtual Mouse</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyDisableVirtualMouse\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Swap L3 and R3 stick functions\">\r\n							<td>Swap L3-R3 Sticks</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyReverseStick\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Automatically hide UI during gameplay mouse movement\">\r\n							<td>Auto Hide UI</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyAutoHide\" />\r\n							</td>\r\n						</tr>\r\n						<tr title=\"Set deadzone threshold for analog sticks\">\r\n							<td>Axis Threshold</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									Deadline:\r\n									<input\r\n										class=\"joyDeadline\"\r\n										type=\"range\"\r\n										value=\"0.10\"\r\n										min=\"0.0\"\r\n										max=\"1.0\"\r\n										step=\"0.1\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<button\r\n				class=\"button reset left\"\r\n				data-background=\"btn_reset.bmp\"\r\n				data-hover=\"btn_reset_a.bmp\"\r\n				data-down=\"btn_reset_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button ok right\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button cancel right\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button close right\"\r\n				data-background=\"btn_close.bmp\"\r\n				data-hover=\"btn_close_a.bmp\"\r\n				data-down=\"btn_close_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	ShortCutOption_default$2 = "<div id=\"ShortCutOption\" class=\"pt-page-fadeIn1\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\">\r\n				<span class=\"text\" data-locale-key=\"robrowser.ui.shortcut-settings.title\">Shortcut key settings</span>\r\n			</div>\r\n\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"tabs\">\r\n			<button\r\n				class=\"t_skillbar selectedtab\"\r\n				data-index=\"t_skillbar\"\r\n				data-locale-key=\"robrowser.ui.shortcut-settings.tab.skill-bar\"\r\n			>\r\n				Skill Bar</button\r\n			><button class=\"t_ui\" data-index=\"t_ui\" data-locale-key=\"robrowser.ui.shortcut-settings.tab.interface\">\r\n				Interface</button\r\n			><button class=\"t_macro\" data-index=\"t_macro\" data-locale-key=\"robrowser.ui.shortcut-settings.tab.macros\">\r\n				Macros</button\r\n			><button\r\n				class=\"t_gamepad\"\r\n				data-index=\"t_gamepad\"\r\n				data-locale-key=\"robrowser.ui.shortcut-settings.tab.gamepad\"\r\n			>\r\n				Gamepad\r\n			</button>\r\n		</div>\r\n		<div class=\"panel\">\r\n			<div class=\"content t_skillbar selectedtab\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Skill bar 1-1</td>\r\n							<td data-button=\"F1_1\" class=\"customize\"></td>\r\n							<td>Skill bar 2-1</td>\r\n							<td data-button=\"F2_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-2</td>\r\n							<td data-button=\"F1_2\" class=\"customize\"></td>\r\n							<td>Skill bar 2-2</td>\r\n							<td data-button=\"F2_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-3</td>\r\n							<td data-button=\"F1_3\" class=\"customize\"></td>\r\n							<td>Skill bar 2-3</td>\r\n							<td data-button=\"F2_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-4</td>\r\n							<td data-button=\"F1_4\" class=\"customize\"></td>\r\n							<td>Skill bar 2-4</td>\r\n							<td data-button=\"F2_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-5</td>\r\n							<td data-button=\"F1_5\" class=\"customize\"></td>\r\n							<td>Skill bar 2-5</td>\r\n							<td data-button=\"F2_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-6</td>\r\n							<td data-button=\"F1_6\" class=\"customize\"></td>\r\n							<td>Skill bar 2-6</td>\r\n							<td data-button=\"F2_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-7</td>\r\n							<td data-button=\"F1_7\" class=\"customize\"></td>\r\n							<td>Skill bar 2-7</td>\r\n							<td data-button=\"F2_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-8</td>\r\n							<td data-button=\"F1_8\" class=\"customize\"></td>\r\n							<td>Skill bar 2-8</td>\r\n							<td data-button=\"F2_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 1-9</td>\r\n							<td data-button=\"F1_9\" class=\"customize\"></td>\r\n							<td>Skill bar 2-9</td>\r\n							<td data-button=\"F2_9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-1</td>\r\n							<td data-button=\"F3_1\" class=\"customize\"></td>\r\n							<td>Skill bar 4-1</td>\r\n							<td data-button=\"F4_1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-2</td>\r\n							<td data-button=\"F3_2\" class=\"customize\"></td>\r\n							<td>Skill bar 4-2</td>\r\n							<td data-button=\"F4_2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-3</td>\r\n							<td data-button=\"F3_3\" class=\"customize\"></td>\r\n							<td>Skill bar 4-3</td>\r\n							<td data-button=\"F4_3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-4</td>\r\n							<td data-button=\"F3_4\" class=\"customize\"></td>\r\n							<td>Skill bar 4-4</td>\r\n							<td data-button=\"F4_4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-5</td>\r\n							<td data-button=\"F3_5\" class=\"customize\"></td>\r\n							<td>Skill bar 4-5</td>\r\n							<td data-button=\"F4_5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-6</td>\r\n							<td data-button=\"F3_6\" class=\"customize\"></td>\r\n							<td>Skill bar 4-6</td>\r\n							<td data-button=\"F4_6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-7</td>\r\n							<td data-button=\"F3_7\" class=\"customize\"></td>\r\n							<td>Skill bar 4-7</td>\r\n							<td data-button=\"F4_7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-8</td>\r\n							<td data-button=\"F3_8\" class=\"customize\"></td>\r\n							<td>Skill bar 4-8</td>\r\n							<td data-button=\"F4_8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Skill bar 3-9</td>\r\n							<td data-button=\"F3_9\" class=\"customize\"></td>\r\n							<td>Skill bar 4-9</td>\r\n							<td data-button=\"F4_9\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_ui\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_BASICINFOWND_MINI\">Basic Info</td>\r\n							<td data-button=\"BasicInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_EQUIPWND_ONOFF\">Character Info</td>\r\n							<td data-button=\"Equipment\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_SKILLWND_ONOFF\">Skill List</td>\r\n							<td data-button=\"SkillList\" class=\"customize\"></td>\r\n							<td>Emotion List</td>\r\n							<td data-button=\"Emotions\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_FRIENDWND_ONOFF\">Friends List</td>\r\n							<td data-button=\"Friends\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_PARTYWND_ONOFF\">Party Window</td>\r\n							<td data-button=\"Party\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Pet Info</td>\r\n							<td data-button=\"PetInfo\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_CHATWND_MAKE\">Chat Room</td>\r\n							<td data-button=\"ChatRoom\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_CARTWND_ONOFF\">Cart Window</td>\r\n							<td data-button=\"PushCart\" class=\"customize\"></td>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_ITEMWND_ONOFF\">Item Window</td>\r\n							<td data-button=\"Inventory\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_MAPWND_ONOFF\">World Map</td>\r\n							<td data-button=\"WorldMap\" class=\"customize\"></td>\r\n							<td>Guild Info</td>\r\n							<td data-button=\"Guild\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus Info</td>\r\n							<td data-button=\"HomunInfo\" class=\"customize\"></td>\r\n							<td>Mercenary Info</td>\r\n							<td data-button=\"MercInfo\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Homunculus State</td>\r\n							<td data-button=\"HomunState\" class=\"customize\"></td>\r\n							<td>Mercenary State</td>\r\n							<td data-button=\"MercState\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Sit/Stand</td>\r\n							<td data-button=\"Sit\" class=\"customize\"></td>\r\n							<td>Short Cuts</td>\r\n							<td data-button=\"ShortCuts\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Chat Bar Size</td>\r\n							<td data-button=\"ChatSize\" class=\"customize\"></td>\r\n							<td>Skill Bar Size</td>\r\n							<td data-button=\"SkillBarSize\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td data-locale-key=\"gravity.MsgStrID.MSI_HK_QUESTWND_ONOFF\">Quest</td>\r\n							<td data-button=\"Quest\" class=\"customize\"></td>\r\n							<td>Bank</td>\r\n							<td data-button=\"Bank\" class=\"customize\"></td>\r\n						</tr>\r\n						<!--<tr>\r\n                     <td>MobileUI</td>\r\n                     <td data-button=\"M_UI\" class=\"customize\"></td>\r\n                     <td>MUi-Toggle</td>\r\n                     <td data-button=\"M_Toggle\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-TG</td>\r\n                     <td data-button=\"M_Targeting\" class=\"customize\"></td>\r\n                     <td>MUi-AT</td>\r\n                     <td data-button=\"M_AutoTarget\" class=\"customize\"></td>\r\n                  </tr>\r\n                  <tr>\r\n                     <td>MUi-ATK</td>\r\n                     <td data-button=\"M_Attack\" class=\"customize\"></td>\r\n                  </tr>-->\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_macro\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr>\r\n							<td>Macro 1</td>\r\n							<td data-button=\"Macro1\" class=\"customize\"></td>\r\n							<td>Flag 1</td>\r\n							<td data-button=\"Flag1\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 2</td>\r\n							<td data-button=\"Macro2\" class=\"customize\"></td>\r\n							<td>Flag 2</td>\r\n							<td data-button=\"Flag2\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 3</td>\r\n							<td data-button=\"Macro3\" class=\"customize\"></td>\r\n							<td>Flag 3</td>\r\n							<td data-button=\"Flag3\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 4</td>\r\n							<td data-button=\"Macro4\" class=\"customize\"></td>\r\n							<td>Flag 4</td>\r\n							<td data-button=\"Flag4\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 5</td>\r\n							<td data-button=\"Macro5\" class=\"customize\"></td>\r\n							<td>Flag 5</td>\r\n							<td data-button=\"Flag5\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 6</td>\r\n							<td data-button=\"Macro6\" class=\"customize\"></td>\r\n							<td>Flag 6</td>\r\n							<td data-button=\"Flag6\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 7</td>\r\n							<td data-button=\"Macro7\" class=\"customize\"></td>\r\n							<td>Flag 7</td>\r\n							<td data-button=\"Flag7\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 8</td>\r\n							<td data-button=\"Macro8\" class=\"customize\"></td>\r\n							<td>Flag 8</td>\r\n							<td data-button=\"Flag8\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 9</td>\r\n							<td data-button=\"Macro9\" class=\"customize\"></td>\r\n							<td>Flag 9</td>\r\n							<td data-button=\"Flag9\" class=\"customize\"></td>\r\n						</tr>\r\n						<tr>\r\n							<td>Macro 10</td>\r\n							<td data-button=\"Macro10\" class=\"customize\"></td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<div class=\"content t_gamepad\">\r\n				<table border=\"1\" cellspacing=\"0\" bordercolor=\"#aaa\">\r\n					<tbody>\r\n						<tr\r\n							title=\"Define how targets are selected in combat\"\r\n							data-locale-title-key=\"robrowser.ui.shortcut-settings.gamepad.target-help\"\r\n						>\r\n							<td data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.target-mode\">\r\n								Attack Target Mode\r\n							</td>\r\n							<td>\r\n								<select class=\"attackTargetMode\">\r\n									<option value=\"0\" data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.off\">\r\n										Off\r\n									</option>\r\n									<option\r\n										value=\"1\"\r\n										data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.lowest-hp\"\r\n									>\r\n										Lowest HP\r\n									</option>\r\n									<option value=\"2\" data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.closest\">\r\n										Closest\r\n									</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr\r\n							title=\"Choose how skills are cast with gamepad\"\r\n							data-locale-title-key=\"robrowser.ui.shortcut-settings.gamepad.quick-cast-help\"\r\n						>\r\n							<td data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.quick-cast-mode\">\r\n								Quick-Cast Mode\r\n							</td>\r\n							<td>\r\n								<select class=\"joyQuick\">\r\n									<option value=\"0\" data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.off\">\r\n										Off\r\n									</option>\r\n									<option\r\n										value=\"1\"\r\n										data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.release-mode\"\r\n									>\r\n										Release Mode\r\n									</option>\r\n									<option\r\n										value=\"2\"\r\n										data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.instant-mode\"\r\n									>\r\n										Instant Mode\r\n									</option>\r\n								</select>\r\n							</td>\r\n						</tr>\r\n						<tr\r\n							title=\"Adjust mouse movement sensitivity for R3 stick\"\r\n							data-locale-title-key=\"robrowser.ui.shortcut-settings.gamepad.mouse-move-help\"\r\n						>\r\n							<td data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.mouse-move\">Mouse Move</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									<span data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.sensitivity\"\r\n										>Sensitivity:</span\r\n									>\r\n									<input\r\n										class=\"joySense\"\r\n										type=\"range\"\r\n										value=\"25.0\"\r\n										min=\"1.0\"\r\n										max=\"100.0\"\r\n										step=\"1.0\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n						<tr\r\n							title=\"Disable mouse input from gamepad for UI interaction\"\r\n							data-locale-title-key=\"robrowser.ui.shortcut-settings.gamepad.disable-virtual-mouse-help\"\r\n						>\r\n							<td data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.disable-virtual-mouse\">\r\n								Disable Virtual Mouse\r\n							</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyDisableVirtualMouse\" />\r\n							</td>\r\n						</tr>\r\n						<tr\r\n							title=\"Swap L3 and R3 stick functions\"\r\n							data-locale-title-key=\"robrowser.ui.shortcut-settings.gamepad.swap-sticks-help\"\r\n						>\r\n							<td data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.swap-sticks\">\r\n								Swap L3-R3 Sticks\r\n							</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyReverseStick\" />\r\n							</td>\r\n						</tr>\r\n						<tr\r\n							title=\"Automatically hide UI during gameplay mouse movement\"\r\n							data-locale-title-key=\"robrowser.ui.shortcut-settings.gamepad.auto-hide-help\"\r\n						>\r\n							<td data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.auto-hide\">Auto Hide UI</td>\r\n							<td>\r\n								<input type=\"checkbox\" class=\"joyAutoHide\" />\r\n							</td>\r\n						</tr>\r\n						<tr\r\n							title=\"Set deadzone threshold for analog sticks\"\r\n							data-locale-title-key=\"robrowser.ui.shortcut-settings.gamepad.deadzone-help\"\r\n						>\r\n							<td data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.axis-threshold\">\r\n								Axis Threshold\r\n							</td>\r\n							<td>\r\n								<label style=\"display: inline-block; width: 90px\">\r\n									<span data-locale-key=\"robrowser.ui.shortcut-settings.gamepad.deadzone\"\r\n										>Deadzone:</span\r\n									>\r\n									<input\r\n										class=\"joyDeadline\"\r\n										type=\"range\"\r\n										value=\"0.10\"\r\n										min=\"0.0\"\r\n										max=\"1.0\"\r\n										step=\"0.1\"\r\n										style=\"width: 90%; vertical-align: middle\"\r\n									/>\r\n								</label>\r\n							</td>\r\n						</tr>\r\n					</tbody>\r\n				</table>\r\n			</div>\r\n			<button\r\n				class=\"button reset left\"\r\n				data-background=\"btn_reset.bmp\"\r\n				data-hover=\"btn_reset_a.bmp\"\r\n				data-down=\"btn_reset_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button ok right\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button cancel right\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"button close right\"\r\n				data-background=\"btn_close.bmp\"\r\n				data-hover=\"btn_close_a.bmp\"\r\n				data-down=\"btn_close_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ShortCutOption/ShortCutOption.css?raw
@@ -230254,6 +233764,9 @@ var init_ShortCutOption$1 = __esmMin((() => {
 function localizeShortCutOption(root) {
 	root.querySelectorAll("[data-locale-key]").forEach((element) => {
 		element.textContent = getMessage(element.dataset.localeKey, element.textContent.trim());
+	});
+	root.querySelectorAll("[data-locale-title-key]").forEach((element) => {
+		element.title = getMessage(element.dataset.localeTitleKey, element.title);
 	});
 	for (const [buttonName, key] of Object.entries(BUTTON_LOCALE_KEYS)) {
 		const labelCell = root.querySelector(`td[data-button="${buttonName}"]`)?.previousElementSibling;
@@ -230486,6 +233999,25 @@ var init_ShortCutOption = __esmMin((() => {
 		F4_7: "gravity.MsgStrID.MSI_HK_SKILLBAR4_7",
 		F4_8: "gravity.MsgStrID.MSI_HK_SKILLBAR4_8",
 		F4_9: "gravity.MsgStrID.MSI_HK_SKILLBAR4_9",
+		Macro1: "gravity.MsgStrID.MSI_HK_MACRO_1",
+		Macro2: "gravity.MsgStrID.MSI_HK_MACRO_2",
+		Macro3: "gravity.MsgStrID.MSI_HK_MACRO_3",
+		Macro4: "gravity.MsgStrID.MSI_HK_MACRO_4",
+		Macro5: "gravity.MsgStrID.MSI_HK_MACRO_5",
+		Macro6: "gravity.MsgStrID.MSI_HK_MACRO_6",
+		Macro7: "gravity.MsgStrID.MSI_HK_MACRO_7",
+		Macro8: "gravity.MsgStrID.MSI_HK_MACRO_8",
+		Macro9: "gravity.MsgStrID.MSI_HK_MACRO_9",
+		Macro10: "gravity.MsgStrID.MSI_HK_MACRO_10",
+		Flag1: "gravity.MsgStrID.MSI_HK_FLAG_1",
+		Flag2: "gravity.MsgStrID.MSI_HK_FLAG_2",
+		Flag3: "gravity.MsgStrID.MSI_HK_FLAG_3",
+		Flag4: "gravity.MsgStrID.MSI_HK_FLAG_4",
+		Flag5: "gravity.MsgStrID.MSI_HK_FLAG_5",
+		Flag6: "gravity.MsgStrID.MSI_HK_FLAG_6",
+		Flag7: "gravity.MsgStrID.MSI_HK_FLAG_7",
+		Flag8: "gravity.MsgStrID.MSI_HK_FLAG_8",
+		Flag9: "gravity.MsgStrID.MSI_HK_FLAG_9",
 		Guild: "gravity.MsgStrID.MSI_HK_GUILDWND_ONOFF",
 		Emotions: "gravity.MsgStrID.MSI_HK_EMOTIONWND_ONOFF",
 		Sit: "gravity.MsgStrID.MSI_HK_SITORSTAND",
@@ -248216,6 +251748,11 @@ var init_RankingTypes = __esmMin((() => {
 }));
 //#endregion
 //#region src/Controls/ProcessCommand.js
+function getCommandDescription(commandName, command) {
+	const fallback = command.description || getMessage("robrowser.ui.command-help.unknown", "Unknown description.");
+	const localeKey = command.localeKey || COMMAND_LOCALE_KEYS[commandName];
+	return localeKey ? getMessage(localeKey, fallback) : fallback;
+}
 /**
 * Load aliases
 */
@@ -248274,19 +251811,20 @@ function processCommand(text) {
 			Network.sendPacket(pkt);
 			return;
 		}
-		this.addText(DB.getMessage(95), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+		this.addText(getMessage("robrowser.ui.command-feedback.unknown-command", "Unknown command."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 	}
 }
 /**
 * Add a command to the store
 */
-function addCommand(name, description = "", callback = () => {}, alias = [], custom = true) {
+function addCommand(name, description = "", callback = () => {}, alias = [], custom = true, localeKey = "") {
 	callback = callback.bind(ChatBox_default);
 	CommandStore[name] = {
 		description,
 		callback,
 		aliases: alias,
-		custom
+		custom,
+		localeKey
 	};
 	reloadAliases();
 }
@@ -248304,7 +251842,7 @@ function reloadAliases() {
 	aliases = {};
 	loadAliases();
 }
-var aliases, CommandStore, ProcessCommand_default;
+var aliases, COMMAND_LOCALE_KEYS, CommandStore, ProcessCommand_default;
 var init_ProcessCommand = __esmMin((() => {
 	init_DBManager();
 	init_Emotions();
@@ -248343,7 +251881,72 @@ var init_ProcessCommand = __esmMin((() => {
 	init_ChatBox();
 	init_Navigation();
 	init_RankingTypes();
+	init_MessageCatalog();
 	aliases = {};
+	COMMAND_LOCALE_KEYS = {
+		sound: "gravity.MsgStrID.MSI_SOUND",
+		bgm: "gravity.MsgStrID.MSI_BGM",
+		effect: "gravity.MsgStrID.MSI_EFFECT",
+		mineffect: "gravity.MsgStrID.MSI_MINEFFECT_ONOFF",
+		miss: "gravity.MsgStrID.MSI_MISS",
+		aura: "gravity.MsgStrID.MSI_AURA",
+		aura2: "gravity.MsgStrID.MSI_AURA2",
+		showname: "robrowser.ui.command-help.showname",
+		camera: "gravity.MsgStrID.MSI_CAMERA",
+		fog: "gravity.MsgStrID.MSI_FOG",
+		lightmap: "gravity.MsgStrID.MSI_LIGHTMAP",
+		smoothlight: "robrowser.ui.command-help.smoothlight",
+		noctrl: "gravity.MsgStrID.MSI_NOCTRL",
+		noshift: "gravity.MsgStrID.MSI_NOSHIFT",
+		snap: "gravity.MsgStrID.MSI_SNAP",
+		itemsnap: "gravity.MsgStrID.MSI_ITEMSNAP",
+		window: "gravity.MsgStrID.MSI_WINDOW",
+		stand: "gravity.MsgStrID.MSI_SIT",
+		doridori: "gravity.MsgStrID.MSI_DORIDORI",
+		bangbang: "gravity.MsgStrID.MSI_BINGBING",
+		bingbing: "gravity.MsgStrID.MSI_BANGBANG",
+		where: "gravity.MsgStrID.MSI_WHERE",
+		who: "gravity.MsgStrID.MSI_WHO",
+		memo: "robrowser.ui.command-help.memo",
+		chat: "gravity.MsgStrID.MSI_CHAT",
+		q: "gravity.MsgStrID.MSI_Q",
+		leave: "gravity.MsgStrID.MSI_LEAVE",
+		invite: "gravity.MsgStrID.MSI_PARTY_BOOKING_INVITE",
+		organize: "gravity.MsgStrID.MSI_PARTY_BOOKING_MAKE",
+		hi: "gravity.MsgStrID.MSI_HI",
+		guild: "robrowser.ui.command-help.guild",
+		breakguild: "robrowser.ui.command-help.breakguild",
+		alchemist: "gravity.MsgStrID.MSI_ALCHEMIST",
+		blacksmith: "gravity.MsgStrID.MSI_BLACKSMITH",
+		taekwon: "robrowser.ui.command-help.taekwon",
+		hoai: "gravity.MsgStrID.MSI_HOAI",
+		merai: "gravity.MsgStrID.MSI_MERAI",
+		call: "gravity.MsgStrID.MSI_CALL_COMMAND_ONOFF",
+		cl: "robrowser.ui.command-help.clan-chat",
+		broadcast: "robrowser.ui.command-help.broadcast",
+		nb: "robrowser.ui.command-help.no-name-broadcast",
+		localbroadcast: "robrowser.ui.command-help.local-broadcast",
+		nlb: "robrowser.ui.command-help.local-broadcast-no-name",
+		mapmove: "robrowser.ui.command-help.map-move",
+		shift: "robrowser.ui.command-help.shift",
+		summon: "robrowser.ui.command-help.summon",
+		recall: "robrowser.ui.command-help.recall",
+		hide: "robrowser.ui.command-help.hide",
+		kill: "robrowser.ui.command-help.kill",
+		killall: "robrowser.ui.command-help.kill-all",
+		item: "robrowser.ui.command-help.item",
+		resetstate: "robrowser.ui.command-help.reset-state",
+		resetskill: "robrowser.ui.command-help.reset-skill",
+		remove: "robrowser.ui.command-help.remove",
+		changemaptype: "robrowser.ui.command-help.change-map-type",
+		check: "robrowser.ui.command-help.check",
+		macro_register: "robrowser.ui.command-help.macro-register",
+		macro_detector: "robrowser.ui.command-help.macro-detector",
+		macro_preview: "robrowser.ui.command-help.macro-preview",
+		navi: "robrowser.ui.command-help.navigation",
+		commands: "gravity.MsgStrID.MSI_HELP",
+		weather: "robrowser.ui.command-help.weather"
+	};
 	CommandStore = {
 		sound: {
 			description: "Toggles playing of sound effects",
@@ -248434,7 +252037,7 @@ var init_ProcessCommand = __esmMin((() => {
 			description: "Turns fog on and off",
 			callback: function() {
 				Map_default.fog = !Map_default.fog;
-				this.addText("fog " + (Map_default.fog ? "on" : "off"), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(Map_default.fog ? getMessage("robrowser.ui.command-feedback.fog-on", "Fog on.") : getMessage("robrowser.ui.command-feedback.fog-off", "Fog off."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				Map_default.save();
 			}
 		},
@@ -248449,11 +252052,12 @@ var init_ProcessCommand = __esmMin((() => {
 			description: "Cycles the posterization effect of the lightmap: on, off, off with gamma correction",
 			callback: function() {
 				Map_default.smoothlight = (Map_default.smoothlight + 1) % 3;
-				this.addText([
-					"Posterization On",
-					"Smoothlight On",
-					"Smoothlight On with Gamma Correction"
-				][Map_default.smoothlight], this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				const messages = [
+					getMessage("robrowser.ui.command-feedback.posterization-on", "Posterization on."),
+					getMessage("robrowser.ui.command-feedback.smooth-light-on", "Smooth lighting on."),
+					getMessage("robrowser.ui.command-feedback.smooth-light-gamma-on", "Smooth lighting with gamma correction on.")
+				];
+				this.addText(messages[Map_default.smoothlight], this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				Map_default.save();
 			}
 		},
@@ -248467,7 +252071,7 @@ var init_ProcessCommand = __esmMin((() => {
 			aliases: ["nc"]
 		},
 		noshift: {
-			description: " Allows targeting monsters or other players in PvP arenas with support skills without having to press the Shift key",
+			description: "Allows targeting monsters or other players in PvP arenas with support skills without having to press the Shift key",
 			callback: function() {
 				this.addText(DB.getMessage(701 + Controls_default.noshift), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				Controls_default.noshift = !Controls_default.noshift;
@@ -248495,7 +252099,7 @@ var init_ProcessCommand = __esmMin((() => {
 			description: "Toggles snapping/magnetism between windows",
 			callback: function() {
 				UI_default.windowmagnet = !UI_default.windowmagnet;
-				this.addText("Window magnet " + (UI_default.windowmagnet ? "ON" : "OFF"), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(UI_default.windowmagnet ? getMessage("robrowser.ui.command-feedback.window-magnet-on", "Window magnet on.") : getMessage("robrowser.ui.command-feedback.window-magnet-off", "Window magnet off."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				UI_default.save();
 			},
 			aliases: ["wi"]
@@ -248993,12 +252597,12 @@ var init_ProcessCommand = __esmMin((() => {
 				function addTextCommand(cmd, commands) {
 					let textAliases = "";
 					if (commands[cmd].aliases && commands[cmd].aliases.length > 0) textAliases = ` (${commands[cmd].aliases.join(", ")})`;
-					return `/${cmd}` + textAliases + ` : ${commands[cmd].description || "Unknown description."}\n`;
+					return `/${cmd}` + textAliases + ` : ${getCommandDescription(cmd, commands[cmd])}\n`;
 				}
 				let customsEnabled = false;
 				const separator = "=======================\n";
-				let messages = `${separator}Available Commands:\n${separator}`;
-				let customMessages = `${separator}Custom Commands:\n${separator}`;
+				let messages = `${separator}${getMessage("robrowser.ui.command-help.available", "Available Commands:")}\n${separator}`;
+				let customMessages = `${separator}${getMessage("robrowser.ui.command-help.custom", "Custom Commands:")}\n${separator}`;
 				const sortedCommands = {};
 				Object.keys(CommandStore).sort().forEach(function(key) {
 					sortedCommands[key] = CommandStore[key];
@@ -249022,7 +252626,7 @@ var init_ProcessCommand = __esmMin((() => {
 		callback: function(text) {
 			const mode = (text.trim().split(/\s+/).slice(1)[0] || "").toLowerCase();
 			if (!mode || mode === "help") {
-				this.addText("Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-usage", "Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off"), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
 			if (!SessionStorage_default.Entity) return;
@@ -249032,7 +252636,7 @@ var init_ProcessCommand = __esmMin((() => {
 					effectId: EffectConst_default.EF_SNOW,
 					ownerAID
 				});
-				this.addText("Snow started.", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-snow", "Snow started."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
 			if (mode === "rain") {
@@ -249040,7 +252644,7 @@ var init_ProcessCommand = __esmMin((() => {
 					effectId: EffectConst_default.EF_RAIN,
 					ownerAID
 				});
-				this.addText("Rain started.", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-rain", "Rain started."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
 			if (mode === "sakura") {
@@ -249048,7 +252652,7 @@ var init_ProcessCommand = __esmMin((() => {
 					effectId: EffectConst_default.EF_SAKURA,
 					ownerAID
 				});
-				this.addText("Cherry tree leaves have begun to fall.", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-sakura", "Cherry blossoms started falling."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
 			if (mode === "leaves") {
@@ -249056,7 +252660,7 @@ var init_ProcessCommand = __esmMin((() => {
 					effectId: EffectConst_default.EF_MAPLE,
 					ownerAID
 				});
-				this.addText("Fallen leaves fall.", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-leaves", "Leaves started falling."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
 			if (mode === "fireworks") {
@@ -249064,7 +252668,7 @@ var init_ProcessCommand = __esmMin((() => {
 					effectId: EffectConst_default.EF_POKJUK,
 					ownerAID
 				});
-				this.addText("Fireworks are launched.", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-fireworks", "Fireworks started."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
 			if (mode === "cloud") {
@@ -249072,7 +252676,7 @@ var init_ProcessCommand = __esmMin((() => {
 					effectId: EffectConst_default.EF_CLOUD,
 					ownerAID
 				});
-				this.addText("Clouds appear.", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-cloud", "Clouds appeared."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
 			if (mode === "cloud2") {
@@ -249080,7 +252684,7 @@ var init_ProcessCommand = __esmMin((() => {
 					effectId: EffectConst_default.EF_CLOUD2,
 					ownerAID
 				});
-				this.addText("Alternative clouds appear.", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-cloud-alt", "Alternative clouds appeared."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
 			if (mode === "off" || mode === "stop" || mode === "clear") {
@@ -249089,10 +252693,10 @@ var init_ProcessCommand = __esmMin((() => {
 				SakuraWeatherEffect.stop(ownerAID, Renderer.tick);
 				PokJukWeatherEffect.stop(ownerAID, Renderer.tick);
 				CloudWeatherEffect.stop(ownerAID, Renderer.tick);
-				this.addText("Weather stopping.", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+				this.addText(getMessage("robrowser.ui.command-feedback.weather-stopped", "Weather stopped."), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				return;
 			}
-			this.addText("Unknown weather. Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off", this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
+			this.addText(getMessage("robrowser.ui.command-feedback.weather-unknown", "Unknown weather. Usage: /weather snow|rain|leaves|sakura|fireworks|cloud|cloud2|off"), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 		}
 	};
 	loadAliases();
@@ -252391,7 +255995,7 @@ var init_EffectManager = __esmMin((() => {
 			_gl = gl;
 			if (Configs.get("development")) ProcessCommand_default.add("d_effectmanager", "Print EffectManager list to console.", function() {
 				EffectManager.debug();
-			}, ["d_em"], true);
+			}, ["d_em"], true, "robrowser.ui.command-help.effect-manager");
 			else if (ProcessCommand_default.isEnabled("d_effectmanager")) ProcessCommand_default.remove("d_effectmanager");
 		}
 		/**
@@ -311799,16 +315403,43 @@ var init_Emoticons = __esmMin((() => {
 //#region src/UI/Components/ShortCuts/ShortCuts.html?raw
 var ShortCuts_default$2;
 var init_ShortCuts$2 = __esmMin((() => {
-	ShortCuts_default$2 = "<div id=\"ShortCuts\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"574\">ShortCuts</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"macro\">\r\n			<label for=\"macro_1\">Macro 1</label>\r\n			<input type=\"text\" id=\"macro_1\" class=\"macro_\" name=\"macro_1\" /><br />\r\n\r\n			<label for=\"macro_2\">Macro 2</label>\r\n			<input type=\"text\" id=\"macro_2\" class=\"macro_\" name=\"macro_2\" /><br />\r\n\r\n			<label for=\"macro_3\">Macro 3</label>\r\n			<input type=\"text\" id=\"macro_3\" class=\"macro_\" name=\"macro_3\" /><br />\r\n\r\n			<label for=\"macro_4\">Macro 4</label>\r\n			<input type=\"text\" id=\"macro_4\" class=\"macro_\" name=\"macro_4\" /><br />\r\n\r\n			<label for=\"macro_5\">Macro 5</label>\r\n			<input type=\"text\" id=\"macro_5\" class=\"macro_\" name=\"macro_5\" /><br />\r\n\r\n			<label for=\"macro_6\">Macro 6</label>\r\n			<input type=\"text\" id=\"macro_6\" class=\"macro_\" name=\"macro_6\" /><br />\r\n\r\n			<label for=\"macro_7\">Macro 7</label>\r\n			<input type=\"text\" id=\"macro_7\" class=\"macro_\" name=\"macro_7\" /><br />\r\n\r\n			<label for=\"macro_8\">Macro 8</label>\r\n			<input type=\"text\" id=\"macro_8\" class=\"macro_\" name=\"macro_8\" /><br />\r\n\r\n			<label for=\"macro_9\">Macro 9</label>\r\n			<input type=\"text\" id=\"macro_9\" class=\"macro_\" name=\"macro_9\" /><br />\r\n\r\n			<label for=\"macro_0\">Macro 0</label>\r\n			<input type=\"text\" id=\"macro_0\" class=\"macro_\" name=\"macro_0\" /><br />\r\n		</div>\r\n		<div class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n			<button\r\n				class=\"emoticons\"\r\n				id=\"emoticons_shortcuts\"\r\n				data-background=\"btn_view.bmp\"\r\n				data-down=\"btn_view_a.bmp\"\r\n				data-hover=\"btn_view_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	ShortCuts_default$2 = "<div id=\"ShortCuts\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.shortcuts.title\">Shortcuts</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"macro\">\r\n			<label for=\"macro_1\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_1\">Macro 1</label>\r\n			<input type=\"text\" id=\"macro_1\" class=\"macro_\" name=\"macro_1\" /><br />\r\n\r\n			<label for=\"macro_2\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_2\">Macro 2</label>\r\n			<input type=\"text\" id=\"macro_2\" class=\"macro_\" name=\"macro_2\" /><br />\r\n\r\n			<label for=\"macro_3\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_3\">Macro 3</label>\r\n			<input type=\"text\" id=\"macro_3\" class=\"macro_\" name=\"macro_3\" /><br />\r\n\r\n			<label for=\"macro_4\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_4\">Macro 4</label>\r\n			<input type=\"text\" id=\"macro_4\" class=\"macro_\" name=\"macro_4\" /><br />\r\n\r\n			<label for=\"macro_5\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_5\">Macro 5</label>\r\n			<input type=\"text\" id=\"macro_5\" class=\"macro_\" name=\"macro_5\" /><br />\r\n\r\n			<label for=\"macro_6\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_6\">Macro 6</label>\r\n			<input type=\"text\" id=\"macro_6\" class=\"macro_\" name=\"macro_6\" /><br />\r\n\r\n			<label for=\"macro_7\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_7\">Macro 7</label>\r\n			<input type=\"text\" id=\"macro_7\" class=\"macro_\" name=\"macro_7\" /><br />\r\n\r\n			<label for=\"macro_8\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_8\">Macro 8</label>\r\n			<input type=\"text\" id=\"macro_8\" class=\"macro_\" name=\"macro_8\" /><br />\r\n\r\n			<label for=\"macro_9\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_9\">Macro 9</label>\r\n			<input type=\"text\" id=\"macro_9\" class=\"macro_\" name=\"macro_9\" /><br />\r\n\r\n			<label for=\"macro_0\" data-locale-key=\"gravity.MsgStrID.MSI_HK_MACRO_10\">Macro 10</label>\r\n			<input type=\"text\" id=\"macro_0\" class=\"macro_\" name=\"macro_0\" /><br />\r\n		</div>\r\n		<div class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n			<button\r\n				class=\"emoticons\"\r\n				id=\"emoticons_shortcuts\"\r\n				data-background=\"btn_view.bmp\"\r\n				data-down=\"btn_view_a.bmp\"\r\n				data-hover=\"btn_view_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ShortCuts/ShortCuts.css?raw
 var ShortCuts_default$1;
 var init_ShortCuts$1 = __esmMin((() => {
-	ShortCuts_default$1 = ":host {\r\n	top: 172px;\r\n	left: 0px;\r\n}\r\n\r\n#ShortCuts {\r\n	width: 380px;\r\n	height: 270px;\r\n	position: absolute;\r\n}\r\n\r\n#ShortCuts .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#ShortCuts .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#ShortCuts .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#ShortCuts .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#ShortCuts .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ShortCuts .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#ShortCuts .tabs {\r\n	border-left: 1px solid #ccc;\r\n	width: 50px;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	vertical-align: top;\r\n	background-position: -1px 0px;\r\n}\r\n#ShortCuts .tabs button {\r\n	width: 20px;\r\n	height: 27px;\r\n	border: none;\r\n	background-color: transparent;\r\n	display: block;\r\n}\r\n\r\n#ShortCuts .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n}\r\n#ShortCuts .ff_bugfix {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#ShortCuts .hide {\r\n	height: 100%;\r\n	width: 16px;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n	background-color: white;\r\n}\r\n#ShortCuts .content {\r\n	overflow: auto;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat;\r\n}\r\n\r\n#ShortCuts .content .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#ShortCuts .content .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCuts .panel {\r\n	height: 230px;\r\n	background-color: white;\r\n}\r\n#ShortCuts .footer {\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	border-right: 1px solid #ccc;\r\n	border-left: 1px solid #ccc;\r\n	border-radius: 0px 0px 5px 5px;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 378px;\r\n	height: 25px;\r\n}\r\n#ShortCuts .emoticons {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	right: 4px;\r\n	top: 10%;\r\n}\r\n#ShortCuts .macro {\r\n	text-align: center;\r\n}\r\n\r\n#ShortCuts .macro_ {\r\n	border: none;\r\n	background-color: #e7e7e7;\r\n	width: 75%;\r\n	height: 15px;\r\n	margin-left: 5%;\r\n	margin-top: 5px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#ShortCuts .input_macro_focus {\r\n	background-color: rgb(205, 224, 255) !important;\r\n}\r\n";
+	ShortCuts_default$1 = ":host {\r\n	top: 172px;\r\n	left: 0px;\r\n}\r\n\r\n#ShortCuts {\r\n	width: 380px;\r\n	height: 270px;\r\n	position: absolute;\r\n}\r\n\r\n#ShortCuts .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#ShortCuts .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#ShortCuts .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 70px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#ShortCuts .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#ShortCuts .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ShortCuts .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#ShortCuts .tabs {\r\n	border-left: 1px solid #ccc;\r\n	width: 50px;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	vertical-align: top;\r\n	background-position: -1px 0px;\r\n}\r\n#ShortCuts .tabs button {\r\n	width: 20px;\r\n	height: 27px;\r\n	border: none;\r\n	background-color: transparent;\r\n	display: block;\r\n}\r\n\r\n#ShortCuts .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n}\r\n#ShortCuts .ff_bugfix {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#ShortCuts .hide {\r\n	height: 100%;\r\n	width: 16px;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n	background-color: white;\r\n}\r\n#ShortCuts .content {\r\n	overflow: auto;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat;\r\n}\r\n\r\n#ShortCuts .content .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#ShortCuts .content .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCuts .panel {\r\n	height: 230px;\r\n	background-color: white;\r\n}\r\n#ShortCuts .footer {\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	border-right: 1px solid #ccc;\r\n	border-left: 1px solid #ccc;\r\n	border-radius: 0px 0px 5px 5px;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 378px;\r\n	height: 25px;\r\n}\r\n#ShortCuts .emoticons {\r\n	position: absolute;\r\n	width: 64px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	right: 4px;\r\n	top: 10%;\r\n}\r\n#ShortCuts .emoticons.localized-text-button {\r\n	box-sizing: border-box;\r\n	height: 20px;\r\n	padding: 0 4px;\r\n	background-image: none !important;\r\n	background-color: #f4f4f4;\r\n	border: 1px solid #999;\r\n	border-radius: 2px;\r\n	color: #222;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	white-space: nowrap;\r\n}\r\n#ShortCuts .emoticons.localized-text-button:hover {\r\n	background-color: #fff;\r\n}\r\n#ShortCuts .emoticons.localized-text-button:active {\r\n	background-color: #ddd;\r\n}\r\n#ShortCuts .macro {\r\n	text-align: center;\r\n}\r\n\r\n#ShortCuts .macro_ {\r\n	border: none;\r\n	background-color: #e7e7e7;\r\n	width: 75%;\r\n	height: 15px;\r\n	margin-left: 5%;\r\n	margin-top: 5px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#ShortCuts .input_macro_focus {\r\n	background-color: rgb(205, 224, 255) !important;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ShortCuts/ShortCuts.js
+function localizeShortCuts(root) {
+	root.querySelectorAll("[data-locale-key]").forEach((element) => {
+		element.textContent = getMessage(element.dataset.localeKey, element.textContent.trim());
+	});
+	for (const [selector, key, fallback, visible] of [[
+		".close",
+		"robrowser.ui.common.close",
+		"Close",
+		false
+	], [
+		".emoticons",
+		"robrowser.ui.shortcuts.emoticons",
+		"Emoticons",
+		true
+	]]) {
+		const element = root.querySelector(selector);
+		if (element) {
+			const label = getMessage(key, fallback);
+			element.title = label;
+			element.setAttribute("aria-label", label);
+			if (visible) {
+				element.textContent = label;
+				element.classList.add("localized-text-button");
+			}
+		}
+	}
+}
 /**
 * Exit window
 */
@@ -311879,6 +315510,7 @@ var init_ShortCuts = __esmMin((() => {
 	init_PacketStructure();
 	init_ProcessCommand();
 	init_KeyEventHandler();
+	init_MessageCatalog();
 	ShortCuts = new GUIComponent("ShortCuts", ShortCuts_default$1);
 	ShortCuts.render = () => ShortCuts_default$2;
 	_MACRO_INIT = Preferences.get("_MACRO_CMD", {
@@ -311945,6 +315577,7 @@ var init_ShortCuts = __esmMin((() => {
 	*/
 	ShortCuts.init = function init() {
 		const root = ShortCuts.getRoot();
+		localizeShortCuts(root);
 		root.querySelectorAll(".footer button").forEach((btn) => {
 			btn.addEventListener("mousedown", () => {
 				if (btn.classList.contains("emoticons")) Emoticons_default.onShortCut({ cmd: "TOGGLE" });
@@ -311974,6 +315607,7 @@ var init_ShortCuts = __esmMin((() => {
 	* Apply preferences once append to body
 	*/
 	ShortCuts.onAppend = function onAppend() {
+		localizeShortCuts(this.getRoot());
 		if (!_preferences$12.show) this._host.style.display = "none";
 		const rect = this._host.getBoundingClientRect();
 		this._host.style.top = `${Math.min(Math.max(0, _preferences$12.y), Renderer.height - rect.height)}px`;
