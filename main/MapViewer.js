@@ -205513,9 +205513,9 @@ var init_NodeSocket = __esmMin((() => {
 			}
 		}
 	};
-})), $schema$13, namespaces$1, manifest_default;
+})), $schema$42, namespaces$1, manifest_default;
 var init_manifest = __esmMin((() => {
-	$schema$13 = "../schema/client-message-catalog.schema.json";
+	$schema$42 = "../schema/client-message-catalog.schema.json";
 	namespaces$1 = {
 		"gravity.MsgStrID": {
 			"sourceLocale": "ko-KR",
@@ -205543,11 +205543,25 @@ var init_manifest = __esmMin((() => {
 				"ui/auth.json",
 				"ui/main-ui.json",
 				"ui/chat.json",
+				"ui/chat-room.json",
+				"ui/party-friends.json",
+				"ui/social.json",
+				"ui/maps.json",
+				"ui/quest.json",
+				"ui/economy.json",
+				"ui/guild.json",
+				"ui/companions.json",
+				"ui/systems.json",
+				"ui/options.json",
 				"ui/shortcuts.json",
 				"ui/commands.json",
 				"ui/items-inventory.json",
 				"ui/items-equipment.json",
-				"ui/items-info.json"
+				"ui/items-info.json",
+				"ui/items-cart.json",
+				"ui/skills.json",
+				"ui/sense.json",
+				"ui/status-icons.json"
 			]
 		},
 		"robrowser.legacy": {
@@ -205559,22 +205573,46 @@ var init_manifest = __esmMin((() => {
 			"fragments": [
 				"legacy/login.json",
 				"legacy/character.json",
-				"legacy/game-entry.json"
+				"legacy/game-entry.json",
+				"legacy/skill-fail.json",
+				"legacy/combat.json",
+				"legacy/social.json"
+			]
+		},
+		"robrowser.data": {
+			"sourceLocale": "en",
+			"source": {
+				"repository": "https://github.com/MrAntares/roBrowserLegacy.git",
+				"identity": "structured-table-id"
+			},
+			"fragments": [
+				"data/jobs.json",
+				"data/stats.json",
+				"data/maps.json",
+				"data/monsters.json",
+				"data/towns.json",
+				"data/items-usable.json",
+				"data/items-equip.json",
+				"data/items-etc.json",
+				"data/skills-novice-first.json",
+				"data/skills-second-21.json",
+				"data/quests-novice-jobs.json",
+				"data/quests-second-jobs.json"
 			]
 		}
 	};
 	manifest_default = {
-		$schema: $schema$13,
+		$schema: $schema$42,
 		catalogVersion: 3,
 		namespaces: namespaces$1
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/gravity/msgstrid.json
-var $schema$12, entries$13, msgstrid_default;
+var $schema$41, entries$42, msgstrid_default;
 var init_msgstrid = __esmMin((() => {
-	$schema$12 = "../../schema/client-message-fragment.schema.json";
-	entries$13 = [
+	$schema$41 = "../../schema/client-message-fragment.schema.json";
+	entries$42 = [
 		{
 			"key": "MSI_HK_BASICINFOWND_MINI",
 			"sourceText": "기본 정보 창 최소/최대",
@@ -206540,16 +206578,16 @@ var init_msgstrid = __esmMin((() => {
 		}
 	];
 	msgstrid_default = {
-		$schema: $schema$12,
-		entries: entries$13
+		$schema: $schema$41,
+		entries: entries$42
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/common.json
-var $schema$11, entries$12, common_default;
+var $schema$40, entries$41, common_default;
 var init_common = __esmMin((() => {
-	$schema$11 = "../../schema/client-message-fragment.schema.json";
-	entries$12 = [
+	$schema$40 = "../../schema/client-message-fragment.schema.json";
+	entries$41 = [
 		{
 			"key": "common.ok",
 			"sourceText": "OK",
@@ -206603,19 +206641,28 @@ var init_common = __esmMin((() => {
 				"en": "Minimize",
 				"zh-CN": "最小化"
 			}
+		},
+		{
+			"key": "common.input-number",
+			"sourceText": "Input number",
+			"context": "Quantity prompt shown when moving multiple items between inventory, storage, and cart.",
+			"translations": {
+				"en": "Input number",
+				"zh-CN": "输入数量"
+			}
 		}
 	];
 	common_default = {
-		$schema: $schema$11,
-		entries: entries$12
+		$schema: $schema$40,
+		entries: entries$41
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/auth.json
-var $schema$10, entries$11, auth_default;
+var $schema$39, entries$40, auth_default;
 var init_auth = __esmMin((() => {
-	$schema$10 = "../../schema/client-message-fragment.schema.json";
-	entries$11 = [
+	$schema$39 = "../../schema/client-message-fragment.schema.json";
+	entries$40 = [
 		{
 			"key": "win-login.account",
 			"sourceText": "Account",
@@ -206798,16 +206845,16 @@ var init_auth = __esmMin((() => {
 		}
 	];
 	auth_default = {
-		$schema: $schema$10,
-		entries: entries$11
+		$schema: $schema$39,
+		entries: entries$40
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/main-ui.json
-var $schema$9, entries$10, main_ui_default;
+var $schema$38, entries$39, main_ui_default;
 var init_main_ui = __esmMin((() => {
-	$schema$9 = "../../schema/client-message-fragment.schema.json";
-	entries$10 = [
+	$schema$38 = "../../schema/client-message-fragment.schema.json";
+	entries$39 = [
 		{
 			"key": "basic-info.title",
 			"sourceText": "Basic Information",
@@ -207323,16 +207370,16 @@ var init_main_ui = __esmMin((() => {
 		}
 	];
 	main_ui_default = {
-		$schema: $schema$9,
-		entries: entries$10
+		$schema: $schema$38,
+		entries: entries$39
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/chat.json
-var $schema$8, entries$9, chat_default;
+var $schema$37, entries$38, chat_default;
 var init_chat = __esmMin((() => {
-	$schema$8 = "../../schema/client-message-fragment.schema.json";
-	entries$9 = [
+	$schema$37 = "../../schema/client-message-fragment.schema.json";
+	entries$38 = [
 		{
 			"key": "chat-box.public-log",
 			"sourceText": "Public Log",
@@ -207731,16 +207778,2314 @@ var init_chat = __esmMin((() => {
 		}
 	];
 	chat_default = {
-		$schema: $schema$8,
-		entries: entries$9
+		$schema: $schema$37,
+		entries: entries$38
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/chat-room.json
+var $schema$36, entries$37, chat_room_default;
+var init_chat_room = __esmMin((() => {
+	$schema$36 = "../../schema/client-message-fragment.schema.json";
+	entries$37 = [
+		{
+			"key": "chat-room-create.title",
+			"sourceText": "Make a Room",
+			"context": "Title of the ChatRoomCreate window used to create a public or private chat room.",
+			"translations": {
+				"en": "Make a Room",
+				"zh-CN": "创建聊天室"
+			}
+		},
+		{
+			"key": "chat-room-create.field.title",
+			"sourceText": "Title :",
+			"context": "Label for the chat-room title field in ChatRoomCreate.",
+			"translations": {
+				"en": "Title :",
+				"zh-CN": "标题："
+			}
+		},
+		{
+			"key": "chat-room-create.field.limit",
+			"sourceText": "Limit :",
+			"context": "Label for the chat-room member-limit field in ChatRoomCreate.",
+			"translations": {
+				"en": "Limit :",
+				"zh-CN": "人数："
+			}
+		},
+		{
+			"key": "chat-room-create.field.type",
+			"sourceText": "Type :",
+			"context": "Label for the chat-room type field in ChatRoomCreate.",
+			"translations": {
+				"en": "Type :",
+				"zh-CN": "类型："
+			}
+		},
+		{
+			"key": "chat-room-create.type.chat-room",
+			"sourceText": "Chat Room",
+			"context": "Only selectable chat-room type in the current ChatRoomCreate form.",
+			"translations": {
+				"en": "Chat Room",
+				"zh-CN": "聊天室"
+			}
+		},
+		{
+			"key": "chat-room-create.field.restrict",
+			"sourceText": "Restrict :",
+			"context": "Label for the public or private access radios in ChatRoomCreate.",
+			"translations": {
+				"en": "Restrict :",
+				"zh-CN": "限制："
+			}
+		},
+		{
+			"key": "chat-room-create.public",
+			"sourceText": "Public",
+			"context": "Public access radio in ChatRoomCreate; HTML fallback is the abbreviated Púb.",
+			"translations": {
+				"en": "Public",
+				"zh-CN": "公开"
+			}
+		},
+		{
+			"key": "chat-room-create.private",
+			"sourceText": "Private",
+			"context": "Private access radio in ChatRoomCreate; HTML fallback is the abbreviated Priv.",
+			"translations": {
+				"en": "Private",
+				"zh-CN": "私密"
+			}
+		},
+		{
+			"key": "chat-room-create.field.password",
+			"sourceText": "Sign :",
+			"context": "Label for the optional chat-room password field in ChatRoomCreate.",
+			"translations": {
+				"en": "Sign :",
+				"zh-CN": "密码："
+			}
+		},
+		{
+			"key": "chat-room.menu.change-settings",
+			"sourceText": "Change room settings",
+			"context": "ChatRoom owner context-menu action that reopens ChatRoomCreate; English fallback in ChatRoom.js.",
+			"translations": {
+				"en": "Change room settings",
+				"zh-CN": "修改房间设置"
+			}
+		},
+		{
+			"key": "chat-room.menu.kick",
+			"sourceText": "Kick member",
+			"context": "ChatRoom owner context-menu action that requests expelling a member; English fallback in ChatRoom.js.",
+			"translations": {
+				"en": "Kick member",
+				"zh-CN": "踢出成员"
+			}
+		},
+		{
+			"key": "chat-room.menu.transfer",
+			"sourceText": "Transfer leadership",
+			"context": "ChatRoom owner context-menu action that requests transferring room ownership; English fallback in ChatRoom.js.",
+			"translations": {
+				"en": "Transfer leadership",
+				"zh-CN": "转让房主"
+			}
+		},
+		{
+			"key": "chat-room.menu.view-info",
+			"sourceText": "View Info %s",
+			"context": "ChatRoom member context-menu action that opens equipment info; %s is the member name. English fallback in ChatRoom.js.",
+			"translations": {
+				"en": "View Info %s",
+				"zh-CN": "查看信息 %s"
+			}
+		},
+		{
+			"key": "chat-room.menu.add-friend",
+			"sourceText": "Add as friend",
+			"context": "ChatRoom member context-menu action that sends a friend request; English fallback in ChatRoom.js.",
+			"translations": {
+				"en": "Add as friend",
+				"zh-CN": "加为好友"
+			}
+		}
+	];
+	chat_room_default = {
+		$schema: $schema$36,
+		entries: entries$37
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/party-friends.json
+var $schema$35, entries$36, party_friends_default;
+var init_party_friends = __esmMin((() => {
+	$schema$35 = "../../schema/client-message-fragment.schema.json";
+	entries$36 = [
+		{
+			"key": "party-friends.friends",
+			"sourceText": "Friends",
+			"context": "Friends tab title and footer radio in the 2021 PartyFriendsV1 window.",
+			"translations": {
+				"en": "Friends",
+				"zh-CN": "好友"
+			}
+		},
+		{
+			"key": "party-friends.party",
+			"sourceText": "Party",
+			"context": "Party tab title and footer radio in the 2021 PartyFriendsV1 window.",
+			"translations": {
+				"en": "Party",
+				"zh-CN": "队伍"
+			}
+		},
+		{
+			"key": "party-friends.send-message",
+			"sourceText": "Send Message",
+			"context": "Friend-tab mail button overlay in PartyFriendsV1.",
+			"translations": {
+				"en": "Send Message",
+				"zh-CN": "发送消息"
+			}
+		},
+		{
+			"key": "party-friends.chat-1to1",
+			"sourceText": "1:1 Chat",
+			"context": "Friend-tab private-chat button overlay in PartyFriendsV1.",
+			"translations": {
+				"en": "1:1 Chat",
+				"zh-CN": "一对一聊天"
+			}
+		},
+		{
+			"key": "party-friends.agency",
+			"sourceText": "Adventurer's Agency",
+			"context": "Party-tab adventurer agency button overlay in PartyFriendsV1.",
+			"translations": {
+				"en": "Adventurer's Agency",
+				"zh-CN": "冒险家中介"
+			}
+		},
+		{
+			"key": "party-friends.party-setup",
+			"sourceText": "Party Setup",
+			"context": "Party-tab setup button overlay and PartyHelper setup title.",
+			"translations": {
+				"en": "Party Setup",
+				"zh-CN": "队伍设置"
+			}
+		},
+		{
+			"key": "party-friends.friend-setup",
+			"sourceText": "Friend Setup",
+			"context": "Friend-tab setup button overlay and PartyHelper friend-setup title.",
+			"translations": {
+				"en": "Friend Setup",
+				"zh-CN": "好友设置"
+			}
+		},
+		{
+			"key": "party-friends.delete",
+			"sourceText": "Delete",
+			"context": "Friend-tab delete button overlay in PartyFriendsV1.",
+			"translations": {
+				"en": "Delete",
+				"zh-CN": "删除"
+			}
+		},
+		{
+			"key": "party-friends.lock-on",
+			"sourceText": "Activate lock function",
+			"context": "Overlay shown when the PartyFriends lock is off and can be enabled.",
+			"translations": {
+				"en": "Activate lock function",
+				"zh-CN": "启用锁定"
+			}
+		},
+		{
+			"key": "party-friends.lock-off",
+			"sourceText": "Deactivate lock function",
+			"context": "Overlay shown when the PartyFriends lock is on and can be disabled.",
+			"translations": {
+				"en": "Deactivate lock function",
+				"zh-CN": "关闭锁定"
+			}
+		},
+		{
+			"key": "party-friends.create-party",
+			"sourceText": "Create Party",
+			"context": "Party-tab create button overlay and PartyHelper create-window title.",
+			"translations": {
+				"en": "Create Party",
+				"zh-CN": "创建队伍"
+			}
+		},
+		{
+			"key": "party-friends.invite",
+			"sourceText": "Party Invitation",
+			"context": "Party-tab invite button overlay and PartyHelper invite-window title.",
+			"translations": {
+				"en": "Party Invitation",
+				"zh-CN": "邀请入队"
+			}
+		},
+		{
+			"key": "party-friends.leave",
+			"sourceText": "Leave Party",
+			"context": "Party-tab leave button overlay in PartyFriendsV1.",
+			"translations": {
+				"en": "Leave Party",
+				"zh-CN": "离开队伍"
+			}
+		},
+		{
+			"key": "party-friends.sort",
+			"sourceText": "Sort Mini Party Window",
+			"context": "Party-tab sort button overlay for detached member windows.",
+			"translations": {
+				"en": "Sort Mini Party Window",
+				"zh-CN": "整理迷你队伍窗"
+			}
+		},
+		{
+			"key": "party-friends.cap",
+			"sourceText": "Cap",
+			"context": "Party-tab footer label for the current and maximum member count.",
+			"translations": {
+				"en": "Cap",
+				"zh-CN": "上限"
+			}
+		},
+		{
+			"key": "party-friends.party-name",
+			"sourceText": "Party Name:",
+			"context": "PartyHelper create-window field label.",
+			"translations": {
+				"en": "Party Name:",
+				"zh-CN": "队伍名称："
+			}
+		},
+		{
+			"key": "party-friends.player-name",
+			"sourceText": "Player Name:",
+			"context": "PartyHelper invite-window field label.",
+			"translations": {
+				"en": "Player Name:",
+				"zh-CN": "角色名称："
+			}
+		},
+		{
+			"key": "party-friends.exp-share",
+			"sourceText": "How to share EXP",
+			"context": "PartyHelper experience-share section title.",
+			"translations": {
+				"en": "How to share EXP",
+				"zh-CN": "经验分配"
+			}
+		},
+		{
+			"key": "party-friends.item-share",
+			"sourceText": "How to share Items",
+			"context": "PartyHelper item-share section title.",
+			"translations": {
+				"en": "How to share Items",
+				"zh-CN": "物品分配"
+			}
+		},
+		{
+			"key": "party-friends.item-sharing-type",
+			"sourceText": "Item Sharing type",
+			"context": "PartyHelper item-division section title.",
+			"translations": {
+				"en": "Item Sharing type",
+				"zh-CN": "物品分配方式"
+			}
+		},
+		{
+			"key": "party-friends.each-take",
+			"sourceText": "Each Take",
+			"context": "PartyHelper option for keeping EXP or items individually.",
+			"translations": {
+				"en": "Each Take",
+				"zh-CN": "各自获得"
+			}
+		},
+		{
+			"key": "party-friends.even-share",
+			"sourceText": "Even Share",
+			"context": "PartyHelper option for even EXP share.",
+			"translations": {
+				"en": "Even Share",
+				"zh-CN": "平均分配"
+			}
+		},
+		{
+			"key": "party-friends.party-share",
+			"sourceText": "Party Share",
+			"context": "PartyHelper option for party item pickup.",
+			"translations": {
+				"en": "Party Share",
+				"zh-CN": "队伍分配"
+			}
+		},
+		{
+			"key": "party-friends.individual",
+			"sourceText": "Individual",
+			"context": "PartyHelper individual item-division option.",
+			"translations": {
+				"en": "Individual",
+				"zh-CN": "个人"
+			}
+		},
+		{
+			"key": "party-friends.shared",
+			"sourceText": "Shared",
+			"context": "PartyHelper shared item-division option.",
+			"translations": {
+				"en": "Shared",
+				"zh-CN": "共享"
+			}
+		},
+		{
+			"key": "party-friends.open-stranger",
+			"sourceText": "Open 1:1 Chat between Strangers",
+			"context": "PartyHelper friend-setup checkbox for whispers from strangers.",
+			"translations": {
+				"en": "Open 1:1 Chat between Strangers",
+				"zh-CN": "允许陌生人一对一聊天"
+			}
+		},
+		{
+			"key": "party-friends.open-friend",
+			"sourceText": "Open 1:1 Chat between Friends",
+			"context": "PartyHelper friend-setup checkbox for whispers from friends.",
+			"translations": {
+				"en": "Open 1:1 Chat between Friends",
+				"zh-CN": "允许好友一对一聊天"
+			}
+		},
+		{
+			"key": "party-friends.alarm",
+			"sourceText": "Alarm when receive a 1:1 Chat",
+			"context": "PartyHelper friend-setup checkbox for whisper notification sound.",
+			"translations": {
+				"en": "Alarm when receive a 1:1 Chat",
+				"zh-CN": "收到一对一聊天时提醒"
+			}
+		}
+	];
+	party_friends_default = {
+		$schema: $schema$35,
+		entries: entries$36
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/social.json
+var $schema$34, entries$35, social_default$1;
+var init_social$1 = __esmMin((() => {
+	$schema$34 = "../../schema/client-message-fragment.schema.json";
+	entries$35 = [
+		{
+			"key": "trade.title",
+			"sourceText": "Trade :",
+			"context": "Hard-coded Trade window title prefix before the other player's name.",
+			"translations": {
+				"en": "Trade :",
+				"zh-CN": "交易："
+			}
+		},
+		{
+			"key": "whisper.with",
+			"sourceText": "With %s",
+			"context": "WhisperBox title prefix; %s is the other player's name.",
+			"translations": {
+				"en": "With %s",
+				"zh-CN": "与 %s"
+			}
+		},
+		{
+			"key": "whisper.friend",
+			"sourceText": " (Friend)",
+			"context": "WhisperBox title suffix when the other player is on the friend list.",
+			"translations": {
+				"en": " (Friend)",
+				"zh-CN": "（好友）"
+			}
+		},
+		{
+			"key": "player-menu.trade",
+			"sourceText": "Trade with %s",
+			"context": "Player context-menu action that starts a trade; EntityControl.js TYPE_PC. %s is the player name.",
+			"translations": {
+				"en": "Trade with %s",
+				"zh-CN": "与 %s 交易"
+			}
+		},
+		{
+			"key": "player-menu.invite",
+			"sourceText": "Invite %s to party",
+			"context": "Player context-menu action that invites a player to the party; shown only to party leaders. %s is the player name.",
+			"translations": {
+				"en": "Invite %s to party",
+				"zh-CN": "邀请 %s 入队"
+			}
+		}
+	];
+	social_default$1 = {
+		$schema: $schema$34,
+		entries: entries$35
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/maps.json
+var $schema$33, entries$34, maps_default$1;
+var init_maps$1 = __esmMin((() => {
+	$schema$33 = "../../schema/client-message-fragment.schema.json";
+	entries$34 = [
+		{
+			"key": "world-map.show-monsters",
+			"sourceText": "Show Monsters",
+			"context": "WorldMap title-bar checkbox label that toggles monster level ranges.",
+			"translations": {
+				"en": "Show Monsters",
+				"zh-CN": "显示怪物"
+			}
+		},
+		{
+			"key": "navigation.title",
+			"sourceText": "Navigation",
+			"context": "Title of the Navigation window.",
+			"translations": {
+				"en": "Navigation",
+				"zh-CN": "导航"
+			}
+		},
+		{
+			"key": "navigation.search-all",
+			"sourceText": "ALL",
+			"context": "Navigation search-type option for all results.",
+			"translations": {
+				"en": "ALL",
+				"zh-CN": "全部"
+			}
+		},
+		{
+			"key": "navigation.search-npc",
+			"sourceText": "NPC",
+			"context": "Navigation search-type option for NPCs; official abbreviation retained in English.",
+			"translations": {
+				"en": "NPC",
+				"zh-CN": "NPC"
+			}
+		},
+		{
+			"key": "navigation.search-mob",
+			"sourceText": "MOB",
+			"context": "Navigation search-type option for monsters.",
+			"translations": {
+				"en": "MOB",
+				"zh-CN": "怪物"
+			}
+		},
+		{
+			"key": "navigation.search-placeholder",
+			"sourceText": "Search...",
+			"context": "Placeholder of the Navigation search input.",
+			"translations": {
+				"en": "Search...",
+				"zh-CN": "搜索..."
+			}
+		},
+		{
+			"key": "navigation.services",
+			"sourceText": "Services",
+			"context": "Navigation checkbox that shows town service icons.",
+			"translations": {
+				"en": "Services",
+				"zh-CN": "服务"
+			}
+		},
+		{
+			"key": "navigation.mouse",
+			"sourceText": "Mouse:",
+			"context": "Navigation footer label for the hovered map coordinate.",
+			"translations": {
+				"en": "Mouse:",
+				"zh-CN": "鼠标："
+			}
+		},
+		{
+			"key": "navigation.target",
+			"sourceText": "Target:",
+			"context": "Navigation footer label for the selected destination.",
+			"translations": {
+				"en": "Target:",
+				"zh-CN": "目标："
+			}
+		},
+		{
+			"key": "navigation.no-path",
+			"sourceText": " (no path found)",
+			"context": "Navigation target-coordinate suffix when MapPathFinder finds no route.",
+			"translations": {
+				"en": " (no path found)",
+				"zh-CN": "（未找到路径）"
+			}
+		}
+	];
+	maps_default$1 = {
+		$schema: $schema$33,
+		entries: entries$34
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/quest.json
+var $schema$32, entries$33, quest_default;
+var init_quest = __esmMin((() => {
+	$schema$32 = "../../schema/client-message-fragment.schema.json";
+	entries$33 = [
+		{
+			"key": "quest.title",
+			"sourceText": "Quest Information",
+			"context": "Title of the 2021 renewal Quest list window and QuestHelper detail window.",
+			"translations": {
+				"en": "Quest Information",
+				"zh-CN": "任务信息"
+			}
+		},
+		{
+			"key": "quest.show",
+			"sourceText": "Show Quest",
+			"context": "Footer toggle that shows or hides the companion QuestWindow list.",
+			"translations": {
+				"en": "Show Quest",
+				"zh-CN": "显示任务"
+			}
+		},
+		{
+			"key": "quest.description",
+			"sourceText": "Description",
+			"context": "QuestHelper section title for the quest description.",
+			"translations": {
+				"en": "Description",
+				"zh-CN": "描述"
+			}
+		},
+		{
+			"key": "quest.monster",
+			"sourceText": "Monster",
+			"context": "QuestHelper section title for hunt targets.",
+			"translations": {
+				"en": "Monster",
+				"zh-CN": "怪物"
+			}
+		},
+		{
+			"key": "quest.reward",
+			"sourceText": "Reward",
+			"context": "QuestHelper section title for quest rewards.",
+			"translations": {
+				"en": "Reward",
+				"zh-CN": "奖励"
+			}
+		},
+		{
+			"key": "quest.exp",
+			"sourceText": "EXP",
+			"context": "QuestHelper base-experience reward label.",
+			"translations": {
+				"en": "EXP",
+				"zh-CN": "基础经验"
+			}
+		},
+		{
+			"key": "quest.jexp",
+			"sourceText": "JEXP",
+			"context": "QuestHelper job-experience reward label.",
+			"translations": {
+				"en": "JEXP",
+				"zh-CN": "职业经验"
+			}
+		},
+		{
+			"key": "quest.item",
+			"sourceText": "Item",
+			"context": "QuestHelper item-reward label.",
+			"translations": {
+				"en": "Item",
+				"zh-CN": "物品"
+			}
+		}
+	];
+	quest_default = {
+		$schema: $schema$32,
+		entries: entries$33
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/economy.json
+var $schema$31, entries$32, economy_default;
+var init_economy = __esmMin((() => {
+	$schema$31 = "../../schema/client-message-fragment.schema.json";
+	entries$32 = [
+		{
+			"key": "npc-store.available-sell",
+			"sourceText": "Available Items for selling",
+			"context": "NpcStore sell-mode input window title.",
+			"translations": {
+				"en": "Available Items for selling",
+				"zh-CN": "可出售物品"
+			}
+		},
+		{
+			"key": "npc-store.shop-items",
+			"sourceText": "Shop Items",
+			"context": "NpcStore buy-mode input window title.",
+			"translations": {
+				"en": "Shop Items",
+				"zh-CN": "商店物品"
+			}
+		},
+		{
+			"key": "npc-store.merchant-shop",
+			"sourceText": "Merchant Shop",
+			"context": "NpcStore vending-store input window title prefix.",
+			"translations": {
+				"en": "Merchant Shop",
+				"zh-CN": "商人商店"
+			}
+		},
+		{
+			"key": "npc-store.items-wanted",
+			"sourceText": "Items wanted",
+			"context": "NpcStore buying-store input window title prefix.",
+			"translations": {
+				"en": "Items wanted",
+				"zh-CN": "求购物品"
+			}
+		},
+		{
+			"key": "npc-store.points",
+			"sourceText": "Point(s)",
+			"context": "NpcStore cash-shop points unit.",
+			"translations": {
+				"en": "Point(s)",
+				"zh-CN": "点"
+			}
+		},
+		{
+			"key": "npc-store.skip-quantity",
+			"sourceText": "Don't ask the Quantity of Items",
+			"context": "NpcStore sell-mode checkbox that skips the quantity prompt.",
+			"translations": {
+				"en": "Don't ask the Quantity of Items",
+				"zh-CN": "不再询问物品数量"
+			}
+		},
+		{
+			"key": "npc-store.selling-items",
+			"sourceText": "Selling Items",
+			"context": "NpcStore sell/buying-store output window title.",
+			"translations": {
+				"en": "Selling Items",
+				"zh-CN": "出售清单"
+			}
+		},
+		{
+			"key": "npc-store.buying-items",
+			"sourceText": "Buying Items",
+			"context": "NpcStore buy/vending-store output window title.",
+			"translations": {
+				"en": "Buying Items",
+				"zh-CN": "购买清单"
+			}
+		},
+		{
+			"key": "npc-store.total",
+			"sourceText": "Total :",
+			"context": "NpcStore output footer total label.",
+			"translations": {
+				"en": "Total :",
+				"zh-CN": "合计："
+			}
+		},
+		{
+			"key": "npc-store.zeny",
+			"sourceText": "Zeny",
+			"context": "NpcStore zeny currency unit.",
+			"translations": {
+				"en": "Zeny",
+				"zh-CN": "Zeny"
+			}
+		},
+		{
+			"key": "npc-store.point",
+			"sourceText": "Point",
+			"context": "NpcStore cash-shop point currency unit.",
+			"translations": {
+				"en": "Point",
+				"zh-CN": "点"
+			}
+		},
+		{
+			"key": "npc-store.available-items",
+			"sourceText": "Available Items",
+			"context": "NpcStore buying-store available-items window title.",
+			"translations": {
+				"en": "Available Items",
+				"zh-CN": "可用物品"
+			}
+		},
+		{
+			"key": "storage.title",
+			"sourceText": "Storage",
+			"context": "Storage V0/V3 window title fallback.",
+			"translations": {
+				"en": "Storage",
+				"zh-CN": "仓库"
+			}
+		},
+		{
+			"key": "storage.filter-title",
+			"sourceText": "Item Filter",
+			"context": "Storage V3 filter sub-window title.",
+			"translations": {
+				"en": "Item Filter",
+				"zh-CN": "物品筛选"
+			}
+		},
+		{
+			"key": "storage.order.base",
+			"sourceText": "Base",
+			"context": "Storage V3 order-by option for the default item order.",
+			"translations": {
+				"en": "Base",
+				"zh-CN": "默认"
+			}
+		},
+		{
+			"key": "storage.order.upgrade",
+			"sourceText": "Upgrade",
+			"context": "Storage V3 order-by option that sorts by higher refine first.",
+			"translations": {
+				"en": "Upgrade",
+				"zh-CN": "精炼升序"
+			}
+		},
+		{
+			"key": "storage.order.downgrade",
+			"sourceText": "Downgrade",
+			"context": "Storage V3 order-by option that sorts by lower refine first.",
+			"translations": {
+				"en": "Downgrade",
+				"zh-CN": "精炼降序"
+			}
+		},
+		{
+			"key": "vending.available-sell",
+			"sourceText": "Available Items for Vending",
+			"context": "Vending setup input window title in sell mode.",
+			"translations": {
+				"en": "Available Items for Vending",
+				"zh-CN": "可摆摊物品"
+			}
+		},
+		{
+			"key": "vending.available-buy",
+			"sourceText": "Available Items for Buying",
+			"context": "Vending setup input window title in buying-store mode.",
+			"translations": {
+				"en": "Available Items for Buying",
+				"zh-CN": "可求购物品"
+			}
+		},
+		{
+			"key": "vending.title",
+			"sourceText": "Vending",
+			"context": "Vending setup output window title in sell mode.",
+			"translations": {
+				"en": "Vending",
+				"zh-CN": "摆摊"
+			}
+		},
+		{
+			"key": "vending.buying",
+			"sourceText": "Buying",
+			"context": "Vending setup output window title in buying-store mode.",
+			"translations": {
+				"en": "Buying",
+				"zh-CN": "求购"
+			}
+		},
+		{
+			"key": "vending.name",
+			"sourceText": "Name",
+			"context": "Vending shop-name field label.",
+			"translations": {
+				"en": "Name",
+				"zh-CN": "名称"
+			}
+		},
+		{
+			"key": "vending.zeny",
+			"sourceText": "Zeny",
+			"context": "Vending zeny field and currency label.",
+			"translations": {
+				"en": "Zeny",
+				"zh-CN": "Zeny"
+			}
+		},
+		{
+			"key": "vending.weight",
+			"sourceText": "Weight:",
+			"context": "Vending buying-store weight label. Source HTML misspells it as Weigth.",
+			"translations": {
+				"en": "Weight:",
+				"zh-CN": "负重："
+			}
+		},
+		{
+			"key": "vending.purchase-limit",
+			"sourceText": "Purchase Zeny Limit",
+			"context": "Vending buying-store purchase zeny limit label.",
+			"translations": {
+				"en": "Purchase Zeny Limit",
+				"zh-CN": "购买金额上限"
+			}
+		},
+		{
+			"key": "vending.message",
+			"sourceText": "Message",
+			"context": "Vending confirmation dialog title.",
+			"translations": {
+				"en": "Message",
+				"zh-CN": "提示"
+			}
+		},
+		{
+			"key": "enchant.title",
+			"sourceText": "Enchant",
+			"context": "Enchant window title.",
+			"translations": {
+				"en": "Enchant",
+				"zh-CN": "附魔"
+			}
+		},
+		{
+			"key": "enchant.normal",
+			"sourceText": "Normal",
+			"context": "Enchant tab that fills the next empty slot.",
+			"translations": {
+				"en": "Normal",
+				"zh-CN": "普通"
+			}
+		},
+		{
+			"key": "enchant.perfect",
+			"sourceText": "Perfect",
+			"context": "Enchant tab that applies a chosen enchant.",
+			"translations": {
+				"en": "Perfect",
+				"zh-CN": "完美"
+			}
+		},
+		{
+			"key": "enchant.upgrade",
+			"sourceText": "Upgrade",
+			"context": "Enchant tab that upgrades an existing enchant.",
+			"translations": {
+				"en": "Upgrade",
+				"zh-CN": "升级"
+			}
+		},
+		{
+			"key": "enchant.reset",
+			"sourceText": "Reset",
+			"context": "Enchant tab that clears all enchant slots.",
+			"translations": {
+				"en": "Reset",
+				"zh-CN": "重置"
+			}
+		},
+		{
+			"key": "enchant.hint-next-slot",
+			"sourceText": "Uses the next available slot.",
+			"context": "Enchant hint under the Normal tab.",
+			"translations": {
+				"en": "Uses the next available slot.",
+				"zh-CN": "使用下一个可用孔位。"
+			}
+		},
+		{
+			"key": "enchant.hint-reset",
+			"sourceText": "Resets all enchant slots.",
+			"context": "Enchant hint under the Reset tab.",
+			"translations": {
+				"en": "Resets all enchant slots.",
+				"zh-CN": "重置全部附魔孔位。"
+			}
+		},
+		{
+			"key": "enchant.tax",
+			"sourceText": "TAX",
+			"context": "Enchant zeny-cost label.",
+			"translations": {
+				"en": "TAX",
+				"zh-CN": "税费"
+			}
+		},
+		{
+			"key": "item-compare.read",
+			"sourceText": "Read",
+			"context": "ItemCompare overlay label for opening a book.",
+			"translations": {
+				"en": "Read",
+				"zh-CN": "阅读"
+			}
+		},
+		{
+			"key": "item-compare.auto-read",
+			"sourceText": "Auto Read",
+			"context": "ItemCompare overlay label for auto-reading a book.",
+			"translations": {
+				"en": "Auto Read",
+				"zh-CN": "自动阅读"
+			}
+		},
+		{
+			"key": "make-item.storage",
+			"sourceText": "Storage",
+			"context": "Make-item material list window title fallback.",
+			"translations": {
+				"en": "Storage",
+				"zh-CN": "材料栏"
+			}
+		},
+		{
+			"key": "make-item.skip-quantity",
+			"sourceText": "Don't ask the Quantity of Items",
+			"context": "Make-item material list checkbox that skips the quantity prompt.",
+			"translations": {
+				"en": "Don't ask the Quantity of Items",
+				"zh-CN": "不再询问物品数量"
+			}
+		},
+		{
+			"key": "make-item.message",
+			"sourceText": "Message",
+			"context": "Make-item confirmation dialog title.",
+			"translations": {
+				"en": "Message",
+				"zh-CN": "提示"
+			}
+		},
+		{
+			"key": "make-item.confirm-consume",
+			"sourceText": "Consumption items are used in the synthesis. Are you sure?",
+			"context": "Make-item confirmation body for consuming materials.",
+			"translations": {
+				"en": "Consumption items are used in the synthesis. Are you sure?",
+				"zh-CN": "合成将消耗这些物品。确定吗？"
+			}
+		}
+	];
+	economy_default = {
+		$schema: $schema$31,
+		entries: entries$32
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/guild.json
+var $schema$30, entries$31, guild_default;
+var init_guild = __esmMin((() => {
+	$schema$30 = "../../schema/client-message-fragment.schema.json";
+	entries$31 = [
+		{
+			"key": "guild.skill-points",
+			"sourceText": "Skill Points:",
+			"context": "Guild skill tab remaining skill-point label.",
+			"translations": {
+				"en": "Skill Points:",
+				"zh-CN": "技能点："
+			}
+		},
+		{
+			"key": "guild.disband",
+			"sourceText": "Disband",
+			"context": "Guild info-tab button shown to the guild master.",
+			"translations": {
+				"en": "Disband",
+				"zh-CN": "解散"
+			}
+		},
+		{
+			"key": "guild.disband-storage-warning",
+			"sourceText": "If you are using a guild storage, all items inside it will disappear.",
+			"context": "Confirmation shown before the guild master disbands the guild.",
+			"translations": {
+				"en": "If you are using a guild storage, all items inside it will disappear.",
+				"zh-CN": "如果正在使用公会仓库，其中的物品将会消失。"
+			}
+		},
+		{
+			"key": "guild-companion.title",
+			"sourceText": "Guild Companion",
+			"context": "Guild companion prompt title when the player has no guild.",
+			"translations": {
+				"en": "Guild Companion",
+				"zh-CN": "公会助手"
+			}
+		},
+		{
+			"key": "guild-companion.join-or-create",
+			"sourceText": "Join a guild or start your own!",
+			"context": "Guild companion prompt body.",
+			"translations": {
+				"en": "Join a guild or start your own!",
+				"zh-CN": "加入公会或创建自己的公会！"
+			}
+		},
+		{
+			"key": "guild-companion.create-guild",
+			"sourceText": "create guild",
+			"context": "Guild companion button that opens the create-guild name box.",
+			"translations": {
+				"en": "create guild",
+				"zh-CN": "创建公会"
+			}
+		},
+		{
+			"key": "guild-companion.ok",
+			"sourceText": "OK",
+			"context": "Guild companion OK button.",
+			"translations": {
+				"en": "OK",
+				"zh-CN": "确定"
+			}
+		},
+		{
+			"key": "guild-companion.create-title",
+			"sourceText": "Create Guild",
+			"context": "Create-guild name box title.",
+			"translations": {
+				"en": "Create Guild",
+				"zh-CN": "创建公会"
+			}
+		},
+		{
+			"key": "guild-companion.guild-name",
+			"sourceText": "Guild Name",
+			"context": "Create-guild name field label.",
+			"translations": {
+				"en": "Guild Name",
+				"zh-CN": "公会名称"
+			}
+		},
+		{
+			"key": "guild-companion.cancel",
+			"sourceText": "cancel",
+			"context": "Create-guild name box cancel button.",
+			"translations": {
+				"en": "cancel",
+				"zh-CN": "取消"
+			}
+		},
+		{
+			"key": "guild-companion.disband-title",
+			"sourceText": "Disband the Guild",
+			"context": "Disband-guild name box title.",
+			"translations": {
+				"en": "Disband the Guild",
+				"zh-CN": "解散公会"
+			}
+		},
+		{
+			"key": "guild-companion.enter-guild-name",
+			"sourceText": "Enter Guild Name",
+			"context": "Disband-guild name field label.",
+			"translations": {
+				"en": "Enter Guild Name",
+				"zh-CN": "输入公会名称"
+			}
+		}
+	];
+	guild_default = {
+		$schema: $schema$30,
+		entries: entries$31
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/companions.json
+var $schema$29, entries$30, companions_default;
+var init_companions = __esmMin((() => {
+	$schema$29 = "../../schema/client-message-fragment.schema.json";
+	entries$30 = [
+		{
+			"key": "pet.title",
+			"sourceText": "Pet Info",
+			"context": "Pet information window title fallback.",
+			"translations": {
+				"en": "Pet Info",
+				"zh-CN": "宠物信息"
+			}
+		},
+		{
+			"key": "pet.name",
+			"sourceText": "Name",
+			"context": "Pet information name field label.",
+			"translations": {
+				"en": "Name",
+				"zh-CN": "名称"
+			}
+		},
+		{
+			"key": "pet.level",
+			"sourceText": "Level",
+			"context": "Pet information level field label.",
+			"translations": {
+				"en": "Level",
+				"zh-CN": "等级"
+			}
+		},
+		{
+			"key": "pet.hunger",
+			"sourceText": "Hunger",
+			"context": "Pet information hunger field label.",
+			"translations": {
+				"en": "Hunger",
+				"zh-CN": "饥饿"
+			}
+		},
+		{
+			"key": "pet.intimacy",
+			"sourceText": "Intimacy",
+			"context": "Pet information intimacy field label.",
+			"translations": {
+				"en": "Intimacy",
+				"zh-CN": "亲密度"
+			}
+		},
+		{
+			"key": "pet.accessory",
+			"sourceText": "Accessory",
+			"context": "Pet information accessory field label.",
+			"translations": {
+				"en": "Accessory",
+				"zh-CN": "饰品"
+			}
+		},
+		{
+			"key": "pet.equipped",
+			"sourceText": "Equipped",
+			"context": "Pet information accessory status fallback.",
+			"translations": {
+				"en": "Equipped",
+				"zh-CN": "已装备"
+			}
+		},
+		{
+			"key": "pet.auto-feed",
+			"sourceText": "Auto Feeding",
+			"context": "Pet information auto-feed checkbox label fallback.",
+			"translations": {
+				"en": "Auto Feeding",
+				"zh-CN": "自动喂食"
+			}
+		},
+		{
+			"key": "pet.command",
+			"sourceText": "< Command >",
+			"context": "Pet information default command option.",
+			"translations": {
+				"en": "< Command >",
+				"zh-CN": "< 指令 >"
+			}
+		},
+		{
+			"key": "homunculus.title",
+			"sourceText": "Homunculus Info",
+			"context": "Homunculus information window title.",
+			"translations": {
+				"en": "Homunculus Info",
+				"zh-CN": "生命体信息"
+			}
+		},
+		{
+			"key": "homunculus.name",
+			"sourceText": "Name",
+			"context": "Homunculus information name field label.",
+			"translations": {
+				"en": "Name",
+				"zh-CN": "名称"
+			}
+		},
+		{
+			"key": "homunculus.level",
+			"sourceText": "Level",
+			"context": "Homunculus information level field label.",
+			"translations": {
+				"en": "Level",
+				"zh-CN": "等级"
+			}
+		},
+		{
+			"key": "homunculus.exp",
+			"sourceText": "EXP",
+			"context": "Homunculus information experience field label.",
+			"translations": {
+				"en": "EXP",
+				"zh-CN": "经验"
+			}
+		},
+		{
+			"key": "homunculus.hunger",
+			"sourceText": "Hunger",
+			"context": "Homunculus information hunger field label.",
+			"translations": {
+				"en": "Hunger",
+				"zh-CN": "饥饿"
+			}
+		},
+		{
+			"key": "homunculus.intimacy",
+			"sourceText": "Intimacy",
+			"context": "Homunculus information intimacy field label.",
+			"translations": {
+				"en": "Intimacy",
+				"zh-CN": "亲密度"
+			}
+		},
+		{
+			"key": "homunculus.auto-feed",
+			"sourceText": "Auto Feeding",
+			"context": "Homunculus information auto-feed checkbox label.",
+			"translations": {
+				"en": "Auto Feeding",
+				"zh-CN": "自动喂食"
+			}
+		},
+		{
+			"key": "homunculus.skills",
+			"sourceText": "Homunculus Skills",
+			"context": "Homunculus skill-list window title.",
+			"translations": {
+				"en": "Homunculus Skills",
+				"zh-CN": "生命体技能"
+			}
+		},
+		{
+			"key": "mercenary.title",
+			"sourceText": "Mercenary Info",
+			"context": "Mercenary information window title.",
+			"translations": {
+				"en": "Mercenary Info",
+				"zh-CN": "佣兵信息"
+			}
+		},
+		{
+			"key": "mercenary.name",
+			"sourceText": "Name",
+			"context": "Mercenary information name field label.",
+			"translations": {
+				"en": "Name",
+				"zh-CN": "名称"
+			}
+		},
+		{
+			"key": "mercenary.level",
+			"sourceText": "Level",
+			"context": "Mercenary information level field label.",
+			"translations": {
+				"en": "Level",
+				"zh-CN": "等级"
+			}
+		},
+		{
+			"key": "mercenary.time-left",
+			"sourceText": "Time Left",
+			"context": "Mercenary information remaining-time field label.",
+			"translations": {
+				"en": "Time Left",
+				"zh-CN": "剩余时间"
+			}
+		},
+		{
+			"key": "mercenary.kills",
+			"sourceText": "Kills",
+			"context": "Mercenary information kill-count field label.",
+			"translations": {
+				"en": "Kills",
+				"zh-CN": "击杀"
+			}
+		},
+		{
+			"key": "mercenary.faith",
+			"sourceText": "Faith",
+			"context": "Mercenary information faith field label.",
+			"translations": {
+				"en": "Faith",
+				"zh-CN": "忠诚"
+			}
+		},
+		{
+			"key": "mercenary.skills",
+			"sourceText": "Mercenary Skills",
+			"context": "Mercenary skill-list window title.",
+			"translations": {
+				"en": "Mercenary Skills",
+				"zh-CN": "佣兵技能"
+			}
+		}
+	];
+	companions_default = {
+		$schema: $schema$29,
+		entries: entries$30
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/systems.json
+var $schema$28, entries$29, systems_default;
+var init_systems = __esmMin((() => {
+	$schema$28 = "../../schema/client-message-fragment.schema.json";
+	entries$29 = [
+		{
+			"key": "mail.list",
+			"sourceText": "Mail List",
+			"context": "Mail window title in inbox mode.",
+			"translations": {
+				"en": "Mail List",
+				"zh-CN": "邮件列表"
+			}
+		},
+		{
+			"key": "mail.write",
+			"sourceText": "Write Mail",
+			"context": "Mail window title in compose mode.",
+			"translations": {
+				"en": "Write Mail",
+				"zh-CN": "写邮件"
+			}
+		},
+		{
+			"key": "mail.read",
+			"sourceText": "Read Mail",
+			"context": "ReadMail window title.",
+			"translations": {
+				"en": "Read Mail",
+				"zh-CN": "阅读邮件"
+			}
+		},
+		{
+			"key": "mail.prev",
+			"sourceText": "Prev",
+			"context": "Mail inbox previous-page label.",
+			"translations": {
+				"en": "Prev",
+				"zh-CN": "上一页"
+			}
+		},
+		{
+			"key": "mail.next",
+			"sourceText": "Next",
+			"context": "Mail inbox next-page label.",
+			"translations": {
+				"en": "Next",
+				"zh-CN": "下一页"
+			}
+		},
+		{
+			"key": "mail.to",
+			"sourceText": "To",
+			"context": "Mail compose recipient label.",
+			"translations": {
+				"en": "To",
+				"zh-CN": "收件人"
+			}
+		},
+		{
+			"key": "mail.title",
+			"sourceText": "Title",
+			"context": "Mail compose subject label.",
+			"translations": {
+				"en": "Title",
+				"zh-CN": "标题"
+			}
+		},
+		{
+			"key": "cash-shop.sell-list",
+			"sourceText": "Sell List",
+			"context": "CashShop window title.",
+			"translations": {
+				"en": "Sell List",
+				"zh-CN": "出售列表"
+			}
+		},
+		{
+			"key": "cash-shop.buy-list",
+			"sourceText": "Buy List",
+			"context": "CashShop cart header title.",
+			"translations": {
+				"en": "Buy List",
+				"zh-CN": "购买清单"
+			}
+		},
+		{
+			"key": "cash-shop.tab.new",
+			"sourceText": "New",
+			"context": "CashShop tab hover title for new items.",
+			"translations": {
+				"en": "New",
+				"zh-CN": "新品"
+			}
+		},
+		{
+			"key": "cash-shop.tab.popular",
+			"sourceText": "Popular",
+			"context": "CashShop tab hover title for popular items.",
+			"translations": {
+				"en": "Popular",
+				"zh-CN": "热门"
+			}
+		},
+		{
+			"key": "cash-shop.tab.limited",
+			"sourceText": "Limited Sale",
+			"context": "CashShop tab hover title for limited-sale items.",
+			"translations": {
+				"en": "Limited Sale",
+				"zh-CN": "限时特卖"
+			}
+		},
+		{
+			"key": "cash-shop.tab.rental",
+			"sourceText": "Rental Equipment",
+			"context": "CashShop tab hover title for rental equipment.",
+			"translations": {
+				"en": "Rental Equipment",
+				"zh-CN": "租赁装备"
+			}
+		},
+		{
+			"key": "cash-shop.tab.permanent",
+			"sourceText": "Permanent Equipment",
+			"context": "CashShop tab hover title for permanent equipment.",
+			"translations": {
+				"en": "Permanent Equipment",
+				"zh-CN": "永久装备"
+			}
+		},
+		{
+			"key": "cash-shop.tab.scrolls",
+			"sourceText": "Scrolls",
+			"context": "CashShop tab hover title for scrolls.",
+			"translations": {
+				"en": "Scrolls",
+				"zh-CN": "卷轴"
+			}
+		},
+		{
+			"key": "cash-shop.tab.consumables",
+			"sourceText": "Consumables",
+			"context": "CashShop tab hover title for consumables.",
+			"translations": {
+				"en": "Consumables",
+				"zh-CN": "消耗品"
+			}
+		},
+		{
+			"key": "cash-shop.tab.other",
+			"sourceText": "Other",
+			"context": "CashShop tab hover title for other items.",
+			"translations": {
+				"en": "Other",
+				"zh-CN": "其他"
+			}
+		},
+		{
+			"key": "cash-shop.tab.account-limited",
+			"sourceText": "Account Limited",
+			"context": "CashShop tab hover title for account-limited items.",
+			"translations": {
+				"en": "Account Limited",
+				"zh-CN": "账号限定"
+			}
+		},
+		{
+			"key": "cash-shop.search",
+			"sourceText": "Item Search",
+			"context": "CashShop search input placeholder.",
+			"translations": {
+				"en": "Item Search",
+				"zh-CN": "搜索物品"
+			}
+		},
+		{
+			"key": "cash-shop.charging",
+			"sourceText": "Charging",
+			"context": "CashShop charge button label.",
+			"translations": {
+				"en": "Charging",
+				"zh-CN": "充值"
+			}
+		},
+		{
+			"key": "cash-shop.free-points",
+			"sourceText": "Free Points",
+			"context": "CashShop cart footer free-points label.",
+			"translations": {
+				"en": "Free Points",
+				"zh-CN": "免费点数"
+			}
+		},
+		{
+			"key": "cash-shop.use-free-points",
+			"sourceText": "Use Free Points",
+			"context": "CashShop cart footer use-free-points label.",
+			"translations": {
+				"en": "Use Free Points",
+				"zh-CN": "使用免费点数"
+			}
+		},
+		{
+			"key": "cash-shop.cash-point",
+			"sourceText": "Cash Point",
+			"context": "CashShop cart footer cash-point label.",
+			"translations": {
+				"en": "Cash Point",
+				"zh-CN": "现金点数"
+			}
+		},
+		{
+			"key": "cash-shop.purchase",
+			"sourceText": "Purchase",
+			"context": "CashShop purchase button label.",
+			"translations": {
+				"en": "Purchase",
+				"zh-CN": "购买"
+			}
+		},
+		{
+			"key": "roulette.title",
+			"sourceText": "Roulette",
+			"context": "Roulette window title.",
+			"translations": {
+				"en": "Roulette",
+				"zh-CN": "轮盘"
+			}
+		},
+		{
+			"key": "roulette.points",
+			"sourceText": "Points:",
+			"context": "Roulette points label.",
+			"translations": {
+				"en": "Points:",
+				"zh-CN": "点数："
+			}
+		},
+		{
+			"key": "roulette.spin",
+			"sourceText": "Spin",
+			"context": "Roulette start-spin button label.",
+			"translations": {
+				"en": "Spin",
+				"zh-CN": "开始"
+			}
+		},
+		{
+			"key": "roulette.info",
+			"sourceText": "Info",
+			"context": "Roulette info button label.",
+			"translations": {
+				"en": "Info",
+				"zh-CN": "说明"
+			}
+		},
+		{
+			"key": "roulette.get-prize",
+			"sourceText": "Get Prize",
+			"context": "Roulette claim-prize button label.",
+			"translations": {
+				"en": "Get Prize",
+				"zh-CN": "领取奖品"
+			}
+		},
+		{
+			"key": "roulette.result",
+			"sourceText": "Result:",
+			"context": "Roulette result label.",
+			"translations": {
+				"en": "Result:",
+				"zh-CN": "结果："
+			}
+		},
+		{
+			"key": "attendance.check-reward",
+			"sourceText": "Check Reward",
+			"context": "CheckAttendance top-panel title.",
+			"translations": {
+				"en": "Check Reward",
+				"zh-CN": "签到奖励"
+			}
+		},
+		{
+			"key": "attendance.day",
+			"sourceText": "Day",
+			"context": "CheckAttendance remaining-days unit.",
+			"translations": {
+				"en": "Day",
+				"zh-CN": "天"
+			}
+		},
+		{
+			"key": "attendance.close",
+			"sourceText": "Close",
+			"context": "CheckAttendance close button label.",
+			"translations": {
+				"en": "Close",
+				"zh-CN": "关闭"
+			}
+		},
+		{
+			"key": "attendance.period",
+			"sourceText": "Event Period: From %s/%s ~ Until %s/%s (Month/Day) 24:00",
+			"context": "CheckAttendance event period line.",
+			"translations": {
+				"en": "Event Period: From %s/%s ~ Until %s/%s (Month/Day) 24:00",
+				"zh-CN": "活动期间：%s/%s ~ %s/%s（月/日）24:00"
+			}
+		},
+		{
+			"key": "attendance.success",
+			"sourceText": "%d Day attendance success",
+			"context": "CheckAttendance success status after claiming or completing days.",
+			"translations": {
+				"en": "%d Day attendance success",
+				"zh-CN": "已连续签到 %d 天"
+			}
+		},
+		{
+			"key": "attendance.claim",
+			"sourceText": "Click the item to claim day %d reward",
+			"context": "CheckAttendance prompt to claim the current day reward.",
+			"translations": {
+				"en": "Click the item to claim day %d reward",
+				"zh-CN": "点击物品领取第 %d 天奖励"
+			}
+		},
+		{
+			"key": "attendance.day-slot",
+			"sourceText": "%d Day",
+			"context": "CheckAttendance day-slot label under each reward.",
+			"translations": {
+				"en": "%d Day",
+				"zh-CN": "第 %d 天"
+			}
+		},
+		{
+			"key": "attendance.none",
+			"sourceText": "Currently there is no attendance check event.",
+			"context": "Chat notice when CheckAttendance opens with no event data.",
+			"translations": {
+				"en": "Currently there is no attendance check event.",
+				"zh-CN": "当前没有签到活动。"
+			}
+		},
+		{
+			"key": "reputation.group",
+			"sourceText": "GROUP:",
+			"context": "Reputation window selected-group label.",
+			"translations": {
+				"en": "GROUP:",
+				"zh-CN": "分组："
+			}
+		},
+		{
+			"key": "captcha.monitor",
+			"sourceText": "Hello, illegal software is being monitored.",
+			"context": "CaptchaAnswer first instruction line.",
+			"translations": {
+				"en": "Hello, illegal software is being monitored.",
+				"zh-CN": "正在监测非法软件。"
+			}
+		},
+		{
+			"key": "captcha.enter-text",
+			"sourceText": "Please enter the text below within the specified time.",
+			"context": "CaptchaAnswer second instruction line.",
+			"translations": {
+				"en": "Please enter the text below within the specified time.",
+				"zh-CN": "请在限定时间内输入下方文字。"
+			}
+		},
+		{
+			"key": "captcha.ban-warning",
+			"sourceText": "If you enter the text wrong three times, you will get banned",
+			"context": "CaptchaAnswer third instruction line.",
+			"translations": {
+				"en": "If you enter the text wrong three times, you will get banned",
+				"zh-CN": "连续输错三次将被封禁"
+			}
+		},
+		{
+			"key": "captcha.answer",
+			"sourceText": "Captcha Answer",
+			"context": "Captcha answer input placeholder.",
+			"translations": {
+				"en": "Captcha Answer",
+				"zh-CN": "验证码答案"
+			}
+		},
+		{
+			"key": "captcha.remaining-chance",
+			"sourceText": "Remaining chance: %d",
+			"context": "CaptchaAnswer remaining-attempt label.",
+			"translations": {
+				"en": "Remaining chance: %d",
+				"zh-CN": "剩余次数：%d"
+			}
+		},
+		{
+			"key": "captcha.no-file",
+			"sourceText": "No file selected",
+			"context": "CaptchaUpload file-name placeholder.",
+			"translations": {
+				"en": "No file selected",
+				"zh-CN": "未选择文件"
+			}
+		}
+	];
+	systems_default = {
+		$schema: $schema$28,
+		entries: entries$29
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/options.json
+var $schema$27, entries$28, options_default;
+var init_options = __esmMin((() => {
+	$schema$27 = "../../schema/client-message-fragment.schema.json";
+	entries$28 = [
+		{
+			"key": "graphics.title",
+			"sourceText": "Graphics Settings",
+			"context": "GraphicsOption window title.",
+			"translations": {
+				"en": "Graphics Settings",
+				"zh-CN": "图形设置"
+			}
+		},
+		{
+			"key": "graphics.tab.basic",
+			"sourceText": "Basic",
+			"context": "GraphicsOption basic tab.",
+			"translations": {
+				"en": "Basic",
+				"zh-CN": "基本"
+			}
+		},
+		{
+			"key": "graphics.tab.advanced",
+			"sourceText": "Advanced",
+			"context": "GraphicsOption advanced tab.",
+			"translations": {
+				"en": "Advanced",
+				"zh-CN": "高级"
+			}
+		},
+		{
+			"key": "graphics.details",
+			"sourceText": "Details",
+			"context": "GraphicsOption details slider label.",
+			"translations": {
+				"en": "Details",
+				"zh-CN": "细节"
+			}
+		},
+		{
+			"key": "graphics.resolution",
+			"sourceText": "Resolution",
+			"context": "GraphicsOption resolution label.",
+			"translations": {
+				"en": "Resolution",
+				"zh-CN": "分辨率"
+			}
+		},
+		{
+			"key": "graphics.full-screen",
+			"sourceText": "Full Screen",
+			"context": "GraphicsOption full-screen resolution option.",
+			"translations": {
+				"en": "Full Screen",
+				"zh-CN": "全屏"
+			}
+		},
+		{
+			"key": "graphics.cursor",
+			"sourceText": "Cursor",
+			"context": "GraphicsOption cursor row label.",
+			"translations": {
+				"en": "Cursor",
+				"zh-CN": "光标"
+			}
+		},
+		{
+			"key": "graphics.show-official-cursor",
+			"sourceText": "Show official cursor",
+			"context": "GraphicsOption official-cursor checkbox.",
+			"translations": {
+				"en": "Show official cursor",
+				"zh-CN": "显示官方光标"
+			}
+		},
+		{
+			"key": "graphics.fps-limit",
+			"sourceText": "FPS Limit",
+			"context": "GraphicsOption FPS limit label.",
+			"translations": {
+				"en": "FPS Limit",
+				"zh-CN": "帧率上限"
+			}
+		},
+		{
+			"key": "graphics.unlimited",
+			"sourceText": "Unlimited",
+			"context": "GraphicsOption unlimited FPS option.",
+			"translations": {
+				"en": "Unlimited",
+				"zh-CN": "无限制"
+			}
+		},
+		{
+			"key": "graphics.fps-display",
+			"sourceText": "FPS Display",
+			"context": "GraphicsOption FPS overlay toggle label.",
+			"translations": {
+				"en": "FPS Display",
+				"zh-CN": "显示帧率"
+			}
+		},
+		{
+			"key": "graphics.pixel-perfect",
+			"sourceText": "Pixel Perfect Sprites",
+			"context": "GraphicsOption pixel-perfect sprites label.",
+			"translations": {
+				"en": "Pixel Perfect Sprites",
+				"zh-CN": "像素精确精灵"
+			}
+		},
+		{
+			"key": "graphics.pixel-perfect-help",
+			"sourceText": "Force nearest neighbor filtering for pixel-perfect sprite rendering",
+			"context": "GraphicsOption pixel-perfect sprites tooltip.",
+			"translations": {
+				"en": "Force nearest neighbor filtering for pixel-perfect sprite rendering",
+				"zh-CN": "强制使用最近邻过滤以获得像素精确的精灵渲染"
+			}
+		},
+		{
+			"key": "graphics.nearest-neighbor",
+			"sourceText": "Force nearest neighbor filtering",
+			"context": "GraphicsOption nearest-neighbor checkbox.",
+			"translations": {
+				"en": "Force nearest neighbor filtering",
+				"zh-CN": "强制最近邻过滤"
+			}
+		},
+		{
+			"key": "graphics.bloom",
+			"sourceText": "Bloom",
+			"context": "GraphicsOption bloom label.",
+			"translations": {
+				"en": "Bloom",
+				"zh-CN": "辉光"
+			}
+		},
+		{
+			"key": "graphics.bloom-help",
+			"sourceText": "Add a glowing bloom effect to bright areas",
+			"context": "GraphicsOption bloom tooltip.",
+			"translations": {
+				"en": "Add a glowing bloom effect to bright areas",
+				"zh-CN": "为高亮区域添加辉光效果"
+			}
+		},
+		{
+			"key": "graphics.intensity",
+			"sourceText": "Intensity:",
+			"context": "GraphicsOption intensity slider prefix.",
+			"translations": {
+				"en": "Intensity:",
+				"zh-CN": "强度："
+			}
+		},
+		{
+			"key": "graphics.blur",
+			"sourceText": "Blur",
+			"context": "GraphicsOption blur label.",
+			"translations": {
+				"en": "Blur",
+				"zh-CN": "模糊"
+			}
+		},
+		{
+			"key": "graphics.blur-help",
+			"sourceText": "Apply a blur effect to the screen",
+			"context": "GraphicsOption blur tooltip.",
+			"translations": {
+				"en": "Apply a blur effect to the screen",
+				"zh-CN": "对画面应用模糊效果"
+			}
+		},
+		{
+			"key": "graphics.area",
+			"sourceText": "Area:",
+			"context": "GraphicsOption blur area slider prefix.",
+			"translations": {
+				"en": "Area:",
+				"zh-CN": "范围："
+			}
+		},
+		{
+			"key": "graphics.cas",
+			"sourceText": "Contr. Adapt. Sharp. (CAS)",
+			"context": "GraphicsOption CAS label.",
+			"translations": {
+				"en": "Contr. Adapt. Sharp. (CAS)",
+				"zh-CN": "对比自适应锐化 (CAS)"
+			}
+		},
+		{
+			"key": "graphics.cas-help",
+			"sourceText": "Contrast Adaptive Sharpening for enhanced details",
+			"context": "GraphicsOption CAS tooltip.",
+			"translations": {
+				"en": "Contrast Adaptive Sharpening for enhanced details",
+				"zh-CN": "对比自适应锐化，增强细节"
+			}
+		},
+		{
+			"key": "graphics.contrast",
+			"sourceText": "Contrast:",
+			"context": "GraphicsOption CAS contrast slider prefix.",
+			"translations": {
+				"en": "Contrast:",
+				"zh-CN": "对比："
+			}
+		},
+		{
+			"key": "graphics.sharpening",
+			"sourceText": "Sharpening:",
+			"context": "GraphicsOption CAS sharpening slider prefix.",
+			"translations": {
+				"en": "Sharpening:",
+				"zh-CN": "锐化："
+			}
+		},
+		{
+			"key": "graphics.fxaa",
+			"sourceText": "FXAA",
+			"context": "GraphicsOption FXAA label.",
+			"translations": {
+				"en": "FXAA",
+				"zh-CN": "FXAA"
+			}
+		},
+		{
+			"key": "graphics.fxaa-help",
+			"sourceText": "Fast Approximate Anti-Aliasing for smoother edges",
+			"context": "GraphicsOption FXAA tooltip.",
+			"translations": {
+				"en": "Fast Approximate Anti-Aliasing for smoother edges",
+				"zh-CN": "快速近似抗锯齿，使边缘更平滑"
+			}
+		},
+		{
+			"key": "graphics.subpix",
+			"sourceText": "Subpix:",
+			"context": "GraphicsOption FXAA subpix slider prefix.",
+			"translations": {
+				"en": "Subpix:",
+				"zh-CN": "子像素："
+			}
+		},
+		{
+			"key": "graphics.edge-threshold",
+			"sourceText": "Edge Threshold:",
+			"context": "GraphicsOption FXAA edge-threshold slider prefix.",
+			"translations": {
+				"en": "Edge Threshold:",
+				"zh-CN": "边缘阈值："
+			}
+		},
+		{
+			"key": "graphics.cartoon",
+			"sourceText": "Cartoon",
+			"context": "GraphicsOption cartoon label.",
+			"translations": {
+				"en": "Cartoon",
+				"zh-CN": "卡通"
+			}
+		},
+		{
+			"key": "graphics.cartoon-help",
+			"sourceText": "Cartoon rendering effect for stylized visuals",
+			"context": "GraphicsOption cartoon tooltip.",
+			"translations": {
+				"en": "Cartoon rendering effect for stylized visuals",
+				"zh-CN": "卡通渲染效果"
+			}
+		},
+		{
+			"key": "graphics.power",
+			"sourceText": "Power:",
+			"context": "GraphicsOption cartoon power slider prefix.",
+			"translations": {
+				"en": "Power:",
+				"zh-CN": "强度："
+			}
+		},
+		{
+			"key": "graphics.edge-slope",
+			"sourceText": "Edge Slope:",
+			"context": "GraphicsOption cartoon edge-slope slider prefix.",
+			"translations": {
+				"en": "Edge Slope:",
+				"zh-CN": "边缘斜率："
+			}
+		},
+		{
+			"key": "graphics.vibrance",
+			"sourceText": "Vibrance",
+			"context": "GraphicsOption vibrance label.",
+			"translations": {
+				"en": "Vibrance",
+				"zh-CN": "鲜艳度"
+			}
+		},
+		{
+			"key": "graphics.vibrance-help",
+			"sourceText": "Increase color intensity and saturation",
+			"context": "GraphicsOption vibrance tooltip.",
+			"translations": {
+				"en": "Increase color intensity and saturation",
+				"zh-CN": "提高颜色强度和饱和度"
+			}
+		},
+		{
+			"key": "graphics.performance",
+			"sourceText": "Performance Mode",
+			"context": "GraphicsOption performance-mode label.",
+			"translations": {
+				"en": "Performance Mode",
+				"zh-CN": "性能模式"
+			}
+		},
+		{
+			"key": "graphics.performance-help",
+			"sourceText": "Hide objects outside the viewing area, enable downsampling rendering and others to improve performance",
+			"context": "GraphicsOption performance-mode tooltip.",
+			"translations": {
+				"en": "Hide objects outside the viewing area, enable downsampling rendering and others to improve performance",
+				"zh-CN": "隐藏视野外物体、启用降采样渲染等以提升性能"
+			}
+		},
+		{
+			"key": "graphics.culling-area",
+			"sourceText": "Culling Area:",
+			"context": "GraphicsOption culling-area slider prefix.",
+			"translations": {
+				"en": "Culling Area:",
+				"zh-CN": "裁剪范围："
+			}
+		},
+		{
+			"key": "graphics.reset",
+			"sourceText": "Reset to Default Values",
+			"context": "GraphicsOption reset button.",
+			"translations": {
+				"en": "Reset to Default Values",
+				"zh-CN": "恢复默认值"
+			}
+		},
+		{
+			"key": "sound.title",
+			"sourceText": "Sound Settings",
+			"context": "SoundOption window title.",
+			"translations": {
+				"en": "Sound Settings",
+				"zh-CN": "声音设置"
+			}
+		},
+		{
+			"key": "sound.bgm",
+			"sourceText": "BGM",
+			"context": "SoundOption background-music label.",
+			"translations": {
+				"en": "BGM",
+				"zh-CN": "背景音乐"
+			}
+		},
+		{
+			"key": "sound.effect",
+			"sourceText": "Effect",
+			"context": "SoundOption effect-volume label.",
+			"translations": {
+				"en": "Effect",
+				"zh-CN": "音效"
+			}
+		},
+		{
+			"key": "sound.on",
+			"sourceText": "on",
+			"context": "SoundOption enable checkbox suffix.",
+			"translations": {
+				"en": "on",
+				"zh-CN": "开"
+			}
+		},
+		{
+			"key": "cart-decoration.title",
+			"sourceText": "Cart Decoration",
+			"context": "CartDecoration window title.",
+			"translations": {
+				"en": "Cart Decoration",
+				"zh-CN": "手推车装饰"
+			}
+		},
+		{
+			"key": "book.bookmark",
+			"sourceText": "Bookmark",
+			"context": "MakeReadBook bookmark control.",
+			"translations": {
+				"en": "Bookmark",
+				"zh-CN": "书签"
+			}
+		},
+		{
+			"key": "book.previous",
+			"sourceText": "Previous",
+			"context": "MakeReadBook previous-page control.",
+			"translations": {
+				"en": "Previous",
+				"zh-CN": "上一页"
+			}
+		},
+		{
+			"key": "book.next",
+			"sourceText": "Next",
+			"context": "MakeReadBook next-page control.",
+			"translations": {
+				"en": "Next",
+				"zh-CN": "下一页"
+			}
+		},
+		{
+			"key": "pet-evolution.title",
+			"sourceText": "Pet Evolution",
+			"context": "PetEvolution window title.",
+			"translations": {
+				"en": "Pet Evolution",
+				"zh-CN": "宠物进化"
+			}
+		},
+		{
+			"key": "joystick.set-1",
+			"sourceText": "Set 1",
+			"context": "JoystickUI first shortcut set label.",
+			"translations": {
+				"en": "Set 1",
+				"zh-CN": "套组 1"
+			}
+		},
+		{
+			"key": "joystick.set-2",
+			"sourceText": "Set 2",
+			"context": "JoystickUI second shortcut set label.",
+			"translations": {
+				"en": "Set 2",
+				"zh-CN": "套组 2"
+			}
+		},
+		{
+			"key": "joystick.select-slot",
+			"sourceText": "Select slot for",
+			"context": "JoystickSelectionUI title prefix before the item name.",
+			"translations": {
+				"en": "Select slot for",
+				"zh-CN": "选择栏位："
+			}
+		},
+		{
+			"key": "joystick.instructions",
+			"sourceText": "Use L2/R2 to change tab, D-pad to navigate slot, A to select, Select to cancel",
+			"context": "JoystickSelectionUI footer instructions.",
+			"translations": {
+				"en": "Use L2/R2 to change tab, D-pad to navigate slot, A to select, Select to cancel",
+				"zh-CN": "用 L2/R2 切换页签，方向键选择栏位，A 确认，Select 取消"
+			}
+		},
+		{
+			"key": "fps.unit",
+			"sourceText": "FPS",
+			"context": "FPS overlay unit after the counter.",
+			"translations": {
+				"en": "FPS",
+				"zh-CN": "帧"
+			}
+		},
+		{
+			"key": "error.title",
+			"sourceText": "Whoops !",
+			"context": "Fatal Error screen heading.",
+			"translations": {
+				"en": "Whoops !",
+				"zh-CN": "出错了！"
+			}
+		},
+		{
+			"key": "error.body-1",
+			"sourceText": "Sorry, it looks like something went wrong and an error occurred.",
+			"context": "Fatal Error screen first explanation line.",
+			"translations": {
+				"en": "Sorry, it looks like something went wrong and an error occurred.",
+				"zh-CN": "抱歉，看起来出了问题。"
+			}
+		},
+		{
+			"key": "error.body-2",
+			"sourceText": "If this message popup during roBrowser's initialization it's probably due to some new technologies not supported by your web browser yet, please try to upgrade it.",
+			"context": "Fatal Error screen second explanation line.",
+			"translations": {
+				"en": "If this message popup during roBrowser's initialization it's probably due to some new technologies not supported by your web browser yet, please try to upgrade it.",
+				"zh-CN": "如果这条提示出现在客户端初始化阶段，多半是浏览器还不支持所需技术，请先升级浏览器。"
+			}
+		},
+		{
+			"key": "error.technical",
+			"sourceText": "Technical Information :",
+			"context": "Fatal Error screen technical-details heading.",
+			"translations": {
+				"en": "Technical Information :",
+				"zh-CN": "技术信息："
+			}
+		}
+	];
+	options_default = {
+		$schema: $schema$27,
+		entries: entries$28
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/shortcuts.json
-var $schema$7, entries$8, shortcuts_default;
+var $schema$26, entries$27, shortcuts_default;
 var init_shortcuts = __esmMin((() => {
-	$schema$7 = "../../schema/client-message-fragment.schema.json";
-	entries$8 = [
+	$schema$26 = "../../schema/client-message-fragment.schema.json";
+	entries$27 = [
 		{
 			"key": "shortcut-settings.title",
 			"sourceText": "Shortcut key settings",
@@ -208031,16 +210376,16 @@ var init_shortcuts = __esmMin((() => {
 		}
 	];
 	shortcuts_default = {
-		$schema: $schema$7,
-		entries: entries$8
+		$schema: $schema$26,
+		entries: entries$27
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/commands.json
-var $schema$6, entries$7, commands_default;
+var $schema$25, entries$26, commands_default;
 var init_commands = __esmMin((() => {
-	$schema$6 = "../../schema/client-message-fragment.schema.json";
-	entries$7 = [
+	$schema$25 = "../../schema/client-message-fragment.schema.json";
+	entries$26 = [
 		{
 			"key": "command-help.available",
 			"sourceText": "Available Commands:",
@@ -208538,16 +210883,16 @@ var init_commands = __esmMin((() => {
 		}
 	];
 	commands_default = {
-		$schema: $schema$6,
-		entries: entries$7
+		$schema: $schema$25,
+		entries: entries$26
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/items-inventory.json
-var $schema$5, entries$6, items_inventory_default;
+var $schema$24, entries$25, items_inventory_default;
 var init_items_inventory = __esmMin((() => {
-	$schema$5 = "../../schema/client-message-fragment.schema.json";
-	entries$6 = [
+	$schema$24 = "../../schema/client-message-fragment.schema.json";
+	entries$25 = [
 		{
 			"key": "inventory.title",
 			"sourceText": "Inventory",
@@ -208658,16 +211003,16 @@ var init_items_inventory = __esmMin((() => {
 		}
 	];
 	items_inventory_default = {
-		$schema: $schema$5,
-		entries: entries$6
+		$schema: $schema$24,
+		entries: entries$25
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/items-equipment.json
-var $schema$4, entries$5, items_equipment_default;
+var $schema$23, entries$24, items_equipment_default;
 var init_items_equipment = __esmMin((() => {
-	$schema$4 = "../../schema/client-message-fragment.schema.json";
-	entries$5 = [
+	$schema$23 = "../../schema/client-message-fragment.schema.json";
+	entries$24 = [
 		{
 			"key": "equipment.title",
 			"sourceText": "Equipment",
@@ -208742,16 +211087,16 @@ var init_items_equipment = __esmMin((() => {
 		}
 	];
 	items_equipment_default = {
-		$schema: $schema$4,
-		entries: entries$5
+		$schema: $schema$23,
+		entries: entries$24
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/ui/items-info.json
-var $schema$3, entries$4, items_info_default;
+var $schema$22, entries$23, items_info_default;
 var init_items_info = __esmMin((() => {
-	$schema$3 = "../../schema/client-message-fragment.schema.json";
-	entries$4 = [
+	$schema$22 = "../../schema/client-message-fragment.schema.json";
+	entries$23 = [
 		{
 			"key": "item-info.preview",
 			"sourceText": "Preview equipment",
@@ -208871,16 +211216,838 @@ var init_items_info = __esmMin((() => {
 		}
 	];
 	items_info_default = {
-		$schema: $schema$3,
-		entries: entries$4
+		$schema: $schema$22,
+		entries: entries$23
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/items-cart.json
+var $schema$21, entries$22, items_cart_default;
+var init_items_cart = __esmMin((() => {
+	$schema$21 = "../../schema/client-message-fragment.schema.json";
+	entries$22 = [
+		{
+			"key": "cart.title",
+			"sourceText": "Cart",
+			"context": "Title of the legacy CartItems window used by the 2021 cart inventory flow.",
+			"translations": {
+				"en": "Cart",
+				"zh-CN": "手推车"
+			}
+		},
+		{
+			"key": "cart.count",
+			"sourceText": "Num:",
+			"context": "Current and maximum item count label in the CartItems footer.",
+			"translations": {
+				"en": "Num:",
+				"zh-CN": "数量："
+			}
+		},
+		{
+			"key": "cart.weight",
+			"sourceText": "Weight:",
+			"context": "Current and maximum weight label in the CartItems footer.",
+			"translations": {
+				"en": "Weight:",
+				"zh-CN": "重量："
+			}
+		},
+		{
+			"key": "cart.resize",
+			"sourceText": "Resize cart",
+			"context": "Accessible label for the CartItems resize handle.",
+			"translations": {
+				"en": "Resize cart",
+				"zh-CN": "调整手推车大小"
+			}
+		},
+		{
+			"key": "cart.quantity-each",
+			"sourceText": " ea",
+			"context": "Quantity suffix in the CartItems item hover overlay for ordinary stackable items.",
+			"translations": {
+				"en": " ea",
+				"zh-CN": " 件"
+			}
+		},
+		{
+			"key": "cart.quantity-options",
+			"sourceText": " Quantity",
+			"context": "Quantity suffix in the CartItems item hover overlay when equipment has item options.",
+			"translations": {
+				"en": " Quantity",
+				"zh-CN": " 数量"
+			}
+		}
+	];
+	items_cart_default = {
+		$schema: $schema$21,
+		entries: entries$22
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/skills.json
+var $schema$20, entries$21, skills_default;
+var init_skills = __esmMin((() => {
+	$schema$20 = "../../schema/client-message-fragment.schema.json";
+	entries$21 = [
+		{
+			"key": "skills.title",
+			"sourceText": "Skill Tree",
+			"context": "Title of the active 2021 SkillListV2 window.",
+			"translations": {
+				"en": "Skill Tree",
+				"zh-CN": "技能树"
+			}
+		},
+		{
+			"key": "skills.view-info",
+			"sourceText": "view skill info",
+			"context": "SkillListV2 checkbox for showing skill descriptions.",
+			"translations": {
+				"en": "view skill info",
+				"zh-CN": "查看技能信息"
+			}
+		},
+		{
+			"key": "skills.tab-first",
+			"sourceText": "1st",
+			"context": "First job skill tab in SkillListV2.",
+			"translations": {
+				"en": "1st",
+				"zh-CN": "一转"
+			}
+		},
+		{
+			"key": "skills.tab-second",
+			"sourceText": "2nd",
+			"context": "Second job skill tab in SkillListV2.",
+			"translations": {
+				"en": "2nd",
+				"zh-CN": "二转"
+			}
+		},
+		{
+			"key": "skills.tab-third",
+			"sourceText": "3rd",
+			"context": "Third job skill tab in SkillListV2.",
+			"translations": {
+				"en": "3rd",
+				"zh-CN": "三转"
+			}
+		},
+		{
+			"key": "skills.tab-fourth",
+			"sourceText": "4th",
+			"context": "Fourth job skill tab in SkillListV2.",
+			"translations": {
+				"en": "4th",
+				"zh-CN": "四转"
+			}
+		},
+		{
+			"key": "skills.tab-other",
+			"sourceText": "Etc",
+			"context": "Other skill tab in SkillListV2.",
+			"translations": {
+				"en": "Etc",
+				"zh-CN": "其他"
+			}
+		},
+		{
+			"key": "skills.points",
+			"sourceText": "Skill Points:",
+			"context": "Footer label for unspent skill points.",
+			"translations": {
+				"en": "Skill Points:",
+				"zh-CN": "技能点："
+			}
+		},
+		{
+			"key": "skills.passive",
+			"sourceText": "Passive",
+			"context": "SkillList label for a passive skill.",
+			"translations": {
+				"en": "Passive",
+				"zh-CN": "被动"
+			}
+		},
+		{
+			"key": "skills.sp-cost",
+			"sourceText": "Sp :",
+			"context": "SkillList label for a skill SP cost.",
+			"translations": {
+				"en": "Sp :",
+				"zh-CN": "SP："
+			}
+		}
+	];
+	skills_default = {
+		$schema: $schema$20,
+		entries: entries$21
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/sense.json
+var $schema$19, entries$20, sense_default;
+var init_sense = __esmMin((() => {
+	$schema$19 = "../../schema/client-message-fragment.schema.json";
+	entries$20 = [
+		{
+			"key": "sense.title",
+			"sourceText": "Monster Information",
+			"context": "Title of the Sense monster-information window.",
+			"translations": {
+				"en": "Monster Information",
+				"zh-CN": "怪物信息"
+			}
+		},
+		{
+			"key": "sense.name",
+			"sourceText": "Name",
+			"context": "Sense label for the monster name.",
+			"translations": {
+				"en": "Name",
+				"zh-CN": "名称"
+			}
+		},
+		{
+			"key": "sense.level",
+			"sourceText": "Level",
+			"context": "Sense label for the monster level.",
+			"translations": {
+				"en": "Level",
+				"zh-CN": "等级"
+			}
+		},
+		{
+			"key": "sense.hp",
+			"sourceText": "HP",
+			"context": "Sense label for the monster HP.",
+			"translations": {
+				"en": "HP",
+				"zh-CN": "HP"
+			}
+		},
+		{
+			"key": "sense.size",
+			"sourceText": "Size",
+			"context": "Sense label for the monster size.",
+			"translations": {
+				"en": "Size",
+				"zh-CN": "体型"
+			}
+		},
+		{
+			"key": "sense.race",
+			"sourceText": "Race",
+			"context": "Sense label for the monster race.",
+			"translations": {
+				"en": "Race",
+				"zh-CN": "种族"
+			}
+		},
+		{
+			"key": "sense.mdef",
+			"sourceText": "MDEF",
+			"context": "Sense label for the monster magic defense.",
+			"translations": {
+				"en": "MDEF",
+				"zh-CN": "魔法防御"
+			}
+		},
+		{
+			"key": "sense.def",
+			"sourceText": "DEF",
+			"context": "Sense label for the monster physical defense.",
+			"translations": {
+				"en": "DEF",
+				"zh-CN": "物理防御"
+			}
+		},
+		{
+			"key": "sense.property",
+			"sourceText": "Property",
+			"context": "Sense label for the monster element property.",
+			"translations": {
+				"en": "Property",
+				"zh-CN": "属性"
+			}
+		},
+		{
+			"key": "sense.element.neutral",
+			"sourceText": "Neutral",
+			"context": "Neutral element label in Sense.",
+			"translations": {
+				"en": "Neutral",
+				"zh-CN": "无属性"
+			}
+		},
+		{
+			"key": "sense.element.water",
+			"sourceText": "Water",
+			"context": "Water element label in Sense.",
+			"translations": {
+				"en": "Water",
+				"zh-CN": "水"
+			}
+		},
+		{
+			"key": "sense.element.earth",
+			"sourceText": "Earth",
+			"context": "Earth element label in Sense.",
+			"translations": {
+				"en": "Earth",
+				"zh-CN": "地"
+			}
+		},
+		{
+			"key": "sense.element.fire",
+			"sourceText": "Fire",
+			"context": "Fire element label in Sense.",
+			"translations": {
+				"en": "Fire",
+				"zh-CN": "火"
+			}
+		},
+		{
+			"key": "sense.element.wind",
+			"sourceText": "Wind",
+			"context": "Wind element label in Sense.",
+			"translations": {
+				"en": "Wind",
+				"zh-CN": "风"
+			}
+		},
+		{
+			"key": "sense.element.poison",
+			"sourceText": "Poison",
+			"context": "Poison element label in Sense.",
+			"translations": {
+				"en": "Poison",
+				"zh-CN": "毒"
+			}
+		},
+		{
+			"key": "sense.element.holy",
+			"sourceText": "Holy",
+			"context": "Holy element label in Sense.",
+			"translations": {
+				"en": "Holy",
+				"zh-CN": "圣"
+			}
+		},
+		{
+			"key": "sense.element.shadow",
+			"sourceText": "Shadow",
+			"context": "Shadow element label in Sense.",
+			"translations": {
+				"en": "Shadow",
+				"zh-CN": "暗"
+			}
+		},
+		{
+			"key": "sense.element.ghost",
+			"sourceText": "Ghost",
+			"context": "Ghost element label in Sense.",
+			"translations": {
+				"en": "Ghost",
+				"zh-CN": "念"
+			}
+		},
+		{
+			"key": "sense.element.undead",
+			"sourceText": "Undead",
+			"context": "Undead element label in Sense.",
+			"translations": {
+				"en": "Undead",
+				"zh-CN": "不死"
+			}
+		},
+		{
+			"key": "sense.size.small",
+			"sourceText": "Small",
+			"context": "Small size label in Sense.",
+			"translations": {
+				"en": "Small",
+				"zh-CN": "小型"
+			}
+		},
+		{
+			"key": "sense.size.medium",
+			"sourceText": "Medium",
+			"context": "Medium size label in Sense.",
+			"translations": {
+				"en": "Medium",
+				"zh-CN": "中型"
+			}
+		},
+		{
+			"key": "sense.size.large",
+			"sourceText": "Large",
+			"context": "Large size label in Sense.",
+			"translations": {
+				"en": "Large",
+				"zh-CN": "大型"
+			}
+		},
+		{
+			"key": "sense.race.formless",
+			"sourceText": "Formless",
+			"context": "Formless race label in Sense.",
+			"translations": {
+				"en": "Formless",
+				"zh-CN": "无形"
+			}
+		},
+		{
+			"key": "sense.race.undead",
+			"sourceText": "Undead",
+			"context": "Undead race label in Sense.",
+			"translations": {
+				"en": "Undead",
+				"zh-CN": "不死"
+			}
+		},
+		{
+			"key": "sense.race.brute",
+			"sourceText": "Brute",
+			"context": "Brute race label in Sense.",
+			"translations": {
+				"en": "Brute",
+				"zh-CN": "动物"
+			}
+		},
+		{
+			"key": "sense.race.plant",
+			"sourceText": "Plant",
+			"context": "Plant race label in Sense.",
+			"translations": {
+				"en": "Plant",
+				"zh-CN": "植物"
+			}
+		},
+		{
+			"key": "sense.race.insect",
+			"sourceText": "Insect",
+			"context": "Insect race label in Sense.",
+			"translations": {
+				"en": "Insect",
+				"zh-CN": "昆虫"
+			}
+		},
+		{
+			"key": "sense.race.fish",
+			"sourceText": "Fish",
+			"context": "Fish race label in Sense.",
+			"translations": {
+				"en": "Fish",
+				"zh-CN": "鱼贝"
+			}
+		},
+		{
+			"key": "sense.race.demon",
+			"sourceText": "Demon",
+			"context": "Demon race label in Sense.",
+			"translations": {
+				"en": "Demon",
+				"zh-CN": "恶魔"
+			}
+		},
+		{
+			"key": "sense.race.demi-human",
+			"sourceText": "Demi-human",
+			"context": "Demi-human race label in Sense.",
+			"translations": {
+				"en": "Demi-human",
+				"zh-CN": "人形"
+			}
+		},
+		{
+			"key": "sense.race.angel",
+			"sourceText": "Angel",
+			"context": "Angel race label in Sense.",
+			"translations": {
+				"en": "Angel",
+				"zh-CN": "天使"
+			}
+		},
+		{
+			"key": "sense.race.dragon",
+			"sourceText": "Dragon",
+			"context": "Dragon race label in Sense.",
+			"translations": {
+				"en": "Dragon",
+				"zh-CN": "龙"
+			}
+		}
+	];
+	sense_default = {
+		$schema: $schema$19,
+		entries: entries$20
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/ui/status-icons.json
+var $schema$18, entries$19, status_icons_default;
+var init_status_icons = __esmMin((() => {
+	$schema$18 = "../../schema/client-message-fragment.schema.json";
+	entries$19 = [
+		{
+			"key": "status-icons.minute",
+			"sourceText": "minute",
+			"context": "Minute unit in a StatusIcons remaining-time label.",
+			"translations": {
+				"en": "minute",
+				"zh-CN": "分钟"
+			}
+		},
+		{
+			"key": "status-icons.second",
+			"sourceText": "second",
+			"context": "Second unit in a StatusIcons remaining-time label.",
+			"translations": {
+				"en": "second",
+				"zh-CN": "秒"
+			}
+		},
+		{
+			"key": "status-icons.concentration.title",
+			"sourceText": "Attention Concentration",
+			"context": "Title of the SC.CONCENTRATION status tooltip.",
+			"translations": {
+				"en": "Attention Concentration",
+				"zh-CN": "心神凝聚"
+			}
+		},
+		{
+			"key": "status-icons.concentration.stats",
+			"sourceText": "Increases DEX, AGI",
+			"context": "Stat effect in the SC.CONCENTRATION status tooltip.",
+			"translations": {
+				"en": "Increases DEX, AGI",
+				"zh-CN": "提高 DEX 和 AGI。"
+			}
+		},
+		{
+			"key": "status-icons.concentration.detect",
+			"sourceText": "Reveals nearby hidden enemies",
+			"context": "Detection effect in the SC.CONCENTRATION status tooltip.",
+			"translations": {
+				"en": "Reveals nearby hidden enemies",
+				"zh-CN": "显现附近隐藏的敌人。"
+			}
+		},
+		{
+			"key": "status-icons.suffragium.title",
+			"sourceText": "Suffragium",
+			"context": "Title of the SC.SUFFRAGIUM status tooltip.",
+			"translations": {
+				"en": "Suffragium",
+				"zh-CN": "圣母之祈福"
+			}
+		},
+		{
+			"key": "status-icons.suffragium.cast-time",
+			"sourceText": "Reduces cast time.",
+			"context": "Cast-time effect in the SC.SUFFRAGIUM status tooltip.",
+			"translations": {
+				"en": "Reduces cast time.",
+				"zh-CN": "缩短施法时间。"
+			}
+		},
+		{
+			"key": "status-icons.angelus.title",
+			"sourceText": "Angelus",
+			"context": "Title of the SC.ANGELUS status tooltip.",
+			"translations": {
+				"en": "Angelus",
+				"zh-CN": "天使之障壁"
+			}
+		},
+		{
+			"key": "status-icons.angelus.defense",
+			"sourceText": "Increases VIT DEF",
+			"context": "Defense effect in the SC.ANGELUS status tooltip.",
+			"translations": {
+				"en": "Increases VIT DEF",
+				"zh-CN": "提高 VIT 提供的物理防御。"
+			}
+		},
+		{
+			"key": "status-icons.hiding.title",
+			"sourceText": "Hiding",
+			"context": "Title of the SC.HIDING status tooltip.",
+			"translations": {
+				"en": "Hiding",
+				"zh-CN": "隐匿"
+			}
+		},
+		{
+			"key": "status-icons.hiding.avoid-attacks",
+			"sourceText": "Avoids enemy attacks by hiding in the ground",
+			"context": "Avoidance effect in the SC.HIDING status tooltip.",
+			"translations": {
+				"en": "Avoids enemy attacks by hiding in the ground",
+				"zh-CN": "藏入地下以避开敌人攻击。"
+			}
+		},
+		{
+			"key": "status-icons.hiding.detect",
+			"sourceText": "Can be discovered with detection skills",
+			"context": "Detection limitation in the SC.HIDING status tooltip.",
+			"translations": {
+				"en": "Can be discovered with detection skills",
+				"zh-CN": "可被探测类技能发现。"
+			}
+		},
+		{
+			"key": "status-icons.overweight-50.title",
+			"sourceText": "Overweight 50%",
+			"context": "Title of the SC.WEIGHTOVER50 status tooltip.",
+			"translations": {
+				"en": "Overweight 50%",
+				"zh-CN": "负重超过 50%"
+			}
+		},
+		{
+			"key": "status-icons.overweight.recovery",
+			"sourceText": "HP/SP will not be restored",
+			"context": "Recovery restriction shared by overweight status tooltips.",
+			"translations": {
+				"en": "HP/SP will not be restored",
+				"zh-CN": "HP/SP 不会自然恢复。"
+			}
+		},
+		{
+			"key": "status-icons.endure.title",
+			"sourceText": "Endure",
+			"context": "Title of the SC.ENDURE status tooltip.",
+			"translations": {
+				"en": "Endure",
+				"zh-CN": "霸体"
+			}
+		},
+		{
+			"key": "status-icons.endure.actions",
+			"sourceText": "Enables attacking and movement",
+			"context": "Action effect in the SC.ENDURE status tooltip.",
+			"translations": {
+				"en": "Enables attacking and movement",
+				"zh-CN": "可以继续攻击和移动，"
+			}
+		},
+		{
+			"key": "status-icons.endure.while-damaged",
+			"sourceText": "while receiving damage",
+			"context": "Damage condition in the SC.ENDURE status tooltip.",
+			"translations": {
+				"en": "while receiving damage",
+				"zh-CN": "即使正在受到伤害。"
+			}
+		},
+		{
+			"key": "status-icons.blessing.title",
+			"sourceText": "Blessing",
+			"context": "Title of the SC.BLESSING status tooltip.",
+			"translations": {
+				"en": "Blessing",
+				"zh-CN": "天使之赐福"
+			}
+		},
+		{
+			"key": "status-icons.blessing.stats",
+			"sourceText": "Increases DEX, INT and STR",
+			"context": "Stat effect in the SC.BLESSING status tooltip.",
+			"translations": {
+				"en": "Increases DEX, INT and STR",
+				"zh-CN": "提高 DEX、INT 和 STR。"
+			}
+		},
+		{
+			"key": "status-icons.blessing.recovery",
+			"sourceText": "Recovers from a few status effects",
+			"context": "Recovery effect in the SC.BLESSING status tooltip.",
+			"translations": {
+				"en": "Recovers from a few status effects",
+				"zh-CN": "解除部分异常状态。"
+			}
+		},
+		{
+			"key": "status-icons.magnificat.title",
+			"sourceText": "Magnificat",
+			"context": "Title of the SC.MAGNIFICAT status tooltip.",
+			"translations": {
+				"en": "Magnificat",
+				"zh-CN": "圣母之颂歌"
+			}
+		},
+		{
+			"key": "status-icons.magnificat.recovery",
+			"sourceText": "Increases natural SP Recovery Speed",
+			"context": "Recovery effect in the SC.MAGNIFICAT status tooltip.",
+			"translations": {
+				"en": "Increases natural SP Recovery Speed",
+				"zh-CN": "提高 SP 的自然恢复速度。"
+			}
+		},
+		{
+			"key": "status-icons.provoke.title",
+			"sourceText": "Provoke",
+			"context": "Title of the SC.PROVOKE status tooltip.",
+			"translations": {
+				"en": "Provoke",
+				"zh-CN": "挑衅"
+			}
+		},
+		{
+			"key": "status-icons.provoke.defense",
+			"sourceText": "Reduces VIT DEF",
+			"context": "Defense effect in the SC.PROVOKE status tooltip.",
+			"translations": {
+				"en": "Reduces VIT DEF",
+				"zh-CN": "降低 VIT 提供的物理防御。"
+			}
+		},
+		{
+			"key": "status-icons.provoke.attack",
+			"sourceText": "Increases ATK",
+			"context": "Attack effect in the SC.PROVOKE status tooltip.",
+			"translations": {
+				"en": "Increases ATK",
+				"zh-CN": "提高 ATK。"
+			}
+		},
+		{
+			"key": "status-icons.impositio.title",
+			"sourceText": "Impositio Manus",
+			"context": "Title of the SC.IMPOSITIO status tooltip.",
+			"translations": {
+				"en": "Impositio Manus",
+				"zh-CN": "神威祈福"
+			}
+		},
+		{
+			"key": "status-icons.impositio.damage",
+			"sourceText": "Increases Weapon damage",
+			"context": "Weapon effect in the SC.IMPOSITIO status tooltip.",
+			"translations": {
+				"en": "Increases Weapon damage",
+				"zh-CN": "提高武器攻击力。"
+			}
+		},
+		{
+			"key": "status-icons.kyrie.title",
+			"sourceText": "Kyrie Eleison",
+			"context": "Title of the SC.KYRIE status tooltip.",
+			"translations": {
+				"en": "Kyrie Eleison",
+				"zh-CN": "霸邪之阵"
+			}
+		},
+		{
+			"key": "status-icons.kyrie.barrier",
+			"sourceText": "A defensive barrier that blocks a certain number of attacks",
+			"context": "Barrier effect in the SC.KYRIE status tooltip.",
+			"translations": {
+				"en": "A defensive barrier that blocks a certain number of attacks",
+				"zh-CN": "形成可抵挡一定次数攻击的防护屏障。"
+			}
+		},
+		{
+			"key": "status-icons.cloaking.title",
+			"sourceText": "Cloaking",
+			"context": "Title of the SC.CLOAKING status tooltip.",
+			"translations": {
+				"en": "Cloaking",
+				"zh-CN": "伪装"
+			}
+		},
+		{
+			"key": "status-icons.cloaking.invisible",
+			"sourceText": "Invisible",
+			"context": "Visibility effect in the SC.CLOAKING status tooltip.",
+			"translations": {
+				"en": "Invisible",
+				"zh-CN": "进入隐身状态。"
+			}
+		},
+		{
+			"key": "status-icons.aspersio.title",
+			"sourceText": "Aspersio",
+			"context": "Title of the SC.ASPERSIO status tooltip.",
+			"translations": {
+				"en": "Aspersio",
+				"zh-CN": "洒水祈福"
+			}
+		},
+		{
+			"key": "status-icons.aspersio.holy",
+			"sourceText": "Enchants Weapon with Holy Property",
+			"context": "Weapon-property effect in the SC.ASPERSIO status tooltip.",
+			"translations": {
+				"en": "Enchants Weapon with Holy Property",
+				"zh-CN": "赋予武器圣属性。"
+			}
+		},
+		{
+			"key": "status-icons.overweight-90.title",
+			"sourceText": "Overweight 90%",
+			"context": "Title of the SC.WEIGHTOVER90 status tooltip.",
+			"translations": {
+				"en": "Overweight 90%",
+				"zh-CN": "负重超过 90%"
+			}
+		},
+		{
+			"key": "status-icons.overweight-90.disabled",
+			"sourceText": "Attacks/Skills are disabled",
+			"context": "Action restriction in the SC.WEIGHTOVER90 status tooltip.",
+			"translations": {
+				"en": "Attacks/Skills are disabled",
+				"zh-CN": "无法攻击或使用技能。"
+			}
+		},
+		{
+			"key": "status-icons.energy-coat.title",
+			"sourceText": "Energy Coat",
+			"context": "Title of the SC.ENERGYCOAT status tooltip.",
+			"translations": {
+				"en": "Energy Coat",
+				"zh-CN": "能量外套"
+			}
+		},
+		{
+			"key": "status-icons.energy-coat.reduces-damage",
+			"sourceText": "Reduces damage in proportion",
+			"context": "Damage effect in the SC.ENERGYCOAT status tooltip.",
+			"translations": {
+				"en": "Reduces damage in proportion",
+				"zh-CN": "按比例减少受到的伤害，"
+			}
+		},
+		{
+			"key": "status-icons.energy-coat.sp",
+			"sourceText": "to the amount of SP remaining",
+			"context": "SP condition in the SC.ENERGYCOAT status tooltip.",
+			"translations": {
+				"en": "to the amount of SP remaining",
+				"zh-CN": "减伤幅度取决于剩余 SP。"
+			}
+		}
+	];
+	status_icons_default = {
+		$schema: $schema$18,
+		entries: entries$19
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/legacy/login.json
-var $schema$2, entries$3, login_default;
+var $schema$17, entries$18, login_default;
 var init_login = __esmMin((() => {
-	$schema$2 = "../../schema/client-message-fragment.schema.json";
-	entries$3 = [
+	$schema$17 = "../../schema/client-message-fragment.schema.json";
+	entries$18 = [
 		{
 			"key": "6",
 			"sourceText": "Unregistered account.",
@@ -208946,16 +212113,16 @@ var init_login = __esmMin((() => {
 		}
 	];
 	login_default = {
-		$schema: $schema$2,
-		entries: entries$3
+		$schema: $schema$17,
+		entries: entries$18
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/legacy/character.json
-var $schema$1, entries$2, character_default;
+var $schema$16, entries$17, character_default;
 var init_character = __esmMin((() => {
-	$schema$1 = "../../schema/client-message-fragment.schema.json";
-	entries$2 = [
+	$schema$16 = "../../schema/client-message-fragment.schema.json";
+	entries$17 = [
 		{
 			"key": "10",
 			"sourceText": "A character with this name already exists.",
@@ -209228,16 +212395,16 @@ var init_character = __esmMin((() => {
 		}
 	];
 	character_default = {
-		$schema: $schema$1,
-		entries: entries$2
+		$schema: $schema$16,
+		entries: entries$17
 	};
 }));
 //#endregion
 //#region src/Localization/catalog/legacy/game-entry.json
-var $schema, entries$1, game_entry_default;
+var $schema$15, entries$16, game_entry_default;
 var init_game_entry = __esmMin((() => {
-	$schema = "../../schema/client-message-fragment.schema.json";
-	entries$1 = [
+	$schema$15 = "../../schema/client-message-fragment.schema.json";
+	entries$16 = [
 		{
 			"key": "1325",
 			"sourceText": "Block all party invitations.",
@@ -209330,6 +212497,4218 @@ var init_game_entry = __esmMin((() => {
 		}
 	];
 	game_entry_default = {
+		$schema: $schema$15,
+		entries: entries$16
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/legacy/skill-fail.json
+var $schema$14, entries$15, skill_fail_default;
+var init_skill_fail = __esmMin((() => {
+	$schema$14 = "../../schema/client-message-fragment.schema.json";
+	entries$15 = [
+		{
+			"key": "202",
+			"sourceText": "Not enough SP.",
+			"context": "ZC.ACK_TOUSESKILL cause 1 (USESKILL_FAIL_SP_INSUFFICIENT) in Skill.js onSkillResult; confirmed by rAthena clif.hpp and clif_skill_fail.",
+			"translations": {
+				"en": "Not enough SP.",
+				"zh-CN": "SP 不足。"
+			}
+		},
+		{
+			"key": "203",
+			"sourceText": "Not enough HP.",
+			"context": "ZC.ACK_TOUSESKILL cause 2 (USESKILL_FAIL_HP_INSUFFICIENT) in Skill.js onSkillResult; confirmed by rAthena clif.hpp and clif_skill_fail.",
+			"translations": {
+				"en": "Not enough HP.",
+				"zh-CN": "HP 不足。"
+			}
+		},
+		{
+			"key": "204",
+			"sourceText": "Skill failed.",
+			"context": "Default ZC.ACK_TOUSESKILL failure when NUM is set or CG_TAROTCARD fails; Skill.js onSkillResult and rAthena clif.cpp MsgStringTable[204].",
+			"translations": {
+				"en": "Skill failed.",
+				"zh-CN": "技能失败。"
+			}
+		},
+		{
+			"key": "205",
+			"sourceText": "Steal failed.",
+			"context": "ZC.ACK_TOUSESKILL NUM branch for TF_STEAL in Skill.js onSkillResult; confirmed by rAthena clif.cpp MsgStringTable[205].",
+			"translations": {
+				"en": "Steal failed.",
+				"zh-CN": "偷窃失败。"
+			}
+		},
+		{
+			"key": "207",
+			"sourceText": "Envenom failed.",
+			"context": "ZC.ACK_TOUSESKILL NUM branch for TF_POISON in Skill.js onSkillResult; confirmed by rAthena clif.cpp MsgStringTable[207].",
+			"translations": {
+				"en": "Envenom failed.",
+				"zh-CN": "涂毒失败。"
+			}
+		},
+		{
+			"key": "214",
+			"sourceText": "Skill level is not high enough.",
+			"context": "AL_WARP NUM failure and ZC.ACK_REMEMBER_WARPPOINT error 1 in Skill.js; rAthena clif.cpp maps cause 0 for AL_WARP to MsgStringTable[214].",
+			"translations": {
+				"en": "Skill level is not high enough.",
+				"zh-CN": "技能等级不足。"
+			}
+		},
+		{
+			"key": "219",
+			"sourceText": "There is a delay after using a skill.",
+			"context": "ZC.ACK_TOUSESKILL cause 4 (USESKILL_FAIL_SKILLINTERVAL) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "There is a delay after using a skill.",
+				"zh-CN": "技能使用后仍在冷却。"
+			}
+		},
+		{
+			"key": "233",
+			"sourceText": "Not enough Zeny.",
+			"context": "ZC.ACK_TOUSESKILL cause 5 (USESKILL_FAIL_MONEY) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "Not enough Zeny.",
+				"zh-CN": "Zeny 不足。"
+			}
+		},
+		{
+			"key": "239",
+			"sourceText": "This skill cannot be used with this weapon.",
+			"context": "ZC.ACK_TOUSESKILL cause 6 (USESKILL_FAIL_THIS_WEAPON) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "This skill cannot be used with this weapon.",
+				"zh-CN": "当前武器无法使用该技能。"
+			}
+		},
+		{
+			"key": "243",
+			"sourceText": "You are overweight.",
+			"context": "Client-side overweight block before a ground skill in Skill.js onUseSkillToPos; same ID is also used by other overweight paths.",
+			"translations": {
+				"en": "You are overweight.",
+				"zh-CN": "负重过高。"
+			}
+		},
+		{
+			"key": "246",
+			"sourceText": "A Red Gemstone is required.",
+			"context": "ZC.ACK_TOUSESKILL cause 7 (USESKILL_FAIL_REDJAMSTONE) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "A Red Gemstone is required.",
+				"zh-CN": "需要红色魔力矿石。"
+			}
+		},
+		{
+			"key": "247",
+			"sourceText": "A Blue Gemstone is required.",
+			"context": "ZC.ACK_TOUSESKILL cause 8 (USESKILL_FAIL_BLUEJAMSTONE) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "A Blue Gemstone is required.",
+				"zh-CN": "需要蓝色魔力矿石。"
+			}
+		},
+		{
+			"key": "285",
+			"sourceText": "Failed to use the skill.",
+			"context": "ZC.ACK_TOUSESKILL cause 10 (USESKILL_FAIL) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "Failed to use the skill.",
+				"zh-CN": "无法使用该技能。"
+			}
+		},
+		{
+			"key": "580",
+			"sourceText": "You are overweight.",
+			"context": "ZC.ACK_TOUSESKILL cause 9 (USESKILL_FAIL_WEIGHTOVER) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "You are overweight.",
+				"zh-CN": "负重过高。"
+			}
+		},
+		{
+			"key": "661",
+			"sourceText": "There are NPCs nearby.",
+			"context": "ZC.ACK_TOUSESKILL cause 83 (USESKILL_FAIL_THERE_ARE_NPC_AROUND) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "There are NPCs nearby.",
+				"zh-CN": "附近有 NPC。"
+			}
+		},
+		{
+			"key": "808",
+			"sourceText": "Not enough items.",
+			"context": "ZC.ACK_TOUSESKILL cause 3 (USESKILL_FAIL_STUFF_INSUFFICIENT) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "Not enough items.",
+				"zh-CN": "所需物品不足。"
+			}
+		},
+		{
+			"key": "1398",
+			"sourceText": "Holy Water is required.",
+			"context": "ZC.ACK_TOUSESKILL cause 13 (USESKILL_FAIL_HOLYWATER) in Skill.js onSkillResult; confirmed by rAthena clif.hpp.",
+			"translations": {
+				"en": "Holy Water is required.",
+				"zh-CN": "需要圣水。"
+			}
+		}
+	];
+	skill_fail_default = {
+		$schema: $schema$14,
+		entries: entries$15
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/legacy/combat.json
+var $schema$13, entries$14, combat_default;
+var init_combat = __esmMin((() => {
+	$schema$13 = "../../schema/client-message-fragment.schema.json";
+	entries$14 = [
+		{
+			"key": "1605",
+			"sourceText": "%s has inflicted %d damage on you.",
+			"context": "Battle log when Session.Entity receives damage; Entity.js replaces the first %s with the attacker name and %d with damage.",
+			"translations": {
+				"en": "%s has inflicted %d damage on you.",
+				"zh-CN": "%s 对你造成了 %d 点伤害。"
+			}
+		},
+		{
+			"key": "1606",
+			"sourceText": "%s has received %d damage from %s.",
+			"context": "Battle log when a companion or party member receives damage; Entity.js replaces the first %s with the target, the second %s with the attacker, then %d with damage.",
+			"translations": {
+				"en": "%s has received %d damage from %s.",
+				"zh-CN": "%s 受到来自 %s 的 %d 点伤害。"
+			}
+		},
+		{
+			"key": "1607",
+			"sourceText": "You have inflicted %d damage on %s.",
+			"context": "Battle log when Session.Entity deals damage; Entity.js replaces %s with the target name and %d with damage.",
+			"translations": {
+				"en": "You have inflicted %d damage on %s.",
+				"zh-CN": "你对 %s 造成了 %d 点伤害。"
+			}
+		},
+		{
+			"key": "1608",
+			"sourceText": "%s has inflicted %d damage on %s.",
+			"context": "Battle log when a companion or party member deals damage; Entity.js replaces the first %s with the attacker, the second %s with the target, then %d with damage.",
+			"translations": {
+				"en": "%s has inflicted %d damage on %s.",
+				"zh-CN": "%s 对 %s 造成了 %d 点伤害。"
+			}
+		},
+		{
+			"key": "1613",
+			"sourceText": "Gained %d Base EXP.",
+			"context": "ZC.NOTIFY_EXP type 0 / varID 1 in Entity.js onNotifyExp; base experience gained from combat.",
+			"translations": {
+				"en": "Gained %d Base EXP.",
+				"zh-CN": "获得 %d 点基础经验。"
+			}
+		},
+		{
+			"key": "1614",
+			"sourceText": "Gained %d Job EXP.",
+			"context": "ZC.NOTIFY_EXP type 0 / varID 2 in Entity.js onNotifyExp; job experience gained from combat.",
+			"translations": {
+				"en": "Gained %d Job EXP.",
+				"zh-CN": "获得 %d 点职业经验。"
+			}
+		}
+	];
+	combat_default = {
+		$schema: $schema$13,
+		entries: entries$14
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/legacy/social.json
+var $schema$12, entries$13, social_default;
+var init_social = __esmMin((() => {
+	$schema$12 = "../../schema/client-message-fragment.schema.json";
+	entries$13 = [
+		{
+			"key": "70",
+			"sourceText": "The character is too far.",
+			"context": "ZC.ACK_EXCHANGE_ITEM result 0 in Trade.js onTradeRequestAnswer; rAthena clif.cpp result 0 = Char is too far.",
+			"translations": {
+				"en": "The character is too far.",
+				"zh-CN": "对方距离太远。"
+			}
+		},
+		{
+			"key": "71",
+			"sourceText": "The character does not exist.",
+			"context": "ZC.ACK_EXCHANGE_ITEM result 1 in Trade.js; also party invite answer 7 in Group.js. rAthena clif.cpp result 1 = Character does not exist.",
+			"translations": {
+				"en": "The character does not exist.",
+				"zh-CN": "角色不存在。"
+			}
+		},
+		{
+			"key": "72",
+			"sourceText": "The character is in another deal.",
+			"context": "ZC.ACK_EXCHANGE_ITEM result 2 in Trade.js onTradeRequestAnswer; client comment In another deal, rAthena Trade failed.",
+			"translations": {
+				"en": "The character is in another deal.",
+				"zh-CN": "对方正在交易中。"
+			}
+		},
+		{
+			"key": "73",
+			"sourceText": "You are overweight.",
+			"context": "ZC.ACK_ADD_EXCHANGE_ITEM result 1 in Trade.js onAddItemResult; client comment overweight.",
+			"translations": {
+				"en": "You are overweight.",
+				"zh-CN": "负重不足，无法放入交易物品。"
+			}
+		},
+		{
+			"key": "74",
+			"sourceText": "The trade was canceled.",
+			"context": "ZC.ACK_EXCHANGE_ITEM result 4, add-item result 2, and ZC.CANCEL_EXCHANGE_ITEM in Trade.js; rAthena result 4 = Cancel.",
+			"translations": {
+				"en": "The trade was canceled.",
+				"zh-CN": "交易已取消。"
+			}
+		},
+		{
+			"key": "75",
+			"sourceText": "The trade was completed.",
+			"context": "ZC.EXEC_EXCHANGE_ITEM success path in Trade.js onTradeSubmitAnswer.",
+			"translations": {
+				"en": "The trade was completed.",
+				"zh-CN": "交易完成。"
+			}
+		},
+		{
+			"key": "76",
+			"sourceText": "The trade failed.",
+			"context": "ZC.EXEC_EXCHANGE_ITEM result 1 in Trade.js onTradeSubmitAnswer.",
+			"translations": {
+				"en": "The trade failed.",
+				"zh-CN": "交易失败。"
+			}
+		},
+		{
+			"key": "2059",
+			"sourceText": " has recieved an invitation to join your party.",
+			"context": "Group.js onRequestInvitation chat log after sending a party invite; English fallback already present at the call site.",
+			"translations": {
+				"en": " has recieved an invitation to join your party.",
+				"zh-CN": " 已收到入队邀请。"
+			}
+		}
+	];
+	social_default = {
+		$schema: $schema$12,
+		entries: entries$13
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/jobs.json
+var $schema$11, entries$12, jobs_default;
+var init_jobs = __esmMin((() => {
+	$schema$11 = "../../schema/client-message-fragment.schema.json";
+	entries$12 = [
+		{
+			"key": "job.0",
+			"sourceText": "Novice",
+			"context": "Job display name for job ID 0 (Novice) from MonsterTable.",
+			"translations": {
+				"en": "Novice",
+				"zh-CN": "初心者"
+			}
+		},
+		{
+			"key": "job.1",
+			"sourceText": "Swordman",
+			"context": "Job display name for job ID 1 (Swordman) from MonsterTable.",
+			"translations": {
+				"en": "Swordman",
+				"zh-CN": "剑士"
+			}
+		},
+		{
+			"key": "job.2",
+			"sourceText": "Mage",
+			"context": "Job display name for job ID 2 (Mage) from MonsterTable.",
+			"translations": {
+				"en": "Mage",
+				"zh-CN": "魔法师"
+			}
+		},
+		{
+			"key": "job.3",
+			"sourceText": "Archer",
+			"context": "Job display name for job ID 3 (Archer) from MonsterTable.",
+			"translations": {
+				"en": "Archer",
+				"zh-CN": "弓箭手"
+			}
+		},
+		{
+			"key": "job.4",
+			"sourceText": "Acolyte",
+			"context": "Job display name for job ID 4 (Acolyte) from MonsterTable.",
+			"translations": {
+				"en": "Acolyte",
+				"zh-CN": "服事"
+			}
+		},
+		{
+			"key": "job.5",
+			"sourceText": "Merchant",
+			"context": "Job display name for job ID 5 (Merchant) from MonsterTable.",
+			"translations": {
+				"en": "Merchant",
+				"zh-CN": "商人"
+			}
+		},
+		{
+			"key": "job.6",
+			"sourceText": "Thief",
+			"context": "Job display name for job ID 6 (Thief) from MonsterTable.",
+			"translations": {
+				"en": "Thief",
+				"zh-CN": "盗贼"
+			}
+		},
+		{
+			"key": "job.7",
+			"sourceText": "Knight",
+			"context": "Job display name for job ID 7 (Knight) from MonsterTable.",
+			"translations": {
+				"en": "Knight",
+				"zh-CN": "骑士"
+			}
+		},
+		{
+			"key": "job.8",
+			"sourceText": "Priest",
+			"context": "Job display name for job ID 8 (Priest) from MonsterTable.",
+			"translations": {
+				"en": "Priest",
+				"zh-CN": "祭司"
+			}
+		},
+		{
+			"key": "job.9",
+			"sourceText": "Wizard",
+			"context": "Job display name for job ID 9 (Wizard) from MonsterTable.",
+			"translations": {
+				"en": "Wizard",
+				"zh-CN": "巫师"
+			}
+		},
+		{
+			"key": "job.10",
+			"sourceText": "Blacksmith",
+			"context": "Job display name for job ID 10 (Blacksmith) from MonsterTable.",
+			"translations": {
+				"en": "Blacksmith",
+				"zh-CN": "铁匠"
+			}
+		},
+		{
+			"key": "job.11",
+			"sourceText": "Hunter",
+			"context": "Job display name for job ID 11 (Hunter) from MonsterTable.",
+			"translations": {
+				"en": "Hunter",
+				"zh-CN": "猎人"
+			}
+		},
+		{
+			"key": "job.12",
+			"sourceText": "Assassin",
+			"context": "Job display name for job ID 12 (Assassin) from MonsterTable.",
+			"translations": {
+				"en": "Assassin",
+				"zh-CN": "刺客"
+			}
+		},
+		{
+			"key": "job.13",
+			"sourceText": "Knight",
+			"context": "Job display name for mounted Knight job ID 13 from MonsterTable.",
+			"translations": {
+				"en": "Knight",
+				"zh-CN": "骑士"
+			}
+		},
+		{
+			"key": "job.14",
+			"sourceText": "Crusader",
+			"context": "Job display name for job ID 14 (Crusader) from MonsterTable.",
+			"translations": {
+				"en": "Crusader",
+				"zh-CN": "十字军"
+			}
+		},
+		{
+			"key": "job.15",
+			"sourceText": "Monk",
+			"context": "Job display name for job ID 15 (Monk) from MonsterTable.",
+			"translations": {
+				"en": "Monk",
+				"zh-CN": "武僧"
+			}
+		},
+		{
+			"key": "job.16",
+			"sourceText": "Sage",
+			"context": "Job display name for job ID 16 (Sage) from MonsterTable.",
+			"translations": {
+				"en": "Sage",
+				"zh-CN": "贤者"
+			}
+		},
+		{
+			"key": "job.17",
+			"sourceText": "Rogue",
+			"context": "Job display name for job ID 17 (Rogue) from MonsterTable.",
+			"translations": {
+				"en": "Rogue",
+				"zh-CN": "流氓"
+			}
+		},
+		{
+			"key": "job.18",
+			"sourceText": "Alchemist",
+			"context": "Job display name for job ID 18 (Alchemist) from MonsterTable.",
+			"translations": {
+				"en": "Alchemist",
+				"zh-CN": "炼金术士"
+			}
+		},
+		{
+			"key": "job.19",
+			"sourceText": "Bard",
+			"context": "Job display name for job ID 19 (Bard) from MonsterTable.",
+			"translations": {
+				"en": "Bard",
+				"zh-CN": "诗人"
+			}
+		},
+		{
+			"key": "job.20",
+			"sourceText": "Dancer",
+			"context": "Job display name for job ID 20 (Dancer) from MonsterTable.",
+			"translations": {
+				"en": "Dancer",
+				"zh-CN": "舞娘"
+			}
+		},
+		{
+			"key": "job.21",
+			"sourceText": "Crusader",
+			"context": "Job display name for mounted Crusader job ID 21 from MonsterTable.",
+			"translations": {
+				"en": "Crusader",
+				"zh-CN": "十字军"
+			}
+		},
+		{
+			"key": "job.23",
+			"sourceText": "Super Novice",
+			"context": "Job display name for job ID 23 (Super Novice) from MonsterTable.",
+			"translations": {
+				"en": "Super Novice",
+				"zh-CN": "超级初心者"
+			}
+		},
+		{
+			"key": "job.24",
+			"sourceText": "Gunslinger",
+			"context": "Job display name for job ID 24 (Gunslinger) from MonsterTable.",
+			"translations": {
+				"en": "Gunslinger",
+				"zh-CN": "神枪手"
+			}
+		},
+		{
+			"key": "job.25",
+			"sourceText": "Ninja",
+			"context": "Job display name for job ID 25 (Ninja) from MonsterTable.",
+			"translations": {
+				"en": "Ninja",
+				"zh-CN": "忍者"
+			}
+		},
+		{
+			"key": "job.4001",
+			"sourceText": "High Novice",
+			"context": "Job display name for rebirth Novice job ID 4001 from MonsterTable.",
+			"translations": {
+				"en": "High Novice",
+				"zh-CN": "转生初心者"
+			}
+		},
+		{
+			"key": "job.4002",
+			"sourceText": "High Swordman",
+			"context": "Job display name for rebirth Swordman job ID 4002 from MonsterTable.",
+			"translations": {
+				"en": "High Swordman",
+				"zh-CN": "转生剑士"
+			}
+		},
+		{
+			"key": "job.4046",
+			"sourceText": "Taekwon",
+			"context": "Job display name for job ID 4046 (Taekwon) from MonsterTable.",
+			"translations": {
+				"en": "Taekwon",
+				"zh-CN": "跆拳少年"
+			}
+		},
+		{
+			"key": "job.4218",
+			"sourceText": "Summoner",
+			"context": "Job display name for Doram Summoner job ID 4218 from MonsterTable.",
+			"translations": {
+				"en": "Summoner",
+				"zh-CN": "召唤师"
+			}
+		}
+	];
+	jobs_default = {
+		$schema: $schema$11,
+		entries: entries$12
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/stats.json
+var $schema$10, entries$11, stats_default;
+var init_stats = __esmMin((() => {
+	$schema$10 = "../../schema/client-message-fragment.schema.json";
+	entries$11 = [
+		{
+			"key": "stat.str",
+			"sourceText": "STR",
+			"context": "Base stat abbreviation for Strength.",
+			"translations": {
+				"en": "STR",
+				"zh-CN": "力量"
+			}
+		},
+		{
+			"key": "stat.agi",
+			"sourceText": "AGI",
+			"context": "Base stat abbreviation for Agility.",
+			"translations": {
+				"en": "AGI",
+				"zh-CN": "敏捷"
+			}
+		},
+		{
+			"key": "stat.vit",
+			"sourceText": "VIT",
+			"context": "Base stat abbreviation for Vitality.",
+			"translations": {
+				"en": "VIT",
+				"zh-CN": "体质"
+			}
+		},
+		{
+			"key": "stat.int",
+			"sourceText": "INT",
+			"context": "Base stat abbreviation for Intelligence.",
+			"translations": {
+				"en": "INT",
+				"zh-CN": "智力"
+			}
+		},
+		{
+			"key": "stat.dex",
+			"sourceText": "DEX",
+			"context": "Base stat abbreviation for Dexterity.",
+			"translations": {
+				"en": "DEX",
+				"zh-CN": "灵巧"
+			}
+		},
+		{
+			"key": "stat.luk",
+			"sourceText": "LUK",
+			"context": "Base stat abbreviation for Luck.",
+			"translations": {
+				"en": "LUK",
+				"zh-CN": "幸运"
+			}
+		}
+	];
+	stats_default = {
+		$schema: $schema$10,
+		entries: entries$11
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/maps.json
+var $schema$9, entries$10, maps_default;
+var init_maps = __esmMin((() => {
+	$schema$9 = "../../schema/client-message-fragment.schema.json";
+	entries$10 = [
+		{
+			"key": "map.int_land.display",
+			"sourceText": "Remote Island",
+			"context": "MapTable displayName for int_land.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land.main",
+			"sourceText": "Remote Island",
+			"context": "MapTable signName.mainTitle for int_land.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land01.display",
+			"sourceText": "Remote Island",
+			"context": "MapTable displayName for int_land01.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land01.main",
+			"sourceText": "Remote Island",
+			"context": "MapTable signName.mainTitle for int_land01.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land02.display",
+			"sourceText": "Remote Island",
+			"context": "MapTable displayName for int_land02.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land02.main",
+			"sourceText": "Remote Island",
+			"context": "MapTable signName.mainTitle for int_land02.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land03.display",
+			"sourceText": "Remote Island",
+			"context": "MapTable displayName for int_land03.rsw, the AutoTest start map.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land03.main",
+			"sourceText": "Remote Island",
+			"context": "MapTable signName.mainTitle for int_land03.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land04.display",
+			"sourceText": "Remote Island",
+			"context": "MapTable displayName for int_land04.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.int_land04.main",
+			"sourceText": "Remote Island",
+			"context": "MapTable signName.mainTitle for int_land04.rsw.",
+			"translations": {
+				"en": "Remote Island",
+				"zh-CN": "偏远岛屿"
+			}
+		},
+		{
+			"key": "map.new_1-1.display",
+			"sourceText": "Training Ground",
+			"context": "MapTable displayName for new_1-1.rsw.",
+			"translations": {
+				"en": "Training Ground",
+				"zh-CN": "训练场"
+			}
+		},
+		{
+			"key": "map.new_1-1.main",
+			"sourceText": "Training Ground",
+			"context": "MapTable signName.mainTitle for new_1-1.rsw.",
+			"translations": {
+				"en": "Training Ground",
+				"zh-CN": "训练场"
+			}
+		},
+		{
+			"key": "map.izlude.display",
+			"sourceText": "Izlude, the Satellite City",
+			"context": "MapTable displayName for izlude.rsw.",
+			"translations": {
+				"en": "Izlude, the Satellite City",
+				"zh-CN": "卫星都市依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude.main",
+			"sourceText": "Izlude",
+			"context": "MapTable signName.mainTitle for izlude.rsw.",
+			"translations": {
+				"en": "Izlude",
+				"zh-CN": "依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude.sub",
+			"sourceText": "Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for izlude.rsw.",
+			"translations": {
+				"en": "Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国"
+			}
+		},
+		{
+			"key": "map.izlude_a.display",
+			"sourceText": "Izlude, the Satellite City",
+			"context": "MapTable displayName for izlude_a.rsw.",
+			"translations": {
+				"en": "Izlude, the Satellite City",
+				"zh-CN": "卫星都市依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude_a.main",
+			"sourceText": "Izlude",
+			"context": "MapTable signName.mainTitle for izlude_a.rsw.",
+			"translations": {
+				"en": "Izlude",
+				"zh-CN": "依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude_a.sub",
+			"sourceText": "Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for izlude_a.rsw.",
+			"translations": {
+				"en": "Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国"
+			}
+		},
+		{
+			"key": "map.izlude_b.display",
+			"sourceText": "Izlude, the Satellite City",
+			"context": "MapTable displayName for izlude_b.rsw.",
+			"translations": {
+				"en": "Izlude, the Satellite City",
+				"zh-CN": "卫星都市依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude_b.main",
+			"sourceText": "Izlude",
+			"context": "MapTable signName.mainTitle for izlude_b.rsw.",
+			"translations": {
+				"en": "Izlude",
+				"zh-CN": "依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude_b.sub",
+			"sourceText": "Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for izlude_b.rsw.",
+			"translations": {
+				"en": "Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国"
+			}
+		},
+		{
+			"key": "map.izlude_c.display",
+			"sourceText": "Izlude, the Satellite City",
+			"context": "MapTable displayName for izlude_c.rsw.",
+			"translations": {
+				"en": "Izlude, the Satellite City",
+				"zh-CN": "卫星都市依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude_c.main",
+			"sourceText": "Izlude",
+			"context": "MapTable signName.mainTitle for izlude_c.rsw.",
+			"translations": {
+				"en": "Izlude",
+				"zh-CN": "依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude_c.sub",
+			"sourceText": "Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for izlude_c.rsw.",
+			"translations": {
+				"en": "Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国"
+			}
+		},
+		{
+			"key": "map.izlude_d.display",
+			"sourceText": "Izlude, the Satellite City",
+			"context": "MapTable displayName for izlude_d.rsw.",
+			"translations": {
+				"en": "Izlude, the Satellite City",
+				"zh-CN": "卫星都市依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude_d.main",
+			"sourceText": "Izlude",
+			"context": "MapTable signName.mainTitle for izlude_d.rsw.",
+			"translations": {
+				"en": "Izlude",
+				"zh-CN": "依斯鲁得"
+			}
+		},
+		{
+			"key": "map.izlude_d.sub",
+			"sourceText": "Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for izlude_d.rsw.",
+			"translations": {
+				"en": "Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国"
+			}
+		},
+		{
+			"key": "map.izlude_in.display",
+			"sourceText": "Inside Izlude",
+			"context": "MapTable displayName for izlude_in.rsw.",
+			"translations": {
+				"en": "Inside Izlude",
+				"zh-CN": "依斯鲁得内部"
+			}
+		},
+		{
+			"key": "map.prontera.display",
+			"sourceText": "Prontera, Capital of Rune Midgard",
+			"context": "MapTable displayName for prontera.rsw.",
+			"translations": {
+				"en": "Prontera, Capital of Rune Midgard",
+				"zh-CN": "卢恩-米德加尔特王都普隆德拉"
+			}
+		},
+		{
+			"key": "map.prontera.main",
+			"sourceText": "Prontera",
+			"context": "MapTable signName.mainTitle for prontera.rsw.",
+			"translations": {
+				"en": "Prontera",
+				"zh-CN": "普隆德拉"
+			}
+		},
+		{
+			"key": "map.prontera.sub",
+			"sourceText": "Capital of the Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for prontera.rsw.",
+			"translations": {
+				"en": "Capital of the Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国首都"
+			}
+		},
+		{
+			"key": "map.geffen.display",
+			"sourceText": "Geffen, the Magic City",
+			"context": "MapTable displayName for geffen.rsw.",
+			"translations": {
+				"en": "Geffen, the Magic City",
+				"zh-CN": "魔法之都吉芬"
+			}
+		},
+		{
+			"key": "map.geffen.main",
+			"sourceText": "Geffen",
+			"context": "MapTable signName.mainTitle for geffen.rsw.",
+			"translations": {
+				"en": "Geffen",
+				"zh-CN": "吉芬"
+			}
+		},
+		{
+			"key": "map.geffen.sub",
+			"sourceText": "Magic City in the Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for geffen.rsw.",
+			"translations": {
+				"en": "Magic City in the Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国的魔法都市"
+			}
+		},
+		{
+			"key": "map.payon.display",
+			"sourceText": "Payon Town",
+			"context": "MapTable displayName for payon.rsw.",
+			"translations": {
+				"en": "Payon Town",
+				"zh-CN": "斐扬"
+			}
+		},
+		{
+			"key": "map.payon.main",
+			"sourceText": "Payon",
+			"context": "MapTable signName.mainTitle for payon.rsw.",
+			"translations": {
+				"en": "Payon",
+				"zh-CN": "斐扬"
+			}
+		},
+		{
+			"key": "map.payon.sub",
+			"sourceText": "Mountain City in the Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for payon.rsw.",
+			"translations": {
+				"en": "Mountain City in the Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国的山岳都市"
+			}
+		},
+		{
+			"key": "map.morocc.display",
+			"sourceText": "Morroc Town",
+			"context": "MapTable displayName for morocc.rsw.",
+			"translations": {
+				"en": "Morroc Town",
+				"zh-CN": "梦罗克"
+			}
+		},
+		{
+			"key": "map.morocc.main",
+			"sourceText": "Morroc",
+			"context": "MapTable signName.mainTitle for morocc.rsw.",
+			"translations": {
+				"en": "Morroc",
+				"zh-CN": "梦罗克"
+			}
+		},
+		{
+			"key": "map.morocc.sub",
+			"sourceText": "Desert City in the Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for morocc.rsw.",
+			"translations": {
+				"en": "Desert City in the Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国的沙漠都市"
+			}
+		},
+		{
+			"key": "map.alberta.display",
+			"sourceText": "Port City Alberta",
+			"context": "MapTable displayName for alberta.rsw.",
+			"translations": {
+				"en": "Port City Alberta",
+				"zh-CN": "港口都市艾尔贝塔"
+			}
+		},
+		{
+			"key": "map.alberta.main",
+			"sourceText": "Alberta",
+			"context": "MapTable signName.mainTitle for alberta.rsw.",
+			"translations": {
+				"en": "Alberta",
+				"zh-CN": "艾尔贝塔"
+			}
+		},
+		{
+			"key": "map.alberta.sub",
+			"sourceText": "Port City of Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for alberta.rsw.",
+			"translations": {
+				"en": "Port City of Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国的港口都市"
+			}
+		},
+		{
+			"key": "map.aldebaran.display",
+			"sourceText": "Border City Aldebaran",
+			"context": "MapTable displayName for aldebaran.rsw.",
+			"translations": {
+				"en": "Border City Aldebaran",
+				"zh-CN": "边境都市艾尔帕兰"
+			}
+		},
+		{
+			"key": "map.aldebaran.main",
+			"sourceText": "Aldebaran",
+			"context": "MapTable signName.mainTitle for aldebaran.rsw.",
+			"translations": {
+				"en": "Aldebaran",
+				"zh-CN": "艾尔帕兰"
+			}
+		},
+		{
+			"key": "map.aldebaran.sub",
+			"sourceText": "Border City in the Rune-Midgarts Kingdom",
+			"context": "MapTable signName.subTitle for aldebaran.rsw.",
+			"translations": {
+				"en": "Border City in the Rune-Midgarts Kingdom",
+				"zh-CN": "卢恩-米德加尔特王国的边境都市"
+			}
+		}
+	];
+	maps_default = {
+		$schema: $schema$9,
+		entries: entries$10
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/monsters.json
+var $schema$8, entries$9, monsters_default;
+var init_monsters = __esmMin((() => {
+	$schema$8 = "../../schema/client-message-fragment.schema.json";
+	entries$9 = [
+		{
+			"key": "monster.1001",
+			"sourceText": "Scorpion",
+			"context": "Monster display name for mob ID 1001 from MonsterNameTable.",
+			"translations": {
+				"en": "Scorpion",
+				"zh-CN": "蝎子"
+			}
+		},
+		{
+			"key": "monster.1002",
+			"sourceText": "Poring",
+			"context": "Monster display name for mob ID 1002 from MonsterNameTable.",
+			"translations": {
+				"en": "Poring",
+				"zh-CN": "波利"
+			}
+		},
+		{
+			"key": "monster.1007",
+			"sourceText": "Fabre",
+			"context": "Monster display name for mob ID 1007 from MonsterNameTable.",
+			"translations": {
+				"en": "Fabre",
+				"zh-CN": "法布勒"
+			}
+		},
+		{
+			"key": "monster.1008",
+			"sourceText": "Pupa",
+			"context": "Monster display name for mob ID 1008 from MonsterNameTable.",
+			"translations": {
+				"en": "Pupa",
+				"zh-CN": "蛹"
+			}
+		},
+		{
+			"key": "monster.1011",
+			"sourceText": "Chonchon",
+			"context": "Monster display name for mob ID 1011 from MonsterNameTable.",
+			"translations": {
+				"en": "Chonchon",
+				"zh-CN": "苍蝇"
+			}
+		},
+		{
+			"key": "monster.1014",
+			"sourceText": "Spore",
+			"context": "Monster display name for mob ID 1014 from MonsterNameTable.",
+			"translations": {
+				"en": "Spore",
+				"zh-CN": "毒蘑菇"
+			}
+		},
+		{
+			"key": "monster.1018",
+			"sourceText": "Creamy",
+			"context": "Monster display name for mob ID 1018 from MonsterNameTable.",
+			"translations": {
+				"en": "Creamy",
+				"zh-CN": "克瑞米"
+			}
+		},
+		{
+			"key": "monster.1031",
+			"sourceText": "Poporing",
+			"context": "Monster display name for mob ID 1031 from MonsterNameTable.",
+			"translations": {
+				"en": "Poporing",
+				"zh-CN": "波波利"
+			}
+		},
+		{
+			"key": "monster.1062",
+			"sourceText": "Santa Poring",
+			"context": "Monster display name for mob ID 1062 from MonsterNameTable.",
+			"translations": {
+				"en": "Santa Poring",
+				"zh-CN": "圣诞波利"
+			}
+		},
+		{
+			"key": "monster.1063",
+			"sourceText": "Lunatic",
+			"context": "Monster display name for mob ID 1063 from MonsterNameTable.",
+			"translations": {
+				"en": "Lunatic",
+				"zh-CN": "疯兔"
+			}
+		},
+		{
+			"key": "monster.1113",
+			"sourceText": "Drops",
+			"context": "Monster display name for mob ID 1113 from MonsterNameTable.",
+			"translations": {
+				"en": "Drops",
+				"zh-CN": "滴液波利"
+			}
+		},
+		{
+			"key": "monster.2401",
+			"sourceText": "Poring",
+			"context": "Monster display name for int_land03 Poring spawn mob ID 2401 from MonsterNameTable.",
+			"translations": {
+				"en": "Poring",
+				"zh-CN": "波利"
+			}
+		}
+	];
+	monsters_default = {
+		$schema: $schema$8,
+		entries: entries$9
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/towns.json
+var $schema$7, entries$8, towns_default;
+var init_towns = __esmMin((() => {
+	$schema$7 = "../../schema/client-message-fragment.schema.json";
+	entries$8 = [
+		{
+			"key": "town.service.kafra-employee",
+			"sourceText": "Kafra Employee",
+			"context": "TownInfo service name used on Izlude and Prontera minimap icons.",
+			"translations": {
+				"en": "Kafra Employee",
+				"zh-CN": "卡普拉职员"
+			}
+		},
+		{
+			"key": "town.service.guide",
+			"sourceText": "Guide",
+			"context": "TownInfo service name used on Izlude and Prontera minimap icons.",
+			"translations": {
+				"en": "Guide",
+				"zh-CN": "向导"
+			}
+		},
+		{
+			"key": "town.service.store",
+			"sourceText": "Store",
+			"context": "TownInfo service name used on the Izlude minimap tool-dealer icon.",
+			"translations": {
+				"en": "Store",
+				"zh-CN": "商店"
+			}
+		},
+		{
+			"key": "town.service.blacksmith",
+			"sourceText": "Blacksmith",
+			"context": "TownInfo service name used on the Izlude minimap blacksmith icon.",
+			"translations": {
+				"en": "Blacksmith",
+				"zh-CN": "铁匠"
+			}
+		},
+		{
+			"key": "town.service.tool-dealer",
+			"sourceText": "Tool Dealer",
+			"context": "TownInfo service name used on common city minimap tool-dealer icons.",
+			"translations": {
+				"en": "Tool Dealer",
+				"zh-CN": "道具商人"
+			}
+		},
+		{
+			"key": "town.service.weapon-dealer",
+			"sourceText": "Weapon Dealer",
+			"context": "TownInfo service name used on common city minimap weapon-dealer icons.",
+			"translations": {
+				"en": "Weapon Dealer",
+				"zh-CN": "武器商人"
+			}
+		}
+	];
+	towns_default = {
+		$schema: $schema$7,
+		entries: entries$8
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/items-usable.json
+var $schema$6, entries$7, items_usable_default;
+var init_items_usable = __esmMin((() => {
+	$schema$6 = "../../schema/client-message-fragment.schema.json";
+	entries$7 = [
+		{
+			"key": "item.501.name",
+			"sourceText": "Red Potion",
+			"context": "Identified display name for item ID 501 (Red Potion), seeded on AutoTest.",
+			"translations": {
+				"en": "Red Potion",
+				"zh-CN": "红色药水"
+			}
+		},
+		{
+			"key": "item.502.name",
+			"sourceText": "Orange Potion",
+			"context": "Identified display name for item ID 502 (Orange Potion).",
+			"translations": {
+				"en": "Orange Potion",
+				"zh-CN": "橙色药水"
+			}
+		},
+		{
+			"key": "item.503.name",
+			"sourceText": "Yellow Potion",
+			"context": "Identified display name for item ID 503 (Yellow Potion).",
+			"translations": {
+				"en": "Yellow Potion",
+				"zh-CN": "黄色药水"
+			}
+		},
+		{
+			"key": "item.504.name",
+			"sourceText": "White Potion",
+			"context": "Identified display name for item ID 504 (White Potion).",
+			"translations": {
+				"en": "White Potion",
+				"zh-CN": "白色药水"
+			}
+		},
+		{
+			"key": "item.505.name",
+			"sourceText": "Blue Potion",
+			"context": "Identified display name for item ID 505 (Blue Potion).",
+			"translations": {
+				"en": "Blue Potion",
+				"zh-CN": "蓝色药水"
+			}
+		},
+		{
+			"key": "item.506.name",
+			"sourceText": "Green Potion",
+			"context": "Identified display name for item ID 506 (Green Potion).",
+			"translations": {
+				"en": "Green Potion",
+				"zh-CN": "绿色药水"
+			}
+		},
+		{
+			"key": "item.507.name",
+			"sourceText": "Red Herb",
+			"context": "Identified display name for item ID 507 (Red Herb).",
+			"translations": {
+				"en": "Red Herb",
+				"zh-CN": "红色药草"
+			}
+		},
+		{
+			"key": "item.508.name",
+			"sourceText": "Yellow Herb",
+			"context": "Identified display name for item ID 508 (Yellow Herb).",
+			"translations": {
+				"en": "Yellow Herb",
+				"zh-CN": "黄色药草"
+			}
+		},
+		{
+			"key": "item.509.name",
+			"sourceText": "White Herb",
+			"context": "Identified display name for item ID 509 (White Herb).",
+			"translations": {
+				"en": "White Herb",
+				"zh-CN": "白色药草"
+			}
+		},
+		{
+			"key": "item.510.name",
+			"sourceText": "Blue Herb",
+			"context": "Identified display name for item ID 510 (Blue Herb).",
+			"translations": {
+				"en": "Blue Herb",
+				"zh-CN": "蓝色药草"
+			}
+		},
+		{
+			"key": "item.511.name",
+			"sourceText": "Green Herb",
+			"context": "Identified display name for item ID 511 (Green Herb).",
+			"translations": {
+				"en": "Green Herb",
+				"zh-CN": "绿色药草"
+			}
+		},
+		{
+			"key": "item.512.name",
+			"sourceText": "Apple",
+			"context": "Identified display name for item ID 512 (Apple).",
+			"translations": {
+				"en": "Apple",
+				"zh-CN": "苹果"
+			}
+		},
+		{
+			"key": "item.513.name",
+			"sourceText": "Banana",
+			"context": "Identified display name for item ID 513 (Banana).",
+			"translations": {
+				"en": "Banana",
+				"zh-CN": "香蕉"
+			}
+		},
+		{
+			"key": "item.514.name",
+			"sourceText": "Grape",
+			"context": "Identified display name for item ID 514 (Grape).",
+			"translations": {
+				"en": "Grape",
+				"zh-CN": "葡萄"
+			}
+		},
+		{
+			"key": "item.515.name",
+			"sourceText": "Carrot",
+			"context": "Identified display name for item ID 515 (Carrot).",
+			"translations": {
+				"en": "Carrot",
+				"zh-CN": "胡萝卜"
+			}
+		},
+		{
+			"key": "item.516.name",
+			"sourceText": "Potato",
+			"context": "Identified display name for item ID 516 (Sweet Potato / Potato).",
+			"translations": {
+				"en": "Potato",
+				"zh-CN": "地瓜"
+			}
+		},
+		{
+			"key": "item.601.name",
+			"sourceText": "Fly Wing",
+			"context": "Identified display name for item ID 601 (Fly Wing).",
+			"translations": {
+				"en": "Fly Wing",
+				"zh-CN": "苍蝇翅膀"
+			}
+		},
+		{
+			"key": "item.602.name",
+			"sourceText": "Butterfly Wing",
+			"context": "Identified display name for item ID 602 (Butterfly Wing).",
+			"translations": {
+				"en": "Butterfly Wing",
+				"zh-CN": "蝴蝶翅膀"
+			}
+		},
+		{
+			"key": "item.603.name",
+			"sourceText": "Old Blue Box",
+			"context": "Identified display name for item ID 603 (Old Blue Box).",
+			"translations": {
+				"en": "Old Blue Box",
+				"zh-CN": "旧蓝色箱子"
+			}
+		},
+		{
+			"key": "item.604.name",
+			"sourceText": "Dead Branch",
+			"context": "Identified display name for item ID 604 (Dead Branch).",
+			"translations": {
+				"en": "Dead Branch",
+				"zh-CN": "枯树枝"
+			}
+		},
+		{
+			"key": "item.605.name",
+			"sourceText": "Anodyne",
+			"context": "Identified display name for item ID 605 (Anodyne).",
+			"translations": {
+				"en": "Anodyne",
+				"zh-CN": "镇痛剂"
+			}
+		},
+		{
+			"key": "item.606.name",
+			"sourceText": "Aloevera",
+			"context": "Identified display name for item ID 606 (Aloevera).",
+			"translations": {
+				"en": "Aloevera",
+				"zh-CN": "芦荟"
+			}
+		},
+		{
+			"key": "item.607.name",
+			"sourceText": "Yggdrasil Berry",
+			"context": "Identified display name for item ID 607 (Yggdrasil Berry).",
+			"translations": {
+				"en": "Yggdrasil Berry",
+				"zh-CN": "世界树果实"
+			}
+		},
+		{
+			"key": "item.608.name",
+			"sourceText": "Yggdrasil Seed",
+			"context": "Identified display name for item ID 608 (Yggdrasil Seed).",
+			"translations": {
+				"en": "Yggdrasil Seed",
+				"zh-CN": "世界树种子"
+			}
+		},
+		{
+			"key": "item.609.name",
+			"sourceText": "Amulet",
+			"context": "Identified display name for item ID 609 (Amulet).",
+			"translations": {
+				"en": "Amulet",
+				"zh-CN": "护身符"
+			}
+		},
+		{
+			"key": "item.610.name",
+			"sourceText": "Yggdrasil Leaf",
+			"context": "Identified display name for item ID 610 (Yggdrasil Leaf).",
+			"translations": {
+				"en": "Yggdrasil Leaf",
+				"zh-CN": "世界树叶子"
+			}
+		},
+		{
+			"key": "item.611.name",
+			"sourceText": "Magnifier",
+			"context": "Identified display name for item ID 611 (Magnifier).",
+			"translations": {
+				"en": "Magnifier",
+				"zh-CN": "放大镜"
+			}
+		},
+		{
+			"key": "item.612.name",
+			"sourceText": "Mini Furnace",
+			"context": "Identified display name for item ID 612 (Mini Furnace).",
+			"translations": {
+				"en": "Mini Furnace",
+				"zh-CN": "便携熔炉"
+			}
+		},
+		{
+			"key": "item.645.name",
+			"sourceText": "Concentration Potion",
+			"context": "Identified display name for item ID 645 (Concentration Potion).",
+			"translations": {
+				"en": "Concentration Potion",
+				"zh-CN": "集中药水"
+			}
+		},
+		{
+			"key": "item.656.name",
+			"sourceText": "Awakening Potion",
+			"context": "Identified display name for item ID 656 (Awakening Potion).",
+			"translations": {
+				"en": "Awakening Potion",
+				"zh-CN": "觉醒药水"
+			}
+		},
+		{
+			"key": "item.657.name",
+			"sourceText": "Berserk Potion",
+			"context": "Identified display name for item ID 657 (Berserk Potion).",
+			"translations": {
+				"en": "Berserk Potion",
+				"zh-CN": "狂暴药水"
+			}
+		},
+		{
+			"key": "item.23484.name",
+			"sourceText": "First aid Box (5)",
+			"context": "Identified display name for item ID 23484, the Renewal novice start first-aid box.",
+			"translations": {
+				"en": "First aid Box (5)",
+				"zh-CN": "急救箱(5)"
+			}
+		}
+	];
+	items_usable_default = {
+		$schema: $schema$6,
+		entries: entries$7
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/items-equip.json
+var $schema$5, entries$6, items_equip_default;
+var init_items_equip = __esmMin((() => {
+	$schema$5 = "../../schema/client-message-fragment.schema.json";
+	entries$6 = [
+		{
+			"key": "item.1201.name",
+			"sourceText": "Knife",
+			"context": "Identified display name for item ID 1201 (Knife), the Renewal novice start weapon.",
+			"translations": {
+				"en": "Knife",
+				"zh-CN": "小刀"
+			}
+		},
+		{
+			"key": "item.2301.name",
+			"sourceText": "Cotton Shirt",
+			"context": "Identified display name for item ID 2301 (Cotton Shirt), the Renewal novice start armor.",
+			"translations": {
+				"en": "Cotton Shirt",
+				"zh-CN": "棉衫"
+			}
+		},
+		{
+			"key": "item.2634.name",
+			"sourceText": "Wedding Ring",
+			"context": "Identified display name for item ID 2634 (Wedding Ring), seeded as restricted equipment on AutoTest.",
+			"translations": {
+				"en": "Wedding Ring",
+				"zh-CN": "结婚戒指"
+			}
+		}
+	];
+	items_equip_default = {
+		$schema: $schema$5,
+		entries: entries$6
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/items-etc.json
+var $schema$4, entries$5, items_etc_default;
+var init_items_etc = __esmMin((() => {
+	$schema$4 = "../../schema/client-message-fragment.schema.json";
+	entries$5 = [
+		{
+			"key": "item.705.name",
+			"sourceText": "Clover",
+			"context": "Identified display name for item ID 705 (Clover).",
+			"translations": {
+				"en": "Clover",
+				"zh-CN": "三叶草"
+			}
+		},
+		{
+			"key": "item.713.name",
+			"sourceText": "Empty Bottle",
+			"context": "Identified display name for item ID 713 (Empty Bottle).",
+			"translations": {
+				"en": "Empty Bottle",
+				"zh-CN": "空瓶"
+			}
+		},
+		{
+			"key": "item.715.name",
+			"sourceText": "Yellow Gemstone",
+			"context": "Identified display name for item ID 715 (Yellow Gemstone).",
+			"translations": {
+				"en": "Yellow Gemstone",
+				"zh-CN": "黄色宝石"
+			}
+		},
+		{
+			"key": "item.716.name",
+			"sourceText": "Red Gemstone",
+			"context": "Identified display name for item ID 716 (Red Gemstone).",
+			"translations": {
+				"en": "Red Gemstone",
+				"zh-CN": "红色宝石"
+			}
+		},
+		{
+			"key": "item.717.name",
+			"sourceText": "Blue Gemstone",
+			"context": "Identified display name for item ID 717 (Blue Gemstone).",
+			"translations": {
+				"en": "Blue Gemstone",
+				"zh-CN": "蓝色宝石"
+			}
+		},
+		{
+			"key": "item.909.name",
+			"sourceText": "Jellopy",
+			"context": "Identified display name for item ID 909 (Jellopy).",
+			"translations": {
+				"en": "Jellopy",
+				"zh-CN": "凝胶"
+			}
+		},
+		{
+			"key": "item.910.name",
+			"sourceText": "Garlet",
+			"context": "Identified display name for item ID 910 (Garlet).",
+			"translations": {
+				"en": "Garlet",
+				"zh-CN": "加勒特"
+			}
+		},
+		{
+			"key": "item.912.name",
+			"sourceText": "Zargon",
+			"context": "Identified display name for item ID 912 (Zargon).",
+			"translations": {
+				"en": "Zargon",
+				"zh-CN": "札尔贡"
+			}
+		},
+		{
+			"key": "item.913.name",
+			"sourceText": "Tooth of Bat",
+			"context": "Identified display name for item ID 913 (Tooth of Bat).",
+			"translations": {
+				"en": "Tooth of Bat",
+				"zh-CN": "蝙蝠牙齿"
+			}
+		},
+		{
+			"key": "item.914.name",
+			"sourceText": "Fluff",
+			"context": "Identified display name for item ID 914 (Fluff).",
+			"translations": {
+				"en": "Fluff",
+				"zh-CN": "绒毛"
+			}
+		},
+		{
+			"key": "item.915.name",
+			"sourceText": "Chrysalis",
+			"context": "Identified display name for item ID 915 (Chrysalis).",
+			"translations": {
+				"en": "Chrysalis",
+				"zh-CN": "虫蛹"
+			}
+		},
+		{
+			"key": "item.916.name",
+			"sourceText": "Feather of Birds",
+			"context": "Identified display name for item ID 916 (Feather of Birds).",
+			"translations": {
+				"en": "Feather of Birds",
+				"zh-CN": "鸟类羽毛"
+			}
+		},
+		{
+			"key": "item.917.name",
+			"sourceText": "Talon",
+			"context": "Identified display name for item ID 917 (Talon).",
+			"translations": {
+				"en": "Talon",
+				"zh-CN": "鸟爪"
+			}
+		},
+		{
+			"key": "item.918.name",
+			"sourceText": "Sticky Webfoot",
+			"context": "Identified display name for item ID 918 (Sticky Webfoot).",
+			"translations": {
+				"en": "Sticky Webfoot",
+				"zh-CN": "黏稠蹼足"
+			}
+		},
+		{
+			"key": "item.919.name",
+			"sourceText": "Animal Skin",
+			"context": "Identified display name for item ID 919 (Animal Skin).",
+			"translations": {
+				"en": "Animal Skin",
+				"zh-CN": "动物皮"
+			}
+		},
+		{
+			"key": "item.920.name",
+			"sourceText": "Wolf Claw",
+			"context": "Identified display name for item ID 920 (Wolf Claw).",
+			"translations": {
+				"en": "Wolf Claw",
+				"zh-CN": "狼爪"
+			}
+		},
+		{
+			"key": "item.921.name",
+			"sourceText": "Mushroom Spore",
+			"context": "Identified display name for item ID 921 (Mushroom Spore).",
+			"translations": {
+				"en": "Mushroom Spore",
+				"zh-CN": "蘑菇孢子"
+			}
+		},
+		{
+			"key": "item.922.name",
+			"sourceText": "Orc's Fang",
+			"context": "Identified display name for item ID 922 (Orc's Fang).",
+			"translations": {
+				"en": "Orc's Fang",
+				"zh-CN": "兽人尖牙"
+			}
+		},
+		{
+			"key": "item.923.name",
+			"sourceText": "Evil Horn",
+			"context": "Identified display name for item ID 923 (Evil Horn).",
+			"translations": {
+				"en": "Evil Horn",
+				"zh-CN": "恶魔角"
+			}
+		},
+		{
+			"key": "item.924.name",
+			"sourceText": "Powder of Butterfly",
+			"context": "Identified display name for item ID 924 (Powder of Butterfly).",
+			"translations": {
+				"en": "Powder of Butterfly",
+				"zh-CN": "蝴蝶粉末"
+			}
+		},
+		{
+			"key": "item.925.name",
+			"sourceText": "Bill of Birds",
+			"context": "Identified display name for item ID 925 (Bill of Birds).",
+			"translations": {
+				"en": "Bill of Birds",
+				"zh-CN": "鸟喙"
+			}
+		},
+		{
+			"key": "item.926.name",
+			"sourceText": "Snake Scale",
+			"context": "Identified display name for item ID 926 (Snake Scale).",
+			"translations": {
+				"en": "Snake Scale",
+				"zh-CN": "蛇鳞"
+			}
+		},
+		{
+			"key": "item.928.name",
+			"sourceText": "Insect Feeler",
+			"context": "Identified display name for item ID 928 (Insect Feeler).",
+			"translations": {
+				"en": "Insect Feeler",
+				"zh-CN": "昆虫触角"
+			}
+		},
+		{
+			"key": "item.929.name",
+			"sourceText": "Immortal Heart",
+			"context": "Identified display name for item ID 929 (Immortal Heart).",
+			"translations": {
+				"en": "Immortal Heart",
+				"zh-CN": "不朽之心"
+			}
+		},
+		{
+			"key": "item.930.name",
+			"sourceText": "Rotten Bandage",
+			"context": "Identified display name for item ID 930 (Rotten Bandage).",
+			"translations": {
+				"en": "Rotten Bandage",
+				"zh-CN": "腐烂绷带"
+			}
+		},
+		{
+			"key": "item.931.name",
+			"sourceText": "Orcish Voucher",
+			"context": "Identified display name for item ID 931 (Orcish Voucher).",
+			"translations": {
+				"en": "Orcish Voucher",
+				"zh-CN": "兽人凭证"
+			}
+		},
+		{
+			"key": "item.932.name",
+			"sourceText": "Skel-Bone",
+			"context": "Identified display name for item ID 932 (Skel-Bone).",
+			"translations": {
+				"en": "Skel-Bone",
+				"zh-CN": "骷髅骨"
+			}
+		},
+		{
+			"key": "item.934.name",
+			"sourceText": "Memento",
+			"context": "Identified display name for item ID 934 (Memento).",
+			"translations": {
+				"en": "Memento",
+				"zh-CN": "纪念品"
+			}
+		},
+		{
+			"key": "item.935.name",
+			"sourceText": "Shell",
+			"context": "Identified display name for item ID 935 (Shell).",
+			"translations": {
+				"en": "Shell",
+				"zh-CN": "贝壳"
+			}
+		},
+		{
+			"key": "item.949.name",
+			"sourceText": "Feather",
+			"context": "Identified display name for item ID 949 (Feather).",
+			"translations": {
+				"en": "Feather",
+				"zh-CN": "羽毛"
+			}
+		},
+		{
+			"key": "item.998.name",
+			"sourceText": "Iron",
+			"context": "Identified display name for item ID 998 (Iron).",
+			"translations": {
+				"en": "Iron",
+				"zh-CN": "铁"
+			}
+		},
+		{
+			"key": "item.999.name",
+			"sourceText": "Steel",
+			"context": "Identified display name for item ID 999 (Steel).",
+			"translations": {
+				"en": "Steel",
+				"zh-CN": "钢"
+			}
+		},
+		{
+			"key": "item.1002.name",
+			"sourceText": "Iron Ore",
+			"context": "Identified display name for item ID 1002 (Iron Ore).",
+			"translations": {
+				"en": "Iron Ore",
+				"zh-CN": "铁矿石"
+			}
+		}
+	];
+	items_etc_default = {
+		$schema: $schema$4,
+		entries: entries$5
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/skills-novice-first.json
+var $schema$3, entries$4, skills_novice_first_default;
+var init_skills_novice_first = __esmMin((() => {
+	$schema$3 = "../../schema/client-message-fragment.schema.json";
+	entries$4 = [
+		{
+			"key": "skill.1.name",
+			"sourceText": "Basic Skill",
+			"context": "Display name for skill ID 1 (NV_BASIC / 初心者基础技能).",
+			"translations": {
+				"en": "Basic Skill",
+				"zh-CN": "基本技能"
+			}
+		},
+		{
+			"key": "skill.2.name",
+			"sourceText": "Sword Mastery",
+			"context": "Display name for skill ID 2 (SM_SWORD / 剑士单手剑熟练).",
+			"translations": {
+				"en": "Sword Mastery",
+				"zh-CN": "单手剑使用熟练度"
+			}
+		},
+		{
+			"key": "skill.3.name",
+			"sourceText": "Two Handed Sword Mastery",
+			"context": "Display name for skill ID 3 (SM_TWOHAND / 剑士双手剑熟练).",
+			"translations": {
+				"en": "Two Handed Sword Mastery",
+				"zh-CN": "双手剑使用熟练度"
+			}
+		},
+		{
+			"key": "skill.4.name",
+			"sourceText": "Increase HP Recovery",
+			"context": "Display name for skill ID 4 (SM_RECOVERY / 剑士HP恢复).",
+			"translations": {
+				"en": "Increase HP Recovery",
+				"zh-CN": "HP恢复量提高"
+			}
+		},
+		{
+			"key": "skill.5.name",
+			"sourceText": "Bash",
+			"context": "Display name for skill ID 5 (SM_BASH / 剑士狂击).",
+			"translations": {
+				"en": "Bash",
+				"zh-CN": "狂击"
+			}
+		},
+		{
+			"key": "skill.6.name",
+			"sourceText": "Provoke",
+			"context": "Display name for skill ID 6 (SM_PROVOKE / 剑士挑衅).",
+			"translations": {
+				"en": "Provoke",
+				"zh-CN": "挑衅"
+			}
+		},
+		{
+			"key": "skill.7.name",
+			"sourceText": "Magnum Break",
+			"context": "Display name for skill ID 7 (SM_MAGNUM / 剑士怒爆).",
+			"translations": {
+				"en": "Magnum Break",
+				"zh-CN": "怒爆"
+			}
+		},
+		{
+			"key": "skill.8.name",
+			"sourceText": "Endure",
+			"context": "Display name for skill ID 8 (SM_ENDURE / 剑士霸体).",
+			"translations": {
+				"en": "Endure",
+				"zh-CN": "霸体"
+			}
+		},
+		{
+			"key": "skill.9.name",
+			"sourceText": "Increase SP Recovery",
+			"context": "Display name for skill ID 9 (MG_SRECOVERY / 魔法师SP恢复).",
+			"translations": {
+				"en": "Increase SP Recovery",
+				"zh-CN": "SP恢复量提高"
+			}
+		},
+		{
+			"key": "skill.10.name",
+			"sourceText": "Sight",
+			"context": "Display name for skill ID 10 (MG_SIGHT / 魔法师火狩).",
+			"translations": {
+				"en": "Sight",
+				"zh-CN": "火狩"
+			}
+		},
+		{
+			"key": "skill.11.name",
+			"sourceText": "Napalm Beat",
+			"context": "Display name for skill ID 11 (MG_NAPALMBEAT / 魔法师心灵爆破).",
+			"translations": {
+				"en": "Napalm Beat",
+				"zh-CN": "心灵爆破"
+			}
+		},
+		{
+			"key": "skill.12.name",
+			"sourceText": "Safety Wall",
+			"context": "Display name for skill ID 12 (MG_SAFETYWALL / 魔法师安全墙).",
+			"translations": {
+				"en": "Safety Wall",
+				"zh-CN": "暗之障壁"
+			}
+		},
+		{
+			"key": "skill.13.name",
+			"sourceText": "Soul Strike",
+			"context": "Display name for skill ID 13 (MG_SOULSTRIKE / 魔法师灵魂打击).",
+			"translations": {
+				"en": "Soul Strike",
+				"zh-CN": "灵魂打击"
+			}
+		},
+		{
+			"key": "skill.14.name",
+			"sourceText": "Cold Bolt",
+			"context": "Display name for skill ID 14 (MG_COLDBOLT / 魔法师冰箭).",
+			"translations": {
+				"en": "Cold Bolt",
+				"zh-CN": "冰箭术"
+			}
+		},
+		{
+			"key": "skill.15.name",
+			"sourceText": "Frost Driver",
+			"context": "Display name for skill ID 15 (MG_FROSTDIVER / 魔法师冰冻术).",
+			"translations": {
+				"en": "Frost Driver",
+				"zh-CN": "冰冻术"
+			}
+		},
+		{
+			"key": "skill.16.name",
+			"sourceText": "Stone Curse",
+			"context": "Display name for skill ID 16 (MG_STONECURSE / 魔法师石化).",
+			"translations": {
+				"en": "Stone Curse",
+				"zh-CN": "石化术"
+			}
+		},
+		{
+			"key": "skill.17.name",
+			"sourceText": "Fire Ball",
+			"context": "Display name for skill ID 17 (MG_FIREBALL / 魔法师火球).",
+			"translations": {
+				"en": "Fire Ball",
+				"zh-CN": "火球术"
+			}
+		},
+		{
+			"key": "skill.18.name",
+			"sourceText": "Fire Wall",
+			"context": "Display name for skill ID 18 (MG_FIREWALL / 魔法师火墙).",
+			"translations": {
+				"en": "Fire Wall",
+				"zh-CN": "火焰之壁"
+			}
+		},
+		{
+			"key": "skill.19.name",
+			"sourceText": "Fire Bolt",
+			"context": "Display name for skill ID 19 (MG_FIREBOLT / 魔法师火箭).",
+			"translations": {
+				"en": "Fire Bolt",
+				"zh-CN": "火箭术"
+			}
+		},
+		{
+			"key": "skill.20.name",
+			"sourceText": "Lightning Bolt",
+			"context": "Display name for skill ID 20 (MG_LIGHTNINGBOLT / 魔法师雷击).",
+			"translations": {
+				"en": "Lightning Bolt",
+				"zh-CN": "雷击术"
+			}
+		},
+		{
+			"key": "skill.21.name",
+			"sourceText": "Thunder Storm",
+			"context": "Display name for skill ID 21 (MG_THUNDERSTORM / 魔法师雷爆).",
+			"translations": {
+				"en": "Thunder Storm",
+				"zh-CN": "雷爆术"
+			}
+		},
+		{
+			"key": "skill.22.name",
+			"sourceText": "Divine Protection",
+			"context": "Display name for skill ID 22 (AL_DP / 服事天使之防护).",
+			"translations": {
+				"en": "Divine Protection",
+				"zh-CN": "天使之防护"
+			}
+		},
+		{
+			"key": "skill.23.name",
+			"sourceText": "Demon Bane",
+			"context": "Display name for skill ID 23 (AL_DEMONBANE / 服事天使之击).",
+			"translations": {
+				"en": "Demon Bane",
+				"zh-CN": "天使之击"
+			}
+		},
+		{
+			"key": "skill.24.name",
+			"sourceText": "Ruwach",
+			"context": "Display name for skill ID 24 (AL_RUWACH / 服事光猎).",
+			"translations": {
+				"en": "Ruwach",
+				"zh-CN": "光猎"
+			}
+		},
+		{
+			"key": "skill.25.name",
+			"sourceText": "Pneuma",
+			"context": "Display name for skill ID 25 (AL_PNEUMA / 服事光之壁).",
+			"translations": {
+				"en": "Pneuma",
+				"zh-CN": "光之壁"
+			}
+		},
+		{
+			"key": "skill.26.name",
+			"sourceText": "Teleport",
+			"context": "Display name for skill ID 26 (AL_TELEPORT / 服事瞬间移动).",
+			"translations": {
+				"en": "Teleport",
+				"zh-CN": "瞬间移动"
+			}
+		},
+		{
+			"key": "skill.27.name",
+			"sourceText": "Warp Portal",
+			"context": "Display name for skill ID 27 (AL_WARP / 服事传送阵).",
+			"translations": {
+				"en": "Warp Portal",
+				"zh-CN": "传送之阵"
+			}
+		},
+		{
+			"key": "skill.28.name",
+			"sourceText": "Heal",
+			"context": "Display name for skill ID 28 (AL_HEAL / 服事治愈术).",
+			"translations": {
+				"en": "Heal",
+				"zh-CN": "治愈术"
+			}
+		},
+		{
+			"key": "skill.29.name",
+			"sourceText": "Increase Agility",
+			"context": "Display name for skill ID 29 (AL_INCAGI / 服事加速术).",
+			"translations": {
+				"en": "Increase Agility",
+				"zh-CN": "加速术"
+			}
+		},
+		{
+			"key": "skill.30.name",
+			"sourceText": "Decrease Agility",
+			"context": "Display name for skill ID 30 (AL_DECAGI / 服事缓速术).",
+			"translations": {
+				"en": "Decrease Agility",
+				"zh-CN": "缓速术"
+			}
+		},
+		{
+			"key": "skill.31.name",
+			"sourceText": "Aqua Benedicta",
+			"context": "Display name for skill ID 31 (AL_HOLYWATER / 服事圣水).",
+			"translations": {
+				"en": "Aqua Benedicta",
+				"zh-CN": "天使之泪"
+			}
+		},
+		{
+			"key": "skill.32.name",
+			"sourceText": "Signum Crucis",
+			"context": "Display name for skill ID 32 (AL_CRUCIS / 服事天使之光).",
+			"translations": {
+				"en": "Signum Crucis",
+				"zh-CN": "天使之光"
+			}
+		},
+		{
+			"key": "skill.33.name",
+			"sourceText": "Angelus",
+			"context": "Display name for skill ID 33 (AL_ANGELUS / 服事天使之障壁).",
+			"translations": {
+				"en": "Angelus",
+				"zh-CN": "天使之障壁"
+			}
+		},
+		{
+			"key": "skill.34.name",
+			"sourceText": "Blessing",
+			"context": "Display name for skill ID 34 (AL_BLESSING / 服事天使之赐福).",
+			"translations": {
+				"en": "Blessing",
+				"zh-CN": "天使之赐福"
+			}
+		},
+		{
+			"key": "skill.35.name",
+			"sourceText": "Cure",
+			"context": "Display name for skill ID 35 (AL_CURE / 服事治疗术).",
+			"translations": {
+				"en": "Cure",
+				"zh-CN": "治疗术"
+			}
+		},
+		{
+			"key": "skill.36.name",
+			"sourceText": "Enlarge Weight Limit",
+			"context": "Display name for skill ID 36 (MC_INCCARRY / 商人负重强化).",
+			"translations": {
+				"en": "Enlarge Weight Limit",
+				"zh-CN": "负重强化"
+			}
+		},
+		{
+			"key": "skill.37.name",
+			"sourceText": "Discount",
+			"context": "Display name for skill ID 37 (MC_DISCOUNT / 商人低价买进).",
+			"translations": {
+				"en": "Discount",
+				"zh-CN": "低价买进"
+			}
+		},
+		{
+			"key": "skill.38.name",
+			"sourceText": "Overcharge",
+			"context": "Display name for skill ID 38 (MC_OVERCHARGE / 商人高价卖出).",
+			"translations": {
+				"en": "Overcharge",
+				"zh-CN": "高价卖出"
+			}
+		},
+		{
+			"key": "skill.39.name",
+			"sourceText": "Pushcart",
+			"context": "Display name for skill ID 39 (MC_PUSHCART / 商人手推车).",
+			"translations": {
+				"en": "Pushcart",
+				"zh-CN": "手推车使用"
+			}
+		},
+		{
+			"key": "skill.40.name",
+			"sourceText": "Item Appraisal",
+			"context": "Display name for skill ID 40 (MC_IDENTIFY / 商人物品鉴定).",
+			"translations": {
+				"en": "Item Appraisal",
+				"zh-CN": "物品鉴定"
+			}
+		},
+		{
+			"key": "skill.41.name",
+			"sourceText": "Vending",
+			"context": "Display name for skill ID 41 (MC_VENDING / 商人露天商店).",
+			"translations": {
+				"en": "Vending",
+				"zh-CN": "露天商店"
+			}
+		},
+		{
+			"key": "skill.42.name",
+			"sourceText": "Mammonite",
+			"context": "Display name for skill ID 42 (MC_MAMMONITE / 商人金钱攻击).",
+			"translations": {
+				"en": "Mammonite",
+				"zh-CN": "金钱攻击"
+			}
+		},
+		{
+			"key": "skill.43.name",
+			"sourceText": "Owl's Eye",
+			"context": "Display name for skill ID 43 (AC_OWL / 弓箭手鹗枭之眼).",
+			"translations": {
+				"en": "Owl's Eye",
+				"zh-CN": "鹗枭之眼"
+			}
+		},
+		{
+			"key": "skill.44.name",
+			"sourceText": "Vulture's Eye",
+			"context": "Display name for skill ID 44 (AC_VULTURE / 弓箭手秃鹰之眼).",
+			"translations": {
+				"en": "Vulture's Eye",
+				"zh-CN": "秃鹰之眼"
+			}
+		},
+		{
+			"key": "skill.45.name",
+			"sourceText": "Improve Concentration",
+			"context": "Display name for skill ID 45 (AC_CONCENTRATION / 弓箭手心神凝聚).",
+			"translations": {
+				"en": "Improve Concentration",
+				"zh-CN": "心神凝聚"
+			}
+		},
+		{
+			"key": "skill.46.name",
+			"sourceText": "Double Strafe",
+			"context": "Display name for skill ID 46 (AC_DOUBLE / 弓箭手二连矢).",
+			"translations": {
+				"en": "Double Strafe",
+				"zh-CN": "二连矢"
+			}
+		},
+		{
+			"key": "skill.47.name",
+			"sourceText": "Arrow Shower",
+			"context": "Display name for skill ID 47 (AC_SHOWER / 弓箭手箭雨).",
+			"translations": {
+				"en": "Arrow Shower",
+				"zh-CN": "箭雨"
+			}
+		},
+		{
+			"key": "skill.48.name",
+			"sourceText": "Double Attack",
+			"context": "Display name for skill ID 48 (TF_DOUBLE / 盗贼二刀连击).",
+			"translations": {
+				"en": "Double Attack",
+				"zh-CN": "二刀连击"
+			}
+		},
+		{
+			"key": "skill.49.name",
+			"sourceText": "Improve Dodge",
+			"context": "Display name for skill ID 49 (TF_MISS / 盗贼残影).",
+			"translations": {
+				"en": "Improve Dodge",
+				"zh-CN": "残影"
+			}
+		},
+		{
+			"key": "skill.50.name",
+			"sourceText": "Steal",
+			"context": "Display name for skill ID 50 (TF_STEAL / 盗贼偷窃).",
+			"translations": {
+				"en": "Steal",
+				"zh-CN": "偷窃"
+			}
+		},
+		{
+			"key": "skill.51.name",
+			"sourceText": "Hiding",
+			"context": "Display name for skill ID 51 (TF_HIDING / 盗贼隐匿).",
+			"translations": {
+				"en": "Hiding",
+				"zh-CN": "隐匿"
+			}
+		},
+		{
+			"key": "skill.52.name",
+			"sourceText": "Envenom",
+			"context": "Display name for skill ID 52 (TF_POISON / 盗贼施毒).",
+			"translations": {
+				"en": "Envenom",
+				"zh-CN": "施毒"
+			}
+		},
+		{
+			"key": "skill.53.name",
+			"sourceText": "Detoxify",
+			"context": "Display name for skill ID 53 (TF_DETOXIFY / 盗贼解毒).",
+			"translations": {
+				"en": "Detoxify",
+				"zh-CN": "解毒"
+			}
+		},
+		{
+			"key": "skill.142.name",
+			"sourceText": "First Aid",
+			"context": "Display name for skill ID 142 (NV_FIRSTAID / 初心者紧急治疗).",
+			"translations": {
+				"en": "First Aid",
+				"zh-CN": "紧急治疗"
+			}
+		},
+		{
+			"key": "skill.143.name",
+			"sourceText": "Play Dead",
+			"context": "Display name for skill ID 143 (NV_TRICKDEAD / 初心者装死).",
+			"translations": {
+				"en": "Play Dead",
+				"zh-CN": "装死"
+			}
+		},
+		{
+			"key": "skill.144.name",
+			"sourceText": "HP Recovery While Moving",
+			"context": "Display name for skill ID 144 (SM_MOVINGRECOVERY / 剑士移动恢复).",
+			"translations": {
+				"en": "HP Recovery While Moving",
+				"zh-CN": "移动时HP恢复"
+			}
+		},
+		{
+			"key": "skill.145.name",
+			"sourceText": "Fatal Blow",
+			"context": "Display name for skill ID 145 (SM_FATALBLOW / 剑士致命一击).",
+			"translations": {
+				"en": "Fatal Blow",
+				"zh-CN": "致命一击"
+			}
+		},
+		{
+			"key": "skill.146.name",
+			"sourceText": "Berserk",
+			"context": "Display name for skill ID 146 (SM_AUTOBERSERK / 剑士自动狂暴).",
+			"translations": {
+				"en": "Berserk",
+				"zh-CN": "狂暴状态"
+			}
+		},
+		{
+			"key": "skill.147.name",
+			"sourceText": "Arrow Crafting",
+			"context": "Display name for skill ID 147 (AC_MAKINGARROW / 弓箭手制作箭).",
+			"translations": {
+				"en": "Arrow Crafting",
+				"zh-CN": "制作箭"
+			}
+		},
+		{
+			"key": "skill.148.name",
+			"sourceText": "Arrow Repel",
+			"context": "Display name for skill ID 148 (AC_CHARGEARROW / 弓箭手冲锋箭).",
+			"translations": {
+				"en": "Arrow Repel",
+				"zh-CN": "冲锋箭"
+			}
+		},
+		{
+			"key": "skill.149.name",
+			"sourceText": "Sand Attack",
+			"context": "Display name for skill ID 149 (TF_SPRINKLESAND / 盗贼洒沙).",
+			"translations": {
+				"en": "Sand Attack",
+				"zh-CN": "沙攻击"
+			}
+		},
+		{
+			"key": "skill.150.name",
+			"sourceText": "Back Slide",
+			"context": "Display name for skill ID 150 (TF_BACKSLIDING / 盗贼后滑).",
+			"translations": {
+				"en": "Back Slide",
+				"zh-CN": "后滑步"
+			}
+		},
+		{
+			"key": "skill.151.name",
+			"sourceText": "Find Stone",
+			"context": "Display name for skill ID 151 (TF_PICKSTONE / 盗贼捡石头).",
+			"translations": {
+				"en": "Find Stone",
+				"zh-CN": "捡石头"
+			}
+		},
+		{
+			"key": "skill.152.name",
+			"sourceText": "Stone Fling",
+			"context": "Display name for skill ID 152 (TF_THROWSTONE / 盗贼投石).",
+			"translations": {
+				"en": "Stone Fling",
+				"zh-CN": "投石"
+			}
+		},
+		{
+			"key": "skill.153.name",
+			"sourceText": "Cart Revolution",
+			"context": "Display name for skill ID 153 (MC_CARTREVOLUTION / 商人手推车攻击).",
+			"translations": {
+				"en": "Cart Revolution",
+				"zh-CN": "手推车攻击"
+			}
+		},
+		{
+			"key": "skill.154.name",
+			"sourceText": "Change Cart",
+			"context": "Display name for skill ID 154 (MC_CHANGECART / 商人改装手推车).",
+			"translations": {
+				"en": "Change Cart",
+				"zh-CN": "改装手推车"
+			}
+		},
+		{
+			"key": "skill.155.name",
+			"sourceText": "Crazy Uproar",
+			"context": "Display name for skill ID 155 (MC_LOUD / 商人大声呐喊).",
+			"translations": {
+				"en": "Crazy Uproar",
+				"zh-CN": "大声呐喊"
+			}
+		},
+		{
+			"key": "skill.156.name",
+			"sourceText": "Holy Light",
+			"context": "Display name for skill ID 156 (AL_HOLYLIGHT / 服事神圣之光).",
+			"translations": {
+				"en": "Holy Light",
+				"zh-CN": "神圣之光"
+			}
+		},
+		{
+			"key": "skill.157.name",
+			"sourceText": "Energy Coat",
+			"context": "Display name for skill ID 157 (MG_ENERGYCOAT / 魔法师能量外套).",
+			"translations": {
+				"en": "Energy Coat",
+				"zh-CN": "能量外套"
+			}
+		},
+		{
+			"key": "skill.410.name",
+			"sourceText": "Come to me, honey~",
+			"context": "Display name for skill ID 410 (WE_CALLBABY / 家庭技能呼叫宝宝).",
+			"translations": {
+				"en": "Come to me, honey~",
+				"zh-CN": "宝宝过来"
+			}
+		},
+		{
+			"key": "skill.2535.name",
+			"sourceText": "Open Buying Store",
+			"context": "Display name for skill ID 2535 (ALL_BUYING_STORE / 商人收购商店).",
+			"translations": {
+				"en": "Open Buying Store",
+				"zh-CN": "开设收购商店"
+			}
+		},
+		{
+			"key": "skill.2544.name",
+			"sourceText": "Cart Decoration",
+			"context": "Display name for skill ID 2544 (MC_CARTDECORATE / 商人手推车装饰).",
+			"translations": {
+				"en": "Cart Decoration",
+				"zh-CN": "手推车装饰"
+			}
+		}
+	];
+	skills_novice_first_default = {
+		$schema: $schema$3,
+		entries: entries$4
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/skills-second-21.json
+var $schema$2, entries$3, skills_second_21_default;
+var init_skills_second_21 = __esmMin((() => {
+	$schema$2 = "../../schema/client-message-fragment.schema.json";
+	entries$3 = [
+		{
+			"key": "skill.54.name",
+			"sourceText": "Resurrection",
+			"context": "Display name for skill ID 54 (ALL_RESURRECTION).",
+			"translations": {
+				"en": "Resurrection",
+				"zh-CN": "复活术"
+			}
+		},
+		{
+			"key": "skill.55.name",
+			"sourceText": "Spear Mastery",
+			"context": "Display name for skill ID 55 (KN_SPEARMASTERY).",
+			"translations": {
+				"en": "Spear Mastery",
+				"zh-CN": "长矛使用熟练度"
+			}
+		},
+		{
+			"key": "skill.56.name",
+			"sourceText": "Pierce",
+			"context": "Display name for skill ID 56 (KN_PIERCE).",
+			"translations": {
+				"en": "Pierce",
+				"zh-CN": "刺击"
+			}
+		},
+		{
+			"key": "skill.57.name",
+			"sourceText": "Brandish Spear",
+			"context": "Display name for skill ID 57 (KN_BRANDISHSPEAR).",
+			"translations": {
+				"en": "Brandish Spear",
+				"zh-CN": "连刺攻击"
+			}
+		},
+		{
+			"key": "skill.58.name",
+			"sourceText": "Spear Stab",
+			"context": "Display name for skill ID 58 (KN_SPEARSTAB).",
+			"translations": {
+				"en": "Spear Stab",
+				"zh-CN": "长矛刺击"
+			}
+		},
+		{
+			"key": "skill.59.name",
+			"sourceText": "Spear Boomerang",
+			"context": "Display name for skill ID 59 (KN_SPEARBOOMERANG).",
+			"translations": {
+				"en": "Spear Boomerang",
+				"zh-CN": "投掷长矛"
+			}
+		},
+		{
+			"key": "skill.60.name",
+			"sourceText": "Two Hand Quicken",
+			"context": "Display name for skill ID 60 (KN_TWOHANDQUICKEN).",
+			"translations": {
+				"en": "Two Hand Quicken",
+				"zh-CN": "双手剑加速"
+			}
+		},
+		{
+			"key": "skill.61.name",
+			"sourceText": "Counter Attack",
+			"context": "Display name for skill ID 61 (KN_AUTOCOUNTER).",
+			"translations": {
+				"en": "Counter Attack",
+				"zh-CN": "反击"
+			}
+		},
+		{
+			"key": "skill.62.name",
+			"sourceText": "Bowling Bash",
+			"context": "Display name for skill ID 62 (KN_BOWLINGBASH).",
+			"translations": {
+				"en": "Bowling Bash",
+				"zh-CN": "怪物互击"
+			}
+		},
+		{
+			"key": "skill.63.name",
+			"sourceText": "Peco Peco Ride",
+			"context": "Display name for skill ID 63 (KN_RIDING).",
+			"translations": {
+				"en": "Peco Peco Ride",
+				"zh-CN": "骑乘术"
+			}
+		},
+		{
+			"key": "skill.64.name",
+			"sourceText": "Cavalier Mastery",
+			"context": "Display name for skill ID 64 (KN_CAVALIERMASTERY).",
+			"translations": {
+				"en": "Cavalier Mastery",
+				"zh-CN": "骑乘攻击修炼"
+			}
+		},
+		{
+			"key": "skill.65.name",
+			"sourceText": "Mace Mastery",
+			"context": "Display name for skill ID 65 (PR_MACEMASTERY).",
+			"translations": {
+				"en": "Mace Mastery",
+				"zh-CN": "钝器使用熟练度"
+			}
+		},
+		{
+			"key": "skill.66.name",
+			"sourceText": "Impositio Manus",
+			"context": "Display name for skill ID 66 (PR_IMPOSITIO).",
+			"translations": {
+				"en": "Impositio Manus",
+				"zh-CN": "神威祈福"
+			}
+		},
+		{
+			"key": "skill.67.name",
+			"sourceText": "Suffragium",
+			"context": "Display name for skill ID 67 (PR_SUFFRAGIUM).",
+			"translations": {
+				"en": "Suffragium",
+				"zh-CN": "牺牲祈福"
+			}
+		},
+		{
+			"key": "skill.68.name",
+			"sourceText": "Aspersio",
+			"context": "Display name for skill ID 68 (PR_ASPERSIO).",
+			"translations": {
+				"en": "Aspersio",
+				"zh-CN": "洒水祈福"
+			}
+		},
+		{
+			"key": "skill.69.name",
+			"sourceText": "B.S Sacramenti ",
+			"context": "Display name for skill ID 69 (PR_BENEDICTIO).",
+			"translations": {
+				"en": "B.S Sacramenti ",
+				"zh-CN": "圣体降福"
+			}
+		},
+		{
+			"key": "skill.70.name",
+			"sourceText": "Sanctuary",
+			"context": "Display name for skill ID 70 (PR_SANCTUARY).",
+			"translations": {
+				"en": "Sanctuary",
+				"zh-CN": "光耀之堂"
+			}
+		},
+		{
+			"key": "skill.71.name",
+			"sourceText": "Slow Poison",
+			"context": "Display name for skill ID 71 (PR_SLOWPOISON).",
+			"translations": {
+				"en": "Slow Poison",
+				"zh-CN": "缓毒术"
+			}
+		},
+		{
+			"key": "skill.72.name",
+			"sourceText": "Status Recovery",
+			"context": "Display name for skill ID 72 (PR_STRECOVERY).",
+			"translations": {
+				"en": "Status Recovery",
+				"zh-CN": "痊愈术"
+			}
+		},
+		{
+			"key": "skill.73.name",
+			"sourceText": "Kyrie Eleison",
+			"context": "Display name for skill ID 73 (PR_KYRIE).",
+			"translations": {
+				"en": "Kyrie Eleison",
+				"zh-CN": "霸邪之阵"
+			}
+		},
+		{
+			"key": "skill.74.name",
+			"sourceText": "Magnificat",
+			"context": "Display name for skill ID 74 (PR_MAGNIFICAT).",
+			"translations": {
+				"en": "Magnificat",
+				"zh-CN": "圣母颂歌"
+			}
+		},
+		{
+			"key": "skill.75.name",
+			"sourceText": "Gloria",
+			"context": "Display name for skill ID 75 (PR_GLORIA).",
+			"translations": {
+				"en": "Gloria",
+				"zh-CN": "幸运之颂歌"
+			}
+		},
+		{
+			"key": "skill.76.name",
+			"sourceText": "Lex Divina",
+			"context": "Display name for skill ID 76 (PR_LEXDIVINA).",
+			"translations": {
+				"en": "Lex Divina",
+				"zh-CN": "沉默之术"
+			}
+		},
+		{
+			"key": "skill.77.name",
+			"sourceText": "Turn Undead",
+			"context": "Display name for skill ID 77 (PR_TURNUNDEAD).",
+			"translations": {
+				"en": "Turn Undead",
+				"zh-CN": "转生术"
+			}
+		},
+		{
+			"key": "skill.78.name",
+			"sourceText": "Lex Aeterna",
+			"context": "Display name for skill ID 78 (PR_LEXAETERNA).",
+			"translations": {
+				"en": "Lex Aeterna",
+				"zh-CN": "天使之怒"
+			}
+		},
+		{
+			"key": "skill.79.name",
+			"sourceText": "Magnus Exorcismus",
+			"context": "Display name for skill ID 79 (PR_MAGNUS).",
+			"translations": {
+				"en": "Magnus Exorcismus",
+				"zh-CN": "十字驱魔攻击"
+			}
+		},
+		{
+			"key": "skill.80.name",
+			"sourceText": "Fire Pillar",
+			"context": "Display name for skill ID 80 (WZ_FIREPILLAR).",
+			"translations": {
+				"en": "Fire Pillar",
+				"zh-CN": "火柱攻击"
+			}
+		},
+		{
+			"key": "skill.81.name",
+			"sourceText": "Sightrasher",
+			"context": "Display name for skill ID 81 (WZ_SIGHTRASHER).",
+			"translations": {
+				"en": "Sightrasher",
+				"zh-CN": "火之猎杀"
+			}
+		},
+		{
+			"key": "skill.83.name",
+			"sourceText": "Meteor Storm",
+			"context": "Display name for skill ID 83 (WZ_METEOR).",
+			"translations": {
+				"en": "Meteor Storm",
+				"zh-CN": "陨石术"
+			}
+		},
+		{
+			"key": "skill.84.name",
+			"sourceText": "Jupitel Thunder",
+			"context": "Display name for skill ID 84 (WZ_JUPITEL).",
+			"translations": {
+				"en": "Jupitel Thunder",
+				"zh-CN": "雷鸣术"
+			}
+		},
+		{
+			"key": "skill.85.name",
+			"sourceText": "Lord of Vermilion",
+			"context": "Display name for skill ID 85 (WZ_VERMILION).",
+			"translations": {
+				"en": "Lord of Vermilion",
+				"zh-CN": "怒雷强击"
+			}
+		},
+		{
+			"key": "skill.86.name",
+			"sourceText": "Waterball",
+			"context": "Display name for skill ID 86 (WZ_WATERBALL).",
+			"translations": {
+				"en": "Waterball",
+				"zh-CN": "水球术"
+			}
+		},
+		{
+			"key": "skill.87.name",
+			"sourceText": "Ice Wall",
+			"context": "Display name for skill ID 87 (WZ_ICEWALL).",
+			"translations": {
+				"en": "Ice Wall",
+				"zh-CN": "冰刃之墙"
+			}
+		},
+		{
+			"key": "skill.88.name",
+			"sourceText": "Frost Nova",
+			"context": "Display name for skill ID 88 (WZ_FROSTNOVA).",
+			"translations": {
+				"en": "Frost Nova",
+				"zh-CN": "霜冻之术"
+			}
+		},
+		{
+			"key": "skill.89.name",
+			"sourceText": "Storm Gust",
+			"context": "Display name for skill ID 89 (WZ_STORMGUST).",
+			"translations": {
+				"en": "Storm Gust",
+				"zh-CN": "暴风雪"
+			}
+		},
+		{
+			"key": "skill.90.name",
+			"sourceText": "Earth Spike",
+			"context": "Display name for skill ID 90 (WZ_EARTHSPIKE).",
+			"translations": {
+				"en": "Earth Spike",
+				"zh-CN": "地震术"
+			}
+		},
+		{
+			"key": "skill.91.name",
+			"sourceText": "Heaven's Drive",
+			"context": "Display name for skill ID 91 (WZ_HEAVENDRIVE).",
+			"translations": {
+				"en": "Heaven's Drive",
+				"zh-CN": "崩裂术"
+			}
+		},
+		{
+			"key": "skill.92.name",
+			"sourceText": "Quagmire",
+			"context": "Display name for skill ID 92 (WZ_QUAGMIRE).",
+			"translations": {
+				"en": "Quagmire",
+				"zh-CN": "泥沼地"
+			}
+		},
+		{
+			"key": "skill.93.name",
+			"sourceText": "Sense",
+			"context": "Display name for skill ID 93 (WZ_ESTIMATION).",
+			"translations": {
+				"en": "Sense",
+				"zh-CN": "怪物情报"
+			}
+		},
+		{
+			"key": "skill.94.name",
+			"sourceText": "Iron Tempering",
+			"context": "Display name for skill ID 94 (BS_IRON).",
+			"translations": {
+				"en": "Iron Tempering",
+				"zh-CN": "铁制造"
+			}
+		},
+		{
+			"key": "skill.95.name",
+			"sourceText": "Steel Tempering",
+			"context": "Display name for skill ID 95 (BS_STEEL).",
+			"translations": {
+				"en": "Steel Tempering",
+				"zh-CN": "钢制造"
+			}
+		},
+		{
+			"key": "skill.96.name",
+			"sourceText": "Enchanted Stone Craft",
+			"context": "Display name for skill ID 96 (BS_ENCHANTEDSTONE).",
+			"translations": {
+				"en": "Enchanted Stone Craft",
+				"zh-CN": "属性石制造"
+			}
+		},
+		{
+			"key": "skill.97.name",
+			"sourceText": "Research Oridecon",
+			"context": "Display name for skill ID 97 (BS_ORIDEOCON).",
+			"translations": {
+				"en": "Research Oridecon",
+				"zh-CN": "神之金属研究"
+			}
+		},
+		{
+			"key": "skill.98.name",
+			"sourceText": "Smith Dagger",
+			"context": "Display name for skill ID 98 (BS_DAGGER).",
+			"translations": {
+				"en": "Smith Dagger",
+				"zh-CN": "短剑制作"
+			}
+		},
+		{
+			"key": "skill.99.name",
+			"sourceText": "Smith Sword",
+			"context": "Display name for skill ID 99 (BS_SWORD).",
+			"translations": {
+				"en": "Smith Sword",
+				"zh-CN": "剑制作"
+			}
+		},
+		{
+			"key": "skill.100.name",
+			"sourceText": "Smith Two-handed Sword",
+			"context": "Display name for skill ID 100 (BS_TWOHANDSWORD).",
+			"translations": {
+				"en": "Smith Two-handed Sword",
+				"zh-CN": "双手剑制作"
+			}
+		},
+		{
+			"key": "skill.101.name",
+			"sourceText": "Smith Axe",
+			"context": "Display name for skill ID 101 (BS_AXE).",
+			"translations": {
+				"en": "Smith Axe",
+				"zh-CN": "斧头制作"
+			}
+		},
+		{
+			"key": "skill.102.name",
+			"sourceText": "Smith Mace",
+			"context": "Display name for skill ID 102 (BS_MACE).",
+			"translations": {
+				"en": "Smith Mace",
+				"zh-CN": "钝器制作"
+			}
+		},
+		{
+			"key": "skill.103.name",
+			"sourceText": "Smith Brass Knuckle",
+			"context": "Display name for skill ID 103 (BS_KNUCKLE).",
+			"translations": {
+				"en": "Smith Brass Knuckle",
+				"zh-CN": "拳套制作"
+			}
+		},
+		{
+			"key": "skill.104.name",
+			"sourceText": "Smith Spear",
+			"context": "Display name for skill ID 104 (BS_SPEAR).",
+			"translations": {
+				"en": "Smith Spear",
+				"zh-CN": "长矛制作"
+			}
+		},
+		{
+			"key": "skill.105.name",
+			"sourceText": "Hilt Binding",
+			"context": "Display name for skill ID 105 (BS_HILTBINDING).",
+			"translations": {
+				"en": "Hilt Binding",
+				"zh-CN": "剑柄附着"
+			}
+		},
+		{
+			"key": "skill.106.name",
+			"sourceText": "Ore Discovery",
+			"context": "Display name for skill ID 106 (BS_FINDINGORE).",
+			"translations": {
+				"en": "Ore Discovery",
+				"zh-CN": "寻找矿石"
+			}
+		},
+		{
+			"key": "skill.107.name",
+			"sourceText": "Weaponry Research",
+			"context": "Display name for skill ID 107 (BS_WEAPONRESEARCH).",
+			"translations": {
+				"en": "Weaponry Research",
+				"zh-CN": "武器研究"
+			}
+		},
+		{
+			"key": "skill.108.name",
+			"sourceText": "Repair Weapon",
+			"context": "Display name for skill ID 108 (BS_REPAIRWEAPON).",
+			"translations": {
+				"en": "Repair Weapon",
+				"zh-CN": "武器修理"
+			}
+		},
+		{
+			"key": "skill.109.name",
+			"sourceText": "Skin Tempering",
+			"context": "Display name for skill ID 109 (BS_SKINTEMPER).",
+			"translations": {
+				"en": "Skin Tempering",
+				"zh-CN": "强化皮肤"
+			}
+		},
+		{
+			"key": "skill.110.name",
+			"sourceText": "Hammerfall",
+			"context": "Display name for skill ID 110 (BS_HAMMERFALL).",
+			"translations": {
+				"en": "Hammerfall",
+				"zh-CN": "大地之击"
+			}
+		},
+		{
+			"key": "skill.111.name",
+			"sourceText": "Adrenaline Rush",
+			"context": "Display name for skill ID 111 (BS_ADRENALINE).",
+			"translations": {
+				"en": "Adrenaline Rush",
+				"zh-CN": "速度激发"
+			}
+		},
+		{
+			"key": "skill.112.name",
+			"sourceText": "Weapon Perfection",
+			"context": "Display name for skill ID 112 (BS_WEAPONPERFECT).",
+			"translations": {
+				"en": "Weapon Perfection",
+				"zh-CN": "无视体型攻击"
+			}
+		},
+		{
+			"key": "skill.113.name",
+			"sourceText": "Power Thrust",
+			"context": "Display name for skill ID 113 (BS_OVERTHRUST).",
+			"translations": {
+				"en": "Power Thrust",
+				"zh-CN": "凶砍"
+			}
+		},
+		{
+			"key": "skill.114.name",
+			"sourceText": "Maximize Power",
+			"context": "Display name for skill ID 114 (BS_MAXIMIZE).",
+			"translations": {
+				"en": "Maximize Power",
+				"zh-CN": "武器值最大化"
+			}
+		},
+		{
+			"key": "skill.115.name",
+			"sourceText": "Skid Trap",
+			"context": "Display name for skill ID 115 (HT_SKIDTRAP).",
+			"translations": {
+				"en": "Skid Trap",
+				"zh-CN": "滑溜陷阱"
+			}
+		},
+		{
+			"key": "skill.116.name",
+			"sourceText": "Land Mine",
+			"context": "Display name for skill ID 116 (HT_LANDMINE).",
+			"translations": {
+				"en": "Land Mine",
+				"zh-CN": "地雷陷阱"
+			}
+		},
+		{
+			"key": "skill.117.name",
+			"sourceText": "Anklesnare",
+			"context": "Display name for skill ID 117 (HT_ANKLESNARE).",
+			"translations": {
+				"en": "Anklesnare",
+				"zh-CN": "定位陷阱"
+			}
+		},
+		{
+			"key": "skill.118.name",
+			"sourceText": "Shockwave Trap",
+			"context": "Display name for skill ID 118 (HT_SHOCKWAVE).",
+			"translations": {
+				"en": "Shockwave Trap",
+				"zh-CN": "魔耗陷阱"
+			}
+		},
+		{
+			"key": "skill.119.name",
+			"sourceText": "Sandman",
+			"context": "Display name for skill ID 119 (HT_SANDMAN).",
+			"translations": {
+				"en": "Sandman",
+				"zh-CN": "睡魔陷阱"
+			}
+		},
+		{
+			"key": "skill.120.name",
+			"sourceText": "Flasher",
+			"context": "Display name for skill ID 120 (HT_FLASHER).",
+			"translations": {
+				"en": "Flasher",
+				"zh-CN": "闪光陷阱"
+			}
+		},
+		{
+			"key": "skill.121.name",
+			"sourceText": "Freezing Trap",
+			"context": "Display name for skill ID 121 (HT_FREEZINGTRAP).",
+			"translations": {
+				"en": "Freezing Trap",
+				"zh-CN": "冰冻陷阱"
+			}
+		},
+		{
+			"key": "skill.122.name",
+			"sourceText": "Blast Mine",
+			"context": "Display name for skill ID 122 (HT_BLASTMINE).",
+			"translations": {
+				"en": "Blast Mine",
+				"zh-CN": "爆破陷阱"
+			}
+		},
+		{
+			"key": "skill.123.name",
+			"sourceText": "Claymore Trap",
+			"context": "Display name for skill ID 123 (HT_CLAYMORETRAP).",
+			"translations": {
+				"en": "Claymore Trap",
+				"zh-CN": "定向爆破"
+			}
+		},
+		{
+			"key": "skill.124.name",
+			"sourceText": "Remove Trap",
+			"context": "Display name for skill ID 124 (HT_REMOVETRAP).",
+			"translations": {
+				"en": "Remove Trap",
+				"zh-CN": "拆除陷阱"
+			}
+		},
+		{
+			"key": "skill.125.name",
+			"sourceText": "Talkie Box",
+			"context": "Display name for skill ID 125 (HT_TALKIEBOX).",
+			"translations": {
+				"en": "Talkie Box",
+				"zh-CN": "通讯陷阱"
+			}
+		},
+		{
+			"key": "skill.126.name",
+			"sourceText": "Beastbane",
+			"context": "Display name for skill ID 126 (HT_BEASTBANE).",
+			"translations": {
+				"en": "Beastbane",
+				"zh-CN": "动物杀手"
+			}
+		},
+		{
+			"key": "skill.127.name",
+			"sourceText": "Falconry Mastery",
+			"context": "Display name for skill ID 127 (HT_FALCON).",
+			"translations": {
+				"en": "Falconry Mastery",
+				"zh-CN": "驯鹰术"
+			}
+		},
+		{
+			"key": "skill.128.name",
+			"sourceText": "Steel Crow",
+			"context": "Display name for skill ID 128 (HT_STEELCROW).",
+			"translations": {
+				"en": "Steel Crow",
+				"zh-CN": "钢制喙"
+			}
+		},
+		{
+			"key": "skill.129.name",
+			"sourceText": "Blitz Beat",
+			"context": "Display name for skill ID 129 (HT_BLITZBEAT).",
+			"translations": {
+				"en": "Blitz Beat",
+				"zh-CN": "闪电冲击"
+			}
+		},
+		{
+			"key": "skill.130.name",
+			"sourceText": "Detect",
+			"context": "Display name for skill ID 130 (HT_DETECTING).",
+			"translations": {
+				"en": "Detect",
+				"zh-CN": "猎鹰识破"
+			}
+		},
+		{
+			"key": "skill.131.name",
+			"sourceText": "Spring Trap",
+			"context": "Display name for skill ID 131 (HT_SPRINGTRAP).",
+			"translations": {
+				"en": "Spring Trap",
+				"zh-CN": "猎鹰突击"
+			}
+		},
+		{
+			"key": "skill.132.name",
+			"sourceText": "Righthand Mastery",
+			"context": "Display name for skill ID 132 (AS_RIGHT).",
+			"translations": {
+				"en": "Righthand Mastery",
+				"zh-CN": "右手修炼"
+			}
+		},
+		{
+			"key": "skill.133.name",
+			"sourceText": "Lefthand Mastery",
+			"context": "Display name for skill ID 133 (AS_LEFT).",
+			"translations": {
+				"en": "Lefthand Mastery",
+				"zh-CN": "左手修炼"
+			}
+		},
+		{
+			"key": "skill.134.name",
+			"sourceText": "Katar Mastery",
+			"context": "Display name for skill ID 134 (AS_KATAR).",
+			"translations": {
+				"en": "Katar Mastery",
+				"zh-CN": "拳刃修炼"
+			}
+		},
+		{
+			"key": "skill.135.name",
+			"sourceText": "Cloaking",
+			"context": "Display name for skill ID 135 (AS_CLOAKING).",
+			"translations": {
+				"en": "Cloaking",
+				"zh-CN": "伪装"
+			}
+		},
+		{
+			"key": "skill.136.name",
+			"sourceText": "Sonic Blow",
+			"context": "Display name for skill ID 136 (AS_SONICBLOW).",
+			"translations": {
+				"en": "Sonic Blow",
+				"zh-CN": "音速投掷"
+			}
+		},
+		{
+			"key": "skill.137.name",
+			"sourceText": "Grimtooth",
+			"context": "Display name for skill ID 137 (AS_GRIMTOOTH).",
+			"translations": {
+				"en": "Grimtooth",
+				"zh-CN": "无影之牙"
+			}
+		},
+		{
+			"key": "skill.138.name",
+			"sourceText": "Enchant Poison",
+			"context": "Display name for skill ID 138 (AS_ENCHANTPOISON).",
+			"translations": {
+				"en": "Enchant Poison",
+				"zh-CN": "涂毒"
+			}
+		},
+		{
+			"key": "skill.139.name",
+			"sourceText": "Poison React",
+			"context": "Display name for skill ID 139 (AS_POISONREACT).",
+			"translations": {
+				"en": "Poison React",
+				"zh-CN": "毒性反弹"
+			}
+		},
+		{
+			"key": "skill.140.name",
+			"sourceText": "Venom Dust",
+			"context": "Display name for skill ID 140 (AS_VENOMDUST).",
+			"translations": {
+				"en": "Venom Dust",
+				"zh-CN": "病毒散播"
+			}
+		},
+		{
+			"key": "skill.141.name",
+			"sourceText": "Venom Splasher",
+			"context": "Display name for skill ID 141 (AS_SPLASHER).",
+			"translations": {
+				"en": "Venom Splasher",
+				"zh-CN": "毒性感染"
+			}
+		},
+		{
+			"key": "skill.459.name",
+			"sourceText": "Advanced Adrenaline Rush",
+			"context": "Display name for skill ID 459 (BS_ADRENALINE2).",
+			"translations": {
+				"en": "Advanced Adrenaline Rush",
+				"zh-CN": "所有速度激发"
+			}
+		},
+		{
+			"key": "skill.495.name",
+			"sourceText": "One Handed Quicken",
+			"context": "Display name for skill ID 495 (KN_ONEHAND).",
+			"translations": {
+				"en": "One Handed Quicken",
+				"zh-CN": "单手剑加速"
+			}
+		},
+		{
+			"key": "skill.499.name",
+			"sourceText": "Beast Charge",
+			"context": "Display name for skill ID 499 (HT_POWER).",
+			"translations": {
+				"en": "Beast Charge",
+				"zh-CN": "猎杀"
+			}
+		},
+		{
+			"key": "skill.1001.name",
+			"sourceText": "Charge Attack",
+			"context": "Display name for skill ID 1001 (KN_CHARGEATK).",
+			"translations": {
+				"en": "Charge Attack",
+				"zh-CN": "冲锋攻击"
+			}
+		},
+		{
+			"key": "skill.1003.name",
+			"sourceText": "Sonic Acceleration",
+			"context": "Display name for skill ID 1003 (AS_SONICACCEL).",
+			"translations": {
+				"en": "Sonic Acceleration",
+				"zh-CN": "音速加速"
+			}
+		},
+		{
+			"key": "skill.1004.name",
+			"sourceText": "Venom Knife",
+			"context": "Display name for skill ID 1004 (AS_VENOMKNIFE).",
+			"translations": {
+				"en": "Venom Knife",
+				"zh-CN": "剧毒短刀"
+			}
+		},
+		{
+			"key": "skill.1006.name",
+			"sourceText": "Sight Blaster",
+			"context": "Display name for skill ID 1006 (WZ_SIGHTBLASTER).",
+			"translations": {
+				"en": "Sight Blaster",
+				"zh-CN": "火狩冲击"
+			}
+		},
+		{
+			"key": "skill.1009.name",
+			"sourceText": "Phantasmic Arrow",
+			"context": "Display name for skill ID 1009 (HT_PHANTASMIC).",
+			"translations": {
+				"en": "Phantasmic Arrow",
+				"zh-CN": "幻影箭"
+			}
+		},
+		{
+			"key": "skill.1012.name",
+			"sourceText": "Dubious Salesmanship",
+			"context": "Display name for skill ID 1012 (BS_UNFAIRLYTRICK).",
+			"translations": {
+				"en": "Dubious Salesmanship",
+				"zh-CN": "贪婪的技巧"
+			}
+		},
+		{
+			"key": "skill.1013.name",
+			"sourceText": "Greed",
+			"context": "Display name for skill ID 1013 (BS_GREED).",
+			"translations": {
+				"en": "Greed",
+				"zh-CN": "贪婪"
+			}
+		},
+		{
+			"key": "skill.1014.name",
+			"sourceText": "Redemptio",
+			"context": "Display name for skill ID 1014 (PR_REDEMPTIO).",
+			"translations": {
+				"en": "Redemptio",
+				"zh-CN": "赎罪"
+			}
+		}
+	];
+	skills_second_21_default = {
+		$schema: $schema$2,
+		entries: entries$3
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/quests-novice-jobs.json
+var $schema$1, entries$2, quests_novice_jobs_default;
+var init_quests_novice_jobs = __esmMin((() => {
+	$schema$1 = "../../schema/client-message-fragment.schema.json";
+	entries$2 = [
+		{
+			"key": "quest.1000.title",
+			"sourceText": "Transcend",
+			"context": "Quest title for quest ID 1000 from rAthena quest_db.yml.",
+			"translations": {
+				"en": "Transcend",
+				"zh-CN": "转生"
+			}
+		},
+		{
+			"key": "quest.1001.title",
+			"sourceText": "Job Change to Acolyte",
+			"context": "Quest title for quest ID 1001 (Job Change to Acolyte).",
+			"translations": {
+				"en": "Job Change to Acolyte",
+				"zh-CN": "转职为服事"
+			}
+		},
+		{
+			"key": "quest.1002.title",
+			"sourceText": "Job Change to Acolyte",
+			"context": "Quest title for quest ID 1002 (Job Change to Acolyte).",
+			"translations": {
+				"en": "Job Change to Acolyte",
+				"zh-CN": "转职为服事"
+			}
+		},
+		{
+			"key": "quest.1003.title",
+			"sourceText": "Job Change to Acolyte",
+			"context": "Quest title for quest ID 1003 (Job Change to Acolyte).",
+			"translations": {
+				"en": "Job Change to Acolyte",
+				"zh-CN": "转职为服事"
+			}
+		},
+		{
+			"key": "quest.1004.title",
+			"sourceText": "Job Change to Archer",
+			"context": "Quest title for quest ID 1004 (Job Change to Archer).",
+			"translations": {
+				"en": "Job Change to Archer",
+				"zh-CN": "转职为弓箭手"
+			}
+		},
+		{
+			"key": "quest.1005.title",
+			"sourceText": "Job Change to Mage",
+			"context": "Quest title for quest ID 1005 (Job Change to Mage).",
+			"translations": {
+				"en": "Job Change to Mage",
+				"zh-CN": "转职为魔法师"
+			}
+		},
+		{
+			"key": "quest.1006.title",
+			"sourceText": "Job Change to Mage",
+			"context": "Quest title for quest ID 1006 (Job Change to Mage).",
+			"translations": {
+				"en": "Job Change to Mage",
+				"zh-CN": "转职为魔法师"
+			}
+		},
+		{
+			"key": "quest.1007.title",
+			"sourceText": "Job Change to Mage",
+			"context": "Quest title for quest ID 1007 (Job Change to Mage).",
+			"translations": {
+				"en": "Job Change to Mage",
+				"zh-CN": "转职为魔法师"
+			}
+		},
+		{
+			"key": "quest.1008.title",
+			"sourceText": "Job Change to Mage",
+			"context": "Quest title for quest ID 1008 (Job Change to Mage).",
+			"translations": {
+				"en": "Job Change to Mage",
+				"zh-CN": "转职为魔法师"
+			}
+		},
+		{
+			"key": "quest.1009.title",
+			"sourceText": "Job Change to Merchant",
+			"context": "Quest title for quest ID 1009 (Job Change to Merchant).",
+			"translations": {
+				"en": "Job Change to Merchant",
+				"zh-CN": "转职为商人"
+			}
+		},
+		{
+			"key": "quest.1010.title",
+			"sourceText": "Job Change to Merchant",
+			"context": "Quest title for quest ID 1010 (Job Change to Merchant).",
+			"translations": {
+				"en": "Job Change to Merchant",
+				"zh-CN": "转职为商人"
+			}
+		},
+		{
+			"key": "quest.1011.title",
+			"sourceText": "Job Change to Merchant",
+			"context": "Quest title for quest ID 1011 (Job Change to Merchant).",
+			"translations": {
+				"en": "Job Change to Merchant",
+				"zh-CN": "转职为商人"
+			}
+		},
+		{
+			"key": "quest.1012.title",
+			"sourceText": "Job Change to Merchant",
+			"context": "Quest title for quest ID 1012 (Job Change to Merchant).",
+			"translations": {
+				"en": "Job Change to Merchant",
+				"zh-CN": "转职为商人"
+			}
+		},
+		{
+			"key": "quest.1013.title",
+			"sourceText": "Job Change to Thief",
+			"context": "Quest title for quest ID 1013 (Job Change to Thief).",
+			"translations": {
+				"en": "Job Change to Thief",
+				"zh-CN": "转职为盗贼"
+			}
+		},
+		{
+			"key": "quest.1014.title",
+			"sourceText": "Job Change to Swordman",
+			"context": "Quest title for quest ID 1014 (Job Change to Swordman).",
+			"translations": {
+				"en": "Job Change to Swordman",
+				"zh-CN": "转职为剑士"
+			}
+		},
+		{
+			"key": "quest.1015.title",
+			"sourceText": "Your first quest",
+			"context": "Quest title for quest ID 1015 (Your first quest).",
+			"translations": {
+				"en": "Your first quest",
+				"zh-CN": "你的第一个任务"
+			}
+		},
+		{
+			"key": "quest.1016.title",
+			"sourceText": "Gaining base levels",
+			"context": "Quest title for quest ID 1016 (Gaining base levels).",
+			"translations": {
+				"en": "Gaining base levels",
+				"zh-CN": "提升基础等级"
+			}
+		}
+	];
+	quests_novice_jobs_default = {
+		$schema: $schema$1,
+		entries: entries$2
+	};
+}));
+//#endregion
+//#region src/Localization/catalog/data/quests-second-jobs.json
+var $schema, entries$1, quests_second_jobs_default;
+var init_quests_second_jobs = __esmMin((() => {
+	$schema = "../../schema/client-message-fragment.schema.json";
+	entries$1 = [
+		{
+			"key": "quest.2000.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2000 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2001.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2001 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2002.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2002 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2003.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2003 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2004.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2004 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2005.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2005 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2006.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2006 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2007.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2007 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2008.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2008 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2009.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2009 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2010.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2010 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2011.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2011 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2012.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2012 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2013.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2013 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2014.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2014 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2015.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2015 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2016.title",
+			"sourceText": "Job Change to Blacksmith",
+			"context": "Quest title for quest ID 2016 (Job Change to Blacksmith).",
+			"translations": {
+				"en": "Job Change to Blacksmith",
+				"zh-CN": "转职为铁匠"
+			}
+		},
+		{
+			"key": "quest.2017.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2017 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2018.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2018 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2019.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2019 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2020.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2020 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2021.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2021 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2022.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2022 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2023.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2023 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2024.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2024 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2025.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2025 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2026.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2026 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2027.title",
+			"sourceText": "Job Change to Rogue",
+			"context": "Quest title for quest ID 2027 (Job Change to Rogue).",
+			"translations": {
+				"en": "Job Change to Rogue",
+				"zh-CN": "转职为流氓"
+			}
+		},
+		{
+			"key": "quest.2028.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2028 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2029.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2029 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2030.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2030 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2031.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2031 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2032.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2032 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2033.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2033 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2034.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2034 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2035.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2035 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2036.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2036 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2037.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2037 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2038.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2038 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2039.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2039 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2040.title",
+			"sourceText": "Job Change to Alchemist",
+			"context": "Quest title for quest ID 2040 (Job Change to Alchemist).",
+			"translations": {
+				"en": "Job Change to Alchemist",
+				"zh-CN": "转职为炼金术士"
+			}
+		},
+		{
+			"key": "quest.2041.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2041 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2042.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2042 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2043.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2043 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2044.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2044 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2045.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2045 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2046.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2046 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2047.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2047 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2048.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2048 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2049.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2049 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2050.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2050 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2051.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2051 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2052.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2052 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2053.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2053 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2054.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2054 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2055.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2055 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2056.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2056 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2057.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2057 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2058.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2058 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2059.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2059 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2060.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2060 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2061.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2061 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		},
+		{
+			"key": "quest.2062.title",
+			"sourceText": "Job Change to Sage",
+			"context": "Quest title for quest ID 2062 (Job Change to Sage).",
+			"translations": {
+				"en": "Job Change to Sage",
+				"zh-CN": "转职为贤者"
+			}
+		}
+	];
+	quests_second_jobs_default = {
 		$schema,
 		entries: entries$1
 	};
@@ -209344,28 +216723,86 @@ var init_catalog = __esmMin((() => {
 	init_auth();
 	init_main_ui();
 	init_chat();
+	init_chat_room();
+	init_party_friends();
+	init_social$1();
+	init_maps$1();
+	init_quest();
+	init_economy();
+	init_guild();
+	init_companions();
+	init_systems();
+	init_options();
 	init_shortcuts();
 	init_commands();
 	init_items_inventory();
 	init_items_equipment();
 	init_items_info();
+	init_items_cart();
+	init_skills();
+	init_sense();
+	init_status_icons();
 	init_login();
 	init_character();
 	init_game_entry();
+	init_skill_fail();
+	init_combat();
+	init_social();
+	init_jobs();
+	init_stats();
+	init_maps();
+	init_monsters();
+	init_towns();
+	init_items_usable();
+	init_items_equip();
+	init_items_etc();
+	init_skills_novice_first();
+	init_skills_second_21();
+	init_quests_novice_jobs();
+	init_quests_second_jobs();
 	fragments = {
 		"gravity/msgstrid.json": msgstrid_default,
 		"ui/common.json": common_default,
 		"ui/auth.json": auth_default,
 		"ui/main-ui.json": main_ui_default,
 		"ui/chat.json": chat_default,
+		"ui/chat-room.json": chat_room_default,
+		"ui/party-friends.json": party_friends_default,
+		"ui/social.json": social_default$1,
+		"ui/maps.json": maps_default$1,
+		"ui/quest.json": quest_default,
+		"ui/economy.json": economy_default,
+		"ui/guild.json": guild_default,
+		"ui/companions.json": companions_default,
+		"ui/systems.json": systems_default,
+		"ui/options.json": options_default,
 		"ui/shortcuts.json": shortcuts_default,
 		"ui/commands.json": commands_default,
 		"ui/items-inventory.json": items_inventory_default,
 		"ui/items-equipment.json": items_equipment_default,
 		"ui/items-info.json": items_info_default,
+		"ui/items-cart.json": items_cart_default,
+		"ui/skills.json": skills_default,
+		"ui/sense.json": sense_default,
+		"ui/status-icons.json": status_icons_default,
 		"legacy/login.json": login_default,
 		"legacy/character.json": character_default,
-		"legacy/game-entry.json": game_entry_default
+		"legacy/game-entry.json": game_entry_default,
+		"legacy/skill-fail.json": skill_fail_default,
+		"legacy/combat.json": combat_default,
+		"legacy/social.json": social_default,
+		"data/jobs.json": jobs_default,
+		"data/stats.json": stats_default,
+		"data/maps.json": maps_default,
+		"data/monsters.json": monsters_default,
+		"data/towns.json": towns_default,
+		"data/items-usable.json": items_usable_default,
+		"data/items-equip.json": items_equip_default,
+		"data/items-etc.json": items_etc_default,
+		"data/skills-novice-first.json": skills_novice_first_default,
+		"data/skills-second-21.json": skills_second_21_default,
+		"data/quests-novice-jobs.json": quests_novice_jobs_default,
+		"data/quests-second-jobs.json": quests_second_jobs_default
 	};
 	namespaces = {};
 	for (const [namespace, group] of Object.entries(manifest_default.namespaces)) {
@@ -209393,6 +216830,41 @@ function getMessage(key, fallback = "") {
 }
 function getLegacyMessage(id, fallback = "") {
 	return getMessage(`robrowser.legacy.${id}`, fallback);
+}
+function mapFileKey(mapname) {
+	return String(mapname || "").replace(/\\/g, "/").replace(/^.*\//, "").replace(/\.(gat|rsw)$/i, "");
+}
+function getJobName(jobId, fallback = "") {
+	const source = fallback || String(jobId ?? "");
+	return getMessage(`robrowser.data.job.${jobId}`, source);
+}
+function getMonsterDisplayName(monsterId, fallback = "") {
+	const source = fallback || String(monsterId ?? "");
+	return getMessage(`robrowser.data.monster.${monsterId}`, source);
+}
+function getMapDisplayName(mapname, field = "display", fallback = "") {
+	const key = mapFileKey(mapname);
+	if (!key) return fallback;
+	return getMessage(`robrowser.data.map.${key}.${field}`, fallback);
+}
+function getItemDisplayName$1(itemId, field = "name", fallback = "") {
+	return getMessage(`robrowser.data.item.${itemId}.${field}`, fallback);
+}
+function getSkillDisplayName(skillId, fallback = "") {
+	const source = fallback || String(skillId ?? "");
+	return getMessage(`robrowser.data.skill.${skillId}.name`, source);
+}
+function getQuestDisplayText(questId, field = "title", fallback = "") {
+	return getMessage(`robrowser.data.quest.${questId}.${field}`, fallback);
+}
+function formatLegacyMessage(id, fallback = "", values = []) {
+	let message = getLegacyMessage(id, fallback);
+	const stringCount = (message.match(/%s/g) || []).length;
+	const strings = values.slice(0, stringCount);
+	const numbers = values.slice(stringCount);
+	for (const value of strings) message = message.replace("%s", String(value));
+	for (const value of numbers) message = message.replace("%d", String(value));
+	return message;
 }
 var entries;
 var init_MessageCatalog = __esmMin((() => {
@@ -220690,7 +228162,7 @@ var init_StatusState = __esmMin((() => {
 //#region src/UI/Components/ChatRoomCreate/ChatRoomCreate.html?raw
 var ChatRoomCreate_default$2;
 var init_ChatRoomCreate$2 = __esmMin((() => {
-	ChatRoomCreate_default$2 = "<div id=\"ChatRoomCreate\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-text=\"125\">Make a Room</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<form class=\"setup\">\r\n			<table class=\"container\">\r\n				<tr>\r\n					<td class=\"head\">Title :</td>\r\n					<td colspan=\"3\">\r\n						<input class=\"title\" type=\"text\" name=\"title\" value=\"\" maxlength=\"32\" />\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td class=\"head\">Limit :</td>\r\n					<td>\r\n						<select name=\"limit\" class=\"limit\">\r\n							<option value=\"20\">20</option>\r\n							<option value=\"12\">12</option>\r\n							<option value=\"8\">8</option>\r\n							<option value=\"4\">4</option>\r\n							<option value=\"2\">2</option>\r\n						</select>\r\n					</td>\r\n					<td class=\"head\">Type :</td>\r\n					<td>\r\n						<select name=\"type\" class=\"type\">\r\n							<option value=\"1\" data-text=\"130\">Chat Room</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td class=\"head\">Restrict :</td>\r\n					<td class=\"mode\" colspan=\"3\">\r\n						<span\r\n							><input type=\"radio\" name=\"public\" value=\"1\" checked=\"checked\" /><span data-text=\"201\"\r\n								>Púb.</span\r\n							></span\r\n						>\r\n						<span><input type=\"radio\" name=\"public\" value=\"0\" /><span data-text=\"200\">Priv.</span></span>\r\n						<span class=\"head\">Sign :</span>\r\n						<input class=\"password\" type=\"password\" name=\"password\" value=\"\" maxlength=\"16\" />\r\n					</td>\r\n				</tr>\r\n			</table>\r\n		</form>\r\n	</div>\r\n	<div class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n		<button class=\"btn ok\" data-background=\"btn_ok.bmp\" data-hover=\"btn_ok_a.bmp\" data-down=\"btn_ok_b.bmp\"></button>\r\n		<button\r\n			class=\"btn cancel\"\r\n			data-background=\"btn_cancel.bmp\"\r\n			data-hover=\"btn_cancel_a.bmp\"\r\n			data-down=\"btn_cancel_b.bmp\"\r\n		></button>\r\n	</div>\r\n</div>\r\n";
+	ChatRoomCreate_default$2 = "<div id=\"ChatRoomCreate\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.chat-room-create.title\">Make a Room</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<form class=\"setup\">\r\n			<table class=\"container\">\r\n				<tr>\r\n					<td class=\"head\" data-locale-key=\"robrowser.ui.chat-room-create.field.title\">Title :</td>\r\n					<td colspan=\"3\">\r\n						<input class=\"title\" type=\"text\" name=\"title\" value=\"\" maxlength=\"32\" />\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td class=\"head\" data-locale-key=\"robrowser.ui.chat-room-create.field.limit\">Limit :</td>\r\n					<td>\r\n						<select name=\"limit\" class=\"limit\">\r\n							<option value=\"20\">20</option>\r\n							<option value=\"12\">12</option>\r\n							<option value=\"8\">8</option>\r\n							<option value=\"4\">4</option>\r\n							<option value=\"2\">2</option>\r\n						</select>\r\n					</td>\r\n					<td class=\"head\" data-locale-key=\"robrowser.ui.chat-room-create.field.type\">Type :</td>\r\n					<td>\r\n						<select name=\"type\" class=\"type\">\r\n							<option value=\"1\" data-locale-key=\"robrowser.ui.chat-room-create.type.chat-room\">\r\n								Chat Room\r\n							</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td class=\"head\" data-locale-key=\"robrowser.ui.chat-room-create.field.restrict\">Restrict :</td>\r\n					<td class=\"mode\" colspan=\"3\">\r\n						<span\r\n							><input type=\"radio\" name=\"public\" value=\"1\" checked=\"checked\" /><span\r\n								data-locale-key=\"robrowser.ui.chat-room-create.public\"\r\n								>Púb.</span\r\n							></span\r\n						>\r\n						<span\r\n							><input type=\"radio\" name=\"public\" value=\"0\" /><span\r\n								data-locale-key=\"robrowser.ui.chat-room-create.private\"\r\n								>Priv.</span\r\n							></span\r\n						>\r\n						<span class=\"head\" data-locale-key=\"robrowser.ui.chat-room-create.field.password\">Sign :</span>\r\n						<input class=\"password\" type=\"password\" name=\"password\" value=\"\" maxlength=\"16\" />\r\n					</td>\r\n				</tr>\r\n			</table>\r\n		</form>\r\n	</div>\r\n	<div class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n		<button class=\"btn ok\" data-background=\"btn_ok.bmp\" data-hover=\"btn_ok_a.bmp\" data-down=\"btn_ok_b.bmp\"></button>\r\n		<button\r\n			class=\"btn cancel\"\r\n			data-background=\"btn_cancel.bmp\"\r\n			data-hover=\"btn_cancel_a.bmp\"\r\n			data-down=\"btn_cancel_b.bmp\"\r\n		></button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ChatRoomCreate/ChatRoomCreate.css?raw
@@ -220989,13 +228461,31 @@ var init_CardIllustration = __esmMin((() => {
 //#region src/UI/Components/MakeReadBook/MakeReadBook.html?raw
 var MakeReadBook_default$2;
 var init_MakeReadBook$2 = __esmMin((() => {
-	MakeReadBook_default$2 = "<div id=\"MakeReadBook\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"title\"><span class=\"text\" id=\"titleBook\"></span> <span class=\"text\" id=\"pageBook\">(1/3)</span></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<div class=\"head\">\r\n			<div class=\"event_book\" id=\"highlighter\">\r\n				<span class=\"bookmark\" data-text=\"1296\">Bookmark</span>\r\n			</div>\r\n			<div class=\"event_book\" id=\"next_previous\">\r\n				<span class=\"previous\" data-text=\"1297\">Previous</span>\r\n				<span class=\"next\" data-text=\"1298\">Next</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<pre class=\"text\" id=\"textBook\"></pre>\r\n		</div>\r\n		<div class=\"footer\"></div>\r\n	</div>\r\n</div>\r\n";
+	MakeReadBook_default$2 = "<div id=\"MakeReadBook\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"title\"><span class=\"text\" id=\"titleBook\"></span> <span class=\"text\" id=\"pageBook\">(1/3)</span></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<div class=\"head\">\r\n			<div class=\"event_book\" id=\"highlighter\">\r\n				<span class=\"bookmark\" data-locale-key=\"robrowser.ui.book.bookmark\">Bookmark</span>\r\n			</div>\r\n			<div class=\"event_book\" id=\"next_previous\">\r\n				<span class=\"previous\" data-locale-key=\"robrowser.ui.book.previous\">Previous</span>\r\n				<span class=\"next\" data-locale-key=\"robrowser.ui.book.next\">Next</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<pre class=\"text\" id=\"textBook\"></pre>\r\n		</div>\r\n		<div class=\"footer\"></div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MakeReadBook/MakeReadBook.css?raw
 var MakeReadBook_default$1;
 var init_MakeReadBook$1 = __esmMin((() => {
 	MakeReadBook_default$1 = ":host {\r\n	width: 555px;\r\n	height: 455px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeReadBook {\r\n	position: absolute;\r\n	width: 555px;\r\n}\r\n\r\n#MakeReadBook .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#MakeReadBook .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#MakeReadBook .titlebar .title {\r\n	margin-left: 3px;\r\n	text-align: center;\r\n}\r\n\r\n#MakeReadBook #textBook {\r\n	margin: 0;\r\n	margin-top: -25px;\r\n	width: 500px;\r\n	white-space: break-spaces;\r\n}\r\n\r\n#MakeReadBook .panel {\r\n	height: 415px;\r\n	display: block;\r\n}\r\n#MakeReadBook .body {\r\n	flex: 1;\r\n	background-repeat: repeat-x;\r\n	border-radius: 0px 0px 0px 5px;\r\n	padding: 0px 0px 0px 30px;\r\n	white-space: pre-wrap;\r\n}\r\n#MakeReadBook .head {\r\n	display: flex;\r\n	text-align: center;\r\n	flex: 1;\r\n	background-repeat: repeat-x;\r\n	border-radius: 0px 0px 0px 5px;\r\n	width: 535px;\r\n	height: 25px;\r\n}\r\n#MakeReadBook .footer {\r\n	flex: 1;\r\n	background-repeat: repeat-x;\r\n	border-radius: 0px 0px 0px 5px;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 555px;\r\n	height: 25px;\r\n}\r\n#MakeReadBook .event_book {\r\n	flex: 1;\r\n}\r\n#MakeReadBook .clone_book {\r\n	position: absolute;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	right: 4px;\r\n	top: 10%;\r\n}\r\n#MakeReadBook .highlighter {\r\n	margin-left: 10px;\r\n	margin-top: 5px;\r\n}\r\n#MakeReadBook #highlighter {\r\n	text-align: left;\r\n}\r\n#MakeReadBook #next_previous {\r\n	text-align: right;\r\n	margin-top: 5px;\r\n	margin-right: -10px;\r\n}\r\n\r\n#MakeReadBook .bookmark {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: 8px;\r\n	left: 11px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n#MakeReadBook .previous {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: 6px;\r\n	right: 12px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n#MakeReadBook .next {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: 6px;\r\n	right: -10px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n";
+}));
+//#endregion
+//#region src/Localization/LocalizeDOM.js
+function applyLocaleAttributes(root) {
+	root.querySelectorAll("[data-locale-key]").forEach((element) => {
+		element.textContent = getMessage(element.dataset.localeKey, element.textContent.trim());
+	});
+	root.querySelectorAll("[data-locale-title-key]").forEach((element) => {
+		const label = getMessage(element.dataset.localeTitleKey, element.title);
+		element.title = label;
+		element.setAttribute("aria-label", label);
+	});
+	root.querySelectorAll("[data-locale-placeholder-key]").forEach((element) => {
+		element.placeholder = getMessage(element.dataset.localePlaceholderKey, element.placeholder);
+	});
+}
+var init_LocalizeDOM = __esmMin((() => {
+	init_MessageCatalog();
 }));
 //#endregion
 //#region src/UI/Components/Announce/Announce.html?raw
@@ -223810,6 +231300,7 @@ var init_MakeReadBook = __esmMin((() => {
 	init_Elements();
 	init_MakeReadBook$2();
 	init_MakeReadBook$1();
+	init_LocalizeDOM();
 	init_Sprite();
 	init_Client();
 	init_CodepageManager();
@@ -223983,6 +231474,7 @@ var init_MakeReadBook = __esmMin((() => {
 	* Apply preferences once append to body
 	*/
 	MakeReadBook.onAppend = function OnAppend() {
+		applyLocaleAttributes(this.getRoot());
 		this._host.style.display = "";
 		this._host.style.top = `${Math.min(Math.max(0, _preferences$40.y), Renderer.height - 455)}px`;
 		this._host.style.left = `${Math.min(Math.max(0, _preferences$40.x), Renderer.width - 555)}px`;
@@ -224026,12 +231518,13 @@ var init_MakeReadBook = __esmMin((() => {
 		this._host.style.height = `${50 + height * 32}px`;
 	};
 	MakeReadBook_default = UIManager.addComponent(MakeReadBook);
+	if (typeof globalThis !== "undefined") globalThis.__happyroMakeReadBookVerification = MakeReadBook;
 }));
 //#endregion
 //#region src/UI/Components/ItemCompare/ItemCompare.html?raw
 var ItemCompare_default$2;
 var init_ItemCompare$2 = __esmMin((() => {
-	ItemCompare_default$2 = "<div class=\"ItemCompare\">\r\n	<div class=\"container\" data-background=\"basic_interface/collection_comparison_bg.bmp\">\r\n		<div class=\"collection\"></div>\r\n		<div class=\"event_view\">\r\n			<button\r\n				class=\"view\"\r\n				data-background=\"btn_view.bmp\"\r\n				data-down=\"btn_view_a.bmp\"\r\n				data-hover=\"btn_view_b.bmp\"\r\n			></button>\r\n			<span class=\"overlay_open\" data-text=\"1294\">Read</span>\r\n			<span class=\"overlay_read\" data-text=\"1295\">Auto Read</span>\r\n		</div>\r\n		<div class=\"title\"></div>\r\n		<div class=\"description\">\r\n			<div class=\"description-inner\"></div>\r\n		</div>\r\n		<button class=\"extend\" data-background=\"basic_interface/btn_comparison_resize.bmp\"></button>\r\n	</div>\r\n	<div class=\"option-container\"></div>\r\n	<div class=\"cardlist\">\r\n		<div class=\"border\"></div>\r\n	</div>\r\n</div>\r\n";
+	ItemCompare_default$2 = "<div class=\"ItemCompare\">\r\n	<div class=\"container\" data-background=\"basic_interface/collection_comparison_bg.bmp\">\r\n		<div class=\"collection\"></div>\r\n		<div class=\"event_view\">\r\n			<button\r\n				class=\"view\"\r\n				data-background=\"btn_view.bmp\"\r\n				data-down=\"btn_view_a.bmp\"\r\n				data-hover=\"btn_view_b.bmp\"\r\n			></button>\r\n			<span class=\"overlay_open\" data-locale-key=\"robrowser.ui.item-compare.read\">Read</span>\r\n			<span class=\"overlay_read\" data-locale-key=\"robrowser.ui.item-compare.auto-read\">Auto Read</span>\r\n		</div>\r\n		<div class=\"title\"></div>\r\n		<div class=\"description\">\r\n			<div class=\"description-inner\"></div>\r\n		</div>\r\n		<button class=\"extend\" data-background=\"basic_interface/btn_comparison_resize.bmp\"></button>\r\n	</div>\r\n	<div class=\"option-container\"></div>\r\n	<div class=\"cardlist\">\r\n		<div class=\"border\"></div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ItemCompare/ItemCompare.css?raw
@@ -224242,6 +231735,7 @@ var init_ItemCompare = __esmMin((() => {
 	init_ItemCompare$1();
 	init_ItemInfo();
 	init_Entity$1();
+	init_LocalizeDOM();
 	_type$7 = 0;
 	_start$2 = 0;
 	ItemCompare = new GUIComponent("ItemCompare", ItemCompare_default$1);
@@ -224274,6 +231768,7 @@ var init_ItemCompare = __esmMin((() => {
 	*/
 	ItemCompare.init = function init() {
 		const root = ItemCompare.getRoot();
+		applyLocaleAttributes(root);
 		this._host.style.top = "200px";
 		this._host.style.left = "200px";
 		const extendBtn = root.querySelector(".extend");
@@ -224369,6 +231864,7 @@ var init_ItemCompare = __esmMin((() => {
 		};
 	})();
 	ItemCompare_default = UIManager.addComponent(ItemCompare);
+	if (typeof globalThis !== "undefined") globalThis.__happyroItemCompareVerification = ItemCompare;
 }));
 //#endregion
 //#region src/UI/Components/ItemPreview/ItemPreview.html?raw
@@ -224683,7 +232179,7 @@ var init_UIVersionManager = __esmMin((() => {
 //#region src/UI/Components/InputBox/InputBox.html?raw
 var InputBox_default$2;
 var init_InputBox$2 = __esmMin((() => {
-	InputBox_default$2 = "<div id=\"inputbox\">\r\n	<div class=\"border\">\r\n		<div class=\"text\">Input number</div>\r\n		<input type=\"text\" value=\"\" />\r\n		<ui-button bg=\"btn_ok.bmp\" hover=\"btn_ok_b.bmp\" down=\"btn_ok_a.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+	InputBox_default$2 = "<div id=\"inputbox\">\r\n	<div class=\"border\">\r\n		<div class=\"text\" data-locale-key=\"robrowser.ui.common.input-number\">Input number</div>\r\n		<input type=\"text\" value=\"\" />\r\n		<ui-button bg=\"btn_ok.bmp\" hover=\"btn_ok_b.bmp\" down=\"btn_ok_a.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/InputBox/InputBox.css?raw
@@ -224717,6 +232213,7 @@ var init_InputBox = __esmMin((() => {
 	init_InputBox$2();
 	init_InputBox$1();
 	init_MessageCatalog();
+	init_LocalizeDOM();
 	InputBox = new GUIComponent("InputBox", InputBox_default$1);
 	InputBox.render = () => InputBox_default$2;
 	/**
@@ -224735,6 +232232,7 @@ var init_InputBox = __esmMin((() => {
 		this._host.style.top = `${(Renderer.height - 120) / 1.5 - 49}px`;
 		this._host.style.left = `${(Renderer.width - 280) / 2 + 1}px`;
 		const root = InputBox.getRoot();
+		applyLocaleAttributes(root);
 		const btn = root.querySelector("ui-button");
 		if (btn) btn.addEventListener("click", () => validate$1());
 		const input = root.querySelector("input");
@@ -224811,7 +232309,7 @@ var init_InputBox = __esmMin((() => {
 		switch (type) {
 			case "number":
 				innerRoot.classList.add("number");
-				if (textEl) textEl.textContent = DB.getMessage(1259);
+				if (textEl) textEl.textContent = getMessage("robrowser.ui.common.input-number", DB.getMessage(1259));
 				if (input) input.type = "text";
 				defaultVal = defaultVal || 0;
 				break;
@@ -224867,7 +232365,7 @@ var init_InputBox = __esmMin((() => {
 //#region src/UI/Components/CartItems/CartItems.html?raw
 var CartItems_default$2;
 var init_CartItems$2 = __esmMin((() => {
-	CartItems_default$2 = "<div id=\"cartitems\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"222\">CartItems</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base mini\"\r\n				data-background=\"basic_interface/sys_mini_off.bmp\"\r\n				data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td class=\"container\">\r\n					<div class=\"ff_bugfix\">\r\n						<div class=\"hide\"></div>\r\n						<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n					</div>\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n					<div class=\"cnt\">Num:<span class=\"ncnt\"></span>/<span class=\"mcnt\"></span></div>\r\n					<div class=\"wt\">Weight:<span class=\"nwt\"></span>/<span class=\"mwt\"></span></div>\r\n					<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
+	CartItems_default$2 = "<div id=\"cartitems\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.cart.title\">Cart</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base mini\"\r\n				data-background=\"basic_interface/sys_mini_off.bmp\"\r\n				data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n				data-locale-title-key=\"robrowser.ui.common.minimize\"\r\n			></button>\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				data-locale-title-key=\"robrowser.ui.common.close\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td class=\"container\">\r\n					<div class=\"ff_bugfix\">\r\n						<div class=\"hide\"></div>\r\n						<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n					</div>\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n					<div class=\"cnt\"><span data-locale-key=\"robrowser.ui.cart.count\">Num:</span><span class=\"ncnt\"></span>/<span class=\"mcnt\"></span></div>\r\n					<div class=\"wt\"><span data-locale-key=\"robrowser.ui.cart.weight\">Weight:</span><span class=\"nwt\"></span>/<span class=\"mwt\"></span></div>\r\n					<button class=\"extend\" data-background=\"btn_resize.bmp\" data-locale-title-key=\"robrowser.ui.cart.resize\"></button>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CartItems/CartItems.css?raw
@@ -225958,7 +233456,7 @@ var init_MiniMap$1 = __esmMin((() => {
 //#region src/UI/Components/WorldMap/WorldMap.html?raw
 var WorldMap_default$2;
 var init_WorldMap$2 = __esmMin((() => {
-	WorldMap_default$2 = "<div id=\"WorldMap\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\">\r\n				<select name=\"mapList\" id=\"WorldMaps\"></select>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button class=\"base showlvl\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n				<span data-text=\"2209\">Show Monsters</span>\r\n				<button\r\n					class=\"base togglemaps\"\r\n					data-background=\"minimap/i_object_3.bmp\"\r\n					data-hover=\"minimap/i_object_2.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"map\">\r\n			<div class=\"content\"></div>\r\n		</div>\r\n	</div>\r\n	<div id=\"map-tooltip\" style=\"display: none\">\r\n		<div class=\"tooltip-img\"></div>\r\n		<div class=\"tooltip-mapname\"></div>\r\n		<div class=\"tooltip-mapid\"></div>\r\n	</div>\r\n</div>\r\n";
+	WorldMap_default$2 = "<div id=\"WorldMap\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\">\r\n				<select name=\"mapList\" id=\"WorldMaps\"></select>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button class=\"base showlvl\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n				<span data-locale-key=\"robrowser.ui.world-map.show-monsters\">Show Monsters</span>\r\n				<button\r\n					class=\"base togglemaps\"\r\n					data-background=\"minimap/i_object_3.bmp\"\r\n					data-hover=\"minimap/i_object_2.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"map\">\r\n			<div class=\"content\"></div>\r\n		</div>\r\n	</div>\r\n	<div id=\"map-tooltip\" style=\"display: none\">\r\n		<div class=\"tooltip-img\"></div>\r\n		<div class=\"tooltip-mapname\"></div>\r\n		<div class=\"tooltip-mapid\"></div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WorldMap/WorldMap.css?raw
@@ -225970,7 +233468,7 @@ var init_WorldMap$1 = __esmMin((() => {
 //#region src/UI/Components/Navigation/Navigation.html?raw
 var Navigation_default$2;
 var init_Navigation$2 = __esmMin((() => {
-	Navigation_default$2 = "<div class=\"Navigation\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\" data-background=\"basic_interface/titlebar_left.bmp\"></div>\r\n		<div class=\"center\" data-background=\"basic_interface/titlebar_mid.bmp\"></div>\r\n		<div class=\"right\" data-background=\"basic_interface/titlebar_right.bmp\"></div>\r\n		<div class=\"title\">Navigation</div>\r\n		<ui-button\r\n			class=\"close\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"search-container\">\r\n			<select class=\"search-type\">\r\n				<option value=\"ALL\">ALL</option>\r\n				<option value=\"NPC\">NPC</option>\r\n				<option value=\"MOB\">MOB</option>\r\n			</select>\r\n			<div class=\"search-left\" data-background=\"basic_interface/txtbox_l.bmp\"></div>\r\n			<div class=\"search-middle\" data-background=\"basic_interface/txtbox_m.bmp\"></div>\r\n			<div class=\"search-right\" data-background=\"basic_interface/txtbox_r.bmp\"></div>\r\n			<input type=\"text\" class=\"search-input\" placeholder=\"Search...\" />\r\n			<ui-button\r\n				class=\"search-button\"\r\n				bg=\"navigation_interface/navisearch_a.bmp\"\r\n				hover=\"navigation_interface/navisearch_b.bmp\"\r\n				down=\"navigation_interface/navisearch_c.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"map-container\">\r\n			<div class=\"services-toggle-container\">\r\n				<label class=\"services-checkbox\"> <input type=\"checkbox\" class=\"services-toggle\" /> Services </label>\r\n			</div>\r\n			<div class=\"location-title\"></div>\r\n			<div class=\"map-display\">\r\n				<!-- Map will be displayed here -->\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<div class=\"coordinates-bar\">\r\n			<div class=\"map-name\"></div>\r\n			<div class=\"mouse-info\">\r\n				<span class=\"mouse-label\">Mouse:</span>\r\n				<span class=\"mouse-coordinates\"></span>\r\n			</div>\r\n			<div class=\"target-info\">\r\n				<span class=\"target-label\">Target:</span>\r\n				<span class=\"target-coordinates\"></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	Navigation_default$2 = "<div class=\"Navigation\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\" data-background=\"basic_interface/titlebar_left.bmp\"></div>\r\n		<div class=\"center\" data-background=\"basic_interface/titlebar_mid.bmp\"></div>\r\n		<div class=\"right\" data-background=\"basic_interface/titlebar_right.bmp\"></div>\r\n		<div class=\"title\" data-locale-key=\"robrowser.ui.navigation.title\">Navigation</div>\r\n		<ui-button\r\n			class=\"close\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"search-container\">\r\n			<select class=\"search-type\">\r\n				<option value=\"ALL\" data-locale-key=\"robrowser.ui.navigation.search-all\">ALL</option>\r\n				<option value=\"NPC\" data-locale-key=\"robrowser.ui.navigation.search-npc\">NPC</option>\r\n				<option value=\"MOB\" data-locale-key=\"robrowser.ui.navigation.search-mob\">MOB</option>\r\n			</select>\r\n			<div class=\"search-left\" data-background=\"basic_interface/txtbox_l.bmp\"></div>\r\n			<div class=\"search-middle\" data-background=\"basic_interface/txtbox_m.bmp\"></div>\r\n			<div class=\"search-right\" data-background=\"basic_interface/txtbox_r.bmp\"></div>\r\n			<input\r\n				type=\"text\"\r\n				class=\"search-input\"\r\n				placeholder=\"Search...\"\r\n				data-locale-placeholder-key=\"robrowser.ui.navigation.search-placeholder\"\r\n			/>\r\n			<ui-button\r\n				class=\"search-button\"\r\n				bg=\"navigation_interface/navisearch_a.bmp\"\r\n				hover=\"navigation_interface/navisearch_b.bmp\"\r\n				down=\"navigation_interface/navisearch_c.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"map-container\">\r\n			<div class=\"services-toggle-container\">\r\n				<label class=\"services-checkbox\">\r\n					<input type=\"checkbox\" class=\"services-toggle\" />\r\n					<span data-locale-key=\"robrowser.ui.navigation.services\">Services</span>\r\n				</label>\r\n			</div>\r\n			<div class=\"location-title\"></div>\r\n			<div class=\"map-display\">\r\n				<!-- Map will be displayed here -->\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<div class=\"coordinates-bar\">\r\n			<div class=\"map-name\"></div>\r\n			<div class=\"mouse-info\">\r\n				<span class=\"mouse-label\" data-locale-key=\"robrowser.ui.navigation.mouse\">Mouse:</span>\r\n				<span class=\"mouse-coordinates\"></span>\r\n			</div>\r\n			<div class=\"target-info\">\r\n				<span class=\"target-label\" data-locale-key=\"robrowser.ui.navigation.target\">Target:</span>\r\n				<span class=\"target-coordinates\"></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Navigation/Navigation.css?raw
@@ -226179,7 +233677,7 @@ function formatCoordinates(x, y, options) {
 function formatTargetCoordinates(x, y, options) {
 	options = options || {};
 	let text = `${Math.floor(x)},${Math.floor(y)}`;
-	if (options.noPathFound) text += " (no path found)";
+	if (options.noPathFound) text += getMessage("robrowser.ui.navigation.no-path", " (no path found)");
 	else if (options.targetMap && options.targetMap !== getCurrentMap()) text += ` (${options.targetMap})`;
 	return text;
 }
@@ -226288,6 +233786,8 @@ var init_Navigation = __esmMin((() => {
 	init_Navigation$2();
 	init_Navigation$1();
 	init_MapPathFinder();
+	init_MessageCatalog();
+	init_LocalizeDOM();
 	Navigation = new GUIComponent("Navigation", Navigation_default$1);
 	Navigation.render = () => Navigation_default$2;
 	_arrow = createAsyncImage();
@@ -226342,6 +233842,7 @@ var init_Navigation = __esmMin((() => {
 	*/
 	Navigation.init = function init() {
 		const root = Navigation.getRoot();
+		applyLocaleAttributes(root);
 		_mapData = { walkableType: Altitude.TYPE.WALKABLE };
 		this._host.style.top = `${Math.max(0, Math.min(Renderer.height - 300, 200))}px`;
 		this._host.style.left = `${Math.max(0, Math.min(Renderer.width - 300, 200))}px`;
@@ -227028,6 +234529,10 @@ var init_Navigation = __esmMin((() => {
 			});
 		}
 	};
+	/**
+	* Create component and export it
+	*/
+	if (typeof globalThis !== "undefined") globalThis.__happyroNavigationVerification = Navigation;
 	Navigation_default = UIManager.addComponent(Navigation);
 }));
 //#endregion
@@ -227349,6 +234854,7 @@ var init_WorldMap = __esmMin((() => {
 	init_WorldMap$2();
 	init_WorldMap$1();
 	init_Navigation();
+	init_LocalizeDOM();
 	WorldMap = new GUIComponent("WorldMap", WorldMap_default$1);
 	WorldMap.render = () => WorldMap_default$2;
 	_preferences$39 = Preferences.get("WorldMap", {
@@ -227370,6 +234876,7 @@ var init_WorldMap = __esmMin((() => {
 	*/
 	WorldMap.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		root.querySelectorAll(".titlebar .base").forEach((el) => el.addEventListener("mousedown", stopPropagation$11));
 		const selectEl = root.querySelector(".titlebar select");
 		if (selectEl) selectEl.addEventListener("change", onSelect);
@@ -227488,6 +234995,10 @@ var init_WorldMap = __esmMin((() => {
 		}
 	};
 	WorldMap.mouseMode = GUIComponent.MouseMode.STOP;
+	/**
+	* Create component and export it
+	*/
+	if (typeof globalThis !== "undefined") globalThis.__happyroWorldMapVerification = WorldMap;
 	WorldMap_default = UIManager.addComponent(WorldMap);
 }));
 //#endregion
@@ -227547,7 +235058,7 @@ var init_MiniMap = __esmMin((() => {
 //#region src/UI/Components/PartyFriends/PartyHelper/PartyHelper.html?raw
 var PartyHelper_default$2;
 var init_PartyHelper$2 = __esmMin((() => {
-	PartyHelper_default$2 = "<div id=\"PartyHelper\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"text setup\"><ui-text msg=\"291\">Party Setup</ui-text></span>\r\n			<span class=\"text friend-setup\"><ui-text msg=\"355\">Friend Setup</ui-text></span>\r\n			<span class=\"text create\"><ui-text msg=\"2054\">Create Party</ui-text></span>\r\n			<span class=\"text invite\"><ui-text msg=\"2056\">Create Party</ui-text></span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content party-content\">\r\n		<div class=\"create invite\">\r\n			<p>\r\n				<span class=\"create\"><ui-text msg=\"2057\">Party Name:</ui-text></span>\r\n				<span class=\"invite\"><ui-text msg=\"2058\">Player Name:</ui-text></span>\r\n			</p>\r\n			<input type=\"text\" class=\"name\" value=\"\" />\r\n		</div>\r\n		<div class=\"exp_share setup\">\r\n			<p><ui-text msg=\"292\">How to share EXP</ui-text></p>\r\n			<button class=\"on\" data-value=\"0\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"287\">Each Take</ui-text>\r\n			</button>\r\n			<button class=\"off\" data-value=\"1\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"288\">Even Share</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"item_share setup create\">\r\n			<p><ui-text msg=\"293\">How to share Items</ui-text></p>\r\n			<button class=\"on\" data-value=\"0\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"289\">Each Take</ui-text>\r\n			</button>\r\n			<button class=\"off\" data-value=\"1\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"290\">Party Share</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"item_sharing_type setup create\">\r\n			<p><ui-text msg=\"738\">Item Sharing type</ui-text></p>\r\n			<button class=\"on\" data-value=\"0\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"739\">Individual</ui-text>\r\n			</button>\r\n			<button class=\"off\" data-value=\"1\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"740\">Shared</ui-text>\r\n			</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"content friend-content\">\r\n		<div class=\"friend-setup\">\r\n			<div class=\"open1to1Stranger setting-row\">\r\n				<button class=\"on\" data-value=\"1\"><ui-image src=\"checkbox_1.bmp\"></ui-image></button>\r\n				<button class=\"off\" data-value=\"0\"><ui-image src=\"checkbox_0.bmp\"></ui-image></button>\r\n				<span><ui-text msg=\"361\">Open 1:1 Chat between Strangers</ui-text></span>\r\n			</div>\r\n			<div class=\"open1to1Friend setting-row\">\r\n				<button class=\"on\" data-value=\"1\"><ui-image src=\"checkbox_1.bmp\"></ui-image></button>\r\n				<button class=\"off\" data-value=\"0\"><ui-image src=\"checkbox_0.bmp\"></ui-image></button>\r\n				<span><ui-text msg=\"359\">Open 1:1 Chat between Friends</ui-text></span>\r\n			</div>\r\n			<div class=\"alarm1to1 setting-row\">\r\n				<button class=\"on\" data-value=\"1\"><ui-image src=\"checkbox_1.bmp\"></ui-image></button>\r\n				<button class=\"off\" data-value=\"0\"><ui-image src=\"checkbox_0.bmp\"></ui-image></button>\r\n				<span><ui-text msg=\"362\">Alarm when receive a 1:1 Chat</ui-text></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n		<ui-button\r\n			class=\"btn ok\"\r\n			bg=\"basic_interface/btn_ok.bmp\"\r\n			hover=\"basic_interface/btn_ok_a.bmp\"\r\n			down=\"basic_interface/btn_ok_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+	PartyHelper_default$2 = "<div id=\"PartyHelper\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"text setup\" data-locale-key=\"robrowser.ui.party-friends.party-setup\">Party Setup</span>\r\n			<span class=\"text friend-setup\" data-locale-key=\"robrowser.ui.party-friends.friend-setup\"\r\n				>Friend Setup</span\r\n			>\r\n			<span class=\"text create\" data-locale-key=\"robrowser.ui.party-friends.create-party\">Create Party</span>\r\n			<span class=\"text invite\" data-locale-key=\"robrowser.ui.party-friends.invite\">Party Invitation</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content party-content\">\r\n		<div class=\"create invite\">\r\n			<p>\r\n				<span class=\"create\" data-locale-key=\"robrowser.ui.party-friends.party-name\">Party Name:</span>\r\n				<span class=\"invite\" data-locale-key=\"robrowser.ui.party-friends.player-name\">Player Name:</span>\r\n			</p>\r\n			<input type=\"text\" class=\"name\" value=\"\" />\r\n		</div>\r\n		<div class=\"exp_share setup\">\r\n			<p data-locale-key=\"robrowser.ui.party-friends.exp-share\">How to share EXP</p>\r\n			<button class=\"on\" data-value=\"0\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.each-take\">Each Take</span>\r\n			</button>\r\n			<button class=\"off\" data-value=\"1\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.even-share\">Even Share</span>\r\n			</button>\r\n		</div>\r\n		<div class=\"item_share setup create\">\r\n			<p data-locale-key=\"robrowser.ui.party-friends.item-share\">How to share Items</p>\r\n			<button class=\"on\" data-value=\"0\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.each-take\">Each Take</span>\r\n			</button>\r\n			<button class=\"off\" data-value=\"1\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.party-share\">Party Share</span>\r\n			</button>\r\n		</div>\r\n		<div class=\"item_sharing_type setup create\">\r\n			<p data-locale-key=\"robrowser.ui.party-friends.item-sharing-type\">Item Sharing type</p>\r\n			<button class=\"on\" data-value=\"0\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.individual\">Individual</span>\r\n			</button>\r\n			<button class=\"off\" data-value=\"1\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.shared\">Shared</span>\r\n			</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"content friend-content\">\r\n		<div class=\"friend-setup\">\r\n			<div class=\"open1to1Stranger setting-row\">\r\n				<button class=\"on\" data-value=\"1\"><ui-image src=\"checkbox_1.bmp\"></ui-image></button>\r\n				<button class=\"off\" data-value=\"0\"><ui-image src=\"checkbox_0.bmp\"></ui-image></button>\r\n				<span data-locale-key=\"robrowser.ui.party-friends.open-stranger\"\r\n					>Open 1:1 Chat between Strangers</span\r\n				>\r\n			</div>\r\n			<div class=\"open1to1Friend setting-row\">\r\n				<button class=\"on\" data-value=\"1\"><ui-image src=\"checkbox_1.bmp\"></ui-image></button>\r\n				<button class=\"off\" data-value=\"0\"><ui-image src=\"checkbox_0.bmp\"></ui-image></button>\r\n				<span data-locale-key=\"robrowser.ui.party-friends.open-friend\">Open 1:1 Chat between Friends</span>\r\n			</div>\r\n			<div class=\"alarm1to1 setting-row\">\r\n				<button class=\"on\" data-value=\"1\"><ui-image src=\"checkbox_1.bmp\"></ui-image></button>\r\n				<button class=\"off\" data-value=\"0\"><ui-image src=\"checkbox_0.bmp\"></ui-image></button>\r\n				<span data-locale-key=\"robrowser.ui.party-friends.alarm\">Alarm when receive a 1:1 Chat</span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n		<ui-button\r\n			class=\"btn ok\"\r\n			bg=\"basic_interface/btn_ok.bmp\"\r\n			hover=\"basic_interface/btn_ok_a.bmp\"\r\n			down=\"basic_interface/btn_ok_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/PartyFriends/PartyHelper/PartyHelper.css?raw
@@ -228022,6 +235533,7 @@ var init_WhisperBox = __esmMin((() => {
 	init_NpcBox();
 	init_NpcMenu();
 	init_InputBox();
+	init_MessageCatalog();
 	init_preload_helper();
 	WhisperBox = new GUIComponent("WhisperBox", WhisperBox_default);
 	WhisperBox.render = () => WhisperBox_default$1;
@@ -228134,7 +235646,7 @@ var init_WhisperBox = __esmMin((() => {
 		__vitePreload(() => Promise.resolve().then(() => (init_Friends(), Friends_exports)).then((Friends) => {
 			const isFriend = Friends && Friends.default.isFriend ? Friends.default.isFriend(nickname) : false;
 			const titleEl = root.querySelector(".title");
-			if (titleEl) titleEl.textContent = `With ${nickname}${isFriend ? " (Friend)" : ""}`;
+			if (titleEl) titleEl.textContent = getMessage("robrowser.ui.whisper.with", "With %s").replace("%s", nickname) + (isFriend ? getMessage("robrowser.ui.whisper.friend", " (Friend)") : "");
 		}), void 0, import.meta.url);
 		instance.draggable(".whisper-header, .whisper-footer");
 		const closeBtn = root.querySelector(".close");
@@ -228207,6 +235719,7 @@ var init_WhisperBox = __esmMin((() => {
 	* Interface to be overriden by Engine
 	*/
 	WhisperBox.onRequestTalk = function onRequestTalk(_nickname, _text) {};
+	if (typeof globalThis !== "undefined") globalThis.__happyroWhisperVerification = WhisperBox;
 	UIManager.addComponent(WhisperBox);
 }));
 //#endregion
@@ -228261,6 +235774,7 @@ var init_PartyHelper = __esmMin((() => {
 	init_PartyHelper$2();
 	init_PartyHelper$1();
 	init_WhisperBox();
+	init_LocalizeDOM();
 	PartyHelper = new GUIComponent("PartyHelper", PartyHelper_default$1);
 	/**
 	* Window type constants
@@ -228285,6 +235799,7 @@ var init_PartyHelper = __esmMin((() => {
 	*/
 	PartyHelper.init = function init() {
 		const root = _root$17();
+		applyLocaleAttributes(root);
 		const baseBtn = root.querySelector(".base");
 		if (baseBtn) baseBtn.addEventListener("mousedown", (e) => {
 			e.stopImmediatePropagation();
@@ -228860,7 +236375,7 @@ var init_SkillTargetSelection = __esmMin((() => {
 //#region src/UI/Components/PartyFriends/PartyFriendsV1/PartyFriendsV1.html?raw
 var PartyFriendsV1_default$2;
 var init_PartyFriendsV1$2 = __esmMin((() => {
-	PartyFriendsV1_default$2 = "<div id=\"PartyFriends\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"party\">\r\n				<span class=\"text\"><ui-text msg=\"103\">Party</ui-text></span> <span class=\"partyname\"></span>\r\n			</span>\r\n			<span class=\"friend\">\r\n				<span class=\"text\"><ui-text msg=\"102\">Friends</ui-text></span> (<span class=\"friendcount\">0</span>/<span\r\n					class=\"friendmax\"\r\n					>127</span\r\n				>)\r\n			</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"party info-v2\"></div>\r\n		<div class=\"friend\"></div>\r\n	</div>\r\n	<div class=\"navigation\">\r\n		<ui-image src=\"basic_interface/mesbtn_mid.bmp\"></ui-image>\r\n		<!-- Friend specific buttons -->\r\n		<ui-button\r\n			class=\"friend mail\"\r\n			bg=\"basic_interface/mesbtn_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"98\">Send Message</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"friend privatemessage\"\r\n			bg=\"basic_interface/mesbtn_02.bmp\"\r\n			hover=\"basic_interface/mesbtn_02_a.bmp\"\r\n			down=\"basic_interface/mesbtn_02_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"99\">1:1 Chat</ui-text></div>\r\n		</ui-button>\r\n\r\n		<!-- Party specific buttons -->\r\n		<ui-button\r\n			class=\"party agency\"\r\n			bg=\"basic_interface/mesbtn_partymaster_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_partymaster_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_partymaster_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"3504\">Adventurer's Agency</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"info\"\r\n			bg=\"basic_interface/mesbtn_04.bmp\"\r\n			hover=\"basic_interface/mesbtn_04_a.bmp\"\r\n			down=\"basic_interface/mesbtn_04_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\"><ui-text msg=\"101\">Party Setup</ui-text></span>\r\n				<span class=\"friend\"><ui-text msg=\"355\">Friend Setup</ui-text></span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"friend remove\"\r\n			bg=\"basic_interface/mesbtn_05.bmp\"\r\n			hover=\"basic_interface/mesbtn_05_a.bmp\"\r\n			down=\"basic_interface/mesbtn_05_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"351\">Delete</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock on\"\r\n			bg=\"basic_interface/mesbtn_06.bmp\"\r\n			hover=\"basic_interface/mesbtn_06_a.bmp\"\r\n			down=\"basic_interface/mesbtn_06_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1626\">Activate lock function</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock off\"\r\n			bg=\"basic_interface/mesbtn_07.bmp\"\r\n			hover=\"basic_interface/mesbtn_07_a.bmp\"\r\n			down=\"basic_interface/mesbtn_07_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"1627\">Deactivate lock function</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party create\"\r\n			bg=\"basic_interface/mesbtn_08.bmp\"\r\n			hover=\"basic_interface/mesbtn_08_a.bmp\"\r\n			down=\"basic_interface/mesbtn_08_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2054\">Create Party</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party add\"\r\n			bg=\"basic_interface/mesbtn_010.bmp\"\r\n			hover=\"basic_interface/mesbtn_010_a.bmp\"\r\n			down=\"basic_interface/mesbtn_010_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"2056\">Party Invitation</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party leave\"\r\n			bg=\"basic_interface/mesbtn_09.bmp\"\r\n			hover=\"basic_interface/mesbtn_09_a.bmp\"\r\n			down=\"basic_interface/mesbtn_09_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"96\">Leave Party</ui-text></div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party sort\"\r\n			bg=\"basic_interface/mesbtn_011.bmp\"\r\n			hover=\"basic_interface/mesbtn_011_a.bmp\"\r\n			down=\"basic_interface/mesbtn_011_b.bmp\"\r\n		>\r\n			<div class=\"overlay\"><ui-text msg=\"3983\">Sort Mini Party Window</ui-text></div>\r\n		</ui-button>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid.bmp\"></ui-image>\r\n		<div class=\"friend\">\r\n			<button class=\"switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"102\">Friends</ui-text>\r\n			</button>\r\n			<button class=\"switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"103\">Party</ui-text>\r\n			</button>\r\n		</div>\r\n		<div class=\"party\">\r\n			<button class=\"switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image><ui-text msg=\"102\">Friends</ui-text>\r\n			</button>\r\n			<button class=\"switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image><ui-text msg=\"103\">Party</ui-text>\r\n			</button>\r\n			<div class=\"member-count-container\">\r\n				<div class=\"footer-label\"><ui-text msg=\"3231\">Cap</ui-text></div>\r\n				<span class=\"count-box\"><span class=\"inner-count\">0/12</span></span>\r\n			</div>\r\n		</div>\r\n		<button class=\"resize\"><ui-image src=\"btn_resize.bmp\"></ui-image></button>\r\n	</div>\r\n</div>\r\n";
+	PartyFriendsV1_default$2 = "<div id=\"PartyFriends\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"party\">\r\n				<span class=\"text\" data-locale-key=\"robrowser.ui.party-friends.party\">Party</span>\r\n				<span class=\"partyname\"></span>\r\n			</span>\r\n			<span class=\"friend\">\r\n				<span class=\"text\" data-locale-key=\"robrowser.ui.party-friends.friends\">Friends</span>\r\n				(<span class=\"friendcount\">0</span>/<span class=\"friendmax\">127</span>)\r\n			</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"party info-v2\"></div>\r\n		<div class=\"friend\"></div>\r\n	</div>\r\n	<div class=\"navigation\">\r\n		<ui-image src=\"basic_interface/mesbtn_mid.bmp\"></ui-image>\r\n		<!-- Friend specific buttons -->\r\n		<ui-button\r\n			class=\"friend mail\"\r\n			bg=\"basic_interface/mesbtn_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.send-message\">Send Message</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"friend privatemessage\"\r\n			bg=\"basic_interface/mesbtn_02.bmp\"\r\n			hover=\"basic_interface/mesbtn_02_a.bmp\"\r\n			down=\"basic_interface/mesbtn_02_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.chat-1to1\">1:1 Chat</div>\r\n		</ui-button>\r\n\r\n		<!-- Party specific buttons -->\r\n		<ui-button\r\n			class=\"party agency\"\r\n			bg=\"basic_interface/mesbtn_partymaster_01.bmp\"\r\n			hover=\"basic_interface/mesbtn_partymaster_01_a.bmp\"\r\n			down=\"basic_interface/mesbtn_partymaster_01_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.agency\">Adventurer's Agency</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"info\"\r\n			bg=\"basic_interface/mesbtn_04.bmp\"\r\n			hover=\"basic_interface/mesbtn_04_a.bmp\"\r\n			down=\"basic_interface/mesbtn_04_b.bmp\"\r\n		>\r\n			<div class=\"overlay\">\r\n				<span class=\"party\" data-locale-key=\"robrowser.ui.party-friends.party-setup\">Party Setup</span>\r\n				<span class=\"friend\" data-locale-key=\"robrowser.ui.party-friends.friend-setup\">Friend Setup</span>\r\n			</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"friend remove\"\r\n			bg=\"basic_interface/mesbtn_05.bmp\"\r\n			hover=\"basic_interface/mesbtn_05_a.bmp\"\r\n			down=\"basic_interface/mesbtn_05_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.delete\">Delete</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock on\"\r\n			bg=\"basic_interface/mesbtn_06.bmp\"\r\n			hover=\"basic_interface/mesbtn_06_a.bmp\"\r\n			down=\"basic_interface/mesbtn_06_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.lock-on\">Activate lock function</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"lock off\"\r\n			bg=\"basic_interface/mesbtn_07.bmp\"\r\n			hover=\"basic_interface/mesbtn_07_a.bmp\"\r\n			down=\"basic_interface/mesbtn_07_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.lock-off\">Deactivate lock function</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party create\"\r\n			bg=\"basic_interface/mesbtn_08.bmp\"\r\n			hover=\"basic_interface/mesbtn_08_a.bmp\"\r\n			down=\"basic_interface/mesbtn_08_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.create-party\">Create Party</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party add\"\r\n			bg=\"basic_interface/mesbtn_010.bmp\"\r\n			hover=\"basic_interface/mesbtn_010_a.bmp\"\r\n			down=\"basic_interface/mesbtn_010_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.invite\">Party Invitation</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party leave\"\r\n			bg=\"basic_interface/mesbtn_09.bmp\"\r\n			hover=\"basic_interface/mesbtn_09_a.bmp\"\r\n			down=\"basic_interface/mesbtn_09_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.leave\">Leave Party</div>\r\n		</ui-button>\r\n		<ui-button\r\n			class=\"party sort\"\r\n			bg=\"basic_interface/mesbtn_011.bmp\"\r\n			hover=\"basic_interface/mesbtn_011_a.bmp\"\r\n			down=\"basic_interface/mesbtn_011_b.bmp\"\r\n		>\r\n			<div class=\"overlay\" data-locale-key=\"robrowser.ui.party-friends.sort\">Sort Mini Party Window</div>\r\n		</ui-button>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid.bmp\"></ui-image>\r\n		<div class=\"friend\">\r\n			<button class=\"switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.friends\">Friends</span>\r\n			</button>\r\n			<button class=\"switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.party\">Party</span>\r\n			</button>\r\n		</div>\r\n		<div class=\"party\">\r\n			<button class=\"switchtab off\">\r\n				<ui-image src=\"radiobtn_off.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.friends\">Friends</span>\r\n			</button>\r\n			<button class=\"switchtab on\">\r\n				<ui-image src=\"radiobtn_on.bmp\"></ui-image\r\n				><span data-locale-key=\"robrowser.ui.party-friends.party\">Party</span>\r\n			</button>\r\n			<div class=\"member-count-container\">\r\n				<div class=\"footer-label\" data-locale-key=\"robrowser.ui.party-friends.cap\">Cap</div>\r\n				<span class=\"count-box\"><span class=\"inner-count\">0/12</span></span>\r\n			</div>\r\n		</div>\r\n		<button class=\"resize\"><ui-image src=\"btn_resize.bmp\"></ui-image></button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/PartyFriends/PartyFriendsV1/PartyFriendsV1.css?raw
@@ -229456,7 +236971,7 @@ var init_PartyMemberExternal = __esmMin((() => {
 //#region src/UI/Components/Mail/Mail.html?raw
 var Mail_default$2;
 var init_Mail$3 = __esmMin((() => {
-	Mail_default$2 = "<div id=\"Mail\">\r\n	<div class=\"body\">\r\n		<ui-image src=\"basic_interface/maillist1_bg.bmp\"></ui-image>\r\n		<div class=\"titlebar\">\r\n			<div class=\"left\">\r\n				<span class=\"text\" id=\"title\"><ui-text msg=\"1025\">Mail List</ui-text></span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base close\"\r\n					bg=\"basic_interface/close2.bmp\"\r\n					hover=\"basic_interface/close2_a.bmp\"\r\n				></ui-button>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"clear\">\r\n			<section class=\"container flex_block\">\r\n				<div class=\"flex container\">\r\n					<div style=\"flex: 1\">\r\n						<div class=\"flex_block btn_iw\">\r\n							<div class=\"inbox\" id=\"inbox\" style=\"flex: 1\"></div>\r\n							<div class=\"write\" id=\"write\" style=\"flex: 1\"></div>\r\n						</div>\r\n					</div>\r\n\r\n					<div class=\"list_mail flex_block\">\r\n						<!-- list mail -->\r\n						<div class=\"block_mail\">\r\n							<div class=\"list_item_mail\"></div>\r\n							<div class=\"flex prev_next\">\r\n								<div class=\"prev\">\r\n									<div class=\"overlay_prev\"></div>\r\n									<span class=\"text_pagination\"><ui-text msg=\"1053\">Prev</ui-text></span>\r\n								</div>\r\n								<div class=\"pagination\">\r\n									<span class=\"text\" id=\"infor_page\">1/1</span>\r\n								</div>\r\n								<div class=\"next\">\r\n									<div class=\"overlay_next margin_next\"></div>\r\n									<span class=\"text_pagination margin_next\"><ui-text msg=\"1054\">Next</ui-text></span>\r\n								</div>\r\n							</div>\r\n						</div>\r\n						<!-- create mail -->\r\n						<div class=\"block_create_mail\">\r\n							<div class=\"to_create_mail\">\r\n								<span class=\"text text_to_title\">\r\n									<span><ui-text msg=\"1099\">To</ui-text></span> :</span\r\n								>\r\n								<div style=\"flex: 4\">\r\n									<input class=\"text_to\" type=\"text\" value=\"\" maxlength=\"50\" />\r\n								</div>\r\n							</div>\r\n							<div class=\"title_create_mail\">\r\n								<span class=\"text text_title_create_mail\">\r\n									<span><ui-text msg=\"1100\">Title</ui-text></span> :</span\r\n								>\r\n								<div style=\"flex: 4\">\r\n									<input class=\"input_title\" type=\"text\" value=\"\" maxlength=\"50\" />\r\n								</div>\r\n							</div>\r\n							<div class=\"email_body\">\r\n								<textarea class=\"textarea_mail\" maxlength=\"198\"></textarea>\r\n							</div>\r\n							<div class=\"block_zeny_item\">\r\n								<ui-button\r\n									class=\"add_zeny\"\r\n									id=\"zeny_amt\"\r\n									bg=\"basic_interface/inputzeny.bmp\"\r\n									hover=\"basic_interface/inputzeny_a.bmp\"\r\n								></ui-button>\r\n								<ui-button\r\n									class=\"add_zeny\"\r\n									id=\"zeny_ok\"\r\n									bg=\"basic_interface/setzeny.bmp\"\r\n									hover=\"basic_interface/setzeny_a.bmp\"\r\n								></ui-button>\r\n								<div class=\"block_zeny\">\r\n									<input class=\"input_zeny_amt\" type=\"text\" value=\"0\" maxlength=\"9\" disabled />\r\n								</div>\r\n\r\n								<div class=\"block_item\">\r\n									<div class=\"container_item\">\r\n										<div class=\"overlay\"></div>\r\n									</div>\r\n								</div>\r\n							</div>\r\n\r\n							<div class=\"block_send_cancel\">\r\n								<ui-button\r\n									class=\"create_mail_btn\"\r\n									id=\"create_mail_send\"\r\n									bg=\"basic_interface/send.bmp\"\r\n									hover=\"basic_interface/send_a.bmp\"\r\n								></ui-button>\r\n								<ui-button\r\n									class=\"create_mail_btn\"\r\n									id=\"create_mail_cancel\"\r\n									bg=\"basic_interface/cancel2.bmp\"\r\n									hover=\"basic_interface/cancel2_a.bmp\"\r\n								></ui-button>\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</section>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	Mail_default$2 = "<div id=\"Mail\">\r\n	<div class=\"body\">\r\n		<ui-image src=\"basic_interface/maillist1_bg.bmp\"></ui-image>\r\n		<div class=\"titlebar\">\r\n			<div class=\"left\">\r\n				<span class=\"text\" id=\"title\" data-locale-key=\"robrowser.ui.mail.list\">Mail List</span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base close\"\r\n					bg=\"basic_interface/close2.bmp\"\r\n					hover=\"basic_interface/close2_a.bmp\"\r\n				></ui-button>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"clear\">\r\n			<section class=\"container flex_block\">\r\n				<div class=\"flex container\">\r\n					<div style=\"flex: 1\">\r\n						<div class=\"flex_block btn_iw\">\r\n							<div class=\"inbox\" id=\"inbox\" style=\"flex: 1\"></div>\r\n							<div class=\"write\" id=\"write\" style=\"flex: 1\"></div>\r\n						</div>\r\n					</div>\r\n\r\n					<div class=\"list_mail flex_block\">\r\n						<!-- list mail -->\r\n						<div class=\"block_mail\">\r\n							<div class=\"list_item_mail\"></div>\r\n							<div class=\"flex prev_next\">\r\n								<div class=\"prev\">\r\n									<div class=\"overlay_prev\"></div>\r\n									<span class=\"text_pagination\" data-locale-key=\"robrowser.ui.mail.prev\">Prev</span>\r\n								</div>\r\n								<div class=\"pagination\">\r\n									<span class=\"text\" id=\"infor_page\">1/1</span>\r\n								</div>\r\n								<div class=\"next\">\r\n									<div class=\"overlay_next margin_next\"></div>\r\n									<span class=\"text_pagination margin_next\" data-locale-key=\"robrowser.ui.mail.next\">Next</span>\r\n								</div>\r\n							</div>\r\n						</div>\r\n						<!-- create mail -->\r\n						<div class=\"block_create_mail\">\r\n							<div class=\"to_create_mail\">\r\n								<span class=\"text text_to_title\">\r\n									<span data-locale-key=\"robrowser.ui.mail.to\">To</span> :</span\r\n								>\r\n								<div style=\"flex: 4\">\r\n									<input class=\"text_to\" type=\"text\" value=\"\" maxlength=\"50\" />\r\n								</div>\r\n							</div>\r\n							<div class=\"title_create_mail\">\r\n								<span class=\"text text_title_create_mail\">\r\n									<span data-locale-key=\"robrowser.ui.mail.title\">Title</span> :</span\r\n								>\r\n								<div style=\"flex: 4\">\r\n									<input class=\"input_title\" type=\"text\" value=\"\" maxlength=\"50\" />\r\n								</div>\r\n							</div>\r\n							<div class=\"email_body\">\r\n								<textarea class=\"textarea_mail\" maxlength=\"198\"></textarea>\r\n							</div>\r\n							<div class=\"block_zeny_item\">\r\n								<ui-button\r\n									class=\"add_zeny\"\r\n									id=\"zeny_amt\"\r\n									bg=\"basic_interface/inputzeny.bmp\"\r\n									hover=\"basic_interface/inputzeny_a.bmp\"\r\n								></ui-button>\r\n								<ui-button\r\n									class=\"add_zeny\"\r\n									id=\"zeny_ok\"\r\n									bg=\"basic_interface/setzeny.bmp\"\r\n									hover=\"basic_interface/setzeny_a.bmp\"\r\n								></ui-button>\r\n								<div class=\"block_zeny\">\r\n									<input class=\"input_zeny_amt\" type=\"text\" value=\"0\" maxlength=\"9\" disabled />\r\n								</div>\r\n\r\n								<div class=\"block_item\">\r\n									<div class=\"container_item\">\r\n										<div class=\"overlay\"></div>\r\n									</div>\r\n								</div>\r\n							</div>\r\n\r\n							<div class=\"block_send_cancel\">\r\n								<ui-button\r\n									class=\"create_mail_btn\"\r\n									id=\"create_mail_send\"\r\n									bg=\"basic_interface/send.bmp\"\r\n									hover=\"basic_interface/send_a.bmp\"\r\n								></ui-button>\r\n								<ui-button\r\n									class=\"create_mail_btn\"\r\n									id=\"create_mail_cancel\"\r\n									bg=\"basic_interface/cancel2.bmp\"\r\n									hover=\"basic_interface/cancel2_a.bmp\"\r\n								></ui-button>\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</section>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Mail/Mail.css?raw
@@ -229523,7 +237038,7 @@ function onWindowMailbox() {
 		if (body) body.style.backgroundImage = `url(${url})`;
 	});
 	const title = root.querySelector("#title");
-	if (title) title.textContent = DB.getMessage(1025);
+	if (title) title.textContent = getMessage("robrowser.ui.mail.list", "Mail List");
 }
 function createMailList() {
 	const root = _root$14();
@@ -229665,7 +237180,7 @@ function onWindowCreateMessages() {
 		if (body) body.style.backgroundImage = `url(${url})`;
 	});
 	const title = root.querySelector("#title");
-	if (title) title.textContent = DB.getMessage(1026);
+	if (title) title.textContent = getMessage("robrowser.ui.mail.write", "Write Mail");
 }
 function offWindowListMail() {
 	const root = _root$14();
@@ -229880,6 +237395,8 @@ var init_Mail$1 = __esmMin((() => {
 	init_Elements();
 	init_Mail$3();
 	init_Mail$2();
+	init_LocalizeDOM();
+	init_MessageCatalog();
 	Mail = new GUIComponent("Mail", Mail_default$1);
 	/**
 	* Store Mail items
@@ -229919,6 +237436,7 @@ var init_Mail$1 = __esmMin((() => {
 	*/
 	Mail.onAppend = function OnAppend() {
 		const root = _root$14();
+		applyLocaleAttributes(root);
 		const closeBtn = root.querySelector(".close");
 		if (closeBtn) closeBtn.addEventListener("click", this.onClosePressed.bind(this));
 		const inboxBtn = root.querySelector("#inbox");
@@ -230154,6 +237672,7 @@ var init_Mail$1 = __esmMin((() => {
 	Mail.openMail = function openMail() {};
 	Mail.replyMail = function replyMail() {};
 	Mail_default = UIManager.addComponent(Mail);
+	if (typeof globalThis !== "undefined") globalThis.__happyroMailVerification = Mail;
 }));
 //#endregion
 //#region src/UI/Components/PartyFriends/PartyFriendsCommon.js
@@ -230240,6 +237759,7 @@ function createPartyFriends(config) {
 	*/
 	Component.init = function init() {
 		const root = _root();
+		applyLocaleAttributes(root);
 		PartyHelper_default.prepare();
 		const baseBtn = root.querySelector(".base");
 		if (baseBtn) baseBtn.addEventListener("mousedown", (event) => {
@@ -230632,7 +238152,7 @@ function createPartyFriends(config) {
 			const isDead = !!player.isDead;
 			const isOnline = player.state === 0;
 			const isDetached = !!_detachedMembers[player.AID];
-			const jobName = MonsterTable_default[job] || "Unknown";
+			const jobName = DB.getJobName(job, "Unknown");
 			const mapDisplay = DB.getMapName(player.mapName);
 			player.color = Controller$5 && Controller$5.getMemberColor ? Controller$5.getMemberColor(player.AID) : "white";
 			const nameTooltip = `${player.characterName} (${mapDisplay})`;
@@ -231578,7 +239098,6 @@ var init_PartyFriendsCommon = __esmMin((() => {
 	init_Camera();
 	init_MiniMap();
 	init_Preferences$1();
-	init_MonsterTable();
 	init_Client();
 	init_Renderer();
 	init_SessionStorage();
@@ -231596,6 +239115,7 @@ var init_PartyFriendsCommon = __esmMin((() => {
 	init_ChatBox();
 	init_WhisperBox();
 	init_SkillTargetSelection();
+	init_LocalizeDOM();
 }));
 //#endregion
 //#region src/UI/Components/PartyFriends/PartyFriendsV0/PartyFriendsV0.html?raw
@@ -231658,12 +239178,13 @@ var init_PartyFriends = __esmMin((() => {
 		const ui = controller.getUI();
 		if (ui && ui.toggle) ui.toggle();
 	};
+	if (typeof globalThis !== "undefined") globalThis.__happyroPartyFriendsVerification = controller;
 }));
 //#endregion
 //#region src/UI/Components/GuildCompanion/GuildCompanion.html?raw
 var GuildCompanion_default$2;
 var init_GuildCompanion$2 = __esmMin((() => {
-	GuildCompanion_default$2 = "<div id=\"GuildCompanion\">\r\n	<div class=\"win companion\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<span class=\"title\">Guild Companion</span>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base btn_x\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<div class=\"msg\">Join a guild or start your own!</div>\r\n			<div class=\"btns\">\r\n				<button class=\"btn btn_create\" type=\"button\">create guild</button>\r\n				<button class=\"btn btn_close\" type=\"button\">OK</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"win namebox\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<span class=\"title name_title\">Create Guild</span>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base btn_x2\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<div class=\"label name_label\">Guild Name</div>\r\n			<input type=\"text\" class=\"guildname\" maxlength=\"23\" />\r\n			<div class=\"btns\">\r\n				<button class=\"btn btn_ok\" type=\"button\">OK</button>\r\n				<button class=\"btn btn_cancel\" type=\"button\">cancel</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	GuildCompanion_default$2 = "<div id=\"GuildCompanion\">\r\n	<div class=\"win companion\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<span class=\"title\" data-locale-key=\"robrowser.ui.guild-companion.title\">Guild Companion</span>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base btn_x\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<div class=\"msg\" data-locale-key=\"robrowser.ui.guild-companion.join-or-create\">Join a guild or start your own!</div>\r\n			<div class=\"btns\">\r\n				<button class=\"btn btn_create\" type=\"button\" data-locale-key=\"robrowser.ui.guild-companion.create-guild\">create guild</button>\r\n				<button class=\"btn btn_close\" type=\"button\" data-locale-key=\"robrowser.ui.guild-companion.ok\">OK</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"win namebox\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<span class=\"title name_title\" data-locale-key=\"robrowser.ui.guild-companion.create-title\">Create Guild</span>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base btn_x2\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<div class=\"label name_label\" data-locale-key=\"robrowser.ui.guild-companion.guild-name\">Guild Name</div>\r\n			<input type=\"text\" class=\"guildname\" maxlength=\"23\" />\r\n			<div class=\"btns\">\r\n				<button class=\"btn btn_ok\" type=\"button\" data-locale-key=\"robrowser.ui.guild-companion.ok\">OK</button>\r\n				<button class=\"btn btn_cancel\" type=\"button\" data-locale-key=\"robrowser.ui.guild-companion.cancel\">cancel</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GuildCompanion/GuildCompanion.css?raw
@@ -231683,15 +239204,15 @@ function open(mode) {
 	if (mode === "disband") {
 		companion.classList.add("hidden");
 		nameWin.classList.add("visible");
-		root.querySelector(".name_title").textContent = "Disband the Guild";
-		root.querySelector(".name_label").textContent = "Enter Guild Name";
+		root.querySelector(".name_title").textContent = getMessage("robrowser.ui.guild-companion.disband-title", "Disband the Guild");
+		root.querySelector(".name_label").textContent = getMessage("robrowser.ui.guild-companion.enter-guild-name", "Enter Guild Name");
 		input.value = "";
 		input.focus();
 	} else {
 		companion.classList.remove("hidden");
 		nameWin.classList.remove("visible");
-		root.querySelector(".name_title").textContent = "Create Guild";
-		root.querySelector(".name_label").textContent = "Guild Name";
+		root.querySelector(".name_title").textContent = getMessage("robrowser.ui.guild-companion.create-title", "Create Guild");
+		root.querySelector(".name_label").textContent = getMessage("robrowser.ui.guild-companion.guild-name", "Guild Name");
 		input.value = "";
 	}
 	center();
@@ -231714,6 +239235,8 @@ var init_GuildCompanion = __esmMin((() => {
 	init_GUIComponent();
 	init_KeyEventHandler();
 	init_Elements();
+	init_LocalizeDOM();
+	init_MessageCatalog();
 	init_GuildCompanion$2();
 	init_GuildCompanion$1();
 	GuildCompanion = new GUIComponent("GuildCompanion", GuildCompanion_default$1);
@@ -231723,6 +239246,7 @@ var init_GuildCompanion = __esmMin((() => {
 	GuildCompanion.onRequestBreakGuild = function onRequestBreakGuild() {};
 	GuildCompanion.init = function init() {
 		const root = this._shadow;
+		applyLocaleAttributes(root);
 		this.draggable(root.querySelector(".companion .titlebar"));
 		const nameWin = root.querySelector(".win.namebox");
 		const input = root.querySelector(".guildname");
@@ -231795,6 +239319,7 @@ var init_GuildCompanion = __esmMin((() => {
 	GuildCompanion.mouseMode = GUIComponent.MouseMode.STOP;
 	GuildCompanion.needFocus = true;
 	GuildCompanion_default = UIManager.addComponent(GuildCompanion);
+	if (typeof globalThis !== "undefined") globalThis.__happyroGuildCompanionVerification = GuildCompanion;
 }));
 //#endregion
 //#region src/UI/Components/SkillDescription/SkillDescription.html?raw
@@ -231896,7 +239421,7 @@ var init_SkillDescription = __esmMin((() => {
 //#region src/UI/Components/Guild/Guild.html?raw
 var Guild_default$2;
 var init_Guild$3 = __esmMin((() => {
-	Guild_default$2 = "<div id=\"Guild\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n\r\n	<div class=\"tabs\">\r\n		<!--\r\n		--><button data-flag=\"0\" class=\"info\"><ui-text msg=\"340\">Guild Info</ui-text></button><!--\r\n		--><button data-flag=\"1\" class=\"members\"><ui-text msg=\"341\">Guildsmen Info</ui-text></button><!--\r\n		--><button data-flag=\"2\" class=\"positions\"><ui-text msg=\"342\">Position</ui-text></button><!--\r\n		--><button data-flag=\"3\" class=\"skills\"><ui-text msg=\"343\">Guild Skill</ui-text></button><!--\r\n		--><button data-flag=\"4\" class=\"history\"><ui-text msg=\"344\">Expel History</ui-text></button><!--\r\n		--><button data-flag=\"6\" class=\"notice\"><ui-text msg=\"345\">Guild Notice</ui-text></button>\r\n	</div>\r\n\r\n	<div class=\"panel\">\r\n		<!-- INFO TAB -->\r\n		<div class=\"content info\">\r\n			<div class=\"name\"><ui-text msg=\"328\">Guild Name</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"level\"><ui-text msg=\"329\">Guild lvl</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"master\"><ui-text msg=\"330\">Guild Master</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"members\">\r\n				<ui-text msg=\"331\">Guildsmen</ui-text> : <span class=\"numMember\">0</span> /\r\n				<span class=\"maxMember\">0</span> <ui-button bg=\"basic_interface/grp_online.bmp\"></ui-button>\r\n				<span class=\"online\"></span>\r\n			</div>\r\n			<div class=\"avglevel\"><ui-text msg=\"332\">Avg.lvl of Guildsmen</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"territory\"><ui-text msg=\"333\">Territory</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"tendency\">\r\n				<div class=\"title\"><ui-text msg=\"334\">Tendency</ui-text> : <span class=\"value\"></span></div>\r\n				<div class=\"righteous\">R</div>\r\n				<div class=\"wiked\">W</div>\r\n				<div class=\"vulgar\">V</div>\r\n				<div class=\"famed\">F</div>\r\n				<canvas width=\"90\" height=\"90\"></canvas>\r\n			</div>\r\n			<div class=\"exp\"><ui-text msg=\"335\">EXP</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"emblem\"><ui-text msg=\"336\">Emblem</ui-text></div>\r\n			<div class=\"emblem_container\"></div>\r\n			<ui-button class=\"emblem_edit\" bg=\"btn_edit.bmp\" hover=\"btn_edit_a.bmp\" down=\"btn_edit_b.bmp\">\r\n				<input type=\"file\" />\r\n			</ui-button>\r\n\r\n			<div class=\"tax\"><ui-text msg=\"337\">Tax Point</ui-text> : <span class=\"value\">0</span></div>\r\n			<div class=\"ally\"><ui-text msg=\"338\">Alliance</ui-text></div>\r\n			<div class=\"ally_list\"></div>\r\n			<div class=\"hostile\"><ui-text msg=\"339\">Antagonist</ui-text></div>\r\n			<div class=\"hostile_list\"></div>\r\n		</div>\r\n\r\n		<!-- MEMBERS TAB -->\r\n		<div class=\"content members\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"name\"><ui-text msg=\"407\">Name</ui-text></th>\r\n						<th class=\"position\"><ui-text msg=\"503\">Position</ui-text></th>\r\n						<th class=\"job\"><ui-text msg=\"504\">Job</ui-text></th>\r\n						<th class=\"level\"><ui-text msg=\"408\">Level</ui-text></th>\r\n						<th class=\"note\"><ui-text msg=\"505\">Note</ui-text></th>\r\n						<th class=\"devotion\"><ui-text msg=\"506\">Devotion</ui-text></th>\r\n						<th class=\"tax\"><ui-text msg=\"507\">Tax Point</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"MemberView\">\r\n						<td class=\"name\">\r\n							<canvas width=\"30\" height=\"30\"></canvas>\r\n							<span class=\"value\"></span>\r\n						</td>\r\n						<td class=\"position\"></td>\r\n						<td class=\"job\"></td>\r\n						<td class=\"level\"></td>\r\n						<td class=\"note\"></td>\r\n						<td class=\"devotion\"></td>\r\n						<td class=\"tax\"></td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- POSITIONS TAB -->\r\n		<div class=\"content positions\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"id\"><ui-text msg=\"510\">Rank</ui-text></th>\r\n						<th class=\"title\"><ui-text msg=\"511\">Position Title</ui-text></th>\r\n						<th class=\"invite\"><ui-text msg=\"512\">Invitation</ui-text></th>\r\n						<th class=\"punish\"><ui-text msg=\"513\">Punish</ui-text></th>\r\n						<th class=\"tax\"><ui-text msg=\"514\">Tax</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"PositionView\">\r\n						<td class=\"id\"></td>\r\n						<td class=\"title\">\r\n							<input type=\"text\" value=\"\" />\r\n						</td>\r\n						<td class=\"invite\">\r\n							<ui-button bg=\"checkbox_0.bmp\" class=\"off\"></ui-button>\r\n						</td>\r\n						<td class=\"punish\">\r\n							<ui-button bg=\"checkbox_0.bmp\" class=\"off\"></ui-button>\r\n						</td>\r\n						<td class=\"tax\"><input type=\"text\" value=\"0\" /> %</td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- SKILLS TAB -->\r\n		<div class=\"content skills\">\r\n			<div class=\"skill_list\">\r\n				<table>\r\n					<!-- Just to get reference, will be removed -->\r\n					<ui-button\r\n						class=\"btn levelup\"\r\n						bg=\"basic_interface/skill_up_a.bmp\"\r\n						hover=\"basic_interface/skill_up_b.bmp\"\r\n						down=\"basic_interface/skill_up_c.bmp\"\r\n					></ui-button>\r\n				</table>\r\n			</div>\r\n\r\n			<div class=\"footer\">\r\n				<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n				<div class=\"text\">Skill Points: <span class=\"skpoints_count\">0</span></div>\r\n				<ui-button\r\n					class=\"btn apply\"\r\n					bg=\"btn_apply.bmp\"\r\n					hover=\"btn_apply_a.bmp\"\r\n					down=\"btn_apply_b.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"btn reset\"\r\n					bg=\"btn_reset.bmp\"\r\n					hover=\"btn_reset_a.bmp\"\r\n					down=\"btn_reset_b.bmp\"\r\n				></ui-button>\r\n			</div>\r\n		</div>\r\n\r\n		<!-- HISTORY BAN TAB -->\r\n		<div class=\"content history\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"name\"><ui-text msg=\"407\">Name</ui-text></th>\r\n						<th class=\"reason\"><ui-text msg=\"462\">The Reason of Expulsion</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"ExpelView\">\r\n						<td class=\"name\"></td>\r\n						<td class=\"reason\"></td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- NOTICE TAB -->\r\n		<div class=\"content notice\">\r\n			<div class=\"subjectTitle\"><ui-text msg=\"515\">Title</ui-text></div>\r\n			<input type=\"text\" class=\"subject\" />\r\n\r\n			<div class=\"noticeTitle\"><ui-text msg=\"516\">Contents</ui-text></div>\r\n			<textarea class=\"notice\"></textarea>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n		<button class=\"btn_disband\" type=\"button\">Disband</button>\r\n		<ui-button class=\"btn_ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+	Guild_default$2 = "<div id=\"Guild\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n\r\n	<div class=\"tabs\">\r\n		<!--\r\n		--><button data-flag=\"0\" class=\"info\"><ui-text msg=\"340\">Guild Info</ui-text></button><!--\r\n		--><button data-flag=\"1\" class=\"members\"><ui-text msg=\"341\">Guildsmen Info</ui-text></button><!--\r\n		--><button data-flag=\"2\" class=\"positions\"><ui-text msg=\"342\">Position</ui-text></button><!--\r\n		--><button data-flag=\"3\" class=\"skills\"><ui-text msg=\"343\">Guild Skill</ui-text></button><!--\r\n		--><button data-flag=\"4\" class=\"history\"><ui-text msg=\"344\">Expel History</ui-text></button><!--\r\n		--><button data-flag=\"6\" class=\"notice\"><ui-text msg=\"345\">Guild Notice</ui-text></button>\r\n	</div>\r\n\r\n	<div class=\"panel\">\r\n		<!-- INFO TAB -->\r\n		<div class=\"content info\">\r\n			<div class=\"name\"><ui-text msg=\"328\">Guild Name</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"level\"><ui-text msg=\"329\">Guild lvl</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"master\"><ui-text msg=\"330\">Guild Master</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"members\">\r\n				<ui-text msg=\"331\">Guildsmen</ui-text> : <span class=\"numMember\">0</span> /\r\n				<span class=\"maxMember\">0</span> <ui-button bg=\"basic_interface/grp_online.bmp\"></ui-button>\r\n				<span class=\"online\"></span>\r\n			</div>\r\n			<div class=\"avglevel\"><ui-text msg=\"332\">Avg.lvl of Guildsmen</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"territory\"><ui-text msg=\"333\">Territory</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"tendency\">\r\n				<div class=\"title\"><ui-text msg=\"334\">Tendency</ui-text> : <span class=\"value\"></span></div>\r\n				<div class=\"righteous\">R</div>\r\n				<div class=\"wiked\">W</div>\r\n				<div class=\"vulgar\">V</div>\r\n				<div class=\"famed\">F</div>\r\n				<canvas width=\"90\" height=\"90\"></canvas>\r\n			</div>\r\n			<div class=\"exp\"><ui-text msg=\"335\">EXP</ui-text> : <span class=\"value\"></span></div>\r\n			<div class=\"emblem\"><ui-text msg=\"336\">Emblem</ui-text></div>\r\n			<div class=\"emblem_container\"></div>\r\n			<ui-button class=\"emblem_edit\" bg=\"btn_edit.bmp\" hover=\"btn_edit_a.bmp\" down=\"btn_edit_b.bmp\">\r\n				<input type=\"file\" />\r\n			</ui-button>\r\n\r\n			<div class=\"tax\"><ui-text msg=\"337\">Tax Point</ui-text> : <span class=\"value\">0</span></div>\r\n			<div class=\"ally\"><ui-text msg=\"338\">Alliance</ui-text></div>\r\n			<div class=\"ally_list\"></div>\r\n			<div class=\"hostile\"><ui-text msg=\"339\">Antagonist</ui-text></div>\r\n			<div class=\"hostile_list\"></div>\r\n		</div>\r\n\r\n		<!-- MEMBERS TAB -->\r\n		<div class=\"content members\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"name\"><ui-text msg=\"407\">Name</ui-text></th>\r\n						<th class=\"position\"><ui-text msg=\"503\">Position</ui-text></th>\r\n						<th class=\"job\"><ui-text msg=\"504\">Job</ui-text></th>\r\n						<th class=\"level\"><ui-text msg=\"408\">Level</ui-text></th>\r\n						<th class=\"note\"><ui-text msg=\"505\">Note</ui-text></th>\r\n						<th class=\"devotion\"><ui-text msg=\"506\">Devotion</ui-text></th>\r\n						<th class=\"tax\"><ui-text msg=\"507\">Tax Point</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"MemberView\">\r\n						<td class=\"name\">\r\n							<canvas width=\"30\" height=\"30\"></canvas>\r\n							<span class=\"value\"></span>\r\n						</td>\r\n						<td class=\"position\"></td>\r\n						<td class=\"job\"></td>\r\n						<td class=\"level\"></td>\r\n						<td class=\"note\"></td>\r\n						<td class=\"devotion\"></td>\r\n						<td class=\"tax\"></td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- POSITIONS TAB -->\r\n		<div class=\"content positions\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"id\"><ui-text msg=\"510\">Rank</ui-text></th>\r\n						<th class=\"title\"><ui-text msg=\"511\">Position Title</ui-text></th>\r\n						<th class=\"invite\"><ui-text msg=\"512\">Invitation</ui-text></th>\r\n						<th class=\"punish\"><ui-text msg=\"513\">Punish</ui-text></th>\r\n						<th class=\"tax\"><ui-text msg=\"514\">Tax</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"PositionView\">\r\n						<td class=\"id\"></td>\r\n						<td class=\"title\">\r\n							<input type=\"text\" value=\"\" />\r\n						</td>\r\n						<td class=\"invite\">\r\n							<ui-button bg=\"checkbox_0.bmp\" class=\"off\"></ui-button>\r\n						</td>\r\n						<td class=\"punish\">\r\n							<ui-button bg=\"checkbox_0.bmp\" class=\"off\"></ui-button>\r\n						</td>\r\n						<td class=\"tax\"><input type=\"text\" value=\"0\" /> %</td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- SKILLS TAB -->\r\n		<div class=\"content skills\">\r\n			<div class=\"skill_list\">\r\n				<table>\r\n					<!-- Just to get reference, will be removed -->\r\n					<ui-button\r\n						class=\"btn levelup\"\r\n						bg=\"basic_interface/skill_up_a.bmp\"\r\n						hover=\"basic_interface/skill_up_b.bmp\"\r\n						down=\"basic_interface/skill_up_c.bmp\"\r\n					></ui-button>\r\n				</table>\r\n			</div>\r\n\r\n			<div class=\"footer\">\r\n				<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n				<div class=\"text\"><span data-locale-key=\"robrowser.ui.guild.skill-points\">Skill Points:</span> <span class=\"skpoints_count\">0</span></div>\r\n				<ui-button\r\n					class=\"btn apply\"\r\n					bg=\"btn_apply.bmp\"\r\n					hover=\"btn_apply_a.bmp\"\r\n					down=\"btn_apply_b.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"btn reset\"\r\n					bg=\"btn_reset.bmp\"\r\n					hover=\"btn_reset_a.bmp\"\r\n					down=\"btn_reset_b.bmp\"\r\n				></ui-button>\r\n			</div>\r\n		</div>\r\n\r\n		<!-- HISTORY BAN TAB -->\r\n		<div class=\"content history\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"name\"><ui-text msg=\"407\">Name</ui-text></th>\r\n						<th class=\"reason\"><ui-text msg=\"462\">The Reason of Expulsion</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"ExpelView\">\r\n						<td class=\"name\"></td>\r\n						<td class=\"reason\"></td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- NOTICE TAB -->\r\n		<div class=\"content notice\">\r\n			<div class=\"subjectTitle\"><ui-text msg=\"515\">Title</ui-text></div>\r\n			<input type=\"text\" class=\"subject\" />\r\n\r\n			<div class=\"noticeTitle\"><ui-text msg=\"516\">Contents</ui-text></div>\r\n			<textarea class=\"notice\"></textarea>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n		<button class=\"btn_disband\" type=\"button\" data-locale-key=\"robrowser.ui.guild.disband\">Disband</button>\r\n		<ui-button class=\"btn_ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Guild/Guild.css?raw
@@ -232545,7 +240070,6 @@ var init_Guild$1 = __esmMin((() => {
 	init_DBManager();
 	init_SkillInfo();
 	init_KeyEventHandler();
-	init_MonsterTable();
 	init_SessionStorage();
 	init_Entity$1();
 	init_SpriteRenderer();
@@ -232564,6 +240088,8 @@ var init_Guild$1 = __esmMin((() => {
 	init_Guild$3();
 	init_Guild$2();
 	init_WinStats();
+	init_LocalizeDOM();
+	init_MessageCatalog();
 	AccessTypeBit = {
 		0: 0,
 		1: 1,
@@ -232586,6 +240112,7 @@ var init_Guild$1 = __esmMin((() => {
 	*/
 	Guild.init = function init() {
 		const root = _root$13(this);
+		applyLocaleAttributes(root);
 		_memberViewTemplate = root.querySelector(".MemberView");
 		if (_memberViewTemplate) _memberViewTemplate.remove();
 		_positionViewTemplate = root.querySelector(".PositionView");
@@ -232912,8 +240439,8 @@ var init_Guild$1 = __esmMin((() => {
 		}
 		const jobCell = view.querySelector(".job");
 		if (jobCell) {
-			jobCell.textContent = MonsterTable_default[member.Job];
-			jobCell.title = MonsterTable_default[member.Job];
+			jobCell.textContent = DB.getJobName(member.Job);
+			jobCell.title = DB.getJobName(member.Job);
 		}
 		const levelCell = view.querySelector(".level");
 		if (levelCell) levelCell.textContent = member.Level;
@@ -233174,7 +240701,7 @@ var init_Guild$1 = __esmMin((() => {
 	};
 	Guild.promptDisbandGuild = function promptDisbandGuild() {
 		if (!SessionStorage_default.isGuildMaster) return;
-		UIManager.showMessageBox("If you are using a guild storage, all items inside it will disappear.", "ok", () => {
+		UIManager.showMessageBox(getMessage("robrowser.ui.guild.disband-storage-warning", "If you are using a guild storage, all items inside it will disappear."), "ok", () => {
 			GuildCompanion_default.openDisband();
 		});
 	};
@@ -233203,6 +240730,7 @@ var init_Guild$1 = __esmMin((() => {
 	Guild.onUpdateSkill = function onUpdateSkill() {};
 	Guild.getSkillById = getSkillById;
 	Guild_default = UIManager.addComponent(Guild);
+	if (typeof globalThis !== "undefined") globalThis.__happyroGuildVerification = Guild;
 }));
 //#endregion
 //#region src/UI/Components/Bank/Bank.html?raw
@@ -233518,7 +241046,7 @@ var init_Bank$1 = __esmMin((() => {
 //#region src/UI/Components/SoundOption/SoundOption.html?raw
 var SoundOption_default$2;
 var init_SoundOption$2 = __esmMin((() => {
-	SoundOption_default$2 = "<div id=\"SoundOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"1485\">Sound Settings</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td data-text=\"1495\">BGM</td>\r\n				<td>\r\n					<input class=\"bgm\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"bgm_state\" />on\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td data-text=\"1496\">Effect</td>\r\n				<td>\r\n					<input class=\"sound\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"sound_state\" />on\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
+	SoundOption_default$2 = "<div id=\"SoundOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.sound.title\">Sound Settings</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td data-locale-key=\"robrowser.ui.sound.bgm\">BGM</td>\r\n				<td>\r\n					<input class=\"bgm\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"bgm_state\" /><span data-locale-key=\"robrowser.ui.sound.on\">on</span>\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td data-locale-key=\"robrowser.ui.sound.effect\">Effect</td>\r\n				<td>\r\n					<input class=\"sound\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"sound_state\" /><span data-locale-key=\"robrowser.ui.sound.on\">on</span>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/SoundOption/SoundOption.css?raw
@@ -233566,6 +241094,7 @@ var init_SoundOption = __esmMin((() => {
 	init_Elements();
 	init_SoundOption$2();
 	init_SoundOption$1();
+	init_LocalizeDOM();
 	SoundOption = new GUIComponent("SoundOption", SoundOption_default$1);
 	SoundOption.render = () => SoundOption_default$2;
 	_preferences$34 = Preferences.get("SoundOption", {
@@ -233574,6 +241103,7 @@ var init_SoundOption = __esmMin((() => {
 	}, 1);
 	SoundOption.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const baseBtn = root.querySelector(".base");
 		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
 			event.stopImmediatePropagation();
@@ -233611,12 +241141,13 @@ var init_SoundOption = __esmMin((() => {
 		_preferences$34.save();
 	};
 	SoundOption_default = UIManager.addComponent(SoundOption);
+	if (typeof globalThis !== "undefined") globalThis.__happyroSoundOptionVerification = SoundOption;
 }));
 //#endregion
 //#region src/UI/Components/FPS/FPS.html?raw
 var FPS_default$2;
 var init_FPS$2 = __esmMin((() => {
-	FPS_default$2 = "<div id=\"FPS\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\"><span id=\"fpsCounter\">--</span> FPS</div>\r\n	</div>\r\n</div>\r\n";
+	FPS_default$2 = "<div id=\"FPS\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\"><span id=\"fpsCounter\">--</span> <span data-locale-key=\"robrowser.ui.fps.unit\">FPS</span></div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/FPS/FPS.css?raw
@@ -233635,6 +241166,7 @@ var init_FPS = __esmMin((() => {
 	init_Elements();
 	init_FPS$2();
 	init_FPS$1();
+	init_LocalizeDOM();
 	FPS = new GUIComponent("FPS", FPS_default$1);
 	FPS.render = () => FPS_default$2;
 	_maxFPSRegistered = 0;
@@ -233649,6 +241181,7 @@ var init_FPS = __esmMin((() => {
 	*/
 	FPS.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const baseBtn = root.querySelector(".base");
 		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
 			event.stopImmediatePropagation();
@@ -233731,6 +241264,7 @@ var init_FPS = __esmMin((() => {
 		if (this._host.style.display !== "none") this.focus();
 	};
 	FPS_default = UIManager.addComponent(FPS);
+	if (typeof globalThis !== "undefined") globalThis.__happyroFpsVerification = FPS;
 }));
 //#endregion
 //#region src/Core/Context.js
@@ -233804,7 +241338,7 @@ var init_Context = __esmMin((() => {
 //#region src/UI/Components/GraphicsOption/GraphicsOption.html?raw
 var GraphicsOption_default$2;
 var init_GraphicsOption$2 = __esmMin((() => {
-	GraphicsOption_default$2 = "<div id=\"GraphicsOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"1484\">Graphics Settings</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n\r\n	<div class=\"tabs-container\">\r\n		<div class=\"tabs\">\r\n			<button class=\"tab-button selected\" data-tab=\"basic\">Basic</button>\r\n			<button class=\"tab-button\" data-tab=\"advanced\">Advanced</button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"panel\">\r\n		<div class=\"tab-content selected\" id=\"basic\">\r\n			<table>\r\n				<tr>\r\n					<td>Details</td>\r\n					<td style=\"display: inline-block; width: 260px\">\r\n						<input\r\n							class=\"details\"\r\n							type=\"range\"\r\n							value=\"100\"\r\n							max=\"100\"\r\n							min=\"25\"\r\n							step=\"5\"\r\n							style=\"width: 90%\"\r\n						/>\r\n					</td>\r\n				</tr>\r\n				<tr class=\"resolution\">\r\n					<td>Resolution</td>\r\n					<td>\r\n						<select class=\"screensize\">\r\n							<option value=\"650x480\">640 x 480</option>\r\n							<option value=\"800x600\">800 x 600</option>\r\n							<option value=\"1024x768\">1024 x 768</option>\r\n							<option value=\"1280x800\">1280 x 800</option>\r\n							<option value=\"1400x900\">1400 x 900</option>\r\n							<option value=\"1680x1050\">1680 x 1050</option>\r\n							<option value=\"full\">Full Screen</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>Cursor</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"cursor-option\" type=\"checkbox\" />\r\n							Show official cursor\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>FPS Limit</td>\r\n					<td>\r\n						<select class=\"fpslimit\">\r\n							<option value=\"-1\">Unlimited</option>\r\n							<option value=\"30\">30</option>\r\n							<option value=\"60\">60</option>\r\n							<option value=\"90\">90</option>\r\n							<option value=\"120\">120</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td>FPS Display</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"fps\" type=\"checkbox\" />\r\n						</label>\r\n					</td>\r\n				</tr>\r\n			</table>\r\n		</div>\r\n\r\n		<div class=\"tab-content\" id=\"advanced\">\r\n			<table>\r\n				<tr>\r\n					<td title=\"Force nearest neighbor filtering for pixel-perfect sprite rendering\">\r\n						Pixel Perfect Sprites\r\n					</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"pixel-perfect\" type=\"checkbox\" />\r\n							Force nearest neighbor filtering\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Add a glowing bloom effect to bright areas\">Bloom</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"bloom\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							Intensity:\r\n							<input\r\n								class=\"bloom-intensity\"\r\n								type=\"range\"\r\n								value=\"0.5\"\r\n								min=\"0.1\"\r\n								max=\"3.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Apply a blur effect to the screen\">Blur</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"blur\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							Intensity:\r\n							<input\r\n								class=\"blur-intensity\"\r\n								type=\"range\"\r\n								value=\"3.0\"\r\n								min=\"2.0\"\r\n								max=\"10.0\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							Area:\r\n							<input\r\n								class=\"blur-area\"\r\n								type=\"range\"\r\n								value=\"14.0\"\r\n								min=\"3.0\"\r\n								max=\"20.0\"\r\n								step=\"1.0\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Contrast Adaptive Sharpening for enhanced details\">Contr. Adapt. Sharp. (CAS)</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"casEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							Contrast:\r\n							<input\r\n								class=\"casContrast\"\r\n								type=\"range\"\r\n								value=\"0.0\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							Sharpening:\r\n							<input\r\n								class=\"casSharpening\"\r\n								type=\"range\"\r\n								value=\"1.0\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Fast Approximate Anti-Aliasing for smoother edges\">FXAA</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"fxaaEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							Subpix:\r\n							<input\r\n								class=\"fxaaSubpix\"\r\n								type=\"range\"\r\n								value=\"0.25\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							Edge Threshold:\r\n							<input\r\n								class=\"fxaaEdgeThreshold\"\r\n								type=\"range\"\r\n								value=\"0.125\"\r\n								min=\"0.063\"\r\n								max=\"0.333\"\r\n								step=\"0.03\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Cartoon rendering effect for stylized visuals\">Cartoon</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"cartoonEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							Power:\r\n							<input\r\n								class=\"cartoonPower\"\r\n								type=\"range\"\r\n								value=\"1.5\"\r\n								min=\"0.1\"\r\n								max=\"9.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							Edge Slope:\r\n							<input\r\n								class=\"cartoonEdgeSlope\"\r\n								type=\"range\"\r\n								value=\"1.5\"\r\n								min=\"1.5\"\r\n								max=\"5.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Increase color intensity and saturation\">Vibrance</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"vibranceEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							Intensity:\r\n							<input\r\n								class=\"vibrance\"\r\n								type=\"range\"\r\n								value=\"0.15\"\r\n								min=\"-0.9\"\r\n								max=\"0.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td\r\n						title=\"Hide objects outside the viewing area, enable downsampling rendering and others to improve performance\"\r\n					>\r\n						Performance Mode\r\n					</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"performanceMode\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							Culling Area:\r\n							<input\r\n								class=\"view-area\"\r\n								type=\"range\"\r\n								value=\"14.0\"\r\n								min=\"4.0\"\r\n								max=\"20.0\"\r\n								step=\"1.0\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n			</table>\r\n\r\n			<div class=\"reset-section\">\r\n				<button class=\"reset-button\">Reset to Default Values</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	GraphicsOption_default$2 = "<div id=\"GraphicsOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.graphics.title\">Graphics Settings</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n\r\n	<div class=\"tabs-container\">\r\n		<div class=\"tabs\">\r\n			<button class=\"tab-button selected\" data-tab=\"basic\" data-locale-key=\"robrowser.ui.graphics.tab.basic\">Basic</button>\r\n			<button class=\"tab-button\" data-tab=\"advanced\" data-locale-key=\"robrowser.ui.graphics.tab.advanced\">Advanced</button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"panel\">\r\n		<div class=\"tab-content selected\" id=\"basic\">\r\n			<table>\r\n				<tr>\r\n					<td data-locale-key=\"robrowser.ui.graphics.details\">Details</td>\r\n					<td style=\"display: inline-block; width: 260px\">\r\n						<input\r\n							class=\"details\"\r\n							type=\"range\"\r\n							value=\"100\"\r\n							max=\"100\"\r\n							min=\"25\"\r\n							step=\"5\"\r\n							style=\"width: 90%\"\r\n						/>\r\n					</td>\r\n				</tr>\r\n				<tr class=\"resolution\">\r\n					<td data-locale-key=\"robrowser.ui.graphics.resolution\">Resolution</td>\r\n					<td>\r\n						<select class=\"screensize\">\r\n							<option value=\"650x480\">640 x 480</option>\r\n							<option value=\"800x600\">800 x 600</option>\r\n							<option value=\"1024x768\">1024 x 768</option>\r\n							<option value=\"1280x800\">1280 x 800</option>\r\n							<option value=\"1400x900\">1400 x 900</option>\r\n							<option value=\"1680x1050\">1680 x 1050</option>\r\n							<option value=\"full\" data-locale-key=\"robrowser.ui.graphics.full-screen\">Full Screen</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td data-locale-key=\"robrowser.ui.graphics.cursor\">Cursor</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"cursor-option\" type=\"checkbox\" />\r\n							<span data-locale-key=\"robrowser.ui.graphics.show-official-cursor\">Show official cursor</span>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td data-locale-key=\"robrowser.ui.graphics.fps-limit\">FPS Limit</td>\r\n					<td>\r\n						<select class=\"fpslimit\">\r\n							<option value=\"-1\" data-locale-key=\"robrowser.ui.graphics.unlimited\">Unlimited</option>\r\n							<option value=\"30\">30</option>\r\n							<option value=\"60\">60</option>\r\n							<option value=\"90\">90</option>\r\n							<option value=\"120\">120</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td data-locale-key=\"robrowser.ui.graphics.fps-display\">FPS Display</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"fps\" type=\"checkbox\" />\r\n						</label>\r\n					</td>\r\n				</tr>\r\n			</table>\r\n		</div>\r\n\r\n		<div class=\"tab-content\" id=\"advanced\">\r\n			<table>\r\n				<tr>\r\n					<td\r\n						title=\"Force nearest neighbor filtering for pixel-perfect sprite rendering\"\r\n						data-locale-title-key=\"robrowser.ui.graphics.pixel-perfect-help\"\r\n						data-locale-key=\"robrowser.ui.graphics.pixel-perfect\"\r\n					>\r\n						Pixel Perfect Sprites\r\n					</td>\r\n					<td>\r\n						<label>\r\n							<input class=\"pixel-perfect\" type=\"checkbox\" />\r\n							<span data-locale-key=\"robrowser.ui.graphics.nearest-neighbor\">Force nearest neighbor filtering</span>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Add a glowing bloom effect to bright areas\" data-locale-title-key=\"robrowser.ui.graphics.bloom-help\" data-locale-key=\"robrowser.ui.graphics.bloom\">Bloom</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"bloom\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.intensity\">Intensity:</span>\r\n							<input\r\n								class=\"bloom-intensity\"\r\n								type=\"range\"\r\n								value=\"0.5\"\r\n								min=\"0.1\"\r\n								max=\"3.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Apply a blur effect to the screen\" data-locale-title-key=\"robrowser.ui.graphics.blur-help\" data-locale-key=\"robrowser.ui.graphics.blur\">Blur</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"blur\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.intensity\">Intensity:</span>\r\n							<input\r\n								class=\"blur-intensity\"\r\n								type=\"range\"\r\n								value=\"3.0\"\r\n								min=\"2.0\"\r\n								max=\"10.0\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.area\">Area:</span>\r\n							<input\r\n								class=\"blur-area\"\r\n								type=\"range\"\r\n								value=\"14.0\"\r\n								min=\"3.0\"\r\n								max=\"20.0\"\r\n								step=\"1.0\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Contrast Adaptive Sharpening for enhanced details\" data-locale-title-key=\"robrowser.ui.graphics.cas-help\" data-locale-key=\"robrowser.ui.graphics.cas\">Contr. Adapt. Sharp. (CAS)</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"casEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.contrast\">Contrast:</span>\r\n							<input\r\n								class=\"casContrast\"\r\n								type=\"range\"\r\n								value=\"0.0\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.sharpening\">Sharpening:</span>\r\n							<input\r\n								class=\"casSharpening\"\r\n								type=\"range\"\r\n								value=\"1.0\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Fast Approximate Anti-Aliasing for smoother edges\" data-locale-title-key=\"robrowser.ui.graphics.fxaa-help\" data-locale-key=\"robrowser.ui.graphics.fxaa\">FXAA</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"fxaaEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.subpix\">Subpix:</span>\r\n							<input\r\n								class=\"fxaaSubpix\"\r\n								type=\"range\"\r\n								value=\"0.25\"\r\n								min=\"0.0\"\r\n								max=\"1.0\"\r\n								step=\"0.05\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.edge-threshold\">Edge Threshold:</span>\r\n							<input\r\n								class=\"fxaaEdgeThreshold\"\r\n								type=\"range\"\r\n								value=\"0.125\"\r\n								min=\"0.063\"\r\n								max=\"0.333\"\r\n								step=\"0.03\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Cartoon rendering effect for stylized visuals\" data-locale-title-key=\"robrowser.ui.graphics.cartoon-help\" data-locale-key=\"robrowser.ui.graphics.cartoon\">Cartoon</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"cartoonEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.power\">Power:</span>\r\n							<input\r\n								class=\"cartoonPower\"\r\n								type=\"range\"\r\n								value=\"1.5\"\r\n								min=\"0.1\"\r\n								max=\"9.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n						<label style=\"display: inline-block; width: 90px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.edge-slope\">Edge Slope:</span>\r\n							<input\r\n								class=\"cartoonEdgeSlope\"\r\n								type=\"range\"\r\n								value=\"1.5\"\r\n								min=\"1.5\"\r\n								max=\"5.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td title=\"Increase color intensity and saturation\" data-locale-title-key=\"robrowser.ui.graphics.vibrance-help\" data-locale-key=\"robrowser.ui.graphics.vibrance\">Vibrance</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"vibranceEnabled\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.intensity\">Intensity:</span>\r\n							<input\r\n								class=\"vibrance\"\r\n								type=\"range\"\r\n								value=\"0.15\"\r\n								min=\"-0.9\"\r\n								max=\"0.9\"\r\n								step=\"0.1\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td\r\n						title=\"Hide objects outside the viewing area, enable downsampling rendering and others to improve performance\"\r\n					data-locale-title-key=\"robrowser.ui.graphics.performance-help\"\r\n					data-locale-key=\"robrowser.ui.graphics.performance\"\r\n					>\r\n						Performance Mode\r\n					</td>\r\n					<td>\r\n						<label style=\"display: inline-block; margin-right: 20px\">\r\n							<input class=\"performanceMode\" type=\"checkbox\" />\r\n						</label>\r\n						<label style=\"display: inline-block; width: 200px\">\r\n							<span data-locale-key=\"robrowser.ui.graphics.culling-area\">Culling Area:</span>\r\n							<input\r\n								class=\"view-area\"\r\n								type=\"range\"\r\n								value=\"14.0\"\r\n								min=\"4.0\"\r\n								max=\"20.0\"\r\n								step=\"1.0\"\r\n								style=\"width: 90%; vertical-align: middle\"\r\n							/>\r\n						</label>\r\n					</td>\r\n				</tr>\r\n			</table>\r\n\r\n			<div class=\"reset-section\">\r\n				<button class=\"reset-button\" data-locale-key=\"robrowser.ui.graphics.reset\">Reset to Default Values</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GraphicsOption/GraphicsOption.css?raw
@@ -233993,6 +241527,7 @@ var init_GraphicsOption = __esmMin((() => {
 	init_GUIComponent();
 	init_GraphicsOption$2();
 	init_GraphicsOption$1();
+	init_LocalizeDOM();
 	init_MemoryManager();
 	init_ChatBox();
 	GraphicsOption = new GUIComponent("GraphicsOption", GraphicsOption_default$1);
@@ -234009,6 +241544,7 @@ var init_GraphicsOption = __esmMin((() => {
 	*/
 	GraphicsOption.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const baseBtn = root.querySelector(".base");
 		if (baseBtn) baseBtn.addEventListener("mousedown", (event) => {
 			event.stopImmediatePropagation();
@@ -234101,6 +241637,7 @@ var init_GraphicsOption = __esmMin((() => {
 	GraphicsOption.needFocus = true;
 	GraphicsOption.mouseMode = GUIComponent.MouseMode.STOP;
 	GraphicsOption_default = UIManager.addComponent(GraphicsOption);
+	if (typeof globalThis !== "undefined") globalThis.__happyroGraphicsOptionVerification = GraphicsOption;
 }));
 //#endregion
 //#region src/UI/Components/ShortCutOption/ShortCutOption.html?raw
@@ -234780,7 +242317,7 @@ var init_Escape = __esmMin((() => {
 //#region src/UI/Components/CheckAttendance/CheckAttendance.html?raw
 var CheckAttendance_default$2;
 var init_CheckAttendance$2 = __esmMin((() => {
-	CheckAttendance_default$2 = "<div id=\"CheckAttendance\">\r\n	<div class=\"titlebar\" data-background=\"check_attendance/attendance_bg.bmp\">\r\n		<div class=\"top-panel\">\r\n			<div class=\"top-panel-reward\">\r\n				<div class=\"text\">Check Reward</div>\r\n			</div>\r\n			<div class=\"top-panel-period\"></div>\r\n		</div>\r\n		<div class=\"left-panel\">\r\n			<ul class=\"days-list\"></ul>\r\n		</div>\r\n		<div class=\"right-panel\">\r\n			<div class=\"total-days\"></div>\r\n			<div class=\"npc\"></div>\r\n			<div class=\"remaining-days\">\r\n				<div class=\"remaining-day\">\r\n					<div class=\"remaining-day-text\"></div>\r\n				</div>\r\n				<div class=\"remaining-text\">\r\n					<div class=\"remaining-text-div\">Day</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"bottom-panel\">\r\n			<div class=\"close-container\">\r\n				<ui-button\r\n					class=\"close-container-btn\"\r\n					bg=\"check_attendance/bt_ok_normal.bmp\"\r\n					down=\"check_attendance/bt_ok_press.bmp\"\r\n					>Close</ui-button\r\n				>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	CheckAttendance_default$2 = "<div id=\"CheckAttendance\">\r\n	<div class=\"titlebar\" data-background=\"check_attendance/attendance_bg.bmp\">\r\n		<div class=\"top-panel\">\r\n			<div class=\"top-panel-reward\">\r\n				<div class=\"text\" data-locale-key=\"robrowser.ui.attendance.check-reward\">Check Reward</div>\r\n			</div>\r\n			<div class=\"top-panel-period\"></div>\r\n		</div>\r\n		<div class=\"left-panel\">\r\n			<ul class=\"days-list\"></ul>\r\n		</div>\r\n		<div class=\"right-panel\">\r\n			<div class=\"total-days\"></div>\r\n			<div class=\"npc\"></div>\r\n			<div class=\"remaining-days\">\r\n				<div class=\"remaining-day\">\r\n					<div class=\"remaining-day-text\"></div>\r\n				</div>\r\n				<div class=\"remaining-text\">\r\n					<div class=\"remaining-text-div\" data-locale-key=\"robrowser.ui.attendance.day\">Day</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"bottom-panel\">\r\n			<div class=\"close-container\">\r\n				<ui-button\r\n					class=\"close-container-btn\"\r\n					bg=\"check_attendance/bt_ok_normal.bmp\"\r\n					down=\"check_attendance/bt_ok_press.bmp\"\r\n					><span data-locale-key=\"robrowser.ui.attendance.close\">Close</span></ui-button\r\n				>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CheckAttendance/CheckAttendance.css?raw
@@ -234804,7 +242341,8 @@ function onClickAttendance(e) {
 	completedDiv.dataset.background = "check_attendance/bt_slot_complete.tga";
 	el.appendChild(completedDiv);
 	GUIComponent.processDataAttrs(completedDiv);
-	const total_days_string = `${parseInt(_checkAttendanceData / 10) + 1} Day attendance success`;
+	const current_day = parseInt(_checkAttendanceData / 10) + 1;
+	const total_days_string = getMessage("robrowser.ui.attendance.success", "%d Day attendance success").replace("%d", current_day);
 	const totalDaysEl = root.querySelector(".total-days");
 	if (totalDaysEl) totalDaysEl.innerHTML = total_days_string;
 	const _pkt = new PACKET.CZ.REQ_CHECK_ATTENDANCE();
@@ -234823,6 +242361,8 @@ var init_CheckAttendance = __esmMin((() => {
 	init_CheckAttendance$1();
 	init_ChatBox();
 	init_Elements();
+	init_LocalizeDOM();
+	init_MessageCatalog();
 	CheckAttendance = new GUIComponent("CheckAttendance", CheckAttendance_default$1);
 	CheckAttendance.render = () => CheckAttendance_default$2;
 	_preferences$30 = Preferences.get("CheckAttendance", {
@@ -234835,6 +242375,7 @@ var init_CheckAttendance = __esmMin((() => {
 	CheckAttendance.init = function init() {
 		_CheckAttendanceInfo = DB.getCheckAttendanceInfo();
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const baseEl = root.querySelector(".base");
 		if (baseEl) baseEl.addEventListener("mousedown", (event) => {
 			event.stopImmediatePropagation();
@@ -234857,7 +242398,7 @@ var init_CheckAttendance = __esmMin((() => {
 		if (_checkAttendanceData >= 0 && _CheckAttendanceInfo.Config) {
 			CheckAttendance.updateUI();
 			this.focus();
-		} else ChatBox_default.addText("Currently there is no attendance check event.", ChatBox_default.TYPE.ERROR | ChatBox_default.TYPE.SELF);
+		} else ChatBox_default.addText(getMessage("robrowser.ui.attendance.none", "Currently there is no attendance check event."), ChatBox_default.TYPE.ERROR | ChatBox_default.TYPE.SELF);
 	};
 	/**
 	* Window Shortcuts
@@ -234899,14 +242440,14 @@ var init_CheckAttendance = __esmMin((() => {
 			const regex = /(\d{4})(\d{2})(\d{2})/;
 			const start = regex.exec(_CheckAttendanceInfo.Config.StartDate);
 			const end = regex.exec(_CheckAttendanceInfo.Config.EndDate);
-			const period_string = `Event Period: From ${start[2]}/${start[3]} ~ Until ${end[2]}/${end[3]} (Month/Day) 24:00`;
+			const period_string = getMessage("robrowser.ui.attendance.period", "Event Period: From %s/%s ~ Until %s/%s (Month/Day) 24:00").replace("%s", start[2]).replace("%s", start[3]).replace("%s", end[2]).replace("%s", end[3]);
 			const periodEl = root.querySelector(".top-panel-period");
 			if (periodEl) periodEl.innerHTML = period_string;
 			if (_checkAttendanceData >= 0) {
 				already_requested = _checkAttendanceData % 10;
 				attendance_count = parseInt(_checkAttendanceData / 10);
 				current_day = attendance_count + 1;
-				const total_days_string = attendance_count >= 20 || already_requested ? `${attendance_count} Day attendance success` : `Click the item to claim day ${current_day} reward`;
+				const total_days_string = attendance_count >= 20 || already_requested ? getMessage("robrowser.ui.attendance.success", "%d Day attendance success").replace("%d", attendance_count) : getMessage("robrowser.ui.attendance.claim", "Click the item to claim day %d reward").replace("%d", current_day);
 				const end_date = /* @__PURE__ */ new Date(`${end[1]}-${end[2]}-${end[3]}`);
 				const now_date = /* @__PURE__ */ new Date();
 				const remaining_days = Math.round(Math.abs((end_date.getTime() - now_date.getTime()) / 864e5));
@@ -234924,7 +242465,7 @@ var init_CheckAttendance = __esmMin((() => {
 				const background = !already_requested && day == current_day ? `data-background="check_attendance/bt_slot_a.bmp" data-down="check_attendance/bt_slot_press.bmp"` : "";
 				const checked = day <= attendance_count ? "checked" : "checked-hidden";
 				const slot_complete_string = day > (already_requested ? attendance_count - 1 : attendance_count) ? "bt_slot_complete" : "bt_slot_off";
-				const item_slot = `<li id="attendance_day_${i}" class="attendance-item" ${background}><div class="item" data-background="${DB.INTERFACE_PATH}item/${item.identifiedResourceName}.bmp"><span class="item-quantity">${_CheckAttendanceInfo.Rewards[i].quantity}</span><span class="name">${item.identifiedDisplayName}</span><div class="${checked}" data-background="check_attendance/${slot_complete_string}.tga"></div></div><div class="day">${day} Day</div></li>`;
+				const item_slot = `<li id="attendance_day_${i}" class="attendance-item" ${background}><div class="item" data-background="${DB.INTERFACE_PATH}item/${item.identifiedResourceName}.bmp"><span class="item-quantity">${_CheckAttendanceInfo.Rewards[i].quantity}</span><span class="name">${item.identifiedDisplayName}</span><div class="${checked}" data-background="check_attendance/${slot_complete_string}.tga"></div></div><div class="day">${getMessage("robrowser.ui.attendance.day-slot", "%d Day").replace("%d", day)}</div></li>`;
 				if (daysList) daysList.insertAdjacentHTML("beforeend", item_slot);
 				if (!already_requested && day == current_day) {
 					const dayEl = root.querySelector(`#attendance_day_${i}`);
@@ -234961,6 +242502,7 @@ var init_CheckAttendance = __esmMin((() => {
 		CheckAttendance._host.style.display = "none";
 	};
 	CheckAttendance_default = UIManager.addComponent(CheckAttendance);
+	if (typeof globalThis !== "undefined") globalThis.__happyroAttendanceVerification = CheckAttendance;
 }));
 //#endregion
 //#region src/UI/Components/SkillList/SkillListCommon.js
@@ -235006,6 +242548,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 	};
 	Component.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		if (titlebarText) {
 			const titleEl = root.querySelector(".titlebar .text");
 			if (titleEl) titleEl.textContent = titlebarText;
@@ -235401,7 +242944,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 				element.className = `skill id${key} ${className}`;
 				element.setAttribute("data-index", key);
 				element.setAttribute("draggable", "true");
-				element.innerHTML = `<div class="name">${_escapeHTML$2(sk.SkillName).substr(0, 7)}...<br/></div><div class="icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" width="24" height="24" /></div><div class=selectable><span class="level" style="display: none">` + (sk.bSeperateLv ? `<button class="currentDown"></button><span class="current">0</span> / <span class="max">0</span><button class="currentUp"></button>` : "<span class=\"current\">0</span>") + "</span></div>";
+				element.innerHTML = `<div class="name">${_escapeHTML$2(DB.getSkillName(key)).substr(0, 7)}...<br/></div><div class="icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" width="24" height="24" /></div><div class=selectable><span class="level" style="display: none">` + (sk.bSeperateLv ? `<button class="currentDown"></button><span class="current">0</span> / <span class="max">0</span><button class="currentUp"></button>` : "<span class=\"current\">0</span>") + "</span></div>";
 				const upBtn = element.querySelector(".level .currentUp");
 				if (upBtn) {
 					if (_rArrow) upBtn.style.backgroundImage = _rArrow;
@@ -235423,7 +242966,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 								const miniTr = document.createElement("tr");
 								miniTr.className = `skill id${key} disabled`;
 								miniTr.setAttribute("data-index", key);
-								miniTr.innerHTML = `<td class="icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" width="24" height="24" /></td><td class="levelupcontainer"></td><td class="selectable"><div class="name">${_escapeHTML$2(sk.SkillName)}<br/><span class="level">Lv : <span class="current">0</span></span></div></td><td class="selectable type"><div class="consume">Passive</div></td>`;
+								miniTr.innerHTML = `<td class="icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" width="24" height="24" /></td><td class="levelupcontainer"></td><td class="selectable"><div class="name">${_escapeHTML$2(DB.getSkillName(key))}<br/><span class="level">Lv : <span class="current">0</span></span></div></td><td class="selectable type"><div class="consume">${getMessage("robrowser.ui.skills.passive", "Passive")}</div></td>`;
 								miniBox.appendChild(miniTr);
 								Client.loadFile(`${DB.INTERFACE_PATH}item/${sk.Name}.bmp`, (data) => {
 									const img = miniTr.querySelector(".icon img");
@@ -235448,7 +242991,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 		element.className = `skill id${skill.SKID} ${className}`;
 		element.setAttribute("data-index", skill.SKID);
 		element.setAttribute("draggable", "true");
-		element.innerHTML = `<div class="name">${_escapeHTML$2(sk.SkillName).substr(0, 7)}...<br/></div><div class="icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" width="24" height="24" /></div><div class="levelupcontainer"></div><div class=selectable><span class="level">` + (sk.bSeperateLv ? `<button class="currentDown"></button><span class="current">${skill.level}</span> / <span class="max">${skill.level}</span><button class="currentUp"></button>` : `<span class="current">${skill.level}</span>`) + "</span></div>";
+		element.innerHTML = `<div class="name">${_escapeHTML$2(DB.getSkillName(skill.SKID)).substr(0, 7)}...<br/></div><div class="icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" width="24" height="24" /></div><div class="levelupcontainer"></div><div class=selectable><span class="level">` + (sk.bSeperateLv ? `<button class="currentDown"></button><span class="current">${skill.level}</span> / <span class="max">${skill.level}</span><button class="currentUp"></button>` : `<span class="current">${skill.level}</span>`) + "</span></div>";
 		const upBtn = element.querySelector(".level .currentUp");
 		if (upBtn) {
 			if (_rArrow) upBtn.style.backgroundImage = _rArrow;
@@ -235531,7 +243074,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 		tr.className = `skill id${skill.SKID} ${className}`;
 		tr.setAttribute("data-index", skill.SKID);
 		tr.setAttribute("draggable", "true");
-		tr.innerHTML = `<td class="icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" width="24" height="24" /></td><td class="levelupcontainer"></td><td class=selectable><div class="name">${_escapeHTML$2(sk.SkillName)}<br/><span class="level">` + (sk.bSeperateLv ? `<button class="currentDown"></button>Lv : <span class="current">${skill.level}</span> / <span class="max">${skill.level}</span><button class="currentUp"></button>` : `Lv : <span class="current">${skill.level}</span>`) + `</span></div></td><td class="selectable type"><div class="consume">${skill.type ? `Sp : <span class="spcost">${skill.spcost}</span>` : "Passive"}</div></td>`;
+		tr.innerHTML = `<td class="icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" width="24" height="24" /></td><td class="levelupcontainer"></td><td class=selectable><div class="name">${_escapeHTML$2(DB.getSkillName(skill.SKID))}<br/><span class="level">` + (sk.bSeperateLv ? `<button class="currentDown"></button>Lv : <span class="current">${skill.level}</span> / <span class="max">${skill.level}</span><button class="currentUp"></button>` : `Lv : <span class="current">${skill.level}</span>`) + `</span></div></td><td class="selectable type"><div class="consume">${skill.type ? `${getMessage("robrowser.ui.skills.sp-cost", "Sp :")} <span class="spcost">${skill.spcost}</span>` : getMessage("robrowser.ui.skills.passive", "Passive")}</div></td>`;
 		if (!skill.upgradable || !_points) levelup.style.display = "none";
 		tr.querySelector(".levelupcontainer").appendChild(levelup);
 		const upBtn = tr.querySelector(".level .currentUp");
@@ -235880,7 +243423,9 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 	Component.onIncreaseSkill = function onIncreaseSkill() {};
 	Component.onUpdateSkill = function onUpdateSkill() {};
 	Component.getSkillById = getSkillById;
-	return UIManager.addComponent(Component);
+	const added = UIManager.addComponent(Component);
+	if (typeof globalThis !== "undefined" && name === "SkillListV2") globalThis.__happyroSkillListVerification = added;
+	return added;
 }
 var init_SkillListCommon = __esmMin((() => {
 	init_DBManager();
@@ -235896,6 +243441,8 @@ var init_SkillListCommon = __esmMin((() => {
 	init_Elements();
 	init_SkillTargetSelection();
 	init_SkillDescription();
+	init_LocalizeDOM();
+	init_MessageCatalog();
 }));
 //#endregion
 //#region src/UI/Components/SkillList/SkillList/SkillList.html?raw
@@ -235935,7 +243482,7 @@ var init_SkillList$1 = __esmMin((() => {
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.html?raw
 var SkillListV2_default$2;
 var init_SkillListV2$2 = __esmMin((() => {
-	SkillListV2_default$2 = "<div id=\"SkillListV2\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"left\">\r\n				<ui-button\r\n					class=\"base\"\r\n					bg=\"basic_interface/sys_base_off.bmp\"\r\n					hover=\"basic_interface/sys_base_on.bmp\"\r\n				></ui-button>\r\n				<ui-text class=\"text\" msgid=\"283\">Skill Tree</ui-text>\r\n			</div>\r\n			<div class=\"right\">\r\n				<input type=\"checkbox\" class=\"view_skill_info\" />view skill info\r\n				<ui-button\r\n					class=\"base mini\"\r\n					bg=\"basic_interface/sys_mini_off.bmp\"\r\n					hover=\"basic_interface/sys_mini_on.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"base close\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"panel\">\r\n			<div class=\"content\" style=\"display: block; width: 256px; height: 320px\">\r\n				<!-- Just to get reference, will be removed -->\r\n				<ui-button\r\n					class=\"btn levelup\"\r\n					bg=\"basic_interface/skill_up_a.bmp\"\r\n					hover=\"basic_interface/skill_up_b.bmp\"\r\n					down=\"basic_interface/skill_up_c.bmp\"\r\n				></ui-button>\r\n				<div class=\"tabs-mini\">\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-1-mini\" checked class=\"tab-switch-mini\" />\r\n						<label for=\"tab-1-mini\" class=\"tab-label-mini\">1st</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab1\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-2-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-2-mini\" id=\"tabminil2\" class=\"tab-label-mini\">2nd</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab2\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-3-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-3-mini\" id=\"tabminil3\" class=\"tab-label-mini\">3rd</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab3\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-4-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-4-mini\" id=\"tabminil4\" class=\"tab-label-mini\">4th</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab4\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-5-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-5-mini\" class=\"tab-label-mini\">Etc</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab5\"></table>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div class=\"contentbig\" style=\"width: 480px; height: 384px; display: block\">\r\n				<div class=\"tabs\">\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-1\" checked class=\"tab-switch\" />\r\n						<label for=\"tab-1\" class=\"tab-label\">1st</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills1\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-2\" class=\"tab-switch\" />\r\n						<label for=\"tab-2\" id=\"tabl2\" class=\"tab-label\">2nd</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills2\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-3\" class=\"tab-switch\" />\r\n						<label for=\"tab-3\" id=\"tabl3\" class=\"tab-label\">3rd</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills3\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-4\" class=\"tab-switch\" />\r\n						<label for=\"tab-4\" id=\"tabl4\" class=\"tab-label\">4th</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills4\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-5\" class=\"tab-switch\" />\r\n						<label for=\"tab-5\" class=\"tab-label\">Etc</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"etcBIG5\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n\r\n			<div class=\"footer\">\r\n				<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n				<div class=\"text\">Skill Points: <span class=\"skpoints_count\">0</span></div>\r\n				<ui-button\r\n					class=\"btn apply\"\r\n					bg=\"btn_apply.bmp\"\r\n					hover=\"btn_apply_a.bmp\"\r\n					down=\"btn_apply_b.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"btn reset\"\r\n					bg=\"btn_reset.bmp\"\r\n					hover=\"btn_reset_a.bmp\"\r\n					down=\"btn_reset_b.bmp\"\r\n				></ui-button>\r\n				<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<ui-button id=\"lvlup_job\" bg=\"basic_interface/lv_up_off.bmp\" down=\"basic_interface/lv_up_on.bmp\"></ui-button>\r\n</div>\r\n";
+	SkillListV2_default$2 = "<div id=\"SkillListV2\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"left\">\r\n				<ui-button\r\n					class=\"base\"\r\n					bg=\"basic_interface/sys_base_off.bmp\"\r\n					hover=\"basic_interface/sys_base_on.bmp\"\r\n				></ui-button>\r\n				<ui-text class=\"text\" data-locale-key=\"robrowser.ui.skills.title\" msgid=\"283\">Skill Tree</ui-text>\r\n			</div>\r\n			<div class=\"right\">\r\n				<input type=\"checkbox\" class=\"view_skill_info\" data-locale-title-key=\"robrowser.ui.skills.view-info\" /><span data-locale-key=\"robrowser.ui.skills.view-info\">view skill info</span>\r\n				<ui-button\r\n					class=\"base mini\"\r\n					bg=\"basic_interface/sys_mini_off.bmp\"\r\n					hover=\"basic_interface/sys_mini_on.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"base close\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"panel\">\r\n			<div class=\"content\" style=\"display: block; width: 256px; height: 320px\">\r\n				<!-- Just to get reference, will be removed -->\r\n				<ui-button\r\n					class=\"btn levelup\"\r\n					bg=\"basic_interface/skill_up_a.bmp\"\r\n					hover=\"basic_interface/skill_up_b.bmp\"\r\n					down=\"basic_interface/skill_up_c.bmp\"\r\n				></ui-button>\r\n				<div class=\"tabs-mini\">\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-1-mini\" checked class=\"tab-switch-mini\" />\r\n						<label for=\"tab-1-mini\" class=\"tab-label-mini\" data-locale-key=\"robrowser.ui.skills.tab-first\">1st</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab1\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-2-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-2-mini\" id=\"tabminil2\" class=\"tab-label-mini\" data-locale-key=\"robrowser.ui.skills.tab-second\">2nd</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab2\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-3-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-3-mini\" id=\"tabminil3\" class=\"tab-label-mini\" data-locale-key=\"robrowser.ui.skills.tab-third\">3rd</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab3\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-4-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-4-mini\" id=\"tabminil4\" class=\"tab-label-mini\" data-locale-key=\"robrowser.ui.skills.tab-fourth\">4th</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab4\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-5-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-5-mini\" class=\"tab-label-mini\" data-locale-key=\"robrowser.ui.skills.tab-other\">Etc</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab5\"></table>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div class=\"contentbig\" style=\"width: 480px; height: 384px; display: block\">\r\n				<div class=\"tabs\">\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-1\" checked class=\"tab-switch\" />\r\n						<label for=\"tab-1\" class=\"tab-label\" data-locale-key=\"robrowser.ui.skills.tab-first\">1st</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills1\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-2\" class=\"tab-switch\" />\r\n						<label for=\"tab-2\" id=\"tabl2\" class=\"tab-label\" data-locale-key=\"robrowser.ui.skills.tab-second\">2nd</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills2\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-3\" class=\"tab-switch\" />\r\n						<label for=\"tab-3\" id=\"tabl3\" class=\"tab-label\" data-locale-key=\"robrowser.ui.skills.tab-third\">3rd</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills3\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-4\" class=\"tab-switch\" />\r\n						<label for=\"tab-4\" id=\"tabl4\" class=\"tab-label\" data-locale-key=\"robrowser.ui.skills.tab-fourth\">4th</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills4\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-5\" class=\"tab-switch\" />\r\n						<label for=\"tab-5\" class=\"tab-label\" data-locale-key=\"robrowser.ui.skills.tab-other\">Etc</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"etcBIG5\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n\r\n			<div class=\"footer\">\r\n				<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n				<div class=\"text\"><span data-locale-key=\"robrowser.ui.skills.points\">Skill Points:</span> <span class=\"skpoints_count\">0</span></div>\r\n				<ui-button\r\n					class=\"btn apply\"\r\n					bg=\"btn_apply.bmp\"\r\n					hover=\"btn_apply_a.bmp\"\r\n					down=\"btn_apply_b.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"btn reset\"\r\n					bg=\"btn_reset.bmp\"\r\n					hover=\"btn_reset_a.bmp\"\r\n					down=\"btn_reset_b.bmp\"\r\n				></ui-button>\r\n				<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<ui-button id=\"lvlup_job\" bg=\"basic_interface/lv_up_off.bmp\" down=\"basic_interface/lv_up_on.bmp\"></ui-button>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.css?raw
@@ -236041,6 +243588,7 @@ function createQuest(config) {
 	*/
 	Quest.init = function init() {
 		const root = Quest.getRoot();
+		applyLocaleAttributes(root);
 		questHelper.prepare();
 		if (questWindow) questWindow.prepare();
 		if (renewLayout) {
@@ -236517,6 +244065,7 @@ var init_QuestCommon = __esmMin((() => {
 	init_PacketStructure();
 	init_ChatBox();
 	init_SessionStorage();
+	init_LocalizeDOM();
 }));
 //#endregion
 //#region src/UI/Components/Quest/QuestHelperCommon.js
@@ -236596,6 +244145,7 @@ function createQuestHelper(config) {
 	*/
 	QuestHelper.init = function init() {
 		const root = QuestHelper.getRoot();
+		applyLocaleAttributes(root);
 		const closeBtn = root.querySelector(renewLayout ? ".quest-info-bottom-btn" : ".quest-info-close-btn");
 		if (closeBtn) {
 			closeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
@@ -236798,6 +244348,7 @@ function createQuestHelper(config) {
 	/**
 	* Export
 	*/
+	if (typeof globalThis !== "undefined" && renewLayout) globalThis.__happyroQuestHelperVerification = QuestHelper;
 	return UIManager.addComponent(QuestHelper);
 }
 var init_QuestHelperCommon = __esmMin((() => {
@@ -236810,12 +244361,13 @@ var init_QuestHelperCommon = __esmMin((() => {
 	init_Elements();
 	init_ItemInfo();
 	init_Navigation();
+	init_LocalizeDOM();
 }));
 //#endregion
 //#region src/UI/Components/Quest/Quest/QuestHelper.html?raw
 var QuestHelper_default$2;
 var init_QuestHelper$2 = __esmMin((() => {
-	QuestHelper_default$2 = "<div id=\"QuestInfo\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"quest-info-top-panel\">\r\n			<div class=\"quest-info-top-panel-title\">Quest Information</div>\r\n		</div>\r\n		<div class=\"quest-info-mid-panel\">\r\n			<div class=\"quest-info-title-panel\">\r\n				<div class=\"quest-info-title-panel-text\"></div>\r\n			</div>\r\n			<div class=\"quest-info-description-panel\">\r\n				<div class=\"quest-info-description-panel-title\">\r\n					<div class=\"quest-ui-img-poring\"></div>\r\n					<span class=\"quest-ui-title-span\">Description</span>\r\n				</div>\r\n				<div class=\"quest-info-description-panel-text\">\r\n					<span class=\"quest-ui-text-span\"></span>\r\n				</div>\r\n			</div>\r\n			<div class=\"quest-info-monster-panel\">\r\n				<div class=\"quest-info-monster-panel-title\">\r\n					<div class=\"quest-ui-img-poring\"></div>\r\n					<span class=\"quest-ui-title-span\">Monster</span>\r\n				</div>\r\n				<div class=\"quest-info-monster-panel-text\">\r\n					<span class=\"quest-ui-text-span\"></span>\r\n				</div>\r\n			</div>\r\n			<div class=\"quest-info-reward-panel\">\r\n				<div class=\"npc-sprite\"></div>\r\n				<div class=\"quest-info-reward-panel-title\">\r\n					<div class=\"quest-ui-img-poring\"></div>\r\n					<span class=\"quest-ui-title-span\">Reward</span>\r\n				</div>\r\n				<div class=\"quest-info-reward-panel-text\">\r\n					<span class=\"quest-ui-text-span\">\r\n						<ul class=\"quest-info-reward-ul\">\r\n							<li class=\"quest-info-reward-li\">\r\n								<span>EXP</span><span class=\"quest-info-reward-li-base\"></span>\r\n							</li>\r\n							<li class=\"quest-info-reward-li\">\r\n								<span>JEXP</span><span class=\"quest-info-reward-li-job\"></span>\r\n							</li>\r\n							<li class=\"quest-info-reward-li\">\r\n								<span>Item</span\r\n								><span class=\"quest-info-reward-li-item\"\r\n									><ul class=\"quest-info-reward-li-item-list\"></ul\r\n								></span>\r\n							</li>\r\n						</ul>\r\n					</span>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"quest-info-bottom-panel\">\r\n			<div class=\"quest-info-bottom-deadline-info\">\r\n				<span class=\"quest-info-bottom-deadline-info-text\"></span>\r\n			</div>\r\n			<div class=\"quest-info-bottom-text\">\r\n				<ui-button class=\"quest-info-bottom-btn\" bg=\"basic_interface/btn_close.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	QuestHelper_default$2 = "<div id=\"QuestInfo\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"quest-info-top-panel\">\r\n			<div class=\"quest-info-top-panel-title\" data-locale-key=\"robrowser.ui.quest.title\">Quest Information</div>\r\n		</div>\r\n		<div class=\"quest-info-mid-panel\">\r\n			<div class=\"quest-info-title-panel\">\r\n				<div class=\"quest-info-title-panel-text\"></div>\r\n			</div>\r\n			<div class=\"quest-info-description-panel\">\r\n				<div class=\"quest-info-description-panel-title\">\r\n					<div class=\"quest-ui-img-poring\"></div>\r\n					<span class=\"quest-ui-title-span\" data-locale-key=\"robrowser.ui.quest.description\">Description</span>\r\n				</div>\r\n				<div class=\"quest-info-description-panel-text\">\r\n					<span class=\"quest-ui-text-span\"></span>\r\n				</div>\r\n			</div>\r\n			<div class=\"quest-info-monster-panel\">\r\n				<div class=\"quest-info-monster-panel-title\">\r\n					<div class=\"quest-ui-img-poring\"></div>\r\n					<span class=\"quest-ui-title-span\" data-locale-key=\"robrowser.ui.quest.monster\">Monster</span>\r\n				</div>\r\n				<div class=\"quest-info-monster-panel-text\">\r\n					<span class=\"quest-ui-text-span\"></span>\r\n				</div>\r\n			</div>\r\n			<div class=\"quest-info-reward-panel\">\r\n				<div class=\"npc-sprite\"></div>\r\n				<div class=\"quest-info-reward-panel-title\">\r\n					<div class=\"quest-ui-img-poring\"></div>\r\n					<span class=\"quest-ui-title-span\" data-locale-key=\"robrowser.ui.quest.reward\">Reward</span>\r\n				</div>\r\n				<div class=\"quest-info-reward-panel-text\">\r\n					<span class=\"quest-ui-text-span\">\r\n						<ul class=\"quest-info-reward-ul\">\r\n							<li class=\"quest-info-reward-li\">\r\n								<span data-locale-key=\"robrowser.ui.quest.exp\">EXP</span\r\n								><span class=\"quest-info-reward-li-base\"></span>\r\n							</li>\r\n							<li class=\"quest-info-reward-li\">\r\n								<span data-locale-key=\"robrowser.ui.quest.jexp\">JEXP</span\r\n								><span class=\"quest-info-reward-li-job\"></span>\r\n							</li>\r\n							<li class=\"quest-info-reward-li\">\r\n								<span data-locale-key=\"robrowser.ui.quest.item\">Item</span\r\n								><span class=\"quest-info-reward-li-item\"\r\n									><ul class=\"quest-info-reward-li-item-list\"></ul\r\n								></span>\r\n							</li>\r\n						</ul>\r\n					</span>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"quest-info-bottom-panel\">\r\n			<div class=\"quest-info-bottom-deadline-info\">\r\n				<span class=\"quest-info-bottom-deadline-info-text\"></span>\r\n			</div>\r\n			<div class=\"quest-info-bottom-text\">\r\n				<ui-button class=\"quest-info-bottom-btn\" bg=\"basic_interface/btn_close.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Quest/Quest/QuestHelper.css?raw
@@ -236931,7 +244483,7 @@ var init_QuestWindow = __esmMin((() => {
 //#region src/UI/Components/Quest/Quest/Quest.html?raw
 var Quest_default$2;
 var init_Quest$4 = __esmMin((() => {
-	Quest_default$2 = "<div id=\"Quest\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"quest-top-panel\"><span class=\"quest-top-panel-text\">Quest Information</span></div>\r\n		<div class=\"quest-left-panel\">\r\n			<ul class=\"quest-menu\">\r\n				<li id=\"active\" class=\"quest-menu-item\"></li>\r\n				<li id=\"feature\" class=\"quest-menu-item\"></li>\r\n				<li id=\"inactive\" class=\"quest-menu-item\"></li>\r\n				<li id=\"cooldown\" class=\"quest-menu-item\"></li>\r\n			</ul>\r\n		</div>\r\n		<div class=\"quest-right-panel\">\r\n			<ul id=\"active-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"feature-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"inactive-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"cooldown-quest-list\" class=\"quest-list\"></ul>\r\n		</div>\r\n		<div class=\"quest-bottom-panel\">\r\n			<div class=\"toggle-quest-list\"><button class=\"toggle-quest-image\"></button></div>\r\n			<div class=\"toggle-quest-text\"><span>Show Quest</span></div>\r\n			<div class=\"close-quest-container\">\r\n				<ui-button class=\"close-quest-container-btn\" bg=\"basic_interface/btn_close.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	Quest_default$2 = "<div id=\"Quest\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"quest-top-panel\">\r\n			<span class=\"quest-top-panel-text\" data-locale-key=\"robrowser.ui.quest.title\">Quest Information</span>\r\n		</div>\r\n		<div class=\"quest-left-panel\">\r\n			<ul class=\"quest-menu\">\r\n				<li id=\"active\" class=\"quest-menu-item\"></li>\r\n				<li id=\"feature\" class=\"quest-menu-item\"></li>\r\n				<li id=\"inactive\" class=\"quest-menu-item\"></li>\r\n				<li id=\"cooldown\" class=\"quest-menu-item\"></li>\r\n			</ul>\r\n		</div>\r\n		<div class=\"quest-right-panel\">\r\n			<ul id=\"active-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"feature-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"inactive-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"cooldown-quest-list\" class=\"quest-list\"></ul>\r\n		</div>\r\n		<div class=\"quest-bottom-panel\">\r\n			<div class=\"toggle-quest-list\"><button class=\"toggle-quest-image\"></button></div>\r\n			<div class=\"toggle-quest-text\">\r\n				<span data-locale-key=\"robrowser.ui.quest.show\">Show Quest</span>\r\n			</div>\r\n			<div class=\"close-quest-container\">\r\n				<ui-button class=\"close-quest-container-btn\" bg=\"basic_interface/btn_close.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Quest/Quest/Quest.css?raw
@@ -237038,6 +244590,7 @@ var init_Quest$1 = __esmMin((() => {
 			}
 		};
 	};
+	if (typeof globalThis !== "undefined") globalThis.__happyroQuestVerification = Controller$3;
 }));
 //#endregion
 //#region src/UI/Components/Achievement/Achievement.html?raw
@@ -237625,7 +245178,7 @@ var init_Achievement$1 = __esmMin((() => {
 //#region src/UI/Components/Reputation/Reputation.html?raw
 var Reputation_default$2;
 var init_Reputation$2 = __esmMin((() => {
-	Reputation_default$2 = "<div id=\"Reputation\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<ui-text class=\"text\" msg=\"3827\"></ui-text>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overall_container\">\r\n		<div class=\"header\">\r\n			<div class=\"select-wrapper\">\r\n				<select id=\"repute_groups\" class=\"rep_group_selector\">\r\n					<option value=\"all\" data-text=\"3829\"></option>\r\n				</select>\r\n				<ui-button\r\n					class=\"select-arrow\"\r\n					bg=\"basic_interface/txtbox_btn_a.bmp\"\r\n					hover=\"basic_interface/txtbox_btn_b.bmp\"\r\n					down=\"basic_interface/txtbox_btn_c.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"search_wrapper\">\r\n				<input class=\"rep_group_searchbar\" type=\"text\" />\r\n				<ui-button\r\n					class=\"search\"\r\n					bg=\"reputation/btn_search.bmp\"\r\n					hover=\"reputation/btn_search_over.bmp\"\r\n					down=\"reputation/btn_search_press.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"rep_group_total_points_wrapper\">\r\n				<div class=\"rep_group_text\">GROUP:</div>\r\n				<div class=\"rep_indicator\"></div>\r\n				<div class=\"rep_group_total_points_value\"></div>\r\n			</div>\r\n		</div>\r\n		<div class=\"content\"></div>\r\n		<div class=\"paginator\">\r\n			<ui-button class=\"page_prev\" bg=\"reputation/arrow_prev.bmp\"></ui-button>\r\n			<span class=\"page_text\">1 / 1</span>\r\n			<ui-button class=\"page_next\" bg=\"reputation/arrow_next.bmp\"></ui-button>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button\r\n				class=\"big_btn_close\"\r\n				bg=\"basic_interface/btn_close.bmp\"\r\n				hover=\"basic_interface/btn_close_a.bmp\"\r\n				down=\"basic_interface/btn_close_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	Reputation_default$2 = "<div id=\"Reputation\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<ui-text class=\"text\" msg=\"3827\"></ui-text>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overall_container\">\r\n		<div class=\"header\">\r\n			<div class=\"select-wrapper\">\r\n				<select id=\"repute_groups\" class=\"rep_group_selector\">\r\n					<option value=\"all\" data-text=\"3829\"></option>\r\n				</select>\r\n				<ui-button\r\n					class=\"select-arrow\"\r\n					bg=\"basic_interface/txtbox_btn_a.bmp\"\r\n					hover=\"basic_interface/txtbox_btn_b.bmp\"\r\n					down=\"basic_interface/txtbox_btn_c.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"search_wrapper\">\r\n				<input class=\"rep_group_searchbar\" type=\"text\" />\r\n				<ui-button\r\n					class=\"search\"\r\n					bg=\"reputation/btn_search.bmp\"\r\n					hover=\"reputation/btn_search_over.bmp\"\r\n					down=\"reputation/btn_search_press.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"rep_group_total_points_wrapper\">\r\n				<div class=\"rep_group_text\" data-locale-key=\"robrowser.ui.reputation.group\">GROUP:</div>\r\n				<div class=\"rep_indicator\"></div>\r\n				<div class=\"rep_group_total_points_value\"></div>\r\n			</div>\r\n		</div>\r\n		<div class=\"content\"></div>\r\n		<div class=\"paginator\">\r\n			<ui-button class=\"page_prev\" bg=\"reputation/arrow_prev.bmp\"></ui-button>\r\n			<span class=\"page_text\">1 / 1</span>\r\n			<ui-button class=\"page_next\" bg=\"reputation/arrow_next.bmp\"></ui-button>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button\r\n				class=\"big_btn_close\"\r\n				bg=\"basic_interface/btn_close.bmp\"\r\n				hover=\"basic_interface/btn_close_a.bmp\"\r\n				down=\"basic_interface/btn_close_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Reputation/Reputation.css?raw
@@ -237990,6 +245543,7 @@ var init_Reputation = __esmMin((() => {
 	init_Elements();
 	init_Reputation$2();
 	init_Reputation$1();
+	init_LocalizeDOM();
 	Reputation = new GUIComponent("Reputation", Reputation_default$1);
 	_preferences$27 = Preferences.get("Reputation", {
 		x: 400,
@@ -238032,6 +245586,7 @@ var init_Reputation = __esmMin((() => {
 	*/
 	Reputation.init = function init() {
 		const root = _root$12();
+		applyLocaleAttributes(root);
 		Client.loadFile(DB.INTERFACE_PATH + "reputation/bg_info.bmp", (d) => bg = d);
 		Client.loadFile(DB.INTERFACE_PATH + "reputation/bg_highlight.bmp", (d) => bg_highlight = d);
 		Client.loadFile(DB.INTERFACE_PATH + "reputation/light_empty.bmp", (d) => indicator_empty = d);
@@ -238115,6 +245670,7 @@ var init_Reputation = __esmMin((() => {
 	Network.hookPacket(PACKET.ZC.REPUTE_INFO, onReputeInfo);
 	Network.hookPacket(PACKET.ZC_REPUTE_OPEN, onReputeOpen);
 	Reputation_default = UIManager.addComponent(Reputation);
+	if (typeof globalThis !== "undefined") globalThis.__happyroReputationVerification = Reputation;
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoCommon.js
@@ -238474,7 +246030,7 @@ function createBasicInfo(config) {
 			}
 			case "job":
 				root.querySelectorAll(".job_value").forEach((el) => {
-					el.textContent = MonsterTable_default[val1];
+					el.textContent = DB.getJobName(val1);
 				});
 				break;
 			case "bexp":
@@ -238526,7 +246082,6 @@ var init_BasicInfoCommon = __esmMin((() => {
 	init_DBManager();
 	init_Configs();
 	init_PacketVerManager();
-	init_MonsterTable();
 	init_Client();
 	init_Preferences$1();
 	init_Renderer();
@@ -240956,7 +248511,7 @@ var init_StrEffect = __esmMin((() => {
 //#region src/UI/Components/Enchant/Enchant.html?raw
 var Enchant_default$2;
 var init_Enchant$2 = __esmMin((() => {
-	Enchant_default$2 = "<div id=\"Enchant\">\r\n	<div class=\"container\" data-background=\"enchantui/bg_enchantui.bmp\">\r\n		<div class=\"titlebar\">\r\n			<div class=\"left\">\r\n				<span class=\"text\">Enchant</span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"overlay\"></div>\r\n		<div class=\"panel\">\r\n			<div class=\"left_panel\">\r\n				<div class=\"item_list\"></div>\r\n			</div>\r\n			<div class=\"main_panel\">\r\n				<div class=\"subpage\" data-background=\"enchantui/bg_subpage.bmp\"></div>\r\n				<div class=\"action_tabs\">\r\n					<button class=\"tab\" data-action=\"random\">Normal</button>\r\n					<button class=\"tab\" data-action=\"perfect\">Perfect</button>\r\n					<button class=\"tab\" data-action=\"upgrade\">Upgrade</button>\r\n					<button class=\"tab\" data-action=\"reset\">Reset</button>\r\n				</div>\r\n				<div class=\"action_content\">\r\n					<div class=\"action_section random_section\">\r\n						<div class=\"action_hint\">Uses the next available slot.</div>\r\n					</div>\r\n					<div class=\"action_section perfect_section\">\r\n						<select class=\"perfect_select\"></select>\r\n					</div>\r\n					<div class=\"action_section upgrade_section\">\r\n						<select class=\"upgrade_select\"></select>\r\n						<div class=\"upgrade_result\"></div>\r\n					</div>\r\n					<div class=\"action_section reset_section\">\r\n						<div class=\"action_hint\">Resets all enchant slots.</div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot_board\">\r\n					<div class=\"preview_item\"></div>\r\n					<div class=\"slot_list\">\r\n						<div\r\n							class=\"slot_entry empty\"\r\n							data-slot=\"0\"\r\n							data-background=\"enchantui/btn_socket_out.bmp\"\r\n							data-hover=\"enchantui/btn_socket_over.bmp\"\r\n							data-active=\"enchantui/btn_socket_select.bmp\"\r\n						>\r\n							<div class=\"slot_icon\"></div>\r\n						</div>\r\n						<div\r\n							class=\"slot_entry empty\"\r\n							data-slot=\"1\"\r\n							data-background=\"enchantui/btn_socket_out.bmp\"\r\n							data-hover=\"enchantui/btn_socket_over.bmp\"\r\n							data-active=\"enchantui/btn_socket_select.bmp\"\r\n						>\r\n							<div class=\"slot_icon\"></div>\r\n						</div>\r\n						<div\r\n							class=\"slot_entry empty\"\r\n							data-slot=\"2\"\r\n							data-background=\"enchantui/btn_socket_out.bmp\"\r\n							data-hover=\"enchantui/btn_socket_over.bmp\"\r\n							data-active=\"enchantui/btn_socket_select.bmp\"\r\n						>\r\n							<div class=\"slot_icon\"></div>\r\n						</div>\r\n						<div\r\n							class=\"slot_entry empty\"\r\n							data-slot=\"3\"\r\n							data-background=\"enchantui/btn_socket_out.bmp\"\r\n							data-hover=\"enchantui/btn_socket_over.bmp\"\r\n							data-active=\"enchantui/btn_socket_select.bmp\"\r\n						>\r\n							<div class=\"slot_icon\"></div>\r\n						</div>\r\n					</div>\r\n					<div class=\"slot_markers\">\r\n						<span class=\"marker tl\"></span>\r\n						<span class=\"marker tr\"></span>\r\n						<span class=\"marker bl\"></span>\r\n						<span class=\"marker br\"></span>\r\n					</div>\r\n				</div>\r\n				<div class=\"enchant_list\"></div>\r\n				<div class=\"materials_panel\">\r\n					<div class=\"material_list\"></div>\r\n				</div>\r\n				<div class=\"tax_panel\">\r\n					<div class=\"cost_panel\">\r\n						<div class=\"zeny_label\">TAX</div>\r\n						<div class=\"zeny_cost\"></div>\r\n					</div>\r\n					<button class=\"action_btn\"></button>\r\n				</div>\r\n			</div>\r\n			<div class=\"log_panel\">\r\n				<div class=\"caution\"></div>\r\n				<div class=\"status\"></div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	Enchant_default$2 = "<div id=\"Enchant\">\r\n	<div class=\"container\" data-background=\"enchantui/bg_enchantui.bmp\">\r\n		<div class=\"titlebar\">\r\n			<div class=\"left\">\r\n				<span class=\"text\" data-locale-key=\"robrowser.ui.enchant.title\">Enchant</span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"overlay\"></div>\r\n		<div class=\"panel\">\r\n			<div class=\"left_panel\">\r\n				<div class=\"item_list\"></div>\r\n			</div>\r\n			<div class=\"main_panel\">\r\n				<div class=\"subpage\" data-background=\"enchantui/bg_subpage.bmp\"></div>\r\n				<div class=\"action_tabs\">\r\n					<button class=\"tab\" data-action=\"random\" data-locale-key=\"robrowser.ui.enchant.normal\">Normal</button>\r\n					<button class=\"tab\" data-action=\"perfect\" data-locale-key=\"robrowser.ui.enchant.perfect\">Perfect</button>\r\n					<button class=\"tab\" data-action=\"upgrade\" data-locale-key=\"robrowser.ui.enchant.upgrade\">Upgrade</button>\r\n					<button class=\"tab\" data-action=\"reset\" data-locale-key=\"robrowser.ui.enchant.reset\">Reset</button>\r\n				</div>\r\n				<div class=\"action_content\">\r\n					<div class=\"action_section random_section\">\r\n						<div class=\"action_hint\" data-locale-key=\"robrowser.ui.enchant.hint-next-slot\">Uses the next available slot.</div>\r\n					</div>\r\n					<div class=\"action_section perfect_section\">\r\n						<select class=\"perfect_select\"></select>\r\n					</div>\r\n					<div class=\"action_section upgrade_section\">\r\n						<select class=\"upgrade_select\"></select>\r\n						<div class=\"upgrade_result\"></div>\r\n					</div>\r\n					<div class=\"action_section reset_section\">\r\n						<div class=\"action_hint\" data-locale-key=\"robrowser.ui.enchant.hint-reset\">Resets all enchant slots.</div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot_board\">\r\n					<div class=\"preview_item\"></div>\r\n					<div class=\"slot_list\">\r\n						<div\r\n							class=\"slot_entry empty\"\r\n							data-slot=\"0\"\r\n							data-background=\"enchantui/btn_socket_out.bmp\"\r\n							data-hover=\"enchantui/btn_socket_over.bmp\"\r\n							data-active=\"enchantui/btn_socket_select.bmp\"\r\n						>\r\n							<div class=\"slot_icon\"></div>\r\n						</div>\r\n						<div\r\n							class=\"slot_entry empty\"\r\n							data-slot=\"1\"\r\n							data-background=\"enchantui/btn_socket_out.bmp\"\r\n							data-hover=\"enchantui/btn_socket_over.bmp\"\r\n							data-active=\"enchantui/btn_socket_select.bmp\"\r\n						>\r\n							<div class=\"slot_icon\"></div>\r\n						</div>\r\n						<div\r\n							class=\"slot_entry empty\"\r\n							data-slot=\"2\"\r\n							data-background=\"enchantui/btn_socket_out.bmp\"\r\n							data-hover=\"enchantui/btn_socket_over.bmp\"\r\n							data-active=\"enchantui/btn_socket_select.bmp\"\r\n						>\r\n							<div class=\"slot_icon\"></div>\r\n						</div>\r\n						<div\r\n							class=\"slot_entry empty\"\r\n							data-slot=\"3\"\r\n							data-background=\"enchantui/btn_socket_out.bmp\"\r\n							data-hover=\"enchantui/btn_socket_over.bmp\"\r\n							data-active=\"enchantui/btn_socket_select.bmp\"\r\n						>\r\n							<div class=\"slot_icon\"></div>\r\n						</div>\r\n					</div>\r\n					<div class=\"slot_markers\">\r\n						<span class=\"marker tl\"></span>\r\n						<span class=\"marker tr\"></span>\r\n						<span class=\"marker bl\"></span>\r\n						<span class=\"marker br\"></span>\r\n					</div>\r\n				</div>\r\n				<div class=\"enchant_list\"></div>\r\n				<div class=\"materials_panel\">\r\n					<div class=\"material_list\"></div>\r\n				</div>\r\n				<div class=\"tax_panel\">\r\n					<div class=\"cost_panel\">\r\n						<div class=\"zeny_label\" data-locale-key=\"robrowser.ui.enchant.tax\">TAX</div>\r\n						<div class=\"zeny_cost\"></div>\r\n					</div>\r\n					<button class=\"action_btn\"></button>\r\n				</div>\r\n			</div>\r\n			<div class=\"log_panel\">\r\n				<div class=\"caution\"></div>\r\n				<div class=\"status\"></div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Enchant/Enchant.css?raw
@@ -242129,6 +249684,7 @@ var init_Enchant = __esmMin((() => {
 	init_ChatBox();
 	init_Inventory();
 	init_KeyEventHandler();
+	init_LocalizeDOM();
 	init_Enchant$2();
 	init_Enchant$1();
 	Enchant = new GUIComponent("Enchant", Enchant_default$1);
@@ -242227,6 +249783,7 @@ var init_Enchant = __esmMin((() => {
 	};
 	Enchant.init = function init() {
 		const root = _root$9();
+		applyLocaleAttributes(root);
 		this.ui.css({
 			top: 200,
 			left: 360
@@ -242431,6 +249988,7 @@ var init_Enchant = __esmMin((() => {
 	};
 	Network.hookPacket(PACKET.ZC.RESPONSE_ENCHANT, onEnchantResult);
 	Enchant_default = UIManager.addComponent(Enchant);
+	if (typeof globalThis !== "undefined") globalThis.__happyroEnchantVerification = Enchant;
 }));
 //#endregion
 //#region src/UI/Components/Rodex/WriteRodex.html?raw
@@ -242626,7 +250184,6 @@ var init_WriteRodex = __esmMin((() => {
 	init_DBManager();
 	init_ChatBox();
 	init_SessionStorage();
-	init_MonsterTable();
 	init_Preferences$1();
 	init_Renderer();
 	init_ItemInfo();
@@ -242692,7 +250249,7 @@ var init_WriteRodex = __esmMin((() => {
 	};
 	WriteRodex.characterInfo = function characterInfo(pkt) {
 		const root = _root$8();
-		const text = `Lv${pkt.level}<br>${MonsterTable_default[pkt.Job]}<br>${pkt.CharID}`;
+		const text = `Lv${pkt.level}<br>${DB.getJobName(pkt.Job)}<br>${pkt.CharID}`;
 		root.querySelector(".validate-name").style.display = "none";
 		const baloon = root.querySelector(".baloon");
 		baloon.innerHTML = text;
@@ -242792,21 +250349,6 @@ var init_WriteRodex = __esmMin((() => {
 		WriteRodex._host.style.display = "none";
 	};
 	WriteRodex_default = UIManager.addComponent(WriteRodex);
-}));
-//#endregion
-//#region src/Localization/LocalizeDOM.js
-function applyLocaleAttributes(root) {
-	root.querySelectorAll("[data-locale-key]").forEach((element) => {
-		element.textContent = getMessage(element.dataset.localeKey, element.textContent.trim());
-	});
-	root.querySelectorAll("[data-locale-title-key]").forEach((element) => {
-		const label = getMessage(element.dataset.localeTitleKey, element.title);
-		element.title = label;
-		element.setAttribute("aria-label", label);
-	});
-}
-var init_LocalizeDOM = __esmMin((() => {
-	init_MessageCatalog();
 }));
 //#endregion
 //#region src/UI/Components/Inventory/InventoryCommon.js
@@ -244120,6 +251662,7 @@ function createStorage(config) {
 	}
 	Component.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		root.querySelectorAll(".tabs button").forEach((btn, idx) => {
 			btn.addEventListener("mousedown", () => onSwitchTab(idx));
 		});
@@ -244534,12 +252077,13 @@ var init_StorageCommon = __esmMin((() => {
 	init_ItemInfo();
 	init_CartItems();
 	init_Inventory();
+	init_LocalizeDOM();
 }));
 //#endregion
 //#region src/UI/Components/Storage/StorageV0/Storage.html?raw
 var Storage_default$5;
 var init_Storage$7 = __esmMin((() => {
-	Storage_default$5 = "<div id=\"Storage\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<span class=\"text\"><ui-text msg=\"169\">Storage</ui-text></span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td\r\n					class=\"tabs\"\r\n					rowspan=\"2\"\r\n					data-background=\"basic_interface/tab_itm_ex_01.bmp\"\r\n					data-preload=\"basic_interface/tab_itm_ex_02.bmp;basic_interface/tab_itm_ex_03.bmp;basic_interface/tab_itm_ex_04.bmp;basic_interface/tab_itm_ex_05.bmp;basic_interface/tab_itm_ex_06.bmp;basic_interface/tab_itm_ex_07.bmp\"\r\n				>\r\n					<button class=\"item\"></button>\r\n					<button class=\"kafra\"></button>\r\n					<button class=\"armor\"></button>\r\n					<button class=\"arms\"></button>\r\n					<button class=\"ammo\"></button>\r\n					<button class=\"card\"></button>\r\n					<button class=\"etc\"></button>\r\n				</td>\r\n				<td class=\"container\">\r\n					<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n					<span class=\"current\">0</span>/<span class=\"limit\">0</span>\r\n					<ui-button\r\n						class=\"close\"\r\n						bg=\"btn_close.bmp\"\r\n						hover=\"btn_close_a.bmp\"\r\n						down=\"btn_close_b.bmp\"\r\n					></ui-button>\r\n					<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
+	Storage_default$5 = "<div id=\"Storage\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.storage.title\">Storage</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td\r\n					class=\"tabs\"\r\n					rowspan=\"2\"\r\n					data-background=\"basic_interface/tab_itm_ex_01.bmp\"\r\n					data-preload=\"basic_interface/tab_itm_ex_02.bmp;basic_interface/tab_itm_ex_03.bmp;basic_interface/tab_itm_ex_04.bmp;basic_interface/tab_itm_ex_05.bmp;basic_interface/tab_itm_ex_06.bmp;basic_interface/tab_itm_ex_07.bmp\"\r\n				>\r\n					<button class=\"item\"></button>\r\n					<button class=\"kafra\"></button>\r\n					<button class=\"armor\"></button>\r\n					<button class=\"arms\"></button>\r\n					<button class=\"ammo\"></button>\r\n					<button class=\"card\"></button>\r\n					<button class=\"etc\"></button>\r\n				</td>\r\n				<td class=\"container\">\r\n					<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n					<span class=\"current\">0</span>/<span class=\"limit\">0</span>\r\n					<ui-button\r\n						class=\"close\"\r\n						bg=\"btn_close.bmp\"\r\n						hover=\"btn_close_a.bmp\"\r\n						down=\"btn_close_b.bmp\"\r\n					></ui-button>\r\n					<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Storage/StorageV0/Storage.css?raw
@@ -244565,7 +252109,7 @@ var init_Storage$5 = __esmMin((() => {
 //#region src/UI/Components/Storage/StorageV3/StorageFilter.html?raw
 var StorageFilter_default$1;
 var init_StorageFilter$2 = __esmMin((() => {
-	StorageFilter_default$1 = "<div id=\"StorageFilter\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<span class=\"text\">Item Filter</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n\r\n	<div class=\"panel\">\r\n		<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n	</div>\r\n\r\n	<div class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n		<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n	</div>\r\n</div>\r\n";
+	StorageFilter_default$1 = "<div id=\"StorageFilter\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.storage.filter-title\">Item Filter</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n\r\n	<div class=\"panel\">\r\n		<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n	</div>\r\n\r\n	<div class=\"footer\" data-background=\"basic_interface/btnbar_mid2.bmp\">\r\n		<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Storage/StorageV3/StorageFilter.css?raw
@@ -244609,6 +252153,7 @@ var init_StorageFilter = __esmMin((() => {
 	init_GUIComponent();
 	init_Elements();
 	init_ItemInfo();
+	init_LocalizeDOM();
 	init_StorageFilter$2();
 	init_StorageFilter$1();
 	StorageFilter.prototype = Object.create(GUIComponent.prototype);
@@ -244616,6 +252161,7 @@ var init_StorageFilter = __esmMin((() => {
 	StorageFilter.prototype.init = function init() {
 		const self = this;
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const closeBtn = root.querySelector(".titlebar .right .close");
 		if (closeBtn) {
 			closeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
@@ -244826,7 +252372,7 @@ var init_StorageFilter = __esmMin((() => {
 //#region src/UI/Components/Storage/StorageV3/Storage.html?raw
 var Storage_default$2;
 var init_Storage$4 = __esmMin((() => {
-	Storage_default$2 = "<div id=\"Storage\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<span class=\"text\"><ui-text msg=\"169\">Storage</ui-text></span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tbody>\r\n				<tr>\r\n					<td\r\n						colspan=\"2\"\r\n						class=\"tabs\"\r\n						data-background=\"basic_interface/tab_itm_ex_01.bmp\"\r\n						data-preload=\"basic_interface/tab_itm_ex_02.bmp;basic_interface/tab_itm_ex_03.bmp;basic_interface/tab_itm_ex_04.bmp;basic_interface/tab_itm_ex_05.bmp;basic_interface/tab_itm_ex_06.bmp;basic_interface/tab_itm_ex_07.bmp\"\r\n					>\r\n						<button class=\"item\"></button>\r\n						<button class=\"kafra\"></button>\r\n						<button class=\"armor\"></button>\r\n						<button class=\"arms\"></button>\r\n						<button class=\"ammo\"></button>\r\n						<button class=\"card\"></button>\r\n						<button class=\"etc\"></button>\r\n					</td>\r\n					<td class=\"container\">\r\n						<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n					</td>\r\n				</tr>\r\n			</tbody>\r\n			<tfoot class=\"footer\" data-background=\"basic_interface/btnbar_mid3.bmp\">\r\n				<tr>\r\n					<td colspan=\"3\" class=\"filter-buttons\">\r\n						<button\r\n							class=\"filter-use\"\r\n							data-tab-id=\"0\"\r\n							data-title=\"Use\"\r\n							data-background=\"basic_interface/¼Òºñ-2.bmp\"\r\n							data-down=\"basic_interface/¼Òºñ-1.bmp\"\r\n							data-active=\"basic_interface/¼Òºñ-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-kafra\"\r\n							data-tab-id=\"1\"\r\n							data-title=\"Cash\"\r\n							data-background=\"basic_interface/Ä³½Ã-2.bmp\"\r\n							data-down=\"basic_interface/Ä³½Ã-1.bmp\"\r\n							data-active=\"basic_interface/Ä³½Ã-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-armor\"\r\n							data-tab-id=\"2\"\r\n							data-title=\"Armor\"\r\n							data-background=\"basic_interface/ÀÇ»ó-2.bmp\"\r\n							data-down=\"basic_interface/ÀÇ»ó-1.bmp\"\r\n							data-active=\"basic_interface/ÀÇ»ó-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-arms\"\r\n							data-tab-id=\"3\"\r\n							data-title=\"Weapon\"\r\n							data-background=\"basic_interface/¹«±â-2.bmp\"\r\n							data-down=\"basic_interface/¹«±â-1.bmp\"\r\n							data-active=\"basic_interface/¹«±â-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-ammo\"\r\n							data-tab-id=\"4\"\r\n							data-title=\"Ammo\"\r\n							data-background=\"basic_interface/Åõ»çÃ¼-2.bmp\"\r\n							data-down=\"basic_interface/Åõ»çÃ¼-1.bmp\"\r\n							data-active=\"basic_interface/Åõ»çÃ¼-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-card\"\r\n							data-tab-id=\"5\"\r\n							data-title=\"Card\"\r\n							data-background=\"basic_interface/Ä«µå-2.bmp\"\r\n							data-down=\"basic_interface/Ä«µå-1.bmp\"\r\n							data-active=\"basic_interface/Ä«µå-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-etc\"\r\n							data-tab-id=\"6\"\r\n							data-title=\"Etc\"\r\n							data-background=\"basic_interface/±âÅ¸-2.bmp\"\r\n							data-down=\"basic_interface/±âÅ¸-1.bmp\"\r\n							data-active=\"basic_interface/±âÅ¸-1.bmp\"\r\n						></button>\r\n						<select class=\"storage-order-by\">\r\n							<option value=\"BASE\">Base</option>\r\n							<option value=\"UPGRADE\">Upgrade</option>\r\n							<option value=\"DOWNGRADE\">Downgrade</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td colspan=\"2\">\r\n						<div class=\"item_num_display\">\r\n							<button class=\"item_num\" data-background=\"inventory/icon_num.bmp\"></button>\r\n							<span class=\"current\">0</span><span class=\"divider\">/</span><span class=\"limit\">0</span>\r\n						</div>\r\n					</td>\r\n					<td>\r\n						<div class=\"search-container\">\r\n							<input id=\"storage-search-input\" type=\"text\" class=\"search-input\" />\r\n							<ui-button\r\n								class=\"search-button\"\r\n								bg=\"bt_search_normal.bmp\"\r\n								hover=\"bt_search_over.bmp\"\r\n								down=\"bt_search_press.bmp\"\r\n							></ui-button>\r\n						</div>\r\n						<ui-button\r\n							class=\"close\"\r\n							bg=\"btn_close.bmp\"\r\n							hover=\"btn_close_a.bmp\"\r\n							down=\"btn_close_b.bmp\"\r\n						></ui-button>\r\n						<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n					</td>\r\n				</tr>\r\n			</tfoot>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
+	Storage_default$2 = "<div id=\"Storage\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.storage.title\">Storage</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tbody>\r\n				<tr>\r\n					<td\r\n						colspan=\"2\"\r\n						class=\"tabs\"\r\n						data-background=\"basic_interface/tab_itm_ex_01.bmp\"\r\n						data-preload=\"basic_interface/tab_itm_ex_02.bmp;basic_interface/tab_itm_ex_03.bmp;basic_interface/tab_itm_ex_04.bmp;basic_interface/tab_itm_ex_05.bmp;basic_interface/tab_itm_ex_06.bmp;basic_interface/tab_itm_ex_07.bmp\"\r\n					>\r\n						<button class=\"item\"></button>\r\n						<button class=\"kafra\"></button>\r\n						<button class=\"armor\"></button>\r\n						<button class=\"arms\"></button>\r\n						<button class=\"ammo\"></button>\r\n						<button class=\"card\"></button>\r\n						<button class=\"etc\"></button>\r\n					</td>\r\n					<td class=\"container\">\r\n						<div class=\"content\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n					</td>\r\n				</tr>\r\n			</tbody>\r\n			<tfoot class=\"footer\" data-background=\"basic_interface/btnbar_mid3.bmp\">\r\n				<tr>\r\n					<td colspan=\"3\" class=\"filter-buttons\">\r\n						<button\r\n							class=\"filter-use\"\r\n							data-tab-id=\"0\"\r\n							data-title=\"Use\"\r\n							data-background=\"basic_interface/¼Òºñ-2.bmp\"\r\n							data-down=\"basic_interface/¼Òºñ-1.bmp\"\r\n							data-active=\"basic_interface/¼Òºñ-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-kafra\"\r\n							data-tab-id=\"1\"\r\n							data-title=\"Cash\"\r\n							data-background=\"basic_interface/Ä³½Ã-2.bmp\"\r\n							data-down=\"basic_interface/Ä³½Ã-1.bmp\"\r\n							data-active=\"basic_interface/Ä³½Ã-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-armor\"\r\n							data-tab-id=\"2\"\r\n							data-title=\"Armor\"\r\n							data-background=\"basic_interface/ÀÇ»ó-2.bmp\"\r\n							data-down=\"basic_interface/ÀÇ»ó-1.bmp\"\r\n							data-active=\"basic_interface/ÀÇ»ó-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-arms\"\r\n							data-tab-id=\"3\"\r\n							data-title=\"Weapon\"\r\n							data-background=\"basic_interface/¹«±â-2.bmp\"\r\n							data-down=\"basic_interface/¹«±â-1.bmp\"\r\n							data-active=\"basic_interface/¹«±â-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-ammo\"\r\n							data-tab-id=\"4\"\r\n							data-title=\"Ammo\"\r\n							data-background=\"basic_interface/Åõ»çÃ¼-2.bmp\"\r\n							data-down=\"basic_interface/Åõ»çÃ¼-1.bmp\"\r\n							data-active=\"basic_interface/Åõ»çÃ¼-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-card\"\r\n							data-tab-id=\"5\"\r\n							data-title=\"Card\"\r\n							data-background=\"basic_interface/Ä«µå-2.bmp\"\r\n							data-down=\"basic_interface/Ä«µå-1.bmp\"\r\n							data-active=\"basic_interface/Ä«µå-1.bmp\"\r\n						></button>\r\n						<button\r\n							class=\"filter-etc\"\r\n							data-tab-id=\"6\"\r\n							data-title=\"Etc\"\r\n							data-background=\"basic_interface/±âÅ¸-2.bmp\"\r\n							data-down=\"basic_interface/±âÅ¸-1.bmp\"\r\n							data-active=\"basic_interface/±âÅ¸-1.bmp\"\r\n						></button>\r\n						<select class=\"storage-order-by\">\r\n							<option value=\"BASE\" data-locale-key=\"robrowser.ui.storage.order.base\">Base</option>\r\n							<option value=\"UPGRADE\" data-locale-key=\"robrowser.ui.storage.order.upgrade\">Upgrade</option>\r\n							<option value=\"DOWNGRADE\" data-locale-key=\"robrowser.ui.storage.order.downgrade\">Downgrade</option>\r\n						</select>\r\n					</td>\r\n				</tr>\r\n				<tr>\r\n					<td colspan=\"2\">\r\n						<div class=\"item_num_display\">\r\n							<button class=\"item_num\" data-background=\"inventory/icon_num.bmp\"></button>\r\n							<span class=\"current\">0</span><span class=\"divider\">/</span><span class=\"limit\">0</span>\r\n						</div>\r\n					</td>\r\n					<td>\r\n						<div class=\"search-container\">\r\n							<input id=\"storage-search-input\" type=\"text\" class=\"search-input\" />\r\n							<ui-button\r\n								class=\"search-button\"\r\n								bg=\"bt_search_normal.bmp\"\r\n								hover=\"bt_search_over.bmp\"\r\n								down=\"bt_search_press.bmp\"\r\n							></ui-button>\r\n						</div>\r\n						<ui-button\r\n							class=\"close\"\r\n							bg=\"btn_close.bmp\"\r\n							hover=\"btn_close_a.bmp\"\r\n							down=\"btn_close_b.bmp\"\r\n						></ui-button>\r\n						<button class=\"extend\" data-background=\"btn_resize.bmp\"></button>\r\n					</td>\r\n				</tr>\r\n			</tfoot>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Storage/StorageV3/Storage.css?raw
@@ -244867,6 +252413,7 @@ var init_Storage$1 = __esmMin((() => {
 		prere: {}
 	};
 	StorageController = UIVersionManager.getUIController(publicName$5, versionInfo$5);
+	if (typeof globalThis !== "undefined") globalThis.__happyroStorageVerification = StorageController;
 	_selectUIVersion$2 = StorageController.selectUIVersion;
 	StorageController.selectUIVersion = function() {
 		_selectUIVersion$2();
@@ -244996,8 +252543,8 @@ function onItemOver$10(_e) {
 	const idx = parseInt(this.getAttribute("data-index"), 10);
 	const item = CartItems.getItemByIndex(idx);
 	if (!item) return;
-	let quantity = " ea";
-	if ((item.type === ItemType_default.WEAPON || item.type === ItemType_default.ARMOR) && item.Options && item.Options.filter((Option) => Option.index !== 0).length > 0) quantity = " Quantity";
+	let quantity = getMessage("robrowser.ui.cart.quantity-each", " ea");
+	if ((item.type === ItemType_default.WEAPON || item.type === ItemType_default.ARMOR) && item.Options && item.Options.filter((Option) => Option.index !== 0).length > 0) quantity = getMessage("robrowser.ui.cart.quantity-options", " Quantity");
 	const root = CartItems.getRoot();
 	const overlay = root.querySelector(".overlay");
 	const rootEl = root.querySelector("#cartitems") || root;
@@ -245125,6 +252672,8 @@ var init_CartItems = __esmMin((() => {
 	init_Storage$1();
 	init_Inventory();
 	init_Equipment();
+	init_LocalizeDOM();
+	init_MessageCatalog();
 	CartItems = new GUIComponent("CartItems", CartItems_default$1);
 	CartItems.render = () => CartItems_default$2;
 	/**
@@ -245145,6 +252694,7 @@ var init_CartItems = __esmMin((() => {
 	*/
 	CartItems.init = function Init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const baseBtn = root.querySelector(".titlebar .base");
 		if (baseBtn) baseBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
 		const miniBtn = root.querySelector(".titlebar .mini");
@@ -246618,11 +254168,6 @@ function onItemPreview(pkt) {
 		}
 	}
 }
-/**
-* Build moveInfo tooltip html content
-* @param {object} moveInfo
-* @returns {string} html content
-*/
 function buildMoveInfoTooltip(moveInfo) {
 	const lines = [];
 	for (const entry of MOVE_INFO_MESSAGES) if (moveInfo[entry.key] === true) lines.push(entry.message);
@@ -246880,6 +254425,12 @@ var init_ItemInfo = __esmMin((() => {
 			for (i = 0, count = animation.layers.length; i < count; ++i) _entity.renderLayer(animation.layers[i], _sprite$3, _sprite$3, 1, position, false);
 		};
 	})();
+	/**
+	* Build moveInfo tooltip html content
+	* @param {object} moveInfo
+	* @returns {string} html content
+	*/
+	if (typeof globalThis !== "undefined") globalThis.__happyroItemInfoVerification = ItemInfo;
 	/**
 	* Cleanup moveInfo tooltip and restore cursor state.
 	* Called when ItemInfo UI is removed.
@@ -247169,6 +254720,7 @@ var init_ChatRoomCreate = __esmMin((() => {
 	init_NpcBox();
 	init_NpcMenu();
 	init_InputBox();
+	init_LocalizeDOM();
 	ChatRoomCreate = new GUIComponent("ChatRoomCreate", ChatRoomCreate_default$1);
 	/**
 	* Render HTML
@@ -247202,6 +254754,7 @@ var init_ChatRoomCreate = __esmMin((() => {
 	*/
 	ChatRoomCreate.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		root.querySelector(".close").addEventListener("mousedown", (event) => {
 			event.stopImmediatePropagation();
 		});
@@ -247330,6 +254883,10 @@ var init_ChatRoomCreate = __esmMin((() => {
 	ChatRoomCreate.captureKeyEvents = true;
 	ChatRoomCreate.needFocus = true;
 	ChatRoomCreate.editMode = false;
+	/**
+	* Create component and export it
+	*/
+	if (typeof globalThis !== "undefined") globalThis.__happyroChatRoomVerification = ChatRoomCreate;
 	ChatRoomCreate_default = UIManager.addComponent(ChatRoomCreate);
 }));
 //#endregion
@@ -247368,36 +254925,36 @@ function onMemberContextMenu(event) {
 	ContextMenu_default.remove();
 	ContextMenu_default.append();
 	if (isOwner && isSelf) {
-		ContextMenu_default.addElement(DB.getMessage(126, "Change room settings"), () => {
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.change-settings", "Change room settings"), () => {
 			ChatRoom.openRoomSettings();
 		});
-		ContextMenu_default.addElement(DB.getMessage(1360, "View Info %s").replace("%s", memberName), () => {
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.view-info", "View Info %s").replace("%s", memberName), () => {
 			viewMemberEquip(memberName);
 		});
 	} else if (isOwner && !isSelf) {
-		ContextMenu_default.addElement(DB.getMessage(127, "Kick member"), () => {
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.kick", "Kick member"), () => {
 			ChatRoom.requestExpelMember(memberName);
 		});
-		ContextMenu_default.addElement(DB.getMessage(128, "Transfer leadership"), () => {
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.transfer", "Transfer leadership"), () => {
 			ChatRoom.requestRoleChange(0, memberName);
 		});
-		ContextMenu_default.addElement(DB.getMessage(1360, "View Info %s").replace("%s", memberName), () => {
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.view-info", "View Info %s").replace("%s", memberName), () => {
 			viewMemberEquip(memberName);
 		});
-		if (!FriendEngine.isFriend(memberName)) ContextMenu_default.addElement(DB.getMessage(358, "Add as friend"), () => {
+		if (!FriendEngine.isFriend(memberName)) ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.add-friend", "Add as friend"), () => {
 			FriendEngine.addFriend(memberName);
 		});
-		ContextMenu_default.addElement(DB.getMessage(126, "Change room settings"), () => {
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.change-settings", "Change room settings"), () => {
 			ChatRoom.openRoomSettings();
 		});
 	} else if (!isOwner && !isSelf) {
-		ContextMenu_default.addElement(DB.getMessage(1360, "View Info %s").replace("%s", memberName), () => {
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.view-info", "View Info %s").replace("%s", memberName), () => {
 			viewMemberEquip(memberName);
 		});
-		if (!FriendEngine.isFriend(memberName)) ContextMenu_default.addElement(DB.getMessage(358, "Add as friend"), () => {
+		if (!FriendEngine.isFriend(memberName)) ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.add-friend", "Add as friend"), () => {
 			FriendEngine.addFriend(memberName);
 		});
-	} else ContextMenu_default.addElement(DB.getMessage(1360, "View Info %s").replace("%s", memberName), () => {
+	} else ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.view-info", "View Info %s").replace("%s", memberName), () => {
 		viewMemberEquip(memberName);
 	});
 }
@@ -247480,13 +255037,13 @@ var init_ChatRoom$1 = __esmMin((() => {
 	init_ChatRoom$3();
 	init_ChatRoom$2();
 	init_ProcessCommand();
-	init_DBManager();
 	init_EntityManager();
 	init_Equipment();
 	init_Friends();
 	init_NpcBox();
 	init_NpcMenu();
 	init_InputBox();
+	init_MessageCatalog();
 	ChatRoom = new GUIComponent("ChatRoom", ChatRoom_default$1);
 	/**
 	* Render HTML
@@ -247685,6 +255242,18 @@ var init_ChatRoom$1 = __esmMin((() => {
 	ChatRoom.mouseMode = GUIComponent.MouseMode.STOP;
 	ChatRoom.captureKeyEvents = true;
 	ChatRoom.needFocus = true;
+	/**
+	* Create component and export it
+	*/
+	if (typeof globalThis !== "undefined") globalThis.__happyroChatRoomMenuVerification = { openOwnerMenu() {
+		ChatRoom.title = "Test Room";
+		ChatRoom.limit = 20;
+		ChatRoom.count = 2;
+		ChatRoom.owner = SessionStorage_default.Entity.display.name;
+		ChatRoom.members = [SessionStorage_default.Entity.display.name, "HappyTest"];
+		ChatRoom.append();
+		ChatRoom.updateChat();
+	} };
 	ChatRoom_default = UIManager.addComponent(ChatRoom);
 }));
 //#endregion
@@ -247985,7 +255554,7 @@ var init_Group = __esmMin((() => {
 		*/
 		static onRequestInvitation(AID, pseudo) {
 			if (!SessionStorage_default.hasParty || !SessionStorage_default.isPartyLeader) return;
-			ChatBox_default.addText(pseudo + " " + DB.getMessage(2059, " has recieved an invitation to join your party."), ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PARTY_SETUP);
+			ChatBox_default.addText(pseudo + " " + getLegacyMessage(2059, DB.getMessage(2059, " has recieved an invitation to join your party.")), ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PARTY_SETUP);
 			if (PacketVerManager_default.value >= 20130529) {
 				const pkt = new PACKET.CZ.PARTY_JOIN_REQ();
 				pkt.characterName = pseudo;
@@ -249679,7 +257248,7 @@ function createSkillListMH(type) {
 		cssText: SkillList_default$1,
 		listOnly: true,
 		dragFrom: "SkillListMH",
-		titlebarText: type === "homunculus" ? "Homunculus Skills" : "Mercenary Skills",
+		titlebarText: type === "homunculus" ? getMessage("robrowser.ui.homunculus.skills", "Homunculus Skills") : getMessage("robrowser.ui.mercenary.skills", "Mercenary Skills"),
 		containerSelector: ".SkillList",
 		preferenceDefaults: {
 			x: 100,
@@ -249697,6 +257266,7 @@ function createSkillListMH(type) {
 var SkillListMH_default;
 var init_SkillListMH = __esmMin((() => {
 	init_KeyEventHandler();
+	init_MessageCatalog();
 	init_SkillListCommon();
 	init_SkillList$3();
 	init_SkillList$2();
@@ -250089,7 +257659,7 @@ var init_AIDriver = __esmMin((() => {
 //#region src/UI/Components/HomunInformations/HomunInformations.html?raw
 var HomunInformations_default$2;
 var init_HomunInformations$2 = __esmMin((() => {
-	HomunInformations_default$2 = "<div id=\"HomunInformations\">\r\n	<div class=\"content\" data-background=\"basic_interface/homuninfo_bg.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\">Homunculus Info</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n\r\n		<div class=\"title_name\">Name</div>\r\n		<input type=\"text\" class=\"name\" value=\"\" />\r\n		<div class=\"title_level\">Level</div>\r\n		<div class=\"level\"></div>\r\n\r\n		<ui-button class=\"modify\" bg=\"btn_rewrite.bmp\" hover=\"btn_rewrite_a.bmp\" down=\"btn_rewrite_b.bmp\"></ui-button>\r\n		<ui-button class=\"skill\" bg=\"btn_skill.bmp\" hover=\"btn_skill_a.bmp\" down=\"btn_skill_b.bmp\"></ui-button>\r\n		<ui-button class=\"del\" bg=\"btn_del.bmp\" hover=\"btn_del_a.bmp\" down=\"btn_del_b.bmp\"></ui-button>\r\n\r\n		<div class=\"stats\">\r\n			<div class=\"atk\"></div>\r\n			<div class=\"Matk\"></div>\r\n			<div class=\"hit\"></div>\r\n			<div class=\"critical\"></div>\r\n			<div class=\"def\"></div>\r\n			<div class=\"Mdef\"></div>\r\n			<div class=\"flee\"></div>\r\n			<div class=\"aspd\"></div>\r\n		</div>\r\n\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp2\"></div>\r\n\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp2\"></div>\r\n\r\n		<div class=\"block2\">\r\n			<div class=\"title_exp\">\r\n				EXP\r\n				<div class=\"exp\"></div>\r\n			</div>\r\n			<canvas class=\"life title_exp\" width=\"60\" height=\"5\"></canvas>\r\n\r\n			<div class=\"title_hunger\">\r\n				Hunger\r\n				<div class=\"hunger\"></div>\r\n			</div>\r\n			<canvas class=\"life title_hunger\" width=\"60\" height=\"5\"></canvas>\r\n\r\n			<div class=\"title_intimacy\">\r\n				Intimacy\r\n				<div class=\"intimacy\"></div>\r\n			</div>\r\n		</div>\r\n\r\n		<ui-button class=\"feed\" bg=\"btn_feed.bmp\" hover=\"btn_feed_a.bmp\" down=\"btn_feed_b.bmp\"></ui-button>\r\n		<div class=\"feeding\">\r\n			<button class=\"homun_auto_feed\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n			<ui-text msg=\"2577\">Auto Feeding</ui-text>\r\n		</div>\r\n\r\n		<!--		<div class=\"title_accessory\">Accessory</div>-->\r\n		<!--		<div class=\"accessory\">Equipped</div>-->\r\n	</div>\r\n</div>\r\n";
+	HomunInformations_default$2 = "<div id=\"HomunInformations\">\r\n	<div class=\"content\" data-background=\"basic_interface/homuninfo_bg.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.homunculus.title\">Homunculus Info</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n\r\n		<div class=\"title_name\" data-locale-key=\"robrowser.ui.homunculus.name\">Name</div>\r\n		<input type=\"text\" class=\"name\" value=\"\" />\r\n		<div class=\"title_level\" data-locale-key=\"robrowser.ui.homunculus.level\">Level</div>\r\n		<div class=\"level\"></div>\r\n\r\n		<ui-button class=\"modify\" bg=\"btn_rewrite.bmp\" hover=\"btn_rewrite_a.bmp\" down=\"btn_rewrite_b.bmp\"></ui-button>\r\n		<ui-button class=\"skill\" bg=\"btn_skill.bmp\" hover=\"btn_skill_a.bmp\" down=\"btn_skill_b.bmp\"></ui-button>\r\n		<ui-button class=\"del\" bg=\"btn_del.bmp\" hover=\"btn_del_a.bmp\" down=\"btn_del_b.bmp\"></ui-button>\r\n\r\n		<div class=\"stats\">\r\n			<div class=\"atk\"></div>\r\n			<div class=\"Matk\"></div>\r\n			<div class=\"hit\"></div>\r\n			<div class=\"critical\"></div>\r\n			<div class=\"def\"></div>\r\n			<div class=\"Mdef\"></div>\r\n			<div class=\"flee\"></div>\r\n			<div class=\"aspd\"></div>\r\n		</div>\r\n\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp2\"></div>\r\n\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp2\"></div>\r\n\r\n		<div class=\"block2\">\r\n			<div class=\"title_exp\">\r\n				<span data-locale-key=\"robrowser.ui.homunculus.exp\">EXP</span>\r\n				<div class=\"exp\"></div>\r\n			</div>\r\n			<canvas class=\"life title_exp\" width=\"60\" height=\"5\"></canvas>\r\n\r\n			<div class=\"title_hunger\">\r\n				<span data-locale-key=\"robrowser.ui.homunculus.hunger\">Hunger</span>\r\n				<div class=\"hunger\"></div>\r\n			</div>\r\n			<canvas class=\"life title_hunger\" width=\"60\" height=\"5\"></canvas>\r\n\r\n			<div class=\"title_intimacy\">\r\n				<span data-locale-key=\"robrowser.ui.homunculus.intimacy\">Intimacy</span>\r\n				<div class=\"intimacy\"></div>\r\n			</div>\r\n		</div>\r\n\r\n		<ui-button class=\"feed\" bg=\"btn_feed.bmp\" hover=\"btn_feed_a.bmp\" down=\"btn_feed_b.bmp\"></ui-button>\r\n		<div class=\"feeding\">\r\n			<button class=\"homun_auto_feed\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n			<span data-locale-key=\"robrowser.ui.homunculus.auto-feed\">Auto Feeding</span>\r\n		</div>\r\n\r\n		<!--		<div class=\"title_accessory\">Accessory</div>-->\r\n		<!--		<div class=\"accessory\">Equipped</div>-->\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/HomunInformations/HomunInformations.css?raw
@@ -250138,6 +257708,7 @@ var init_HomunInformations = __esmMin((() => {
 	init_Configs();
 	init_PacketVerManager();
 	init_Elements();
+	init_LocalizeDOM();
 	init_HomunInformations$2();
 	init_HomunInformations$1();
 	autoFeedIntervalMs = 6e4;
@@ -250158,6 +257729,7 @@ var init_HomunInformations = __esmMin((() => {
 	*/
 	HomunInformations.init = function init() {
 		const root = HomunInformations.getRoot();
+		applyLocaleAttributes(root);
 		this.draggable(".content");
 		const baseEl = root.querySelector(".base");
 		if (baseEl) baseEl.addEventListener("mousedown", (e) => {
@@ -250485,12 +258057,13 @@ var init_HomunInformations = __esmMin((() => {
 	HomunInformations.reqHomunAction = function reqHomunAction() {};
 	HomunInformations.onConfigUpdate = function onConfigUpdate() {};
 	HomunInformations_default = UIManager.addComponent(HomunInformations);
+	if (typeof globalThis !== "undefined") globalThis.__happyroHomunculusVerification = HomunInformations;
 }));
 //#endregion
 //#region src/UI/Components/MercenaryInformations/MercenaryInformations.html?raw
 var MercenaryInformations_default$2;
 var init_MercenaryInformations$2 = __esmMin((() => {
-	MercenaryInformations_default$2 = "<div id=\"MercenaryInformations\">\r\n	<div class=\"content\" data-background=\"basic_interface/homuninfo_bg.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\">Mercenary Info</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n\r\n		<div class=\"title_name\">Name</div>\r\n		<div class=\"name\"></div>\r\n		<div class=\"title_level\">Level</div>\r\n		<div class=\"level\"></div>\r\n\r\n		<ui-button class=\"skill\" bg=\"btn_skill.bmp\" hover=\"btn_skill_a.bmp\" down=\"btn_skill_b.bmp\"></ui-button>\r\n		<ui-button class=\"dismiss\" bg=\"btn_del.bmp\" hover=\"btn_del_a.bmp\" down=\"btn_del_b.bmp\"></ui-button>\r\n\r\n		<div class=\"stats\">\r\n			<div class=\"atk\"></div>\r\n			<div class=\"Matk\"></div>\r\n			<div class=\"hit\"></div>\r\n			<div class=\"critical\"></div>\r\n			<div class=\"def\"></div>\r\n			<div class=\"Mdef\"></div>\r\n			<div class=\"flee\"></div>\r\n			<div class=\"aspd\"></div>\r\n		</div>\r\n\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp2\"></div>\r\n\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp2\"></div>\r\n\r\n		<div class=\"block2\">\r\n			<div class=\"title_timeleft\">\r\n				Time Left\r\n				<div class=\"timeleft\"></div>\r\n			</div>\r\n			<canvas class=\"life title_timeleft\" width=\"60\" height=\"5\"></canvas>\r\n\r\n			<div class=\"title_kills\">\r\n				Kills\r\n				<div class=\"kills\"></div>\r\n			</div>\r\n			<canvas class=\"life title_kills\" width=\"60\" height=\"5\"></canvas>\r\n\r\n			<div class=\"title_faith\">\r\n				Faith\r\n				<div class=\"faith\"></div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	MercenaryInformations_default$2 = "<div id=\"MercenaryInformations\">\r\n	<div class=\"content\" data-background=\"basic_interface/homuninfo_bg.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.mercenary.title\">Mercenary Info</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n\r\n		<div class=\"title_name\" data-locale-key=\"robrowser.ui.mercenary.name\">Name</div>\r\n		<div class=\"name\"></div>\r\n		<div class=\"title_level\" data-locale-key=\"robrowser.ui.mercenary.level\">Level</div>\r\n		<div class=\"level\"></div>\r\n\r\n		<ui-button class=\"skill\" bg=\"btn_skill.bmp\" hover=\"btn_skill_a.bmp\" down=\"btn_skill_b.bmp\"></ui-button>\r\n		<ui-button class=\"dismiss\" bg=\"btn_del.bmp\" hover=\"btn_del_a.bmp\" down=\"btn_del_b.bmp\"></ui-button>\r\n\r\n		<div class=\"stats\">\r\n			<div class=\"atk\"></div>\r\n			<div class=\"Matk\"></div>\r\n			<div class=\"hit\"></div>\r\n			<div class=\"critical\"></div>\r\n			<div class=\"def\"></div>\r\n			<div class=\"Mdef\"></div>\r\n			<div class=\"flee\"></div>\r\n			<div class=\"aspd\"></div>\r\n		</div>\r\n\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp2\"></div>\r\n\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp2\"></div>\r\n\r\n		<div class=\"block2\">\r\n			<div class=\"title_timeleft\">\r\n				<span data-locale-key=\"robrowser.ui.mercenary.time-left\">Time Left</span>\r\n				<div class=\"timeleft\"></div>\r\n			</div>\r\n			<canvas class=\"life title_timeleft\" width=\"60\" height=\"5\"></canvas>\r\n\r\n			<div class=\"title_kills\">\r\n				<span data-locale-key=\"robrowser.ui.mercenary.kills\">Kills</span>\r\n				<div class=\"kills\"></div>\r\n			</div>\r\n			<canvas class=\"life title_kills\" width=\"60\" height=\"5\"></canvas>\r\n\r\n			<div class=\"title_faith\">\r\n				<span data-locale-key=\"robrowser.ui.mercenary.faith\">Faith</span>\r\n				<div class=\"faith\"></div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MercenaryInformations/MercenaryInformations.css?raw
@@ -250514,6 +258087,7 @@ var init_MercenaryInformations = __esmMin((() => {
 	init_SkillListMH();
 	init_AIDriver();
 	init_Elements();
+	init_LocalizeDOM();
 	init_MercenaryInformations$2();
 	init_MercenaryInformations$1();
 	MercenaryInformations = new GUIComponent("MercenaryInformations", MercenaryInformations_default$1);
@@ -250529,6 +258103,7 @@ var init_MercenaryInformations = __esmMin((() => {
 	*/
 	MercenaryInformations.init = function init() {
 		const root = MercenaryInformations.getRoot();
+		applyLocaleAttributes(root);
 		this.draggable(".content");
 		const contentEl = root.querySelector(".content");
 		if (contentEl) contentEl.addEventListener("mousedown", (e) => {
@@ -250781,12 +258356,13 @@ var init_MercenaryInformations = __esmMin((() => {
 	MercenaryInformations.reqMoveTo = function reqMoveTo() {};
 	MercenaryInformations.reqMoveToOwner = function reqMoveToOwner() {};
 	MercenaryInformations_default = UIManager.addComponent(MercenaryInformations);
+	if (typeof globalThis !== "undefined") globalThis.__happyroMercenaryVerification = MercenaryInformations;
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaUpload.html?raw
 var CaptchaUpload_default$2;
 var init_CaptchaUpload$2 = __esmMin((() => {
-	CaptchaUpload_default$2 = "<div id=\"CaptchaUpload\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"custom_file_input\">\r\n			<input type=\"text\" class=\"captcha_file_text\" readonly placeholder=\"No file selected\" />\r\n			<ui-button\r\n				class=\"btn_browse\"\r\n				bg=\"basic_interface/txtbox_btn_a.bmp\"\r\n				hover=\"basic_interface/txtbox_btn_b.bmp\"\r\n				down=\"basic_interface/txtbox_btn_c.bmp\"\r\n			></ui-button>\r\n			<input type=\"file\" class=\"captcha_file_input\" accept=\"image/bmp\" style=\"display: none\" />\r\n		</div>\r\n		<div class=\"preview_box\"></div>\r\n		<div class=\"controls\">\r\n			<input type=\"text\" class=\"answer_input\" placeholder=\"Captcha Answer\" />\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	CaptchaUpload_default$2 = "<div id=\"CaptchaUpload\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"custom_file_input\">\r\n			<input\r\n				type=\"text\"\r\n				class=\"captcha_file_text\"\r\n				readonly\r\n				placeholder=\"No file selected\"\r\n				data-locale-placeholder-key=\"robrowser.ui.captcha.no-file\"\r\n			/>\r\n			<ui-button\r\n				class=\"btn_browse\"\r\n				bg=\"basic_interface/txtbox_btn_a.bmp\"\r\n				hover=\"basic_interface/txtbox_btn_b.bmp\"\r\n				down=\"basic_interface/txtbox_btn_c.bmp\"\r\n			></ui-button>\r\n			<input type=\"file\" class=\"captcha_file_input\" accept=\"image/bmp\" style=\"display: none\" />\r\n		</div>\r\n		<div class=\"preview_box\"></div>\r\n		<div class=\"controls\">\r\n			<input\r\n				type=\"text\"\r\n				class=\"answer_input\"\r\n				placeholder=\"Captcha Answer\"\r\n				data-locale-placeholder-key=\"robrowser.ui.captcha.answer\"\r\n			/>\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaUpload.css?raw
@@ -250806,6 +258382,7 @@ var init_CaptchaUpload = __esmMin((() => {
 	init_Elements();
 	init_CaptchaUpload$2();
 	init_CaptchaUpload$1();
+	init_LocalizeDOM();
 	CaptchaUpload = new GUIComponent("CaptchaUpload", CaptchaUpload_default$1);
 	_preferences$21 = Preferences.get("CaptchaUpload", {
 		x: 230,
@@ -250818,6 +258395,7 @@ var init_CaptchaUpload = __esmMin((() => {
 	*/
 	CaptchaUpload.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const closeBtn = root.querySelector(".close");
 		if (closeBtn) closeBtn.addEventListener("click", () => this.remove());
 		this.draggable(".titlebar");
@@ -250910,6 +258488,7 @@ var init_CaptchaUpload = __esmMin((() => {
 	CaptchaUpload.uploadCaptcha = function() {};
 	CaptchaUpload.compressImage = function() {};
 	CaptchaUpload_default = UIManager.addComponent(CaptchaUpload);
+	if (typeof globalThis !== "undefined") globalThis.__happyroCaptchaUploadVerification = CaptchaUpload;
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaSelector.html?raw
@@ -250934,7 +258513,6 @@ var init_CaptchaSelector = __esmMin((() => {
 	init_EntityManager();
 	init_SessionStorage();
 	init_DBManager();
-	init_MonsterTable();
 	init_Elements();
 	init_CaptchaSelector$2();
 	init_CaptchaSelector$1();
@@ -251058,7 +258636,7 @@ var init_CaptchaSelector = __esmMin((() => {
 			link.addEventListener("click", () => {
 				const charEntity = EntityManager.get(aid);
 				const charName = charEntity?.display?.name ?? "Unknown";
-				const charJob = MonsterTable_default[charEntity?._job ?? 0] ?? "Unknown";
+				const charJob = DB.getJobName(charEntity?._job ?? 0, "Unknown");
 				const charInfo = root.querySelector(".character_info");
 				if (charInfo) {
 					const nameEl = charInfo.querySelector(".character-name");
@@ -251076,7 +258654,7 @@ var init_CaptchaSelector = __esmMin((() => {
 			_aidInformation.push({
 				aid,
 				name,
-				job: MonsterTable_default[entity?._job ?? 0] ?? "Unknown"
+				job: DB.getJobName(entity?._job ?? 0, "Unknown")
 			});
 		}
 		_aidList = players;
@@ -259040,7 +266618,7 @@ var init_ShortCut = __esmMin((() => {
 				if (hotkey) container.setAttribute("data-tooltip", hotkey);
 			} else if (_list$1[i] && (_list$1[i].isSkill || _list$1[i].ID)) {
 				let name = "";
-				if (_list$1[i].isSkill && SkillInfo[_list$1[i].ID]) name = SkillInfo[_list$1[i].ID].SkillName;
+				if (_list$1[i].isSkill && SkillInfo[_list$1[i].ID]) name = DB.getSkillName(_list$1[i].ID);
 				else if (_list$1[i].ID) {
 					const item = InventoryController.getUI().getItemById(_list$1[i].ID);
 					if (item) name = DB.getItemName(item);
@@ -259079,7 +266657,7 @@ var init_ShortCut = __esmMin((() => {
 			else {
 				_list$1[index].count = count;
 				file = SkillInfo[ID].Name;
-				name = SkillInfo[ID].SkillName;
+				name = DB.getSkillName(ID);
 			}
 		} else {
 			_list$1[index].count = count;
@@ -259871,7 +267449,7 @@ var init_JoystickMouseCursorAdapter = __esmMin((() => {
 //#region src/UI/Components/JoystickUI/JoystickSelectionUI.html?raw
 var JoystickSelectionUI_default$2;
 var init_JoystickSelectionUI$2 = __esmMin((() => {
-	JoystickSelectionUI_default$2 = "<div id=\"shortcut-selection\" class=\"joystick-selection-window\">\r\n	<h3 class=\"selection-title\">Select slot for <span class=\"item-name\"></span></h3>\r\n	<div class=\"tab-container\">\r\n		<div class=\"tab-buttons\"></div>\r\n		<div class=\"shortcut-grid\"></div>\r\n	</div>\r\n	<div class=\"footer-instructions\">\r\n		Use L2/R2 to change tab, D-pad to navigate slot, A to select, Select to cancel\r\n	</div>\r\n</div>\r\n";
+	JoystickSelectionUI_default$2 = "<div id=\"shortcut-selection\" class=\"joystick-selection-window\">\r\n	<h3 class=\"selection-title\"><span data-locale-key=\"robrowser.ui.joystick.select-slot\">Select slot for</span> <span class=\"item-name\"></span></h3>\r\n	<div class=\"tab-container\">\r\n		<div class=\"tab-buttons\"></div>\r\n		<div class=\"shortcut-grid\"></div>\r\n	</div>\r\n	<div class=\"footer-instructions\">\r\n		<span data-locale-key=\"robrowser.ui.joystick.instructions\">Use L2/R2 to change tab, D-pad to navigate slot, A to select, Select to cancel</span>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/JoystickUI/JoystickSelectionUI.css?raw
@@ -259991,6 +267569,7 @@ var init_JoystickSelectionUI = __esmMin((() => {
 	init_ShortCut();
 	init_JoystickSelectionUI$2();
 	init_JoystickSelectionUI$1();
+	init_LocalizeDOM();
 	JoystickSelectionUI = new GUIComponent("JoystickSelectionUI", JoystickSelectionUI_default$1);
 	JoystickSelectionUI.render = () => JoystickSelectionUI_default$2;
 	currentTab = 0;
@@ -260068,6 +267647,7 @@ var init_JoystickSelectionUI = __esmMin((() => {
 		return false;
 	};
 	JoystickSelectionUI.init = function() {
+		applyLocaleAttributes(this.getRoot());
 		createTabButtons();
 		this._host.style.position = "fixed";
 		this._host.style.display = "none";
@@ -260090,6 +267670,7 @@ var init_JoystickSelectionUI = __esmMin((() => {
 		return this._host && this._host.style.display !== "none";
 	};
 	JoystickSelectionUI_default = UIManager.addComponent(JoystickSelectionUI);
+	if (typeof globalThis !== "undefined") globalThis.__happyroJoystickSelectionVerification = JoystickSelectionUI;
 }));
 //#endregion
 //#region src/UI/Components/JoystickUI/JoystickInteractionService.js
@@ -260522,7 +268103,7 @@ var init_JoystickModule = __esmMin((() => {
 //#region src/UI/Components/JoystickUI/JoystickUI.html?raw
 var JoystickUI_default$2;
 var init_JoystickUI$2 = __esmMin((() => {
-	JoystickUI_default$2 = "<div id=\"JoystickUI\">\r\n	<div class=\"set-indicator\">\r\n		<span class=\"set-btn active\">Set 1</span>\r\n		<span class=\"set-btn\">Set 2</span>\r\n	</div>\r\n\r\n	<div class=\"hotkey-bar\">\r\n		<div class=\"group-container\" data-group=\"L1\">\r\n			<div class=\"group-header\">L1</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"group-container\" data-group=\"L2\">\r\n			<div class=\"group-header\">L2</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"group-container center-group\" data-group=\"L1R1\">\r\n			<div class=\"group-header\">L1+R1</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"group-container\" data-group=\"R2\">\r\n			<div class=\"group-header\">R2</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"group-container\" data-group=\"R1\">\r\n			<div class=\"group-header\">R1</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	JoystickUI_default$2 = "<div id=\"JoystickUI\">\r\n	<div class=\"set-indicator\">\r\n		<span class=\"set-btn active\" data-locale-key=\"robrowser.ui.joystick.set-1\">Set 1</span>\r\n		<span class=\"set-btn\" data-locale-key=\"robrowser.ui.joystick.set-2\">Set 2</span>\r\n	</div>\r\n\r\n	<div class=\"hotkey-bar\">\r\n		<div class=\"group-container\" data-group=\"L1\">\r\n			<div class=\"group-header\">L1</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"group-container\" data-group=\"L2\">\r\n			<div class=\"group-header\">L2</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"group-container center-group\" data-group=\"L1R1\">\r\n			<div class=\"group-header\">L1+R1</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"group-container\" data-group=\"R2\">\r\n			<div class=\"group-header\">R2</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"group-container\" data-group=\"R1\">\r\n			<div class=\"group-header\">R1</div>\r\n			<div class=\"cross-layout\">\r\n				<div class=\"slot top\">\r\n					<span class=\"key-label\">Y</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot left\">\r\n					<span class=\"key-label\">X</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot right\">\r\n					<span class=\"key-label\">B</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n				<div class=\"slot bottom\">\r\n					<span class=\"key-label\">A</span>\r\n					<div class=\"icon\" style=\"display: none\">\r\n						<div class=\"img\"></div>\r\n						<div class=\"amount\"></div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/JoystickUI/JoystickUI.css?raw
@@ -260540,10 +268121,12 @@ var init_JoystickUI = __esmMin((() => {
 	init_JoystickSelectionUI();
 	init_JoystickUI$2();
 	init_JoystickUI$1();
+	init_LocalizeDOM();
 	init_JoystickUIRenderer();
 	JoystickUI = new GUIComponent("JoystickUI", JoystickUI_default$1);
 	JoystickUI.render = () => JoystickUI_default$2;
 	JoystickUI.onAppend = function() {
+		applyLocaleAttributes(this.getRoot());
 		JoystickUIRenderer_default.attach(this.ui);
 		this._host.style.display = "none";
 		JoystickSelectionUI_default.append();
@@ -260561,6 +268144,7 @@ var init_JoystickUI = __esmMin((() => {
 		this._host.style.display = "none";
 	};
 	JoystickUI_default = UIManager.addComponent(JoystickUI);
+	if (typeof globalThis !== "undefined") globalThis.__happyroJoystickVerification = JoystickUI;
 }));
 //#endregion
 //#region src/Renderer/Effects/Shaders/GLSL/Bloom.fs?raw
@@ -300342,6 +307926,7 @@ var init_DBManager = __esmMin((() => {
 	init_PacketStructure();
 	init_PacketVerManager();
 	init_MemoryManager();
+	init_MessageCatalog();
 	init_preload_helper();
 	MsgStringTable = [];
 	JokeTable = [];
@@ -300665,7 +308250,7 @@ var init_DBManager = __esmMin((() => {
 			return TitleTable[titleID] || "";
 		}
 		static getSkillName(skillID) {
-			return SkillInfo[skillID] && SkillInfo[skillID].SkillName || "";
+			return getSkillDisplayName(skillID, SkillInfo[skillID] && SkillInfo[skillID].SkillName || "");
 		}
 		/**
 		* Actor Type checks
@@ -301731,6 +309316,9 @@ var init_DBManager = __esmMin((() => {
 				item.prefixName = item.prefixName || "";
 				item.isPostfix = item.isPostfix || false;
 				item.processitemlist = item.processitemlist && item.processitemlist instanceof Array ? item.processitemlist.join("\n") : "";
+				if (item.identifiedDisplayName) item.identifiedDisplayName = getItemDisplayName$1(itemid, "name", item.identifiedDisplayName);
+				if (item.unidentifiedDisplayName) item.unidentifiedDisplayName = getItemDisplayName$1(itemid, "unidentified", item.unidentifiedDisplayName);
+				if (item.identifiedDescriptionName) item.identifiedDescriptionName = getItemDisplayName$1(itemid, "description", item.identifiedDescriptionName);
 				item._decoded = true;
 			}
 			return item;
@@ -301936,7 +309524,15 @@ var init_DBManager = __esmMin((() => {
 			if (!mapname) return typeof defaultName === "undefined" ? DB.getMessage(187) : defaultName;
 			const map = mapname.replace(".gat", ".rsw");
 			if (!(map in MapTable) || !MapTable[map].name) return typeof defaultName === "undefined" ? DB.getMessage(187) : defaultName;
-			return MapTable[map].name;
+			return getMapDisplayName(map, "display", MapTable[map].name);
+		}
+		/**
+		* Get job display name without changing sprite resource paths.
+		*
+		* @param {number} job id
+		*/
+		static getJobName(job, fallback) {
+			return getJobName(job, fallback ?? MonsterTable_default[job] ?? "");
 		}
 		/**
 		* Get monster name
@@ -301944,7 +309540,7 @@ var init_DBManager = __esmMin((() => {
 		* @param {number} job id
 		*/
 		static getMonsterName(job) {
-			return MonsterNameTable_default[job] ?? "Unknown";
+			return getMonsterDisplayName(job, MonsterNameTable_default[job] ?? "Unknown");
 		}
 		/**
 		* Get back town information by mapname
@@ -301958,7 +309554,16 @@ var init_DBManager = __esmMin((() => {
 		* @param {number} efst id
 		*/
 		static getMapInfo(mapname) {
-			return MapInfo[mapname] || null;
+			const info = MapInfo[mapname];
+			if (!info) return null;
+			const localized = { ...info };
+			if (info.displayName) localized.displayName = getMapDisplayName(mapname, "display", info.displayName);
+			if (info.signName) {
+				localized.signName = { ...info.signName };
+				if (info.signName.mainTitle) localized.signName.mainTitle = getMapDisplayName(mapname, "main", info.signName.mainTitle);
+				if (info.signName.subTitle) localized.signName.subTitle = getMapDisplayName(mapname, "sub", info.signName.subTitle);
+			}
+			return localized;
 		}
 		/**
 		* Get the whole Laphine Synthesis Table
@@ -302343,7 +309948,7 @@ var init_DBManager = __esmMin((() => {
 		* @author alisonrag
 		*/
 		static getQuestInfo(questID) {
-			return QuestInfo[questID] || {
+			const quest = QuestInfo[questID] || {
 				Title: "Unknown Quest",
 				Description: [],
 				Summary: "Uknown Quest",
@@ -302355,6 +309960,11 @@ var init_DBManager = __esmMin((() => {
 				RewardItemList: [],
 				RewardEXP: 0,
 				RewardJEXP: 0
+			};
+			return {
+				...quest,
+				Title: getQuestDisplayText(questID, "title", quest.Title),
+				Summary: getQuestDisplayText(questID, "summary", quest.Summary)
 			};
 		}
 		static getCheckAttendanceInfo() {
@@ -302986,12 +310596,16 @@ var init_DBManager = __esmMin((() => {
 		broken_limit_buff: "effectId",
 		abyss_flame_target: "hitEffectId"
 	};
+	if (typeof globalThis !== "undefined") globalThis.__happyroDBVerification = {
+		getSkillName: (skillID) => DB.getSkillName(skillID),
+		getQuestInfo: (questID) => DB.getQuestInfo(questID)
+	};
 }));
 //#endregion
 //#region src/UI/Components/PetInformations/PetInformations.html?raw
 var PetInformations_default$2;
 var init_PetInformations$2 = __esmMin((() => {
-	PetInformations_default$2 = "<div id=\"PetInformations\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-text=\"584\">Pet Info</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"title_name\">Name</div>\r\n		<input type=\"text\" class=\"name\" value=\"\" />\r\n		<div class=\"title_level\">Level</div>\r\n		<div class=\"level\"></div>\r\n		<button\r\n			class=\"modify\"\r\n			data-background=\"btn_edit.bmp\"\r\n			data-hover=\"btn_edit_a.bmp\"\r\n			data-down=\"btn_edit_b.bmp\"\r\n		></button>\r\n\r\n		<div class=\"title_hunger\">Hunger</div>\r\n		<div class=\"hunger\"></div>\r\n		<div class=\"title_intimacy\">Intimacy</div>\r\n		<div class=\"intimacy\"></div>\r\n\r\n		<div class=\"title_accessory\">Accessory</div>\r\n		<div class=\"accessory\">Equipped</div>\r\n		<div class=\"feeding\">\r\n			<span data-text=\"2577\">Auto Feeding</span\r\n			><button class=\"pet_auto_feed\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n		</div>\r\n\r\n		<select class=\"command\">\r\n			<option value=\"default\">&lt; Command &gt;</option>\r\n			<option value=\"feed\" data-text=\"592\">Feed Pet</option>\r\n			<option value=\"action\" data-text=\"593\">Performance</option>\r\n			<option value=\"release\" data-text=\"594\">Return to Egg Shell</option>\r\n			<option value=\"unequip\" data-text=\"595\">Unequip Accessory</option>\r\n		</select>\r\n	</div>\r\n</div>\r\n";
+	PetInformations_default$2 = "<div id=\"PetInformations\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.pet.title\">Pet Info</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"title_name\" data-locale-key=\"robrowser.ui.pet.name\">Name</div>\r\n		<input type=\"text\" class=\"name\" value=\"\" />\r\n		<div class=\"title_level\" data-locale-key=\"robrowser.ui.pet.level\">Level</div>\r\n		<div class=\"level\"></div>\r\n		<button\r\n			class=\"modify\"\r\n			data-background=\"btn_edit.bmp\"\r\n			data-hover=\"btn_edit_a.bmp\"\r\n			data-down=\"btn_edit_b.bmp\"\r\n		></button>\r\n\r\n		<div class=\"title_hunger\" data-locale-key=\"robrowser.ui.pet.hunger\">Hunger</div>\r\n		<div class=\"hunger\"></div>\r\n		<div class=\"title_intimacy\" data-locale-key=\"robrowser.ui.pet.intimacy\">Intimacy</div>\r\n		<div class=\"intimacy\"></div>\r\n\r\n		<div class=\"title_accessory\" data-locale-key=\"robrowser.ui.pet.accessory\">Accessory</div>\r\n		<div class=\"accessory\" data-locale-key=\"robrowser.ui.pet.equipped\">Equipped</div>\r\n		<div class=\"feeding\">\r\n			<span data-locale-key=\"robrowser.ui.pet.auto-feed\">Auto Feeding</span\r\n			><button class=\"pet_auto_feed\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n		</div>\r\n\r\n		<select class=\"command\">\r\n			<option value=\"default\" data-locale-key=\"robrowser.ui.pet.command\">&lt; Command &gt;</option>\r\n			<option value=\"feed\" data-text=\"592\">Feed Pet</option>\r\n			<option value=\"action\" data-text=\"593\">Performance</option>\r\n			<option value=\"release\" data-text=\"594\">Return to Egg Shell</option>\r\n			<option value=\"unequip\" data-text=\"595\">Unequip Accessory</option>\r\n		</select>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/PetInformations/PetInformations.css?raw
@@ -303009,6 +310623,7 @@ var init_PetInformations = __esmMin((() => {
 	init_Renderer();
 	init_UIManager();
 	init_GUIComponent();
+	init_LocalizeDOM();
 	init_PetInformations$2();
 	init_PetInformations$1();
 	init_KeyEventHandler();
@@ -303028,6 +310643,7 @@ var init_PetInformations = __esmMin((() => {
 	PetInformations.init = function init() {
 		this.draggable(".titlebar");
 		const root = PetInformations.getRoot();
+		applyLocaleAttributes(root);
 		const closeBtn = root.querySelector(".close");
 		if (closeBtn) {
 			closeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
@@ -303218,12 +310834,13 @@ var init_PetInformations = __esmMin((() => {
 	PetInformations.reqEvolution = function reqEvolution() {};
 	PetInformations.onConfigUpdate = function onConfigUpdate() {};
 	PetInformations_default = UIManager.addComponent(PetInformations);
+	if (typeof globalThis !== "undefined") globalThis.__happyroPetVerification = PetInformations;
 }));
 //#endregion
 //#region src/UI/Components/Trade/Trade.html?raw
 var Trade_default$2;
 var init_Trade$3 = __esmMin((() => {
-	Trade_default$2 = "<div id=\"Trade\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		Trade : <span class=\"title\"></span>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"content\">\r\n		<ui-image src=\"basic_interface/exchange_bg2.bmp\"></ui-image>\r\n		<div class=\"box send\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n		<div class=\"box recv\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n\r\n		<input type=\"text\" class=\"zeny send\" value=\"0\" />\r\n		<div class=\"zeny recv disabled\">0</div>\r\n\r\n		<ui-button class=\"btn ok enabled\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn ok disabled\" bg=\"btn_ok_dis.bmp\"></ui-button>\r\n		<ui-button\r\n			class=\"btn trade enabled\"\r\n			bg=\"btn_exchange.bmp\"\r\n			hover=\"btn_exchange_a.bmp\"\r\n			down=\"btn_exchange_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn trade disabled\" bg=\"btn_exchange_dis.bmp\"></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+	Trade_default$2 = "<div id=\"Trade\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<span data-locale-key=\"robrowser.ui.trade.title\">Trade :</span> <span class=\"title\"></span>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"content\">\r\n		<ui-image src=\"basic_interface/exchange_bg2.bmp\"></ui-image>\r\n		<div class=\"box send\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n		<div class=\"box recv\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n\r\n		<input type=\"text\" class=\"zeny send\" value=\"0\" />\r\n		<div class=\"zeny recv disabled\">0</div>\r\n\r\n		<ui-button class=\"btn ok enabled\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn ok disabled\" bg=\"btn_ok_dis.bmp\"></ui-button>\r\n		<ui-button\r\n			class=\"btn trade enabled\"\r\n			bg=\"btn_exchange.bmp\"\r\n			hover=\"btn_exchange_a.bmp\"\r\n			down=\"btn_exchange_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn trade disabled\" bg=\"btn_exchange_dis.bmp\"></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Trade/Trade.css?raw
@@ -303421,6 +311038,7 @@ var init_Trade$1 = __esmMin((() => {
 	init_ChatBox();
 	init_Trade$3();
 	init_Trade$2();
+	init_LocalizeDOM();
 	Trade = new GUIComponent("Trade", Trade_default$1);
 	/**
 	* HTML returned by render()
@@ -303442,6 +311060,7 @@ var init_Trade$1 = __esmMin((() => {
 	*/
 	Trade.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const okBtn = root.querySelector(".ok.enabled");
 		if (okBtn) {
 			okBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
@@ -303610,6 +311229,7 @@ var init_Trade$1 = __esmMin((() => {
 	* Set mouse mode
 	*/
 	Trade.mouseMode = GUIComponent.MouseMode.STOP;
+	if (typeof globalThis !== "undefined") globalThis.__happyroTradeVerification = Trade;
 	Trade_default = UIManager.addComponent(Trade);
 }));
 //#endregion
@@ -303658,6 +311278,7 @@ var init_EntityControl = __esmMin((() => {
 	init_Group();
 	init_HomunInformations();
 	init_MercenaryInformations();
+	init_MessageCatalog();
 	mat4$1 = gl_matrix_default.mat4;
 	vec2$1 = gl_matrix_default.vec2;
 	_matrix = mat4$1.create();
@@ -303939,10 +311560,10 @@ var init_EntityControl = __esmMin((() => {
 				case Entity.TYPE_PC:
 					ContextMenu_default.remove();
 					ContextMenu_default.append();
-					ContextMenu_default.addElement(DB.getMessage(1360).replace("%s", this.display.name), () => {
+					ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.view-info", "View Info %s").replace("%s", this.display.name), () => {
 						EquipmentController.onCheckPlayerEquipment(entity.GID);
 					});
-					ContextMenu_default.addElement(DB.getMessage(87).replace("%s", this.display.name), () => {
+					ContextMenu_default.addElement(getMessage("robrowser.ui.player-menu.trade", "Trade with %s").replace("%s", this.display.name), () => {
 						Trade_default.reqExchange(entity.GID, entity.display.name);
 					});
 					if (SessionStorage_default.hasGuild) {
@@ -303959,18 +311580,18 @@ var init_EntityControl = __esmMin((() => {
 							});
 						}
 					}
-					ContextMenu_default.addElement(DB.getMessage(360), () => {
+					ContextMenu_default.addElement(getMessage("robrowser.ui.party-friends.chat-1to1", "1:1 Chat"), () => {
 						controller.onOpenChat1to1(entity.display.name);
 					});
 					if (!FriendEngine.isFriend(this.display.name)) {
 						ContextMenu_default.nextGroup();
-						ContextMenu_default.addElement(DB.getMessage(358), () => {
+						ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.add-friend", "Add as friend"), () => {
 							FriendEngine.addFriend(entity.display.name);
 						});
 					}
 					if (SessionStorage_default.hasParty && SessionStorage_default.isPartyLeader) {
 						ContextMenu_default.nextGroup();
-						ContextMenu_default.addElement(DB.getMessage(88).replace("%s", this.display.name), () => {
+						ContextMenu_default.addElement(getMessage("robrowser.ui.player-menu.invite", "Invite %s to party").replace("%s", this.display.name), () => {
 							GroupEngine.onRequestInvitation(entity.GID, entity.display.name);
 						});
 					}
@@ -304020,6 +311641,14 @@ var init_EntityControl = __esmMin((() => {
 			return false;
 		}
 	};
+	if (typeof globalThis !== "undefined") globalThis.__happyroPlayerMenuVerification = { openSampleMenu(name = "HappyTest") {
+		ContextMenu_default.remove();
+		ContextMenu_default.append();
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.view-info", "View Info %s").replace("%s", name), () => {});
+		ContextMenu_default.addElement(getMessage("robrowser.ui.player-menu.trade", "Trade with %s").replace("%s", name), () => {});
+		ContextMenu_default.addElement(getMessage("robrowser.ui.party-friends.chat-1to1", "1:1 Chat"), () => {});
+		ContextMenu_default.addElement(getMessage("robrowser.ui.chat-room.menu.add-friend", "Add as friend"), () => {});
+	} };
 }));
 //#endregion
 //#region src/Renderer/Entity/EntityAction.js
@@ -313828,7 +321457,7 @@ var init_MapControl = __esmMin((() => {
 //#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.html?raw
 var VendingModelMessage_default$2;
 var init_VendingModelMessage$2 = __esmMin((() => {
-	VendingModelMessage_default$2 = "<div id=\"VendingModelMessage\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<!-- data-text does not exist -->\r\n			<span class=\"text\">Message</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"text_message\">\r\n			<span class=\"text message\"></span>\r\n		</div>\r\n		<div class=\"btns\">\r\n			<button\r\n				class=\"btn ok\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	VendingModelMessage_default$2 = "<div id=\"VendingModelMessage\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<!-- data-text does not exist -->\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.vending.message\">Message</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"text_message\">\r\n			<span class=\"text message\"></span>\r\n		</div>\r\n		<div class=\"btns\">\r\n			<button\r\n				class=\"btn ok\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.css?raw
@@ -313844,6 +321473,7 @@ var init_VendingModelMessage = __esmMin((() => {
 	init_Renderer();
 	init_UIManager();
 	init_GUIComponent();
+	init_LocalizeDOM();
 	init_VendingModelMessage$2();
 	init_VendingModelMessage$1();
 	VendingModelMessage = new GUIComponent("VendingModelMessage", VendingModelMessage_default$1);
@@ -313852,6 +321482,7 @@ var init_VendingModelMessage = __esmMin((() => {
 	* Initialize UI
 	*/
 	VendingModelMessage.init = function init() {
+		applyLocaleAttributes(this.getRoot());
 		Object.assign(this._host.style, {
 			top: (Renderer.height - 200) / 2 + "px",
 			left: (Renderer.width - 200) / 2 + "px"
@@ -313878,7 +321509,7 @@ var init_VendingModelMessage = __esmMin((() => {
 //#region src/UI/Components/Vending/Vending.html?raw
 var Vending_default$2;
 var init_Vending$2 = __esmMin((() => {
-	Vending_default$2 = "<div id=\"vending\">\r\n	<div class=\"InputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\"><ui-text msg=\"232\">Available Items for Vending</ui-text></span>\r\n				<span class=\"WinBuy\"><ui-text msg=\"1733\">Available Items for Buying</ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<div class=\"overlay\"></div>\r\n			<div class=\"content available\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n	<div class=\"OutputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\"><ui-text msg=\"224\">Vending</ui-text></span>\r\n				<span class=\"WinBuy\"><ui-text msg=\"1720\">Buying</ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<div class=\"nstore\"><ui-text msg=\"407\">Name</ui-text></div>\r\n			<input class=\"shopname\" type=\"text\" value=\"\" maxlength=\"36\" /><br />\r\n			<div class=\"content add_shop\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer WinBuy\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<span class=\"WinBuy zenyLabel\"><ui-text msg=\"2464\">Zeny</ui-text></span>\r\n			<span class=\"WinBuy zenySpan\">0</span>\r\n			<span class=\"WinBuy weightLabel\">Weigth:</span>\r\n			<span class=\"WinBuy weightSpan\">0/0</span>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"limit WinBuy\"><ui-text msg=\"1723\">Purchase Zeny Limit</ui-text></div>\r\n			<input class=\"limitZeny WinBuy\" type=\"text\" value=\"\" maxlength=\"36\" /><br />\r\n			<div class=\"zeny WinBuy\"><ui-text msg=\"2464\">Zeny</ui-text></div>\r\n			<ui-button class=\"btn sell\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n			<ui-button\r\n				class=\"btn cancel\"\r\n				bg=\"btn_cancel.bmp\"\r\n				hover=\"btn_cancel_a.bmp\"\r\n				down=\"btn_cancel_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	Vending_default$2 = "<div id=\"vending\">\r\n	<div class=\"InputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\" data-locale-key=\"robrowser.ui.vending.available-sell\">Available Items for Vending</span>\r\n				<span class=\"WinBuy\" data-locale-key=\"robrowser.ui.vending.available-buy\">Available Items for Buying</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<div class=\"overlay\"></div>\r\n			<div class=\"content available\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n	<div class=\"OutputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\" data-locale-key=\"robrowser.ui.vending.title\">Vending</span>\r\n				<span class=\"WinBuy\" data-locale-key=\"robrowser.ui.vending.buying\">Buying</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<div class=\"nstore\" data-locale-key=\"robrowser.ui.vending.name\">Name</div>\r\n			<input class=\"shopname\" type=\"text\" value=\"\" maxlength=\"36\" /><br />\r\n			<div class=\"content add_shop\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer WinBuy\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<span class=\"WinBuy zenyLabel\" data-locale-key=\"robrowser.ui.vending.zeny\">Zeny</span>\r\n			<span class=\"WinBuy zenySpan\">0</span>\r\n			<span class=\"WinBuy weightLabel\" data-locale-key=\"robrowser.ui.vending.weight\">Weight:</span>\r\n			<span class=\"WinBuy weightSpan\">0/0</span>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"limit WinBuy\" data-locale-key=\"robrowser.ui.vending.purchase-limit\">Purchase Zeny Limit</div>\r\n			<input class=\"limitZeny WinBuy\" type=\"text\" value=\"\" maxlength=\"36\" /><br />\r\n			<div class=\"zeny WinBuy\" data-locale-key=\"robrowser.ui.vending.zeny\">Zeny</div>\r\n			<ui-button class=\"btn sell\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n			<ui-button\r\n				class=\"btn cancel\"\r\n				bg=\"btn_cancel.bmp\"\r\n				hover=\"btn_cancel_a.bmp\"\r\n				down=\"btn_cancel_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Vending/Vending.css?raw
@@ -314155,6 +321786,7 @@ var init_Vending = __esmMin((() => {
 	init_Renderer();
 	init_Inventory();
 	init_BasicInfo();
+	init_LocalizeDOM();
 	Vending = new GUIComponent("Vending", Vending_default$1);
 	Vending.render = () => Vending_default$2;
 	Vending.isOpen = false;
@@ -314181,6 +321813,7 @@ var init_Vending = __esmMin((() => {
 	Vending.captureKeyEvents = true;
 	Vending.init = function init() {
 		const root = Vending.getRoot();
+		applyLocaleAttributes(root);
 		const sellBtn = root.querySelector(".btn.sell");
 		if (sellBtn) {
 			sellBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
@@ -314461,6 +322094,7 @@ var init_Vending = __esmMin((() => {
 	};
 	Vending.mouseMode = GUIComponent.MouseMode.STOP;
 	Vending_default = UIManager.addComponent(Vending);
+	if (typeof globalThis !== "undefined") globalThis.__happyroVendingVerification = Vending;
 }));
 //#endregion
 //#region src/UI/Components/VendingShop/VendingShop.html?raw
@@ -315381,7 +323015,7 @@ var init_ChangeCart = __esmMin((() => {
 //#region src/UI/Components/CartDecoration/CartDecoration.html?raw
 var CartDecoration_default$2;
 var init_CartDecoration$2 = __esmMin((() => {
-	CartDecoration_default$2 = "<div id=\"cartdecoration\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\">Cart Decoration</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"carts\">\r\n		<div class=\"cart\" data-id=\"10\">\r\n			<canvas\r\n				id=\"deco_cart10\"\r\n				class=\"canvas\"\r\n				width=\"75\"\r\n				height=\"80\"\r\n				style=\"pointer-events: none\"\r\n				data-id=\"10\"\r\n			></canvas>\r\n		</div>\r\n		<div class=\"cart\" data-id=\"11\">\r\n			<canvas\r\n				id=\"deco_cart11\"\r\n				class=\"canvas\"\r\n				width=\"75\"\r\n				height=\"80\"\r\n				style=\"pointer-events: none\"\r\n				data-id=\"11\"\r\n			></canvas>\r\n		</div>\r\n		<div class=\"cart\" data-id=\"12\">\r\n			<canvas\r\n				id=\"deco_cart12\"\r\n				class=\"canvas\"\r\n				width=\"75\"\r\n				height=\"80\"\r\n				style=\"pointer-events: none\"\r\n				data-id=\"12\"\r\n			></canvas>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	CartDecoration_default$2 = "<div id=\"cartdecoration\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.cart-decoration.title\">Cart Decoration</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"carts\">\r\n		<div class=\"cart\" data-id=\"10\">\r\n			<canvas\r\n				id=\"deco_cart10\"\r\n				class=\"canvas\"\r\n				width=\"75\"\r\n				height=\"80\"\r\n				style=\"pointer-events: none\"\r\n				data-id=\"10\"\r\n			></canvas>\r\n		</div>\r\n		<div class=\"cart\" data-id=\"11\">\r\n			<canvas\r\n				id=\"deco_cart11\"\r\n				class=\"canvas\"\r\n				width=\"75\"\r\n				height=\"80\"\r\n				style=\"pointer-events: none\"\r\n				data-id=\"11\"\r\n			></canvas>\r\n		</div>\r\n		<div class=\"cart\" data-id=\"12\">\r\n			<canvas\r\n				id=\"deco_cart12\"\r\n				class=\"canvas\"\r\n				width=\"75\"\r\n				height=\"80\"\r\n				style=\"pointer-events: none\"\r\n				data-id=\"12\"\r\n			></canvas>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CartDecoration/CartDecoration.css?raw
@@ -315462,6 +323096,7 @@ var init_CartDecoration = __esmMin((() => {
 	init_DBManager();
 	init_CartDecoration$2();
 	init_CartDecoration$1();
+	init_LocalizeDOM();
 	CartDecoration = new GUIComponent("CartDecoration", CartDecoration_default$1);
 	/**
 	* Render HTML
@@ -315480,6 +323115,7 @@ var init_CartDecoration = __esmMin((() => {
 	*/
 	CartDecoration.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		this._host.style.top = (Renderer.height - 100) / 2 + "px";
 		this._host.style.left = (Renderer.width - 255) / 2 + "px";
 		root.querySelector(".titlebar .close").addEventListener("click", () => {
@@ -315534,6 +323170,7 @@ var init_CartDecoration = __esmMin((() => {
 	};
 	CartDecoration.mouseMode = GUIComponent.MouseMode.STOP;
 	CartDecoration_default = UIManager.addComponent(CartDecoration);
+	if (typeof globalThis !== "undefined") globalThis.__happyroCartDecorationVerification = CartDecoration;
 }));
 //#endregion
 //#region src/UI/Components/Emoticons/Emoticons.html?raw
@@ -316169,7 +323806,8 @@ function createElement(index) {
 		const count = lines.length;
 		for (let i = 0; i < count; ++i) {
 			const line = document.createElement("div");
-			line.textContent = lines[i][0];
+			const messageKey = STATUS_MESSAGE_KEYS[index]?.[i];
+			line.textContent = messageKey ? getMessage(`robrowser.ui.${messageKey}`, lines[i][0]) : lines[i][0];
 			if (lines[i][1]) line.style.color = lines[i][1];
 			line.innerHTML = line.innerHTML.replace("%s", "<span class=\"time\">0</span>");
 			info.appendChild(line);
@@ -316231,7 +323869,7 @@ function renderStatus(status, now) {
 		const tick = (end - now) / 1e3 | 0;
 		const seconds = tick % 60;
 		const minutes = tick / 60 | 0;
-		status.time.textContent = now >= end || end === Infinity ? "" : (minutes ? `${minutes} ${DB.getMessage(1807, "minute")} ` : "") + `${seconds} ${DB.getMessage(1808, "second")}`;
+		status.time.textContent = now >= end || end === Infinity ? "" : (minutes ? `${minutes} ${getMessage("robrowser.ui.status-icons.minute", "minute")} ` : "") + `${seconds} ${getMessage("robrowser.ui.status-icons.second", "second")}`;
 	}
 }
 /**
@@ -316248,7 +323886,7 @@ function rendering$1(tick) {
 		for (let i = 0; i < count; ++i) renderStatus(_status[indexes[i]], tick);
 	}
 }
-var StatusIcons, _status, _last_updated_time, _render_time, TKM_ICON_OVERRIDE, StatusIcons_default;
+var StatusIcons, _status, _last_updated_time, _render_time, TKM_ICON_OVERRIDE, STATUS_MESSAGE_KEYS, StatusIcons_default;
 var init_StatusIcons = __esmMin((() => {
 	init_StatusInfo();
 	init_StatusConst();
@@ -316260,6 +323898,7 @@ var init_StatusIcons = __esmMin((() => {
 	init_GUIComponent();
 	init_ScreenEffectManager();
 	init_SessionStorage();
+	init_MessageCatalog();
 	init_StatusIcons$2();
 	init_StatusIcons$1();
 	StatusIcons = new GUIComponent("StatusIcons", StatusIcons_default$1);
@@ -316283,6 +323922,85 @@ var init_StatusIcons = __esmMin((() => {
 		[StatusConst_default.PROPERTYGROUND]: "i_p_EARTH.tga",
 		[StatusConst_default.PROPERTYDARK]: "i_p_DARK.tga",
 		[StatusConst_default.PROPERTYTELEKINESIS]: "i_p_TELE.tga"
+	};
+	STATUS_MESSAGE_KEYS = {
+		[StatusConst_default.CONCENTRATION]: [
+			"status-icons.concentration.title",
+			null,
+			"status-icons.concentration.stats",
+			"status-icons.concentration.detect"
+		],
+		[StatusConst_default.SUFFRAGIUM]: [
+			"status-icons.suffragium.title",
+			null,
+			"status-icons.suffragium.cast-time"
+		],
+		[StatusConst_default.ANGELUS]: [
+			"status-icons.angelus.title",
+			null,
+			"status-icons.angelus.defense"
+		],
+		[StatusConst_default.HIDING]: [
+			"status-icons.hiding.title",
+			null,
+			"status-icons.hiding.avoid-attacks",
+			"status-icons.hiding.detect"
+		],
+		[StatusConst_default.WEIGHTOVER50]: ["status-icons.overweight-50.title", "status-icons.overweight.recovery"],
+		[StatusConst_default.ENDURE]: [
+			"status-icons.endure.title",
+			null,
+			"status-icons.endure.actions",
+			"status-icons.endure.while-damaged"
+		],
+		[StatusConst_default.BLESSING]: [
+			"status-icons.blessing.title",
+			null,
+			"status-icons.blessing.stats",
+			"status-icons.blessing.recovery"
+		],
+		[StatusConst_default.MAGNIFICAT]: [
+			"status-icons.magnificat.title",
+			null,
+			"status-icons.magnificat.recovery"
+		],
+		[StatusConst_default.PROVOKE]: [
+			"status-icons.provoke.title",
+			null,
+			"status-icons.provoke.defense",
+			"status-icons.provoke.attack"
+		],
+		[StatusConst_default.IMPOSITIO]: [
+			"status-icons.impositio.title",
+			null,
+			"status-icons.impositio.damage"
+		],
+		[StatusConst_default.KYRIE]: [
+			"status-icons.kyrie.title",
+			null,
+			"status-icons.kyrie.barrier"
+		],
+		[StatusConst_default.CLOAKING]: [
+			"status-icons.cloaking.title",
+			null,
+			"status-icons.cloaking.invisible"
+		],
+		[StatusConst_default.ASPERSIO]: [
+			"status-icons.aspersio.title",
+			null,
+			"status-icons.aspersio.holy"
+		],
+		[StatusConst_default.WEIGHTOVER90]: [
+			"status-icons.overweight-90.title",
+			"status-icons.overweight.recovery",
+			"status-icons.overweight-90.disabled"
+		],
+		[StatusConst_default.ENERGYCOAT]: [
+			"status-icons.energy-coat.title",
+			null,
+			"status-icons.energy-coat.reduces-damage",
+			"status-icons.energy-coat.sp"
+		]
 	};
 	/**
 	* Start rendering icons
@@ -316333,13 +324051,17 @@ var init_StatusIcons = __esmMin((() => {
 		loadStatusIcon(index);
 		ScreenEffectManager.parseStatus(index);
 	};
+	if (typeof globalThis !== "undefined") globalThis.__happyroStatusVerification = {
+		StatusIcons,
+		SC: StatusConst_default
+	};
 	StatusIcons_default = UIManager.addComponent(StatusIcons);
 }));
 //#endregion
 //#region src/UI/Components/CashShop/CashShop.html?raw
 var CashShop_default$2;
 var init_CashShop$3 = __esmMin((() => {
-	CashShop_default$2 = "<div id=\"CashShop\" data-background=\"cashshop/img_shop_bg.bmp\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"text\">Sell List</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<div class=\"panel-content\">\r\n			<div class=\"panel-banner\">\r\n				<div class=\"banner-slides\"></div>\r\n				<ul class=\"banner-dots\"></ul>\r\n			</div>\r\n			<div id=\"panel-menu\" class=\"panel-menu\">\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"0\"\r\n					data-title=\"New\"\r\n					data-background=\"cashshop/img_shop_tap0_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap0_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap0_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"1\"\r\n					data-title=\"Popular\"\r\n					data-background=\"cashshop/img_shop_tap1_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap1_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap1_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"2\"\r\n					data-title=\"Limited Sale\"\r\n					data-background=\"cashshop/img_shop_tap2_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap2_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap2_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"3\"\r\n					data-title=\"Rental Equipment\"\r\n					data-background=\"cashshop/img_shop_tap3_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap3_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap3_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"4\"\r\n					data-title=\"Permanent Equipment\"\r\n					data-background=\"cashshop/img_shop_tap4_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap4_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap4_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"5\"\r\n					data-title=\"Scrolls\"\r\n					data-background=\"cashshop/img_shop_tap5_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap5_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap5_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"6\"\r\n					data-title=\"Consumables\"\r\n					data-background=\"cashshop/img_shop_tap6_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap6_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap6_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"7\"\r\n					data-title=\"Other\"\r\n					data-background=\"cashshop/img_shop_tap7_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap7_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap7_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"8\"\r\n					data-title=\"Account Limited\"\r\n					data-background=\"cashshop/img_shop_tap8_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap8_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap8_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div id=\"panel-items\" class=\"panel-items\"></div>\r\n			<div class=\"panel-pagination\">\r\n				<button\r\n					class=\"go-first pagi-handler\"\r\n					data-index=\"1\"\r\n					data-background=\"cashshop/bt_arrowL2_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"go-prev pagi-handler\"\r\n					data-index=\"2\"\r\n					data-background=\"cashshop/bt_arrowL_on.bmp\"\r\n				></button>\r\n				<span class=\"pagi-changepage\">1</span><span>/</span><span class=\"pagi-countpage\">1</span>\r\n				<button\r\n					class=\"go-next pagi-handler\"\r\n					data-index=\"3\"\r\n					data-background=\"cashshop/bt_arrowR_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"go-last pagi-handler\"\r\n					data-index=\"4\"\r\n					data-background=\"cashshop/bt_arrowR2_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div class=\"panel-footer\">\r\n				<input type=\"text\" id=\"cashshop-search\" class=\"cashshop-search\" placeholder=\"Item Search\" />\r\n				<button\r\n					id=\"cashshop-search-btn\"\r\n					class=\"cashshop-search-btn\"\r\n					data-background=\"cashshop/btn_searchbar_normal.bmp\"\r\n					data-hover=\"cashshop/btn_searchbar_over.bmp\"\r\n					data-down=\"cashshop/btn_searchbar_press.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n		<div class=\"panel-cart\">\r\n			<div class=\"panel-cart-header\">\r\n				<div class=\"panel-cart-header-title\">Buy List</div>\r\n				<div class=\"panel-cart-charging-view\">\r\n					<div id=\"cashpoint\" class=\"view-cash-point\"><span>0</span></div>\r\n					<div class=\"panel-cart-cash-points\">\r\n						<button\r\n							class=\"panel-cart-charge-btn\"\r\n							data-background=\"cashshop/btn_charge_normal.bmp\"\r\n							data-down=\"cashshop/btn_charge_press.bmp\"\r\n						>\r\n							Charging\r\n						</button>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div class=\"panel-cart-body\" data-background=\"cashshop/img_shop_cart_bg.bmp\">\r\n				<div id=\"cart-list\" class=\"cart-list\">\r\n					<ul class=\"items\"></ul>\r\n				</div>\r\n			</div>\r\n			<div class=\"panel-cart-footer\">\r\n				<table>\r\n					<tr>\r\n						<td class=\"txt\">Free Points</td>\r\n						<td class=\"value free-point\">0 C</td>\r\n					</tr>\r\n					<tr>\r\n						<td class=\"txt\">Use Free Points</td>\r\n						<td class=\"value\">\r\n							<input\r\n								type=\"number\"\r\n								id=\"use-free-points\"\r\n								class=\"use-free-points\"\r\n								placeholder=\"0\"\r\n								value=\"0\"\r\n							/>C\r\n						</td>\r\n					</tr>\r\n					<tr>\r\n						<td class=\"txt\">Cash Point</td>\r\n						<td class=\"value cashpoint_footer\">0 C</td>\r\n					</tr>\r\n				</table>\r\n				<div class=\"cart-footer-action\">\r\n					<div class=\"total-price\">\r\n						<span>0 C</span>\r\n					</div>\r\n					<button\r\n						id=\"purchase-btn\"\r\n						data-background=\"cashshop/btn_buy_normal.bmp\"\r\n						data-down=\"cashshop/btn_buy_press.bmp\"\r\n					>\r\n						Purchase\r\n					</button>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n</div>\r\n";
+	CashShop_default$2 = "<div id=\"CashShop\" data-background=\"cashshop/img_shop_bg.bmp\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.cash-shop.sell-list\">Sell List</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<div class=\"panel-content\">\r\n			<div class=\"panel-banner\">\r\n				<div class=\"banner-slides\"></div>\r\n				<ul class=\"banner-dots\"></ul>\r\n			</div>\r\n			<div id=\"panel-menu\" class=\"panel-menu\">\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"0\"\r\n					data-title=\"New\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.new\"\r\n					data-background=\"cashshop/img_shop_tap0_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap0_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap0_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"1\"\r\n					data-title=\"Popular\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.popular\"\r\n					data-background=\"cashshop/img_shop_tap1_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap1_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap1_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"2\"\r\n					data-title=\"Limited Sale\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.limited\"\r\n					data-background=\"cashshop/img_shop_tap2_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap2_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap2_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"3\"\r\n					data-title=\"Rental Equipment\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.rental\"\r\n					data-background=\"cashshop/img_shop_tap3_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap3_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap3_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"4\"\r\n					data-title=\"Permanent Equipment\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.permanent\"\r\n					data-background=\"cashshop/img_shop_tap4_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap4_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap4_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"5\"\r\n					data-title=\"Scrolls\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.scrolls\"\r\n					data-background=\"cashshop/img_shop_tap5_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap5_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap5_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"6\"\r\n					data-title=\"Consumables\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.consumables\"\r\n					data-background=\"cashshop/img_shop_tap6_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap6_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap6_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"7\"\r\n					data-title=\"Other\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.other\"\r\n					data-background=\"cashshop/img_shop_tap7_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap7_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap7_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"8\"\r\n					data-title=\"Account Limited\"\r\n					data-locale-title-key=\"robrowser.ui.cash-shop.tab.account-limited\"\r\n					data-background=\"cashshop/img_shop_tap8_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap8_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap8_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div id=\"panel-items\" class=\"panel-items\"></div>\r\n			<div class=\"panel-pagination\">\r\n				<button\r\n					class=\"go-first pagi-handler\"\r\n					data-index=\"1\"\r\n					data-background=\"cashshop/bt_arrowL2_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"go-prev pagi-handler\"\r\n					data-index=\"2\"\r\n					data-background=\"cashshop/bt_arrowL_on.bmp\"\r\n				></button>\r\n				<span class=\"pagi-changepage\">1</span><span>/</span><span class=\"pagi-countpage\">1</span>\r\n				<button\r\n					class=\"go-next pagi-handler\"\r\n					data-index=\"3\"\r\n					data-background=\"cashshop/bt_arrowR_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"go-last pagi-handler\"\r\n					data-index=\"4\"\r\n					data-background=\"cashshop/bt_arrowR2_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div class=\"panel-footer\">\r\n				<input\r\n					type=\"text\"\r\n					id=\"cashshop-search\"\r\n					class=\"cashshop-search\"\r\n					placeholder=\"Item Search\"\r\n					data-locale-placeholder-key=\"robrowser.ui.cash-shop.search\"\r\n				/>\r\n				<button\r\n					id=\"cashshop-search-btn\"\r\n					class=\"cashshop-search-btn\"\r\n					data-background=\"cashshop/btn_searchbar_normal.bmp\"\r\n					data-hover=\"cashshop/btn_searchbar_over.bmp\"\r\n					data-down=\"cashshop/btn_searchbar_press.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n		<div class=\"panel-cart\">\r\n			<div class=\"panel-cart-header\">\r\n				<div class=\"panel-cart-header-title\" data-locale-key=\"robrowser.ui.cash-shop.buy-list\">Buy List</div>\r\n				<div class=\"panel-cart-charging-view\">\r\n					<div id=\"cashpoint\" class=\"view-cash-point\"><span>0</span></div>\r\n					<div class=\"panel-cart-cash-points\">\r\n						<button\r\n							class=\"panel-cart-charge-btn\"\r\n							data-background=\"cashshop/btn_charge_normal.bmp\"\r\n							data-down=\"cashshop/btn_charge_press.bmp\"\r\n						>\r\n							<span data-locale-key=\"robrowser.ui.cash-shop.charging\">Charging</span>\r\n						</button>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div class=\"panel-cart-body\" data-background=\"cashshop/img_shop_cart_bg.bmp\">\r\n				<div id=\"cart-list\" class=\"cart-list\">\r\n					<ul class=\"items\"></ul>\r\n				</div>\r\n			</div>\r\n			<div class=\"panel-cart-footer\">\r\n				<table>\r\n					<tr>\r\n						<td class=\"txt\" data-locale-key=\"robrowser.ui.cash-shop.free-points\">Free Points</td>\r\n						<td class=\"value free-point\">0 C</td>\r\n					</tr>\r\n					<tr>\r\n						<td class=\"txt\" data-locale-key=\"robrowser.ui.cash-shop.use-free-points\">Use Free Points</td>\r\n						<td class=\"value\">\r\n							<input\r\n								type=\"number\"\r\n								id=\"use-free-points\"\r\n								class=\"use-free-points\"\r\n								placeholder=\"0\"\r\n								value=\"0\"\r\n							/>C\r\n						</td>\r\n					</tr>\r\n					<tr>\r\n						<td class=\"txt\" data-locale-key=\"robrowser.ui.cash-shop.cash-point\">Cash Point</td>\r\n						<td class=\"value cashpoint_footer\">0 C</td>\r\n					</tr>\r\n				</table>\r\n				<div class=\"cart-footer-action\">\r\n					<div class=\"total-price\">\r\n						<span>0 C</span>\r\n					</div>\r\n					<button\r\n						id=\"purchase-btn\"\r\n						data-background=\"cashshop/btn_buy_normal.bmp\"\r\n						data-down=\"cashshop/btn_buy_press.bmp\"\r\n					>\r\n						<span data-locale-key=\"robrowser.ui.cash-shop.purchase\">Purchase</span>\r\n					</button>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CashShop/CashShop.css?raw
@@ -316642,7 +324364,7 @@ function onMouseMoveTab(event) {
 	});
 }
 function onMouseOverTab(target) {
-	const title = target.getAttribute("data-title");
+	const title = target.getAttribute("title") || target.getAttribute("data-title");
 	const overlay = _root$6().querySelector(".overlay");
 	if (overlay) {
 		overlay.textContent = title;
@@ -316725,6 +324447,7 @@ var init_CashShop$1 = __esmMin((() => {
 	init_Elements();
 	init_CashShop$3();
 	init_CashShop$2();
+	init_LocalizeDOM();
 	CashShop = new GUIComponent("CashShop", CashShop_default$1);
 	/**
 	* Store cash shop items
@@ -316800,6 +324523,7 @@ var init_CashShop$1 = __esmMin((() => {
 	CashShop.render = () => CashShop_default$2;
 	CashShop.init = function init() {
 		const root = _root$6();
+		applyLocaleAttributes(root);
 		root.querySelectorAll(".titlebar .base").forEach((btn) => {
 			btn.addEventListener("mousedown", stopPropagation$6);
 		});
@@ -317165,6 +324889,7 @@ var init_CashShop$1 = __esmMin((() => {
 		CashShop.pageEnd = end;
 	};
 	CashShop_default = UIManager.addComponent(CashShop);
+	if (typeof globalThis !== "undefined") globalThis.__happyroCashShopVerification = CashShop;
 }));
 //#endregion
 //#region src/UI/Components/ItemReform/ItemReform.html?raw
@@ -318948,7 +326673,7 @@ var init_RodexIcon = __esmMin((() => {
 //#region src/UI/Components/Roulette/Roulette.html?raw
 var Roulette_default$2;
 var init_Roulette$3 = __esmMin((() => {
-	Roulette_default$2 = "<div id=\"Roulette\">\r\n	<div class=\"body\" data-background=\"basic_interface/roullette/roulletteBG.bmp\">\r\n		<div class=\"titlebar\">\r\n			<div class=\"left\">\r\n				<span class=\"title\">Roulette</span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button class=\"base close\">×</button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"roulette-container\">\r\n			<div class=\"roulette-wheel\">\r\n				<div class=\"wheel-center\"></div>\r\n				<div class=\"wheel-slots\">\r\n					<!-- Slots will be generated dynamically -->\r\n				</div>\r\n				<div class=\"wheel-pointer\"></div>\r\n			</div>\r\n\r\n			<div class=\"roulette-info\">\r\n				<div class=\"points-display\">\r\n					<span class=\"label\">Points:</span>\r\n					<span class=\"points-value\">0</span>\r\n				</div>\r\n\r\n				<div class=\"buttons-container\">\r\n					<button\r\n						class=\"btn-spin\"\r\n						data-background=\"basic_interface/roullette/StartRoullette_a.bmp\"\r\n						data-hover=\"basic_interface/roullette/StartRoullette_b.bmp\"\r\n					>\r\n						<span>Spin</span>\r\n					</button>\r\n					<button class=\"btn-info\">\r\n						<span>Info</span>\r\n					</button>\r\n					<button\r\n						class=\"btn-close\"\r\n						data-background=\"basic_interface/roullette/GetWinPrize_a.bmp\"\r\n						data-hover=\"basic_interface/roullette/GetWinPrize_b.bmp\"\r\n					>\r\n						<span>Get Prize</span>\r\n					</button>\r\n				</div>\r\n\r\n				<div class=\"result-display\">\r\n					<span class=\"result-label\">Result:</span>\r\n					<div class=\"result-item\"></div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	Roulette_default$2 = "<div id=\"Roulette\">\r\n	<div class=\"body\" data-background=\"basic_interface/roullette/roulletteBG.bmp\">\r\n		<div class=\"titlebar\">\r\n			<div class=\"left\">\r\n				<span class=\"title\" data-locale-key=\"robrowser.ui.roulette.title\">Roulette</span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button class=\"base close\">×</button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"roulette-container\">\r\n			<div class=\"roulette-wheel\">\r\n				<div class=\"wheel-center\"></div>\r\n				<div class=\"wheel-slots\">\r\n					<!-- Slots will be generated dynamically -->\r\n				</div>\r\n				<div class=\"wheel-pointer\"></div>\r\n			</div>\r\n\r\n			<div class=\"roulette-info\">\r\n				<div class=\"points-display\">\r\n					<span class=\"label\" data-locale-key=\"robrowser.ui.roulette.points\">Points:</span>\r\n					<span class=\"points-value\">0</span>\r\n				</div>\r\n\r\n				<div class=\"buttons-container\">\r\n					<button\r\n						class=\"btn-spin\"\r\n						data-background=\"basic_interface/roullette/StartRoullette_a.bmp\"\r\n						data-hover=\"basic_interface/roullette/StartRoullette_b.bmp\"\r\n					>\r\n						<span data-locale-key=\"robrowser.ui.roulette.spin\">Spin</span>\r\n					</button>\r\n					<button class=\"btn-info\">\r\n						<span data-locale-key=\"robrowser.ui.roulette.info\">Info</span>\r\n					</button>\r\n					<button\r\n						class=\"btn-close\"\r\n						data-background=\"basic_interface/roullette/GetWinPrize_a.bmp\"\r\n						data-hover=\"basic_interface/roullette/GetWinPrize_b.bmp\"\r\n					>\r\n						<span data-locale-key=\"robrowser.ui.roulette.get-prize\">Get Prize</span>\r\n					</button>\r\n				</div>\r\n\r\n				<div class=\"result-display\">\r\n					<span class=\"result-label\" data-locale-key=\"robrowser.ui.roulette.result\">Result:</span>\r\n					<div class=\"result-item\"></div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Roulette/Roulette.css?raw
@@ -319014,6 +326739,7 @@ var init_Roulette$1 = __esmMin((() => {
 	init_PacketVerManager();
 	init_Roulette$3();
 	init_Roulette$2();
+	init_LocalizeDOM();
 	Roulette = new GUIComponent("Roulette", Roulette_default$1);
 	/**
 	* Render HTML
@@ -319039,6 +326765,7 @@ var init_Roulette$1 = __esmMin((() => {
 	*/
 	Roulette.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		root.querySelector(".close").addEventListener("click", () => {
 			Roulette.onClose();
 		});
@@ -319230,6 +326957,7 @@ var init_Roulette$1 = __esmMin((() => {
 		Network.sendPacket(pkt);
 	};
 	Roulette_default = UIManager.addComponent(Roulette);
+	if (typeof globalThis !== "undefined") globalThis.__happyroRouletteVerification = Roulette;
 }));
 //#endregion
 //#region src/UI/Components/PCGoldTimer/PCGoldTimer.html?raw
@@ -319448,7 +327176,7 @@ var init_MapName = __esmMin((() => {
 //#region src/UI/Components/Captcha/CaptchaAnswer.html?raw
 var CaptchaAnswer_default$2;
 var init_CaptchaAnswer$2 = __esmMin((() => {
-	CaptchaAnswer_default$2 = "<div id=\"CaptchaAnswer\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"right\"></div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"information\">\r\n			<div class=\"message\">\r\n				<ui-text msg=\"2883\">Hello, illegal software is being monitored.</ui-text><br />\r\n				<ui-text msg=\"2884\">Please enter the text below within the specified time.</ui-text><br />\r\n				<ui-text msg=\"2885\">If you enter the text wrong three times, you will get banned</ui-text><br />\r\n				<span class=\"error_text\"></span>\r\n			</div>\r\n			<div class=\"timer_bar_bg\">\r\n				<div class=\"timer_bar_fill\"></div>\r\n			</div>\r\n\r\n			<div class=\"status\">\r\n				<span class=\"retry_count\">Remaining chance: 3</span>\r\n				<span class=\"timer_text\">00:59</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"preview_box\"></div>\r\n		<div class=\"controls\">\r\n			<input type=\"text\" class=\"answer_input\" placeholder=\"Captcha Answer\" />\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	CaptchaAnswer_default$2 = "<div id=\"CaptchaAnswer\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"right\"></div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"information\">\r\n			<div class=\"message\">\r\n				<span data-locale-key=\"robrowser.ui.captcha.monitor\">Hello, illegal software is being monitored.</span><br />\r\n				<span data-locale-key=\"robrowser.ui.captcha.enter-text\">Please enter the text below within the specified time.</span><br />\r\n				<span data-locale-key=\"robrowser.ui.captcha.ban-warning\">If you enter the text wrong three times, you will get banned</span><br />\r\n				<span class=\"error_text\"></span>\r\n			</div>\r\n			<div class=\"timer_bar_bg\">\r\n				<div class=\"timer_bar_fill\"></div>\r\n			</div>\r\n\r\n			<div class=\"status\">\r\n				<span class=\"retry_count\">Remaining chance: 3</span>\r\n				<span class=\"timer_text\">00:59</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"preview_box\"></div>\r\n		<div class=\"controls\">\r\n			<input\r\n				type=\"text\"\r\n				class=\"answer_input\"\r\n				placeholder=\"Captcha Answer\"\r\n				data-locale-placeholder-key=\"robrowser.ui.captcha.answer\"\r\n			/>\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaAnswer.css?raw
@@ -319468,6 +327196,8 @@ var init_CaptchaAnswer = __esmMin((() => {
 	init_Elements();
 	init_CaptchaAnswer$2();
 	init_CaptchaAnswer$1();
+	init_LocalizeDOM();
+	init_MessageCatalog();
 	CaptchaAnswer = new GUIComponent("CaptchaAnswer", CaptchaAnswer_default$1);
 	_preferences$9 = Preferences.get("CaptchaAnswer", {
 		x: 230,
@@ -319482,6 +327212,7 @@ var init_CaptchaAnswer = __esmMin((() => {
 	CaptchaAnswer.init = function init() {
 		this.draggable(".titlebar");
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		const okBtn = root.querySelector(".ok");
 		if (okBtn) okBtn.addEventListener("click", () => {
 			const answerInput = root.querySelector(".answer_input");
@@ -319523,7 +327254,7 @@ var init_CaptchaAnswer = __esmMin((() => {
 	CaptchaAnswer.setData = function setData(retryCount, timeout) {
 		const root = this.getRoot();
 		const retryEl = root.querySelector(".retry_count");
-		if (retryEl) retryEl.textContent = DB.getMessage(2886).replace("%d", retryCount);
+		if (retryEl) retryEl.textContent = getMessage("robrowser.ui.captcha.remaining-chance", "Remaining chance: %d").replace("%d", retryCount);
 		if (timer) {
 			clearInterval(timer);
 			timer = null;
@@ -319562,7 +327293,7 @@ var init_CaptchaAnswer = __esmMin((() => {
 		const imageContainer = root.querySelector(".image_container");
 		if (imageContainer) imageContainer.innerHTML = "";
 		const retryCount = root.querySelector(".retry_count");
-		if (retryCount) retryCount.textContent = "Remaining chance: 0";
+		if (retryCount) retryCount.textContent = getMessage("robrowser.ui.captcha.remaining-chance", "Remaining chance: %d").replace("%d", 0);
 		const timerText = root.querySelector(".timer_text");
 		if (timerText) timerText.textContent = "0";
 		const errorText = root.querySelector(".error_text");
@@ -319577,6 +327308,7 @@ var init_CaptchaAnswer = __esmMin((() => {
 	*/
 	CaptchaAnswer.onSend = null;
 	CaptchaAnswer_default = UIManager.addComponent(CaptchaAnswer);
+	if (typeof globalThis !== "undefined") globalThis.__happyroCaptchaAnswerVerification = CaptchaAnswer;
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaPreview.html?raw
@@ -323166,12 +330898,28 @@ function onEntityAction(pkt) {
 		});
 	}
 	if (pkt?.damage > 0) {
-		if (srcEntity.GID === SessionStorage_default.Entity.GID) ChatBox_default.addText(DB.getMessage(1607).replace("%s", dstEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
-		else if (dstEntity.GID === SessionStorage_default.Entity.GID) ChatBox_default.addText(DB.getMessage(1605).replace("%s", srcEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
-		else if (srcEntity.GID === SessionStorage_default.homunId || srcEntity.GID === SessionStorage_default.merId || srcEntity.GID === SessionStorage_default.petId || srcEntity.GID === SessionStorage_default.elemId) ChatBox_default.addText(DB.getMessage(1608).replace("%s", srcEntity.display.name).replace("%s", dstEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
-		else if (dstEntity.GID === SessionStorage_default.homunId || dstEntity.GID === SessionStorage_default.merId || dstEntity.GID === SessionStorage_default.petId || dstEntity.GID === SessionStorage_default.elemId) ChatBox_default.addText(DB.getMessage(1606).replace("%s", dstEntity.display.name).replace("%s", srcEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
-		else if (controller.isGroupMember(srcEntity.display.name)) ChatBox_default.addText(DB.getMessage(1608).replace("%s", srcEntity.display.name).replace("%s", dstEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PARTY_BATTLE);
-		else if (controller.isGroupMember(dstEntity.display.name)) ChatBox_default.addText(DB.getMessage(1606).replace("%s", dstEntity.display.name).replace("%s", srcEntity.display.name).replace("%d", pkt.damage), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PARTY_BATTLE);
+		if (srcEntity.GID === SessionStorage_default.Entity.GID) ChatBox_default.addText(formatLegacyMessage(1607, DB.getMessage(1607), [dstEntity.display.name, pkt.damage]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
+		else if (dstEntity.GID === SessionStorage_default.Entity.GID) ChatBox_default.addText(formatLegacyMessage(1605, DB.getMessage(1605), [srcEntity.display.name, pkt.damage]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
+		else if (srcEntity.GID === SessionStorage_default.homunId || srcEntity.GID === SessionStorage_default.merId || srcEntity.GID === SessionStorage_default.petId || srcEntity.GID === SessionStorage_default.elemId) ChatBox_default.addText(formatLegacyMessage(1608, DB.getMessage(1608), [
+			srcEntity.display.name,
+			dstEntity.display.name,
+			pkt.damage
+		]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
+		else if (dstEntity.GID === SessionStorage_default.homunId || dstEntity.GID === SessionStorage_default.merId || dstEntity.GID === SessionStorage_default.petId || dstEntity.GID === SessionStorage_default.elemId) ChatBox_default.addText(formatLegacyMessage(1606, DB.getMessage(1606), [
+			dstEntity.display.name,
+			srcEntity.display.name,
+			pkt.damage
+		]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.BATTLE);
+		else if (controller.isGroupMember(srcEntity.display.name)) ChatBox_default.addText(formatLegacyMessage(1608, DB.getMessage(1608), [
+			srcEntity.display.name,
+			dstEntity.display.name,
+			pkt.damage
+		]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PARTY_BATTLE);
+		else if (controller.isGroupMember(dstEntity.display.name)) ChatBox_default.addText(formatLegacyMessage(1606, DB.getMessage(1606), [
+			dstEntity.display.name,
+			srcEntity.display.name,
+			pkt.damage
+		]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PARTY_BATTLE);
 	}
 }
 /**
@@ -324276,8 +332024,8 @@ function onBladeStopPacket(pkt) {
 function onNotifyExp(pkt) {
 	switch (pkt.expType) {
 		case 0:
-			if (pkt.varID === 1) ChatBox_default.addText(DB.getMessage(1613).replace("%d", pkt.amount), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.EXP);
-			else if (pkt.varID === 2) ChatBox_default.addText(DB.getMessage(1614).replace("%d", pkt.amount), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.EXP);
+			if (pkt.varID === 1) ChatBox_default.addText(formatLegacyMessage(1613, DB.getMessage(1613), [pkt.amount]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.EXP);
+			else if (pkt.varID === 2) ChatBox_default.addText(formatLegacyMessage(1614, DB.getMessage(1614), [pkt.amount]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.EXP);
 			break;
 		case 1: if (pkt.varID === 1) ChatBox_default.addText("Experience gained from Quest, Base:" + pkt.amount, null, ChatBox_default.FILTER.EXP, "#A442DC");
 		else if (pkt.varID === 2) ChatBox_default.addText("Experience gained from Quest, Job:" + pkt.amount, null, ChatBox_default.FILTER.EXP, "#A442DC");
@@ -324572,6 +332320,7 @@ var init_Entity = __esmMin((() => {
 	init_PartyFriends();
 	init_Equipment();
 	init_ScreenEffectManager();
+	init_MessageCatalog();
 	SkillNameDisplayExclude = [
 		SkillConst_default.TF_HIDING,
 		SkillConst_default.AS_CLOAKING,
@@ -324609,6 +332358,18 @@ var init_Entity = __esmMin((() => {
 	AVG_ATTACK_SPEED = 432;
 	MAX_ATTACKMT = AVG_ATTACK_SPEED * 2;
 	clanEmblems = {};
+	if (typeof globalThis !== "undefined") globalThis.__happyroCombatVerification = {
+		addBattleLog(id, values, filterType) {
+			ChatBox_default.addText(formatLegacyMessage(id, DB.getMessage(id), values), ChatBox_default.TYPE.INFO, filterType ?? ChatBox_default.FILTER.BATTLE);
+		},
+		addExpLog(id, amount) {
+			ChatBox_default.addText(formatLegacyMessage(id, DB.getMessage(id), [amount]), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.EXP);
+		},
+		FILTER: {
+			BATTLE: ChatBox_default.FILTER.BATTLE,
+			EXP: ChatBox_default.FILTER.EXP
+		}
+	};
 }));
 //#endregion
 //#region src/Renderer/ItemObject.js
@@ -325244,7 +333005,7 @@ var init_MakeItemSelection = __esmMin((() => {
 //#region src/UI/Components/MakeItemSelection/ItemConvertSelection/MakeModelMessage/MakeModelMessage.html?raw
 var MakeModelMessage_default$2;
 var init_MakeModelMessage$2 = __esmMin((() => {
-	MakeModelMessage_default$2 = "<div id=\"MakeModelMessage\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"text\">Message</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"text_message\">\r\n			<ui-text class=\"text\" msg=\"1584\">Consumption items are used in the synthesis. Are you sure?</ui-text>\r\n		</div>\r\n		<div class=\"btns\">\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n			<ui-button\r\n				class=\"btn cancel\"\r\n				bg=\"btn_cancel.bmp\"\r\n				hover=\"btn_cancel_a.bmp\"\r\n				down=\"btn_cancel_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	MakeModelMessage_default$2 = "<div id=\"MakeModelMessage\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.make-item.message\">Message</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"text_message\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.make-item.confirm-consume\">Consumption items are used in the synthesis. Are you sure?</span>\r\n		</div>\r\n		<div class=\"btns\">\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n			<ui-button\r\n				class=\"btn cancel\"\r\n				bg=\"btn_cancel.bmp\"\r\n				hover=\"btn_cancel_a.bmp\"\r\n				down=\"btn_cancel_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MakeItemSelection/ItemConvertSelection/MakeModelMessage/MakeModelMessage.css?raw
@@ -325271,6 +333032,7 @@ var init_MakeModelMessage = __esmMin((() => {
 	init_MakeModelMessage$2();
 	init_MakeModelMessage$1();
 	init_ConvertItems();
+	init_LocalizeDOM();
 	MakeModelMessage = new GUIComponent("MakeModelMessage", MakeModelMessage_default$1);
 	MakeModelMessage.render = () => MakeModelMessage_default$2;
 	/**
@@ -325278,6 +333040,7 @@ var init_MakeModelMessage = __esmMin((() => {
 	*/
 	MakeModelMessage.init = function init() {
 		const root = this.getRoot();
+		applyLocaleAttributes(root);
 		this._host.style.top = `${(Renderer.height - 200) / 2}px`;
 		this._host.style.left = `${(Renderer.width - 200) / 2}px`;
 		root.querySelector("ui-button.ok").addEventListener("click", onSendMaterial);
@@ -325290,7 +333053,7 @@ var init_MakeModelMessage = __esmMin((() => {
 //#region src/UI/Components/MakeItemSelection/ItemConvertSelection/ConvertItems.html?raw
 var ConvertItems_default$2;
 var init_ConvertItems$2 = __esmMin((() => {
-	ConvertItems_default$2 = "<div id=\"ConvertItems\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-text class=\"text\" msg=\"1569\">Storage</ui-text>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"body\">\r\n			<div class=\"infor_nventory\">\r\n				<div class=\"tabs\" rowspan=\"2\">\r\n					<ui-image src=\"basic_interface/chatwin1_mid.bmp\"></ui-image>\r\n				</div>\r\n				<div class=\"container\">\r\n					<div class=\"content\">\r\n						<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div>\r\n				<div class=\"footer\">\r\n					<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n					<ui-button\r\n						class=\"btn trade\"\r\n						bg=\"btn_exchange.bmp\"\r\n						hover=\"btn_exchange_a.bmp\"\r\n						down=\"btn_exchange_b.bmp\"\r\n					></ui-button>\r\n					<ui-button\r\n						class=\"btn cancel\"\r\n						bg=\"btn_cancel.bmp\"\r\n						hover=\"btn_cancel_a.bmp\"\r\n						down=\"btn_cancel_b.bmp\"\r\n					></ui-button>\r\n					<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	ConvertItems_default$2 = "<div id=\"ConvertItems\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.make-item.storage\">Storage</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"body\">\r\n			<div class=\"infor_nventory\">\r\n				<div class=\"tabs\" rowspan=\"2\">\r\n					<ui-image src=\"basic_interface/chatwin1_mid.bmp\"></ui-image>\r\n				</div>\r\n				<div class=\"container\">\r\n					<div class=\"content\">\r\n						<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div>\r\n				<div class=\"footer\">\r\n					<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n					<ui-button\r\n						class=\"btn trade\"\r\n						bg=\"btn_exchange.bmp\"\r\n						hover=\"btn_exchange_a.bmp\"\r\n						down=\"btn_exchange_b.bmp\"\r\n					></ui-button>\r\n					<ui-button\r\n						class=\"btn cancel\"\r\n						bg=\"btn_cancel.bmp\"\r\n						hover=\"btn_cancel_a.bmp\"\r\n						down=\"btn_cancel_b.bmp\"\r\n					></ui-button>\r\n					<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MakeItemSelection/ItemConvertSelection/ConvertItems.css?raw
@@ -325491,6 +333254,7 @@ var init_ConvertItems = __esmMin((() => {
 	init_ItemListWindowSelection();
 	init_MakeModelMessage();
 	init_Elements();
+	init_LocalizeDOM();
 	init_ConvertItems$2();
 	init_ConvertItems$1();
 	_preferences$6 = Preferences.get("ConvertItems", {
@@ -325509,6 +333273,7 @@ var init_ConvertItems = __esmMin((() => {
 	*/
 	ConvertItems.init = function init() {
 		const root = ConvertItems.getRoot();
+		applyLocaleAttributes(root);
 		this._host.style.top = `${(Renderer.height - 200) / 2}px`;
 		this._host.style.left = `${(Renderer.width - 10) / 2}px`;
 		this.material = [];
@@ -325662,7 +333427,7 @@ var init_ConvertItems = __esmMin((() => {
 //#region src/UI/Components/MakeItemSelection/ItemListWindowSelection.html?raw
 var ItemListWindowSelection_default$2;
 var init_ItemListWindowSelection$2 = __esmMin((() => {
-	ItemListWindowSelection_default$2 = "<div id=\"ItemListWindowSelection\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-text class=\"text\" msg=\"1568\">Storage</ui-text>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"body\">\r\n			<div class=\"infor_nventory\">\r\n				<div class=\"tabs\" rowspan=\"2\">\r\n					<ui-image src=\"basic_interface/chatwin1_mid.bmp\"></ui-image>\r\n				</div>\r\n				<div class=\"container\">\r\n					<div class=\"content\">\r\n						<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div>\r\n				<div class=\"footer\">\r\n					<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n					<div class=\"ask_quantity\">\r\n						<ui-button class=\"selectall event_selectall\" bg=\"checkbox_0.bmp\"></ui-button>\r\n						<ui-text class=\"event_selectall event_add_cursor\" msg=\"295\"\r\n							>Don't ask the Quantity of Items</ui-text\r\n						>\r\n					</div>\r\n\r\n					<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	ItemListWindowSelection_default$2 = "<div id=\"ItemListWindowSelection\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.make-item.storage\">Storage</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"panel\">\r\n		<div class=\"body\">\r\n			<div class=\"infor_nventory\">\r\n				<div class=\"tabs\" rowspan=\"2\">\r\n					<ui-image src=\"basic_interface/chatwin1_mid.bmp\"></ui-image>\r\n				</div>\r\n				<div class=\"container\">\r\n					<div class=\"content\">\r\n						<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div>\r\n				<div class=\"footer\">\r\n					<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n					<div class=\"ask_quantity\">\r\n						<ui-button class=\"selectall event_selectall\" bg=\"checkbox_0.bmp\"></ui-button>\r\n						<span class=\"event_selectall event_add_cursor\" data-locale-key=\"robrowser.ui.make-item.skip-quantity\"\r\n							>Don't ask the Quantity of Items</span\r\n						>\r\n					</div>\r\n\r\n					<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MakeItemSelection/ItemListWindowSelection.css?raw
@@ -325866,6 +333631,7 @@ var init_ItemListWindowSelection = __esmMin((() => {
 	init_GUIComponent();
 	init_Inventory();
 	init_Elements();
+	init_LocalizeDOM();
 	init_ItemListWindowSelection$2();
 	init_ItemListWindowSelection$1();
 	_preferences$5 = Preferences.get("ItemListWindowSelection", {
@@ -325885,6 +333651,7 @@ var init_ItemListWindowSelection = __esmMin((() => {
 	*/
 	ItemListWindowSelection.init = function init() {
 		const root = ItemListWindowSelection.getRoot();
+		applyLocaleAttributes(root);
 		this._host.style.top = `${(Renderer.height - 200) / 2}px`;
 		this._host.style.left = `${(Renderer.width - 655) / 2}px`;
 		this.list = [];
@@ -326039,6 +333806,7 @@ var init_ItemListWindowSelection = __esmMin((() => {
 	};
 	ItemListWindowSelection.onItemListWindowSelected = function onItemListWindowSelected() {};
 	ItemListWindowSelection_default = UIManager.addComponent(ItemListWindowSelection);
+	if (typeof globalThis !== "undefined") globalThis.__happyroMakeItemVerification = ItemListWindowSelection;
 }));
 //#endregion
 //#region src/Engine/MapEngine/Item.js
@@ -326608,7 +334376,7 @@ var init_Item = __esmMin((() => {
 //#region src/UI/Components/Mail/ReadMail.html?raw
 var ReadMail_default$2;
 var init_ReadMail$2 = __esmMin((() => {
-	ReadMail_default$2 = "<div id=\"ReadMail\">\r\n	<div class=\"body\">\r\n		<ui-image src=\"basic_interface/maillist3_bg.bmp\"></ui-image>\r\n		<div class=\"titlebar\">\r\n			<div class=\"left\">\r\n				<span class=\"text\" id=\"title\"><ui-text msg=\"1027\">Read Mail</ui-text></span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base close\"\r\n					bg=\"basic_interface/close2.bmp\"\r\n					hover=\"basic_interface/close2_a.bmp\"\r\n				></ui-button>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"clear\">\r\n			<section class=\"container flex_grid\">\r\n				<div class=\"title\">\r\n					<div>\r\n						<span class=\"text_title\"> </span>\r\n					</div>\r\n				</div>\r\n\r\n				<div class=\"name_sender\">\r\n					<div>\r\n						<span class=\"text_sender\"> </span>\r\n					</div>\r\n				</div>\r\n\r\n				<div class=\"mail_body\">\r\n					<div>\r\n						<textarea class=\"textarea_mail\" maxlength=\"198\" disabled></textarea>\r\n					</div>\r\n				</div>\r\n\r\n				<div class=\"zeny_item\">\r\n					<div class=\"zeny_item_container\">\r\n						<div class=\"zeny_item_infor_box\"></div>\r\n						<div class=\"zeny_item_infor event_add_cursor\">\r\n							<div class=\"block_zeny\">\r\n								<input\r\n									class=\"input_zeny_amt event_add_cursor\"\r\n									type=\"text\"\r\n									value=\"\"\r\n									maxlength=\"9\"\r\n									disabled\r\n								/>\r\n							</div>\r\n							<!-- item -->\r\n							<div class=\"block_item\">\r\n								<div class=\"container_item\">\r\n									<div class=\"overlay\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</div>\r\n				<div class=\"btn_return_reply_remove\">\r\n					<div class=\"container_return_reply_remove\">\r\n						<ui-button\r\n							class=\"read_mail_btn\"\r\n							id=\"read_mail_return\"\r\n							bg=\"basic_interface/return.bmp\"\r\n							hover=\"basic_interface/return_a.bmp\"\r\n						></ui-button>\r\n						<ui-button\r\n							class=\"read_mail_btn\"\r\n							id=\"read_mail_remail\"\r\n							bg=\"basic_interface/remail.bmp\"\r\n							hover=\"basic_interface/remail_a.bmp\"\r\n						></ui-button>\r\n						<ui-button\r\n							class=\"read_mail_btn\"\r\n							id=\"read_mail_del\"\r\n							bg=\"basic_interface/del.bmp\"\r\n							hover=\"basic_interface/del_a.bmp\"\r\n						></ui-button>\r\n					</div>\r\n				</div>\r\n			</section>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	ReadMail_default$2 = "<div id=\"ReadMail\">\r\n	<div class=\"body\">\r\n		<ui-image src=\"basic_interface/maillist3_bg.bmp\"></ui-image>\r\n		<div class=\"titlebar\">\r\n			<div class=\"left\">\r\n				<span class=\"text\" id=\"title\" data-locale-key=\"robrowser.ui.mail.read\">Read Mail</span>\r\n			</div>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base close\"\r\n					bg=\"basic_interface/close2.bmp\"\r\n					hover=\"basic_interface/close2_a.bmp\"\r\n				></ui-button>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"clear\">\r\n			<section class=\"container flex_grid\">\r\n				<div class=\"title\">\r\n					<div>\r\n						<span class=\"text_title\"> </span>\r\n					</div>\r\n				</div>\r\n\r\n				<div class=\"name_sender\">\r\n					<div>\r\n						<span class=\"text_sender\"> </span>\r\n					</div>\r\n				</div>\r\n\r\n				<div class=\"mail_body\">\r\n					<div>\r\n						<textarea class=\"textarea_mail\" maxlength=\"198\" disabled></textarea>\r\n					</div>\r\n				</div>\r\n\r\n				<div class=\"zeny_item\">\r\n					<div class=\"zeny_item_container\">\r\n						<div class=\"zeny_item_infor_box\"></div>\r\n						<div class=\"zeny_item_infor event_add_cursor\">\r\n							<div class=\"block_zeny\">\r\n								<input\r\n									class=\"input_zeny_amt event_add_cursor\"\r\n									type=\"text\"\r\n									value=\"\"\r\n									maxlength=\"9\"\r\n									disabled\r\n								/>\r\n							</div>\r\n							<!-- item -->\r\n							<div class=\"block_item\">\r\n								<div class=\"container_item\">\r\n									<div class=\"overlay\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</div>\r\n				<div class=\"btn_return_reply_remove\">\r\n					<div class=\"container_return_reply_remove\">\r\n						<ui-button\r\n							class=\"read_mail_btn\"\r\n							id=\"read_mail_return\"\r\n							bg=\"basic_interface/return.bmp\"\r\n							hover=\"basic_interface/return_a.bmp\"\r\n						></ui-button>\r\n						<ui-button\r\n							class=\"read_mail_btn\"\r\n							id=\"read_mail_remail\"\r\n							bg=\"basic_interface/remail.bmp\"\r\n							hover=\"basic_interface/remail_a.bmp\"\r\n						></ui-button>\r\n						<ui-button\r\n							class=\"read_mail_btn\"\r\n							id=\"read_mail_del\"\r\n							bg=\"basic_interface/del.bmp\"\r\n							hover=\"basic_interface/del_a.bmp\"\r\n						></ui-button>\r\n					</div>\r\n				</div>\r\n			</section>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Mail/ReadMail.css?raw
@@ -326797,6 +334565,7 @@ var init_ReadMail = __esmMin((() => {
 	init_Mail$1();
 	init_ReadMail$2();
 	init_ReadMail$1();
+	init_LocalizeDOM();
 	ReadMail = new GUIComponent("ReadMail", ReadMail_default$1);
 	/**
 	* Store ReadMail items
@@ -326824,6 +334593,7 @@ var init_ReadMail = __esmMin((() => {
 	*/
 	ReadMail.onAppend = function onAppend() {
 		const root = _root$1();
+		applyLocaleAttributes(root);
 		const closeBtn = root.querySelector(".close");
 		if (closeBtn) closeBtn.addEventListener("click", (event) => {
 			event.stopImmediatePropagation();
@@ -326889,6 +334659,7 @@ var init_ReadMail = __esmMin((() => {
 		if ((event.which === KEYS.ESCAPE || event.key === "Escape") && this._host.style.display !== "none") this.remove();
 	};
 	ReadMail_default = UIManager.addComponent(ReadMail);
+	if (typeof globalThis !== "undefined") globalThis.__happyroReadMailVerification = ReadMail;
 }));
 //#endregion
 //#region src/Engine/MapEngine/Mail.js
@@ -327684,6 +335455,9 @@ var init_Sense$1 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/Sense/Sense.js
+function message([key, fallback]) {
+	return getMessage(key, fallback);
+}
 /**
 * Set element class based on property value
 */
@@ -327701,7 +335475,7 @@ function render$1() {
 	_model.ctx.clearRect(0, 0, _model.ctx.canvas.width, _model.ctx.canvas.height);
 	_model.entity.renderEntity();
 }
-var Sense, Elements, Sizes, Races, _model, Sense_default;
+var Sense, Elements, Sizes, Races, SENSE_MESSAGES, ELEMENT_MESSAGES, SIZE_MESSAGES, RACE_MESSAGES, _model, Sense_default;
 var init_Sense = __esmMin((() => {
 	init_DBManager();
 	init_Renderer();
@@ -327709,6 +335483,7 @@ var init_Sense = __esmMin((() => {
 	init_SpriteRenderer();
 	init_UIManager();
 	init_GUIComponent();
+	init_MessageCatalog();
 	init_Sense$2();
 	init_Sense$1();
 	Sense = new GUIComponent("Sense", Sense_default$1);
@@ -327716,6 +335491,46 @@ var init_Sense = __esmMin((() => {
 	Elements = [];
 	Sizes = [];
 	Races = [];
+	SENSE_MESSAGES = {
+		title: ["robrowser.ui.sense.title", "Monster Information"],
+		name: ["robrowser.ui.sense.name", "Name"],
+		level: ["robrowser.ui.sense.level", "Level"],
+		hp: ["robrowser.ui.sense.hp", "HP"],
+		size: ["robrowser.ui.sense.size", "Size"],
+		race: ["robrowser.ui.sense.race", "Race"],
+		mdef: ["robrowser.ui.sense.mdef", "MDEF"],
+		def: ["robrowser.ui.sense.def", "DEF"],
+		property: ["robrowser.ui.sense.property", "Property"]
+	};
+	ELEMENT_MESSAGES = [
+		["robrowser.ui.sense.element.neutral", "Neutral"],
+		["robrowser.ui.sense.element.water", "Water"],
+		["robrowser.ui.sense.element.earth", "Earth"],
+		["robrowser.ui.sense.element.fire", "Fire"],
+		["robrowser.ui.sense.element.wind", "Wind"],
+		["robrowser.ui.sense.element.poison", "Poison"],
+		["robrowser.ui.sense.element.holy", "Holy"],
+		["robrowser.ui.sense.element.shadow", "Shadow"],
+		["robrowser.ui.sense.element.ghost", "Ghost"],
+		["robrowser.ui.sense.element.undead", "Undead"]
+	];
+	SIZE_MESSAGES = [
+		["robrowser.ui.sense.size.small", "Small"],
+		["robrowser.ui.sense.size.medium", "Medium"],
+		["robrowser.ui.sense.size.large", "Large"]
+	];
+	RACE_MESSAGES = [
+		["robrowser.ui.sense.race.formless", "Formless"],
+		["robrowser.ui.sense.race.undead", "Undead"],
+		["robrowser.ui.sense.race.brute", "Brute"],
+		["robrowser.ui.sense.race.plant", "Plant"],
+		["robrowser.ui.sense.race.insect", "Insect"],
+		["robrowser.ui.sense.race.fish", "Fish"],
+		["robrowser.ui.sense.race.demon", "Demon"],
+		["robrowser.ui.sense.race.demi-human", "Demi-human"],
+		["robrowser.ui.sense.race.angel", "Angel"],
+		["robrowser.ui.sense.race.dragon", "Dragon"]
+	];
 	_model = {
 		entity: new Entity(),
 		ctx: null,
@@ -327740,35 +335555,9 @@ var init_Sense = __esmMin((() => {
 		this.draggable(".header");
 		const canvas = root.querySelector("#canvas_model");
 		_model.ctx = canvas.getContext("2d");
-		Elements = [
-			DB.getMessage(414),
-			DB.getMessage(415),
-			DB.getMessage(416),
-			DB.getMessage(417),
-			DB.getMessage(418),
-			DB.getMessage(419),
-			DB.getMessage(420),
-			DB.getMessage(421),
-			DB.getMessage(422),
-			DB.getMessage(423)
-		];
-		Sizes = [
-			DB.getMessage(443),
-			DB.getMessage(444),
-			DB.getMessage(445)
-		];
-		Races = [
-			DB.getMessage(2285),
-			DB.getMessage(2276),
-			DB.getMessage(2277),
-			DB.getMessage(2278),
-			DB.getMessage(2279),
-			DB.getMessage(2280),
-			DB.getMessage(2281),
-			DB.getMessage(2282),
-			DB.getMessage(2283),
-			DB.getMessage(2284)
-		];
+		Elements = ELEMENT_MESSAGES.map(message);
+		Sizes = SIZE_MESSAGES.map(message);
+		Races = RACE_MESSAGES.map(message);
 	};
 	/**
 	* Set stats
@@ -327777,39 +335566,39 @@ var init_Sense = __esmMin((() => {
 	*/
 	Sense.setWindow = function setWindow(pkt) {
 		const root = this.getRoot();
-		root.querySelector(".header .title").textContent = DB.getMessage(406);
+		root.querySelector(".header .title").textContent = message(SENSE_MESSAGES.title);
 		_model.entity.set({
 			job: pkt.job,
 			action: 0,
 			direction: 0
 		});
 		_model.render = true;
-		root.querySelector("#label_name").textContent = DB.getMessage(407);
+		root.querySelector("#label_name").textContent = message(SENSE_MESSAGES.name);
 		const valueName = root.querySelector("#value_name");
 		valueName.innerHTML = `<a href="https://ratemyserver.net/mob_db.php?small=1&mob_id=${pkt.job}" target="_blank">${DB.getMonsterName(pkt.job)} </a>`;
-		root.querySelector("#label_size").textContent = DB.getMessage(410);
+		root.querySelector("#label_size").textContent = message(SENSE_MESSAGES.size);
 		root.querySelector("#value_size").textContent = Sizes[pkt.size];
-		root.querySelector("#label_level").textContent = DB.getMessage(408);
+		root.querySelector("#label_level").textContent = message(SENSE_MESSAGES.level);
 		root.querySelector("#value_level").textContent = pkt.level;
-		root.querySelector("#label_type").textContent = DB.getMessage(411);
+		root.querySelector("#label_type").textContent = message(SENSE_MESSAGES.race);
 		root.querySelector("#value_type").textContent = Races[pkt.raceType];
-		root.querySelector("#label_hp").textContent = DB.getMessage(409);
+		root.querySelector("#label_hp").textContent = message(SENSE_MESSAGES.hp);
 		root.querySelector("#value_hp").textContent = pkt.hp;
-		root.querySelector("#label_mdef").textContent = DB.getMessage(412);
+		root.querySelector("#label_mdef").textContent = message(SENSE_MESSAGES.mdef);
 		root.querySelector("#value_mdef").textContent = pkt.mdefPower;
-		root.querySelector("#label_def").textContent = DB.getMessage(270);
+		root.querySelector("#label_def").textContent = message(SENSE_MESSAGES.def);
 		root.querySelector("#value_def").textContent = pkt.def;
-		root.querySelector("#label_attr").textContent = DB.getMessage(413);
+		root.querySelector("#label_attr").textContent = message(SENSE_MESSAGES.property);
 		root.querySelector("#value_attr").textContent = Elements[pkt.property];
-		_setElementClass(root.querySelector("#element_water"), pkt.propertyTable.water, DB.getMessage(415));
-		_setElementClass(root.querySelector("#element_wind"), pkt.propertyTable.wind, DB.getMessage(418));
-		_setElementClass(root.querySelector("#element_shadow"), pkt.propertyTable.dark, DB.getMessage(421));
-		_setElementClass(root.querySelector("#element_earth"), pkt.propertyTable.earth, DB.getMessage(416));
-		_setElementClass(root.querySelector("#element_poison"), pkt.propertyTable.poison, DB.getMessage(419));
-		_setElementClass(root.querySelector("#element_ghost"), pkt.propertyTable.mental, DB.getMessage(422));
-		_setElementClass(root.querySelector("#element_fire"), pkt.propertyTable.fire, DB.getMessage(417));
-		_setElementClass(root.querySelector("#element_holy"), pkt.propertyTable.saint, DB.getMessage(420));
-		_setElementClass(root.querySelector("#element_undead"), pkt.propertyTable.undead, DB.getMessage(423));
+		_setElementClass(root.querySelector("#element_water"), pkt.propertyTable.water, message(ELEMENT_MESSAGES[1]));
+		_setElementClass(root.querySelector("#element_wind"), pkt.propertyTable.wind, message(ELEMENT_MESSAGES[4]));
+		_setElementClass(root.querySelector("#element_shadow"), pkt.propertyTable.dark, message(ELEMENT_MESSAGES[7]));
+		_setElementClass(root.querySelector("#element_earth"), pkt.propertyTable.earth, message(ELEMENT_MESSAGES[2]));
+		_setElementClass(root.querySelector("#element_poison"), pkt.propertyTable.poison, message(ELEMENT_MESSAGES[5]));
+		_setElementClass(root.querySelector("#element_ghost"), pkt.propertyTable.mental, message(ELEMENT_MESSAGES[8]));
+		_setElementClass(root.querySelector("#element_fire"), pkt.propertyTable.fire, message(ELEMENT_MESSAGES[3]));
+		_setElementClass(root.querySelector("#element_holy"), pkt.propertyTable.saint, message(ELEMENT_MESSAGES[6]));
+		_setElementClass(root.querySelector("#element_undead"), pkt.propertyTable.undead, message(ELEMENT_MESSAGES[9]));
 		this._host.style.display = "";
 		Renderer.render(render$1);
 	};
@@ -327820,6 +335609,7 @@ var init_Sense = __esmMin((() => {
 	Sense.onRemove = function onRemove() {
 		Renderer.stop(render$1);
 	};
+	if (typeof globalThis !== "undefined") globalThis.__happyroSenseVerification = Sense;
 	Sense_default = UIManager.addComponent(Sense);
 }));
 //#endregion
@@ -327973,7 +335763,7 @@ function onSkillResult(pkt) {
 			break;
 		case 83: error = 661;
 	}
-	if (error) ChatBox_default.addText(DB.getMessage(error), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
+	if (error) ChatBox_default.addText(getLegacyMessage(error, DB.getMessage(error)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
 }
 /**
 * List of skills
@@ -328155,7 +335945,7 @@ function onMemoResult(pkt) {
 			ChatBox_default.addText(DB.getMessage(217), ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 1:
-			ChatBox_default.addText(DB.getMessage(214), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
+			ChatBox_default.addText(getLegacyMessage(214, DB.getMessage(214)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
 			break;
 		case 2: ChatBox_default.addText(DB.getMessage(216), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
 	}
@@ -328422,6 +336212,7 @@ var init_Skill = __esmMin((() => {
 	init_Renderer();
 	init_SkillList();
 	init_CartDecoration();
+	init_MessageCatalog();
 	init_SnowWeather();
 	init_RainWeather();
 	init_PokJukWeatherEffect();
@@ -328464,7 +336255,7 @@ var init_Skill = __esmMin((() => {
 		else {
 			entity = SessionStorage_default.Entity;
 			if (entity.isOverWeight) {
-				ChatBox_default.addText(DB.getMessage(243), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
+				ChatBox_default.addText(getLegacyMessage(243, DB.getMessage(243)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
 				return true;
 			}
 		}
@@ -328501,6 +336292,7 @@ var init_Skill = __esmMin((() => {
 		pkt.dest[1] = out[(count - 1) * 2 + 1];
 		Network.sendPacket(pkt);
 	};
+	if (typeof globalThis !== "undefined") globalThis.__happyroSkillVerification = { onSkillResult };
 }));
 //#endregion
 //#region src/Engine/MapEngine/ChatRoom.js
@@ -328845,7 +336637,7 @@ var init_SlotMachine = __esmMin((() => {
 //#region src/UI/Components/PetEvolution/PetEvolution.html?raw
 var PetEvolution_default$2;
 var init_PetEvolution$2 = __esmMin((() => {
-	PetEvolution_default$2 = "<div id=\"PetEvolution\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-text=\"2567\">Pet Evolution</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"pet_illust_holder\">\r\n			<div class=\"base_pet_illust\"></div>\r\n			<div class=\"next\">▶</div>\r\n			<div class=\"target_pet_illust\"></div>\r\n		</div>\r\n		<div class=\"pet_eggID_holder\">\r\n			<div class=\"base_petEggId\"></div>\r\n			<div class=\"target_petEggId\"></div>\r\n		</div>\r\n		<div class=\"evo_requirements\"></div>\r\n		<div class=\"footer\">\r\n			<button\r\n				class=\"evolve\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"big_cancel\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	PetEvolution_default$2 = "<div id=\"PetEvolution\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<span class=\"text\" data-locale-key=\"robrowser.ui.pet-evolution.title\">Pet Evolution</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"pet_illust_holder\">\r\n			<div class=\"base_pet_illust\"></div>\r\n			<div class=\"next\">▶</div>\r\n			<div class=\"target_pet_illust\"></div>\r\n		</div>\r\n		<div class=\"pet_eggID_holder\">\r\n			<div class=\"base_petEggId\"></div>\r\n			<div class=\"target_petEggId\"></div>\r\n		</div>\r\n		<div class=\"evo_requirements\"></div>\r\n		<div class=\"footer\">\r\n			<button\r\n				class=\"evolve\"\r\n				data-background=\"btn_ok.bmp\"\r\n				data-hover=\"btn_ok_a.bmp\"\r\n				data-down=\"btn_ok_b.bmp\"\r\n			></button>\r\n			<button\r\n				class=\"big_cancel\"\r\n				data-background=\"btn_cancel.bmp\"\r\n				data-hover=\"btn_cancel_a.bmp\"\r\n				data-down=\"btn_cancel_b.bmp\"\r\n			></button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/PetEvolution/PetEvolution.css?raw
@@ -328933,6 +336725,7 @@ var init_PetEvolution = __esmMin((() => {
 	init_ItemInfo();
 	init_PetEvolution$2();
 	init_PetEvolution$1();
+	init_LocalizeDOM();
 	PetEvolution = new GUIComponent("PetEvolution", PetEvolution_default$1);
 	PetEvolution.render = () => PetEvolution_default$2;
 	currentMaterials = [];
@@ -328948,6 +336741,7 @@ var init_PetEvolution = __esmMin((() => {
 	PetEvolution.init = function init() {
 		this.draggable(".titlebar");
 		const root = PetEvolution.getRoot();
+		applyLocaleAttributes(root);
 		const closeBtn = root.querySelector(".close");
 		if (closeBtn) {
 			closeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
@@ -329079,6 +336873,7 @@ var init_PetEvolution = __esmMin((() => {
 	*/
 	Network.hookPacket(PACKET.ZC.PET_EVOLUTION_RESULT, onPetEvolveResult);
 	PetEvolution_default = UIManager.addComponent(PetEvolution);
+	if (typeof globalThis !== "undefined") globalThis.__happyroPetEvolutionVerification = PetEvolution;
 }));
 //#endregion
 //#region src/Engine/MapEngine/Pet.js
@@ -329767,7 +337562,7 @@ var init_Mercenary = __esmMin((() => {
 //#region src/UI/Components/NpcStore/NpcStore.html?raw
 var NpcStore_default$2;
 var init_NpcStore$2 = __esmMin((() => {
-	NpcStore_default$2 = "<div id=\"NpcStore\">\r\n	<div class=\"InputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\"><ui-text msg=\"185\">Available Items for selling</ui-text></span>\r\n				<span class=\"WinBuy\"><ui-text msg=\"186\">Shop Items</ui-text></span>\r\n				<span class=\"WinVendingStore\">\r\n					<ui-text msg=\"227\">Merchant Shop</ui-text> - <span class=\"seller\"></span>\r\n				</span>\r\n				<span class=\"WinBuyingStore\">\r\n					<ui-text msg=\"1737\">Items wanted</ui-text> - <span class=\"seller\"></span>\r\n				</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content\"></div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"cashuser WinCash\">\r\n				[<span class=\"buyer\"></span>]'s Points: <span class=\"cashpoints\"></span>\r\n				<span class=\"unity\">Point(s)</span>\r\n			</div>\r\n			<div class=\"WinBuyingStore limitZeny\"><span class=\"priceLimit\">Price limit: %s Zeny</span></div>\r\n			<div class=\"ask_quantity WinSell\">\r\n				<button class=\"selectall\"></button>\r\n				<ui-text msg=\"295\">Don't ask the Quantity of Items</ui-text>\r\n			</div>\r\n			<ui-button class=\"resize\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"OutputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell WinBuyingStore\"><ui-text msg=\"168\">Selling Items</ui-text></span>\r\n				<span class=\"WinBuy WinVendingStore\"><ui-text msg=\"166\">Buying Items</ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"total\">Total : <span class=\"result\"></span> <span class=\"unity\">Zeny</span></div>\r\n			<div class=\"totalP WinCash\">Total : <span class=\"resultP\"></span> <span class=\"unity\">Point</span></div>\r\n			<ui-button\r\n				class=\"btn sell WinSell WinBuyingStore\"\r\n				bg=\"btn_sell.bmp\"\r\n				hover=\"btn_sell_a.bmp\"\r\n				down=\"btn_sell_b.bmp\"\r\n			></ui-button>\r\n			<ui-button\r\n				class=\"btn buy WinBuy WinVendingStore\"\r\n				bg=\"btn_buy.bmp\"\r\n				hover=\"btn_buy_a.bmp\"\r\n				down=\"btn_buy_b.bmp\"\r\n			></ui-button>\r\n			<ui-button\r\n				class=\"btn cancel\"\r\n				bg=\"btn_cancel.bmp\"\r\n				hover=\"btn_cancel_a.bmp\"\r\n				down=\"btn_cancel_b.bmp\"\r\n			></ui-button>\r\n			<ui-button class=\"resize\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"AvailableItemsWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinBuyingStore\">\r\n					<ui-text msg=\"1733\">Available Items</ui-text>\r\n				</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content contentAvailable\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"resize\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"PurchaseResult\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinBuy\"><ui-text msg=\"2530\"></ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"total\">Total : <span class=\"result\"></span> <span class=\"unity\">Zeny</span></div>\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n			<ui-button class=\"resize\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	NpcStore_default$2 = "<div id=\"NpcStore\">\r\n	<div class=\"InputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell\" data-locale-key=\"robrowser.ui.npc-store.available-sell\">Available Items for selling</span>\r\n				<span class=\"WinBuy\" data-locale-key=\"robrowser.ui.npc-store.shop-items\">Shop Items</span>\r\n				<span class=\"WinVendingStore\">\r\n					<span data-locale-key=\"robrowser.ui.npc-store.merchant-shop\">Merchant Shop</span> - <span class=\"seller\"></span>\r\n				</span>\r\n				<span class=\"WinBuyingStore\">\r\n					<span data-locale-key=\"robrowser.ui.npc-store.items-wanted\">Items wanted</span> - <span class=\"seller\"></span>\r\n				</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content\"></div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"cashuser WinCash\">\r\n				[<span class=\"buyer\"></span>]'s Points: <span class=\"cashpoints\"></span>\r\n				<span class=\"unity\" data-locale-key=\"robrowser.ui.npc-store.points\">Point(s)</span>\r\n			</div>\r\n			<div class=\"WinBuyingStore limitZeny\"><span class=\"priceLimit\">Price limit: %s Zeny</span></div>\r\n			<div class=\"ask_quantity WinSell\">\r\n				<button class=\"selectall\"></button>\r\n				<span data-locale-key=\"robrowser.ui.npc-store.skip-quantity\">Don't ask the Quantity of Items</span>\r\n			</div>\r\n			<ui-button class=\"resize\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"OutputWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinSell WinBuyingStore\" data-locale-key=\"robrowser.ui.npc-store.selling-items\">Selling Items</span>\r\n				<span class=\"WinBuy WinVendingStore\" data-locale-key=\"robrowser.ui.npc-store.buying-items\">Buying Items</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"total\"><span data-locale-key=\"robrowser.ui.npc-store.total\">Total :</span> <span class=\"result\"></span> <span class=\"unity\" data-locale-key=\"robrowser.ui.npc-store.zeny\">Zeny</span></div>\r\n			<div class=\"totalP WinCash\"><span data-locale-key=\"robrowser.ui.npc-store.total\">Total :</span> <span class=\"resultP\"></span> <span class=\"unity\" data-locale-key=\"robrowser.ui.npc-store.point\">Point</span></div>\r\n			<ui-button\r\n				class=\"btn sell WinSell WinBuyingStore\"\r\n				bg=\"btn_sell.bmp\"\r\n				hover=\"btn_sell_a.bmp\"\r\n				down=\"btn_sell_b.bmp\"\r\n			></ui-button>\r\n			<ui-button\r\n				class=\"btn buy WinBuy WinVendingStore\"\r\n				bg=\"btn_buy.bmp\"\r\n				hover=\"btn_buy_a.bmp\"\r\n				down=\"btn_buy_b.bmp\"\r\n			></ui-button>\r\n			<ui-button\r\n				class=\"btn cancel\"\r\n				bg=\"btn_cancel.bmp\"\r\n				hover=\"btn_cancel_a.bmp\"\r\n				down=\"btn_cancel_b.bmp\"\r\n			></ui-button>\r\n			<ui-button class=\"resize\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"AvailableItemsWindow\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinBuyingStore\">\r\n					<span data-locale-key=\"robrowser.ui.npc-store.available-items\">Available Items</span>\r\n				</span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content contentAvailable\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"resize\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"PurchaseResult\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<div class=\"text\">\r\n				<span class=\"WinBuy\"><ui-text msg=\"2530\"></ui-text></span>\r\n			</div>\r\n		</div>\r\n		<div class=\"container\">\r\n			<ui-image src=\"basic_interface/itemwin_left.bmp\"></ui-image>\r\n			<div class=\"content\">\r\n				<ui-image src=\"basic_interface/itemwin_mid.bmp\"></ui-image>\r\n			</div>\r\n		</div>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"total\"><span data-locale-key=\"robrowser.ui.npc-store.total\">Total :</span> <span class=\"result\"></span> <span class=\"unity\" data-locale-key=\"robrowser.ui.npc-store.zeny\">Zeny</span></div>\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n			<ui-button class=\"resize\" bg=\"btn_resize.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcStore/NpcStore.css?raw
@@ -330114,6 +337909,7 @@ var init_NpcStore = __esmMin((() => {
 	init_InputBox();
 	init_ChatBox();
 	init_Inventory();
+	init_LocalizeDOM();
 	init_NpcStore$2();
 	init_NpcStore$1();
 	NpcStore = new GUIComponent("NpcStore", NpcStore_default$1);
@@ -330194,6 +337990,7 @@ var init_NpcStore = __esmMin((() => {
 	*/
 	NpcStore.init = function init() {
 		const root = NpcStore.getRoot();
+		applyLocaleAttributes(root);
 		root.querySelector(".btn.cancel").addEventListener("click", () => this.remove());
 		root.querySelector(".btn.buy").addEventListener("click", () => this.submit());
 		root.querySelector(".btn.sell").addEventListener("click", () => this.submit());
@@ -330676,6 +338473,7 @@ var init_NpcStore = __esmMin((() => {
 		_closePacketSent = bool;
 	};
 	NpcStore_default = UIManager.addComponent(NpcStore);
+	if (typeof globalThis !== "undefined") globalThis.__happyroNpcStoreVerification = NpcStore;
 }));
 //#endregion
 //#region src/Engine/MapEngine/Store.js
@@ -331137,19 +338935,19 @@ function onTradeRequest(pkt) {
 function onTradeRequestAnswer(pkt) {
 	switch (pkt.result) {
 		case 0:
-			ChatBox_default.addText(DB.getMessage(70), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+			ChatBox_default.addText(getLegacyMessage(70, DB.getMessage(70)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 1:
-			ChatBox_default.addText(DB.getMessage(71), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+			ChatBox_default.addText(getLegacyMessage(71, DB.getMessage(71)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 2:
-			ChatBox_default.addText(DB.getMessage(72), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+			ChatBox_default.addText(getLegacyMessage(72, DB.getMessage(72)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 3:
 			if ("level" in pkt && "GID" in pkt) Trade_default.title += `  Lv${pkt.level} (${tradeGIDEncoding(pkt.GID)})`;
 			Trade_default.append();
 			break;
-		case 4: ChatBox_default.addText(DB.getMessage(74), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		case 4: ChatBox_default.addText(getLegacyMessage(74, DB.getMessage(74)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 	}
 }
 /**
@@ -331160,9 +338958,9 @@ function onTradeRequestAnswer(pkt) {
 function onAddItemResult(pkt) {
 	switch (pkt.result) {
 		case 1:
-			ChatBox_default.addText(DB.getMessage(73), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+			ChatBox_default.addText(getLegacyMessage(73, DB.getMessage(73)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
-		case 2: ChatBox_default.addText(DB.getMessage(74), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		case 2: ChatBox_default.addText(getLegacyMessage(74, DB.getMessage(74)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 	}
 	Trade_default.addItemFromInventory(pkt.Index, pkt.result === 0);
 }
@@ -331180,7 +338978,7 @@ function onItemAdded(pkt) {
 * @param {object} pkt - PACKET.ZC.CANCEL_EXCHANGE_ITEM
 */
 function onTradeCancel(pkt) {
-	ChatBox_default.addText(DB.getMessage(74), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+	ChatBox_default.addText(getLegacyMessage(74, DB.getMessage(74)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 	Trade_default.remove();
 }
 /**
@@ -331198,16 +338996,13 @@ function onTradeConclude(pkt) {
 */
 function onTradeSubmitAnswer(pkt) {
 	if (pkt.result === 1) {
-		ChatBox_default.addText(DB.getMessage(76), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		ChatBox_default.addText(getLegacyMessage(76, DB.getMessage(76)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 		Trade_default.remove();
 		return;
 	}
-	ChatBox_default.addText(DB.getMessage(75), ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PUBLIC_LOG);
+	ChatBox_default.addText(getLegacyMessage(75, DB.getMessage(75)), ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PUBLIC_LOG);
 	Trade_default.remove();
 }
-/**
-* Initialize
-*/
 function MainEngine$8() {
 	Network.hookPacket(PACKET.ZC.REQ_EXCHANGE_ITEM, onTradeRequest);
 	Network.hookPacket(PACKET.ZC.REQ_EXCHANGE_ITEM2, onTradeRequest);
@@ -331230,6 +339025,7 @@ var init_Trade = __esmMin((() => {
 	init_Trade$1();
 	init_ChatBox();
 	init_UIManager();
+	init_MessageCatalog();
 	/**
 	* Try to add an item to the list
 	*
@@ -331274,6 +339070,12 @@ var init_Trade = __esmMin((() => {
 		Network.sendPacket(pkt);
 		Trade_default.title = name;
 	};
+	/**
+	* Initialize
+	*/
+	if (typeof globalThis !== "undefined") globalThis.__happyroTradeLogVerification = { addResult(id) {
+		ChatBox_default.addText(getLegacyMessage(id, DB.getMessage(id)), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+	} };
 }));
 //#endregion
 //#region src/Engine/MapEngine/UIOpen.js
@@ -334885,7 +342687,7 @@ function createCharSelect(config) {
 			repeat: true
 		});
 		charinfo.querySelector(".name").textContent = info.name;
-		charinfo.querySelector(".job").textContent = MonsterTable_default[info.job] || "";
+		charinfo.querySelector(".job").textContent = DB.getJobName(info.job);
 		charinfo.querySelector(".lvl").textContent = info.level;
 		charinfo.querySelector(".exp").textContent = info.exp;
 		charinfo.querySelector(".hp").textContent = info.hp;
@@ -335001,7 +342803,7 @@ function createCharSelect(config) {
 		}
 		root.querySelector(".ok").style.display = "block";
 		charinfo.querySelector(".map").textContent = DB.getMapName(info.lastMap, "") || "";
-		charinfo.querySelector(".job").textContent = MonsterTable_default[info.job] || "";
+		charinfo.querySelector(".job").textContent = DB.getJobName(info.job);
 		charinfo.querySelector(".lvl").textContent = info.level;
 		charinfo.querySelector(".exp").textContent = info.exp;
 		charinfo.querySelector(".hp").textContent = info.hp;
@@ -335110,7 +342912,6 @@ function createCharSelect(config) {
 var CHAR_SELECT_MESSAGES;
 var init_CharSelectCommon = __esmMin((() => {
 	init_DBManager();
-	init_MonsterTable();
 	init_Preferences$1();
 	init_Client();
 	init_KeyEventHandler();
