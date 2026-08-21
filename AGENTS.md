@@ -1,58 +1,37 @@
-# roBrowserLegacy 客户端代理说明
+# HappyRO 代理说明
 
-## HappyRO 仓库规则
+本仓库属于仅限局域网运行的 HappyRO Web 栈。
 
-- HappyRO 自有提交必须使用 `type(scope): subject` 格式。
-- `scope` 必须存在，使用小写英文；破坏性变更使用 `type(scope)!: subject` 并说明迁移方式。
-- 允许的类型：`feat`、`fix`、`config`、`docs`、`refactor`、`test`、`build`、`ci`、`chore`、`perf`、`style`、`revert`。
-- subject 使用祈使语气的英文，不以句号结尾，首行不超过 72 个字符。
+## Git 规则
+
+- HappyRO 自有提交必须使用 type(scope): subject 格式。
+- scope 必须存在，使用小写英文；破坏性变更使用 type(scope)!: subject，并在正文说明迁移方式。
+- 允许的 type：feat、fix、config、docs、refactor、test、build、ci、chore、perf、style、revert。
+- subject 使用祈使语气的英文，不以句号结尾，首行总长度不超过 72 个字符。
 - 一个提交只包含一个逻辑变更；上游合并提交和上游作者提交不受此限制。
-- 只推送到本仓库的 `origin`，不推送到 `upstream`；未经用户明确要求不提交、不推送。
-- 保持 `PACKETVER=20211103`、Renewal、封包混淆和服务端配置一致。
-- 运行时资源必须使用已核验的官方 kRO 2021-11-05 基线和局域网服务。
-- 不使用第三方批量翻译表、翻译客户端或翻译后的客户端包。
-- 不提交生成的 PWA 输出、客户端资源、密钥、截图或运行时语言包。
+- lang/zh-cn 是长期中文产品分支；语言分支不合并回 main。
+- 三个仓库只推送到各自的 origin，不推送到 upstream。
+- 未经用户明确要求，不提交、不推送。
 
-## 项目概览
+## 仓库边界
 
-roBrowserLegacy 是使用 ES6 modules 和 WebGL 构建的《仙境传说》网页客户端，支持浏览器、PWA 和 Electron。
+- 运行时不得使用公共 GRF 或公共 WebSocket 服务。
+- 固定 PACKETVER=20211103、Renewal，以及客户端和服务端一致的封包设置。
+- inputs/official/ 和 inputs/runtime/kro-20211105/ 中经过核验的官方 kRO 2021-11-05 文件视为不可修改的源材料。
+- 不得使用第三方翻译客户端、批量翻译表、私服可执行文件或私服配置作为来源。
+- 生成文件放在 work/ 或 artifacts/；客户端资源、密钥、数据库数据、截图、测试输出和运行时文件不得提交。
+- repos/happyro-client 和 repos/happyro-server 是独立 Git 仓库。
+- vendor/robrowserlegacy-remote-client-js 是固定版本的第三方代码；HappyRO 兼容补丁留在本仓库，不创建自有 fork。
 
-- `src/App/`：应用入口。
-- `src/Core/`：客户端、配置、文件、线程和平台基础设施。
-- `src/Engine/`：登录、选角、地图和游戏状态引擎。
-- `src/Network/`：封包注册、结构、加密、版本和 Socket。
-- `src/Loaders/`：GRF、地图、精灵、模型和资源解析器。
-- `src/DB/`：道具、职业、地图、怪物、宠物、技能和状态数据。
-- `src/Renderer/`：WebGL 渲染、实体、地图和特效。
-- `src/UI/`：UIManager、GUIComponent、Custom Elements 和游戏界面组件。
-- `src/Controls/`：输入、地图、战斗和快捷命令控制器。
-- `applications/pwa/`：PWA 配置和入口。
+## 中文产品分支
 
-## 架构约束
+- 三个仓库中属于产品且已纳入 Git 跟踪的源码、脚本、数据库、配置和客户端数据文件，翻译时都必须直接修改；不能建立新的 locale 或 overlay 源码树。
+- 翻译对象包括英文、韩文及其他语言的非中文内容，不限于英文。
+- 翻译不得改变 NPC ID、数据库 ID、变量、控制流、任务条件、奖励逻辑、占位符、颜色码或安全相关命令。
+- NPC 唯一名、变量名、事件标签、代码标识符和玩家自定义角色名保持原样。
+- 玩家可见人名默认使用稳定中文名；已有官方或项目译名时沿用，其他语言人名通常采用中文音译，英文人名无既定译名时选择稳定音译。
+- 特定术语可按语境保留原样，例如 Zeny；同一语境中必须保持一致。
+- 新增译名、人名和保留项登记到 docs/zh-cn/terms-names.csv。
+- 中文汉化工作流和文档入口见 docs/zh-cn/README.md。
+- 当前阶段不进行自动测试，全部源码翻译完成后由用户统一手动验收。
 
-- 源码使用 ES6 `import`/`export`，由 Vite 打包。
-- 使用既有路径别名，例如 `Core/Configs.js`、`UI/Components/...`。
-- 实体系统使用组合和 mixin，不改成继承体系。
-- `PACKETVER` 按可执行文件时间自动识别；修改版本检测会影响多个协议版本。
-- 浏览器使用 WebSocket，Electron 使用 NodeSocket；两条路径必须保持一致接口。
-- 新 UI 组件使用 `GUIComponent`、`<ui-button>`、`<ui-text>` 和 `<ui-image>` 体系。
-- UI 资源由 GRF 图片驱动，CSS 主要负责结构和定位。
-- 不修改 `src/Vendors/` 中的固定第三方代码。
-- 修改网络、渲染、资源加载或协议代码时，保持公共 API、版本行为和既有组件模式。
-
-## 代码约定
-
-- 遵守 `.editorconfig`、`.gitattributes`、Prettier 和 ESLint 约定。
-- 使用单引号、分号、必要的大括号和既有换行风格。
-- 尽可能使用 `const`，否则使用 `let`，不使用 `var`。
-- 私有变量使用 `_` 前缀；常量使用 `UPPER_SNAKE_CASE`；类使用 PascalCase；函数使用 camelCase。
-- 不在翻译批次中顺便做无关重构、格式化或现代化改造。
-
-## 配置、构建和调试
-
-- 修改配置时保持 LAN WebSocket、资源路径和客户端/服务端协议设置一致。
-- 常规客户端变更遵循仓库既有的 `npm test`、`npm run build:pwa` 和针对性检查流程；当前中文汉化阶段按根仓规则暂不进行自动测试。
-- 浏览器日志可能被 ConsoleManager 静默；检查 `development` 和 `enableConsole` 配置。
-- 网络问题先检查 `packetDump`、PacketStructure.js 和 PACKETVER 检测结果。
-- GRF 路径在 Linux 区分大小写；资源文件名和目录大小写必须保持正确。
-- 不根据翻译行数宣称完成，必须检查 ID、占位符、编码、fallback 和代表性游戏流程。
