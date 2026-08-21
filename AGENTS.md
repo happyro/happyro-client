@@ -1,408 +1,58 @@
-# AI Agent Instructions for roBrowserLegacy
-
-## HappyRO Repository Rules
-
-- Every HappyRO-authored commit must use `type(scope): subject`.
-- The scope is mandatory, lowercase, and hyphen-separated when needed.
-- Allowed types are `feat`, `fix`, `config`, `docs`, `refactor`, `test`, `build`, `ci`, `chore`, `perf`, `style`, and `revert`.
-- Write the subject in imperative English, without a trailing period, and keep the complete first line at 72 characters or fewer.
-- Examples: `fix(minimap): render a GAT fallback` and `config(locale): use the official kRO baseline`.
-- Use `type(scope)!: subject` for a breaking change and explain the migration in the commit body.
-- Keep one logical change per commit. Upstream merge commits and upstream-authored commits are exempt from the HappyRO message format.
-- Use `main` for HappyRO development. Push only to `origin`; never push to `upstream`.
-- Do not commit or push unless the user explicitly asks.
-- Keep HappyRO changes narrowly scoped so future `upstream/master` merges remain reviewable.
-- Keep `PACKETVER=20211103`, Renewal mode, packet obfuscation, and the server configuration aligned.
-- Runtime resources must use the verified official kRO 2021-11-05 baseline and LAN-hosted services only.
-- Do not add third-party bulk translation tables or translated client packs. Locale data must use official resource paths and identifiers, with HappyRO-owned translations reviewed item by item.
-- Do not commit generated PWA output, client assets, secrets, screenshots, or runtime locale packs.
-- Run `npm test` and `npm run build:pwa` for HappyRO client changes. Run focused tests for the subsystem touched.
-- Preserve upstream style, line endings, public APIs, and established component/version patterns.
-
-## Project Overview
-
-roBrowserLegacy is a web-based Ragnarok Online client built with ES6 modules and WebGL. It supports multiple platforms (browser, PWA, Electron desktop) and provides a complete game client experience.
-
-### Key Statistics
-
-- **14 subsystems** in `src/` (App, Audio, Controls, Core, DB, Engine, Loaders, Network, Plugins, Preferences, Renderer, UI, Utils, Vendors)
-- **7 application entry points** in `src/App/`
-- **99 UI Components** in `src/UI/Components/`
-- **40 Renderer Effect modules** (31 effect JS files + 9 post-processing shaders)
-- **17 Entity modules** in `src/Renderer/Entity/`
-- **28 MapEngine subsystems** in `src/Engine/MapEngine/`
-- **23 packet versions** supported (kRO 2003–2025) in `src/Network/Packets/`
-
-## Architecture
-
-### ES6 Modules
-
-All source files use ES6 `import`/`export`. Vite bundles them into optimized ES modules.
-
-```javascript
-import { BinaryReader } from 'Utils/BinaryReader.js';
-import Configs from 'Core/Configs.js';
-```
-
-- Base path: `src/` (directory structure mirrors module paths)
-- Output: `dist/Web/` for web, `dist/Desktop/` for Electron
-- Build: Vite + custom builder script (`applications/tools/builder-web.mjs`)
-
-### Module Path Aliases
-
-| Alias       | Path             |
-| ----------- | ---------------- |
-| App         | src/App/         |
-| Audio       | src/Audio/       |
-| Controls    | src/Controls/    |
-| Core        | src/Core/        |
-| DB          | src/DB/          |
-| Engine      | src/Engine/      |
-| Loaders     | src/Loaders/     |
-| Network     | src/Network/     |
-| Plugins     | src/Plugins/     |
-| Preferences | src/Preferences/ |
-| Renderer    | src/Renderer/    |
-| UI          | src/UI/          |
-| Utils       | src/Utils/       |
-| Vendors     | src/Vendors/     |
-
-Example: `import Sprite from 'Loaders/Sprite.js';`
-
-### Core Service Layers
-
-1. **Engine** (`src/Engine/`): GameEngine (orchestrator), LoginEngine (auth), CharEngine (character), MapEngine (28 subsystems), SessionStorage
-2. **Network** (`src/Network/`): PacketRegister, PacketStructure, PacketCrypt, PacketVersions.js, PacketVerManager, PacketLength, NetworkManager, SocketHelpers (WebSocket/NodeSocket)
-3. **Loaders** (`src/Loaders/`): 12 asset parsers — GameFileDecrypt, GameFile, Sprite, Action, Ground (.gnd), Altitude (.gat), World (.rsw), Str (.str effects), Model, GrannyModel, MapLoader, Targa
-4. **Database** (`src/DB/`): DBManager + data subdirectories (Effects, Items, Jobs, Map, Monsters, Pets, Skills, Status) + Emotions, TownInfo
-5. **Renderer** (`src/Renderer/`): Renderer.js (WebGL context), MapRenderer, EntityManager, EffectManager, ScreenEffectManager, SignboardManager, Camera, SpriteRenderer, ItemObject + subdirectories (Effects, Entity, Map)
-6. **UI** (`src/UI/`): UIManager, UIVersionManager, GUIComponent (new base class, Shadow DOM), Custom Elements (`src/UI/Elements/`), CursorManager, Scrollbar, Background, 95 component directories
-7. **Controls** (`src/Controls/`): EntityControl, MapControl, KeyEventHandler, MouseEventHandler, ProcessCommand, BattleMode, ScreenShot
-8. **Audio** (`src/Audio/`): BGM.js, SoundManager.js
-9. **Core** (`src/Core/`): Client, Configs, Context, Events, FileManager, FileSystem, MemoryItem, MemoryManager, Mobile, Preferences, Thread, ThreadEventHandler, AIDriver
-10. **Preferences** (`src/Preferences/`): Audio, Graphics, Controls, UI, Camera, Map, ShortCutControls (7 modules)
-11. **Plugins** (`src/Plugins/`): PluginManager.js
-12. **Utils** (`src/Utils/`): BinaryReader, BinaryWriter, Struct, Inflate, PathFinding, WebGL, Texture, Executable, CRC32, CodepageManager, ConsoleManager, HTMLEntity, Queue, Base62, colors, partyColors, gl-matrix
-
-### Data Flow
-
-1. **Init**: GameEngine loads config → Client loads GRFs/executable → PacketVerManager detects PACKETVER from executable date
-2. **Login**: LoginEngine → NetworkManager connects via WebSocket (browser) or NodeSocket (Electron) → authenticates with versioned packets
-3. **Map Entry**: MapEngine loads map/entity data → Renderer displays → Controls enable input → 28 MapEngine subsystems manage live state
-4. **Runtime**: InputHandler → ProcessCommand → NetworkManager sends → packet handlers update state → EntityManager updates → Renderer draws
-
-### Multi-Platform Support
-
-- **Browser**: WebSocket via wsProxy, ES modules loaded as `<script type='module'>`
-- **PWA**: Progressive Web App with manifest and service worker support
-- **Electron Desktop**: Direct TCP via NodeSocket (Electron preload), packaged executables
-
-## Key Architectural Decisions
-
-- **Entity system uses composition, not inheritance.** 17 mixin modules (`EntityWalk`, `EntityCast`, `EntityState`, `EntityRender`, etc.) are mixed into `Entity.js`. Do not refactor to class inheritance — the mixins are applied dynamically at runtime.
-- **Packet versioning is date-based.** PACKETVER is auto-detected from the kRO executable's PE timestamp. `PacketVersions.js` uses date-range switches. Changing detection logic in `PacketVerManager.js` can break compatibility with 23 packet versions.
-- **Two socket paths exist by design.** Browser uses `WebSocket.js` (requires wsProxy for TCP↔WS translation). Electron uses `NodeSocket.js` (direct TCP via preload contextBridge). Both implement the same interface for `NetworkManager`.
-- **Vendors are frozen.** `src/Vendors/` is excluded from ESLint. Never modify vendored files.
-- **UI has one component system** `GUIComponent` uses Shadow DOM + native DOM + Custom Elements. New components must use GUIComponent. Primary guide: `doc/UIComponent_to_GUIComponent.md` (L1). For edge cases see `doc/UIComponent_to_GUIComponent_Scars.md` (L0, archive); for quick reflex lookup `doc/UIComponent_to_GUIComponent_Firmware.md` (L2).
-- **UI is asset-driven, not CSS-driven.** Window frames, buttons, and backgrounds come from BMP images in GRF files. Legacy components use `data-background` HTML attributes processed by `GUIComponent.parseHTML()`. New components use `<ui-button>`, `<ui-text>`, `<ui-image>` Custom Elements, both are useful. CSS is structural/positional only.
-
-## Subsystem Reference
-
-### Network Packet Handling
-
-- **NetworkManager.js**: Connection management and packet dispatch
-- **PacketRegister.js**: Maps packet IDs (0x69, 0x6a, etc.) to handlers
-- **PacketStructure.js**: Defines AC/ZC/HC packet schemas
-- **PacketVersions.js**: Per-version packet definitions (large switch on date)
-- **PacketLength.js**: Packet length definitions
-- **PacketCrypt.js**: Packet encryption/decryption
-- **PacketVerManager.js**: Automatic PACKETVER detection from executable metadata
-- **Packets/**: 23 version-specific length files (`packets2003_len_main.js` through `packets2025_len_main.js`)
-- **SocketHelpers/**: WebSocket.js (browser), NodeSocket.js (Electron desktop)
-- Pattern: Add handler in PacketRegister → define structure in PacketStructure → implement response in appropriate engine
-
-### Asset Loaders (`src/Loaders/`)
-
-- **GameFileDecrypt.js**: Decrypt GRF files (DES/RC4)
-- **GameFile.js**: GRF file container parsing
-- **Action.js**: Parse .act (sprite animation frames)
-- **Sprite.js**: Parse .spr (sprite texture/palette data)
-- **Ground.js**: Parse .gnd (ground mesh/texture data)
-- **Altitude.js**: Parse .gat (map height/collision data)
-- **World.js**: Parse .rsw (resource world — models, lights, sounds)
-- **Str.js**: Parse .str (visual effect files, compiled .ezv format)
-- **Model.js**: Parse .rsm (3D model data)
-- **GrannyModel.js**: Parse Granny RSAC format (3D skeletal models)
-- **MapLoader.js**: Map loading orchestration
-- **Targa.js**: Parse .tga (image format)
-
-### MapEngine Subsystems (`src/Engine/MapEngine/`, 28 files)
-
-- **Main.js**: Core game loop and state management
-- **Entity.js**: Main entity controller
-- **UIOpen.js**: UI component lifecycle
-- **MapState.js**: State persistence
-- **Achievement.js, Quest.js, Guild.js, Clan.js**: Progress systems
-- **Group.js, Friends.js, PrivateMessage.js, ChatRoom.js**: Social features
-- **CashShop.js, Bank.js, Roulette.js**: Commerce systems
-- **Homun.js, Pet.js, Mercenary.js**: Companion systems
-- **NPC.js, Store.js, Trade.js**: Interaction systems
-- **Item.js, Storage.js, Skill.js**: Core gameplay
-- **Mail.js, Rodex.js**: Messaging systems
-- **Captcha.js, PCGoldTimer.js**: Security/timer systems
-
-### GUI Components (`src/UI/Components/`, 95 directories)
-
-- GUIComponent uses `<ui-button>`, `<ui-text>`, `<ui-image>` (registered in `src/UI/Elements/Elements.js`) instead of `data-background`/`data-hover`/`data-down`/`data-text` attributes
-- `this.ui` proxy on GUIComponent provides jQuery-compatible API for UIManager interop
-- Both types coexist in UIManager — `addComponent()` accepts either
-
-    > **Migration docs (3-layer memory):**
-    >
-    > - **L1 — Primary** [`doc/UIComponent_to_GUIComponent.md`](doc/UIComponent_to_GUIComponent.md): consolidated operational memory (invariants, rules, failure matrix). **Start here.**
-    > - **L2 — Reflex** [`doc/UIComponent_to_GUIComponent_Firmware.md`](doc/UIComponent_to_GUIComponent_Firmware.md): compressed decision matrix for rapid lookup. Not for reasoning.
-    > - **L0 — Archive** [`doc/UIComponent_to_GUIComponent_Scars.md`](doc/UIComponent_to_GUIComponent_Scars.md): full historical guide, postmortems, per-component reference. Consult only for edge cases / when L1 is insufficient.
-    >   **Custom Elements**: [`doc/CustomElements.md`](doc/CustomElements.md) — reference for `<ui-button>`, `<ui-text>`, `<ui-image>` and how to create new ones
-    >   **For Migrated & Remaining components list see:** https://github.com/MrAntares/roBrowserLegacy/issues/1140
-
-- **Intro.js**: File upload & server selection
-- **WinList.js**: Character selection
-- **WinLogin.js**: Account authentication
-- **Inventory, Equipment, Storage, Bank, CashShop, CartItems**: Item management
-- **ChatBox, ChatRoom, ChatRoomCreate, WhisperBox, ChatBoxSettings**: Communication
-- **NpcBox, NpcStore, NpcMenu**: NPC interaction
-- **SkillList, SkillListMH, SkillDescription, SkillTargetSelection**: Skill system
-- **Quest, Mail, Rodex, Trade, Vending, VendingShop, VendingReport**: Game systems
-- **Refine, RefineWeaponSelection, Enchant, EnchantGrade, ItemCompare, ItemReform, LaphineSys, LaphineUpg**: Crafting/upgrade
-- **Clan, Guild, PartyFriends, EntityRoom**: Social systems
-- **MiniMap, WorldMap, Navigation, MapName**: Navigation
-- **GrfViewer, ModelViewer, StrViewer, EffectViewer, GrannyModelViewer**: Asset viewers
-- **BasicInfo, WinStats, StatusIcons, Sense**: Character info
-- **ShortCut, ShortCuts, ShortCutOption**: Hotkey systems
-- **Emoticons, Announce, FPS, Escape, Error, WinPopup, WinPrompt**: Misc UI
-- **CharCreate, CharSelect, PincodeWindow**: Character management
-- **HomunInformations, MercenaryInformations, PetInformations, PetEvolution**: Companion UI
-- **CardIllustration, ItemInfo, ItemObtain, ItemPreview, ItemSelection**: Item display
-- **MakeArrowSelection, MakeItemSelection, MakeReadBook**: Crafting UI
-- **PlayerViewEquip, SwitchEquip, ChangeCart**: Equipment UI
-- **GraphicsOption, SoundOption**: Settings
-- **Captcha, CheckAttendance, Reputation, SlotMachine, PvPCount, PvPTimer, PCGoldTimer**: Misc systems
-- **ContextMenu, EntitySignboard, JoystickUI, MobileUI**: Interface elements
-
-### Renderer Effects (`src/Renderer/Effects/`)
-
-- **Weather**: CloudWeatherEffect, PokJukWeatherEffect, RainWeather, SakuraWeatherEffect, SnowWeather, Sky
-- **Auras/Spheres**: GroundAura, SwirlingAura, SpiritSphere, WarlockSphere, Level99Bubble, QuadHorn
-- **Ground**: GroundEffect, FlatColorTile, PropertyGround, LPEffect, SpiderWeb, Tiles
-- **Combat**: Damage, MagnumBreak, PoisonEffect, MagicTarget, MagicRing, LockOnTarget
-- **Visual**: StrEffect, RsmEffect, ThreeDEffect, TwoDEffect, Cylinder, Songs
-- **Screen**: PostProcess
-- **Post-Processing Shaders** (`Effects/Shaders/`): Blind, Bloom, CAS, Cartoon, FXAA, GaussianBlur, Upsampling, VerticalFlip, Vibrance
-
-## Code Conventions
-
-### Style Rules
-
-Formatting is handled by **Prettier** (defaults). ESLint extends `eslint:recommended` and `prettier`.
-
-- **Quotes**: Single quotes (`avoidEscape: true`)
-- **Semicolons**: Required
-- **Trailing commas**: Forbidden (`comma-dangle: never`)
-- **Curly braces**: Always required (`curly: 'all'`)
-- **Variables**: `const` required where possible, `let` over `var`, `no-var: error`
-- **No eval/implied-eval/new-func/with**: Error
-- **Unused vars**: Warn (vars prefixed `_` ignored)
-- **Vendors excluded**: `src/Vendors/**` ignored by ESLint
-
-### Naming Conventions
-
-- **Private vars**: Prefix with `_` (e.g., `_sockets`, `_currentSocket`)
-- **Constants**: UPPER_SNAKE_CASE in db/const files
-- **Classes/Constructors**: PascalCase (e.g., `EntityControl`, `BinaryReader`)
-- **Functions/Methods**: camelCase (e.g., `sendPacket()`, `parseEntity()`)
-
-### Modern Patterns (Preferred)
-
-When writing new code or modifying existing code, **use modern JavaScript features**: arrow functions, template literals, `async`/`await`, ES6 classes, destructuring, spread/rest, native `Promise`, `for...of`, default parameters.
-
-### Modernize on Touch
-
-When touching files with legacy patterns, convert them:
-
-| Legacy Pattern                                           | Modern Replacement                                    |
-| -------------------------------------------------------- | ----------------------------------------------------- |
-| `function(a, b) { ... }` callbacks                       | `(a, b) => { ... }`                                   |
-| `'string ' + variable + ' end'`                          | `` `string ${variable} end` ``                        |
-| `function Constructor() { this.x = 1; }`                 | `class Constructor { constructor() { this.x = 1; } }` |
-| `Constructor.prototype.method = function() {}`           | `class Constructor { method() {} }`                   |
-| `const Singleton = {}; Singleton.method = function() {}` | `class Singleton { static method() {} }`              |
-| `var x = obj.x \|\| defaultVal;`                         | `const { x = defaultVal } = obj;` or default params   |
-| Global assignments (`_global.CONST = val`)               | Explicit ES6 imports in all consumers                 |
-
-> **Arrow function `this` caveat:** Arrow functions capture `this` lexically. Verify `this` usage before converting jQuery event handlers or prototype methods. If a function relies on dynamic `this`, keep it as a regular function or convert the whole module to a class first.
-
-### Modernization Examples
-
-The two most common non-obvious legacy patterns in this codebase:
-
-**Object-literal singletons → static class:**
-
-```javascript
-// Before (found in FileManager, UIManager, NetworkManager, etc.)
-const FileManager = {};
-FileManager.remoteClient = '';
-FileManager.load = function load(path) { /* ... */ };
-export default FileManager;
-
-// After
-class FileManager {
-    static remoteClient = '';
-    static load(path) { /* ... */ }
-}
-export default FileManager;
-```
-
-### Globals Still in Use
-
-- **ROConfig**: Runtime configuration object
-- **SEEK_CUR, SEEK_SET, SEEK_END**: BinaryReader constants (prefer importing from `Utils/BinaryReader.js`)
-
-## Config System
-
-- **Config.js**: Auto-generated default settings (servers, features, preferences)
-- **Config.local.js**: Optional local overrides (not committed)
-- **ROConfig**: Merged configuration object loaded at runtime
-
-Key options: `servers` (address/port/version), `packetDump` (packet logging), `skipIntro` (bypass intro), `remoteClient` (GRF asset server URL), `plugins`, `aura`, `autoLogin`.
-
-## Build & Development
-
-```bash
-npm run dev             # Vite dev server
-npm run build:online    # Build full client (Online.js)
-npm run build:all       # Build all 7 apps
-npm run build:pwa       # Build PWA (Online + Thread + manifest)
-npm run electron        # Run Electron desktop app
-npm run electron:dev    # Run Electron in dev mode (with DevTools)
-npm run electron:build  # Package Electron app (output: dist/Desktop/)
-npm run lint            # ESLint check
-npm run lint:fix        # ESLint auto-fix
-npm run format          # Prettier format
-npm run ci              # lint + format:check (CI pipeline)
-```
-
-Full script list in `package.json`. `ThreadEventHandler.js` (Web Worker) is built separately via `npm run build:threadhandler`.
-
-### Infrastructure Requirements
-
-- **wsProxy**: WebSocket proxy (server-side) translating TCP ↔ WebSocket
-- **Remote Client (PHP/JS)**: HTTP server extracting/serving GRF assets
-- **Game Server**: rAthena or Hercules compatible
-- **kRO Client Files**: GRF assets + executable for PACKETVER detection
-
-## Common Development Tasks
-
-### Adding a New UI Component
-
-**New components should use GUIComponent (Shadow DOM):**
-
-1. Create directory in `src/UI/Components/NewComponent/`
-2. Create `NewComponent.js`, `NewComponent.html`, `NewComponent.css`
-3. Use `new GUIComponent('Name', cssText)` with `render()` returning HTML
-4. Use Custom Elements (`<ui-button>`, `<ui-text>`, `<ui-image>`) instead of `data-*` attributes
-5. CSS: dimensions/position on `:host`, inner layout on `#Name`
-6. Register with `UIManager.addComponent()`
-7. Add keyboard shortcut in `src/Controls/ProcessCommand.js` if needed
-    > Consult **L1** [`doc/UIComponent_to_GUIComponent.md`](doc/UIComponent_to_GUIComponent.md) first; fall back to **L0** [`_Scars.md`](doc/UIComponent_to_GUIComponent_Scars.md) for the full step-by-step checklist and pitfalls.  
-    > See [`doc/CustomElements.md`](doc/CustomElements.md) for element reference
-    > **Migrating an existing UIComponent:** Follow the step-by-step checklist in the migration guide. Key pitfalls: jQuery `.show()`/`.hide()` inside Shadow DOM, `$el.closest('body')` → `el.isConnected`, CSS `:host` dimensions.
-
-### Implementing a New Packet Handler
-
-1. Define packet structure in `src/Network/PacketStructure.js`
-2. Register handler in `src/Network/PacketRegister.js`
-3. Implement handler in appropriate engine (MapEngine, LoginEngine, etc.)
-4. Handle version-specific differences via PacketVersions.js
-5. Test with `packetDump` enabled in config
-
-### Adding a New Packet Version
-
-1. Create file in `src/Network/Packets/` (e.g., `packets2026_len_main.js`)
-2. Define packet lengths for all known packets in that version
-3. Update `PacketVerManager.js` to include the new date range
-4. Test against server with matching PACKETVER
-
-### Creating a New Renderer Effect
-
-1. Create effect module in `src/Renderer/Effects/`
-2. Implement with `update()` and `render()` methods
-3. Register with EffectManager
-4. Test performance impact and object pooling
-
-### (Factory/Deduplication Task) Deduplicating JS code in multiple versions to unified shared factory pattern
-
-**Before starting, you MUST read `doc/GUIComponent_Version_Dedup_Factory.md` — it contains invariants that cannot be violated.**
-
-1. Create a ComponentNameCommon.js in Component Folder
-2. Move all JS code from `V0` or `V1` to new Common Factory
-3. Add each JS variation from other versions, creating a new entry on the factory function header
-
-## Troubleshooting
-
-- **Missing assets**: Verify GRF loading in Client.js, check Remote Client response
-- **Packet errors**: Check PACKETVER matches server, verify PacketVersions.js, enable packetDump
-- **Rendering issues**: Check WebGL capability (OpenGL ES 2.0 required), inspect Renderer.js context
-- **Build errors**: Clear `dist/`, verify entry point exists in `src/App/`
-- **Connection fails**: Check wsProxy configuration, firewall settings
-- **Module not found**: Check path aliases in vite.config.js and file extensions
-
-## Important Gotchas
-
-- **PACKETVER mismatch**: Client and server packet definitions must align; debug by comparing hex packets
-- **GRF paths**: Case-sensitive on Linux; relative to Remote Client or local file list
-- **Texture limits**: WebGL has max texture dimensions; large sprite sheets can fail
-- **Path aliases**: Always use aliases (e.g., `'Utils/BinaryReader.js'`) instead of relative paths
-- **Global removal requires audit**: Before removing a global assignment (e.g., `SEEK_CUR`), verify all consumers including Web Workers have been updated to use ES6 imports
-
-## Glossary
-
-- **GID**: Global ID — unique identifier for game entities
-- **GRF**: Game Resource File — container format for Ragnarok assets
-- **PACKETVER**: Packet version — determines network protocol format based on kRO client date
-- **wsProxy**: WebSocket proxy for TCP ↔ WebSocket translation
-- **Entity**: Game object (player, NPC, monster) with rendering and state
-- **Effect**: Visual effect (weather, auras, particles) managed by EffectManager
-- **kRO**: Korean Ragnarok Online — reference client for packet versions
-
-## Debugging
-
-### Enabling Debug Output
-
-- Set `development: true` in ROConfig to enable console output
-- Set `enableConsole: true` for console without full dev mode
-- ConsoleManager (`src/Utils/ConsoleManager.js`) silences ALL console  
-  output in production — if you see no logs, check these flags first
-
-### Network Debugging
-
-- Set `packetDump: true` in ROConfig to log all packets
-- Compare hex dumps against PacketStructure.js definitions
-- Check PACKETVER detection: NetworkManager logs the detected version on connect
-
-### Common Bug Hotspots
-
-- **Entity state** (`src/Engine/MapEngine/Entity.js`): 5 TODOs — entity  
-  creation/removal edge cases, especially during map transitions
-- **Effect rendering** (`src/Renderer/Effects/`): 3 TODOs — damage display  
-  edge cases (Damage.js) and sky rendering (Sky.js)
-- **DB tables** (`src/DB/DBManager.js`): 12 TODOs — incomplete data mappings  
-  for newer kRO content
-- **Packet handling**: Version-specific edge cases where packet structure  
-  changed between kRO dates
-
-### Cross-Platform Gotchas
-
-- Browser: console may be silenced by ConsoleManager — check with F12 first
-- Electron: errors may appear in the Electron DevTools, not the terminal
-- GRF paths: case-sensitive on Linux, case-insensitive on Windows — bugs  
-  that only appear on Linux deployments
+# roBrowserLegacy 客户端代理说明
+
+## HappyRO 仓库规则
+
+- HappyRO 自有提交必须使用 `type(scope): subject` 格式。
+- `scope` 必须存在，使用小写英文；破坏性变更使用 `type(scope)!: subject` 并说明迁移方式。
+- 允许的类型：`feat`、`fix`、`config`、`docs`、`refactor`、`test`、`build`、`ci`、`chore`、`perf`、`style`、`revert`。
+- subject 使用祈使语气的英文，不以句号结尾，首行不超过 72 个字符。
+- 一个提交只包含一个逻辑变更；上游合并提交和上游作者提交不受此限制。
+- 只推送到本仓库的 `origin`，不推送到 `upstream`；未经用户明确要求不提交、不推送。
+- 保持 `PACKETVER=20211103`、Renewal、封包混淆和服务端配置一致。
+- 运行时资源必须使用已核验的官方 kRO 2021-11-05 基线和局域网服务。
+- 不使用第三方批量翻译表、翻译客户端或翻译后的客户端包。
+- 不提交生成的 PWA 输出、客户端资源、密钥、截图或运行时语言包。
+
+## 项目概览
+
+roBrowserLegacy 是使用 ES6 modules 和 WebGL 构建的《仙境传说》网页客户端，支持浏览器、PWA 和 Electron。
+
+- `src/App/`：应用入口。
+- `src/Core/`：客户端、配置、文件、线程和平台基础设施。
+- `src/Engine/`：登录、选角、地图和游戏状态引擎。
+- `src/Network/`：封包注册、结构、加密、版本和 Socket。
+- `src/Loaders/`：GRF、地图、精灵、模型和资源解析器。
+- `src/DB/`：道具、职业、地图、怪物、宠物、技能和状态数据。
+- `src/Renderer/`：WebGL 渲染、实体、地图和特效。
+- `src/UI/`：UIManager、GUIComponent、Custom Elements 和游戏界面组件。
+- `src/Controls/`：输入、地图、战斗和快捷命令控制器。
+- `applications/pwa/`：PWA 配置和入口。
+
+## 架构约束
+
+- 源码使用 ES6 `import`/`export`，由 Vite 打包。
+- 使用既有路径别名，例如 `Core/Configs.js`、`UI/Components/...`。
+- 实体系统使用组合和 mixin，不改成继承体系。
+- `PACKETVER` 按可执行文件时间自动识别；修改版本检测会影响多个协议版本。
+- 浏览器使用 WebSocket，Electron 使用 NodeSocket；两条路径必须保持一致接口。
+- 新 UI 组件使用 `GUIComponent`、`<ui-button>`、`<ui-text>` 和 `<ui-image>` 体系。
+- UI 资源由 GRF 图片驱动，CSS 主要负责结构和定位。
+- 不修改 `src/Vendors/` 中的固定第三方代码。
+- 修改网络、渲染、资源加载或协议代码时，保持公共 API、版本行为和既有组件模式。
+
+## 代码约定
+
+- 遵守 `.editorconfig`、`.gitattributes`、Prettier 和 ESLint 约定。
+- 使用单引号、分号、必要的大括号和既有换行风格。
+- 尽可能使用 `const`，否则使用 `let`，不使用 `var`。
+- 私有变量使用 `_` 前缀；常量使用 `UPPER_SNAKE_CASE`；类使用 PascalCase；函数使用 camelCase。
+- 不在翻译批次中顺便做无关重构、格式化或现代化改造。
+
+## 配置、构建和调试
+
+- 修改配置时保持 LAN WebSocket、资源路径和客户端/服务端协议设置一致。
+- 常规客户端变更遵循仓库既有的 `npm test`、`npm run build:pwa` 和针对性检查流程；当前中文汉化阶段按根仓规则暂不进行自动测试。
+- 浏览器日志可能被 ConsoleManager 静默；检查 `development` 和 `enableConsole` 配置。
+- 网络问题先检查 `packetDump`、PacketStructure.js 和 PACKETVER 检测结果。
+- GRF 路径在 Linux 区分大小写；资源文件名和目录大小写必须保持正确。
+- 不根据翻译行数宣称完成，必须检查 ID、占位符、编码、fallback 和代表性游戏流程。
