@@ -45,7 +45,7 @@ function getShouldOpenWhisperBox(nickname) {
  */
 function onPrivateMessage(pkt) {
 	const isFriend = Friends.isFriend(pkt.sender);
-	const prefix = isFriend ? DB.getMessage(102) : 'From';
+	const prefix = isFriend ? DB.getMessage(102) : '来自';
 	const msg = pkt.msg.replace(/\|\d{2}/, '');
 
 	// Use WhisperBox if open or allowed by settings (version dependent)

@@ -592,7 +592,7 @@ CashShop.renderCashShopItems = function renderCashShopItems(items) {
 							<span>${item.price}</span>
 						</div>
 						<div class="purchase-btn-container">
-							<button class="add-to-cart" data-itemid="${item.itemId}" tab-index="${i}" data-background="cashshop/btn_add_normal.bmp" data-down="cashshop/btn_add_press.bmp">Purchase</button>
+							<button class="add-to-cart" data-itemid="${item.itemId}" tab-index="${i}" data-background="cashshop/btn_add_normal.bmp" data-down="cashshop/btn_add_press.bmp">购买</button>
 						</div>
 					</div>
 				</div>
@@ -756,7 +756,7 @@ function onClickSearch() {
 	}
 
 	if (newList.length === 0) {
-		UIManager.showMessageBox('No items found in auction search', 'ok');
+		UIManager.showMessageBox('拍卖搜索中未找到物品', 'ok');
 		return;
 	}
 
@@ -949,7 +949,7 @@ function onClickActionBuyItem() {
 	const itemlist = CashShop.cartItem;
 	CashShop.cartItemLen = itemlist.length;
 
-	UIManager.showPromptBox('Are you sure you want to buy this items?', 'ok', 'cancel', () => {
+	UIManager.showPromptBox('确定要购买这些物品吗？', 'ok', 'cancel', () => {
 		if (CashShop.cartItem.length > 0) {
 			const pkt = new PACKET.CZ.SE_PC_BUY_CASHITEM_LIST();
 			const freePointsInput = root.querySelector('#use-free-points');

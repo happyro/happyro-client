@@ -225,7 +225,7 @@ VendingReport.add = function add(pkt) {
 	}
 
 	const entity = EntityManager.getByCID(pkt.CID);
-	const buyer = entity ? entity.display.name : 'Unknown';
+	const buyer = entity ? entity.display.name : '未知';
 
 	const reportItem = {
 		...shopItem,

@@ -769,7 +769,7 @@ function onRankDisplay(pkt) {
 			message += DB.getMessage(2389);
 		} // "PK"
 		else {
-			message += 'Unknown';
+				message += '未知';
 		}
 	} else {
 		// Old per-type ranking packets
@@ -784,7 +784,7 @@ function onRankDisplay(pkt) {
 		} // "Taekwon"
 		//else if(pkt instanceof PACKET.ZC.KILLER_RANK) { message += DB.getMessage(2389); } //PK currently unsupported
 		else {
-			message += 'Unknown';
+			message += '未知';
 		}
 	}
 	message += ' ';
@@ -800,12 +800,12 @@ function onRankDisplay(pkt) {
 			const cid = pkt?.CharID?.[i];
 			if (cid && cid > 0) {
 				const cached = DB.CNameTable[cid];
-				name = cached && cached !== 'Unknown' ? cached : 'None';
+				name = cached && cached !== '未知' ? cached : '无';
 			} else {
-				name = 'None';
+				name = '无';
 			}
 		} else {
-			name = pkt?.Name?.[i] ?? 'None';
+			name = pkt?.Name?.[i] ?? '无';
 		}
 		const point = pkt?.Point?.[i] ?? 0;
 
@@ -828,7 +828,7 @@ function onUpdateMapInfo(pkt) {
  * DB.getMessage(3032) - used for newer clients (tested on PACKETVER > 20220406)
  */
 function onRatesInfo(pkt) {
-	const serverName = Session.ServerName || 'Unknown Server';
+	const serverName = Session.ServerName || '未知服务器';
 	let message = '';
 
 	// Header

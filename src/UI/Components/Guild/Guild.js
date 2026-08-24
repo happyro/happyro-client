@@ -876,11 +876,11 @@ Guild.addSkill = function addSkill(skill) {
 		`<div class="name">${_escapeHTML(sk.SkillName)}<br/>` +
 		'<span class="level">' +
 		(sk.bSeperateLv
-			? `<button class="currentDown"></button>Lv : <span class="current">${skill.level}</span> / <span class="max">${skill.level}</span><button class="currentUp"></button>`
-			: `Lv : <span class="current">${skill.level}</span>`) +
+			? `<button class="currentDown"></button>等级：<span class="current">${skill.level}</span> / <span class="max">${skill.level}</span><button class="currentUp"></button>`
+			: `等级：<span class="current">${skill.level}</span>`) +
 		'</span></div></td>' +
 		'<td class="selectable type">' +
-		`<div class="consume">${skill.type ? `Sp : <span class="spcost">${skill.spcost}</span>` : 'Passive'}</div>` +
+		`<div class="consume">${skill.type ? `SP：<span class="spcost">${skill.spcost}</span>` : '被动'}</div>` +
 		'</td>';
 
 	if (!skill.upgradable || !_skpoints) {
@@ -1399,7 +1399,7 @@ Guild.promptDisbandGuild = function promptDisbandGuild() {
 		return;
 	}
 
-	UIManager.showMessageBox('If you are using a guild storage, all items inside it will disappear.', 'ok', () => {
+	UIManager.showMessageBox('如果你正在使用公会仓库，其中的所有物品都会消失。', 'ok', () => {
 		GuildCompanion.openDisband();
 	});
 };
