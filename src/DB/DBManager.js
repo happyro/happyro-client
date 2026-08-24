@@ -7070,7 +7070,7 @@ function loadLuaValue(file_path, variable_name, callback, onEnd) {
 
 				// Add key-value pairs to objects at any nesting level
 				ctx.extractValue = value => {
-					result = JSON.parse(userStringDecoder.decode(value));
+					result = JSON.parse(userStringDecoder.decode(value, 'utf-8'));
 				};
 
 				// Create and execute a wrapper Lua code to extract the variable
