@@ -15,7 +15,7 @@ const SkillInfo = {};
 
 SkillInfo[SK.SN_WINDWALK] = {
 	Name: 'SN_WINDWALK',
-	SkillName: 'Wind Walker',
+	SkillName: '风行者',
 	MaxLv: 10,
 	SpAmount: [46, 52, 58, 64, 70, 76, 82, 88, 94, 100],
 	bSeperateLv: true,
@@ -24,7 +24,7 @@ SkillInfo[SK.SN_WINDWALK] = {
 };
 SkillInfo[SK.AB_VITUPERATUM] = {
 	Name: 'AB_VITUPERATUM',
-	SkillName: 'Vituperatum',
+	SkillName: '斥责术',
 	MaxLv: 5,
 	SpAmount: [144, 120, 106, 92, 78],
 	bSeperateLv: false,
@@ -36,7 +36,7 @@ SkillInfo[SK.AB_VITUPERATUM] = {
 };
 SkillInfo[SK.AB_CONVENIO] = {
 	Name: 'AB_CONVENIO',
-	SkillName: 'Convenio',
+	SkillName: '契约',
 	MaxLv: 1,
 	SpAmount: [70],
 	bSeperateLv: false,
@@ -48,7 +48,7 @@ SkillInfo[SK.AB_CONVENIO] = {
 };
 SkillInfo[SK.AL_RUWACH] = {
 	Name: 'AL_RUWACH',
-	SkillName: 'Ruwach',
+	SkillName: '光耀之堂',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -56,7 +56,7 @@ SkillInfo[SK.AL_RUWACH] = {
 };
 SkillInfo[SK.WS_MELTDOWN] = {
 	Name: 'WS_MELTDOWN',
-	SkillName: 'Shattering Strike',
+	SkillName: '碎裂打击',
 	MaxLv: 10,
 	SpAmount: [50, 50, 60, 60, 70, 70, 80, 80, 90, 90],
 	bSeperateLv: true,
@@ -70,7 +70,7 @@ SkillInfo[SK.WS_MELTDOWN] = {
 };
 SkillInfo[SK.WS_CREATECOIN] = {
 	Name: 'WS_CREATECOIN',
-	SkillName: 'Coin Craft',
+	SkillName: '硬币制造',
 	MaxLv: 3,
 	SpAmount: [10, 20, 30],
 	bSeperateLv: false,
@@ -78,7 +78,7 @@ SkillInfo[SK.WS_CREATECOIN] = {
 };
 SkillInfo[SK.MER_MAGNIFICAT] = {
 	Name: 'MER_MAGNIFICAT',
-	SkillName: 'Magnificat',
+	SkillName: '圣母之颂歌',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -86,7 +86,7 @@ SkillInfo[SK.MER_MAGNIFICAT] = {
 };
 SkillInfo[SK.WS_CREATENUGGET] = {
 	Name: 'WS_CREATENUGGET',
-	SkillName: 'Nugget Craft',
+	SkillName: '金块制造',
 	MaxLv: 3,
 	SpAmount: [10, 20, 30],
 	bSeperateLv: false,
@@ -94,7 +94,7 @@ SkillInfo[SK.WS_CREATENUGGET] = {
 };
 SkillInfo[SK.WS_CARTBOOST] = {
 	Name: 'WS_CARTBOOST',
-	SkillName: 'Cart Boost',
+	SkillName: '手推车加速',
 	MaxLv: 1,
 	SpAmount: [20],
 	bSeperateLv: false,
@@ -103,7 +103,7 @@ SkillInfo[SK.WS_CARTBOOST] = {
 };
 SkillInfo[SK.WS_SYSTEMCREATE] = {
 	Name: 'WS_SYSTEMCREATE',
-	SkillName: 'Battle Machine Craft',
+	SkillName: '战斗机器制造',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -111,7 +111,7 @@ SkillInfo[SK.WS_SYSTEMCREATE] = {
 };
 SkillInfo[SK.ST_CHASEWALK] = {
 	Name: 'ST_CHASEWALK',
-	SkillName: 'Stealth',
+	SkillName: '潜行',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -123,7 +123,7 @@ SkillInfo[SK.ST_CHASEWALK] = {
 };
 SkillInfo[SK.ST_REJECTSWORD] = {
 	Name: 'ST_REJECTSWORD',
-	SkillName: 'Counter Instinct',
+	SkillName: '反击本能',
 	MaxLv: 5,
 	SpAmount: [10, 15, 20, 25, 30],
 	bSeperateLv: true,
@@ -131,7 +131,7 @@ SkillInfo[SK.ST_REJECTSWORD] = {
 };
 SkillInfo[SK.ST_STEALBACKPACK] = {
 	Name: 'ST_STEALBACKPACK',
-	SkillName: 'Steal Lunch Money',
+	SkillName: '偷窃零花钱',
 	MaxLv: 5,
 	SpAmount: [30, 30, 30, 30, 30],
 	bSeperateLv: false,
@@ -139,7 +139,7 @@ SkillInfo[SK.ST_STEALBACKPACK] = {
 };
 SkillInfo[SK.EL_HEATER] = {
 	Name: 'EL_HEATER',
-	SkillName: 'Heater',
+	SkillName: '加热器',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -147,7 +147,7 @@ SkillInfo[SK.EL_HEATER] = {
 };
 SkillInfo[SK.CR_ALCHEMY] = {
 	Name: 'CR_ALCHEMY',
-	SkillName: 'Alchemy',
+	SkillName: '炼金术',
 	MaxLv: 0,
 	SpAmount: [],
 	bSeperateLv: false,
@@ -155,7 +155,7 @@ SkillInfo[SK.CR_ALCHEMY] = {
 };
 SkillInfo[SK.CR_SYNTHESISPOTION] = {
 	Name: 'CR_SYNTHESISPOTION',
-	SkillName: 'Potion Synthesis',
+	SkillName: '药水合成',
 	MaxLv: 0,
 	SpAmount: [],
 	bSeperateLv: false,
@@ -163,7 +163,7 @@ SkillInfo[SK.CR_SYNTHESISPOTION] = {
 };
 SkillInfo[SK.CG_ARROWVULCAN] = {
 	Name: 'CG_ARROWVULCAN',
-	SkillName: 'Arrow Vulcan',
+	SkillName: '箭矢火神炮',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -183,7 +183,7 @@ SkillInfo[SK.CG_ARROWVULCAN] = {
 };
 SkillInfo[SK.CG_MOONLIT] = {
 	Name: 'CG_MOONLIT',
-	SkillName: 'Sheltering Bliss',
+	SkillName: '庇护之乐',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -201,7 +201,7 @@ SkillInfo[SK.CG_MOONLIT] = {
 };
 SkillInfo[SK.CG_MARIONETTE] = {
 	Name: 'CG_MARIONETTE',
-	SkillName: 'Marionette Control',
+	SkillName: '傀儡控制',
 	MaxLv: 1,
 	SpAmount: [100],
 	bSeperateLv: false,
@@ -219,7 +219,7 @@ SkillInfo[SK.CG_MARIONETTE] = {
 };
 SkillInfo[SK.LK_SPIRALPIERCE] = {
 	Name: 'LK_SPIRALPIERCE',
-	SkillName: 'Clashing Spiral',
+	SkillName: '冲突螺旋',
 	MaxLv: 5,
 	SpAmount: [18, 21, 24, 27, 30],
 	bSeperateLv: true,
@@ -233,7 +233,7 @@ SkillInfo[SK.LK_SPIRALPIERCE] = {
 };
 SkillInfo[SK.LK_HEADCRUSH] = {
 	Name: 'LK_HEADCRUSH',
-	SkillName: 'Traumatic Blow',
+	SkillName: '创伤打击',
 	MaxLv: 5,
 	SpAmount: [23, 23, 23, 23, 23],
 	bSeperateLv: false,
@@ -245,7 +245,7 @@ SkillInfo[SK.LK_HEADCRUSH] = {
 };
 SkillInfo[SK.LK_JOINTBEAT] = {
 	Name: 'LK_JOINTBEAT',
-	SkillName: 'Vital Strike',
+	SkillName: '生命打击',
 	MaxLv: 10,
 	SpAmount: [12, 12, 14, 14, 16, 16, 18, 18, 20, 20],
 	bSeperateLv: true,
@@ -257,7 +257,7 @@ SkillInfo[SK.LK_JOINTBEAT] = {
 };
 SkillInfo[SK.AL_PNEUMA] = {
 	Name: 'AL_PNEUMA',
-	SkillName: 'Pneuma',
+	SkillName: '圣母之祈福',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -266,7 +266,7 @@ SkillInfo[SK.AL_PNEUMA] = {
 };
 SkillInfo[SK.HW_NAPALMVULCAN] = {
 	Name: 'HW_NAPALMVULCAN',
-	SkillName: 'Napalm Vulcan',
+	SkillName: '灵魂火焰',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -275,7 +275,7 @@ SkillInfo[SK.HW_NAPALMVULCAN] = {
 };
 SkillInfo[SK.CH_SOULCOLLECT] = {
 	Name: 'CH_SOULCOLLECT',
-	SkillName: 'Zen',
+	SkillName: '禅心',
 	MaxLv: 1,
 	SpAmount: [20],
 	bSeperateLv: false,
@@ -284,7 +284,7 @@ SkillInfo[SK.CH_SOULCOLLECT] = {
 };
 SkillInfo[SK.PF_MINDBREAKER] = {
 	Name: 'PF_MINDBREAKER',
-	SkillName: 'Mind Breaker',
+	SkillName: '精神破坏',
 	MaxLv: 5,
 	SpAmount: [12, 15, 18, 21, 24],
 	bSeperateLv: true,
@@ -296,7 +296,7 @@ SkillInfo[SK.PF_MINDBREAKER] = {
 };
 SkillInfo[SK.PF_MEMORIZE] = {
 	Name: 'PF_MEMORIZE',
-	SkillName: 'Foresight',
+	SkillName: '预知',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -309,7 +309,7 @@ SkillInfo[SK.PF_MEMORIZE] = {
 };
 SkillInfo[SK.PF_FOGWALL] = {
 	Name: 'PF_FOGWALL',
-	SkillName: 'Blinding Mist',
+	SkillName: '致盲之雾',
 	MaxLv: 1,
 	SpAmount: [25],
 	bSeperateLv: false,
@@ -321,7 +321,7 @@ SkillInfo[SK.PF_FOGWALL] = {
 };
 SkillInfo[SK.PF_SPIDERWEB] = {
 	Name: 'PF_SPIDERWEB',
-	SkillName: 'Fiber Lock',
+	SkillName: '纤维锁',
 	MaxLv: 1,
 	SpAmount: [30],
 	bSeperateLv: false,
@@ -330,7 +330,7 @@ SkillInfo[SK.PF_SPIDERWEB] = {
 };
 SkillInfo[SK.ASC_METEORASSAULT] = {
 	Name: 'ASC_METEORASSAULT',
-	SkillName: 'Meteor Assault',
+	SkillName: '流星袭击',
 	MaxLv: 10,
 	SpAmount: [10, 12, 14, 16, 18, 20, 22, 24, 26, 28],
 	bSeperateLv: true,
@@ -344,7 +344,7 @@ SkillInfo[SK.ASC_METEORASSAULT] = {
 };
 SkillInfo[SK.ASC_CDP] = {
 	Name: 'ASC_CDP',
-	SkillName: 'Create Deadly Poison',
+	SkillName: '制作致命毒药',
 	MaxLv: 1,
 	SpAmount: [50],
 	bSeperateLv: false,
@@ -357,7 +357,7 @@ SkillInfo[SK.ASC_CDP] = {
 };
 SkillInfo[SK.WE_BABY] = {
 	Name: 'WE_BABY',
-	SkillName: 'Mom, Dad, I love you!',
+	SkillName: '爸爸妈妈，我爱你们！',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -365,7 +365,7 @@ SkillInfo[SK.WE_BABY] = {
 };
 SkillInfo[SK.WE_CALLPARENT] = {
 	Name: 'WE_CALLPARENT',
-	SkillName: 'Mom, Dad, I miss you!',
+	SkillName: '爸爸妈妈，我想你们！',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -373,7 +373,7 @@ SkillInfo[SK.WE_CALLPARENT] = {
 };
 SkillInfo[SK.WE_CALLBABY] = {
 	Name: 'WE_CALLBABY',
-	SkillName: 'Come to me, honey~',
+	SkillName: '亲爱的，来我身边吧～',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -381,7 +381,7 @@ SkillInfo[SK.WE_CALLBABY] = {
 };
 SkillInfo[SK.TK_RUN] = {
 	Name: 'TK_RUN',
-	SkillName: 'Sprint',
+	SkillName: '疾跑',
 	MaxLv: 10,
 	SpAmount: [100, 90, 80, 70, 60, 50, 40, 30, 20, 10],
 	bSeperateLv: false,
@@ -389,7 +389,7 @@ SkillInfo[SK.TK_RUN] = {
 };
 SkillInfo[SK.TK_READYSTORM] = {
 	Name: 'TK_READYSTORM',
-	SkillName: 'Tornado Stance',
+	SkillName: '龙卷姿态',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -398,7 +398,7 @@ SkillInfo[SK.TK_READYSTORM] = {
 };
 SkillInfo[SK.TK_STORMKICK] = {
 	Name: 'TK_STORMKICK',
-	SkillName: 'Tornado Kick',
+	SkillName: '龙卷踢',
 	MaxLv: 7,
 	SpAmount: [14, 12, 10, 8, 6, 4, 2],
 	bSeperateLv: false,
@@ -406,7 +406,7 @@ SkillInfo[SK.TK_STORMKICK] = {
 };
 SkillInfo[SK.TK_READYDOWN] = {
 	Name: 'TK_READYDOWN',
-	SkillName: 'Heel Drop Stance',
+	SkillName: '脚跟落姿态',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -415,7 +415,7 @@ SkillInfo[SK.TK_READYDOWN] = {
 };
 SkillInfo[SK.TK_DOWNKICK] = {
 	Name: 'TK_DOWNKICK',
-	SkillName: 'Heel Drop',
+	SkillName: '脚跟落',
 	MaxLv: 7,
 	SpAmount: [14, 12, 10, 8, 6, 4, 2],
 	bSeperateLv: false,
@@ -423,7 +423,7 @@ SkillInfo[SK.TK_DOWNKICK] = {
 };
 SkillInfo[SK.AL_TELEPORT] = {
 	Name: 'AL_TELEPORT',
-	SkillName: 'Teleport',
+	SkillName: '瞬间移动',
 	MaxLv: 2,
 	SpAmount: [10, 9],
 	bSeperateLv: true,
@@ -432,7 +432,7 @@ SkillInfo[SK.AL_TELEPORT] = {
 };
 SkillInfo[SK.TK_READYTURN] = {
 	Name: 'TK_READYTURN',
-	SkillName: 'Roundhouse Stance',
+	SkillName: '回旋踢姿态',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -441,7 +441,7 @@ SkillInfo[SK.TK_READYTURN] = {
 };
 SkillInfo[SK.TK_TURNKICK] = {
 	Name: 'TK_TURNKICK',
-	SkillName: 'Roundhouse',
+	SkillName: '回旋踢',
 	MaxLv: 7,
 	SpAmount: [14, 12, 10, 8, 6, 4, 2],
 	bSeperateLv: false,
@@ -449,7 +449,7 @@ SkillInfo[SK.TK_TURNKICK] = {
 };
 SkillInfo[SK.TK_READYCOUNTER] = {
 	Name: 'TK_READYCOUNTER',
-	SkillName: 'Counter Kick Stance',
+	SkillName: '反击踢姿态',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -458,7 +458,7 @@ SkillInfo[SK.TK_READYCOUNTER] = {
 };
 SkillInfo[SK.TK_COUNTER] = {
 	Name: 'TK_COUNTER',
-	SkillName: 'Counter Kick',
+	SkillName: '反击踢',
 	MaxLv: 7,
 	SpAmount: [14, 12, 10, 8, 6, 4, 2],
 	bSeperateLv: false,
@@ -466,7 +466,7 @@ SkillInfo[SK.TK_COUNTER] = {
 };
 SkillInfo[SK.TK_DODGE] = {
 	Name: 'TK_DODGE',
-	SkillName: 'Tumbling',
+	SkillName: '翻滚',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -475,7 +475,7 @@ SkillInfo[SK.TK_DODGE] = {
 };
 SkillInfo[SK.TK_JUMPKICK] = {
 	Name: 'TK_JUMPKICK',
-	SkillName: 'Flying Kick',
+	SkillName: '飞踢',
 	MaxLv: 7,
 	SpAmount: [70, 60, 50, 40, 30, 20, 10],
 	bSeperateLv: false,
@@ -483,7 +483,7 @@ SkillInfo[SK.TK_JUMPKICK] = {
 };
 SkillInfo[SK.TK_HPTIME] = {
 	Name: 'TK_HPTIME',
-	SkillName: 'Peaceful Break',
+	SkillName: '和平休息',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -491,7 +491,7 @@ SkillInfo[SK.TK_HPTIME] = {
 };
 SkillInfo[SK.TK_SPTIME] = {
 	Name: 'TK_SPTIME',
-	SkillName: 'Happy Break',
+	SkillName: '快乐休息',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -499,7 +499,7 @@ SkillInfo[SK.TK_SPTIME] = {
 };
 SkillInfo[SK.TK_POWER] = {
 	Name: 'TK_POWER',
-	SkillName: 'Kihop',
+	SkillName: '气合',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -507,7 +507,7 @@ SkillInfo[SK.TK_POWER] = {
 };
 SkillInfo[SK.TK_SEVENWIND] = {
 	Name: 'TK_SEVENWIND',
-	SkillName: 'Mild Wind',
+	SkillName: '微风',
 	MaxLv: 7,
 	SpAmount: [20, 20, 20, 20, 50, 50, 50],
 	bSeperateLv: true,
@@ -520,7 +520,7 @@ SkillInfo[SK.TK_SEVENWIND] = {
 };
 SkillInfo[SK.TK_HIGHJUMP] = {
 	Name: 'TK_HIGHJUMP',
-	SkillName: 'Leap',
+	SkillName: '跳跃',
 	MaxLv: 5,
 	SpAmount: [50, 50, 50, 50, 50],
 	bSeperateLv: true,
@@ -528,7 +528,7 @@ SkillInfo[SK.TK_HIGHJUMP] = {
 };
 SkillInfo[SK.SG_FEEL] = {
 	Name: 'SG_FEEL',
-	SkillName: 'Solar, Lunar and Stellar Perception',
+	SkillName: '太阳、月亮与星星感知',
 	MaxLv: 3,
 	SpAmount: [100, 100, 100],
 	bSeperateLv: true,
@@ -536,7 +536,7 @@ SkillInfo[SK.SG_FEEL] = {
 };
 SkillInfo[SK.SG_SUN_WARM] = {
 	Name: 'SG_SUN_WARM',
-	SkillName: 'Solar Heat',
+	SkillName: '太阳炎',
 	MaxLv: 3,
 	SpAmount: [20, 20, 20],
 	bSeperateLv: false,
@@ -545,7 +545,7 @@ SkillInfo[SK.SG_SUN_WARM] = {
 };
 SkillInfo[SK.SG_MOON_WARM] = {
 	Name: 'SG_MOON_WARM',
-	SkillName: 'Lunar Heat',
+	SkillName: '月亮炎',
 	MaxLv: 3,
 	SpAmount: [20, 20, 20],
 	bSeperateLv: false,
@@ -554,7 +554,7 @@ SkillInfo[SK.SG_MOON_WARM] = {
 };
 SkillInfo[SK.SG_STAR_WARM] = {
 	Name: 'SG_STAR_WARM',
-	SkillName: 'Stellar Heat',
+	SkillName: '星星炎',
 	MaxLv: 3,
 	SpAmount: [10, 10, 10],
 	bSeperateLv: false,
@@ -563,7 +563,7 @@ SkillInfo[SK.SG_STAR_WARM] = {
 };
 SkillInfo[SK.SG_SUN_COMFORT] = {
 	Name: 'SG_SUN_COMFORT',
-	SkillName: 'Solar Protection',
+	SkillName: '太阳保护',
 	MaxLv: 4,
 	SpAmount: [70, 60, 50, 40],
 	bSeperateLv: false,
@@ -572,7 +572,7 @@ SkillInfo[SK.SG_SUN_COMFORT] = {
 };
 SkillInfo[SK.AL_WARP] = {
 	Name: 'AL_WARP',
-	SkillName: 'Warp Portal',
+	SkillName: '传送门',
 	MaxLv: 4,
 	SpAmount: [35, 32, 29, 26],
 	bSeperateLv: false,
@@ -581,7 +581,7 @@ SkillInfo[SK.AL_WARP] = {
 };
 SkillInfo[SK.SG_MOON_COMFORT] = {
 	Name: 'SG_MOON_COMFORT',
-	SkillName: 'Lunar Protection',
+	SkillName: '月亮保护',
 	MaxLv: 4,
 	SpAmount: [70, 60, 50, 40],
 	bSeperateLv: false,
@@ -590,7 +590,7 @@ SkillInfo[SK.SG_MOON_COMFORT] = {
 };
 SkillInfo[SK.SG_STAR_COMFORT] = {
 	Name: 'SG_STAR_COMFORT',
-	SkillName: 'Stellar Protection',
+	SkillName: '星星保护',
 	MaxLv: 4,
 	SpAmount: [70, 60, 50, 40],
 	bSeperateLv: false,
@@ -599,7 +599,7 @@ SkillInfo[SK.SG_STAR_COMFORT] = {
 };
 SkillInfo[SK.SG_HATE] = {
 	Name: 'SG_HATE',
-	SkillName: 'Solar, Lunar and Stellar Opposition',
+	SkillName: '太阳、月亮与星星对抗',
 	MaxLv: 3,
 	SpAmount: [100, 100, 100],
 	bSeperateLv: true,
@@ -607,7 +607,7 @@ SkillInfo[SK.SG_HATE] = {
 };
 SkillInfo[SK.SG_SUN_ANGER] = {
 	Name: 'SG_SUN_ANGER',
-	SkillName: 'Solar Wrath',
+	SkillName: '太阳愤怒',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -616,7 +616,7 @@ SkillInfo[SK.SG_SUN_ANGER] = {
 };
 SkillInfo[SK.SG_MOON_ANGER] = {
 	Name: 'SG_MOON_ANGER',
-	SkillName: 'Lunar Wrath',
+	SkillName: '月亮愤怒',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -625,7 +625,7 @@ SkillInfo[SK.SG_MOON_ANGER] = {
 };
 SkillInfo[SK.SG_STAR_ANGER] = {
 	Name: 'SG_STAR_ANGER',
-	SkillName: 'Stellar Wrath',
+	SkillName: '星星愤怒',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -634,7 +634,7 @@ SkillInfo[SK.SG_STAR_ANGER] = {
 };
 SkillInfo[SK.SG_SUN_BLESS] = {
 	Name: 'SG_SUN_BLESS',
-	SkillName: 'Solar Blessings',
+	SkillName: '太阳祝福',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -646,7 +646,7 @@ SkillInfo[SK.SG_SUN_BLESS] = {
 };
 SkillInfo[SK.SG_MOON_BLESS] = {
 	Name: 'SG_MOON_BLESS',
-	SkillName: 'Lunar Blessings',
+	SkillName: '月亮祝福',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -658,7 +658,7 @@ SkillInfo[SK.SG_MOON_BLESS] = {
 };
 SkillInfo[SK.SG_STAR_BLESS] = {
 	Name: 'SG_STAR_BLESS',
-	SkillName: 'Stellar Blessings',
+	SkillName: '星星祝福',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -670,7 +670,7 @@ SkillInfo[SK.SG_STAR_BLESS] = {
 };
 SkillInfo[SK.SG_DEVIL] = {
 	Name: 'SG_DEVIL',
-	SkillName: 'Solar, Lunar and Stellar Shadow ',
+	SkillName: '太阳、月亮与星星之影',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -678,7 +678,7 @@ SkillInfo[SK.SG_DEVIL] = {
 };
 SkillInfo[SK.GD_DEVELOPMENT] = {
 	Name: 'GD_DEVELOPMENT',
-	SkillName: 'Permanent Development',
+	SkillName: '永久发展',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -686,7 +686,7 @@ SkillInfo[SK.GD_DEVELOPMENT] = {
 };
 SkillInfo[SK.SG_FRIEND] = {
 	Name: 'SG_FRIEND',
-	SkillName: 'Solar, Lunar and Stellar Team-Up',
+	SkillName: '太阳、月亮与星星组队',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -694,7 +694,7 @@ SkillInfo[SK.SG_FRIEND] = {
 };
 SkillInfo[SK.SG_KNOWLEDGE] = {
 	Name: 'SG_KNOWLEDGE',
-	SkillName: 'Solar, Lunar and Stellar Courier ',
+	SkillName: '太阳、月亮与星星信使',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -702,7 +702,7 @@ SkillInfo[SK.SG_KNOWLEDGE] = {
 };
 SkillInfo[SK.SG_FUSION] = {
 	Name: 'SG_FUSION',
-	SkillName: 'Solar, Lunar and Stellar Union ',
+	SkillName: '太阳、月亮与星星联合',
 	MaxLv: 1,
 	Type: 'Soul',
 	SpAmount: [100],
@@ -712,7 +712,7 @@ SkillInfo[SK.SG_FUSION] = {
 };
 SkillInfo[SK.SL_ALCHEMIST] = {
 	Name: 'SL_ALCHEMIST',
-	SkillName: 'Alchemist Spirit',
+	SkillName: '炼金术士之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -720,7 +720,7 @@ SkillInfo[SK.SL_ALCHEMIST] = {
 };
 SkillInfo[SK.AM_BERSERKPITCHER] = {
 	Name: 'AM_BERSERKPITCHER',
-	SkillName: 'Aid Berserk Potion',
+	SkillName: '狂暴药水支援',
 	MaxLv: 1,
 	Type: 'Soul',
 	SpAmount: [10],
@@ -729,7 +729,7 @@ SkillInfo[SK.AM_BERSERKPITCHER] = {
 };
 SkillInfo[SK.SL_MONK] = {
 	Name: 'SL_MONK',
-	SkillName: 'Monk Spirit',
+	SkillName: '武僧之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -737,7 +737,7 @@ SkillInfo[SK.SL_MONK] = {
 };
 SkillInfo[SK.AL_HEAL] = {
 	Name: 'AL_HEAL',
-	SkillName: 'Heal',
+	SkillName: '治愈术',
 	MaxLv: 10,
 	SpAmount: [13, 16, 19, 22, 25, 28, 31, 34, 37, 40],
 	bSeperateLv: true,
@@ -751,7 +751,7 @@ SkillInfo[SK.AL_HEAL] = {
 };
 SkillInfo[SK.SL_STAR] = {
 	Name: 'SL_STAR',
-	SkillName: 'Taekwon Master Spirit',
+	SkillName: '跆拳道宗师之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -759,7 +759,7 @@ SkillInfo[SK.SL_STAR] = {
 };
 SkillInfo[SK.SL_SAGE] = {
 	Name: 'SL_SAGE',
-	SkillName: 'Sage Spirit',
+	SkillName: '贤者之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -767,7 +767,7 @@ SkillInfo[SK.SL_SAGE] = {
 };
 SkillInfo[SK.MER_QUICKEN] = {
 	Name: 'MER_QUICKEN',
-	SkillName: 'Weapon Quicken',
+	SkillName: '武器加速',
 	MaxLv: 10,
 	SpAmount: [14, 18, 22, 26, 30, 34, 38, 42, 46, 50],
 	bSeperateLv: false,
@@ -775,7 +775,7 @@ SkillInfo[SK.MER_QUICKEN] = {
 };
 SkillInfo[SK.SL_CRUSADER] = {
 	Name: 'SL_CRUSADER',
-	SkillName: 'Crusader Spirit',
+	SkillName: '十字军之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -783,7 +783,7 @@ SkillInfo[SK.SL_CRUSADER] = {
 };
 SkillInfo[SK.SL_SUPERNOVICE] = {
 	Name: 'SL_SUPERNOVICE',
-	SkillName: 'Super Novice Spirit',
+	SkillName: '超级初心者之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -792,7 +792,7 @@ SkillInfo[SK.SL_SUPERNOVICE] = {
 };
 SkillInfo[SK.SL_KNIGHT] = {
 	Name: 'SL_KNIGHT',
-	SkillName: 'Knight Spirit',
+	SkillName: '骑士之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -801,7 +801,7 @@ SkillInfo[SK.SL_KNIGHT] = {
 };
 SkillInfo[SK.SL_WIZARD] = {
 	Name: 'SL_WIZARD',
-	SkillName: 'Wizard Spirit',
+	SkillName: '巫师之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -810,7 +810,7 @@ SkillInfo[SK.SL_WIZARD] = {
 };
 SkillInfo[SK.SL_PRIEST] = {
 	Name: 'SL_PRIEST',
-	SkillName: 'Priest Spirit',
+	SkillName: '牧师之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -819,7 +819,7 @@ SkillInfo[SK.SL_PRIEST] = {
 };
 SkillInfo[SK.SL_BARDDANCER] = {
 	Name: 'SL_BARDDANCER',
-	SkillName: 'Bard and Dancer Spirits',
+	SkillName: '诗人和舞娘之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -827,7 +827,7 @@ SkillInfo[SK.SL_BARDDANCER] = {
 };
 SkillInfo[SK.EL_TROPIC] = {
 	Name: 'EL_TROPIC',
-	SkillName: 'Tropic',
+	SkillName: '热带气候',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -835,7 +835,7 @@ SkillInfo[SK.EL_TROPIC] = {
 };
 SkillInfo[SK.SL_ROGUE] = {
 	Name: 'SL_ROGUE',
-	SkillName: 'Rogue Spirit',
+	SkillName: '流氓之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -844,7 +844,7 @@ SkillInfo[SK.SL_ROGUE] = {
 };
 SkillInfo[SK.SL_ASSASIN] = {
 	Name: 'SL_ASSASIN',
-	SkillName: 'Assassin Spirit',
+	SkillName: '刺客之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -852,7 +852,7 @@ SkillInfo[SK.SL_ASSASIN] = {
 };
 SkillInfo[SK.SL_BLACKSMITH] = {
 	Name: 'SL_BLACKSMITH',
-	SkillName: 'Blacksmith Spirit',
+	SkillName: '铁匠之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -861,7 +861,7 @@ SkillInfo[SK.SL_BLACKSMITH] = {
 };
 SkillInfo[SK.BS_ADRENALINE2] = {
 	Name: 'BS_ADRENALINE2',
-	SkillName: 'Advanced Adrenaline Rush',
+	SkillName: '高级速度激发',
 	MaxLv: 1,
 	Type: 'Soul',
 	SpAmount: [64],
@@ -871,7 +871,7 @@ SkillInfo[SK.BS_ADRENALINE2] = {
 };
 SkillInfo[SK.SL_HUNTER] = {
 	Name: 'SL_HUNTER',
-	SkillName: 'Hunter Spirit',
+	SkillName: '猎人之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -880,7 +880,7 @@ SkillInfo[SK.SL_HUNTER] = {
 };
 SkillInfo[SK.SL_SOULLINKER] = {
 	Name: 'SL_SOULLINKER',
-	SkillName: 'Soul Linker Spirit',
+	SkillName: '灵魂链接者之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -889,7 +889,7 @@ SkillInfo[SK.SL_SOULLINKER] = {
 };
 SkillInfo[SK.SL_KAIZEL] = {
 	Name: 'SL_KAIZEL',
-	SkillName: 'Kaizel',
+	SkillName: '凯西尔',
 	MaxLv: 7,
 	SpAmount: [120, 110, 100, 90, 80, 70, 60],
 	bSeperateLv: false,
@@ -898,7 +898,7 @@ SkillInfo[SK.SL_KAIZEL] = {
 };
 SkillInfo[SK.SL_KAAHI] = {
 	Name: 'SL_KAAHI',
-	SkillName: 'Kaahi',
+	SkillName: '凯阿希',
 	MaxLv: 7,
 	SpAmount: [30, 30, 30, 30, 30, 30, 30],
 	bSeperateLv: true,
@@ -911,7 +911,7 @@ SkillInfo[SK.SL_KAAHI] = {
 };
 SkillInfo[SK.AL_INCAGI] = {
 	Name: 'AL_INCAGI',
-	SkillName: 'Increase Agility',
+	SkillName: '敏捷提升',
 	MaxLv: 10,
 	SpAmount: [18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
 	bSeperateLv: true,
@@ -920,7 +920,7 @@ SkillInfo[SK.AL_INCAGI] = {
 };
 SkillInfo[SK.SL_KAUPE] = {
 	Name: 'SL_KAUPE',
-	SkillName: 'Kaupe',
+	SkillName: '凯普',
 	MaxLv: 3,
 	SpAmount: [20, 30, 40],
 	bSeperateLv: false,
@@ -932,7 +932,7 @@ SkillInfo[SK.SL_KAUPE] = {
 };
 SkillInfo[SK.SL_KAITE] = {
 	Name: 'SL_KAITE',
-	SkillName: 'Kaite',
+	SkillName: '凯特',
 	MaxLv: 7,
 	SpAmount: [70, 70, 70, 70, 70, 70, 70],
 	bSeperateLv: false,
@@ -944,7 +944,7 @@ SkillInfo[SK.SL_KAITE] = {
 };
 SkillInfo[SK.SL_KAINA] = {
 	Name: 'SL_KAINA',
-	SkillName: 'Kaina',
+	SkillName: '凯纳',
 	MaxLv: 7,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -953,7 +953,7 @@ SkillInfo[SK.SL_KAINA] = {
 };
 SkillInfo[SK.SL_STIN] = {
 	Name: 'SL_STIN',
-	SkillName: 'Estin',
+	SkillName: '艾斯丁',
 	MaxLv: 7,
 	SpAmount: [18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -962,7 +962,7 @@ SkillInfo[SK.SL_STIN] = {
 };
 SkillInfo[SK.SL_STUN] = {
 	Name: 'SL_STUN',
-	SkillName: 'Estun',
+	SkillName: '艾斯顿',
 	MaxLv: 7,
 	SpAmount: [18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -971,7 +971,7 @@ SkillInfo[SK.SL_STUN] = {
 };
 SkillInfo[SK.SL_SMA] = {
 	Name: 'SL_SMA',
-	SkillName: 'Esma',
+	SkillName: '艾斯玛',
 	MaxLv: 10,
 	SpAmount: [8, 16, 24, 32, 40, 48, 56, 64, 72, 80],
 	bSeperateLv: true,
@@ -983,7 +983,7 @@ SkillInfo[SK.SL_SMA] = {
 };
 SkillInfo[SK.SL_SWOO] = {
 	Name: 'SL_SWOO',
-	SkillName: 'Eswoo',
+	SkillName: '艾斯伍',
 	MaxLv: 7,
 	SpAmount: [75, 65, 55, 45, 35, 25, 15],
 	bSeperateLv: false,
@@ -992,7 +992,7 @@ SkillInfo[SK.SL_SWOO] = {
 };
 SkillInfo[SK.SL_SKE] = {
 	Name: 'SL_SKE',
-	SkillName: 'Eske',
+	SkillName: '艾斯克',
 	MaxLv: 3,
 	SpAmount: [45, 30, 15],
 	bSeperateLv: false,
@@ -1499,7 +1499,7 @@ SkillInfo[SK.SM_SWORD] = {
 };
 SkillInfo[SK.AL_CRUCIS] = {
 	Name: 'AL_CRUCIS',
-	SkillName: 'Signum Crucis',
+	SkillName: '十字驱魔',
 	MaxLv: 10,
 	SpAmount: [35, 35, 35, 35, 35, 35, 35, 35, 35, 35],
 	bSeperateLv: false,
@@ -1508,7 +1508,7 @@ SkillInfo[SK.AL_CRUCIS] = {
 };
 SkillInfo[SK.GS_TRACKING] = {
 	Name: 'GS_TRACKING',
-	SkillName: 'Tracking',
+	SkillName: '追踪',
 	MaxLv: 10,
 	SpAmount: [15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -1517,7 +1517,7 @@ SkillInfo[SK.GS_TRACKING] = {
 };
 SkillInfo[SK.GS_DISARM] = {
 	Name: 'GS_DISARM',
-	SkillName: 'Disarm',
+	SkillName: '卸除武装',
 	MaxLv: 5,
 	SpAmount: [15, 20, 25, 30, 35],
 	bSeperateLv: true,
@@ -1526,7 +1526,7 @@ SkillInfo[SK.GS_DISARM] = {
 };
 SkillInfo[SK.GS_PIERCINGSHOT] = {
 	Name: 'GS_PIERCINGSHOT',
-	SkillName: 'Wounding Shot',
+	SkillName: '创伤射击',
 	MaxLv: 5,
 	SpAmount: [11, 12, 13, 14, 15],
 	bSeperateLv: true,
@@ -1535,7 +1535,7 @@ SkillInfo[SK.GS_PIERCINGSHOT] = {
 };
 SkillInfo[SK.GS_RAPIDSHOWER] = {
 	Name: 'GS_RAPIDSHOWER',
-	SkillName: 'Trigger Happy Shot',
+	SkillName: '狂热射击',
 	MaxLv: 10,
 	SpAmount: [22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
 	bSeperateLv: true,
@@ -1544,7 +1544,7 @@ SkillInfo[SK.GS_RAPIDSHOWER] = {
 };
 SkillInfo[SK.GS_DESPERADO] = {
 	Name: 'GS_DESPERADO',
-	SkillName: 'Desperado',
+	SkillName: '亡命之徒',
 	MaxLv: 10,
 	SpAmount: [32, 34, 36, 38, 40, 42, 44, 46, 48, 50],
 	bSeperateLv: true,
@@ -1553,7 +1553,7 @@ SkillInfo[SK.GS_DESPERADO] = {
 };
 SkillInfo[SK.GS_GATLINGFEVER] = {
 	Name: 'GS_GATLINGFEVER',
-	SkillName: 'Gatling Feaver',
+	SkillName: '加特林狂热',
 	MaxLv: 10,
 	SpAmount: [30, 32, 34, 36, 38, 40, 42, 44, 46, 48],
 	bSeperateLv: true,
@@ -1565,7 +1565,7 @@ SkillInfo[SK.GS_GATLINGFEVER] = {
 };
 SkillInfo[SK.GS_DUST] = {
 	Name: 'GS_DUST',
-	SkillName: 'Crowd Control Shot',
+	SkillName: '群体控制射击',
 	MaxLv: 10,
 	SpAmount: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
 	bSeperateLv: true,
@@ -1574,7 +1574,7 @@ SkillInfo[SK.GS_DUST] = {
 };
 SkillInfo[SK.GS_FULLBUSTER] = {
 	Name: 'GS_FULLBUSTER',
-	SkillName: 'Full Blast',
+	SkillName: '全弹发射',
 	MaxLv: 10,
 	SpAmount: [20, 25, 30, 35, 40, 45, 50, 55, 60, 65],
 	bSeperateLv: true,
@@ -1583,7 +1583,7 @@ SkillInfo[SK.GS_FULLBUSTER] = {
 };
 SkillInfo[SK.GS_SPREADATTACK] = {
 	Name: 'GS_SPREADATTACK',
-	SkillName: 'Spread Attack',
+	SkillName: '散射攻击',
 	MaxLv: 10,
 	SpAmount: [13, 16, 19, 22, 25, 28, 31, 34, 37, 40],
 	bSeperateLv: true,
@@ -1592,7 +1592,7 @@ SkillInfo[SK.GS_SPREADATTACK] = {
 };
 SkillInfo[SK.GS_GROUNDDRIFT] = {
 	Name: 'GS_GROUNDDRIFT',
-	SkillName: 'Gunslinger Mine',
+	SkillName: '枪手地雷',
 	MaxLv: 10,
 	SpAmount: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
 	bSeperateLv: true,
@@ -1601,7 +1601,7 @@ SkillInfo[SK.GS_GROUNDDRIFT] = {
 };
 SkillInfo[SK.NJ_TOBIDOUGU] = {
 	Name: 'NJ_TOBIDOUGU',
-	SkillName: 'Dagger Throwing Practice',
+	SkillName: '飞刀练习',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -1609,7 +1609,7 @@ SkillInfo[SK.NJ_TOBIDOUGU] = {
 };
 SkillInfo[SK.NJ_SYURIKEN] = {
 	Name: 'NJ_SYURIKEN',
-	SkillName: 'Throw Shuriken',
+	SkillName: '投掷手里剑',
 	MaxLv: 10,
 	SpAmount: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 	bSeperateLv: false,
@@ -1618,7 +1618,7 @@ SkillInfo[SK.NJ_SYURIKEN] = {
 };
 SkillInfo[SK.NJ_KUNAI] = {
 	Name: 'NJ_KUNAI',
-	SkillName: 'Throw Kunai',
+	SkillName: '投掷苦无',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -1627,7 +1627,7 @@ SkillInfo[SK.NJ_KUNAI] = {
 };
 SkillInfo[SK.NJ_HUUMA] = {
 	Name: 'NJ_HUUMA',
-	SkillName: 'Throw Huuma Shuriken',
+	SkillName: '投掷风魔手里剑',
 	MaxLv: 5,
 	SpAmount: [15, 20, 25, 30, 35],
 	bSeperateLv: true,
@@ -1639,7 +1639,7 @@ SkillInfo[SK.NJ_HUUMA] = {
 };
 SkillInfo[SK.NJ_ZENYNAGE] = {
 	Name: 'NJ_ZENYNAGE',
-	SkillName: 'Throw Coins',
+	SkillName: '投掷金币',
 	MaxLv: 10,
 	SpAmount: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
 	bSeperateLv: true,
@@ -1651,7 +1651,7 @@ SkillInfo[SK.NJ_ZENYNAGE] = {
 };
 SkillInfo[SK.AL_ANGELUS] = {
 	Name: 'AL_ANGELUS',
-	SkillName: 'Angelus',
+	SkillName: '天使之赐福',
 	MaxLv: 10,
 	SpAmount: [23, 26, 29, 32, 35, 38, 41, 44, 47, 50],
 	bSeperateLv: true,
@@ -1660,7 +1660,7 @@ SkillInfo[SK.AL_ANGELUS] = {
 };
 SkillInfo[SK.NJ_KASUMIKIRI] = {
 	Name: 'NJ_KASUMIKIRI',
-	SkillName: 'Haze Slasher',
+	SkillName: '雾斩',
 	MaxLv: 10,
 	SpAmount: [8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
 	bSeperateLv: true,
@@ -1669,7 +1669,7 @@ SkillInfo[SK.NJ_KASUMIKIRI] = {
 };
 SkillInfo[SK.NJ_SHADOWJUMP] = {
 	Name: 'NJ_SHADOWJUMP',
-	SkillName: 'Shadow Leap',
+	SkillName: '影跃',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -1678,7 +1678,7 @@ SkillInfo[SK.NJ_SHADOWJUMP] = {
 };
 SkillInfo[SK.NJ_KIRIKAGE] = {
 	Name: 'NJ_KIRIKAGE',
-	SkillName: 'Shadow Slash',
+	SkillName: '暗影斩',
 	MaxLv: 5,
 	SpAmount: [10, 11, 12, 13, 14],
 	bSeperateLv: true,
@@ -1687,7 +1687,7 @@ SkillInfo[SK.NJ_KIRIKAGE] = {
 };
 SkillInfo[SK.NJ_UTSUSEMI] = {
 	Name: 'NJ_UTSUSEMI',
-	SkillName: 'Cicada Skin Shed',
+	SkillName: '蝉蜕',
 	MaxLv: 5,
 	SpAmount: [12, 15, 18, 21, 24],
 	bSeperateLv: true,
@@ -1696,7 +1696,7 @@ SkillInfo[SK.NJ_UTSUSEMI] = {
 };
 SkillInfo[SK.NJ_BUNSINJYUTSU] = {
 	Name: 'NJ_BUNSINJYUTSU',
-	SkillName: 'Mirror Image',
+	SkillName: '镜像',
 	MaxLv: 10,
 	SpAmount: [30, 32, 34, 36, 38, 40, 42, 44, 46, 48],
 	bSeperateLv: true,
@@ -1709,7 +1709,7 @@ SkillInfo[SK.NJ_BUNSINJYUTSU] = {
 };
 SkillInfo[SK.NJ_NINPOU] = {
 	Name: 'NJ_NINPOU',
-	SkillName: 'Ninja Mastery',
+	SkillName: '忍术精通',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -1717,7 +1717,7 @@ SkillInfo[SK.NJ_NINPOU] = {
 };
 SkillInfo[SK.NJ_KOUENKA] = {
 	Name: 'NJ_KOUENKA',
-	SkillName: 'Flaming Petals',
+	SkillName: '火焰花瓣',
 	MaxLv: 10,
 	SpAmount: [18, 20, 22, 24, 26, 28, 30, 32, 34, 36],
 	bSeperateLv: true,
@@ -1726,7 +1726,7 @@ SkillInfo[SK.NJ_KOUENKA] = {
 };
 SkillInfo[SK.NJ_KAENSIN] = {
 	Name: 'NJ_KAENSIN',
-	SkillName: 'Blaze Shield',
+	SkillName: '烈焰盾',
 	MaxLv: 10,
 	SpAmount: [25, 25, 25, 25, 25, 25, 25, 25, 25, 25],
 	bSeperateLv: false,
@@ -1735,7 +1735,7 @@ SkillInfo[SK.NJ_KAENSIN] = {
 };
 SkillInfo[SK.NJ_BAKUENRYU] = {
 	Name: 'NJ_BAKUENRYU',
-	SkillName: 'Exploding Dragon',
+	SkillName: '爆炎龙',
 	MaxLv: 5,
 	SpAmount: [20, 25, 30, 35, 40],
 	bSeperateLv: true,
@@ -1747,7 +1747,7 @@ SkillInfo[SK.NJ_BAKUENRYU] = {
 };
 SkillInfo[SK.NJ_HYOUSENSOU] = {
 	Name: 'NJ_HYOUSENSOU',
-	SkillName: 'Freezing Spear',
+	SkillName: '冰冻之枪',
 	MaxLv: 10,
 	SpAmount: [15, 18, 21, 24, 27, 30, 33, 36, 39, 42],
 	bSeperateLv: true,
@@ -1756,7 +1756,7 @@ SkillInfo[SK.NJ_HYOUSENSOU] = {
 };
 SkillInfo[SK.NJ_SUITON] = {
 	Name: 'NJ_SUITON',
-	SkillName: 'Watery Evasion',
+	SkillName: '水遁',
 	MaxLv: 10,
 	SpAmount: [15, 18, 21, 24, 27, 30, 33, 36, 39, 42],
 	bSeperateLv: true,
@@ -1765,7 +1765,7 @@ SkillInfo[SK.NJ_SUITON] = {
 };
 SkillInfo[SK.NJ_HYOUSYOURAKU] = {
 	Name: 'NJ_HYOUSYOURAKU',
-	SkillName: 'Snow Flake Draft',
+	SkillName: '雪花吹雪',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -1777,7 +1777,7 @@ SkillInfo[SK.NJ_HYOUSYOURAKU] = {
 };
 SkillInfo[SK.NJ_HUUJIN] = {
 	Name: 'NJ_HUUJIN',
-	SkillName: 'Wind Blade',
+	SkillName: '风刃',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -1786,7 +1786,7 @@ SkillInfo[SK.NJ_HUUJIN] = {
 };
 SkillInfo[SK.NJ_RAIGEKISAI] = {
 	Name: 'NJ_RAIGEKISAI',
-	SkillName: 'Lightning Jolt',
+	SkillName: '雷击',
 	MaxLv: 5,
 	SpAmount: [16, 20, 24, 28, 32],
 	bSeperateLv: true,
@@ -1795,7 +1795,7 @@ SkillInfo[SK.NJ_RAIGEKISAI] = {
 };
 SkillInfo[SK.NJ_KAMAITACHI] = {
 	Name: 'NJ_KAMAITACHI',
-	SkillName: 'First Wind',
+	SkillName: '初风',
 	MaxLv: 5,
 	SpAmount: [24, 28, 32, 36, 40],
 	bSeperateLv: true,
@@ -1807,7 +1807,7 @@ SkillInfo[SK.NJ_KAMAITACHI] = {
 };
 SkillInfo[SK.AL_BLESSING] = {
 	Name: 'AL_BLESSING',
-	SkillName: 'Blessing',
+	SkillName: '祝福',
 	MaxLv: 10,
 	SpAmount: [28, 32, 36, 40, 44, 48, 52, 56, 60, 64],
 	bSeperateLv: true,
@@ -1816,7 +1816,7 @@ SkillInfo[SK.AL_BLESSING] = {
 };
 SkillInfo[SK.NJ_ISSEN] = {
 	Name: 'NJ_ISSEN',
-	SkillName: 'Killing Strike',
+	SkillName: '杀戮一击',
 	MaxLv: 10,
 	SpAmount: [55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
 	bSeperateLv: true,
@@ -1829,7 +1829,7 @@ SkillInfo[SK.NJ_ISSEN] = {
 };
 SkillInfo[SK.MB_FIGHTING] = {
 	Name: 'MB_FIGHTING',
-	SkillName: 'Munak Fighting',
+	SkillName: '妖道格斗',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -1837,7 +1837,7 @@ SkillInfo[SK.MB_FIGHTING] = {
 };
 SkillInfo[SK.MB_NEUTRAL] = {
 	Name: 'MB_NEUTRAL',
-	SkillName: 'Bongun Neutral',
+	SkillName: '僵尸中立',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -1845,7 +1845,7 @@ SkillInfo[SK.MB_NEUTRAL] = {
 };
 SkillInfo[SK.MB_TAIMING_PUTI] = {
 	Name: 'MB_TAIMING_PUTI',
-	SkillName: 'Puti Taming',
+	SkillName: '捕捉波提',
 	MaxLv: 7,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -1853,7 +1853,7 @@ SkillInfo[SK.MB_TAIMING_PUTI] = {
 };
 SkillInfo[SK.MB_WHITEPOTION] = {
 	Name: 'MB_WHITEPOTION',
-	SkillName: 'White Potion',
+	SkillName: '白色药水',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -1861,7 +1861,7 @@ SkillInfo[SK.MB_WHITEPOTION] = {
 };
 SkillInfo[SK.MB_MENTAL] = {
 	Name: 'MB_MENTAL',
-	SkillName: 'Mental Errands',
+	SkillName: '精神差事',
 	MaxLv: 1,
 	SpAmount: [60],
 	bSeperateLv: false,
@@ -1869,7 +1869,7 @@ SkillInfo[SK.MB_MENTAL] = {
 };
 SkillInfo[SK.MB_CARDPITCHER] = {
 	Name: 'MB_CARDPITCHER',
-	SkillName: 'Card Pitcher',
+	SkillName: '卡片投掷',
 	MaxLv: 10,
 	SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	bSeperateLv: false,
@@ -1877,7 +1877,7 @@ SkillInfo[SK.MB_CARDPITCHER] = {
 };
 SkillInfo[SK.MB_PETPITCHER] = {
 	Name: 'MB_PETPITCHER',
-	SkillName: 'Kick the Baby',
+	SkillName: '踢飞幼体',
 	MaxLv: 10,
 	SpAmount: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
 	bSeperateLv: false,
@@ -1885,7 +1885,7 @@ SkillInfo[SK.MB_PETPITCHER] = {
 };
 SkillInfo[SK.MB_BODYSTUDY] = {
 	Name: 'MB_BODYSTUDY',
-	SkillName: 'Body Study',
+	SkillName: '身体研究',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -1893,7 +1893,7 @@ SkillInfo[SK.MB_BODYSTUDY] = {
 };
 SkillInfo[SK.MB_BODYALTER] = {
 	Name: 'MB_BODYALTER',
-	SkillName: 'Alter Body',
+	SkillName: '改变身体',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -1901,7 +1901,7 @@ SkillInfo[SK.MB_BODYALTER] = {
 };
 SkillInfo[SK.MB_PETMEMORY] = {
 	Name: 'MB_PETMEMORY',
-	SkillName: 'Pet Memory',
+	SkillName: '宠物记忆',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -1909,7 +1909,7 @@ SkillInfo[SK.MB_PETMEMORY] = {
 };
 SkillInfo[SK.MB_M_TELEPORT] = {
 	Name: 'MB_M_TELEPORT',
-	SkillName: 'Pet Teleport',
+	SkillName: '宠物传送',
 	MaxLv: 5,
 	SpAmount: [50, 40, 30, 20, 10],
 	bSeperateLv: false,
@@ -1917,7 +1917,7 @@ SkillInfo[SK.MB_M_TELEPORT] = {
 };
 SkillInfo[SK.MB_B_GAIN] = {
 	Name: 'MB_B_GAIN',
-	SkillName: 'Bongun Gain',
+	SkillName: '获得僵尸',
 	MaxLv: 7,
 	SpAmount: [12, 15, 18, 21, 24, 27, 30],
 	bSeperateLv: false,
@@ -1925,7 +1925,7 @@ SkillInfo[SK.MB_B_GAIN] = {
 };
 SkillInfo[SK.MB_M_GAIN] = {
 	Name: 'MB_M_GAIN',
-	SkillName: 'Munak Gain',
+	SkillName: '获得妖道',
 	MaxLv: 7,
 	SpAmount: [1, 1, 1, 1, 1, 1, 1],
 	bSeperateLv: false,
@@ -1933,7 +1933,7 @@ SkillInfo[SK.MB_M_GAIN] = {
 };
 SkillInfo[SK.MB_MISSION] = {
 	Name: 'MB_MISSION',
-	SkillName: 'Mission Timing',
+	SkillName: '任务计时',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -1941,7 +1941,7 @@ SkillInfo[SK.MB_MISSION] = {
 };
 SkillInfo[SK.AL_CURE] = {
 	Name: 'AL_CURE',
-	SkillName: 'Cure',
+	SkillName: '治愈',
 	MaxLv: 1,
 	SpAmount: [15],
 	bSeperateLv: false,
@@ -1951,7 +1951,7 @@ SkillInfo[SK.AL_CURE] = {
 };
 SkillInfo[SK.MB_MUNAKBALL] = {
 	Name: 'MB_MUNAKBALL',
-	SkillName: 'Munak Ball',
+	SkillName: '妖道球',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -1959,7 +1959,7 @@ SkillInfo[SK.MB_MUNAKBALL] = {
 };
 SkillInfo[SK.MB_SCROLL] = {
 	Name: 'MB_SCROLL',
-	SkillName: 'Pet Scroll',
+	SkillName: '宠物卷轴',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -1967,7 +1967,7 @@ SkillInfo[SK.MB_SCROLL] = {
 };
 SkillInfo[SK.MB_B_GATHERING] = {
 	Name: 'MB_B_GATHERING',
-	SkillName: 'Bongun Gathering',
+	SkillName: '僵尸聚集',
 	MaxLv: 7,
 	SpAmount: [17, 15, 13, 11, 9, 7, 5],
 	bSeperateLv: false,
@@ -1975,7 +1975,7 @@ SkillInfo[SK.MB_B_GATHERING] = {
 };
 SkillInfo[SK.MB_M_GATHERING] = {
 	Name: 'MB_M_GATHERING',
-	SkillName: 'Munak Gathering',
+	SkillName: '妖道聚集',
 	MaxLv: 7,
 	SpAmount: [32, 30, 28, 26, 24, 22, 20],
 	bSeperateLv: false,
@@ -1983,7 +1983,7 @@ SkillInfo[SK.MB_M_GATHERING] = {
 };
 SkillInfo[SK.MB_B_EXCLUDE] = {
 	Name: 'MB_B_EXCLUDE',
-	SkillName: 'Bongun Exclude',
+	SkillName: '僵尸排除',
 	MaxLv: 5,
 	SpAmount: [180, 160, 140, 120, 100],
 	bSeperateLv: false,
@@ -1991,7 +1991,7 @@ SkillInfo[SK.MB_B_EXCLUDE] = {
 };
 SkillInfo[SK.MB_B_DRIFT] = {
 	Name: 'MB_B_DRIFT',
-	SkillName: 'Bongun Drift',
+	SkillName: '僵尸漂移',
 	MaxLv: 5,
 	SpAmount: [50, 40, 30, 20, 10],
 	bSeperateLv: false,
@@ -1999,7 +1999,7 @@ SkillInfo[SK.MB_B_DRIFT] = {
 };
 SkillInfo[SK.MB_B_WALLRUSH] = {
 	Name: 'MB_B_WALLRUSH',
-	SkillName: 'Bongun Wall Rush',
+	SkillName: '邦古墙冲',
 	MaxLv: 7,
 	SpAmount: [9, 10, 11, 12, 13, 14, 15],
 	bSeperateLv: false,
@@ -2007,7 +2007,7 @@ SkillInfo[SK.MB_B_WALLRUSH] = {
 };
 SkillInfo[SK.MB_M_WALLRUSH] = {
 	Name: 'MB_M_WALLRUSH',
-	SkillName: 'Munak Wall Rush',
+	SkillName: '梦魇墙冲',
 	MaxLv: 7,
 	SpAmount: [9, 10, 11, 12, 13, 14, 15],
 	bSeperateLv: false,
@@ -2015,7 +2015,7 @@ SkillInfo[SK.MB_M_WALLRUSH] = {
 };
 SkillInfo[SK.MB_B_WALLSHIFT] = {
 	Name: 'MB_B_WALLSHIFT',
-	SkillName: 'Bongun Wallshift',
+	SkillName: '邦古墙移',
 	MaxLv: 5,
 	SpAmount: [13, 11, 9, 7, 5],
 	bSeperateLv: false,
@@ -2023,7 +2023,7 @@ SkillInfo[SK.MB_B_WALLSHIFT] = {
 };
 SkillInfo[SK.MB_M_WALLCRASH] = {
 	Name: 'MB_M_WALLCRASH',
-	SkillName: 'Munak Wall Crash',
+	SkillName: '梦魇墙撞',
 	MaxLv: 7,
 	SpAmount: [27, 25, 23, 21, 19, 17, 15],
 	bSeperateLv: false,
@@ -2031,7 +2031,7 @@ SkillInfo[SK.MB_M_WALLCRASH] = {
 };
 SkillInfo[SK.MB_M_REINCARNATION] = {
 	Name: 'MB_M_REINCARNATION',
-	SkillName: 'Munak Reincarnation',
+	SkillName: '梦魇转生',
 	MaxLv: 5,
 	SpAmount: [50, 50, 50, 50, 50],
 	bSeperateLv: false,
@@ -2039,7 +2039,7 @@ SkillInfo[SK.MB_M_REINCARNATION] = {
 };
 SkillInfo[SK.MB_B_EQUIP] = {
 	Name: 'MB_B_EQUIP',
-	SkillName: 'Bongun Equip',
+	SkillName: '邦古装备',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -2047,7 +2047,7 @@ SkillInfo[SK.MB_B_EQUIP] = {
 };
 SkillInfo[SK.SL_DEATHKNIGHT] = {
 	Name: 'SL_DEATHKNIGHT',
-	SkillName: 'Deathknight Spirit',
+	SkillName: '死亡骑士之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -2055,7 +2055,7 @@ SkillInfo[SK.SL_DEATHKNIGHT] = {
 };
 SkillInfo[SK.SL_COLLECTOR] = {
 	Name: 'SL_COLLECTOR',
-	SkillName: "Soul Collector's Spirit",
+	SkillName: '灵魂收集者之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -2063,7 +2063,7 @@ SkillInfo[SK.SL_COLLECTOR] = {
 };
 SkillInfo[SK.SL_NINJA] = {
 	Name: 'SL_NINJA',
-	SkillName: 'Ninja Spirit',
+	SkillName: '忍者之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -2071,7 +2071,7 @@ SkillInfo[SK.SL_NINJA] = {
 };
 SkillInfo[SK.MC_INCCARRY] = {
 	Name: 'MC_INCCARRY',
-	SkillName: 'Enlarge Weight Limit',
+	SkillName: '扩大负重上限',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2079,7 +2079,7 @@ SkillInfo[SK.MC_INCCARRY] = {
 };
 SkillInfo[SK.AM_TWILIGHT4] = {
 	Name: 'AM_TWILIGHT4',
-	SkillName: 'Spiritual Potion Creation 4',
+	SkillName: '灵魂药水制作4',
 	MaxLv: 1,
 	SpAmount: [200],
 	bSeperateLv: false,
@@ -2087,7 +2087,7 @@ SkillInfo[SK.AM_TWILIGHT4] = {
 };
 SkillInfo[SK.DE_BERSERKAIZER] = {
 	Name: 'DE_BERSERKAIZER',
-	SkillName: 'Berserk Kaizer',
+	SkillName: '狂暴凯撒',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2095,7 +2095,7 @@ SkillInfo[SK.DE_BERSERKAIZER] = {
 };
 SkillInfo[SK.DA_DARKPOWER] = {
 	Name: 'DA_DARKPOWER',
-	SkillName: 'Dark Power',
+	SkillName: '黑暗力量',
 	MaxLv: 1,
 	SpAmount: [50],
 	bSeperateLv: false,
@@ -2103,7 +2103,7 @@ SkillInfo[SK.DA_DARKPOWER] = {
 };
 SkillInfo[SK.DE_PASSIVE] = {
 	Name: 'DE_PASSIVE',
-	SkillName: 'Death Passive',
+	SkillName: '死亡被动',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -2111,7 +2111,7 @@ SkillInfo[SK.DE_PASSIVE] = {
 };
 SkillInfo[SK.DE_PATTACK] = {
 	Name: 'DE_PATTACK',
-	SkillName: 'Death Attack',
+	SkillName: '死亡攻击',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2119,7 +2119,7 @@ SkillInfo[SK.DE_PATTACK] = {
 };
 SkillInfo[SK.DE_PSPEED] = {
 	Name: 'DE_PSPEED',
-	SkillName: 'Death Speed',
+	SkillName: '死亡速度',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2127,7 +2127,7 @@ SkillInfo[SK.DE_PSPEED] = {
 };
 SkillInfo[SK.DE_PDEFENSE] = {
 	Name: 'DE_PDEFENSE',
-	SkillName: 'Death Defense',
+	SkillName: '死亡防御',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2135,7 +2135,7 @@ SkillInfo[SK.DE_PDEFENSE] = {
 };
 SkillInfo[SK.DE_PCRITICAL] = {
 	Name: 'DE_PCRITICAL',
-	SkillName: 'Death Critical',
+	SkillName: '死亡暴击',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2143,7 +2143,7 @@ SkillInfo[SK.DE_PCRITICAL] = {
 };
 SkillInfo[SK.DE_PHP] = {
 	Name: 'DE_PHP',
-	SkillName: 'Death HP',
+	SkillName: '死亡 HP',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2151,7 +2151,7 @@ SkillInfo[SK.DE_PHP] = {
 };
 SkillInfo[SK.DE_PSP] = {
 	Name: 'DE_PSP',
-	SkillName: 'Death SP',
+	SkillName: '死亡 SP',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2159,7 +2159,7 @@ SkillInfo[SK.DE_PSP] = {
 };
 SkillInfo[SK.DE_RESET] = {
 	Name: 'DE_RESET',
-	SkillName: 'Death Reset',
+	SkillName: '死亡重置',
 	MaxLv: 1,
 	SpAmount: [280],
 	bSeperateLv: false,
@@ -2167,7 +2167,7 @@ SkillInfo[SK.DE_RESET] = {
 };
 SkillInfo[SK.DE_RANKING] = {
 	Name: 'DE_RANKING',
-	SkillName: 'Ranking',
+	SkillName: '排名',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -2175,7 +2175,7 @@ SkillInfo[SK.DE_RANKING] = {
 };
 SkillInfo[SK.DE_PTRIPLE] = {
 	Name: 'DE_PTRIPLE',
-	SkillName: 'Death Triple',
+	SkillName: '死亡三连',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -2183,7 +2183,7 @@ SkillInfo[SK.DE_PTRIPLE] = {
 };
 SkillInfo[SK.DE_ENERGY] = {
 	Name: 'DE_ENERGY',
-	SkillName: 'Energy',
+	SkillName: '能量',
 	MaxLv: 5,
 	SpAmount: [1, 1, 1, 1, 1],
 	bSeperateLv: false,
@@ -2191,7 +2191,7 @@ SkillInfo[SK.DE_ENERGY] = {
 };
 SkillInfo[SK.MC_DISCOUNT] = {
 	Name: 'MC_DISCOUNT',
-	SkillName: 'Discount',
+	SkillName: '折扣',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2200,7 +2200,7 @@ SkillInfo[SK.MC_DISCOUNT] = {
 };
 SkillInfo[SK.DE_SLASH] = {
 	Name: 'DE_SLASH',
-	SkillName: 'Slash',
+	SkillName: '斩击',
 	MaxLv: 5,
 	SpAmount: [10, 8, 6, 4, 2],
 	bSeperateLv: false,
@@ -2208,7 +2208,7 @@ SkillInfo[SK.DE_SLASH] = {
 };
 SkillInfo[SK.DE_COIL] = {
 	Name: 'DE_COIL',
-	SkillName: 'Coil',
+	SkillName: '盘绕',
 	MaxLv: 7,
 	SpAmount: [8, 10, 12, 14, 16, 18, 20],
 	bSeperateLv: false,
@@ -2216,7 +2216,7 @@ SkillInfo[SK.DE_COIL] = {
 };
 SkillInfo[SK.DE_WAVE] = {
 	Name: 'DE_WAVE',
-	SkillName: 'Wave',
+	SkillName: '波动',
 	MaxLv: 7,
 	SpAmount: [55, 50, 45, 40, 35, 30, 25],
 	bSeperateLv: false,
@@ -2224,7 +2224,7 @@ SkillInfo[SK.DE_WAVE] = {
 };
 SkillInfo[SK.DE_REBIRTH] = {
 	Name: 'DE_REBIRTH',
-	SkillName: 'Rebirth',
+	SkillName: '重生',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -2232,7 +2232,7 @@ SkillInfo[SK.DE_REBIRTH] = {
 };
 SkillInfo[SK.DE_AURA] = {
 	Name: 'DE_AURA',
-	SkillName: 'Aura',
+	SkillName: '光环',
 	MaxLv: 7,
 	SpAmount: [80, 75, 70, 65, 60, 55, 50],
 	bSeperateLv: false,
@@ -2240,7 +2240,7 @@ SkillInfo[SK.DE_AURA] = {
 };
 SkillInfo[SK.DE_FREEZER] = {
 	Name: 'DE_FREEZER',
-	SkillName: 'Freezer',
+	SkillName: '冰冻人',
 	MaxLv: 7,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -2248,7 +2248,7 @@ SkillInfo[SK.DE_FREEZER] = {
 };
 SkillInfo[SK.DE_CHANGEATTACK] = {
 	Name: 'DE_CHANGEATTACK',
-	SkillName: 'Change Attack',
+	SkillName: '改变攻击',
 	MaxLv: 7,
 	SpAmount: [80, 70, 60, 50, 40, 30, 20],
 	bSeperateLv: false,
@@ -2256,7 +2256,7 @@ SkillInfo[SK.DE_CHANGEATTACK] = {
 };
 SkillInfo[SK.DE_PUNISH] = {
 	Name: 'DE_PUNISH',
-	SkillName: 'Death Punish',
+	SkillName: '死亡惩罚',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2264,7 +2264,7 @@ SkillInfo[SK.DE_PUNISH] = {
 };
 SkillInfo[SK.DE_POISON] = {
 	Name: 'DE_POISON',
-	SkillName: 'Death Poison',
+	SkillName: '死亡毒素',
 	MaxLv: 7,
 	SpAmount: [14, 12, 10, 8, 6, 4, 2],
 	bSeperateLv: false,
@@ -2272,7 +2272,7 @@ SkillInfo[SK.DE_POISON] = {
 };
 SkillInfo[SK.DE_INSTANT] = {
 	Name: 'DE_INSTANT',
-	SkillName: 'Instant',
+	SkillName: '瞬发',
 	MaxLv: 7,
 	SpAmount: [50, 100, 150, 200, 250, 300, 350],
 	bSeperateLv: true,
@@ -2280,7 +2280,7 @@ SkillInfo[SK.DE_INSTANT] = {
 };
 SkillInfo[SK.DE_WARNING] = {
 	Name: 'DE_WARNING',
-	SkillName: 'Warning',
+	SkillName: '警告',
 	MaxLv: 7,
 	SpAmount: [50, 50, 50, 50, 50, 50, 50],
 	bSeperateLv: false,
@@ -2288,7 +2288,7 @@ SkillInfo[SK.DE_WARNING] = {
 };
 SkillInfo[SK.DE_RANKEDKNIFE] = {
 	Name: 'DE_RANKEDKNIFE',
-	SkillName: 'Ranked Knife',
+	SkillName: '排名之刃',
 	MaxLv: 7,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -2296,7 +2296,7 @@ SkillInfo[SK.DE_RANKEDKNIFE] = {
 };
 SkillInfo[SK.DE_RANKEDGRADIUS] = {
 	Name: 'DE_RANKEDGRADIUS',
-	SkillName: 'Death Gradisu',
+	SkillName: '死亡格拉迪乌斯',
 	MaxLv: 7,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -2304,7 +2304,7 @@ SkillInfo[SK.DE_RANKEDGRADIUS] = {
 };
 SkillInfo[SK.DE_GAUGE] = {
 	Name: 'DE_GAUGE',
-	SkillName: 'Gauge',
+	SkillName: '量表',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -2312,7 +2312,7 @@ SkillInfo[SK.DE_GAUGE] = {
 };
 SkillInfo[SK.DE_GTIME] = {
 	Name: 'DE_GTIME',
-	SkillName: 'G Time',
+	SkillName: '公会时间',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2320,7 +2320,7 @@ SkillInfo[SK.DE_GTIME] = {
 };
 SkillInfo[SK.MC_OVERCHARGE] = {
 	Name: 'MC_OVERCHARGE',
-	SkillName: 'Overcharge',
+	SkillName: '过充',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2329,7 +2329,7 @@ SkillInfo[SK.MC_OVERCHARGE] = {
 };
 SkillInfo[SK.DE_GSKILL] = {
 	Name: 'DE_GSKILL',
-	SkillName: 'G Skill',
+	SkillName: '公会技能',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2337,7 +2337,7 @@ SkillInfo[SK.DE_GSKILL] = {
 };
 SkillInfo[SK.DE_GKILL] = {
 	Name: 'DE_GKILL',
-	SkillName: 'G Kill',
+	SkillName: '公会击杀',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2345,7 +2345,7 @@ SkillInfo[SK.DE_GKILL] = {
 };
 SkillInfo[SK.DE_ACCEL] = {
 	Name: 'DE_ACCEL',
-	SkillName: 'Acceleration',
+	SkillName: '加速',
 	MaxLv: 5,
 	SpAmount: [50, 40, 30, 20, 10],
 	bSeperateLv: false,
@@ -2353,7 +2353,7 @@ SkillInfo[SK.DE_ACCEL] = {
 };
 SkillInfo[SK.DE_BLOCKDOUBLE] = {
 	Name: 'DE_BLOCKDOUBLE',
-	SkillName: 'Double Block',
+	SkillName: '双重格挡',
 	MaxLv: 3,
 	SpAmount: [40, 30, 20],
 	bSeperateLv: false,
@@ -2361,7 +2361,7 @@ SkillInfo[SK.DE_BLOCKDOUBLE] = {
 };
 SkillInfo[SK.DE_BLOCKMELEE] = {
 	Name: 'DE_BLOCKMELEE',
-	SkillName: 'Melee Block',
+	SkillName: '近战格挡',
 	MaxLv: 3,
 	SpAmount: [40, 30, 20],
 	bSeperateLv: false,
@@ -2369,7 +2369,7 @@ SkillInfo[SK.DE_BLOCKMELEE] = {
 };
 SkillInfo[SK.DE_BLOCKFAR] = {
 	Name: 'DE_BLOCKFAR',
-	SkillName: 'Far Black',
+	SkillName: '远程黑暗',
 	MaxLv: 3,
 	SpAmount: [100, 75, 50],
 	bSeperateLv: false,
@@ -2377,7 +2377,7 @@ SkillInfo[SK.DE_BLOCKFAR] = {
 };
 SkillInfo[SK.DE_FRONTATTACK] = {
 	Name: 'DE_FRONTATTACK',
-	SkillName: 'Front Attack',
+	SkillName: '正面攻击',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -2385,7 +2385,7 @@ SkillInfo[SK.DE_FRONTATTACK] = {
 };
 SkillInfo[SK.DE_DANGERATTACK] = {
 	Name: 'DE_DANGERATTACK',
-	SkillName: 'Dangerous Attack',
+	SkillName: '危险攻击',
 	MaxLv: 10,
 	SpAmount: [30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
 	bSeperateLv: false,
@@ -2393,7 +2393,7 @@ SkillInfo[SK.DE_DANGERATTACK] = {
 };
 SkillInfo[SK.DE_TWINATTACK] = {
 	Name: 'DE_TWINATTACK',
-	SkillName: 'Twin Attack',
+	SkillName: '双重攻击',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -2401,7 +2401,7 @@ SkillInfo[SK.DE_TWINATTACK] = {
 };
 SkillInfo[SK.DE_WINDATTACK] = {
 	Name: 'DE_WINDATTACK',
-	SkillName: 'Wind Attack',
+	SkillName: '风属性攻击',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 50, 50, 50, 50, 50],
 	bSeperateLv: false,
@@ -2409,7 +2409,7 @@ SkillInfo[SK.DE_WINDATTACK] = {
 };
 SkillInfo[SK.DE_WATERATTACK] = {
 	Name: 'DE_WATERATTACK',
-	SkillName: 'Water Attack',
+	SkillName: '水属性攻击',
 	MaxLv: 10,
 	SpAmount: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -2417,7 +2417,7 @@ SkillInfo[SK.DE_WATERATTACK] = {
 };
 SkillInfo[SK.DA_ENERGY] = {
 	Name: 'DA_ENERGY',
-	SkillName: 'Energy',
+	SkillName: '能量',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -2425,7 +2425,7 @@ SkillInfo[SK.DA_ENERGY] = {
 };
 SkillInfo[SK.DA_CLOUD] = {
 	Name: 'DA_CLOUD',
-	SkillName: 'Cloud',
+	SkillName: '云雾',
 	MaxLv: 10,
 	SpAmount: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -2433,7 +2433,7 @@ SkillInfo[SK.DA_CLOUD] = {
 };
 SkillInfo[SK.DA_FIRSTSLOT] = {
 	Name: 'DA_FIRSTSLOT',
-	SkillName: 'First Slot',
+	SkillName: '第一槽位',
 	MaxLv: 5,
 	SpAmount: [100, 90, 80, 70, 60],
 	bSeperateLv: false,
@@ -2441,7 +2441,7 @@ SkillInfo[SK.DA_FIRSTSLOT] = {
 };
 SkillInfo[SK.DA_HEADDEF] = {
 	Name: 'DA_HEADDEF',
-	SkillName: 'Head Defense',
+	SkillName: '头部防御',
 	MaxLv: 4,
 	SpAmount: [60, 60, 60, 60],
 	bSeperateLv: false,
@@ -2449,7 +2449,7 @@ SkillInfo[SK.DA_HEADDEF] = {
 };
 SkillInfo[SK.MC_PUSHCART] = {
 	Name: 'MC_PUSHCART',
-	SkillName: 'Pushcart',
+	SkillName: '手推车',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2458,7 +2458,7 @@ SkillInfo[SK.MC_PUSHCART] = {
 };
 SkillInfo[SK.DA_TRANSFORM] = {
 	Name: 'DA_TRANSFORM',
-	SkillName: 'Transform',
+	SkillName: '变身',
 	MaxLv: 5,
 	SpAmount: [180, 150, 120, 90, 60],
 	bSeperateLv: false,
@@ -2466,7 +2466,7 @@ SkillInfo[SK.DA_TRANSFORM] = {
 };
 SkillInfo[SK.DA_EXPLOSION] = {
 	Name: 'DA_EXPLOSION',
-	SkillName: 'Explosion',
+	SkillName: '爆炸',
 	MaxLv: 5,
 	SpAmount: [140, 120, 100, 80, 60],
 	bSeperateLv: false,
@@ -2474,7 +2474,7 @@ SkillInfo[SK.DA_EXPLOSION] = {
 };
 SkillInfo[SK.DA_REWARD] = {
 	Name: 'DA_REWARD',
-	SkillName: 'Reward',
+	SkillName: '奖励',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2482,7 +2482,7 @@ SkillInfo[SK.DA_REWARD] = {
 };
 SkillInfo[SK.DA_CRUSH] = {
 	Name: 'DA_CRUSH',
-	SkillName: 'Crush',
+	SkillName: '粉碎',
 	MaxLv: 5,
 	SpAmount: [130, 110, 90, 70, 50],
 	bSeperateLv: false,
@@ -2490,7 +2490,7 @@ SkillInfo[SK.DA_CRUSH] = {
 };
 SkillInfo[SK.DA_ITEMREBUILD] = {
 	Name: 'DA_ITEMREBUILD',
-	SkillName: 'Item Rebuild',
+	SkillName: '物品重建',
 	MaxLv: 5,
 	SpAmount: [50, 40, 30, 20, 10],
 	bSeperateLv: false,
@@ -2498,7 +2498,7 @@ SkillInfo[SK.DA_ITEMREBUILD] = {
 };
 SkillInfo[SK.DA_ILLUSION] = {
 	Name: 'DA_ILLUSION',
-	SkillName: 'Illusion',
+	SkillName: '幻影',
 	MaxLv: 5,
 	SpAmount: [120, 100, 80, 60, 40],
 	bSeperateLv: false,
@@ -2506,7 +2506,7 @@ SkillInfo[SK.DA_ILLUSION] = {
 };
 SkillInfo[SK.DA_NUETRALIZE] = {
 	Name: 'DA_NUETRALIZE',
-	SkillName: 'Neutralize',
+	SkillName: '中和',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2514,7 +2514,7 @@ SkillInfo[SK.DA_NUETRALIZE] = {
 };
 SkillInfo[SK.DA_RUNNER] = {
 	Name: 'DA_RUNNER',
-	SkillName: 'Runner',
+	SkillName: '奔跑者',
 	MaxLv: 5,
 	SpAmount: [50, 40, 30, 20, 10],
 	bSeperateLv: false,
@@ -2522,7 +2522,7 @@ SkillInfo[SK.DA_RUNNER] = {
 };
 SkillInfo[SK.DA_TRANSFER] = {
 	Name: 'DA_TRANSFER',
-	SkillName: 'Transfer',
+	SkillName: '转移',
 	MaxLv: 5,
 	SpAmount: [70, 60, 50, 40, 30],
 	bSeperateLv: false,
@@ -2530,7 +2530,7 @@ SkillInfo[SK.DA_TRANSFER] = {
 };
 SkillInfo[SK.DA_WALL] = {
 	Name: 'DA_WALL',
-	SkillName: 'Wall',
+	SkillName: '墙壁',
 	MaxLv: 5,
 	SpAmount: [10, 20, 30, 40, 50],
 	bSeperateLv: true,
@@ -2538,7 +2538,7 @@ SkillInfo[SK.DA_WALL] = {
 };
 SkillInfo[SK.RETURN_TO_ELDICASTES] = {
 	Name: 'RETURN_TO_ELDICASTES',
-	SkillName: 'To El Dicastes',
+	SkillName: '前往迪卡斯特斯',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2546,7 +2546,7 @@ SkillInfo[SK.RETURN_TO_ELDICASTES] = {
 };
 SkillInfo[SK.DA_REVENGE] = {
 	Name: 'DA_REVENGE',
-	SkillName: 'Revenge',
+	SkillName: '复仇',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -2554,7 +2554,7 @@ SkillInfo[SK.DA_REVENGE] = {
 };
 SkillInfo[SK.DA_EARPLUG] = {
 	Name: 'DA_EARPLUG',
-	SkillName: 'Earplug',
+	SkillName: '耳塞',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	bSeperateLv: false,
@@ -2562,7 +2562,7 @@ SkillInfo[SK.DA_EARPLUG] = {
 };
 SkillInfo[SK.DA_CONTRACT] = {
 	Name: 'DA_CONTRACT',
-	SkillName: 'Contract',
+	SkillName: '契约',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2570,7 +2570,7 @@ SkillInfo[SK.DA_CONTRACT] = {
 };
 SkillInfo[SK.DA_BLACK] = {
 	Name: 'DA_BLACK',
-	SkillName: 'Black',
+	SkillName: '黑色',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	bSeperateLv: false,
@@ -2578,7 +2578,7 @@ SkillInfo[SK.DA_BLACK] = {
 };
 SkillInfo[SK.MC_IDENTIFY] = {
 	Name: 'MC_IDENTIFY',
-	SkillName: 'Item Appraisal',
+	SkillName: '鉴定物品',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2586,7 +2586,7 @@ SkillInfo[SK.MC_IDENTIFY] = {
 };
 SkillInfo[SK.DA_MAGICCART] = {
 	Name: 'DA_MAGICCART',
-	SkillName: 'Magic Cart',
+	SkillName: '魔法手推车',
 	MaxLv: 5,
 	SpAmount: [50, 40, 30, 20, 10],
 	bSeperateLv: false,
@@ -2594,7 +2594,7 @@ SkillInfo[SK.DA_MAGICCART] = {
 };
 SkillInfo[SK.DA_COPY] = {
 	Name: 'DA_COPY',
-	SkillName: 'Copy',
+	SkillName: '复制',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2602,7 +2602,7 @@ SkillInfo[SK.DA_COPY] = {
 };
 SkillInfo[SK.DA_CRYSTAL] = {
 	Name: 'DA_CRYSTAL',
-	SkillName: 'Crystal',
+	SkillName: '水晶',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -2610,7 +2610,7 @@ SkillInfo[SK.DA_CRYSTAL] = {
 };
 SkillInfo[SK.DA_EXP] = {
 	Name: 'DA_EXP',
-	SkillName: 'Experience',
+	SkillName: '经验',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2618,7 +2618,7 @@ SkillInfo[SK.DA_EXP] = {
 };
 SkillInfo[SK.DA_CARTSWING] = {
 	Name: 'DA_CARTSWING',
-	SkillName: 'Cart Swing',
+	SkillName: '手推车摆动',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -2626,7 +2626,7 @@ SkillInfo[SK.DA_CARTSWING] = {
 };
 SkillInfo[SK.DA_REBUILD] = {
 	Name: 'DA_REBUILD',
-	SkillName: 'Rebuild',
+	SkillName: '重建',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2634,7 +2634,7 @@ SkillInfo[SK.DA_REBUILD] = {
 };
 SkillInfo[SK.DA_JOBCHANGE] = {
 	Name: 'DA_JOBCHANGE',
-	SkillName: 'Job Change',
+	SkillName: '转职',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2642,7 +2642,7 @@ SkillInfo[SK.DA_JOBCHANGE] = {
 };
 SkillInfo[SK.DA_EDARKNESS] = {
 	Name: 'DA_EDARKNESS',
-	SkillName: 'Eternal Darkness',
+	SkillName: '永恒黑暗',
 	MaxLv: 5,
 	SpAmount: [1100, 900, 700, 500, 300],
 	bSeperateLv: false,
@@ -2650,7 +2650,7 @@ SkillInfo[SK.DA_EDARKNESS] = {
 };
 SkillInfo[SK.DA_EGUARDIAN] = {
 	Name: 'DA_EGUARDIAN',
-	SkillName: 'Guardian',
+	SkillName: '守护者',
 	MaxLv: 5,
 	SpAmount: [1300, 1100, 900, 700, 500],
 	bSeperateLv: false,
@@ -2658,7 +2658,7 @@ SkillInfo[SK.DA_EGUARDIAN] = {
 };
 SkillInfo[SK.DA_TIMEOUT] = {
 	Name: 'DA_TIMEOUT',
-	SkillName: 'Time Out',
+	SkillName: '暂停',
 	MaxLv: 3,
 	SpAmount: [500, 300, 100],
 	bSeperateLv: false,
@@ -2666,7 +2666,7 @@ SkillInfo[SK.DA_TIMEOUT] = {
 };
 SkillInfo[SK.ALL_TIMEIN] = {
 	Name: 'ALL_TIMEIN',
-	SkillName: 'Time',
+	SkillName: '时间',
 	MaxLv: 1,
 	SpAmount: [100],
 	bSeperateLv: false,
@@ -2674,7 +2674,7 @@ SkillInfo[SK.ALL_TIMEIN] = {
 };
 SkillInfo[SK.DA_ZENYRANK] = {
 	Name: 'DA_ZENYRANK',
-	SkillName: 'Zeny Rank',
+	SkillName: 'Zeny 排名',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2682,7 +2682,7 @@ SkillInfo[SK.DA_ZENYRANK] = {
 };
 SkillInfo[SK.DA_ACCESSORYMIX] = {
 	Name: 'DA_ACCESSORYMIX',
-	SkillName: 'Accessory mix',
+	SkillName: '饰品合成',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -2690,7 +2690,7 @@ SkillInfo[SK.DA_ACCESSORYMIX] = {
 };
 SkillInfo[SK.NPC_EARTHQUAKE] = {
 	Name: 'NPC_EARTHQUAKE',
-	SkillName: 'Earthquake',
+	SkillName: '地震',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2710,7 +2710,7 @@ SkillInfo[SK.NPC_EARTHQUAKE] = {
 };
 SkillInfo[SK.NPC_EARTHQUAKE_K] = {
 	Name: 'NPC_EARTHQUAKE_K',
-	SkillName: 'Earthquake',
+	SkillName: '地震',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2730,7 +2730,7 @@ SkillInfo[SK.NPC_EARTHQUAKE_K] = {
 };
 SkillInfo[SK.EL_CIRCLE_OF_FIRE] = {
 	Name: 'EL_CIRCLE_OF_FIRE',
-	SkillName: 'Circle of Fire',
+	SkillName: '火焰之环',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -2738,7 +2738,7 @@ SkillInfo[SK.EL_CIRCLE_OF_FIRE] = {
 };
 SkillInfo[SK.MC_VENDING] = {
 	Name: 'MC_VENDING',
-	SkillName: 'Vending',
+	SkillName: '露天商店',
 	MaxLv: 10,
 	SpAmount: [30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
 	bSeperateLv: false,
@@ -2747,7 +2747,7 @@ SkillInfo[SK.MC_VENDING] = {
 };
 SkillInfo[SK.EL_TIDAL_WEAPON] = {
 	Name: 'EL_TIDAL_WEAPON',
-	SkillName: 'Tidal Weapon',
+	SkillName: '潮汐武器',
 	MaxLv: 1,
 	SpAmount: [80],
 	bSeperateLv: false,
@@ -2755,7 +2755,7 @@ SkillInfo[SK.EL_TIDAL_WEAPON] = {
 };
 SkillInfo[SK.NPC_DRAGONFEAR] = {
 	Name: 'NPC_DRAGONFEAR',
-	SkillName: 'Dragon Fear',
+	SkillName: '龙之恐惧',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2770,7 +2770,7 @@ SkillInfo[SK.NPC_DRAGONFEAR] = {
 };
 SkillInfo[SK.NPC_PULSESTRIKE2] = {
 	Name: 'NPC_PULSESTRIKE2',
-	SkillName: 'Pulse Strike',
+	SkillName: '脉冲打击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -2779,7 +2779,7 @@ SkillInfo[SK.NPC_PULSESTRIKE2] = {
 };
 SkillInfo[SK.NPC_PULSESTRIKE] = {
 	Name: 'NPC_PULSESTRIKE',
-	SkillName: 'Pulse Strike',
+	SkillName: '脉冲打击',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2794,7 +2794,7 @@ SkillInfo[SK.NPC_PULSESTRIKE] = {
 };
 SkillInfo[SK.NPC_HELLJUDGEMENT] = {
 	Name: 'NPC_HELLJUDGEMENT',
-	SkillName: "Hell's Judgement",
+	SkillName: '地狱审判',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2814,7 +2814,7 @@ SkillInfo[SK.NPC_HELLJUDGEMENT] = {
 };
 SkillInfo[SK.NPC_WIDESILENCE] = {
 	Name: 'NPC_WIDESILENCE',
-	SkillName: 'Bedlam',
+	SkillName: '混乱',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2829,7 +2829,7 @@ SkillInfo[SK.NPC_WIDESILENCE] = {
 };
 SkillInfo[SK.NPC_WIDEFREEZE] = {
 	Name: 'NPC_WIDEFREEZE',
-	SkillName: 'Frozen Heart',
+	SkillName: '冰封之心',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2844,7 +2844,7 @@ SkillInfo[SK.NPC_WIDEFREEZE] = {
 };
 SkillInfo[SK.NPC_WIDEBLEEDING] = {
 	Name: 'NPC_WIDEBLEEDING',
-	SkillName: 'Bloody Party',
+	SkillName: '血腥盛宴',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2859,7 +2859,7 @@ SkillInfo[SK.NPC_WIDEBLEEDING] = {
 };
 SkillInfo[SK.NPC_WIDESTONE] = {
 	Name: 'NPC_WIDESTONE',
-	SkillName: "Medusa's Stare",
+	SkillName: '美杜莎凝视',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2874,7 +2874,7 @@ SkillInfo[SK.NPC_WIDESTONE] = {
 };
 SkillInfo[SK.NPC_WIDECONFUSE] = {
 	Name: 'NPC_WIDECONFUSE',
-	SkillName: 'Confusion Rule',
+	SkillName: '混乱法则',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2889,7 +2889,7 @@ SkillInfo[SK.NPC_WIDECONFUSE] = {
 };
 SkillInfo[SK.NPC_WIDESLEEP] = {
 	Name: 'NPC_WIDESLEEP',
-	SkillName: 'Morpheus Slumber',
+	SkillName: '墨菲斯沉睡',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2904,7 +2904,7 @@ SkillInfo[SK.NPC_WIDESLEEP] = {
 };
 SkillInfo[SK.NPC_EVILLAND] = {
 	Name: 'NPC_EVILLAND',
-	SkillName: 'Evil Land',
+	SkillName: '邪恶之地',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2924,7 +2924,7 @@ SkillInfo[SK.NPC_EVILLAND] = {
 };
 SkillInfo[SK.MC_MAMMONITE] = {
 	Name: 'MC_MAMMONITE',
-	SkillName: 'Mammonite',
+	SkillName: '金钱攻击',
 	MaxLv: 10,
 	SpAmount: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 	bSeperateLv: true,
@@ -2932,7 +2932,7 @@ SkillInfo[SK.MC_MAMMONITE] = {
 };
 SkillInfo[SK.NPC_SLOWCAST] = {
 	Name: 'NPC_SLOWCAST',
-	SkillName: 'Slow Cast',
+	SkillName: '缓慢吟唱',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2940,7 +2940,7 @@ SkillInfo[SK.NPC_SLOWCAST] = {
 };
 SkillInfo[SK.NPC_CRITICALWOUND] = {
 	Name: 'NPC_CRITICALWOUND',
-	SkillName: 'Critical Wounds',
+	SkillName: '致命伤口',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2948,7 +2948,7 @@ SkillInfo[SK.NPC_CRITICALWOUND] = {
 };
 SkillInfo[SK.NPC_STONESKIN] = {
 	Name: 'NPC_STONESKIN',
-	SkillName: 'Stone Skin',
+	SkillName: '石肤',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2956,7 +2956,7 @@ SkillInfo[SK.NPC_STONESKIN] = {
 };
 SkillInfo[SK.NPC_ANTIMAGIC] = {
 	Name: 'NPC_ANTIMAGIC',
-	SkillName: 'Deadzone',
+	SkillName: '死亡地带',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2964,7 +2964,7 @@ SkillInfo[SK.NPC_ANTIMAGIC] = {
 };
 SkillInfo[SK.NPC_WIDECURSE] = {
 	Name: 'NPC_WIDECURSE',
-	SkillName: 'Cursed Fate',
+	SkillName: '诅咒命运',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2979,7 +2979,7 @@ SkillInfo[SK.NPC_WIDECURSE] = {
 };
 SkillInfo[SK.NPC_WIDESTUN] = {
 	Name: 'NPC_WIDESTUN',
-	SkillName: 'Stunning Gaze',
+	SkillName: '眩晕凝视',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -2994,7 +2994,7 @@ SkillInfo[SK.NPC_WIDESTUN] = {
 };
 SkillInfo[SK.NPC_VAMPIRE_GIFT] = {
 	Name: 'NPC_VAMPIRE_GIFT',
-	SkillName: "Vampire's Gift",
+	SkillName: '吸血鬼的礼物',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -3498,7 +3498,7 @@ SkillInfo[SK.DC_WINKCHARM] = {
 };
 SkillInfo[SK.BS_UNFAIRLYTRICK] = {
 	Name: 'BS_UNFAIRLYTRICK',
-	SkillName: 'Dubious Salesmanship',
+	SkillName: '可疑的销售术',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [0],
@@ -3507,7 +3507,7 @@ SkillInfo[SK.BS_UNFAIRLYTRICK] = {
 };
 SkillInfo[SK.BS_GREED] = {
 	Name: 'BS_GREED',
-	SkillName: 'Greed',
+	SkillName: '贪婪',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [10],
@@ -3516,7 +3516,7 @@ SkillInfo[SK.BS_GREED] = {
 };
 SkillInfo[SK.PR_REDEMPTIO] = {
 	Name: 'PR_REDEMPTIO',
-	SkillName: 'Redemptio',
+	SkillName: '救赎',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [800],
@@ -3525,7 +3525,7 @@ SkillInfo[SK.PR_REDEMPTIO] = {
 };
 SkillInfo[SK.MO_KITRANSLATION] = {
 	Name: 'MO_KITRANSLATION',
-	SkillName: 'Spiritual Bestowment',
+	SkillName: '灵魂赋予',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [40],
@@ -3534,7 +3534,7 @@ SkillInfo[SK.MO_KITRANSLATION] = {
 };
 SkillInfo[SK.MO_BALKYOUNG] = {
 	Name: 'MO_BALKYOUNG',
-	SkillName: 'Excruciating Palm',
+	SkillName: '极刑掌',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [40],
@@ -3543,7 +3543,7 @@ SkillInfo[SK.MO_BALKYOUNG] = {
 };
 SkillInfo[SK.SA_ELEMENTGROUND] = {
 	Name: 'SA_ELEMENTGROUND',
-	SkillName: 'Elemental Change - Ground',
+	SkillName: '元素转换 - 地',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [30],
@@ -3552,7 +3552,7 @@ SkillInfo[SK.SA_ELEMENTGROUND] = {
 };
 SkillInfo[SK.SA_ELEMENTFIRE] = {
 	Name: 'SA_ELEMENTFIRE',
-	SkillName: 'Elemental Change - Fire',
+	SkillName: '元素转换 - 火',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [30],
@@ -3561,7 +3561,7 @@ SkillInfo[SK.SA_ELEMENTFIRE] = {
 };
 SkillInfo[SK.SA_ELEMENTWIND] = {
 	Name: 'SA_ELEMENTWIND',
-	SkillName: 'Elemental Change - Wind',
+	SkillName: '元素转换 - 风',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [30],
@@ -3570,7 +3570,7 @@ SkillInfo[SK.SA_ELEMENTWIND] = {
 };
 SkillInfo[SK.SM_RECOVERY] = {
 	Name: 'SM_RECOVERY',
-	SkillName: 'Increase HP Recovery',
+	SkillName: '增加 HP 恢复',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -3578,7 +3578,7 @@ SkillInfo[SK.SM_RECOVERY] = {
 };
 SkillInfo[SK.KN_CAVALIERMASTERY] = {
 	Name: 'KN_CAVALIERMASTERY',
-	SkillName: 'Cavalier Mastery',
+	SkillName: '骑士精通',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -3587,7 +3587,7 @@ SkillInfo[SK.KN_CAVALIERMASTERY] = {
 };
 SkillInfo[SK.AB_HIGHNESSHEAL] = {
 	Name: 'AB_HIGHNESSHEAL',
-	SkillName: 'High Heal',
+	SkillName: '高级治愈术',
 	MaxLv: 5,
 	SpAmount: [70, 100, 130, 160, 190],
 	bSeperateLv: true,
@@ -3596,7 +3596,7 @@ SkillInfo[SK.AB_HIGHNESSHEAL] = {
 };
 SkillInfo[SK.AB_DUPLELIGHT_MELEE] = {
 	Name: 'AB_DUPLELIGHT_MELEE',
-	SkillName: 'Duple Strike',
+	SkillName: '双重打击',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -3604,7 +3604,7 @@ SkillInfo[SK.AB_DUPLELIGHT_MELEE] = {
 };
 SkillInfo[SK.MER_BENEDICTION] = {
 	Name: 'MER_BENEDICTION',
-	SkillName: 'Benediction',
+	SkillName: '祝祷',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -3612,7 +3612,7 @@ SkillInfo[SK.MER_BENEDICTION] = {
 };
 SkillInfo[SK.PR_MACEMASTERY] = {
 	Name: 'PR_MACEMASTERY',
-	SkillName: 'Mace Mastery',
+	SkillName: '钝器精通',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -3620,7 +3620,7 @@ SkillInfo[SK.PR_MACEMASTERY] = {
 };
 SkillInfo[SK.EL_WATER_SCREEN] = {
 	Name: 'EL_WATER_SCREEN',
-	SkillName: 'Water Screen',
+	SkillName: '水幕',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -3628,7 +3628,7 @@ SkillInfo[SK.EL_WATER_SCREEN] = {
 };
 SkillInfo[SK.PR_IMPOSITIO] = {
 	Name: 'PR_IMPOSITIO',
-	SkillName: 'Impositio Manus',
+	SkillName: '武器祝福',
 	MaxLv: 5,
 	SpAmount: [59, 62, 65, 68, 71],
 	bSeperateLv: true,
@@ -3636,7 +3636,7 @@ SkillInfo[SK.PR_IMPOSITIO] = {
 };
 SkillInfo[SK.EL_HURRICANE_ATK] = {
 	Name: 'EL_HURRICANE_ATK',
-	SkillName: 'Hurricange Attack',
+	SkillName: '飓风攻击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -3644,7 +3644,7 @@ SkillInfo[SK.EL_HURRICANE_ATK] = {
 };
 SkillInfo[SK.PR_SUFFRAGIUM] = {
 	Name: 'PR_SUFFRAGIUM',
-	SkillName: 'Suffragium',
+	SkillName: '牺牲祈福',
 	MaxLv: 3,
 	SpAmount: [8, 8, 8],
 	bSeperateLv: true,
@@ -3653,7 +3653,7 @@ SkillInfo[SK.PR_SUFFRAGIUM] = {
 };
 SkillInfo[SK.PR_ASPERSIO] = {
 	Name: 'PR_ASPERSIO',
-	SkillName: 'Aspersio',
+	SkillName: '神圣之水',
 	MaxLv: 5,
 	SpAmount: [14, 18, 22, 26, 30],
 	bSeperateLv: true,
@@ -3665,7 +3665,7 @@ SkillInfo[SK.PR_ASPERSIO] = {
 };
 SkillInfo[SK.PR_BENEDICTIO] = {
 	Name: 'PR_BENEDICTIO',
-	SkillName: 'B.S Sacramenti ',
+	SkillName: '圣体奉献',
 	MaxLv: 5,
 	SpAmount: [20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -3677,7 +3677,7 @@ SkillInfo[SK.PR_BENEDICTIO] = {
 };
 SkillInfo[SK.WL_SIENNAEXECRATE] = {
 	Name: 'WL_SIENNAEXECRATE',
-	SkillName: 'Sienna Execrate',
+	SkillName: '赤土诅咒',
 	MaxLv: 5,
 	SpAmount: [32, 34, 36, 38, 40],
 	bSeperateLv: true,
@@ -3686,7 +3686,7 @@ SkillInfo[SK.WL_SIENNAEXECRATE] = {
 };
 SkillInfo[SK.WL_CRIMSONROCK] = {
 	Name: 'WL_CRIMSONROCK',
-	SkillName: 'Crimson Rock',
+	SkillName: '绯红陨石',
 	MaxLv: 5,
 	SpAmount: [60, 70, 80, 90, 100],
 	bSeperateLv: true,
@@ -3695,7 +3695,7 @@ SkillInfo[SK.WL_CRIMSONROCK] = {
 };
 SkillInfo[SK.WL_SUMMONBL] = {
 	Name: 'WL_SUMMONBL',
-	SkillName: 'Summon Lightning Ball',
+	SkillName: '召唤闪电球',
 	MaxLv: 2,
 	SpAmount: [10, 50],
 	bSeperateLv: true,
@@ -3704,7 +3704,7 @@ SkillInfo[SK.WL_SUMMONBL] = {
 };
 SkillInfo[SK.WL_READING_SB] = {
 	Name: 'WL_READING_SB',
-	SkillName: 'Reading Spell Book',
+	SkillName: '阅读魔法书',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -3712,7 +3712,7 @@ SkillInfo[SK.WL_READING_SB] = {
 };
 SkillInfo[SK.WL_READING_SB_READING] = {
 	Name: 'WL_READING_SB_READING',
-	SkillName: 'Reading Spell Book',
+	SkillName: '阅读魔法书',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -3720,7 +3720,7 @@ SkillInfo[SK.WL_READING_SB_READING] = {
 };
 SkillInfo[SK.PR_SANCTUARY] = {
 	Name: 'PR_SANCTUARY',
-	SkillName: 'Sanctuary',
+	SkillName: '圣域',
 	MaxLv: 10,
 	SpAmount: [15, 18, 21, 24, 27, 30, 33, 36, 39, 42],
 	bSeperateLv: true,
@@ -3729,7 +3729,7 @@ SkillInfo[SK.PR_SANCTUARY] = {
 };
 SkillInfo[SK.RA_CLUSTERBOMB] = {
 	Name: 'RA_CLUSTERBOMB',
-	SkillName: 'Bomb Cluster',
+	SkillName: '炸弹集束',
 	MaxLv: 5,
 	SpAmount: [20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -3738,7 +3738,7 @@ SkillInfo[SK.RA_CLUSTERBOMB] = {
 };
 SkillInfo[SK.RA_WUGSTRIKE] = {
 	Name: 'RA_WUGSTRIKE',
-	SkillName: 'Warg Strike',
+	SkillName: '狼突击',
 	MaxLv: 5,
 	SpAmount: [20, 22, 24, 26, 28],
 	bSeperateLv: true,
@@ -3747,7 +3747,7 @@ SkillInfo[SK.RA_WUGSTRIKE] = {
 };
 SkillInfo[SK.RA_CAMOUFLAGE] = {
 	Name: 'RA_CAMOUFLAGE',
-	SkillName: 'Camouflage',
+	SkillName: '伪装',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -3756,7 +3756,7 @@ SkillInfo[SK.RA_CAMOUFLAGE] = {
 };
 SkillInfo[SK.RA_MAIZETRAP] = {
 	Name: 'RA_MAIZETRAP',
-	SkillName: 'Maze Trap',
+	SkillName: '迷宫陷阱',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -3765,7 +3765,7 @@ SkillInfo[SK.RA_MAIZETRAP] = {
 };
 SkillInfo[SK.NC_MADOLICENCE] = {
 	Name: 'NC_MADOLICENCE',
-	SkillName: 'Madogear License',
+	SkillName: '机甲许可',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -3773,7 +3773,7 @@ SkillInfo[SK.NC_MADOLICENCE] = {
 };
 SkillInfo[SK.NC_FLAMELAUNCHER] = {
 	Name: 'NC_FLAMELAUNCHER',
-	SkillName: 'Flame Launcher',
+	SkillName: '火焰发射器',
 	MaxLv: 3,
 	SpAmount: [20, 20, 20],
 	bSeperateLv: true,
@@ -3782,7 +3782,7 @@ SkillInfo[SK.NC_FLAMELAUNCHER] = {
 };
 SkillInfo[SK.NC_HOVERING] = {
 	Name: 'NC_HOVERING',
-	SkillName: 'Hover',
+	SkillName: '悬浮',
 	MaxLv: 1,
 	SpAmount: [25],
 	bSeperateLv: false,
@@ -3791,7 +3791,7 @@ SkillInfo[SK.NC_HOVERING] = {
 };
 SkillInfo[SK.PR_SLOWPOISON] = {
 	Name: 'PR_SLOWPOISON',
-	SkillName: 'Slow Poison',
+	SkillName: '缓毒',
 	MaxLv: 4,
 	SpAmount: [6, 8, 10, 12],
 	bSeperateLv: true,
@@ -3799,7 +3799,7 @@ SkillInfo[SK.PR_SLOWPOISON] = {
 };
 SkillInfo[SK.NC_ANALYZE] = {
 	Name: 'NC_ANALYZE',
-	SkillName: 'Analyze',
+	SkillName: '分析',
 	MaxLv: 3,
 	SpAmount: [30, 30, 30],
 	bSeperateLv: false,
@@ -3808,7 +3808,7 @@ SkillInfo[SK.NC_ANALYZE] = {
 };
 SkillInfo[SK.NC_REPAIR] = {
 	Name: 'NC_REPAIR',
-	SkillName: 'Repair',
+	SkillName: '修理',
 	MaxLv: 5,
 	SpAmount: [25, 30, 35, 40, 45],
 	bSeperateLv: true,
@@ -3817,7 +3817,7 @@ SkillInfo[SK.NC_REPAIR] = {
 };
 SkillInfo[SK.NC_POWERSWING] = {
 	Name: 'NC_POWERSWING',
-	SkillName: 'Power Swing',
+	SkillName: '强力挥击',
 	MaxLv: 10,
 	SpAmount: [20, 22, 24, 26, 28, 30, 32, 34, 36, 38],
 	bSeperateLv: true,
@@ -3826,7 +3826,7 @@ SkillInfo[SK.NC_POWERSWING] = {
 };
 SkillInfo[SK.NC_DISJOINT] = {
 	Name: 'NC_DISJOINT',
-	SkillName: 'Divest FAW ',
+	SkillName: '卸除 FAW',
 	MaxLv: 1,
 	SpAmount: [15],
 	bSeperateLv: false,
@@ -3835,7 +3835,7 @@ SkillInfo[SK.NC_DISJOINT] = {
 };
 SkillInfo[SK.SC_SHADOWFORM] = {
 	Name: 'SC_SHADOWFORM',
-	SkillName: 'Shadow Formation',
+	SkillName: '暗影阵型',
 	MaxLv: 5,
 	SpAmount: [40, 50, 60, 70, 80],
 	bSeperateLv: true,
@@ -3844,7 +3844,7 @@ SkillInfo[SK.SC_SHADOWFORM] = {
 };
 SkillInfo[SK.SC_DEADLYINFECT] = {
 	Name: 'SC_DEADLYINFECT',
-	SkillName: 'Deadly Infection',
+	SkillName: '致命感染',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: true,
@@ -3856,7 +3856,7 @@ SkillInfo[SK.SC_DEADLYINFECT] = {
 };
 SkillInfo[SK.SC_LAZINESS] = {
 	Name: 'SC_LAZINESS',
-	SkillName: 'Masquerade-Laziness',
+	SkillName: '假面舞会-懒惰',
 	MaxLv: 3,
 	SpAmount: [30, 40, 50],
 	bSeperateLv: true,
@@ -3869,7 +3869,7 @@ SkillInfo[SK.SC_LAZINESS] = {
 };
 SkillInfo[SK.PR_STRECOVERY] = {
 	Name: 'PR_STRECOVERY',
-	SkillName: 'Status Recovery',
+	SkillName: '状态恢复',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -3877,7 +3877,7 @@ SkillInfo[SK.PR_STRECOVERY] = {
 };
 SkillInfo[SK.SC_BLOODYLUST] = {
 	Name: 'SC_BLOODYLUST',
-	SkillName: 'Bloody Lust ',
+	SkillName: '血腥欲望',
 	MaxLv: 3,
 	SpAmount: [60, 70, 80],
 	bSeperateLv: true,
@@ -3886,7 +3886,7 @@ SkillInfo[SK.SC_BLOODYLUST] = {
 };
 SkillInfo[SK.LG_CANNONSPEAR] = {
 	Name: 'LG_CANNONSPEAR',
-	SkillName: 'Cannon Spear',
+	SkillName: '加农矛',
 	MaxLv: 5,
 	SpAmount: [30, 35, 40, 45, 50],
 	bSeperateLv: true,
@@ -3895,7 +3895,7 @@ SkillInfo[SK.LG_CANNONSPEAR] = {
 };
 SkillInfo[SK.LG_REFLECTDAMAGE] = {
 	Name: 'LG_REFLECTDAMAGE',
-	SkillName: 'Reflect Damage',
+	SkillName: '伤害反射',
 	MaxLv: 5,
 	SpAmount: [60, 70, 80, 90, 100],
 	bSeperateLv: true,
@@ -3904,7 +3904,7 @@ SkillInfo[SK.LG_REFLECTDAMAGE] = {
 };
 SkillInfo[SK.LG_SHIELDSPELL] = {
 	Name: 'LG_SHIELDSPELL',
-	SkillName: 'Shield Spell',
+	SkillName: '盾牌法术',
 	MaxLv: 3,
 	SpAmount: [50, 50, 50],
 	bSeperateLv: true,
@@ -3916,7 +3916,7 @@ SkillInfo[SK.LG_SHIELDSPELL] = {
 };
 SkillInfo[SK.LG_BANDING] = {
 	Name: 'LG_BANDING',
-	SkillName: 'Banding',
+	SkillName: '联结',
 	MaxLv: 5,
 	SpAmount: [30, 36, 42, 48, 54],
 	bSeperateLv: true,
@@ -3928,7 +3928,7 @@ SkillInfo[SK.LG_BANDING] = {
 };
 SkillInfo[SK.LG_EARTHDRIVE] = {
 	Name: 'LG_EARTHDRIVE',
-	SkillName: 'Earth Drive',
+	SkillName: '大地驱动',
 	MaxLv: 5,
 	SpAmount: [52, 60, 68, 76, 84],
 	bSeperateLv: true,
@@ -3937,7 +3937,7 @@ SkillInfo[SK.LG_EARTHDRIVE] = {
 };
 SkillInfo[SK.SR_SKYNETBLOW] = {
 	Name: 'SR_SKYNETBLOW',
-	SkillName: 'Sky Blow',
+	SkillName: '天空之击',
 	MaxLv: 5,
 	SpAmount: [12, 14, 16, 18, 20],
 	bSeperateLv: true,
@@ -3946,7 +3946,7 @@ SkillInfo[SK.SR_SKYNETBLOW] = {
 };
 SkillInfo[SK.PR_KYRIE] = {
 	Name: 'PR_KYRIE',
-	SkillName: 'Kyrie Eleison',
+	SkillName: '基里艾利斯',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 25, 25, 25, 30, 30, 30, 35],
 	bSeperateLv: true,
@@ -3955,7 +3955,7 @@ SkillInfo[SK.PR_KYRIE] = {
 };
 SkillInfo[SK.SR_LIGHTNINGWALK] = {
 	Name: 'SR_LIGHTNINGWALK',
-	SkillName: 'Lightning Walk',
+	SkillName: '雷光步',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: true,
@@ -3964,7 +3964,7 @@ SkillInfo[SK.SR_LIGHTNINGWALK] = {
 };
 SkillInfo[SK.SR_GATEOFHELL] = {
 	Name: 'SR_GATEOFHELL',
-	SkillName: 'Gates of Hell',
+	SkillName: '地狱之门',
 	MaxLv: 10,
 	SpAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
 	bSeperateLv: true,
@@ -3976,7 +3976,7 @@ SkillInfo[SK.SR_GATEOFHELL] = {
 };
 SkillInfo[SK.SR_GENTLETOUCH_CHANGE] = {
 	Name: 'SR_GENTLETOUCH_CHANGE',
-	SkillName: 'Gentle Touch-Convert',
+	SkillName: '温柔触碰-转换',
 	MaxLv: 5,
 	SpAmount: [40, 50, 60, 70, 80],
 	bSeperateLv: true,
@@ -3989,7 +3989,7 @@ SkillInfo[SK.SR_GENTLETOUCH_CHANGE] = {
 };
 SkillInfo[SK.WA_SYMPHONY_OF_LOVER] = {
 	Name: 'WA_SYMPHONY_OF_LOVER',
-	SkillName: 'Lover Symphony',
+	SkillName: '恋人交响曲',
 	MaxLv: 5,
 	SpAmount: [60, 69, 78, 87, 96],
 	bSeperateLv: true,
@@ -3998,7 +3998,7 @@ SkillInfo[SK.WA_SYMPHONY_OF_LOVER] = {
 };
 SkillInfo[SK.PR_MAGNIFICAT] = {
 	Name: 'PR_MAGNIFICAT',
-	SkillName: 'Magnificat',
+	SkillName: '圣母之颂歌',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -4006,7 +4006,7 @@ SkillInfo[SK.PR_MAGNIFICAT] = {
 };
 SkillInfo[SK.MI_HARMONIZE] = {
 	Name: 'MI_HARMONIZE',
-	SkillName: 'Harmonize',
+	SkillName: '和谐',
 	MaxLv: 5,
 	SpAmount: [70, 75, 80, 85, 90],
 	bSeperateLv: true,
@@ -4015,7 +4015,7 @@ SkillInfo[SK.MI_HARMONIZE] = {
 };
 SkillInfo[SK.PR_GLORIA] = {
 	Name: 'PR_GLORIA',
-	SkillName: 'Gloria',
+	SkillName: '荣耀之歌',
 	MaxLv: 5,
 	SpAmount: [20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -4028,7 +4028,7 @@ SkillInfo[SK.PR_GLORIA] = {
 };
 SkillInfo[SK.WM_POEMOFNETHERWORLD] = {
 	Name: 'WM_POEMOFNETHERWORLD',
-	SkillName: 'Song of Despair',
+	SkillName: '绝望之歌',
 	MaxLv: 5,
 	SpAmount: [12, 16, 20, 24, 28],
 	bSeperateLv: true,
@@ -4037,7 +4037,7 @@ SkillInfo[SK.WM_POEMOFNETHERWORLD] = {
 };
 SkillInfo[SK.WM_SIRCLEOFNATURE] = {
 	Name: 'WM_SIRCLEOFNATURE',
-	SkillName: 'Circle of Nature',
+	SkillName: '自然之环',
 	MaxLv: 5,
 	SpAmount: [42, 46, 50, 54, 58],
 	bSeperateLv: true,
@@ -4046,7 +4046,7 @@ SkillInfo[SK.WM_SIRCLEOFNATURE] = {
 };
 SkillInfo[SK.PR_LEXDIVINA] = {
 	Name: 'PR_LEXDIVINA',
-	SkillName: 'Lex Divina',
+	SkillName: '沉默术',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 18, 16, 14, 12, 10],
 	bSeperateLv: false,
@@ -4055,7 +4055,7 @@ SkillInfo[SK.PR_LEXDIVINA] = {
 };
 SkillInfo[SK.WM_LERADS_DEW] = {
 	Name: 'WM_LERADS_DEW',
-	SkillName: "Lerad's Dew",
+	SkillName: '莱拉的露水',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -4075,7 +4075,7 @@ SkillInfo[SK.WM_LERADS_DEW] = {
 };
 SkillInfo[SK.SO_FIREWALK] = {
 	Name: 'SO_FIREWALK',
-	SkillName: 'Fire Walk',
+	SkillName: '火焰行走',
 	MaxLv: 5,
 	SpAmount: [30, 34, 38, 42, 46],
 	bSeperateLv: true,
@@ -4084,7 +4084,7 @@ SkillInfo[SK.SO_FIREWALK] = {
 };
 SkillInfo[SK.SO_DIAMONDDUST] = {
 	Name: 'SO_DIAMONDDUST',
-	SkillName: 'Diamond Dust',
+	SkillName: '钻石星尘',
 	MaxLv: 5,
 	SpAmount: [50, 56, 62, 68, 74],
 	bSeperateLv: false,
@@ -4093,7 +4093,7 @@ SkillInfo[SK.SO_DIAMONDDUST] = {
 };
 SkillInfo[SK.SO_STRIKING] = {
 	Name: 'SO_STRIKING',
-	SkillName: 'Striking',
+	SkillName: '打击',
 	MaxLv: 5,
 	SpAmount: [50, 55, 60, 65, 70],
 	bSeperateLv: false,
@@ -4107,7 +4107,7 @@ SkillInfo[SK.SO_STRIKING] = {
 };
 SkillInfo[SK.SO_ARRULLO] = {
 	Name: 'SO_ARRULLO',
-	SkillName: 'Arrullo',
+	SkillName: '安抚',
 	MaxLv: 5,
 	SpAmount: [30, 35, 40, 45, 50],
 	bSeperateLv: true,
@@ -4116,7 +4116,7 @@ SkillInfo[SK.SO_ARRULLO] = {
 };
 SkillInfo[SK.PR_TURNUNDEAD] = {
 	Name: 'PR_TURNUNDEAD',
-	SkillName: 'Turn Undead',
+	SkillName: '转生术',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -4128,7 +4128,7 @@ SkillInfo[SK.PR_TURNUNDEAD] = {
 };
 SkillInfo[SK.SO_EL_SYMPATHY] = {
 	Name: 'SO_EL_SYMPATHY',
-	SkillName: 'Spirit Sympathy',
+	SkillName: '灵魂共鸣',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4137,7 +4137,7 @@ SkillInfo[SK.SO_EL_SYMPATHY] = {
 };
 SkillInfo[SK.SO_WIND_INSIGNIA] = {
 	Name: 'SO_WIND_INSIGNIA',
-	SkillName: 'Wind Insignia',
+	SkillName: '风之徽章',
 	MaxLv: 3,
 	SpAmount: [22, 30, 38],
 	bSeperateLv: true,
@@ -4146,7 +4146,7 @@ SkillInfo[SK.SO_WIND_INSIGNIA] = {
 };
 SkillInfo[SK.GN_REMODELING_CART] = {
 	Name: 'GN_REMODELING_CART',
-	SkillName: 'Cart Remodeling',
+	SkillName: '手推车改造',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4154,7 +4154,7 @@ SkillInfo[SK.GN_REMODELING_CART] = {
 };
 SkillInfo[SK.GN_THORNS_TRAP] = {
 	Name: 'GN_THORNS_TRAP',
-	SkillName: 'Thorn Trap',
+	SkillName: '荆棘陷阱',
 	MaxLv: 5,
 	SpAmount: [22, 26, 30, 34, 38],
 	bSeperateLv: true,
@@ -4163,7 +4163,7 @@ SkillInfo[SK.GN_THORNS_TRAP] = {
 };
 SkillInfo[SK.GN_CRAZYWEED] = {
 	Name: 'GN_CRAZYWEED',
-	SkillName: 'Crazy Vines',
+	SkillName: '疯狂藤蔓',
 	MaxLv: 10,
 	SpAmount: [24, 28, 32, 36, 40, 44, 48, 52, 56, 60],
 	bSeperateLv: true,
@@ -4172,7 +4172,7 @@ SkillInfo[SK.GN_CRAZYWEED] = {
 };
 SkillInfo[SK.PR_LEXAETERNA] = {
 	Name: 'PR_LEXAETERNA',
-	SkillName: 'Lex Aeterna',
+	SkillName: '永恒沉默',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -4181,7 +4181,7 @@ SkillInfo[SK.PR_LEXAETERNA] = {
 };
 SkillInfo[SK.GN_MIX_COOKING] = {
 	Name: 'GN_MIX_COOKING',
-	SkillName: 'Mixed Cooking',
+	SkillName: '混合料理',
 	MaxLv: 2,
 	SpAmount: [5, 40],
 	bSeperateLv: true,
@@ -4190,7 +4190,7 @@ SkillInfo[SK.GN_MIX_COOKING] = {
 };
 SkillInfo[SK.GD_EXTENSION] = {
 	Name: 'GD_EXTENSION',
-	SkillName: 'Guild Extension',
+	SkillName: '公会扩展',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4198,7 +4198,7 @@ SkillInfo[SK.GD_EXTENSION] = {
 };
 SkillInfo[SK.AB_SECRAMENT] = {
 	Name: 'AB_SECRAMENT',
-	SkillName: 'Sacrament',
+	SkillName: '圣礼',
 	MaxLv: 5,
 	SpAmount: [100, 120, 140, 160, 180],
 	bSeperateLv: true,
@@ -4210,7 +4210,7 @@ SkillInfo[SK.AB_SECRAMENT] = {
 };
 SkillInfo[SK.PR_MAGNUS] = {
 	Name: 'PR_MAGNUS',
-	SkillName: 'Magnus Exorcismus',
+	SkillName: '弥撒驱魔',
 	MaxLv: 10,
 	SpAmount: [40, 42, 44, 46, 48, 50, 52, 54, 56, 58],
 	bSeperateLv: true,
@@ -4223,7 +4223,7 @@ SkillInfo[SK.PR_MAGNUS] = {
 };
 SkillInfo[SK.ALL_BUYING_STORE] = {
 	Name: 'ALL_BUYING_STORE',
-	SkillName: 'Open Buying Store',
+	SkillName: '开设收购商店',
 	MaxLv: 2,
 	SpAmount: [30, 30],
 	bSeperateLv: false,
@@ -4231,7 +4231,7 @@ SkillInfo[SK.ALL_BUYING_STORE] = {
 };
 SkillInfo[SK.SM_BASH] = {
 	Name: 'SM_BASH',
-	SkillName: 'Bash',
+	SkillName: '狂击',
 	MaxLv: 10,
 	SpAmount: [8, 8, 8, 8, 8, 15, 15, 15, 15, 15],
 	bSeperateLv: true,
@@ -4239,7 +4239,7 @@ SkillInfo[SK.SM_BASH] = {
 };
 SkillInfo[SK.WZ_FIREPILLAR] = {
 	Name: 'WZ_FIREPILLAR',
-	SkillName: 'Fire Pillar',
+	SkillName: '火柱',
 	MaxLv: 10,
 	SpAmount: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
 	bSeperateLv: true,
@@ -4248,7 +4248,7 @@ SkillInfo[SK.WZ_FIREPILLAR] = {
 };
 SkillInfo[SK.MA_REMOVETRAP] = {
 	Name: 'MA_REMOVETRAP',
-	SkillName: 'Remove Trap',
+	SkillName: '解除陷阱',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -4256,7 +4256,7 @@ SkillInfo[SK.MA_REMOVETRAP] = {
 };
 SkillInfo[SK.MER_RECUPERATE] = {
 	Name: 'MER_RECUPERATE',
-	SkillName: 'Recuperate',
+	SkillName: '恢复',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -4264,7 +4264,7 @@ SkillInfo[SK.MER_RECUPERATE] = {
 };
 SkillInfo[SK.WZ_SIGHTRASHER] = {
 	Name: 'WZ_SIGHTRASHER',
-	SkillName: 'Sightrasher',
+	SkillName: '火狩冲击',
 	MaxLv: 10,
 	SpAmount: [35, 37, 39, 41, 43, 45, 47, 49, 51, 53],
 	bSeperateLv: true,
@@ -4276,7 +4276,7 @@ SkillInfo[SK.WZ_SIGHTRASHER] = {
 };
 SkillInfo[SK.EL_WATER_DROP] = {
 	Name: 'EL_WATER_DROP',
-	SkillName: 'Water Drop',
+	SkillName: '水滴',
 	MaxLv: 1,
 	SpAmount: [60],
 	bSeperateLv: false,
@@ -4284,7 +4284,7 @@ SkillInfo[SK.EL_WATER_DROP] = {
 };
 SkillInfo[SK.WZ_FIREIVY] = {
 	Name: 'WZ_FIREIVY',
-	SkillName: 'Fire Ivy',
+	SkillName: '火焰常春藤',
 	MaxLv: 0,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -4292,7 +4292,7 @@ SkillInfo[SK.WZ_FIREIVY] = {
 };
 SkillInfo[SK.EL_TYPOON_MIS] = {
 	Name: 'EL_TYPOON_MIS',
-	SkillName: 'Typhoon Mist',
+	SkillName: '台风迷雾',
 	MaxLv: 1,
 	SpAmount: [80],
 	bSeperateLv: false,
@@ -4300,7 +4300,7 @@ SkillInfo[SK.EL_TYPOON_MIS] = {
 };
 SkillInfo[SK.WZ_METEOR] = {
 	Name: 'WZ_METEOR',
-	SkillName: 'Meteor Storm',
+	SkillName: '陨石术',
 	MaxLv: 10,
 	SpAmount: [20, 24, 30, 34, 40, 44, 50, 54, 60, 64],
 	bSeperateLv: true,
@@ -4312,7 +4312,7 @@ SkillInfo[SK.WZ_METEOR] = {
 };
 SkillInfo[SK.WZ_JUPITEL] = {
 	Name: 'WZ_JUPITEL',
-	SkillName: 'Jupitel Thunder',
+	SkillName: '雷鸣术',
 	MaxLv: 10,
 	SpAmount: [20, 23, 26, 29, 32, 35, 38, 41, 44, 47],
 	bSeperateLv: true,
@@ -4324,7 +4324,7 @@ SkillInfo[SK.WZ_JUPITEL] = {
 };
 SkillInfo[SK.WZ_VERMILION] = {
 	Name: 'WZ_VERMILION',
-	SkillName: 'Lord of Vermilion',
+	SkillName: '怒雷强击',
 	MaxLv: 10,
 	SpAmount: [60, 64, 68, 72, 76, 80, 84, 88, 92, 96],
 	bSeperateLv: true,
@@ -4336,7 +4336,7 @@ SkillInfo[SK.WZ_VERMILION] = {
 };
 SkillInfo[SK.WZ_WATERBALL] = {
 	Name: 'WZ_WATERBALL',
-	SkillName: 'Waterball',
+	SkillName: '水球术',
 	MaxLv: 5,
 	SpAmount: [15, 20, 20, 25, 25],
 	bSeperateLv: true,
@@ -4348,7 +4348,7 @@ SkillInfo[SK.WZ_WATERBALL] = {
 };
 SkillInfo[SK.WZ_ICEWALL] = {
 	Name: 'WZ_ICEWALL',
-	SkillName: 'Ice Wall',
+	SkillName: '冰墙术',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -4360,7 +4360,7 @@ SkillInfo[SK.WZ_ICEWALL] = {
 };
 SkillInfo[SK.WZ_FROSTNOVA] = {
 	Name: 'WZ_FROSTNOVA',
-	SkillName: 'Frost Nova',
+	SkillName: '霜冻新星',
 	MaxLv: 10,
 	SpAmount: [45, 43, 41, 39, 37, 35, 33, 31, 29, 27],
 	bSeperateLv: false,
@@ -4369,7 +4369,7 @@ SkillInfo[SK.WZ_FROSTNOVA] = {
 };
 SkillInfo[SK.WZ_STORMGUST] = {
 	Name: 'WZ_STORMGUST',
-	SkillName: 'Storm Gust',
+	SkillName: '暴风雪',
 	MaxLv: 10,
 	SpAmount: [78, 78, 78, 78, 78, 78, 78, 78, 78, 78],
 	bSeperateLv: true,
@@ -4381,7 +4381,7 @@ SkillInfo[SK.WZ_STORMGUST] = {
 };
 SkillInfo[SK.WZ_EARTHSPIKE] = {
 	Name: 'WZ_EARTHSPIKE',
-	SkillName: 'Earth Spike',
+	SkillName: '地震术',
 	MaxLv: 5,
 	SpAmount: [14, 18, 22, 26, 30],
 	bSeperateLv: true,
@@ -4391,7 +4391,7 @@ SkillInfo[SK.WZ_EARTHSPIKE] = {
 };
 SkillInfo[SK.WZ_HEAVENDRIVE] = {
 	Name: 'WZ_HEAVENDRIVE',
-	SkillName: "Heaven's Drive",
+	SkillName: '崩裂术',
 	MaxLv: 5,
 	SpAmount: [28, 32, 36, 40, 44],
 	bSeperateLv: true,
@@ -4401,7 +4401,7 @@ SkillInfo[SK.WZ_HEAVENDRIVE] = {
 };
 SkillInfo[SK.WZ_QUAGMIRE] = {
 	Name: 'WZ_QUAGMIRE',
-	SkillName: 'Quagmire',
+	SkillName: '泥沼术',
 	MaxLv: 5,
 	SpAmount: [5, 10, 15, 20, 25],
 	bSeperateLv: false,
@@ -4410,7 +4410,7 @@ SkillInfo[SK.WZ_QUAGMIRE] = {
 };
 SkillInfo[SK.WZ_ESTIMATION] = {
 	Name: 'WZ_ESTIMATION',
-	SkillName: 'Sense',
+	SkillName: '洞察',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -4418,7 +4418,7 @@ SkillInfo[SK.WZ_ESTIMATION] = {
 };
 SkillInfo[SK.HLIF_BRAIN] = {
 	Name: 'HLIF_BRAIN',
-	SkillName: 'Brain Surgery',
+	SkillName: '脑部手术',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4426,7 +4426,7 @@ SkillInfo[SK.HLIF_BRAIN] = {
 };
 SkillInfo[SK.HFLI_SPEED] = {
 	Name: 'HFLI_SPEED',
-	SkillName: 'Accelerated Flight',
+	SkillName: '加速飞行',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -4434,7 +4434,7 @@ SkillInfo[SK.HFLI_SPEED] = {
 };
 SkillInfo[SK.MH_NEEDLE_OF_PARALYZE] = {
 	Name: 'MH_NEEDLE_OF_PARALYZE',
-	SkillName: 'Needle of Paralysis',
+	SkillName: '麻痹之针',
 	MaxLv: 10,
 	SpAmount: [42, 48, 54, 60, 66, 72, 78, 84, 90, 96],
 	bSeperateLv: true,
@@ -4442,7 +4442,7 @@ SkillInfo[SK.MH_NEEDLE_OF_PARALYZE] = {
 };
 SkillInfo[SK.MH_STYLE_CHANGE] = {
 	Name: 'MH_STYLE_CHANGE',
-	SkillName: 'Style Change',
+	SkillName: '风格变换',
 	MaxLv: 1,
 	SpAmount: [35],
 	bSeperateLv: false,
@@ -4450,7 +4450,7 @@ SkillInfo[SK.MH_STYLE_CHANGE] = {
 };
 SkillInfo[SK.MH_ANGRIFFS_MODUS] = {
 	Name: 'MH_ANGRIFFS_MODUS',
-	SkillName: 'Angriffs Modus',
+	SkillName: '攻击模式',
 	MaxLv: 5,
 	SpAmount: [60, 65, 70, 75, 80],
 	bSeperateLv: true,
@@ -4458,7 +4458,7 @@ SkillInfo[SK.MH_ANGRIFFS_MODUS] = {
 };
 SkillInfo[SK.MH_VOLCANIC_ASH] = {
 	Name: 'MH_VOLCANIC_ASH',
-	SkillName: 'Volcanic Ash',
+	SkillName: '火山灰',
 	MaxLv: 5,
 	SpAmount: [60, 65, 70, 75, 80],
 	bSeperateLv: true,
@@ -4466,7 +4466,7 @@ SkillInfo[SK.MH_VOLCANIC_ASH] = {
 };
 SkillInfo[SK.BS_IRON] = {
 	Name: 'BS_IRON',
-	SkillName: 'Iron Tempering',
+	SkillName: '铁之锻造',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4474,7 +4474,7 @@ SkillInfo[SK.BS_IRON] = {
 };
 SkillInfo[SK.GD_GLORYGUILD] = {
 	Name: 'GD_GLORYGUILD',
-	SkillName: 'Guild Glory',
+	SkillName: '公会荣耀',
 	MaxLv: 0,
 	SpAmount: [],
 	bSeperateLv: false,
@@ -4482,7 +4482,7 @@ SkillInfo[SK.GD_GLORYGUILD] = {
 };
 SkillInfo[SK.BS_STEEL] = {
 	Name: 'BS_STEEL',
-	SkillName: 'Steel Tempering',
+	SkillName: '钢之锻造',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4491,7 +4491,7 @@ SkillInfo[SK.BS_STEEL] = {
 };
 SkillInfo[SK.SM_PROVOKE] = {
 	Name: 'SM_PROVOKE',
-	SkillName: 'Provoke',
+	SkillName: '挑衅',
 	MaxLv: 10,
 	SpAmount: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
 	bSeperateLv: true,
@@ -4499,7 +4499,7 @@ SkillInfo[SK.SM_PROVOKE] = {
 };
 SkillInfo[SK.BS_ENCHANTEDSTONE] = {
 	Name: 'BS_ENCHANTEDSTONE',
-	SkillName: 'Enchanted Stone Craft',
+	SkillName: '魔力石制作',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4508,7 +4508,7 @@ SkillInfo[SK.BS_ENCHANTEDSTONE] = {
 };
 SkillInfo[SK.MA_CHARGEARROW] = {
 	Name: 'MA_CHARGEARROW',
-	SkillName: 'Arrow Repel',
+	SkillName: '箭矢击退',
 	MaxLv: 1,
 	SpAmount: [15],
 	bSeperateLv: false,
@@ -4516,7 +4516,7 @@ SkillInfo[SK.MA_CHARGEARROW] = {
 };
 SkillInfo[SK.MER_MENTALCURE] = {
 	Name: 'MER_MENTALCURE',
-	SkillName: 'Mental Cure',
+	SkillName: '精神治愈',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -4524,7 +4524,7 @@ SkillInfo[SK.MER_MENTALCURE] = {
 };
 SkillInfo[SK.BS_ORIDEOCON] = {
 	Name: 'BS_ORIDEOCON',
-	SkillName: 'Research Oridecon',
+	SkillName: '奥利德原矿研究',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4533,7 +4533,7 @@ SkillInfo[SK.BS_ORIDEOCON] = {
 };
 SkillInfo[SK.EL_WATER_BARRIER] = {
 	Name: 'EL_WATER_BARRIER',
-	SkillName: 'Water Barrier',
+	SkillName: '水之屏障',
 	MaxLv: 1,
 	SpAmount: [80],
 	bSeperateLv: false,
@@ -4541,7 +4541,7 @@ SkillInfo[SK.EL_WATER_BARRIER] = {
 };
 SkillInfo[SK.BS_DAGGER] = {
 	Name: 'BS_DAGGER',
-	SkillName: 'Smith Dagger',
+	SkillName: '短剑制作',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -4549,7 +4549,7 @@ SkillInfo[SK.BS_DAGGER] = {
 };
 SkillInfo[SK.EL_TYPOON_MIS_ATK] = {
 	Name: 'EL_TYPOON_MIS_ATK',
-	SkillName: 'Typhoon Mist Attack',
+	SkillName: '台风迷雾攻击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -4557,7 +4557,7 @@ SkillInfo[SK.EL_TYPOON_MIS_ATK] = {
 };
 SkillInfo[SK.BS_SWORD] = {
 	Name: 'BS_SWORD',
-	SkillName: 'Smith Sword',
+	SkillName: '长剑制作',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -4566,7 +4566,7 @@ SkillInfo[SK.BS_SWORD] = {
 };
 SkillInfo[SK.BS_TWOHANDSWORD] = {
 	Name: 'BS_TWOHANDSWORD',
-	SkillName: 'Smith Two-handed Sword',
+	SkillName: '双手剑制作',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -4575,7 +4575,7 @@ SkillInfo[SK.BS_TWOHANDSWORD] = {
 };
 SkillInfo[SK.BS_AXE] = {
 	Name: 'BS_AXE',
-	SkillName: 'Smith Axe',
+	SkillName: '斧头制作',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -4584,7 +4584,7 @@ SkillInfo[SK.BS_AXE] = {
 };
 SkillInfo[SK.BS_MACE] = {
 	Name: 'BS_MACE',
-	SkillName: 'Smith Mace',
+	SkillName: '钝器制作',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -4593,7 +4593,7 @@ SkillInfo[SK.BS_MACE] = {
 };
 SkillInfo[SK.BS_KNUCKLE] = {
 	Name: 'BS_KNUCKLE',
-	SkillName: 'Smith Brass Knuckle',
+	SkillName: '拳套制作',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -4602,7 +4602,7 @@ SkillInfo[SK.BS_KNUCKLE] = {
 };
 SkillInfo[SK.BS_SPEAR] = {
 	Name: 'BS_SPEAR',
-	SkillName: 'Smith Spear',
+	SkillName: '长矛制作',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -4611,7 +4611,7 @@ SkillInfo[SK.BS_SPEAR] = {
 };
 SkillInfo[SK.BS_HILTBINDING] = {
 	Name: 'BS_HILTBINDING',
-	SkillName: 'Hilt Binding',
+	SkillName: '剑柄束缚',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -4619,7 +4619,7 @@ SkillInfo[SK.BS_HILTBINDING] = {
 };
 SkillInfo[SK.BS_FINDINGORE] = {
 	Name: 'BS_FINDINGORE',
-	SkillName: 'Ore Discovery',
+	SkillName: '矿石发现',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -4631,7 +4631,7 @@ SkillInfo[SK.BS_FINDINGORE] = {
 };
 SkillInfo[SK.BS_WEAPONRESEARCH] = {
 	Name: 'BS_WEAPONRESEARCH',
-	SkillName: 'Weaponry Research',
+	SkillName: '武器研究',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4640,7 +4640,7 @@ SkillInfo[SK.BS_WEAPONRESEARCH] = {
 };
 SkillInfo[SK.BS_REPAIRWEAPON] = {
 	Name: 'BS_REPAIRWEAPON',
-	SkillName: 'Repair Weapon',
+	SkillName: '修理武器',
 	MaxLv: 1,
 	SpAmount: [30],
 	bSeperateLv: false,
@@ -4649,7 +4649,7 @@ SkillInfo[SK.BS_REPAIRWEAPON] = {
 };
 SkillInfo[SK.BS_SKINTEMPER] = {
 	Name: 'BS_SKINTEMPER',
-	SkillName: 'Skin Tempering',
+	SkillName: '皮肤淬炼',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4657,7 +4657,7 @@ SkillInfo[SK.BS_SKINTEMPER] = {
 };
 SkillInfo[SK.BS_HAMMERFALL] = {
 	Name: 'BS_HAMMERFALL',
-	SkillName: 'Hammerfall',
+	SkillName: '锤击',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -4665,7 +4665,7 @@ SkillInfo[SK.BS_HAMMERFALL] = {
 };
 SkillInfo[SK.GD_LEADERSHIP] = {
 	Name: 'GD_LEADERSHIP',
-	SkillName: 'Guild Leadership',
+	SkillName: '公会领导力',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4673,7 +4673,7 @@ SkillInfo[SK.GD_LEADERSHIP] = {
 };
 SkillInfo[SK.BS_ADRENALINE] = {
 	Name: 'BS_ADRENALINE',
-	SkillName: 'Adrenaline Rush',
+	SkillName: '速度激发',
 	MaxLv: 5,
 	SpAmount: [20, 23, 26, 29, 32],
 	bSeperateLv: true,
@@ -4682,7 +4682,7 @@ SkillInfo[SK.BS_ADRENALINE] = {
 };
 SkillInfo[SK.SM_MAGNUM] = {
 	Name: 'SM_MAGNUM',
-	SkillName: 'Magnum Break',
+	SkillName: '怒爆',
 	MaxLv: 10,
 	SpAmount: [30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
 	bSeperateLv: false,
@@ -4691,7 +4691,7 @@ SkillInfo[SK.SM_MAGNUM] = {
 };
 SkillInfo[SK.BS_WEAPONPERFECT] = {
 	Name: 'BS_WEAPONPERFECT',
-	SkillName: 'Weapon Perfection',
+	SkillName: '武器修炼',
 	MaxLv: 5,
 	SpAmount: [18, 16, 14, 12, 10],
 	bSeperateLv: false,
@@ -4703,7 +4703,7 @@ SkillInfo[SK.BS_WEAPONPERFECT] = {
 };
 SkillInfo[SK.MA_SHARPSHOOTING] = {
 	Name: 'MA_SHARPSHOOTING',
-	SkillName: 'Focused Arrow Strike',
+	SkillName: '集中箭矢攻击',
 	MaxLv: 5,
 	SpAmount: [18, 21, 24, 27, 30],
 	bSeperateLv: false,
@@ -4711,7 +4711,7 @@ SkillInfo[SK.MA_SHARPSHOOTING] = {
 };
 SkillInfo[SK.MER_COMPRESS] = {
 	Name: 'MER_COMPRESS',
-	SkillName: 'Compress',
+	SkillName: '压缩',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -4719,7 +4719,7 @@ SkillInfo[SK.MER_COMPRESS] = {
 };
 SkillInfo[SK.BS_OVERTHRUST] = {
 	Name: 'BS_OVERTHRUST',
-	SkillName: 'Power Thrust',
+	SkillName: '强力击',
 	MaxLv: 5,
 	SpAmount: [18, 16, 14, 12, 10],
 	bSeperateLv: true,
@@ -4728,7 +4728,7 @@ SkillInfo[SK.BS_OVERTHRUST] = {
 };
 SkillInfo[SK.EL_WIND_STEP] = {
 	Name: 'EL_WIND_STEP',
-	SkillName: 'Wind Step',
+	SkillName: '风之步',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -4736,7 +4736,7 @@ SkillInfo[SK.EL_WIND_STEP] = {
 };
 SkillInfo[SK.BS_MAXIMIZE] = {
 	Name: 'BS_MAXIMIZE',
-	SkillName: 'Maximize Power',
+	SkillName: '最大强度',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -4748,7 +4748,7 @@ SkillInfo[SK.BS_MAXIMIZE] = {
 };
 SkillInfo[SK.EL_STONE_HAMMER] = {
 	Name: 'EL_STONE_HAMMER',
-	SkillName: 'Stone Hammer',
+	SkillName: '石锤',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -4756,7 +4756,7 @@ SkillInfo[SK.EL_STONE_HAMMER] = {
 };
 SkillInfo[SK.HT_SKIDTRAP] = {
 	Name: 'HT_SKIDTRAP',
-	SkillName: 'Skid Trap',
+	SkillName: '滑动陷阱',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: true,
@@ -4764,7 +4764,7 @@ SkillInfo[SK.HT_SKIDTRAP] = {
 };
 SkillInfo[SK.HT_LANDMINE] = {
 	Name: 'HT_LANDMINE',
-	SkillName: 'Land Mine',
+	SkillName: '地雷',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: true,
@@ -4772,7 +4772,7 @@ SkillInfo[SK.HT_LANDMINE] = {
 };
 SkillInfo[SK.HT_ANKLESNARE] = {
 	Name: 'HT_ANKLESNARE',
-	SkillName: 'Anklesnare',
+	SkillName: '夹腿陷阱',
 	MaxLv: 5,
 	SpAmount: [12, 12, 12, 12, 12],
 	bSeperateLv: true,
@@ -4781,7 +4781,7 @@ SkillInfo[SK.HT_ANKLESNARE] = {
 };
 SkillInfo[SK.HT_SHOCKWAVE] = {
 	Name: 'HT_SHOCKWAVE',
-	SkillName: 'Shockwave Trap',
+	SkillName: '冲击波陷阱',
 	MaxLv: 5,
 	SpAmount: [45, 45, 45, 45, 45],
 	bSeperateLv: true,
@@ -4790,7 +4790,7 @@ SkillInfo[SK.HT_SHOCKWAVE] = {
 };
 SkillInfo[SK.HT_SANDMAN] = {
 	Name: 'HT_SANDMAN',
-	SkillName: 'Sandman',
+	SkillName: '睡魔',
 	MaxLv: 5,
 	SpAmount: [12, 12, 12, 12, 12],
 	bSeperateLv: true,
@@ -4799,7 +4799,7 @@ SkillInfo[SK.HT_SANDMAN] = {
 };
 SkillInfo[SK.HT_FLASHER] = {
 	Name: 'HT_FLASHER',
-	SkillName: 'Flasher',
+	SkillName: '闪光陷阱',
 	MaxLv: 5,
 	SpAmount: [12, 12, 12, 12, 12],
 	bSeperateLv: true,
@@ -4808,7 +4808,7 @@ SkillInfo[SK.HT_FLASHER] = {
 };
 SkillInfo[SK.HT_FREEZINGTRAP] = {
 	Name: 'HT_FREEZINGTRAP',
-	SkillName: 'Freezing Trap',
+	SkillName: '冰冻陷阱',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: true,
@@ -4817,7 +4817,7 @@ SkillInfo[SK.HT_FREEZINGTRAP] = {
 };
 SkillInfo[SK.HT_BLASTMINE] = {
 	Name: 'HT_BLASTMINE',
-	SkillName: 'Blast Mine',
+	SkillName: '爆炸陷阱',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: true,
@@ -4830,7 +4830,7 @@ SkillInfo[SK.HT_BLASTMINE] = {
 };
 SkillInfo[SK.HT_CLAYMORETRAP] = {
 	Name: 'HT_CLAYMORETRAP',
-	SkillName: 'Claymore Trap',
+	SkillName: '阔剑地雷',
 	MaxLv: 5,
 	SpAmount: [15, 15, 15, 15, 15],
 	bSeperateLv: true,
@@ -4842,7 +4842,7 @@ SkillInfo[SK.HT_CLAYMORETRAP] = {
 };
 SkillInfo[SK.HT_REMOVETRAP] = {
 	Name: 'HT_REMOVETRAP',
-	SkillName: 'Remove Trap',
+	SkillName: '移除陷阱',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -4852,7 +4852,7 @@ SkillInfo[SK.HT_REMOVETRAP] = {
 };
 SkillInfo[SK.HT_TALKIEBOX] = {
 	Name: 'HT_TALKIEBOX',
-	SkillName: 'Talkie Box',
+	SkillName: '会说话的箱子',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -4864,7 +4864,7 @@ SkillInfo[SK.HT_TALKIEBOX] = {
 };
 SkillInfo[SK.RK_SONICWAVE] = {
 	Name: 'RK_SONICWAVE',
-	SkillName: 'Sonic Wave',
+	SkillName: '音速冲击波',
 	MaxLv: 10,
 	SpAmount: [33, 36, 39, 42, 45, 48, 51, 54, 57, 60],
 	bSeperateLv: true,
@@ -4873,7 +4873,7 @@ SkillInfo[SK.RK_SONICWAVE] = {
 };
 SkillInfo[SK.RK_HUNDREDSPEAR] = {
 	Name: 'RK_HUNDREDSPEAR',
-	SkillName: 'Hundred Spears',
+	SkillName: '百矛刺击',
 	MaxLv: 10,
 	SpAmount: [60, 60, 60, 60, 60, 60, 60, 60, 60, 60],
 	bSeperateLv: true,
@@ -4882,7 +4882,7 @@ SkillInfo[SK.RK_HUNDREDSPEAR] = {
 };
 SkillInfo[SK.RK_IGNITIONBREAK] = {
 	Name: 'RK_IGNITIONBREAK',
-	SkillName: 'Ignition Break',
+	SkillName: '爆燃斩',
 	MaxLv: 5,
 	SpAmount: [35, 40, 45, 50, 55],
 	bSeperateLv: true,
@@ -4895,7 +4895,7 @@ SkillInfo[SK.RK_IGNITIONBREAK] = {
 };
 SkillInfo[SK.RK_DRAGONBREATH] = {
 	Name: 'RK_DRAGONBREATH',
-	SkillName: "Dragon's Breath",
+	SkillName: '龙之吐息',
 	MaxLv: 10,
 	SpAmount: [30, 35, 40, 45, 50, 55, 60, 65, 70, 75],
 	bSeperateLv: true,
@@ -4904,7 +4904,7 @@ SkillInfo[SK.RK_DRAGONBREATH] = {
 };
 SkillInfo[SK.RK_RUNEMASTERY] = {
 	Name: 'RK_RUNEMASTERY',
-	SkillName: 'Rune Mastery',
+	SkillName: '卢恩精通',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4912,7 +4912,7 @@ SkillInfo[SK.RK_RUNEMASTERY] = {
 };
 SkillInfo[SK.RK_CRUSHSTRIKE] = {
 	Name: 'RK_CRUSHSTRIKE',
-	SkillName: 'Crushing Strike',
+	SkillName: '粉碎打击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -4920,7 +4920,7 @@ SkillInfo[SK.RK_CRUSHSTRIKE] = {
 };
 SkillInfo[SK.HT_BEASTBANE] = {
 	Name: 'HT_BEASTBANE',
-	SkillName: 'Beastbane',
+	SkillName: '野兽克星',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4928,7 +4928,7 @@ SkillInfo[SK.HT_BEASTBANE] = {
 };
 SkillInfo[SK.RK_VITALITYACTIVATION] = {
 	Name: 'RK_VITALITYACTIVATION',
-	SkillName: 'Vitality Activation',
+	SkillName: '活力激活',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -4936,7 +4936,7 @@ SkillInfo[SK.RK_VITALITYACTIVATION] = {
 };
 SkillInfo[SK.RK_FIGHTINGSPIRIT] = {
 	Name: 'RK_FIGHTINGSPIRIT',
-	SkillName: 'Determination',
+	SkillName: '决心',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -4944,7 +4944,7 @@ SkillInfo[SK.RK_FIGHTINGSPIRIT] = {
 };
 SkillInfo[SK.RK_PHANTOMTHRUST] = {
 	Name: 'RK_PHANTOMTHRUST',
-	SkillName: 'Phantom Thrust',
+	SkillName: '幻影突刺',
 	MaxLv: 5,
 	SpAmount: [15, 18, 21, 24, 27],
 	bSeperateLv: true,
@@ -4953,7 +4953,7 @@ SkillInfo[SK.RK_PHANTOMTHRUST] = {
 };
 SkillInfo[SK.GC_CROSSIMPACT] = {
 	Name: 'GC_CROSSIMPACT',
-	SkillName: 'Cross Impact',
+	SkillName: '十字冲击',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -4962,7 +4962,7 @@ SkillInfo[SK.GC_CROSSIMPACT] = {
 };
 SkillInfo[SK.GC_RESEARCHNEWPOISON] = {
 	Name: 'GC_RESEARCHNEWPOISON',
-	SkillName: 'New Poison Research',
+	SkillName: '新毒药研究',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -4970,7 +4970,7 @@ SkillInfo[SK.GC_RESEARCHNEWPOISON] = {
 };
 SkillInfo[SK.GC_ANTIDOTE] = {
 	Name: 'GC_ANTIDOTE',
-	SkillName: 'Antidote',
+	SkillName: '解毒剂',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -4979,7 +4979,7 @@ SkillInfo[SK.GC_ANTIDOTE] = {
 };
 SkillInfo[SK.GC_WEAPONBLOCKING] = {
 	Name: 'GC_WEAPONBLOCKING',
-	SkillName: 'Weapon Blocking',
+	SkillName: '武器格挡',
 	MaxLv: 5,
 	SpAmount: [40, 36, 32, 28, 24],
 	bSeperateLv: true,
@@ -4988,7 +4988,7 @@ SkillInfo[SK.GC_WEAPONBLOCKING] = {
 };
 SkillInfo[SK.HT_FALCON] = {
 	Name: 'HT_FALCON',
-	SkillName: 'Falconry Mastery',
+	SkillName: '猎鹰精通',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -4997,7 +4997,7 @@ SkillInfo[SK.HT_FALCON] = {
 };
 SkillInfo[SK.GC_POISONSMOKE] = {
 	Name: 'GC_POISONSMOKE',
-	SkillName: 'Poisonous Smoke',
+	SkillName: '毒烟',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -5498,7 +5498,7 @@ SkillInfo[SK.SR_EARTHSHAKER] = {
 };
 SkillInfo[SK.SM_AUTOBERSERK] = {
 	Name: 'SM_AUTOBERSERK',
-	SkillName: 'Berserk',
+	SkillName: '狂暴',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [1],
@@ -5507,7 +5507,7 @@ SkillInfo[SK.SM_AUTOBERSERK] = {
 };
 SkillInfo[SK.SR_KNUCKLEARROW] = {
 	Name: 'SR_KNUCKLEARROW',
-	SkillName: 'Knuckle Arrow',
+	SkillName: '拳箭',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: false,
@@ -5516,7 +5516,7 @@ SkillInfo[SK.SR_KNUCKLEARROW] = {
 };
 SkillInfo[SK.SR_ASSIMILATEPOWER] = {
 	Name: 'SR_ASSIMILATEPOWER',
-	SkillName: 'Power Absorb',
+	SkillName: '力量吸收',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -5528,7 +5528,7 @@ SkillInfo[SK.SR_ASSIMILATEPOWER] = {
 };
 SkillInfo[SK.SR_GENTLETOUCH_QUIET] = {
 	Name: 'SR_GENTLETOUCH_QUIET',
-	SkillName: 'Gentle Touch-Silence',
+	SkillName: '温柔触碰-沉默',
 	MaxLv: 5,
 	SpAmount: [20, 25, 30, 35, 40],
 	bSeperateLv: true,
@@ -5537,7 +5537,7 @@ SkillInfo[SK.SR_GENTLETOUCH_QUIET] = {
 };
 SkillInfo[SK.AC_MAKINGARROW] = {
 	Name: 'AC_MAKINGARROW',
-	SkillName: 'Arrow Crafting',
+	SkillName: '制作箭矢',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [10],
@@ -5546,7 +5546,7 @@ SkillInfo[SK.AC_MAKINGARROW] = {
 };
 SkillInfo[SK.WA_MOONLIT_SERENADE] = {
 	Name: 'WA_MOONLIT_SERENADE',
-	SkillName: 'Moonlight Serenade',
+	SkillName: '月光小夜曲',
 	MaxLv: 5,
 	SpAmount: [84, 96, 108, 120, 134],
 	bSeperateLv: true,
@@ -5555,7 +5555,7 @@ SkillInfo[SK.WA_MOONLIT_SERENADE] = {
 };
 SkillInfo[SK.AC_CHARGEARROW] = {
 	Name: 'AC_CHARGEARROW',
-	SkillName: 'Arrow Repel',
+	SkillName: '箭矢击退',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [15],
@@ -5564,7 +5564,7 @@ SkillInfo[SK.AC_CHARGEARROW] = {
 };
 SkillInfo[SK.TF_SPRINKLESAND] = {
 	Name: 'TF_SPRINKLESAND',
-	SkillName: 'Sand Attack',
+	SkillName: '沙尘攻击',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [9],
@@ -5573,7 +5573,7 @@ SkillInfo[SK.TF_SPRINKLESAND] = {
 };
 SkillInfo[SK.TF_BACKSLIDING] = {
 	Name: 'TF_BACKSLIDING',
-	SkillName: 'Back Slide',
+	SkillName: '后滑步',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [7],
@@ -5582,7 +5582,7 @@ SkillInfo[SK.TF_BACKSLIDING] = {
 };
 SkillInfo[SK.TF_PICKSTONE] = {
 	Name: 'TF_PICKSTONE',
-	SkillName: 'Find Stone',
+	SkillName: '寻找石头',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [2],
@@ -5591,7 +5591,7 @@ SkillInfo[SK.TF_PICKSTONE] = {
 };
 SkillInfo[SK.WM_VOICEOFSIREN] = {
 	Name: 'WM_VOICEOFSIREN',
-	SkillName: "Siren's Voice",
+	SkillName: '海妖之声',
 	MaxLv: 5,
 	SpAmount: [48, 56, 64, 72, 80],
 	bSeperateLv: true,
@@ -5600,7 +5600,7 @@ SkillInfo[SK.WM_VOICEOFSIREN] = {
 };
 SkillInfo[SK.WM_RANDOMIZESPELL] = {
 	Name: 'WM_RANDOMIZESPELL',
-	SkillName: 'Improvised Song',
+	SkillName: '即兴曲',
 	MaxLv: 5,
 	SpAmount: [20, 20, 20, 20, 20],
 	bSeperateLv: true,
@@ -5609,7 +5609,7 @@ SkillInfo[SK.WM_RANDOMIZESPELL] = {
 };
 SkillInfo[SK.TF_THROWSTONE] = {
 	Name: 'TF_THROWSTONE',
-	SkillName: 'Stone Fling',
+	SkillName: '投石',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [2],
@@ -5618,7 +5618,7 @@ SkillInfo[SK.TF_THROWSTONE] = {
 };
 SkillInfo[SK.WM_MELODYOFSINK] = {
 	Name: 'WM_MELODYOFSINK',
-	SkillName: 'Sinking Melody',
+	SkillName: '沉降旋律',
 	MaxLv: 5,
 	SpAmount: [120, 130, 140, 150, 160],
 	bSeperateLv: true,
@@ -5627,7 +5627,7 @@ SkillInfo[SK.WM_MELODYOFSINK] = {
 };
 SkillInfo[SK.MC_CARTREVOLUTION] = {
 	Name: 'MC_CARTREVOLUTION',
-	SkillName: 'Cart Revolution',
+	SkillName: '手推车革命',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [12],
@@ -5636,7 +5636,7 @@ SkillInfo[SK.MC_CARTREVOLUTION] = {
 };
 SkillInfo[SK.SO_POISON_BUSTER] = {
 	Name: 'SO_POISON_BUSTER',
-	SkillName: 'Poison Burst',
+	SkillName: '毒爆',
 	MaxLv: 5,
 	SpAmount: [70, 90, 110, 130, 150],
 	bSeperateLv: true,
@@ -5645,7 +5645,7 @@ SkillInfo[SK.SO_POISON_BUSTER] = {
 };
 SkillInfo[SK.SO_WARMER] = {
 	Name: 'SO_WARMER',
-	SkillName: 'Warmer',
+	SkillName: '暖身',
 	MaxLv: 5,
 	SpAmount: [40, 52, 64, 76, 88],
 	bSeperateLv: true,
@@ -5657,7 +5657,7 @@ SkillInfo[SK.SO_WARMER] = {
 };
 SkillInfo[SK.SO_EL_CONTROL] = {
 	Name: 'SO_EL_CONTROL',
-	SkillName: 'Spirit Control ',
+	SkillName: '灵魂控制',
 	MaxLv: 4,
 	SpAmount: [10, 10, 10, 10],
 	bSeperateLv: true,
@@ -5666,7 +5666,7 @@ SkillInfo[SK.SO_EL_CONTROL] = {
 };
 SkillInfo[SK.MC_CHANGECART] = {
 	Name: 'MC_CHANGECART',
-	SkillName: 'Change Cart',
+	SkillName: '更换手推车',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [40],
@@ -5675,7 +5675,7 @@ SkillInfo[SK.MC_CHANGECART] = {
 };
 SkillInfo[SK.SO_EL_CURE] = {
 	Name: 'SO_EL_CURE',
-	SkillName: 'Spirit Cure',
+	SkillName: '灵魂治愈',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -5684,7 +5684,7 @@ SkillInfo[SK.SO_EL_CURE] = {
 };
 SkillInfo[SK.SO_EARTH_INSIGNIA] = {
 	Name: 'SO_EARTH_INSIGNIA',
-	SkillName: 'Earth Insignia',
+	SkillName: '大地纹章',
 	MaxLv: 3,
 	SpAmount: [22, 30, 38],
 	bSeperateLv: true,
@@ -5693,7 +5693,7 @@ SkillInfo[SK.SO_EARTH_INSIGNIA] = {
 };
 SkillInfo[SK.MC_LOUD] = {
 	Name: 'MC_LOUD',
-	SkillName: 'Crazy Uproar',
+	SkillName: '疯狂喧嚣',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [8],
@@ -5702,7 +5702,7 @@ SkillInfo[SK.MC_LOUD] = {
 };
 SkillInfo[SK.GN_BLOOD_SUCKER] = {
 	Name: 'GN_BLOOD_SUCKER',
-	SkillName: 'Blood Sucker',
+	SkillName: '吸血',
 	MaxLv: 5,
 	SpAmount: [50, 55, 60, 65, 70],
 	bSeperateLv: true,
@@ -5711,7 +5711,7 @@ SkillInfo[SK.GN_BLOOD_SUCKER] = {
 };
 SkillInfo[SK.AL_HOLYLIGHT] = {
 	Name: 'AL_HOLYLIGHT',
-	SkillName: 'Holy Light',
+	SkillName: '圣光',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [15],
@@ -5720,7 +5720,7 @@ SkillInfo[SK.AL_HOLYLIGHT] = {
 };
 SkillInfo[SK.GN_MAKEBOMB] = {
 	Name: 'GN_MAKEBOMB',
-	SkillName: 'Bomb Creation',
+	SkillName: '制作炸弹',
 	MaxLv: 2,
 	SpAmount: [5, 40],
 	bSeperateLv: true,
@@ -5729,7 +5729,7 @@ SkillInfo[SK.GN_MAKEBOMB] = {
 };
 SkillInfo[SK.GD_SOULCOLD] = {
 	Name: 'GD_SOULCOLD',
-	SkillName: 'Cold Heart',
+	SkillName: '冷酷之心',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -5737,7 +5737,7 @@ SkillInfo[SK.GD_SOULCOLD] = {
 };
 SkillInfo[SK.MG_ENERGYCOAT] = {
 	Name: 'MG_ENERGYCOAT',
-	SkillName: 'Energy Coat',
+	SkillName: '能量外套',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [30],
@@ -5746,7 +5746,7 @@ SkillInfo[SK.MG_ENERGYCOAT] = {
 };
 SkillInfo[SK.ALL_GUARDIAN_RECALL] = {
 	Name: 'ALL_GUARDIAN_RECALL',
-	SkillName: 'Call of Guardian',
+	SkillName: '守护者召唤',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -5754,7 +5754,7 @@ SkillInfo[SK.ALL_GUARDIAN_RECALL] = {
 };
 SkillInfo[SK.MG_SIGHT] = {
 	Name: 'MG_SIGHT',
-	SkillName: 'Sight',
+	SkillName: '火狩',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -5762,7 +5762,7 @@ SkillInfo[SK.MG_SIGHT] = {
 };
 SkillInfo[SK.MS_BASH] = {
 	Name: 'MS_BASH',
-	SkillName: 'Bash',
+	SkillName: '狂击',
 	MaxLv: 10,
 	SpAmount: [8, 8, 8, 8, 8, 15, 15, 15, 15, 15],
 	bSeperateLv: false,
@@ -5770,7 +5770,7 @@ SkillInfo[SK.MS_BASH] = {
 };
 SkillInfo[SK.ML_BRANDISH] = {
 	Name: 'ML_BRANDISH',
-	SkillName: 'Brandish Spear',
+	SkillName: '枪身攻击',
 	MaxLv: 10,
 	SpAmount: [12, 12, 12, 12, 12, 12, 12, 12, 12, 12],
 	bSeperateLv: false,
@@ -5778,7 +5778,7 @@ SkillInfo[SK.ML_BRANDISH] = {
 };
 SkillInfo[SK.MER_AUTOBERSERK] = {
 	Name: 'MER_AUTOBERSERK',
-	SkillName: 'Berserk',
+	SkillName: '狂暴',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -5786,7 +5786,7 @@ SkillInfo[SK.MER_AUTOBERSERK] = {
 };
 SkillInfo[SK.EL_ZEPHYR] = {
 	Name: 'EL_ZEPHYR',
-	SkillName: 'Zephyr',
+	SkillName: '西风',
 	MaxLv: 1,
 	SpAmount: [80],
 	bSeperateLv: false,
@@ -5794,7 +5794,7 @@ SkillInfo[SK.EL_ZEPHYR] = {
 };
 SkillInfo[SK.EL_FIRE_ARROW] = {
 	Name: 'EL_FIRE_ARROW',
-	SkillName: 'Fire Arrow',
+	SkillName: '火箭',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -5802,7 +5802,7 @@ SkillInfo[SK.EL_FIRE_ARROW] = {
 };
 SkillInfo[SK.EL_ROCK_CRUSHER_ATK] = {
 	Name: 'EL_ROCK_CRUSHER_ATK',
-	SkillName: 'Rock Crusher Attack',
+	SkillName: '碎岩攻击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -5810,7 +5810,7 @@ SkillInfo[SK.EL_ROCK_CRUSHER_ATK] = {
 };
 SkillInfo[SK.MG_NAPALMBEAT] = {
 	Name: 'MG_NAPALMBEAT',
-	SkillName: 'Napalm Beat',
+	SkillName: '念力连击',
 	MaxLv: 10,
 	SpAmount: [9, 9, 9, 12, 12, 12, 15, 15, 15, 18],
 	bSeperateLv: false,
@@ -5818,7 +5818,7 @@ SkillInfo[SK.MG_NAPALMBEAT] = {
 };
 SkillInfo[SK.HAMI_CASTLE] = {
 	Name: 'HAMI_CASTLE',
-	SkillName: 'Castling',
+	SkillName: '王车易位',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: true,
@@ -5826,7 +5826,7 @@ SkillInfo[SK.HAMI_CASTLE] = {
 };
 SkillInfo[SK.HVAN_CAPRICE] = {
 	Name: 'HVAN_CAPRICE',
-	SkillName: 'Caprice',
+	SkillName: '随兴打击',
 	MaxLv: 5,
 	SpAmount: [22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -5834,7 +5834,7 @@ SkillInfo[SK.HVAN_CAPRICE] = {
 };
 SkillInfo[SK.MH_PAIN_KILLER] = {
 	Name: 'MH_PAIN_KILLER',
-	SkillName: 'Pain Killer',
+	SkillName: '痛苦杀手',
 	MaxLv: 10,
 	SpAmount: [48, 52, 56, 60, 64, 68, 72, 76, 80, 84],
 	bSeperateLv: true,
@@ -5842,7 +5842,7 @@ SkillInfo[SK.MH_PAIN_KILLER] = {
 };
 SkillInfo[SK.MH_SILVERVEIN_RUSH] = {
 	Name: 'MH_SILVERVEIN_RUSH',
-	SkillName: 'Silvervein Rush',
+	SkillName: '银脉突袭',
 	MaxLv: 10,
 	SpAmount: [17, 19, 21, 23, 25, 27, 29, 31, 33, 35],
 	bSeperateLv: true,
@@ -5850,7 +5850,7 @@ SkillInfo[SK.MH_SILVERVEIN_RUSH] = {
 };
 SkillInfo[SK.MH_CBC] = {
 	Name: 'MH_CBC',
-	SkillName: 'C.B.C : Continual Break Combo',
+	SkillName: 'C.B.C：连续破坏连击',
 	MaxLv: 5,
 	SpAmount: [10, 20, 30, 40, 50],
 	bSeperateLv: true,
@@ -5858,7 +5858,7 @@ SkillInfo[SK.MH_CBC] = {
 };
 SkillInfo[SK.GD_HAWKEYES] = {
 	Name: 'GD_HAWKEYES',
-	SkillName: 'Sharp Gaze',
+	SkillName: '锐利凝视',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -5866,7 +5866,7 @@ SkillInfo[SK.GD_HAWKEYES] = {
 };
 SkillInfo[SK.MG_SAFETYWALL] = {
 	Name: 'MG_SAFETYWALL',
-	SkillName: 'Safety Wall',
+	SkillName: '暗之障壁',
 	MaxLv: 10,
 	SpAmount: [30, 30, 30, 35, 35, 35, 40, 40, 40, 40],
 	bSeperateLv: true,
@@ -5884,7 +5884,7 @@ SkillInfo[SK.MG_SAFETYWALL] = {
 };
 SkillInfo[SK.MS_MAGNUM] = {
 	Name: 'MS_MAGNUM',
-	SkillName: 'Magnum Break',
+	SkillName: '怒爆',
 	MaxLv: 10,
 	SpAmount: [30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
 	bSeperateLv: false,
@@ -5892,7 +5892,7 @@ SkillInfo[SK.MS_MAGNUM] = {
 };
 SkillInfo[SK.ML_SPIRALPIERCE] = {
 	Name: 'ML_SPIRALPIERCE',
-	SkillName: 'Clashing Spiral',
+	SkillName: '螺旋击刺',
 	MaxLv: 5,
 	SpAmount: [18, 21, 24, 27, 30],
 	bSeperateLv: false,
@@ -5900,7 +5900,7 @@ SkillInfo[SK.ML_SPIRALPIERCE] = {
 };
 SkillInfo[SK.MER_DECAGI] = {
 	Name: 'MER_DECAGI',
-	SkillName: 'Decrease AGI',
+	SkillName: '敏捷下降',
 	MaxLv: 10,
 	SpAmount: [15, 17, 19, 21, 23, 25, 27, 29, 31, 33],
 	bSeperateLv: false,
@@ -5908,7 +5908,7 @@ SkillInfo[SK.MER_DECAGI] = {
 };
 SkillInfo[SK.EL_SOLID_SKIN] = {
 	Name: 'EL_SOLID_SKIN',
-	SkillName: 'Solid Skin',
+	SkillName: '坚固皮肤',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -5916,7 +5916,7 @@ SkillInfo[SK.EL_SOLID_SKIN] = {
 };
 SkillInfo[SK.EL_FIRE_BOMB] = {
 	Name: 'EL_FIRE_BOMB',
-	SkillName: 'Fire Bomb',
+	SkillName: '火焰炸弹',
 	MaxLv: 1,
 	SpAmount: [60],
 	bSeperateLv: false,
@@ -5924,7 +5924,7 @@ SkillInfo[SK.EL_FIRE_BOMB] = {
 };
 SkillInfo[SK.EL_STONE_RAIN] = {
 	Name: 'EL_STONE_RAIN',
-	SkillName: 'Stone Rain',
+	SkillName: '落石',
 	MaxLv: 1,
 	SpAmount: [80],
 	bSeperateLv: false,
@@ -5932,7 +5932,7 @@ SkillInfo[SK.EL_STONE_RAIN] = {
 };
 SkillInfo[SK.MG_SOULSTRIKE] = {
 	Name: 'MG_SOULSTRIKE',
-	SkillName: 'Soul Strike',
+	SkillName: '灵魂攻击',
 	MaxLv: 10,
 	SpAmount: [18, 14, 24, 20, 30, 26, 36, 32, 42, 38],
 	bSeperateLv: true,
@@ -5941,7 +5941,7 @@ SkillInfo[SK.MG_SOULSTRIKE] = {
 };
 SkillInfo[SK.RG_SNATCHER] = {
 	Name: 'RG_SNATCHER',
-	SkillName: 'Gank',
+	SkillName: '偷窃攻击',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -5950,7 +5950,7 @@ SkillInfo[SK.RG_SNATCHER] = {
 };
 SkillInfo[SK.RG_STEALCOIN] = {
 	Name: 'RG_STEALCOIN',
-	SkillName: 'Mug',
+	SkillName: '抢夺',
 	MaxLv: 10,
 	SpAmount: [15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
 	bSeperateLv: false,
@@ -5959,7 +5959,7 @@ SkillInfo[SK.RG_STEALCOIN] = {
 };
 SkillInfo[SK.RG_BACKSTAP] = {
 	Name: 'RG_BACKSTAP',
-	SkillName: 'Back Stab',
+	SkillName: '背刺',
 	MaxLv: 10,
 	SpAmount: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16],
 	bSeperateLv: false,
@@ -5968,7 +5968,7 @@ SkillInfo[SK.RG_BACKSTAP] = {
 };
 SkillInfo[SK.RG_TUNNELDRIVE] = {
 	Name: 'RG_TUNNELDRIVE',
-	SkillName: 'Stalk',
+	SkillName: '尾行',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -5977,7 +5977,7 @@ SkillInfo[SK.RG_TUNNELDRIVE] = {
 };
 SkillInfo[SK.RG_RAID] = {
 	Name: 'RG_RAID',
-	SkillName: 'Sightless Mind',
+	SkillName: '无视之心',
 	MaxLv: 5,
 	SpAmount: [15, 15, 15, 15, 15],
 	bSeperateLv: false,
@@ -5989,7 +5989,7 @@ SkillInfo[SK.RG_RAID] = {
 };
 SkillInfo[SK.RG_STRIPWEAPON] = {
 	Name: 'RG_STRIPWEAPON',
-	SkillName: 'Divest Weapon',
+	SkillName: '卸除武器',
 	MaxLv: 5,
 	SpAmount: [17, 19, 21, 23, 25],
 	bSeperateLv: true,
@@ -5998,7 +5998,7 @@ SkillInfo[SK.RG_STRIPWEAPON] = {
 };
 SkillInfo[SK.RG_STRIPSHIELD] = {
 	Name: 'RG_STRIPSHIELD',
-	SkillName: 'Divest Shield',
+	SkillName: '卸除盾牌',
 	MaxLv: 5,
 	SpAmount: [12, 14, 16, 18, 20],
 	bSeperateLv: true,
@@ -6007,7 +6007,7 @@ SkillInfo[SK.RG_STRIPSHIELD] = {
 };
 SkillInfo[SK.RG_STRIPARMOR] = {
 	Name: 'RG_STRIPARMOR',
-	SkillName: 'Divest Armor',
+	SkillName: '卸除铠甲',
 	MaxLv: 5,
 	SpAmount: [17, 19, 21, 23, 25],
 	bSeperateLv: true,
@@ -6016,7 +6016,7 @@ SkillInfo[SK.RG_STRIPARMOR] = {
 };
 SkillInfo[SK.RG_STRIPHELM] = {
 	Name: 'RG_STRIPHELM',
-	SkillName: 'Divest Helm',
+	SkillName: '卸除头盔',
 	MaxLv: 5,
 	SpAmount: [12, 14, 16, 18, 20],
 	bSeperateLv: true,
@@ -6025,7 +6025,7 @@ SkillInfo[SK.RG_STRIPHELM] = {
 };
 SkillInfo[SK.RG_INTIMIDATE] = {
 	Name: 'RG_INTIMIDATE',
-	SkillName: 'Snatch',
+	SkillName: '强夺',
 	MaxLv: 5,
 	SpAmount: [13, 16, 19, 22, 25],
 	bSeperateLv: true,
@@ -6037,7 +6037,7 @@ SkillInfo[SK.RG_INTIMIDATE] = {
 };
 SkillInfo[SK.RG_GRAFFITI] = {
 	Name: 'RG_GRAFFITI',
-	SkillName: 'Scribble',
+	SkillName: '涂鸦',
 	MaxLv: 1,
 	SpAmount: [15],
 	bSeperateLv: false,
@@ -6046,7 +6046,7 @@ SkillInfo[SK.RG_GRAFFITI] = {
 };
 SkillInfo[SK.GD_BATTLEORDER] = {
 	Name: 'GD_BATTLEORDER',
-	SkillName: 'Battle Command',
+	SkillName: '战斗命令',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6054,7 +6054,7 @@ SkillInfo[SK.GD_BATTLEORDER] = {
 };
 SkillInfo[SK.RG_FLAGGRAFFITI] = {
 	Name: 'RG_FLAGGRAFFITI',
-	SkillName: 'Piece',
+	SkillName: '棋子',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -6063,7 +6063,7 @@ SkillInfo[SK.RG_FLAGGRAFFITI] = {
 };
 SkillInfo[SK.RG_CLEANER] = {
 	Name: 'RG_CLEANER',
-	SkillName: 'Remover',
+	SkillName: '清除者',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -6072,7 +6072,7 @@ SkillInfo[SK.RG_CLEANER] = {
 };
 SkillInfo[SK.RG_GANGSTER] = {
 	Name: 'RG_GANGSTER',
-	SkillName: 'Slyness',
+	SkillName: '狡猾',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6081,7 +6081,7 @@ SkillInfo[SK.RG_GANGSTER] = {
 };
 SkillInfo[SK.GD_ITEMEMERGENCYCALL] = {
 	Name: 'GD_ITEMEMERGENCYCALL',
-	SkillName: 'Faux Urgent Call',
+	SkillName: '伪紧急召集',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -6089,7 +6089,7 @@ SkillInfo[SK.GD_ITEMEMERGENCYCALL] = {
 };
 SkillInfo[SK.MG_COLDBOLT] = {
 	Name: 'MG_COLDBOLT',
-	SkillName: 'Cold Bolt',
+	SkillName: '冰箭术',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -6097,7 +6097,7 @@ SkillInfo[SK.MG_COLDBOLT] = {
 };
 SkillInfo[SK.RG_COMPULSION] = {
 	Name: 'RG_COMPULSION',
-	SkillName: 'Haggle',
+	SkillName: '砍价',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6106,7 +6106,7 @@ SkillInfo[SK.RG_COMPULSION] = {
 };
 SkillInfo[SK.DE_GPAIN] = {
 	Name: 'DE_GPAIN',
-	SkillName: 'G Pain',
+	SkillName: '公会痛击',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6114,7 +6114,7 @@ SkillInfo[SK.DE_GPAIN] = {
 };
 SkillInfo[SK.MS_BOWLINGBASH] = {
 	Name: 'MS_BOWLINGBASH',
-	SkillName: 'Bowling Bash',
+	SkillName: '怪物互击',
 	MaxLv: 10,
 	SpAmount: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
 	bSeperateLv: false,
@@ -6122,7 +6122,7 @@ SkillInfo[SK.MS_BOWLINGBASH] = {
 };
 SkillInfo[SK.ML_DEFENDER] = {
 	Name: 'ML_DEFENDER',
-	SkillName: 'Defending Aura',
+	SkillName: '防御光环',
 	MaxLv: 5,
 	SpAmount: [30, 30, 30, 30, 30],
 	bSeperateLv: false,
@@ -6130,7 +6130,7 @@ SkillInfo[SK.ML_DEFENDER] = {
 };
 SkillInfo[SK.RG_PLAGIARISM] = {
 	Name: 'RG_PLAGIARISM',
-	SkillName: 'Intimidate',
+	SkillName: '威吓',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6139,7 +6139,7 @@ SkillInfo[SK.RG_PLAGIARISM] = {
 };
 SkillInfo[SK.SR_DRAGONCOMBO] = {
 	Name: 'SR_DRAGONCOMBO',
-	SkillName: 'Dragon Combo',
+	SkillName: '龙连击',
 	MaxLv: 10,
 	SpAmount: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 	bSeperateLv: true,
@@ -6148,7 +6148,7 @@ SkillInfo[SK.SR_DRAGONCOMBO] = {
 };
 SkillInfo[SK.SC_STRIPACCESSARY] = {
 	Name: 'SC_STRIPACCESSARY',
-	SkillName: 'Divest Accessory ',
+	SkillName: '卸除饰品 ',
 	MaxLv: 5,
 	SpAmount: [15, 18, 21, 24, 27],
 	bSeperateLv: true,
@@ -6157,7 +6157,7 @@ SkillInfo[SK.SC_STRIPACCESSARY] = {
 };
 SkillInfo[SK.GD_GLORYWOUNDS] = {
 	Name: 'GD_GLORYWOUNDS',
-	SkillName: 'Glorious Wounds',
+	SkillName: '荣耀伤口',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6165,7 +6165,7 @@ SkillInfo[SK.GD_GLORYWOUNDS] = {
 };
 SkillInfo[SK.AM_AXEMASTERY] = {
 	Name: 'AM_AXEMASTERY',
-	SkillName: 'Axe Mastery',
+	SkillName: '斧术修炼',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6173,7 +6173,7 @@ SkillInfo[SK.AM_AXEMASTERY] = {
 };
 SkillInfo[SK.GD_GUARDUP] = {
 	Name: 'GD_GUARDUP',
-	SkillName: 'Strengthen Guardians',
+	SkillName: '强化守护者',
 	MaxLv: 3,
 	SpAmount: [0, 0, 0],
 	bSeperateLv: false,
@@ -6181,7 +6181,7 @@ SkillInfo[SK.GD_GUARDUP] = {
 };
 SkillInfo[SK.GD_APPROVAL] = {
 	Name: 'GD_APPROVAL',
-	SkillName: 'Official Guild Approval',
+	SkillName: '公会正式认可',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6189,7 +6189,7 @@ SkillInfo[SK.GD_APPROVAL] = {
 };
 SkillInfo[SK.MER_INCAGI] = {
 	Name: 'MER_INCAGI',
-	SkillName: 'Increase Agility',
+	SkillName: '提高敏捷',
 	MaxLv: 10,
 	SpAmount: [18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
 	bSeperateLv: false,
@@ -6197,7 +6197,7 @@ SkillInfo[SK.MER_INCAGI] = {
 };
 SkillInfo[SK.AM_LEARNINGPOTION] = {
 	Name: 'AM_LEARNINGPOTION',
-	SkillName: 'Potion Research',
+	SkillName: '药水研究',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6205,7 +6205,7 @@ SkillInfo[SK.AM_LEARNINGPOTION] = {
 };
 SkillInfo[SK.MER_BLESSING] = {
 	Name: 'MER_BLESSING',
-	SkillName: 'Blessing',
+	SkillName: '天使之赐福',
 	MaxLv: 10,
 	SpAmount: [28, 32, 36, 40, 44, 48, 52, 56, 60, 64],
 	bSeperateLv: false,
@@ -6213,7 +6213,7 @@ SkillInfo[SK.MER_BLESSING] = {
 };
 SkillInfo[SK.MER_KYRIE] = {
 	Name: 'MER_KYRIE',
-	SkillName: 'Kyrie Eleison',
+	SkillName: '圣母之祈福',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 25, 25, 25, 30, 30, 30, 35],
 	bSeperateLv: false,
@@ -6221,7 +6221,7 @@ SkillInfo[SK.MER_KYRIE] = {
 };
 SkillInfo[SK.EL_STONE_SHIELD] = {
 	Name: 'EL_STONE_SHIELD',
-	SkillName: 'Stone Shield',
+	SkillName: '石盾术',
 	MaxLv: 1,
 	SpAmount: [60],
 	bSeperateLv: false,
@@ -6229,7 +6229,7 @@ SkillInfo[SK.EL_STONE_SHIELD] = {
 };
 SkillInfo[SK.AM_PHARMACY] = {
 	Name: 'AM_PHARMACY',
-	SkillName: 'Prepare Potion',
+	SkillName: '准备药水',
 	MaxLv: 10,
 	SpAmount: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
 	bSeperateLv: false,
@@ -6238,7 +6238,7 @@ SkillInfo[SK.AM_PHARMACY] = {
 };
 SkillInfo[SK.MER_ESTIMATION] = {
 	Name: 'MER_ESTIMATION',
-	SkillName: 'Sense',
+	SkillName: '洞察',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -6246,7 +6246,7 @@ SkillInfo[SK.MER_ESTIMATION] = {
 };
 SkillInfo[SK.MER_LEXDIVINA] = {
 	Name: 'MER_LEXDIVINA',
-	SkillName: 'Lex Divina',
+	SkillName: '沉默术',
 	MaxLv: 10,
 	SpAmount: [20, 20, 20, 20, 20, 18, 16, 14, 12, 10],
 	bSeperateLv: false,
@@ -6254,7 +6254,7 @@ SkillInfo[SK.MER_LEXDIVINA] = {
 };
 SkillInfo[SK.MER_SCAPEGOAT] = {
 	Name: 'MER_SCAPEGOAT',
-	SkillName: 'Scapegoat',
+	SkillName: '替罪羊',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -6262,7 +6262,7 @@ SkillInfo[SK.MER_SCAPEGOAT] = {
 };
 SkillInfo[SK.AM_DEMONSTRATION] = {
 	Name: 'AM_DEMONSTRATION',
-	SkillName: 'Bomb',
+	SkillName: '炸弹',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -6271,7 +6271,7 @@ SkillInfo[SK.AM_DEMONSTRATION] = {
 };
 SkillInfo[SK.MER_PROVOKE] = {
 	Name: 'MER_PROVOKE',
-	SkillName: 'Provoke',
+	SkillName: '挑衅',
 	MaxLv: 10,
 	SpAmount: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
 	bSeperateLv: false,
@@ -6279,7 +6279,7 @@ SkillInfo[SK.MER_PROVOKE] = {
 };
 SkillInfo[SK.MER_CRASH] = {
 	Name: 'MER_CRASH',
-	SkillName: 'Crash',
+	SkillName: '冲撞',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -6287,7 +6287,7 @@ SkillInfo[SK.MER_CRASH] = {
 };
 SkillInfo[SK.MER_SIGHT] = {
 	Name: 'MER_SIGHT',
-	SkillName: 'Sight',
+	SkillName: '火狩',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -6295,7 +6295,7 @@ SkillInfo[SK.MER_SIGHT] = {
 };
 SkillInfo[SK.AM_ACIDTERROR] = {
 	Name: 'AM_ACIDTERROR',
-	SkillName: 'Acid Terror',
+	SkillName: '酸性恐惧',
 	MaxLv: 5,
 	SpAmount: [15, 15, 15, 15, 15],
 	bSeperateLv: false,
@@ -6304,7 +6304,7 @@ SkillInfo[SK.AM_ACIDTERROR] = {
 };
 SkillInfo[SK.LG_SHIELDPRESS] = {
 	Name: 'LG_SHIELDPRESS',
-	SkillName: 'Shield Press',
+	SkillName: '盾牌压制',
 	MaxLv: 10,
 	SpAmount: [10, 12, 14, 16, 18, 20, 22, 24, 26, 28],
 	bSeperateLv: true,
@@ -6313,7 +6313,7 @@ SkillInfo[SK.LG_SHIELDPRESS] = {
 };
 SkillInfo[SK.ML_AUTOGUARD] = {
 	Name: 'ML_AUTOGUARD',
-	SkillName: 'Guard',
+	SkillName: '防御',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: false,
@@ -6321,7 +6321,7 @@ SkillInfo[SK.ML_AUTOGUARD] = {
 };
 SkillInfo[SK.ML_PIERCE] = {
 	Name: 'ML_PIERCE',
-	SkillName: 'Pierce',
+	SkillName: '长矛刺击',
 	MaxLv: 10,
 	SpAmount: [7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
 	bSeperateLv: false,
@@ -6329,7 +6329,7 @@ SkillInfo[SK.ML_PIERCE] = {
 };
 SkillInfo[SK.AM_POTIONPITCHER] = {
 	Name: 'AM_POTIONPITCHER',
-	SkillName: 'Aid Potion',
+	SkillName: '辅助药水',
 	MaxLv: 5,
 	SpAmount: [1, 1, 1, 1, 1],
 	bSeperateLv: true,
@@ -6338,7 +6338,7 @@ SkillInfo[SK.AM_POTIONPITCHER] = {
 };
 SkillInfo[SK.MA_FREEZINGTRAP] = {
 	Name: 'MA_FREEZINGTRAP',
-	SkillName: 'Freezing Trap',
+	SkillName: '冰冻陷阱',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -6346,7 +6346,7 @@ SkillInfo[SK.MA_FREEZINGTRAP] = {
 };
 SkillInfo[SK.MA_SKIDTRAP] = {
 	Name: 'MA_SKIDTRAP',
-	SkillName: 'Skid Trap',
+	SkillName: '滑动陷阱',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -6354,7 +6354,7 @@ SkillInfo[SK.MA_SKIDTRAP] = {
 };
 SkillInfo[SK.MA_SHOWER] = {
 	Name: 'MA_SHOWER',
-	SkillName: 'Arrow Shower',
+	SkillName: '箭雨',
 	MaxLv: 10,
 	SpAmount: [15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
 	bSeperateLv: false,
@@ -6362,7 +6362,7 @@ SkillInfo[SK.MA_SHOWER] = {
 };
 SkillInfo[SK.AM_CANNIBALIZE] = {
 	Name: 'AM_CANNIBALIZE',
-	SkillName: 'Summon Flora',
+	SkillName: '召唤食人花',
 	MaxLv: 5,
 	SpAmount: [20, 20, 20, 20, 20],
 	bSeperateLv: true,
@@ -6371,7 +6371,7 @@ SkillInfo[SK.AM_CANNIBALIZE] = {
 };
 SkillInfo[SK.MA_DOUBLE] = {
 	Name: 'MA_DOUBLE',
-	SkillName: 'Double Strafe',
+	SkillName: '二连矢',
 	MaxLv: 10,
 	SpAmount: [12, 12, 12, 12, 12, 12, 12, 12, 12, 12],
 	bSeperateLv: false,
@@ -6379,7 +6379,7 @@ SkillInfo[SK.MA_DOUBLE] = {
 };
 SkillInfo[SK.MS_BERSERK] = {
 	Name: 'MS_BERSERK',
-	SkillName: 'Frenzy',
+	SkillName: '狂暴',
 	MaxLv: 1,
 	SpAmount: [200],
 	bSeperateLv: false,
@@ -6387,7 +6387,7 @@ SkillInfo[SK.MS_BERSERK] = {
 };
 SkillInfo[SK.MS_REFLECTSHIELD] = {
 	Name: 'MS_REFLECTSHIELD',
-	SkillName: 'Shield Reflect',
+	SkillName: '盾牌反射',
 	MaxLv: 10,
 	SpAmount: [35, 40, 45, 50, 55, 60, 65, 70, 75, 80],
 	bSeperateLv: false,
@@ -6395,7 +6395,7 @@ SkillInfo[SK.MS_REFLECTSHIELD] = {
 };
 SkillInfo[SK.AM_SPHEREMINE] = {
 	Name: 'AM_SPHEREMINE',
-	SkillName: 'Summon Marine Sphere',
+	SkillName: '召唤海葵',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -6404,7 +6404,7 @@ SkillInfo[SK.AM_SPHEREMINE] = {
 };
 SkillInfo[SK.MS_PARRYING] = {
 	Name: 'MS_PARRYING',
-	SkillName: 'Parry',
+	SkillName: '剑术格挡',
 	MaxLv: 10,
 	SpAmount: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
 	bSeperateLv: false,
@@ -6412,7 +6412,7 @@ SkillInfo[SK.MS_PARRYING] = {
 };
 SkillInfo[SK.MH_PYROCLASTIC] = {
 	Name: 'MH_PYROCLASTIC',
-	SkillName: 'Pyroclastic',
+	SkillName: '火成岩',
 	MaxLv: 10,
 	SpAmount: [20, 28, 36, 44, 52, 56, 60, 64, 66, 70],
 	bSeperateLv: true,
@@ -6420,7 +6420,7 @@ SkillInfo[SK.MH_PYROCLASTIC] = {
 };
 SkillInfo[SK.MH_GRANITIC_ARMOR] = {
 	Name: 'MH_GRANITIC_ARMOR',
-	SkillName: 'Granitic Armor',
+	SkillName: '花岗岩铠甲',
 	MaxLv: 5,
 	SpAmount: [54, 58, 62, 66, 70],
 	bSeperateLv: true,
@@ -6428,7 +6428,7 @@ SkillInfo[SK.MH_GRANITIC_ARMOR] = {
 };
 SkillInfo[SK.AM_CP_WEAPON] = {
 	Name: 'AM_CP_WEAPON',
-	SkillName: 'Alchemical Weapon',
+	SkillName: '炼金武器',
 	MaxLv: 5,
 	SpAmount: [30, 30, 30, 30, 30],
 	bSeperateLv: false,
@@ -6437,7 +6437,7 @@ SkillInfo[SK.AM_CP_WEAPON] = {
 };
 SkillInfo[SK.MH_MAGMA_FLOW] = {
 	Name: 'MH_MAGMA_FLOW',
-	SkillName: 'Magma Flow',
+	SkillName: '岩浆流',
 	MaxLv: 5,
 	SpAmount: [34, 38, 42, 46, 50],
 	bSeperateLv: true,
@@ -6445,7 +6445,7 @@ SkillInfo[SK.MH_MAGMA_FLOW] = {
 };
 SkillInfo[SK.EL_BLAST] = {
 	Name: 'EL_BLAST',
-	SkillName: 'Blast Mine',
+	SkillName: '爆破地雷',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6453,7 +6453,7 @@ SkillInfo[SK.EL_BLAST] = {
 };
 SkillInfo[SK.MH_TINDER_BREAKER] = {
 	Name: 'MH_TINDER_BREAKER',
-	SkillName: 'Tinder Breaker',
+	SkillName: '火花破坏者',
 	MaxLv: 5,
 	SpAmount: [20, 25, 30, 35, 40],
 	bSeperateLv: true,
@@ -6461,7 +6461,7 @@ SkillInfo[SK.MH_TINDER_BREAKER] = {
 };
 SkillInfo[SK.AM_CP_SHIELD] = {
 	Name: 'AM_CP_SHIELD',
-	SkillName: 'Synthesized Shield',
+	SkillName: '合成盾牌',
 	MaxLv: 5,
 	SpAmount: [25, 25, 25, 25, 25],
 	bSeperateLv: false,
@@ -6470,7 +6470,7 @@ SkillInfo[SK.AM_CP_SHIELD] = {
 };
 SkillInfo[SK.MH_HEILIGE_STANGE] = {
 	Name: 'MH_HEILIGE_STANGE',
-	SkillName: 'Heilage Stange',
+	SkillName: '治愈之杖',
 	MaxLv: 10,
 	SpAmount: [48, 54, 60, 66, 72, 78, 84, 90, 96, 102],
 	bSeperateLv: true,
@@ -6478,7 +6478,7 @@ SkillInfo[SK.MH_HEILIGE_STANGE] = {
 };
 SkillInfo[SK.MH_GOLDENE_FERSE] = {
 	Name: 'MH_GOLDENE_FERSE',
-	SkillName: 'Goldene Ferse',
+	SkillName: '黄金之踵',
 	MaxLv: 5,
 	SpAmount: [60, 65, 70, 75, 80],
 	bSeperateLv: true,
@@ -6486,7 +6486,7 @@ SkillInfo[SK.MH_GOLDENE_FERSE] = {
 };
 SkillInfo[SK.NPC_ALLHEAL] = {
 	Name: 'NPC_ALLHEAL',
-	SkillName: 'Full Heal',
+	SkillName: '完全治愈',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6494,7 +6494,7 @@ SkillInfo[SK.NPC_ALLHEAL] = {
 };
 SkillInfo[SK.AM_CP_ARMOR] = {
 	Name: 'AM_CP_ARMOR',
-	SkillName: 'Synthetic Armor',
+	SkillName: '合成铠甲',
 	MaxLv: 5,
 	SpAmount: [25, 25, 25, 25, 25],
 	bSeperateLv: false,
@@ -6503,7 +6503,7 @@ SkillInfo[SK.AM_CP_ARMOR] = {
 };
 SkillInfo[SK.MH_SONIC_CRAW] = {
 	Name: 'MH_SONIC_CRAW',
-	SkillName: 'Sonic Claw',
+	SkillName: '音速爪',
 	MaxLv: 5,
 	SpAmount: [20, 25, 30, 35, 40],
 	bSeperateLv: true,
@@ -6511,7 +6511,7 @@ SkillInfo[SK.MH_SONIC_CRAW] = {
 };
 SkillInfo[SK.MH_SILENT_BREEZE] = {
 	Name: 'MH_SILENT_BREEZE',
-	SkillName: 'Silent Breeze',
+	SkillName: '寂静微风',
 	MaxLv: 5,
 	SpAmount: [45, 54, 63, 72, 81],
 	bSeperateLv: true,
@@ -6519,7 +6519,7 @@ SkillInfo[SK.MH_SILENT_BREEZE] = {
 };
 SkillInfo[SK.AM_CP_HELM] = {
 	Name: 'AM_CP_HELM',
-	SkillName: 'Biochemical Helm',
+	SkillName: '生化头盔',
 	MaxLv: 5,
 	SpAmount: [20, 20, 20, 20, 20],
 	bSeperateLv: false,
@@ -6528,7 +6528,7 @@ SkillInfo[SK.AM_CP_HELM] = {
 };
 SkillInfo[SK.MH_ERASER_CUTTER] = {
 	Name: 'MH_ERASER_CUTTER',
-	SkillName: 'Eraser Cutter',
+	SkillName: '抹除切割',
 	MaxLv: 10,
 	SpAmount: [25, 30, 35, 40, 45, 50, 55, 60, 65, 70],
 	bSeperateLv: true,
@@ -6536,7 +6536,7 @@ SkillInfo[SK.MH_ERASER_CUTTER] = {
 };
 SkillInfo[SK.MH_OVERED_BOOST] = {
 	Name: 'MH_OVERED_BOOST',
-	SkillName: 'Over Boost',
+	SkillName: '过度强化',
 	MaxLv: 5,
 	SpAmount: [70, 90, 110, 130, 150],
 	bSeperateLv: true,
@@ -6544,7 +6544,7 @@ SkillInfo[SK.MH_OVERED_BOOST] = {
 };
 SkillInfo[SK.MH_LIGHT_OF_REGENE] = {
 	Name: 'MH_LIGHT_OF_REGENE',
-	SkillName: 'Light of Regeneration',
+	SkillName: '再生之光',
 	MaxLv: 5,
 	SpAmount: [40, 50, 60, 70, 80],
 	bSeperateLv: true,
@@ -6552,7 +6552,7 @@ SkillInfo[SK.MH_LIGHT_OF_REGENE] = {
 };
 SkillInfo[SK.AM_BIOETHICS] = {
 	Name: 'AM_BIOETHICS',
-	SkillName: 'Bioethics',
+	SkillName: '生物伦理',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [0],
@@ -6561,7 +6561,7 @@ SkillInfo[SK.AM_BIOETHICS] = {
 };
 SkillInfo[SK.MH_POISON_MIST] = {
 	Name: 'MH_POISON_MIST',
-	SkillName: 'Poison Mist',
+	SkillName: '毒雾',
 	MaxLv: 5,
 	SpAmount: [65, 75, 85, 95, 105],
 	bSeperateLv: true,
@@ -6569,7 +6569,7 @@ SkillInfo[SK.MH_POISON_MIST] = {
 };
 SkillInfo[SK.MH_SUMMON_LEGION] = {
 	Name: 'MH_SUMMON_LEGION',
-	SkillName: 'Summon Legion',
+	SkillName: '召唤军团',
 	MaxLv: 5,
 	SpAmount: [60, 80, 100, 120, 140],
 	bSeperateLv: true,
@@ -6577,7 +6577,7 @@ SkillInfo[SK.MH_SUMMON_LEGION] = {
 };
 SkillInfo[SK.HVAN_EXPLOSION] = {
 	Name: 'HVAN_EXPLOSION',
-	SkillName: 'Self-Destruction',
+	SkillName: '自爆',
 	MaxLv: 3,
 	SpAmount: [1, 1, 1],
 	bSeperateLv: true,
@@ -6585,7 +6585,7 @@ SkillInfo[SK.HVAN_EXPLOSION] = {
 };
 SkillInfo[SK.AM_BIOTECHNOLOGY] = {
 	Name: 'AM_BIOTECHNOLOGY',
-	SkillName: 'Biotechnology',
+	SkillName: '生物技术',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6593,7 +6593,7 @@ SkillInfo[SK.AM_BIOTECHNOLOGY] = {
 };
 SkillInfo[SK.SA_CREATECON] = {
 	Name: 'SA_CREATECON',
-	SkillName: 'Create Elemental Converter',
+	SkillName: '制作属性转换器',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [30],
@@ -6602,7 +6602,7 @@ SkillInfo[SK.SA_CREATECON] = {
 };
 SkillInfo[SK.EL_WILD_STORM] = {
 	Name: 'EL_WILD_STORM',
-	SkillName: 'Wild Storm',
+	SkillName: '狂野风暴',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6610,7 +6610,7 @@ SkillInfo[SK.EL_WILD_STORM] = {
 };
 SkillInfo[SK.MG_FROSTDIVER] = {
 	Name: 'MG_FROSTDIVER',
-	SkillName: 'Frost Driver',
+	SkillName: '寒霜驱动',
 	MaxLv: 10,
 	SpAmount: [25, 24, 23, 22, 21, 20, 19, 18, 17, 16],
 	bSeperateLv: false,
@@ -6619,7 +6619,7 @@ SkillInfo[SK.MG_FROSTDIVER] = {
 };
 SkillInfo[SK.AM_CREATECREATURE] = {
 	Name: 'AM_CREATECREATURE',
-	SkillName: 'Creature Creation',
+	SkillName: '创造生物',
 	MaxLv: 5,
 	SpAmount: [30, 30, 30, 30, 30],
 	bSeperateLv: false,
@@ -6635,7 +6635,7 @@ SkillInfo[SK.HFLI_SBR44] = {
 };
 SkillInfo[SK.HFLI_FLEET] = {
 	Name: 'HFLI_FLEET',
-	SkillName: 'Flitting',
+	SkillName: '闪身',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -6643,7 +6643,7 @@ SkillInfo[SK.HFLI_FLEET] = {
 };
 SkillInfo[SK.HAMI_BLOODLUST] = {
 	Name: 'HAMI_BLOODLUST',
-	SkillName: 'Blood Lust',
+	SkillName: '嗜血',
 	MaxLv: 3,
 	SpAmount: [120, 120, 120],
 	bSeperateLv: true,
@@ -6651,7 +6651,7 @@ SkillInfo[SK.HAMI_BLOODLUST] = {
 };
 SkillInfo[SK.AM_CULTIVATION] = {
 	Name: 'AM_CULTIVATION',
-	SkillName: 'Cultivation',
+	SkillName: '培育',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -6659,7 +6659,7 @@ SkillInfo[SK.AM_CULTIVATION] = {
 };
 SkillInfo[SK.HAMI_SKIN] = {
 	Name: 'HAMI_SKIN',
-	SkillName: 'Adamantium Skin',
+	SkillName: '金刚之肤',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6667,7 +6667,7 @@ SkillInfo[SK.HAMI_SKIN] = {
 };
 SkillInfo[SK.EL_CURSED_SOIL] = {
 	Name: 'EL_CURSED_SOIL',
-	SkillName: 'Cursed Soil',
+	SkillName: '诅咒土壤',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6675,7 +6675,7 @@ SkillInfo[SK.EL_CURSED_SOIL] = {
 };
 SkillInfo[SK.HLIF_CHANGE] = {
 	Name: 'HLIF_CHANGE',
-	SkillName: 'Mental Charge',
+	SkillName: '精神充能',
 	MaxLv: 3,
 	SpAmount: [100, 100, 100],
 	bSeperateLv: false,
@@ -6683,7 +6683,7 @@ SkillInfo[SK.HLIF_CHANGE] = {
 };
 SkillInfo[SK.AM_FLAMECONTROL] = {
 	Name: 'AM_FLAMECONTROL',
-	SkillName: 'Flame Control',
+	SkillName: '火焰控制',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6691,7 +6691,7 @@ SkillInfo[SK.AM_FLAMECONTROL] = {
 };
 SkillInfo[SK.HLIF_AVOID] = {
 	Name: 'HLIF_AVOID',
-	SkillName: 'Urgent Escape',
+	SkillName: '紧急逃脱',
 	MaxLv: 5,
 	SpAmount: [20, 25, 30, 35, 40],
 	bSeperateLv: true,
@@ -6699,7 +6699,7 @@ SkillInfo[SK.HLIF_AVOID] = {
 };
 SkillInfo[SK.LG_OVERBRAND] = {
 	Name: 'LG_OVERBRAND',
-	SkillName: 'Overbrand',
+	SkillName: '过度烙印',
 	MaxLv: 5,
 	SpAmount: [20, 30, 40, 50, 60],
 	bSeperateLv: true,
@@ -6711,7 +6711,7 @@ SkillInfo[SK.LG_OVERBRAND] = {
 };
 SkillInfo[SK.ALL_ODINS_RECALL] = {
 	Name: 'ALL_ODINS_RECALL',
-	SkillName: 'Call of Odin',
+	SkillName: '奥丁的召唤',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -6719,7 +6719,7 @@ SkillInfo[SK.ALL_ODINS_RECALL] = {
 };
 SkillInfo[SK.AM_CALLHOMUN] = {
 	Name: 'AM_CALLHOMUN',
-	SkillName: 'Call Homunculus',
+	SkillName: '召唤生命体',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -6728,7 +6728,7 @@ SkillInfo[SK.AM_CALLHOMUN] = {
 };
 SkillInfo[SK.SR_RIDEINLIGHTNING] = {
 	Name: 'SR_RIDEINLIGHTNING',
-	SkillName: 'Lightning Ride',
+	SkillName: '雷电骑乘',
 	MaxLv: 5,
 	SpAmount: [25, 30, 35, 40, 45],
 	bSeperateLv: true,
@@ -6737,7 +6737,7 @@ SkillInfo[SK.SR_RIDEINLIGHTNING] = {
 };
 SkillInfo[SK.SR_HOWLINGOFLION] = {
 	Name: 'SR_HOWLINGOFLION',
-	SkillName: "Lion's Howl",
+	SkillName: '狮子咆哮',
 	MaxLv: 5,
 	SpAmount: [70, 70, 70, 70, 70],
 	bSeperateLv: true,
@@ -6749,7 +6749,7 @@ SkillInfo[SK.SR_HOWLINGOFLION] = {
 };
 SkillInfo[SK.SR_TIGERCANNON] = {
 	Name: 'SR_TIGERCANNON',
-	SkillName: 'Tiger Cannon',
+	SkillName: '虎炮',
 	MaxLv: 10,
 	SpAmount: [30, 35, 40, 45, 50, 55, 60, 65, 70, 75],
 	bSeperateLv: true,
@@ -6758,7 +6758,7 @@ SkillInfo[SK.SR_TIGERCANNON] = {
 };
 SkillInfo[SK.AM_REST] = {
 	Name: 'AM_REST',
-	SkillName: 'Vaporize',
+	SkillName: '蒸发',
 	MaxLv: 1,
 	SpAmount: [50],
 	bSeperateLv: false,
@@ -6767,7 +6767,7 @@ SkillInfo[SK.AM_REST] = {
 };
 SkillInfo[SK.GN_CHANGEMATERIAL] = {
 	Name: 'GN_CHANGEMATERIAL',
-	SkillName: 'Change Material',
+	SkillName: '材料变换',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -6775,7 +6775,7 @@ SkillInfo[SK.GN_CHANGEMATERIAL] = {
 };
 SkillInfo[SK.GN_SLINGITEM] = {
 	Name: 'GN_SLINGITEM',
-	SkillName: 'Item Sling',
+	SkillName: '投掷物品',
 	MaxLv: 1,
 	SpAmount: [4],
 	bSeperateLv: false,
@@ -6784,7 +6784,7 @@ SkillInfo[SK.GN_SLINGITEM] = {
 };
 SkillInfo[SK.GN_MANDRAGORA] = {
 	Name: 'GN_MANDRAGORA',
-	SkillName: 'Mandragora Howl',
+	SkillName: '曼陀罗嚎叫',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -6793,7 +6793,7 @@ SkillInfo[SK.GN_MANDRAGORA] = {
 };
 SkillInfo[SK.AM_DRILLMASTER] = {
 	Name: 'AM_DRILLMASTER',
-	SkillName: 'Drillmaster',
+	SkillName: '钻头大师',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6801,7 +6801,7 @@ SkillInfo[SK.AM_DRILLMASTER] = {
 };
 SkillInfo[SK.GN_HELLS_PLANT] = {
 	Name: 'GN_HELLS_PLANT',
-	SkillName: 'Hell Plant',
+	SkillName: '地狱植物',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -6810,7 +6810,7 @@ SkillInfo[SK.GN_HELLS_PLANT] = {
 };
 SkillInfo[SK.GN_FIRE_EXPANSION] = {
 	Name: 'GN_FIRE_EXPANSION',
-	SkillName: 'Fire Expansion',
+	SkillName: '火焰扩散',
 	MaxLv: 5,
 	SpAmount: [30, 35, 40, 45, 50],
 	bSeperateLv: true,
@@ -6819,7 +6819,7 @@ SkillInfo[SK.GN_FIRE_EXPANSION] = {
 };
 SkillInfo[SK.GN_DEMONIC_FIRE] = {
 	Name: 'GN_DEMONIC_FIRE',
-	SkillName: 'Demonic Fire ',
+	SkillName: '魔火',
 	MaxLv: 5,
 	SpAmount: [24, 28, 32, 36, 40],
 	bSeperateLv: true,
@@ -6828,7 +6828,7 @@ SkillInfo[SK.GN_DEMONIC_FIRE] = {
 };
 SkillInfo[SK.AM_HEALHOMUN] = {
 	Name: 'AM_HEALHOMUN',
-	SkillName: 'Heal Homunculus',
+	SkillName: '治疗生命体',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -6836,7 +6836,7 @@ SkillInfo[SK.AM_HEALHOMUN] = {
 };
 SkillInfo[SK.GN_WALLOFTHORN] = {
 	Name: 'GN_WALLOFTHORN',
-	SkillName: 'Thorn Wall',
+	SkillName: '荆棘之墙',
 	MaxLv: 5,
 	SpAmount: [40, 50, 60, 70, 80],
 	bSeperateLv: true,
@@ -6845,7 +6845,7 @@ SkillInfo[SK.GN_WALLOFTHORN] = {
 };
 SkillInfo[SK.SR_CRESCENTELBOW] = {
 	Name: 'SR_CRESCENTELBOW',
-	SkillName: 'Crescent Elbow',
+	SkillName: '新月肘击',
 	MaxLv: 5,
 	SpAmount: [80, 80, 80, 80, 80],
 	bSeperateLv: false,
@@ -6854,7 +6854,7 @@ SkillInfo[SK.SR_CRESCENTELBOW] = {
 };
 SkillInfo[SK.GN_CARTBOOST] = {
 	Name: 'GN_CARTBOOST',
-	SkillName: 'Geneticist Cart Boost',
+	SkillName: '基因学者手推车强化',
 	MaxLv: 5,
 	SpAmount: [20, 24, 28, 32, 36],
 	bSeperateLv: true,
@@ -6863,7 +6863,7 @@ SkillInfo[SK.GN_CARTBOOST] = {
 };
 SkillInfo[SK.AM_RESURRECTHOMUN] = {
 	Name: 'AM_RESURRECTHOMUN',
-	SkillName: 'Homunculus Resurrection',
+	SkillName: '生命体复活',
 	MaxLv: 5,
 	SpAmount: [74, 68, 62, 56, 50],
 	bSeperateLv: true,
@@ -6872,7 +6872,7 @@ SkillInfo[SK.AM_RESURRECTHOMUN] = {
 };
 SkillInfo[SK.GN_CARTCANNON] = {
 	Name: 'GN_CARTCANNON',
-	SkillName: 'Cart Cannon',
+	SkillName: '手推车加农炮',
 	MaxLv: 5,
 	SpAmount: [40, 42, 46, 48, 50],
 	bSeperateLv: true,
@@ -6881,7 +6881,7 @@ SkillInfo[SK.GN_CARTCANNON] = {
 };
 SkillInfo[SK.GN_CART_TORNADO] = {
 	Name: 'GN_CART_TORNADO',
-	SkillName: 'Cart Tornado',
+	SkillName: '手推车龙卷风',
 	MaxLv: 10,
 	SpAmount: [30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
 	bSeperateLv: true,
@@ -6890,7 +6890,7 @@ SkillInfo[SK.GN_CART_TORNADO] = {
 };
 SkillInfo[SK.GN_TRAINING_SWORD] = {
 	Name: 'GN_TRAINING_SWORD',
-	SkillName: 'Sword Mastery',
+	SkillName: '剑术精通',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6898,7 +6898,7 @@ SkillInfo[SK.GN_TRAINING_SWORD] = {
 };
 SkillInfo[SK.CR_TRUST] = {
 	Name: 'CR_TRUST',
-	SkillName: 'Faith',
+	SkillName: '信仰',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -6906,7 +6906,7 @@ SkillInfo[SK.CR_TRUST] = {
 };
 SkillInfo[SK.EL_WATER_SCREW_ATK] = {
 	Name: 'EL_WATER_SCREW_ATK',
-	SkillName: 'Water Screw Attack',
+	SkillName: '水螺旋攻击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6914,7 +6914,7 @@ SkillInfo[SK.EL_WATER_SCREW_ATK] = {
 };
 SkillInfo[SK.EL_WATER_SCREW] = {
 	Name: 'EL_WATER_SCREW',
-	SkillName: 'Water Screw',
+	SkillName: '水螺旋',
 	MaxLv: 1,
 	SpAmount: [60],
 	bSeperateLv: false,
@@ -6922,7 +6922,7 @@ SkillInfo[SK.EL_WATER_SCREW] = {
 };
 SkillInfo[SK.EL_ICE_NEEDLE] = {
 	Name: 'EL_ICE_NEEDLE',
-	SkillName: 'Ice Needle',
+	SkillName: '冰针',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -6930,7 +6930,7 @@ SkillInfo[SK.EL_ICE_NEEDLE] = {
 };
 SkillInfo[SK.CR_AUTOGUARD] = {
 	Name: 'CR_AUTOGUARD',
-	SkillName: 'Guard',
+	SkillName: '防御',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -6938,7 +6938,7 @@ SkillInfo[SK.CR_AUTOGUARD] = {
 };
 SkillInfo[SK.EL_FIRE_WAVE_ATK] = {
 	Name: 'EL_FIRE_WAVE_ATK',
-	SkillName: 'Fire Wave Attack',
+	SkillName: '火焰波攻击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6946,7 +6946,7 @@ SkillInfo[SK.EL_FIRE_WAVE_ATK] = {
 };
 SkillInfo[SK.EL_FIRE_WAVE] = {
 	Name: 'EL_FIRE_WAVE',
-	SkillName: 'Fire Wave',
+	SkillName: '火焰波',
 	MaxLv: 1,
 	SpAmount: [80],
 	bSeperateLv: false,
@@ -6954,7 +6954,7 @@ SkillInfo[SK.EL_FIRE_WAVE] = {
 };
 SkillInfo[SK.EL_FIRE_BOMB_ATK] = {
 	Name: 'EL_FIRE_BOMB_ATK',
-	SkillName: 'Fire Bomb Attack',
+	SkillName: '火焰炸弹攻击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6962,7 +6962,7 @@ SkillInfo[SK.EL_FIRE_BOMB_ATK] = {
 };
 SkillInfo[SK.CR_SHIELDCHARGE] = {
 	Name: 'CR_SHIELDCHARGE',
-	SkillName: 'Smite',
+	SkillName: '重击',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -6971,7 +6971,7 @@ SkillInfo[SK.CR_SHIELDCHARGE] = {
 };
 SkillInfo[SK.EL_UPHEAVAL] = {
 	Name: 'EL_UPHEAVAL',
-	SkillName: 'Upheaval',
+	SkillName: '剧变',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -6979,7 +6979,7 @@ SkillInfo[SK.EL_UPHEAVAL] = {
 };
 SkillInfo[SK.HAMI_DEFENCE] = {
 	Name: 'HAMI_DEFENCE',
-	SkillName: 'Amistr Bulwark',
+	SkillName: '阿米斯特堡垒',
 	MaxLv: 5,
 	SpAmount: [20, 25, 30, 35, 40],
 	bSeperateLv: true,
@@ -6987,7 +6987,7 @@ SkillInfo[SK.HAMI_DEFENCE] = {
 };
 SkillInfo[SK.HVAN_CHAOTIC] = {
 	Name: 'HVAN_CHAOTIC',
-	SkillName: 'Chaotic Blessings',
+	SkillName: '混沌祝福',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: true,
@@ -6995,7 +6995,7 @@ SkillInfo[SK.HVAN_CHAOTIC] = {
 };
 SkillInfo[SK.CR_SHIELDBOOMERANG] = {
 	Name: 'CR_SHIELDBOOMERANG',
-	SkillName: 'Shield Boomerang',
+	SkillName: '盾牌回旋镖',
 	MaxLv: 5,
 	SpAmount: [12, 12, 12, 12, 12],
 	bSeperateLv: false,
@@ -7501,7 +7501,7 @@ SkillInfo[SK.MG_FIREBALL] = {
 };
 SkillInfo[SK.MO_CHAINCOMBO] = {
 	Name: 'MO_CHAINCOMBO',
-	SkillName: 'Raging Quadruple Blow',
+	SkillName: '狂怒四连击',
 	MaxLv: 5,
 	SpAmount: [5, 6, 7, 8, 9],
 	bSeperateLv: true,
@@ -7510,7 +7510,7 @@ SkillInfo[SK.MO_CHAINCOMBO] = {
 };
 SkillInfo[SK.WM_SOUND_OF_DESTRUCTION] = {
 	Name: 'WM_SOUND_OF_DESTRUCTION',
-	SkillName: 'Song of Destruction',
+	SkillName: '毁灭之歌',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -7522,7 +7522,7 @@ SkillInfo[SK.WM_SOUND_OF_DESTRUCTION] = {
 };
 SkillInfo[SK.MO_COMBOFINISH] = {
 	Name: 'MO_COMBOFINISH',
-	SkillName: 'Raging Thrust',
+	SkillName: '狂怒突刺',
 	MaxLv: 5,
 	SpAmount: [3, 4, 5, 6, 7],
 	bSeperateLv: true,
@@ -7531,7 +7531,7 @@ SkillInfo[SK.MO_COMBOFINISH] = {
 };
 SkillInfo[SK.WM_DANCE_WITH_WUG] = {
 	Name: 'WM_DANCE_WITH_WUG',
-	SkillName: 'Dances with Wargs',
+	SkillName: '与狼共舞',
 	MaxLv: 5,
 	SpAmount: [120, 140, 160, 180, 200],
 	bSeperateLv: true,
@@ -7551,7 +7551,7 @@ SkillInfo[SK.WM_DANCE_WITH_WUG] = {
 };
 SkillInfo[SK.SA_ADVANCEDBOOK] = {
 	Name: 'SA_ADVANCEDBOOK',
-	SkillName: 'Study',
+	SkillName: '研究',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7559,7 +7559,7 @@ SkillInfo[SK.SA_ADVANCEDBOOK] = {
 };
 SkillInfo[SK.WM_SONG_OF_MANA] = {
 	Name: 'WM_SONG_OF_MANA',
-	SkillName: 'Song Of Mana',
+	SkillName: '魔力之歌',
 	MaxLv: 5,
 	SpAmount: [120, 140, 160, 180, 200],
 	bSeperateLv: true,
@@ -7579,7 +7579,7 @@ SkillInfo[SK.WM_SONG_OF_MANA] = {
 };
 SkillInfo[SK.SA_CASTCANCEL] = {
 	Name: 'SA_CASTCANCEL',
-	SkillName: 'Cast Cancel',
+	SkillName: '取消施法',
 	MaxLv: 5,
 	SpAmount: [2, 2, 2, 2, 2],
 	bSeperateLv: false,
@@ -7588,7 +7588,7 @@ SkillInfo[SK.SA_CASTCANCEL] = {
 };
 SkillInfo[SK.WL_WHITEIMPRISON] = {
 	Name: 'WL_WHITEIMPRISON',
-	SkillName: 'White Imprison',
+	SkillName: '白色监狱',
 	MaxLv: 5,
 	SpAmount: [50, 55, 60, 65, 70],
 	bSeperateLv: true,
@@ -7597,7 +7597,7 @@ SkillInfo[SK.WL_WHITEIMPRISON] = {
 };
 SkillInfo[SK.SA_MAGICROD] = {
 	Name: 'SA_MAGICROD',
-	SkillName: 'Magic Rod',
+	SkillName: '魔法棒',
 	MaxLv: 5,
 	SpAmount: [2, 2, 2, 2, 2],
 	bSeperateLv: false,
@@ -7606,7 +7606,7 @@ SkillInfo[SK.SA_MAGICROD] = {
 };
 SkillInfo[SK.WL_STASIS] = {
 	Name: 'WL_STASIS',
-	SkillName: 'Stasis',
+	SkillName: '停滞',
 	MaxLv: 5,
 	SpAmount: [50, 60, 70, 80, 90],
 	bSeperateLv: true,
@@ -7615,7 +7615,7 @@ SkillInfo[SK.WL_STASIS] = {
 };
 SkillInfo[SK.SA_SPELLBREAKER] = {
 	Name: 'SA_SPELLBREAKER',
-	SkillName: 'Spell Breaker',
+	SkillName: '魔法破坏',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -7624,7 +7624,7 @@ SkillInfo[SK.SA_SPELLBREAKER] = {
 };
 SkillInfo[SK.WL_TETRAVORTEX] = {
 	Name: 'WL_TETRAVORTEX',
-	SkillName: 'Tetra Vortex',
+	SkillName: '四元漩涡',
 	MaxLv: 10,
 	SpAmount: [120, 150, 180, 210, 240, 200, 240, 280, 320, 360],
 	bSeperateLv: true,
@@ -7638,7 +7638,7 @@ SkillInfo[SK.WL_TETRAVORTEX] = {
 };
 SkillInfo[SK.SA_FREECAST] = {
 	Name: 'SA_FREECAST',
-	SkillName: 'Free Cast',
+	SkillName: '自由施法',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7647,7 +7647,7 @@ SkillInfo[SK.SA_FREECAST] = {
 };
 SkillInfo[SK.WM_GREAT_ECHO] = {
 	Name: 'WM_GREAT_ECHO',
-	SkillName: 'Great Echo',
+	SkillName: '大回声',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -7656,7 +7656,7 @@ SkillInfo[SK.WM_GREAT_ECHO] = {
 };
 SkillInfo[SK.SA_AUTOSPELL] = {
 	Name: 'SA_AUTOSPELL',
-	SkillName: 'Hindsight',
+	SkillName: '后见之明',
 	MaxLv: 10,
 	SpAmount: [35, 35, 35, 35, 35, 35, 35, 35, 35, 35],
 	bSeperateLv: false,
@@ -7665,7 +7665,7 @@ SkillInfo[SK.SA_AUTOSPELL] = {
 };
 SkillInfo[SK.RA_ARROWSTORM] = {
 	Name: 'RA_ARROWSTORM',
-	SkillName: 'Arrow Storm',
+	SkillName: '箭雨',
 	MaxLv: 10,
 	SpAmount: [24, 28, 32, 36, 40, 44, 48, 52, 56, 60],
 	bSeperateLv: true,
@@ -7674,7 +7674,7 @@ SkillInfo[SK.RA_ARROWSTORM] = {
 };
 SkillInfo[SK.SA_FLAMELAUNCHER] = {
 	Name: 'SA_FLAMELAUNCHER',
-	SkillName: 'Endow Blaze',
+	SkillName: '火焰附加',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -7686,7 +7686,7 @@ SkillInfo[SK.SA_FLAMELAUNCHER] = {
 };
 SkillInfo[SK.RA_WUGRIDER] = {
 	Name: 'RA_WUGRIDER',
-	SkillName: 'Warg Ride',
+	SkillName: '骑乘狼',
 	MaxLv: 3,
 	SpAmount: [2, 2, 2],
 	bSeperateLv: false,
@@ -7695,7 +7695,7 @@ SkillInfo[SK.RA_WUGRIDER] = {
 };
 SkillInfo[SK.SA_FROSTWEAPON] = {
 	Name: 'SA_FROSTWEAPON',
-	SkillName: 'Endow Tsunami',
+	SkillName: '海啸附加',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -7707,7 +7707,7 @@ SkillInfo[SK.SA_FROSTWEAPON] = {
 };
 SkillInfo[SK.RA_MAGENTATRAP] = {
 	Name: 'RA_MAGENTATRAP',
-	SkillName: 'Magenta Trap',
+	SkillName: '洋红陷阱',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -7716,7 +7716,7 @@ SkillInfo[SK.RA_MAGENTATRAP] = {
 };
 SkillInfo[SK.SA_LIGHTNINGLOADER] = {
 	Name: 'SA_LIGHTNINGLOADER',
-	SkillName: 'Endow Tornado',
+	SkillName: '龙卷附加',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -7728,7 +7728,7 @@ SkillInfo[SK.SA_LIGHTNINGLOADER] = {
 };
 SkillInfo[SK.NC_PILEBUNKER] = {
 	Name: 'NC_PILEBUNKER',
-	SkillName: 'Pile Bunker',
+	SkillName: '桩柱碉堡',
 	MaxLv: 3,
 	SpAmount: [50, 50, 50],
 	bSeperateLv: true,
@@ -7737,7 +7737,7 @@ SkillInfo[SK.NC_PILEBUNKER] = {
 };
 SkillInfo[SK.SA_SEISMICWEAPON] = {
 	Name: 'SA_SEISMICWEAPON',
-	SkillName: 'Endow Quake',
+	SkillName: '地震附加',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -7749,7 +7749,7 @@ SkillInfo[SK.SA_SEISMICWEAPON] = {
 };
 SkillInfo[SK.NC_B_SIDESLIDE] = {
 	Name: 'NC_B_SIDESLIDE',
-	SkillName: 'Back Slide',
+	SkillName: '后滑步',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -7758,7 +7758,7 @@ SkillInfo[SK.NC_B_SIDESLIDE] = {
 };
 SkillInfo[SK.SA_DRAGONOLOGY] = {
 	Name: 'SA_DRAGONOLOGY',
-	SkillName: 'Dragonology',
+	SkillName: '龙族学',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7767,7 +7767,7 @@ SkillInfo[SK.SA_DRAGONOLOGY] = {
 };
 SkillInfo[SK.NC_NEUTRALBARRIER] = {
 	Name: 'NC_NEUTRALBARRIER',
-	SkillName: 'Neutral Barrier',
+	SkillName: '中立屏障',
 	MaxLv: 3,
 	SpAmount: [80, 90, 100],
 	bSeperateLv: true,
@@ -7776,7 +7776,7 @@ SkillInfo[SK.NC_NEUTRALBARRIER] = {
 };
 SkillInfo[SK.SA_VOLCANO] = {
 	Name: 'SA_VOLCANO',
-	SkillName: 'Volcano',
+	SkillName: '火山',
 	MaxLv: 5,
 	SpAmount: [48, 46, 44, 42, 40],
 	bSeperateLv: false,
@@ -7785,7 +7785,7 @@ SkillInfo[SK.SA_VOLCANO] = {
 };
 SkillInfo[SK.NC_SILVERSNIPER] = {
 	Name: 'NC_SILVERSNIPER',
-	SkillName: 'FAW Silver Sniper',
+	SkillName: 'FAW 银色狙击手',
 	MaxLv: 5,
 	SpAmount: [25, 30, 35, 40, 45],
 	bSeperateLv: true,
@@ -7794,7 +7794,7 @@ SkillInfo[SK.NC_SILVERSNIPER] = {
 };
 SkillInfo[SK.SA_DELUGE] = {
 	Name: 'SA_DELUGE',
-	SkillName: 'Deluge',
+	SkillName: '洪水',
 	MaxLv: 5,
 	SpAmount: [48, 46, 44, 42, 40],
 	bSeperateLv: false,
@@ -7803,7 +7803,7 @@ SkillInfo[SK.SA_DELUGE] = {
 };
 SkillInfo[SK.SC_BODYPAINT] = {
 	Name: 'SC_BODYPAINT',
-	SkillName: 'Body Painting',
+	SkillName: '身体彩绘',
 	MaxLv: 5,
 	SpAmount: [10, 15, 20, 25, 30],
 	bSeperateLv: true,
@@ -7811,7 +7811,7 @@ SkillInfo[SK.SC_BODYPAINT] = {
 };
 SkillInfo[SK.SA_VIOLENTGALE] = {
 	Name: 'SA_VIOLENTGALE',
-	SkillName: 'Whirlwind',
+	SkillName: '旋风',
 	MaxLv: 5,
 	SpAmount: [48, 46, 44, 42, 40],
 	bSeperateLv: false,
@@ -7820,7 +7820,7 @@ SkillInfo[SK.SA_VIOLENTGALE] = {
 };
 SkillInfo[SK.MG_FIREWALL] = {
 	Name: 'MG_FIREWALL',
-	SkillName: 'Fire Wall',
+	SkillName: '火墙',
 	MaxLv: 10,
 	SpAmount: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
 	bSeperateLv: false,
@@ -7832,7 +7832,7 @@ SkillInfo[SK.MG_FIREWALL] = {
 };
 SkillInfo[SK.SA_LANDPROTECTOR] = {
 	Name: 'SA_LANDPROTECTOR',
-	SkillName: 'Land Protector',
+	SkillName: '大地保护',
 	MaxLv: 5,
 	SpAmount: [66, 62, 58, 54, 50],
 	bSeperateLv: false,
@@ -7845,7 +7845,7 @@ SkillInfo[SK.SA_LANDPROTECTOR] = {
 };
 SkillInfo[SK.WM_GLOOMYDAY] = {
 	Name: 'WM_GLOOMYDAY',
-	SkillName: 'Gloomy Shyness',
+	SkillName: '阴郁羞怯',
 	MaxLv: 5,
 	SpAmount: [42, 46, 50, 54, 58],
 	bSeperateLv: true,
@@ -7854,7 +7854,7 @@ SkillInfo[SK.WM_GLOOMYDAY] = {
 };
 SkillInfo[SK.SA_DISPELL] = {
 	Name: 'SA_DISPELL',
-	SkillName: 'Dispell',
+	SkillName: '驱散',
 	MaxLv: 5,
 	SpAmount: [1, 1, 1, 1, 1],
 	bSeperateLv: false,
@@ -7863,7 +7863,7 @@ SkillInfo[SK.SA_DISPELL] = {
 };
 SkillInfo[SK.LG_FORCEOFVANGUARD] = {
 	Name: 'LG_FORCEOFVANGUARD',
-	SkillName: 'Vanguard Force',
+	SkillName: '先锋之力',
 	MaxLv: 5,
 	SpAmount: [30, 30, 30, 30, 30],
 	bSeperateLv: true,
@@ -7871,7 +7871,7 @@ SkillInfo[SK.LG_FORCEOFVANGUARD] = {
 };
 SkillInfo[SK.SA_ABRACADABRA] = {
 	Name: 'SA_ABRACADABRA',
-	SkillName: 'Hocus-pocus',
+	SkillName: '胡思乱想',
 	MaxLv: 10,
 	SpAmount: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
 	bSeperateLv: false,
@@ -7884,7 +7884,7 @@ SkillInfo[SK.SA_ABRACADABRA] = {
 };
 SkillInfo[SK.LG_RAYOFGENESIS] = {
 	Name: 'LG_RAYOFGENESIS',
-	SkillName: 'Genesis Ray',
+	SkillName: '创世之光',
 	MaxLv: 10,
 	SpAmount: [30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -7893,7 +7893,7 @@ SkillInfo[SK.LG_RAYOFGENESIS] = {
 };
 SkillInfo[SK.SA_MONOCELL] = {
 	Name: 'SA_MONOCELL',
-	SkillName: 'Mono Cell',
+	SkillName: '单细胞',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7901,7 +7901,7 @@ SkillInfo[SK.SA_MONOCELL] = {
 };
 SkillInfo[SK.SR_FALLENEMPIRE] = {
 	Name: 'SR_FALLENEMPIRE',
-	SkillName: 'Fallen Empire',
+	SkillName: '帝国陨落',
 	MaxLv: 10,
 	SpAmount: [18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
 	bSeperateLv: false,
@@ -7910,7 +7910,7 @@ SkillInfo[SK.SR_FALLENEMPIRE] = {
 };
 SkillInfo[SK.SA_CLASSCHANGE] = {
 	Name: 'SA_CLASSCHANGE',
-	SkillName: 'Class Change',
+	SkillName: '职业变更',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7918,7 +7918,7 @@ SkillInfo[SK.SA_CLASSCHANGE] = {
 };
 SkillInfo[SK.SR_WINDMILL] = {
 	Name: 'SR_WINDMILL',
-	SkillName: 'Windmill',
+	SkillName: '风车',
 	MaxLv: 1,
 	SpAmount: [45],
 	bSeperateLv: false,
@@ -7927,7 +7927,7 @@ SkillInfo[SK.SR_WINDMILL] = {
 };
 SkillInfo[SK.SA_SUMMONMONSTER] = {
 	Name: 'SA_SUMMONMONSTER',
-	SkillName: 'Monster Chant',
+	SkillName: '怪物咏唱',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7935,7 +7935,7 @@ SkillInfo[SK.SA_SUMMONMONSTER] = {
 };
 SkillInfo[SK.SR_GENTLETOUCH_CURE] = {
 	Name: 'SR_GENTLETOUCH_CURE',
-	SkillName: 'Gentle Touch-Cure',
+	SkillName: '温柔触碰-治愈',
 	MaxLv: 5,
 	SpAmount: [40, 50, 60, 70, 80],
 	bSeperateLv: false,
@@ -7944,7 +7944,7 @@ SkillInfo[SK.SR_GENTLETOUCH_CURE] = {
 };
 SkillInfo[SK.SA_REVERSEORCISH] = {
 	Name: 'SA_REVERSEORCISH',
-	SkillName: 'Grampus Morph',
+	SkillName: '变形成海豚',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7952,7 +7952,7 @@ SkillInfo[SK.SA_REVERSEORCISH] = {
 };
 SkillInfo[SK.WM_LULLABY_DEEPSLEEP] = {
 	Name: 'WM_LULLABY_DEEPSLEEP',
-	SkillName: 'Deep Sleep Lullaby',
+	SkillName: '深眠摇篮曲',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -7961,7 +7961,7 @@ SkillInfo[SK.WM_LULLABY_DEEPSLEEP] = {
 };
 SkillInfo[SK.SA_DEATH] = {
 	Name: 'SA_DEATH',
-	SkillName: 'Grim Reaper',
+	SkillName: '死神',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7969,7 +7969,7 @@ SkillInfo[SK.SA_DEATH] = {
 };
 SkillInfo[SK.WM_DEADHILLHERE] = {
 	Name: 'WM_DEADHILLHERE',
-	SkillName: 'Death Valley',
+	SkillName: '死亡谷',
 	MaxLv: 5,
 	SpAmount: [50, 53, 56, 59, 62],
 	bSeperateLv: true,
@@ -7978,7 +7978,7 @@ SkillInfo[SK.WM_DEADHILLHERE] = {
 };
 SkillInfo[SK.SA_FORTUNE] = {
 	Name: 'SA_FORTUNE',
-	SkillName: 'Gold Digger',
+	SkillName: '淘金者',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -7986,7 +7986,7 @@ SkillInfo[SK.SA_FORTUNE] = {
 };
 SkillInfo[SK.WM_SEVERE_RAINSTORM] = {
 	Name: 'WM_SEVERE_RAINSTORM',
-	SkillName: 'Severe Rainstorm',
+	SkillName: '暴雨',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -7998,7 +7998,7 @@ SkillInfo[SK.WM_SEVERE_RAINSTORM] = {
 };
 SkillInfo[SK.SA_TAMINGMONSTER] = {
 	Name: 'SA_TAMINGMONSTER',
-	SkillName: 'Beastly Hypnosis',
+	SkillName: '野兽催眠',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8006,7 +8006,7 @@ SkillInfo[SK.SA_TAMINGMONSTER] = {
 };
 SkillInfo[SK.MI_RUSH_WINDMILL] = {
 	Name: 'MI_RUSH_WINDMILL',
-	SkillName: 'Windmill Rush',
+	SkillName: '风车冲刺',
 	MaxLv: 5,
 	SpAmount: [82, 88, 94, 100, 106],
 	bSeperateLv: true,
@@ -8015,7 +8015,7 @@ SkillInfo[SK.MI_RUSH_WINDMILL] = {
 };
 SkillInfo[SK.SA_QUESTION] = {
 	Name: 'SA_QUESTION',
-	SkillName: 'Questioning',
+	SkillName: '质问',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8023,7 +8023,7 @@ SkillInfo[SK.SA_QUESTION] = {
 };
 SkillInfo[SK.WM_REVERBERATION] = {
 	Name: 'WM_REVERBERATION',
-	SkillName: 'Reverberation',
+	SkillName: '回响',
 	MaxLv: 5,
 	SpAmount: [56, 62, 68, 74, 80],
 	bSeperateLv: true,
@@ -8035,7 +8035,7 @@ SkillInfo[SK.WM_REVERBERATION] = {
 };
 SkillInfo[SK.SA_GRAVITY] = {
 	Name: 'SA_GRAVITY',
-	SkillName: 'Gravity',
+	SkillName: '重力',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8043,7 +8043,7 @@ SkillInfo[SK.SA_GRAVITY] = {
 };
 SkillInfo[SK.WM_METALICSOUND] = {
 	Name: 'WM_METALICSOUND',
-	SkillName: 'Metallic Sound',
+	SkillName: '金属之声',
 	MaxLv: 10,
 	SpAmount: [62, 64, 66, 68, 70, 72, 74, 76, 78, 80],
 	bSeperateLv: true,
@@ -8052,7 +8052,7 @@ SkillInfo[SK.WM_METALICSOUND] = {
 };
 SkillInfo[SK.SA_LEVELUP] = {
 	Name: 'SA_LEVELUP',
-	SkillName: 'Leveling',
+	SkillName: '等级提升',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8060,7 +8060,7 @@ SkillInfo[SK.SA_LEVELUP] = {
 };
 SkillInfo[SK.WM_LESSON] = {
 	Name: 'WM_LESSON',
-	SkillName: 'Voice Lessons',
+	SkillName: '声音课程',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8068,7 +8068,7 @@ SkillInfo[SK.WM_LESSON] = {
 };
 SkillInfo[SK.SA_INSTANTDEATH] = {
 	Name: 'SA_INSTANTDEATH',
-	SkillName: 'Suicide',
+	SkillName: '自杀',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8076,7 +8076,7 @@ SkillInfo[SK.SA_INSTANTDEATH] = {
 };
 SkillInfo[SK.MI_ECHOSONG] = {
 	Name: 'MI_ECHOSONG',
-	SkillName: 'Echo Song',
+	SkillName: '回声之歌',
 	MaxLv: 5,
 	SpAmount: [86, 92, 98, 104, 110],
 	bSeperateLv: true,
@@ -8085,7 +8085,7 @@ SkillInfo[SK.MI_ECHOSONG] = {
 };
 SkillInfo[SK.SA_FULLRECOVERY] = {
 	Name: 'SA_FULLRECOVERY',
-	SkillName: 'Rejuvenation',
+	SkillName: '复苏',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8093,7 +8093,7 @@ SkillInfo[SK.SA_FULLRECOVERY] = {
 };
 SkillInfo[SK.WM_DOMINION_IMPULSE] = {
 	Name: 'WM_DOMINION_IMPULSE',
-	SkillName: 'Dominion Impulse',
+	SkillName: '支配冲动',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -8102,7 +8102,7 @@ SkillInfo[SK.WM_DOMINION_IMPULSE] = {
 };
 SkillInfo[SK.SA_COMA] = {
 	Name: 'SA_COMA',
-	SkillName: 'Coma',
+	SkillName: '昏迷',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8110,7 +8110,7 @@ SkillInfo[SK.SA_COMA] = {
 };
 SkillInfo[SK.MG_FIREBOLT] = {
 	Name: 'MG_FIREBOLT',
-	SkillName: 'Fire Bolt',
+	SkillName: '火箭术',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -8118,7 +8118,7 @@ SkillInfo[SK.MG_FIREBOLT] = {
 };
 SkillInfo[SK.BD_ADAPTATION] = {
 	Name: 'BD_ADAPTATION',
-	SkillName: 'Amp',
+	SkillName: '增幅',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -8126,7 +8126,7 @@ SkillInfo[SK.BD_ADAPTATION] = {
 };
 SkillInfo[SK.WM_BEYOND_OF_WARCRY] = {
 	Name: 'WM_BEYOND_OF_WARCRY',
-	SkillName: 'Warcry from Beyond',
+	SkillName: '来自超越的战吼',
 	MaxLv: 5,
 	SpAmount: [120, 130, 140, 150, 160],
 	bSeperateLv: true,
@@ -8135,7 +8135,7 @@ SkillInfo[SK.WM_BEYOND_OF_WARCRY] = {
 };
 SkillInfo[SK.BD_ENCORE] = {
 	Name: 'BD_ENCORE',
-	SkillName: 'Encore',
+	SkillName: '再演',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -8144,7 +8144,7 @@ SkillInfo[SK.BD_ENCORE] = {
 };
 SkillInfo[SK.SR_GENTLETOUCH_REVITALIZE] = {
 	Name: 'SR_GENTLETOUCH_REVITALIZE',
-	SkillName: 'Gentle Touch-Revitalize',
+	SkillName: '温柔之触-活力',
 	MaxLv: 5,
 	SpAmount: [40, 50, 60, 70, 80],
 	bSeperateLv: true,
@@ -8157,7 +8157,7 @@ SkillInfo[SK.SR_GENTLETOUCH_REVITALIZE] = {
 };
 SkillInfo[SK.BD_LULLABY] = {
 	Name: 'BD_LULLABY',
-	SkillName: 'Lullaby',
+	SkillName: '摇篮曲',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -8166,7 +8166,7 @@ SkillInfo[SK.BD_LULLABY] = {
 };
 SkillInfo[SK.SO_PSYCHIC_WAVE] = {
 	Name: 'SO_PSYCHIC_WAVE',
-	SkillName: 'Psychic Wave',
+	SkillName: '精神波动',
 	MaxLv: 5,
 	SpAmount: [48, 56, 64, 70, 78],
 	bSeperateLv: true,
@@ -8175,7 +8175,7 @@ SkillInfo[SK.SO_PSYCHIC_WAVE] = {
 };
 SkillInfo[SK.BD_RICHMANKIM] = {
 	Name: 'BD_RICHMANKIM',
-	SkillName: 'Mental Sensing',
+	SkillName: '精神感知',
 	MaxLv: 5,
 	SpAmount: [62, 68, 74, 80, 86],
 	bSeperateLv: false,
@@ -8184,7 +8184,7 @@ SkillInfo[SK.BD_RICHMANKIM] = {
 };
 SkillInfo[SK.SO_SUMMON_AGNI] = {
 	Name: 'SO_SUMMON_AGNI',
-	SkillName: 'Call Agni',
+	SkillName: '召唤阿格尼',
 	MaxLv: 3,
 	SpAmount: [100, 150, 200],
 	bSeperateLv: true,
@@ -8196,7 +8196,7 @@ SkillInfo[SK.SO_SUMMON_AGNI] = {
 };
 SkillInfo[SK.BD_ETERNALCHAOS] = {
 	Name: 'BD_ETERNALCHAOS',
-	SkillName: 'Down Tempo',
+	SkillName: '降调',
 	MaxLv: 1,
 	SpAmount: [120],
 	bSeperateLv: false,
@@ -8205,7 +8205,7 @@ SkillInfo[SK.BD_ETERNALCHAOS] = {
 };
 SkillInfo[SK.SO_FIRE_INSIGNIA] = {
 	Name: 'SO_FIRE_INSIGNIA',
-	SkillName: 'Fire Insignia',
+	SkillName: '火之徽章',
 	MaxLv: 3,
 	SpAmount: [22, 30, 38],
 	bSeperateLv: true,
@@ -8214,7 +8214,7 @@ SkillInfo[SK.SO_FIRE_INSIGNIA] = {
 };
 SkillInfo[SK.BD_DRUMBATTLEFIELD] = {
 	Name: 'BD_DRUMBATTLEFIELD',
-	SkillName: 'Battle Theme',
+	SkillName: '战斗主题',
 	MaxLv: 5,
 	SpAmount: [50, 54, 58, 62, 66],
 	bSeperateLv: true,
@@ -8226,7 +8226,7 @@ SkillInfo[SK.BD_DRUMBATTLEFIELD] = {
 };
 SkillInfo[SK.SR_CURSEDCIRCLE] = {
 	Name: 'SR_CURSEDCIRCLE',
-	SkillName: 'Cursed Circle',
+	SkillName: '诅咒之环',
 	MaxLv: 5,
 	SpAmount: [40, 60, 80, 100, 120],
 	bSeperateLv: false,
@@ -8235,7 +8235,7 @@ SkillInfo[SK.SR_CURSEDCIRCLE] = {
 };
 SkillInfo[SK.BD_RINGNIBELUNGEN] = {
 	Name: 'BD_RINGNIBELUNGEN',
-	SkillName: 'Harmonic Lick',
+	SkillName: '和声舔舐',
 	MaxLv: 5,
 	SpAmount: [64, 60, 56, 52, 48],
 	bSeperateLv: true,
@@ -8244,7 +8244,7 @@ SkillInfo[SK.BD_RINGNIBELUNGEN] = {
 };
 SkillInfo[SK.GN_SPORE_EXPLOSION] = {
 	Name: 'GN_SPORE_EXPLOSION',
-	SkillName: 'Spore Explosion',
+	SkillName: '孢子爆炸',
 	MaxLv: 10,
 	SpAmount: [48, 52, 56, 60, 64, 68, 72, 76, 80, 84],
 	bSeperateLv: true,
@@ -8253,7 +8253,7 @@ SkillInfo[SK.GN_SPORE_EXPLOSION] = {
 };
 SkillInfo[SK.BD_ROKISWEIL] = {
 	Name: 'BD_ROKISWEIL',
-	SkillName: 'Classical Pluck',
+	SkillName: '古典拨弦',
 	MaxLv: 1,
 	SpAmount: [180],
 	bSeperateLv: false,
@@ -8265,7 +8265,7 @@ SkillInfo[SK.BD_ROKISWEIL] = {
 };
 SkillInfo[SK.SR_RAMPAGEBLASTER] = {
 	Name: 'SR_RAMPAGEBLASTER',
-	SkillName: 'Rampage Blast',
+	SkillName: '狂暴冲击',
 	MaxLv: 5,
 	SpAmount: [100, 100, 100, 100, 100],
 	bSeperateLv: false,
@@ -8274,7 +8274,7 @@ SkillInfo[SK.SR_RAMPAGEBLASTER] = {
 };
 SkillInfo[SK.BD_INTOABYSS] = {
 	Name: 'BD_INTOABYSS',
-	SkillName: 'Power Cord',
+	SkillName: '力量和弦',
 	MaxLv: 1,
 	SpAmount: [70],
 	bSeperateLv: false,
@@ -8283,7 +8283,7 @@ SkillInfo[SK.BD_INTOABYSS] = {
 };
 SkillInfo[SK.GN_S_PHARMACY] = {
 	Name: 'GN_S_PHARMACY',
-	SkillName: 'Special Pharmacy',
+	SkillName: '特殊药剂学',
 	MaxLv: 10,
 	SpAmount: [12, 12, 12, 12, 12, 12, 12, 12, 12, 12],
 	bSeperateLv: true,
@@ -8291,7 +8291,7 @@ SkillInfo[SK.GN_S_PHARMACY] = {
 };
 SkillInfo[SK.BD_SIEGFRIED] = {
 	Name: 'BD_SIEGFRIED',
-	SkillName: 'Acoustic Rhythm',
+	SkillName: '声学节奏',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: false,
@@ -8300,7 +8300,7 @@ SkillInfo[SK.BD_SIEGFRIED] = {
 };
 SkillInfo[SK.GD_RESTORE] = {
 	Name: 'GD_RESTORE',
-	SkillName: 'Restoration',
+	SkillName: '恢复术',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -8308,7 +8308,7 @@ SkillInfo[SK.GD_RESTORE] = {
 };
 SkillInfo[SK.BD_RAGNAROK] = {
 	Name: 'BD_RAGNAROK',
-	SkillName: 'Ragnarok',
+	SkillName: '诸神黄昏',
 	MaxLv: 0,
 	SpAmount: [],
 	bSeperateLv: false,
@@ -8316,7 +8316,7 @@ SkillInfo[SK.BD_RAGNAROK] = {
 };
 SkillInfo[SK.LG_INSPIRATION] = {
 	Name: 'LG_INSPIRATION',
-	SkillName: 'Inspiration',
+	SkillName: '灵感',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -8329,7 +8329,7 @@ SkillInfo[SK.LG_INSPIRATION] = {
 };
 SkillInfo[SK.BA_MUSICALLESSON] = {
 	Name: 'BA_MUSICALLESSON',
-	SkillName: 'Music Lessons',
+	SkillName: '音乐课程',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8337,7 +8337,7 @@ SkillInfo[SK.BA_MUSICALLESSON] = {
 };
 SkillInfo[SK.LG_PIETY] = {
 	Name: 'LG_PIETY',
-	SkillName: 'Piety',
+	SkillName: '虔诚',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -8346,7 +8346,7 @@ SkillInfo[SK.LG_PIETY] = {
 };
 SkillInfo[SK.BA_MUSICALSTRIKE] = {
 	Name: 'BA_MUSICALSTRIKE',
-	SkillName: 'Melody Strike',
+	SkillName: '旋律打击',
 	MaxLv: 5,
 	SpAmount: [12, 12, 12, 12, 12],
 	bSeperateLv: true,
@@ -8355,7 +8355,7 @@ SkillInfo[SK.BA_MUSICALSTRIKE] = {
 };
 SkillInfo[SK.LG_PRESTIGE] = {
 	Name: 'LG_PRESTIGE',
-	SkillName: 'Prestige',
+	SkillName: '威望',
 	MaxLv: 5,
 	SpAmount: [75, 80, 85, 90, 95],
 	bSeperateLv: true,
@@ -8364,7 +8364,7 @@ SkillInfo[SK.LG_PRESTIGE] = {
 };
 SkillInfo[SK.BA_DISSONANCE] = {
 	Name: 'BA_DISSONANCE',
-	SkillName: 'Unchained Serenade',
+	SkillName: '无拘小夜曲',
 	MaxLv: 5,
 	SpAmount: [35, 38, 41, 44, 47],
 	bSeperateLv: true,
@@ -8376,7 +8376,7 @@ SkillInfo[SK.BA_DISSONANCE] = {
 };
 SkillInfo[SK.ALL_ODINS_POWER] = {
 	Name: 'ALL_ODINS_POWER',
-	SkillName: 'Power of Odin',
+	SkillName: '奥丁之力',
 	MaxLv: 2,
 	SpAmount: [70, 100],
 	bSeperateLv: false,
@@ -8384,7 +8384,7 @@ SkillInfo[SK.ALL_ODINS_POWER] = {
 };
 SkillInfo[SK.BA_FROSTJOKE] = {
 	Name: 'BA_FROSTJOKE',
-	SkillName: 'Unbarring Octave',
+	SkillName: '解放八度音',
 	MaxLv: 5,
 	SpAmount: [12, 14, 16, 18, 20],
 	bSeperateLv: true,
@@ -8393,7 +8393,7 @@ SkillInfo[SK.BA_FROSTJOKE] = {
 };
 SkillInfo[SK.LG_EXEEDBREAK] = {
 	Name: 'LG_EXEEDBREAK',
-	SkillName: 'Exceed Break',
+	SkillName: '超越突破',
 	MaxLv: 5,
 	SpAmount: [20, 32, 44, 56, 68],
 	bSeperateLv: true,
@@ -8402,7 +8402,7 @@ SkillInfo[SK.LG_EXEEDBREAK] = {
 };
 SkillInfo[SK.BA_WHISTLE] = {
 	Name: 'BA_WHISTLE',
-	SkillName: 'Perfect Tablature',
+	SkillName: '完美谱表',
 	MaxLv: 10,
 	SpAmount: [22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
 	bSeperateLv: true,
@@ -8411,7 +8411,7 @@ SkillInfo[SK.BA_WHISTLE] = {
 };
 SkillInfo[SK.MG_LIGHTNINGBOLT] = {
 	Name: 'MG_LIGHTNINGBOLT',
-	SkillName: 'Lightning Bolt',
+	SkillName: '雷击术',
 	MaxLv: 10,
 	SpAmount: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -8419,7 +8419,7 @@ SkillInfo[SK.MG_LIGHTNINGBOLT] = {
 };
 SkillInfo[SK.BA_ASSASSINCROSS] = {
 	Name: 'BA_ASSASSINCROSS',
-	SkillName: 'Impressive Riff',
+	SkillName: '震撼即兴段',
 	MaxLv: 10,
 	SpAmount: [40, 45, 50, 55, 60, 65, 70, 75, 80, 85],
 	bSeperateLv: true,
@@ -8428,7 +8428,7 @@ SkillInfo[SK.BA_ASSASSINCROSS] = {
 };
 SkillInfo[SK.LG_RAGEBURST] = {
 	Name: 'LG_RAGEBURST',
-	SkillName: 'Burst Attack',
+	SkillName: '爆发攻击',
 	MaxLv: 1,
 	SpAmount: [150],
 	bSeperateLv: false,
@@ -8437,7 +8437,7 @@ SkillInfo[SK.LG_RAGEBURST] = {
 };
 SkillInfo[SK.BA_POEMBRAGI] = {
 	Name: 'BA_POEMBRAGI',
-	SkillName: 'Magic Strings',
+	SkillName: '魔法琴弦',
 	MaxLv: 10,
 	SpAmount: [65, 70, 75, 80, 85, 90, 95, 100, 105, 110],
 	bSeperateLv: true,
@@ -8446,7 +8446,7 @@ SkillInfo[SK.BA_POEMBRAGI] = {
 };
 SkillInfo[SK.ML_DEVOTION] = {
 	Name: 'ML_DEVOTION',
-	SkillName: 'Sacrifice',
+	SkillName: '牺牲',
 	MaxLv: 5,
 	SpAmount: [25, 25, 25, 25, 25],
 	bSeperateLv: false,
@@ -8454,7 +8454,7 @@ SkillInfo[SK.ML_DEVOTION] = {
 };
 SkillInfo[SK.BA_APPLEIDUN] = {
 	Name: 'BA_APPLEIDUN',
-	SkillName: 'Song of Lutie',
+	SkillName: '鲁蒂之歌',
 	MaxLv: 10,
 	SpAmount: [40, 45, 50, 55, 60, 65, 70, 75, 80, 85],
 	bSeperateLv: true,
@@ -8463,7 +8463,7 @@ SkillInfo[SK.BA_APPLEIDUN] = {
 };
 SkillInfo[SK.LG_TRAMPLE] = {
 	Name: 'LG_TRAMPLE',
-	SkillName: 'Trample',
+	SkillName: '践踏',
 	MaxLv: 3,
 	SpAmount: [30, 45, 60],
 	bSeperateLv: true,
@@ -8471,7 +8471,7 @@ SkillInfo[SK.LG_TRAMPLE] = {
 };
 SkillInfo[SK.DC_DANCINGLESSON] = {
 	Name: 'DC_DANCINGLESSON',
-	SkillName: 'Dance Lessons',
+	SkillName: '舞蹈课程',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8479,7 +8479,7 @@ SkillInfo[SK.DC_DANCINGLESSON] = {
 };
 SkillInfo[SK.SC_MAELSTROM] = {
 	Name: 'SC_MAELSTROM',
-	SkillName: 'Maelstrom',
+	SkillName: '大漩涡',
 	MaxLv: 3,
 	SpAmount: [50, 55, 60],
 	bSeperateLv: true,
@@ -8491,7 +8491,7 @@ SkillInfo[SK.SC_MAELSTROM] = {
 };
 SkillInfo[SK.DC_THROWARROW] = {
 	Name: 'DC_THROWARROW',
-	SkillName: 'Slinging Arrow',
+	SkillName: '投掷箭',
 	MaxLv: 5,
 	SpAmount: [12, 12, 12, 12, 12],
 	bSeperateLv: true,
@@ -8500,7 +8500,7 @@ SkillInfo[SK.DC_THROWARROW] = {
 };
 SkillInfo[SK.SC_CHAOSPANIC] = {
 	Name: 'SC_CHAOSPANIC',
-	SkillName: 'Chaos Panic ',
+	SkillName: '混沌恐慌',
 	MaxLv: 3,
 	SpAmount: [30, 36, 42],
 	bSeperateLv: true,
@@ -8509,7 +8509,7 @@ SkillInfo[SK.SC_CHAOSPANIC] = {
 };
 SkillInfo[SK.DC_UGLYDANCE] = {
 	Name: 'DC_UGLYDANCE',
-	SkillName: 'Hip Shaker',
+	SkillName: '臀部摇摆',
 	MaxLv: 5,
 	SpAmount: [35, 38, 41, 44, 47],
 	bSeperateLv: true,
@@ -8521,7 +8521,7 @@ SkillInfo[SK.DC_UGLYDANCE] = {
 };
 SkillInfo[SK.SC_DIMENSIONDOOR] = {
 	Name: 'SC_DIMENSIONDOOR',
-	SkillName: 'Dimensional Door',
+	SkillName: '次元门',
 	MaxLv: 3,
 	SpAmount: [30, 36, 42],
 	bSeperateLv: true,
@@ -8530,7 +8530,7 @@ SkillInfo[SK.SC_DIMENSIONDOOR] = {
 };
 SkillInfo[SK.DC_SCREAM] = {
 	Name: 'DC_SCREAM',
-	SkillName: 'Dazzler',
+	SkillName: '眩目',
 	MaxLv: 5,
 	SpAmount: [12, 14, 16, 18, 20],
 	bSeperateLv: true,
@@ -8539,7 +8539,7 @@ SkillInfo[SK.DC_SCREAM] = {
 };
 SkillInfo[SK.SC_MANHOLE] = {
 	Name: 'SC_MANHOLE',
-	SkillName: 'Manhole ',
+	SkillName: '下水道井盖',
 	MaxLv: 3,
 	SpAmount: [20, 25, 30],
 	bSeperateLv: true,
@@ -8548,7 +8548,7 @@ SkillInfo[SK.SC_MANHOLE] = {
 };
 SkillInfo[SK.DC_HUMMING] = {
 	Name: 'DC_HUMMING',
-	SkillName: 'Focus Ballet',
+	SkillName: '专注芭蕾',
 	MaxLv: 10,
 	SpAmount: [33, 36, 39, 42, 45, 48, 51, 54, 57, 60],
 	bSeperateLv: true,
@@ -8557,7 +8557,7 @@ SkillInfo[SK.DC_HUMMING] = {
 };
 SkillInfo[SK.EL_PYROTECHNIC] = {
 	Name: 'EL_PYROTECHNIC',
-	SkillName: 'Pyrotechnic',
+	SkillName: '烟火术',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -8565,7 +8565,7 @@ SkillInfo[SK.EL_PYROTECHNIC] = {
 };
 SkillInfo[SK.DC_DONTFORGETME] = {
 	Name: 'DC_DONTFORGETME',
-	SkillName: 'Slow Grace',
+	SkillName: '迟缓优雅',
 	MaxLv: 10,
 	SpAmount: [38, 41, 44, 47, 50, 53, 56, 59, 62, 65],
 	bSeperateLv: true,
@@ -8574,7 +8574,7 @@ SkillInfo[SK.DC_DONTFORGETME] = {
 };
 SkillInfo[SK.SC_WEAKNESS] = {
 	Name: 'SC_WEAKNESS',
-	SkillName: 'Masquerade-Weakness',
+	SkillName: '假面舞会-虚弱',
 	MaxLv: 3,
 	SpAmount: [30, 40, 50],
 	bSeperateLv: true,
@@ -8587,7 +8587,7 @@ SkillInfo[SK.SC_WEAKNESS] = {
 };
 SkillInfo[SK.DC_FORTUNEKISS] = {
 	Name: 'DC_FORTUNEKISS',
-	SkillName: 'Lady Luck',
+	SkillName: '幸运女神',
 	MaxLv: 10,
 	SpAmount: [40, 45, 50, 55, 60, 65, 70, 75, 80, 85],
 	bSeperateLv: true,
@@ -8596,7 +8596,7 @@ SkillInfo[SK.DC_FORTUNEKISS] = {
 };
 SkillInfo[SK.SC_UNLUCKY] = {
 	Name: 'SC_UNLUCKY',
-	SkillName: 'Masquerade-Unlucky',
+	SkillName: '假面舞会-不幸',
 	MaxLv: 3,
 	SpAmount: [30, 40, 50],
 	bSeperateLv: true,
@@ -8608,7 +8608,7 @@ SkillInfo[SK.SC_UNLUCKY] = {
 };
 SkillInfo[SK.DC_SERVICEFORYOU] = {
 	Name: 'DC_SERVICEFORYOU',
-	SkillName: "Gypsy's Kiss",
+	SkillName: '吉普赛之吻',
 	MaxLv: 10,
 	SpAmount: [60, 63, 66, 69, 72, 75, 78, 81, 84, 87],
 	bSeperateLv: true,
@@ -8617,7 +8617,7 @@ SkillInfo[SK.DC_SERVICEFORYOU] = {
 };
 SkillInfo[SK.SC_IGNORANCE] = {
 	Name: 'SC_IGNORANCE',
-	SkillName: 'Masquerade-Ignorance',
+	SkillName: '假面舞会-无知',
 	MaxLv: 3,
 	SpAmount: [30, 40, 50],
 	bSeperateLv: true,
@@ -8626,7 +8626,7 @@ SkillInfo[SK.SC_IGNORANCE] = {
 };
 SkillInfo[SK.SC_GROOMY] = {
 	Name: 'SC_GROOMY',
-	SkillName: 'Masquerade-Gloomy',
+	SkillName: '假面舞会-阴郁',
 	MaxLv: 3,
 	SpAmount: [30, 40, 50],
 	bSeperateLv: true,
@@ -8635,7 +8635,7 @@ SkillInfo[SK.SC_GROOMY] = {
 };
 SkillInfo[SK.SC_INVISIBILITY] = {
 	Name: 'SC_INVISIBILITY',
-	SkillName: 'Invisibility',
+	SkillName: '隐身',
 	MaxLv: 5,
 	SpAmount: [100, 100, 100, 100, 100],
 	bSeperateLv: true,
@@ -8648,7 +8648,7 @@ SkillInfo[SK.SC_INVISIBILITY] = {
 };
 SkillInfo[SK.SC_AUTOSHADOWSPELL] = {
 	Name: 'SC_AUTOSHADOWSPELL',
-	SkillName: 'Shadow Spell',
+	SkillName: '影子法术',
 	MaxLv: 10,
 	SpAmount: [40, 45, 50, 55, 60, 65, 70, 75, 80, 85],
 	bSeperateLv: true,
@@ -8657,7 +8657,7 @@ SkillInfo[SK.SC_AUTOSHADOWSPELL] = {
 };
 SkillInfo[SK.SC_REPRODUCE] = {
 	Name: 'SC_REPRODUCE',
-	SkillName: 'Reproduce',
+	SkillName: '再现',
 	MaxLv: 10,
 	SpAmount: [40, 45, 50, 55, 60, 65, 70, 75, 80, 85],
 	bSeperateLv: true,
@@ -8666,7 +8666,7 @@ SkillInfo[SK.SC_REPRODUCE] = {
 };
 SkillInfo[SK.SC_FATALMENACE] = {
 	Name: 'SC_FATALMENACE',
-	SkillName: 'Fatal Menace',
+	SkillName: '致命威胁',
 	MaxLv: 10,
 	SpAmount: [10, 14, 18, 22, 26, 30, 34, 38, 42, 46],
 	bSeperateLv: true,
@@ -8675,7 +8675,7 @@ SkillInfo[SK.SC_FATALMENACE] = {
 };
 SkillInfo[SK.NC_MAGICDECOY] = {
 	Name: 'NC_MAGICDECOY',
-	SkillName: 'FAW Magic Decoy',
+	SkillName: 'FAW 魔法诱饵',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -8684,7 +8684,7 @@ SkillInfo[SK.NC_MAGICDECOY] = {
 };
 SkillInfo[SK.WE_MALE] = {
 	Name: 'WE_MALE',
-	SkillName: 'Loving Touch',
+	SkillName: '爱的触碰',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -8692,7 +8692,7 @@ SkillInfo[SK.WE_MALE] = {
 };
 SkillInfo[SK.NC_AXEBOOMERANG] = {
 	Name: 'NC_AXEBOOMERANG',
-	SkillName: 'Axe Boomerang',
+	SkillName: '斧头回旋镖',
 	MaxLv: 5,
 	SpAmount: [20, 22, 24, 26, 28],
 	bSeperateLv: true,
@@ -8701,7 +8701,7 @@ SkillInfo[SK.NC_AXEBOOMERANG] = {
 };
 SkillInfo[SK.WE_FEMALE] = {
 	Name: 'WE_FEMALE',
-	SkillName: 'Undying Love',
+	SkillName: '不灭之爱',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -8709,7 +8709,7 @@ SkillInfo[SK.WE_FEMALE] = {
 };
 SkillInfo[SK.MG_THUNDERSTORM] = {
 	Name: 'MG_THUNDERSTORM',
-	SkillName: 'Thunder Storm',
+	SkillName: '雷暴',
 	MaxLv: 10,
 	SpAmount: [29, 34, 39, 44, 49, 54, 59, 64, 69, 74],
 	bSeperateLv: true,
@@ -8718,7 +8718,7 @@ SkillInfo[SK.MG_THUNDERSTORM] = {
 };
 SkillInfo[SK.WE_CALLPARTNER] = {
 	Name: 'WE_CALLPARTNER',
-	SkillName: 'Romantic Rendeavous!!',
+	SkillName: '浪漫约会！！',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -8726,7 +8726,7 @@ SkillInfo[SK.WE_CALLPARTNER] = {
 };
 SkillInfo[SK.NC_RESEARCHFE] = {
 	Name: 'NC_RESEARCHFE',
-	SkillName: 'Fire Earth Research ',
+	SkillName: '火地属性研究',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8734,7 +8734,7 @@ SkillInfo[SK.NC_RESEARCHFE] = {
 };
 SkillInfo[SK.ITM_TOMAHAWK] = {
 	Name: 'ITM_TOMAHAWK',
-	SkillName: 'Tomahawk Throwing',
+	SkillName: '投掷战斧',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -8742,7 +8742,7 @@ SkillInfo[SK.ITM_TOMAHAWK] = {
 };
 SkillInfo[SK.NC_STEALTHFIELD] = {
 	Name: 'NC_STEALTHFIELD',
-	SkillName: 'Stealth Field',
+	SkillName: '隐形力场',
 	MaxLv: 3,
 	SpAmount: [80, 100, 120],
 	bSeperateLv: true,
@@ -8754,7 +8754,7 @@ SkillInfo[SK.NC_STEALTHFIELD] = {
 };
 SkillInfo[SK.NC_INFRAREDSCAN] = {
 	Name: 'NC_INFRAREDSCAN',
-	SkillName: 'Infrared Scan',
+	SkillName: '红外扫描',
 	MaxLv: 1,
 	SpAmount: [45],
 	bSeperateLv: false,
@@ -8763,7 +8763,7 @@ SkillInfo[SK.NC_INFRAREDSCAN] = {
 };
 SkillInfo[SK.NC_EMERGENCYCOOL] = {
 	Name: 'NC_EMERGENCYCOOL',
-	SkillName: 'Cooldown',
+	SkillName: '冷却',
 	MaxLv: 1,
 	SpAmount: [20],
 	bSeperateLv: false,
@@ -8772,7 +8772,7 @@ SkillInfo[SK.NC_EMERGENCYCOOL] = {
 };
 SkillInfo[SK.NC_SHAPESHIFT] = {
 	Name: 'NC_SHAPESHIFT',
-	SkillName: 'Elemental Shift',
+	SkillName: '元素转换',
 	MaxLv: 4,
 	SpAmount: [100, 100, 100, 100],
 	bSeperateLv: true,
@@ -8781,7 +8781,7 @@ SkillInfo[SK.NC_SHAPESHIFT] = {
 };
 SkillInfo[SK.NC_SELFDESTRUCTION] = {
 	Name: 'NC_SELFDESTRUCTION',
-	SkillName: 'Suicidal Destruction',
+	SkillName: '自杀性破坏',
 	MaxLv: 3,
 	SpAmount: [200, 200, 200],
 	bSeperateLv: true,
@@ -8790,7 +8790,7 @@ SkillInfo[SK.NC_SELFDESTRUCTION] = {
 };
 SkillInfo[SK.NC_MAINFRAME] = {
 	Name: 'NC_MAINFRAME',
-	SkillName: 'Remodel Mainframe',
+	SkillName: '重塑主机',
 	MaxLv: 4,
 	SpAmount: [0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8799,7 +8799,7 @@ SkillInfo[SK.NC_MAINFRAME] = {
 };
 SkillInfo[SK.NC_ACCELERATION] = {
 	Name: 'NC_ACCELERATION',
-	SkillName: 'Acceleration',
+	SkillName: '加速',
 	MaxLv: 3,
 	SpAmount: [20, 40, 60],
 	bSeperateLv: true,
@@ -8808,7 +8808,7 @@ SkillInfo[SK.NC_ACCELERATION] = {
 };
 SkillInfo[SK.NC_ARMSCANNON] = {
 	Name: 'NC_ARMSCANNON',
-	SkillName: 'Arm Cannon',
+	SkillName: '手臂加农炮',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -8820,7 +8820,7 @@ SkillInfo[SK.NC_ARMSCANNON] = {
 };
 SkillInfo[SK.NC_VULCANARM] = {
 	Name: 'NC_VULCANARM',
-	SkillName: 'Vulcan Arm',
+	SkillName: '火神炮臂',
 	MaxLv: 3,
 	SpAmount: [9, 12, 15],
 	bSeperateLv: true,
@@ -8829,7 +8829,7 @@ SkillInfo[SK.NC_VULCANARM] = {
 };
 SkillInfo[SK.RA_ICEBOUNDTRAP] = {
 	Name: 'RA_ICEBOUNDTRAP',
-	SkillName: 'Ice Trap',
+	SkillName: '冰冻陷阱',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -8838,7 +8838,7 @@ SkillInfo[SK.RA_ICEBOUNDTRAP] = {
 };
 SkillInfo[SK.RA_FIRINGTRAP] = {
 	Name: 'RA_FIRINGTRAP',
-	SkillName: 'Fire Trap',
+	SkillName: '火焰陷阱',
 	MaxLv: 5,
 	SpAmount: [10, 10, 10, 10, 10],
 	bSeperateLv: false,
@@ -8847,7 +8847,7 @@ SkillInfo[SK.RA_FIRINGTRAP] = {
 };
 SkillInfo[SK.RA_VERDURETRAP] = {
 	Name: 'RA_VERDURETRAP',
-	SkillName: 'Verdure Trap',
+	SkillName: '翠绿陷阱',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -8856,7 +8856,7 @@ SkillInfo[SK.RA_VERDURETRAP] = {
 };
 SkillInfo[SK.RA_COBALTTRAP] = {
 	Name: 'RA_COBALTTRAP',
-	SkillName: 'Cobalt Trap',
+	SkillName: '钴蓝陷阱',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -8865,7 +8865,7 @@ SkillInfo[SK.RA_COBALTTRAP] = {
 };
 SkillInfo[SK.RA_SENSITIVEKEEN] = {
 	Name: 'RA_SENSITIVEKEEN',
-	SkillName: 'Keen Nose',
+	SkillName: '敏锐嗅觉',
 	MaxLv: 5,
 	SpAmount: [12, 12, 12, 12, 12],
 	bSeperateLv: false,
@@ -8874,7 +8874,7 @@ SkillInfo[SK.RA_SENSITIVEKEEN] = {
 };
 SkillInfo[SK.RA_TOOTHOFWUG] = {
 	Name: 'RA_TOOTHOFWUG',
-	SkillName: 'Warg Teeth',
+	SkillName: '座狼之牙',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8883,7 +8883,7 @@ SkillInfo[SK.RA_TOOTHOFWUG] = {
 };
 SkillInfo[SK.RA_WUGDASH] = {
 	Name: 'RA_WUGDASH',
-	SkillName: 'Warg Dash',
+	SkillName: '座狼冲刺',
 	MaxLv: 1,
 	SpAmount: [4],
 	bSeperateLv: false,
@@ -8892,7 +8892,7 @@ SkillInfo[SK.RA_WUGDASH] = {
 };
 SkillInfo[SK.RA_ELECTRICSHOCKER] = {
 	Name: 'RA_ELECTRICSHOCKER',
-	SkillName: 'Electric Shock',
+	SkillName: '电击',
 	MaxLv: 5,
 	SpAmount: [35, 35, 35, 35, 35],
 	bSeperateLv: false,
@@ -8901,7 +8901,7 @@ SkillInfo[SK.RA_ELECTRICSHOCKER] = {
 };
 SkillInfo[SK.RA_DETONATOR] = {
 	Name: 'RA_DETONATOR',
-	SkillName: 'Detonator',
+	SkillName: '引爆器',
 	MaxLv: 1,
 	SpAmount: [15],
 	bSeperateLv: false,
@@ -8910,7 +8910,7 @@ SkillInfo[SK.RA_DETONATOR] = {
 };
 SkillInfo[SK.RA_AIMEDBOLT] = {
 	Name: 'RA_AIMEDBOLT',
-	SkillName: 'Aimed Bolt',
+	SkillName: '瞄准射击',
 	MaxLv: 10,
 	SpAmount: [40, 40, 40, 40, 40, 40, 40, 40, 40, 40],
 	bSeperateLv: true,
@@ -8919,7 +8919,7 @@ SkillInfo[SK.RA_AIMEDBOLT] = {
 };
 SkillInfo[SK.RA_RANGERMAIN] = {
 	Name: 'RA_RANGERMAIN',
-	SkillName: 'Main Ranger',
+	SkillName: '主力游侠',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -8927,7 +8927,7 @@ SkillInfo[SK.RA_RANGERMAIN] = {
 };
 SkillInfo[SK.RA_FEARBREEZE] = {
 	Name: 'RA_FEARBREEZE',
-	SkillName: 'Fear Breeze',
+	SkillName: '恐惧微风',
 	MaxLv: 5,
 	SpAmount: [55, 60, 65, 70, 75],
 	bSeperateLv: true,
@@ -8939,7 +8939,7 @@ SkillInfo[SK.RA_FEARBREEZE] = {
 };
 SkillInfo[SK.WL_RELEASE] = {
 	Name: 'WL_RELEASE',
-	SkillName: 'Release',
+	SkillName: '释放',
 	MaxLv: 2,
 	SpAmount: [10, 10],
 	bSeperateLv: true,
@@ -8947,7 +8947,7 @@ SkillInfo[SK.WL_RELEASE] = {
 };
 SkillInfo[SK.WL_SUMMONSTONE] = {
 	Name: 'WL_SUMMONSTONE',
-	SkillName: 'Summon Stone',
+	SkillName: '召唤岩石',
 	MaxLv: 2,
 	SpAmount: [10, 50],
 	bSeperateLv: true,
@@ -8956,7 +8956,7 @@ SkillInfo[SK.WL_SUMMONSTONE] = {
 };
 SkillInfo[SK.WL_SUMMONFB] = {
 	Name: 'WL_SUMMONFB',
-	SkillName: 'Summon Fire Ball',
+	SkillName: '召唤火球',
 	MaxLv: 2,
 	SpAmount: [10, 50],
 	bSeperateLv: true,
@@ -8965,7 +8965,7 @@ SkillInfo[SK.WL_SUMMONFB] = {
 };
 SkillInfo[SK.WL_CHAINLIGHTNING] = {
 	Name: 'WL_CHAINLIGHTNING',
-	SkillName: 'Chain Lightning',
+	SkillName: '连锁闪电',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -8974,7 +8974,7 @@ SkillInfo[SK.WL_CHAINLIGHTNING] = {
 };
 SkillInfo[SK.WL_COMET] = {
 	Name: 'WL_COMET',
-	SkillName: 'Comet',
+	SkillName: '彗星',
 	MaxLv: 5,
 	SpAmount: [70, 90, 110, 130, 150],
 	bSeperateLv: true,
@@ -8983,7 +8983,7 @@ SkillInfo[SK.WL_COMET] = {
 };
 SkillInfo[SK.WL_DRAINLIFE] = {
 	Name: 'WL_DRAINLIFE',
-	SkillName: 'Drain Life',
+	SkillName: '生命吸取',
 	MaxLv: 5,
 	SpAmount: [20, 24, 28, 32, 36],
 	bSeperateLv: true,
@@ -8992,7 +8992,7 @@ SkillInfo[SK.WL_DRAINLIFE] = {
 };
 SkillInfo[SK.WL_RECOGNIZEDSPELL] = {
 	Name: 'WL_RECOGNIZEDSPELL',
-	SkillName: 'Recognized Spell',
+	SkillName: '识破法术',
 	MaxLv: 5,
 	SpAmount: [100, 120, 140, 160, 180],
 	bSeperateLv: true,
@@ -9502,7 +9502,7 @@ SkillInfo[SK.NPC_MAGICMIRROR] = {
 };
 SkillInfo[SK.ASC_KATAR] = {
 	Name: 'ASC_KATAR',
-	SkillName: 'Advanced Katar Mastery',
+	SkillName: '高级拳刃精通',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -9514,7 +9514,7 @@ SkillInfo[SK.ASC_KATAR] = {
 };
 SkillInfo[SK.DA_DREAM] = {
 	Name: 'DA_DREAM',
-	SkillName: 'Dream',
+	SkillName: '梦境',
 	MaxLv: 5,
 	SpAmount: [600, 500, 400, 300, 200],
 	bSeperateLv: false,
@@ -9522,7 +9522,7 @@ SkillInfo[SK.DA_DREAM] = {
 };
 SkillInfo[SK.DA_SPACE] = {
 	Name: 'DA_SPACE',
-	SkillName: 'Space',
+	SkillName: '空间',
 	MaxLv: 5,
 	SpAmount: [120, 100, 80, 60, 40],
 	bSeperateLv: false,
@@ -9530,7 +9530,7 @@ SkillInfo[SK.DA_SPACE] = {
 };
 SkillInfo[SK.GD_EMERGENCYCALL] = {
 	Name: 'GD_EMERGENCYCALL',
-	SkillName: 'Urgent Call',
+	SkillName: '紧急召回',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -9538,7 +9538,7 @@ SkillInfo[SK.GD_EMERGENCYCALL] = {
 };
 SkillInfo[SK.ASC_EDP] = {
 	Name: 'ASC_EDP',
-	SkillName: 'Enchant Deadly Poison',
+	SkillName: '致命毒附加',
 	MaxLv: 5,
 	SpAmount: [60, 70, 80, 90, 100],
 	bSeperateLv: true,
@@ -9547,7 +9547,7 @@ SkillInfo[SK.ASC_EDP] = {
 };
 SkillInfo[SK.DE_NIGHTMARE] = {
 	Name: 'DE_NIGHTMARE',
-	SkillName: 'Nightmare',
+	SkillName: '梦魇',
 	MaxLv: 1,
 	SpAmount: [20],
 	bSeperateLv: false,
@@ -9555,7 +9555,7 @@ SkillInfo[SK.DE_NIGHTMARE] = {
 };
 SkillInfo[SK.ASC_BREAKER] = {
 	Name: 'ASC_BREAKER',
-	SkillName: 'Soul Destroyer',
+	SkillName: '灵魂破坏',
 	MaxLv: 10,
 	SpAmount: [60, 60, 60, 60, 60, 60, 60, 60, 60, 60],
 	bSeperateLv: true,
@@ -9569,7 +9569,7 @@ SkillInfo[SK.ASC_BREAKER] = {
 };
 SkillInfo[SK.SL_GUNNER] = {
 	Name: 'SL_GUNNER',
-	SkillName: 'Gunslinger Spirit',
+	SkillName: '枪手之魂',
 	MaxLv: 5,
 	SpAmount: [460, 360, 260, 160, 60],
 	bSeperateLv: false,
@@ -9577,7 +9577,7 @@ SkillInfo[SK.SL_GUNNER] = {
 };
 SkillInfo[SK.SN_SIGHT] = {
 	Name: 'SN_SIGHT',
-	SkillName: 'Falcon Eyes',
+	SkillName: '猎鹰之眼',
 	MaxLv: 10,
 	SpAmount: [20, 20, 25, 25, 30, 30, 35, 35, 40, 40],
 	bSeperateLv: true,
@@ -9600,7 +9600,7 @@ SkillInfo[SK.MB_MUNAKKNOWLEDGE] = {
 };
 SkillInfo[SK.SN_FALCONASSAULT] = {
 	Name: 'SN_FALCONASSAULT',
-	SkillName: 'Falcon Assault',
+	SkillName: '猎鹰突击',
 	MaxLv: 5,
 	SpAmount: [30, 34, 38, 42, 46],
 	bSeperateLv: true,
@@ -9614,7 +9614,7 @@ SkillInfo[SK.SN_FALCONASSAULT] = {
 };
 SkillInfo[SK.NJ_NEN] = {
 	Name: 'NJ_NEN',
-	SkillName: 'Ninja Aura',
+	SkillName: '忍者气息',
 	MaxLv: 5,
 	SpAmount: [20, 30, 40, 50, 60],
 	bSeperateLv: true,
@@ -9623,7 +9623,7 @@ SkillInfo[SK.NJ_NEN] = {
 };
 SkillInfo[SK.SN_SHARPSHOOTING] = {
 	Name: 'SN_SHARPSHOOTING',
-	SkillName: 'Focused Arrow Strike',
+	SkillName: '集中箭击',
 	MaxLv: 5,
 	SpAmount: [16, 18, 20, 22, 24],
 	bSeperateLv: true,
@@ -9635,7 +9635,7 @@ SkillInfo[SK.SN_SHARPSHOOTING] = {
 };
 SkillInfo[SK.NJ_TATAMIGAESHI] = {
 	Name: 'NJ_TATAMIGAESHI',
-	SkillName: 'Flip Tatami',
+	SkillName: '翻转榻榻米',
 	MaxLv: 5,
 	SpAmount: [15, 15, 15, 15, 15],
 	bSeperateLv: false,
@@ -9643,7 +9643,7 @@ SkillInfo[SK.NJ_TATAMIGAESHI] = {
 };
 SkillInfo[SK.GS_CHAINACTION] = {
 	Name: 'GS_CHAINACTION',
-	SkillName: 'Chain Action',
+	SkillName: '连锁行动',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -9652,7 +9652,7 @@ SkillInfo[SK.GS_CHAINACTION] = {
 };
 SkillInfo[SK.KO_YAMIKUMO] = {
 	Name: 'KO_YAMIKUMO',
-	SkillName: 'Shadow Hiding',
+	SkillName: '暗影隐藏',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -9661,7 +9661,7 @@ SkillInfo[SK.KO_YAMIKUMO] = {
 };
 SkillInfo[SK.KO_RIGHT] = {
 	Name: 'KO_RIGHT',
-	SkillName: 'Righthand Mastery',
+	SkillName: '右手精通',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -9669,7 +9669,7 @@ SkillInfo[SK.KO_RIGHT] = {
 };
 SkillInfo[SK.KO_LEFT] = {
 	Name: 'KO_LEFT',
-	SkillName: 'Lefthand Mastery',
+	SkillName: '左手精通',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -9677,7 +9677,7 @@ SkillInfo[SK.KO_LEFT] = {
 };
 SkillInfo[SK.KO_JYUMONJIKIRI] = {
 	Name: 'KO_JYUMONJIKIRI',
-	SkillName: 'Cross Slash',
+	SkillName: '十字斩',
 	MaxLv: 10,
 	SpAmount: [10, 12, 14, 16, 18, 20, 22, 24, 26, 28],
 	bSeperateLv: true,
@@ -9686,7 +9686,7 @@ SkillInfo[SK.KO_JYUMONJIKIRI] = {
 };
 SkillInfo[SK.KO_SETSUDAN] = {
 	Name: 'KO_SETSUDAN',
-	SkillName: 'Soul Cutter',
+	SkillName: '灵魂切割',
 	MaxLv: 5,
 	SpAmount: [12, 16, 20, 24, 28],
 	bSeperateLv: true,
@@ -9695,7 +9695,7 @@ SkillInfo[SK.KO_SETSUDAN] = {
 };
 SkillInfo[SK.KO_BAKURETSU] = {
 	Name: 'KO_BAKURETSU',
-	SkillName: 'Kunai Explosion',
+	SkillName: '苦无爆炸',
 	MaxLv: 5,
 	SpAmount: [5, 6, 7, 8, 9],
 	bSeperateLv: true,
@@ -9704,7 +9704,7 @@ SkillInfo[SK.KO_BAKURETSU] = {
 };
 SkillInfo[SK.KO_HAPPOKUNAI] = {
 	Name: 'KO_HAPPOKUNAI',
-	SkillName: 'Kunai Splash',
+	SkillName: '苦无溅射',
 	MaxLv: 5,
 	SpAmount: [12, 14, 16, 18, 20],
 	bSeperateLv: true,
@@ -9713,7 +9713,7 @@ SkillInfo[SK.KO_HAPPOKUNAI] = {
 };
 SkillInfo[SK.KO_MUCHANAGE] = {
 	Name: 'KO_MUCHANAGE',
-	SkillName: 'Rapid Throw',
+	SkillName: '快速投掷',
 	MaxLv: 10,
 	SpAmount: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
 	bSeperateLv: true,
@@ -9722,7 +9722,7 @@ SkillInfo[SK.KO_MUCHANAGE] = {
 };
 SkillInfo[SK.KO_HUUMARANKA] = {
 	Name: 'KO_HUUMARANKA',
-	SkillName: 'Swirling Petal',
+	SkillName: '旋转花瓣',
 	MaxLv: 10,
 	SpAmount: [22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
 	bSeperateLv: true,
@@ -9731,7 +9731,7 @@ SkillInfo[SK.KO_HUUMARANKA] = {
 };
 SkillInfo[SK.KO_MAKIBISHI] = {
 	Name: 'KO_MAKIBISHI',
-	SkillName: 'Makibishi',
+	SkillName: '撒菱',
 	MaxLv: 5,
 	SpAmount: [9, 12, 15, 18, 21],
 	bSeperateLv: true,
@@ -9740,7 +9740,7 @@ SkillInfo[SK.KO_MAKIBISHI] = {
 };
 SkillInfo[SK.KO_MEIKYOUSISUI] = {
 	Name: 'KO_MEIKYOUSISUI',
-	SkillName: 'Pure Soul',
+	SkillName: '纯净灵魂',
 	MaxLv: 5,
 	SpAmount: [100, 100, 100, 100, 100],
 	bSeperateLv: true,
@@ -9749,7 +9749,7 @@ SkillInfo[SK.KO_MEIKYOUSISUI] = {
 };
 SkillInfo[SK.KO_ZANZOU] = {
 	Name: 'KO_ZANZOU',
-	SkillName: 'Illusion - Shadow',
+	SkillName: '幻影 - 暗影',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: true,
@@ -9758,7 +9758,7 @@ SkillInfo[SK.KO_ZANZOU] = {
 };
 SkillInfo[SK.KO_KYOUGAKU] = {
 	Name: 'KO_KYOUGAKU',
-	SkillName: 'Illusion - Shock',
+	SkillName: '幻影 - 冲击',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: true,
@@ -9767,7 +9767,7 @@ SkillInfo[SK.KO_KYOUGAKU] = {
 };
 SkillInfo[SK.KO_JYUSATSU] = {
 	Name: 'KO_JYUSATSU',
-	SkillName: 'Illusion - Death',
+	SkillName: '幻影 - 死亡',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: true,
@@ -9776,7 +9776,7 @@ SkillInfo[SK.KO_JYUSATSU] = {
 };
 SkillInfo[SK.KO_KAHU_ENTEN] = {
 	Name: 'KO_KAHU_ENTEN',
-	SkillName: 'Fire Charm',
+	SkillName: '火符',
 	MaxLv: 1,
 	SpAmount: [20],
 	bSeperateLv: false,
@@ -9784,7 +9784,7 @@ SkillInfo[SK.KO_KAHU_ENTEN] = {
 };
 SkillInfo[SK.KO_HYOUHU_HUBUKI] = {
 	Name: 'KO_HYOUHU_HUBUKI',
-	SkillName: 'Ice Charm',
+	SkillName: '冰符',
 	MaxLv: 1,
 	SpAmount: [20],
 	bSeperateLv: false,
@@ -9792,7 +9792,7 @@ SkillInfo[SK.KO_HYOUHU_HUBUKI] = {
 };
 SkillInfo[SK.KO_KAZEHU_SEIRAN] = {
 	Name: 'KO_KAZEHU_SEIRAN',
-	SkillName: 'Wind Charm',
+	SkillName: '风符',
 	MaxLv: 1,
 	SpAmount: [20],
 	bSeperateLv: false,
@@ -9800,7 +9800,7 @@ SkillInfo[SK.KO_KAZEHU_SEIRAN] = {
 };
 SkillInfo[SK.KO_DOHU_KOUKAI] = {
 	Name: 'KO_DOHU_KOUKAI',
-	SkillName: 'Earth Charm',
+	SkillName: '地符',
 	MaxLv: 1,
 	SpAmount: [20],
 	bSeperateLv: false,
@@ -9808,7 +9808,7 @@ SkillInfo[SK.KO_DOHU_KOUKAI] = {
 };
 SkillInfo[SK.KO_KAIHOU] = {
 	Name: 'KO_KAIHOU',
-	SkillName: 'Release Ninja Spell',
+	SkillName: '释放忍术',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -9822,7 +9822,7 @@ SkillInfo[SK.KO_KAIHOU] = {
 };
 SkillInfo[SK.KO_ZENKAI] = {
 	Name: 'KO_ZENKAI',
-	SkillName: 'Cast Ninja Spell',
+	SkillName: '施放忍术',
 	MaxLv: 1,
 	SpAmount: [30],
 	bSeperateLv: false,
@@ -9834,7 +9834,7 @@ SkillInfo[SK.KO_ZENKAI] = {
 };
 SkillInfo[SK.KO_GENWAKU] = {
 	Name: 'KO_GENWAKU',
-	SkillName: 'Illusion - Bewitch',
+	SkillName: '幻影 - 魅惑',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: true,
@@ -9843,7 +9843,7 @@ SkillInfo[SK.KO_GENWAKU] = {
 };
 SkillInfo[SK.KO_IZAYOI] = {
 	Name: 'KO_IZAYOI',
-	SkillName: '16th Night',
+	SkillName: '十六夜',
 	MaxLv: 5,
 	SpAmount: [70, 75, 80, 85, 90],
 	bSeperateLv: true,
@@ -9852,7 +9852,7 @@ SkillInfo[SK.KO_IZAYOI] = {
 };
 SkillInfo[SK.KG_KAGEHUMI] = {
 	Name: 'KG_KAGEHUMI',
-	SkillName: 'Shadow Trampling',
+	SkillName: '暗影践踏',
 	MaxLv: 5,
 	SpAmount: [25, 30, 35, 40, 45],
 	bSeperateLv: true,
@@ -9861,7 +9861,7 @@ SkillInfo[SK.KG_KAGEHUMI] = {
 };
 SkillInfo[SK.KG_KYOMU] = {
 	Name: 'KG_KYOMU',
-	SkillName: 'Empty Shadow',
+	SkillName: '空影',
 	MaxLv: 5,
 	SpAmount: [50, 50, 50, 50, 50],
 	bSeperateLv: true,
@@ -9870,7 +9870,7 @@ SkillInfo[SK.KG_KYOMU] = {
 };
 SkillInfo[SK.KG_KAGEMUSYA] = {
 	Name: 'KG_KAGEMUSYA',
-	SkillName: 'Shadow Warrior',
+	SkillName: '暗影战士',
 	MaxLv: 5,
 	SpAmount: [60, 65, 70, 75, 80],
 	bSeperateLv: true,
@@ -9879,7 +9879,7 @@ SkillInfo[SK.KG_KAGEMUSYA] = {
 };
 SkillInfo[SK.OB_ZANGETSU] = {
 	Name: 'OB_ZANGETSU',
-	SkillName: 'Distorted Crescent',
+	SkillName: '扭曲新月',
 	MaxLv: 5,
 	SpAmount: [60, 70, 80, 90, 100],
 	bSeperateLv: true,
@@ -9888,7 +9888,7 @@ SkillInfo[SK.OB_ZANGETSU] = {
 };
 SkillInfo[SK.OB_OBOROGENSOU] = {
 	Name: 'OB_OBOROGENSOU',
-	SkillName: 'Moonlight Fantasy',
+	SkillName: '月光幻想',
 	MaxLv: 5,
 	SpAmount: [55, 60, 65, 70, 75],
 	bSeperateLv: true,
@@ -9897,7 +9897,7 @@ SkillInfo[SK.OB_OBOROGENSOU] = {
 };
 SkillInfo[SK.OB_AKAITSUKI] = {
 	Name: 'OB_AKAITSUKI',
-	SkillName: 'Ominous Moonlight',
+	SkillName: '不祥月光',
 	MaxLv: 5,
 	SpAmount: [20, 30, 40, 50, 60],
 	bSeperateLv: true,
@@ -9906,7 +9906,7 @@ SkillInfo[SK.OB_AKAITSUKI] = {
 };
 SkillInfo[SK.ECLAGE_RECALL] = {
 	Name: 'ECLAGE_RECALL',
-	SkillName: 'Return to Eclage',
+	SkillName: '返回艾可拉斯',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -9914,7 +9914,7 @@ SkillInfo[SK.ECLAGE_RECALL] = {
 };
 SkillInfo[SK.ECL_SNOWFLIP] = {
 	Name: 'ECL_SNOWFLIP',
-	SkillName: 'Snow Flip',
+	SkillName: '雪花翻转',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -9922,7 +9922,7 @@ SkillInfo[SK.ECL_SNOWFLIP] = {
 };
 SkillInfo[SK.ECL_PEONYMAMY] = {
 	Name: 'ECL_PEONYMAMY',
-	SkillName: 'Peony Mommy',
+	SkillName: '牡丹妈妈',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -9930,7 +9930,7 @@ SkillInfo[SK.ECL_PEONYMAMY] = {
 };
 SkillInfo[SK.ECL_SADAGUI] = {
 	Name: 'ECL_SADAGUI',
-	SkillName: 'Slapping Herb',
+	SkillName: '拍打草药',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -9938,7 +9938,7 @@ SkillInfo[SK.ECL_SADAGUI] = {
 };
 SkillInfo[SK.ECL_SEQUOIADUST] = {
 	Name: 'ECL_SEQUOIADUST',
-	SkillName: 'Yggdrasil Dust',
+	SkillName: '世界树尘埃',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -9955,7 +9955,7 @@ SkillInfo[SK.ALL_RAY_OF_PROTECTION] = {
 };
 SkillInfo[SK.MER_INVINCIBLEOFF2] = {
 	Name: 'MER_INVINCIBLEOFF2',
-	SkillName: 'Mind Blaster',
+	SkillName: '精神爆破',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -9963,7 +9963,7 @@ SkillInfo[SK.MER_INVINCIBLEOFF2] = {
 };
 SkillInfo[SK.GC_DARKCROW] = {
 	Name: 'GC_DARKCROW',
-	SkillName: 'Dark Claw',
+	SkillName: '暗黑爪',
 	MaxLv: 5,
 	SpAmount: [22, 34, 46, 58, 70],
 	bSeperateLv: true,
@@ -9972,7 +9972,7 @@ SkillInfo[SK.GC_DARKCROW] = {
 };
 SkillInfo[SK.RA_UNLIMIT] = {
 	Name: 'RA_UNLIMIT',
-	SkillName: 'No Limits',
+	SkillName: '无极限',
 	MaxLv: 5,
 	SpAmount: [100, 120, 140, 160, 180],
 	bSeperateLv: true,
@@ -9981,7 +9981,7 @@ SkillInfo[SK.RA_UNLIMIT] = {
 };
 SkillInfo[SK.LG_KINGS_GRACE] = {
 	Name: 'LG_KINGS_GRACE',
-	SkillName: "King's Grace",
+	SkillName: '王者恩典',
 	MaxLv: 5,
 	SpAmount: [200, 180, 160, 140, 120],
 	bSeperateLv: false,
@@ -9990,7 +9990,7 @@ SkillInfo[SK.LG_KINGS_GRACE] = {
 };
 SkillInfo[SK.RK_DRAGONBREATH_WATER] = {
 	Name: 'RK_DRAGONBREATH_WATER',
-	SkillName: "Dragon's Water Breath",
+	SkillName: '龙之水息',
 	MaxLv: 10,
 	SpAmount: [30, 35, 40, 45, 50, 55, 60, 65, 70, 75],
 	bSeperateLv: true,
@@ -9999,7 +9999,7 @@ SkillInfo[SK.RK_DRAGONBREATH_WATER] = {
 };
 SkillInfo[SK.NC_MAGMA_ERUPTION] = {
 	Name: 'NC_MAGMA_ERUPTION',
-	SkillName: 'Lava Flow',
+	SkillName: '岩浆流',
 	MaxLv: 5,
 	SpAmount: [60, 70, 80, 90, 100],
 	bSeperateLv: true,
@@ -10008,7 +10008,7 @@ SkillInfo[SK.NC_MAGMA_ERUPTION] = {
 };
 SkillInfo[SK.WM_FRIGG_SONG] = {
 	Name: 'WM_FRIGG_SONG',
-	SkillName: "Frigg's Song",
+	SkillName: '弗丽嘉之歌',
 	MaxLv: 5,
 	SpAmount: [200, 230, 260, 290, 320],
 	bSeperateLv: true,
@@ -10017,7 +10017,7 @@ SkillInfo[SK.WM_FRIGG_SONG] = {
 };
 SkillInfo[SK.SO_ELEMENTAL_SHIELD] = {
 	Name: 'SO_ELEMENTAL_SHIELD',
-	SkillName: 'Elemental Shield',
+	SkillName: '元素护盾',
 	MaxLv: 5,
 	SpAmount: [120, 120, 120, 120, 120],
 	bSeperateLv: false,
@@ -10026,7 +10026,7 @@ SkillInfo[SK.SO_ELEMENTAL_SHIELD] = {
 };
 SkillInfo[SK.SR_FLASHCOMBO] = {
 	Name: 'SR_FLASHCOMBO',
-	SkillName: 'Flash Combo',
+	SkillName: '闪光连击',
 	MaxLv: 5,
 	SpAmount: [65, 65, 65, 65, 65],
 	bSeperateLv: true,
@@ -10040,7 +10040,7 @@ SkillInfo[SK.SR_FLASHCOMBO] = {
 };
 SkillInfo[SK.SC_ESCAPE] = {
 	Name: 'SC_ESCAPE',
-	SkillName: 'Urgent Escape',
+	SkillName: '紧急逃脱',
 	MaxLv: 5,
 	SpAmount: [30, 26, 22, 18, 14],
 	bSeperateLv: true,
@@ -10049,7 +10049,7 @@ SkillInfo[SK.SC_ESCAPE] = {
 };
 SkillInfo[SK.AB_OFFERTORIUM] = {
 	Name: 'AB_OFFERTORIUM',
-	SkillName: 'Offertorium',
+	SkillName: '奉献祷告',
 	MaxLv: 5,
 	SpAmount: [30, 60, 90, 120, 150],
 	bSeperateLv: true,
@@ -10058,7 +10058,7 @@ SkillInfo[SK.AB_OFFERTORIUM] = {
 };
 SkillInfo[SK.WL_TELEKINESIS_INTENSE] = {
 	Name: 'WL_TELEKINESIS_INTENSE',
-	SkillName: 'Intensification',
+	SkillName: '强化',
 	MaxLv: 5,
 	SpAmount: [100, 150, 200, 250, 300],
 	bSeperateLv: true,
@@ -10067,7 +10067,7 @@ SkillInfo[SK.WL_TELEKINESIS_INTENSE] = {
 };
 SkillInfo[SK.ALL_FULL_THROTTLE] = {
 	Name: 'ALL_FULL_THROTTLE',
-	SkillName: 'Full Throttle',
+	SkillName: '全油门',
 	MaxLv: 5,
 	SpAmount: [1, 1, 1, 1, 1],
 	bSeperateLv: true,
@@ -10076,7 +10076,7 @@ SkillInfo[SK.ALL_FULL_THROTTLE] = {
 };
 SkillInfo[SK.GN_ILLUSIONDOPING] = {
 	Name: 'GN_ILLUSIONDOPING',
-	SkillName: 'Hallucination Drug',
+	SkillName: '幻觉药剂',
 	MaxLv: 5,
 	SpAmount: [60, 70, 80, 90, 100],
 	bSeperateLv: true,
@@ -10085,7 +10085,7 @@ SkillInfo[SK.GN_ILLUSIONDOPING] = {
 };
 SkillInfo[SK.GM_ITEM_ATKMAX] = {
 	Name: 'GM_ITEM_ATKMAX',
-	SkillName: 'UNKNOW NAME',
+	SkillName: '未知名称',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -10093,7 +10093,7 @@ SkillInfo[SK.GM_ITEM_ATKMAX] = {
 };
 SkillInfo[SK.GM_ITEM_ATKMIN] = {
 	Name: 'GM_ITEM_ATKMIN',
-	SkillName: 'Max Physical item attack rate',
+	SkillName: '物理物品攻击倍率上限',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -10101,7 +10101,7 @@ SkillInfo[SK.GM_ITEM_ATKMIN] = {
 };
 SkillInfo[SK.GM_ITEM_MATKMAX] = {
 	Name: 'GM_ITEM_MATKMAX',
-	SkillName: 'Minimize Physical item attack rate',
+	SkillName: '物理物品攻击倍率下限',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -10109,7 +10109,7 @@ SkillInfo[SK.GM_ITEM_MATKMAX] = {
 };
 SkillInfo[SK.GM_ITEM_MATKMIN] = {
 	Name: 'GM_ITEM_MATKMIN',
-	SkillName: 'Minimize Magic item attack rate',
+	SkillName: '魔法物品攻击倍率下限',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -10117,7 +10117,7 @@ SkillInfo[SK.GM_ITEM_MATKMIN] = {
 };
 SkillInfo[SK.RL_D_TAIL] = {
 	Name: 'RL_D_TAIL',
-	SkillName: 'Dragon Tail',
+	SkillName: '龙尾',
 	MaxLv: 10,
 	SpAmount: [55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
 	bSeperateLv: true,
@@ -10129,7 +10129,7 @@ SkillInfo[SK.RL_D_TAIL] = {
 };
 SkillInfo[SK.RL_R_TRIP] = {
 	Name: 'RL_R_TRIP',
-	SkillName: 'Round Trip',
+	SkillName: '回旋射击',
 	MaxLv: 10,
 	SpAmount: [43, 46, 49, 52, 55, 58, 61, 64, 67, 70],
 	bSeperateLv: true,
@@ -10138,7 +10138,7 @@ SkillInfo[SK.RL_R_TRIP] = {
 };
 SkillInfo[SK.RL_RICHS_COIN] = {
 	Name: 'RL_RICHS_COIN',
-	SkillName: "Rich's Coin",
+	SkillName: '里奇的硬币',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -10147,7 +10147,7 @@ SkillInfo[SK.RL_RICHS_COIN] = {
 };
 SkillInfo[SK.RL_MASS_SPIRAL] = {
 	Name: 'RL_MASS_SPIRAL',
-	SkillName: 'Mass Spiral',
+	SkillName: '质量螺旋',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: true,
@@ -10156,7 +10156,7 @@ SkillInfo[SK.RL_MASS_SPIRAL] = {
 };
 SkillInfo[SK.RL_B_TRAP] = {
 	Name: 'RL_B_TRAP',
-	SkillName: 'Binding Trap',
+	SkillName: '束缚陷阱',
 	MaxLv: 5,
 	SpAmount: [30, 32, 34, 36, 38],
 	bSeperateLv: true,
@@ -10165,7 +10165,7 @@ SkillInfo[SK.RL_B_TRAP] = {
 };
 SkillInfo[SK.RL_BANISHING_BUSTER] = {
 	Name: 'RL_BANISHING_BUSTER',
-	SkillName: 'Vanishing Buster',
+	SkillName: '消失爆破',
 	MaxLv: 10,
 	SpAmount: [55, 57, 59, 61, 63, 65, 67, 69, 71, 73],
 	bSeperateLv: true,
@@ -10174,7 +10174,7 @@ SkillInfo[SK.RL_BANISHING_BUSTER] = {
 };
 SkillInfo[SK.RL_S_STORM] = {
 	Name: 'RL_S_STORM',
-	SkillName: 'Shattering Storm',
+	SkillName: '碎裂风暴',
 	MaxLv: 5,
 	SpAmount: [50, 55, 60, 65, 70],
 	bSeperateLv: true,
@@ -10186,7 +10186,7 @@ SkillInfo[SK.RL_S_STORM] = {
 };
 SkillInfo[SK.RL_SLUGSHOT] = {
 	Name: 'RL_SLUGSHOT',
-	SkillName: 'Slug Shot',
+	SkillName: '独头弹射击',
 	MaxLv: 5,
 	SpAmount: [80, 84, 88, 92, 96],
 	bSeperateLv: true,
@@ -10195,7 +10195,7 @@ SkillInfo[SK.RL_SLUGSHOT] = {
 };
 SkillInfo[SK.RL_AM_BLAST] = {
 	Name: 'RL_AM_BLAST',
-	SkillName: 'Anti Material Blast',
+	SkillName: '反物质爆破',
 	MaxLv: 5,
 	SpAmount: [80, 84, 88, 92, 96],
 	bSeperateLv: true,
@@ -10204,7 +10204,7 @@ SkillInfo[SK.RL_AM_BLAST] = {
 };
 SkillInfo[SK.RL_E_CHAIN] = {
 	Name: 'RL_E_CHAIN',
-	SkillName: 'Eternal Chain',
+	SkillName: '永恒锁链',
 	MaxLv: 10,
 	SpAmount: [45, 45, 45, 45, 45, 45, 45, 45, 45, 45],
 	bSeperateLv: true,
@@ -10216,7 +10216,7 @@ SkillInfo[SK.RL_E_CHAIN] = {
 };
 SkillInfo[SK.RL_QD_SHOT] = {
 	Name: 'RL_QD_SHOT',
-	SkillName: 'Quick Draw Shot',
+	SkillName: '快速拔枪射击',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -10225,7 +10225,7 @@ SkillInfo[SK.RL_QD_SHOT] = {
 };
 SkillInfo[SK.RL_C_MARKER] = {
 	Name: 'RL_C_MARKER',
-	SkillName: 'Crimson Marker',
+	SkillName: '猩红标记',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -10234,7 +10234,7 @@ SkillInfo[SK.RL_C_MARKER] = {
 };
 SkillInfo[SK.RL_FIREDANCE] = {
 	Name: 'RL_FIREDANCE',
-	SkillName: 'Fire Dance',
+	SkillName: '火焰之舞',
 	MaxLv: 10,
 	SpAmount: [13, 16, 19, 22, 25, 28, 31, 34, 37, 40],
 	bSeperateLv: true,
@@ -10243,7 +10243,7 @@ SkillInfo[SK.RL_FIREDANCE] = {
 };
 SkillInfo[SK.RL_FIRE_RAIN] = {
 	Name: 'RL_FIRE_RAIN',
-	SkillName: 'Fire Rain',
+	SkillName: '火焰之雨',
 	MaxLv: 5,
 	SpAmount: [70, 70, 70, 70, 70],
 	bSeperateLv: true,
@@ -10252,7 +10252,7 @@ SkillInfo[SK.RL_FIRE_RAIN] = {
 };
 SkillInfo[SK.RL_FALLEN_ANGEL] = {
 	Name: 'RL_FALLEN_ANGEL',
-	SkillName: 'Fallen Angel',
+	SkillName: '堕落天使',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -10261,7 +10261,7 @@ SkillInfo[SK.RL_FALLEN_ANGEL] = {
 };
 SkillInfo[SK.RL_P_ALTER] = {
 	Name: 'RL_P_ALTER',
-	SkillName: 'Platinum Altar',
+	SkillName: '白金祭坛',
 	MaxLv: 5,
 	SpAmount: [20, 24, 28, 32, 36],
 	bSeperateLv: true,
@@ -10270,7 +10270,7 @@ SkillInfo[SK.RL_P_ALTER] = {
 };
 SkillInfo[SK.RL_FLICKER] = {
 	Name: 'RL_FLICKER',
-	SkillName: 'Flicker',
+	SkillName: '闪烁',
 	MaxLv: 1,
 	SpAmount: [2],
 	bSeperateLv: false,
@@ -10279,7 +10279,7 @@ SkillInfo[SK.RL_FLICKER] = {
 };
 SkillInfo[SK.RL_H_MINE] = {
 	Name: 'RL_H_MINE',
-	SkillName: 'Howling Mine',
+	SkillName: '咆哮地雷',
 	MaxLv: 5,
 	SpAmount: [45, 50, 55, 60, 65],
 	bSeperateLv: true,
@@ -10288,7 +10288,7 @@ SkillInfo[SK.RL_H_MINE] = {
 };
 SkillInfo[SK.RL_HAMMER_OF_GOD] = {
 	Name: 'RL_HAMMER_OF_GOD',
-	SkillName: "God's Hammer",
+	SkillName: '神之锤',
 	MaxLv: 10,
 	SpAmount: [37, 39, 41, 43, 45, 47, 49, 51, 53, 55],
 	bSeperateLv: true,
@@ -10300,7 +10300,7 @@ SkillInfo[SK.RL_HAMMER_OF_GOD] = {
 };
 SkillInfo[SK.RL_HEAT_BARREL] = {
 	Name: 'RL_HEAT_BARREL',
-	SkillName: 'Hit Barrel',
+	SkillName: '击打木桶',
 	MaxLv: 5,
 	SpAmount: [30, 30, 30, 30, 30],
 	bSeperateLv: true,
@@ -10309,7 +10309,7 @@ SkillInfo[SK.RL_HEAT_BARREL] = {
 };
 SkillInfo[SK.MC_CARTDECORATE] = {
 	Name: 'MC_CARTDECORATE',
-	SkillName: 'Cart Decoration',
+	SkillName: '手推车装饰',
 	MaxLv: 1,
 	SpAmount: [40],
 	bSeperateLv: false,
@@ -10317,7 +10317,7 @@ SkillInfo[SK.MC_CARTDECORATE] = {
 };
 SkillInfo[SK.SU_BASIC_SKILL] = {
 	Name: 'SU_BASIC_SKILL',
-	SkillName: 'New Basic Skill',
+	SkillName: '新基础技能',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -10325,7 +10325,7 @@ SkillInfo[SK.SU_BASIC_SKILL] = {
 };
 SkillInfo[SK.SU_BITE] = {
 	Name: 'SU_BITE',
-	SkillName: 'Bite',
+	SkillName: '撕咬',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -10334,7 +10334,7 @@ SkillInfo[SK.SU_BITE] = {
 };
 SkillInfo[SK.SU_HIDE] = {
 	Name: 'SU_HIDE',
-	SkillName: 'Hide',
+	SkillName: '隐藏',
 	MaxLv: 1,
 	SpAmount: [30],
 	bSeperateLv: false,
@@ -10343,7 +10343,7 @@ SkillInfo[SK.SU_HIDE] = {
 };
 SkillInfo[SK.SU_SCRATCH] = {
 	Name: 'SU_SCRATCH',
-	SkillName: 'Scratch',
+	SkillName: '抓挠',
 	MaxLv: 3,
 	SpAmount: [20, 25, 30],
 	bSeperateLv: true,
@@ -10352,7 +10352,7 @@ SkillInfo[SK.SU_SCRATCH] = {
 };
 SkillInfo[SK.SU_STOOP] = {
 	Name: 'SU_STOOP',
-	SkillName: 'Stoop',
+	SkillName: '俯身',
 	MaxLv: 1,
 	SpAmount: [10],
 	bSeperateLv: false,
@@ -10361,7 +10361,7 @@ SkillInfo[SK.SU_STOOP] = {
 };
 SkillInfo[SK.SU_LOPE] = {
 	Name: 'SU_LOPE',
-	SkillName: 'Lope',
+	SkillName: '小跑',
 	MaxLv: 3,
 	SpAmount: [30, 30, 30],
 	bSeperateLv: false,
@@ -10370,7 +10370,7 @@ SkillInfo[SK.SU_LOPE] = {
 };
 SkillInfo[SK.SU_SPRITEMABLE] = {
 	Name: 'SU_SPRITEMABLE',
-	SkillName: 'Sprite Mable',
+	SkillName: '精灵梅布尔',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -10379,7 +10379,7 @@ SkillInfo[SK.SU_SPRITEMABLE] = {
 };
 SkillInfo[SK.SU_FRESHSHRIMP] = {
 	Name: 'SU_FRESHSHRIMP',
-	SkillName: 'Fresh Shrimp',
+	SkillName: '新鲜虾',
 	MaxLv: 5,
 	SpAmount: [22, 24, 26, 28, 30],
 	bSeperateLv: true,
@@ -10388,7 +10388,7 @@ SkillInfo[SK.SU_FRESHSHRIMP] = {
 };
 SkillInfo[SK.SU_BUNCHOFSHRIMP] = {
 	Name: 'SU_BUNCHOFSHRIMP',
-	SkillName: 'Bunch of Shrimp',
+	SkillName: '一串虾',
 	MaxLv: 5,
 	SpAmount: [44, 48, 52, 56, 60],
 	bSeperateLv: false,
@@ -10397,7 +10397,7 @@ SkillInfo[SK.SU_BUNCHOFSHRIMP] = {
 };
 SkillInfo[SK.SU_TUNABELLY] = {
 	Name: 'SU_TUNABELLY',
-	SkillName: 'Tuna Belly',
+	SkillName: '金枪鱼肚',
 	MaxLv: 5,
 	SpAmount: [20, 30, 40, 50, 60],
 	bSeperateLv: true,
@@ -10406,7 +10406,7 @@ SkillInfo[SK.SU_TUNABELLY] = {
 };
 SkillInfo[SK.SU_TUNAPARTY] = {
 	Name: 'SU_TUNAPARTY',
-	SkillName: 'Tuna Party',
+	SkillName: '金枪鱼派对',
 	MaxLv: 5,
 	SpAmount: [20, 30, 40, 50, 60],
 	bSeperateLv: true,
@@ -10415,7 +10415,7 @@ SkillInfo[SK.SU_TUNAPARTY] = {
 };
 SkillInfo[SK.SU_SV_STEMSPEAR] = {
 	Name: 'SU_SV_STEMSPEAR',
-	SkillName: 'SV Stem Spear',
+	SkillName: 'SV 茎之矛',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: true,
@@ -10424,7 +10424,7 @@ SkillInfo[SK.SU_SV_STEMSPEAR] = {
 };
 SkillInfo[SK.SU_SV_ROOTTWIST] = {
 	Name: 'SU_SV_ROOTTWIST',
-	SkillName: 'SV Root Twist',
+	SkillName: 'SV 根之扭曲',
 	MaxLv: 5,
 	SpAmount: [10, 12, 14, 16, 18],
 	bSeperateLv: false,
@@ -10433,7 +10433,7 @@ SkillInfo[SK.SU_SV_ROOTTWIST] = {
 };
 SkillInfo[SK.SU_CN_METEOR] = {
 	Name: 'SU_CN_METEOR',
-	SkillName: 'CN Meteor',
+	SkillName: 'CN 流星',
 	MaxLv: 5,
 	SpAmount: [20, 35, 50, 65, 80],
 	bSeperateLv: true,
@@ -10442,7 +10442,7 @@ SkillInfo[SK.SU_CN_METEOR] = {
 };
 SkillInfo[SK.SU_CN_POWDERING] = {
 	Name: 'SU_CN_POWDERING',
-	SkillName: 'CN Powdering',
+	SkillName: 'CN 撒粉',
 	MaxLv: 5,
 	SpAmount: [40, 36, 32, 28, 24],
 	bSeperateLv: false,
@@ -10451,7 +10451,7 @@ SkillInfo[SK.SU_CN_POWDERING] = {
 };
 SkillInfo[SK.SU_PICKYPECK] = {
 	Name: 'SU_PICKYPECK',
-	SkillName: 'Picky Peck',
+	SkillName: '挑剔啄击',
 	MaxLv: 5,
 	SpAmount: [10, 12, 14, 16, 18],
 	bSeperateLv: true,
@@ -10460,7 +10460,7 @@ SkillInfo[SK.SU_PICKYPECK] = {
 };
 SkillInfo[SK.SU_ARCLOUSEDASH] = {
 	Name: 'SU_ARCLOUSEDASH',
-	SkillName: 'Arclouze Dash',
+	SkillName: '阿克鲁兹冲刺',
 	MaxLv: 5,
 	SpAmount: [12, 14, 16, 18, 20],
 	bSeperateLv: true,
@@ -10469,7 +10469,7 @@ SkillInfo[SK.SU_ARCLOUSEDASH] = {
 };
 SkillInfo[SK.SU_SCAROFTAROU] = {
 	Name: 'SU_SCAROFTAROU',
-	SkillName: 'Scar of Tarou',
+	SkillName: '塔罗之伤',
 	MaxLv: 5,
 	SpAmount: [10, 12, 14, 16, 18],
 	bSeperateLv: true,
@@ -10478,7 +10478,7 @@ SkillInfo[SK.SU_SCAROFTAROU] = {
 };
 SkillInfo[SK.SU_LUNATICCARROTBEAT] = {
 	Name: 'SU_LUNATICCARROTBEAT',
-	SkillName: 'Lunatic Carrot Beat',
+	SkillName: '疯兔胡萝卜打击',
 	MaxLv: 5,
 	SpAmount: [15, 20, 25, 30, 35],
 	bSeperateLv: true,
@@ -10487,7 +10487,7 @@ SkillInfo[SK.SU_LUNATICCARROTBEAT] = {
 };
 SkillInfo[SK.SU_POWEROFSEA] = {
 	Name: 'SU_POWEROFSEA',
-	SkillName: 'Power of Sea',
+	SkillName: '海洋之力',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -10496,7 +10496,7 @@ SkillInfo[SK.SU_POWEROFSEA] = {
 };
 SkillInfo[SK.SU_POWEROFLAND] = {
 	Name: 'SU_POWEROFLAND',
-	SkillName: 'Power of Land',
+	SkillName: '大地之力',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -10505,7 +10505,7 @@ SkillInfo[SK.SU_POWEROFLAND] = {
 };
 SkillInfo[SK.SU_POWEROFLIFE] = {
 	Name: 'SU_POWEROFLIFE',
-	SkillName: 'Power of Life',
+	SkillName: '生命之力',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -10514,7 +10514,7 @@ SkillInfo[SK.SU_POWEROFLIFE] = {
 };
 SkillInfo[SK.SU_SOULATTACK] = {
 	Name: 'SU_SOULATTACK',
-	SkillName: 'Soul Attack',
+	SkillName: '灵魂攻击',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -10523,7 +10523,7 @@ SkillInfo[SK.SU_SOULATTACK] = {
 };
 SkillInfo[SK.SU_POWEROFFLOCK] = {
 	Name: 'SU_POWEROFFLOCK',
-	SkillName: 'Power Of Lock',
+	SkillName: '锁链之力',
 	MaxLv: 5,
 	SpAmount: [50, 50, 50, 50, 50],
 	bSeperateLv: true,
@@ -10532,7 +10532,7 @@ SkillInfo[SK.SU_POWEROFFLOCK] = {
 };
 SkillInfo[SK.SU_SVG_SPIRIT] = {
 	Name: 'SU_SVG_SPIRIT',
-	SkillName: 'Sprit Of Savage',
+	SkillName: '野性之魂',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	bSeperateLv: true,
@@ -10541,7 +10541,7 @@ SkillInfo[SK.SU_SVG_SPIRIT] = {
 };
 SkillInfo[SK.SU_HISS] = {
 	Name: 'SU_HISS',
-	SkillName: 'Hiss',
+	SkillName: '嘶鸣',
 	MaxLv: 5,
 	SpAmount: [50, 46, 42, 38, 34],
 	bSeperateLv: true,
@@ -10550,7 +10550,7 @@ SkillInfo[SK.SU_HISS] = {
 };
 SkillInfo[SK.SU_NYANGGRASS] = {
 	Name: 'SU_NYANGGRASS',
-	SkillName: 'Nyang Grass',
+	SkillName: '喵杨草',
 	MaxLv: 5,
 	SpAmount: [50, 48, 46, 44, 42],
 	bSeperateLv: true,
@@ -10559,7 +10559,7 @@ SkillInfo[SK.SU_NYANGGRASS] = {
 };
 SkillInfo[SK.SU_GROOMING] = {
 	Name: 'SU_GROOMING',
-	SkillName: 'Grooming',
+	SkillName: '梳理',
 	MaxLv: 5,
 	SpAmount: [15, 15, 15, 15, 15],
 	bSeperateLv: true,
@@ -10568,7 +10568,7 @@ SkillInfo[SK.SU_GROOMING] = {
 };
 SkillInfo[SK.SU_PURRING] = {
 	Name: 'SU_PURRING',
-	SkillName: 'Purring',
+	SkillName: '呼噜',
 	MaxLv: 5,
 	SpAmount: [70, 65, 60, 55, 50],
 	bSeperateLv: true,
@@ -10577,7 +10577,7 @@ SkillInfo[SK.SU_PURRING] = {
 };
 SkillInfo[SK.SU_SHRIMPARTY] = {
 	Name: 'SU_SHRIMPARTY',
-	SkillName: 'Tasty Shrimp Party',
+	SkillName: '美味虾宴',
 	MaxLv: 5,
 	SpAmount: [100, 90, 80, 70, 60],
 	bSeperateLv: true,
@@ -10586,7 +10586,7 @@ SkillInfo[SK.SU_SHRIMPARTY] = {
 };
 SkillInfo[SK.SU_SPIRITOFLIFE] = {
 	Name: 'SU_SPIRITOFLIFE',
-	SkillName: 'Spirit Of Life',
+	SkillName: '生命之魂',
 	MaxLv: 1,
 	SpAmount: [],
 	bSeperateLv: false,
@@ -10595,7 +10595,7 @@ SkillInfo[SK.SU_SPIRITOFLIFE] = {
 };
 SkillInfo[SK.SU_MEOWMEOW] = {
 	Name: 'SU_MEOWMEOW',
-	SkillName: 'Meow Meow',
+	SkillName: '喵喵',
 	MaxLv: 5,
 	SpAmount: [100, 90, 80, 70, 60],
 	bSeperateLv: true,
@@ -10604,7 +10604,7 @@ SkillInfo[SK.SU_MEOWMEOW] = {
 };
 SkillInfo[SK.SU_SPIRITOFLAND] = {
 	Name: 'SU_SPIRITOFLAND',
-	SkillName: 'Spirit Of Land',
+	SkillName: '大地之魂',
 	MaxLv: 1,
 	SpAmount: [],
 	bSeperateLv: false,
@@ -10613,7 +10613,7 @@ SkillInfo[SK.SU_SPIRITOFLAND] = {
 };
 SkillInfo[SK.SU_CHATTERING] = {
 	Name: 'SU_CHATTERING',
-	SkillName: 'Chattering',
+	SkillName: '喋喋不休',
 	MaxLv: 5,
 	SpAmount: [50, 45, 40, 35, 30],
 	bSeperateLv: true,
@@ -10622,7 +10622,7 @@ SkillInfo[SK.SU_CHATTERING] = {
 };
 SkillInfo[SK.SU_SPIRITOFSEA] = {
 	Name: 'SU_SPIRITOFSEA',
-	SkillName: 'Spirit Of Sea',
+	SkillName: '海洋之魂',
 	MaxLv: 1,
 	SpAmount: [],
 	bSeperateLv: false,
@@ -10631,7 +10631,7 @@ SkillInfo[SK.SU_SPIRITOFSEA] = {
 };
 SkillInfo[SK.ALL_PRONTERA_RECALL] = {
 	Name: 'ALL_PRONTERA_RECALL',
-	SkillName: 'Prontera Recall',
+	SkillName: '普隆德拉召回',
 	MaxLv: 2,
 	SpAmount: [0, 0],
 	bSeperateLv: false,
@@ -10639,7 +10639,7 @@ SkillInfo[SK.ALL_PRONTERA_RECALL] = {
 };
 SkillInfo[SK.NPC_IGNITIONBREAK] = {
 	Name: 'NPC_IGNITIONBREAK',
-	SkillName: 'Ignition Break',
+	SkillName: '爆燃斩',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10654,7 +10654,7 @@ SkillInfo[SK.NPC_IGNITIONBREAK] = {
 };
 SkillInfo[SK.NPC_MANDRAGORA] = {
 	Name: 'NPC_MANDRAGORA',
-	SkillName: 'Mandragora Howl',
+	SkillName: '曼陀罗嚎叫',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10669,7 +10669,7 @@ SkillInfo[SK.NPC_MANDRAGORA] = {
 };
 SkillInfo[SK.NPC_FATALMENACE] = {
 	Name: 'NPC_FATALMENACE',
-	SkillName: 'Fatal Menace',
+	SkillName: '致命威胁',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10684,7 +10684,7 @@ SkillInfo[SK.NPC_FATALMENACE] = {
 };
 SkillInfo[SK.NPC_SR_CURSEDCIRCLE] = {
 	Name: 'NPC_SR_CURSEDCIRCLE',
-	SkillName: 'Cursed Circle',
+	SkillName: '诅咒之环',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10699,7 +10699,7 @@ SkillInfo[SK.NPC_SR_CURSEDCIRCLE] = {
 };
 SkillInfo[SK.NPC_JACKFROST] = {
 	Name: 'NPC_JACKFROST',
-	SkillName: 'Jack Frost',
+	SkillName: '杰克冰霜',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10714,7 +10714,7 @@ SkillInfo[SK.NPC_JACKFROST] = {
 };
 SkillInfo[SK.NPC_VENOMFOG] = {
 	Name: 'NPC_VENOMFOG',
-	SkillName: 'Venom fog',
+	SkillName: '毒雾',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10734,7 +10734,7 @@ SkillInfo[SK.NPC_VENOMFOG] = {
 };
 SkillInfo[SK.NPC_ASSASSINCROSS] = {
 	Name: 'NPC_ASSASSINCROSS',
-	SkillName: 'Impressive Riff',
+	SkillName: '华丽即兴曲',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10754,7 +10754,7 @@ SkillInfo[SK.NPC_ASSASSINCROSS] = {
 };
 SkillInfo[SK.NPC_FLAMECROSS] = {
 	Name: 'NPC_FLAMECROSS',
-	SkillName: 'Flame cross',
+	SkillName: '火焰十字',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10769,7 +10769,7 @@ SkillInfo[SK.NPC_FLAMECROSS] = {
 };
 SkillInfo[SK.NPC_ICEMINE] = {
 	Name: 'NPC_ICEMINE',
-	SkillName: 'Ice mine',
+	SkillName: '冰雷',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10784,7 +10784,7 @@ SkillInfo[SK.NPC_ICEMINE] = {
 };
 SkillInfo[SK.NPC_DISSONANCE] = {
 	Name: 'NPC_DISSONANCE',
-	SkillName: 'Unchained Serenade',
+	SkillName: '无拘小夜曲',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10799,7 +10799,7 @@ SkillInfo[SK.NPC_DISSONANCE] = {
 };
 SkillInfo[SK.NPC_UGLYDANCE] = {
 	Name: 'NPC_UGLYDANCE',
-	SkillName: 'Hip Shaker',
+	SkillName: '臀部摇摆',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10814,7 +10814,7 @@ SkillInfo[SK.NPC_UGLYDANCE] = {
 };
 SkillInfo[SK.NPC_WIDEHEALTHFEAR] = {
 	Name: 'NPC_WIDEHEALTHFEAR',
-	SkillName: 'Wide area fear',
+	SkillName: '广域恐惧',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10829,7 +10829,7 @@ SkillInfo[SK.NPC_WIDEHEALTHFEAR] = {
 };
 SkillInfo[SK.NPC_WIDE_DEEP_SLEEP] = {
 	Name: 'NPC_WIDE_DEEP_SLEEP',
-	SkillName: 'Wide area deep sleep',
+	SkillName: '广域深度睡眠',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10844,7 +10844,7 @@ SkillInfo[SK.NPC_WIDE_DEEP_SLEEP] = {
 };
 SkillInfo[SK.NPC_WIDESIREN] = {
 	Name: 'NPC_WIDESIREN',
-	SkillName: 'Wide area fascination',
+	SkillName: '广域魅惑',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10859,7 +10859,7 @@ SkillInfo[SK.NPC_WIDESIREN] = {
 };
 SkillInfo[SK.NPC_WIDEBODYBURNNING] = {
 	Name: 'NPC_WIDEBODYBURNNING',
-	SkillName: 'Wide area burnning',
+	SkillName: '广域燃烧',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10874,7 +10874,7 @@ SkillInfo[SK.NPC_WIDEBODYBURNNING] = {
 };
 SkillInfo[SK.NPC_WIDEFROSTMISTY] = {
 	Name: 'NPC_WIDEFROSTMISTY',
-	SkillName: 'Wide area frost misty',
+	SkillName: '广域霜雾',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10889,7 +10889,7 @@ SkillInfo[SK.NPC_WIDEFROSTMISTY] = {
 };
 SkillInfo[SK.NPC_WIDECOLD] = {
 	Name: 'NPC_WIDECOLD',
-	SkillName: 'Wide area freeze',
+	SkillName: '广域冻结',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10904,7 +10904,7 @@ SkillInfo[SK.NPC_WIDECOLD] = {
 };
 SkillInfo[SK.NPC_CLOUD_KILL] = {
 	Name: 'NPC_CLOUD_KILL',
-	SkillName: 'Killing Cloud',
+	SkillName: '杀戮之云',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10919,7 +10919,7 @@ SkillInfo[SK.NPC_CLOUD_KILL] = {
 };
 SkillInfo[SK.NPC_RAYOFGENESIS] = {
 	Name: 'NPC_RAYOFGENESIS',
-	SkillName: 'Genesis Ray',
+	SkillName: '创世之光',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10939,7 +10939,7 @@ SkillInfo[SK.NPC_RAYOFGENESIS] = {
 };
 SkillInfo[SK.NPC_PSYCHIC_WAVE] = {
 	Name: 'NPC_PSYCHIC_WAVE',
-	SkillName: 'Psychic Wave',
+	SkillName: '念力波',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10959,7 +10959,7 @@ SkillInfo[SK.NPC_PSYCHIC_WAVE] = {
 };
 SkillInfo[SK.NPC_MAGMA_ERUPTION] = {
 	Name: 'NPC_MAGMA_ERUPTION',
-	SkillName: 'Lava Flow',
+	SkillName: '熔岩流',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10974,7 +10974,7 @@ SkillInfo[SK.NPC_MAGMA_ERUPTION] = {
 };
 SkillInfo[SK.NPC_COMET] = {
 	Name: 'NPC_COMET',
-	SkillName: 'Comet',
+	SkillName: '彗星',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -10989,7 +10989,7 @@ SkillInfo[SK.NPC_COMET] = {
 };
 SkillInfo[SK.NPC_WIDEWEB] = {
 	Name: 'NPC_WIDEWEB',
-	SkillName: 'Wide web',
+	SkillName: '广域蛛网',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -11504,7 +11504,7 @@ SkillInfo[SK.SP_SOULEXPLOSION] = {
 };
 SkillInfo[SK.SP_KAUTE] = {
 	Name: 'SP_KAUTE',
-	SkillName: 'Kaute',
+	SkillName: '考特',
 	MaxLv: 5,
 	SpAmount: [24, 30, 36, 42, 48],
 	bSeperateLv: true,
@@ -11513,7 +11513,7 @@ SkillInfo[SK.SP_KAUTE] = {
 };
 SkillInfo[SK.SP_SOULENERGY] = {
 	Name: 'SP_SOULENERGY',
-	SkillName: 'Soul Energy Research',
+	SkillName: '灵魂能量研究',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11522,7 +11522,7 @@ SkillInfo[SK.SP_SOULENERGY] = {
 };
 SkillInfo[SK.SJ_FALLINGSTAR_ATK2] = {
 	Name: 'SJ_FALLINGSTAR_ATK2',
-	SkillName: 'Falling Star',
+	SkillName: '流星',
 	MaxLv: 1,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11530,7 +11530,7 @@ SkillInfo[SK.SJ_FALLINGSTAR_ATK2] = {
 };
 SkillInfo[SK.SJ_FALLINGSTAR_ATK] = {
 	Name: 'SJ_FALLINGSTAR_ATK',
-	SkillName: 'Falling Star',
+	SkillName: '流星',
 	MaxLv: 1,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11538,7 +11538,7 @@ SkillInfo[SK.SJ_FALLINGSTAR_ATK] = {
 };
 SkillInfo[SK.RK_LUXANIMA] = {
 	Name: 'RK_LUXANIMA',
-	SkillName: 'Lux Anima',
+	SkillName: '灵魂之光',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -11547,7 +11547,7 @@ SkillInfo[SK.RK_LUXANIMA] = {
 };
 SkillInfo[SK.NPC_WIDEBLEEDING2] = {
 	Name: 'NPC_WIDEBLEEDING2',
-	SkillName: 'Demonic Mass Bleeding',
+	SkillName: '恶魔群体出血',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11562,7 +11562,7 @@ SkillInfo[SK.NPC_WIDEBLEEDING2] = {
 };
 SkillInfo[SK.NPC_WIDESILENCE2] = {
 	Name: 'NPC_WIDESILENCE2',
-	SkillName: 'Demonic Mass Silence',
+	SkillName: '恶魔群体沉默',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11577,7 +11577,7 @@ SkillInfo[SK.NPC_WIDESILENCE2] = {
 };
 SkillInfo[SK.NPC_WIDESTUN2] = {
 	Name: 'NPC_WIDESTUN2',
-	SkillName: 'Demonic Mass Stun',
+	SkillName: '恶魔群体眩晕',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11592,7 +11592,7 @@ SkillInfo[SK.NPC_WIDESTUN2] = {
 };
 SkillInfo[SK.NPC_WIDESTONE2] = {
 	Name: 'NPC_WIDESTONE2',
-	SkillName: 'Demonic Mass Stone',
+	SkillName: '恶魔群体石化',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11607,7 +11607,7 @@ SkillInfo[SK.NPC_WIDESTONE2] = {
 };
 SkillInfo[SK.NPC_WIDESLEEP2] = {
 	Name: 'NPC_WIDESLEEP2',
-	SkillName: 'Demonic Mass Sleep',
+	SkillName: '恶魔群体睡眠',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11622,7 +11622,7 @@ SkillInfo[SK.NPC_WIDESLEEP2] = {
 };
 SkillInfo[SK.NPC_WIDECURSE2] = {
 	Name: 'NPC_WIDECURSE2',
-	SkillName: 'Demonic Mass Curse',
+	SkillName: '恶魔群体诅咒',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11637,7 +11637,7 @@ SkillInfo[SK.NPC_WIDECURSE2] = {
 };
 SkillInfo[SK.NPC_WIDECONFUSE2] = {
 	Name: 'NPC_WIDECONFUSE2',
-	SkillName: 'Demonic Mass Confuse',
+	SkillName: '恶魔群体混乱',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11652,7 +11652,7 @@ SkillInfo[SK.NPC_WIDECONFUSE2] = {
 };
 SkillInfo[SK.NPC_WIDEFREEZE2] = {
 	Name: 'NPC_WIDEFREEZE2',
-	SkillName: 'Demonic Mass Freeze',
+	SkillName: '恶魔群体冻结',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11667,7 +11667,7 @@ SkillInfo[SK.NPC_WIDEFREEZE2] = {
 };
 SkillInfo[SK.NPC_EVILLAND2] = {
 	Name: 'NPC_EVILLAND2',
-	SkillName: 'Demonic Evil Land',
+	SkillName: '恶魔邪地',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11687,7 +11687,7 @@ SkillInfo[SK.NPC_EVILLAND2] = {
 };
 SkillInfo[SK.NPC_HELLJUDGEMENT2] = {
 	Name: 'NPC_HELLJUDGEMENT2',
-	SkillName: 'Demonic Hell Judgment',
+	SkillName: '恶魔地狱审判',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11707,7 +11707,7 @@ SkillInfo[SK.NPC_HELLJUDGEMENT2] = {
 };
 SkillInfo[SK.NV_BREAKTHROUGH] = {
 	Name: 'NV_BREAKTHROUGH',
-	SkillName: 'Breakthrough',
+	SkillName: '突破',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11716,7 +11716,7 @@ SkillInfo[SK.NV_BREAKTHROUGH] = {
 };
 SkillInfo[SK.NV_HELPANGEL] = {
 	Name: 'NV_HELPANGEL',
-	SkillName: 'Help, Angel!',
+	SkillName: '天使，救命！',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -11725,7 +11725,7 @@ SkillInfo[SK.NV_HELPANGEL] = {
 };
 SkillInfo[SK.NV_TRANSCENDENCE] = {
 	Name: 'NV_TRANSCENDENCE',
-	SkillName: 'Transcendence',
+	SkillName: '超越',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11734,7 +11734,7 @@ SkillInfo[SK.NV_TRANSCENDENCE] = {
 };
 SkillInfo[SK.ALL_NIFLHEIM_RECALL] = {
 	Name: 'ALL_NIFLHEIM_RECALL',
-	SkillName: 'The World of the Dead!',
+	SkillName: '亡者世界！',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: false,
@@ -11742,7 +11742,7 @@ SkillInfo[SK.ALL_NIFLHEIM_RECALL] = {
 };
 SkillInfo[SK.DK_SERVANTWEAPON] = {
 	Name: 'DK_SERVANTWEAPON',
-	SkillName: 'Servant Weapon',
+	SkillName: '侍从武器',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -11750,7 +11750,7 @@ SkillInfo[SK.DK_SERVANTWEAPON] = {
 };
 SkillInfo[SK.DK_SERVANT_W_SIGN] = {
 	Name: 'DK_SERVANT_W_SIGN',
-	SkillName: 'Servant Weapon - Sign',
+	SkillName: '侍从武器 - 印记',
 	MaxLv: 5,
 	SpAmount: [15, 15, 15, 15, 15],
 	bSeperateLv: true,
@@ -11759,7 +11759,7 @@ SkillInfo[SK.DK_SERVANT_W_SIGN] = {
 };
 SkillInfo[SK.DK_SERVANT_W_PHANTOM] = {
 	Name: 'DK_SERVANT_W_PHANTOM',
-	SkillName: 'Servant Weapon - Phantom',
+	SkillName: '侍从武器 - 幻影',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: true,
@@ -11771,7 +11771,7 @@ SkillInfo[SK.DK_SERVANT_W_PHANTOM] = {
 };
 SkillInfo[SK.DK_SERVANT_W_DEMOL] = {
 	Name: 'DK_SERVANT_W_DEMOL',
-	SkillName: 'Servant Weapon - Demolition',
+	SkillName: '侍从武器 - 爆破',
 	MaxLv: 5,
 	SpAmount: [30, 35, 40, 45, 50],
 	bSeperateLv: true,
@@ -11780,7 +11780,7 @@ SkillInfo[SK.DK_SERVANT_W_DEMOL] = {
 };
 SkillInfo[SK.DK_CHARGINGPIERCE] = {
 	Name: 'DK_CHARGINGPIERCE',
-	SkillName: 'Charging Pierce',
+	SkillName: '蓄力穿刺',
 	MaxLv: 10,
 	SpAmount: [25, 30, 35, 40, 45, 50, 55, 60, 65, 70],
 	bSeperateLv: true,
@@ -11789,7 +11789,7 @@ SkillInfo[SK.DK_CHARGINGPIERCE] = {
 };
 SkillInfo[SK.DK_TWOHANDDEF] = {
 	Name: 'DK_TWOHANDDEF',
-	SkillName: 'Two-handed Defense',
+	SkillName: '双手防御',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -11797,7 +11797,7 @@ SkillInfo[SK.DK_TWOHANDDEF] = {
 };
 SkillInfo[SK.DK_HACKANDSLASHER] = {
 	Name: 'DK_HACKANDSLASHER',
-	SkillName: 'Hack and Slash',
+	SkillName: '砍杀',
 	MaxLv: 10,
 	SpAmount: [34, 38, 42, 46, 50, 54, 58, 62, 66, 70],
 	bSeperateLv: true,
@@ -11806,7 +11806,7 @@ SkillInfo[SK.DK_HACKANDSLASHER] = {
 };
 SkillInfo[SK.DK_DRAGONIC_AURA] = {
 	Name: 'DK_DRAGONIC_AURA',
-	SkillName: 'Dragonic Aura',
+	SkillName: '龙之气息',
 	MaxLv: 10,
 	SpAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -11820,7 +11820,7 @@ SkillInfo[SK.DK_DRAGONIC_AURA] = {
 };
 SkillInfo[SK.DK_MADNESS_CRUSHER] = {
 	Name: 'DK_MADNESS_CRUSHER',
-	SkillName: 'Madness Crusher',
+	SkillName: '疯狂粉碎',
 	MaxLv: 5,
 	SpAmount: [34, 38, 42, 46, 50],
 	bSeperateLv: true,
@@ -11832,7 +11832,7 @@ SkillInfo[SK.DK_MADNESS_CRUSHER] = {
 };
 SkillInfo[SK.DK_VIGOR] = {
 	Name: 'DK_VIGOR',
-	SkillName: 'Vigor',
+	SkillName: '活力',
 	MaxLv: 10,
 	SpAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -11845,7 +11845,7 @@ SkillInfo[SK.DK_VIGOR] = {
 };
 SkillInfo[SK.DK_STORMSLASH] = {
 	Name: 'DK_STORMSLASH',
-	SkillName: 'Storm Slash',
+	SkillName: '风暴斩',
 	MaxLv: 5,
 	SpAmount: [30, 35, 40, 45, 50],
 	bSeperateLv: true,
@@ -11857,7 +11857,7 @@ SkillInfo[SK.DK_STORMSLASH] = {
 };
 SkillInfo[SK.AG_DEADLY_PROJECTION] = {
 	Name: 'AG_DEADLY_PROJECTION',
-	SkillName: 'Deadly Projection',
+	SkillName: '致命投影',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -11866,7 +11866,7 @@ SkillInfo[SK.AG_DEADLY_PROJECTION] = {
 };
 SkillInfo[SK.AG_DESTRUCTIVE_HURRICANE] = {
 	Name: 'AG_DESTRUCTIVE_HURRICANE',
-	SkillName: 'Destructive Hurricane',
+	SkillName: '破坏飓风',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -11875,7 +11875,7 @@ SkillInfo[SK.AG_DESTRUCTIVE_HURRICANE] = {
 };
 SkillInfo[SK.AG_RAIN_OF_CRYSTAL] = {
 	Name: 'AG_RAIN_OF_CRYSTAL',
-	SkillName: 'Crystal Rain',
+	SkillName: '水晶之雨',
 	MaxLv: 5,
 	SpAmount: [40, 50, 60, 70, 80],
 	bSeperateLv: true,
@@ -11884,7 +11884,7 @@ SkillInfo[SK.AG_RAIN_OF_CRYSTAL] = {
 };
 SkillInfo[SK.AG_MYSTERY_ILLUSION] = {
 	Name: 'AG_MYSTERY_ILLUSION',
-	SkillName: 'Mystery Illusion',
+	SkillName: '神秘幻影',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -11896,7 +11896,7 @@ SkillInfo[SK.AG_MYSTERY_ILLUSION] = {
 };
 SkillInfo[SK.AG_VIOLENT_QUAKE] = {
 	Name: 'AG_VIOLENT_QUAKE',
-	SkillName: 'Violent Quake',
+	SkillName: '剧烈地震',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -11905,7 +11905,7 @@ SkillInfo[SK.AG_VIOLENT_QUAKE] = {
 };
 SkillInfo[SK.AG_SOUL_VC_STRIKE] = {
 	Name: 'AG_SOUL_VC_STRIKE',
-	SkillName: 'Soul Vulcan Strike',
+	SkillName: '灵魂火神炮',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -11917,7 +11917,7 @@ SkillInfo[SK.AG_SOUL_VC_STRIKE] = {
 };
 SkillInfo[SK.AG_STRANTUM_TREMOR] = {
 	Name: 'AG_STRANTUM_TREMOR',
-	SkillName: 'Stratum Tremor',
+	SkillName: '地层震颤',
 	MaxLv: 5,
 	SpAmount: [35, 45, 55, 65, 75],
 	bSeperateLv: true,
@@ -11926,7 +11926,7 @@ SkillInfo[SK.AG_STRANTUM_TREMOR] = {
 };
 SkillInfo[SK.AG_ALL_BLOOM] = {
 	Name: 'AG_ALL_BLOOM',
-	SkillName: 'All Bloom',
+	SkillName: '万花齐放',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -11935,7 +11935,7 @@ SkillInfo[SK.AG_ALL_BLOOM] = {
 };
 SkillInfo[SK.AG_CRYSTAL_IMPACT] = {
 	Name: 'AG_CRYSTAL_IMPACT',
-	SkillName: 'Crystal Impact',
+	SkillName: '水晶冲击',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -11944,7 +11944,7 @@ SkillInfo[SK.AG_CRYSTAL_IMPACT] = {
 };
 SkillInfo[SK.AG_TORNADO_STORM] = {
 	Name: 'AG_TORNADO_STORM',
-	SkillName: 'Tornado Storm',
+	SkillName: '龙卷风暴',
 	MaxLv: 5,
 	SpAmount: [45, 55, 65, 75, 85],
 	bSeperateLv: true,
@@ -11953,7 +11953,7 @@ SkillInfo[SK.AG_TORNADO_STORM] = {
 };
 SkillInfo[SK.AG_FLORAL_FLARE_ROAD] = {
 	Name: 'AG_FLORAL_FLARE_ROAD',
-	SkillName: 'Floral Flare Road',
+	SkillName: '花焰之路',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -11962,7 +11962,7 @@ SkillInfo[SK.AG_FLORAL_FLARE_ROAD] = {
 };
 SkillInfo[SK.AG_CLIMAX] = {
 	Name: 'AG_CLIMAX',
-	SkillName: 'Climax',
+	SkillName: '高潮',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	ApAmount: [200, 200, 200, 200, 200],
@@ -11975,7 +11975,7 @@ SkillInfo[SK.AG_CLIMAX] = {
 };
 SkillInfo[SK.AG_ASTRAL_STRIKE] = {
 	Name: 'AG_ASTRAL_STRIKE',
-	SkillName: 'Astral Strike',
+	SkillName: '星界打击',
 	MaxLv: 10,
 	SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -11989,7 +11989,7 @@ SkillInfo[SK.AG_ASTRAL_STRIKE] = {
 };
 SkillInfo[SK.AG_ROCK_DOWN] = {
 	Name: 'AG_ROCK_DOWN',
-	SkillName: 'Rock Down',
+	SkillName: '岩石坠落',
 	MaxLv: 5,
 	SpAmount: [65, 70, 75, 80, 85],
 	bSeperateLv: true,
@@ -11998,7 +11998,7 @@ SkillInfo[SK.AG_ROCK_DOWN] = {
 };
 SkillInfo[SK.AG_STORM_CANNON] = {
 	Name: 'AG_STORM_CANNON',
-	SkillName: 'Storm Cannon',
+	SkillName: '风暴加农炮',
 	MaxLv: 5,
 	SpAmount: [60, 70, 80, 90, 100],
 	bSeperateLv: true,
@@ -12007,7 +12007,7 @@ SkillInfo[SK.AG_STORM_CANNON] = {
 };
 SkillInfo[SK.AG_CRIMSON_ARROW] = {
 	Name: 'AG_CRIMSON_ARROW',
-	SkillName: 'Crimson Arrow',
+	SkillName: '猩红之箭',
 	MaxLv: 5,
 	SpAmount: [65, 75, 85, 95, 105],
 	bSeperateLv: true,
@@ -12016,7 +12016,7 @@ SkillInfo[SK.AG_CRIMSON_ARROW] = {
 };
 SkillInfo[SK.AG_FROZEN_SLASH] = {
 	Name: 'AG_FROZEN_SLASH',
-	SkillName: 'Frozen Slash',
+	SkillName: '冰冻斩',
 	MaxLv: 5,
 	SpAmount: [45, 55, 65, 75, 85],
 	bSeperateLv: true,
@@ -12025,7 +12025,7 @@ SkillInfo[SK.AG_FROZEN_SLASH] = {
 };
 SkillInfo[SK.AG_TWOHANDSTAFF] = {
 	Name: 'AG_TWOHANDSTAFF',
-	SkillName: 'Two-handed Staff Mastery',
+	SkillName: '双手杖修炼',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12033,7 +12033,7 @@ SkillInfo[SK.AG_TWOHANDSTAFF] = {
 };
 SkillInfo[SK.IQ_POWERFUL_FAITH] = {
 	Name: 'IQ_POWERFUL_FAITH',
-	SkillName: 'Powerful Faith',
+	SkillName: '强力信仰',
 	MaxLv: 5,
 	SpAmount: [54, 58, 62, 66, 70],
 	bSeperateLv: true,
@@ -12042,7 +12042,7 @@ SkillInfo[SK.IQ_POWERFUL_FAITH] = {
 };
 SkillInfo[SK.IQ_FIRM_FAITH] = {
 	Name: 'IQ_FIRM_FAITH',
-	SkillName: 'Firm Faith',
+	SkillName: '坚定信仰',
 	MaxLv: 5,
 	SpAmount: [54, 58, 62, 66, 70],
 	bSeperateLv: true,
@@ -12051,7 +12051,7 @@ SkillInfo[SK.IQ_FIRM_FAITH] = {
 };
 SkillInfo[SK.IQ_WILL_OF_FAITH] = {
 	Name: 'IQ_WILL_OF_FAITH',
-	SkillName: 'Will of Faith',
+	SkillName: '信仰意志',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12059,7 +12059,7 @@ SkillInfo[SK.IQ_WILL_OF_FAITH] = {
 };
 SkillInfo[SK.IQ_OLEUM_SANCTUM] = {
 	Name: 'IQ_OLEUM_SANCTUM',
-	SkillName: 'Oleum Sanctum',
+	SkillName: '神圣圣油',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -12071,7 +12071,7 @@ SkillInfo[SK.IQ_OLEUM_SANCTUM] = {
 };
 SkillInfo[SK.IQ_SINCERE_FAITH] = {
 	Name: 'IQ_SINCERE_FAITH',
-	SkillName: 'Sincere Faith',
+	SkillName: '真诚信仰',
 	MaxLv: 5,
 	SpAmount: [54, 58, 62, 66, 70],
 	bSeperateLv: true,
@@ -12080,7 +12080,7 @@ SkillInfo[SK.IQ_SINCERE_FAITH] = {
 };
 SkillInfo[SK.IQ_FIRST_BRAND] = {
 	Name: 'IQ_FIRST_BRAND',
-	SkillName: 'First Brand',
+	SkillName: '第一烙印',
 	MaxLv: 5,
 	SpAmount: [22, 29, 36, 43, 50],
 	bSeperateLv: true,
@@ -12089,7 +12089,7 @@ SkillInfo[SK.IQ_FIRST_BRAND] = {
 };
 SkillInfo[SK.IQ_FIRST_FAITH_POWER] = {
 	Name: 'IQ_FIRST_FAITH_POWER',
-	SkillName: 'First Faith Power',
+	SkillName: '第一信仰之力',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	bSeperateLv: true,
@@ -12101,7 +12101,7 @@ SkillInfo[SK.IQ_FIRST_FAITH_POWER] = {
 };
 SkillInfo[SK.IQ_THIRD_PUNISH] = {
 	Name: 'IQ_THIRD_PUNISH',
-	SkillName: 'Third Punishment',
+	SkillName: '第三惩罚',
 	MaxLv: 5,
 	SpAmount: [56, 62, 68, 74, 80],
 	bSeperateLv: true,
@@ -12110,7 +12110,7 @@ SkillInfo[SK.IQ_THIRD_PUNISH] = {
 };
 SkillInfo[SK.IQ_THIRD_FLAME_BOMB] = {
 	Name: 'IQ_THIRD_FLAME_BOMB',
-	SkillName: 'Third Flame Bomb',
+	SkillName: '第三火焰炸弹',
 	MaxLv: 5,
 	SpAmount: [74, 78, 82, 86, 90],
 	bSeperateLv: true,
@@ -12119,7 +12119,7 @@ SkillInfo[SK.IQ_THIRD_FLAME_BOMB] = {
 };
 SkillInfo[SK.IQ_THIRD_CONSECRATION] = {
 	Name: 'IQ_THIRD_CONSECRATION',
-	SkillName: 'Third Consecration',
+	SkillName: '第三奉献',
 	MaxLv: 5,
 	SpAmount: [65, 70, 75, 80, 85],
 	bSeperateLv: true,
@@ -12128,7 +12128,7 @@ SkillInfo[SK.IQ_THIRD_CONSECRATION] = {
 };
 SkillInfo[SK.IQ_SECOND_FLAME] = {
 	Name: 'IQ_SECOND_FLAME',
-	SkillName: 'Second Flame',
+	SkillName: '第二火焰',
 	MaxLv: 5,
 	SpAmount: [46, 52, 58, 64, 70],
 	bSeperateLv: true,
@@ -12137,7 +12137,7 @@ SkillInfo[SK.IQ_SECOND_FLAME] = {
 };
 SkillInfo[SK.IQ_SECOND_FAITH] = {
 	Name: 'IQ_SECOND_FAITH',
-	SkillName: 'Second Faith',
+	SkillName: '第二信仰',
 	MaxLv: 5,
 	SpAmount: [36, 42, 48, 54, 60],
 	bSeperateLv: true,
@@ -12146,7 +12146,7 @@ SkillInfo[SK.IQ_SECOND_FAITH] = {
 };
 SkillInfo[SK.IQ_SECOND_JUDGEMENT] = {
 	Name: 'IQ_SECOND_JUDGEMENT',
-	SkillName: 'Second Judgment',
+	SkillName: '第二审判',
 	MaxLv: 5,
 	SpAmount: [45, 50, 55, 60, 65],
 	bSeperateLv: true,
@@ -12155,7 +12155,7 @@ SkillInfo[SK.IQ_SECOND_JUDGEMENT] = {
 };
 SkillInfo[SK.IQ_EXPOSION_BLASTER] = {
 	Name: 'IQ_EXPOSION_BLASTER',
-	SkillName: 'Explosion Blaster',
+	SkillName: '爆炸冲击炮',
 	MaxLv: 5,
 	SpAmount: [80, 90, 100, 110, 120],
 	bSeperateLv: true,
@@ -12164,7 +12164,7 @@ SkillInfo[SK.IQ_EXPOSION_BLASTER] = {
 };
 SkillInfo[SK.IQ_MASSIVE_F_BLASTER] = {
 	Name: 'IQ_MASSIVE_F_BLASTER',
-	SkillName: 'Massive Flame Blaster',
+	SkillName: '巨型火焰冲击炮',
 	MaxLv: 10,
 	SpAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -12178,7 +12178,7 @@ SkillInfo[SK.IQ_MASSIVE_F_BLASTER] = {
 };
 SkillInfo[SK.IQ_JUDGE] = {
 	Name: 'IQ_JUDGE',
-	SkillName: 'Judgment',
+	SkillName: '审判',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	ApAmount: [100, 100, 100, 100, 100],
@@ -12188,7 +12188,7 @@ SkillInfo[SK.IQ_JUDGE] = {
 };
 SkillInfo[SK.IQ_THIRD_EXOR_FLAME] = {
 	Name: 'IQ_THIRD_EXOR_FLAME',
-	SkillName: 'Third Exorcism Flame',
+	SkillName: '第三驱魔火焰',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	ApAmount: [150, 150, 150, 150, 150],
@@ -12198,7 +12198,7 @@ SkillInfo[SK.IQ_THIRD_EXOR_FLAME] = {
 };
 SkillInfo[SK.IG_GUARD_STANCE] = {
 	Name: 'IG_GUARD_STANCE',
-	SkillName: 'Guard Stance',
+	SkillName: '防御姿态',
 	MaxLv: 5,
 	SpAmount: [50, 50, 50, 50, 50],
 	bSeperateLv: true,
@@ -12207,7 +12207,7 @@ SkillInfo[SK.IG_GUARD_STANCE] = {
 };
 SkillInfo[SK.IG_GUARDIAN_SHIELD] = {
 	Name: 'IG_GUARDIAN_SHIELD',
-	SkillName: 'Guardian Shield',
+	SkillName: '守护者之盾',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	bSeperateLv: true,
@@ -12216,7 +12216,7 @@ SkillInfo[SK.IG_GUARDIAN_SHIELD] = {
 };
 SkillInfo[SK.IG_REBOUND_SHIELD] = {
 	Name: 'IG_REBOUND_SHIELD',
-	SkillName: 'Rebound Shield',
+	SkillName: '反弹盾牌',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	bSeperateLv: true,
@@ -12225,7 +12225,7 @@ SkillInfo[SK.IG_REBOUND_SHIELD] = {
 };
 SkillInfo[SK.IG_SHIELD_MASTERY] = {
 	Name: 'IG_SHIELD_MASTERY',
-	SkillName: 'Shield Mastery',
+	SkillName: '盾牌修炼',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12233,7 +12233,7 @@ SkillInfo[SK.IG_SHIELD_MASTERY] = {
 };
 SkillInfo[SK.IG_SPEAR_SWORD_M] = {
 	Name: 'IG_SPEAR_SWORD_M',
-	SkillName: 'Spear Sword Mastery',
+	SkillName: '矛剑修炼',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12241,7 +12241,7 @@ SkillInfo[SK.IG_SPEAR_SWORD_M] = {
 };
 SkillInfo[SK.IG_ATTACK_STANCE] = {
 	Name: 'IG_ATTACK_STANCE',
-	SkillName: 'Attack Stance',
+	SkillName: '攻击姿态',
 	MaxLv: 5,
 	SpAmount: [50, 50, 50, 50, 50],
 	bSeperateLv: true,
@@ -12250,7 +12250,7 @@ SkillInfo[SK.IG_ATTACK_STANCE] = {
 };
 SkillInfo[SK.IG_ULTIMATE_SACRIFICE] = {
 	Name: 'IG_ULTIMATE_SACRIFICE',
-	SkillName: 'Ultimate Sacrifice',
+	SkillName: '终极牺牲',
 	MaxLv: 5,
 	SpAmount: [120, 120, 120, 120, 120],
 	bSeperateLv: true,
@@ -12262,7 +12262,7 @@ SkillInfo[SK.IG_ULTIMATE_SACRIFICE] = {
 };
 SkillInfo[SK.IG_HOLY_SHIELD] = {
 	Name: 'IG_HOLY_SHIELD',
-	SkillName: 'Holy Shield',
+	SkillName: '神圣之盾',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	bSeperateLv: true,
@@ -12274,7 +12274,7 @@ SkillInfo[SK.IG_HOLY_SHIELD] = {
 };
 SkillInfo[SK.IG_GRAND_JUDGEMENT] = {
 	Name: 'IG_GRAND_JUDGEMENT',
-	SkillName: 'Grand Judgment',
+	SkillName: '大审判',
 	MaxLv: 10,
 	SpAmount: [41, 44, 47, 50, 53, 56, 59, 62, 65, 68],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -12287,7 +12287,7 @@ SkillInfo[SK.IG_GRAND_JUDGEMENT] = {
 };
 SkillInfo[SK.IG_JUDGEMENT_CROSS] = {
 	Name: 'IG_JUDGEMENT_CROSS',
-	SkillName: 'Judgement Cross',
+	SkillName: '审判十字',
 	MaxLv: 10,
 	SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -12300,7 +12300,7 @@ SkillInfo[SK.IG_JUDGEMENT_CROSS] = {
 };
 SkillInfo[SK.IG_SHIELD_SHOOTING] = {
 	Name: 'IG_SHIELD_SHOOTING',
-	SkillName: 'Shield Shooting',
+	SkillName: '盾牌射击',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -12312,7 +12312,7 @@ SkillInfo[SK.IG_SHIELD_SHOOTING] = {
 };
 SkillInfo[SK.IG_OVERSLASH] = {
 	Name: 'IG_OVERSLASH',
-	SkillName: 'Overslash',
+	SkillName: '过度斩击',
 	MaxLv: 10,
 	SpAmount: [41, 44, 47, 50, 53, 56, 59, 62, 65, 68],
 	bSeperateLv: true,
@@ -12321,7 +12321,7 @@ SkillInfo[SK.IG_OVERSLASH] = {
 };
 SkillInfo[SK.IG_CROSS_RAIN] = {
 	Name: 'IG_CROSS_RAIN',
-	SkillName: 'Cross Rain',
+	SkillName: '十字雨',
 	MaxLv: 10,
 	SpAmount: [50, 54, 58, 62, 66, 70, 74, 78, 82, 86],
 	bSeperateLv: true,
@@ -12330,7 +12330,7 @@ SkillInfo[SK.IG_CROSS_RAIN] = {
 };
 SkillInfo[SK.SHC_DANCING_KNIFE] = {
 	Name: 'SHC_DANCING_KNIFE',
-	SkillName: 'Dancing Knife',
+	SkillName: '舞动之刃',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -12339,7 +12339,7 @@ SkillInfo[SK.SHC_DANCING_KNIFE] = {
 };
 SkillInfo[SK.SHC_SAVAGE_IMPACT] = {
 	Name: 'SHC_SAVAGE_IMPACT',
-	SkillName: 'Savage Impact',
+	SkillName: '野蛮冲击',
 	MaxLv: 10,
 	SpAmount: [28, 31, 34, 37, 40, 43, 46, 49, 52, 55],
 	bSeperateLv: true,
@@ -12351,7 +12351,7 @@ SkillInfo[SK.SHC_SAVAGE_IMPACT] = {
 };
 SkillInfo[SK.SHC_SHADOW_SENSE] = {
 	Name: 'SHC_SHADOW_SENSE',
-	SkillName: 'Shadow Sense',
+	SkillName: '影之感知',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12359,7 +12359,7 @@ SkillInfo[SK.SHC_SHADOW_SENSE] = {
 };
 SkillInfo[SK.SHC_ETERNAL_SLASH] = {
 	Name: 'SHC_ETERNAL_SLASH',
-	SkillName: 'Eternal Slash',
+	SkillName: '永恒斩击',
 	MaxLv: 5,
 	SpAmount: [40, 40, 40, 40, 40],
 	bSeperateLv: true,
@@ -12372,7 +12372,7 @@ SkillInfo[SK.SHC_ETERNAL_SLASH] = {
 };
 SkillInfo[SK.SHC_ENCHANTING_SHADOW] = {
 	Name: 'SHC_ENCHANTING_SHADOW',
-	SkillName: 'Enchanting Shadow',
+	SkillName: '附魔之影',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -12384,7 +12384,7 @@ SkillInfo[SK.SHC_ENCHANTING_SHADOW] = {
 };
 SkillInfo[SK.SHC_POTENT_VENOM] = {
 	Name: 'SHC_POTENT_VENOM',
-	SkillName: 'Potent Venom',
+	SkillName: '强力毒液',
 	MaxLv: 10,
 	SpAmount: [15, 20, 25, 30, 35, 40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -12396,7 +12396,7 @@ SkillInfo[SK.SHC_POTENT_VENOM] = {
 };
 SkillInfo[SK.SHC_SHADOW_EXCEED] = {
 	Name: 'SHC_SHADOW_EXCEED',
-	SkillName: 'Shadow Exceed',
+	SkillName: '影之超越',
 	MaxLv: 10,
 	SpAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -12410,7 +12410,7 @@ SkillInfo[SK.SHC_SHADOW_EXCEED] = {
 };
 SkillInfo[SK.SHC_FATAL_SHADOW_CROW] = {
 	Name: 'SHC_FATAL_SHADOW_CROW',
-	SkillName: 'Fatal Shadow Claw',
+	SkillName: '致命暗影爪',
 	MaxLv: 10,
 	SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -12423,7 +12423,7 @@ SkillInfo[SK.SHC_FATAL_SHADOW_CROW] = {
 };
 SkillInfo[SK.SHC_SHADOW_STAB] = {
 	Name: 'SHC_SHADOW_STAB',
-	SkillName: 'Shadow Stab',
+	SkillName: '暗影刺击',
 	MaxLv: 5,
 	SpAmount: [45, 50, 55, 60, 65],
 	bSeperateLv: true,
@@ -12437,7 +12437,7 @@ SkillInfo[SK.SHC_SHADOW_STAB] = {
 };
 SkillInfo[SK.SHC_IMPACT_CRATER] = {
 	Name: 'SHC_IMPACT_CRATER',
-	SkillName: 'Impact Crater',
+	SkillName: '冲击陨坑',
 	MaxLv: 5,
 	SpAmount: [43, 46, 49, 52, 55],
 	bSeperateLv: true,
@@ -12451,7 +12451,7 @@ SkillInfo[SK.SHC_IMPACT_CRATER] = {
 };
 SkillInfo[SK.CD_REPARATIO] = {
 	Name: 'CD_REPARATIO',
-	SkillName: 'Repatatio',
+	SkillName: '修复术',
 	MaxLv: 5,
 	SpAmount: [120, 120, 120, 120, 120],
 	bSeperateLv: true,
@@ -12460,7 +12460,7 @@ SkillInfo[SK.CD_REPARATIO] = {
 };
 SkillInfo[SK.CD_MEDIALE_VOTUM] = {
 	Name: 'CD_MEDIALE_VOTUM',
-	SkillName: 'Mediale Votum',
+	SkillName: '中位祷告',
 	MaxLv: 5,
 	SpAmount: [30, 40, 50, 60, 70],
 	bSeperateLv: true,
@@ -12469,7 +12469,7 @@ SkillInfo[SK.CD_MEDIALE_VOTUM] = {
 };
 SkillInfo[SK.CD_MACE_BOOK_M] = {
 	Name: 'CD_MACE_BOOK_M',
-	SkillName: 'Mace Book Mastery',
+	SkillName: '钝器书籍修炼',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12477,7 +12477,7 @@ SkillInfo[SK.CD_MACE_BOOK_M] = {
 };
 SkillInfo[SK.CD_ARGUTUS_VITA] = {
 	Name: 'CD_ARGUTUS_VITA',
-	SkillName: 'Argutus Vita',
+	SkillName: '睿智生命',
 	MaxLv: 5,
 	SpAmount: [30, 45, 60, 75, 90],
 	bSeperateLv: true,
@@ -12489,7 +12489,7 @@ SkillInfo[SK.CD_ARGUTUS_VITA] = {
 };
 SkillInfo[SK.CD_ARGUTUS_TELUM] = {
 	Name: 'CD_ARGUTUS_TELUM',
-	SkillName: 'Argutus Telum',
+	SkillName: '睿智武器',
 	MaxLv: 5,
 	SpAmount: [30, 45, 60, 75, 90],
 	bSeperateLv: true,
@@ -12501,7 +12501,7 @@ SkillInfo[SK.CD_ARGUTUS_TELUM] = {
 };
 SkillInfo[SK.CD_ARBITRIUM] = {
 	Name: 'CD_ARBITRIUM',
-	SkillName: 'Arbitrium',
+	SkillName: '裁决',
 	MaxLv: 10,
 	SpAmount: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140],
 	bSeperateLv: true,
@@ -12513,7 +12513,7 @@ SkillInfo[SK.CD_ARBITRIUM] = {
 };
 SkillInfo[SK.CD_PRESENS_ACIES] = {
 	Name: 'CD_PRESENS_ACIES',
-	SkillName: 'Presens Acies',
+	SkillName: '锋芒在前',
 	MaxLv: 5,
 	SpAmount: [30, 45, 60, 75, 90],
 	bSeperateLv: true,
@@ -12525,7 +12525,7 @@ SkillInfo[SK.CD_PRESENS_ACIES] = {
 };
 SkillInfo[SK.CD_FIDUS_ANIMUS] = {
 	Name: 'CD_FIDUS_ANIMUS',
-	SkillName: 'Fidus Animus',
+	SkillName: '忠诚之心',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12533,7 +12533,7 @@ SkillInfo[SK.CD_FIDUS_ANIMUS] = {
 };
 SkillInfo[SK.CD_EFFLIGO] = {
 	Name: 'CD_EFFLIGO',
-	SkillName: 'Effligo',
+	SkillName: '惩戒',
 	MaxLv: 10,
 	SpAmount: [60, 60, 60, 60, 60, 60, 60, 60, 60, 60],
 	ApAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
@@ -12546,7 +12546,7 @@ SkillInfo[SK.CD_EFFLIGO] = {
 };
 SkillInfo[SK.CD_COMPETENTIA] = {
 	Name: 'CD_COMPETENTIA',
-	SkillName: 'Competentia',
+	SkillName: '能力',
 	MaxLv: 5,
 	SpAmount: [60, 60, 60, 60, 60],
 	ApAmount: [200, 200, 200, 200, 200],
@@ -12560,7 +12560,7 @@ SkillInfo[SK.CD_COMPETENTIA] = {
 };
 SkillInfo[SK.CD_PNEUMATICUS_PROCELLA] = {
 	Name: 'CD_PNEUMATICUS_PROCELLA',
-	SkillName: 'Pneumaticus Procella',
+	SkillName: '气旋风暴',
 	MaxLv: 10,
 	SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
 	ApAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
@@ -12573,7 +12573,7 @@ SkillInfo[SK.CD_PNEUMATICUS_PROCELLA] = {
 };
 SkillInfo[SK.CD_DILECTIO_HEAL] = {
 	Name: 'CD_DILECTIO_HEAL',
-	SkillName: 'Dilectio Heal',
+	SkillName: '慈爱治愈',
 	MaxLv: 5,
 	SpAmount: [50, 55, 60, 65, 70],
 	bSeperateLv: true,
@@ -12585,7 +12585,7 @@ SkillInfo[SK.CD_DILECTIO_HEAL] = {
 };
 SkillInfo[SK.CD_RELIGIO] = {
 	Name: 'CD_RELIGIO',
-	SkillName: 'Religio',
+	SkillName: '信仰',
 	MaxLv: 5,
 	SpAmount: [70, 75, 80, 85, 90],
 	bSeperateLv: true,
@@ -12597,7 +12597,7 @@ SkillInfo[SK.CD_RELIGIO] = {
 };
 SkillInfo[SK.CD_BENEDICTUM] = {
 	Name: 'CD_BENEDICTUM',
-	SkillName: 'Benedictum',
+	SkillName: '祝福',
 	MaxLv: 5,
 	SpAmount: [70, 75, 80, 85, 90],
 	bSeperateLv: true,
@@ -12609,7 +12609,7 @@ SkillInfo[SK.CD_BENEDICTUM] = {
 };
 SkillInfo[SK.CD_PETITIO] = {
 	Name: 'CD_PETITIO',
-	SkillName: 'Petitio',
+	SkillName: '祈愿',
 	MaxLv: 10,
 	SpAmount: [32, 34, 36, 38, 40, 42, 44, 46, 48, 50],
 	bSeperateLv: true,
@@ -12621,7 +12621,7 @@ SkillInfo[SK.CD_PETITIO] = {
 };
 SkillInfo[SK.CD_FRAMEN] = {
 	Name: 'CD_FRAMEN',
-	SkillName: 'Flamen',
+	SkillName: '火焰',
 	MaxLv: 5,
 	SpAmount: [40, 45, 50, 55, 60],
 	bSeperateLv: true,
@@ -12633,7 +12633,7 @@ SkillInfo[SK.CD_FRAMEN] = {
 };
 SkillInfo[SK.BO_BIONIC_PHARMACY] = {
 	Name: 'BO_BIONIC_PHARMACY',
-	SkillName: 'Bionic Pharmacy',
+	SkillName: '仿生药剂学',
 	MaxLv: 5,
 	SpAmount: [30, 30, 30, 30, 30],
 	bSeperateLv: true,
@@ -12642,7 +12642,7 @@ SkillInfo[SK.BO_BIONIC_PHARMACY] = {
 };
 SkillInfo[SK.BO_BIONICS_M] = {
 	Name: 'BO_BIONICS_M',
-	SkillName: 'Bionics Mastery',
+	SkillName: '仿生精通',
 	MaxLv: 10,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12650,7 +12650,7 @@ SkillInfo[SK.BO_BIONICS_M] = {
 };
 SkillInfo[SK.BO_THE_WHOLE_PROTECTION] = {
 	Name: 'BO_THE_WHOLE_PROTECTION',
-	SkillName: 'Group Protection',
+	SkillName: '团队保护',
 	MaxLv: 5,
 	SpAmount: [220, 260, 300, 340, 380],
 	bSeperateLv: true,
@@ -12659,7 +12659,7 @@ SkillInfo[SK.BO_THE_WHOLE_PROTECTION] = {
 };
 SkillInfo[SK.BO_ADVANCE_PROTECTION] = {
 	Name: 'BO_ADVANCE_PROTECTION',
-	SkillName: 'Full Shadow Protection',
+	SkillName: '完全暗影保护',
 	MaxLv: 4,
 	SpAmount: [120, 130, 140, 150],
 	bSeperateLv: true,
@@ -12668,7 +12668,7 @@ SkillInfo[SK.BO_ADVANCE_PROTECTION] = {
 };
 SkillInfo[SK.BO_ACIDIFIED_ZONE_WATER] = {
 	Name: 'BO_ACIDIFIED_ZONE_WATER',
-	SkillName: 'Acidified Zone (Water)',
+	SkillName: '酸化区域（水）',
 	MaxLv: 5,
 	SpAmount: [40, 52, 64, 76, 88],
 	bSeperateLv: true,
@@ -12677,7 +12677,7 @@ SkillInfo[SK.BO_ACIDIFIED_ZONE_WATER] = {
 };
 SkillInfo[SK.BO_ACIDIFIED_ZONE_GROUND] = {
 	Name: 'BO_ACIDIFIED_ZONE_GROUND',
-	SkillName: 'Acidified Zone (Earth)',
+	SkillName: '酸化区域（地）',
 	MaxLv: 5,
 	SpAmount: [40, 52, 64, 76, 88],
 	bSeperateLv: true,
@@ -12689,7 +12689,7 @@ SkillInfo[SK.BO_ACIDIFIED_ZONE_GROUND] = {
 };
 SkillInfo[SK.BO_ACIDIFIED_ZONE_FIRE] = {
 	Name: 'BO_ACIDIFIED_ZONE_FIRE',
-	SkillName: 'Acidified Zone (Fire)',
+	SkillName: '酸化区域（火）',
 	MaxLv: 5,
 	SpAmount: [40, 52, 64, 76, 88],
 	bSeperateLv: true,
@@ -12698,7 +12698,7 @@ SkillInfo[SK.BO_ACIDIFIED_ZONE_FIRE] = {
 };
 SkillInfo[SK.BO_ACIDIFIED_ZONE_WIND] = {
 	Name: 'BO_ACIDIFIED_ZONE_WIND',
-	SkillName: 'Acidified Zone (Wind)',
+	SkillName: '酸化区域（风）',
 	MaxLv: 5,
 	SpAmount: [40, 52, 64, 76, 88],
 	bSeperateLv: true,
@@ -12710,7 +12710,7 @@ SkillInfo[SK.BO_ACIDIFIED_ZONE_WIND] = {
 };
 SkillInfo[SK.BO_WOODENWARRIOR] = {
 	Name: 'BO_WOODENWARRIOR',
-	SkillName: 'Create Wooden Warrior',
+	SkillName: '制造木头战士',
 	MaxLv: 5,
 	SpAmount: [100, 120, 140, 160, 180],
 	bSeperateLv: true,
@@ -12719,7 +12719,7 @@ SkillInfo[SK.BO_WOODENWARRIOR] = {
 };
 SkillInfo[SK.BO_WOODEN_FAIRY] = {
 	Name: 'BO_WOODEN_FAIRY',
-	SkillName: 'Create Wooden Fairy',
+	SkillName: '制造木头妖精',
 	MaxLv: 5,
 	SpAmount: [120, 155, 180, 205, 230],
 	bSeperateLv: true,
@@ -12728,7 +12728,7 @@ SkillInfo[SK.BO_WOODEN_FAIRY] = {
 };
 SkillInfo[SK.BO_CREEPER] = {
 	Name: 'BO_CREEPER',
-	SkillName: 'Create Creeper',
+	SkillName: '制造爬藤',
 	MaxLv: 5,
 	SpAmount: [80, 96, 112, 128, 144],
 	bSeperateLv: true,
@@ -12737,7 +12737,7 @@ SkillInfo[SK.BO_CREEPER] = {
 };
 SkillInfo[SK.BO_RESEARCHREPORT] = {
 	Name: 'BO_RESEARCHREPORT',
-	SkillName: 'Research Report',
+	SkillName: '研究报告',
 	MaxLv: 1,
 	SpAmount: [60],
 	ApAmount: [100],
@@ -12750,7 +12750,7 @@ SkillInfo[SK.BO_RESEARCHREPORT] = {
 };
 SkillInfo[SK.BO_HELLTREE] = {
 	Name: 'BO_HELLTREE',
-	SkillName: 'Create Hell Tree',
+	SkillName: '制造地狱树',
 	MaxLv: 5,
 	SpAmount: [100, 100, 100, 100, 100],
 	ApAmount: [100, 100, 100, 100, 100],
@@ -12763,7 +12763,7 @@ SkillInfo[SK.BO_HELLTREE] = {
 };
 SkillInfo[SK.WH_ADVANCED_TRAP] = {
 	Name: 'WH_ADVANCED_TRAP',
-	SkillName: 'Advanced Trap',
+	SkillName: '高级陷阱',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12772,7 +12772,7 @@ SkillInfo[SK.WH_ADVANCED_TRAP] = {
 };
 SkillInfo[SK.WH_WIND_SIGN] = {
 	Name: 'WH_WIND_SIGN',
-	SkillName: 'Wind Sign',
+	SkillName: '风之印记',
 	MaxLv: 5,
 	SpAmount: [100, 90, 80, 70, 60],
 	bSeperateLv: true,
@@ -12781,7 +12781,7 @@ SkillInfo[SK.WH_WIND_SIGN] = {
 };
 SkillInfo[SK.WH_NATUREFRIENDLY] = {
 	Name: 'WH_NATUREFRIENDLY',
-	SkillName: "Nature's Friend",
+	SkillName: '自然之友',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12789,7 +12789,7 @@ SkillInfo[SK.WH_NATUREFRIENDLY] = {
 };
 SkillInfo[SK.WH_HAWKRUSH] = {
 	Name: 'WH_HAWKRUSH',
-	SkillName: 'Hawk Rush',
+	SkillName: '猎鹰冲锋',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: true,
@@ -12798,7 +12798,7 @@ SkillInfo[SK.WH_HAWKRUSH] = {
 };
 SkillInfo[SK.WH_HAWK_M] = {
 	Name: 'WH_HAWK_M',
-	SkillName: 'Hawk Mastery',
+	SkillName: '猎鹰精通',
 	MaxLv: 1,
 	SpAmount: [5],
 	bSeperateLv: false,
@@ -12807,7 +12807,7 @@ SkillInfo[SK.WH_HAWK_M] = {
 };
 SkillInfo[SK.WH_CALAMITYGALE] = {
 	Name: 'WH_CALAMITYGALE',
-	SkillName: 'Calamity Gale',
+	SkillName: '灾厄狂风',
 	MaxLv: 1,
 	SpAmount: [300],
 	ApAmount: [200],
@@ -12820,7 +12820,7 @@ SkillInfo[SK.WH_CALAMITYGALE] = {
 };
 SkillInfo[SK.WH_HAWKBOOMERANG] = {
 	Name: 'WH_HAWKBOOMERANG',
-	SkillName: 'Hawk Boomerang',
+	SkillName: '猎鹰回旋镖',
 	MaxLv: 5,
 	SpAmount: [120, 120, 120, 120, 120],
 	ApAmount: [50, 50, 50, 50, 50],
@@ -12830,7 +12830,7 @@ SkillInfo[SK.WH_HAWKBOOMERANG] = {
 };
 SkillInfo[SK.WH_GALESTORM] = {
 	Name: 'WH_GALESTORM',
-	SkillName: 'Gale Storm',
+	SkillName: '狂风暴雨',
 	MaxLv: 10,
 	SpAmount: [80, 91, 102, 113, 124, 135, 146, 157, 168, 179],
 	bSeperateLv: true,
@@ -12839,7 +12839,7 @@ SkillInfo[SK.WH_GALESTORM] = {
 };
 SkillInfo[SK.WH_DEEPBLINDTRAP] = {
 	Name: 'WH_DEEPBLINDTRAP',
-	SkillName: 'Deep Blind Trap',
+	SkillName: '深度失明陷阱',
 	MaxLv: 5,
 	SpAmount: [50, 53, 56, 59, 62],
 	bSeperateLv: true,
@@ -12848,7 +12848,7 @@ SkillInfo[SK.WH_DEEPBLINDTRAP] = {
 };
 SkillInfo[SK.WH_SOLIDTRAP] = {
 	Name: 'WH_SOLIDTRAP',
-	SkillName: 'Solid Trap',
+	SkillName: '坚固陷阱',
 	MaxLv: 5,
 	SpAmount: [70, 80, 90, 100, 110],
 	bSeperateLv: true,
@@ -12857,7 +12857,7 @@ SkillInfo[SK.WH_SOLIDTRAP] = {
 };
 SkillInfo[SK.WH_SWIFTTRAP] = {
 	Name: 'WH_SWIFTTRAP',
-	SkillName: 'Swift Trap',
+	SkillName: '迅捷陷阱',
 	MaxLv: 5,
 	SpAmount: [60, 62, 64, 66, 68],
 	bSeperateLv: true,
@@ -12866,7 +12866,7 @@ SkillInfo[SK.WH_SWIFTTRAP] = {
 };
 SkillInfo[SK.WH_CRESCIVE_BOLT] = {
 	Name: 'WH_CRESCIVE_BOLT',
-	SkillName: 'Crescive Bolt',
+	SkillName: '新月箭',
 	MaxLv: 10,
 	SpAmount: [55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
 	bSeperateLv: true,
@@ -12875,7 +12875,7 @@ SkillInfo[SK.WH_CRESCIVE_BOLT] = {
 };
 SkillInfo[SK.WH_FLAMETRAP] = {
 	Name: 'WH_FLAMETRAP',
-	SkillName: 'Flame Trap',
+	SkillName: '火焰陷阱',
 	MaxLv: 5,
 	SpAmount: [40, 44, 48, 52, 56],
 	bSeperateLv: true,
@@ -12884,7 +12884,7 @@ SkillInfo[SK.WH_FLAMETRAP] = {
 };
 SkillInfo[SK.TR_STAGE_MANNER] = {
 	Name: 'TR_STAGE_MANNER',
-	SkillName: 'Stage Etiquette',
+	SkillName: '舞台礼仪',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: false,
@@ -12892,7 +12892,7 @@ SkillInfo[SK.TR_STAGE_MANNER] = {
 };
 SkillInfo[SK.TR_RETROSPECTION] = {
 	Name: 'TR_RETROSPECTION',
-	SkillName: 'Retrospection',
+	SkillName: '回忆',
 	MaxLv: 1,
 	SpAmount: [1],
 	bSeperateLv: false,
@@ -12901,7 +12901,7 @@ SkillInfo[SK.TR_RETROSPECTION] = {
 };
 SkillInfo[SK.TR_MYSTIC_SYMPHONY] = {
 	Name: 'TR_MYSTIC_SYMPHONY',
-	SkillName: 'Mystic Symphony',
+	SkillName: '神秘交响曲',
 	MaxLv: 1,
 	SpAmount: [250],
 	ApAmount: [100],
@@ -12914,7 +12914,7 @@ SkillInfo[SK.TR_MYSTIC_SYMPHONY] = {
 };
 SkillInfo[SK.TR_KVASIR_SONATA] = {
 	Name: 'TR_KVASIR_SONATA',
-	SkillName: 'Kvasir Sonata',
+	SkillName: '夸西尔奏鸣曲',
 	MaxLv: 1,
 	SpAmount: [300],
 	ApAmount: [100],
@@ -12927,7 +12927,7 @@ SkillInfo[SK.TR_KVASIR_SONATA] = {
 };
 SkillInfo[SK.TR_ROSEBLOSSOM] = {
 	Name: 'TR_ROSEBLOSSOM',
-	SkillName: 'Rose Blossom',
+	SkillName: '玫瑰绽放',
 	MaxLv: 5,
 	SpAmount: [215, 230, 245, 260, 275],
 	bSeperateLv: true,
@@ -12936,7 +12936,7 @@ SkillInfo[SK.TR_ROSEBLOSSOM] = {
 };
 SkillInfo[SK.TR_RHYTHMSHOOTING] = {
 	Name: 'TR_RHYTHMSHOOTING',
-	SkillName: 'Rhythm Shooting',
+	SkillName: '节奏射击',
 	MaxLv: 5,
 	SpAmount: [80, 92, 104, 116, 128],
 	bSeperateLv: true,
@@ -12944,7 +12944,7 @@ SkillInfo[SK.TR_RHYTHMSHOOTING] = {
 };
 SkillInfo[SK.TR_METALIC_FURY] = {
 	Name: 'TR_METALIC_FURY',
-	SkillName: 'Metallic Fury',
+	SkillName: '金属狂怒',
 	MaxLv: 5,
 	SpAmount: [120, 132, 144, 156, 168],
 	bSeperateLv: true,
@@ -12953,7 +12953,7 @@ SkillInfo[SK.TR_METALIC_FURY] = {
 };
 SkillInfo[SK.TR_SOUNDBLEND] = {
 	Name: 'TR_SOUNDBLEND',
-	SkillName: 'Sound Blend',
+	SkillName: '声音融合',
 	MaxLv: 5,
 	SpAmount: [80, 92, 104, 116, 128],
 	bSeperateLv: true,
@@ -12962,7 +12962,7 @@ SkillInfo[SK.TR_SOUNDBLEND] = {
 };
 SkillInfo[SK.TR_GEF_NOCTURN] = {
 	Name: 'TR_GEF_NOCTURN',
-	SkillName: 'Geffenia Nocturne',
+	SkillName: '吉芬尼亚夜曲',
 	MaxLv: 5,
 	SpAmount: [120, 160, 200, 240, 280],
 	bSeperateLv: true,
@@ -12971,7 +12971,7 @@ SkillInfo[SK.TR_GEF_NOCTURN] = {
 };
 SkillInfo[SK.TR_ROKI_CAPRICCIO] = {
 	Name: 'TR_ROKI_CAPRICCIO',
-	SkillName: 'Loki Capriccio',
+	SkillName: '洛基随想曲',
 	MaxLv: 5,
 	SpAmount: [120, 160, 200, 240, 280],
 	bSeperateLv: true,
@@ -12980,7 +12980,7 @@ SkillInfo[SK.TR_ROKI_CAPRICCIO] = {
 };
 SkillInfo[SK.TR_AIN_RHAPSODY] = {
 	Name: 'TR_AIN_RHAPSODY',
-	SkillName: 'Miner Rhapsody',
+	SkillName: '矿工狂想曲',
 	MaxLv: 5,
 	SpAmount: [120, 160, 200, 240, 280],
 	bSeperateLv: true,
@@ -12989,7 +12989,7 @@ SkillInfo[SK.TR_AIN_RHAPSODY] = {
 };
 SkillInfo[SK.TR_MUSICAL_INTERLUDE] = {
 	Name: 'TR_MUSICAL_INTERLUDE',
-	SkillName: 'Musical Interlude',
+	SkillName: '音乐间奏',
 	MaxLv: 5,
 	SpAmount: [171, 182, 193, 204, 215],
 	bSeperateLv: true,
@@ -13505,7 +13505,7 @@ SkillInfo[SK.EM_ELEMENTAL_VEIL] = {
 };
 SkillInfo[SK.EM_EL_FLAMETECHNIC] = {
 	Name: 'EM_EL_FLAMETECHNIC',
-	SkillName: 'Flame Technique',
+	SkillName: '火焰技法',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13513,7 +13513,7 @@ SkillInfo[SK.EM_EL_FLAMETECHNIC] = {
 };
 SkillInfo[SK.EM_EL_FLAMEARMOR] = {
 	Name: 'EM_EL_FLAMEARMOR',
-	SkillName: 'Flame Armor',
+	SkillName: '火焰铠甲',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13521,7 +13521,7 @@ SkillInfo[SK.EM_EL_FLAMEARMOR] = {
 };
 SkillInfo[SK.EM_EL_FLAMEROCK] = {
 	Name: 'EM_EL_FLAMEROCK',
-	SkillName: 'Flame Rock',
+	SkillName: '火焰岩石',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13529,7 +13529,7 @@ SkillInfo[SK.EM_EL_FLAMEROCK] = {
 };
 SkillInfo[SK.EM_EL_COLD_FORCE] = {
 	Name: 'EM_EL_COLD_FORCE',
-	SkillName: 'Cold Force',
+	SkillName: '寒冷之力',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13537,7 +13537,7 @@ SkillInfo[SK.EM_EL_COLD_FORCE] = {
 };
 SkillInfo[SK.EM_EL_CRYSTAL_ARMOR] = {
 	Name: 'EM_EL_CRYSTAL_ARMOR',
-	SkillName: 'Crystal Armor',
+	SkillName: '水晶铠甲',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13545,7 +13545,7 @@ SkillInfo[SK.EM_EL_CRYSTAL_ARMOR] = {
 };
 SkillInfo[SK.EM_EL_AGE_OF_ICE] = {
 	Name: 'EM_EL_AGE_OF_ICE',
-	SkillName: 'Ice Age',
+	SkillName: '冰河时代',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13553,7 +13553,7 @@ SkillInfo[SK.EM_EL_AGE_OF_ICE] = {
 };
 SkillInfo[SK.EM_EL_GRACE_BREEZE] = {
 	Name: 'EM_EL_GRACE_BREEZE',
-	SkillName: 'Grace Breeze',
+	SkillName: '恩典微风',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13561,7 +13561,7 @@ SkillInfo[SK.EM_EL_GRACE_BREEZE] = {
 };
 SkillInfo[SK.EM_EL_EYES_OF_STORM] = {
 	Name: 'EM_EL_EYES_OF_STORM',
-	SkillName: 'Eye of the Storm',
+	SkillName: '风暴之眼',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13569,7 +13569,7 @@ SkillInfo[SK.EM_EL_EYES_OF_STORM] = {
 };
 SkillInfo[SK.EM_EL_STORM_WIND] = {
 	Name: 'EM_EL_STORM_WIND',
-	SkillName: 'Storm Wind',
+	SkillName: '风暴之风',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13577,7 +13577,7 @@ SkillInfo[SK.EM_EL_STORM_WIND] = {
 };
 SkillInfo[SK.EM_EL_EARTH_CARE] = {
 	Name: 'EM_EL_EARTH_CARE',
-	SkillName: 'Earth Care',
+	SkillName: '大地守护',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13585,7 +13585,7 @@ SkillInfo[SK.EM_EL_EARTH_CARE] = {
 };
 SkillInfo[SK.EM_EL_STRONG_PROTECTION] = {
 	Name: 'EM_EL_STRONG_PROTECTION',
-	SkillName: 'Strong Protection',
+	SkillName: '强力保护',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13593,7 +13593,7 @@ SkillInfo[SK.EM_EL_STRONG_PROTECTION] = {
 };
 SkillInfo[SK.EM_EL_AVALANCHE] = {
 	Name: 'EM_EL_AVALANCHE',
-	SkillName: 'Avalanche',
+	SkillName: '雪崩',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13601,7 +13601,7 @@ SkillInfo[SK.EM_EL_AVALANCHE] = {
 };
 SkillInfo[SK.EM_EL_DEEP_POISONING] = {
 	Name: 'EM_EL_DEEP_POISONING',
-	SkillName: 'Deep Poisoning',
+	SkillName: '深度中毒',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13609,7 +13609,7 @@ SkillInfo[SK.EM_EL_DEEP_POISONING] = {
 };
 SkillInfo[SK.EM_EL_POISON_SHIELD] = {
 	Name: 'EM_EL_POISON_SHIELD',
-	SkillName: 'Poison Shield',
+	SkillName: '毒之盾',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13617,7 +13617,7 @@ SkillInfo[SK.EM_EL_POISON_SHIELD] = {
 };
 SkillInfo[SK.EM_EL_DEADLY_POISON] = {
 	Name: 'EM_EL_DEADLY_POISON',
-	SkillName: 'Deadly Poison',
+	SkillName: '致命毒药',
 	MaxLv: 1,
 	SpAmount: [0],
 	bSeperateLv: true,
@@ -13625,7 +13625,7 @@ SkillInfo[SK.EM_EL_DEADLY_POISON] = {
 };
 SkillInfo[SK.NPC_DEADLYCURSE2] = {
 	Name: 'NPC_DEADLYCURSE2',
-	SkillName: 'Wide Deadly Curse',
+	SkillName: '广域致命诅咒',
 	MaxLv: 5,
 	SpAmount: [0, 0, 0, 0, 0],
 	bSeperateLv: true,

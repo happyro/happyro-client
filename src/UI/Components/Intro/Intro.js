@@ -163,7 +163,7 @@ Intro.init = function init() {
 	root.querySelector('.clean').addEventListener('click', function () {
 		this.style.display = 'none';
 		const status = root.querySelector('.clean-status');
-		status.innerHTML = '<i>Cleaning cache...</i>';
+		status.innerHTML = '<i>正在清理缓存...</i>';
 
 		FileSystem.cleanup(() => {
 			status.innerHTML = '';
@@ -205,7 +205,7 @@ Intro.init = function init() {
 		const count = tbody.querySelectorAll('tr').length;
 		const tr = document.createElement('tr');
 		tr.innerHTML =
-			'<td><input type="text" class="display" value="Server ' +
+			'<td><input type="text" class="display" value="服务器 ' +
 			count +
 			'"/></td>' +
 			'<td><input type="text" class="address" value="127.0.0.1:6900"/></td>' +
@@ -270,11 +270,11 @@ Intro.onAppend = function onAppend() {
 		if (!used) return;
 		let msg = '';
 		if (used > 1024 * 1024 * 1024) {
-			msg = (used / 1024 / 1024 / 1024).toFixed(2) + ' GiB saved';
+			msg = '已节省 ' + (used / 1024 / 1024 / 1024).toFixed(2) + ' GiB';
 		} else if (used > 1024 * 1024) {
-			msg = (used / 1024 / 1024).toFixed(2) + ' MiB saved';
+			msg = '已节省 ' + (used / 1024 / 1024).toFixed(2) + ' MiB';
 		} else {
-			msg = (used / 1024).toFixed(2) + ' KiB saved';
+			msg = '已节省 ' + (used / 1024).toFixed(2) + ' KiB';
 		}
 		const msgEl = root.querySelector('.msg');
 		if (msgEl) msgEl.textContent = msg;
@@ -409,7 +409,7 @@ function addFiles(files) {
 	if (!files.length) return;
 	Intro.files.push.apply(Intro.files, files);
 	const msgEl = querySelector('.msg');
-	if (msgEl) msgEl.textContent = Intro.files.length + ' files selected';
+	if (msgEl) msgEl.textContent = '已选择 ' + Intro.files.length + ' 个文件';
 }
 
 /**

@@ -759,15 +759,15 @@ function onGuildCreationResult(pkt) {
 			break;
 
 		case 1: // You are already in a Guild.#
-			createFailed(DB.getMessage(375, 'You are already in a Guild.'));
+			createFailed(DB.getMessage(375, '你已经加入公会。'));
 			break;
 
 		case 2: // That Guild Name already exists.
-			createFailed(DB.getMessage(376, 'That Guild Name already exists.'));
+			createFailed(DB.getMessage(376, '该公会名称已存在。'));
 			break;
 
 		case 3: // You need the neccessary item to create a Guild.
-			createFailed(DB.getMessage(405, 'You need the necessary item to create a Guild.'));
+			createFailed(DB.getMessage(405, '你需要必要的物品才能创建公会。'));
 			break;
 	}
 }
@@ -798,7 +798,7 @@ function onGuildDestroy(pkt) {
 			break;
 
 		case 1: // invalid guild name
-			fail(DB.getMessage(401, 'You have failed to disband the guild.'));
+			fail(DB.getMessage(401, '公会解散失败。'));
 			break;
 
 		case 2: // still members on the guild

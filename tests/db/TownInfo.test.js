@@ -9,7 +9,7 @@ describe('TownInfo', () => {
   
     it('has Payon data', () => {  
         expect(TownInfo['payon']).toBeDefined();  
-        const kafra = TownInfo['payon'].find(n => n.Name === 'Kafra Employee');  
+        const kafra = TownInfo['payon'].find(n => n.Name === '卡普拉职员');  
         expect(kafra).toBeDefined();  
         expect(kafra.Type).toBe(6);  
     });  
@@ -17,7 +17,7 @@ describe('TownInfo', () => {
     it('einbech has correct NPC positions', () => {  
         const einbech = TownInfo['einbech'];  
         expect(einbech).toBeDefined();  
-        expect(einbech[0].Name).toBe('Kafra Employee');  
+        expect(einbech[0].Name).toBe('卡普拉职员');  
         expect(einbech[0].X).toBe(181);  
         expect(einbech[0].Y).toBe(132);  
         expect(einbech[0].Type).toBe(6);  

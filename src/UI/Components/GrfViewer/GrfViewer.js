@@ -188,7 +188,7 @@ function initToolBar() {
 		this.value = '';
 	});
 	searchInput.addEventListener('blur', function () {
-		this.value = this.value || 'Search...';
+		this.value = this.value || '搜索...';
 	});
 	searchInput.addEventListener('keydown', function (event) {
 		if (event.which === KEYS.ENTER) {
@@ -236,11 +236,11 @@ function showContextMenu(iconElement, event) {
 	infoBtn.onmousedown = null;
 
 	// Header
-	header.innerHTML = `Path: ${path}`;
+	header.innerHTML = `路径：${path}`;
 	header.style.backgroundColor = '';
 	header.onclick = () => {
 		navigator.clipboard.writeText(path);
-		header.innerHTML = `Copied: ${path}`;
+		header.innerHTML = `已复制：${path}`;
 		header.style.backgroundColor = '#AAFFAA';
 	};
 
@@ -419,7 +419,7 @@ function renderFiles(list) {
 
 	if (!list.length) {
 		const msg = root.querySelector('#msg');
-		msg.textContent = 'No file found.';
+		msg.textContent = '未找到文件。';
 		msg.style.display = 'block';
 		return;
 	}

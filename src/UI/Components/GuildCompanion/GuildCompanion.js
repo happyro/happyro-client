@@ -44,7 +44,7 @@ GuildCompanion.init = function init() {
 
 		if (_mode === 'disband') {
 			if (Session.guildName && name !== Session.guildName) {
-				UIManager.showMessageBox(DB.getMessage(401, 'You have failed to disband the guild.'), 'ok', () => {
+				UIManager.showMessageBox(DB.getMessage(401, '公会解散失败。'), 'ok', () => {
 					input.value = '';
 					input.focus();
 				});
@@ -96,15 +96,15 @@ function open(mode) {
 	if (mode === 'disband') {
 		companion.classList.add('hidden');
 		nameWin.classList.add('visible');
-		root.querySelector('.name_title').textContent = 'Disband the Guild';
-		root.querySelector('.name_label').textContent = 'Enter Guild Name';
+		root.querySelector('.name_title').textContent = '解散公会';
+		root.querySelector('.name_label').textContent = '输入公会名称';
 		input.value = '';
 		input.focus();
 	} else {
 		companion.classList.remove('hidden');
 		nameWin.classList.remove('visible');
-		root.querySelector('.name_title').textContent = 'Create Guild';
-		root.querySelector('.name_label').textContent = 'Guild Name';
+		root.querySelector('.name_title').textContent = '创建公会';
+		root.querySelector('.name_label').textContent = '公会名称';
 		input.value = '';
 	}
 

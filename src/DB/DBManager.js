@@ -229,10 +229,10 @@ const CashShopBannerTable = [];
 const Ez2streffect = {};
 
 const unknownItem = {
-	unidentifiedDisplayName: 'Unknown Item',
+	unidentifiedDisplayName: '未知物品',
 	unidentifiedResourceName: '\xbb\xe7\xb0\xfa',
 	unidentifiedDescriptionName: ['...'],
-	identifiedDisplayName: 'Unknown Item',
+	identifiedDisplayName: '未知物品',
 	identifiedResourceName: '\xbb\xe7\xb0\xfa',
 	identifiedDescriptionName: ['...'],
 	slotCount: 0,
@@ -2396,7 +2396,7 @@ class DB {
 					}
 
 					const GID = (item.slot.card4 << 16) + item.slot.card3;
-					name = '<font color="red" class="owner-' + GID + '">Unknown</font>';
+					name = '<font color="red" class="owner-' + GID + '">未知</font>';
 					if (DB.CNameTable[GID] && DB.CNameTable[GID] !== 'Unknown') {
 						name = '<font color="#87cefa" class="owner-' + GID + '">' + DB.CNameTable[GID] + '</font>';
 					} else {
@@ -2501,7 +2501,7 @@ class DB {
 	 */
 	static getOptionName(id) {
 		if (!(id in RandomOption)) {
-			return 'UNKNOWN RANDOM OPTION';
+			return '未知随机选项';
 		}
 		return RandomOption[id];
 	}
@@ -2514,7 +2514,7 @@ class DB {
 	 */
 	static getMessage(id, defaultText) {
 		if (!(id in MsgStringTable)) {
-			return defaultText !== undefined ? defaultText : 'NO MSG ' + id;
+			return defaultText !== undefined ? defaultText : '无消息 ' + id;
 		}
 
 		return MsgStringTable[id];
@@ -2582,7 +2582,7 @@ class DB {
 	 * @param {number} job id
 	 */
 	static getMonsterName(job) {
-		return MonsterNameTable[job] ?? 'Unknown';
+		return MonsterNameTable[job] ?? '未知';
 	}
 
 	/**
@@ -2755,7 +2755,7 @@ class DB {
 			if (reformInfo) {
 				reformInfos.push(reformInfo);
 			} else {
-				console.error('Reform Info not found for reform ID:', reformId);
+			console.error('未找到改造信息，改造 ID：', reformId);
 			}
 		}
 
@@ -4949,8 +4949,8 @@ function loadQuestInfo(filename, callback, onEnd) {
 
 						-- Provide default values for DESC fields if they are nil
 						local questData = {
-							Title = DESC.Title or "Unknown Quest",
-							Summary = DESC.Summary or "Unknown Quest",
+							Title = DESC.Title or "未知任务",
+							Summary = DESC.Summary or "未知任务",
 							IconName = DESC.IconName or "",
 							NpcSpr = DESC.NpcSpr or "",
 							NpcNavi = DESC.NpcNavi or "",
@@ -4981,7 +4981,7 @@ function loadQuestInfo(filename, callback, onEnd) {
 
 						-- Iterate over Description table, use empty table if nil
 						for k, v in pairs(questData.Description) do
-							result, msg = AddQuestDescription(QuestID, v or "No description available")
+							result, msg = AddQuestDescription(QuestID, v or "暂无描述")
 							if not result then
 								return false, msg
 							end

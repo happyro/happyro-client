@@ -185,7 +185,7 @@ Rodex.createRodexList = function createRodexList(tabID = 0, search = false, term
 					<div class="sender"><div id="sender_${mailID}" sender="${sender}" class="text event_add_cursor"><span data-text="2701"></span>${sender}</div></div>
 				</div>
 				<div class="mail-content" data-background="${mail_content}"></div>
-				<div class="expire-days">${remaining_days} days</div>
+				<div class="expire-days">${remaining_days} 天</div>
 			</li>`;
 		content.insertAdjacentHTML('beforeend', mail_html);
 

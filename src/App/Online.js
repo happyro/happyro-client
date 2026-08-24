@@ -12,7 +12,7 @@ export function init() {
 	GameEngine.init();
 
 	window.onbeforeunload = function () {
-		return 'Are you sure to exit roBrowser ?';
+		return '确定要退出 roBrowser 吗？';
 	};
 }
 

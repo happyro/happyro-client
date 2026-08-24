@@ -26,10 +26,10 @@ StatusInfo[SC.OVERTHRUSTMAX] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Maximum Over Thrust', COLOR_TITLE_BUFF],
+		['最大过度加速', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases weapon damage.'],
-		['Increases the possibility of breaking the weapon.']
+		['提高武器伤害。'],
+		['提高武器损坏的可能性。']
 	]
 };
 
@@ -37,7 +37,7 @@ StatusInfo[SC.SUFFRAGIUM] = {
 	icon: '\xbc\xf6\xc1\xdd\xc0\xba\xc7\xcf\xb7\xe7\xc0\xc7\xbf\xec\xbf\xef.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Suffragium', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Reduces cast time.']]
+	descript: [['牺牲祈福', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['减少吟唱时间。']]
 };
 
 StatusInfo[SC.OVERTHRUST] = {
@@ -45,37 +45,37 @@ StatusInfo[SC.OVERTHRUST] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Over Thrust', COLOR_TITLE_BUFF],
+		['过度加速', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases weapon damage.'],
-		['Increases the possibility of breaking the weapon.']
+		['提高武器伤害。'],
+		['提高武器损坏的可能性。']
 	]
 };
 
 StatusInfo[SC.AUTOBERSERK] = {
 	icon: '\xb1\xdd\xb0\xad\xba\xd2\xb1\xab.tga',
-	descript: [['Auto Berserk', COLOR_TITLE_BUFF], ['Rage when close to death']]
+	descript: [['自动狂暴', COLOR_TITLE_BUFF], ['濒死时进入狂暴状态']]
 };
 
 StatusInfo[SC.BEYOND_OF_WARCRY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Warcry of Beyond', COLOR_TITLE_BUFF],
+		['超越战吼', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases physical attack power'],
-		['Decreases magic attack power']
+		['提高物理攻击力'],
+		['降低魔法攻击力']
 	]
 };
 
 StatusInfo[SC.SWORDREJECT] = {
 	icon: 'icon04.tga',
 	descript: [
-		['Sword Reject', COLOR_TITLE_BUFF],
-		['Reflects damage back to attacking monsters'],
-		['(for all monster attacks)'],
-		['Damage received is reduced by 1/2'],
-		['You receive the other 1/2 of damage']
+		['剑术反击', COLOR_TITLE_BUFF],
+		['将伤害反弹给攻击中的怪物'],
+		['（对所有怪物攻击）'],
+		['受到的伤害减少一半'],
+		['你会承受另一半伤害']
 	]
 };
 
@@ -84,10 +84,10 @@ StatusInfo[SC.MANU_DEF] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		["Manuk's Will", COLOR_TITLE_BUFF],
+		['马努克的意志', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Decrease physical/magical damage'],
-		['from the monsters in Manuk field']
+		['减少物理/魔法伤害'],
+		['来自马努克原野的怪物']
 	]
 };
 
@@ -96,16 +96,16 @@ StatusInfo[SC.CONCENTRATION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Attention Concentration', COLOR_TITLE_BUFF],
+		['集中注意力', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases DEX, AGI'],
-		['Reveals nearby hidden enemies']
+		['提高 DEX、AGI'],
+		['显现附近的隐形敌人']
 	]
 };
 
 StatusInfo[SC.GRIFFON] = {
 	icon: '\xb6\xf3\xc0\xcc\xb5\xf9.tga',
-	descript: [['Riding Griffon', COLOR_TITLE_TOGGLE]]
+	descript: [['骑乘狮鹫', COLOR_TITLE_TOGGLE]]
 };
 
 StatusInfo[SC.GS_MADNESSCANCEL] = {
@@ -113,11 +113,11 @@ StatusInfo[SC.GS_MADNESSCANCEL] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Madness Canceller (Last Stand)', COLOR_TITLE_BUFF],
+		['疯狂取消者（最后一搏）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases ATK'],
-		['Increases Attack Speed'],
-		['Immobilized']
+		['提高 ATK'],
+		['提高攻击速度'],
+		['无法移动']
 	]
 };
 
@@ -126,11 +126,11 @@ StatusInfo[SC.GS_ACCURACY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Increasing Accuracy (Increase Accuracy)', COLOR_TITLE_BUFF],
+		['精准提升（提高命中率）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases Accuracy'],
-		['Increases DEX'],
-		['Increases AGI']
+		['提高命中率'],
+		['提高 DEX'],
+		['提高 AGI']
 	]
 };
 
@@ -138,7 +138,7 @@ StatusInfo[SC.FOOD_STR] = {
 	icon: 'str_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases STR']]
+	descript: [['%s', COLOR_TIME], ['提高 STR']]
 };
 
 StatusInfo[SC.HALLUCINATIONWALK] = {
@@ -146,19 +146,19 @@ StatusInfo[SC.HALLUCINATIONWALK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Hallucination Walk', COLOR_TITLE_BUFF],
+		['幻影步', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Improves Evasion Rate'],
-		['Chance to evade Magical Damage.']
+		['提高回避率'],
+		['有机会回避魔法伤害。']
 	]
 };
 
 StatusInfo[SC.STORMKICK_ON] = {
 	icon: 'i_stormkick.tga',
 	descript: [
-		['Whirlwind Kick (Tornado Kick)', COLOR_TITLE_BUFF],
-		['When attacking an enemy'],
-		['there is a chance to prepare a Whirlwind Kick']
+		['旋风踢（龙卷踢）', COLOR_TITLE_BUFF],
+		['攻击敌人时'],
+		['有机会准备旋风踢']
 	]
 };
 
@@ -166,14 +166,14 @@ StatusInfo[SC.KAUPE] = {
 	icon: 'i_kaupe.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Kaupe', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Chance to evade an enemy attack.']]
+	descript: [['金蝉脱壳', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['有机会回避敌人攻击。']]
 };
 
 StatusInfo[SC.SHIELDSPELL_DEF] = {
 	icon: 'lg_shieldspell_¹æ.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Shield Spell (DEF)', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Invokes a magical spell based on DEF']]
+	descript: [['盾牌咒文（DEF）', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['根据 DEF 发动魔法。']]
 };
 
 StatusInfo[SC.WARMER] = {
@@ -181,11 +181,11 @@ StatusInfo[SC.WARMER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Warmer', COLOR_TITLE_BUFF],
+		['温暖', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Removes Frozen/Freezing status'],
-		['Immunity to Frozen/Freezing status'],
-		['Recovers HP every 3 seconds']
+		['解除冰冻/冻结状态'],
+		['免疫冰冻/冻结状态'],
+		['每3秒恢复 HP']
 	]
 };
 
@@ -194,9 +194,9 @@ StatusInfo[SC.PROTECT_MDEF] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Magic Armor Potions', COLOR_TITLE_BUFF],
+		['魔法铠甲药水', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases resistance to magical attacks']
+		['提高魔法攻击抗性']
 	]
 };
 
@@ -204,21 +204,21 @@ StatusInfo[SC.STAR_COMFORT] = {
 	icon: 'i_starcomfort.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Comfort of the Stars', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases ASPD']]
+	descript: [['星辰的安慰', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 ASPD']]
 };
 
 StatusInfo[SC.FOOD_CRITICALSUCCESSVALUE] = {
 	icon: 'gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Improves CRIT']]
+	descript: [['%s', COLOR_TIME], ['提高 CRIT']]
 };
 
 StatusInfo[SC.PROPERTYTELEKINESIS] = {
 	icon: 'i_p_tele.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['Warm Wind', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Enchants Weapon with Ghost Property']]
+	descript: [['暖风', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为武器附加幽灵属性']]
 };
 
 StatusInfo[SC.GLOOMYDAY] = {
@@ -226,10 +226,10 @@ StatusInfo[SC.GLOOMYDAY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Gloomy Day', COLOR_TITLE_BUFF],
+		['阴郁之日', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases the damage of specific skills'],
-		['Reduces FLEE, ASPD']
+		['提高特定技能伤害'],
+		['降低 FLEE、ASPD']
 	]
 };
 
@@ -237,7 +237,7 @@ StatusInfo[SC.SIRCLEOFNATURE] = {
 	icon: '\xbc\xf8\xc8\xaf\xc7\xcf\xb4\xc2\xc0\xda\xbf\xac\xc0\xc7\xbc\xd2\xb8\xae.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [["Circle of Nature's Sound", COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Consumes SP and recovers HP']]
+	descript: [['自然之声', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['消耗 SP 并恢复 HP']]
 };
 
 StatusInfo[SC.DEADLYINFECT] = {
@@ -245,11 +245,11 @@ StatusInfo[SC.DEADLYINFECT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Deadly Infect', COLOR_TITLE_BUFF],
+		['致命感染', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When attacking'],
-		['or being attacked'],
-		['your status effects are applies to them']
+		['攻击时'],
+		['或受到攻击时'],
+		['将你的状态效果施加给对方']
 	]
 };
 
@@ -257,14 +257,14 @@ StatusInfo[SC.SYMPHONY_LOVE] = {
 	icon: '\xbf\xac\xc0\xce\xb5\xe9\xc0\xbb\xc0\xa7\xc7\xd1\xbd\xc9\xc6\xf7\xb4\xcf.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Symphony of Love', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases MDEF']]
+	descript: [['爱的交响曲', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 MDEF']]
 };
 
 StatusInfo[SC.BANDING] = {
 	icon: 'lg_banding.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Banding', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Banding status']]
+	descript: [['编队', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['编队状态']]
 };
 
 StatusInfo[SC.NJ_BUNSINJYUTSU] = {
@@ -272,10 +272,10 @@ StatusInfo[SC.NJ_BUNSINJYUTSU] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Illusionary Shadow', COLOR_TITLE_BUFF],
+		['幻影分身', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Avoids a certain number of physical attacks'],
-		['Magical attacks cannot be avoided']
+		['回避一定次数的物理攻击'],
+		['无法回避魔法攻击']
 	]
 };
 
@@ -284,10 +284,10 @@ StatusInfo[SC.WUGRIDER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Warg Rider', COLOR_TITLE_BUFF],
+		['狼骑乘', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Bows are Disabled'],
-		['Warg Skills are only allowed']
+		['无法使用弓'],
+		['仅可使用狼技能']
 	]
 };
 
@@ -295,9 +295,9 @@ StatusInfo[SC.ATKER_BLOOD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['SP Consumption Reduction Potion', COLOR_TITLE_BUFF],
+		['SP 消耗减少药水', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reduced SP Consumption of skills by 15%']
+		['技能 SP 消耗减少15%']
 	]
 };
 
@@ -305,11 +305,11 @@ StatusInfo[SC.BODYPAINT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Body Painting', COLOR_TITLE_BUFF],
+		['身体彩绘', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reveals hidden enemies'],
-		['Chance to inflict Blind to enemies'],
-		['Reduces Enemy ASPD']
+		['显现隐形敌人'],
+		['有机会使敌人陷入黑暗'],
+		['降低敌人 ASPD']
 	]
 };
 
@@ -318,10 +318,10 @@ StatusInfo[SC.NJ_UTSUSEMI] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Cicada Skin Shedding', COLOR_TITLE_BUFF],
+		['蝉蜕', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Avoids a certain number of physical attacks'],
-		['When avoiding, move in the opposite direction of the attacker']
+		['回避一定次数的物理攻击'],
+		['回避时向攻击者相反方向移动']
 	]
 };
 
@@ -330,9 +330,9 @@ StatusInfo[SC.POISONINGWEAPON] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Poisoning Weapon', COLOR_TITLE_BUFF],
+		['武器涂毒', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Applies the poison coated on your weapon to the target']
+		['将武器上的毒药施加给目标']
 	]
 };
 
@@ -340,7 +340,7 @@ StatusInfo[SC.CASH_DEATHPENALTY] = {
 	icon: 'death.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['Life Insurance', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['No EXP loss upon death']]
+	descript: [['生命保险', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['死亡时不会损失 EXP']]
 };
 
 StatusInfo[SC.GS_ADJUSTMENT] = {
@@ -348,11 +348,11 @@ StatusInfo[SC.GS_ADJUSTMENT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Adjustment', COLOR_TITLE_BUFF],
+		['调整', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reduces HIT'],
-		['Increases FLEE'],
-		['Reduces damage of incoming ranged physical attacks']
+		['降低 HIT'],
+		['提高 FLEE'],
+		['降低受到的远程物理攻击伤害']
 	]
 };
 
@@ -361,12 +361,12 @@ StatusInfo[SC.AUTOSPELL] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Auto Spell', COLOR_TITLE_BUFF],
+		['自动念咒', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When physically attacking'],
-		['the selected skill will automatically cast without casting time.'],
-		['SP consumed is 2/3 the regular amount'],
-		['Skill will not cast without sufficient SP']
+		['进行物理攻击时'],
+		['所选技能会自动施放且无吟唱时间。'],
+		['消耗的 SP 为通常值的 2/3'],
+		['SP 不足时不会施放技能']
 	]
 };
 
@@ -375,10 +375,10 @@ StatusInfo[SC.DEC_AGI] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Decrease Agility', COLOR_TITLE_DEBUFF],
+		['敏捷下降', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Reduces Movement Speed'],
-		['Reduces ASPD']
+		['降低移动速度'],
+		['降低 ASPD']
 	]
 };
 
@@ -386,21 +386,21 @@ StatusInfo[SC.NOEQUIPWEAPON] = {
 	icon: '\xbd\xba\xc6\xae\xb8\xb3\xbf\xfe\xc6\xf9.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Weapon Off Status', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Weapons cannot be worn']]
+	descript: [['武器卸除状态', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['无法装备武器']]
 };
 
 StatusInfo[SC.SHIELDSPELL_MDEF] = {
 	icon: 'lg_shieldspell_¸¶.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Shield Spell (MDEF)', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Invokes a magical spell based on MDEF']]
+	descript: [['盾牌咒文（MDEF）', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['根据 MDEF 发动魔法']]
 };
 
 StatusInfo[SC.AUTOGUARD] = {
 	icon: '\xbf\xc0\xc5\xe4\xb0\xa1\xb5\xe5.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Auto Guard', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Has a chance to block physical attacks']]
+	descript: [['自动防御', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['有机会格挡物理攻击']]
 };
 
 StatusInfo[SC.TAROTCARD] = {
@@ -408,9 +408,9 @@ StatusInfo[SC.TAROTCARD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Tarot Card of Fate', COLOR_TITLE_BUFF],
+		['命运塔罗牌', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Applies one of 14 cards and their effects']
+		['施加14张牌及其效果之一']
 	]
 };
 
@@ -419,10 +419,10 @@ StatusInfo[SC.FEARBREEZE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Fear Breeze', COLOR_TITLE_BUFF],
+		['恐惧微风', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When attacking with a bow'],
-		['there is a chance to cause additional attacks']
+		['使用弓攻击时'],
+		['有机会造成额外攻击']
 	]
 };
 
@@ -430,7 +430,7 @@ StatusInfo[SC.GN_CARTBOOST] = {
 	icon: 'icon07.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Cart Boost', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Movement Speed']]
+	descript: [['手推车加速', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高移动速度']]
 };
 
 StatusInfo[SC.SHIELDSPELL_REF] = {
@@ -438,9 +438,9 @@ StatusInfo[SC.SHIELDSPELL_REF] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Shield Spell (Refine)', COLOR_TITLE_BUFF],
+		['盾牌咒文（精炼）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Invokes a magical effect based on refine']
+		['根据精炼等级发动魔法效果']
 	]
 };
 
@@ -448,14 +448,14 @@ StatusInfo[SC.FOOD_INT_CASH] = {
 	icon: 'int_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases INT']]
+	descript: [['%s', COLOR_TIME], ['提高 INT']]
 };
 
 StatusInfo[SC.NOEQUIPSHIELD] = {
 	icon: '\xbd\xba\xc6\xae\xb8\xb3\xbd\xaf\xb5\xe5.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Shield Off Status', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Shields cannot be worn']]
+	descript: [['盾牌卸除状态', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['无法装备盾牌']]
 };
 
 StatusInfo[SC.MELTDOWN] = {
@@ -463,12 +463,12 @@ StatusInfo[SC.MELTDOWN] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Meltdown', COLOR_TITLE_BUFF],
+		['熔毁', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When attacking a player'],
-		['there is a chance to destroy his/her weapon/armor'],
-		['When attacking a monster'],
-		["the monster's attack and defense are reduced"]
+		['攻击玩家时'],
+		['有机会破坏其武器/防具'],
+		['攻击怪物时'],
+		['怪物的攻击和防御会降低']
 	]
 };
 
@@ -476,7 +476,7 @@ StatusInfo[SC.QUAGMIRE] = {
 	icon: '\xc4\xe2\xb1\xd7\xb8\xb6\xc0\xcc\xbe\xee.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Quagmire', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Reduces Movement Speed'], ['Reduces AGI/DEX']]
+	descript: [['泥沼术', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['降低移动速度'], ['降低 AGI/DEX']]
 };
 
 StatusInfo[SC.KAIZEL] = {
@@ -484,10 +484,10 @@ StatusInfo[SC.KAIZEL] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Kaizel', COLOR_TITLE_BUFF],
+		['凯易哲', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Cast time not affected by DEX'],
-		['Upon death, you will revive with Kyrie Eleison for 2 seconds']
+		['吟唱时间不受 DEX 影响'],
+		['死亡时会以圣母之祈福状态复活2秒']
 	]
 };
 
@@ -496,10 +496,10 @@ StatusInfo[SC.CR_SHRINK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Shrink', COLOR_TITLE_BUFF],
+		['缩小术', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When Autoguarding attacks'],
-		['there is a chance to push the attack back']
+		['自动防御时受到攻击'],
+		['有几率将攻击反弹回去']
 	]
 };
 
@@ -507,14 +507,14 @@ StatusInfo[SC.FOOD_VIT] = {
 	icon: 'vit_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases VIT']]
+	descript: [['%s', COLOR_TIME], ['提高VIT']]
 };
 
 StatusInfo[SC.PARRYING] = {
 	icon: 'icon10.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Parrying', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Blocks physical attacks by chance']]
+	descript: [['招架', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['有几率抵挡物理攻击']]
 };
 
 StatusInfo[SC.PROTECTWEAPON] = {
@@ -522,9 +522,9 @@ StatusInfo[SC.PROTECTWEAPON] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Chemical Protection (Weapon)', COLOR_TITLE_BUFF],
+		['化学保护（武器）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Prevents weapon from being stripped/broken']
+		['防止武器被卸除或破坏']
 	]
 };
 
@@ -532,7 +532,7 @@ StatusInfo[SC.FOOD_AGI] = {
 	icon: 'agi_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases AGI']]
+	descript: [['%s', COLOR_TIME], ['提高AGI']]
 };
 
 StatusInfo[SC.INC_AGI] = {
@@ -540,10 +540,10 @@ StatusInfo[SC.INC_AGI] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Increase agility', COLOR_TITLE_BUFF],
+		['敏捷提升', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases Movement Speed'],
-		['Increases Attack Speed']
+		['提高移动速度'],
+		['提高攻击速度']
 	]
 };
 
@@ -551,14 +551,14 @@ StatusInfo[SC.SHOUT] = {
 	icon: '\xb0\xed\xbc\xba\xc1\xf6\xb8\xa3\xb1\xe2.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Loud Exclamation (Crazy Uproar)', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases STR']]
+	descript: [['大声吼叫（疯狂喧嚣）', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高STR']]
 };
 
 StatusInfo[SC.CASH_RECEIVEITEM] = {
 	icon: 'item.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['When killing monsters'], ['the drop chance is doubled']]
+	descript: [['%s', COLOR_TIME], ['击杀魔物时'], ['掉落概率翻倍']]
 };
 
 StatusInfo[SC.SPL_DEF] = {
@@ -566,10 +566,10 @@ StatusInfo[SC.SPL_DEF] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Honey Jam', COLOR_TITLE_BUFF],
+		['蜂蜜果酱', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Decrease Physical, Magical damage received'],
-		['from the monsters in Splendid field']
+		['降低受到的物理和魔法伤害'],
+		['来自斯普兰迪德原野魔物的伤害']
 	]
 };
 
@@ -578,11 +578,11 @@ StatusInfo[SC.ILLUSION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Illusion', COLOR_TITLE_DEBUFF],
+		['幻影', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Screen distortion'],
-		['Shows more damage'],
-		['Randomly interrupts casting']
+		['画面扭曲'],
+		['显示更多伤害'],
+		['随机打断吟唱']
 	]
 };
 
@@ -591,9 +591,9 @@ StatusInfo[SC.HOVERING] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Hovering', COLOR_TITLE_BUFF],
+		['悬浮', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Traps and some ground skills do not have any effect']
+		['陷阱和部分地面技能不会产生效果']
 	]
 };
 
@@ -601,7 +601,7 @@ StatusInfo[SC.BENEDICTIO] = {
 	icon: '\xbc\xba\xc3\xbc\xb0\xad\xba\xb9.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Enchants Armor with Holy Property']]
+	descript: [['%s', COLOR_TIME], ['为铠甲附加圣属性']]
 };
 
 StatusInfo[SC.WEAPONBLOCKING] = {
@@ -609,10 +609,10 @@ StatusInfo[SC.WEAPONBLOCKING] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Weapon Blocking', COLOR_TITLE_BUFF],
+		['武器格挡', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When hit by close range physical attacks'],
-		['there is a chance to nullify the damage']
+		['受到近距离物理攻击时'],
+		['有几率使伤害无效']
 	]
 };
 
@@ -620,14 +620,14 @@ StatusInfo[SC.ANGELUS] = {
 	icon: '\xbe\xc8\xc1\xa9\xb7\xe7\xbd\xba.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Angelus', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases VIT DEF']]
+	descript: [['天使之护', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高VIT DEF']]
 };
 
 StatusInfo[SC.MARSHOFABYSS] = {
 	icon: 'marshofabyss.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Marsh of Abyss', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Slows Movement'], ['Reduces DEF, Flee']]
+	descript: [['深渊沼泽', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['降低移动速度'], ['降低DEF和FLEE']]
 };
 
 StatusInfo[SC.STEALTHFIELD] = {
@@ -635,11 +635,11 @@ StatusInfo[SC.STEALTHFIELD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Stealth Field', COLOR_TITLE_BUFF],
+		['隐形力场', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Cloaks everyone in a radius around caster'],
-		['Consumes SP while active'],
-		['Reduces Movement Speed']
+		['使施法者周围一定范围内的所有人隐形'],
+		['持续期间消耗SP'],
+		['降低移动速度']
 	]
 };
 
@@ -647,7 +647,7 @@ StatusInfo[SC.ADRENALINE2] = {
 	icon: '\xbe\xc6\xb5\xe5\xb7\xb9\xb3\xaf\xb8\xb0\xb7\xaf\xbd\xac.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Full Adrenaline Rush', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Weapon ASPD except Bows']]
+	descript: [['完全速度激发', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高武器ASPD，弓除外']]
 };
 
 StatusInfo[SC.MANU_MATK] = {
@@ -655,10 +655,10 @@ StatusInfo[SC.MANU_MATK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		["Manuk's Faith", COLOR_TITLE_BUFF],
+		['马努克的信仰', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increase Magical attack against'],
-		['all monsters in Manuk Field']
+		['提高魔法攻击，针对'],
+		['马努克原野的所有魔物']
 	]
 };
 
@@ -666,7 +666,7 @@ StatusInfo[SC.NOEQUIPARMOR] = {
 	icon: '\xbd\xba\xc6\xae\xb8\xb3\xbe\xc6\xb8\xd3.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Armor Off Status', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Armor cannot be worn']]
+	descript: [['卸除铠甲状态', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['无法穿戴铠甲']]
 };
 
 StatusInfo[SC.RENOVATIO] = {
@@ -674,11 +674,11 @@ StatusInfo[SC.RENOVATIO] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Renovatio', COLOR_TITLE_BUFF],
+		['再生术', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Recovers HP every 5 seconds'],
-		['When used on Undead monsters'],
-		['it deals high damage according to skill level']
+		['每 5 秒恢复 HP'],
+		['对不死魔物使用时'],
+		['根据技能等级造成高额伤害']
 	]
 };
 
@@ -687,16 +687,16 @@ StatusInfo[SC.HIDING] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Hiding', COLOR_TITLE_BUFF],
+		['隐匿', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Avoids enemy attacks by hiding in the ground'],
-		['Can be discovered with detection skills']
+		['潜入地下躲避敌人攻击'],
+		['可被侦测技能发现']
 	]
 };
 
 StatusInfo[SC.WEIGHTOVER50] = {
 	icon: '\xb9\xab\xb0\xd4\x35\x30\xc0\xcc\xbb\xf3.tga',
-	descript: [['Overweight 50%', COLOR_TITLE_DEBUFF], ['HP/SP will not be restored']]
+	descript: [['负重超过 50%', COLOR_TITLE_DEBUFF], ['HP/SP 不会恢复']]
 };
 
 StatusInfo[SC.STRUP] = {
@@ -704,11 +704,11 @@ StatusInfo[SC.STRUP] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Spurt', COLOR_TITLE_BUFF],
+		['冲刺', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases STR'],
-		['if the user is unequipped'],
-		['and the skill level is high enough']
+		['提高STR'],
+		['如果使用者未装备武器'],
+		['且技能等级足够高']
 	]
 };
 
@@ -716,14 +716,14 @@ StatusInfo[SC.NOEQUIPHELM] = {
 	icon: '\xbd\xba\xc6\xae\xb8\xb3\xc7\xef\xb8\xa7.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Headgear Off Status', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Headgear cannot be worn']]
+	descript: [['卸除头饰状态', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['无法穿戴头饰']]
 };
 
 StatusInfo[SC.ATTHASTE_POTION3] = {
 	icon: '\xb0\xf8\xbc\xd3\xb9\xb0\xbe\xe0.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['Berserk Potion', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases ASPD']]
+	descript: [['狂暴药水', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高ASPD']]
 };
 
 StatusInfo[SC.ENDURE] = {
@@ -731,23 +731,23 @@ StatusInfo[SC.ENDURE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Endure', COLOR_TITLE_BUFF],
+		['霸体', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Enables attacking and movement'],
-		['while receiving damage']
+		['受到伤害时仍可攻击'],
+		['并可移动']
 	]
 };
 
 StatusInfo[SC.TURNKICK_ON] = {
 	icon: 'i_turnkick.tga',
-	descript: [['Ready Turn Kick', COLOR_TITLE_BUFF], ['When attacking,'], ["there's a chance to prepare a Turn Kick"]]
+	descript: [['回旋踢准备', COLOR_TITLE_BUFF], ['攻击时'], ['有几率准备回旋踢']]
 };
 
 StatusInfo[SC.ENCHANTPOISON] = {
 	icon: '\xc0\xce\xc2\xf9\xc6\xae\xc6\xf7\xc0\xcc\xc1\xf0.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Enchant Poison', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Enchants Weapon with Poison Property']]
+	descript: [['毒属性附加', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为武器附加毒属性']]
 };
 
 StatusInfo[SC.SPL_ATK] = {
@@ -755,10 +755,10 @@ StatusInfo[SC.SPL_ATK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		["Pinguicula's Pickled Fruit", COLOR_TITLE_BUFF],
+		['食人花腌制果实', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increase physical ATK against'],
-		['all monsters in Splendid fields']
+		['提高对'],
+		['斯普兰迪德原野所有魔物的物理攻击']
 	]
 };
 
@@ -767,10 +767,10 @@ StatusInfo[SC.BLESSING] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Blessing', COLOR_TITLE_BUFF],
+		['天使之赐福', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases DEX, INT and STR'],
-		['Recovers from a few status effects']
+		['提高DEX、INT和STR'],
+		['解除部分状态异常']
 	]
 };
 
@@ -779,10 +779,10 @@ StatusInfo[SC.ONEHANDQUICKEN] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['One-hand Quicken', COLOR_TITLE_BUFF],
+		['单手剑加速', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Using One-handed Weapon'],
-		['Increases ASPD']
+		['使用单手武器时'],
+		['提高ASPD']
 	]
 };
 
@@ -791,26 +791,26 @@ StatusInfo[SC.SPEARQUICKEN] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Spear Quicken', COLOR_TITLE_BUFF],
+		['长矛加速', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
 
-		['Increase ASPD when using Spear'],
-		['Increase Critical rate'],
+		['使用长矛时提高ASPD'],
+		['提高暴击率'],
 
-		['Increase Flee']
+		['提高FLEE']
 	]
 };
 
 StatusInfo[SC.BROKENWEAPON] = {
 	icon: '\xb9\xab\xb1\xe2\xc6\xc4\xb1\xab.tga',
-	descript: [['Weapon is damaged.', COLOR_TITLE_DEBUFF]]
+	descript: [['武器已损坏。', COLOR_TITLE_DEBUFF]]
 };
 
 StatusInfo[SC.ASSUMPTIO] = {
 	icon: 'icon05.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Assumptio', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Reduces damage taken']]
+	descript: [['霸邪之阵', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['降低受到的伤害']]
 };
 
 StatusInfo[SC.MAXIMIZE] = {
@@ -840,14 +840,14 @@ StatusInfo[SC.MAGNIFICAT] = {
 	icon: '\xb8\xb6\xb4\xcf\xc7\xc7\xc4\xb1.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Magnificat', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases natural SP Recovery Speed']]
+	descript: [['圣母之颂歌', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高自然SP恢复速度']]
 };
 
 StatusInfo[SC.ATTHASTE_POTION1] = {
 	icon: '\xb0\xf8\xbc\xd3\xb9\xb0\xbe\xe0.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Concentration Potion', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases ASPD']]
+	descript: [['集中药水', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高ASPD']]
 };
 
 StatusInfo[SC.POISONREACT] = {
@@ -855,11 +855,11 @@ StatusInfo[SC.POISONREACT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Poison React', COLOR_TITLE_BUFF],
+		['毒性反弹', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Counters a Poison attack with a one-time attack'],
-		['When hit by a physical non-poison attack,'],
-		['there is a chance to cast Envenom on target']
+		['以一次性攻击反击毒属性攻击'],
+		['受到非毒属性物理攻击时'],
+		['有几率对目标施放施毒']
 	]
 };
 
@@ -867,7 +867,7 @@ StatusInfo[SC.MOVHASTE_HORSE] = {
 	icon: '\xb9\xce\xc3\xb8\xbc\xba\xc1\xf5\xb0\xa1.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases Movement Speed']]
+	descript: [['%s', COLOR_TIME], ['提高移动速度']]
 };
 
 StatusInfo[SC.CRESCENTELBOW] = {
@@ -875,12 +875,12 @@ StatusInfo[SC.CRESCENTELBOW] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Crescent Elbow', COLOR_TITLE_BUFF],
+		['新月肘击', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
 		["Attempts to counter opponent's attack"],
-		['Knocks back opponent and deals damage'],
-		['You still take some of the damage'],
-		['Does not affect boss monsters', COLOR_SYSTEM]
+		['击退对手并造成伤害'],
+		['你仍会受到部分伤害'],
+		['对首领魔物无效', COLOR_SYSTEM]
 	]
 };
 
@@ -888,7 +888,7 @@ StatusInfo[SC.SONG_OF_MANA] = {
 	icon: '\xb8\xb6\xb3\xaa\xc0\xc7\xb3\xeb\xb7\xa1.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Song of Mana', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Recovers SP every 5 seconds']]
+	descript: [['魔力之歌', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['每 5 秒恢复SP']]
 };
 
 StatusInfo[SC.KAAHI] = {
@@ -896,10 +896,10 @@ StatusInfo[SC.KAAHI] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Kaahi', COLOR_TITLE_BUFF],
+		['凯阿希', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Whenever you are hit by non-skills'],
-		['SP is consumed and HP is recovered']
+		['每当受到非技能攻击时'],
+		['消耗SP并恢复HP']
 	]
 };
 
@@ -907,14 +907,14 @@ StatusInfo[SC.ECHOSONG] = {
 	icon: '\xb8\xb6\xbd\xba\xc4\xbf\xb7\xb9\xc0\xcc\xb5\xe5.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Echo Song', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases DEF']]
+	descript: [['回声之歌', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高DEF']]
 };
 
 StatusInfo[SC.PRESERVE] = {
 	icon: 'i_\xc7\xc1\xb8\xae\xc0\xfa\xba\xea.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Preserve', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Allows you to keep copied skill']]
+	descript: [['保留', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['允许保留复制的技能']]
 };
 
 StatusInfo[SC.WEAPONPERFECT] = {
@@ -922,10 +922,10 @@ StatusInfo[SC.WEAPONPERFECT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Weapon Perfection', COLOR_TITLE_BUFF],
+		['武器修炼', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Applies 100% damage to'],
-		['small, medium and large monsters']
+		['对'],
+		['小型、中型和大型魔物均造成100%伤害']
 	]
 };
 
@@ -933,14 +933,14 @@ StatusInfo[SC.PROVOKE] = {
 	icon: '\xc7\xc1\xb7\xce\xba\xb8\xc5\xa9.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Provoke', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Reduces VIT DEF'], ['Increases ATK']]
+	descript: [['挑衅', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['降低VIT DEF'], ['提高ATK']]
 };
 
 StatusInfo[SC.MOVHASTE_POTION] = {
 	icon: '\xb9\xce\xc3\xb8\xbc\xba\xc1\xf5\xb0\xa1.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases Movement Speed']]
+	descript: [['%s', COLOR_TIME], ['提高移动速度']]
 };
 
 StatusInfo[SC.EDP] = {
@@ -948,10 +948,10 @@ StatusInfo[SC.EDP] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Enchant Deadly Poison', COLOR_TITLE_BUFF],
+		['致命毒药附加', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Applies a deadly poison to weapon'],
-		['Damage increase does not apply to boss monsters', COLOR_SYSTEM]
+		['为武器附加致命毒药'],
+		['对首领魔物不增加伤害', COLOR_SYSTEM]
 	]
 };
 
@@ -960,10 +960,10 @@ StatusInfo[SC.JOINTBEAT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Joint Beat', COLOR_TITLE_BUFF],
+		['关节打击', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Applies various status effects'],
-		['due to joint damage.']
+		['施加各种状态效果'],
+		['由关节伤害触发。']
 	]
 };
 
@@ -972,10 +972,10 @@ StatusInfo[SC.PROVIDENCE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Providence', COLOR_TITLE_BUFF],
+		['神佑之光', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increased resistance'],
-		['to undead and demon monsters']
+		['提高对'],
+		['不死和恶魔魔物的抗性']
 	]
 };
 
@@ -984,10 +984,10 @@ StatusInfo[SC.FIGHTINGSPIRIT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Rune Stone: Fighting Spirit', COLOR_TITLE_BUFF],
+		['卢恩石：战斗意志', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases ATK'],
-		['Increases ASPD of caster']
+		['提高ATK'],
+		['提高施法者ASPD']
 	]
 };
 
@@ -995,7 +995,7 @@ StatusInfo[SC.FOOD_VIT_CASH] = {
 	icon: 'vit_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases VIT']]
+	descript: [['%s', COLOR_TIME], ['提高VIT']]
 };
 
 StatusInfo[SC.SATURDAY_NIGHT_FEVER] = {
@@ -1003,11 +1003,11 @@ StatusInfo[SC.SATURDAY_NIGHT_FEVER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
 	descript: [
-		['Wild', COLOR_TITLE_DEBUFF],
+		['狂野', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Decreases HP/SP per 3 seconds'],
-		['Damage increased, Defense and Evasion dropped'],
-		['Skills and items cannot be used.']
+		['每 3 秒减少 HP/SP'],
+		['伤害增加，防御和闪避下降'],
+		['无法使用技能和物品。']
 	]
 };
 
@@ -1016,10 +1016,10 @@ StatusInfo[SC.TRUESIGHT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['True Sight', COLOR_TITLE_BUFF],
+		['真视', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases all stats'],
-		['Increases ATK, HIT, CRIT']
+		['所有属性增加'],
+		['攻击力、命中率、暴击率增加']
 	]
 };
 
@@ -1027,21 +1027,21 @@ StatusInfo[SC.CASH_PLUSONLYJOBEXP] = {
 	icon: 'job.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases Job EXP acquired.']]
+	descript: [['%s', COLOR_TIME], ['获得的职业经验增加。']]
 };
 
 StatusInfo[SC.ARMOR_PROPERTY] = {
 	icon: '\xc4\xb3\xbd\xc3\xb0\xa9\xbf\xca\xbc\xd3\xbc\xba\xba\xce\xbf\xa9.tga', //CUSTOM
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Armor Property', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Changes your Elemental Property']]
+	descript: [['护甲属性', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['改变你的属性']]
 };
 
 StatusInfo[SC.TENSIONRELAX] = {
 	icon: 'icon08.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Tension Relax', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases natural HP recovery']]
+	descript: [['紧张放松', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高自然 HP 恢复']]
 };
 
 StatusInfo[SC.DEATHHURT] = {
@@ -1049,9 +1049,9 @@ StatusInfo[SC.DEATHHURT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Death Hurt (Contaminated Wound Poison)', COLOR_TITLE_DEBUFF],
+		['死亡伤害（污染伤口毒素）', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Reduces effects of healing skills']
+		['降低治疗技能效果']
 	]
 };
 
@@ -1059,22 +1059,22 @@ StatusInfo[SC.IMPOSITIO] = {
 	icon: '\xc0\xd3\xc6\xf7\xbd\xc3\xc6\xbc\xbf\xc0\xb8\xb6\xb4\xa9\xbd\xba.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Impositio Manus', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Weapon damage']]
+	descript: [['武器祝福', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高武器伤害']]
 };
 
 StatusInfo[SC.LEECHESEND] = {
 	icon: '\xb0\xc5\xb8\xd3\xb8\xae.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Leech End', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Drains HP every second']]
+	descript: [['吸血终结', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['每秒吸取 HP']]
 };
 
 StatusInfo[SC.REPRODUCE] = {
 	icon: '\xb8\xae\xc7\xc1\xb7\xce\xb5\xe0\xbd\xba.tga',
 	descript: [
-		['Reproduce', COLOR_TITLE_BUFF],
-		['Activates when targetted by a skill'],
-		['Only one skill can be learnt']
+		['复制', COLOR_TITLE_BUFF],
+		['被技能选中时激活'],
+		['只能学习一个技能']
 	]
 };
 
@@ -1082,14 +1082,14 @@ StatusInfo[SC.ACCELERATION] = {
 	icon: '\xbf\xa2\xbc\xbf\xb7\xb9\xc0\xcc\xbc\xc7.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Acceleration', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases movement speed of the Magic Gear']]
+	descript: [['加速', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高魔导机甲移动速度']]
 };
 
 StatusInfo[SC.NJ_NEN] = {
 	icon: 'i_nen.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Soul', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases INT, STR']]
+	descript: [['灵魂', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 INT、STR']]
 };
 
 StatusInfo[SC.FORCEOFVANGUARD] = {
@@ -1097,11 +1097,11 @@ StatusInfo[SC.FORCEOFVANGUARD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Force of Vanguard', COLOR_TITLE_BUFF],
+		['先锋之力', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Max HP, Defense increased'],
-		['When physicalled attacked there is a chance to earn a rage counter'],
-		['SP consumed while active']
+		['最大 HP、防御增加'],
+		['受到物理攻击时有机会获得怒气计数'],
+		['激活期间消耗 SP']
 	]
 };
 
@@ -1110,17 +1110,17 @@ StatusInfo[SC.RG_CCONFINE_M] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Close Confine', COLOR_TITLE_BUFF],
+		['紧闭束缚', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Both Players cannot Move'],
-		['Increases FLEE'],
-		['Does not affect boss monsters', COLOR_SYSTEM]
+		['双方玩家无法移动'],
+		['提高闪避'],
+		['不影响 Boss 怪物', COLOR_SYSTEM]
 	]
 };
 
 StatusInfo[SC.TRICKDEAD] = {
 	icon: '\xc1\xd7\xc0\xba\xc3\xb4\xc7\xcf\xb1\xe2.tga',
-	descript: [['Trick Dead (Play Dead)', COLOR_TITLE_TOGGLE], ['Pretend Dead Status']]
+	descript: [['装死（假死）', COLOR_TITLE_TOGGLE], ['伪装死亡状态']]
 };
 
 StatusInfo[SC.PROPERTYWATER] = {
@@ -1128,9 +1128,9 @@ StatusInfo[SC.PROPERTYWATER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Frost Weapon (Endow Tsunami)', COLOR_TITLE_BUFF],
+		['冰霜武器（赋予海啸）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Enchants Weapon with Water Property']
+		['为武器赋予水属性']
 	]
 };
 
@@ -1138,7 +1138,7 @@ StatusInfo[SC.ADORAMUS] = {
 	icon: '\xb9\xce\xc3\xb8\xbc\xba\xb0\xa8\xbc\xd2.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Adoramus', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Blinds and reduces Movement Speed']]
+	descript: [['阿杜拉穆斯', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['致盲并降低移动速度']]
 };
 
 StatusInfo[SC.GENTLETOUCH_ENERGYGAIN] = {
@@ -1146,10 +1146,10 @@ StatusInfo[SC.GENTLETOUCH_ENERGYGAIN] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Gentle Touch - Energy Gain', COLOR_TITLE_BUFF],
+		['温柔触摸－能量获得', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When attacked or when attacking, there is a chance to'],
-		['earn a Spirit Sphere']
+		['受到攻击或进行攻击时，有机会'],
+		['获得一个灵气球']
 	]
 };
 
@@ -1158,10 +1158,10 @@ StatusInfo[SC.NEUTRALBARRIER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Neutral Barrier', COLOR_TITLE_BUFF],
+		['中立屏障', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['DEF/MDEF up'],
-		['Neutralizes ranged attacks']
+		['DEF/MDEF 提高'],
+		['抵消远程攻击']
 	]
 };
 
@@ -1170,17 +1170,17 @@ StatusInfo[SC.EARTHSCROLL] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Happy Break (Enjoyable Rest)', COLOR_TITLE_BUFF],
+		['快乐休息（愉悦休息）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When sitting with another Taekwon'],
-		['A certain amount of SP is regained'],
-		['Chance for Earth Spike scrolls to not be destroyed when used']
+		['与另一名跆拳少年一起坐下时'],
+		['恢复一定量的 SP'],
+		['使用地震术卷轴时有机会不被消耗']
 	]
 };
 
 StatusInfo[SC.FALCON] = {
 	icon: '\xc6\xc8\xc4\xdc.tga',
-	descript: [['Falconry Mastery', COLOR_TITLE_TOGGLE], ['Falcon Rental']]
+	descript: [['猎鹰精通', COLOR_TITLE_TOGGLE], ['租借猎鹰']]
 };
 
 StatusInfo[SC.TWOHANDQUICKEN] = {
@@ -1188,10 +1188,10 @@ StatusInfo[SC.TWOHANDQUICKEN] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Two Hand Quicken', COLOR_TITLE_BUFF],
+		['双手剑加速', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When using two handed weapons,'],
-		['increases ASPD']
+		['使用双手武器时，'],
+		['提高攻击速度']
 	]
 };
 
@@ -1199,7 +1199,7 @@ StatusInfo[SC.SUN_COMFORT] = {
 	icon: 'i_suncomfort.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Comfort of the Sun', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Improves VIT DEF']]
+	descript: [['太阳的舒适', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 VIT 防御']]
 };
 
 StatusInfo[SC.KYRIE] = {
@@ -1207,9 +1207,9 @@ StatusInfo[SC.KYRIE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Kyrie Eleison', COLOR_TITLE_BUFF],
+		['凯利艾勒森', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['A defensive barrier that blocks a certain number of attacks']
+		['阻挡一定次数攻击的防御屏障']
 	]
 };
 
@@ -1218,9 +1218,9 @@ StatusInfo[SC.PROTECTARMOR] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Chemical Protection (Armor)', COLOR_TITLE_BUFF],
+		['化学保护（护甲）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Prevents body Armor from being stripped/broken']
+		['防止身体护甲被剥除或破坏']
 	]
 };
 
@@ -1229,12 +1229,12 @@ StatusInfo[SC.GIANTGROWTH] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Rune Stone: Giant Growth', COLOR_TITLE_BUFF],
+		['符文石：巨大成长', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases STR'],
-		['There is a chance to vastly increase damage'],
-		['of close range physical attacks'],
-		['Chance to destroy weapon with each hit']
+		['提高 STR'],
+		['有机会大幅提高'],
+		['近距离物理攻击伤害'],
+		['每次攻击都有机会破坏武器']
 	]
 };
 
@@ -1242,14 +1242,14 @@ StatusInfo[SC.STR_SCROLL] = {
 	icon: 'str_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases STR']]
+	descript: [['%s', COLOR_TIME], ['提高 STR']]
 };
 
 StatusInfo[SC.AB_SECRAMENT] = {
 	icon: '\xbc\xbc\xc5\xa9\xb6\xf3\xb8\xe0\xc6\xae.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Sacrament', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Reduces fixed casting time']]
+	descript: [['圣礼', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['减少固定吟唱时间']]
 };
 
 StatusInfo[SC.PARALYSE] = {
@@ -1257,11 +1257,11 @@ StatusInfo[SC.PARALYSE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Paralyze', COLOR_TITLE_BUFF],
+		['麻痹', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reduces Attack Speed'],
-		['Reduces FLEE'],
-		['Reduces Movement Speed']
+		['降低攻击速度'],
+		['降低闪避'],
+		['降低移动速度']
 	]
 };
 
@@ -1269,7 +1269,7 @@ StatusInfo[SC.PROPERTYGROUND] = {
 	icon: '\xbb\xe7\xc0\xcc\xc1\xee\xb9\xcd\xbf\xfe\xc6\xf9.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Seismic Weapon', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Enchants Weapon with Earth Property']]
+	descript: [['地震武器', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为武器赋予地属性']]
 };
 
 StatusInfo[SC.DOUBLECASTING] = {
@@ -1277,10 +1277,10 @@ StatusInfo[SC.DOUBLECASTING] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Double Casting', COLOR_TITLE_BUFF],
+		['双重吟唱', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When casting a Bolt Skill'],
-		['there is a chance to cast another automatically']
+		['施放魔法箭技能时，'],
+		['有机会自动再次施放']
 	]
 };
 
@@ -1289,11 +1289,11 @@ StatusInfo[SC.RG_CCONFINE_S] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Close Confine', COLOR_TITLE_BUFF],
+		['紧闭束缚', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Both Players cannot Move'],
-		['Increases FLEE'],
-		['Does not affect Boss']
+		['双方玩家无法移动'],
+		['提高闪避'],
+		['不影响 Boss']
 	]
 };
 
@@ -1301,7 +1301,7 @@ StatusInfo[SC.OVERHEAT] = {
 	icon: '\xbf\xc0\xb9\xf6\xc8\xf7\xc6\xae.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['Over Heat', COLOR_TITLE_BUFF], ['Heating caused by skill use'], ['Drains HP every second']]
+	descript: [['过热', COLOR_TITLE_BUFF], ['使用技能导致发热'], ['每秒吸取 HP']]
 };
 
 StatusInfo[SC.SPL_MATK] = {
@@ -1309,11 +1309,11 @@ StatusInfo[SC.SPL_MATK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		["Cornus's Tear", COLOR_TITLE_BUFF],
+		['康努斯之泪', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
 
-		['Increase Magical attack against'],
-		['all monsters in Splendide fields']
+		['提高对斯普兰迪德原野所有怪物的'],
+		['魔法攻击力']
 	]
 };
 
@@ -1322,10 +1322,10 @@ StatusInfo[SC.DEEP_SLEEP] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Deep Sleep Status', COLOR_TITLE_BUFF],
+		['深度睡眠状态', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases Damage Received by 1.5 times'],
-		['Recovers HP/SP every 2 seconds']
+		['受到的伤害增加 1.5 倍'],
+		['每 2 秒恢复 HP/SP']
 	]
 };
 
@@ -1334,10 +1334,10 @@ StatusInfo[SC.RECOGNIZEDSPELL] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Recognized Spell', COLOR_TITLE_BUFF],
+		['认知魔法', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Magic Skills deals Max Damage'],
-		['All skills consumes more SP']
+		['魔法技能造成最大伤害'],
+		['所有技能消耗更多 SP']
 	]
 };
 
@@ -1345,14 +1345,14 @@ StatusInfo[SC.TARGET_ASPD] = {
 	icon: 'plusmagicpower.tga', //CUSTOM
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Max SP increased, SP consumption reduced']]
+	descript: [['%s', COLOR_TIME], ['最大 SP 增加，SP 消耗减少']]
 };
 
 StatusInfo[SC.FOOD_BASICAVOIDANCE] = {
 	icon: 'gogi.tga', //CUSTOM
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Improves FLEE']]
+	descript: [['%s', COLOR_TIME], ['提高闪避']]
 };
 
 StatusInfo[SC.DEFENDER] = {
@@ -1360,17 +1360,17 @@ StatusInfo[SC.DEFENDER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Defender (Defending Aura)', COLOR_TITLE_BUFF],
+		['防御者（防御光环）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reduce Damage from Ranged Physical Attack'],
-		['Reduces Movement Speed and Attack Speed']
+		['减少远程物理攻击伤害'],
+		['降低移动速度和攻击速度']
 	]
 };
 
 StatusInfo[SC.WEAPONPROPERTY] = {
 	icon: '\xbf\xac\xb8\xb6\xc1\xa6.tga', //CUSTOM
 	haveTimeLimit: 0,
-	descript: [['Granted a weapon property']]
+	descript: [['已赋予武器属性']]
 };
 
 StatusInfo[SC.S_LIFEPOTION] = {
@@ -1378,10 +1378,10 @@ StatusInfo[SC.S_LIFEPOTION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Small Life Potion', COLOR_TITLE_BUFF],
+		['小型生命药水', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Recoverys HP every 5 seconds'],
-		['No effect if Berserk State is active']
+		['每 5 秒恢复 HP'],
+		['狂暴状态激活时无效']
 	]
 };
 
@@ -1389,7 +1389,7 @@ StatusInfo[SC.FOOD_LUK] = {
 	icon: 'luk_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases LUK']]
+	descript: [['%s', COLOR_TIME], ['提高 LUK']]
 };
 
 StatusInfo[SC.BLOODING] = {
@@ -1397,10 +1397,10 @@ StatusInfo[SC.BLOODING] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Bleeding', COLOR_TITLE_BUFF],
+		['流血', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['HP, SP recovery disabled'],
-		['HP lost every 10 seconds']
+		['禁用 HP、SP 恢复'],
+		['每 10 秒损失 HP']
 	]
 };
 
@@ -1409,11 +1409,11 @@ StatusInfo[SC.REFRESH] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Rune Stone: Refresh', COLOR_TITLE_BUFF],
+		['符文石：刷新', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Removes all debuffs when cast'],
-		['Grants immunity to debuffs'],
-		['Recovers a certain amount of HP']
+		['施放时移除所有减益效果'],
+		['获得减益免疫'],
+		['恢复一定量的 HP']
 	]
 };
 
@@ -1421,23 +1421,23 @@ StatusInfo[SC.FOOD_LUK_CASH] = {
 	icon: 'luk_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases LUK']]
+	descript: [['%s', COLOR_TIME], ['提高 LUK']]
 };
 
 StatusInfo[SC.BROKENARMOR] = {
 	icon: '\xb0\xa9\xbf\xca\xc6\xc4\xb1\xab.tga',
-	descript: [['Armor is damaged', COLOR_TITLE_DEBUFF]]
+	descript: [['护甲已损坏', COLOR_TITLE_DEBUFF]]
 };
 
 StatusInfo[SC.DODGE_ON] = {
 	icon: 'i_dodge.tga',
 	descript: [
-		['Dodge', COLOR_TITLE_BUFF],
-		['Allows Flying Kick to be used as a counter'],
-		['When receiving enemy magic attack'],
-		['there is a chance of completely avoiding it'],
-		['If Spurt is also active'],
-		['chance of avoiding physical attacks as well']
+		['闪避', COLOR_TITLE_BUFF],
+		['允许将飞踢作为反击使用'],
+		['受到敌方魔法攻击时'],
+		['有机会完全闪避'],
+		['如果疾走也处于激活状态，'],
+		['也有机会闪避物理攻击']
 	]
 };
 
@@ -1446,11 +1446,11 @@ StatusInfo[SC.TARGET_BLOOD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Resistance Potion', COLOR_TITLE_BUFF],
+		['抵抗药水', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases resistance to'],
-		['Stun, Frozen, Stone, Sleep, Silence'],
-		['Blind, Curse, Poison, Bleeding, Confusion']
+		['提高对以下状态的抵抗力：'],
+		['眩晕、冰冻、石化、睡眠、沉默'],
+		['黑暗、诅咒、中毒、流血、混乱']
 	]
 };
 
@@ -1459,10 +1459,10 @@ StatusInfo[SC.MELODYOFSINK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Melody of Sink', COLOR_TITLE_BUFF],
+		['沉没旋律', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases Magical Damage'],
-		['Decreases Physical Damage']
+		['提高魔法伤害'],
+		['降低物理伤害']
 	]
 };
 
@@ -1470,28 +1470,28 @@ StatusInfo[SC.CRUCIS] = {
 	icon: '\xbd\xc3\xb1\xd7\xb3\xd1\xc5\xa9\xb7\xe7\xbd\xc3\xbd\xba.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Signum Crucis', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Reduces Undead and Demon monsters DEF']]
+	descript: [['十字军徽章', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['降低不死和恶魔怪物的防御']]
 };
 
 StatusInfo[SC.SLOWCAST] = {
 	icon: 'slowcast.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Slow Cast', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Increases Casting Time']]
+	descript: [['缓慢吟唱', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['增加吟唱时间']]
 };
 
 StatusInfo[SC.PROPERTYWIND] = {
 	icon: '\xb6\xf3\xc0\xcc\xc6\xae\xb4\xd7\xb7\xce\xb4\xf5.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Lightning Loader', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Enchants Weapon with Wind Property']]
+	descript: [['闪电装填', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为武器赋予风属性']]
 };
 
 StatusInfo[SC.ENCHANTBLADE] = {
 	icon: 'rk_enchant.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Enchant Blade', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Adds magic damage to physical attacks']]
+	descript: [['附魔之刃', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为物理攻击增加魔法伤害']]
 };
 
 StatusInfo[SC.ADRENALINE] = {
@@ -1499,10 +1499,10 @@ StatusInfo[SC.ADRENALINE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Adrenaline Rush', COLOR_TITLE_BUFF],
+		['速度激发', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases Attack Speed of'],
-		['Axes and Mace weapons']
+		['提高以下武器的攻击速度：'],
+		['斧和钝器']
 	]
 };
 
@@ -1511,11 +1511,11 @@ StatusInfo[SC.MAGICMUSHROOM] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Magic Mushroom (Laughing Poison Mushroom)', COLOR_TITLE_BUFF],
+		['魔法蘑菇（笑毒蘑菇）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Uses Smile Emoticon'],
-		['Casts random spells every 4 seconds'],
-		['Drains HP every 4 seconds']
+		['使用微笑表情'],
+		['每 4 秒施放随机法术'],
+		['每 4 秒消耗 HP']
 	]
 };
 
@@ -1523,14 +1523,14 @@ StatusInfo[SC.CASH_PLUSEXP] = {
 	icon: 'exp.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases acquired EXP']]
+	descript: [['%s', COLOR_TIME], ['提高获得的经验值']]
 };
 
 StatusInfo[SC.ATTHASTE_POTION2] = {
 	icon: '\xb0\xf8\xbc\xd3\xb9\xb0\xbe\xe0.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Awakening Potion', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases ASPD']]
+	descript: [['觉醒药水', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高攻击速度']]
 };
 
 StatusInfo[SC.TOXIN] = {
@@ -1538,23 +1538,23 @@ StatusInfo[SC.TOXIN] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Toxin', COLOR_TITLE_BUFF],
+		['毒素', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Interferes with skills every 10 seconds'],
-		['Phen card is ignored'],
-		['Every 10 seconds, SP is consumed']
+		['每 10 秒干扰技能'],
+		['忽略菲恩卡效果'],
+		['每 10 秒消耗 SP']
 	]
 };
 
 StatusInfo[SC.RAISINGDRAGON] = {
 	icon: '\xc0\xe1\xb7\xe6\xbd\xc2\xc3\xb5.tga',
 	descript: [
-		['Rising Dragon', COLOR_TITLE_BUFF],
-		['Maximum Spheres Increased'],
-		['Increases Maximum HP/SP'],
-		['Increases Attack Speed'],
-		['Maintains Fury State'],
-		['Slowly Drains HP per seconds']
+		['升龙', COLOR_TITLE_BUFF],
+		['增加最大气弹数'],
+		['提高最大 HP/SP'],
+		['提高攻击速度'],
+		['维持狂怒状态'],
+		['每秒缓慢消耗 HP']
 	]
 };
 
@@ -1562,30 +1562,30 @@ StatusInfo[SC.HARMONIZE] = {
 	icon: '\xc7\xcf\xb8\xf0\xb3\xaa\xc0\xcc\xc1\xee.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Harmonize', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases all Stats']]
+	descript: [['和谐', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高所有属性']]
 };
 
 StatusInfo[SC.CHASEWALK2] = {
 	icon: 'i_\xc3\xbc\xc0\xcc\xbd\xba\xc8\xfb.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases STR']]
+	descript: [['%s', COLOR_TIME], ['提高 STR']]
 };
 
 StatusInfo[SC.FOOD_STR_CASH] = {
 	icon: 'str_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases STR']]
+	descript: [['%s', COLOR_TIME], ['提高 STR']]
 };
 
 StatusInfo[SC.CLOAKINGEXCEED] = {
 	icon: '\xc6\xf7\xc0\xcc\xc1\xee\xb4\xd7\xbf\xfe\xc6\xf9.tga',
 	descript: [
-		['Cloaking Exceed', COLOR_TITLE_BUFF],
-		['Hides from Insects and Demon types too.'],
-		['Remains hidden until a certain number of hits received.'],
-		['Increases Movement Speed']
+		['超越隐匿', COLOR_TITLE_BUFF],
+		['也能躲避昆虫和恶魔类魔物。'],
+		['受到一定次数攻击前保持隐藏。'],
+		['提高移动速度']
 	]
 };
 
@@ -1593,42 +1593,42 @@ StatusInfo[SC.ASSUMPTIO2] = {
 	icon: 'icon05.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Assumptio', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Defense']]
+	descript: [['霸邪之阵', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高防御力']]
 };
 
 StatusInfo[SC.THORNS_TRAP] = {
 	icon: '\xb0\xa1\xbd\xc3\xb3\xaa\xb9\xab\xb5\xa3.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Thorn Trap', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Periodically applies damage']]
+	descript: [['荆棘陷阱', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['周期性造成伤害']]
 };
 
 StatusInfo[SC.SLOWPOISON] = {
 	icon: '\xbd\xbd\xb7\xce\xbf\xec\xc6\xf7\xc0\xcc\xc1\xf0.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Slow Poison', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Temporarily stops Poison Damage']]
+	descript: [['缓毒', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['暂时停止中毒伤害']]
 };
 
 StatusInfo[SC.CLOAKING] = {
 	icon: '\xc5\xac\xb7\xce\xc5\xb7.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Cloaking', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Invisible']]
+	descript: [['隐匿', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['隐身']]
 };
 
 StatusInfo[SC.PARTYFLEE] = {
 	icon: 'icon06.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases Flee Rate']]
+	descript: [['%s', COLOR_TIME], ['提高回避率']]
 };
 
 StatusInfo[SC.CRITICALPERCENT] = {
 	icon: '\xbd\xba\xc6\xae\xb6\xf3\xc0\xcc\xc5\xb7.tga', //CUSTOM?
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Varnish', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Critical']]
+	descript: [['光泽剂', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高暴击率']]
 };
 
 StatusInfo[SC.INSPIRATION] = {
@@ -1636,13 +1636,13 @@ StatusInfo[SC.INSPIRATION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Inspiration', COLOR_TITLE_BUFF],
+		['灵感', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Hit rate, Stats, Damage, Max HP increased'],
-		['All buffs and status effects removed'],
-		['Drains HP, SP over time'],
-		['Cannot receive status effects'],
-		['Lose a percentage of your EXP']
+		['提高命中率、属性、伤害和最大 HP'],
+		['移除所有增益和状态效果'],
+		['持续消耗 HP、SP'],
+		['无法获得状态效果'],
+		['损失一定比例的经验值']
 	]
 };
 
@@ -1651,10 +1651,10 @@ StatusInfo[SC.UNLIMITED_HUMMING_VOICE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Unlimited Humming Voice', COLOR_TITLE_BUFF],
+		['无限哼唱之声', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		["Affected target's skills"],
-		['increase their SP consumption']
+		['受影响目标的技能'],
+		['SP 消耗增加']
 	]
 };
 
@@ -1662,14 +1662,14 @@ StatusInfo[SC.FOOD_DEX] = {
 	icon: 'dex_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases DEX']]
+	descript: [['%s', COLOR_TIME], ['提高 DEX']]
 };
 
 StatusInfo[SC.ANALYZE] = {
 	icon: '\xbe\xd6\xb3\xce\xb6\xf3\xc0\xcc\xc1\xee.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Analyze', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Reduces Physical and Magical Defense']]
+	descript: [['分析', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['降低物理和魔法防御']]
 };
 
 StatusInfo[SC.GENTLETOUCH_REVITALIZE] = {
@@ -1677,39 +1677,39 @@ StatusInfo[SC.GENTLETOUCH_REVITALIZE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Gentle Touch - Revitalize', COLOR_TITLE_BUFF],
+		['温柔触碰 - 活力', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases VIT, Max HP'],
-		['Increases DEF'],
-		['Increases natural HP Recovery'],
-		['Movement speed increased']
+		['提高 VIT、最大 HP'],
+		['提高 DEF'],
+		['提高自然 HP 恢复'],
+		['提高移动速度']
 	]
 };
 
 StatusInfo[SC.COUNTER_ON] = {
 	icon: 'i_counter.tga',
-	descript: [['Prepare Counter Kick', COLOR_TITLE_BUFF], ['Hit an enemy'], ['to be ready for a counter kick']]
+	descript: [['准备反击踢', COLOR_TITLE_BUFF], ['命中敌人'], ['准备反击踢']]
 };
 
 StatusInfo[SC.GLORIA] = {
 	icon: '\xb1\xdb\xb7\xce\xb8\xae\xbe\xc6.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Gloria', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases LUK']]
+	descript: [['荣耀', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 LUK']]
 };
 
 StatusInfo[SC.RUSH_WINDMILL] = {
 	icon: '\xc7\xb3\xc2\xf7\xb8\xa6\xc7\xe2\xc7\xd8\xb5\xb9\xb0\xdd.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Rush Windmill Attack', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Damage']]
+	descript: [['疾风车攻击', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高伤害']]
 };
 
 StatusInfo[SC.PYREXIA] = {
 	icon: '\xbf\xad\xba\xb4\xb5\xb6.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Pyrexia', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Dark and Hallucinating state']]
+	descript: [['热病', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['黑暗与幻觉状态']]
 };
 
 StatusInfo[SC.DANCE_WITH_WUG] = {
@@ -1717,10 +1717,10 @@ StatusInfo[SC.DANCE_WITH_WUG] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Dance With Warg', COLOR_TITLE_BUFF],
+		['与狼共舞', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases ASPD'],
-		['Reduces Fixed casting time']
+		['提高攻击速度'],
+		['缩短固定咏唱时间']
 	]
 };
 
@@ -1728,21 +1728,21 @@ StatusInfo[SC.SWING] = {
 	icon: '\xbd\xba\xc0\xae\xb4\xed\xbd\xba.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Swing Dance', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Movement Speed'], ['Increases ASPD']]
+	descript: [['摇摆舞', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高移动速度'], ['提高攻击速度']]
 };
 
 StatusInfo[SC.MOON_COMFORT] = {
 	icon: 'i_mooncomfort.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Comfort of the Moon', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Improves FLEE']]
+	descript: [['月之安慰', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高回避']]
 };
 
 StatusInfo[SC.MOONLIT_SERENADE] = {
 	icon: '\xb4\xde\xba\xfb\xc0\xc7\xbc\xbc\xb7\xb9\xb3\xaa\xb5\xa5.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Moonlit Serenade', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases damage of magic skills']]
+	descript: [['月光小夜曲', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高魔法技能伤害']]
 };
 
 StatusInfo[SC.GENTLETOUCH_CHANGE] = {
@@ -1750,10 +1750,10 @@ StatusInfo[SC.GENTLETOUCH_CHANGE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Gentle Touch - Change', COLOR_TITLE_BUFF],
+		['温柔触碰 - 变换', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reduces DEF and MDEF'],
-		['Increases Damage and ASPD']
+		['降低 DEF 和 MDEF'],
+		['提高伤害和攻击速度']
 	]
 };
 
@@ -1761,13 +1761,13 @@ StatusInfo[SC.STRIPACCESSARY] = {
 	icon: '\xbd\xba\xc6\xae\xb8\xb3\xbe\xd7\xbc\xbc\xbc\xad\xb8\xae.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Accessory Off Status', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Cannot Equip Accessories']]
+	descript: [['饰品卸除状态', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['无法装备饰品']]
 };
 
 StatusInfo[SC.PROPERTYUNDEAD] = {
 	icon: 'bd_undead.tga', //CUSTOM TGA
 	haveTimeLimit: 1,
-	descript: [['Enchants Armor with Undead Property']]
+	descript: [['为铠甲附加不死属性']]
 };
 
 StatusInfo[SC.INVISIBILITY] = {
@@ -1775,12 +1775,12 @@ StatusInfo[SC.INVISIBILITY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Invisibility', COLOR_TITLE_BUFF],
+		['完全隐身', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Conceals yourself from view'],
-		['All attacks become Ghost Lvl 1 property'],
-		['Drains SP'],
-		['Skills and items cannot be used']
+		['隐藏自身身影'],
+		['所有攻击变为 1 级念属性'],
+		['消耗 SP'],
+		['无法使用技能和物品']
 	]
 };
 
@@ -1788,21 +1788,21 @@ StatusInfo[SC.ABUNDANCE] = {
 	icon: 'rk_uruz.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Rune Stone: Abundance', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Recovers SP every 10 seconds']]
+	descript: [['符文石：丰收', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['每 10 秒恢复 SP']]
 };
 
 StatusInfo[SC.FOOD_BASICHIT] = {
 	icon: 'gogi.tga', //CUSTOM?
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Improves HIT']]
+	descript: [['%s', COLOR_TIME], ['提高命中率']]
 };
 
 StatusInfo[SC.FOOD_AGI_CASH] = {
 	icon: 'agi_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases AGI']]
+	descript: [['%s', COLOR_TIME], ['提高 AGI']]
 };
 
 StatusInfo[SC.SHADOWFORM] = {
@@ -1810,10 +1810,10 @@ StatusInfo[SC.SHADOWFORM] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Shadow Form', COLOR_TITLE_BUFF],
+		['暗影形态', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['For a certain number of hits'],
-		['have a target take the damage instead']
+		['在一定次数攻击内'],
+		['由目标代替承受伤害']
 	]
 };
 
@@ -1822,10 +1822,10 @@ StatusInfo[SC.AUTOSHADOWSPELL] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Auto Shadow Spell', COLOR_TITLE_BUFF],
+		['自动暗影法术', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Automatically casts'],
-		['an available magic spell']
+		['自动施放'],
+		['可用的魔法']
 	]
 };
 
@@ -1833,7 +1833,7 @@ StatusInfo[SC.SHAPESHIFT] = {
 	icon: '\xbc\xce\xc0\xcc\xc7\xc1\xbd\xac\xc7\xc1\xc6\xae.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Shape Shift', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Changes your Mado Gear elemental property']]
+	descript: [['形态转换', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['改变机甲的元素属性']]
 };
 
 StatusInfo[SC.MANU_ATK] = {
@@ -1841,10 +1841,10 @@ StatusInfo[SC.MANU_ATK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		["Manuk's Golden Chance", COLOR_TITLE_BUFF],
+		['马努克的黄金机会', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increase physical attack against'],
-		['all monsters in Manuk fields']
+		['提高对以下目标的物理攻击：'],
+		['马努克原野的所有怪物']
 	]
 };
 
@@ -1853,10 +1853,10 @@ StatusInfo[SC.MARIONETTE_MASTER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Marionette Control (caster)', COLOR_TITLE_BUFF],
+		['傀儡控制（施法者）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Passes the stats'],
-		['to a Player']
+		['传递属性'],
+		['给玩家']
 	]
 };
 
@@ -1865,10 +1865,10 @@ StatusInfo[SC.MARIONETTE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Marionette Control (target)', COLOR_TITLE_BUFF],
+		['傀儡控制（目标）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Target Player'],
-		['who receives the stats']
+		['目标玩家'],
+		['接收属性']
 	]
 };
 
@@ -1877,10 +1877,10 @@ StatusInfo[SC.WZ_SIGHTBLASTER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Sight Blaster', COLOR_TITLE_BUFF],
+		['视爆', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Attacks an enemy with a single attack'],
-		['that ventures too close']
+		['以单次攻击袭击敌人'],
+		['靠近的目标']
 	]
 };
 
@@ -1888,7 +1888,7 @@ StatusInfo[SC.LEXAETERNA] = {
 	icon: '\xb7\xba\xbd\xba\xbf\xa1\xc5\xd7\xb8\xa3\xb3\xaa.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Lex Aeterna', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Doubles damage of the next attack']]
+	descript: [['永恒之光', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['使下一次攻击伤害翻倍']]
 };
 
 StatusInfo[SC.INFRAREDSCAN] = {
@@ -1896,10 +1896,10 @@ StatusInfo[SC.INFRAREDSCAN] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Infrared Scan', COLOR_TITLE_BUFF],
+		['红外线扫描', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Discovers targets in hiding'],
-		['Chance to Reduce FLEE of nearby enemy']
+		['发现隐藏中的目标'],
+		['有几率降低附近敌人的回避']
 	]
 };
 
@@ -1907,40 +1907,40 @@ StatusInfo[SC.INT_SCROLL] = {
 	icon: 'int_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases INT']]
+	descript: [['%s', COLOR_TIME], ['提高 INT']]
 };
 
 StatusInfo[SC.ASPERSIO] = {
 	icon: '\xbe\xc6\xbd\xba\xc6\xe4\xb8\xa3\xbd\xc3\xbf\xc0.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Aspersio', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Enchants Weapon with Holy Property']]
+	descript: [['神圣之水', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为武器附加圣属性']]
 };
 
 StatusInfo[SC.MOVHASTE_INFINITY] = {
 	icon: '\xb9\xce\xc3\xb8\xbc\xba\xc1\xf5\xb0\xa1.tga',
-	descript: [['Increases Movement Speed']]
+	descript: [['提高移动速度']]
 };
 
 StatusInfo[SC.LERADS_DEW] = {
 	icon: '\xb7\xb9\xb6\xf3\xb5\xe5\xc0\xc7\xc0\xcc\xbd\xbd.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [["Lerad's Dew", COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Max HP']]
+	descript: [['莱拉的露水', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高最大 HP']]
 };
 
 StatusInfo[SC.FOOD_INT] = {
 	icon: 'int_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases INT']]
+	descript: [['%s', COLOR_TIME], ['提高 INT']]
 };
 
 StatusInfo[SC.VENOMBLEED] = {
 	icon: '\xbc\xe8\xbe\xe0\xb5\xb6.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Venom Bleed', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Reduces Max HP']]
+	descript: [['毒血', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['降低最大 HP']]
 };
 
 StatusInfo[SC.GS_GATLINGFEVER] = {
@@ -1948,10 +1948,10 @@ StatusInfo[SC.GS_GATLINGFEVER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Gatling Fever', COLOR_TITLE_BUFF],
+		['加特林狂热', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases Damage and ASPD'],
-		['Reduces Movement Speed']
+		['提高伤害和攻击速度'],
+		['降低移动速度']
 	]
 };
 
@@ -1960,12 +1960,12 @@ StatusInfo[SC.VITALITYACTIVATION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Rune Stone: Vitality Activation', COLOR_TITLE_BUFF],
+		['符文石：活力激活', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['To the caster,'],
-		['Increases Healing skills and Item effects'],
-		['Stops SP regeneration'],
-		['Reduces SP recovery item effects']
+		['对施法者：'],
+		['提高治愈技能和物品效果'],
+		['停止 SP 恢复'],
+		['降低 SP 恢复物品效果']
 	]
 };
 
@@ -1974,18 +1974,18 @@ StatusInfo[SC.STONEHARDSKIN] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Rune Stone: Stone Hard Skin', COLOR_TITLE_BUFF],
+		['符文石：坚硬皮肤', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Resists damage equal to the HP consumed when casting'],
-		['Players that attack you with weapons'],
-		['will break them by chance.'],
-		['On monsters, they will have reduced ATK for 10 seconds']
+		['抵抗相当于施法消耗 HP 的伤害'],
+		['使用武器攻击你的玩家'],
+		['有几率使武器损坏。'],
+		['对怪物则使其 ATK 降低 10 秒']
 	]
 };
 
 StatusInfo[SC.WEIGHTOVER90] = {
 	icon: '\xb9\xab\xb0\xd4\x39\x30\xc0\xcc\xbb\xf3.tga',
-	descript: [['Overweight 90%', COLOR_TITLE_DEBUFF], ['HP/SP will not be restored'], ['Attacks/Skills are disabled']]
+	descript: [['负重 90%', COLOR_TITLE_DEBUFF], ['HP/SP 不会恢复'], ['攻击/技能无法使用']]
 };
 
 StatusInfo[SC.PROTECTHELM] = {
@@ -1993,23 +1993,23 @@ StatusInfo[SC.PROTECTHELM] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Chemical Protection Helm (Biochemical Helm)', COLOR_TITLE_BUFF],
+		['化学保护头盔（生化头盔）', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Protect helm from being destroyed']
+		['防止头盔损坏']
 	]
 };
 
 StatusInfo[SC.PLUSAVOIDVALUE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Cup of Welcome', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increase Perfect Dodge by 20']]
+	descript: [['欢迎之杯', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高完全回避20']]
 };
 
 StatusInfo[SC.OBLIVIONCURSE] = {
 	icon: '\xb8\xc1\xb0\xa2\xc0\xc7\xc0\xe7.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Oblivion Curse', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Oblivion status']]
+	descript: [['遗忘诅咒', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['遗忘状态']]
 };
 
 StatusInfo[SC.HEALPLUS] = {
@@ -2017,10 +2017,10 @@ StatusInfo[SC.HEALPLUS] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Enhanced Healing Potion', COLOR_TITLE_BUFF],
+		['强化治疗药水', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When healing via recovery items'],
-		['the healing effect is increased']
+		['使用恢复道具治疗时'],
+		['治疗效果提高']
 	]
 };
 
@@ -2028,35 +2028,35 @@ StatusInfo[SC.PROTECT_DEF] = {
 	icon: 'gogi.tga', //CUSTOM
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Defense Protection', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases physical DEF']]
+	descript: [['防御保护', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高物理 DEF']]
 };
 
 StatusInfo[SC.CRITICALWOUND] = {
 	icon: 'criticalwound.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Critical Wounds', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['Reduces effects of healing skills']]
+	descript: [['严重创伤', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['降低治疗技能效果']]
 };
 
 StatusInfo[SC.PRESTIGE] = {
 	icon: 'lg_prestige.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Prestige', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Chance to evade Magical Attacks'], ['Defense Up']]
+	descript: [['威望', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['有机会回避魔法攻击'], ['防御提高']]
 };
 
 StatusInfo[SC.FOOD_DEX_CASH] = {
 	icon: 'dex_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases DEX']]
+	descript: [['%s', COLOR_TIME], ['提高 DEX']]
 };
 
 StatusInfo[SC.CARTBOOST] = {
 	icon: 'icon07.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Cart Boost', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Movement Speed']]
+	descript: [['手推车加速', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高移动速度']]
 };
 
 StatusInfo[SC.L_LIFEPOTION] = {
@@ -2064,10 +2064,10 @@ StatusInfo[SC.L_LIFEPOTION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Medium Life Potion', COLOR_TITLE_BUFF],
+		['中型生命药水', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Recovers HP every 4 seconds'],
-		['No effect if Berserk State is active']
+		['每4秒恢复 HP'],
+		['狂暴状态激活时无效']
 	]
 };
 
@@ -2075,33 +2075,33 @@ StatusInfo[SC.WINDWALK] = {
 	icon: 'icon06.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Wind Walk', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Movement Speed/Evasion']]
+	descript: [['风行术', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高移动速度/回避率']]
 };
 
 StatusInfo[SC.PROPERTYFIRE] = {
 	icon: '\xc7\xc1\xb7\xb9\xc0\xd3\xb7\xb1\xc3\xc4.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Flame Launcher', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Enchants Weapon with Fire Property']]
+	descript: [['火焰发射器', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为武器附加火属性']]
 };
 
 StatusInfo[SC.STRIKING] = {
 	icon: '\xbd\xba\xc6\xae\xb6\xf3\xc0\xcc\xc5\xb7.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Striking', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Weapon damage and chance of critical']]
+	descript: [['打击', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高武器伤害和暴击率']]
 };
 
 StatusInfo[SC.DOWNKICK_ON] = {
 	icon: 'i_downkick.tga',
-	descript: [['Prepare Down Kick', COLOR_TITLE_BUFF], ['Hit an enemy'], ['for a chance to preform a kick']]
+	descript: [['准备下段踢', COLOR_TITLE_BUFF], ['击中敌人'], ['有机会施展踢击']]
 };
 
 StatusInfo[SC.PROPERTYDARK] = {
 	icon: '\xc4\xb3\xbd\xc3\xb0\xa9\xbf\xca\xbc\xd3\xbc\xba\xba\xce\xbf\xa9.tga', //CUSTOM
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Enchants Armor with Shadow Property']]
+	descript: [['%s', COLOR_TIME], ['为铠甲附加暗影属性']]
 };
 
 StatusInfo[SC.REFLECTSHIELD] = {
@@ -2109,10 +2109,10 @@ StatusInfo[SC.REFLECTSHIELD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Reflect Shield', COLOR_TITLE_BUFF],
+		['反射盾', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When attacked with physical short range attacks'],
-		['reflect a portion of the damage']
+		['受到近距离物理攻击时'],
+		['反射部分伤害']
 	]
 };
 
@@ -2120,12 +2120,12 @@ StatusInfo[SC.DEVOTION] = {
 	icon: '\xc7\xe5\xbd\xc5.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Devotion', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['A Crusader is taking damage for you']]
+	descript: [['奉献', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['十字军代替你承受伤害']]
 };
 
 StatusInfo[SC.RIDING] = {
 	icon: '\xb6\xf3\xc0\xcc\xb5\xf9.tga',
-	descript: [['Riding Vehicle', COLOR_TITLE_TOGGLE]]
+	descript: [['骑乘载具', COLOR_TITLE_TOGGLE]]
 };
 
 StatusInfo[SC.LIGHTNINGWALK] = {
@@ -2133,11 +2133,11 @@ StatusInfo[SC.LIGHTNINGWALK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Lightning Walk', COLOR_TITLE_BUFF],
+		['闪电步', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When targetted by a magic attack,'],
-		['after a chance to avoid'],
-		['move straight to the caster']
+		['被魔法攻击指定时'],
+		['有机会回避后'],
+		['直线移动到施法者身边']
 	]
 };
 
@@ -2146,10 +2146,10 @@ StatusInfo[SC.FROSTMISTY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Freezing Status', COLOR_TITLE_DEBUFF],
+		['冻结状态', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Decreases Defense, ASPD and Movement speed'],
-		['Increases Fixed Cast time.']
+		['降低防御、ASPD 和移动速度'],
+		['增加固定吟唱时间。']
 	]
 };
 
@@ -2158,13 +2158,13 @@ StatusInfo[SC.COLD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Frozen', COLOR_TITLE_DEBUFF],
+		['冰冻', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Movement, Attack, Skill and Items are not available'],
-		['Drains SP and HP continuously'],
-		['Increases the damage taken caused by Maces, Axes and 2H Axes'],
-		['Increases the damage taken caused by Wind Property spells'],
-		['Reduces the damage taken caused by Daggers, Swords, 2H Swords and Arrows']
+		['无法移动、攻击、使用技能和物品'],
+		['持续吸收 SP 和 HP'],
+		['增加钝器、斧和双手斧造成的伤害'],
+		['增加风属性法术造成的伤害'],
+		['降低短剑、剑、双手剑和箭造成的伤害']
 	]
 };
 
@@ -2172,7 +2172,7 @@ StatusInfo[SC.GROUNDMAGIC] = {
 	icon: 'i_\xc0\xe5\xc6\xc7.tga', //CUSTOM?
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Ground skill effect']]
+	descript: [['%s', COLOR_TIME], ['地面技能效果']]
 };
 
 StatusInfo[SC.HELLPOWER] = {
@@ -2180,11 +2180,11 @@ StatusInfo[SC.HELLPOWER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Hell Power', COLOR_TITLE_BUFF],
+		['地狱之力', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Can not be revived'],
-		['Sacrifice is Disabled'],
-		['Token of Siegfried disabled']
+		['无法复活'],
+		['牺牲技能禁用'],
+		['齐格弗里德的证明禁用']
 	]
 };
 
@@ -2192,42 +2192,42 @@ StatusInfo[SC.SAVAGE_STEAK] = {
 	icon: 'str_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Savage Roast', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases STR']]
+	descript: [['野蛮烤肉', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 STR']]
 };
 
 StatusInfo[SC.COCKTAIL_WARG_BLOOD] = {
 	icon: 'int_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Wolf Blood Cocktail', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases INT']]
+	descript: [['狼血鸡尾酒', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 INT']]
 };
 
 StatusInfo[SC.MINOR_BBQ] = {
 	icon: 'vit_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Minorous Beef Stew', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases VIT']]
+	descript: [['米诺斯牛肉锅', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 VIT']]
 };
 
 StatusInfo[SC.SIROMA_ICE_TEA] = {
 	icon: 'dex_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Siroma Iced Tea', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases DEX']]
+	descript: [['希罗玛冰茶', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 DEX']]
 };
 
 StatusInfo[SC.DROCERA_HERB_STEAMED] = {
 	icon: 'agi_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Drosera Herb Salad', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases AGI']]
+	descript: [['捕虫草药草沙拉', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 AGI']]
 };
 
 StatusInfo[SC.PUTTI_TAILS_NOODLES] = {
 	icon: 'luk_gogi.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Petite Tail Noodle', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases LUK']]
+	descript: [['小龙尾面', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 LUK']]
 };
 
 StatusInfo[SC.STOMACHACHE] = {
@@ -2235,12 +2235,12 @@ StatusInfo[SC.STOMACHACHE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Stomachache', COLOR_TITLE_BUFF],
+		['胃痛', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reduces All Stats'],
-		['Reduces Movement Speed'],
-		['Forced to sit down once in every 10 sec'],
-		['Consume certain amount of SP for 10 sec']
+		['降低所有属性'],
+		['降低移动速度'],
+		['每10秒被迫坐下'],
+		['10秒内消耗一定量 SP']
 	]
 };
 
@@ -2248,14 +2248,14 @@ StatusInfo[SC.PROTECTEXP] = {
 	icon: '\xbe\xf6\xb8\xb6\xbe\xc6\xba\xfc\xbb\xe7\xb6\xfb\xc7\xd8\xbf\xe4.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Mom and Dad I Love You', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['No EXP loss upon death']]
+	descript: [['爸爸妈妈我爱你们', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['死亡时不损失 EXP']]
 };
 
 StatusInfo[SC.ANGEL_PROTECT] = {
 	icon: 'death.tga', //CUSTOM
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Guardian Angel', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['No EXP loss upon death']]
+	descript: [['守护天使', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['死亡时不损失 EXP']]
 };
 
 StatusInfo[SC.MORA_BUFF] = {
@@ -2263,10 +2263,10 @@ StatusInfo[SC.MORA_BUFF] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Mora Berry', COLOR_TITLE_BUFF],
+		['莫拉浆果', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases Resistance to every monsters'],
-		['in the fields near the town of Mora.']
+		['提高对所有怪物的抗性'],
+		['莫拉镇附近原野中的怪物。']
 	]
 };
 
@@ -2275,10 +2275,10 @@ StatusInfo[SC.POPECOOKIE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Pope Cookie', COLOR_TITLE_BUFF],
+		['教皇曲奇', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases ATK and MATK'],
-		['Increases Resistance to all property.']
+		['提高 ATK 和 MATK'],
+		['提高对所有属性的抗性。']
 	]
 };
 
@@ -2287,10 +2287,10 @@ StatusInfo[SC.VITALIZE_POTION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Vitalize Potion', COLOR_TITLE_BUFF],
+		['活力药水', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases ATK and MATK'],
-		['Increase effects of heal and healing items']
+		['提高 ATK 和 MATK'],
+		['提高治疗技能和治疗道具效果']
 	]
 };
 
@@ -2299,10 +2299,10 @@ StatusInfo[SC.G_LIFEPOTION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Rapid Life-giving Water', COLOR_TITLE_BUFF],
+		['快速生命之水', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Recovers HP every 3 seconds'],
-		['No effect if Berserk State is active']
+		['每3秒恢复 HP'],
+		['狂暴状态激活时无效']
 	]
 };
 
@@ -2311,10 +2311,10 @@ StatusInfo[SC.ODINS_POWER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		["Odin's Power", COLOR_TITLE_BUFF],
+		['奥丁之力', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases ATK and MATK'],
-		['Decreases DEF and MDEF']
+		['提高 ATK 和 MATK'],
+		['降低 DEF 和 MDEF']
 	]
 };
 
@@ -2323,12 +2323,12 @@ StatusInfo[SC.MAGIC_CANDY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Magic Candy', COLOR_TITLE_BUFF],
+		['魔法糖果', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases MATK'],
-		['Reduced fixed casting time.'],
-		['Casting cannot be interrupted.'],
-		['Drains SP every 10 seconds']
+		['提高 MATK'],
+		['减少固定吟唱时间。'],
+		['吟唱不会被打断。'],
+		['每10秒吸收 SP']
 	]
 };
 
@@ -2337,10 +2337,10 @@ StatusInfo[SC.ENERGYCOAT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Energy Coat', COLOR_TITLE_BUFF],
+		['能量外套', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reduces damage in proportion'],
-		['to the amount of SP remaining']
+		['按比例减少伤害'],
+		['取决于剩余 SP 数量']
 	]
 };
 
@@ -2349,10 +2349,10 @@ StatusInfo[SC.PAIN_KILLER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Pain Killer', COLOR_TITLE_BUFF],
+		['止痛药', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['No movement delay in receiving damage'],
-		['Reduced damage taken']
+		['受到伤害时无移动延迟'],
+		['减少受到的伤害']
 	]
 };
 
@@ -2361,10 +2361,10 @@ StatusInfo[SC.LIGHT_OF_REGENE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Light Of Regeneration', COLOR_TITLE_BUFF],
+		['再生之光', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When the summoner died'],
-		['Homunculus will sacrifice to revive the summoner']
+		['召唤者死亡时'],
+		['傀儡会牺牲自己复活召唤者']
 	]
 };
 
@@ -2373,17 +2373,17 @@ StatusInfo[SC.OVERED_BOOST] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Overed Boost', COLOR_TITLE_BUFF],
+		['过度强化', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases ASPD and Evasion'],
-		['to a fixed amount']
+		['提高 ASPD 和回避率'],
+		['至固定数值']
 	]
 };
 
 StatusInfo[SC.STYLE_CHANGE] = {
 	icon: 'efst_atk.tga', //CUSTOM
 	haveTimeLimit: 0,
-	descript: [['Style Change', COLOR_TITLE_TOGGLE], ['Homunculus in Fighter Style']]
+	descript: [['风格变换', COLOR_TITLE_TOGGLE], ['傀儡处于战士风格']]
 };
 
 StatusInfo[SC.MAGMA_FLOW] = {
@@ -2391,10 +2391,10 @@ StatusInfo[SC.MAGMA_FLOW] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Magma Flow', COLOR_TITLE_BUFF],
+		['岩浆流', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When receiving damage'],
-		['there is a chance to eject magma around it']
+		['受到伤害时'],
+		['有机会向周围喷出岩浆']
 	]
 };
 
@@ -2403,10 +2403,10 @@ StatusInfo[SC.GRANITIC_ARMOR] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Granitic Armor', COLOR_TITLE_BUFF],
+		['花岗岩铠甲', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Reduced damage taken'],
-		['Lose some HP when the status ends.']
+		['减少受到的伤害'],
+		['状态结束时损失部分 HP。']
 	]
 };
 
@@ -2415,11 +2415,11 @@ StatusInfo[SC.PYROCLASTIC] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Pyroclastic', COLOR_TITLE_BUFF],
+		['火成岩', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Weapon of Deeter and Owner'],
-		['Change to Fire Property'],
-		['Increased weapon damage']
+		['迪特尔和主人的武器'],
+		['变为火属性'],
+		['提高武器伤害']
 	]
 };
 
@@ -2428,24 +2428,24 @@ StatusInfo[SC.VOLCANIC_ASH] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Volcanic Ash', COLOR_TITLE_DEBUFF],
+		['火山灰', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Reduced hit rate'],
-		['Skill has a chance of failing'],
-		['Increases fire damage taken']
+		['降低命中率'],
+		['技能有机会失败'],
+		['增加受到的火属性伤害']
 	]
 };
 
 StatusInfo[SC.ATKER_ASPD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Great Phantom', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Max HP'], ['Increases HP recovery']]
+	descript: [['伟大幻影', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 Max HP'], ['提高 HP 恢复']]
 };
 
 StatusInfo[SC.ATKER_MOVESPEED] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['ÅÂÃ»´Ü', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Max SP'], ['Increases SP recovery']]
+	descript: [['暗影祝福', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高 Max SP'], ['提高 SP 恢复']]
 };
 
 StatusInfo[SC.OVERLAPEXPUP] = {
@@ -2453,11 +2453,11 @@ StatusInfo[SC.OVERLAPEXPUP] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Maldango Canned Cat', COLOR_TITLE_BUFF],
+		['马当果罐头猫', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['When killing monsters in Maldango'],
-		['Increases Base and Job EXP'],
-		['Increases Item drop rate']
+		['在马当果击杀怪物时'],
+		['提高基础和职业 EXP'],
+		['提高物品掉落率']
 	]
 };
 
@@ -2465,74 +2465,74 @@ StatusInfo[SC.PLUSATTACKPOWER] = {
 	icon: 'plusattackpower.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases ATK']]
+	descript: [['%s', COLOR_TIME], ['提高 ATK']]
 };
 
 StatusInfo[SC.PLUSMAGICPOWER] = {
 	icon: 'plusmagicpower.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases MATK']]
+	descript: [['%s', COLOR_TIME], ['提高 MATK']]
 };
 
 StatusInfo[SC.MACRO_PERMIT] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Using Macros', COLOR_SYSTEM], ['%s', COLOR_TIME], ['Macro is activated']]
+	descript: [['使用宏', COLOR_SYSTEM], ['%s', COLOR_TIME], ['宏已激活']]
 };
 
 StatusInfo[SC.MACRO_POSTDELAY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Macros Disabled', COLOR_SYSTEM], ['%s', COLOR_TIME], ['Macro is deactivated.']]
+	descript: [['宏已禁用', COLOR_SYSTEM], ['%s', COLOR_TIME], ['宏已停用。']]
 };
 
 StatusInfo[SC.MONSTER_TRANSFORM] = {
 	icon: '\xba\xaf\xbd\xc5.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Monster Transformation', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Transformed into monster.']]
+	descript: [['怪物变身', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['已变身为怪物。']]
 };
 
 StatusInfo[SC.SIT] = {
 	icon: '\xbe\xc9\xb1\xe2.tga',
-	descript: [['Sit', COLOR_TITLE_TOGGLE]]
+	descript: [['坐下', COLOR_TITLE_TOGGLE]]
 };
 
 StatusInfo[SC.ALL_RIDING] = {
 	icon: '\xb6\xf3\xc0\xcc\xb5\xf9.tga',
-	descript: [['Riding', COLOR_TITLE_TOGGLE]]
+	descript: [['骑乘', COLOR_TITLE_TOGGLE]]
 };
 
 StatusInfo[SC.SKF_MATK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases MATK']]
+	descript: [['%s', COLOR_TIME], ['提高MATK']]
 };
 
 StatusInfo[SC.SKF_ATK] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases ATK']]
+	descript: [['%s', COLOR_TIME], ['提高ATK']]
 };
 
 StatusInfo[SC.SKF_ASPD] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases ASPD']]
+	descript: [['%s', COLOR_TIME], ['提高ASPD']]
 };
 
 StatusInfo[SC.SKF_CAST] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Reduces casting time']]
+	descript: [['%s', COLOR_TIME], ['缩短吟唱时间']]
 };
 
 StatusInfo[SC.REWARD_PLUSONLYJOBEXP] = {
 	icon: 'job.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['Increases gained Job experience']]
+	descript: [['%s', COLOR_TIME], ['提高获得的职业经验']]
 };
 
 StatusInfo[SC.ENERVATION] = {
@@ -2540,10 +2540,10 @@ StatusInfo[SC.ENERVATION] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Masquerade: Enervation', COLOR_TITLE_DEBUFF],
+		['假面舞会：衰弱', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Reduces ATK'],
-		['Removes Spirit Spheres']
+		['降低ATK'],
+		['移除气弹']
 	]
 };
 
@@ -2552,11 +2552,11 @@ StatusInfo[SC.GROOMY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Masquerade: Gloomy', COLOR_TITLE_DEBUFF],
+		['假面舞会：阴郁', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Decreases ASPD and HIT'],
-		['Forced to release mounts and any related animals.'],
-		['Mounts and any related animals are disabled.']
+		['降低ASPD和HIT'],
+		['强制解除坐骑及相关动物。'],
+		['坐骑及相关动物无法使用。']
 	]
 };
 
@@ -2565,10 +2565,10 @@ StatusInfo[SC.IGNORANCE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Masquerade: Ignorance', COLOR_TITLE_DEBUFF],
+		['假面舞会：无知', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Lost a certain amount of SP'],
-		['Skills and Magics are disabled']
+		['失去一定量的SP'],
+		['技能和魔法无法使用']
 	]
 };
 
@@ -2577,11 +2577,11 @@ StatusInfo[SC.LAZINESS] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Masquerade: Laziness', COLOR_TITLE_DEBUFF],
+		['假面舞会：懒惰', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Reduces Movement Speed and FLEE'],
-		['Increases casting time'],
-		['Adds a certain amount of SP when using a skill']
+		['降低移动速度和FLEE'],
+		['增加吟唱时间'],
+		['使用技能时增加一定SP消耗']
 	]
 };
 
@@ -2590,12 +2590,12 @@ StatusInfo[SC.UNLUCKY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Masquerade: Unlucky', COLOR_TITLE_DEBUFF],
+		['假面舞会：不幸', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Reduces critical rate'],
-		['Reduces perfect dodge'],
-		['Using skills costs zeny'],
-		['Damage over time causes a certain status ailments.']
+		['降低暴击率'],
+		['降低完全回避'],
+		['使用技能消耗 Zeny'],
+		['持续伤害会造成某些状态异常。']
 	]
 };
 
@@ -2604,11 +2604,11 @@ StatusInfo[SC.WEAKNESS] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Masquerade: Weakness', COLOR_TITLE_DEBUFF],
+		['假面舞会：虚弱', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['Reduces Max HP'],
-		['When evaded, weapon, shield is taken off.'],
-		['Cannot equip weapons and shield']
+		['降低最大HP'],
+		['闪避时卸下武器和盾牌。'],
+		['无法装备武器和盾牌']
 	]
 };
 
@@ -2617,11 +2617,11 @@ StatusInfo[SC.STEELBODY] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Steel Body', COLOR_TITLE_BUFF],
+		['钢铁之躯', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Sets DEF and MDEF to a fixed amount.'],
-		['Reduces Movement Speed and ASPD'],
-		['Skills are disabled']
+		['将DEF和MDEF设为固定值。'],
+		['降低移动速度和ASPD'],
+		['技能无法使用']
 	]
 };
 
@@ -2630,10 +2630,10 @@ StatusInfo[SC.LG_REFLECTDAMAGE] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Reflect Damage', COLOR_TITLE_TOGGLE],
+		['伤害反射', COLOR_TITLE_TOGGLE],
 		['%s', COLOR_TIME],
-		['Reflects some of the damages received to all enemies in an area'],
-		['Consumes SP every second']
+		['将受到的部分伤害反射给范围内所有敌人'],
+		['每秒消耗SP']
 	]
 };
 
@@ -2641,7 +2641,7 @@ StatusInfo[SC.MVPCARD_TAOGUNKA] = {
 	icon: 'mvpcard_taogunka.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Tao Gunka Scroll', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases Max HP'], ['Reduces DEF/MDEF']]
+	descript: [['塔奥群卡卷轴', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高最大HP'], ['降低DEF/MDEF']]
 };
 
 StatusInfo[SC.MVPCARD_MISTRESS] = {
@@ -2649,10 +2649,10 @@ StatusInfo[SC.MVPCARD_MISTRESS] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Mistress Scroll', COLOR_TITLE_BUFF],
+		['蜂后卷轴', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Nullify the Gemstone requirement of certain spells'],
-		['Increases SP consumption']
+		['使部分法术不再需要宝石'],
+		['提高SP消耗']
 	]
 };
 
@@ -2660,74 +2660,74 @@ StatusInfo[SC.MVPCARD_ORCHERO] = {
 	icon: 'mvpcard_orchero.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Orc Hero Scroll', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Immunity to stun status']]
+	descript: [['兽人英雄卷轴', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['免疫眩晕状态']]
 };
 
 StatusInfo[SC.MVPCARD_ORCLORD] = {
 	icon: 'mvpcard_orclord.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Orc Lord Scroll', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Reflects a part of physical damage taken']]
+	descript: [['兽人王卷轴', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['反射所受部分物理伤害']]
 };
 
 StatusInfo[SC.HANDICAPSTATE_NORECOVER] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Recovery disabled status', COLOR_TITLE_DEBUFF],
+		['恢复禁用状态', COLOR_TITLE_DEBUFF],
 		['%s', COLOR_TIME],
-		['HP and SP recovery are disabled']
+		['HP和SP无法恢复']
 	]
 };
 
 StatusInfo[SC.SET_NUM_DEF] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['DEF amount is set.']]
+	descript: [['%s', COLOR_TIME], ['DEF数值已设定。']]
 };
 
 StatusInfo[SC.SET_NUM_MDEF] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 1,
-	descript: [['%s', COLOR_TIME], ['MDEF amount is set.']]
+	descript: [['%s', COLOR_TIME], ['MDEF数值已设定。']]
 };
 
 StatusInfo[SC.SET_PER_DEF] = {
-	descript: [['DEF amount is fixed at certain percentage.']]
+	descript: [['DEF数值固定为特定百分比。']]
 };
 
 StatusInfo[SC.SET_PER_MDEF] = {
-	descript: [['MDEF amount is fixed at certain percentage.']]
+	descript: [['MDEF数值固定为特定百分比。']]
 };
 
 StatusInfo[SC.EXTREMITYFIST] = {
 	icon: 'extremityfist.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Asura Strike (Guillotine Fist)', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['SP recovery is disabled']]
+	descript: [['阿修罗霸凰拳（修罗霸凰拳）', COLOR_TITLE_DEBUFF], ['%s', COLOR_TIME], ['SP无法恢复']]
 };
 
 StatusInfo[SC.ATTHASTE_CASH] = {
 	icon: 'aspdcash.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['ASPD Reinforce Potion', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increase Attack Speed']]
+	descript: [['ASPD强化药水', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高攻击速度']]
 };
 
 StatusInfo[SC.RWC2011] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Firecracker', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Increases all stats'], ['Increases ATK, MATK']]
+	descript: [['爆竹', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['提高所有属性'], ['提高ATK、MATK']]
 };
 
 StatusInfo[SC.PHI_DEMON] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		["Godfather's Ancient Spirit", COLOR_TITLE_BUFF],
+		['教父的远古之魂', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Gives Demon type monster'],
-		['Increases Physical and Magic damage']
+		['赋予恶魔型魔物'],
+		['提高物理和魔法伤害']
 	]
 };
 
@@ -2752,13 +2752,13 @@ StatusInfo[SC.RWC_SCROLL2011] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Red Booster', COLOR_TITLE_BUFF],
+		['红色强化剂', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases ATK and MATK'],
-		['Increases ASPD'],
-		['Reduced variable casting time'],
-		['When receiving Physical and Magical damage'],
-		['there is a chance to cast Improve Concentration skill']
+		['提高ATK和MATK'],
+		['提高ASPD'],
+		['缩短可变吟唱时间'],
+		['受到物理和魔法伤害时'],
+		['有几率施放集中力提升']
 	]
 };
 
@@ -2767,13 +2767,13 @@ StatusInfo[SC.MEIKYOUSISUI] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Pure Soul', COLOR_TITLE_BUFF],
+		['纯洁之魂', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Recovers a certain amount of HP'],
-		['Recovers a certain amount of SP'],
-		['Unable to move'],
-		['Chance to ignore damage when attacked'],
-		['Effect wears off by chance when hit.']
+		['恢复一定量HP'],
+		['恢复一定量SP'],
+		['无法移动'],
+		['受到攻击时有几率忽略伤害'],
+		['受到攻击时效果有几率消失。']
 	]
 };
 
@@ -2782,12 +2782,12 @@ StatusInfo[SC.IZAYOI] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['16th Night', COLOR_TITLE_BUFF],
+		['十六夜', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Removes Fixed casting time'],
-		['Reduced variable casting time'],
-		['Increases MATK'],
-		['Drains SP per second']
+		['移除固定吟唱时间'],
+		['缩短可变吟唱时间'],
+		['提高MATK'],
+		['每秒吸收SP']
 	]
 };
 
@@ -2998,14 +2998,14 @@ StatusInfo[SC.ATTACK_PROPERTY_TELEKINESIS] = {
 	icon: 'weapon_property.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Weapon Property', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Enchants Weapon with Ghost Property']]
+	descript: [['武器属性', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为武器附加念属性']]
 };
 
 StatusInfo[SC.ATTACK_PROPERTY_UNDEAD] = {
 	icon: 'weapon_property.tga',
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
-	descript: [['Weapon Property', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['Enchants Weapon with Undead Property']]
+	descript: [['武器属性', COLOR_TITLE_BUFF], ['%s', COLOR_TIME], ['为武器附加不死属性']]
 };
 
 StatusInfo[SC.RESIST_PROPERTY_NOTHING] = {
@@ -3013,9 +3013,9 @@ StatusInfo[SC.RESIST_PROPERTY_NOTHING] = {
 	haveTimeLimit: 1,
 	posTimeLimitStr: 2,
 	descript: [
-		['Resist Property', COLOR_TITLE_BUFF],
+		['属性抗性', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Neutral Property']
+		['提高无属性抗性']
 	]
 };
 
@@ -3026,7 +3026,7 @@ StatusInfo[SC.RESIST_PROPERTY_WATER] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Water Property']
+		['提高水属性抗性']
 	]
 };
 
@@ -3037,7 +3037,7 @@ StatusInfo[SC.RESIST_PROPERTY_GROUND] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Earth Property']
+		['提高地属性抗性']
 	]
 };
 
@@ -3048,7 +3048,7 @@ StatusInfo[SC.RESIST_PROPERTY_FIRE] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Fire Property']
+		['提高火属性抗性']
 	]
 };
 
@@ -3059,7 +3059,7 @@ StatusInfo[SC.RESIST_PROPERTY_WIND] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Wind Property']
+		['提高风属性抗性']
 	]
 };
 
@@ -3070,7 +3070,7 @@ StatusInfo[SC.RESIST_PROPERTY_POISON] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Poison Property']
+		['提高毒属性抗性']
 	]
 };
 
@@ -3081,7 +3081,7 @@ StatusInfo[SC.RESIST_PROPERTY_SAINT] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Holy Property']
+		['提高圣属性抗性']
 	]
 };
 
@@ -3092,7 +3092,7 @@ StatusInfo[SC.RESIST_PROPERTY_DARKNESS] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Dark Property']
+		['提高暗属性抗性']
 	]
 };
 
@@ -3103,7 +3103,7 @@ StatusInfo[SC.RESIST_PROPERTY_TELEKINESIS] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Ghost Property']
+		['提高念属性抗性']
 	]
 };
 
@@ -3114,7 +3114,7 @@ StatusInfo[SC.RESIST_PROPERTY_UNDEAD] = {
 	descript: [
 		['Resist Property', COLOR_TITLE_BUFF],
 		['%s', COLOR_TIME],
-		['Increases your resistance to the Undead Property']
+		['提高不死属性抗性']
 	]
 };
 

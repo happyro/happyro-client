@@ -1060,7 +1060,7 @@ function renderSlots() {
 	if (!empty) {
 		empty = document.createElement('div');
 		empty.className = 'slot_empty';
-		empty.textContent = 'Select an item';
+		empty.textContent = '请选择物品';
 		list.appendChild(empty);
 	}
 	const hasItem = !!(EnchantState.item && EnchantState.group);
@@ -1121,7 +1121,7 @@ function updateActionButton(enabled) {
 	if (!button) {
 		return;
 	}
-	const label = EnchantState.action === 'reset' ? 'Reset' : 'Enchant';
+	const label = EnchantState.action === 'reset' ? '重置' : '附魔';
 	button.textContent = '';
 	button.title = label;
 	button.classList.toggle('disabled', !enabled);
@@ -1297,7 +1297,7 @@ function refreshActionContent() {
 					if (upgradeSelect) {
 						const option = document.createElement('option');
 						option.value = candidate.slotNum;
-						option.textContent = `Slot ${candidate.slotNum + 1}: ${currentName} -> ${resultName}`;
+						option.textContent = `槽位 ${candidate.slotNum + 1}：${currentName} → ${resultName}`;
 						upgradeSelect.appendChild(option);
 					}
 					upgradeEntries.push({
@@ -1324,7 +1324,7 @@ function refreshActionContent() {
 					const ur = root.querySelector('.upgrade_result');
 					if (ur) {
 						ur.textContent =
-							'Result: ' + (selectedEntry.entry.result ? selectedEntry.entry.result.base : '');
+							'结果：' + (selectedEntry.entry.result ? selectedEntry.entry.result.base : '');
 					}
 					renderCosts(100000, selectedEntry.entry.zeny, selectedEntry.entry.materials);
 					actionReady =
@@ -1366,33 +1366,33 @@ function refreshUI() {
 
 function validateItem(item) {
 	if (!EnchantState.group) {
-		return { ok: false, message: 'Enchant data missing for this group.' };
+		return { ok: false, message: '此附魔组缺少附魔数据。' };
 	}
 	if (!item) {
-		return { ok: false, message: 'Invalid item.' };
+		return { ok: false, message: '物品无效。' };
 	}
 	if (item.WearState) {
-		return { ok: false, message: 'Item must be in inventory.' };
+		return { ok: false, message: '物品必须位于背包中。' };
 	}
 	if ((item.equipSwitch && item.equipSwitch > 0) || (item.EquipSwitch && item.EquipSwitch > 0)) {
-		return { ok: false, message: 'Item cannot be in equipment switch.' };
+		return { ok: false, message: '物品不能位于装备切换栏中。' };
 	}
 	if (item.attribute && item.attribute !== 0) {
-		return { ok: false, message: 'Item attribute must be normal.' };
+		return { ok: false, message: '物品属性必须为普通。' };
 	}
 	if (!isTargetItem(item, EnchantState.group)) {
-		return { ok: false, message: 'Item is not valid for this enchant group.' };
+		return { ok: false, message: '物品不适用于此附魔组。' };
 	}
 	const refine = item.RefiningLevel || item.refiningLevel || 0;
 	if (refine < EnchantState.group.condition.minRefine) {
-		return { ok: false, message: 'Refine level too low.' };
+		return { ok: false, message: '精炼等级过低。' };
 	}
 	const grade = getItemGrade(item);
 	if (grade < EnchantState.group.condition.minGrade) {
-		return { ok: false, message: 'Enchant grade too low.' };
+		return { ok: false, message: '附魔等级过低。' };
 	}
 	if (!EnchantState.group.allowRandomOption && hasRandomOptions(item)) {
-		return { ok: false, message: 'Random options not allowed.' };
+		return { ok: false, message: '不允许使用随机选项。' };
 	}
 	return { ok: true };
 }

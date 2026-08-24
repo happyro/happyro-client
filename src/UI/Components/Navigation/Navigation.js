@@ -488,7 +488,7 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 
 	// If no results, show a message
 	if (results.length === 0) {
-		resultsContainer.innerHTML = '<div class="no-results">No results found</div>';
+		resultsContainer.innerHTML = '<div class="no-results">未找到结果</div>';
 		resultsContainer.style.display = '';
 		return;
 	}

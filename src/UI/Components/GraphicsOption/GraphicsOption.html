@@ -6,7 +6,7 @@
 				data-background="basic_interface/sys_base_off.bmp"
 				data-hover="basic_interface/sys_base_on.bmp"
 			></button>
-			<span class="text" data-text="1484">Graphics Settings</span>
+			<span class="text" data-text="1484">图形设置</span>
 		</div>
 		<div class="right">
 			<button
@@ -20,8 +20,8 @@
 
 	<div class="tabs-container">
 		<div class="tabs">
-			<button class="tab-button selected" data-tab="basic">Basic</button>
-			<button class="tab-button" data-tab="advanced">Advanced</button>
+			<button class="tab-button selected" data-tab="basic">基础</button>
+			<button class="tab-button" data-tab="advanced">高级</button>
 		</div>
 	</div>
 
@@ -29,7 +29,7 @@
 		<div class="tab-content selected" id="basic">
 			<table>
 				<tr>
-					<td>Details</td>
+					<td>详情</td>
 					<td style="display: inline-block; width: 260px">
 						<input
 							class="details"
@@ -43,7 +43,7 @@
 					</td>
 				</tr>
 				<tr class="resolution">
-					<td>Resolution</td>
+					<td>分辨率</td>
 					<td>
 						<select class="screensize">
 							<option value="650x480">640 x 480</option>
@@ -52,12 +52,12 @@
 							<option value="1280x800">1280 x 800</option>
 							<option value="1400x900">1400 x 900</option>
 							<option value="1680x1050">1680 x 1050</option>
-							<option value="full">Full Screen</option>
+							<option value="full">全屏</option>
 						</select>
 					</td>
 				</tr>
 				<tr>
-					<td>Cursor</td>
+					<td>光标</td>
 					<td>
 						<label>
 							<input class="cursor-option" type="checkbox" />
@@ -66,10 +66,10 @@
 					</td>
 				</tr>
 				<tr>
-					<td>FPS Limit</td>
+					<td>帧率上限</td>
 					<td>
 						<select class="fpslimit">
-							<option value="-1">Unlimited</option>
+							<option value="-1">无限制</option>
 							<option value="30">30</option>
 							<option value="60">60</option>
 							<option value="90">90</option>
@@ -78,7 +78,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>FPS Display</td>
+					<td>显示帧率</td>
 					<td>
 						<label>
 							<input class="fps" type="checkbox" />
@@ -92,23 +92,23 @@
 			<table>
 				<tr>
 					<td title="Force nearest neighbor filtering for pixel-perfect sprite rendering">
-						Pixel Perfect Sprites
+						像素完美精灵
 					</td>
 					<td>
 						<label>
 							<input class="pixel-perfect" type="checkbox" />
-							Force nearest neighbor filtering
+							强制使用最近邻过滤
 						</label>
 					</td>
 				</tr>
 				<tr>
-					<td title="Add a glowing bloom effect to bright areas">Bloom</td>
+					<td title="为明亮区域添加发光效果">泛光</td>
 					<td>
 						<label style="display: inline-block; margin-right: 20px">
 							<input class="bloom" type="checkbox" />
 						</label>
 						<label style="display: inline-block; width: 200px">
-							Intensity:
+							强度：
 							<input
 								class="bloom-intensity"
 								type="range"
@@ -122,13 +122,13 @@
 					</td>
 				</tr>
 				<tr>
-					<td title="Apply a blur effect to the screen">Blur</td>
+					<td title="对屏幕应用模糊效果">模糊</td>
 					<td>
 						<label style="display: inline-block; margin-right: 20px">
 							<input class="blur" type="checkbox" />
 						</label>
 						<label style="display: inline-block; width: 90px">
-							Intensity:
+							强度：
 							<input
 								class="blur-intensity"
 								type="range"
@@ -140,7 +140,7 @@
 							/>
 						</label>
 						<label style="display: inline-block; width: 90px">
-							Area:
+							区域：
 							<input
 								class="blur-area"
 								type="range"
@@ -154,13 +154,13 @@
 					</td>
 				</tr>
 				<tr>
-					<td title="Contrast Adaptive Sharpening for enhanced details">Contr. Adapt. Sharp. (CAS)</td>
+					<td title="通过对比度自适应锐化增强细节">对比度自适应锐化（CAS）</td>
 					<td>
 						<label style="display: inline-block; margin-right: 20px">
 							<input class="casEnabled" type="checkbox" />
 						</label>
 						<label style="display: inline-block; width: 90px">
-							Contrast:
+							对比度：
 							<input
 								class="casContrast"
 								type="range"
@@ -172,7 +172,7 @@
 							/>
 						</label>
 						<label style="display: inline-block; width: 90px">
-							Sharpening:
+							锐化：
 							<input
 								class="casSharpening"
 								type="range"
@@ -186,13 +186,13 @@
 					</td>
 				</tr>
 				<tr>
-					<td title="Fast Approximate Anti-Aliasing for smoother edges">FXAA</td>
+					<td title="快速近似抗锯齿，使边缘更平滑">FXAA</td>
 					<td>
 						<label style="display: inline-block; margin-right: 20px">
 							<input class="fxaaEnabled" type="checkbox" />
 						</label>
 						<label style="display: inline-block; width: 90px">
-							Subpix:
+							子像素：
 							<input
 								class="fxaaSubpix"
 								type="range"
@@ -204,7 +204,7 @@
 							/>
 						</label>
 						<label style="display: inline-block; width: 90px">
-							Edge Threshold:
+							边缘阈值：
 							<input
 								class="fxaaEdgeThreshold"
 								type="range"
@@ -218,13 +218,13 @@
 					</td>
 				</tr>
 				<tr>
-					<td title="Cartoon rendering effect for stylized visuals">Cartoon</td>
+					<td title="用于风格化画面的卡通渲染效果">卡通</td>
 					<td>
 						<label style="display: inline-block; margin-right: 20px">
 							<input class="cartoonEnabled" type="checkbox" />
 						</label>
 						<label style="display: inline-block; width: 90px">
-							Power:
+							强度：
 							<input
 								class="cartoonPower"
 								type="range"
@@ -236,7 +236,7 @@
 							/>
 						</label>
 						<label style="display: inline-block; width: 90px">
-							Edge Slope:
+							边缘斜率：
 							<input
 								class="cartoonEdgeSlope"
 								type="range"
@@ -250,13 +250,13 @@
 					</td>
 				</tr>
 				<tr>
-					<td title="Increase color intensity and saturation">Vibrance</td>
+					<td title="提高色彩强度和饱和度">鲜艳度</td>
 					<td>
 						<label style="display: inline-block; margin-right: 20px">
 							<input class="vibranceEnabled" type="checkbox" />
 						</label>
 						<label style="display: inline-block; width: 200px">
-							Intensity:
+							强度：
 							<input
 								class="vibrance"
 								type="range"
@@ -273,14 +273,14 @@
 					<td
 						title="Hide objects outside the viewing area, enable downsampling rendering and others to improve performance"
 					>
-						Performance Mode
+						性能模式
 					</td>
 					<td>
 						<label style="display: inline-block; margin-right: 20px">
 							<input class="performanceMode" type="checkbox" />
 						</label>
 						<label style="display: inline-block; width: 200px">
-							Culling Area:
+							剔除区域：
 							<input
 								class="view-area"
 								type="range"
@@ -296,7 +296,7 @@
 			</table>
 
 			<div class="reset-section">
-				<button class="reset-button">Reset to Default Values</button>
+				<button class="reset-button">重置为默认值</button>
 			</div>
 		</div>
 	</div>
