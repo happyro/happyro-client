@@ -40,6 +40,12 @@
 	height: 20px;
 	bottom: 4px;
 	display: none;
+	box-sizing: border-box;
+	border: 1px solid #8b9690;
+	background: #f4f7f5;
+	text-align: center;
+	line-height: 18px;
+	cursor: pointer;
 }
 
 .item-link {

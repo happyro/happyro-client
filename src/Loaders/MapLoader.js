@@ -164,7 +164,7 @@ class MapLoader {
 		// loading world
 		function onWorldReady(resourceWorld) {
 			if (!resourceWorld) {
-				loader.onload(false, `Can't find file "${mapname}" ! `);
+				loader.onload(false, `找不到文件“${mapname}”！`);
 				return;
 			}
 
@@ -178,7 +178,7 @@ class MapLoader {
 		// Loading altitude
 		function onAltitudeReady(altitude) {
 			if (!altitude) {
-				loader.onload(false, `Can't find file "${world.files.gat}" !`);
+				loader.onload(false, `找不到文件“${world.files.gat}”！`);
 				return;
 			}
 
@@ -191,7 +191,7 @@ class MapLoader {
 		// Load ground
 		function onGroundReady(ground) {
 			if (!ground) {
-				loader.onload(false, `Can't find file "${world.files.gnd}" !`);
+				loader.onload(false, `找不到文件“${world.files.gnd}”！`);
 				return;
 			}
 
@@ -497,7 +497,6 @@ class MapLoader {
 			// Serialize nodes
 			for (let k = 0; k < model.nodes.length; k++) {
 				const node = model.nodes[k];
-
 				modelData.nodes.push({
 					name: node.name,
 					parentname: node.parentname,

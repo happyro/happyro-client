@@ -225,7 +225,7 @@ function onTogglePixelPerfect() {
 		reloadSprites();
 	} else {
 		ChatBox.addText(
-			'[System] Pixel Perfect is disabled. Reload the page (F5) to apply the changes.',
+			'[系统] 像素完美已禁用。请重新加载页面（F5）以应用更改。',
 			ChatBox.TYPE.INFO,
 			ChatBox.FILTER.PUBLIC_LOG
 		);

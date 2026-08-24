@@ -35,6 +35,7 @@ import RandomOption from 'DB/Items/ItemRandomOptionTable.js';
 import WorldMap from './Map/WorldMap.js';
 import SKID from './Skills/SkillConst.js';
 import SkillInfo from './Skills/SkillInfo.js';
+import { localizeSkillDescriptions } from './Skills/SkillDescriptionLocalization.js';
 import SkillTreeView from './Skills/SkillTreeView.js';
 import JobHitSoundTable from './Jobs/JobHitSoundTable.js';
 import WeaponTrailTable from './Items/WeaponTrailTable.js';
@@ -53,6 +54,8 @@ import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import PACKETVER from 'Network/PacketVerManager.js';
 import MemoryManager from 'Core/MemoryManager.js';
+
+const LocalizedMapInfo = { ...MapInfo };
 
 //Pet
 //MapName
@@ -91,6 +94,7 @@ const MapTable = {};
  * @type {Object} SkillDescription Table
  */
 let SkillDescription = {};
+const LocalizedSkillDescription = {};
 
 /**
  * @const {Array} ASCII sex
@@ -229,10 +233,10 @@ const CashShopBannerTable = [];
 const Ez2streffect = {};
 
 const unknownItem = {
-	unidentifiedDisplayName: 'Unknown Item',
+	unidentifiedDisplayName: '未知物品',
 	unidentifiedResourceName: '\xbb\xe7\xb0\xfa',
 	unidentifiedDescriptionName: ['...'],
-	identifiedDisplayName: 'Unknown Item',
+	identifiedDisplayName: '未知物品',
 	identifiedResourceName: '\xbb\xe7\xb0\xfa',
 	identifiedDescriptionName: ['...'],
 	slotCount: 0,
@@ -325,7 +329,7 @@ class DB {
 			'#',
 			2,
 			function (_index, key, val) {
-				(MapTable[key] || (MapTable[key] = {})).name = val;
+				(MapTable[key] || (MapTable[key] = {})).name = MapInfo[key]?.displayName || val;
 			},
 			onLoad(),
 			true
@@ -338,8 +342,9 @@ class DB {
 			(_index, val) => {
 				MsgStringTable[_index] = val;
 			},
-			() => loadCSV('data/msgstringtable.csv', MsgStringTable, 0, 1, loadmsg),
-			true
+			loadmsg,
+			true,
+			() => loadCSV('data/msgstringtable.csv', MsgStringTable, 0, 1, loadmsg)
 		);
 
 		loadTable(
@@ -483,7 +488,10 @@ class DB {
 					[DB.LUA_PATH + 'skillinfoz/skillid.lub', DB.LUA_PATH + 'skillinfoz/skilldescript.lub'],
 					'SKILL_DESCRIPT',
 					_json => {
-						SkillDescription = _json;
+						SkillDescription = localizeSkillDescriptions(
+							{ ..._json, ...LocalizedSkillDescription },
+							SkillInfo
+						);
 					},
 					() => {
 						// Calls after skillids and descs been populated
@@ -717,17 +725,6 @@ class DB {
 				onLoad()
 			);
 
-			// Skill
-			loadTable(
-				'data/skilldesctable.txt',
-				'#',
-				2,
-				function (_index, key, val) {
-					SkillDescription[SKID[key]] = val.replace('\r\n', '\n');
-				},
-				onLoad(),
-				true
-			);
 			// TODO: data/skillnametable.txt	- ?
 			// TODO: data/skilltreeview.txt	- Replaces DB/Skills/SkillTreeView.js
 			// TODO: data/leveluseskillspamount.txt	- Replaces DB/Skills/SkillInfo.js -> SkillInfo.SpAmount
@@ -735,6 +732,21 @@ class DB {
 			// Quest
 			loadTable('data/questid2display.txt', '#', 6, parseQuestEntry, onLoad(), true);
 		}
+
+		// Keep localized descriptions authoritative regardless of async Lua load order.
+		loadTable(
+			'data/skilldesctable.txt',
+			'#',
+			2,
+			function (_index, key, val) {
+				const skillId = SKID[key];
+				const description = val.replace('\r\n', '\n');
+				LocalizedSkillDescription[skillId] = description;
+				SkillDescription[skillId] = description;
+			},
+			onLoad(),
+			'utf-8'
+		);
 
 		// Load ItemMoveInfo and attach to ItemTable
 		if (PACKETVER.value >= 20150422) {
@@ -2396,7 +2408,7 @@ class DB {
 					}
 
 					const GID = (item.slot.card4 << 16) + item.slot.card3;
-					name = '<font color="red" class="owner-' + GID + '">Unknown</font>';
+					name = '<font color="red" class="owner-' + GID + '">未知</font>';
 					if (DB.CNameTable[GID] && DB.CNameTable[GID] !== 'Unknown') {
 						name = '<font color="#87cefa" class="owner-' + GID + '">' + DB.CNameTable[GID] + '</font>';
 					} else {
@@ -2501,7 +2513,7 @@ class DB {
 	 */
 	static getOptionName(id) {
 		if (!(id in RandomOption)) {
-			return 'UNKNOWN RANDOM OPTION';
+			return '未知随机选项';
 		}
 		return RandomOption[id];
 	}
@@ -2514,7 +2526,7 @@ class DB {
 	 */
 	static getMessage(id, defaultText) {
 		if (!(id in MsgStringTable)) {
-			return defaultText !== undefined ? defaultText : 'NO MSG ' + id;
+			return defaultText !== undefined ? defaultText : '无消息 ' + id;
 		}
 
 		return MsgStringTable[id];
@@ -2582,7 +2594,7 @@ class DB {
 	 * @param {number} job id
 	 */
 	static getMonsterName(job) {
-		return MonsterNameTable[job] ?? 'Unknown';
+		return MonsterNameTable[job] ?? '未知';
 	}
 
 	/**
@@ -2755,7 +2767,7 @@ class DB {
 			if (reformInfo) {
 				reformInfos.push(reformInfo);
 			} else {
-				console.error('Reform Info not found for reform ID:', reformId);
+			console.error('未找到改造信息，改造 ID：', reformId);
 			}
 		}
 
@@ -4088,15 +4100,17 @@ function getSystemAliases(basePath) {
  * @param {number} size of each group
  * @param {function} callback to call for each group
  * @param {function} onEnd to run once the file is loaded
+ * @param {boolean} useCharPage whether to decode with the configured character page
+ * @param {function} onError to run if the file cannot be loaded
  */
-function loadTable(filename, separator, size, callback, onEnd, useCharPage = false) {
+function loadTable(filename, separator, size, callback, onEnd, charset = null, onError = onEnd) {
 	Client.loadFile(
 		filename,
 		function (buffer) {
 			console.log('Loading file "' + filename + '"...');
 
 			let data = buffer instanceof ArrayBuffer ? new Uint8Array(buffer) : buffer;
-			data = TextEncoding.decode(data, useCharPage ? userCharpage : null);
+			data = TextEncoding.decode(data, charset === true ? userCharpage : charset);
 
 			// Remove commented lines
 			const content = ('\n' + data).replace(/\n(\/\/[^\n]+)/g, '');
@@ -4117,7 +4131,7 @@ function loadTable(filename, separator, size, callback, onEnd, useCharPage = fal
 
 			onEnd();
 		},
-		onEnd
+		onError
 	);
 }
 
@@ -4595,6 +4609,20 @@ function loadAttendanceFile(filename, callback, onEnd) {
  * @param {function} onEnd - Function to run when done
  */
 function loadWorldMapInfo(basePath, onEnd) {
+	const localizedWorldNames = new Map([
+		['Midgard North', '米德加尔特北部'],
+		['Crack', '次元裂缝'],
+		['Far-Star', '遥远星域']
+	]);
+	const localizedWorldMap = new Map(
+		WorldMap.map(world => [
+			world.id,
+			{
+				name: world.name,
+				maps: new Map(world.maps.map(section => [section.id, section.name]))
+			}
+		])
+	);
 	const files = ['worldviewdata_language.lub', 'worldviewdata_list.lub', 'worldviewdata_table.lub'];
 
 	const dirPath = basePath.endsWith('/') ? basePath : basePath + '/';
@@ -4635,12 +4663,13 @@ function loadWorldMapInfo(basePath, onEnd) {
 				const decodedName = userStringDecoder.decode(name);
 				const decodedId = userStringDecoder.decode(id);
 				const decodedTableKey = userStringDecoder.decode(tableKey);
+				const localizedWorld = localizedWorldMap.get(decodedId);
 
 				WorldMap.push({
 					id: decodedId || decodedTableKey, // fallback to table name if id missing
 					ep_from: 0,
 					ep_to: 99,
-					name: decodedName,
+					name: localizedWorld?.name || localizedWorldNames.get(decodedName) || decodedName,
 					maps: [],
 					_tableKey: decodedTableKey // Internal use for mapping maps to this world
 				});
@@ -4678,13 +4707,15 @@ function loadWorldMapInfo(basePath, onEnd) {
 				if (world) {
 					// clean .rsw extension for ID
 					const mapId = decodedRsw.toLowerCase().replace('.rsw', '').replace('.gat', '');
+					const localizedName = localizedWorldMap.get(world.id)?.maps.get(mapId);
+					const localizedMapInfoName = LocalizedMapInfo[`${mapId}.rsw`]?.displayName;
 
 					world.maps.push({
 						index: dgIndex,
 						id: mapId,
 						ep_from: 0,
 						ep_to: 99,
-						name: decodedName,
+						name: localizedName || localizedMapInfoName || decodedName,
 						top: top,
 						left: left,
 						width: right - left, // Calculate width
@@ -4781,6 +4812,24 @@ function loadWorldMapInfo(basePath, onEnd) {
 }
 
 function loadTitleTable(filename, callback, onEnd) {
+	const loadLocalizedTitles = () => {
+		Client.loadFile(
+			'data/titletable.json',
+			file => {
+				try {
+					const text = typeof file === 'string' ? file : new TextDecoder().decode(file);
+					const json = JSON.parse(text);
+					Object.assign(TitleTable, json);
+				} catch (error) {
+					console.error('[loadTitleTable] Localized title error: ', error);
+				} finally {
+					onEnd();
+				}
+			},
+			onEnd
+		);
+	};
+
 	Client.loadFile(
 		filename,
 		async function (file) {
@@ -4816,10 +4865,10 @@ function loadTitleTable(filename, callback, onEnd) {
 				console.error('[loadTitleTable] Error: ', error);
 			} finally {
 				lua.unmountFile(filename);
-				onEnd();
+				loadLocalizedTitles();
 			}
 		},
-		onEnd
+		loadLocalizedTitles
 	);
 }
 
@@ -4949,8 +4998,8 @@ function loadQuestInfo(filename, callback, onEnd) {
 
 						-- Provide default values for DESC fields if they are nil
 						local questData = {
-							Title = DESC.Title or "Unknown Quest",
-							Summary = DESC.Summary or "Unknown Quest",
+							Title = DESC.Title or "未知任务",
+							Summary = DESC.Summary or "未知任务",
 							IconName = DESC.IconName or "",
 							NpcSpr = DESC.NpcSpr or "",
 							NpcNavi = DESC.NpcNavi or "",
@@ -4981,7 +5030,7 @@ function loadQuestInfo(filename, callback, onEnd) {
 
 						-- Iterate over Description table, use empty table if nil
 						for k, v in pairs(questData.Description) do
-							result, msg = AddQuestDescription(QuestID, v or "No description available")
+							result, msg = AddQuestDescription(QuestID, v or "暂无描述")
 							if not result then
 								return false, msg
 							end
@@ -5106,9 +5155,9 @@ function loadItemInfo(filename, callback, onEnd) {
 					ItemTable[ItemID] = {
 						...(typeof ItemTable[ItemID] === 'object' && ItemTable[ItemID]),
 						unidentifiedDisplayName: userStringDecoder.decode(unidentifiedDisplayName, userCharpage),
-						unidentifiedResourceName: userStringDecoder.decode(unidentifiedResourceName),
+						unidentifiedResourceName: userStringDecoder.decode(unidentifiedResourceName, userCharpage),
 						identifiedDisplayName: userStringDecoder.decode(identifiedDisplayName, userCharpage),
-						identifiedResourceName: userStringDecoder.decode(identifiedResourceName),
+						identifiedResourceName: userStringDecoder.decode(identifiedResourceName, userCharpage),
 						unidentifiedDescriptionName: [],
 						identifiedDescriptionName: [],
 						EffectID: null,
@@ -6442,9 +6491,12 @@ function loadSkillInfoList(filename, callback, onEnd) {
 						}
 						return [];
 					};
+					const localizedName = SkillInfo[skillId]?.SkillName;
 					SkillInfo[skillId] = {
 						Name: userStringDecoder.decode(resName),
-						SkillName: userStringDecoder.decode(skillName, userCharpage),
+						SkillName: /[\u3400-\u9fff]/.test(localizedName || '')
+							? localizedName
+							: userStringDecoder.decode(skillName, userCharpage),
 						MaxLv: maxLv,
 						SpAmount: toArray(spAmount),
 						bSeperateLv: bSeperateLv,

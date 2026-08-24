@@ -46,3 +46,18 @@
 	background-repeat: no-repeat;
 	background-color: transparent;
 }
+
+#win_popup .btn.localized {
+	border: 1px solid #8b9690;
+	background: #f4f7f5;
+	color: #202622;
+	cursor: pointer;
+}
+
+#win_popup .btn.localized:hover {
+	background: #dcebe3;
+}
+
+#win_popup .btn.localized:active {
+	background: #c8ded2;
+}

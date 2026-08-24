@@ -14,7 +14,7 @@ export default function init() {
 	GRFViewer.append();
 
 	window.onbeforeunload = function () {
-		return 'Are you sure to exit ?';
+		return '确定要退出吗？';
 	};
 }
 

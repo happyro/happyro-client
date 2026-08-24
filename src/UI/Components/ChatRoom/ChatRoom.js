@@ -199,53 +199,53 @@ function onMemberContextMenu(event) {
 	if (isOwner && isSelf) {
 		// Owner clicking on self: "Change room" + "View info"
 		// 126 = Change room settings
-		ContextMenu.addElement(DB.getMessage(126, 'Change room settings'), () => {
+		ContextMenu.addElement(DB.getMessage(126, '更改房间设置'), () => {
 			ChatRoom.openRoomSettings();
 		});
 		// 1360 = View Info (%s)
-		ContextMenu.addElement(DB.getMessage(1360, 'View Info %s').replace('%s', memberName), () => {
+		ContextMenu.addElement(DB.getMessage(1360, '查看信息 %s').replace('%s', memberName), () => {
 			viewMemberEquip(memberName);
 		});
 	} else if (isOwner && !isSelf) {
 		// Owner clicking on other member: all options
 		// 127 = Kick member
-		ContextMenu.addElement(DB.getMessage(127, 'Kick member'), () => {
+		ContextMenu.addElement(DB.getMessage(127, '踢出成员'), () => {
 			ChatRoom.requestExpelMember(memberName);
 		});
 		// 128 = Transfer leadership
-		ContextMenu.addElement(DB.getMessage(128, 'Transfer leadership'), () => {
+		ContextMenu.addElement(DB.getMessage(128, '转让队长权限'), () => {
 			ChatRoom.requestRoleChange(0, memberName);
 		});
 		// 1360 = View Info (%s)
-		ContextMenu.addElement(DB.getMessage(1360, 'View Info %s').replace('%s', memberName), () => {
+		ContextMenu.addElement(DB.getMessage(1360, '查看信息 %s').replace('%s', memberName), () => {
 			viewMemberEquip(memberName);
 		});
 		// 358 = Add as friend
 		if (!Friends.isFriend(memberName)) {
-			ContextMenu.addElement(DB.getMessage(358, 'Add as friend'), () => {
+			ContextMenu.addElement(DB.getMessage(358, '加为好友'), () => {
 				Friends.addFriend(memberName);
 			});
 		}
 		// 126 = Change room settings
-		ContextMenu.addElement(DB.getMessage(126, 'Change room settings'), () => {
+		ContextMenu.addElement(DB.getMessage(126, '更改房间设置'), () => {
 			ChatRoom.openRoomSettings();
 		});
 	} else if (!isOwner && !isSelf) {
 		// Non-owner clicking on other member
 		// 1360 = View Info (%s)
-		ContextMenu.addElement(DB.getMessage(1360, 'View Info %s').replace('%s', memberName), () => {
+		ContextMenu.addElement(DB.getMessage(1360, '查看信息 %s').replace('%s', memberName), () => {
 			viewMemberEquip(memberName);
 		});
 		// 358 = Add as friend
 		if (!Friends.isFriend(memberName)) {
-			ContextMenu.addElement(DB.getMessage(358, 'Add as friend'), () => {
+			ContextMenu.addElement(DB.getMessage(358, '加为好友'), () => {
 				Friends.addFriend(memberName);
 			});
 		}
 	} else {
 		// Non-owner clicking on self
 		// 1360 = View Info (%s)
-		ContextMenu.addElement(DB.getMessage(1360, 'View Info %s').replace('%s', memberName), () => {
+		ContextMenu.addElement(DB.getMessage(1360, '查看信息 %s').replace('%s', memberName), () => {
 			viewMemberEquip(memberName);
 		});
 	}

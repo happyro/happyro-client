@@ -57,7 +57,7 @@ function loadFiles(callback) {
 	q.add(() => {
 		Client.onFilesLoaded = count => {
 			if (!Configs.get('remoteClient') && !count && !window.electronAPI?.isElectron) {
-				alert('No client to initialize roBrowser');
+				alert('没有可用于初始化 roBrowser 的客户端');
 				Intro.remove();
 				Intro.append();
 				return;

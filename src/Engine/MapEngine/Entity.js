@@ -1340,7 +1340,7 @@ function onEntityUseSkill(pkt) {
 	) {
 		if (!SkillNameDisplayExclude.includes(pkt.SKID)) {
 			srcEntity.dialog.set(
-				((SkillInfo[pkt.SKID] && SkillInfo[pkt.SKID].SkillName) || 'Unknown Skill') + ' !!',
+				((SkillInfo[pkt.SKID] && SkillInfo[pkt.SKID].SkillName) || '未知技能') + '！！',
 				'white'
 			);
 		}
@@ -1377,7 +1377,7 @@ function onEntityUseSkill(pkt) {
 
 		// Steal Coin zeny
 		if (pkt.SKID === SkillId.RG_STEALCOIN) {
-			ChatBox.addText('You got ' + pkt.level + ' zeny.', ChatBox.TYPE.BLUE, ChatBox.FILTER.ITEM);
+			ChatBox.addText('你获得了 ' + pkt.level + ' Zeny。', ChatBox.TYPE.BLUE, ChatBox.FILTER.ITEM);
 		}
 
 		if (pkt.SKID === SkillId.GC_ROLLINGCUTTER) {
@@ -1486,7 +1486,7 @@ function onEntityUseSkillToAttack(pkt) {
 			!(pkt.level < 0) &&
 			!(pkt.SKID < 0)
 		) {
-			srcEntity.dialog.set(((SkillInfo[pkt.SKID] && SkillInfo[pkt.SKID].SkillName) || 'Unknown Skill') + ' !!');
+			srcEntity.dialog.set(((SkillInfo[pkt.SKID] && SkillInfo[pkt.SKID].SkillName) || '未知技能') + '！！');
 		}
 
 		//Action handling
@@ -1711,7 +1711,7 @@ function onEntityCastSkill(pkt) {
 	) {
 		if (!SkillNameDisplayExclude.includes(pkt.SKID)) {
 			srcEntity.dialog.set(
-				((SkillInfo[pkt.SKID] && SkillInfo[pkt.SKID].SkillName) || 'Unknown Skill') + ' !!',
+				((SkillInfo[pkt.SKID] && SkillInfo[pkt.SKID].SkillName) || '未知技能') + '！！',
 				'white'
 			);
 		}

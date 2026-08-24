@@ -550,9 +550,9 @@ ChatBox.init = function init() {
 
 				ContextMenu.remove();
 				ContextMenu.append();
-				ContextMenu.addElement('Chat font x1.0', setChatFontScale(1.0));
-				ContextMenu.addElement('Chat font x1.2', setChatFontScale(1.2));
-				ContextMenu.addElement('Chat font x1.4', setChatFontScale(1.4));
+				ContextMenu.addElement('聊天字体 x1.0', setChatFontScale(1.0));
+				ContextMenu.addElement('聊天字体 x1.2', setChatFontScale(1.2));
+				ContextMenu.addElement('聊天字体 x1.4', setChatFontScale(1.4));
 			}
 		});
 	}
@@ -1523,7 +1523,7 @@ ChatBox.saveCurrentTabChat = function saveCurrentTabChat() {
 	const url = window.URL.createObjectURL(new Blob([data], { type: 'text/plain' }));
 
 	ChatBox.addText(
-		`Chat History [${ChatBox.tabs[ChatBox.activeTab].name}] ${date} can be saved by <a style="color:#F88" download="ChatHistory [${ChatBox.tabs[ChatBox.activeTab].name}] (${date.replace('/', '-')}).html" href="${url}" target="_blank">clicking here</a>.`,
+		`聊天记录 [${ChatBox.tabs[ChatBox.activeTab].name}] ${date} 可通过<a style="color:#F88" download="ChatHistory [${ChatBox.tabs[ChatBox.activeTab].name}] (${date.replace('/', '-')}).html" href="${url}" target="_blank">点击此处</a>保存。`,
 		ChatBox.TYPE.PUBLIC,
 		ChatBox.FILTER.PUBLIC_LOG,
 		null,
