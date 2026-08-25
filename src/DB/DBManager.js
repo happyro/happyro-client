@@ -20,6 +20,7 @@ import BabyTable from './Jobs/BabyTable.js';
 import HairIndexTable from './Jobs/HairIndexTable.js';
 import MonsterTable from './Monsters/MonsterTable.js';
 import MonsterNameTable from './Monsters/MonsterNameTable.js';
+import NpcNameTable from './NpcNameTable.js';
 import PetIllustration from './Pets/PetIllustration.js';
 import PetAction from './Pets/PetAction.js';
 import ItemTable from './Items/ItemTable.js';
@@ -2829,6 +2830,15 @@ class DB {
 			return '乐园团空间传送员';
 		}
 		return SignBoardOverrides[normalized] || SignBoardTranslatedTable[normalized] || description;
+	}
+
+	static getNpcName(name) {
+		if (typeof name !== 'string') {
+			return name;
+		}
+		const match = name.match(/^(.*?)(#[^:]*)?(::.*)?$/);
+		const translated = NpcNameTable[match[1]];
+		return translated ? translated + (match[2] || '') + (match[3] || '') : name;
 	}
 
 	static getRandomJoke() {

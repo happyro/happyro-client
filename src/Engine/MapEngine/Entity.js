@@ -145,6 +145,8 @@ function onEntitySpam(pkt) {
 		}
 	}
 
+	localizeNpcEntityName(entity);
+
 	if (pkt.effectState & StatusState.EffectState.FALCON && DB.isHunter(pkt.job)) {
 		if (!entity.falcon) {
 			entity.falcon = new Entity();
@@ -981,6 +983,17 @@ function onEntityTalkColor(pkt) {
 	ChatBox.addText(pkt.msg, ChatBox.TYPE.PUBLIC, ChatBox.FILTER.PUBLIC_CHAT, color);
 }
 
+function localizeNpcEntityName(entity) {
+	if (entity.objecttype !== Entity.TYPE_NPC && entity.objecttype !== Entity.TYPE_NPC2) {
+		return;
+	}
+	const localizedName = DB.getNpcName(entity.display.name);
+	if (localizedName !== entity.display.name) {
+		entity.display.name = localizedName;
+		entity.display.update(entity.display.STYLE.NPC);
+	}
+}
+
 /**
  * Display entity's name
  *
@@ -994,7 +1007,7 @@ function onEntityIdentity(pkt) {
 			entity.objecttype === entity.constructor.TYPE_NPC_ABR ||
 			entity.objecttype === entity.constructor.TYPE_NPC_BIONIC;
 		const monsterName = isMonster ? DB.getMonsterName(entity._job) : '未知';
-		const displayName = monsterName !== '未知' ? monsterName : pkt.CName;
+		const displayName = monsterName !== '未知' ? monsterName : DB.getNpcName(pkt.CName);
 
 		if (entity.display.name) {
 			entity.display.fakename = displayName;
