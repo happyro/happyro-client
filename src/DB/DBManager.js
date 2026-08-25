@@ -147,6 +147,9 @@ let EnchantListTable = {};
  * @const {Object} SignBoardTranslated Table
  */
 const SignBoardTranslatedTable = {};
+const SignBoardOverrides = {
+	'낙원단 공간이동사': '乐园团空间传送员'
+};
 
 /**
  * @type {Object} SignBoard Table
@@ -2816,7 +2819,11 @@ class DB {
 	 * @return {string} The translated signboard description if found, otherwise the original description.
 	 */
 	static getTranslatedSignBoard(description) {
-		return SignBoardTranslatedTable[description] || description;
+		const normalized = typeof description === 'string' ? description.replace(/\s+/g, ' ').trim() : description;
+		if (normalized && /낙원단\s*공간이동사/.test(normalized)) {
+			return '乐园团空间传送员';
+		}
+		return SignBoardOverrides[normalized] || SignBoardTranslatedTable[normalized] || description;
 	}
 
 	static getRandomJoke() {

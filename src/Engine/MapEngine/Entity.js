@@ -989,10 +989,17 @@ function onEntityTalkColor(pkt) {
 function onEntityIdentity(pkt) {
 	const entity = EntityManager.get(pkt.AID);
 	if (entity) {
+		const isMonster =
+			entity.objecttype === entity.constructor.TYPE_MOB ||
+			entity.objecttype === entity.constructor.TYPE_NPC_ABR ||
+			entity.objecttype === entity.constructor.TYPE_NPC_BIONIC;
+		const monsterName = isMonster ? DB.getMonsterName(entity._job) : '未知';
+		const displayName = monsterName !== '未知' ? monsterName : pkt.CName;
+
 		if (entity.display.name) {
-			entity.display.fakename = pkt.CName;
+			entity.display.fakename = displayName;
 		} else {
-			entity.display.name = pkt.CName;
+			entity.display.name = displayName;
 		}
 
 		if (PACKETVER.value >= 20170208 && pkt.TitleID > 0) {
