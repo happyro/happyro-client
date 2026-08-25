@@ -382,6 +382,23 @@
 	text-shadow: 1px 1px black;
 }
 
+#PartyFriends .navigation .text-button {
+	color: #29496b;
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 20px;
+	text-align: center;
+	text-shadow: 0 1px #fff;
+}
+
+#PartyFriends .navigation .text-button:hover {
+	background-color: #dbe9f6;
+}
+
+#PartyFriends .navigation .text-button:active {
+	background-color: #b9d0e6;
+}
+
 #PartyFriends .navigation button:hover .overlay,
 #PartyFriends .navigation ui-button:hover .overlay {
 	display: block;

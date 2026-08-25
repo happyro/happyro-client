@@ -5353,7 +5353,7 @@ SkillInfo[SK.NC_F_SIDESLIDE] = {
 };
 SkillInfo[SK.NV_FIRSTAID] = {
 	Name: 'NV_FIRSTAID',
-	SkillName: 'First Aid',
+	SkillName: '急救',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [3],
@@ -5388,7 +5388,7 @@ SkillInfo[SK.NC_AXETORNADO] = {
 };
 SkillInfo[SK.NV_TRICKDEAD] = {
 	Name: 'NV_TRICKDEAD',
-	SkillName: 'Play Dead',
+	SkillName: '装死',
 	MaxLv: 1,
 	Type: 'Quest',
 	SpAmount: [5],
@@ -7162,7 +7162,7 @@ SkillInfo[SK.SO_SUMMON_AQUA] = {
 };
 SkillInfo[SK.NV_BASIC] = {
 	Name: 'NV_BASIC',
-	SkillName: 'Basic Skill',
+	SkillName: '基础技能',
 	MaxLv: 9,
 	SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0],
 	bSeperateLv: false,

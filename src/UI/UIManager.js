@@ -36,9 +36,16 @@ function _popupPosition() {
 function _createButton(name, onClick) {
 	const btn = document.createElement('button');
 	btn.className = 'btn';
-	btn.dataset.background = `btn_${name}.bmp`;
-	btn.dataset.hover = `btn_${name}_a.bmp`;
-	btn.dataset.down = `btn_${name}_b.bmp`;
+	const labels = { ok: '确定', yes: '确定', cancel: '取消', no: '取消', close: '关闭', next: '继续' };
+	const label = labels[name.toLowerCase()];
+	if (label) {
+		btn.classList.add('localized');
+		btn.textContent = label;
+	} else {
+		btn.dataset.background = `btn_${name}.bmp`;
+		btn.dataset.hover = `btn_${name}_a.bmp`;
+		btn.dataset.down = `btn_${name}_b.bmp`;
+	}
 
 	let clicked = false;
 	btn.addEventListener('click', () => {
