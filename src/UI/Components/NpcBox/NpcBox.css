@@ -32,8 +32,8 @@
 }
 #NpcBox .btns {
 	position: absolute;
-	bottom: 2px;
-	right: 8px;
+	bottom: 5px;
+	right: 5px;
 }
 #NpcBox .btn {
 	width: 42px;
