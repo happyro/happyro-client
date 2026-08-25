@@ -386,7 +386,7 @@ function createWorldMapView(map, imgData) {
 			} else {
 				// other maps name got from rsw files and search on mapinfo.lub theyr real names
 				const mapInfo = DB.getMapInfo(section.id + '.rsw');
-				const mapName = mapInfo ? mapInfo.displayName : '';
+				const mapName = mapInfo?.displayName || section.name;
 				el_displayname.innerHTML = mapName;
 				el.setAttribute('data-displayname', mapName);
 			}

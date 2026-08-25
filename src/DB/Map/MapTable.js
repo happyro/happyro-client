@@ -3508,11 +3508,11 @@ const MapInfo = {
 	'in_sphinx1.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: 'Morocc Sphinx B1',
-			subTitle: 'Sograt Desert'
+			mainTitle: '梦罗克史芬克斯地下1层',
+			subTitle: '苏克拉特沙漠'
 		},
 		notifyEnter: true,
-		displayName: 'Morocc Sphinx B1'
+		displayName: '梦罗克史芬克斯地下1层'
 	},
 	'lhz_in01.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -3843,11 +3843,11 @@ const MapInfo = {
 	'beach_dun3.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: 'Mao, the East Cave',
-			subTitle: 'Comodo'
+			mainTitle: '毛东部洞穴',
+			subTitle: '克魔岛'
 		},
 		notifyEnter: true,
-		displayName: 'Mao, the East Cave'
+		displayName: '毛东部洞穴'
 	},
 	'pub_cat.rsw': {
 		backgroundBmp: 'village',
@@ -5570,10 +5570,10 @@ const MapInfo = {
 	'mag_dun01.rsw': {
 		backgroundBmp: 'dungeon_s2',
 		signName: {
-			mainTitle: 'Nogg Road F1'
+			mainTitle: '诺可罗德1层'
 		},
 		notifyEnter: true,
-		displayName: 'Nogg Road F1'
+		displayName: '诺可罗德1层'
 	},
 	'pvp_y_6-4.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -5695,11 +5695,11 @@ const MapInfo = {
 	'ra_san01.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: 'Sanctuary North Area 1F',
-			subTitle: 'Rachel Temple'
+			mainTitle: '圣域北区1层',
+			subTitle: '拉赫神殿'
 		},
 		notifyEnter: true,
-		displayName: 'Rachel Temple Sanctuary North Area 1F'
+		displayName: '拉赫神殿圣域北区1层'
 	},
 	'pvp_n_3-3.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -5768,20 +5768,20 @@ const MapInfo = {
 	'moc_pryd01.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: 'Inside Pyramid F1',
-			subTitle: 'Morroc'
+			mainTitle: '金字塔1层',
+			subTitle: '梦罗克'
 		},
 		notifyEnter: true,
-		displayName: 'Inside Pyramid F1'
+		displayName: '梦罗克金字塔1层'
 	},
 	'beach_dun.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: 'Karu, the West Cave',
-			subTitle: 'Comodo'
+			mainTitle: '卡鲁西部洞穴',
+			subTitle: '克魔岛'
 		},
 		notifyEnter: true,
-		displayName: 'Karu, the West Cave'
+		displayName: '卡鲁西部洞穴'
 	},
 	'pvp_n_6-5.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -7634,10 +7634,10 @@ const MapInfo = {
 	'juperos_01.rsw': {
 		backgroundBmp: 'dungeon_s2',
 		signName: {
-			mainTitle: 'Outside of the Juperos Ruins'
+			mainTitle: '朱诺斯遗迹外部'
 		},
 		notifyEnter: true,
-		displayName: 'Outside of the Juperos Ruins'
+		displayName: '朱诺斯遗迹外部'
 	},
 	'odin_tem01.rsw': {
 		backgroundBmp: 'field_s2',
@@ -7677,11 +7677,11 @@ const MapInfo = {
 	'tha_t01.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: 'Museum Entrance',
-			subTitle: 'Thanatos Tower'
+			mainTitle: '博物馆入口',
+			subTitle: '达纳托斯塔'
 		},
 		notifyEnter: true,
-		displayName: 'Thanatos Tower Museum Entrance'
+		displayName: '达纳托斯塔博物馆入口'
 	},
 	'abyss_03.rsw': {
 		backgroundBmp: 'dungeon',
@@ -7695,11 +7695,11 @@ const MapInfo = {
 	'abyss_01.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: 'Underground Cave 1F',
-			subTitle: 'Abyss Lake'
+			mainTitle: '地下洞穴1层',
+			subTitle: '深渊湖'
 		},
 		notifyEnter: true,
-		displayName: 'Abyss Lake Underground Cave 1F'
+		displayName: '深渊湖地下洞穴1层'
 	},
 	'ba_2whs01.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -7785,11 +7785,11 @@ const MapInfo = {
 	'iz_dun00.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: 'Undersea Tunnel B1',
-			subTitle: 'Baylan Island'
+			mainTitle: '海底洞穴1层',
+			subTitle: '柏伊亚岚岛'
 		},
 		notifyEnter: true,
-		displayName: 'Undersea Tunnel B1'
+		displayName: '海底洞穴1层'
 	},
 	'prt_lib.rsw': {
 		backgroundBmp: 'noname',

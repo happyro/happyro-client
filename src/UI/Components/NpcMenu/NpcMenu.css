@@ -63,6 +63,26 @@
 	width: 42px;
 	height: 20px;
 	bottom: 5px;
+	box-sizing: border-box;
+	border: 1px solid #8b9690;
+	background: #f4f7f5;
+	text-align: center;
+	line-height: 18px;
+	cursor: pointer;
+}
+
+#NpcMenu .btn::after {
+	display: block;
+	color: #202420;
+	font-size: 12px;
+}
+
+#NpcMenu .cancel::after {
+	content: "取消";
+}
+
+#NpcMenu .ok::after {
+	content: "确定";
 }
 
 #NpcMenu .cancel {

@@ -42,7 +42,17 @@
 	width: 221px;
 	height: 20px;
 	margin-top: 3px;
-	border: none;
-	background-color: transparent;
-	background-repeat: no-repeat;
+	border: 1px solid #8b9690;
+	background: #f4f7f5;
+	background-image: none !important;
+	color: #202622;
+	cursor: pointer;
+}
+
+#Escape .container button:hover {
+	background: #dcebe3;
+}
+
+#Escape .container button:active {
+	background: #c8ded2;
 }

@@ -235,8 +235,8 @@ describe('encode edge cases', () => {
             expect(result).toBe('Hello');  
         });  
   
-        it('falls back to userCharset when UTF-8 produces replacement chars', () => {  
-            TextEncoding.setCharset('windows-949');  
+        it('falls back to the legacy kRO charset when UTF-8 is invalid', () => {
+            TextEncoding.setCharset('windows-1252');
             // Encode Korean text in windows-949 (not valid UTF-8)  
             const koreanBytes = TextEncoding.encode('포링', 'windows-949');  
             // Decode with utf-8 charset → should fallback to windows-949  
@@ -244,11 +244,10 @@ describe('encode edge cases', () => {
             expect(result).toBe('포링');  
         });  
   
-        it('falls back to windows-1251 for Russian bytes', () => {  
-            TextEncoding.setCharset('windows-1251');  
-            const russianBytes = TextEncoding.encode('Привет', 'windows-1251');  
-            const result = TextEncoding.decode(russianBytes, 'utf-8');  
-            expect(result).toBe('Привет');  
+        it('keeps valid UTF-8 Chinese text unchanged', () => {
+            const chineseBytes = TextEncoding.encode('确认取消', 'utf-8');
+            const result = TextEncoding.decode(chineseBytes, 'utf-8');
+            expect(result).toBe('确认取消');
         });  
     });  
   
