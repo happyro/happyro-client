@@ -7,7 +7,7 @@ describe('PronteraNpcNameTable', () => {
 	it('localizes every registered visible name', () => {
 		const entries = Object.entries(PronteraNpcNameTable);
 
-		expect(entries).toHaveLength(483);
+		expect(entries).toHaveLength(487);
 		for (const [source, translated] of entries) {
 			expect(translated, source).toMatch(/[\u3400-\u9fff]/);
 		}
@@ -19,6 +19,10 @@ describe('PronteraNpcNameTable', () => {
 		expect(NpcNameTable['Warmhearted woman']).toBe('热心女士');
 		expect(NpcNameTable['Apprentice Craftsman']).toBe('工匠学徒');
 		expect(NpcNameTable['Phantasmagorika Spokesp']).toBe('幻影机构发言人');
+		expect(NpcNameTable.Arthail).toBe('阿尔泰尔');
+		expect(NpcNameTable.Mage).toBe('魔法师');
+		expect(NpcNameTable['New Guild Master']).toBe('新任公会会长');
+		expect(NpcNameTable['Unknown Machine']).toBe('未知机器');
 	});
 
 	it('covers every name truncated by the 24-byte packet field', () => {
