@@ -89526,7 +89526,7 @@ var init_MonsterNameTable = __esmMin((() => {
 		1002: "波利",
 		1004: "蜂兵",
 		1005: "小恶魔",
-		1007: "法布雷",
+		1007: "绿毛虫",
 		1008: "幼虫",
 		1009: "秃鹰",
 		1010: "柳树",
@@ -89692,7 +89692,7 @@ var init_MonsterNameTable = __esmMin((() => {
 		1180: "九尾狐",
 		1182: "盗虫蘑菇",
 		1183: "苍蝇",
-		1184: "法布雷",
+		1184: "绿毛虫",
 		1185: "小幽灵",
 		1186: "大幽灵",
 		1188: "僵尸",
@@ -89726,7 +89726,7 @@ var init_MonsterNameTable = __esmMin((() => {
 		1219: "深渊骑士",
 		1220: "沙漠之狼",
 		1221: "狂暴野猪",
-		1229: "法布雷",
+		1229: "绿毛虫",
 		1230: "幼虫",
 		1231: "卡利斯格",
 		1232: "大嘴鸟蛋",
@@ -91230,8 +91230,8 @@ var init_MonsterNameTable = __esmMin((() => {
 		2832: "狂暴费鲁斯",
 		2833: "隐匿使魔",
 		2834: "迅捷假天使",
-		2835: "坚硬法布雷",
-		2836: "法布雷首领",
+		2835: "坚硬绿毛虫",
+		2836: "绿毛虫首领",
 		2837: "狂暴爆炸虫",
 		2838: "隐匿邪恶德鲁伊",
 		2839: "迅捷长老树精",
@@ -91519,7 +91519,7 @@ var init_MonsterNameTable = __esmMin((() => {
 		3256: "发臭的僵尸",
 		3384: "波利",
 		3385: "疯兔",
-		3386: "法布雷",
+		3386: "绿毛虫",
 		3387: "小鸡",
 		3388: "巨嘴鸟",
 		3389: "树精",
@@ -91607,7 +91607,7 @@ var init_MonsterNameTable = __esmMin((() => {
 		3494: "闪耀波利",
 		3495: "蛋壳波利",
 		3496: "叶子疯兔",
-		3497: "草地法布雷",
+		3497: "草地绿毛虫",
 		3498: "野生黄蜂",
 		3499: "甜蜜青蛙罗达",
 		3500: "猎人沙漠之狼",
@@ -91968,6 +91968,596 @@ var init_MonsterNameTable = __esmMin((() => {
 		21394: "勤勉维塔塔",
 		21395: "沉默玛雅"
 	};
+}));
+//#endregion
+//#region src/DB/PronteraNpcNameTable.js
+var PronteraNpcNameTable_default;
+var init_PronteraNpcNameTable = __esmMin((() => {
+	PronteraNpcNameTable_default = {
+		"A File": "一份文件",
+		Abrai: "阿布雷",
+		"Acc and Kartu": "饰品与卡片商人",
+		"Acc and Kartu 2": "饰品与卡片商人 2",
+		Acolyte: "服事",
+		Aelle: "艾尔",
+		"Aged Noble": "年长贵族",
+		Agit: "城堡管理器",
+		Ahvray: "阿弗雷",
+		Aigie: "艾吉",
+		"Alf Ocat": "阿尔夫·奥卡特",
+		"Alice Ishar": "爱丽丝·伊沙尔",
+		"Alliance Manager": "联盟管理员",
+		Alora: "阿洛拉",
+		"Ammunition Merchant": "弹药商人",
+		Archeologist: "考古学家",
+		Arthail: "阿尔泰尔",
+		"Arena Point Manager": "竞技场点数管理员",
+		"Arrow Merchant": "箭矢商人",
+		"Ash-Vacuum Warper": "异世界传送员",
+		"Assistant Alonzo": "助理阿隆佐",
+		"Assistant Naomi": "助理娜奥米",
+		Atila: "阿蒂拉",
+		"Auction Hall Guide": "拍卖大厅向导",
+		Austri: "奥斯特里",
+		"Avidal the Advisor": "顾问阿维达尔",
+		"Bagette Teeblack": "巴盖特·蒂布莱克",
+		"Bank Clerk": "银行职员",
+		Banker: "银行家",
+		"Banquet Hall Aristocrat": "宴会厅贵族",
+		"Banquet Hall Guest": "宴会厅宾客",
+		Bard: "吟游诗人",
+		Basta: "巴斯塔",
+		Beatrice: "贝娅特丽丝",
+		"Berman Aire": "伯曼·艾尔",
+		"Berry Toe": "贝里·托",
+		Billboard: "公告牌",
+		Bishop: "主教",
+		Blac: "布拉克",
+		"Blacksmith Dister": "铁匠迪斯特",
+		"Blacksmith Guide": "铁匠向导",
+		"Blue Team": "蓝队",
+		"Bossnia Staff": "波斯尼亚工作人员",
+		Bruno: "布鲁诺",
+		Bryan: "布莱恩",
+		"Bulletin Board": "公告栏",
+		"Busy Boy": "忙碌的男孩",
+		Calbern: "卡尔本",
+		"Cantankerous Geezer": "暴躁老人",
+		"Carbonated Water Vending Machine": "碳酸水自动售货机",
+		"Carl Orleans": "卡尔·奥尔良",
+		Caroller: "圣诞颂歌者",
+		"Cash Sales Guide": "商城向导",
+		Cat: "猫",
+		"Cat Paw Merchant Dubae": "猫手商人杜巴",
+		"Cat Paw Shrimp Merchant": "猫手虾商人",
+		"Catherine Wigner": "凯瑟琳·维格纳",
+		Cecil: "塞西尔",
+		Cellerb: "塞勒布",
+		Chamberlain: "侍从长",
+		"Chamberlain Bell": "侍从长贝尔",
+		"Charles Orleans": "查尔斯·奥尔良",
+		Chef: "厨师",
+		"Chief Officer": "首席官员",
+		"Child with Cat": "带猫的孩子",
+		"Chivalry Captain": "骑士团长",
+		ChkSpace: "空间检查员",
+		Christ: "克里斯特",
+		"Clan Helper": "家族助手",
+		"Clanux Heffron": "克拉努斯·赫弗隆",
+		Cleric: "神职人员",
+		"ClickClick MeowMeow-GX": "咔嗒喵喵-GX",
+		"Clothing Effect Removal Service": "服装特效移除服务",
+		Cluckers: "咯咯鸡",
+		"Commander Joel": "乔尔指挥官",
+		Commissary: "军需官",
+		Consumable: "消耗品商人",
+		"Consumable 2": "消耗品商人 2",
+		"Continental Messenger": "大陆使者",
+		"Cool Devi": "酷酷小恶魔",
+		"Court Musician": "宫廷乐师",
+		Crusader: "十字军",
+		"Crux Findel": "克鲁克斯·芬德尔",
+		Customer: "顾客",
+		"Cute Pet Manager": "宠物管理员",
+		Czhore: "茨霍尔",
+		"Dark and Damp Wall": "阴暗潮湿的墙",
+		Dassy: "达西",
+		"Dessert Manager": "甜点管理员",
+		"Devil Square Guardian": "恶魔广场守卫",
+		Deviruchi: "小恶魔",
+		"Devon Aire": "德文·艾尔",
+		Dietrich: "迪特里希",
+		Diligo: "迪利戈",
+		"Disguise Event": "变装活动管理员",
+		Dishwasher: "洗碗工",
+		"Divorce Staff": "离婚事务员",
+		Dolangmal: "多朗马尔",
+		"Dowdy Matron": "憔悴主妇",
+		Driller: "钻探工",
+		Dumk: "杜姆克",
+		"Dyer Ginedin Rephere": "染色师吉尼丁·雷菲尔",
+		"Dyu Rianne": "迪尤·里安",
+		"East Gate-Guide": "东门向导",
+		"Eden Teleport Officer": "乐园团空间传送员",
+		"Egg Salesman": "鸡蛋商人",
+		Ekinasia: "埃基纳西亚",
+		Enjoy: "恩乔伊",
+		Equipment: "装备商人",
+		"Equipment 2": "装备商人 2",
+		"Erich Nerius": "埃里希·内里乌斯",
+		Erious: "埃里乌斯",
+		Event: "活动管理员",
+		"Event Ring Maker": "活动戒指工匠",
+		Fadhgridh: "法德格里德",
+		Familiar: "使魔",
+		"Father Bamph": "班普神父",
+		"Father Biscuss": "比斯库斯神父",
+		"Find the Mushroom": "寻找蘑菇",
+		"Furniture Deliveryman": "家具送货员",
+		Gaeborg: "盖博格",
+		"Gate Keeper": "守门人",
+		"Gate Manager": "城门管理员",
+		"Gemstone Bagger": "宝石装袋员",
+		Ghatu: "加图",
+		"Giantaurus Butter": "吉安陶洛斯·巴特",
+		Givu: "吉武",
+		"Glamorous Girl": "迷人的女孩",
+		"Glasses-wearing Man": "戴眼镜的男人",
+		"Gloomy Jack": "忧郁的杰克",
+		Goldberg: "戈德堡",
+		Gondul: "贡杜尔",
+		"Grand Master": "宗师",
+		Grast: "格拉斯特",
+		Gravestone: "墓碑",
+		"Grilled Griffon": "烤狮鹫",
+		Guardian: "守护者",
+		"Guardian Knight": "守护骑士",
+		"Guide in Gloria": "荣耀领域向导",
+		"Guild Clerk": "公会职员",
+		"Guild Warehouse Manager": "公会仓库管理员",
+		"Halloween Wizard": "万圣节魔法师",
+		"Hallows' Eve Event": "万圣节活动管理员",
+		"Happy Marry": "幸福婚礼",
+		Happymerry: "欢乐梅丽",
+		Headgear: "头饰商人",
+		"Headgear 2": "头饰商人 2",
+		Healer: "治疗师",
+		"Heart Merchant": "心之商人",
+		Heine: "海涅",
+		Helper: "助手",
+		Hermod: "赫尔莫德",
+		"Hiba Ajif": "希巴·阿吉夫",
+		"High Bishop": "大主教",
+		Hollgrehenn: "忽克连",
+		"Hunting Missions": "狩猎任务",
+		Hypnotist: "催眠师",
+		"Illusion Enchanter": "幻影附魔师",
+		"Illusion Merchant": "幻影商人",
+		"Information Post": "信息公告牌",
+		"Inn Employee": "旅馆员工",
+		Inspector: "调查员",
+		"Instructor Igrid": "伊格丽德教官",
+		"Investigator Ryosun": "调查员柳顺",
+		"Investment Status Board": "投资状态公告板",
+		Investment_total: "投资总额管理员",
+		"Isaac Wigner": "艾萨克·维格纳",
+		Isabella: "伊莎贝拉",
+		Jac: "杰克",
+		Jayon: "杰扬",
+		Jovovich: "理发师乔沃维奇",
+		Juan: "胡安",
+		"Kafra Shop": "卡普拉商店",
+		"Kafra Shop 2": "卡普拉商店 2",
+		"Kafra Staff": "卡普拉员工",
+		"Kafra Teleportation": "卡普拉传送员",
+		Karian: "卡里安",
+		Kellion: "凯利恩",
+		Kid: "孩子",
+		Kiddo: "小孩",
+		Kienna: "基恩娜",
+		"King of Prontera": "普隆德拉国王",
+		"King's Daughter": "国王之女",
+		Knight: "骑士",
+		"Knight Windsor": "温莎骑士",
+		Kriemhild: "克里姆希尔德",
+		"Lady Amy": "艾米女士",
+		Lauds: "劳兹",
+		Laur: "劳尔",
+		Leablem: "里亚布雷姆",
+		Lenneth: "蕾娜斯",
+		"Leon Von Frich": "莱昂·冯·弗里奇",
+		"Levuiere Wigner": "勒维埃·维格纳",
+		Librarian: "图书管理员",
+		"Librarian in charge of juveniles": "儿童区图书管理员",
+		"Library Curator": "图书馆管理员",
+		"Lidion Geoborg": "利迪恩·乔治",
+		Lin: "林",
+		"Logistics Manager": "后勤管理员",
+		Lottery: "彩票管理员",
+		"MVP Warper": "MVP 传送员",
+		"Madeleine Chu": "玛德琳·朱",
+		"Mado Gear Armorer": "魔导机甲装甲师",
+		"Mado Gear Merchant": "魔导机甲商人",
+		"Magi Steen": "玛吉·斯汀",
+		Mage: "魔法师",
+		Maid: "女仆",
+		Mailbox: "邮箱",
+		"Man from Morocc": "来自梦罗克的男人",
+		"Man in Anguish": "痛苦的男人",
+		Maos: "毛斯",
+		Marianne: "玛丽安",
+		"Mark Ishar": "马克·伊沙尔",
+		"Maroll Battle Recruiter": "马洛尔战斗招募员",
+		Mas: "马斯",
+		Mason: "梅森",
+		"Maximilian Roegenburg": "马克西米利安·罗根堡",
+		Mayssel: "梅塞尔",
+		"Member Zenhi": "成员泽尼",
+		"Member Zenian": "成员泽尼安",
+		"Member link": "成员林克",
+		"Member of Alliance": "联盟成员",
+		"Memorial Plaque": "纪念碑",
+		"Mercenary Manager": "佣兵管理员",
+		"Mercenary Merchant": "佣兵商人",
+		"Mercenary Switch": "佣兵开关",
+		Merchant: "商人",
+		Messenger: "信使",
+		"Middle-aged Gentleman": "中年绅士",
+		"Mighty Hammer": "强力铁锤",
+		Minister: "牧师",
+		"Monster Arena": "魔物竞技场",
+		"Monster Encyclopedia": "魔物图鉴",
+		Morrison: "莫里森",
+		"Mother Mathana": "玛塔娜修女",
+		"Muka Juice": "木卡果汁",
+		"MvP Ladder Warper": "MVP 排行传送员",
+		"Mysterious Guest": "神秘客人",
+		Nephia: "涅菲亚",
+		Nerious: "内里乌斯",
+		Nerlen: "内尔伦",
+		"Nervous Man": "紧张的男人",
+		"Ninja Tool Merchant": "忍者道具商人",
+		"Noblesse Operator": "贵族装备管理员",
+		"North Gate-Guide": "北门向导",
+		"Novice Castles": "初心者城堡",
+		Nun: "修女",
+		"Nyhill M. Heine": "尼希尔·海涅",
+		Oholy: "奥霍利",
+		"Old Lady": "老太太",
+		"Old Soldier": "老兵",
+		"Old Woman": "老妇人",
+		Oliver: "奥利弗",
+		"Ordinary Man": "普通男子",
+		"PVP Narrator": "PVP 解说员",
+		Pac: "帕克",
+		"Packs Trader": "包装用品商人",
+		"Pandit chacha": "潘迪特大叔",
+		Pastor: "牧师",
+		"Patron Knight": "赞助骑士",
+		Pauline: "宝琳",
+		"Peco Peco Remover": "大嘴鸟解除员",
+		Perchik: "佩尔奇克",
+		"Personnel Record": "人员档案",
+		"Pet Groomer": "宠物美容师",
+		"Pet Trader": "宠物商人",
+		"Phantasmagorika Spokesperson": "幻影机构发言人",
+		"Pitch-black Floor": "漆黑的地板",
+		"Platinum Skill NPC": "白金技能导师",
+		"Point Merchant": "积分商人",
+		"Poring Jelly": "波利果冻",
+		"Praying Man": "祈祷的男人",
+		"Praying Minister": "祈祷的牧师",
+		"Priest Praupin": "普劳平牧师",
+		Prince: "王子",
+		"Private MVP Room": "私人 MVP 房间",
+		"Promotional Staff": "宣传人员",
+		"Pront Test": "普隆德拉测试员",
+		"Prontera Bulletin": "普隆德拉公告牌",
+		"Pumpkin Hat Researcher": "南瓜帽研究员",
+		Putty: "普蒂",
+		"Quest Shop": "任务商店",
+		Questboard: "任务公告板",
+		"RWC2011 Agent": "RWC2011 活动员",
+		"Raffam Oranpere": "拉法姆·奥兰佩尔",
+		"Rare Diamond Merchant": "稀有钻石商人",
+		Raynor: "雷诺",
+		"Rebarev Doug": "雷巴雷夫·道格",
+		Recruiter: "招募员",
+		"Recruiter for the Brave": "勇者招募员",
+		"Red Team": "红队",
+		"Refine Master": "精炼大师",
+		"Remarry Staff": "再婚事务员",
+		"Rental Shop": "租赁商店",
+		Repairman: "修理工",
+		"Revoting Manager": "重新投票管理员",
+		Richard: "理查德",
+		"Riding Creature Master": "骑乘生物大师",
+		Rina: "莉娜",
+		"Rina's Little Friend": "莉娜的小伙伴",
+		Roy: "罗伊",
+		"Royal Chamberlain": "王室侍从长",
+		"Royal Chef": "王室厨师",
+		"Royal Guard": "王室卫兵",
+		"Royal Guardian Knight": "王室守护骑士",
+		"Royal Head Chef": "王室主厨",
+		"Royal Messenger": "王室信使",
+		"Royal Sauce Master": "王室酱料大师",
+		"Rune Merchant": "符文商人",
+		Sagle: "赛格尔",
+		"Santa Claus": "圣诞老人",
+		"Scarlet Jaha": "斯嘉丽·贾哈",
+		Seiyablem: "塞亚布雷姆",
+		"Senior Crusader": "资深十字军",
+		Servant: "仆人",
+		"Shaam Rumi": "莎姆·鲁米",
+		"Shining Plant": "发光草",
+		"Shopping Board": "购物公告板",
+		Sign: "告示牌",
+		"Sign Post": "路标",
+		"Single Army": "单身军团",
+		"Sir Andrew": "安德鲁爵士",
+		"Sir Edmond": "埃德蒙爵士",
+		"Sir Gray": "格雷爵士",
+		"Sir Siracuse": "锡拉丘兹爵士",
+		"Sir Windsor": "温莎爵士",
+		"Sister Cecilia": "塞西莉亚修女",
+		"Sister Lisa": "莉莎修女",
+		"Skia Nerius": "斯琪亚·内里乌斯",
+		Skoegul: "斯科古尔",
+		"Slot Move Card Sales": "卡槽转移卡商人",
+		"Smile Assistance": "微笑助手",
+		Snower: "斯诺尔",
+		Sophia: "索菲亚",
+		"South Gate-Guide": "南门向导",
+		"Spica Nerius": "斯皮卡·内里乌斯",
+		"Splendid-Looking Knight": "英俊的骑士",
+		Staff: "工作人员",
+		Steward: "管家",
+		"Sticky Wall": "黏糊糊的墙",
+		"Stock Market": "股票市场",
+		Sttick: "斯蒂克",
+		"Suspicious Coffin": "可疑的棺材",
+		Swanhild: "斯万希尔德",
+		"Talisman Merchant": "符咒商人",
+		Tamarin: "塔玛林",
+		"Taunting Man": "挑衅的男人",
+		Teacher: "老师",
+		"The King of Rune-Midgarts": "卢恩·米德加兹国王",
+		Tialfi: "提亚尔菲",
+		Tine: "蒂娜",
+		Trader: "商人",
+		"Training Instructor": "训练教官",
+		Traveler: "旅行者",
+		Treasure: "宝箱",
+		"Treasure Hunter's Shop": "宝藏猎人商店",
+		"Trick or Treater": "不给糖就捣蛋的小孩",
+		"Twin Towers": "双子塔",
+		Uneasy_Check: "异常状态检查员",
+		"Unstable Nyhill": "状态不稳的尼希尔",
+		"Uptight Librarian": "严肃的图书管理员",
+		Valdes: "瓦尔德斯",
+		"Valentine Vote Manager": "情人节投票管理员",
+		Valerie: "瓦莱丽",
+		"Valkyrie Realm Training Instructor": "女武神领域训练教官",
+		"Van Dreth": "范·德雷斯",
+		Veeyop: "维约普",
+		"Vending Guide": "摆摊向导",
+		"Vending Machine for Nov": "初心者自动售货机",
+		Verkhasel: "维尔卡塞尔",
+		Vestri: "维斯特里",
+		Vicente: "维森特",
+		Violeta: "维奥莱塔",
+		Vomars: "沃玛斯",
+		Vurewell: "维尔维尔",
+		"WOE Information": "攻城战信息员",
+		Wanderer: "流浪者",
+		"Wanted Notice": "通缉告示",
+		Warpra: "传送员",
+		"Wedding Staff": "婚礼工作人员",
+		"West Gate-Guide": "西门向导",
+		Wickebine: "维克比恩",
+		Wigner: "维格纳",
+		"Wise Old Woman": "睿智的老妇人",
+		"Woman with Glasses": "戴眼镜的女士",
+		"Young Noble": "年轻贵族",
+		"Young man": "年轻男子",
+		Zac: "扎克",
+		"Zonda Rep": "准他代表",
+		"Zonda Teleportation": "准他传送员",
+		"Agnes Roegenburg": "阿格妮丝·罗根堡",
+		Bachelor: "单身男子",
+		Bachelorette: "单身女子",
+		Bigfoot: "大脚怪",
+		Bodyguard: "保镖",
+		"Bodyguard Crux": "保镖克鲁克斯",
+		"Butler for the Richards": "理查德家的管家",
+		"Cathedral Knight": "大教堂骑士",
+		"Chief Guard": "卫兵队长",
+		"Corrupt Warder": "腐化狱卒",
+		"Court Mage Nillem": "宫廷魔法师尼勒姆",
+		Crux: "克鲁克斯",
+		"Dark Shape": "黑暗身影",
+		"Dead Villager": "遇难村民",
+		"Dimension Warper MkII": "次元传送装置二型",
+		Document: "文件",
+		Doek: "多克",
+		Dylan: "迪伦",
+		"Ellond Lawrence": "埃隆德·劳伦斯",
+		"Emergency Medicine": "急救药品",
+		Eryus: "埃律斯",
+		Female: "女性",
+		"Fortress Entry Warp Portal": "要塞入口传送门",
+		"Friedrich S. Heine": "弗里德里希·S·海涅",
+		"Giant Beast Manager": "巨兽管理员",
+		Girl: "女孩",
+		"Girl Quest_START": "女孩",
+		Gyusoo: "久秀",
+		Han: "韩",
+		"Helmut Roegenburg": "赫尔穆特·罗根堡",
+		"Helper for the Royal Richard": "理查德王室助手",
+		"Ian Walther": "伊安·沃尔特",
+		"Isenhonor Walther": "伊森霍诺·沃尔特",
+		Jerrymon: "杰瑞蒙",
+		"Jurgen Wigner": "尤尔根·维格纳",
+		"Kafra Employee": "卡普拉员工",
+		Kalbern: "卡尔本",
+		"Katrin Wigner": "卡特琳·维格纳",
+		"Knight Gray": "格雷骑士",
+		"Kronecker G. Heine": "克罗内克·G·海涅",
+		"Lad Quest_START": "少年",
+		"Lindt the Librarian": "图书管理员林特",
+		"Mage Nillem": "魔法师尼勒姆",
+		"Magical Gear Mechanic": "魔导机甲技师",
+		"Married couple Quest_START": "已婚夫妇",
+		Medic: "医务兵",
+		"Mercenary Guild Admin": "佣兵公会管理员",
+		Miss: "女士",
+		"Myer Roegenburg": "迈尔·罗根堡",
+		"Mysterious Person": "神秘人物",
+		"New Guild Master": "新任公会会长",
+		"Nihil M. Heine": "尼希尔·M·海涅",
+		Nillem: "尼勒姆",
+		Nyhill: "尼希尔",
+		"Overwatcher Terketh": "监察员特尔克斯",
+		"PecoPeco Mechanic": "大嘴鸟技师",
+		"Peter Heine": "彼得·海涅",
+		"Po Richard": "波·理查德",
+		"Prisoner 103GD214": "囚犯 103GD214",
+		"Prisoner 117FM188": "囚犯 117FM188",
+		"Prisoner 243AD265": "囚犯 243AD265",
+		"Prisoner 243DV17": "囚犯 243DV17",
+		"Prisoner 265CM154": "囚犯 265CM154",
+		"Prisoner 267BD184": "囚犯 267BD184",
+		"Prisoner 55HK115": "囚犯 55HK115",
+		"Prisoner 95EB72": "囚犯 95EB72",
+		"Pron Dungeon Helper": "普隆德拉地牢助手",
+		Queen: "王后",
+		"Room of Consciousness": "意识之室",
+		"Rosa Erinin": "罗莎·艾里宁",
+		"Rubbish heap": "垃圾堆",
+		"Scientist Doyeon": "科学家道妍",
+		Skia: "斯琪亚",
+		Soldier: "士兵",
+		"Soldier Quest_START": "士兵",
+		"Strong Guards": "强壮的卫兵",
+		"Swaying Space": "摇曳的空间",
+		"Tool Bag": "工具包",
+		Torch: "火把",
+		"Underground Dungeon Helper": "地下地牢助手",
+		"Unknown Machine": "未知机器",
+		"Village Lad": "村庄少年",
+		"Wolf Roegenburg": "沃尔夫·罗根堡",
+		Womenfolk: "妇人",
+		"Wounded Soldier": "受伤的士兵",
+		lib_q_to_pprt: "图书馆传送点",
+		lib_to_prt_prison: "监狱传送点",
+		qroom_heine_in_qroom_heine_out: "海涅房间传送点",
+		qroom_nerius_in_qroom_nerius_out: "内里乌斯房间传送点",
+		arena_out: "竞技场出口",
+		arn_warp_aco: "服事竞技场传送员",
+		ban_warp: "城堡传送点",
+		prt_cas_to_prt_pri00: "王宫监狱传送点",
+		toarena: "竞技场传送员",
+		toout: "出口传送员",
+		way_to_qroom_L_qroom_L_to_way: "左侧房间传送点",
+		way_to_qroom_R_qroom_R_to_way: "右侧房间传送点"
+	};
+}));
+//#endregion
+//#region src/DB/NpcNameTable.js
+var PACKET_NAME_VISIBLE_LENGTH, NpcNameTable;
+var init_NpcNameTable = __esmMin((() => {
+	init_PronteraNpcNameTable();
+	PACKET_NAME_VISIBLE_LENGTH = 23;
+	NpcNameTable = {
+		...PronteraNpcNameTable_default,
+		Fabian: "法比安",
+		Steiner: "施泰纳",
+		Chad: "查德",
+		"Drunken Old Man": "醉酒老人",
+		Shakir: "沙基尔",
+		Sonya: "索尼娅",
+		"Grandmother Alma": "阿尔玛奶奶",
+		Fisk: "菲斯克",
+		Paul: "保罗",
+		Phelix: "菲利克斯",
+		Meera: "米拉",
+		Orwalk: "奥尔沃克",
+		"Wizard Stanza": "巫师斯坦扎",
+		Ralphie: "拉尔菲",
+		Stacey: "斯泰西",
+		Theodore: "西奥多",
+		"Suspicious Guy": "可疑的人",
+		Crumpler: "克伦普勒",
+		"Psychic Advisor": "灵媒顾问",
+		"Monster Scholar": "魔物学者",
+		Citizen: "居民",
+		Sailor: "水手",
+		"Soldier - Morocc": "梦罗克士兵",
+		"Volunteer - Morocc": "梦罗克志愿者",
+		"Young Man": "青年",
+		Grampa: "爷爷",
+		"Wolf Young Man": "狼族青年",
+		"Muka Young Man": "木卡青年",
+		"Diamond Young Man": "钻石青年",
+		"Pale Looking Young Man": "脸色苍白的青年",
+		"Little Girl": "小女孩",
+		"Little Boy": "小男孩",
+		"Picky Lady": "挑剔的女士",
+		"Ant Man": "蚂蚁人",
+		"Assassin Boy": "刺客少年",
+		Dimitri: "迪米特里",
+		"Fly Man": "苍蝇人",
+		"Uncle Morocc": "梦罗克大叔",
+		"Uncle Assassin": "刺客大叔",
+		Assassin: "刺客",
+		Bartender: "酒保",
+		"Assassin Guardian": "刺客守卫",
+		Lady: "女士",
+		"Archer Wolt": "弓箭手沃尔特",
+		Chief: "首领",
+		Guard: "卫兵",
+		"Archer Joe": "弓箭手乔",
+		Shuger: "舒格",
+		Tono: "托诺",
+		Merideth: "梅丽德丝",
+		YuPi: "优皮",
+		YuNa: "优娜",
+		Strife: "斯特莱夫",
+		Dairenne: "戴莲",
+		"Curator of Library": "图书馆管理员",
+		"Library Girl": "图书馆女孩",
+		"An Old Man": "老人",
+		Shevild: "谢维尔德",
+		TenSue: "腾苏",
+		Marvin: "马文",
+		"Ginedin Rephere": "吉尼丁·雷菲尔",
+		Garnet: "加内特",
+		Henson: "亨森",
+		Soldier: "士兵",
+		"Universal Rental NPC": "通用租赁 NPC",
+		"Card Seller": "卡片商人",
+		"Job Master": "职业大师",
+		"Reset Girl": "重置女孩",
+		Stylist: "造型师",
+		Warper: "传送师",
+		"Kafra Voting Staff": "卡普拉投票员",
+		"Cool Event Staff": "活动工作人员",
+		"Kafra Employee": "卡普拉员工",
+		"Apprentice Craftsman": "工匠学徒",
+		"Milk Vendor": "牛奶商人",
+		"Peco Peco Breeder": "大嘴鸟饲养员",
+		"Pet Enthusiast": "宠物爱好者",
+		Guide: "导游",
+		Woman: "女性居民",
+		"Warmhearted woman": "热心女士"
+	};
+	for (const [source, translated] of Object.entries(NpcNameTable)) {
+		if (!/^[\u0020-\u007e]+$/.test(source) || source.length <= PACKET_NAME_VISIBLE_LENGTH) continue;
+		const packetName = source.slice(0, PACKET_NAME_VISIBLE_LENGTH);
+		if (NpcNameTable[packetName] && NpcNameTable[packetName] !== translated) throw new Error(`Conflicting truncated NPC name: ${packetName}`);
+		NpcNameTable[packetName] = translated;
+	}
 }));
 //#endregion
 //#region src/DB/Pets/PetIllustration.js
@@ -223611,13 +224201,13 @@ var init_WhisperBox$1 = __esmMin((() => {
 //#region src/UI/Components/NpcMenu/NpcMenu.html?raw
 var NpcMenu_default$2;
 var init_NpcMenu$2 = __esmMin((() => {
-	NpcMenu_default$2 = "<div id=\"NpcMenu\">\r\n	<div class=\"container\">\r\n		<div class=\"middle\">\r\n			<span class=\"title\"></span>\r\n			<div class=\"content\"></div>\r\n		</div>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+	NpcMenu_default$2 = "<div id=\"NpcMenu\">\r\n	<div class=\"container\">\r\n		<div class=\"middle\">\r\n			<span class=\"title\"></span>\r\n			<div class=\"content\"></div>\r\n		</div>\r\n		<ui-button class=\"btn cancel\">取消</ui-button>\r\n		<ui-button class=\"btn ok\">确定</ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcMenu/NpcMenu.css?raw
 var NpcMenu_default$1;
 var init_NpcMenu$1 = __esmMin((() => {
-	NpcMenu_default$1 = ":host {\r\n	width: 276px;\r\n	height: 116px;\r\n	top: 285px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcMenu {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	width: 276px;\r\n	height: 116px;\r\n	background-color: white;\r\n	padding: 2px;\r\n}\r\n\r\n#NpcMenu .title {\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	display: block;\r\n	width: 260px;\r\n	padding-left: 3px;\r\n	padding-top: 3px;\r\n}\r\n\r\n#NpcMenu .container {\r\n	border-radius: 5px;\r\n	border: 1px solid #c1c6c2;\r\n	width: 269px;\r\n	height: 109px;\r\n	padding-left: 5px;\r\n	padding-top: 5px;\r\n}\r\n\r\n#NpcMenu .middle {\r\n	overflow-x: hidden;\r\n	overflow-y: scroll;\r\n}\r\n\r\n#NpcMenu .content {\r\n	white-space: pre-wrap;\r\n	background-color: #f9f9f9;\r\n	width: 260px;\r\n	height: 80px;\r\n	padding-left: 3px;\r\n	margin-top: 5px;\r\n}\r\n\r\n#NpcMenu .content div {\r\n	width: auto;\r\n	height: 17px;\r\n	display: block;\r\n	padding-top: 3px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#NpcMenu .content div.selected {\r\n	background-color: #cde0ff;\r\n}\r\n\r\n#NpcMenu .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 5px;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n#NpcMenu .btn::after {\r\n	display: block;\r\n	color: #202420;\r\n	font-size: 12px;\r\n}\r\n\r\n#NpcMenu .cancel::after {\r\n	content: \"取消\";\r\n}\r\n\r\n#NpcMenu .ok::after {\r\n	content: \"确定\";\r\n}\r\n\r\n#NpcMenu .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#NpcMenu .ok {\r\n	right: 50px;\r\n}\r\n";
+	NpcMenu_default$1 = ":host {\r\n	width: 276px;\r\n	height: 116px;\r\n	top: 285px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcMenu {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	width: 276px;\r\n	height: 116px;\r\n	background-color: white;\r\n	padding: 2px;\r\n}\r\n\r\n#NpcMenu .title {\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	display: block;\r\n	width: 260px;\r\n	padding-left: 3px;\r\n	padding-top: 3px;\r\n}\r\n\r\n#NpcMenu .container {\r\n	border-radius: 5px;\r\n	border: 1px solid #c1c6c2;\r\n	width: 269px;\r\n	height: 109px;\r\n	padding-left: 5px;\r\n	padding-top: 5px;\r\n}\r\n\r\n#NpcMenu .middle {\r\n	overflow-x: hidden;\r\n	overflow-y: scroll;\r\n}\r\n\r\n#NpcMenu .content {\r\n	white-space: pre-wrap;\r\n	background-color: #f9f9f9;\r\n	width: 260px;\r\n	height: 80px;\r\n	padding-left: 3px;\r\n	margin-top: 5px;\r\n}\r\n\r\n#NpcMenu .content div {\r\n	width: auto;\r\n	height: 17px;\r\n	display: block;\r\n	padding-top: 3px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#NpcMenu .content div.selected {\r\n	background-color: #cde0ff;\r\n}\r\n\r\n#NpcMenu .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 5px;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n#NpcMenu .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#NpcMenu .ok {\r\n	right: 50px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcMenu/NpcMenu.js
@@ -242691,7 +243281,7 @@ var init_NpcBox$2 = __esmMin((() => {
 //#region src/UI/Components/NpcBox/NpcBox.css?raw
 var NpcBox_default$1;
 var init_NpcBox$1 = __esmMin((() => {
-	NpcBox_default$1 = ":host {\r\n	width: 276px;\r\n	height: 176px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcBox {\r\n	position: absolute;\r\n	width: 276px;\r\n	height: 176px;\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n}\r\n#NpcBox .border {\r\n	border: 1px solid #c1c6c2;\r\n	width: 264px;\r\n	height: 164px;\r\n	padding: 5px;\r\n	border-radius: 5px;\r\n}\r\n#NpcBox .content {\r\n	white-space: pre-wrap;\r\n	background-color: #eff4f0;\r\n	width: 254px;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n}\r\n#NpcBox .btns {\r\n	position: absolute;\r\n	bottom: 2px;\r\n	right: 8px;\r\n}\r\n#NpcBox .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	display: none;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link {\r\n	color: #0070c0;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link:hover {\r\n	color: #00a0ff;\r\n}\r\n\r\n.navi-link {\r\n	color: #c00000;\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n\r\n.navi-link:hover {\r\n	color: #ff0000;\r\n}\r\n";
+	NpcBox_default$1 = ":host {\r\n	width: 276px;\r\n	height: 176px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcBox {\r\n	position: absolute;\r\n	width: 276px;\r\n	height: 176px;\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n}\r\n#NpcBox .border {\r\n	border: 1px solid #c1c6c2;\r\n	width: 264px;\r\n	height: 164px;\r\n	padding: 5px;\r\n	border-radius: 5px;\r\n}\r\n#NpcBox .content {\r\n	white-space: pre-wrap;\r\n	background-color: #eff4f0;\r\n	width: 254px;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n}\r\n#NpcBox .btns {\r\n	position: absolute;\r\n	bottom: 5px;\r\n	right: 5px;\r\n}\r\n#NpcBox .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	display: none;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link {\r\n	color: #0070c0;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link:hover {\r\n	color: #00a0ff;\r\n}\r\n\r\n.navi-link {\r\n	color: #c00000;\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n\r\n.navi-link:hover {\r\n	color: #ff0000;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcBox/NpcBox.js
@@ -296036,7 +296626,7 @@ function updateMapTable() {
 		else MapTable[key] = { name: MapInfo[key].displayName };
 	}
 }
-var LocalizedMapInfo, lua, HO_AI, MER_AI, default_HO_AI, default_MER_AI, MsgStringTable, JokeTable, ScreamTable, MapTable, SkillDescription, LocalizedSkillDescription, SexTable, PetTalkTable, CheckAttendanceTable, buyingStoreItemList, LaphineSysTable, LaphineUpgTable, ItemDBNameTbl, ItemReformTable, EnchantListTable, SignBoardTranslatedTable, SignBoardTable, NaviMapTable, NaviMobTable, NaviNpcTable, NaviLinkTable, NaviLinkDistanceTable, NaviNpcDistanceTable, QuestInfo, TitleTable, PetDBTable, EggIDToJobID, ReputeGroup, ReputeInfo, AchievementTable, MsgEmotionCSV, HatEffectID, HatEffectInfo, FootPrintEffectInfo, CashShopBannerTable, Ez2streffect, unknownItem, servers, langType, userCharpage, userStringDecoder, DB, SUFFIX_TO_FIELD, HARDCODED_FIELD_MAPPING;
+var LocalizedMapInfo, lua, HO_AI, MER_AI, default_HO_AI, default_MER_AI, MsgStringTable, JokeTable, ScreamTable, MapTable, SkillDescription, LocalizedSkillDescription, SexTable, PetTalkTable, CheckAttendanceTable, buyingStoreItemList, LaphineSysTable, LaphineUpgTable, ItemDBNameTbl, ItemReformTable, EnchantListTable, SignBoardTranslatedTable, SignBoardOverrides, SignBoardTable, NaviMapTable, NaviMobTable, NaviNpcTable, NaviLinkTable, NaviLinkDistanceTable, NaviNpcDistanceTable, QuestInfo, TitleTable, PetDBTable, EggIDToJobID, ReputeGroup, ReputeInfo, AchievementTable, MsgEmotionCSV, HatEffectID, HatEffectInfo, FootPrintEffectInfo, CashShopBannerTable, Ez2streffect, unknownItem, servers, langType, userCharpage, userStringDecoder, DB, SUFFIX_TO_FIELD, HARDCODED_FIELD_MAPPING;
 var init_DBManager = __esmMin((() => {
 	init_Client();
 	init_Configs();
@@ -296050,6 +296640,7 @@ var init_DBManager = __esmMin((() => {
 	init_HairIndexTable();
 	init_MonsterTable();
 	init_MonsterNameTable();
+	init_NpcNameTable();
 	init_PetIllustration();
 	init_PetAction();
 	init_ItemTable();
@@ -296108,6 +296699,7 @@ var init_DBManager = __esmMin((() => {
 	};
 	EnchantListTable = {};
 	SignBoardTranslatedTable = {};
+	SignBoardOverrides = { "낙원단 공간이동사": "乐园团空间传送员" };
 	SignBoardTable = {};
 	NaviMapTable = {};
 	NaviMobTable = {};
@@ -296218,12 +296810,13 @@ var init_DBManager = __esmMin((() => {
 			if (Configs.get("loadLua")) {
 				let iteminfoNames = [];
 				const customII = Configs.get("customItemInfo", []);
+				const itemInfoOnLoad = onLoad();
 				if (Array.isArray(customII) && customII.length > 0) {
 					iteminfoNames = iteminfoNames.concat(customII);
-					tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, onLoad(), true);
+					tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, itemInfoOnLoad, true);
 				} else {
 					iteminfoNames = iteminfoNames.concat(getSystemAliases("System/itemInfo.lub"));
-					tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, onLoad());
+					tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, itemInfoOnLoad);
 				}
 				loadLuaTable([DB.LUA_PATH + "datainfo/accessoryid.lub", DB.LUA_PATH + "datainfo/accname.lub"], "AccNameTable", function(json) {
 					Object.assign(HatTable_default, json);
@@ -297863,7 +298456,15 @@ var init_DBManager = __esmMin((() => {
 		* @return {string} The translated signboard description if found, otherwise the original description.
 		*/
 		static getTranslatedSignBoard(description) {
-			return SignBoardTranslatedTable[description] || description;
+			const normalized = typeof description === "string" ? description.replace(/\s+/g, " ").trim() : description;
+			if (normalized && /낙원단\s*공간이동사/.test(normalized)) return "乐园团空间传送员";
+			return SignBoardOverrides[normalized] || SignBoardTranslatedTable[normalized] || description;
+		}
+		static getNpcName(name) {
+			if (typeof name !== "string") return name;
+			const match = name.match(/^(.*?)(#[^:]*)?(::.*)?$/);
+			const translated = NpcNameTable[match[1]];
+			return translated ? translated + (match[2] || "") + (match[3] || "") : name;
 		}
 		static getRandomJoke() {
 			return JokeTable[Math.round(Math.random() * (JokeTable.length - 1))];
@@ -312096,7 +312697,7 @@ var init_StatusIcons = __esmMin((() => {
 //#region src/UI/Components/CashShop/CashShop.html?raw
 var CashShop_default$2;
 var init_CashShop$3 = __esmMin((() => {
-	CashShop_default$2 = "<div id=\"CashShop\" data-background=\"cashshop/img_shop_bg.bmp\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"text\">出售列表</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<div class=\"panel-content\">\r\n			<div class=\"panel-banner\">\r\n				<div class=\"banner-slides\"></div>\r\n				<ul class=\"banner-dots\"></ul>\r\n			</div>\r\n			<div id=\"panel-menu\" class=\"panel-menu\">\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"0\"\r\n					data-title=\"New\"\r\n					data-background=\"cashshop/img_shop_tap0_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap0_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap0_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"1\"\r\n					data-title=\"Popular\"\r\n					data-background=\"cashshop/img_shop_tap1_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap1_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap1_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"2\"\r\n					data-title=\"Limited Sale\"\r\n					data-background=\"cashshop/img_shop_tap2_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap2_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap2_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"3\"\r\n					data-title=\"Rental Equipment\"\r\n					data-background=\"cashshop/img_shop_tap3_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap3_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap3_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"4\"\r\n					data-title=\"Permanent Equipment\"\r\n					data-background=\"cashshop/img_shop_tap4_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap4_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap4_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"5\"\r\n					data-title=\"Scrolls\"\r\n					data-background=\"cashshop/img_shop_tap5_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap5_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap5_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"6\"\r\n					data-title=\"Consumables\"\r\n					data-background=\"cashshop/img_shop_tap6_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap6_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap6_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"7\"\r\n					data-title=\"Other\"\r\n					data-background=\"cashshop/img_shop_tap7_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap7_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap7_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"8\"\r\n					data-title=\"Account Limited\"\r\n					data-background=\"cashshop/img_shop_tap8_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap8_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap8_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div id=\"panel-items\" class=\"panel-items\"></div>\r\n			<div class=\"panel-pagination\">\r\n				<button\r\n					class=\"go-first pagi-handler\"\r\n					data-index=\"1\"\r\n					data-background=\"cashshop/bt_arrowL2_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"go-prev pagi-handler\"\r\n					data-index=\"2\"\r\n					data-background=\"cashshop/bt_arrowL_on.bmp\"\r\n				></button>\r\n				<span class=\"pagi-changepage\">1</span><span>/</span><span class=\"pagi-countpage\">1</span>\r\n				<button\r\n					class=\"go-next pagi-handler\"\r\n					data-index=\"3\"\r\n					data-background=\"cashshop/bt_arrowR_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"go-last pagi-handler\"\r\n					data-index=\"4\"\r\n					data-background=\"cashshop/bt_arrowR2_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div class=\"panel-footer\">\r\n				<input type=\"text\" id=\"cashshop-search\" class=\"cashshop-search\" placeholder=\"Item Search\" />\r\n				<button\r\n					id=\"cashshop-search-btn\"\r\n					class=\"cashshop-search-btn\"\r\n					data-background=\"cashshop/btn_searchbar_normal.bmp\"\r\n					data-hover=\"cashshop/btn_searchbar_over.bmp\"\r\n					data-down=\"cashshop/btn_searchbar_press.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n		<div class=\"panel-cart\">\r\n			<div class=\"panel-cart-header\">\r\n				<div class=\"panel-cart-header-title\">购买列表</div>\r\n				<div class=\"panel-cart-charging-view\">\r\n					<div id=\"cashpoint\" class=\"view-cash-point\"><span>0</span></div>\r\n					<div class=\"panel-cart-cash-points\">\r\n						<button\r\n							class=\"panel-cart-charge-btn\"\r\n							data-background=\"cashshop/btn_charge_normal.bmp\"\r\n							data-down=\"cashshop/btn_charge_press.bmp\"\r\n						>\r\n							Charging\r\n						</button>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div class=\"panel-cart-body\" data-background=\"cashshop/img_shop_cart_bg.bmp\">\r\n				<div id=\"cart-list\" class=\"cart-list\">\r\n					<ul class=\"items\"></ul>\r\n				</div>\r\n			</div>\r\n			<div class=\"panel-cart-footer\">\r\n				<table>\r\n					<tr>\r\n						<td class=\"txt\">免费点数</td>\r\n						<td class=\"value free-point\">0 C</td>\r\n					</tr>\r\n					<tr>\r\n						<td class=\"txt\">使用免费点数</td>\r\n						<td class=\"value\">\r\n							<input\r\n								type=\"number\"\r\n								id=\"use-free-points\"\r\n								class=\"use-free-points\"\r\n								placeholder=\"0\"\r\n								value=\"0\"\r\n							/>C\r\n						</td>\r\n					</tr>\r\n					<tr>\r\n						<td class=\"txt\">现金点数</td>\r\n						<td class=\"value cashpoint_footer\">0 C</td>\r\n					</tr>\r\n				</table>\r\n				<div class=\"cart-footer-action\">\r\n					<div class=\"total-price\">\r\n						<span>0 C</span>\r\n					</div>\r\n					<button\r\n						id=\"purchase-btn\"\r\n						data-background=\"cashshop/btn_buy_normal.bmp\"\r\n						data-down=\"cashshop/btn_buy_press.bmp\"\r\n					>\r\n						Purchase\r\n					</button>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n</div>\r\n";
+	CashShop_default$2 = "<div id=\"CashShop\" data-background=\"cashshop/img_shop_bg.bmp\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n			<span class=\"text\">商城</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<div class=\"panel-content\">\r\n			<div class=\"panel-banner\">\r\n				<div class=\"banner-slides\"></div>\r\n				<ul class=\"banner-dots\"></ul>\r\n			</div>\r\n			<div id=\"panel-menu\" class=\"panel-menu\">\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"0\"\r\n					data-title=\"新品\"\r\n					data-background=\"cashshop/img_shop_tap0_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap0_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap0_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"1\"\r\n					data-title=\"热门\"\r\n					data-background=\"cashshop/img_shop_tap1_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap1_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap1_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"2\"\r\n					data-title=\"限时销售\"\r\n					data-background=\"cashshop/img_shop_tap2_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap2_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap2_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"3\"\r\n					data-title=\"租赁装备\"\r\n					data-background=\"cashshop/img_shop_tap3_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap3_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap3_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"4\"\r\n					data-title=\"永久装备\"\r\n					data-background=\"cashshop/img_shop_tap4_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap4_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap4_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"5\"\r\n					data-title=\"卷轴\"\r\n					data-background=\"cashshop/img_shop_tap5_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap5_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap5_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"6\"\r\n					data-title=\"消耗品\"\r\n					data-background=\"cashshop/img_shop_tap6_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap6_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap6_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"7\"\r\n					data-title=\"其他\"\r\n					data-background=\"cashshop/img_shop_tap7_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap7_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap7_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"tab\"\r\n					data-index=\"8\"\r\n					data-title=\"账号限定\"\r\n					data-background=\"cashshop/img_shop_tap8_off.bmp\"\r\n					data-down=\"cashshop/img_shop_tap8_on.bmp\"\r\n					data-active=\"cashshop/img_shop_tap8_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div id=\"panel-items\" class=\"panel-items\"></div>\r\n			<div class=\"panel-pagination\">\r\n				<button\r\n					class=\"go-first pagi-handler\"\r\n					data-index=\"1\"\r\n					data-background=\"cashshop/bt_arrowL2_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"go-prev pagi-handler\"\r\n					data-index=\"2\"\r\n					data-background=\"cashshop/bt_arrowL_on.bmp\"\r\n				></button>\r\n				<span class=\"pagi-changepage\">1</span><span>/</span><span class=\"pagi-countpage\">1</span>\r\n				<button\r\n					class=\"go-next pagi-handler\"\r\n					data-index=\"3\"\r\n					data-background=\"cashshop/bt_arrowR_on.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"go-last pagi-handler\"\r\n					data-index=\"4\"\r\n					data-background=\"cashshop/bt_arrowR2_on.bmp\"\r\n				></button>\r\n			</div>\r\n			<div class=\"panel-footer\">\r\n				<input type=\"text\" id=\"cashshop-search\" class=\"cashshop-search\" placeholder=\"搜索道具\" />\r\n				<button\r\n					id=\"cashshop-search-btn\"\r\n					class=\"cashshop-search-btn\"\r\n					data-background=\"cashshop/btn_searchbar_normal.bmp\"\r\n					data-hover=\"cashshop/btn_searchbar_over.bmp\"\r\n					data-down=\"cashshop/btn_searchbar_press.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n		<div class=\"panel-cart\">\r\n			<div class=\"panel-cart-header\">\r\n				<div class=\"panel-cart-header-title\">购买列表</div>\r\n				<div class=\"panel-cart-charging-view\">\r\n					<div id=\"cashpoint\" class=\"view-cash-point\"><span>0</span></div>\r\n					<div class=\"panel-cart-cash-points\">\r\n						<button\r\n							class=\"panel-cart-charge-btn\"\r\n							data-background=\"cashshop/btn_charge_normal.bmp\"\r\n							data-down=\"cashshop/btn_charge_press.bmp\"\r\n						>\r\n							充值\r\n						</button>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div class=\"panel-cart-body\" data-background=\"cashshop/img_shop_cart_bg.bmp\">\r\n				<div id=\"cart-list\" class=\"cart-list\">\r\n					<ul class=\"items\"></ul>\r\n				</div>\r\n			</div>\r\n			<div class=\"panel-cart-footer\">\r\n				<table>\r\n					<tr>\r\n						<td class=\"txt\">免费点数</td>\r\n						<td class=\"value free-point\">0 C</td>\r\n					</tr>\r\n					<tr>\r\n						<td class=\"txt\">使用免费点数</td>\r\n						<td class=\"value\">\r\n							<input\r\n								type=\"number\"\r\n								id=\"use-free-points\"\r\n								class=\"use-free-points\"\r\n								placeholder=\"0\"\r\n								value=\"0\"\r\n							/>C\r\n						</td>\r\n					</tr>\r\n					<tr>\r\n						<td class=\"txt\">现金点数</td>\r\n						<td class=\"value cashpoint_footer\">0 C</td>\r\n					</tr>\r\n				</table>\r\n				<div class=\"cart-footer-action\">\r\n					<div class=\"total-price\">\r\n						<span>0 C</span>\r\n					</div>\r\n					<button\r\n						id=\"purchase-btn\"\r\n						data-background=\"cashshop/btn_buy_normal.bmp\"\r\n						data-down=\"cashshop/btn_buy_press.bmp\"\r\n					>\r\n						购买\r\n					</button>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CashShop/CashShop.css?raw
@@ -312194,7 +312795,7 @@ function onClickSearch() {
 	}
 	if (!root.querySelector("#panel-menu .search-result")) root.querySelectorAll("#panel-menu .tab").forEach((el) => el.classList.remove("active"));
 	if (newList.length === 0) {
-		UIManager.showMessageBox("拍卖搜索中未找到物品", "ok");
+		UIManager.showMessageBox("商城搜索中未找到道具", "ok");
 		return;
 	}
 	CashShop.csListItemSearchResult = newList;
@@ -312210,13 +312811,13 @@ function onClickActionCounterButtonCart(target) {
 	const itemCart = CashShop.cartItem.find((i) => i.itemId === itemId);
 	if (!itemCart) return;
 	if (itemCart.amount >= 99 && counter === "up") {
-		UIManager.showMessageBox("Max Quantity 99!", "ok");
-		ChatBox_default.addText("Max Quantity 99!", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		UIManager.showMessageBox("最大数量为 99！", "ok");
+		ChatBox_default.addText("最大数量为 99！", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 		return;
 	}
 	if (itemCart.amount <= 1 && counter === "down") {
-		UIManager.showMessageBox("Minimum Quantity 1!", "ok");
-		ChatBox_default.addText("Minimum Quantity 1!", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		UIManager.showMessageBox("最小数量为 1！", "ok");
+		ChatBox_default.addText("最小数量为 1！", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 		return;
 	}
 	if (counter === "up") itemCart.amount += 1;
@@ -312287,12 +312888,12 @@ function addItemToCart(itemId, amount = 1) {
 	const noItems = cartContainer ? cartContainer.querySelector("#cart-list .items .no-items") : null;
 	if (noItems) noItems.remove();
 	if (CashShop.cartItem.length > 7 && typeof itemCart === "undefined") {
-		UIManager.showMessageBox("8 Items can only be stored in cart!", "ok");
+		UIManager.showMessageBox("购物车最多只能放入 8 种道具！", "ok");
 		return;
 	}
 	if (item.amount >= 99) {
-		UIManager.showMessageBox("Max Quantity 99!", "ok");
-		ChatBox_default.addText("Max Quantity 99!", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		UIManager.showMessageBox("最大数量为 99！", "ok");
+		ChatBox_default.addText("最大数量为 99！", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 		return;
 	}
 	if (typeof itemCart === "undefined") {
@@ -312356,8 +312957,8 @@ function onClickActionBuyItem() {
 				pkt.kafraPoints = useFreePoints;
 				pkt.item_list = CashShop.cartItem;
 				Network.sendPacket(pkt);
-			} else UIManager.showMessageBox("You dont have enough Kafra Points!", "ok");
-		} else UIManager.showMessageBox("No item in cart!", "ok");
+			} else UIManager.showMessageBox("卡普拉点数不足！", "ok");
+		} else UIManager.showMessageBox("购物车中没有道具！", "ok");
 	});
 }
 /**
@@ -312781,8 +313382,8 @@ var init_CashShop$1 = __esmMin((() => {
 					if (CashShop.checkCartItemLen >= CashShop.cartItemLen) {
 						CashShop.cartItemLen = 0;
 						CashShop.checkCartItemLen = 0;
-						UIManager.showMessageBox("Successfully done buying items from cash shop!", "ok");
-						ChatBox_default.addText("Successfully done buying items from cash shop!", ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
+						UIManager.showMessageBox("商城道具购买成功！", "ok");
+						ChatBox_default.addText("商城道具购买成功！", ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 						const root = _root$6();
 						const cashpointSpan = root.querySelector("#cashpoint span");
 						if (cashpointSpan) cashpointSpan.textContent = res.cashPoints;
@@ -312792,16 +313393,16 @@ var init_CashShop$1 = __esmMin((() => {
 					}
 					break;
 				case 2:
-					UIManager.showMessageBox("Insuficient cash points or kafra points!", "ok");
-					ChatBox_default.addText("Insuficient cash points or kafra points!", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+					UIManager.showMessageBox("现金点数或卡普拉点数不足！", "ok");
+					ChatBox_default.addText("现金点数或卡普拉点数不足！", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 					break;
 				case 4:
-					UIManager.showMessageBox("You are over you're weight limit!", "ok");
-					ChatBox_default.addText("You are over youre weight limit!", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+					UIManager.showMessageBox("负重已超过上限！", "ok");
+					ChatBox_default.addText("负重已超过上限！", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 					break;
 				default:
-					UIManager.showMessageBox("Something went wrong while using cashshop!", "ok");
-					ChatBox_default.addText("Something went wrong while using cashshop!", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+					UIManager.showMessageBox("商城发生错误，请稍后重试！", "ok");
+					ChatBox_default.addText("商城发生错误，请稍后重试！", ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 			}
 		}
 	};
@@ -318467,6 +319068,7 @@ function onEntitySpam(pkt) {
 			}
 		}
 	}
+	localizeNpcEntityName(entity);
 	if (pkt.effectState & StatusState_default.EffectState.FALCON && DB.isHunter(pkt.job)) {
 		if (!entity.falcon) entity.falcon = new Entity();
 		entity.falcon.set({
@@ -318971,6 +319573,14 @@ function onEntityTalkColor(pkt) {
 	if (entity) entity.dialog.set(pkt.msg);
 	ChatBox_default.addText(pkt.msg, ChatBox_default.TYPE.PUBLIC, ChatBox_default.FILTER.PUBLIC_CHAT, color);
 }
+function localizeNpcEntityName(entity) {
+	if (entity.objecttype !== Entity.TYPE_NPC && entity.objecttype !== Entity.TYPE_NPC2) return;
+	const localizedName = DB.getNpcName(entity.display.name);
+	if (localizedName !== entity.display.name) {
+		entity.display.name = localizedName;
+		entity.display.update(entity.display.STYLE.NPC);
+	}
+}
 /**
 * Display entity's name
 *
@@ -318979,8 +319589,10 @@ function onEntityTalkColor(pkt) {
 function onEntityIdentity(pkt) {
 	const entity = EntityManager.get(pkt.AID);
 	if (entity) {
-		if (entity.display.name) entity.display.fakename = pkt.CName;
-		else entity.display.name = pkt.CName;
+		const monsterName = entity.objecttype === entity.constructor.TYPE_MOB || entity.objecttype === entity.constructor.TYPE_NPC_ABR || entity.objecttype === entity.constructor.TYPE_NPC_BIONIC ? DB.getMonsterName(entity._job) : "未知";
+		const displayName = monsterName !== "未知" ? monsterName : DB.getNpcName(pkt.CName);
+		if (entity.display.name) entity.display.fakename = displayName;
+		else entity.display.name = displayName;
 		if (PacketVerManager_default.value >= 20170208 && pkt.TitleID > 0) {
 			const titleText = DB.getTitleString(pkt.TitleID);
 			entity.display.title_name = titleText;
