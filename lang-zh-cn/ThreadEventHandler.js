@@ -11109,6 +11109,7 @@ safe-buffer/index.js:
 */
 //#endregion
 //#region src/Utils/CodepageManager.js
+var LEGACY_KRO_CHARSET = "windows-949";
 /**
 * Smart decode helper.
 *
@@ -11166,7 +11167,7 @@ var CodepageManager = {
 			console.error(`[TextEncoding.decode] Invalid charset: "${charset}".`, data);
 			return "";
 		}
-		if (charset === "utf-8") return smartDecode(data, this.userCharset);
+		if (charset === "utf-8") return smartDecode(data, LEGACY_KRO_CHARSET);
 		return iconv.decode(data, charset || this.userCharset);
 	},
 	decodeString: function decodeString(str) {
@@ -19061,7 +19062,7 @@ var MapLoader = class {
 		}
 		function onWorldReady(resourceWorld) {
 			if (!resourceWorld) {
-				loader.onload(false, `Can't find file "${mapname}" ! `);
+				loader.onload(false, `找不到文件“${mapname}”！`);
 				return;
 			}
 			world = resourceWorld;
@@ -19070,7 +19071,7 @@ var MapLoader = class {
 		}
 		function onAltitudeReady(altitude) {
 			if (!altitude) {
-				loader.onload(false, `Can't find file "${world.files.gat}" !`);
+				loader.onload(false, `找不到文件“${world.files.gat}”！`);
 				return;
 			}
 			loader.setProgress(2);
@@ -19079,7 +19080,7 @@ var MapLoader = class {
 		}
 		function onGroundReady(ground) {
 			if (!ground) {
-				loader.onload(false, `Can't find file "${world.files.gnd}" !`);
+				loader.onload(false, `找不到文件“${world.files.gnd}”！`);
 				return;
 			}
 			loader.setProgress(3);
