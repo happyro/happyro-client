@@ -1161,7 +1161,7 @@ export function createInventory(config) {
 			return;
 		}
 
-		let quantity = ' ea';
+		let quantity = ' 个';
 		if (
 			item.Options &&
 			(item.type === ItemType.WEAPON || item.type === ItemType.ARMOR || item.type === ItemType.SHADOWGEAR) &&

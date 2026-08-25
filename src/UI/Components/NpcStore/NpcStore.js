@@ -686,7 +686,7 @@ function addItem(content, item) {
 
 	if (element) {
 		amountText =
-			_type === NpcStore.Type.BUYING_STORE && !content.classList.contains('contentAvailable') ? ' ea.' : '';
+			_type === NpcStore.Type.BUYING_STORE && !content.classList.contains('contentAvailable') ? ' 个.' : '';
 		const amountEl = element.querySelector('.amount');
 		if (amountEl) {
 			amountEl.textContent = isFinite(item.count) ? item.count + amountText : '';
@@ -708,7 +708,7 @@ function addItem(content, item) {
 		}
 
 		const buyingClass = _type === NpcStore.Type.BUYING_STORE ? ' amountBuying' : '';
-		amountText = _type === NpcStore.Type.BUYING_STORE ? ' ea.' : '';
+		amountText = _type === NpcStore.Type.BUYING_STORE ? ' 个.' : '';
 		const html =
 			`<div class="item" draggable="true" data-index="${item.index}">` +
 			`<div class="icon"></div>` +
@@ -732,7 +732,7 @@ function addItem(content, item) {
 			`<div class="name">${_escapeHTML(DB.getItemName(item))}</div>` +
 			`<div class="currency_icon" data-item="${item.currencyITID}"></div>` +
 			`<div class="currency_amount">${item.currencyamount}</div>` +
-			`<div class="currency_nameOverlay">${_escapeHTML(DB.getItemName(currency_item))} ${item.currencyamount} ea</div>` +
+			`<div class="currency_nameOverlay">${_escapeHTML(DB.getItemName(currency_item))} ${item.currencyamount} 个</div>` +
 			`</div>`;
 		content.insertAdjacentHTML('beforeend', html);
 	} else if (_type === NpcStore.Type.BARTER_MARKET_EXTENDED) {
@@ -754,7 +754,7 @@ function addItem(content, item) {
 						: '') +
 					`</div>`;
 
-				currencyOverlay += `${_escapeHTML(currencyItem.identifiedDisplayName)} ${currency.amount} ea<br>`;
+				currencyOverlay += `${_escapeHTML(currencyItem.identifiedDisplayName)} ${currency.amount} 个<br>`;
 			}
 		}
 		const html =

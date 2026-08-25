@@ -146,6 +146,23 @@ ui-button {
 	transform: none;
 }
 
+.ui-btn.localized-control {
+	min-width: 42px;
+	padding: 0 3px;
+	font-size: 11px;
+	border: 1px solid #8b9690 !important;
+	background: #f4f7f5 !important;
+	color: #202622;
+}
+
+.ui-btn.localized-control:hover {
+	background: #dcebe3 !important;
+}
+
+.ui-btn.localized-control:active {
+	background: #c8ded2 !important;
+}
+
 /* Hide native cursor inside Shadow DOM when custom cursor is active */
 :host-context(.custom-cursor) * {
 	cursor: none !important;

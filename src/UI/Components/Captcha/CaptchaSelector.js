@@ -186,7 +186,7 @@ CaptchaSelector.setPlayers = function setPlayers(players) {
 	for (let i = 0; i < players.length && i < liElements.length; i++) {
 		const li = liElements[i];
 		const entity = EntityManager.get(players[i]);
-		const name = entity?.display?.name ?? 'Unknown';
+		const name = entity?.display?.name ?? '未知';
 		const aid = players[i];
 
 		li.classList.add('player');
@@ -210,8 +210,8 @@ CaptchaSelector.setPlayers = function setPlayers(players) {
 		link.textContent = name;
 		link.addEventListener('click', () => {
 			const charEntity = EntityManager.get(aid);
-			const charName = charEntity?.display?.name ?? 'Unknown';
-			const charJob = MonsterTable[charEntity?._job ?? 0] ?? 'Unknown';
+				const charName = charEntity?.display?.name ?? '未知';
+				const charJob = MonsterTable[charEntity?._job ?? 0] ?? '未知';
 
 			const charInfo = root.querySelector('.character_info');
 			if (charInfo) {
@@ -236,7 +236,7 @@ CaptchaSelector.setPlayers = function setPlayers(players) {
 		_aidInformation.push({
 			aid: aid,
 			name: name,
-			job: MonsterTable[entity?._job ?? 0] ?? 'Unknown'
+			job: MonsterTable[entity?._job ?? 0] ?? '未知'
 		});
 	}
 

@@ -15,6 +15,7 @@ import UIPreferences from 'Preferences/UI.js';
 import Session from 'Engine/SessionStorage.js';
 import Targa from 'Loaders/Targa.js';
 import ClampToViewport from 'UI/ClampToViewport.js';
+import { getLocalizedButtonLabel } from 'UI/LocalizedButtonLabels.js';
 
 /**
  * Heavy modules loaded lazily to keep viewer bundles lightweight.
@@ -940,12 +941,24 @@ class GUIComponent {
 			_ensureDeps().then(() => GUIComponent.processDataAttrs(node));
 			return;
 		}
-		const background = node.dataset.background;
-		const hover = node.dataset.hover;
-		const down = node.dataset.down;
-		const active = node.dataset.active;
+		let background = node.dataset.background;
+		let hover = node.dataset.hover;
+		let down = node.dataset.down;
+		let active = node.dataset.active;
 		const msgId = node.dataset.text;
-		const preload = node.dataset.preload;
+		let preload = node.dataset.preload;
+		const localizedButtonLabel =
+			node.tagName === 'BUTTON' ? node.dataset.localizedLabel || getLocalizedButtonLabel(background) : null;
+
+		if (localizedButtonLabel) {
+			node.classList.add('ui-btn', 'localized-control');
+			node.textContent = localizedButtonLabel;
+			node.setAttribute('aria-label', localizedButtonLabel);
+			for (const attribute of ['background', 'hover', 'down', 'active', 'preload']) {
+				node.removeAttribute(`data-${attribute}`);
+			}
+			background = hover = down = active = preload = null;
+		}
 
 		let bgUri = null;
 		let hoverUri = null;
@@ -969,7 +982,7 @@ class GUIComponent {
 		};
 
 		// Localized text
-		if (msgId && _DB?.getMessage(msgId, '')) {
+		if (!localizedButtonLabel && msgId && _DB?.getMessage(msgId, '')) {
 			node.textContent = _DB?.getMessage(msgId, '');
 		}
 
