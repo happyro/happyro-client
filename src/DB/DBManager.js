@@ -23,6 +23,8 @@ import MonsterNameTable from './Monsters/MonsterNameTable.js';
 import PetIllustration from './Pets/PetIllustration.js';
 import PetAction from './Pets/PetAction.js';
 import ItemTable from './Items/ItemTable.js';
+// Archived itemlocalization overlay; itemInfo_true.lub now contains the complete text.
+// import { applyItemLocalization } from './Items/ItemLocalization.js';
 import HatTable from './Items/HatTable.js';
 import ShieldTable from './Items/ShieldTable.js';
 import WeaponTable from './Items/WeaponTable.js';
@@ -397,14 +399,17 @@ class DB {
 			// Item
 			let iteminfoNames = [];
 			const customII = Configs.get('customItemInfo', []);
+			const itemInfoOnLoad = onLoad();
 
 			if (Array.isArray(customII) && customII.length > 0) {
 				// add custom client info table
 				iteminfoNames = iteminfoNames.concat(customII);
-				tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, onLoad(), true);
+				// The archived itemlocalization overlay is no longer loaded.
+				tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, itemInfoOnLoad, true);
 			} else {
 				iteminfoNames = iteminfoNames.concat(getSystemAliases('System/itemInfo.lub'));
-				tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, onLoad());
+				// The archived itemlocalization overlay is no longer loaded.
+				tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, itemInfoOnLoad);
 			}
 
 			loadLuaTable(
@@ -4878,6 +4883,26 @@ function loadTitleTable(filename, callback, onEnd) {
 		loadLocalizedTitles
 	);
 }
+
+/* Archived runtime overlay; translated itemInfo_true.lub is now authoritative.
+function loadItemLocalization(onEnd) {
+	Client.loadFile(
+		'data/itemlocalization.json',
+		file => {
+			try {
+				const text = typeof file === 'string' ? file : new TextDecoder().decode(file);
+				const localizedCount = applyItemLocalization(ItemTable, JSON.parse(text));
+				console.log(`Localized ${localizedCount} item records.`);
+			} catch (error) {
+				console.error('[loadItemLocalization] Error: ', error);
+			} finally {
+				onEnd();
+			}
+		},
+		onEnd
+	);
+}
+*/
 
 /**
  * Load Town Info file
