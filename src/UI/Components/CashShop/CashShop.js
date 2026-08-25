@@ -450,12 +450,8 @@ CashShop.setSuccessCashShopUpdate = function setSuccessCashShopUpdate(res) {
 				if (CashShop.checkCartItemLen >= CashShop.cartItemLen) {
 					CashShop.cartItemLen = 0;
 					CashShop.checkCartItemLen = 0;
-					UIManager.showMessageBox('Successfully done buying items from cash shop!', 'ok');
-					ChatBox.addText(
-						'Successfully done buying items from cash shop!',
-						ChatBox.TYPE.INFO,
-						ChatBox.FILTER.PUBLIC_LOG
-					);
+					UIManager.showMessageBox('商城道具购买成功！', 'ok');
+					ChatBox.addText('商城道具购买成功！', ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 					const root = _root();
 					const cashpointSpan = root.querySelector('#cashpoint span');
 					if (cashpointSpan) cashpointSpan.textContent = res.cashPoints;
@@ -466,27 +462,19 @@ CashShop.setSuccessCashShopUpdate = function setSuccessCashShopUpdate(res) {
 				break;
 			case 2:
 				//insuficient cashpoint or kafra points
-				UIManager.showMessageBox('Insuficient cash points or kafra points!', 'ok');
-				ChatBox.addText(
-					'Insuficient cash points or kafra points!',
-					ChatBox.TYPE.ERROR,
-					ChatBox.FILTER.PUBLIC_LOG
-				);
+				UIManager.showMessageBox('现金点数或卡普拉点数不足！', 'ok');
+				ChatBox.addText('现金点数或卡普拉点数不足！', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 				break;
 
 			case 4:
 				//overweight limit
-				UIManager.showMessageBox("You are over you're weight limit!", 'ok');
-				ChatBox.addText('You are over youre weight limit!', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+				UIManager.showMessageBox('负重已超过上限！', 'ok');
+				ChatBox.addText('负重已超过上限！', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 				break;
 
 			default:
-				UIManager.showMessageBox('Something went wrong while using cashshop!', 'ok');
-				ChatBox.addText(
-					'Something went wrong while using cashshop!',
-					ChatBox.TYPE.ERROR,
-					ChatBox.FILTER.PUBLIC_LOG
-				);
+				UIManager.showMessageBox('商城发生错误，请稍后重试！', 'ok');
+				ChatBox.addText('商城发生错误，请稍后重试！', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 				break;
 		}
 	}
@@ -756,7 +744,7 @@ function onClickSearch() {
 	}
 
 	if (newList.length === 0) {
-		UIManager.showMessageBox('拍卖搜索中未找到物品', 'ok');
+		UIManager.showMessageBox('商城搜索中未找到道具', 'ok');
 		return;
 	}
 
@@ -776,14 +764,14 @@ function onClickActionCounterButtonCart(target) {
 	if (!itemCart) return;
 
 	if (itemCart.amount >= 99 && counter === 'up') {
-		UIManager.showMessageBox('Max Quantity 99!', 'ok');
-		ChatBox.addText('Max Quantity 99!', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+		UIManager.showMessageBox('最大数量为 99！', 'ok');
+		ChatBox.addText('最大数量为 99！', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 		return;
 	}
 
 	if (itemCart.amount <= 1 && counter === 'down') {
-		UIManager.showMessageBox('Minimum Quantity 1!', 'ok');
-		ChatBox.addText('Minimum Quantity 1!', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+		UIManager.showMessageBox('最小数量为 1！', 'ok');
+		ChatBox.addText('最小数量为 1！', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 		return;
 	}
 
@@ -879,13 +867,13 @@ function addItemToCart(itemId, amount = 1) {
 	}
 
 	if (CashShop.cartItem.length > 7 && typeof itemCart === 'undefined') {
-		UIManager.showMessageBox('8 Items can only be stored in cart!', 'ok');
+		UIManager.showMessageBox('购物车最多只能放入 8 种道具！', 'ok');
 		return;
 	}
 
 	if (item.amount >= 99) {
-		UIManager.showMessageBox('Max Quantity 99!', 'ok');
-		ChatBox.addText('Max Quantity 99!', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+		UIManager.showMessageBox('最大数量为 99！', 'ok');
+		ChatBox.addText('最大数量为 99！', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 		return;
 	}
 
@@ -959,10 +947,10 @@ function onClickActionBuyItem() {
 				pkt.item_list = CashShop.cartItem;
 				Network.sendPacket(pkt);
 			} else {
-				UIManager.showMessageBox('You dont have enough Kafra Points!', 'ok');
+				UIManager.showMessageBox('卡普拉点数不足！', 'ok');
 			}
 		} else {
-			UIManager.showMessageBox('No item in cart!', 'ok');
+			UIManager.showMessageBox('购物车中没有道具！', 'ok');
 		}
 	});
 }

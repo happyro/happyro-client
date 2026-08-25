@@ -20,9 +20,12 @@ import BabyTable from './Jobs/BabyTable.js';
 import HairIndexTable from './Jobs/HairIndexTable.js';
 import MonsterTable from './Monsters/MonsterTable.js';
 import MonsterNameTable from './Monsters/MonsterNameTable.js';
+import NpcNameTable from './NpcNameTable.js';
 import PetIllustration from './Pets/PetIllustration.js';
 import PetAction from './Pets/PetAction.js';
 import ItemTable from './Items/ItemTable.js';
+// Archived itemlocalization overlay; itemInfo_true.lub now contains the complete text.
+// import { applyItemLocalization } from './Items/ItemLocalization.js';
 import HatTable from './Items/HatTable.js';
 import ShieldTable from './Items/ShieldTable.js';
 import WeaponTable from './Items/WeaponTable.js';
@@ -147,6 +150,9 @@ let EnchantListTable = {};
  * @const {Object} SignBoardTranslated Table
  */
 const SignBoardTranslatedTable = {};
+const SignBoardOverrides = {
+	'낙원단 공간이동사': '乐园团空间传送员'
+};
 
 /**
  * @type {Object} SignBoard Table
@@ -394,14 +400,17 @@ class DB {
 			// Item
 			let iteminfoNames = [];
 			const customII = Configs.get('customItemInfo', []);
+			const itemInfoOnLoad = onLoad();
 
 			if (Array.isArray(customII) && customII.length > 0) {
 				// add custom client info table
 				iteminfoNames = iteminfoNames.concat(customII);
-				tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, onLoad(), true);
+				// The archived itemlocalization overlay is no longer loaded.
+				tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, itemInfoOnLoad, true);
 			} else {
 				iteminfoNames = iteminfoNames.concat(getSystemAliases('System/itemInfo.lub'));
-				tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, onLoad());
+				// The archived itemlocalization overlay is no longer loaded.
+				tryLoadLuaAliases(loadItemInfo, iteminfoNames, null, itemInfoOnLoad);
 			}
 
 			loadLuaTable(
@@ -2816,7 +2825,20 @@ class DB {
 	 * @return {string} The translated signboard description if found, otherwise the original description.
 	 */
 	static getTranslatedSignBoard(description) {
-		return SignBoardTranslatedTable[description] || description;
+		const normalized = typeof description === 'string' ? description.replace(/\s+/g, ' ').trim() : description;
+		if (normalized && /낙원단\s*공간이동사/.test(normalized)) {
+			return '乐园团空间传送员';
+		}
+		return SignBoardOverrides[normalized] || SignBoardTranslatedTable[normalized] || description;
+	}
+
+	static getNpcName(name) {
+		if (typeof name !== 'string') {
+			return name;
+		}
+		const match = name.match(/^(.*?)(#[^:]*)?(::.*)?$/);
+		const translated = NpcNameTable[match[1]];
+		return translated ? translated + (match[2] || '') + (match[3] || '') : name;
 	}
 
 	static getRandomJoke() {
@@ -4871,6 +4893,26 @@ function loadTitleTable(filename, callback, onEnd) {
 		loadLocalizedTitles
 	);
 }
+
+/* Archived runtime overlay; translated itemInfo_true.lub is now authoritative.
+function loadItemLocalization(onEnd) {
+	Client.loadFile(
+		'data/itemlocalization.json',
+		file => {
+			try {
+				const text = typeof file === 'string' ? file : new TextDecoder().decode(file);
+				const localizedCount = applyItemLocalization(ItemTable, JSON.parse(text));
+				console.log(`Localized ${localizedCount} item records.`);
+			} catch (error) {
+				console.error('[loadItemLocalization] Error: ', error);
+			} finally {
+				onEnd();
+			}
+		},
+		onEnd
+	);
+}
+*/
 
 /**
  * Load Town Info file
