@@ -411,7 +411,7 @@ ${buttons}
             }    
     
             window.addEventListener("load", (event) => {    
-                // Merge defaults, required HappyRO LAN settings, then optional local overrides.
+                // Merge defaults, required HappyRO settings, then optional local overrides.
                 var config = deepMerge({}, window.ROConfigBase || {});    
                 config = deepMerge(config, window.ROConfigHappyRO || {});
                 if (window.ROConfigLocal) {    
