@@ -71,20 +71,6 @@
 	cursor: pointer;
 }
 
-#NpcMenu .btn::after {
-	display: block;
-	color: #202420;
-	font-size: 12px;
-}
-
-#NpcMenu .cancel::after {
-	content: "取消";
-}
-
-#NpcMenu .ok::after {
-	content: "确定";
-}
-
 #NpcMenu .cancel {
 	right: 4px;
 }
