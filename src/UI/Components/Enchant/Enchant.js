@@ -787,7 +787,7 @@ function getItemDisplayName(itemId, fallback) {
 	if (info && info.identifiedDisplayName) {
 		return info.identifiedDisplayName;
 	}
-	return fallback || 'Unknown';
+	return fallback || '未知';
 }
 
 function resolveMaterialId(material) {
@@ -863,7 +863,7 @@ function renderMaterials(materials) {
 		const count = document.createElement('div');
 		count.className = 'count';
 		const matId = resolveMaterialId(mat);
-		const label = matId ? getItemDisplayName(matId, mat.base) : mat.base || 'Unknown';
+		const label = matId ? getItemDisplayName(matId, mat.base) : mat.base || '未知';
 		let current = 0;
 		const required = Number(mat.count) || 0;
 		if (matId && inventoryUI && inventoryUI.getItemById) {
@@ -987,7 +987,7 @@ function renderItemList() {
 	if (!candidates.length) {
 		const empty = document.createElement('div');
 		empty.className = 'item_list_empty';
-		empty.textContent = 'No enchantable items.';
+		empty.textContent = '没有可附魔的物品。';
 		list.appendChild(empty);
 		return;
 	}

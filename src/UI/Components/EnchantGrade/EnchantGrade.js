@@ -485,7 +485,7 @@ function onEnchantGradeUIUpdateMaterials(pkt) {
 				'<div class="icon"></div>' +
 				'</div>' +
 				`<div class="additional_mat_name" style="margin-right: 3px; margin-left: 7px;">${blessItem.identifiedDisplayName}</div>` +
-				`<div class="additonal_mat_amount">${EnchantGrade_currentBlessing} ea</div>`;
+				`<div class="additonal_mat_amount">${EnchantGrade_currentBlessing} 个</div>`;
 		}
 
 		Client.loadFile(
@@ -558,7 +558,7 @@ function onEnchantGradeUIUpdateMaterials(pkt) {
 
 			const matAmount = root.querySelector('.BED_container .additonal_mat_amount');
 			if (matAmount) {
-				matAmount.textContent = `${totalBlessing} ea`;
+				matAmount.textContent = `${totalBlessing} 个`;
 			}
 		}
 
@@ -628,7 +628,7 @@ function onPopulateMaterials() {
 				`<div class="item" data-index="${material.itemId}" draggable="false">` +
 				'<div class="icon"></div></div>' +
 				`<div class="material_name">${it.identifiedDisplayName}</div>` +
-				`<div class="material_amount">${material.amount} ea</div>`;
+				`<div class="material_amount">${material.amount} 个</div>`;
 
 			Client.loadFile(
 				DB.INTERFACE_PATH +
@@ -771,7 +771,7 @@ function onResetBlessing() {
 
 	const matAmount = root.querySelector('.BED_container .additonal_mat_amount');
 	if (matAmount) {
-		matAmount.textContent = `${EnchantGrade_currentBlessing} ea`;
+		matAmount.textContent = `${EnchantGrade_currentBlessing} 个`;
 	}
 }
 

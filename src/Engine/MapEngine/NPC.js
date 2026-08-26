@@ -90,16 +90,16 @@ function onDynamicNPCCreateRequest(pkt) {
 		case 0:
 			break;
 		case 1:
-			ChatBox.addText('[Dynamic NPC] Unknown error', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+				ChatBox.addText('[动态 NPC] 未知错误', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 2:
-			ChatBox.addText('[Dynamic NPC] Unknown NPC', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+				ChatBox.addText('[动态 NPC] 未知 NPC', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 3:
-			ChatBox.addText('[Dynamic NPC] Duplicate NPC', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+				ChatBox.addText('[动态 NPC] NPC 重复', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 4:
-			ChatBox.addText('[Dynamic NPC] Out of time', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+				ChatBox.addText('[动态 NPC] 已超时', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 	}
 }

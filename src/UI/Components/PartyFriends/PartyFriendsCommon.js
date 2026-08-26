@@ -743,7 +743,7 @@ export function createPartyFriends(config) {
 			const isOnline = player.state === 0;
 			const isDetached = !!_detachedMembers[player.AID];
 
-			const jobName = MonsterTable[job] || 'Unknown';
+			const jobName = MonsterTable[job] || '未知';
 			const mapDisplay = DB.getMapName(player.mapName);
 
 			const color = MiniMap && MiniMap.getMemberColor ? MiniMap.getMemberColor(player.AID) : 'white';
