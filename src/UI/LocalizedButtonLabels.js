@@ -1,0 +1,86 @@
+const BUTTON_LABELS = Object.freeze({
+	'btn_ok.bmp': '确定',
+	'btn_cancel.bmp': '取消',
+	'btn_close.bmp': '关闭',
+	'btn_reset.bmp': '重置',
+	'btn_buy.bmp': '购买',
+	'btn_sell.bmp': '出售',
+	'btn_back.bmp': '返回',
+	'btn_edit.bmp': '编辑',
+	'btn_exchange.bmp': '交换',
+	'btn_next.bmp': '下一步',
+	'btn_send.bmp': '发送',
+	'btn_shortcut.bmp': '快捷键',
+	'btn_use.bmp': '使用',
+	'btn_view.bmp': '查看',
+	'btn_apply.bmp': '应用',
+	'btn_big_cancel.bmp': '取消',
+	'btn_big_change.bmp': '修改',
+	'btn_big_next.bmp': '下一步',
+	'btn_big_ok.bmp': '确定',
+	'btn_cancel2_normal.bmp': '取消',
+	'btn_cancel_res.bmp': '取消',
+	'btn_del.bmp': '删除',
+	'btn_del_res.bmp': '删除',
+	'btn_exchange_dis.bmp': '交换',
+	'btn_feed.bmp': '喂食',
+	'btn_make.bmp': '创建',
+	'btn_ok_dis.bmp': '确定',
+	'btn_rewrite.bmp': '修改',
+	'btn_skill.bmp': '技能',
+	'bt_search_normal.bmp': '搜索'
+});
+
+const INTERFACE_BUTTON_LABELS = Object.freeze({
+	'bank/btn_deposit_out.bmp': '存款',
+	'bank/btn_withdraw_out.bmp': '取款',
+	'bank/btn_max_out.bmp': '最大',
+	'bank/btn_10mil_out.bmp': '+10万',
+	'bank/btn_100mil_out.bmp': '+100万',
+	'bank/btn_1000mil_out.bmp': '+1000万',
+	'basic_interface/rodexsystem/renewal/btn_search_out.bmp': '搜索',
+	'basic_interface/rodexsystem/renewal/btn_confirm_id_empty_out.bmp': '确认',
+	'basic_interface/rodexsystem/renewal/btn_receive_out.bmp': '领取',
+	'basic_interface/rodexsystem/renewal/btn_delete_out.bmp': '删除',
+	'basic_interface/rodexsystem/renewal/btn_reply_out.bmp': '回复',
+	'basic_interface/cancel2.bmp': '取消',
+	'basic_interface/del.bmp': '删除',
+	'basic_interface/remail.bmp': '回复',
+	'basic_interface/return.bmp': '返回',
+	'basic_interface/send.bmp': '发送',
+	'basic_interface/inputzeny.bmp': '输入金额',
+	'basic_interface/setzeny.bmp': '确定',
+	'basic_interface/roullette/startroullette_a.bmp': '开始抽奖',
+	'basic_interface/roullette/getwinprize_a.bmp': '领取奖励',
+	'achievement_re/btn_receive_out.bmp': '领取',
+	'lapine/btn_cancel_out.bmp': '取消',
+	'lapine/btn_make_out.bmp': '制作',
+	'login_interface/btn_connect.bmp': '登录',
+	'login_interface/btn_request.bmp': '注册',
+	'login_interface/btn_exit.bmp': '退出',
+	'cashshop/btn_searchbar_normal.bmp': '搜索',
+	'cashshop/btn_charge_normal.bmp': '充值',
+	'cashshop/btn_buy_normal.bmp': '购买',
+	'cashshop/btn_add_normal.bmp': '购买',
+	'make_character/btn_create_out.bmp': '创建',
+	'swap_equipment/btn_change2_normal.bmp': '切换',
+	'esc_01a.bmp': '返回角色选择',
+	'esc_02a.bmp': '返回游戏',
+	'esc_03a.bmp': '退出游戏',
+	'esc_04a.bmp': '返回保存点',
+	'esc_05a.bmp': '使用复活道具',
+	'esc_06a.bmp': '图形设置',
+	'esc_07a.bmp': '声音设置',
+	'esc_08a.bmp': '快捷键设置'
+});
+
+export function getLocalizedButtonLabel(background) {
+	if (typeof background !== 'string') return null;
+
+	const normalizedPath = background.replaceAll('\\', '/').toLowerCase();
+	const pathLabel = Object.entries(INTERFACE_BUTTON_LABELS).find(([path]) => normalizedPath.endsWith(path));
+	if (pathLabel) return pathLabel[1];
+
+	const filename = normalizedPath.split('/').pop();
+	return BUTTON_LABELS[filename] || null;
+}

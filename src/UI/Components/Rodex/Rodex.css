@@ -134,7 +134,10 @@
 #Rodex .body .searchbar .search-btn {
 	position: absolute;
 	width: 32px;
+	min-width: 32px;
 	height: 18px;
+	padding: 0 2px;
+	font-size: 11px;
 	top: 9px;
 	right: 13px;
 }
