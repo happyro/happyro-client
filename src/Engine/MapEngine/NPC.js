@@ -34,7 +34,10 @@ import GUIComponent from 'UI/GUIComponent.js';
  */
 function onMessage(pkt) {
 	NpcBox.append();
-	NpcBox.setText(pkt.msg, pkt.NAID);
+	// Every page is a separate packet. Localize the bracketed speaker title
+	// here so a later `next` response cannot restore the server's English name.
+	const message = typeof pkt.msg === 'string' ? pkt.msg.replace(/^\[([^\]]+)\]/, (_, name) => `[${DB.getNpcName(name)}]`) : pkt.msg;
+	NpcBox.setText(message, pkt.NAID);
 }
 
 /**
