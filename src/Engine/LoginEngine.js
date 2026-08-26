@@ -100,7 +100,7 @@ class LoginEngine {
 		}
 
 		if (!PACKETVER.value) {
-			UIManager.showErrorBox('Sorry, no PACKETVER configs found.');
+			UIManager.showErrorBox('未找到 PACKETVER 配置。');
 			return;
 		}
 
@@ -322,7 +322,7 @@ function onConnectionRequest(username, password) {
 				);
 
 				if (!encryptedPassword) {
-					UIManager.showErrorBox('Rijndael encryption failed. Check rijndaelKey and rijndaelChain config.');
+					UIManager.showErrorBox('Rijndael 加密失败，请检查 rijndaelKey 和 rijndaelChain 配置。');
 					return;
 				}
 

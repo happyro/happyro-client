@@ -18,6 +18,7 @@ describe('getLocalizedButtonLabel', () => {
 		['btn_exchange_dis.bmp', '交换'],
 		['btn_feed.bmp', '喂食'],
 		['btn_make.bmp', '创建'],
+		['btn_q_active.bmp', '启用'],
 		['bt_search_normal.bmp', '搜索'],
 		['bank/btn_deposit_out.bmp', '存款'],
 		['bank/btn_1000mil_out.bmp', '+1000万'],

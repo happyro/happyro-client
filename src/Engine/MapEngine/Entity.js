@@ -2558,13 +2558,13 @@ function onNotifyExp(pkt) {
 		case 1:
 			if (pkt.varID === 1) {
 				ChatBox.addText(
-					'Experience gained from Quest, Base:' + pkt.amount,
+					'任务获得基础经验：' + pkt.amount,
 					null,
 					ChatBox.FILTER.EXP,
 					'#A442DC'
 				);
 			} else if (pkt.varID === 2) {
-				ChatBox.addText('Experience gained from Quest, Job:' + pkt.amount, null, ChatBox.FILTER.EXP, '#A442DC');
+				ChatBox.addText('任务获得职业经验：' + pkt.amount, null, ChatBox.FILTER.EXP, '#A442DC');
 			}
 			break;
 	}
@@ -2587,7 +2587,7 @@ function onMarkMvp(pkt) {
 			}*/
 	}
 	if (pkt.infoType == 0) {
-		ChatBox.addText('Boss monster not found.', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+		ChatBox.addText('未找到 Boss 魔物。', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 	}
 }
 

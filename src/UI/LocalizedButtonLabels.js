@@ -28,6 +28,7 @@ const BUTTON_LABELS = Object.freeze({
 	'btn_ok_dis.bmp': '确定',
 	'btn_rewrite.bmp': '修改',
 	'btn_skill.bmp': '技能',
+	'btn_q_active.bmp': '启用',
 	'bt_search_normal.bmp': '搜索'
 });
 

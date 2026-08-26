@@ -189,7 +189,7 @@ function onReload() {
 
 	// WTF no servers ?
 	if (count === 0) {
-		UIManager.showMessageBox('Sorry, no server found.', 'ok', GameEngine.init);
+		UIManager.showMessageBox('未找到服务器。', 'ok', GameEngine.init);
 	}
 
 	// Just 1 server, skip the WinList

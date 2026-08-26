@@ -953,7 +953,7 @@ function renderItemList() {
 	if (!EnchantState.group) {
 		const empty = document.createElement('div');
 		empty.className = 'item_list_empty';
-		empty.textContent = 'Enchant data missing.';
+		empty.textContent = '附魔数据缺失。';
 		list.appendChild(empty);
 		return;
 	}
@@ -1956,7 +1956,7 @@ Enchant.onOpenEnchantUI = function onOpenEnchantUI(groupId) {
 	EnchantState.groupId = Number(groupId);
 	EnchantState.group = DB.getEnchantGroup(EnchantState.groupId);
 	if (!EnchantState.group) {
-		UIManager.showErrorBox('Enchant data missing for group ' + groupId + '.');
+		UIManager.showErrorBox('附魔组数据缺失：' + groupId + '。');
 	}
 	Enchant.append();
 	Enchant.ui.show();
