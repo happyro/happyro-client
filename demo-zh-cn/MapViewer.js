@@ -93697,6 +93697,261 @@ var init_P3CoreDungeonNpcNameTable = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/P3CoastalDungeonNpcNameTable.js
+var P3CoastalDungeonNpcNameTable_default;
+var init_P3CoastalDungeonNpcNameTable = __esmMin((() => {
+	P3CoastalDungeonNpcNameTable_default = {
+		"Bulletin Board": "公告栏",
+		"Eden Member Callandiva": "伊甸园成员卡兰迪瓦",
+		Gatekeeper: "守门人",
+		"Gemstone Bagger": "宝石装袋员",
+		Gills: "鳃",
+		"Immortal Hearts": "不死心脏",
+		"Kafra Employee": "卡普拉员工",
+		Shells: "贝壳",
+		Signposts: "路标",
+		Tentacles: "触手",
+		"Tool Dealer": "道具商人"
+	};
+}));
+//#endregion
+//#region src/DB/P3ClockTowerNpcNameTable.js
+var P3ClockTowerNpcNameTable_default;
+var init_P3ClockTowerNpcNameTable = __esmMin((() => {
+	P3ClockTowerNpcNameTable_default = {
+		ald008r: "钟楼地下随机传送点",
+		ald014r: "钟楼地下随机传送点",
+		ald015r: "钟楼地下随机传送点",
+		ald022r: "钟楼地下随机传送点",
+		"Belljamin Button": "贝尔贾明·巴顿",
+		clt006r: "钟楼随机传送点",
+		clt007r: "钟楼随机传送点",
+		clt014r: "钟楼随机传送点",
+		clt015r: "钟楼随机传送点",
+		clt016r: "钟楼随机传送点",
+		clt027r: "钟楼随机传送点",
+		clt028r: "钟楼随机传送点",
+		clt029r: "钟楼随机传送点",
+		clt030r: "钟楼随机传送点",
+		clt031r: "钟楼随机传送点",
+		"Evil Horns": "邪恶角",
+		Gatekeeper: "守门人"
+	};
+}));
+//#endregion
+//#region src/DB/P3EarlyDungeonNpcNameTable.js
+var P3EarlyDungeonNpcNameTable_default;
+var init_P3EarlyDungeonNpcNameTable = __esmMin((() => {
+	P3EarlyDungeonNpcNameTable_default = {
+		"Eden Member Cloud": "伊甸园成员克劳德",
+		"Flaming Spirit Man": "恩格尔·霍华德",
+		Grer: "格雷尔",
+		Mirko: "米尔科",
+		"Spirit Detecting Staff": "精灵探测杖",
+		"Tooth of Bat": "蝙蝠牙"
+	};
+}));
+//#endregion
+//#region src/DB/P3GlastHeimNpcNameTable.js
+var P3GlastHeimNpcNameTable_default;
+var init_P3GlastHeimNpcNameTable = __esmMin((() => {
+	P3GlastHeimNpcNameTable_default = {
+		"Bulletin Board": "公告栏",
+		"Dark magic master": "黑暗魔法大师",
+		"Delicate trace": "细微痕迹",
+		"Dispatched Instructor": "派驻教官",
+		"gl18-2": "地下监狱随机传送点",
+		Hugin: "胡金",
+		"Hugin's Butler": "胡金的管家",
+		"Hugin's Craftsman": "胡金的雕刻工匠",
+		"Hugin's follower": "胡金的追随者",
+		"Hugin's Magician": "胡金的魔法工匠",
+		"Kafra Employee": "卡普拉员工",
+		"Magician Nillem": "魔法师尼勒姆",
+		"Memory of King Schmidtz": "施密茨国王的记忆",
+		"Mysterious Energy": "神秘能量",
+		Phendark: "彭达尔克",
+		"Portrait collector": "肖像收藏家",
+		"Rune Leader Jungberg": "符文团长荣贝尔格",
+		"Rune Knight Staff": "符文骑士团员",
+		Rybio: "利维奥",
+		Signposts: "路标",
+		Zealotus: "吉尔塔斯"
+	};
+}));
+//#endregion
+//#region src/DB/P3ClassicDungeonNpcNameTable.js
+var P3ClassicDungeonNpcNameTable_default;
+var init_P3ClassicDungeonNpcNameTable = __esmMin((() => {
+	P3ClassicDungeonNpcNameTable_default = {
+		"Fishing Novice": "钓鱼初心者",
+		Nigirboran: "尼吉尔博兰",
+		mag02a_mag03a: "熔岩洞窟三层入口",
+		"Republic Guard": "共和国卫兵"
+	};
+}));
+//#endregion
+//#region src/DB/P3TurtleIslandNpcNameTable.js
+var P3TurtleIslandNpcNameTable_default;
+var init_P3TurtleIslandNpcNameTable = __esmMin((() => {
+	P3TurtleIslandNpcNameTable_default = {
+		"A pile of turtle crystal": "海龟水晶堆",
+		"Blue Flame": "蓝色火焰",
+		"Expert Flute Crafter": "专业笛子工匠",
+		Knight: "骑士",
+		"Knight Leader": "骑士团长",
+		"Map Examiner Tidun": "调查员提顿",
+		"Map Examiner Tsensor": "调查员特森泽",
+		"Map Examiner Tural": "调查员特尔",
+		Mudasamu: "穆达萨姆",
+		Sailor: "水手",
+		Signpost: "告示牌",
+		"Skull Stone": "骷髅石",
+		"Survival Instructor": "生存教官",
+		"Test Instructor": "实战考官",
+		"Tool Dealer": "道具商人",
+		"Turtle Pillar": "海龟柱",
+		"Turtle Statue": "海龟雕像",
+		"Turtle stone": "海龟岩石",
+		"Turtle Stone": "海龟岩石",
+		"Turtle Tree Roots": "海龟树根",
+		Valerie: "瓦莱丽"
+	};
+}));
+//#endregion
+//#region src/DB/P3RegionalDungeonNpcNameTable.js
+var P3RegionalDungeonNpcNameTable_default;
+var init_P3RegionalDungeonNpcNameTable = __esmMin((() => {
+	P3RegionalDungeonNpcNameTable_default = {
+		Signpost: "告示牌",
+		Soldier: "士兵",
+		AyoFootprint1: "足迹1",
+		AyoFootprint2: "足迹2",
+		AyoFootprint3: "足迹3",
+		AyoFootprint4: "足迹4",
+		AyoFootprint5: "足迹5",
+		AyoFootprint6: "足迹6",
+		AyoFootprint7: "足迹7",
+		AyoFootprint8: "足迹8",
+		"Haggard Man": "阿农",
+		Iara: "伊亚拉",
+		Recluse: "贾西",
+		"Gatekeeper of Krakatau": "克拉卡托火山守门人",
+		"Spirit Detecting Staff": "精灵探测杖",
+		"Strange dead body": "奇怪的尸体",
+		"trace1-1": "痕迹1-1",
+		"trace1-2": "痕迹1-2",
+		"trace1-3": "痕迹1-3",
+		"trace1-4": "痕迹1-4",
+		"trace1-5": "痕迹1-5",
+		"trace2-1": "痕迹2-1",
+		"trace2-2": "痕迹2-2",
+		"trace2-3": "痕迹2-3",
+		"trace2-4": "痕迹2-4",
+		"trace2-5": "痕迹2-5",
+		"trace2-6": "痕迹2-6",
+		"trace3-1": "痕迹3-1",
+		"trace3-2": "痕迹3-2",
+		"trace3-3": "痕迹3-3",
+		"trace3-4": "痕迹3-4",
+		"trace3-5": "痕迹3-5",
+		"trace3-6": "痕迹3-6",
+		"trace3-7": "痕迹3-7",
+		"Baba Yaga": "芭芭雅嘎",
+		Cow: "牛",
+		"Gray Wolf": "灰狼",
+		"Maria Morebna": "玛丽亚·莫雷布娜",
+		"Noisy Coffin": "吵闹的棺材",
+		Soldier1: "士兵",
+		Soldier2: "士兵",
+		Soldier3: "士兵"
+	};
+}));
+//#endregion
+//#region src/DB/P3MidgameDungeonNpcNameTable.js
+var P3MidgameDungeonNpcNameTable_default;
+var init_P3MidgameDungeonNpcNameTable = __esmMin((() => {
+	P3MidgameDungeonNpcNameTable_default = {
+		"3rdf_warp": "三层入口",
+		"Blazing Fire": "熊熊烈火",
+		"Bloody Knight Statue": "血色骑士雕像",
+		"Blue Angel Statue": "蓝色天使雕像",
+		"Brilliant Statue": "光辉雕像",
+		"Bronze Statue": "青铜雕像",
+		"Dark Devil Statue": "黑暗恶魔雕像",
+		"Dispatched Instructor": "派驻教官",
+		Elysia: "艾莉西亚",
+		"Entrance Guide": "入口向导",
+		Exit1: "出口",
+		"Gold Religious Statue": "金色宗教雕像",
+		"Green Wiseman Statue": "绿色贤者雕像",
+		Guide: "向导",
+		"Hot Land Surface": "灼热地表",
+		"Illusion Stone Research": "幻象石研究",
+		jupe_goto2F: "朱诺斯二层入口",
+		lhz_dun03_lhz_dun04: "生体实验室四层入口",
+		"lhz_dun5-1": "生体实验室三层入口",
+		"Machine Statue": "机械雕像",
+		"Man Stuck in Ice": "冰中男子",
+		"Map Examiner Dove": "调查员多布",
+		Maram: "马拉姆",
+		"Red Flame": "红色火焰",
+		"Rekenber Guard": "雷根贝勒卫兵",
+		"Restricted Area": "禁区",
+		"Rune Device": "符文装置",
+		sanctuary01: "拉赫圣域随机传送点",
+		Sculpture: "雕塑",
+		"Shining Crystal": "闪耀水晶",
+		"Spirit Detecting Staff": "精灵探测杖",
+		"Splendid Sword": "华丽之剑",
+		"Stone Statue": "石像",
+		"Suspicious Monster": "可疑魔物",
+		"to 7th Floor": "七层入口",
+		"Trace of an adventurer": "冒险者的痕迹",
+		"Unethical Machine": "非伦理机器"
+	};
+}));
+//#endregion
+//#region src/DB/P3RemainingCommonNpcNameTable.js
+var P3RemainingCommonNpcNameTable_default;
+var init_P3RemainingCommonNpcNameTable = __esmMin((() => {
+	P3RemainingCommonNpcNameTable_default = {
+		"An entrance somewhere": "某处入口",
+		Bear: "熊",
+		enter_ein_dun03: "艾因贝赫矿山三层入口",
+		Resident: "居民",
+		"Teddy Bear": "玩具熊",
+		"Entrance Device": "入口装置",
+		"Heavy Door": "沉重的门",
+		kh_dun04: "奇尔工厂四区入口",
+		"Mechanical Device": "机械装置",
+		Signboard: "告示牌",
+		Biscuit: "饼干",
+		"Chapped Skin": "干裂的皮肤",
+		"Dry Skin": "干燥的皮肤",
+		"Hard Skin": "坚硬的皮肤",
+		"Linguist Devore": "语言学家德沃尔",
+		"Map Examiner Mother One": "调查员马德尔翁",
+		"Prickly Skin": "扎人的皮肤",
+		"Star Candy": "星星糖",
+		"Weird Entrance": "奇怪的入口",
+		Books: "书籍",
+		Creature: "生物",
+		"Dead Crow": "乌鸦尸体",
+		"Dead Man": "死者",
+		Larjes: "拉尔杰斯",
+		Man: "男子",
+		Out_from_Monastery: "修道院出口",
+		outtoin_01: "修道院入口",
+		Signpost: "告示牌",
+		"Trace of an adventurer": "冒险者的痕迹",
+		Boatman: "船夫",
+		"Valkyrie Illusion": "女武神幻影",
+		warpinside: "神殿内部入口",
+		"Young Man": "青年"
+	};
+}));
+//#endregion
 //#region src/DB/NpcNameTable.js
 var PACKET_NAME_VISIBLE_LENGTH, NpcNameTable;
 var init_NpcNameTable = __esmMin((() => {
@@ -93707,6 +93962,15 @@ var init_NpcNameTable = __esmMin((() => {
 	init_P2YunoFieldNpcNameTable();
 	init_P2MajorCityFieldNpcNameTable();
 	init_P3CoreDungeonNpcNameTable();
+	init_P3CoastalDungeonNpcNameTable();
+	init_P3ClockTowerNpcNameTable();
+	init_P3EarlyDungeonNpcNameTable();
+	init_P3GlastHeimNpcNameTable();
+	init_P3ClassicDungeonNpcNameTable();
+	init_P3TurtleIslandNpcNameTable();
+	init_P3RegionalDungeonNpcNameTable();
+	init_P3MidgameDungeonNpcNameTable();
+	init_P3RemainingCommonNpcNameTable();
 	PACKET_NAME_VISIBLE_LENGTH = 23;
 	NpcNameTable = {
 		...SecondStageNpcNameTable_default,
@@ -93795,7 +94059,16 @@ var init_NpcNameTable = __esmMin((() => {
 		...P2MjolnirFieldNpcNameTable_default,
 		...P2YunoFieldNpcNameTable_default,
 		...P2MajorCityFieldNpcNameTable_default,
-		...P3CoreDungeonNpcNameTable_default
+		...P3CoreDungeonNpcNameTable_default,
+		...P3CoastalDungeonNpcNameTable_default,
+		...P3ClockTowerNpcNameTable_default,
+		...P3EarlyDungeonNpcNameTable_default,
+		...P3GlastHeimNpcNameTable_default,
+		...P3ClassicDungeonNpcNameTable_default,
+		...P3TurtleIslandNpcNameTable_default,
+		...P3RegionalDungeonNpcNameTable_default,
+		...P3MidgameDungeonNpcNameTable_default,
+		...P3RemainingCommonNpcNameTable_default
 	};
 	for (const [source, translated] of Object.entries(NpcNameTable)) {
 		if (!/^[\u0020-\u007e]+$/.test(source) || source.length <= PACKET_NAME_VISIBLE_LENGTH) continue;
