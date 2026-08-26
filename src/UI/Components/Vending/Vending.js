@@ -432,7 +432,7 @@ function addItem(content, item, isinput) {
 		container.className = 'item-container';
 
 		const amountText = _type === Vending.Type.BUYING_STORE ? item.total : item.IsStackable ? item.count : '';
-		const eaHtml = _type === Vending.Type.BUYING_STORE ? `<div class="amount_">${item.count} ea</div>` : '';
+		const eaHtml = _type === Vending.Type.BUYING_STORE ? `<div class="amount_">${item.count} 个</div>` : '';
 
 		container.innerHTML =
 			`<div class="item output" draggable="true" data-index="${item.index}">` +
@@ -858,7 +858,7 @@ function onItemOver() {
 	overlay.style.display = '';
 	overlay.style.top = `${this.offsetTop - 20}px`;
 	overlay.style.left = `${this.offsetLeft - 10}px`;
-	overlay.textContent = `${DB.getItemName(item)} ${item.count || 1} ea`;
+	overlay.textContent = `${DB.getItemName(item)} ${item.count || 1} 个`;
 }
 
 function onItemOut() {

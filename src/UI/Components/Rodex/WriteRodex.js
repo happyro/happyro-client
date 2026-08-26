@@ -431,7 +431,7 @@ function onItemOver(event) {
 	overlay.style.display = '';
 	overlay.style.top = `${pos.top}px`;
 	overlay.style.left = `${pos.left + 35}px`;
-	overlay.textContent = `${DB.getItemName(item)} ${item.count || 1} ea`;
+	overlay.textContent = `${DB.getItemName(item)} ${item.count || 1} 个`;
 
 	if (item.IsIdentified) {
 		overlay.classList.remove('grey');

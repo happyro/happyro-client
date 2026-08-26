@@ -400,7 +400,7 @@ class AchievementComponent extends GUIComponent {
 
 				item.innerHTML = `
 					<div class="icon" data-background="achievement_re/icon_${groupName}.bmp"></div>
-					<div class="title">${info.title || 'Unknown'}</div>
+					<div class="title">${info.title || '未知'}</div>
 					<div class="desc">${info.content && info.content.summary ? info.content.summary : ''}</div>
 					<div class="reward-icon" data-background="${isClaimed ? 'achievement_re/badge_complete.bmp' : ''}"></div>
 					<div class="reward-pts">${info.score || 0}</div>

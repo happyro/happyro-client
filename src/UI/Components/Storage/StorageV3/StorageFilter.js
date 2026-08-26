@@ -205,7 +205,7 @@ StorageFilter.prototype.onItemOver = function onItemOver(itemEl, root) {
 		overlay.style.display = '';
 		overlay.style.top = `${itemEl.offsetTop - 10}px`;
 		overlay.style.left = `${itemEl.offsetLeft + 35}px`;
-		overlay.innerHTML = `${DB.getItemName(item)} ${item.count || 1} ea`;
+		overlay.innerHTML = `${DB.getItemName(item)} ${item.count || 1} 个`;
 
 		if (item.IsIdentified) {
 			overlay.classList.remove('grey');

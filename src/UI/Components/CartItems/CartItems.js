@@ -639,7 +639,7 @@ function onItemOver(_e) {
 		return;
 	}
 
-	let quantity = ' ea';
+	let quantity = ' 个';
 	if (
 		(item.type === ItemType.WEAPON || item.type === ItemType.ARMOR) &&
 		item.Options &&
