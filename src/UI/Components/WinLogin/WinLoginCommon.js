@@ -128,6 +128,12 @@ export function createWinLogin({ name, htmlText, cssText }) {
 	}
 
 	function signup() {
+		const registrationNotice = Configs.get('registrationNotice');
+		if (registrationNotice) {
+			UIManager.showMessageBox(registrationNotice, 'ok');
+			return;
+		}
+
 		const url = Configs.get('registrationweb');
 		if (url) {
 			UIManager.showPromptBox(
