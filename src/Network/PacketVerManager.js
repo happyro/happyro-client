@@ -152,11 +152,11 @@ function parseCharList(fp, end) {
 		if (matches.length !== 1) {
 			import('UI/UIManager.js').then(UIManager => {
 				UIManager.default.showErrorBox(
-					'CHARACTER_INFO size error!! blockSize : "' +
+					'CHARACTER_INFO 封包大小错误！blockSize: "' +
 						blockSize +
-						'", list length: ' +
+						'"，列表长度：' +
 						length +
-						', auto-detect...'
+						'，正在自动检测……'
 				);
 			});
 			return out;
