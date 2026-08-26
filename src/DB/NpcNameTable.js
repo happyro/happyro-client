@@ -4,6 +4,7 @@ import P0P1FieldNpcNameTable from './P0P1FieldNpcNameTable';
 import P2MjolnirFieldNpcNameTable from './P2MjolnirFieldNpcNameTable';
 import P2YunoFieldNpcNameTable from './P2YunoFieldNpcNameTable';
 import P2MajorCityFieldNpcNameTable from './P2MajorCityFieldNpcNameTable';
+import P3CoreDungeonNpcNameTable from './P3CoreDungeonNpcNameTable';
 
 const PACKET_NAME_VISIBLE_LENGTH = 23;
 
@@ -93,7 +94,8 @@ const NpcNameTable = {
 	...P0P1FieldNpcNameTable,
 	...P2MjolnirFieldNpcNameTable,
 	...P2YunoFieldNpcNameTable,
-	...P2MajorCityFieldNpcNameTable
+	...P2MajorCityFieldNpcNameTable,
+	...P3CoreDungeonNpcNameTable
 };
 
 for (const [source, translated] of Object.entries(NpcNameTable)) {
