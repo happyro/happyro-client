@@ -1,8 +1,10 @@
 import PronteraNpcNameTable from './PronteraNpcNameTable';
+import SecondStageNpcNameTable from './SecondStageNpcNameTable';
 
 const PACKET_NAME_VISIBLE_LENGTH = 23;
 
 const NpcNameTable = {
+	...SecondStageNpcNameTable,
 	...PronteraNpcNameTable,
 	Fabian: '法比安',
 	Steiner: '施泰纳',
@@ -86,12 +88,6 @@ const NpcNameTable = {
 	'Warmhearted woman': '热心女士'
 };
 
-// Event-generated labels in the core-town scripts are not stable terms. Keep
-// an unmapped ASCII NPC name Chinese on the client instead of leaking the
-// packet's English value into nameplates and dialog titles.
-const fallbackNpcName = name =>
-	/^[\u0020-\u007e]+$/.test(name) && !/^Unknown(?: NPC)?(?:$|\s)/.test(name) ? '城镇居民' : name;
-
 for (const [source, translated] of Object.entries(NpcNameTable)) {
 	if (!/^[\u0020-\u007e]+$/.test(source) || source.length <= PACKET_NAME_VISIBLE_LENGTH) {
 		continue;
@@ -104,14 +100,4 @@ for (const [source, translated] of Object.entries(NpcNameTable)) {
 	NpcNameTable[packetName] = translated;
 }
 
-export default new Proxy(NpcNameTable, {
-	get(target, property, receiver) {
-		if (typeof property !== 'string') {
-			return Reflect.get(target, property, receiver);
-		}
-		return Reflect.has(target, property) ? Reflect.get(target, property, receiver) : fallbackNpcName(property);
-	},
-	has(target, property) {
-		return Reflect.has(target, property) || (typeof property === 'string' && /^[\u0020-\u007e]+$/.test(property));
-	}
-});
+export default NpcNameTable;
