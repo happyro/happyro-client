@@ -4,6 +4,7 @@ import NpcNameTable from '../../src/DB/NpcNameTable.js';
 import PronteraNpcNameTable from '../../src/DB/PronteraNpcNameTable.js';
 import SecondStageNpcNameTable from '../../src/DB/SecondStageNpcNameTable.js';
 import P0P1FieldNpcNameTable from '../../src/DB/P0P1FieldNpcNameTable.js';
+import P2MjolnirFieldNpcNameTable from '../../src/DB/P2MjolnirFieldNpcNameTable.js';
 
 describe('PronteraNpcNameTable', () => {
 	it('localizes every registered visible name', () => {
@@ -104,6 +105,32 @@ describe('P0P1FieldNpcNameTable', () => {
 
 	it('covers every P0/P1 field name truncated by the packet field', () => {
 		for (const [source, translated] of Object.entries(P0P1FieldNpcNameTable)) {
+			if (/^[\u0020-\u007e]+$/.test(source) && source.length > 23) {
+				expect(NpcNameTable[source.slice(0, 23)], source).toBe(translated);
+			}
+		}
+	});
+});
+
+describe('P2MjolnirFieldNpcNameTable', () => {
+	it('contains a Chinese translation for every audited ASCII name', () => {
+		const entries = Object.entries(P2MjolnirFieldNpcNameTable);
+
+		expect(entries).toHaveLength(15);
+		for (const [source, translated] of entries) {
+			expect(translated, source).toMatch(/[\u3400-\u9fff]/);
+		}
+	});
+
+	it('covers representative service, quest, and collection NPC names', () => {
+		expect(NpcNameTable['Kafra Employee']).toBe('卡普拉员工');
+		expect(NpcNameTable['Dwarf Blacksmith']).toBe('矮人铁匠');
+		expect(NpcNameTable["Muriniel's Cottage"]).toBe('穆里涅尔的小屋');
+		expect(NpcNameTable['Animal Skin']).toBe('兽皮');
+	});
+
+	it('covers every Mjolnir field name truncated by the packet field', () => {
+		for (const [source, translated] of Object.entries(P2MjolnirFieldNpcNameTable)) {
 			if (/^[\u0020-\u007e]+$/.test(source) && source.length > 23) {
 				expect(NpcNameTable[source.slice(0, 23)], source).toBe(translated);
 			}
