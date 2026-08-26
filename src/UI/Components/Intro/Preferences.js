@@ -30,7 +30,7 @@ const _preferences = Preferences.get(
  */
 function load(root) {
 	if (Graphics.screensize === 'full' && !Context.isFullScreen()) {
-		Graphics.screensize = '800x600';
+		Graphics.screensize = '1024x768';
 	}
 
 	const q = sel => root.querySelector(sel);
