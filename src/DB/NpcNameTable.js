@@ -2,6 +2,7 @@ import PronteraNpcNameTable from './PronteraNpcNameTable';
 import SecondStageNpcNameTable from './SecondStageNpcNameTable';
 import P0P1FieldNpcNameTable from './P0P1FieldNpcNameTable';
 import P2MjolnirFieldNpcNameTable from './P2MjolnirFieldNpcNameTable';
+import P2YunoFieldNpcNameTable from './P2YunoFieldNpcNameTable';
 
 const PACKET_NAME_VISIBLE_LENGTH = 23;
 
@@ -89,7 +90,8 @@ const NpcNameTable = {
 	Woman: '女性居民',
 	'Warmhearted woman': '热心女士',
 	...P0P1FieldNpcNameTable,
-	...P2MjolnirFieldNpcNameTable
+	...P2MjolnirFieldNpcNameTable,
+	...P2YunoFieldNpcNameTable
 };
 
 for (const [source, translated] of Object.entries(NpcNameTable)) {
