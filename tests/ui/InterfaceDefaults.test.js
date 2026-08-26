@@ -57,12 +57,13 @@ describe('interface defaults', () => {
 		expect(mapViewerSource).toContain('Intro.allowLocalFiles = true');
 	});
 
-	it('keeps the character creation cancel button inside the window', () => {
-		expect(charCreateV4Css).toMatch(/#charcreate_v4 \.cancel \{[^}]*right: 15px;/s);
-		expect(charCreateV4Html).toMatch(
-			/class="btn cancel"\s+bg="make_character_ver2\/bt_close_normal\.bmp"/
+	it('shows one character creation cancel icon inside the window', () => {
+		expect(charCreateV4Css).toMatch(
+			/#charcreate_v4 \.cancel \{[^}]*width: 17px;[^}]*height: 16px;[^}]*right: 9px;/s
 		);
-		expect(charCreateV4Html).not.toMatch(/class="btn cancel"\s+data-localized-label=/);
+		expect(charCreateV4Html.match(/class="btn cancel"/g)).toHaveLength(1);
+		expect(charCreateV4Html).toContain('<ui-button class="btn cancel" aria-label="取消"></ui-button>');
+		expect(charCreateV4Html).not.toContain('make_character_ver2/bt_close_normal.bmp');
 	});
 
 	it('lowers the item quantity confirmation button', () => {

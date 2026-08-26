@@ -38,6 +38,16 @@ describe('PronteraNpcNameTable', () => {
 		expect(NpcNameTable.Mage).toBe('魔法师');
 		expect(NpcNameTable['New Guild Master']).toBe('新任公会会长');
 		expect(NpcNameTable['Unknown Machine']).toBe('未知机器');
+		expect(NpcNameTable['Wounded Swordsman']).toBe('受伤的剑士');
+		expect(NpcNameTable['Captain Carocc']).toBe('卡洛克船长');
+		expect(NpcNameTable.Lumin).toBe('卢敏');
+		expect(NpcNameTable['Vigilante Ajegna']).toBe('治安队员阿杰尼亚');
+		expect(NpcNameTable['Applicant Paul']).toBe('申请者保罗');
+		expect(NpcNameTable['Applicant MacCarnie']).toBe('申请者麦卡尼');
+		expect(NpcNameTable['Vigilante Gnocchi']).toBe('治安队员尼奥基');
+		expect(NpcNameTable['Vigilante Aglio']).toBe('治安队员阿利奥');
+		expect(NpcNameTable.Sloth).toBe('懒汉');
+		expect(NpcNameTable['Well-known Troublemaker']).toBe('知名捣蛋鬼');
 	});
 
 	it('covers every name truncated by the 24-byte packet field', () => {
@@ -55,6 +65,7 @@ describe('PronteraNpcNameTable', () => {
 		);
 		expect(DB.getNpcName('Unknown NPC#1')).toBe('Unknown NPC#1');
 		expect(DB.getNpcName('Phantasmagorika Spokesp')).toBe('幻影机构发言人');
+		expect(DB.getNpcName('Vigilante Ajegna#doram0')).toBe('治安队员阿杰尼亚#doram0');
 	});
 });
 
