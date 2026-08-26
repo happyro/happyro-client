@@ -5,6 +5,7 @@ import PronteraNpcNameTable from '../../src/DB/PronteraNpcNameTable.js';
 import SecondStageNpcNameTable from '../../src/DB/SecondStageNpcNameTable.js';
 import P0P1FieldNpcNameTable from '../../src/DB/P0P1FieldNpcNameTable.js';
 import P2MjolnirFieldNpcNameTable from '../../src/DB/P2MjolnirFieldNpcNameTable.js';
+import P2YunoFieldNpcNameTable from '../../src/DB/P2YunoFieldNpcNameTable.js';
 
 describe('PronteraNpcNameTable', () => {
 	it('localizes every registered visible name', () => {
@@ -131,6 +132,33 @@ describe('P2MjolnirFieldNpcNameTable', () => {
 
 	it('covers every Mjolnir field name truncated by the packet field', () => {
 		for (const [source, translated] of Object.entries(P2MjolnirFieldNpcNameTable)) {
+			if (/^[\u0020-\u007e]+$/.test(source) && source.length > 23) {
+				expect(NpcNameTable[source.slice(0, 23)], source).toBe(translated);
+			}
+		}
+	});
+});
+
+describe('P2YunoFieldNpcNameTable', () => {
+	it('contains a Chinese translation for every audited ASCII name', () => {
+		const entries = Object.entries(P2YunoFieldNpcNameTable);
+
+		expect(entries).toHaveLength(19);
+		for (const [source, translated] of entries) {
+			expect(translated, source).toMatch(/[\u3400-\u9fff]/);
+		}
+	});
+
+	it('covers representative story, service, and object names', () => {
+		expect(NpcNameTable['Border Guards']).toBe('边境守卫');
+		expect(NpcNameTable['Helmut Roegenburg']).toBe('赫尔穆特·罗根堡');
+		expect(NpcNameTable['Excavator Guide']).toBe('挖掘向导');
+		expect(NpcNameTable['Security Guard']).toBe('保安');
+		expect(NpcNameTable['Wooden Board']).toBe('木板');
+	});
+
+	it('covers every Yuno field name truncated by the packet field', () => {
+		for (const [source, translated] of Object.entries(P2YunoFieldNpcNameTable)) {
 			if (/^[\u0020-\u007e]+$/.test(source) && source.length > 23) {
 				expect(NpcNameTable[source.slice(0, 23)], source).toBe(translated);
 			}
