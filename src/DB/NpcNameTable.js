@@ -5,6 +5,15 @@ import P2MjolnirFieldNpcNameTable from './P2MjolnirFieldNpcNameTable';
 import P2YunoFieldNpcNameTable from './P2YunoFieldNpcNameTable';
 import P2MajorCityFieldNpcNameTable from './P2MajorCityFieldNpcNameTable';
 import P3CoreDungeonNpcNameTable from './P3CoreDungeonNpcNameTable';
+import P3CoastalDungeonNpcNameTable from './P3CoastalDungeonNpcNameTable';
+import P3ClockTowerNpcNameTable from './P3ClockTowerNpcNameTable';
+import P3EarlyDungeonNpcNameTable from './P3EarlyDungeonNpcNameTable';
+import P3GlastHeimNpcNameTable from './P3GlastHeimNpcNameTable';
+import P3ClassicDungeonNpcNameTable from './P3ClassicDungeonNpcNameTable';
+import P3TurtleIslandNpcNameTable from './P3TurtleIslandNpcNameTable';
+import P3RegionalDungeonNpcNameTable from './P3RegionalDungeonNpcNameTable';
+import P3MidgameDungeonNpcNameTable from './P3MidgameDungeonNpcNameTable';
+import P3RemainingCommonNpcNameTable from './P3RemainingCommonNpcNameTable';
 
 const PACKET_NAME_VISIBLE_LENGTH = 23;
 
@@ -95,7 +104,16 @@ const NpcNameTable = {
 	...P2MjolnirFieldNpcNameTable,
 	...P2YunoFieldNpcNameTable,
 	...P2MajorCityFieldNpcNameTable,
-	...P3CoreDungeonNpcNameTable
+	...P3CoreDungeonNpcNameTable,
+	...P3CoastalDungeonNpcNameTable,
+	...P3ClockTowerNpcNameTable,
+	...P3EarlyDungeonNpcNameTable,
+	...P3GlastHeimNpcNameTable,
+	...P3ClassicDungeonNpcNameTable,
+	...P3TurtleIslandNpcNameTable,
+	...P3RegionalDungeonNpcNameTable,
+	...P3MidgameDungeonNpcNameTable,
+	...P3RemainingCommonNpcNameTable
 };
 
 for (const [source, translated] of Object.entries(NpcNameTable)) {
