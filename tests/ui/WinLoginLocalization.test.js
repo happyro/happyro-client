@@ -11,6 +11,8 @@ describe('WinLogin localization', () => {
 	});
 
 	it('uses Chinese simplified-registration instructions', () => {
+		expect(loginCommonSource).toContain("Configs.get('registrationNotice')");
+		expect(loginCommonSource).toContain('UIManager.showMessageBox(registrationNotice');
 		expect(loginCommonSource).toContain('当前支持快速注册');
 		expect(loginCommonSource).toContain('_M（男）');
 		expect(loginCommonSource).toContain('_F（女）');
