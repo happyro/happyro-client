@@ -13,7 +13,7 @@ const defaultGraphicsSettings = {
 	/**
 	 * Game size
 	 */
-	screensize: '800x600',
+	screensize: '1024x768',
 
 	/*
 	 * Game quality detail
