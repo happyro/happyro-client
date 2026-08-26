@@ -2,6 +2,7 @@
 	<div class="win_login">
 		<ui-image src="login_interface/bg_login.tga"></ui-image>
 		<!-- User Auth -->
+		<div class="server-name">HappyRO</div>
 		<input id="user" class="user" type="text" value="" />
 		<input id="pass" class="pass" type="password" value="" />
 		<button id="save" class="save" type="button" role="checkbox" aria-label="记住账号" aria-checked="false">
@@ -11,11 +12,17 @@
 		<!-- Buttons -->
 		<button
 			id="btn_connect"
-			class="btn connect localized-login"
+			class="btn connect"
 			type="submit"
-		>
+			data-background="login_interface/bt_start_normal.bmp"
+			data-hover="login_interface/bt_start_over.bmp"
+			data-down="login_interface/bt_start_press.bmp"
+		></button>
+		<!--
+		<button id="btn_connect" class="btn connect localized-login" type="submit">
 			登录
 		</button>
+		-->
 		<button
 			id="btn_connect"
 			class="btn signup"
