@@ -7,7 +7,6 @@
  */
 
 import DB from 'DB/DBManager.js';
-import Client from 'Core/Client.js';
 import Configs from 'Core/Configs.js';
 import Preferences from 'Core/Preferences.js';
 import KEYS from 'Controls/KeyEventHandler.js';
@@ -63,12 +62,7 @@ export function createWinLogin({ name, htmlText, cssText }) {
 		_inputUsername.value = _preferences.saveID ? _preferences.ID : '';
 		_inputPassword.value = '';
 
-		Client.loadFile(
-			`${DB.INTERFACE_PATH}login_interface/chk_save${_preferences.saveID ? 'on' : 'off'}.bmp`,
-			url => {
-				_buttonSave.style.backgroundImage = 'url(' + url + ')';
-			}
-		);
+		updateSaveButton();
 
 		if (_preferences.ID.length) {
 			_inputPassword.focus();
@@ -105,12 +99,12 @@ export function createWinLogin({ name, htmlText, cssText }) {
 
 	function toggleSaveButton() {
 		_preferences.saveID = !_preferences.saveID;
-		Client.loadFile(
-			`${DB.INTERFACE_PATH}login_interface/chk_save${_preferences.saveID ? 'on' : 'off'}.bmp`,
-			url => {
-				_buttonSave.style.backgroundImage = 'url(' + url + ')';
-			}
-		);
+		updateSaveButton();
+	}
+
+	function updateSaveButton() {
+		_buttonSave.classList.toggle('is-checked', _preferences.saveID);
+		_buttonSave.setAttribute('aria-checked', String(_preferences.saveID));
 	}
 
 	function exit() {
@@ -147,7 +141,7 @@ export function createWinLogin({ name, htmlText, cssText }) {
 			);
 		} else {
 			UIManager.showPromptBox(
-				'No registration URL was provided.\nIf this server uses simplified registration, then input your new:\n - Username followed by _M for Male and _F for Female account (Eg: MyUser_M)\n - Password.',
+				'当前支持快速注册：在新账号名末尾添加 _M（男）或 _F（女），输入要设置的密码后登录。\n例如：HappyRO_M',
 				'ok',
 				'cancel',
 				null,
