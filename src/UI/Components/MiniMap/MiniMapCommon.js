@@ -9,6 +9,7 @@
  */
 
 import DB from 'DB/DBManager.js';
+import MiniMapTable from 'DB/Map/MiniMapTable.js';
 import Client from 'Core/Client.js';
 import Preferences from 'Core/Preferences.js';
 import Session from 'Engine/SessionStorage.js';
@@ -223,7 +224,9 @@ export function createMiniMap({
 
 		_towninfo = DB.getTownInfo(mapname.replace(/\..*/, ''));
 
-		let path = DB.INTERFACE_PATH.replace('data/texture/', '') + 'map/' + mapname.replace(/\..*/, '.bmp');
+		const mapBaseName = mapname.replace(/\..*/, '');
+		const miniMapBaseName = MiniMapTable[mapBaseName] || mapBaseName;
+		let path = DB.INTERFACE_PATH.replace('data/texture/', '') + 'map/' + miniMapBaseName + '.bmp';
 		path = path.replace(/\//g, '\\');
 		path = DB.mapalias[path] || path;
 
