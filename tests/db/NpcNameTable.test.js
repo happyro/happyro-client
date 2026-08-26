@@ -3,6 +3,7 @@ import DB from '../../src/DB/DBManager.js';
 import NpcNameTable from '../../src/DB/NpcNameTable.js';
 import PronteraNpcNameTable from '../../src/DB/PronteraNpcNameTable.js';
 import SecondStageNpcNameTable from '../../src/DB/SecondStageNpcNameTable.js';
+import P0P1FieldNpcNameTable from '../../src/DB/P0P1FieldNpcNameTable.js';
 
 describe('PronteraNpcNameTable', () => {
 	it('localizes every registered visible name', () => {
@@ -75,5 +76,37 @@ describe('SecondStageNpcNameTable', () => {
 
 	it('does not disguise an unaudited English name as translated', () => {
 		expect(DB.getNpcName('Unaudited NPC')).toBe('Unaudited NPC');
+	});
+});
+
+describe('P0P1FieldNpcNameTable', () => {
+	it('contains a Chinese translation for every audited ASCII name', () => {
+		const entries = Object.entries(P0P1FieldNpcNameTable);
+
+		expect(entries).toHaveLength(98);
+		for (const [source, translated] of entries) {
+			expect(translated, source).toMatch(/[\u3400-\u9fff]/);
+		}
+	});
+
+	it('covers representative names from all four field batches', () => {
+		expect(NpcNameTable['Culvert Guardian']).toBe('地下水道守卫');
+		expect(NpcNameTable['Map Examiner Gefil']).toBe('地图调查员杰菲尔');
+		expect(NpcNameTable['Continental Guard']).toBe('大陆卫队');
+		expect(NpcNameTable.Zoologist).toBe('动物学家');
+	});
+
+	it('uses context-neutral translations for names shared with town maps', () => {
+		expect(NpcNameTable.Signpost).toBe('告示牌');
+		expect(NpcNameTable['Mad Scientist']).toBe('疯狂科学家');
+		expect(NpcNameTable['Suspicious Man']).toBe('可疑男子');
+	});
+
+	it('covers every P0/P1 field name truncated by the packet field', () => {
+		for (const [source, translated] of Object.entries(P0P1FieldNpcNameTable)) {
+			if (/^[\u0020-\u007e]+$/.test(source) && source.length > 23) {
+				expect(NpcNameTable[source.slice(0, 23)], source).toBe(translated);
+			}
+		}
 	});
 });
