@@ -278,6 +278,10 @@ NpcBox.addNext = function addNext(gid) {
 	NpcBox.ownerID = gid;
 	const root = NpcBox.getRoot();
 	const nextBtn = root.querySelector('.next');
+	const closeBtn = root.querySelector('.close');
+	if (closeBtn) {
+		closeBtn.style.display = 'none';
+	}
 	if (nextBtn) {
 		nextBtn.style.display = 'block';
 	}
@@ -292,6 +296,10 @@ NpcBox.addClose = function addClose(gid) {
 	NpcBox.ownerID = gid;
 	const root = NpcBox.getRoot();
 	const closeBtn = root.querySelector('.close');
+	const nextBtn = root.querySelector('.next');
+	if (nextBtn) {
+		nextBtn.style.display = 'none';
+	}
 	if (closeBtn) {
 		closeBtn.style.display = 'block';
 	}

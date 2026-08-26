@@ -44,6 +44,10 @@ import JobHitSoundTable from './Jobs/JobHitSoundTable.js';
 import WeaponTrailTable from './Items/WeaponTrailTable.js';
 import TownInfo from './TownInfo.js';
 import StatusInfo from './Status/StatusInfo.js';
+import {
+	restoreLocalizedStatusDescription,
+	snapshotLocalizedStatusDescriptions
+} from './Status/StatusDescriptionLocalization.js';
 import SC from './Status/StatusConst.js';
 import XmlParse from 'Vendors/xmlparse.js';
 import Base62 from 'Utils/Base62.js';
@@ -53,6 +57,8 @@ import PetHungryState from './Pets/PetHungryState.js';
 import PetFriendlyState from './Pets/PetFriendlyState.js';
 import PetMessageConst from './Pets/PetMessageConst.js';
 import MapInfo from './Map/MapTable.js';
+import { mergeLocalizedMapInfo } from './Map/MapInfoLocalization.js';
+import SignBoardTranslationTable from './SignBoardTranslationTable.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import PACKETVER from 'Network/PacketVerManager.js';
@@ -150,9 +156,7 @@ let EnchantListTable = {};
  * @const {Object} SignBoardTranslated Table
  */
 const SignBoardTranslatedTable = {};
-const SignBoardOverrides = {
-	'낙원단 공간이동사': '乐园团空间传送员'
-};
+const SignBoardOverrides = SignBoardTranslationTable;
 
 /**
  * @type {Object} SignBoard Table
@@ -616,7 +620,7 @@ class DB {
 					function (json) {
 						for (const key in json) {
 							if (json.hasOwnProperty(key)) {
-								MapInfo[key] = json[key];
+								MapInfo[key] = mergeLocalizedMapInfo(json[key], LocalizedMapInfo[key]);
 							}
 						}
 						updateMapTable();
@@ -6844,6 +6848,7 @@ function loadSkillTreeViewData(filename, callback, onEnd) {
  */
 function loadStateIconInfo(basePath, callback, onEnd) {
 	const files = ['efstids.lub', 'stateiconimginfo.lub', 'stateiconinfo.lub'];
+	const localizedStatusDescriptions = snapshotLocalizedStatusDescriptions(StatusInfo);
 
 	const loadedBuffers = [];
 
@@ -6905,13 +6910,16 @@ function loadStateIconInfo(basePath, callback, onEnd) {
 				}
 				StatusInfo[id].haveTimeLimit = haveTimeLimit;
 				StatusInfo[id].posTimeLimitStr = posTimeLimitStr;
-				StatusInfo[id].descript = [];
+				restoreLocalizedStatusDescription(StatusInfo, localizedStatusDescriptions, id);
 				return 1;
 			};
 
 			ctx.AddStatusDesc = (id, desc, r, g, b) => {
 				if (!StatusInfo[id]) {
 					return 0;
+				}
+				if (localizedStatusDescriptions.has(Number(id))) {
+					return 1;
 				}
 				const text = userStringDecoder.decode(desc, userCharpage);
 				let color = null;
