@@ -89324,8 +89324,8 @@ var init_MonsterTable = __esmMin((() => {
 		4211: "Kagerou",
 		4212: "Oboro",
 		4215: "Rebellion",
-		4218: "召唤师",
-		4220: "召唤师宝宝",
+		4218: "Summoner",
+		4220: "Baby Summoner",
 		4222: "Baby Ninja",
 		4223: "Baby Kagero",
 		4224: "Baby Oboro",
@@ -93952,6 +93952,102 @@ var init_P3RemainingCommonNpcNameTable = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/SpawnTownNpcNameTable.js
+var SpawnTownNpcNameTable_default;
+var init_SpawnTownNpcNameTable = __esmMin((() => {
+	SpawnTownNpcNameTable_default = {
+		"Academy Student": "学院学生",
+		Airship: "飞艇",
+		Aram: "阿拉姆",
+		Arena: "竞技场",
+		"Black Shadow": "菲希",
+		"Boarding Attendant": "登船服务员",
+		Bonne: "博讷",
+		Boozer: "酒鬼",
+		"Captain of Anchovy Fish": "凤尾鱼号船长",
+		"Cat Paw Service": "猫手商会",
+		Cebalis: "塞巴利斯",
+		"Channel Warp Official": "分流传送员",
+		Charfri: "查弗里",
+		"Chief Peperoncino": "佩佩罗奇诺首领",
+		"Crewman of Anchovy Fish": "凤尾鱼号船员",
+		"Criatura Academy Staff": "亨",
+		"Cultivated Red Plant": "栽培的红色植物",
+		Cuskoal: "库斯科尔",
+		"Cute Baby": "戈帕拉",
+		Daldal: "达尔达尔",
+		Dad: "爸爸",
+		Dega: "德加",
+		"Doram On The Journey": "旅行中的杜拉姆",
+		Edgar: "埃德加",
+		Eggling: "蛋灵",
+		"Emergency Patient": "急诊患者",
+		"Enchanter Almond J": "附魔师阿尔蒙德·J",
+		"Enchanter Mounds": "附魔师芒兹",
+		Etinifni: "埃廷尼夫尼",
+		Fettuccina: "菲图奇娜",
+		"Fish Tails": "鱼尾",
+		Gein: "盖因",
+		Gomae: "戈梅",
+		"Goon meow": "混混喵",
+		Gopara: "戈帕拉",
+		"Healer Haru": "治疗师春",
+		"Honeymoon Helper": "蜜月助手",
+		"Information Staff": "信息工作人员",
+		"Instructor Argos": "教官阿尔戈斯",
+		Kalu: "卡鲁",
+		Kittie: "猫咪",
+		"Kittie the Eraser": "重置猫咪",
+		Kylick: "凯利克",
+		Legalas: "莱加拉斯",
+		Linguina: "林古伊娜",
+		Locas: "洛卡斯",
+		"Manufacturing Maniac": "制造狂人",
+		"Master of Property": "属性大师",
+		"Meow goon": "喵混混",
+		Mom: "妈妈",
+		"Mysterious Creature": "神秘生物",
+		Mustachi: "穆斯塔奇",
+		Odgnalam: "奥德格纳拉姆",
+		"Perky Doram": "活泼的杜拉姆",
+		Porto: "波尔图",
+		Raket: "拉凯特",
+		Rasmus: "拉斯穆斯",
+		Red: "瑞德",
+		"Refinery Owner Han": "精炼老板韩",
+		"Refining Maniac": "精炼狂人",
+		"Repair Man": "修理工",
+		"Repairing Blacksmith": "修理铁匠",
+		"Romantic Female": "浪漫女子",
+		"Romantic Male": "浪漫男子",
+		Scamp: "淘气鬼",
+		Shepherd: "牧羊人",
+		"Serious Doram": "严肃的杜拉姆",
+		"Shaman meow": "萨满喵",
+		"Shop Helper": "商店助手",
+		Sirood: "西鲁德",
+		"Smart Doram": "聪明的杜拉姆",
+		Soup: "苏普",
+		Tadde: "塔德",
+		Tali: "塔莉",
+		"Talkative Adventurer": "健谈的冒险者",
+		"Talkative Kid": "健谈的小孩",
+		"The brave third": "勇敢的老三",
+		"The diligent second son": "勤奋的二儿子",
+		"The sensitive-minded ela": "心思细腻的老大",
+		"The skittish fourth": "胆小的老四",
+		Tos: "托斯",
+		"Tool Merchant": "工具商人",
+		"Vigilante Guide": "治安队向导",
+		"Vigilante Olio": "治安队员奥利奥",
+		"Vigilante Penne": "巡逻队佩内",
+		Vongolo: "翁戈洛",
+		"Wedding Secretary": "婚礼秘书",
+		"Workshop Manager": "工坊管理员",
+		"Youngster meow": "年轻喵"
+	};
+}));
+//#endregion
 //#region src/DB/NpcNameTable.js
 var PACKET_NAME_VISIBLE_LENGTH, NpcNameTable;
 var init_NpcNameTable = __esmMin((() => {
@@ -93971,6 +94067,7 @@ var init_NpcNameTable = __esmMin((() => {
 	init_P3RegionalDungeonNpcNameTable();
 	init_P3MidgameDungeonNpcNameTable();
 	init_P3RemainingCommonNpcNameTable();
+	init_SpawnTownNpcNameTable();
 	PACKET_NAME_VISIBLE_LENGTH = 23;
 	NpcNameTable = {
 		...SecondStageNpcNameTable_default,
@@ -93983,9 +94080,18 @@ var init_NpcNameTable = __esmMin((() => {
 		Sonya: "索尼娅",
 		"Grandmother Alma": "阿尔玛奶奶",
 		Fisk: "菲斯克",
+		Aaron: "亚伦",
+		"Archer Zakk": "弓箭手扎克",
+		"Chief Guardsman": "卫兵队长",
+		Guardsman: "卫兵",
+		Hadenheim: "哈登海姆",
+		"Merchant Daven": "商人达文",
+		Skyler: "斯凯勒",
 		Paul: "保罗",
 		"Wounded Swordsman": "受伤的剑士",
 		"Captain Carocc": "卡洛克船长",
+		Carocc: "卡洛克船长",
+		"Con-Chliina Crewman": "康·奇利纳船员",
 		Lumin: "卢敏",
 		"Vigilante Ajegna": "治安队员阿杰尼亚",
 		"Applicant Paul": "申请者保罗",
@@ -94078,7 +94184,8 @@ var init_NpcNameTable = __esmMin((() => {
 		...P3TurtleIslandNpcNameTable_default,
 		...P3RegionalDungeonNpcNameTable_default,
 		...P3MidgameDungeonNpcNameTable_default,
-		...P3RemainingCommonNpcNameTable_default
+		...P3RemainingCommonNpcNameTable_default,
+		...SpawnTownNpcNameTable_default
 	};
 	for (const [source, translated] of Object.entries(NpcNameTable)) {
 		if (!/^[\u0020-\u007e]+$/.test(source) || source.length <= PACKET_NAME_VISIBLE_LENGTH) continue;
@@ -147023,6 +147130,19 @@ var init_StatusInfo = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Status/StatusDescriptionLocalization.js
+function snapshotLocalizedStatusDescriptions(statusInfo) {
+	const descriptions = /* @__PURE__ */ new Map();
+	for (const [id, info] of Object.entries(statusInfo)) if (Array.isArray(info.descript) && info.descript.length > 0) descriptions.set(Number(id), info.descript.map((line) => [...line]));
+	return descriptions;
+}
+function restoreLocalizedStatusDescription(statusInfo, descriptions, id) {
+	const localized = descriptions.get(Number(id));
+	statusInfo[id].descript = localized ? localized.map((line) => [...line]) : [];
+	return Boolean(localized);
+}
+var init_StatusDescriptionLocalization = __esmMin((() => {}));
+//#endregion
 //#region src/Vendors/xmlparse.js
 /**
 * Vendors/xmlparse.js
@@ -158417,6 +158537,80 @@ var init_MapTable = __esmMin((() => {
 			displayName: "梦罗克伊甸园集团内部"
 		},
 		"que_dan01.rsw": { displayName: "胡戈尔原野" }
+	};
+}));
+//#endregion
+//#region src/DB/Map/MapInfoLocalization.js
+function containsChinese(value) {
+	return typeof value === "string" && /[\u3400-\u9fff]/.test(value);
+}
+function mergeLocalizedMapInfo(official = {}, localized = {}) {
+	const merged = { ...official };
+	if (containsChinese(localized.displayName)) merged.displayName = localized.displayName;
+	const localizedSignName = {};
+	for (const key of ["mainTitle", "subTitle"]) if (containsChinese(localized.signName?.[key])) localizedSignName[key] = localized.signName[key];
+	if (Object.keys(localizedSignName).length > 0) merged.signName = {
+		...official.signName,
+		...localizedSignName
+	};
+	return merged;
+}
+var init_MapInfoLocalization = __esmMin((() => {}));
+//#endregion
+//#region src/DB/SignBoardTranslationTable.js
+var SignBoardTranslationTable_default;
+var init_SignBoardTranslationTable = __esmMin((() => {
+	SignBoardTranslationTable_default = {
+		"180Lv미만 출입금지": "180级以下禁止进入",
+		"190Lv미만 출입금지": "190级以下禁止进入",
+		"거북섬 행": "前往龟岛",
+		"결혼 신청": "申请结婚",
+		"고급 방어구 지원": "高级防具支援",
+		"골든메이스 클랜": "黄金权杖公会",
+		"기본 장비 지원": "基础装备支援",
+		"낙원단 공간이동사": "乐园团空间传送员",
+		난파선행: "前往沉船",
+		"데와타 행": "前往德瓦他",
+		"독립 도우미": "独立助手",
+		등급강화소: "等级强化所",
+		"라자냐 행": "前往拉萨格纳",
+		"락 릿지 행": "前往岩岭镇",
+		루티에행: "前往姜饼城",
+		"마일리지 스톤교환": "里程碑兑换",
+		"말랑도 행": "前往绵绵岛",
+		"모스코비아 행": "前往莫斯科比亚",
+		"부스터 의상 인챈트": "加速器服饰附魔",
+		"부스터 프로모션": "加速器推广",
+		부스터일루시온인챈트: "加速器幻影附魔",
+		"브라질리스 행": "前往巴西",
+		"비공정 출구": "飞艇出口",
+		"소드 클랜": "剑士公会",
+		"쉐도우 장비 대여": "影子装备租赁",
+		"슈발츠발드 국내선": "施瓦茨瓦尔德国内航线",
+		"아마쯔 행": "前往天津町",
+		"아요타야 행": "前往哎哟泰雅",
+		"아크완드 클랜": "奥术法杖公会",
+		"알베르타 행": "前往艾尔贝塔",
+		알베르타행: "前往艾尔贝塔",
+		"여객선 승선": "搭乘客轮",
+		"오딘신전 행": "前往奥丁神殿",
+		"용지성 행": "前往洛阳",
+		"유노-라헬 행": "朱诺-拉赫航线",
+		"유노-이즈루드 행": "朱诺-伊兹鲁德航线",
+		"이즈루드-라헬 행": "伊兹鲁德-拉赫航线",
+		이즈루드행: "前往伊兹鲁德",
+		입력안하셨습니다: "尚未输入",
+		자와이행: "前往爪哇伊",
+		"중급 고급 무기 지원": "中高级武器支援",
+		"쿤룬 행": "前往昆仑",
+		"크로스보우 클랜": "十字弓公会",
+		파라마켓: "乐园市场",
+		"포트말라야 행": "前往港口马来亚",
+		"표본 환경 - 죽음": "样本环境 - 死亡",
+		"표본 환경 - 초원": "样本环境 - 草原",
+		"표본 환경 - 혹한": "样本环境 - 极寒",
+		"표본 환경 - 화염": "样本环境 - 火焰",
+		"휘겔 행": "前往胡戈尔"
 	};
 }));
 //#endregion
@@ -225731,6 +225925,19 @@ var init_MiniMap = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Jobs/JobDisplayNameTable.js
+function getJobDisplayName(jobId, fallback = "未知") {
+	return JobDisplayNameTable[jobId] || MonsterTable_default[jobId] || fallback;
+}
+var JobDisplayNameTable;
+var init_JobDisplayNameTable = __esmMin((() => {
+	init_MonsterTable();
+	JobDisplayNameTable = {
+		4218: "召唤师",
+		4220: "召唤师宝宝"
+	};
+}));
+//#endregion
 //#region src/UI/Components/PartyFriends/PartyHelper/PartyHelper.html?raw
 var PartyHelper_default$2;
 var init_PartyHelper$2 = __esmMin((() => {
@@ -228819,7 +229026,7 @@ function createPartyFriends(config) {
 			const isDead = !!player.isDead;
 			const isOnline = player.state === 0;
 			const isDetached = !!_detachedMembers[player.AID];
-			const jobName = MonsterTable_default[job] || "未知";
+			const jobName = getJobDisplayName(job);
 			const mapDisplay = DB.getMapName(player.mapName);
 			player.color = Controller$5 && Controller$5.getMemberColor ? Controller$5.getMemberColor(player.AID) : "white";
 			const nameTooltip = `${player.characterName} (${mapDisplay})`;
@@ -229765,7 +229972,7 @@ var init_PartyFriendsCommon = __esmMin((() => {
 	init_Camera();
 	init_MiniMap();
 	init_Preferences$1();
-	init_MonsterTable();
+	init_JobDisplayNameTable();
 	init_Client();
 	init_Renderer();
 	init_SessionStorage();
@@ -245026,7 +245233,10 @@ var init_NpcBox = __esmMin((() => {
 	*/
 	NpcBox.addNext = function addNext(gid) {
 		NpcBox.ownerID = gid;
-		const nextBtn = NpcBox.getRoot().querySelector(".next");
+		const root = NpcBox.getRoot();
+		const nextBtn = root.querySelector(".next");
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) closeBtn.style.display = "none";
 		if (nextBtn) nextBtn.style.display = "block";
 	};
 	/**
@@ -245036,7 +245246,10 @@ var init_NpcBox = __esmMin((() => {
 	*/
 	NpcBox.addClose = function addClose(gid) {
 		NpcBox.ownerID = gid;
-		const closeBtn = NpcBox.getRoot().querySelector(".close");
+		const root = NpcBox.getRoot();
+		const closeBtn = root.querySelector(".close");
+		const nextBtn = root.querySelector(".next");
+		if (nextBtn) nextBtn.style.display = "none";
 		if (closeBtn) closeBtn.style.display = "block";
 	};
 	/**
@@ -248865,7 +249078,7 @@ var init_CaptchaSelector = __esmMin((() => {
 	init_EntityManager();
 	init_SessionStorage();
 	init_DBManager();
-	init_MonsterTable();
+	init_JobDisplayNameTable();
 	init_Elements();
 	init_CaptchaSelector$2();
 	init_CaptchaSelector$1();
@@ -248989,7 +249202,7 @@ var init_CaptchaSelector = __esmMin((() => {
 			link.addEventListener("click", () => {
 				const charEntity = EntityManager.get(aid);
 				const charName = charEntity?.display?.name ?? "未知";
-				const charJob = MonsterTable_default[charEntity?._job ?? 0] ?? "未知";
+				const charJob = getJobDisplayName(charEntity?._job ?? 0);
 				const charInfo = root.querySelector(".character_info");
 				if (charInfo) {
 					const nameEl = charInfo.querySelector(".character-name");
@@ -249007,7 +249220,7 @@ var init_CaptchaSelector = __esmMin((() => {
 			_aidInformation.push({
 				aid,
 				name,
-				job: MonsterTable_default[entity?._job ?? 0] ?? "未知"
+				job: getJobDisplayName(entity?._job ?? 0)
 			});
 		}
 		_aidList = players;
@@ -297612,6 +297825,7 @@ function loadStateIconInfo(basePath, callback, onEnd) {
 		"stateiconimginfo.lub",
 		"stateiconinfo.lub"
 	];
+	const localizedStatusDescriptions = snapshotLocalizedStatusDescriptions(StatusInfo);
 	const loadedBuffers = [];
 	const dirPath = basePath.endsWith("/") ? basePath : basePath + "/";
 	function loadNext(index) {
@@ -297648,11 +297862,12 @@ function loadStateIconInfo(basePath, callback, onEnd) {
 				if (!StatusInfo[id]) StatusInfo[id] = {};
 				StatusInfo[id].haveTimeLimit = haveTimeLimit;
 				StatusInfo[id].posTimeLimitStr = posTimeLimitStr;
-				StatusInfo[id].descript = [];
+				restoreLocalizedStatusDescription(StatusInfo, localizedStatusDescriptions, id);
 				return 1;
 			};
 			ctx.AddStatusDesc = (id, desc, r, g, b) => {
 				if (!StatusInfo[id]) return 0;
+				if (localizedStatusDescriptions.has(Number(id))) return 1;
 				const text = userStringDecoder.decode(desc, userCharpage);
 				let color = null;
 				if (r >= 0 && g >= 0 && b >= 0) color = `rgb(${r}, ${g}, ${b})`;
@@ -298219,6 +298434,7 @@ var init_DBManager = __esmMin((() => {
 	init_WeaponTrailTable();
 	init_TownInfo();
 	init_StatusInfo();
+	init_StatusDescriptionLocalization();
 	init_StatusConst();
 	init_xmlparse();
 	init_Base62();
@@ -298228,6 +298444,8 @@ var init_DBManager = __esmMin((() => {
 	init_PetFriendlyState();
 	init_PetMessageConst();
 	init_MapTable();
+	init_MapInfoLocalization();
+	init_SignBoardTranslationTable();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_PacketVerManager();
@@ -298256,7 +298474,7 @@ var init_DBManager = __esmMin((() => {
 	};
 	EnchantListTable = {};
 	SignBoardTranslatedTable = {};
-	SignBoardOverrides = { "낙원단 공간이동사": "乐园团空间传送员" };
+	SignBoardOverrides = SignBoardTranslationTable_default;
 	SignBoardTable = {};
 	NaviMapTable = {};
 	NaviMobTable = {};
@@ -298454,7 +298672,7 @@ var init_DBManager = __esmMin((() => {
 				if (PacketVerManager_default.value >= 20200916) loadItemReformFile(DB.LUA_PATH + "ItemReform/ItemReformSystem.lub", null, onLoad());
 				if (PacketVerManager_default.value >= 20211103) loadEnchantListFile(DB.LUA_PATH + "Enchant/EnchantList", onLoad());
 				if (Configs.get("enableMapName")) tryLoadLuaAliases(loadMapTbl, getSystemAliases("System/mapInfo.lub"), function(json) {
-					for (const key in json) if (json.hasOwnProperty(key)) MapInfo[key] = json[key];
+					for (const key in json) if (json.hasOwnProperty(key)) MapInfo[key] = mergeLocalizedMapInfo(json[key], LocalizedMapInfo[key]);
 					updateMapTable();
 				}, onLoad());
 				const onSignBoardEnd = onLoad();
@@ -332769,7 +332987,7 @@ function createCharSelect(config) {
 			repeat: true
 		});
 		charinfo.querySelector(".name").textContent = info.name;
-		charinfo.querySelector(".job").textContent = MonsterTable_default[info.job] || "";
+		charinfo.querySelector(".job").textContent = getJobDisplayName(info.job, "");
 		charinfo.querySelector(".lvl").textContent = info.level;
 		charinfo.querySelector(".exp").textContent = info.exp;
 		charinfo.querySelector(".hp").textContent = info.hp;
@@ -332884,7 +333102,7 @@ function createCharSelect(config) {
 		}
 		root.querySelector(".ok").style.display = "block";
 		charinfo.querySelector(".map").textContent = DB.getMapName(info.lastMap, "") || "";
-		charinfo.querySelector(".job").textContent = MonsterTable_default[info.job] || "";
+		charinfo.querySelector(".job").textContent = getJobDisplayName(info.job, "");
 		charinfo.querySelector(".lvl").textContent = info.level;
 		charinfo.querySelector(".exp").textContent = info.exp;
 		charinfo.querySelector(".hp").textContent = info.hp;
@@ -332984,7 +333202,7 @@ function createCharSelect(config) {
 }
 var init_CharSelectCommon = __esmMin((() => {
 	init_DBManager();
-	init_MonsterTable();
+	init_JobDisplayNameTable();
 	init_Preferences$1();
 	init_Client();
 	init_KeyEventHandler();
