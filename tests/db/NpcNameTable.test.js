@@ -6,6 +6,7 @@ import SecondStageNpcNameTable from '../../src/DB/SecondStageNpcNameTable.js';
 import P0P1FieldNpcNameTable from '../../src/DB/P0P1FieldNpcNameTable.js';
 import P2MjolnirFieldNpcNameTable from '../../src/DB/P2MjolnirFieldNpcNameTable.js';
 import P2YunoFieldNpcNameTable from '../../src/DB/P2YunoFieldNpcNameTable.js';
+import P2MajorCityFieldNpcNameTable from '../../src/DB/P2MajorCityFieldNpcNameTable.js';
 
 describe('PronteraNpcNameTable', () => {
 	it('localizes every registered visible name', () => {
@@ -159,6 +160,34 @@ describe('P2YunoFieldNpcNameTable', () => {
 
 	it('covers every Yuno field name truncated by the packet field', () => {
 		for (const [source, translated] of Object.entries(P2YunoFieldNpcNameTable)) {
+			if (/^[\u0020-\u007e]+$/.test(source) && source.length > 23) {
+				expect(NpcNameTable[source.slice(0, 23)], source).toBe(translated);
+			}
+		}
+	});
+});
+
+describe('P2MajorCityFieldNpcNameTable', () => {
+	it('contains a Chinese translation for every audited ASCII name', () => {
+		const entries = Object.entries(P2MajorCityFieldNpcNameTable);
+
+		expect(entries).toHaveLength(77);
+		for (const [source, translated] of entries) {
+			expect(translated, source).toMatch(/[\u3400-\u9fff]/);
+		}
+	});
+
+	it('covers representative names from all six remaining P2 field families', () => {
+		expect(NpcNameTable['Artifact Appraiser']).toBe('神器鉴定师');
+		expect(NpcNameTable['Map Examiner Lucia']).toBe('地图调查员露西亚');
+		expect(NpcNameTable['Silk Sand Camel']).toBe('丝质沙漠骆驼');
+		expect(NpcNameTable['Striker Unit Commander']).toBe('突击部队指挥官');
+		expect(NpcNameTable['Mysterious Woman']).toBe('神秘女子');
+		expect(NpcNameTable['Moks Mushrooms']).toBe('莫克斯蘑菇');
+	});
+
+	it('covers every remaining P2 field name truncated by the packet field', () => {
+		for (const [source, translated] of Object.entries(P2MajorCityFieldNpcNameTable)) {
 			if (/^[\u0020-\u007e]+$/.test(source) && source.length > 23) {
 				expect(NpcNameTable[source.slice(0, 23)], source).toBe(translated);
 			}

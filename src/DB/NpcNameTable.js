@@ -3,6 +3,7 @@ import SecondStageNpcNameTable from './SecondStageNpcNameTable';
 import P0P1FieldNpcNameTable from './P0P1FieldNpcNameTable';
 import P2MjolnirFieldNpcNameTable from './P2MjolnirFieldNpcNameTable';
 import P2YunoFieldNpcNameTable from './P2YunoFieldNpcNameTable';
+import P2MajorCityFieldNpcNameTable from './P2MajorCityFieldNpcNameTable';
 
 const PACKET_NAME_VISIBLE_LENGTH = 23;
 
@@ -91,7 +92,8 @@ const NpcNameTable = {
 	'Warmhearted woman': '热心女士',
 	...P0P1FieldNpcNameTable,
 	...P2MjolnirFieldNpcNameTable,
-	...P2YunoFieldNpcNameTable
+	...P2YunoFieldNpcNameTable,
+	...P2MajorCityFieldNpcNameTable
 };
 
 for (const [source, translated] of Object.entries(NpcNameTable)) {
