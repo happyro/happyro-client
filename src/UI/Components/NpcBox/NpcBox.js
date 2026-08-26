@@ -19,6 +19,7 @@ import htmlText from './NpcBox.html?raw';
 import cssText from './NpcBox.css?raw';
 import NpcMenu from 'UI/Components/NpcMenu/NpcMenu.js';
 import InputBox from 'UI/Components/InputBox/InputBox.js';
+import { normalizeROFontSizes } from 'UI/NpcTextFormatting.js';
 
 /**
  * Create NpcBox component
@@ -98,6 +99,7 @@ function processText(text) {
 	text = processItemTags(text);
 	text = processNAVITags(text);
 	text = processColorCodes(text);
+	text = normalizeROFontSizes(text);
 	return text;
 }
 
