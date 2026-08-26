@@ -34,6 +34,11 @@ Intro.render = () => htmlText;
 Intro.files = [];
 
 /**
+ * Whether this application accepts local GRF/data files.
+ */
+Intro.allowLocalFiles = true;
+
+/**
  * @var {function} resize handler ref for cleanup
  */
 let _resizeHandler = null;
@@ -130,29 +135,36 @@ Intro.init = function init() {
 
 	// ── Drop zone (replaces old .box) ──
 	const dropZone = root.querySelector('.drop-zone');
+	const fileInput = root.querySelector('input[type="file"]');
 
-	dropZone.addEventListener('mouseover', () => dropZone.classList.add('dragover'));
-	dropZone.addEventListener('mouseout', () => dropZone.classList.remove('dragover'));
-	dropZone.addEventListener('click', () => root.querySelector('input[type="file"]').click());
+	if (Intro.allowLocalFiles) {
+		dropZone.addEventListener('mouseover', () => dropZone.classList.add('dragover'));
+		dropZone.addEventListener('mouseout', () => dropZone.classList.remove('dragover'));
+		dropZone.addEventListener('click', () => fileInput.click());
 
-	dropZone.addEventListener('dragover', e => {
-		e.preventDefault();
-		dropZone.classList.add('dragover');
-	});
-	dropZone.addEventListener('dragleave', () => {
-		dropZone.classList.remove('dragover');
-	});
-	dropZone.addEventListener('drop', e => {
-		e.preventDefault();
-		e.stopImmediatePropagation();
-		dropZone.classList.remove('dragover');
-		processDropEvent(e);
-	});
+		dropZone.addEventListener('dragover', e => {
+			e.preventDefault();
+			dropZone.classList.add('dragover');
+		});
+		dropZone.addEventListener('dragleave', () => {
+			dropZone.classList.remove('dragover');
+		});
+		dropZone.addEventListener('drop', e => {
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			dropZone.classList.remove('dragover');
+			processDropEvent(e);
+		});
 
-	// ── File input ──
-	root.querySelector('input[type="file"]').addEventListener('change', function () {
-		processFileInput(this);
-	});
+		fileInput.addEventListener('change', function () {
+			processFileInput(this);
+		});
+	} else {
+		root.querySelector('.intro').classList.add('remote-resources');
+		dropZone.remove();
+		fileInput.remove();
+		root.querySelector('.msg').remove();
+	}
 
 	// ── Quality slider ──
 	root.querySelector('.quality').addEventListener('input', function () {
