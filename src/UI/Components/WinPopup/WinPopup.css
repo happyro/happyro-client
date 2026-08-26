@@ -12,6 +12,22 @@
 	z-index: 999;
 }
 
+#win_popup .titlebar {
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	z-index: 1;
+	box-sizing: border-box;
+	width: 278px;
+	height: 17px;
+	border-bottom: 1px solid #7997c0;
+	background: linear-gradient(#f7faff, #cadcf4);
+	color: #202020;
+	font-size: 12px;
+	line-height: 16px;
+	padding-left: 7px;
+}
+
 #win_popup .container {
 	position: absolute;
 	height: 70px;
