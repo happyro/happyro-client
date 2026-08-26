@@ -115,7 +115,10 @@
 #ReadRodex .body .items .get-content {
 	position: absolute;
 	width: 26px;
+	min-width: 26px;
 	height: 20px;
+	padding: 0 1px;
+	font-size: 11px;
 	top: 10px;
 	right: 10px;
 	border: none;
@@ -142,7 +145,10 @@
 #ReadRodex .body .zeny .get-zeny {
 	position: absolute;
 	width: 26px;
+	min-width: 26px;
 	height: 20px;
+	padding: 0 1px;
+	font-size: 11px;
 	top: 3px;
 	right: 10px;
 	border: none;

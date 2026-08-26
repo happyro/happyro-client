@@ -11,6 +11,7 @@
 import DB from 'DB/DBManager.js';
 import Client from 'Core/Client.js';
 import Targa from 'Loaders/Targa.js';
+import { getLocalizedButtonLabel } from 'UI/LocalizedButtonLabels.js';
 
 class UIButton extends HTMLElement {
 	connectedCallback() {
@@ -19,6 +20,16 @@ class UIButton extends HTMLElement {
 		const bg = this.getAttribute('bg');
 		const hover = this.getAttribute('hover');
 		const down = this.getAttribute('down');
+		const localizedLabel = this.dataset.localizedLabel || getLocalizedButtonLabel(bg);
+
+		if (localizedLabel) {
+			this.classList.add('ui-btn', 'localized-control');
+			this.textContent = localizedLabel;
+			this.setAttribute('aria-label', localizedLabel);
+			for (const attribute of ['bg', 'hover', 'down']) {
+				this.removeAttribute(attribute);
+			}
+		}
 
 		let bgUri = null,
 			hoverUri = null,
@@ -64,16 +75,18 @@ class UIButton extends HTMLElement {
 			});
 		};
 
-		loadBmp(bg, uri => {
-			bgUri = uri;
-			update();
-		});
-		loadBmp(hover, uri => {
-			hoverUri = uri;
-		});
-		loadBmp(down, uri => {
-			downUri = uri;
-		});
+		if (!localizedLabel) {
+			loadBmp(bg, uri => {
+				bgUri = uri;
+				update();
+			});
+			loadBmp(hover, uri => {
+				hoverUri = uri;
+			});
+			loadBmp(down, uri => {
+				downUri = uri;
+			});
+		}
 
 		this.addEventListener('mouseover', () => {
 			if (this.disabled) return;

@@ -16,4 +16,10 @@ describe('WinLogin localization', () => {
 		expect(loginCommonSource).toContain('_F（女）');
 		expect(loginCommonSource).not.toContain('No registration URL was provided');
 	});
+
+	it('uses Chinese login and registration commands', () => {
+		expect(loginV2Html).toContain('登录');
+		expect(loginV2Html).toContain('注册');
+		expect(loginV2Html).not.toContain('bt_start_normal.bmp');
+	});
 });
