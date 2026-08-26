@@ -15,7 +15,7 @@ import Renderer from 'Renderer/Renderer.js';
 import EntityManager from 'Renderer/EntityManager.js';
 import Session from 'Engine/SessionStorage.js';
 import DB from 'DB/DBManager.js';
-import MonsterTable from 'DB/Monsters/MonsterTable.js';
+import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import 'UI/Elements/Elements.js';
 import htmlText from './CaptchaSelector.html?raw';
 import cssText from './CaptchaSelector.css?raw';
@@ -211,7 +211,7 @@ CaptchaSelector.setPlayers = function setPlayers(players) {
 		link.addEventListener('click', () => {
 			const charEntity = EntityManager.get(aid);
 				const charName = charEntity?.display?.name ?? '未知';
-				const charJob = MonsterTable[charEntity?._job ?? 0] ?? '未知';
+				const charJob = getJobDisplayName(charEntity?._job ?? 0);
 
 			const charInfo = root.querySelector('.character_info');
 			if (charInfo) {
@@ -236,7 +236,7 @@ CaptchaSelector.setPlayers = function setPlayers(players) {
 		_aidInformation.push({
 			aid: aid,
 			name: name,
-			job: MonsterTable[entity?._job ?? 0] ?? '未知'
+			job: getJobDisplayName(entity?._job ?? 0)
 		});
 	}
 

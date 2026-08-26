@@ -19,6 +19,7 @@ const introSource = readFileSync(resolve(process.cwd(), 'src/UI/Components/Intro
 const introCss = readFileSync(resolve(process.cwd(), 'src/UI/Components/Intro/Intro.css'), 'utf8');
 const gameEngineSource = readFileSync(resolve(process.cwd(), 'src/Engine/GameEngine.js'), 'utf8');
 const mapViewerSource = readFileSync(resolve(process.cwd(), 'src/App/MapViewer.js'), 'utf8');
+const npcBoxSource = readFileSync(resolve(process.cwd(), 'src/UI/Components/NpcBox/NpcBox.js'), 'utf8');
 
 describe('interface defaults', () => {
 	it('uses 1024x768 as the default and windowed fallback resolution', () => {
@@ -68,5 +69,14 @@ describe('interface defaults', () => {
 
 	it('lowers the item quantity confirmation button', () => {
 		expect(inputBoxCss).toMatch(/#inputbox ui-button \{[^}]*bottom: 5px;/s);
+	});
+
+	it('shows only the active NPC dialog command button', () => {
+		expect(npcBoxSource).toMatch(
+			/NpcBox\.addNext[\s\S]*closeBtn\.style\.display = 'none';[\s\S]*nextBtn\.style\.display = 'block';/
+		);
+		expect(npcBoxSource).toMatch(
+			/NpcBox\.addClose[\s\S]*nextBtn\.style\.display = 'none';[\s\S]*closeBtn\.style\.display = 'block';/
+		);
 	});
 });

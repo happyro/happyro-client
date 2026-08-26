@@ -17,6 +17,7 @@ import P3TurtleIslandNpcNameTable from '../../src/DB/P3TurtleIslandNpcNameTable.
 import P3RegionalDungeonNpcNameTable from '../../src/DB/P3RegionalDungeonNpcNameTable.js';
 import P3MidgameDungeonNpcNameTable from '../../src/DB/P3MidgameDungeonNpcNameTable.js';
 import P3RemainingCommonNpcNameTable from '../../src/DB/P3RemainingCommonNpcNameTable.js';
+import SpawnTownNpcNameTable from '../../src/DB/SpawnTownNpcNameTable.js';
 
 describe('PronteraNpcNameTable', () => {
 	it('localizes every registered visible name', () => {
@@ -38,8 +39,17 @@ describe('PronteraNpcNameTable', () => {
 		expect(NpcNameTable.Mage).toBe('魔法师');
 		expect(NpcNameTable['New Guild Master']).toBe('新任公会会长');
 		expect(NpcNameTable['Unknown Machine']).toBe('未知机器');
+		expect(NpcNameTable.Aaron).toBe('亚伦');
+		expect(NpcNameTable['Archer Zakk']).toBe('弓箭手扎克');
+		expect(NpcNameTable['Chief Guardsman']).toBe('卫兵队长');
+		expect(NpcNameTable.Guardsman).toBe('卫兵');
+		expect(NpcNameTable.Hadenheim).toBe('哈登海姆');
+		expect(NpcNameTable['Merchant Daven']).toBe('商人达文');
+		expect(NpcNameTable.Skyler).toBe('斯凯勒');
 		expect(NpcNameTable['Wounded Swordsman']).toBe('受伤的剑士');
 		expect(NpcNameTable['Captain Carocc']).toBe('卡洛克船长');
+		expect(NpcNameTable.Carocc).toBe('卡洛克船长');
+		expect(NpcNameTable['Con-Chliina Crewman']).toBe('康·奇利纳船员');
 		expect(NpcNameTable.Lumin).toBe('卢敏');
 		expect(NpcNameTable['Vigilante Ajegna']).toBe('治安队员阿杰尼亚');
 		expect(NpcNameTable['Applicant Paul']).toBe('申请者保罗');
@@ -66,6 +76,31 @@ describe('PronteraNpcNameTable', () => {
 		expect(DB.getNpcName('Unknown NPC#1')).toBe('Unknown NPC#1');
 		expect(DB.getNpcName('Phantasmagorika Spokesp')).toBe('幻影机构发言人');
 		expect(DB.getNpcName('Vigilante Ajegna#doram0')).toBe('治安队员阿杰尼亚#doram0');
+		expect(DB.getNpcName('Con-Chliina Crewman#doi')).toBe('康·奇利纳船员#doi');
+	});
+});
+
+describe('SpawnTownNpcNameTable', () => {
+	it('covers every audited Izlude and Lasagna name', () => {
+		const entries = Object.entries(SpawnTownNpcNameTable);
+
+		expect(entries).toHaveLength(89);
+		for (const [source, translated] of entries) {
+			expect(source).toMatch(/^[\u0020-\u007e]+$/);
+			expect(translated).toMatch(/[\u3400-\u9fff]/);
+			expect(NpcNameTable[source]).toBe(translated);
+		}
+	});
+
+	it('covers the reported and representative spawn-town NPCs', () => {
+		expect(NpcNameTable['Academy Student']).toBe('学院学生');
+		expect(NpcNameTable['Channel Warp Official']).toBe('分流传送员');
+		expect(NpcNameTable['Chief Peperoncino']).toBe('佩佩罗奇诺首领');
+		expect(NpcNameTable['Honeymoon Helper']).toBe('蜜月助手');
+		expect(NpcNameTable.Odgnalam).toBe('奥德格纳拉姆');
+		expect(NpcNameTable.Shepherd).toBe('牧羊人');
+		expect(NpcNameTable['Tool Merchant']).toBe('工具商人');
+		expect(NpcNameTable['Vigilante Penne']).toBe('巡逻队佩内');
 	});
 });
 
