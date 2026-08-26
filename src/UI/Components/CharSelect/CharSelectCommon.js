@@ -18,7 +18,7 @@
  */
 
 import DB from 'DB/DBManager.js';
-import MonsterTable from 'DB/Monsters/MonsterTable.js';
+import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import Preferences from 'Core/Preferences.js';
 import Client from 'Core/Client.js';
 import KEYS from 'Controls/KeyEventHandler.js';
@@ -1132,7 +1132,7 @@ export function createCharSelect(config) {
 		});
 
 		charinfo.querySelector('.name').textContent = info.name;
-		charinfo.querySelector('.job').textContent = MonsterTable[info.job] || '';
+		charinfo.querySelector('.job').textContent = getJobDisplayName(info.job, '');
 		charinfo.querySelector('.lvl').textContent = info.level;
 		charinfo.querySelector('.exp').textContent = info.exp;
 		charinfo.querySelector('.hp').textContent = info.hp;
@@ -1290,7 +1290,7 @@ export function createCharSelect(config) {
 		root.querySelector('.ok').style.display = 'block';
 
 		charinfo.querySelector('.map').textContent = DB.getMapName(info.lastMap, '') || '';
-		charinfo.querySelector('.job').textContent = MonsterTable[info.job] || '';
+		charinfo.querySelector('.job').textContent = getJobDisplayName(info.job, '');
 		charinfo.querySelector('.lvl').textContent = info.level;
 		charinfo.querySelector('.exp').textContent = info.exp;
 		charinfo.querySelector('.hp').textContent = info.hp;

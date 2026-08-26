@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import MapTable from '../../src/DB/Map/MapTable.js';
+import { mergeLocalizedMapInfo } from '../../src/DB/Map/MapInfoLocalization.js';
 import MiniMapTable from '../../src/DB/Map/MiniMapTable.js';
-import MonsterTable from '../../src/DB/Monsters/MonsterTable.js';
+import JobDisplayNameTable, { getJobDisplayName } from '../../src/DB/Jobs/JobDisplayNameTable.js';
 
 describe('spawn localization', () => {
 	it('localizes the remote island map', () => {
@@ -12,8 +13,25 @@ describe('spawn localization', () => {
 	});
 
 	it('localizes summoner job names', () => {
-		expect(MonsterTable[4218]).toBe('召唤师');
-		expect(MonsterTable[4220]).toBe('召唤师宝宝');
+		expect(JobDisplayNameTable[4218]).toBe('召唤师');
+		expect(JobDisplayNameTable[4220]).toBe('召唤师宝宝');
+		expect(getJobDisplayName(4218)).toBe('召唤师');
+	});
+
+	it('keeps localized map text when official map metadata loads', () => {
+		const merged = mergeLocalizedMapInfo(
+			{
+				backgroundBmp: 'official_background',
+				displayName: 'Remote Island',
+				signName: { mainTitle: 'Remote Island', subTitle: 'Official subtitle' }
+			},
+			MapTable['int_land.rsw']
+		);
+
+		expect(merged.backgroundBmp).toBe('official_background');
+		expect(merged.displayName).toBe('偏远岛屿');
+		expect(merged.signName.mainTitle).toBe('偏远岛屿');
+		expect(merged.signName.subTitle).toBe('Official subtitle');
 	});
 
 	it('uses the Alberta island minimap for every remote island instance', () => {

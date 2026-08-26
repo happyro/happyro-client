@@ -25,7 +25,7 @@ import DB from 'DB/DBManager.js';
 import Camera from 'Renderer/Camera.js';
 import MiniMap from 'UI/Components/MiniMap/MiniMap.js';
 import Preferences from 'Core/Preferences.js';
-import MonsterTable from 'DB/Monsters/MonsterTable.js';
+import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import Client from 'Core/Client.js';
 import Renderer from 'Renderer/Renderer.js';
 import Session from 'Engine/SessionStorage.js';
@@ -743,7 +743,7 @@ export function createPartyFriends(config) {
 			const isOnline = player.state === 0;
 			const isDetached = !!_detachedMembers[player.AID];
 
-			const jobName = MonsterTable[job] || '未知';
+			const jobName = getJobDisplayName(job);
 			const mapDisplay = DB.getMapName(player.mapName);
 
 			const color = MiniMap && MiniMap.getMemberColor ? MiniMap.getMemberColor(player.AID) : 'white';
