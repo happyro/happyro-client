@@ -321,7 +321,7 @@ ${buttons}
   
         <script type="text/javascript">    
             function launchApp(appName) {    
-                var w = 800, h = 600;    
+                var w = 1024, h = 768;
                 var top = (screen.height - h) / 2;    
                 var left = (screen.width - w) / 2;    
                 window.open(    
