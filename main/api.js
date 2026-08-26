@@ -341,8 +341,8 @@
 		switch (this.config.type) {
 			// Create Popup
 			case ROBrowser.TYPE.POPUP:
-				this.config.width = this.config.width || '800';
-				this.config.height = this.config.height || '600';
+				this.config.width = this.config.width || '1024';
+				this.config.height = this.config.height || '768';
 
 				this._APP = window.open(
 					this.baseUrl + '?' + this.config.version,
