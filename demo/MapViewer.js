@@ -93952,6 +93952,102 @@ var init_P3RemainingCommonNpcNameTable = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/SpawnTownNpcNameTable.js
+var SpawnTownNpcNameTable_default;
+var init_SpawnTownNpcNameTable = __esmMin((() => {
+	SpawnTownNpcNameTable_default = {
+		"Academy Student": "学院学生",
+		Airship: "飞艇",
+		Aram: "阿拉姆",
+		Arena: "竞技场",
+		"Black Shadow": "菲希",
+		"Boarding Attendant": "登船服务员",
+		Bonne: "博讷",
+		Boozer: "酒鬼",
+		"Captain of Anchovy Fish": "凤尾鱼号船长",
+		"Cat Paw Service": "猫手商会",
+		Cebalis: "塞巴利斯",
+		"Channel Warp Official": "分流传送员",
+		Charfri: "查弗里",
+		"Chief Peperoncino": "佩佩罗奇诺首领",
+		"Crewman of Anchovy Fish": "凤尾鱼号船员",
+		"Criatura Academy Staff": "亨",
+		"Cultivated Red Plant": "栽培的红色植物",
+		Cuskoal: "库斯科尔",
+		"Cute Baby": "戈帕拉",
+		Daldal: "达尔达尔",
+		Dad: "爸爸",
+		Dega: "德加",
+		"Doram On The Journey": "旅行中的杜拉姆",
+		Edgar: "埃德加",
+		Eggling: "蛋灵",
+		"Emergency Patient": "急诊患者",
+		"Enchanter Almond J": "附魔师阿尔蒙德·J",
+		"Enchanter Mounds": "附魔师芒兹",
+		Etinifni: "埃廷尼夫尼",
+		Fettuccina: "菲图奇娜",
+		"Fish Tails": "鱼尾",
+		Gein: "盖因",
+		Gomae: "戈梅",
+		"Goon meow": "混混喵",
+		Gopara: "戈帕拉",
+		"Healer Haru": "治疗师春",
+		"Honeymoon Helper": "蜜月助手",
+		"Information Staff": "信息工作人员",
+		"Instructor Argos": "教官阿尔戈斯",
+		Kalu: "卡鲁",
+		Kittie: "猫咪",
+		"Kittie the Eraser": "重置猫咪",
+		Kylick: "凯利克",
+		Legalas: "莱加拉斯",
+		Linguina: "林古伊娜",
+		Locas: "洛卡斯",
+		"Manufacturing Maniac": "制造狂人",
+		"Master of Property": "属性大师",
+		"Meow goon": "喵混混",
+		Mom: "妈妈",
+		"Mysterious Creature": "神秘生物",
+		Mustachi: "穆斯塔奇",
+		Odgnalam: "奥德格纳拉姆",
+		"Perky Doram": "活泼的杜拉姆",
+		Porto: "波尔图",
+		Raket: "拉凯特",
+		Rasmus: "拉斯穆斯",
+		Red: "瑞德",
+		"Refinery Owner Han": "精炼老板韩",
+		"Refining Maniac": "精炼狂人",
+		"Repair Man": "修理工",
+		"Repairing Blacksmith": "修理铁匠",
+		"Romantic Female": "浪漫女子",
+		"Romantic Male": "浪漫男子",
+		Scamp: "淘气鬼",
+		Shepherd: "牧羊人",
+		"Serious Doram": "严肃的杜拉姆",
+		"Shaman meow": "萨满喵",
+		"Shop Helper": "商店助手",
+		Sirood: "西鲁德",
+		"Smart Doram": "聪明的杜拉姆",
+		Soup: "苏普",
+		Tadde: "塔德",
+		Tali: "塔莉",
+		"Talkative Adventurer": "健谈的冒险者",
+		"Talkative Kid": "健谈的小孩",
+		"The brave third": "勇敢的老三",
+		"The diligent second son": "勤奋的二儿子",
+		"The sensitive-minded ela": "心思细腻的老大",
+		"The skittish fourth": "胆小的老四",
+		Tos: "托斯",
+		"Tool Merchant": "工具商人",
+		"Vigilante Guide": "治安队向导",
+		"Vigilante Olio": "治安队员奥利奥",
+		"Vigilante Penne": "巡逻队佩内",
+		Vongolo: "翁戈洛",
+		"Wedding Secretary": "婚礼秘书",
+		"Workshop Manager": "工坊管理员",
+		"Youngster meow": "年轻喵"
+	};
+}));
+//#endregion
 //#region src/DB/NpcNameTable.js
 var PACKET_NAME_VISIBLE_LENGTH, NpcNameTable;
 var init_NpcNameTable = __esmMin((() => {
@@ -93971,6 +94067,7 @@ var init_NpcNameTable = __esmMin((() => {
 	init_P3RegionalDungeonNpcNameTable();
 	init_P3MidgameDungeonNpcNameTable();
 	init_P3RemainingCommonNpcNameTable();
+	init_SpawnTownNpcNameTable();
 	PACKET_NAME_VISIBLE_LENGTH = 23;
 	NpcNameTable = {
 		...SecondStageNpcNameTable_default,
@@ -93983,7 +94080,26 @@ var init_NpcNameTable = __esmMin((() => {
 		Sonya: "索尼娅",
 		"Grandmother Alma": "阿尔玛奶奶",
 		Fisk: "菲斯克",
+		Aaron: "亚伦",
+		"Archer Zakk": "弓箭手扎克",
+		"Chief Guardsman": "卫兵队长",
+		Guardsman: "卫兵",
+		Hadenheim: "哈登海姆",
+		"Merchant Daven": "商人达文",
+		Skyler: "斯凯勒",
 		Paul: "保罗",
+		"Wounded Swordsman": "受伤的剑士",
+		"Captain Carocc": "卡洛克船长",
+		Carocc: "卡洛克船长",
+		"Con-Chliina Crewman": "康·奇利纳船员",
+		Lumin: "卢敏",
+		"Vigilante Ajegna": "治安队员阿杰尼亚",
+		"Applicant Paul": "申请者保罗",
+		"Applicant MacCarnie": "申请者麦卡尼",
+		"Vigilante Gnocchi": "治安队员尼奥基",
+		"Vigilante Aglio": "治安队员阿利奥",
+		Sloth: "懒汉",
+		"Well-known Troublemaker": "知名捣蛋鬼",
 		Phelix: "菲利克斯",
 		Meera: "米拉",
 		Orwalk: "奥尔沃克",
@@ -94068,7 +94184,8 @@ var init_NpcNameTable = __esmMin((() => {
 		...P3TurtleIslandNpcNameTable_default,
 		...P3RegionalDungeonNpcNameTable_default,
 		...P3MidgameDungeonNpcNameTable_default,
-		...P3RemainingCommonNpcNameTable_default
+		...P3RemainingCommonNpcNameTable_default,
+		...SpawnTownNpcNameTable_default
 	};
 	for (const [source, translated] of Object.entries(NpcNameTable)) {
 		if (!/^[\u0020-\u007e]+$/.test(source) || source.length <= PACKET_NAME_VISIBLE_LENGTH) continue;
@@ -147013,6 +147130,19 @@ var init_StatusInfo = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Status/StatusDescriptionLocalization.js
+function snapshotLocalizedStatusDescriptions(statusInfo) {
+	const descriptions = /* @__PURE__ */ new Map();
+	for (const [id, info] of Object.entries(statusInfo)) if (Array.isArray(info.descript) && info.descript.length > 0) descriptions.set(Number(id), info.descript.map((line) => [...line]));
+	return descriptions;
+}
+function restoreLocalizedStatusDescription(statusInfo, descriptions, id) {
+	const localized = descriptions.get(Number(id));
+	statusInfo[id].descript = localized ? localized.map((line) => [...line]) : [];
+	return Boolean(localized);
+}
+var init_StatusDescriptionLocalization = __esmMin((() => {}));
+//#endregion
 //#region src/Vendors/xmlparse.js
 /**
 * Vendors/xmlparse.js
@@ -155095,9 +155225,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"int_land.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "遥远岛屿" },
+			signName: { mainTitle: "偏远岛屿" },
 			notifyEnter: true,
-			displayName: "遥远岛屿"
+			displayName: "偏远岛屿"
 		},
 		"aldeba_in.rsw": { displayName: "艾尔帕兰内部" },
 		"ve_in.rsw": { displayName: "维因斯内部" },
@@ -155652,9 +155782,9 @@ var init_MapTable = __esmMin((() => {
 		"quiz_02.rsw": { displayName: "问答竞技场" },
 		"int_land04.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "遥远岛屿" },
+			signName: { mainTitle: "偏远岛屿" },
 			notifyEnter: true,
-			displayName: "遥远岛屿"
+			displayName: "偏远岛屿"
 		},
 		"ice_dun01.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -156778,9 +156908,9 @@ var init_MapTable = __esmMin((() => {
 		"in_orcs01.rsw": { displayName: "兽人村内部" },
 		"int_land02.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "遥远岛屿" },
+			signName: { mainTitle: "偏远岛屿" },
 			notifyEnter: true,
-			displayName: "遥远岛屿"
+			displayName: "偏远岛屿"
 		},
 		"knight_1-1.rsw": { displayName: "骑士团" },
 		"in_hunter.rsw": {
@@ -157983,9 +158113,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"int_land01.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "Remote Island" },
+			signName: { mainTitle: "偏远岛屿" },
 			notifyEnter: true,
-			displayName: "Remote Island"
+			displayName: "偏远岛屿"
 		},
 		"ra_in01.rsw": { displayName: "Inside Rachel" },
 		"grademk.rsw": {
@@ -158407,6 +158537,80 @@ var init_MapTable = __esmMin((() => {
 			displayName: "梦罗克伊甸园集团内部"
 		},
 		"que_dan01.rsw": { displayName: "胡戈尔原野" }
+	};
+}));
+//#endregion
+//#region src/DB/Map/MapInfoLocalization.js
+function containsChinese(value) {
+	return typeof value === "string" && /[\u3400-\u9fff]/.test(value);
+}
+function mergeLocalizedMapInfo(official = {}, localized = {}) {
+	const merged = { ...official };
+	if (containsChinese(localized.displayName)) merged.displayName = localized.displayName;
+	const localizedSignName = {};
+	for (const key of ["mainTitle", "subTitle"]) if (containsChinese(localized.signName?.[key])) localizedSignName[key] = localized.signName[key];
+	if (Object.keys(localizedSignName).length > 0) merged.signName = {
+		...official.signName,
+		...localizedSignName
+	};
+	return merged;
+}
+var init_MapInfoLocalization = __esmMin((() => {}));
+//#endregion
+//#region src/DB/SignBoardTranslationTable.js
+var SignBoardTranslationTable_default;
+var init_SignBoardTranslationTable = __esmMin((() => {
+	SignBoardTranslationTable_default = {
+		"180Lv미만 출입금지": "180级以下禁止进入",
+		"190Lv미만 출입금지": "190级以下禁止进入",
+		"거북섬 행": "前往龟岛",
+		"결혼 신청": "申请结婚",
+		"고급 방어구 지원": "高级防具支援",
+		"골든메이스 클랜": "黄金权杖公会",
+		"기본 장비 지원": "基础装备支援",
+		"낙원단 공간이동사": "乐园团空间传送员",
+		난파선행: "前往沉船",
+		"데와타 행": "前往德瓦他",
+		"독립 도우미": "独立助手",
+		등급강화소: "等级强化所",
+		"라자냐 행": "前往拉萨格纳",
+		"락 릿지 행": "前往岩岭镇",
+		루티에행: "前往姜饼城",
+		"마일리지 스톤교환": "里程碑兑换",
+		"말랑도 행": "前往绵绵岛",
+		"모스코비아 행": "前往莫斯科比亚",
+		"부스터 의상 인챈트": "加速器服饰附魔",
+		"부스터 프로모션": "加速器推广",
+		부스터일루시온인챈트: "加速器幻影附魔",
+		"브라질리스 행": "前往巴西",
+		"비공정 출구": "飞艇出口",
+		"소드 클랜": "剑士公会",
+		"쉐도우 장비 대여": "影子装备租赁",
+		"슈발츠발드 국내선": "施瓦茨瓦尔德国内航线",
+		"아마쯔 행": "前往天津町",
+		"아요타야 행": "前往哎哟泰雅",
+		"아크완드 클랜": "奥术法杖公会",
+		"알베르타 행": "前往艾尔贝塔",
+		알베르타행: "前往艾尔贝塔",
+		"여객선 승선": "搭乘客轮",
+		"오딘신전 행": "前往奥丁神殿",
+		"용지성 행": "前往洛阳",
+		"유노-라헬 행": "朱诺-拉赫航线",
+		"유노-이즈루드 행": "朱诺-伊兹鲁德航线",
+		"이즈루드-라헬 행": "伊兹鲁德-拉赫航线",
+		이즈루드행: "前往伊兹鲁德",
+		입력안하셨습니다: "尚未输入",
+		자와이행: "前往爪哇伊",
+		"중급 고급 무기 지원": "中高级武器支援",
+		"쿤룬 행": "前往昆仑",
+		"크로스보우 클랜": "十字弓公会",
+		파라마켓: "乐园市场",
+		"포트말라야 행": "前往港口马来亚",
+		"표본 환경 - 죽음": "样本环境 - 死亡",
+		"표본 환경 - 초원": "样本环境 - 草原",
+		"표본 환경 - 혹한": "样本环境 - 极寒",
+		"표본 환경 - 화염": "样本环境 - 火焰",
+		"휘겔 행": "前往胡戈尔"
 	};
 }));
 //#endregion
@@ -222853,7 +223057,7 @@ var init_InputBox$2 = __esmMin((() => {
 //#region src/UI/Components/InputBox/InputBox.css?raw
 var InputBox_default$1;
 var init_InputBox$1 = __esmMin((() => {
-	InputBox_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n	z-index: 1000;\r\n}\r\n\r\n#inputbox {\r\n	position: relative;\r\n	width: 274px;\r\n	height: 44px;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n}\r\n#inputbox .border {\r\n	border-radius: 5px;\r\n	border: 1px solid #c1c6c2;\r\n	width: 262px;\r\n	height: 37px;\r\n	padding-top: 5px;\r\n	padding-left: 10px;\r\n}\r\n#inputbox .text {\r\n	border-radius: 5px;\r\n	width: 270px;\r\n	height: 13px;\r\n	overflow: hidden;\r\n}\r\n#inputbox input {\r\n	border: 0;\r\n	background-color: #efefef;\r\n	width: 203px;\r\n	height: 16px;\r\n	margin-top: 3px;\r\n}\r\n#inputbox ui-button {\r\n	width: 42px;\r\n	height: 20px;\r\n	position: absolute;\r\n	bottom: 13px;\r\n	right: 10px;\r\n}\r\n\r\n#inputbox.number {\r\n	width: 174px;\r\n}\r\n#inputbox.number .border {\r\n	width: 162px;\r\n}\r\n#inputbox.number .text {\r\n	width: 170px;\r\n}\r\n#inputbox.number input {\r\n	width: 103px;\r\n}\r\n";
+	InputBox_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n	z-index: 1000;\r\n}\r\n\r\n#inputbox {\r\n	position: relative;\r\n	width: 274px;\r\n	height: 44px;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n}\r\n#inputbox .border {\r\n	border-radius: 5px;\r\n	border: 1px solid #c1c6c2;\r\n	width: 262px;\r\n	height: 37px;\r\n	padding-top: 5px;\r\n	padding-left: 10px;\r\n}\r\n#inputbox .text {\r\n	border-radius: 5px;\r\n	width: 270px;\r\n	height: 13px;\r\n	overflow: hidden;\r\n}\r\n#inputbox input {\r\n	border: 0;\r\n	background-color: #efefef;\r\n	width: 203px;\r\n	height: 16px;\r\n	margin-top: 3px;\r\n}\r\n#inputbox ui-button {\r\n	width: 42px;\r\n	height: 20px;\r\n	position: absolute;\r\n	bottom: 5px;\r\n	right: 10px;\r\n}\r\n\r\n#inputbox.number {\r\n	width: 174px;\r\n}\r\n#inputbox.number .border {\r\n	width: 162px;\r\n}\r\n#inputbox.number .text {\r\n	width: 170px;\r\n}\r\n#inputbox.number input {\r\n	width: 103px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/InputBox/InputBox.js
@@ -223537,6 +223741,18 @@ var init_MiniMap$2 = __esmMin((() => {
 	MiniMap_default$1 = ":host {\r\n	top: 2px;\r\n	right: 2px;\r\n}\r\n\r\n#minimap ui-button.plus {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 4px;\r\n	width: 12px;\r\n	height: 12px;\r\n}\r\n\r\n#minimap ui-button.minus {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 18px;\r\n	width: 12px;\r\n	height: 12px;\r\n}\r\n";
 }));
 //#endregion
+//#region src/DB/Map/MiniMapTable.js
+var MiniMapTable_default;
+var init_MiniMapTable = __esmMin((() => {
+	MiniMapTable_default = {
+		int_land: "alb2trea",
+		int_land01: "alb2trea",
+		int_land02: "alb2trea",
+		int_land03: "alb2trea",
+		int_land04: "alb2trea"
+	};
+}));
+//#endregion
 //#region src/UI/Components/MiniMap/MiniMapCommon.js
 /**
 * Create MiniMap component
@@ -223708,7 +223924,9 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 		_map.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 		_fallbackMap = null;
 		_towninfo = DB.getTownInfo(mapname.replace(/\..*/, ""));
-		let path = DB.INTERFACE_PATH.replace("data/texture/", "") + "map/" + mapname.replace(/\..*/, ".bmp");
+		const mapBaseName = mapname.replace(/\..*/, "");
+		const miniMapBaseName = MiniMapTable_default[mapBaseName] || mapBaseName;
+		let path = DB.INTERFACE_PATH.replace("data/texture/", "") + "map/" + miniMapBaseName + ".bmp";
 		path = path.replace(/\//g, "\\");
 		path = DB.mapalias[path] || path;
 		Client.loadFile(`data/texture/${path}`, (dataURI) => {
@@ -224094,6 +224312,7 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 }
 var init_MiniMapCommon = __esmMin((() => {
 	init_DBManager();
+	init_MiniMapTable();
 	init_Client();
 	init_Preferences$1();
 	init_SessionStorage();
@@ -225703,6 +225922,19 @@ var init_MiniMap = __esmMin((() => {
 	Controller$5.getMemberColor = function getMemberColor(key) {
 		const ui = Controller$5.getUI();
 		return ui && ui.getMemberColor ? ui.getMemberColor(key) : "white";
+	};
+}));
+//#endregion
+//#region src/DB/Jobs/JobDisplayNameTable.js
+function getJobDisplayName(jobId, fallback = "未知") {
+	return JobDisplayNameTable[jobId] || MonsterTable_default[jobId] || fallback;
+}
+var JobDisplayNameTable;
+var init_JobDisplayNameTable = __esmMin((() => {
+	init_MonsterTable();
+	JobDisplayNameTable = {
+		4218: "召唤师",
+		4220: "召唤师宝宝"
 	};
 }));
 //#endregion
@@ -228794,7 +229026,7 @@ function createPartyFriends(config) {
 			const isDead = !!player.isDead;
 			const isOnline = player.state === 0;
 			const isDetached = !!_detachedMembers[player.AID];
-			const jobName = MonsterTable_default[job] || "未知";
+			const jobName = getJobDisplayName(job);
 			const mapDisplay = DB.getMapName(player.mapName);
 			player.color = Controller$5 && Controller$5.getMemberColor ? Controller$5.getMemberColor(player.AID) : "white";
 			const nameTooltip = `${player.characterName} (${mapDisplay})`;
@@ -229740,7 +229972,7 @@ var init_PartyFriendsCommon = __esmMin((() => {
 	init_Camera();
 	init_MiniMap();
 	init_Preferences$1();
-	init_MonsterTable();
+	init_JobDisplayNameTable();
 	init_Client();
 	init_Renderer();
 	init_SessionStorage();
@@ -244816,21 +245048,6 @@ var init_NpcBox$1 = __esmMin((() => {
 	NpcBox_default$1 = ":host {\r\n	width: 276px;\r\n	height: 176px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcBox {\r\n	position: absolute;\r\n	width: 276px;\r\n	height: 176px;\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n}\r\n#NpcBox .border {\r\n	border: 1px solid #c1c6c2;\r\n	width: 264px;\r\n	height: 164px;\r\n	padding: 5px;\r\n	border-radius: 5px;\r\n}\r\n#NpcBox .content {\r\n	white-space: pre-wrap;\r\n	background-color: #eff4f0;\r\n	width: 254px;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n}\r\n#NpcBox .btns {\r\n	position: absolute;\r\n	bottom: 5px;\r\n	right: 5px;\r\n}\r\n#NpcBox .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	display: none;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link {\r\n	color: #0070c0;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link:hover {\r\n	color: #00a0ff;\r\n}\r\n\r\n.navi-link {\r\n	color: #c00000;\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n\r\n.navi-link:hover {\r\n	color: #ff0000;\r\n}\r\n";
 }));
 //#endregion
-//#region src/UI/NpcTextFormatting.js
-function normalizeROFontSizes(text) {
-	if (!text) return "";
-	return String(text).replace(/<font\b([^>]*)>/gi, (tag, attributes) => {
-		const sizeMatch = attributes.match(FONT_SIZE_ATTRIBUTE);
-		if (!sizeMatch) return tag;
-		const size = Number(sizeMatch[1] || sizeMatch[2] || sizeMatch[3]);
-		return `<font${attributes.replace(FONT_SIZE_ATTRIBUTE, "")} style="font-size:${size}px">`;
-	});
-}
-var FONT_SIZE_ATTRIBUTE;
-var init_NpcTextFormatting = __esmMin((() => {
-	FONT_SIZE_ATTRIBUTE = /\s+size\s*=\s*(?:"(\d+)"|'(\d+)'|(\d+))/i;
-}));
-//#endregion
 //#region src/UI/Components/NpcBox/NpcBox.js
 /**
 * Process NAVI tags in text
@@ -244870,7 +245087,6 @@ function processText(text) {
 	text = processItemTags(text);
 	text = processNAVITags(text);
 	text = processColorCodes(text);
-	text = normalizeROFontSizes(text);
 	return text;
 }
 function _isVisible$1(el) {
@@ -244889,7 +245105,6 @@ var init_NpcBox = __esmMin((() => {
 	init_NpcBox$1();
 	init_NpcMenu();
 	init_InputBox();
-	init_NpcTextFormatting();
 	NpcBox = new GUIComponent("NpcBox", NpcBox_default$1);
 	NpcBox.render = () => NpcBox_default$2;
 	/**
@@ -245018,7 +245233,10 @@ var init_NpcBox = __esmMin((() => {
 	*/
 	NpcBox.addNext = function addNext(gid) {
 		NpcBox.ownerID = gid;
-		const nextBtn = NpcBox.getRoot().querySelector(".next");
+		const root = NpcBox.getRoot();
+		const nextBtn = root.querySelector(".next");
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) closeBtn.style.display = "none";
 		if (nextBtn) nextBtn.style.display = "block";
 	};
 	/**
@@ -245028,7 +245246,10 @@ var init_NpcBox = __esmMin((() => {
 	*/
 	NpcBox.addClose = function addClose(gid) {
 		NpcBox.ownerID = gid;
-		const closeBtn = NpcBox.getRoot().querySelector(".close");
+		const root = NpcBox.getRoot();
+		const closeBtn = root.querySelector(".close");
+		const nextBtn = root.querySelector(".next");
+		if (nextBtn) nextBtn.style.display = "none";
 		if (closeBtn) closeBtn.style.display = "block";
 	};
 	/**
@@ -248857,7 +249078,7 @@ var init_CaptchaSelector = __esmMin((() => {
 	init_EntityManager();
 	init_SessionStorage();
 	init_DBManager();
-	init_MonsterTable();
+	init_JobDisplayNameTable();
 	init_Elements();
 	init_CaptchaSelector$2();
 	init_CaptchaSelector$1();
@@ -248981,7 +249202,7 @@ var init_CaptchaSelector = __esmMin((() => {
 			link.addEventListener("click", () => {
 				const charEntity = EntityManager.get(aid);
 				const charName = charEntity?.display?.name ?? "未知";
-				const charJob = MonsterTable_default[charEntity?._job ?? 0] ?? "未知";
+				const charJob = getJobDisplayName(charEntity?._job ?? 0);
 				const charInfo = root.querySelector(".character_info");
 				if (charInfo) {
 					const nameEl = charInfo.querySelector(".character-name");
@@ -248999,7 +249220,7 @@ var init_CaptchaSelector = __esmMin((() => {
 			_aidInformation.push({
 				aid,
 				name,
-				job: MonsterTable_default[entity?._job ?? 0] ?? "未知"
+				job: getJobDisplayName(entity?._job ?? 0)
 			});
 		}
 		_aidList = players;
@@ -297604,6 +297825,7 @@ function loadStateIconInfo(basePath, callback, onEnd) {
 		"stateiconimginfo.lub",
 		"stateiconinfo.lub"
 	];
+	const localizedStatusDescriptions = snapshotLocalizedStatusDescriptions(StatusInfo);
 	const loadedBuffers = [];
 	const dirPath = basePath.endsWith("/") ? basePath : basePath + "/";
 	function loadNext(index) {
@@ -297640,11 +297862,12 @@ function loadStateIconInfo(basePath, callback, onEnd) {
 				if (!StatusInfo[id]) StatusInfo[id] = {};
 				StatusInfo[id].haveTimeLimit = haveTimeLimit;
 				StatusInfo[id].posTimeLimitStr = posTimeLimitStr;
-				StatusInfo[id].descript = [];
+				restoreLocalizedStatusDescription(StatusInfo, localizedStatusDescriptions, id);
 				return 1;
 			};
 			ctx.AddStatusDesc = (id, desc, r, g, b) => {
 				if (!StatusInfo[id]) return 0;
+				if (localizedStatusDescriptions.has(Number(id))) return 1;
 				const text = userStringDecoder.decode(desc, userCharpage);
 				let color = null;
 				if (r >= 0 && g >= 0 && b >= 0) color = `rgb(${r}, ${g}, ${b})`;
@@ -298211,6 +298434,7 @@ var init_DBManager = __esmMin((() => {
 	init_WeaponTrailTable();
 	init_TownInfo();
 	init_StatusInfo();
+	init_StatusDescriptionLocalization();
 	init_StatusConst();
 	init_xmlparse();
 	init_Base62();
@@ -298220,6 +298444,8 @@ var init_DBManager = __esmMin((() => {
 	init_PetFriendlyState();
 	init_PetMessageConst();
 	init_MapTable();
+	init_MapInfoLocalization();
+	init_SignBoardTranslationTable();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_PacketVerManager();
@@ -298248,7 +298474,7 @@ var init_DBManager = __esmMin((() => {
 	};
 	EnchantListTable = {};
 	SignBoardTranslatedTable = {};
-	SignBoardOverrides = { "낙원단 공간이동사": "乐园团空间传送员" };
+	SignBoardOverrides = SignBoardTranslationTable_default;
 	SignBoardTable = {};
 	NaviMapTable = {};
 	NaviMobTable = {};
@@ -298446,7 +298672,7 @@ var init_DBManager = __esmMin((() => {
 				if (PacketVerManager_default.value >= 20200916) loadItemReformFile(DB.LUA_PATH + "ItemReform/ItemReformSystem.lub", null, onLoad());
 				if (PacketVerManager_default.value >= 20211103) loadEnchantListFile(DB.LUA_PATH + "Enchant/EnchantList", onLoad());
 				if (Configs.get("enableMapName")) tryLoadLuaAliases(loadMapTbl, getSystemAliases("System/mapInfo.lub"), function(json) {
-					for (const key in json) if (json.hasOwnProperty(key)) MapInfo[key] = json[key];
+					for (const key in json) if (json.hasOwnProperty(key)) MapInfo[key] = mergeLocalizedMapInfo(json[key], LocalizedMapInfo[key]);
 					updateMapTable();
 				}, onLoad());
 				const onSignBoardEnd = onLoad();
@@ -332761,7 +332987,7 @@ function createCharSelect(config) {
 			repeat: true
 		});
 		charinfo.querySelector(".name").textContent = info.name;
-		charinfo.querySelector(".job").textContent = MonsterTable_default[info.job] || "";
+		charinfo.querySelector(".job").textContent = getJobDisplayName(info.job, "");
 		charinfo.querySelector(".lvl").textContent = info.level;
 		charinfo.querySelector(".exp").textContent = info.exp;
 		charinfo.querySelector(".hp").textContent = info.hp;
@@ -332876,7 +333102,7 @@ function createCharSelect(config) {
 		}
 		root.querySelector(".ok").style.display = "block";
 		charinfo.querySelector(".map").textContent = DB.getMapName(info.lastMap, "") || "";
-		charinfo.querySelector(".job").textContent = MonsterTable_default[info.job] || "";
+		charinfo.querySelector(".job").textContent = getJobDisplayName(info.job, "");
 		charinfo.querySelector(".lvl").textContent = info.level;
 		charinfo.querySelector(".exp").textContent = info.exp;
 		charinfo.querySelector(".hp").textContent = info.hp;
@@ -332976,7 +333202,7 @@ function createCharSelect(config) {
 }
 var init_CharSelectCommon = __esmMin((() => {
 	init_DBManager();
-	init_MonsterTable();
+	init_JobDisplayNameTable();
 	init_Preferences$1();
 	init_Client();
 	init_KeyEventHandler();
@@ -334001,13 +334227,13 @@ var init_CharCreatev3 = __esmMin((() => {
 //#region src/UI/Components/CharCreate/CharCreatev4/CharCreatev4.html?raw
 var CharCreatev4_default$2;
 var init_CharCreatev4$2 = __esmMin((() => {
-	CharCreatev4_default$2 = "<div id=\"charcreate_v4\">\r\n	<ui-image src=\"make_character_ver2/bg_makebg.bmp\"></ui-image>\r\n	<div class=\"title\"></div>\r\n	<div>\r\n		<div class=\"human\">\r\n			<input type=\"radio\" name=\"race\" id=\"human_race\" checked class=\"race\" />\r\n			<label for=\"human_race\" class=\"human_label\">\r\n				<div class=\"human_title\"></div>\r\n				<div class=\"human_desc\"></div>\r\n				<div class=\"chargen\">\r\n					<canvas id=\"human\" width=\"65\" height=\"110\" style=\"pointer-events: none\"></canvas>\r\n				</div>\r\n			</label>\r\n		</div>\r\n\r\n		<div class=\"doram\">\r\n			<input type=\"radio\" name=\"race\" id=\"doram_race\" class=\"race\" />\r\n			<label for=\"doram_race\" class=\"doram_label\">\r\n				<div class=\"doram_title\"></div>\r\n				<div class=\"doram_desc\"></div>\r\n				<div class=\"chargen_doram\">\r\n					<canvas id=\"doram\" width=\"65\" height=\"110\" style=\"pointer-events: none\"></canvas>\r\n				</div>\r\n			</label>\r\n		</div>\r\n	</div>\r\n	<div id=\"style\">\r\n		<div class=\"gender\">\r\n			<div id=\"male_container\" data-background=\"make_character_ver2/bt_male_on.bmp\">\r\n				<input type=\"radio\" name=\"gender\" id=\"male\" checked class=\"gender_button\" />\r\n				<label for=\"male\" class=\"male_button\"> </label>\r\n			</div>\r\n			<div id=\"female_container\" data-background=\"make_character_ver2/bt_female_off.bmp\">\r\n				<input type=\"radio\" name=\"gender\" id=\"female\" class=\"gender_button\" />\r\n				<label for=\"female\" class=\"female_button\"> </label>\r\n			</div>\r\n		</div>\r\n		<div class=\"model\">\r\n			<canvas id=\"style_model\" width=\"65\" height=\"110\" style=\"pointer-events: none\"></canvas>\r\n		</div>\r\n		<ui-button\r\n			class=\"rot_left\"\r\n			bg=\"make_character_ver2/bt_leftturn_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_leftturn_over.bmp\"\r\n			down=\"make_character_ver2/bt_leftturn_press.bmp\"\r\n		></ui-button>\r\n		<ui-button\r\n			class=\"rot_right\"\r\n			bg=\"make_character_ver2/bt_rightturn_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_rightturn_over.bmp\"\r\n			down=\"make_character_ver2/bt_rightturn_press.bmp\"\r\n		></ui-button>\r\n		<input type=\"text\" id=\"char_name\" maxlength=\"24\" />\r\n	</div>\r\n\r\n	<div id=\"hair_setting\">\r\n		<div class=\"hair_style_title\"></div>\r\n		<div class=\"hair_styles\">\r\n			<div id=\"human_male\" class=\"hair-style\">\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style1\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"1_human_male\" checked class=\"hstyle\" />\r\n						<label for=\"1_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle01.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style2\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"2_human_male\" class=\"hstyle\" />\r\n						<label for=\"2_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle02.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style3\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"3_human_male\" class=\"hstyle\" />\r\n						<label for=\"3_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle03.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style4\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"4_human_male\" class=\"hstyle\" />\r\n						<label for=\"4_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle04.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style5\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"5_human_male\" class=\"hstyle\" />\r\n						<label for=\"5_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle05.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style6\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"6_human_male\" class=\"hstyle\" />\r\n						<label for=\"6_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle06.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style7\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"7_human_male\" class=\"hstyle\" />\r\n						<label for=\"7_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle07.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style8\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"8_human_male\" class=\"hstyle\" />\r\n						<label for=\"8_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle08.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style9\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"9_human_male\" class=\"hstyle\" />\r\n						<label for=\"9_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle09.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style10\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"10_human_male\" class=\"hstyle\" />\r\n						<label for=\"10_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle10.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style11\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"11_human_male\" class=\"hstyle\" />\r\n						<label for=\"11_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle11.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style12\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"12_human_male\" class=\"hstyle\" />\r\n						<label for=\"12_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle12.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style13\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"13_human_male\" class=\"hstyle\" />\r\n						<label for=\"13_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle13.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style14\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"14_human_male\" class=\"hstyle\" />\r\n						<label for=\"14_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle14.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style15\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"15_human_male\" class=\"hstyle\" />\r\n						<label for=\"15_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle15.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style16\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"16_human_male\" class=\"hstyle\" />\r\n						<label for=\"16_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle16.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style17\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"17_human_male\" class=\"hstyle\" />\r\n						<label for=\"17_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle17.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style18\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"18_human_male\" class=\"hstyle\" />\r\n						<label for=\"18_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle18.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style19\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"19_human_male\" class=\"hstyle\" />\r\n						<label for=\"19_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle19.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style20\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"20_human_male\" class=\"hstyle\" />\r\n						<label for=\"20_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle20.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style21\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"21_human_male\" class=\"hstyle\" />\r\n						<label for=\"21_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle21.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style22\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"22_human_male\" class=\"hstyle\" />\r\n						<label for=\"22_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle22.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style23\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"23_human_male\" class=\"hstyle\" />\r\n						<label for=\"23_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle23.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style24\"></div>\r\n				</div>\r\n			</div>\r\n			<div id=\"human_female\" class=\"hair-style\">\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style1\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"1_human_female\" checked class=\"hstyle\" />\r\n						<label for=\"1_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl01.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style2\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"2_human_female\" class=\"hstyle\" />\r\n						<label for=\"2_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl02.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style3\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"3_human_female\" class=\"hstyle\" />\r\n						<label for=\"3_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl03.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style4\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"4_human_female\" class=\"hstyle\" />\r\n						<label for=\"4_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl04.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style5\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"5_human_female\" class=\"hstyle\" />\r\n						<label for=\"5_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl05.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style6\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"6_human_female\" class=\"hstyle\" />\r\n						<label for=\"6_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl06.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style7\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"7_human_female\" class=\"hstyle\" />\r\n						<label for=\"7_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl07.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style8\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"8_human_female\" class=\"hstyle\" />\r\n						<label for=\"8_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl08.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style9\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"9_human_female\" class=\"hstyle\" />\r\n						<label for=\"9_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl09.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style10\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"10_human_female\" class=\"hstyle\" />\r\n						<label for=\"10_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl10.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style11\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"11_human_female\" class=\"hstyle\" />\r\n						<label for=\"11_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl11.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style12\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"12_human_female\" class=\"hstyle\" />\r\n						<label for=\"12_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl12.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style13\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"13_human_female\" class=\"hstyle\" />\r\n						<label for=\"13_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl13.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style14\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"14_human_female\" class=\"hstyle\" />\r\n						<label for=\"14_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl14.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style15\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"15_human_female\" class=\"hstyle\" />\r\n						<label for=\"15_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl15.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style16\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"16_human_female\" class=\"hstyle\" />\r\n						<label for=\"16_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl16.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style17\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"17_human_female\" class=\"hstyle\" />\r\n						<label for=\"17_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl17.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style18\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"18_human_female\" class=\"hstyle\" />\r\n						<label for=\"18_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl18.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style19\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"19_human_female\" class=\"hstyle\" />\r\n						<label for=\"19_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl19.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style20\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"20_human_female\" class=\"hstyle\" />\r\n						<label for=\"20_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl20.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style21\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"21_human_female\" class=\"hstyle\" />\r\n						<label for=\"21_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl21.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style22\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"22_human_female\" class=\"hstyle\" />\r\n						<label for=\"22_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl22.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style23\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"23_human_female\" class=\"hstyle\" />\r\n						<label for=\"23_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl23.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style24\"></div>\r\n				</div>\r\n			</div>\r\n			<div id=\"doram_male\" class=\"hair-style\">\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style1\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"1_doram_male\" checked class=\"hstyle\" />\r\n						<label for=\"1_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy01.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style2\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"2_doram_male\" class=\"hstyle\" />\r\n						<label for=\"2_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy02.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style3\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"3_doram_male\" class=\"hstyle\" />\r\n						<label for=\"3_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy03.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style4\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"4_doram_male\" class=\"hstyle\" />\r\n						<label for=\"4_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy04.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style5\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"5_doram_male\" class=\"hstyle\" />\r\n						<label for=\"5_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy05.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style6\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"6_doram_male\" class=\"hstyle\" />\r\n						<label for=\"6_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy06.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style7\"></div>\r\n					<div class=\"styleCol style8\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style9\"></div>\r\n					<div class=\"styleCol style10\"></div>\r\n					<div class=\"styleCol style11\"></div>\r\n					<div class=\"styleCol style12\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style13\"></div>\r\n					<div class=\"styleCol style14\"></div>\r\n					<div class=\"styleCol style15\"></div>\r\n					<div class=\"styleCol style16\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style17\"></div>\r\n					<div class=\"styleCol style18\"></div>\r\n					<div class=\"styleCol style19\"></div>\r\n					<div class=\"styleCol style20\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style21\"></div>\r\n					<div class=\"styleCol style22\"></div>\r\n					<div class=\"styleCol style23\"></div>\r\n					<div class=\"styleCol style24\"></div>\r\n				</div>\r\n			</div>\r\n			<div id=\"doram_female\" class=\"hair-style\">\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style1\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"1_doram_female\" checked class=\"hstyle\" />\r\n						<label for=\"1_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl01.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style2\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"2_doram_female\" class=\"hstyle\" />\r\n						<label for=\"2_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl02.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style3\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"3_doram_female\" class=\"hstyle\" />\r\n						<label for=\"3_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl03.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style4\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"4_doram_female\" class=\"hstyle\" />\r\n						<label for=\"4_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl04.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style5\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"5_doram_female\" class=\"hstyle\" />\r\n						<label for=\"5_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl05.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style6\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"6_doram_female\" class=\"hstyle\" />\r\n						<label for=\"6_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl06.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style7\"></div>\r\n					<div class=\"styleCol style8\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style9\"></div>\r\n					<div class=\"styleCol style10\"></div>\r\n					<div class=\"styleCol style11\"></div>\r\n					<div class=\"styleCol style12\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style13\"></div>\r\n					<div class=\"styleCol style14\"></div>\r\n					<div class=\"styleCol style15\"></div>\r\n					<div class=\"styleCol style16\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style17\"></div>\r\n					<div class=\"styleCol style18\"></div>\r\n					<div class=\"styleCol style19\"></div>\r\n					<div class=\"styleCol style20\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style21\"></div>\r\n					<div class=\"styleCol style22\"></div>\r\n					<div class=\"styleCol style23\"></div>\r\n					<div class=\"styleCol style24\"></div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"hair_color_title\"></div>\r\n		<div class=\"hair_colors\">\r\n			<div class=\"haircolor_row\">\r\n				<div class=\"colorCol cstyle00\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"0_color\" checked class=\"hcolor\" />\r\n					<label for=\"0_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle01\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"1_color\" class=\"hcolor\" />\r\n					<label for=\"1_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle02\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"2_color\" class=\"hcolor\" />\r\n					<label for=\"2_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle03\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"3_color\" class=\"hcolor\" />\r\n					<label for=\"3_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle04\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"4_color\" class=\"hcolor\" />\r\n					<label for=\"4_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n			</div>\r\n			<div class=\"haircolor_row\">\r\n				<div class=\"colorCol cstyle05\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"5_color\" class=\"hcolor\" />\r\n					<label for=\"5_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle06\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"6_color\" class=\"hcolor\" />\r\n					<label for=\"6_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle07\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"7_color\" class=\"hcolor\" />\r\n					<label for=\"7_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle08\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"8_color\" class=\"hcolor\" />\r\n					<label for=\"8_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"btns\">\r\n		<ui-button\r\n			class=\"btn cancel\"\r\n			data-localized-label=\"取消\"\r\n			bg=\"make_character_ver2/bt_close_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_close_over.bmp\"\r\n			down=\"make_character_ver2/bt_close_press.bmp\"\r\n		></ui-button>\r\n		<ui-button\r\n			class=\"btn make\"\r\n			data-localized-label=\"创建\"\r\n			bg=\"make_character_ver2/bt_make_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_make_over.bmp\"\r\n			down=\"make_character_ver2/bt_make_press.bmp\"\r\n		></ui-button>\r\n		<ui-button\r\n			class=\"btn return\"\r\n			data-localized-label=\"返回\"\r\n			bg=\"make_character_ver2/bt_make_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_make_over.bmp\"\r\n			down=\"make_character_ver2/bt_make_press.bmp\"\r\n		></ui-button>\r\n	</div>\r\n</div>\r\n";
+	CharCreatev4_default$2 = "<div id=\"charcreate_v4\">\r\n	<ui-image src=\"make_character_ver2/bg_makebg.bmp\"></ui-image>\r\n	<div class=\"title\"></div>\r\n	<div>\r\n		<div class=\"human\">\r\n			<input type=\"radio\" name=\"race\" id=\"human_race\" checked class=\"race\" />\r\n			<label for=\"human_race\" class=\"human_label\">\r\n				<div class=\"human_title\"></div>\r\n				<div class=\"human_desc\"></div>\r\n				<div class=\"chargen\">\r\n					<canvas id=\"human\" width=\"65\" height=\"110\" style=\"pointer-events: none\"></canvas>\r\n				</div>\r\n			</label>\r\n		</div>\r\n\r\n		<div class=\"doram\">\r\n			<input type=\"radio\" name=\"race\" id=\"doram_race\" class=\"race\" />\r\n			<label for=\"doram_race\" class=\"doram_label\">\r\n				<div class=\"doram_title\"></div>\r\n				<div class=\"doram_desc\"></div>\r\n				<div class=\"chargen_doram\">\r\n					<canvas id=\"doram\" width=\"65\" height=\"110\" style=\"pointer-events: none\"></canvas>\r\n				</div>\r\n			</label>\r\n		</div>\r\n	</div>\r\n	<div id=\"style\">\r\n		<div class=\"gender\">\r\n			<div id=\"male_container\" data-background=\"make_character_ver2/bt_male_on.bmp\">\r\n				<input type=\"radio\" name=\"gender\" id=\"male\" checked class=\"gender_button\" />\r\n				<label for=\"male\" class=\"male_button\"> </label>\r\n			</div>\r\n			<div id=\"female_container\" data-background=\"make_character_ver2/bt_female_off.bmp\">\r\n				<input type=\"radio\" name=\"gender\" id=\"female\" class=\"gender_button\" />\r\n				<label for=\"female\" class=\"female_button\"> </label>\r\n			</div>\r\n		</div>\r\n		<div class=\"model\">\r\n			<canvas id=\"style_model\" width=\"65\" height=\"110\" style=\"pointer-events: none\"></canvas>\r\n		</div>\r\n		<ui-button\r\n			class=\"rot_left\"\r\n			bg=\"make_character_ver2/bt_leftturn_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_leftturn_over.bmp\"\r\n			down=\"make_character_ver2/bt_leftturn_press.bmp\"\r\n		></ui-button>\r\n		<ui-button\r\n			class=\"rot_right\"\r\n			bg=\"make_character_ver2/bt_rightturn_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_rightturn_over.bmp\"\r\n			down=\"make_character_ver2/bt_rightturn_press.bmp\"\r\n		></ui-button>\r\n		<input type=\"text\" id=\"char_name\" maxlength=\"24\" />\r\n	</div>\r\n\r\n	<div id=\"hair_setting\">\r\n		<div class=\"hair_style_title\"></div>\r\n		<div class=\"hair_styles\">\r\n			<div id=\"human_male\" class=\"hair-style\">\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style1\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"1_human_male\" checked class=\"hstyle\" />\r\n						<label for=\"1_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle01.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style2\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"2_human_male\" class=\"hstyle\" />\r\n						<label for=\"2_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle02.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style3\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"3_human_male\" class=\"hstyle\" />\r\n						<label for=\"3_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle03.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style4\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"4_human_male\" class=\"hstyle\" />\r\n						<label for=\"4_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle04.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style5\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"5_human_male\" class=\"hstyle\" />\r\n						<label for=\"5_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle05.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style6\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"6_human_male\" class=\"hstyle\" />\r\n						<label for=\"6_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle06.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style7\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"7_human_male\" class=\"hstyle\" />\r\n						<label for=\"7_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle07.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style8\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"8_human_male\" class=\"hstyle\" />\r\n						<label for=\"8_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle08.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style9\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"9_human_male\" class=\"hstyle\" />\r\n						<label for=\"9_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle09.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style10\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"10_human_male\" class=\"hstyle\" />\r\n						<label for=\"10_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle10.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style11\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"11_human_male\" class=\"hstyle\" />\r\n						<label for=\"11_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle11.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style12\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"12_human_male\" class=\"hstyle\" />\r\n						<label for=\"12_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle12.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style13\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"13_human_male\" class=\"hstyle\" />\r\n						<label for=\"13_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle13.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style14\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"14_human_male\" class=\"hstyle\" />\r\n						<label for=\"14_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle14.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style15\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"15_human_male\" class=\"hstyle\" />\r\n						<label for=\"15_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle15.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style16\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"16_human_male\" class=\"hstyle\" />\r\n						<label for=\"16_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle16.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style17\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"17_human_male\" class=\"hstyle\" />\r\n						<label for=\"17_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle17.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style18\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"18_human_male\" class=\"hstyle\" />\r\n						<label for=\"18_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle18.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style19\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"19_human_male\" class=\"hstyle\" />\r\n						<label for=\"19_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle19.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style20\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"20_human_male\" class=\"hstyle\" />\r\n						<label for=\"20_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle20.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style21\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"21_human_male\" class=\"hstyle\" />\r\n						<label for=\"21_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle21.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style22\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"22_human_male\" class=\"hstyle\" />\r\n						<label for=\"22_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle22.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style23\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"23_human_male\" class=\"hstyle\" />\r\n						<label for=\"23_human_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle23.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style24\"></div>\r\n				</div>\r\n			</div>\r\n			<div id=\"human_female\" class=\"hair-style\">\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style1\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"1_human_female\" checked class=\"hstyle\" />\r\n						<label for=\"1_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl01.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style2\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"2_human_female\" class=\"hstyle\" />\r\n						<label for=\"2_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl02.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style3\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"3_human_female\" class=\"hstyle\" />\r\n						<label for=\"3_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl03.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style4\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"4_human_female\" class=\"hstyle\" />\r\n						<label for=\"4_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl04.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style5\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"5_human_female\" class=\"hstyle\" />\r\n						<label for=\"5_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl05.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style6\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"6_human_female\" class=\"hstyle\" />\r\n						<label for=\"6_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl06.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style7\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"7_human_female\" class=\"hstyle\" />\r\n						<label for=\"7_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl07.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style8\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"8_human_female\" class=\"hstyle\" />\r\n						<label for=\"8_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl08.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style9\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"9_human_female\" class=\"hstyle\" />\r\n						<label for=\"9_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl09.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style10\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"10_human_female\" class=\"hstyle\" />\r\n						<label for=\"10_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl10.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style11\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"11_human_female\" class=\"hstyle\" />\r\n						<label for=\"11_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl11.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style12\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"12_human_female\" class=\"hstyle\" />\r\n						<label for=\"12_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl12.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style13\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"13_human_female\" class=\"hstyle\" />\r\n						<label for=\"13_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl13.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style14\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"14_human_female\" class=\"hstyle\" />\r\n						<label for=\"14_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl14.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style15\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"15_human_female\" class=\"hstyle\" />\r\n						<label for=\"15_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl15.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style16\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"16_human_female\" class=\"hstyle\" />\r\n						<label for=\"16_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl16.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style17\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"17_human_female\" class=\"hstyle\" />\r\n						<label for=\"17_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl17.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style18\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"18_human_female\" class=\"hstyle\" />\r\n						<label for=\"18_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl18.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style19\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"19_human_female\" class=\"hstyle\" />\r\n						<label for=\"19_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl19.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style20\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"20_human_female\" class=\"hstyle\" />\r\n						<label for=\"20_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl20.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style21\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"21_human_female\" class=\"hstyle\" />\r\n						<label for=\"21_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl21.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style22\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"22_human_female\" class=\"hstyle\" />\r\n						<label for=\"22_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl22.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style23\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"23_human_female\" class=\"hstyle\" />\r\n						<label for=\"23_human_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_girl23.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style24\"></div>\r\n				</div>\r\n			</div>\r\n			<div id=\"doram_male\" class=\"hair-style\">\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style1\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"1_doram_male\" checked class=\"hstyle\" />\r\n						<label for=\"1_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy01.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style2\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"2_doram_male\" class=\"hstyle\" />\r\n						<label for=\"2_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy02.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style3\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"3_doram_male\" class=\"hstyle\" />\r\n						<label for=\"3_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy03.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style4\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"4_doram_male\" class=\"hstyle\" />\r\n						<label for=\"4_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy04.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style5\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"5_doram_male\" class=\"hstyle\" />\r\n						<label for=\"5_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy05.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style6\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"6_doram_male\" class=\"hstyle\" />\r\n						<label for=\"6_doram_male\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramboy06.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style7\"></div>\r\n					<div class=\"styleCol style8\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style9\"></div>\r\n					<div class=\"styleCol style10\"></div>\r\n					<div class=\"styleCol style11\"></div>\r\n					<div class=\"styleCol style12\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style13\"></div>\r\n					<div class=\"styleCol style14\"></div>\r\n					<div class=\"styleCol style15\"></div>\r\n					<div class=\"styleCol style16\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style17\"></div>\r\n					<div class=\"styleCol style18\"></div>\r\n					<div class=\"styleCol style19\"></div>\r\n					<div class=\"styleCol style20\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style21\"></div>\r\n					<div class=\"styleCol style22\"></div>\r\n					<div class=\"styleCol style23\"></div>\r\n					<div class=\"styleCol style24\"></div>\r\n				</div>\r\n			</div>\r\n			<div id=\"doram_female\" class=\"hair-style\">\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style1\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"1_doram_female\" checked class=\"hstyle\" />\r\n						<label for=\"1_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl01.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style2\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"2_doram_female\" class=\"hstyle\" />\r\n						<label for=\"2_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl02.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style3\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"3_doram_female\" class=\"hstyle\" />\r\n						<label for=\"3_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl03.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style4\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"4_doram_female\" class=\"hstyle\" />\r\n						<label for=\"4_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl04.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style5\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"5_doram_female\" class=\"hstyle\" />\r\n						<label for=\"5_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl05.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style6\">\r\n						<input type=\"radio\" name=\"hstyle\" id=\"6_doram_female\" class=\"hstyle\" />\r\n						<label for=\"6_doram_female\" class=\"hstyle_button\">\r\n							<ui-image src=\"make_character_ver2/img_hairstyle_doramgirl06.bmp\"></ui-image>\r\n						</label>\r\n					</div>\r\n					<div class=\"styleCol style7\"></div>\r\n					<div class=\"styleCol style8\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style9\"></div>\r\n					<div class=\"styleCol style10\"></div>\r\n					<div class=\"styleCol style11\"></div>\r\n					<div class=\"styleCol style12\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style13\"></div>\r\n					<div class=\"styleCol style14\"></div>\r\n					<div class=\"styleCol style15\"></div>\r\n					<div class=\"styleCol style16\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style17\"></div>\r\n					<div class=\"styleCol style18\"></div>\r\n					<div class=\"styleCol style19\"></div>\r\n					<div class=\"styleCol style20\"></div>\r\n				</div>\r\n				<div class=\"hairstyle_row\">\r\n					<div class=\"styleCol style21\"></div>\r\n					<div class=\"styleCol style22\"></div>\r\n					<div class=\"styleCol style23\"></div>\r\n					<div class=\"styleCol style24\"></div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n		<div class=\"hair_color_title\"></div>\r\n		<div class=\"hair_colors\">\r\n			<div class=\"haircolor_row\">\r\n				<div class=\"colorCol cstyle00\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"0_color\" checked class=\"hcolor\" />\r\n					<label for=\"0_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle01\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"1_color\" class=\"hcolor\" />\r\n					<label for=\"1_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle02\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"2_color\" class=\"hcolor\" />\r\n					<label for=\"2_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle03\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"3_color\" class=\"hcolor\" />\r\n					<label for=\"3_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle04\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"4_color\" class=\"hcolor\" />\r\n					<label for=\"4_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n			</div>\r\n			<div class=\"haircolor_row\">\r\n				<div class=\"colorCol cstyle05\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"5_color\" class=\"hcolor\" />\r\n					<label for=\"5_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle06\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"6_color\" class=\"hcolor\" />\r\n					<label for=\"6_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle07\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"7_color\" class=\"hcolor\" />\r\n					<label for=\"7_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n				<div class=\"colorCol cstyle08\">\r\n					<input type=\"radio\" name=\"hcolor\" id=\"8_color\" class=\"hcolor\" />\r\n					<label for=\"8_color\" class=\"hcolor_button\"> </label>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"btns\">\r\n		<ui-button class=\"btn cancel\" aria-label=\"取消\"></ui-button>\r\n		<ui-button\r\n			class=\"btn make\"\r\n			data-localized-label=\"创建\"\r\n			bg=\"make_character_ver2/bt_make_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_make_over.bmp\"\r\n			down=\"make_character_ver2/bt_make_press.bmp\"\r\n		></ui-button>\r\n		<ui-button\r\n			class=\"btn return\"\r\n			data-localized-label=\"返回\"\r\n			bg=\"make_character_ver2/bt_make_normal.bmp\"\r\n			hover=\"make_character_ver2/bt_make_over.bmp\"\r\n			down=\"make_character_ver2/bt_make_press.bmp\"\r\n		></ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreatev4/CharCreatev4.css?raw
 var CharCreatev4_default$1;
 var init_CharCreatev4$1 = __esmMin((() => {
-	CharCreatev4_default$1 = ":host {\r\n	width: 794px;\r\n	height: 422px;\r\n}\r\n\r\n#charcreate_v4 {\r\n	position: absolute;\r\n	width: 794px;\r\n	height: 422px;\r\n}\r\n\r\n#charcreate_v4 .title {\r\n	position: absolute;\r\n	left: 45px;\r\n	top: 15px;\r\n	height: 20px;\r\n	width: 200px;\r\n}\r\n\r\n#charcreate_v4 .human::before,\r\n#charcreate_v4 .doram::before,\r\n#charcreate_v4 .human::after,\r\n#charcreate_v4 .doram::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#charcreate_v4 .human::after,\r\n#charcreate_v4 .doram::after {\r\n	clear: both;\r\n}\r\n#charcreate_v4 .race {\r\n	display: none;\r\n}\r\n\r\n/** Human Race **/\r\n#charcreate_v4 .human_label {\r\n	position: absolute;\r\n	width: 370px;\r\n	height: 170px;\r\n	top: 35px;\r\n	left: 20px;\r\n	outline: none;\r\n	background-repeat: no-repeat;\r\n}\r\n#charcreate_v4 .human_title {\r\n	position: absolute;\r\n	color: white;\r\n	top: 22px;\r\n	left: 45px;\r\n	height: 20px;\r\n	width: 50px;\r\n}\r\n#charcreate_v4 .human_desc {\r\n	position: relative;\r\n	top: 22px;\r\n	left: 110px;\r\n	height: 60px;\r\n	width: 220px;\r\n}\r\n/** Human Chargen **/\r\n#charcreate_v4 .human .chargen canvas {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 25px;\r\n}\r\n\r\n/** Doram Race **/\r\n#charcreate_v4 .doram_label {\r\n	position: absolute;\r\n	width: 370px;\r\n	height: 170px;\r\n	top: 210px;\r\n	left: 20px;\r\n	outline: none;\r\n	background-repeat: no-repeat;\r\n}\r\n#charcreate_v4 .doram_title {\r\n	position: absolute;\r\n	color: white;\r\n	top: 22px;\r\n	left: 45px;\r\n	height: 20px;\r\n	width: 50px;\r\n}\r\n#charcreate_v4 .doram_desc {\r\n	position: relative;\r\n	top: 22px;\r\n	left: 110px;\r\n	height: 60px;\r\n	width: 220px;\r\n}\r\n/** Doram Chargen **/\r\n#charcreate_v4 .doram .chargen_doram canvas {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 25px;\r\n}\r\n\r\n/* Style */\r\n#charcreate_v4 #style {\r\n	position: relative;\r\n	left: 395px;\r\n	top: 30px;\r\n	width: 200px;\r\n	height: 270px;\r\n}\r\n#charcreate_v4 .gender_button {\r\n	display: none;\r\n}\r\n\r\n#charcreate_v4 #style .gender {\r\n	position: absolute;\r\n	top: 25px;\r\n	left: 40px;\r\n	height: 26px;\r\n	width: 130px;\r\n}\r\n#charcreate_v4 #male_container {\r\n	position: relative;\r\n	height: 25px;\r\n	width: 62px;\r\n	white-space: nowrap;\r\n}\r\n#charcreate_v4 #female_container {\r\n	position: relative;\r\n	left: 61px;\r\n	top: -25px;\r\n	height: 25px;\r\n	width: 62px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#charcreate_v4 #style .male_button {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 62px;\r\n}\r\n#charcreate_v4 #style .female_button {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 62px;\r\n}\r\n\r\n/** Style Model **/\r\n#charcreate_v4 .model {\r\n	position: relative;\r\n	top: 115px;\r\n	left: 55px;\r\n	width: 100px;\r\n}\r\n#charcreate_v4 .model canvas {\r\n	position: relative;\r\n	top: -5px;\r\n	left: 17px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate_v4 #style .rot_left {\r\n	position: relative;\r\n	top: 40px;\r\n	left: 30px;\r\n	height: 23px;\r\n	width: 22px;\r\n}\r\n#charcreate_v4 #style .rot_right {\r\n	position: relative;\r\n	top: 40px;\r\n	left: 130px;\r\n	height: 23px;\r\n	width: 22px;\r\n}\r\n\r\n/** Char Name **/\r\n#charcreate_v4 #char_name {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 140px;\r\n	top: 115px;\r\n	left: -20px;\r\n	border-width: 0px;\r\n}\r\n\r\n/** Hair Settings **/\r\n#charcreate_v4 #hair_setting {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 600px;\r\n	height: 380px;\r\n	width: 185px;\r\n}\r\n\r\n#charcreate_v4 .hair_style_title {\r\n	position: relative;\r\n	height: 15px;\r\n	width: 60px;\r\n	top: 10px;\r\n	left: 10px;\r\n}\r\n\r\n#charcreate_v4 .hairstyle_row {\r\n	position: relative;\r\n	display: flex;\r\n	top: 10px;\r\n	left: 10px;\r\n}\r\n#charcreate_v4 .styleCol {\r\n	position: relative;\r\n	width: 36px;\r\n	height: 37px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#charcreate_v4 .hstyle {\r\n	display: none;\r\n}\r\n#charcreate_v4 .hstyle_button {\r\n	position: absolute;\r\n	width: 36px;\r\n	height: 37px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charcreate_v4 .hair-styles {\r\n	position: relative;\r\n	width: 100px;\r\n	height: 100px;\r\n}\r\n#charcreate_v4 .hair-style {\r\n	position: absolute;\r\n	height: 225px;\r\n	top: 12px;\r\n	left: -2px;\r\n	display: none;\r\n}\r\n\r\n#charcreate_v4 .hair_color_title {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 60px;\r\n	top: 230px;\r\n	left: 10px;\r\n}\r\n\r\n#charcreate_v4 .hair_colors {\r\n	position: absolute;\r\n	top: 265px;\r\n	left: 15px;\r\n}\r\n#charcreate_v4 .haircolor_row {\r\n	position: relative;\r\n	display: flex;\r\n}\r\n#charcreate_v4 .colorCol {\r\n	position: relative;\r\n	width: 22px;\r\n	height: 22px;\r\n	white-space: nowrap;\r\n	margin: 2px 2px;\r\n}\r\n#charcreate_v4 .hcolor {\r\n	display: none;\r\n}\r\n#charcreate_v4 .hcolor_button {\r\n	position: absolute;\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n#charcreate_v4 .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate_v4 .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate_v4 .make {\r\n	right: 25px;\r\n	top: -20px;\r\n	height: 27px;\r\n	width: 152px;\r\n}\r\n#charcreate_v4 .cancel {\r\n	right: 5px;\r\n	top: -389px;\r\n}\r\n#charcreate_v4 .return {\r\n	width: 152px;\r\n	height: 27px;\r\n	top: -20px;\r\n	left: 25px;\r\n}\r\n\r\n#charcreate_v4 .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
+	CharCreatev4_default$1 = ":host {\r\n	width: 794px;\r\n	height: 422px;\r\n}\r\n\r\n#charcreate_v4 {\r\n	position: absolute;\r\n	width: 794px;\r\n	height: 422px;\r\n}\r\n\r\n#charcreate_v4 .title {\r\n	position: absolute;\r\n	left: 45px;\r\n	top: 15px;\r\n	height: 20px;\r\n	width: 200px;\r\n}\r\n\r\n#charcreate_v4 .human::before,\r\n#charcreate_v4 .doram::before,\r\n#charcreate_v4 .human::after,\r\n#charcreate_v4 .doram::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#charcreate_v4 .human::after,\r\n#charcreate_v4 .doram::after {\r\n	clear: both;\r\n}\r\n#charcreate_v4 .race {\r\n	display: none;\r\n}\r\n\r\n/** Human Race **/\r\n#charcreate_v4 .human_label {\r\n	position: absolute;\r\n	width: 370px;\r\n	height: 170px;\r\n	top: 35px;\r\n	left: 20px;\r\n	outline: none;\r\n	background-repeat: no-repeat;\r\n}\r\n#charcreate_v4 .human_title {\r\n	position: absolute;\r\n	color: white;\r\n	top: 22px;\r\n	left: 45px;\r\n	height: 20px;\r\n	width: 50px;\r\n}\r\n#charcreate_v4 .human_desc {\r\n	position: relative;\r\n	top: 22px;\r\n	left: 110px;\r\n	height: 60px;\r\n	width: 220px;\r\n}\r\n/** Human Chargen **/\r\n#charcreate_v4 .human .chargen canvas {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 25px;\r\n}\r\n\r\n/** Doram Race **/\r\n#charcreate_v4 .doram_label {\r\n	position: absolute;\r\n	width: 370px;\r\n	height: 170px;\r\n	top: 210px;\r\n	left: 20px;\r\n	outline: none;\r\n	background-repeat: no-repeat;\r\n}\r\n#charcreate_v4 .doram_title {\r\n	position: absolute;\r\n	color: white;\r\n	top: 22px;\r\n	left: 45px;\r\n	height: 20px;\r\n	width: 50px;\r\n}\r\n#charcreate_v4 .doram_desc {\r\n	position: relative;\r\n	top: 22px;\r\n	left: 110px;\r\n	height: 60px;\r\n	width: 220px;\r\n}\r\n/** Doram Chargen **/\r\n#charcreate_v4 .doram .chargen_doram canvas {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 25px;\r\n}\r\n\r\n/* Style */\r\n#charcreate_v4 #style {\r\n	position: relative;\r\n	left: 395px;\r\n	top: 30px;\r\n	width: 200px;\r\n	height: 270px;\r\n}\r\n#charcreate_v4 .gender_button {\r\n	display: none;\r\n}\r\n\r\n#charcreate_v4 #style .gender {\r\n	position: absolute;\r\n	top: 25px;\r\n	left: 40px;\r\n	height: 26px;\r\n	width: 130px;\r\n}\r\n#charcreate_v4 #male_container {\r\n	position: relative;\r\n	height: 25px;\r\n	width: 62px;\r\n	white-space: nowrap;\r\n}\r\n#charcreate_v4 #female_container {\r\n	position: relative;\r\n	left: 61px;\r\n	top: -25px;\r\n	height: 25px;\r\n	width: 62px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#charcreate_v4 #style .male_button {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 62px;\r\n}\r\n#charcreate_v4 #style .female_button {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 62px;\r\n}\r\n\r\n/** Style Model **/\r\n#charcreate_v4 .model {\r\n	position: relative;\r\n	top: 115px;\r\n	left: 55px;\r\n	width: 100px;\r\n}\r\n#charcreate_v4 .model canvas {\r\n	position: relative;\r\n	top: -5px;\r\n	left: 17px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate_v4 #style .rot_left {\r\n	position: relative;\r\n	top: 40px;\r\n	left: 30px;\r\n	height: 23px;\r\n	width: 22px;\r\n}\r\n#charcreate_v4 #style .rot_right {\r\n	position: relative;\r\n	top: 40px;\r\n	left: 130px;\r\n	height: 23px;\r\n	width: 22px;\r\n}\r\n\r\n/** Char Name **/\r\n#charcreate_v4 #char_name {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 140px;\r\n	top: 115px;\r\n	left: -20px;\r\n	border-width: 0px;\r\n}\r\n\r\n/** Hair Settings **/\r\n#charcreate_v4 #hair_setting {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 600px;\r\n	height: 380px;\r\n	width: 185px;\r\n}\r\n\r\n#charcreate_v4 .hair_style_title {\r\n	position: relative;\r\n	height: 15px;\r\n	width: 60px;\r\n	top: 10px;\r\n	left: 10px;\r\n}\r\n\r\n#charcreate_v4 .hairstyle_row {\r\n	position: relative;\r\n	display: flex;\r\n	top: 10px;\r\n	left: 10px;\r\n}\r\n#charcreate_v4 .styleCol {\r\n	position: relative;\r\n	width: 36px;\r\n	height: 37px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#charcreate_v4 .hstyle {\r\n	display: none;\r\n}\r\n#charcreate_v4 .hstyle_button {\r\n	position: absolute;\r\n	width: 36px;\r\n	height: 37px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charcreate_v4 .hair-styles {\r\n	position: relative;\r\n	width: 100px;\r\n	height: 100px;\r\n}\r\n#charcreate_v4 .hair-style {\r\n	position: absolute;\r\n	height: 225px;\r\n	top: 12px;\r\n	left: -2px;\r\n	display: none;\r\n}\r\n\r\n#charcreate_v4 .hair_color_title {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 60px;\r\n	top: 230px;\r\n	left: 10px;\r\n}\r\n\r\n#charcreate_v4 .hair_colors {\r\n	position: absolute;\r\n	top: 265px;\r\n	left: 15px;\r\n}\r\n#charcreate_v4 .haircolor_row {\r\n	position: relative;\r\n	display: flex;\r\n}\r\n#charcreate_v4 .colorCol {\r\n	position: relative;\r\n	width: 22px;\r\n	height: 22px;\r\n	white-space: nowrap;\r\n	margin: 2px 2px;\r\n}\r\n#charcreate_v4 .hcolor {\r\n	display: none;\r\n}\r\n#charcreate_v4 .hcolor_button {\r\n	position: absolute;\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n#charcreate_v4 .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate_v4 .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate_v4 .make {\r\n	right: 25px;\r\n	top: -20px;\r\n	height: 27px;\r\n	width: 152px;\r\n}\r\n#charcreate_v4 .cancel {\r\n	width: 17px;\r\n	height: 16px;\r\n	right: 9px;\r\n	top: -389px;\r\n}\r\n#charcreate_v4 .return {\r\n	width: 152px;\r\n	height: 27px;\r\n	top: -20px;\r\n	left: 25px;\r\n}\r\n\r\n#charcreate_v4 .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreatev4/CharCreatev4.js
@@ -338491,7 +338717,7 @@ var init_Intro$2 = __esmMin((() => {
 //#region src/UI/Components/Intro/Intro.css?raw
 var Intro_default$1;
 var init_Intro$1 = __esmMin((() => {
-	Intro_default$1 = "/* ── Design Tokens ── */\r\n#intro {\r\n	--gold: #e8b84b;\r\n	--gold-bright: #f5d47c;\r\n	--gold-dark: #9a7030;\r\n	--bg-void: #060810;\r\n	--bg-deep: #0b0f1e;\r\n	--bg-panel: #111827;\r\n	--bg-card: #151d2e;\r\n	--border-dim: rgba(232, 184, 75, 0.15);\r\n	--border-glow: rgba(232, 184, 75, 0.5);\r\n	--text-light: #e2e8f0;\r\n	--text-muted: #64748b;\r\n	--radius: 12px;\r\n	--radius-sm: 8px;\r\n}\r\n\r\n/* ── Reset ── */\r\n#intro *,\r\n#intro *::before,\r\n#intro *::after {\r\n	box-sizing: border-box;\r\n}\r\n#intro button {\r\n	cursor: pointer;\r\n	font-family: inherit;\r\n}\r\n#intro .clear {\r\n	clear: both;\r\n}\r\n\r\n/* ── Main container ── */\r\n#intro .intro {\r\n	width: 800px;\r\n	height: 600px;\r\n	position: absolute;\r\n	top: 50%;\r\n	left: 50%;\r\n	margin-top: -300px;\r\n	margin-left: -400px;\r\n	overflow: hidden;\r\n	transform-origin: center center;\r\n	backface-visibility: hidden;\r\n	font-family: 'Inter', sans-serif;\r\n	/* Opt out of Common.css's font-size-adjust: this whole screen renders in Inter/Cinzel, whose\r\n	   x-height differs from Arial's — normalizing would rescale its headings (Cinzel ~+18%). All\r\n	   descendants inherit this reset, keeping the pre-normalization rendering. */\r\n	font-size-adjust: none;\r\n	color: var(--text-light);\r\n}\r\n\r\n/* ── Canvas ── */\r\n#intro canvas {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	z-index: -1;\r\n}\r\n\r\n/* ── Hidden file input ── */\r\n#intro input[type='file'] {\r\n	visibility: hidden;\r\n	position: absolute;\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   RIBBON — top-right corner  \r\n   ══════════════════════════════════════════ */\r\n#intro .ribbon {\r\n	width: 200px;\r\n	height: 200px;\r\n	position: absolute;\r\n	top: 0;\r\n	right: 0;\r\n	overflow: hidden;\r\n	pointer-events: none;\r\n	z-index: 10;\r\n}\r\n#intro .ribbon span {\r\n	display: block;\r\n	position: absolute;\r\n	top: 60px;\r\n	right: -80px;\r\n	width: 300px;\r\n	text-align: center;\r\n	transform: rotate(45deg);\r\n	background: linear-gradient(to bottom, var(--gold-bright), var(--gold-dark));\r\n	color: var(--bg-void);\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 10px;\r\n	font-weight: 700;\r\n	letter-spacing: 2px;\r\n	padding: 5px 0;\r\n	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   BUTTON ABOUT  \r\n   ══════════════════════════════════════════ */\r\n#intro .btn_about {\r\n	position: absolute;\r\n	top: 12px;\r\n	left: 12px;\r\n	background: rgba(60, 9, 90, 0.8);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-muted);\r\n	font-size: 20px;\r\n	width: 40px;\r\n	height: 40px;\r\n	line-height: 38px;\r\n	text-align: center;\r\n	z-index: 5;\r\n	transition:\r\n		color 0.3s,\r\n		border-color 0.3s,\r\n		transform 0.15s;\r\n	padding: 0;\r\n}\r\n#intro .btn_about:hover {\r\n	color: var(--gold);\r\n	border-color: var(--border-glow);\r\n	transform: scale(1.1);\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   BUTTON SETTINGS  \r\n   ══════════════════════════════════════════ */\r\n#intro .btn_settings {\r\n	position: absolute;\r\n	bottom: 12px;\r\n	right: 12px;\r\n	background: rgba(60, 9, 90, 0.8);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-muted);\r\n	font-size: 28px;\r\n	width: 44px;\r\n	height: 44px;\r\n	line-height: 42px;\r\n	text-align: center;\r\n	z-index: 5;\r\n	transition:\r\n		color 0.3s,\r\n		border-color 0.3s,\r\n		transform 0.4s ease-out;\r\n	padding: 0;\r\n}\r\n#intro .btn_settings:hover {\r\n	color: var(--gold);\r\n	border-color: var(--border-glow);\r\n	transform: rotate(360deg);\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   DROP ZONE (replaces old .box)  \r\n   ══════════════════════════════════════════ */\r\n#intro .drop-zone {\r\n	position: absolute;\r\n	top: 300px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	width: 320px;\r\n	border: 2px dashed rgba(232, 184, 75, 0.25);\r\n	border-radius: var(--radius);\r\n	padding: 30px 24px;\r\n	background: rgba(21, 29, 46, 0.6);\r\n	backdrop-filter: blur(10px);\r\n	transition:\r\n		border-color 0.3s,\r\n		box-shadow 0.3s,\r\n		background 0.3s;\r\n	cursor: pointer;\r\n	text-align: center;\r\n	z-index: 5;\r\n}\r\n#intro .drop-zone:hover,\r\n#intro .drop-zone.dragover {\r\n	border-color: rgba(232, 184, 75, 0.6);\r\n	box-shadow: 0 0 30px rgba(232, 184, 75, 0.12);\r\n	background: rgba(21, 29, 46, 0.8);\r\n}\r\n#intro .drop-zone-icon {\r\n	font-size: 36px;\r\n	margin-bottom: 8px;\r\n}\r\n#intro .drop-zone-text {\r\n	color: var(--text-muted);\r\n	font-size: 13px;\r\n	line-height: 1.6;\r\n}\r\n#intro .drop-zone-text strong {\r\n	color: var(--text-light);\r\n}\r\n\r\n/* ── File status message ── */\r\n#intro .msg {\r\n	position: absolute;\r\n	top: 440px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	text-align: center;\r\n	font-size: 14px;\r\n	color: var(--gold);\r\n	z-index: 6;\r\n	pointer-events: none;\r\n	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);\r\n	white-space: nowrap;\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   BUTTON PLAY  \r\n   ══════════════════════════════════════════ */\r\n#intro .btn_play {\r\n	position: absolute;\r\n	top: 470px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 8px;\r\n	padding: 14px 44px;\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 14px;\r\n	font-weight: 600;\r\n	letter-spacing: 0.1em;\r\n	text-transform: uppercase;\r\n	color: var(--bg-void);\r\n	background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-dark));\r\n	border: none;\r\n	border-radius: var(--radius-sm);\r\n	z-index: 5;\r\n	transition:\r\n		transform 0.2s,\r\n		box-shadow 0.3s;\r\n	box-shadow: 0 4px 20px rgba(232, 184, 75, 0.3);\r\n}\r\n#intro .btn_play:hover {\r\n	transform: translateX(-50%) translateY(-2px);\r\n	box-shadow: 0 6px 30px rgba(232, 184, 75, 0.45);\r\n}\r\n#intro .btn_play:active {\r\n	transform: translateX(-50%) translateY(0);\r\n	box-shadow: 0 2px 10px rgba(232, 184, 75, 0.2);\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   OVERLAYS  \r\n   ══════════════════════════════════════════ */\r\n#intro .overlay {\r\n	background: rgba(6, 8, 16, 0.92);\r\n	position: absolute;\r\n	z-index: 100;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	color: var(--text-light);\r\n	opacity: 0;\r\n	display: none;\r\n	overflow-y: auto;\r\n	transition: opacity 0.2s ease;\r\n}\r\n\r\n/* ── Loading ── */\r\n#intro .loading-content {\r\n	position: absolute;\r\n	top: 50%;\r\n	left: 50%;\r\n	transform: translate(-50%, -50%);\r\n	text-align: center;\r\n	color: var(--gold, #e8b84b);\r\n}\r\n\r\n#intro .loading-spinner {\r\n	width: 48px;\r\n	height: 48px;\r\n	margin: 0 auto 16px;\r\n	border: 4px solid rgba(232, 184, 75, 0.2);\r\n	border-top-color: var(--gold, #e8b84b);\r\n	border-radius: 50%;\r\n	animation: intro-spin 0.8s linear infinite;\r\n}\r\n\r\n@keyframes intro-spin {\r\n	to {\r\n		transform: rotate(360deg);\r\n	}\r\n}\r\n\r\n#intro .loading-content p {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 14px;\r\n	letter-spacing: 2px;\r\n	text-transform: uppercase;\r\n}\r\n\r\n#intro .loading-text {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 16px;\r\n	letter-spacing: 3px;\r\n	text-transform: uppercase;\r\n	color: var(--gold, #e8b84b);\r\n}\r\n\r\n#intro .loading-text span {\r\n	display: inline-block;\r\n	animation: intro-wave 1.2s ease-in-out infinite;\r\n	animation-delay: calc(var(--i) * 0.08s);\r\n}\r\n\r\n@keyframes intro-wave {\r\n	0%,\r\n	60%,\r\n	100% {\r\n		transform: translateY(0);\r\n	}\r\n	30% {\r\n		transform: translateY(-8px);\r\n	}\r\n}\r\n\r\n/* ── About overlay ── */\r\n#intro .about-content {\r\n	max-width: 480px;\r\n	margin: 0 auto;\r\n	padding: 60px 30px 30px;\r\n	text-align: center;\r\n}\r\n#intro .emblem-icon {\r\n	font-size: 48px;\r\n	margin-bottom: 12px;\r\n	display: block;\r\n}\r\n#intro .about-title,\r\n#intro .gold-title {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 24px;\r\n	font-weight: 700;\r\n	background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-dark));\r\n	-webkit-background-clip: text;\r\n	-webkit-text-fill-color: transparent;\r\n	background-clip: text;\r\n	margin: 0 0 6px;\r\n}\r\n#intro .about-subtitle {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 12px;\r\n	font-weight: 400;\r\n	color: var(--text-muted);\r\n	letter-spacing: 0.08em;\r\n	margin: 0 0 20px;\r\n}\r\n\r\n/* Ornament divider */\r\n#intro .ornament {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n	margin: 0 auto 24px;\r\n	max-width: 280px;\r\n}\r\n#intro .ornament-line {\r\n	flex: 1;\r\n	height: 1px;\r\n	background: linear-gradient(to right, transparent, var(--gold-dark));\r\n}\r\n#intro .ornament-line:last-child {\r\n	background: linear-gradient(to left, transparent, var(--gold-dark));\r\n}\r\n#intro .ornament-diamond {\r\n	width: 8px;\r\n	height: 8px;\r\n	background: var(--gold);\r\n	transform: rotate(45deg);\r\n	box-shadow: 0 0 8px var(--gold);\r\n	flex-shrink: 0;\r\n}\r\n#intro .ornament-dot {\r\n	width: 4px;\r\n	height: 4px;\r\n	background: var(--gold-dark);\r\n	border-radius: 50%;\r\n	flex-shrink: 0;\r\n}\r\n\r\n#intro .about-content .info {\r\n	margin: 0 auto 24px;\r\n	text-align: left;\r\n	font-size: 14px;\r\n}\r\n#intro .about-content .info td:first-child {\r\n	color: var(--text-muted);\r\n	padding-right: 12px;\r\n	white-space: nowrap;\r\n}\r\n#intro .about-content a {\r\n	color: var(--gold);\r\n	text-decoration: none;\r\n}\r\n#intro .about-content a:hover {\r\n	text-decoration: underline;\r\n	color: var(--gold-bright);\r\n}\r\n#intro .concept {\r\n	font-size: 13px;\r\n	text-align: justify;\r\n	line-height: 1.6;\r\n	color: var(--text-muted);\r\n}\r\n#intro .concept p {\r\n	margin: 0 0 10px;\r\n}\r\n#intro .hint {\r\n	margin-top: 24px;\r\n	font-size: 11px;\r\n	color: var(--text-muted);\r\n	opacity: 0.6;\r\n}\r\n\r\n/* ── Settings overlay ── */\r\n#intro .settings-content {\r\n	max-width: 520px;\r\n	margin: 0 auto;\r\n	padding: 30px 30px 80px;\r\n}\r\n#intro .settings-title {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 22px;\r\n	font-weight: 700;\r\n	background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-dark));\r\n	-webkit-background-clip: text;\r\n	-webkit-text-fill-color: transparent;\r\n	background-clip: text;\r\n	margin: 0 0 20px;\r\n	text-align: center;\r\n}\r\n\r\n/* Section headers */\r\n#intro .section-header {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n	margin: 20px 0 12px;\r\n}\r\n#intro .section-header span {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 13px;\r\n	font-weight: 600;\r\n	color: var(--gold);\r\n	letter-spacing: 0.08em;\r\n	text-transform: uppercase;\r\n	white-space: nowrap;\r\n}\r\n#intro .section-header::after {\r\n	content: '';\r\n	flex: 1;\r\n	height: 1px;\r\n	background: linear-gradient(to right, var(--border-dim), transparent);\r\n}\r\n\r\n/* Tables */\r\n#intro .screen,\r\n#intro .sound {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n#intro .screen td,\r\n#intro .sound td {\r\n	padding: 6px 4px;\r\n	font-size: 13px;\r\n	color: var(--text-light);\r\n	vertical-align: middle;\r\n}\r\n#intro .screen td:first-child,\r\n#intro .sound td:first-child {\r\n	width: 40%;\r\n	color: var(--text-muted);\r\n}\r\n\r\n/* Selects & inputs */\r\n#intro .settings-content select,\r\n#intro .settings-content input[type='text'] {\r\n	background: var(--bg-card);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-light);\r\n	padding: 4px 8px;\r\n	font-size: 13px;\r\n	font-family: inherit;\r\n}\r\n#intro .settings-content select:focus,\r\n#intro .settings-content input[type='text']:focus {\r\n	border-color: var(--gold);\r\n	outline: none;\r\n}\r\n#intro .screensize {\r\n	width: 150px;\r\n}\r\n\r\n/* Range sliders */\r\n#intro input[type='range'] {\r\n	width: 150px;\r\n	accent-color: var(--gold);\r\n}\r\n\r\n/* Checkboxes */\r\n#intro .settings-content input[type='checkbox'] {\r\n	accent-color: var(--gold);\r\n}\r\n\r\n/* Quality result / volume result */\r\n#intro .quality_result,\r\n#intro .bgmvol_result,\r\n#intro .soundvol_result {\r\n	font-size: 12px;\r\n	color: var(--gold);\r\n	min-width: 40px;\r\n}\r\n\r\n/* Clean cache */\r\n#intro .clean {\r\n	display: none;\r\n	padding: 4px 10px;\r\n	background: var(--bg-card);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-light);\r\n	font-size: 12px;\r\n	transition: border-color 0.2s;\r\n}\r\n#intro .clean:hover {\r\n	border-color: var(--gold);\r\n}\r\n#intro .clean-status {\r\n	color: var(--text-muted);\r\n	font-size: 12px;\r\n	margin-left: 8px;\r\n}\r\n\r\n/* ── Server list ── */\r\n#intro .serveredit dl {\r\n	margin: 0;\r\n}\r\n#intro .serveredit dt {\r\n	margin-bottom: 6px;\r\n}\r\n#intro .serveredit dd {\r\n	margin: 0 0 10px 0;\r\n}\r\n\r\n#intro .clientinfo {\r\n	background: transparent !important;\r\n	border: 1px solid transparent !important;\r\n	color: var(--gold) !important;\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n#intro .clientinfo:focus {\r\n	cursor: text;\r\n	border: 1px solid var(--gold) !important;\r\n	background: var(--bg-card) !important;\r\n	color: var(--text-light) !important;\r\n	text-decoration: none;\r\n}\r\n\r\n#intro .settings-content span {\r\n	vertical-align: top;\r\n	margin-left: 5px;\r\n}\r\n\r\n/* Radio buttons */\r\n#intro input[type='radio'] {\r\n	margin: 0;\r\n	width: 15px;\r\n	height: 15px;\r\n	accent-color: var(--gold);\r\n	vertical-align: middle;\r\n	position: relative;\r\n	bottom: 1px;\r\n}\r\n\r\n/* Server container */\r\n#intro .servercontainer {\r\n	max-height: 70px;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	margin-top: 10px;\r\n	padding-right: 6px;\r\n}\r\n#intro .servercontainer::-webkit-scrollbar {\r\n	width: 6px;\r\n}\r\n#intro .servercontainer::-webkit-scrollbar-track {\r\n	background: var(--bg-void);\r\n	border-radius: 6px;\r\n}\r\n#intro .servercontainer::-webkit-scrollbar-thumb {\r\n	border-radius: 6px;\r\n	background: var(--gold-dark);\r\n}\r\n\r\n/* Server list table */\r\n#intro .serverlist {\r\n	border-collapse: collapse;\r\n	width: 100%;\r\n}\r\n#intro .serverlist td {\r\n	text-align: center;\r\n	height: 22px;\r\n	font-size: 12px;\r\n}\r\n#intro .serverlist thead td {\r\n	color: var(--gold-dark);\r\n	font-weight: bold;\r\n	font-size: 11px;\r\n}\r\n#intro .serverlist tbody tr:hover {\r\n	background: rgba(232, 184, 75, 0.06);\r\n}\r\n#intro .servers input {\r\n	background: transparent;\r\n	border: 1px solid transparent;\r\n	cursor: pointer;\r\n	color: var(--text-light);\r\n	text-align: center;\r\n	width: 100%;\r\n	font-size: 12px;\r\n	font-family: inherit;\r\n}\r\n#intro .servers input:focus {\r\n	cursor: text;\r\n	border: 1px solid var(--gold);\r\n	background: var(--bg-card);\r\n	color: var(--text-light);\r\n}\r\n\r\n/* Delete button */\r\n#intro .btn_delete {\r\n	width: 20px;\r\n	height: 20px;\r\n	background: rgba(239, 68, 68, 0.15);\r\n	border: 1px solid rgba(239, 68, 68, 0.3);\r\n	border-radius: 4px;\r\n	color: #ef4444;\r\n	font-size: 14px;\r\n	line-height: 18px;\r\n	text-align: center;\r\n	padding: 0;\r\n	transition: background 0.2s;\r\n}\r\n#intro .btn_delete:hover {\r\n	background: rgba(239, 68, 68, 0.3);\r\n}\r\n\r\n/* Add server button */\r\n#intro .settings .btn_add {\r\n	margin-top: 10px;\r\n	float: right;\r\n	padding: 5px 14px;\r\n	background: var(--bg-card);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-light);\r\n	font-size: 12px;\r\n	transition: border-color 0.2s;\r\n}\r\n#intro .settings .btn_add:hover {\r\n	border-color: var(--gold);\r\n	color: var(--gold);\r\n}\r\n\r\n/* Save button */\r\n#intro .settings .btn_save {\r\n	display: block;\r\n	width: 200px;\r\n	margin: 24px auto 0;\r\n	padding: 12px 0;\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 13px;\r\n	font-weight: 600;\r\n	letter-spacing: 0.1em;\r\n	text-transform: uppercase;\r\n	color: var(--bg-void);\r\n	background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-dark));\r\n	border: none;\r\n	border-radius: var(--radius-sm);\r\n	transition:\r\n		transform 0.2s,\r\n		box-shadow 0.3s;\r\n	box-shadow: 0 4px 20px rgba(232, 184, 75, 0.3);\r\n}\r\n#intro .settings .btn_save:hover {\r\n	transform: translateY(-2px);\r\n	box-shadow: 0 6px 30px rgba(232, 184, 75, 0.45);\r\n}\r\n#intro .settings .btn_save:active {\r\n	transform: translateY(0);\r\n}\r\n\r\n/* ── Aspect Ratio Fixes ── */\r\n#intro .drop-zone {\r\n	transform: translateX(-50%) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .msg {\r\n	transform: translateX(-50%) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_play {\r\n	transform: translateX(-50%) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_play:hover {\r\n	transform: translateX(-50%) translateY(-2px) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_play:active {\r\n	transform: translateX(-50%) translateY(0) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_about {\r\n	transform: scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_about:hover {\r\n	transform: scale(calc(1.1 * var(--cx, 1)), calc(1.1 * var(--cy, 1)));\r\n}\r\n#intro .btn_settings {\r\n	scale: var(--cx, 1) var(--cy, 1);\r\n}\r\n#intro .btn_settings:hover {\r\n	scale: var(--cx, 1) var(--cy, 1);\r\n}\r\n#intro .loading-content {\r\n	transform: translate(-50%, -50%) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .about-content,\r\n#intro .settings-content {\r\n	scale: var(--cx, 1) var(--cy, 1);\r\n}\r\n";
+	Intro_default$1 = "/* ── Design Tokens ── */\r\n#intro {\r\n	--gold: #e8b84b;\r\n	--gold-bright: #f5d47c;\r\n	--gold-dark: #9a7030;\r\n	--bg-void: #060810;\r\n	--bg-deep: #0b0f1e;\r\n	--bg-panel: #111827;\r\n	--bg-card: #151d2e;\r\n	--border-dim: rgba(232, 184, 75, 0.15);\r\n	--border-glow: rgba(232, 184, 75, 0.5);\r\n	--text-light: #e2e8f0;\r\n	--text-muted: #64748b;\r\n	--radius: 12px;\r\n	--radius-sm: 8px;\r\n}\r\n\r\n/* ── Reset ── */\r\n#intro *,\r\n#intro *::before,\r\n#intro *::after {\r\n	box-sizing: border-box;\r\n}\r\n#intro button {\r\n	cursor: pointer;\r\n	font-family: inherit;\r\n}\r\n#intro .clear {\r\n	clear: both;\r\n}\r\n\r\n/* ── Main container ── */\r\n#intro .intro {\r\n	width: 800px;\r\n	height: 600px;\r\n	position: absolute;\r\n	top: 50%;\r\n	left: 50%;\r\n	margin-top: -300px;\r\n	margin-left: -400px;\r\n	overflow: hidden;\r\n	transform-origin: center center;\r\n	backface-visibility: hidden;\r\n	font-family: 'Inter', sans-serif;\r\n	/* Opt out of Common.css's font-size-adjust: this whole screen renders in Inter/Cinzel, whose\r\n	   x-height differs from Arial's — normalizing would rescale its headings (Cinzel ~+18%). All\r\n	   descendants inherit this reset, keeping the pre-normalization rendering. */\r\n	font-size-adjust: none;\r\n	color: var(--text-light);\r\n}\r\n\r\n/* ── Canvas ── */\r\n#intro canvas {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	z-index: -1;\r\n}\r\n\r\n/* ── Hidden file input ── */\r\n#intro input[type='file'] {\r\n	visibility: hidden;\r\n	position: absolute;\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   RIBBON — top-right corner  \r\n   ══════════════════════════════════════════ */\r\n#intro .ribbon {\r\n	width: 200px;\r\n	height: 200px;\r\n	position: absolute;\r\n	top: 0;\r\n	right: 0;\r\n	overflow: hidden;\r\n	pointer-events: none;\r\n	z-index: 10;\r\n}\r\n#intro .ribbon span {\r\n	display: block;\r\n	position: absolute;\r\n	top: 60px;\r\n	right: -80px;\r\n	width: 300px;\r\n	text-align: center;\r\n	transform: rotate(45deg);\r\n	background: linear-gradient(to bottom, var(--gold-bright), var(--gold-dark));\r\n	color: var(--bg-void);\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 10px;\r\n	font-weight: 700;\r\n	letter-spacing: 2px;\r\n	padding: 5px 0;\r\n	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   BUTTON ABOUT  \r\n   ══════════════════════════════════════════ */\r\n#intro .btn_about {\r\n	position: absolute;\r\n	top: 12px;\r\n	left: 12px;\r\n	background: rgba(60, 9, 90, 0.8);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-muted);\r\n	font-size: 20px;\r\n	width: 40px;\r\n	height: 40px;\r\n	line-height: 38px;\r\n	text-align: center;\r\n	z-index: 5;\r\n	transition:\r\n		color 0.3s,\r\n		border-color 0.3s,\r\n		transform 0.15s;\r\n	padding: 0;\r\n}\r\n#intro .btn_about:hover {\r\n	color: var(--gold);\r\n	border-color: var(--border-glow);\r\n	transform: scale(1.1);\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   BUTTON SETTINGS  \r\n   ══════════════════════════════════════════ */\r\n#intro .btn_settings {\r\n	position: absolute;\r\n	bottom: 12px;\r\n	right: 12px;\r\n	background: rgba(60, 9, 90, 0.8);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-muted);\r\n	font-size: 28px;\r\n	width: 44px;\r\n	height: 44px;\r\n	line-height: 42px;\r\n	text-align: center;\r\n	z-index: 5;\r\n	transition:\r\n		color 0.3s,\r\n		border-color 0.3s,\r\n		transform 0.4s ease-out;\r\n	padding: 0;\r\n}\r\n#intro .btn_settings:hover {\r\n	color: var(--gold);\r\n	border-color: var(--border-glow);\r\n	transform: rotate(360deg);\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   DROP ZONE (replaces old .box)  \r\n   ══════════════════════════════════════════ */\r\n#intro .drop-zone {\r\n	position: absolute;\r\n	top: 300px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	width: 320px;\r\n	border: 2px dashed rgba(232, 184, 75, 0.25);\r\n	border-radius: var(--radius);\r\n	padding: 30px 24px;\r\n	background: rgba(21, 29, 46, 0.6);\r\n	backdrop-filter: blur(10px);\r\n	transition:\r\n		border-color 0.3s,\r\n		box-shadow 0.3s,\r\n		background 0.3s;\r\n	cursor: pointer;\r\n	text-align: center;\r\n	z-index: 5;\r\n}\r\n#intro .drop-zone:hover,\r\n#intro .drop-zone.dragover {\r\n	border-color: rgba(232, 184, 75, 0.6);\r\n	box-shadow: 0 0 30px rgba(232, 184, 75, 0.12);\r\n	background: rgba(21, 29, 46, 0.8);\r\n}\r\n#intro .drop-zone-icon {\r\n	font-size: 36px;\r\n	margin-bottom: 8px;\r\n}\r\n#intro .drop-zone-text {\r\n	color: var(--text-muted);\r\n	font-size: 13px;\r\n	line-height: 1.6;\r\n}\r\n#intro .drop-zone-text strong {\r\n	color: var(--text-light);\r\n}\r\n\r\n/* ── File status message ── */\r\n#intro .msg {\r\n	position: absolute;\r\n	top: 440px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	text-align: center;\r\n	font-size: 14px;\r\n	color: var(--gold);\r\n	z-index: 6;\r\n	pointer-events: none;\r\n	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);\r\n	white-space: nowrap;\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   BUTTON PLAY  \r\n   ══════════════════════════════════════════ */\r\n#intro .btn_play {\r\n	position: absolute;\r\n	top: 470px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 8px;\r\n	padding: 14px 44px;\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 14px;\r\n	font-weight: 600;\r\n	letter-spacing: 0.1em;\r\n	text-transform: uppercase;\r\n	color: var(--bg-void);\r\n	background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-dark));\r\n	border: none;\r\n	border-radius: var(--radius-sm);\r\n	z-index: 5;\r\n	transition:\r\n		transform 0.2s,\r\n		box-shadow 0.3s;\r\n	box-shadow: 0 4px 20px rgba(232, 184, 75, 0.3);\r\n}\r\n#intro .btn_play:hover {\r\n	transform: translateX(-50%) translateY(-2px);\r\n	box-shadow: 0 6px 30px rgba(232, 184, 75, 0.45);\r\n}\r\n#intro .btn_play:active {\r\n	transform: translateX(-50%) translateY(0);\r\n	box-shadow: 0 2px 10px rgba(232, 184, 75, 0.2);\r\n}\r\n#intro .intro.remote-resources .btn_play {\r\n	top: 50%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#intro .intro.remote-resources .btn_play:hover {\r\n	transform: translate(-50%, calc(-50% - 2px));\r\n}\r\n#intro .intro.remote-resources .btn_play:active {\r\n	transform: translate(-50%, -50%);\r\n}\r\n\r\n/* ══════════════════════════════════════════  \r\n   OVERLAYS  \r\n   ══════════════════════════════════════════ */\r\n#intro .overlay {\r\n	background: rgba(6, 8, 16, 0.92);\r\n	position: absolute;\r\n	z-index: 100;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	color: var(--text-light);\r\n	opacity: 0;\r\n	display: none;\r\n	overflow-y: auto;\r\n	transition: opacity 0.2s ease;\r\n}\r\n\r\n/* ── Loading ── */\r\n#intro .loading-content {\r\n	position: absolute;\r\n	top: 50%;\r\n	left: 50%;\r\n	transform: translate(-50%, -50%);\r\n	text-align: center;\r\n	color: var(--gold, #e8b84b);\r\n}\r\n\r\n#intro .loading-spinner {\r\n	width: 48px;\r\n	height: 48px;\r\n	margin: 0 auto 16px;\r\n	border: 4px solid rgba(232, 184, 75, 0.2);\r\n	border-top-color: var(--gold, #e8b84b);\r\n	border-radius: 50%;\r\n	animation: intro-spin 0.8s linear infinite;\r\n}\r\n\r\n@keyframes intro-spin {\r\n	to {\r\n		transform: rotate(360deg);\r\n	}\r\n}\r\n\r\n#intro .loading-content p {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 14px;\r\n	letter-spacing: 2px;\r\n	text-transform: uppercase;\r\n}\r\n\r\n#intro .loading-text {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 16px;\r\n	letter-spacing: 3px;\r\n	text-transform: uppercase;\r\n	color: var(--gold, #e8b84b);\r\n}\r\n\r\n#intro .loading-text span {\r\n	display: inline-block;\r\n	animation: intro-wave 1.2s ease-in-out infinite;\r\n	animation-delay: calc(var(--i) * 0.08s);\r\n}\r\n\r\n@keyframes intro-wave {\r\n	0%,\r\n	60%,\r\n	100% {\r\n		transform: translateY(0);\r\n	}\r\n	30% {\r\n		transform: translateY(-8px);\r\n	}\r\n}\r\n\r\n/* ── About overlay ── */\r\n#intro .about-content {\r\n	max-width: 480px;\r\n	margin: 0 auto;\r\n	padding: 60px 30px 30px;\r\n	text-align: center;\r\n}\r\n#intro .emblem-icon {\r\n	font-size: 48px;\r\n	margin-bottom: 12px;\r\n	display: block;\r\n}\r\n#intro .about-title,\r\n#intro .gold-title {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 24px;\r\n	font-weight: 700;\r\n	background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-dark));\r\n	-webkit-background-clip: text;\r\n	-webkit-text-fill-color: transparent;\r\n	background-clip: text;\r\n	margin: 0 0 6px;\r\n}\r\n#intro .about-subtitle {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 12px;\r\n	font-weight: 400;\r\n	color: var(--text-muted);\r\n	letter-spacing: 0.08em;\r\n	margin: 0 0 20px;\r\n}\r\n\r\n/* Ornament divider */\r\n#intro .ornament {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n	margin: 0 auto 24px;\r\n	max-width: 280px;\r\n}\r\n#intro .ornament-line {\r\n	flex: 1;\r\n	height: 1px;\r\n	background: linear-gradient(to right, transparent, var(--gold-dark));\r\n}\r\n#intro .ornament-line:last-child {\r\n	background: linear-gradient(to left, transparent, var(--gold-dark));\r\n}\r\n#intro .ornament-diamond {\r\n	width: 8px;\r\n	height: 8px;\r\n	background: var(--gold);\r\n	transform: rotate(45deg);\r\n	box-shadow: 0 0 8px var(--gold);\r\n	flex-shrink: 0;\r\n}\r\n#intro .ornament-dot {\r\n	width: 4px;\r\n	height: 4px;\r\n	background: var(--gold-dark);\r\n	border-radius: 50%;\r\n	flex-shrink: 0;\r\n}\r\n\r\n#intro .about-content .info {\r\n	margin: 0 auto 24px;\r\n	text-align: left;\r\n	font-size: 14px;\r\n}\r\n#intro .about-content .info td:first-child {\r\n	color: var(--text-muted);\r\n	padding-right: 12px;\r\n	white-space: nowrap;\r\n}\r\n#intro .about-content a {\r\n	color: var(--gold);\r\n	text-decoration: none;\r\n}\r\n#intro .about-content a:hover {\r\n	text-decoration: underline;\r\n	color: var(--gold-bright);\r\n}\r\n#intro .concept {\r\n	font-size: 13px;\r\n	text-align: justify;\r\n	line-height: 1.6;\r\n	color: var(--text-muted);\r\n}\r\n#intro .concept p {\r\n	margin: 0 0 10px;\r\n}\r\n#intro .hint {\r\n	margin-top: 24px;\r\n	font-size: 11px;\r\n	color: var(--text-muted);\r\n	opacity: 0.6;\r\n}\r\n\r\n/* ── Settings overlay ── */\r\n#intro .settings-content {\r\n	max-width: 520px;\r\n	margin: 0 auto;\r\n	padding: 30px 30px 80px;\r\n}\r\n#intro .settings-title {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 22px;\r\n	font-weight: 700;\r\n	background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-dark));\r\n	-webkit-background-clip: text;\r\n	-webkit-text-fill-color: transparent;\r\n	background-clip: text;\r\n	margin: 0 0 20px;\r\n	text-align: center;\r\n}\r\n\r\n/* Section headers */\r\n#intro .section-header {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 12px;\r\n	margin: 20px 0 12px;\r\n}\r\n#intro .section-header span {\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 13px;\r\n	font-weight: 600;\r\n	color: var(--gold);\r\n	letter-spacing: 0.08em;\r\n	text-transform: uppercase;\r\n	white-space: nowrap;\r\n}\r\n#intro .section-header::after {\r\n	content: '';\r\n	flex: 1;\r\n	height: 1px;\r\n	background: linear-gradient(to right, var(--border-dim), transparent);\r\n}\r\n\r\n/* Tables */\r\n#intro .screen,\r\n#intro .sound {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n#intro .screen td,\r\n#intro .sound td {\r\n	padding: 6px 4px;\r\n	font-size: 13px;\r\n	color: var(--text-light);\r\n	vertical-align: middle;\r\n}\r\n#intro .screen td:first-child,\r\n#intro .sound td:first-child {\r\n	width: 40%;\r\n	color: var(--text-muted);\r\n}\r\n\r\n/* Selects & inputs */\r\n#intro .settings-content select,\r\n#intro .settings-content input[type='text'] {\r\n	background: var(--bg-card);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-light);\r\n	padding: 4px 8px;\r\n	font-size: 13px;\r\n	font-family: inherit;\r\n}\r\n#intro .settings-content select:focus,\r\n#intro .settings-content input[type='text']:focus {\r\n	border-color: var(--gold);\r\n	outline: none;\r\n}\r\n#intro .screensize {\r\n	width: 150px;\r\n}\r\n\r\n/* Range sliders */\r\n#intro input[type='range'] {\r\n	width: 150px;\r\n	accent-color: var(--gold);\r\n}\r\n\r\n/* Checkboxes */\r\n#intro .settings-content input[type='checkbox'] {\r\n	accent-color: var(--gold);\r\n}\r\n\r\n/* Quality result / volume result */\r\n#intro .quality_result,\r\n#intro .bgmvol_result,\r\n#intro .soundvol_result {\r\n	font-size: 12px;\r\n	color: var(--gold);\r\n	min-width: 40px;\r\n}\r\n\r\n/* Clean cache */\r\n#intro .clean {\r\n	display: none;\r\n	padding: 4px 10px;\r\n	background: var(--bg-card);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-light);\r\n	font-size: 12px;\r\n	transition: border-color 0.2s;\r\n}\r\n#intro .clean:hover {\r\n	border-color: var(--gold);\r\n}\r\n#intro .clean-status {\r\n	color: var(--text-muted);\r\n	font-size: 12px;\r\n	margin-left: 8px;\r\n}\r\n\r\n/* ── Server list ── */\r\n#intro .serveredit dl {\r\n	margin: 0;\r\n}\r\n#intro .serveredit dt {\r\n	margin-bottom: 6px;\r\n}\r\n#intro .serveredit dd {\r\n	margin: 0 0 10px 0;\r\n}\r\n\r\n#intro .clientinfo {\r\n	background: transparent !important;\r\n	border: 1px solid transparent !important;\r\n	color: var(--gold) !important;\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n#intro .clientinfo:focus {\r\n	cursor: text;\r\n	border: 1px solid var(--gold) !important;\r\n	background: var(--bg-card) !important;\r\n	color: var(--text-light) !important;\r\n	text-decoration: none;\r\n}\r\n\r\n#intro .settings-content span {\r\n	vertical-align: top;\r\n	margin-left: 5px;\r\n}\r\n\r\n/* Radio buttons */\r\n#intro input[type='radio'] {\r\n	margin: 0;\r\n	width: 15px;\r\n	height: 15px;\r\n	accent-color: var(--gold);\r\n	vertical-align: middle;\r\n	position: relative;\r\n	bottom: 1px;\r\n}\r\n\r\n/* Server container */\r\n#intro .servercontainer {\r\n	max-height: 70px;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	margin-top: 10px;\r\n	padding-right: 6px;\r\n}\r\n#intro .servercontainer::-webkit-scrollbar {\r\n	width: 6px;\r\n}\r\n#intro .servercontainer::-webkit-scrollbar-track {\r\n	background: var(--bg-void);\r\n	border-radius: 6px;\r\n}\r\n#intro .servercontainer::-webkit-scrollbar-thumb {\r\n	border-radius: 6px;\r\n	background: var(--gold-dark);\r\n}\r\n\r\n/* Server list table */\r\n#intro .serverlist {\r\n	border-collapse: collapse;\r\n	width: 100%;\r\n}\r\n#intro .serverlist td {\r\n	text-align: center;\r\n	height: 22px;\r\n	font-size: 12px;\r\n}\r\n#intro .serverlist thead td {\r\n	color: var(--gold-dark);\r\n	font-weight: bold;\r\n	font-size: 11px;\r\n}\r\n#intro .serverlist tbody tr:hover {\r\n	background: rgba(232, 184, 75, 0.06);\r\n}\r\n#intro .servers input {\r\n	background: transparent;\r\n	border: 1px solid transparent;\r\n	cursor: pointer;\r\n	color: var(--text-light);\r\n	text-align: center;\r\n	width: 100%;\r\n	font-size: 12px;\r\n	font-family: inherit;\r\n}\r\n#intro .servers input:focus {\r\n	cursor: text;\r\n	border: 1px solid var(--gold);\r\n	background: var(--bg-card);\r\n	color: var(--text-light);\r\n}\r\n\r\n/* Delete button */\r\n#intro .btn_delete {\r\n	width: 20px;\r\n	height: 20px;\r\n	background: rgba(239, 68, 68, 0.15);\r\n	border: 1px solid rgba(239, 68, 68, 0.3);\r\n	border-radius: 4px;\r\n	color: #ef4444;\r\n	font-size: 14px;\r\n	line-height: 18px;\r\n	text-align: center;\r\n	padding: 0;\r\n	transition: background 0.2s;\r\n}\r\n#intro .btn_delete:hover {\r\n	background: rgba(239, 68, 68, 0.3);\r\n}\r\n\r\n/* Add server button */\r\n#intro .settings .btn_add {\r\n	margin-top: 10px;\r\n	float: right;\r\n	padding: 5px 14px;\r\n	background: var(--bg-card);\r\n	border: 1px solid var(--border-dim);\r\n	border-radius: var(--radius-sm);\r\n	color: var(--text-light);\r\n	font-size: 12px;\r\n	transition: border-color 0.2s;\r\n}\r\n#intro .settings .btn_add:hover {\r\n	border-color: var(--gold);\r\n	color: var(--gold);\r\n}\r\n\r\n/* Save button */\r\n#intro .settings .btn_save {\r\n	display: block;\r\n	width: 200px;\r\n	margin: 24px auto 0;\r\n	padding: 12px 0;\r\n	font-family: 'Cinzel', serif;\r\n	font-size: 13px;\r\n	font-weight: 600;\r\n	letter-spacing: 0.1em;\r\n	text-transform: uppercase;\r\n	color: var(--bg-void);\r\n	background: linear-gradient(135deg, var(--gold-bright), var(--gold), var(--gold-dark));\r\n	border: none;\r\n	border-radius: var(--radius-sm);\r\n	transition:\r\n		transform 0.2s,\r\n		box-shadow 0.3s;\r\n	box-shadow: 0 4px 20px rgba(232, 184, 75, 0.3);\r\n}\r\n#intro .settings .btn_save:hover {\r\n	transform: translateY(-2px);\r\n	box-shadow: 0 6px 30px rgba(232, 184, 75, 0.45);\r\n}\r\n#intro .settings .btn_save:active {\r\n	transform: translateY(0);\r\n}\r\n\r\n/* ── Aspect Ratio Fixes ── */\r\n#intro .drop-zone {\r\n	transform: translateX(-50%) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .msg {\r\n	transform: translateX(-50%) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_play {\r\n	transform: translateX(-50%) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_play:hover {\r\n	transform: translateX(-50%) translateY(-2px) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_play:active {\r\n	transform: translateX(-50%) translateY(0) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_about {\r\n	transform: scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .btn_about:hover {\r\n	transform: scale(calc(1.1 * var(--cx, 1)), calc(1.1 * var(--cy, 1)));\r\n}\r\n#intro .btn_settings {\r\n	scale: var(--cx, 1) var(--cy, 1);\r\n}\r\n#intro .btn_settings:hover {\r\n	scale: var(--cx, 1) var(--cy, 1);\r\n}\r\n#intro .loading-content {\r\n	transform: translate(-50%, -50%) scale(var(--cx, 1), var(--cy, 1));\r\n}\r\n#intro .about-content,\r\n#intro .settings-content {\r\n	scale: var(--cx, 1) var(--cy, 1);\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Intro/Particle.js
@@ -339008,6 +339234,10 @@ var init_Intro = __esmMin((() => {
 	* @var {FileList}
 	*/
 	Intro.files = [];
+	/**
+	* Whether this application accepts local GRF/data files.
+	*/
+	Intro.allowLocalFiles = true;
 	_resizeHandler = null;
 	/**
 	* Manage Escape key to exit
@@ -339046,25 +339276,33 @@ var init_Intro = __esmMin((() => {
 			showOverlay(root.querySelector(".overlay.settings"));
 		});
 		const dropZone = root.querySelector(".drop-zone");
-		dropZone.addEventListener("mouseover", () => dropZone.classList.add("dragover"));
-		dropZone.addEventListener("mouseout", () => dropZone.classList.remove("dragover"));
-		dropZone.addEventListener("click", () => root.querySelector("input[type=\"file\"]").click());
-		dropZone.addEventListener("dragover", (e) => {
-			e.preventDefault();
-			dropZone.classList.add("dragover");
-		});
-		dropZone.addEventListener("dragleave", () => {
-			dropZone.classList.remove("dragover");
-		});
-		dropZone.addEventListener("drop", (e) => {
-			e.preventDefault();
-			e.stopImmediatePropagation();
-			dropZone.classList.remove("dragover");
-			processDropEvent(e);
-		});
-		root.querySelector("input[type=\"file\"]").addEventListener("change", function() {
-			processFileInput(this);
-		});
+		const fileInput = root.querySelector("input[type=\"file\"]");
+		if (Intro.allowLocalFiles) {
+			dropZone.addEventListener("mouseover", () => dropZone.classList.add("dragover"));
+			dropZone.addEventListener("mouseout", () => dropZone.classList.remove("dragover"));
+			dropZone.addEventListener("click", () => fileInput.click());
+			dropZone.addEventListener("dragover", (e) => {
+				e.preventDefault();
+				dropZone.classList.add("dragover");
+			});
+			dropZone.addEventListener("dragleave", () => {
+				dropZone.classList.remove("dragover");
+			});
+			dropZone.addEventListener("drop", (e) => {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				dropZone.classList.remove("dragover");
+				processDropEvent(e);
+			});
+			fileInput.addEventListener("change", function() {
+				processFileInput(this);
+			});
+		} else {
+			root.querySelector(".intro").classList.add("remote-resources");
+			dropZone.remove();
+			fileInput.remove();
+			root.querySelector(".msg").remove();
+		}
 		root.querySelector(".quality").addEventListener("input", function() {
 			root.querySelector(".quality_result").textContent = this.value + "%";
 		});
@@ -339267,6 +339505,7 @@ function loadFiles(callback) {
 			Client.init([]);
 			return;
 		}
+		Intro_default.allowLocalFiles = !Configs.get("remoteClient");
 		Intro_default.onFilesSubmit = Client.init.bind(Client);
 		Intro_default.append();
 	});
@@ -340306,6 +340545,7 @@ MapViewer.init = function Init() {
 			q._next();
 		});
 		q.add(function() {
+			Intro_default.allowLocalFiles = true;
 			Intro_default.onFilesSubmit = function(files) {
 				Client.onFilesLoaded = q.next;
 				Client.init(files);
