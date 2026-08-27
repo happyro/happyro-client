@@ -395,6 +395,7 @@ ${buttons}
         </div>    
   
         <script src="Config.js"></script>    
+        <script src="Config.runtime.js"></script>
         <script src="Config.happyro.js"></script>
         <script>    
             function deepMerge(target, source) {    
@@ -501,6 +502,7 @@ window.ROConfigBase = {
 };  
 `;
 	fs.writeFileSync(dist + platform + '/Config.js', configContent, { encoding: 'utf8' });
+	fs.copyFileSync('./applications/pwa/Config.runtime.js', dist + platform + '/Config.runtime.js');
 	fs.copyFileSync('./applications/pwa/Config.happyro.js', dist + platform + '/Config.happyro.js');
 }
 
@@ -566,6 +568,7 @@ function createApiHTML() {
         </div>    
     
         <script src="Config.js"></script>    
+        <script src="Config.runtime.js"></script>
         <script src="Config.happyro.js"></script>
         <script>    
             (function() {    
