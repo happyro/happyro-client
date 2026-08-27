@@ -40,6 +40,10 @@
 	padding: 5px 10px 0px 10px;
 }
 
+#win_popup .text.preserve-line-breaks {
+	white-space: pre-line;
+}
+
 #win_popup .buttonscontainer {
 	position: absolute;
 	height: 25px;
