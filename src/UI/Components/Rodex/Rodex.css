@@ -101,10 +101,11 @@
 }
 #Rodex .body .searchbar .search-title-text {
 	position: absolute;
-	width: 10px;
+	width: 32px;
 	height: 10px;
 	top: 13px;
 	left: 35px;
+	white-space: nowrap;
 }
 #Rodex .body .searchbar .search-sender {
 	position: absolute;
@@ -115,10 +116,11 @@
 }
 #Rodex .body .searchbar .search-sender-text {
 	position: absolute;
-	width: 10px;
+	width: 48px;
 	height: 10px;
 	top: 13px;
 	left: 87px;
+	white-space: nowrap;
 }
 #Rodex .body .searchbar .search-text {
 	color: #212163;
