@@ -5,15 +5,15 @@ import MiniMapTable from '../../src/DB/Map/MiniMapTable.js';
 import JobDisplayNameTable, { getJobDisplayName } from '../../src/DB/Jobs/JobDisplayNameTable.js';
 
 describe('spawn localization', () => {
-	it('localizes the remote island map', () => {
+	it('localizes the isolated island map', () => {
 		for (const map of ['int_land.rsw', 'int_land01.rsw', 'int_land02.rsw', 'int_land03.rsw', 'int_land04.rsw']) {
-			expect(MapTable[map].signName.mainTitle).toBe('偏远岛屿');
-			expect(MapTable[map].displayName).toBe('偏远岛屿');
+			expect(MapTable[map].signName.mainTitle).toBe('孤岛');
+			expect(MapTable[map].displayName).toBe('孤岛');
 		}
 	});
 
 	it('localizes stranded passenger ship maps', () => {
-		for (const map of ['iz_int.rsw', 'iz_int01.rsw', 'iz_int04.rsw']) {
+		for (const map of ['iz_int.rsw', 'iz_int01.rsw', 'iz_int02.rsw', 'iz_int03.rsw', 'iz_int04.rsw']) {
 			expect(MapTable[map].signName.mainTitle).toBe('搁浅的客船');
 			expect(MapTable[map].displayName).toBe('搁浅的客船');
 		}
@@ -36,8 +36,8 @@ describe('spawn localization', () => {
 		);
 
 		expect(merged.backgroundBmp).toBe('official_background');
-		expect(merged.displayName).toBe('偏远岛屿');
-		expect(merged.signName.mainTitle).toBe('偏远岛屿');
+		expect(merged.displayName).toBe('孤岛');
+		expect(merged.signName.mainTitle).toBe('孤岛');
 		expect(merged.signName.subTitle).toBe('Official subtitle');
 	});
 
