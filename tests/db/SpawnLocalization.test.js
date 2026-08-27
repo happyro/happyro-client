@@ -12,6 +12,13 @@ describe('spawn localization', () => {
 		}
 	});
 
+	it('localizes stranded passenger ship maps', () => {
+		for (const map of ['iz_int.rsw', 'iz_int01.rsw', 'iz_int04.rsw']) {
+			expect(MapTable[map].signName.mainTitle).toBe('搁浅的客船');
+			expect(MapTable[map].displayName).toBe('搁浅的客船');
+		}
+	});
+
 	it('localizes summoner job names', () => {
 		expect(JobDisplayNameTable[4218]).toBe('召唤师');
 		expect(JobDisplayNameTable[4220]).toBe('召唤师宝宝');

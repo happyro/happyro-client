@@ -3610,10 +3610,10 @@ const MapInfo = {
 	'iz_int01.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: 'Stranded Passenger Ship'
+			mainTitle: '搁浅的客船'
 		},
 		notifyEnter: true,
-		displayName: 'Stranded Passenger Ship'
+		displayName: '搁浅的客船'
 	},
 	'force_2-3.rsw': {
 		displayName: 'Time Limit Fight'
@@ -5594,10 +5594,10 @@ const MapInfo = {
 	'iz_int.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: 'Stranded Passenger Ship'
+			mainTitle: '搁浅的客船'
 		},
 		notifyEnter: true,
-		displayName: 'Stranded Passenger Ship'
+		displayName: '搁浅的客船'
 	},
 	'aldeg_cas04.rsw': {
 		backgroundBmp: 'siege',
@@ -5679,10 +5679,10 @@ const MapInfo = {
 	'iz_int04.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: 'Stranded Passenger Ship'
+			mainTitle: '搁浅的客船'
 		},
 		notifyEnter: true,
-		displayName: 'Stranded Passenger Ship'
+		displayName: '搁浅的客船'
 	},
 	'yuno_in04.rsw': {
 		backgroundBmp: 'noname_s2',
