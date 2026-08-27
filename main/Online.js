@@ -153738,9 +153738,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"iz_int03.rsw": {
 			backgroundBmp: "noname_s2",
-			signName: { mainTitle: "搁浅客船" },
+			signName: { mainTitle: "搁浅的客船" },
 			notifyEnter: true,
-			displayName: "搁浅客船"
+			displayName: "搁浅的客船"
 		},
 		"1@jorchs.rsw": {
 			backgroundBmp: "noname_s2",
@@ -155225,9 +155225,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"int_land.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "偏远岛屿" },
+			signName: { mainTitle: "孤岛" },
 			notifyEnter: true,
-			displayName: "偏远岛屿"
+			displayName: "孤岛"
 		},
 		"aldeba_in.rsw": { displayName: "艾尔帕兰内部" },
 		"ve_in.rsw": { displayName: "维因斯内部" },
@@ -155380,9 +155380,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"iz_int02.rsw": {
 			backgroundBmp: "noname_s2",
-			signName: { mainTitle: "搁浅客船" },
+			signName: { mainTitle: "搁浅的客船" },
 			notifyEnter: true,
-			displayName: "搁浅客船"
+			displayName: "搁浅的客船"
 		},
 		"yuno_fild01.rsw": {
 			backgroundBmp: "field_s2",
@@ -155763,9 +155763,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"int_land03.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "偏远岛屿" },
+			signName: { mainTitle: "孤岛" },
 			notifyEnter: true,
-			displayName: "偏远岛屿"
+			displayName: "孤岛"
 		},
 		"1@uns.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -155782,9 +155782,9 @@ var init_MapTable = __esmMin((() => {
 		"quiz_02.rsw": { displayName: "问答竞技场" },
 		"int_land04.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "偏远岛屿" },
+			signName: { mainTitle: "孤岛" },
 			notifyEnter: true,
-			displayName: "偏远岛屿"
+			displayName: "孤岛"
 		},
 		"ice_dun01.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -156908,9 +156908,9 @@ var init_MapTable = __esmMin((() => {
 		"in_orcs01.rsw": { displayName: "兽人村内部" },
 		"int_land02.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "偏远岛屿" },
+			signName: { mainTitle: "孤岛" },
 			notifyEnter: true,
-			displayName: "偏远岛屿"
+			displayName: "孤岛"
 		},
 		"knight_1-1.rsw": { displayName: "骑士团" },
 		"in_hunter.rsw": {
@@ -158113,9 +158113,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"int_land01.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "偏远岛屿" },
+			signName: { mainTitle: "孤岛" },
 			notifyEnter: true,
-			displayName: "偏远岛屿"
+			displayName: "孤岛"
 		},
 		"ra_in01.rsw": { displayName: "Inside Rachel" },
 		"grademk.rsw": {
@@ -338529,6 +338529,12 @@ var init_WinLogin$2 = __esmMin((() => {
 	WinLogin_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 60%;\r\n	left: calc(50% - 140px);\r\n}\r\n\r\n#WinLogin {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n}\r\n#WinLogin input {\r\n	position: absolute;\r\n	left: 91px;\r\n	height: 18px;\r\n	width: 127px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#WinLogin input.user {\r\n	top: 29px;\r\n}\r\n#WinLogin input.pass {\r\n	top: 61px;\r\n}\r\n#WinLogin .save {\r\n	position: absolute;\r\n	top: 26px;\r\n	right: 4px;\r\n	display: block;\r\n	width: 72px;\r\n	height: 18px;\r\n	border: none;\r\n	background-color: transparent;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	padding: 0 0 0 17px;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#WinLogin .save::before {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 1px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: 1px solid #696969;\r\n	background: #ffffff;\r\n	content: '';\r\n}\r\n#WinLogin .save.is-checked::after {\r\n	position: absolute;\r\n	top: -1px;\r\n	left: 2px;\r\n	color: #202020;\r\n	content: '\\2713';\r\n	font-size: 14px;\r\n	font-weight: bold;\r\n}\r\n#WinLogin .btn {\r\n	position: absolute;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	background-color: transparent;\r\n}\r\n#WinLogin .btn.connect {\r\n	right: 50px;\r\n}\r\n#WinLogin .btn.signup {\r\n	left: 5px;\r\n}\r\n#WinLogin .btn.exit {\r\n	right: 5px;\r\n}\r\n\r\n/* Override browser autofill styles */\r\n#WinLogin input:-webkit-autofill,\r\n#WinLogin input:-webkit-autofill:hover,\r\n#WinLogin input:-webkit-autofill:focus,\r\n#WinLogin input:-webkit-autofill:active,\r\n#WinLogin input:-internal-autofill-selected,\r\n#WinLogin input:-internal-autofill-previewed {\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000sease-in-out 0s;\r\n	box-shadow: inset 0 0 20px 20px #ffffff00;\r\n}\r\n";
 }));
 //#endregion
+//#region src/UI/Components/WinLogin/RememberedAccount.js
+function normalizeRememberedAccount(account) {
+	return account.replace(/_[fm]$/i, "");
+}
+var init_RememberedAccount = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Components/WinLogin/WinLoginCommon.js
 function createWinLogin({ name, htmlText, cssText }) {
 	const Component = new GUIComponent(name, cssText);
@@ -338566,7 +338572,7 @@ function createWinLogin({ name, htmlText, cssText }) {
 		root.querySelector(".exit").addEventListener("click", exit);
 	};
 	Component.onAppend = function onAppend() {
-		_inputUsername.value = _preferences.saveID ? _preferences.ID : "";
+		_inputUsername.value = _preferences.saveID ? normalizeRememberedAccount(_preferences.ID) : "";
 		_inputPassword.value = "";
 		updateSaveButton();
 		if (_preferences.ID.length) _inputPassword.focus();
@@ -338611,7 +338617,7 @@ function createWinLogin({ name, htmlText, cssText }) {
 		const pass = _inputPassword.value;
 		if (_preferences.saveID) {
 			_preferences.saveID = true;
-			_preferences.ID = user;
+			_preferences.ID = normalizeRememberedAccount(user);
 		} else {
 			_preferences.saveID = false;
 			_preferences.ID = "";
@@ -338639,6 +338645,7 @@ var init_WinLoginCommon = __esmMin((() => {
 	init_UIManager();
 	init_GUIComponent();
 	init_Elements();
+	init_RememberedAccount();
 }));
 //#endregion
 //#region src/UI/Components/WinLogin/WinLogin/WinLogin.js
