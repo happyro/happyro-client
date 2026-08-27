@@ -70,6 +70,7 @@ function loadFiles(callback) {
 			return;
 		}
 
+		Intro.allowLocalFiles = !Configs.get('remoteClient');
 		Intro.onFilesSubmit = Client.init.bind(Client);
 		Intro.append();
 	});

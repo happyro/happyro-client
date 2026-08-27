@@ -284,7 +284,9 @@
 	width: 152px;
 }
 #charcreate_v4 .cancel {
-	right: 5px;
+	width: 17px;
+	height: 16px;
+	right: 9px;
 	top: -389px;
 }
 #charcreate_v4 .return {

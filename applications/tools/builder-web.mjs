@@ -168,13 +168,13 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
 	const manifest = includeManifest ? `<link rel="manifest" href="./manifest.webmanifest">` : ``;
 
 	const appButtonMap = [
-		{ flag: 'O', app: 'ONLINE', label: 'Online' },
-		{ flag: 'G', app: 'GRANNYMODELVIEWER', label: 'Granny Model Viewer' },
-		{ flag: 'D', app: 'GRFVIEWER', label: 'GRF Viewer' },
-		{ flag: 'V', app: 'MAPVIEWER', label: 'Map Viewer' },
-		{ flag: 'M', app: 'MODELVIEWER', label: 'Model Viewer' },
-		{ flag: 'S', app: 'STRVIEWER', label: 'STR Viewer' },
-		{ flag: 'E', app: 'EFFECTVIEWER', label: 'Effect Viewer' }
+		{ flag: 'O', app: 'ONLINE', label: '进入游戏' },
+		{ flag: 'G', app: 'GRANNYMODELVIEWER', label: 'Granny 模型查看器' },
+		{ flag: 'D', app: 'GRFVIEWER', label: 'GRF 资源查看器' },
+		{ flag: 'V', app: 'MAPVIEWER', label: '地图查看器' },
+		{ flag: 'M', app: 'MODELVIEWER', label: '模型查看器' },
+		{ flag: 'S', app: 'STRVIEWER', label: 'STR 动画查看器' },
+		{ flag: 'E', app: 'EFFECTVIEWER', label: '特效查看器' }
 	];
 
 	const viewerFlags = appButtonMap.filter(v => v.flag !== 'O').map(v => v.flag);
@@ -313,7 +313,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
     </head>    
     <body>    
         <div class="app-launcher">    
-            <h1>roBrowser App Launcher</h1>    
+            <h1>roBrowser 应用启动器</h1>
             <div class="button-grid">    
 ${buttons}    
             </div>    
@@ -321,7 +321,7 @@ ${buttons}
   
         <script type="text/javascript">    
             function launchApp(appName) {    
-                var w = 800, h = 600;    
+                var w = 1024, h = 768;
                 var top = (screen.height - h) / 2;    
                 var left = (screen.width - w) / 2;    
                 window.open(    
