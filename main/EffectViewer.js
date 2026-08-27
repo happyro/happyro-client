@@ -298086,6 +298086,7 @@ function loadLuaValue(file_path, variable_name, callback, onEnd) {
 * @param {function} onEnd - The function to invoke when loading is complete.
 */
 function loadMapTbl(filename, callback, onEnd) {
+	const loadedMapInfo = {};
 	new Promise((resolve, reject) => {
 		Client.loadFile(filename, resolve, reject);
 	}).then(async (file) => {
@@ -298095,7 +298096,7 @@ function loadMapTbl(filename, callback, onEnd) {
 			const ctx = lua.ctx;
 			ctx.AddMapDisplayName = (name, displayName, notify_enter) => {
 				const decoded_name = userStringDecoder.decode(name);
-				MapInfo[decoded_name] = {
+				loadedMapInfo[decoded_name] = {
 					displayName: userStringDecoder.decode(displayName, userCharpage),
 					notifyEnter: notify_enter,
 					signName: {
@@ -298110,7 +298111,7 @@ function loadMapTbl(filename, callback, onEnd) {
 				const decoded_name = userStringDecoder.decode(name);
 				const decoded_subTitle = subTitle && subTitle.length > 1 ? userStringDecoder.decode(subTitle, userCharpage) : null;
 				const decoded_mainTitle = mainTitle && mainTitle.length > 1 ? userStringDecoder.decode(mainTitle, userCharpage) : null;
-				MapInfo[decoded_name].signName = {
+				loadedMapInfo[decoded_name].signName = {
 					subTitle: decoded_subTitle,
 					mainTitle: decoded_mainTitle
 				};
@@ -298118,12 +298119,13 @@ function loadMapTbl(filename, callback, onEnd) {
 			};
 			ctx.AddMapBackgroundBmp = (name, backgroundBmp) => {
 				const decoded_name = userStringDecoder.decode(name);
-				MapInfo[decoded_name].backgroundBmp = backgroundBmp ? userStringDecoder.decode(backgroundBmp) : "field";
+				loadedMapInfo[decoded_name].backgroundBmp = backgroundBmp ? userStringDecoder.decode(backgroundBmp) : "field";
 				return 1;
 			};
 			lua.mountFile(filename, buffer);
 			await lua.doFile(filename);
 			lua.doStringSync("main()");
+			if (typeof callback === "function") callback(loadedMapInfo);
 		} catch (error) {
 			console.error("[loadMapTbl] Error: ", error);
 		} finally {
