@@ -288,15 +288,18 @@ class UIManager {
 	 * @param {string} button cancel
 	 * @param {function} callback when ok is pressed
 	 * @param {function} callback when cancel is pressed
+	 * @param {boolean} preserveLineBreaks - whether to preserve line breaks in message text
 	 */
-	static showPromptBox(text, btn_yes, btn_no, onYes, onNo) {
+	static showPromptBox(text, btn_yes, btn_no, onYes, onNo, preserveLineBreaks = false) {
 		const WinPrompt = this.getComponent('WinPopup').clone('WinPrompt');
 
 		WinPrompt.init = function Init() {
 			this.draggable();
 			const root = this._shadow;
+			const textElement = root.querySelector('.text');
 
-			root.querySelector('.text').textContent = text;
+			textElement.textContent = text;
+			textElement.classList.toggle('preserve-line-breaks', preserveLineBreaks);
 			Object.assign(this._host.style, _popupPosition());
 
 			const btnsContainer = root.querySelector('.btns');

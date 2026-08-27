@@ -145,7 +145,8 @@ export function createWinLogin({ name, htmlText, cssText }) {
 				'ok',
 				'cancel',
 				null,
-				null
+				null,
+				true
 			);
 		}
 	}
