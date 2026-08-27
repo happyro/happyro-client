@@ -14,6 +14,7 @@ import P3TurtleIslandNpcNameTable from './P3TurtleIslandNpcNameTable';
 import P3RegionalDungeonNpcNameTable from './P3RegionalDungeonNpcNameTable';
 import P3MidgameDungeonNpcNameTable from './P3MidgameDungeonNpcNameTable';
 import P3RemainingCommonNpcNameTable from './P3RemainingCommonNpcNameTable';
+import SpawnTownNpcNameTable from './SpawnTownNpcNameTable';
 
 const PACKET_NAME_VISIBLE_LENGTH = 23;
 
@@ -28,7 +29,26 @@ const NpcNameTable = {
 	Sonya: '索尼娅',
 	'Grandmother Alma': '阿尔玛奶奶',
 	Fisk: '菲斯克',
+	Aaron: '亚伦',
+	'Archer Zakk': '弓箭手扎克',
+	'Chief Guardsman': '卫兵队长',
+	Guardsman: '卫兵',
+	Hadenheim: '哈登海姆',
+	'Merchant Daven': '商人达文',
+	Skyler: '斯凯勒',
 	Paul: '保罗',
+	'Wounded Swordsman': '受伤的剑士',
+	'Captain Carocc': '卡洛克船长',
+	Carocc: '卡洛克船长',
+	'Con-Chliina Crewman': '康·奇利纳船员',
+	Lumin: '卢敏',
+	'Vigilante Ajegna': '治安队员阿杰尼亚',
+	'Applicant Paul': '申请者保罗',
+	'Applicant MacCarnie': '申请者麦卡尼',
+	'Vigilante Gnocchi': '治安队员尼奥基',
+	'Vigilante Aglio': '治安队员阿利奥',
+	Sloth: '懒汉',
+	'Well-known Troublemaker': '知名捣蛋鬼',
 	Phelix: '菲利克斯',
 	Meera: '米拉',
 	Orwalk: '奥尔沃克',
@@ -113,7 +133,8 @@ const NpcNameTable = {
 	...P3TurtleIslandNpcNameTable,
 	...P3RegionalDungeonNpcNameTable,
 	...P3MidgameDungeonNpcNameTable,
-	...P3RemainingCommonNpcNameTable
+	...P3RemainingCommonNpcNameTable,
+	...SpawnTownNpcNameTable
 };
 
 for (const [source, translated] of Object.entries(NpcNameTable)) {

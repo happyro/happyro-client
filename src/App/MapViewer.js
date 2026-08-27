@@ -117,6 +117,7 @@ MapViewer.init = function Init() {
 
 		// Start Intro, wait the user to add files
 		q.add(function () {
+			Intro.allowLocalFiles = true;
 			Intro.onFilesSubmit = function (files) {
 				Client.onFilesLoaded = q.next;
 				Client.init(files);

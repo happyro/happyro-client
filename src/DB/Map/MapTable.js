@@ -4326,10 +4326,10 @@ const MapInfo = {
 	'int_land.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '遥远岛屿'
+			mainTitle: '偏远岛屿'
 		},
 		notifyEnter: true,
-		displayName: '遥远岛屿'
+		displayName: '偏远岛屿'
 	},
 	'aldeba_in.rsw': {
 		displayName: '艾尔帕兰内部'
@@ -5019,10 +5019,10 @@ const MapInfo = {
 	'int_land04.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '遥远岛屿'
+			mainTitle: '偏远岛屿'
 		},
 		notifyEnter: true,
-		displayName: '遥远岛屿'
+		displayName: '偏远岛屿'
 	},
 	'ice_dun01.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -6413,10 +6413,10 @@ const MapInfo = {
 	'int_land02.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '遥远岛屿'
+			mainTitle: '偏远岛屿'
 		},
 		notifyEnter: true,
-		displayName: '遥远岛屿'
+		displayName: '偏远岛屿'
 	},
 	'knight_1-1.rsw': {
 		displayName: '骑士团'
@@ -7870,10 +7870,10 @@ const MapInfo = {
 	'int_land01.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: 'Remote Island'
+			mainTitle: '偏远岛屿'
 		},
 		notifyEnter: true,
-		displayName: 'Remote Island'
+		displayName: '偏远岛屿'
 	},
 	'ra_in01.rsw': {
 		displayName: 'Inside Rachel'
