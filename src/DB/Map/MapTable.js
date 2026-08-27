@@ -2525,10 +2525,10 @@ const MapInfo = {
 	'iz_int03.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: '搁浅客船'
+			mainTitle: '搁浅的客船'
 		},
 		notifyEnter: true,
-		displayName: '搁浅客船'
+		displayName: '搁浅的客船'
 	},
 	'1@jorchs.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -3610,10 +3610,10 @@ const MapInfo = {
 	'iz_int01.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: 'Stranded Passenger Ship'
+			mainTitle: '搁浅的客船'
 		},
 		notifyEnter: true,
-		displayName: 'Stranded Passenger Ship'
+		displayName: '搁浅的客船'
 	},
 	'force_2-3.rsw': {
 		displayName: 'Time Limit Fight'
@@ -4326,10 +4326,10 @@ const MapInfo = {
 	'int_land.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '偏远岛屿'
+			mainTitle: '孤岛'
 		},
 		notifyEnter: true,
-		displayName: '偏远岛屿'
+		displayName: '孤岛'
 	},
 	'aldeba_in.rsw': {
 		displayName: '艾尔帕兰内部'
@@ -4525,10 +4525,10 @@ const MapInfo = {
 	'iz_int02.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: '搁浅客船'
+			mainTitle: '搁浅的客船'
 		},
 		notifyEnter: true,
-		displayName: '搁浅客船'
+		displayName: '搁浅的客船'
 	},
 	'yuno_fild01.rsw': {
 		backgroundBmp: 'field_s2',
@@ -4992,10 +4992,10 @@ const MapInfo = {
 	'int_land03.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '偏远岛屿'
+			mainTitle: '孤岛'
 		},
 		notifyEnter: true,
-		displayName: '偏远岛屿'
+		displayName: '孤岛'
 	},
 	'1@uns.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -5019,10 +5019,10 @@ const MapInfo = {
 	'int_land04.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '偏远岛屿'
+			mainTitle: '孤岛'
 		},
 		notifyEnter: true,
-		displayName: '偏远岛屿'
+		displayName: '孤岛'
 	},
 	'ice_dun01.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -5594,10 +5594,10 @@ const MapInfo = {
 	'iz_int.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: 'Stranded Passenger Ship'
+			mainTitle: '搁浅的客船'
 		},
 		notifyEnter: true,
-		displayName: 'Stranded Passenger Ship'
+		displayName: '搁浅的客船'
 	},
 	'aldeg_cas04.rsw': {
 		backgroundBmp: 'siege',
@@ -5679,10 +5679,10 @@ const MapInfo = {
 	'iz_int04.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: 'Stranded Passenger Ship'
+			mainTitle: '搁浅的客船'
 		},
 		notifyEnter: true,
-		displayName: 'Stranded Passenger Ship'
+		displayName: '搁浅的客船'
 	},
 	'yuno_in04.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -6413,10 +6413,10 @@ const MapInfo = {
 	'int_land02.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '偏远岛屿'
+			mainTitle: '孤岛'
 		},
 		notifyEnter: true,
-		displayName: '偏远岛屿'
+		displayName: '孤岛'
 	},
 	'knight_1-1.rsw': {
 		displayName: '骑士团'
@@ -7870,10 +7870,10 @@ const MapInfo = {
 	'int_land01.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '偏远岛屿'
+			mainTitle: '孤岛'
 		},
 		notifyEnter: true,
-		displayName: '偏远岛屿'
+		displayName: '孤岛'
 	},
 	'ra_in01.rsw': {
 		displayName: 'Inside Rachel'
