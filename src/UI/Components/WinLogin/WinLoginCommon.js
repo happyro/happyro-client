@@ -141,7 +141,7 @@ export function createWinLogin({ name, htmlText, cssText }) {
 			);
 		} else {
 			UIManager.showPromptBox(
-				'当前支持快速注册：在新账号名末尾添加 _M（男）或 _F（女），输入要设置的密码后登录。\n例如：HappyRO_M',
+				'自动注册：\n1. 在账号名末尾添加 _M（男）或 _F（女）\n2. 输入要设置的密码后登录\n3. 例如：happyro_M',
 				'ok',
 				'cancel',
 				null,
