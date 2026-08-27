@@ -13,6 +13,7 @@ import KEYS from 'Controls/KeyEventHandler.js';
 import UIManager from 'UI/UIManager.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import 'UI/Elements/Elements.js';
+import { normalizeRememberedAccount } from './RememberedAccount.js';
 
 export function createWinLogin({ name, htmlText, cssText }) {
 	const Component = new GUIComponent(name, cssText);
@@ -59,7 +60,7 @@ export function createWinLogin({ name, htmlText, cssText }) {
 	};
 
 	Component.onAppend = function onAppend() {
-		_inputUsername.value = _preferences.saveID ? _preferences.ID : '';
+		_inputUsername.value = _preferences.saveID ? normalizeRememberedAccount(_preferences.ID) : '';
 		_inputPassword.value = '';
 
 		updateSaveButton();
@@ -117,7 +118,7 @@ export function createWinLogin({ name, htmlText, cssText }) {
 		const pass = _inputPassword.value;
 		if (_preferences.saveID) {
 			_preferences.saveID = true;
-			_preferences.ID = user;
+			_preferences.ID = normalizeRememberedAccount(user);
 		} else {
 			_preferences.saveID = false;
 			_preferences.ID = '';
