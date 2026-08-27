@@ -2525,10 +2525,10 @@ const MapInfo = {
 	'iz_int03.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: '搁浅的客船'
+			mainTitle: '沉船'
 		},
 		notifyEnter: true,
-		displayName: '搁浅的客船'
+		displayName: '沉船'
 	},
 	'1@jorchs.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -3610,10 +3610,10 @@ const MapInfo = {
 	'iz_int01.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: '搁浅的客船'
+			mainTitle: '沉船'
 		},
 		notifyEnter: true,
-		displayName: '搁浅的客船'
+		displayName: '沉船'
 	},
 	'force_2-3.rsw': {
 		displayName: 'Time Limit Fight'
@@ -4525,10 +4525,10 @@ const MapInfo = {
 	'iz_int02.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: '搁浅的客船'
+			mainTitle: '沉船'
 		},
 		notifyEnter: true,
-		displayName: '搁浅的客船'
+		displayName: '沉船'
 	},
 	'yuno_fild01.rsw': {
 		backgroundBmp: 'field_s2',
@@ -5594,10 +5594,10 @@ const MapInfo = {
 	'iz_int.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: '搁浅的客船'
+			mainTitle: '沉船'
 		},
 		notifyEnter: true,
-		displayName: '搁浅的客船'
+		displayName: '沉船'
 	},
 	'aldeg_cas04.rsw': {
 		backgroundBmp: 'siege',
@@ -5679,10 +5679,10 @@ const MapInfo = {
 	'iz_int04.rsw': {
 		backgroundBmp: 'noname_s2',
 		signName: {
-			mainTitle: '搁浅的客船'
+			mainTitle: '沉船'
 		},
 		notifyEnter: true,
-		displayName: '搁浅的客船'
+		displayName: '沉船'
 	},
 	'yuno_in04.rsw': {
 		backgroundBmp: 'noname_s2',

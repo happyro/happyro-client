@@ -14,8 +14,8 @@ describe('spawn localization', () => {
 
 	it('localizes stranded passenger ship maps', () => {
 		for (const map of ['iz_int.rsw', 'iz_int01.rsw', 'iz_int02.rsw', 'iz_int03.rsw', 'iz_int04.rsw']) {
-			expect(MapTable[map].signName.mainTitle).toBe('搁浅的客船');
-			expect(MapTable[map].displayName).toBe('搁浅的客船');
+			expect(MapTable[map].signName.mainTitle).toBe('沉船');
+			expect(MapTable[map].displayName).toBe('沉船');
 		}
 	});
 
