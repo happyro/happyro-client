@@ -154637,9 +154637,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"iz_int01.rsw": {
 			backgroundBmp: "noname_s2",
-			signName: { mainTitle: "Stranded Passenger Ship" },
+			signName: { mainTitle: "搁浅的客船" },
 			notifyEnter: true,
-			displayName: "Stranded Passenger Ship"
+			displayName: "搁浅的客船"
 		},
 		"force_2-3.rsw": { displayName: "Time Limit Fight" },
 		"ein_dun03.rsw": {
@@ -156259,9 +156259,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"iz_int.rsw": {
 			backgroundBmp: "noname_s2",
-			signName: { mainTitle: "Stranded Passenger Ship" },
+			signName: { mainTitle: "搁浅的客船" },
 			notifyEnter: true,
-			displayName: "Stranded Passenger Ship"
+			displayName: "搁浅的客船"
 		},
 		"aldeg_cas04.rsw": {
 			backgroundBmp: "siege",
@@ -156334,9 +156334,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"iz_int04.rsw": {
 			backgroundBmp: "noname_s2",
-			signName: { mainTitle: "Stranded Passenger Ship" },
+			signName: { mainTitle: "搁浅的客船" },
 			notifyEnter: true,
-			displayName: "Stranded Passenger Ship"
+			displayName: "搁浅的客船"
 		},
 		"yuno_in04.rsw": {
 			backgroundBmp: "noname_s2",
