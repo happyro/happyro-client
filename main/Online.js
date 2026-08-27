@@ -308990,13 +308990,16 @@ var init_UIManager = __esmMin((() => {
 		* @param {string} button cancel
 		* @param {function} callback when ok is pressed
 		* @param {function} callback when cancel is pressed
+		* @param {boolean} preserveLineBreaks - whether to preserve line breaks in message text
 		*/
-		static showPromptBox(text, btn_yes, btn_no, onYes, onNo) {
+		static showPromptBox(text, btn_yes, btn_no, onYes, onNo, preserveLineBreaks = false) {
 			const WinPrompt = this.getComponent("WinPopup").clone("WinPrompt");
 			WinPrompt.init = function Init() {
 				this.draggable();
 				const root = this._shadow;
-				root.querySelector(".text").textContent = text;
+				const textElement = root.querySelector(".text");
+				textElement.textContent = text;
+				textElement.classList.toggle("preserve-line-breaks", preserveLineBreaks);
 				Object.assign(this._host.style, _popupPosition());
 				const btnsContainer = root.querySelector(".btns");
 				btnsContainer.appendChild(_createButton(btn_yes, () => {
@@ -320627,7 +320630,7 @@ var init_WinPopup$2 = __esmMin((() => {
 //#region src/UI/Components/WinPopup/WinPopup.css?raw
 var WinPopup_default$1;
 var init_WinPopup$1 = __esmMin((() => {
-	WinPopup_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#win_popup {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n	z-index: 999;\r\n}\r\n\r\n#win_popup .titlebar {\r\n	position: absolute;\r\n	top: 1px;\r\n	left: 1px;\r\n	z-index: 1;\r\n	box-sizing: border-box;\r\n	width: 278px;\r\n	height: 17px;\r\n	border-bottom: 1px solid #7997c0;\r\n	background: linear-gradient(#f7faff, #cadcf4);\r\n	color: #202020;\r\n	font-size: 12px;\r\n	line-height: 16px;\r\n	padding-left: 7px;\r\n}\r\n\r\n#win_popup .container {\r\n	position: absolute;\r\n	height: 70px;\r\n	width: 270px;\r\n	top: 20px;\r\n	overflow: auto;\r\n}\r\n\r\n#win_popup .text {\r\n	padding: 5px 10px 0px 10px;\r\n}\r\n\r\n#win_popup .buttonscontainer {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 280px;\r\n	top: 95px;\r\n}\r\n\r\n#win_popup .btns {\r\n	position: absolute;\r\n	bottom: 2px;\r\n	right: 3px;\r\n}\r\n\r\n#win_popup .btn {\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	margin-left: 3px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#win_popup .btn.localized {\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	color: #202622;\r\n	cursor: pointer;\r\n}\r\n\r\n#win_popup .btn.localized:hover {\r\n	background: #dcebe3;\r\n}\r\n\r\n#win_popup .btn.localized:active {\r\n	background: #c8ded2;\r\n}\r\n";
+	WinPopup_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#win_popup {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n	z-index: 999;\r\n}\r\n\r\n#win_popup .titlebar {\r\n	position: absolute;\r\n	top: 1px;\r\n	left: 1px;\r\n	z-index: 1;\r\n	box-sizing: border-box;\r\n	width: 278px;\r\n	height: 17px;\r\n	border-bottom: 1px solid #7997c0;\r\n	background: linear-gradient(#f7faff, #cadcf4);\r\n	color: #202020;\r\n	font-size: 12px;\r\n	line-height: 16px;\r\n	padding-left: 7px;\r\n}\r\n\r\n#win_popup .container {\r\n	position: absolute;\r\n	height: 70px;\r\n	width: 270px;\r\n	top: 20px;\r\n	overflow: auto;\r\n}\r\n\r\n#win_popup .text {\r\n	padding: 5px 10px 0px 10px;\r\n}\r\n\r\n#win_popup .text.preserve-line-breaks {\r\n	white-space: pre-line;\r\n}\r\n\r\n#win_popup .buttonscontainer {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 280px;\r\n	top: 95px;\r\n}\r\n\r\n#win_popup .btns {\r\n	position: absolute;\r\n	bottom: 2px;\r\n	right: 3px;\r\n}\r\n\r\n#win_popup .btn {\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	margin-left: 3px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#win_popup .btn.localized {\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	color: #202622;\r\n	cursor: pointer;\r\n}\r\n\r\n#win_popup .btn.localized:hover {\r\n	background: #dcebe3;\r\n}\r\n\r\n#win_popup .btn.localized:active {\r\n	background: #c8ded2;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinPopup/WinPopup.js
@@ -338622,7 +338625,7 @@ function createWinLogin({ name, htmlText, cssText }) {
 		if (url) UIManager.showPromptBox(DB.getMessage(662), "ok", "cancel", () => {
 			window.open(url);
 		}, null);
-		else UIManager.showPromptBox("自动注册：\n1. 在账号名末尾添加 _M（男）或 _F（女）\n2. 输入要设置的密码后登录\n3. 例如：happyro_M", "ok", "cancel", null, null);
+		else UIManager.showPromptBox("自动注册：\n1. 在账号名末尾添加 _M（男）或 _F（女）\n2. 输入要设置的密码后登录\n3. 例如：happyro_M", "ok", "cancel", null, null, true);
 	}
 	Component.onConnectionRequest = function onConnectionRequest() {};
 	Component.onExitRequest = function onExitRequest() {};
