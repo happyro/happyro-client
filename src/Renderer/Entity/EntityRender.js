@@ -281,6 +281,10 @@ const renderEntity = (function renderEntityClosure() {
 		SpriteRenderer.zIndex = 1;
 
 		const animation = this.animation;
+		// All sprite layers must resolve the same animation tick. On slower 2D
+		// Canvas implementations, separate Date.now() calls can cross a frame
+		// boundary while the previous layer is being rasterized.
+		const renderTick = Date.now();
 		const Entity = this.constructor;
 		_position[0] = 0;
 		_position[1] = 0;
@@ -316,7 +320,7 @@ const renderEntity = (function renderEntityClosure() {
 
 			// Keep shadow on ground: depth test on, depth write off, disabledepthcorrection
 			SpriteRenderer.runWithDepth(true, false, false, function () {
-				renderElement(self, self.files.shadow, 'shadow', _position, false);
+				renderElement(self, self.files.shadow, 'shadow', _position, false, renderTick);
 			});
 		}
 
@@ -384,7 +388,7 @@ const renderEntity = (function renderEntityClosure() {
 					if (self.shield && behind) {
 						SpriteRenderer.runWithDepth(true, false, false, function () {
 							SpriteRenderer.zIndex = -1;
-							renderElement(self, self.files.shield, 'shield', _position, true);
+							renderElement(self, self.files.shield, 'shield', _position, true, renderTick);
 						});
 					}
 
@@ -396,16 +400,16 @@ const renderEntity = (function renderEntityClosure() {
 							// Draw Cart
 							SpriteRenderer.runWithDepth(true, false, false, function () {
 								SpriteRenderer.zIndex = -1;
-								renderElement(self, self.files.cart_shadow, 'cartshadow', _position, false);
+								renderElement(self, self.files.cart_shadow, 'cartshadow', _position, false, renderTick);
 								SpriteRenderer.zIndex = 1;
-								renderElement(self, self.files.cart[cartidx], 'cart', _position, false);
+								renderElement(self, self.files.cart[cartidx], 'cart', _position, false, renderTick);
 							});
 						}
 
 						// Draw Robe
 						if (self.robe > 0) {
 							SpriteRenderer.zIndex = robeCorrection(true);
-							renderElement(self, self.files.robe, 'robe', _position, true);
+							renderElement(self, self.files.robe, 'robe', _position, true, renderTick);
 						}
 					}
 
@@ -419,7 +423,7 @@ const renderEntity = (function renderEntityClosure() {
 					}
 
 					// Draw Body
-					renderElement(self, self.files.body, 'body', _position, true);
+					renderElement(self, self.files.body, 'body', _position, true, renderTick);
 
 					// Isometric Projection Body Offset
 					let bodyZOffset = 250;
@@ -433,7 +437,7 @@ const renderEntity = (function renderEntityClosure() {
 					SpriteRenderer.zIndex = bodyZOffset + 50;
 
 					// Draw Head
-					renderElement(self, self.files.head, 'head', _position, false);
+					renderElement(self, self.files.head, 'head', _position, false, renderTick);
 
 					// TB_Layer_Priority = {Default_Mid = 100, Default_Top = 200, Default_Bottom = 300, Default_Robe = 400 }
 					// Values*10 reference https://github.com/zhad3/zrenderer/blob/c10b337dfb9d44e33b146551191b3398630823b5/source/sprite.d#L84
@@ -442,7 +446,7 @@ const renderEntity = (function renderEntityClosure() {
 					if (self.accessory3 > 0 && self.accessory3 !== self.accessory) {
 						// accessory already rendered, avoid render same item again
 						SpriteRenderer.zIndex = bodyZOffset + 100;
-						renderElement(self, self.files.accessory3, 'head', _position, false);
+						renderElement(self, self.files.accessory3, 'head', _position, false, renderTick);
 					}
 
 					// Hat Top
@@ -453,13 +457,13 @@ const renderEntity = (function renderEntityClosure() {
 					) {
 						// accessory and accessory3 already rendered, avoid render same item again
 						SpriteRenderer.zIndex = bodyZOffset + 200;
-						renderElement(self, self.files.accessory2, 'head', _position, false);
+						renderElement(self, self.files.accessory2, 'head', _position, false, renderTick);
 					}
 
 					// Hat Bottom
 					if (self.accessory > 0) {
 						SpriteRenderer.zIndex = bodyZOffset + 300;
-						renderElement(self, self.files.accessory, 'head', _position, false);
+						renderElement(self, self.files.accessory, 'head', _position, false, renderTick);
 					}
 
 					if (direction > 2 && direction < 6) {
@@ -468,7 +472,7 @@ const renderEntity = (function renderEntityClosure() {
 						// Draw Robe
 						if (self.robe > 0) {
 							SpriteRenderer.zIndex = bodyZOffset + robeCorrection(false);
-							renderElement(self, self.files.robe, 'robe', _position, true);
+							renderElement(self, self.files.robe, 'robe', _position, true, renderTick);
 						}
 
 						// Draw Cart
@@ -476,8 +480,8 @@ const renderEntity = (function renderEntityClosure() {
 							SpriteRenderer.zIndex = bodyZOffset + 500;
 							cartidx = DB.isSuperNovice(self._job) ? 0 : self.CartNum;
 							SpriteRenderer.runWithDepth(true, false, false, function () {
-								renderElement(self, self.files.cart_shadow, 'cartshadow', _position, false);
-								renderElement(self, self.files.cart[cartidx], 'cart', _position, false);
+								renderElement(self, self.files.cart_shadow, 'cartshadow', _position, false, renderTick);
+								renderElement(self, self.files.cart[cartidx], 'cart', _position, false, renderTick);
 							});
 						}
 					}
@@ -485,13 +489,13 @@ const renderEntity = (function renderEntityClosure() {
 					// Draw Weapon
 					if (self.weapon > 0) {
 						SpriteRenderer.zIndex = bodyZOffset + 250;
-						renderElement(self, self.files.weapon, 'weapon', _position, true);
-						renderElement(self, self.files.weapon_trail, 'weapon_trail', _position, true);
+						renderElement(self, self.files.weapon, 'weapon', _position, true, renderTick);
+						renderElement(self, self.files.weapon_trail, 'weapon_trail', _position, true, renderTick);
 					}
 
 					if (self.shield > 0 && !behind) {
 						SpriteRenderer.zIndex = bodyZOffset + 300;
-						renderElement(self, self.files.shield, 'shield', _position, true);
+						renderElement(self, self.files.shield, 'shield', _position, true, renderTick);
 					}
 				});
 				break;
@@ -499,14 +503,14 @@ const renderEntity = (function renderEntityClosure() {
 				SpriteRenderer.position[2] = SpriteRenderer.position[2] + 0.2;
 				SpriteRenderer.zIndex = 150;
 				SpriteRenderer.runWithDepth(true, true, false, function () {
-					renderElement(self, self.files.body, 'body', _position, true);
+					renderElement(self, self.files.body, 'body', _position, true, renderTick);
 				});
 				break;
 			case Entity.TYPE_FALCON:
 				SpriteRenderer.position[2] = SpriteRenderer.position[2] + 0.2;
 				SpriteRenderer.zIndex = 1000;
 				SpriteRenderer.runWithDepth(true, true, false, function () {
-					renderElement(self, self.files.body, 'body', _position, true);
+					renderElement(self, self.files.body, 'body', _position, true, renderTick);
 				});
 				break;
 			default:
@@ -516,7 +520,7 @@ const renderEntity = (function renderEntityClosure() {
 				// - Do not write depth to avoid breaking PC occlusion and internal layer issues
 				// - Still use depth test for correct ordering
 				SpriteRenderer.runWithDepth(true, false, false, function () {
-					renderElement(self, self.files.body, 'body', _position, true);
+					renderElement(self, self.files.body, 'body', _position, true, renderTick);
 				});
 				break;
 		}
@@ -710,7 +714,7 @@ function renderSecondBody(entity, layers, spr, pal, files, type, _position, opti
 const renderElement = (function renderElementClosure() {
 	const _position = new Int32Array(2);
 
-	return function _renderElement(entity, files, type, position, is_main) {
+	return function _renderElement(entity, files, type, position, is_main, renderTick = Date.now()) {
 		let isBlendModeOne = false;
 
 		// Nothing to render
@@ -739,7 +743,7 @@ const renderElement = (function renderElementClosure() {
 			]; // Avoid overflow on action (ex: if there is just one action)
 
 		// Find animation
-		const animation_id = calcAnimation(entity, action, type, Date.now() - entity.animation.tick);
+		const animation_id = calcAnimation(entity, action, type, renderTick - entity.animation.tick);
 		const animation = action.animations[animation_id];
 		const layers = animation.layers;
 
