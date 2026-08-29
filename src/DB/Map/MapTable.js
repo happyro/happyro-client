@@ -7,6 +7,8 @@
  *
  */
 
+import MapNameTranslations from './MapNameTranslations.js';
+
 const MapInfo = {
 	'1@gol1.rsw': {
 		backgroundBmp: 'dungeon',
@@ -270,7 +272,7 @@ const MapInfo = {
 			subTitle: '雪之村'
 		},
 		notifyEnter: true,
-		displayName: '鲁蒂耶，雪之村'
+		displayName: '鲁蒂耶'
 	},
 	'iz_ac02_a.rsw': {
 		backgroundBmp: 'noname_s1',
@@ -537,10 +539,10 @@ const MapInfo = {
 	'prt_fild08a.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉南部原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'bat_room.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -1013,7 +1015,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '下水道 F4',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '普隆德拉下水道 F4'
@@ -1218,10 +1220,10 @@ const MapInfo = {
 	'prt_fild03.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉东北遗迹'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉东北遗迹'
 	},
 	'pvp_n_1-4.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -1290,7 +1292,7 @@ const MapInfo = {
 			subTitle: '亡者国度'
 		},
 		notifyEnter: true,
-		displayName: '尼芙菲姆，亡者国度'
+		displayName: '尼芙菲姆'
 	},
 	'guild_vs3.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -1574,7 +1576,7 @@ const MapInfo = {
 			subTitle: '隐士之地'
 		},
 		notifyEnter: true,
-		displayName: '昆仑，隐士之地'
+		displayName: '昆仑'
 	},
 	'bat_c02.rsw': {
 		notifyEnter: true,
@@ -1688,7 +1690,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '迷宫森林 F3',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '迷宫森林 F3'
@@ -1798,7 +1800,7 @@ const MapInfo = {
 			mainTitle: '朱佩洛斯，限制区域'
 		},
 		notifyEnter: true,
-		displayName: '朱佩洛斯，限制区域'
+		displayName: '朱佩洛斯'
 	},
 	'mal_dun01.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -1838,7 +1840,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '迷宫森林 F2',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '迷宫森林 F2'
@@ -2093,7 +2095,7 @@ const MapInfo = {
 			subTitle: '卢恩-米德加尔特王国的魔法之都'
 		},
 		notifyEnter: true,
-		displayName: '吉芬，魔法之都'
+		displayName: '吉芬'
 	},
 	'bat_a01.rsw': {
 		backgroundBmp: 'noname',
@@ -2370,10 +2372,10 @@ const MapInfo = {
 	'prt_fild08.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'pay_dun00.rsw': {
 		backgroundBmp: 'dungeon',
@@ -2556,7 +2558,7 @@ const MapInfo = {
 			subTitle: '卢恩·米德加尔兹王国首都'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉，卢恩·米德加尔兹首都'
+		displayName: '普隆德拉'
 	},
 	'ra_pol01.rsw': {
 		backgroundBmp: 'field2_s2',
@@ -2672,7 +2674,7 @@ const MapInfo = {
 			subTitle: '卢恩·米德加尔兹王国'
 		},
 		notifyEnter: true,
-		displayName: '伊兹鲁德，卫星城'
+		displayName: '伊兹鲁德'
 	},
 	'herosria.rsw': {
 		backgroundBmp: 'siege',
@@ -2715,10 +2717,10 @@ const MapInfo = {
 	'prt_fild08c.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉南部原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'te_prtcas01.rsw': {
 		backgroundBmp: 'siege',
@@ -3290,7 +3292,7 @@ const MapInfo = {
 			subTitle: '实验废弃物处理场'
 		},
 		notifyEnter: true,
-		displayName: '鲁杜斯，实验废弃物处理场 F2'
+		displayName: '鲁杜斯 F2'
 	},
 	'new_1-2.rsw': {
 		backgroundBmp: 'field_s2',
@@ -3351,10 +3353,10 @@ const MapInfo = {
 	'prt_fild07.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '蝗虫区'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '蝗虫区'
 	},
 	'mid_camp.rsw': {
 		backgroundBmp: 'village',
@@ -3440,7 +3442,7 @@ const MapInfo = {
 			subTitle: '实验废弃物处理场'
 		},
 		notifyEnter: true,
-		displayName: '鲁杜斯，实验废弃物处理场 F3'
+		displayName: '鲁杜斯 F3'
 	},
 	'mal_in01.rsw': {
 		displayName: '马兰岛内部'
@@ -4003,10 +4005,10 @@ const MapInfo = {
 	'prt_fild11.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '哥布灵森林'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '哥布灵森林'
 	},
 	'1@adv.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -4036,7 +4038,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '下水道 F3',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '普隆德拉下水道 F3'
@@ -4261,15 +4263,15 @@ const MapInfo = {
 			subTitle: '艾尔帕兰卫星城'
 		},
 		notifyEnter: true,
-		displayName: '卢因，艾尔帕兰卫星城'
+		displayName: '卢因'
 	},
 	'prt_fild08b.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉南部原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'yuno_fild12.rsw': {
 		backgroundBmp: 'field_s2',
@@ -4364,10 +4366,10 @@ const MapInfo = {
 	'prt_fild08d.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉南部原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'job_prist.rsw': {
 		displayName: '牧师领域'
@@ -4455,7 +4457,7 @@ const MapInfo = {
 			subTitle: '卢恩-米德加尔特王国'
 		},
 		notifyEnter: true,
-		displayName: '伊斯鲁得，卫星城'
+		displayName: '伊斯鲁得'
 	},
 	's_atelier.rsw': {
 		displayName: '暗影工坊'
@@ -4603,7 +4605,7 @@ const MapInfo = {
 			subTitle: '卢恩·米德加尔兹王国'
 		},
 		notifyEnter: true,
-		displayName: '伊兹鲁德，卫星城'
+		displayName: '伊兹鲁德'
 	},
 	'jupe_core2.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -4705,7 +4707,7 @@ const MapInfo = {
 			subTitle: '命运之地'
 		},
 		notifyEnter: true,
-		displayName: '天津町，命运之地'
+		displayName: '天津町'
 	},
 	'pay_dun01.rsw': {
 		backgroundBmp: 'dungeon',
@@ -4806,10 +4808,10 @@ const MapInfo = {
 	'prt_fild01.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉北门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉北门'
 	},
 	'1@tower.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -4928,7 +4930,7 @@ const MapInfo = {
 			subTitle: '约顿海姆萨帕首都'
 		},
 		notifyEnter: true,
-		displayName: '迪卡斯特斯，萨帕首都'
+		displayName: '迪卡斯特斯'
 	},
 	'brasilis.rsw': {
 		backgroundBmp: 'village_s2',
@@ -5068,10 +5070,10 @@ const MapInfo = {
 	'prt_fild06.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉东门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉东门'
 	},
 	'bl_grass.rsw': {
 		backgroundBmp: 'dungeon',
@@ -5227,7 +5229,7 @@ const MapInfo = {
 			subTitle: '阿鲁纳佩尔兹峡谷村落'
 		},
 		notifyEnter: true,
-		displayName: '维因斯，峡谷村落'
+		displayName: '维因斯'
 	},
 	'alde_dun03.rsw': {
 		backgroundBmp: 'dungeon',
@@ -5942,10 +5944,10 @@ const MapInfo = {
 	'prt_fild09.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: 'Prontera Field'
+			mainTitle: '普隆德拉西南部'
 		},
 		notifyEnter: true,
-		displayName: 'Prontera Field'
+		displayName: '普隆德拉西南部'
 	},
 	'job3_rune01.rsw': {
 		displayName: 'Inside of Rune Knight Templar'
@@ -6005,7 +6007,7 @@ const MapInfo = {
 			subTitle: '卢恩-米德加尔特王国的海滨城镇'
 		},
 		notifyEnter: true,
-		displayName: '海底洞窟，海滨城镇'
+		displayName: '海底洞窟'
 	},
 	'knight_2-1.rsw': {
 		displayName: '骑士团'
@@ -6159,7 +6161,7 @@ const MapInfo = {
 			subTitle: '伍坦族村庄'
 		},
 		notifyEnter: true,
-		displayName: '伍坦族村庄，乌巴拉'
+		displayName: '伍坦族村庄'
 	},
 	'prt_are_in.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -6192,7 +6194,7 @@ const MapInfo = {
 			subTitle: '卢恩-米德加尔特王国'
 		},
 		notifyEnter: true,
-		displayName: '伊斯鲁得，卫星城'
+		displayName: '伊斯鲁得'
 	},
 	'payon_in02.rsw': {
 		displayName: '斐扬内部'
@@ -6223,7 +6225,7 @@ const MapInfo = {
 			subTitle: '施瓦茨瓦尔德共和国首都'
 		},
 		notifyEnter: true,
-		displayName: '朱诺，施瓦茨瓦尔德共和国首都'
+		displayName: '朱诺'
 	},
 	'morocc.rsw': {
 		backgroundBmp: 'village',
@@ -6459,7 +6461,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '下水道 F1',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '普隆德拉下水道 F1'
@@ -6468,7 +6470,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '迷宫森林 F1',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '迷宫森林 F1'
@@ -6857,10 +6859,10 @@ const MapInfo = {
 	'prt_fild10.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉南部西侧'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南部西侧'
 	},
 	'pvp_n_2-2.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -6873,18 +6875,18 @@ const MapInfo = {
 	'prt_fild05.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉西门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉西门'
 	},
 	'prt_fild04.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉西部'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉西部'
 	},
 	'e_hugel.rsw': {
 		backgroundBmp: 'field_s2',
@@ -6905,10 +6907,10 @@ const MapInfo = {
 	'prt_fild00.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉西北部'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉西北部'
 	},
 	'ba_bath.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -7108,7 +7110,7 @@ const MapInfo = {
 			subTitle: '施瓦茨瓦尔德共和国繁荣城邦'
 		},
 		notifyEnter: true,
-		displayName: '里希塔乐镇，繁荣城邦'
+		displayName: '里希塔乐镇'
 	},
 	'bat_a02.rsw': {
 		backgroundBmp: 'noname',
@@ -7228,7 +7230,7 @@ const MapInfo = {
 			subTitle: '实验废弃物处理场'
 		},
 		notifyEnter: true,
-		displayName: '鲁杜斯，实验废弃物处理场 F1'
+		displayName: '鲁杜斯 F1'
 	},
 	'pvp_y_1-5.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -7367,7 +7369,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '下水道 F2',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '普隆德拉下水道 F2'
@@ -7391,7 +7393,7 @@ const MapInfo = {
 			subTitle: '荣誉大厅'
 		},
 		notifyEnter: true,
-		displayName: '女武神大厅，荣誉大厅'
+		displayName: '女武神大厅'
 	},
 	'y_airport.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -7537,10 +7539,10 @@ const MapInfo = {
 	'prt_fild02.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: 'Prontera Field'
+			mainTitle: '普隆德拉东北部'
 		},
 		notifyEnter: true,
-		displayName: 'Prontera Field'
+		displayName: '普隆德拉东北部'
 	},
 	'ba_lost.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -8065,7 +8067,7 @@ const MapInfo = {
 			subTitle: '约顿海姆拉比基地'
 		},
 		notifyEnter: true,
-		displayName: '斯普兰迪德，拉比基地'
+		displayName: '斯普兰迪德'
 	},
 	'job3_war02.rsw': {
 		displayName: '妖术师转职测试房间'
@@ -8194,7 +8196,7 @@ const MapInfo = {
 			subTitle: '阿鲁纳佩尔兹学术国首都'
 		},
 		notifyEnter: true,
-		displayName: '拉赫，阿鲁纳佩尔兹学术国首都'
+		displayName: '拉赫'
 	},
 	'job3_rang01.rsw': {
 		displayName: '游侠转职等待室'
@@ -8368,7 +8370,7 @@ const MapInfo = {
 			subTitle: '实验废弃物处理区'
 		},
 		notifyEnter: true,
-		displayName: '鲁杜斯，实验废弃物处理区 F4'
+		displayName: '鲁杜斯 F4'
 	},
 	'1@ge_sn.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -8398,5 +8400,20 @@ const MapInfo = {
 		displayName: '胡戈尔原野'
 	}
 };
+
+for (const map of Object.values(MapInfo)) {
+	if (map.signName?.mainTitle in MapNameTranslations) {
+		map.signName.mainTitle = MapNameTranslations[map.signName.mainTitle];
+	}
+	if (map.signName?.subTitle in MapNameTranslations) {
+		map.signName.subTitle = MapNameTranslations[map.signName.subTitle];
+	}
+	if (map.displayName in MapNameTranslations) {
+		map.displayName = MapNameTranslations[map.displayName];
+	}
+	if (map.signName && map.displayName) {
+		map.signName.mainTitle = map.displayName;
+	}
+}
 
 export default MapInfo;
