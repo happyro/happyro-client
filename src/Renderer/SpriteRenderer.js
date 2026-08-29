@@ -119,7 +119,7 @@ const RenderCanvas2D = (function RenderCanvas2DClosure() {
 
 		let scale_x, scale_y;
 		let x, y;
-		let r, g, b, a, inRow, outRow;
+		let inRow, outRow;
 
 		scale_x = 1.0;
 		scale_y = 1.0;
@@ -143,107 +143,54 @@ const RenderCanvas2D = (function RenderCanvas2DClosure() {
 			_size[1] *= -1;
 		}
 
-		// Resize canvas from memory
-		if (width > canvas.width || height > canvas.height) {
+		// Keep the backing store exact. Reusing a larger transparent canvas can
+		// leave stale pixels on some WebKit 2D Canvas implementations.
+		if (width !== canvas.width || height !== canvas.height) {
 			canvas.width = width;
 			canvas.height = height;
 			imageData = ctx.createImageData(width, height);
 		}
 
 		const input = frame.data;
-		const color = this.color; // [r, g, b, a] as floats 0..1
-		const outputWidth = canvas.width;
-
-		// Use 32-bit view for the output buffer (ImageData)
-		// WHY: Writing a single 32-bit value per pixel is faster than 4 separate byte writes.
-		const output32 = new Uint32Array(imageData.data.buffer);
-
-		// Pre-calculate color multipliers for 32-bit assembly
-		// Avoid repeated array lookups inside the inner loop.
-		const r_mul = color[0],
-			g_mul = color[1],
-			b_mul = color[2],
-			a_mul = color[3];
-
-		// Fast path: no color modulation (identity)
-		const isColorIdentity = r_mul === 1 && g_mul === 1 && b_mul === 1 && a_mul === 1;
+		const output = imageData.data;
+		const color = this.color;
 
 		// RGBA images
 		if (this.sprite.type === 1) {
-			/**
-			 * OLD LOGIC: Per-channel RGBA modulation using byte array access.
-			 *            4 loads + 4 stores + multiplications per pixel.
-			 * NEW LOGIC: Reads and writes pixels as a single 32-bit integer.
-			 *            Uses bitwise extraction and assembly with optional color modulation.
-			 *            1 load + 1 store per pixel in the fast path.
-			 * Reduces memory writes and bounds checks inside the inner loop.
-			 */
-			const input32 = new Uint32Array(input.buffer);
-
 			for (y = 0; y < height; ++y) {
-				outRow = y * outputWidth;
-				inRow = y * width;
+				outRow = y * width * 4;
+				inRow = y * width * 4;
 
 				for (x = 0; x < width; ++x) {
-					const pixel = input32[inRow + x];
-					if (pixel === 0) {
-						// Transparent skip behavior due n*0 = 0
-						output32[outRow + x] = 0;
-						continue;
-					}
-
-					if (isColorIdentity) {
-						// Fast path: no color modulation.
-						// Copy the precompiled RGBA pixel directly due n*1 = n.
-						output32[outRow + x] = pixel;
-					} else {
-						// Extract RGBA components from packed 32-bit pixel.
-						// Note: In Little Endian, 0xAABBGGRR is stored as [R, G, B, A] in memory.
-						r = (pixel & 0xff) * r_mul;
-						g = ((pixel >> 8) & 0xff) * g_mul;
-						b = ((pixel >> 16) & 0xff) * b_mul;
-						a = ((pixel >> 24) & 0xff) * a_mul;
-						output32[outRow + x] = (a << 24) | (b << 16) | (g << 8) | r;
-					}
+					const src = inRow + x * 4;
+					const dst = outRow + x * 4;
+					output[dst + 0] = input[src + 0] * color[0];
+					output[dst + 1] = input[src + 1] * color[1];
+					output[dst + 2] = input[src + 2] * color[2];
+					output[dst + 3] = input[src + 3] * color[3];
 				}
 			}
 		}
 
 		// Palettes
 		else {
-			// Pre-calculate a color-modulated 32-bit palette for this frame.
-			// WHY: Avoid per-pixel palette lookups and color multiplications.
-			// Cost: O(256) setup, O(pixels) usage.
-			const pal32 = new Uint32Array(256);
-			for (let i = 0; i < 256; i++) {
-				if (i === 0) {
-					// Transparent skip behavior due n*0 = 0
-					pal32[i] = 0;
-					continue;
-				}
-				const pIdx = i * 4;
-				r = (pal[pIdx + 0] * r_mul) | 0;
-				g = (pal[pIdx + 1] * g_mul) | 0;
-				b = (pal[pIdx + 2] * b_mul) | 0;
-				a = (255 * a_mul) | 0;
-				// Store in LE format [R, G, B, A] -> 0xAABBGGRR
-				pal32[i] = (a << 24) | (b << 16) | (g << 8) | r;
-			}
-
 			for (y = 0; y < height; ++y) {
-				outRow = y * outputWidth;
+				outRow = y * width * 4;
 				inRow = y * width;
 				for (x = 0; x < width; ++x) {
-					// Fast palette lookup: single array access and single 32-bit write.
-					// OLD: Per-channel palette reads and multiplications per pixel.
-					// NEW: O(1) lookup using precomputed 32-bit palette.
-					output32[outRow + x] = pal32[input[inRow + x]];
+					const paletteIndex = input[inRow + x];
+					const src = paletteIndex * 4;
+					const dst = outRow + x * 4;
+					output[dst + 0] = pal[src + 0] * color[0];
+					output[dst + 1] = pal[src + 1] * color[1];
+					output[dst + 2] = pal[src + 2] * color[2];
+					output[dst + 3] = paletteIndex ? 255 * color[3] : 0;
 				}
 			}
 		}
 
 		// Insert into the canvas
-		ctx.putImageData(imageData, 0, 0, 0, 0, width, height);
+		ctx.putImageData(imageData, 0, 0);
 
 		// Render sprite in context
 		_ctx.save();
