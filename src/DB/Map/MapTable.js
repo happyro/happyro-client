@@ -7,6 +7,8 @@
  *
  */
 
+import MapNameTranslations from './MapNameTranslations.js';
+
 const MapInfo = {
 	'1@gol1.rsw': {
 		backgroundBmp: 'dungeon',
@@ -537,10 +539,10 @@ const MapInfo = {
 	'prt_fild08a.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉南部原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'bat_room.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -1013,7 +1015,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '下水道 F4',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '普隆德拉下水道 F4'
@@ -1218,10 +1220,10 @@ const MapInfo = {
 	'prt_fild03.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉东北遗迹'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉东北遗迹'
 	},
 	'pvp_n_1-4.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -1688,7 +1690,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '迷宫森林 F3',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '迷宫森林 F3'
@@ -1838,7 +1840,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '迷宫森林 F2',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '迷宫森林 F2'
@@ -2370,10 +2372,10 @@ const MapInfo = {
 	'prt_fild08.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'pay_dun00.rsw': {
 		backgroundBmp: 'dungeon',
@@ -2715,10 +2717,10 @@ const MapInfo = {
 	'prt_fild08c.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉南部原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'te_prtcas01.rsw': {
 		backgroundBmp: 'siege',
@@ -3351,10 +3353,10 @@ const MapInfo = {
 	'prt_fild07.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '蝗虫区'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '蝗虫区'
 	},
 	'mid_camp.rsw': {
 		backgroundBmp: 'village',
@@ -4003,10 +4005,10 @@ const MapInfo = {
 	'prt_fild11.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '哥布灵森林'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '哥布灵森林'
 	},
 	'1@adv.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -4036,7 +4038,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '下水道 F3',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '普隆德拉下水道 F3'
@@ -4266,10 +4268,10 @@ const MapInfo = {
 	'prt_fild08b.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉南部原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'yuno_fild12.rsw': {
 		backgroundBmp: 'field_s2',
@@ -4364,10 +4366,10 @@ const MapInfo = {
 	'prt_fild08d.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉南部原野'
+			mainTitle: '普隆德拉南门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南门'
 	},
 	'job_prist.rsw': {
 		displayName: '牧师领域'
@@ -4806,10 +4808,10 @@ const MapInfo = {
 	'prt_fild01.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉北门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉北门'
 	},
 	'1@tower.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -5068,10 +5070,10 @@ const MapInfo = {
 	'prt_fild06.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉东门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉东门'
 	},
 	'bl_grass.rsw': {
 		backgroundBmp: 'dungeon',
@@ -5942,10 +5944,10 @@ const MapInfo = {
 	'prt_fild09.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: 'Prontera Field'
+			mainTitle: '普隆德拉西南部'
 		},
 		notifyEnter: true,
-		displayName: 'Prontera Field'
+		displayName: '普隆德拉西南部'
 	},
 	'job3_rune01.rsw': {
 		displayName: 'Inside of Rune Knight Templar'
@@ -6459,7 +6461,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '下水道 F1',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '普隆德拉下水道 F1'
@@ -6468,7 +6470,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '迷宫森林 F1',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '迷宫森林 F1'
@@ -6857,10 +6859,10 @@ const MapInfo = {
 	'prt_fild10.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉南部西侧'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉南部西侧'
 	},
 	'pvp_n_2-2.rsw': {
 		backgroundBmp: 'noname_s2',
@@ -6873,18 +6875,18 @@ const MapInfo = {
 	'prt_fild05.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉西门'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉西门'
 	},
 	'prt_fild04.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉西部'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉西部'
 	},
 	'e_hugel.rsw': {
 		backgroundBmp: 'field_s2',
@@ -6905,10 +6907,10 @@ const MapInfo = {
 	'prt_fild00.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: '普隆德拉原野'
+			mainTitle: '普隆德拉西北部'
 		},
 		notifyEnter: true,
-		displayName: '普隆德拉原野'
+		displayName: '普隆德拉西北部'
 	},
 	'ba_bath.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -7367,7 +7369,7 @@ const MapInfo = {
 		backgroundBmp: 'dungeon',
 		signName: {
 			mainTitle: '下水道 F2',
-			subTitle: '普隆德拉原野'
+			subTitle: '普隆德拉'
 		},
 		notifyEnter: true,
 		displayName: '普隆德拉下水道 F2'
@@ -7537,10 +7539,10 @@ const MapInfo = {
 	'prt_fild02.rsw': {
 		backgroundBmp: 'field_s2',
 		signName: {
-			mainTitle: 'Prontera Field'
+			mainTitle: '普隆德拉东北部'
 		},
 		notifyEnter: true,
-		displayName: 'Prontera Field'
+		displayName: '普隆德拉东北部'
 	},
 	'ba_lost.rsw': {
 		backgroundBmp: 'dungeon_s2',
@@ -8398,5 +8400,20 @@ const MapInfo = {
 		displayName: '胡戈尔原野'
 	}
 };
+
+for (const map of Object.values(MapInfo)) {
+	if (map.signName?.mainTitle in MapNameTranslations) {
+		map.signName.mainTitle = MapNameTranslations[map.signName.mainTitle];
+	}
+	if (map.signName?.subTitle in MapNameTranslations) {
+		map.signName.subTitle = MapNameTranslations[map.signName.subTitle];
+	}
+	if (map.displayName in MapNameTranslations) {
+		map.displayName = MapNameTranslations[map.displayName];
+	}
+	if (map.signName && map.displayName) {
+		map.signName.mainTitle = map.displayName;
+	}
+}
 
 export default MapInfo;
