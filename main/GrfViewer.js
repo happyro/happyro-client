@@ -224416,6 +224416,7 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 				count = _towninfo.length;
 				for (i = 0; i < count; ++i) {
 					dot = _towninfo[i];
+					if (!dot) continue;
 					let img;
 					switch (dot.Type) {
 						case 0:
@@ -224437,6 +224438,14 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 							img = _inn;
 							break;
 						case 6: img = _kafra;
+					}
+					if (!img) {
+						if (!MiniMap._unsupportedTownInfoTypes) MiniMap._unsupportedTownInfoTypes = /* @__PURE__ */ new Set();
+						if (!MiniMap._unsupportedTownInfoTypes.has(dot.Type)) {
+							MiniMap._unsupportedTownInfoTypes.add(dot.Type);
+							console.warn("[MiniMap] Unsupported town info type:", dot.Type, dot.Name);
+						}
+						continue;
 					}
 					if (img.complete && img.width) {
 						_ctx.save();
