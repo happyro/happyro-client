@@ -209668,7 +209668,7 @@ var init_SpriteRenderer = __esmMin((() => {
 			if (this.sprite.width <= 0 || this.sprite.height <= 0) return;
 			let scale_x, scale_y;
 			let x, y;
-			let r, g, b, a, inRow, outRow;
+			let inRow, outRow;
 			scale_x = 1;
 			scale_y = 1;
 			const _x = _pos$8[0] + this.offset[0];
@@ -209686,67 +209686,40 @@ var init_SpriteRenderer = __esmMin((() => {
 				scale_y *= -1;
 				_size$7[1] *= -1;
 			}
-			if (width > canvas.width || height > canvas.height) {
+			if (width !== canvas.width || height !== canvas.height) {
 				canvas.width = width;
 				canvas.height = height;
 				imageData = ctx.createImageData(width, height);
 			}
 			const input = frame.data;
+			const output = imageData.data;
 			const color = this.color;
-			const outputWidth = canvas.width;
-			const output32 = new Uint32Array(imageData.data.buffer);
-			const r_mul = color[0], g_mul = color[1], b_mul = color[2], a_mul = color[3];
-			const isColorIdentity = r_mul === 1 && g_mul === 1 && b_mul === 1 && a_mul === 1;
-			if (this.sprite.type === 1) {
-				/**
-				* OLD LOGIC: Per-channel RGBA modulation using byte array access.
-				*            4 loads + 4 stores + multiplications per pixel.
-				* NEW LOGIC: Reads and writes pixels as a single 32-bit integer.
-				*            Uses bitwise extraction and assembly with optional color modulation.
-				*            1 load + 1 store per pixel in the fast path.
-				* Reduces memory writes and bounds checks inside the inner loop.
-				*/
-				const input32 = new Uint32Array(input.buffer);
-				for (y = 0; y < height; ++y) {
-					outRow = y * outputWidth;
-					inRow = y * width;
-					for (x = 0; x < width; ++x) {
-						const pixel = input32[inRow + x];
-						if (pixel === 0) {
-							output32[outRow + x] = 0;
-							continue;
-						}
-						if (isColorIdentity) output32[outRow + x] = pixel;
-						else {
-							r = (pixel & 255) * r_mul;
-							g = (pixel >> 8 & 255) * g_mul;
-							b = (pixel >> 16 & 255) * b_mul;
-							a = (pixel >> 24 & 255) * a_mul;
-							output32[outRow + x] = a << 24 | b << 16 | g << 8 | r;
-						}
-					}
-				}
-			} else {
-				const pal32 = /* @__PURE__ */ new Uint32Array(256);
-				for (let i = 0; i < 256; i++) {
-					if (i === 0) {
-						pal32[i] = 0;
-						continue;
-					}
-					const pIdx = i * 4;
-					r = pal[pIdx + 0] * r_mul | 0;
-					g = pal[pIdx + 1] * g_mul | 0;
-					b = pal[pIdx + 2] * b_mul | 0;
-					a = 255 * a_mul | 0;
-					pal32[i] = a << 24 | b << 16 | g << 8 | r;
-				}
-				for (y = 0; y < height; ++y) {
-					outRow = y * outputWidth;
-					inRow = y * width;
-					for (x = 0; x < width; ++x) output32[outRow + x] = pal32[input[inRow + x]];
+			if (this.sprite.type === 1) for (y = 0; y < height; ++y) {
+				outRow = y * width * 4;
+				inRow = y * width * 4;
+				for (x = 0; x < width; ++x) {
+					const src = inRow + x * 4;
+					const dst = outRow + x * 4;
+					output[dst + 0] = input[src + 0] * color[0];
+					output[dst + 1] = input[src + 1] * color[1];
+					output[dst + 2] = input[src + 2] * color[2];
+					output[dst + 3] = input[src + 3] * color[3];
 				}
 			}
-			ctx.putImageData(imageData, 0, 0, 0, 0, width, height);
+			else for (y = 0; y < height; ++y) {
+				outRow = y * width * 4;
+				inRow = y * width;
+				for (x = 0; x < width; ++x) {
+					const paletteIndex = input[inRow + x];
+					const src = paletteIndex * 4;
+					const dst = outRow + x * 4;
+					output[dst + 0] = pal[src + 0] * color[0];
+					output[dst + 1] = pal[src + 1] * color[1];
+					output[dst + 2] = pal[src + 2] * color[2];
+					output[dst + 3] = paletteIndex ? 255 * color[3] : 0;
+				}
+			}
+			ctx.putImageData(imageData, 0, 0);
 			_ctx$5.save();
 			_ctx$5.translate(_x | 0, _y | 0);
 			_ctx$5.rotate(this.angle / 180 * Math.PI);
@@ -305066,6 +305039,7 @@ var init_EntityRender = __esmMin((() => {
 			SpriteRenderer.shadow = Ground_default.getShadowFactor(this.position[0], this.position[1]);
 			SpriteRenderer.zIndex = 1;
 			const animation = this.animation;
+			const renderTick = Date.now();
 			const Entity = this.constructor;
 			_position[0] = 0;
 			_position[1] = 0;
@@ -305081,7 +305055,7 @@ var init_EntityRender = __esmMin((() => {
 				SpriteRenderer.position[1] = this.position[1];
 				SpriteRenderer.position[2] = Altitude.getCellHeight(this.position[0], this.position[1]) + .05;
 				SpriteRenderer.runWithDepth(true, false, false, function() {
-					renderElement(self, self.files.shadow, "shadow", _position, false);
+					renderElement(self, self.files.shadow, "shadow", _position, false, renderTick);
 				});
 			}
 			SpriteRenderer.position.set(self.position);
@@ -305106,67 +305080,67 @@ var init_EntityRender = __esmMin((() => {
 						}
 						if (self.shield && behind) SpriteRenderer.runWithDepth(true, false, false, function() {
 							SpriteRenderer.zIndex = -1;
-							renderElement(self, self.files.shield, "shield", _position, true);
+							renderElement(self, self.files.shield, "shield", _position, true, renderTick);
 						});
 						if (!(direction > 2 && direction < 6)) {
 							if (SessionStorage_default.Playing == true && self.hasCart == true) {
 								cartidx = DB.isSuperNovice(self._job) ? 0 : self.CartNum;
 								SpriteRenderer.runWithDepth(true, false, false, function() {
 									SpriteRenderer.zIndex = -1;
-									renderElement(self, self.files.cart_shadow, "cartshadow", _position, false);
+									renderElement(self, self.files.cart_shadow, "cartshadow", _position, false, renderTick);
 									SpriteRenderer.zIndex = 1;
-									renderElement(self, self.files.cart[cartidx], "cart", _position, false);
+									renderElement(self, self.files.cart[cartidx], "cart", _position, false, renderTick);
 								});
 							}
 							if (self.robe > 0) {
 								SpriteRenderer.zIndex = robeCorrection(true);
-								renderElement(self, self.files.robe, "robe", _position, true);
+								renderElement(self, self.files.robe, "robe", _position, true, renderTick);
 							}
 						}
 						SpriteRenderer.zIndex = 150;
 						if (RIDING_STATUS && !(direction > 2 && direction < 6) && (self.action === self.ACTION.SIT || self.action === self.ACTION.WALK)) SpriteRenderer.zIndex *= 2;
-						renderElement(self, self.files.body, "body", _position, true);
+						renderElement(self, self.files.body, "body", _position, true, renderTick);
 						let bodyZOffset = 250;
 						if (RIDING_STATUS) {
 							bodyZOffset *= 2;
 							if (self.action === self.ACTION.WALK && !(direction > 2 && direction < 6)) bodyZOffset += 250;
 						}
 						SpriteRenderer.zIndex = bodyZOffset + 50;
-						renderElement(self, self.files.head, "head", _position, false);
+						renderElement(self, self.files.head, "head", _position, false, renderTick);
 						if (self.accessory3 > 0 && self.accessory3 !== self.accessory) {
 							SpriteRenderer.zIndex = bodyZOffset + 100;
-							renderElement(self, self.files.accessory3, "head", _position, false);
+							renderElement(self, self.files.accessory3, "head", _position, false, renderTick);
 						}
 						if (self.accessory2 > 0 && self.accessory2 !== self.accessory && self.accessory2 !== self.accessory3) {
 							SpriteRenderer.zIndex = bodyZOffset + 200;
-							renderElement(self, self.files.accessory2, "head", _position, false);
+							renderElement(self, self.files.accessory2, "head", _position, false, renderTick);
 						}
 						if (self.accessory > 0) {
 							SpriteRenderer.zIndex = bodyZOffset + 300;
-							renderElement(self, self.files.accessory, "head", _position, false);
+							renderElement(self, self.files.accessory, "head", _position, false, renderTick);
 						}
 						if (direction > 2 && direction < 6) {
 							if (self.robe > 0) {
 								SpriteRenderer.zIndex = bodyZOffset + robeCorrection(false);
-								renderElement(self, self.files.robe, "robe", _position, true);
+								renderElement(self, self.files.robe, "robe", _position, true, renderTick);
 							}
 							if (SessionStorage_default.Playing == true && self.hasCart == true) {
 								SpriteRenderer.zIndex = bodyZOffset + 500;
 								cartidx = DB.isSuperNovice(self._job) ? 0 : self.CartNum;
 								SpriteRenderer.runWithDepth(true, false, false, function() {
-									renderElement(self, self.files.cart_shadow, "cartshadow", _position, false);
-									renderElement(self, self.files.cart[cartidx], "cart", _position, false);
+									renderElement(self, self.files.cart_shadow, "cartshadow", _position, false, renderTick);
+									renderElement(self, self.files.cart[cartidx], "cart", _position, false, renderTick);
 								});
 							}
 						}
 						if (self.weapon > 0) {
 							SpriteRenderer.zIndex = bodyZOffset + 250;
-							renderElement(self, self.files.weapon, "weapon", _position, true);
-							renderElement(self, self.files.weapon_trail, "weapon_trail", _position, true);
+							renderElement(self, self.files.weapon, "weapon", _position, true, renderTick);
+							renderElement(self, self.files.weapon_trail, "weapon_trail", _position, true, renderTick);
 						}
 						if (self.shield > 0 && !behind) {
 							SpriteRenderer.zIndex = bodyZOffset + 300;
-							renderElement(self, self.files.shield, "shield", _position, true);
+							renderElement(self, self.files.shield, "shield", _position, true, renderTick);
 						}
 					});
 					break;
@@ -305174,21 +305148,21 @@ var init_EntityRender = __esmMin((() => {
 					SpriteRenderer.position[2] = SpriteRenderer.position[2] + .2;
 					SpriteRenderer.zIndex = 150;
 					SpriteRenderer.runWithDepth(true, true, false, function() {
-						renderElement(self, self.files.body, "body", _position, true);
+						renderElement(self, self.files.body, "body", _position, true, renderTick);
 					});
 					break;
 				case Entity.TYPE_FALCON:
 					SpriteRenderer.position[2] = SpriteRenderer.position[2] + .2;
 					SpriteRenderer.zIndex = 1e3;
 					SpriteRenderer.runWithDepth(true, true, false, function() {
-						renderElement(self, self.files.body, "body", _position, true);
+						renderElement(self, self.files.body, "body", _position, true, renderTick);
 					});
 					break;
 				default:
 					SpriteRenderer.position[2] = SpriteRenderer.position[2] + .2;
 					SpriteRenderer.zIndex = 150;
 					SpriteRenderer.runWithDepth(true, false, false, function() {
-						renderElement(self, self.files.body, "body", _position, true);
+						renderElement(self, self.files.body, "body", _position, true, renderTick);
 					});
 			}
 			SpriteRenderer.zIndex = 1;
@@ -305196,7 +305170,7 @@ var init_EntityRender = __esmMin((() => {
 	})();
 	renderElement = (function renderElementClosure() {
 		const _position = /* @__PURE__ */ new Int32Array(2);
-		return function _renderElement(entity, files, type, position, is_main) {
+		return function _renderElement(entity, files, type, position, is_main, renderTick = Date.now()) {
 			let isBlendModeOne = false;
 			if (typeof files === "undefined" || !files.spr || !files.act) return;
 			const spr = Client.loadFile(files.spr);
@@ -305204,7 +305178,7 @@ var init_EntityRender = __esmMin((() => {
 			if (!spr || !act) return;
 			const pal = files.pal && Client.loadFile(files.pal) || spr;
 			const action = act.actions[(entity.action * 8 + (Camera.direction + entity.direction + 8) % 8) % act.actions.length];
-			const animation_id = calcAnimation(entity, action, type, Date.now() - entity.animation.tick);
+			const animation_id = calcAnimation(entity, action, type, renderTick - entity.animation.tick);
 			const animation = action.animations[animation_id];
 			const layers = animation.layers;
 			if (animation.sound > -1) entity.sound.play(act.sounds[animation.sound], entity.action, animation_id);
