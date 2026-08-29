@@ -76,6 +76,27 @@ const _preferences = Preferences.get(
 );
 
 /**
+ * Persist the current shortcut window layout.
+ * Saving on drag end also covers browser and mobile page termination, where
+ * the component removal lifecycle is not guaranteed to run.
+ */
+function saveLayoutPreferences() {
+	const host = ShortCut._host;
+	if (!host) return;
+
+	_preferences.y = parseInt(host.style.top, 10) || 0;
+	_preferences.x = parseInt(host.style.left, 10) || 0;
+	_preferences.size = Math.floor(parseInt(host.style.height, 10) / 34);
+	_preferences.magnet_top = ShortCut.magnet.TOP;
+	_preferences.magnet_bottom = ShortCut.magnet.BOTTOM;
+	_preferences.magnet_left = ShortCut.magnet.LEFT;
+	_preferences.magnet_right = ShortCut.magnet.RIGHT;
+	_preferences.save();
+}
+
+ShortCut.onDragEnd = saveLayoutPreferences;
+
+/**
  * Initialize UI
  */
 ShortCut.init = function init() {
@@ -193,15 +214,8 @@ ShortCut.onRemove = function onRemove() {
 	}
 	_activeAnimations.clear();
 
-	// Save preferences
-	_preferences.y = parseInt(this._host.style.top, 10);
-	_preferences.x = parseInt(this._host.style.left, 10);
-	_preferences.size = Math.floor(parseInt(this._host.style.height, 10) / 34);
-	_preferences.magnet_top = this.magnet.TOP;
-	_preferences.magnet_bottom = this.magnet.BOTTOM;
-	_preferences.magnet_left = this.magnet.LEFT;
-	_preferences.magnet_right = this.magnet.RIGHT;
-	_preferences.save();
+	// Save preferences as a final lifecycle fallback.
+	saveLayoutPreferences();
 };
 
 /**
