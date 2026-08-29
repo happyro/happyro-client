@@ -256621,6 +256621,23 @@ var init_ShortCut$1 = __esmMin((() => {
 //#region src/UI/Components/ShortCut/ShortCut.js
 var ShortCut_exports = /* @__PURE__ */ __exportAll({ default: () => ShortCut_default });
 /**
+* Persist the current shortcut window layout.
+* Saving on drag end also covers browser and mobile page termination, where
+* the component removal lifecycle is not guaranteed to run.
+*/
+function saveLayoutPreferences() {
+	const host = ShortCut._host;
+	if (!host) return;
+	_preferences$19.y = parseInt(host.style.top, 10) || 0;
+	_preferences$19.x = parseInt(host.style.left, 10) || 0;
+	_preferences$19.size = Math.floor(parseInt(host.style.height, 10) / 34);
+	_preferences$19.magnet_top = ShortCut.magnet.TOP;
+	_preferences$19.magnet_bottom = ShortCut.magnet.BOTTOM;
+	_preferences$19.magnet_left = ShortCut.magnet.LEFT;
+	_preferences$19.magnet_right = ShortCut.magnet.RIGHT;
+	_preferences$19.save();
+}
+/**
 * Update tooltip for empty slots with hotkey only
 */
 function updateEmptySlotTooltips() {
@@ -257127,6 +257144,7 @@ var init_ShortCut = __esmMin((() => {
 		magnet_left: false,
 		magnet_right: false
 	}, 1);
+	ShortCut.onDragEnd = saveLayoutPreferences;
 	/**
 	* Initialize UI
 	*/
@@ -257203,14 +257221,7 @@ var init_ShortCut = __esmMin((() => {
 		if (tooltip) tooltip.classList.remove("show");
 		for (const [index, animationId] of _activeAnimations.entries()) cancelAnimationFrame(animationId);
 		_activeAnimations.clear();
-		_preferences$19.y = parseInt(this._host.style.top, 10);
-		_preferences$19.x = parseInt(this._host.style.left, 10);
-		_preferences$19.size = Math.floor(parseInt(this._host.style.height, 10) / 34);
-		_preferences$19.magnet_top = this.magnet.TOP;
-		_preferences$19.magnet_bottom = this.magnet.BOTTOM;
-		_preferences$19.magnet_left = this.magnet.LEFT;
-		_preferences$19.magnet_right = this.magnet.RIGHT;
-		_preferences$19.save();
+		saveLayoutPreferences();
 	};
 	/**
 	* Request to clean the list
@@ -308262,7 +308273,7 @@ function _ensureDeps() {
 	if (!_depsPromise) _depsPromise = _loadHeavyDeps();
 	return _depsPromise;
 }
-var _Cursor, _DB, _Client, _Renderer, _EntityManager, _ScrollBar, _depsPromise, _snapCache, MouseMode, CSS_NUMBER, GUIComponent;
+var _Cursor, _DB, _Client, _Renderer, _EntityManager, _ScrollBar, _depsPromise, _snapCache, DRAG_POSITION_STORAGE_PREFIX, MouseMode, CSS_NUMBER, GUIComponent;
 var init_GUIComponent = __esmMin((() => {
 	init_Common$1();
 	init_MouseEventHandler();
@@ -308280,6 +308291,7 @@ var init_GUIComponent = __esmMin((() => {
 	_ScrollBar = null;
 	_depsPromise = null;
 	_snapCache = [];
+	DRAG_POSITION_STORAGE_PREFIX = "GUIComponent.Position.";
 	MouseMode = Object.freeze({
 		CROSS: 0,
 		STOP: 1,
@@ -308391,6 +308403,7 @@ var init_GUIComponent = __esmMin((() => {
 				_Cursor?.setType(_Cursor?.ACTION?.DEFAULT ?? 0);
 			}
 			if (this.onAppend) this.onAppend();
+			this._restoreDragPosition();
 			this._setupScrollbars();
 			this._fixPositionOverflow();
 			this.focus();
@@ -308408,6 +308421,38 @@ var init_GUIComponent = __esmMin((() => {
 			const WIDTH = _Renderer?.width ?? window.innerWidth;
 			const HEIGHT = _Renderer?.height ?? window.innerHeight;
 			UIClamp(this._host, WIDTH, HEIGHT, this.magnet);
+		}
+		/**
+		* Restore a position captured by the shared draggable implementation.
+		* Component-specific preferences still initialize the first position.
+		*/
+		_restoreDragPosition() {
+			if (!this._host || !this._isDraggable) return;
+			try {
+				const saved = localStorage.getItem(`${DRAG_POSITION_STORAGE_PREFIX}${this.name}`);
+				if (!saved) return;
+				const position = JSON.parse(saved);
+				if (Number.isFinite(position.x)) this._host.style.left = `${position.x}px`;
+				if (Number.isFinite(position.y)) this._host.style.top = `${position.y}px`;
+			} catch (error) {
+				console.warn(`[GUIComponent] Unable to restore position for ${this.name}:`, error);
+			}
+		}
+		/**
+		* Save the current position immediately after a drag.
+		*/
+		_saveDragPosition() {
+			if (!this._host || !this._isDraggable) return;
+			try {
+				const styledX = parseFloat(this._host.style.left);
+				const styledY = parseFloat(this._host.style.top);
+				localStorage.setItem(`${DRAG_POSITION_STORAGE_PREFIX}${this.name}`, JSON.stringify({
+					x: Number.isFinite(styledX) ? styledX : this._host.offsetLeft,
+					y: Number.isFinite(styledY) ? styledY : this._host.offsetTop
+				}));
+			} catch (error) {
+				console.warn(`[GUIComponent] Unable to save position for ${this.name}:`, error);
+			}
 		}
 		/**
 		* Remove the component from the DOM.
@@ -308651,6 +308696,7 @@ var init_GUIComponent = __esmMin((() => {
 							};
 							host.addEventListener("transitionend", onTransEnd);
 						}
+						component._saveDragPosition();
 					}
 				};
 				window.addEventListener("mouseup", onEnd);
