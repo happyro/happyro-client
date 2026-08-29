@@ -106670,7 +106670,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild00",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 00",
+					name: "普隆德拉西北部",
 					top: 528,
 					left: 695,
 					width: 57,
@@ -106680,7 +106680,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild01",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 01",
+					name: "普隆德拉北门",
 					top: 528,
 					left: 812,
 					width: 58,
@@ -106690,7 +106690,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild02",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 02",
+					name: "普隆德拉东北部",
 					top: 528,
 					left: 871,
 					width: 56,
@@ -106700,7 +106700,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild03",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 03",
+					name: "普隆德拉东北遗迹",
 					top: 528,
 					left: 928,
 					width: 58,
@@ -106710,7 +106710,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild04",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 04",
+					name: "普隆德拉西部",
 					top: 587,
 					left: 695,
 					width: 57,
@@ -106720,7 +106720,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild05",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 05",
+					name: "普隆德拉西门",
 					top: 587,
 					left: 753,
 					width: 58,
@@ -106730,7 +106730,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild06",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 06",
+					name: "普隆德拉东门",
 					top: 587,
 					left: 871,
 					width: 56,
@@ -106740,7 +106740,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild07",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 07",
+					name: "蝗虫区",
 					top: 644,
 					left: 753,
 					width: 58,
@@ -106750,7 +106750,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild08",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 08",
+					name: "普隆德拉南门",
 					top: 644,
 					left: 812,
 					width: 58,
@@ -106760,7 +106760,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild09",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 09",
+					name: "普隆德拉西南部",
 					top: 702,
 					left: 753,
 					width: 58,
@@ -106770,7 +106770,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild10",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 10",
+					name: "普隆德拉南部西侧",
 					top: 702,
 					left: 695,
 					width: 57,
@@ -106780,7 +106780,7 @@ var init_WorldMap$3 = __esmMin((() => {
 					id: "prt_fild11",
 					ep_from: 0,
 					ep_to: 99,
-					name: "普隆德拉原野 11",
+					name: "哥布灵森林",
 					top: 702,
 					left: 636,
 					width: 58,
@@ -151587,9 +151587,236 @@ var init_PetMessageConst = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Map/MapNameTranslations.js
+var MapNameTranslations_default;
+var init_MapNameTranslations = __esmMin((() => {
+	MapNameTranslations_default = {
+		"1st Hero's Gateway": "第一英雄之门",
+		"1st Power Plant": "第一发电厂",
+		"2nd Hero's Gateway": "第二英雄之门",
+		"Abandoned Pit 1st Floor": "废弃矿坑 1层",
+		"Abyss Lake": "深渊湖",
+		"Abyss Lake Underground Cave 3F": "深渊湖地下洞窟 3层",
+		Airship: "飞空艇",
+		Alberta: "艾尔贝塔",
+		"Alberta Island": "艾尔贝塔岛",
+		"Amatsu Underground Shrine": "天津地下神社",
+		Arunafeltz: "阿鲁纳佩尔兹",
+		"Arunafeltz Guild Dungeon": "阿鲁纳佩尔兹公会地下城",
+		"Auction Hall": "拍卖大厅",
+		"Audumla Grassland": "奥杜姆拉草原",
+		"Bakonawa Lake": "巴库纳瓦湖",
+		"Bamboo Grove Hill": "竹林山",
+		"Banadis Castle": "巴纳迪斯城堡",
+		"Battle Ordeal Mode": "战斗试炼模式",
+		Battleground: "战场",
+		"Beacon Island, Pharos": "法罗斯灯塔岛",
+		"Bingo Game Room": "宾果游戏室",
+		"Bios Island": "生物岛",
+		Bossnia: "博斯尼亚",
+		"Bottom of Kamidal Mountain": "卡米达尔山脚",
+		"Buwaya Cave": "布亚瓦洞窟",
+		"Carpenter's Shop in the Tree": "树中木工坊",
+		"Castle F2": "城堡 2层",
+		"Cat on a Bullet": "子弹上的猫",
+		"City of Steel in the Schwartzwald Republic": "施瓦茨瓦尔德共和国钢铁之城",
+		"Collapsed Opera House": "坍塌的歌剧院",
+		"Corridor of the Abyss: Tears of Hero": "深渊回廊：英雄之泪",
+		"Criatura Academy F1": "克里图拉学院 1层",
+		"Criatura Academy F2": "克里图拉学院 2层",
+		"Demon's Tower - Top floor": "恶魔之塔顶层",
+		Dewata: "德瓦他",
+		"Dimension Crack": "次元裂隙",
+		"Dimension Crack in Sograt Desert": "苏克拉特沙漠次元裂隙",
+		"Dimensional Guardian Memorial": "次元守护者纪念馆",
+		"Dimensional Rift": "次元裂隙",
+		"Dragon's Trail": "巨龙之路",
+		"Dremuci Forest": "德雷穆奇森林",
+		"Einbech Mine 3F": "艾因贝赫矿山 3层",
+		Einbroch: "艾因布洛克",
+		"Einbroch Field": "艾因布洛克郊外",
+		"Einbroch Rebellion Pub": "艾因布洛克反叛军酒馆",
+		"Einbroch, the City of Steel": "钢铁之城艾因布洛克",
+		"El Mes Gorge": "埃尔梅斯峡谷",
+		"El Mes Gorge (Valley of Abyss)": "埃尔梅斯峡谷（深渊之谷）",
+		"El Mes Plateau": "埃尔梅斯高原",
+		"Fallacious Okolnir": "虚幻奥克尼尔",
+		"Fantasy Series - Today's Table": "幻想系列－今日餐桌",
+		"Fantasy Series-006": "幻想系列－006",
+		Flavian: "弗拉维安",
+		Forest: "森林",
+		"Freya's Grand Temple": "芙蕾雅大神殿",
+		"Freya's Grand Temple (Sesilmir)": "芙蕾雅大神殿（塞斯鲁姆尼斯）",
+		"Frozen Scale Glacier": "冰鳞冰川",
+		"Frozen Scale Hill": "冰鳞山丘",
+		"Frozen Scale Plains": "冰鳞平原",
+		"Galactic Celestial Branch": "银河天体支脉",
+		"Gefn Castle": "盖芬城堡",
+		"Ghost Palace": "幽灵宫殿",
+		Glastheim: "克雷斯特汉姆",
+		"Glastheim Castle": "克雷斯特汉姆城堡",
+		"Glastheim Castle F2": "克雷斯特汉姆城堡 2层",
+		"Glastheim Underground Churchyard": "克雷斯特汉姆地下墓园",
+		"Glastheim Underground Waterway B3": "克雷斯特汉姆地下水道 B3",
+		Gloria: "荣耀之地",
+		"Grade Enhancer": "品级强化所",
+		"Greenwood Lake": "绿林湖",
+		"Guild Dungeon": "公会地下城",
+		"Guild Underground Dungeon": "公会地下城",
+		"Half Moon in the Daylight": "白昼半月",
+		Herosria: "英雄之地",
+		"Herosria 1st Hero's Gateway": "英雄之地第一英雄之门",
+		"Herosria 2nd Hero's Gateway": "英雄之地第二英雄之门",
+		"Herosria Lacusarium": "英雄之地湖畔竞技场",
+		"Herosria Winter Garden": "英雄之地冬日庭园",
+		"Hidden Flower Garden": "隐秘花园",
+		Highland: "高原",
+		"Himinn Castle": "希明城堡",
+		"Honeymoon Island": "蜜月岛",
+		"Hoomga Jungle": "胡姆加丛林",
+		Hugel: "胡戈尔",
+		"Hugel Abyss Lake": "胡戈尔深渊湖",
+		"Hugel, the Quaint Garden Village": "宁静花园村胡戈尔",
+		"Hunting Lodge": "狩猎小屋",
+		"Hvergelmir's Fountain": "赫瓦格密尔泉",
+		"Hvergelmir's Fountain (Trunk of Yggdrasil)": "赫瓦格密尔泉（天地树树干）",
+		Illusion: "幻影",
+		"Inside Comodo": "科摩多内部",
+		"Inside Einbroch": "艾因布洛克内部",
+		"Inside Himezi Castle": "姬路城内部",
+		"Inside Prontera": "普隆德拉内部",
+		"Inside Pyramid B2": "金字塔内部 B2",
+		"Inside Rachel": "拉赫内部",
+		"Inside St. Abbey": "圣修道院内部",
+		"Inside of Rune Knight Templar": "卢恩骑士团内部",
+		"Inside the Ship": "船舱内部",
+		"Isolated mansion": "孤立宅邸",
+		Izlude: "依斯鲁得",
+		"Izlude, the Satellite City": "卫星城依斯鲁得",
+		Jawaii: "爪哇岛",
+		"Jawaii, the Honeymoon Island": "蜜月岛爪哇",
+		Jotunheim: "约顿海姆",
+		"Juperos Dungeon Entrance": "朱佩洛斯遗迹入口",
+		"Juperos Elevator": "朱佩洛斯升降梯",
+		"Juperos, Restricted Zone": "朱佩洛斯限制区域",
+		"Kiel Hyre's Cottage": "基尔·海伊尔的小屋",
+		"Kiel's Room": "基尔的房间",
+		"Krieger von Midgard": "米德加尔特战士",
+		Lacusarium: "湖畔竞技场",
+		"Les Forest": "莱斯森林",
+		Library: "图书馆",
+		"Library Memory Corridor": "图书馆记忆回廊",
+		"Lighthalzen Airport": "里希塔乐镇机场",
+		"Lighthalzen Field": "里希塔乐镇郊外",
+		"Lost Farm Valley": "失落农场山谷",
+		"Louis Abyss Corridor": "路易斯深渊回廊",
+		Louyang: "洛阳",
+		"Louyang, the Highland": "高原之城洛阳",
+		Luina: "卢因",
+		"Luina Guild Dungeon": "卢因公会地下城",
+		Malangdo: "马兰岛",
+		"Memorial of Past Royal Family": "昔日王室纪念馆",
+		"Memorial of Royal Family": "王室纪念馆",
+		"Memory Corridor": "记忆回廊",
+		"Morocc Pyramid B1 - Nightmare": "梦罗克金字塔 B1－噩梦",
+		"Morocc Ruins": "梦罗克遗迹",
+		Morroc: "梦罗克",
+		Moscovia: "莫斯科比亚",
+		"Mountain City in the Rune-Midgarts Kingdom": "卢恩·米德加尔特王国山岳之都",
+		"Mt.Mjolnir North Area": "妙勒尼山北部",
+		"Nasarin Empire": "纳萨林帝国",
+		Nidhoggur: "尼德霍格",
+		"Niflheim Dungeon - 2nd Floor": "尼芙菲姆地下城 2层",
+		"Niflheim Dungeon - Collapsed Opera House": "尼芙菲姆地下城－坍塌的歌剧院",
+		OS: "OS 区域",
+		"Od Canyon": "奥兹峡谷",
+		"Odin's Temple West Area": "奥丁神殿西区",
+		"Past Glastheim": "过去的克雷斯特汉姆",
+		Payon: "斐扬",
+		"Payon Town": "斐扬城",
+		"Pope's Office": "教皇办公室",
+		"Port Malaya": "马来港",
+		"Private Pub": "私人酒馆",
+		"Prontera Royal Palace": "普隆德拉王宫",
+		"PvP : Four Room": "PvP：四人房",
+		"PvP : Room Alberta": "PvP：艾尔贝塔房间",
+		"PvP : Room Copass": "PvP：Copass 房间",
+		"PvP : Room Izlude": "PvP：依斯鲁得房间",
+		"PvP : Room Morocc": "PvP：梦罗克房间",
+		"PvP : Room Payon": "PvP：斐扬房间",
+		"PvP : Room Prontera": "PvP：普隆德拉房间",
+		"PvP : Room Rock On": "PvP：Rock On 房间",
+		"PvP : Room Sandwich": "PvP：三明治房间",
+		"PvP : Room Undercross": "PvP：地下十字房间",
+		"PvP : Waiting Room": "PvP：等候室",
+		"PvP Four Room": "PvP 四人房",
+		"PvP Room Alberta": "PvP 艾尔贝塔房间",
+		"PvP Room Copass": "PvP Copass 房间",
+		"PvP Room Izlude": "PvP 依斯鲁得房间",
+		"PvP Room Morocc": "PvP 梦罗克房间",
+		"PvP Room Payon": "PvP 斐扬房间",
+		"PvP Room Prontera": "PvP 普隆德拉房间",
+		"PvP Room Rock On": "PvP Rock On 房间",
+		"PvP Room Sandwich": "PvP 三明治房间",
+		"PvP Room Undercross": "PvP 地下十字房间",
+		"PvP Waiting Room": "PvP 等候室",
+		"Pyramid B1": "金字塔 B1",
+		"Quaint Garden Village": "宁静花园村",
+		"Rachel Ice Cave 3F": "拉赫冰洞 3层",
+		"Rachel Temple": "拉赫神殿",
+		"Rachel Temple Sanctuary East Area 1F": "拉赫神殿圣域东区 1层",
+		"Rachel Temple Sanctuary South Area 1F": "拉赫神殿圣域南区 1层",
+		"Ravioli Forest": "拉维奥利森林",
+		"Rekenber Corporation Headquarters": "雷根贝勒公司总部",
+		"Republic Library": "共和国图书馆",
+		"Room of Hatred": "憎恨之间",
+		"Rune-Midgarts": "卢恩·米德加尔特",
+		"Rune-Midgarts Kingdom": "卢恩·米德加尔特王国",
+		"Sanctuary East Area 1F": "圣域东区 1层",
+		"Sanctuary South Area 1F": "圣域南区 1层",
+		"Schwartzwald Government Buildings": "施瓦茨瓦尔德政府大楼",
+		"Secret Garden": "秘密花园",
+		Sesilmir: "塞斯鲁姆尼斯",
+		"Sograt Desert": "苏克拉特沙漠",
+		"Somatology Laboratory F2": "生体研究所 2层",
+		"Somatology Laboratory F3": "生体研究所 3层",
+		"Sorin Castle": "索林城堡",
+		"Special Border Area": "特殊边境区域",
+		"Special Border Area OS": "特殊边境区域 OS",
+		"Tears of Hero": "英雄之泪",
+		"Thanatos Tower Upper Level": "塔纳托斯塔上层",
+		"Thanatos Tower Upper Level - Room of Hatred": "塔纳托斯塔上层－憎恨之间",
+		"The Battlefield of Justice": "正义战场",
+		"The Royal Tomb": "王陵",
+		"The Sun, the Moon and the Stars": "日月星辰",
+		"Time Limit Fight": "限时战斗",
+		"Today's Table": "今日餐桌",
+		"Training Ground": "训练场",
+		"Tunnel Outskirts": "隧道外围",
+		"Turbo Track Stadium": "极速赛道竞技场",
+		Umbala: "乌姆巴拉",
+		"Underground Cave 3F": "地下洞窟 3层",
+		"Underground Churchyard": "地下墓园",
+		"Underground Waterway B3": "地下水道 B3",
+		"Upper Floor of Tartaros Storage": "塔尔塔洛斯仓库上层",
+		Valfreyja: "瓦尔芙蕾雅",
+		"Valley of Abyss": "深渊之谷",
+		"Varmundt's Biosphere": "巴尔蒙特生物圈",
+		Verus: "维鲁斯",
+		"Verus - Tunnel Outskirts": "维鲁斯－隧道外围",
+		"Volcano Island Corodo": "科罗多火山岛",
+		"Waiting Room": "等候室",
+		"Waiting room": "等候室",
+		"Water Map (Palmist battlefield)": "水域地图（手相师战场）",
+		"Winter Garden": "冬日庭园",
+		"Wuerzburg Castle": "维尔茨堡城堡"
+	};
+}));
+//#endregion
 //#region src/DB/Map/MapTable.js
 var MapInfo;
 var init_MapTable = __esmMin((() => {
+	init_MapNameTranslations();
 	MapInfo = {
 		"1@gol1.rsw": {
 			backgroundBmp: "dungeon",
@@ -151819,7 +152046,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "雪之村"
 			},
 			notifyEnter: true,
-			displayName: "鲁蒂耶，雪之村"
+			displayName: "鲁蒂耶"
 		},
 		"iz_ac02_a.rsw": {
 			backgroundBmp: "noname_s1",
@@ -152027,9 +152254,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild08a.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉南部原野" },
+			signName: { mainTitle: "普隆德拉南门" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉南门"
 		},
 		"bat_room.rsw": {
 			backgroundBmp: "noname_s2",
@@ -152418,7 +152645,7 @@ var init_MapTable = __esmMin((() => {
 			backgroundBmp: "dungeon",
 			signName: {
 				mainTitle: "下水道 F4",
-				subTitle: "普隆德拉原野"
+				subTitle: "普隆德拉"
 			},
 			notifyEnter: true,
 			displayName: "普隆德拉下水道 F4"
@@ -152596,9 +152823,9 @@ var init_MapTable = __esmMin((() => {
 		"alberta_in.rsw": { displayName: "艾尔贝塔内部" },
 		"prt_fild03.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "普隆德拉东北遗迹" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉东北遗迹"
 		},
 		"pvp_n_1-4.rsw": {
 			backgroundBmp: "noname_s2",
@@ -152661,7 +152888,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "亡者国度"
 			},
 			notifyEnter: true,
-			displayName: "尼芙菲姆，亡者国度"
+			displayName: "尼芙菲姆"
 		},
 		"guild_vs3.rsw": {
 			backgroundBmp: "noname_s2",
@@ -152905,7 +153132,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "隐士之地"
 			},
 			notifyEnter: true,
-			displayName: "昆仑，隐士之地"
+			displayName: "昆仑"
 		},
 		"bat_c02.rsw": {
 			notifyEnter: true,
@@ -153003,7 +153230,7 @@ var init_MapTable = __esmMin((() => {
 			backgroundBmp: "dungeon",
 			signName: {
 				mainTitle: "迷宫森林 F3",
-				subTitle: "普隆德拉原野"
+				subTitle: "普隆德拉"
 			},
 			notifyEnter: true,
 			displayName: "迷宫森林 F3"
@@ -153095,7 +153322,7 @@ var init_MapTable = __esmMin((() => {
 			backgroundBmp: "noname_s2",
 			signName: { mainTitle: "朱佩洛斯，限制区域" },
 			notifyEnter: true,
-			displayName: "朱佩洛斯，限制区域"
+			displayName: "朱佩洛斯"
 		},
 		"mal_dun01.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -153131,7 +153358,7 @@ var init_MapTable = __esmMin((() => {
 			backgroundBmp: "dungeon",
 			signName: {
 				mainTitle: "迷宫森林 F2",
-				subTitle: "普隆德拉原野"
+				subTitle: "普隆德拉"
 			},
 			notifyEnter: true,
 			displayName: "迷宫森林 F2"
@@ -153346,7 +153573,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "卢恩-米德加尔特王国的魔法之都"
 			},
 			notifyEnter: true,
-			displayName: "吉芬，魔法之都"
+			displayName: "吉芬"
 		},
 		"bat_a01.rsw": {
 			backgroundBmp: "noname",
@@ -153576,9 +153803,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild08.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "普隆德拉南门" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉南门"
 		},
 		"pay_dun00.rsw": {
 			backgroundBmp: "dungeon",
@@ -153725,7 +153952,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "卢恩·米德加尔兹王国首都"
 			},
 			notifyEnter: true,
-			displayName: "普隆德拉，卢恩·米德加尔兹首都"
+			displayName: "普隆德拉"
 		},
 		"ra_pol01.rsw": {
 			backgroundBmp: "field2_s2",
@@ -153825,7 +154052,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "卢恩·米德加尔兹王国"
 			},
 			notifyEnter: true,
-			displayName: "伊兹鲁德，卫星城"
+			displayName: "伊兹鲁德"
 		},
 		"herosria.rsw": {
 			backgroundBmp: "siege",
@@ -153863,9 +154090,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild08c.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉南部原野" },
+			signName: { mainTitle: "普隆德拉南门" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉南门"
 		},
 		"te_prtcas01.rsw": {
 			backgroundBmp: "siege",
@@ -154339,7 +154566,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "实验废弃物处理场"
 			},
 			notifyEnter: true,
-			displayName: "鲁杜斯，实验废弃物处理场 F2"
+			displayName: "鲁杜斯 F2"
 		},
 		"new_1-2.rsw": {
 			backgroundBmp: "field_s2",
@@ -154385,9 +154612,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild07.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "蝗虫区" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "蝗虫区"
 		},
 		"mid_camp.rsw": {
 			backgroundBmp: "village",
@@ -154459,7 +154686,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "实验废弃物处理场"
 			},
 			notifyEnter: true,
-			displayName: "鲁杜斯，实验废弃物处理场 F3"
+			displayName: "鲁杜斯 F3"
 		},
 		"mal_in01.rsw": { displayName: "马兰岛内部" },
 		"2@mir.rsw": {
@@ -154923,9 +155150,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild11.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "哥布灵森林" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "哥布灵森林"
 		},
 		"1@adv.rsw": {
 			backgroundBmp: "noname_s2",
@@ -154949,7 +155176,7 @@ var init_MapTable = __esmMin((() => {
 			backgroundBmp: "dungeon",
 			signName: {
 				mainTitle: "下水道 F3",
-				subTitle: "普隆德拉原野"
+				subTitle: "普隆德拉"
 			},
 			notifyEnter: true,
 			displayName: "普隆德拉下水道 F3"
@@ -155138,13 +155365,13 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "艾尔帕兰卫星城"
 			},
 			notifyEnter: true,
-			displayName: "卢因，艾尔帕兰卫星城"
+			displayName: "卢因"
 		},
 		"prt_fild08b.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉南部原野" },
+			signName: { mainTitle: "普隆德拉南门" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉南门"
 		},
 		"yuno_fild12.rsw": {
 			backgroundBmp: "field_s2",
@@ -155214,9 +155441,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild08d.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉南部原野" },
+			signName: { mainTitle: "普隆德拉南门" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉南门"
 		},
 		"job_prist.rsw": { displayName: "牧师领域" },
 		"nyd_dun01.rsw": {
@@ -155286,7 +155513,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "卢恩-米德加尔特王国"
 			},
 			notifyEnter: true,
-			displayName: "伊斯鲁得，卫星城"
+			displayName: "伊斯鲁得"
 		},
 		"s_atelier.rsw": { displayName: "暗影工坊" },
 		"1@20cn2.rsw": {
@@ -155408,7 +155635,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "卢恩·米德加尔兹王国"
 			},
 			notifyEnter: true,
-			displayName: "伊兹鲁德，卫星城"
+			displayName: "伊兹鲁德"
 		},
 		"jupe_core2.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -155492,7 +155719,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "命运之地"
 			},
 			notifyEnter: true,
-			displayName: "天津町，命运之地"
+			displayName: "天津町"
 		},
 		"pay_dun01.rsw": {
 			backgroundBmp: "dungeon",
@@ -155578,9 +155805,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild01.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "普隆德拉北门" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉北门"
 		},
 		"1@tower.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -155671,7 +155898,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "约顿海姆萨帕首都"
 			},
 			notifyEnter: true,
-			displayName: "迪卡斯特斯，萨帕首都"
+			displayName: "迪卡斯特斯"
 		},
 		"brasilis.rsw": {
 			backgroundBmp: "village_s2",
@@ -155784,9 +156011,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild06.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "普隆德拉东门" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉东门"
 		},
 		"bl_grass.rsw": {
 			backgroundBmp: "dungeon",
@@ -155922,7 +156149,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "阿鲁纳佩尔兹峡谷村落"
 			},
 			notifyEnter: true,
-			displayName: "维因斯，峡谷村落"
+			displayName: "维因斯"
 		},
 		"alde_dun03.rsw": {
 			backgroundBmp: "dungeon",
@@ -156510,9 +156737,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild09.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "Prontera Field" },
+			signName: { mainTitle: "普隆德拉西南部" },
 			notifyEnter: true,
-			displayName: "Prontera Field"
+			displayName: "普隆德拉西南部"
 		},
 		"job3_rune01.rsw": { displayName: "Inside of Rune Knight Templar" },
 		"pvp_n_8-1.rsw": {
@@ -156558,7 +156785,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "卢恩-米德加尔特王国的海滨城镇"
 			},
 			notifyEnter: true,
-			displayName: "海底洞窟，海滨城镇"
+			displayName: "海底洞窟"
 		},
 		"knight_2-1.rsw": { displayName: "骑士团" },
 		"que_qsch02.rsw": {
@@ -156676,7 +156903,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "伍坦族村庄"
 			},
 			notifyEnter: true,
-			displayName: "伍坦族村庄，乌巴拉"
+			displayName: "伍坦族村庄"
 		},
 		"prt_are_in.rsw": {
 			backgroundBmp: "noname_s2",
@@ -156705,7 +156932,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "卢恩-米德加尔特王国"
 			},
 			notifyEnter: true,
-			displayName: "伊斯鲁得，卫星城"
+			displayName: "伊斯鲁得"
 		},
 		"payon_in02.rsw": { displayName: "斐扬内部" },
 		"payon_in01.rsw": { displayName: "斐扬内部" },
@@ -156728,7 +156955,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "施瓦茨瓦尔德共和国首都"
 			},
 			notifyEnter: true,
-			displayName: "朱诺，施瓦茨瓦尔德共和国首都"
+			displayName: "朱诺"
 		},
 		"morocc.rsw": {
 			backgroundBmp: "village",
@@ -156904,7 +157131,7 @@ var init_MapTable = __esmMin((() => {
 			backgroundBmp: "dungeon",
 			signName: {
 				mainTitle: "下水道 F1",
-				subTitle: "普隆德拉原野"
+				subTitle: "普隆德拉"
 			},
 			notifyEnter: true,
 			displayName: "普隆德拉下水道 F1"
@@ -156913,7 +157140,7 @@ var init_MapTable = __esmMin((() => {
 			backgroundBmp: "dungeon",
 			signName: {
 				mainTitle: "迷宫森林 F1",
-				subTitle: "普隆德拉原野"
+				subTitle: "普隆德拉"
 			},
 			notifyEnter: true,
 			displayName: "迷宫森林 F1"
@@ -157241,9 +157468,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild10.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "普隆德拉南部西侧" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉南部西侧"
 		},
 		"pvp_n_2-2.rsw": {
 			backgroundBmp: "noname_s2",
@@ -157253,15 +157480,15 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild05.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "普隆德拉西门" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉西门"
 		},
 		"prt_fild04.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "普隆德拉西部" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉西部"
 		},
 		"e_hugel.rsw": {
 			backgroundBmp: "field_s2",
@@ -157277,9 +157504,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild00.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "普隆德拉原野" },
+			signName: { mainTitle: "普隆德拉西北部" },
 			notifyEnter: true,
-			displayName: "普隆德拉原野"
+			displayName: "普隆德拉西北部"
 		},
 		"ba_bath.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -157439,7 +157666,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "施瓦茨瓦尔德共和国繁荣城邦"
 			},
 			notifyEnter: true,
-			displayName: "里希塔乐镇，繁荣城邦"
+			displayName: "里希塔乐镇"
 		},
 		"bat_a02.rsw": {
 			backgroundBmp: "noname",
@@ -157549,7 +157776,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "实验废弃物处理场"
 			},
 			notifyEnter: true,
-			displayName: "鲁杜斯，实验废弃物处理场 F1"
+			displayName: "鲁杜斯 F1"
 		},
 		"pvp_y_1-5.rsw": {
 			backgroundBmp: "noname_s2",
@@ -157662,7 +157889,7 @@ var init_MapTable = __esmMin((() => {
 			backgroundBmp: "dungeon",
 			signName: {
 				mainTitle: "下水道 F2",
-				subTitle: "普隆德拉原野"
+				subTitle: "普隆德拉"
 			},
 			notifyEnter: true,
 			displayName: "普隆德拉下水道 F2"
@@ -157684,7 +157911,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "荣誉大厅"
 			},
 			notifyEnter: true,
-			displayName: "女武神大厅，荣誉大厅"
+			displayName: "女武神大厅"
 		},
 		"y_airport.rsw": {
 			backgroundBmp: "noname_s2",
@@ -157793,9 +158020,9 @@ var init_MapTable = __esmMin((() => {
 		},
 		"prt_fild02.rsw": {
 			backgroundBmp: "field_s2",
-			signName: { mainTitle: "Prontera Field" },
+			signName: { mainTitle: "普隆德拉东北部" },
 			notifyEnter: true,
-			displayName: "Prontera Field"
+			displayName: "普隆德拉东北部"
 		},
 		"ba_lost.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -158234,7 +158461,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "约顿海姆拉比基地"
 			},
 			notifyEnter: true,
-			displayName: "斯普兰迪德，拉比基地"
+			displayName: "斯普兰迪德"
 		},
 		"job3_war02.rsw": { displayName: "妖术师转职测试房间" },
 		"job3_war01.rsw": { displayName: "妖术师转职测试房间" },
@@ -158339,7 +158566,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "阿鲁纳佩尔兹学术国首都"
 			},
 			notifyEnter: true,
-			displayName: "拉赫，阿鲁纳佩尔兹学术国首都"
+			displayName: "拉赫"
 		},
 		"job3_rang01.rsw": { displayName: "游侠转职等待室" },
 		"moc_prydn2.rsw": {
@@ -158479,7 +158706,7 @@ var init_MapTable = __esmMin((() => {
 				subTitle: "实验废弃物处理区"
 			},
 			notifyEnter: true,
-			displayName: "鲁杜斯，实验废弃物处理区 F4"
+			displayName: "鲁杜斯 F4"
 		},
 		"1@ge_sn.rsw": {
 			backgroundBmp: "dungeon_s2",
@@ -158501,6 +158728,12 @@ var init_MapTable = __esmMin((() => {
 		},
 		"que_dan01.rsw": { displayName: "胡戈尔原野" }
 	};
+	for (const map of Object.values(MapInfo)) {
+		if (map.signName?.mainTitle in MapNameTranslations_default) map.signName.mainTitle = MapNameTranslations_default[map.signName.mainTitle];
+		if (map.signName?.subTitle in MapNameTranslations_default) map.signName.subTitle = MapNameTranslations_default[map.signName.subTitle];
+		if (map.displayName in MapNameTranslations_default) map.displayName = MapNameTranslations_default[map.displayName];
+		if (map.signName && map.displayName) map.signName.mainTitle = map.displayName;
+	}
 }));
 //#endregion
 //#region src/DB/Map/MapInfoLocalization.js
