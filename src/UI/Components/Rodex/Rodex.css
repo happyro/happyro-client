@@ -124,6 +124,7 @@
 }
 #Rodex .body .searchbar .search-text {
 	color: #212163;
+	cursor: pointer;
 }
 #Rodex .body .searchbar .search {
 	position: absolute;
@@ -197,6 +198,9 @@
 	float: left;
 	width: 10%;
 	height: 100%;
+	padding: 0;
+	border: none;
+	background-color: transparent;
 	background-position: center;
 	background-repeat: no-repeat;
 }

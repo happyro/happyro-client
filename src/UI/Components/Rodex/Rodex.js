@@ -52,6 +52,11 @@ Rodex.currentTab = 0;
  */
 Rodex.searchType = 1;
 
+/**
+ * Mail keys selected with the list checkboxes.
+ */
+Rodex.selectedMails = new Set();
+
 Rodex.attachmentType = {
 	0: '', // none
 	2: 'basic_interface/rodexsystem/renewal/icon_zeny.bmp', // zeny
@@ -109,12 +114,18 @@ Rodex.onAppend = function OnAppend() {
 	root.querySelector('.search-sender').addEventListener('click', onClickSearchSender);
 	root.querySelector('.search').value = '';
 	root.querySelector('.search-btn').addEventListener('click', onClickSearchButton);
+	root.querySelector('.search').addEventListener('keydown', event => {
+		if (event.key === 'Enter') onClickSearchButton(event);
+	});
+	root.querySelector('.search-title-text').addEventListener('click', onClickSearchTitle);
+	root.querySelector('.search-sender-text').addEventListener('click', onClickSearchSender);
 
 	Rodex.openType = 0;
 	root.querySelectorAll('.nav-item.active').forEach(el => el.classList.remove('active'));
 	root.querySelector('#tab_0').classList.add('active');
 	Rodex.searchType = 1;
 	Rodex.page = 0;
+	Rodex.selectedMails.clear();
 };
 
 /**
@@ -140,6 +151,10 @@ Rodex.initData = function initData(pkt) {
 	Rodex.list = pkt.MailList;
 	Rodex.isEnd = pkt.isEnd;
 	Rodex.openType = typeof pkt.openType !== 'undefined' ? pkt.openType : 0;
+	const mailKeys = new Set(Rodex.list.map(mail => getMailKey(mail)));
+	Rodex.selectedMails.forEach(key => {
+		if (!mailKeys.has(key)) Rodex.selectedMails.delete(key);
+	});
 	Rodex.createRodexList();
 	this._host.style.display = '';
 	this.focus();
@@ -172,19 +187,21 @@ Rodex.createRodexList = function createRodexList(tabID = 0, search = false, term
 		const title = mail.title.length > 18 ? mail.title.substring(0, 18) + '...' : mail.title;
 		const sender = mail.SenderName.length > 18 ? mail.SenderName.substring(0, 18) + '...' : mail.SenderName;
 		const mail_image = mail.Isread ? 'icon_status_mail_read' : 'icon_status_mail_received';
-		const mail_content = Rodex.attachmentType[mail.type];
 		const remaining_days = parseInt(mail.expireDateTime / 60 / 60 / 24);
 		const openType = typeof mail.openType !== 'undefined' ? mail.openType : 0;
+		const mailKey = getMailKey(mail);
+		const checked = Rodex.selectedMails.has(mailKey);
 		const mail_html = `<li class="mail-item">
-				<div class="mail-checkbox" data-background="basic_interface/rodexsystem/renewal/checkbox_off.bmp">
-				</div>
+				<button type="button" class="mail-checkbox event_add_cursor" data-mail-key="${mailKey}"
+					data-background="basic_interface/rodexsystem/renewal/checkbox_${checked ? 'on' : 'off'}.bmp"
+					aria-label="选择邮件" aria-pressed="${checked}"></button>
 				<div class="mail-image" data-background="basic_interface/rodexsystem/renewal/${mail_image}.bmp">
 				</div>
 				<div class="mail-text">
 					<div class="title"><div id="mail_${mailID}" openType="${openType}" class="text event_add_cursor"><span data-text="2702"></span>${title}</div></div>
 					<div class="sender"><div id="sender_${mailID}" sender="${sender}" class="text event_add_cursor"><span data-text="2701"></span>${sender}</div></div>
 				</div>
-				<div class="mail-content" data-background="${mail_content}"></div>
+				<div class="mail-content" data-background="${Rodex.attachmentType[mail.type & 6] || ''}"></div>
 				<div class="expire-days">${remaining_days} 天</div>
 			</li>`;
 		content.insertAdjacentHTML('beforeend', mail_html);
@@ -197,6 +214,8 @@ Rodex.createRodexList = function createRodexList(tabID = 0, search = false, term
 		if (senderEl) {
 			senderEl.addEventListener('click', onClickReplyMail);
 		}
+		const checkbox = root.querySelector(`.mail-checkbox[data-mail-key="${mailKey}"]`);
+		if (checkbox) checkbox.addEventListener('click', onClickMailCheckbox);
 		total++;
 	}
 
@@ -205,7 +224,28 @@ Rodex.createRodexList = function createRodexList(tabID = 0, search = false, term
 	content.querySelectorAll(selector).forEach(node => {
 		GUIComponent.processDataAttrs(node);
 	});
+	updateBulkActionLabels();
 };
+
+function getMailKey(mail) {
+	return `${mail.openType}:${mail.MailID}`;
+}
+
+function getSelectedMails() {
+	return Rodex.list.filter(mail => Rodex.selectedMails.has(getMailKey(mail)));
+}
+
+function updateBulkActionLabels() {
+	const root = _root();
+	const hasSelection = Rodex.selectedMails.size > 0;
+	root.querySelector('.delete-all').textContent = DB.getMessage(hasSelection ? 3588 : 3589);
+	root.querySelector('.retrieve-all').textContent = DB.getMessage(hasSelection ? 3591 : 3592);
+}
+
+function clearSelection() {
+	Rodex.selectedMails.clear();
+	Rodex.createRodexList(Rodex.openType);
+}
 
 Rodex.getMailsByTabID = function getMailsByTabID(tabID) {
 	return Rodex.list.filter(mail => mail.openType == tabID);
@@ -223,26 +263,18 @@ Rodex.getMailByID = function getMailByID(mailID) {
 	return Rodex.list.find(mail => mail.MailID == mailID);
 };
 
-Rodex.getAll = function getAll() {
-	for (let i = 0; i < Rodex.list.length; i++) {
-		const mail = Rodex.list[i];
-		if (mail.type > 0 && (mail.type === 4 || mail.type === 6)) {
-			Rodex.requestItemsFromRodex(mail.openType, mail.MailID);
-		}
-		if (mail.type > 0 && (mail.type === 2 || mail.type === 6)) {
-			Rodex.requestZenyFromRodex(mail.openType, mail.MailID);
-		}
-	}
+Rodex.getAll = function getAll(mails = Rodex.list) {
+	mails.forEach(mail => {
+		if (mail.type & 4) Rodex.requestItemsFromRodex(mail.openType, mail.MailID);
+		if (mail.type & 2) Rodex.requestZenyFromRodex(mail.openType, mail.MailID);
+	});
 };
 
-Rodex.deleteAll = function deleteAll() {
-	for (let i = 0; i < Rodex.list.length; i++) {
-		const mail = Rodex.list[i];
-		if (mail.type === 0) {
-			Rodex.requestDeleteRodex(mail.openType, mail.MailID);
-		} else {
-			ChatBox.addText(DB.getMessage(2612), ChatBox.TYPE.INFO_MAIL, ChatBox.FILTER.PUBLIC_LOG);
-		}
+Rodex.deleteAll = function deleteAll(mails = Rodex.list) {
+	const deletableMails = mails.filter(mail => (mail.type & 6) === 0);
+	deletableMails.forEach(mail => Rodex.requestDeleteRodex(mail.openType, mail.MailID));
+	if (deletableMails.length !== mails.length) {
+		ChatBox.addText(DB.getMessage(2612), ChatBox.TYPE.INFO_MAIL, ChatBox.FILTER.PUBLIC_LOG);
 	}
 };
 
@@ -303,16 +335,33 @@ function onClickWriteMail(e) {
 
 function onClickDeleteAll(e) {
 	e.stopImmediatePropagation();
-	UIManager.showPromptBox(DB.getMessage(3590), 'ok', 'cancel', () => {
-		Rodex.deleteAll();
+	const selectedMails = getSelectedMails();
+	const targetMails = selectedMails.length > 0 ? selectedMails : Rodex.list;
+	UIManager.showPromptBox(DB.getMessage(selectedMails.length > 0 ? 356 : 3590), 'ok', 'cancel', () => {
+		Rodex.deleteAll(targetMails);
+		clearSelection();
 	});
 }
 
 function onClickRetrieveAll(e) {
 	e.stopImmediatePropagation();
-	UIManager.showPromptBox(DB.getMessage(3594), 'ok', 'cancel', () => {
-		Rodex.getAll();
+	const selectedMails = getSelectedMails();
+	const targetMails = selectedMails.length > 0 ? selectedMails : Rodex.list;
+	UIManager.showPromptBox(DB.getMessage(selectedMails.length > 0 ? 3593 : 3594), 'ok', 'cancel', () => {
+		Rodex.getAll(targetMails);
+		clearSelection();
 	});
+}
+
+function onClickMailCheckbox(e) {
+	e.stopImmediatePropagation();
+	const key = e.currentTarget.dataset.mailKey;
+	if (Rodex.selectedMails.has(key)) {
+		Rodex.selectedMails.delete(key);
+	} else {
+		Rodex.selectedMails.add(key);
+	}
+	Rodex.createRodexList(Rodex.openType);
 }
 
 function onClickPreviousPage(e) {
@@ -335,6 +384,7 @@ function onClickNexPage(e) {
 function onClickTab(e) {
 	e.stopImmediatePropagation();
 	Rodex.page = 0;
+	Rodex.selectedMails.clear();
 	const element = e.currentTarget;
 	const tid = element.id;
 	const id = tid.replace('tab_', '');
@@ -388,11 +438,15 @@ function onClickSearchSender(e) {
 function onClickSearchButton(e) {
 	e.stopImmediatePropagation();
 	const root = _root();
-	const search = root.querySelector('.search').value;
+	const search = root.querySelector('.search').value.trim();
+	Rodex.selectedMails.clear();
 	root.querySelectorAll('.nav-item.active').forEach(el => el.classList.remove('active'));
-	root.querySelector('#tab_3').classList.add('active');
-	if (search.length > 2) {
+	if (search.length > 0) {
+		root.querySelector('#tab_3').classList.add('active');
 		Rodex.createRodexList(0, true, search);
+	} else {
+		root.querySelector(`#tab_${Rodex.openType}`).classList.add('active');
+		Rodex.createRodexList(Rodex.openType);
 	}
 }
 
