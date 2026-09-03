@@ -68,7 +68,7 @@
 }
 .ItemCompare .description {
 	position: absolute;
-	background-color: white;
+	background-color: transparent;
 	top: 35px;
 	left: 100px;
 	line-height: 18px;
@@ -78,6 +78,7 @@
 }
 .ItemCompare .description .description-inner {
 	width: 150px;
+	white-space: pre-wrap;
 }
 .ItemCompare .extend {
 	position: absolute;
