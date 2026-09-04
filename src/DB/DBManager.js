@@ -57,6 +57,7 @@ import PetHungryState from './Pets/PetHungryState.js';
 import PetFriendlyState from './Pets/PetFriendlyState.js';
 import PetMessageConst from './Pets/PetMessageConst.js';
 import MapInfo from './Map/MapTable.js';
+import { localizeAdventureAchievementMaps } from './Achievement/AdventureAchievementLocalization.js';
 import { mergeLocalizedMapInfo } from './Map/MapInfoLocalization.js';
 import SignBoardTranslationTable from './SignBoardTranslationTable.js';
 import Network from 'Network/NetworkManager.js';
@@ -658,6 +659,7 @@ class DB {
 					function (json) {
 						if (json) {
 							Object.assign(AchievementTable, json);
+							localizeAdventureAchievementMaps(AchievementTable, MapInfo);
 						}
 					},
 					onLoad()
