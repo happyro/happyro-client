@@ -61,6 +61,8 @@ function _ensureDeps() {
  */
 let _snapCache = [];
 
+const DRAG_POSITION_STORAGE_PREFIX = 'GUIComponent.Position.';
+
 /**
  * Mouse interaction modes
  */
@@ -236,6 +238,8 @@ class GUIComponent {
 			this.onAppend();
 		}
 
+		this._restoreDragPosition();
+
 		// Scrollbars
 		this._setupScrollbars();
 
@@ -259,6 +263,46 @@ class GUIComponent {
 		const WIDTH = _Renderer?.width ?? window.innerWidth;
 		const HEIGHT = _Renderer?.height ?? window.innerHeight;
 		ClampToViewport(this._host, WIDTH, HEIGHT, this.magnet);
+	}
+
+	/**
+	 * Restore a position captured by the shared draggable implementation.
+	 * Component-specific preferences still initialize the first position.
+	 */
+	_restoreDragPosition() {
+		if (!this._host || !this._isDraggable) return;
+
+		try {
+			const saved = localStorage.getItem(`${DRAG_POSITION_STORAGE_PREFIX}${this.name}`);
+			if (!saved) return;
+
+			const position = JSON.parse(saved);
+			if (Number.isFinite(position.x)) this._host.style.left = `${position.x}px`;
+			if (Number.isFinite(position.y)) this._host.style.top = `${position.y}px`;
+		} catch (error) {
+			console.warn(`[GUIComponent] Unable to restore position for ${this.name}:`, error);
+		}
+	}
+
+	/**
+	 * Save the current position immediately after a drag.
+	 */
+	_saveDragPosition() {
+		if (!this._host || !this._isDraggable) return;
+
+		try {
+			const styledX = parseFloat(this._host.style.left);
+			const styledY = parseFloat(this._host.style.top);
+			localStorage.setItem(
+				`${DRAG_POSITION_STORAGE_PREFIX}${this.name}`,
+				JSON.stringify({
+					x: Number.isFinite(styledX) ? styledX : this._host.offsetLeft,
+					y: Number.isFinite(styledY) ? styledY : this._host.offsetTop
+				})
+			);
+		} catch (error) {
+			console.warn(`[GUIComponent] Unable to save position for ${this.name}:`, error);
+		}
 	}
 
 	// ─── Lifecycle: remove ─────────────────────────────────
@@ -628,6 +672,8 @@ class GUIComponent {
 						};
 						host.addEventListener('transitionend', onTransEnd);
 					}
+
+					component._saveDragPosition();
 				}
 			};
 

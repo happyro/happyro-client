@@ -609,6 +609,9 @@ export function createMiniMap({
 				count = _towninfo.length;
 				for (i = 0; i < count; ++i) {
 					dot = _towninfo[i];
+					if (!dot) {
+						continue;
+					}
 
 					let img;
 					switch (dot.Type) {
@@ -633,6 +636,15 @@ export function createMiniMap({
 						case 6:
 							img = _kafra;
 							break;
+					}
+
+					if (!img) {
+						if (!MiniMap._unsupportedTownInfoTypes) MiniMap._unsupportedTownInfoTypes = new Set();
+						if (!MiniMap._unsupportedTownInfoTypes.has(dot.Type)) {
+							MiniMap._unsupportedTownInfoTypes.add(dot.Type);
+							console.warn('[MiniMap] Unsupported town info type:', dot.Type, dot.Name);
+						}
+						continue;
 					}
 
 					if (img.complete && img.width) {
