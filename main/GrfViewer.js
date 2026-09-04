@@ -262,8 +262,8 @@ var init_iconv_lite = __esmMin((() => {
 				var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
 				var curByte = 0;
 				var len2 = placeHoldersLen > 0 ? validLen - 4 : validLen;
-				var i2;
-				for (i2 = 0; i2 < len2; i2 += 4) {
+				var i2 = 0;
+				for (; i2 < len2; i2 += 4) {
 					tmp = revLookup[b64.charCodeAt(i2)] << 18 | revLookup[b64.charCodeAt(i2 + 1)] << 12 | revLookup[b64.charCodeAt(i2 + 2)] << 6 | revLookup[b64.charCodeAt(i2 + 3)];
 					arr[curByte++] = tmp >> 16 & 255;
 					arr[curByte++] = tmp >> 8 & 255;
@@ -814,8 +814,8 @@ var init_iconv_lite = __esmMin((() => {
 				}
 				const strLen = string.length;
 				if (length > strLen / 2) length = strLen / 2;
-				let i;
-				for (i = 0; i < length; ++i) {
+				let i = 0;
+				for (; i < length; ++i) {
 					const parsed = parseInt(string.substr(i * 2, 2), 16);
 					if (numberIsNaN(parsed)) return i;
 					buf[offset + i] = parsed;
@@ -1596,8 +1596,8 @@ var init_iconv_lite = __esmMin((() => {
 				return base64.toByteArray(base64clean(str));
 			}
 			function blitBuffer(src, dst, offset, length) {
-				let i;
-				for (i = 0; i < length; ++i) {
+				let i = 0;
+				for (; i < length; ++i) {
 					if (i + offset >= dst.length || i >= src.length) break;
 					dst[i + offset] = src[i];
 				}
@@ -78928,8 +78928,8 @@ var init_Action = __esmMin((() => {
 			const layers = new Array(count);
 			let layer;
 			const version = this.version;
-			let i;
-			for (i = 0; i < count; ++i) {
+			let i = 0;
+			for (; i < count; ++i) {
 				layer = layers[i] = {
 					pos: [fp.readLong(), fp.readLong()],
 					index: fp.readLong(),
@@ -149959,8 +149959,8 @@ var init_bson = __esmMin((() => {
 		getNumBitsAbs() {
 			if (this.isNegative()) return this.eq(Long.MIN_VALUE) ? 64 : this.neg().getNumBitsAbs();
 			const val = this.high !== 0 ? this.high : this.low;
-			let bit;
-			for (bit = 31; bit > 0; bit--) if ((val & 1 << bit) !== 0) break;
+			let bit = 31;
+			for (; bit > 0; bit--) if ((val & 1 << bit) !== 0) break;
 			return this.high !== 0 ? bit + 33 : bit + 1;
 		}
 		greaterThan(other) {
@@ -158767,6 +158767,192 @@ var init_MapTable = __esmMin((() => {
 		if (map.displayName in MapNameTranslations_default) map.displayName = MapNameTranslations_default[map.displayName];
 		if (map.signName && map.displayName) map.signName.mainTitle = map.displayName;
 	}
+}));
+//#endregion
+//#region src/DB/Achievement/AdventureAchievementLocalization.js
+function getAdventureMapNames(mapInfo) {
+	const names = ADVENTURE_ACHIEVEMENT_MAPS.map((map) => mapInfo[map]?.displayName || map.replace(/\.rsw$/, ""));
+	const totals = names.reduce((counts, name) => counts.set(name, (counts.get(name) || 0) + 1), /* @__PURE__ */ new Map());
+	const occurrences = /* @__PURE__ */ new Map();
+	return names.map((name) => {
+		if (totals.get(name) === 1) return name;
+		const occurrence = (occurrences.get(name) || 0) + 1;
+		occurrences.set(name, occurrence);
+		return `${name}（${occurrence}）`;
+	});
+}
+function localizeAdventureAchievementMaps(achievementTable, mapInfo) {
+	getAdventureMapNames(mapInfo).forEach((mapName, index) => {
+		const achievement = achievementTable[FIRST_ADVENTURE_ACHIEVEMENT_ID + index];
+		if (!achievement) return;
+		achievement.title = `探索${mapName}`;
+		achievement.content = achievement.content || {};
+		achievement.content.summary = `发现${mapName}的宝藏`;
+		achievement.content.details = `发现${mapName}的宝藏`;
+		if (achievement.resource) Object.values(achievement.resource).forEach((resource) => {
+			resource.text = `发现${mapName}的宝藏`;
+		});
+	});
+	Object.values(achievementTable).forEach((achievement) => {
+		if (!achievement?.resource) return;
+		Object.values(achievement.resource).forEach((resource) => {
+			if (resource.shortcut < FIRST_ADVENTURE_ACHIEVEMENT_ID || resource.shortcut >= FIRST_ADVENTURE_ACHIEVEMENT_ID + ADVENTURE_ACHIEVEMENT_MAPS.length) return;
+			const dependent = achievementTable[resource.shortcut];
+			if (dependent?.title) resource.text = `完成${dependent.title}`;
+		});
+	});
+}
+var FIRST_ADVENTURE_ACHIEVEMENT_ID, ADVENTURE_ACHIEVEMENT_MAPS;
+var init_AdventureAchievementLocalization = __esmMin((() => {
+	FIRST_ADVENTURE_ACHIEVEMENT_ID = 120001;
+	ADVENTURE_ACHIEVEMENT_MAPS = [
+		"prt_fild01.rsw",
+		"prt_fild02.rsw",
+		"prt_fild03.rsw",
+		"prt_fild04.rsw",
+		"prt_fild05.rsw",
+		"prt_fild06.rsw",
+		"prt_fild07.rsw",
+		"prt_fild08.rsw",
+		"prt_fild09.rsw",
+		"prt_fild10.rsw",
+		"gef_fild00.rsw",
+		"gef_fild01.rsw",
+		"gef_fild05.rsw",
+		"gef_fild06.rsw",
+		"gef_fild07.rsw",
+		"gef_fild09.rsw",
+		"gef_fild11.rsw",
+		"moc_fild11.rsw",
+		"moc_fild12.rsw",
+		"moc_fild13.rsw",
+		"moc_fild16.rsw",
+		"moc_fild17.rsw",
+		"moc_fild18.rsw",
+		"pay_fild01.rsw",
+		"pay_fild02.rsw",
+		"pay_fild03.rsw",
+		"pay_fild04.rsw",
+		"pay_fild07.rsw",
+		"pay_fild08.rsw",
+		"pay_fild09.rsw",
+		"pay_fild10.rsw",
+		"mjolnir_01.rsw",
+		"mjolnir_02.rsw",
+		"mjolnir_03.rsw",
+		"mjolnir_04.rsw",
+		"mjolnir_05.rsw",
+		"mjolnir_06.rsw",
+		"mjolnir_07.rsw",
+		"mjolnir_08.rsw",
+		"mjolnir_09.rsw",
+		"mjolnir_10.rsw",
+		"mjolnir_11.rsw",
+		"mjolnir_12.rsw",
+		"cmd_fild01.rsw",
+		"cmd_fild02.rsw",
+		"cmd_fild03.rsw",
+		"cmd_fild04.rsw",
+		"cmd_fild06.rsw",
+		"cmd_fild07.rsw",
+		"cmd_fild08.rsw",
+		"cmd_fild09.rsw",
+		"yuno_fild01.rsw",
+		"yuno_fild12.rsw",
+		"yuno_fild02.rsw",
+		"yuno_fild03.rsw",
+		"yuno_fild04.rsw",
+		"yuno_fild06.rsw",
+		"yuno_fild07.rsw",
+		"yuno_fild08.rsw",
+		"yuno_fild09.rsw",
+		"yuno_fild11.rsw",
+		"hu_fild01.rsw",
+		"hu_fild02.rsw",
+		"hu_fild04.rsw",
+		"hu_fild06.rsw",
+		"hu_fild05.rsw",
+		"ein_fild01.rsw",
+		"ein_fild03.rsw",
+		"ein_fild04.rsw",
+		"ein_fild05.rsw",
+		"ein_fild06.rsw",
+		"ein_fild07.rsw",
+		"ein_fild08.rsw",
+		"ein_fild09.rsw",
+		"lhz_fild01.rsw",
+		"lhz_fild02.rsw",
+		"lhz_fild03.rsw",
+		"ra_fild01.rsw",
+		"ra_fild03.rsw",
+		"ra_fild08.rsw",
+		"ra_fild12.rsw",
+		"ra_fild04.rsw",
+		"ra_fild05.rsw",
+		"ra_fild06.rsw",
+		"ve_fild01.rsw",
+		"ve_fild02.rsw",
+		"ve_fild03.rsw",
+		"ve_fild04.rsw",
+		"ve_fild07.rsw",
+		"ecl_fild01.rsw",
+		"bif_fild01.rsw",
+		"bif_fild02.rsw",
+		"spl_fild01.rsw",
+		"spl_fild02.rsw",
+		"spl_fild03.rsw",
+		"man_fild01.rsw",
+		"man_fild02.rsw",
+		"man_fild03.rsw",
+		"dic_fild01.rsw",
+		"dic_fild02.rsw",
+		"ama_fild01.rsw",
+		"gon_fild01.rsw",
+		"lou_fild01.rsw",
+		"ayo_fild01.rsw",
+		"mosk_fild02.rsw",
+		"bra_fild01.rsw",
+		"dew_fild01.rsw",
+		"ma_fild01.rsw",
+		"ma_fild02.rsw",
+		"abbey03.rsw",
+		"abyss_03.rsw",
+		"c_tower4.rsw",
+		"ama_dun03.rsw",
+		"anthell02.rsw",
+		"ayo_dun02.rsw",
+		"beach_dun3.rsw",
+		"bra_dun02.rsw",
+		"alde_dun04.rsw",
+		"dew_dun02.rsw",
+		"dic_dun03.rsw",
+		"ecl_tdun04.rsw",
+		"ein_dun02.rsw",
+		"gef_dun02.rsw",
+		"gl_cas02.rsw",
+		"gl_sew04.rsw",
+		"gl_knt02.rsw",
+		"gl_prison1.rsw",
+		"gon_dun03.rsw",
+		"ice_dun03.rsw",
+		"in_sphinx5.rsw",
+		"prt_sewb4.rsw",
+		"kh_dun02.rsw",
+		"lhz_dun03.rsw",
+		"lou_dun03.rsw",
+		"mag_dun02.rsw",
+		"mjo_dun03.rsw",
+		"moc_pryd06.rsw",
+		"orcsdun02.rsw",
+		"pay_dun04.rsw",
+		"prt_maze03.rsw",
+		"iz_dun05.rsw",
+		"tha_t06.rsw",
+		"thor_v03.rsw",
+		"treasure02.rsw",
+		"tur_dun04.rsw",
+		"xmas_dun02.rsw"
+	];
 }));
 //#endregion
 //#region src/DB/Map/MapInfoLocalization.js
@@ -222607,7 +222793,7 @@ var init_ItemCompare$2 = __esmMin((() => {
 //#region src/UI/Components/ItemCompare/ItemCompare.css?raw
 var ItemCompare_default$1;
 var init_ItemCompare$1 = __esmMin((() => {
-	ItemCompare_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemCompare {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemCompare .container {\r\n	height: 120px;\r\n	position: relative;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: #c5ddf6;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .event_view {\r\n	position: absolute;\r\n}\r\n.ItemCompare .event_view .view {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 6px;\r\n	left: 6px;\r\n}\r\n.ItemCompare .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemCompare .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemCompare .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemCompare .description {\r\n	position: absolute;\r\n	background-color: white;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemCompare .description .description-inner {\r\n	width: 150px;\r\n}\r\n.ItemCompare .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemCompare .cardlist {\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemCompare .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #c5ddf6;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemCompare .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemCompare .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemCompare .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemCompare .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemCompare .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemCompare .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemCompare .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemCompare .optionlist {\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemCompare .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #c5ddf6;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemCompare .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemCompare .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemCompare .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemCompare .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n";
+	ItemCompare_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemCompare {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemCompare .container {\r\n	height: 120px;\r\n	position: relative;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: #c5ddf6;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .event_view {\r\n	position: absolute;\r\n}\r\n.ItemCompare .event_view .view {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 6px;\r\n	left: 6px;\r\n}\r\n.ItemCompare .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemCompare .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemCompare .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemCompare .description {\r\n	position: absolute;\r\n	background-color: transparent;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemCompare .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemCompare .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemCompare .cardlist {\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemCompare .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #c5ddf6;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemCompare .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemCompare .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemCompare .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemCompare .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemCompare .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemCompare .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemCompare .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemCompare .optionlist {\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemCompare .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #c5ddf6;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemCompare .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemCompare .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemCompare .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemCompare .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ItemCompare/ItemCompare.js
@@ -222888,7 +223074,10 @@ var init_ItemCompare = __esmMin((() => {
 			if (optionContainer) optionContainer.style.display = "block";
 		} else if (optionContainer) optionContainer.style.display = "none";
 		const descInner = root.querySelector(".description-inner");
-		if (descInner) descInner.textContent = item.IsIdentified ? it.identifiedDescriptionName : it.unidentifiedDescriptionName;
+		if (descInner) {
+			const rawDesc = item.IsIdentified ? it.identifiedDescriptionName : it.unidentifiedDescriptionName;
+			descInner.innerHTML = DB.formatMsgToHtml(_escapeHTML$5(rawDesc));
+		}
 		addEvent$1(item);
 		let hideslots = false;
 		if (item.slot) {
@@ -227497,7 +227686,7 @@ var init_Rodex$3 = __esmMin((() => {
 //#region src/UI/Components/Rodex/Rodex.css?raw
 var Rodex_default$1;
 var init_Rodex$2 = __esmMin((() => {
-	Rodex_default$1 = ":host {\r\n	width: 309px;\r\n	height: 416px;\r\n	position: absolute;\r\n}\r\n#Rodex {\r\n	width: 309px;\r\n	height: 416px;\r\n	position: absolute;\r\n}\r\n#Rodex .body {\r\n	width: 309px;\r\n	height: 416px;\r\n	position: absolute;\r\n}\r\n#Rodex .body .base {\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#Rodex .body .titlebar {\r\n	display: block;\r\n	width: 309px;\r\n	height: 16px;\r\n}\r\n#Rodex .body .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#Rodex .body .titlebar .right .close {\r\n	width: 11px;\r\n	height: 11px;\r\n}\r\n\r\n#Rodex .body .iconbar {\r\n	float: left;\r\n	width: 100%;\r\n	height: 40px;\r\n	position: relative;\r\n}\r\n#Rodex .body .iconbar .refresh {\r\n	position: absolute;\r\n	width: 24px;\r\n	height: 26px;\r\n	top: 4px;\r\n	right: 37px;\r\n}\r\n#Rodex .body .iconbar .refresh span {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#Rodex .body .iconbar .refresh:hover span {\r\n	display: table;\r\n}\r\n#Rodex .body .iconbar .write {\r\n	position: absolute;\r\n	width: 24px;\r\n	height: 26px;\r\n	top: 4px;\r\n	right: 10px;\r\n}\r\n#Rodex .body .iconbar .write span {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#Rodex .body .iconbar .write:hover span {\r\n	display: table;\r\n}\r\n\r\n#Rodex .body .searchbar {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#Rodex .body .searchbar .search-title {\r\n	position: absolute;\r\n	width: 10px;\r\n	height: 10px;\r\n	top: 13px;\r\n	left: 23px;\r\n}\r\n#Rodex .body .searchbar .search-title-text {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 10px;\r\n	top: 13px;\r\n	left: 35px;\r\n	white-space: nowrap;\r\n}\r\n#Rodex .body .searchbar .search-sender {\r\n	position: absolute;\r\n	width: 10px;\r\n	height: 10px;\r\n	top: 13px;\r\n	left: 75px;\r\n}\r\n#Rodex .body .searchbar .search-sender-text {\r\n	position: absolute;\r\n	width: 48px;\r\n	height: 10px;\r\n	top: 13px;\r\n	left: 87px;\r\n	white-space: nowrap;\r\n}\r\n#Rodex .body .searchbar .search-text {\r\n	color: #212163;\r\n}\r\n#Rodex .body .searchbar .search {\r\n	position: absolute;\r\n	width: 125px;\r\n	height: 14px;\r\n	top: 10px;\r\n	left: 135px;\r\n	border: none;\r\n}\r\n#Rodex .body .searchbar .search-btn {\r\n	position: absolute;\r\n	width: 32px;\r\n	min-width: 32px;\r\n	height: 18px;\r\n	padding: 0 2px;\r\n	font-size: 11px;\r\n	top: 9px;\r\n	right: 13px;\r\n}\r\n\r\n#Rodex .body .navbar {\r\n	float: left;\r\n	width: 100%;\r\n	height: 27px;\r\n	position: relative;\r\n}\r\n#Rodex .body .navbar .nav {\r\n	height: 100%;\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n	letter-spacing: 1px;\r\n	color: #c6cee7;\r\n}\r\n#Rodex .body .navbar .nav .nav-item {\r\n	float: left;\r\n	width: 25%;\r\n	height: 90%;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n#Rodex .body .navbar .nav .nav-item.active {\r\n	border-bottom: 4px solid;\r\n	font-weight: bolder;\r\n	color: #506dc4;\r\n}\r\n#Rodex .body .navbar .nav .nav-item:hover {\r\n	border-bottom: 4px solid;\r\n	font-weight: bolder;\r\n	color: #506dc4;\r\n}\r\n\r\n#Rodex .body .rodex-list {\r\n	float: left;\r\n	width: 100%;\r\n	height: 275px;\r\n	position: relative;\r\n}\r\n#Rodex .body .rodex-list .mail-list {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item {\r\n	float: left;\r\n	width: 100%;\r\n	height: 45px;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-checkbox {\r\n	float: left;\r\n	width: 10%;\r\n	height: 100%;\r\n	background-position: center;\r\n	background-repeat: no-repeat;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-image {\r\n	float: left;\r\n	width: 10%;\r\n	height: 100%;\r\n	background-position: center;\r\n	background-repeat: no-repeat;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text {\r\n	float: left;\r\n	width: 51%;\r\n	height: 100%;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .title {\r\n	float: left;\r\n	width: 100%;\r\n	height: 50%;\r\n	display: flex;\r\n	align-items: flex-end;\r\n	color: #0c0c23;\r\n	position: relative;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .title .text span {\r\n	position: absolute;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .title .text.deleted {\r\n	color: lightgray;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .title .text:hover span {\r\n	display: block;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .sender {\r\n	float: left;\r\n	width: 100%;\r\n	height: 50%;\r\n	display: flex;\r\n	align-items: center;\r\n	color: darkblue;\r\n	font-weight: bold;\r\n	position: relative;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .sender .text span {\r\n	position: absolute;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .sender .text:hover span {\r\n	display: block;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-content {\r\n	float: left;\r\n	width: 10%;\r\n	height: 100%;\r\n	background-position: center;\r\n	background-repeat: no-repeat;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .expire-days {\r\n	float: left;\r\n	width: 19%;\r\n	height: 100%;\r\n	color: red;\r\n	font-weight: bold;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n#Rodex .body .footer {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n}\r\n#Rodex .body .footer .delete-all {\r\n	position: absolute;\r\n	width: 80px;\r\n	height: 20px;\r\n	top: 5px;\r\n	left: 10px;\r\n	background-size: 100% 100%;\r\n}\r\n#Rodex .body .footer .retrieve-all {\r\n	position: absolute;\r\n	width: 80px;\r\n	height: 20px;\r\n	top: 5px;\r\n	left: 100px;\r\n	background-size: 100% 100%;\r\n}\r\n#Rodex .body .footer .previous-page {\r\n	position: absolute;\r\n	width: 24px;\r\n	height: 24px;\r\n	top: 3px;\r\n	right: 30px;\r\n}\r\n#Rodex .body .footer .next-page {\r\n	position: absolute;\r\n	width: 24px;\r\n	height: 24px;\r\n	top: 3px;\r\n	right: 5px;\r\n}\r\n";
+	Rodex_default$1 = ":host {\r\n	width: 309px;\r\n	height: 416px;\r\n	position: absolute;\r\n}\r\n#Rodex {\r\n	width: 309px;\r\n	height: 416px;\r\n	position: absolute;\r\n}\r\n#Rodex .body {\r\n	width: 309px;\r\n	height: 416px;\r\n	position: absolute;\r\n}\r\n#Rodex .body .base {\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#Rodex .body .titlebar {\r\n	display: block;\r\n	width: 309px;\r\n	height: 16px;\r\n}\r\n#Rodex .body .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#Rodex .body .titlebar .right .close {\r\n	width: 11px;\r\n	height: 11px;\r\n}\r\n\r\n#Rodex .body .iconbar {\r\n	float: left;\r\n	width: 100%;\r\n	height: 40px;\r\n	position: relative;\r\n}\r\n#Rodex .body .iconbar .refresh {\r\n	position: absolute;\r\n	width: 24px;\r\n	height: 26px;\r\n	top: 4px;\r\n	right: 37px;\r\n}\r\n#Rodex .body .iconbar .refresh span {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#Rodex .body .iconbar .refresh:hover span {\r\n	display: table;\r\n}\r\n#Rodex .body .iconbar .write {\r\n	position: absolute;\r\n	width: 24px;\r\n	height: 26px;\r\n	top: 4px;\r\n	right: 10px;\r\n}\r\n#Rodex .body .iconbar .write span {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#Rodex .body .iconbar .write:hover span {\r\n	display: table;\r\n}\r\n\r\n#Rodex .body .searchbar {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#Rodex .body .searchbar .search-title {\r\n	position: absolute;\r\n	width: 10px;\r\n	height: 10px;\r\n	top: 13px;\r\n	left: 23px;\r\n}\r\n#Rodex .body .searchbar .search-title-text {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 10px;\r\n	top: 13px;\r\n	left: 35px;\r\n	white-space: nowrap;\r\n}\r\n#Rodex .body .searchbar .search-sender {\r\n	position: absolute;\r\n	width: 10px;\r\n	height: 10px;\r\n	top: 13px;\r\n	left: 75px;\r\n}\r\n#Rodex .body .searchbar .search-sender-text {\r\n	position: absolute;\r\n	width: 48px;\r\n	height: 10px;\r\n	top: 13px;\r\n	left: 87px;\r\n	white-space: nowrap;\r\n}\r\n#Rodex .body .searchbar .search-text {\r\n	color: #212163;\r\n	cursor: pointer;\r\n}\r\n#Rodex .body .searchbar .search {\r\n	position: absolute;\r\n	width: 125px;\r\n	height: 14px;\r\n	top: 10px;\r\n	left: 135px;\r\n	border: none;\r\n}\r\n#Rodex .body .searchbar .search-btn {\r\n	position: absolute;\r\n	width: 32px;\r\n	min-width: 32px;\r\n	height: 18px;\r\n	padding: 0 2px;\r\n	font-size: 11px;\r\n	top: 9px;\r\n	right: 13px;\r\n}\r\n\r\n#Rodex .body .navbar {\r\n	float: left;\r\n	width: 100%;\r\n	height: 27px;\r\n	position: relative;\r\n}\r\n#Rodex .body .navbar .nav {\r\n	height: 100%;\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n	letter-spacing: 1px;\r\n	color: #c6cee7;\r\n}\r\n#Rodex .body .navbar .nav .nav-item {\r\n	float: left;\r\n	width: 25%;\r\n	height: 90%;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n#Rodex .body .navbar .nav .nav-item.active {\r\n	border-bottom: 4px solid;\r\n	font-weight: bolder;\r\n	color: #506dc4;\r\n}\r\n#Rodex .body .navbar .nav .nav-item:hover {\r\n	border-bottom: 4px solid;\r\n	font-weight: bolder;\r\n	color: #506dc4;\r\n}\r\n\r\n#Rodex .body .rodex-list {\r\n	float: left;\r\n	width: 100%;\r\n	height: 275px;\r\n	position: relative;\r\n}\r\n#Rodex .body .rodex-list .mail-list {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item {\r\n	float: left;\r\n	width: 100%;\r\n	height: 45px;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-checkbox {\r\n	float: left;\r\n	width: 10%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-position: center;\r\n	background-repeat: no-repeat;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-image {\r\n	float: left;\r\n	width: 10%;\r\n	height: 100%;\r\n	background-position: center;\r\n	background-repeat: no-repeat;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text {\r\n	float: left;\r\n	width: 51%;\r\n	height: 100%;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .title {\r\n	float: left;\r\n	width: 100%;\r\n	height: 50%;\r\n	display: flex;\r\n	align-items: flex-end;\r\n	color: #0c0c23;\r\n	position: relative;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .title .text span {\r\n	position: absolute;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .title .text.deleted {\r\n	color: lightgray;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .title .text:hover span {\r\n	display: block;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .sender {\r\n	float: left;\r\n	width: 100%;\r\n	height: 50%;\r\n	display: flex;\r\n	align-items: center;\r\n	color: darkblue;\r\n	font-weight: bold;\r\n	position: relative;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .sender .text span {\r\n	position: absolute;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-text .sender .text:hover span {\r\n	display: block;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .mail-content {\r\n	float: left;\r\n	width: 10%;\r\n	height: 100%;\r\n	background-position: center;\r\n	background-repeat: no-repeat;\r\n}\r\n#Rodex .body .rodex-list .mail-list .mail-item .expire-days {\r\n	float: left;\r\n	width: 19%;\r\n	height: 100%;\r\n	color: red;\r\n	font-weight: bold;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n#Rodex .body .footer {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n}\r\n#Rodex .body .footer .delete-all {\r\n	position: absolute;\r\n	width: 80px;\r\n	height: 20px;\r\n	top: 5px;\r\n	left: 10px;\r\n	background-size: 100% 100%;\r\n}\r\n#Rodex .body .footer .retrieve-all {\r\n	position: absolute;\r\n	width: 80px;\r\n	height: 20px;\r\n	top: 5px;\r\n	left: 100px;\r\n	background-size: 100% 100%;\r\n}\r\n#Rodex .body .footer .previous-page {\r\n	position: absolute;\r\n	width: 24px;\r\n	height: 24px;\r\n	top: 3px;\r\n	right: 30px;\r\n}\r\n#Rodex .body .footer .next-page {\r\n	position: absolute;\r\n	width: 24px;\r\n	height: 24px;\r\n	top: 3px;\r\n	right: 5px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Rodex/Rodex.js
@@ -227506,6 +227695,22 @@ var init_Rodex$2 = __esmMin((() => {
 */
 function _root$16() {
 	return Rodex._shadow || Rodex._host;
+}
+function getMailKey(mail) {
+	return `${mail.openType}:${mail.MailID}`;
+}
+function getSelectedMails() {
+	return Rodex.list.filter((mail) => Rodex.selectedMails.has(getMailKey(mail)));
+}
+function updateBulkActionLabels() {
+	const root = _root$16();
+	const hasSelection = Rodex.selectedMails.size > 0;
+	root.querySelector(".delete-all").textContent = DB.getMessage(hasSelection ? 3588 : 3589);
+	root.querySelector(".retrieve-all").textContent = DB.getMessage(hasSelection ? 3591 : 3592);
+}
+function clearSelection() {
+	Rodex.selectedMails.clear();
+	Rodex.createRodexList(Rodex.openType);
 }
 function onClickClose$2(e) {
 	e.stopImmediatePropagation();
@@ -227526,15 +227731,28 @@ function onClickWriteMail(e) {
 }
 function onClickDeleteAll(e) {
 	e.stopImmediatePropagation();
-	UIManager.showPromptBox(DB.getMessage(3590), "ok", "cancel", () => {
-		Rodex.deleteAll();
+	const selectedMails = getSelectedMails();
+	const targetMails = selectedMails.length > 0 ? selectedMails : Rodex.list;
+	UIManager.showPromptBox(DB.getMessage(selectedMails.length > 0 ? 356 : 3590), "ok", "cancel", () => {
+		Rodex.deleteAll(targetMails);
+		clearSelection();
 	});
 }
 function onClickRetrieveAll(e) {
 	e.stopImmediatePropagation();
-	UIManager.showPromptBox(DB.getMessage(3594), "ok", "cancel", () => {
-		Rodex.getAll();
+	const selectedMails = getSelectedMails();
+	const targetMails = selectedMails.length > 0 ? selectedMails : Rodex.list;
+	UIManager.showPromptBox(DB.getMessage(selectedMails.length > 0 ? 3593 : 3594), "ok", "cancel", () => {
+		Rodex.getAll(targetMails);
+		clearSelection();
 	});
+}
+function onClickMailCheckbox(e) {
+	e.stopImmediatePropagation();
+	const key = e.currentTarget.dataset.mailKey;
+	if (Rodex.selectedMails.has(key)) Rodex.selectedMails.delete(key);
+	else Rodex.selectedMails.add(key);
+	Rodex.createRodexList(Rodex.openType);
 }
 function onClickPreviousPage(e) {
 	e.stopImmediatePropagation();
@@ -227552,6 +227770,7 @@ function onClickNexPage(e) {
 function onClickTab(e) {
 	e.stopImmediatePropagation();
 	Rodex.page = 0;
+	Rodex.selectedMails.clear();
 	const element = e.currentTarget;
 	const id = element.id.replace("tab_", "");
 	const root = _root$16();
@@ -227591,10 +227810,16 @@ function onClickSearchSender(e) {
 function onClickSearchButton(e) {
 	e.stopImmediatePropagation();
 	const root = _root$16();
-	const search = root.querySelector(".search").value;
+	const search = root.querySelector(".search").value.trim();
+	Rodex.selectedMails.clear();
 	root.querySelectorAll(".nav-item.active").forEach((el) => el.classList.remove("active"));
-	root.querySelector("#tab_3").classList.add("active");
-	if (search.length > 2) Rodex.createRodexList(0, true, search);
+	if (search.length > 0) {
+		root.querySelector("#tab_3").classList.add("active");
+		Rodex.createRodexList(0, true, search);
+	} else {
+		root.querySelector(`#tab_${Rodex.openType}`).classList.add("active");
+		Rodex.createRodexList(Rodex.openType);
+	}
 }
 function onClickReadMail(e) {
 	e.stopImmediatePropagation();
@@ -227646,6 +227871,10 @@ var init_Rodex$1 = __esmMin((() => {
 	* know what to search
 	*/
 	Rodex.searchType = 1;
+	/**
+	* Mail keys selected with the list checkboxes.
+	*/
+	Rodex.selectedMails = /* @__PURE__ */ new Set();
 	Rodex.attachmentType = {
 		0: "",
 		2: "basic_interface/rodexsystem/renewal/icon_zeny.bmp",
@@ -227682,11 +227911,17 @@ var init_Rodex$1 = __esmMin((() => {
 		root.querySelector(".search-sender").addEventListener("click", onClickSearchSender);
 		root.querySelector(".search").value = "";
 		root.querySelector(".search-btn").addEventListener("click", onClickSearchButton);
+		root.querySelector(".search").addEventListener("keydown", (event) => {
+			if (event.key === "Enter") onClickSearchButton(event);
+		});
+		root.querySelector(".search-title-text").addEventListener("click", onClickSearchTitle);
+		root.querySelector(".search-sender-text").addEventListener("click", onClickSearchSender);
 		Rodex.openType = 0;
 		root.querySelectorAll(".nav-item.active").forEach((el) => el.classList.remove("active"));
 		root.querySelector("#tab_0").classList.add("active");
 		Rodex.searchType = 1;
 		Rodex.page = 0;
+		Rodex.selectedMails.clear();
 	};
 	/**
 	* Remove Rodex from window (and so clean up items)
@@ -227708,6 +227943,10 @@ var init_Rodex$1 = __esmMin((() => {
 		Rodex.list = pkt.MailList;
 		Rodex.isEnd = pkt.isEnd;
 		Rodex.openType = typeof pkt.openType !== "undefined" ? pkt.openType : 0;
+		const mailKeys = new Set(Rodex.list.map((mail) => getMailKey(mail)));
+		Rodex.selectedMails.forEach((key) => {
+			if (!mailKeys.has(key)) Rodex.selectedMails.delete(key);
+		});
 		Rodex.createRodexList();
 		this._host.style.display = "";
 		this.focus();
@@ -227731,18 +227970,21 @@ var init_Rodex$1 = __esmMin((() => {
 			const title = mail.title.length > 18 ? mail.title.substring(0, 18) + "..." : mail.title;
 			const sender = mail.SenderName.length > 18 ? mail.SenderName.substring(0, 18) + "..." : mail.SenderName;
 			const mail_image = mail.Isread ? "icon_status_mail_read" : "icon_status_mail_received";
-			const mail_content = Rodex.attachmentType[mail.type];
 			const remaining_days = parseInt(mail.expireDateTime / 60 / 60 / 24);
+			const openType = typeof mail.openType !== "undefined" ? mail.openType : 0;
+			const mailKey = getMailKey(mail);
+			const checked = Rodex.selectedMails.has(mailKey);
 			const mail_html = `<li class="mail-item">
-				<div class="mail-checkbox" data-background="basic_interface/rodexsystem/renewal/checkbox_off.bmp">
-				</div>
+				<button type="button" class="mail-checkbox event_add_cursor" data-mail-key="${mailKey}"
+					data-background="basic_interface/rodexsystem/renewal/checkbox_${checked ? "on" : "off"}.bmp"
+					aria-label="选择邮件" aria-pressed="${checked}"></button>
 				<div class="mail-image" data-background="basic_interface/rodexsystem/renewal/${mail_image}.bmp">
 				</div>
 				<div class="mail-text">
-					<div class="title"><div id="mail_${mailID}" openType="${typeof mail.openType !== "undefined" ? mail.openType : 0}" class="text event_add_cursor"><span data-text="2702"></span>${title}</div></div>
+					<div class="title"><div id="mail_${mailID}" openType="${openType}" class="text event_add_cursor"><span data-text="2702"></span>${title}</div></div>
 					<div class="sender"><div id="sender_${mailID}" sender="${sender}" class="text event_add_cursor"><span data-text="2701"></span>${sender}</div></div>
 				</div>
-				<div class="mail-content" data-background="${mail_content}"></div>
+				<div class="mail-content" data-background="${Rodex.attachmentType[mail.type & 6] || ""}"></div>
 				<div class="expire-days">${remaining_days} 天</div>
 			</li>`;
 			content.insertAdjacentHTML("beforeend", mail_html);
@@ -227750,11 +227992,14 @@ var init_Rodex$1 = __esmMin((() => {
 			if (mailEl) mailEl.addEventListener("click", onClickReadMail);
 			const senderEl = root.querySelector(`#sender_${mailID}`);
 			if (senderEl) senderEl.addEventListener("click", onClickReplyMail);
+			const checkbox = root.querySelector(`.mail-checkbox[data-mail-key="${mailKey}"]`);
+			if (checkbox) checkbox.addEventListener("click", onClickMailCheckbox);
 			total++;
 		}
 		content.querySelectorAll("[data-background],[data-hover],[data-down],[data-active],[data-text],[data-preload]").forEach((node) => {
 			GUIComponent.processDataAttrs(node);
 		});
+		updateBulkActionLabels();
 	};
 	Rodex.getMailsByTabID = function getMailsByTabID(tabID) {
 		return Rodex.list.filter((mail) => mail.openType == tabID);
@@ -227768,19 +228013,16 @@ var init_Rodex$1 = __esmMin((() => {
 	Rodex.getMailByID = function getMailByID(mailID) {
 		return Rodex.list.find((mail) => mail.MailID == mailID);
 	};
-	Rodex.getAll = function getAll() {
-		for (let i = 0; i < Rodex.list.length; i++) {
-			const mail = Rodex.list[i];
-			if (mail.type > 0 && (mail.type === 4 || mail.type === 6)) Rodex.requestItemsFromRodex(mail.openType, mail.MailID);
-			if (mail.type > 0 && (mail.type === 2 || mail.type === 6)) Rodex.requestZenyFromRodex(mail.openType, mail.MailID);
-		}
+	Rodex.getAll = function getAll(mails = Rodex.list) {
+		mails.forEach((mail) => {
+			if (mail.type & 4) Rodex.requestItemsFromRodex(mail.openType, mail.MailID);
+			if (mail.type & 2) Rodex.requestZenyFromRodex(mail.openType, mail.MailID);
+		});
 	};
-	Rodex.deleteAll = function deleteAll() {
-		for (let i = 0; i < Rodex.list.length; i++) {
-			const mail = Rodex.list[i];
-			if (mail.type === 0) Rodex.requestDeleteRodex(mail.openType, mail.MailID);
-			else ChatBox_default.addText(DB.getMessage(2612), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
-		}
+	Rodex.deleteAll = function deleteAll(mails = Rodex.list) {
+		const deletableMails = mails.filter((mail) => (mail.type & 6) === 0);
+		deletableMails.forEach((mail) => Rodex.requestDeleteRodex(mail.openType, mail.MailID));
+		if (deletableMails.length !== mails.length) ChatBox_default.addText(DB.getMessage(2612), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
 	};
 	Rodex.updateDeletedMailContent = function updateDeletedMailContent(openType, MailID) {
 		const root = _root$16();
@@ -252935,8 +253177,8 @@ function rebuildMeshAtFrame(self, gl, frame) {
 	}
 	const buffer = new Float32Array(total);
 	let offset = 0;
-	let i;
-	for (i = 0; i < objects.length; i++) {
+	let i = 0;
+	for (; i < objects.length; i++) {
 		const obj = objects[i];
 		const length = obj.mesh.length;
 		infos[i] = {
@@ -256064,8 +256306,8 @@ function loadCloudTexture(gl, i) {
 * Set up cloud data
 */
 function setUpCloudData() {
-	let i;
-	for (i = 0; i < MAX_CLOUDS; i++) {
+	let i = 0;
+	for (; i < MAX_CLOUDS; i++) {
 		if (!_clouds[i]) _clouds[i] = {
 			position: vec3$7.create(),
 			direction: vec3$7.create(),
@@ -298668,6 +298910,7 @@ var init_DBManager = __esmMin((() => {
 	init_PetFriendlyState();
 	init_PetMessageConst();
 	init_MapTable();
+	init_AdventureAchievementLocalization();
 	init_MapInfoLocalization();
 	init_SignBoardTranslationTable();
 	init_NetworkManager();
@@ -298909,7 +299152,10 @@ var init_DBManager = __esmMin((() => {
 					loadQuestInfo("SystemEN/OngoingQuests.lub", null, onQuestEnd);
 				});
 				if (Configs.get("enableAchievements") && PacketVerManager_default.value >= 20150513) loadLuaValue("System/achievement_list.lub", "achievement_tbl", function(json) {
-					if (json) Object.assign(AchievementTable, json);
+					if (json) {
+						Object.assign(AchievementTable, json);
+						localizeAdventureAchievementMaps(AchievementTable, MapInfo);
+					}
 				}, onLoad());
 				if (Configs.get("enableCashShop") && PacketVerManager_default.value >= 2018e4) loadCashShopBanner(DB.LUA_PATH + "datainfo/tb_cashshop_banner.lub", null, onLoad());
 			} else {
@@ -310988,8 +311234,8 @@ var init_html2canvas = __esmMin((() => {
 						"Right",
 						"Bottom",
 						"Left"
-					], s;
-					for (s = 0; s < 4; s += 1) borders.push({
+					], s = 0;
+					for (; s < 4; s += 1) borders.push({
 						width: getCSSInt(el, "border" + sides[s] + "Width"),
 						color: getCSS(el, "border" + sides[s] + "Color")
 					});
@@ -311001,8 +311247,8 @@ var init_html2canvas = __esmMin((() => {
 						"TopRight",
 						"BottomRight",
 						"BottomLeft"
-					], s;
-					for (s = 0; s < 4; s += 1) borders.push(getCSS(el, "border" + sides[s] + "Radius"));
+					], s = 0;
+					for (; s < 4; s += 1) borders.push(getCSS(el, "border" + sides[s] + "Radius"));
 					return borders;
 				})(el);
 				for (borderSide = 0; borderSide < 4; borderSide += 1) {
@@ -311345,8 +311591,8 @@ var init_html2canvas = __esmMin((() => {
 			if (support.svgRendering) (function(body) {
 				let img = new Image(), size = docSize(), html = "";
 				function parseDOM(el) {
-					let children = _html2canvas.Util.Children(el), len = children.length, attr, a, alen, elm, i;
-					for (i = 0; i < len; i += 1) {
+					let children = _html2canvas.Util.Children(el), len = children.length, attr, a, alen, elm, i = 0;
+					for (; i < len; i += 1) {
 						elm = children[i];
 						if (elm.nodeType === 3) html += elm.nodeValue.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
 						else if (elm.nodeType === 1) {
@@ -329943,7 +330189,7 @@ var init_ReadRodex$2 = __esmMin((() => {
 //#region src/UI/Components/Rodex/ReadRodex.css?raw
 var ReadRodex_default$1;
 var init_ReadRodex$1 = __esmMin((() => {
-	ReadRodex_default$1 = ":host {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n#ReadRodex {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n#ReadRodex .body {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n\r\n#ReadRodex .body .base {\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#ReadRodex .body .titlebar {\r\n	display: block;\r\n	width: 300px;\r\n	height: 16px;\r\n}\r\n#ReadRodex .body .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ReadRodex .body .titlebar .right .close {\r\n	width: 11px;\r\n	height: 11px;\r\n}\r\n\r\n#ReadRodex .body .sender {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: flex-end;\r\n}\r\n#ReadRodex .body .sender .name {\r\n	margin-left: 10px;\r\n	font-weight: bold;\r\n	color: darkblue;\r\n}\r\n\r\n#ReadRodex .body .title {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: flex-end;\r\n}\r\n#ReadRodex .body .title .title-text {\r\n	margin-left: 10px;\r\n}\r\n\r\n#ReadRodex .body .content {\r\n	float: left;\r\n	width: 100%;\r\n	height: 230px;\r\n	position: relative;\r\n}\r\n#ReadRodex .body .content .content-text {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 10px;\r\n	width: 280px;\r\n	height: 220px;\r\n}\r\n\r\n#ReadRodex .body .items {\r\n	float: left;\r\n	width: 100%;\r\n	height: 45px;\r\n	position: relative;\r\n}\r\n#ReadRodex .body .items .item-list {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n	display: table;\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 22px;\r\n}\r\n#ReadRodex .body .items .item-list .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	position: relative;\r\n	float: left;\r\n	margin: 4px 5px 4px 5px;\r\n}\r\n#ReadRodex .body .items .item-list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ReadRodex .body .items .item-list .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#ReadRodex .body .items .get-content {\r\n	position: absolute;\r\n	width: 26px;\r\n	min-width: 26px;\r\n	height: 20px;\r\n	padding: 0 1px;\r\n	font-size: 11px;\r\n	top: 10px;\r\n	right: 10px;\r\n	border: none;\r\n}\r\n\r\n#ReadRodex .body .zeny {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#ReadRodex .body .zeny .image {\r\n	position: absolute;\r\n	width: 28px;\r\n	height: 25px;\r\n	top: 1px;\r\n	left: 15px;\r\n}\r\n#ReadRodex .body .zeny .value {\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 50px;\r\n}\r\n#ReadRodex .body .zeny .get-zeny {\r\n	position: absolute;\r\n	width: 26px;\r\n	min-width: 26px;\r\n	height: 20px;\r\n	padding: 0 1px;\r\n	font-size: 11px;\r\n	top: 3px;\r\n	right: 10px;\r\n	border: none;\r\n}\r\n\r\n#ReadRodex .body .footer {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#ReadRodex .body .footer .delete {\r\n	position: absolute;\r\n	width: 70px;\r\n	height: 20px;\r\n	top: 5px;\r\n	left: 10px;\r\n}\r\n#ReadRodex .body .footer .reply {\r\n	position: absolute;\r\n	width: 70px;\r\n	height: 20px;\r\n	top: 5px;\r\n	right: 10px;\r\n}\r\n";
+	ReadRodex_default$1 = ":host {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n#ReadRodex {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n#ReadRodex .body {\r\n	width: 300px;\r\n	height: 400px;\r\n	position: absolute;\r\n}\r\n\r\n#ReadRodex .body .base {\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#ReadRodex .body .titlebar {\r\n	display: block;\r\n	width: 300px;\r\n	height: 16px;\r\n}\r\n#ReadRodex .body .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ReadRodex .body .titlebar .right .close {\r\n	width: 11px;\r\n	height: 11px;\r\n}\r\n\r\n#ReadRodex .body .sender {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: flex-end;\r\n}\r\n#ReadRodex .body .sender .name {\r\n	margin-left: 10px;\r\n	font-weight: bold;\r\n	color: darkblue;\r\n}\r\n\r\n#ReadRodex .body .title {\r\n	float: left;\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: flex-end;\r\n}\r\n#ReadRodex .body .title .title-text {\r\n	margin-left: 10px;\r\n}\r\n\r\n#ReadRodex .body .content {\r\n	float: left;\r\n	width: 100%;\r\n	height: 230px;\r\n	position: relative;\r\n}\r\n#ReadRodex .body .content .content-text {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 10px;\r\n	width: 280px;\r\n	height: 220px;\r\n}\r\n\r\n#ReadRodex .body .items {\r\n	float: left;\r\n	width: 100%;\r\n	height: 45px;\r\n	position: relative;\r\n}\r\n#ReadRodex .body .items .item-list {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n	display: table;\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 22px;\r\n}\r\n#ReadRodex .body .items .item-list .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	position: relative;\r\n	float: left;\r\n	margin: 4px 5px 4px 5px;\r\n}\r\n#ReadRodex .body .items .item-list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ReadRodex .body .items .item-list .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#ReadRodex .body .items .get-content {\r\n	position: absolute;\r\n	width: 43px;\r\n	min-width: 43px;\r\n	height: 20px;\r\n	padding: 0 1px;\r\n	font-size: 11px;\r\n	top: 10px;\r\n	right: 10px;\r\n	border: none;\r\n}\r\n\r\n#ReadRodex .body .zeny {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#ReadRodex .body .zeny .image {\r\n	position: absolute;\r\n	width: 28px;\r\n	height: 25px;\r\n	top: 1px;\r\n	left: 15px;\r\n}\r\n#ReadRodex .body .zeny .value {\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 50px;\r\n}\r\n#ReadRodex .body .zeny .get-zeny {\r\n	position: absolute;\r\n	width: 43px;\r\n	min-width: 43px;\r\n	height: 20px;\r\n	padding: 0 1px;\r\n	font-size: 11px;\r\n	top: 3px;\r\n	right: 10px;\r\n	border: none;\r\n}\r\n\r\n#ReadRodex .body .footer {\r\n	float: left;\r\n	width: 100%;\r\n	height: 30px;\r\n	position: relative;\r\n}\r\n#ReadRodex .body .footer .delete {\r\n	position: absolute;\r\n	width: 70px;\r\n	height: 20px;\r\n	top: 5px;\r\n	left: 10px;\r\n}\r\n#ReadRodex .body .footer .reply {\r\n	position: absolute;\r\n	width: 70px;\r\n	height: 20px;\r\n	top: 5px;\r\n	right: 10px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Rodex/ReadRodex.js
@@ -335470,13 +335716,13 @@ var init_spark_md5_min = __esmMin((() => {
 			x[3] = d + x[3] | 0;
 		}
 		function md5blk(s) {
-			var md5blks = [], i;
-			for (i = 0; i < 64; i += 4) md5blks[i >> 2] = s.charCodeAt(i) + (s.charCodeAt(i + 1) << 8) + (s.charCodeAt(i + 2) << 16) + (s.charCodeAt(i + 3) << 24);
+			var md5blks = [], i = 0;
+			for (; i < 64; i += 4) md5blks[i >> 2] = s.charCodeAt(i) + (s.charCodeAt(i + 1) << 8) + (s.charCodeAt(i + 2) << 16) + (s.charCodeAt(i + 3) << 24);
 			return md5blks;
 		}
 		function md5blk_array(a) {
-			var md5blks = [], i;
-			for (i = 0; i < 64; i += 4) md5blks[i >> 2] = a[i] + (a[i + 1] << 8) + (a[i + 2] << 16) + (a[i + 3] << 24);
+			var md5blks = [], i = 0;
+			for (; i < 64; i += 4) md5blks[i >> 2] = a[i] + (a[i + 1] << 8) + (a[i + 2] << 16) + (a[i + 3] << 24);
 			return md5blks;
 		}
 		function md51(s) {
@@ -335485,8 +335731,8 @@ var init_spark_md5_min = __esmMin((() => {
 				-271733879,
 				-1732584194,
 				271733878
-			], i, length, tail, tmp, lo, hi;
-			for (i = 64; i <= n; i += 64) md5cycle(state, md5blk(s.substring(i - 64, i)));
+			], i = 64, length, tail, tmp, lo, hi;
+			for (; i <= n; i += 64) md5cycle(state, md5blk(s.substring(i - 64, i)));
 			s = s.substring(i - 64);
 			length = s.length;
 			tail = [
@@ -335528,8 +335774,8 @@ var init_spark_md5_min = __esmMin((() => {
 				-271733879,
 				-1732584194,
 				271733878
-			], i, length, tail, tmp, lo, hi;
-			for (i = 64; i <= n; i += 64) md5cycle(state, md5blk_array(a.subarray(i - 64, i)));
+			], i = 64, length, tail, tmp, lo, hi;
+			for (; i <= n; i += 64) md5cycle(state, md5blk_array(a.subarray(i - 64, i)));
 			a = i - 64 < n ? a.subarray(i - 64) : /* @__PURE__ */ new Uint8Array(0);
 			length = a.length;
 			tail = [
@@ -335566,13 +335812,13 @@ var init_spark_md5_min = __esmMin((() => {
 			return state;
 		}
 		function rhex(n) {
-			var s = "", j;
-			for (j = 0; j < 4; j += 1) s += hex_chr[n >> j * 8 + 4 & 15] + hex_chr[n >> j * 8 & 15];
+			var s = "", j = 0;
+			for (; j < 4; j += 1) s += hex_chr[n >> j * 8 + 4 & 15] + hex_chr[n >> j * 8 & 15];
 			return s;
 		}
 		function hex(x) {
-			var i;
-			for (i = 0; i < x.length; i += 1) x[i] = rhex(x[i]);
+			var i = 0;
+			for (; i < x.length; i += 1) x[i] = rhex(x[i]);
 			return x.join("");
 		}
 		if (hex(md51("hello")) !== "5d41402abc4b2a76b9719d911017c592");
@@ -335599,8 +335845,8 @@ var init_spark_md5_min = __esmMin((() => {
 			return str;
 		}
 		function utf8Str2ArrayBuffer(str, returnUInt8Array) {
-			var length = str.length, buff = new ArrayBuffer(length), arr = new Uint8Array(buff), i;
-			for (i = 0; i < length; i += 1) arr[i] = str.charCodeAt(i);
+			var length = str.length, buff = new ArrayBuffer(length), arr = new Uint8Array(buff), i = 0;
+			for (; i < length; i += 1) arr[i] = str.charCodeAt(i);
 			return returnUInt8Array ? arr : buff;
 		}
 		function arrayBuffer2Utf8Str(buff) {
@@ -335613,8 +335859,8 @@ var init_spark_md5_min = __esmMin((() => {
 			return returnUInt8Array ? result : result.buffer;
 		}
 		function hexToBinaryString(hex) {
-			var bytes = [], length = hex.length, x;
-			for (x = 0; x < length - 1; x += 2) bytes.push(parseInt(hex.substr(x, 2), 16));
+			var bytes = [], length = hex.length, x = 0;
+			for (; x < length - 1; x += 2) bytes.push(parseInt(hex.substr(x, 2), 16));
 			return String.fromCharCode.apply(String, bytes);
 		}
 		function SparkMD5() {
@@ -335627,8 +335873,8 @@ var init_spark_md5_min = __esmMin((() => {
 		SparkMD5.prototype.appendBinary = function(contents) {
 			this._buff += contents;
 			this._length += contents.length;
-			var length = this._buff.length, i;
-			for (i = 64; i <= length; i += 64) md5cycle(this._hash, md5blk(this._buff.substring(i - 64, i)));
+			var length = this._buff.length, i = 64;
+			for (; i <= length; i += 64) md5cycle(this._hash, md5blk(this._buff.substring(i - 64, i)));
 			this._buff = this._buff.substring(i - 64);
 			return this;
 		};
@@ -335737,8 +335983,8 @@ var init_spark_md5_min = __esmMin((() => {
 				0,
 				0,
 				0
-			], i, ret;
-			for (i = 0; i < length; i += 1) tail[i >> 2] |= buff[i] << (i % 4 << 3);
+			], i = 0, ret;
+			for (; i < length; i += 1) tail[i >> 2] |= buff[i] << (i % 4 << 3);
 			this._finish(tail, length);
 			ret = hex(this._hash);
 			if (raw) ret = hexToBinaryString(ret);
