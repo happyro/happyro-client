@@ -105,6 +105,21 @@ let _pathFindingWorker = null;
 let _mapData = null;
 
 /**
+ * @var {number} latest map resource request
+ */
+let _mapLoadRequestId = 0;
+
+/**
+ * @var {number} latest navigation request
+ */
+let _navigationRequestId = 0;
+
+/**
+ * @var {string|null} map represented by the current image
+ */
+let _mapImageMap = null;
+
+/**
  * @var {Object} target data
  */
 let _targetData = null;
@@ -118,6 +133,11 @@ let _finalTargetData = null;
  * @var {boolean} was target set by map click
  */
 let _isMapClickTarget = false;
+
+/**
+ * @var {boolean} whether the current route is known to be unavailable
+ */
+let _pathUnavailable = false;
 
 /**
  * @var {boolean} blinking state for target coordinates
@@ -147,6 +167,7 @@ let _documentClickHandler = null;
  * Normalize a map name (remove .gat extension)
  */
 function normalizeMapName(mapName) {
+	if (!mapName) return '';
 	mapName = mapName.replace(/\.gat$/, '').toLowerCase();
 	mapName = mapName.replace(/^(.+)_[a-d]$/, '$1');
 	return mapName;
@@ -171,10 +192,10 @@ function formatCoordinates(x, y, options) {
 function formatTargetCoordinates(x, y, options) {
 	options = options || {};
 
-	let text = `${Math.floor(x)},${Math.floor(y)}`;
+	let text = Number.isFinite(x) && Number.isFinite(y) ? `${Math.floor(x)},${Math.floor(y)}` : '';
 
 	if (options.noPathFound) {
-		text += ' (no path found)';
+		text += text ? '（未找到路径）' : '未找到路径';
 	} else if (options.targetMap && options.targetMap !== getCurrentMap()) {
 		text += ` (${options.targetMap})`;
 	}
@@ -289,6 +310,8 @@ function resetPathFindingWorker() {
  * Convert screen coordinates to map coordinates
  */
 Navigation.screenToMapCoordinates = function screenToMapCoordinates(screenX, screenY) {
+	if (!_mapData?.ready) return null;
+
 	const width = 280;
 	const height = 230;
 
@@ -365,6 +388,21 @@ Navigation.init = function init() {
 	// Bind events
 	root.querySelector('.close').addEventListener('click', () => this.hide());
 	root.querySelector('.search-button').addEventListener('click', () => this.onSearch());
+	root.querySelector('.services-toggle').addEventListener('change', () => {
+		if (!_finalTargetData) return;
+		_pathUnavailable = false;
+		const currentMap = getCurrentMap();
+		const currentPos = getPlayerPosition();
+		this.navigateTo({
+			startMap: currentMap,
+			startX: currentPos.x,
+			startY: currentPos.y,
+			endMap: _finalTargetData.map,
+			endX: _finalTargetData.x,
+			endY: _finalTargetData.y,
+			displayName: _finalTargetData.displayName
+		});
+	});
 
 	const searchInput = root.querySelector('.search-input');
 	searchInput.addEventListener('keypress', e => {
@@ -458,8 +496,13 @@ Navigation.onSearch = function onSearch() {
 	const root = Navigation.getRoot();
 	const query = root.querySelector('.search-input').value.trim();
 	const type = root.querySelector('.search-type').value;
+	const resultsContainer = root.querySelector('.search-results');
 
 	if (query.length < 2) {
+		if (resultsContainer) {
+			resultsContainer.replaceChildren();
+			resultsContainer.style.display = 'none';
+		}
 		return;
 	}
 
@@ -483,12 +526,15 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 		resultsContainer.className = 'search-results';
 		root.querySelector('.content').appendChild(resultsContainer);
 	} else {
-		resultsContainer.innerHTML = '';
+		resultsContainer.replaceChildren();
 	}
 
 	// If no results, show a message
 	if (results.length === 0) {
-		resultsContainer.innerHTML = '<div class="no-results">未找到结果</div>';
+		const noResults = document.createElement('div');
+		noResults.className = 'no-results';
+		noResults.textContent = '未找到结果';
+		resultsContainer.appendChild(noResults);
 		resultsContainer.style.display = '';
 		return;
 	}
@@ -506,10 +552,16 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 
 		// Add type icon (NPC or MOB)
 		const typeIcon = result.type === 'NPC' ? 'npc_icon' : 'mob_icon';
-		resultItem.innerHTML =
-			`<span class="result-type ${typeIcon}">${result.type}</span>` +
-			`<span class="result-name">${result.name}</span>` +
-			`<span class="result-map">${result.mapName}</span>`;
+		const typeLabel = document.createElement('span');
+		typeLabel.className = `result-type ${typeIcon}`;
+		typeLabel.textContent = result.type;
+		const nameLabel = document.createElement('span');
+		nameLabel.className = 'result-name';
+		nameLabel.textContent = result.name;
+		const mapLabel = document.createElement('span');
+		mapLabel.className = 'result-map';
+		mapLabel.textContent = result.mapDisplayName || result.mapName;
+		resultItem.append(typeLabel, nameLabel, mapLabel);
 
 		// Store result data
 		resultItem._resultData = result;
@@ -536,6 +588,10 @@ Navigation.navigateToSearchResult = function navigateToSearchResult(result) {
 
 	this.targetResult = result;
 	_isMapClickTarget = false;
+	if (!Number.isFinite(result.x) || !Number.isFinite(result.y)) {
+		this.showMap(result.mapName, result.mapDisplayName || result.mapName);
+		return;
+	}
 
 	const currentMap = getCurrentMap();
 	const currentPos = getPlayerPosition();
@@ -615,6 +671,8 @@ Navigation.findClosestWalkableCell = function findClosestWalkableCell(x, y, maxR
  * Handle map click event
  */
 Navigation.onMapClick = function onMapClick(event) {
+	if (!_mapData?.ready || !_mapData.map) return;
+
 	const root = Navigation.getRoot();
 	const mapDisplay = root.querySelector('.map-display');
 	const rect = mapDisplay.getBoundingClientRect();
@@ -622,6 +680,7 @@ Navigation.onMapClick = function onMapClick(event) {
 	const y = Math.floor(event.clientY - rect.top);
 
 	const mapCoords = this.screenToMapCoordinates(x, y);
+	if (!mapCoords) return;
 
 	const currentMap = getCurrentMap();
 	const currentPos = getPlayerPosition();
@@ -632,23 +691,35 @@ Navigation.onMapClick = function onMapClick(event) {
 		startMap: currentMap,
 		startX: currentPos.x,
 		startY: currentPos.y,
-		endMap: currentMap,
+		endMap: _mapData.map,
 		endX: mapCoords.x,
 		endY: mapCoords.y,
-		displayName: 'Map Click'
+		displayName: DB.getMapName(_mapData.map, _mapData.map)
 	});
 };
 
 /**
  * Load a map for display
  */
-Navigation.loadMap = function loadMap(mapName, displayName) {
+Navigation.loadMap = function loadMap(mapName, displayName, onReady) {
+	const mapBaseName = normalizeMapName(mapName);
+	if (!mapBaseName) {
+		if (onReady) onReady(false);
+		return;
+	}
+
+	const requestId = ++_mapLoadRequestId;
 	if (_isMapClickTarget && _mapData && _mapData.map && _mapData.map !== mapName) {
 		this.clear();
 		_isMapClickTarget = false;
 	}
 
-	const mapBaseName = mapName.replace(/\..*/, '');
+	_mapData = {
+		map: mapBaseName,
+		ready: false,
+		walkableType: Altitude.TYPE.WALKABLE
+	};
+	_mapImageMap = null;
 
 	// Load town info
 	_towninfo = DB.getTownInfo(mapBaseName) || [];
@@ -660,6 +731,9 @@ Navigation.loadMap = function loadMap(mapName, displayName) {
 
 	// Load the map image
 	Client.loadFile('data/texture/' + bmpPath, dataURI => {
+		if (requestId !== _mapLoadRequestId) return;
+
+		_mapImageMap = mapBaseName;
 		if (dataURI) {
 			_map.src = dataURI;
 		} else {
@@ -674,37 +748,61 @@ Navigation.loadMap = function loadMap(mapName, displayName) {
 
 	// Load the GAT file for pathfinding
 	Client.loadFile('data/' + gatPath, gatData => {
-		if (gatData) {
-			if (gatData.cells && gatData.width && gatData.height) {
-				_mapData.width = gatData.width;
-				_mapData.height = gatData.height;
-				_mapData.cells = gatData.cells;
+		if (requestId !== _mapLoadRequestId) return;
 
-				const cellCount = gatData.width * gatData.height;
-				const cellTypes = new Uint8Array(cellCount);
+		if (gatData?.cells && gatData.width && gatData.height) {
+			_mapData.width = gatData.width;
+			_mapData.height = gatData.height;
+			_mapData.cells = gatData.cells;
 
-				for (let i = 0; i < cellCount; i++) {
-					const cellIndex = i * 5 + 4;
-					cellTypes[i] = gatData.cells[cellIndex];
-				}
+			const cellCount = gatData.width * gatData.height;
+			const cellTypes = new Uint8Array(cellCount);
 
-				_mapData.cellTypes = cellTypes;
-				_mapData.map = mapBaseName;
+			for (let i = 0; i < cellCount; i++) {
+				const cellIndex = i * 5 + 4;
+				cellTypes[i] = gatData.cells[cellIndex];
 			}
+
+			_mapData.cellTypes = cellTypes;
+			_mapData.ready = true;
+			if (onReady) onReady(true);
+			return;
 		}
+
+		if (onReady) onReady(false);
 	});
 
-	this.setMapNameText(mapName);
+	this.setMapNameText(displayName || mapName);
+};
+
+/**
+ * Open a map selected from the world map without starting a search.
+ */
+Navigation.showMap = function showMap(mapName, displayName) {
+	this.clear();
+	this.show();
+
+	const root = this.getRoot();
+	const searchInput = root.querySelector('.search-input');
+	if (searchInput) searchInput.value = '';
+
+	const resultsContainer = root.querySelector('.search-results');
+	if (resultsContainer) resultsContainer.style.display = 'none';
+
+	this.loadMap(mapName, displayName);
+	this.setLocationTitle(mapName, null, displayName);
 };
 
 /**
  * Clear the end marker
  */
 Navigation.clear = function clear() {
+	_navigationRequestId++;
 	this.clearPath();
 	_finalTargetData = null;
 	_targetData = null;
 	_isMapClickTarget = false;
+	_pathUnavailable = false;
 
 	// Hide the target coordinates display
 	const root = Navigation.getRoot();
@@ -758,7 +856,7 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 	// Check if player position has changed
 	const currentMap = getCurrentMap();
 	const currentPos = getPlayerPosition();
-	if (_finalTargetData && tick - _lastPathUpdate > _pathUpdateThrottle && !_pathUpdateLock) {
+	if (_finalTargetData && !_pathUnavailable && tick - _lastPathUpdate > _pathUpdateThrottle && !_pathUpdateLock) {
 		this.navigateTo({
 			startMap: currentMap,
 			startX: currentPos.x,
@@ -779,7 +877,7 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 	ctx.fillRect(0, 0, width, height);
 
 	// Draw the map image if loaded
-	if (_map.complete && _map.width) {
+	if (_mapData?.ready && _mapImageMap === _mapData.map && _map.complete && _map.width) {
 		const scaleX = width / _mapData.width;
 		const scaleY = height / _mapData.height;
 		const scale = Math.min(scaleX, scaleY);
@@ -795,6 +893,8 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 	const mapToScreenBound = (x, y) => {
 		return mapToScreen(x, y, width, height);
 	};
+
+	if (!_mapData?.ready) return;
 
 	// Draw town info icons
 	if (_towninfo && _towninfo.length) {
@@ -899,7 +999,7 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 
 	// Draw start marker (player position)
 	const startPos = mapToScreenBound(currentPos.x, currentPos.y);
-	if (_arrow.complete && _arrow.width) {
+	if (_mapData.map === currentMap && _arrow.complete && _arrow.width) {
 		ctx.save();
 		ctx.translate(startPos.x, startPos.y);
 		ctx.rotate(((Session.Entity.direction + 4) * 45 * Math.PI) / 180);
@@ -1192,6 +1292,11 @@ Navigation.onKeyDown = function onKeyDown(event) {
  * Handle mouse movement over the map to display coordinates
  */
 Navigation.onMapMouseMove = function onMapMouseMove(event) {
+	if (!_mapData?.ready) {
+		this.onMapMouseLeave();
+		return;
+	}
+
 	const root = Navigation.getRoot();
 	const mapDisplay = root.querySelector('.map-display');
 	const rect = mapDisplay.getBoundingClientRect();
@@ -1258,24 +1363,29 @@ Navigation.setNaviInfo = function setNaviInfo(naviInfo, displayName) {
 /**
  * Wait for map data to be loaded
  */
-Navigation.waitForMapData = function waitForMapData(callback) {
-	if (!_mapData || _mapData.map !== getCurrentMap()) {
-		setTimeout(() => {
-			Navigation.waitForMapData(callback);
-		}, 100);
-	} else {
-		callback.bind(this)();
+Navigation.withMapData = function withMapData(mapName, callback) {
+	const normalizedMap = normalizeMapName(mapName);
+	if (_mapData?.ready && _mapData.map === normalizedMap) {
+		callback.call(this, true);
+		return;
 	}
+
+	this.loadMap(normalizedMap, DB.getMapName(normalizedMap, normalizedMap), ready => {
+		callback.call(this, ready);
+	});
 };
 
 /**
  * Unified navigation function that handles both same-map and cross-map navigation
  */
 Navigation.navigateTo = function navigateTo(options) {
+	const navigationRequestId = ++_navigationRequestId;
 	const root = Navigation.getRoot();
 	const startMap = normalizeMapName(options.startMap);
 	const endMap = normalizeMapName(options.endMap);
 	const displayName = options.displayName;
+	const hasCoordinates = Number.isFinite(options.endX) && Number.isFinite(options.endY);
+	if (!startMap || !endMap || !hasCoordinates) return;
 
 	if (
 		_finalTargetData &&
@@ -1288,6 +1398,7 @@ Navigation.navigateTo = function navigateTo(options) {
 		});
 		this.setTargetCoordinatesBlinking(true);
 	}
+	_pathUnavailable = false;
 
 	_finalTargetData = {
 		map: endMap,
@@ -1313,25 +1424,44 @@ Navigation.navigateTo = function navigateTo(options) {
 		warpTypes
 	);
 
-	if (path && path.length > 0) {
-		const target = path[0];
-
-		this.waitForMapData(function () {
-			const walkableCell = this.findClosestWalkableCell(target.x, target.y);
-
-			if (walkableCell) {
-				_targetData = {
-					x: walkableCell.x,
-					y: walkableCell.y,
-					map: target.map,
-					displayName: displayName
-				};
-				this.findPath(options.startX, options.startY, _targetData.x, _targetData.y);
-			} else {
-				this.clear();
-			}
-		});
+	if (!path || path.length === 0) {
+		_pathUnavailable = true;
+		this.clearPath();
+		this.updateTargetText(true);
+		this.setTargetCoordinatesBlinking(false);
+		this.setLocationTitle(startMap, endMap, displayName);
+		return;
 	}
+
+	const target = path[0];
+	_pathUpdateLock = true;
+	this.withMapData(startMap, function (ready) {
+		if (navigationRequestId !== _navigationRequestId) return;
+		_pathUpdateLock = false;
+		if (!ready || !_finalTargetData) {
+			_pathUnavailable = true;
+			this.updateTargetText(true);
+			this.setTargetCoordinatesBlinking(false);
+			return;
+		}
+
+		const walkableCell = this.findClosestWalkableCell(target.x, target.y);
+
+		if (walkableCell) {
+			_targetData = {
+				x: walkableCell.x,
+				y: walkableCell.y,
+				map: target.map,
+				displayName: displayName
+			};
+			this.findPath(options.startX, options.startY, _targetData.x, _targetData.y);
+		} else {
+			_pathUnavailable = true;
+			this.clearPath();
+			this.updateTargetText(true);
+			this.setTargetCoordinatesBlinking(false);
+		}
+	});
 };
 
 /**
