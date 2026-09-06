@@ -594,7 +594,9 @@ Navigation.navigateToSearchResult = function navigateToSearchResult(result) {
 	this.targetResult = result;
 	_isMapClickTarget = false;
 	if (!Number.isFinite(result.x) || !Number.isFinite(result.y)) {
-		this.showMap(result.mapName, result.mapDisplayName || result.mapName);
+		this.showMap(result.mapName, result.mapDisplayName || result.mapName, {
+			preserveSearch: true
+		});
 		return;
 	}
 
@@ -689,6 +691,18 @@ Navigation.onMapClick = function onMapClick(event) {
 
 	const currentMap = getCurrentMap();
 	const currentPos = getPlayerPosition();
+	const previewMap = normalizeMapName(_mapData.map);
+
+	// Keep coordinate clicks local when the navigation window is previewing another map.
+	if (previewMap !== currentMap) {
+		this.clearPath();
+		_finalTargetData = null;
+		_targetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap };
+		this.setTargetCoordinatesText(mapCoords.x, mapCoords.y);
+		const previewName = DB.getMapInfo(`${previewMap}.rsw`)?.displayName || DB.getMapName(previewMap, previewMap);
+		this.setLocationTitle(previewMap, null, previewName);
+		return;
+	}
 
 	_isMapClickTarget = true;
 
@@ -783,13 +797,13 @@ Navigation.loadMap = function loadMap(mapName, displayName, onReady) {
 /**
  * Open a map selected from the world map without starting a search.
  */
-Navigation.showMap = function showMap(mapName, displayName) {
+Navigation.showMap = function showMap(mapName, displayName, options = {}) {
 	this.clear();
 	this.show();
 
 	const root = this.getRoot();
 	const searchInput = root.querySelector('.search-input');
-	if (searchInput) searchInput.value = '';
+	if (searchInput && !options.preserveSearch) searchInput.value = '';
 
 	const resultsContainer = root.querySelector('.search-results');
 	if (resultsContainer) resultsContainer.style.display = 'none';

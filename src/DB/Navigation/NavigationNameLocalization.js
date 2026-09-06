@@ -12,6 +12,8 @@ const navigationNpcTerms = [
  * @returns {string}
  */
 export function localizeNavigationNpcName(name) {
+	if (!name.includes('카프라')) return name;
+
 	let localized = name;
 	for (const [source, target] of navigationNpcTerms) {
 		localized = localized.replaceAll(source, target);
