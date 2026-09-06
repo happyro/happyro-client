@@ -20,6 +20,7 @@ import MAPS from 'DB/Map/WorldMap.js';
 import htmlText from './WorldMap.html?raw';
 import cssText from './WorldMap.css?raw';
 import Navigation from 'UI/Components/Navigation/Navigation.js';
+import { applyWorldMapState } from './WorldMapState.js';
 
 /**
  * Create Component
@@ -47,6 +48,8 @@ const _preferences = Preferences.get(
 let _partyMembersByMap = {};
 
 let _hoveredSection = null;
+
+let _mapLoadRequestId = 0;
 
 // Sizing params
 const C_TITLEBARHEIGHT = 17;
@@ -107,26 +110,39 @@ function onSelect() {
 	selectMap(root.querySelector('.titlebar select').value);
 }
 
+function restoreViewState() {
+	applyWorldMapState(WorldMap.getRoot(), {
+		showAllMaps: Boolean(WorldMap.showAllMaps),
+		showLevels: Boolean(WorldMap.showLVLMode),
+		partyMapIds: new Set(Object.keys(_partyMembersByMap))
+	});
+}
+
 /**
  * Select world map
  *
  * @param {string} name eg. `"worldmap_localizing1"`
  */
 function selectMap(name = null) {
-	// If no name provided, use the first available map
+	const root = WorldMap.getRoot();
+	const selectEl = root.querySelector('#WorldMaps');
+
+	// If no name provided, keep the selected available map.
 	if (!name || name === null || name === '') {
-		if (MAPS.length > 0 && MAPS[0].id !== null && MAPS[0].id !== '') {
-			name = MAPS[0].id;
-		} else {
-			name = 'worldmap.jpg';
-		}
+		name = selectEl?.value || 'worldmap.jpg';
 	}
+	if (selectEl) selectEl.value = name;
+
+	const requestId = ++_mapLoadRequestId;
 	// load map image asset and render it
 	Client.loadFile(DB.INTERFACE_PATH + name, data => {
+		if (requestId !== _mapLoadRequestId) return;
+
 		// find map data by name and render it
 		for (const map of MAPS) {
 			if (map.id === name) {
 				createWorldMapView(map, data);
+				restoreViewState();
 				resizeMap();
 				break;
 			}
@@ -169,10 +185,7 @@ function onWorldMapSectionClick(e) {
 	const displayName = section.getAttribute('data-displayname') || '';
 	const mapId = section.id;
 
-	Navigation.show();
-	const input = Navigation.getRoot().querySelector('.search-input');
-	if (input) input.value = displayName || mapId;
-	Navigation.onSearch();
+	Navigation.showMap(mapId, displayName);
 	Navigation.focus();
 }
 
@@ -210,7 +223,6 @@ function showTooltip(section) {
 	const displayName = section.getAttribute('data-displayname') || '';
 	tooltip.querySelector('.tooltip-mapname').textContent = displayName;
 	tooltip.querySelector('.tooltip-mapid').textContent = section.id;
-
 	const tooltipImg = tooltip.querySelector('.tooltip-img');
 	tooltipImg.style.backgroundImage = '';
 
@@ -232,7 +244,7 @@ function showTooltip(section) {
 	// load map image asset and render it
 	Client.loadFile(`${DB.INTERFACE_PATH}map/${section.id}.bmp`, data => {
 		if (_hoveredSection === section) {
-			tooltipImg.style.backgroundImage = `url(${data})`;
+			tooltipImg.style.backgroundImage = data ? `url(${data})` : '';
 		}
 	});
 }
@@ -374,25 +386,25 @@ function createWorldMapView(map, imgData) {
 			el.style.height = `${(section.height / C_BASEHEIGHT) * 100}%`;
 
 			el_mapname.className = 'mapname';
-			el_mapname.innerHTML = section.name; // this is monster names
+			el_mapname.textContent = section.name; // this is monster names
 
 			const el_displayname = document.createElement('div');
 			el_displayname.className = 'displayname';
 			if (sectionType === 1) {
 				// dugeons name got direct from worldmap lua files
 				const name = section.name.replace(' 1', '').trim(); // small hack to remove 1 from dungeon names
-				el_displayname.innerHTML = name;
+				el_displayname.textContent = name;
 				el.setAttribute('data-displayname', name);
 			} else {
 				// other maps name got from rsw files and search on mapinfo.lub theyr real names
 				const mapInfo = DB.getMapInfo(section.id + '.rsw');
 				const mapName = mapInfo?.displayName || section.name;
-				el_displayname.innerHTML = mapName;
+				el_displayname.textContent = mapName;
 				el.setAttribute('data-displayname', mapName);
 			}
 
 			el_mapid.className = 'mapid'; // rsw name
-			el_mapid.innerHTML = section.id;
+			el_mapid.textContent = section.id;
 
 			el.appendChild(el_displayname);
 			el.appendChild(el_mapname);
@@ -540,9 +552,10 @@ WorldMap.onAppend = function onAppend() {
 
 	// set maps
 	setMapList();
+	this.showAllMaps = false;
 
 	// resize map container & add sections
-	selectMap();
+	selectMap(this.getRoot().querySelector('#WorldMaps')?.value);
 
 	this._host.style.top = '0px';
 	this._host.style.left = '0px';
@@ -568,7 +581,8 @@ WorldMap.toggle = function toggle() {
 		hideTooltip();
 	} else {
 		this._host.style.display = '';
-		selectMap();
+		const selectedMap = this.getRoot().querySelector('#WorldMaps')?.value;
+		selectMap(selectedMap);
 		this.focus();
 	}
 };
@@ -628,26 +642,15 @@ WorldMap.updatePartyMembers = function updatePartyMembers(pkt) {
 		}
 	});
 
-	const root = WorldMap.getRoot();
-	root.querySelectorAll('.worldmap .section').forEach(el => el.classList.remove('membersonmap'));
-	for (const mapId of Object.keys(_partyMembersByMap)) {
-		const el = root.querySelector('.worldmap .section#' + CSS.escape(mapId));
-		if (el) el.classList.add('membersonmap');
-	}
+	restoreViewState();
 };
 
 /**
  * Toggle all maps
  */
 function onToggleMaps() {
-	const root = WorldMap.getRoot();
-	if (WorldMap.showAllMaps) {
-		root.querySelectorAll('.worldmap .section').forEach(el => el.classList.remove('allmapvisible'));
-		WorldMap.showAllMaps = false;
-	} else {
-		root.querySelectorAll('.worldmap .section').forEach(el => el.classList.add('allmapvisible'));
-		WorldMap.showAllMaps = true;
-	}
+	WorldMap.showAllMaps = !WorldMap.showAllMaps;
+	restoreViewState();
 }
 
 /**
@@ -663,13 +666,7 @@ function onShowLVL() {
 	});
 
 	const worldmapEl = root.querySelector('.worldmap');
-	if (worldmapEl) {
-		if (!WorldMap.showLVLMode) {
-			worldmapEl.classList.remove('show-lvls');
-		} else {
-			worldmapEl.classList.add('show-lvls');
-		}
-	}
+	if (worldmapEl) restoreViewState();
 }
 
 /**
@@ -686,6 +683,8 @@ function stopPropagation(event) {
  */
 function onClose() {
 	WorldMap._host.style.display = 'none';
+	_hoveredSection = null;
+	hideTooltip();
 }
 
 WorldMap.mouseMode = GUIComponent.MouseMode.STOP;
