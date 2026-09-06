@@ -238,6 +238,23 @@
 	background: #fff;
 }
 
+.Navigation .walk-button,
+.Navigation .walk-stop-button {
+	display: none;
+	border: 1px solid #777;
+	background: #eee;
+	color: #000;
+	padding: 2px 8px;
+	font-size: 11px;
+	cursor: pointer;
+	margin-right: 4px;
+}
+
+.Navigation .walk-button:hover,
+.Navigation .walk-stop-button:hover {
+	background: #fff;
+}
+
 .Navigation .footer {
 	width: 100%;
 	position: relative;
@@ -360,6 +377,10 @@
 
 .Navigation .mob_icon {
 	color: #cc0000;
+}
+
+.Navigation .map_icon {
+	color: #228833;
 }
 
 .Navigation .result-name {

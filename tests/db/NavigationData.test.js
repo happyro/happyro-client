@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
 	replaceNavigationRows,
+	searchNavigationMaps,
 	searchNavigationRows
 } from '../../src/DB/Navigation/NavigationData.js';
 import { localizeNavigationNpcName } from '../../src/DB/Navigation/NavigationNameLocalization.js';
@@ -69,6 +70,26 @@ describe('navigation data', () => {
 		const rows = [['prontera', 20, 300, 1002, '포링', 'PORING', 1, 0]];
 
 		expect(searchNavigationRows([], rows, 'PORING', 'MOB', localizers)).toHaveLength(1);
+	});
+
+	it('searches maps by localized name or resource id without duplicates', () => {
+		const worlds = [
+			{ maps: [{ id: 'prontera', name: '普隆德拉' }, { id: 'prt_fild08', name: '普隆德拉原野 08' }] },
+			{ maps: [{ id: 'prontera', name: '普隆德拉' }] }
+		];
+
+		const mapInfo = { 'prt_maze01.rsw': { displayName: '普隆德拉迷宫 1F' } };
+		const localizedResults = searchNavigationMaps(worlds, mapInfo, '普隆德拉', 'MAP', id => id);
+		expect(localizedResults).toHaveLength(3);
+		expect(localizedResults[0]).toMatchObject({ id: 'prontera', name: '普隆德拉' });
+		expect(searchNavigationMaps(worlds, mapInfo, 'prt_fild08', 'MAP', id => id)[0]).toMatchObject({
+			type: 'MAP',
+			mapName: 'prt_fild08',
+			name: '普隆德拉原野 08',
+			x: null,
+			y: null
+		});
+		expect(searchNavigationMaps(worlds, mapInfo, '普隆德拉', 'NPC', id => id)).toEqual([]);
 	});
 
 	it('does not translate Korean terms embedded in unrelated NPC names', () => {

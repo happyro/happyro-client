@@ -59,7 +59,11 @@ import PetMessageConst from './Pets/PetMessageConst.js';
 import MapInfo from './Map/MapTable.js';
 import { localizeAdventureAchievementMaps } from './Achievement/AdventureAchievementLocalization.js';
 import { mergeLocalizedMapInfo } from './Map/MapInfoLocalization.js';
-import { replaceNavigationRows, searchNavigationRows } from './Navigation/NavigationData.js';
+import {
+	replaceNavigationRows,
+	searchNavigationMaps,
+	searchNavigationRows
+} from './Navigation/NavigationData.js';
 import {
 	getNavigationNpcAliases,
 	localizeNavigationNpcName
@@ -3472,7 +3476,7 @@ class DB {
 	 * @returns {Array} Array of search results
 	 */
 	static searchNavigation(query, type) {
-		return searchNavigationRows(NaviNpcTable, NaviMobTable, query, type, {
+		const results = searchNavigationRows(NaviNpcTable, NaviMobTable, query, type, {
 			npc: name => {
 				const localized = DB.getNpcName(name);
 				return localized === name ? localizeNavigationNpcName(name) : localized;
@@ -3482,6 +3486,12 @@ class DB {
 			map: mapName =>
 				DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 		});
+		const maps = searchNavigationMaps(WorldMap, MapInfo, query, type, mapId => DB.getMapName(mapId, mapId));
+		if (type === 'MAP') return maps;
+		return results
+			.concat(maps)
+			.sort((a, b) => a.name.localeCompare(b.name))
+			.slice(0, 50);
 	}
 
 	/**
