@@ -59,6 +59,11 @@ import PetMessageConst from './Pets/PetMessageConst.js';
 import MapInfo from './Map/MapTable.js';
 import { localizeAdventureAchievementMaps } from './Achievement/AdventureAchievementLocalization.js';
 import { mergeLocalizedMapInfo } from './Map/MapInfoLocalization.js';
+import { replaceNavigationRows, searchNavigationRows } from './Navigation/NavigationData.js';
+import {
+	getNavigationNpcAliases,
+	localizeNavigationNpcName
+} from './Navigation/NavigationNameLocalization.js';
 import SignBoardTranslationTable from './SignBoardTranslationTable.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
@@ -167,32 +172,32 @@ let SignBoardTable = {};
 /**
  * @const {Object} NaviMap Table
  */
-const NaviMapTable = {};
+const NaviMapTable = [];
 
 /**
  * @const {Object} NaviMob Table
  */
-const NaviMobTable = {};
+const NaviMobTable = [];
 
 /**
  * @const {Object} NaviNpc Table
  */
-const NaviNpcTable = {};
+const NaviNpcTable = [];
 
 /**
  * @const {Object} NaviLink Table
  */
-const NaviLinkTable = {};
+const NaviLinkTable = [];
 
 /**
  * @const {Object} NaviLinkDistance Table
  */
-const NaviLinkDistanceTable = {};
+const NaviLinkDistanceTable = [];
 
 /**
  * @const {Object} NaviNpcDistance Table
  */
-const NaviNpcDistanceTable = {};
+const NaviNpcDistanceTable = [];
 
 /**
  * @const {Object} QuestInfo Table
@@ -541,7 +546,7 @@ class DB {
 					DB.LUA_PATH + 'navigation/navi_map_krpri.lub',
 					'Navi_Map',
 					function (json) {
-						Object.assign(NaviMapTable, json);
+						replaceNavigationRows(NaviMapTable, json);
 					},
 					onLoad()
 				);
@@ -549,7 +554,7 @@ class DB {
 					DB.LUA_PATH + 'navigation/navi_mob_krpri.lub',
 					'Navi_Mob',
 					function (json) {
-						Object.assign(NaviMobTable, json);
+						replaceNavigationRows(NaviMobTable, json);
 					},
 					onLoad()
 				);
@@ -557,7 +562,7 @@ class DB {
 					DB.LUA_PATH + 'navigation/navi_npc_krpri.lub',
 					'Navi_Npc',
 					function (json) {
-						Object.assign(NaviNpcTable, json);
+						replaceNavigationRows(NaviNpcTable, json);
 					},
 					onLoad()
 				);
@@ -565,7 +570,7 @@ class DB {
 					DB.LUA_PATH + 'navigation/navi_link_krpri.lub',
 					'Navi_Link',
 					function (json) {
-						Object.assign(NaviLinkTable, json);
+						replaceNavigationRows(NaviLinkTable, json);
 					},
 					onLoad()
 				);
@@ -573,7 +578,7 @@ class DB {
 					DB.LUA_PATH + 'navigation/navi_linkdistance_krpri.lub',
 					'Navi_Distance',
 					function (json) {
-						Object.assign(NaviLinkDistanceTable, json);
+						replaceNavigationRows(NaviLinkDistanceTable, json);
 					},
 					onLoad()
 				);
@@ -581,7 +586,7 @@ class DB {
 					DB.LUA_PATH + 'navigation/navi_npcdistance_krpri.lub',
 					'Navi_NpcDistance',
 					function (json) {
-						Object.assign(NaviNpcDistanceTable, json);
+						replaceNavigationRows(NaviNpcDistanceTable, json);
 					},
 					onLoad()
 				);
@@ -3467,78 +3472,16 @@ class DB {
 	 * @returns {Array} Array of search results
 	 */
 	static searchNavigation(query, type) {
-		if (!query || query.length < 2) {
-			return [];
-		}
-
-		query = query.toLowerCase();
-		const results = [];
-
-		// Search NPCs if type is ALL or NPC
-		if (type === 'ALL' || type === 'NPC') {
-			// NaviNpcTable structure: [["map_name", npc_id, npc_type, class_id, "npc_name", "", x, y], ...]
-			for (let i = 0; i < NaviNpcTable.length; i++) {
-				const npc = NaviNpcTable[i];
-				const mapName = npc[0];
-				const npcId = npc[1];
-				const npcName = npc[4] || '';
-
-				// Skip if no name
-				if (!npcName) {
-					continue;
-				}
-
-				// Check if the NPC name contains the query
-				if (npcName.toLowerCase().indexOf(query) !== -1) {
-					results.push({
-						type: 'NPC',
-						id: npcId,
-						name: npcName,
-						mapName: mapName,
-						x: npc[6],
-						y: npc[7]
-					});
-				}
-			}
-		}
-
-		// Search MOBs if type is ALL or MOB
-		if (type === 'ALL' || type === 'MOB') {
-			// NaviMobTable structure: [["map_name", spawn_id, mob_type, mob_class, "mob_name", "sprite_name", level, mob_info], ...]
-			for (let i = 0; i < NaviMobTable.length; i++) {
-				const mob = NaviMobTable[i];
-				const mapName = mob[0];
-				const mobId = mob[3]; // Using mob_class as the ID
-				const mobName = mob[4] || '';
-
-				// Skip if no name
-				if (!mobName) {
-					continue;
-				}
-
-				// Check if the MOB name contains the query
-				if (mobName.toLowerCase().indexOf(query) !== -1) {
-					// Note: mob_info might contain position data, but structure is unclear
-					// For now, we're not including x/y coordinates for mobs
-					results.push({
-						type: 'MOB',
-						id: mobId,
-						name: mobName,
-						mapName: mapName,
-						x: null,
-						y: null
-					});
-				}
-			}
-		}
-
-		// Sort results by name
-		results.sort(function (a, b) {
-			return a.name.localeCompare(b.name);
+		return searchNavigationRows(NaviNpcTable, NaviMobTable, query, type, {
+			npc: name => {
+				const localized = DB.getNpcName(name);
+				return localized === name ? localizeNavigationNpcName(name) : localized;
+			},
+			npcAliases: getNavigationNpcAliases,
+			mob: (id, fallback) => MonsterNameTable[id] || fallback,
+			map: mapName =>
+				DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 		});
-
-		// Limit to 50 results to avoid performance issues
-		return results.slice(0, 50);
 	}
 
 	/**
