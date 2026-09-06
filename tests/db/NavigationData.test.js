@@ -1,0 +1,72 @@
+import { describe, expect, it } from 'vitest';
+import {
+	replaceNavigationRows,
+	searchNavigationRows
+} from '../../src/DB/Navigation/NavigationData.js';
+
+const localizers = {
+	npc: name => ({ Kafra: '卡普拉职员' })[name] || name,
+	npcAliases: name => (name === '카프라' ? ['Kafra'] : []),
+	mob: (id, fallback) => ({ 1002: '波利' })[id] || fallback,
+	map: map => ({ prontera: '普隆德拉' })[map] || map
+};
+
+describe('navigation data', () => {
+	it('replaces sequential Lua rows without losing array length', () => {
+		const target = [['stale']];
+		replaceNavigationRows(target, [['first'], ['second']]);
+
+		expect(target).toEqual([['first'], ['second']]);
+		expect(target).toHaveLength(2);
+	});
+
+	it('orders numeric keys when Lua extraction returns an object', () => {
+		const target = [];
+		replaceNavigationRows(target, { 2: ['second'], 1: ['first'] });
+
+		expect(target).toEqual([['first'], ['second']]);
+	});
+
+	it('searches and displays localized NPC names', () => {
+		const rows = [['prontera', 10, 100, 4, 'Kafra', '', 146, 89]];
+		const results = searchNavigationRows(rows, [], '卡普拉', 'NPC', localizers);
+
+		expect(results).toEqual([
+			{
+				type: 'NPC',
+				id: 10,
+				name: '卡普拉职员',
+				mapName: 'prontera',
+				mapDisplayName: '普隆德拉',
+				x: 146,
+				y: 89
+			}
+		]);
+	});
+
+	it('keeps resource names searchable and unpacks monster ids', () => {
+		const packedMobId = (12 << 16) | 1002;
+		const rows = [['prontera', 20, 300, packedMobId, 'PORING', 'PORING', 1, 0]];
+		const results = searchNavigationRows([], rows, 'poring', 'MOB', localizers);
+
+		expect(results[0]).toMatchObject({
+			id: 1002,
+			name: '波利',
+			mapDisplayName: '普隆德拉',
+			x: null,
+			y: null
+		});
+	});
+
+	it('matches navigation-only NPC aliases', () => {
+		const rows = [['prontera', 10, 100, 4, '카프라', '', 146, 89]];
+
+		expect(searchNavigationRows(rows, [], 'Kafra', 'NPC', localizers)).toHaveLength(1);
+	});
+
+	it('matches monster sprite names', () => {
+		const rows = [['prontera', 20, 300, 1002, '포링', 'PORING', 1, 0]];
+
+		expect(searchNavigationRows([], rows, 'PORING', 'MOB', localizers)).toHaveLength(1);
+	});
+});
