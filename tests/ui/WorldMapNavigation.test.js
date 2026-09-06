@@ -42,4 +42,12 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('if (previewMap !== currentMap)');
 		expect(navigationSource).toContain('_targetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap }');
 	});
+
+	it('offers self teleport only to configured GM characters', () => {
+		expect(navigationSource).toContain('Session.UserLevel >= 10');
+		expect(navigationSource.match(/canSelfTeleport\(\)/g)).toHaveLength(2);
+		expect(navigationSource).toContain('if (!target || !target.map) return;');
+		expect(navigationSource).toContain('new PACKET.CZ.MOVETO_MAP()');
+		expect(navigationSource).toContain('Navigation.teleportToSelectedTarget');
+	});
 });

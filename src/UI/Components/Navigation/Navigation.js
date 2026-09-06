@@ -17,6 +17,8 @@ import 'UI/Elements/Elements.js';
 import Altitude from 'Renderer/Map/Altitude.js';
 import Session from 'Engine/SessionStorage.js';
 import Client from 'Core/Client.js';
+import Network from 'Network/NetworkManager.js';
+import PACKET from 'Network/PacketStructure.js';
 import DB from 'DB/DBManager.js';
 import htmlText from './Navigation.html?raw';
 import cssText from './Navigation.css?raw';
@@ -129,6 +131,9 @@ let _targetData = null;
  * @var {Object} final target data
  */
 let _finalTargetData = null;
+
+/** @var {Object|null} explicit map coordinate selected for an action */
+let _selectedTargetData = null;
 
 /**
  * @var {boolean} was target set by map click
@@ -262,6 +267,14 @@ function getPlayerPosition() {
 }
 
 /**
+ * Whether the current account should see self-teleport controls.
+ * The map server remains authoritative when the packet is handled.
+ */
+function canSelfTeleport() {
+	return Boolean(Session.Entity?.isAdmin || Session.UserLevel >= 10);
+}
+
+/**
  * Terminate the pathfinding worker
  */
 function terminatePathFindingWorker() {
@@ -345,7 +358,7 @@ Navigation.init = function init() {
 		walkableType: Altitude.TYPE.WALKABLE
 	};
 
-	this._host.style.top = `${Math.max(0, Math.min(Renderer.height - 300, 200))}px`;
+	this._host.style.top = `${Math.max(0, Math.min(Renderer.height - 324, 200))}px`;
 	this._host.style.left = `${Math.max(0, Math.min(Renderer.width - 300, 200))}px`;
 
 	// Get canvas context
@@ -436,6 +449,10 @@ Navigation.init = function init() {
 
 	// Map click event for navigation
 	root.querySelector('.map-display').addEventListener('click', e => this.onMapClick(e));
+	root.querySelector('.teleport-button').addEventListener('click', e => {
+		e.stopPropagation();
+		this.teleportToSelectedTarget();
+	});
 
 	// Mouse move event for displaying coordinates
 	root.querySelector('.map-display').addEventListener('mousemove', e => this.onMapMouseMove(e));
@@ -461,6 +478,7 @@ Navigation.onAppend = function onAppend() {
 
 	// Initialize pathfinding worker
 	initializePathFindingWorker();
+	this.updateTeleportButton();
 
 	// Load the current map after initializing the worker
 	const mapName = getCurrentMap();
@@ -692,12 +710,14 @@ Navigation.onMapClick = function onMapClick(event) {
 	const currentMap = getCurrentMap();
 	const currentPos = getPlayerPosition();
 	const previewMap = normalizeMapName(_mapData.map);
+	_selectedTargetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap };
 
 	// Keep coordinate clicks local when the navigation window is previewing another map.
 	if (previewMap !== currentMap) {
 		this.clearPath();
 		_finalTargetData = null;
 		_targetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap };
+		this.updateTeleportButton();
 		this.setTargetCoordinatesText(mapCoords.x, mapCoords.y);
 		const previewName = DB.getMapInfo(`${previewMap}.rsw`)?.displayName || DB.getMapName(previewMap, previewMap);
 		this.setLocationTitle(previewMap, null, previewName);
@@ -715,6 +735,33 @@ Navigation.onMapClick = function onMapClick(event) {
 		endY: mapCoords.y,
 		displayName: DB.getMapName(_mapData.map, _mapData.map)
 	});
+};
+
+/**
+ * Show the self-teleport action only for configured GM characters.
+ */
+Navigation.updateTeleportButton = function updateTeleportButton() {
+	const root = Navigation.getRoot();
+	const button = root?.querySelector('.teleport-button');
+	if (!button) return;
+
+	const target = _selectedTargetData || _finalTargetData || _targetData;
+	button.style.display = canSelfTeleport() && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? 'block' : 'none';
+};
+
+/**
+ * Request a mapmove for the currently controlled character.
+ * The server derives the character from the authenticated game session.
+ */
+Navigation.teleportToSelectedTarget = function teleportToSelectedTarget() {
+	const target = _selectedTargetData || _finalTargetData || _targetData;
+	if (!target || !target.map) return;
+
+	const packet = new PACKET.CZ.MOVETO_MAP();
+	packet.mapName = normalizeMapName(target.map);
+	packet.xPos = Math.max(0, Math.floor(target.x));
+	packet.yPos = Math.max(0, Math.floor(target.y));
+	Network.sendPacket(packet);
 };
 
 /**
@@ -810,6 +857,7 @@ Navigation.showMap = function showMap(mapName, displayName, options = {}) {
 
 	this.loadMap(mapName, displayName);
 	this.setLocationTitle(mapName, null, displayName);
+	this.updateTeleportButton();
 };
 
 /**
@@ -820,6 +868,7 @@ Navigation.clear = function clear() {
 	this.clearPath();
 	_finalTargetData = null;
 	_targetData = null;
+	_selectedTargetData = null;
 	_isMapClickTarget = false;
 	_pathUnavailable = false;
 
@@ -835,6 +884,7 @@ Navigation.clear = function clear() {
 	if (currentMap) {
 		this.setLocationTitle(currentMap, null);
 	}
+	this.updateTeleportButton();
 };
 
 Navigation.clearPath = function clearPath() {
@@ -1425,6 +1475,7 @@ Navigation.navigateTo = function navigateTo(options) {
 		y: options.endY,
 		displayName: displayName
 	};
+	this.updateTeleportButton();
 
 	// Get warp types based on Services checkbox
 	let warpTypes = [200, 201];
