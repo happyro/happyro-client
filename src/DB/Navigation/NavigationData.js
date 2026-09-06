@@ -83,3 +83,62 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers) 
 
 	return results.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 50);
 }
+
+export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap) {
+	if (type !== 'ALL' && type !== 'MAP') return [];
+	const normalizedQuery = String(query || '')
+		.trim()
+		.toLocaleLowerCase();
+	if (normalizedQuery.length < 2) return [];
+
+	const results = new Map();
+	for (const world of worldMaps || []) {
+		for (const map of world.maps || []) {
+			const id = String(map.id || '');
+			if (!id || results.has(id)) continue;
+			const name = map.name || localizeMap(id);
+			if (
+				!id.toLocaleLowerCase().includes(normalizedQuery) &&
+				!name.toLocaleLowerCase().includes(normalizedQuery)
+			) {
+				continue;
+			}
+			results.set(id, {
+				type: 'MAP',
+				id,
+				name,
+				mapName: id,
+				mapDisplayName: name,
+				x: null,
+				y: null
+			});
+		}
+	}
+	for (const [resourceName, info] of Object.entries(mapInfo || {})) {
+		const id = resourceName.replace(/\.(?:rsw|gat)$/i, '');
+		if (!id || results.has(id)) continue;
+		const name = info.displayName || localizeMap(id);
+		if (!id.toLocaleLowerCase().includes(normalizedQuery) && !name.toLocaleLowerCase().includes(normalizedQuery)) {
+			continue;
+		}
+		results.set(id, {
+			type: 'MAP',
+			id,
+			name,
+			mapName: id,
+			mapDisplayName: name,
+			x: null,
+			y: null
+		});
+	}
+	const matchRank = result => {
+		const id = result.id.toLocaleLowerCase();
+		const name = result.name.toLocaleLowerCase();
+		if (id === normalizedQuery || name === normalizedQuery) return 0;
+		if (id.startsWith(normalizedQuery) || name.startsWith(normalizedQuery)) return 1;
+		return 2;
+	};
+	return [...results.values()]
+		.sort((a, b) => matchRank(a) - matchRank(b) || a.name.localeCompare(b.name) || a.id.localeCompare(b.id))
+		.slice(0, 50);
+}

@@ -10,6 +10,10 @@ const navigationSource = readFileSync(
 	resolve(process.cwd(), 'src/UI/Components/Navigation/Navigation.js'),
 	'utf8'
 );
+const miniMapSource = readFileSync(
+	resolve(process.cwd(), 'src/UI/Components/MiniMap/MiniMapCommon.js'),
+	'utf8'
+);
 
 describe('world map navigation', () => {
 	it('opens the selected map by id instead of searching its display name', () => {
@@ -49,5 +53,17 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('if (!target || !target.map) return;');
 		expect(navigationSource).toContain('new PACKET.CZ.MOVETO_MAP()');
 		expect(navigationSource).toContain('Navigation.teleportToSelectedTarget');
+	});
+
+	it('opens navigation when the minimap canvas is clicked', () => {
+		expect(miniMapSource).toContain("import('UI/Components/Navigation/Navigation.js')");
+		expect(miniMapSource).toContain('root.addEventListener(');
+		expect(miniMapSource).toContain('mapCanvas.getBoundingClientRect()');
+		expect(miniMapSource).toContain('Navigation.showCurrentMap()');
+	});
+
+	it('supports map search and auto-walk controls', () => {
+		expect(navigationSource).toContain('startAutoWalk');
+		expect(navigationSource).toContain('REQUEST_MOVE2');
 	});
 });

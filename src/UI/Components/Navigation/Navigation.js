@@ -19,11 +19,13 @@ import Session from 'Engine/SessionStorage.js';
 import Client from 'Core/Client.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
+import PACKETVER from 'Network/PacketVerManager.js';
 import DB from 'DB/DBManager.js';
 import htmlText from './Navigation.html?raw';
 import cssText from './Navigation.css?raw';
 import MapPathFinder from './MapPathFinder.js';
 import { isNavigationSearchInteraction } from './NavigationSearchInteraction.js';
+import { selectAutoWalkWaypoint } from './NavigationAutoWalk.js';
 
 /**
  * Create Navigation component
@@ -134,6 +136,9 @@ let _finalTargetData = null;
 
 /** @var {Object|null} explicit map coordinate selected for an action */
 let _selectedTargetData = null;
+
+let _autoWalkTimer = null;
+let _autoWalkActive = false;
 
 /**
  * @var {boolean} was target set by map click
@@ -301,9 +306,13 @@ function initializePathFindingWorker() {
 						_path = data.path;
 						if (_path.length > 0) {
 							this.updateTargetText();
+							this.updateAutoWalkButtons();
 							this.setTargetCoordinatesBlinking(false);
 							this.setLocationTitle(mapName, _finalTargetData.map, _finalTargetData.displayName);
 						} else {
+							_pathUnavailable = true;
+							this.stopAutoWalk();
+							this.updateAutoWalkButtons();
 							this.updateTargetText(true);
 							this.setTargetCoordinatesBlinking(false);
 							this.setLocationTitle(mapName, null);
@@ -453,6 +462,14 @@ Navigation.init = function init() {
 		e.stopPropagation();
 		this.teleportToSelectedTarget();
 	});
+	root.querySelector('.walk-button').addEventListener('click', e => {
+		e.stopPropagation();
+		this.startAutoWalk();
+	});
+	root.querySelector('.walk-stop-button').addEventListener('click', e => {
+		e.stopPropagation();
+		this.stopAutoWalk();
+	});
 
 	// Mouse move event for displaying coordinates
 	root.querySelector('.map-display').addEventListener('mousemove', e => this.onMapMouseMove(e));
@@ -502,6 +519,7 @@ Navigation.onAppend = function onAppend() {
  * Once removed from DOM
  */
 Navigation.onRemove = function onRemove() {
+	this.stopAutoWalk();
 	this.clearPath();
 	terminatePathFindingWorker();
 
@@ -573,7 +591,7 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 		resultItem.className = 'result-item';
 
 		// Add type icon (NPC or MOB)
-		const typeIcon = result.type === 'NPC' ? 'npc_icon' : 'mob_icon';
+		const typeIcon = result.type === 'NPC' ? 'npc_icon' : result.type === 'MAP' ? 'map_icon' : 'mob_icon';
 		const typeLabel = document.createElement('span');
 		typeLabel.className = `result-type ${typeIcon}`;
 		typeLabel.textContent = result.type;
@@ -746,7 +764,61 @@ Navigation.updateTeleportButton = function updateTeleportButton() {
 	if (!button) return;
 
 	const target = _selectedTargetData || _finalTargetData || _targetData;
-	button.style.display = canSelfTeleport() && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? 'block' : 'none';
+	button.style.display =
+		canSelfTeleport() && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? 'block' : 'none';
+};
+
+Navigation.updateAutoWalkButtons = function updateAutoWalkButtons() {
+	const root = Navigation.getRoot();
+	const start = root?.querySelector('.walk-button');
+	const stop = root?.querySelector('.walk-stop-button');
+	if (!start || !stop) return;
+	const canStart = Boolean(_path.length && _targetData && _targetData.map === getCurrentMap() && !_pathUnavailable);
+	start.style.display = canStart && !_autoWalkActive ? 'block' : 'none';
+	stop.style.display = _autoWalkActive ? 'block' : 'none';
+};
+
+Navigation.startAutoWalk = function startAutoWalk() {
+	if (_autoWalkActive || !_targetData || _targetData.map !== getCurrentMap() || _pathUnavailable) return;
+	_autoWalkActive = true;
+	this.updateAutoWalkButtons();
+	const sendTarget = () => {
+		if (!_autoWalkActive || !_finalTargetData) return;
+		const currentMap = getCurrentMap();
+		if (!_targetData || _targetData.map !== currentMap) {
+			const position = getPlayerPosition();
+			this.navigateTo({
+				startMap: currentMap,
+				startX: position.x,
+				startY: position.y,
+				endMap: _finalTargetData.map,
+				endX: _finalTargetData.x,
+				endY: _finalTargetData.y,
+				displayName: _finalTargetData.displayName
+			});
+			return;
+		}
+		const position = getPlayerPosition();
+		const reachedTarget = Math.abs(position.x - _targetData.x) <= 1 && Math.abs(position.y - _targetData.y) <= 1;
+		if (reachedTarget && _finalTargetData.map === currentMap) {
+			this.stopAutoWalk();
+			return;
+		}
+		const waypoint = selectAutoWalkWaypoint(_path, position) || _targetData;
+		const packet = PACKETVER.value >= 20180307 ? new PACKET.CZ.REQUEST_MOVE2() : new PACKET.CZ.REQUEST_MOVE();
+		packet.dest[0] = Math.floor(waypoint.x);
+		packet.dest[1] = Math.floor(waypoint.y);
+		Network.sendPacket(packet);
+	};
+	sendTarget();
+	_autoWalkTimer = setInterval(sendTarget, 1200);
+};
+
+Navigation.stopAutoWalk = function stopAutoWalk() {
+	_autoWalkActive = false;
+	if (_autoWalkTimer) clearInterval(_autoWalkTimer);
+	_autoWalkTimer = null;
+	this.updateAutoWalkButtons();
 };
 
 /**
@@ -860,10 +932,17 @@ Navigation.showMap = function showMap(mapName, displayName, options = {}) {
 	this.updateTeleportButton();
 };
 
+Navigation.showCurrentMap = function showCurrentMap() {
+	const mapName = getCurrentMap();
+	if (!mapName) return;
+	this.showMap(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
+};
+
 /**
  * Clear the end marker
  */
 Navigation.clear = function clear() {
+	this.stopAutoWalk();
 	_navigationRequestId++;
 	this.clearPath();
 	_finalTargetData = null;
@@ -885,6 +964,7 @@ Navigation.clear = function clear() {
 		this.setLocationTitle(currentMap, null);
 	}
 	this.updateTeleportButton();
+	this.updateAutoWalkButtons();
 };
 
 Navigation.clearPath = function clearPath() {
@@ -1476,6 +1556,7 @@ Navigation.navigateTo = function navigateTo(options) {
 		displayName: displayName
 	};
 	this.updateTeleportButton();
+	this.updateAutoWalkButtons();
 
 	// Get warp types based on Services checkbox
 	let warpTypes = [200, 201];
@@ -1496,6 +1577,7 @@ Navigation.navigateTo = function navigateTo(options) {
 
 	if (!path || path.length === 0) {
 		_pathUnavailable = true;
+		this.stopAutoWalk();
 		this.clearPath();
 		this.updateTargetText(true);
 		this.setTargetCoordinatesBlinking(false);
@@ -1510,6 +1592,7 @@ Navigation.navigateTo = function navigateTo(options) {
 		_pathUpdateLock = false;
 		if (!ready || !_finalTargetData) {
 			_pathUnavailable = true;
+			this.stopAutoWalk();
 			this.updateTargetText(true);
 			this.setTargetCoordinatesBlinking(false);
 			return;
@@ -1527,6 +1610,7 @@ Navigation.navigateTo = function navigateTo(options) {
 			this.findPath(options.startX, options.startY, _targetData.x, _targetData.y);
 		} else {
 			_pathUnavailable = true;
+			this.stopAutoWalk();
 			this.clearPath();
 			this.updateTargetText(true);
 			this.setTargetCoordinatesBlinking(false);

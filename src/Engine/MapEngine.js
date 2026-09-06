@@ -1012,6 +1012,7 @@ let _walkLastTick = 0;
  * Ask to move
  */
 function onRequestWalk() {
+	Navigation.stopAutoWalk();
 	Events.clearTimeout(_walkTimer);
 
 	// If siting, update direction
