@@ -3,6 +3,7 @@ import {
 	replaceNavigationRows,
 	searchNavigationRows
 } from '../../src/DB/Navigation/NavigationData.js';
+import { localizeNavigationNpcName } from '../../src/DB/Navigation/NavigationNameLocalization.js';
 
 const localizers = {
 	npc: name => ({ Kafra: '卡普拉职员' })[name] || name,
@@ -68,5 +69,10 @@ describe('navigation data', () => {
 		const rows = [['prontera', 20, 300, 1002, '포링', 'PORING', 1, 0]];
 
 		expect(searchNavigationRows([], rows, 'PORING', 'MOB', localizers)).toHaveLength(1);
+	});
+
+	it('does not translate Korean terms embedded in unrelated NPC names', () => {
+		expect(localizeNavigationNpcName('드워프 대장장이')).toBe('드워프 대장장이');
+		expect(localizeNavigationNpcName('카프라 워프')).toBe('卡普拉 传送员');
 	});
 });

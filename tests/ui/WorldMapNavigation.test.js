@@ -23,9 +23,23 @@ describe('world map navigation', () => {
 
 	it('loads the selected map and rejects stale resource callbacks', () => {
 		expect(navigationSource).toMatch(
-			/Navigation\.showMap = function showMap\(mapName, displayName\) \{[\s\S]*this\.loadMap\(mapName, displayName\);/
+			/Navigation\.showMap = function showMap\(mapName, displayName, options = \{\}\) \{[\s\S]*this\.loadMap\(mapName, displayName\);/
 		);
 		expect(navigationSource).toContain('const requestId = ++_mapLoadRequestId;');
 		expect(navigationSource.match(/if \(requestId !== _mapLoadRequestId\) return;/g)).toHaveLength(2);
+	});
+
+	it('preserves the query when a map is opened from a monster result', () => {
+		const resultHandler = navigationSource.match(
+			/Navigation\.navigateToSearchResult = function navigateToSearchResult\(result\) \{[\s\S]*?\n\};/
+		)?.[0];
+
+		expect(resultHandler).toContain('preserveSearch: true');
+		expect(navigationSource).toContain('if (searchInput && !options.preserveSearch)');
+	});
+
+	it('keeps coordinate clicks on a preview map local to that preview', () => {
+		expect(navigationSource).toContain('if (previewMap !== currentMap)');
+		expect(navigationSource).toContain('_targetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap }');
 	});
 });
