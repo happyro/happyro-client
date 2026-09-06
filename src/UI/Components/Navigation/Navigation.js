@@ -21,6 +21,7 @@ import DB from 'DB/DBManager.js';
 import htmlText from './Navigation.html?raw';
 import cssText from './Navigation.css?raw';
 import MapPathFinder from './MapPathFinder.js';
+import { isNavigationSearchInteraction } from './NavigationSearchInteraction.js';
 
 /**
  * Create Navigation component
@@ -387,7 +388,10 @@ Navigation.init = function init() {
 
 	// Bind events
 	root.querySelector('.close').addEventListener('click', () => this.hide());
-	root.querySelector('.search-button').addEventListener('click', () => this.onSearch());
+	root.querySelector('.search-button').addEventListener('click', event => {
+		event.stopPropagation();
+		this.onSearch();
+	});
 	root.querySelector('.services-toggle').addEventListener('change', () => {
 		if (!_finalTargetData) return;
 		_pathUnavailable = false;
@@ -415,13 +419,13 @@ Navigation.init = function init() {
 	searchInput.addEventListener('focus', () => {
 		const resultsContainer = root.querySelector('.search-results');
 		if (resultsContainer && resultsContainer.children.length > 0) {
-			resultsContainer.style.display = '';
+			resultsContainer.style.display = 'block';
 		}
 	});
 
 	// Hide search results when clicking outside (on document level)
 	_documentClickHandler = e => {
-		if (!e.target.closest('.search-results, .search-input, .search-button, .search-type')) {
+		if (!isNavigationSearchInteraction(e)) {
 			const resultsContainer = root.querySelector('.search-results');
 			if (resultsContainer) {
 				resultsContainer.style.display = 'none';
@@ -535,7 +539,7 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 		noResults.className = 'no-results';
 		noResults.textContent = '未找到结果';
 		resultsContainer.appendChild(noResults);
-		resultsContainer.style.display = '';
+		resultsContainer.style.display = 'block';
 		return;
 	}
 
@@ -567,7 +571,8 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 		resultItem._resultData = result;
 
 		// Add click handler
-		resultItem.addEventListener('click', () => {
+		resultItem.addEventListener('click', event => {
+			event.stopPropagation();
 			this.navigateToSearchResult(result);
 		});
 
@@ -575,7 +580,7 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 	}
 
 	// Show the results container
-	resultsContainer.style.display = '';
+	resultsContainer.style.display = 'block';
 };
 
 /**
