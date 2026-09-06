@@ -100,6 +100,9 @@ MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(
 		if (!graph[srcMap]) {
 			graph[srcMap] = {};
 		}
+		if (!graph[destMap]) {
+			graph[destMap] = {};
+		}
 
 		// Store the warp in the graph with a default distance and hop count
 		if (!graph[srcMap][destMap]) {
