@@ -638,6 +638,7 @@ async function copyPwaFiles() {
 	const bgPath = './src/UI/Components/Intro/images/background.jpg';
 	fs.copyFileSync('./applications/pwa/icon.png', dist + platform + '/icon.png');
 	fs.copyFileSync('./applications/pwa/manifest.webmanifest', dist + platform + '/manifest.webmanifest');
+	copyFolder('./applications/pwa/data', dist + platform + '/data');
 	await sharp(bgPath)
 		.resize(1920, 1080)
 		.png()
