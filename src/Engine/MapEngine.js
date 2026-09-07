@@ -502,6 +502,11 @@ function onConfig(pkt) {
 		case 5:
 			Equipment.getUI().setCostumeConfig(pkt.Value);
 			break;
+		case 1000:
+		case 1001:
+		case 1002:
+			Navigation.setTeleportConfig(pkt.Config, pkt.Value);
+			break;
 		default:
 			console.error('[PACKET_ZC_CONFIG] Unknown Config Type %d (value:%d)', pkt.Config, pkt.Value);
 	}

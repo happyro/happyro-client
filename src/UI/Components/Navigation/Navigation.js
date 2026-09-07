@@ -139,6 +139,8 @@ let _selectedTargetData = null;
 
 let _autoWalkTimer = null;
 let _autoWalkActive = false;
+let _teleportCooldownUntil = 0;
+let _teleportCooldownTimer = null;
 
 /**
  * @var {boolean} was target set by map click
@@ -272,11 +274,10 @@ function getPlayerPosition() {
 }
 
 /**
- * Whether the current account should see self-teleport controls.
- * The map server remains authoritative when the packet is handled.
+ * Whether the map server currently allows this session to teleport itself.
  */
 function canSelfTeleport() {
-	return Boolean(Session.Entity?.isAdmin || Session.UserLevel >= 10);
+	return Session.NavigationTeleportAllowed;
 }
 
 /**
@@ -756,7 +757,7 @@ Navigation.onMapClick = function onMapClick(event) {
 };
 
 /**
- * Show the self-teleport action only for configured GM characters.
+ * Show the self-teleport action only when the server grants the capability.
  */
 Navigation.updateTeleportButton = function updateTeleportButton() {
 	const root = Navigation.getRoot();
@@ -764,8 +765,18 @@ Navigation.updateTeleportButton = function updateTeleportButton() {
 	if (!button) return;
 
 	const target = _selectedTargetData || _finalTargetData || _targetData;
+	const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
+	const canTeleportTarget = canSelfTeleport() && (!isCrossMap || Session.NavigationTeleportCrossMap);
 	button.style.display =
-		canSelfTeleport() && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? 'block' : 'none';
+		canTeleportTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? 'block' : 'none';
+	button.disabled = Date.now() < _teleportCooldownUntil;
+};
+
+Navigation.setTeleportConfig = function setTeleportConfig(type, value) {
+	if (type === 1000) Session.NavigationTeleportAllowed = Boolean(value);
+	if (type === 1001) Session.NavigationTeleportCrossMap = Boolean(value);
+	if (type === 1002) Session.NavigationTeleportCooldown = Math.max(0, Number(value) || 0);
+	this.updateTeleportButton();
 };
 
 Navigation.updateAutoWalkButtons = function updateAutoWalkButtons() {
@@ -827,13 +838,25 @@ Navigation.stopAutoWalk = function stopAutoWalk() {
  */
 Navigation.teleportToSelectedTarget = function teleportToSelectedTarget() {
 	const target = _selectedTargetData || _finalTargetData || _targetData;
-	if (!target || !target.map) return;
+	const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
+	if (
+		!target ||
+		!target.map ||
+		!canSelfTeleport() ||
+		(isCrossMap && !Session.NavigationTeleportCrossMap) ||
+		Date.now() < _teleportCooldownUntil
+	)
+		return;
 
 	const packet = new PACKET.CZ.MOVETO_MAP();
 	packet.mapName = normalizeMapName(target.map);
 	packet.xPos = Math.max(0, Math.floor(target.x));
 	packet.yPos = Math.max(0, Math.floor(target.y));
 	Network.sendPacket(packet);
+	_teleportCooldownUntil = Date.now() + Session.NavigationTeleportCooldown * 1000;
+	this.updateTeleportButton();
+	if (_teleportCooldownTimer) clearTimeout(_teleportCooldownTimer);
+	_teleportCooldownTimer = setTimeout(() => this.updateTeleportButton(), Session.NavigationTeleportCooldown * 1000);
 };
 
 /**
