@@ -10,6 +10,10 @@ const navigationSource = readFileSync(
 	resolve(process.cwd(), 'src/UI/Components/Navigation/Navigation.js'),
 	'utf8'
 );
+const navigationHtml = readFileSync(
+	resolve(process.cwd(), 'src/UI/Components/Navigation/Navigation.html'),
+	'utf8'
+);
 const miniMapSource = readFileSync(
 	resolve(process.cwd(), 'src/UI/Components/MiniMap/MiniMapCommon.js'),
 	'utf8'
@@ -52,7 +56,7 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('Session.NavigationTeleportCrossMap');
 		expect(navigationSource).toContain('Session.NavigationTeleportCooldown');
 		expect(navigationSource).not.toContain('Session.UserLevel >= 10');
-		expect(navigationSource.match(/canSelfTeleport\(\)/g)).toHaveLength(3);
+		expect(navigationSource.match(/canSelfTeleport\(\)/g)).toHaveLength(4);
 		expect(navigationSource).toContain('!target.map ||');
 		expect(navigationSource).toContain('new PACKET.CZ.MOVETO_MAP()');
 		expect(navigationSource).toContain('Navigation.teleportToSelectedTarget');
@@ -68,5 +72,24 @@ describe('world map navigation', () => {
 	it('supports map search and auto-walk controls', () => {
 		expect(navigationSource).toContain('startAutoWalk');
 		expect(navigationSource).toContain('REQUEST_MOVE2');
+		expect(navigationSource).toContain('warpType >= 202');
+	});
+
+	it('validates live NPCs before displaying search results', () => {
+		expect(navigationSource).toContain('new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY()');
+		expect(navigationSource).toContain('Navigation.onNpcAvailabilityResult');
+		expect(navigationSource).toContain('`${mapName} · ${result.x},${result.y}`');
+	});
+
+	it('renders navigation results as native buttons for cursor and keyboard handling', () => {
+		expect(navigationSource).toContain("document.createElement('button')");
+		expect(navigationSource).toContain("resultItem.type = 'button'");
+	});
+
+	it('uses in-page filter menus so the game cursor stays above their options', () => {
+		expect(navigationHtml).not.toContain('<select');
+		expect(navigationHtml).toContain('class="filter-trigger"');
+		expect(navigationHtml).toContain('role="listbox"');
+		expect(navigationSource).toContain('setupSearchFilter');
 	});
 });

@@ -277,6 +277,8 @@ class MapEngine {
 			Network.hookPacket(PACKET.ZC.CONFIG_NOTIFY4, onConfigNotify);
 			Network.hookPacket(PACKET.ZC.CONFIG, onConfig);
 			Network.hookPacket(PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT, onMonsterSpawnResult);
+			Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT, onNpcAvailabilityResult);
+			Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT, onNpcTeleportResult);
 			Network.hookPacket(PACKET.ZC.REFUSE_ENTER, onConnectionRefused);
 
 			// hook reassembly packets and map the responses
@@ -529,6 +531,14 @@ function onConfig(pkt) {
 
 function onMonsterSpawnResult(pkt) {
 	GameTools.onMonsterSpawnResult(pkt.result, pkt.entityId);
+}
+
+function onNpcTeleportResult(pkt) {
+	Navigation.onNpcTeleportResult(pkt);
+}
+
+function onNpcAvailabilityResult(pkt) {
+	Navigation.onNpcAvailabilityResult(pkt);
 }
 
 /**

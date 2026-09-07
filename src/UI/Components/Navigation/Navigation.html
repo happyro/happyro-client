@@ -12,12 +12,26 @@
 	</div>
 	<div class="content">
 		<div class="search-container">
-			<select class="search-type">
-				<option value="ALL">全部</option>
-				<option value="NPC">NPC</option>
-				<option value="MOB">魔物</option>
-				<option value="MAP">地图</option>
-			</select>
+			<div class="search-filter search-type" data-value="ALL">
+				<button class="filter-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+					<span class="filter-label">全部类型</span>
+				</button>
+				<div class="filter-menu" role="listbox" hidden>
+					<button class="filter-option" type="button" role="option" data-value="ALL" aria-selected="true">全部类型</button>
+					<button class="filter-option" type="button" role="option" data-value="NPC" aria-selected="false">NPC</button>
+					<button class="filter-option" type="button" role="option" data-value="MOB" aria-selected="false">魔物</button>
+					<button class="filter-option" type="button" role="option" data-value="MAP" aria-selected="false">地图</button>
+				</div>
+			</div>
+			<div class="search-filter search-scope" data-value="WORLD">
+				<button class="filter-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+					<span class="filter-label">全世界</span>
+				</button>
+				<div class="filter-menu" role="listbox" hidden>
+					<button class="filter-option" type="button" role="option" data-value="WORLD" aria-selected="true">全世界</button>
+					<button class="filter-option" type="button" role="option" data-value="CURRENT" aria-selected="false">当前地图</button>
+				</div>
+			</div>
 			<div class="search-left" data-background="basic_interface/txtbox_l.bmp"></div>
 			<div class="search-middle" data-background="basic_interface/txtbox_m.bmp"></div>
 			<div class="search-right" data-background="basic_interface/txtbox_r.bmp"></div>
@@ -31,7 +45,9 @@
 		</div>
 		<div class="map-container">
 			<div class="services-toggle-container">
-				<label class="services-checkbox"> <input type="checkbox" class="services-toggle" /> 服务 </label>
+				<label class="services-checkbox" title="允许规划卡普拉等服务路线；到达后需手动与 NPC 对话">
+					<input type="checkbox" class="services-toggle" /> 传送服务
+				</label>
 			</div>
 			<div class="location-title"></div>
 			<div class="map-display">
@@ -41,7 +57,9 @@
 				<button class="walk-button" type="button">开始寻路</button>
 				<button class="walk-stop-button" type="button">停止寻路</button>
 				<button class="teleport-button" type="button">传送到这里</button>
+				<button class="npc-teleport-button" type="button">传送到 NPC 附近</button>
 			</div>
+			<div class="action-status" role="status"></div>
 		</div>
 	</div>
 	<div class="footer">

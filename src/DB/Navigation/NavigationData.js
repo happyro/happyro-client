@@ -29,11 +29,16 @@ export function replaceNavigationRows(target, rows) {
  * @param {Object} localizers
  * @returns {Array}
  */
-export function searchNavigationRows(npcRows, mobRows, query, type, localizers, channelsEnabled = false) {
+export function searchNavigationRows(npcRows, mobRows, query, type, localizers, options = {}) {
+	const { channelsEnabled = false, currentMap = '', scope = 'WORLD' } = options;
 	const normalizedQuery = String(query || '')
 		.trim()
 		.toLocaleLowerCase();
-	if (normalizedQuery.length < 2) return [];
+	if (normalizedQuery.length < 1) return [];
+	const normalizedCurrentMap = String(currentMap || '').toLocaleLowerCase();
+	const mapIsVisible = mapName =>
+		isVisibleMapChannel(mapName, channelsEnabled) &&
+		(scope !== 'CURRENT' || String(mapName).toLocaleLowerCase() === normalizedCurrentMap);
 
 	const results = [];
 	const matches = (...names) =>
@@ -46,7 +51,8 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers, 
 	if (type === 'ALL' || type === 'NPC') {
 		for (const npc of npcRows) {
 			if (!Array.isArray(npc)) continue;
-			if (!isVisibleMapChannel(npc[0], channelsEnabled)) continue;
+			if (!mapIsVisible(npc[0])) continue;
+			// Navi_Npc rows store the navigation category before the live NPC class.
 			const rawName = npc[4] || '';
 			const localizedName = localizers.npc(rawName) || rawName;
 			const aliases = localizers.npcAliases?.(rawName) || [];
@@ -55,6 +61,7 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers, 
 			results.push({
 				type: 'NPC',
 				id: npc[1],
+				npcClass: npc[3],
 				name: localizedName,
 				mapName: npc[0],
 				mapDisplayName: getMapChannelDisplayName(npc[0], localizers.map(npc[0]), channelsEnabled),
@@ -67,7 +74,7 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers, 
 	if (type === 'ALL' || type === 'MOB') {
 		for (const mob of mobRows) {
 			if (!Array.isArray(mob)) continue;
-			if (!isVisibleMapChannel(mob[0], channelsEnabled)) continue;
+			if (!mapIsVisible(mob[0])) continue;
 			const rawName = mob[4] || '';
 			const mobId = Number(mob[3]) & 0xffff;
 			const localizedName = localizers.mob(mobId, rawName) || rawName;
@@ -85,15 +92,31 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers, 
 		}
 	}
 
-	return results.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 50);
+	const matchRank = result => {
+		const name = result.name.toLocaleLowerCase();
+		if (name === normalizedQuery) return 0;
+		if (name.startsWith(normalizedQuery)) return 1;
+		return 2;
+	};
+	return results
+		.sort(
+			(a, b) =>
+				(Number(b.mapName.toLocaleLowerCase() === normalizedCurrentMap) -
+					Number(a.mapName.toLocaleLowerCase() === normalizedCurrentMap)) ||
+				matchRank(a) - matchRank(b) ||
+				a.name.localeCompare(b.name) ||
+				a.mapDisplayName.localeCompare(b.mapDisplayName)
+		)
+		.slice(0, 50);
 }
 
-export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, channelsEnabled = false) {
+export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, options = {}) {
+	const { channelsEnabled = false, currentMap = '', scope = 'WORLD' } = options;
 	if (type !== 'ALL' && type !== 'MAP') return [];
 	const normalizedQuery = String(query || '')
 		.trim()
 		.toLocaleLowerCase();
-	if (normalizedQuery.length < 2) return [];
+	if (normalizedQuery.length < 1) return [];
 
 	const results = new Map();
 	for (const world of worldMaps || []) {
@@ -101,6 +124,7 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 			const id = String(map.id || '');
 			if (!id || results.has(id)) continue;
 			if (!isVisibleMapChannel(id, channelsEnabled)) continue;
+			if (scope === 'CURRENT' && id !== currentMap) continue;
 			const baseName = map.name || localizeMap(id);
 			const name = getMapChannelDisplayName(id, baseName, channelsEnabled);
 			if (
@@ -124,6 +148,7 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 		const id = resourceName.replace(/\.(?:rsw|gat)$/i, '');
 		if (!id || results.has(id)) continue;
 		if (!isVisibleMapChannel(id, channelsEnabled)) continue;
+		if (scope === 'CURRENT' && id !== currentMap) continue;
 		const baseName = info.displayName || localizeMap(id);
 		const name = getMapChannelDisplayName(id, baseName, channelsEnabled);
 		if (!id.toLocaleLowerCase().includes(normalizedQuery) && !baseName.toLocaleLowerCase().includes(normalizedQuery)) {

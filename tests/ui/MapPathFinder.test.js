@@ -19,7 +19,7 @@ describe('map path finder', () => {
 
 	it('returns a same-map destination directly', () => {
 		expect(MapPathFinder.findPathBetweenMaps('prontera', 10, 20, 'prontera', 30, 40)).toEqual([
-			{ map: 'prontera', x: 30, y: 40, warpId: null }
+			{ map: 'prontera', x: 30, y: 40, warpId: null, warpType: null, warpName: '' }
 		]);
 	});
 
@@ -39,8 +39,8 @@ describe('map path finder', () => {
 		);
 
 		expect(path).toEqual([
-			{ map: 'prontera', x: 156, y: 20, warpId: 13350 },
-			{ map: 'prt_fild08', x: 200, y: 200, warpId: null }
+			{ map: 'prontera', x: 156, y: 20, warpId: 13350, warpType: 200, warpName: '南门' },
+			{ map: 'prt_fild08', x: 200, y: 200, warpId: null, warpType: null, warpName: '' }
 		]);
 	});
 
@@ -54,6 +54,16 @@ describe('map path finder', () => {
 		).toBeNull();
 		expect(
 			MapPathFinder.findPathBetweenMaps('prontera', 150, 50, 'geffen', 100, 100, [200, 201, 202])
-		).toHaveLength(2);
+		).toEqual([
+			{
+				map: 'prontera',
+				x: 146,
+				y: 89,
+				warpId: 13351,
+				warpType: 202,
+				warpName: '卡普拉传送'
+			},
+			{ map: 'geffen', x: 100, y: 100, warpId: null, warpType: null, warpName: '' }
+		]);
 	});
 });
