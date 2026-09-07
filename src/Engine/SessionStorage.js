@@ -25,6 +25,7 @@ export default {
 	NavigationTeleportAllowed: false,
 	NavigationTeleportCrossMap: false,
 	NavigationTeleportCooldown: 0,
+	NavigationMapChannelsEnabled: false,
 	GameToolsMonsterSpawnAllowed: false,
 	GameToolsMonsterSpawnCooldown: 0,
 	GameToolsMonsterSpawnAllowBoss: false,

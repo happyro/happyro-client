@@ -182,7 +182,6 @@ let _documentClickHandler = null;
 function normalizeMapName(mapName) {
 	if (!mapName) return '';
 	mapName = mapName.replace(/\.gat$/, '').toLowerCase();
-	mapName = mapName.replace(/^(.+)_[a-d]$/, '$1');
 	return mapName;
 }
 
@@ -548,7 +547,7 @@ Navigation.onSearch = function onSearch() {
 	}
 
 	// Search for NPCs and MOBs
-	const results = DB.searchNavigation(query, type);
+	const results = DB.searchNavigation(query, type, Session.NavigationMapChannelsEnabled);
 
 	// Display search results
 	this.displaySearchResults(results);
@@ -601,7 +600,7 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 		nameLabel.textContent = result.name;
 		const mapLabel = document.createElement('span');
 		mapLabel.className = 'result-map';
-		mapLabel.textContent = result.mapDisplayName || result.mapName;
+		mapLabel.textContent = result.type === 'MAP' ? result.mapName : result.mapDisplayName || result.mapName;
 		resultItem.append(typeLabel, nameLabel, mapLabel);
 
 		// Store result data
@@ -776,6 +775,7 @@ Navigation.setTeleportConfig = function setTeleportConfig(type, value) {
 	if (type === 1000) Session.NavigationTeleportAllowed = Boolean(value);
 	if (type === 1001) Session.NavigationTeleportCrossMap = Boolean(value);
 	if (type === 1002) Session.NavigationTeleportCooldown = Math.max(0, Number(value) || 0);
+	if (type === 1003) Session.NavigationMapChannelsEnabled = Boolean(value);
 	this.updateTeleportButton();
 };
 
