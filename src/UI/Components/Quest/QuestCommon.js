@@ -29,6 +29,7 @@ import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import ChatBox from 'UI/Components/ChatBox/ChatBox.js';
 import Session from 'Engine/SessionStorage.js';
+import { showQuestList } from './QuestTabVisibility.js';
 
 /**
  * Create a Quest component from a version-specific configuration.
@@ -109,10 +110,7 @@ export function createQuest(config) {
 				item.addEventListener('click', e => onClickMenu(e));
 			});
 
-			const activeList = root.querySelector('#active-quest-list');
-			if (activeList) {
-				activeList.style.display = '';
-			}
+			showQuestList(root, '#active-quest-list');
 
 			const toggleBtn = root.querySelector('.toggle-quest-list');
 			if (toggleBtn) {
@@ -129,10 +127,7 @@ export function createQuest(config) {
 				item.addEventListener('click', e => onClickMenu(e));
 			});
 
-			const activeList = root.querySelector('#active-quest-list');
-			if (activeList) {
-				activeList.style.display = '';
-			}
+			showQuestList(root, '#active-quest-list');
 
 			this.draggable('.titlebar');
 		}
@@ -202,35 +197,9 @@ export function createQuest(config) {
 		const root = Quest.getRoot();
 		if (root) {
 			if (renewLayout) {
-				const activeList = root.querySelector('#active-quest-list');
-				if (activeList) {
-					activeList.style.display = '';
-				}
-				const inactiveList = root.querySelector('#inactive-quest-list');
-				if (inactiveList) {
-					inactiveList.style.display = 'none';
-				}
-				const featureList = root.querySelector('#feature-quest-list');
-				if (featureList) {
-					featureList.style.display = 'none';
-				}
-				const cooldownList = root.querySelector('#cooldown-quest-list');
-				if (cooldownList) {
-					cooldownList.style.display = 'none';
-				}
+				showQuestList(root, '#active-quest-list');
 			} else {
-				const activeList = root.querySelector('#active-quest-list');
-				if (activeList) {
-					activeList.style.display = 'none';
-				}
-				const inactiveList = root.querySelector('#inactive-quest-list');
-				if (inactiveList) {
-					inactiveList.style.display = 'none';
-				}
-				const allList = root.querySelector('#all-quest-list');
-				if (allList) {
-					allList.style.display = 'none';
-				}
+				showQuestList(root, '#active-quest-list');
 			}
 		}
 		Quest.ClearQuestList();
@@ -589,27 +558,23 @@ export function createQuest(config) {
 
 		if (renewLayout) {
 			let background_image = '';
-			root.querySelector('#active-quest-list').style.display = 'none';
-			root.querySelector('#inactive-quest-list').style.display = 'none';
-			root.querySelector('#feature-quest-list').style.display = 'none';
-			root.querySelector('#cooldown-quest-list').style.display = 'none';
 
 			switch (_active_menu) {
 				case 'feature':
 					background_image = 'bg_quest2';
-					root.querySelector('#feature-quest-list').style.display = '';
+					showQuestList(root, '#feature-quest-list');
 					break;
 				case 'inactive':
 					background_image = 'bg_quest3';
-					root.querySelector('#inactive-quest-list').style.display = '';
+					showQuestList(root, '#inactive-quest-list');
 					break;
 				case 'cooldown':
 					background_image = 'bg_quest4';
-					root.querySelector('#cooldown-quest-list').style.display = '';
+					showQuestList(root, '#cooldown-quest-list');
 					break;
 				default:
 					background_image = 'bg_quest1';
-					root.querySelector('#active-quest-list').style.display = '';
+					showQuestList(root, '#active-quest-list');
 			}
 
 			Client.loadFile(`${DB.INTERFACE_PATH}renew_questui/${background_image}.bmp`, data => {
@@ -620,22 +585,19 @@ export function createQuest(config) {
 			});
 		} else {
 			let background_image = '';
-			root.querySelector('#active-quest-list').style.display = 'none';
-			root.querySelector('#inactive-quest-list').style.display = 'none';
-			root.querySelector('#all-quest-list').style.display = 'none';
 
 			switch (_active_menu) {
 				case 'inactive':
 					background_image = 'tab_que_02';
-					root.querySelector('#inactive-quest-list').style.display = '';
+					showQuestList(root, '#inactive-quest-list');
 					break;
 				case 'all':
 					background_image = 'tab_que_03';
-					root.querySelector('#all-quest-list').style.display = '';
+					showQuestList(root, '#all-quest-list');
 					break;
 				default:
 					background_image = 'tab_que_01';
-					root.querySelector('#active-quest-list').style.display = '';
+					showQuestList(root, '#active-quest-list');
 			}
 
 			Client.loadFile(`${DB.INTERFACE_PATH}basic_interface/${background_image}.bmp`, data => {

@@ -42,11 +42,13 @@
 	width: 30px;
 	box-sizing: border-box;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	border: 1px solid #aab4ae;
 	background: #f4f7f5;
-	writing-mode: vertical-rl;
+	line-height: 16px;
+	letter-spacing: 0;
 	cursor: pointer;
 }
 
