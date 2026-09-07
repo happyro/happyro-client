@@ -32,6 +32,11 @@ import { selectAutoWalkWaypoint } from './NavigationAutoWalk.js';
  */
 const Navigation = new GUIComponent('Navigation', cssText);
 
+const NAVIGATION_WIDTH = 440;
+const NAVIGATION_HEIGHT = 520;
+const MAP_WIDTH = 400;
+const MAP_HEIGHT = 340;
+
 Navigation.render = () => htmlText;
 
 /**
@@ -41,6 +46,47 @@ function createAsyncImage() {
 	const img = new Image();
 	img.decoding = 'async';
 	return img;
+}
+
+function closeSearchFilterMenus(root, except = null) {
+	for (const filter of root.querySelectorAll('.search-filter')) {
+		if (filter === except) continue;
+		filter.querySelector('.filter-menu').hidden = true;
+		filter.querySelector('.filter-trigger').setAttribute('aria-expanded', 'false');
+	}
+}
+
+function setupSearchFilter(root, selector, onChange) {
+	const filter = root.querySelector(selector);
+	const trigger = filter.querySelector('.filter-trigger');
+	const menu = filter.querySelector('.filter-menu');
+	trigger.addEventListener('click', event => {
+		event.stopPropagation();
+		const willOpen = menu.hidden;
+		closeSearchFilterMenus(root, filter);
+		menu.hidden = !willOpen;
+		trigger.setAttribute('aria-expanded', String(willOpen));
+	});
+
+	for (const option of menu.querySelectorAll('.filter-option')) {
+		option.addEventListener('click', event => {
+			event.stopPropagation();
+			const changed = filter.dataset.value !== option.dataset.value;
+			filter.dataset.value = option.dataset.value;
+			trigger.querySelector('.filter-label').textContent = option.textContent;
+			for (const item of menu.querySelectorAll('.filter-option')) {
+				item.setAttribute('aria-selected', String(item === option));
+			}
+			menu.hidden = true;
+			trigger.setAttribute('aria-expanded', 'false');
+			trigger.focus();
+			if (changed) onChange();
+		});
+	}
+}
+
+function getSearchFilterValue(root, selector) {
+	return root.querySelector(selector)?.dataset.value || '';
 }
 
 /**
@@ -141,6 +187,12 @@ let _autoWalkTimer = null;
 let _autoWalkActive = false;
 let _teleportCooldownUntil = 0;
 let _teleportCooldownTimer = null;
+let _npcTeleportPending = false;
+let _npcTeleportRequestId = 0;
+let _npcTeleportTimer = null;
+let _npcAvailabilityRequestId = 0;
+let _npcAvailabilityPending = null;
+let _npcAvailabilityTimer = null;
 
 /**
  * @var {boolean} was target set by map click
@@ -335,8 +387,8 @@ function resetPathFindingWorker() {
 Navigation.screenToMapCoordinates = function screenToMapCoordinates(screenX, screenY) {
 	if (!_mapData?.ready) return null;
 
-	const width = 280;
-	const height = 230;
+	const width = MAP_WIDTH;
+	const height = MAP_HEIGHT;
 
 	const scaleX = width / _mapData.width;
 	const scaleY = height / _mapData.height;
@@ -367,13 +419,13 @@ Navigation.init = function init() {
 		walkableType: Altitude.TYPE.WALKABLE
 	};
 
-	this._host.style.top = `${Math.max(0, Math.min(Renderer.height - 324, 200))}px`;
-	this._host.style.left = `${Math.max(0, Math.min(Renderer.width - 300, 200))}px`;
+	this._host.style.top = `${Math.max(0, Math.min(Renderer.height - NAVIGATION_HEIGHT, 120))}px`;
+	this._host.style.left = `${Math.max(0, Math.min(Renderer.width - NAVIGATION_WIDTH, 120))}px`;
 
 	// Get canvas context
 	const canvas = document.createElement('canvas');
-	canvas.width = 280;
-	canvas.height = 230;
+	canvas.width = MAP_WIDTH;
+	canvas.height = MAP_HEIGHT;
 	_ctx = canvas.getContext('2d');
 	const mapDisplay = root.querySelector('.map-display');
 	if (mapDisplay) {
@@ -414,6 +466,11 @@ Navigation.init = function init() {
 		event.stopPropagation();
 		this.onSearch();
 	});
+	const refreshSearch = () => {
+		if (root.querySelector('.search-input').value.trim().length >= 1) this.onSearch();
+	};
+	setupSearchFilter(root, '.search-type', refreshSearch);
+	setupSearchFilter(root, '.search-scope', refreshSearch);
 	root.querySelector('.services-toggle').addEventListener('change', () => {
 		if (!_finalTargetData) return;
 		_pathUnavailable = false;
@@ -448,6 +505,7 @@ Navigation.init = function init() {
 	// Hide search results when clicking outside (on document level)
 	_documentClickHandler = e => {
 		if (!isNavigationSearchInteraction(e)) {
+			closeSearchFilterMenus(root);
 			const resultsContainer = root.querySelector('.search-results');
 			if (resultsContainer) {
 				resultsContainer.style.display = 'none';
@@ -461,6 +519,10 @@ Navigation.init = function init() {
 	root.querySelector('.teleport-button').addEventListener('click', e => {
 		e.stopPropagation();
 		this.teleportToSelectedTarget();
+	});
+	root.querySelector('.npc-teleport-button').addEventListener('click', e => {
+		e.stopPropagation();
+		this.teleportToSelectedNpc();
 	});
 	root.querySelector('.walk-button').addEventListener('click', e => {
 		e.stopPropagation();
@@ -522,6 +584,10 @@ Navigation.onRemove = function onRemove() {
 	this.stopAutoWalk();
 	this.clearPath();
 	terminatePathFindingWorker();
+	clearTimeout(_npcTeleportTimer);
+	clearTimeout(_npcAvailabilityTimer);
+	_npcTeleportPending = false;
+	_npcAvailabilityPending = null;
 
 	// Clean up document-level event listener
 	if (_documentClickHandler) {
@@ -535,10 +601,11 @@ Navigation.onRemove = function onRemove() {
 Navigation.onSearch = function onSearch() {
 	const root = Navigation.getRoot();
 	const query = root.querySelector('.search-input').value.trim();
-	const type = root.querySelector('.search-type').value;
+	const type = getSearchFilterValue(root, '.search-type');
 	const resultsContainer = root.querySelector('.search-results');
+	closeSearchFilterMenus(root);
 
-	if (query.length < 2) {
+	if (query.length < 1) {
 		if (resultsContainer) {
 			resultsContainer.replaceChildren();
 			resultsContainer.style.display = 'none';
@@ -547,10 +614,69 @@ Navigation.onSearch = function onSearch() {
 	}
 
 	// Search for NPCs and MOBs
-	const results = DB.searchNavigation(query, type, Session.NavigationMapChannelsEnabled);
+	const results = DB.searchNavigation(query, type, {
+		channelsEnabled: Session.NavigationMapChannelsEnabled,
+		currentMap: getCurrentMap(),
+		scope: getSearchFilterValue(root, '.search-scope')
+	});
 
-	// Display search results
+	const npcResults = results.filter(result => result.type === 'NPC');
+	if (npcResults.length) {
+		this.requestNpcAvailability(results, npcResults);
+		return;
+	}
+
 	this.displaySearchResults(results);
+};
+
+Navigation.requestNpcAvailability = function requestNpcAvailability(results, npcResults) {
+	const requestId = ++_npcAvailabilityRequestId;
+	_npcAvailabilityPending = { requestId, results, npcResults };
+	const packet = new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY();
+	packet.requestId = requestId;
+	packet.npcs = npcResults.map(npc => ({
+		mapName: normalizeMapName(npc.mapName),
+		x: Math.max(0, Math.floor(npc.x)),
+		y: Math.max(0, Math.floor(npc.y)),
+		npcClass: Math.floor(npc.npcClass)
+	}));
+	Network.sendPacket(packet);
+
+	this.displaySearchMessage('正在校验 NPC...');
+	clearTimeout(_npcAvailabilityTimer);
+	_npcAvailabilityTimer = setTimeout(() => {
+		if (_npcAvailabilityPending?.requestId !== requestId) return;
+		const nonNpcResults = results.filter(result => result.type !== 'NPC');
+		_npcAvailabilityPending = null;
+		if (nonNpcResults.length) this.displaySearchResults(nonNpcResults);
+		else this.displaySearchMessage('暂时无法验证 NPC 状态');
+	}, 5000);
+};
+
+Navigation.onNpcAvailabilityResult = function onNpcAvailabilityResult(packet) {
+	const pending = _npcAvailabilityPending;
+	if (!pending || packet.requestId !== pending.requestId || packet.available.length !== pending.npcResults.length) return;
+	clearTimeout(_npcAvailabilityTimer);
+	const availableNpcResults = pending.npcResults.filter((result, index) => packet.available[index]);
+	const availableSet = new Set(availableNpcResults);
+	_npcAvailabilityPending = null;
+	this.displaySearchResults(pending.results.filter(result => result.type !== 'NPC' || availableSet.has(result)));
+};
+
+Navigation.displaySearchMessage = function displaySearchMessage(message) {
+	const root = this.getRoot();
+	let container = root.querySelector('.search-results');
+	if (!container) {
+		container = document.createElement('div');
+		container.className = 'search-results';
+		root.querySelector('.content').appendChild(container);
+	}
+	container.replaceChildren();
+	const label = document.createElement('div');
+	label.className = 'no-results';
+	label.textContent = message;
+	container.appendChild(label);
+	container.style.display = 'block';
 };
 
 /**
@@ -587,7 +713,9 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 	// Add each result to the list
 	for (let i = 0; i < results.length; i++) {
 		const result = results[i];
-		const resultItem = document.createElement('li');
+		const resultRow = document.createElement('li');
+		const resultItem = document.createElement('button');
+		resultItem.type = 'button';
 		resultItem.className = 'result-item';
 
 		// Add type icon (NPC or MOB)
@@ -600,7 +728,11 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 		nameLabel.textContent = result.name;
 		const mapLabel = document.createElement('span');
 		mapLabel.className = 'result-map';
-		mapLabel.textContent = result.type === 'MAP' ? result.mapName : result.mapDisplayName || result.mapName;
+		const mapName = result.type === 'MAP' ? result.mapName : result.mapDisplayName || result.mapName;
+		mapLabel.textContent =
+			result.type === 'NPC' && Number.isFinite(result.x) && Number.isFinite(result.y)
+				? `${mapName} · ${result.x},${result.y}`
+				: mapName;
 		resultItem.append(typeLabel, nameLabel, mapLabel);
 
 		// Store result data
@@ -612,7 +744,8 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 			this.navigateToSearchResult(result);
 		});
 
-		resultsList.appendChild(resultItem);
+		resultRow.appendChild(resultItem);
+		resultsList.appendChild(resultRow);
 	}
 
 	// Show the results container
@@ -628,6 +761,7 @@ Navigation.navigateToSearchResult = function navigateToSearchResult(result) {
 	}
 
 	this.targetResult = result;
+	this.setActionStatus('');
 	_isMapClickTarget = false;
 	if (!Number.isFinite(result.x) || !Number.isFinite(result.y)) {
 		this.showMap(result.mapName, result.mapDisplayName || result.mapName, {
@@ -715,6 +849,8 @@ Navigation.findClosestWalkableCell = function findClosestWalkableCell(x, y, maxR
  */
 Navigation.onMapClick = function onMapClick(event) {
 	if (!_mapData?.ready || !_mapData.map) return;
+	this.targetResult = null;
+	this.setActionStatus('');
 
 	const root = Navigation.getRoot();
 	const mapDisplay = root.querySelector('.map-display');
@@ -761,14 +897,26 @@ Navigation.onMapClick = function onMapClick(event) {
 Navigation.updateTeleportButton = function updateTeleportButton() {
 	const root = Navigation.getRoot();
 	const button = root?.querySelector('.teleport-button');
-	if (!button) return;
+	const npcButton = root?.querySelector('.npc-teleport-button');
+	if (!button || !npcButton) return;
 
 	const target = _selectedTargetData || _finalTargetData || _targetData;
 	const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
 	const canTeleportTarget = canSelfTeleport() && (!isCrossMap || Session.NavigationTeleportCrossMap);
+	const npcTarget = this.targetResult?.type === 'NPC' ? this.targetResult : null;
 	button.style.display =
-		canTeleportTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? 'block' : 'none';
+		!npcTarget && canTeleportTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? 'block' : 'none';
 	button.disabled = Date.now() < _teleportCooldownUntil;
+	npcButton.style.display = npcTarget && canTeleportTarget ? 'block' : 'none';
+	npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
+	npcButton.textContent = _npcTeleportPending ? '正在传送...' : '传送到 NPC 附近';
+};
+
+Navigation.setActionStatus = function setActionStatus(message, isError = false) {
+	const status = this.getRoot()?.querySelector('.action-status');
+	if (!status) return;
+	status.textContent = message;
+	status.style.color = isError ? '#a61d24' : '#555';
 };
 
 Navigation.setTeleportConfig = function setTeleportConfig(type, value) {
@@ -811,6 +959,11 @@ Navigation.startAutoWalk = function startAutoWalk() {
 		}
 		const position = getPlayerPosition();
 		const reachedTarget = Math.abs(position.x - _targetData.x) <= 1 && Math.abs(position.y - _targetData.y) <= 1;
+		if (reachedTarget && _targetData.warpType >= 202) {
+			this.stopAutoWalk();
+			this.setActionStatus(`已到达${_targetData.warpName || '传送服务'}，请与 NPC 对话完成传送`);
+			return;
+		}
 		if (reachedTarget && _finalTargetData.map === currentMap) {
 			this.stopAutoWalk();
 			return;
@@ -857,6 +1010,66 @@ Navigation.teleportToSelectedTarget = function teleportToSelectedTarget() {
 	this.updateTeleportButton();
 	if (_teleportCooldownTimer) clearTimeout(_teleportCooldownTimer);
 	_teleportCooldownTimer = setTimeout(() => this.updateTeleportButton(), Session.NavigationTeleportCooldown * 1000);
+};
+
+Navigation.teleportToSelectedNpc = function teleportToSelectedNpc() {
+	const npc = this.targetResult;
+	if (
+		_npcTeleportPending ||
+		npc?.type !== 'NPC' ||
+		!npc.mapName ||
+		!Number.isFinite(npc.x) ||
+		!Number.isFinite(npc.y) ||
+		!Number.isFinite(npc.npcClass) ||
+		!canSelfTeleport() ||
+		Date.now() < _teleportCooldownUntil
+	)
+		return;
+
+	_npcTeleportPending = true;
+	const requestId = ++_npcTeleportRequestId;
+	const packet = new PACKET.CZ.HAPPYRO_NPC_TELEPORT();
+	packet.requestId = requestId;
+	packet.mapName = normalizeMapName(npc.mapName);
+	packet.npcX = Math.max(0, Math.floor(npc.x));
+	packet.npcY = Math.max(0, Math.floor(npc.y));
+	packet.npcClass = Math.floor(npc.npcClass);
+	Network.sendPacket(packet);
+	this.setActionStatus('正在等待服务器确认...');
+	this.updateTeleportButton();
+	clearTimeout(_npcTeleportTimer);
+	_npcTeleportTimer = setTimeout(() => {
+		if (!_npcTeleportPending || requestId !== _npcTeleportRequestId) return;
+		_npcTeleportPending = false;
+		this.setActionStatus('服务器响应超时，请稍后重试', true);
+		this.updateTeleportButton();
+	}, 8000);
+};
+
+Navigation.onNpcTeleportResult = function onNpcTeleportResult(packet) {
+	if (packet.requestId !== _npcTeleportRequestId) return;
+	clearTimeout(_npcTeleportTimer);
+	_npcTeleportPending = false;
+	const messages = {
+		1: '当前角色没有传送权限',
+		2: '跨地图传送已关闭',
+		3: `传送冷却中，请等待 ${packet.cooldownRemaining} 秒`,
+		4: '目标地图不可用',
+		5: 'NPC 当前不存在或不可见',
+		6: '当前地图规则禁止传送',
+		7: 'NPC 附近没有可用落点',
+		8: '传送失败，请稍后重试'
+	};
+	if (packet.result === 0) {
+		_teleportCooldownUntil = Date.now() + packet.cooldownRemaining * 1000;
+		this.setActionStatus(`已传送到 NPC 附近 (${packet.x}, ${packet.y})`);
+		clearTimeout(_teleportCooldownTimer);
+		_teleportCooldownTimer = setTimeout(() => this.updateTeleportButton(), packet.cooldownRemaining * 1000);
+	} else {
+		if (packet.result === 3) _teleportCooldownUntil = Date.now() + packet.cooldownRemaining * 1000;
+		this.setActionStatus(messages[packet.result] || '传送请求被服务器拒绝', true);
+	}
+	this.updateTeleportButton();
 };
 
 /**
@@ -1017,8 +1230,8 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 		return;
 	}
 
-	const width = 280;
-	const height = 230;
+	const width = MAP_WIDTH;
+	const height = MAP_HEIGHT;
 	const ctx = _ctx;
 
 	if (!ctx) {
@@ -1552,6 +1765,7 @@ Navigation.withMapData = function withMapData(mapName, callback) {
  */
 Navigation.navigateTo = function navigateTo(options) {
 	const navigationRequestId = ++_navigationRequestId;
+	this.setActionStatus('');
 	const root = Navigation.getRoot();
 	const startMap = normalizeMapName(options.startMap);
 	const endMap = normalizeMapName(options.endMap);
@@ -1628,7 +1842,9 @@ Navigation.navigateTo = function navigateTo(options) {
 				x: walkableCell.x,
 				y: walkableCell.y,
 				map: target.map,
-				displayName: displayName
+				displayName: displayName,
+				warpType: target.warpType,
+				warpName: target.warpName
 			};
 			this.findPath(options.startX, options.startY, _targetData.x, _targetData.y);
 		} else {

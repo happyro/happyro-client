@@ -15395,6 +15395,67 @@ PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT = function PACKET_ZC_HAPPYRO_MONSTER_SPAW
 };
 PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT.size = 8;
 
+// 0xcfc - HappyRO server-authoritative NPC teleport request
+PACKET.CZ.HAPPYRO_NPC_TELEPORT = function PACKET_CZ_HAPPYRO_NPC_TELEPORT() {
+	this.requestId = 0;
+	this.mapName = '';
+	this.npcX = 0;
+	this.npcY = 0;
+	this.npcClass = 0;
+};
+PACKET.CZ.HAPPYRO_NPC_TELEPORT.prototype.build = function () {
+	const pkt_buf = new BinaryWriter(30);
+	pkt_buf.writeShort(0xcfc);
+	pkt_buf.writeULong(this.requestId);
+	pkt_buf.writeBinaryString(this.mapName, 16);
+	pkt_buf.writeUShort(this.npcX);
+	pkt_buf.writeUShort(this.npcY);
+	pkt_buf.writeLong(this.npcClass);
+	return pkt_buf;
+};
+
+// 0xcfd - HappyRO NPC teleport result
+PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT = function PACKET_ZC_HAPPYRO_NPC_TELEPORT_RESULT(fp) {
+	this.requestId = fp.readULong();
+	this.result = fp.readUShort();
+	this.mapName = fp.readBinaryString(16).replace(/\0.*$/, '');
+	this.x = fp.readUShort();
+	this.y = fp.readUShort();
+	this.cooldownRemaining = fp.readULong();
+};
+PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT.size = 32;
+
+// 0xcfa - HappyRO live NPC availability request
+PACKET.CZ.HAPPYRO_NPC_AVAILABILITY = function PACKET_CZ_HAPPYRO_NPC_AVAILABILITY() {
+	this.requestId = 0;
+	this.npcs = [];
+};
+PACKET.CZ.HAPPYRO_NPC_AVAILABILITY.prototype.build = function () {
+	const count = Math.min(this.npcs.length, 50);
+	const packetLength = 10 + count * 24;
+	const pkt_buf = new BinaryWriter(packetLength);
+	pkt_buf.writeShort(0xcfa);
+	pkt_buf.writeUShort(packetLength);
+	pkt_buf.writeULong(this.requestId);
+	pkt_buf.writeUShort(count);
+	for (let i = 0; i < count; i++) {
+		pkt_buf.writeBinaryString(this.npcs[i].mapName, 16);
+		pkt_buf.writeUShort(this.npcs[i].x);
+		pkt_buf.writeUShort(this.npcs[i].y);
+		pkt_buf.writeLong(this.npcs[i].npcClass);
+	}
+	return pkt_buf;
+};
+
+// 0xcfb - HappyRO live NPC availability result
+PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT = function PACKET_ZC_HAPPYRO_NPC_AVAILABILITY_RESULT(fp) {
+	this.requestId = fp.readULong();
+	const count = fp.readUShort();
+	this.available = new Array(count);
+	for (let i = 0; i < count; i++) this.available[i] = Boolean(fp.readUChar());
+};
+PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT.size = -1;
+
 // 0x1bd
 PACKET.CZ.RECALL_GID = function PACKET_CZ_RECALL_GID() {
 	this.CharacterName = '';

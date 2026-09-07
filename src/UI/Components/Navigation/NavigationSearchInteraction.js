@@ -1,4 +1,4 @@
-const SEARCH_INTERACTION_SELECTOR = '.search-results, .search-input, .search-button, .search-type';
+const SEARCH_INTERACTION_SELECTOR = '.search-results, .search-input, .search-button, .search-type, .search-scope';
 
 /**
  * Check whether an event originated inside the navigation search controls.

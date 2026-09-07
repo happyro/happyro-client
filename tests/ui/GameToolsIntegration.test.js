@@ -38,6 +38,13 @@ describe('game tools integration', () => {
 		expect(read('src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.html')).toContain('id="game-tools"');
 		expect(read('src/Network/PacketStructure.js')).toContain('pkt_buf.writeShort(0xcfe)');
 		expect(read('src/Network/PacketRegister.js')).toContain('0xcff: PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT');
+		expect(read('src/Network/PacketStructure.js')).toContain('pkt_buf.writeShort(0xcfc)');
+		expect(read('src/Network/PacketRegister.js')).toContain('0xcfd: PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT');
+		expect(read('src/Network/PacketStructure.js')).toContain('pkt_buf.writeShort(0xcfa)');
+		expect(read('src/Network/PacketRegister.js')).toContain(
+			'0xcfb: PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT'
+		);
+		expect(read('src/Network/PacketLength.js')).toContain('packets_len[0x0cfb] = -1');
 	});
 
 	it('copies catalog assets into the deployed PWA output', () => {

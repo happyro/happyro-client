@@ -37,6 +37,7 @@ describe('navigation data', () => {
 			{
 				type: 'NPC',
 				id: 10,
+				npcClass: 4,
 				name: '卡普拉职员',
 				mapName: 'prontera',
 				mapDisplayName: '普隆德拉',
@@ -44,6 +45,12 @@ describe('navigation data', () => {
 				y: 89
 			}
 		]);
+	});
+
+	it('supports a single-character localized search', () => {
+		const rows = [['prontera', 10, 100, 4, 'Kafra', '', 146, 89]];
+
+		expect(searchNavigationRows(rows, [], '卡', 'NPC', localizers)).toHaveLength(1);
 	});
 
 	it('keeps resource names searchable and unpacks monster ids', () => {
@@ -115,7 +122,9 @@ describe('navigation data', () => {
 			])
 		);
 
-		const results = searchNavigationMaps([], mapInfo, '普隆德拉南门', 'MAP', id => id, true);
+		const results = searchNavigationMaps([], mapInfo, '普隆德拉南门', 'MAP', id => id, {
+			channelsEnabled: true
+		});
 
 		expect(results.map(result => [result.id, result.name])).toEqual([
 			['prt_fild08', '普隆德拉南门 · 频道 1'],
@@ -134,14 +143,45 @@ describe('navigation data', () => {
 		const channelLocalizers = { ...localizers, map: () => '伊斯鲁得' };
 
 		expect(searchNavigationRows(rows, [], '卡普拉', 'NPC', channelLocalizers)).toHaveLength(1);
-		expect(searchNavigationRows(rows, [], '卡普拉', 'NPC', channelLocalizers, true)).toEqual([
+		expect(
+			searchNavigationRows(rows, [], '卡普拉', 'NPC', channelLocalizers, { channelsEnabled: true })
+		).toEqual([
 			expect.objectContaining({ mapName: 'izlude', mapDisplayName: '伊斯鲁得 · 频道 1' }),
 			expect.objectContaining({ mapName: 'izlude_a', mapDisplayName: '伊斯鲁得 · 频道 2' })
 		]);
 	});
 
+	it('filters all navigation result types to the current map', () => {
+		const npcRows = [
+			['prontera', 10, 100, 4, 'Kafra', '', 146, 89],
+			['izlude', 11, 101, 4, 'Kafra', '', 120, 80]
+		];
+		const results = searchNavigationRows(npcRows, [], '卡普拉', 'NPC', localizers, {
+			currentMap: 'prontera',
+			scope: 'CURRENT'
+		});
+
+		expect(results).toHaveLength(1);
+		expect(results[0]).toMatchObject({ mapName: 'prontera', npcClass: 4 });
+	});
+
+	it('ranks current-map NPCs before remote matches', () => {
+		const npcRows = [
+			['izlude', 11, 101, 4, 'Kafra', '', 120, 80],
+			['prontera', 10, 100, 4, 'Kafra', '', 146, 89]
+		];
+		const results = searchNavigationRows(npcRows, [], '卡普拉', 'NPC', localizers, {
+			currentMap: 'prontera'
+		});
+
+		expect(results.map(result => result.mapName)).toEqual(['prontera', 'izlude']);
+	});
+
 	it('does not translate Korean terms embedded in unrelated NPC names', () => {
 		expect(localizeNavigationNpcName('드워프 대장장이')).toBe('드워프 대장장이');
 		expect(localizeNavigationNpcName('카프라 워프')).toBe('卡普拉 传送员');
+		expect(localizeNavigationNpcName('카프라 이동 서비스')).toBe('卡普拉 传送服务');
+		expect(localizeNavigationNpcName('카프라 이동 서비스 직원')).toBe('卡普拉 传送服务职员');
+		expect(localizeNavigationNpcName('카프라 미스티')).toBe('卡普拉 米斯蒂');
 	});
 });
