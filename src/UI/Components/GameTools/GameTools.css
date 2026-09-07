@@ -1,0 +1,342 @@
+:host {
+	top: 90px;
+	left: 250px;
+}
+.game-tools-window {
+	width: min(680px, calc(100vw - 24px));
+	height: min(500px, calc(100vh - 36px));
+	min-width: 520px;
+	min-height: 360px;
+	display: flex;
+	flex-direction: column;
+	background: #eef0f2;
+	border: 1px solid #73777d;
+	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);
+	color: #202225;
+	font:
+		12px Arial,
+		sans-serif;
+	box-sizing: border-box;
+}
+.titlebar {
+	position: relative;
+	height: 24px;
+	flex: 0 0 24px;
+	cursor: move;
+	background: linear-gradient(#f7f8f9, #cfd3d7);
+	border-bottom: 1px solid #8b9096;
+}
+.title {
+	line-height: 24px;
+	padding-left: 9px;
+	font-weight: bold;
+}
+.close {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+	width: 14px;
+	height: 14px;
+	border: 1px solid #777;
+	background: #f4f4f4;
+	cursor: pointer;
+}
+.close::before,
+.close::after {
+	content: '';
+	position: absolute;
+	left: 6px;
+	top: 2px;
+	width: 1px;
+	height: 9px;
+	background: #333;
+	transform: rotate(45deg);
+}
+.close::after {
+	transform: rotate(-45deg);
+}
+.tab-list {
+	flex: 0 0 31px;
+	display: flex;
+	gap: 2px;
+	align-items: end;
+	padding: 0 8px;
+	border-bottom: 1px solid #aeb2b7;
+	background: #e3e5e8;
+}
+.tab-button {
+	height: 26px;
+	padding: 0 14px;
+	border: 1px solid #aeb2b7;
+	border-bottom: none;
+	background: #d5d8dc;
+	cursor: pointer;
+}
+.tab-button.active {
+	background: #fff;
+	font-weight: bold;
+	height: 28px;
+	margin-bottom: -1px;
+}
+.tab-content {
+	flex: 1;
+	min-height: 0;
+	background: #fff;
+}
+.game-tools-tab {
+	height: 100%;
+}
+.monster-tab {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.monster-toolbar {
+	flex: 0 0 42px;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	padding: 7px 10px;
+	background: #f5f6f7;
+	border-bottom: 1px solid #d6d8db;
+	box-sizing: border-box;
+}
+.monster-search {
+	flex: 1;
+	min-width: 120px;
+	height: 27px;
+	padding: 3px 8px;
+	border: 1px solid #aeb2b7;
+}
+.monster-filter {
+	width: 116px;
+	height: 27px;
+	border: 1px solid #aeb2b7;
+	background: white;
+}
+.monster-layout {
+	flex: 1;
+	min-height: 0;
+	display: grid;
+	grid-template-columns: minmax(220px, 42%) 1fr;
+}
+.monster-browser {
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	border-right: 1px solid #d6d8db;
+}
+.monster-summary {
+	flex: 0 0 25px;
+	line-height: 25px;
+	padding: 0 8px;
+	color: #666;
+	background: #fafafa;
+}
+.monster-list {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+}
+.monster-row {
+	width: 100%;
+	min-height: 58px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	padding: 4px 7px;
+	border: 0;
+	border-bottom: 1px solid #eceeef;
+	background: white;
+	text-align: left;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+.monster-row:hover {
+	background: #f0f6ff;
+}
+.monster-row.selected {
+	background: #dceaff;
+}
+.monster-thumb,
+.monster-portrait {
+	display: block;
+	flex: 0 0 auto;
+	width: 48px;
+	height: 48px;
+	background-repeat: no-repeat;
+	image-rendering: auto;
+}
+.no-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #85898d;
+	background: #f2f3f4;
+}
+.no-image::after {
+	content: '无图';
+	font-size: 11px;
+}
+.monster-row-text {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+.monster-row-text strong,
+.monster-row-text small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.monster-row-text small {
+	color: #6c7177;
+	font-weight: normal;
+}
+.monster-pagination {
+	flex: 0 0 31px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	border-top: 1px solid #ddd;
+}
+.monster-pagination button {
+	width: 26px;
+	height: 22px;
+	padding: 0;
+	border: 1px solid #aaa;
+	background: #f5f5f5;
+	cursor: pointer;
+}
+.monster-pagination button:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+.monster-detail {
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+.empty-detail {
+	margin: auto;
+	color: #85898d;
+}
+.monster-heading {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e1e3e5;
+}
+.monster-portrait {
+	width: 96px;
+	height: 96px;
+	background-color: #f4f5f6;
+	border: 1px solid #d8dade;
+}
+.monster-heading h3 {
+	margin: 0 0 5px;
+	font-size: 18px;
+}
+.monster-heading p {
+	margin: 0 0 7px;
+	color: #70757a;
+}
+.monster-badge {
+	display: inline-block;
+	padding: 2px 6px;
+	border: 1px solid #b4b8bc;
+	background: #f3f4f5;
+}
+.monster-stats {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1px;
+	margin-top: 10px;
+	background: #ddd;
+	border: 1px solid #ddd;
+}
+.monster-stats div {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 6px;
+	background: #fafafa;
+}
+.monster-stats span {
+	color: #686d72;
+}
+.monster-drops {
+	flex: 1;
+	min-height: 70px;
+	margin-top: 10px;
+	overflow-y: auto;
+}
+.drop-group h4 {
+	margin: 7px 0 4px;
+}
+.drop-group div {
+	display: flex;
+	justify-content: space-between;
+	padding: 3px 4px;
+	border-bottom: 1px dotted #d6d6d6;
+}
+.drop-group em {
+	color: #62676c;
+	font-style: normal;
+}
+.summon-panel {
+	flex: 0 0 auto;
+	display: flex;
+	gap: 9px;
+	align-items: center;
+	margin: 0 -12px -12px;
+	padding: 9px 12px 10px;
+	background: white;
+	border-top: 1px solid #ddd;
+	box-sizing: border-box;
+}
+.summon-button {
+	height: 29px;
+	padding: 0 12px;
+	border: 1px solid #6d7f98;
+	background: #e5edf7;
+	cursor: pointer;
+}
+.summon-button:disabled {
+	color: #888;
+	background: #eee;
+	border-color: #bbb;
+	cursor: default;
+}
+.summon-panel span {
+	color: #64696e;
+}
+@media (max-width: 560px) {
+	.game-tools-window {
+		min-width: 0;
+	}
+	.monster-layout {
+		grid-template-columns: 46% 54%;
+	}
+	.monster-detail {
+		padding: 8px;
+	}
+	.summon-panel {
+		margin: 0 -8px -8px;
+		padding-inline: 8px;
+	}
+	.monster-heading {
+		align-items: flex-start;
+	}
+	.monster-stats {
+		grid-template-columns: 1fr;
+	}
+}

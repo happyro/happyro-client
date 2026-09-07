@@ -38,6 +38,7 @@ import SkillList from 'UI/Components/SkillList/SkillList.js';
 import Quest from 'UI/Components/Quest/Quest.js';
 import Achievement from 'UI/Components/Achievement/Achievement.js';
 import Reputation from 'UI/Components/Reputation/Reputation.js';
+import GameTools from 'UI/Components/GameTools/GameTools.js';
 
 export function createBasicInfo(config) {
 	const {
@@ -143,6 +144,9 @@ export function createBasicInfo(config) {
 				break;
 			case 'navigation':
 				Navigation.toggle();
+				break;
+			case 'game-tools':
+				GameTools.toggle();
 				break;
 			case 'attendance':
 				if (Configs.get('enableCheckAttendance') && PACKETVER.value >= 20180307) {

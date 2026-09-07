@@ -193,8 +193,8 @@
 	left: 0px;
 	top: 9px;
 	width: 220px;
-	height: 132px;
-	background-repeat: no-repeat;
+	height: 176px;
+	background-repeat: repeat-y;
 	background-position: bottom; /* alinha o fundo pela base */
 }
 #BasicInfoV5 .bt_menu {

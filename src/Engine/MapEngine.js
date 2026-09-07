@@ -71,6 +71,7 @@ import HomunInformations from 'UI/Components/HomunInformations/HomunInformations
 import MapName from 'UI/Components/MapName/MapName.js';
 import Announce from 'UI/Components/Announce/Announce.js';
 import Navigation from 'UI/Components/Navigation/Navigation.js';
+import GameTools from 'UI/Components/GameTools/GameTools.js';
 import CaptchaUpload from 'UI/Components/Captcha/CaptchaUpload.js';
 import CaptchaSelector from 'UI/Components/Captcha/CaptchaSelector.js';
 import CaptchaAnswer from 'UI/Components/Captcha/CaptchaAnswer.js';
@@ -275,6 +276,7 @@ class MapEngine {
 			Network.hookPacket(PACKET.ZC.CONFIG_NOTIFY3, onConfigNotify);
 			Network.hookPacket(PACKET.ZC.CONFIG_NOTIFY4, onConfigNotify);
 			Network.hookPacket(PACKET.ZC.CONFIG, onConfig);
+			Network.hookPacket(PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT, onMonsterSpawnResult);
 			Network.hookPacket(PACKET.ZC.REFUSE_ENTER, onConnectionRefused);
 
 			// hook reassembly packets and map the responses
@@ -507,9 +509,25 @@ function onConfig(pkt) {
 		case 1002:
 			Navigation.setTeleportConfig(pkt.Config, pkt.Value);
 			break;
+		case 1010:
+			Session.GameToolsMonsterSpawnAllowed = Boolean(pkt.Value);
+			GameTools.setMonsterSpawnConfig();
+			break;
+		case 1011:
+			Session.GameToolsMonsterSpawnCooldown = pkt.Value;
+			GameTools.setMonsterSpawnConfig();
+			break;
+		case 1012:
+			Session.GameToolsMonsterSpawnAllowBoss = Boolean(pkt.Value);
+			GameTools.setMonsterSpawnConfig();
+			break;
 		default:
 			console.error('[PACKET_ZC_CONFIG] Unknown Config Type %d (value:%d)', pkt.Config, pkt.Value);
 	}
+}
+
+function onMonsterSpawnResult(pkt) {
+	GameTools.onMonsterSpawnResult(pkt.result, pkt.entityId);
 }
 
 /**

@@ -15377,6 +15377,24 @@ PACKET.CZ.MOVETO_MAP.prototype.build = function () {
 	return pkt_buf;
 };
 
+// 0xcfe - HappyRO in-game monster catalog summon request
+PACKET.CZ.HAPPYRO_MONSTER_SPAWN = function PACKET_CZ_HAPPYRO_MONSTER_SPAWN() {
+	this.monsterId = 0;
+};
+PACKET.CZ.HAPPYRO_MONSTER_SPAWN.prototype.build = function () {
+	const pkt_buf = new BinaryWriter(6);
+	pkt_buf.writeShort(0xcfe);
+	pkt_buf.writeULong(this.monsterId);
+	return pkt_buf;
+};
+
+// 0xcff - HappyRO in-game monster catalog summon result
+PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT = function PACKET_ZC_HAPPYRO_MONSTER_SPAWN_RESULT(fp) {
+	this.result = fp.readUShort();
+	this.entityId = fp.readULong();
+};
+PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT.size = 8;
+
 // 0x1bd
 PACKET.CZ.RECALL_GID = function PACKET_CZ_RECALL_GID() {
 	this.CharacterName = '';
