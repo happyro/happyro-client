@@ -78005,6 +78005,12 @@ var init_SessionStorage = __esmMin((() => {
 		AID: 0,
 		GID: 0,
 		UserLevel: 0,
+		NavigationTeleportAllowed: false,
+		NavigationTeleportCrossMap: false,
+		NavigationTeleportCooldown: 0,
+		GameToolsMonsterSpawnAllowed: false,
+		GameToolsMonsterSpawnCooldown: 0,
+		GameToolsMonsterSpawnAllowBoss: false,
 		Sex: 0,
 		LangType: 0,
 		ServerName: null,
@@ -158939,6 +158945,146 @@ function mergeLocalizedMapInfo(official = {}, localized = {}) {
 }
 var init_MapInfoLocalization = __esmMin((() => {}));
 //#endregion
+//#region src/DB/Navigation/NavigationData.js
+/**
+* Replace a navigation table with the sequential rows extracted from Lua.
+*
+* @param {Array} target
+* @param {Array|Object} rows
+*/
+function replaceNavigationRows(target, rows) {
+	target.length = 0;
+	if (!rows || typeof rows !== "object") return;
+	const indexes = Object.keys(rows).map(Number).filter(Number.isInteger).sort((a, b) => a - b);
+	for (const index of indexes) target.push(rows[index]);
+}
+/**
+* Search loaded navigation rows using both resource and localized names.
+*
+* @param {Array} npcRows
+* @param {Array} mobRows
+* @param {string} query
+* @param {string} type
+* @param {Object} localizers
+* @returns {Array}
+*/
+function searchNavigationRows(npcRows, mobRows, query, type, localizers) {
+	const normalizedQuery = String(query || "").trim().toLocaleLowerCase();
+	if (normalizedQuery.length < 2) return [];
+	const results = [];
+	const matches = (...names) => names.flat().some((name) => String(name || "").toLocaleLowerCase().includes(normalizedQuery));
+	if (type === "ALL" || type === "NPC") for (const npc of npcRows) {
+		if (!Array.isArray(npc)) continue;
+		const rawName = npc[4] || "";
+		const localizedName = localizers.npc(rawName) || rawName;
+		const aliases = localizers.npcAliases?.(rawName) || [];
+		if (!rawName || !matches(rawName, localizedName, aliases)) continue;
+		results.push({
+			type: "NPC",
+			id: npc[1],
+			name: localizedName,
+			mapName: npc[0],
+			mapDisplayName: localizers.map(npc[0]),
+			x: npc[6],
+			y: npc[7]
+		});
+	}
+	if (type === "ALL" || type === "MOB") for (const mob of mobRows) {
+		if (!Array.isArray(mob)) continue;
+		const rawName = mob[4] || "";
+		const mobId = Number(mob[3]) & 65535;
+		const localizedName = localizers.mob(mobId, rawName) || rawName;
+		if (!rawName || !matches(rawName, localizedName, mob[5])) continue;
+		results.push({
+			type: "MOB",
+			id: mobId,
+			name: localizedName,
+			mapName: mob[0],
+			mapDisplayName: localizers.map(mob[0]),
+			x: null,
+			y: null
+		});
+	}
+	return results.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 50);
+}
+function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap) {
+	if (type !== "ALL" && type !== "MAP") return [];
+	const normalizedQuery = String(query || "").trim().toLocaleLowerCase();
+	if (normalizedQuery.length < 2) return [];
+	const results = /* @__PURE__ */ new Map();
+	for (const world of worldMaps || []) for (const map of world.maps || []) {
+		const id = String(map.id || "");
+		if (!id || results.has(id)) continue;
+		const name = map.name || localizeMap(id);
+		if (!id.toLocaleLowerCase().includes(normalizedQuery) && !name.toLocaleLowerCase().includes(normalizedQuery)) continue;
+		results.set(id, {
+			type: "MAP",
+			id,
+			name,
+			mapName: id,
+			mapDisplayName: name,
+			x: null,
+			y: null
+		});
+	}
+	for (const [resourceName, info] of Object.entries(mapInfo || {})) {
+		const id = resourceName.replace(/\.(?:rsw|gat)$/i, "");
+		if (!id || results.has(id)) continue;
+		const name = info.displayName || localizeMap(id);
+		if (!id.toLocaleLowerCase().includes(normalizedQuery) && !name.toLocaleLowerCase().includes(normalizedQuery)) continue;
+		results.set(id, {
+			type: "MAP",
+			id,
+			name,
+			mapName: id,
+			mapDisplayName: name,
+			x: null,
+			y: null
+		});
+	}
+	const matchRank = (result) => {
+		const id = result.id.toLocaleLowerCase();
+		const name = result.name.toLocaleLowerCase();
+		if (id === normalizedQuery || name === normalizedQuery) return 0;
+		if (id.startsWith(normalizedQuery) || name.startsWith(normalizedQuery)) return 1;
+		return 2;
+	};
+	return [...results.values()].sort((a, b) => matchRank(a) - matchRank(b) || a.name.localeCompare(b.name) || a.id.localeCompare(b.id)).slice(0, 50);
+}
+var init_NavigationData = __esmMin((() => {}));
+//#endregion
+//#region src/DB/Navigation/NavigationNameLocalization.js
+/**
+* Localize common Korean names that only exist in navigation resources.
+*
+* @param {string} name
+* @returns {string}
+*/
+function localizeNavigationNpcName(name) {
+	if (!name.includes("카프라")) return name;
+	let localized = name;
+	for (const [source, target] of navigationNpcTerms) localized = localized.replaceAll(source, target);
+	return localized;
+}
+/**
+* Return familiar search aliases for Korean navigation-only names.
+*
+* @param {string} name
+* @returns {Array<string>}
+*/
+function getNavigationNpcAliases(name) {
+	return name.includes("카프라") ? ["Kafra"] : [];
+}
+var navigationNpcTerms;
+var init_NavigationNameLocalization = __esmMin((() => {
+	navigationNpcTerms = [
+		["카프라", "卡普拉"],
+		["직원", "职员"],
+		["서비스", "服务员"],
+		["워프", "传送员"]
+	];
+}));
+//#endregion
 //#region src/DB/SignBoardTranslationTable.js
 var SignBoardTranslationTable_default;
 var init_SignBoardTranslationTable = __esmMin((() => {
@@ -171311,6 +171457,20 @@ var init_PacketStructure = __esmMin((() => {
 		pkt_buf.writeShort(this.yPos);
 		return pkt_buf;
 	};
+	PACKET.CZ.HAPPYRO_MONSTER_SPAWN = function PACKET_CZ_HAPPYRO_MONSTER_SPAWN() {
+		this.monsterId = 0;
+	};
+	PACKET.CZ.HAPPYRO_MONSTER_SPAWN.prototype.build = function() {
+		const pkt_buf = new BinaryWriter(6);
+		pkt_buf.writeShort(3326);
+		pkt_buf.writeULong(this.monsterId);
+		return pkt_buf;
+	};
+	PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT = function PACKET_ZC_HAPPYRO_MONSTER_SPAWN_RESULT(fp) {
+		this.result = fp.readUShort();
+		this.entityId = fp.readULong();
+	};
+	PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT.size = 8;
 	PACKET.CZ.RECALL_GID = function PACKET_CZ_RECALL_GID() {
 		this.CharacterName = "";
 	};
@@ -205800,7 +205960,8 @@ var init_PacketRegister = __esmMin((() => {
 		2975: PACKET.ZC.RESPONSE_ENCHANT,
 		2786: PACKET.ZC.UI_OPEN,
 		2509: PACKET.ZC.MSG_COLOR,
-		2842: PACKET.ZC.USESKILL_ACK3
+		2842: PACKET.ZC.USESKILL_ACK3,
+		3327: PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT
 	};
 }));
 //#endregion
@@ -224111,6 +224272,1373 @@ var init_MiniMapTable = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/UI/Components/Navigation/Navigation.html?raw
+var Navigation_default$2;
+var init_Navigation$2 = __esmMin((() => {
+	Navigation_default$2 = "<div class=\"Navigation\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\" data-background=\"basic_interface/titlebar_left.bmp\"></div>\r\n		<div class=\"center\" data-background=\"basic_interface/titlebar_mid.bmp\"></div>\r\n		<div class=\"right\" data-background=\"basic_interface/titlebar_right.bmp\"></div>\r\n		<div class=\"title\">导航</div>\r\n		<ui-button\r\n			class=\"close\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"search-container\">\r\n			<select class=\"search-type\">\r\n				<option value=\"ALL\">全部</option>\r\n				<option value=\"NPC\">NPC</option>\r\n				<option value=\"MOB\">魔物</option>\r\n				<option value=\"MAP\">地图</option>\r\n			</select>\r\n			<div class=\"search-left\" data-background=\"basic_interface/txtbox_l.bmp\"></div>\r\n			<div class=\"search-middle\" data-background=\"basic_interface/txtbox_m.bmp\"></div>\r\n			<div class=\"search-right\" data-background=\"basic_interface/txtbox_r.bmp\"></div>\r\n			<input type=\"text\" class=\"search-input\" placeholder=\"搜索……\" />\r\n			<ui-button\r\n				class=\"search-button\"\r\n				bg=\"navigation_interface/navisearch_a.bmp\"\r\n				hover=\"navigation_interface/navisearch_b.bmp\"\r\n				down=\"navigation_interface/navisearch_c.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"map-container\">\r\n			<div class=\"services-toggle-container\">\r\n				<label class=\"services-checkbox\"> <input type=\"checkbox\" class=\"services-toggle\" /> 服务 </label>\r\n			</div>\r\n			<div class=\"location-title\"></div>\r\n			<div class=\"map-display\">\r\n				<!-- Map will be displayed here -->\r\n			</div>\r\n			<div class=\"map-actions\">\r\n				<button class=\"walk-button\" type=\"button\">开始寻路</button>\r\n				<button class=\"walk-stop-button\" type=\"button\">停止寻路</button>\r\n				<button class=\"teleport-button\" type=\"button\">传送到这里</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<div class=\"coordinates-bar\">\r\n			<div class=\"map-name\"></div>\r\n			<div class=\"mouse-info\">\r\n				<span class=\"mouse-label\">鼠标：</span>\r\n				<span class=\"mouse-coordinates\"></span>\r\n			</div>\r\n			<div class=\"target-info\">\r\n				<span class=\"target-label\">目标：</span>\r\n				<span class=\"target-coordinates\"></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Navigation/Navigation.css?raw
+var Navigation_default$1;
+var init_Navigation$1 = __esmMin((() => {
+	Navigation_default$1 = ":host {\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n.Navigation {\r\n	width: 300px;\r\n	height: 324px;\r\n	z-index: 50;\r\n	background-repeat: repeat-y;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	position: relative;\r\n	z-index: 2;\r\n	cursor: move;\r\n}\r\n\r\n.Navigation .titlebar .left {\r\n	width: 15px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.Navigation .titlebar .center {\r\n	width: calc(100% - 20px);\r\n	height: 17px;\r\n	background-repeat: repeat-x;\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 12px;\r\n}\r\n\r\n.Navigation .titlebar .right {\r\n	width: 12px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n}\r\n\r\n.Navigation .titlebar .title {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 10px;\r\n	height: 17px;\r\n	line-height: 17px;\r\n	white-space: nowrap;\r\n	text-shadow: 1px 1px white;\r\n	color: #000000;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n.Navigation .titlebar .close {\r\n	position: absolute;\r\n	top: 2px;\r\n	right: 2px;\r\n	width: 13px;\r\n	height: 13px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .content {\r\n	width: 100%;\r\n	height: calc(100% - 17px);\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background-color: #f7f7f7;\r\n	border: 1px solid #d4d4d4;\r\n	border-top: none;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .search-container {\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 5px 10px;\r\n	box-sizing: border-box;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .services-toggle-container {\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 0;\r\n	margin: 0;\r\n	background-color: #f7f7f7;\r\n	position: absolute;\r\n	left: 6px;\r\n}\r\n\r\n.Navigation .services-checkbox {\r\n	color: #000;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .services-toggle {\r\n	margin-right: 4px;\r\n	margin-top: 3px;\r\n}\r\n\r\n.Navigation .search-type {\r\n	top: 3px;\r\n	height: 20px;\r\n	margin-right: 5px;\r\n	border: 1px solid #ccc;\r\n	background-color: #fff;\r\n	padding: 0 2px;\r\n	cursor: pointer;\r\n	width: 50px;\r\n	z-index: 2;\r\n	position: relative;\r\n}\r\n\r\n.Navigation .search-left {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 65px;\r\n	width: 3px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-middle {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 68px;\r\n	right: 38px;\r\n	height: 20px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-right {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 35px;\r\n	width: 3px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-input {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 68px;\r\n	right: 38px;\r\n	height: 20px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding: 0 5px;\r\n	z-index: 1;\r\n}\r\n\r\n.Navigation .search-button {\r\n	position: absolute;\r\n	top: 7px;\r\n	right: 5px;\r\n	width: 33px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .map-container {\r\n	width: 100%;\r\n	flex: 1;\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0 10px 10px 10px;\r\n	box-sizing: border-box;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .location-title {\r\n	width: 100%;\r\n	height: 16px;\r\n	line-height: 16px;\r\n	text-align: center;\r\n	color: #000000;\r\n	text-shadow: none;\r\n	margin-bottom: 2px;\r\n	font-weight: bold;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .map-display {\r\n	width: 280px;\r\n	height: 230px;\r\n	margin: 0 auto;\r\n	position: relative;\r\n	background-color: #000000;\r\n	border: 1px solid #666666;\r\n	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.Navigation .map-actions {\r\n	width: 280px;\r\n	min-height: 24px;\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .teleport-button {\r\n	display: none;\r\n	border: 1px solid #777;\r\n	background: #eee;\r\n	color: #000;\r\n	padding: 2px 8px;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .teleport-button:hover {\r\n	background: #fff;\r\n}\r\n\r\n.Navigation .teleport-button:disabled {\r\n	background: #ddd;\r\n	color: #777;\r\n	cursor: not-allowed;\r\n}\r\n\r\n.Navigation .walk-button,\r\n.Navigation .walk-stop-button {\r\n	display: none;\r\n	border: 1px solid #777;\r\n	background: #eee;\r\n	color: #000;\r\n	padding: 2px 8px;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n	margin-right: 4px;\r\n}\r\n\r\n.Navigation .walk-button:hover,\r\n.Navigation .walk-stop-button:hover {\r\n	background: #fff;\r\n}\r\n\r\n.Navigation .footer {\r\n	width: 100%;\r\n	position: relative;\r\n	height: 20px;\r\n	background-color: #f7f7f7;\r\n	border-top: 1px solid #d4d4d4;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .coordinates-bar {\r\n	position: relative;\r\n	width: 100%;\r\n	padding: 1px 5px;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	height: 20px;\r\n	overflow: hidden;\r\n}\r\n\r\n.Navigation .map-name {\r\n	font-weight: bold;\r\n	color: #000;\r\n	flex: 1;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.Navigation .mouse-info,\r\n.Navigation .target-info {\r\n	display: none;\r\n	align-items: center;\r\n	color: #000;\r\n	margin-left: 8px;\r\n	white-space: nowrap;\r\n}\r\n\r\n.Navigation .mouse-label,\r\n.Navigation .target-label {\r\n	margin-right: 2px;\r\n}\r\n\r\n/* Path marker styles */\r\n.Navigation .start-marker,\r\n.Navigation .end-marker {\r\n	position: absolute;\r\n	width: 16px;\r\n	height: 16px;\r\n	transform: translate(-50%, -50%);\r\n}\r\n\r\n.Navigation .start-marker {\r\n	background-color: blue;\r\n}\r\n\r\n.Navigation .end-marker {\r\n	background-color: red;\r\n}\r\n\r\n.Navigation .path-line {\r\n	stroke: yellow;\r\n	stroke-width: 2;\r\n	fill: none;\r\n}\r\n\r\n.Navigation .search-results {\r\n	position: absolute;\r\n	top: 30px;\r\n	left: 10px;\r\n	right: 10px;\r\n	max-height: 200px;\r\n	background-color: #fff;\r\n	border: 1px solid #ccc;\r\n	z-index: 100;\r\n	overflow-y: auto;\r\n	display: none;\r\n	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.Navigation .no-results {\r\n	padding: 10px;\r\n	text-align: center;\r\n	color: #666;\r\n}\r\n\r\n.Navigation .results-list {\r\n	list-style: none;\r\n	margin: 0;\r\n	padding: 0;\r\n}\r\n\r\n.Navigation .result-item {\r\n	padding: 5px 10px;\r\n	border-bottom: 1px solid #eee;\r\n	cursor: pointer;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .result-item:last-child {\r\n	border-bottom: none;\r\n}\r\n\r\n.Navigation .result-item:hover {\r\n	background-color: #f0f0f0;\r\n}\r\n\r\n.Navigation .result-type {\r\n	margin-right: 5px;\r\n	font-weight: bold;\r\n	color: #666;\r\n	width: 30px;\r\n}\r\n\r\n.Navigation .npc_icon {\r\n	color: #0066cc;\r\n}\r\n\r\n.Navigation .mob_icon {\r\n	color: #cc0000;\r\n}\r\n\r\n.Navigation .map_icon {\r\n	color: #228833;\r\n}\r\n\r\n.Navigation .result-name {\r\n	flex: 1;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.Navigation .result-map {\r\n	color: #666;\r\n	margin-left: 5px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Navigation/MapPathFinder.js
+var MapPathFinder;
+var init_MapPathFinder = __esmMin((() => {
+	init_DBManager();
+	MapPathFinder = {};
+	/**
+	* Find a path between maps using Dijkstra's algorithm
+	*
+	* @param {string} startMap - Starting map name
+	* @param {number} startX - Starting X coordinate
+	* @param {number} startY - Starting Y coordinate
+	* @param {string} endMap - Destination map name
+	* @param {number} endX - Destination X coordinate
+	* @param {number} endY - Destination Y coordinate
+	* @param {Array} warpTypes - Types of warps to consider [default: [200]]
+	* @returns {Array|null} Array of warps with map, coordinates and warpId, or null if no path found
+	*/
+	MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(startMap, startX, startY, endMap, endX, endY, warpTypes) {
+		if (!startMap || !endMap || startX === void 0 || startY === void 0 || endX === void 0 || endY === void 0) return null;
+		warpTypes = warpTypes || [200];
+		startMap = startMap.replace(/\.gat$/, "");
+		endMap = endMap.replace(/\.gat$/, "");
+		if (startMap === endMap) return [{
+			map: startMap,
+			x: endX,
+			y: endY,
+			warpId: null
+		}];
+		const naviLinkTable = DB.getNaviLinkTable();
+		const naviLinkDistanceTable = DB.getNaviLinkDistanceTable();
+		if (!naviLinkTable || !naviLinkTable.length) return null;
+		const graph = {};
+		const warpDetails = {};
+		for (let i = 0; i < naviLinkTable.length; i++) {
+			const warp = naviLinkTable[i];
+			if (!warp || warp.length < 11) continue;
+			const srcMap = warp[0];
+			const warpId = warp[1];
+			const warpType = warp[2];
+			const destMap = warp[8];
+			if (!srcMap || !destMap || warpTypes.indexOf(warpType) === -1) continue;
+			if (!graph[srcMap]) graph[srcMap] = {};
+			if (!graph[destMap]) graph[destMap] = {};
+			if (!graph[srcMap][destMap]) graph[srcMap][destMap] = {
+				distance: 1,
+				warpId,
+				hopCount: 1
+			};
+			const warpKey = srcMap + "_" + warpId;
+			warpDetails[warpKey] = {
+				id: warpId,
+				type: warpType,
+				spriteId: warp[3],
+				name: warp[4],
+				srcMap,
+				srcX: warp[6],
+				srcY: warp[7],
+				destMap,
+				destX: warp[9],
+				destY: warp[10]
+			};
+		}
+		if (naviLinkDistanceTable && naviLinkDistanceTable.length) {
+			for (let i = 0; i < naviLinkDistanceTable.length; i++) if (typeof naviLinkDistanceTable[i] === "string") {
+				const mapName = naviLinkDistanceTable[i];
+				if (i + 2 < naviLinkDistanceTable.length) {
+					const linksData = naviLinkDistanceTable[i + 2];
+					if (Array.isArray(linksData)) for (let j = 0; j < linksData.length; j++) {
+						if (!Array.isArray(linksData[j]) || linksData[j].length < 2) continue;
+						const linkId = linksData[j][0];
+						const warpInfo = warpDetails[mapName + "_" + linkId];
+						if (!warpInfo) continue;
+						if (warpTypes.indexOf(warpInfo.type) === -1) continue;
+						for (let k = 1; k < linksData[j].length; k++) {
+							const destData = linksData[j][k];
+							if (Array.isArray(destData) && destData.length >= 3) {
+								const destMapName = destData[0];
+								const hopCount = destData[1];
+								const pathCost = destData[2];
+								if (!destMapName) continue;
+								if (!graph[mapName]) graph[mapName] = {};
+								if (!graph[mapName][destMapName] || hopCount < graph[mapName][destMapName].hopCount || hopCount === graph[mapName][destMapName].hopCount && pathCost < graph[mapName][destMapName].distance) graph[mapName][destMapName] = {
+									distance: pathCost,
+									warpId: linkId,
+									hopCount
+								};
+							}
+						}
+					}
+				}
+				i += 2;
+			}
+		}
+		if (graph[startMap]) for (const destMap in graph[startMap]) {
+			const warpId = graph[startMap][destMap].warpId;
+			const warpInfo = warpDetails[startMap + "_" + warpId];
+			if (warpInfo) {
+				const distanceToWarp = Math.sqrt(Math.pow(warpInfo.srcX - startX, 2) + Math.pow(warpInfo.srcY - startY, 2));
+				graph[startMap][destMap].distance += distanceToWarp;
+			}
+		}
+		const distances = {};
+		const hopCounts = {};
+		const previous = {};
+		const unvisited = /* @__PURE__ */ new Set();
+		for (const map in graph) {
+			distances[map] = Infinity;
+			hopCounts[map] = Infinity;
+			previous[map] = null;
+			unvisited.add(map);
+		}
+		distances[startMap] = 0;
+		hopCounts[startMap] = 0;
+		if (!unvisited.has(startMap)) unvisited.add(startMap);
+		while (unvisited.size > 0) {
+			let current = null;
+			let smallestHopCount = Infinity;
+			let smallestDistance = Infinity;
+			for (const map of unvisited) if (hopCounts[map] < smallestHopCount || hopCounts[map] === smallestHopCount && distances[map] < smallestDistance) {
+				smallestHopCount = hopCounts[map];
+				smallestDistance = distances[map];
+				current = map;
+			}
+			if (current === endMap || current === null || hopCounts[current] === Infinity) break;
+			unvisited.delete(current);
+			if (graph[current]) for (const neighbor in graph[current]) {
+				if (!hopCounts.hasOwnProperty(neighbor)) continue;
+				const newHopCount = hopCounts[current] + (graph[current][neighbor].hopCount || 1);
+				const newDistance = distances[current] + graph[current][neighbor].distance;
+				if (newHopCount < hopCounts[neighbor] || newHopCount === hopCounts[neighbor] && newDistance < distances[neighbor]) {
+					hopCounts[neighbor] = newHopCount;
+					distances[neighbor] = newDistance;
+					previous[neighbor] = {
+						map: current,
+						warpId: graph[current][neighbor].warpId
+					};
+				}
+			}
+		}
+		if (!previous[endMap]) return null;
+		const path = [];
+		let current = endMap;
+		path.unshift({
+			map: endMap,
+			x: endX,
+			y: endY,
+			warpId: null
+		});
+		while (current !== startMap) {
+			const prevInfo = previous[current];
+			if (!prevInfo) break;
+			const prevMap = prevInfo.map;
+			const warpId = prevInfo.warpId;
+			const warpInfo = warpDetails[prevMap + "_" + warpId];
+			if (!warpInfo) break;
+			path.unshift({
+				map: prevMap,
+				x: warpInfo.srcX,
+				y: warpInfo.srcY,
+				warpId
+			});
+			current = prevMap;
+		}
+		return path;
+	};
+}));
+//#endregion
+//#region src/UI/Components/Navigation/NavigationSearchInteraction.js
+/**
+* Check whether an event originated inside the navigation search controls.
+* composedPath() is required because the controls live in a Shadow DOM.
+*
+* @param {Event} event
+* @returns {boolean}
+*/
+function isNavigationSearchInteraction(event) {
+	return (typeof event?.composedPath === "function" ? event.composedPath() : [event?.target]).some((node) => node?.nodeType === Node.ELEMENT_NODE && node.closest(SEARCH_INTERACTION_SELECTOR));
+}
+var SEARCH_INTERACTION_SELECTOR;
+var init_NavigationSearchInteraction = __esmMin((() => {
+	SEARCH_INTERACTION_SELECTOR = ".search-results, .search-input, .search-button, .search-type";
+}));
+//#endregion
+//#region src/UI/Components/Navigation/NavigationAutoWalk.js
+function selectAutoWalkWaypoint(path, position, lookAhead = 12) {
+	if (!Array.isArray(path) || path.length === 0) return null;
+	let nearestIndex = 0;
+	let nearestDistance = Infinity;
+	for (let index = 0; index < path.length; index++) {
+		const distance = Math.abs(path[index].x - position.x) + Math.abs(path[index].y - position.y);
+		if (distance < nearestDistance) {
+			nearestDistance = distance;
+			nearestIndex = index;
+		}
+	}
+	return path[Math.min(nearestIndex + lookAhead, path.length - 1)];
+}
+var init_NavigationAutoWalk = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Components/Navigation/Navigation.js
+var Navigation_exports = /* @__PURE__ */ __exportAll({ default: () => Navigation_default });
+/**
+* Async image create helper
+*/
+function createAsyncImage() {
+	const img = new Image();
+	img.decoding = "async";
+	return img;
+}
+/**
+* Local utility functions
+*/
+/**
+* Normalize a map name (remove .gat extension)
+*/
+function normalizeMapName(mapName) {
+	if (!mapName) return "";
+	mapName = mapName.replace(/\.gat$/, "").toLowerCase();
+	mapName = mapName.replace(/^(.+)_[a-d]$/, "$1");
+	return mapName;
+}
+/**
+* Format coordinates with consistent styling
+*/
+function formatCoordinates(x, y, options) {
+	options = options || {};
+	if (options.floor !== false) return `${Math.floor(x)},${Math.floor(y)}`;
+	return `${x},${y}`;
+}
+/**
+* Format target coordinates text with consistent styling
+*/
+function formatTargetCoordinates(x, y, options) {
+	options = options || {};
+	let text = Number.isFinite(x) && Number.isFinite(y) ? `${Math.floor(x)},${Math.floor(y)}` : "";
+	if (options.noPathFound) text += text ? "（未找到路径）" : "未找到路径";
+	else if (options.targetMap && options.targetMap !== getCurrentMap()) text += ` (${options.targetMap})`;
+	return text;
+}
+/**
+* Format location title with consistent styling
+*/
+function formatLocationTitle(currentMap, targetMap, displayName) {
+	let text;
+	if (!displayName && targetMap && currentMap !== targetMap) text = `[${currentMap} → ${targetMap}]`;
+	else text = `[${displayName || currentMap}]`;
+	return text;
+}
+/**
+* Convert map coordinates to screen coordinates
+*/
+function mapToScreen(x, y, width, height) {
+	const scaleX = width / _mapData.width;
+	const scaleY = height / _mapData.height;
+	const scale = Math.min(scaleX, scaleY);
+	const mapWidth = _mapData.width * scale;
+	const mapHeight = _mapData.height * scale;
+	const offsetX = (width - mapWidth) / 2;
+	const offsetY = (height - mapHeight) / 2;
+	return {
+		x: x / _mapData.width * mapWidth + offsetX,
+		y: (_mapData.height - y) / _mapData.height * mapHeight + offsetY
+	};
+}
+/**
+* Get the current map name
+*/
+function getCurrentMap() {
+	if (MapRenderer && MapRenderer.currentMap) return normalizeMapName(MapRenderer.currentMap);
+}
+/**
+* Get the current player position
+*/
+function getPlayerPosition() {
+	if (!SessionStorage_default.Entity || !SessionStorage_default.Entity.position) return {
+		x: 0,
+		y: 0
+	};
+	return {
+		x: Math.ceil(SessionStorage_default.Entity.position[0]),
+		y: Math.ceil(SessionStorage_default.Entity.position[1])
+	};
+}
+/**
+* Whether the map server currently allows this session to teleport itself.
+*/
+function canSelfTeleport() {
+	return SessionStorage_default.NavigationTeleportAllowed;
+}
+/**
+* Terminate the pathfinding worker
+*/
+function terminatePathFindingWorker() {
+	if (_pathFindingWorker) {
+		_pathFindingWorker.terminate();
+		_pathFindingWorker = null;
+	}
+}
+/**
+* Initialize the pathfinding worker
+*/
+function initializePathFindingWorker() {
+	if (!_pathFindingWorker) {
+		_pathFindingWorker = new Worker(new URL(
+			/* @vite-ignore */
+			"" + new URL("PathFindingWorker.js", import.meta.url).href,
+			"" + import.meta.url
+		).href);
+		_pathFindingWorker.id = (/* @__PURE__ */ new Date()).getTime().toString();
+		_pathFindingWorker.onmessage = function(e) {
+			const data = e.data;
+			switch (data.type) {
+				case "pathResult":
+					_pathUpdateLock = false;
+					if (_finalTargetData && data.path && data.workerId === _pathFindingWorker.id) {
+						const mapName = getCurrentMap();
+						_path = data.path;
+						if (_path.length > 0) {
+							this.updateTargetText();
+							this.updateAutoWalkButtons();
+							this.setTargetCoordinatesBlinking(false);
+							this.setLocationTitle(mapName, _finalTargetData.map, _finalTargetData.displayName);
+						} else {
+							_pathUnavailable = true;
+							this.stopAutoWalk();
+							this.updateAutoWalkButtons();
+							this.updateTargetText(true);
+							this.setTargetCoordinatesBlinking(false);
+							this.setLocationTitle(mapName, null);
+						}
+					}
+			}
+		}.bind(Navigation);
+	}
+}
+function resetPathFindingWorker() {
+	terminatePathFindingWorker();
+	initializePathFindingWorker();
+}
+var Navigation, _arrow, _toolDealer, _weaponDealer, _armorDealer, _blacksmith, _guide, _inn, _kafra, _map, _ctx$2, _towninfo, _markers, _path, _lastPathUpdate, _pathUpdateThrottle, _pathUpdateLock, _pathFindingWorker, _mapData, _mapLoadRequestId$1, _navigationRequestId, _mapImageMap, _targetData, _finalTargetData, _selectedTargetData, _autoWalkTimer, _autoWalkActive, _teleportCooldownUntil, _teleportCooldownTimer, _isMapClickTarget, _pathUnavailable, _blinking, _fadeInterval, _originalColor, _documentClickHandler, Navigation_default;
+var init_Navigation = __esmMin((() => {
+	init_KeyEventHandler();
+	init_Renderer();
+	init_MapRenderer();
+	init_UIManager();
+	init_GUIComponent();
+	init_Elements();
+	init_Altitude();
+	init_SessionStorage();
+	init_Client();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_PacketVerManager();
+	init_DBManager();
+	init_Navigation$2();
+	init_Navigation$1();
+	init_MapPathFinder();
+	init_NavigationSearchInteraction();
+	init_NavigationAutoWalk();
+	Navigation = new GUIComponent("Navigation", Navigation_default$1);
+	Navigation.render = () => Navigation_default$2;
+	_arrow = createAsyncImage();
+	_toolDealer = createAsyncImage();
+	_weaponDealer = createAsyncImage();
+	_armorDealer = createAsyncImage();
+	_blacksmith = createAsyncImage();
+	_guide = createAsyncImage();
+	_inn = createAsyncImage();
+	_kafra = createAsyncImage();
+	_map = createAsyncImage();
+	_ctx$2 = null;
+	_towninfo = [];
+	_markers = [];
+	_path = [];
+	_lastPathUpdate = 0;
+	_pathUpdateThrottle = 500;
+	_pathUpdateLock = false;
+	_pathFindingWorker = null;
+	_mapData = null;
+	_mapLoadRequestId$1 = 0;
+	_navigationRequestId = 0;
+	_mapImageMap = null;
+	_targetData = null;
+	_finalTargetData = null;
+	_selectedTargetData = null;
+	_autoWalkTimer = null;
+	_autoWalkActive = false;
+	_teleportCooldownUntil = 0;
+	_teleportCooldownTimer = null;
+	_isMapClickTarget = false;
+	_pathUnavailable = false;
+	_blinking = false;
+	_fadeInterval = null;
+	_originalColor = "";
+	_documentClickHandler = null;
+	/**
+	* Convert screen coordinates to map coordinates
+	*/
+	Navigation.screenToMapCoordinates = function screenToMapCoordinates(screenX, screenY) {
+		if (!_mapData?.ready) return null;
+		const width = 280;
+		const height = 230;
+		const scaleX = width / _mapData.width;
+		const scaleY = height / _mapData.height;
+		const scale = Math.min(scaleX, scaleY);
+		const scaledMapWidth = _mapData.width * scale;
+		const scaledMapHeight = _mapData.height * scale;
+		const offsetX = (width - scaledMapWidth) / 2;
+		const offsetY = (height - scaledMapHeight) / 2;
+		let mapX = (screenX - offsetX) / scaledMapWidth * _mapData.width;
+		let mapY = _mapData.height - (screenY - offsetY) / scaledMapHeight * _mapData.height;
+		mapX = Math.max(0, Math.min(_mapData.width, mapX));
+		mapY = Math.max(0, Math.min(_mapData.height, mapY));
+		return {
+			x: Math.floor(mapX),
+			y: Math.floor(mapY)
+		};
+	};
+	/**
+	* Initialize component
+	*/
+	Navigation.init = function init() {
+		const root = Navigation.getRoot();
+		_mapData = { walkableType: Altitude.TYPE.WALKABLE };
+		this._host.style.top = `${Math.max(0, Math.min(Renderer.height - 324, 200))}px`;
+		this._host.style.left = `${Math.max(0, Math.min(Renderer.width - 300, 200))}px`;
+		const canvas = document.createElement("canvas");
+		canvas.width = 280;
+		canvas.height = 230;
+		_ctx$2 = canvas.getContext("2d");
+		const mapDisplay = root.querySelector(".map-display");
+		if (mapDisplay) mapDisplay.appendChild(canvas);
+		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, (dataURI) => {
+			_arrow.src = dataURI;
+		});
+		Client.loadFile(`${DB.INTERFACE_PATH}information/store.bmp`, (dataURI) => {
+			_toolDealer.src = dataURI;
+		});
+		Client.loadFile(`${DB.INTERFACE_PATH}information/weaponshop.bmp`, (dataURI) => {
+			_weaponDealer.src = dataURI;
+		});
+		Client.loadFile(`${DB.INTERFACE_PATH}information/armorshops.bmp`, (dataURI) => {
+			_armorDealer.src = dataURI;
+		});
+		Client.loadFile(`${DB.INTERFACE_PATH}information/smithy.bmp`, (dataURI) => {
+			_blacksmith.src = dataURI;
+		});
+		Client.loadFile(`${DB.INTERFACE_PATH}information/guide.bmp`, (dataURI) => {
+			_guide.src = dataURI;
+		});
+		Client.loadFile(`${DB.INTERFACE_PATH}information/inn.bmp`, (dataURI) => {
+			_inn.src = dataURI;
+		});
+		Client.loadFile(`${DB.INTERFACE_PATH}information/kafra.bmp`, (dataURI) => {
+			_kafra.src = dataURI;
+		});
+		root.querySelector(".close").addEventListener("click", () => this.hide());
+		root.querySelector(".search-button").addEventListener("click", (event) => {
+			event.stopPropagation();
+			this.onSearch();
+		});
+		root.querySelector(".services-toggle").addEventListener("change", () => {
+			if (!_finalTargetData) return;
+			_pathUnavailable = false;
+			const currentMap = getCurrentMap();
+			const currentPos = getPlayerPosition();
+			this.navigateTo({
+				startMap: currentMap,
+				startX: currentPos.x,
+				startY: currentPos.y,
+				endMap: _finalTargetData.map,
+				endX: _finalTargetData.x,
+				endY: _finalTargetData.y,
+				displayName: _finalTargetData.displayName
+			});
+		});
+		const searchInput = root.querySelector(".search-input");
+		searchInput.addEventListener("keypress", (e) => {
+			if (e.which === KEYS.ENTER || e.key === "Enter") this.onSearch();
+		});
+		searchInput.addEventListener("focus", () => {
+			const resultsContainer = root.querySelector(".search-results");
+			if (resultsContainer && resultsContainer.children.length > 0) resultsContainer.style.display = "block";
+		});
+		_documentClickHandler = (e) => {
+			if (!isNavigationSearchInteraction(e)) {
+				const resultsContainer = root.querySelector(".search-results");
+				if (resultsContainer) resultsContainer.style.display = "none";
+			}
+		};
+		document.addEventListener("click", _documentClickHandler);
+		root.querySelector(".map-display").addEventListener("click", (e) => this.onMapClick(e));
+		root.querySelector(".teleport-button").addEventListener("click", (e) => {
+			e.stopPropagation();
+			this.teleportToSelectedTarget();
+		});
+		root.querySelector(".walk-button").addEventListener("click", (e) => {
+			e.stopPropagation();
+			this.startAutoWalk();
+		});
+		root.querySelector(".walk-stop-button").addEventListener("click", (e) => {
+			e.stopPropagation();
+			this.stopAutoWalk();
+		});
+		root.querySelector(".map-display").addEventListener("mousemove", (e) => this.onMapMouseMove(e));
+		root.querySelector(".map-display").addEventListener("mouseleave", () => this.onMapMouseLeave());
+		this.draggable(".titlebar");
+		this.ui.hide();
+	};
+	/**
+	* Once append to the DOM
+	*/
+	Navigation.onAppend = function onAppend() {
+		this.clearPath();
+		Renderer.render(this.renderCanvas.bind(this));
+		initializePathFindingWorker();
+		this.updateTeleportButton();
+		const mapName = getCurrentMap();
+		this.loadMap(mapName);
+		if (_finalTargetData) {
+			const currentPos = getPlayerPosition();
+			this.navigateTo({
+				startMap: mapName,
+				startX: currentPos.x,
+				startY: currentPos.y,
+				endMap: _finalTargetData.map,
+				endX: _finalTargetData.x,
+				endY: _finalTargetData.y,
+				displayName: _finalTargetData.displayName
+			});
+		}
+	};
+	/**
+	* Once removed from DOM
+	*/
+	Navigation.onRemove = function onRemove() {
+		this.stopAutoWalk();
+		this.clearPath();
+		terminatePathFindingWorker();
+		if (_documentClickHandler) document.removeEventListener("click", _documentClickHandler);
+	};
+	/**
+	* Handle search button click
+	*/
+	Navigation.onSearch = function onSearch() {
+		const root = Navigation.getRoot();
+		const query = root.querySelector(".search-input").value.trim();
+		const type = root.querySelector(".search-type").value;
+		const resultsContainer = root.querySelector(".search-results");
+		if (query.length < 2) {
+			if (resultsContainer) {
+				resultsContainer.replaceChildren();
+				resultsContainer.style.display = "none";
+			}
+			return;
+		}
+		const results = DB.searchNavigation(query, type);
+		this.displaySearchResults(results);
+	};
+	/**
+	* Display search results
+	*/
+	Navigation.displaySearchResults = function displaySearchResults(results) {
+		const root = Navigation.getRoot();
+		let resultsContainer = root.querySelector(".search-results");
+		if (!resultsContainer) {
+			resultsContainer = document.createElement("div");
+			resultsContainer.className = "search-results";
+			root.querySelector(".content").appendChild(resultsContainer);
+		} else resultsContainer.replaceChildren();
+		if (results.length === 0) {
+			const noResults = document.createElement("div");
+			noResults.className = "no-results";
+			noResults.textContent = "未找到结果";
+			resultsContainer.appendChild(noResults);
+			resultsContainer.style.display = "block";
+			return;
+		}
+		const resultsList = document.createElement("ul");
+		resultsList.className = "results-list";
+		resultsContainer.appendChild(resultsList);
+		for (let i = 0; i < results.length; i++) {
+			const result = results[i];
+			const resultItem = document.createElement("li");
+			resultItem.className = "result-item";
+			const typeIcon = result.type === "NPC" ? "npc_icon" : result.type === "MAP" ? "map_icon" : "mob_icon";
+			const typeLabel = document.createElement("span");
+			typeLabel.className = `result-type ${typeIcon}`;
+			typeLabel.textContent = result.type;
+			const nameLabel = document.createElement("span");
+			nameLabel.className = "result-name";
+			nameLabel.textContent = result.name;
+			const mapLabel = document.createElement("span");
+			mapLabel.className = "result-map";
+			mapLabel.textContent = result.mapDisplayName || result.mapName;
+			resultItem.append(typeLabel, nameLabel, mapLabel);
+			resultItem._resultData = result;
+			resultItem.addEventListener("click", (event) => {
+				event.stopPropagation();
+				this.navigateToSearchResult(result);
+			});
+			resultsList.appendChild(resultItem);
+		}
+		resultsContainer.style.display = "block";
+	};
+	/**
+	* Navigate to a search result
+	*/
+	Navigation.navigateToSearchResult = function navigateToSearchResult(result) {
+		if (!result || !result.mapName) return;
+		this.targetResult = result;
+		_isMapClickTarget = false;
+		if (!Number.isFinite(result.x) || !Number.isFinite(result.y)) {
+			this.showMap(result.mapName, result.mapDisplayName || result.mapName, { preserveSearch: true });
+			return;
+		}
+		const currentMap = getCurrentMap();
+		const currentPos = getPlayerPosition();
+		this.navigateTo({
+			startMap: currentMap,
+			startX: currentPos.x,
+			startY: currentPos.y,
+			endMap: result.mapName,
+			endX: result.x,
+			endY: result.y,
+			displayName: result.name
+		});
+		const resultsContainer = Navigation.getRoot().querySelector(".search-results");
+		if (resultsContainer) resultsContainer.style.display = "none";
+	};
+	/**
+	* Find the closest walkable cell to the given coordinates
+	*/
+	Navigation.findClosestWalkableCell = function findClosestWalkableCell(x, y, maxRadius) {
+		if (x >= 0 && x < _mapData.width && y >= 0 && y < _mapData.height) {
+			const index = x + y * _mapData.width;
+			if (_mapData.cellTypes[index] & _mapData.walkableType) return {
+				x,
+				y
+			};
+		}
+		maxRadius = maxRadius || 10;
+		let radius = 1;
+		let bestDistance = Infinity;
+		let bestCell = null;
+		while (radius <= maxRadius) {
+			for (let offsetY = -radius; offsetY <= radius; offsetY++) for (let offsetX = -radius; offsetX <= radius; offsetX++) {
+				if (Math.abs(offsetX) !== radius && Math.abs(offsetY) !== radius) continue;
+				const cx = x + offsetX;
+				const cy = y + offsetY;
+				if (cx >= 0 && cx < _mapData.width && cy >= 0 && cy < _mapData.height) {
+					const index = cx + cy * _mapData.width;
+					if (_mapData.cellTypes[index] & _mapData.walkableType) {
+						const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
+						if (distance < bestDistance) {
+							bestDistance = distance;
+							bestCell = {
+								x: cx,
+								y: cy
+							};
+						}
+					}
+				}
+			}
+			if (bestCell) return bestCell;
+			radius++;
+		}
+		return null;
+	};
+	/**
+	* Handle map click event
+	*/
+	Navigation.onMapClick = function onMapClick(event) {
+		if (!_mapData?.ready || !_mapData.map) return;
+		const rect = Navigation.getRoot().querySelector(".map-display").getBoundingClientRect();
+		const x = Math.floor(event.clientX - rect.left);
+		const y = Math.floor(event.clientY - rect.top);
+		const mapCoords = this.screenToMapCoordinates(x, y);
+		if (!mapCoords) return;
+		const currentMap = getCurrentMap();
+		const currentPos = getPlayerPosition();
+		const previewMap = normalizeMapName(_mapData.map);
+		_selectedTargetData = {
+			x: mapCoords.x,
+			y: mapCoords.y,
+			map: previewMap
+		};
+		if (previewMap !== currentMap) {
+			this.clearPath();
+			_finalTargetData = null;
+			_targetData = {
+				x: mapCoords.x,
+				y: mapCoords.y,
+				map: previewMap
+			};
+			this.updateTeleportButton();
+			this.setTargetCoordinatesText(mapCoords.x, mapCoords.y);
+			const previewName = DB.getMapInfo(`${previewMap}.rsw`)?.displayName || DB.getMapName(previewMap, previewMap);
+			this.setLocationTitle(previewMap, null, previewName);
+			return;
+		}
+		_isMapClickTarget = true;
+		this.navigateTo({
+			startMap: currentMap,
+			startX: currentPos.x,
+			startY: currentPos.y,
+			endMap: _mapData.map,
+			endX: mapCoords.x,
+			endY: mapCoords.y,
+			displayName: DB.getMapName(_mapData.map, _mapData.map)
+		});
+	};
+	/**
+	* Show the self-teleport action only when the server grants the capability.
+	*/
+	Navigation.updateTeleportButton = function updateTeleportButton() {
+		const button = Navigation.getRoot()?.querySelector(".teleport-button");
+		if (!button) return;
+		const target = _selectedTargetData || _finalTargetData || _targetData;
+		const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
+		const canTeleportTarget = canSelfTeleport() && (!isCrossMap || SessionStorage_default.NavigationTeleportCrossMap);
+		button.style.display = canTeleportTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? "block" : "none";
+		button.disabled = Date.now() < _teleportCooldownUntil;
+	};
+	Navigation.setTeleportConfig = function setTeleportConfig(type, value) {
+		if (type === 1e3) SessionStorage_default.NavigationTeleportAllowed = Boolean(value);
+		if (type === 1001) SessionStorage_default.NavigationTeleportCrossMap = Boolean(value);
+		if (type === 1002) SessionStorage_default.NavigationTeleportCooldown = Math.max(0, Number(value) || 0);
+		this.updateTeleportButton();
+	};
+	Navigation.updateAutoWalkButtons = function updateAutoWalkButtons() {
+		const root = Navigation.getRoot();
+		const start = root?.querySelector(".walk-button");
+		const stop = root?.querySelector(".walk-stop-button");
+		if (!start || !stop) return;
+		const canStart = Boolean(_path.length && _targetData && _targetData.map === getCurrentMap() && !_pathUnavailable);
+		start.style.display = canStart && !_autoWalkActive ? "block" : "none";
+		stop.style.display = _autoWalkActive ? "block" : "none";
+	};
+	Navigation.startAutoWalk = function startAutoWalk() {
+		if (_autoWalkActive || !_targetData || _targetData.map !== getCurrentMap() || _pathUnavailable) return;
+		_autoWalkActive = true;
+		this.updateAutoWalkButtons();
+		const sendTarget = () => {
+			if (!_autoWalkActive || !_finalTargetData) return;
+			const currentMap = getCurrentMap();
+			if (!_targetData || _targetData.map !== currentMap) {
+				const position = getPlayerPosition();
+				this.navigateTo({
+					startMap: currentMap,
+					startX: position.x,
+					startY: position.y,
+					endMap: _finalTargetData.map,
+					endX: _finalTargetData.x,
+					endY: _finalTargetData.y,
+					displayName: _finalTargetData.displayName
+				});
+				return;
+			}
+			const position = getPlayerPosition();
+			if (Math.abs(position.x - _targetData.x) <= 1 && Math.abs(position.y - _targetData.y) <= 1 && _finalTargetData.map === currentMap) {
+				this.stopAutoWalk();
+				return;
+			}
+			const waypoint = selectAutoWalkWaypoint(_path, position) || _targetData;
+			const packet = PacketVerManager_default.value >= 20180307 ? new PACKET.CZ.REQUEST_MOVE2() : new PACKET.CZ.REQUEST_MOVE();
+			packet.dest[0] = Math.floor(waypoint.x);
+			packet.dest[1] = Math.floor(waypoint.y);
+			Network.sendPacket(packet);
+		};
+		sendTarget();
+		_autoWalkTimer = setInterval(sendTarget, 1200);
+	};
+	Navigation.stopAutoWalk = function stopAutoWalk() {
+		_autoWalkActive = false;
+		if (_autoWalkTimer) clearInterval(_autoWalkTimer);
+		_autoWalkTimer = null;
+		this.updateAutoWalkButtons();
+	};
+	/**
+	* Request a mapmove for the currently controlled character.
+	* The server derives the character from the authenticated game session.
+	*/
+	Navigation.teleportToSelectedTarget = function teleportToSelectedTarget() {
+		const target = _selectedTargetData || _finalTargetData || _targetData;
+		const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
+		if (!target || !target.map || !canSelfTeleport() || isCrossMap && !SessionStorage_default.NavigationTeleportCrossMap || Date.now() < _teleportCooldownUntil) return;
+		const packet = new PACKET.CZ.MOVETO_MAP();
+		packet.mapName = normalizeMapName(target.map);
+		packet.xPos = Math.max(0, Math.floor(target.x));
+		packet.yPos = Math.max(0, Math.floor(target.y));
+		Network.sendPacket(packet);
+		_teleportCooldownUntil = Date.now() + SessionStorage_default.NavigationTeleportCooldown * 1e3;
+		this.updateTeleportButton();
+		if (_teleportCooldownTimer) clearTimeout(_teleportCooldownTimer);
+		_teleportCooldownTimer = setTimeout(() => this.updateTeleportButton(), SessionStorage_default.NavigationTeleportCooldown * 1e3);
+	};
+	/**
+	* Load a map for display
+	*/
+	Navigation.loadMap = function loadMap(mapName, displayName, onReady) {
+		const mapBaseName = normalizeMapName(mapName);
+		if (!mapBaseName) {
+			if (onReady) onReady(false);
+			return;
+		}
+		const requestId = ++_mapLoadRequestId$1;
+		if (_isMapClickTarget && _mapData && _mapData.map && _mapData.map !== mapName) {
+			this.clear();
+			_isMapClickTarget = false;
+		}
+		_mapData = {
+			map: mapBaseName,
+			ready: false,
+			walkableType: Altitude.TYPE.WALKABLE
+		};
+		_mapImageMap = null;
+		_towninfo = DB.getTownInfo(mapBaseName) || [];
+		let bmpPath = DB.INTERFACE_PATH.replace("data/texture/", "") + "map/" + mapBaseName + ".bmp";
+		bmpPath = bmpPath.replace(/\//g, "\\");
+		bmpPath = DB.mapalias[bmpPath] || bmpPath;
+		Client.loadFile("data/texture/" + bmpPath, (dataURI) => {
+			if (requestId !== _mapLoadRequestId$1) return;
+			_mapImageMap = mapBaseName;
+			if (dataURI) _map.src = dataURI;
+			else _map.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+		});
+		let gatPath = mapBaseName + ".gat";
+		gatPath = gatPath.replace(/\//g, "\\");
+		gatPath = DB.mapalias[gatPath] || gatPath;
+		Client.loadFile("data/" + gatPath, (gatData) => {
+			if (requestId !== _mapLoadRequestId$1) return;
+			if (gatData?.cells && gatData.width && gatData.height) {
+				_mapData.width = gatData.width;
+				_mapData.height = gatData.height;
+				_mapData.cells = gatData.cells;
+				const cellCount = gatData.width * gatData.height;
+				const cellTypes = new Uint8Array(cellCount);
+				for (let i = 0; i < cellCount; i++) {
+					const cellIndex = i * 5 + 4;
+					cellTypes[i] = gatData.cells[cellIndex];
+				}
+				_mapData.cellTypes = cellTypes;
+				_mapData.ready = true;
+				if (onReady) onReady(true);
+				return;
+			}
+			if (onReady) onReady(false);
+		});
+		this.setMapNameText(displayName || mapName);
+	};
+	/**
+	* Open a map selected from the world map without starting a search.
+	*/
+	Navigation.showMap = function showMap(mapName, displayName, options = {}) {
+		this.clear();
+		this.show();
+		const root = this.getRoot();
+		const searchInput = root.querySelector(".search-input");
+		if (searchInput && !options.preserveSearch) searchInput.value = "";
+		const resultsContainer = root.querySelector(".search-results");
+		if (resultsContainer) resultsContainer.style.display = "none";
+		this.loadMap(mapName, displayName);
+		this.setLocationTitle(mapName, null, displayName);
+		this.updateTeleportButton();
+	};
+	Navigation.showCurrentMap = function showCurrentMap() {
+		const mapName = getCurrentMap();
+		if (!mapName) return;
+		this.showMap(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
+	};
+	/**
+	* Clear the end marker
+	*/
+	Navigation.clear = function clear() {
+		this.stopAutoWalk();
+		_navigationRequestId++;
+		this.clearPath();
+		_finalTargetData = null;
+		_targetData = null;
+		_selectedTargetData = null;
+		_isMapClickTarget = false;
+		_pathUnavailable = false;
+		const targetInfo = Navigation.getRoot().querySelector(".target-info");
+		if (targetInfo) targetInfo.style.display = "none";
+		const currentMap = getCurrentMap();
+		if (currentMap) this.setLocationTitle(currentMap, null);
+		this.updateTeleportButton();
+		this.updateAutoWalkButtons();
+	};
+	Navigation.clearPath = function clearPath() {
+		_path = [];
+		_lastPathUpdate = 0;
+		_pathUpdateLock = false;
+	};
+	/**
+	* Add a marker to the map
+	*/
+	Navigation.addMarker = function addMarker(x, y, color, label) {
+		_markers.push({
+			x,
+			y,
+			color: color || "rgb(255,0,0)",
+			label: label || ""
+		});
+	};
+	/**
+	* Render the map and markers
+	*/
+	Navigation.renderCanvas = function renderCanvas(tick) {
+		if ((this._host ? getComputedStyle(this._host).display : "none") === "none") return;
+		const width = 280;
+		const height = 230;
+		const ctx = _ctx$2;
+		if (!ctx) return;
+		const currentMap = getCurrentMap();
+		const currentPos = getPlayerPosition();
+		if (_finalTargetData && !_pathUnavailable && tick - _lastPathUpdate > _pathUpdateThrottle && !_pathUpdateLock) {
+			this.navigateTo({
+				startMap: currentMap,
+				startX: currentPos.x,
+				startY: currentPos.y,
+				endMap: _finalTargetData.map,
+				endX: _finalTargetData.x,
+				endY: _finalTargetData.y,
+				displayName: _finalTargetData.displayName
+			});
+			_lastPathUpdate = tick;
+		}
+		ctx.clearRect(0, 0, width, height);
+		ctx.fillStyle = "#000";
+		ctx.fillRect(0, 0, width, height);
+		if (_mapData?.ready && _mapImageMap === _mapData.map && _map.complete && _map.width) {
+			const scaleX = width / _mapData.width;
+			const scaleY = height / _mapData.height;
+			const scale = Math.min(scaleX, scaleY);
+			ctx.save();
+			ctx.translate(width / 2, height / 2);
+			ctx.scale(scale, scale);
+			ctx.translate(-_mapData.width / 2, -_mapData.height / 2);
+			ctx.drawImage(_map, 0, 0, _mapData.width, _mapData.height);
+			ctx.restore();
+		}
+		const mapToScreenBound = (x, y) => {
+			return mapToScreen(x, y, width, height);
+		};
+		if (!_mapData?.ready) return;
+		if (_towninfo && _towninfo.length) for (let i = 0; i < _towninfo.length; i++) {
+			const info = _towninfo[i];
+			const pos = mapToScreenBound(info.X, info.Y);
+			let img;
+			switch (info.Type) {
+				case 0:
+					img = _toolDealer;
+					break;
+				case 1:
+					img = _weaponDealer;
+					break;
+				case 2:
+					img = _armorDealer;
+					break;
+				case 3:
+					img = _blacksmith;
+					break;
+				case 4:
+					img = _guide;
+					break;
+				case 5:
+					img = _inn;
+					break;
+				case 6:
+					img = _kafra;
+					break;
+				default: continue;
+			}
+			if (img.complete && img.width) ctx.drawImage(img, pos.x - img.width / 2, pos.y - img.height / 2);
+		}
+		if (_path && _path.length > 0) {
+			ctx.lineWidth = 2;
+			let currentSegment = [];
+			for (let i = 0; i < _path.length; i++) {
+				const point = _path[i];
+				const pos = mapToScreenBound(point.x, point.y);
+				if (currentSegment.length === 0) {
+					currentSegment.push(pos);
+					continue;
+				}
+				if (point.isWarp || i === _path.length - 1) {
+					currentSegment.push(pos);
+					ctx.strokeStyle = "cyan";
+					ctx.beginPath();
+					ctx.moveTo(currentSegment[0].x, currentSegment[0].y);
+					for (let j = 1; j < currentSegment.length; j++) ctx.lineTo(currentSegment[j].x, currentSegment[j].y);
+					ctx.stroke();
+					if (point.isWarp) {
+						ctx.beginPath();
+						ctx.arc(pos.x, pos.y, 3, 0, Math.PI * 2);
+						ctx.fillStyle = "yellow";
+						ctx.fill();
+						if (i + 1 < _path.length) {
+							const exitPos = mapToScreenBound(_path[i + 1].x, _path[i + 1].y);
+							ctx.beginPath();
+							ctx.arc(exitPos.x, exitPos.y, 3, 0, Math.PI * 2);
+							ctx.fillStyle = "yellow";
+							ctx.fill();
+							currentSegment = [exitPos];
+							i++;
+						} else currentSegment = [pos];
+					} else currentSegment = [pos];
+				} else currentSegment.push(pos);
+			}
+		}
+		if (_targetData) {
+			const lastPoint = mapToScreenBound(_targetData.x, _targetData.y);
+			ctx.fillStyle = "red";
+			ctx.beginPath();
+			ctx.arc(lastPoint.x, lastPoint.y, 3, 0, Math.PI * 2);
+			ctx.fill();
+		}
+		const startPos = mapToScreenBound(currentPos.x, currentPos.y);
+		if (_mapData.map === currentMap && _arrow.complete && _arrow.width) {
+			ctx.save();
+			ctx.translate(startPos.x, startPos.y);
+			ctx.rotate((SessionStorage_default.Entity.direction + 4) * 45 * Math.PI / 180);
+			ctx.drawImage(_arrow, -_arrow.width / 2, -_arrow.height / 2);
+			ctx.restore();
+		}
+		for (let i = 0; i < _markers.length; i++) {
+			const marker = _markers[i];
+			const pos = mapToScreenBound(marker.x, marker.y);
+			ctx.fillStyle = marker.color;
+			ctx.beginPath();
+			ctx.arc(pos.x, pos.y, 3, 0, Math.PI * 2);
+			ctx.fill();
+			if (marker.label) {
+				ctx.fillStyle = "#fff";
+				ctx.font = "10px Arial";
+				ctx.fillText(marker.label, pos.x + 5, pos.y + 3);
+			}
+		}
+	};
+	/**
+	* Update the target coordinates text
+	*/
+	Navigation.updateTargetText = function updateTargetText(noPathFound) {
+		const targetInfo = Navigation.getRoot().querySelector(".target-info");
+		if (targetInfo) targetInfo.style.display = "flex";
+		if (_finalTargetData) this.setTargetCoordinatesText(_finalTargetData.x, _finalTargetData.y, {
+			noPathFound,
+			targetMap: _finalTargetData.map
+		});
+	};
+	/**
+	* Set target coordinates text with proper formatting
+	*/
+	Navigation.setTargetCoordinatesText = function setTargetCoordinatesText(x, y, options) {
+		const root = Navigation.getRoot();
+		if (!root) return;
+		const text = formatTargetCoordinates(x, y, options);
+		const targetCoords = root.querySelector(".target-coordinates");
+		if (targetCoords) {
+			targetCoords.textContent = text;
+			targetCoords.style.display = "";
+		}
+		const targetInfo = root.querySelector(".target-info");
+		if (targetInfo) targetInfo.style.display = "flex";
+	};
+	Navigation.setTargetCoordinatesBlinking = function setTargetCoordinatesBlinking(blinking) {
+		const root = Navigation.getRoot();
+		if (!root) return;
+		const targetCoordinates = root.querySelector(".target-coordinates");
+		if (!targetCoordinates) return;
+		if (blinking) {
+			if (!_blinking) {
+				_blinking = true;
+				_originalColor = getComputedStyle(targetCoordinates).color || "#ffffff";
+				let fadeStep = 0;
+				let fadeDirection = -1;
+				_fadeInterval = setInterval(() => {
+					fadeStep += fadeDirection * .1;
+					if (fadeStep <= .3) fadeDirection = 1;
+					else if (fadeStep >= 1) fadeDirection = -1;
+					targetCoordinates.style.opacity = fadeStep;
+				}, 50);
+			}
+		} else if (_blinking) {
+			clearInterval(_fadeInterval);
+			_fadeInterval = null;
+			targetCoordinates.style.opacity = "1";
+			targetCoordinates.style.color = _originalColor;
+			_blinking = false;
+		}
+	};
+	/**
+	* Set location title with proper formatting
+	*/
+	Navigation.setLocationTitle = function setLocationTitle(currentMap, targetMap, displayName) {
+		const root = Navigation.getRoot();
+		if (!root) return;
+		const title = formatLocationTitle(currentMap, targetMap, displayName);
+		const locationTitle = root.querySelector(".location-title");
+		if (locationTitle) locationTitle.textContent = title;
+	};
+	/**
+	* Set coordinates text with proper formatting
+	*/
+	Navigation.setCoordinatesText = function setCoordinatesText(x, y, options) {
+		const root = Navigation.getRoot();
+		if (!root) return;
+		const text = formatCoordinates(x, y, options);
+		const coords = root.querySelector(".coordinates");
+		if (coords) coords.textContent = text;
+	};
+	/**
+	* Set map name text with proper formatting
+	*/
+	Navigation.setMapNameText = function setMapNameText(mapName) {
+		const root = Navigation.getRoot();
+		if (!root) return;
+		const mapNameEl = root.querySelector(".map-name");
+		if (mapNameEl) mapNameEl.textContent = normalizeMapName(mapName);
+	};
+	/**
+	* Set mouse coordinates text with proper formatting
+	*/
+	Navigation.setMouseCoordinatesText = function setMouseCoordinatesText(x, y, options) {
+		const root = Navigation.getRoot();
+		if (!root) return;
+		const text = formatCoordinates(x, y, options);
+		const mouseCoords = root.querySelector(".mouse-coordinates");
+		if (mouseCoords) mouseCoords.textContent = text;
+	};
+	/**
+	* Find a path between two points using a web worker
+	*/
+	Navigation.findPath = function findPath(startX, startY, endX, endY) {
+		if (_pathFindingWorker && !_pathUpdateLock) {
+			_pathUpdateLock = true;
+			const naviLinkTable = DB.getNaviLinkTable();
+			const currentMap = getCurrentMap();
+			const warps = [];
+			if (naviLinkTable && naviLinkTable.length) for (let i = 0; i < naviLinkTable.length; i++) {
+				const warp = naviLinkTable[i];
+				if (!warp || warp.length < 11) continue;
+				const srcMap = warp[0].replace(/\.gat$/, "").toLowerCase();
+				const destMap = warp[8].replace(/\.gat$/, "").toLowerCase();
+				if (srcMap === currentMap && destMap === currentMap) warps.push({
+					id: warp[1],
+					type: warp[2],
+					srcX: warp[6],
+					srcY: warp[7],
+					destX: warp[9],
+					destY: warp[10]
+				});
+			}
+			_mapData.warps = warps;
+			_pathFindingWorker.postMessage({
+				type: "findPath",
+				startX,
+				startY,
+				endX,
+				endY,
+				mapData: _mapData,
+				workerId: _pathFindingWorker.id,
+				existingPath: _path
+			});
+		}
+	};
+	/**
+	* Toggle the navigation window (show/hide)
+	*/
+	Navigation.toggle = function toggle() {
+		if ((this._host ? getComputedStyle(this._host).display : "none") !== "none") this.hide();
+		else this.show();
+	};
+	/**
+	* Show the navigation window
+	*/
+	Navigation.show = function show() {
+		const root = Navigation.getRoot();
+		this.clearPath();
+		initializePathFindingWorker();
+		const mouseInfo = root.querySelector(".mouse-info");
+		if (mouseInfo) mouseInfo.style.display = "none";
+		const targetInfo = root.querySelector(".target-info");
+		if (targetInfo) targetInfo.style.display = "none";
+		const mapName = getCurrentMap();
+		const currentPos = getPlayerPosition();
+		if (_finalTargetData) this.navigateTo({
+			startMap: mapName,
+			startX: currentPos.x,
+			startY: currentPos.y,
+			endMap: _finalTargetData.map,
+			endX: _finalTargetData.x,
+			endY: _finalTargetData.y,
+			displayName: _finalTargetData.displayName
+		});
+		this.setMapNameText(mapName);
+		const locationTitle = root.querySelector(".location-title");
+		if (locationTitle && !locationTitle.textContent) this.setLocationTitle(mapName, null);
+		this.ui.show();
+	};
+	/**
+	* Hide the navigation window
+	*/
+	Navigation.hide = function hide() {
+		this.ui.hide();
+		terminatePathFindingWorker();
+	};
+	Navigation.onKeyDown = function onKeyDown(event) {
+		const hostDisplay = this._host ? getComputedStyle(this._host).display : "none";
+		if ((event.which === KEYS.ESCAPE || event.key === "Escape") && hostDisplay !== "none") this.hide();
+	};
+	/**
+	* Handle mouse movement over the map to display coordinates
+	*/
+	Navigation.onMapMouseMove = function onMapMouseMove(event) {
+		if (!_mapData?.ready) {
+			this.onMapMouseLeave();
+			return;
+		}
+		const root = Navigation.getRoot();
+		const rect = root.querySelector(".map-display").getBoundingClientRect();
+		const x = Math.floor(event.clientX - rect.left);
+		const y = Math.floor(event.clientY - rect.top);
+		const mapCoords = this.screenToMapCoordinates(x, y);
+		const mapX = Math.floor(mapCoords.x);
+		const mapY = Math.floor(mapCoords.y);
+		const mouseInfo = root.querySelector(".mouse-info");
+		if (mouseInfo) mouseInfo.style.display = "flex";
+		this.setMouseCoordinatesText(mapX, mapY);
+	};
+	/**
+	* Handle mouse leaving the map area
+	*/
+	Navigation.onMapMouseLeave = function onMapMouseLeave() {
+		const mouseInfo = Navigation.getRoot().querySelector(".mouse-info");
+		if (mouseInfo) mouseInfo.style.display = "none";
+	};
+	/**
+	* Set the content of the navigation window based on NAVI info
+	*/
+	Navigation.setNaviInfo = function setNaviInfo(naviInfo, displayName) {
+		const parts = naviInfo.split(",");
+		if (parts.length < 3) return;
+		const mapName = parts[0];
+		const x = parseInt(parts[1], 10);
+		const y = parseInt(parts[2], 10);
+		const searchInput = Navigation.getRoot().querySelector(".search-input");
+		if (searchInput) searchInput.value = "";
+		_isMapClickTarget = false;
+		const currentMap = getCurrentMap();
+		const currentPos = getPlayerPosition();
+		this.navigateTo({
+			startMap: currentMap,
+			startX: currentPos.x,
+			startY: currentPos.y,
+			endMap: mapName,
+			endX: x,
+			endY: y,
+			displayName
+		});
+	};
+	/**
+	* Wait for map data to be loaded
+	*/
+	Navigation.withMapData = function withMapData(mapName, callback) {
+		const normalizedMap = normalizeMapName(mapName);
+		if (_mapData?.ready && _mapData.map === normalizedMap) {
+			callback.call(this, true);
+			return;
+		}
+		this.loadMap(normalizedMap, DB.getMapName(normalizedMap, normalizedMap), (ready) => {
+			callback.call(this, ready);
+		});
+	};
+	/**
+	* Unified navigation function that handles both same-map and cross-map navigation
+	*/
+	Navigation.navigateTo = function navigateTo(options) {
+		const navigationRequestId = ++_navigationRequestId;
+		const root = Navigation.getRoot();
+		const startMap = normalizeMapName(options.startMap);
+		const endMap = normalizeMapName(options.endMap);
+		const displayName = options.displayName;
+		const hasCoordinates = Number.isFinite(options.endX) && Number.isFinite(options.endY);
+		if (!startMap || !endMap || !hasCoordinates) return;
+		if (_finalTargetData && (_finalTargetData.map !== endMap || _finalTargetData.x !== options.endX || _finalTargetData.y !== options.endY)) {
+			this.clearPath();
+			resetPathFindingWorker();
+			this.setTargetCoordinatesText(options.endX, options.endY, { targetMap: endMap });
+			this.setTargetCoordinatesBlinking(true);
+		}
+		_pathUnavailable = false;
+		_finalTargetData = {
+			map: endMap,
+			x: options.endX,
+			y: options.endY,
+			displayName
+		};
+		this.updateTeleportButton();
+		this.updateAutoWalkButtons();
+		let warpTypes = [200, 201];
+		const servicesToggle = root.querySelector(".services-toggle");
+		if (servicesToggle && servicesToggle.checked) warpTypes = [
+			200,
+			201,
+			202,
+			203,
+			204,
+			205
+		];
+		const path = MapPathFinder.findPathBetweenMaps(startMap, options.startX, options.startY, endMap, options.endX, options.endY, warpTypes);
+		if (!path || path.length === 0) {
+			_pathUnavailable = true;
+			this.stopAutoWalk();
+			this.clearPath();
+			this.updateTargetText(true);
+			this.setTargetCoordinatesBlinking(false);
+			this.setLocationTitle(startMap, endMap, displayName);
+			return;
+		}
+		const target = path[0];
+		_pathUpdateLock = true;
+		this.withMapData(startMap, function(ready) {
+			if (navigationRequestId !== _navigationRequestId) return;
+			_pathUpdateLock = false;
+			if (!ready || !_finalTargetData) {
+				_pathUnavailable = true;
+				this.stopAutoWalk();
+				this.updateTargetText(true);
+				this.setTargetCoordinatesBlinking(false);
+				return;
+			}
+			const walkableCell = this.findClosestWalkableCell(target.x, target.y);
+			if (walkableCell) {
+				_targetData = {
+					x: walkableCell.x,
+					y: walkableCell.y,
+					map: target.map,
+					displayName
+				};
+				this.findPath(options.startX, options.startY, _targetData.x, _targetData.y);
+			} else {
+				_pathUnavailable = true;
+				this.stopAutoWalk();
+				this.clearPath();
+				this.updateTargetText(true);
+				this.setTargetCoordinatesBlinking(false);
+			}
+		});
+	};
+	Navigation_default = UIManager.addComponent(Navigation);
+}));
+//#endregion
 //#region src/UI/Components/MiniMap/MiniMapCommon.js
 /**
 * Create MiniMap component
@@ -224216,6 +225744,19 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 		const root = this.getRoot();
 		_ctx = root.querySelector("canvas").getContext("2d");
 		this.opacity = 2;
+		const mapCanvas = root.querySelector("canvas");
+		if (mapCanvas) root.addEventListener("click", (event) => {
+			const bounds = mapCanvas.getBoundingClientRect();
+			if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) return;
+			event.stopPropagation();
+			__vitePreload(async () => {
+				const { default: Navigation } = await Promise.resolve().then(() => (init_Navigation(), Navigation_exports));
+				return { default: Navigation };
+			}, void 0, import.meta.url).then(({ default: Navigation }) => {
+				Navigation.showCurrentMap();
+				Navigation.focus();
+			});
+		}, true);
 		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, (dataURI) => {
 			_arrow.src = dataURI;
 		});
@@ -224689,6 +226230,7 @@ var init_MiniMapCommon = __esmMin((() => {
 	init_UIManager();
 	init_GUIComponent();
 	init_Elements();
+	init_preload_helper();
 }));
 //#endregion
 //#region src/UI/Components/MiniMap/MiniMap/MiniMap.js
@@ -224716,1069 +226258,27 @@ var init_WorldMap$1 = __esmMin((() => {
 	WorldMap_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#loader {\r\n	position: relative;\r\n	transform: translate(-10%, -50%);\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#WorldMap {\r\n	position: fixed;\r\n	top: 0;\r\n	left: 0;\r\n	background: black;\r\n	height: 100%;\r\n	width: 100%;\r\n}\r\n\r\n#WorldMap .hidden {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .titlebar {\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n}\r\n\r\n#WorldMap .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#WorldMap .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#WorldMap .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 17px;\r\n}\r\n\r\n#WorldMap .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#WorldMap .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#WorldMap select {\r\n	height: 17px;\r\n}\r\n\r\n/* V2 */\r\n#WorldMap .worldmap {\r\n	box-sizing: border-box;\r\n	display: grid;\r\n	justify-content: center;\r\n	overflow: auto;\r\n}\r\n\r\n#WorldMap .worldmap * {\r\n	box-sizing: border-box;\r\n}\r\n\r\n#WorldMap .border,\r\n#WorldMap .map,\r\n#WorldMap .content,\r\n#WorldMap .worldmap,\r\n#WorldMap .map-view {\r\n	height: 100%;\r\n}\r\n\r\n#WorldMap .worldmap .map-view {\r\n	position: relative;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n}\r\n\r\n#WorldMap .worldmap .section {\r\n	position: absolute;\r\n	border: 0px;\r\n	border-radius: 4px;\r\n	background-color: rgba(0, 0, 0, 0);\r\n	cursor: pointer;\r\n	overflow: visible;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover,\r\n#WorldMap .worldmap .section.allmapvisible,\r\n#WorldMap .worldmap .section.currentmap,\r\n#WorldMap .worldmap .section.membersonmap {\r\n	border: 1px solid #dddddd7a;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover {\r\n	background-color: rgba(0, 128, 255, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.membersonmap:not(.currentmap) {\r\n	background-color: rgba(128, 255, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap {\r\n	background-color: rgba(255, 128, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section .mapname {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap .mapname {\r\n	display: block;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: 11px;\r\n	color: white;\r\n	font-weight: bold;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-wrap: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section .mapid {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.allmapvisible .mapid {\r\n	display: block;\r\n	position: absolute;\r\n	bottom: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: 10px;\r\n	color: white;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .airplane {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 32px;\r\n	top: 0px;\r\n	left: 0px;\r\n	transform: rotate(75deg);\r\n	background-repeat: no-repeat;\r\n	background-size: cover;\r\n}\r\n\r\n#WorldMap .showlvl {\r\n	width: 10px;\r\n	height: 12px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#WorldMap .worldmap .section .level-range-text {\r\n	display: none;\r\n	position: absolute;\r\n\r\n	top: 85%;\r\n	left: 50%;\r\n	transform: translate(-50%, -50%);\r\n\r\n	width: 100%;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #ffffff;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap .worldmap.show-lvls .section .level-range-text {\r\n	display: block;\r\n}\r\n\r\n#WorldMap .worldmap .section .displayname {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .displayname {\r\n	display: block;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: 11px;\r\n	color: white;\r\n	font-weight: bold;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-wrap: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap .displayname {\r\n	display: block;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: 11px;\r\n	color: white;\r\n	font-weight: bold;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-wrap: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon):not(.is-dungeon-stacked) .mapname {\r\n	display: block;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: 11px;\r\n	color: white;\r\n	font-weight: bold;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-wrap: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon {\r\n	background-color: rgba(255, 0, 0, 0.4) !important;\r\n	border: 1px solid rgba(255, 0, 0, 0.6) !important;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked {\r\n	background-color: transparent !important;\r\n	border: 1px solid rgba(255, 0, 0, 0.6) !important;\r\n	display: block !important;\r\n}\r\n\r\n#WorldMap .worldmap .connector-line {\r\n	position: absolute;\r\n	height: 1px;\r\n	background-color: rgba(255, 0, 0, 0.5);\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap #map-tooltip {\r\n	position: fixed;\r\n	z-index: 100;\r\n	pointer-events: none;\r\n	padding: 5px;\r\n	background-color: rgba(0, 0, 0, 0.85);\r\n	border: 1px solid #666;\r\n	border-radius: 4px;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-img {\r\n	width: 150px;\r\n	height: 150px;\r\n	background-color: #111;\r\n	background-size: cover;\r\n	background-position: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapname {\r\n	color: gold;\r\n	font-weight: bold;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	padding: 3px 0 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapid {\r\n	color: white;\r\n	text-align: center;\r\n	font-size: 11px;\r\n	padding: 2px 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n";
 }));
 //#endregion
-//#region src/UI/Components/Navigation/Navigation.html?raw
-var Navigation_default$2;
-var init_Navigation$2 = __esmMin((() => {
-	Navigation_default$2 = "<div class=\"Navigation\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\" data-background=\"basic_interface/titlebar_left.bmp\"></div>\r\n		<div class=\"center\" data-background=\"basic_interface/titlebar_mid.bmp\"></div>\r\n		<div class=\"right\" data-background=\"basic_interface/titlebar_right.bmp\"></div>\r\n		<div class=\"title\">导航</div>\r\n		<ui-button\r\n			class=\"close\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n	</div>\r\n	<div class=\"content\">\r\n		<div class=\"search-container\">\r\n			<select class=\"search-type\">\r\n				<option value=\"ALL\">全部</option>\r\n				<option value=\"NPC\">NPC</option>\r\n				<option value=\"MOB\">魔物</option>\r\n			</select>\r\n			<div class=\"search-left\" data-background=\"basic_interface/txtbox_l.bmp\"></div>\r\n			<div class=\"search-middle\" data-background=\"basic_interface/txtbox_m.bmp\"></div>\r\n			<div class=\"search-right\" data-background=\"basic_interface/txtbox_r.bmp\"></div>\r\n			<input type=\"text\" class=\"search-input\" placeholder=\"搜索……\" />\r\n			<ui-button\r\n				class=\"search-button\"\r\n				bg=\"navigation_interface/navisearch_a.bmp\"\r\n				hover=\"navigation_interface/navisearch_b.bmp\"\r\n				down=\"navigation_interface/navisearch_c.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"map-container\">\r\n			<div class=\"services-toggle-container\">\r\n				<label class=\"services-checkbox\"> <input type=\"checkbox\" class=\"services-toggle\" /> 服务 </label>\r\n			</div>\r\n			<div class=\"location-title\"></div>\r\n			<div class=\"map-display\">\r\n				<!-- Map will be displayed here -->\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"footer\">\r\n		<div class=\"coordinates-bar\">\r\n			<div class=\"map-name\"></div>\r\n			<div class=\"mouse-info\">\r\n				<span class=\"mouse-label\">鼠标：</span>\r\n				<span class=\"mouse-coordinates\"></span>\r\n			</div>\r\n			<div class=\"target-info\">\r\n				<span class=\"target-label\">目标：</span>\r\n				<span class=\"target-coordinates\"></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Navigation/Navigation.css?raw
-var Navigation_default$1;
-var init_Navigation$1 = __esmMin((() => {
-	Navigation_default$1 = ":host {\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n.Navigation {\r\n	width: 300px;\r\n	height: 300px;\r\n	z-index: 50;\r\n	background-repeat: repeat-y;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	position: relative;\r\n	z-index: 2;\r\n	cursor: move;\r\n}\r\n\r\n.Navigation .titlebar .left {\r\n	width: 15px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.Navigation .titlebar .center {\r\n	width: calc(100% - 20px);\r\n	height: 17px;\r\n	background-repeat: repeat-x;\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 12px;\r\n}\r\n\r\n.Navigation .titlebar .right {\r\n	width: 12px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n}\r\n\r\n.Navigation .titlebar .title {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 10px;\r\n	height: 17px;\r\n	line-height: 17px;\r\n	white-space: nowrap;\r\n	text-shadow: 1px 1px white;\r\n	color: #000000;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n.Navigation .titlebar .close {\r\n	position: absolute;\r\n	top: 2px;\r\n	right: 2px;\r\n	width: 13px;\r\n	height: 13px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .content {\r\n	width: 100%;\r\n	height: calc(100% - 17px);\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background-color: #f7f7f7;\r\n	border: 1px solid #d4d4d4;\r\n	border-top: none;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .search-container {\r\n	width: 100%;\r\n	height: 25px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 5px 10px;\r\n	box-sizing: border-box;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .services-toggle-container {\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 0;\r\n	margin: 0;\r\n	background-color: #f7f7f7;\r\n	position: absolute;\r\n	left: 6px;\r\n}\r\n\r\n.Navigation .services-checkbox {\r\n	color: #000;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .services-toggle {\r\n	margin-right: 4px;\r\n	margin-top: 3px;\r\n}\r\n\r\n.Navigation .search-type {\r\n	top: 3px;\r\n	height: 20px;\r\n	margin-right: 5px;\r\n	border: 1px solid #ccc;\r\n	background-color: #fff;\r\n	padding: 0 2px;\r\n	cursor: pointer;\r\n	width: 50px;\r\n	z-index: 2;\r\n	position: relative;\r\n}\r\n\r\n.Navigation .search-left {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 65px;\r\n	width: 3px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-middle {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 68px;\r\n	right: 38px;\r\n	height: 20px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-right {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 35px;\r\n	width: 3px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-input {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 68px;\r\n	right: 38px;\r\n	height: 20px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding: 0 5px;\r\n	z-index: 1;\r\n}\r\n\r\n.Navigation .search-button {\r\n	position: absolute;\r\n	top: 7px;\r\n	right: 5px;\r\n	width: 33px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .map-container {\r\n	width: 100%;\r\n	flex: 1;\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0 10px 10px 10px;\r\n	box-sizing: border-box;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .location-title {\r\n	width: 100%;\r\n	height: 16px;\r\n	line-height: 16px;\r\n	text-align: center;\r\n	color: #000000;\r\n	text-shadow: none;\r\n	margin-bottom: 2px;\r\n	font-weight: bold;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .map-display {\r\n	width: 280px;\r\n	height: 230px;\r\n	margin: 0 auto;\r\n	position: relative;\r\n	background-color: #000000;\r\n	border: 1px solid #666666;\r\n	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.Navigation .footer {\r\n	width: 100%;\r\n	position: relative;\r\n	height: 20px;\r\n	background-color: #f7f7f7;\r\n	border-top: 1px solid #d4d4d4;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .coordinates-bar {\r\n	position: relative;\r\n	width: 100%;\r\n	padding: 1px 5px;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	height: 20px;\r\n	overflow: hidden;\r\n}\r\n\r\n.Navigation .map-name {\r\n	font-weight: bold;\r\n	color: #000;\r\n	flex: 1;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.Navigation .mouse-info,\r\n.Navigation .target-info {\r\n	display: none;\r\n	align-items: center;\r\n	color: #000;\r\n	margin-left: 8px;\r\n	white-space: nowrap;\r\n}\r\n\r\n.Navigation .mouse-label,\r\n.Navigation .target-label {\r\n	margin-right: 2px;\r\n}\r\n\r\n/* Path marker styles */\r\n.Navigation .start-marker,\r\n.Navigation .end-marker {\r\n	position: absolute;\r\n	width: 16px;\r\n	height: 16px;\r\n	transform: translate(-50%, -50%);\r\n}\r\n\r\n.Navigation .start-marker {\r\n	background-color: blue;\r\n}\r\n\r\n.Navigation .end-marker {\r\n	background-color: red;\r\n}\r\n\r\n.Navigation .path-line {\r\n	stroke: yellow;\r\n	stroke-width: 2;\r\n	fill: none;\r\n}\r\n\r\n.Navigation .search-results {\r\n	position: absolute;\r\n	top: 30px;\r\n	left: 10px;\r\n	right: 10px;\r\n	max-height: 200px;\r\n	background-color: #fff;\r\n	border: 1px solid #ccc;\r\n	z-index: 100;\r\n	overflow-y: auto;\r\n	display: none;\r\n	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.Navigation .no-results {\r\n	padding: 10px;\r\n	text-align: center;\r\n	color: #666;\r\n}\r\n\r\n.Navigation .results-list {\r\n	list-style: none;\r\n	margin: 0;\r\n	padding: 0;\r\n}\r\n\r\n.Navigation .result-item {\r\n	padding: 5px 10px;\r\n	border-bottom: 1px solid #eee;\r\n	cursor: pointer;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .result-item:last-child {\r\n	border-bottom: none;\r\n}\r\n\r\n.Navigation .result-item:hover {\r\n	background-color: #f0f0f0;\r\n}\r\n\r\n.Navigation .result-type {\r\n	margin-right: 5px;\r\n	font-weight: bold;\r\n	color: #666;\r\n	width: 30px;\r\n}\r\n\r\n.Navigation .npc_icon {\r\n	color: #0066cc;\r\n}\r\n\r\n.Navigation .mob_icon {\r\n	color: #cc0000;\r\n}\r\n\r\n.Navigation .result-name {\r\n	flex: 1;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.Navigation .result-map {\r\n	color: #666;\r\n	margin-left: 5px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Navigation/MapPathFinder.js
-var MapPathFinder;
-var init_MapPathFinder = __esmMin((() => {
-	init_DBManager();
-	MapPathFinder = {};
-	/**
-	* Find a path between maps using Dijkstra's algorithm
-	*
-	* @param {string} startMap - Starting map name
-	* @param {number} startX - Starting X coordinate
-	* @param {number} startY - Starting Y coordinate
-	* @param {string} endMap - Destination map name
-	* @param {number} endX - Destination X coordinate
-	* @param {number} endY - Destination Y coordinate
-	* @param {Array} warpTypes - Types of warps to consider [default: [200]]
-	* @returns {Array|null} Array of warps with map, coordinates and warpId, or null if no path found
-	*/
-	MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(startMap, startX, startY, endMap, endX, endY, warpTypes) {
-		if (!startMap || !endMap || startX === void 0 || startY === void 0 || endX === void 0 || endY === void 0) return null;
-		warpTypes = warpTypes || [200];
-		startMap = startMap.replace(/\.gat$/, "");
-		endMap = endMap.replace(/\.gat$/, "");
-		if (startMap === endMap) return [{
-			map: startMap,
-			x: endX,
-			y: endY,
-			warpId: null
-		}];
-		const naviLinkTable = DB.getNaviLinkTable();
-		const naviLinkDistanceTable = DB.getNaviLinkDistanceTable();
-		if (!naviLinkTable || !naviLinkTable.length) return null;
-		const graph = {};
-		const warpDetails = {};
-		for (let i = 0; i < naviLinkTable.length; i++) {
-			const warp = naviLinkTable[i];
-			if (!warp || warp.length < 11) continue;
-			const srcMap = warp[0];
-			const warpId = warp[1];
-			const warpType = warp[2];
-			const destMap = warp[8];
-			if (!srcMap || !destMap || warpTypes.indexOf(warpType) === -1) continue;
-			if (!graph[srcMap]) graph[srcMap] = {};
-			if (!graph[srcMap][destMap]) graph[srcMap][destMap] = {
-				distance: 1,
-				warpId,
-				hopCount: 1
-			};
-			const warpKey = srcMap + "_" + warpId;
-			warpDetails[warpKey] = {
-				id: warpId,
-				type: warpType,
-				spriteId: warp[3],
-				name: warp[4],
-				srcMap,
-				srcX: warp[6],
-				srcY: warp[7],
-				destMap,
-				destX: warp[9],
-				destY: warp[10]
-			};
-		}
-		if (naviLinkDistanceTable && naviLinkDistanceTable.length) {
-			for (let i = 0; i < naviLinkDistanceTable.length; i++) if (typeof naviLinkDistanceTable[i] === "string") {
-				const mapName = naviLinkDistanceTable[i];
-				if (i + 2 < naviLinkDistanceTable.length) {
-					const linksData = naviLinkDistanceTable[i + 2];
-					if (Array.isArray(linksData)) for (let j = 0; j < linksData.length; j++) {
-						if (!Array.isArray(linksData[j]) || linksData[j].length < 2) continue;
-						const linkId = linksData[j][0];
-						const warpInfo = warpDetails[mapName + "_" + linkId];
-						if (!warpInfo) continue;
-						if (warpTypes.indexOf(warpInfo.type) === -1) continue;
-						for (let k = 1; k < linksData[j].length; k++) {
-							const destData = linksData[j][k];
-							if (Array.isArray(destData) && destData.length >= 3) {
-								const destMapName = destData[0];
-								const hopCount = destData[1];
-								const pathCost = destData[2];
-								if (!destMapName) continue;
-								if (!graph[mapName]) graph[mapName] = {};
-								if (!graph[mapName][destMapName] || hopCount < graph[mapName][destMapName].hopCount || hopCount === graph[mapName][destMapName].hopCount && pathCost < graph[mapName][destMapName].distance) graph[mapName][destMapName] = {
-									distance: pathCost,
-									warpId: linkId,
-									hopCount
-								};
-							}
-						}
-					}
-				}
-				i += 2;
-			}
-		}
-		if (graph[startMap]) for (const destMap in graph[startMap]) {
-			const warpId = graph[startMap][destMap].warpId;
-			const warpInfo = warpDetails[startMap + "_" + warpId];
-			if (warpInfo) {
-				const distanceToWarp = Math.sqrt(Math.pow(warpInfo.srcX - startX, 2) + Math.pow(warpInfo.srcY - startY, 2));
-				graph[startMap][destMap].distance += distanceToWarp;
-			}
-		}
-		const distances = {};
-		const hopCounts = {};
-		const previous = {};
-		const unvisited = /* @__PURE__ */ new Set();
-		for (const map in graph) {
-			distances[map] = Infinity;
-			hopCounts[map] = Infinity;
-			previous[map] = null;
-			unvisited.add(map);
-		}
-		distances[startMap] = 0;
-		hopCounts[startMap] = 0;
-		if (!unvisited.has(startMap)) unvisited.add(startMap);
-		while (unvisited.size > 0) {
-			let current = null;
-			let smallestHopCount = Infinity;
-			let smallestDistance = Infinity;
-			for (const map of unvisited) if (hopCounts[map] < smallestHopCount || hopCounts[map] === smallestHopCount && distances[map] < smallestDistance) {
-				smallestHopCount = hopCounts[map];
-				smallestDistance = distances[map];
-				current = map;
-			}
-			if (current === endMap || current === null || hopCounts[current] === Infinity) break;
-			unvisited.delete(current);
-			if (graph[current]) for (const neighbor in graph[current]) {
-				if (!hopCounts.hasOwnProperty(neighbor)) continue;
-				const newHopCount = hopCounts[current] + (graph[current][neighbor].hopCount || 1);
-				const newDistance = distances[current] + graph[current][neighbor].distance;
-				if (newHopCount < hopCounts[neighbor] || newHopCount === hopCounts[neighbor] && newDistance < distances[neighbor]) {
-					hopCounts[neighbor] = newHopCount;
-					distances[neighbor] = newDistance;
-					previous[neighbor] = {
-						map: current,
-						warpId: graph[current][neighbor].warpId
-					};
-				}
-			}
-		}
-		if (!previous[endMap]) return null;
-		const path = [];
-		let current = endMap;
-		path.unshift({
-			map: endMap,
-			x: endX,
-			y: endY,
-			warpId: null
-		});
-		while (current !== startMap) {
-			const prevInfo = previous[current];
-			if (!prevInfo) break;
-			const prevMap = prevInfo.map;
-			const warpId = prevInfo.warpId;
-			const warpInfo = warpDetails[prevMap + "_" + warpId];
-			if (!warpInfo) break;
-			path.unshift({
-				map: prevMap,
-				x: warpInfo.srcX,
-				y: warpInfo.srcY,
-				warpId
-			});
-			current = prevMap;
-		}
-		return path;
-	};
-}));
-//#endregion
-//#region src/UI/Components/Navigation/Navigation.js
+//#region src/UI/Components/WorldMap/WorldMapState.js
 /**
-* Async image create helper
+* Apply persistent interaction state after a world-map view is rebuilt.
+*
+* @param {ShadowRoot|HTMLElement} root
+* @param {Object} state
 */
-function createAsyncImage() {
-	const img = new Image();
-	img.decoding = "async";
-	return img;
-}
-/**
-* Local utility functions
-*/
-/**
-* Normalize a map name (remove .gat extension)
-*/
-function normalizeMapName(mapName) {
-	mapName = mapName.replace(/\.gat$/, "").toLowerCase();
-	mapName = mapName.replace(/^(.+)_[a-d]$/, "$1");
-	return mapName;
-}
-/**
-* Format coordinates with consistent styling
-*/
-function formatCoordinates(x, y, options) {
-	options = options || {};
-	if (options.floor !== false) return `${Math.floor(x)},${Math.floor(y)}`;
-	return `${x},${y}`;
-}
-/**
-* Format target coordinates text with consistent styling
-*/
-function formatTargetCoordinates(x, y, options) {
-	options = options || {};
-	let text = `${Math.floor(x)},${Math.floor(y)}`;
-	if (options.noPathFound) text += " (no path found)";
-	else if (options.targetMap && options.targetMap !== getCurrentMap()) text += ` (${options.targetMap})`;
-	return text;
-}
-/**
-* Format location title with consistent styling
-*/
-function formatLocationTitle(currentMap, targetMap, displayName) {
-	let text;
-	if (!displayName && targetMap && currentMap !== targetMap) text = `[${currentMap} → ${targetMap}]`;
-	else text = `[${displayName || currentMap}]`;
-	return text;
-}
-/**
-* Convert map coordinates to screen coordinates
-*/
-function mapToScreen(x, y, width, height) {
-	const scaleX = width / _mapData.width;
-	const scaleY = height / _mapData.height;
-	const scale = Math.min(scaleX, scaleY);
-	const mapWidth = _mapData.width * scale;
-	const mapHeight = _mapData.height * scale;
-	const offsetX = (width - mapWidth) / 2;
-	const offsetY = (height - mapHeight) / 2;
-	return {
-		x: x / _mapData.width * mapWidth + offsetX,
-		y: (_mapData.height - y) / _mapData.height * mapHeight + offsetY
-	};
-}
-/**
-* Get the current map name
-*/
-function getCurrentMap() {
-	if (MapRenderer && MapRenderer.currentMap) return normalizeMapName(MapRenderer.currentMap);
-}
-/**
-* Get the current player position
-*/
-function getPlayerPosition() {
-	if (!SessionStorage_default.Entity || !SessionStorage_default.Entity.position) return {
-		x: 0,
-		y: 0
-	};
-	return {
-		x: Math.ceil(SessionStorage_default.Entity.position[0]),
-		y: Math.ceil(SessionStorage_default.Entity.position[1])
-	};
-}
-/**
-* Terminate the pathfinding worker
-*/
-function terminatePathFindingWorker() {
-	if (_pathFindingWorker) {
-		_pathFindingWorker.terminate();
-		_pathFindingWorker = null;
+function applyWorldMapState(root, state) {
+	const worldMap = root.querySelector(".worldmap");
+	if (!worldMap) return;
+	worldMap.classList.toggle("show-lvls", state.showLevels);
+	for (const section of worldMap.querySelectorAll(".section")) {
+		section.classList.toggle("allmapvisible", state.showAllMaps);
+		section.classList.toggle("membersonmap", state.partyMapIds.has(section.id));
 	}
+	const toggleMaps = root.querySelector(".togglemaps");
+	if (toggleMaps) toggleMaps.setAttribute("aria-pressed", String(state.showAllMaps));
+	const showLevels = root.querySelector(".showlvl");
+	if (showLevels) showLevels.setAttribute("aria-pressed", String(state.showLevels));
 }
-/**
-* Initialize the pathfinding worker
-*/
-function initializePathFindingWorker() {
-	if (!_pathFindingWorker) {
-		_pathFindingWorker = new Worker(new URL(
-			/* @vite-ignore */
-			"" + new URL("PathFindingWorker.js", import.meta.url).href,
-			"" + import.meta.url
-		).href);
-		_pathFindingWorker.id = (/* @__PURE__ */ new Date()).getTime().toString();
-		_pathFindingWorker.onmessage = function(e) {
-			const data = e.data;
-			switch (data.type) {
-				case "pathResult":
-					_pathUpdateLock = false;
-					if (_finalTargetData && data.path && data.workerId === _pathFindingWorker.id) {
-						const mapName = getCurrentMap();
-						_path = data.path;
-						if (_path.length > 0) {
-							this.updateTargetText();
-							this.setTargetCoordinatesBlinking(false);
-							this.setLocationTitle(mapName, _finalTargetData.map, _finalTargetData.displayName);
-						} else {
-							this.updateTargetText(true);
-							this.setTargetCoordinatesBlinking(false);
-							this.setLocationTitle(mapName, null);
-						}
-					}
-			}
-		}.bind(Navigation);
-	}
-}
-function resetPathFindingWorker() {
-	terminatePathFindingWorker();
-	initializePathFindingWorker();
-}
-var Navigation, _arrow, _toolDealer, _weaponDealer, _armorDealer, _blacksmith, _guide, _inn, _kafra, _map, _ctx$2, _towninfo, _markers, _path, _lastPathUpdate, _pathUpdateThrottle, _pathUpdateLock, _pathFindingWorker, _mapData, _targetData, _finalTargetData, _isMapClickTarget, _blinking, _fadeInterval, _originalColor, _documentClickHandler, Navigation_default;
-var init_Navigation = __esmMin((() => {
-	init_KeyEventHandler();
-	init_Renderer();
-	init_MapRenderer();
-	init_UIManager();
-	init_GUIComponent();
-	init_Elements();
-	init_Altitude();
-	init_SessionStorage();
-	init_Client();
-	init_DBManager();
-	init_Navigation$2();
-	init_Navigation$1();
-	init_MapPathFinder();
-	Navigation = new GUIComponent("Navigation", Navigation_default$1);
-	Navigation.render = () => Navigation_default$2;
-	_arrow = createAsyncImage();
-	_toolDealer = createAsyncImage();
-	_weaponDealer = createAsyncImage();
-	_armorDealer = createAsyncImage();
-	_blacksmith = createAsyncImage();
-	_guide = createAsyncImage();
-	_inn = createAsyncImage();
-	_kafra = createAsyncImage();
-	_map = createAsyncImage();
-	_ctx$2 = null;
-	_towninfo = [];
-	_markers = [];
-	_path = [];
-	_lastPathUpdate = 0;
-	_pathUpdateThrottle = 500;
-	_pathUpdateLock = false;
-	_pathFindingWorker = null;
-	_mapData = null;
-	_targetData = null;
-	_finalTargetData = null;
-	_isMapClickTarget = false;
-	_blinking = false;
-	_fadeInterval = null;
-	_originalColor = "";
-	_documentClickHandler = null;
-	/**
-	* Convert screen coordinates to map coordinates
-	*/
-	Navigation.screenToMapCoordinates = function screenToMapCoordinates(screenX, screenY) {
-		const width = 280;
-		const height = 230;
-		const scaleX = width / _mapData.width;
-		const scaleY = height / _mapData.height;
-		const scale = Math.min(scaleX, scaleY);
-		const scaledMapWidth = _mapData.width * scale;
-		const scaledMapHeight = _mapData.height * scale;
-		const offsetX = (width - scaledMapWidth) / 2;
-		const offsetY = (height - scaledMapHeight) / 2;
-		let mapX = (screenX - offsetX) / scaledMapWidth * _mapData.width;
-		let mapY = _mapData.height - (screenY - offsetY) / scaledMapHeight * _mapData.height;
-		mapX = Math.max(0, Math.min(_mapData.width, mapX));
-		mapY = Math.max(0, Math.min(_mapData.height, mapY));
-		return {
-			x: Math.floor(mapX),
-			y: Math.floor(mapY)
-		};
-	};
-	/**
-	* Initialize component
-	*/
-	Navigation.init = function init() {
-		const root = Navigation.getRoot();
-		_mapData = { walkableType: Altitude.TYPE.WALKABLE };
-		this._host.style.top = `${Math.max(0, Math.min(Renderer.height - 300, 200))}px`;
-		this._host.style.left = `${Math.max(0, Math.min(Renderer.width - 300, 200))}px`;
-		const canvas = document.createElement("canvas");
-		canvas.width = 280;
-		canvas.height = 230;
-		_ctx$2 = canvas.getContext("2d");
-		const mapDisplay = root.querySelector(".map-display");
-		if (mapDisplay) mapDisplay.appendChild(canvas);
-		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, (dataURI) => {
-			_arrow.src = dataURI;
-		});
-		Client.loadFile(`${DB.INTERFACE_PATH}information/store.bmp`, (dataURI) => {
-			_toolDealer.src = dataURI;
-		});
-		Client.loadFile(`${DB.INTERFACE_PATH}information/weaponshop.bmp`, (dataURI) => {
-			_weaponDealer.src = dataURI;
-		});
-		Client.loadFile(`${DB.INTERFACE_PATH}information/armorshops.bmp`, (dataURI) => {
-			_armorDealer.src = dataURI;
-		});
-		Client.loadFile(`${DB.INTERFACE_PATH}information/smithy.bmp`, (dataURI) => {
-			_blacksmith.src = dataURI;
-		});
-		Client.loadFile(`${DB.INTERFACE_PATH}information/guide.bmp`, (dataURI) => {
-			_guide.src = dataURI;
-		});
-		Client.loadFile(`${DB.INTERFACE_PATH}information/inn.bmp`, (dataURI) => {
-			_inn.src = dataURI;
-		});
-		Client.loadFile(`${DB.INTERFACE_PATH}information/kafra.bmp`, (dataURI) => {
-			_kafra.src = dataURI;
-		});
-		root.querySelector(".close").addEventListener("click", () => this.hide());
-		root.querySelector(".search-button").addEventListener("click", () => this.onSearch());
-		const searchInput = root.querySelector(".search-input");
-		searchInput.addEventListener("keypress", (e) => {
-			if (e.which === KEYS.ENTER || e.key === "Enter") this.onSearch();
-		});
-		searchInput.addEventListener("focus", () => {
-			const resultsContainer = root.querySelector(".search-results");
-			if (resultsContainer && resultsContainer.children.length > 0) resultsContainer.style.display = "";
-		});
-		_documentClickHandler = (e) => {
-			if (!e.target.closest(".search-results, .search-input, .search-button, .search-type")) {
-				const resultsContainer = root.querySelector(".search-results");
-				if (resultsContainer) resultsContainer.style.display = "none";
-			}
-		};
-		document.addEventListener("click", _documentClickHandler);
-		root.querySelector(".map-display").addEventListener("click", (e) => this.onMapClick(e));
-		root.querySelector(".map-display").addEventListener("mousemove", (e) => this.onMapMouseMove(e));
-		root.querySelector(".map-display").addEventListener("mouseleave", () => this.onMapMouseLeave());
-		this.draggable(".titlebar");
-		this.ui.hide();
-	};
-	/**
-	* Once append to the DOM
-	*/
-	Navigation.onAppend = function onAppend() {
-		this.clearPath();
-		Renderer.render(this.renderCanvas.bind(this));
-		initializePathFindingWorker();
-		const mapName = getCurrentMap();
-		this.loadMap(mapName);
-		if (_finalTargetData) {
-			const currentPos = getPlayerPosition();
-			this.navigateTo({
-				startMap: mapName,
-				startX: currentPos.x,
-				startY: currentPos.y,
-				endMap: _finalTargetData.map,
-				endX: _finalTargetData.x,
-				endY: _finalTargetData.y,
-				displayName: _finalTargetData.displayName
-			});
-		}
-	};
-	/**
-	* Once removed from DOM
-	*/
-	Navigation.onRemove = function onRemove() {
-		this.clearPath();
-		terminatePathFindingWorker();
-		if (_documentClickHandler) document.removeEventListener("click", _documentClickHandler);
-	};
-	/**
-	* Handle search button click
-	*/
-	Navigation.onSearch = function onSearch() {
-		const root = Navigation.getRoot();
-		const query = root.querySelector(".search-input").value.trim();
-		const type = root.querySelector(".search-type").value;
-		if (query.length < 2) return;
-		const results = DB.searchNavigation(query, type);
-		this.displaySearchResults(results);
-	};
-	/**
-	* Display search results
-	*/
-	Navigation.displaySearchResults = function displaySearchResults(results) {
-		const root = Navigation.getRoot();
-		let resultsContainer = root.querySelector(".search-results");
-		if (!resultsContainer) {
-			resultsContainer = document.createElement("div");
-			resultsContainer.className = "search-results";
-			root.querySelector(".content").appendChild(resultsContainer);
-		} else resultsContainer.innerHTML = "";
-		if (results.length === 0) {
-			resultsContainer.innerHTML = "<div class=\"no-results\">未找到结果</div>";
-			resultsContainer.style.display = "";
-			return;
-		}
-		const resultsList = document.createElement("ul");
-		resultsList.className = "results-list";
-		resultsContainer.appendChild(resultsList);
-		for (let i = 0; i < results.length; i++) {
-			const result = results[i];
-			const resultItem = document.createElement("li");
-			resultItem.className = "result-item";
-			resultItem.innerHTML = `<span class="result-type ${result.type === "NPC" ? "npc_icon" : "mob_icon"}">${result.type}</span><span class="result-name">${result.name}</span><span class="result-map">${result.mapName}</span>`;
-			resultItem._resultData = result;
-			resultItem.addEventListener("click", () => {
-				this.navigateToSearchResult(result);
-			});
-			resultsList.appendChild(resultItem);
-		}
-		resultsContainer.style.display = "";
-	};
-	/**
-	* Navigate to a search result
-	*/
-	Navigation.navigateToSearchResult = function navigateToSearchResult(result) {
-		if (!result || !result.mapName) return;
-		this.targetResult = result;
-		_isMapClickTarget = false;
-		const currentMap = getCurrentMap();
-		const currentPos = getPlayerPosition();
-		this.navigateTo({
-			startMap: currentMap,
-			startX: currentPos.x,
-			startY: currentPos.y,
-			endMap: result.mapName,
-			endX: result.x,
-			endY: result.y,
-			displayName: result.name
-		});
-		const resultsContainer = Navigation.getRoot().querySelector(".search-results");
-		if (resultsContainer) resultsContainer.style.display = "none";
-	};
-	/**
-	* Find the closest walkable cell to the given coordinates
-	*/
-	Navigation.findClosestWalkableCell = function findClosestWalkableCell(x, y, maxRadius) {
-		if (x >= 0 && x < _mapData.width && y >= 0 && y < _mapData.height) {
-			const index = x + y * _mapData.width;
-			if (_mapData.cellTypes[index] & _mapData.walkableType) return {
-				x,
-				y
-			};
-		}
-		maxRadius = maxRadius || 10;
-		let radius = 1;
-		let bestDistance = Infinity;
-		let bestCell = null;
-		while (radius <= maxRadius) {
-			for (let offsetY = -radius; offsetY <= radius; offsetY++) for (let offsetX = -radius; offsetX <= radius; offsetX++) {
-				if (Math.abs(offsetX) !== radius && Math.abs(offsetY) !== radius) continue;
-				const cx = x + offsetX;
-				const cy = y + offsetY;
-				if (cx >= 0 && cx < _mapData.width && cy >= 0 && cy < _mapData.height) {
-					const index = cx + cy * _mapData.width;
-					if (_mapData.cellTypes[index] & _mapData.walkableType) {
-						const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
-						if (distance < bestDistance) {
-							bestDistance = distance;
-							bestCell = {
-								x: cx,
-								y: cy
-							};
-						}
-					}
-				}
-			}
-			if (bestCell) return bestCell;
-			radius++;
-		}
-		return null;
-	};
-	/**
-	* Handle map click event
-	*/
-	Navigation.onMapClick = function onMapClick(event) {
-		const rect = Navigation.getRoot().querySelector(".map-display").getBoundingClientRect();
-		const x = Math.floor(event.clientX - rect.left);
-		const y = Math.floor(event.clientY - rect.top);
-		const mapCoords = this.screenToMapCoordinates(x, y);
-		const currentMap = getCurrentMap();
-		const currentPos = getPlayerPosition();
-		_isMapClickTarget = true;
-		this.navigateTo({
-			startMap: currentMap,
-			startX: currentPos.x,
-			startY: currentPos.y,
-			endMap: currentMap,
-			endX: mapCoords.x,
-			endY: mapCoords.y,
-			displayName: "Map Click"
-		});
-	};
-	/**
-	* Load a map for display
-	*/
-	Navigation.loadMap = function loadMap(mapName, displayName) {
-		if (_isMapClickTarget && _mapData && _mapData.map && _mapData.map !== mapName) {
-			this.clear();
-			_isMapClickTarget = false;
-		}
-		const mapBaseName = mapName.replace(/\..*/, "");
-		_towninfo = DB.getTownInfo(mapBaseName) || [];
-		let bmpPath = DB.INTERFACE_PATH.replace("data/texture/", "") + "map/" + mapBaseName + ".bmp";
-		bmpPath = bmpPath.replace(/\//g, "\\");
-		bmpPath = DB.mapalias[bmpPath] || bmpPath;
-		Client.loadFile("data/texture/" + bmpPath, (dataURI) => {
-			if (dataURI) _map.src = dataURI;
-			else _map.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-		});
-		let gatPath = mapBaseName + ".gat";
-		gatPath = gatPath.replace(/\//g, "\\");
-		gatPath = DB.mapalias[gatPath] || gatPath;
-		Client.loadFile("data/" + gatPath, (gatData) => {
-			if (gatData) {
-				if (gatData.cells && gatData.width && gatData.height) {
-					_mapData.width = gatData.width;
-					_mapData.height = gatData.height;
-					_mapData.cells = gatData.cells;
-					const cellCount = gatData.width * gatData.height;
-					const cellTypes = new Uint8Array(cellCount);
-					for (let i = 0; i < cellCount; i++) {
-						const cellIndex = i * 5 + 4;
-						cellTypes[i] = gatData.cells[cellIndex];
-					}
-					_mapData.cellTypes = cellTypes;
-					_mapData.map = mapBaseName;
-				}
-			}
-		});
-		this.setMapNameText(mapName);
-	};
-	/**
-	* Clear the end marker
-	*/
-	Navigation.clear = function clear() {
-		this.clearPath();
-		_finalTargetData = null;
-		_targetData = null;
-		_isMapClickTarget = false;
-		const targetInfo = Navigation.getRoot().querySelector(".target-info");
-		if (targetInfo) targetInfo.style.display = "none";
-		const currentMap = getCurrentMap();
-		if (currentMap) this.setLocationTitle(currentMap, null);
-	};
-	Navigation.clearPath = function clearPath() {
-		_path = [];
-		_lastPathUpdate = 0;
-		_pathUpdateLock = false;
-	};
-	/**
-	* Add a marker to the map
-	*/
-	Navigation.addMarker = function addMarker(x, y, color, label) {
-		_markers.push({
-			x,
-			y,
-			color: color || "rgb(255,0,0)",
-			label: label || ""
-		});
-	};
-	/**
-	* Render the map and markers
-	*/
-	Navigation.renderCanvas = function renderCanvas(tick) {
-		if ((this._host ? getComputedStyle(this._host).display : "none") === "none") return;
-		const width = 280;
-		const height = 230;
-		const ctx = _ctx$2;
-		if (!ctx) return;
-		const currentMap = getCurrentMap();
-		const currentPos = getPlayerPosition();
-		if (_finalTargetData && tick - _lastPathUpdate > _pathUpdateThrottle && !_pathUpdateLock) {
-			this.navigateTo({
-				startMap: currentMap,
-				startX: currentPos.x,
-				startY: currentPos.y,
-				endMap: _finalTargetData.map,
-				endX: _finalTargetData.x,
-				endY: _finalTargetData.y,
-				displayName: _finalTargetData.displayName
-			});
-			_lastPathUpdate = tick;
-		}
-		ctx.clearRect(0, 0, width, height);
-		ctx.fillStyle = "#000";
-		ctx.fillRect(0, 0, width, height);
-		if (_map.complete && _map.width) {
-			const scaleX = width / _mapData.width;
-			const scaleY = height / _mapData.height;
-			const scale = Math.min(scaleX, scaleY);
-			ctx.save();
-			ctx.translate(width / 2, height / 2);
-			ctx.scale(scale, scale);
-			ctx.translate(-_mapData.width / 2, -_mapData.height / 2);
-			ctx.drawImage(_map, 0, 0, _mapData.width, _mapData.height);
-			ctx.restore();
-		}
-		const mapToScreenBound = (x, y) => {
-			return mapToScreen(x, y, width, height);
-		};
-		if (_towninfo && _towninfo.length) for (let i = 0; i < _towninfo.length; i++) {
-			const info = _towninfo[i];
-			const pos = mapToScreenBound(info.X, info.Y);
-			let img;
-			switch (info.Type) {
-				case 0:
-					img = _toolDealer;
-					break;
-				case 1:
-					img = _weaponDealer;
-					break;
-				case 2:
-					img = _armorDealer;
-					break;
-				case 3:
-					img = _blacksmith;
-					break;
-				case 4:
-					img = _guide;
-					break;
-				case 5:
-					img = _inn;
-					break;
-				case 6:
-					img = _kafra;
-					break;
-				default: continue;
-			}
-			if (img.complete && img.width) ctx.drawImage(img, pos.x - img.width / 2, pos.y - img.height / 2);
-		}
-		if (_path && _path.length > 0) {
-			ctx.lineWidth = 2;
-			let currentSegment = [];
-			for (let i = 0; i < _path.length; i++) {
-				const point = _path[i];
-				const pos = mapToScreenBound(point.x, point.y);
-				if (currentSegment.length === 0) {
-					currentSegment.push(pos);
-					continue;
-				}
-				if (point.isWarp || i === _path.length - 1) {
-					currentSegment.push(pos);
-					ctx.strokeStyle = "cyan";
-					ctx.beginPath();
-					ctx.moveTo(currentSegment[0].x, currentSegment[0].y);
-					for (let j = 1; j < currentSegment.length; j++) ctx.lineTo(currentSegment[j].x, currentSegment[j].y);
-					ctx.stroke();
-					if (point.isWarp) {
-						ctx.beginPath();
-						ctx.arc(pos.x, pos.y, 3, 0, Math.PI * 2);
-						ctx.fillStyle = "yellow";
-						ctx.fill();
-						if (i + 1 < _path.length) {
-							const exitPos = mapToScreenBound(_path[i + 1].x, _path[i + 1].y);
-							ctx.beginPath();
-							ctx.arc(exitPos.x, exitPos.y, 3, 0, Math.PI * 2);
-							ctx.fillStyle = "yellow";
-							ctx.fill();
-							currentSegment = [exitPos];
-							i++;
-						} else currentSegment = [pos];
-					} else currentSegment = [pos];
-				} else currentSegment.push(pos);
-			}
-		}
-		if (_targetData) {
-			const lastPoint = mapToScreenBound(_targetData.x, _targetData.y);
-			ctx.fillStyle = "red";
-			ctx.beginPath();
-			ctx.arc(lastPoint.x, lastPoint.y, 3, 0, Math.PI * 2);
-			ctx.fill();
-		}
-		const startPos = mapToScreenBound(currentPos.x, currentPos.y);
-		if (_arrow.complete && _arrow.width) {
-			ctx.save();
-			ctx.translate(startPos.x, startPos.y);
-			ctx.rotate((SessionStorage_default.Entity.direction + 4) * 45 * Math.PI / 180);
-			ctx.drawImage(_arrow, -_arrow.width / 2, -_arrow.height / 2);
-			ctx.restore();
-		}
-		for (let i = 0; i < _markers.length; i++) {
-			const marker = _markers[i];
-			const pos = mapToScreenBound(marker.x, marker.y);
-			ctx.fillStyle = marker.color;
-			ctx.beginPath();
-			ctx.arc(pos.x, pos.y, 3, 0, Math.PI * 2);
-			ctx.fill();
-			if (marker.label) {
-				ctx.fillStyle = "#fff";
-				ctx.font = "10px Arial";
-				ctx.fillText(marker.label, pos.x + 5, pos.y + 3);
-			}
-		}
-	};
-	/**
-	* Update the target coordinates text
-	*/
-	Navigation.updateTargetText = function updateTargetText(noPathFound) {
-		const targetInfo = Navigation.getRoot().querySelector(".target-info");
-		if (targetInfo) targetInfo.style.display = "flex";
-		if (_finalTargetData) this.setTargetCoordinatesText(_finalTargetData.x, _finalTargetData.y, {
-			noPathFound,
-			targetMap: _finalTargetData.map
-		});
-	};
-	/**
-	* Set target coordinates text with proper formatting
-	*/
-	Navigation.setTargetCoordinatesText = function setTargetCoordinatesText(x, y, options) {
-		const root = Navigation.getRoot();
-		if (!root) return;
-		const text = formatTargetCoordinates(x, y, options);
-		const targetCoords = root.querySelector(".target-coordinates");
-		if (targetCoords) {
-			targetCoords.textContent = text;
-			targetCoords.style.display = "";
-		}
-		const targetInfo = root.querySelector(".target-info");
-		if (targetInfo) targetInfo.style.display = "flex";
-	};
-	Navigation.setTargetCoordinatesBlinking = function setTargetCoordinatesBlinking(blinking) {
-		const root = Navigation.getRoot();
-		if (!root) return;
-		const targetCoordinates = root.querySelector(".target-coordinates");
-		if (!targetCoordinates) return;
-		if (blinking) {
-			if (!_blinking) {
-				_blinking = true;
-				_originalColor = getComputedStyle(targetCoordinates).color || "#ffffff";
-				let fadeStep = 0;
-				let fadeDirection = -1;
-				_fadeInterval = setInterval(() => {
-					fadeStep += fadeDirection * .1;
-					if (fadeStep <= .3) fadeDirection = 1;
-					else if (fadeStep >= 1) fadeDirection = -1;
-					targetCoordinates.style.opacity = fadeStep;
-				}, 50);
-			}
-		} else if (_blinking) {
-			clearInterval(_fadeInterval);
-			_fadeInterval = null;
-			targetCoordinates.style.opacity = "1";
-			targetCoordinates.style.color = _originalColor;
-			_blinking = false;
-		}
-	};
-	/**
-	* Set location title with proper formatting
-	*/
-	Navigation.setLocationTitle = function setLocationTitle(currentMap, targetMap, displayName) {
-		const root = Navigation.getRoot();
-		if (!root) return;
-		const title = formatLocationTitle(currentMap, targetMap, displayName);
-		const locationTitle = root.querySelector(".location-title");
-		if (locationTitle) locationTitle.textContent = title;
-	};
-	/**
-	* Set coordinates text with proper formatting
-	*/
-	Navigation.setCoordinatesText = function setCoordinatesText(x, y, options) {
-		const root = Navigation.getRoot();
-		if (!root) return;
-		const text = formatCoordinates(x, y, options);
-		const coords = root.querySelector(".coordinates");
-		if (coords) coords.textContent = text;
-	};
-	/**
-	* Set map name text with proper formatting
-	*/
-	Navigation.setMapNameText = function setMapNameText(mapName) {
-		const root = Navigation.getRoot();
-		if (!root) return;
-		const mapNameEl = root.querySelector(".map-name");
-		if (mapNameEl) mapNameEl.textContent = normalizeMapName(mapName);
-	};
-	/**
-	* Set mouse coordinates text with proper formatting
-	*/
-	Navigation.setMouseCoordinatesText = function setMouseCoordinatesText(x, y, options) {
-		const root = Navigation.getRoot();
-		if (!root) return;
-		const text = formatCoordinates(x, y, options);
-		const mouseCoords = root.querySelector(".mouse-coordinates");
-		if (mouseCoords) mouseCoords.textContent = text;
-	};
-	/**
-	* Find a path between two points using a web worker
-	*/
-	Navigation.findPath = function findPath(startX, startY, endX, endY) {
-		if (_pathFindingWorker && !_pathUpdateLock) {
-			_pathUpdateLock = true;
-			const naviLinkTable = DB.getNaviLinkTable();
-			const currentMap = getCurrentMap();
-			const warps = [];
-			if (naviLinkTable && naviLinkTable.length) for (let i = 0; i < naviLinkTable.length; i++) {
-				const warp = naviLinkTable[i];
-				if (!warp || warp.length < 11) continue;
-				const srcMap = warp[0].replace(/\.gat$/, "").toLowerCase();
-				const destMap = warp[8].replace(/\.gat$/, "").toLowerCase();
-				if (srcMap === currentMap && destMap === currentMap) warps.push({
-					id: warp[1],
-					type: warp[2],
-					srcX: warp[6],
-					srcY: warp[7],
-					destX: warp[9],
-					destY: warp[10]
-				});
-			}
-			_mapData.warps = warps;
-			_pathFindingWorker.postMessage({
-				type: "findPath",
-				startX,
-				startY,
-				endX,
-				endY,
-				mapData: _mapData,
-				workerId: _pathFindingWorker.id,
-				existingPath: _path
-			});
-		}
-	};
-	/**
-	* Toggle the navigation window (show/hide)
-	*/
-	Navigation.toggle = function toggle() {
-		if ((this._host ? getComputedStyle(this._host).display : "none") !== "none") this.hide();
-		else this.show();
-	};
-	/**
-	* Show the navigation window
-	*/
-	Navigation.show = function show() {
-		const root = Navigation.getRoot();
-		this.clearPath();
-		initializePathFindingWorker();
-		const mouseInfo = root.querySelector(".mouse-info");
-		if (mouseInfo) mouseInfo.style.display = "none";
-		const targetInfo = root.querySelector(".target-info");
-		if (targetInfo) targetInfo.style.display = "none";
-		const mapName = getCurrentMap();
-		const currentPos = getPlayerPosition();
-		if (_finalTargetData) this.navigateTo({
-			startMap: mapName,
-			startX: currentPos.x,
-			startY: currentPos.y,
-			endMap: _finalTargetData.map,
-			endX: _finalTargetData.x,
-			endY: _finalTargetData.y,
-			displayName: _finalTargetData.displayName
-		});
-		this.setMapNameText(mapName);
-		const locationTitle = root.querySelector(".location-title");
-		if (locationTitle && !locationTitle.textContent) this.setLocationTitle(mapName, null);
-		this.ui.show();
-	};
-	/**
-	* Hide the navigation window
-	*/
-	Navigation.hide = function hide() {
-		this.ui.hide();
-		terminatePathFindingWorker();
-	};
-	Navigation.onKeyDown = function onKeyDown(event) {
-		const hostDisplay = this._host ? getComputedStyle(this._host).display : "none";
-		if ((event.which === KEYS.ESCAPE || event.key === "Escape") && hostDisplay !== "none") this.hide();
-	};
-	/**
-	* Handle mouse movement over the map to display coordinates
-	*/
-	Navigation.onMapMouseMove = function onMapMouseMove(event) {
-		const root = Navigation.getRoot();
-		const rect = root.querySelector(".map-display").getBoundingClientRect();
-		const x = Math.floor(event.clientX - rect.left);
-		const y = Math.floor(event.clientY - rect.top);
-		const mapCoords = this.screenToMapCoordinates(x, y);
-		const mapX = Math.floor(mapCoords.x);
-		const mapY = Math.floor(mapCoords.y);
-		const mouseInfo = root.querySelector(".mouse-info");
-		if (mouseInfo) mouseInfo.style.display = "flex";
-		this.setMouseCoordinatesText(mapX, mapY);
-	};
-	/**
-	* Handle mouse leaving the map area
-	*/
-	Navigation.onMapMouseLeave = function onMapMouseLeave() {
-		const mouseInfo = Navigation.getRoot().querySelector(".mouse-info");
-		if (mouseInfo) mouseInfo.style.display = "none";
-	};
-	/**
-	* Set the content of the navigation window based on NAVI info
-	*/
-	Navigation.setNaviInfo = function setNaviInfo(naviInfo, displayName) {
-		const parts = naviInfo.split(",");
-		if (parts.length < 3) return;
-		const mapName = parts[0];
-		const x = parseInt(parts[1], 10);
-		const y = parseInt(parts[2], 10);
-		const searchInput = Navigation.getRoot().querySelector(".search-input");
-		if (searchInput) searchInput.value = "";
-		_isMapClickTarget = false;
-		const currentMap = getCurrentMap();
-		const currentPos = getPlayerPosition();
-		this.navigateTo({
-			startMap: currentMap,
-			startX: currentPos.x,
-			startY: currentPos.y,
-			endMap: mapName,
-			endX: x,
-			endY: y,
-			displayName
-		});
-	};
-	/**
-	* Wait for map data to be loaded
-	*/
-	Navigation.waitForMapData = function waitForMapData(callback) {
-		if (!_mapData || _mapData.map !== getCurrentMap()) setTimeout(() => {
-			Navigation.waitForMapData(callback);
-		}, 100);
-		else callback.bind(this)();
-	};
-	/**
-	* Unified navigation function that handles both same-map and cross-map navigation
-	*/
-	Navigation.navigateTo = function navigateTo(options) {
-		const root = Navigation.getRoot();
-		const startMap = normalizeMapName(options.startMap);
-		const endMap = normalizeMapName(options.endMap);
-		const displayName = options.displayName;
-		if (_finalTargetData && (_finalTargetData.map !== endMap || _finalTargetData.x !== options.endX || _finalTargetData.y !== options.endY)) {
-			this.clearPath();
-			resetPathFindingWorker();
-			this.setTargetCoordinatesText(options.endX, options.endY, { targetMap: endMap });
-			this.setTargetCoordinatesBlinking(true);
-		}
-		_finalTargetData = {
-			map: endMap,
-			x: options.endX,
-			y: options.endY,
-			displayName
-		};
-		let warpTypes = [200, 201];
-		const servicesToggle = root.querySelector(".services-toggle");
-		if (servicesToggle && servicesToggle.checked) warpTypes = [
-			200,
-			201,
-			202,
-			203,
-			204,
-			205
-		];
-		const path = MapPathFinder.findPathBetweenMaps(startMap, options.startX, options.startY, endMap, options.endX, options.endY, warpTypes);
-		if (path && path.length > 0) {
-			const target = path[0];
-			this.waitForMapData(function() {
-				const walkableCell = this.findClosestWalkableCell(target.x, target.y);
-				if (walkableCell) {
-					_targetData = {
-						x: walkableCell.x,
-						y: walkableCell.y,
-						map: target.map,
-						displayName
-					};
-					this.findPath(options.startX, options.startY, _targetData.x, _targetData.y);
-				} else this.clear();
-			});
-		}
-	};
-	Navigation_default = UIManager.addComponent(Navigation);
-}));
+var init_WorldMapState = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/WorldMap/WorldMap.js
 /**
@@ -225794,19 +226294,28 @@ function setMapList() {
 function onSelect() {
 	selectMap(WorldMap.getRoot().querySelector(".titlebar select").value);
 }
+function restoreViewState() {
+	applyWorldMapState(WorldMap.getRoot(), {
+		showAllMaps: Boolean(WorldMap.showAllMaps),
+		showLevels: Boolean(WorldMap.showLVLMode),
+		partyMapIds: new Set(Object.keys(_partyMembersByMap))
+	});
+}
 /**
 * Select world map
 *
 * @param {string} name eg. `"worldmap_localizing1"`
 */
 function selectMap(name = null) {
-	if (!name || name === null || name === "") {
-		if (WorldMap_default$3.length > 0 && WorldMap_default$3[0].id !== null && WorldMap_default$3[0].id !== "") name = WorldMap_default$3[0].id;
-		else name = "worldmap.jpg";
-	}
+	const selectEl = WorldMap.getRoot().querySelector("#WorldMaps");
+	if (!name || name === null || name === "") name = selectEl?.value || "worldmap.jpg";
+	if (selectEl) selectEl.value = name;
+	const requestId = ++_mapLoadRequestId;
 	Client.loadFile(DB.INTERFACE_PATH + name, (data) => {
+		if (requestId !== _mapLoadRequestId) return;
 		for (const map of WorldMap_default$3) if (map.id === name) {
 			createWorldMapView(map, data);
+			restoreViewState();
 			resizeMap();
 			break;
 		}
@@ -225836,10 +226345,7 @@ function onWorldMapSectionClick(e) {
 	if (!section) return;
 	const displayName = section.getAttribute("data-displayname") || "";
 	const mapId = section.id;
-	Navigation_default.show();
-	const input = Navigation_default.getRoot().querySelector(".search-input");
-	if (input) input.value = displayName || mapId;
-	Navigation_default.onSearch();
+	Navigation_default.showMap(mapId, displayName);
 	Navigation_default.focus();
 }
 /**
@@ -225882,7 +226388,7 @@ function showTooltip(section) {
 	if (tooltipRect.right > window.innerWidth) tooltip.style.left = rect.left - tooltipRect.width - 10 + "px";
 	if (tooltipRect.bottom > window.innerHeight) tooltip.style.top = window.innerHeight - tooltipRect.height - 10 + "px";
 	Client.loadFile(`${DB.INTERFACE_PATH}map/${section.id}.bmp`, (data) => {
-		if (_hoveredSection === section) tooltipImg.style.backgroundImage = `url(${data})`;
+		if (_hoveredSection === section) tooltipImg.style.backgroundImage = data ? `url(${data})` : "";
 	});
 }
 /**
@@ -225977,20 +226483,20 @@ function createWorldMapView(map, imgData) {
 		el.style.width = `${section.width / C_BASEWIDTH * 100}%`;
 		el.style.height = `${section.height / C_BASEHEIGHT * 100}%`;
 		el_mapname.className = "mapname";
-		el_mapname.innerHTML = section.name;
+		el_mapname.textContent = section.name;
 		const el_displayname = document.createElement("div");
 		el_displayname.className = "displayname";
 		if (sectionType === 1) {
 			const name = section.name.replace(" 1", "").trim();
-			el_displayname.innerHTML = name;
+			el_displayname.textContent = name;
 			el.setAttribute("data-displayname", name);
 		} else {
 			const mapName = DB.getMapInfo(section.id + ".rsw")?.displayName || section.name;
-			el_displayname.innerHTML = mapName;
+			el_displayname.textContent = mapName;
 			el.setAttribute("data-displayname", mapName);
 		}
 		el_mapid.className = "mapid";
-		el_mapid.innerHTML = section.id;
+		el_mapid.textContent = section.id;
 		el.appendChild(el_displayname);
 		el.appendChild(el_mapname);
 		el.appendChild(el_mapid);
@@ -226042,14 +226548,8 @@ function setAirplanePosition(airplane) {
 * Toggle all maps
 */
 function onToggleMaps() {
-	const root = WorldMap.getRoot();
-	if (WorldMap.showAllMaps) {
-		root.querySelectorAll(".worldmap .section").forEach((el) => el.classList.remove("allmapvisible"));
-		WorldMap.showAllMaps = false;
-	} else {
-		root.querySelectorAll(".worldmap .section").forEach((el) => el.classList.add("allmapvisible"));
-		WorldMap.showAllMaps = true;
-	}
+	WorldMap.showAllMaps = !WorldMap.showAllMaps;
+	restoreViewState();
 }
 /**
 * Show Monster level range
@@ -226061,11 +226561,7 @@ function onShowLVL() {
 		const btn = root.querySelector(".showlvl");
 		if (btn) btn.style.backgroundImage = "url(" + data + ")";
 	});
-	const worldmapEl = root.querySelector(".worldmap");
-	if (worldmapEl) {
-		if (!WorldMap.showLVLMode) worldmapEl.classList.remove("show-lvls");
-		else worldmapEl.classList.add("show-lvls");
-	}
+	if (root.querySelector(".worldmap")) restoreViewState();
 }
 /**
 * Stop event propagation
@@ -226080,8 +226576,10 @@ function stopPropagation$11(event) {
 */
 function onClose$7() {
 	WorldMap._host.style.display = "none";
+	_hoveredSection = null;
+	hideTooltip();
 }
-var WorldMap, _preferences$39, _partyMembersByMap, _hoveredSection, C_TITLEBARHEIGHT, C_BASEWIDTH, C_BASEHEIGHT, C_ASPECTX, C_ASPECTY, WorldMap_default;
+var WorldMap, _preferences$39, _partyMembersByMap, _hoveredSection, _mapLoadRequestId, C_TITLEBARHEIGHT, C_BASEWIDTH, C_BASEHEIGHT, C_ASPECTX, C_ASPECTY, WorldMap_default;
 var init_WorldMap = __esmMin((() => {
 	init_DBManager();
 	init_Client();
@@ -226097,6 +226595,7 @@ var init_WorldMap = __esmMin((() => {
 	init_WorldMap$2();
 	init_WorldMap$1();
 	init_Navigation();
+	init_WorldMapState();
 	WorldMap = new GUIComponent("WorldMap", WorldMap_default$1);
 	WorldMap.render = () => WorldMap_default$2;
 	_preferences$39 = Preferences.get("WorldMap", {
@@ -226108,6 +226607,7 @@ var init_WorldMap = __esmMin((() => {
 	}, 1);
 	_partyMembersByMap = {};
 	_hoveredSection = null;
+	_mapLoadRequestId = 0;
 	C_TITLEBARHEIGHT = 17;
 	C_BASEWIDTH = 1280;
 	C_BASEHEIGHT = 1024;
@@ -226157,7 +226657,8 @@ var init_WorldMap = __esmMin((() => {
 		if (this.settings.add.length > 0) console.log("%c[WoldMap] Add Maps: ", "color:#007000", this.settings.add);
 		if (this.settings.remove.length > 0) console.log("%c[WoldMap] Remove Maps: ", "color:#007000", this.settings.remove);
 		setMapList();
-		selectMap();
+		this.showAllMaps = false;
+		selectMap(this.getRoot().querySelector("#WorldMaps")?.value);
 		this._host.style.top = "0px";
 		this._host.style.left = "0px";
 	};
@@ -226178,7 +226679,8 @@ var init_WorldMap = __esmMin((() => {
 			hideTooltip();
 		} else {
 			this._host.style.display = "";
-			selectMap();
+			const selectedMap = this.getRoot().querySelector("#WorldMaps")?.value;
+			selectMap(selectedMap);
 			this.focus();
 		}
 	};
@@ -226228,12 +226730,7 @@ var init_WorldMap = __esmMin((() => {
 				});
 			}
 		});
-		const root = WorldMap.getRoot();
-		root.querySelectorAll(".worldmap .section").forEach((el) => el.classList.remove("membersonmap"));
-		for (const mapId of Object.keys(_partyMembersByMap)) {
-			const el = root.querySelector(".worldmap .section#" + CSS.escape(mapId));
-			if (el) el.classList.add("membersonmap");
-		}
+		restoreViewState();
 	};
 	WorldMap.mouseMode = GUIComponent.MouseMode.STOP;
 	WorldMap_default = UIManager.addComponent(WorldMap);
@@ -234632,6 +235129,16 @@ var init_SkillList = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/UI/Components/Quest/QuestTabVisibility.js
+function showQuestList(root, listId) {
+	root.querySelectorAll(".quest-list").forEach((list) => {
+		list.style.display = "none";
+	});
+	const list = root.querySelector(listId);
+	if (list) list.style.display = "block";
+}
+var init_QuestTabVisibility = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Components/Quest/QuestCommon.js
 /**
 * Create a Quest component from a version-specific configuration.
@@ -234693,8 +235200,7 @@ function createQuest(config) {
 			root.querySelectorAll(".quest-menu-item").forEach((item) => {
 				item.addEventListener("click", (e) => onClickMenu(e));
 			});
-			const activeList = root.querySelector("#active-quest-list");
-			if (activeList) activeList.style.display = "";
+			showQuestList(root, "#active-quest-list");
 			const toggleBtn = root.querySelector(".toggle-quest-list");
 			if (toggleBtn) toggleBtn.addEventListener("click", () => onClickQuestCheckbox());
 			this.ui.hide();
@@ -234705,8 +235211,7 @@ function createQuest(config) {
 			root.querySelectorAll(".quest-menu-item").forEach((item) => {
 				item.addEventListener("click", (e) => onClickMenu(e));
 			});
-			const activeList = root.querySelector("#active-quest-list");
-			if (activeList) activeList.style.display = "";
+			showQuestList(root, "#active-quest-list");
 			this.draggable(".titlebar");
 		}
 	};
@@ -234752,23 +235257,8 @@ function createQuest(config) {
 		_questList = {};
 		const root = Quest.getRoot();
 		if (root) {
-			if (renewLayout) {
-				const activeList = root.querySelector("#active-quest-list");
-				if (activeList) activeList.style.display = "";
-				const inactiveList = root.querySelector("#inactive-quest-list");
-				if (inactiveList) inactiveList.style.display = "none";
-				const featureList = root.querySelector("#feature-quest-list");
-				if (featureList) featureList.style.display = "none";
-				const cooldownList = root.querySelector("#cooldown-quest-list");
-				if (cooldownList) cooldownList.style.display = "none";
-			} else {
-				const activeList = root.querySelector("#active-quest-list");
-				if (activeList) activeList.style.display = "none";
-				const inactiveList = root.querySelector("#inactive-quest-list");
-				if (inactiveList) inactiveList.style.display = "none";
-				const allList = root.querySelector("#all-quest-list");
-				if (allList) allList.style.display = "none";
-			}
+			if (renewLayout) showQuestList(root, "#active-quest-list");
+			else showQuestList(root, "#active-quest-list");
 		}
 		Quest.ClearQuestList();
 		questHelper.clearQuestDesc();
@@ -234999,26 +235489,22 @@ function createQuest(config) {
 		_active_menu = menuId;
 		if (renewLayout) {
 			let background_image = "";
-			root.querySelector("#active-quest-list").style.display = "none";
-			root.querySelector("#inactive-quest-list").style.display = "none";
-			root.querySelector("#feature-quest-list").style.display = "none";
-			root.querySelector("#cooldown-quest-list").style.display = "none";
 			switch (_active_menu) {
 				case "feature":
 					background_image = "bg_quest2";
-					root.querySelector("#feature-quest-list").style.display = "";
+					showQuestList(root, "#feature-quest-list");
 					break;
 				case "inactive":
 					background_image = "bg_quest3";
-					root.querySelector("#inactive-quest-list").style.display = "";
+					showQuestList(root, "#inactive-quest-list");
 					break;
 				case "cooldown":
 					background_image = "bg_quest4";
-					root.querySelector("#cooldown-quest-list").style.display = "";
+					showQuestList(root, "#cooldown-quest-list");
 					break;
 				default:
 					background_image = "bg_quest1";
-					root.querySelector("#active-quest-list").style.display = "";
+					showQuestList(root, "#active-quest-list");
 			}
 			Client.loadFile(`${DB.INTERFACE_PATH}renew_questui/${background_image}.bmp`, (data) => {
 				const titlebar = root.querySelector(".titlebar");
@@ -235026,21 +235512,18 @@ function createQuest(config) {
 			});
 		} else {
 			let background_image = "";
-			root.querySelector("#active-quest-list").style.display = "none";
-			root.querySelector("#inactive-quest-list").style.display = "none";
-			root.querySelector("#all-quest-list").style.display = "none";
 			switch (_active_menu) {
 				case "inactive":
 					background_image = "tab_que_02";
-					root.querySelector("#inactive-quest-list").style.display = "";
+					showQuestList(root, "#inactive-quest-list");
 					break;
 				case "all":
 					background_image = "tab_que_03";
-					root.querySelector("#all-quest-list").style.display = "";
+					showQuestList(root, "#all-quest-list");
 					break;
 				default:
 					background_image = "tab_que_01";
-					root.querySelector("#active-quest-list").style.display = "";
+					showQuestList(root, "#active-quest-list");
 			}
 			Client.loadFile(`${DB.INTERFACE_PATH}basic_interface/${background_image}.bmp`, (data) => {
 				const el = root.querySelector(".quest-menu");
@@ -235157,6 +235640,7 @@ var init_QuestCommon = __esmMin((() => {
 	init_PacketStructure();
 	init_ChatBox();
 	init_SessionStorage();
+	init_QuestTabVisibility();
 }));
 //#endregion
 //#region src/UI/Components/Quest/QuestHelperCommon.js
@@ -235571,13 +236055,13 @@ var init_QuestWindow = __esmMin((() => {
 //#region src/UI/Components/Quest/Quest/Quest.html?raw
 var Quest_default$2;
 var init_Quest$4 = __esmMin((() => {
-	Quest_default$2 = "<div id=\"Quest\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"quest-top-panel\"><span class=\"quest-top-panel-text\">任务信息</span></div>\r\n		<div class=\"quest-left-panel\">\r\n			<ul class=\"quest-menu\">\r\n				<li id=\"active\" class=\"quest-menu-item\">进行中</li>\r\n				<li id=\"feature\" class=\"quest-menu-item\">推荐</li>\r\n				<li id=\"inactive\" class=\"quest-menu-item\">搁置</li>\r\n				<li id=\"cooldown\" class=\"quest-menu-item\">等待中</li>\r\n			</ul>\r\n		</div>\r\n		<div class=\"quest-right-panel\">\r\n			<ul id=\"active-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"feature-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"inactive-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"cooldown-quest-list\" class=\"quest-list\"></ul>\r\n		</div>\r\n		<div class=\"quest-bottom-panel\">\r\n			<div class=\"toggle-quest-list\"><button class=\"toggle-quest-image\"></button></div>\r\n			<div class=\"toggle-quest-text\"><span>显示任务</span></div>\r\n			<div class=\"close-quest-container\">\r\n				<ui-button class=\"close-quest-container-btn\" bg=\"basic_interface/btn_close.bmp\">关闭</ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	Quest_default$2 = "<div id=\"Quest\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"quest-top-panel\"><span class=\"quest-top-panel-text\">任务信息</span></div>\r\n		<div class=\"quest-left-panel\">\r\n			<ul class=\"quest-menu\">\r\n				<li id=\"active\" class=\"quest-menu-item\">\r\n					<span>进</span><span>行</span><span>中</span>\r\n				</li>\r\n				<li id=\"feature\" class=\"quest-menu-item\">\r\n					<span>推</span><span>荐</span>\r\n				</li>\r\n				<li id=\"inactive\" class=\"quest-menu-item\">\r\n					<span>搁</span><span>置</span>\r\n				</li>\r\n				<li id=\"cooldown\" class=\"quest-menu-item\">\r\n					<span>等</span><span>待</span><span>中</span>\r\n				</li>\r\n			</ul>\r\n		</div>\r\n		<div class=\"quest-right-panel\">\r\n			<ul id=\"active-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"feature-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"inactive-quest-list\" class=\"quest-list\"></ul>\r\n			<ul id=\"cooldown-quest-list\" class=\"quest-list\"></ul>\r\n		</div>\r\n		<div class=\"quest-bottom-panel\">\r\n			<div class=\"toggle-quest-list\"><button class=\"toggle-quest-image\"></button></div>\r\n			<div class=\"toggle-quest-text\"><span>显示任务</span></div>\r\n			<div class=\"close-quest-container\">\r\n				<ui-button class=\"close-quest-container-btn\" bg=\"basic_interface/btn_close.bmp\">关闭</ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Quest/Quest/Quest.css?raw
 var Quest_default$1;
 var init_Quest$3 = __esmMin((() => {
-	Quest_default$1 = ":host {\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#Quest {\r\n	width: 381px;\r\n	height: 466px;\r\n}\r\n\r\n#Quest .titlebar {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n\r\n#Quest .quest-top-panel {\r\n	float: left;\r\n	width: 381px;\r\n	height: 18px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-top-panel .quest-top-panel-text {\r\n	margin-left: 45px;\r\n	margin-top: 2px;\r\n}\r\n\r\n#Quest .quest-left-panel {\r\n	float: left;\r\n	width: 30px;\r\n	height: 420px;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item {\r\n	height: 100px;\r\n	width: 30px;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #aab4ae;\r\n	background: #f4f7f5;\r\n	writing-mode: vertical-rl;\r\n	cursor: pointer;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item:hover {\r\n	background: #dcebe3;\r\n}\r\n\r\n#Quest .quest-right-panel {\r\n	float: left;\r\n	width: 341px;\r\n	height: 420px;\r\n	display: block;\r\n	overflow: auto;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list {\r\n	list-style: none;\r\n	margin: 10px;\r\n	padding: 0px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item {\r\n	list-style: none;\r\n	width: 330px;\r\n	height: 42px;\r\n	margin-top: 2px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon {\r\n	float: left;\r\n	width: 42px;\r\n	height: 42px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon .quest-item-icon-image {\r\n	width: 26px;\r\n	height: 29px;\r\n	margin: 5px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon .quest-item-icon-image .quest-item-icon-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-title {\r\n	float: left;\r\n	width: 254px;\r\n	height: 21px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-title .quest-item-title-text {\r\n	margin: 5px;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 145);\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-toggle {\r\n	float: left;\r\n	width: 30px;\r\n	height: 21px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-toggle .quest-item-toggle-image {\r\n	width: 20px;\r\n	height: 17px;\r\n	margin: 3px;\r\n	border: 0;\r\n}\r\n\r\n#Quest\r\n	.quest-right-panel\r\n	.quest-list\r\n	.quest-item\r\n	.quest-item-toggle\r\n	.quest-item-toggle-image\r\n	.quest-item-toggle-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-display {\r\n	float: left;\r\n	width: 30px;\r\n	height: 21px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-display .quest-item-display-image {\r\n	width: 14px;\r\n	height: 14px;\r\n	margin: 3px;\r\n	border: 0;\r\n}\r\n\r\n#Quest\r\n	.quest-right-panel\r\n	.quest-list\r\n	.quest-item\r\n	.quest-item-display\r\n	.quest-item-display-image\r\n	.quest-item-display-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-summary {\r\n	float: left;\r\n	width: 254px;\r\n	height: 21px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-summary .quest-item-summary-text {\r\n	margin: 5px;\r\n}\r\n\r\n#Quest .quest-bottom-panel {\r\n	float: left;\r\n	width: 381px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-list {\r\n	float: left;\r\n	width: 50px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-list .toggle-quest-image {\r\n	width: 10px;\r\n	height: 10px;\r\n	margin-left: 40px;\r\n	margin-top: 5px;\r\n	border: 0;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-text {\r\n	width: 280px;\r\n	height: 25px;\r\n	float: left;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-text span {\r\n	margin: 4px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .close-quest-container {\r\n	float: left;\r\n	width: 51px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .close-quest-container .close-quest-container-btn {\r\n	background-image: none !important;\r\n	margin-top: 5px;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n.quest-info-container {\r\n	width: 342px;\r\n	height: 412px;\r\n}\r\n\r\n#active-quest-list,\r\n#feature-quest-list,\r\n#inactive-quest-list,\r\n#cooldown-quest-list {\r\n	display: none;\r\n}\r\n";
+	Quest_default$1 = ":host {\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#Quest {\r\n	width: 381px;\r\n	height: 466px;\r\n}\r\n\r\n#Quest .titlebar {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n\r\n#Quest .quest-top-panel {\r\n	float: left;\r\n	width: 381px;\r\n	height: 18px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-top-panel .quest-top-panel-text {\r\n	margin-left: 45px;\r\n	margin-top: 2px;\r\n}\r\n\r\n#Quest .quest-left-panel {\r\n	float: left;\r\n	width: 30px;\r\n	height: 420px;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item {\r\n	height: 100px;\r\n	width: 30px;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #aab4ae;\r\n	background: #f4f7f5;\r\n	line-height: 16px;\r\n	letter-spacing: 0;\r\n	cursor: pointer;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item:hover {\r\n	background: #dcebe3;\r\n}\r\n\r\n#Quest .quest-right-panel {\r\n	float: left;\r\n	width: 341px;\r\n	height: 420px;\r\n	display: block;\r\n	overflow: auto;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list {\r\n	list-style: none;\r\n	margin: 10px;\r\n	padding: 0px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item {\r\n	list-style: none;\r\n	width: 330px;\r\n	height: 42px;\r\n	margin-top: 2px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon {\r\n	float: left;\r\n	width: 42px;\r\n	height: 42px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon .quest-item-icon-image {\r\n	width: 26px;\r\n	height: 29px;\r\n	margin: 5px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon .quest-item-icon-image .quest-item-icon-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-title {\r\n	float: left;\r\n	width: 254px;\r\n	height: 21px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-title .quest-item-title-text {\r\n	margin: 5px;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 145);\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-toggle {\r\n	float: left;\r\n	width: 30px;\r\n	height: 21px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-toggle .quest-item-toggle-image {\r\n	width: 20px;\r\n	height: 17px;\r\n	margin: 3px;\r\n	border: 0;\r\n}\r\n\r\n#Quest\r\n	.quest-right-panel\r\n	.quest-list\r\n	.quest-item\r\n	.quest-item-toggle\r\n	.quest-item-toggle-image\r\n	.quest-item-toggle-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-display {\r\n	float: left;\r\n	width: 30px;\r\n	height: 21px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-display .quest-item-display-image {\r\n	width: 14px;\r\n	height: 14px;\r\n	margin: 3px;\r\n	border: 0;\r\n}\r\n\r\n#Quest\r\n	.quest-right-panel\r\n	.quest-list\r\n	.quest-item\r\n	.quest-item-display\r\n	.quest-item-display-image\r\n	.quest-item-display-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-summary {\r\n	float: left;\r\n	width: 254px;\r\n	height: 21px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-summary .quest-item-summary-text {\r\n	margin: 5px;\r\n}\r\n\r\n#Quest .quest-bottom-panel {\r\n	float: left;\r\n	width: 381px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-list {\r\n	float: left;\r\n	width: 50px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-list .toggle-quest-image {\r\n	width: 10px;\r\n	height: 10px;\r\n	margin-left: 40px;\r\n	margin-top: 5px;\r\n	border: 0;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-text {\r\n	width: 280px;\r\n	height: 25px;\r\n	float: left;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-text span {\r\n	margin: 4px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .close-quest-container {\r\n	float: left;\r\n	width: 51px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .close-quest-container .close-quest-container-btn {\r\n	background-image: none !important;\r\n	margin-top: 5px;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n.quest-info-container {\r\n	width: 342px;\r\n	height: 412px;\r\n}\r\n\r\n#active-quest-list,\r\n#feature-quest-list,\r\n#inactive-quest-list,\r\n#cooldown-quest-list {\r\n	display: none;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Quest/Quest/Quest.js
@@ -236757,6 +237241,382 @@ var init_Reputation = __esmMin((() => {
 	Reputation_default = UIManager.addComponent(Reputation);
 }));
 //#endregion
+//#region src/UI/Components/GameTools/GameTools.html?raw
+var GameTools_default$2;
+var init_GameTools$2 = __esmMin((() => {
+	GameTools_default$2 = "<div class=\"game-tools-window\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"title\">冒险工具</div>\r\n		<button class=\"close\" type=\"button\" aria-label=\"关闭\"></button>\r\n	</div>\r\n	<div class=\"tab-list\" role=\"tablist\"></div>\r\n	<div class=\"tab-content\"></div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/GameTools/GameTools.css?raw
+var GameTools_default$1;
+var init_GameTools$1 = __esmMin((() => {
+	GameTools_default$1 = ":host {\r\n	top: 90px;\r\n	left: 250px;\r\n}\r\n.game-tools-window {\r\n	width: min(680px, calc(100vw - 24px));\r\n	height: min(500px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 2px;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 26px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: white;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(220px, 42%) 1fr;\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-drops {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	overflow-y: auto;\r\n}\r\n.drop-group h4 {\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 4px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	padding: 0 12px;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	color: #64696e;\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: 46% 54%;\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/GameTools/GameToolsRegistry.js
+function registerGameToolsTab(tab) {
+	if (!tab?.id || !tab?.label || typeof tab.mount !== "function") throw new TypeError("A game tools tab requires id, label and mount.");
+	if (tabs.has(tab.id)) throw new Error(`Game tools tab already registered: ${tab.id}`);
+	tabs.set(tab.id, Object.freeze({ ...tab }));
+}
+function getGameToolsTabs() {
+	return [...tabs.values()];
+}
+var tabs;
+var init_GameToolsRegistry = __esmMin((() => {
+	tabs = /* @__PURE__ */ new Map();
+}));
+//#endregion
+//#region src/UI/Components/GameTools/MonsterCatalogData.js
+function normalizeMonsterSearch(value) {
+	return String(value || "").trim().toLocaleLowerCase();
+}
+function filterMonsters(monsters, search, category = "all") {
+	const term = normalizeMonsterSearch(search);
+	return monsters.filter((monster) => {
+		if (category === "boss" && !monster.boss) return false;
+		if (category === "normal" && monster.boss) return false;
+		if (!term) return true;
+		return [
+			monster.id,
+			monster.name,
+			monster.nameEn,
+			monster.aegisName
+		].some((value) => String(value || "").toLocaleLowerCase().includes(term));
+	});
+}
+function paginateMonsters(monsters, page, pageSize) {
+	const pageCount = Math.max(1, Math.ceil(monsters.length / pageSize));
+	const currentPage = Math.min(Math.max(1, page), pageCount);
+	return {
+		page: currentPage,
+		pageCount,
+		items: monsters.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+	};
+}
+var init_MonsterCatalogData = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Components/GameTools/MonsterCatalogTab.js
+function escapeHtml$2(value) {
+	return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
+}
+function loadCatalog() {
+	if (!catalogPromise) {
+		const url = new URL("./data/monsters/catalog.json", window.location.href);
+		catalogPromise = fetch(url).then((response) => {
+			if (!response.ok) throw new Error(`Monster catalog request failed: ${response.status}`);
+			return response.json();
+		});
+	}
+	return catalogPromise;
+}
+function atlasStyle(catalog, monster, displaySize) {
+	if (monster.atlas === null) return "";
+	const { tileSize, columns, rows } = catalog.atlas;
+	const scale = displaySize / tileSize;
+	const column = monster.tile % columns;
+	const row = Math.floor(monster.tile / columns);
+	return [
+		`background-image:url('./data/monsters/atlas-${monster.atlas}.webp')`,
+		`background-size:${columns * tileSize * scale}px ${rows * tileSize * scale}px`,
+		`background-position:${-column * displaySize}px ${-row * displaySize}px`
+	].join(";");
+}
+function formatRate$1(rate) {
+	return `${(Number(rate || 0) / 100).toFixed(2).replace(/\.00$/, "")}%`;
+}
+function mount(container) {
+	container.classList.add("monster-tab");
+	const state = {
+		catalog: null,
+		monsters: [],
+		filtered: [],
+		selected: null,
+		page: 1,
+		pending: false,
+		status: "",
+		cooldownUntil: 0,
+		cooldownTimer: null,
+		requestTimer: null
+	};
+	const controller = {
+		onSpawnResult(result) {
+			clearTimeout(state.requestTimer);
+			state.pending = false;
+			state.status = resultMessages[result] || "召唤失败";
+			if (result === 0 && SessionStorage_default.GameToolsMonsterSpawnCooldown > 0) {
+				state.cooldownUntil = Date.now() + SessionStorage_default.GameToolsMonsterSpawnCooldown * 1e3;
+				clearInterval(state.cooldownTimer);
+				state.cooldownTimer = setInterval(() => {
+					if (Date.now() >= state.cooldownUntil) clearInterval(state.cooldownTimer);
+					renderDetail();
+				}, 1e3);
+			}
+			renderDetail();
+		},
+		onConfigUpdate() {
+			renderDetail();
+		}
+	};
+	activeController = controller;
+	container.innerHTML = `
+		<div class="monster-toolbar">
+			<input class="monster-search" type="search" placeholder="搜索名称、英文名或 ID" aria-label="搜索魔物">
+			<select class="monster-filter" aria-label="魔物类型">
+				<option value="all">全部</option><option value="normal">普通</option><option value="boss">Boss / MVP</option>
+			</select>
+		</div>
+		<div class="monster-layout">
+			<section class="monster-browser">
+				<div class="monster-summary">正在加载魔物资料...</div>
+				<div class="monster-list"></div>
+				<div class="monster-pagination">
+					<button class="page-prev" type="button" aria-label="上一页">&#9664;</button>
+					<span class="page-label"></span>
+					<button class="page-next" type="button" aria-label="下一页">&#9654;</button>
+				</div>
+			</section>
+			<section class="monster-detail"><div class="empty-detail">选择一个魔物查看详情</div></section>
+		</div>`;
+	const search = container.querySelector(".monster-search");
+	const filter = container.querySelector(".monster-filter");
+	const list = container.querySelector(".monster-list");
+	const summary = container.querySelector(".monster-summary");
+	const pageLabel = container.querySelector(".page-label");
+	function applyFilter() {
+		state.filtered = filterMonsters(state.monsters, search.value, filter.value);
+		state.page = 1;
+		renderList();
+	}
+	function renderList() {
+		if (!state.catalog) return;
+		const page = paginateMonsters(state.filtered, state.page, pageSize);
+		state.page = page.page;
+		summary.textContent = `共 ${state.filtered.length} 个魔物`;
+		pageLabel.textContent = `${page.page} / ${page.pageCount}`;
+		container.querySelector(".page-prev").disabled = page.page <= 1;
+		container.querySelector(".page-next").disabled = page.page >= page.pageCount;
+		list.innerHTML = page.items.map((monster) => `
+			<button class="monster-row${state.selected?.id === monster.id ? " selected" : ""}" type="button" data-id="${monster.id}">
+				<span class="monster-thumb${monster.atlas === null ? " no-image" : ""}" style="${atlasStyle(state.catalog, monster, 48)}"></span>
+				<span class="monster-row-text"><strong>${escapeHtml$2(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.boss ? " · Boss" : ""}</small></span>
+			</button>`).join("");
+		list.querySelectorAll(".monster-row").forEach((button) => {
+			button.addEventListener("click", () => {
+				state.selected = state.monsters.find((monster) => monster.id === Number(button.dataset.id));
+				state.status = "";
+				renderList();
+				renderDetail();
+			});
+		});
+	}
+	function renderDrops(drops, title) {
+		if (!drops?.length) return "";
+		return `<div class="drop-group"><h4>${title}</h4>${drops.map((drop) => `<div><span title="${escapeHtml$2(drop.nameEn || drop.Item)}">${escapeHtml$2(drop.name || drop.Item)}</span><em>${formatRate$1(drop.Rate)}</em></div>`).join("")}</div>`;
+	}
+	function renderDetail() {
+		const detail = container.querySelector(".monster-detail");
+		const monster = state.selected;
+		if (!state.catalog || !monster) {
+			detail.innerHTML = "<div class=\"empty-detail\">选择一个魔物查看详情</div>";
+			return;
+		}
+		const bossBlocked = monster.boss && !SessionStorage_default.GameToolsMonsterSpawnAllowBoss;
+		const cooldownRemaining = Math.max(0, Math.ceil((state.cooldownUntil - Date.now()) / 1e3));
+		const disabled = !SessionStorage_default.GameToolsMonsterSpawnAllowed || bossBlocked || state.pending || cooldownRemaining > 0;
+		const permissionText = !SessionStorage_default.GameToolsMonsterSpawnAllowed ? "当前账号仅可查看图鉴" : bossBlocked ? "后台未开放 Boss / MVP 召唤" : cooldownRemaining > 0 ? `${cooldownRemaining} 秒后可再次召唤` : `召唤后 ${SessionStorage_default.GameToolsMonsterSpawnCooldown || 0} 秒内不可再次召唤`;
+		detail.innerHTML = `
+			<div class="monster-heading">
+				<span class="monster-portrait${monster.atlas === null ? " no-image" : ""}" style="${atlasStyle(state.catalog, monster, 96)}"></span>
+				<div><h3>${escapeHtml$2(monster.name)}</h3><p>${escapeHtml$2(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.boss ? "Boss" : "普通"}</span></div>
+			</div>
+			<div class="monster-stats">
+				<div><span>等级</span><strong>${monster.level}</strong></div><div><span>HP</span><strong>${monster.hp}</strong></div>
+				<div><span>攻击</span><strong>${monster.attack.filter(Number.isFinite).join(" - ")}</strong></div><div><span>防御</span><strong>${monster.defense} / ${monster.magicDefense}</strong></div>
+				<div><span>种族</span><strong>${raceNames[monster.race] || monster.race}</strong></div><div><span>属性</span><strong>${elementNames[monster.element] || monster.element} ${monster.elementLevel}</strong></div>
+				<div><span>体型</span><strong>${sizeNames[monster.size] || monster.size}</strong></div><div><span>经验</span><strong>${monster.baseExp} / ${monster.jobExp}</strong></div>
+			</div>
+			<div class="monster-drops">${renderDrops(monster.mvpDrops, "MVP 奖励")}${renderDrops(monster.drops, "掉落物品") || "<p>无掉落资料</p>"}</div>
+			<div class="summon-panel">
+				<button class="summon-button" type="button" ${disabled ? "disabled" : ""}>${state.pending ? "召唤中..." : "召唤到角色旁边"}</button>
+				<span>${state.status || permissionText}</span>
+			</div>`;
+		detail.querySelector(".summon-button").addEventListener("click", () => {
+			state.pending = true;
+			state.status = "正在等待服务器确认...";
+			clearTimeout(state.requestTimer);
+			state.requestTimer = setTimeout(() => {
+				state.pending = false;
+				state.status = "服务器响应超时，请稍后重试";
+				renderDetail();
+			}, 8e3);
+			const packet = new PACKET.CZ.HAPPYRO_MONSTER_SPAWN();
+			packet.monsterId = monster.id;
+			Network.sendPacket(packet);
+			renderDetail();
+		});
+	}
+	search.addEventListener("input", applyFilter);
+	filter.addEventListener("change", applyFilter);
+	container.querySelector(".page-prev").addEventListener("click", () => {
+		state.page -= 1;
+		renderList();
+	});
+	container.querySelector(".page-next").addEventListener("click", () => {
+		state.page += 1;
+		renderList();
+	});
+	loadCatalog().then((catalog) => {
+		state.catalog = catalog;
+		state.monsters = catalog.monsters;
+		state.filtered = catalog.monsters;
+		renderList();
+	}).catch((error) => {
+		console.error(error);
+		summary.textContent = "魔物资料加载失败";
+	});
+	return () => {
+		clearTimeout(state.requestTimer);
+		clearInterval(state.cooldownTimer);
+		if (activeController === controller) activeController = null;
+	};
+}
+function notifyMonsterSpawnResult(result) {
+	activeController?.onSpawnResult(result);
+}
+function notifyMonsterSpawnConfig() {
+	activeController?.onConfigUpdate();
+}
+var pageSize, raceNames, elementNames, sizeNames, resultMessages, catalogPromise, activeController, MonsterCatalogTab_default;
+var init_MonsterCatalogTab = __esmMin((() => {
+	init_NetworkManager();
+	init_PacketStructure();
+	init_SessionStorage();
+	init_MonsterCatalogData();
+	pageSize = 40;
+	raceNames = {
+		Formless: "无形",
+		Undead: "不死",
+		Brute: "动物",
+		Plant: "植物",
+		Insect: "昆虫",
+		Fish: "鱼贝",
+		Demon: "恶魔",
+		Demihuman: "人形",
+		Angel: "天使",
+		Dragon: "龙",
+		Player_Human: "人类玩家",
+		Player_Doram: "喵族玩家"
+	};
+	elementNames = {
+		Neutral: "无",
+		Water: "水",
+		Earth: "地",
+		Fire: "火",
+		Wind: "风",
+		Poison: "毒",
+		Holy: "圣",
+		Dark: "暗",
+		Ghost: "念",
+		Undead: "不死"
+	};
+	sizeNames = {
+		Small: "小型",
+		Medium: "中型",
+		Large: "大型"
+	};
+	resultMessages = [
+		"召唤成功",
+		"当前账号没有召唤权限",
+		"召唤冷却中，请稍后再试",
+		"魔物资料无效",
+		"当前不允许召唤 Boss / MVP",
+		"当前地图禁止召唤",
+		"角色附近没有可用位置"
+	];
+	MonsterCatalogTab_default = {
+		id: "monsters",
+		label: "魔物图鉴",
+		mount
+	};
+}));
+//#endregion
+//#region src/UI/Components/GameTools/GameTools.js
+var preferences, GameTools, cleanupTab, GameTools_default;
+var init_GameTools = __esmMin((() => {
+	init_GUIComponent();
+	init_UIManager();
+	init_Preferences$1();
+	init_GameTools$2();
+	init_GameTools$1();
+	init_GameToolsRegistry();
+	init_MonsterCatalogTab();
+	registerGameToolsTab(MonsterCatalogTab_default);
+	preferences = Preferences.get("GameTools", {
+		x: 250,
+		y: 90,
+		tab: "monsters"
+	}, 1);
+	GameTools = new GUIComponent("GameTools", GameTools_default$1);
+	GameTools.render = () => GameTools_default$2;
+	GameTools.init = function init() {
+		const root = this.getRoot();
+		this.draggable(".titlebar");
+		root.querySelector(".close").addEventListener("click", () => this.toggle());
+		root.querySelector(".close").addEventListener("mousedown", (event) => event.stopImmediatePropagation());
+		this._host.style.display = "none";
+		this.renderTabs();
+	};
+	GameTools.renderTabs = function renderTabs() {
+		const root = this.getRoot();
+		const tabs = getGameToolsTabs();
+		const selected = tabs.find((tab) => tab.id === preferences.tab) || tabs[0];
+		root.querySelector(".tab-list").innerHTML = tabs.map((tab) => `<button class="tab-button${tab.id === selected.id ? " active" : ""}" type="button" role="tab" data-tab="${tab.id}">${tab.label}</button>`).join("");
+		root.querySelectorAll(".tab-button").forEach((button) => {
+			button.addEventListener("click", () => this.selectTab(button.dataset.tab));
+		});
+		this.mountTab(selected);
+	};
+	GameTools.selectTab = function selectTab(id) {
+		if (!getGameToolsTabs().find((candidate) => candidate.id === id)) return;
+		preferences.tab = id;
+		preferences.save();
+		this.renderTabs();
+	};
+	GameTools.mountTab = function mountTab(tab) {
+		cleanupTab?.();
+		const content = this.getRoot().querySelector(".tab-content");
+		content.innerHTML = "<div class=\"game-tools-tab\"></div>";
+		cleanupTab = tab.mount(content.firstElementChild);
+	};
+	GameTools.onAppend = function onAppend() {
+		this._host.style.left = `${preferences.x}px`;
+		this._host.style.top = `${preferences.y}px`;
+		this._fixPositionOverflow();
+	};
+	GameTools.onRemove = function onRemove() {
+		preferences.x = Number.parseInt(this._host.style.left, 10);
+		preferences.y = Number.parseInt(this._host.style.top, 10);
+		preferences.save();
+	};
+	GameTools.toggle = function toggle() {
+		if (this.__active && this._host.style.display !== "none") {
+			this._host.style.display = "none";
+			return;
+		}
+		this.append();
+		this._host.style.display = "";
+		this._fixPositionOverflow();
+	};
+	GameTools.setMonsterSpawnConfig = function setMonsterSpawnConfig() {
+		notifyMonsterSpawnConfig();
+	};
+	GameTools.onMonsterSpawnResult = function onMonsterSpawnResult(result) {
+		notifyMonsterSpawnResult(result);
+	};
+	GameTools_default = UIManager.addComponent(GameTools);
+}));
+//#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoCommon.js
 function createBasicInfo(config) {
 	const { name, htmlText, cssText, prefKey, reduceDefault = true, innerId, topbarItemSelector = ".topbar button", topbarDblClick = false, toggleButtonsEvent = "mousedown", buttonsSelector = ".buttons button", buttonsEvent = "mousedown", buttonKeyBy = "class", infoOpensWinStats = true, partyViaGetUI = false, hasToolbarToggle = false, miniLayout = false, hideIds = [], barScale = 1.27, hasApBar = false } = config;
@@ -236830,6 +237690,9 @@ function createBasicInfo(config) {
 				break;
 			case "navigation":
 				Navigation_default.toggle();
+				break;
+			case "game-tools":
+				GameTools_default.toggle();
 				break;
 			case "attendance":
 				if (Configs.get("enableCheckAttendance") && PacketVerManager_default.value >= 20180307) CheckAttendance_default.toggle();
@@ -237153,6 +238016,7 @@ var init_BasicInfoCommon = __esmMin((() => {
 	init_Quest$1();
 	init_Achievement$1();
 	init_Reputation();
+	init_GameTools();
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV1/BasicInfoV1.js
@@ -237252,7 +238116,7 @@ var init_BasicInfoV3 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.html?raw
 var BasicInfoV4_default$2;
 var init_BasicInfoV4$2 = __esmMin((() => {
-	BasicInfoV4_default$2 = "<div\r\n	id=\"BasicInfoV4\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\"\r\n				>重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span\r\n			>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"line2\">\r\n			Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span class=\"jlvl_value\"></span>\r\n			/ Exp. <span class=\"bexp_value\"></span>\r\n		</div>\r\n		<div class=\"line3\">\r\n			HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span> | SP.\r\n			<span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<button\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</button>\r\n		<button\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</button>\r\n		<button\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</button>\r\n		<button\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</button>\r\n		<button\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</button>\r\n		<button\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</button>\r\n		<button\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</button>\r\n		<button\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</button>\r\n		<button\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</button>\r\n		<button\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</button>\r\n		<button\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</button>\r\n		<button\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</button>\r\n		<button\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</button>\r\n		<button\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</button>\r\n		<button\r\n			id=\"achievment\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</button>\r\n		<button\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</button>\r\n		<button\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</button>\r\n		<button\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</button>\r\n		<button\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</button>\r\n		<!--<button class=\"reputation\" data-background=\"menu_icon/\" data-hover=\"menu_icon/\" data-down=\"menu_icon/\"></button> -->\r\n	</div>\r\n</div>\r\n";
+	BasicInfoV4_default$2 = "<div\r\n	id=\"BasicInfoV4\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"line2\">\r\n			Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span class=\"jlvl_value\"></span>\r\n			/ Exp. <span class=\"bexp_value\"></span>\r\n		</div>\r\n		<div class=\"line3\">\r\n			HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span> | SP.\r\n			<span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<button\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</button>\r\n		<button\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</button>\r\n		<button\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</button>\r\n		<button\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</button>\r\n		<button\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</button>\r\n		<button\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</button>\r\n		<button\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</button>\r\n		<button\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</button>\r\n		<button\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</button>\r\n		<button\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</button>\r\n		<button\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具</span>\r\n		</button>\r\n		<button\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</button>\r\n		<button\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</button>\r\n		<button\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</button>\r\n		<button\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</button>\r\n		<button\r\n			id=\"achievment\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</button>\r\n		<button\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</button>\r\n		<button\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</button>\r\n		<button\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</button>\r\n		<button\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</button>\r\n		<!--<button class=\"reputation\" data-background=\"menu_icon/\" data-hover=\"menu_icon/\" data-down=\"menu_icon/\"></button> -->\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.css?raw
@@ -237296,13 +238160,13 @@ var init_BasicInfoV4 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.html?raw
 var BasicInfoV5_default$2;
 var init_BasicInfoV5$2 = __esmMin((() => {
-	BasicInfoV5_default$2 = "<div\r\n	id=\"BasicInfoV5\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/w_basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"ap_title\">AP</div>\r\n		<div class=\"ap_bar\">\r\n			<div class=\"ap_bar_left\"></div>\r\n			<div class=\"ap_bar_middle\"></div>\r\n			<div class=\"ap_bar_right\"></div>\r\n			<div class=\"ap_bar_perc\"><span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"ap_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\"\r\n				>重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span\r\n			>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"info-container\">\r\n			<div class=\"line2\">\r\n				Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span\r\n					class=\"jlvl_value\"\r\n				></span>\r\n			</div>\r\n			<div class=\"line3\">\r\n				<span class=\"hpcontainer\">HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></span\r\n				><span class=\"expcontainer\">| Exp. <span class=\"bexp_value\"></span></span>\r\n			</div>\r\n			<div class=\"line4\">\r\n				<span class=\"spcontainer\">SP. <span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></span\r\n				><span class=\"apcontainer\"\r\n					>| AP. <span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span\r\n				></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<div\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</div>\r\n		<div\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</div>\r\n		<div\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</div>\r\n		<div\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</div>\r\n		<div\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</div>\r\n		<div\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</div>\r\n		<div\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</div>\r\n		<div\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</div>\r\n		<div\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</div>\r\n		<div\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</div>\r\n		<div\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</div>\r\n		<div\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</div>\r\n		<div\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</div>\r\n		<div\r\n			id=\"achievment\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</div>\r\n		<div\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</div>\r\n		<div\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</div>\r\n		<div\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</div>\r\n		<div\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"repute\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_repute.bmp\"\r\n			data-down=\"menu_icon/bt_repute_press.bmp\"\r\n		>\r\n			<span class=\"name\">声望状态</span>\r\n		</div>\r\n		<!-- <div class=\"clear\"></div> -->\r\n	</div>\r\n</div>\r\n";
+	BasicInfoV5_default$2 = "<div\r\n	id=\"BasicInfoV5\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/w_basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"ap_title\">AP</div>\r\n		<div class=\"ap_bar\">\r\n			<div class=\"ap_bar_left\"></div>\r\n			<div class=\"ap_bar_middle\"></div>\r\n			<div class=\"ap_bar_right\"></div>\r\n			<div class=\"ap_bar_perc\"><span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"ap_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"info-container\">\r\n			<div class=\"line2\">\r\n				Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span\r\n					class=\"jlvl_value\"\r\n				></span>\r\n			</div>\r\n			<div class=\"line3\">\r\n				<span class=\"hpcontainer\">HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></span\r\n				><span class=\"expcontainer\">| Exp. <span class=\"bexp_value\"></span></span>\r\n			</div>\r\n			<div class=\"line4\">\r\n				<span class=\"spcontainer\">SP. <span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></span\r\n				><span class=\"apcontainer\"\r\n					>| AP. <span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span\r\n				></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<div\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</div>\r\n		<div\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</div>\r\n		<div\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</div>\r\n		<div\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</div>\r\n		<div\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</div>\r\n		<div\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</div>\r\n		<div\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</div>\r\n		<div\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</div>\r\n		<div\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</div>\r\n		<div\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具</span>\r\n		</div>\r\n		<div\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</div>\r\n		<div\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</div>\r\n		<div\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</div>\r\n		<div\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</div>\r\n		<div\r\n			id=\"achievment\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</div>\r\n		<div\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</div>\r\n		<div\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</div>\r\n		<div\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</div>\r\n		<div\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"repute\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_repute.bmp\"\r\n			data-down=\"menu_icon/bt_repute_press.bmp\"\r\n		>\r\n			<span class=\"name\">声望状态</span>\r\n		</div>\r\n		<!-- <div class=\"clear\"></div> -->\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.css?raw
 var BasicInfoV5_default$1;
 var init_BasicInfoV5$1 = __esmMin((() => {
-	BasicInfoV5_default$1 = ":host {\r\n	width: 220px;\r\n	height: 150px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV5 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 150px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV5.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV5.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV5.small {\r\n	height: 70px;\r\n}\r\n#BasicInfoV5.large .bt_menu {\r\n	top: 150px;\r\n}\r\n#BasicInfoV5.small .bt_menu {\r\n	top: 70px;\r\n}\r\n\r\n#BasicInfoV5.large .buttons {\r\n	top: 160px;\r\n}\r\n#BasicInfoV5.small .buttons {\r\n	top: 80px;\r\n}\r\n\r\n#BasicInfoV5 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV5 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV5 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV5 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV5 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV5 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .ap_title {\r\n	position: absolute;\r\n	top: 80px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .hp_bar,\r\n#BasicInfoV5 .large .sp_bar,\r\n#BasicInfoV5 .large .ap_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV5 .large .ap_bar {\r\n	top: 83px;\r\n	background: linear-gradient(\r\n		to bottom,\r\n		#5a5a63 0%,\r\n		#a5a5ad 15%,\r\n		#bdc6ce 30%,\r\n		#ceced6 45%,\r\n		#d6dede 65%,\r\n		#e7e7ef 70%,\r\n		#f7f7f7 80%\r\n	);\r\n	border-radius: 15px;\r\n	border: 1px solid #b5b5b5;\r\n}\r\n#BasicInfoV5 .large .hp_bar div,\r\n#BasicInfoV5 .large .sp_bar div,\r\n#BasicInfoV5 .large .ap_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV5 .large div.hp_bar_perc,\r\n#BasicInfoV5 .large div.sp_bar_perc,\r\n#BasicInfoV5 .large div.ap_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV5 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .ap_perc {\r\n	position: absolute;\r\n	top: 80px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .blvl {\r\n	position: absolute;\r\n	top: 101px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .jlvl {\r\n	position: absolute;\r\n	top: 112px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .bexp,\r\n#BasicInfoV5 .large .jexp {\r\n	position: absolute;\r\n	top: 104px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV5 .large .bexp div,\r\n#BasicInfoV5 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV5 .large .jexp {\r\n	top: 116px;\r\n}\r\n#BasicInfoV5 .large .extra {\r\n	position: absolute;\r\n	top: 134px;\r\n	right: -15px;\r\n	width: 100%;\r\n	padding-right: 20px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: right;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	height: 132px;\r\n	background-repeat: no-repeat;\r\n	background-position: bottom; /* alinha o fundo pela base */\r\n}\r\n#BasicInfoV5 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV5 .buttons:hover {\r\n}\r\n#BasicInfoV5 .buttons > div[id] {\r\n	float: left;\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n}\r\n#BasicInfoV5 .buttons .clear {\r\n	clear: both;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV5 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .info-container {\r\n	position: absolute;\r\n	top: 17px;\r\n	height: 60px;\r\n	width: 220px;\r\n	background-color: #ffffff;\r\n}\r\n#BasicInfoV5 .small .hpcontainer,\r\n#BasicInfoV5 .small .spcontainer {\r\n	position: absolute;\r\n	width: 130px;\r\n}\r\n#BasicInfoV5 .small .expcontainer,\r\n#BasicInfoV5 .small .apcontainer {\r\n	position: absolute;\r\n	width: 65px;\r\n	left: 140px;\r\n}\r\n#BasicInfoV5 .small .line2 {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .line3 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line3 .hp_max_value {\r\n	display: inline-block;\r\n	width: 65px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 .sp_max_value {\r\n	display: inline-block;\r\n	width: 73px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV5 .buttons div .name {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV5 .buttons div:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV5 .buttons div .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV5 .buttons .btn_overlay {\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: relative;\r\n	top: -13px;\r\n	left: -7px;\r\n	z-index: 10;\r\n	display: none;\r\n}\r\n";
+	BasicInfoV5_default$1 = ":host {\r\n	width: 220px;\r\n	height: 150px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV5 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 150px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV5.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV5.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV5.small {\r\n	height: 70px;\r\n}\r\n#BasicInfoV5.large .bt_menu {\r\n	top: 150px;\r\n}\r\n#BasicInfoV5.small .bt_menu {\r\n	top: 70px;\r\n}\r\n\r\n#BasicInfoV5.large .buttons {\r\n	top: 160px;\r\n}\r\n#BasicInfoV5.small .buttons {\r\n	top: 80px;\r\n}\r\n\r\n#BasicInfoV5 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV5 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV5 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV5 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV5 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV5 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .ap_title {\r\n	position: absolute;\r\n	top: 80px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .hp_bar,\r\n#BasicInfoV5 .large .sp_bar,\r\n#BasicInfoV5 .large .ap_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV5 .large .ap_bar {\r\n	top: 83px;\r\n	background: linear-gradient(\r\n		to bottom,\r\n		#5a5a63 0%,\r\n		#a5a5ad 15%,\r\n		#bdc6ce 30%,\r\n		#ceced6 45%,\r\n		#d6dede 65%,\r\n		#e7e7ef 70%,\r\n		#f7f7f7 80%\r\n	);\r\n	border-radius: 15px;\r\n	border: 1px solid #b5b5b5;\r\n}\r\n#BasicInfoV5 .large .hp_bar div,\r\n#BasicInfoV5 .large .sp_bar div,\r\n#BasicInfoV5 .large .ap_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV5 .large div.hp_bar_perc,\r\n#BasicInfoV5 .large div.sp_bar_perc,\r\n#BasicInfoV5 .large div.ap_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV5 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .ap_perc {\r\n	position: absolute;\r\n	top: 80px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .blvl {\r\n	position: absolute;\r\n	top: 101px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .jlvl {\r\n	position: absolute;\r\n	top: 112px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .bexp,\r\n#BasicInfoV5 .large .jexp {\r\n	position: absolute;\r\n	top: 104px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV5 .large .bexp div,\r\n#BasicInfoV5 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV5 .large .jexp {\r\n	top: 116px;\r\n}\r\n#BasicInfoV5 .large .extra {\r\n	position: absolute;\r\n	top: 134px;\r\n	right: -15px;\r\n	width: 100%;\r\n	padding-right: 20px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: right;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	height: 176px;\r\n	background-repeat: repeat-y;\r\n	background-position: bottom; /* alinha o fundo pela base */\r\n}\r\n#BasicInfoV5 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV5 .buttons:hover {\r\n}\r\n#BasicInfoV5 .buttons > div[id] {\r\n	float: left;\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n}\r\n#BasicInfoV5 .buttons .clear {\r\n	clear: both;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV5 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .info-container {\r\n	position: absolute;\r\n	top: 17px;\r\n	height: 60px;\r\n	width: 220px;\r\n	background-color: #ffffff;\r\n}\r\n#BasicInfoV5 .small .hpcontainer,\r\n#BasicInfoV5 .small .spcontainer {\r\n	position: absolute;\r\n	width: 130px;\r\n}\r\n#BasicInfoV5 .small .expcontainer,\r\n#BasicInfoV5 .small .apcontainer {\r\n	position: absolute;\r\n	width: 65px;\r\n	left: 140px;\r\n}\r\n#BasicInfoV5 .small .line2 {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .line3 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line3 .hp_max_value {\r\n	display: inline-block;\r\n	width: 65px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 .sp_max_value {\r\n	display: inline-block;\r\n	width: 73px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV5 .buttons div .name {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV5 .buttons div:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV5 .buttons div .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV5 .buttons .btn_overlay {\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: relative;\r\n	top: -13px;\r\n	left: -7px;\r\n	z-index: 10;\r\n	display: none;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.js
@@ -252047,7 +252911,7 @@ function getScaleAtFrame$1(keyframes, frame, animLen) {
 		prev.Scale[2] + (next.Scale[2] - prev.Scale[2]) * t
 	];
 }
-var vec3$4, mat3$3, mat4$16, Box, Node, RSM;
+var vec3$4, mat3$3, mat4$16, Box, Node$1, RSM;
 var init_Model = __esmMin((() => {
 	init_BinaryReader();
 	init_gl_matrix();
@@ -252063,7 +252927,7 @@ var init_Model = __esmMin((() => {
 			this.center = vec3$4.create();
 		}
 	};
-	Node = class {
+	Node$1 = class {
 		/**
 		* Node Constructor
 		*
@@ -252777,7 +253641,7 @@ var init_Model = __esmMin((() => {
 			}
 			return false;
 		}
-		static Node = Node;
+		static Node = Node$1;
 		/**
 		* Compile Model at a specific animation frame
 		*
@@ -298879,6 +299743,8 @@ var init_DBManager = __esmMin((() => {
 	init_MapTable();
 	init_AdventureAchievementLocalization();
 	init_MapInfoLocalization();
+	init_NavigationData();
+	init_NavigationNameLocalization();
 	init_SignBoardTranslationTable();
 	init_NetworkManager();
 	init_PacketStructure();
@@ -298910,12 +299776,12 @@ var init_DBManager = __esmMin((() => {
 	SignBoardTranslatedTable = {};
 	SignBoardOverrides = SignBoardTranslationTable_default;
 	SignBoardTable = {};
-	NaviMapTable = {};
-	NaviMobTable = {};
-	NaviNpcTable = {};
-	NaviLinkTable = {};
-	NaviLinkDistanceTable = {};
-	NaviNpcDistanceTable = {};
+	NaviMapTable = [];
+	NaviMobTable = [];
+	NaviNpcTable = [];
+	NaviLinkTable = [];
+	NaviLinkDistanceTable = [];
+	NaviNpcDistanceTable = [];
 	QuestInfo = {};
 	TitleTable = {};
 	PetDBTable = {};
@@ -299082,22 +299948,22 @@ var init_DBManager = __esmMin((() => {
 				loadStateIconInfo(DB.LUA_PATH + "stateicon/", null, onLoad());
 				if (PacketVerManager_default.value >= 20111010) {
 					loadLuaValue(DB.LUA_PATH + "navigation/navi_map_krpri.lub", "Navi_Map", function(json) {
-						Object.assign(NaviMapTable, json);
+						replaceNavigationRows(NaviMapTable, json);
 					}, onLoad());
 					loadLuaValue(DB.LUA_PATH + "navigation/navi_mob_krpri.lub", "Navi_Mob", function(json) {
-						Object.assign(NaviMobTable, json);
+						replaceNavigationRows(NaviMobTable, json);
 					}, onLoad());
 					loadLuaValue(DB.LUA_PATH + "navigation/navi_npc_krpri.lub", "Navi_Npc", function(json) {
-						Object.assign(NaviNpcTable, json);
+						replaceNavigationRows(NaviNpcTable, json);
 					}, onLoad());
 					loadLuaValue(DB.LUA_PATH + "navigation/navi_link_krpri.lub", "Navi_Link", function(json) {
-						Object.assign(NaviLinkTable, json);
+						replaceNavigationRows(NaviLinkTable, json);
 					}, onLoad());
 					loadLuaValue(DB.LUA_PATH + "navigation/navi_linkdistance_krpri.lub", "Navi_Distance", function(json) {
-						Object.assign(NaviLinkDistanceTable, json);
+						replaceNavigationRows(NaviLinkDistanceTable, json);
 					}, onLoad());
 					loadLuaValue(DB.LUA_PATH + "navigation/navi_npcdistance_krpri.lub", "Navi_NpcDistance", function(json) {
-						Object.assign(NaviNpcDistanceTable, json);
+						replaceNavigationRows(NaviNpcDistanceTable, json);
 					}, onLoad());
 				}
 				if (PacketVerManager_default.value >= 20150507) loadHatEffectInfo(onLoad());
@@ -301149,43 +302015,18 @@ var init_DBManager = __esmMin((() => {
 		* @returns {Array} Array of search results
 		*/
 		static searchNavigation(query, type) {
-			if (!query || query.length < 2) return [];
-			query = query.toLowerCase();
-			const results = [];
-			if (type === "ALL" || type === "NPC") for (let i = 0; i < NaviNpcTable.length; i++) {
-				const npc = NaviNpcTable[i];
-				const mapName = npc[0];
-				const npcId = npc[1];
-				const npcName = npc[4] || "";
-				if (!npcName) continue;
-				if (npcName.toLowerCase().indexOf(query) !== -1) results.push({
-					type: "NPC",
-					id: npcId,
-					name: npcName,
-					mapName,
-					x: npc[6],
-					y: npc[7]
-				});
-			}
-			if (type === "ALL" || type === "MOB") for (let i = 0; i < NaviMobTable.length; i++) {
-				const mob = NaviMobTable[i];
-				const mapName = mob[0];
-				const mobId = mob[3];
-				const mobName = mob[4] || "";
-				if (!mobName) continue;
-				if (mobName.toLowerCase().indexOf(query) !== -1) results.push({
-					type: "MOB",
-					id: mobId,
-					name: mobName,
-					mapName,
-					x: null,
-					y: null
-				});
-			}
-			results.sort(function(a, b) {
-				return a.name.localeCompare(b.name);
+			const results = searchNavigationRows(NaviNpcTable, NaviMobTable, query, type, {
+				npc: (name) => {
+					const localized = DB.getNpcName(name);
+					return localized === name ? localizeNavigationNpcName(name) : localized;
+				},
+				npcAliases: getNavigationNpcAliases,
+				mob: (id, fallback) => MonsterNameTable_default[id] || fallback,
+				map: (mapName) => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 			});
-			return results.slice(0, 50);
+			const maps = searchNavigationMaps(WorldMap_default$3, MapInfo, query, type, (mapId) => DB.getMapName(mapId, mapId));
+			if (type === "MAP") return maps;
+			return results.concat(maps).sort((a, b) => a.name.localeCompare(b.name)).slice(0, 50);
 		}
 		/**
 		* Get the NaviLinkTable
@@ -331368,8 +332209,28 @@ function onConfig(pkt) {
 		case 5:
 			EquipmentController.getUI().setCostumeConfig(pkt.Value);
 			break;
+		case 1e3:
+		case 1001:
+		case 1002:
+			Navigation_default.setTeleportConfig(pkt.Config, pkt.Value);
+			break;
+		case 1010:
+			SessionStorage_default.GameToolsMonsterSpawnAllowed = Boolean(pkt.Value);
+			GameTools_default.setMonsterSpawnConfig();
+			break;
+		case 1011:
+			SessionStorage_default.GameToolsMonsterSpawnCooldown = pkt.Value;
+			GameTools_default.setMonsterSpawnConfig();
+			break;
+		case 1012:
+			SessionStorage_default.GameToolsMonsterSpawnAllowBoss = Boolean(pkt.Value);
+			GameTools_default.setMonsterSpawnConfig();
+			break;
 		default: console.error("[PACKET_ZC_CONFIG] Unknown Config Type %d (value:%d)", pkt.Config, pkt.Value);
 	}
+}
+function onMonsterSpawnResult(pkt) {
+	GameTools_default.onMonsterSpawnResult(pkt.result, pkt.entityId);
 }
 /**
 * Show some system configs
@@ -331736,6 +332597,7 @@ function onRemoveOption() {
 * Ask to move
 */
 function onRequestWalk() {
+	Navigation_default.stopAutoWalk();
 	Events.clearTimeout(_walkTimer);
 	if (SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.SIT || KEYS.SHIFT) {
 		SessionStorage_default.Entity.lookTo(Mouse.world.x, Mouse.world.y);
@@ -331999,6 +332861,7 @@ var init_MapEngine = __esmMin((() => {
 	init_MapName();
 	init_Announce();
 	init_Navigation();
+	init_GameTools();
 	init_CaptchaUpload();
 	init_CaptchaSelector();
 	init_CaptchaAnswer();
@@ -332142,6 +333005,7 @@ var init_MapEngine = __esmMin((() => {
 				Network.hookPacket(PACKET.ZC.CONFIG_NOTIFY3, onConfigNotify);
 				Network.hookPacket(PACKET.ZC.CONFIG_NOTIFY4, onConfigNotify);
 				Network.hookPacket(PACKET.ZC.CONFIG, onConfig);
+				Network.hookPacket(PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT, onMonsterSpawnResult);
 				Network.hookPacket(PACKET.ZC.REFUSE_ENTER, onConnectionRefused$2);
 				for (let i = 1; i <= 42; i++) {
 					const id = String(i).padStart(2, "0");
