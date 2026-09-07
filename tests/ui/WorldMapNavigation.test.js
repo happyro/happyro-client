@@ -47,10 +47,13 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('_targetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap }');
 	});
 
-	it('offers self teleport only to configured GM characters', () => {
-		expect(navigationSource).toContain('Session.UserLevel >= 10');
-		expect(navigationSource.match(/canSelfTeleport\(\)/g)).toHaveLength(2);
-		expect(navigationSource).toContain('if (!target || !target.map) return;');
+	it('uses server-issued capabilities for self teleport', () => {
+		expect(navigationSource).toContain('Session.NavigationTeleportAllowed');
+		expect(navigationSource).toContain('Session.NavigationTeleportCrossMap');
+		expect(navigationSource).toContain('Session.NavigationTeleportCooldown');
+		expect(navigationSource).not.toContain('Session.UserLevel >= 10');
+		expect(navigationSource.match(/canSelfTeleport\(\)/g)).toHaveLength(3);
+		expect(navigationSource).toContain('!target.map ||');
 		expect(navigationSource).toContain('new PACKET.CZ.MOVETO_MAP()');
 		expect(navigationSource).toContain('Navigation.teleportToSelectedTarget');
 	});
