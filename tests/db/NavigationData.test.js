@@ -92,6 +92,54 @@ describe('navigation data', () => {
 		expect(searchNavigationMaps(worlds, mapInfo, '普隆德拉', 'NPC', id => id)).toEqual([]);
 	});
 
+	it('hides novice map channel replicas by default', () => {
+		const mapInfo = Object.fromEntries(
+			['prt_fild08', 'prt_fild08a', 'prt_fild08b', 'prt_fild08c', 'prt_fild08d'].map(id => [
+				`${id}.rsw`,
+				{ displayName: '普隆德拉南门' }
+			])
+		);
+
+		const results = searchNavigationMaps([], mapInfo, '普隆德拉南门', 'MAP', id => id);
+
+		expect(results).toEqual([
+			expect.objectContaining({ id: 'prt_fild08', name: '普隆德拉南门' })
+		]);
+	});
+
+	it('labels every novice map channel when channels are enabled', () => {
+		const mapInfo = Object.fromEntries(
+			['prt_fild08', 'prt_fild08a', 'prt_fild08b', 'prt_fild08c', 'prt_fild08d'].map(id => [
+				`${id}.rsw`,
+				{ displayName: '普隆德拉南门' }
+			])
+		);
+
+		const results = searchNavigationMaps([], mapInfo, '普隆德拉南门', 'MAP', id => id, true);
+
+		expect(results.map(result => [result.id, result.name])).toEqual([
+			['prt_fild08', '普隆德拉南门 · 频道 1'],
+			['prt_fild08a', '普隆德拉南门 · 频道 2'],
+			['prt_fild08b', '普隆德拉南门 · 频道 3'],
+			['prt_fild08c', '普隆德拉南门 · 频道 4'],
+			['prt_fild08d', '普隆德拉南门 · 频道 5']
+		]);
+	});
+
+	it('filters and labels NPC results using the same channel policy', () => {
+		const rows = [
+			['izlude', 10, 100, 4, 'Kafra', '', 146, 89],
+			['izlude_a', 11, 101, 4, 'Kafra', '', 146, 89]
+		];
+		const channelLocalizers = { ...localizers, map: () => '伊斯鲁得' };
+
+		expect(searchNavigationRows(rows, [], '卡普拉', 'NPC', channelLocalizers)).toHaveLength(1);
+		expect(searchNavigationRows(rows, [], '卡普拉', 'NPC', channelLocalizers, true)).toEqual([
+			expect.objectContaining({ mapName: 'izlude', mapDisplayName: '伊斯鲁得 · 频道 1' }),
+			expect.objectContaining({ mapName: 'izlude_a', mapDisplayName: '伊斯鲁得 · 频道 2' })
+		]);
+	});
+
 	it('does not translate Korean terms embedded in unrelated NPC names', () => {
 		expect(localizeNavigationNpcName('드워프 대장장이')).toBe('드워프 대장장이');
 		expect(localizeNavigationNpcName('카프라 워프')).toBe('卡普拉 传送员');

@@ -507,6 +507,7 @@ function onConfig(pkt) {
 		case 1000:
 		case 1001:
 		case 1002:
+		case 1003:
 			Navigation.setTeleportConfig(pkt.Config, pkt.Value);
 			break;
 		case 1010:

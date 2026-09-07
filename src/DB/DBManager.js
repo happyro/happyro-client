@@ -3475,7 +3475,7 @@ class DB {
 	 * @param {string} type - The type of search (ALL, NPC, MOB)
 	 * @returns {Array} Array of search results
 	 */
-	static searchNavigation(query, type) {
+	static searchNavigation(query, type, channelsEnabled = false) {
 		const results = searchNavigationRows(NaviNpcTable, NaviMobTable, query, type, {
 			npc: name => {
 				const localized = DB.getNpcName(name);
@@ -3485,8 +3485,15 @@ class DB {
 			mob: (id, fallback) => MonsterNameTable[id] || fallback,
 			map: mapName =>
 				DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
-		});
-		const maps = searchNavigationMaps(WorldMap, MapInfo, query, type, mapId => DB.getMapName(mapId, mapId));
+		}, channelsEnabled);
+		const maps = searchNavigationMaps(
+			WorldMap,
+			MapInfo,
+			query,
+			type,
+			mapId => DB.getMapName(mapId, mapId),
+			channelsEnabled
+		);
 		if (type === 'MAP') return maps;
 		return results
 			.concat(maps)

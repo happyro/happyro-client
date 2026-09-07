@@ -1,3 +1,5 @@
+import { getMapChannelDisplayName, isVisibleMapChannel } from '../Map/MapChannels.js';
+
 /**
  * Replace a navigation table with the sequential rows extracted from Lua.
  *
@@ -27,7 +29,7 @@ export function replaceNavigationRows(target, rows) {
  * @param {Object} localizers
  * @returns {Array}
  */
-export function searchNavigationRows(npcRows, mobRows, query, type, localizers) {
+export function searchNavigationRows(npcRows, mobRows, query, type, localizers, channelsEnabled = false) {
 	const normalizedQuery = String(query || '')
 		.trim()
 		.toLocaleLowerCase();
@@ -44,6 +46,7 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers) 
 	if (type === 'ALL' || type === 'NPC') {
 		for (const npc of npcRows) {
 			if (!Array.isArray(npc)) continue;
+			if (!isVisibleMapChannel(npc[0], channelsEnabled)) continue;
 			const rawName = npc[4] || '';
 			const localizedName = localizers.npc(rawName) || rawName;
 			const aliases = localizers.npcAliases?.(rawName) || [];
@@ -54,7 +57,7 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers) 
 				id: npc[1],
 				name: localizedName,
 				mapName: npc[0],
-				mapDisplayName: localizers.map(npc[0]),
+				mapDisplayName: getMapChannelDisplayName(npc[0], localizers.map(npc[0]), channelsEnabled),
 				x: npc[6],
 				y: npc[7]
 			});
@@ -64,6 +67,7 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers) 
 	if (type === 'ALL' || type === 'MOB') {
 		for (const mob of mobRows) {
 			if (!Array.isArray(mob)) continue;
+			if (!isVisibleMapChannel(mob[0], channelsEnabled)) continue;
 			const rawName = mob[4] || '';
 			const mobId = Number(mob[3]) & 0xffff;
 			const localizedName = localizers.mob(mobId, rawName) || rawName;
@@ -74,7 +78,7 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers) 
 				id: mobId,
 				name: localizedName,
 				mapName: mob[0],
-				mapDisplayName: localizers.map(mob[0]),
+				mapDisplayName: getMapChannelDisplayName(mob[0], localizers.map(mob[0]), channelsEnabled),
 				x: null,
 				y: null
 			});
@@ -84,7 +88,7 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers) 
 	return results.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 50);
 }
 
-export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap) {
+export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, channelsEnabled = false) {
 	if (type !== 'ALL' && type !== 'MAP') return [];
 	const normalizedQuery = String(query || '')
 		.trim()
@@ -96,10 +100,12 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 		for (const map of world.maps || []) {
 			const id = String(map.id || '');
 			if (!id || results.has(id)) continue;
-			const name = map.name || localizeMap(id);
+			if (!isVisibleMapChannel(id, channelsEnabled)) continue;
+			const baseName = map.name || localizeMap(id);
+			const name = getMapChannelDisplayName(id, baseName, channelsEnabled);
 			if (
 				!id.toLocaleLowerCase().includes(normalizedQuery) &&
-				!name.toLocaleLowerCase().includes(normalizedQuery)
+				!baseName.toLocaleLowerCase().includes(normalizedQuery)
 			) {
 				continue;
 			}
@@ -117,8 +123,10 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 	for (const [resourceName, info] of Object.entries(mapInfo || {})) {
 		const id = resourceName.replace(/\.(?:rsw|gat)$/i, '');
 		if (!id || results.has(id)) continue;
-		const name = info.displayName || localizeMap(id);
-		if (!id.toLocaleLowerCase().includes(normalizedQuery) && !name.toLocaleLowerCase().includes(normalizedQuery)) {
+		if (!isVisibleMapChannel(id, channelsEnabled)) continue;
+		const baseName = info.displayName || localizeMap(id);
+		const name = getMapChannelDisplayName(id, baseName, channelsEnabled);
+		if (!id.toLocaleLowerCase().includes(normalizedQuery) && !baseName.toLocaleLowerCase().includes(normalizedQuery)) {
 			continue;
 		}
 		results.set(id, {
