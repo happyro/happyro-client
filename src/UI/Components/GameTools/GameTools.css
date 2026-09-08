@@ -82,6 +82,205 @@
 .game-tools-tab {
 	height: 100%;
 }
+
+.management-tab {
+	height: 100%;
+	min-height: 0;
+	background: #f7f8f9;
+}
+.management-loading,
+.management-error {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #666;
+}
+.management-error,
+.management-status.error {
+	color: #a61d24;
+}
+.management-scroll {
+	height: 100%;
+	padding: 12px;
+	overflow-y: auto;
+	box-sizing: border-box;
+}
+.character-summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 0 0 10px;
+	border-bottom: 1px solid #d6d8db;
+}
+.character-summary h3,
+.character-summary p {
+	margin: 0;
+}
+.character-summary p,
+.character-summary span {
+	color: #666;
+}
+.character-summary > div:last-child {
+	display: flex;
+	flex-direction: column;
+	align-items: end;
+	gap: 3px;
+}
+.management-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+	gap: 18px;
+}
+.management-tab section {
+	padding: 10px 0;
+}
+.management-tab section h4 {
+	margin: 0 0 8px;
+	font-size: 13px;
+}
+.management-tab section h4 small {
+	margin-left: 6px;
+	color: #777;
+	font-weight: normal;
+}
+.management-form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+.management-form label,
+.settings-grid label,
+.settings-footer label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+.management-form input,
+.settings-form input,
+.settings-form select {
+	height: 27px;
+	border: 1px solid #aeb2b7;
+	background: #fff;
+	box-sizing: border-box;
+}
+.management-form input {
+	width: 92px;
+	padding: 2px 5px;
+}
+.management-form button,
+.maintenance-actions button,
+.settings-footer button {
+	height: 28px;
+	min-width: 104px;
+	padding: 0 12px;
+	white-space: nowrap;
+	border: 1px solid #888d93;
+	background: linear-gradient(#fff, #dfe2e5);
+	cursor: pointer;
+}
+.management-form button {
+	grid-column: 1 / -1;
+}
+.stat-form {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.maintenance-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	border-top: 1px solid #d6d8db;
+}
+.maintenance-actions h4 {
+	margin: 0 5px 0 0 !important;
+}
+.maintenance-actions span {
+	margin-left: auto;
+	color: #666;
+}
+.management-status {
+	min-height: 18px;
+	padding-top: 5px;
+	color: #287233;
+}
+.settings-form {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.settings-scroll {
+	flex: 1;
+	min-height: 0;
+	padding: 4px 14px;
+	overflow-y: auto;
+}
+.settings-scroll section + section {
+	border-top: 1px solid #d6d8db;
+}
+.settings-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 7px 22px;
+}
+.settings-grid select,
+.setting-number {
+	width: 132px;
+}
+.setting-number {
+	display: flex;
+	align-items: center;
+}
+.setting-number input {
+	width: 100%;
+	min-width: 0;
+	padding: 2px 5px;
+}
+.setting-number em {
+	width: 26px;
+	font-style: normal;
+	text-align: right;
+}
+.settings-footer {
+	flex: 0 0 48px;
+	display: grid;
+	grid-template-columns: minmax(280px, 1fr) minmax(160px, auto) auto;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 14px;
+	border-top: 1px solid #bbbfc4;
+	background: #eceef0;
+	box-sizing: border-box;
+}
+.settings-footer input {
+	flex: 1;
+	min-width: 120px;
+	padding: 2px 6px;
+}
+.settings-footer .management-status {
+	padding: 0;
+	text-align: right;
+}
+.settings-footer button {
+	padding: 0 14px;
+}
+
+@media (max-width: 680px) {
+	.management-grid,
+	.settings-grid {
+		grid-template-columns: 1fr;
+	}
+	.stat-form {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.settings-footer {
+		grid-template-columns: 1fr auto;
+	}
+	.settings-footer .management-status {
+		display: none;
+	}
+}
 .monster-tab {
 	height: 100%;
 	display: flex;
@@ -114,7 +313,7 @@
 	flex: 1;
 	min-height: 0;
 	display: grid;
-	grid-template-columns: minmax(220px, 42%) 1fr;
+	grid-template-columns: minmax(250px, 36%) 1fr;
 }
 .monster-browser {
 	min-width: 0;
@@ -323,7 +522,10 @@
 }
 .summon-button {
 	height: 29px;
-	padding: 0 12px;
+	min-width: 64px;
+	padding: 0 14px;
+	white-space: nowrap;
+	flex: 0 0 auto;
 	border: 1px solid #6d7f98;
 	background: #e5edf7;
 	cursor: pointer;
@@ -335,8 +537,35 @@
 	cursor: default;
 }
 .summon-panel span {
+	min-width: 0;
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	color: #64696e;
 }
+.game-tools-tab,
+.world-catalog-tab { position: relative; }
+.game-tools-confirm {
+	position: absolute;
+	inset: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background: rgb(0 0 0 / 35%);
+}
+.game-tools-confirm-card {
+	width: min(360px, 100%);
+	padding: 18px;
+	background: #fff;
+	border: 1px solid #8b929a;
+	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
+}
+.game-tools-confirm-card p { margin: 0 0 16px; line-height: 1.5; }
+.game-tools-confirm-card > div { display: flex; justify-content: flex-end; gap: 8px; }
+.game-tools-confirm-card button { min-width: 72px; padding: 5px 12px; white-space: nowrap; }
 .world-catalog-tab {
 	height: 100%;
 	display: flex;
@@ -516,7 +745,10 @@
 }
 .catalog-action-panel button {
 	height: 29px;
-	padding: 0 12px;
+	min-width: 104px;
+	padding: 0 14px;
+	white-space: nowrap;
+	flex: 0 0 auto;
 	border: 1px solid #6d7f98;
 	background: #e5edf7;
 	cursor: pointer;
@@ -581,7 +813,10 @@
 }
 .monster-map-teleport {
 	height: 28px;
-	padding: 0 12px;
+	min-width: 104px;
+	padding: 0 14px;
+	white-space: nowrap;
+	flex: 0 0 auto;
 	border: 1px solid #6d7f98;
 	background: #e5edf7;
 	cursor: pointer;
@@ -656,7 +891,8 @@
 	.game-tools-window {
 		min-width: 0;
 	}
-	.catalog-layout {
+	.catalog-layout,
+	.monster-layout {
 		grid-template-columns: minmax(190px, 43%) 1fr;
 	}
 	.catalog-metadata {
@@ -670,9 +906,7 @@
 	.game-tools-window {
 		min-width: 0;
 	}
-	.monster-layout {
-		grid-template-columns: 46% 54%;
-	}
+	.monster-layout { grid-template-columns: minmax(190px, 43%) 1fr; }
 	.monster-detail {
 		padding: 8px;
 	}

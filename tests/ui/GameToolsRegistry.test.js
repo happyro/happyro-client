@@ -16,4 +16,13 @@ describe('game tools tab registry', () => {
 		expect(() => registry.registerGameToolsTab({ id: 'monsters', label: '重复', mount: () => undefined })).toThrow();
 		expect(() => registry.registerGameToolsTab({ id: 'missing' })).toThrow(TypeError);
 	});
+
+	it('preserves optional capability metadata for protected tabs', async () => {
+		const registry = await import('../../src/UI/Components/GameTools/GameToolsRegistry.js');
+		const tab = { id: 'settings', label: '游戏设置', capability: 'gameSettingsAllowed', mount: () => undefined };
+
+		registry.registerGameToolsTab(tab);
+
+		expect(registry.getGameToolsTabs()[0]).toMatchObject({ capability: 'gameSettingsAllowed' });
+	});
 });

@@ -4,17 +4,23 @@ import Preferences from 'Core/Preferences.js';
 import htmlText from './GameTools.html?raw';
 import cssText from './GameTools.css?raw';
 import { getGameToolsTabs, registerGameToolsTab } from './GameToolsRegistry.js';
+import { loadAdventureControlBootstrap } from './AdventureControlService.js';
 import monsterCatalogTab, { notifyMonsterSpawnConfig, notifyMonsterSpawnResult } from './MonsterCatalogTab.js';
 import npcCatalogTab from './NpcCatalogTab.js';
 import mapCatalogTab from './MapCatalogTab.js';
+import characterMaintenanceTab from './CharacterMaintenanceTab.js';
+import gameSettingsTab from './GameSettingsTab.js';
 
 registerGameToolsTab(monsterCatalogTab);
 registerGameToolsTab(npcCatalogTab);
 registerGameToolsTab(mapCatalogTab);
+registerGameToolsTab(characterMaintenanceTab);
+registerGameToolsTab(gameSettingsTab);
 
 const preferences = Preferences.get('GameTools', { tab: 'monsters' }, 1.0);
 const GameTools = new GUIComponent('GameTools', cssText);
 let cleanupTab;
+let capabilities;
 
 GameTools.render = () => htmlText;
 
@@ -29,7 +35,7 @@ GameTools.init = function init() {
 
 GameTools.renderTabs = function renderTabs() {
 	const root = this.getRoot();
-	const tabs = getGameToolsTabs();
+	const tabs = getGameToolsTabs().filter(tab => !tab.capability || capabilities?.[tab.capability] === true);
 	const selected = tabs.find(tab => tab.id === preferences.tab) || tabs[0];
 	root.querySelector('.tab-list').innerHTML = tabs
 		.map(
@@ -78,6 +84,19 @@ GameTools.toggle = function toggle() {
 	this.append();
 	this._host.style.display = '';
 	this.centerInViewport();
+	void this.refreshCapabilities();
+};
+
+GameTools.refreshCapabilities = async function refreshCapabilities() {
+	try {
+		const nextCapabilities = await loadAdventureControlBootstrap();
+		const changed = JSON.stringify(capabilities) !== JSON.stringify(nextCapabilities);
+		capabilities = nextCapabilities;
+		if (changed) this.renderTabs();
+	} catch {
+		capabilities = { characterMaintenanceAllowed: false, gameSettingsAllowed: false };
+		this.renderTabs();
+	}
 };
 
 GameTools.setMonsterSpawnConfig = function setMonsterSpawnConfig() {
