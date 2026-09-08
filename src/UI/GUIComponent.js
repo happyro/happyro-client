@@ -16,7 +16,7 @@ import Session from 'Engine/SessionStorage.js';
 import Targa from 'Loaders/Targa.js';
 import ClampToViewport from 'UI/ClampToViewport.js';
 import { getLocalizedButtonLabel } from 'UI/LocalizedButtonLabels.js';
-import { stripRagnarokColorCodes } from 'Utils/RagnarokText.js';
+import { toPlainRagnarokText } from 'Utils/RagnarokText.js';
 
 /**
  * Heavy modules loaded lazily to keep viewer bundles lightweight.
@@ -1030,7 +1030,7 @@ class GUIComponent {
 
 		// Localized text
 		if (!localizedButtonLabel && msgId && _DB?.getMessage(msgId, '')) {
-			node.textContent = stripRagnarokColorCodes(_DB?.getMessage(msgId, ''));
+			node.textContent = toPlainRagnarokText(_DB?.getMessage(msgId, ''));
 		}
 
 		// Default background
