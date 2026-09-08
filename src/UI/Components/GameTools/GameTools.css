@@ -550,6 +550,7 @@
 	height: 27px;
 	box-sizing: border-box;
 }
+
 .game-tools-tab,
 .world-catalog-tab { position: relative; }
 .game-tools-confirm {
