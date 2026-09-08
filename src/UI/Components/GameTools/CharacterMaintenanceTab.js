@@ -1,8 +1,7 @@
 import { loadCurrentCharacter, maintainCurrentCharacter } from './AdventureControlService.js';
 import escapeHtml from './escapeHtml.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
-import JobConst from 'DB/Jobs/JobConst.js';
-import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
+import JobDisplayNameTable, { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 
 const statFields = [
 	['str', '力量'],
@@ -13,8 +12,11 @@ const statFields = [
 	['luk', '幸运']
 ];
 
-const jobIds = [...new Set(Object.values(JobConst).filter(value => Number.isInteger(value)))]
-	.sort((a, b) => a - b)
+const unsupportedJobIds = new Set([4036, 4044, 4048, 4080, 4081, 4082, 4083, 4084, 4085, 4086, 4087, 4096, 4097, 4098, 4099, 4100, 4101, 4102, 4103, 4104, 4105, 4106, 4107, 4108, 4109, 4110, 4111, 4112, 4220]);
+const jobIds = Object.keys(JobDisplayNameTable)
+	.map(Number)
+	.filter(id => !unsupportedJobIds.has(id))
+	.sort((a, b) => a - b);
 
 function renderJobOptions(selectedId) {
 	return jobIds
