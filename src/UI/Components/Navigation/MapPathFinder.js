@@ -24,9 +24,9 @@ const MapPathFinder = {};
  * @param {number} endX - Destination X coordinate
  * @param {number} endY - Destination Y coordinate
  * @param {Array} warpTypes - Types of warps to consider [default: [200]]
- * @returns {Array|null} Array of warps with map, coordinates and warpId, or null if no path found
+ * @returns {Promise<Array|null>} Array of warps with map, coordinates and warpId, or null if no path found
  */
-MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(
+MapPathFinder.findPathBetweenMaps = async function findPathBetweenMaps(
 	startMap,
 	startX,
 	startY,
@@ -69,8 +69,9 @@ MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(
 	}
 
 	// Get navigation data
-	const naviLinkTable = DB.getNaviLinkTable();
-	const naviLinkDistanceTable = DB.getNaviLinkDistanceTable();
+	const navigationGraph = await DB.getNavigationGraph();
+	const naviLinkTable = navigationGraph.links;
+	const naviLinkDistanceTable = navigationGraph.linkDistances;
 
 	// Check if we have navigation data
 	if (!naviLinkTable || !naviLinkTable.length) {

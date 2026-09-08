@@ -115,8 +115,9 @@ describe('game tools integration', () => {
 		expect(navigationSource).toContain('_autoWalkRequested = Boolean(options.autoWalk);');
 		expect(navigationSource).toContain('Navigation.subscribeRouteState = function subscribeRouteState(listener)');
 		expect(navigationSource).toMatch(
-			/Navigation\.findPath = function findPath\([^)]*\) \{\s*initializePathFindingWorker\(\);/
+			/Navigation\.findPath = async function findPath\([^)]*\) \{\s*const navigationRequestId = _navigationRequestId;\s*initializePathFindingWorker\(\);/
 		);
+		expect(navigationSource).toContain('if (navigationRequestId !== _navigationRequestId) return;');
 	});
 
 	it('keeps monster location scrolling and waits for coordinate teleport results', () => {

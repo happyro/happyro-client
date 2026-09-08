@@ -191,14 +191,15 @@ function mount(container) {
 	});
 	const positionTimer = setInterval(() => redrawPreview(), 500);
 	loadNpcAssets()
-		.then(assets => {
+		.then(async assets => {
 			const mapsWithImages = new Set(assets.mapImages || []);
-			const items = toWorldEntities(
-					DB.listNavigation('MAP', { channelsEnabled: Session.NavigationMapChannelsEnabled })
-				).map(map => ({
-					...map,
-					hasImage: mapsWithImages.has(map.id.toLocaleLowerCase())
-				}));
+			const navigationMaps = await DB.listNavigation('MAP', {
+				channelsEnabled: Session.NavigationMapChannelsEnabled
+			});
+			const items = toWorldEntities(navigationMaps).map(map => ({
+				...map,
+				hasImage: mapsWithImages.has(map.id.toLocaleLowerCase())
+			}));
 			browser.setItems(items);
 			const currentMap = normalizeAdventureMap(getCurrentAdventureMap());
 			browser.selectItem(items.find(map => normalizeAdventureMap(map.mapName) === currentMap));

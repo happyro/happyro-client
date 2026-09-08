@@ -4,8 +4,11 @@ const navigationTables = vi.hoisted(() => ({ links: [], distances: [] }));
 
 vi.mock('DB/DBManager.js', () => ({
 	default: {
-		getNaviLinkTable: () => navigationTables.links,
-		getNaviLinkDistanceTable: () => navigationTables.distances
+		getNavigationGraph: async () => ({
+			links: navigationTables.links,
+			linkDistances: navigationTables.distances,
+			npcDistances: []
+		})
 	}
 }));
 
@@ -17,18 +20,18 @@ describe('map path finder', () => {
 		navigationTables.distances = [];
 	});
 
-	it('returns a same-map destination directly', () => {
-		expect(MapPathFinder.findPathBetweenMaps('prontera', 10, 20, 'prontera', 30, 40)).toEqual([
+	it('returns a same-map destination directly without loading the graph', async () => {
+		await expect(MapPathFinder.findPathBetweenMaps('prontera', 10, 20, 'prontera', 30, 40)).resolves.toEqual([
 			{ map: 'prontera', x: 30, y: 40, warpId: null, warpType: null, warpName: '' }
 		]);
 	});
 
-	it('finds a cross-map route through an allowed warp', () => {
+	it('finds a cross-map route through an allowed warp', async () => {
 		navigationTables.links = [
 			['prontera', 13350, 200, 45, '南门', '', 156, 20, 'prt_fild08', 170, 375]
 		];
 
-		const path = MapPathFinder.findPathBetweenMaps(
+		const path = await MapPathFinder.findPathBetweenMaps(
 			'prontera',
 			150,
 			50,
@@ -44,17 +47,17 @@ describe('map path finder', () => {
 		]);
 	});
 
-	it('excludes service warps until their type is enabled', () => {
+	it('excludes service warps until their type is enabled', async () => {
 		navigationTables.links = [
 			['prontera', 13351, 202, 45, '卡普拉传送', '', 146, 89, 'geffen', 120, 40]
 		];
 
-		expect(
+		await expect(
 			MapPathFinder.findPathBetweenMaps('prontera', 150, 50, 'geffen', 100, 100, [200, 201])
-		).toBeNull();
-		expect(
+		).resolves.toBeNull();
+		await expect(
 			MapPathFinder.findPathBetweenMaps('prontera', 150, 50, 'geffen', 100, 100, [200, 201, 202])
-		).toEqual([
+		).resolves.toEqual([
 			{
 				map: 'prontera',
 				x: 146,

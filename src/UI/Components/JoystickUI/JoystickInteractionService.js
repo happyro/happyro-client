@@ -19,7 +19,7 @@ import ControlsSettings from 'Preferences/Controls.js';
 import SelectionUI from './JoystickSelectionUI.js';
 import Input from './JoystickInputService.js';
 import DB from 'DB/DBManager.js';
-import SkillInfo from 'DB/Skills/SkillInfo.js';
+import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import ShortcutMapper from './JoystickShortcutMapper.js';
 
 export default {

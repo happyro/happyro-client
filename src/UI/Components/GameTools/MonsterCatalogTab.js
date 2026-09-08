@@ -100,7 +100,8 @@ function mount(container) {
 		cooldownTimer: null,
 		requestTimer: null,
 		selectedSpawn: null,
-		locationScrollTop: 0
+		locationScrollTop: 0,
+		navigationMaps: []
 	};
 	const controller = {
 		onSpawnResult(result) {
@@ -208,10 +209,7 @@ function mount(container) {
 			channelsEnabled: Session.NavigationMapChannelsEnabled,
 			currentMap: getCurrentAdventureMap()
 		});
-		const spawnMapNames = getMonsterSpawnMapNames(
-			spawnMaps,
-			DB.listNavigation('MAP', { channelsEnabled: Session.NavigationMapChannelsEnabled })
-		);
+		const spawnMapNames = getMonsterSpawnMapNames(spawnMaps, state.navigationMaps);
 		if (state.selectedSpawn && !spawnMaps.some(spawn => spawn.mapName === state.selectedSpawn.mapName)) {
 			state.selectedSpawn = spawnMaps[0] || null;
 		}
@@ -303,9 +301,10 @@ function mount(container) {
 		renderList();
 	});
 
-	loadCatalog()
-		.then(catalog => {
+	Promise.all([loadCatalog(), DB.listNavigation('MAP', { channelsEnabled: Session.NavigationMapChannelsEnabled })])
+		.then(([catalog, navigationMaps]) => {
 			state.catalog = catalog;
+			state.navigationMaps = navigationMaps;
 			state.monsters = catalog.monsters;
 			state.filtered = catalog.monsters;
 			renderList();

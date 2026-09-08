@@ -2,25 +2,6 @@ import { getMapChannelDisplayName, isVisibleMapChannel } from '../Map/MapChannel
 import { getNpcInstanceName } from './NpcInstanceNameTable.js';
 
 /**
- * Replace a navigation table with the sequential rows extracted from Lua.
- *
- * @param {Array} target
- * @param {Array|Object} rows
- */
-export function replaceNavigationRows(target, rows) {
-	target.length = 0;
-	if (!rows || typeof rows !== 'object') return;
-
-	const indexes = Object.keys(rows)
-		.map(Number)
-		.filter(Number.isInteger)
-		.sort((a, b) => a - b);
-	for (const index of indexes) {
-		target.push(rows[index]);
-	}
-}
-
-/**
  * Search loaded navigation rows using both resource and localized names.
  *
  * @param {Array} npcRows
@@ -128,7 +109,7 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers, 
 		.map(({ rawName, aliases, ...result }) => result);
 }
 
-export function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options = {}) {
+export function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options = {}, navigationMaps = []) {
 	const { channelsEnabled = false, currentMap = '', scope = 'WORLD' } = options;
 	if (type !== 'ALL' && type !== 'MAP') return [];
 
@@ -169,15 +150,25 @@ export function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, option
 			y: null
 		});
 	}
+	for (const row of navigationMaps || []) {
+		if (!Array.isArray(row)) continue;
+		const id = String(row[0] || '');
+		if (!id || results.has(id)) continue;
+		if (!isVisibleMapChannel(id, channelsEnabled)) continue;
+		if (scope === 'CURRENT' && id !== currentMap) continue;
+		const localized = localizeMap(id);
+		const name = getMapChannelDisplayName(id, localized === id ? id : localized, channelsEnabled);
+		results.set(id, { type: 'MAP', id, name, mapName: id, mapDisplayName: name, x: null, y: null });
+	}
 	return [...results.values()].sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
 }
 
-export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, options = {}) {
+export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, options = {}, navigationMaps = []) {
 	const normalizedQuery = String(query || '')
 		.trim()
 		.toLocaleLowerCase();
 	if (!normalizedQuery) return [];
-	const results = listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options).filter(
+	const results = listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options, navigationMaps).filter(
 		result =>
 			result.id.toLocaleLowerCase().includes(normalizedQuery) ||
 			result.name.toLocaleLowerCase().includes(normalizedQuery)

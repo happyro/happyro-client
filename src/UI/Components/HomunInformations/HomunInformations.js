@@ -536,7 +536,7 @@ HomunInformations.toggleAggressive = function toggleAggressive() {
 
 HomunInformations.startAI = function startAI() {
 	if (!this.AILoop) {
-		AIDriver.reset();
+		AIDriver.reset(true);
 		this.AILoop = setInterval(() => {
 			if (Session.homunId) {
 				const entity = EntityManager.get(Session.homunId);

@@ -11,7 +11,7 @@
  */
 import DB from 'DB/DBManager.js';
 import SkillId from 'DB/Skills/SkillConst.js';
-import SkillInfo from 'DB/Skills/SkillInfo.js';
+import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import StatusConst from 'DB/Status/StatusConst.js';
 import StatusState from 'DB/Status/StatusState.js';
 import Emotions from 'DB/Emotions.js';
@@ -2557,12 +2557,7 @@ function onNotifyExp(pkt) {
 			break;
 		case 1:
 			if (pkt.varID === 1) {
-				ChatBox.addText(
-					'任务获得基础经验：' + pkt.amount,
-					null,
-					ChatBox.FILTER.EXP,
-					'#A442DC'
-				);
+				ChatBox.addText('任务获得基础经验：' + pkt.amount, null, ChatBox.FILTER.EXP, '#A442DC');
 			} else if (pkt.varID === 2) {
 				ChatBox.addText('任务获得职业经验：' + pkt.amount, null, ChatBox.FILTER.EXP, '#A442DC');
 			}

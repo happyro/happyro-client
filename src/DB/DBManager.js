@@ -37,10 +37,8 @@ import RobeTable from './Items/RobeTable.js';
 import RandomOption from 'DB/Items/ItemRandomOptionTable.js';
 import WorldMap from './Map/WorldMap.js';
 import SKID from './Skills/SkillConst.js';
-import SkillInfo from './Skills/SkillInfo.js';
-import { localizeSkillDescriptions } from './Skills/SkillDescriptionLocalization.js';
+import SkillInfo from './Skills/SkillInfo.generated.js';
 import SkillLocalizationTable from './Skills/SkillLocalizationTable.generated.js';
-import SkillTreeView from './Skills/SkillTreeView.js';
 import JobHitSoundTable from './Jobs/JobHitSoundTable.js';
 import WeaponTrailTable from './Items/WeaponTrailTable.js';
 import TownInfo from './TownInfo.js';
@@ -63,14 +61,11 @@ import { mergeLocalizedMapInfo } from './Map/MapInfoLocalization.js';
 import {
 	listNavigationMaps,
 	listNavigationRows,
-	replaceNavigationRows,
 	searchNavigationMaps,
 	searchNavigationRows
 } from './Navigation/NavigationData.js';
-import {
-	getNavigationNpcAliases,
-	localizeNavigationNpcName
-} from './Navigation/NavigationNameLocalization.js';
+import { loadNavigationCatalog, loadNavigationGraph } from './Navigation/NavigationResource.js';
+import { getNavigationNpcAliases, localizeNavigationNpcName } from './Navigation/NavigationNameLocalization.js';
 import SignBoardTranslationTable from './SignBoardTranslationTable.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
@@ -86,10 +81,6 @@ const LocalizedMapInfo = { ...MapInfo };
  * @type {Object} lua instance
  */
 let lua;
-let HO_AI;
-let MER_AI;
-let default_HO_AI;
-let default_MER_AI;
 
 /**
  * @const {Array} message string
@@ -115,13 +106,11 @@ const MapTable = {};
 /**
  * @type {Object} SkillDescription Table
  */
-const LocalizedSkillNames = {};
-let SkillDescription = {};
+const SkillDescription = {};
 
 for (const [id, entry] of Object.entries(SkillLocalizationTable)) {
 	const skillId = Number(id);
 	SKID[entry.key] = skillId;
-	LocalizedSkillNames[skillId] = entry.name;
 	SkillDescription[skillId] = entry.description;
 	if (SkillInfo[skillId]) {
 		SkillInfo[skillId].SkillName = entry.name;
@@ -185,36 +174,6 @@ const SignBoardOverrides = SignBoardTranslationTable;
  * @type {Object} SignBoard Table
  */
 let SignBoardTable = {};
-
-/**
- * @const {Object} NaviMap Table
- */
-const NaviMapTable = [];
-
-/**
- * @const {Object} NaviMob Table
- */
-const NaviMobTable = [];
-
-/**
- * @const {Object} NaviNpc Table
- */
-const NaviNpcTable = [];
-
-/**
- * @const {Object} NaviLink Table
- */
-const NaviLinkTable = [];
-
-/**
- * @const {Object} NaviLinkDistance Table
- */
-const NaviLinkDistanceTable = [];
-
-/**
- * @const {Object} NaviNpcDistance Table
- */
-const NaviNpcDistanceTable = [];
 
 /**
  * @const {Object} QuestInfo Table
@@ -505,83 +464,21 @@ class DB {
 				loadTitleTable(DB.LUA_PATH + 'datainfo/titletable.lub', null, onLoad());
 			}
 
-			// Skill IDs, names, and descriptions are generated statically from the canonical server DB.
-			const onSkillEnd = onLoad();
-			loadSkillInfoList(DB.LUA_PATH + 'skillinfoz/skillinfolist.lub', null, () => {
-				SkillDescription = localizeSkillDescriptions(SkillDescription, SkillInfo);
-				loadSkillTreeView(DB.LUA_PATH + 'skillinfoz/skilltreeview.lub', null, () => {
-					// Load ez2streffect, PACKETVER unknown when the while has been added, tied to default PACKETVER of rathena for 4th job
-					if (PACKETVER.value >= 20211103) {
-						const bsonOnLoad = onLoad();
-						loadBSONFile('data/contentdata/effectdata/ez2streffect.bson', Ez2streffect, () => {
-							Promise.all([
-								import('DB/Effects/EffectTable.js'),
-								import('DB/Skills/SkillEffect.js')
-							]).then(([EffectTable, SkillEffect]) => {
-									mergeEz2Effects(EffectTable.default, SkillEffect.default);
-									bsonOnLoad();
-								});
-						});
-					}
-					// Skill Lua finished
-					onSkillEnd();
+			// Skill definitions and trees are generated statically. Effects remain in the canonical BSON table.
+			if (PACKETVER.value >= 20211103) {
+				const bsonOnLoad = onLoad();
+				loadBSONFile('data/contentdata/effectdata/ez2streffect.bson', Ez2streffect, () => {
+					Promise.all([import('DB/Effects/EffectTable.js'), import('DB/Skills/SkillEffect.js')]).then(
+						([EffectTable, SkillEffect]) => {
+							mergeEz2Effects(EffectTable.default, SkillEffect.default);
+							bsonOnLoad();
+						}
+					);
 				});
-			});
+			}
 
 			// Status
 			loadStateIconInfo(DB.LUA_PATH + 'stateicon/', null, onLoad());
-
-			// Legacy Navigation
-			if (PACKETVER.value >= 20111010) {
-				loadLuaValue(
-					DB.LUA_PATH + 'navigation/navi_map_krpri.lub',
-					'Navi_Map',
-					function (json) {
-						replaceNavigationRows(NaviMapTable, json);
-					},
-					onLoad()
-				);
-				loadLuaValue(
-					DB.LUA_PATH + 'navigation/navi_mob_krpri.lub',
-					'Navi_Mob',
-					function (json) {
-						replaceNavigationRows(NaviMobTable, json);
-					},
-					onLoad()
-				);
-				loadLuaValue(
-					DB.LUA_PATH + 'navigation/navi_npc_krpri.lub',
-					'Navi_Npc',
-					function (json) {
-						replaceNavigationRows(NaviNpcTable, json);
-					},
-					onLoad()
-				);
-				loadLuaValue(
-					DB.LUA_PATH + 'navigation/navi_link_krpri.lub',
-					'Navi_Link',
-					function (json) {
-						replaceNavigationRows(NaviLinkTable, json);
-					},
-					onLoad()
-				);
-				loadLuaValue(
-					DB.LUA_PATH + 'navigation/navi_linkdistance_krpri.lub',
-					'Navi_Distance',
-					function (json) {
-						replaceNavigationRows(NaviLinkDistanceTable, json);
-					},
-					onLoad()
-				);
-				loadLuaValue(
-					DB.LUA_PATH + 'navigation/navi_npcdistance_krpri.lub',
-					'Navi_NpcDistance',
-					function (json) {
-						replaceNavigationRows(NaviNpcDistanceTable, json);
-					},
-					onLoad()
-				);
-			}
 
 			// HatEffect
 			if (PACKETVER.value >= 20150507) {
@@ -736,9 +633,6 @@ class DB {
 				onLoad()
 			);
 
-			// TODO: data/skilltreeview.txt	- Replaces DB/Skills/SkillTreeView.js
-			// TODO: data/leveluseskillspamount.txt	- Replaces DB/Skills/SkillInfo.js -> SkillInfo.SpAmount
-
 			// Quest
 			loadTable('data/questid2display.txt', '#', 6, parseQuestEntry, onLoad(), true);
 		}
@@ -858,26 +752,10 @@ class DB {
 
 		Network.hookPacket(PACKET.ZC.ACK_REQNAME_BYGID, onUpdateOwnerName);
 		Network.hookPacket(PACKET.ZC.ACK_REQNAME_BYGID2, onUpdateOwnerName);
-
-		const onAIDriverLoaded = onLoad();
-		import('Core/AIDriver.js').then(module => {
-			module.default.initAI(onAIDriverLoaded);
-		});
-	}
-	static getHOAI_VM() {
-		return HO_AI;
 	}
 
-	static getMERAI_VM() {
-		return MER_AI;
-	}
-
-	static getDefaultHOAI_VM() {
-		return default_HO_AI;
-	}
-
-	static getDefaultMERAI_VM() {
-		return default_MER_AI;
+	static createLuaVM() {
+		return createLuaVM();
 	}
 
 	static getAllTitles() {
@@ -3444,26 +3322,34 @@ class DB {
 	 *
 	 * @param {string} query - The search query
 	 * @param {string} type - The type of search (ALL, NPC, MOB)
-	 * @returns {Array} Array of search results
+	 * @returns {Promise<Array>} Array of search results
 	 */
-	static searchNavigation(query, type, options = {}) {
-		const results = searchNavigationRows(NaviNpcTable, NaviMobTable, query, type, {
+	static async searchNavigation(query, type, options = {}) {
+		const catalog = await loadNavigationCatalog();
+		const results = searchNavigationRows(
+			catalog.npcs,
+			catalog.monsters,
+			query,
+			type,
+			{
 				npc: name => {
 					const localized = DB.getNpcName(name);
 					return localized === name ? localizeNavigationNpcName(name) : localized;
 				},
 				npcAliases: getNavigationNpcAliases,
 				mob: (id, fallback) => MonsterNameTable[id] || fallback,
-			map: mapName =>
-				DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
-		}, options);
+				map: mapName => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
+			},
+			options
+		);
 		const maps = searchNavigationMaps(
 			WorldMap,
 			MapInfo,
 			query,
 			type,
 			mapId => DB.getMapName(mapId, mapId),
-			options
+			options,
+			catalog.maps
 		);
 		if (type === 'MAP') return maps;
 		return results
@@ -3472,7 +3358,12 @@ class DB {
 			.slice(0, 50);
 	}
 
-	static listNavigation(type, options = {}) {
+	static prepareNavigationCatalog() {
+		return loadNavigationCatalog();
+	}
+
+	static async listNavigation(type, options = {}) {
+		const catalog = await loadNavigationCatalog();
 		const localizers = {
 			npc: name => {
 				const localized = DB.getNpcName(name);
@@ -3480,40 +3371,16 @@ class DB {
 			},
 			npcAliases: getNavigationNpcAliases,
 			mob: (id, fallback) => MonsterNameTable[id] || fallback,
-			map: mapName =>
-				DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
+			map: mapName => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 		};
 		if (type === 'MAP') {
-			return listNavigationMaps(WorldMap, MapInfo, type, id => DB.getMapName(id, id), options);
+			return listNavigationMaps(WorldMap, MapInfo, type, id => DB.getMapName(id, id), options, catalog.maps);
 		}
-		return listNavigationRows(NaviNpcTable, NaviMobTable, type, localizers, options);
+		return listNavigationRows(catalog.npcs, catalog.monsters, type, localizers, options);
 	}
 
-	/**
-	 * Get the NaviLinkTable
-	 *
-	 * @returns {Array} The NaviLinkTable
-	 */
-	static getNaviLinkTable() {
-		return NaviLinkTable;
-	}
-
-	/**
-	 * Get the NaviLinkDistanceTable
-	 *
-	 * @returns {Array} The NaviLinkDistanceTable
-	 */
-	static getNaviLinkDistanceTable() {
-		return NaviLinkDistanceTable;
-	}
-
-	/**
-	 * Get the NaviNpcDistanceTable
-	 *
-	 * @returns {Array} The NaviNpcDistanceTable
-	 */
-	static getNaviNpcDistanceTable() {
-		return NaviNpcDistanceTable;
+	static getNavigationGraph() {
+		return loadNavigationGraph();
 	}
 
 	static createItemLink(item) {
@@ -3953,20 +3820,13 @@ class DB {
 }
 
 async function startLua() {
+	lua = await createLuaVM();
+}
+
+async function createLuaVM() {
 	const wasmUrl = (await import('Vendors/liblua5.1.wasm?url')).default;
 	const CLua = (await import('Vendors/wasmoon-lua5.1.js')).default;
-	const [l, ha, ma, dha, dma] = await Promise.all([
-		CLua.Lua.create({ customWasmUri: wasmUrl }),
-		CLua.Lua.create({ customWasmUri: wasmUrl }),
-		CLua.Lua.create({ customWasmUri: wasmUrl }),
-		CLua.Lua.create({ customWasmUri: wasmUrl }),
-		CLua.Lua.create({ customWasmUri: wasmUrl })
-	]);
-	lua = l;
-	HO_AI = ha;
-	MER_AI = ma;
-	default_HO_AI = dha;
-	default_MER_AI = dma;
+	return CLua.Lua.create({ customWasmUri: wasmUrl });
 }
 
 function loadFontFromClient(fontPath) {
@@ -6417,370 +6277,6 @@ function loadWeaponTable(filename, callback, onEnd) {
 				lua.unmountFile('weapontable.lub');
 
 				// call onEnd
-				onEnd();
-			}
-		},
-		onEnd
-	);
-}
-
-/**
- * Loads skillinfolist.lub which replaces part of DB/Skills/SkillInfo.js
- *
- * @param {string} filename - The name of the file to load.
- * @param {function} callback - The function to invoke with the loaded data.
- * @param {function} onEnd - The function to invoke when loading is complete.
- * @return {void}
- */
-function loadSkillInfoList(filename, callback, onEnd) {
-	Client.loadFile(
-		filename,
-		async function (file) {
-			try {
-				console.log('Loading file "' + filename + '"...');
-
-				// check if file is ArrayBuffer and convert to Uint8Array if necessary
-				const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
-
-				// get context, a proxy. It will be used to interact with lua conveniently
-				const ctx = lua.ctx;
-
-				// Create automatic JT_ mappings
-				const jobIdWithJT = { ...JobId };
-				for (const [key, value] of Object.entries(JobId)) {
-					jobIdWithJT[`JT_${key}`] = value;
-				}
-				ctx.JOBID = jobIdWithJT;
-				await lua.doString(`
-						if JOBID then
-							__JOBID_ORIGINAL = JOBID
-							JOBID = setmetatable({}, {
-								__index = function(t, k)
-									local id = __JOBID_ORIGINAL[k]
-									return id ~= nil and id or 0
-								end
-							})
-						end
-					`);
-
-				// create required functions in context
-				ctx.AddSkillInfo = (
-					skillId,
-					resName,
-					skillName,
-					maxLv,
-					spAmount,
-					bSeperateLv,
-					attackRange,
-					skillScale
-				) => {
-					// Convert to format expected by SkillInfo.js
-					const toArray = v => {
-						if (Array.isArray(v)) {
-							return v;
-						}
-						if (typeof v === 'object' && v !== null) {
-							return Object.keys(v)
-								.map(Number)
-								.sort((a, b) => a - b)
-								.map(k => v[k]);
-						}
-						return [];
-					};
-					const resourceName = userStringDecoder.decode(resName);
-					const localizedName = LocalizedSkillNames[skillId] || SkillInfo[skillId]?.SkillName;
-					SkillInfo[skillId] = {
-						Name: resourceName,
-						SkillName: /[\u3400-\u9fff]/.test(localizedName || '')
-							? localizedName
-							: userStringDecoder.decode(skillName, userCharpage),
-						MaxLv: maxLv,
-						SpAmount: toArray(spAmount),
-						bSeperateLv: bSeperateLv,
-						AttackRange: toArray(attackRange),
-						SkillScale: skillScale,
-						NeedSkillList: {},
-						_NeedSkillList: []
-					};
-
-					return 1;
-				};
-
-				ctx.AddSkillRequirement = (skillId, requiredSkillId, requiredLevel) => {
-					SkillInfo[skillId]._NeedSkillList.push([requiredSkillId, requiredLevel]);
-					return 1;
-				};
-
-				ctx.AddJobSkillRequirement = (skillId, jobId, requiredSkillId, requiredLevel) => {
-					if (!SkillInfo[skillId].NeedSkillList[jobId]) {
-						SkillInfo[skillId].NeedSkillList[jobId] = [];
-					}
-					SkillInfo[skillId].NeedSkillList[jobId].push([requiredSkillId, requiredLevel]);
-					return 1;
-				};
-
-				ctx.SKID = SKID;
-				await lua.doString(`
-						if SKID then
-							__SKID_ORIGINAL = SKID 
-
-							SKID = setmetatable({}, {
-								__index = function(t, k)
-								local id = __SKID_ORIGINAL[k]
-								return id ~= nil and id or 0 
-								end
-							})
-						end
-					`);
-
-				// mount file
-				lua.mountFile('skillinfolist.lub', buffer);
-
-				// execute file
-				await lua.doFile('skillinfolist.lub');
-
-				// create and execute our own main function
-				lua.doStringSync(`  
-						function main_skillInfoList()  
-							if not SKILL_INFO_LIST then  
-								return false, "Error: SKILL_INFO_LIST is nil or not a table"  
-							end  
-						
-							for skillId, skillData in pairs(SKILL_INFO_LIST) do 
-								local resName = skillData[1] or "" 
-								local skillName = skillData.SkillName or ""  
-								local maxLv = skillData.MaxLv or 1  
-								local spAmount = skillData.SpAmount or {}  
-								local bSeperateLv = skillData.bSeperateLv or false  
-								local attackRange = skillData.AttackRange or {}  
-								local skillScale = skillData.SkillScale or {}  
-
-								result, msg = AddSkillInfo(skillId, resName, skillName, maxLv, spAmount, bSeperateLv, attackRange, skillScale)  
-								if not result then  
-									return false, msg  
-								end
-								
-								if skillData._NeedSkillList then  
-									for _, req in ipairs(skillData._NeedSkillList) do  
-										if req[1] and req[2] then  
-											AddSkillRequirement(skillId, req[1], req[2])  
-										end  
-									end  
-								end  
-								
-								if skillData.NeedSkillList then  
-									for jobId, reqList in pairs(skillData.NeedSkillList) do  
-										if reqList then  
-											for _, req in ipairs(reqList) do  
-												if req[1] and req[2] then  
-													AddJobSkillRequirement(skillId, jobId, req[1], req[2])  
-												end  
-											end  
-										end  
-									end  
-								end 
-
-							end  
-							return true, "good"  
-							end
-						main_skillInfoList()  
-					`);
-			} catch (error) {
-				console.error('[loadSkillInfoList] Error: ', error);
-			} finally {
-				// release file from memory
-				lua.unmountFile('skillinfolist.lub');
-				// call onEnd
-				onEnd();
-			}
-		},
-		onEnd
-	);
-}
-
-/**
- * Loads jobinheritlist.lub and skilltreeview.lub which replaces DB/Skills/SkillTreeView.js
- *
- * @param {string} filename - The name of the file to load.
- * @param {function} callback - The function to invoke with the loaded data.
- * @param {function} onEnd - The function to invoke when loading is complete.
- * @return {void}
- */
-function loadSkillTreeView(filename, callback, onEnd) {
-	// First load jobinheritlist.lub
-	Client.loadFile(
-		DB.LUA_PATH + 'skillinfoz/jobinheritlist.lub',
-		async function (file) {
-			try {
-				console.log(`Loading file "${DB.LUA_PATH}skillinfoz/jobinheritlist.lub"...`);
-				const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
-
-				// Mount and execute jobinheritlist.lub
-				lua.mountFile('jobinheritlist.lub', buffer);
-				await lua.doFile('jobinheritlist.lub');
-
-				// Now load skilltreeview.lub
-				loadSkillTreeViewData(filename, callback, onEnd);
-			} catch (error) {
-				console.error('[loadSkillTreeView - jobinheritlist] Error: ', error);
-				onEnd();
-			}
-		},
-		onEnd
-	);
-}
-
-function loadSkillTreeViewData(filename, callback, onEnd) {
-	Client.loadFile(
-		filename,
-		async function (file) {
-			try {
-				console.log('Loading file "' + filename + '"...');
-				const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
-				const ctx = lua.ctx;
-				// Create automatic JT_ mappings
-				const jobIdWithJT = { ...JobId };
-				for (const [key, value] of Object.entries(JobId)) {
-					jobIdWithJT[`JT_${key}`] = value;
-				}
-				ctx.JOBID = jobIdWithJT;
-
-				// Function to add skill tree data using job hierarchy from jobinheritlist.lub
-				ctx.AddSkillTreeView = function (jobId, beforeJob) {
-					// Calculate list and beforeJob from inheritance chain
-					let list = 1;
-					// TODO: Find another way to do that
-					if (jobId === JobId.NOVICE) {
-						list = 1;
-					} else if (
-						jobId < JobId.KNIGHT ||
-						jobId === JobId.TAEKWON ||
-						(jobId >= JobId.SUPERNOVICE && jobId <= JobId.NINJA) ||
-						jobId == JobId.DO_SUMMONER ||
-						jobId == JobId.DRUID
-					) {
-						list = 1;
-					} else if (
-						jobId < JobId.NOVICE_H ||
-						jobId == JobId.STAR ||
-						jobId == JobId.LINKER ||
-						(jobId >= JobId.KAGEROU && jobId <= JobId.REBELLION) ||
-						jobId == JobId.SUPERNOVICE2 ||
-						jobId == JobId.SPIRIT_HANDLER ||
-						jobId == JobId.KARNOS
-					) {
-						list = 2;
-					} else if (
-						(jobId <= JobId.THIEF_H && jobId >= JobId.NOVICE_H) ||
-						(jobId >= JobId.NOVICE_B && jobId <= JobId.THIEF_B) ||
-						jobId == JobId.DO_SUMMONER_B ||
-						jobId == JobId.NINJA_B ||
-						jobId == JobId.TAEKWON_B ||
-						jobId == JobId.GUNSLINGER_B
-					) {
-						list = 1;
-					} else if (
-						jobId < JobId.RUNE_KNIGHT ||
-						(jobId >= JobId.KNIGHT_B && jobId <= JobId.DANCER_B) ||
-						(jobId >= JobId.KAGEROU_B && jobId <= JobId.REBELLION_B)
-					) {
-						list = 2;
-					} else if (
-						jobId < JobId.DRAGON_KNIGHT ||
-						jobId == JobId.STAR_EMPEROR ||
-						jobId == JobId.SOUL_REAPER ||
-						(jobId >= JobId.RUNE_KNIGHT_B && jobId <= JobId.SHADOW_CHASER_B) ||
-						jobId === JobId.EMPEROR_B ||
-						jobId === JobId.REAPER_B ||
-						jobId == JobId.ALITEA
-					) {
-						list = 3;
-					} else if (jobId <= JobId.TROUVERE || (jobId >= JobId.SKY_EMPEROR && jobId <= JobId.HYPER_NOVICE)) {
-						list = 4;
-					} else {
-						list = 1;
-						console.error(`[loadSkillTreeViewData] Failed to find inherith list job: (${jobId})`);
-					}
-					// Create the skill tree entry
-					const entry = {
-						list: list,
-						beforeJob: beforeJob
-					};
-
-					SkillTreeView[jobId] = entry;
-					return 1;
-				};
-
-				ctx.AddSkillToJob = function (jobId, pos, skillId) {
-					if (SkillTreeView[jobId]) {
-						SkillTreeView[jobId][skillId] = Number(pos);
-					}
-					return 1;
-				};
-
-				lua.doStringSync(`
-						JobSkillTab = {}
-					
-						function JobSkillTab.ChangeSkillTabName(in_job, in_1sttab, in_2ndtab, in_3rdtab, in_4thtab)
-							local tbl = {
-								job = in_job,
-								TabName1st = in_1sttab,
-								TabName2nd = in_2ndtab,
-								TabName3rd = in_3rdtab,
-								TabName4th = in_4thtab
-							}
-							JobSkillTab[#JobSkillTab + 1] = tbl
-							return true
-						end
-					`);
-
-				ctx.SKID = SKID;
-				await lua.doString(`
-						if SKID then
-							__SKID_ORIGINAL = SKID 
-
-							SKID = setmetatable({}, {
-								__index = function(t, k)
-								local id = __SKID_ORIGINAL[k]
-								return id ~= nil and id or 0 
-								end
-							})
-						end
-					`);
-
-				lua.mountFile('skilltreeview.lub', buffer);
-				await lua.doFile('skilltreeview.lub');
-
-				lua.doStringSync(`    
-						function main_skillTreeView()    
-							if not SKILL_TREEVIEW_FOR_JOB then    
-								return false, "Error: SKILL_TREEVIEW_FOR_JOB is nil or not a table"    
-							end    
-					
-							for jobId, skillData in pairs(SKILL_TREEVIEW_FOR_JOB) do      
-								local beforeJob = JOB_INHERIT_LIST[jobId] or nil  
-								result, msg = AddSkillTreeView(jobId, beforeJob)      
-								if not result then      
-									return false, msg      
-								end   
-								
-								for pos, skillId in pairs(skillData) do    
-									result, msg = AddSkillToJob(jobId, pos, skillId)    
-									if not result then    
-										return false, msg    
-									end    
-								end  
-							end    
-							return true, "good"    
-						end    
-						
-						main_skillTreeView()    
-					`);
-			} catch (error) {
-				console.error('[loadSkillTreeView] Error: ', error);
-			} finally {
-				lua.unmountFile('skilltreeview.lub');
-				lua.unmountFile('jobinheritlist.lub');
 				onEnd();
 			}
 		},
