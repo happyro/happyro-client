@@ -1,6 +1,8 @@
 import { loadCurrentCharacter, maintainCurrentCharacter } from './AdventureControlService.js';
 import escapeHtml from './escapeHtml.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
+import JobConst from 'DB/Jobs/JobConst.js';
+import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 
 const statFields = [
 	['str', '力量'],
@@ -10,6 +12,15 @@ const statFields = [
 	['dex', '灵巧'],
 	['luk', '幸运']
 ];
+
+const jobIds = [...new Set(Object.values(JobConst).filter(value => Number.isInteger(value)))]
+	.sort((a, b) => a - b)
+
+function renderJobOptions(selectedId) {
+	return jobIds
+		.map(id => `<option value="${id}"${id === Number(selectedId) ? ' selected' : ''}>${escapeHtml(getJobDisplayName(id, `职业 ${id}`))}</option>`)
+		.join('');
+}
 
 function changedValues(form, current) {
 	return Object.fromEntries(
@@ -67,14 +78,14 @@ function mount(container) {
 						<form data-form="progression" class="management-form">
 							<label>基础等级<input name="base_level" type="number" min="1" max="${snapshot.max_base_level}" value="${snapshot.base_level}" required></label>
 							<label>职业等级<input name="job_level" type="number" min="1" max="${snapshot.max_job_level}" value="${snapshot.job_level}" required></label>
-							<label>职业 ID<input name="job_id" type="number" min="1" value="${snapshot.job_id}" required></label>
+							<label>职业<select name="job_id" required>${renderJobOptions(snapshot.job_id)}</select></label>
 							<button type="submit">应用等级与职业</button>
 						</form>
 					</section>
 					<section>
 						<h4>基础属性 <small>剩余 ${snapshot.status_points} 点</small></h4>
 						<form data-form="stats" class="management-form stat-form">
-							${statFields.map(([key, label]) => `<label>${label}<input name="${key}" type="number" min="1" max="${snapshot.max_stat}" value="${snapshot[key]}" required></label>`).join('')}
+							${statFields.map(([key, label]) => `<label>${label}<input name="${key}" type="number" min="1" max="${snapshot.max_stats?.[key] ?? snapshot.max_stat}" value="${snapshot[key]}" required></label>`).join('')}
 							<button type="submit">应用属性</button>
 						</form>
 					</section>

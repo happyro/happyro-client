@@ -157,6 +157,7 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 8px;
+	white-space: nowrap;
 }
 .management-form input,
 .settings-form input,
@@ -543,6 +544,11 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	color: #64696e;
+}
+.management-form select {
+	width: 112px;
+	height: 27px;
+	box-sizing: border-box;
 }
 .game-tools-tab,
 .world-catalog-tab { position: relative; }

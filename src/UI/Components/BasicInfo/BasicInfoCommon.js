@@ -15,7 +15,7 @@
 import DB from 'DB/DBManager.js';
 import Configs from 'Core/Configs.js';
 import PACKETVER from 'Network/PacketVerManager.js';
-import MonsterTable from 'DB/Monsters/MonsterTable.js';
+import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import Client from 'Core/Client.js';
 import Preferences from 'Core/Preferences.js';
 import Renderer from 'Renderer/Renderer.js';
@@ -479,7 +479,7 @@ export function createBasicInfo(config) {
 			}
 			case 'job':
 				root.querySelectorAll('.job_value').forEach(el => {
-					el.textContent = MonsterTable[val1];
+					el.textContent = getJobDisplayName(val1, '未知职业');
 				});
 				break;
 

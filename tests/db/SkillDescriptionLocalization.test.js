@@ -12,7 +12,7 @@ describe('SkillDescriptionLocalization', () => {
 		};
 
 		expect(localizeSkillDescriptions(descriptions, skillInfo)[1]).toBe(
-			'该技能的简体中文详细说明尚未收录。\n最高等级：2\nSP 消耗：3 / 5\n施放范围：1'
+			'技能信息\n最高等级：2\nSP 消耗：3 / 5\n施放范围：1'
 		);
 	});
 
@@ -22,6 +22,6 @@ describe('SkillDescriptionLocalization', () => {
 	});
 
 	it('handles skills without mechanical metadata', () => {
-		expect(buildChineseSkillFallback()).toBe('该技能的简体中文详细说明尚未收录。');
+		expect(buildChineseSkillFallback()).toBe('技能信息');
 	});
 });
