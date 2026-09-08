@@ -193,14 +193,15 @@ function mount(container) {
 	loadNpcAssets()
 		.then(assets => {
 			const mapsWithImages = new Set(assets.mapImages || []);
-			browser.setItems(
-				toWorldEntities(
+			const items = toWorldEntities(
 					DB.listNavigation('MAP', { channelsEnabled: Session.NavigationMapChannelsEnabled })
 				).map(map => ({
 					...map,
 					hasImage: mapsWithImages.has(map.id.toLocaleLowerCase())
-				}))
-			);
+				}));
+			browser.setItems(items);
+			const currentMap = normalizeAdventureMap(getCurrentAdventureMap());
+			browser.selectItem(items.find(map => normalizeAdventureMap(map.mapName) === currentMap));
 		})
 		.catch(error => {
 			console.error(error);

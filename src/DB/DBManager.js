@@ -116,6 +116,7 @@ const MapTable = {};
  */
 let SkillDescription = {};
 const LocalizedSkillDescription = {};
+const LocalizedSkillNames = {};
 
 /**
  * @const {Array} ASCII sex
@@ -759,7 +760,20 @@ class DB {
 			loadTable('data/questid2display.txt', '#', 6, parseQuestEntry, onLoad(), true);
 		}
 
-		// Keep localized descriptions authoritative regardless of async Lua load order.
+		// Keep localized skill data authoritative regardless of async Lua load order.
+		loadTable(
+			'data/skillnametable.txt',
+			'#',
+			2,
+			function (_index, key, val) {
+				LocalizedSkillNames[key] = val;
+				const skillId = SKID[key];
+				if (skillId && SkillInfo[skillId]) SkillInfo[skillId].SkillName = val;
+			},
+			onLoad(),
+			'utf-8'
+		);
+
 		loadTable(
 			'data/skilldesctable.txt',
 			'#',
@@ -6518,9 +6532,10 @@ function loadSkillInfoList(filename, callback, onEnd) {
 						}
 						return [];
 					};
-					const localizedName = SkillInfo[skillId]?.SkillName;
+					const resourceName = userStringDecoder.decode(resName);
+					const localizedName = LocalizedSkillNames[resourceName] || SkillInfo[skillId]?.SkillName;
 					SkillInfo[skillId] = {
-						Name: userStringDecoder.decode(resName),
+						Name: resourceName,
 						SkillName: /[\u3400-\u9fff]/.test(localizedName || '')
 							? localizedName
 							: userStringDecoder.decode(skillName, userCharpage),

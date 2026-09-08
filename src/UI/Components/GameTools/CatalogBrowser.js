@@ -62,6 +62,11 @@ export function mountCatalogBrowser(container, options) {
 			state.items = items;
 			applyFilter();
 		},
+		selectItem(item) {
+			state.selected = item || null;
+			renderList();
+			renderDetail();
+		},
 		refreshDetail: renderDetail,
 		setStatus(message) {
 			container.querySelector('.catalog-summary').textContent = message;
