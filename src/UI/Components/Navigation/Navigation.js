@@ -185,6 +185,8 @@ let _selectedTargetData = null;
 
 let _autoWalkTimer = null;
 let _autoWalkActive = false;
+let _autoWalkRequested = false;
+const _routeStateListeners = new Set();
 let _teleportCooldownUntil = 0;
 let _teleportCooldownTimer = null;
 let _npcTeleportPending = false;
@@ -324,6 +326,11 @@ function getPlayerPosition() {
 	return { x: currentX, y: currentY };
 }
 
+function notifyRouteState() {
+	const state = Navigation.getRouteState();
+	for (const listener of _routeStateListeners) listener(state);
+}
+
 /**
  * Whether the map server currently allows this session to teleport itself.
  */
@@ -361,7 +368,12 @@ function initializePathFindingWorker() {
 							this.updateAutoWalkButtons();
 							this.setTargetCoordinatesBlinking(false);
 							this.setLocationTitle(mapName, _finalTargetData.map, _finalTargetData.displayName);
+							if (_autoWalkRequested) {
+								_autoWalkRequested = false;
+								this.startAutoWalk();
+							}
 						} else {
+							_autoWalkRequested = false;
 							_pathUnavailable = true;
 							this.stopAutoWalk();
 							this.updateAutoWalkButtons();
@@ -370,6 +382,7 @@ function initializePathFindingWorker() {
 							this.setLocationTitle(mapName, null);
 						}
 					}
+					notifyRouteState();
 					break;
 			}
 		}.bind(Navigation);
@@ -655,7 +668,8 @@ Navigation.requestNpcAvailability = function requestNpcAvailability(results, npc
 
 Navigation.onNpcAvailabilityResult = function onNpcAvailabilityResult(packet) {
 	const pending = _npcAvailabilityPending;
-	if (!pending || packet.requestId !== pending.requestId || packet.available.length !== pending.npcResults.length) return;
+	if (!pending || packet.requestId !== pending.requestId || packet.available.length !== pending.npcResults.length)
+		return;
 	clearTimeout(_npcAvailabilityTimer);
 	const availableNpcResults = pending.npcResults.filter((result, index) => packet.available[index]);
 	const availableSet = new Set(availableNpcResults);
@@ -905,7 +919,9 @@ Navigation.updateTeleportButton = function updateTeleportButton() {
 	const canTeleportTarget = canSelfTeleport() && (!isCrossMap || Session.NavigationTeleportCrossMap);
 	const npcTarget = this.targetResult?.type === 'NPC' ? this.targetResult : null;
 	button.style.display =
-		!npcTarget && canTeleportTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y) ? 'block' : 'none';
+		!npcTarget && canTeleportTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y)
+			? 'block'
+			: 'none';
 	button.disabled = Date.now() < _teleportCooldownUntil;
 	npcButton.style.display = npcTarget && canTeleportTarget ? 'block' : 'none';
 	npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
@@ -941,6 +957,7 @@ Navigation.startAutoWalk = function startAutoWalk() {
 	if (_autoWalkActive || !_targetData || _targetData.map !== getCurrentMap() || _pathUnavailable) return;
 	_autoWalkActive = true;
 	this.updateAutoWalkButtons();
+	notifyRouteState();
 	const sendTarget = () => {
 		if (!_autoWalkActive || !_finalTargetData) return;
 		const currentMap = getCurrentMap();
@@ -979,10 +996,29 @@ Navigation.startAutoWalk = function startAutoWalk() {
 };
 
 Navigation.stopAutoWalk = function stopAutoWalk() {
+	const changed = _autoWalkRequested || _autoWalkActive;
+	_autoWalkRequested = false;
 	_autoWalkActive = false;
 	if (_autoWalkTimer) clearInterval(_autoWalkTimer);
 	_autoWalkTimer = null;
 	this.updateAutoWalkButtons();
+	if (changed || _pathUnavailable) notifyRouteState();
+};
+
+Navigation.getRouteState = function getRouteState() {
+	return {
+		active: _autoWalkActive,
+		pending: _autoWalkRequested || _pathUpdateLock,
+		unavailable: _pathUnavailable,
+		path: _path.map(point => ({ ...point })),
+		target: _finalTargetData ? { ..._finalTargetData } : null
+	};
+};
+
+Navigation.subscribeRouteState = function subscribeRouteState(listener) {
+	_routeStateListeners.add(listener);
+	listener(this.getRouteState());
+	return () => _routeStateListeners.delete(listener);
 };
 
 /**
@@ -1203,10 +1239,11 @@ Navigation.clear = function clear() {
 	this.updateAutoWalkButtons();
 };
 
-Navigation.clearPath = function clearPath() {
+Navigation.clearPath = function clearPath(notify = true) {
 	_path = [];
 	_lastPathUpdate = 0;
 	_pathUpdateLock = false;
+	if (notify) notifyRouteState();
 };
 
 /**
@@ -1557,6 +1594,7 @@ Navigation.setMouseCoordinatesText = function setMouseCoordinatesText(x, y, opti
  * Find a path between two points using a web worker
  */
 Navigation.findPath = function findPath(startX, startY, endX, endY) {
+	initializePathFindingWorker();
 	if (_pathFindingWorker && !_pathUpdateLock) {
 		_pathUpdateLock = true;
 
@@ -1772,12 +1810,13 @@ Navigation.navigateTo = function navigateTo(options) {
 	const displayName = options.displayName;
 	const hasCoordinates = Number.isFinite(options.endX) && Number.isFinite(options.endY);
 	if (!startMap || !endMap || !hasCoordinates) return;
+	_autoWalkRequested = Boolean(options.autoWalk);
 
 	if (
 		_finalTargetData &&
 		(_finalTargetData.map !== endMap || _finalTargetData.x !== options.endX || _finalTargetData.y !== options.endY)
 	) {
-		this.clearPath();
+		this.clearPath(false);
 		resetPathFindingWorker();
 		this.setTargetCoordinatesText(options.endX, options.endY, {
 			targetMap: endMap
@@ -1792,6 +1831,7 @@ Navigation.navigateTo = function navigateTo(options) {
 		y: options.endY,
 		displayName: displayName
 	};
+	notifyRouteState();
 	this.updateTeleportButton();
 	this.updateAutoWalkButtons();
 
@@ -1813,6 +1853,7 @@ Navigation.navigateTo = function navigateTo(options) {
 	);
 
 	if (!path || path.length === 0) {
+		_autoWalkRequested = false;
 		_pathUnavailable = true;
 		this.stopAutoWalk();
 		this.clearPath();

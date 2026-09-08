@@ -815,11 +815,11 @@ const MapInfo = {
 	'gef_d01_i.rsw': {
 		backgroundBmp: 'dungeon',
 		signName: {
-			mainTitle: '250页',
+			mainTitle: '第250页',
 			subTitle: '幻境'
 		},
 		notifyEnter: true,
-		displayName: '250页'
+		displayName: '第250页（吸血鬼幻影）'
 	},
 	've_fild07.rsw': {
 		backgroundBmp: 'field_s2',

@@ -1,10 +1,6 @@
-:host {
-	top: 90px;
-	left: 250px;
-}
 .game-tools-window {
-	width: min(680px, calc(100vw - 24px));
-	height: min(500px, calc(100vh - 36px));
+	width: min(820px, calc(100vw - 24px));
+	height: min(620px, calc(100vh - 36px));
 	min-width: 520px;
 	min-height: 360px;
 	display: flex;
@@ -273,11 +269,33 @@
 .monster-stats span {
 	color: #686d72;
 }
-.monster-drops {
+.monster-resources {
 	flex: 1;
 	min-height: 70px;
 	margin-top: 10px;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 10px;
+	overflow: hidden;
+}
+.monster-drops,
+.monster-locations {
+	min-width: 0;
+	min-height: 0;
 	overflow-y: auto;
+	border: 1px solid #ddd;
+	padding: 0 7px 7px;
+	box-sizing: border-box;
+}
+.monster-drops > h4,
+.monster-locations > h4 {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	margin: 0 -7px 5px;
+	padding: 6px 7px;
+	background: #f5f6f7;
+	border-bottom: 1px solid #ddd;
 }
 .drop-group h4 {
 	margin: 7px 0 4px;
@@ -318,6 +336,335 @@
 }
 .summon-panel span {
 	color: #64696e;
+}
+.world-catalog-tab {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.catalog-toolbar {
+	flex: 0 0 42px;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	padding: 7px 10px;
+	background: #f5f6f7;
+	border-bottom: 1px solid #d6d8db;
+	box-sizing: border-box;
+}
+.catalog-search {
+	flex: 1;
+	height: 27px;
+	min-width: 120px;
+	padding: 3px 8px;
+	border: 1px solid #aeb2b7;
+}
+.catalog-filter {
+	width: 124px;
+	height: 27px;
+	border: 1px solid #aeb2b7;
+	background: white;
+}
+.catalog-layout {
+	flex: 1;
+	min-height: 0;
+	display: grid;
+	grid-template-columns: minmax(250px, 36%) 1fr;
+}
+.catalog-browser {
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	border-right: 1px solid #d6d8db;
+}
+.catalog-summary {
+	flex: 0 0 25px;
+	line-height: 25px;
+	padding: 0 8px;
+	color: #666;
+	background: #fafafa;
+}
+.catalog-list {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+}
+.catalog-row {
+	width: 100%;
+	min-height: 58px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 7px;
+	border: 0;
+	border-bottom: 1px solid #eceeef;
+	background: white;
+	text-align: left;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+.catalog-row:hover {
+	background: #f0f6ff;
+}
+.catalog-row.selected {
+	background: #dceaff;
+}
+.catalog-thumb,
+.catalog-portrait {
+	display: block;
+	flex: 0 0 auto;
+	width: 48px;
+	height: 48px;
+	background-repeat: no-repeat;
+}
+.catalog-row-text {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+.catalog-row-text strong,
+.catalog-row-text small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.catalog-row-text small {
+	color: #6c7177;
+	font-weight: normal;
+}
+.catalog-pagination {
+	flex: 0 0 31px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	border-top: 1px solid #ddd;
+}
+.catalog-pagination button {
+	width: 26px;
+	height: 22px;
+	padding: 0;
+	border: 1px solid #aaa;
+	background: #f5f5f5;
+	cursor: pointer;
+}
+.catalog-pagination button:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+.catalog-detail {
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+.catalog-heading {
+	display: flex;
+	gap: 14px;
+	align-items: center;
+	padding-bottom: 12px;
+	border-bottom: 1px solid #e1e3e5;
+}
+.catalog-portrait {
+	width: 112px;
+	height: 112px;
+	background-color: #f4f5f6;
+	border: 1px solid #d8dade;
+}
+.catalog-heading h3,
+.map-heading h3 {
+	margin: 0 0 6px;
+	font-size: 18px;
+}
+.catalog-heading p,
+.map-heading p {
+	margin: 0;
+	color: #70757a;
+}
+.catalog-metadata {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1px;
+	margin-top: 12px;
+	background: #ddd;
+	border: 1px solid #ddd;
+}
+.catalog-metadata div {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 8px;
+	background: #fafafa;
+}
+.catalog-metadata span {
+	color: #686d72;
+}
+.catalog-action-panel {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: auto -12px -12px;
+	padding: 10px 12px;
+	border-top: 1px solid #ddd;
+	background: white;
+}
+.catalog-action-panel button {
+	height: 29px;
+	padding: 0 12px;
+	border: 1px solid #6d7f98;
+	background: #e5edf7;
+	cursor: pointer;
+}
+.catalog-action-panel button:disabled {
+	color: #888;
+	background: #eee;
+	border-color: #bbb;
+	cursor: default;
+}
+.catalog-status {
+	min-width: 0;
+	color: #64696e;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.catalog-status.error {
+	color: #a61d24;
+}
+.map-thumb {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 42px;
+	background: #e3e9ee;
+	border: 1px solid #c3cbd2;
+	color: #59636d;
+	overflow: hidden;
+}
+.monster-location-list {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.monster-location {
+	width: 100%;
+	padding: 5px 6px;
+	border: 1px solid transparent;
+	background: white;
+	text-align: left;
+	cursor: pointer;
+}
+.monster-location:hover {
+	background: #f0f6ff;
+}
+.monster-location.selected {
+	border-color: #9ab4d2;
+	background: #dceaff;
+}
+.monster-location strong,
+.monster-location small {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.monster-location small {
+	margin-top: 2px;
+	color: #6c7177;
+}
+.monster-map-teleport {
+	height: 28px;
+	padding: 0 12px;
+	border: 1px solid #6d7f98;
+	background: #e5edf7;
+	cursor: pointer;
+}
+.monster-map-teleport:disabled {
+	color: #888;
+	background: #eee;
+	border-color: #bbb;
+	cursor: default;
+}
+.map-thumb img,
+.map-thumb canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.map-thumb span {
+	margin: auto;
+	font-size: 10px;
+	color: #7b838b;
+}
+.map-row {
+	min-height: 50px;
+}
+.map-heading {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-bottom: 9px;
+}
+.map-heading > strong {
+	color: #5f666d;
+}
+.map-current-position {
+	display: block;
+	margin-top: 4px;
+	color: #4f6479;
+}
+.catalog-map-picker {
+	flex: 1;
+	min-height: 0;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	background: #17191c;
+	cursor: crosshair;
+}
+.catalog-map {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-height: 100%;
+	object-fit: contain;
+	background: #17191c;
+}
+.npc-location-preview {
+	flex: 1;
+	min-height: 130px;
+	margin-top: 10px;
+	background: #17191c;
+	overflow: hidden;
+}
+.npc-map-canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+@media (max-width: 640px) {
+	.game-tools-window {
+		min-width: 0;
+	}
+	.catalog-layout {
+		grid-template-columns: minmax(190px, 43%) 1fr;
+	}
+	.catalog-metadata {
+		grid-template-columns: 1fr;
+	}
+	.catalog-action-panel {
+		flex-wrap: wrap;
+	}
 }
 @media (max-width: 560px) {
 	.game-tools-window {

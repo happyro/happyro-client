@@ -36,6 +36,7 @@
 		"format:check": "prettier --check \"src/**/*.js\"",
 		"test": "vitest run",
 		"catalog:monsters": "node scripts/generate-monster-catalog.mjs",
+		"catalog:world": "node scripts/generate-world-catalog-assets.mjs",
 		"ci": "npm run lint && npm run format:check"
 	},
 	"type": "module",

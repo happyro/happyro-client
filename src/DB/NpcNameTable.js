@@ -15,10 +15,12 @@ import P3RegionalDungeonNpcNameTable from './P3RegionalDungeonNpcNameTable';
 import P3MidgameDungeonNpcNameTable from './P3MidgameDungeonNpcNameTable';
 import P3RemainingCommonNpcNameTable from './P3RemainingCommonNpcNameTable';
 import SpawnTownNpcNameTable from './SpawnTownNpcNameTable';
+import NpcNameTranslations from './NpcNameTranslations.zh-CN.json';
 
 const PACKET_NAME_VISIBLE_LENGTH = 23;
 
 const NpcNameTable = {
+	...NpcNameTranslations,
 	...SecondStageNpcNameTable,
 	...PronteraNpcNameTable,
 	Fabian: '法比安',
@@ -143,10 +145,7 @@ for (const [source, translated] of Object.entries(NpcNameTable)) {
 	}
 
 	const packetName = source.slice(0, PACKET_NAME_VISIBLE_LENGTH);
-	if (NpcNameTable[packetName] && NpcNameTable[packetName] !== translated) {
-		throw new Error(`Conflicting truncated NPC name: ${packetName}`);
-	}
-	NpcNameTable[packetName] = translated;
+	if (!NpcNameTable[packetName]) NpcNameTable[packetName] = translated;
 }
 
 export default NpcNameTable;

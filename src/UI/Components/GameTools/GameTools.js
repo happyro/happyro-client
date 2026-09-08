@@ -5,10 +5,14 @@ import htmlText from './GameTools.html?raw';
 import cssText from './GameTools.css?raw';
 import { getGameToolsTabs, registerGameToolsTab } from './GameToolsRegistry.js';
 import monsterCatalogTab, { notifyMonsterSpawnConfig, notifyMonsterSpawnResult } from './MonsterCatalogTab.js';
+import npcCatalogTab from './NpcCatalogTab.js';
+import mapCatalogTab from './MapCatalogTab.js';
 
 registerGameToolsTab(monsterCatalogTab);
+registerGameToolsTab(npcCatalogTab);
+registerGameToolsTab(mapCatalogTab);
 
-const preferences = Preferences.get('GameTools', { x: 250, y: 90, tab: 'monsters' }, 1.0);
+const preferences = Preferences.get('GameTools', { tab: 'monsters' }, 1.0);
 const GameTools = new GUIComponent('GameTools', cssText);
 let cleanupTab;
 
@@ -55,15 +59,15 @@ GameTools.mountTab = function mountTab(tab) {
 };
 
 GameTools.onAppend = function onAppend() {
-	this._host.style.left = `${preferences.x}px`;
-	this._host.style.top = `${preferences.y}px`;
-	this._fixPositionOverflow();
+	this.centerInViewport();
 };
 
-GameTools.onRemove = function onRemove() {
-	preferences.x = Number.parseInt(this._host.style.left, 10);
-	preferences.y = Number.parseInt(this._host.style.top, 10);
-	preferences.save();
+GameTools.centerInViewport = function centerInViewport() {
+	const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
+	const viewportHeight = document.documentElement.clientHeight || window.innerHeight;
+	const { width, height } = this._host.getBoundingClientRect();
+	this._host.style.left = `${Math.max(0, (viewportWidth - width) / 2)}px`;
+	this._host.style.top = `${Math.max(0, (viewportHeight - height) / 2)}px`;
 };
 
 GameTools.toggle = function toggle() {
@@ -73,7 +77,7 @@ GameTools.toggle = function toggle() {
 	}
 	this.append();
 	this._host.style.display = '';
-	this._fixPositionOverflow();
+	this.centerInViewport();
 };
 
 GameTools.setMonsterSpawnConfig = function setMonsterSpawnConfig() {
