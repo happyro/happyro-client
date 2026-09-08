@@ -15,7 +15,7 @@ function formatValues(values) {
 }
 
 export function buildChineseSkillFallback(skill) {
-	const lines = ['该技能的简体中文详细说明尚未收录。'];
+	const lines = [skill?.SkillName ? `${skill.SkillName}技能信息` : '技能信息'];
 
 	if (skill?.MaxLv) {
 		lines.push(`最高等级：${skill.MaxLv}`);

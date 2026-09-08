@@ -61,7 +61,9 @@ MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(
 				map: startMap,
 				x: endX,
 				y: endY,
-				warpId: null
+				warpId: null,
+				warpType: null,
+				warpName: ''
 			}
 		];
 	}
@@ -99,6 +101,9 @@ MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(
 		// Initialize graph nodes if they don't exist
 		if (!graph[srcMap]) {
 			graph[srcMap] = {};
+		}
+		if (!graph[destMap]) {
+			graph[destMap] = {};
 		}
 
 		// Store the warp in the graph with a default distance and hop count
@@ -306,7 +311,9 @@ MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(
 		map: endMap,
 		x: endX,
 		y: endY,
-		warpId: null
+		warpId: null,
+		warpType: null,
+		warpName: ''
 	});
 
 	// Build the path in reverse
@@ -330,7 +337,9 @@ MapPathFinder.findPathBetweenMaps = function findPathBetweenMaps(
 			map: prevMap,
 			x: warpInfo.srcX,
 			y: warpInfo.srcY,
-			warpId: warpId
+			warpId: warpId,
+			warpType: warpInfo.type,
+			warpName: warpInfo.name || ''
 		});
 
 		current = prevMap;

@@ -146,6 +146,32 @@ export function createMiniMap({
 		_ctx = root.querySelector('canvas').getContext('2d');
 		this.opacity = 2;
 
+		// Any click on the upper-right minimap opens the navigation window.
+		// Use a dynamic import to keep the minimap/navigation modules acyclic.
+		const mapCanvas = root.querySelector('canvas');
+		if (mapCanvas) {
+			root.addEventListener(
+				'click',
+				event => {
+					const bounds = mapCanvas.getBoundingClientRect();
+					if (
+						event.clientX < bounds.left ||
+						event.clientX > bounds.right ||
+						event.clientY < bounds.top ||
+						event.clientY > bounds.bottom
+					) {
+						return;
+					}
+					event.stopPropagation();
+					import('UI/Components/Navigation/Navigation.js').then(({ default: Navigation }) => {
+						Navigation.showCurrentMap();
+						Navigation.focus();
+					});
+				},
+				true
+			);
+		}
+
 		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, dataURI => {
 			_arrow.src = dataURI;
 		});

@@ -1,0 +1,124 @@
+import Client from 'Core/Client.js';
+import DB from 'DB/DBManager.js';
+import Altitude from 'Renderer/Map/Altitude.js';
+
+let npcAssetsPromise;
+const mapImagePromises = new Map();
+const mapResourcePromises = new Map();
+
+export function loadNpcAssets() {
+	if (!npcAssetsPromise) {
+		npcAssetsPromise = fetch(new URL('./data/world/npc-assets.json', window.location.href)).then(response => {
+			if (!response.ok) throw new Error(`NPC assets request failed: ${response.status}`);
+			return response.json();
+		});
+	}
+	return npcAssetsPromise;
+}
+
+export function npcAtlasStyle(manifest, npcClass, displaySize) {
+	const sprite = manifest?.sprites?.[npcClass];
+	if (!sprite) return '';
+	const { tileSize, columns, rows } = manifest.atlas;
+	const scale = displaySize / tileSize;
+	const column = sprite.tile % columns;
+	const row = Math.floor(sprite.tile / columns);
+	return [
+		`background-image:url('./data/world/npc-atlas-${sprite.atlas}.webp')`,
+		`background-size:${columns * tileSize * scale}px ${rows * tileSize * scale}px`,
+		`background-position:${-column * displaySize}px ${-row * displaySize}px`
+	].join(';');
+}
+
+function loadClientFile(path) {
+	return new Promise(resolve => Client.loadFile(path, data => resolve(data || null)));
+}
+
+function getMapPaths(mapName) {
+	const normalized = String(mapName || '')
+		.replace(/\.gat$/i, '')
+		.toLocaleLowerCase();
+	let bmpPath = `${DB.INTERFACE_PATH.replace('data/texture/', '')}map/${normalized}.bmp`.replace(/\//g, '\\');
+	bmpPath = DB.mapalias[bmpPath] || bmpPath;
+	let gatPath = `${normalized}.gat`.replace(/\//g, '\\');
+	gatPath = DB.mapalias[gatPath] || gatPath;
+	return { normalized, bmpPath, gatPath };
+}
+
+export function loadCatalogMapImage(mapName) {
+	const paths = getMapPaths(mapName);
+	if (!mapImagePromises.has(paths.normalized)) {
+		mapImagePromises.set(
+			paths.normalized,
+			loadNpcAssets().then(assets =>
+				assets.mapImages?.includes(paths.normalized) ? loadClientFile(`data/texture/${paths.bmpPath}`) : null
+			)
+		);
+	}
+	return mapImagePromises.get(paths.normalized);
+}
+
+function loadImageDimensions(source) {
+	if (!source) return Promise.resolve(null);
+	return new Promise(resolve => {
+		const image = new Image();
+		image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight });
+		image.onerror = () => resolve(null);
+		image.src = source;
+	});
+}
+
+export async function loadCatalogMap(mapName) {
+	const paths = getMapPaths(mapName);
+	if (!mapResourcePromises.has(paths.normalized)) {
+		mapResourcePromises.set(
+			paths.normalized,
+			Promise.all([loadCatalogMapImage(paths.normalized), loadClientFile(`data/${paths.gatPath}`)]).then(
+				async ([image, gat]) => {
+					const dimensions = gat?.width && gat?.height ? null : await loadImageDimensions(image);
+					const coordinateGrid = gat?.width && gat?.height ? gat : dimensions;
+					return { image, gat: coordinateGrid, mapName: paths.normalized };
+				}
+			)
+		);
+	}
+	return mapResourcePromises.get(paths.normalized);
+}
+
+export function canvasToMapCoordinate(canvas, event, gat) {
+	const width = gat?.width || canvas.width;
+	const height = gat?.height || canvas.height;
+	const rect = canvas.getBoundingClientRect();
+	const x = Math.floor(((event.clientX - rect.left) / rect.width) * width);
+	const y = Math.floor(height - ((event.clientY - rect.top) / rect.height) * height);
+	return { x: Math.max(0, Math.min(width - 1, x)), y: Math.max(0, Math.min(height - 1, y)) };
+}
+
+export function findNearestWalkableCoordinate(gat, target, maxRadius = 12) {
+	if (!target) return null;
+	if (!gat?.cells) return target;
+	const isWalkable = (x, y) => {
+		if (x < 0 || y < 0 || x >= gat.width || y >= gat.height) return false;
+		return (gat.cells[(y * gat.width + x) * 5 + 4] & Altitude.TYPE.WALKABLE) !== 0;
+	};
+	if (isWalkable(target.x, target.y)) return target;
+	for (let radius = 1; radius <= maxRadius; radius += 1) {
+		for (let offset = -radius; offset <= radius; offset += 1) {
+			for (const [x, y] of [
+				[target.x + offset, target.y - radius],
+				[target.x + offset, target.y + radius],
+				[target.x - radius, target.y + offset],
+				[target.x + radius, target.y + offset]
+			]) {
+				if (isWalkable(x, y)) return { x, y };
+			}
+		}
+	}
+	return target;
+}
+
+export function findDefaultMapCoordinate(gat) {
+	if (!gat?.width || !gat?.height) return null;
+	const center = { x: Math.floor(gat.width / 2), y: Math.floor(gat.height / 2) };
+	return findNearestWalkableCoordinate(gat, center, Math.max(gat.width, gat.height));
+}

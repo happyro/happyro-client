@@ -15,7 +15,7 @@
 import DB from 'DB/DBManager.js';
 import Configs from 'Core/Configs.js';
 import PACKETVER from 'Network/PacketVerManager.js';
-import MonsterTable from 'DB/Monsters/MonsterTable.js';
+import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import Client from 'Core/Client.js';
 import Preferences from 'Core/Preferences.js';
 import Renderer from 'Renderer/Renderer.js';
@@ -38,6 +38,7 @@ import SkillList from 'UI/Components/SkillList/SkillList.js';
 import Quest from 'UI/Components/Quest/Quest.js';
 import Achievement from 'UI/Components/Achievement/Achievement.js';
 import Reputation from 'UI/Components/Reputation/Reputation.js';
+import GameTools from 'UI/Components/GameTools/GameTools.js';
 
 export function createBasicInfo(config) {
 	const {
@@ -143,6 +144,9 @@ export function createBasicInfo(config) {
 				break;
 			case 'navigation':
 				Navigation.toggle();
+				break;
+			case 'game-tools':
+				GameTools.toggle();
 				break;
 			case 'attendance':
 				if (Configs.get('enableCheckAttendance') && PACKETVER.value >= 20180307) {
@@ -475,7 +479,7 @@ export function createBasicInfo(config) {
 			}
 			case 'job':
 				root.querySelectorAll('.job_value').forEach(el => {
-					el.textContent = MonsterTable[val1];
+					el.textContent = getJobDisplayName(val1, '未知职业');
 				});
 				break;
 
