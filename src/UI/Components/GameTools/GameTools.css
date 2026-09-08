@@ -552,7 +552,9 @@
 }
 
 .game-tools-tab,
-.world-catalog-tab { position: relative; }
+.world-catalog-tab {
+	position: relative;
+}
 .game-tools-confirm {
 	position: absolute;
 	inset: 0;
@@ -570,9 +572,20 @@
 	border: 1px solid #8b929a;
 	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
 }
-.game-tools-confirm-card p { margin: 0 0 16px; line-height: 1.5; }
-.game-tools-confirm-card > div { display: flex; justify-content: flex-end; gap: 8px; }
-.game-tools-confirm-card button { min-width: 72px; padding: 5px 12px; white-space: nowrap; }
+.game-tools-confirm-card p {
+	margin: 0 0 16px;
+	line-height: 1.5;
+}
+.game-tools-confirm-card > div {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+}
+.game-tools-confirm-card button {
+	min-width: 72px;
+	padding: 5px 12px;
+	white-space: nowrap;
+}
 .world-catalog-tab {
 	height: 100%;
 	display: flex;
@@ -913,7 +926,9 @@
 	.game-tools-window {
 		min-width: 0;
 	}
-	.monster-layout { grid-template-columns: minmax(190px, 43%) 1fr; }
+	.monster-layout {
+		grid-template-columns: minmax(190px, 43%) 1fr;
+	}
 	.monster-detail {
 		padding: 8px;
 	}
