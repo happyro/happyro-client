@@ -1,5 +1,6 @@
 import { matchesCatalogSearch, normalizeCatalogSearch, paginateCatalog } from './CatalogData.js';
 import { isVisibleMapChannel } from '../../../DB/Map/MapChannels.js';
+import { isSupportedMapResource } from '../../../DB/Map/SupportedMapTable.js';
 
 export function normalizeMonsterSearch(value) {
 	return normalizeCatalogSearch(value);
@@ -22,7 +23,11 @@ export function paginateMonsters(monsters, page, pageSize) {
 export function listMonsterSpawnMaps(spawns = [], options = {}) {
 	const currentMap = String(options.currentMap || '').toLocaleLowerCase();
 	return spawns
-		.filter(spawn => isVisibleMapChannel(spawn.mapName, Boolean(options.channelsEnabled)))
+		.filter(
+			spawn =>
+				isSupportedMapResource(spawn.mapName) &&
+				isVisibleMapChannel(spawn.mapName, Boolean(options.channelsEnabled))
+		)
 		.sort(
 			(left, right) =>
 				Number(right.mapName === currentMap) - Number(left.mapName === currentMap) ||

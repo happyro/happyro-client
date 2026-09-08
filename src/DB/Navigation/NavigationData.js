@@ -1,4 +1,5 @@
 import { getMapChannelDisplayName, isVisibleMapChannel } from '../Map/MapChannels.js';
+import { isSupportedMapResource } from '../Map/SupportedMapTable.js';
 import { getNpcInstanceName } from './NpcInstanceNameTable.js';
 
 /**
@@ -15,6 +16,7 @@ export function listNavigationRows(npcRows, mobRows, type, localizers, options =
 	const { channelsEnabled = false, currentMap = '', scope = 'WORLD' } = options;
 	const normalizedCurrentMap = String(currentMap || '').toLocaleLowerCase();
 	const mapIsVisible = mapName =>
+		isSupportedMapResource(mapName) &&
 		isVisibleMapChannel(mapName, channelsEnabled) &&
 		(scope !== 'CURRENT' || String(mapName).toLocaleLowerCase() === normalizedCurrentMap);
 
@@ -117,7 +119,7 @@ export function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, option
 	for (const world of worldMaps || []) {
 		for (const map of world.maps || []) {
 			const id = String(map.id || '');
-			if (!id || results.has(id)) continue;
+			if (!id || results.has(id) || !isSupportedMapResource(id)) continue;
 			if (!isVisibleMapChannel(id, channelsEnabled)) continue;
 			if (scope === 'CURRENT' && id !== currentMap) continue;
 			const baseName = map.name || localizeMap(id);
@@ -135,7 +137,7 @@ export function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, option
 	}
 	for (const [resourceName, info] of Object.entries(mapInfo || {})) {
 		const id = resourceName.replace(/\.(?:rsw|gat)$/i, '');
-		if (!id || results.has(id)) continue;
+		if (!id || results.has(id) || !isSupportedMapResource(id)) continue;
 		if (!isVisibleMapChannel(id, channelsEnabled)) continue;
 		if (scope === 'CURRENT' && id !== currentMap) continue;
 		const baseName = info.displayName || localizeMap(id);
@@ -153,7 +155,7 @@ export function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, option
 	for (const row of navigationMaps || []) {
 		if (!Array.isArray(row)) continue;
 		const id = String(row[0] || '');
-		if (!id || results.has(id)) continue;
+		if (!id || results.has(id) || !isSupportedMapResource(id)) continue;
 		if (!isVisibleMapChannel(id, channelsEnabled)) continue;
 		if (scope === 'CURRENT' && id !== currentMap) continue;
 		const localized = localizeMap(id);
