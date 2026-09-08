@@ -39,6 +39,7 @@ import WorldMap from './Map/WorldMap.js';
 import SKID from './Skills/SkillConst.js';
 import SkillInfo from './Skills/SkillInfo.js';
 import { localizeSkillDescriptions } from './Skills/SkillDescriptionLocalization.js';
+import SkillLocalizationTable from './Skills/SkillLocalizationTable.generated.js';
 import SkillTreeView from './Skills/SkillTreeView.js';
 import JobHitSoundTable from './Jobs/JobHitSoundTable.js';
 import WeaponTrailTable from './Items/WeaponTrailTable.js';
@@ -114,9 +115,15 @@ const MapTable = {};
 /**
  * @type {Object} SkillDescription Table
  */
-let SkillDescription = {};
-const LocalizedSkillDescription = {};
 const LocalizedSkillNames = {};
+let SkillDescription = {};
+
+for (const [id, entry] of Object.entries(SkillLocalizationTable)) {
+	const skillId = Number(id);
+	SKID[entry.key] = skillId;
+	LocalizedSkillNames[skillId] = entry.name;
+	SkillDescription[skillId] = entry.description;
+}
 
 /**
  * @const {Array} ASCII sex
@@ -495,53 +502,27 @@ class DB {
 				loadTitleTable(DB.LUA_PATH + 'datainfo/titletable.lub', null, onLoad());
 			}
 
-			// Skill - load skillid.lub to populate SKID, then load description
+			// Skill IDs, names, and descriptions are generated statically from the canonical server DB.
 			const onSkillEnd = onLoad();
-			loadLuaValue(DB.LUA_PATH + 'skillinfoz/skillid.lub', 'SKID', json => {
-				if (json && typeof json === 'object') {
-					// Validate and merge entries into SKID
-					for (const k in json) {
-						if (Object.prototype.hasOwnProperty.call(json, k)) {
-							const value = json[k];
-							if (typeof value === 'number' && value > 0) {
-								SKID[k] = value;
-							}
-						}
-					}
-				}
-				// Load description - skillid.lub is re-executed harmlessly (Lua just repopulates globals)
-				loadLuaTable(
-					[DB.LUA_PATH + 'skillinfoz/skillid.lub', DB.LUA_PATH + 'skillinfoz/skilldescript.lub'],
-					'SKILL_DESCRIPT',
-					_json => {
-						SkillDescription = localizeSkillDescriptions(
-							{ ..._json, ...LocalizedSkillDescription },
-							SkillInfo
-						);
-					},
-					() => {
-						// Calls after skillids and descs been populated
-						loadSkillInfoList(DB.LUA_PATH + 'skillinfoz/skillinfolist.lub', null, () => {
-							loadSkillTreeView(DB.LUA_PATH + 'skillinfoz/skilltreeview.lub', null, () => {
-								// Load ez2streffect, PACKETVER unknown when the while has been added, tied to default PACKETVER of rathena for 4th job
-								if (PACKETVER.value >= 20211103) {
-									const bsonOnLoad = onLoad();
-									loadBSONFile('data/contentdata/effectdata/ez2streffect.bson', Ez2streffect, () => {
-										Promise.all([
-											import('DB/Effects/EffectTable.js'),
-											import('DB/Skills/SkillEffect.js')
-										]).then(([EffectTable, SkillEffect]) => {
-											mergeEz2Effects(EffectTable.default, SkillEffect.default);
-											bsonOnLoad();
-										});
-									});
-								}
-								// Skill Lua finished
-								onSkillEnd();
-							});
+			loadSkillInfoList(DB.LUA_PATH + 'skillinfoz/skillinfolist.lub', null, () => {
+				SkillDescription = localizeSkillDescriptions(SkillDescription, SkillInfo);
+				loadSkillTreeView(DB.LUA_PATH + 'skillinfoz/skilltreeview.lub', null, () => {
+					// Load ez2streffect, PACKETVER unknown when the while has been added, tied to default PACKETVER of rathena for 4th job
+					if (PACKETVER.value >= 20211103) {
+						const bsonOnLoad = onLoad();
+						loadBSONFile('data/contentdata/effectdata/ez2streffect.bson', Ez2streffect, () => {
+							Promise.all([
+								import('DB/Effects/EffectTable.js'),
+								import('DB/Skills/SkillEffect.js')
+							]).then(([EffectTable, SkillEffect]) => {
+									mergeEz2Effects(EffectTable.default, SkillEffect.default);
+									bsonOnLoad();
+								});
 						});
 					}
-				);
+					// Skill Lua finished
+					onSkillEnd();
+				});
 			});
 
 			// Status
@@ -752,41 +733,12 @@ class DB {
 				onLoad()
 			);
 
-			// TODO: data/skillnametable.txt	- ?
 			// TODO: data/skilltreeview.txt	- Replaces DB/Skills/SkillTreeView.js
 			// TODO: data/leveluseskillspamount.txt	- Replaces DB/Skills/SkillInfo.js -> SkillInfo.SpAmount
 
 			// Quest
 			loadTable('data/questid2display.txt', '#', 6, parseQuestEntry, onLoad(), true);
 		}
-
-		// Keep localized skill data authoritative regardless of async Lua load order.
-		loadTable(
-			'data/skillnametable.txt',
-			'#',
-			2,
-			function (_index, key, val) {
-				LocalizedSkillNames[key] = val;
-				const skillId = SKID[key];
-				if (skillId && SkillInfo[skillId]) SkillInfo[skillId].SkillName = val;
-			},
-			onLoad(),
-			'utf-8'
-		);
-
-		loadTable(
-			'data/skilldesctable.txt',
-			'#',
-			2,
-			function (_index, key, val) {
-				const skillId = SKID[key];
-				const description = val.replace('\r\n', '\n');
-				LocalizedSkillDescription[skillId] = description;
-				SkillDescription[skillId] = description;
-			},
-			onLoad(),
-			'utf-8'
-		);
 
 		// Load ItemMoveInfo and attach to ItemTable
 		if (PACKETVER.value >= 20150422) {
@@ -2807,7 +2759,7 @@ class DB {
 			if (reformInfo) {
 				reformInfos.push(reformInfo);
 			} else {
-			console.error('未找到改造信息，改造 ID：', reformId);
+				console.error('未找到改造信息，改造 ID：', reformId);
 			}
 		}
 
@@ -3493,12 +3445,12 @@ class DB {
 	 */
 	static searchNavigation(query, type, options = {}) {
 		const results = searchNavigationRows(NaviNpcTable, NaviMobTable, query, type, {
-			npc: name => {
-				const localized = DB.getNpcName(name);
-				return localized === name ? localizeNavigationNpcName(name) : localized;
-			},
-			npcAliases: getNavigationNpcAliases,
-			mob: (id, fallback) => MonsterNameTable[id] || fallback,
+				npc: name => {
+					const localized = DB.getNpcName(name);
+					return localized === name ? localizeNavigationNpcName(name) : localized;
+				},
+				npcAliases: getNavigationNpcAliases,
+				mob: (id, fallback) => MonsterNameTable[id] || fallback,
 			map: mapName =>
 				DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 		}, options);
@@ -6533,7 +6485,7 @@ function loadSkillInfoList(filename, callback, onEnd) {
 						return [];
 					};
 					const resourceName = userStringDecoder.decode(resName);
-					const localizedName = LocalizedSkillNames[resourceName] || SkillInfo[skillId]?.SkillName;
+					const localizedName = LocalizedSkillNames[skillId] || SkillInfo[skillId]?.SkillName;
 					SkillInfo[skillId] = {
 						Name: resourceName,
 						SkillName: /[\u3400-\u9fff]/.test(localizedName || '')
