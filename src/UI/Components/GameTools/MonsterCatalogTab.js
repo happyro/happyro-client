@@ -15,6 +15,7 @@ import {
 	listMonsterSpawnMaps,
 	paginateMonsters
 } from './MonsterCatalogData.js';
+import escapeHtml from './escapeHtml.js';
 
 const pageSize = 40;
 const raceNames = {
@@ -56,15 +57,6 @@ const resultMessages = [
 
 let catalogPromise;
 let activeController;
-
-function escapeHtml(value) {
-	return String(value ?? '')
-		.replaceAll('&', '&amp;')
-		.replaceAll('<', '&lt;')
-		.replaceAll('>', '&gt;')
-		.replaceAll('"', '&quot;')
-		.replaceAll("'", '&#39;');
-}
 
 function loadCatalog() {
 	if (!catalogPromise) {

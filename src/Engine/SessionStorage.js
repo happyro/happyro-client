@@ -22,6 +22,7 @@ export default {
 	AID: 0,
 	GID: 0,
 	UserLevel: 0,
+	WebToken: '',
 	NavigationTeleportAllowed: false,
 	NavigationTeleportCrossMap: false,
 	NavigationTeleportCooldown: 0,

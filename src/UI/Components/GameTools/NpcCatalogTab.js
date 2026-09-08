@@ -11,6 +11,7 @@ import { drawWorldMapPreview } from './WorldMapPreview.js';
 import { mergeNpcCatalog } from './WorldCatalogService.js';
 
 const key = npc => `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
+const catalogPromises = new Map();
 
 function filterNpcs(npcs, search, scope) {
 	const currentMap = getCurrentAdventureMap();
@@ -25,6 +26,7 @@ function filterNpcs(npcs, search, scope) {
 	const term = String(search || '')
 		.trim()
 		.toLocaleLowerCase();
+	if (!term && scope === 'all') return filtered;
 	const rank = npc => {
 		const names = [npc.name, npc.sourceName, npc.rawName, npc.aliases]
 			.flat()
@@ -140,18 +142,24 @@ function mount(container) {
 		originalRenderDetail();
 	});
 
-	Promise.all([
-		loadNpcAssets(),
-		Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
-	])
-		.then(([assets, npcs]) => {
+	const catalogKey = Session.NavigationMapChannelsEnabled ? 'channels' : 'shared';
+	if (!catalogPromises.has(catalogKey)) {
+		catalogPromises.set(catalogKey, Promise.all([
+			loadNpcAssets(),
+			Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
+		]).then(([assets, npcs]) => {
+			const mapNames = new Map();
+			const localizeMap = mapName => {
+				if (!mapNames.has(mapName)) mapNames.set(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
+				return mapNames.get(mapName);
+			};
+			return { assets, items: mergeNpcCatalog(npcs, localizeMap) };
+		}));
+	}
+	catalogPromises.get(catalogKey)
+		.then(({ assets, items }) => {
 			manifest = assets;
-			browser.setItems(
-				mergeNpcCatalog(
-					npcs,
-					mapName => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
-				)
-			);
+			browser.setItems(items);
 		})
 		.catch(error => {
 			console.error(error);
