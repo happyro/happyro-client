@@ -11,6 +11,7 @@
 import StatusTable from 'DB/Status/StatusInfo.js';
 import SC from 'DB/Status/StatusConst.js';
 import DB from 'DB/DBManager.js';
+import { stripRagnarokColorCodes } from 'Utils/RagnarokText.js';
 import Texture from 'Utils/Texture.js';
 import Client from 'Core/Client.js';
 import Renderer from 'Renderer/Renderer.js';
@@ -275,7 +276,7 @@ function createElement(index) {
 
 		for (let i = 0; i < count; ++i) {
 			const line = document.createElement('div');
-			line.textContent = lines[i][0];
+			line.textContent = stripRagnarokColorCodes(lines[i][0]);
 
 			// Custom color
 			if (lines[i][1]) {
