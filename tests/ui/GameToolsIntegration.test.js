@@ -66,9 +66,7 @@ describe('game tools integration', () => {
 		expect(instances).toContain('aldeba_in:155:240');
 		expect(instances).toContain('卡普拉员工');
 		expect(read('src/DB/Navigation/NavigationData.js')).toContain('getNpcInstanceName(npc[0], npc[6], npc[7])');
-		expect(read('src/UI/Components/GameTools/NpcCatalogTab.js')).toContain(
-			'getNpcInstanceName(npc.mapName, npc.x, npc.y)'
-		);
+		expect(read('src/UI/Components/GameTools/NpcCatalogTab.js')).toContain('mergeNpcCatalog');
 	});
 
 	it('registers independent NPC and map catalog tabs', () => {
@@ -120,11 +118,12 @@ describe('game tools integration', () => {
 		);
 	});
 
-	it('keeps monster location scrolling and clears coordinate action messages', () => {
+	it('keeps monster location scrolling and waits for coordinate teleport results', () => {
 		const monsterSource = read('src/UI/Components/GameTools/MonsterCatalogTab.js');
 		const actionSource = read('src/UI/Components/GameTools/AdventureActionService.js');
 		expect(monsterSource).toContain('locations.scrollTop = state.locationScrollTop;');
-		expect(actionSource).toContain("'coordinate', 2500");
+		expect(actionSource).toContain('new PACKET.CZ.HAPPYRO_MAP_TELEPORT()');
+		expect(actionSource).toContain('handleMapTeleportResult');
 	});
 
 	it('keeps NPC availability requests valid across detail rerenders', () => {
@@ -150,6 +149,9 @@ describe('game tools integration', () => {
 		expect(read('src/Network/PacketRegister.js')).toContain(
 			'0xcfb: PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT'
 		);
+		expect(read('src/Network/PacketStructure.js')).toContain('pkt_buf.writeShort(0xd00)');
+		expect(read('src/Network/PacketRegister.js')).toContain('0xd01: PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT');
+		expect(read('src/Network/PacketLength.js')).toContain('packets_len[0x0d01] = 32');
 		expect(read('src/Network/PacketLength.js')).toContain('packets_len[0x0cfb] = -1');
 	});
 
