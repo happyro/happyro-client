@@ -1,5 +1,4 @@
 import DB from 'DB/DBManager.js';
-import { getNpcInstanceName } from 'DB/Navigation/NpcInstanceNameTable.js';
 import Session from 'Engine/SessionStorage.js';
 import { mountCatalogBrowser } from './CatalogBrowser.js';
 import { escapeCatalogHtml, matchesCatalogSearch } from './CatalogData.js';
@@ -9,6 +8,7 @@ import { requestNpcAvailability } from './NpcAvailabilityService.js';
 import { loadNpcAssets, npcAtlasStyle } from './WorldAssetService.js';
 import { loadCatalogMap } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
+import { mergeNpcCatalog } from './WorldCatalogService.js';
 
 const key = npc => `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
 
@@ -34,7 +34,14 @@ function filterNpcs(npcs, search, scope) {
 		if (names.some(name => name.includes(term))) return 2;
 		return 3;
 	};
-	return filtered.sort((left, right) => rank(left) - rank(right));
+	return filtered.sort(
+		(left, right) =>
+			Number(right.mapName === currentMap) - Number(left.mapName === currentMap) ||
+			rank(left) - rank(right) ||
+			Number(right.source === 'server+navigation') - Number(left.source === 'server+navigation') ||
+			left.name.localeCompare(right.name) ||
+			left.mapDisplayName.localeCompare(right.mapDisplayName)
+	);
 }
 
 function mount(container) {
@@ -65,6 +72,7 @@ function mount(container) {
 			</button>`;
 		},
 		renderDetail(detail, npc, api) {
+			const hasLiveIdentity = npc.capabilities.canTeleportToNpc;
 			if (loadingNpcMapName !== npc.mapName) {
 				loadingNpcMapName = npc.mapName;
 				loadedNpcMap = null;
@@ -76,12 +84,13 @@ function mount(container) {
 				});
 			}
 			const style = npcAtlasStyle(manifest, npc.npcClass, 112);
-			const canTeleport = actionState.canTeleport && !actionState.npcPending && available === true;
+			const canTeleport =
+				hasLiveIdentity && actionState.canTeleport && !actionState.npcPending && available === true;
 			detail.innerHTML = `<div class="catalog-heading">
 				<span class="catalog-portrait${style ? '' : ' no-image'}" style="${style}"></span>
-				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)} · ${npc.npcClass}</p></div>
+				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)}${hasLiveIdentity ? ` · ${npc.npcClass}` : ''}</p></div>
 			</div>
-			<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
+			<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${!hasLiveIdentity ? '静态资料' : checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
 			<div class="npc-location-preview"><canvas class="npc-map-canvas" width="480" height="240" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"></canvas></div>
 			<div class="catalog-action-panel">
 				<button class="catalog-route" type="button">${routeState.active ? '停止寻路' : '开始寻路'}</button>
@@ -96,7 +105,7 @@ function mount(container) {
 			detail.querySelector('.catalog-teleport').addEventListener('click', () => teleportToNpc(npc));
 
 			const token = selectionToken;
-			if (available === null && !checking) {
+			if (hasLiveIdentity && available === null && !checking) {
 				checking = true;
 				requestNpcAvailability([npc])
 					.then(result => {
@@ -138,10 +147,10 @@ function mount(container) {
 		.then(([assets, npcs]) => {
 			manifest = assets;
 			browser.setItems(
-				npcs.flatMap(npc => {
-					const instance = getNpcInstanceName(npc.mapName, npc.x, npc.y);
-					return instance ? [{ ...npc, name: instance.name, sourceName: instance.sourceName }] : [];
-				})
+				mergeNpcCatalog(
+					npcs,
+					mapName => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
+				)
 			);
 		})
 		.catch(error => {

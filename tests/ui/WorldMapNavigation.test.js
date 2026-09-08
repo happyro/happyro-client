@@ -56,9 +56,8 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('Session.NavigationTeleportCrossMap');
 		expect(navigationSource).toContain('Session.NavigationTeleportCooldown');
 		expect(navigationSource).not.toContain('Session.UserLevel >= 10');
-		expect(navigationSource.match(/canSelfTeleport\(\)/g)).toHaveLength(4);
-		expect(navigationSource).toContain('!target.map ||');
-		expect(navigationSource).toContain('new PACKET.CZ.MOVETO_MAP()');
+		expect(navigationSource.match(/canSelfTeleport\(\)/g)).toHaveLength(3);
+		expect(navigationSource).toContain('teleportToCoordinate({ mapName: target.map');
 		expect(navigationSource).toContain('Navigation.teleportToSelectedTarget');
 	});
 
@@ -75,9 +74,10 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('warpType >= 202');
 	});
 
-	it('validates live NPCs before displaying search results', () => {
+	it('labels live NPC availability without removing static search results', () => {
 		expect(navigationSource).toContain('new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY()');
 		expect(navigationSource).toContain('Navigation.onNpcAvailabilityResult');
+		expect(navigationSource).toContain("result.availability = packet.available[index] ? 'available' : 'unavailable'");
 		expect(navigationSource).toContain('`${mapName} · ${result.x},${result.y}`');
 	});
 

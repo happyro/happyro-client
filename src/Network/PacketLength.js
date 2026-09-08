@@ -94,6 +94,7 @@ function init(packetver) {
 		packets_len[0x0980] = packets_len[0x0980] || 7;
 		packets_len[0x0cfb] = -1;
 		packets_len[0x0cfd] = 32;
+		packets_len[0x0d01] = 32;
 		packets_len[0x0cff] = 8;
 		console.log('%c[Network] Packet Length initialized ', 'color:#007000', packetver);
 	} else {

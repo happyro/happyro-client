@@ -15425,6 +15425,34 @@ PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT = function PACKET_ZC_HAPPYRO_NPC_TELEPORT_
 };
 PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT.size = 32;
 
+// 0xd00 - HappyRO server-authoritative map teleport request
+PACKET.CZ.HAPPYRO_MAP_TELEPORT = function PACKET_CZ_HAPPYRO_MAP_TELEPORT() {
+	this.requestId = 0;
+	this.mapName = '';
+	this.x = 0;
+	this.y = 0;
+};
+PACKET.CZ.HAPPYRO_MAP_TELEPORT.prototype.build = function () {
+	const pkt_buf = new BinaryWriter(26);
+	pkt_buf.writeShort(0xd00);
+	pkt_buf.writeULong(this.requestId);
+	pkt_buf.writeBinaryString(this.mapName, 16);
+	pkt_buf.writeUShort(this.x);
+	pkt_buf.writeUShort(this.y);
+	return pkt_buf;
+};
+
+// 0xd01 - HappyRO map teleport result
+PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT = function PACKET_ZC_HAPPYRO_MAP_TELEPORT_RESULT(fp) {
+	this.requestId = fp.readULong();
+	this.result = fp.readUShort();
+	this.mapName = fp.readBinaryString(16).replace(/\0.*$/, '');
+	this.x = fp.readUShort();
+	this.y = fp.readUShort();
+	this.cooldownRemaining = fp.readULong();
+};
+PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT.size = 32;
+
 // 0xcfa - HappyRO live NPC availability request
 PACKET.CZ.HAPPYRO_NPC_AVAILABILITY = function PACKET_CZ_HAPPYRO_NPC_AVAILABILITY() {
 	this.requestId = 0;

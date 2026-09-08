@@ -26,6 +26,7 @@ import {
 	loadNpcAssets
 } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
+import { toWorldEntities } from './WorldCatalogService.js';
 
 function filterMaps(maps, search, scope) {
 	return filterAndSortMaps(maps, search, scope, getCurrentAdventureMap());
@@ -193,7 +194,9 @@ function mount(container) {
 		.then(assets => {
 			const mapsWithImages = new Set(assets.mapImages || []);
 			browser.setItems(
-				DB.listNavigation('MAP', { channelsEnabled: Session.NavigationMapChannelsEnabled }).map(map => ({
+				toWorldEntities(
+					DB.listNavigation('MAP', { channelsEnabled: Session.NavigationMapChannelsEnabled })
+				).map(map => ({
 					...map,
 					hasImage: mapsWithImages.has(map.id.toLocaleLowerCase())
 				}))

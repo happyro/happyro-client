@@ -26,6 +26,12 @@ import cssText from './Navigation.css?raw';
 import MapPathFinder from './MapPathFinder.js';
 import { isNavigationSearchInteraction } from './NavigationSearchInteraction.js';
 import { selectAutoWalkWaypoint } from './NavigationAutoWalk.js';
+import { toWorldEntities } from '../GameTools/WorldCatalogService.js';
+import {
+	getAdventureActionState,
+	subscribeAdventureActions,
+	teleportToCoordinate
+} from '../GameTools/AdventureActionService.js';
 
 /**
  * Create Navigation component
@@ -195,6 +201,7 @@ let _npcTeleportTimer = null;
 let _npcAvailabilityRequestId = 0;
 let _npcAvailabilityPending = null;
 let _npcAvailabilityTimer = null;
+let _unsubscribeAdventureActions = null;
 
 /**
  * @var {boolean} was target set by map click
@@ -570,6 +577,11 @@ Navigation.onAppend = function onAppend() {
 
 	// Initialize pathfinding worker
 	initializePathFindingWorker();
+	_unsubscribeAdventureActions?.();
+	_unsubscribeAdventureActions = subscribeAdventureActions(state => {
+		if (state.kind === 'coordinate' && state.message) this.setActionStatus(state.message, state.error);
+		this.updateTeleportButton();
+	});
 	this.updateTeleportButton();
 
 	// Load the current map after initializing the worker
@@ -601,6 +613,8 @@ Navigation.onRemove = function onRemove() {
 	clearTimeout(_npcAvailabilityTimer);
 	_npcTeleportPending = false;
 	_npcAvailabilityPending = null;
+	_unsubscribeAdventureActions?.();
+	_unsubscribeAdventureActions = null;
 
 	// Clean up document-level event listener
 	if (_documentClickHandler) {
@@ -627,11 +641,13 @@ Navigation.onSearch = function onSearch() {
 	}
 
 	// Search for NPCs and MOBs
-	const results = DB.searchNavigation(query, type, {
-		channelsEnabled: Session.NavigationMapChannelsEnabled,
-		currentMap: getCurrentMap(),
-		scope: getSearchFilterValue(root, '.search-scope')
-	});
+	const results = toWorldEntities(
+		DB.searchNavigation(query, type, {
+			channelsEnabled: Session.NavigationMapChannelsEnabled,
+			currentMap: getCurrentMap(),
+			scope: getSearchFilterValue(root, '.search-scope')
+		})
+	);
 
 	const npcResults = results.filter(result => result.type === 'NPC');
 	if (npcResults.length) {
@@ -645,6 +661,7 @@ Navigation.onSearch = function onSearch() {
 Navigation.requestNpcAvailability = function requestNpcAvailability(results, npcResults) {
 	const requestId = ++_npcAvailabilityRequestId;
 	_npcAvailabilityPending = { requestId, results, npcResults };
+	for (const npc of npcResults) npc.availability = 'pending';
 	const packet = new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY();
 	packet.requestId = requestId;
 	packet.npcs = npcResults.map(npc => ({
@@ -655,14 +672,14 @@ Navigation.requestNpcAvailability = function requestNpcAvailability(results, npc
 	}));
 	Network.sendPacket(packet);
 
-	this.displaySearchMessage('正在校验 NPC...');
+	this.displaySearchResults(results);
 	clearTimeout(_npcAvailabilityTimer);
 	_npcAvailabilityTimer = setTimeout(() => {
 		if (_npcAvailabilityPending?.requestId !== requestId) return;
 		const nonNpcResults = results.filter(result => result.type !== 'NPC');
 		_npcAvailabilityPending = null;
-		if (nonNpcResults.length) this.displaySearchResults(nonNpcResults);
-		else this.displaySearchMessage('暂时无法验证 NPC 状态');
+		for (const npc of npcResults) npc.availability = 'unknown';
+		this.displaySearchResults(results);
 	}, 5000);
 };
 
@@ -671,10 +688,11 @@ Navigation.onNpcAvailabilityResult = function onNpcAvailabilityResult(packet) {
 	if (!pending || packet.requestId !== pending.requestId || packet.available.length !== pending.npcResults.length)
 		return;
 	clearTimeout(_npcAvailabilityTimer);
-	const availableNpcResults = pending.npcResults.filter((result, index) => packet.available[index]);
-	const availableSet = new Set(availableNpcResults);
+	pending.npcResults.forEach((result, index) => {
+		result.availability = packet.available[index] ? 'available' : 'unavailable';
+	});
 	_npcAvailabilityPending = null;
-	this.displaySearchResults(pending.results.filter(result => result.type !== 'NPC' || availableSet.has(result)));
+	this.displaySearchResults(pending.results);
 };
 
 Navigation.displaySearchMessage = function displaySearchMessage(message) {
@@ -733,7 +751,14 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 		resultItem.className = 'result-item';
 
 		// Add type icon (NPC or MOB)
-		const typeIcon = result.type === 'NPC' ? 'npc_icon' : result.type === 'MAP' ? 'map_icon' : 'mob_icon';
+		const typeIcon =
+			result.type === 'NPC'
+				? 'npc_icon'
+				: result.type === 'MAP'
+					? 'map_icon'
+					: result.type === 'WARP'
+						? 'map_icon'
+						: 'mob_icon';
 		const typeLabel = document.createElement('span');
 		typeLabel.className = `result-type ${typeIcon}`;
 		typeLabel.textContent = result.type;
@@ -747,6 +772,8 @@ Navigation.displaySearchResults = function displaySearchResults(results) {
 			result.type === 'NPC' && Number.isFinite(result.x) && Number.isFinite(result.y)
 				? `${mapName} · ${result.x},${result.y}`
 				: mapName;
+		if (result.type === 'NPC' && result.availability === 'pending') mapLabel.textContent += ' · 校验中';
+		if (result.type === 'NPC' && result.availability === 'unavailable') mapLabel.textContent += ' · 当前不可用';
 		resultItem.append(typeLabel, nameLabel, mapLabel);
 
 		// Store result data
@@ -917,13 +944,18 @@ Navigation.updateTeleportButton = function updateTeleportButton() {
 	const target = _selectedTargetData || _finalTargetData || _targetData;
 	const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
 	const canTeleportTarget = canSelfTeleport() && (!isCrossMap || Session.NavigationTeleportCrossMap);
+	const coordinateActionState = getAdventureActionState(
+		target ? { mapName: target.map, x: target.x, y: target.y } : null
+	);
 	const npcTarget = this.targetResult?.type === 'NPC' ? this.targetResult : null;
+	const npcTeleportable =
+		npcTarget && npcTarget.availability !== 'unavailable' && npcTarget.availability !== 'pending';
 	button.style.display =
 		!npcTarget && canTeleportTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y)
 			? 'block'
 			: 'none';
-	button.disabled = Date.now() < _teleportCooldownUntil;
-	npcButton.style.display = npcTarget && canTeleportTarget ? 'block' : 'none';
+	button.disabled = !coordinateActionState.canTeleport;
+	npcButton.style.display = npcTeleportable && canTeleportTarget ? 'block' : 'none';
 	npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
 	npcButton.textContent = _npcTeleportPending ? '正在传送...' : '传送到 NPC 附近';
 };
@@ -1027,25 +1059,29 @@ Navigation.subscribeRouteState = function subscribeRouteState(listener) {
  */
 Navigation.teleportToSelectedTarget = function teleportToSelectedTarget() {
 	const target = _selectedTargetData || _finalTargetData || _targetData;
-	const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
-	if (
-		!target ||
-		!target.map ||
-		!canSelfTeleport() ||
-		(isCrossMap && !Session.NavigationTeleportCrossMap) ||
-		Date.now() < _teleportCooldownUntil
-	)
-		return;
-
-	const packet = new PACKET.CZ.MOVETO_MAP();
-	packet.mapName = normalizeMapName(target.map);
-	packet.xPos = Math.max(0, Math.floor(target.x));
-	packet.yPos = Math.max(0, Math.floor(target.y));
-	Network.sendPacket(packet);
-	_teleportCooldownUntil = Date.now() + Session.NavigationTeleportCooldown * 1000;
+	if (!target) return;
+	teleportToCoordinate({ mapName: target.map, x: target.x, y: target.y });
+	this.setActionStatus('正在等待服务器确认...');
 	this.updateTeleportButton();
-	if (_teleportCooldownTimer) clearTimeout(_teleportCooldownTimer);
-	_teleportCooldownTimer = setTimeout(() => this.updateTeleportButton(), Session.NavigationTeleportCooldown * 1000);
+};
+
+Navigation.onMapTeleportResult = function onMapTeleportResult(packet) {
+	const messages = {
+		1: '当前角色没有传送权限',
+		2: '跨地图传送已关闭',
+		3: `传送冷却中，请等待 ${packet.cooldownRemaining} 秒`,
+		4: '目标地图不可用',
+		5: '当前地图规则禁止传送',
+		6: '目标坐标无效',
+		7: '传送失败，请稍后重试'
+	};
+	this.setActionStatus(
+		packet.result === 0
+			? `已传送到 ${packet.mapName} (${packet.x}, ${packet.y})`
+			: messages[packet.result] || '传送请求被服务器拒绝',
+		packet.result !== 0
+	);
+	this.updateTeleportButton();
 };
 
 Navigation.teleportToSelectedNpc = function teleportToSelectedNpc() {

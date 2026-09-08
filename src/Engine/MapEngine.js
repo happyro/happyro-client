@@ -73,6 +73,7 @@ import Announce from 'UI/Components/Announce/Announce.js';
 import Navigation from 'UI/Components/Navigation/Navigation.js';
 import GameTools from 'UI/Components/GameTools/GameTools.js';
 import {
+	handleMapTeleportResult as handleGameToolsMapTeleportResult,
 	handleNpcTeleportResult as handleGameToolsNpcTeleportResult,
 	notifyAdventureConfigChanged
 } from 'UI/Components/GameTools/AdventureActionService.js';
@@ -284,6 +285,7 @@ class MapEngine {
 			Network.hookPacket(PACKET.ZC.HAPPYRO_MONSTER_SPAWN_RESULT, onMonsterSpawnResult);
 			Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT, onNpcAvailabilityResult);
 			Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT, onNpcTeleportResult);
+			Network.hookPacket(PACKET.ZC.HAPPYRO_MAP_TELEPORT_RESULT, onMapTeleportResult);
 			Network.hookPacket(PACKET.ZC.REFUSE_ENTER, onConnectionRefused);
 
 			// hook reassembly packets and map the responses
@@ -542,6 +544,11 @@ function onMonsterSpawnResult(pkt) {
 function onNpcTeleportResult(pkt) {
 	handleGameToolsNpcTeleportResult(pkt);
 	Navigation.onNpcTeleportResult(pkt);
+}
+
+function onMapTeleportResult(pkt) {
+	handleGameToolsMapTeleportResult(pkt);
+	Navigation.onMapTeleportResult(pkt);
 }
 
 function onNpcAvailabilityResult(pkt) {
