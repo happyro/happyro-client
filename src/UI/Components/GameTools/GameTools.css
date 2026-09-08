@@ -1,4 +1,6 @@
 .game-tools-window {
+	position: relative;
+	isolation: isolate;
 	width: min(820px, calc(100vw - 24px));
 	height: min(620px, calc(100vh - 36px));
 	min-width: 520px;
@@ -558,12 +560,12 @@
 .game-tools-confirm {
 	position: absolute;
 	inset: 0;
-	z-index: 20;
+	z-index: 100;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 20px;
-	background: rgb(0 0 0 / 35%);
+	background: rgb(0 0 0 / 55%);
 }
 .game-tools-confirm-card {
 	width: min(360px, 100%);

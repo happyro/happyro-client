@@ -16,6 +16,10 @@
 	max-width: 108px;
 	max-height: 108px;
 }
+.item-thumb.no-image img,
+.item-portrait.no-image img {
+	display: none;
+}
 .item-description {
 	flex: 1;
 	min-height: 0;
