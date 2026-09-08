@@ -1,4 +1,5 @@
 import { getMapChannelDisplayName, isVisibleMapChannel } from '../Map/MapChannels.js';
+import { getNpcInstanceName } from './NpcInstanceNameTable.js';
 
 /**
  * Replace a navigation table with the sequential rows extracted from Lua.
@@ -29,40 +30,32 @@ export function replaceNavigationRows(target, rows) {
  * @param {Object} localizers
  * @returns {Array}
  */
-export function searchNavigationRows(npcRows, mobRows, query, type, localizers, options = {}) {
+export function listNavigationRows(npcRows, mobRows, type, localizers, options = {}) {
 	const { channelsEnabled = false, currentMap = '', scope = 'WORLD' } = options;
-	const normalizedQuery = String(query || '')
-		.trim()
-		.toLocaleLowerCase();
-	if (normalizedQuery.length < 1) return [];
 	const normalizedCurrentMap = String(currentMap || '').toLocaleLowerCase();
 	const mapIsVisible = mapName =>
 		isVisibleMapChannel(mapName, channelsEnabled) &&
 		(scope !== 'CURRENT' || String(mapName).toLocaleLowerCase() === normalizedCurrentMap);
 
 	const results = [];
-	const matches = (...names) =>
-		names.flat().some(name =>
-			String(name || '')
-				.toLocaleLowerCase()
-				.includes(normalizedQuery)
-		);
-
 	if (type === 'ALL' || type === 'NPC') {
 		for (const npc of npcRows) {
 			if (!Array.isArray(npc)) continue;
 			if (!mapIsVisible(npc[0])) continue;
 			// Navi_Npc rows store the navigation category before the live NPC class.
 			const rawName = npc[4] || '';
-			const localizedName = localizers.npc(rawName) || rawName;
-			const aliases = localizers.npcAliases?.(rawName) || [];
-			if (!rawName || !matches(rawName, localizedName, aliases)) continue;
+			const instanceName = getNpcInstanceName(npc[0], npc[6], npc[7]);
+			const localizedName = instanceName?.name || localizers.npc(rawName) || rawName;
+			const aliases = [instanceName?.sourceName, ...(localizers.npcAliases?.(rawName) || [])].filter(Boolean);
+			if (!rawName) continue;
 
 			results.push({
 				type: 'NPC',
 				id: npc[1],
 				npcClass: npc[3],
 				name: localizedName,
+				rawName,
+				aliases,
 				mapName: npc[0],
 				mapDisplayName: getMapChannelDisplayName(npc[0], localizers.map(npc[0]), channelsEnabled),
 				x: npc[6],
@@ -78,12 +71,14 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers, 
 			const rawName = mob[4] || '';
 			const mobId = Number(mob[3]) & 0xffff;
 			const localizedName = localizers.mob(mobId, rawName) || rawName;
-			if (!rawName || !matches(rawName, localizedName, mob[5])) continue;
+			if (!rawName) continue;
 
 			results.push({
 				type: 'MOB',
 				id: mobId,
 				name: localizedName,
+				rawName,
+				aliases: [mob[5]],
 				mapName: mob[0],
 				mapDisplayName: getMapChannelDisplayName(mob[0], localizers.map(mob[0]), channelsEnabled),
 				x: null,
@@ -92,6 +87,28 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers, 
 		}
 	}
 
+	return results.sort(
+		(a, b) =>
+			Number(b.mapName.toLocaleLowerCase() === normalizedCurrentMap) -
+				Number(a.mapName.toLocaleLowerCase() === normalizedCurrentMap) ||
+			a.name.localeCompare(b.name) ||
+			a.mapDisplayName.localeCompare(b.mapDisplayName)
+	);
+}
+
+export function searchNavigationRows(npcRows, mobRows, query, type, localizers, options = {}) {
+	const normalizedQuery = String(query || '')
+		.trim()
+		.toLocaleLowerCase();
+	if (!normalizedQuery) return [];
+	const normalizedCurrentMap = String(options.currentMap || '').toLocaleLowerCase();
+	const results = listNavigationRows(npcRows, mobRows, type, localizers, options).filter(result =>
+		[result.name, result.rawName, result.aliases].flat().some(name =>
+			String(name || '')
+				.toLocaleLowerCase()
+				.includes(normalizedQuery)
+		)
+	);
 	const matchRank = result => {
 		const name = result.name.toLocaleLowerCase();
 		if (name === normalizedQuery) return 0;
@@ -101,22 +118,19 @@ export function searchNavigationRows(npcRows, mobRows, query, type, localizers, 
 	return results
 		.sort(
 			(a, b) =>
-				(Number(b.mapName.toLocaleLowerCase() === normalizedCurrentMap) -
-					Number(a.mapName.toLocaleLowerCase() === normalizedCurrentMap)) ||
+				Number(b.mapName.toLocaleLowerCase() === normalizedCurrentMap) -
+					Number(a.mapName.toLocaleLowerCase() === normalizedCurrentMap) ||
 				matchRank(a) - matchRank(b) ||
 				a.name.localeCompare(b.name) ||
 				a.mapDisplayName.localeCompare(b.mapDisplayName)
 		)
-		.slice(0, 50);
+		.slice(0, 50)
+		.map(({ rawName, aliases, ...result }) => result);
 }
 
-export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, options = {}) {
+export function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options = {}) {
 	const { channelsEnabled = false, currentMap = '', scope = 'WORLD' } = options;
 	if (type !== 'ALL' && type !== 'MAP') return [];
-	const normalizedQuery = String(query || '')
-		.trim()
-		.toLocaleLowerCase();
-	if (normalizedQuery.length < 1) return [];
 
 	const results = new Map();
 	for (const world of worldMaps || []) {
@@ -127,12 +141,6 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 			if (scope === 'CURRENT' && id !== currentMap) continue;
 			const baseName = map.name || localizeMap(id);
 			const name = getMapChannelDisplayName(id, baseName, channelsEnabled);
-			if (
-				!id.toLocaleLowerCase().includes(normalizedQuery) &&
-				!baseName.toLocaleLowerCase().includes(normalizedQuery)
-			) {
-				continue;
-			}
 			results.set(id, {
 				type: 'MAP',
 				id,
@@ -151,9 +159,6 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 		if (scope === 'CURRENT' && id !== currentMap) continue;
 		const baseName = info.displayName || localizeMap(id);
 		const name = getMapChannelDisplayName(id, baseName, channelsEnabled);
-		if (!id.toLocaleLowerCase().includes(normalizedQuery) && !baseName.toLocaleLowerCase().includes(normalizedQuery)) {
-			continue;
-		}
 		results.set(id, {
 			type: 'MAP',
 			id,
@@ -164,6 +169,19 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 			y: null
 		});
 	}
+	return [...results.values()].sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
+}
+
+export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, options = {}) {
+	const normalizedQuery = String(query || '')
+		.trim()
+		.toLocaleLowerCase();
+	if (!normalizedQuery) return [];
+	const results = listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options).filter(
+		result =>
+			result.id.toLocaleLowerCase().includes(normalizedQuery) ||
+			result.name.toLocaleLowerCase().includes(normalizedQuery)
+	);
 	const matchRank = result => {
 		const id = result.id.toLocaleLowerCase();
 		const name = result.name.toLocaleLowerCase();
@@ -171,7 +189,7 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 		if (id.startsWith(normalizedQuery) || name.startsWith(normalizedQuery)) return 1;
 		return 2;
 	};
-	return [...results.values()]
+	return results
 		.sort((a, b) => matchRank(a) - matchRank(b) || a.name.localeCompare(b.name) || a.id.localeCompare(b.id))
 		.slice(0, 50);
 }

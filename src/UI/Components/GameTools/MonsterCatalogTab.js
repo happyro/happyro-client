@@ -1,7 +1,20 @@
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Session from 'Engine/SessionStorage.js';
-import { filterMonsters, paginateMonsters } from './MonsterCatalogData.js';
+import DB from 'DB/DBManager.js';
+import { getMapChannelDisplayName } from 'DB/Map/MapChannels.js';
+import {
+	getAdventureActionState,
+	getCurrentAdventureMap,
+	subscribeAdventureActions,
+	teleportToCoordinate
+} from './AdventureActionService.js';
+import {
+	filterMonsters,
+	getMonsterSpawnMapNames,
+	listMonsterSpawnMaps,
+	paginateMonsters
+} from './MonsterCatalogData.js';
 
 const pageSize = 40;
 const raceNames = {
@@ -93,7 +106,9 @@ function mount(container) {
 		status: '',
 		cooldownUntil: 0,
 		cooldownTimer: null,
-		requestTimer: null
+		requestTimer: null,
+		selectedSpawn: null,
+		locationScrollTop: 0
 	};
 	const controller = {
 		onSpawnResult(result) {
@@ -168,6 +183,11 @@ function mount(container) {
 		list.querySelectorAll('.monster-row').forEach(button => {
 			button.addEventListener('click', () => {
 				state.selected = state.monsters.find(monster => monster.id === Number(button.dataset.id));
+				state.selectedSpawn =
+					listMonsterSpawnMaps(state.selected?.spawns, {
+						channelsEnabled: Session.NavigationMapChannelsEnabled,
+						currentMap: getCurrentAdventureMap()
+					})[0] || null;
 				state.status = '';
 				renderList();
 				renderDetail();
@@ -182,6 +202,8 @@ function mount(container) {
 
 	function renderDetail() {
 		const detail = container.querySelector('.monster-detail');
+		const previousLocations = detail.querySelector('.monster-locations');
+		if (previousLocations) state.locationScrollTop = previousLocations.scrollTop;
 		const monster = state.selected;
 		if (!state.catalog || !monster) {
 			detail.innerHTML = '<div class="empty-detail">选择一个魔物查看详情</div>';
@@ -190,13 +212,26 @@ function mount(container) {
 		const bossBlocked = monster.boss && !Session.GameToolsMonsterSpawnAllowBoss;
 		const cooldownRemaining = Math.max(0, Math.ceil((state.cooldownUntil - Date.now()) / 1000));
 		const disabled = !Session.GameToolsMonsterSpawnAllowed || bossBlocked || state.pending || cooldownRemaining > 0;
-		const permissionText = !Session.GameToolsMonsterSpawnAllowed
+		const spawnMaps = listMonsterSpawnMaps(monster.spawns, {
+			channelsEnabled: Session.NavigationMapChannelsEnabled,
+			currentMap: getCurrentAdventureMap()
+		});
+		const spawnMapNames = getMonsterSpawnMapNames(
+			spawnMaps,
+			DB.listNavigation('MAP', { channelsEnabled: Session.NavigationMapChannelsEnabled })
+		);
+		if (state.selectedSpawn && !spawnMaps.some(spawn => spawn.mapName === state.selectedSpawn.mapName)) {
+			state.selectedSpawn = spawnMaps[0] || null;
+		}
+		const teleportTarget = state.selectedSpawn
+			? { mapName: state.selectedSpawn.mapName, x: state.selectedSpawn.x, y: state.selectedSpawn.y }
+			: null;
+		const teleportState = getAdventureActionState(teleportTarget);
+		const summonConstraintText = !Session.GameToolsMonsterSpawnAllowed
 			? '当前账号仅可查看图鉴'
 			: bossBlocked
 				? '后台未开放 Boss / MVP 召唤'
-				: cooldownRemaining > 0
-					? `${cooldownRemaining} 秒后可再次召唤`
-					: `召唤后 ${Session.GameToolsMonsterSpawnCooldown || 0} 秒内不可再次召唤`;
+				: '';
 		detail.innerHTML = `
 			<div class="monster-heading">
 				<span class="monster-portrait${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, 96)}"></span>
@@ -208,12 +243,47 @@ function mount(container) {
 				<div><span>种族</span><strong>${raceNames[monster.race] || monster.race}</strong></div><div><span>属性</span><strong>${elementNames[monster.element] || monster.element} ${monster.elementLevel}</strong></div>
 				<div><span>体型</span><strong>${sizeNames[monster.size] || monster.size}</strong></div><div><span>经验</span><strong>${monster.baseExp} / ${monster.jobExp}</strong></div>
 			</div>
-			<div class="monster-drops">${renderDrops(monster.mvpDrops, 'MVP 奖励')}${renderDrops(monster.drops, '掉落物品') || '<p>无掉落资料</p>'}</div>
+			<div class="monster-resources">
+				<section class="monster-drops"><h4>掉落物品</h4>${renderDrops(monster.mvpDrops, 'MVP 奖励')}${renderDrops(monster.drops, '普通掉落') || '<p>无掉落资料</p>'}</section>
+				<section class="monster-locations">
+					<h4>出现地图</h4>
+					<div class="monster-location-list">${
+						spawnMaps.length
+							? spawnMaps
+									.map(spawn => {
+										const displayName = getMapChannelDisplayName(
+											spawn.mapName,
+											spawnMapNames.get(spawn.mapName),
+											Session.NavigationMapChannelsEnabled
+										);
+										return `<button type="button" data-spawn-map="${escapeHtml(spawn.mapName)}" class="monster-location${state.selectedSpawn?.mapName === spawn.mapName ? ' selected' : ''}"><strong>${escapeHtml(displayName)}</strong><small>${escapeHtml(spawn.mapName)}</small></button>`;
+									})
+									.join('')
+							: '<p>暂无常驻刷新地图</p>'
+					}</div>
+				</section>
+			</div>
 			<div class="summon-panel">
-				<button class="summon-button" type="button" ${disabled ? 'disabled' : ''}>${state.pending ? '召唤中...' : '召唤到角色旁边'}</button>
-				<span>${state.status || permissionText}</span>
+				<button class="summon-button" type="button" ${disabled ? 'disabled' : ''}>${state.pending ? '召唤中...' : '召唤'}</button>
+				<button class="monster-map-teleport" type="button" ${teleportTarget && teleportState.canTeleport ? '' : 'disabled'}>传送到地图</button>
+				<span>${escapeHtml((teleportState.kind === 'coordinate' ? teleportState.message : '') || state.status || summonConstraintText || (!teleportState.allowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
 		const summonButton = detail.querySelector('.summon-button');
+		const locations = detail.querySelector('.monster-locations');
+		locations.scrollTop = state.locationScrollTop;
+		locations.addEventListener('scroll', () => {
+			state.locationScrollTop = locations.scrollTop;
+		});
+		detail.querySelectorAll('[data-spawn-map]').forEach(button => {
+			button.addEventListener('click', () => {
+				state.selectedSpawn = spawnMaps.find(spawn => spawn.mapName === button.dataset.spawnMap) || null;
+				renderDetail();
+			});
+		});
+		detail.querySelector('.monster-map-teleport').addEventListener('click', () => {
+			if (!teleportTarget) return;
+			teleportToCoordinate(teleportTarget);
+		});
 		summonButton.addEventListener('click', () => {
 			state.pending = true;
 			state.status = '正在等待服务器确认...';
@@ -252,10 +322,12 @@ function mount(container) {
 			console.error(error);
 			summary.textContent = '魔物资料加载失败';
 		});
+	const unsubscribeAdventureActions = subscribeAdventureActions(() => renderDetail());
 
 	return () => {
 		clearTimeout(state.requestTimer);
 		clearInterval(state.cooldownTimer);
+		unsubscribeAdventureActions();
 		if (activeController === controller) activeController = null;
 	};
 }

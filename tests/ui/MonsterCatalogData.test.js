@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { filterMonsters, normalizeMonsterSearch, paginateMonsters } from '../../src/UI/Components/GameTools/MonsterCatalogData.js';
+import {
+	filterMonsters,
+	getMonsterSpawnMapNames,
+	listMonsterSpawnMaps,
+	normalizeMonsterSearch,
+	paginateMonsters
+} from '../../src/UI/Components/GameTools/MonsterCatalogData.js';
 
 const monsters = [
 	{ id: 1002, name: '波利', nameEn: 'Poring', aegisName: 'PORING', boss: false },
@@ -21,5 +27,34 @@ describe('monster catalog data', () => {
 
 	it('clamps pagination to a valid page', () => {
 		expect(paginateMonsters(monsters, 9, 1)).toEqual({ page: 2, pageCount: 2, items: [monsters[1]] });
+	});
+
+	it('prioritizes the current spawn map and hides optional channels', () => {
+		const spawns = [
+			{ mapName: 'gef_fild00', count: 34 },
+			{ mapName: 'prt_fild08a', count: 110 },
+			{ mapName: 'prt_fild08', count: 130 }
+		];
+		expect(listMonsterSpawnMaps(spawns, { currentMap: 'gef_fild00', channelsEnabled: false })).toEqual([
+			spawns[0],
+			spawns[2]
+		]);
+		expect(listMonsterSpawnMaps(spawns, { currentMap: 'gef_fild00', channelsEnabled: true })).toEqual([
+			spawns[0],
+			spawns[2],
+			spawns[1]
+		]);
+	});
+
+	it('uses detailed world map names to distinguish spawn maps with the same short title', () => {
+		const spawns = [{ mapName: 'moc_fild11' }, { mapName: 'moc_fild18' }];
+		const names = getMonsterSpawnMapNames(spawns, [
+			{ mapName: 'moc_fild11', mapDisplayName: '梦罗克原野 11 - 苏格拉特沙漠' },
+			{ mapName: 'moc_fild18', mapDisplayName: '梦罗克原野 18 - 苏格拉特沙漠' }
+		]);
+		expect([...names.values()]).toEqual([
+			'梦罗克原野 11 - 苏格拉特沙漠',
+			'梦罗克原野 18 - 苏格拉特沙漠'
+		]);
 	});
 });

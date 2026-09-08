@@ -60,6 +60,8 @@ import MapInfo from './Map/MapTable.js';
 import { localizeAdventureAchievementMaps } from './Achievement/AdventureAchievementLocalization.js';
 import { mergeLocalizedMapInfo } from './Map/MapInfoLocalization.js';
 import {
+	listNavigationMaps,
+	listNavigationRows,
 	replaceNavigationRows,
 	searchNavigationMaps,
 	searchNavigationRows
@@ -3499,6 +3501,23 @@ class DB {
 			.concat(maps)
 			.sort((a, b) => a.name.localeCompare(b.name))
 			.slice(0, 50);
+	}
+
+	static listNavigation(type, options = {}) {
+		const localizers = {
+			npc: name => {
+				const localized = DB.getNpcName(name);
+				return localized === name ? localizeNavigationNpcName(name) : localized;
+			},
+			npcAliases: getNavigationNpcAliases,
+			mob: (id, fallback) => MonsterNameTable[id] || fallback,
+			map: mapName =>
+				DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
+		};
+		if (type === 'MAP') {
+			return listNavigationMaps(WorldMap, MapInfo, type, id => DB.getMapName(id, id), options);
+		}
+		return listNavigationRows(NaviNpcTable, NaviMobTable, type, localizers, options);
 	}
 
 	/**

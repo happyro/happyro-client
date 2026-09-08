@@ -72,6 +72,11 @@ import MapName from 'UI/Components/MapName/MapName.js';
 import Announce from 'UI/Components/Announce/Announce.js';
 import Navigation from 'UI/Components/Navigation/Navigation.js';
 import GameTools from 'UI/Components/GameTools/GameTools.js';
+import {
+	handleNpcTeleportResult as handleGameToolsNpcTeleportResult,
+	notifyAdventureConfigChanged
+} from 'UI/Components/GameTools/AdventureActionService.js';
+import { handleNpcAvailabilityResult as handleGameToolsNpcAvailabilityResult } from 'UI/Components/GameTools/NpcAvailabilityService.js';
 import CaptchaUpload from 'UI/Components/Captcha/CaptchaUpload.js';
 import CaptchaSelector from 'UI/Components/Captcha/CaptchaSelector.js';
 import CaptchaAnswer from 'UI/Components/Captcha/CaptchaAnswer.js';
@@ -511,6 +516,7 @@ function onConfig(pkt) {
 		case 1002:
 		case 1003:
 			Navigation.setTeleportConfig(pkt.Config, pkt.Value);
+			notifyAdventureConfigChanged();
 			break;
 		case 1010:
 			Session.GameToolsMonsterSpawnAllowed = Boolean(pkt.Value);
@@ -534,10 +540,12 @@ function onMonsterSpawnResult(pkt) {
 }
 
 function onNpcTeleportResult(pkt) {
+	handleGameToolsNpcTeleportResult(pkt);
 	Navigation.onNpcTeleportResult(pkt);
 }
 
 function onNpcAvailabilityResult(pkt) {
+	handleGameToolsNpcAvailabilityResult(pkt);
 	Navigation.onNpcAvailabilityResult(pkt);
 }
 

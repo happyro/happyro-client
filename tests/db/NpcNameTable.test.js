@@ -18,6 +18,21 @@ import P3RegionalDungeonNpcNameTable from '../../src/DB/P3RegionalDungeonNpcName
 import P3MidgameDungeonNpcNameTable from '../../src/DB/P3MidgameDungeonNpcNameTable.js';
 import P3RemainingCommonNpcNameTable from '../../src/DB/P3RemainingCommonNpcNameTable.js';
 import SpawnTownNpcNameTable from '../../src/DB/SpawnTownNpcNameTable.js';
+import NpcNameTranslations from '../../src/DB/NpcNameTranslations.zh-CN.json';
+
+describe('unified NPC name translations', () => {
+	it('matches every full source name used by the runtime NPC table', () => {
+		expect(Object.keys(NpcNameTranslations)).toHaveLength(4335);
+		for (const [source, translated] of Object.entries(NpcNameTranslations)) {
+			expect(translated, source).toMatch(/[\u3400-\u9fff]/);
+		}
+		expect(
+			Object.entries(NpcNameTranslations)
+				.filter(([source, translated]) => NpcNameTable[source] !== translated)
+				.map(([source, translated]) => [source, translated, NpcNameTable[source]])
+		).toEqual([]);
+	});
+});
 
 describe('PronteraNpcNameTable', () => {
 	it('localizes every registered visible name', () => {

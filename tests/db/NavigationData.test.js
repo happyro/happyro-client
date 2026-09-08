@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+	listNavigationMaps,
+	listNavigationRows,
 	replaceNavigationRows,
 	searchNavigationMaps,
 	searchNavigationRows
@@ -38,7 +40,7 @@ describe('navigation data', () => {
 				type: 'NPC',
 				id: 10,
 				npcClass: 4,
-				name: '卡普拉职员',
+				name: '卡普拉员工',
 				mapName: 'prontera',
 				mapDisplayName: '普隆德拉',
 				x: 146,
@@ -51,6 +53,16 @@ describe('navigation data', () => {
 		const rows = [['prontera', 10, 100, 4, 'Kafra', '', 146, 89]];
 
 		expect(searchNavigationRows(rows, [], '卡', 'NPC', localizers)).toHaveLength(1);
+	});
+
+	it('lists the complete NPC catalog with searchable source metadata', () => {
+		const rows = [['prontera', 10, 100, 4, 'Kafra', '', 146, 89]];
+
+		expect(listNavigationRows(rows, [], 'NPC', localizers)[0]).toMatchObject({
+			name: '卡普拉员工',
+			rawName: 'Kafra',
+			aliases: ['Kafra Employee']
+		});
 	});
 
 	it('keeps resource names searchable and unpacks monster ids', () => {
@@ -97,6 +109,11 @@ describe('navigation data', () => {
 			y: null
 		});
 		expect(searchNavigationMaps(worlds, mapInfo, '普隆德拉', 'NPC', id => id)).toEqual([]);
+	});
+
+	it('lists all maps without requiring a search term', () => {
+		const maps = listNavigationMaps([{ maps: [{ id: 'prontera', name: '普隆德拉' }] }], {}, 'MAP', id => id);
+		expect(maps).toEqual([expect.objectContaining({ id: 'prontera', name: '普隆德拉' })]);
 	});
 
 	it('hides novice map channel replicas by default', () => {

@@ -18,6 +18,8 @@ const imageDirectory = path.resolve(
 	process.env.MONSTER_IMAGE_SOURCE || '../../work/game-data/monsters/kro-20211105'
 );
 const outputDirectory = path.resolve(projectRoot, 'applications/pwa/data/monsters');
+const serverRoot = path.resolve(projectRoot, '../happyro-server');
+const monsterConfigPaths = ['npc/scripts_monsters.conf', 'npc/re/scripts_monsters.conf'];
 const tileSize = 96;
 const contentSize = 88;
 const columns = 20;
@@ -38,6 +40,75 @@ const monsters = Object.entries(snapshot.monsters)
 	.sort((left, right) => left.id - right.id);
 const monstersWithImages = monsters.filter(({ id }) => imageIds.has(id));
 const atlasIndexById = new Map(monstersWithImages.map(({ id }, index) => [id, index]));
+
+async function collectEnabledNpcFiles(configPath, files = new Set(), configs = new Set()) {
+	const normalizedPath = configPath.replaceAll('\\', '/');
+	if (configs.has(normalizedPath)) return { files, configs };
+	configs.add(normalizedPath);
+	const contents = await fs.readFile(path.join(serverRoot, normalizedPath), 'utf8');
+	for (const sourceLine of contents.split(/\r?\n/)) {
+		const line = sourceLine.replace(/\/\/.*$/, '').trim();
+		const directive = line.match(/^(import|npc):\s*(\S+)/i);
+		if (!directive) continue;
+		if (directive[1].toLocaleLowerCase() === 'import') {
+			await collectEnabledNpcFiles(directive[2], files, configs);
+		} else {
+			files.add(directive[2].replaceAll('\\', '/'));
+		}
+	}
+	return { files, configs };
+}
+
+function collectMonsterSpawns(contents, spawnsByMonster) {
+	for (const sourceLine of contents.split(/\r?\n/)) {
+		const line = sourceLine.replace(/\/\/.*$/, '').trim();
+		if (!line) continue;
+		const columns = line.split(/\t+/);
+		if (columns.length < 4 || columns[1].toLocaleLowerCase() !== 'monster') continue;
+		const location = columns[0].match(/^([a-z0-9_]+),(-?\d+),(-?\d+)(?:,(\d+),(\d+))?$/i);
+		const parameters = columns[3].split(',');
+		const monsterId = Number.parseInt(parameters[0], 10);
+		const count = Number.parseInt(parameters[1], 10);
+		if (!location || !Number.isInteger(monsterId) || !Number.isInteger(count) || count <= 0) continue;
+
+		const mapName = location[1].toLocaleLowerCase();
+		const spawn = {
+			mapName,
+			x: Math.max(0, Number.parseInt(location[2], 10)),
+			y: Math.max(0, Number.parseInt(location[3], 10)),
+			width: Number.parseInt(location[4] || '0', 10),
+			height: Number.parseInt(location[5] || '0', 10),
+			count
+		};
+		const byMap = spawnsByMonster.get(monsterId) || new Map();
+		const current = byMap.get(mapName);
+		if (!current) byMap.set(mapName, spawn);
+		else {
+			current.count += count;
+			const currentArea = current.width * current.height;
+			const candidateArea = spawn.width * spawn.height;
+			if ((!current.x && spawn.x) || candidateArea > currentArea) {
+				current.x = spawn.x;
+				current.y = spawn.y;
+				current.width = spawn.width;
+				current.height = spawn.height;
+			}
+		}
+		spawnsByMonster.set(monsterId, byMap);
+	}
+}
+
+const enabledSources = { files: new Set(), configs: new Set() };
+for (const configPath of monsterConfigPaths) {
+	await collectEnabledNpcFiles(configPath, enabledSources.files, enabledSources.configs);
+}
+const spawnSourceHash = crypto.createHash('sha256');
+const spawnsByMonster = new Map();
+for (const sourcePath of [...enabledSources.configs, ...enabledSources.files].sort()) {
+	const contents = await fs.readFile(path.join(serverRoot, sourcePath), 'utf8');
+	spawnSourceHash.update(sourcePath).update(contents);
+	if (enabledSources.files.has(sourcePath)) collectMonsterSpawns(contents, spawnsByMonster);
+}
 
 function localizeDrops(drops = []) {
 	return drops.map(drop => {
@@ -90,10 +161,11 @@ for (let sheetIndex = 0; sheetIndex * entriesPerSheet < monstersWithImages.lengt
 }
 
 const catalog = {
-	schema: 'happyro-monster-catalog/v1',
+	schema: 'happyro-monster-catalog/v2',
 	source: {
 		sha256: crypto.createHash('sha256').update(snapshotBuffer).digest('hex'),
 		itemsSha256: crypto.createHash('sha256').update(itemSnapshotBuffer).digest('hex'),
+		spawnsSha256: spawnSourceHash.digest('hex'),
 		server: snapshot.serverSource,
 		client: snapshot.clientSource,
 		items: itemSnapshot.source
@@ -122,6 +194,9 @@ const catalog = {
 			jobExp: monster.JobExp,
 			drops: localizeDrops(monster.Drops),
 			mvpDrops: localizeDrops(monster.MvpDrops),
+			spawns: [...(spawnsByMonster.get(id)?.values() || [])].sort(
+				(left, right) => right.count - left.count || left.mapName.localeCompare(right.mapName)
+			),
 			atlas: atlasIndex === undefined ? null : Math.floor(atlasIndex / entriesPerSheet),
 			tile: atlasIndex === undefined ? null : atlasIndex % entriesPerSheet
 		};
