@@ -117,8 +117,8 @@ SkillDescription.setSkill = function setSkill(id) {
 	const hostWidth = this._host.getBoundingClientRect().width;
 	const hostHeight = this._host.getBoundingClientRect().height;
 
-	this._host.style.top = `${Math.min(Mouse.screen.y + 10, Renderer.height - hostHeight)}px`;
-	this._host.style.left = `${Math.min(Mouse.screen.x + 10, Renderer.width - hostWidth)}px`;
+	this._host.style.top = `${Math.max(0, Math.min(Mouse.screen.y + 10, Renderer.height - hostHeight))}px`;
+	this._host.style.left = `${Math.max(0, Math.min(Mouse.screen.x + 10, Renderer.width - hostWidth))}px`;
 };
 
 /**
