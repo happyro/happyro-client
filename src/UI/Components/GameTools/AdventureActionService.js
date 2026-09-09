@@ -2,6 +2,7 @@ import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Session from 'Engine/SessionStorage.js';
 import MapRenderer from 'Renderer/MapRenderer.js';
+import { isSupportedMapResource } from 'DB/Map/SupportedMapTable.js';
 
 let nextNpcRequestId = 0x80000000;
 let nextMapRequestId = 0x40000000;
@@ -57,15 +58,18 @@ function startCooldown(seconds) {
 
 export function getAdventureActionState(target = null) {
 	const crossMap = target?.mapName && normalizeAdventureMap(target.mapName) !== getCurrentAdventureMap();
+	const supportedMap = !target?.mapName || isSupportedMapResource(target.mapName);
 	return {
 		allowed: Boolean(Session.NavigationTeleportAllowed),
 		crossMapAllowed: Boolean(Session.NavigationTeleportCrossMap),
 		canTeleport: Boolean(
 			Session.NavigationTeleportAllowed &&
+			supportedMap &&
 			(!crossMap || Session.NavigationTeleportCrossMap) &&
 			!mapPending &&
 			Date.now() >= cooldownUntil
 		),
+		supportedMap,
 		npcPending,
 		mapPending,
 		cooldownRemaining: Math.max(0, Math.ceil((cooldownUntil - Date.now()) / 1000)),
@@ -129,6 +133,7 @@ export function teleportToNpc(npc) {
 	if (
 		npcPending ||
 		!state.canTeleport ||
+		!isSupportedMapResource(npc?.mapName) ||
 		npc?.type !== 'NPC' ||
 		!Number.isFinite(npc.x) ||
 		!Number.isFinite(npc.y) ||

@@ -33,7 +33,8 @@ describe('monster catalog data', () => {
 		const spawns = [
 			{ mapName: 'gef_fild00', count: 34 },
 			{ mapName: 'prt_fild08a', count: 110 },
-			{ mapName: 'prt_fild08', count: 130 }
+			{ mapName: 'prt_fild08', count: 130 },
+			{ mapName: 'jor_tail', count: 20 }
 		];
 		expect(listMonsterSpawnMaps(spawns, { currentMap: 'gef_fild00', channelsEnabled: false })).toEqual([
 			spawns[0],
