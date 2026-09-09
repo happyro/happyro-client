@@ -123,6 +123,9 @@ for (const [id, entry] of Object.entries(SkillLocalizationTable)) {
 	SKID[entry.key] = skillId;
 	LocalizedSkillNames[skillId] = entry.name;
 	SkillDescription[skillId] = entry.description;
+	if (SkillInfo[skillId]) {
+		SkillInfo[skillId].SkillName = entry.name;
+	}
 }
 
 /**
