@@ -34,17 +34,137 @@ describe('SkillLocalizationTable', () => {
 		expect(SkillLocalizationTable[387].description).toContain('手推车革命、更换手推车');
 		expect(SkillLocalizationTable[444].description).toContain('且处于灵魂状态');
 		expect(SkillLocalizationTable[3036].description).toContain('范围：自身周围 7 格');
-		expect(SkillLocalizationTable[5452].description).toContain('伤害受战斗自学');
+		expect(SkillLocalizationTable[5452].description).toContain('伤害受自学战术');
+		expect(SkillLocalizationTable[2430].description).toContain('施法者乐理课程等级');
+		expect(SkillLocalizationTable[5481].description).toContain('伤害受猎影等级');
+		expect(SkillLocalizationTable[5489].description).toContain('伤害受暗转炮等级');
+		expect(SkillLocalizationTable[298].description).toContain('目标：单个敌人');
+		expect(SkillLocalizationTable[407].description).toContain('类型：辅助');
+		expect(SkillLocalizationTable[5204].name).toBe('侍从武器·幻影');
+		expect(SkillLocalizationTable[5392].name).toBe('元素破坏·地');
+		expect(SkillLocalizationTable[5424].description).toContain('属性：赋予属性');
+		expect(SkillLocalizationTable[5029].description).toContain('Boss 魔物');
+		expect(SkillLocalizationTable[2249].description).toContain('周围 3×3 格时触发');
+		expect(SkillLocalizationTable[2249].description).toContain('周围 5×5 格内所有魔物');
+		expect(SkillLocalizationTable[2465].description).toContain('按技能等级消耗 1 / 2 / 3 个火灵原石');
+		expect(SkillLocalizationTable[2465].description).toContain('每 5 秒恢复 1% HP');
+		expect(SkillLocalizationTable[2465].description).toContain('每 5 秒损失 1% HP');
+		expect(SkillLocalizationTable[26].description).toContain('地面保护效果范围内不能使用');
+		expect(SkillLocalizationTable[233].description).toContain('气泡虫 HP');
+		expect(SkillLocalizationTable[513].description).toContain('施放范围：9');
+		expect(SkillLocalizationTable[2581].description).toContain('并施加沉默');
+		expect(SkillLocalizationTable[3031].description).toContain('解除着火、出血、深度睡眠和睡眠');
+		expect(SkillLocalizationTable[3032].description).toContain('解除冰冻、冷冻和冻结');
+		expect(SkillLocalizationTable[2253].description).toContain('周围 3×3 格时触发');
+		expect(SkillLocalizationTable[5463].description).toContain('朝阳、正午爆破、日落爆破');
+		expect(SkillLocalizationTable[5479].description).toContain('分身均施放暗转炮');
+		expect(SkillLocalizationTable[2414].description).toContain('箭矢不足 5 支时不会发动');
+		expect(SkillLocalizationTable[2418].description).toContain('箭矢不足 10 支时不会发动');
+		expect(SkillLocalizationTable[2494].description).toContain('准确的物品名称和数量');
+		expect(SkillLocalizationTable[2574].description).toContain('提高满月踢的威力');
+		expect(SkillLocalizationTable[2590].description).toContain('提高太阳爆发的威力');
+		expect(SkillLocalizationTable[241].description).toContain('自动归自己饲养');
+		expect(SkillLocalizationTable[387].description).toContain('无视敏捷下降等减速效果');
+		expect(SkillLocalizationTable[495].description).toContain('使用后服用的攻速药水仍会生效');
+		expect(SkillLocalizationTable[2231].description).toContain('不能保存尚未学会的魔法');
+		expect(SkillLocalizationTable[2422].description).toContain('无法对话');
+		expect(SkillLocalizationTable[2495].description).toContain('制作时必须持有对应食谱');
+		expect(SkillLocalizationTable[5068].description).toContain('立即解除');
+		expect(SkillLocalizationTable[210].name).toBe('自动偷窃');
+		expect(SkillLocalizationTable[214].name).toBe('潜击');
+		expect(SkillLocalizationTable[219].name).toBe('胁持');
+		expect(SkillLocalizationTable[221].name).toBe('旗帜涂鸦');
+		expect(SkillLocalizationTable[222].name).toBe('清洗');
+		expect(SkillLocalizationTable[223].name).toBe('流氓天国');
+		expect(SkillLocalizationTable[224].name).toBe('强制减价');
+		expect(SkillLocalizationTable[225].name).toBe('抄袭');
+		const auditedNames = {
+			33: '天使之障壁',
+			57: '长矛挥击',
+			66: '神威祈福',
+			69: '圣体降福',
+			81: '火狩芽',
+			88: '霜冻之术',
+			91: '崩裂术',
+			111: '速度激发',
+			135: '伪装',
+			233: '召唤气泡虫',
+			234: '化学武器保护',
+			255: '牺牲',
+			260: '运气调息',
+			269: '真剑百破道',
+			290: '随机魔法',
+			307: '金先生发财了',
+			310: '尼贝隆根之戒',
+			318: '冷笑话',
+			326: '惊声尖叫',
+			369: '福音',
+			373: '生命力转换',
+			379: '气功炮',
+			400: '念力连击',
+			459: '高级速度激发',
+			478: '投掷纤细药水',
+			490: '强酸火烟瓶投掷',
+			515: '五连击',
+			516: '亡命之徒',
+			533: '忍术修炼',
+			2238: '电击陷阱',
+			2251: '淡黄陷阱',
+			2424: '不确定要素的语言',
+			2456: '精灵控制',
+			2608: '灵魂循环',
+			3001: '暗云',
+			5024: '灵魂珠',
+			5045: '群体之力',
+			5254: '最终章·驱魔之火',
+			5277: '神罚',
+			5284: '弗拉门',
+			5360: '矿工狂想曲',
+			5362: '晚霞小夜曲',
+			5434: '与铁虎共鸣',
+			5438: '与龟雪共鸣',
+			5443: '与玄鹿共鸣',
+			5460: '念力连击·冲击',
+			5488: '红炎炮',
+			5492: '暗转炮',
+			5506: '铁虎重击',
+			8024: '抹杀切割',
+			8029: '银脉冲锋',
+			8219: '光之盾',
+			8220: '自动防御',
+			8221: '牺牲',
+			8237: '怪物情报'
+		};
+		for (const [id, name] of Object.entries(auditedNames)) {
+			expect(SkillLocalizationTable[id].name).toBe(name);
+			expect(SkillLocalizationTable[id].description.startsWith(`${name}\n`)).toBe(true);
+		}
+		expect(SkillLocalizationTable[369].description).toContain('天使之障壁 Lv.3');
+		expect(SkillLocalizationTable[406].description).toContain('气功炮 Lv.1');
+		expect(SkillLocalizationTable[459].description).toContain('速度激发 Lv.5');
 	});
 
 	it('contains Chinese names and descriptions without Korean text', () => {
+		const allVisibleText = Object.values(SkillLocalizationTable)
+			.map(entry => `${entry.name}\n${entry.description}`)
+			.join('\n');
+		expect(allVisibleText).not.toContain('首领');
+		expect(allVisibleText).not.toMatch(/[\u3400-\u9fff]Boss|Boss[\u3400-\u9fff]/);
 		for (const entry of Object.values(SkillLocalizationTable)) {
 			expect(entry.name).toMatch(/[\u3400-\u9fff]/);
 			expect(entry.description).toMatch(/[\u3400-\u9fff]/);
+			expect(entry.description.startsWith(`${entry.name}\n`)).toBe(true);
 			expect(entry.name).not.toMatch(HANGUL);
 			expect(entry.description).not.toMatch(HANGUL);
 			expect(entry.description).not.toContain('undefined');
+			expect(entry.description).not.toMatch(/^施放范围：-/mu);
 			expect(entry.description).not.toMatch(/官方技能效果数据已收录|尚未收录|相关技能效果/);
+			expect(`${entry.name}\n${entry.description}`).not.toMatch(
+				/\b(?:Attack|Demolition|Endowed|Fire|Ground|MAX|Phantom|Poison|Random|Sign|Smoke Powder|Tear Gas|Water|Wind)\b/i
+			);
+			expect(`${entry.name}\n${entry.description}`).not.toMatch(
+				/\bFlee\b|\bzeny\b|\d+z\b|\s[Xx](?=\s?\d)|受课程|按课程|施法者课程|课程和职业|教训|符咒修炼|灵道术修炼|神秘生物精通|战斗自学|独学·魔导学|自学巫术|天机修炼|影子猎杀|冰闪炮|风魔手里剑－|苦无－|\(掌握等级/
+			);
 		}
 	});
 
