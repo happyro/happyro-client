@@ -17,7 +17,7 @@ import ControlsSettings from 'Preferences/Controls.js';
 import ItemType from 'DB/Items/ItemType.js';
 import JoystickShortcutMapper from './JoystickShortcutMapper.js';
 import JoystickInputService from './JoystickInputService.js';
-import SkillInfo from 'DB/Skills/SkillInfo.js';
+import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 
 let ui = null;
 

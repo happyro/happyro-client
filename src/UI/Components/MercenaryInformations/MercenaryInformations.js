@@ -352,7 +352,7 @@ MercenaryInformations.toggleAggressive = function toggleAggressive() {
  */
 MercenaryInformations.startAI = function startAI() {
 	if (!this.AILoop) {
-		AIDriver.reset();
+		AIDriver.reset(false);
 		this.AILoop = setInterval(() => {
 			if (Session.mercId) {
 				const entity = EntityManager.get(Session.mercId);

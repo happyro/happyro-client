@@ -201,6 +201,7 @@ let _npcTeleportTimer = null;
 let _npcAvailabilityRequestId = 0;
 let _npcAvailabilityPending = null;
 let _npcAvailabilityTimer = null;
+let _searchRequestId = 0;
 let _unsubscribeAdventureActions = null;
 
 /**
@@ -606,6 +607,8 @@ Navigation.onAppend = function onAppend() {
  * Once removed from DOM
  */
 Navigation.onRemove = function onRemove() {
+	_searchRequestId++;
+	_navigationRequestId++;
 	this.stopAutoWalk();
 	this.clearPath();
 	terminatePathFindingWorker();
@@ -625,12 +628,13 @@ Navigation.onRemove = function onRemove() {
 /**
  * Handle search button click
  */
-Navigation.onSearch = function onSearch() {
+Navigation.onSearch = async function onSearch() {
 	const root = Navigation.getRoot();
 	const query = root.querySelector('.search-input').value.trim();
 	const type = getSearchFilterValue(root, '.search-type');
 	const resultsContainer = root.querySelector('.search-results');
 	closeSearchFilterMenus(root);
+	const requestId = ++_searchRequestId;
 
 	if (query.length < 1) {
 		if (resultsContainer) {
@@ -641,13 +645,22 @@ Navigation.onSearch = function onSearch() {
 	}
 
 	// Search for NPCs and MOBs
-	const results = toWorldEntities(
-		DB.searchNavigation(query, type, {
-			channelsEnabled: Session.NavigationMapChannelsEnabled,
-			currentMap: getCurrentMap(),
-			scope: getSearchFilterValue(root, '.search-scope')
-		})
-	);
+	let results;
+	try {
+		results = toWorldEntities(
+			await DB.searchNavigation(query, type, {
+				channelsEnabled: Session.NavigationMapChannelsEnabled,
+				currentMap: getCurrentMap(),
+				scope: getSearchFilterValue(root, '.search-scope')
+			})
+		);
+	} catch (error) {
+		if (requestId !== _searchRequestId) return;
+		console.error('[Navigation] Failed to load navigation catalog:', error);
+		this.displaySearchResults([]);
+		return;
+	}
+	if (requestId !== _searchRequestId) return;
 
 	const npcResults = results.filter(result => result.type === 'NPC');
 	if (npcResults.length) {
@@ -676,7 +689,6 @@ Navigation.requestNpcAvailability = function requestNpcAvailability(results, npc
 	clearTimeout(_npcAvailabilityTimer);
 	_npcAvailabilityTimer = setTimeout(() => {
 		if (_npcAvailabilityPending?.requestId !== requestId) return;
-		const nonNpcResults = results.filter(result => result.type !== 'NPC');
 		_npcAvailabilityPending = null;
 		for (const npc of npcResults) npc.availability = 'unknown';
 		this.displaySearchResults(results);
@@ -1629,12 +1641,24 @@ Navigation.setMouseCoordinatesText = function setMouseCoordinatesText(x, y, opti
 /**
  * Find a path between two points using a web worker
  */
-Navigation.findPath = function findPath(startX, startY, endX, endY) {
+Navigation.findPath = async function findPath(startX, startY, endX, endY) {
+	const navigationRequestId = _navigationRequestId;
 	initializePathFindingWorker();
 	if (_pathFindingWorker && !_pathUpdateLock) {
 		_pathUpdateLock = true;
 
-		const naviLinkTable = DB.getNaviLinkTable();
+		let naviLinkTable;
+		try {
+			naviLinkTable = (await DB.getNavigationGraph()).links;
+		} catch (error) {
+			if (navigationRequestId !== _navigationRequestId) return;
+			console.error('[Navigation] Failed to load navigation graph:', error);
+			_pathUpdateLock = false;
+			_pathUnavailable = true;
+			notifyRouteState();
+			return;
+		}
+		if (navigationRequestId !== _navigationRequestId) return;
 		const currentMap = getCurrentMap();
 		const warps = [];
 
@@ -1693,6 +1717,9 @@ Navigation.toggle = function toggle() {
  */
 Navigation.show = function show() {
 	const root = Navigation.getRoot();
+	DB.prepareNavigationCatalog().catch(error => {
+		console.error('[Navigation] Failed to preload navigation catalog:', error);
+	});
 
 	this.clearPath();
 	initializePathFindingWorker();
@@ -1837,7 +1864,7 @@ Navigation.withMapData = function withMapData(mapName, callback) {
 /**
  * Unified navigation function that handles both same-map and cross-map navigation
  */
-Navigation.navigateTo = function navigateTo(options) {
+Navigation.navigateTo = async function navigateTo(options) {
 	const navigationRequestId = ++_navigationRequestId;
 	this.setActionStatus('');
 	const root = Navigation.getRoot();
@@ -1878,15 +1905,25 @@ Navigation.navigateTo = function navigateTo(options) {
 		warpTypes = [200, 201, 202, 203, 204, 205];
 	}
 
-	const path = MapPathFinder.findPathBetweenMaps(
-		startMap,
-		options.startX,
-		options.startY,
-		endMap,
-		options.endX,
-		options.endY,
-		warpTypes
-	);
+	_pathUpdateLock = true;
+	notifyRouteState();
+	let path;
+	try {
+		path = await MapPathFinder.findPathBetweenMaps(
+			startMap,
+			options.startX,
+			options.startY,
+			endMap,
+			options.endX,
+			options.endY,
+			warpTypes
+		);
+	} catch (error) {
+		console.error('[Navigation] Failed to calculate route:', error);
+		path = null;
+	}
+	if (navigationRequestId !== _navigationRequestId) return;
+	_pathUpdateLock = false;
 
 	if (!path || path.length === 0) {
 		_autoWalkRequested = false;

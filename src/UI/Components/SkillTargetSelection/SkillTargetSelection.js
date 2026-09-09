@@ -9,7 +9,7 @@
  */
 
 import DB from 'DB/DBManager.js';
-import SkillInfo from 'DB/Skills/SkillInfo.js';
+import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import KEYS from 'Controls/KeyEventHandler.js';
 import Mouse from 'Controls/MouseEventHandler.js';
 import Renderer from 'Renderer/Renderer.js';

@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import {
 	listNavigationMaps,
 	listNavigationRows,
-	replaceNavigationRows,
 	searchNavigationMaps,
 	searchNavigationRows
 } from '../../src/DB/Navigation/NavigationData.js';
@@ -16,21 +15,6 @@ const localizers = {
 };
 
 describe('navigation data', () => {
-	it('replaces sequential Lua rows without losing array length', () => {
-		const target = [['stale']];
-		replaceNavigationRows(target, [['first'], ['second']]);
-
-		expect(target).toEqual([['first'], ['second']]);
-		expect(target).toHaveLength(2);
-	});
-
-	it('orders numeric keys when Lua extraction returns an object', () => {
-		const target = [];
-		replaceNavigationRows(target, { 2: ['second'], 1: ['first'] });
-
-		expect(target).toEqual([['first'], ['second']]);
-	});
-
 	it('searches and displays localized NPC names', () => {
 		const rows = [['prontera', 10, 100, 4, 'Kafra', '', 146, 89]];
 		const results = searchNavigationRows(rows, [], '卡普拉', 'NPC', localizers);
@@ -114,6 +98,16 @@ describe('navigation data', () => {
 	it('lists all maps without requiring a search term', () => {
 		const maps = listNavigationMaps([{ maps: [{ id: 'prontera', name: '普隆德拉' }] }], {}, 'MAP', id => id);
 		expect(maps).toEqual([expect.objectContaining({ id: 'prontera', name: '普隆德拉' })]);
+	});
+
+	it('adds maps that exist only in the static navigation catalog', () => {
+		const maps = listNavigationMaps([], {}, 'MAP', id => id, {}, [
+			['unknown_map', '未本地化名称', 5001, 100, 100]
+		]);
+
+		expect(maps).toEqual([
+			expect.objectContaining({ id: 'unknown_map', name: 'unknown_map', mapName: 'unknown_map' })
+		]);
 	});
 
 	it('hides novice map channel replicas by default', () => {

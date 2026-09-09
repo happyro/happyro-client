@@ -12,8 +12,8 @@
  */
 
 import DB from 'DB/DBManager.js';
-import SkillInfo from 'DB/Skills/SkillInfo.js';
-import SkillTreeView from 'DB/Skills/SkillTreeView.js';
+import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
+import SkillTreeView from 'DB/Skills/SkillTreeView.generated.js';
 import Session from 'Engine/SessionStorage.js';
 import Client from 'Core/Client.js';
 import Preferences from 'Core/Preferences.js';

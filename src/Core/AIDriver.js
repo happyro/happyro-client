@@ -3,7 +3,7 @@ import Session from 'Engine/SessionStorage.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import PACKETVER from 'Network/PacketVerManager.js';
-import SkillInfo from 'DB/Skills/SkillInfo.js';
+import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import EntityManager from 'Renderer/EntityManager.js';
 import Client from './Client.js';
 import Configs from './Configs.js';
@@ -20,7 +20,18 @@ class AIDriver {
 	static MER_AI = null;
 	static default_HO_AI = null;
 	static default_MER_AI = null;
-	static ready = false;
+	static ready = {
+		homunculus: false,
+		mercenary: false
+	};
+	static initialization = {
+		homunculus: null,
+		mercenary: null
+	};
+	static generation = {
+		homunculus: 0,
+		mercenary: 0
+	};
 	// this is called in a code in someplace, left if here :u
 	static init() {}
 
@@ -32,7 +43,7 @@ class AIDriver {
 		}
 	}
 
-	static addCTX() {
+	static addCTX(homunculus, defaultAI, customAI) {
 		const scriptStartTime = Date.now();
 
 		// Prevents circular dependancy
@@ -420,16 +431,36 @@ class AIDriver {
 			};
 		}
 
-		addCTX(AIDriver.default_HO_AI, true);
-		addCTX(AIDriver.HO_AI, true);
-		addCTX(AIDriver.default_MER_AI, false);
-		addCTX(AIDriver.MER_AI, false);
+		if (homunculus) {
+			addCTX(defaultAI, true);
+			addCTX(customAI, true);
+			return;
+		}
+
+		addCTX(defaultAI, false);
+		addCTX(customAI, false);
 	}
 
-	static initAI = async onEnd => {
+	static initAI = homunculus => {
+		const kind = homunculus ? 'homunculus' : 'mercenary';
+		if (AIDriver.ready[kind]) {
+			return Promise.resolve();
+		}
+		if (AIDriver.initialization[kind]) {
+			return AIDriver.initialization[kind];
+		}
+
+		const initialization = AIDriver.initializeAI(homunculus, AIDriver.generation[kind]);
+		AIDriver.initialization[kind] = initialization;
+		return initialization;
+	};
+
+	static initializeAI = async (homunculus, generation) => {
+		const kind = homunculus ? 'homunculus' : 'mercenary';
 		let loadedFiles = {};
 		let loadPromises = [];
-		AIDriver.ready = false;
+		let defaultAI;
+		let customAI;
 		function preloadFiles(fileList, lua) {
 			const ctx = lua.ctx;
 
@@ -570,58 +601,54 @@ class AIDriver {
 		}
 
 		try {
-			AIDriver.HO_AI = DB.getHOAI_VM();
-			AIDriver.MER_AI = DB.getMERAI_VM();
-			AIDriver.default_HO_AI = DB.getDefaultHOAI_VM();
-			AIDriver.default_MER_AI = DB.getDefaultMERAI_VM();
-			AIDriver.addCTX();
+			defaultAI = await DB.createLuaVM();
+			customAI = await DB.createLuaVM();
+			AIDriver.addCTX(homunculus, defaultAI, customAI);
 
-			console.log('Loading Default HOAI...');
-			let files = ['AI/Util.lua', 'AI/Const.lua', 'AI/AI.lua'];
-			let AI_M = 'AI/AI_M.lua';
-			preloadFiles(files, AIDriver.default_HO_AI);
-			await doFiles(files, AIDriver.default_HO_AI);
+			let files = homunculus
+				? ['AI/Util.lua', 'AI/Const.lua', 'AI/AI.lua']
+				: ['AI/Util.lua', 'AI/Const.lua', 'AI/AI_M.lua'];
+			console.log(`Loading Default ${homunculus ? 'HOAI' : 'MERAI'}...`);
+			preloadFiles(files, defaultAI);
+			await doFiles(files, defaultAI);
 
-			console.log('Loading Default MERAI...');
 			loadedFiles = {};
 			loadPromises = [];
-			files.pop();
-			files.push(AI_M);
-			preloadFiles(files, AIDriver.default_MER_AI);
-			await doFiles(files, AIDriver.default_MER_AI);
-
-			files = ['AI/USER_AI/Util.lua', 'AI/USER_AI/Const.lua', 'AI/USER_AI/AI.lua'];
-			AI_M = 'AI/USER_AI/AI_M.lua';
-			console.log('Loading Custom HOAI...');
-			preloadFiles(files, AIDriver.HO_AI);
-			await doFiles(files, AIDriver.HO_AI);
-
-			console.log('Loading Custom MERAI...');
-			loadedFiles = {};
-			loadPromises = [];
-			files.pop();
-			files.push(AI_M);
-			preloadFiles(files, AIDriver.MER_AI);
-			await doFiles(files, AIDriver.MER_AI);
+			files = homunculus
+				? ['AI/USER_AI/Util.lua', 'AI/USER_AI/Const.lua', 'AI/USER_AI/AI.lua']
+				: ['AI/USER_AI/Util.lua', 'AI/USER_AI/Const.lua', 'AI/USER_AI/AI_M.lua'];
+			console.log(`Loading Custom ${homunculus ? 'HOAI' : 'MERAI'}...`);
+			preloadFiles(files, customAI);
+			await doFiles(files, customAI);
 		} catch (error) {
+			defaultAI?.global?.close?.();
+			customAI?.global?.close?.();
 			console.warn('[AIDriver] AI files not available, skipping AI initialization:', error.message || error);
-			if (typeof onEnd === 'function') {
-				onEnd();
-			}
+			throw error;
+		}
+
+		if (generation !== AIDriver.generation[kind]) {
+			defaultAI.global.close();
+			customAI.global.close();
 			return;
 		}
 
-		AIDriver.ready = true;
-
-		if (typeof onEnd === 'function') {
-			onEnd();
+		if (homunculus) {
+			AIDriver.default_HO_AI = defaultAI;
+			AIDriver.HO_AI = customAI;
+		} else {
+			AIDriver.default_MER_AI = defaultAI;
+			AIDriver.MER_AI = customAI;
 		}
+		AIDriver.ready[kind] = true;
 	};
 
 	static exec = (code, homunculus = true) => {
 		try {
 			//console.log('exec', code);
-			if (!AIDriver.ready) {
+			const kind = homunculus ? 'homunculus' : 'mercenary';
+			if (!AIDriver.ready[kind]) {
+				AIDriver.initAI(homunculus).catch(() => {});
 				return;
 			}
 
@@ -645,7 +672,26 @@ class AIDriver {
 		}
 	};
 	// this is called in some place of code
-	static reset = () => {};
+	static reset = (homunculus = null) => {
+		const kinds = homunculus === null ? [true, false] : [homunculus];
+		for (const isHomunculus of kinds) {
+			const kind = isHomunculus ? 'homunculus' : 'mercenary';
+			const instances = isHomunculus
+				? [AIDriver.HO_AI, AIDriver.default_HO_AI]
+				: [AIDriver.MER_AI, AIDriver.default_MER_AI];
+			for (const lua of instances) lua?.global?.close?.();
+			if (isHomunculus) {
+				AIDriver.HO_AI = null;
+				AIDriver.default_HO_AI = null;
+			} else {
+				AIDriver.MER_AI = null;
+				AIDriver.default_MER_AI = null;
+			}
+			AIDriver.ready[kind] = false;
+			AIDriver.initialization[kind] = null;
+			AIDriver.generation[kind] += 1;
+		}
+	};
 }
 
 export default AIDriver;
