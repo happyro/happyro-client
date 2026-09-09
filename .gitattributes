@@ -24,6 +24,9 @@
 package.json		text eol=crlf
 package-lock.json	text eol=crlf -diff
 
+# Deterministic generated JSON checked byte-for-byte by the root generators
+applications/pwa/data/navigation/*.json text eol=lf
+
 # Graphics
 *.bmp				binary
 *.gif				binary

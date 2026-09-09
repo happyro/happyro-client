@@ -18,7 +18,7 @@ vi.mock('Preferences/Controls.js', () => ({ default: mocks.controls }));
 vi.mock('DB/Items/ItemType.js', () => ({ default: {} }));
 vi.mock('UI/Components/JoystickUI/JoystickShortcutMapper.js', () => ({ default: {} }));
 vi.mock('UI/Components/JoystickUI/JoystickInputService.js', () => ({ default: mocks.inputService }));
-vi.mock('DB/Skills/SkillInfo.js', () => ({ default: {} }));
+vi.mock('DB/Skills/SkillInfo.generated.js', () => ({ default: {} }));
 
 const { default: JoystickUIRenderer } = await import('UI/Components/JoystickUI/JoystickUIRenderer.js');
 

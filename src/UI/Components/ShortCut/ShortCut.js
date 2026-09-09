@@ -10,7 +10,7 @@
 
 import DB from 'DB/DBManager.js';
 import ItemType from 'DB/Items/ItemType.js';
-import SkillInfo from 'DB/Skills/SkillInfo.js';
+import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import Client from 'Core/Client.js';
 import Preferences from 'Core/Preferences.js';
 import Session from 'Engine/SessionStorage.js';
@@ -209,7 +209,7 @@ ShortCut.onRemove = function onRemove() {
 	}
 
 	// Cancels all active animation loops defensively to prevent leaks in unattached elements
-	for (const [index, animationId] of _activeAnimations.entries()) {
+	for (const animationId of _activeAnimations.values()) {
 		cancelAnimationFrame(animationId);
 	}
 	_activeAnimations.clear();
@@ -224,7 +224,7 @@ ShortCut.onRemove = function onRemove() {
  */
 ShortCut.clean = function clean() {
 	// Cancels all active animation loops immediately to prevent post-logout TypeError
-	for (const [index, animationId] of _activeAnimations.entries()) {
+	for (const animationId of _activeAnimations.values()) {
 		cancelAnimationFrame(animationId);
 	}
 	_activeAnimations.clear();
