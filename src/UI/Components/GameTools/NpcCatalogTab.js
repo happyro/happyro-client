@@ -9,6 +9,7 @@ import { loadNpcAssets, npcAtlasStyle } from './WorldAssetService.js';
 import { loadCatalogMap } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
 import { mergeNpcCatalog } from './WorldCatalogService.js';
+import { renderGameSelect } from './GameSelect.js';
 
 const key = npc => `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
 const catalogPromises = new Map();
@@ -60,8 +61,15 @@ function mount(container) {
 	const browser = mountCatalogBrowser(container, {
 		placeholder: '搜索 NPC、地图或编号',
 		searchLabel: '搜索 NPC',
-		filterHtml:
-			'<select class="catalog-filter" aria-label="NPC 范围"><option value="all">全世界</option><option value="current">当前地图</option></select>',
+		filterHtml: renderGameSelect({
+			className: 'catalog-filter',
+			ariaLabel: 'NPC 范围',
+			value: 'all',
+			options: [
+				{ value: 'all', label: '全世界' },
+				{ value: 'current', label: '当前地图' }
+			]
+		}),
 		emptyDetail: '选择一个 NPC 查看详情',
 		pageSize: 32,
 		key,
@@ -144,19 +152,27 @@ function mount(container) {
 
 	const catalogKey = Session.NavigationMapChannelsEnabled ? 'channels' : 'shared';
 	if (!catalogPromises.has(catalogKey)) {
-		catalogPromises.set(catalogKey, Promise.all([
-			loadNpcAssets(),
-			Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
-		]).then(([assets, npcs]) => {
-			const mapNames = new Map();
-			const localizeMap = mapName => {
-				if (!mapNames.has(mapName)) mapNames.set(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
-				return mapNames.get(mapName);
-			};
-			return { assets, items: mergeNpcCatalog(npcs, localizeMap) };
-		}));
+		catalogPromises.set(
+			catalogKey,
+			Promise.all([
+				loadNpcAssets(),
+				Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
+			]).then(([assets, npcs]) => {
+				const mapNames = new Map();
+				const localizeMap = mapName => {
+					if (!mapNames.has(mapName))
+						mapNames.set(
+							mapName,
+							DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
+						);
+					return mapNames.get(mapName);
+				};
+				return { assets, items: mergeNpcCatalog(npcs, localizeMap) };
+			})
+		);
 	}
-	catalogPromises.get(catalogKey)
+	catalogPromises
+		.get(catalogKey)
 		.then(({ assets, items }) => {
 			manifest = assets;
 			browser.setItems(items);

@@ -1,3 +1,5 @@
+import { mountGameSelects } from './GameSelect.js';
+
 export function mountRemoteCatalogBrowser(container, options) {
 	const state = { items: [], selected: null, page: 1, total: 0, loading: false, error: '' };
 	let requestToken = 0;
@@ -6,6 +8,7 @@ export function mountRemoteCatalogBrowser(container, options) {
 		<div class="catalog-toolbar">
 			<input class="catalog-search" type="search" placeholder="${options.placeholder}" aria-label="${options.searchLabel}">
 			${options.filterHtml || ''}
+			${options.toolbarActionHtml || ''}
 		</div>
 		<div class="catalog-layout">
 			<section class="catalog-browser">
@@ -16,9 +19,10 @@ export function mountRemoteCatalogBrowser(container, options) {
 		</div>`;
 
 	const search = container.querySelector('.catalog-search');
-	const filter = container.querySelector('.catalog-filter');
+	const filters = [...container.querySelectorAll('.catalog-filter.game-select-value')];
 	const list = container.querySelector('.catalog-list');
 	const detail = container.querySelector('.catalog-detail');
+	mountGameSelects(container);
 	const api = {
 		get state() {
 			return state;
@@ -60,7 +64,10 @@ export function mountRemoteCatalogBrowser(container, options) {
 		try {
 			const result = await options.load({
 				query: search.value.trim(),
-				filter: filter?.value || '',
+				filter: filters[0]?.value || '',
+				filters: Object.fromEntries(
+					filters.filter(input => input.name).map(input => [input.name, input.value])
+				),
 				page: state.page,
 				perPage: options.pageSize
 			});
@@ -92,7 +99,18 @@ export function mountRemoteCatalogBrowser(container, options) {
 		clearTimeout(searchTimer);
 		searchTimer = setTimeout(resetAndLoad, 250);
 	});
-	filter?.addEventListener('change', resetAndLoad);
+	filters.forEach(input =>
+		input.addEventListener('change', () => {
+			options.onFiltersChange?.(
+				Object.fromEntries(filters.filter(item => item.name).map(item => [item.name, item.value]))
+			);
+			resetAndLoad();
+		})
+	);
+	const filterValues = () =>
+		Object.fromEntries(filters.filter(item => item.name).map(item => [item.name, item.value]));
+	options.onFiltersChange?.(filterValues());
+	options.onReady?.({ container, reload: resetAndLoad, refreshDetail: renderDetail });
 	container.querySelector('.catalog-prev').addEventListener('click', () => {
 		state.page -= 1;
 		void loadPage();

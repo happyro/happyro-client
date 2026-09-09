@@ -16,6 +16,7 @@ import {
 	paginateMonsters
 } from './MonsterCatalogData.js';
 import escapeHtml from './escapeHtml.js';
+import { mountGameSelects, renderGameSelect } from './GameSelect.js';
 
 const pageSize = 40;
 const raceNames = {
@@ -127,9 +128,16 @@ function mount(container) {
 	container.innerHTML = `
 		<div class="monster-toolbar">
 			<input class="monster-search" type="search" placeholder="搜索名称、英文名或 ID" aria-label="搜索魔物">
-			<select class="monster-filter" aria-label="魔物类型">
-				<option value="all">全部</option><option value="normal">普通</option><option value="boss">Boss / MVP</option>
-			</select>
+			${renderGameSelect({
+				className: 'monster-filter',
+				ariaLabel: '魔物类型',
+				value: 'all',
+				options: [
+					{ value: 'all', label: '全部' },
+					{ value: 'normal', label: '普通' },
+					{ value: 'boss', label: 'Boss / MVP' }
+				]
+			})}
 		</div>
 		<div class="monster-layout">
 			<section class="monster-browser">
@@ -145,10 +153,11 @@ function mount(container) {
 		</div>`;
 
 	const search = container.querySelector('.monster-search');
-	const filter = container.querySelector('.monster-filter');
+	const filter = container.querySelector('.monster-filter.game-select-value');
 	const list = container.querySelector('.monster-list');
 	const summary = container.querySelector('.monster-summary');
 	const pageLabel = container.querySelector('.page-label');
+	mountGameSelects(container);
 
 	function applyFilter() {
 		state.filtered = filterMonsters(state.monsters, search.value, filter.value);

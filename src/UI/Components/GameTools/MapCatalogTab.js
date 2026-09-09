@@ -17,6 +17,7 @@ import {
 	subscribeAdventureRoute
 } from './AdventureRouteService.js';
 import { filterAndSortMaps } from './MapCatalogData.js';
+import { renderGameSelect } from './GameSelect.js';
 import {
 	canvasToMapCoordinate,
 	findDefaultMapCoordinate,
@@ -46,8 +47,15 @@ function mount(container) {
 	const browser = mountCatalogBrowser(container, {
 		placeholder: '搜索地图名称或代码',
 		searchLabel: '搜索地图',
-		filterHtml:
-			'<select class="catalog-filter" aria-label="地图范围"><option value="all">全部地图</option><option value="current">当前地图</option></select>',
+		filterHtml: renderGameSelect({
+			className: 'catalog-filter',
+			ariaLabel: '地图范围',
+			value: 'all',
+			options: [
+				{ value: 'all', label: '全部地图' },
+				{ value: 'current', label: '当前地图' }
+			]
+		}),
 		emptyDetail: '选择一个地图查看详情',
 		pageSize: 35,
 		key: map => map.id,
