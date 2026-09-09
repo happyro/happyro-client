@@ -315,7 +315,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
                 background: rgba(232, 184, 75, 0.15);    
                 border-color: #e8b84b;    
             }    
-            .build-id { margin-top: 24px; color: #8b8f98; font: 12px monospace; }
+            .build-id { position: fixed; right: 16px; bottom: 12px; color: #8b8f98; font: 12px monospace; }
         </style>    
     </head>    
     <body>    
@@ -324,7 +324,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
             <div class="button-grid">    
 ${buttons}    
             </div>    
-            <div class="build-id">构建 ${buildId}</div>
+            <div class="build-id">Build: ${buildId}</div>
         </div>    
   
         <script type="text/javascript">    
