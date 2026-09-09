@@ -1,6 +1,7 @@
 /* eslint-disable */
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
 
@@ -13,6 +14,7 @@ const startTime = Date.now();
 const args = getArgs();
 
 const buildDate = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+const buildId = startTime.toString(36);
 const dist = './dist/';
 const platform = 'Web';
 
@@ -97,6 +99,8 @@ const entryMap = {
 		}
 		await action();
 	}
+
+	writeBuildInfo();
 })();
 
 async function compile(appName, isMinify) {
@@ -160,6 +164,7 @@ async function compile(appName, isMinify) {
 		console.log(appName + '.js has been created in', Date.now() - startTime, 'ms.');
 	} catch (err) {
 		console.error('Error building ' + appName + ':', err);
+		throw err;
 	}
 }
 
@@ -185,6 +190,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
     <head>    
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>    
         <meta charset="UTF-8">    
+        <meta name="happyro-build-id" content="${buildId}">
         <title>roBrowser [${pkg.version} - ${buildDate}]</title>    
         <link rel="icon" type="image/png" href="./icon.png">    
     
@@ -309,6 +315,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
                 background: rgba(232, 184, 75, 0.15);    
                 border-color: #e8b84b;    
             }    
+            .build-id { margin-top: 24px; color: #8b8f98; font: 12px monospace; }
         </style>    
     </head>    
     <body>    
@@ -317,6 +324,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
             <div class="button-grid">    
 ${buttons}    
             </div>    
+            <div class="build-id">构建 ${buildId}</div>
         </div>    
   
         <script type="text/javascript">    
@@ -325,7 +333,7 @@ ${buttons}
                 var top = (screen.height - h) / 2;    
                 var left = (screen.width - w) / 2;    
                 window.open(    
-                    'api.html?app=' + appName,    
+                    'api.html?v=${buildId}&app=' + appName,
                     '_blank',    
                     'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',menubar=0,toolbar=0,location=0,status=0,resizable=1,scrollbars=0'    
                 );    
@@ -394,9 +402,9 @@ ${buttons}
             </p>    
         </div>    
   
-        <script src="Config.js"></script>    
-        <script src="Config.runtime.js"></script>
-        <script src="Config.happyro.js"></script>
+        <script src="Config.js?v=${buildId}"></script>
+        <script src="Config.runtime.js?v=${buildId}"></script>
+        <script src="Config.happyro.js?v=${buildId}"></script>
         <script>    
             function deepMerge(target, source) {    
                 for (var key in source) {    
@@ -422,7 +430,7 @@ ${buttons}
     
 				var script = document.createElement('script');    
 				script.type = 'module';    
-				script.src = 'Online.js';    
+				script.src = 'Online.js?v=${buildId}';
 				document.getElementsByTagName('body')[0].appendChild(script);  
             });    
         </script>    
@@ -511,6 +519,7 @@ function createApiHTML() {
 <html>    
     <head>    
         <meta charset="UTF-8">    
+        <meta name="happyro-build-id" content="${buildId}">
         <title>roBrowserLegacy</title>    
         <style>    
             html, body {    
@@ -557,7 +566,7 @@ function createApiHTML() {
                 50% { opacity: 1; transform: translateY(-4px); }    
             }    
         </style>    
-        <script src="api.js"></script>    
+        <script src="api.js?v=${buildId}"></script>
     </head>    
     <body>    
         <div id="ro-preloader">    
@@ -567,9 +576,9 @@ function createApiHTML() {
             </p>    
         </div>    
     
-        <script src="Config.js"></script>    
-        <script src="Config.runtime.js"></script>
-        <script src="Config.happyro.js"></script>
+        <script src="Config.js?v=${buildId}"></script>
+        <script src="Config.runtime.js?v=${buildId}"></script>
+        <script src="Config.happyro.js?v=${buildId}"></script>
         <script>    
             function deepMerge(target, source) {    
                 for (var key in source) {    
@@ -602,7 +611,7 @@ function createApiHTML() {
                 if (window.ROConfigLocal) { config = deepMerge(config, window.ROConfigLocal); }    
                 if (extraConfig) { config = deepMerge(config, extraConfig); }    
                 window.ROConfig = config;    
-                import('./' + scriptFile).then(function() {    
+                import('./' + scriptFile + '?v=${buildId}').then(function() {
                     var preloader = document.getElementById('ro-preloader');    
                     if (preloader) { preloader.remove(); }    
                 }).catch(function(err) { console.error('Failed to load app:', scriptFile, err); });    
@@ -630,6 +639,35 @@ function createApiHTML() {
 `;
 	fs.writeFileSync(dist + platform + '/api.html', apiHtml, { encoding: 'utf8' });
 	fs.copyFileSync('./applications/api/api.js', dist + platform + '/api.js');
+}
+
+function writeBuildInfo() {
+	const outputRoot = path.resolve(dist + platform);
+	const artifactNames = [
+		'index.html',
+		'api.html',
+		'api.js',
+		'Online.js',
+		'Config.js',
+		'Config.happyro.js',
+		'data/navigation/catalog.json',
+		'data/navigation/graph.json',
+		'data/monsters/catalog.json',
+		'data/world/npc-assets.json'
+	];
+	const artifacts = {};
+	for (const name of artifactNames) {
+		const file = path.join(outputRoot, name);
+		if (fs.existsSync(file)) {
+			artifacts[name] = crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+		}
+	}
+	fs.writeFileSync(
+		path.join(outputRoot, 'build-info.json'),
+		JSON.stringify({ buildId, builtAt: new Date(startTime).toISOString(), artifacts }, null, 2) + '\n',
+		{ encoding: 'utf8' }
+	);
+	console.log('build-info.json has been created for build', buildId);
 }
 
 async function copyPwaFiles() {
