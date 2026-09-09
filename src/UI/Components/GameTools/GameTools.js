@@ -3,6 +3,7 @@ import UIManager from 'UI/UIManager.js';
 import Preferences from 'Core/Preferences.js';
 import htmlText from './GameTools.html?raw';
 import cssText from './GameTools.css?raw';
+import itemCatalogCssText from './ItemCatalogTab.css?raw';
 import { getGameToolsTabs, registerGameToolsTab } from './GameToolsRegistry.js';
 import { loadAdventureControlBootstrap } from './AdventureControlService.js';
 import monsterCatalogTab, { notifyMonsterSpawnConfig, notifyMonsterSpawnResult } from './MonsterCatalogTab.js';
@@ -10,15 +11,17 @@ import npcCatalogTab from './NpcCatalogTab.js';
 import mapCatalogTab from './MapCatalogTab.js';
 import characterMaintenanceTab from './CharacterMaintenanceTab.js';
 import gameSettingsTab from './GameSettingsTab.js';
+import itemCatalogTab from './ItemCatalogTab.js';
 
 registerGameToolsTab(monsterCatalogTab);
 registerGameToolsTab(npcCatalogTab);
 registerGameToolsTab(mapCatalogTab);
+registerGameToolsTab(itemCatalogTab);
 registerGameToolsTab(characterMaintenanceTab);
 registerGameToolsTab(gameSettingsTab);
 
 const preferences = Preferences.get('GameTools', { tab: 'monsters' }, 1.0);
-const GameTools = new GUIComponent('GameTools', cssText);
+const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText);
 let cleanupTab;
 let capabilities;
 
@@ -61,7 +64,7 @@ GameTools.mountTab = function mountTab(tab) {
 	cleanupTab?.();
 	const content = this.getRoot().querySelector('.tab-content');
 	content.innerHTML = '<div class="game-tools-tab"></div>';
-	cleanupTab = tab.mount(content.firstElementChild);
+	cleanupTab = tab.mount(content.firstElementChild, { capabilities });
 };
 
 GameTools.onAppend = function onAppend() {

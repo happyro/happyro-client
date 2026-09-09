@@ -1,0 +1,44 @@
+.item-thumb,
+.item-portrait {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f4f5f6;
+	border: 1px solid #d8dade;
+	box-sizing: border-box;
+}
+.item-thumb img {
+	max-width: 40px;
+	max-height: 40px;
+	image-rendering: pixelated;
+}
+.item-portrait img {
+	max-width: 108px;
+	max-height: 108px;
+}
+.item-description {
+	flex: 1;
+	min-height: 0;
+	margin-top: 12px;
+	padding: 10px;
+	overflow-y: auto;
+	background: #fafafa;
+	border: 1px solid #e1e3e5;
+	line-height: 1.5;
+}
+.item-description p {
+	margin: 0 0 5px;
+}
+.item-grant-panel label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	white-space: nowrap;
+}
+.item-grant-amount {
+	width: 76px;
+	height: 29px;
+	padding: 2px 5px;
+	border: 1px solid #aeb2b7;
+	box-sizing: border-box;
+}

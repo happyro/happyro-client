@@ -10,14 +10,26 @@ function headers() {
 	};
 }
 
-async function request(path, options = {}) {
+async function requestBody(path, options = {}) {
 	const response = await fetch(`/api/adventure-tools${path}`, { ...options, headers: headers() });
 	const body = await response.json().catch(() => ({}));
 	if (!response.ok) {
 		const validation = body.errors ? Object.values(body.errors).flat()[0] : null;
-		throw new Error(validation || body.message || body.error?.message || '操作失败，请稍后重试');
+		const error = new Error(validation || body.message || body.error?.message || '操作失败，请稍后重试');
+		error.code = body.error?.code;
+		throw error;
 	}
-	return body.data;
+	return body;
+}
+
+async function request(path, options = {}) {
+	return (await requestBody(path, options)).data;
+}
+
+export async function loadAdventureAsset(path) {
+	const response = await fetch(`/api/adventure-tools${path}`, { headers: headers() });
+	if (!response.ok) throw new Error('物品图片加载失败');
+	return URL.createObjectURL(await response.blob());
 }
 
 function createIdempotencyKey() {
@@ -45,6 +57,25 @@ export function maintainCurrentCharacter(type, payload) {
 
 export function loadAdventureGameRules() {
 	return request('/game-rules');
+}
+
+export function searchAdventureItems({ query = '', type = '', page = 1, perPage = 30 } = {}) {
+	const params = new URLSearchParams({ page, perPage });
+	if (query) params.set('query', query);
+	if (type) params.set('type', type);
+	return requestBody(`/items?${params}`);
+}
+
+export function grantAdventureItem(itemId, amount) {
+	return request('/items/grants', {
+		method: 'POST',
+		body: JSON.stringify({
+			idempotency_key: createIdempotencyKey(),
+			target: { type: 'self' },
+			item_id: itemId,
+			amount
+		})
+	});
 }
 
 export function applyAdventureGameRules(changes, reason) {

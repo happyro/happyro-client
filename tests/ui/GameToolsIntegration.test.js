@@ -73,6 +73,7 @@ describe('game tools integration', () => {
 		const source = read('src/UI/Components/GameTools/GameTools.js');
 		expect(source).toContain('registerGameToolsTab(npcCatalogTab)');
 		expect(source).toContain('registerGameToolsTab(mapCatalogTab)');
+		expect(source).toContain('registerGameToolsTab(itemCatalogTab)');
 	});
 
 	it('centers the adventure tools window from the current viewport dimensions', () => {

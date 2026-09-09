@@ -1,8 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import Session from '../../src/Engine/SessionStorage.js';
 import {
+	grantAdventureItem,
 	loadAdventureControlBootstrap,
-	maintainCurrentCharacter
+	maintainCurrentCharacter,
+	searchAdventureItems
 } from '../../src/UI/Components/GameTools/AdventureControlService.js';
 
 describe('adventure control service', () => {
@@ -48,5 +50,34 @@ describe('adventure control service', () => {
 		await expect(loadAdventureControlBootstrap()).resolves.toEqual({ gameSettingsAllowed: true });
 		expect(fetchMock.mock.calls[0][0]).toBe('/api/adventure-tools/bootstrap');
 		expect(fetchMock.mock.calls[0][1].headers['X-HappyRO-Account-ID']).toBe('2000001');
+	});
+
+	it('searches the server item catalog with pagination and filters', async () => {
+		Session.AID = 2000001;
+		Session.GID = 150002;
+		Session.WebToken = 'session-token';
+		const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ data: [], total: 0 }) });
+		vi.stubGlobal('fetch', fetchMock);
+
+		await expect(searchAdventureItems({ query: '红药', type: 'Healing', page: 2, perPage: 30 })).resolves.toEqual({
+			data: [],
+			total: 0
+		});
+
+		expect(fetchMock.mock.calls[0][0]).toBe('/api/adventure-tools/items?page=2&perPage=30&query=%E7%BA%A2%E8%8D%AF&type=Healing');
+	});
+
+	it('grants an item explicitly to the current character target', async () => {
+		Session.AID = 2000001;
+		Session.GID = 150002;
+		Session.WebToken = 'session-token';
+		vi.stubGlobal('crypto', { getRandomValues: bytes => bytes.fill(1) });
+		const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ data: { item_id: 501, amount: 3 } }) });
+		vi.stubGlobal('fetch', fetchMock);
+
+		await grantAdventureItem(501, 3);
+
+		const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+		expect(body).toMatchObject({ target: { type: 'self' }, item_id: 501, amount: 3 });
 	});
 });
