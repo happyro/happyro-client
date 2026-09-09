@@ -100,14 +100,15 @@ describe('navigation data', () => {
 		expect(maps).toEqual([expect.objectContaining({ id: 'prontera', name: '普隆德拉' })]);
 	});
 
-	it('adds maps that exist only in the static navigation catalog', () => {
+	it('ignores navigation maps without matching client and server resources', () => {
 		const maps = listNavigationMaps([], {}, 'MAP', id => id, {}, [
-			['unknown_map', '未本地化名称', 5001, 100, 100]
+			['jor_tail', '冰冻尾巴', 5001, 100, 100]
 		]);
 
-		expect(maps).toEqual([
-			expect.objectContaining({ id: 'unknown_map', name: 'unknown_map', mapName: 'unknown_map' })
-		]);
+		expect(maps).toEqual([]);
+		expect(
+			listNavigationRows([['jor_tail', 10, 100, 4, 'Kafra', '', 146, 89]], [], 'NPC', localizers)
+		).toEqual([]);
 	});
 
 	it('hides novice map channel replicas by default', () => {
