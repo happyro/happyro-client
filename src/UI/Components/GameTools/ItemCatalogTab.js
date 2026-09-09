@@ -1,6 +1,13 @@
-import { grantAdventureItem, loadAdventureAsset, searchAdventureItems } from './AdventureControlService.js';
+import {
+	grantAdventureItem,
+	grantAdventureZeny,
+	loadAdventureAsset,
+	searchAdventureItems
+} from './AdventureControlService.js';
 import { escapeCatalogHtml } from './CatalogData.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
+import { requestGameToolsNumber } from './GameToolsNumberPrompt.js';
+import { renderGameSelect } from './GameSelect.js';
 import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
 
 const typeNames = {
@@ -14,6 +21,30 @@ const typeNames = {
 	PetArmor: '宠物装备',
 	Ammo: '弹药',
 	Cash: '商城物品'
+};
+const weaponSubtypeNames = {
+	Dagger: '短剑',
+	'1hSword': '单手剑',
+	'2hSword': '双手剑',
+	'1hSpear': '单手矛',
+	'2hSpear': '双手矛',
+	'1hAxe': '单手斧',
+	'2hAxe': '双手斧',
+	Mace: '钝器',
+	Staff: '单手杖',
+	'2hStaff': '双手杖',
+	Bow: '弓',
+	Katar: '拳刃',
+	Book: '书',
+	Knuckle: '拳套',
+	Musical: '乐器',
+	Whip: '鞭子',
+	Huuma: '风魔飞镖',
+	Revolver: '左轮手枪',
+	Rifle: '步枪',
+	Gatling: '加特林机枪',
+	Shotgun: '霰弹枪',
+	Grenade: '榴弹发射器'
 };
 const errorMessages = {
 	inventory_full: '背包空间不足',
@@ -65,17 +96,78 @@ function mount(container, context = {}) {
 	return mountRemoteCatalogBrowser(container, {
 		placeholder: '搜索中文名、英文名、Aegis 名或 ID',
 		searchLabel: '搜索物品',
-		filterHtml: `<select class="catalog-filter" aria-label="物品类型"><option value="">全部类型</option>${Object.entries(
-			typeNames
-		)
-			.map(([value, label]) => `<option value="${value}">${label}</option>`)
-			.join('')}</select>`,
+		filterHtml:
+			renderGameSelect({
+				name: 'type',
+				className: 'catalog-filter',
+				ariaLabel: '物品类型',
+				value: '',
+				options: [
+					{ value: '', label: '全部类型' },
+					...Object.entries(typeNames).map(([value, label]) => ({ value, label }))
+				]
+			}) +
+			renderGameSelect({
+				name: 'subtype',
+				className: 'catalog-filter weapon-subtype-filter',
+				ariaLabel: '武器类型',
+				value: '',
+				options: [
+					{ value: '', label: '武器类型' },
+					...Object.entries(weaponSubtypeNames).map(([value, label]) => ({ value, label }))
+				]
+			}),
+		toolbarActionHtml: `<button class="zeny-grant-open" type="button" ${context.capabilities?.itemGrantAllowed ? '' : 'disabled'}>发放 Zeny</button>`,
 		emptyDetail: '选择一个物品查看详情',
 		pageSize: 30,
 		key: item => item.Id,
 		async load(query) {
-			const result = await searchAdventureItems({ ...query, type: query.filter });
+			const result = await searchAdventureItems({
+				...query,
+				type: query.filters.type,
+				subtype: query.filters.subtype
+			});
 			return { items: result.data, total: result.total };
+		},
+		onFiltersChange(filters) {
+			const root = container.querySelector('.weapon-subtype-filter[data-game-select]');
+			const input = root.querySelector('.game-select-value');
+			const disabled = filters.type !== 'Weapon';
+			root.querySelector('.game-select-trigger').disabled = disabled;
+			if (disabled && input.value) {
+				input.value = '';
+				root.querySelector('.game-select-trigger span').textContent = '武器类型';
+			}
+		},
+		onReady({ container: root, refreshDetail }) {
+			const button = root.querySelector('.zeny-grant-open');
+			button.addEventListener('click', async () => {
+				const amount = await requestGameToolsNumber(root, {
+					title: '向当前角色发放 Zeny',
+					label: '数量',
+					value: 100000,
+					min: 1,
+					max: 2147483647
+				});
+				if (amount === null) return;
+				button.disabled = true;
+				try {
+					await grantAdventureZeny(amount);
+					status = `已发放 ${amount.toLocaleString()} Zeny`;
+					statusError = false;
+					button.textContent = '发放成功';
+				} catch (error) {
+					status = error.code === 'zeny_amount_exceeded' ? '发放后会超过角色 Zeny 持有上限' : error.message;
+					statusError = true;
+					button.textContent = '发放失败';
+				}
+				refreshDetail();
+				setTimeout(() => {
+					if (!button.isConnected) return;
+					button.textContent = '发放 Zeny';
+					button.disabled = false;
+				}, 1500);
+			});
 		},
 		renderRow(item, selected) {
 			return `<button class="catalog-row${selected?.Id === item.Id ? ' selected' : ''}" type="button" data-catalog-key="${item.Id}">

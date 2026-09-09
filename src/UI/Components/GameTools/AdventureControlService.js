@@ -59,11 +59,19 @@ export function loadAdventureGameRules() {
 	return request('/game-rules');
 }
 
-export function searchAdventureItems({ query = '', type = '', page = 1, perPage = 30 } = {}) {
+export function searchAdventureItems({ query = '', type = '', subtype = '', page = 1, perPage = 30 } = {}) {
 	const params = new URLSearchParams({ page, perPage });
 	if (query) params.set('query', query);
 	if (type) params.set('type', type);
+	if (subtype) params.set('subtype', subtype);
 	return requestBody(`/items?${params}`);
+}
+
+export function grantAdventureZeny(amount) {
+	return request('/currency/zeny/grants', {
+		method: 'POST',
+		body: JSON.stringify({ idempotency_key: createIdempotencyKey(), amount })
+	});
 }
 
 export function grantAdventureItem(itemId, amount) {
@@ -78,9 +86,9 @@ export function grantAdventureItem(itemId, amount) {
 	});
 }
 
-export function applyAdventureGameRules(changes, reason) {
+export function applyAdventureGameRules(changes) {
 	return request('/game-rules', {
 		method: 'PUT',
-		body: JSON.stringify({ changes, reason })
+		body: JSON.stringify({ changes })
 	});
 }
