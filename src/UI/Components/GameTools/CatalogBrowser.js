@@ -1,4 +1,5 @@
 import { paginateCatalog } from './CatalogData.js';
+import { mountGameSelects } from './GameSelect.js';
 
 export function mountCatalogBrowser(container, options) {
 	const state = { items: [], filtered: [], selected: null, page: 1 };
@@ -23,7 +24,8 @@ export function mountCatalogBrowser(container, options) {
 	const search = container.querySelector('.catalog-search');
 	const list = container.querySelector('.catalog-list');
 	const detail = container.querySelector('.catalog-detail');
-	const filter = container.querySelector('.catalog-filter');
+	const filter = container.querySelector('.catalog-filter.game-select-value');
+	mountGameSelects(container);
 
 	function renderDetail() {
 		if (!state.selected) detail.innerHTML = `<div class="empty-detail">${options.emptyDetail}</div>`;

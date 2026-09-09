@@ -22,14 +22,32 @@ registerGameToolsTab(gameSettingsTab);
 
 const preferences = Preferences.get('GameTools', { tab: 'monsters' }, 1.0);
 const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText);
+GameTools.needFocus = false;
 let cleanupTab;
 let capabilities;
+
+function validationMessage(input) {
+	const { validity } = input;
+	if (validity.valueMissing) return '请填写此字段';
+	if (validity.badInput) return '请输入有效的数字';
+	if (validity.rangeUnderflow) return `数值不能小于 ${input.min}`;
+	if (validity.rangeOverflow) return `数值不能大于 ${input.max}`;
+	if (validity.stepMismatch) return '请输入符合步进要求的数值';
+	if (validity.tooShort) return `内容不能少于 ${input.minLength} 个字符`;
+	if (validity.tooLong) return `内容不能超过 ${input.maxLength} 个字符`;
+	if (validity.typeMismatch) return '请输入有效的内容';
+	if (validity.patternMismatch) return '输入格式不正确';
+	return '请检查输入内容';
+}
 
 GameTools.render = () => htmlText;
 
 GameTools.init = function init() {
 	const root = this.getRoot();
+	this._host.style.zIndex = '1000';
 	this.draggable('.titlebar');
+	root.addEventListener('invalid', event => event.target.setCustomValidity(validationMessage(event.target)), true);
+	root.addEventListener('input', event => event.target.setCustomValidity?.(''), true);
 	root.querySelector('.close').addEventListener('click', () => this.toggle());
 	root.querySelector('.close').addEventListener('mousedown', event => event.stopImmediatePropagation());
 	this._host.style.display = 'none';

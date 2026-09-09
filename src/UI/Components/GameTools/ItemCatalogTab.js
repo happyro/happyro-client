@@ -1,6 +1,13 @@
-import { grantAdventureItem, loadAdventureAsset, searchAdventureItems } from './AdventureControlService.js';
+import {
+	grantAdventureItem,
+	grantAdventureZeny,
+	loadAdventureAsset,
+	searchAdventureItems
+} from './AdventureControlService.js';
 import { escapeCatalogHtml } from './CatalogData.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
+import { requestGameToolsNumber } from './GameToolsNumberPrompt.js';
+import { renderGameSelect } from './GameSelect.js';
 import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
 
 const typeNames = {
@@ -14,6 +21,30 @@ const typeNames = {
 	PetArmor: '宠物装备',
 	Ammo: '弹药',
 	Cash: '商城物品'
+};
+const weaponSubtypeNames = {
+	Dagger: '短剑',
+	'1hSword': '单手剑',
+	'2hSword': '双手剑',
+	'1hSpear': '单手矛',
+	'2hSpear': '双手矛',
+	'1hAxe': '单手斧',
+	'2hAxe': '双手斧',
+	Mace: '钝器',
+	Staff: '单手杖',
+	'2hStaff': '双手杖',
+	Bow: '弓',
+	Katar: '拳刃',
+	Book: '书',
+	Knuckle: '拳套',
+	Musical: '乐器',
+	Whip: '鞭子',
+	Huuma: '风魔飞镖',
+	Revolver: '左轮手枪',
+	Rifle: '步枪',
+	Gatling: '加特林机枪',
+	Shotgun: '霰弹枪',
+	Grenade: '榴弹发射器'
 };
 const errorMessages = {
 	inventory_full: '背包空间不足',
@@ -65,17 +96,78 @@ function mount(container, context = {}) {
 	return mountRemoteCatalogBrowser(container, {
 		placeholder: '搜索中文名、英文名、Aegis 名或 ID',
 		searchLabel: '搜索物品',
-		filterHtml: `<select class="catalog-filter" aria-label="物品类型"><option value="">全部类型</option>${Object.entries(
-			typeNames
-		)
-			.map(([value, label]) => `<option value="${value}">${label}</option>`)
-			.join('')}</select>`,
+		filterHtml:
+			renderGameSelect({
+				name: 'type',
+				className: 'catalog-filter',
+				ariaLabel: '物品类型',
+				value: '',
+				options: [
+					{ value: '', label: '全部类型' },
+					...Object.entries(typeNames).map(([value, label]) => ({ value, label }))
+				]
+			}) +
+			renderGameSelect({
+				name: 'subtype',
+				className: 'catalog-filter weapon-subtype-filter',
+				ariaLabel: '武器类型',
+				value: '',
+				options: [
+					{ value: '', label: '武器类型' },
+					...Object.entries(weaponSubtypeNames).map(([value, label]) => ({ value, label }))
+				]
+			}),
+		toolbarActionHtml: `<button class="zeny-grant-open" type="button" ${context.capabilities?.itemGrantAllowed ? '' : 'disabled'}>发放 Zeny</button>`,
 		emptyDetail: '选择一个物品查看详情',
 		pageSize: 30,
 		key: item => item.Id,
 		async load(query) {
-			const result = await searchAdventureItems({ ...query, type: query.filter });
+			const result = await searchAdventureItems({
+				...query,
+				type: query.filters.type,
+				subtype: query.filters.subtype
+			});
 			return { items: result.data, total: result.total };
+		},
+		onFiltersChange(filters) {
+			const root = container.querySelector('.weapon-subtype-filter[data-game-select]');
+			const input = root.querySelector('.game-select-value');
+			const disabled = filters.type !== 'Weapon';
+			root.querySelector('.game-select-trigger').disabled = disabled;
+			if (disabled && input.value) {
+				input.value = '';
+				root.querySelector('.game-select-trigger span').textContent = '武器类型';
+			}
+		},
+		onReady({ container: root, refreshDetail }) {
+			const button = root.querySelector('.zeny-grant-open');
+			button.addEventListener('click', async () => {
+				const amount = await requestGameToolsNumber(root, {
+					title: '向当前角色发放 Zeny',
+					label: '数量',
+					value: 100000,
+					min: 1,
+					max: 2147483647
+				});
+				if (amount === null) return;
+				button.disabled = true;
+				try {
+					await grantAdventureZeny(amount);
+					status = `已发放 ${amount.toLocaleString()} Zeny`;
+					statusError = false;
+					button.textContent = '发放成功';
+				} catch (error) {
+					status = error.code === 'zeny_amount_exceeded' ? '发放后会超过角色 Zeny 持有上限' : error.message;
+					statusError = true;
+					button.textContent = '发放失败';
+				}
+				refreshDetail();
+				setTimeout(() => {
+					if (!button.isConnected) return;
+					button.textContent = '发放 Zeny';
+					button.disabled = false;
+				}, 1500);
+			});
 		},
 		renderRow(item, selected) {
 			return `<button class="catalog-row${selected?.Id === item.Id ? ' selected' : ''}" type="button" data-catalog-key="${item.Id}">
@@ -92,9 +184,9 @@ function mount(container, context = {}) {
 		renderDetail(detail, item, api) {
 			const name = item.names?.['zh-CN'] || item.names?.['en-US'] || item.AegisName;
 			const canGrant = context.capabilities?.itemGrantAllowed && item.grantable;
-			detail.innerHTML = `<div class="catalog-heading item-heading"><span class="catalog-portrait item-portrait"><img alt="${escapeCatalogHtml(name)}"></span><div><h3>${escapeCatalogHtml(name)}</h3><p>${escapeCatalogHtml(item.AegisName)} · ID ${item.Id}</p></div></div>
+			detail.innerHTML = `<div class="item-detail-content"><div class="catalog-heading item-heading"><span class="catalog-portrait item-portrait"><img alt="${escapeCatalogHtml(name)}"></span><div><h3>${escapeCatalogHtml(name)}</h3><p>${escapeCatalogHtml(item.AegisName)} · ID ${item.Id}</p></div></div>
 			<div class="catalog-metadata"><div><span>类型</span><strong>${escapeCatalogHtml(typeNames[item.Type] || item.Type || '其他')}</strong></div><div><span>重量</span><strong>${Number(item.Weight || 0) / 10}</strong></div><div><span>购买价</span><strong>${item.Buy ?? '-'}</strong></div><div><span>出售价格</span><strong>${item.Sell ?? '-'}</strong></div></div>
-			<div class="item-description">${renderDescription(item.description)}</div>
+			<div class="item-description">${renderDescription(item.description)}</div></div>
 			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? 'disabled' : ''}>${pending ? '发放中...' : '发放到背包'}</button><span class="catalog-status${statusError ? ' error' : ''}">${escapeCatalogHtml(status || (!item.grantable ? '该特殊物品暂不支持直接发放' : !context.capabilities?.itemGrantAllowed ? '当前账号没有发放权限' : '仅发放给当前角色'))}</span></div>`;
 			loadImage(detail.querySelector('.item-portrait img'), item.illustration || item.icon, assetUrls);
 			detail.querySelector('.item-grant').addEventListener('click', async () => {
