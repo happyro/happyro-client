@@ -24,18 +24,26 @@ const errorMessages = {
 	character_offline: '当前角色不在线'
 };
 function loadImage(element, path, assetUrls) {
-	if (!path) return;
+	const frame = element.parentElement;
+	if (!path) {
+		frame?.classList.add('no-image');
+		return;
+	}
 	const cached = assetUrls.get(path);
 	if (cached) {
+		frame?.classList.remove('no-image');
 		element.src = cached;
 		return;
 	}
 	loadAdventureAsset(path.replace('/api/adventure-tools', ''))
 		.then(url => {
 			assetUrls.set(path, url);
-			if (element.isConnected) element.src = url;
+			if (element.isConnected) {
+				frame?.classList.remove('no-image');
+				element.src = url;
+			}
 		})
-		.catch(() => element.classList.add('no-image'));
+		.catch(() => frame?.classList.add('no-image'));
 }
 
 function renderDescription(value) {
