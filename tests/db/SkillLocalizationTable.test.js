@@ -54,7 +54,91 @@ describe('SkillLocalizationTable', () => {
 		expect(SkillLocalizationTable[3032].description).toContain('解除冰冻、冷冻和冻结');
 		expect(SkillLocalizationTable[2253].description).toContain('周围 3×3 格时触发');
 		expect(SkillLocalizationTable[5463].description).toContain('朝阳、正午爆破、日落爆破');
-		expect(SkillLocalizationTable[5479].description).toContain('分身均施放黑暗加农炮');
+		expect(SkillLocalizationTable[5479].description).toContain('分身均施放暗转炮');
+		expect(SkillLocalizationTable[2414].description).toContain('箭矢不足 5 支时不会发动');
+		expect(SkillLocalizationTable[2418].description).toContain('箭矢不足 10 支时不会发动');
+		expect(SkillLocalizationTable[2494].description).toContain('准确的物品名称和数量');
+		expect(SkillLocalizationTable[2574].description).toContain('提高满月踢的威力');
+		expect(SkillLocalizationTable[2590].description).toContain('提高太阳爆发的威力');
+		expect(SkillLocalizationTable[241].description).toContain('自动归自己饲养');
+		expect(SkillLocalizationTable[387].description).toContain('无视敏捷下降等减速效果');
+		expect(SkillLocalizationTable[495].description).toContain('使用后服用的攻速药水仍会生效');
+		expect(SkillLocalizationTable[2231].description).toContain('不能保存尚未学会的魔法');
+		expect(SkillLocalizationTable[2422].description).toContain('无法对话');
+		expect(SkillLocalizationTable[2495].description).toContain('制作时必须持有对应食谱');
+		expect(SkillLocalizationTable[5068].description).toContain('立即解除');
+		expect(SkillLocalizationTable[210].name).toBe('自动偷窃');
+		expect(SkillLocalizationTable[214].name).toBe('潜击');
+		expect(SkillLocalizationTable[219].name).toBe('胁持');
+		expect(SkillLocalizationTable[221].name).toBe('旗帜涂鸦');
+		expect(SkillLocalizationTable[222].name).toBe('清洗');
+		expect(SkillLocalizationTable[223].name).toBe('流氓天国');
+		expect(SkillLocalizationTable[224].name).toBe('强制减价');
+		expect(SkillLocalizationTable[225].name).toBe('抄袭');
+		const auditedNames = {
+			33: '天使之障壁',
+			57: '长矛挥击',
+			66: '神威祈福',
+			69: '圣体降福',
+			81: '火狩芽',
+			88: '霜冻之术',
+			91: '崩裂术',
+			111: '速度激发',
+			135: '伪装',
+			233: '召唤气泡虫',
+			234: '化学武器保护',
+			255: '牺牲',
+			260: '运气调息',
+			269: '真剑百破道',
+			290: '随机魔法',
+			307: '金先生发财了',
+			310: '尼贝隆根之戒',
+			318: '冷笑话',
+			326: '惊声尖叫',
+			369: '福音',
+			373: '生命力转换',
+			379: '气功炮',
+			400: '念力连击',
+			459: '高级速度激发',
+			478: '投掷纤细药水',
+			490: '强酸火烟瓶投掷',
+			515: '五连击',
+			516: '亡命之徒',
+			533: '忍术修炼',
+			2238: '电击陷阱',
+			2251: '淡黄陷阱',
+			2424: '不确定要素的语言',
+			2456: '精灵控制',
+			2608: '灵魂循环',
+			3001: '暗云',
+			5024: '灵魂珠',
+			5045: '群体之力',
+			5254: '最终章·驱魔之火',
+			5277: '神罚',
+			5284: '弗拉门',
+			5360: '矿工狂想曲',
+			5362: '晚霞小夜曲',
+			5434: '与铁虎共鸣',
+			5438: '与龟雪共鸣',
+			5443: '与玄鹿共鸣',
+			5460: '念力连击·冲击',
+			5488: '红炎炮',
+			5492: '暗转炮',
+			5506: '铁虎重击',
+			8024: '抹杀切割',
+			8029: '银脉冲锋',
+			8219: '光之盾',
+			8220: '自动防御',
+			8221: '牺牲',
+			8237: '怪物情报'
+		};
+		for (const [id, name] of Object.entries(auditedNames)) {
+			expect(SkillLocalizationTable[id].name).toBe(name);
+			expect(SkillLocalizationTable[id].description.startsWith(`${name}\n`)).toBe(true);
+		}
+		expect(SkillLocalizationTable[369].description).toContain('天使之障壁 Lv.3');
+		expect(SkillLocalizationTable[406].description).toContain('气功炮 Lv.1');
+		expect(SkillLocalizationTable[459].description).toContain('速度激发 Lv.5');
 	});
 
 	it('contains Chinese names and descriptions without Korean text', () => {
@@ -66,6 +150,7 @@ describe('SkillLocalizationTable', () => {
 		for (const entry of Object.values(SkillLocalizationTable)) {
 			expect(entry.name).toMatch(/[\u3400-\u9fff]/);
 			expect(entry.description).toMatch(/[\u3400-\u9fff]/);
+			expect(entry.description.startsWith(`${entry.name}\n`)).toBe(true);
 			expect(entry.name).not.toMatch(HANGUL);
 			expect(entry.description).not.toMatch(HANGUL);
 			expect(entry.description).not.toContain('undefined');
