@@ -34,7 +34,10 @@ describe('SkillLocalizationTable', () => {
 		expect(SkillLocalizationTable[387].description).toContain('手推车革命、更换手推车');
 		expect(SkillLocalizationTable[444].description).toContain('且处于灵魂状态');
 		expect(SkillLocalizationTable[3036].description).toContain('范围：自身周围 7 格');
-		expect(SkillLocalizationTable[5452].description).toContain('伤害受战斗自学');
+		expect(SkillLocalizationTable[5452].description).toContain('伤害受自学战术');
+		expect(SkillLocalizationTable[2430].description).toContain('施法者乐理课程等级');
+		expect(SkillLocalizationTable[5481].description).toContain('伤害受猎影等级');
+		expect(SkillLocalizationTable[5489].description).toContain('伤害受暗转炮等级');
 		expect(SkillLocalizationTable[298].description).toContain('目标：单个敌人');
 		expect(SkillLocalizationTable[407].description).toContain('类型：辅助');
 		expect(SkillLocalizationTable[5204].name).toBe('侍从武器·幻影');
@@ -160,7 +163,7 @@ describe('SkillLocalizationTable', () => {
 				/\b(?:Attack|Demolition|Endowed|Fire|Ground|MAX|Phantom|Poison|Random|Sign|Smoke Powder|Tear Gas|Water|Wind)\b/i
 			);
 			expect(`${entry.name}\n${entry.description}`).not.toMatch(
-				/\bFlee\b|\bzeny\b|\d+z\b|\s[Xx](?=\s?\d)/
+				/\bFlee\b|\bzeny\b|\d+z\b|\s[Xx](?=\s?\d)|受课程|按课程|施法者课程|课程和职业|教训|符咒修炼|灵道术修炼|神秘生物精通|战斗自学|独学·魔导学|自学巫术|天机修炼|影子猎杀|冰闪炮|风魔手里剑－|苦无－|\(掌握等级/
 			);
 		}
 	});
