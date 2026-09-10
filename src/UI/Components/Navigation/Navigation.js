@@ -21,6 +21,7 @@ import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import PACKETVER from 'Network/PacketVerManager.js';
 import DB from 'DB/DBManager.js';
+import MiniMapTable from 'DB/Map/MiniMapTable.js';
 import htmlText from './Navigation.html?raw';
 import cssText from './Navigation.css?raw';
 import MapPathFinder from './MapPathFinder.js';
@@ -1183,7 +1184,8 @@ Navigation.loadMap = function loadMap(mapName, displayName, onReady) {
 	_towninfo = DB.getTownInfo(mapBaseName) || [];
 
 	// Get the correct map path using DB.mapalias
-	let bmpPath = DB.INTERFACE_PATH.replace('data/texture/', '') + 'map/' + mapBaseName + '.bmp';
+	const miniMapBaseName = MiniMapTable[mapBaseName] || mapBaseName;
+	let bmpPath = DB.INTERFACE_PATH.replace('data/texture/', '') + 'map/' + miniMapBaseName + '.bmp';
 	bmpPath = bmpPath.replace(/\//g, '\\');
 	bmpPath = DB.mapalias[bmpPath] || bmpPath;
 

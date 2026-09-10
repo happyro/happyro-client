@@ -1,5 +1,6 @@
 import Client from 'Core/Client.js';
 import DB from 'DB/DBManager.js';
+import MiniMapTable from 'DB/Map/MiniMapTable.js';
 import Altitude from 'Renderer/Map/Altitude.js';
 
 let npcAssetsPromise;
@@ -38,11 +39,12 @@ function getMapPaths(mapName) {
 	const normalized = String(mapName || '')
 		.replace(/\.gat$/i, '')
 		.toLocaleLowerCase();
-	let bmpPath = `${DB.INTERFACE_PATH.replace('data/texture/', '')}map/${normalized}.bmp`.replace(/\//g, '\\');
+	const miniMapBaseName = MiniMapTable[normalized] || normalized;
+	let bmpPath = `${DB.INTERFACE_PATH.replace('data/texture/', '')}map/${miniMapBaseName}.bmp`.replace(/\//g, '\\');
 	bmpPath = DB.mapalias[bmpPath] || bmpPath;
 	let gatPath = `${normalized}.gat`.replace(/\//g, '\\');
 	gatPath = DB.mapalias[gatPath] || gatPath;
-	return { normalized, bmpPath, gatPath };
+	return { normalized, miniMapBaseName, bmpPath, gatPath };
 }
 
 export function loadCatalogMapImage(mapName) {
@@ -51,7 +53,7 @@ export function loadCatalogMapImage(mapName) {
 		mapImagePromises.set(
 			paths.normalized,
 			loadNpcAssets().then(assets =>
-				assets.mapImages?.includes(paths.normalized) ? loadClientFile(`data/texture/${paths.bmpPath}`) : null
+				assets.mapImages?.includes(paths.miniMapBaseName) ? loadClientFile(`data/texture/${paths.bmpPath}`) : null
 			)
 		);
 	}
