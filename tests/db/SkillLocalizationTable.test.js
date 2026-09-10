@@ -46,6 +46,15 @@ describe('SkillLocalizationTable', () => {
 		expect(SkillLocalizationTable[2465].description).toContain('按技能等级消耗 1 / 2 / 3 个火灵原石');
 		expect(SkillLocalizationTable[2465].description).toContain('每 5 秒恢复 1% HP');
 		expect(SkillLocalizationTable[2465].description).toContain('每 5 秒损失 1% HP');
+		expect(SkillLocalizationTable[26].description).toContain('地面保护效果范围内不能使用');
+		expect(SkillLocalizationTable[233].description).toContain('气泡虫 HP');
+		expect(SkillLocalizationTable[513].description).toContain('施放范围：9');
+		expect(SkillLocalizationTable[2581].description).toContain('并施加沉默');
+		expect(SkillLocalizationTable[3031].description).toContain('解除着火、出血、深度睡眠和睡眠');
+		expect(SkillLocalizationTable[3032].description).toContain('解除冰冻、冷冻和冻结');
+		expect(SkillLocalizationTable[2253].description).toContain('周围 3×3 格时触发');
+		expect(SkillLocalizationTable[5463].description).toContain('朝阳、正午爆破、日落爆破');
+		expect(SkillLocalizationTable[5479].description).toContain('分身均施放黑暗加农炮');
 	});
 
 	it('contains Chinese names and descriptions without Korean text', () => {
@@ -60,6 +69,7 @@ describe('SkillLocalizationTable', () => {
 			expect(entry.name).not.toMatch(HANGUL);
 			expect(entry.description).not.toMatch(HANGUL);
 			expect(entry.description).not.toContain('undefined');
+			expect(entry.description).not.toMatch(/^施放范围：-/mu);
 			expect(entry.description).not.toMatch(/官方技能效果数据已收录|尚未收录|相关技能效果/);
 			expect(`${entry.name}\n${entry.description}`).not.toMatch(
 				/\b(?:Attack|Demolition|Endowed|Fire|Ground|MAX|Phantom|Poison|Random|Sign|Smoke Powder|Tear Gas|Water|Wind)\b/i
