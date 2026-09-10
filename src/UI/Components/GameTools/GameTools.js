@@ -4,6 +4,7 @@ import Preferences from 'Core/Preferences.js';
 import htmlText from './GameTools.html?raw';
 import cssText from './GameTools.css?raw';
 import itemCatalogCssText from './ItemCatalogTab.css?raw';
+import gameSelectCssText from './GameSelect.css?raw';
 import { getGameToolsTabs, registerGameToolsTab } from './GameToolsRegistry.js';
 import { loadAdventureControlBootstrap } from './AdventureControlService.js';
 import monsterCatalogTab, { notifyMonsterSpawnConfig, notifyMonsterSpawnResult } from './MonsterCatalogTab.js';
@@ -21,7 +22,7 @@ registerGameToolsTab(characterMaintenanceTab);
 registerGameToolsTab(gameSettingsTab);
 
 const preferences = Preferences.get('GameTools', { tab: 'monsters' }, 1.0);
-const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText);
+const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
 GameTools.needFocus = false;
 let cleanupTab;
 let capabilities;
