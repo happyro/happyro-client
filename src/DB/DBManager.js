@@ -4552,7 +4552,7 @@ function loadWorldMapInfo(basePath, onEnd) {
 						id: mapId,
 						ep_from: 0,
 						ep_to: 99,
-						name: localizedName || localizedMapInfoName || decodedName,
+						name: localizedName || localizedMapInfoName || mapId,
 						top: top,
 						left: left,
 						width: right - left, // Calculate width
