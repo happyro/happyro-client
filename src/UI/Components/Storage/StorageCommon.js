@@ -27,6 +27,7 @@ import InputBox from 'UI/Components/InputBox/InputBox.js';
 import ItemInfo from 'UI/Components/ItemInfo/ItemInfo.js';
 import CartItems from 'UI/Components/CartItems/CartItems.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
+import { mountGameSelects } from 'UI/Components/GameTools/GameSelect.js';
 
 export function createStorage(config) {
 	const {
@@ -99,6 +100,7 @@ export function createStorage(config) {
 		const tabButtons = root.querySelectorAll('.tabs button');
 		tabButtons.forEach((btn, idx) => {
 			btn.addEventListener('mousedown', () => onSwitchTab(idx));
+			btn.classList.toggle('active', idx === _preferences.tab);
 		});
 
 		const extendBtn = root.querySelector('.footer .extend');
@@ -117,7 +119,7 @@ export function createStorage(config) {
 		}
 
 		if (hasFilters) {
-			const filterButtons = root.querySelectorAll('.filter-buttons button');
+			const filterButtons = root.querySelectorAll('.filter-buttons > button');
 			filterButtons.forEach(btn => {
 				btn.addEventListener('mousedown', () => onFilterWindowOpen(btn));
 				btn.addEventListener('mouseover', () => onFilterWindowHover(btn, root));
@@ -134,18 +136,12 @@ export function createStorage(config) {
 		}
 
 		if (hasOrderBy) {
+			mountGameSelects(root);
 			const orderBySelect = root.querySelector('.storage-order-by');
 			if (orderBySelect) {
 				orderBySelect.addEventListener('change', () => requestFilter());
 			}
 		}
-
-		Client.loadFile(`${DB.INTERFACE_PATH}basic_interface/tab_itm_ex_0${_preferences.tab + 1}.bmp`, data => {
-			const tabs = root.querySelector('.tabs');
-			if (tabs) {
-				tabs.style.backgroundImage = `url("${data}")`;
-			}
-		});
 
 		resizeHeight(_preferences.height);
 
@@ -198,8 +194,9 @@ export function createStorage(config) {
 
 	Component.onAppend = function onAppend() {
 		this.ui.show();
-		this._host.style.left = `${Math.min(Math.max(0, _preferences.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
-		this._host.style.top = `${Math.min(Math.max(0, _preferences.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
+		const rect = this._host.getBoundingClientRect();
+		this._host.style.left = `${Math.min(Math.max(0, _preferences.x), Renderer.width - rect.width)}px`;
+		this._host.style.top = `${Math.min(Math.max(0, _preferences.y), Math.max(0, Renderer.height - rect.height - 48))}px`;
 	};
 
 	Component.onRemove = function onRemove() {
@@ -467,15 +464,11 @@ export function createStorage(config) {
 
 	function onSwitchTab(idx) {
 		_preferences.tab = idx;
-
-		Client.loadFile(`${DB.INTERFACE_PATH}basic_interface/tab_itm_ex_0${idx + 1}.bmp`, data => {
-			const root = Component.getRoot();
-			const tabs = root.querySelector('.tabs');
-			if (tabs) {
-				tabs.style.backgroundImage = `url("${data}")`;
-			}
-			requestFilter();
+		const root = Component.getRoot();
+		root.querySelectorAll('.tabs button').forEach((button, buttonIndex) => {
+			button.classList.toggle('active', buttonIndex === idx);
 		});
+		requestFilter();
 	}
 
 	function onDrop(event) {
@@ -533,12 +526,12 @@ export function createStorage(config) {
 			const orderBySelect = root.querySelector('.storage-order-by');
 			const orderBy = orderBySelect ? orderBySelect.value : 'BASE';
 
-			if (orderBy === 'UPGRADE' || orderBy === 'DOWNGRADE') {
+			if (orderBy === 'NAME_ASC' || orderBy === 'NAME_DESC') {
 				list = _list.slice(0);
 				list.sort((a, b) => {
 					const nameA = DB.getItemName(a);
 					const nameB = DB.getItemName(b);
-					return orderBy === 'UPGRADE' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+					return orderBy === 'NAME_ASC' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
 				});
 			}
 		}
@@ -645,7 +638,7 @@ export function createStorage(config) {
 			overlay.style.display = '';
 			overlay.style.top = `${itemEl.offsetTop - 10}px`;
 			overlay.style.left = `${itemEl.offsetLeft + 35}px`;
-				overlay.innerHTML = `${DB.getItemName(item)} ${item.count || 1} 个`;
+			overlay.innerHTML = `${DB.getItemName(item)} ${item.count || 1} 个`;
 
 			if (item.IsIdentified) {
 				overlay.classList.remove('grey');

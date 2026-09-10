@@ -36,7 +36,9 @@ function onStorageInfo(pkt) {
 		Storage.getUI().append();
 		// Update Storage Title based on InvTypeName
 		if (PACKETVER.value >= 20181002) {
-			Storage.getUI().ui.find('.titlebar .text').text(InvTypeName);
+			Storage.getUI()
+				.ui.find('.titlebar .text')
+				.text(InvTypeName === 'Storage' ? '仓库' : InvTypeName || '仓库');
 		}
 	}
 	Storage.getUI().setItemInfo(pkt.curCount, pkt.maxCount);
