@@ -41,6 +41,11 @@ describe('SkillLocalizationTable', () => {
 		expect(SkillLocalizationTable[5392].name).toBe('元素破坏·地');
 		expect(SkillLocalizationTable[5424].description).toContain('属性：赋予属性');
 		expect(SkillLocalizationTable[5029].description).toContain('Boss 魔物');
+		expect(SkillLocalizationTable[2249].description).toContain('周围 3×3 格时触发');
+		expect(SkillLocalizationTable[2249].description).toContain('周围 5×5 格内所有魔物');
+		expect(SkillLocalizationTable[2465].description).toContain('按技能等级消耗 1 / 2 / 3 个火灵原石');
+		expect(SkillLocalizationTable[2465].description).toContain('每 5 秒恢复 1% HP');
+		expect(SkillLocalizationTable[2465].description).toContain('每 5 秒损失 1% HP');
 	});
 
 	it('contains Chinese names and descriptions without Korean text', () => {
