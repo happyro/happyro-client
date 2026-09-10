@@ -18,6 +18,15 @@ describe('SkillLocalizationTable', () => {
 			name: '驯养大师'
 		});
 		expect(SkillLocalizationTable[487].description).toContain('合奏期间可以自由移动');
+		expect(SkillLocalizationTable[12].description).toContain(
+			'习得条件：圣灵召唤 Lv.7、灵魂打击 Lv.5；或光耀之堂 Lv.3、圣水洗礼 Lv.4'
+		);
+		expect(SkillLocalizationTable[143].description).toContain('习得条件：完成任务，且仅限初心者');
+		expect(SkillLocalizationTable[317].description).toContain('类型：演奏技能');
+		expect(SkillLocalizationTable[2425].description).toContain('目标：敌对玩家');
+		expect(SkillLocalizationTable[5210].description).toContain('消耗 150 AP');
+		expect(SkillLocalizationTable[5201].description).toContain('每级恢复“技能等级 × 6”AP');
+		expect(SkillLocalizationTable[82].description).toContain('最高等级：1');
 	});
 
 	it('contains Chinese names and descriptions without Korean text', () => {
