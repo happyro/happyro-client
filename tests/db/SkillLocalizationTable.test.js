@@ -44,6 +44,11 @@ describe('SkillLocalizationTable', () => {
 	});
 
 	it('contains Chinese names and descriptions without Korean text', () => {
+		const allVisibleText = Object.values(SkillLocalizationTable)
+			.map(entry => `${entry.name}\n${entry.description}`)
+			.join('\n');
+		expect(allVisibleText).not.toContain('首领');
+		expect(allVisibleText).not.toMatch(/[\u3400-\u9fff]Boss|Boss[\u3400-\u9fff]/);
 		for (const entry of Object.values(SkillLocalizationTable)) {
 			expect(entry.name).toMatch(/[\u3400-\u9fff]/);
 			expect(entry.description).toMatch(/[\u3400-\u9fff]/);
@@ -53,6 +58,9 @@ describe('SkillLocalizationTable', () => {
 			expect(entry.description).not.toMatch(/官方技能效果数据已收录|尚未收录|相关技能效果/);
 			expect(`${entry.name}\n${entry.description}`).not.toMatch(
 				/\b(?:Attack|Demolition|Endowed|Fire|Ground|MAX|Phantom|Poison|Random|Sign|Smoke Powder|Tear Gas|Water|Wind)\b/i
+			);
+			expect(`${entry.name}\n${entry.description}`).not.toMatch(
+				/\bFlee\b|\bzeny\b|\d+z\b|\s[Xx](?=\s?\d)/
 			);
 		}
 	});
