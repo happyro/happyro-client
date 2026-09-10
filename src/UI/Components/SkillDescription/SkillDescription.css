@@ -15,7 +15,11 @@
 	padding: 5px;
 	border-radius: 5px;
 	background-color: white;
-	width: 278px;
+	box-sizing: border-box;
+	width: 380px;
+	max-width: calc(100vw - 24px);
+	max-height: calc(100vh - 24px);
+	overflow-y: auto;
 }
 #SkillDescription .close {
 	position: absolute;
