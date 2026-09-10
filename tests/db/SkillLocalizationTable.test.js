@@ -35,6 +35,12 @@ describe('SkillLocalizationTable', () => {
 		expect(SkillLocalizationTable[444].description).toContain('且处于灵魂状态');
 		expect(SkillLocalizationTable[3036].description).toContain('范围：自身周围 7 格');
 		expect(SkillLocalizationTable[5452].description).toContain('伤害受战斗自学');
+		expect(SkillLocalizationTable[298].description).toContain('目标：单个敌人');
+		expect(SkillLocalizationTable[407].description).toContain('类型：辅助');
+		expect(SkillLocalizationTable[5204].name).toBe('侍从武器·幻影');
+		expect(SkillLocalizationTable[5392].name).toBe('元素破坏·地');
+		expect(SkillLocalizationTable[5424].description).toContain('属性：赋予属性');
+		expect(SkillLocalizationTable[5029].description).toContain('Boss 魔物');
 	});
 
 	it('contains Chinese names and descriptions without Korean text', () => {
@@ -45,6 +51,9 @@ describe('SkillLocalizationTable', () => {
 			expect(entry.description).not.toMatch(HANGUL);
 			expect(entry.description).not.toContain('undefined');
 			expect(entry.description).not.toMatch(/官方技能效果数据已收录|尚未收录|相关技能效果/);
+			expect(`${entry.name}\n${entry.description}`).not.toMatch(
+				/\b(?:Attack|Demolition|Endowed|Fire|Ground|MAX|Phantom|Poison|Random|Sign|Smoke Powder|Tear Gas|Water|Wind)\b/i
+			);
 		}
 	});
 

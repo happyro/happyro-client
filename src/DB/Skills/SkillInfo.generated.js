@@ -12904,7 +12904,7 @@ export default {
 	},
 	5026: {
 		Name: 'SU_SV_STEMSPEAR',
-		SkillName: 'SV 茎之矛',
+		SkillName: '银藤茎之矛',
 		MaxLv: 5,
 		SpAmount: [40, 40, 40, 40, 40],
 		bSeperateLv: true,
@@ -12915,7 +12915,7 @@ export default {
 	},
 	5027: {
 		Name: 'SU_CN_POWDERING',
-		SkillName: 'CN 撒粉',
+		SkillName: '猫薄荷撒粉',
 		MaxLv: 5,
 		SpAmount: [40, 36, 32, 28, 24],
 		bSeperateLv: false,
@@ -12926,7 +12926,7 @@ export default {
 	},
 	5028: {
 		Name: 'SU_CN_METEOR',
-		SkillName: 'CN 流星',
+		SkillName: '猫薄荷陨石',
 		MaxLv: 5,
 		SpAmount: [20, 35, 50, 65, 80],
 		bSeperateLv: true,
@@ -12937,7 +12937,7 @@ export default {
 	},
 	5029: {
 		Name: 'SU_SV_ROOTTWIST',
-		SkillName: 'SV 根之扭曲',
+		SkillName: '银藤根缠绕',
 		MaxLv: 5,
 		SpAmount: [10, 12, 14, 16, 18],
 		bSeperateLv: false,
@@ -13339,7 +13339,7 @@ export default {
 	},
 	5202: {
 		Name: 'DK_SERVANTWEAPON_ATK',
-		SkillName: '侍从武器 Attack',
+		SkillName: '侍从武器攻击',
 		MaxLv: 5,
 		SpAmount: [0, 0, 0, 0, 0],
 		bSeperateLv: true,
@@ -13350,7 +13350,7 @@ export default {
 	},
 	5203: {
 		Name: 'DK_SERVANT_W_SIGN',
-		SkillName: '侍从武器 Sign',
+		SkillName: '侍从武器·标记',
 		MaxLv: 5,
 		SpAmount: [15, 15, 15, 15, 15],
 		bSeperateLv: true,
@@ -13361,7 +13361,7 @@ export default {
 	},
 	5204: {
 		Name: 'DK_SERVANT_W_PHANTOM',
-		SkillName: '侍从武器 Phantom',
+		SkillName: '侍从武器·幻影',
 		MaxLv: 5,
 		SpAmount: [40, 40, 40, 40, 40],
 		bSeperateLv: true,
@@ -13375,7 +13375,7 @@ export default {
 	},
 	5205: {
 		Name: 'DK_SERVANT_W_DEMOL',
-		SkillName: '侍从武器 Demolition',
+		SkillName: '侍从武器·爆破',
 		MaxLv: 5,
 		SpAmount: [30, 35, 40, 45, 50],
 		bSeperateLv: true,
@@ -14139,7 +14139,7 @@ export default {
 	},
 	5274: {
 		Name: 'CD_ARBITRIUM_ATK',
-		SkillName: '裁决 Attack',
+		SkillName: '裁决攻击',
 		MaxLv: 10,
 		SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		bSeperateLv: true,
@@ -15429,7 +15429,7 @@ export default {
 	},
 	5389: {
 		Name: 'EM_ELEMENTAL_BUSTER_FIRE',
-		SkillName: '元素破坏 Fire',
+		SkillName: '元素破坏·火',
 		MaxLv: 1,
 		SpAmount: [],
 		bSeperateLv: false,
@@ -15440,7 +15440,7 @@ export default {
 	},
 	5390: {
 		Name: 'EM_ELEMENTAL_BUSTER_WATER',
-		SkillName: '元素破坏 Water',
+		SkillName: '元素破坏·水',
 		MaxLv: 1,
 		SpAmount: [],
 		bSeperateLv: false,
@@ -15451,7 +15451,7 @@ export default {
 	},
 	5391: {
 		Name: 'EM_ELEMENTAL_BUSTER_WIND',
-		SkillName: '元素破坏 Wind',
+		SkillName: '元素破坏·风',
 		MaxLv: 1,
 		SpAmount: [],
 		bSeperateLv: false,
@@ -15462,7 +15462,7 @@ export default {
 	},
 	5392: {
 		Name: 'EM_ELEMENTAL_BUSTER_GROUND',
-		SkillName: '元素破坏 Ground',
+		SkillName: '元素破坏·地',
 		MaxLv: 1,
 		SpAmount: [],
 		bSeperateLv: false,
@@ -15473,7 +15473,7 @@ export default {
 	},
 	5393: {
 		Name: 'EM_ELEMENTAL_BUSTER_POISON',
-		SkillName: '元素破坏 Poison',
+		SkillName: '元素破坏·毒',
 		MaxLv: 1,
 		SpAmount: [],
 		bSeperateLv: false,
