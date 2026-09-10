@@ -186,7 +186,7 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, calc(-50% + var(--label-offset-y, 0px)));
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -205,11 +205,6 @@
 	color: #ffffff;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-	text-shadow:
-		-1px -1px 0 #000,
-		1px -1px 0 #000,
-		-1px 1px 0 #000,
-		1px 1px 0 #000;
 }
 
 #WorldMap .worldmap.show-lvls .section:not(.is-dungeon-stacked) .level-range-text,
@@ -227,11 +222,6 @@
 	font-size: 11px;
 	line-height: 13px;
 	font-weight: bold;
-	text-shadow:
-		-1px -1px 0 #000,
-		1px -1px 0 #000,
-		-1px 1px 0 #000,
-		1px 1px 0 #000;
 	white-space: nowrap;
 	text-align: center;
 }
@@ -242,32 +232,36 @@
 	font-size: 11px;
 	line-height: 13px;
 	font-weight: bold;
-	text-shadow:
-		-1px -1px 0 #000,
-		1px -1px 0 #000,
-		-1px 1px 0 #000,
-		1px 1px 0 #000;
 	white-space: nowrap;
 	text-align: center;
 }
 
 #WorldMap .worldmap .section.is-dungeon {
+	border: 0 !important;
 	background-color: rgba(255, 0, 0, 0.4) !important;
-	border: 1px solid rgba(255, 0, 0, 0.6) !important;
 }
 
 #WorldMap .worldmap .section.is-dungeon .section-labels {
+	display: none;
+}
+
+#WorldMap .worldmap .section.is-dungeon-label {
+	background-color: transparent !important;
+}
+
+#WorldMap .worldmap .section.is-dungeon-label .section-labels {
+	display: flex;
+	pointer-events: auto;
 	min-width: 100%;
 	width: max-content;
 	padding: 3px 5px;
-	border: 1px solid rgba(255, 0, 0, 0.6);
 	border-radius: 4px;
 	background-color: rgba(255, 0, 0, 0.4);
 }
 
 #WorldMap .worldmap .section.is-dungeon-stacked {
+	border: 0 !important;
 	background-color: transparent !important;
-	border: 1px solid rgba(255, 0, 0, 0.6) !important;
 	display: block !important;
 }
 
@@ -286,6 +280,7 @@
 	position: fixed;
 	z-index: 100;
 	pointer-events: none;
+	width: 190px;
 	padding: 5px;
 	background-color: rgba(0, 0, 0, 0.85);
 	border: 1px solid #666;
@@ -293,10 +288,11 @@
 }
 
 #WorldMap #map-tooltip .tooltip-img {
-	width: 150px;
-	height: 150px;
+	width: 100%;
+	aspect-ratio: 1;
 	background-color: #111;
-	background-size: cover;
+	background-repeat: no-repeat;
+	background-size: contain;
 	background-position: center;
 }
 
@@ -326,7 +322,6 @@
 }
 
 #WorldMap #map-tooltip .tooltip-monster-info {
-	width: 190px;
 	margin-top: 4px;
 	padding-top: 4px;
 	border-top: 1px solid #666;
