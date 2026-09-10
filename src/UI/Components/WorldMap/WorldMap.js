@@ -21,6 +21,8 @@ import htmlText from './WorldMap.html?raw';
 import cssText from './WorldMap.css?raw';
 import Navigation from 'UI/Components/Navigation/Navigation.js';
 import { applyWorldMapState } from './WorldMapState.js';
+import { chooseDungeonLabelOffset } from './WorldMapLabelLayout.js';
+import { applyMonsterSummaries } from './WorldMapMonsterSummary.js';
 
 /**
  * Create Component
@@ -51,12 +53,49 @@ let _hoveredSection = null;
 
 let _mapLoadRequestId = 0;
 
+let _monsterSummariesPromise;
+
 // Sizing params
 const C_TITLEBARHEIGHT = 17;
 const C_BASEWIDTH = 1280;
 const C_BASEHEIGHT = 1024;
 const C_ASPECTX = 5;
 const C_ASPECTY = 4;
+
+function loadMonsterSummaries() {
+	if (!_monsterSummariesPromise) {
+		const url = new URL('./data/monsters/catalog.json', window.location.href);
+		_monsterSummariesPromise = fetch(url)
+			.then(response => {
+				if (!response.ok) throw new Error(`Monster catalog request failed: ${response.status}`);
+				return response.json();
+			})
+			.then(catalog => {
+				const candidates = new Map();
+				for (const monster of catalog.monsters || []) {
+					const countsByMap = new Map();
+					for (const spawn of monster.spawns || []) {
+						const mapName = String(spawn.mapName || '').toLocaleLowerCase();
+						countsByMap.set(mapName, (countsByMap.get(mapName) || 0) + Number(spawn.count || 0));
+					}
+					for (const [mapName, count] of countsByMap) {
+						const current = candidates.get(mapName);
+						if (!current || count > current.count) {
+							candidates.set(mapName, { name: monster.name, count });
+						}
+					}
+				}
+				return candidates;
+			});
+	}
+	return _monsterSummariesPromise;
+}
+
+function populateMonsterSummaries(mapView) {
+	loadMonsterSummaries()
+		.then(summaries => applyMonsterSummaries(mapView, summaries))
+		.catch(error => console.error('[WorldMap] Failed to load monster summaries:', error));
+}
 
 /**
  * Initialize UI
@@ -172,6 +211,24 @@ function resizeMap() {
 
 	mapContainer.style.width = C_BASEWIDTH * mult + 'px';
 	mapContainer.style.height = C_BASEHEIGHT * mult + 'px';
+	resolveDungeonLabelCollisions(mapContainer);
+}
+
+function resolveDungeonLabelCollisions(mapView) {
+	const labels = [...mapView.querySelectorAll('.section.is-dungeon-label .section-labels')].sort((left, right) => {
+		const leftRect = left.parentElement.getBoundingClientRect();
+		const rightRect = right.parentElement.getBoundingClientRect();
+		return leftRect.top - rightRect.top || leftRect.left - rightRect.left;
+	});
+	const mapRect = mapView.getBoundingClientRect();
+	const placed = [];
+
+	for (const label of labels) {
+		label.style.removeProperty('--label-offset-y');
+		const offset = chooseDungeonLabelOffset(label.getBoundingClientRect(), mapRect, placed);
+		label.style.setProperty('--label-offset-y', `${offset}px`);
+		placed.push(label.getBoundingClientRect());
+	}
 }
 
 /**
@@ -221,8 +278,16 @@ function showTooltip(section) {
 	if (!tooltip) return;
 
 	const displayName = section.getAttribute('data-displayname') || '';
+	const monsterName = section.getAttribute('data-monstername') || '';
+	const monsterLevel = section.getAttribute('data-monsterlevel') || '';
 	tooltip.querySelector('.tooltip-mapname').textContent = displayName;
 	tooltip.querySelector('.tooltip-mapid').textContent = section.id;
+	const monsterInfo = tooltip.querySelector('.tooltip-monster-info');
+	if (monsterInfo) {
+		monsterInfo.style.display = WorldMap.showLVLMode && (monsterName || monsterLevel) ? '' : 'none';
+		monsterInfo.querySelector('.tooltip-monstername').textContent = monsterName;
+		monsterInfo.querySelector('.tooltip-monsterlevel').textContent = monsterLevel;
+	}
 	const tooltipImg = tooltip.querySelector('.tooltip-img');
 	tooltipImg.style.backgroundImage = '';
 
@@ -295,6 +360,7 @@ function createWorldMapView(map, imgData) {
 		}
 	}
 	const renderedDungeonPos = new Set();
+	const renderedConnectorPaths = new Set();
 
 	for (const section of map.maps) {
 		//Episode & custom add/remove check
@@ -306,10 +372,13 @@ function createWorldMapView(map, imgData) {
 			const el = document.createElement('div');
 			const el_mapid = document.createElement('div');
 			const el_mapname = document.createElement('div');
+			const el_labels = document.createElement('div');
 
 			el.id = section.id;
+			el.setAttribute('data-mapid', section.id);
 
 			let sectionType = section.type !== undefined ? section.type : 0;
+			let isDungeonLabel = false;
 
 			// connected dungeons logic
 			if (sectionType === 0 && dgMapPositions[section.index]) {
@@ -344,21 +413,28 @@ function createWorldMapView(map, imgData) {
 
 					const startX = parentPos.x + Math.cos(angleRad) * startOffset;
 					const startY = parentPos.y + Math.sin(angleRad) * startOffset;
+					const endX = startX + Math.cos(angleRad) * newLength;
+					const endY = startY + Math.sin(angleRad) * newLength;
+					const connectorKey = `${startX}:${startY}:${endX}:${endY}`;
 
-					const line = document.createElement('div');
-					line.className = 'connector-line';
+					if (!renderedConnectorPaths.has(connectorKey)) {
+						const line = document.createElement('div');
+						line.className = 'connector-line';
 
-					line.style.left = `${(startX / C_BASEWIDTH) * 100}%`;
-					line.style.top = `${(startY / C_BASEHEIGHT) * 100}%`;
-					line.style.width = `${(newLength / C_BASEWIDTH) * 100}%`;
+						line.style.left = `${(startX / C_BASEWIDTH) * 100}%`;
+						line.style.top = `${(startY / C_BASEHEIGHT) * 100}%`;
+						line.style.width = `${(newLength / C_BASEWIDTH) * 100}%`;
 
-					const angleDeg = (angleRad * 180) / Math.PI;
-					line.style.transform = `rotate(${angleDeg}deg)`;
-					line.style.transformOrigin = '0% 50%';
+						const angleDeg = (angleRad * 180) / Math.PI;
+						line.style.transform = `rotate(${angleDeg}deg)`;
+						line.style.transformOrigin = '0% 50%';
 
-					mapView.appendChild(line);
+						mapView.appendChild(line);
+						renderedConnectorPaths.add(connectorKey);
+					}
 				}
 				sectionType = 1;
+				isDungeonLabel = true;
 			}
 			// -----------------------
 
@@ -374,6 +450,7 @@ function createWorldMapView(map, imgData) {
 					className += ' is-dungeon-stacked';
 				} else {
 					className += ' is-dungeon';
+					className += isDungeonLabel ? ' is-dungeon-label' : ' is-dungeon-marker';
 					renderedDungeonPos.add(posKey);
 				}
 			}
@@ -386,7 +463,9 @@ function createWorldMapView(map, imgData) {
 			el.style.height = `${(section.height / C_BASEHEIGHT) * 100}%`;
 
 			el_mapname.className = 'mapname';
-			el_mapname.textContent = section.name; // this is monster names
+			if (section.moblevel) {
+				el.setAttribute('data-monsterlevel', section.moblevel);
+			}
 
 			const el_displayname = document.createElement('div');
 			el_displayname.className = 'displayname';
@@ -406,16 +485,18 @@ function createWorldMapView(map, imgData) {
 			el_mapid.className = 'mapid'; // rsw name
 			el_mapid.textContent = section.id;
 
-			el.appendChild(el_displayname);
-			el.appendChild(el_mapname);
+			el_labels.className = 'section-labels';
+			el_labels.appendChild(el_displayname);
 			el.appendChild(el_mapid);
 
 			if (section.moblevel !== undefined && section.moblevel.length > 0) {
 				const el_level = document.createElement('div');
 				el_level.className = 'level-range-text';
 				el_level.innerText = section.moblevel;
-				el.appendChild(el_level);
+				el_labels.appendChild(el_level);
 			}
+			el_labels.appendChild(el_mapname);
+			el.appendChild(el_labels);
 
 			mapView.appendChild(el);
 		}
@@ -427,6 +508,7 @@ function createWorldMapView(map, imgData) {
 	worldmap.appendChild(mapView);
 	container.innerHTML = '';
 	container.appendChild(worldmap);
+	populateMonsterSummaries(mapView);
 }
 
 /**
@@ -577,14 +659,20 @@ WorldMap.onRemove = function onRemove() {
 WorldMap.toggle = function toggle() {
 	const isVisible = this._host.style.display !== 'none';
 	if (isVisible) {
-		this._host.style.display = 'none';
-		hideTooltip();
+		this.hide();
 	} else {
+		_hoveredSection = null;
 		this._host.style.display = '';
 		const selectedMap = this.getRoot().querySelector('#WorldMaps')?.value;
 		selectMap(selectedMap);
 		this.focus();
 	}
+};
+
+WorldMap.hide = function hide() {
+	this._host.style.display = 'none';
+	_hoveredSection = null;
+	hideTooltip();
 };
 
 WorldMap.captureKeyEvents = true;
@@ -666,7 +754,10 @@ function onShowLVL() {
 	});
 
 	const worldmapEl = root.querySelector('.worldmap');
-	if (worldmapEl) restoreViewState();
+	if (worldmapEl) {
+		restoreViewState();
+		resizeMap();
+	}
 }
 
 /**
@@ -682,9 +773,7 @@ function stopPropagation(event) {
  * Closing window
  */
 function onClose() {
-	WorldMap._host.style.display = 'none';
-	_hoveredSection = null;
-	hideTooltip();
+	WorldMap.hide();
 }
 
 WorldMap.mouseMode = GUIComponent.MouseMode.STOP;

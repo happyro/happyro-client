@@ -120,7 +120,7 @@ export function handleMapTeleportResult(packet) {
 	};
 	if (packet.result === 0) {
 		startCooldown(packet.cooldownRemaining);
-		setStatus(`已传送到 ${packet.mapName} (${packet.x}, ${packet.y})`, false, 'coordinate');
+		setStatus('', false, null);
 	} else {
 		if (packet.result === 3) startCooldown(packet.cooldownRemaining);
 		setStatus(messages[packet.result] || '传送请求被服务器拒绝', true, 'coordinate');

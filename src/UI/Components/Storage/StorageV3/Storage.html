@@ -2,7 +2,7 @@
 	<div class="titlebar">
 		<ui-image src="basic_interface/titlebar_mid.bmp"></ui-image>
 		<div class="left">
-			<span class="text"><ui-text msg="169">仓库</ui-text></span>
+			<span class="text">仓库</span>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -14,16 +14,14 @@
 					<td
 						colspan="2"
 						class="tabs"
-						data-background="basic_interface/tab_itm_ex_01.bmp"
-						data-preload="basic_interface/tab_itm_ex_02.bmp;basic_interface/tab_itm_ex_03.bmp;basic_interface/tab_itm_ex_04.bmp;basic_interface/tab_itm_ex_05.bmp;basic_interface/tab_itm_ex_06.bmp;basic_interface/tab_itm_ex_07.bmp"
 					>
-						<button class="item"></button>
-						<button class="kafra"></button>
-						<button class="armor"></button>
-						<button class="arms"></button>
-						<button class="ammo"></button>
-						<button class="card"></button>
-						<button class="etc"></button>
+						<button class="item">消耗</button>
+						<button class="kafra">现金</button>
+						<button class="armor">防具</button>
+						<button class="arms">武器</button>
+						<button class="ammo">弹药</button>
+						<button class="card">卡片</button>
+						<button class="etc">其他</button>
 					</td>
 					<td class="container">
 						<div class="content" data-background="basic_interface/itemwin_mid.bmp"></div>
@@ -89,11 +87,18 @@
 							data-down="basic_interface/±âÅ¸-1.bmp"
 							data-active="basic_interface/±âÅ¸-1.bmp"
 						></button>
-						<select class="storage-order-by">
-							<option value="BASE">基础</option>
-							<option value="UPGRADE">升级</option>
-							<option value="DOWNGRADE">降级</option>
-						</select>
+						<div class="game-select storage-order-select" data-game-select>
+							<input class="game-select-value storage-order-by" type="hidden" value="BASE" />
+							<button class="game-select-trigger" type="button" aria-label="排序方式" aria-haspopup="listbox" aria-expanded="false"><span>默认</span><i></i></button>
+							<div class="game-select-menu" role="listbox" hidden>
+								<div class="game-select-options">
+									<button class="game-select-option selected" type="button" role="option" aria-selected="true" data-value="BASE" data-search="默认"><strong>默认</strong></button>
+									<button class="game-select-option" type="button" role="option" aria-selected="false" data-value="NAME_ASC" data-search="升序"><strong>升序</strong></button>
+									<button class="game-select-option" type="button" role="option" aria-selected="false" data-value="NAME_DESC" data-search="降序"><strong>降序</strong></button>
+								</div>
+								<div class="game-select-empty" hidden>没有匹配项</div>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>

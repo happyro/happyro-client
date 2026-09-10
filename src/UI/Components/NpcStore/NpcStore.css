@@ -187,6 +187,9 @@
 	top: 4px;
 	right: 62px;
 }
+#NpcStore .OutputWindow .btn.buy {
+	right: 70px;
+}
 #NpcStore .btn.ok {
 	position: absolute;
 	top: 4px;

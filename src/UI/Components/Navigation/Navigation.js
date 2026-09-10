@@ -483,7 +483,12 @@ Navigation.init = function init() {
 	});
 
 	// Bind events
-	root.querySelector('.close').addEventListener('click', () => this.hide());
+	const closeButton = root.querySelector('.close');
+	closeButton.addEventListener('mousedown', event => event.stopPropagation());
+	closeButton.addEventListener('click', event => {
+		event.stopPropagation();
+		this.hide();
+	});
 	root.querySelector('.search-button').addEventListener('click', event => {
 		event.stopPropagation();
 		this.onSearch();
@@ -493,21 +498,24 @@ Navigation.init = function init() {
 	};
 	setupSearchFilter(root, '.search-type', refreshSearch);
 	setupSearchFilter(root, '.search-scope', refreshSearch);
-	root.querySelector('.services-toggle').addEventListener('change', () => {
-		if (!_finalTargetData) return;
-		_pathUnavailable = false;
-		const currentMap = getCurrentMap();
-		const currentPos = getPlayerPosition();
-		this.navigateTo({
-			startMap: currentMap,
-			startX: currentPos.x,
-			startY: currentPos.y,
-			endMap: _finalTargetData.map,
-			endX: _finalTargetData.x,
-			endY: _finalTargetData.y,
-			displayName: _finalTargetData.displayName
+	const servicesToggle = root.querySelector('.services-toggle');
+	if (servicesToggle) {
+		servicesToggle.addEventListener('change', () => {
+			if (!_finalTargetData) return;
+			_pathUnavailable = false;
+			const currentMap = getCurrentMap();
+			const currentPos = getPlayerPosition();
+			this.navigateTo({
+				startMap: currentMap,
+				startX: currentPos.x,
+				startY: currentPos.y,
+				endMap: _finalTargetData.map,
+				endX: _finalTargetData.x,
+				endY: _finalTargetData.y,
+				displayName: _finalTargetData.displayName
+			});
 		});
-	});
+	}
 
 	const searchInput = root.querySelector('.search-input');
 	searchInput.addEventListener('keypress', e => {
@@ -918,7 +926,8 @@ Navigation.onMapClick = function onMapClick(event) {
 	const currentMap = getCurrentMap();
 	const currentPos = getPlayerPosition();
 	const previewMap = normalizeMapName(_mapData.map);
-	_selectedTargetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap };
+	const previewName = DB.getMapInfo(`${previewMap}.rsw`)?.displayName || DB.getMapName(previewMap, previewMap);
+	_selectedTargetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap, displayName: previewName };
 
 	// Keep coordinate clicks local when the navigation window is previewing another map.
 	if (previewMap !== currentMap) {
@@ -927,7 +936,6 @@ Navigation.onMapClick = function onMapClick(event) {
 		_targetData = { x: mapCoords.x, y: mapCoords.y, map: previewMap };
 		this.updateTeleportButton();
 		this.setTargetCoordinatesText(mapCoords.x, mapCoords.y);
-		const previewName = DB.getMapInfo(`${previewMap}.rsw`)?.displayName || DB.getMapName(previewMap, previewMap);
 		this.setLocationTitle(previewMap, null, previewName);
 		return;
 	}
@@ -941,7 +949,7 @@ Navigation.onMapClick = function onMapClick(event) {
 		endMap: _mapData.map,
 		endX: mapCoords.x,
 		endY: mapCoords.y,
-		displayName: DB.getMapName(_mapData.map, _mapData.map)
+		displayName: previewName
 	});
 };
 
@@ -963,11 +971,9 @@ Navigation.updateTeleportButton = function updateTeleportButton() {
 	const npcTarget = this.targetResult?.type === 'NPC' ? this.targetResult : null;
 	const npcTeleportable =
 		npcTarget && npcTarget.availability !== 'unavailable' && npcTarget.availability !== 'pending';
-	button.style.display =
-		!npcTarget && canTeleportTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y)
-			? 'block'
-			: 'none';
-	button.disabled = !coordinateActionState.canTeleport;
+	const hasCoordinateTarget = Boolean(!npcTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y));
+	button.style.display = npcTarget ? 'none' : 'block';
+	button.disabled = !hasCoordinateTarget || !canTeleportTarget || !coordinateActionState.canTeleport;
 	npcButton.style.display = npcTeleportable && canTeleportTarget ? 'block' : 'none';
 	npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
 	npcButton.textContent = _npcTeleportPending ? '正在传送...' : '传送到 NPC 附近';
@@ -994,7 +1000,8 @@ Navigation.updateAutoWalkButtons = function updateAutoWalkButtons() {
 	const stop = root?.querySelector('.walk-stop-button');
 	if (!start || !stop) return;
 	const canStart = Boolean(_path.length && _targetData && _targetData.map === getCurrentMap() && !_pathUnavailable);
-	start.style.display = canStart && !_autoWalkActive ? 'block' : 'none';
+	start.style.display = _autoWalkActive ? 'none' : 'block';
+	start.disabled = !canStart;
 	stop.style.display = _autoWalkActive ? 'block' : 'none';
 };
 
@@ -1073,6 +1080,8 @@ Navigation.subscribeRouteState = function subscribeRouteState(listener) {
 Navigation.teleportToSelectedTarget = function teleportToSelectedTarget() {
 	const target = _selectedTargetData || _finalTargetData || _targetData;
 	if (!target) return;
+	this.hide();
+	UIManager.components.WorldMap?.hide?.();
 	teleportToCoordinate({ mapName: target.map, x: target.x, y: target.y });
 	this.setActionStatus('正在等待服务器确认...');
 	this.updateTeleportButton();
@@ -1088,12 +1097,9 @@ Navigation.onMapTeleportResult = function onMapTeleportResult(packet) {
 		6: '目标坐标无效',
 		7: '传送失败，请稍后重试'
 	};
-	this.setActionStatus(
-		packet.result === 0
-			? `已传送到 ${packet.mapName} (${packet.x}, ${packet.y})`
-			: messages[packet.result] || '传送请求被服务器拒绝',
-		packet.result !== 0
-	);
+	if (packet.result !== 0) {
+		this.setActionStatus(messages[packet.result] || '传送请求被服务器拒绝', true);
+	}
 	this.updateTeleportButton();
 };
 
@@ -1257,7 +1263,12 @@ Navigation.showMap = function showMap(mapName, displayName, options = {}) {
 Navigation.showCurrentMap = function showCurrentMap() {
 	const mapName = getCurrentMap();
 	if (!mapName) return;
+	if (_autoWalkActive || _autoWalkRequested) {
+		this.show();
+		return;
+	}
 	this.showMap(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
+	this.setActionStatus('点击地图寻路/传送');
 };
 
 /**
@@ -1723,7 +1734,6 @@ Navigation.show = function show() {
 		console.error('[Navigation] Failed to preload navigation catalog:', error);
 	});
 
-	this.clearPath();
 	initializePathFindingWorker();
 
 	// Hide coordinate displays initially
@@ -1737,19 +1747,6 @@ Navigation.show = function show() {
 	}
 
 	const mapName = getCurrentMap();
-	const currentPos = getPlayerPosition();
-
-	if (_finalTargetData) {
-		this.navigateTo({
-			startMap: mapName,
-			startX: currentPos.x,
-			startY: currentPos.y,
-			endMap: _finalTargetData.map,
-			endX: _finalTargetData.x,
-			endY: _finalTargetData.y,
-			displayName: _finalTargetData.displayName
-		});
-	}
 
 	this.setMapNameText(mapName);
 
@@ -1759,6 +1756,8 @@ Navigation.show = function show() {
 	}
 
 	this.ui.show();
+	this.updateTeleportButton();
+	this.updateAutoWalkButtons();
 };
 
 /**
@@ -1766,7 +1765,6 @@ Navigation.show = function show() {
  */
 Navigation.hide = function hide() {
 	this.ui.hide();
-	terminatePathFindingWorker();
 };
 
 Navigation.onKeyDown = function onKeyDown(event) {

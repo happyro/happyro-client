@@ -17,7 +17,6 @@ import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import htmlText from './CheckAttendance.html?raw';
 import cssText from './CheckAttendance.css?raw';
-import ChatBox from 'UI/Components/ChatBox/ChatBox.js';
 import 'UI/Elements/Elements.js';
 
 /**
@@ -87,8 +86,6 @@ CheckAttendance.onAppend = function onAppend() {
 	if (_checkAttendanceData >= 0 && _CheckAttendanceInfo.Config) {
 		CheckAttendance.updateUI();
 		this.focus();
-	} else {
-		ChatBox.addText('当前没有进行中的签到活动。', ChatBox.TYPE.ERROR | ChatBox.TYPE.SELF);
 	}
 };
 
