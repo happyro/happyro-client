@@ -24,6 +24,7 @@ import NpcNameTable from './NpcNameTable.js';
 import PetIllustration from './Pets/PetIllustration.js';
 import PetAction from './Pets/PetAction.js';
 import ItemTable from './Items/ItemTable.js';
+import CardNameOverrides from './Items/CardNameOverrides.generated.js';
 // Archived itemlocalization overlay; itemInfo_true.lub now contains the complete text.
 // import { applyItemLocalization } from './Items/ItemLocalization.js';
 import HatTable from './Items/HatTable.js';
@@ -5022,6 +5023,7 @@ function loadItemInfo(filename, callback, onEnd) {
 						slotCount: slotCount,
 						ClassNum: ClassNum
 					};
+					if (CardNameOverrides[ItemID]) ItemTable[ItemID].identifiedDisplayName = CardNameOverrides[ItemID];
 					return 1;
 				};
 				ctx.AddItemUnidentifiedDesc = (ItemID, v) => {
