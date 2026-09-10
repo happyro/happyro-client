@@ -67,10 +67,6 @@
 	background-color: transparent;
 }
 
-#win_popup .btns .btn:first-child {
-	margin-right: 8px;
-}
-
 #win_popup .btn.localized {
 	border: 1px solid #8b9690;
 	background: #f4f7f5;

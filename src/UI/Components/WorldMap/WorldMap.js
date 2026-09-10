@@ -659,9 +659,7 @@ WorldMap.onRemove = function onRemove() {
 WorldMap.toggle = function toggle() {
 	const isVisible = this._host.style.display !== 'none';
 	if (isVisible) {
-		this._host.style.display = 'none';
-		_hoveredSection = null;
-		hideTooltip();
+		this.hide();
 	} else {
 		_hoveredSection = null;
 		this._host.style.display = '';
@@ -669,6 +667,12 @@ WorldMap.toggle = function toggle() {
 		selectMap(selectedMap);
 		this.focus();
 	}
+};
+
+WorldMap.hide = function hide() {
+	this._host.style.display = 'none';
+	_hoveredSection = null;
+	hideTooltip();
 };
 
 WorldMap.captureKeyEvents = true;
@@ -769,9 +773,7 @@ function stopPropagation(event) {
  * Closing window
  */
 function onClose() {
-	WorldMap._host.style.display = 'none';
-	_hoveredSection = null;
-	hideTooltip();
+	WorldMap.hide();
 }
 
 WorldMap.mouseMode = GUIComponent.MouseMode.STOP;

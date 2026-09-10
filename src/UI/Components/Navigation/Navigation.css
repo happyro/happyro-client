@@ -320,6 +320,7 @@
 	line-height: 18px;
 	color: #555;
 	font-size: 11px;
+	text-align: right;
 }
 
 .Navigation .teleport-button:hover {
@@ -347,6 +348,12 @@
 .Navigation .walk-button:hover,
 .Navigation .walk-stop-button:hover {
 	background: #fff;
+}
+
+.Navigation .walk-button:disabled {
+	background: #ddd;
+	color: #777;
+	cursor: not-allowed;
 }
 
 .Navigation .footer {
