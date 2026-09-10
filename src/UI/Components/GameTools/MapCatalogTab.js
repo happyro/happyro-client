@@ -1,4 +1,6 @@
 import DB from 'DB/DBManager.js';
+import { getMapChannel } from 'DB/Map/MapChannels.js';
+import MiniMapTable from 'DB/Map/MiniMapTable.js';
 import Session from 'Engine/SessionStorage.js';
 import { mountCatalogBrowser } from './CatalogBrowser.js';
 import { escapeCatalogHtml } from './CatalogData.js';
@@ -201,15 +203,27 @@ function mount(container) {
 	loadNpcAssets()
 		.then(async assets => {
 			const mapsWithImages = new Set(assets.mapImages || []);
+			const currentMap = normalizeAdventureMap(getCurrentAdventureMap());
+			const currentChannel = getMapChannel(currentMap);
 			const navigationMaps = await DB.listNavigation('MAP', {
 				channelsEnabled: Session.NavigationMapChannelsEnabled
 			});
-			const items = toWorldEntities(navigationMaps).map(map => ({
-				...map,
-				hasImage: mapsWithImages.has(map.id.toLocaleLowerCase())
-			}));
+			const items = toWorldEntities(navigationMaps).map(map => {
+				const mapName = normalizeAdventureMap(map.mapName);
+				const mapChannel = getMapChannel(mapName);
+				const isCurrentMap =
+					mapName === currentMap ||
+					(!Session.NavigationMapChannelsEnabled &&
+						currentChannel &&
+						mapChannel?.canonicalMapName === currentChannel.canonicalMapName);
+				const resolvedMapName = isCurrentMap ? currentMap : mapName;
+				return {
+					...map,
+					mapName: resolvedMapName,
+					hasImage: mapsWithImages.has(MiniMapTable[resolvedMapName] || resolvedMapName)
+				};
+			});
 			browser.setItems(items);
-			const currentMap = normalizeAdventureMap(getCurrentAdventureMap());
 			browser.selectItem(items.find(map => normalizeAdventureMap(map.mapName) === currentMap));
 		})
 		.catch(error => {
