@@ -682,7 +682,7 @@ class DB {
 				(ItemTable[key] || (ItemTable[key] = {})).prefixName = val;
 			},
 			onLoad(),
-			true
+			'utf-8'
 		);
 		loadTable(
 			'data/cardpostfixnametable.txt',

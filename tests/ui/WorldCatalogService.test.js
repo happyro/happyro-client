@@ -26,9 +26,12 @@ describe('WorldCatalogService', () => {
 		expect(entity.capabilities.canRoute).toBe(true);
 	});
 
-	it('keeps server NPC instances even when official navigation has no matching row', () => {
+	it('only exposes server NPC instances with a teleport identity', () => {
 		const catalog = mergeNpcCatalog([], mapName => mapName);
-		expect(catalog.length).toBeGreaterThan(10000);
-		expect(catalog.some(npc => npc.source === 'server' && !npc.capabilities.canTeleportToNpc)).toBe(true);
+		expect(catalog).toHaveLength(4410);
+		expect(catalog.every(npc => npc.source === 'server+navigation')).toBe(true);
+		expect(catalog.every(npc => npc.capabilities.canTeleportToNpc)).toBe(true);
+		expect(catalog.every(npc => Number.isFinite(npc.spriteId))).toBe(true);
+		expect(catalog.some(npc => npc.npcClass !== npc.spriteId)).toBe(true);
 	});
 });

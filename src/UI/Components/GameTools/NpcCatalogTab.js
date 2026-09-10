@@ -3,7 +3,6 @@ import Session from 'Engine/SessionStorage.js';
 import { mountCatalogBrowser } from './CatalogBrowser.js';
 import { escapeCatalogHtml, matchesCatalogSearch } from './CatalogData.js';
 import { getCurrentAdventureMap, subscribeAdventureActions, teleportToNpc } from './AdventureActionService.js';
-import { startAdventureRoute, stopAdventureRoute, subscribeAdventureRoute } from './AdventureRouteService.js';
 import { requestNpcAvailability } from './NpcAvailabilityService.js';
 import { loadNpcAssets, npcAtlasStyle } from './WorldAssetService.js';
 import { loadCatalogMap } from './WorldAssetService.js';
@@ -53,7 +52,6 @@ function mount(container) {
 	let available = null;
 	let checking = false;
 	let actionState = {};
-	let routeState = {};
 	let selectionToken = 0;
 	let loadedNpcMap = null;
 	let loadingNpcMapName = '';
@@ -75,14 +73,13 @@ function mount(container) {
 		key,
 		filter: filterNpcs,
 		renderRow(npc, selected) {
-			const style = npcAtlasStyle(manifest, npc.npcClass, 48);
+			const style = npcAtlasStyle(manifest, npc.spriteId, 48);
 			return `<button class="catalog-row${key(selected || {}) === key(npc) ? ' selected' : ''}" type="button" data-catalog-key="${escapeCatalogHtml(key(npc))}">
 				<span class="catalog-thumb${style ? '' : ' no-image'}" style="${style}"></span>
 				<span class="catalog-row-text"><strong>${escapeCatalogHtml(npc.name)}</strong><small>${escapeCatalogHtml(npc.mapDisplayName)} · ${npc.x},${npc.y}</small></span>
 			</button>`;
 		},
 		renderDetail(detail, npc, api) {
-			const hasLiveIdentity = npc.capabilities.canTeleportToNpc;
 			if (loadingNpcMapName !== npc.mapName) {
 				loadingNpcMapName = npc.mapName;
 				loadedNpcMap = null;
@@ -93,29 +90,23 @@ function mount(container) {
 					api.refreshDetail();
 				});
 			}
-			const style = npcAtlasStyle(manifest, npc.npcClass, 112);
-			const canTeleport =
-				hasLiveIdentity && actionState.canTeleport && !actionState.npcPending && available === true;
+			const style = npcAtlasStyle(manifest, npc.spriteId, 112);
+			const canTeleport = actionState.canTeleport && !actionState.npcPending && available === true;
 			detail.innerHTML = `<div class="catalog-heading">
 				<span class="catalog-portrait${style ? '' : ' no-image'}" style="${style}"></span>
-				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)}${hasLiveIdentity ? ` · ${npc.npcClass}` : ''}</p></div>
+				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)} · ${npc.npcClass}</p></div>
 			</div>
-			<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${!hasLiveIdentity ? '静态资料' : checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
+			<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
 			<div class="npc-location-preview"><canvas class="npc-map-canvas" width="480" height="240" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"></canvas></div>
 			<div class="catalog-action-panel">
-				<button class="catalog-route" type="button">${routeState.active ? '停止寻路' : '开始寻路'}</button>
 				<button class="catalog-teleport" type="button" ${canTeleport ? '' : 'disabled'}>${actionState.npcPending ? '正在传送...' : '传送到 NPC 附近'}</button>
-				<span class="catalog-status${actionState.kind === 'npc' && actionState.error ? ' error' : ''}">${escapeCatalogHtml((actionState.kind === 'npc' ? actionState.message : '') || routeState.message || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
+				<span class="catalog-status${actionState.kind === 'npc' && actionState.error ? ' error' : ''}">${escapeCatalogHtml((actionState.kind === 'npc' ? actionState.message : '') || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
 			drawWorldMapPreview(detail.querySelector('.npc-map-canvas'), loadedNpcMap?.image, npc, loadedNpcMap?.gat);
-			detail.querySelector('.catalog-route').addEventListener('click', () => {
-				if (routeState.active) stopAdventureRoute();
-				else startAdventureRoute(npc);
-			});
 			detail.querySelector('.catalog-teleport').addEventListener('click', () => teleportToNpc(npc));
 
 			const token = selectionToken;
-			if (hasLiveIdentity && available === null && !checking) {
+			if (available === null && !checking) {
 				checking = true;
 				requestNpcAvailability([npc])
 					.then(result => {
@@ -143,10 +134,6 @@ function mount(container) {
 	container.querySelector('.catalog-list').addEventListener('click', resetSelectionAvailability, true);
 	const unsubscribeActions = subscribeAdventureActions(state => {
 		actionState = state;
-		originalRenderDetail();
-	});
-	const unsubscribeRoute = subscribeAdventureRoute(state => {
-		routeState = state;
 		originalRenderDetail();
 	});
 
@@ -186,7 +173,6 @@ function mount(container) {
 		selectionToken += 1;
 		mapLoadToken += 1;
 		unsubscribeActions();
-		unsubscribeRoute();
 	};
 }
 
