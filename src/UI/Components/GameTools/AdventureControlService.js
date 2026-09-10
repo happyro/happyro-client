@@ -55,8 +55,8 @@ export function maintainCurrentCharacter(type, payload) {
 	});
 }
 
-export function loadAdventureGameRules() {
-	return request('/game-rules');
+export function loadAdventureGameSettings() {
+	return request('/game-settings');
 }
 
 export function searchAdventureItems({ query = '', type = '', subtype = '', page = 1, perPage = 30 } = {}) {
@@ -86,8 +86,8 @@ export function grantAdventureItem(itemId, amount) {
 	});
 }
 
-export function applyAdventureGameRules(changes) {
-	return request('/game-rules', {
+export function applyAdventureGameSettings(changes) {
+	return request('/game-settings', {
 		method: 'PUT',
 		body: JSON.stringify({ changes })
 	});
