@@ -51,12 +51,56 @@ let _hoveredSection = null;
 
 let _mapLoadRequestId = 0;
 
+let _monsterSummariesPromise;
+
 // Sizing params
 const C_TITLEBARHEIGHT = 17;
 const C_BASEWIDTH = 1280;
 const C_BASEHEIGHT = 1024;
 const C_ASPECTX = 5;
 const C_ASPECTY = 4;
+
+function loadMonsterSummaries() {
+	if (!_monsterSummariesPromise) {
+		const url = new URL('./data/monsters/catalog.json', window.location.href);
+		_monsterSummariesPromise = fetch(url)
+			.then(response => {
+				if (!response.ok) throw new Error(`Monster catalog request failed: ${response.status}`);
+				return response.json();
+			})
+			.then(catalog => {
+				const candidates = new Map();
+				for (const monster of catalog.monsters || []) {
+					const countsByMap = new Map();
+					for (const spawn of monster.spawns || []) {
+						const mapName = String(spawn.mapName || '').toLocaleLowerCase();
+						countsByMap.set(mapName, (countsByMap.get(mapName) || 0) + Number(spawn.count || 0));
+					}
+					for (const [mapName, count] of countsByMap) {
+						const current = candidates.get(mapName);
+						if (!current || count > current.count) {
+							candidates.set(mapName, { name: monster.name, count });
+						}
+					}
+				}
+				return candidates;
+			});
+	}
+	return _monsterSummariesPromise;
+}
+
+function populateMonsterSummaries(mapView) {
+	loadMonsterSummaries()
+		.then(summaries => {
+			for (const section of mapView.querySelectorAll('.section:not(.is-dungeon):not(.is-dungeon-stacked)')) {
+				const summary = summaries.get(section.getAttribute('data-mapid'));
+				if (!summary) continue;
+				section.querySelector('.mapname').textContent = summary.name;
+				section.setAttribute('data-monstername', summary.name);
+			}
+		})
+		.catch(error => console.error('[WorldMap] Failed to load monster summaries:', error));
+}
 
 /**
  * Initialize UI
@@ -221,8 +265,16 @@ function showTooltip(section) {
 	if (!tooltip) return;
 
 	const displayName = section.getAttribute('data-displayname') || '';
+	const monsterName = section.getAttribute('data-monstername') || '';
+	const monsterLevel = section.getAttribute('data-monsterlevel') || '';
 	tooltip.querySelector('.tooltip-mapname').textContent = displayName;
 	tooltip.querySelector('.tooltip-mapid').textContent = section.id;
+	const monsterInfo = tooltip.querySelector('.tooltip-monster-info');
+	if (monsterInfo) {
+		monsterInfo.style.display = WorldMap.showLVLMode && (monsterName || monsterLevel) ? '' : 'none';
+		monsterInfo.querySelector('.tooltip-monstername').textContent = monsterName;
+		monsterInfo.querySelector('.tooltip-monsterlevel').textContent = monsterLevel;
+	}
 	const tooltipImg = tooltip.querySelector('.tooltip-img');
 	tooltipImg.style.backgroundImage = '';
 
@@ -306,8 +358,10 @@ function createWorldMapView(map, imgData) {
 			const el = document.createElement('div');
 			const el_mapid = document.createElement('div');
 			const el_mapname = document.createElement('div');
+			const el_labels = document.createElement('div');
 
 			el.id = section.id;
+			el.setAttribute('data-mapid', section.id);
 
 			let sectionType = section.type !== undefined ? section.type : 0;
 
@@ -386,7 +440,9 @@ function createWorldMapView(map, imgData) {
 			el.style.height = `${(section.height / C_BASEHEIGHT) * 100}%`;
 
 			el_mapname.className = 'mapname';
-			el_mapname.textContent = section.name; // this is monster names
+			if (section.moblevel) {
+				el.setAttribute('data-monsterlevel', section.moblevel);
+			}
 
 			const el_displayname = document.createElement('div');
 			el_displayname.className = 'displayname';
@@ -406,16 +462,18 @@ function createWorldMapView(map, imgData) {
 			el_mapid.className = 'mapid'; // rsw name
 			el_mapid.textContent = section.id;
 
-			el.appendChild(el_displayname);
-			el.appendChild(el_mapname);
+			el_labels.className = 'section-labels';
+			el_labels.appendChild(el_displayname);
 			el.appendChild(el_mapid);
 
 			if (section.moblevel !== undefined && section.moblevel.length > 0) {
 				const el_level = document.createElement('div');
 				el_level.className = 'level-range-text';
 				el_level.innerText = section.moblevel;
-				el.appendChild(el_level);
+				el_labels.appendChild(el_level);
 			}
+			el_labels.appendChild(el_mapname);
+			el.appendChild(el_labels);
 
 			mapView.appendChild(el);
 		}
@@ -427,6 +485,7 @@ function createWorldMapView(map, imgData) {
 	worldmap.appendChild(mapView);
 	container.innerHTML = '';
 	container.appendChild(worldmap);
+	populateMonsterSummaries(mapView);
 }
 
 /**
