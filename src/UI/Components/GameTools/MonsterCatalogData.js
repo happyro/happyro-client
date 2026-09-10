@@ -8,11 +8,18 @@ export function normalizeMonsterSearch(value) {
 
 export function filterMonsters(monsters, search, category = 'all') {
 	const term = normalizeMonsterSearch(search);
-	return monsters.filter(monster => {
+	const filtered = monsters.filter(monster => {
 		if (category === 'boss' && !monster.boss) return false;
 		if (category === 'normal' && monster.boss) return false;
 		if (!term) return true;
 		return matchesCatalogSearch([monster.id, monster.name, monster.nameEn, monster.aegisName], term);
+	});
+	const seen = new Set();
+	return filtered.filter(monster => {
+		const key = `${normalizeMonsterSearch(monster.name)}:${monster.boss ? 'boss' : 'normal'}`;
+		if (seen.has(key)) return false;
+		seen.add(key);
+		return true;
 	});
 }
 

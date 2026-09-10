@@ -20,12 +20,14 @@
 .item-portrait.no-image img {
 	display: none;
 }
-.item-description {
-	flex: 1;
+.item-detail-content {
+	flex: 1 1 auto;
 	min-height: 0;
+	overflow-y: auto;
+}
+.item-description {
 	margin-top: 12px;
 	padding: 10px;
-	overflow-y: auto;
 	background: #fafafa;
 	border: 1px solid #e1e3e5;
 	line-height: 1.5;
@@ -38,6 +40,9 @@
 	align-items: center;
 	gap: 6px;
 	white-space: nowrap;
+}
+.item-grant-panel {
+	margin-top: 12px;
 }
 .item-grant-amount {
 	width: 76px;

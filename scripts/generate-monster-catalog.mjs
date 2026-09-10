@@ -11,7 +11,7 @@ const snapshotPath = path.resolve(
 );
 const itemSnapshotPath = path.resolve(
 	projectRoot,
-	process.env.ITEM_CATALOG_SOURCE || '../happyro-admin/backend/resources/game-data/items/renewal.json'
+	process.env.ITEM_CATALOG_SOURCE || '../happyro-admin/backend/resources/game-data/items/client-kro-20211105.json'
 );
 const imageDirectory = path.resolve(
 	projectRoot,
@@ -30,9 +30,20 @@ const snapshotBuffer = await fs.readFile(snapshotPath);
 const snapshot = JSON.parse(snapshotBuffer.toString('utf8'));
 const itemSnapshotBuffer = await fs.readFile(itemSnapshotPath);
 const itemSnapshot = JSON.parse(itemSnapshotBuffer.toString('utf8'));
-const itemsByAegisName = new Map(
-	Object.entries(itemSnapshot.items).map(([id, item]) => [item.AegisName, { id: Number.parseInt(id, 10), item }])
-);
+const serverItemSnapshotPath = path.resolve(projectRoot, '../happyro-admin/backend/resources/game-data/items/renewal.json');
+const serverItemSnapshot = JSON.parse((await fs.readFile(serverItemSnapshotPath)).toString('utf8'));
+const itemsByAegisName = new Map();
+const localizedItemsById = new Map(Object.entries(itemSnapshot.items));
+for (const [id, item] of Object.entries(serverItemSnapshot.items)) {
+	const localized = localizedItemsById.get(id);
+	itemsByAegisName.set(item.AegisName, {
+		id: Number.parseInt(id, 10),
+		item: localized ? { ...item, names: localized.names } : item
+	});
+}
+for (const [id, item] of Object.entries(itemSnapshot.items)) {
+	itemsByAegisName.set(item.AegisName, { id: Number.parseInt(id, 10), item });
+}
 const imageFiles = (await fs.readdir(imageDirectory)).filter(file => /^\d+\.png$/.test(file));
 const imageIds = new Set(imageFiles.map(file => Number.parseInt(file, 10)));
 const monsters = Object.entries(snapshot.monsters)

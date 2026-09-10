@@ -492,7 +492,7 @@ function resize(height) {
 	let containerHeight = height;
 	const minHeight = 140;
 	const innerH = descriptionInner ? descriptionInner.offsetHeight : 0;
-	const maxHeight = innerH + 45 > 140 ? Math.min(innerH + 45, 448) : 140;
+	const maxHeight = Math.min(Math.max(innerH + 45, 140), 448);
 
 	if (containerHeight <= minHeight) {
 		containerHeight = minHeight;
