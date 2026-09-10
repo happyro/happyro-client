@@ -27,6 +27,14 @@ describe('SkillLocalizationTable', () => {
 		expect(SkillLocalizationTable[5210].description).toContain('消耗 150 AP');
 		expect(SkillLocalizationTable[5201].description).toContain('每级恢复“技能等级 × 6”AP');
 		expect(SkillLocalizationTable[82].description).toContain('最高等级：1');
+		expect(SkillLocalizationTable[404].description).toContain('最高等级：1');
+		expect(SkillLocalizationTable[2564].description).toContain('最高等级：1');
+		expect(SkillLocalizationTable[129].description).toContain('苍鹰之眼射程再加 3 格');
+		expect(SkillLocalizationTable[131].description).toContain('习得条件：猎鹰精通、拆除陷阱 Lv.1');
+		expect(SkillLocalizationTable[387].description).toContain('手推车革命、更换手推车');
+		expect(SkillLocalizationTable[444].description).toContain('且处于灵魂状态');
+		expect(SkillLocalizationTable[3036].description).toContain('范围：自身周围 7 格');
+		expect(SkillLocalizationTable[5452].description).toContain('伤害受战斗自学');
 	});
 
 	it('contains Chinese names and descriptions without Korean text', () => {
@@ -35,6 +43,7 @@ describe('SkillLocalizationTable', () => {
 			expect(entry.description).toMatch(/[\u3400-\u9fff]/);
 			expect(entry.name).not.toMatch(HANGUL);
 			expect(entry.description).not.toMatch(HANGUL);
+			expect(entry.description).not.toContain('undefined');
 			expect(entry.description).not.toMatch(/官方技能效果数据已收录|尚未收录|相关技能效果/);
 		}
 	});
