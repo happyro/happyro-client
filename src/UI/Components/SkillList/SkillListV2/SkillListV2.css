@@ -94,12 +94,16 @@
 	text-orientation: upright;
 	left: -23px;
 	width: 18px;
+	min-height: 38px;
+	padding: 6px 0;
+	box-sizing: border-box;
 	position: relative;
-	margin: -3px 0;
+	margin: 1px 0;
 	border: 1px solid #c1c6c2;
 	background: #fff;
 	border-radius: 5px 0 0 5px;
 	cursor: pointer;
+	line-height: 1.25;
 }
 #SkillListV2 .tab-content-mini {
 	overflow-y: auto;
@@ -283,12 +287,16 @@
 	text-orientation: upright;
 	left: -23px;
 	width: 18px;
+	min-height: 48px;
+	padding: 8px 0;
+	box-sizing: border-box;
 	position: relative;
-	margin: -3px 0;
+	margin: 2px 0;
 	border: 1px solid #c1c6c2;
 	background: #fff;
 	border-radius: 5px 0 0 5px;
 	cursor: pointer;
+	line-height: 1.25;
 }
 #SkillListV2 .tab-content {
 	position: absolute;

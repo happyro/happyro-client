@@ -66,6 +66,12 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('Navigation.teleportToSelectedTarget');
 	});
 
+	it('brings the navigation window above the top-left menu when shown', () => {
+		const showHandler = navigationSource.match(/Navigation\.show = function show\(\) \{[\s\S]*?\n\};/)?.[0];
+		expect(showHandler).toContain('this.focus()');
+		expect(showHandler).toContain('this.ui.show()');
+	});
+
 	it('opens navigation when the minimap canvas is clicked', () => {
 		expect(miniMapSource).toContain("import('UI/Components/Navigation/Navigation.js')");
 		expect(miniMapSource).toContain('root.addEventListener(');
