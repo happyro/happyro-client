@@ -26,6 +26,18 @@ describe('ui-button localization', () => {
 		expect(Client.loadFile).not.toHaveBeenCalled();
 	});
 
+	it('keeps a nested file input after replacing the label', () => {
+		const button = document.createElement('ui-button');
+		button.setAttribute('bg', 'btn_edit.bmp');
+		const input = document.createElement('input');
+		input.type = 'file';
+		button.appendChild(input);
+		document.body.appendChild(button);
+
+		expect(button.textContent).toContain('编辑');
+		expect(button.querySelector('input[type="file"]')).toBe(input);
+	});
+
 	it('uses a context-specific label for a shared asset', () => {
 		const button = document.createElement('ui-button');
 		button.dataset.localizedLabel = '返回';

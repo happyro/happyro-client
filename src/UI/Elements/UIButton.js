@@ -24,7 +24,11 @@ class UIButton extends HTMLElement {
 
 		if (localizedLabel) {
 			this.classList.add('ui-btn', 'localized-control');
+			const fileInput = this.querySelector('input[type="file"]');
 			this.textContent = localizedLabel;
+			if (fileInput) {
+				this.appendChild(fileInput);
+			}
 			this.setAttribute('aria-label', localizedLabel);
 			for (const attribute of ['bg', 'hover', 'down']) {
 				this.removeAttribute(attribute);
