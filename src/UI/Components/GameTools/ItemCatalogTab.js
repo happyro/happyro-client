@@ -7,7 +7,7 @@ import {
 import { escapeCatalogHtml } from './CatalogData.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
 import { requestGameToolsNumber } from './GameToolsNumberPrompt.js';
-import { renderGameSelect } from './GameSelect.js';
+import { renderGameSelect, setGameSelectOptions } from './GameSelect.js';
 import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
 
 const typeNames = {
@@ -46,6 +46,48 @@ const weaponSubtypeNames = {
 	Shotgun: '霰弹枪',
 	Grenade: '榴弹发射器'
 };
+const equipSlotNames = {
+	Head_Top: '头上',
+	Head_Mid: '头中',
+	Head_Low: '头下',
+	Head: '头部',
+	Armor: '衣服',
+	Garment: '披肩',
+	Shoes: '鞋子',
+	Shield: '盾',
+	Accessory: '饰品',
+	Right_Accessory: '右饰品',
+	Left_Accessory: '左饰品',
+	Costume_Head_Top: '时装头上',
+	Costume_Head_Mid: '时装头中',
+	Costume_Head_Low: '时装头下',
+	Costume_Head: '时装头部',
+	Costume_Garment: '时装披肩',
+	Weapon: '武器',
+	Any: '任意部位'
+};
+const cardSubtypeNames = {
+	Enchant: '附魔',
+	...equipSlotNames
+};
+
+function subtypeOptions(type) {
+	const names =
+		type === 'Weapon'
+			? weaponSubtypeNames
+			: type === 'Armor'
+				? equipSlotNames
+				: type === 'Card'
+					? cardSubtypeNames
+					: null;
+	if (!names) {
+		return { disabled: true, options: [{ value: '', label: '子类' }] };
+	}
+	return {
+		disabled: false,
+		options: [{ value: '', label: '全部子类' }, ...Object.entries(names).map(([value, label]) => ({ value, label }))]
+	};
+}
 const errorMessages = {
 	inventory_full: '背包空间不足',
 	inventory_overweight: '背包负重不足',
@@ -109,13 +151,11 @@ function mount(container, context = {}) {
 			}) +
 			renderGameSelect({
 				name: 'subtype',
-				className: 'catalog-filter weapon-subtype-filter',
-				ariaLabel: '武器类型',
+				className: 'catalog-filter item-subtype-filter',
+				ariaLabel: '子类',
 				value: '',
-				options: [
-					{ value: '', label: '武器类型' },
-					...Object.entries(weaponSubtypeNames).map(([value, label]) => ({ value, label }))
-				]
+				disabled: true,
+				options: subtypeOptions('').options
 			}),
 		toolbarActionHtml: `<button class="zeny-grant-open" type="button" ${context.capabilities?.itemGrantAllowed ? '' : 'disabled'}>发放 Zeny</button>`,
 		emptyDetail: '选择一个物品查看详情',
@@ -130,14 +170,16 @@ function mount(container, context = {}) {
 			return { items: result.data, total: result.total };
 		},
 		onFiltersChange(filters) {
-			const root = container.querySelector('.weapon-subtype-filter[data-game-select]');
-			const input = root.querySelector('.game-select-value');
-			const disabled = filters.type !== 'Weapon';
-			root.querySelector('.game-select-trigger').disabled = disabled;
-			if (disabled && input.value) {
-				input.value = '';
-				root.querySelector('.game-select-trigger span').textContent = '武器类型';
-			}
+			const root = container.querySelector('.item-subtype-filter[data-game-select]');
+			const current = root.querySelector('.game-select-value').value;
+			const { disabled, options } = subtypeOptions(filters.type);
+			const keep = !disabled && options.some(option => option.value === current);
+			setGameSelectOptions(root, {
+				options,
+				value: keep ? current : '',
+				disabled,
+				ariaLabel: '子类'
+			});
 		},
 		onReady({ container: root, refreshDetail }) {
 			const button = root.querySelector('.zeny-grant-open');
@@ -184,11 +226,10 @@ function mount(container, context = {}) {
 		renderDetail(detail, item, api) {
 			const name = item.names?.['zh-CN'] || item.names?.['en-US'] || item.AegisName;
 			const canGrant = context.capabilities?.itemGrantAllowed && item.grantable;
-			const isEquipment = ['Weapon', 'Armor', 'PetArmor', 'ShadowGear'].includes(item.Type);
 			detail.innerHTML = `<div class="item-detail-content"><div class="catalog-heading item-heading"><span class="catalog-portrait item-portrait"><img alt="${escapeCatalogHtml(name)}"></span><div><h3>${escapeCatalogHtml(name)}</h3><p>${escapeCatalogHtml(item.AegisName)} · ID ${item.Id}</p></div></div>
 			<div class="catalog-metadata"><div><span>类型</span><strong>${escapeCatalogHtml(typeNames[item.Type] || item.Type || '其他')}</strong></div><div><span>重量</span><strong>${Number(item.Weight || 0) / 10}</strong></div><div><span>价格</span><strong>买 ${item.Buy ?? '-'} / 卖 ${item.Sell ?? '-'}</strong></div><div><span>洞数</span><strong>${item.Slots ?? 0}</strong></div></div>
 			<div class="item-description">${renderDescription(item.description)}</div></div>
-			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? 'disabled' : ''}>${pending ? '发放中...' : isEquipment ? '放大镜鉴定后发放' : '发放到背包'}</button><span class="catalog-status${statusError ? ' error' : ''}">${escapeCatalogHtml(status || (!item.grantable ? '该特殊物品暂不支持直接发放' : !context.capabilities?.itemGrantAllowed ? '当前账号没有发放权限' : isEquipment ? '装备将先鉴定再发放到背包' : '仅发放给当前角色'))}</span></div>`;
+			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? 'disabled' : ''}>${pending ? '发放中...' : '发放到背包'}</button><span class="catalog-status${statusError ? ' error' : ''}">${escapeCatalogHtml(status || (!item.grantable ? '该特殊物品暂不支持直接发放' : !context.capabilities?.itemGrantAllowed ? '当前账号没有发放权限' : '仅发放给当前角色'))}</span></div>`;
 			loadImage(detail.querySelector('.item-portrait img'), item.illustration || item.icon, assetUrls);
 			detail.querySelector('.item-grant').addEventListener('click', async () => {
 				const amount = Number(detail.querySelector('.item-grant-amount').value);

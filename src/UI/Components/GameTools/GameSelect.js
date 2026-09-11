@@ -7,12 +7,20 @@ function optionMarkup(option, selectedValue) {
 	</button>`;
 }
 
-export function renderGameSelect({ name = '', className = '', ariaLabel, value, options, searchable = false }) {
+export function renderGameSelect({
+	name = '',
+	className = '',
+	ariaLabel,
+	value,
+	options,
+	searchable = false,
+	disabled = false
+}) {
 	const selectedValue = String(value ?? '');
 	const selected = options.find(option => String(option.value) === selectedValue) || options[0];
 	return `<div class="game-select ${className}" data-game-select>
 		<input class="game-select-value ${className}" type="hidden"${name ? ` name="${escapeHtml(name)}"` : ''} value="${escapeHtml(selectedValue)}">
-		<button class="game-select-trigger" type="button" aria-label="${escapeHtml(ariaLabel)}" aria-haspopup="listbox" aria-expanded="false"><span>${escapeHtml(selected?.label || '')}</span><i></i></button>
+		<button class="game-select-trigger" type="button" aria-label="${escapeHtml(ariaLabel)}" aria-haspopup="listbox" aria-expanded="false"${disabled ? ' disabled' : ''}><span>${escapeHtml(selected?.label || '')}</span><i></i></button>
 		<div class="game-select-menu" role="listbox" hidden>
 			${searchable ? `<input class="game-select-search" type="search" placeholder="搜索${escapeHtml(ariaLabel)}" aria-label="搜索${escapeHtml(ariaLabel)}">` : ''}
 			<div class="game-select-options">${options.map(option => optionMarkup(option, selectedValue)).join('')}</div>
@@ -27,7 +35,6 @@ export function mountGameSelect(root) {
 	const trigger = root.querySelector('.game-select-trigger');
 	const menu = root.querySelector('.game-select-menu');
 	const search = root.querySelector('.game-select-search');
-	const options = [...root.querySelectorAll('.game-select-option')];
 	const empty = root.querySelector('.game-select-empty');
 
 	function close() {
@@ -51,6 +58,23 @@ export function mountGameSelect(root) {
 		search?.focus();
 	}
 
+	function currentOptions() {
+		return [...root.querySelectorAll('.game-select-option')];
+	}
+
+	function selectOption(option) {
+		input.value = option.dataset.value;
+		trigger.querySelector('span').textContent = option.querySelector('strong').textContent;
+		for (const candidate of currentOptions()) {
+			const selected = candidate === option;
+			candidate.classList.toggle('selected', selected);
+			candidate.setAttribute('aria-selected', String(selected));
+		}
+		close();
+		trigger.focus();
+		input.dispatchEvent(new Event('change', { bubbles: true }));
+	}
+
 	trigger.addEventListener('click', () => (menu.hidden ? open() : close()));
 	root.addEventListener('focusout', () => {
 		setTimeout(() => {
@@ -63,24 +87,15 @@ export function mountGameSelect(root) {
 			trigger.focus();
 		}
 	});
-	for (const option of options) {
-		option.addEventListener('click', () => {
-			input.value = option.dataset.value;
-			trigger.querySelector('span').textContent = option.querySelector('strong').textContent;
-			for (const candidate of options) {
-				const selected = candidate === option;
-				candidate.classList.toggle('selected', selected);
-				candidate.setAttribute('aria-selected', String(selected));
-			}
-			close();
-			trigger.focus();
-			input.dispatchEvent(new Event('change', { bubbles: true }));
-		});
-	}
+	root.querySelector('.game-select-options').addEventListener('click', event => {
+		const option = event.target.closest('.game-select-option');
+		if (!option || !root.contains(option)) return;
+		selectOption(option);
+	});
 	search?.addEventListener('input', () => {
 		const term = search.value.trim().toLocaleLowerCase();
 		let visible = 0;
-		for (const option of options) {
+		for (const option of currentOptions()) {
 			option.hidden = term !== '' && !option.dataset.search.includes(term);
 			if (!option.hidden) visible += 1;
 		}
@@ -88,6 +103,24 @@ export function mountGameSelect(root) {
 	});
 
 	return { input, close };
+}
+
+export function setGameSelectOptions(root, { options, value = '', disabled = false, ariaLabel } = {}) {
+	if (!root) return;
+	const input = root.querySelector('.game-select-value');
+	const trigger = root.querySelector('.game-select-trigger');
+	const selectedValue = String(value ?? '');
+	const selected = options.find(option => String(option.value) === selectedValue) || options[0];
+	input.value = selectedValue;
+	trigger.disabled = Boolean(disabled);
+	trigger.querySelector('span').textContent = selected?.label || '';
+	if (ariaLabel) trigger.setAttribute('aria-label', ariaLabel);
+	root.querySelector('.game-select-options').innerHTML = options
+		.map(option => optionMarkup(option, selectedValue))
+		.join('');
+	root.querySelector('.game-select-menu').hidden = true;
+	root.classList.remove('open', 'drop-up');
+	trigger.setAttribute('aria-expanded', 'false');
 }
 
 export function mountGameSelects(container) {
