@@ -206,5 +206,8 @@ describe('game tools integration', () => {
 		expect(source).toContain('买 ${item.Buy ?? \'-\'} / 卖 ${item.Sell ?? \'-\'}');
 		expect(source).toContain('<span>洞数</span>');
 		expect(source).toContain('${item.Slots ?? 0}');
+		expect(source).toContain("ariaLabel: '子类'");
+		expect(source).toContain("pending ? '发放中...' : '发放到背包'");
+		expect(source).not.toContain('放大镜鉴定后发放');
 	});
 });
