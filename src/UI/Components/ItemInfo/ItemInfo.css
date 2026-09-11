@@ -94,6 +94,11 @@
 	width: 150px;
 	white-space: pre-wrap;
 }
+.ItemInfo .navi-link,
+.ItemInfo .item-link {
+	cursor: pointer;
+	text-decoration: underline;
+}
 .ItemInfo .extend {
 	position: absolute;
 	right: 4px;

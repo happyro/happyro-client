@@ -5,6 +5,7 @@ import {
 	searchAdventureItems
 } from './AdventureControlService.js';
 import { escapeCatalogHtml } from './CatalogData.js';
+import { toPlainRagnarokText } from '../../../Utils/RagnarokText.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
 import { requestGameToolsNumber } from './GameToolsNumberPrompt.js';
 import { renderGameSelect, setGameSelectOptions } from './GameSelect.js';
@@ -124,7 +125,7 @@ function renderDescription(value) {
 	return (
 		lines
 			.filter(Boolean)
-			.map(line => `<p>${escapeCatalogHtml(line)}</p>`)
+			.map(line => `<p>${escapeCatalogHtml(toPlainRagnarokText(line))}</p>`)
 			.join('') || '<p>暂无说明</p>'
 	);
 }
