@@ -125,7 +125,8 @@
 
 #PetEvolution .evolve,
 #PetEvolution .big_cancel {
-	width: 42px;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
 	border: 0;
 	background-repeat: no-repeat;

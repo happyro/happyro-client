@@ -356,8 +356,10 @@ export function createSkillList({
 			case 'TOGGLE':
 				this.toggle();
 				break;
+			default:
+				onResetChoice(this);
+				break;
 		}
-		onResetChoice(this);
 	};
 
 	Component.setSkills = function setSkills(skills) {

@@ -171,12 +171,14 @@ NpcBox.onRemove = function onRemove() {
 
 	const nextBtn = root.querySelector('.next');
 	if (nextBtn) {
-		nextBtn.style.display = 'none';
+		nextBtn.classList.remove('is-visible');
+		nextBtn.style.display = '';
 	}
 
 	const closeBtn = root.querySelector('.close');
 	if (closeBtn) {
-		closeBtn.style.display = 'none';
+		closeBtn.classList.remove('is-visible');
+		closeBtn.style.display = '';
 	}
 
 	const content = root.querySelector('.content');
@@ -280,10 +282,12 @@ NpcBox.addNext = function addNext(gid) {
 	const nextBtn = root.querySelector('.next');
 	const closeBtn = root.querySelector('.close');
 	if (closeBtn) {
-		closeBtn.style.display = 'none';
+		closeBtn.classList.remove('is-visible');
+		closeBtn.style.display = '';
 	}
 	if (nextBtn) {
-		nextBtn.style.display = 'block';
+		nextBtn.classList.add('is-visible');
+		nextBtn.style.display = '';
 	}
 };
 
@@ -298,10 +302,12 @@ NpcBox.addClose = function addClose(gid) {
 	const closeBtn = root.querySelector('.close');
 	const nextBtn = root.querySelector('.next');
 	if (nextBtn) {
-		nextBtn.style.display = 'none';
+		nextBtn.classList.remove('is-visible');
+		nextBtn.style.display = '';
 	}
 	if (closeBtn) {
-		closeBtn.style.display = 'block';
+		closeBtn.classList.add('is-visible');
+		closeBtn.style.display = '';
 	}
 };
 
@@ -313,7 +319,8 @@ NpcBox.next = function next() {
 	const root = NpcBox.getRoot();
 	const nextBtn = root.querySelector('.next');
 	if (nextBtn) {
-		nextBtn.style.display = 'none';
+		nextBtn.classList.remove('is-visible');
+		nextBtn.style.display = '';
 	}
 	this.onNextPressed(NpcBox.ownerID);
 };
@@ -326,7 +333,8 @@ NpcBox.close = function close() {
 	const root = NpcBox.getRoot();
 	const closeBtn = root.querySelector('.close');
 	if (closeBtn) {
-		closeBtn.style.display = 'none';
+		closeBtn.classList.remove('is-visible');
+		closeBtn.style.display = '';
 	}
 	this.onClosePressed(NpcBox.ownerID);
 };

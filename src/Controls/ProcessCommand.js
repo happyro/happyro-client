@@ -607,10 +607,11 @@ const CommandStore = {
 		callback: function (text) {
 			const matches = text.match(/(^mapmove|^mm)\s+([\w.]+)\s+(\d+)\s+(\d+)/);
 			if (matches) {
-				const pkt = new PACKET.CZ.MOVETO_MAP();
+				const pkt = new PACKET.CZ.HAPPYRO_MAP_TELEPORT();
+				pkt.requestId = Date.now() & 0xffffffff;
 				pkt.mapName = matches[2];
-				pkt.xPos = parseInt(matches[3], 10);
-				pkt.yPos = parseInt(matches[4], 10);
+				pkt.x = parseInt(matches[3], 10);
+				pkt.y = parseInt(matches[4], 10);
 				Network.sendPacket(pkt);
 				return;
 			}

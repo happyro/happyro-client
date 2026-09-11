@@ -66,6 +66,12 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('Navigation.teleportToSelectedTarget');
 	});
 
+	it('brings the navigation window above the top-left menu when shown', () => {
+		const showHandler = navigationSource.match(/Navigation\.show = function show\(\) \{[\s\S]*?\n\};/)?.[0];
+		expect(showHandler).toContain('this.focus()');
+		expect(showHandler).toContain('this.ui.show()');
+	});
+
 	it('opens navigation when the minimap canvas is clicked', () => {
 		expect(miniMapSource).toContain("import('UI/Components/Navigation/Navigation.js')");
 		expect(miniMapSource).toContain('root.addEventListener(');
@@ -75,14 +81,21 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('if (_autoWalkActive || _autoWalkRequested)');
 	});
 
+	it('cycles minimap opacity from the button next to zoom out without hiding the controls', () => {
+		expect(miniMapSource).toContain("root.querySelector('.mini')");
+		expect(miniMapSource).toContain('MiniMap.toggleOpacity()');
+		expect(miniMapSource).toContain("_ctx.canvas.style.visibility = 'hidden'");
+		expect(miniMapSource).not.toContain('this.ui.hide()');
+	});
+
 	it('temporarily hides transfer-service routing', () => {
 		expect(navigationHtml).not.toContain('class="services-toggle"');
 	});
 
 	it('keeps coordinate actions visible and disabled until a map target is selected', () => {
-		expect(navigationSource).toContain("button.style.display = npcTarget ? 'none' : 'block'");
+		expect(navigationSource).toContain("button.style.display = npcTarget ? 'none' : ''");
 		expect(navigationSource).toContain('button.disabled = !hasCoordinateTarget');
-		expect(navigationSource).toContain("start.style.display = _autoWalkActive ? 'none' : 'block'");
+		expect(navigationSource).toContain("start.style.display = _autoWalkActive ? 'none' : ''");
 		expect(navigationSource).toContain('start.disabled = !canStart');
 	});
 

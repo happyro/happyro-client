@@ -208,6 +208,15 @@ export function createMiniMap({
 			event.preventDefault();
 		});
 
+		const miniBtn = root.querySelector('.mini');
+		if (miniBtn) {
+			miniBtn.addEventListener('mousedown', event => {
+				MiniMap.toggleOpacity();
+				event.stopImmediatePropagation();
+				event.preventDefault();
+			});
+		}
+
 		if (townInfoToggle) {
 			const objectBtn = root.querySelector('.object');
 			if (objectBtn) {
@@ -551,16 +560,25 @@ export function createMiniMap({
 
 		switch (this.opacity) {
 			case 0:
-				this.ui.hide();
+				if (_ctx) {
+					_ctx.canvas.style.visibility = 'hidden';
+				}
+				this.ui.show();
 				break;
 
 			case 1:
-				_ctx.globalAlpha = 0.5;
+				if (_ctx) {
+					_ctx.canvas.style.visibility = 'visible';
+					_ctx.globalAlpha = 0.5;
+				}
 				this.ui.show();
 				break;
 
 			case 2:
-				_ctx.globalAlpha = 1.0;
+				if (_ctx) {
+					_ctx.canvas.style.visibility = 'visible';
+					_ctx.globalAlpha = 1.0;
+				}
 				this.ui.show();
 				break;
 		}

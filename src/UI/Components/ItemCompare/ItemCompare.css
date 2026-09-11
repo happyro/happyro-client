@@ -21,16 +21,29 @@
 }
 .ItemCompare .event_view {
 	position: absolute;
+	top: auto;
+	bottom: 8px;
+	left: 10px;
+	width: auto;
+	min-width: 42px;
+	height: 20px;
 }
 .ItemCompare .event_view .view {
 	position: absolute;
-	width: 42px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
+	padding: 0 8px;
+	box-sizing: border-box;
+	font-size: 12px;
 	background-repeat: no-repeat;
 	background-color: transparent;
 	border: none;
-	top: 6px;
-	left: 6px;
+	top: 0;
+	left: 0;
 }
 .ItemCompare .collection {
 	position: absolute;

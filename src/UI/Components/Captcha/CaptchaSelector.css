@@ -110,7 +110,8 @@
 
 #CaptchaSelector .btn_active,
 #CaptchaSelector .footer .btn {
-	width: 42px;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
 	background-repeat: no-repeat;
 	background-color: transparent;

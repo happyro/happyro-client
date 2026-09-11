@@ -96,7 +96,7 @@ class AchievementComponent extends GUIComponent {
 			{ id: 6, name: DB.getMessage(2678), minorCategories: [] }
 		];
 
-		this.currentFilter = 'complete'; // all, complete, incomplete
+		this.currentFilter = 'all'; // all, complete, incomplete
 		this.currentMajor = 0;
 		this.currentMinor = -1;
 		this.selectedAchId = null;
@@ -114,8 +114,7 @@ class AchievementComponent extends GUIComponent {
 		filters.forEach(el => {
 			el.addEventListener('click', () => {
 				const filter = el.dataset.filter;
-				if (this.currentFilter === filter)
-					this.currentFilter = 'all'; // toggle off
+				if (this.currentFilter === filter) this.currentFilter = 'all';
 				else this.currentFilter = filter;
 				this.renderList();
 			});
@@ -231,12 +230,6 @@ class AchievementComponent extends GUIComponent {
 			const mDiv = document.createElement('div');
 			mDiv.className = 'major-tab' + (this.currentMajor === major.id ? ' active' : '');
 
-			mDiv.setAttribute('data-background', 'achievement_re/tab_out.bmp');
-			mDiv.setAttribute('data-hover', 'achievement_re/tab_over.bmp');
-			mDiv.setAttribute('data-down', 'achievement_re/tab_press.bmp');
-			mDiv.setAttribute('data-active', 'achievement_re/tab_press.bmp');
-			GUIComponent.processDataAttrs(mDiv);
-
 			const tNode = document.createTextNode(major.name);
 			mDiv.appendChild(tNode);
 
@@ -255,13 +248,6 @@ class AchievementComponent extends GUIComponent {
 				major.minorCategories.forEach(minor => {
 					const minDiv = document.createElement('div');
 					minDiv.className = 'minor-tab' + (this.currentMinor === minor.id ? ' active' : '');
-
-					minDiv.setAttribute('data-background', 'achievement_re/tab_sub_out.bmp');
-					minDiv.setAttribute('data-hover', 'achievement_re/tab_sub_over.bmp');
-					minDiv.setAttribute('data-down', 'achievement_re/tab_sub_press.bmp');
-					minDiv.setAttribute('data-active', 'achievement_re/tab_sub_press.bmp');
-					GUIComponent.processDataAttrs(minDiv);
-
 					minDiv.textContent = minor.name;
 					minDiv.addEventListener('click', () => {
 						this.currentMinor = minor.id;
@@ -455,16 +441,13 @@ class AchievementComponent extends GUIComponent {
 			const s = sessAch[achId];
 			const isCompleted = s ? s.completed : false;
 
+			if (this.currentFilter === 'complete' && !isCompleted) return;
+			if (this.currentFilter === 'incomplete' && isCompleted) return;
+
 			list.push({ achId, info, s, isCompleted });
 		});
 
-		if (this.currentFilter === 'complete') {
-			list.sort((a, b) => (b.isCompleted === a.isCompleted ? a.achId - b.achId : b.isCompleted ? 1 : -1));
-		} else if (this.currentFilter === 'incomplete') {
-			list.sort((a, b) => (b.isCompleted === a.isCompleted ? a.achId - b.achId : a.isCompleted ? 1 : -1));
-		} else {
-			list.sort((a, b) => a.achId - b.achId);
-		}
+		list.sort((a, b) => a.achId - b.achId);
 
 		list.forEach(itemData => {
 			const { achId, info, s, isCompleted } = itemData;
