@@ -534,7 +534,7 @@ function addEvent(item) {
 	switch (item.type) {
 		case ItemType.CARD:
 			if (viewBtn) {
-				viewBtn.style.display = 'block';
+				viewBtn.style.display = 'inline-flex';
 			}
 			break;
 		case ItemType.ETC: {

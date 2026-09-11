@@ -69,11 +69,12 @@
 #MakeArrowSelection ui-button.btn {
 	position: absolute;
 	bottom: 4px;
-	width: 42px;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
 }
 #MakeArrowSelection .ok {
-	right: 50px;
+	right: 49px;
 }
 #MakeArrowSelection .cancel {
 	right: 5px;

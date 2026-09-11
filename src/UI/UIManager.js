@@ -39,7 +39,7 @@ function _createButton(name, onClick) {
 	const labels = { ok: '确定', yes: '确定', cancel: '取消', no: '取消', close: '关闭', next: '继续' };
 	const label = labels[name.toLowerCase()];
 	if (label) {
-		btn.classList.add('localized');
+		btn.classList.add('ui-btn', 'localized-control');
 		btn.textContent = label;
 	} else {
 		btn.dataset.background = `btn_${name}.bmp`;

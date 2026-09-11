@@ -55,29 +55,26 @@
 	position: absolute;
 	bottom: 2px;
 	right: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 2px;
 }
 
 #win_popup .btn {
 	border: 0;
-	width: 42px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
+	padding: 0 8px;
+	box-sizing: border-box;
+	font-size: 12px;
+	line-height: 1;
 	bottom: 4px;
-	margin-left: 3px;
+	margin-left: 0;
 	background-repeat: no-repeat;
 	background-color: transparent;
-}
-
-#win_popup .btn.localized {
-	border: 1px solid #8b9690;
-	background: #f4f7f5;
-	color: #202622;
-	cursor: pointer;
-}
-
-#win_popup .btn.localized:hover {
-	background: #dcebe3;
-}
-
-#win_popup .btn.localized:active {
-	background: #c8ded2;
 }
