@@ -23,7 +23,6 @@ registerGameToolsTab(gameSettingsTab);
 
 const preferences = Preferences.get('GameTools', { tab: 'monsters' }, 1.0);
 const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
-GameTools.needFocus = false;
 let cleanupTab;
 let capabilities;
 
@@ -45,7 +44,6 @@ GameTools.render = () => htmlText;
 
 GameTools.init = function init() {
 	const root = this.getRoot();
-	this._host.style.zIndex = '1000';
 	this.draggable('.titlebar');
 	root.addEventListener('invalid', event => event.target.setCustomValidity(validationMessage(event.target)), true);
 	root.addEventListener('input', event => event.target.setCustomValidity?.(''), true);
@@ -74,6 +72,7 @@ GameTools.renderTabs = function renderTabs() {
 GameTools.selectTab = function selectTab(id) {
 	const tab = getGameToolsTabs().find(candidate => candidate.id === id);
 	if (!tab) return;
+	if (id === preferences.tab) return;
 	preferences.tab = id;
 	preferences.save();
 	this.renderTabs();
@@ -106,6 +105,7 @@ GameTools.toggle = function toggle() {
 	this.append();
 	this._host.style.display = '';
 	this.centerInViewport();
+	this.focus();
 	void this.refreshCapabilities();
 };
 
@@ -116,7 +116,11 @@ GameTools.refreshCapabilities = async function refreshCapabilities() {
 		capabilities = nextCapabilities;
 		if (changed) this.renderTabs();
 	} catch {
-		capabilities = { characterMaintenanceAllowed: false, gameSettingsAllowed: false };
+		capabilities = {
+			characterMaintenanceAllowed: false,
+			gameSettingsAllowed: false,
+			itemGrantAllowed: false
+		};
 		this.renderTabs();
 	}
 };

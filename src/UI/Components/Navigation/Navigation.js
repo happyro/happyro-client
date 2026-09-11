@@ -498,24 +498,6 @@ Navigation.init = function init() {
 	};
 	setupSearchFilter(root, '.search-type', refreshSearch);
 	setupSearchFilter(root, '.search-scope', refreshSearch);
-	const servicesToggle = root.querySelector('.services-toggle');
-	if (servicesToggle) {
-		servicesToggle.addEventListener('change', () => {
-			if (!_finalTargetData) return;
-			_pathUnavailable = false;
-			const currentMap = getCurrentMap();
-			const currentPos = getPlayerPosition();
-			this.navigateTo({
-				startMap: currentMap,
-				startX: currentPos.x,
-				startY: currentPos.y,
-				endMap: _finalTargetData.map,
-				endX: _finalTargetData.x,
-				endY: _finalTargetData.y,
-				displayName: _finalTargetData.displayName
-			});
-		});
-	}
 
 	const searchInput = root.querySelector('.search-input');
 	searchInput.addEventListener('keypress', e => {
@@ -972,9 +954,9 @@ Navigation.updateTeleportButton = function updateTeleportButton() {
 	const npcTeleportable =
 		npcTarget && npcTarget.availability !== 'unavailable' && npcTarget.availability !== 'pending';
 	const hasCoordinateTarget = Boolean(!npcTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y));
-	button.style.display = npcTarget ? 'none' : 'block';
+	button.style.display = npcTarget ? 'none' : '';
 	button.disabled = !hasCoordinateTarget || !canTeleportTarget || !coordinateActionState.canTeleport;
-	npcButton.style.display = npcTeleportable && canTeleportTarget ? 'block' : 'none';
+	npcButton.style.display = npcTeleportable && canTeleportTarget ? '' : 'none';
 	npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
 	npcButton.textContent = _npcTeleportPending ? '正在传送...' : '传送到 NPC 附近';
 };
@@ -1000,9 +982,9 @@ Navigation.updateAutoWalkButtons = function updateAutoWalkButtons() {
 	const stop = root?.querySelector('.walk-stop-button');
 	if (!start || !stop) return;
 	const canStart = Boolean(_path.length && _targetData && _targetData.map === getCurrentMap() && !_pathUnavailable);
-	start.style.display = _autoWalkActive ? 'none' : 'block';
+	start.style.display = _autoWalkActive ? 'none' : '';
 	start.disabled = !canStart;
-	stop.style.display = _autoWalkActive ? 'block' : 'none';
+	stop.style.display = _autoWalkActive ? '' : 'none';
 };
 
 Navigation.startAutoWalk = function startAutoWalk() {
@@ -1719,10 +1701,19 @@ Navigation.findPath = async function findPath(startX, startY, endX, endY) {
 Navigation.toggle = function toggle() {
 	const hostDisplay = this._host ? getComputedStyle(this._host).display : 'none';
 	if (hostDisplay !== 'none') {
-		this.hide();
-	} else {
-		this.show();
+		const currentZ = parseInt(this._host.style.zIndex, 10) || 0;
+		let maxZ = currentZ;
+		const components = this.manager?.components || {};
+		for (const name in components) {
+			const other = components[name];
+			if (other === this || !other.__active || !other.needFocus) continue;
+			maxZ = Math.max(maxZ, parseInt(other._host?.style.zIndex, 10) || 0);
+		}
+		if (currentZ >= maxZ) this.hide();
+		else this.focus();
+		return;
 	}
+	this.show();
 };
 
 /**
@@ -1899,12 +1890,7 @@ Navigation.navigateTo = async function navigateTo(options) {
 	this.updateTeleportButton();
 	this.updateAutoWalkButtons();
 
-	// Get warp types based on Services checkbox
-	let warpTypes = [200, 201];
-	const servicesToggle = root.querySelector('.services-toggle');
-	if (servicesToggle && servicesToggle.checked) {
-		warpTypes = [200, 201, 202, 203, 204, 205];
-	}
+	const warpTypes = [200, 201];
 
 	_pathUpdateLock = true;
 	notifyRouteState();

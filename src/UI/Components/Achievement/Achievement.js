@@ -96,7 +96,7 @@ class AchievementComponent extends GUIComponent {
 			{ id: 6, name: DB.getMessage(2678), minorCategories: [] }
 		];
 
-		this.currentFilter = 'complete'; // all, complete, incomplete
+		this.currentFilter = 'all'; // all, complete, incomplete
 		this.currentMajor = 0;
 		this.currentMinor = -1;
 		this.selectedAchId = null;
@@ -114,8 +114,7 @@ class AchievementComponent extends GUIComponent {
 		filters.forEach(el => {
 			el.addEventListener('click', () => {
 				const filter = el.dataset.filter;
-				if (this.currentFilter === filter)
-					this.currentFilter = 'all'; // toggle off
+				if (this.currentFilter === filter) this.currentFilter = 'all';
 				else this.currentFilter = filter;
 				this.renderList();
 			});
@@ -442,16 +441,13 @@ class AchievementComponent extends GUIComponent {
 			const s = sessAch[achId];
 			const isCompleted = s ? s.completed : false;
 
+			if (this.currentFilter === 'complete' && !isCompleted) return;
+			if (this.currentFilter === 'incomplete' && isCompleted) return;
+
 			list.push({ achId, info, s, isCompleted });
 		});
 
-		if (this.currentFilter === 'complete') {
-			list.sort((a, b) => (b.isCompleted === a.isCompleted ? a.achId - b.achId : b.isCompleted ? 1 : -1));
-		} else if (this.currentFilter === 'incomplete') {
-			list.sort((a, b) => (b.isCompleted === a.isCompleted ? a.achId - b.achId : a.isCompleted ? 1 : -1));
-		} else {
-			list.sort((a, b) => a.achId - b.achId);
-		}
+		list.sort((a, b) => a.achId - b.achId);
 
 		list.forEach(itemData => {
 			const { achId, info, s, isCompleted } = itemData;

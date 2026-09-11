@@ -23,8 +23,13 @@ describe('WinLogin localization', () => {
 		expect(loginV2Html).toContain('bt_start_normal.bmp');
 		expect(loginV2Html).toContain('bt_start_over.bmp');
 		expect(loginV2Html).toContain('bt_start_press.bmp');
-		expect(loginV2Html).toContain('登录');
-		expect(loginV2Html).toContain('注册');
+		expect(loginV2Html).toContain('data-localized-label="注册"');
+		expect(loginV2Html.match(/id="btn_connect"/g)).toHaveLength(1);
+		expect(loginV2Html).toContain('id="btn_signup"');
+	});
+
+	it('does not clear remembered account text on mousedown', () => {
+		expect(loginCommonSource).not.toMatch(/addEventListener\('mousedown'[\s\S]{0,120}this\.value = ''/);
 	});
 
 	it.each([
