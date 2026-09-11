@@ -41,6 +41,7 @@ describe('game tools integration', () => {
 		expect(catalog.schema).toBe('happyro-world-assets/v3');
 		expect(catalog.source.sha256).toMatch(/^[a-f0-9]{64}$/);
 		expect(catalog.source.npcDefinitionsSha256).toMatch(/^[a-f0-9]{64}$/);
+		expect(catalog.source.npcCatalogVersion).toMatch(/^kro-20211105-[a-f0-9]{12}$/);
 		expect(catalog.source.mapImagesSha256).toMatch(/^[a-f0-9]{64}$/);
 		expect(catalog.source.imageCount).toBe(1453);
 		expect(Object.keys(catalog.sprites)).toHaveLength(1453);
@@ -54,10 +55,21 @@ describe('game tools integration', () => {
 
 	it('shares the generated localized NPC instance table across navigation and the catalog', () => {
 		const names = JSON.parse(read('src/DB/NpcNameTranslations.zh-CN.json'));
+		const catalog = JSON.parse(read('src/DB/Navigation/NpcCatalog.json'));
+		const assets = JSON.parse(read('applications/pwa/data/world/npc-assets.json'));
 		const instances = read('src/DB/Navigation/NpcInstanceNameTable.js');
 		expect(Object.keys(names)).toHaveLength(4335);
 		expect(Object.values(names).every(name => /[\u3400-\u9fff]/.test(name))).toBe(true);
 		expect(Object.keys(NpcInstanceNameTable).length).toBeGreaterThan(10000);
+		expect(catalog.schema).toBe('happyro-npc-catalog/v1');
+		expect(catalog.entries.length).toBeGreaterThan(13000);
+		const teleportable = catalog.entries.filter(npc => Number.isFinite(npc.navigation_class));
+		const visible = teleportable.filter(npc => Number.isFinite(npc.display_sprite_id));
+		expect(teleportable).toHaveLength(4664);
+		expect(visible).toHaveLength(4410);
+		expect(catalog.entries.filter(npc => npc.game_visible)).toHaveLength(4410);
+		expect(catalog.entries.every((npc, index) => npc.catalog_order === index)).toBe(true);
+		expect(visible.every(npc => assets.sprites[npc.display_sprite_id])).toBe(true);
 		expect(Object.values(NpcInstanceNameTable).every(npc => /[\u3400-\u9fff]/.test(npc.name))).toBe(true);
 		expect(NpcInstanceNameTable['aldeba_in:155:240']).toMatchObject({
 			name: '卡普拉员工',
@@ -134,6 +146,10 @@ describe('game tools integration', () => {
 		expect(source).toContain('const token = selectionToken;');
 		expect(source).toMatch(/resetSelectionAvailability = \(\) => \{\s*selectionToken \+= 1;/);
 		expect(source).not.toContain('const token = ++selectionToken;');
+		expect(source).not.toContain('catalog-route');
+		expect(source).not.toContain('AdventureRouteService');
+		expect(source).toContain('class="catalog-teleport"');
+		expect(source).toContain('npcAtlasStyle(manifest, npc.spriteId');
 	});
 
 	it('uses the complete contextual name for the vampire illusion map', () => {

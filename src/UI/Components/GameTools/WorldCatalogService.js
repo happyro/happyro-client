@@ -57,12 +57,11 @@ export function toWorldEntities(results) {
 	return (results || []).map(toWorldEntity).filter(Boolean);
 }
 
-import NpcInstanceNameTable from 'DB/Navigation/NpcInstanceNameTable.js';
+import NpcCatalog from 'DB/Navigation/NpcCatalog.json';
 
 /**
- * Build the NPC catalogue from server NPC instances and enrich matching rows
- * with official navigation metadata. Server-only NPCs remain browseable but
- * cannot request NPC teleport until a live class identity is available.
+ * Build the adventure NPC catalogue from server instances that have an
+ * official navigation identity and can therefore request NPC teleport.
  */
 export function mergeNpcCatalog(navigationResults, localizeMap) {
 	const navigation = toWorldEntities(navigationResults).filter(entity => entity.type === WORLD_ENTITY_TYPES.NPC);
@@ -72,25 +71,36 @@ export function mergeNpcCatalog(navigationResults, localizeMap) {
 		if (!navigationByPosition.has(position)) navigationByPosition.set(position, entity);
 	}
 
-	return Object.entries(NpcInstanceNameTable).map(([position, instance]) => {
-		const [mapName, x, y] = position.split(':');
-		const matched = navigationByPosition.get(position);
-		return toWorldEntity({
-			...(matched || {}),
-			type: WORLD_ENTITY_TYPES.NPC,
-			id: matched?.id || position,
-			name: instance.name,
-			sourceName: instance.sourceName,
-			rawName: matched?.rawName || instance.sourceName,
-			aliases: matched?.aliases || [],
-			mapName,
-			mapDisplayName: matched?.mapDisplayName || localizeMap(mapName),
-			x: Number(x),
-			y: Number(y),
-			npcClass: Number.isFinite(matched?.npcClass) ? matched.npcClass : null,
-			source: matched ? 'server+navigation' : 'server'
-		});
-	});
+	return NpcCatalog.entries
+		.map(instance => {
+			const position = `${instance.map}:${instance.x}:${instance.y}`;
+			const matched = navigationByPosition.get(position);
+			const npcClass = Number.isFinite(matched?.npcClass)
+				? matched.npcClass
+				: Number.isFinite(instance.navigation_class)
+					? instance.navigation_class
+					: null;
+			return toWorldEntity({
+				...(matched || {}),
+				type: WORLD_ENTITY_TYPES.NPC,
+				id: matched?.id || instance.navigation_id || instance.id,
+				name: instance.name,
+				sourceName: instance.source_name,
+				rawName: matched?.rawName || instance.source_name,
+				aliases: matched?.aliases || [],
+				mapName: instance.map,
+				mapDisplayName: matched?.mapDisplayName || localizeMap(instance.map),
+				x: instance.x,
+				y: instance.y,
+				npcClass,
+				spriteId: Number.isFinite(instance.display_sprite_id) ? instance.display_sprite_id : null,
+				catalogOrder: instance.catalog_order,
+				gameVisible: instance.game_visible,
+				scriptType: instance.type,
+				source: 'server+navigation'
+			});
+		})
+		.filter(npc => npc.gameVisible);
 }
 
 export function entityKey(entity) {
