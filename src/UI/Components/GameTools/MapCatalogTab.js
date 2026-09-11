@@ -10,14 +10,18 @@ import {
 	getCurrentAdventurePosition,
 	normalizeAdventureMap,
 	subscribeAdventureActions,
-	teleportToCoordinate
+	teleportToCoordinate,
+	teleportToNpc
 } from './AdventureActionService.js';
+import { requestNpcAvailability } from './NpcAvailabilityService.js';
+import { loadAdventureNpcCatalog } from './NpcCatalogTab.js';
 import {
 	previewAdventureRoute,
 	startAdventureRoute,
 	stopAdventureRoute,
 	subscribeAdventureRoute
 } from './AdventureRouteService.js';
+import { remainingPathFromPosition } from 'UI/Components/Navigation/NavigationAutoWalk.js';
 import { filterAndSortMaps } from './MapCatalogData.js';
 import { renderGameSelect } from './GameSelect.js';
 import {
@@ -29,10 +33,17 @@ import {
 	loadNpcAssets
 } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
-import { toWorldEntities } from './WorldCatalogService.js';
+import { filterNpcsOnMap, npcCatalogKey, npcTeleportEnabled, toWorldEntities } from './WorldCatalogService.js';
 
 function filterMaps(maps, search, scope) {
 	return filterAndSortMaps(maps, search, scope, getCurrentAdventureMap());
+}
+
+function npcAvailabilityLabel(available) {
+	if (available === true) return '可传送';
+	if (available === false) return '不可用';
+	if (available === 'checking') return '校验中...';
+	return '待校验';
 }
 
 function mount(container) {
@@ -46,6 +57,12 @@ function mount(container) {
 	let thumbnailToken = 0;
 	let thumbnailObserver = null;
 	let redrawPreview = () => {};
+	let previewResizeObserver = null;
+	let catalogNpcs = [];
+	let npcAvailability = {};
+	let npcAvailabilityToken = 0;
+	let selectedNpcKey = '';
+	let pendingSelectionClear = '';
 	const browser = mountCatalogBrowser(container, {
 		placeholder: '搜索地图名称或代码',
 		searchLabel: '搜索地图',
@@ -59,6 +76,7 @@ function mount(container) {
 			]
 		}),
 		emptyDetail: '选择一个地图查看详情',
+		selectFirst: false,
 		pageSize: 35,
 		key: map => map.id,
 		filter: filterMaps,
@@ -115,6 +133,8 @@ function mount(container) {
 				loadingMapName = map.mapName;
 				selectedCoordinate = { x: 0, y: 0, random: true };
 				loadedMap = null;
+				selectedNpcKey = '';
+				npcAvailability = {};
 				const token = ++loadToken;
 				loadCatalogMap(map.mapName).then(resource => {
 					if (token !== loadToken) return;
@@ -122,6 +142,36 @@ function mount(container) {
 					selectedCoordinate = findDefaultMapCoordinate(resource?.gat) || selectedCoordinate;
 					api.refreshDetail();
 				});
+				const mapNpcsForCheck = filterNpcsOnMap(catalogNpcs, map.mapName);
+				if (mapNpcsForCheck.length) {
+					const availabilityToken = ++npcAvailabilityToken;
+					for (const npc of mapNpcsForCheck) npcAvailability[npcCatalogKey(npc)] = 'checking';
+					const batches = [];
+					for (let index = 0; index < mapNpcsForCheck.length; index += 50) {
+						batches.push(mapNpcsForCheck.slice(index, index + 50));
+					}
+					Promise.all(batches.map(batch => requestNpcAvailability(batch)))
+						.then(results => {
+							if (availabilityToken !== npcAvailabilityToken) return;
+							const next = {};
+							let offset = 0;
+							for (const result of results) {
+								for (const available of result) {
+									next[npcCatalogKey(mapNpcsForCheck[offset])] = available;
+									offset += 1;
+								}
+							}
+							npcAvailability = next;
+							api.refreshDetail();
+						})
+						.catch(() => {
+							if (availabilityToken !== npcAvailabilityToken) return;
+							const next = {};
+							for (const npc of mapNpcsForCheck) next[npcCatalogKey(npc)] = false;
+							npcAvailability = next;
+							api.refreshDetail();
+						});
+				}
 			}
 			const target = selectedCoordinate ? { ...map, ...selectedCoordinate } : null;
 			const routeTarget = target && !target.random ? target : null;
@@ -147,42 +197,94 @@ function mount(container) {
 			const currentMapName =
 				DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
 			const routeMessage = !sameMap ? '寻路仅支持角色当前所在地图' : routeMatches ? routeState.message : '';
-			detail.innerHTML = `<div class="map-heading"><div><h3>${escapeCatalogHtml(map.name)}</h3><p>${escapeCatalogHtml(map.id)}</p><small class="map-current-position">角色位置：${escapeCatalogHtml(currentMapName)} (${currentPosition.x}, ${currentPosition.y})</small></div><strong>${selectedCoordinate?.random ? '随机位置' : selectedCoordinate ? `${selectedCoordinate.x}, ${selectedCoordinate.y}` : '点击地图选择位置'}</strong></div>
+			const mapNpcs = filterNpcsOnMap(catalogNpcs, map.mapName);
+			const npcListScrollTop = detail.querySelector('.map-npc-scroll')?.scrollTop || 0;
+			const selectedNpc = mapNpcs.find(npc => npcCatalogKey(npc) === selectedNpcKey);
+			if (selectedNpc) {
+				selectedCoordinate = { x: selectedNpc.x, y: selectedNpc.y };
+			}
+			const npcActionState = selectedNpc
+				? { ...actionState, ...getAdventureActionState(selectedNpc) }
+				: actionState;
+			const canTeleportNpc = selectedNpc
+				? npcTeleportEnabled(selectedNpc, npcAvailability[npcCatalogKey(selectedNpc)], npcActionState)
+				: false;
+			const canTeleportHere = selectedNpc ? canTeleportNpc : canTeleport;
+			const npcStatus = actionState.kind === 'npc' ? actionState.message : '';
+			const mapStatus =
+				(actionState.kind === 'coordinate' ? actionState.message : '') ||
+				routeMessage ||
+				(!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : '');
+			const selectionLabel = selectedNpc
+				? `${selectedNpc.name} · ${selectedNpc.x}, ${selectedNpc.y}`
+				: selectedCoordinate?.random
+					? '随机位置'
+					: selectedCoordinate
+						? `${selectedCoordinate.x}, ${selectedCoordinate.y}`
+						: '点击地图选择位置';
+			detail.innerHTML = `<div class="map-heading"><div><h3>${escapeCatalogHtml(map.name)}</h3><p>${escapeCatalogHtml(map.id)}</p><small class="map-current-position">角色位置：${escapeCatalogHtml(currentMapName)} (${currentPosition.x}, ${currentPosition.y})</small></div><strong>${escapeCatalogHtml(selectionLabel)}</strong></div>
+					<div class="map-detail-body">
 					<button class="catalog-map-picker" type="button" aria-label="在${escapeCatalogHtml(map.name)}选择坐标"><canvas class="catalog-map" width="480" height="360"></canvas></button>
+					<section class="map-npc-list" aria-label="${escapeCatalogHtml(map.name)}的 NPC">
+						<h4>NPC${mapNpcs.length ? `（${mapNpcs.length}）` : ''}</h4>
+						${
+							mapNpcs.length
+								? `<div class="map-npc-scroll"><ul>${mapNpcs
+										.map(npc => {
+											const npcKey = npcCatalogKey(npc);
+											const available = npcAvailability[npcKey];
+											return `<li class="map-npc-row${selectedNpcKey === npcKey ? ' selected' : ''}" data-npc-key="${escapeCatalogHtml(npcKey)}">
+												<span class="map-npc-text"><strong>${escapeCatalogHtml(npc.name)}</strong><small>${npc.x}, ${npc.y} · ${escapeCatalogHtml(npcAvailabilityLabel(available))}</small></span>
+											</li>`;
+										})
+										.join('')}</ul></div>`
+								: '<p class="map-npc-empty">该地图没有可显示的 NPC</p>'
+						}
+					</section>
+					</div>
 					<div class="catalog-action-panel">
 						<button class="catalog-route" type="button" ${routeTarget && sameMap ? '' : 'disabled'}>${routeActive ? '停止寻路' : '开始寻路'}</button>
-					<button class="catalog-teleport" type="button" ${canTeleport ? '' : 'disabled'}>传送到这里</button>
-					<span class="catalog-status${actionState.kind === 'coordinate' && actionState.error ? ' error' : ''}">${escapeCatalogHtml((actionState.kind === 'coordinate' ? actionState.message : '') || routeMessage || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
+					<button class="catalog-teleport" type="button" ${canTeleportHere ? '' : 'disabled'}>${actionState.npcPending && selectedNpc ? '正在传送...' : '传送到这里'}</button>
+					<span class="catalog-status${(actionState.kind === 'coordinate' || actionState.kind === 'npc') && actionState.error ? ' error' : ''}">${escapeCatalogHtml(npcStatus || mapStatus)}</span>
 				</div>`;
 			const canvas = detail.querySelector('.catalog-map');
 			const picker = detail.querySelector('.catalog-map-picker');
 			let lastPositionKey = '';
-			redrawPreview = () => {
+			redrawPreview = force => {
 				if (!canvas.isConnected) return;
 				if (getCurrentAdventureMap() !== currentMap) {
 					api.refreshDetail();
 					return;
 				}
 				const position = getCurrentAdventurePosition();
-				const positionKey = `${position.x}:${position.y}`;
-				if (positionKey === lastPositionKey) return;
+				const direction = Session.Entity?.direction ?? 0;
+				const positionKey = `${position.x}:${position.y}:${direction}`;
+				if (!force && positionKey === lastPositionKey) return;
 				lastPositionKey = positionKey;
 				const label = detail.querySelector('.map-current-position');
 				if (label) label.textContent = `角色位置：${currentMapName} (${position.x}, ${position.y})`;
 				drawWorldMapPreview(
 					canvas,
 					loadedMap?.image,
-					selectedCoordinate?.random ? null : selectedCoordinate,
+					selectedNpc || selectedCoordinate?.random ? null : selectedCoordinate,
 					loadedMap?.gat,
 					{
-						path: sameMap && routeMatches ? routeState.path : [],
-						player: sameMap ? position : null
+						path: sameMap && routeMatches ? remainingPathFromPosition(routeState.path, position) : [],
+						player: sameMap ? { ...position, direction } : null,
+						selectedNpc
 					}
 				);
 			};
-			redrawPreview();
+			previewResizeObserver?.disconnect();
+			previewResizeObserver =
+				typeof ResizeObserver === 'function' ? new ResizeObserver(() => redrawPreview(true)) : null;
+			if (previewResizeObserver) previewResizeObserver.observe(picker);
+			redrawPreview(true);
+			const npcList = detail.querySelector('.map-npc-scroll');
+			if (npcList) npcList.scrollTop = npcListScrollTop;
 			picker.addEventListener('click', event => {
 				const raw = canvasToMapCoordinate(canvas, event, loadedMap?.gat);
+				selectedNpcKey = '';
 				selectedCoordinate = findNearestWalkableCoordinate(loadedMap?.gat, raw);
 				const nextTarget = { ...map, ...selectedCoordinate };
 				if (!sameMap || !previewAdventureRoute(nextTarget)) api.refreshDetail();
@@ -192,22 +294,44 @@ function mount(container) {
 				else if (routeTarget) startAdventureRoute(routeTarget);
 			});
 			detail.querySelector('.catalog-teleport').addEventListener('click', () => {
-				if (target) teleportToCoordinate(target);
+				const started = selectedNpc
+					? teleportToNpc(selectedNpc)
+					: target
+						? teleportToCoordinate(target)
+						: false;
+				pendingSelectionClear = started ? 'teleport' : '';
 			});
+			for (const row of detail.querySelectorAll('.map-npc-row')) {
+				row.addEventListener('click', () => {
+					selectedNpcKey = row.dataset.npcKey;
+					api.refreshDetail();
+				});
+			}
 		}
 	});
 
+	const clearMapMarker = () => {
+		selectedNpcKey = '';
+		selectedCoordinate = { x: 0, y: 0, random: true };
+		pendingSelectionClear = '';
+	};
 	const unsubscribeActions = subscribeAdventureActions(state => {
+		const waiting = pendingSelectionClear === 'teleport';
+		const wasPending = actionState.npcPending || actionState.mapPending;
 		actionState = state;
+		if (waiting && wasPending && !state.npcPending && !state.mapPending && !state.error) clearMapMarker();
+		else if (waiting && !state.npcPending && !state.mapPending && state.error) pendingSelectionClear = '';
 		browser.refreshDetail();
 	});
 	const unsubscribeRoute = subscribeAdventureRoute(state => {
 		routeState = state;
+		if (state.message === '已到达目的地') clearMapMarker();
 		browser.refreshDetail();
 	});
 	const positionTimer = setInterval(() => redrawPreview(), 500);
-	loadNpcAssets()
-		.then(async assets => {
+	Promise.all([loadNpcAssets(), loadAdventureNpcCatalog()])
+		.then(async ([assets, npcCatalog]) => {
+			catalogNpcs = npcCatalog.items;
 			const mapsWithImages = new Set(assets.mapImages || []);
 			const currentMap = normalizeAdventureMap(getCurrentAdventureMap());
 			const currentChannel = getMapChannel(currentMap);
@@ -239,8 +363,10 @@ function mount(container) {
 
 	return () => {
 		loadToken += 1;
+		npcAvailabilityToken += 1;
 		thumbnailToken += 1;
 		thumbnailObserver?.disconnect();
+		previewResizeObserver?.disconnect();
 		clearInterval(positionTimer);
 		redrawPreview = () => {};
 		unsubscribeActions();

@@ -793,6 +793,22 @@
 .catalog-filter {
 	width: 124px;
 }
+.catalog-scope {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	white-space: nowrap;
+}
+.catalog-scope-option {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	cursor: pointer;
+	user-select: none;
+}
+.catalog-scope-option input {
+	margin: 0;
+}
 .zeny-grant-open {
 	height: 27px;
 	padding: 0 10px;
@@ -938,6 +954,9 @@
 	margin-top: 12px;
 	background: #ddd;
 	border: 1px solid #ddd;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
 }
 .catalog-metadata div {
 	display: flex;
@@ -1073,35 +1092,112 @@
 	margin-top: 4px;
 	color: #4f6479;
 }
-.catalog-map-picker {
+.map-detail-body {
 	flex: 1;
 	min-height: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 168px;
+	gap: 8px;
+}
+.catalog-map-picker {
+	min-width: 0;
+	min-height: 0;
 	width: 100%;
+	height: 100%;
 	padding: 0;
 	border: 0;
+	overflow: hidden;
 	background: #17191c;
 	cursor: crosshair;
 }
 .catalog-map {
 	display: block;
 	width: 100%;
-	height: auto;
-	max-height: 100%;
-	object-fit: contain;
+	height: 100%;
 	background: #17191c;
 }
-.npc-location-preview {
+.map-npc-list {
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #d8dade;
+	background: #fff;
+}
+.map-npc-scroll {
+	min-height: 0;
 	flex: 1;
-	min-height: 130px;
-	margin-top: 10px;
-	background: #17191c;
+	overflow: auto;
+}
+.map-npc-list h4 {
+	margin: 0;
+	padding: 6px 8px;
+	border-bottom: 1px solid #e1e3e5;
+	font-size: 12px;
+}
+.map-npc-list ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.map-npc-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 8px;
+	border-bottom: 1px solid #f0f1f2;
+	cursor: pointer;
+}
+.map-npc-row.selected {
+	background: #e8f0fa;
+}
+.map-npc-text {
+	min-width: 0;
+	flex: 1;
+}
+.map-npc-text strong,
+.map-npc-text small {
+	display: block;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.map-npc-text small {
+	color: #686d72;
+}
+.map-npc-empty {
+	margin: 0;
+	padding: 10px 8px;
+	color: #686d72;
+}
+.npc-detail-body {
+	flex: 1;
+	min-height: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 188px;
+	gap: 8px;
+}
+.npc-map-picker {
+	min-width: 0;
+	min-height: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: #17191c;
+}
+.npc-detail-info {
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+.npc-detail-info .catalog-metadata {
+	grid-template-columns: 1fr;
+	margin-top: 0;
+	border-top: 0;
 }
 .npc-map-canvas {
 	display: block;
 	width: 100%;
 	height: 100%;
-	object-fit: contain;
 }
 @media (max-width: 640px) {
 	.game-tools-window {
@@ -1116,6 +1212,11 @@
 	}
 	.catalog-action-panel {
 		flex-wrap: wrap;
+	}
+	.map-detail-body,
+	.npc-detail-body {
+		grid-template-columns: 1fr;
+		grid-template-rows: minmax(0, 1fr) 120px;
 	}
 }
 @media (max-width: 560px) {

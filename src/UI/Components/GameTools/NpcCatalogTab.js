@@ -1,17 +1,46 @@
 import DB from 'DB/DBManager.js';
 import Session from 'Engine/SessionStorage.js';
 import { mountCatalogBrowser } from './CatalogBrowser.js';
-import { escapeCatalogHtml, matchesCatalogSearch } from './CatalogData.js';
-import { getCurrentAdventureMap, subscribeAdventureActions, teleportToNpc } from './AdventureActionService.js';
+import { escapeCatalogHtml, matchesCatalogSearch, renderCatalogScopeFilter } from './CatalogData.js';
+import {
+	getAdventureActionState,
+	getCurrentAdventureMap,
+	subscribeAdventureActions,
+	teleportToNpc
+} from './AdventureActionService.js';
 import { requestNpcAvailability } from './NpcAvailabilityService.js';
 import { loadNpcAssets, npcAtlasStyle } from './WorldAssetService.js';
 import { loadCatalogMap } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
-import { mergeNpcCatalog } from './WorldCatalogService.js';
-import { renderGameSelect } from './GameSelect.js';
+import { mergeNpcCatalog, npcCatalogKey, npcTeleportEnabled } from './WorldCatalogService.js';
 
-const key = npc => `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
+const key = npcCatalogKey;
 const catalogPromises = new Map();
+
+export function loadAdventureNpcCatalog() {
+	const catalogKey = Session.NavigationMapChannelsEnabled ? 'channels' : 'shared';
+	if (!catalogPromises.has(catalogKey)) {
+		catalogPromises.set(
+			catalogKey,
+			Promise.all([
+				loadNpcAssets(),
+				Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
+			]).then(([assets, npcs]) => {
+				const mapNames = new Map();
+				const localizeMap = mapName => {
+					if (!mapNames.has(mapName))
+						mapNames.set(
+							mapName,
+							DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
+						);
+					return mapNames.get(mapName);
+				};
+				return { assets, items: mergeNpcCatalog(npcs, localizeMap) };
+			})
+		);
+	}
+	return catalogPromises.get(catalogKey);
+}
 
 function filterNpcs(npcs, search, scope) {
 	const currentMap = getCurrentAdventureMap();
@@ -59,15 +88,7 @@ function mount(container) {
 	const browser = mountCatalogBrowser(container, {
 		placeholder: '搜索 NPC、地图或编号',
 		searchLabel: '搜索 NPC',
-		filterHtml: renderGameSelect({
-			className: 'catalog-filter',
-			ariaLabel: 'NPC 范围',
-			value: 'all',
-			options: [
-				{ value: 'all', label: '全世界' },
-				{ value: 'current', label: '当前地图' }
-			]
-		}),
+		filterHtml: renderCatalogScopeFilter({ name: 'npc-scope', ariaLabel: '当前地图', value: 'current' }),
 		emptyDetail: '选择一个 NPC 查看详情',
 		pageSize: 32,
 		key,
@@ -91,23 +112,26 @@ function mount(container) {
 				});
 			}
 			const style = npcAtlasStyle(manifest, npc.spriteId, 112);
-			const canTeleport =
-				actionState.canTeleport &&
-				!actionState.npcPending &&
-				available === true &&
-				npc?.type === 'NPC' &&
-				Number.isFinite(npc.npcClass);
+			const canTeleport = npcTeleportEnabled(npc, available, { ...actionState, ...getAdventureActionState(npc) });
 			detail.innerHTML = `<div class="catalog-heading">
 				<span class="catalog-portrait${style ? '' : ' no-image'}" style="${style}"></span>
 				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)} · ${npc.npcClass}</p></div>
 			</div>
-			<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
-			<div class="npc-location-preview"><canvas class="npc-map-canvas" width="480" height="240" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"></canvas></div>
+			<div class="npc-detail-body">
+				<div class="npc-map-picker" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"><canvas class="catalog-map npc-map-canvas" width="480" height="360"></canvas></div>
+				<section class="npc-detail-info">
+					<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
+				</section>
+			</div>
 			<div class="catalog-action-panel">
 				<button class="catalog-teleport" type="button" ${canTeleport ? '' : 'disabled'}>${actionState.npcPending ? '正在传送...' : '传送到 NPC 附近'}</button>
 				<span class="catalog-status${actionState.kind === 'npc' && actionState.error ? ' error' : ''}">${escapeCatalogHtml((actionState.kind === 'npc' ? actionState.message : '') || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
-			drawWorldMapPreview(detail.querySelector('.npc-map-canvas'), loadedNpcMap?.image, npc, loadedNpcMap?.gat);
+			const canvas = detail.querySelector('.npc-map-canvas');
+			const paintNpcMap = () =>
+				drawWorldMapPreview(canvas, loadedNpcMap?.image, null, loadedNpcMap?.gat, { selectedNpc: npc });
+			paintNpcMap();
+			requestAnimationFrame(paintNpcMap);
 			detail.querySelector('.catalog-teleport').addEventListener('click', () => teleportToNpc(npc));
 
 			const token = selectionToken;
@@ -142,29 +166,7 @@ function mount(container) {
 		originalRenderDetail();
 	});
 
-	const catalogKey = Session.NavigationMapChannelsEnabled ? 'channels' : 'shared';
-	if (!catalogPromises.has(catalogKey)) {
-		catalogPromises.set(
-			catalogKey,
-			Promise.all([
-				loadNpcAssets(),
-				Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
-			]).then(([assets, npcs]) => {
-				const mapNames = new Map();
-				const localizeMap = mapName => {
-					if (!mapNames.has(mapName))
-						mapNames.set(
-							mapName,
-							DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
-						);
-					return mapNames.get(mapName);
-				};
-				return { assets, items: mergeNpcCatalog(npcs, localizeMap) };
-			})
-		);
-	}
-	catalogPromises
-		.get(catalogKey)
+	loadAdventureNpcCatalog()
 		.then(({ assets, items }) => {
 			manifest = assets;
 			browser.setItems(items);

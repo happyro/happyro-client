@@ -16,6 +16,7 @@ import {
 	paginateMonsters
 } from './MonsterCatalogData.js';
 import escapeHtml from './escapeHtml.js';
+import { renderCatalogScopeFilter } from './CatalogData.js';
 import { mountGameSelects, renderGameSelect } from './GameSelect.js';
 
 const pageSize = 40;
@@ -128,6 +129,7 @@ function mount(container) {
 	container.innerHTML = `
 		<div class="monster-toolbar">
 			<input class="monster-search" type="search" placeholder="搜索名称、英文名或 ID" aria-label="搜索魔物">
+			${renderCatalogScopeFilter({ name: 'monster-scope', ariaLabel: '当前地图', value: 'current' })}
 			${renderGameSelect({
 				className: 'monster-filter',
 				ariaLabel: '魔物类型',
@@ -154,15 +156,35 @@ function mount(container) {
 
 	const search = container.querySelector('.monster-search');
 	const filter = container.querySelector('.monster-filter.game-select-value');
+	const scopeFilter = container.querySelector('.catalog-scope-filter');
 	const list = container.querySelector('.monster-list');
 	const summary = container.querySelector('.monster-summary');
 	const pageLabel = container.querySelector('.page-label');
 	mountGameSelects(container);
 
+	function getScope() {
+		return scopeFilter?.checked ? 'current' : 'all';
+	}
+
 	function applyFilter() {
-		state.filtered = filterMonsters(state.monsters, search.value, filter.value);
+		state.filtered = filterMonsters(state.monsters, search.value, filter.value, {
+			scope: getScope(),
+			currentMap: getCurrentAdventureMap(),
+			channelsEnabled: Session.NavigationMapChannelsEnabled
+		});
 		state.page = 1;
+		if (state.selected && !state.filtered.some(monster => monster.id === state.selected.id)) state.selected = null;
+		if (!state.selected) {
+			state.selected = state.filtered[0] || null;
+			state.selectedSpawn =
+				listMonsterSpawnMaps(state.selected?.spawns, {
+					channelsEnabled: Session.NavigationMapChannelsEnabled,
+					currentMap: getCurrentAdventureMap()
+				})[0] || null;
+			state.status = '';
+		}
 		renderList();
+		renderDetail();
 	}
 
 	function renderList() {
@@ -301,6 +323,7 @@ function mount(container) {
 
 	search.addEventListener('input', applyFilter);
 	filter.addEventListener('change', applyFilter);
+	scopeFilter?.addEventListener('change', applyFilter);
 	container.querySelector('.page-prev').addEventListener('click', () => {
 		state.page -= 1;
 		renderList();
@@ -315,8 +338,14 @@ function mount(container) {
 			state.catalog = catalog;
 			state.navigationMaps = navigationMaps;
 			state.monsters = catalog.monsters;
-			state.filtered = catalog.monsters;
-			renderList();
+			const currentMap = getCurrentAdventureMap();
+			const currentMonsters = filterMonsters(catalog.monsters, '', 'all', {
+				scope: 'current',
+				currentMap,
+				channelsEnabled: Session.NavigationMapChannelsEnabled
+			});
+			if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false;
+			applyFilter();
 		})
 		.catch(error => {
 			console.error(error);

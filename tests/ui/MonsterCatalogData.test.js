@@ -25,6 +25,20 @@ describe('monster catalog data', () => {
 		expect(filterMonsters(monsters, '', 'boss')).toEqual([monsters[1]]);
 	});
 
+	it('limits monsters to the current spawn map when scoped to the current map', () => {
+		const withSpawns = [
+			{ ...monsters[0], spawns: [{ mapName: 'prt_fild08' }] },
+			{ ...monsters[1], spawns: [{ mapName: 'gef_fild00' }] }
+		];
+		expect(
+			filterMonsters(withSpawns, '', 'all', {
+				scope: 'current',
+				currentMap: 'prt_fild08',
+				channelsEnabled: false
+			})
+		).toEqual([withSpawns[0]]);
+	});
+
 	it('clamps pagination to a valid page', () => {
 		expect(paginateMonsters(monsters, 9, 1)).toEqual({ page: 2, pageCount: 2, items: [monsters[1]] });
 	});

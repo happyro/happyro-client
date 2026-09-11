@@ -33,6 +33,8 @@ import PACKET from 'Network/PacketStructure.js';
 import Entity from 'Renderer/Entity/Entity.js';
 import Equipment from 'UI/Components/Equipment/Equipment.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
+import Navigation from 'UI/Components/Navigation/Navigation.js';
+import { formatRagnarokMarkup } from 'Utils/RagnarokText.js';
 
 /**
  * Create Component
@@ -87,6 +89,41 @@ function _escapeHTML(text) {
 	const div = document.createElement('div');
 	div.textContent = text;
 	return div.innerHTML;
+}
+
+function handleMarkupClick(event) {
+	const itemLink = event.target.closest('.item-link');
+	if (itemLink) {
+		const itemId = parseInt(itemLink.dataset.itemId, 10);
+		if (!itemId) {
+			return;
+		}
+		if (ItemInfo.uid === itemId) {
+			ItemInfo.remove();
+			return;
+		}
+		ItemInfo.append();
+		ItemInfo.uid = itemId;
+		ItemInfo.setItem({ ITID: itemId, IsIdentified: true });
+		return;
+	}
+
+	const naviLink = event.target.closest('.navi-link');
+	if (!naviLink) {
+		return;
+	}
+	const naviInfo = naviLink.dataset.naviInfo;
+	const displayName = naviLink.dataset.naviName;
+	if (!naviInfo) {
+		return;
+	}
+	if (Navigation.uid === naviInfo && Navigation._host && Navigation._host.style.display !== 'none') {
+		Navigation.hide();
+		return;
+	}
+	Navigation.show();
+	Navigation.uid = naviInfo;
+	Navigation.setNaviInfo(naviInfo, displayName);
 }
 
 /**
@@ -173,7 +210,10 @@ ItemInfo.init = function init() {
 	}
 
 	this.draggable('.title');
+	root.addEventListener('click', handleMarkupClick);
 };
+
+ItemInfo.handleMarkupClick = handleMarkupClick;
 
 /**
  * Bind component
@@ -262,7 +302,7 @@ ItemInfo.setItem = function setItem(item) {
 	const descInner = root.querySelector('.description-inner');
 	if (descInner) {
 		const rawDesc = item.IsIdentified ? it.identifiedDescriptionName : it.unidentifiedDescriptionName;
-		descInner.innerHTML = DB.formatMsgToHtml(_escapeHTML(rawDesc));
+		descInner.innerHTML = formatRagnarokMarkup(rawDesc);
 	}
 
 	if (item.HireExpireDate) {

@@ -26,8 +26,14 @@ import htmlText from './Navigation.html?raw';
 import cssText from './Navigation.css?raw';
 import MapPathFinder from './MapPathFinder.js';
 import { isNavigationSearchInteraction } from './NavigationSearchInteraction.js';
-import { selectAutoWalkWaypoint } from './NavigationAutoWalk.js';
+import { remainingPathFromPosition, selectAutoWalkWaypoint } from './NavigationAutoWalk.js';
 import { toWorldEntities } from '../GameTools/WorldCatalogService.js';
+import {
+	canvasPointToMap,
+	fittedMapRect,
+	mapImageSourceRect,
+	mapPointToCanvas
+} from '../GameTools/MapPreviewLayout.js';
 import {
 	getAdventureActionState,
 	subscribeAdventureActions,
@@ -293,24 +299,16 @@ function formatLocationTitle(currentMap, targetMap, displayName) {
 	return text;
 }
 
+function getMapFit(width, height) {
+	if (!_mapData?.width || !_mapData?.height) return fittedMapRect(width, height, width, height);
+	return fittedMapRect(width, height, _mapData.width, _mapData.height);
+}
+
 /**
  * Convert map coordinates to screen coordinates
  */
 function mapToScreen(x, y, width, height) {
-	const scaleX = width / _mapData.width;
-	const scaleY = height / _mapData.height;
-	const scale = Math.min(scaleX, scaleY);
-
-	const mapWidth = _mapData.width * scale;
-	const mapHeight = _mapData.height * scale;
-
-	const offsetX = (width - mapWidth) / 2;
-	const offsetY = (height - mapHeight) / 2;
-
-	const screenX = (x / _mapData.width) * mapWidth + offsetX;
-	const screenY = ((_mapData.height - y) / _mapData.height) * mapHeight + offsetY;
-
-	return { x: screenX, y: screenY };
+	return mapPointToCanvas(getMapFit(width, height), _mapData, { x, y });
 }
 
 /**
@@ -408,27 +406,7 @@ function resetPathFindingWorker() {
  */
 Navigation.screenToMapCoordinates = function screenToMapCoordinates(screenX, screenY) {
 	if (!_mapData?.ready) return null;
-
-	const width = MAP_WIDTH;
-	const height = MAP_HEIGHT;
-
-	const scaleX = width / _mapData.width;
-	const scaleY = height / _mapData.height;
-	const scale = Math.min(scaleX, scaleY);
-
-	const scaledMapWidth = _mapData.width * scale;
-	const scaledMapHeight = _mapData.height * scale;
-
-	const offsetX = (width - scaledMapWidth) / 2;
-	const offsetY = (height - scaledMapHeight) / 2;
-
-	let mapX = ((screenX - offsetX) / scaledMapWidth) * _mapData.width;
-	let mapY = _mapData.height - ((screenY - offsetY) / scaledMapHeight) * _mapData.height;
-
-	mapX = Math.max(0, Math.min(_mapData.width, mapX));
-	mapY = Math.max(0, Math.min(_mapData.height, mapY));
-
-	return { x: Math.floor(mapX), y: Math.floor(mapY) };
+	return canvasPointToMap(getMapFit(MAP_WIDTH, MAP_HEIGHT), _mapData, screenX, screenY);
 };
 
 /**
@@ -954,9 +932,9 @@ Navigation.updateTeleportButton = function updateTeleportButton() {
 	const npcTeleportable =
 		npcTarget && npcTarget.availability !== 'unavailable' && npcTarget.availability !== 'pending';
 	const hasCoordinateTarget = Boolean(!npcTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y));
-	button.style.display = npcTarget ? 'none' : '';
+	button.style.display = npcTarget ? 'none' : 'inline-block';
 	button.disabled = !hasCoordinateTarget || !canTeleportTarget || !coordinateActionState.canTeleport;
-	npcButton.style.display = npcTeleportable && canTeleportTarget ? '' : 'none';
+	npcButton.style.display = npcTeleportable && canTeleportTarget ? 'inline-block' : 'none';
 	npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
 	npcButton.textContent = _npcTeleportPending ? '正在传送...' : '传送到 NPC 附近';
 };
@@ -982,9 +960,9 @@ Navigation.updateAutoWalkButtons = function updateAutoWalkButtons() {
 	const stop = root?.querySelector('.walk-stop-button');
 	if (!start || !stop) return;
 	const canStart = Boolean(_path.length && _targetData && _targetData.map === getCurrentMap() && !_pathUnavailable);
-	start.style.display = _autoWalkActive ? 'none' : '';
+	start.style.display = _autoWalkActive ? 'none' : 'inline-block';
 	start.disabled = !canStart;
-	stop.style.display = _autoWalkActive ? '' : 'none';
+	stop.style.display = _autoWalkActive ? 'inline-block' : 'none';
 };
 
 Navigation.startAutoWalk = function startAutoWalk() {
@@ -1016,7 +994,8 @@ Navigation.startAutoWalk = function startAutoWalk() {
 			return;
 		}
 		if (reachedTarget && _finalTargetData.map === currentMap) {
-			this.stopAutoWalk();
+			this.clear();
+			this.setActionStatus('已到达目的地');
 			return;
 		}
 		const waypoint = selectAutoWalkWaypoint(_path, position) || _targetData;
@@ -1079,7 +1058,10 @@ Navigation.onMapTeleportResult = function onMapTeleportResult(packet) {
 		6: '目标坐标无效',
 		7: '传送失败，请稍后重试'
 	};
-	if (packet.result !== 0) {
+	if (packet.result === 0) {
+		this.clear();
+		this.setActionStatus('');
+	} else {
 		this.setActionStatus(messages[packet.result] || '传送请求被服务器拒绝', true);
 	}
 	this.updateTeleportButton();
@@ -1135,6 +1117,7 @@ Navigation.onNpcTeleportResult = function onNpcTeleportResult(packet) {
 	};
 	if (packet.result === 0) {
 		_teleportCooldownUntil = Date.now() + packet.cooldownRemaining * 1000;
+		this.clear();
 		this.setActionStatus(`已传送到 NPC 附近 (${packet.x}, ${packet.y})`);
 		clearTimeout(_teleportCooldownTimer);
 		_teleportCooldownTimer = setTimeout(() => this.updateTeleportButton(), packet.cooldownRemaining * 1000);
@@ -1343,16 +1326,9 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 
 	// Draw the map image if loaded
 	if (_mapData?.ready && _mapImageMap === _mapData.map && _map.complete && _map.width) {
-		const scaleX = width / _mapData.width;
-		const scaleY = height / _mapData.height;
-		const scale = Math.min(scaleX, scaleY);
-
-		ctx.save();
-		ctx.translate(width / 2, height / 2);
-		ctx.scale(scale, scale);
-		ctx.translate(-_mapData.width / 2, -_mapData.height / 2);
-		ctx.drawImage(_map, 0, 0, _mapData.width, _mapData.height);
-		ctx.restore();
+		const fit = getMapFit(width, height);
+		const source = mapImageSourceRect(_map.naturalWidth || _map.width, _map.naturalHeight || _map.height, _mapData);
+		ctx.drawImage(_map, source.x, source.y, source.width, source.height, fit.x, fit.y, fit.width, fit.height);
 	}
 
 	const mapToScreenBound = (x, y) => {
@@ -1401,12 +1377,13 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 	}
 
 	// Draw the path
-	if (_path && _path.length > 0) {
+	const remainingPath = remainingPathFromPosition(_path, currentPos);
+	if (remainingPath && remainingPath.length > 0) {
 		ctx.lineWidth = 2;
 
 		let currentSegment = [];
-		for (let i = 0; i < _path.length; i++) {
-			const point = _path[i];
+		for (let i = 0; i < remainingPath.length; i++) {
+			const point = remainingPath[i];
 			const pos = mapToScreenBound(point.x, point.y);
 
 			if (currentSegment.length === 0) {
@@ -1414,7 +1391,7 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 				continue;
 			}
 
-			if (point.isWarp || i === _path.length - 1) {
+			if (point.isWarp || i === remainingPath.length - 1) {
 				currentSegment.push(pos);
 
 				ctx.strokeStyle = 'cyan';
@@ -1431,8 +1408,8 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 					ctx.fillStyle = 'yellow';
 					ctx.fill();
 
-					if (i + 1 < _path.length) {
-						const exitPos = mapToScreenBound(_path[i + 1].x, _path[i + 1].y);
+					if (i + 1 < remainingPath.length) {
+						const exitPos = mapToScreenBound(remainingPath[i + 1].x, remainingPath[i + 1].y);
 
 						ctx.beginPath();
 						ctx.arc(exitPos.x, exitPos.y, 3, 0, Math.PI * 2);
@@ -1456,10 +1433,13 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 	// Draw end marker (target position)
 	if (_targetData) {
 		const lastPoint = mapToScreenBound(_targetData.x, _targetData.y);
-		ctx.fillStyle = 'red';
+		ctx.fillStyle = '#2f80ed';
 		ctx.beginPath();
-		ctx.arc(lastPoint.x, lastPoint.y, 3, 0, Math.PI * 2);
+		ctx.arc(lastPoint.x, lastPoint.y, 5, 0, Math.PI * 2);
 		ctx.fill();
+		ctx.strokeStyle = '#fff';
+		ctx.lineWidth = 2;
+		ctx.stroke();
 	}
 
 	// Draw start marker (player position)

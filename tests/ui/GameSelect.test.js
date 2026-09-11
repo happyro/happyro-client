@@ -1,5 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { mountGameSelect, renderGameSelect } from '../../src/UI/Components/GameTools/GameSelect.js';
+import {
+	mountGameSelect,
+	renderGameSelect,
+	setGameSelectOptions
+} from '../../src/UI/Components/GameTools/GameSelect.js';
 
 describe('game select', () => {
 	beforeEach(() => {
@@ -50,5 +54,33 @@ describe('game select', () => {
 
 		expect(root.querySelector('[data-value="0"]').hidden).toBe(true);
 		expect(root.querySelector('[data-value="7"]').hidden).toBe(false);
+	});
+
+	it('replaces options after mount and keeps later selections working', () => {
+		document.body.innerHTML = `<form>${renderGameSelect({
+			name: 'subtype',
+			ariaLabel: '子类',
+			value: '',
+			disabled: true,
+			options: [{ value: '', label: '子类' }]
+		})}</form>`;
+		const root = document.querySelector('[data-game-select]');
+		mountGameSelect(root);
+		setGameSelectOptions(root, {
+			options: [
+				{ value: '', label: '全部子类' },
+				{ value: 'Head_Top', label: '头上' }
+			],
+			value: '',
+			disabled: false,
+			ariaLabel: '子类'
+		});
+
+		root.querySelector('.game-select-trigger').click();
+		root.querySelector('[data-value="Head_Top"]').click();
+
+		expect(root.querySelector('.game-select-value').value).toBe('Head_Top');
+		expect(root.querySelector('.game-select-trigger span').textContent).toBe('头上');
+		expect(root.querySelector('.game-select-trigger').disabled).toBe(false);
 	});
 });
