@@ -137,11 +137,12 @@
 	position: absolute;
 	bottom: 4px;
 	border: 0;
-	width: 42px;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
 	background-repeat: no-repeat;
 	background-color: transparent;
-	display: inline-block;
+	display: inline-flex;
 }
 #Trade .btn.disabled {
 	cursor: default;

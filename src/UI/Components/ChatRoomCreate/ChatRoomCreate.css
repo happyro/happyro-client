@@ -111,8 +111,10 @@
 	border-bottom-right-radius: 8px;
 }
 #ChatRoomCreate .footer button {
-	width: 42px;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
+	margin-left: 2px;
 	border: none;
 	background-repeat: no-repeat;
 	background-color: transparent;

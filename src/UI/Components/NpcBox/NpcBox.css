@@ -34,18 +34,16 @@
 	position: absolute;
 	bottom: 5px;
 	right: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 2px;
 }
 #NpcBox .btn {
-	width: 42px;
-	height: 20px;
-	bottom: 4px;
 	display: none;
-	box-sizing: border-box;
-	border: 1px solid #8b9690;
-	background: #f4f7f5;
-	text-align: center;
-	line-height: 18px;
-	cursor: pointer;
+}
+#NpcBox .btn.is-visible {
+	display: inline-flex;
 }
 
 .item-link {

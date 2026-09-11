@@ -44,7 +44,8 @@
 	height: 13px;
 }
 #NpcStore .btn {
-	width: 42px;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
 	margin: 0;
 }

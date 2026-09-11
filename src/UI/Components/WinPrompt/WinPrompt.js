@@ -51,7 +51,7 @@ WinPrompt.ask = function ask(text, btn_yes, btn_no, onYes, onNo) {
 
 		// Create YES button
 		const yesBtn = document.createElement('button');
-		yesBtn.className = 'btn';
+		yesBtn.className = 'btn ui-btn localized-control';
 		yesBtn.dataset.background = 'btn_' + btn_yes + '.bmp';
 		yesBtn.dataset.hover = 'btn_' + btn_yes + '_a.bmp';
 		yesBtn.dataset.down = 'btn_' + btn_yes + '_b.bmp';
@@ -69,7 +69,7 @@ WinPrompt.ask = function ask(text, btn_yes, btn_no, onYes, onNo) {
 
 		// Create NO button
 		const noBtn = document.createElement('button');
-		noBtn.className = 'btn';
+		noBtn.className = 'btn ui-btn localized-control';
 		noBtn.dataset.background = 'btn_' + btn_no + '.bmp';
 		noBtn.dataset.hover = 'btn_' + btn_no + '_a.bmp';
 		noBtn.dataset.down = 'btn_' + btn_no + '_b.bmp';
