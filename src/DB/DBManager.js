@@ -679,10 +679,10 @@ class DB {
 			'#',
 			2,
 			function (_index, key, val) {
-				(ItemTable[key] || (ItemTable[key] = {})).prefixName = ItemNameOverrides[key] || '卡片';
+				(ItemTable[key] || (ItemTable[key] = {})).prefixName = val;
 			},
 			onLoad(),
-			true
+			'utf-8'
 		);
 		loadTable(
 			'data/cardpostfixnametable.txt',
