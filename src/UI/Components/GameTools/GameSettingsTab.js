@@ -1,4 +1,4 @@
-import { applyAdventureGameRules, loadAdventureGameRules } from './AdventureControlService.js';
+import { applyAdventureGameSettings, loadAdventureGameSettings } from './AdventureControlService.js';
 import escapeHtml from './escapeHtml.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
 import { mountGameSelects, renderGameSelect } from './GameSelect.js';
@@ -36,7 +36,7 @@ const mvpDropKeys = [
 	'item_rate_card_mvp'
 ];
 const labels = {
-	base_exp_rate: '基础经验倍率',
+	base_exp_rate: '基础倍率',
 	job_exp_rate: '职业经验倍率',
 	item_rate_common: '普通物品掉落倍率',
 	item_rate_common_boss: 'Boss 普通物品掉落倍率',
@@ -106,7 +106,7 @@ function mount(container) {
 	async function load(message = '') {
 		container.innerHTML = '<div class="management-loading">正在读取服务器实际设置...</div>';
 		try {
-			settings = await loadAdventureGameRules();
+			settings = await loadAdventureGameSettings();
 			render(message);
 		} catch (error) {
 			container.innerHTML = `<div class="management-error">${escapeHtml(error.message)}</div>`;
@@ -116,7 +116,7 @@ function mount(container) {
 	function render(message = '', error = false) {
 		container.innerHTML = `<form class="settings-form">
 			<div class="settings-scroll">
-				<section><h4>经验倍率</h4><div class="settings-grid">${groups[0].keys.map(key => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join('')}</div></section>
+				<section><h4>经验倍率</h4><div class="settings-rate-columns">${groups[0].keys.map(key => `<div class="settings-rate-list"><label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label></div>`).join('')}</div></section>
 				<section><h4>掉落倍率（普通魔物 &amp; MVP）</h4><div class="settings-rate-columns">
 					<div class="settings-rate-list">${normalDropKeys.map(key => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join('')}</div>
 					<div class="settings-rate-list">${mvpDropKeys.map(key => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join('')}</div>
@@ -159,7 +159,7 @@ function mount(container) {
 				return;
 			}
 			try {
-				const result = await applyAdventureGameRules(changes);
+				const result = await applyAdventureGameSettings(changes);
 				settings.values = result.values;
 				render('设置已应用并回读成功');
 			} catch (requestError) {
