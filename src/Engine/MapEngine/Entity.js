@@ -10,6 +10,7 @@
  * Load dependencies
  */
 import DB from 'DB/DBManager.js';
+import { localizeGuildPositionName } from 'DB/GuildPositionName.js';
 import SkillId from 'DB/Skills/SkillConst.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import StatusConst from 'DB/Status/StatusConst.js';
@@ -1024,7 +1025,7 @@ function onEntityIdentity(pkt) {
 
 		entity.display.party_name = pkt.PName || '';
 		entity.display.guild_name = pkt.GName || '';
-		entity.display.guild_rank = pkt.RName || '';
+		entity.display.guild_rank = localizeGuildPositionName(pkt.RName || '');
 
 		entity.display.load = entity.display.TYPE.COMPLETE;
 
