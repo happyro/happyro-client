@@ -41,17 +41,23 @@ describe('storage localization and controls', () => {
 		const closeRule = css.match(/#Storage \.footer \.close \{[\s\S]*?\n\}/)?.[0];
 		const searchRule = css.match(/#Storage \.footer \.search-button \{[\s\S]*?\n\}/)?.[0];
 
-		expect(closeRule).toContain('width: 23px');
+		expect(closeRule).toContain('width: 38px');
+		expect(closeRule).toContain('min-width: 38px');
 		expect(closeRule).toContain('height: 18px');
-		expect(searchRule).toContain('width: 23px');
+		expect(searchRule).toContain('width: 38px');
+		expect(searchRule).toContain('min-width: 38px');
 		expect(searchRule).toContain('height: 18px');
-		expect(css).toMatch(/#Storage \.footer \.search-input \{[\s\S]*width: 100px/);
+		expect(searchRule).toContain('margin-left: 4px');
+		expect(css).toMatch(/#Storage \.footer \.search-input \{[\s\S]*width: 87px/);
 	});
 
-	it('keeps the opened storage window above the bottom edge', () => {
+	it('centers storage and opens inventory immediately to its left', () => {
 		const source = read('src/UI/Components/Storage/StorageCommon.js');
 
-		expect(source).toContain('Renderer.height - rect.height - 48');
+		expect(source).toContain('(Renderer.width - rect.width) / 2');
+		expect(source).toContain('(Renderer.height - rect.height) / 2');
+		expect(source).toContain('if (!inventory.__active) inventory.append()');
+		expect(source).toContain('left - inventoryRect.width - 8');
 	});
 
 	it('does not announce an empty attendance event during automatic mounting', () => {

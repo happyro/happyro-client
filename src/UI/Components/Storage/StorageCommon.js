@@ -195,8 +195,17 @@ export function createStorage(config) {
 	Component.onAppend = function onAppend() {
 		this.ui.show();
 		const rect = this._host.getBoundingClientRect();
-		this._host.style.left = `${Math.min(Math.max(0, _preferences.x), Renderer.width - rect.width)}px`;
-		this._host.style.top = `${Math.min(Math.max(0, _preferences.y), Math.max(0, Renderer.height - rect.height - 48))}px`;
+		const left = Math.max(0, (Renderer.width - rect.width) / 2);
+		const top = Math.max(0, (Renderer.height - rect.height) / 2);
+		this._host.style.left = `${left}px`;
+		this._host.style.top = `${top}px`;
+
+		const inventory = Inventory.getUI();
+		if (!inventory.__active) inventory.append();
+		inventory._host.style.display = '';
+		const inventoryRect = inventory._host.getBoundingClientRect();
+		inventory._host.style.left = `${Math.max(0, left - inventoryRect.width - 8)}px`;
+		inventory._host.style.top = `${top}px`;
 	};
 
 	Component.onRemove = function onRemove() {
