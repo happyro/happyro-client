@@ -64,6 +64,7 @@ export function createBasicInfo(config) {
 	} = config;
 
 	const Component = new GUIComponent(name, cssText);
+	Component.needFocus = false;
 
 	/**
 	 * Stored data

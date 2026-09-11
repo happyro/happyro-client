@@ -231,12 +231,6 @@ class AchievementComponent extends GUIComponent {
 			const mDiv = document.createElement('div');
 			mDiv.className = 'major-tab' + (this.currentMajor === major.id ? ' active' : '');
 
-			mDiv.setAttribute('data-background', 'achievement_re/tab_out.bmp');
-			mDiv.setAttribute('data-hover', 'achievement_re/tab_over.bmp');
-			mDiv.setAttribute('data-down', 'achievement_re/tab_press.bmp');
-			mDiv.setAttribute('data-active', 'achievement_re/tab_press.bmp');
-			GUIComponent.processDataAttrs(mDiv);
-
 			const tNode = document.createTextNode(major.name);
 			mDiv.appendChild(tNode);
 
@@ -255,13 +249,6 @@ class AchievementComponent extends GUIComponent {
 				major.minorCategories.forEach(minor => {
 					const minDiv = document.createElement('div');
 					minDiv.className = 'minor-tab' + (this.currentMinor === minor.id ? ' active' : '');
-
-					minDiv.setAttribute('data-background', 'achievement_re/tab_sub_out.bmp');
-					minDiv.setAttribute('data-hover', 'achievement_re/tab_sub_over.bmp');
-					minDiv.setAttribute('data-down', 'achievement_re/tab_sub_press.bmp');
-					minDiv.setAttribute('data-active', 'achievement_re/tab_sub_press.bmp');
-					GUIComponent.processDataAttrs(minDiv);
-
 					minDiv.textContent = minor.name;
 					minDiv.addEventListener('click', () => {
 						this.currentMinor = minor.id;

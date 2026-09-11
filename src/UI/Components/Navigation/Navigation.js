@@ -1756,6 +1756,7 @@ Navigation.show = function show() {
 	}
 
 	this.ui.show();
+	this.focus();
 	this.updateTeleportButton();
 	this.updateAutoWalkButtons();
 };
