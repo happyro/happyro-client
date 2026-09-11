@@ -93,9 +93,9 @@ describe('world map navigation', () => {
 	});
 
 	it('keeps coordinate actions visible and disabled until a map target is selected', () => {
-		expect(navigationSource).toContain("button.style.display = npcTarget ? 'none' : 'block'");
+		expect(navigationSource).toContain("button.style.display = npcTarget ? 'none' : ''");
 		expect(navigationSource).toContain('button.disabled = !hasCoordinateTarget');
-		expect(navigationSource).toContain("start.style.display = _autoWalkActive ? 'none' : 'block'");
+		expect(navigationSource).toContain("start.style.display = _autoWalkActive ? 'none' : ''");
 		expect(navigationSource).toContain('start.disabled = !canStart');
 	});
 

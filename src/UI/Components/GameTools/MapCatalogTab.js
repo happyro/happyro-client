@@ -137,7 +137,13 @@ function mount(container) {
 			);
 			const routeActive = routeMatches && routeState.active;
 			const targetActionState = getAdventureActionState(target);
-			const canTeleport = target && targetActionState.canTeleport;
+			const canTeleport =
+				target &&
+				!target.random &&
+				loadedMap &&
+				Number.isFinite(target.x) &&
+				Number.isFinite(target.y) &&
+				targetActionState.canTeleport;
 			const currentMapName =
 				DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
 			const routeMessage = !sameMap ? '寻路仅支持角色当前所在地图' : routeMatches ? routeState.message : '';

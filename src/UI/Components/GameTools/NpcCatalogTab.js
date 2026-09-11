@@ -91,7 +91,12 @@ function mount(container) {
 				});
 			}
 			const style = npcAtlasStyle(manifest, npc.spriteId, 112);
-			const canTeleport = actionState.canTeleport && !actionState.npcPending && available === true;
+			const canTeleport =
+				actionState.canTeleport &&
+				!actionState.npcPending &&
+				available === true &&
+				npc?.type === 'NPC' &&
+				Number.isFinite(npc.npcClass);
 			detail.innerHTML = `<div class="catalog-heading">
 				<span class="catalog-portrait${style ? '' : ' no-image'}" style="${style}"></span>
 				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)} · ${npc.npcClass}</p></div>

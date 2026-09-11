@@ -154,7 +154,7 @@ export function createBasicInfo(config) {
 					CheckAttendance.toggle();
 				}
 				break;
-			case 'achievment':
+			case 'achievement':
 				if (Configs.get('enableAchievements') && PACKETVER.value >= 20150513) {
 					Achievement.toggle();
 				}

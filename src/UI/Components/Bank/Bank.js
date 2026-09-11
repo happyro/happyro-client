@@ -23,6 +23,7 @@ import ChatBox from 'UI/Components/ChatBox/ChatBox.js';
 import NpcBox from 'UI/Components/NpcBox/NpcBox.js';
 import NpcMenu from 'UI/Components/NpcMenu/NpcMenu.js';
 import InputBox from 'UI/Components/InputBox/InputBox.js';
+import { addValueToInput } from './BankAmount.js';
 /**
  * Create Component
  */
@@ -103,16 +104,6 @@ Bank.init = function init() {
 		inputDepo.value = addValueToInput(inputDepo.value, 100000);
 		inputDepo.select();
 	});
-
-	function addValueToInput(inputValue, addValue) {
-		if (isMax && inputValue === 'MAX') {
-			return 'MAX';
-		}
-		const currentValue = parseInt(inputValue) || 0;
-		if (!isMax) {
-			return currentValue + addValue;
-		}
-	}
 
 	root.querySelector('.deposit').addEventListener('click', () => {
 		sendDepositRequest(inputDepo.value);
@@ -308,6 +299,9 @@ Bank.onKeyDown = function onKeyDown(event) {
 			return false;
 		}
 		if (event.which === KEYS.ENTER) {
+			const root = this.getRoot();
+			const input = root.querySelector('.depo');
+			sendDepositRequest(input.value);
 			event.stopImmediatePropagation();
 			return false;
 		}
