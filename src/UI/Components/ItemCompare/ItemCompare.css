@@ -93,6 +93,11 @@
 	width: 150px;
 	white-space: pre-wrap;
 }
+.ItemCompare .navi-link,
+.ItemCompare .item-link {
+	cursor: pointer;
+	text-decoration: underline;
+}
 .ItemCompare .extend {
 	position: absolute;
 	right: 4px;
