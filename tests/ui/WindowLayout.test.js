@@ -18,6 +18,11 @@ const achievementCss = readFileSync(
 	resolve(process.cwd(), 'src/UI/Components/Achievement/Achievement.css'),
 	'utf8'
 );
+const npcStoreCss = readFileSync(
+	resolve(process.cwd(), 'src/UI/Components/NpcStore/NpcStore.css'),
+	'utf8'
+);
+const bankCss = readFileSync(resolve(process.cwd(), 'src/UI/Components/Bank/Bank.css'), 'utf8');
 
 describe('window layout', () => {
 	it('keeps the top-left menu out of window snapping and stacking', () => {
@@ -35,5 +40,17 @@ describe('window layout', () => {
 		expect(achievementSource).not.toContain('achievement_re/tab_out.bmp');
 		expect(achievementCss).toContain('.sidebar .major-tab.active');
 		expect(achievementCss).toContain('background: #eef3fb');
+	});
+
+	it('keeps NPC store buy and cancel buttons 2px apart', () => {
+		expect(npcStoreCss).toMatch(/#NpcStore \.OutputWindow \.btn\.buy \{\s*right: 59px;/);
+		expect(npcStoreCss).toMatch(/#NpcStore \.btn\.cancel \{\s*position: absolute;\s*top: 4px;\s*right: 15px;/);
+	});
+
+	it('lets bank amount buttons grow with their labels', () => {
+		expect(bankCss).toContain('#Bank .tenmil');
+		expect(bankCss).toContain('width: auto');
+		expect(bankCss).toContain('white-space: nowrap');
+		expect(bankCss).not.toMatch(/#Bank \.tenmil \{[\s\S]*width: 62px;/);
 	});
 });

@@ -1,6 +1,6 @@
 :host {
 	width: 280px;
-	height: 145px;
+	height: 150px;
 	top: 50%;
 	left: 50%;
 }
@@ -56,7 +56,7 @@
 #Bank .container {
 	display: inline-block;
 	width: 280px;
-	height: 130px;
+	height: 133px;
 	border-spacing: 0;
 }
 
@@ -135,21 +135,25 @@
 	top: 20px;
 }
 
-#Bank .deposit {
+#Bank .deposit,
+#Bank .withdraw {
 	position: relative;
+	width: auto;
+	min-width: 42px;
 	height: 20px;
-	width: 42px;
-	border: 0px;
-	left: 60px;
+	padding: 0 6px;
+	border: 0;
+	white-space: nowrap;
+	overflow: visible;
+}
+
+#Bank .deposit {
+	left: 52px;
 	top: 5px;
 }
 
 #Bank .withdraw {
-	position: relative;
-	height: 20px;
-	width: 42px;
-	border: 0px;
-	left: 15px;
+	left: 8px;
 	top: 30px;
 }
 
@@ -166,47 +170,30 @@
 
 #Bank .lowercontainer {
 	position: relative;
-	height: 19px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 2px;
+	padding: 1px 8px 2px;
+	height: 22px;
+	box-sizing: border-box;
 }
 
-#Bank .max {
-	position: relative;
-	width: 46px;
-	height: 16px;
-	border: 0px;
-	left: 40px;
-	background-repeat: no-repeat;
-	background-color: transparent;
-}
-
-#Bank .tenmil {
-	position: relative;
-	width: 62px;
-	height: 16px;
-	border: 0px;
-	left: 40px;
-	background-repeat: no-repeat;
-	background-color: transparent;
-}
-
-#Bank .onemil {
-	position: relative;
-	width: 56px;
-	height: 16px;
-	border: 0px;
-	left: 40px;
-	background-repeat: no-repeat;
-	background-color: transparent;
-}
-
+#Bank .max,
+#Bank .tenmil,
+#Bank .onemil,
 #Bank .hundtsn {
 	position: relative;
-	width: 50px;
-	height: 16px;
-	border: 0px;
-	left: 40px;
+	left: 0;
+	width: auto;
+	min-width: 42px;
+	height: 20px;
+	padding: 0 6px;
+	border: 0;
 	background-repeat: no-repeat;
 	background-color: transparent;
+	white-space: nowrap;
+	overflow: visible;
 }
 
 #Bank .buttons .name {
