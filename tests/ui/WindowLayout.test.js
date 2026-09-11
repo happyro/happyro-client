@@ -23,6 +23,18 @@ const npcStoreCss = readFileSync(
 	'utf8'
 );
 const bankCss = readFileSync(resolve(process.cwd(), 'src/UI/Components/Bank/Bank.css'), 'utf8');
+const winLoginCss = readFileSync(
+	resolve(process.cwd(), 'src/UI/Components/WinLogin/WinLogin/WinLogin.css'),
+	'utf8'
+);
+const winLoginV2Css = readFileSync(
+	resolve(process.cwd(), 'src/UI/Components/WinLogin/WinLoginV2/WinLoginV2.css'),
+	'utf8'
+);
+const winPopupCss = readFileSync(
+	resolve(process.cwd(), 'src/UI/Components/WinPopup/WinPopup.css'),
+	'utf8'
+);
 
 describe('window layout', () => {
 	it('keeps the top-left menu out of window snapping and stacking', () => {
@@ -52,5 +64,15 @@ describe('window layout', () => {
 		expect(bankCss).toContain('width: auto');
 		expect(bankCss).toContain('white-space: nowrap');
 		expect(bankCss).not.toMatch(/#Bank \.tenmil \{[\s\S]*width: 62px;/);
+	});
+
+	it('places the login remember control on the left', () => {
+		expect(winLoginCss).toMatch(/#WinLogin \.save \{[\s\S]*left: 8px;/);
+		expect(winLoginCss).not.toMatch(/#WinLogin \.save \{[\s\S]*right: 4px;/);
+		expect(winLoginV2Css).toMatch(/#WinLogin \.win_login \.save \{[\s\S]*left: 17px;/);
+	});
+
+	it('raises prompt buttons by 1px', () => {
+		expect(winPopupCss).toMatch(/#win_popup \.btns \{[\s\S]*bottom: 3px;/);
 	});
 });

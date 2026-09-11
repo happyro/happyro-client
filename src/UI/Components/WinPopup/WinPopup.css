@@ -53,7 +53,7 @@
 
 #win_popup .btns {
 	position: absolute;
-	bottom: 2px;
+	bottom: 3px;
 	right: 3px;
 	display: flex;
 	align-items: center;
