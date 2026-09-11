@@ -46,7 +46,7 @@ const weaponSubtypeNames = {
 	Shotgun: '霰弹枪',
 	Grenade: '榴弹发射器'
 };
-const equipSlotNames = {
+const armorSlotNames = {
 	Head_Top: '头上',
 	Head_Mid: '头中',
 	Head_Low: '头下',
@@ -62,13 +62,13 @@ const equipSlotNames = {
 	Costume_Head_Mid: '时装头中',
 	Costume_Head_Low: '时装头下',
 	Costume_Head: '时装头部',
-	Costume_Garment: '时装披肩',
-	Weapon: '武器',
-	Any: '任意部位'
+	Costume_Garment: '时装披肩'
 };
 const cardSubtypeNames = {
 	Enchant: '附魔',
-	...equipSlotNames
+	...armorSlotNames,
+	Weapon: '武器',
+	Any: '任意部位'
 };
 
 function subtypeOptions(type) {
@@ -76,7 +76,7 @@ function subtypeOptions(type) {
 		type === 'Weapon'
 			? weaponSubtypeNames
 			: type === 'Armor'
-				? equipSlotNames
+				? armorSlotNames
 				: type === 'Card'
 					? cardSubtypeNames
 					: null;
