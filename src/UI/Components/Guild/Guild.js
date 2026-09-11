@@ -11,7 +11,8 @@
 import DB from 'DB/DBManager.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import KEYS from 'Controls/KeyEventHandler.js';
-import MonsterTable from 'DB/Monsters/MonsterTable.js';
+import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
+import { localizeGuildPositionName } from 'DB/GuildPositionName.js';
 import Session from 'Engine/SessionStorage.js';
 import Entity from 'Renderer/Entity/Entity.js';
 import SpriteRenderer from 'Renderer/SpriteRenderer.js';
@@ -149,10 +150,7 @@ Guild.init = function init() {
 			'focus',
 			e => {
 				if (e.target.matches('input')) {
-					const btnOk = root.querySelector('.footer .btn_ok');
-					if (btnOk) {
-						btnOk.style.display = 'block';
-					}
+					setOkButtonVisible(root, true);
 					e.target.select();
 				}
 			},
@@ -166,10 +164,7 @@ Guild.init = function init() {
 				const isOn = !btn.classList.contains('on');
 				btn.classList.add(isOn ? 'on' : 'off');
 				btn.style.backgroundImage = `url(${isOn ? _checkbox_on : _checkbox_off})`;
-				const btnOk = root.querySelector('.footer .btn_ok');
-				if (btnOk) {
-					btnOk.style.display = 'block';
-				}
+				setOkButtonVisible(root, true);
 			}
 		});
 	}
@@ -326,22 +321,7 @@ Guild.init = function init() {
 		}
 	});
 
-	// Notice
-	const noticeContent = root.querySelector('.content.notice');
-	if (noticeContent) {
-		noticeContent.addEventListener(
-			'focus',
-			e => {
-				if (e.target.matches('textarea, input')) {
-					const btnOk = root.querySelector('.footer .btn_ok');
-					if (btnOk) {
-						btnOk.style.display = 'block';
-					}
-				}
-			},
-			true
-		);
-	}
+	// Notice confirm stays visible while the notice tab is active.
 
 	// Upload emblem
 	const emblemInput = root.querySelector('.content.info .emblem_edit input');
@@ -625,8 +605,9 @@ Guild.setMember = function setMember(member) {
 
 	const jobCell = view.querySelector('.job');
 	if (jobCell) {
-		jobCell.textContent = MonsterTable[member.Job];
-		jobCell.title = MonsterTable[member.Job];
+		const jobName = getJobDisplayName(member.Job, '');
+		jobCell.textContent = jobName;
+		jobCell.title = jobName;
 	}
 	const levelCell = view.querySelector('.level');
 	if (levelCell) {
@@ -757,7 +738,7 @@ Guild.setPositions = function setPositions(positions, erase) {
 		_positions[rank.positionID].payRate = rank.payRate;
 
 		if (rank.posName) {
-			_positions[rank.positionID].posName = rank.posName;
+			_positions[rank.positionID].posName = localizeGuildPositionName(rank.posName);
 		}
 	}
 
@@ -774,7 +755,7 @@ Guild.setPositionsName = function setPositionsName(positions) {
 			_positions[rank.positionID] = {};
 		}
 
-		_positions[rank.positionID].posName = rank.posName;
+		_positions[rank.positionID].posName = localizeGuildPositionName(rank.posName);
 	}
 
 	Guild.updatePositionView();
@@ -1207,10 +1188,7 @@ function onChangeTab(event) {
 		targetContent.style.display = 'block';
 	}
 
-	const btnOk = root.querySelector('.footer .btn_ok');
-	if (btnOk) {
-		btnOk.style.display = 'none';
-	}
+	setOkButtonVisible(root, targetClass === 'notice');
 
 	updateDisbandButton(root, targetClass);
 
@@ -1359,10 +1337,15 @@ function onValidate() {
 		}
 	}
 
-	const btnOk = root.querySelector('.footer .btn_ok');
-	if (btnOk) {
-		btnOk.style.display = 'none';
+	setOkButtonVisible(root, getActiveTab(root) === 'notice');
+}
+
+function setOkButtonVisible(root, visible) {
+	const btnOk = root ? root.querySelector('.footer .btn_ok') : null;
+	if (!btnOk) {
+		return;
 	}
+	btnOk.classList.toggle('is-visible', !!visible);
 }
 
 function getActiveTab(root) {
@@ -1380,7 +1363,7 @@ function updateDisbandButton(root, activeTab) {
 		return;
 	}
 
-	btn.style.display = activeTab === 'info' && Session.isGuildMaster ? 'block' : 'none';
+	btn.classList.toggle('is-visible', activeTab === 'info' && Session.isGuildMaster);
 
 	if (!btn.dataset.bound) {
 		btn.dataset.bound = '1';

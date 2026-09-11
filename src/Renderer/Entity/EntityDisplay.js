@@ -11,6 +11,7 @@
 
 import glMatrix from 'Utils/gl-matrix.js';
 import MapPreferences from 'Preferences/Map.js';
+import { localizeGuildPositionName } from 'DB/GuildPositionName.js';
 
 /**
  * Global methods
@@ -227,7 +228,7 @@ class Display {
 
 			// Add guild rank
 			if (this.guild_rank.length && MapPreferences.showname) {
-				lines[1] += ' [' + this.guild_rank + ']';
+				lines[1] += ' [' + localizeGuildPositionName(this.guild_rank) + ']';
 			}
 		} else if (
 			this.guild_rank.length &&
@@ -237,7 +238,7 @@ class Display {
 				style === this.STYLE.NPC)
 		) {
 			// showname
-			lines[1] = this.guild_rank;
+			lines[1] = localizeGuildPositionName(this.guild_rank);
 		}
 
 		// Add Title name
