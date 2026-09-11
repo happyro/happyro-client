@@ -75,6 +75,13 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain('if (_autoWalkActive || _autoWalkRequested)');
 	});
 
+	it('cycles minimap opacity from the button next to zoom out without hiding the controls', () => {
+		expect(miniMapSource).toContain("root.querySelector('.mini')");
+		expect(miniMapSource).toContain('MiniMap.toggleOpacity()');
+		expect(miniMapSource).toContain("_ctx.canvas.style.visibility = 'hidden'");
+		expect(miniMapSource).not.toContain('this.ui.hide()');
+	});
+
 	it('temporarily hides transfer-service routing', () => {
 		expect(navigationHtml).not.toContain('class="services-toggle"');
 	});
