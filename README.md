@@ -1,92 +1,47 @@
-## ROBrowser Legacy
+# HappyRO Client
 
-This is a continuation of [roBrowser](https://www.robrowser.com/) expanded with some features. This repo is not directly forked from the original repository due to safety concerns, but it is roBrowser.
+HappyRO 的浏览器客户端，基于 [roBrowserLegacy](https://github.com/MrAntares/roBrowserLegacy)。玩家通过 Gateway 提供的 PWA 进入游戏，不安装桌面客户端。
 
-If you wish to discuss anything related to this project, or you want to join, contact us on [Discord](https://discord.gg/8JdHwM4Kqm) or in the [GIT Discussions](https://github.com/MrAntares/roBrowserLegacy/discussions)
+固定基线：`PACKETVER=20211103`、Renewal、kRO 2021-11-05。封包设置必须与 Server 一致。
 
-For info on how to setup the client read the contents of our [Getting Started doc](https://github.com/MrAntares/roBrowserLegacy/blob/master/doc/README.md). For the original branche's docs please visit the https://www.robrowser.com/ site.
+本仓库只维护客户端。编排、资源覆盖和跨仓库说明在根仓库 [happyro](https://github.com/happyro/happyro)。
 
-## DEMO
+## 文档
 
-[![Start Demo](https://img.shields.io/badge/%E2%96%B6%20Start%20Demo-Play%20Now-e8b84b?style=for-the-badge&labelColor=cc0000)](https://mrantares.github.io/roBrowserLegacy/master)
+- [架构](docs/architecture.md)
+- [开发](docs/development.md)
+- [构建与测试](docs/build-and-test.md)
+- [HappyRO 运行时](docs/happyro-runtime.md)
+- 上游 roBrowser 文档：[docs/upstream/](docs/upstream/README.md) 与 [doc/](doc/README.md)
 
-_Use `<Username>_M` or `<Username>_F` to register a male or a female account on the login screen, or use the Register/Request button to navigate to the server's account registration page._
+## 本机入口
 
-More live examples:
-
-- [#robrowser-servers on Discord](https://discord.gg/MFtJj9n5Hr)
-- [roBrowserLegacy Servers on Discussions](https://github.com/MrAntares/roBrowserLegacy/discussions/categories/robrowserlegacy-servers)
-
-## Quick Start
+在根仓库中配置并随 Gateway 提供：
 
 ```bash
-git clone https://github.com/MrAntares/roBrowserLegacy.git
-cd roBrowserLegacy
-npm install
-npm run live          # Dev server with Vite (opens browser)
-npm run build:all     # Build all applications to dist/Web/
+make configure-client
+make gateway-start
 ```
 
-#### Repo info:
+浏览器打开 <http://127.0.0.1:3338/applications/pwa/index.html>。HappyRO PWA 配置为 `applications/pwa/Config.happyro.js`，由根仓库 `configs/Config.happyro.js` 安装，不要只改本仓库副本后当作编排源。
 
-| ![GitHub](https://img.shields.io/github/license/MrAntares/roBrowserLegacy.svg) | ![commit activity](https://img.shields.io/github/commit-activity/w/MrAntares/roBrowserLegacy) | ![GitHub repo size](https://img.shields.io/github/repo-size/MrAntares/roBrowserLegacy.svg) | ![CodeQL](https://img.shields.io/github/actions/workflow/status/MrAntares/roBrowserLegacy/analysis_codeql.yml?label=CodeQL) | ![Build & Tests](https://img.shields.io/github/actions/workflow/status/MrAntares/roBrowserLegacy/build.yml?branch=master&label=Build%20%26%20Tests&logo=vitest) | ![Lint](https://img.shields.io/github/actions/workflow/status/MrAntares/roBrowserLegacy/lint.yml?branch=master&label=Lint&logo=eslint) | ![Format](https://img.shields.io/github/actions/workflow/status/MrAntares/roBrowserLegacy/format.yml?branch=master&label=Format&logo=prettier) |
-| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+单独调试 UI：
 
-## Guide
+```bash
+npm install
+npm run pwa
+```
 
-Checkout the [getting started guide](doc/README.md)
+开发页不替代 Gateway 的资源查找、WebSocket 代理和中文覆盖。
 
-## Wiki
+## 常用命令
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/MrAntares/roBrowserLegacy)
+```bash
+npm test
+npm run lint
+npm run catalog:world
+npm run catalog:monsters
+npm run build:pwa
+```
 
-## Tech Stack
-
-- **ES6 Modules** — Modern `import`/`export` syntax (migrated from AMD/RequireJS)
-- **Vite** — Build tool and dev server (replaced RequireJS optimizer and live-server)
-- **WebGL** — 3D/2D rendering via OpenGL ES 2.0
-- **WebSockets** — Network communication via wsProxy
-- **ESLint + Prettier** — Code quality and formatting
-- **Web Workers** — Background processing for GRF decompression and pathfinding
-
-## Remote Client
-
-Remote Client serves game assets to roBrowser via http by extracting them from their GRFs. You will need to setup a remote client if you want to serve the game assets centrally from your server. roBrowser can use local game assets via the Intro screen by dragging them into the file box. The original implementation of the Remote Client is written in PHP:
-
-- [roBrowserLegacy-RemoteClient-PHP](https://github.com/MrAntares/roBrowserLegacy-RemoteClient-PHP)
-
-Other implementations may arise and when they do we will list them here:
-
-- [roBrowserLegacy-RemoteClient-JS](https://github.com/FranciscoWallison/roBrowserLegacy-RemoteClient-JS)
-
-## WebSocket Proxy
-
-The game server uses TCP/IP to communicate with the client, while roBrowser being a web page can't use TCP/IP. We use the WebSocket API to communicate with a proxy server that translates the packets into TCP/IP packets. This server is called wsProxy. You will need to install and configure wsProxy to make roBrowser able to connect to a game server. For more info, please visit the [roBrowserLegacy-wsProxy](https://github.com/MrAntares/roBrowserLegacy-wsProxy) repository.
-
-## Plugins
-
-For available plugins and information on how to install them please visit the [roBrowserLegacy-plugins](https://github.com/MrAntares/roBrowserLegacy-plugins) repository.
-
-## Contributing
-
-See [CONTRIBUTING](./doc/CONTRIBUTING.md)
-
-All credits to the original owners/creators and the new ones.
-<a href="https://github.com/MrAntares/roBrowserLegacy/graphs/contributors">
-<img src="https://contrib.rocks/image?repo=MrAntares/roBrowserLegacy" />
-</a>
-
-## Contact
-
-- Join us on [Discord](https://discord.gg/8JdHwM4Kqm)
-- Or in the [GIT Discussions](https://github.com/MrAntares/roBrowserLegacy/discussions)
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=MrAntares%2FroBrowserLegacy&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=MrAntares/roBrowserLegacy&type=date&theme=dark&legend=top-left&sealed_token=n-LYAsHxuqeB0pWAcr0VyUok1yv6L_vgDU_o45SAzDD0v8KE-9l9Mqlcr0dcnX606Bg9Yf_Coue-KXc4lhBj_dwAIAVmxloWaG5KiVlETd2asCYPRWu9-RzCKESTbAwZOolsyYjnA-IS6njNlSjYzTJfSDLMmT742KWezS2E7iECIz-sCoDor0QaRlep" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=MrAntares/roBrowserLegacy&type=date&legend=top-left&sealed_token=n-LYAsHxuqeB0pWAcr0VyUok1yv6L_vgDU_o45SAzDD0v8KE-9l9Mqlcr0dcnX606Bg9Yf_Coue-KXc4lhBj_dwAIAVmxloWaG5KiVlETd2asCYPRWu9-RzCKESTbAwZOolsyYjnA-IS6njNlSjYzTJfSDLMmT742KWezS2E7iECIz-sCoDor0QaRlep" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=MrAntares/roBrowserLegacy&type=date&legend=top-left&sealed_token=n-LYAsHxuqeB0pWAcr0VyUok1yv6L_vgDU_o45SAzDD0v8KE-9l9Mqlcr0dcnX606Bg9Yf_Coue-KXc4lhBj_dwAIAVmxloWaG5KiVlETd2asCYPRWu9-RzCKESTbAwZOolsyYjnA-IS6njNlSjYzTJfSDLMmT742KWezS2E7iECIz-sCoDor0QaRlep" />
- </picture>
-</a>
+产物位于 `dist/Web`，由 Gateway `ROBROWSER_PATH` 提供。
