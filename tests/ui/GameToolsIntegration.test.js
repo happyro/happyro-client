@@ -199,4 +199,12 @@ describe('game tools integration', () => {
 		expect(source).toContain('>传送到地图</button>');
 		expect(source).not.toContain('${spawn.count} 只');
 	});
+
+	it('shows combined prices and equipment slot counts in item details', () => {
+		const source = read('src/UI/Components/GameTools/ItemCatalogTab.js');
+		expect(source).toContain('<span>价格</span>');
+		expect(source).toContain('买 ${item.Buy ?? \'-\'} / 卖 ${item.Sell ?? \'-\'}');
+		expect(source).toContain('<span>洞数</span>');
+		expect(source).toContain('${item.Slots ?? 0}');
+	});
 });

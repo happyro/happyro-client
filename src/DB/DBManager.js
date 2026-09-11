@@ -679,7 +679,7 @@ class DB {
 			'#',
 			2,
 			function (_index, key, val) {
-				(ItemTable[key] || (ItemTable[key] = {})).prefixName = val;
+				(ItemTable[key] || (ItemTable[key] = {})).prefixName = ItemNameOverrides[key] || '卡片';
 			},
 			onLoad(),
 			true
