@@ -153,10 +153,11 @@
 #Storage .footer .close {
 	position: absolute;
 	border: none;
-	width: 23px;
+	width: 38px;
+	min-width: 38px;
 	height: 18px;
 	bottom: 2px;
-	right: 15px;
+	right: 10px;
 	background-repeat: no-repeat;
 	background-color: transparent;
 }
@@ -219,25 +220,26 @@
 #Storage .footer .search-container {
 	display: flex;
 	align-items: center;
-	padding-left: 18px;
+	padding-left: 23px;
 }
 
 #Storage .footer .search-input {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	padding: 2px;
-	width: 100px;
+	width: 87px;
 	height: 14px;
 }
 
 #Storage .footer .search-button {
-	width: 23px;
+	width: 38px;
+	min-width: 38px;
 	height: 18px;
 	background-color: #eee;
 	background-repeat: no-repeat;
 	background-position: center center;
 	border: none;
-	margin-left: -23px;
+	margin-left: 4px;
 	cursor: pointer;
 }
 
