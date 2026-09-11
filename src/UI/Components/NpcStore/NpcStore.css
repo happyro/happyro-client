@@ -186,10 +186,10 @@
 #NpcStore .btn.sell {
 	position: absolute;
 	top: 4px;
-	right: 62px;
+	right: 59px;
 }
 #NpcStore .OutputWindow .btn.buy {
-	right: 70px;
+	right: 59px;
 }
 #NpcStore .btn.ok {
 	position: absolute;
