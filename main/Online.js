@@ -509997,13 +509997,13 @@ var init_GuildCompanion = __esmMin((() => {
 //#region src/UI/Components/SkillDescription/SkillDescription.html?raw
 var SkillDescription_default$2;
 var init_SkillDescription$2 = __esmMin((() => {
-	SkillDescription_default$2 = "<div id=\"SkillDescription\">\r\n	<button class=\"close\" data-background=\"basic_interface/close.bmp\" data-hover=\"basic_interface/close_a.bmp\"></button>\r\n	<div class=\"content\"></div>\r\n</div>\r\n";
+	SkillDescription_default$2 = "<div id=\"SkillDescription\">\r\n	<div class=\"titlebar\"><span class=\"title\"></span><button class=\"close\" aria-label=\"关闭\" title=\"关闭\" data-background=\"basic_interface/close.bmp\" data-hover=\"basic_interface/close_a.bmp\"></button></div>\r\n	<div class=\"content\" tabindex=\"0\" aria-label=\"技能说明\"></div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/SkillDescription/SkillDescription.css?raw
 var SkillDescription_default$1;
 var init_SkillDescription$1 = __esmMin((() => {
-	SkillDescription_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#SkillDescription {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	padding: 1px;\r\n	border: 1px solid #c5c5c5;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n}\r\n#SkillDescription .content {\r\n	padding: 5px;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	box-sizing: border-box;\r\n	width: 380px;\r\n	max-width: calc(100vw - 24px);\r\n	max-height: calc(100vh - 24px);\r\n	overflow-y: auto;\r\n}\r\n#SkillDescription .close {\r\n	position: absolute;\r\n	right: 3px;\r\n	top: 3px;\r\n	border: none;\r\n	width: 9px;\r\n	height: 10px;\r\n	padding: 0px;\r\n	margin: 0px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
+	SkillDescription_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#SkillDescription {\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	box-sizing: border-box;\r\n	width: min(380px, calc(100vw - 16px));\r\n	max-height: min(80dvh, calc(100dvh - 16px));\r\n	background: white;\r\n	overflow: hidden;\r\n	border-radius: 5px;\r\n	padding: 1px;\r\n	border: 1px solid #c5c5c5;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n}\r\n#SkillDescription .content {\r\n	padding: 5px;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	box-sizing: border-box;\r\n	min-height: 0;\r\n	width: 100%;\r\n	overflow-wrap: anywhere;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n	overflow-y: auto;\r\n}\r\n#SkillDescription .close {\r\n	position: absolute;\r\n	right: 6px;\r\n	top: 7px;\r\n	border: none;\r\n	width: 9px;\r\n	height: 10px;\r\n	padding: 0px;\r\n	margin: 0px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#SkillDescription .titlebar {\r\n	position: relative;\r\n	flex: 0 0 auto;\r\n	padding: 3px 24px 3px 7px;\r\n	background: #e9e9e9;\r\n	border-bottom: 1px solid #c5c5c5;\r\n	cursor: move;\r\n	user-select: none;\r\n	touch-action: none;\r\n	overflow-wrap: anywhere;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/SkillDescription/SkillDescription.js
@@ -510028,6 +510028,15 @@ function _formatROText(value) {
 	while (result = itemReg.exec(txt)) txt = txt.replace(result[0], DB.getItemInfo(result[1]).identifiedDisplayName);
 	txt = txt.replace(/\n/g, "<br/>");
 	return txt;
+}
+function fitViewport() {
+	const host = SkillDescription$1._host;
+	if (!host?.isConnected) return;
+	const rect = host.getBoundingClientRect();
+	const width = Math.min(Renderer.width || innerWidth, innerWidth);
+	const height = Math.min(Renderer.height || innerHeight, innerHeight);
+	host.style.left = `${Math.max(0, Math.min(parseFloat(host.style.left) || 0, width - rect.width - 8))}px`;
+	host.style.top = `${Math.max(0, Math.min(parseFloat(host.style.top) || 0, height - rect.height - 8))}px`;
 }
 var _allowedTags, SkillDescription$1, SkillDescription_default;
 var init_SkillDescription = __esmMin((() => {
@@ -510061,17 +510070,26 @@ var init_SkillDescription = __esmMin((() => {
 	*/
 	SkillDescription$1.onRemove = function onRemove() {
 		this.uid = -1;
+		window.removeEventListener("resize", fitViewport);
 	};
+	SkillDescription$1.onAppend = function onAppend() {
+		window.addEventListener("resize", fitViewport);
+		fitViewport();
+	};
+	SkillDescription$1.onDragEnd = fitViewport;
 	/**
 	* Initialize UI
 	*/
 	SkillDescription$1.init = function init() {
-		const closeBtn = this.getRoot().querySelector(".close");
+		const root = this.getRoot();
+		const closeBtn = root.querySelector(".close");
 		if (closeBtn) {
 			closeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
 			closeBtn.addEventListener("click", () => SkillDescription$1.remove());
 		}
-		this.draggable();
+		root.querySelector(".content").addEventListener("wheel", (event) => event.stopPropagation(), { passive: true });
+		root.querySelector(".content").addEventListener("touchmove", (event) => event.stopPropagation(), { passive: true });
+		this.draggable(".titlebar");
 	};
 	/**
 	* Add content to the box
@@ -510080,12 +510098,18 @@ var init_SkillDescription = __esmMin((() => {
 	*/
 	SkillDescription$1.setSkill = function setSkill(id) {
 		this.uid = id;
-		const content = this.getRoot().querySelector(".content");
-		if (content) content.innerHTML = _formatROText(DB.getSkillDescription(id));
+		const root = this.getRoot();
+		root.querySelector(".title").textContent = DB.getSkillName(id);
+		const content = root.querySelector(".content");
+		if (content) {
+			content.innerHTML = _formatROText(DB.getSkillDescription(id));
+			content.scrollTop = 0;
+		}
 		const hostWidth = this._host.getBoundingClientRect().width;
 		const hostHeight = this._host.getBoundingClientRect().height;
 		this._host.style.top = `${Math.max(0, Math.min(Mouse.screen.y + 10, Renderer.height - hostHeight))}px`;
 		this._host.style.left = `${Math.max(0, Math.min(Mouse.screen.x + 10, Renderer.width - hostWidth))}px`;
+		fitViewport();
 	};
 	SkillDescription_default = UIManager.addComponent(SkillDescription$1);
 }));
