@@ -21,6 +21,7 @@ import {
 	stopAdventureRoute,
 	subscribeAdventureRoute
 } from './AdventureRouteService.js';
+import { remainingPathFromPosition } from 'UI/Components/Navigation/NavigationAutoWalk.js';
 import { filterAndSortMaps } from './MapCatalogData.js';
 import { renderGameSelect } from './GameSelect.js';
 import {
@@ -56,10 +57,12 @@ function mount(container) {
 	let thumbnailToken = 0;
 	let thumbnailObserver = null;
 	let redrawPreview = () => {};
+	let previewResizeObserver = null;
 	let catalogNpcs = [];
 	let npcAvailability = {};
 	let npcAvailabilityToken = 0;
 	let selectedNpcKey = '';
+	let pendingSelectionClear = '';
 	const browser = mountCatalogBrowser(container, {
 		placeholder: '搜索地图名称或代码',
 		searchLabel: '搜索地图',
@@ -246,30 +249,36 @@ function mount(container) {
 			const canvas = detail.querySelector('.catalog-map');
 			const picker = detail.querySelector('.catalog-map-picker');
 			let lastPositionKey = '';
-			redrawPreview = () => {
+			redrawPreview = force => {
 				if (!canvas.isConnected) return;
 				if (getCurrentAdventureMap() !== currentMap) {
 					api.refreshDetail();
 					return;
 				}
 				const position = getCurrentAdventurePosition();
-				const positionKey = `${position.x}:${position.y}`;
-				if (positionKey === lastPositionKey) return;
+				const direction = Session.Entity?.direction ?? 0;
+				const positionKey = `${position.x}:${position.y}:${direction}`;
+				if (!force && positionKey === lastPositionKey) return;
 				lastPositionKey = positionKey;
 				const label = detail.querySelector('.map-current-position');
 				if (label) label.textContent = `角色位置：${currentMapName} (${position.x}, ${position.y})`;
 				drawWorldMapPreview(
 					canvas,
 					loadedMap?.image,
-					selectedCoordinate?.random ? null : selectedCoordinate,
+					selectedNpc || selectedCoordinate?.random ? null : selectedCoordinate,
 					loadedMap?.gat,
 					{
-						path: sameMap && routeMatches ? routeState.path : [],
-						player: sameMap ? position : null
+						path: sameMap && routeMatches ? remainingPathFromPosition(routeState.path, position) : [],
+						player: sameMap ? { ...position, direction } : null,
+						selectedNpc
 					}
 				);
 			};
-			redrawPreview();
+			previewResizeObserver?.disconnect();
+			previewResizeObserver =
+				typeof ResizeObserver === 'function' ? new ResizeObserver(() => redrawPreview(true)) : null;
+			if (previewResizeObserver) previewResizeObserver.observe(picker);
+			redrawPreview(true);
 			const npcList = detail.querySelector('.map-npc-scroll');
 			if (npcList) npcList.scrollTop = npcListScrollTop;
 			picker.addEventListener('click', event => {
@@ -284,8 +293,12 @@ function mount(container) {
 				else if (routeTarget) startAdventureRoute(routeTarget);
 			});
 			detail.querySelector('.catalog-teleport').addEventListener('click', () => {
-				if (selectedNpc) teleportToNpc(selectedNpc);
-				else if (target) teleportToCoordinate(target);
+				const started = selectedNpc
+					? teleportToNpc(selectedNpc)
+					: target
+						? teleportToCoordinate(target)
+						: false;
+				pendingSelectionClear = started ? 'teleport' : '';
 			});
 			for (const row of detail.querySelectorAll('.map-npc-row')) {
 				row.addEventListener('click', () => {
@@ -296,12 +309,22 @@ function mount(container) {
 		}
 	});
 
+	const clearMapMarker = () => {
+		selectedNpcKey = '';
+		selectedCoordinate = { x: 0, y: 0, random: true };
+		pendingSelectionClear = '';
+	};
 	const unsubscribeActions = subscribeAdventureActions(state => {
+		const waiting = pendingSelectionClear === 'teleport';
+		const wasPending = actionState.npcPending || actionState.mapPending;
 		actionState = state;
+		if (waiting && wasPending && !state.npcPending && !state.mapPending && !state.error) clearMapMarker();
+		else if (waiting && !state.npcPending && !state.mapPending && state.error) pendingSelectionClear = '';
 		browser.refreshDetail();
 	});
 	const unsubscribeRoute = subscribeAdventureRoute(state => {
 		routeState = state;
+		if (state.message === '已到达目的地') clearMapMarker();
 		browser.refreshDetail();
 	});
 	const positionTimer = setInterval(() => redrawPreview(), 500);
@@ -342,6 +365,7 @@ function mount(container) {
 		npcAvailabilityToken += 1;
 		thumbnailToken += 1;
 		thumbnailObserver?.disconnect();
+		previewResizeObserver?.disconnect();
 		clearInterval(positionTimer);
 		redrawPreview = () => {};
 		unsubscribeActions();

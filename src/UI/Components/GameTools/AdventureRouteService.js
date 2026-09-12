@@ -1,4 +1,5 @@
 import Navigation from 'UI/Components/Navigation/Navigation.js';
+import { remainingPathFromPosition } from 'UI/Components/Navigation/NavigationAutoWalk.js';
 import {
 	getCurrentAdventureMap,
 	getCurrentAdventurePosition,
@@ -29,10 +30,11 @@ function notify() {
 
 function getStatus() {
 	const routeMatches = matchesTarget(navigationState.target, target);
+	const path = routeMatches ? remainingPathFromPosition(navigationState.path, getCurrentAdventurePosition()) : [];
 	return {
 		...status,
 		target: target ? { ...target } : null,
-		path: routeMatches ? navigationState.path : [],
+		path,
 		pending: routeMatches && navigationState.pending,
 		unavailable: routeMatches && navigationState.unavailable
 	};
@@ -114,6 +116,11 @@ export function stopAdventureRoute(message = '') {
 	timer = null;
 	navigationStarted = false;
 	update(false, message);
+	if (message === '已到达目的地') {
+		target = null;
+		Navigation.clear();
+		return;
+	}
 	Navigation.stopAutoWalk();
 }
 
@@ -127,10 +134,13 @@ Navigation.subscribeRouteState(nextState => {
 	navigationState = nextState;
 	if (!target || !matchesTarget(nextState.target, target)) {
 		if (status.active) {
-			clearInterval(timer);
-			timer = null;
-			navigationStarted = false;
-			update(false, '寻路已停止');
+			const position = getCurrentAdventurePosition();
+			const arrived =
+				target &&
+				getCurrentAdventureMap() === normalizeAdventureMap(target.mapName) &&
+				Math.abs(position.x - target.x) <= 1 &&
+				Math.abs(position.y - target.y) <= 1;
+			stopAdventureRoute(arrived ? '已到达目的地' : '寻路已停止');
 		} else notify();
 		return;
 	}
@@ -145,10 +155,7 @@ Navigation.subscribeRouteState(nextState => {
 	if (status.active && navigationStarted && !nextState.active && !nextState.pending) {
 		const position = getCurrentAdventurePosition();
 		const arrived = Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1;
-		clearInterval(timer);
-		timer = null;
-		navigationStarted = false;
-		update(false, arrived ? '已到达目的地' : '寻路已停止');
+		stopAdventureRoute(arrived ? '已到达目的地' : '寻路已停止');
 		return;
 	}
 	if (!status.active && nextState.path.length) status = { active: false, message: '' };

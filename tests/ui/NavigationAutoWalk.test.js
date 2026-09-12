@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { selectAutoWalkWaypoint } from '../../src/UI/Components/Navigation/NavigationAutoWalk.js';
+import {
+	remainingPathFromPosition,
+	selectAutoWalkWaypoint
+} from '../../src/UI/Components/Navigation/NavigationAutoWalk.js';
 
 describe('navigation auto-walk', () => {
 	it('selects a short waypoint ahead of the nearest path cell', () => {
@@ -16,5 +19,10 @@ describe('navigation auto-walk', () => {
 
 	it('returns null until a path is available', () => {
 		expect(selectAutoWalkWaypoint([], { x: 5, y: 10 })).toBeNull();
+	});
+
+	it('drops already walked cells from the remaining path', () => {
+		const path = Array.from({ length: 10 }, (_, x) => ({ x, y: 10 }));
+		expect(remainingPathFromPosition(path, { x: 4, y: 10 }).map(point => point.x)).toEqual([4, 5, 6, 7, 8, 9]);
 	});
 });

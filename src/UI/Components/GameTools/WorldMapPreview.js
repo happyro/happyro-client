@@ -1,22 +1,68 @@
+import Client from 'Core/Client.js';
+import DB from 'DB/DBManager.js';
+import Session from 'Engine/SessionStorage.js';
 import Altitude from 'Renderer/Map/Altitude.js';
+import { fittedMapRect, mapImageSourceRect, mapPointToCanvas, syncMapPreviewCanvas } from './MapPreviewLayout.js';
 
-function mapToCanvas(canvas, coordinateGrid, point) {
-	return {
-		x: (point.x / coordinateGrid.width) * canvas.width,
-		y: ((coordinateGrid.height - point.y) / coordinateGrid.height) * canvas.height
-	};
+let playerArrow = null;
+let playerArrowPromise = null;
+
+function loadPlayerArrow() {
+	if (playerArrow?.complete && playerArrow.width) return Promise.resolve(playerArrow);
+	if (playerArrowPromise) return playerArrowPromise;
+	playerArrow = new Image();
+	playerArrow.decoding = 'async';
+	playerArrowPromise = new Promise(resolve => {
+		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, dataURI => {
+			if (!dataURI) {
+				playerArrowPromise = null;
+				resolve(null);
+				return;
+			}
+			playerArrow.onload = () => resolve(playerArrow);
+			playerArrow.onerror = () => {
+				playerArrowPromise = null;
+				resolve(null);
+			};
+			playerArrow.src = dataURI;
+		});
+	});
+	return playerArrowPromise;
 }
 
-function drawMarker(context, canvas, marker, coordinateGrid) {
-	if (!marker || !coordinateGrid?.width || !coordinateGrid?.height) return;
-	const point = mapToCanvas(canvas, coordinateGrid, marker);
+export const NPC_MARKER_COLOR = '#2f80ed';
+
+function previewFit(canvas, coordinateGrid, sourceWidth, sourceHeight) {
+	const width = coordinateGrid?.width || sourceWidth || canvas.width;
+	const height = coordinateGrid?.height || sourceHeight || canvas.height;
+	canvas._mapFitRect = fittedMapRect(canvas.width, canvas.height, width, height);
+	return canvas._mapFitRect;
+}
+
+function mapToCanvas(canvas, coordinateGrid, point) {
+	const fit =
+		canvas._mapFitRect || fittedMapRect(canvas.width, canvas.height, coordinateGrid.width, coordinateGrid.height);
+	return mapPointToCanvas(fit, coordinateGrid, point);
+}
+
+function drawDot(context, point, radius, fill) {
+	if (!point) return;
 	context.beginPath();
-	context.arc(point.x, point.y, 6, 0, Math.PI * 2);
-	context.fillStyle = '#e3362d';
+	context.arc(point.x, point.y, radius, 0, Math.PI * 2);
+	context.fillStyle = fill;
 	context.fill();
 	context.strokeStyle = '#fff';
 	context.lineWidth = 2;
 	context.stroke();
+}
+
+function drawMarker(context, canvas, marker, coordinateGrid, color = NPC_MARKER_COLOR, radius = 6) {
+	if (!marker || !coordinateGrid?.width || !coordinateGrid?.height) return;
+	drawDot(context, mapToCanvas(canvas, coordinateGrid, marker), radius, color);
+}
+
+function drawNpcMarker(context, canvas, npc, coordinateGrid) {
+	drawMarker(context, canvas, npc, coordinateGrid, NPC_MARKER_COLOR, 7);
 }
 
 function drawPath(context, canvas, path, coordinateGrid) {
@@ -41,24 +87,34 @@ function drawPath(context, canvas, path, coordinateGrid) {
 function drawPlayer(context, canvas, player, coordinateGrid) {
 	if (!player || !coordinateGrid?.width || !coordinateGrid?.height) return;
 	const point = mapToCanvas(canvas, coordinateGrid, player);
-	context.beginPath();
-	context.arc(point.x, point.y, 6, 0, Math.PI * 2);
-	context.fillStyle = '#2f80ed';
-	context.fill();
-	context.strokeStyle = '#fff';
-	context.lineWidth = 2;
-	context.stroke();
+	if (!point) return;
+	if (!playerArrow?.complete || !playerArrow.width) return;
+	const direction = Number.isFinite(player.direction) ? player.direction : (Session.Entity?.direction ?? 0);
+	context.save();
+	context.translate(point.x, point.y);
+	context.rotate(((direction + 4) * 45 * Math.PI) / 180);
+	context.drawImage(playerArrow, -playerArrow.width / 2, -playerArrow.height / 2);
+	context.restore();
 }
 
-export function drawWalkableMapPreview(context, canvas, coordinateGrid) {
+export function drawWalkableMapPreview(context, canvas, coordinateGrid, fit) {
 	if (!coordinateGrid?.cells || !coordinateGrid.width || !coordinateGrid.height) return false;
+	const mapFit = fit || fittedMapRect(canvas.width, canvas.height, coordinateGrid.width, coordinateGrid.height);
 	const image = context.createImageData(canvas.width, canvas.height);
 	for (let pixelY = 0; pixelY < canvas.height; pixelY += 1) {
-		const mapY = coordinateGrid.height - 1 - Math.floor((pixelY / canvas.height) * coordinateGrid.height);
+		const mapY =
+			coordinateGrid.height - 1 - Math.floor(((pixelY - mapFit.y) / mapFit.height) * coordinateGrid.height);
 		for (let pixelX = 0; pixelX < canvas.width; pixelX += 1) {
-			const mapX = Math.floor((pixelX / canvas.width) * coordinateGrid.width);
-			const type = coordinateGrid.cells[(mapY * coordinateGrid.width + mapX) * 5 + 4];
+			const mapX = Math.floor(((pixelX - mapFit.x) / mapFit.width) * coordinateGrid.width);
 			const offset = (pixelY * canvas.width + pixelX) * 4;
+			if (mapX < 0 || mapY < 0 || mapX >= coordinateGrid.width || mapY >= coordinateGrid.height) {
+				image.data[offset] = 23;
+				image.data[offset + 1] = 25;
+				image.data[offset + 2] = 28;
+				image.data[offset + 3] = 255;
+				continue;
+			}
+			const type = coordinateGrid.cells[(mapY * coordinateGrid.width + mapX) * 5 + 4];
 			if (type & Altitude.TYPE.WATER) {
 				image.data[offset] = 65;
 				image.data[offset + 1] = 125;
@@ -86,18 +142,30 @@ export function drawWalkableMapPreview(context, canvas, coordinateGrid) {
 export function drawWorldMapPreview(canvas, imageSource, marker, coordinateGrid, overlays = {}) {
 	const renderToken = (canvas._worldMapRenderToken || 0) + 1;
 	canvas._worldMapRenderToken = renderToken;
+	syncMapPreviewCanvas(canvas);
 	const context = canvas.getContext('2d');
+	const fit = previewFit(canvas, coordinateGrid);
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.fillStyle = '#17191c';
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	const drawOverlays = () => {
 		drawPath(context, canvas, overlays.path, coordinateGrid);
-		drawMarker(context, canvas, marker, coordinateGrid);
-		drawPlayer(context, canvas, overlays.player, coordinateGrid);
+		drawNpcMarker(context, canvas, overlays.selectedNpc, coordinateGrid);
+		drawMarker(context, canvas, marker, coordinateGrid, NPC_MARKER_COLOR);
+		if (!overlays.player) return;
+		if (playerArrow?.complete && playerArrow.width) {
+			drawPlayer(context, canvas, overlays.player, coordinateGrid);
+			return;
+		}
+		loadPlayerArrow().then(arrow => {
+			if (!arrow || canvas._worldMapRenderToken !== renderToken) return;
+			drawPlayer(context, canvas, overlays.player, coordinateGrid);
+		});
 	};
 	const drawFallback = () => {
 		if (canvas._worldMapRenderToken !== renderToken) return;
-		if (drawWalkableMapPreview(context, canvas, coordinateGrid)) {
+		previewFit(canvas, coordinateGrid);
+		if (drawWalkableMapPreview(context, canvas, coordinateGrid, canvas._mapFitRect)) {
 			drawOverlays();
 			return;
 		}
@@ -113,7 +181,23 @@ export function drawWorldMapPreview(canvas, imageSource, marker, coordinateGrid,
 	image.decoding = 'async';
 	image.onload = () => {
 		if (canvas._worldMapRenderToken !== renderToken) return;
-		context.drawImage(image, 0, 0, canvas.width, canvas.height);
+		previewFit(canvas, coordinateGrid, image.naturalWidth, image.naturalHeight);
+		const mapFit = canvas._mapFitRect;
+		const source = mapImageSourceRect(image.naturalWidth, image.naturalHeight, coordinateGrid);
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		context.fillStyle = '#17191c';
+		context.fillRect(0, 0, canvas.width, canvas.height);
+		context.drawImage(
+			image,
+			source.x,
+			source.y,
+			source.width,
+			source.height,
+			mapFit.x,
+			mapFit.y,
+			mapFit.width,
+			mapFit.height
+		);
 		drawOverlays();
 	};
 	image.onerror = drawFallback;
