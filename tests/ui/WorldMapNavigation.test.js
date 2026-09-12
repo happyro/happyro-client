@@ -135,9 +135,9 @@ describe('world map navigation', () => {
 	});
 
 	it('labels live NPC availability without removing static search results', () => {
-		expect(navigationSource).toContain('new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY()');
-		expect(navigationSource).toContain('Navigation.onNpcAvailabilityResult');
-		expect(navigationSource).toContain("result.availability = packet.available[index] ? 'available' : 'unavailable'");
+		expect(navigationSource).toContain('npcAvailabilityBatches');
+		expect(navigationSource).toContain('sendNpcAvailabilityRequest');
+		expect(navigationSource).toContain("result.availability = available[index] ? 'available' : 'unavailable'");
 		expect(navigationSource).toContain('`${mapName} · ${result.x},${result.y}`');
 	});
 

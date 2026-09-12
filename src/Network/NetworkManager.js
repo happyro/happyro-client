@@ -19,6 +19,7 @@ import PacketCrypt from './PacketCrypt.js';
 import PacketLength from './PacketLength.js';
 import WebSocket from './SocketHelpers/WebSocket.js';
 import NodeSocket from './SocketHelpers/NodeSocket.js';
+import { endConnection } from './ConnectionLifecycle.js';
 
 /**
  * Sockets list
@@ -60,6 +61,18 @@ let _socket = null;
  * @type {Uint8Array}
  */
 let _save_buffer = null;
+let _frameTimer = null;
+
+function clearFrame() {
+	_save_buffer = null;
+	clearTimeout(_frameTimer);
+	_frameTimer = null;
+}
+
+function waitForFrame(buffer, offset = 0) {
+	_save_buffer = new Uint8Array(buffer, offset).slice();
+	if (!_frameTimer) _frameTimer = setTimeout(() => failProtocol('Incomplete frame timed out'), 60000);
+}
 
 /**
  * Custom callback for disconnection
@@ -119,7 +132,12 @@ function connect(host, port, callback, isZone) {
 				clearInterval(_socket.ping);
 			}
 
-			socket.onMessage = receive;
+			endConnection();
+			clearFrame();
+			read.callback = null;
+			socket.onMessage = function (buffer) {
+				if (socket === _socket) receive(buffer);
+			};
 			_sockets.push((_socket = socket));
 
 			// Map server encryption
@@ -162,7 +180,7 @@ function sendPacket(Packet) {
 		PacketCrypt.process(pkt.view);
 	}
 
-	send(pkt.buffer);
+	return send(pkt.buffer);
 }
 
 /**
@@ -172,8 +190,9 @@ function sendPacket(Packet) {
  */
 function send(buffer) {
 	if (_socket) {
-		_socket.send(buffer);
+		return _socket.send(buffer);
 	}
+	return false;
 }
 
 /**
@@ -214,8 +233,9 @@ function hookPacket(packet, callback) {
  *
  * @param callback
  */
-function read(callback) {
+function read(callback, length) {
 	read.callback = callback;
+	read.requiredBytes = length;
 }
 
 /**
@@ -230,6 +250,7 @@ read.callback = null;
  * @param {Uint8Array} buffer
  */
 function receive(buf) {
+	if (ArrayBuffer.isView(buf)) buf = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
 	let id, packet;
 	let length = 0;
 	let offset = 0;
@@ -249,8 +270,13 @@ function receive(buf) {
 
 	// Read hook
 	if (read.callback) {
+		if (fp.length < read.requiredBytes) {
+			waitForFrame(buffer);
+			return;
+		}
 		read.callback(fp);
 		read.callback = null;
+		clearFrame();
 	}
 
 	// Read and parse packets
@@ -259,24 +285,31 @@ function receive(buf) {
 
 		// Not enough bytes...
 		if (offset + 2 > fp.length) {
-			_save_buffer = new Uint8Array(buffer, offset, fp.length - offset);
+			waitForFrame(buffer, offset);
 			return;
 		}
 
 		id = fp.readUShort();
-		let packet_len = PacketLength.getPacketLength(id);
-		packet_len = packet_len ? packet_len : fp.length - offset;
+		const packet_len = PacketLength.getPacketLength(id);
+		if (!Number.isInteger(packet_len) || packet_len === 0 || packet_len < -1) {
+			failProtocol(`Unknown packet boundary for 0x${id.toString(16)}`);
+			return;
+		}
 		// Packet not defined ?
 
 		if (packet_len < 0) {
 			// Not enough bytes...
 			if (offset + 4 > fp.length) {
-				_save_buffer = new Uint8Array(buffer, offset, fp.length - offset);
+				waitForFrame(buffer, offset);
 				return;
 			}
 			length = fp.readUShort();
 		} else {
 			length = packet_len;
+		}
+		if (length < (packet_len === -1 ? 4 : 2) || length > 65535) {
+			failProtocol(`Invalid length ${length} for packet 0x${id.toString(16)}`);
+			return;
 		}
 
 		offset += length;
@@ -284,9 +317,10 @@ function receive(buf) {
 		// Not enough bytes, need to wait for new buffer to read more.
 		if (offset > fp.length) {
 			offset = fp.tell() - (packet_len < 0 ? 4 : 2);
-			_save_buffer = new Uint8Array(buffer, offset, fp.length - offset);
+			waitForFrame(buffer, offset);
 			return;
 		}
+		clearFrame();
 
 		if (Packets.list[id]) {
 			packet = Packets.list[id];
@@ -306,7 +340,12 @@ function receive(buf) {
 
 			// Parse packet
 			//if (!packet.instance) {
-			packet.instance = new packet.Struct(fp, offset);
+			try {
+				packet.instance = new packet.Struct(fp, offset);
+			} catch (error) {
+				failProtocol(`Cannot decode packet 0x${id.toString(16)}: ${error.message}`);
+				return;
+			}
 			//}
 			//else {
 			//	packet.Struct.call(packet.instance, fp, offset); //this causes packet conflicts where the same type of packets following eachother copy the previous packet's variables with the previous values
@@ -345,7 +384,16 @@ function receive(buf) {
 		}
 	}
 
-	_save_buffer = null;
+	clearFrame();
+}
+
+function failProtocol(reason) {
+	console.error('[Network] Protocol error:', reason);
+	const socket = _socket;
+	if (socket) {
+		onClose.call(socket);
+		socket.close();
+	}
 }
 
 /**
@@ -356,11 +404,16 @@ function onClose() {
 	const idx = _sockets.indexOf(this);
 
 	if (this === _socket) {
+		endConnection();
+		clearFrame();
+		read.callback = null;
 		console.warn('[Network] Disconnect from server');
 
-		if (_socket.ping) {
-			clearInterval(_socket.ping);
+		if (this.ping) {
+			clearInterval(this.ping);
 		}
+		_socket = null;
+		if (this.isZone) PacketCrypt.reset();
 
 		if (_onDisconnect) {
 			_onDisconnect();
@@ -386,6 +439,9 @@ function close() {
 	if (_socket) {
 		const s = _socket;
 		_socket = null;
+		endConnection();
+		clearFrame();
+		read.callback = null;
 
 		s.close();
 

@@ -200,6 +200,12 @@ describe('game tools integration', () => {
 		expect(read('src/Network/PacketStructure.js')).toContain('pkt_buf.writeShort(0xcfc)');
 		expect(read('src/Network/PacketRegister.js')).toContain('0xcfd: PACKET.ZC.HAPPYRO_NPC_TELEPORT_RESULT');
 		expect(read('src/Network/PacketStructure.js')).toContain('pkt_buf.writeShort(0xcfa)');
+		expect(read('src/Network/PacketStructure.js')).toContain(
+			'const packetLength = 10 + count * 24'
+		);
+		expect(read('src/UI/Components/GameTools/MapCatalogTab.js')).toContain(
+			'index += 50'
+		);
 		expect(read('src/Network/PacketRegister.js')).toContain(
 			'0xcfb: PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT'
 		);

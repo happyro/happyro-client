@@ -202,7 +202,7 @@ class MapEngine {
 						Session.AID = fp.readLong();
 						Session.Entity.GID = Session.AID;
 					}
-				});
+				}, PACKETVER.value < 20070521 ? 4 : 0);
 
 				const hbt = new PACKET.CZ.HBT();
 				const is_sec_hbt = Configs.get('sec_HBT', null);

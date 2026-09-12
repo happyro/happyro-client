@@ -1,0 +1,115 @@
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import Network from '../../src/Network/NetworkManager.js';
+import PACKET from '../../src/Network/PacketStructure.js';
+import PacketLength from '../../src/Network/PacketLength.js';
+
+let socket;
+let received;
+let disconnected;
+function connect() {
+	Network.connect('localhost', 5121, () => {}, true);
+	socket.onComplete(true);
+}
+function bytes(count = 37) {
+	const buffer = new ArrayBuffer(10 + count);
+	const view = new DataView(buffer);
+	view.setUint16(0, 0xcfb, true);
+	view.setUint16(2, buffer.byteLength, true);
+	view.setUint32(4, 12345, true);
+	view.setUint16(8, count, true);
+	new Uint8Array(buffer).fill(1, 10);
+	return buffer;
+}
+beforeEach(() => {
+	vi.spyOn(console, 'log').mockImplementation(() => {});
+	vi.spyOn(console, 'warn').mockImplementation(() => {});
+	vi.spyOn(console, 'error').mockImplementation(() => {});
+	PacketLength.init(20211103);
+	received = vi.fn(); disconnected = vi.fn();
+	Network.onDisconnect = disconnected;
+	Network.hookPacket(PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT, received);
+	Network.setSocketFactory(() => (socket = { close: vi.fn(), send: vi.fn() }));
+	connect();
+});
+afterEach(() => { Network.close(); Network.setSocketFactory(null); vi.restoreAllMocks(); vi.useRealTimers(); });
+
+it('accepts every split position and multiple coalesced packets exactly once', () => {
+	const packet = bytes();
+	for (let split = 1; split < packet.byteLength; split++) {
+		received.mockClear();
+		socket.onMessage(packet.slice(0, split));
+		expect(received).not.toHaveBeenCalled();
+		socket.onMessage(packet.slice(split));
+		expect(received).toHaveBeenCalledTimes(1);
+		expect(received.mock.calls[0][0].available).toEqual(Array(37).fill(true));
+	}
+	received.mockClear();
+	const combined = new Uint8Array(packet.byteLength * 100);
+	for (let i = 0; i < 100; i++) combined.set(new Uint8Array(packet), i * packet.byteLength);
+	socket.onMessage(combined.buffer);
+	expect(received).toHaveBeenCalledTimes(100);
+	expect(disconnected).not.toHaveBeenCalled();
+});
+
+it('waits for a fragmented raw character-server prefix', () => {
+	const prefix = vi.fn(fp => expect(fp.readULong()).toBe(12345));
+	Network.read(prefix, 4);
+	const combined = new Uint8Array(4 + bytes().byteLength);
+	new DataView(combined.buffer).setUint32(0, 12345, true);
+	combined.set(new Uint8Array(bytes()), 4);
+	socket.onMessage(combined.buffer.slice(0, 1));
+	expect(prefix).not.toHaveBeenCalled();
+	socket.onMessage(combined.buffer.slice(1));
+	expect(prefix).toHaveBeenCalledTimes(1);
+	expect(received).toHaveBeenCalledTimes(1);
+});
+
+it('discards half-packets and late events from the previous connection', () => {
+	const previous = socket;
+	previous.onMessage(bytes().slice(0, 7));
+	connect();
+	previous.onMessage(bytes().slice(7));
+	socket.onMessage(bytes());
+	expect(received).toHaveBeenCalledTimes(1);
+	expect(disconnected).not.toHaveBeenCalled();
+});
+
+it('reads only the bytes of a typed-array view', () => {
+	const storage = new Uint8Array(bytes().byteLength + 100);
+	storage.set(new Uint8Array(bytes()), 13);
+	socket.onMessage(storage.subarray(13, 13 + bytes().byteLength));
+	expect(received).toHaveBeenCalledTimes(1);
+	expect(disconnected).not.toHaveBeenCalled();
+});
+
+it('clears a remotely closed connection and refuses subsequent sends', () => {
+	socket.onClose();
+	expect(Network.send(new ArrayBuffer(2))).toBe(false);
+	expect(disconnected).toHaveBeenCalledTimes(1);
+});
+
+it('bounds incomplete frame lifetime even when more bytes trickle in', () => {
+	vi.useFakeTimers();
+	socket.onMessage(bytes().slice(0, 4));
+	vi.advanceTimersByTime(59000);
+	socket.onMessage(bytes().slice(4, 5));
+	vi.advanceTimersByTime(1000);
+	expect(disconnected).toHaveBeenCalledTimes(1);
+	expect(vi.getTimerCount()).toBe(0);
+});
+
+it.each([0, 1, 2, 3])('rejects invalid variable length %i without looping', length => {
+	const packet = bytes();
+	new DataView(packet).setUint16(2, length, true);
+	socket.onMessage(packet);
+	expect(disconnected).toHaveBeenCalledTimes(1);
+	expect(received).not.toHaveBeenCalled();
+});
+
+it('rejects a count that crosses the packet boundary', () => {
+	const packet = bytes(1);
+	new DataView(packet).setUint16(8, 50, true);
+	socket.onMessage(packet);
+	expect(disconnected).toHaveBeenCalledTimes(1);
+	expect(received).not.toHaveBeenCalled();
+});
