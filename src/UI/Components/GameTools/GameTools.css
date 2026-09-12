@@ -1192,6 +1192,7 @@
 .npc-detail-info .catalog-metadata {
 	grid-template-columns: 1fr;
 	margin-top: 0;
+	border-top: 0;
 }
 .npc-map-canvas {
 	display: block;
