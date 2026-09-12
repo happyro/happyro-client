@@ -6,14 +6,25 @@ import SkillTreeView from '../../src/DB/Skills/SkillTreeView.generated.js';
 const HANGUL = /[\uac00-\ud7af\u1100-\u11ff\u3130-\u318f]/;
 
 describe('SkillLocalizationTable', () => {
+	it('distinguishes independent cooldown, action delay and casting', () => {
+		expect(SkillLocalizationTable[28].description).toContain('独立冷却（基础）：无');
+		expect(SkillLocalizationTable[28].description).toContain('施放后延迟（基础）：500 毫秒');
+		expect(SkillLocalizationTable[2006].description).toContain('独立冷却（基础）：2 秒');
+		expect(SkillLocalizationTable[2006].description).toContain('可变吟唱（基础）：1 秒');
+		expect(SkillLocalizationTable[2006].description).toContain('固定吟唱（基础）：无');
+		expect(SkillLocalizationTable[5].description).toContain('无独立冷却不代表不受动作间隔限制');
+		expect(SkillLocalizationTable[3].description).not.toContain('独立冷却（基础）');
+		expect(SkillLocalizationTable[391].description).toContain('施放时间资料：未提供');
+		expect(SkillLocalizationTable[391].description).not.toContain('独立冷却（基础）：无');
+	});
 	it('preserves repeated cooldown levels instead of losing their mapping', () => {
-		expect(SkillLocalizationTable[375].description).toContain('冷却时间：Lv.1：10 秒 / Lv.2：10 秒 / Lv.3：10 秒 / Lv.4：10 秒 / Lv.5：15 秒');
+		expect(SkillLocalizationTable[375].description).toContain('独立冷却（基础）：Lv.1：10 秒 / Lv.2：10 秒 / Lv.3：10 秒 / Lv.4：10 秒 / Lv.5：15 秒');
 	});
 	it('contains the complete generated skill catalog', () => {
 		expect(Object.keys(SkillLocalizationTable)).toHaveLength(1767);
 		expect(SkillLocalizationTable[5]).toMatchObject({ key: 'SM_BASH', name: '狂击' });
 		expect(SkillLocalizationTable[5014].name).toBe('全力推进');
-		expect(SkillLocalizationTable[5014].description).toContain('冷却时间：50 分钟');
+		expect(SkillLocalizationTable[5014].description).toContain('独立冷却（基础）：50 分钟');
 		expect(SkillLocalizationTable[6].description).toContain('降低玩家目标的 VIT 防御力');
 		expect(SkillLocalizationTable[5201].description).toContain('操纵最多 5 个');
 		expect(SkillLocalizationTable[8001].description).toContain('红色纤细药水');
