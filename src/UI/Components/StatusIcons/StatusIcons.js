@@ -120,8 +120,9 @@ StatusIcons.update = function update(index, state, life) {
 	_status[index].start = Renderer.tick;
 	_status[index].end = Renderer.tick + life;
 
-	// 9999 means Infinity in official client (lol)
-	if (life === 9999) {
+	// rAthena sends 9999 for indefinite effects; metadata may explicitly
+	// disable the timer as well. This is not the skill's reuse cooldown.
+	if (life === 9999 || StatusTable[index].haveTimeLimit === 0 || life < 0) {
 		_status[index].end = Infinity;
 	}
 

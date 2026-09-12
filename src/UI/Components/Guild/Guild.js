@@ -28,6 +28,7 @@ import InputBox from 'UI/Components/InputBox/InputBox.js';
 import GuildCompanion from 'UI/Components/GuildCompanion/GuildCompanion.js';
 import SkillTargetSelection from 'UI/Components/SkillTargetSelection/SkillTargetSelection.js';
 import SkillDescription from 'UI/Components/SkillDescription/SkillDescription.js';
+import { executeSkillUse, useSkillID } from 'UI/Components/SkillList/SkillUse.js';
 import htmlText from './Guild.html?raw';
 import cssText from './Guild.css?raw';
 import WinStats from 'UI/Components/WinStats/WinStats.js';
@@ -958,26 +959,24 @@ Guild.updateSkill = function updateSkill(skill) {
 	this.onUpdateSkill(skill.SKID, skill.level);
 };
 
-Guild.useSkillID = function useSkillID(id, level) {
-	const skill = getSkillById(id);
-	if (!skill || !skill.level || !skill.type) {
-		return;
-	}
-
-	Guild.useSkill(skill, level ? level : skill.selectedLevel);
+Guild.useSkillID = function useSkillIDByIndex(id, level) {
+	useSkillID(getSkillById, id, level, {
+		onUseSkill: (skillId, useLevel) => this.onUseSkill(skillId, useLevel),
+		onSelectTarget: (targetSkill, inf) => {
+			SkillTargetSelection.append();
+			SkillTargetSelection.set(targetSkill, inf);
+		}
+	});
 };
 
 Guild.useSkill = function useSkill(skill, level) {
-	if (skill.type & SkillTargetSelection.TYPE.SELF) {
-		this.onUseSkill(skill.SKID, level ? level : skill.level);
-	}
-
-	skill.useLevel = level;
-
-	if (skill.type & SkillTargetSelection.TYPE.TARGET) {
-		SkillTargetSelection.append();
-		SkillTargetSelection.set(skill, skill.type);
-	}
+	executeSkillUse(skill, level, {
+		onUseSkill: (id, useLevel) => this.onUseSkill(id, useLevel),
+		onSelectTarget: (targetSkill, inf) => {
+			SkillTargetSelection.append();
+			SkillTargetSelection.set(targetSkill, inf);
+		}
+	});
 };
 
 Guild.setPoints = function setPoints(amount) {

@@ -11,6 +11,9 @@ import {
 const hangul = /[\uac00-\ud7a3]/;
 
 describe('status description localization', () => {
+	it('uses the Renewal overweight threshold from the official LUB', () => {
+		expect(officialStateIconTranslations['35'].descript[0][0]).toBe('负重达到 70%');
+	});
 	it('contains Chinese descriptions for the novice spawn buffs', () => {
 		expect(StatusInfo[SC.BLESSING].descript[0][0]).toBe('天使之赐福');
 		expect(StatusInfo[SC.INC_AGI].descript[0][0]).toBe('敏捷提升');

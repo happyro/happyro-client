@@ -24,6 +24,8 @@ import GUIComponent from 'UI/GUIComponent.js';
 import 'UI/Elements/Elements.js';
 import SkillTargetSelection from 'UI/Components/SkillTargetSelection/SkillTargetSelection.js';
 import SkillDescription from 'UI/Components/SkillDescription/SkillDescription.js';
+import { executeSkillUse, useSkillID } from './SkillUse.js';
+import { remainingCooldown } from 'Network/SkillCooldowns.js';
 
 function _escapeHTML(text) {
 	const div = document.createElement('div');
@@ -69,6 +71,23 @@ export function createSkillList({
 	const _preferences = Preferences.get(name, preferenceDefaults, 1.0);
 
 	const _list = [];
+	let cooldownTimer;
+	function updateCooldownLabels() {
+		const root = Component.getRoot();
+		for (const element of root.querySelectorAll('.skill[data-index]')) {
+			const remaining = remainingCooldown(Number(element.dataset.index));
+			let label = element.querySelector('.skill-cooldown-time');
+			if (!remaining) { label?.remove(); continue; }
+			if (!label) {
+				label = document.createElement('span');
+				label.className = 'skill-cooldown-time';
+				label.style.cssText = 'color:#b44;font-size:11px;margin-left:4px';
+				(element.querySelector('.name') || element.querySelector('td:last-child') || element).appendChild(label);
+			}
+			const seconds = Math.ceil(remaining / 1000);
+			label.textContent = `冷却 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+		}
+	}
 	let _btnIncSkill;
 	let _points = 0;
 	let totalCounter = 0;
@@ -306,6 +325,9 @@ export function createSkillList({
 	};
 
 	Component.onAppend = function onAppend() {
+		clearInterval(cooldownTimer);
+		cooldownTimer = setInterval(updateCooldownLabels, 250);
+		updateCooldownLabels();
 		if (!_preferences.show) {
 			this.ui.hide();
 		}
@@ -322,6 +344,7 @@ export function createSkillList({
 	};
 
 	Component.onRemove = function onRemove() {
+		clearInterval(cooldownTimer);
 		if (_btnLevelUp && _btnLevelUp.parentNode) {
 			_btnLevelUp.remove();
 		}
@@ -1013,25 +1036,24 @@ export function createSkillList({
 		this.onUpdateSkill(skill.SKID, skill.level);
 	};
 
-	Component.useSkillID = function useSkillID(id, level) {
-		const skill = getSkillById(id);
-		if (!skill || !skill.level || !skill.type) {
-			return;
-		}
-		Component.useSkill(skill, level ? level : skill.selectedLevel);
+	Component.useSkillID = function useSkillIDByIndex(id, level) {
+		useSkillID(getSkillById, id, level, {
+			onUseSkill: (skillId, useLevel) => this.onUseSkill(skillId, useLevel),
+			onSelectTarget: (targetSkill, inf) => {
+				SkillTargetSelection.append();
+				SkillTargetSelection.set(targetSkill, inf);
+			}
+		});
 	};
 
 	Component.useSkill = function useSkill(skill, level) {
-		if (skill.type & SkillTargetSelection.TYPE.SELF) {
-			this.onUseSkill(skill.SKID, level ? level : skill.level);
-		}
-
-		skill.useLevel = level;
-
-		if (skill.type & SkillTargetSelection.TYPE.TARGET) {
-			SkillTargetSelection.append();
-			SkillTargetSelection.set(skill, skill.type);
-		}
+		executeSkillUse(skill, level, {
+			onUseSkill: (id, useLevel) => this.onUseSkill(id, useLevel),
+			onSelectTarget: (targetSkill, inf) => {
+				SkillTargetSelection.append();
+				SkillTargetSelection.set(targetSkill, inf);
+			}
+		});
 	};
 
 	Component.setPoints = function setPoints(amount) {

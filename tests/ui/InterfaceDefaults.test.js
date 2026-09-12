@@ -73,10 +73,10 @@ describe('interface defaults', () => {
 
 	it('shows only the active NPC dialog command button', () => {
 		expect(npcBoxSource).toMatch(
-			/NpcBox\.addNext[\s\S]*closeBtn\.style\.display = 'none';[\s\S]*nextBtn\.style\.display = 'block';/
+			/NpcBox\.addNext[\s\S]*closeBtn\.classList\.remove\('is-visible'\)[\s\S]*nextBtn\.classList\.add\('is-visible'\)/
 		);
 		expect(npcBoxSource).toMatch(
-			/NpcBox\.addClose[\s\S]*nextBtn\.style\.display = 'none';[\s\S]*closeBtn\.style\.display = 'block';/
+			/NpcBox\.addClose[\s\S]*nextBtn\.classList\.remove\('is-visible'\)[\s\S]*closeBtn\.classList\.add\('is-visible'\)/
 		);
 	});
 });

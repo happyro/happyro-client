@@ -864,10 +864,14 @@ ChatBox.switchTab = function switchTab(tabID) {
 ChatBox.onAppend = function OnAppend() {
 	const root = _root();
 	const inputEl = root.querySelector('.input');
-	if (inputEl) inputEl.style.display = 'none';
+	if (inputEl) inputEl.style.display = 'block';
 
 	const bmEl = root.querySelector('.battlemode');
-	if (bmEl) bmEl.style.display = 'block';
+	if (bmEl) bmEl.style.display = 'none';
+	Client.loadFile(`${DB.INTERFACE_PATH}basic_interface/chatmode_on.bmp`, data => {
+		const chatmodeBtn = root.querySelector('.chat-function .chatmode');
+		if (chatmodeBtn) chatmodeBtn.style.backgroundImage = `url(${data})`;
+	});
 
 	const content = root.querySelector('.content.active');
 	if (content) content.scrollTop = content.scrollHeight;
