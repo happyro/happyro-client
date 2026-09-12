@@ -37,6 +37,7 @@ import Announce from 'UI/Components/Announce/Announce.js';
 import Renderer from 'Renderer/Renderer.js';
 import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import CartDecoration from 'UI/Components/CartDecoration/CartDecoration.js';
+import { skillFailMessageId } from './SkillFail.js';
 
 import SnowWeatherEffect from 'Renderer/Effects/SnowWeather.js';
 import RainWeatherEffect from 'Renderer/Effects/RainWeather.js';
@@ -153,76 +154,7 @@ function onSkillResult(pkt) {
 		return;
 	}
 
-	let error = 0;
-	/*var entity = Session.Entity;
-		let srcEntity = EntityManager.get(entity.GID);*/
-	if (pkt.NUM) {
-		switch (pkt.SKID) {
-			default:
-				error = 204;
-				break;
-
-			case SkillId.NV_BASIC:
-				error = pkt.NUM < 7 ? 159 + pkt.NUM : pkt.NUM == 7 ? 383 : 0;
-				break;
-
-			case SkillId.AL_WARP:
-				error = 214;
-				break;
-
-			case SkillId.TF_STEAL:
-				error = 205;
-				break;
-
-			case SkillId.TF_POISON:
-				error = 207;
-				break;
-		}
-	}
-
-	if (pkt.SKID == SkillId.CG_TAROTCARD) {
-		error = 204;
-	} else {
-		switch (pkt.cause) {
-			case 1:
-				error = 202;
-				break;
-			case 2:
-				error = 203;
-				break;
-			case 3:
-				error = 808;
-				break;
-			case 4:
-				error = 219;
-				break;
-			case 5:
-				error = 233;
-				break;
-			case 6:
-				error = 239;
-				break;
-			case 7:
-				error = 246;
-				break;
-			case 8:
-				error = 247;
-				break;
-			case 9:
-				error = 580;
-				break;
-			case 10:
-				error = 285;
-				break;
-			case 13:
-				error = 1398;
-				break;
-			case 83:
-				error = 661;
-				break;
-		}
-	}
-
+	const error = skillFailMessageId(pkt);
 	if (error) {
 		ChatBox.addText(DB.getMessage(error), ChatBox.TYPE.ERROR, ChatBox.FILTER.SKILL_FAIL);
 		// all skills fails that i tested not executed skill action

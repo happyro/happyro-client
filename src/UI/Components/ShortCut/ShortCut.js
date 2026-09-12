@@ -29,6 +29,7 @@ import KEYS from 'Controls/KeyEventHandler.js';
 import Configs from 'Core/Configs.js';
 import PACKETVER from 'Network/PacketVerManager.js';
 import SkillWindow from 'UI/Components/SkillList/SkillList.js';
+import { remainingCooldown, setSkillCooldown, setGlobalCooldown, subscribeCooldowns } from 'Network/SkillCooldowns.js';
 import htmlText from './ShortCut.html?raw';
 import cssText from './ShortCut.css?raw';
 
@@ -631,6 +632,7 @@ ShortCut.addElement = function addElement(index, isSkill, ID, count) {
 		ui.querySelector('.img').style.backgroundImage = `url(${url})`;
 		ui.querySelector('.amount').textContent = count;
 		ui.setAttribute('data-tooltip', tooltipText);
+		if (isSkill) setDelayOnIndex(index, remainingCooldown(ID));
 	});
 };
 
@@ -646,12 +648,6 @@ function setDelayOnIndex(index, delay) {
 		return;
 	}
 
-	// do nothing, the new delay would end sooner.
-	if (_list[index].Delay && _list[index].Delay >= Renderer.tick + delay) {
-		return;
-	}
-
-	_list[index].Delay = Renderer.tick + delay;
 	const root = ShortCut.getRoot();
 	const ui = root.querySelector(`.container[data-index="${index}"]`);
 	if (!ui) return;
@@ -688,12 +684,12 @@ function setDelayOnIndex(index, delay) {
 			return;
 		}
 
-		const now = Renderer.tick;
-		const remaining = _list[index].Delay - now;
+		const remaining = _list[index].isSkill ? remainingCooldown(_list[index].ID) : 0;
 
-		if (remaining <= 0 || !_list[index].Delay) {
+		if (remaining <= 0 || !overlay.isConnected) {
+			if (overlay.isConnected && _list[index].isSkill)
+				ui.setAttribute('data-tooltip', `[ ${getHotKeyString(index)} ] ${SkillInfo[_list[index].ID]?.SkillName || ''}`);
 			overlay.remove();
-			_list[index].Delay = 0;
 			if (_activeAnimations.has(index)) {
 				cancelAnimationFrame(_activeAnimations.get(index));
 				_activeAnimations.delete(index);
@@ -701,7 +697,9 @@ function setDelayOnIndex(index, delay) {
 			return;
 		}
 
-		const percentage = remaining / delay;
+		const percentage = Math.min(1, remaining / Math.max(1, delay));
+		const seconds = Math.ceil(remaining / 1000);
+		ui.setAttribute('data-tooltip', `[ ${getHotKeyString(index)} ] ${SkillInfo[_list[index].ID]?.SkillName || ''} · 冷却 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`);
 		const degrees = (1 - percentage) * 360;
 		overlay.style.background = `conic-gradient(transparent 0deg, transparent ${degrees}deg, rgba(0,0,0,0.75) ${degrees}deg)`;
 
@@ -719,11 +717,7 @@ function setDelayOnIndex(index, delay) {
  * @param {number} delay in ms
  */
 ShortCut.setGlobalSkillDelay = function setGlobalSkillDelay(delay) {
-	_list.forEach((element, index) => {
-		if (element.isSkill) {
-			setDelayOnIndex(index, delay);
-		}
-	});
+	setGlobalCooldown(delay);
 };
 
 /**
@@ -733,12 +727,16 @@ ShortCut.setGlobalSkillDelay = function setGlobalSkillDelay(delay) {
  * @param {number} delay in ms
  */
 ShortCut.setSkillDelay = function setSkillDelay(ID, delay) {
+	setSkillCooldown(ID, delay);
+};
+
+subscribeCooldowns(ID => {
 	_list.forEach((element, index) => {
-		if (element.isSkill && element.ID == ID) {
-			setDelayOnIndex(index, delay);
+		if (element.isSkill && (ID === null || element.ID == ID)) {
+			setDelayOnIndex(index, remainingCooldown(element.ID));
 		}
 	});
-};
+});
 
 /**
  * Remove an element from shortcut
