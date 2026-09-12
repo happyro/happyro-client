@@ -1,0 +1,13174 @@
+{
+	"0": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"挑衅",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低防御"
+			],
+			[
+				"提高攻击力"
+			]
+		]
+	},
+	"1": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"霸体",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受击时仍可移动或攻击"
+			],
+			[
+				"被攻击达到指定次数后解除"
+			]
+		]
+	},
+	"2": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"双手剑加速",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使用双手剑时"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"3": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"集中注意力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 DEX、AGI"
+			],
+			[
+				"使用瞬间发现附近隐藏的敌人"
+			]
+		]
+	},
+	"4": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"隐匿",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"潜入地下回避敌人攻击"
+			],
+			[
+				"可被敌人的探测技能发现"
+			]
+		]
+	},
+	"5": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"隐匿",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"其他人看不见"
+			]
+		]
+	},
+	"6": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"毒属性附加",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为武器附加毒属性"
+			]
+		]
+	},
+	"7": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"毒性反弹",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"将毒属性攻击返还给对方"
+			],
+			[
+				"被普通攻击打中时"
+			],
+			[
+				"对对方使用涂毒"
+			]
+		]
+	},
+	"8": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"泥沼术",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"降低 AGI、DEX"
+			]
+		]
+	},
+	"9": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"天使之护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高防御"
+			]
+		]
+	},
+	"10": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"天使之赐福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 DEX、INT、STR"
+			],
+			[
+				"提高命中"
+			],
+			[
+				"使用瞬间解除诅咒或石化"
+			]
+		]
+	},
+	"11": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"十字军徽章",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低不死、暗系魔物防御"
+			]
+		]
+	},
+	"12": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"敏捷提升",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高移动速度"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"13": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"敏捷下降",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"降低攻击速度"
+			]
+		]
+	},
+	"14": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"缓毒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"暂时停止中毒进程"
+			]
+		]
+	},
+	"15": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器祝福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高武器攻击力"
+			]
+		]
+	},
+	"16": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"牺牲祈福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低施放速度"
+			]
+		]
+	},
+	"17": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"神圣之水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为武器附加圣属性"
+			]
+		]
+	},
+	"18": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为防具附加圣属性"
+			]
+		]
+	},
+	"19": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"凯利艾勒森",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"护盾可抵挡指定次数攻击"
+			]
+		]
+	},
+	"20": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"圣母之颂歌",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 SP 恢复速度"
+			]
+		]
+	},
+	"21": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"荣耀",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 LUK"
+			]
+		]
+	},
+	"22": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"永恒之光",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"下一次攻击受到双倍伤害"
+			]
+		]
+	},
+	"23": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"速度激发",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"斧和钝器类武器"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"24": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器修炼",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对小、中、大型魔物"
+			],
+			[
+				"各造成 100% 伤害"
+			]
+		]
+	},
+	"25": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"过度加速",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高武器攻击力"
+			]
+		]
+	},
+	"26": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器最大化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"发挥武器最大性能"
+			],
+			[
+				"持续消耗 SP"
+			]
+		]
+	},
+	"27": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"骑乘载具",
+				"rgb(190, 190, 250)"
+			]
+		]
+	},
+	"28": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"猎鹰精通",
+				"rgb(190, 190, 250)"
+			],
+			[
+				"正在租借猎鹰"
+			]
+		]
+	},
+	"29": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"装死（假死）",
+				"rgb(190, 190, 250)"
+			],
+			[
+				"装死状态"
+			]
+		]
+	},
+	"30": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"大声吼叫（疯狂喧嚣）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR"
+			],
+			[
+				"提高 ATK"
+			]
+		]
+	},
+	"31": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"能量外套",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"按当前 SP 量"
+			],
+			[
+				"降低来自敌人的伤害"
+			]
+		]
+	},
+	"32": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"护甲已损坏",
+				"rgb(250, 100, 100)"
+			]
+		]
+	},
+	"33": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"武器已损坏。",
+				"rgb(250, 100, 100)"
+			]
+		]
+	},
+	"34": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"幻影",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"画面扭曲"
+			],
+			[
+				"伤害显示异常"
+			],
+			[
+				"硬直会打断吟唱"
+			]
+		]
+	},
+	"35": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"负重超过 50%",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"无法自然恢复 HP、SP"
+			]
+		]
+	},
+	"36": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"负重 90%",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"无法自然恢复 HP、SP"
+			],
+			[
+				"攻击, 无法使用技能"
+			]
+		]
+	},
+	"37": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"集中药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"38": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"觉醒药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"39": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"41": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高移动速度"
+			]
+		]
+	},
+	"42": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"提高移动速度"
+			]
+		]
+	},
+	"50": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器卸除状态",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备武器"
+			]
+		]
+	},
+	"51": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"盾牌卸除状态",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备盾牌"
+			]
+		]
+	},
+	"52": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除铠甲状态",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备铠甲"
+			]
+		]
+	},
+	"53": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除头饰状态",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备头盔"
+			]
+		]
+	},
+	"54": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"化学保护（武器）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"武器不会损坏"
+			]
+		]
+	},
+	"55": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"化学保护（盾）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"盾牌不会损坏"
+			]
+		]
+	},
+	"56": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"化学保护（护甲）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"铠甲不会损坏"
+			]
+		]
+	},
+	"57": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"化学保护头盔（生化头盔）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"头盔不会损坏"
+			]
+		]
+	},
+	"58": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"自动防御",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"有几率格挡近战和远距离物理攻击"
+			]
+		]
+	},
+	"59": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"反射盾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对近战物理攻击自己的敌人"
+			],
+			[
+				"返还一定伤害"
+			]
+		]
+	},
+	"61": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"神佑之光",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对恶魔型、圣属性魔物的"
+			],
+			[
+				"抗性 提高"
+			]
+		]
+	},
+	"62": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"防御者（防御光环）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低远距离物理攻击伤害"
+			],
+			[
+				"降低移动速度和攻击速度"
+			]
+		]
+	},
+	"64": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"已赋予武器属性"
+			]
+		]
+	},
+	"65": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"自动念咒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"普通攻击时有几率"
+			],
+			[
+				"选定技能无吟唱自动施放"
+			],
+			[
+				"SP 消耗为通常的 2/3"
+			],
+			[
+				"SP 不足时无法发动技能"
+			]
+		]
+	},
+	"68": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"长矛加速",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使用长矛时"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"暴击 提高"
+			],
+			[
+				"回避几率 提高"
+			]
+		]
+	},
+	"70": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"口哨",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高队员 FLEE"
+			],
+			[
+				"提高完全回避"
+			]
+		]
+	},
+	"71": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"夕阳下的刺客十字",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高队员攻击速度"
+			],
+			[
+				"（缩短攻击后摇）"
+			]
+		]
+	},
+	"72": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"布莱奇之诗",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"缩短队员可变吟唱"
+			],
+			[
+				"缩短技能后摇"
+			]
+		]
+	},
+	"73": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"伊登的苹果",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高队员最大 HP"
+			],
+			[
+				"提高受到的恢复量"
+			]
+		]
+	},
+	"74": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"哼唱",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高队员 HIT"
+			]
+		]
+	},
+	"75": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"勿忘我",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动和攻击速度"
+			],
+			[
+				"移除移动和攻击速度提高效果"
+			]
+		]
+	},
+	"76": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"幸运之吻",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高队员暴击"
+			],
+			[
+				"提高暴击伤害"
+			]
+		]
+	},
+	"77": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"为您服务",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高队员最大 SP"
+			],
+			[
+				"减少 SP 消耗"
+			]
+		]
+	},
+	"78": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"金先生发财了",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"狩猎魔物时"
+			],
+			[
+				"提高获得的经验"
+			]
+		]
+	},
+	"79": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"永恒的混沌",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"防御固定为 0"
+			]
+		]
+	},
+	"80": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"战鼓震天",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高队员 ATK、DEF"
+			]
+		]
+	},
+	"81": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"尼贝隆根之戒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为队员提供多种"
+			],
+			[
+				"赋予有益效果"
+			]
+		]
+	},
+	"82": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"洛奇的悲鸣",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法使用技能"
+			],
+			[
+				"有一定几率陷入混乱"
+			]
+		]
+	},
+	"83": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"深渊中",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"队员不消耗宝石"
+			],
+			[
+				"（部分技能除外）"
+			]
+		]
+	},
+	"84": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"不死神齐格弗里德",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高队员水/风/地/火抗性"
+			],
+			[
+				"提高部分异常抗性"
+			]
+		]
+	},
+	"87": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"钢铁之躯",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"DEF、MDEF 固定为较高数值"
+			],
+			[
+				"降低移动速度和攻击速度"
+			],
+			[
+				"无法使用技能"
+			]
+		]
+	},
+	"88": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"阿修罗霸凰拳（修罗霸凰拳）",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法恢复 SP"
+			]
+		]
+	},
+	"90": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"火焰发射器",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为武器附加火属性"
+			]
+		]
+	},
+	"91": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"冰霜武器（赋予海啸）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为武器附加水属性"
+			]
+		]
+	},
+	"92": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"闪电装填",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为武器附加风属性"
+			]
+		]
+	},
+	"93": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"地震武器",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为武器附加地属性"
+			]
+		]
+	},
+	"97": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"为铠甲附加不死属性"
+			]
+		]
+	},
+	"103": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"灵气之刃",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"物理 提高攻击力"
+			]
+		]
+	},
+	"104": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"招架",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"有几率用刀格挡对方攻击"
+			]
+		]
+	},
+	"105": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"集中",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK 和命中"
+			],
+			[
+				"物理  降低防御"
+			]
+		]
+	},
+	"106": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"紧张放松",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 HP 恢复速度"
+			]
+		]
+	},
+	"108": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"殉道者的觉悟",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"普通近战物理攻击"
+			],
+			[
+				"提高伤害"
+			],
+			[
+				"每次攻击消耗 HP"
+			]
+		]
+	},
+	"110": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"圣母之祈福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高防御"
+			]
+		]
+	},
+	"112": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"地面技能效果生效"
+			]
+		]
+	},
+	"113": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔力增幅",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"魔法攻击力放大"
+			]
+		]
+	},
+	"114": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"致命毒药附加",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"被此武器击中时有几率中剧毒"
+			],
+			[
+				"对首领型魔物的增伤无效"
+			]
+		]
+	},
+	"115": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"真视",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高全部属性"
+			],
+			[
+				"提高命中、伤害和暴击"
+			]
+		]
+	},
+	"116": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"风行术",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高移动速度和回避"
+			]
+		]
+	},
+	"117": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"熔毁",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"攻击玩家时"
+			],
+			[
+				"有几率破坏玩家武器或防具"
+			],
+			[
+				"攻击魔物时"
+			],
+			[
+				"降低魔物的攻击力或防御"
+			]
+		]
+	},
+	"118": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"手推车加速",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高使用手推车时的移动速度"
+			]
+		]
+	},
+	"120": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"剑术反击",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"对对方玩家的剑类武器攻击"
+			],
+			[
+				"（对魔物的所有攻击）"
+			],
+			[
+				"有几率使受到的伤害减半"
+			],
+			[
+				"另外一半返还给对方"
+			]
+		]
+	},
+	"121": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"傀儡控制（施法者）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对目标玩家"
+			],
+			[
+				"已转移属性"
+			]
+		]
+	},
+	"122": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"傀儡控制（目标）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对施放者"
+			],
+			[
+				"已接受属性"
+			]
+		]
+	},
+	"124": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"流血",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法恢复 HP、SP"
+			],
+			[
+				"每 10 秒损失一定量 HP"
+			]
+		]
+	},
+	"125": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"关节打击",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"因关节破坏"
+			],
+			[
+				"异常状态"
+			]
+		]
+	},
+	"130": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"爸爸妈妈我爱你们",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"即使死亡也不损失经验"
+			]
+		]
+	},
+	"132": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"自动狂暴",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"濒死时进入狂暴"
+			]
+		]
+	},
+	"135": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"旋风踢（龙卷踢）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"攻击命中敌人时"
+			],
+			[
+				"有几率进入旋风踢准备"
+			]
+		]
+	},
+	"137": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"准备下段踢",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"攻击命中敌人时"
+			],
+			[
+				"有几率进入下劈准备"
+			]
+		]
+	},
+	"139": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"回旋踢准备",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"攻击命中敌人时"
+			],
+			[
+				"有几率进入回旋踢准备"
+			]
+		]
+	},
+	"141": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"准备反击踢",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"攻击命中敌人时"
+			],
+			[
+				"有几率进入反击踢准备"
+			]
+		]
+	},
+	"143": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"闪避",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"准备飞踢"
+			],
+			[
+				"受到敌人远距离或魔法攻击时"
+			],
+			[
+				"有几率回避攻击"
+			],
+			[
+				"冲刺状态时"
+			],
+			[
+				"近战攻击也会发动"
+			]
+		]
+	},
+	"145": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"冲刺",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR"
+			],
+			[
+				"未装备武器时"
+			],
+			[
+				"按疾跑等级提高攻击力"
+			]
+		]
+	},
+	"146": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"附加暗属性"
+			]
+		]
+	},
+	"147": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"完全速度激发",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高除弓以外武器的攻击速度"
+			]
+		]
+	},
+	"148": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"附加念属性"
+			]
+		]
+	},
+	"149": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"灵魂附加状态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"由灵魂链接者赋予的"
+			],
+			[
+				"已接受灵魂"
+			]
+		]
+	},
+	"150": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK"
+			]
+		]
+	},
+	"151": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 MATK"
+			]
+		]
+	},
+	"156": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"凯易哲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"吟唱时间不受 DEX 影响"
+			],
+			[
+				"死亡后立即复活，并维持 2 秒圣母之祈福"
+			]
+		]
+	},
+	"157": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"凯阿希",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每次受到非技能攻击时"
+			],
+			[
+				"消耗 SP 并恢复 HP"
+			]
+		]
+	},
+	"158": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"金蝉脱壳",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"有几率回避敌人攻击"
+			]
+		]
+	},
+	"161": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"单手剑加速",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使用单手剑时"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"169": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"太阳的舒适",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高防御"
+			]
+		]
+	},
+	"170": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"月之安慰",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高回避"
+			]
+		]
+	},
+	"171": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"星辰的安慰",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"181": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"保留",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"即使被技能击中也无法抄袭"
+			]
+		]
+	},
+	"182": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR"
+			]
+		]
+	},
+	"186": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"双重吟唱",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使用箭矢类技能时"
+			],
+			[
+				"有几率再施放一次箭矢类技能"
+			]
+		]
+	},
+	"188": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"最大过度加速",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高武器攻击力"
+			]
+		]
+	},
+	"191": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"命运塔罗牌",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对敌人赋予 14 种卡片中的一种效果"
+			]
+		]
+	},
+	"197": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"缩小术",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"用自动防御格挡时"
+			],
+			[
+				"有几率使对方昏迷"
+			]
+		]
+	},
+	"198": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"视爆",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对附着的敌人造成相当于魔法攻击力的"
+			],
+			[
+				"造成伤害并击退"
+			]
+		]
+	},
+	"200": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"关闭禁锢",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"与一名敌人一同无法移动"
+			],
+			[
+				"提高回避"
+			],
+			[
+				"对首领魔物无效"
+			]
+		]
+	},
+	"201": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"关闭禁锢",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"与一名敌人一同无法移动"
+			],
+			[
+				"提高回避"
+			],
+			[
+				"对首领魔物无效"
+			]
+		]
+	},
+	"203": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"疯狂取消者（最后一搏）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"无法移动"
+			]
+		]
+	},
+	"204": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"加特林狂热",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度和伤害"
+			],
+			[
+				"降低回避和移动速度"
+			]
+		]
+	},
+	"205": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"快乐休息（愉悦休息）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使用地刺卷轴时"
+			],
+			[
+				"消耗一定量 SP"
+			],
+			[
+				"低几率消耗卷轴"
+			]
+		]
+	},
+	"206": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"蝉蜕",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"回避指定次数攻击"
+			],
+			[
+				"向攻击者相反方向移动"
+			]
+		]
+	},
+	"207": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"幻影分身",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"回避指定次数近战和远距离物理攻击"
+			],
+			[
+				"魔法 攻击 防御 无法"
+			]
+		]
+	},
+	"208": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"灵魂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR、INT"
+			]
+		]
+	},
+	"209": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"调整",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低命中"
+			],
+			[
+				"提高回避"
+			],
+			[
+				"降低受到的远距离物理伤害"
+			]
+		]
+	},
+	"210": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"精准提升（提高命中率）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高命中"
+			],
+			[
+				"提高 DEX"
+			],
+			[
+				"提高 AGI"
+			]
+		]
+	},
+	"217": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"骑乘狮鹫",
+				"rgb(190, 190, 250)"
+			]
+		]
+	},
+	"241": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR"
+			]
+		]
+	},
+	"242": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 AGI"
+			]
+		]
+	},
+	"243": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 VIT"
+			]
+		]
+	},
+	"244": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 DEX"
+			]
+		]
+	},
+	"245": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 INT"
+			]
+		]
+	},
+	"246": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 LUK"
+			]
+		]
+	},
+	"247": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高回避"
+			]
+		]
+	},
+	"248": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高命中"
+			]
+		]
+	},
+	"249": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"暴击 几率 提高"
+			]
+		]
+	},
+	"250": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高获得的经验"
+			]
+		]
+	},
+	"251": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"死亡时不损失经验"
+			]
+		]
+	},
+	"252": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"狩猎魔物时"
+			],
+			[
+				"基础物品掉落率变为 2 倍"
+			]
+		]
+	},
+	"271": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR"
+			]
+		]
+	},
+	"272": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 AGI"
+			]
+		]
+	},
+	"273": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 VIT"
+			]
+		]
+	},
+	"274": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 DEX"
+			]
+		]
+	},
+	"275": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 INT"
+			]
+		]
+	},
+	"276": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 LUK"
+			]
+		]
+	},
+	"282": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"缓慢吟唱",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"延长吟唱时间"
+			]
+		]
+	},
+	"286": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"严重创伤",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低受到的恢复技能效果"
+			]
+		]
+	},
+	"289": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高移动速度"
+			]
+		]
+	},
+	"290": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"防御保护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"物理 攻击 抗性 提高"
+			]
+		]
+	},
+	"291": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔法铠甲药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"魔法 攻击 抗性 提高"
+			]
+		]
+	},
+	"292": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"强化治疗药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受到的治疗和部分恢复物品的"
+			],
+			[
+				"提高使用效果"
+			]
+		]
+	},
+	"293": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"小型生命药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 5 秒恢复一定量 HP"
+			],
+			[
+				"狂暴状态下无效"
+			]
+		]
+	},
+	"294": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"中型生命药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 4 秒恢复一定量 HP"
+			],
+			[
+				"狂暴状态下无效"
+			]
+		]
+	},
+	"295": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"光泽剂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"暴击 几率 提高"
+			]
+		]
+	},
+	"296": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"欢迎之杯",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高完全回避"
+			]
+		]
+	},
+	"297": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"伟大幻影",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP"
+			],
+			[
+				"提高 HP 恢复"
+			]
+		]
+	},
+	"298": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 SP，减少 SP 消耗"
+			]
+		]
+	},
+	"299": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"暗影祝福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 SP"
+			],
+			[
+				"提高 SP 恢复"
+			]
+		]
+	},
+	"300": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"SP 消耗减少药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"减少技能 SP 消耗"
+			]
+		]
+	},
+	"301": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"抵抗药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高对下列状态的抗性"
+			],
+			[
+				"昏迷, 冻结, 石化, 睡眠, 沉默"
+			],
+			[
+				"黑暗、诅咒、毒、出血、混乱"
+			]
+		]
+	},
+	"302": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"护甲属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"属性变化状态"
+			]
+		]
+	},
+	"304": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"地狱之力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法复活"
+			],
+			[
+				"无法使用牺牲"
+			],
+			[
+				"无法使用齐格弗里德的凭证"
+			]
+		]
+	},
+	"312": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"狩猎魔物时额外获得 Job 经验"
+			]
+		]
+	},
+	"313": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高回避"
+			]
+		]
+	},
+	"314": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"守护天使",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 HP、SP 恢复速度"
+			]
+		]
+	},
+	"316": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"附魔之刃",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"近战物理攻击附加魔法攻击力"
+			]
+		]
+	},
+	"318": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"符文石：刷新",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使用时解除全部异常和减益"
+			],
+			[
+				"不会陷入任何异常或减益"
+			],
+			[
+				"恢复一定量 HP"
+			]
+		]
+	},
+	"319": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"符文石：巨大成长",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR"
+			],
+			[
+				"普通近战物理攻击时高几率造成高伤害"
+			],
+			[
+				"提高近战物理伤害"
+			]
+		]
+	},
+	"320": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"符文石：坚硬皮肤",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"损失一定 HP 后生成等量护盾"
+			],
+			[
+				"其他玩家进行近战物理攻击时"
+			],
+			[
+				"有几率破坏攻击者的武器"
+			],
+			[
+				"对魔物有几率使 ATK 降低 10 秒"
+			]
+		]
+	},
+	"321": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"符文石：活力激活",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 HP 恢复效果"
+			],
+			[
+				"降低受到的近战物理反射伤害"
+			]
+		]
+	},
+	"322": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卢恩石：战斗意志",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"323": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"符文石：丰收",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 10 秒恢复一定量 SP"
+			]
+		]
+	},
+	"331": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"羔羊赞歌",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"最大 HP 提高。"
+			]
+		]
+	},
+	"332": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"枝条赞歌",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高暴击伤害"
+			]
+		]
+	},
+	"333": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"超越隐匿",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"昆虫型和恶魔型也无法发现"
+			],
+			[
+				"直到承受指定次数伤害才解除"
+			],
+			[
+				"提高移动速度"
+			]
+		]
+	},
+	"334": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"幻影步",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高回避"
+			],
+			[
+				"有几率无视魔法伤害"
+			]
+		]
+	},
+	"336": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"再生术",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 5 秒恢复一定量 HP"
+			],
+			[
+				"对不死属性玩家无效"
+			]
+		]
+	},
+	"337": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器格挡",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受到近战物理攻击时"
+			],
+			[
+				"有几率完全免疫伤害"
+			]
+		]
+	},
+	"340": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"赎罪",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无视目标部分防御"
+			]
+		]
+	},
+	"341": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器涂毒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高近战物理伤害"
+			],
+			[
+				"根据所涂的毒获得增益"
+			],
+			[
+				"攻击时使目标中武器上的毒"
+			]
+		]
+	},
+	"342": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"毒素",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 10 秒干扰吟唱和技能动作"
+			],
+			[
+				"无视风扇卡片效果"
+			],
+			[
+				"每 10 秒损失一定量 SP"
+			]
+		]
+	},
+	"343": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"麻痹",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低攻击速度"
+			],
+			[
+				"回避 降低"
+			],
+			[
+				"降低移动速度"
+			]
+		]
+	},
+	"344": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"毒血",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"最大 HP 固定降低"
+			]
+		]
+	},
+	"345": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔法蘑菇（笑毒蘑菇）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"笑容表情"
+			],
+			[
+				"每 4 秒使用随机技能"
+			],
+			[
+				"每 4 秒损失一定量 HP"
+			]
+		]
+	},
+	"346": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"死亡伤害（污染伤口毒素）",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受到恢复技能时效果降低"
+			]
+		]
+	},
+	"347": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"热病",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"黑暗和幻觉状态"
+			]
+		]
+	},
+	"348": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"遗忘诅咒",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"遗忘状态"
+			]
+		]
+	},
+	"349": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"吸血终结",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每秒消耗一定量 HP"
+			]
+		]
+	},
+	"351": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"冻结状态",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低防御、移动速度和攻击速度"
+			],
+			[
+				"固定 延长吟唱时间"
+			]
+		]
+	},
+	"352": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"恐惧微风",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"弓攻击时有几率"
+			],
+			[
+				"额外 攻击 发动"
+			]
+		]
+	},
+	"354": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"深渊沼泽",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"降低防御和回避"
+			]
+		]
+	},
+	"355": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"认知魔法",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"以最大魔法伤害攻击"
+			],
+			[
+				"增加 SP 消耗"
+			]
+		]
+	},
+	"356": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"停滞",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"范围内全部目标无法使用魔法、歌曲、合唱"
+			]
+		]
+	},
+	"357": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"狼骑乘",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法使用弓"
+			],
+			[
+				"只能使用座狼专用技能"
+			]
+		]
+	},
+	"361": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"加速",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高魔导机甲移动速度"
+			]
+		]
+	},
+	"362": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"悬浮",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"不受陷阱和部分地面魔法影响"
+			]
+		]
+	},
+	"368": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"塔奥群卡卷轴",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP"
+			],
+			[
+				"降低 DEF/MDEF"
+			]
+		]
+	},
+	"369": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"蜂后卷轴",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"不消耗宝石即可使用魔法"
+			],
+			[
+				"增加 SP 消耗"
+			]
+		]
+	},
+	"370": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"兽人英雄卷轴",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"不会陷入昏迷"
+			]
+		]
+	},
+	"371": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"兽人王卷轴",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"反射部分近战物理攻击"
+			]
+		]
+	},
+	"373": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"过热",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"魔导机甲过热"
+			],
+			[
+				"每秒减少一定量 HP"
+			]
+		]
+	},
+	"374": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"形态转换",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"转换魔导机甲机体属性"
+			]
+		]
+	},
+	"375": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"红外线扫描",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"发现隐藏的敌人"
+			],
+			[
+				"有几率降低范围内全部目标的回避"
+			]
+		]
+	},
+	"376": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"磁场",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"范围内全部目标无法移动"
+			],
+			[
+				"降低 SP"
+			]
+		]
+	},
+	"377": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"中立屏障",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物理和魔法防御"
+			],
+			[
+				"远距离攻击无效"
+			]
+		]
+	},
+	"379": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"隐形力场",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使周围全部目标进入伪装"
+			],
+			[
+				"持续消耗 SP"
+			],
+			[
+				"降低移动速度"
+			]
+		]
+	},
+	"381": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"马努克的黄金机会",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对玛努克野外魔物"
+			],
+			[
+				"提高物理伤害"
+			]
+		]
+	},
+	"382": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"马努克的意志",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"来自玛努克野外魔物的"
+			],
+			[
+				"降低物理和魔法伤害"
+			]
+		]
+	},
+	"383": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"食人花腌制果实",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对斯普兰蒂德野外魔物"
+			],
+			[
+				"提高物理伤害"
+			]
+		]
+	},
+	"384": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"蜂蜜果酱",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"来自斯普兰蒂德野外魔物的"
+			],
+			[
+				"降低物理和魔法伤害"
+			]
+		]
+	},
+	"385": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"复制",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"激活期间学习以自己为目标的技能"
+			],
+			[
+				"只能学习 1 个技能"
+			]
+		]
+	},
+	"386": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"马努克的信仰",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对玛努克野外魔物"
+			],
+			[
+				"提高魔法伤害"
+			]
+		]
+	},
+	"387": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"康努斯之泪",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对斯普兰蒂德野外魔物"
+			],
+			[
+				"提高魔法伤害"
+			]
+		]
+	},
+	"388": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR"
+			]
+		]
+	},
+	"389": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 INT"
+			]
+		]
+	},
+	"390": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"伤害反射",
+				"rgb(190, 190, 250)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低自己受到的反射伤害"
+			]
+		]
+	},
+	"391": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"先锋之力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP 和防御"
+			],
+			[
+				"每次受伤累积愤怒计数"
+			],
+			[
+				"激活期间持续消耗 SP"
+			]
+		]
+	},
+	"393": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"自动暗影法术",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 MATK"
+			],
+			[
+				"由抄袭、再现学到的"
+			],
+			[
+				"可以使用魔法技能"
+			]
+		]
+	},
+	"394": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"暗影形态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"将自己指定次数的伤害"
+			],
+			[
+				"转嫁给目标玩家"
+			]
+		]
+	},
+	"397": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"盾牌咒文（MDEF）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"根据盾牌魔法防御发动魔法"
+			]
+		]
+	},
+	"399": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"身体彩绘",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"伪装 状态 解除"
+			],
+			[
+				"有几率陷入黑暗"
+			],
+			[
+				"有几率降低攻击速度"
+			]
+		]
+	},
+	"400": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"超越突破",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高首次打击攻击力"
+			]
+		]
+	},
+	"401": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"阿杜拉穆斯",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"黑暗并降低敏捷"
+			]
+		]
+	},
+	"402": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"威望",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"按属性计算魔法回避"
+			],
+			[
+				"提高防御"
+			]
+		]
+	},
+	"403": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"完全隐身",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"隐身状态下可以攻击"
+			],
+			[
+				"攻击属性变为 1 级念属性"
+			],
+			[
+				"持续减少 SP"
+			],
+			[
+				"技能, 无法使用物品"
+			]
+		]
+	},
+	"404": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"致命感染",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"自己攻击或"
+			],
+			[
+				"对攻击自己的敌人"
+			],
+			[
+				"传染全部异常状态"
+			]
+		]
+	},
+	"405": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"编队",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物理防御"
+			]
+		]
+	},
+	"407": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"灵感",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高命中和属性"
+			],
+			[
+				"提高攻击力、魔法攻击力和最大 HP"
+			],
+			[
+				"使特定增益和异常无效"
+			],
+			[
+				"持续减少 HP、SP"
+			]
+		]
+	},
+	"408": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"假面舞会：衰弱",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低攻击力"
+			],
+			[
+				"受伤瞬间损失气弹"
+			]
+		]
+	},
+	"409": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"假面舞会：阴郁",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低攻击速度和命中"
+			],
+			[
+				"受伤瞬间解除宠物"
+			],
+			[
+				"无法使用宠物"
+			]
+		]
+	},
+	"410": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"升龙",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高气弹上限"
+			],
+			[
+				"提高最大 HP 和 SP"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"维持爆气状态"
+			]
+		]
+	},
+	"411": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"假面舞会：无知",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受伤瞬间损失一定 SP"
+			],
+			[
+				"技能, 魔法 使用 无法"
+			]
+		]
+	},
+	"412": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"假面舞会：懒惰",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动速度和回避"
+			],
+			[
+				"延长吟唱时间"
+			],
+			[
+				"使用技能时额外消耗一定 SP"
+			]
+		]
+	},
+	"413": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"闪电步",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"成为远距离物理攻击目标时"
+			],
+			[
+				"有一定几率回避攻击后"
+			],
+			[
+				"移动到被攻击目标正前方"
+			]
+		]
+	},
+	"414": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"阿卡拉杰",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度和 HIT"
+			]
+		]
+	},
+	"415": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"假面舞会：不幸",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"暴击 几率 降低"
+			],
+			[
+				"降低完全回避几率"
+			],
+			[
+				"使用技能时消耗一定 Zeny"
+			],
+			[
+				"受伤瞬间陷入特定异常"
+			]
+		]
+	},
+	"416": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"咒缚阵",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"范围内全部目标无法移动和攻击"
+			],
+			[
+				"追加沉默异常"
+			]
+		]
+	},
+	"417": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"咒缚阵",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法移动和攻击"
+			],
+			[
+				"无法使用技能"
+			]
+		]
+	},
+	"418": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"假面舞会：虚弱",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低一定最大 HP"
+			],
+			[
+				"受伤瞬间卸下武器和盾牌"
+			],
+			[
+				"无法装备武器和盾牌"
+			]
+		]
+	},
+	"421": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"饰品卸除状态",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备饰品"
+			]
+		]
+	},
+	"423": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"教皇曲奇",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"全部 属性 抗性 提高"
+			]
+		]
+	},
+	"425": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"温柔触摸－能量获得",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"进行近战物理攻击或受到伤害时"
+			],
+			[
+				"生成 1 个气弹"
+			],
+			[
+				"提高猛龙狂花、连珠崩击、伏虎拳伤害"
+			]
+		]
+	},
+	"426": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"温柔触碰 - 变换",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击力和攻击速度"
+			],
+			[
+				"提高爆气散弹、修罗神弹伤害"
+			]
+		]
+	},
+	"427": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"温柔触碰 - 活力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP 和物理防御"
+			],
+			[
+				"提高 HP 自然恢复速度"
+			],
+			[
+				"移动和攻击中也可恢复 HP"
+			],
+			[
+				"提高虎炮、阿修罗霸凰拳伤害"
+			]
+		]
+	},
+	"429": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"摇摆舞",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高移动速度"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"缩短固定吟唱"
+			]
+		]
+	},
+	"430": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"爱的交响曲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高魔法防御"
+			]
+		]
+	},
+	"435": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"深度睡眠状态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受到 1.5 倍通常伤害"
+			],
+			[
+				"每 2 秒恢复一定量 HP/SP"
+			]
+		]
+	},
+	"436": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"自然之声",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 HP 自然恢复"
+			]
+		]
+	},
+	"437": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"冰冻",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法移动、攻击、使用技能或物品"
+			],
+			[
+				"持续减少 HP、SP"
+			],
+			[
+				"提高钝器、斧、双手斧伤害"
+			],
+			[
+				"提高风属性魔法伤害"
+			],
+			[
+				"降低短剑、剑、双手剑、箭矢伤害"
+			]
+		]
+	},
+	"438": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"阴郁之日",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"固定 吟唱 提高, SP 消耗 提高。"
+			],
+			[
+				"降低回避和攻击速度"
+			]
+		]
+	},
+	"439": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔力之歌",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 SP 自然恢复量"
+			]
+		]
+	},
+	"441": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"与狼共舞",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"固定 缩短吟唱时间."
+			],
+			[
+				"远距离 提高伤害."
+			]
+		]
+	},
+	"442": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"疾风车攻击",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击力"
+			],
+			[
+				"提高移动速度"
+			]
+		]
+	},
+	"443": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"回声之歌",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高防御"
+			]
+		]
+	},
+	"444": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"和谐",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"调整属性修正"
+			]
+		]
+	},
+	"445": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"打击",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击力"
+			],
+			[
+				"提高追击发动几率"
+			]
+		]
+	},
+	"446": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"温暖",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"解除冷冻、冰冻、冻结"
+			],
+			[
+				"不会陷入冷冻、冰冻、冻结"
+			],
+			[
+				"每 3 秒恢复一定量 HP"
+			]
+		]
+	},
+	"447": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"月光小夜曲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高魔法攻击力"
+			]
+		]
+	},
+	"448": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"狂野",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 3 秒损失 HP、SP"
+			],
+			[
+				"降低 HIT 和 FLEE"
+			],
+			[
+				"无法使用物品"
+			]
+		]
+	},
+	"450": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"分析",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低物理和魔法防御"
+			]
+		]
+	},
+	"451": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"莱拉的露水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP"
+			]
+		]
+	},
+	"452": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"沉没旋律",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"持续消耗 SP"
+			],
+			[
+				"降低 INT"
+			]
+		]
+	},
+	"453": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"超越战吼",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低最大 HP"
+			],
+			[
+				"降低 STR"
+			]
+		]
+	},
+	"454": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"无限哼唱之声",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"属性 魔法 提高伤害."
+			]
+		]
+	},
+	"461": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"手推车加速",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高装备手推车时的速度"
+			]
+		]
+	},
+	"463": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"荆棘陷阱",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"持续受到少量伤害"
+			]
+		]
+	},
+	"464": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"吸血",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"物理攻击时有一定几率"
+			],
+			[
+				"吸收 HP"
+			]
+		]
+	},
+	"470": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"NPC 曼陀罗嚎叫",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低 INT 和 SP"
+			],
+			[
+				"技能 固定 吟唱 提高"
+			]
+		]
+	},
+	"472": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"圣礼",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"缩短吟唱时间"
+			]
+		]
+	},
+	"473": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"圣母之祈福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高防御"
+			]
+		]
+	},
+	"476": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"胃痛",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低全部属性修正"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"每 10 秒强制坐下一次"
+			],
+			[
+				"每 10 秒消耗一定量 SP"
+			]
+		]
+	},
+	"480": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"HP 增加药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP"
+			]
+		]
+	},
+	"481": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"SP 增加药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 SP"
+			]
+		]
+	},
+	"482": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"浓缩白色药水 Z",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 HP 自然恢复速度"
+			]
+		]
+	},
+	"483": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"维塔塔 500",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 SP 自然恢复速度"
+			],
+			[
+				"提高最大 SP"
+			]
+		]
+	},
+	"484": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"浓缩沙拉玛因汁",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"490": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"极限真空",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"将范围内全部目标拉过来"
+			],
+			[
+				"无法移动"
+			]
+		]
+	},
+	"491": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"野蛮烤肉",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 STR"
+			]
+		]
+	},
+	"492": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"狼血鸡尾酒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 INT"
+			]
+		]
+	},
+	"493": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"米诺斯牛肉锅",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 VIT"
+			]
+		]
+	},
+	"494": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"希罗玛冰茶",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 DEX"
+			]
+		]
+	},
+	"495": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"捕虫草药草沙拉",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 AGI"
+			]
+		]
+	},
+	"496": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"小龙尾面",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 LUK"
+			]
+		]
+	},
+	"573": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"莫拉浆果",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"莫拉村附近野外"
+			],
+			[
+				"提高对固有魔物的抗性"
+			]
+		]
+	},
+	"576": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"麻痹针",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法移动"
+			],
+			[
+				"降低物理和魔法防御"
+			]
+		]
+	},
+	"577": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"止痛药",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受击时没有硬直"
+			],
+			[
+				"降低受到的伤害"
+			]
+		]
+	},
+	"578": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"快速生命之水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 3 秒恢复一定量 HP"
+			],
+			[
+				"狂暴状态下无效"
+			]
+		]
+	},
+	"579": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"活力药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"提高治疗和物品的恢复效果"
+			]
+		]
+	},
+	"580": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"再生之光",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"主人死亡时"
+			],
+			[
+				"艾拉死亡并救活主人"
+			]
+		]
+	},
+	"581": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"过度强化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"艾拉和主人的"
+			],
+			[
+				"攻击速度和回避固定提高"
+			]
+		]
+	},
+	"583": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"奥丁之力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"降低 DEF、MDEF"
+			]
+		]
+	},
+	"584": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"风格变换",
+				"rgb(190, 190, 250)"
+			],
+			[
+				"艾蕾诺亚的斗士状态"
+			]
+		]
+	},
+	"605": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"岩浆流",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受到伤害时"
+			],
+			[
+				"有一定几率从体内喷出岩浆"
+			]
+		]
+	},
+	"606": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"花岗岩铠甲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低迪特和主人受到的伤害"
+			],
+			[
+				"持续时间结束时消耗 HP"
+			]
+		]
+	},
+	"607": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"火成岩",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高武器攻击力"
+			]
+		]
+	},
+	"608": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"火山灰",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低命中"
+			],
+			[
+				"有一定几率技能、魔法失败"
+			]
+		]
+	},
+	"611": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔法糖果",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 MATK"
+			],
+			[
+				"固定 缩短吟唱时间"
+			],
+			[
+				"吟唱不会被打断"
+			],
+			[
+				"每 10 秒减少一定量 SP"
+			]
+		]
+	},
+	"613": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"骑乘",
+				"rgb(190, 190, 250)"
+			]
+		]
+	},
+	"616": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"宏已禁用"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法使用宏"
+			]
+		]
+	},
+	"618": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"马当果罐头猫",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"狩猎魔物时"
+			],
+			[
+				"提高 Base 和 Job 经验"
+			]
+		]
+	},
+	"620": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"粉碎打击",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"近战 物理 提高攻击力"
+			]
+		]
+	},
+	"621": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"怪物变身",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"正在变身为魔物"
+			]
+		]
+	},
+	"622": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"坐下",
+				"rgb(190, 190, 250)"
+			]
+		]
+	},
+	"630": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"使用宏"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"正在使用宏"
+			]
+		]
+	},
+	"632": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"缩短可变吟唱时间"
+			]
+		]
+	},
+	"633": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"634": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK"
+			]
+		]
+	},
+	"635": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 MATK"
+			]
+		]
+	},
+	"636": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"额外获得 Job 经验"
+			]
+		]
+	},
+	"637": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"恢复禁用状态",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法恢复 HP、SP"
+			]
+		]
+	},
+	"638": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"DEF 固定为特定数值"
+			]
+		]
+	},
+	"639": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"MDEF 固定为特定数值"
+			]
+		]
+	},
+	"640": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"DEF 固定为特定百分比"
+			]
+		]
+	},
+	"641": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"MDEF 固定为特定百分比"
+			]
+		]
+	},
+	"646": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"纯洁之魂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"恢复一定量 HP"
+			],
+			[
+				"恢复一定量 SP"
+			],
+			[
+				"无法移动"
+			],
+			[
+				"有几率不受伤害"
+			],
+			[
+				"使用技能时随机解除减益"
+			],
+			[
+				"受到伤害时解除效果"
+			]
+		]
+	},
+	"647": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"ASPD 强化药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			]
+		]
+	},
+	"650": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"应援爆竹",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高全部属性"
+			],
+			[
+				"提高 ATK、MATK"
+			]
+		]
+	},
+	"652": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"十六夜",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"取消固定吟唱"
+			],
+			[
+				"缩短可变吟唱"
+			],
+			[
+				"物品 MATK 提高"
+			]
+		]
+	},
+	"654": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"影子踩踏",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法移动"
+			],
+			[
+				"特定 技能 解除"
+			],
+			[
+				"无法使用隐身、传送技能和物品"
+			],
+			[
+				"无法使用紧急呼叫"
+			]
+		]
+	},
+	"655": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"虚无",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"物理和魔法攻击反射无效"
+			],
+			[
+				"使用技能时有几率失败"
+			]
+		]
+	},
+	"656": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"影武者",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"获得二刀连击效果"
+			],
+			[
+				"每秒损失一定量 SP"
+			],
+			[
+				"提高八方苦无、爆炸苦无伤害"
+			],
+			[
+				"提高风魔手里剑乱华、十字斩伤害"
+			]
+		]
+	},
+	"657": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"残月",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"按基础等级赋予效果"
+			]
+		]
+	},
+	"658": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"教父的远古之魂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对恶魔型魔物造成的"
+			],
+			[
+				"物理, 魔法 提高伤害"
+			]
+		]
+	},
+	"659": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"幻影",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"HP 和 SP 随机增减"
+			],
+			[
+				"受到魔法攻击时，"
+			],
+			[
+				"一半伤害由其他目标承担"
+			]
+		]
+	},
+	"660": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"红月",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"特定 HP 恢复技能"
+			],
+			[
+				"恢复转化为伤害"
+			]
+		]
+	},
+	"662": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"战斗药",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"降低最大 HP 和 SP"
+			]
+		]
+	},
+	"663": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"高级战斗药",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"降低最大 HP 和 SP"
+			]
+		]
+	},
+	"664": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"红色增强剂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"缩短可变吟唱"
+			],
+			[
+				"物理或魔法攻击时有一定几率"
+			],
+			[
+				"发动心神凝聚"
+			]
+		]
+	},
+	"666": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"神秘粉末",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 FLEE 和 LUK"
+			]
+		]
+	},
+	"670": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"神秘生命药水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 3 秒恢复一定量 HP"
+			],
+			[
+				"狂暴状态下无效"
+			]
+		]
+	},
+	"675": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"繁茂花枝",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 FLEE"
+			],
+			[
+				"提高完全回避"
+			]
+		]
+	},
+	"676": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"守护之光",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"解除特定异常状态"
+			],
+			[
+				"免疫特定异常状态"
+			]
+		]
+	},
+	"677": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"古拉斯特海姆之力"
+			],
+			[
+				"能感觉到力量在涌动"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"678": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"古拉斯特海姆之盾"
+			],
+			[
+				"正在受到保护"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"679": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 4,
+		"descript": [
+			[
+				"古拉斯特海姆治愈"
+			],
+			[
+				"治愈的力量"
+			],
+			[
+				"使其最大化"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"680": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"大魔法防御能量"
+			],
+			[
+				"层层叠叠"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"681": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"全部能力"
+			],
+			[
+				"急剧上升"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"682": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"全部防御"
+			],
+			[
+				"急剧上升"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"683": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"最大 HP 和 SP"
+			],
+			[
+				"急剧上升"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"685": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"全能",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"686": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"霜巨人的血",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"对玩家型敌人追加伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"687": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"高仑核心",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"降低来自玩家型敌人的伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"688": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"妖精之泪（昏迷）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"昏迷 免疫"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"689": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"妖精之泪（石化）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"石化 免疫"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"690": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"妖精之泪（冰冻）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"冻结 免疫"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"691": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"妖精之泪（睡眠）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"睡眠 免疫"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"692": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"妖精之泪（诅咒）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"诅咒 免疫"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"693": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"妖精之泪（沉默）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"沉默 免疫"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"694": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"妖精之泪（黑暗）",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"黑暗 免疫"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"697": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"对贝壳类魔物造成的"
+			],
+			[
+				"附加物理伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"698": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"对贝壳类魔物造成的"
+			],
+			[
+				"附加魔法伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"699": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"来自贝壳类魔物的"
+			],
+			[
+				"降低受到的伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"700": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"来自贝壳类魔物的"
+			],
+			[
+				"提高获得的经验"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"702": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"对人形魔物造成的"
+			],
+			[
+				"附加物理伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"703": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"对人形魔物造成的"
+			],
+			[
+				"附加魔法伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"704": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"来自人形魔物的"
+			],
+			[
+				"降低受到的伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"705": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"正在蓄积能量",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"706": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"正在蓄积能量",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"707": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"正在蓄积能量",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"710": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 5,
+		"descript": [
+			[
+				"冰冻炸弹",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"一段时间后爆炸"
+			],
+			[
+				"对周围造成大量伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"711": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 4,
+		"descript": [
+			[
+				"芬里尔之力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 MATK"
+			],
+			[
+				"缩短固定吟唱"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"715": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 4,
+		"descript": [
+			[
+				"丰饶之歌",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高最大 HP"
+			],
+			[
+				"每秒恢复一定量 HP"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"716": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 4,
+		"descript": [
+			[
+				"奉献礼",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高自己使用的治疗量"
+			],
+			[
+				"增加全部技能的 SP 消耗"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"717": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 5,
+		"descript": [
+			[
+				"强力念力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高念属性魔法攻击力"
+			],
+			[
+				"减少念属性魔法 SP 消耗"
+			],
+			[
+				"缩短可变吟唱"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"720": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 4,
+		"descript": [
+			[
+				"全力推进",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高移动速度"
+			],
+			[
+				"提高全部基础属性"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"721": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 4,
+		"descript": [
+			[
+				"疲劳",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"无法自然恢复 HP、SP"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"722": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"无限",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"远距离 物理 伤害 提高"
+			]
+		]
+	},
+	"723": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 5,
+		"descript": [
+			[
+				"王者恩典",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"无敌状态"
+			],
+			[
+				"无法使用物品"
+			],
+			[
+				"无法移动和攻击"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"724": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"最大 ATK",
+				"rgb(190, 190, 250)"
+			],
+			[
+				"最大 物理伤害"
+			]
+		]
+	},
+	"725": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"最小 ATK",
+				"rgb(190, 190, 250)"
+			],
+			[
+				"最小 物理伤害"
+			]
+		]
+	},
+	"726": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"最大 MATK",
+				"rgb(190, 190, 250)"
+			],
+			[
+				"最大 魔法伤害"
+			]
+		]
+	},
+	"727": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"最小 MATK",
+				"rgb(190, 190, 250)"
+			],
+			[
+				"最小 魔法伤害"
+			]
+		]
+	},
+	"730": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"黑色利爪",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"放大近战物理伤害"
+			],
+			[
+				"部分反射效果无效"
+			]
+		]
+	},
+	"731": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高 LUK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"732": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"按百分比提高 ATK、MATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"733": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高 HP、SP 恢复"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"736": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"寒气",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"不会被灼伤"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"737": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 6,
+		"descript": [
+			[
+				"灼伤",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"对火属性魔物"
+			],
+			[
+				"提高受到的伤害"
+			],
+			[
+				"降低火属性抗性"
+			],
+			[
+				"周期性火属性伤害"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"741": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"纽奥兹的古怪",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 ATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"742": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"爱咕的意志",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 MATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"743": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"洛特尔特的虚张",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"攻击 缩短后摇"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"744": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"格尔卡的害羞",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"减少 SP 消耗"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"745": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"阿朗的天真",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"缩短技能后摇"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"746": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"明敏的细致",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高命中"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"747": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"罗埃尔的认真",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 DEF"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"748": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"卢纳因的苛刻",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高治疗量"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"749": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"拉吉的冷场",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 MDEF"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"750": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"旋律杰克的多余",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高回避"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"751": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 4,
+		"descript": [
+			[
+				"博者的杯子",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 VIT"
+			],
+			[
+				"提高火属性抗性"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"752": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"束缚陷阱",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动速度"
+			]
+		]
+	},
+	"753": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"永恒锁链",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"有一定几率发动连锁攻击"
+			]
+		]
+	},
+	"755": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"猩红标记",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低 FLEE"
+			]
+		]
+	},
+	"756": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"咆哮地雷",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"嚎叫地雷状态"
+			]
+		]
+	},
+	"758": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"白金祭坛",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK"
+			]
+		]
+	},
+	"759": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"加热枪管",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK"
+			],
+			[
+				"降低 HIT"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"缩短固定吟唱"
+			]
+		]
+	},
+	"760": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"反物质爆破",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低无属性抗性"
+			]
+		]
+	},
+	"762": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"剑士公会",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"STR +1，VIT +1"
+			],
+			[
+				"最大 HP +30，最大 SP +10"
+			]
+		]
+	},
+	"763": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"奥术法杖公会",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"INT +1，DEX +1"
+			],
+			[
+				"最大 HP +30，最大 SP +10"
+			]
+		]
+	},
+	"764": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"黄金权杖公会",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"LUK +1，INT +1"
+			],
+			[
+				"最大 HP +30，最大 SP +10"
+			]
+		]
+	},
+	"765": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"十字弓公会",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"DEX +1，AGI +1"
+			],
+			[
+				"最大 HP +30，最大 SP +10"
+			]
+		]
+	},
+	"766": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"强力 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 ATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"767": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"聪慧 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 MATK"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"768": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"体力 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高最大 HP"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"769": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"魔力 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高最大 SP"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"770": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"轻快 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 FLEE"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"771": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"迅捷 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 ASPD"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"772": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"扎实 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 DEF"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"773": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"安稳 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 MDEF"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"774": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"幸运 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高暴击"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"775": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"合身 30 秒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 HIT"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"776": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"处于生者与死者的边界！",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"精神力 -50%"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"777": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"端午节庆典",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高全部属性"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"778": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"后遗症",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法使用物品"
+			],
+			[
+				"技能 使用无法"
+			],
+			[
+				"无法攻击"
+			]
+		]
+	},
+	"780": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高获得的经验"
+			]
+		]
+	},
+	"783": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"炖牛小排",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"缩短可变吟唱"
+			],
+			[
+				"减少 SP 消耗"
+			]
+		]
+	},
+	"784": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"炖猪排",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度."
+			],
+			[
+				"减少 SP 消耗"
+			]
+		]
+	},
+	"785": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性强化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对暗属性魔物追加伤害"
+			],
+			[
+				"提高圣属性抗性"
+			]
+		]
+	},
+	"786": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性强化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对地属性魔物追加伤害"
+			],
+			[
+				"提高火属性抗性"
+			]
+		]
+	},
+	"787": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性强化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对火属性魔物追加伤害"
+			],
+			[
+				"提高水属性抗性"
+			]
+		]
+	},
+	"788": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性强化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对风属性魔物追加伤害"
+			],
+			[
+				"提高地属性抗性"
+			]
+		]
+	},
+	"789": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性强化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对水属性魔物追加伤害"
+			],
+			[
+				"提高风属性抗性"
+			]
+		]
+	},
+	"790": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性强化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对无属性魔物追加伤害"
+			],
+			[
+				"提高无属性抗性"
+			]
+		]
+	},
+	"815": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"跳跃公会",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"全部基础属性 +1"
+			]
+		]
+	},
+	"844": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"正在凝聚时间碎片"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"已经获得时间精华"
+			]
+		]
+	},
+	"865": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"被封印的别西卜",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"缩短可变吟唱时间"
+			]
+		]
+	},
+	"867": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"限定版力量增强剂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK、MATK"
+			],
+			[
+				"提高 HIT 和 FLEE"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"减少 SP 消耗"
+			],
+			[
+				"缩短固定吟唱"
+			]
+		]
+	},
+	"873": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 3,
+		"descript": [
+			[
+				"闪亮圣水",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"仪式之间、普隆德拉侵攻副本受到的伤害 -10%"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"875": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"石化",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法回避或行动"
+			],
+			[
+				"降低最大 HP"
+			]
+		]
+	},
+	"876": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"冻结",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法回避或行动"
+			],
+			[
+				"降低物理和魔法防御"
+			]
+		]
+	},
+	"877": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"昏迷",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法回避或行动"
+			]
+		]
+	},
+	"878": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"睡眠",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法回避或行动"
+			],
+			[
+				"提高暴击伤害几率"
+			]
+		]
+	},
+	"880": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"正在石化",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"881": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"起火",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 3 秒受到伤害"
+			],
+			[
+				"魔法 降低防御"
+			]
+		]
+	},
+	"882": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"隔离",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法移动、攻击、使用技能或物品"
+			]
+		]
+	},
+	"883": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"毒",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低视野"
+			],
+			[
+				"物理 降低防御"
+			],
+			[
+				"每 3 秒降低最大 HP"
+			]
+		]
+	},
+	"884": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"诅咒",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动速度和物理攻击力"
+			],
+			[
+				"LUK 变为 0"
+			]
+		]
+	},
+	"885": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"沉默",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法使用技能"
+			]
+		]
+	},
+	"886": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"混乱",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"移动时方向随机"
+			]
+		]
+	},
+	"890": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"致命毒",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"秒 HP 降低 "
+			]
+		]
+	},
+	"891": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"恐惧",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"2 秒内无法移动"
+			],
+			[
+				"降低命中和回避"
+			]
+		]
+	},
+	"892": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"樱花年糕",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低来自小、中、大型敌人的伤害"
+			]
+		]
+	},
+	"893": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"蜷缩",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"蜷缩身体，降低受到的伤害"
+			]
+		]
+	},
+	"894": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"撒粉",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低 ATK、MATK"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"提高 HP、SP 恢复"
+			]
+		]
+	},
+	"896": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"银藤根缠绕",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法移动"
+			],
+			[
+				"每秒 100 点无属性伤害"
+			]
+		]
+	},
+	"897": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"898": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"899": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"900": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"为武器附加火属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"901": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"902": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"为武器附加毒属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"903": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"为武器附加圣属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"904": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"905": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"906": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武器属性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"907": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"908": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"909": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"910": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"911": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"912": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"913": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"914": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"915": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"916": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"属性抗性",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"917": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"咬伤",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"昏迷 2 秒"
+			],
+			[
+				"每秒损失一定比例最大 HP"
+			]
+		]
+	},
+	"918": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"阿克鲁兹冲刺",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高移动速度"
+			],
+			[
+				"提高 AGI"
+			]
+		]
+	},
+	"919": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"金枪鱼派对",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"抵挡一定伤害"
+			]
+		]
+	},
+	"920": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"虾群",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"ATK、MATK +10%"
+			]
+		]
+	},
+	"921": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"新鲜虾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"恢复一定量 HP"
+			]
+		]
+	},
+	"922": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"狩猎魔物时"
+			],
+			[
+				"基础物品掉落率变为 2 倍"
+			]
+		]
+	},
+	"923": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高获得的经验"
+			]
+		]
+	},
+	"924": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 1,
+		"descript": [
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"狩猎魔物时额外获得 Job 经验"
+			]
+		]
+	},
+	"933": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"隐藏",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"935": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卡露尼亚牛奶",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"3 分钟内每 10 秒恢复 10 HP"
+			]
+		]
+	},
+	"936": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"罗勒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"3 分钟内每 10 秒恢复 5 SP"
+			]
+		]
+	},
+	"937": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"灵魂珠"
+			]
+		]
+	},
+	"938": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高掉落率",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物品掉落率"
+			]
+		]
+	},
+	"939": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高经验获得",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高经验获得率"
+			]
+		]
+	},
+	"940": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高 Job 经验",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 Job 经验获得率"
+			]
+		]
+	},
+	"941": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"降低死亡惩罚",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低死亡惩罚"
+			]
+		]
+	},
+	"942": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"仓库扩展",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高仓库存放数量"
+			]
+		]
+	},
+	"950": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"嘶叫",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高完全回避和移动速度"
+			]
+		]
+	},
+	"952": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"喵草",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使装备防御无效"
+			]
+		]
+	},
+	"953": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"喋喋不休",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"5 秒内 ATK、MATK +100"
+			],
+			[
+				"10 秒内提高移动速度"
+			]
+		]
+	},
+	"961": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"梳理",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"FLEE +100"
+			]
+		]
+	},
+	"962": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"虾之加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 SP 恢复"
+			]
+		]
+	},
+	"963": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"强化药水 SS",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"ASPD +10"
+			]
+		]
+	},
+	"964": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"强化药水 SC",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"暴击 +30"
+			]
+		]
+	},
+	"965": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"强化药水 AC",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"可变吟唱 -80%"
+			]
+		]
+	},
+	"966": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔法子弹",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"魔法 伤害 额外"
+			]
+		]
+	},
+	"983": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高掉落率",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物品掉落率"
+			]
+		]
+	},
+	"984": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高经验获得",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高经验获得率"
+			]
+		]
+	},
+	"985": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高 Job 经验",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 Job 经验获得率"
+			]
+		]
+	},
+	"988": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高攻击力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对圣属性、暗属性、天使型、恶魔型物理攻击 +20%"
+			]
+		]
+	},
+	"989": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"减少 SP 消耗",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"技能 SP 消耗 -15%"
+			]
+		]
+	},
+	"990": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"缩短技能后摇",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"技能后摇 -15%"
+			]
+		]
+	},
+	"992": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"爸爸妈妈加油",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"全部属性 +3"
+			]
+		]
+	},
+	"995": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"小型玛那树",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 5 秒恢复一定量 SP"
+			],
+			[
+				"狂暴状态下无效"
+			]
+		]
+	},
+	"996": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"闪亮防御卷轴",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高防御和魔法防御"
+			]
+		]
+	},
+	"1000": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高回避",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"FLEE +200"
+			]
+		]
+	},
+	"1001": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"坟墓加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对部分死者魔物伤害增加"
+			],
+			[
+				"列表：剑士、盗贼系死者魔物"
+			],
+			[
+				"受到部分死者魔物的伤害减少"
+			],
+			[
+				"列表：魔法师、商人系死者魔物"
+			],
+			[
+				"不包括 MVP 魔物"
+			]
+		]
+	},
+	"1002": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"坟墓加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对部分死者魔物伤害增加"
+			],
+			[
+				"列表：魔法师、商人系死者魔物"
+			],
+			[
+				"受到部分死者魔物的伤害减少"
+			],
+			[
+				"列表：服事、弓手系死者魔物"
+			],
+			[
+				"不包括 MVP 魔物"
+			]
+		]
+	},
+	"1003": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"坟墓加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对部分死者魔物伤害增加"
+			],
+			[
+				"列表：服事、弓手系死者魔物"
+			],
+			[
+				"受到部分死者魔物的伤害减少"
+			],
+			[
+				"列表：剑士、盗贼系死者魔物"
+			],
+			[
+				"不包括 MVP 魔物"
+			]
+		]
+	},
+	"1004": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"坟墓加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对部分死者魔物伤害增加"
+			],
+			[
+				"列表：死者坟墓 MVP 魔物"
+			],
+			[
+				"受到部分死者魔物的伤害减少"
+			],
+			[
+				"列表：死者坟墓 MVP 魔物"
+			]
+		]
+	},
+	"1013": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"全属性下降",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低全部属性"
+			]
+		]
+	},
+	"1014": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"重力增强",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每秒损失 HP"
+			]
+		]
+	},
+	"1027": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"特制饼干",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度."
+			],
+			[
+				"缩短可变吟唱"
+			]
+		]
+	},
+	"1031": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高攻击力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"ATK +10%"
+			]
+		]
+	},
+	"1032": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔法 提高攻击力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"MATK +10%"
+			]
+		]
+	},
+	"1033": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高攻击速度",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"攻击后摇 -10%"
+			]
+		]
+	},
+	"1035": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"月之光",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高满月踢伤害"
+			]
+		]
+	},
+	"1036": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"太阳之光",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高太阳爆炸伤害"
+			]
+		]
+	},
+	"1037": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"星之光",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高流星坠落伤害"
+			]
+		]
+	},
+	"1038": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"月之姿态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP"
+			],
+			[
+				"可使用月系列技能"
+			]
+		]
+	},
+	"1039": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"宇宙姿态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高全部属性"
+			],
+			[
+				"可使用宇宙系列技能"
+			],
+			[
+				"可使用太阳系列技能"
+			],
+			[
+				"可使用月系列技能"
+			],
+			[
+				"可使用星系列技能"
+			]
+		]
+	},
+	"1040": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"太阳姿态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK"
+			],
+			[
+				"可使用太阳系列技能"
+			]
+		]
+	},
+	"1041": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"闪光踢",
+				"rgb(250, 100, 100)"
+			]
+		]
+	},
+	"1042": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"朔月",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"身影不可见"
+			],
+			[
+				"可以使用满月踢"
+			]
+		]
+	},
+	"1043": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"星之姿态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"可使用星系列技能"
+			]
+		]
+	},
+	"1044": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"次元之书",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使用神圣爆炸、圣帝降临时"
+			],
+			[
+				"发动特殊效果"
+			]
+		]
+	},
+	"1047": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"创星之书",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"降低移动速度"
+			]
+		]
+	},
+	"1048": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"坠星",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"攻击时有一定几率"
+			],
+			[
+				"对星之印记目标"
+			],
+			[
+				"流星坠落"
+			]
+		]
+	},
+	"1050": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"重力控制",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"无法攻击和移动"
+			]
+		]
+	},
+	"1053": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"禅",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每隔一段时间积蓄灵魂能量"
+			]
+		]
+	},
+	"1054": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"灵魂收割",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"攻击时有一定几率"
+			],
+			[
+				"获得灵魂能量"
+			]
+		]
+	},
+	"1055": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"灵魂统一",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每 3 秒恢复 HP"
+			],
+			[
+				"可抄袭的目标"
+			]
+		]
+	},
+	"1056": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"影之灵魂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高暴击"
+			],
+			[
+				"提高 ASPD"
+			]
+		]
+	},
+	"1057": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"妖精灵魂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 MATK"
+			],
+			[
+				"缩短可变吟唱"
+			]
+		]
+	},
+	"1058": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"猎鹰灵魂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 ATK"
+			],
+			[
+				"提高命中"
+			]
+		]
+	},
+	"1059": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"石像灵魂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 DEF"
+			],
+			[
+				"提高 MDEF"
+			]
+		]
+	},
+	"1060": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"灵魂分裂",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"延长技能后摇"
+			]
+		]
+	},
+	"1065": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"无限饮料",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP 和 SP"
+			],
+			[
+				"暴击 伤害, 远距离 物理 伤害,"
+			],
+			[
+				"属性 魔法 提高攻击力"
+			],
+			[
+				"吟唱不会被打断"
+			]
+		]
+	},
+	"1083": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"猎人的盛宴",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高地瓜恢复量"
+			],
+			[
+				"提高肉类恢复量"
+			]
+		]
+	},
+	"1084": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高掉落率",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"物品 掉落率 50% 提高"
+			]
+		]
+	},
+	"1085": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"提高经验获得",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"经验获得率 +50%"
+			]
+		]
+	},
+	"1088": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"合奏疲劳",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"因合奏产生的疲劳"
+			],
+			[
+				"无法使用技能"
+			],
+			[
+				"移动和攻击速度 -30%"
+			]
+		]
+	},
+	"1089": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"临机应变",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"演奏、舞蹈、合奏技能"
+			],
+			[
+				"减少 SP 消耗"
+			]
+		]
+	},
+	"1095": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"安琪拉",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"治疗量 +15%"
+			],
+			[
+				"SP 恢复力 +30%"
+			],
+			[
+				"赞美诗变为无属性"
+			]
+		]
+	},
+	"1107": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"反击状态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"反击斩"
+			],
+			[
+				"可以使用"
+			]
+		]
+	},
+	"1121": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"圣母之祈福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物理防御"
+			],
+			[
+				"提高受到的治疗量"
+			]
+		]
+	},
+	"1122": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"圣殿",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高圣属性魔法伤害"
+			],
+			[
+				"对暗/不死属性敌人造成的"
+			],
+			[
+				"提高物理伤害"
+			]
+		]
+	},
+	"1123": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"绵绵岛猫罐头 2",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"狩猎魔物时"
+			],
+			[
+				"提高 Base 和 Job 经验"
+			],
+			[
+				"物品 掉落率 提高"
+			]
+		]
+	},
+	"1125": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"灵魂诅咒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低暗属性攻击抗性"
+			]
+		]
+	},
+	"1126": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"毁灭之声",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受到的全部伤害变为 2 倍"
+			]
+		]
+	},
+	"1130": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"天使援助",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"秒 HP 1000 恢复"
+			],
+			[
+				"秒 SP 350 恢复"
+			]
+		]
+	},
+	"1132": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"强劲的烟雾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"ATK +7%"
+			]
+		]
+	},
+	"1133": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"智慧而强烈的烟雾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"MATK +7%"
+			]
+		]
+	},
+	"1135": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"锐利而强烈的烟雾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高回避和完全回避"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"缩短可变吟唱"
+			]
+		]
+	},
+	"1136": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"小巧花枝",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"最大 HP +3%"
+			],
+			[
+				"最大 SP +3%"
+			]
+		]
+	},
+	"1137": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"樱花年糕",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高对小、中、大型敌人的伤害"
+			]
+		]
+	},
+	"1141": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"霜冻状态",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"1142": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔力中毒",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"全部属性攻击抗性 -50%"
+			]
+		]
+	},
+	"1150": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"致命投射",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"移除魔法无效化"
+			]
+		]
+	},
+	"1151": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"毁灭飓风",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高风属性魔法伤害"
+			],
+			[
+				"MATK +100"
+			]
+		]
+	},
+	"1152": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"高潮",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为下列技能附加特殊效果，"
+			],
+			[
+				"百花齐放、水晶冲击，"
+			],
+			[
+				"毁灭飓风，"
+			],
+			[
+				"猛烈地震"
+			]
+		]
+	},
+	"1154": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"光之灵魂",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"普通近战物理攻击时有几率"
+			],
+			[
+				"发动 1 级风暴冲击"
+			],
+			[
+				"提高对所有体型敌人的物理伤害"
+			],
+			[
+				"暴击 提高伤害"
+			],
+			[
+				"提高近战和远距离物理伤害"
+			]
+		]
+	},
+	"1155": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"入浴剂 A",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对大浴场冥想副本魔物造成的"
+			],
+			[
+				"物理/魔法 伤害 5% 提高"
+			]
+		]
+	},
+	"1156": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"入浴剂 B",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对大浴场冥想副本魔物造成的"
+			],
+			[
+				"物理/魔法 伤害 10% 提高"
+			]
+		]
+	},
+	"1157": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"入浴剂 C",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对大浴场冥想副本魔物造成的"
+			],
+			[
+				"物理/魔法 伤害 15% 提高"
+			]
+		]
+	},
+	"1158": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"芳香油",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"来自大浴场冥想副本魔物的"
+			],
+			[
+				"物理/魔法 伤害 10% 降低"
+			]
+		]
+	},
+	"1160": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"强力信仰",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击力"
+			],
+			[
+				"提高特性攻击力"
+			]
+		]
+	},
+	"1161": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"真诚信仰",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高攻击速度"
+			],
+			[
+				"获得追击效果"
+			]
+		]
+	},
+	"1162": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"坚定信仰",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高最大 HP"
+			],
+			[
+				"提高 RES"
+			]
+		]
+	},
+	"1165": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"地狱植物",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对周围范围内目标"
+			],
+			[
+				"近战物理伤害"
+			]
+		]
+	},
+	"1167": {
+		"haveTimeLimit": 0,
+		"posTimeLimitStr": 0,
+		"descript": [
+			[
+				"设定炮击点",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"每隔一段时间生成炮击点"
+			]
+		]
+	},
+	"1169": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"黄金裁决",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受到的反射伤害 -100%"
+			]
+		]
+	},
+	"1170": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"红草活化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"近战 物理 伤害 15% 提高"
+			],
+			[
+				"远距离 物理 伤害 15% 提高"
+			]
+		]
+	},
+	"1171": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"蓝草活化",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"全部 属性 魔法 伤害 15% 提高"
+			]
+		]
+	},
+	"1172": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"侍从武器",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"持续时间内召唤武器体"
+			],
+			[
+				"普通物理攻击时射出武器体"
+			]
+		]
+	},
+	"1173": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"使魔武器标记",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"使魔武器造成的标记"
+			]
+		]
+	},
+	"1174": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"冲锋穿刺",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"持续时间内使用特定技能时"
+			],
+			[
+				"反击计数累积"
+			]
+		]
+	},
+	"1176": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"龙之气场",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高龙息伤害"
+			],
+			[
+				"提高龙息-水伤害"
+			],
+			[
+				"提高百矛穿刺伤害"
+			]
+		]
+	},
+	"1178": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"活力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物理伤害"
+			],
+			[
+				"每次攻击减少 HP"
+			]
+		]
+	},
+	"1182": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"猛烈地震",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低持续状态抗性"
+			]
+		]
+	},
+	"1183": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"百花齐放",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低火属性抗性"
+			]
+		]
+	},
+	"1184": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"水晶冲击",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高水属性抗性"
+			],
+			[
+				"DEF +300"
+			],
+			[
+				"MDEF +100"
+			],
+			[
+				"提高水属性魔法伤害"
+			]
+		]
+	},
+	"1190": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"圣油洗礼",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高受到的远距离物理伤害"
+			]
+		]
+	},
+	"1192": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"暗影超越",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"永恒斩击、野蛮冲击"
+			],
+			[
+				"提高伤害"
+			]
+		]
+	},
+	"1193": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"舞动之刃",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每隔一段时间对周围目标"
+			],
+			[
+				"近战物理伤害"
+			]
+		]
+	},
+	"1194": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"强力毒液",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无视物理抗性"
+			]
+		]
+	},
+	"1195": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"附魔影子",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高受到的近战物理伤害"
+			]
+		]
+	},
+	"1197": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"调解",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"周期性对周围队员"
+			],
+			[
+				"正在恢复 HP"
+			]
+		]
+	},
+	"1198": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"阿尔古图斯生命",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无视部分魔法抗性"
+			]
+		]
+	},
+	"1199": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"阿尔古图斯武器",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无视部分物理抗性"
+			]
+		]
+	},
+	"1200": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"敏锐感知",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高暴击伤害倍率"
+			]
+		]
+	},
+	"1201": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"能力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 P.ATK、S.MATK"
+			]
+		]
+	},
+	"1202": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"防御姿态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物理防御"
+			],
+			[
+				"降低装备攻击力"
+			]
+		]
+	},
+	"1203": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"攻击姿态",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高装备攻击力"
+			],
+			[
+				"降低物理防御"
+			]
+		]
+	},
+	"1204": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"守护者之盾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"获得抵挡物理攻击的护盾"
+			]
+		]
+	},
+	"1205": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"漆黑",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"缩小视野"
+			],
+			[
+				"降低回避和完全回避"
+			]
+		]
+	},
+	"1206": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"静谧",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法使用技能"
+			],
+			[
+				"降低攻击速度"
+			]
+		]
+	},
+	"1207": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"无力",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低暴击"
+			],
+			[
+				"降低移动速度"
+			]
+		]
+	},
+	"1208": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"急冻",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"水属性状态"
+			],
+			[
+				"无法移动、使用物品或技能"
+			],
+			[
+				"降低 DEF、MDEF"
+			],
+			[
+				"受到伤害时解除"
+			]
+		]
+	},
+	"1209": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"昏厥",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法移动、使用物品或技能"
+			],
+			[
+				"提高受到的伤害"
+			],
+			[
+				"受到伤害时解除"
+			]
+		]
+	},
+	"1210": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"激流",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"风属性状态"
+			],
+			[
+				"无法移动、使用物品或技能"
+			],
+			[
+				"降低持续状态抗性"
+			],
+			[
+				"受到伤害时解除"
+			]
+		]
+	},
+	"1211": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"结晶",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"地属性状态"
+			],
+			[
+				"无法移动、使用物品或技能"
+			],
+			[
+				"降低 MDEF"
+			],
+			[
+				"受到伤害时解除"
+			]
+		]
+	},
+	"1212": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"火灾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"火属性状态"
+			],
+			[
+				"周期性减少 HP"
+			]
+		]
+	},
+	"1213": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"不幸",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低 HIT"
+			],
+			[
+				"使用技能时有一定几率失败"
+			]
+		]
+	},
+	"1214": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"剧毒",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低毒属性抗性"
+			],
+			[
+				"降低 DEF，周期性减少 HP"
+			]
+		]
+	},
+	"1215": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"忧郁",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"额外增加 SP 消耗"
+			],
+			[
+				"周期性减少 SP"
+			]
+		]
+	},
+	"1216": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"圣化",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"受到魔法伤害时恢复 HP"
+			],
+			[
+				"额外提高受到的物理伤害"
+			]
+		]
+	},
+	"1217": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"反弹盾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"因献身降低受到的伤害"
+			]
+		]
+	},
+	"1220": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"神圣之盾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高暗属性和不死属性抗性"
+			],
+			[
+				"提高圣属性魔法伤害"
+			],
+			[
+				"提高十字雨伤害"
+			]
+		]
+	},
+	"1221": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"终极牺牲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法战斗时立即复活"
+			]
+		]
+	},
+	"1222": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"大审判",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高消失点伤害"
+			],
+			[
+				"提高加农矛伤害"
+			]
+		]
+	},
+	"1223": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"盾牌射击",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高盾链伤害"
+			],
+			[
+				"提高盾压伤害"
+			],
+			[
+				"提高大地驱动伤害"
+			]
+		]
+	},
+	"1226": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"附魔影子",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"有一定几率对目标"
+			],
+			[
+				"提高受到的近战物理伤害"
+			]
+		]
+	},
+	"1227": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"信仰",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 SPL、WIS、STA"
+			]
+		]
+	},
+	"1228": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"祝福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 POW、CRT、CON"
+			]
+		]
+	},
+	"1230": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"第一烙印",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"已被打上烙印"
+			]
+		]
+	},
+	"1231": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"审判烙印",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"已被打上审判烙印"
+			]
+		]
+	},
+	"1232": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"第 2 章：审判者",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"第 2 击：信念/审判"
+			],
+			[
+				"第 3 击：断罪/净化"
+			],
+			[
+				"可以使用"
+			],
+			[
+				"大展崩锤及闪光连击"
+			],
+			[
+				"不消耗气弹"
+			]
+		]
+	},
+	"1233": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"最终章·驱魔之火",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"第 2 击：信念/审判/灭魔之火"
+			],
+			[
+				"第 3 击：断罪/净化/灭火击"
+			],
+			[
+				"可以使用"
+			],
+			[
+				"大展崩锤、闪光连击、虎炮"
+			],
+			[
+				"不消耗气弹"
+			]
+		]
+	},
+	"1234": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"第一信仰之力",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"第 2 击：信念"
+			],
+			[
+				"第 3 击：断罪"
+			],
+			[
+				"可以使用"
+			],
+			[
+				"大展崩锤"
+			],
+			[
+				"不消耗气弹"
+			]
+		]
+	},
+	"1235": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"战斧践踏",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高斧刃风暴伤害"
+			]
+		]
+	},
+	"1236": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"攻击装置",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"每隔一段时间对周围目标"
+			],
+			[
+				"近战物理伤害"
+			]
+		]
+	},
+	"1237": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"防御装置",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 DEF"
+			],
+			[
+				"提高 RES"
+			]
+		]
+	},
+	"1242": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除影子装备",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备影子装备"
+			]
+		]
+	},
+	"1243": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"深渊匕首",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高致命威胁伤害"
+			]
+		]
+	},
+	"1244": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"来自深渊",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"持续时间内召唤深渊球体"
+			],
+			[
+				"普通物理攻击时进行球体攻击"
+			]
+		]
+	},
+	"1245": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"深渊杀手",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 P.ATK"
+			],
+			[
+				"提高 S.MATK"
+			]
+		]
+	},
+	"1247": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"影子保护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"影子装备不会损坏"
+			]
+		]
+	},
+	"1248": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"研究报告",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高强酸类技能伤害"
+			],
+			[
+				"对无形、植物型伤害增加"
+			]
+		]
+	},
+	"1249": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"地狱尘",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"对无形、植物型伤害增加"
+			],
+			[
+				"提高远距离物理伤害"
+			]
+		]
+	},
+	"1250": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"风之印记",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"已被打上风鹰烙印"
+			]
+		]
+	},
+	"1252": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"灾厄狂风",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无限射程效果生效"
+			],
+			[
+				"提高部分技能伤害"
+			],
+			[
+				"疾风风暴可暴击"
+			],
+			[
+				"提高新月箭、疾风风暴对动物和贝壳型的伤害"
+			]
+		]
+	},
+	"1256": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"神秘交响曲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高部分技能伤害"
+			],
+			[
+				"提高对贝壳型、人形魔物的伤害"
+			]
+		]
+	},
+	"1257": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"夸西尔奏鸣曲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"可以独自合奏"
+			]
+		]
+	},
+	"1258": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"声音融合",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"已被打上音波烙印"
+			]
+		]
+	},
+	"1259": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"吉芬尼亚夜曲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低魔法抗性"
+			]
+		]
+	},
+	"1260": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"矿工狂想曲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低 RES"
+			]
+		]
+	},
+	"1261": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"音乐间奏",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物理抗性"
+			]
+		]
+	},
+	"1262": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"晚霞小夜曲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 S.MATK"
+			],
+			[
+				"提高移动速度"
+			]
+		]
+	},
+	"1263": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"普隆德拉进行曲",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 P.ATK"
+			],
+			[
+				"提高移动速度"
+			]
+		]
+	},
+	"1271": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"法术附魔",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 S.MATK"
+			]
+		]
+	},
+	"1303": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"召唤生命体",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"生命体已激活"
+			]
+		]
+	},
+	"1310": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"毒雾",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低回避"
+			]
+		]
+	},
+	"1313": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"岩壁",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物理防御"
+			],
+			[
+				"魔法 提高防御"
+			]
+		]
+	},
+	"1315": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"超限烙印就绪",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高超限烙印威力"
+			]
+		]
+	},
+	"1316": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"盾牌法术",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"盾牌魔法效果"
+			]
+		]
+	},
+	"1318": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"云毒",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低毒属性攻击抗性"
+			]
+		]
+	},
+	"1319": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"孢子爆炸",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高受到的远距离物理伤害"
+			]
+		]
+	},
+	"1326": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"巨大火焰爆破",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"雷光弹及爆气散弹"
+			],
+			[
+				"不消耗气弹"
+			]
+		]
+	},
+	"1330": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除影子装备",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备武器影子装备"
+			]
+		]
+	},
+	"1331": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除影子装备",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备铠甲影子装备"
+			]
+		]
+	},
+	"1332": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除影子装备",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备盾/武器影子装备"
+			]
+		]
+	},
+	"1333": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除影子装备",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备鞋子影子装备"
+			]
+		]
+	},
+	"1334": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除影子装备",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备饰品影子装备"
+			]
+		]
+	},
+	"1335": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除影子装备",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备饰品影子装备"
+			]
+		]
+	},
+	"1336": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"卸除影子装备",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"无法装备全部影子装备"
+			]
+		]
+	},
+	"1337": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"红方块诅咒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"1338": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"蓝方块诅咒",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			]
+		]
+	},
+	"1341": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"曼陀罗毒素",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低物理抗性"
+			]
+		]
+	},
+	"1342": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"黄金音调",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高物理和魔法抗性"
+			]
+		]
+	},
+	"1343": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"淬炼",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 P.ATK"
+			]
+		]
+	},
+	"1345": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"集中瞄准",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"提高 ATK"
+			],
+			[
+				"提高 HIT"
+			],
+			[
+				"提高暴击"
+			]
+		]
+	},
+	"1347": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"榴弹碎片",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"手雷攻击附加水属性"
+			]
+		]
+	},
+	"1348": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"榴弹碎片",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"手雷攻击附加风属性"
+			]
+		]
+	},
+	"1349": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"榴弹碎片",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"手雷攻击附加地属性"
+			]
+		]
+	},
+	"1350": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"榴弹碎片",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"手雷攻击附加火属性"
+			]
+		]
+	},
+	"1351": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"榴弹碎片",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"手雷攻击附加暗属性"
+			]
+		]
+	},
+	"1352": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"榴弹碎片",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"手雷攻击附加圣属性"
+			]
+		]
+	},
+	"1353": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"自动开火发射器",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"自动手雷发射器已启用"
+			]
+		]
+	},
+	"1354": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"隐藏王牌",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高远距离物理伤害"
+			],
+			[
+				"提高 P.ATK"
+			]
+		]
+	},
+	"1355": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"榴弹精通",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 CON"
+			],
+			[
+				"提高手雷类技能伤害"
+			]
+		]
+	},
+	"1356": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"守护符",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"持续恢复 HP"
+			]
+		]
+	},
+	"1357": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"武士符",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 P.ATK"
+			]
+		]
+	},
+	"1358": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"魔法师符",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 S.MATK"
+			]
+		]
+	},
+	"1359": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"五行符",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高对水/风/地/火/无属性敌人的物理伤害"
+			],
+			[
+				"提高对水/风/地/火/无属性敌人的魔法伤害"
+			]
+		]
+	},
+	"1360": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"东方加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"东方加护状态"
+			]
+		]
+	},
+	"1361": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"西方加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"西方加护状态"
+			]
+		]
+	},
+	"1362": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"南方加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"南方加护状态"
+			]
+		]
+	},
+	"1363": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"北方加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"北方加护状态"
+			]
+		]
+	},
+	"1364": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"四方五行加护",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"四方五行加护状态"
+			]
+		]
+	},
+	"1365": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"天地神灵",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高近战物理伤害"
+			],
+			[
+				"提高远距离物理伤害"
+			],
+			[
+				"全部 属性 魔法 提高伤害"
+			]
+		]
+	},
+	"1366": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"弧光",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"弧光状态"
+			]
+		]
+	},
+	"1367": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"龟岛海之庆典",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 POW、CRT、CON"
+			]
+		]
+	},
+	"1368": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"龟岛沙之庆典",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 SPL、WIS、STA"
+			]
+		]
+	},
+	"1369": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"龟雪翻腾",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"恢复 AP"
+			]
+		]
+	},
+	"1370": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"玄鹿五色角",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为下列技能附加水属性"
+			],
+			[
+				"薄荷陨石"
+			],
+			[
+				"玄鹿叶风"
+			],
+			[
+				"玄鹿炮"
+			]
+		]
+	},
+	"1371": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"玄鹿五色角",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为下列技能附加风属性"
+			],
+			[
+				"薄荷陨石"
+			],
+			[
+				"玄鹿叶风"
+			],
+			[
+				"玄鹿炮"
+			]
+		]
+	},
+	"1372": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"玄鹿五色角",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为下列技能附加地属性"
+			],
+			[
+				"薄荷陨石"
+			],
+			[
+				"玄鹿叶风"
+			],
+			[
+				"玄鹿炮"
+			]
+		]
+	},
+	"1373": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"玄鹿五色角",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为下列技能附加火属性"
+			],
+			[
+				"薄荷陨石"
+			],
+			[
+				"玄鹿叶风"
+			],
+			[
+				"玄鹿炮"
+			]
+		]
+	},
+	"1374": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"玄鹿五色角",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为下列技能附加暗属性"
+			],
+			[
+				"薄荷陨石"
+			],
+			[
+				"玄鹿叶风"
+			],
+			[
+				"玄鹿炮"
+			]
+		]
+	},
+	"1375": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"玄鹿五色角",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"为下列技能附加圣属性"
+			],
+			[
+				"薄荷陨石"
+			],
+			[
+				"玄鹿叶风"
+			],
+			[
+				"玄鹿炮"
+			]
+		]
+	},
+	"1376": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"玄鹿五色角",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高薄荷陨石伤害"
+			]
+		]
+	},
+	"1377": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"快速共鸣",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 P.ATK、S.MATK 和治疗加成"
+			]
+		]
+	},
+	"1378": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"英灵祝福",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 P.ATK、S.MATK"
+			]
+		]
+	},
+	"1379": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"英灵祝福副作用",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"一段时间内无法赋予英灵祝福"
+			]
+		]
+	},
+	"1380": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"盾链冲击",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"提高受到的物理伤害"
+			],
+			[
+				"提高受到的魔法伤害"
+			]
+		]
+	},
+	"1381": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"严寒",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"水属性抗性 -15%"
+			]
+		]
+	},
+	"1382": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"重力原野",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"降低移动速度"
+			],
+			[
+				"提高受到的物理伤害"
+			],
+			[
+				"提高受到的魔法伤害"
+			]
+		]
+	},
+	"1383": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"突破极限",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"放大战斗类技能伤害"
+			]
+		]
+	},
+	"1384": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"规则破坏",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"放大魔法类技能伤害"
+			]
+		]
+	},
+	"1385": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"朝阳",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"日出状态"
+			]
+		]
+	},
+	"1386": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"正午",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"正午状态"
+			]
+		]
+	},
+	"1387": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"日落",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"日落状态"
+			]
+		]
+	},
+	"1388": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"月升",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"月出状态"
+			]
+		]
+	},
+	"1389": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"午夜",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"午夜状态"
+			]
+		]
+	},
+	"1390": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"月落",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"月落状态"
+			]
+		]
+	},
+	"1391": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"星辰爆发",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"天命落星状态"
+			]
+		]
+	},
+	"1392": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"天气合一",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"天气运行最大化"
+			]
+		]
+	},
+	"1393": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"影子隐匿",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高移动速度"
+			],
+			[
+				"降低受到的物理伤害"
+			],
+			[
+				"降低受到的魔法伤害"
+			]
+		]
+	},
+	"1395": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"死亡梦魇",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"恶梦标记"
+			]
+		]
+	},
+	"1396": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"面条庆典 - 蝴蝶面",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"近战和远距离"
+			],
+			[
+				"提高物理伤害"
+			]
+		]
+	},
+	"1397": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"面条庆典 - 奶油虾意面",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"全部 属性"
+			],
+			[
+				"魔法 提高伤害"
+			]
+		]
+	},
+	"1398": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"面条庆典 - 番茄面",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"缩短可变吟唱和技能后摇"
+			],
+			[
+				"提高攻击速度（缩短攻击后摇）"
+			]
+		]
+	},
+	"1399": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"面条庆典 - 宴席面",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"按百分比提高 ATK 和 MATK"
+			]
+		]
+	},
+	"1400": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"面条庆典 - 酱油拌面",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高 P.ATK"
+			],
+			[
+				"提高 S.MATK"
+			]
+		]
+	},
+	"1402": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"地震",
+				"rgb(250, 100, 100)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高受到的近战物理伤害"
+			],
+			[
+				"提高受到的远距离物理伤害"
+			]
+		]
+	},
+	"1403": {
+		"haveTimeLimit": 1,
+		"posTimeLimitStr": 2,
+		"descript": [
+			[
+				"冲击",
+				"rgb(155, 202, 155)"
+			],
+			[
+				"%s",
+				"rgb(255, 176, 98)"
+			],
+			[
+				"提高近战物理伤害"
+			],
+			[
+				"提高远距离物理伤害"
+			]
+		]
+	}
+}

@@ -1,10 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import SC from '../../src/DB/Status/StatusConst.js';
 import StatusInfo from '../../src/DB/Status/StatusInfo.js';
+import officialStateIconTranslations from '../../src/DB/Status/stateiconinfo.zh-CN.json';
 import {
+	applyOfficialStateIconTranslations,
 	restoreLocalizedStatusDescription,
 	snapshotLocalizedStatusDescriptions
 } from '../../src/DB/Status/StatusDescriptionLocalization.js';
+
+const hangul = /[\uac00-\ud7a3]/;
 
 describe('status description localization', () => {
 	it('contains Chinese descriptions for the novice spawn buffs', () => {
@@ -12,12 +16,40 @@ describe('status description localization', () => {
 		expect(StatusInfo[SC.INC_AGI].descript[0][0]).toBe('敏捷提升');
 	});
 
+	it('covers every official stateiconinfo.lub description with Chinese after restore', () => {
+		expect(Object.keys(officialStateIconTranslations).length).toBe(720);
+		expect(officialStateIconTranslations['720'].descript[0][0]).toBe('全力推进');
+
+		const statusInfo = {};
+		for (const id of Object.keys(officialStateIconTranslations)) {
+			statusInfo[id] = { descript: [['풀 스로틀'], ['All State 증가']] };
+		}
+
+		const descriptions = snapshotLocalizedStatusDescriptions(statusInfo, officialStateIconTranslations);
+
+		for (const id of Object.keys(officialStateIconTranslations)) {
+			statusInfo[id].descript = [['풀 스로틀'], ['이동속도 증가']];
+			expect(restoreLocalizedStatusDescription(statusInfo, descriptions, Number(id))).toBe(true);
+			expect(statusInfo[id].descript).toEqual(officialStateIconTranslations[id].descript);
+			for (const line of statusInfo[id].descript) {
+				expect(hangul.test(String(line[0] ?? '')), `SC ${id} still has Hangul`).toBe(false);
+			}
+		}
+	});
+
+	it('applies the extracted Chinese overlay onto StatusInfo before Lua restore', () => {
+		const statusInfo = { 720: { icon: 'full_throttle.tga' } };
+		applyOfficialStateIconTranslations(statusInfo, officialStateIconTranslations);
+		expect(statusInfo[720].descript[0][0]).toBe('全力推进');
+		expect(StatusInfo[SC.FULL_THROTTLE].descript[0][0]).toBe('全力推进');
+	});
+
 	it('restores localized descriptions after official status metadata loads', () => {
 		const statusInfo = {
 			10: { descript: [['中文名称', '#fff'], ['中文说明']] },
 			99: {}
 		};
-		const descriptions = snapshotLocalizedStatusDescriptions(statusInfo);
+		const descriptions = snapshotLocalizedStatusDescriptions(statusInfo, {});
 
 		statusInfo[10].descript = [['한국어']];
 		expect(restoreLocalizedStatusDescription(statusInfo, descriptions, 10)).toBe(true);
