@@ -77910,7 +77910,7 @@ var init_preload_helper = __esmMin((() => {
 //#region src/UI/Common.css?raw
 var Common_default$1;
 var init_Common$1 = __esmMin((() => {
-	Common_default$1 = "/* Avoid input focus border */\r\n:focus {\r\n	outline: none;\r\n}\r\n::-moz-focus-inner {\r\n	border: 0;\r\n}\r\n\r\n* {\r\n	-moz-user-select: none;\r\n}\r\n\r\nhtml,\r\nbody {\r\n	touch-action: manipulation;\r\n	margin: 0;\r\n}\r\n\r\n/* Prevent mobile browser auto-zoom on input focus and double-tap */\r\n:host {\r\n	touch-action: manipulation;\r\n}\r\n\r\ninput,\r\ntextarea,\r\nselect {\r\n	touch-action: manipulation;\r\n}\r\n\r\ncanvas {\r\n	touch-action: none;\r\n}\r\n\r\nbody {\r\n	background-color: black;\r\n	font-size: 12px;\r\n	/* 'SCDream' first: wins only when the server actually serves the client font (loaded via\r\n	   @font-face in DBManager). When it isn't served it resolves to Arial — the official client's\r\n	   window UI font for intl/america servicetype (Ragexe draws window text with CreateFontA on the\r\n	   Gulim/Arial face table). Liberation Sans / Arimo provide Arial metrics on Linux. */\r\n	font-family: 'SCDream', Arial, 'Liberation Sans', Arimo, sans-serif;\r\n	/* Normalize any resolved font's x-height to Arial's (sxHeight 1062 / unitsPerEm 2048 = 0.5186),\r\n	   so text keeps Arial's apparent size on every OS/font. It's inherited and crosses Shadow DOM\r\n	   hosts, so it also rescales elements that use a non-Arial face; those opt out with\r\n	   `font-size-adjust: none` on the selector declaring that font (Intro, GrfViewer, JoystickUI\r\n	   header). SCDream, when a server serves it, is normalized to Arial on purpose.\r\n	   Progressive enhancement: engines that don't support the numeric form ignore it\r\n	   and render at the resolved font's native x-height (no JS fallback needed — Arial\r\n	   / Liberation Sans already carry correct metrics, only annex fonts degrade). */\r\n	font-size-adjust: 0.5186;\r\n	overflow: hidden;\r\n	-webkit-user-select: none;\r\n	user-select: none;\r\n	min-width: 100vw;\r\n	min-height: 100vh;\r\n	letter-spacing: 0;\r\n	line-height: 1.2;\r\n}\r\n\r\n.title {\r\n	font-size: 12px;\r\n}\r\n\r\nbutton,\r\nui-button {\r\n	padding: 0;\r\n}\r\n\r\nui-button {\r\n	display: inline-block;\r\n}\r\n\r\n.ui-btn {\r\n	-webkit-appearance: none;\r\n	appearance: none;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n\r\n	height: 20px;\r\n	min-width: 52px;\r\n	padding: 0 10px;\r\n\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	color: #3f3f3f;\r\n	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.85);\r\n\r\n	border-radius: 4px;\r\n	border: 1px solid;\r\n\r\n	/* 3D border: top right bottom left */\r\n	border-color: #cfcfcf #a9a9a9 #5f5f5f #bdbdbd;\r\n\r\n	/* glossy + subtle depth */\r\n	background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 35%, #dcdcdc 55%, #f9f9f9 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		/* top highlight */ inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		/* bottom inner edge */ 0 1px 0 rgba(0, 0, 0, 0.12); /* outer bottom shadow */\r\n\r\n	cursor: pointer;\r\n}\r\n\r\n/* Hover: hơi xanh nhẹ giống button Reset */\r\n.ui-btn:hover {\r\n	border-color: #c9d1dd #8ea2c4 #4d5f86 #b1bfd5;\r\n	background: linear-gradient(to bottom, #f7fbff 0%, #dfe8f6 35%, #c0d0ee 55%, #f0f6ff 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		0 1px 0 rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* Active: giống \"ấn xuống\" */\r\n.ui-btn:active {\r\n	border-color: #9fb0c9 #6f86a6 #3b4b67 #7f96b6;\r\n\r\n	background: linear-gradient(to bottom, #cdd8eb 0%, #b7c8e5 45%, #dfe9fb 100%);\r\n\r\n	box-shadow:\r\n		inset 0 2px 3px rgba(0, 0, 0, 0.18),\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.35);\r\n\r\n	transform: translateY(1px); /* cảm giác bị nhấn */\r\n}\r\n\r\n/* Disabled */\r\n.ui-btn:disabled,\r\n.ui-btn.is-disabled {\r\n	cursor: default;\r\n	color: #8f8f8f;\r\n	text-shadow: none;\r\n\r\n	border-color: #d3d3d3 #bdbdbd #9b9b9b #c9c9c9;\r\n\r\n	background: linear-gradient(to bottom, #f6f6f6 0%, #e7e7e7 55%, #fafafa 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.9),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.08),\r\n		0 1px 0 rgba(0, 0, 0, 0.08);\r\n\r\n	transform: none;\r\n}\r\n\r\n.ui-btn.localized-control {\r\n	min-width: 42px;\r\n	padding: 0 3px;\r\n	font-size: 11px;\r\n	border: 1px solid #8b9690 !important;\r\n	background: #f4f7f5 !important;\r\n	color: #202622;\r\n}\r\n\r\n.ui-btn.localized-control:hover {\r\n	background: #dcebe3 !important;\r\n}\r\n\r\n.ui-btn.localized-control:active {\r\n	background: #c8ded2 !important;\r\n}\r\n\r\n/* Hide native cursor inside Shadow DOM when custom cursor is active */\r\n:host-context(.custom-cursor) * {\r\n	cursor: none !important;\r\n}\r\n";
+	Common_default$1 = "/* Avoid input focus border */\r\n:focus {\r\n	outline: none;\r\n}\r\n::-moz-focus-inner {\r\n	border: 0;\r\n}\r\n\r\n* {\r\n	-moz-user-select: none;\r\n}\r\n\r\nhtml,\r\nbody {\r\n	touch-action: manipulation;\r\n	margin: 0;\r\n}\r\n\r\n/* Prevent mobile browser auto-zoom on input focus and double-tap */\r\n:host {\r\n	touch-action: manipulation;\r\n}\r\n\r\ninput,\r\ntextarea,\r\nselect {\r\n	touch-action: manipulation;\r\n}\r\n\r\ncanvas {\r\n	touch-action: none;\r\n}\r\n\r\nbody {\r\n	background-color: black;\r\n	font-size: 12px;\r\n	/* 'SCDream' first: wins only when the server actually serves the client font (loaded via\r\n	   @font-face in DBManager). When it isn't served it resolves to Arial — the official client's\r\n	   window UI font for intl/america servicetype (Ragexe draws window text with CreateFontA on the\r\n	   Gulim/Arial face table). Liberation Sans / Arimo provide Arial metrics on Linux. */\r\n	font-family: 'SCDream', Arial, 'Liberation Sans', Arimo, sans-serif;\r\n	/* Normalize any resolved font's x-height to Arial's (sxHeight 1062 / unitsPerEm 2048 = 0.5186),\r\n	   so text keeps Arial's apparent size on every OS/font. It's inherited and crosses Shadow DOM\r\n	   hosts, so it also rescales elements that use a non-Arial face; those opt out with\r\n	   `font-size-adjust: none` on the selector declaring that font (Intro, GrfViewer, JoystickUI\r\n	   header). SCDream, when a server serves it, is normalized to Arial on purpose.\r\n	   Progressive enhancement: engines that don't support the numeric form ignore it\r\n	   and render at the resolved font's native x-height (no JS fallback needed — Arial\r\n	   / Liberation Sans already carry correct metrics, only annex fonts degrade). */\r\n	font-size-adjust: 0.5186;\r\n	overflow: hidden;\r\n	-webkit-user-select: none;\r\n	user-select: none;\r\n	min-width: 100vw;\r\n	min-height: 100vh;\r\n	letter-spacing: 0;\r\n	line-height: 1.2;\r\n}\r\n\r\n.title {\r\n	font-size: 12px;\r\n}\r\n\r\nbutton,\r\nui-button {\r\n	padding: 0;\r\n}\r\n\r\nui-button {\r\n	display: inline-block;\r\n}\r\n\r\n.ui-btn {\r\n	-webkit-appearance: none;\r\n	appearance: none;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n\r\n	height: 20px;\r\n	min-width: 52px;\r\n	padding: 0 10px;\r\n\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	color: #3f3f3f;\r\n	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.85);\r\n\r\n	border-radius: 4px;\r\n	border: 1px solid;\r\n\r\n	/* 3D border: top right bottom left */\r\n	border-color: #cfcfcf #a9a9a9 #5f5f5f #bdbdbd;\r\n\r\n	/* glossy + subtle depth */\r\n	background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 35%, #dcdcdc 55%, #f9f9f9 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		/* top highlight */ inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		/* bottom inner edge */ 0 1px 0 rgba(0, 0, 0, 0.12); /* outer bottom shadow */\r\n\r\n	cursor: pointer;\r\n}\r\n\r\n/* Hover: hơi xanh nhẹ giống button Reset */\r\n.ui-btn:hover {\r\n	border-color: #c9d1dd #8ea2c4 #4d5f86 #b1bfd5;\r\n	background: linear-gradient(to bottom, #f7fbff 0%, #dfe8f6 35%, #c0d0ee 55%, #f0f6ff 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		0 1px 0 rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* Active: giống \"ấn xuống\" */\r\n.ui-btn:active {\r\n	border-color: #9fb0c9 #6f86a6 #3b4b67 #7f96b6;\r\n\r\n	background: linear-gradient(to bottom, #cdd8eb 0%, #b7c8e5 45%, #dfe9fb 100%);\r\n\r\n	box-shadow:\r\n		inset 0 2px 3px rgba(0, 0, 0, 0.18),\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.35);\r\n\r\n	transform: translateY(1px); /* cảm giác bị nhấn */\r\n}\r\n\r\n/* Disabled */\r\n.ui-btn:disabled,\r\n.ui-btn.is-disabled {\r\n	cursor: default;\r\n	color: #8f8f8f;\r\n	text-shadow: none;\r\n\r\n	border-color: #d3d3d3 #bdbdbd #9b9b9b #c9c9c9;\r\n\r\n	background: linear-gradient(to bottom, #f6f6f6 0%, #e7e7e7 55%, #fafafa 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.9),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.08),\r\n		0 1px 0 rgba(0, 0, 0, 0.08);\r\n\r\n	transform: none;\r\n}\r\n\r\n.ui-btn.localized-control {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	border: 1px solid #8b9690 !important;\r\n	background: #f4f7f5 !important;\r\n	color: #202622;\r\n}\r\n\r\n.ui-btn.localized-control:hover {\r\n	background: #dcebe3 !important;\r\n}\r\n\r\n.ui-btn.localized-control:active {\r\n	background: #c8ded2 !important;\r\n}\r\n\r\n/* Hide native cursor inside Shadow DOM when custom cursor is active */\r\n:host-context(.custom-cursor) * {\r\n	cursor: none !important;\r\n}\r\n";
 }));
 //#endregion
 //#region src/Controls/MouseEventHandler.js
@@ -78514,8 +78514,42 @@ var init_LocalizedButtonLabels = __esmMin((() => {
 }));
 //#endregion
 //#region src/Utils/RagnarokText.js
+function markupTag() {
+	return /<(ITEMLINK|ITEM|NAVI)>([\s\S]*?)<INFO>([\s\S]*?)<\/INFO><\/\1>/gi;
+}
+function escapeHtml$3(value) {
+	return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
+}
+function applyColorCodes(text) {
+	let hasOpenSpan = false;
+	const html = String(text ?? "").replace(/\^([0-9a-fA-F]{6})/g, (_, color) => {
+		const close = hasOpenSpan ? "</span>" : "";
+		hasOpenSpan = true;
+		return `${close}<span style="color:#${color}">`;
+	});
+	return hasOpenSpan ? `${html}</span>` : html;
+}
+function markupSource(value) {
+	if (Array.isArray(value)) return value.filter(Boolean).join("\n");
+	return typeof value === "string" ? value : "";
+}
 function toPlainRagnarokText(value) {
-	return typeof value === "string" ? value.replace(/\^[0-9a-f]{6}/gi, "").replace(/(?:\\n|\^n)/gi, "\n") : "";
+	return markupSource(value).replace(markupTag(), "$2").replace(/\^[0-9a-f]{6}/gi, "").replace(/(?:\\n|\^n)/gi, "\n");
+}
+function formatRagnarokMarkup(value) {
+	const text = markupSource(value).replace(/(?:\\n|\^n)/gi, "\n");
+	const parts = [];
+	let lastIndex = 0;
+	for (const match of text.matchAll(markupTag())) {
+		parts.push(applyColorCodes(escapeHtml$3(text.slice(lastIndex, match.index))));
+		const [, tag, label, info] = match;
+		const inner = applyColorCodes(escapeHtml$3(label));
+		if (tag.toUpperCase() === "NAVI") parts.push(`<span class="navi-link" data-navi-info="${escapeHtml$3(info)}" data-navi-name="${escapeHtml$3(toPlainRagnarokText(label))}">${inner}</span>`);
+		else parts.push(`<span class="item-link" data-item-id="${escapeHtml$3(info)}">${inner}</span>`);
+		lastIndex = match.index + match[0].length;
+	}
+	parts.push(applyColorCodes(escapeHtml$3(text.slice(lastIndex))));
+	return parts.join("");
 }
 var init_RagnarokText = __esmMin((() => {}));
 //#endregion
@@ -165612,10 +165646,6594 @@ var init_StatusConst = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Status/stateiconinfo.zh-CN.json
+var stateiconinfo_zh_CN_default;
+var init_stateiconinfo_zh_CN = __esmMin((() => {
+	stateiconinfo_zh_CN_default = {
+		"0": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["挑衅", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低防御"],
+				["提高攻击力"]
+			]
+		},
+		"1": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["霸体", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受击时仍可移动或攻击"],
+				["被攻击达到指定次数后解除"]
+			]
+		},
+		"2": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["双手剑加速", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使用双手剑时"],
+				["提高攻击速度"]
+			]
+		},
+		"3": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["集中注意力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 DEX、AGI"],
+				["使用瞬间发现附近隐藏的敌人"]
+			]
+		},
+		"4": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["隐匿", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["潜入地下回避敌人攻击"],
+				["可被敌人的探测技能发现"]
+			]
+		},
+		"5": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["隐匿", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["其他人看不见"]
+			]
+		},
+		"6": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["毒属性附加", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为武器附加毒属性"]
+			]
+		},
+		"7": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["毒性反弹", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["将毒属性攻击返还给对方"],
+				["被普通攻击打中时"],
+				["对对方使用涂毒"]
+			]
+		},
+		"8": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["泥沼术", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动速度"],
+				["降低 AGI、DEX"]
+			]
+		},
+		"9": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["天使之护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高防御"]
+			]
+		},
+		"10": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["天使之赐福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 DEX、INT、STR"],
+				["提高命中"],
+				["使用瞬间解除诅咒或石化"]
+			]
+		},
+		"11": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["十字军徽章", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低不死、暗系魔物防御"]
+			]
+		},
+		"12": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["敏捷提升", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高移动速度"],
+				["提高攻击速度"]
+			]
+		},
+		"13": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["敏捷下降", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动速度"],
+				["降低攻击速度"]
+			]
+		},
+		"14": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["缓毒", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["暂时停止中毒进程"]
+			]
+		},
+		"15": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["武器祝福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高武器攻击力"]
+			]
+		},
+		"16": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["牺牲祈福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低施放速度"]
+			]
+		},
+		"17": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["神圣之水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为武器附加圣属性"]
+			]
+		},
+		"18": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["为防具附加圣属性"]]
+		},
+		"19": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["凯利艾勒森", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["护盾可抵挡指定次数攻击"]
+			]
+		},
+		"20": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["圣母之颂歌", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 SP 恢复速度"]
+			]
+		},
+		"21": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["荣耀", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 LUK"]
+			]
+		},
+		"22": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["永恒之光", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["下一次攻击受到双倍伤害"]
+			]
+		},
+		"23": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["速度激发", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["斧和钝器类武器"],
+				["提高攻击速度"]
+			]
+		},
+		"24": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["武器修炼", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对小、中、大型魔物"],
+				["各造成 100% 伤害"]
+			]
+		},
+		"25": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["过度加速", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高武器攻击力"]
+			]
+		},
+		"26": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["武器最大化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["发挥武器最大性能"],
+				["持续消耗 SP"]
+			]
+		},
+		"27": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["骑乘载具", "rgb(190, 190, 250)"]]
+		},
+		"28": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["猎鹰精通", "rgb(190, 190, 250)"], ["正在租借猎鹰"]]
+		},
+		"29": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["装死（假死）", "rgb(190, 190, 250)"], ["装死状态"]]
+		},
+		"30": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["大声吼叫（疯狂喧嚣）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 STR"],
+				["提高 ATK"]
+			]
+		},
+		"31": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["能量外套", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["按当前 SP 量"],
+				["降低来自敌人的伤害"]
+			]
+		},
+		"32": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["护甲已损坏", "rgb(250, 100, 100)"]]
+		},
+		"33": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["武器已损坏。", "rgb(250, 100, 100)"]]
+		},
+		"34": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["幻影", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["画面扭曲"],
+				["伤害显示异常"],
+				["硬直会打断吟唱"]
+			]
+		},
+		"35": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["负重超过 50%", "rgb(250, 100, 100)"], ["无法自然恢复 HP、SP"]]
+		},
+		"36": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["负重 90%", "rgb(250, 100, 100)"],
+				["无法自然恢复 HP、SP"],
+				["攻击, 无法使用技能"]
+			]
+		},
+		"37": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["集中药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度"]
+			]
+		},
+		"38": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["觉醒药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度"]
+			]
+		},
+		"39": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高攻击速度"]]
+		},
+		"41": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高移动速度"]]
+		},
+		"42": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["提高移动速度"]]
+		},
+		"50": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["武器卸除状态", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备武器"]
+			]
+		},
+		"51": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["盾牌卸除状态", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备盾牌"]
+			]
+		},
+		"52": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除铠甲状态", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备铠甲"]
+			]
+		},
+		"53": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除头饰状态", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备头盔"]
+			]
+		},
+		"54": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["化学保护（武器）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["武器不会损坏"]
+			]
+		},
+		"55": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["化学保护（盾）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["盾牌不会损坏"]
+			]
+		},
+		"56": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["化学保护（护甲）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["铠甲不会损坏"]
+			]
+		},
+		"57": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["化学保护头盔（生化头盔）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["头盔不会损坏"]
+			]
+		},
+		"58": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["自动防御", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["有几率格挡近战和远距离物理攻击"]
+			]
+		},
+		"59": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["反射盾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对近战物理攻击自己的敌人"],
+				["返还一定伤害"]
+			]
+		},
+		"61": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["神佑之光", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对恶魔型、圣属性魔物的"],
+				["抗性 提高"]
+			]
+		},
+		"62": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["防御者（防御光环）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低远距离物理攻击伤害"],
+				["降低移动速度和攻击速度"]
+			]
+		},
+		"64": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["已赋予武器属性"]]
+		},
+		"65": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["自动念咒", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["普通攻击时有几率"],
+				["选定技能无吟唱自动施放"],
+				["SP 消耗为通常的 2/3"],
+				["SP 不足时无法发动技能"]
+			]
+		},
+		"68": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["长矛加速", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使用长矛时"],
+				["提高攻击速度"],
+				["暴击 提高"],
+				["回避几率 提高"]
+			]
+		},
+		"70": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["口哨", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高队员 FLEE"],
+				["提高完全回避"]
+			]
+		},
+		"71": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["夕阳下的刺客十字", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高队员攻击速度"],
+				["（缩短攻击后摇）"]
+			]
+		},
+		"72": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["布莱奇之诗", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["缩短队员可变吟唱"],
+				["缩短技能后摇"]
+			]
+		},
+		"73": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["伊登的苹果", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高队员最大 HP"],
+				["提高受到的恢复量"]
+			]
+		},
+		"74": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["哼唱", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高队员 HIT"]
+			]
+		},
+		"75": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["勿忘我", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动和攻击速度"],
+				["移除移动和攻击速度提高效果"]
+			]
+		},
+		"76": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["幸运之吻", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高队员暴击"],
+				["提高暴击伤害"]
+			]
+		},
+		"77": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["为您服务", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高队员最大 SP"],
+				["减少 SP 消耗"]
+			]
+		},
+		"78": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["金先生发财了", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["狩猎魔物时"],
+				["提高获得的经验"]
+			]
+		},
+		"79": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["永恒的混沌", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["防御固定为 0"]
+			]
+		},
+		"80": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["战鼓震天", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高队员 ATK、DEF"]
+			]
+		},
+		"81": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["尼贝隆根之戒", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为队员提供多种"],
+				["赋予有益效果"]
+			]
+		},
+		"82": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["洛奇的悲鸣", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法使用技能"],
+				["有一定几率陷入混乱"]
+			]
+		},
+		"83": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["深渊中", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["队员不消耗宝石"],
+				["（部分技能除外）"]
+			]
+		},
+		"84": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["不死神齐格弗里德", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高队员水/风/地/火抗性"],
+				["提高部分异常抗性"]
+			]
+		},
+		"87": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["钢铁之躯", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["DEF、MDEF 固定为较高数值"],
+				["降低移动速度和攻击速度"],
+				["无法使用技能"]
+			]
+		},
+		"88": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["阿修罗霸凰拳（修罗霸凰拳）", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法恢复 SP"]
+			]
+		},
+		"90": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["火焰发射器", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为武器附加火属性"]
+			]
+		},
+		"91": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["冰霜武器（赋予海啸）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为武器附加水属性"]
+			]
+		},
+		"92": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["闪电装填", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为武器附加风属性"]
+			]
+		},
+		"93": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["地震武器", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为武器附加地属性"]
+			]
+		},
+		"97": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["为铠甲附加不死属性"]]
+		},
+		"103": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["灵气之刃", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["物理 提高攻击力"]
+			]
+		},
+		"104": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["招架", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["有几率用刀格挡对方攻击"]
+			]
+		},
+		"105": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["集中", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK 和命中"],
+				["物理  降低防御"]
+			]
+		},
+		"106": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["紧张放松", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 HP 恢复速度"]
+			]
+		},
+		"108": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["殉道者的觉悟", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["普通近战物理攻击"],
+				["提高伤害"],
+				["每次攻击消耗 HP"]
+			]
+		},
+		"110": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["圣母之祈福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高防御"]
+			]
+		},
+		"112": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["地面技能效果生效"]]
+		},
+		"113": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔力增幅", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["魔法攻击力放大"]
+			]
+		},
+		"114": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["致命毒药附加", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["被此武器击中时有几率中剧毒"],
+				["对首领型魔物的增伤无效"]
+			]
+		},
+		"115": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["真视", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高全部属性"],
+				["提高命中、伤害和暴击"]
+			]
+		},
+		"116": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["风行术", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高移动速度和回避"]
+			]
+		},
+		"117": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["熔毁", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["攻击玩家时"],
+				["有几率破坏玩家武器或防具"],
+				["攻击魔物时"],
+				["降低魔物的攻击力或防御"]
+			]
+		},
+		"118": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["手推车加速", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高使用手推车时的移动速度"]
+			]
+		},
+		"120": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["剑术反击", "rgb(155, 202, 155)"],
+				["对对方玩家的剑类武器攻击"],
+				["（对魔物的所有攻击）"],
+				["有几率使受到的伤害减半"],
+				["另外一半返还给对方"]
+			]
+		},
+		"121": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["傀儡控制（施法者）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对目标玩家"],
+				["已转移属性"]
+			]
+		},
+		"122": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["傀儡控制（目标）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对施放者"],
+				["已接受属性"]
+			]
+		},
+		"124": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["流血", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法恢复 HP、SP"],
+				["每 10 秒损失一定量 HP"]
+			]
+		},
+		"125": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["关节打击", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["因关节破坏"],
+				["异常状态"]
+			]
+		},
+		"130": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["爸爸妈妈我爱你们", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["即使死亡也不损失经验"]
+			]
+		},
+		"132": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["自动狂暴", "rgb(155, 202, 155)"], ["濒死时进入狂暴"]]
+		},
+		"135": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["旋风踢（龙卷踢）", "rgb(155, 202, 155)"],
+				["攻击命中敌人时"],
+				["有几率进入旋风踢准备"]
+			]
+		},
+		"137": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["准备下段踢", "rgb(155, 202, 155)"],
+				["攻击命中敌人时"],
+				["有几率进入下劈准备"]
+			]
+		},
+		"139": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["回旋踢准备", "rgb(155, 202, 155)"],
+				["攻击命中敌人时"],
+				["有几率进入回旋踢准备"]
+			]
+		},
+		"141": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["准备反击踢", "rgb(155, 202, 155)"],
+				["攻击命中敌人时"],
+				["有几率进入反击踢准备"]
+			]
+		},
+		"143": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["闪避", "rgb(155, 202, 155)"],
+				["准备飞踢"],
+				["受到敌人远距离或魔法攻击时"],
+				["有几率回避攻击"],
+				["冲刺状态时"],
+				["近战攻击也会发动"]
+			]
+		},
+		"145": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["冲刺", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 STR"],
+				["未装备武器时"],
+				["按疾跑等级提高攻击力"]
+			]
+		},
+		"146": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["附加暗属性"]]
+		},
+		"147": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["完全速度激发", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高除弓以外武器的攻击速度"]
+			]
+		},
+		"148": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["附加念属性"]]
+		},
+		"149": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["灵魂附加状态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["由灵魂链接者赋予的"],
+				["已接受灵魂"]
+			]
+		},
+		"150": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 ATK"]]
+		},
+		"151": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 MATK"]]
+		},
+		"156": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["凯易哲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["吟唱时间不受 DEX 影响"],
+				["死亡后立即复活，并维持 2 秒圣母之祈福"]
+			]
+		},
+		"157": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["凯阿希", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每次受到非技能攻击时"],
+				["消耗 SP 并恢复 HP"]
+			]
+		},
+		"158": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["金蝉脱壳", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["有几率回避敌人攻击"]
+			]
+		},
+		"161": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["单手剑加速", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使用单手剑时"],
+				["提高攻击速度"]
+			]
+		},
+		"169": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["太阳的舒适", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高防御"]
+			]
+		},
+		"170": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["月之安慰", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高回避"]
+			]
+		},
+		"171": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["星辰的安慰", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度"]
+			]
+		},
+		"181": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["保留", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["即使被技能击中也无法抄袭"]
+			]
+		},
+		"182": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 STR"]]
+		},
+		"186": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["双重吟唱", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使用箭矢类技能时"],
+				["有几率再施放一次箭矢类技能"]
+			]
+		},
+		"188": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["最大过度加速", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高武器攻击力"]
+			]
+		},
+		"191": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["命运塔罗牌", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对敌人赋予 14 种卡片中的一种效果"]
+			]
+		},
+		"197": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["缩小术", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["用自动防御格挡时"],
+				["有几率使对方昏迷"]
+			]
+		},
+		"198": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["视爆", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对附着的敌人造成相当于魔法攻击力的"],
+				["造成伤害并击退"]
+			]
+		},
+		"200": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["关闭禁锢", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["与一名敌人一同无法移动"],
+				["提高回避"],
+				["对首领魔物无效"]
+			]
+		},
+		"201": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["关闭禁锢", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["与一名敌人一同无法移动"],
+				["提高回避"],
+				["对首领魔物无效"]
+			]
+		},
+		"203": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["疯狂取消者（最后一搏）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK"],
+				["提高攻击速度"],
+				["无法移动"]
+			]
+		},
+		"204": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["加特林狂热", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度和伤害"],
+				["降低回避和移动速度"]
+			]
+		},
+		"205": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["快乐休息（愉悦休息）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使用地刺卷轴时"],
+				["消耗一定量 SP"],
+				["低几率消耗卷轴"]
+			]
+		},
+		"206": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["蝉蜕", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["回避指定次数攻击"],
+				["向攻击者相反方向移动"]
+			]
+		},
+		"207": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["幻影分身", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["回避指定次数近战和远距离物理攻击"],
+				["魔法 攻击 防御 无法"]
+			]
+		},
+		"208": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["灵魂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 STR、INT"]
+			]
+		},
+		"209": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["调整", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低命中"],
+				["提高回避"],
+				["降低受到的远距离物理伤害"]
+			]
+		},
+		"210": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["精准提升（提高命中率）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高命中"],
+				["提高 DEX"],
+				["提高 AGI"]
+			]
+		},
+		"217": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["骑乘狮鹫", "rgb(190, 190, 250)"]]
+		},
+		"241": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 STR"]]
+		},
+		"242": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 AGI"]]
+		},
+		"243": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 VIT"]]
+		},
+		"244": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 DEX"]]
+		},
+		"245": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 INT"]]
+		},
+		"246": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 LUK"]]
+		},
+		"247": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高回避"]]
+		},
+		"248": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高命中"]]
+		},
+		"249": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["暴击 几率 提高"]]
+		},
+		"250": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高获得的经验"]]
+		},
+		"251": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["死亡时不损失经验"]]
+		},
+		"252": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [
+				["%s", "rgb(255, 176, 98)"],
+				["狩猎魔物时"],
+				["基础物品掉落率变为 2 倍"]
+			]
+		},
+		"271": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 STR"]]
+		},
+		"272": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 AGI"]]
+		},
+		"273": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 VIT"]]
+		},
+		"274": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 DEX"]]
+		},
+		"275": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 INT"]]
+		},
+		"276": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 LUK"]]
+		},
+		"282": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["缓慢吟唱", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["延长吟唱时间"]
+			]
+		},
+		"286": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["严重创伤", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低受到的恢复技能效果"]
+			]
+		},
+		"289": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高移动速度"]]
+		},
+		"290": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["防御保护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["物理 攻击 抗性 提高"]
+			]
+		},
+		"291": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔法铠甲药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["魔法 攻击 抗性 提高"]
+			]
+		},
+		"292": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["强化治疗药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受到的治疗和部分恢复物品的"],
+				["提高使用效果"]
+			]
+		},
+		"293": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["小型生命药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 5 秒恢复一定量 HP"],
+				["狂暴状态下无效"]
+			]
+		},
+		"294": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["中型生命药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 4 秒恢复一定量 HP"],
+				["狂暴状态下无效"]
+			]
+		},
+		"295": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["光泽剂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["暴击 几率 提高"]
+			]
+		},
+		"296": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["欢迎之杯", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高完全回避"]
+			]
+		},
+		"297": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["伟大幻影", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP"],
+				["提高 HP 恢复"]
+			]
+		},
+		"298": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高最大 SP，减少 SP 消耗"]]
+		},
+		"299": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["暗影祝福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 SP"],
+				["提高 SP 恢复"]
+			]
+		},
+		"300": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["SP 消耗减少药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["减少技能 SP 消耗"]
+			]
+		},
+		"301": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["抵抗药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高对下列状态的抗性"],
+				["昏迷, 冻结, 石化, 睡眠, 沉默"],
+				["黑暗、诅咒、毒、出血、混乱"]
+			]
+		},
+		"302": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["护甲属性", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["属性变化状态"]
+			]
+		},
+		"304": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["地狱之力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法复活"],
+				["无法使用牺牲"],
+				["无法使用齐格弗里德的凭证"]
+			]
+		},
+		"312": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["狩猎魔物时额外获得 Job 经验"]]
+		},
+		"313": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高回避"]]
+		},
+		"314": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["守护天使", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 HP、SP 恢复速度"]
+			]
+		},
+		"316": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["附魔之刃", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["近战物理攻击附加魔法攻击力"]
+			]
+		},
+		"318": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["符文石：刷新", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使用时解除全部异常和减益"],
+				["不会陷入任何异常或减益"],
+				["恢复一定量 HP"]
+			]
+		},
+		"319": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["符文石：巨大成长", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 STR"],
+				["普通近战物理攻击时高几率造成高伤害"],
+				["提高近战物理伤害"]
+			]
+		},
+		"320": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["符文石：坚硬皮肤", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["损失一定 HP 后生成等量护盾"],
+				["其他玩家进行近战物理攻击时"],
+				["有几率破坏攻击者的武器"],
+				["对魔物有几率使 ATK 降低 10 秒"]
+			]
+		},
+		"321": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["符文石：活力激活", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 HP 恢复效果"],
+				["降低受到的近战物理反射伤害"]
+			]
+		},
+		"322": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卢恩石：战斗意志", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK"],
+				["提高攻击速度"]
+			]
+		},
+		"323": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["符文石：丰收", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 10 秒恢复一定量 SP"]
+			]
+		},
+		"331": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["羔羊赞歌", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["最大 HP 提高。"]
+			]
+		},
+		"332": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["枝条赞歌", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高暴击伤害"]
+			]
+		},
+		"333": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["超越隐匿", "rgb(155, 202, 155)"],
+				["昆虫型和恶魔型也无法发现"],
+				["直到承受指定次数伤害才解除"],
+				["提高移动速度"]
+			]
+		},
+		"334": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["幻影步", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高回避"],
+				["有几率无视魔法伤害"]
+			]
+		},
+		"336": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["再生术", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 5 秒恢复一定量 HP"],
+				["对不死属性玩家无效"]
+			]
+		},
+		"337": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["武器格挡", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受到近战物理攻击时"],
+				["有几率完全免疫伤害"]
+			]
+		},
+		"340": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["赎罪", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无视目标部分防御"]
+			]
+		},
+		"341": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["武器涂毒", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高近战物理伤害"],
+				["根据所涂的毒获得增益"],
+				["攻击时使目标中武器上的毒"]
+			]
+		},
+		"342": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["毒素", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 10 秒干扰吟唱和技能动作"],
+				["无视风扇卡片效果"],
+				["每 10 秒损失一定量 SP"]
+			]
+		},
+		"343": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["麻痹", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低攻击速度"],
+				["回避 降低"],
+				["降低移动速度"]
+			]
+		},
+		"344": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["毒血", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["最大 HP 固定降低"]
+			]
+		},
+		"345": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔法蘑菇（笑毒蘑菇）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["笑容表情"],
+				["每 4 秒使用随机技能"],
+				["每 4 秒损失一定量 HP"]
+			]
+		},
+		"346": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["死亡伤害（污染伤口毒素）", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受到恢复技能时效果降低"]
+			]
+		},
+		"347": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["热病", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["黑暗和幻觉状态"]
+			]
+		},
+		"348": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["遗忘诅咒", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["遗忘状态"]
+			]
+		},
+		"349": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["吸血终结", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每秒消耗一定量 HP"]
+			]
+		},
+		"351": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["冻结状态", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低防御、移动速度和攻击速度"],
+				["固定 延长吟唱时间"]
+			]
+		},
+		"352": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["恐惧微风", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["弓攻击时有几率"],
+				["额外 攻击 发动"]
+			]
+		},
+		"354": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["深渊沼泽", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动速度"],
+				["降低防御和回避"]
+			]
+		},
+		"355": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["认知魔法", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["以最大魔法伤害攻击"],
+				["增加 SP 消耗"]
+			]
+		},
+		"356": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["停滞", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["范围内全部目标无法使用魔法、歌曲、合唱"]
+			]
+		},
+		"357": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["狼骑乘", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法使用弓"],
+				["只能使用座狼专用技能"]
+			]
+		},
+		"361": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["加速", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高魔导机甲移动速度"]
+			]
+		},
+		"362": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["悬浮", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["不受陷阱和部分地面魔法影响"]
+			]
+		},
+		"368": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["塔奥群卡卷轴", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP"],
+				["降低 DEF/MDEF"]
+			]
+		},
+		"369": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["蜂后卷轴", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["不消耗宝石即可使用魔法"],
+				["增加 SP 消耗"]
+			]
+		},
+		"370": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["兽人英雄卷轴", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["不会陷入昏迷"]
+			]
+		},
+		"371": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["兽人王卷轴", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["反射部分近战物理攻击"]
+			]
+		},
+		"373": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [
+				["过热", "rgb(155, 202, 155)"],
+				["魔导机甲过热"],
+				["每秒减少一定量 HP"]
+			]
+		},
+		"374": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["形态转换", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["转换魔导机甲机体属性"]
+			]
+		},
+		"375": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["红外线扫描", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["发现隐藏的敌人"],
+				["有几率降低范围内全部目标的回避"]
+			]
+		},
+		"376": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["磁场", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["范围内全部目标无法移动"],
+				["降低 SP"]
+			]
+		},
+		"377": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["中立屏障", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物理和魔法防御"],
+				["远距离攻击无效"]
+			]
+		},
+		"379": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["隐形力场", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使周围全部目标进入伪装"],
+				["持续消耗 SP"],
+				["降低移动速度"]
+			]
+		},
+		"381": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["马努克的黄金机会", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对玛努克野外魔物"],
+				["提高物理伤害"]
+			]
+		},
+		"382": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["马努克的意志", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["来自玛努克野外魔物的"],
+				["降低物理和魔法伤害"]
+			]
+		},
+		"383": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["食人花腌制果实", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对斯普兰蒂德野外魔物"],
+				["提高物理伤害"]
+			]
+		},
+		"384": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["蜂蜜果酱", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["来自斯普兰蒂德野外魔物的"],
+				["降低物理和魔法伤害"]
+			]
+		},
+		"385": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["复制", "rgb(155, 202, 155)"],
+				["激活期间学习以自己为目标的技能"],
+				["只能学习 1 个技能"]
+			]
+		},
+		"386": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["马努克的信仰", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对玛努克野外魔物"],
+				["提高魔法伤害"]
+			]
+		},
+		"387": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["康努斯之泪", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对斯普兰蒂德野外魔物"],
+				["提高魔法伤害"]
+			]
+		},
+		"388": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 STR"]]
+		},
+		"389": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 INT"]]
+		},
+		"390": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["伤害反射", "rgb(190, 190, 250)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低自己受到的反射伤害"]
+			]
+		},
+		"391": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["先锋之力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP 和防御"],
+				["每次受伤累积愤怒计数"],
+				["激活期间持续消耗 SP"]
+			]
+		},
+		"393": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["自动暗影法术", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 MATK"],
+				["由抄袭、再现学到的"],
+				["可以使用魔法技能"]
+			]
+		},
+		"394": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["暗影形态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["将自己指定次数的伤害"],
+				["转嫁给目标玩家"]
+			]
+		},
+		"397": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["盾牌咒文（MDEF）", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["根据盾牌魔法防御发动魔法"]
+			]
+		},
+		"399": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["身体彩绘", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["伪装 状态 解除"],
+				["有几率陷入黑暗"],
+				["有几率降低攻击速度"]
+			]
+		},
+		"400": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["超越突破", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高首次打击攻击力"]
+			]
+		},
+		"401": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["阿杜拉穆斯", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["黑暗并降低敏捷"]
+			]
+		},
+		"402": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["威望", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["按属性计算魔法回避"],
+				["提高防御"]
+			]
+		},
+		"403": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["完全隐身", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["隐身状态下可以攻击"],
+				["攻击属性变为 1 级念属性"],
+				["持续减少 SP"],
+				["技能, 无法使用物品"]
+			]
+		},
+		"404": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["致命感染", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["自己攻击或"],
+				["对攻击自己的敌人"],
+				["传染全部异常状态"]
+			]
+		},
+		"405": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["编队", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物理防御"]
+			]
+		},
+		"407": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["灵感", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高命中和属性"],
+				["提高攻击力、魔法攻击力和最大 HP"],
+				["使特定增益和异常无效"],
+				["持续减少 HP、SP"]
+			]
+		},
+		"408": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["假面舞会：衰弱", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低攻击力"],
+				["受伤瞬间损失气弹"]
+			]
+		},
+		"409": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["假面舞会：阴郁", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低攻击速度和命中"],
+				["受伤瞬间解除宠物"],
+				["无法使用宠物"]
+			]
+		},
+		"410": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["升龙", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高气弹上限"],
+				["提高最大 HP 和 SP"],
+				["提高攻击速度"],
+				["维持爆气状态"]
+			]
+		},
+		"411": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["假面舞会：无知", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受伤瞬间损失一定 SP"],
+				["技能, 魔法 使用 无法"]
+			]
+		},
+		"412": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["假面舞会：懒惰", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动速度和回避"],
+				["延长吟唱时间"],
+				["使用技能时额外消耗一定 SP"]
+			]
+		},
+		"413": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["闪电步", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["成为远距离物理攻击目标时"],
+				["有一定几率回避攻击后"],
+				["移动到被攻击目标正前方"]
+			]
+		},
+		"414": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["阿卡拉杰", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度和 HIT"]
+			]
+		},
+		"415": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["假面舞会：不幸", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["暴击 几率 降低"],
+				["降低完全回避几率"],
+				["使用技能时消耗一定 Zeny"],
+				["受伤瞬间陷入特定异常"]
+			]
+		},
+		"416": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["咒缚阵", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["范围内全部目标无法移动和攻击"],
+				["追加沉默异常"]
+			]
+		},
+		"417": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["咒缚阵", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法移动和攻击"],
+				["无法使用技能"]
+			]
+		},
+		"418": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["假面舞会：虚弱", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低一定最大 HP"],
+				["受伤瞬间卸下武器和盾牌"],
+				["无法装备武器和盾牌"]
+			]
+		},
+		"421": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["饰品卸除状态", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备饰品"]
+			]
+		},
+		"423": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["教皇曲奇", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK、MATK"],
+				["全部 属性 抗性 提高"]
+			]
+		},
+		"425": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["温柔触摸－能量获得", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["进行近战物理攻击或受到伤害时"],
+				["生成 1 个气弹"],
+				["提高猛龙狂花、连珠崩击、伏虎拳伤害"]
+			]
+		},
+		"426": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["温柔触碰 - 变换", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击力和攻击速度"],
+				["提高爆气散弹、修罗神弹伤害"]
+			]
+		},
+		"427": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["温柔触碰 - 活力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP 和物理防御"],
+				["提高 HP 自然恢复速度"],
+				["移动和攻击中也可恢复 HP"],
+				["提高虎炮、阿修罗霸凰拳伤害"]
+			]
+		},
+		"429": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["摇摆舞", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高移动速度"],
+				["提高攻击速度"],
+				["缩短固定吟唱"]
+			]
+		},
+		"430": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["爱的交响曲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高魔法防御"]
+			]
+		},
+		"435": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["深度睡眠状态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受到 1.5 倍通常伤害"],
+				["每 2 秒恢复一定量 HP/SP"]
+			]
+		},
+		"436": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["自然之声", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 HP 自然恢复"]
+			]
+		},
+		"437": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["冰冻", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法移动、攻击、使用技能或物品"],
+				["持续减少 HP、SP"],
+				["提高钝器、斧、双手斧伤害"],
+				["提高风属性魔法伤害"],
+				["降低短剑、剑、双手剑、箭矢伤害"]
+			]
+		},
+		"438": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["阴郁之日", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["固定 吟唱 提高, SP 消耗 提高。"],
+				["降低回避和攻击速度"]
+			]
+		},
+		"439": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔力之歌", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 SP 自然恢复量"]
+			]
+		},
+		"441": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["与狼共舞", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度"],
+				["固定 缩短吟唱时间."],
+				["远距离 提高伤害."]
+			]
+		},
+		"442": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["疾风车攻击", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击力"],
+				["提高移动速度"]
+			]
+		},
+		"443": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["回声之歌", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高防御"]
+			]
+		},
+		"444": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["和谐", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["调整属性修正"]
+			]
+		},
+		"445": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["打击", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击力"],
+				["提高追击发动几率"]
+			]
+		},
+		"446": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["温暖", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["解除冷冻、冰冻、冻结"],
+				["不会陷入冷冻、冰冻、冻结"],
+				["每 3 秒恢复一定量 HP"]
+			]
+		},
+		"447": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["月光小夜曲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高魔法攻击力"]
+			]
+		},
+		"448": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["狂野", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 3 秒损失 HP、SP"],
+				["降低 HIT 和 FLEE"],
+				["无法使用物品"]
+			]
+		},
+		"450": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["分析", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低物理和魔法防御"]
+			]
+		},
+		"451": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["莱拉的露水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP"]
+			]
+		},
+		"452": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["沉没旋律", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["持续消耗 SP"],
+				["降低 INT"]
+			]
+		},
+		"453": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["超越战吼", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低最大 HP"],
+				["降低 STR"]
+			]
+		},
+		"454": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["无限哼唱之声", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["属性 魔法 提高伤害."]
+			]
+		},
+		"461": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["手推车加速", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高装备手推车时的速度"]
+			]
+		},
+		"463": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["荆棘陷阱", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["持续受到少量伤害"]
+			]
+		},
+		"464": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["吸血", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["物理攻击时有一定几率"],
+				["吸收 HP"]
+			]
+		},
+		"470": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["NPC 曼陀罗嚎叫", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低 INT 和 SP"],
+				["技能 固定 吟唱 提高"]
+			]
+		},
+		"472": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["圣礼", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["缩短吟唱时间"]
+			]
+		},
+		"473": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["圣母之祈福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高防御"]
+			]
+		},
+		"476": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["胃痛", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低全部属性修正"],
+				["降低移动速度"],
+				["每 10 秒强制坐下一次"],
+				["每 10 秒消耗一定量 SP"]
+			]
+		},
+		"480": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["HP 增加药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP"]
+			]
+		},
+		"481": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["SP 增加药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 SP"]
+			]
+		},
+		"482": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["浓缩白色药水 Z", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 HP 自然恢复速度"]
+			]
+		},
+		"483": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["维塔塔 500", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 SP 自然恢复速度"],
+				["提高最大 SP"]
+			]
+		},
+		"484": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["浓缩沙拉玛因汁", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度"]
+			]
+		},
+		"490": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["极限真空", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["将范围内全部目标拉过来"],
+				["无法移动"]
+			]
+		},
+		"491": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["野蛮烤肉", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 STR"]
+			]
+		},
+		"492": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["狼血鸡尾酒", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 INT"]
+			]
+		},
+		"493": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["米诺斯牛肉锅", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 VIT"]
+			]
+		},
+		"494": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["希罗玛冰茶", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 DEX"]
+			]
+		},
+		"495": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["捕虫草药草沙拉", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 AGI"]
+			]
+		},
+		"496": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["小龙尾面", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 LUK"]
+			]
+		},
+		"573": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["莫拉浆果", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["莫拉村附近野外"],
+				["提高对固有魔物的抗性"]
+			]
+		},
+		"576": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["麻痹针", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法移动"],
+				["降低物理和魔法防御"]
+			]
+		},
+		"577": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["止痛药", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受击时没有硬直"],
+				["降低受到的伤害"]
+			]
+		},
+		"578": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["快速生命之水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 3 秒恢复一定量 HP"],
+				["狂暴状态下无效"]
+			]
+		},
+		"579": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["活力药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK、MATK"],
+				["提高治疗和物品的恢复效果"]
+			]
+		},
+		"580": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["再生之光", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["主人死亡时"],
+				["艾拉死亡并救活主人"]
+			]
+		},
+		"581": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["过度强化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["艾拉和主人的"],
+				["攻击速度和回避固定提高"]
+			]
+		},
+		"583": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["奥丁之力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK、MATK"],
+				["降低 DEF、MDEF"]
+			]
+		},
+		"584": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["风格变换", "rgb(190, 190, 250)"], ["艾蕾诺亚的斗士状态"]]
+		},
+		"605": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["岩浆流", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受到伤害时"],
+				["有一定几率从体内喷出岩浆"]
+			]
+		},
+		"606": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["花岗岩铠甲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低迪特和主人受到的伤害"],
+				["持续时间结束时消耗 HP"]
+			]
+		},
+		"607": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["火成岩", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高武器攻击力"]
+			]
+		},
+		"608": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["火山灰", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低命中"],
+				["有一定几率技能、魔法失败"]
+			]
+		},
+		"611": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔法糖果", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 MATK"],
+				["固定 缩短吟唱时间"],
+				["吟唱不会被打断"],
+				["每 10 秒减少一定量 SP"]
+			]
+		},
+		"613": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["骑乘", "rgb(190, 190, 250)"]]
+		},
+		"616": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["宏已禁用"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法使用宏"]
+			]
+		},
+		"618": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["马当果罐头猫", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["狩猎魔物时"],
+				["提高 Base 和 Job 经验"]
+			]
+		},
+		"620": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["粉碎打击", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["近战 物理 提高攻击力"]
+			]
+		},
+		"621": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["怪物变身", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["正在变身为魔物"]
+			]
+		},
+		"622": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["坐下", "rgb(190, 190, 250)"]]
+		},
+		"630": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["使用宏"],
+				["%s", "rgb(255, 176, 98)"],
+				["正在使用宏"]
+			]
+		},
+		"632": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["缩短可变吟唱时间"]]
+		},
+		"633": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高攻击速度"]]
+		},
+		"634": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 ATK"]]
+		},
+		"635": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高 MATK"]]
+		},
+		"636": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["额外获得 Job 经验"]]
+		},
+		"637": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["恢复禁用状态", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法恢复 HP、SP"]
+			]
+		},
+		"638": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["DEF 固定为特定数值"]]
+		},
+		"639": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["MDEF 固定为特定数值"]]
+		},
+		"640": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["DEF 固定为特定百分比"]]
+		},
+		"641": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["MDEF 固定为特定百分比"]]
+		},
+		"646": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["纯洁之魂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["恢复一定量 HP"],
+				["恢复一定量 SP"],
+				["无法移动"],
+				["有几率不受伤害"],
+				["使用技能时随机解除减益"],
+				["受到伤害时解除效果"]
+			]
+		},
+		"647": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["ASPD 强化药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度"]
+			]
+		},
+		"650": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["应援爆竹", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高全部属性"],
+				["提高 ATK、MATK"]
+			]
+		},
+		"652": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["十六夜", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["取消固定吟唱"],
+				["缩短可变吟唱"],
+				["物品 MATK 提高"]
+			]
+		},
+		"654": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["影子踩踏", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法移动"],
+				["特定 技能 解除"],
+				["无法使用隐身、传送技能和物品"],
+				["无法使用紧急呼叫"]
+			]
+		},
+		"655": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["虚无", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["物理和魔法攻击反射无效"],
+				["使用技能时有几率失败"]
+			]
+		},
+		"656": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["影武者", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["获得二刀连击效果"],
+				["每秒损失一定量 SP"],
+				["提高八方苦无、爆炸苦无伤害"],
+				["提高风魔手里剑乱华、十字斩伤害"]
+			]
+		},
+		"657": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["残月", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["按基础等级赋予效果"]
+			]
+		},
+		"658": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["教父的远古之魂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对恶魔型魔物造成的"],
+				["物理, 魔法 提高伤害"]
+			]
+		},
+		"659": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["幻影", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["HP 和 SP 随机增减"],
+				["受到魔法攻击时，"],
+				["一半伤害由其他目标承担"]
+			]
+		},
+		"660": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["红月", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["特定 HP 恢复技能"],
+				["恢复转化为伤害"]
+			]
+		},
+		"662": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["战斗药", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK、MATK"],
+				["降低最大 HP 和 SP"]
+			]
+		},
+		"663": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["高级战斗药", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK、MATK"],
+				["降低最大 HP 和 SP"]
+			]
+		},
+		"664": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["红色增强剂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK、MATK"],
+				["提高攻击速度"],
+				["缩短可变吟唱"],
+				["物理或魔法攻击时有一定几率"],
+				["发动心神凝聚"]
+			]
+		},
+		"666": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["神秘粉末", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 FLEE 和 LUK"]
+			]
+		},
+		"670": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["神秘生命药水", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 3 秒恢复一定量 HP"],
+				["狂暴状态下无效"]
+			]
+		},
+		"675": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["繁茂花枝", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 FLEE"],
+				["提高完全回避"]
+			]
+		},
+		"676": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["守护之光", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["解除特定异常状态"],
+				["免疫特定异常状态"]
+			]
+		},
+		"677": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["古拉斯特海姆之力"],
+				["能感觉到力量在涌动"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"678": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["古拉斯特海姆之盾"],
+				["正在受到保护"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"679": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 4,
+			"descript": [
+				["古拉斯特海姆治愈"],
+				["治愈的力量"],
+				["使其最大化"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"680": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["大魔法防御能量"],
+				["层层叠叠"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"681": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["全部能力"],
+				["急剧上升"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"682": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["全部防御"],
+				["急剧上升"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"683": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["最大 HP 和 SP"],
+				["急剧上升"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"685": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["全能", "rgb(155, 202, 155)"],
+				["提高 ATK、MATK"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"686": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["霜巨人的血", "rgb(155, 202, 155)"],
+				["对玩家型敌人追加伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"687": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["高仑核心", "rgb(155, 202, 155)"],
+				["降低来自玩家型敌人的伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"688": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["妖精之泪（昏迷）", "rgb(155, 202, 155)"],
+				["昏迷 免疫"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"689": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["妖精之泪（石化）", "rgb(155, 202, 155)"],
+				["石化 免疫"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"690": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["妖精之泪（冰冻）", "rgb(155, 202, 155)"],
+				["冻结 免疫"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"691": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["妖精之泪（睡眠）", "rgb(155, 202, 155)"],
+				["睡眠 免疫"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"692": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["妖精之泪（诅咒）", "rgb(155, 202, 155)"],
+				["诅咒 免疫"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"693": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["妖精之泪（沉默）", "rgb(155, 202, 155)"],
+				["沉默 免疫"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"694": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["妖精之泪（黑暗）", "rgb(155, 202, 155)"],
+				["黑暗 免疫"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"697": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["对贝壳类魔物造成的"],
+				["附加物理伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"698": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["对贝壳类魔物造成的"],
+				["附加魔法伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"699": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["来自贝壳类魔物的"],
+				["降低受到的伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"700": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["来自贝壳类魔物的"],
+				["提高获得的经验"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"702": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["对人形魔物造成的"],
+				["附加物理伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"703": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["对人形魔物造成的"],
+				["附加魔法伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"704": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["来自人形魔物的"],
+				["降低受到的伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"705": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["正在蓄积能量", "rgb(155, 202, 155)"],
+				["提高 ATK、MATK"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"706": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["正在蓄积能量", "rgb(155, 202, 155)"],
+				["提高 ATK、MATK"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"707": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["正在蓄积能量", "rgb(155, 202, 155)"],
+				["提高 ATK、MATK"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"710": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 5,
+			"descript": [
+				["冰冻炸弹", "rgb(250, 100, 100)"],
+				["降低移动速度"],
+				["一段时间后爆炸"],
+				["对周围造成大量伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"711": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 4,
+			"descript": [
+				["芬里尔之力", "rgb(155, 202, 155)"],
+				["提高 MATK"],
+				["缩短固定吟唱"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"715": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 4,
+			"descript": [
+				["丰饶之歌", "rgb(155, 202, 155)"],
+				["提高最大 HP"],
+				["每秒恢复一定量 HP"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"716": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 4,
+			"descript": [
+				["奉献礼", "rgb(155, 202, 155)"],
+				["提高自己使用的治疗量"],
+				["增加全部技能的 SP 消耗"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"717": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 5,
+			"descript": [
+				["强力念力", "rgb(155, 202, 155)"],
+				["提高念属性魔法攻击力"],
+				["减少念属性魔法 SP 消耗"],
+				["缩短可变吟唱"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"720": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 4,
+			"descript": [
+				["全力推进", "rgb(155, 202, 155)"],
+				["提高移动速度"],
+				["提高全部基础属性"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"721": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 4,
+			"descript": [
+				["疲劳", "rgb(250, 100, 100)"],
+				["降低移动速度"],
+				["无法自然恢复 HP、SP"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"722": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["无限", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["远距离 物理 伤害 提高"]
+			]
+		},
+		"723": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 5,
+			"descript": [
+				["王者恩典", "rgb(155, 202, 155)"],
+				["无敌状态"],
+				["无法使用物品"],
+				["无法移动和攻击"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"724": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["最大 ATK", "rgb(190, 190, 250)"], ["最大 物理伤害"]]
+		},
+		"725": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["最小 ATK", "rgb(190, 190, 250)"], ["最小 物理伤害"]]
+		},
+		"726": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["最大 MATK", "rgb(190, 190, 250)"], ["最大 魔法伤害"]]
+		},
+		"727": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["最小 MATK", "rgb(190, 190, 250)"], ["最小 魔法伤害"]]
+		},
+		"730": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["黑色利爪", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["放大近战物理伤害"],
+				["部分反射效果无效"]
+			]
+		},
+		"731": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["提高 LUK"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"732": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["按百分比提高 ATK、MATK"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"733": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["提高 HP、SP 恢复"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"736": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["寒气", "rgb(250, 100, 100)"],
+				["不会被灼伤"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"737": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 6,
+			"descript": [
+				["灼伤", "rgb(250, 100, 100)"],
+				["对火属性魔物"],
+				["提高受到的伤害"],
+				["降低火属性抗性"],
+				["周期性火属性伤害"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"741": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["纽奥兹的古怪", "rgb(155, 202, 155)"],
+				["提高 ATK"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"742": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["爱咕的意志", "rgb(155, 202, 155)"],
+				["提高 MATK"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"743": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["洛特尔特的虚张", "rgb(155, 202, 155)"],
+				["攻击 缩短后摇"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"744": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["格尔卡的害羞", "rgb(155, 202, 155)"],
+				["减少 SP 消耗"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"745": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["阿朗的天真", "rgb(155, 202, 155)"],
+				["缩短技能后摇"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"746": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["明敏的细致", "rgb(155, 202, 155)"],
+				["提高命中"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"747": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["罗埃尔的认真", "rgb(155, 202, 155)"],
+				["提高 DEF"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"748": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["卢纳因的苛刻", "rgb(155, 202, 155)"],
+				["提高治疗量"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"749": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["拉吉的冷场", "rgb(155, 202, 155)"],
+				["提高 MDEF"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"750": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["旋律杰克的多余", "rgb(155, 202, 155)"],
+				["提高回避"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"751": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 4,
+			"descript": [
+				["博者的杯子", "rgb(155, 202, 155)"],
+				["提高 VIT"],
+				["提高火属性抗性"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"752": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["束缚陷阱", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动速度"]
+			]
+		},
+		"753": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["永恒锁链", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["有一定几率发动连锁攻击"]
+			]
+		},
+		"755": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["猩红标记", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低 FLEE"]
+			]
+		},
+		"756": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["咆哮地雷", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["嚎叫地雷状态"]
+			]
+		},
+		"758": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["白金祭坛", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK"]
+			]
+		},
+		"759": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["加热枪管", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK"],
+				["降低 HIT"],
+				["提高攻击速度"],
+				["缩短固定吟唱"]
+			]
+		},
+		"760": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["反物质爆破", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低无属性抗性"]
+			]
+		},
+		"762": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["剑士公会", "rgb(155, 202, 155)"],
+				["STR +1，VIT +1"],
+				["最大 HP +30，最大 SP +10"]
+			]
+		},
+		"763": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["奥术法杖公会", "rgb(155, 202, 155)"],
+				["INT +1，DEX +1"],
+				["最大 HP +30，最大 SP +10"]
+			]
+		},
+		"764": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["黄金权杖公会", "rgb(155, 202, 155)"],
+				["LUK +1，INT +1"],
+				["最大 HP +30，最大 SP +10"]
+			]
+		},
+		"765": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [
+				["十字弓公会", "rgb(155, 202, 155)"],
+				["DEX +1，AGI +1"],
+				["最大 HP +30，最大 SP +10"]
+			]
+		},
+		"766": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["强力 30 秒", "rgb(155, 202, 155)"],
+				["提高 ATK"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"767": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["聪慧 30 秒", "rgb(155, 202, 155)"],
+				["提高 MATK"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"768": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["体力 30 秒", "rgb(155, 202, 155)"],
+				["提高最大 HP"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"769": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["魔力 30 秒", "rgb(155, 202, 155)"],
+				["提高最大 SP"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"770": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["轻快 30 秒", "rgb(155, 202, 155)"],
+				["提高 FLEE"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"771": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["迅捷 30 秒", "rgb(155, 202, 155)"],
+				["提高 ASPD"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"772": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["扎实 30 秒", "rgb(155, 202, 155)"],
+				["提高 DEF"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"773": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["安稳 30 秒", "rgb(155, 202, 155)"],
+				["提高 MDEF"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"774": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["幸运 30 秒", "rgb(155, 202, 155)"],
+				["提高暴击"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"775": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["合身 30 秒", "rgb(155, 202, 155)"],
+				["提高 HIT"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"776": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["处于生者与死者的边界！", "rgb(250, 100, 100)"],
+				["精神力 -50%"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"777": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["端午节庆典", "rgb(155, 202, 155)"],
+				["提高全部属性"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"778": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["后遗症", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法使用物品"],
+				["技能 使用无法"],
+				["无法攻击"]
+			]
+		},
+		"780": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高获得的经验"]]
+		},
+		"783": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["炖牛小排", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["缩短可变吟唱"],
+				["减少 SP 消耗"]
+			]
+		},
+		"784": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["炖猪排", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度."],
+				["减少 SP 消耗"]
+			]
+		},
+		"785": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["属性强化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对暗属性魔物追加伤害"],
+				["提高圣属性抗性"]
+			]
+		},
+		"786": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["属性强化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对地属性魔物追加伤害"],
+				["提高火属性抗性"]
+			]
+		},
+		"787": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["属性强化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对火属性魔物追加伤害"],
+				["提高水属性抗性"]
+			]
+		},
+		"788": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["属性强化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对风属性魔物追加伤害"],
+				["提高地属性抗性"]
+			]
+		},
+		"789": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["属性强化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对水属性魔物追加伤害"],
+				["提高风属性抗性"]
+			]
+		},
+		"790": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["属性强化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对无属性魔物追加伤害"],
+				["提高无属性抗性"]
+			]
+		},
+		"815": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["跳跃公会", "rgb(155, 202, 155)"], ["全部基础属性 +1"]]
+		},
+		"844": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["正在凝聚时间碎片"],
+				["%s", "rgb(255, 176, 98)"],
+				["已经获得时间精华"]
+			]
+		},
+		"865": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["被封印的别西卜", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["缩短可变吟唱时间"]
+			]
+		},
+		"867": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["限定版力量增强剂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK、MATK"],
+				["提高 HIT 和 FLEE"],
+				["提高攻击速度"],
+				["减少 SP 消耗"],
+				["缩短固定吟唱"]
+			]
+		},
+		"873": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 3,
+			"descript": [
+				["闪亮圣水", "rgb(155, 202, 155)"],
+				["仪式之间、普隆德拉侵攻副本受到的伤害 -10%"],
+				["%s", "rgb(255, 176, 98)"]
+			]
+		},
+		"875": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["石化", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法回避或行动"],
+				["降低最大 HP"]
+			]
+		},
+		"876": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["冻结", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法回避或行动"],
+				["降低物理和魔法防御"]
+			]
+		},
+		"877": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["昏迷", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法回避或行动"]
+			]
+		},
+		"878": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["睡眠", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法回避或行动"],
+				["提高暴击伤害几率"]
+			]
+		},
+		"880": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["正在石化", "rgb(250, 100, 100)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"881": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["起火", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 3 秒受到伤害"],
+				["魔法 降低防御"]
+			]
+		},
+		"882": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["隔离", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法移动、攻击、使用技能或物品"]
+			]
+		},
+		"883": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["毒", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低视野"],
+				["物理 降低防御"],
+				["每 3 秒降低最大 HP"]
+			]
+		},
+		"884": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["诅咒", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动速度和物理攻击力"],
+				["LUK 变为 0"]
+			]
+		},
+		"885": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["沉默", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法使用技能"]
+			]
+		},
+		"886": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["混乱", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["移动时方向随机"]
+			]
+		},
+		"890": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["致命毒", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["秒 HP 降低 "]
+			]
+		},
+		"891": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["恐惧", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["2 秒内无法移动"],
+				["降低命中和回避"]
+			]
+		},
+		"892": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["樱花年糕", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低来自小、中、大型敌人的伤害"]
+			]
+		},
+		"893": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["蜷缩", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["蜷缩身体，降低受到的伤害"]
+			]
+		},
+		"894": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["撒粉", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低 ATK、MATK"],
+				["降低移动速度"],
+				["提高 HP、SP 恢复"]
+			]
+		},
+		"896": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["银藤根缠绕", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法移动"],
+				["每秒 100 点无属性伤害"]
+			]
+		},
+		"897": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["武器属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"898": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["武器属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"899": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["武器属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"900": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["为武器附加火属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"901": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["武器属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"902": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["为武器附加毒属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"903": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["为武器附加圣属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"904": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["武器属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"905": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["武器属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"906": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["武器属性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"907": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"908": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"909": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"910": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"911": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"912": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"913": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"914": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"915": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"916": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["属性抗性", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"917": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["咬伤", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["昏迷 2 秒"],
+				["每秒损失一定比例最大 HP"]
+			]
+		},
+		"918": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["阿克鲁兹冲刺", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高移动速度"],
+				["提高 AGI"]
+			]
+		},
+		"919": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["金枪鱼派对", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["抵挡一定伤害"]
+			]
+		},
+		"920": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["虾群", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["ATK、MATK +10%"]
+			]
+		},
+		"921": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["新鲜虾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["恢复一定量 HP"]
+			]
+		},
+		"922": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [
+				["%s", "rgb(255, 176, 98)"],
+				["狩猎魔物时"],
+				["基础物品掉落率变为 2 倍"]
+			]
+		},
+		"923": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["提高获得的经验"]]
+		},
+		"924": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 1,
+			"descript": [["%s", "rgb(255, 176, 98)"], ["狩猎魔物时额外获得 Job 经验"]]
+		},
+		"933": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["隐藏", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"935": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卡露尼亚牛奶", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["3 分钟内每 10 秒恢复 10 HP"]
+			]
+		},
+		"936": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["罗勒", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["3 分钟内每 10 秒恢复 5 SP"]
+			]
+		},
+		"937": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["灵魂珠"]]
+		},
+		"938": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高掉落率", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物品掉落率"]
+			]
+		},
+		"939": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高经验获得", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高经验获得率"]
+			]
+		},
+		"940": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高 Job 经验", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 Job 经验获得率"]
+			]
+		},
+		"941": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["降低死亡惩罚", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低死亡惩罚"]
+			]
+		},
+		"942": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["仓库扩展", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高仓库存放数量"]
+			]
+		},
+		"950": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["嘶叫", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高完全回避和移动速度"]
+			]
+		},
+		"952": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["喵草", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使装备防御无效"]
+			]
+		},
+		"953": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["喋喋不休", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["5 秒内 ATK、MATK +100"],
+				["10 秒内提高移动速度"]
+			]
+		},
+		"961": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["梳理", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["FLEE +100"]
+			]
+		},
+		"962": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["虾之加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 SP 恢复"]
+			]
+		},
+		"963": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["强化药水 SS", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["ASPD +10"]
+			]
+		},
+		"964": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["强化药水 SC", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["暴击 +30"]
+			]
+		},
+		"965": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["强化药水 AC", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["可变吟唱 -80%"]
+			]
+		},
+		"966": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔法子弹", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["魔法 伤害 额外"]
+			]
+		},
+		"983": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高掉落率", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物品掉落率"]
+			]
+		},
+		"984": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高经验获得", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高经验获得率"]
+			]
+		},
+		"985": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高 Job 经验", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 Job 经验获得率"]
+			]
+		},
+		"988": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高攻击力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对圣属性、暗属性、天使型、恶魔型物理攻击 +20%"]
+			]
+		},
+		"989": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["减少 SP 消耗", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["技能 SP 消耗 -15%"]
+			]
+		},
+		"990": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["缩短技能后摇", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["技能后摇 -15%"]
+			]
+		},
+		"992": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["爸爸妈妈加油", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["全部属性 +3"]
+			]
+		},
+		"995": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["小型玛那树", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 5 秒恢复一定量 SP"],
+				["狂暴状态下无效"]
+			]
+		},
+		"996": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["闪亮防御卷轴", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高防御和魔法防御"]
+			]
+		},
+		"1000": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高回避", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["FLEE +200"]
+			]
+		},
+		"1001": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["坟墓加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对部分死者魔物伤害增加"],
+				["列表：剑士、盗贼系死者魔物"],
+				["受到部分死者魔物的伤害减少"],
+				["列表：魔法师、商人系死者魔物"],
+				["不包括 MVP 魔物"]
+			]
+		},
+		"1002": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["坟墓加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对部分死者魔物伤害增加"],
+				["列表：魔法师、商人系死者魔物"],
+				["受到部分死者魔物的伤害减少"],
+				["列表：服事、弓手系死者魔物"],
+				["不包括 MVP 魔物"]
+			]
+		},
+		"1003": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["坟墓加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对部分死者魔物伤害增加"],
+				["列表：服事、弓手系死者魔物"],
+				["受到部分死者魔物的伤害减少"],
+				["列表：剑士、盗贼系死者魔物"],
+				["不包括 MVP 魔物"]
+			]
+		},
+		"1004": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["坟墓加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对部分死者魔物伤害增加"],
+				["列表：死者坟墓 MVP 魔物"],
+				["受到部分死者魔物的伤害减少"],
+				["列表：死者坟墓 MVP 魔物"]
+			]
+		},
+		"1013": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["全属性下降", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低全部属性"]
+			]
+		},
+		"1014": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["重力增强", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每秒损失 HP"]
+			]
+		},
+		"1027": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["特制饼干", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度."],
+				["缩短可变吟唱"]
+			]
+		},
+		"1031": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高攻击力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["ATK +10%"]
+			]
+		},
+		"1032": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔法 提高攻击力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["MATK +10%"]
+			]
+		},
+		"1033": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高攻击速度", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["攻击后摇 -10%"]
+			]
+		},
+		"1035": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["月之光", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高满月踢伤害"]
+			]
+		},
+		"1036": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["太阳之光", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高太阳爆炸伤害"]
+			]
+		},
+		"1037": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["星之光", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高流星坠落伤害"]
+			]
+		},
+		"1038": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["月之姿态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP"],
+				["可使用月系列技能"]
+			]
+		},
+		"1039": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["宇宙姿态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高全部属性"],
+				["可使用宇宙系列技能"],
+				["可使用太阳系列技能"],
+				["可使用月系列技能"],
+				["可使用星系列技能"]
+			]
+		},
+		"1040": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["太阳姿态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK"],
+				["可使用太阳系列技能"]
+			]
+		},
+		"1041": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["闪光踢", "rgb(250, 100, 100)"]]
+		},
+		"1042": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["朔月", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["身影不可见"],
+				["可以使用满月踢"]
+			]
+		},
+		"1043": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["星之姿态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度"],
+				["可使用星系列技能"]
+			]
+		},
+		"1044": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["次元之书", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使用神圣爆炸、圣帝降临时"],
+				["发动特殊效果"]
+			]
+		},
+		"1047": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["创星之书", "rgb(250, 100, 100)"], ["降低移动速度"]]
+		},
+		"1048": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["坠星", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["攻击时有一定几率"],
+				["对星之印记目标"],
+				["流星坠落"]
+			]
+		},
+		"1050": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["重力控制", "rgb(250, 100, 100)"], ["无法攻击和移动"]]
+		},
+		"1053": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["禅", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每隔一段时间积蓄灵魂能量"]
+			]
+		},
+		"1054": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["灵魂收割", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["攻击时有一定几率"],
+				["获得灵魂能量"]
+			]
+		},
+		"1055": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["灵魂统一", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每 3 秒恢复 HP"],
+				["可抄袭的目标"]
+			]
+		},
+		"1056": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["影之灵魂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高暴击"],
+				["提高 ASPD"]
+			]
+		},
+		"1057": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["妖精灵魂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 MATK"],
+				["缩短可变吟唱"]
+			]
+		},
+		"1058": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["猎鹰灵魂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 ATK"],
+				["提高命中"]
+			]
+		},
+		"1059": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["石像灵魂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 DEF"],
+				["提高 MDEF"]
+			]
+		},
+		"1060": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["灵魂分裂", "rgb(250, 100, 100)"], ["延长技能后摇"]]
+		},
+		"1065": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["无限饮料", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP 和 SP"],
+				["暴击 伤害, 远距离 物理 伤害,"],
+				["属性 魔法 提高攻击力"],
+				["吟唱不会被打断"]
+			]
+		},
+		"1083": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["猎人的盛宴", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高地瓜恢复量"],
+				["提高肉类恢复量"]
+			]
+		},
+		"1084": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高掉落率", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["物品 掉落率 50% 提高"]
+			]
+		},
+		"1085": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["提高经验获得", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["经验获得率 +50%"]
+			]
+		},
+		"1088": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["合奏疲劳", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["因合奏产生的疲劳"],
+				["无法使用技能"],
+				["移动和攻击速度 -30%"]
+			]
+		},
+		"1089": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["临机应变", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["演奏、舞蹈、合奏技能"],
+				["减少 SP 消耗"]
+			]
+		},
+		"1095": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["安琪拉", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["治疗量 +15%"],
+				["SP 恢复力 +30%"],
+				["赞美诗变为无属性"]
+			]
+		},
+		"1107": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["反击状态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["反击斩"],
+				["可以使用"]
+			]
+		},
+		"1121": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["圣母之祈福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物理防御"],
+				["提高受到的治疗量"]
+			]
+		},
+		"1122": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["圣殿", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高圣属性魔法伤害"],
+				["对暗/不死属性敌人造成的"],
+				["提高物理伤害"]
+			]
+		},
+		"1123": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["绵绵岛猫罐头 2", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["狩猎魔物时"],
+				["提高 Base 和 Job 经验"],
+				["物品 掉落率 提高"]
+			]
+		},
+		"1125": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["灵魂诅咒", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低暗属性攻击抗性"]
+			]
+		},
+		"1126": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["毁灭之声", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受到的全部伤害变为 2 倍"]
+			]
+		},
+		"1130": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["天使援助", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["秒 HP 1000 恢复"],
+				["秒 SP 350 恢复"]
+			]
+		},
+		"1132": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["强劲的烟雾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["ATK +7%"]
+			]
+		},
+		"1133": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["智慧而强烈的烟雾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["MATK +7%"]
+			]
+		},
+		"1135": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["锐利而强烈的烟雾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高回避和完全回避"],
+				["提高攻击速度"],
+				["缩短可变吟唱"]
+			]
+		},
+		"1136": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["小巧花枝", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["最大 HP +3%"],
+				["最大 SP +3%"]
+			]
+		},
+		"1137": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["樱花年糕", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高对小、中、大型敌人的伤害"]
+			]
+		},
+		"1141": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["霜冻状态", "rgb(250, 100, 100)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"1142": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔力中毒", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["全部属性攻击抗性 -50%"]
+			]
+		},
+		"1150": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["致命投射", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["移除魔法无效化"]
+			]
+		},
+		"1151": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["毁灭飓风", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高风属性魔法伤害"],
+				["MATK +100"]
+			]
+		},
+		"1152": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["高潮", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为下列技能附加特殊效果，"],
+				["百花齐放、水晶冲击，"],
+				["毁灭飓风，"],
+				["猛烈地震"]
+			]
+		},
+		"1154": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["光之灵魂", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["普通近战物理攻击时有几率"],
+				["发动 1 级风暴冲击"],
+				["提高对所有体型敌人的物理伤害"],
+				["暴击 提高伤害"],
+				["提高近战和远距离物理伤害"]
+			]
+		},
+		"1155": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["入浴剂 A", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对大浴场冥想副本魔物造成的"],
+				["物理/魔法 伤害 5% 提高"]
+			]
+		},
+		"1156": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["入浴剂 B", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对大浴场冥想副本魔物造成的"],
+				["物理/魔法 伤害 10% 提高"]
+			]
+		},
+		"1157": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["入浴剂 C", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对大浴场冥想副本魔物造成的"],
+				["物理/魔法 伤害 15% 提高"]
+			]
+		},
+		"1158": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["芳香油", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["来自大浴场冥想副本魔物的"],
+				["物理/魔法 伤害 10% 降低"]
+			]
+		},
+		"1160": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["强力信仰", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击力"],
+				["提高特性攻击力"]
+			]
+		},
+		"1161": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["真诚信仰", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高攻击速度"],
+				["获得追击效果"]
+			]
+		},
+		"1162": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["坚定信仰", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高最大 HP"],
+				["提高 RES"]
+			]
+		},
+		"1165": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["地狱植物", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对周围范围内目标"],
+				["近战物理伤害"]
+			]
+		},
+		"1167": {
+			"haveTimeLimit": 0,
+			"posTimeLimitStr": 0,
+			"descript": [["设定炮击点", "rgb(250, 100, 100)"], ["每隔一段时间生成炮击点"]]
+		},
+		"1169": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["黄金裁决", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受到的反射伤害 -100%"]
+			]
+		},
+		"1170": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["红草活化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["近战 物理 伤害 15% 提高"],
+				["远距离 物理 伤害 15% 提高"]
+			]
+		},
+		"1171": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["蓝草活化", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["全部 属性 魔法 伤害 15% 提高"]
+			]
+		},
+		"1172": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["侍从武器", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["持续时间内召唤武器体"],
+				["普通物理攻击时射出武器体"]
+			]
+		},
+		"1173": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["使魔武器标记", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["使魔武器造成的标记"]
+			]
+		},
+		"1174": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["冲锋穿刺", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["持续时间内使用特定技能时"],
+				["反击计数累积"]
+			]
+		},
+		"1176": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["龙之气场", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高龙息伤害"],
+				["提高龙息-水伤害"],
+				["提高百矛穿刺伤害"]
+			]
+		},
+		"1178": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["活力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物理伤害"],
+				["每次攻击减少 HP"]
+			]
+		},
+		"1182": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["猛烈地震", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低持续状态抗性"]
+			]
+		},
+		"1183": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["百花齐放", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低火属性抗性"]
+			]
+		},
+		"1184": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["水晶冲击", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高水属性抗性"],
+				["DEF +300"],
+				["MDEF +100"],
+				["提高水属性魔法伤害"]
+			]
+		},
+		"1190": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["圣油洗礼", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高受到的远距离物理伤害"]
+			]
+		},
+		"1192": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["暗影超越", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["永恒斩击、野蛮冲击"],
+				["提高伤害"]
+			]
+		},
+		"1193": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["舞动之刃", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每隔一段时间对周围目标"],
+				["近战物理伤害"]
+			]
+		},
+		"1194": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["强力毒液", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无视物理抗性"]
+			]
+		},
+		"1195": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["附魔影子", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高受到的近战物理伤害"]
+			]
+		},
+		"1197": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["调解", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["周期性对周围队员"],
+				["正在恢复 HP"]
+			]
+		},
+		"1198": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["阿尔古图斯生命", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无视部分魔法抗性"]
+			]
+		},
+		"1199": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["阿尔古图斯武器", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无视部分物理抗性"]
+			]
+		},
+		"1200": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["敏锐感知", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高暴击伤害倍率"]
+			]
+		},
+		"1201": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["能力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 P.ATK、S.MATK"]
+			]
+		},
+		"1202": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["防御姿态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物理防御"],
+				["降低装备攻击力"]
+			]
+		},
+		"1203": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["攻击姿态", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高装备攻击力"],
+				["降低物理防御"]
+			]
+		},
+		"1204": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["守护者之盾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["获得抵挡物理攻击的护盾"]
+			]
+		},
+		"1205": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["漆黑", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["缩小视野"],
+				["降低回避和完全回避"]
+			]
+		},
+		"1206": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["静谧", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法使用技能"],
+				["降低攻击速度"]
+			]
+		},
+		"1207": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["无力", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低暴击"],
+				["降低移动速度"]
+			]
+		},
+		"1208": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["急冻", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["水属性状态"],
+				["无法移动、使用物品或技能"],
+				["降低 DEF、MDEF"],
+				["受到伤害时解除"]
+			]
+		},
+		"1209": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["昏厥", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法移动、使用物品或技能"],
+				["提高受到的伤害"],
+				["受到伤害时解除"]
+			]
+		},
+		"1210": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["激流", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["风属性状态"],
+				["无法移动、使用物品或技能"],
+				["降低持续状态抗性"],
+				["受到伤害时解除"]
+			]
+		},
+		"1211": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["结晶", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["地属性状态"],
+				["无法移动、使用物品或技能"],
+				["降低 MDEF"],
+				["受到伤害时解除"]
+			]
+		},
+		"1212": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["火灾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["火属性状态"],
+				["周期性减少 HP"]
+			]
+		},
+		"1213": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["不幸", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低 HIT"],
+				["使用技能时有一定几率失败"]
+			]
+		},
+		"1214": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["剧毒", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低毒属性抗性"],
+				["降低 DEF，周期性减少 HP"]
+			]
+		},
+		"1215": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["忧郁", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["额外增加 SP 消耗"],
+				["周期性减少 SP"]
+			]
+		},
+		"1216": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["圣化", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["受到魔法伤害时恢复 HP"],
+				["额外提高受到的物理伤害"]
+			]
+		},
+		"1217": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["反弹盾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["因献身降低受到的伤害"]
+			]
+		},
+		"1220": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["神圣之盾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高暗属性和不死属性抗性"],
+				["提高圣属性魔法伤害"],
+				["提高十字雨伤害"]
+			]
+		},
+		"1221": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["终极牺牲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法战斗时立即复活"]
+			]
+		},
+		"1222": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["大审判", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高消失点伤害"],
+				["提高加农矛伤害"]
+			]
+		},
+		"1223": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["盾牌射击", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高盾链伤害"],
+				["提高盾压伤害"],
+				["提高大地驱动伤害"]
+			]
+		},
+		"1226": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["附魔影子", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["有一定几率对目标"],
+				["提高受到的近战物理伤害"]
+			]
+		},
+		"1227": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["信仰", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 SPL、WIS、STA"]
+			]
+		},
+		"1228": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["祝福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 POW、CRT、CON"]
+			]
+		},
+		"1230": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["第一烙印", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["已被打上烙印"]
+			]
+		},
+		"1231": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["审判烙印", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["已被打上审判烙印"]
+			]
+		},
+		"1232": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["第 2 章：审判者", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["第 2 击：信念/审判"],
+				["第 3 击：断罪/净化"],
+				["可以使用"],
+				["大展崩锤及闪光连击"],
+				["不消耗气弹"]
+			]
+		},
+		"1233": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["最终章·驱魔之火", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["第 2 击：信念/审判/灭魔之火"],
+				["第 3 击：断罪/净化/灭火击"],
+				["可以使用"],
+				["大展崩锤、闪光连击、虎炮"],
+				["不消耗气弹"]
+			]
+		},
+		"1234": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["第一信仰之力", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["第 2 击：信念"],
+				["第 3 击：断罪"],
+				["可以使用"],
+				["大展崩锤"],
+				["不消耗气弹"]
+			]
+		},
+		"1235": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["战斧践踏", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高斧刃风暴伤害"]
+			]
+		},
+		"1236": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["攻击装置", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["每隔一段时间对周围目标"],
+				["近战物理伤害"]
+			]
+		},
+		"1237": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["防御装置", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 DEF"],
+				["提高 RES"]
+			]
+		},
+		"1242": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除影子装备", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备影子装备"]
+			]
+		},
+		"1243": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["深渊匕首", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高致命威胁伤害"]
+			]
+		},
+		"1244": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["来自深渊", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["持续时间内召唤深渊球体"],
+				["普通物理攻击时进行球体攻击"]
+			]
+		},
+		"1245": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["深渊杀手", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 P.ATK"],
+				["提高 S.MATK"]
+			]
+		},
+		"1247": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["影子保护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["影子装备不会损坏"]
+			]
+		},
+		"1248": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["研究报告", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高强酸类技能伤害"],
+				["对无形、植物型伤害增加"]
+			]
+		},
+		"1249": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["地狱尘", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["对无形、植物型伤害增加"],
+				["提高远距离物理伤害"]
+			]
+		},
+		"1250": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["风之印记", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["已被打上风鹰烙印"]
+			]
+		},
+		"1252": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["灾厄狂风", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无限射程效果生效"],
+				["提高部分技能伤害"],
+				["疾风风暴可暴击"],
+				["提高新月箭、疾风风暴对动物和贝壳型的伤害"]
+			]
+		},
+		"1256": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["神秘交响曲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高部分技能伤害"],
+				["提高对贝壳型、人形魔物的伤害"]
+			]
+		},
+		"1257": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["夸西尔奏鸣曲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["可以独自合奏"]
+			]
+		},
+		"1258": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["声音融合", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["已被打上音波烙印"]
+			]
+		},
+		"1259": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["吉芬尼亚夜曲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低魔法抗性"]
+			]
+		},
+		"1260": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["矿工狂想曲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低 RES"]
+			]
+		},
+		"1261": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["音乐间奏", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物理抗性"]
+			]
+		},
+		"1262": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["晚霞小夜曲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 S.MATK"],
+				["提高移动速度"]
+			]
+		},
+		"1263": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["普隆德拉进行曲", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 P.ATK"],
+				["提高移动速度"]
+			]
+		},
+		"1271": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["法术附魔", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 S.MATK"]
+			]
+		},
+		"1303": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["召唤生命体", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["生命体已激活"]
+			]
+		},
+		"1310": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["毒雾", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低回避"]
+			]
+		},
+		"1313": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["岩壁", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物理防御"],
+				["魔法 提高防御"]
+			]
+		},
+		"1315": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["超限烙印就绪", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高超限烙印威力"]
+			]
+		},
+		"1316": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["盾牌法术", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["盾牌魔法效果"]
+			]
+		},
+		"1318": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["云毒", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低毒属性攻击抗性"]
+			]
+		},
+		"1319": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["孢子爆炸", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高受到的远距离物理伤害"]
+			]
+		},
+		"1326": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["巨大火焰爆破", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["雷光弹及爆气散弹"],
+				["不消耗气弹"]
+			]
+		},
+		"1330": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除影子装备", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备武器影子装备"]
+			]
+		},
+		"1331": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除影子装备", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备铠甲影子装备"]
+			]
+		},
+		"1332": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除影子装备", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备盾/武器影子装备"]
+			]
+		},
+		"1333": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除影子装备", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备鞋子影子装备"]
+			]
+		},
+		"1334": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除影子装备", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备饰品影子装备"]
+			]
+		},
+		"1335": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除影子装备", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备饰品影子装备"]
+			]
+		},
+		"1336": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["卸除影子装备", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["无法装备全部影子装备"]
+			]
+		},
+		"1337": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["红方块诅咒", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"1338": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [["蓝方块诅咒", "rgb(155, 202, 155)"], ["%s", "rgb(255, 176, 98)"]]
+		},
+		"1341": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["曼陀罗毒素", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低物理抗性"]
+			]
+		},
+		"1342": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["黄金音调", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高物理和魔法抗性"]
+			]
+		},
+		"1343": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["淬炼", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 P.ATK"]
+			]
+		},
+		"1345": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["集中瞄准", "rgb(155, 202, 155)"],
+				["提高 ATK"],
+				["提高 HIT"],
+				["提高暴击"]
+			]
+		},
+		"1347": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["榴弹碎片", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["手雷攻击附加水属性"]
+			]
+		},
+		"1348": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["榴弹碎片", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["手雷攻击附加风属性"]
+			]
+		},
+		"1349": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["榴弹碎片", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["手雷攻击附加地属性"]
+			]
+		},
+		"1350": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["榴弹碎片", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["手雷攻击附加火属性"]
+			]
+		},
+		"1351": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["榴弹碎片", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["手雷攻击附加暗属性"]
+			]
+		},
+		"1352": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["榴弹碎片", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["手雷攻击附加圣属性"]
+			]
+		},
+		"1353": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["自动开火发射器", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["自动手雷发射器已启用"]
+			]
+		},
+		"1354": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["隐藏王牌", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高远距离物理伤害"],
+				["提高 P.ATK"]
+			]
+		},
+		"1355": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["榴弹精通", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 CON"],
+				["提高手雷类技能伤害"]
+			]
+		},
+		"1356": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["守护符", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["持续恢复 HP"]
+			]
+		},
+		"1357": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["武士符", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 P.ATK"]
+			]
+		},
+		"1358": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["魔法师符", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 S.MATK"]
+			]
+		},
+		"1359": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["五行符", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高对水/风/地/火/无属性敌人的物理伤害"],
+				["提高对水/风/地/火/无属性敌人的魔法伤害"]
+			]
+		},
+		"1360": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["东方加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["东方加护状态"]
+			]
+		},
+		"1361": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["西方加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["西方加护状态"]
+			]
+		},
+		"1362": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["南方加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["南方加护状态"]
+			]
+		},
+		"1363": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["北方加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["北方加护状态"]
+			]
+		},
+		"1364": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["四方五行加护", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["四方五行加护状态"]
+			]
+		},
+		"1365": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["天地神灵", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高近战物理伤害"],
+				["提高远距离物理伤害"],
+				["全部 属性 魔法 提高伤害"]
+			]
+		},
+		"1366": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["弧光", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["弧光状态"]
+			]
+		},
+		"1367": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["龟岛海之庆典", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 POW、CRT、CON"]
+			]
+		},
+		"1368": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["龟岛沙之庆典", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 SPL、WIS、STA"]
+			]
+		},
+		"1369": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["龟雪翻腾", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["恢复 AP"]
+			]
+		},
+		"1370": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["玄鹿五色角", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为下列技能附加水属性"],
+				["薄荷陨石"],
+				["玄鹿叶风"],
+				["玄鹿炮"]
+			]
+		},
+		"1371": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["玄鹿五色角", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为下列技能附加风属性"],
+				["薄荷陨石"],
+				["玄鹿叶风"],
+				["玄鹿炮"]
+			]
+		},
+		"1372": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["玄鹿五色角", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为下列技能附加地属性"],
+				["薄荷陨石"],
+				["玄鹿叶风"],
+				["玄鹿炮"]
+			]
+		},
+		"1373": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["玄鹿五色角", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为下列技能附加火属性"],
+				["薄荷陨石"],
+				["玄鹿叶风"],
+				["玄鹿炮"]
+			]
+		},
+		"1374": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["玄鹿五色角", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为下列技能附加暗属性"],
+				["薄荷陨石"],
+				["玄鹿叶风"],
+				["玄鹿炮"]
+			]
+		},
+		"1375": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["玄鹿五色角", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["为下列技能附加圣属性"],
+				["薄荷陨石"],
+				["玄鹿叶风"],
+				["玄鹿炮"]
+			]
+		},
+		"1376": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["玄鹿五色角", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高薄荷陨石伤害"]
+			]
+		},
+		"1377": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["快速共鸣", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 P.ATK、S.MATK 和治疗加成"]
+			]
+		},
+		"1378": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["英灵祝福", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 P.ATK、S.MATK"]
+			]
+		},
+		"1379": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["英灵祝福副作用", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["一段时间内无法赋予英灵祝福"]
+			]
+		},
+		"1380": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["盾链冲击", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动速度"],
+				["提高受到的物理伤害"],
+				["提高受到的魔法伤害"]
+			]
+		},
+		"1381": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["严寒", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["水属性抗性 -15%"]
+			]
+		},
+		"1382": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["重力原野", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["降低移动速度"],
+				["提高受到的物理伤害"],
+				["提高受到的魔法伤害"]
+			]
+		},
+		"1383": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["突破极限", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["放大战斗类技能伤害"]
+			]
+		},
+		"1384": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["规则破坏", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["放大魔法类技能伤害"]
+			]
+		},
+		"1385": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["朝阳", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["日出状态"]
+			]
+		},
+		"1386": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["正午", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["正午状态"]
+			]
+		},
+		"1387": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["日落", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["日落状态"]
+			]
+		},
+		"1388": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["月升", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["月出状态"]
+			]
+		},
+		"1389": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["午夜", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["午夜状态"]
+			]
+		},
+		"1390": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["月落", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["月落状态"]
+			]
+		},
+		"1391": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["星辰爆发", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["天命落星状态"]
+			]
+		},
+		"1392": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["天气合一", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["天气运行最大化"]
+			]
+		},
+		"1393": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["影子隐匿", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高移动速度"],
+				["降低受到的物理伤害"],
+				["降低受到的魔法伤害"]
+			]
+		},
+		"1395": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["死亡梦魇", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["恶梦标记"]
+			]
+		},
+		"1396": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["面条庆典 - 蝴蝶面", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["近战和远距离"],
+				["提高物理伤害"]
+			]
+		},
+		"1397": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["面条庆典 - 奶油虾意面", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["全部 属性"],
+				["魔法 提高伤害"]
+			]
+		},
+		"1398": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["面条庆典 - 番茄面", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["缩短可变吟唱和技能后摇"],
+				["提高攻击速度（缩短攻击后摇）"]
+			]
+		},
+		"1399": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["面条庆典 - 宴席面", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["按百分比提高 ATK 和 MATK"]
+			]
+		},
+		"1400": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["面条庆典 - 酱油拌面", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高 P.ATK"],
+				["提高 S.MATK"]
+			]
+		},
+		"1402": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["地震", "rgb(250, 100, 100)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高受到的近战物理伤害"],
+				["提高受到的远距离物理伤害"]
+			]
+		},
+		"1403": {
+			"haveTimeLimit": 1,
+			"posTimeLimitStr": 2,
+			"descript": [
+				["冲击", "rgb(155, 202, 155)"],
+				["%s", "rgb(255, 176, 98)"],
+				["提高近战物理伤害"],
+				["提高远距离物理伤害"]
+			]
+		}
+	};
+}));
+//#endregion
+//#region src/DB/Status/StatusDescriptionLocalization.js
+function applyOfficialStateIconTranslations(statusInfo, overlay = stateiconinfo_zh_CN_default) {
+	for (const [id, entry] of Object.entries(overlay)) {
+		const statusId = Number(id);
+		if (!statusInfo[statusId]) statusInfo[statusId] = {};
+		if (Object.hasOwn(entry, "haveTimeLimit")) statusInfo[statusId].haveTimeLimit = entry.haveTimeLimit;
+		if (Object.hasOwn(entry, "posTimeLimitStr")) statusInfo[statusId].posTimeLimitStr = entry.posTimeLimitStr;
+		statusInfo[statusId].descript = entry.descript.map((line) => [...line]);
+	}
+	return statusInfo;
+}
+function snapshotLocalizedStatusDescriptions(statusInfo, overlay = stateiconinfo_zh_CN_default) {
+	applyOfficialStateIconTranslations(statusInfo, overlay);
+	const descriptions = /* @__PURE__ */ new Map();
+	for (const [id, info] of Object.entries(statusInfo)) if (Array.isArray(info.descript) && info.descript.length > 0) descriptions.set(Number(id), info.descript.map((line) => [...line]));
+	return descriptions;
+}
+function restoreLocalizedStatusDescription(statusInfo, descriptions, id) {
+	const localized = descriptions.get(Number(id));
+	statusInfo[id].descript = localized ? localized.map((line) => [...line]) : [];
+	return Boolean(localized);
+}
+var init_StatusDescriptionLocalization = __esmMin((() => {
+	init_stateiconinfo_zh_CN();
+}));
+//#endregion
 //#region src/DB/Status/StatusInfo.js
 var COLOR_TITLE_BUFF, COLOR_TITLE_DEBUFF, COLOR_TITLE_TOGGLE, COLOR_SYSTEM, COLOR_TIME, StatusInfo;
 var init_StatusInfo = __esmMin((() => {
 	init_StatusConst();
+	init_StatusDescriptionLocalization();
 	COLOR_TITLE_BUFF = "rgb(155, 202, 155)";
 	COLOR_TITLE_DEBUFF = "rgb(250, 100, 100)";
 	COLOR_TITLE_TOGGLE = "rgb(190, 190, 250)";
@@ -166445,10 +173063,10 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Maximize Power", COLOR_TITLE_BUFF],
+			["武器最大化", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Increases damage to the maximum"],
-			["Drains SP over time"]
+			["武器伤害达到最大值"],
+			["持续消耗 SP"]
 		]
 	};
 	StatusInfo[StatusConst_default.PROTECTSHIELD] = {
@@ -166456,9 +173074,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Chemical Protection (Shield)", COLOR_TITLE_BUFF],
+			["化学保护（盾）", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Prevents shield from being stripped/broken"]
+			["防止盾牌被卸除或损坏"]
 		]
 	};
 	StatusInfo[StatusConst_default.MAGNIFICAT] = {
@@ -166506,7 +173124,7 @@ var init_StatusInfo = __esmMin((() => {
 		descript: [
 			["新月肘击", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Attempts to counter opponent's attack"],
+			["尝试反击对手的攻击"],
 			["击退对手并造成伤害"],
 			["你仍会受到部分伤害"],
 			["对首领魔物无效", COLOR_SYSTEM]
@@ -168451,20 +175069,20 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["ÀüÅõ¾à", COLOR_TITLE_BUFF],
+			["战斗药", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Increases ATK and MATK"],
-			["Reduced MHP and MSP"]
+			["提高 ATK 和 MATK"],
+			["降低最大 HP 和 SP"]
 		]
 	};
 	StatusInfo[StatusConst_default.GM_BATTLE2] = {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["°í±ÞÀüÅõ¾à", COLOR_TITLE_BUFF],
+			["高级战斗药", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Increases ATK and MATK"],
-			["Reduces MHP and MSP"]
+			["提高 ATK 和 MATK"],
+			["降低最大 HP 和 SP"]
 		]
 	};
 	StatusInfo[StatusConst_default.RWC_SCROLL2011] = {
@@ -168512,12 +175130,12 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shadow Step", COLOR_TITLE_DEBUFF],
+			["影子踩踏", COLOR_TITLE_DEBUFF],
 			["%s", COLOR_TIME],
-			["Unable to move"],
-			["Cannot use certain skills or item"],
-			["Stealth or teleport skills and items are disabled."],
-			["Unable to use Emergency Call skill"]
+			["无法移动"],
+			["无法使用部分技能或物品"],
+			["隐身、传送类技能和物品失效"],
+			["无法使用紧急呼叫"]
 		]
 	};
 	StatusInfo[StatusConst_default.KYOMU] = {
@@ -168525,10 +175143,10 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Kyomu", COLOR_TITLE_DEBUFF],
+			["虚无", COLOR_TITLE_DEBUFF],
 			["%s", COLOR_TIME],
-			["Reflects wont take effect when hit by Physical or Magical Attacks"],
-			["Chance the skill will fail when casting"]
+			["受到物理或魔法攻击时反射无效"],
+			["施放技能时有几率失败"]
 		]
 	};
 	StatusInfo[StatusConst_default.KAGEMUSYA] = {
@@ -168536,11 +175154,11 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Shadow Warrior", COLOR_TITLE_BUFF],
+			["影武者", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchanted with Double Attack effect"],
-			["Drains SP per second"],
-			["Status ends when received a certain number of hits."]
+			["获得二刀连击效果"],
+			["每秒消耗 SP"],
+			["受到一定次数攻击后结束"]
 		]
 	};
 	StatusInfo[StatusConst_default.ZANGETSU] = {
@@ -168548,9 +175166,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Distorted Crescent Moon", COLOR_TITLE_BUFF],
+			["残月", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["ATK and MATK changed, depending on HP and SP"]
+			["ATK 和 MATK 随 HP、SP 变化"]
 		]
 	};
 	StatusInfo[StatusConst_default.GENSOU] = {
@@ -168558,11 +175176,11 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Oboro Gensou", COLOR_TITLE_BUFF],
+			["幻影", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Randomly increase/decrease HP and SP"],
-			["When hit by Magical Attacks half of the damage"],
-			["will be distributed around the area"]
+			["HP 和 SP 随机增减"],
+			["受到魔法攻击时，一半伤害"],
+			["会分摊到周围"]
 		]
 	};
 	StatusInfo[StatusConst_default.AKAITSUKI] = {
@@ -168570,19 +175188,19 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Ominous Crimson Moonlight", COLOR_TITLE_DEBUFF],
+			["红月", COLOR_TITLE_DEBUFF],
 			["%s", COLOR_TIME],
-			["When receiving recovery skills"],
-			["healed amount will be converted to damage."]
+			["受到恢复技能时"],
+			["恢复量会转化为伤害"]
 		]
 	};
 	StatusInfo[StatusConst_default.MYSTICPOWDER] = {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Mystic Powder", COLOR_TITLE_BUFF],
+			["神秘粉末", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Increases FLEE and LUK"]
+			["提高 FLEE 和 LUK"]
 		]
 	};
 	StatusInfo[StatusConst_default.ACARAJE] = {
@@ -168590,9 +175208,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Acaraje", COLOR_TITLE_BUFF],
+			["阿卡拉杰", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Increases HIT and ASPD"]
+			["提高 HIT 和 ASPD"]
 		]
 	};
 	StatusInfo[StatusConst_default.M_LIFEPOTION] = {
@@ -168600,10 +175218,10 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Mysterious Life Potion", COLOR_TITLE_BUFF],
+			["神秘生命药水", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Recovers a certain amount of HP every 3 seconds"],
-			["No effect on Berserk status."]
+			["每 3 秒恢复一定量 HP"],
+			["狂暴状态下无效"]
 		]
 	};
 	StatusInfo[StatusConst_default.FLOWER_LEAF] = {
@@ -168611,30 +175229,115 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Ç³¼ºÇÑ ²É°¡Áö", COLOR_TITLE_BUFF],
+			["繁茂花枝", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Increases FLEE"],
-			["Increases perfect dodge"]
+			["提高 FLEE"],
+			["提高完全回避"]
 		]
 	};
-	StatusInfo[StatusConst_default.BDPLAYING] = { icon: "¹Ùµå³ë·¡.tga" };
-	StatusInfo[StatusConst_default.RUN] = { icon: "i_run.tga" };
-	StatusInfo[StatusConst_default.CLIENT_ONLY_EQUIP_ARROW] = { icon: "ArrowN.tga" };
-	StatusInfo[StatusConst_default.RAY_OF_PROTECTION] = { icon: "all_ray_of_protection.tga" };
-	StatusInfo[StatusConst_default.DARKCROW] = { icon: "darkcrow.tga" };
-	StatusInfo[StatusConst_default.FRIGG_SONG] = { icon: "frigg_song.tga" };
-	StatusInfo[StatusConst_default.FULL_THROTTLE] = { icon: "full_throttle.tga" };
-	StatusInfo[StatusConst_default.GLASTHEIM_ATK] = { icon: "glastheim_atk.tga" };
-	StatusInfo[StatusConst_default.GLASTHEIM_DEF] = { icon: "glastheim_def.tga" };
-	StatusInfo[StatusConst_default.GLASTHEIM_HEAL] = { icon: "glastheim_heal.tga" };
+	StatusInfo[StatusConst_default.BDPLAYING] = {
+		icon: "¹Ùµå³ë·¡.tga",
+		descript: [["演奏中", COLOR_TITLE_TOGGLE]]
+	};
+	StatusInfo[StatusConst_default.RUN] = {
+		icon: "i_run.tga",
+		descript: [["疾跑", COLOR_TITLE_BUFF], ["提高移动速度"]]
+	};
+	StatusInfo[StatusConst_default.CLIENT_ONLY_EQUIP_ARROW] = {
+		icon: "ArrowN.tga",
+		descript: [["装备箭矢", COLOR_TITLE_TOGGLE]]
+	};
+	StatusInfo[StatusConst_default.RAY_OF_PROTECTION] = {
+		icon: "all_ray_of_protection.tga",
+		haveTimeLimit: 1,
+		posTimeLimitStr: 2,
+		descript: [
+			["守护之光", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["解除特定异常状态"],
+			["免疫特定异常状态"]
+		]
+	};
+	StatusInfo[StatusConst_default.DARKCROW] = {
+		icon: "darkcrow.tga",
+		haveTimeLimit: 1,
+		posTimeLimitStr: 2,
+		descript: [
+			["黑色利爪", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
+			["近战物理伤害增加"],
+			["部分反射效果无效"]
+		]
+	};
+	StatusInfo[StatusConst_default.FRIGG_SONG] = {
+		icon: "frigg_song.tga",
+		haveTimeLimit: 1,
+		posTimeLimitStr: 2,
+		descript: [
+			["丰饶之歌", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["每秒恢复一定量 HP"]
+		]
+	};
+	StatusInfo[StatusConst_default.FULL_THROTTLE] = {
+		icon: "full_throttle.tga",
+		haveTimeLimit: 1,
+		posTimeLimitStr: 2,
+		descript: [
+			["全力推进", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["全部基础属性提高"],
+			["提高移动速度"],
+			["效果结束后进入疲劳状态"]
+		]
+	};
+	StatusInfo[StatusConst_default.REBOUND] = {
+		haveTimeLimit: 1,
+		posTimeLimitStr: 2,
+		descript: [
+			["疲劳", COLOR_TITLE_DEBUFF],
+			["%s", COLOR_TIME],
+			["全力推进结束后的虚弱状态"]
+		]
+	};
+	StatusInfo[StatusConst_default.GLASTHEIM_ATK] = {
+		icon: "glastheim_atk.tga",
+		haveTimeLimit: 1,
+		posTimeLimitStr: 2,
+		descript: [
+			["古拉斯特海姆之力", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["强大的力量在体内涌动"]
+		]
+	};
+	StatusInfo[StatusConst_default.GLASTHEIM_DEF] = {
+		icon: "glastheim_def.tga",
+		haveTimeLimit: 1,
+		posTimeLimitStr: 2,
+		descript: [
+			["古拉斯特海姆之盾", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["受到魔法盾保护"]
+		]
+	};
+	StatusInfo[StatusConst_default.GLASTHEIM_HEAL] = {
+		icon: "glastheim_heal.tga",
+		haveTimeLimit: 1,
+		posTimeLimitStr: 2,
+		descript: [
+			["古拉斯特海姆治愈", COLOR_TITLE_BUFF],
+			["%s", COLOR_TIME],
+			["神圣魔法强化了治愈力量"]
+		]
+	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_NOTHING] = {
 		icon: "weapon_property.tga",
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Property", COLOR_TITLE_BUFF],
+			["武器属性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchants Weapon with Neutral Property"]
+			["为武器附加无属性"]
 		]
 	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_WATER] = {
@@ -168642,9 +175345,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Property", COLOR_TITLE_BUFF],
+			["武器属性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchants Weapon with Water Property"]
+			["为武器附加水属性"]
 		]
 	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_GROUND] = {
@@ -168652,9 +175355,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Property", COLOR_TITLE_BUFF],
+			["武器属性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchants Weapon with Earth Property"]
+			["为武器附加地属性"]
 		]
 	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_FIRE] = {
@@ -168662,9 +175365,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Property", COLOR_TITLE_BUFF],
+			["武器属性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchants Weapon with Fire Property"]
+			["为武器附加火属性"]
 		]
 	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_WIND] = {
@@ -168672,9 +175375,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Property", COLOR_TITLE_BUFF],
+			["武器属性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchants Weapon with Wind Property"]
+			["为武器附加风属性"]
 		]
 	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_POISON] = {
@@ -168682,9 +175385,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Property", COLOR_TITLE_BUFF],
+			["武器属性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchants Weapon with Poison Property"]
+			["为武器附加毒属性"]
 		]
 	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_SAINT] = {
@@ -168692,9 +175395,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Property", COLOR_TITLE_BUFF],
+			["武器属性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchants Weapon with Holy Property"]
+			["为武器附加圣属性"]
 		]
 	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_DARKNESS] = {
@@ -168702,9 +175405,9 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Weapon Property", COLOR_TITLE_BUFF],
+			["武器属性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
-			["Enchants Weapon with Dark Property"]
+			["为武器附加暗属性"]
 		]
 	};
 	StatusInfo[StatusConst_default.ATTACK_PROPERTY_TELEKINESIS] = {
@@ -168742,7 +175445,7 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高水属性抗性"]
 		]
@@ -168752,7 +175455,7 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高地属性抗性"]
 		]
@@ -168762,7 +175465,7 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高火属性抗性"]
 		]
@@ -168772,7 +175475,7 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高风属性抗性"]
 		]
@@ -168782,7 +175485,7 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高毒属性抗性"]
 		]
@@ -168792,7 +175495,7 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高圣属性抗性"]
 		]
@@ -168802,7 +175505,7 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高暗属性抗性"]
 		]
@@ -168812,7 +175515,7 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高念属性抗性"]
 		]
@@ -168822,25 +175525,13 @@ var init_StatusInfo = __esmMin((() => {
 		haveTimeLimit: 1,
 		posTimeLimitStr: 2,
 		descript: [
-			["Resist Property", COLOR_TITLE_BUFF],
+			["属性抗性", COLOR_TITLE_BUFF],
 			["%s", COLOR_TIME],
 			["提高不死属性抗性"]
 		]
 	};
+	applyOfficialStateIconTranslations(StatusInfo);
 }));
-//#endregion
-//#region src/DB/Status/StatusDescriptionLocalization.js
-function snapshotLocalizedStatusDescriptions(statusInfo) {
-	const descriptions = /* @__PURE__ */ new Map();
-	for (const [id, info] of Object.entries(statusInfo)) if (Array.isArray(info.descript) && info.descript.length > 0) descriptions.set(Number(id), info.descript.map((line) => [...line]));
-	return descriptions;
-}
-function restoreLocalizedStatusDescription(statusInfo, descriptions, id) {
-	const localized = descriptions.get(Number(id));
-	statusInfo[id].descript = localized ? localized.map((line) => [...line]) : [];
-	return Boolean(localized);
-}
-var init_StatusDescriptionLocalization = __esmMin((() => {}));
 //#endregion
 //#region src/Vendors/xmlparse.js
 /**
@@ -239538,9 +246229,11 @@ var init_PacketStructure = __esmMin((() => {
 		}
 		return pkt_buf;
 	};
-	PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT = function PACKET_ZC_HAPPYRO_NPC_AVAILABILITY_RESULT(fp) {
+	PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT = function PACKET_ZC_HAPPYRO_NPC_AVAILABILITY_RESULT(fp, end) {
+		if (end - fp.tell() < 6) throw new Error("Truncated NPC availability header");
 		this.requestId = fp.readULong();
 		const count = fp.readUShort();
+		if (count > 50 || end - fp.tell() !== count) throw new Error("Invalid NPC availability count");
 		this.available = new Array(count);
 		for (let i = 0; i < count; i++) this.available[i] = Boolean(fp.readUChar());
 	};
@@ -276402,7 +283095,11 @@ var init_WebSocket = __esmMin((() => {
 	* @param {ArrayBuffer} buffer
 	*/
 	Socket$1.prototype.send = function Send(buffer) {
-		if (this.connected) this.ws.send(buffer);
+		if (this.connected) {
+			this.ws.send(buffer);
+			return true;
+		}
+		return false;
 	};
 	/**
 	* Closing connection to server
@@ -276456,7 +283153,11 @@ var init_NodeSocket = __esmMin((() => {
 		* @param {ArrayBuffer} buffer
 		*/
 		send(buffer) {
-			if (this.connected) this._socket.write(buffer);
+			if (this.connected) {
+				this._socket.write(buffer);
+				return true;
+			}
+			return false;
 		}
 		/**
 		* Close connection
@@ -276469,6 +283170,23 @@ var init_NodeSocket = __esmMin((() => {
 			}
 		}
 	};
+}));
+//#endregion
+//#region src/Network/ConnectionLifecycle.js
+function onConnectionEnd(listener) {
+	listeners$2.add(listener);
+	return () => listeners$2.delete(listener);
+}
+function endConnection() {
+	for (const listener of listeners$2) try {
+		listener();
+	} catch (error) {
+		console.error("[Network] Connection cleanup failed", error);
+	}
+}
+var listeners$2;
+var init_ConnectionLifecycle = __esmMin((() => {
+	listeners$2 = /* @__PURE__ */ new Set();
 }));
 //#endregion
 //#region src/Network/NetworkManager.js
@@ -276484,6 +283202,15 @@ function defaultSocketFactory(host, port) {
 	const proxy = Configs.get("socketProxy", null);
 	if (Socket.isSupported()) return new Socket(host, port, proxy);
 	return new Socket$1(host, port, proxy);
+}
+function clearFrame() {
+	_save_buffer = null;
+	clearTimeout(_frameTimer);
+	_frameTimer = null;
+}
+function waitForFrame(buffer, offset = 0) {
+	_save_buffer = new Uint8Array(buffer, offset).slice();
+	if (!_frameTimer) _frameTimer = setTimeout(() => failProtocol("Incomplete frame timed out"), 6e4);
 }
 /**
 * Packets definition
@@ -276517,7 +283244,12 @@ function connect(host, port, callback, isZone) {
 			msg = "Success";
 			color = "green";
 			if (_socket && _socket.ping) clearInterval(_socket.ping);
-			socket.onMessage = receive;
+			endConnection();
+			clearFrame();
+			read$1.callback = null;
+			socket.onMessage = function(buffer) {
+				if (socket === _socket) receive(buffer);
+			};
 			_sockets.push(_socket = socket);
 			if (isZone) PacketCrypt_default.init();
 		}
@@ -276538,7 +283270,7 @@ function sendPacket(Packet) {
 	}
 	console.log("%c[Network] Send:", "color:#007070", Packet);
 	if (_socket && _socket.isZone) PacketCrypt_default.process(pkt.view);
-	send(pkt.buffer);
+	return send(pkt.buffer);
 }
 /**
 * Send buffer to the server
@@ -276546,7 +283278,8 @@ function sendPacket(Packet) {
 * @param {ArrayBuffer} buffer
 */
 function send(buffer) {
-	if (_socket) _socket.send(buffer);
+	if (_socket) return _socket.send(buffer);
+	return false;
 }
 /**
 * Register a Packet
@@ -276576,8 +283309,9 @@ function hookPacket(packet, callback) {
 *
 * @param callback
 */
-function read$1(callback) {
+function read$1(callback, length) {
 	read$1.callback = callback;
+	read$1.requiredBytes = length;
 }
 /**
 * Received data from server
@@ -276585,6 +283319,7 @@ function read$1(callback) {
 * @param {Uint8Array} buffer
 */
 function receive(buf) {
+	if (ArrayBuffer.isView(buf)) buf = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
 	let id, packet;
 	let length = 0;
 	let offset = 0;
@@ -276597,38 +283332,56 @@ function receive(buf) {
 	} else buffer = buf;
 	const fp = new BinaryReader(buffer);
 	if (read$1.callback) {
+		if (fp.length < read$1.requiredBytes) {
+			waitForFrame(buffer);
+			return;
+		}
 		read$1.callback(fp);
 		read$1.callback = null;
+		clearFrame();
 	}
 	while (fp.tell() < fp.length) {
 		offset = fp.tell();
 		if (offset + 2 > fp.length) {
-			_save_buffer = new Uint8Array(buffer, offset, fp.length - offset);
+			waitForFrame(buffer, offset);
 			return;
 		}
 		id = fp.readUShort();
-		let packet_len = PacketLength_default.getPacketLength(id);
-		packet_len = packet_len ? packet_len : fp.length - offset;
+		const packet_len = PacketLength_default.getPacketLength(id);
+		if (!Number.isInteger(packet_len) || packet_len === 0 || packet_len < -1) {
+			failProtocol(`Unknown packet boundary for 0x${id.toString(16)}`);
+			return;
+		}
 		if (packet_len < 0) {
 			if (offset + 4 > fp.length) {
-				_save_buffer = new Uint8Array(buffer, offset, fp.length - offset);
+				waitForFrame(buffer, offset);
 				return;
 			}
 			length = fp.readUShort();
 		} else length = packet_len;
+		if (length < (packet_len === -1 ? 4 : 2) || length > 65535) {
+			failProtocol(`Invalid length ${length} for packet 0x${id.toString(16)}`);
+			return;
+		}
 		offset += length;
 		if (offset > fp.length) {
 			offset = fp.tell() - (packet_len < 0 ? 4 : 2);
-			_save_buffer = new Uint8Array(buffer, offset, fp.length - offset);
+			waitForFrame(buffer, offset);
 			return;
 		}
+		clearFrame();
 		if (Packets.list[id]) {
 			packet = Packets.list[id];
 			if (packetDump) {
 				const buffer_console = new Uint8Array(buffer, offset - length, length);
 				console.log("%c[Network] Dump Recv:\n%cPacket ID: 0x%s\nPacket Name: %s\nLength: %d\nContent:\n%s", "color:#900090", "color:inherit", id.toString(16), packet.name, length, utilsBufferToHexString(buffer_console).toUpperCase());
 			}
-			packet.instance = new packet.Struct(fp, offset);
+			try {
+				packet.instance = new packet.Struct(fp, offset);
+			} catch (error) {
+				failProtocol(`Cannot decode packet 0x${id.toString(16)}: ${error.message}`);
+				return;
+			}
 			console.log("%c[Network] Recv:", "color:#900090", packet.instance, packet.callback ? "" : "(no callback)");
 			if (packet.callback) packet.callback(packet.instance);
 		} else {
@@ -276640,7 +283393,15 @@ function receive(buf) {
 		}
 		if (length) fp.seek(offset, SEEK_SET);
 	}
-	_save_buffer = null;
+	clearFrame();
+}
+function failProtocol(reason) {
+	console.error("[Network] Protocol error:", reason);
+	const socket = _socket;
+	if (socket) {
+		onClose$9.call(socket);
+		socket.close();
+	}
 }
 /**
 * Communication end
@@ -276649,8 +283410,13 @@ function receive(buf) {
 function onClose$9() {
 	const idx = _sockets.indexOf(this);
 	if (this === _socket) {
+		endConnection();
+		clearFrame();
+		read$1.callback = null;
 		console.warn("[Network] Disconnect from server");
-		if (_socket.ping) clearInterval(_socket.ping);
+		if (this.ping) clearInterval(this.ping);
+		_socket = null;
+		if (this.isZone) PacketCrypt_default.reset();
 		if (_onDisconnect) _onDisconnect();
 		else __vitePreload(() => Promise.resolve().then(() => (init_UIManager(), UIManager_exports)).then((UIManager) => {
 			UIManager.default.showErrorBox("与服务器的连接已断开。");
@@ -276667,6 +283433,9 @@ function close() {
 	if (_socket) {
 		const s = _socket;
 		_socket = null;
+		endConnection();
+		clearFrame();
+		read$1.callback = null;
 		s.close();
 		if (s.isZone) PacketCrypt_default.reset();
 		if (s.ping) clearInterval(s.ping);
@@ -276720,7 +283489,7 @@ function utilsLongToIP(long) {
 function utilsBufferToHexString(buffer) {
 	return [...new Uint8Array(buffer)].map((x) => x.toString(16).padStart(2, "0") + " ").join("");
 }
-var _sockets, _socketFactory, _socket, _save_buffer, _onDisconnect, packetDump, Network;
+var _sockets, _socketFactory, _socket, _save_buffer, _frameTimer, _onDisconnect, packetDump, Network;
 var init_NetworkManager = __esmMin((() => {
 	init_Configs();
 	init_BinaryReader();
@@ -276731,11 +283500,13 @@ var init_NetworkManager = __esmMin((() => {
 	init_PacketLength();
 	init_WebSocket();
 	init_NodeSocket();
+	init_ConnectionLifecycle();
 	init_preload_helper();
 	_sockets = [];
 	_socketFactory = null;
 	_socket = null;
 	_save_buffer = null;
+	_frameTimer = null;
 	_onDisconnect = null;
 	packetDump = Configs.get("packetDump", false);
 	/**
@@ -287734,7 +294505,7 @@ var init_ChatRoomCreate$2 = __esmMin((() => {
 //#region src/UI/Components/ChatRoomCreate/ChatRoomCreate.css?raw
 var ChatRoomCreate_default$1;
 var init_ChatRoomCreate$1 = __esmMin((() => {
-	ChatRoomCreate_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#ChatRoomCreate {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n}\r\n#ChatRoomCreate table {\r\n	border-spacing: 0px 2px;\r\n	display: inline-block;\r\n}\r\n\r\n#ChatRoomCreate .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#ChatRoomCreate .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#ChatRoomCreate .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#ChatRoomCreate .titlebar .left {\r\n	margin-left: 8px;\r\n	float: left;\r\n}\r\n#ChatRoomCreate .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ChatRoomCreate .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#ChatRoomCreate .panel {\r\n	background: white;\r\n}\r\n\r\n#ChatRoomCreate select {\r\n	height: 20px;\r\n	border: 1px solid #ccc;\r\n}\r\n#ChatRoomCreate input {\r\n	height: 14px;\r\n	border: 1px solid #ccc;\r\n	background-color: #f5f5f5;\r\n}\r\n#ChatRoomCreate .container {\r\n	padding-left: 7px;\r\n	padding-top: 5px;\r\n	width: 266px;\r\n}\r\n#ChatRoomCreate .container .title {\r\n	height: 16px;\r\n	width: 198px;\r\n	padding-left: 5px;\r\n}\r\n#ChatRoomCreate .container .limit,\r\n#ChatRoomCreate .container .password {\r\n	width: 58px;\r\n	padding-left: 5px;\r\n}\r\n#ChatRoomCreate .container .type {\r\n	width: 110px;\r\n}\r\n#ChatRoomCreate .head {\r\n	color: #0f4b8c;\r\n	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);\r\n	text-align: right;\r\n	width: 40px;\r\n	white-space: nowrap;\r\n}\r\n#ChatRoomCreate .mode {\r\n	white-space: nowrap;\r\n}\r\n#ChatRoomCreate .mode span {\r\n	overflow: hidden;\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n}\r\n\r\n#ChatRoomCreate .footer {\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	text-align: right;\r\n	padding-top: 5px;\r\n	padding-right: 3px;\r\n	border-bottom-left-radius: 8px;\r\n	border-bottom-right-radius: 8px;\r\n}\r\n#ChatRoomCreate .footer button {\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
+	ChatRoomCreate_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#ChatRoomCreate {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n}\r\n#ChatRoomCreate table {\r\n	border-spacing: 0px 2px;\r\n	display: inline-block;\r\n}\r\n\r\n#ChatRoomCreate .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#ChatRoomCreate .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#ChatRoomCreate .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#ChatRoomCreate .titlebar .left {\r\n	margin-left: 8px;\r\n	float: left;\r\n}\r\n#ChatRoomCreate .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ChatRoomCreate .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#ChatRoomCreate .panel {\r\n	background: white;\r\n}\r\n\r\n#ChatRoomCreate select {\r\n	height: 20px;\r\n	border: 1px solid #ccc;\r\n}\r\n#ChatRoomCreate input {\r\n	height: 14px;\r\n	border: 1px solid #ccc;\r\n	background-color: #f5f5f5;\r\n}\r\n#ChatRoomCreate .container {\r\n	padding-left: 7px;\r\n	padding-top: 5px;\r\n	width: 266px;\r\n}\r\n#ChatRoomCreate .container .title {\r\n	height: 16px;\r\n	width: 198px;\r\n	padding-left: 5px;\r\n}\r\n#ChatRoomCreate .container .limit,\r\n#ChatRoomCreate .container .password {\r\n	width: 58px;\r\n	padding-left: 5px;\r\n}\r\n#ChatRoomCreate .container .type {\r\n	width: 110px;\r\n}\r\n#ChatRoomCreate .head {\r\n	color: #0f4b8c;\r\n	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);\r\n	text-align: right;\r\n	width: 40px;\r\n	white-space: nowrap;\r\n}\r\n#ChatRoomCreate .mode {\r\n	white-space: nowrap;\r\n}\r\n#ChatRoomCreate .mode span {\r\n	overflow: hidden;\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n}\r\n\r\n#ChatRoomCreate .footer {\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	text-align: right;\r\n	padding-top: 5px;\r\n	padding-right: 3px;\r\n	border-bottom-left-radius: 8px;\r\n	border-bottom-right-radius: 8px;\r\n}\r\n#ChatRoomCreate .footer button {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	margin-left: 2px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Elements/UIButton.js
@@ -287754,7 +294525,9 @@ var init_UIButton = __esmMin((() => {
 			const localizedLabel = this.dataset.localizedLabel || getLocalizedButtonLabel(bg);
 			if (localizedLabel) {
 				this.classList.add("ui-btn", "localized-control");
+				const fileInput = this.querySelector("input[type=\"file\"]");
 				this.textContent = localizedLabel;
+				if (fileInput) this.appendChild(fileInput);
 				this.setAttribute("aria-label", localizedLabel);
 				for (const attribute of [
 					"bg",
@@ -290998,7 +297771,7 @@ var init_ItemCompare$2 = __esmMin((() => {
 //#region src/UI/Components/ItemCompare/ItemCompare.css?raw
 var ItemCompare_default$1;
 var init_ItemCompare$1 = __esmMin((() => {
-	ItemCompare_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemCompare {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemCompare .container {\r\n	height: 120px;\r\n	position: relative;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: #c5ddf6;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .event_view {\r\n	position: absolute;\r\n}\r\n.ItemCompare .event_view .view {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 6px;\r\n	left: 6px;\r\n}\r\n.ItemCompare .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemCompare .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemCompare .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemCompare .description {\r\n	position: absolute;\r\n	background-color: transparent;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemCompare .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemCompare .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemCompare .cardlist {\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemCompare .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #c5ddf6;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemCompare .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemCompare .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemCompare .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemCompare .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemCompare .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemCompare .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemCompare .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemCompare .optionlist {\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemCompare .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #c5ddf6;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemCompare .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemCompare .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemCompare .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemCompare .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n";
+	ItemCompare_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemCompare {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemCompare .container {\r\n	height: 120px;\r\n	position: relative;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: #c5ddf6;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .event_view {\r\n	position: absolute;\r\n	top: auto;\r\n	bottom: 8px;\r\n	left: 10px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n.ItemCompare .event_view .view {\r\n	position: absolute;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n.ItemCompare .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemCompare .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemCompare .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemCompare .description {\r\n	position: absolute;\r\n	background-color: transparent;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemCompare .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemCompare .navi-link,\r\n.ItemCompare .item-link {\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n.ItemCompare .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemCompare .cardlist {\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemCompare .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #c5ddf6;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemCompare .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemCompare .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemCompare .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemCompare .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemCompare .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemCompare .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemCompare .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemCompare .optionlist {\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemCompare .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #c5ddf6;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemCompare .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemCompare .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemCompare .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemCompare .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemCompare .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ItemCompare/ItemCompare.js
@@ -291097,7 +297870,7 @@ function addEvent$1(item) {
 	Renderer.stop(rendering$3);
 	switch (item.type) {
 		case ItemType_default.CARD:
-			if (viewBtn) viewBtn.style.display = "block";
+			if (viewBtn) viewBtn.style.display = "inline-flex";
 			break;
 		case ItemType_default.ETC: {
 			const filenameBook = `data/book/${item.ITID}.txt`;
@@ -291203,6 +297976,7 @@ var init_ItemCompare = __esmMin((() => {
 	init_ItemCompare$1();
 	init_ItemInfo();
 	init_Entity$1();
+	init_RagnarokText();
 	_type$7 = 0;
 	_start$2 = 0;
 	ItemCompare = new GUIComponent("ItemCompare", ItemCompare_default$1);
@@ -291247,6 +298021,7 @@ var init_ItemCompare = __esmMin((() => {
 		const itemInfoRoot = ItemInfo_default.getRoot();
 		const itemInfoTitle = itemInfoRoot ? itemInfoRoot.querySelector(".title") : null;
 		this.draggable(itemInfoTitle || ".title");
+		root.addEventListener("click", ItemInfo_default.handleMarkupClick);
 	};
 	/**
 	* Bind component
@@ -291279,10 +298054,7 @@ var init_ItemCompare = __esmMin((() => {
 			if (optionContainer) optionContainer.style.display = "block";
 		} else if (optionContainer) optionContainer.style.display = "none";
 		const descInner = root.querySelector(".description-inner");
-		if (descInner) {
-			const rawDesc = item.IsIdentified ? it.identifiedDescriptionName : it.unidentifiedDescriptionName;
-			descInner.innerHTML = DB.formatMsgToHtml(_escapeHTML$5(rawDesc));
-		}
+		if (descInner) descInner.innerHTML = formatRagnarokMarkup(item.IsIdentified ? it.identifiedDescriptionName : it.unidentifiedDescriptionName);
 		addEvent$1(item);
 		let hideslots = false;
 		if (item.slot) {
@@ -291564,7 +298336,7 @@ var init_ItemInfo$2 = __esmMin((() => {
 //#region src/UI/Components/ItemInfo/ItemInfo.css?raw
 var ItemInfo_default$1;
 var init_ItemInfo$1 = __esmMin((() => {
-	ItemInfo_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemInfo {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .container {\r\n	height: 140px;\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow: hidden;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .event_view {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 6px;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n.ItemInfo .event_view .view {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n.ItemInfo .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemInfo .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemInfo .description {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemInfo .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemInfo .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemInfo .cardlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemInfo .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemInfo .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemInfo .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemInfo .optionlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n\r\n.ItemInfo .preview-action {\r\n	padding-top: 115px;\r\n	padding-left: 9px;\r\n}\r\n\r\n.moveinfo-label {\r\n	color: #000000;\r\n	display: block;\r\n	text-decoration: underline;\r\n}\r\n\r\n#moveinfo-tooltip {\r\n	position: absolute;\r\n	display: none;\r\n	pointer-events: none;\r\n	z-index: 9999;\r\n	background: #e6e7ef;\r\n	border: 2px solid #bdbdee;\r\n	padding: 6px 8px;\r\n	color: #183984;\r\n	white-space: nowrap;\r\n	border-radius: 8px;\r\n}\r\n\r\n.ItemInfo .btn_mounting {\r\n	border: 0;\r\n	width: 80px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
+	ItemInfo_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemInfo {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .container {\r\n	height: 140px;\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow: hidden;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .event_view {\r\n	position: absolute;\r\n	top: auto;\r\n	bottom: 8px;\r\n	left: 10px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n.ItemInfo .event_view .view {\r\n	position: absolute;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n.ItemInfo .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemInfo .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemInfo .description {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemInfo .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemInfo .navi-link,\r\n.ItemInfo .item-link {\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n.ItemInfo .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemInfo .cardlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemInfo .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemInfo .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemInfo .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemInfo .optionlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n\r\n.ItemInfo .preview-action {\r\n	padding-top: 115px;\r\n	padding-left: 9px;\r\n}\r\n\r\n.moveinfo-label {\r\n	color: #000000;\r\n	display: block;\r\n	text-decoration: underline;\r\n}\r\n\r\n#moveinfo-tooltip {\r\n	position: absolute;\r\n	display: none;\r\n	pointer-events: none;\r\n	z-index: 9999;\r\n	background: #e6e7ef;\r\n	border: 2px solid #bdbdee;\r\n	padding: 6px 8px;\r\n	color: #183984;\r\n	white-space: nowrap;\r\n	border-radius: 8px;\r\n}\r\n\r\n.ItemInfo .btn_mounting {\r\n	border: 0;\r\n	width: 80px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/UIVersionManager.js
@@ -291653,7 +298425,7 @@ var init_InputBox$2 = __esmMin((() => {
 //#region src/UI/Components/InputBox/InputBox.css?raw
 var InputBox_default$1;
 var init_InputBox$1 = __esmMin((() => {
-	InputBox_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n	z-index: 1000;\r\n}\r\n\r\n#inputbox {\r\n	position: relative;\r\n	width: 274px;\r\n	height: 44px;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n}\r\n#inputbox .border {\r\n	border-radius: 5px;\r\n	border: 1px solid #c1c6c2;\r\n	width: 262px;\r\n	height: 37px;\r\n	padding-top: 5px;\r\n	padding-left: 10px;\r\n}\r\n#inputbox .text {\r\n	border-radius: 5px;\r\n	width: 270px;\r\n	height: 13px;\r\n	overflow: hidden;\r\n}\r\n#inputbox input {\r\n	border: 0;\r\n	background-color: #efefef;\r\n	width: 203px;\r\n	height: 16px;\r\n	margin-top: 3px;\r\n}\r\n#inputbox ui-button {\r\n	width: 42px;\r\n	height: 20px;\r\n	position: absolute;\r\n	bottom: 5px;\r\n	right: 10px;\r\n}\r\n\r\n#inputbox.number {\r\n	width: 174px;\r\n}\r\n#inputbox.number .border {\r\n	width: 162px;\r\n}\r\n#inputbox.number .text {\r\n	width: 170px;\r\n}\r\n#inputbox.number input {\r\n	width: 103px;\r\n}\r\n";
+	InputBox_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n	z-index: 1000;\r\n}\r\n\r\n#inputbox {\r\n	position: relative;\r\n	width: 274px;\r\n	height: 44px;\r\n	border-radius: 5px;\r\n	background-color: white;\r\n	padding: 2px;\r\n}\r\n#inputbox .border {\r\n	border-radius: 5px;\r\n	border: 1px solid #c1c6c2;\r\n	width: 262px;\r\n	height: 37px;\r\n	padding-top: 5px;\r\n	padding-left: 10px;\r\n}\r\n#inputbox .text {\r\n	border-radius: 5px;\r\n	width: 270px;\r\n	height: 13px;\r\n	overflow: hidden;\r\n}\r\n#inputbox input {\r\n	border: 0;\r\n	background-color: #efefef;\r\n	width: 203px;\r\n	height: 16px;\r\n	margin-top: 3px;\r\n}\r\n#inputbox ui-button {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	position: absolute;\r\n	bottom: 5px;\r\n	right: 10px;\r\n}\r\n\r\n#inputbox.number {\r\n	width: 174px;\r\n}\r\n#inputbox.number .border {\r\n	width: 162px;\r\n}\r\n#inputbox.number .text {\r\n	width: 170px;\r\n}\r\n#inputbox.number input {\r\n	width: 103px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/InputBox/InputBox.js
@@ -292559,7 +299331,7 @@ var init_Navigation$2 = __esmMin((() => {
 //#region src/UI/Components/Navigation/Navigation.css?raw
 var Navigation_default$1;
 var init_Navigation$1 = __esmMin((() => {
-	Navigation_default$1 = ":host {\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n.Navigation {\r\n	width: 440px;\r\n	height: 520px;\r\n	z-index: 50;\r\n	background-repeat: repeat-y;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	position: relative;\r\n	z-index: 2;\r\n	cursor: move;\r\n}\r\n\r\n.Navigation .titlebar .left {\r\n	width: 15px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.Navigation .titlebar .center {\r\n	width: calc(100% - 20px);\r\n	height: 17px;\r\n	background-repeat: repeat-x;\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 12px;\r\n}\r\n\r\n.Navigation .titlebar .right {\r\n	width: 12px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n}\r\n\r\n.Navigation .titlebar .title {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 10px;\r\n	height: 17px;\r\n	line-height: 17px;\r\n	white-space: nowrap;\r\n	text-shadow: 1px 1px white;\r\n	color: #000000;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n.Navigation .titlebar .close {\r\n	position: absolute;\r\n	top: 2px;\r\n	right: 2px;\r\n	width: 13px;\r\n	height: 13px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .content {\r\n	width: 100%;\r\n	height: calc(100% - 41px);\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background-color: #f7f7f7;\r\n	border: 1px solid #d4d4d4;\r\n	border-top: none;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .search-container {\r\n	width: 100%;\r\n	height: 32px;\r\n	flex: 0 0 32px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 5px 10px;\r\n	box-sizing: border-box;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .services-toggle-container {\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 0;\r\n	margin: 0;\r\n	background-color: #f7f7f7;\r\n	position: absolute;\r\n	left: 6px;\r\n}\r\n\r\n.Navigation .services-checkbox {\r\n	color: #000;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .services-toggle {\r\n	margin-right: 4px;\r\n	margin-top: 3px;\r\n}\r\n\r\n.Navigation .search-filter {\r\n	height: 22px;\r\n	margin-right: 6px;\r\n	position: relative;\r\n	z-index: 120;\r\n}\r\n\r\n.Navigation .search-type {\r\n	width: 82px;\r\n}\r\n\r\n.Navigation .search-scope {\r\n	width: 92px;\r\n}\r\n\r\n.Navigation .filter-trigger,\r\n.Navigation .filter-option {\r\n	width: 100%;\r\n	height: 22px;\r\n	padding: 0 20px 0 7px;\r\n	border: 1px solid #aaa;\r\n	background: #fff;\r\n	color: #111;\r\n	font: inherit;\r\n	line-height: 20px;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .filter-trigger::after {\r\n	content: '';\r\n	position: absolute;\r\n	top: 9px;\r\n	right: 7px;\r\n	border: 4px solid transparent;\r\n	border-top-color: #333;\r\n}\r\n\r\n.Navigation .filter-trigger:hover,\r\n.Navigation .filter-trigger[aria-expanded='true'],\r\n.Navigation .filter-option:hover,\r\n.Navigation .filter-option[aria-selected='true'] {\r\n	background: #e8f4fb;\r\n}\r\n\r\n.Navigation .filter-trigger:focus-visible,\r\n.Navigation .filter-option:focus-visible {\r\n	outline: 1px solid #2877a8;\r\n	outline-offset: -2px;\r\n}\r\n\r\n.Navigation .filter-menu {\r\n	position: absolute;\r\n	top: 24px;\r\n	left: 0;\r\n	width: 100%;\r\n	padding: 2px 0;\r\n	border: 1px solid #aaa;\r\n	background: #fff;\r\n	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .filter-menu[hidden] {\r\n	display: none;\r\n}\r\n\r\n.Navigation .filter-option {\r\n	border: 0;\r\n	padding-right: 7px;\r\n}\r\n\r\n.Navigation .search-left {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 196px;\r\n	width: 3px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-middle {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 199px;\r\n	right: 38px;\r\n	height: 20px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-right {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 35px;\r\n	width: 3px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-input {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 199px;\r\n	right: 38px;\r\n	height: 20px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding: 0 5px;\r\n	z-index: 1;\r\n}\r\n\r\n.Navigation .search-button {\r\n	position: absolute;\r\n	top: 7px;\r\n	right: 5px;\r\n	width: 33px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .map-container {\r\n	width: 100%;\r\n	flex: 1;\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0 12px 8px;\r\n	box-sizing: border-box;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .location-title {\r\n	width: 100%;\r\n	height: 20px;\r\n	line-height: 20px;\r\n	text-align: center;\r\n	color: #000000;\r\n	text-shadow: none;\r\n	margin-bottom: 2px;\r\n	font-weight: bold;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .map-display {\r\n	width: 400px;\r\n	height: 340px;\r\n	flex: 0 0 340px;\r\n	margin: 0 auto;\r\n	position: relative;\r\n	background-color: #000000;\r\n	border: 1px solid #666666;\r\n	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.Navigation .map-actions {\r\n	width: 400px;\r\n	min-height: 30px;\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .teleport-button {\r\n	display: none;\r\n	border: 1px solid #777;\r\n	background: #eee;\r\n	color: #000;\r\n	padding: 2px 8px;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .npc-teleport-button {\r\n	display: none;\r\n	height: 24px;\r\n	padding: 0 8px;\r\n	border: 1px solid #2877a8;\r\n	background: #e8f4fb;\r\n	color: #174f70;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .npc-teleport-button:disabled {\r\n	border-color: #aaa;\r\n	background: #eee;\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n\r\n.Navigation .action-status {\r\n	width: 400px;\r\n	min-height: 22px;\r\n	padding: 0 6px;\r\n	box-sizing: border-box;\r\n	line-height: 18px;\r\n	color: #555;\r\n	font-size: 11px;\r\n	text-align: right;\r\n}\r\n\r\n.Navigation .teleport-button:hover {\r\n	background: #fff;\r\n}\r\n\r\n.Navigation .teleport-button:disabled {\r\n	background: #ddd;\r\n	color: #777;\r\n	cursor: not-allowed;\r\n}\r\n\r\n.Navigation .walk-button,\r\n.Navigation .walk-stop-button {\r\n	display: none;\r\n	border: 1px solid #777;\r\n	background: #eee;\r\n	color: #000;\r\n	padding: 2px 8px;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n	margin-right: 4px;\r\n}\r\n\r\n.Navigation .walk-button:hover,\r\n.Navigation .walk-stop-button:hover {\r\n	background: #fff;\r\n}\r\n\r\n.Navigation .walk-button:disabled {\r\n	background: #ddd;\r\n	color: #777;\r\n	cursor: not-allowed;\r\n}\r\n\r\n.Navigation .footer {\r\n	width: 100%;\r\n	position: relative;\r\n	height: 24px;\r\n	background-color: #f7f7f7;\r\n	border-top: 1px solid #d4d4d4;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .coordinates-bar {\r\n	position: relative;\r\n	width: 100%;\r\n	padding: 1px 5px;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	height: 24px;\r\n	overflow: hidden;\r\n}\r\n\r\n.Navigation .map-name {\r\n	font-weight: bold;\r\n	color: #000;\r\n	flex: 1;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.Navigation .mouse-info,\r\n.Navigation .target-info {\r\n	display: none;\r\n	align-items: center;\r\n	color: #000;\r\n	margin-left: 8px;\r\n	white-space: nowrap;\r\n}\r\n\r\n.Navigation .mouse-label,\r\n.Navigation .target-label {\r\n	margin-right: 2px;\r\n}\r\n\r\n/* Path marker styles */\r\n.Navigation .start-marker,\r\n.Navigation .end-marker {\r\n	position: absolute;\r\n	width: 16px;\r\n	height: 16px;\r\n	transform: translate(-50%, -50%);\r\n}\r\n\r\n.Navigation .start-marker {\r\n	background-color: blue;\r\n}\r\n\r\n.Navigation .end-marker {\r\n	background-color: red;\r\n}\r\n\r\n.Navigation .path-line {\r\n	stroke: yellow;\r\n	stroke-width: 2;\r\n	fill: none;\r\n}\r\n\r\n.Navigation .search-results {\r\n	position: absolute;\r\n	top: 30px;\r\n	left: 10px;\r\n	right: 10px;\r\n	max-height: 300px;\r\n	background-color: #fff;\r\n	border: 1px solid #ccc;\r\n	z-index: 100;\r\n	overflow-y: auto;\r\n	display: none;\r\n	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.Navigation .no-results {\r\n	padding: 10px;\r\n	text-align: center;\r\n	color: #666;\r\n}\r\n\r\n.Navigation .results-list {\r\n	list-style: none;\r\n	margin: 0;\r\n	padding: 0;\r\n}\r\n\r\n.Navigation .results-list > li {\r\n	margin: 0;\r\n	padding: 0;\r\n}\r\n\r\n.Navigation .result-item {\r\n	width: 100%;\r\n	padding: 5px 10px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eee;\r\n	background: #fff;\r\n	color: #000;\r\n	font: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .results-list > li:last-child .result-item {\r\n	border-bottom: none;\r\n}\r\n\r\n.Navigation .result-item:hover {\r\n	background-color: #f0f0f0;\r\n}\r\n\r\n.Navigation .result-item:focus-visible {\r\n	outline: 1px solid #2877a8;\r\n	outline-offset: -2px;\r\n}\r\n\r\n.Navigation .result-type {\r\n	margin-right: 5px;\r\n	font-weight: bold;\r\n	color: #666;\r\n	width: 30px;\r\n}\r\n\r\n.Navigation .npc_icon {\r\n	color: #0066cc;\r\n}\r\n\r\n.Navigation .mob_icon {\r\n	color: #cc0000;\r\n}\r\n\r\n.Navigation .map_icon {\r\n	color: #228833;\r\n}\r\n\r\n.Navigation .result-name {\r\n	flex: 1;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.Navigation .result-map {\r\n	color: #666;\r\n	margin-left: 5px;\r\n	white-space: nowrap;\r\n}\r\n";
+	Navigation_default$1 = ":host {\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n.Navigation {\r\n	width: 440px;\r\n	height: 520px;\r\n	z-index: 50;\r\n	background-repeat: repeat-y;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	position: relative;\r\n	z-index: 2;\r\n	cursor: move;\r\n}\r\n\r\n.Navigation .titlebar .left {\r\n	width: 15px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.Navigation .titlebar .center {\r\n	width: calc(100% - 20px);\r\n	height: 17px;\r\n	background-repeat: repeat-x;\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 12px;\r\n}\r\n\r\n.Navigation .titlebar .right {\r\n	width: 12px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	position: absolute;\r\n	top: 0px;\r\n	right: 0px;\r\n}\r\n\r\n.Navigation .titlebar .title {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 10px;\r\n	height: 17px;\r\n	line-height: 17px;\r\n	white-space: nowrap;\r\n	text-shadow: 1px 1px white;\r\n	color: #000000;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n.Navigation .titlebar .close {\r\n	position: absolute;\r\n	top: 2px;\r\n	right: 2px;\r\n	width: 13px;\r\n	height: 13px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .content {\r\n	width: 100%;\r\n	height: calc(100% - 41px);\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background-color: #f7f7f7;\r\n	border: 1px solid #d4d4d4;\r\n	border-top: none;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .search-container {\r\n	width: 100%;\r\n	height: 32px;\r\n	flex: 0 0 32px;\r\n	position: relative;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 5px 10px;\r\n	box-sizing: border-box;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .search-filter {\r\n	height: 22px;\r\n	margin-right: 6px;\r\n	position: relative;\r\n	z-index: 120;\r\n}\r\n\r\n.Navigation .search-type {\r\n	width: 82px;\r\n}\r\n\r\n.Navigation .search-scope {\r\n	width: 92px;\r\n}\r\n\r\n.Navigation .filter-trigger,\r\n.Navigation .filter-option {\r\n	width: 100%;\r\n	height: 22px;\r\n	padding: 0 20px 0 7px;\r\n	border: 1px solid #aaa;\r\n	background: #fff;\r\n	color: #111;\r\n	font: inherit;\r\n	line-height: 20px;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .filter-trigger::after {\r\n	content: '';\r\n	position: absolute;\r\n	top: 9px;\r\n	right: 7px;\r\n	border: 4px solid transparent;\r\n	border-top-color: #333;\r\n}\r\n\r\n.Navigation .filter-trigger:hover,\r\n.Navigation .filter-trigger[aria-expanded='true'],\r\n.Navigation .filter-option:hover,\r\n.Navigation .filter-option[aria-selected='true'] {\r\n	background: #e8f4fb;\r\n}\r\n\r\n.Navigation .filter-trigger:focus-visible,\r\n.Navigation .filter-option:focus-visible {\r\n	outline: 1px solid #2877a8;\r\n	outline-offset: -2px;\r\n}\r\n\r\n.Navigation .filter-menu {\r\n	position: absolute;\r\n	top: 24px;\r\n	left: 0;\r\n	width: 100%;\r\n	padding: 2px 0;\r\n	border: 1px solid #aaa;\r\n	background: #fff;\r\n	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .filter-menu[hidden] {\r\n	display: none;\r\n}\r\n\r\n.Navigation .filter-option {\r\n	border: 0;\r\n	padding-right: 7px;\r\n}\r\n\r\n.Navigation .search-left {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 196px;\r\n	width: 3px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-middle {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 199px;\r\n	right: 38px;\r\n	height: 20px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-right {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 35px;\r\n	width: 3px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.Navigation .search-input {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 199px;\r\n	right: 38px;\r\n	height: 20px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding: 0 5px;\r\n	z-index: 1;\r\n}\r\n\r\n.Navigation .search-button {\r\n	position: absolute;\r\n	top: 7px;\r\n	right: 5px;\r\n	width: 33px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .map-container {\r\n	width: 100%;\r\n	flex: 1;\r\n	position: relative;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0 12px 8px;\r\n	box-sizing: border-box;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .location-title {\r\n	width: 100%;\r\n	height: 20px;\r\n	line-height: 20px;\r\n	text-align: center;\r\n	color: #000000;\r\n	text-shadow: none;\r\n	margin-bottom: 2px;\r\n	font-weight: bold;\r\n	background-color: #f7f7f7;\r\n}\r\n\r\n.Navigation .map-display {\r\n	width: 400px;\r\n	height: 340px;\r\n	flex: 0 0 340px;\r\n	margin: 0 auto;\r\n	position: relative;\r\n	background-color: #000000;\r\n	border: 1px solid #666666;\r\n	box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.Navigation .map-actions {\r\n	width: 400px;\r\n	min-height: 30px;\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n\r\n.Navigation .teleport-button {\r\n	display: inline-block;\r\n	border: 1px solid #777;\r\n	background: #eee;\r\n	color: #000;\r\n	padding: 2px 8px;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .npc-teleport-button {\r\n	display: none;\r\n	height: 24px;\r\n	padding: 0 8px;\r\n	border: 1px solid #2877a8;\r\n	background: #e8f4fb;\r\n	color: #174f70;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .npc-teleport-button:disabled {\r\n	border-color: #aaa;\r\n	background: #eee;\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n\r\n.Navigation .action-status {\r\n	width: 400px;\r\n	min-height: 22px;\r\n	padding: 0 6px;\r\n	box-sizing: border-box;\r\n	line-height: 18px;\r\n	color: #555;\r\n	font-size: 11px;\r\n	text-align: right;\r\n}\r\n\r\n.Navigation .teleport-button:hover {\r\n	background: #fff;\r\n}\r\n\r\n.Navigation .teleport-button:disabled {\r\n	background: #ddd;\r\n	color: #777;\r\n	cursor: not-allowed;\r\n}\r\n\r\n.Navigation .walk-button,\r\n.Navigation .walk-stop-button {\r\n	display: inline-block;\r\n	border: 1px solid #777;\r\n	background: #eee;\r\n	color: #000;\r\n	padding: 2px 8px;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n}\r\n\r\n.Navigation .walk-stop-button {\r\n	display: none;\r\n}\r\n\r\n.Navigation .walk-button:hover,\r\n.Navigation .walk-stop-button:hover {\r\n	background: #fff;\r\n}\r\n\r\n.Navigation .walk-button:disabled {\r\n	background: #ddd;\r\n	color: #777;\r\n	cursor: not-allowed;\r\n}\r\n\r\n.Navigation .footer {\r\n	width: 100%;\r\n	position: relative;\r\n	height: 24px;\r\n	background-color: #f7f7f7;\r\n	border-top: 1px solid #d4d4d4;\r\n	box-sizing: border-box;\r\n}\r\n\r\n.Navigation .coordinates-bar {\r\n	position: relative;\r\n	width: 100%;\r\n	padding: 1px 5px;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	height: 24px;\r\n	overflow: hidden;\r\n}\r\n\r\n.Navigation .map-name {\r\n	font-weight: bold;\r\n	color: #000;\r\n	flex: 1;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.Navigation .mouse-info,\r\n.Navigation .target-info {\r\n	display: none;\r\n	align-items: center;\r\n	color: #000;\r\n	margin-left: 8px;\r\n	white-space: nowrap;\r\n}\r\n\r\n.Navigation .mouse-label,\r\n.Navigation .target-label {\r\n	margin-right: 2px;\r\n}\r\n\r\n/* Path marker styles */\r\n.Navigation .start-marker,\r\n.Navigation .end-marker {\r\n	position: absolute;\r\n	width: 16px;\r\n	height: 16px;\r\n	transform: translate(-50%, -50%);\r\n}\r\n\r\n.Navigation .start-marker {\r\n	background-color: blue;\r\n}\r\n\r\n.Navigation .end-marker {\r\n	background-color: red;\r\n}\r\n\r\n.Navigation .path-line {\r\n	stroke: yellow;\r\n	stroke-width: 2;\r\n	fill: none;\r\n}\r\n\r\n.Navigation .search-results {\r\n	position: absolute;\r\n	top: 30px;\r\n	left: 10px;\r\n	right: 10px;\r\n	max-height: 300px;\r\n	background-color: #fff;\r\n	border: 1px solid #ccc;\r\n	z-index: 100;\r\n	overflow-y: auto;\r\n	display: none;\r\n	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\n.Navigation .no-results {\r\n	padding: 10px;\r\n	text-align: center;\r\n	color: #666;\r\n}\r\n\r\n.Navigation .results-list {\r\n	list-style: none;\r\n	margin: 0;\r\n	padding: 0;\r\n}\r\n\r\n.Navigation .results-list > li {\r\n	margin: 0;\r\n	padding: 0;\r\n}\r\n\r\n.Navigation .result-item {\r\n	width: 100%;\r\n	padding: 5px 10px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eee;\r\n	background: #fff;\r\n	color: #000;\r\n	font: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n.Navigation .results-list > li:last-child .result-item {\r\n	border-bottom: none;\r\n}\r\n\r\n.Navigation .result-item:hover {\r\n	background-color: #f0f0f0;\r\n}\r\n\r\n.Navigation .result-item:focus-visible {\r\n	outline: 1px solid #2877a8;\r\n	outline-offset: -2px;\r\n}\r\n\r\n.Navigation .result-type {\r\n	margin-right: 5px;\r\n	font-weight: bold;\r\n	color: #666;\r\n	width: 30px;\r\n}\r\n\r\n.Navigation .npc_icon {\r\n	color: #0066cc;\r\n}\r\n\r\n.Navigation .mob_icon {\r\n	color: #cc0000;\r\n}\r\n\r\n.Navigation .map_icon {\r\n	color: #228833;\r\n}\r\n\r\n.Navigation .result-name {\r\n	flex: 1;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.Navigation .result-map {\r\n	color: #666;\r\n	margin-left: 5px;\r\n	white-space: nowrap;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Navigation/MapPathFinder.js
@@ -292753,8 +299525,8 @@ var init_NavigationSearchInteraction = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/Navigation/NavigationAutoWalk.js
-function selectAutoWalkWaypoint(path, position, lookAhead = 12) {
-	if (!Array.isArray(path) || path.length === 0) return null;
+function nearestPathIndex(path, position) {
+	if (!Array.isArray(path) || path.length === 0 || !position) return -1;
 	let nearestIndex = 0;
 	let nearestDistance = Infinity;
 	for (let index = 0; index < path.length; index++) {
@@ -292764,6 +299536,16 @@ function selectAutoWalkWaypoint(path, position, lookAhead = 12) {
 			nearestIndex = index;
 		}
 	}
+	return nearestIndex;
+}
+function remainingPathFromPosition(path, position) {
+	const nearestIndex = nearestPathIndex(path, position);
+	if (nearestIndex < 0) return Array.isArray(path) ? path : [];
+	return path.slice(nearestIndex);
+}
+function selectAutoWalkWaypoint(path, position, lookAhead = 12) {
+	const nearestIndex = nearestPathIndex(path, position);
+	if (nearestIndex < 0) return null;
 	return path[Math.min(nearestIndex + lookAhead, path.length - 1)];
 }
 var init_NavigationAutoWalk = __esmMin((() => {}));
@@ -496071,6 +502853,21 @@ function mergeNpcCatalog(navigationResults, localizeMap) {
 		});
 	}).filter((npc) => npc.gameVisible);
 }
+function npcCatalogKey(npc) {
+	if (!npc) return "";
+	return `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
+}
+function normalizeWorldMapName(mapName) {
+	return String(mapName || "").replace(/\.gat$/i, "").toLocaleLowerCase();
+}
+function npcTeleportEnabled(npc, available, actionState) {
+	return Boolean(actionState?.canTeleport && !actionState.npcPending && available === true && npc?.type === "NPC" && Number.isFinite(npc.npcClass));
+}
+function filterNpcsOnMap(npcs, mapName) {
+	const map = normalizeWorldMapName(mapName);
+	if (!map) return [];
+	return (npcs || []).filter((npc) => normalizeWorldMapName(npc.mapName || npc.map) === map).sort((left, right) => String(left.name || left.display_name || "").localeCompare(String(right.name || right.display_name || "")) || (left.x ?? 0) - (right.x ?? 0) || (left.y ?? 0) - (right.y ?? 0));
+}
 var WORLD_ENTITY_TYPES;
 var init_WorldCatalogService = __esmMin((() => {
 	init_NpcCatalog();
@@ -496081,6 +502878,76 @@ var init_WorldCatalogService = __esmMin((() => {
 		WARP: "WARP"
 	});
 }));
+//#endregion
+//#region src/UI/Components/GameTools/MapPreviewLayout.js
+function fittedMapRect(canvasWidth, canvasHeight, sourceWidth, sourceHeight) {
+	const srcW = Number(sourceWidth) || 0;
+	const srcH = Number(sourceHeight) || 0;
+	if (!canvasWidth || !canvasHeight || !srcW || !srcH) return {
+		x: 0,
+		y: 0,
+		width: canvasWidth || 0,
+		height: canvasHeight || 0
+	};
+	const scale = Math.min(canvasWidth / srcW, canvasHeight / srcH);
+	const width = srcW * scale;
+	const height = srcH * scale;
+	return {
+		x: (canvasWidth - width) / 2,
+		y: (canvasHeight - height) / 2,
+		width,
+		height
+	};
+}
+function mapImageSourceRect(imageWidth, imageHeight, grid) {
+	const width = Number(grid?.width) || 0;
+	const height = Number(grid?.height) || 0;
+	if (!imageWidth || !imageHeight || !width || !height) return {
+		x: 0,
+		y: 0,
+		width: imageWidth || 0,
+		height: imageHeight || 0
+	};
+	const max = Math.max(width, height);
+	return {
+		x: (max - width) / 2 / max * imageWidth,
+		y: (max - height) / 2 / max * imageHeight,
+		width: width / max * imageWidth,
+		height: height / max * imageHeight
+	};
+}
+function mapPointToCanvas(fit, grid, point) {
+	if (!fit?.width || !fit?.height || !grid?.width || !grid?.height || !point) return null;
+	return {
+		x: fit.x + point.x / grid.width * fit.width,
+		y: fit.y + (grid.height - point.y) / grid.height * fit.height
+	};
+}
+function canvasPointToMap(fit, grid, canvasX, canvasY) {
+	if (!fit?.width || !fit?.height || !grid?.width || !grid?.height) return {
+		x: 0,
+		y: 0
+	};
+	const x = Math.floor((canvasX - fit.x) / fit.width * grid.width);
+	const y = Math.floor(grid.height - (canvasY - fit.y) / fit.height * grid.height);
+	return {
+		x: Math.max(0, Math.min(grid.width - 1, x)),
+		y: Math.max(0, Math.min(grid.height - 1, y))
+	};
+}
+function syncMapPreviewCanvas(canvas) {
+	if (!canvas) return false;
+	const displayWidth = canvas.clientWidth;
+	const displayHeight = canvas.clientHeight;
+	if (!displayWidth || !displayHeight) return false;
+	const width = Math.max(1, Math.round(displayWidth));
+	const height = Math.max(1, Math.round(displayHeight));
+	if (canvas.width === width && canvas.height === height) return false;
+	canvas.width = width;
+	canvas.height = height;
+	return true;
+}
+var init_MapPreviewLayout = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/GameTools/AdventureActionService.js
 function normalizeAdventureMap(mapName) {
@@ -496160,7 +503027,7 @@ function teleportToCoordinate(target) {
 	return true;
 }
 function handleMapTeleportResult(packet) {
-	if (packet.requestId !== nextMapRequestId) return false;
+	if (!mapPending || packet.requestId !== nextMapRequestId) return false;
 	clearTimeout(mapTimer);
 	mapPending = false;
 	const messages = {
@@ -496203,7 +503070,7 @@ function teleportToNpc(npc) {
 	return true;
 }
 function handleNpcTeleportResult(packet) {
-	if (packet.requestId !== nextNpcRequestId) return false;
+	if (!npcPending || packet.requestId !== nextNpcRequestId) return false;
 	clearTimeout(npcTimer);
 	npcPending = false;
 	const messages = {
@@ -496231,6 +503098,7 @@ function notifyAdventureConfigChanged() {
 var nextNpcRequestId, nextMapRequestId, npcPending, mapPending, npcTimer, mapTimer, cooldownUntil, cooldownTimer, statusTimer, status$1, listeners$1;
 var init_AdventureActionService = __esmMin((() => {
 	init_NetworkManager();
+	init_ConnectionLifecycle();
 	init_PacketStructure();
 	init_SessionStorage();
 	init_MapRenderer();
@@ -496250,6 +503118,89 @@ var init_AdventureActionService = __esmMin((() => {
 		kind: null
 	};
 	listeners$1 = /* @__PURE__ */ new Set();
+	onConnectionEnd(() => {
+		clearTimeout(npcTimer);
+		clearTimeout(mapTimer);
+		clearTimeout(cooldownTimer);
+		clearTimeout(statusTimer);
+		npcPending = mapPending = false;
+		cooldownUntil = 0;
+		status$1 = {
+			message: "",
+			error: false,
+			kind: null
+		};
+		notify$1();
+	});
+}));
+//#endregion
+//#region src/UI/Components/GameTools/NpcAvailabilityService.js
+function normalizeNpc(npc) {
+	return {
+		mapName: String(npc.mapName || "").replace(/\.gat$/i, "").toLocaleLowerCase(),
+		x: Math.max(0, Math.floor(npc.x)),
+		y: Math.max(0, Math.floor(npc.y)),
+		npcClass: Math.floor(npc.npcClass)
+	};
+}
+function npcAvailabilityBatches(npcs) {
+	const list = npcs || [];
+	const batches = [];
+	for (let index = 0; index < list.length; index += 50) batches.push(list.slice(index, index + 50));
+	return batches;
+}
+function requestNpcAvailability(npcs, timeout = 5e3) {
+	const candidates = npcs.slice(0, 50);
+	if (pendingRequests.size >= 64) return Promise.reject(/* @__PURE__ */ new Error("Too many pending NPC requests"));
+	do
+		nextRequestId = nextRequestId + 1 >>> 0;
+	while (pendingRequests.has(nextRequestId));
+	const requestId = nextRequestId;
+	const packet = new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY();
+	packet.requestId = requestId;
+	packet.npcs = candidates.map(normalizeNpc);
+	return new Promise((resolve, reject) => {
+		const timer = setTimeout(() => {
+			pendingRequests.delete(requestId);
+			reject(/* @__PURE__ */ new Error("NPC availability request timed out"));
+		}, timeout);
+		pendingRequests.set(requestId, {
+			count: candidates.length,
+			resolve,
+			reject,
+			timer
+		});
+		try {
+			if (Network.sendPacket(packet) === false) throw new Error("Game connection is not open");
+		} catch (error) {
+			clearTimeout(timer);
+			pendingRequests.delete(requestId);
+			reject(error);
+		}
+	});
+}
+function handleNpcAvailabilityResult(packet) {
+	const pending = pendingRequests.get(packet.requestId);
+	if (!pending || packet.available.length !== pending.count) return false;
+	clearTimeout(pending.timer);
+	pendingRequests.delete(packet.requestId);
+	pending.resolve(packet.available);
+	return true;
+}
+var nextRequestId, pendingRequests;
+var init_NpcAvailabilityService = __esmMin((() => {
+	init_NetworkManager();
+	init_PacketStructure();
+	init_ConnectionLifecycle();
+	nextRequestId = 2147483648;
+	pendingRequests = /* @__PURE__ */ new Map();
+	onConnectionEnd(() => {
+		for (const pending of pendingRequests.values()) {
+			clearTimeout(pending.timer);
+			pending.reject(/* @__PURE__ */ new Error("Game connection ended"));
+		}
+		pendingRequests.clear();
+	});
 }));
 //#endregion
 //#region src/UI/Components/Navigation/Navigation.js
@@ -496333,21 +503284,18 @@ function formatLocationTitle(currentMap, targetMap, displayName) {
 	else text = `[${displayName || currentMap}]`;
 	return text;
 }
+function getMapFit(width, height) {
+	if (!_mapData?.width || !_mapData?.height) return fittedMapRect(width, height, width, height);
+	return fittedMapRect(width, height, _mapData.width, _mapData.height);
+}
 /**
 * Convert map coordinates to screen coordinates
 */
 function mapToScreen(x, y, width, height) {
-	const scaleX = width / _mapData.width;
-	const scaleY = height / _mapData.height;
-	const scale = Math.min(scaleX, scaleY);
-	const mapWidth = _mapData.width * scale;
-	const mapHeight = _mapData.height * scale;
-	const offsetX = (width - mapWidth) / 2;
-	const offsetY = (height - mapHeight) / 2;
-	return {
-		x: x / _mapData.width * mapWidth + offsetX,
-		y: (_mapData.height - y) / _mapData.height * mapHeight + offsetY
-	};
+	return mapPointToCanvas(getMapFit(width, height), _mapData, {
+		x,
+		y
+	});
 }
 /**
 * Get the current map name
@@ -496456,7 +503404,9 @@ var init_Navigation = __esmMin((() => {
 	init_NavigationSearchInteraction();
 	init_NavigationAutoWalk();
 	init_WorldCatalogService();
+	init_MapPreviewLayout();
 	init_AdventureActionService();
+	init_NpcAvailabilityService();
 	Navigation = new GUIComponent("Navigation", Navigation_default$1);
 	NAVIGATION_WIDTH = 440;
 	NAVIGATION_HEIGHT = 520;
@@ -496512,23 +503462,7 @@ var init_Navigation = __esmMin((() => {
 	*/
 	Navigation.screenToMapCoordinates = function screenToMapCoordinates(screenX, screenY) {
 		if (!_mapData?.ready) return null;
-		const width = MAP_WIDTH;
-		const height = MAP_HEIGHT;
-		const scaleX = width / _mapData.width;
-		const scaleY = height / _mapData.height;
-		const scale = Math.min(scaleX, scaleY);
-		const scaledMapWidth = _mapData.width * scale;
-		const scaledMapHeight = _mapData.height * scale;
-		const offsetX = (width - scaledMapWidth) / 2;
-		const offsetY = (height - scaledMapHeight) / 2;
-		let mapX = (screenX - offsetX) / scaledMapWidth * _mapData.width;
-		let mapY = _mapData.height - (screenY - offsetY) / scaledMapHeight * _mapData.height;
-		mapX = Math.max(0, Math.min(_mapData.width, mapX));
-		mapY = Math.max(0, Math.min(_mapData.height, mapY));
-		return {
-			x: Math.floor(mapX),
-			y: Math.floor(mapY)
-		};
+		return canvasPointToMap(getMapFit(MAP_WIDTH, MAP_HEIGHT), _mapData, screenX, screenY);
 	};
 	/**
 	* Initialize component
@@ -496583,22 +503517,6 @@ var init_Navigation = __esmMin((() => {
 		};
 		setupSearchFilter(root, ".search-type", refreshSearch);
 		setupSearchFilter(root, ".search-scope", refreshSearch);
-		const servicesToggle = root.querySelector(".services-toggle");
-		if (servicesToggle) servicesToggle.addEventListener("change", () => {
-			if (!_finalTargetData) return;
-			_pathUnavailable = false;
-			const currentMap = getCurrentMap();
-			const currentPos = getPlayerPosition();
-			this.navigateTo({
-				startMap: currentMap,
-				startX: currentPos.x,
-				startY: currentPos.y,
-				endMap: _finalTargetData.map,
-				endX: _finalTargetData.x,
-				endY: _finalTargetData.y,
-				displayName: _finalTargetData.displayName
-			});
-		});
 		const searchInput = root.querySelector(".search-input");
 		searchInput.addEventListener("keypress", (e) => {
 			if (e.which === KEYS.ENTER || e.key === "Enter") this.onSearch();
@@ -496720,7 +503638,7 @@ var init_Navigation = __esmMin((() => {
 		}
 		this.displaySearchResults(results);
 	};
-	Navigation.requestNpcAvailability = function requestNpcAvailability(results, npcResults) {
+	Navigation.requestNpcAvailability = function requestNpcAvailability$1(results, npcResults) {
 		const requestId = ++_npcAvailabilityRequestId;
 		_npcAvailabilityPending = {
 			requestId,
@@ -496728,15 +503646,6 @@ var init_Navigation = __esmMin((() => {
 			npcResults
 		};
 		for (const npc of npcResults) npc.availability = "pending";
-		const packet = new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY();
-		packet.requestId = requestId;
-		packet.npcs = npcResults.map((npc) => ({
-			mapName: normalizeMapName(npc.mapName),
-			x: Math.max(0, Math.floor(npc.x)),
-			y: Math.max(0, Math.floor(npc.y)),
-			npcClass: Math.floor(npc.npcClass)
-		}));
-		Network.sendPacket(packet);
 		this.displaySearchResults(results);
 		clearTimeout(_npcAvailabilityTimer);
 		_npcAvailabilityTimer = setTimeout(() => {
@@ -496745,6 +503654,22 @@ var init_Navigation = __esmMin((() => {
 			for (const npc of npcResults) npc.availability = "unknown";
 			this.displaySearchResults(results);
 		}, 5e3);
+		Promise.all(npcAvailabilityBatches(npcResults).map((batch) => requestNpcAvailability(batch))).then((batchResults) => {
+			if (_npcAvailabilityPending?.requestId !== requestId) return;
+			clearTimeout(_npcAvailabilityTimer);
+			const available = batchResults.flat();
+			npcResults.forEach((result, index) => {
+				result.availability = available[index] ? "available" : "unavailable";
+			});
+			_npcAvailabilityPending = null;
+			this.displaySearchResults(results);
+		}).catch(() => {
+			if (_npcAvailabilityPending?.requestId !== requestId) return;
+			clearTimeout(_npcAvailabilityTimer);
+			_npcAvailabilityPending = null;
+			for (const npc of npcResults) npc.availability = "unknown";
+			this.displaySearchResults(results);
+		});
 	};
 	Navigation.onNpcAvailabilityResult = function onNpcAvailabilityResult(packet) {
 		const pending = _npcAvailabilityPending;
@@ -496953,9 +503878,9 @@ var init_Navigation = __esmMin((() => {
 		const npcTarget = this.targetResult?.type === "NPC" ? this.targetResult : null;
 		const npcTeleportable = npcTarget && npcTarget.availability !== "unavailable" && npcTarget.availability !== "pending";
 		const hasCoordinateTarget = Boolean(!npcTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y));
-		button.style.display = npcTarget ? "none" : "block";
+		button.style.display = npcTarget ? "none" : "inline-block";
 		button.disabled = !hasCoordinateTarget || !canTeleportTarget || !coordinateActionState.canTeleport;
-		npcButton.style.display = npcTeleportable && canTeleportTarget ? "block" : "none";
+		npcButton.style.display = npcTeleportable && canTeleportTarget ? "inline-block" : "none";
 		npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
 		npcButton.textContent = _npcTeleportPending ? "正在传送..." : "传送到 NPC 附近";
 	};
@@ -496978,9 +503903,9 @@ var init_Navigation = __esmMin((() => {
 		const stop = root?.querySelector(".walk-stop-button");
 		if (!start || !stop) return;
 		const canStart = Boolean(_path.length && _targetData && _targetData.map === getCurrentMap() && !_pathUnavailable);
-		start.style.display = _autoWalkActive ? "none" : "block";
+		start.style.display = _autoWalkActive ? "none" : "inline-block";
 		start.disabled = !canStart;
-		stop.style.display = _autoWalkActive ? "block" : "none";
+		stop.style.display = _autoWalkActive ? "inline-block" : "none";
 	};
 	Navigation.startAutoWalk = function startAutoWalk() {
 		if (_autoWalkActive || !_targetData || _targetData.map !== getCurrentMap() || _pathUnavailable) return;
@@ -497011,7 +503936,8 @@ var init_Navigation = __esmMin((() => {
 				return;
 			}
 			if (reachedTarget && _finalTargetData.map === currentMap) {
-				this.stopAutoWalk();
+				this.clear();
+				this.setActionStatus("已到达目的地");
 				return;
 			}
 			const waypoint = selectAutoWalkWaypoint(_path, position) || _targetData;
@@ -497073,7 +503999,10 @@ var init_Navigation = __esmMin((() => {
 			6: "目标坐标无效",
 			7: "传送失败，请稍后重试"
 		};
-		if (packet.result !== 0) this.setActionStatus(messages[packet.result] || "传送请求被服务器拒绝", true);
+		if (packet.result === 0) {
+			this.clear();
+			this.setActionStatus("");
+		} else this.setActionStatus(messages[packet.result] || "传送请求被服务器拒绝", true);
 		this.updateTeleportButton();
 	};
 	Navigation.teleportToSelectedNpc = function teleportToSelectedNpc() {
@@ -497114,6 +504043,7 @@ var init_Navigation = __esmMin((() => {
 		};
 		if (packet.result === 0) {
 			_teleportCooldownUntil = Date.now() + packet.cooldownRemaining * 1e3;
+			this.clear();
 			this.setActionStatus(`已传送到 NPC 附近 (${packet.x}, ${packet.y})`);
 			clearTimeout(_teleportCooldownTimer);
 			_teleportCooldownTimer = setTimeout(() => this.updateTeleportButton(), packet.cooldownRemaining * 1e3);
@@ -497266,15 +504196,9 @@ var init_Navigation = __esmMin((() => {
 		ctx.fillStyle = "#000";
 		ctx.fillRect(0, 0, width, height);
 		if (_mapData?.ready && _mapImageMap === _mapData.map && _map.complete && _map.width) {
-			const scaleX = width / _mapData.width;
-			const scaleY = height / _mapData.height;
-			const scale = Math.min(scaleX, scaleY);
-			ctx.save();
-			ctx.translate(width / 2, height / 2);
-			ctx.scale(scale, scale);
-			ctx.translate(-_mapData.width / 2, -_mapData.height / 2);
-			ctx.drawImage(_map, 0, 0, _mapData.width, _mapData.height);
-			ctx.restore();
+			const fit = getMapFit(width, height);
+			const source = mapImageSourceRect(_map.naturalWidth || _map.width, _map.naturalHeight || _map.height, _mapData);
+			ctx.drawImage(_map, source.x, source.y, source.width, source.height, fit.x, fit.y, fit.width, fit.height);
 		}
 		const mapToScreenBound = (x, y) => {
 			return mapToScreen(x, y, width, height);
@@ -497310,17 +504234,18 @@ var init_Navigation = __esmMin((() => {
 			}
 			if (img.complete && img.width) ctx.drawImage(img, pos.x - img.width / 2, pos.y - img.height / 2);
 		}
-		if (_path && _path.length > 0) {
+		const remainingPath = remainingPathFromPosition(_path, currentPos);
+		if (remainingPath && remainingPath.length > 0) {
 			ctx.lineWidth = 2;
 			let currentSegment = [];
-			for (let i = 0; i < _path.length; i++) {
-				const point = _path[i];
+			for (let i = 0; i < remainingPath.length; i++) {
+				const point = remainingPath[i];
 				const pos = mapToScreenBound(point.x, point.y);
 				if (currentSegment.length === 0) {
 					currentSegment.push(pos);
 					continue;
 				}
-				if (point.isWarp || i === _path.length - 1) {
+				if (point.isWarp || i === remainingPath.length - 1) {
 					currentSegment.push(pos);
 					ctx.strokeStyle = "cyan";
 					ctx.beginPath();
@@ -497332,8 +504257,8 @@ var init_Navigation = __esmMin((() => {
 						ctx.arc(pos.x, pos.y, 3, 0, Math.PI * 2);
 						ctx.fillStyle = "yellow";
 						ctx.fill();
-						if (i + 1 < _path.length) {
-							const exitPos = mapToScreenBound(_path[i + 1].x, _path[i + 1].y);
+						if (i + 1 < remainingPath.length) {
+							const exitPos = mapToScreenBound(remainingPath[i + 1].x, remainingPath[i + 1].y);
 							ctx.beginPath();
 							ctx.arc(exitPos.x, exitPos.y, 3, 0, Math.PI * 2);
 							ctx.fillStyle = "yellow";
@@ -497347,10 +504272,13 @@ var init_Navigation = __esmMin((() => {
 		}
 		if (_targetData) {
 			const lastPoint = mapToScreenBound(_targetData.x, _targetData.y);
-			ctx.fillStyle = "red";
+			ctx.fillStyle = "#2f80ed";
 			ctx.beginPath();
-			ctx.arc(lastPoint.x, lastPoint.y, 3, 0, Math.PI * 2);
+			ctx.arc(lastPoint.x, lastPoint.y, 5, 0, Math.PI * 2);
 			ctx.fill();
+			ctx.strokeStyle = "#fff";
+			ctx.lineWidth = 2;
+			ctx.stroke();
 		}
 		const startPos = mapToScreenBound(currentPos.x, currentPos.y);
 		if (_mapData.map === currentMap && _arrow.complete && _arrow.width) {
@@ -497518,8 +504446,20 @@ var init_Navigation = __esmMin((() => {
 	* Toggle the navigation window (show/hide)
 	*/
 	Navigation.toggle = function toggle() {
-		if ((this._host ? getComputedStyle(this._host).display : "none") !== "none") this.hide();
-		else this.show();
+		if ((this._host ? getComputedStyle(this._host).display : "none") !== "none") {
+			const currentZ = parseInt(this._host.style.zIndex, 10) || 0;
+			let maxZ = currentZ;
+			const components = this.manager?.components || {};
+			for (const name in components) {
+				const other = components[name];
+				if (other === this || !other.__active || !other.needFocus) continue;
+				maxZ = Math.max(maxZ, parseInt(other._host?.style.zIndex, 10) || 0);
+			}
+			if (currentZ >= maxZ) this.hide();
+			else this.focus();
+			return;
+		}
+		this.show();
 	};
 	/**
 	* Show the navigation window
@@ -497539,6 +504479,7 @@ var init_Navigation = __esmMin((() => {
 		const locationTitle = root.querySelector(".location-title");
 		if (locationTitle && !locationTitle.textContent) this.setLocationTitle(mapName, null);
 		this.ui.show();
+		this.focus();
 		this.updateTeleportButton();
 		this.updateAutoWalkButtons();
 	};
@@ -497621,7 +504562,7 @@ var init_Navigation = __esmMin((() => {
 	Navigation.navigateTo = async function navigateTo(options) {
 		const navigationRequestId = ++_navigationRequestId;
 		this.setActionStatus("");
-		const root = Navigation.getRoot();
+		Navigation.getRoot();
 		const startMap = normalizeMapName(options.startMap);
 		const endMap = normalizeMapName(options.endMap);
 		const displayName = options.displayName;
@@ -497644,16 +504585,7 @@ var init_Navigation = __esmMin((() => {
 		notifyRouteState();
 		this.updateTeleportButton();
 		this.updateAutoWalkButtons();
-		let warpTypes = [200, 201];
-		const servicesToggle = root.querySelector(".services-toggle");
-		if (servicesToggle && servicesToggle.checked) warpTypes = [
-			200,
-			201,
-			202,
-			203,
-			204,
-			205
-		];
+		const warpTypes = [200, 201];
 		_pathUpdateLock = true;
 		notifyRouteState();
 		let path;
@@ -497859,6 +504791,12 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 		});
 		root.querySelector(".minus").addEventListener("mousedown", (event) => {
 			MiniMap.updateZoom(-1);
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		});
+		const miniBtn = root.querySelector(".mini");
+		if (miniBtn) miniBtn.addEventListener("mousedown", (event) => {
+			MiniMap.toggleOpacity();
 			event.stopImmediatePropagation();
 			event.preventDefault();
 		});
@@ -498135,14 +505073,21 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 		_preferences.save();
 		switch (this.opacity) {
 			case 0:
-				this.ui.hide();
+				if (_ctx) _ctx.canvas.style.visibility = "hidden";
+				this.ui.show();
 				break;
 			case 1:
-				_ctx.globalAlpha = .5;
+				if (_ctx) {
+					_ctx.canvas.style.visibility = "visible";
+					_ctx.globalAlpha = .5;
+				}
 				this.ui.show();
 				break;
 			case 2:
-				_ctx.globalAlpha = 1;
+				if (_ctx) {
+					_ctx.canvas.style.visibility = "visible";
+					_ctx.globalAlpha = 1;
+				}
 				this.ui.show();
 		}
 	};
@@ -498980,7 +505925,7 @@ var init_PartyHelper$2 = __esmMin((() => {
 //#region src/UI/Components/PartyFriends/PartyHelper/PartyHelper.css?raw
 var PartyHelper_default$1;
 var init_PartyHelper$1 = __esmMin((() => {
-	PartyHelper_default$1 = ":host {\r\n	position: absolute;\r\n}\r\n\r\n#PartyHelper {\r\n	width: 130px;\r\n}\r\n\r\n#PartyHelper .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#PartyHelper .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#PartyHelper .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n}\r\n\r\n#PartyHelper .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#PartyHelper .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#PartyHelper .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#PartyHelper .content {\r\n	background-color: white;\r\n	padding-bottom: 5px;\r\n}\r\n\r\n#PartyHelper .party-content {\r\n	min-height: 100px;\r\n}\r\n\r\n#PartyHelper .friend-content {\r\n	padding: 5px;\r\n}\r\n\r\n#PartyHelper .disabled,\r\n#PartyHelper .disabled button {\r\n	color: #888;\r\n}\r\n\r\n#PartyHelper .on,\r\n#PartyHelper .off {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	background-position: 0px 3px;\r\n	padding-left: 15px;\r\n}\r\n\r\n#PartyHelper .content p {\r\n	padding: 0;\r\n	margin: 0;\r\n	padding-top: 10px;\r\n}\r\n\r\n#PartyHelper .content div {\r\n	margin-left: 10px;\r\n}\r\n\r\n#PartyHelper .content button {\r\n	margin-left: 10px;\r\n	padding-left: 15px;\r\n}\r\n\r\n#PartyHelper .name {\r\n	border: none;\r\n	background-color: #e7e7e7;\r\n	width: 95px;\r\n	height: 20px;\r\n	margin-left: 10px;\r\n	margin-top: 5px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#PartyHelper .footer {\r\n	border-radius: 0px 0px 3px 3px;\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n\r\n#PartyHelper .btn {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#PartyHelper .ok {\r\n	right: 46px;\r\n}\r\n\r\n#PartyHelper .cancel {\r\n	right: 2px;\r\n}\r\n\r\n#PartyHelper .friend-setup .setting-row {\r\n	margin-left: 0px;\r\n	margin-bottom: 3px;\r\n	cursor: pointer;\r\n	white-space: nowrap;\r\n}\r\n\r\n#PartyHelper .friend-setup .off {\r\n	display: none;\r\n}\r\n\r\n#PartyHelper .friend-setup .on {\r\n	display: inline-block;\r\n}\r\n\r\n#PartyHelper .friend-setup span {\r\n	margin-left: 5px;\r\n	font-size: 11px;\r\n	vertical-align: middle;\r\n}\r\n\r\n#PartyHelper .friend-setup button {\r\n	display: inline-block;\r\n	width: 15px;\r\n	height: 18px;\r\n	background-position: 0px 3px;\r\n	padding: 0;\r\n	cursor: pointer;\r\n	vertical-align: middle;\r\n}\r\n";
+	PartyHelper_default$1 = ":host {\r\n	position: absolute;\r\n}\r\n\r\n#PartyHelper {\r\n	width: 130px;\r\n}\r\n\r\n#PartyHelper .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#PartyHelper .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#PartyHelper .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n}\r\n\r\n#PartyHelper .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#PartyHelper .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#PartyHelper .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#PartyHelper .content {\r\n	background-color: white;\r\n	padding-bottom: 5px;\r\n}\r\n\r\n#PartyHelper .party-content {\r\n	min-height: 100px;\r\n}\r\n\r\n#PartyHelper .friend-content {\r\n	padding: 5px;\r\n}\r\n\r\n#PartyHelper .disabled,\r\n#PartyHelper .disabled button {\r\n	color: #888;\r\n}\r\n\r\n#PartyHelper .on,\r\n#PartyHelper .off {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	background-position: 0px 3px;\r\n	padding-left: 15px;\r\n}\r\n\r\n#PartyHelper .content p {\r\n	padding: 0;\r\n	margin: 0;\r\n	padding-top: 10px;\r\n}\r\n\r\n#PartyHelper .content div {\r\n	margin-left: 10px;\r\n}\r\n\r\n#PartyHelper .content button {\r\n	margin-left: 10px;\r\n	padding-left: 15px;\r\n}\r\n\r\n#PartyHelper .name {\r\n	border: none;\r\n	background-color: #e7e7e7;\r\n	width: 95px;\r\n	height: 20px;\r\n	margin-left: 10px;\r\n	margin-top: 5px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#PartyHelper .footer {\r\n	border-radius: 0px 0px 3px 3px;\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n\r\n#PartyHelper .btn {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#PartyHelper .ok {\r\n	right: 46px;\r\n}\r\n\r\n#PartyHelper .cancel {\r\n	right: 2px;\r\n}\r\n\r\n#PartyHelper .friend-setup .setting-row {\r\n	margin-left: 0px;\r\n	margin-bottom: 3px;\r\n	cursor: pointer;\r\n	white-space: nowrap;\r\n}\r\n\r\n#PartyHelper .friend-setup .off {\r\n	display: none;\r\n}\r\n\r\n#PartyHelper .friend-setup .on {\r\n	display: inline-block;\r\n}\r\n\r\n#PartyHelper .friend-setup span {\r\n	margin-left: 5px;\r\n	font-size: 11px;\r\n	vertical-align: middle;\r\n}\r\n\r\n#PartyHelper .friend-setup button {\r\n	display: inline-block;\r\n	width: 15px;\r\n	height: 18px;\r\n	background-position: 0px 3px;\r\n	padding: 0;\r\n	cursor: pointer;\r\n	vertical-align: middle;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WhisperBox/WhisperBox.html?raw
@@ -498998,13 +505943,13 @@ var init_WhisperBox$1 = __esmMin((() => {
 //#region src/UI/Components/NpcMenu/NpcMenu.html?raw
 var NpcMenu_default$2;
 var init_NpcMenu$2 = __esmMin((() => {
-	NpcMenu_default$2 = "<div id=\"NpcMenu\">\r\n	<div class=\"container\">\r\n		<div class=\"middle\">\r\n			<span class=\"title\"></span>\r\n			<div class=\"content\"></div>\r\n		</div>\r\n		<ui-button class=\"btn cancel\">取消</ui-button>\r\n		<ui-button class=\"btn ok\">确定</ui-button>\r\n	</div>\r\n</div>\r\n";
+	NpcMenu_default$2 = "<div id=\"NpcMenu\">\r\n	<div class=\"container\">\r\n		<div class=\"middle\">\r\n			<span class=\"title\"></span>\r\n			<div class=\"content\"></div>\r\n		</div>\r\n		<ui-button class=\"btn cancel ui-btn localized-control\">取消</ui-button>\r\n		<ui-button class=\"btn ok ui-btn localized-control\">确定</ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcMenu/NpcMenu.css?raw
 var NpcMenu_default$1;
 var init_NpcMenu$1 = __esmMin((() => {
-	NpcMenu_default$1 = ":host {\r\n	width: 276px;\r\n	height: 116px;\r\n	top: 285px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcMenu {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	width: 276px;\r\n	height: 116px;\r\n	background-color: white;\r\n	padding: 2px;\r\n}\r\n\r\n#NpcMenu .title {\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	display: block;\r\n	width: 260px;\r\n	padding-left: 3px;\r\n	padding-top: 3px;\r\n}\r\n\r\n#NpcMenu .container {\r\n	border-radius: 5px;\r\n	border: 1px solid #c1c6c2;\r\n	width: 269px;\r\n	height: 109px;\r\n	padding-left: 5px;\r\n	padding-top: 5px;\r\n}\r\n\r\n#NpcMenu .middle {\r\n	overflow-x: hidden;\r\n	overflow-y: scroll;\r\n}\r\n\r\n#NpcMenu .content {\r\n	white-space: pre-wrap;\r\n	background-color: #f9f9f9;\r\n	width: 260px;\r\n	height: 80px;\r\n	padding-left: 3px;\r\n	margin-top: 5px;\r\n}\r\n\r\n#NpcMenu .content div {\r\n	width: auto;\r\n	height: 17px;\r\n	display: block;\r\n	padding-top: 3px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#NpcMenu .content div.selected {\r\n	background-color: #cde0ff;\r\n}\r\n\r\n#NpcMenu .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 5px;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n#NpcMenu .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#NpcMenu .ok {\r\n	right: 50px;\r\n}\r\n";
+	NpcMenu_default$1 = ":host {\r\n	width: 276px;\r\n	height: 116px;\r\n	top: 285px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcMenu {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	width: 276px;\r\n	height: 116px;\r\n	background-color: white;\r\n	padding: 2px;\r\n}\r\n\r\n#NpcMenu .title {\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	display: block;\r\n	width: 260px;\r\n	padding-left: 3px;\r\n	padding-top: 3px;\r\n}\r\n\r\n#NpcMenu .container {\r\n	border-radius: 5px;\r\n	border: 1px solid #c1c6c2;\r\n	width: 269px;\r\n	height: 109px;\r\n	padding-left: 5px;\r\n	padding-top: 5px;\r\n}\r\n\r\n#NpcMenu .middle {\r\n	overflow-x: hidden;\r\n	overflow-y: scroll;\r\n}\r\n\r\n#NpcMenu .content {\r\n	white-space: pre-wrap;\r\n	background-color: #f9f9f9;\r\n	width: 260px;\r\n	height: 80px;\r\n	padding-left: 3px;\r\n	margin-top: 5px;\r\n}\r\n\r\n#NpcMenu .content div {\r\n	width: auto;\r\n	height: 17px;\r\n	display: block;\r\n	padding-top: 3px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#NpcMenu .content div.selected {\r\n	background-color: #cde0ff;\r\n}\r\n\r\n#NpcMenu .btn {\r\n	position: absolute;\r\n	bottom: 5px;\r\n}\r\n\r\n#NpcMenu .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#NpcMenu .ok {\r\n	right: 48px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcMenu/NpcMenu.js
@@ -503140,16 +510085,27 @@ var init_PartyFriends = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/GuildPositionName.js
+function localizeGuildPositionName(name) {
+	if (!name) return name;
+	if (name === "GuildMaster") return "会长";
+	if (name === "Newbie") return "新成员";
+	const match = /^Position (\d+)$/.exec(name);
+	if (match) return `职位 ${match[1]}`;
+	return name;
+}
+var init_GuildPositionName = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Components/GuildCompanion/GuildCompanion.html?raw
 var GuildCompanion_default$2;
 var init_GuildCompanion$2 = __esmMin((() => {
-	GuildCompanion_default$2 = "<div id=\"GuildCompanion\">\r\n	<div class=\"win companion\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<span class=\"title\">公会助手</span>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base btn_x\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<div class=\"msg\">加入公会或创建自己的公会！</div>\r\n			<div class=\"btns\">\r\n				<button class=\"btn btn_create\" type=\"button\">创建公会</button>\r\n				<button class=\"btn btn_close\" type=\"button\">确定</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"win namebox\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<span class=\"title name_title\">创建公会</span>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base btn_x2\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<div class=\"label name_label\">公会名称</div>\r\n			<input type=\"text\" class=\"guildname\" maxlength=\"23\" />\r\n			<div class=\"btns\">\r\n				<button class=\"btn btn_ok\" type=\"button\">确定</button>\r\n				<button class=\"btn btn_cancel\" type=\"button\">取消</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	GuildCompanion_default$2 = "<div id=\"GuildCompanion\">\r\n	<div class=\"win companion\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<span class=\"title\">公会助手</span>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base btn_x\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<div class=\"msg\">加入公会或创建自己的公会！</div>\r\n			<div class=\"btns\">\r\n				<button class=\"btn btn_create ui-btn localized-control\" type=\"button\">创建公会</button>\r\n				<button class=\"btn btn_close ui-btn localized-control\" type=\"button\">确定</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div class=\"win namebox\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n			<span class=\"title name_title\">创建公会</span>\r\n			<div class=\"right\">\r\n				<ui-button\r\n					class=\"base btn_x2\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n		<div class=\"body\">\r\n			<div class=\"label name_label\">公会名称</div>\r\n			<input type=\"text\" class=\"guildname\" maxlength=\"23\" />\r\n			<div class=\"btns\">\r\n				<button class=\"btn btn_ok ui-btn localized-control\" type=\"button\">确定</button>\r\n				<button class=\"btn btn_cancel ui-btn localized-control\" type=\"button\">取消</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GuildCompanion/GuildCompanion.css?raw
 var GuildCompanion_default$1;
 var init_GuildCompanion$1 = __esmMin((() => {
-	GuildCompanion_default$1 = ":host {\r\n	top: 160px;\r\n	left: 260px;\r\n	z-index: 100;\r\n}\r\n\r\n#GuildCompanion {\r\n	position: relative;\r\n	font-family: Arial, sans-serif;\r\n	font-size: 12px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#GuildCompanion .win {\r\n	display: inline-block;\r\n	vertical-align: top;\r\n	background-color: white;\r\n	border: 1px solid #a5a5a5;\r\n	border-radius: 3px;\r\n	margin-right: 6px;\r\n}\r\n\r\n#GuildCompanion .win.namebox {\r\n	display: none;\r\n}\r\n#GuildCompanion .win.namebox.visible {\r\n	display: inline-block;\r\n}\r\n\r\n#GuildCompanion .win.companion.hidden {\r\n	display: none;\r\n}\r\n\r\n#GuildCompanion .titlebar {\r\n	height: 17px;\r\n	line-height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0 0;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n	padding-left: 6px;\r\n}\r\n#GuildCompanion .titlebar .title {\r\n	vertical-align: middle;\r\n}\r\n#GuildCompanion .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#GuildCompanion .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#GuildCompanion .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#GuildCompanion .body {\r\n	padding: 10px 12px 8px 12px;\r\n}\r\n\r\n#GuildCompanion .companion .msg {\r\n	margin-bottom: 12px;\r\n}\r\n\r\n#GuildCompanion .namebox .label {\r\n	margin-bottom: 4px;\r\n}\r\n#GuildCompanion .namebox input {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #efefef;\r\n	width: 150px;\r\n	height: 16px;\r\n	margin-bottom: 12px;\r\n}\r\n\r\n#GuildCompanion .btns {\r\n	text-align: center;\r\n}\r\n#GuildCompanion .namebox .btns {\r\n	text-align: right;\r\n}\r\n\r\n#GuildCompanion .btn {\r\n	font-family: Arial, sans-serif;\r\n	font-size: 11px;\r\n	padding: 2px 10px;\r\n	margin: 0 3px;\r\n	cursor: pointer;\r\n}\r\n";
+	GuildCompanion_default$1 = ":host {\r\n	top: 160px;\r\n	left: 260px;\r\n	z-index: 100;\r\n}\r\n\r\n#GuildCompanion {\r\n	position: relative;\r\n	font-family: Arial, sans-serif;\r\n	font-size: 12px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#GuildCompanion .win {\r\n	display: inline-block;\r\n	vertical-align: top;\r\n	background-color: white;\r\n	border: 1px solid #a5a5a5;\r\n	border-radius: 3px;\r\n	margin-right: 6px;\r\n}\r\n\r\n#GuildCompanion .win.namebox {\r\n	display: none;\r\n}\r\n#GuildCompanion .win.namebox.visible {\r\n	display: inline-block;\r\n}\r\n\r\n#GuildCompanion .win.companion.hidden {\r\n	display: none;\r\n}\r\n\r\n#GuildCompanion .titlebar {\r\n	height: 17px;\r\n	line-height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0 0;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n	padding-left: 6px;\r\n}\r\n#GuildCompanion .titlebar .title {\r\n	vertical-align: middle;\r\n}\r\n#GuildCompanion .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#GuildCompanion .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#GuildCompanion .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#GuildCompanion .body {\r\n	padding: 10px 12px 8px 12px;\r\n}\r\n\r\n#GuildCompanion .companion .msg {\r\n	margin-bottom: 12px;\r\n}\r\n\r\n#GuildCompanion .namebox .label {\r\n	margin-bottom: 4px;\r\n}\r\n#GuildCompanion .namebox input {\r\n	border: 1px solid #c1c6c2;\r\n	background-color: #efefef;\r\n	width: 150px;\r\n	height: 16px;\r\n	margin-bottom: 12px;\r\n}\r\n\r\n#GuildCompanion .btns {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 2px;\r\n}\r\n#GuildCompanion .namebox .btns {\r\n	justify-content: flex-end;\r\n}\r\n\r\n#GuildCompanion .btn {\r\n	margin: 0;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GuildCompanion/GuildCompanion.js
@@ -503376,13 +510332,13 @@ var init_SkillDescription = __esmMin((() => {
 //#region src/UI/Components/Guild/Guild.html?raw
 var Guild_default$2;
 var init_Guild$3 = __esmMin((() => {
-	Guild_default$2 = "<div id=\"Guild\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n\r\n	<div class=\"tabs\">\r\n		<!--\r\n		--><button data-flag=\"0\" class=\"info\"><ui-text msg=\"340\">公会信息</ui-text></button><!--\r\n		--><button data-flag=\"1\" class=\"members\"><ui-text msg=\"341\">公会成员信息</ui-text></button><!--\r\n		--><button data-flag=\"2\" class=\"positions\"><ui-text msg=\"342\">职位</ui-text></button><!--\r\n		--><button data-flag=\"3\" class=\"skills\"><ui-text msg=\"343\">公会技能</ui-text></button><!--\r\n		--><button data-flag=\"4\" class=\"history\"><ui-text msg=\"344\">驱逐记录</ui-text></button><!--\r\n		--><button data-flag=\"6\" class=\"notice\"><ui-text msg=\"345\">公会公告</ui-text></button>\r\n	</div>\r\n\r\n	<div class=\"panel\">\r\n		<!-- INFO TAB -->\r\n		<div class=\"content info\">\r\n			<div class=\"name\"><ui-text msg=\"328\">公会名称</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"level\"><ui-text msg=\"329\">公会等级</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"master\"><ui-text msg=\"330\">公会会长</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"members\">\r\n				<ui-text msg=\"331\">公会成员</ui-text>：<span class=\"numMember\">0</span> /\r\n				<span class=\"maxMember\">0</span> <ui-button bg=\"basic_interface/grp_online.bmp\"></ui-button>\r\n				<span class=\"online\"></span>\r\n			</div>\r\n			<div class=\"avglevel\"><ui-text msg=\"332\">成员平均等级</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"territory\"><ui-text msg=\"333\">领地</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"tendency\">\r\n				<div class=\"title\"><ui-text msg=\"334\">倾向</ui-text>：<span class=\"value\"></span></div>\r\n				<div class=\"righteous\">R</div>\r\n				<div class=\"wiked\">W</div>\r\n				<div class=\"vulgar\">V</div>\r\n				<div class=\"famed\">F</div>\r\n				<canvas width=\"90\" height=\"90\"></canvas>\r\n			</div>\r\n			<div class=\"exp\"><ui-text msg=\"335\">经验值</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"emblem\"><ui-text msg=\"336\">徽章</ui-text></div>\r\n			<div class=\"emblem_container\"></div>\r\n			<ui-button class=\"emblem_edit\" bg=\"btn_edit.bmp\" hover=\"btn_edit_a.bmp\" down=\"btn_edit_b.bmp\">\r\n				<input type=\"file\" />\r\n			</ui-button>\r\n\r\n			<div class=\"tax\"><ui-text msg=\"337\">税点</ui-text>：<span class=\"value\">0</span></div>\r\n			<div class=\"ally\"><ui-text msg=\"338\">同盟</ui-text></div>\r\n			<div class=\"ally_list\"></div>\r\n			<div class=\"hostile\"><ui-text msg=\"339\">敌对势力</ui-text></div>\r\n			<div class=\"hostile_list\"></div>\r\n		</div>\r\n\r\n		<!-- MEMBERS TAB -->\r\n		<div class=\"content members\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"name\"><ui-text msg=\"407\">姓名</ui-text></th>\r\n						<th class=\"position\"><ui-text msg=\"503\">职位</ui-text></th>\r\n						<th class=\"job\"><ui-text msg=\"504\">职业</ui-text></th>\r\n						<th class=\"level\"><ui-text msg=\"408\">等级</ui-text></th>\r\n						<th class=\"note\"><ui-text msg=\"505\">备注</ui-text></th>\r\n						<th class=\"devotion\"><ui-text msg=\"506\">忠诚度</ui-text></th>\r\n						<th class=\"tax\"><ui-text msg=\"507\">税点</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"MemberView\">\r\n						<td class=\"name\">\r\n							<canvas width=\"30\" height=\"30\"></canvas>\r\n							<span class=\"value\"></span>\r\n						</td>\r\n						<td class=\"position\"></td>\r\n						<td class=\"job\"></td>\r\n						<td class=\"level\"></td>\r\n						<td class=\"note\"></td>\r\n						<td class=\"devotion\"></td>\r\n						<td class=\"tax\"></td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- POSITIONS TAB -->\r\n		<div class=\"content positions\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"id\"><ui-text msg=\"510\">排名</ui-text></th>\r\n						<th class=\"title\"><ui-text msg=\"511\">职位名称</ui-text></th>\r\n						<th class=\"invite\"><ui-text msg=\"512\">邀请</ui-text></th>\r\n						<th class=\"punish\"><ui-text msg=\"513\">惩罚</ui-text></th>\r\n						<th class=\"tax\"><ui-text msg=\"514\">税率</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"PositionView\">\r\n						<td class=\"id\"></td>\r\n						<td class=\"title\">\r\n							<input type=\"text\" value=\"\" />\r\n						</td>\r\n						<td class=\"invite\">\r\n							<ui-button bg=\"checkbox_0.bmp\" class=\"off\"></ui-button>\r\n						</td>\r\n						<td class=\"punish\">\r\n							<ui-button bg=\"checkbox_0.bmp\" class=\"off\"></ui-button>\r\n						</td>\r\n						<td class=\"tax\"><input type=\"text\" value=\"0\" /> %</td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- SKILLS TAB -->\r\n		<div class=\"content skills\">\r\n			<div class=\"skill_list\">\r\n				<table>\r\n					<!-- Just to get reference, will be removed -->\r\n					<ui-button\r\n						class=\"btn levelup\"\r\n						bg=\"basic_interface/skill_up_a.bmp\"\r\n						hover=\"basic_interface/skill_up_b.bmp\"\r\n						down=\"basic_interface/skill_up_c.bmp\"\r\n					></ui-button>\r\n				</table>\r\n			</div>\r\n\r\n			<div class=\"footer\">\r\n				<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n				<div class=\"text\">技能点：<span class=\"skpoints_count\">0</span></div>\r\n				<ui-button\r\n					class=\"btn apply\"\r\n					bg=\"btn_apply.bmp\"\r\n					hover=\"btn_apply_a.bmp\"\r\n					down=\"btn_apply_b.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"btn reset\"\r\n					bg=\"btn_reset.bmp\"\r\n					hover=\"btn_reset_a.bmp\"\r\n					down=\"btn_reset_b.bmp\"\r\n				></ui-button>\r\n			</div>\r\n		</div>\r\n\r\n		<!-- HISTORY BAN TAB -->\r\n		<div class=\"content history\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"name\"><ui-text msg=\"407\">姓名</ui-text></th>\r\n						<th class=\"reason\"><ui-text msg=\"462\">驱逐原因</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"ExpelView\">\r\n						<td class=\"name\"></td>\r\n						<td class=\"reason\"></td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- NOTICE TAB -->\r\n		<div class=\"content notice\">\r\n			<div class=\"subjectTitle\"><ui-text msg=\"515\">标题</ui-text></div>\r\n			<input type=\"text\" class=\"subject\" />\r\n\r\n			<div class=\"noticeTitle\"><ui-text msg=\"516\">内容</ui-text></div>\r\n			<textarea class=\"notice\"></textarea>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n		<button class=\"btn_disband\" type=\"button\">解散公会</button>\r\n		<ui-button class=\"btn_ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
+	Guild_default$2 = "<div id=\"Guild\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n\r\n	<div class=\"tabs\">\r\n		<!--\r\n		--><button data-flag=\"0\" class=\"info\"><ui-text msg=\"340\">公会信息</ui-text></button><!--\r\n		--><button data-flag=\"1\" class=\"members\"><ui-text msg=\"341\">公会成员信息</ui-text></button><!--\r\n		--><button data-flag=\"2\" class=\"positions\"><ui-text msg=\"342\">职位</ui-text></button><!--\r\n		--><button data-flag=\"3\" class=\"skills\"><ui-text msg=\"343\">公会技能</ui-text></button><!--\r\n		--><button data-flag=\"4\" class=\"history\"><ui-text msg=\"344\">驱逐记录</ui-text></button><!--\r\n		--><button data-flag=\"6\" class=\"notice\"><ui-text msg=\"345\">公会公告</ui-text></button>\r\n	</div>\r\n\r\n	<div class=\"panel\">\r\n		<!-- INFO TAB -->\r\n		<div class=\"content info\">\r\n			<div class=\"name\"><ui-text msg=\"328\">公会名称</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"level\"><ui-text msg=\"329\">公会等级</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"master\"><ui-text msg=\"330\">公会会长</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"members\">\r\n				<ui-text msg=\"331\">公会成员</ui-text>：<span class=\"numMember\">0</span> /\r\n				<span class=\"maxMember\">0</span> <ui-button bg=\"basic_interface/grp_online.bmp\"></ui-button>\r\n				<span class=\"online\"></span>\r\n			</div>\r\n			<div class=\"avglevel\"><ui-text msg=\"332\">成员平均等级</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"territory\"><ui-text msg=\"333\">领地</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"tendency\">\r\n				<div class=\"title\"><ui-text msg=\"334\">倾向</ui-text>：<span class=\"value\"></span></div>\r\n				<div class=\"righteous\">R</div>\r\n				<div class=\"wiked\">W</div>\r\n				<div class=\"vulgar\">V</div>\r\n				<div class=\"famed\">F</div>\r\n				<canvas width=\"90\" height=\"90\"></canvas>\r\n			</div>\r\n			<div class=\"exp\"><ui-text msg=\"335\">经验值</ui-text>：<span class=\"value\"></span></div>\r\n			<div class=\"emblem\"><ui-text msg=\"336\">徽章</ui-text></div>\r\n			<div class=\"emblem_container\"></div>\r\n			<ui-button class=\"emblem_edit\" bg=\"btn_edit.bmp\" hover=\"btn_edit_a.bmp\" down=\"btn_edit_b.bmp\">\r\n				<input type=\"file\" />\r\n			</ui-button>\r\n\r\n			<div class=\"tax\"><ui-text msg=\"337\">税点</ui-text>：<span class=\"value\">0</span></div>\r\n			<div class=\"ally\"><ui-text msg=\"338\">同盟</ui-text></div>\r\n			<div class=\"ally_list\"></div>\r\n			<div class=\"hostile\"><ui-text msg=\"339\">敌对势力</ui-text></div>\r\n			<div class=\"hostile_list\"></div>\r\n		</div>\r\n\r\n		<!-- MEMBERS TAB -->\r\n		<div class=\"content members\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"name\"><ui-text msg=\"407\">姓名</ui-text></th>\r\n						<th class=\"position\"><ui-text msg=\"503\">职位</ui-text></th>\r\n						<th class=\"job\"><ui-text msg=\"504\">职业</ui-text></th>\r\n						<th class=\"level\"><ui-text msg=\"408\">等级</ui-text></th>\r\n						<th class=\"note\"><ui-text msg=\"505\">备注</ui-text></th>\r\n						<th class=\"devotion\"><ui-text msg=\"506\">忠诚度</ui-text></th>\r\n						<th class=\"tax\"><ui-text msg=\"507\">税点</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"MemberView\">\r\n						<td class=\"name\">\r\n							<canvas width=\"30\" height=\"30\"></canvas>\r\n							<span class=\"value\"></span>\r\n						</td>\r\n						<td class=\"position\"></td>\r\n						<td class=\"job\"></td>\r\n						<td class=\"level\"></td>\r\n						<td class=\"note\"></td>\r\n						<td class=\"devotion\"></td>\r\n						<td class=\"tax\"></td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- POSITIONS TAB -->\r\n		<div class=\"content positions\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"id\"><ui-text msg=\"510\">排名</ui-text></th>\r\n						<th class=\"title\"><ui-text msg=\"511\">职位名称</ui-text></th>\r\n						<th class=\"invite\"><ui-text msg=\"512\">邀请</ui-text></th>\r\n						<th class=\"punish\"><ui-text msg=\"513\">惩罚</ui-text></th>\r\n						<th class=\"tax\"><ui-text msg=\"514\">税率</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"PositionView\">\r\n						<td class=\"id\"></td>\r\n						<td class=\"title\">\r\n							<input type=\"text\" value=\"\" />\r\n						</td>\r\n						<td class=\"invite\">\r\n							<ui-button bg=\"checkbox_0.bmp\" class=\"off\"></ui-button>\r\n						</td>\r\n						<td class=\"punish\">\r\n							<ui-button bg=\"checkbox_0.bmp\" class=\"off\"></ui-button>\r\n						</td>\r\n						<td class=\"tax\"><input type=\"text\" value=\"0\" /> %</td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- SKILLS TAB -->\r\n		<div class=\"content skills\">\r\n			<div class=\"skill_list\">\r\n				<table>\r\n					<!-- Just to get reference, will be removed -->\r\n					<ui-button\r\n						class=\"btn levelup\"\r\n						bg=\"basic_interface/skill_up_a.bmp\"\r\n						hover=\"basic_interface/skill_up_b.bmp\"\r\n						down=\"basic_interface/skill_up_c.bmp\"\r\n					></ui-button>\r\n				</table>\r\n			</div>\r\n\r\n			<div class=\"footer\">\r\n				<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n				<div class=\"text\">技能点：<span class=\"skpoints_count\">0</span></div>\r\n				<ui-button\r\n					class=\"btn apply\"\r\n					bg=\"btn_apply.bmp\"\r\n					hover=\"btn_apply_a.bmp\"\r\n					down=\"btn_apply_b.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"btn reset\"\r\n					bg=\"btn_reset.bmp\"\r\n					hover=\"btn_reset_a.bmp\"\r\n					down=\"btn_reset_b.bmp\"\r\n				></ui-button>\r\n			</div>\r\n		</div>\r\n\r\n		<!-- HISTORY BAN TAB -->\r\n		<div class=\"content history\">\r\n			<table>\r\n				<thead>\r\n					<tr>\r\n						<th class=\"name\"><ui-text msg=\"407\">姓名</ui-text></th>\r\n						<th class=\"reason\"><ui-text msg=\"462\">驱逐原因</ui-text></th>\r\n					</tr>\r\n				</thead>\r\n				<tbody>\r\n					<tr class=\"ExpelView\">\r\n						<td class=\"name\"></td>\r\n						<td class=\"reason\"></td>\r\n					</tr>\r\n				</tbody>\r\n			</table>\r\n		</div>\r\n\r\n		<!-- NOTICE TAB -->\r\n		<div class=\"content notice\">\r\n			<div class=\"subjectTitle\"><ui-text msg=\"515\">标题</ui-text></div>\r\n			<input type=\"text\" class=\"subject\" />\r\n\r\n			<div class=\"noticeTitle\"><ui-text msg=\"516\">内容</ui-text></div>\r\n			<textarea class=\"notice\"></textarea>\r\n		</div>\r\n	</div>\r\n\r\n	<div class=\"footer\">\r\n		<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n		<button class=\"btn_disband ui-btn localized-control\" type=\"button\">解散公会</button>\r\n		<ui-button class=\"btn_ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Guild/Guild.css?raw
 var Guild_default$1;
 var init_Guild$2 = __esmMin((() => {
-	Guild_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 400px;\r\n	height: 317px;\r\n}\r\n\r\n#Guild {\r\n	position: absolute;\r\n}\r\n\r\n#Guild .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#Guild .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#Guild .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#Guild .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#Guild .panel {\r\n	background-color: white;\r\n	padding-right: 2px;\r\n}\r\n#Guild .content {\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow-y: auto;\r\n	padding: 2px;\r\n	border-top: 1px solid #c6c6c6;\r\n	height: 250px;\r\n}\r\n\r\n#Guild .tabs {\r\n	height: 23px;\r\n	background-color: #b5b6b5;\r\n	white-space: nowrap;\r\n}\r\n#Guild .tabs button.active {\r\n	background-color: #fff;\r\n}\r\n#Guild .tabs button {\r\n	width: 64px;\r\n	height: 23px;\r\n	margin-left: 1px;\r\n	margin-right: 1px;\r\n	margin-top: 1px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #cecece;\r\n	border: 0px;\r\n	padding: 3px;\r\n}\r\n#Guild .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n#Guild .footer .btn_ok {\r\n	display: none;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	right: 4px;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n\r\n#Guild .content.members,\r\n#Guild .content.positions,\r\n#Guild .content.skills,\r\n#Guild .content.history,\r\n#Guild .content.notice {\r\n	display: none;\r\n}\r\n\r\n/*\r\n * Guild Info CSS\r\n */\r\n#Guild .content.info .exp,\r\n#Guild .content.info .emblem,\r\n#Guild .content.info .tax,\r\n#Guild .content.info .ally,\r\n#Guild .content.info .ally_list,\r\n#Guild .content.info .hostile,\r\n#Guild .content.info .hostile_list {\r\n	position: absolute;\r\n	left: 201px;\r\n}\r\n\r\n#Guild .content.info .name {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 13px;\r\n}\r\n#Guild .content.info .level {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 28px;\r\n}\r\n#Guild .content.info .master {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 45px;\r\n}\r\n#Guild .content.info .members {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 61px;\r\n}\r\n#Guild .content.info .avglevel {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 77px;\r\n}\r\n#Guild .content.info .territory {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 93px;\r\n}\r\n#Guild .content.info .tendency {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 114px;\r\n}\r\n#Guild .content.info .tendency .title {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n#Guild .content.info .tendency .righteous {\r\n	position: absolute;\r\n	left: 50px;\r\n	top: 16px;\r\n	text-align: center;\r\n}\r\n#Guild .content.info .tendency .wiked {\r\n	position: absolute;\r\n	left: 50px;\r\n	top: 120px;\r\n	text-align: center;\r\n}\r\n#Guild .content.info .tendency .vulgar {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 68px;\r\n}\r\n#Guild .content.info .tendency .famed {\r\n	position: absolute;\r\n	left: 102px;\r\n	top: 68px;\r\n}\r\n#Guild .content.info .tendency canvas {\r\n	position: absolute;\r\n	top: 30px;\r\n	left: 10px;\r\n}\r\n\r\n#Guild .content.info .members ui-button {\r\n	margin-left: 5px;\r\n	vertical-align: -4px;\r\n	border: none;\r\n	width: 15px;\r\n	height: 15px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Guild .content.info .exp {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 13px;\r\n}\r\n#Guild .content.info .emblem {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 37px;\r\n}\r\n#Guild .content.info .tax {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 61px;\r\n}\r\n#Guild .content.info .ally {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 103px;\r\n}\r\n#Guild .content.info .ally_list {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 118px;\r\n	white-space: pre;\r\n	width: 168px;\r\n	height: 48px;\r\n	background: #cecece;\r\n}\r\n#Guild .content.info .hostile {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 177px;\r\n}\r\n#Guild .content.info .hostile_list {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 193px;\r\n	white-space: pre;\r\n	width: 168px;\r\n	height: 48px;\r\n	background: #cecece;\r\n}\r\n\r\n#Guild .content.info .ally_list div,\r\n#Guild .content.info .hostile_list div {\r\n	padding: 2px;\r\n}\r\n#Guild .content.info .ally_list div.active,\r\n#Guild .content.info .hostile_list div.active {\r\n	background-color: #739eef;\r\n	padding: 2px;\r\n}\r\n\r\n#Guild .content.info .emblem_container {\r\n	width: 24px;\r\n	height: 24px;\r\n	position: absolute;\r\n	top: 29px;\r\n	left: 300px;\r\n	background-color: #709ce7;\r\n	background-repeat: no-repeat;\r\n}\r\n#Guild .content.info .emblem_edit {\r\n	position: absolute;\r\n	top: 30px;\r\n	left: 330px;\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.info .emblem_edit input {\r\n	opacity: 0;\r\n}\r\n\r\n/*\r\n * Guild Members\r\n */\r\n#Guild .content.members table {\r\n	border-spacing: 0;\r\n	border-collapse: collapse;\r\n}\r\n#Guild .content.members tbody tr {\r\n	border-left: 1px solid #c2c2c2;\r\n	border-right: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.members td {\r\n	border-bottom: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.members tr.active td {\r\n	background-color: #739eef !important;\r\n}\r\n#Guild .content.members th {\r\n	border: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.members td,\r\n#Guild .content.members th {\r\n	text-align: left;\r\n	font-weight: normal;\r\n	padding-left: 2px;\r\n	height: 35px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n#Guild .content.members tr.online td {\r\n	background-color: #efe;\r\n}\r\n#Guild .content.members tr canvas {\r\n	display: inline;\r\n}\r\n#Guild .content.members .name {\r\n	width: 85px;\r\n	max-width: 85px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.members .name canvas {\r\n	vertical-align: -11px;\r\n}\r\n#Guild .content.members .position {\r\n	width: 70px;\r\n	max-width: 70px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.members .position select {\r\n	width: 65px;\r\n	max-width: 65px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.members .job {\r\n	width: 43px;\r\n	max-width: 43px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.members .level {\r\n	width: 30px;\r\n}\r\n#Guild .content.members .note {\r\n	width: 41px;\r\n}\r\n#Guild .content.members .devotion {\r\n	width: 42px;\r\n}\r\n#Guild .content.members .tax {\r\n	width: 63px;\r\n	max-width: 63px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n\r\n/*\r\n * Guild Positions\r\n */\r\n#Guild .content.positions table {\r\n	border-spacing: 0;\r\n	border-collapse: collapse;\r\n}\r\n#Guild .content.positions tr.active {\r\n	border: none;\r\n}\r\n#Guild .content.positions tr.active td {\r\n	background-color: #739eef;\r\n}\r\n#Guild .content.positions th,\r\n#Guild .content.positions td {\r\n	height: 20px;\r\n	font-weight: normal;\r\n	text-align: left;\r\n	padding: 2px 2px 0px 3px;\r\n	border: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.positions .id {\r\n	width: 57px;\r\n}\r\n#Guild .content.positions .title {\r\n	width: 158px;\r\n	padding: 0px;\r\n}\r\n#Guild .content.positions .invite {\r\n	width: 68px;\r\n}\r\n#Guild .content.positions .punish {\r\n	width: 68px;\r\n}\r\n#Guild .content.positions .tax {\r\n	width: 68px;\r\n	padding: 0;\r\n}\r\n#Guild .content.positions input {\r\n	border: none;\r\n	background-color: white;\r\n	padding: 0;\r\n	height: 18px;\r\n}\r\n#Guild .content.positions .title input {\r\n	padding-left: 2px;\r\n	width: 140px;\r\n	margin-left: 4px;\r\n}\r\n#Guild .content.positions .tax input {\r\n	width: 28px;\r\n	padding-left: 2px;\r\n	margin-left: 3px;\r\n}\r\n#Guild .content.positions ui-button {\r\n	border: none;\r\n	width: 10px;\r\n	height: 10px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n/*\r\n * Guild Skills\r\n */\r\n#Guild .content.skills {\r\n	overflow-y: hidden;\r\n}\r\n#Guild .content.skills .skill_list {\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: 394px;\r\n	height: 215px;\r\n}\r\n#Guild .content.skills .skill_list table {\r\n	border: none;\r\n	border-spacing: 0px;\r\n	padding-top: 5px;\r\n	width: 100%;\r\n}\r\n#Guild .content.skills .skill_list td,\r\n#Guild .content.skills .skill_list .name {\r\n	padding: 0px;\r\n}\r\n\r\n#Guild .content.skills .levelup {\r\n	border: 0;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#Guild .content.skills td.type {\r\n	vertical-align: bottom;\r\n}\r\n\r\n#Guild .content.skills .skill_list .icon {\r\n	padding-left: 15px;\r\n}\r\n#Guild .content.skills .skill_list .levelupcontainer {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n	width: 24px;\r\n}\r\n#Guild .content.skills .skill_list div.name {\r\n	line-height: 12px;\r\n	white-space: nowrap;\r\n	padding-left: 5px;\r\n	white-space: nowrap;\r\n	width: 120px;\r\n	padding-top: 4px;\r\n	height: 28px;\r\n}\r\n#Guild .content.skills .disabled .icon,\r\n#Guild .content.skills .disabled .name {\r\n	opacity: 0.5;\r\n}\r\n#Guild .content.skills .disabled .consume,\r\n#Guild .content.skills .disabled .level {\r\n	display: none;\r\n}\r\n#Guild .content.skills .currentDown,\r\n#Guild .content.skills .currentUp {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#Guild .content.skills .selected.disabled .selectable {\r\n	background-color: #b5b5b5;\r\n}\r\n#Guild .content.skills .selected.passive .selectable {\r\n	background-color: #73d5ee;\r\n}\r\n#Guild .content.skills .selected.active .selectable {\r\n	background-color: #739cee;\r\n}\r\n\r\n#Guild .content.skills .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n#Guild .content.skills .footer .text {\r\n	padding-top: 7px;\r\n	margin-left: 10px;\r\n}\r\n\r\n#Guild .footer .btn_disband {\r\n	display: none;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	right: 4px;\r\n	padding: 2px 10px;\r\n	font-family: Arial, sans-serif;\r\n	font-size: 11px;\r\n	cursor: pointer;\r\n}\r\n\r\n#Guild .content.skills .footer .btn {\r\n	position: absolute;\r\n	top: 5px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: none;\r\n}\r\n#Guild .content.skills .footer .apply {\r\n	right: 70px;\r\n}\r\n#Guild .content.skills .footer .reset {\r\n	right: 20px;\r\n}\r\n\r\n/*\r\n * Guild History\r\n */\r\n#Guild .content.history table {\r\n	border-spacing: 0;\r\n	border-collapse: collapse;\r\n}\r\n#Guild .content.history th,\r\n#Guild .content.history td {\r\n	font-weight: normal;\r\n	text-align: left;\r\n	padding: 5px 5px 0px 5px;\r\n	border: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.history .name {\r\n	width: 90px;\r\n}\r\n#Guild .content.history .reason {\r\n	width: 275px;\r\n}\r\n\r\n/*\r\n * Guild Notice\r\n */\r\n#Guild .notice .subjectTitle {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 9px;\r\n}\r\n#Guild .notice .subject {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 50px;\r\n	padding-left: 5px;\r\n	height: 14px;\r\n	border: none;\r\n	width: 333px;\r\n	background-color: #eee;\r\n}\r\n#Guild .notice .noticeTitle {\r\n	position: absolute;\r\n	top: 36px;\r\n	left: 9px;\r\n}\r\n#Guild .notice .notice {\r\n	position: absolute;\r\n	top: 52px;\r\n	left: 9px;\r\n	padding-left: 5px;\r\n	margin: 0px;\r\n	width: 372px;\r\n	height: 168px;\r\n	background-color: #eee;\r\n	border: none;\r\n	resize: none;\r\n}\r\n";
+	Guild_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 400px;\r\n	height: 317px;\r\n}\r\n\r\n#Guild {\r\n	position: absolute;\r\n}\r\n\r\n#Guild .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#Guild .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#Guild .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#Guild .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#Guild .panel {\r\n	background-color: white;\r\n	padding-right: 2px;\r\n}\r\n#Guild .content {\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow-y: auto;\r\n	padding: 2px;\r\n	border-top: 1px solid #c6c6c6;\r\n	height: 250px;\r\n}\r\n\r\n#Guild .tabs {\r\n	height: 23px;\r\n	background-color: #b5b6b5;\r\n	white-space: nowrap;\r\n}\r\n#Guild .tabs button.active {\r\n	background-color: #fff;\r\n}\r\n#Guild .tabs button {\r\n	width: 64px;\r\n	height: 23px;\r\n	margin-left: 1px;\r\n	margin-right: 1px;\r\n	margin-top: 1px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #cecece;\r\n	border: 0px;\r\n	padding: 3px;\r\n}\r\n#Guild .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n#Guild .footer .btn_ok {\r\n	display: none;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	right: 4px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n#Guild .footer .btn_ok.is-visible {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n#Guild .content.members,\r\n#Guild .content.positions,\r\n#Guild .content.skills,\r\n#Guild .content.history,\r\n#Guild .content.notice {\r\n	display: none;\r\n}\r\n\r\n/*\r\n * Guild Info CSS\r\n */\r\n#Guild .content.info .exp,\r\n#Guild .content.info .emblem,\r\n#Guild .content.info .tax,\r\n#Guild .content.info .ally,\r\n#Guild .content.info .ally_list,\r\n#Guild .content.info .hostile,\r\n#Guild .content.info .hostile_list {\r\n	position: absolute;\r\n	left: 201px;\r\n}\r\n\r\n#Guild .content.info .name {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 13px;\r\n}\r\n#Guild .content.info .level {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 28px;\r\n}\r\n#Guild .content.info .master {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 45px;\r\n}\r\n#Guild .content.info .members {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 61px;\r\n}\r\n#Guild .content.info .avglevel {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 77px;\r\n}\r\n#Guild .content.info .territory {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 93px;\r\n}\r\n#Guild .content.info .tendency {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 114px;\r\n}\r\n#Guild .content.info .tendency .title {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n#Guild .content.info .tendency .righteous {\r\n	position: absolute;\r\n	left: 50px;\r\n	top: 16px;\r\n	text-align: center;\r\n}\r\n#Guild .content.info .tendency .wiked {\r\n	position: absolute;\r\n	left: 50px;\r\n	top: 120px;\r\n	text-align: center;\r\n}\r\n#Guild .content.info .tendency .vulgar {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 68px;\r\n}\r\n#Guild .content.info .tendency .famed {\r\n	position: absolute;\r\n	left: 102px;\r\n	top: 68px;\r\n}\r\n#Guild .content.info .tendency canvas {\r\n	position: absolute;\r\n	top: 30px;\r\n	left: 10px;\r\n}\r\n\r\n#Guild .content.info .members ui-button {\r\n	margin-left: 5px;\r\n	vertical-align: -4px;\r\n	border: none;\r\n	width: 15px;\r\n	height: 15px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Guild .content.info .exp {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 13px;\r\n}\r\n#Guild .content.info .emblem {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 37px;\r\n}\r\n#Guild .content.info .tax {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 61px;\r\n}\r\n#Guild .content.info .ally {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 103px;\r\n}\r\n#Guild .content.info .ally_list {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 118px;\r\n	white-space: pre;\r\n	width: 168px;\r\n	height: 48px;\r\n	background: #cecece;\r\n}\r\n#Guild .content.info .hostile {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 177px;\r\n}\r\n#Guild .content.info .hostile_list {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 193px;\r\n	white-space: pre;\r\n	width: 168px;\r\n	height: 48px;\r\n	background: #cecece;\r\n}\r\n\r\n#Guild .content.info .ally_list div,\r\n#Guild .content.info .hostile_list div {\r\n	padding: 2px;\r\n}\r\n#Guild .content.info .ally_list div.active,\r\n#Guild .content.info .hostile_list div.active {\r\n	background-color: #739eef;\r\n	padding: 2px;\r\n}\r\n\r\n#Guild .content.info .emblem_container {\r\n	width: 24px;\r\n	height: 24px;\r\n	position: absolute;\r\n	top: 29px;\r\n	left: 300px;\r\n	background-color: #709ce7;\r\n	background-repeat: no-repeat;\r\n}\r\n#Guild .content.info .emblem_edit {\r\n	position: absolute;\r\n	top: 30px;\r\n	left: 330px;\r\n	width: 42px;\r\n	height: 20px;\r\n	min-width: 42px;\r\n	padding: 0;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.info .emblem_edit input[type='file'] {\r\n	position: absolute;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	margin: 0;\r\n	padding: 0;\r\n	opacity: 0;\r\n	cursor: pointer;\r\n	font-size: 0;\r\n}\r\n\r\n/*\r\n * Guild Members\r\n */\r\n#Guild .content.members table {\r\n	border-spacing: 0;\r\n	border-collapse: collapse;\r\n}\r\n#Guild .content.members tbody tr {\r\n	border-left: 1px solid #c2c2c2;\r\n	border-right: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.members td {\r\n	border-bottom: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.members tr.active td {\r\n	background-color: #739eef !important;\r\n}\r\n#Guild .content.members th {\r\n	border: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.members td,\r\n#Guild .content.members th {\r\n	text-align: left;\r\n	font-weight: normal;\r\n	padding-left: 2px;\r\n	height: 35px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n#Guild .content.members tr.online td {\r\n	background-color: #efe;\r\n}\r\n#Guild .content.members tr canvas {\r\n	display: inline;\r\n}\r\n#Guild .content.members .name {\r\n	width: 85px;\r\n	max-width: 85px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.members .name canvas {\r\n	vertical-align: -11px;\r\n}\r\n#Guild .content.members .position {\r\n	width: 70px;\r\n	max-width: 70px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.members .position select {\r\n	width: 65px;\r\n	max-width: 65px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.members .job {\r\n	width: 43px;\r\n	max-width: 43px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n#Guild .content.members .level {\r\n	width: 30px;\r\n}\r\n#Guild .content.members .note {\r\n	width: 41px;\r\n}\r\n#Guild .content.members .devotion {\r\n	width: 42px;\r\n}\r\n#Guild .content.members .tax {\r\n	width: 63px;\r\n	max-width: 63px;\r\n	text-overflow: ellipsis;\r\n	overflow: hidden;\r\n}\r\n\r\n/*\r\n * Guild Positions\r\n */\r\n#Guild .content.positions table {\r\n	border-spacing: 0;\r\n	border-collapse: collapse;\r\n}\r\n#Guild .content.positions tr.active {\r\n	border: none;\r\n}\r\n#Guild .content.positions tr.active td {\r\n	background-color: #739eef;\r\n}\r\n#Guild .content.positions th,\r\n#Guild .content.positions td {\r\n	height: 20px;\r\n	font-weight: normal;\r\n	text-align: left;\r\n	padding: 2px 2px 0px 3px;\r\n	border: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.positions .id {\r\n	width: 57px;\r\n}\r\n#Guild .content.positions .title {\r\n	width: 158px;\r\n	padding: 0px;\r\n}\r\n#Guild .content.positions .invite {\r\n	width: 68px;\r\n}\r\n#Guild .content.positions .punish {\r\n	width: 68px;\r\n}\r\n#Guild .content.positions .tax {\r\n	width: 68px;\r\n	padding: 0;\r\n}\r\n#Guild .content.positions input {\r\n	border: none;\r\n	background-color: white;\r\n	padding: 0;\r\n	height: 18px;\r\n}\r\n#Guild .content.positions .title input {\r\n	padding-left: 2px;\r\n	width: 140px;\r\n	margin-left: 4px;\r\n}\r\n#Guild .content.positions .tax input {\r\n	width: 28px;\r\n	padding-left: 2px;\r\n	margin-left: 3px;\r\n}\r\n#Guild .content.positions ui-button {\r\n	border: none;\r\n	width: 10px;\r\n	height: 10px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n/*\r\n * Guild Skills\r\n */\r\n#Guild .content.skills {\r\n	overflow-y: hidden;\r\n}\r\n#Guild .content.skills .skill_list {\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: 394px;\r\n	height: 215px;\r\n}\r\n#Guild .content.skills .skill_list table {\r\n	border: none;\r\n	border-spacing: 0px;\r\n	padding-top: 5px;\r\n	width: 100%;\r\n}\r\n#Guild .content.skills .skill_list td,\r\n#Guild .content.skills .skill_list .name {\r\n	padding: 0px;\r\n}\r\n\r\n#Guild .content.skills .levelup {\r\n	border: 0;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#Guild .content.skills td.type {\r\n	vertical-align: bottom;\r\n}\r\n\r\n#Guild .content.skills .skill_list .icon {\r\n	padding-left: 15px;\r\n}\r\n#Guild .content.skills .skill_list .levelupcontainer {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n	width: 24px;\r\n}\r\n#Guild .content.skills .skill_list div.name {\r\n	line-height: 12px;\r\n	white-space: nowrap;\r\n	padding-left: 5px;\r\n	white-space: nowrap;\r\n	width: 120px;\r\n	padding-top: 4px;\r\n	height: 28px;\r\n}\r\n#Guild .content.skills .disabled .icon,\r\n#Guild .content.skills .disabled .name {\r\n	opacity: 0.5;\r\n}\r\n#Guild .content.skills .disabled .consume,\r\n#Guild .content.skills .disabled .level {\r\n	display: none;\r\n}\r\n#Guild .content.skills .currentDown,\r\n#Guild .content.skills .currentUp {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#Guild .content.skills .selected.disabled .selectable {\r\n	background-color: #b5b5b5;\r\n}\r\n#Guild .content.skills .selected.passive .selectable {\r\n	background-color: #73d5ee;\r\n}\r\n#Guild .content.skills .selected.active .selectable {\r\n	background-color: #739cee;\r\n}\r\n\r\n#Guild .content.skills .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n#Guild .content.skills .footer .text {\r\n	padding-top: 7px;\r\n	margin-left: 10px;\r\n}\r\n\r\n#Guild .footer .btn_disband {\r\n	display: none;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	right: 4px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n#Guild .footer .btn_disband.is-visible {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n\r\n#Guild .content.skills .footer .btn {\r\n	position: absolute;\r\n	top: 5px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: none;\r\n}\r\n#Guild .content.skills .footer .apply {\r\n	right: 70px;\r\n}\r\n#Guild .content.skills .footer .reset {\r\n	right: 20px;\r\n}\r\n\r\n/*\r\n * Guild History\r\n */\r\n#Guild .content.history table {\r\n	border-spacing: 0;\r\n	border-collapse: collapse;\r\n}\r\n#Guild .content.history th,\r\n#Guild .content.history td {\r\n	font-weight: normal;\r\n	text-align: left;\r\n	padding: 5px 5px 0px 5px;\r\n	border: 1px solid #c2c2c2;\r\n}\r\n#Guild .content.history .name {\r\n	width: 90px;\r\n}\r\n#Guild .content.history .reason {\r\n	width: 275px;\r\n}\r\n\r\n/*\r\n * Guild Notice\r\n */\r\n#Guild .notice .subjectTitle {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 9px;\r\n}\r\n#Guild .notice .subject {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 50px;\r\n	padding-left: 5px;\r\n	height: 14px;\r\n	border: none;\r\n	width: 333px;\r\n	background-color: #eee;\r\n}\r\n#Guild .notice .noticeTitle {\r\n	position: absolute;\r\n	top: 36px;\r\n	left: 9px;\r\n}\r\n#Guild .notice .notice {\r\n	position: absolute;\r\n	top: 52px;\r\n	left: 9px;\r\n	padding-left: 5px;\r\n	margin: 0px;\r\n	width: 372px;\r\n	height: 168px;\r\n	background-color: #eee;\r\n	border: none;\r\n	resize: none;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinStats/WinStats/WinStats.html?raw
@@ -503889,8 +510845,7 @@ function onChangeTab(event) {
 	const targetClass = this.className.replace(/\s*active\s*/g, "").trim();
 	const targetContent = root.querySelector(`.content.${targetClass}`);
 	if (targetContent) targetContent.style.display = "block";
-	const btnOk = root.querySelector(".footer .btn_ok");
-	if (btnOk) btnOk.style.display = "none";
+	setOkButtonVisible(root, targetClass === "notice");
 	updateDisbandButton(root, targetClass);
 	if (targetClass === "members") Renderer.render(renderMemberFaces);
 	else Renderer.stop(renderMemberFaces);
@@ -503966,8 +510921,12 @@ function onValidate() {
 			break;
 		}
 	}
-	const btnOk = root.querySelector(".footer .btn_ok");
-	if (btnOk) btnOk.style.display = "none";
+	setOkButtonVisible(root, getActiveTab(root) === "notice");
+}
+function setOkButtonVisible(root, visible) {
+	const btnOk = root ? root.querySelector(".footer .btn_ok") : null;
+	if (!btnOk) return;
+	btnOk.classList.toggle("is-visible", !!visible);
 }
 function getActiveTab(root) {
 	const btn = root ? root.querySelector(".tabs button.active") : null;
@@ -503977,7 +510936,7 @@ function updateDisbandButton(root, activeTab) {
 	if (!root) return;
 	const btn = root.querySelector(".footer .btn_disband");
 	if (!btn) return;
-	btn.style.display = activeTab === "info" && SessionStorage_default.isGuildMaster ? "block" : "none";
+	btn.classList.toggle("is-visible", activeTab === "info" && SessionStorage_default.isGuildMaster);
 	if (!btn.dataset.bound) {
 		btn.dataset.bound = "1";
 		btn.addEventListener("click", () => {
@@ -503990,7 +510949,8 @@ var init_Guild$1 = __esmMin((() => {
 	init_DBManager();
 	init_SkillInfo_generated();
 	init_KeyEventHandler();
-	init_MonsterTable();
+	init_JobDisplayNameTable();
+	init_GuildPositionName();
 	init_SessionStorage();
 	init_Entity$1();
 	init_SpriteRenderer();
@@ -504063,8 +511023,7 @@ var init_Guild$1 = __esmMin((() => {
 			});
 			posBody.addEventListener("focus", (e) => {
 				if (e.target.matches("input")) {
-					const btnOk = root.querySelector(".footer .btn_ok");
-					if (btnOk) btnOk.style.display = "block";
+					setOkButtonVisible(root, true);
 					e.target.select();
 				}
 			}, true);
@@ -504075,8 +511034,7 @@ var init_Guild$1 = __esmMin((() => {
 					const isOn = !btn.classList.contains("on");
 					btn.classList.add(isOn ? "on" : "off");
 					btn.style.backgroundImage = `url(${isOn ? _checkbox_on : _checkbox_off})`;
-					const btnOk = root.querySelector(".footer .btn_ok");
-					if (btnOk) btnOk.style.display = "block";
+					setOkButtonVisible(root, true);
 				}
 			});
 		}
@@ -504180,13 +511138,6 @@ var init_Guild$1 = __esmMin((() => {
 			const target = e.target.closest(".skill");
 			if (target && target.closest(".content.skills")) onSkillDragEnd.call(target);
 		});
-		const noticeContent = root.querySelector(".content.notice");
-		if (noticeContent) noticeContent.addEventListener("focus", (e) => {
-			if (e.target.matches("textarea, input")) {
-				const btnOk = root.querySelector(".footer .btn_ok");
-				if (btnOk) btnOk.style.display = "block";
-			}
-		}, true);
 		const emblemInput = root.querySelector(".content.info .emblem_edit input");
 		if (emblemInput) emblemInput.addEventListener("change", function() {
 			const file = this.files[0];
@@ -504357,8 +511308,9 @@ var init_Guild$1 = __esmMin((() => {
 		}
 		const jobCell = view.querySelector(".job");
 		if (jobCell) {
-			jobCell.textContent = MonsterTable_default[member.Job];
-			jobCell.title = MonsterTable_default[member.Job];
+			const jobName = getJobDisplayName(member.Job, "");
+			jobCell.textContent = jobName;
+			jobCell.title = jobName;
 		}
 		const levelCell = view.querySelector(".level");
 		if (levelCell) levelCell.textContent = member.Level;
@@ -504424,7 +511376,7 @@ var init_Guild$1 = __esmMin((() => {
 			_positions[rank.positionID].right = rank.right;
 			_positions[rank.positionID].ranking = rank.ranking;
 			_positions[rank.positionID].payRate = rank.payRate;
-			if (rank.posName) _positions[rank.positionID].posName = rank.posName;
+			if (rank.posName) _positions[rank.positionID].posName = localizeGuildPositionName(rank.posName);
 		}
 		Guild.updatePositionView();
 	};
@@ -504433,7 +511385,7 @@ var init_Guild$1 = __esmMin((() => {
 		for (let i = 0, count = positions.length; i < count; ++i) {
 			rank = positions[i];
 			if (!(rank.positionID in _positions)) _positions[rank.positionID] = {};
-			_positions[rank.positionID].posName = rank.posName;
+			_positions[rank.positionID].posName = localizeGuildPositionName(rank.posName);
 		}
 		Guild.updatePositionView();
 	};
@@ -504659,8 +511611,19 @@ var init_Bank$3 = __esmMin((() => {
 //#region src/UI/Components/Bank/Bank.css?raw
 var Bank_default$1;
 var init_Bank$2 = __esmMin((() => {
-	Bank_default$1 = ":host {\r\n	width: 280px;\r\n	height: 145px;\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#Bank {\r\n	position: absolute;\r\n	width: 280px;\r\n}\r\n\r\n#Bank .clear {\r\n	clear: both;\r\n}\r\n\r\n#Bank .titlebar {\r\n	width: 280px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#Bank .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#Bank .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#Bank .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#Bank .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#Bank .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#Bank .container {\r\n	display: inline-block;\r\n	width: 280px;\r\n	height: 130px;\r\n	border-spacing: 0;\r\n}\r\n\r\n#Bank .uppercontainer {\r\n	position: relative;\r\n	height: 53px;\r\n}\r\n\r\n#Bank .inbanktitle {\r\n	height: 15px;\r\n	position: relative;\r\n	width: 50px;\r\n	left: 30px;\r\n	top: 10px;\r\n}\r\n\r\n#Bank .onhandtitle {\r\n	position: relative;\r\n	height: 15px;\r\n	width: 55px;\r\n	left: 28px;\r\n}\r\n\r\n#Bank .inbank.currency {\r\n	position: relative;\r\n	left: 80px;\r\n	top: -5px;\r\n	width: 100px;\r\n	text-align: right;\r\n}\r\n\r\n#Bank .onhand.currency {\r\n	position: relative;\r\n	left: 80px;\r\n	top: -15px;\r\n	width: 100px;\r\n	text-align: right;\r\n}\r\n\r\n#Bank .midcontainer {\r\n	position: relative;\r\n	height: 58px;\r\n}\r\n\r\n#Bank input.depo.no-spinners {\r\n	position: relative;\r\n	left: 75px;\r\n	top: 20px;\r\n	width: 100px;\r\n	height: 10px;\r\n	background-color: #f7f7f7;\r\n	border-style: solid;\r\n	border: 1px;\r\n}\r\n\r\n#Bank .no-spinners::-webkit-inner-spin-button,\r\n#Bank .no-spinners::-webkit-outer-spin-button {\r\n	-webkit-appearance: none;\r\n	margin: 0;\r\n}\r\n\r\n#Bank .plus {\r\n	position: relative;\r\n	height: 10px;\r\n	width: 18px;\r\n	border: 0px;\r\n	left: 70px;\r\n	top: 10px;\r\n}\r\n#Bank .minus {\r\n	position: relative;\r\n	height: 10px;\r\n	width: 18px;\r\n	border: 0px;\r\n	left: 49px;\r\n	top: 20px;\r\n}\r\n\r\n#Bank .deposit {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 42px;\r\n	border: 0px;\r\n	left: 60px;\r\n	top: 5px;\r\n}\r\n\r\n#Bank .withdraw {\r\n	position: relative;\r\n	height: 20px;\r\n	width: 42px;\r\n	border: 0px;\r\n	left: 15px;\r\n	top: 30px;\r\n}\r\n\r\n#Bank .errorupdate {\r\n	position: absolute;\r\n	height: 15px;\r\n	width: 150px;\r\n	border: 0px;\r\n	left: 15px;\r\n	top: 42px;\r\n	text-align: center;\r\n	color: red;\r\n}\r\n\r\n#Bank .lowercontainer {\r\n	position: relative;\r\n	height: 19px;\r\n}\r\n\r\n#Bank .max {\r\n	position: relative;\r\n	width: 46px;\r\n	height: 16px;\r\n	border: 0px;\r\n	left: 40px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Bank .tenmil {\r\n	position: relative;\r\n	width: 62px;\r\n	height: 16px;\r\n	border: 0px;\r\n	left: 40px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Bank .onemil {\r\n	position: relative;\r\n	width: 56px;\r\n	height: 16px;\r\n	border: 0px;\r\n	left: 40px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Bank .hundtsn {\r\n	position: relative;\r\n	width: 50px;\r\n	height: 16px;\r\n	border: 0px;\r\n	left: 40px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Bank .buttons .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: 0px;\r\n	visibility: hidden;\r\n	opacity: 0;\r\n	z-index: 1;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n	pointer-events: none; /* This will make the span not clickable */\r\n}\r\n\r\n#Bank .buttons:hover .name {\r\n	visibility: visible;\r\n	opacity: 1;\r\n}\r\n";
+	Bank_default$1 = ":host {\r\n	width: 280px;\r\n	height: 150px;\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#Bank {\r\n	position: absolute;\r\n	width: 280px;\r\n}\r\n\r\n#Bank .clear {\r\n	clear: both;\r\n}\r\n\r\n#Bank .titlebar {\r\n	width: 280px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#Bank .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#Bank .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#Bank .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#Bank .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#Bank .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#Bank .container {\r\n	display: inline-block;\r\n	width: 280px;\r\n	height: 133px;\r\n	border-spacing: 0;\r\n}\r\n\r\n#Bank .uppercontainer {\r\n	position: relative;\r\n	height: 53px;\r\n}\r\n\r\n#Bank .inbanktitle {\r\n	height: 15px;\r\n	position: relative;\r\n	width: 50px;\r\n	left: 30px;\r\n	top: 10px;\r\n}\r\n\r\n#Bank .onhandtitle {\r\n	position: relative;\r\n	height: 15px;\r\n	width: 55px;\r\n	left: 28px;\r\n}\r\n\r\n#Bank .inbank.currency {\r\n	position: relative;\r\n	left: 80px;\r\n	top: -5px;\r\n	width: 100px;\r\n	text-align: right;\r\n}\r\n\r\n#Bank .onhand.currency {\r\n	position: relative;\r\n	left: 80px;\r\n	top: -15px;\r\n	width: 100px;\r\n	text-align: right;\r\n}\r\n\r\n#Bank .midcontainer {\r\n	position: relative;\r\n	height: 58px;\r\n}\r\n\r\n#Bank input.depo.no-spinners {\r\n	position: relative;\r\n	left: 75px;\r\n	top: 20px;\r\n	width: 100px;\r\n	height: 10px;\r\n	background-color: #f7f7f7;\r\n	border-style: solid;\r\n	border: 1px;\r\n}\r\n\r\n#Bank .no-spinners::-webkit-inner-spin-button,\r\n#Bank .no-spinners::-webkit-outer-spin-button {\r\n	-webkit-appearance: none;\r\n	margin: 0;\r\n}\r\n\r\n#Bank .plus {\r\n	position: relative;\r\n	height: 10px;\r\n	width: 18px;\r\n	border: 0px;\r\n	left: 70px;\r\n	top: 10px;\r\n}\r\n#Bank .minus {\r\n	position: relative;\r\n	height: 10px;\r\n	width: 18px;\r\n	border: 0px;\r\n	left: 49px;\r\n	top: 20px;\r\n}\r\n\r\n#Bank .deposit,\r\n#Bank .withdraw {\r\n	position: relative;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 6px;\r\n	border: 0;\r\n	white-space: nowrap;\r\n	overflow: visible;\r\n}\r\n\r\n#Bank .deposit {\r\n	left: 52px;\r\n	top: 5px;\r\n}\r\n\r\n#Bank .withdraw {\r\n	left: 8px;\r\n	top: 30px;\r\n}\r\n\r\n#Bank .errorupdate {\r\n	position: absolute;\r\n	height: 15px;\r\n	width: 150px;\r\n	border: 0px;\r\n	left: 15px;\r\n	top: 42px;\r\n	text-align: center;\r\n	color: red;\r\n}\r\n\r\n#Bank .lowercontainer {\r\n	position: relative;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: flex-start;\r\n	gap: 2px;\r\n	padding: 1px 8px 2px;\r\n	height: 22px;\r\n	box-sizing: border-box;\r\n}\r\n\r\n#Bank .max,\r\n#Bank .tenmil,\r\n#Bank .onemil,\r\n#Bank .hundtsn {\r\n	position: relative;\r\n	left: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 6px;\r\n	border: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	white-space: nowrap;\r\n	overflow: visible;\r\n}\r\n\r\n#Bank .buttons .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: 0px;\r\n	visibility: hidden;\r\n	opacity: 0;\r\n	z-index: 1;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n	pointer-events: none; /* This will make the span not clickable */\r\n}\r\n\r\n#Bank .buttons:hover .name {\r\n	visibility: visible;\r\n	opacity: 1;\r\n}\r\n";
 }));
+//#endregion
+//#region src/UI/Components/Bank/BankAmount.js
+/**
+* Combine a bank amount field with a preset addend.
+* MAX stays MAX; any other value is treated as an integer (empty → 0).
+*/
+function addValueToInput(inputValue, addValue) {
+	if (inputValue === "MAX") return "MAX";
+	return (parseInt(inputValue, 10) || 0) + addValue;
+}
+var init_BankAmount = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/Bank/Bank.js
 /**
@@ -504794,6 +511757,7 @@ var init_Bank$1 = __esmMin((() => {
 	init_NpcBox();
 	init_NpcMenu();
 	init_InputBox();
+	init_BankAmount();
 	Bank = new GUIComponent("Bank", Bank_default$1);
 	/**
 	* Render HTML
@@ -504844,11 +511808,6 @@ var init_Bank$1 = __esmMin((() => {
 			inputDepo.value = addValueToInput(inputDepo.value, 1e5);
 			inputDepo.select();
 		});
-		function addValueToInput(inputValue, addValue) {
-			if (isMax && inputValue === "MAX") return "MAX";
-			const currentValue = parseInt(inputValue) || 0;
-			if (!isMax) return currentValue + addValue;
-		}
 		root.querySelector(".deposit").addEventListener("click", () => {
 			sendDepositRequest(inputDepo.value);
 		});
@@ -504885,6 +511844,7 @@ var init_Bank$1 = __esmMin((() => {
 				return false;
 			}
 			if (event.which === KEYS.ENTER) {
+				sendDepositRequest(this.getRoot().querySelector(".depo").value);
 				event.stopImmediatePropagation();
 				return false;
 			}
@@ -505557,7 +512517,7 @@ var init_ShortCutOption$2 = __esmMin((() => {
 //#region src/UI/Components/ShortCutOption/ShortCutOption.css?raw
 var ShortCutOption_default$1;
 var init_ShortCutOption$1 = __esmMin((() => {
-	ShortCutOption_default$1 = ":host {\r\n	width: 430px;\r\n	height: 465px;\r\n	top: 300px;\r\n	left: 300px;\r\n}\r\n\r\n#ShortCutOption {\r\n	position: absolute;\r\n	width: 430px;\r\n	height: 465px;\r\n	background: white;\r\n	border-radius: 3px;\r\n	border: solid 1px #aaa;\r\n	border-top: none;\r\n}\r\n#ShortCutOption .border {\r\n}\r\n#ShortCutOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	border-bottom: solid 1px #eee;\r\n}\r\n#ShortCutOption .titlebar .base {\r\n	width: 20px;\r\n	height: 100%;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n	background-position: 8px 2px;\r\n}\r\n#ShortCutOption .titlebar .base.close {\r\n	color: #ccc;\r\n}\r\n#ShortCutOption .titlebar .text {\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	line-height: 17px;\r\n	margin-left: 5px;\r\n}\r\n#ShortCutOption .titlebar .left {\r\n	float: left;\r\n}\r\n#ShortCutOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n	height: 100%;\r\n}\r\n#ShortCutOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n#ShortCutOption .tabs {\r\n	position: relative;\r\n	top: 1px;\r\n	border-right: solid 1px #ccc;\r\n}\r\n#ShortCutOption .tabs button.selectedtab {\r\n	border-bottom: solid 1px transparent;\r\n}\r\n#ShortCutOption .tabs button {\r\n	width: 57px;\r\n	height: 18px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #fff;\r\n	border: solid 1px #bbb;\r\n	border-top-right-radius: 3px;\r\n	border-top-left-radius: 3px;\r\n}\r\n#ShortCutOption .tabs button:nth-child(1) {\r\n	border-right: none;\r\n}\r\n#ShortCutOption .panel {\r\n	padding: 5px;\r\n	border-top: solid 1px #ccc;\r\n}\r\n#ShortCutOption .panel .content {\r\n	display: none;\r\n}\r\n#ShortCutOption .content.selectedtab {\r\n	display: block;\r\n}\r\n#ShortCutOption .content table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n	color: #222;\r\n}\r\n#ShortCutOption .content table tr {\r\n	height: 22px;\r\n}\r\n#ShortCutOption .content table td {\r\n	text-align: center;\r\n}\r\n#ShortCutOption .content table td:nth-child(1),\r\n#ShortCutOption .content table td:nth-child(3) {\r\n	width: 30%;\r\n}\r\n#ShortCutOption .content table td:nth-child(2),\r\n#ShortCutOption .content table td:nth-child(4) {\r\n	width: 20%;\r\n	background-color: #eee;\r\n}\r\n#ShortCutOption .content table td.customize {\r\n	background-color: #ffffe0;\r\n}\r\n#ShortCutOption .content table td.changed {\r\n	background-color: #ffe4e1;\r\n}\r\n#ShortCutOption .content table td.selected {\r\n	background-color: #ffb6c1;\r\n}\r\n#ShortCutOption .resolution {\r\n	display: none;\r\n}\r\n#ShortCutOption .panel .button {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	width: 42px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCutOption .panel .button.reset {\r\n	left: 3px;\r\n}\r\n#ShortCutOption .panel .button.ok {\r\n	right: 93px;\r\n}\r\n#ShortCutOption .panel .button.cancel {\r\n	right: 48px;\r\n}\r\n#ShortCutOption .panel .button.close {\r\n	right: 3px;\r\n}\r\n";
+	ShortCutOption_default$1 = ":host {\r\n	width: 430px;\r\n	height: 465px;\r\n	top: 300px;\r\n	left: 300px;\r\n}\r\n\r\n#ShortCutOption {\r\n	position: absolute;\r\n	width: 430px;\r\n	height: 465px;\r\n	background: white;\r\n	border-radius: 3px;\r\n	border: solid 1px #aaa;\r\n	border-top: none;\r\n}\r\n#ShortCutOption .border {\r\n}\r\n#ShortCutOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	border-bottom: solid 1px #eee;\r\n}\r\n#ShortCutOption .titlebar .base {\r\n	width: 20px;\r\n	height: 100%;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n	background-position: 8px 2px;\r\n}\r\n#ShortCutOption .titlebar .base.close {\r\n	color: #ccc;\r\n}\r\n#ShortCutOption .titlebar .text {\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	line-height: 17px;\r\n	margin-left: 5px;\r\n}\r\n#ShortCutOption .titlebar .left {\r\n	float: left;\r\n}\r\n#ShortCutOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n	height: 100%;\r\n}\r\n#ShortCutOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n#ShortCutOption .tabs {\r\n	position: relative;\r\n	top: 1px;\r\n	border-right: solid 1px #ccc;\r\n}\r\n#ShortCutOption .tabs button.selectedtab {\r\n	border-bottom: solid 1px transparent;\r\n}\r\n#ShortCutOption .tabs button {\r\n	width: 57px;\r\n	height: 18px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #fff;\r\n	border: solid 1px #bbb;\r\n	border-top-right-radius: 3px;\r\n	border-top-left-radius: 3px;\r\n}\r\n#ShortCutOption .tabs button:nth-child(1) {\r\n	border-right: none;\r\n}\r\n#ShortCutOption .panel {\r\n	padding: 5px;\r\n	border-top: solid 1px #ccc;\r\n}\r\n#ShortCutOption .panel .content {\r\n	display: none;\r\n}\r\n#ShortCutOption .content.selectedtab {\r\n	display: block;\r\n}\r\n#ShortCutOption .content table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n	color: #222;\r\n}\r\n#ShortCutOption .content table tr {\r\n	height: 22px;\r\n}\r\n#ShortCutOption .content table td {\r\n	text-align: center;\r\n}\r\n#ShortCutOption .content table td:nth-child(1),\r\n#ShortCutOption .content table td:nth-child(3) {\r\n	width: 30%;\r\n}\r\n#ShortCutOption .content table td:nth-child(2),\r\n#ShortCutOption .content table td:nth-child(4) {\r\n	width: 20%;\r\n	background-color: #eee;\r\n}\r\n#ShortCutOption .content table td.customize {\r\n	background-color: #ffffe0;\r\n}\r\n#ShortCutOption .content table td.changed {\r\n	background-color: #ffe4e1;\r\n}\r\n#ShortCutOption .content table td.selected {\r\n	background-color: #ffb6c1;\r\n}\r\n#ShortCutOption .resolution {\r\n	display: none;\r\n}\r\n#ShortCutOption .panel .button {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	margin-top: 3px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ShortCutOption .panel .button.reset {\r\n	left: 3px;\r\n}\r\n#ShortCutOption .panel .button.ok {\r\n	right: 93px;\r\n}\r\n#ShortCutOption .panel .button.cancel {\r\n	right: 48px;\r\n}\r\n#ShortCutOption .panel .button.close {\r\n	right: 3px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ShortCutOption/ShortCutOption.js
@@ -512181,9 +519141,11 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 	};
 	Component.onShortCut = function onShortCut(key) {
 		switch (key.cmd) {
-			case "TOGGLE": this.toggle();
+			case "TOGGLE":
+				this.toggle();
+				break;
+			default: onResetChoice(this);
 		}
-		onResetChoice(this);
 	};
 	Component.setSkills = function setSkills(skills) {
 		const root = this.getRoot();
@@ -512923,7 +519885,7 @@ var init_SkillListV2$2 = __esmMin((() => {
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.css?raw
 var SkillListV2_default$1;
 var init_SkillListV2$1 = __esmMin((() => {
-	SkillListV2_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#SkillListV2 {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	background: white;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n	border: 1px solid #c1c6c2;\r\n}\r\n#SkillListV2 .border {\r\n	border: 1px solid #c1c6c2;\r\n	margin: 1px;\r\n	border-radius: 5px;\r\n}\r\n\r\n#SkillListV2 .titlebar {\r\n	height: 18px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	background-position: 0 -1px;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SkillListV2 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SkillListV2 .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SkillListV2 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 18px;\r\n}\r\n#SkillListV2 .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SkillListV2 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SkillListV2 .content {\r\n	position: relative;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: 270px;\r\n	height: 200px;\r\n}\r\n#SkillListV2 .content table {\r\n	border: none;\r\n	border-spacing: 0px;\r\n	padding-top: 5px;\r\n}\r\n#SkillListV2 .content td,\r\n#SkillListV2 .content .name {\r\n	padding: 0px;\r\n}\r\n\r\n/* Mini Tab*/\r\n#SkillListV2 .tabs-mini {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs-mini::before,\r\n#SkillListV2 .tabs-mini::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs-mini::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch-mini {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label-mini {\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	position: relative;\r\n	margin: -3px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n}\r\n#SkillListV2 .tab-content-mini {\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + .tab-label-mini {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + label + .tab-content-mini {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n\r\n#SkillListV2 .levelup {\r\n	border: 0;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#SkillListV2 td.type {\r\n	vertical-align: bottom;\r\n}\r\n\r\n#SkillListV2 .content .icon {\r\n	padding-left: 15px;\r\n}\r\n#SkillListV2 .content .levelupcontainer {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n	width: 24px;\r\n}\r\n#SkillListV2 .content div.name {\r\n	line-height: 12px;\r\n	white-space: nowrap;\r\n	padding-left: 5px;\r\n	white-space: nowrap;\r\n	width: 120px;\r\n	padding-top: 4px;\r\n	height: 28px;\r\n}\r\n#SkillListV2 .disabled .icon,\r\n#SkillListV2 .disabled .name {\r\n	opacity: 0.5;\r\n}\r\n#SkillListV2 .disabled .consume,\r\n#SkillListV2 .disabled .level {\r\n	display: none;\r\n}\r\n#SkillListV2 .currentDown,\r\n#SkillListV2 .currentUp {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#SkillListV2 .selected.disabled .selectable {\r\n	background-color: #b5b5b5;\r\n}\r\n#SkillListV2 .selected.passive .selectable {\r\n	background-color: #73d5ee;\r\n}\r\n/*#SkillListV2 .selected.active .selectable { background-color:#739cee;}*/\r\n\r\n#SkillListV2 .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n#SkillListV2 .footer .text {\r\n	padding-top: 7px;\r\n	margin-left: 10px;\r\n}\r\n#SkillListV2 .footer .btn {\r\n	position: absolute;\r\n	top: 5px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: none;\r\n}\r\n#SkillListV2 .footer .apply {\r\n	right: 70px;\r\n}\r\n#SkillListV2 .footer .reset {\r\n	right: 20px;\r\n}\r\n#SkillListV2 .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#lvlup_job {\r\n	z-index: 51;\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 0px;\r\n	width: 43px;\r\n	height: 43px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#SkillListV2 .tab-content {\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: calc(100% - 12px);\r\n	height: 375px;\r\n}\r\n\r\n/* skill tree with tabs */\r\n#SkillListV2 .skillCol .name,\r\n#SkillListV2 .skillCol .selectable {\r\n	position: relative;\r\n	text-align: center;\r\n	display: block;\r\n	width: 70px;\r\n	left: -23px;\r\n}\r\n#SkillListV2 .skillCol .skill {\r\n	position: relative;\r\n	top: -16px;\r\n}\r\n#SkillListV2 .skillRow {\r\n	display: flex;\r\n	padding-left: 40px;\r\n}\r\n#SkillListV2 .skillCol {\r\n	position: relative;\r\n	margin: 15px 17px;\r\n	border: 1px dashed #c0c0c0ff;\r\n	border-radius: 5px;\r\n	width: 28px;\r\n	height: 28px;\r\n	text-align: center;\r\n	white-space: nowrap;\r\n}\r\n#SkillListV2 .tabs {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs::before,\r\n#SkillListV2 .tabs::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label {\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	position: relative;\r\n	margin: -3px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n}\r\n#SkillListV2 .tab-content {\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch:checked + .tab-label {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch:checked + label + .tab-content {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n#SkillListV2 .needleSkill {\r\n	background: pink !important;\r\n}\r\n#SkillListV2 .upgradable {\r\n	background: #c0cdff;\r\n}\r\n#SkillListV2 .counterSkill {\r\n	position: absolute;\r\n	left: 28px;\r\n	top: 18px;\r\n	color: #fff;\r\n	-webkit-text-stroke: 0.6px #2f2f2f;\r\n	font-weight: 1000;\r\n}\r\n";
+	SkillListV2_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#SkillListV2 {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	background: white;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n	border: 1px solid #c1c6c2;\r\n}\r\n#SkillListV2 .border {\r\n	border: 1px solid #c1c6c2;\r\n	margin: 1px;\r\n	border-radius: 5px;\r\n}\r\n\r\n#SkillListV2 .titlebar {\r\n	height: 18px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	background-position: 0 -1px;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SkillListV2 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SkillListV2 .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SkillListV2 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 18px;\r\n}\r\n#SkillListV2 .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SkillListV2 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SkillListV2 .content {\r\n	position: relative;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: 270px;\r\n	height: 200px;\r\n}\r\n#SkillListV2 .content table {\r\n	border: none;\r\n	border-spacing: 0px;\r\n	padding-top: 5px;\r\n}\r\n#SkillListV2 .content td,\r\n#SkillListV2 .content .name {\r\n	padding: 0px;\r\n}\r\n\r\n/* Mini Tab*/\r\n#SkillListV2 .tabs-mini {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs-mini::before,\r\n#SkillListV2 .tabs-mini::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs-mini::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch-mini {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label-mini {\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	min-height: 38px;\r\n	padding: 6px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 1px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content-mini {\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + .tab-label-mini {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + label + .tab-content-mini {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n\r\n#SkillListV2 .levelup {\r\n	border: 0;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#SkillListV2 td.type {\r\n	vertical-align: bottom;\r\n}\r\n\r\n#SkillListV2 .content .icon {\r\n	padding-left: 15px;\r\n}\r\n#SkillListV2 .content .levelupcontainer {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n	width: 24px;\r\n}\r\n#SkillListV2 .content div.name {\r\n	line-height: 12px;\r\n	white-space: nowrap;\r\n	padding-left: 5px;\r\n	white-space: nowrap;\r\n	width: 120px;\r\n	padding-top: 4px;\r\n	height: 28px;\r\n}\r\n#SkillListV2 .disabled .icon,\r\n#SkillListV2 .disabled .name {\r\n	opacity: 0.5;\r\n}\r\n#SkillListV2 .disabled .consume,\r\n#SkillListV2 .disabled .level {\r\n	display: none;\r\n}\r\n#SkillListV2 .currentDown,\r\n#SkillListV2 .currentUp {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#SkillListV2 .selected.disabled .selectable {\r\n	background-color: #b5b5b5;\r\n}\r\n#SkillListV2 .selected.passive .selectable {\r\n	background-color: #73d5ee;\r\n}\r\n/*#SkillListV2 .selected.active .selectable { background-color:#739cee;}*/\r\n\r\n#SkillListV2 .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n#SkillListV2 .footer .text {\r\n	padding-top: 7px;\r\n	margin-left: 10px;\r\n}\r\n#SkillListV2 .footer .btn {\r\n	position: absolute;\r\n	top: 5px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: none;\r\n}\r\n#SkillListV2 .footer .apply {\r\n	right: 70px;\r\n}\r\n#SkillListV2 .footer .reset {\r\n	right: 20px;\r\n}\r\n#SkillListV2 .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#lvlup_job {\r\n	z-index: 51;\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 0px;\r\n	width: 43px;\r\n	height: 43px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#SkillListV2 .tab-content {\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: calc(100% - 12px);\r\n	height: 375px;\r\n}\r\n\r\n/* skill tree with tabs */\r\n#SkillListV2 .skillCol .name,\r\n#SkillListV2 .skillCol .selectable {\r\n	position: relative;\r\n	text-align: center;\r\n	display: block;\r\n	width: 70px;\r\n	left: -23px;\r\n}\r\n#SkillListV2 .skillCol .skill {\r\n	position: relative;\r\n	top: -16px;\r\n}\r\n#SkillListV2 .skillRow {\r\n	display: flex;\r\n	padding-left: 40px;\r\n}\r\n#SkillListV2 .skillCol {\r\n	position: relative;\r\n	margin: 15px 17px;\r\n	border: 1px dashed #c0c0c0ff;\r\n	border-radius: 5px;\r\n	width: 28px;\r\n	height: 28px;\r\n	text-align: center;\r\n	white-space: nowrap;\r\n}\r\n#SkillListV2 .tabs {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs::before,\r\n#SkillListV2 .tabs::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label {\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	min-height: 48px;\r\n	padding: 8px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 2px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content {\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch:checked + .tab-label {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch:checked + label + .tab-content {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n#SkillListV2 .needleSkill {\r\n	background: pink !important;\r\n}\r\n#SkillListV2 .upgradable {\r\n	background: #c0cdff;\r\n}\r\n#SkillListV2 .counterSkill {\r\n	position: absolute;\r\n	left: 28px;\r\n	top: 18px;\r\n	color: #fff;\r\n	-webkit-text-stroke: 0.6px #2f2f2f;\r\n	font-weight: 1000;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.js
@@ -514018,7 +520980,7 @@ var init_Achievement$3 = __esmMin((() => {
 //#region src/UI/Components/Achievement/Achievement.css?raw
 var Achievement_default$1;
 var init_Achievement$2 = __esmMin((() => {
-	Achievement_default$1 = ":host {\r\n	width: 750px;\r\n	height: 468px;\r\n	top: 100px;\r\n	left: 100px;\r\n	position: absolute;\r\n	color: #666;\r\n	font-family: inherit;\r\n	font-size: 11px;\r\n}\r\n\r\n/* Background layers */\r\n.bg-summary {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 649px;\r\n	height: 405px;\r\n	pointer-events: none;\r\n	background-size: 100% 100%;\r\n}\r\n\r\n.bg-list {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 649px;\r\n	height: 405px;\r\n	background-size: 100% 100%;\r\n	pointer-events: none;\r\n	display: none;\r\n}\r\n\r\n/* Titlebar */\r\n.titlebar {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 18px;\r\n}\r\n\r\n.titlebar .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 20px;\r\n	color: #000;\r\n	font-weight: bold;\r\n}\r\n\r\n.titlebar {\r\n	width: 750px;\r\n	height: 17px;\r\n}\r\n.titlebar .corner {\r\n	position: absolute;\r\n	width: 12px;\r\n	height: 17px;\r\n}\r\n.titlebar .corner.left {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n.titlebar .corner.right {\r\n	top: 0px;\r\n	right: 0px;\r\n}\r\n.titlebar .center {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 12px;\r\n	width: 726px;\r\n	height: 17px;\r\n}\r\n.titlebar .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 16px;\r\n	font-size: 13px;\r\n}\r\n.titlebar .btn-left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n.titlebar .btn-right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* Header Area */\r\n.header {\r\n	position: absolute;\r\n	top: 17px;\r\n	left: 0;\r\n	width: 750px;\r\n	height: 46px;\r\n}\r\n\r\n.header .rank-badge {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 5px;\r\n	width: 35px;\r\n	height: 35px;\r\n	text-align: center;\r\n	line-height: 40px;\r\n	font-weight: bold;\r\n	color: #7b4f2c;\r\n}\r\n\r\n.header .overall-points {\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 325px;\r\n	width: 100px;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #000;\r\n}\r\n\r\n.header .rank-progress {\r\n	position: absolute;\r\n	top: 15px;\r\n	left: 45px;\r\n	width: 80px;\r\n}\r\n\r\n.header .rank-progress .progress-text {\r\n	text-align: right;\r\n	font-size: 10px;\r\n	margin-bottom: 1px;\r\n	color: #000;\r\n}\r\n\r\n.header .rank-progress .bar-bg {\r\n	width: 100%;\r\n	height: 7px;\r\n	background: #fff;\r\n	border: 1px solid #97b2dd;\r\n}\r\n\r\n.header .rank-progress .bar-fill {\r\n	height: 100%;\r\n	background: #5b85d9;\r\n}\r\n\r\n.header .cat-progress .cat-image {\r\n	position: absolute;\r\n	top: -13px;\r\n	left: -40px;\r\n	width: 39px;\r\n	height: 40px;\r\n}\r\n\r\n.js-cat-name {\r\n	color: #3030a4;\r\n}\r\n\r\n.header .cat-progress {\r\n	position: absolute;\r\n	top: 15px;\r\n	right: 15px;\r\n	width: 140px;\r\n}\r\n\r\n.header .cat-progress .cat-text {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	font-weight: bold;\r\n	font-size: 9px;\r\n	color: #000;\r\n	margin-bottom: 2px;\r\n}\r\n\r\n.header .cat-progress .bar-bg {\r\n	width: 100%;\r\n	height: 7px;\r\n	background: #fff;\r\n	border: 1px solid #97b2dd;\r\n}\r\n\r\n.header .cat-progress .bar-fill {\r\n	height: 100%;\r\n	background: #5b85d9;\r\n}\r\n\r\n.header .filter-group {\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 160px;\r\n}\r\n\r\n.header .filter-group > div {\r\n	margin-bottom: 3px;\r\n	cursor: pointer;\r\n}\r\n\r\n.header .filter-group ui-image {\r\n	vertical-align: middle;\r\n	margin-right: 5px;\r\n}\r\n\r\n.header .filter-group .radio-container {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 2px;\r\n}\r\n\r\n.header .filter-group .radio-container .radio {\r\n	width: 12px;\r\n	height: 12px;\r\n}\r\n\r\n.header .filter-group .radio-container ui-image {\r\n	width: 12px;\r\n	height: 12px;\r\n}\r\n\r\n/* Tabs Sidebar */\r\n.sidebar {\r\n	position: absolute;\r\n	top: 60px;\r\n	left: 0;\r\n	width: 100px;\r\n	height: 405px;\r\n}\r\n\r\n.sidebar .major-tab {\r\n	position: relative;\r\n	height: 34px;\r\n	line-height: 40px;\r\n	text-align: left;\r\n	padding-left: 15px;\r\n	color: #6268b0;\r\n	border-bottom: 1px solid #aaa;\r\n}\r\n\r\n.sidebar .major-tab.active {\r\n	color: #3030a4;\r\n	font-weight: bold;\r\n}\r\n\r\n/* Background for specific tabs using the tab bg */\r\n.sidebar .tab-bg {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100px;\r\n	height: 40px;\r\n	z-index: -1;\r\n}\r\n\r\n.sidebar .minor-tabs {\r\n	background: #f9f9f9;\r\n	padding-bottom: 5px;\r\n	max-height: 75px; /* approx 3 tabs (25px each) */\r\n	overflow-y: auto;\r\n}\r\n\r\n.sidebar .minor-tab {\r\n	padding: 5px 0 5px 25px;\r\n	cursor: pointer;\r\n	color: #6d74be;\r\n	border-bottom: 1px dashed #bebebe;\r\n	font-size: 9px;\r\n}\r\n\r\n.sidebar .minor-tab:hover,\r\n.sidebar .minor-tab.active {\r\n	color: #3030a4;\r\n	background: #eef3fb;\r\n}\r\n\r\n/* Main Area - Overview Pane */\r\n.pane-overview {\r\n	position: absolute;\r\n	top: 60px;\r\n	left: 100px;\r\n	width: 648px;\r\n	height: 405px;\r\n	background-color: #fff;\r\n}\r\n\r\n.pane-overview .category-total {\r\n	position: absolute;\r\n	top: 37px;\r\n	left: 45px;\r\n	width: 555px;\r\n}\r\n\r\n.pane-overview .category-total .category-total-text .name {\r\n	margin-left: 35px;\r\n	margin-top: -10px;\r\n	margin-bottom: 12px;\r\n}\r\n\r\n.pane-overview .category-general {\r\n	position: absolute;\r\n	top: 110px;\r\n	left: 44px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-adventure {\r\n	position: absolute;\r\n	top: 110px;\r\n	left: 349px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-battle {\r\n	position: absolute;\r\n	top: 160px;\r\n	left: 44px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-quest {\r\n	position: absolute;\r\n	top: 160px;\r\n	left: 349px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-memorial {\r\n	position: absolute;\r\n	top: 210px;\r\n	left: 44px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-feat {\r\n	position: absolute;\r\n	top: 210px;\r\n	left: 349px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-gauge .name {\r\n	font-weight: bold;\r\n	margin-bottom: 2px;\r\n	float: left;\r\n}\r\n\r\n.name {\r\n	margin-left: 35px;\r\n}\r\n\r\n.pane-overview .category-gauge .progress-text {\r\n	float: right;\r\n	color: #912c2c;\r\n	font-size: 10px;\r\n}\r\n\r\n.pane-overview .category-gauge .bar-bg {\r\n	clear: both;\r\n	width: 100%;\r\n	height: 9px;\r\n	background: #fff;\r\n	border: 1px solid #97b2dd;\r\n}\r\n\r\n.pane-overview .category-gauge .bar-fill {\r\n	height: 100%;\r\n	background: #8aaaff;\r\n}\r\n\r\n/* Recent completed achievements in Overview */\r\n.pane-overview .recent-achievements {\r\n	position: absolute;\r\n	top: 295px;\r\n	left: 10px;\r\n	width: 625px;\r\n}\r\n\r\n.pane-overview .recent-title {\r\n	color: #2e519c;\r\n	margin-bottom: 5px;\r\n}\r\n\r\n.pane-overview .recent-items {\r\n	display: flex;\r\n	flex-direction: row;\r\n	gap: 5px;\r\n}\r\n\r\n/* Main Area - List/Detail Pane */\r\n.pane-listd {\r\n	position: absolute;\r\n	top: 60px;\r\n	left: 100px;\r\n	width: 648px;\r\n	height: 403px;\r\n	display: none;\r\n	background-color: #fff;\r\n}\r\n\r\n.ach-list-container {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 319px;\r\n	height: 403px;\r\n	overflow-y: scroll;\r\n	overflow-x: hidden;\r\n}\r\n\r\n.ach-list {\r\n	width: 309px;\r\n}\r\n\r\n.ach-item {\r\n	height: 81px;\r\n	position: relative;\r\n	cursor: pointer;\r\n	width: 309px;\r\n}\r\n\r\n.ach-item-overview {\r\n	border: 1px solid #dae0ef;\r\n}\r\n\r\n.ach-item.selected {\r\n	background: rgba(200, 220, 255, 0.4);\r\n}\r\n\r\n.ach-item .icon {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 10px;\r\n	width: 38px;\r\n	height: 32px;\r\n}\r\n\r\n.ach-item .title {\r\n	position: absolute;\r\n	top: 15px;\r\n	left: 60px;\r\n	color: #2e519c;\r\n	width: 150px;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.ach-item .desc {\r\n	position: absolute;\r\n	top: 55px;\r\n	left: 10px;\r\n	color: #002d8d;\r\n	font-size: 9px;\r\n	width: 140px;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.ach-item .reward-icon {\r\n	position: absolute;\r\n	top: 10px;\r\n	right: 40px;\r\n	width: 20px;\r\n	height: 30px;\r\n	text-align: center;\r\n}\r\n\r\n.ach-item .reward-pts {\r\n	position: absolute;\r\n	top: 7px;\r\n	right: 15px;\r\n	width: 30px;\r\n	height: 23px;\r\n	font-weight: bold;\r\n	color: #555;\r\n	font-size: 10px;\r\n	text-align: center;\r\n	line-height: 23px;\r\n}\r\n\r\n.ach-item .date-completed {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 10px;\r\n	color: #8b3737;\r\n	font-size: 7px;\r\n	width: 30px;\r\n	height: 23px;\r\n	text-align: center;\r\n	line-height: 23px;\r\n}\r\n\r\n/* Overlay */\r\n.overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n/* Detail view (right side) */\r\n.detail-view {\r\n	position: absolute;\r\n	top: 0;\r\n	right: 0px;\r\n	width: 328px;\r\n	height: 405px;\r\n	overflow-y: auto;\r\n	background-size: 100% 100%;\r\n	padding-left: 12px;\r\n	font-size: 10px;\r\n}\r\n\r\n.detail-view .d-title {\r\n	font-weight: bold;\r\n	color: #2e519c;\r\n	height: 35px;\r\n	line-height: 35px;\r\n	align-items: center;\r\n	display: flex;\r\n}\r\n\r\n.detail-view .d-stamp {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 10px;\r\n	width: 64px;\r\n	height: 54px;\r\n}\r\n\r\n.detail-view .d-desc {\r\n	color: #6699ff;\r\n	height: 57px;\r\n	width: 200px;\r\n}\r\n\r\n.detail-view .d-goals {\r\n	padding-left: 10px;\r\n	padding-top: 10px;\r\n	height: 190px;\r\n	color: #2e519c;\r\n}\r\n\r\n.detail-view .d-goal-item {\r\n	margin-bottom: 4px;\r\n}\r\n\r\n.detail-view .d-goal-item::before {\r\n	content: '◆';\r\n	color: #2e519c;\r\n	margin-right: 5px;\r\n}\r\n\r\n/* Reward Area */\r\n.d-reward {\r\n	display: flex;\r\n	flex-direction: row;\r\n	gap: 5px;\r\n	width: 100%;\r\n	height: 80px;\r\n	margin-left: -10px;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n.d-rewards-slot {\r\n	width: 62px;\r\n	height: 62px;\r\n	position: relative;\r\n}\r\n\r\n.d-reward-item {\r\n	position: absolute;\r\n	top: 19px;\r\n	left: 19px;\r\n	width: 24px;\r\n	height: 24px;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n}\r\n\r\n.detail-view .d-claim-btn {\r\n	position: absolute;\r\n	bottom: 10px;\r\n	left: 90px;\r\n	width: 148px;\r\n	height: 20px;\r\n	text-align: center;\r\n}\r\n\r\n/* Scrollbar area */\r\n.scrollbar {\r\n	position: absolute;\r\n	top: 0;\r\n	right: 2px;\r\n	width: 15px;\r\n	height: 320px;\r\n}\r\n";
+	Achievement_default$1 = ":host {\r\n	width: 750px;\r\n	height: 468px;\r\n	top: 100px;\r\n	left: 100px;\r\n	position: absolute;\r\n	color: #666;\r\n	font-family: inherit;\r\n	font-size: 11px;\r\n}\r\n\r\n/* Background layers */\r\n.bg-summary {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 649px;\r\n	height: 405px;\r\n	pointer-events: none;\r\n	background-size: 100% 100%;\r\n}\r\n\r\n.bg-list {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 649px;\r\n	height: 405px;\r\n	background-size: 100% 100%;\r\n	pointer-events: none;\r\n	display: none;\r\n}\r\n\r\n/* Titlebar */\r\n.titlebar {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 18px;\r\n}\r\n\r\n.titlebar .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 20px;\r\n	color: #000;\r\n	font-weight: bold;\r\n}\r\n\r\n.titlebar {\r\n	width: 750px;\r\n	height: 17px;\r\n}\r\n.titlebar .corner {\r\n	position: absolute;\r\n	width: 12px;\r\n	height: 17px;\r\n}\r\n.titlebar .corner.left {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n.titlebar .corner.right {\r\n	top: 0px;\r\n	right: 0px;\r\n}\r\n.titlebar .center {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 12px;\r\n	width: 726px;\r\n	height: 17px;\r\n}\r\n.titlebar .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 16px;\r\n	font-size: 13px;\r\n}\r\n.titlebar .btn-left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n.titlebar .btn-right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* Header Area */\r\n.header {\r\n	position: absolute;\r\n	top: 17px;\r\n	left: 0;\r\n	width: 750px;\r\n	height: 46px;\r\n}\r\n\r\n.header .rank-badge {\r\n	position: absolute;\r\n	top: 5px;\r\n	left: 5px;\r\n	width: 35px;\r\n	height: 35px;\r\n	text-align: center;\r\n	line-height: 40px;\r\n	font-weight: bold;\r\n	color: #7b4f2c;\r\n}\r\n\r\n.header .overall-points {\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 325px;\r\n	width: 100px;\r\n	text-align: center;\r\n	font-weight: bold;\r\n	color: #000;\r\n}\r\n\r\n.header .rank-progress {\r\n	position: absolute;\r\n	top: 15px;\r\n	left: 45px;\r\n	width: 80px;\r\n}\r\n\r\n.header .rank-progress .progress-text {\r\n	text-align: right;\r\n	font-size: 10px;\r\n	margin-bottom: 1px;\r\n	color: #000;\r\n}\r\n\r\n.header .rank-progress .bar-bg {\r\n	width: 100%;\r\n	height: 7px;\r\n	background: #fff;\r\n	border: 1px solid #97b2dd;\r\n}\r\n\r\n.header .rank-progress .bar-fill {\r\n	height: 100%;\r\n	background: #5b85d9;\r\n}\r\n\r\n.header .cat-progress .cat-image {\r\n	position: absolute;\r\n	top: -13px;\r\n	left: -40px;\r\n	width: 39px;\r\n	height: 40px;\r\n}\r\n\r\n.js-cat-name {\r\n	color: #3030a4;\r\n}\r\n\r\n.header .cat-progress {\r\n	position: absolute;\r\n	top: 15px;\r\n	right: 15px;\r\n	width: 140px;\r\n}\r\n\r\n.header .cat-progress .cat-text {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	font-weight: bold;\r\n	font-size: 9px;\r\n	color: #000;\r\n	margin-bottom: 2px;\r\n}\r\n\r\n.header .cat-progress .bar-bg {\r\n	width: 100%;\r\n	height: 7px;\r\n	background: #fff;\r\n	border: 1px solid #97b2dd;\r\n}\r\n\r\n.header .cat-progress .bar-fill {\r\n	height: 100%;\r\n	background: #5b85d9;\r\n}\r\n\r\n.header .filter-group {\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 160px;\r\n}\r\n\r\n.header .filter-group > div {\r\n	margin-bottom: 3px;\r\n	cursor: pointer;\r\n}\r\n\r\n.header .filter-group ui-image {\r\n	vertical-align: middle;\r\n	margin-right: 5px;\r\n}\r\n\r\n.header .filter-group .radio-container {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 2px;\r\n}\r\n\r\n.header .filter-group .radio-container .radio {\r\n	width: 12px;\r\n	height: 12px;\r\n}\r\n\r\n.header .filter-group .radio-container ui-image {\r\n	width: 12px;\r\n	height: 12px;\r\n}\r\n\r\n/* Tabs Sidebar */\r\n.sidebar {\r\n	position: absolute;\r\n	top: 60px;\r\n	left: 0;\r\n	width: 100px;\r\n	height: 405px;\r\n}\r\n\r\n.sidebar .major-tab {\r\n	position: relative;\r\n	height: 34px;\r\n	line-height: 34px;\r\n	text-align: left;\r\n	padding-left: 15px;\r\n	color: #6268b0;\r\n	border-bottom: 1px solid #aaa;\r\n	overflow: hidden;\r\n	cursor: pointer;\r\n}\r\n\r\n.sidebar .major-tab:hover,\r\n.sidebar .major-tab.active {\r\n	color: #3030a4;\r\n	font-weight: bold;\r\n	background: #eef3fb;\r\n}\r\n\r\n/* Background for specific tabs using the tab bg */\r\n.sidebar .tab-bg {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100px;\r\n	height: 40px;\r\n	z-index: -1;\r\n}\r\n\r\n.sidebar .minor-tabs {\r\n	background: #f9f9f9;\r\n	padding-bottom: 5px;\r\n	max-height: 75px; /* approx 3 tabs (25px each) */\r\n	overflow-y: auto;\r\n}\r\n\r\n.sidebar .minor-tab {\r\n	padding: 5px 0 5px 25px;\r\n	cursor: pointer;\r\n	color: #6d74be;\r\n	border-bottom: 1px dashed #bebebe;\r\n	font-size: 9px;\r\n	overflow: hidden;\r\n}\r\n\r\n.sidebar .minor-tab:hover,\r\n.sidebar .minor-tab.active {\r\n	color: #3030a4;\r\n	background-image: none;\r\n	background-color: #eef3fb;\r\n}\r\n\r\n/* Main Area - Overview Pane */\r\n.pane-overview {\r\n	position: absolute;\r\n	top: 60px;\r\n	left: 100px;\r\n	width: 648px;\r\n	height: 405px;\r\n	background-color: #fff;\r\n}\r\n\r\n.pane-overview .category-total {\r\n	position: absolute;\r\n	top: 37px;\r\n	left: 45px;\r\n	width: 555px;\r\n}\r\n\r\n.pane-overview .category-total .category-total-text .name {\r\n	margin-left: 35px;\r\n	margin-top: -10px;\r\n	margin-bottom: 12px;\r\n}\r\n\r\n.pane-overview .category-general {\r\n	position: absolute;\r\n	top: 110px;\r\n	left: 44px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-adventure {\r\n	position: absolute;\r\n	top: 110px;\r\n	left: 349px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-battle {\r\n	position: absolute;\r\n	top: 160px;\r\n	left: 44px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-quest {\r\n	position: absolute;\r\n	top: 160px;\r\n	left: 349px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-memorial {\r\n	position: absolute;\r\n	top: 210px;\r\n	left: 44px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-feat {\r\n	position: absolute;\r\n	top: 210px;\r\n	left: 349px;\r\n	width: 252px;\r\n}\r\n\r\n.pane-overview .category-gauge .name {\r\n	font-weight: bold;\r\n	margin-bottom: 2px;\r\n	float: left;\r\n}\r\n\r\n.name {\r\n	margin-left: 35px;\r\n}\r\n\r\n.pane-overview .category-gauge .progress-text {\r\n	float: right;\r\n	color: #912c2c;\r\n	font-size: 10px;\r\n}\r\n\r\n.pane-overview .category-gauge .bar-bg {\r\n	clear: both;\r\n	width: 100%;\r\n	height: 9px;\r\n	background: #fff;\r\n	border: 1px solid #97b2dd;\r\n}\r\n\r\n.pane-overview .category-gauge .bar-fill {\r\n	height: 100%;\r\n	background: #8aaaff;\r\n}\r\n\r\n/* Recent completed achievements in Overview */\r\n.pane-overview .recent-achievements {\r\n	position: absolute;\r\n	top: 295px;\r\n	left: 10px;\r\n	width: 625px;\r\n}\r\n\r\n.pane-overview .recent-title {\r\n	color: #2e519c;\r\n	margin-bottom: 5px;\r\n}\r\n\r\n.pane-overview .recent-items {\r\n	display: flex;\r\n	flex-direction: row;\r\n	gap: 5px;\r\n}\r\n\r\n/* Main Area - List/Detail Pane */\r\n.pane-listd {\r\n	position: absolute;\r\n	top: 60px;\r\n	left: 100px;\r\n	width: 648px;\r\n	height: 403px;\r\n	display: none;\r\n	background-color: #fff;\r\n}\r\n\r\n.ach-list-container {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 319px;\r\n	height: 403px;\r\n	overflow-y: scroll;\r\n	overflow-x: hidden;\r\n}\r\n\r\n.ach-list {\r\n	width: 309px;\r\n}\r\n\r\n.ach-item {\r\n	height: 81px;\r\n	position: relative;\r\n	cursor: pointer;\r\n	width: 309px;\r\n}\r\n\r\n.ach-item-overview {\r\n	border: 1px solid #dae0ef;\r\n}\r\n\r\n.ach-item.selected {\r\n	background: rgba(200, 220, 255, 0.4);\r\n}\r\n\r\n.ach-item .icon {\r\n	position: absolute;\r\n	top: 4px;\r\n	left: 10px;\r\n	width: 38px;\r\n	height: 32px;\r\n}\r\n\r\n.ach-item .title {\r\n	position: absolute;\r\n	top: 15px;\r\n	left: 60px;\r\n	color: #2e519c;\r\n	width: 150px;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.ach-item .desc {\r\n	position: absolute;\r\n	top: 55px;\r\n	left: 10px;\r\n	color: #002d8d;\r\n	font-size: 9px;\r\n	width: 140px;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n.ach-item .reward-icon {\r\n	position: absolute;\r\n	top: 10px;\r\n	right: 40px;\r\n	width: 20px;\r\n	height: 30px;\r\n	text-align: center;\r\n}\r\n\r\n.ach-item .reward-pts {\r\n	position: absolute;\r\n	top: 7px;\r\n	right: 15px;\r\n	width: 30px;\r\n	height: 23px;\r\n	font-weight: bold;\r\n	color: #555;\r\n	font-size: 10px;\r\n	text-align: center;\r\n	line-height: 23px;\r\n}\r\n\r\n.ach-item .date-completed {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 10px;\r\n	color: #8b3737;\r\n	font-size: 7px;\r\n	width: 30px;\r\n	height: 23px;\r\n	text-align: center;\r\n	line-height: 23px;\r\n}\r\n\r\n/* Overlay */\r\n.overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n/* Detail view (right side) */\r\n.detail-view {\r\n	position: absolute;\r\n	top: 0;\r\n	right: 0px;\r\n	width: 328px;\r\n	height: 405px;\r\n	overflow-y: auto;\r\n	background-size: 100% 100%;\r\n	padding-left: 12px;\r\n	font-size: 10px;\r\n}\r\n\r\n.detail-view .d-title {\r\n	font-weight: bold;\r\n	color: #2e519c;\r\n	height: 35px;\r\n	line-height: 35px;\r\n	align-items: center;\r\n	display: flex;\r\n}\r\n\r\n.detail-view .d-stamp {\r\n	position: absolute;\r\n	top: 5px;\r\n	right: 10px;\r\n	width: 64px;\r\n	height: 54px;\r\n}\r\n\r\n.detail-view .d-desc {\r\n	color: #6699ff;\r\n	height: 57px;\r\n	width: 200px;\r\n}\r\n\r\n.detail-view .d-goals {\r\n	padding-left: 10px;\r\n	padding-top: 10px;\r\n	height: 190px;\r\n	color: #2e519c;\r\n}\r\n\r\n.detail-view .d-goal-item {\r\n	margin-bottom: 4px;\r\n}\r\n\r\n.detail-view .d-goal-item::before {\r\n	content: '◆';\r\n	color: #2e519c;\r\n	margin-right: 5px;\r\n}\r\n\r\n/* Reward Area */\r\n.d-reward {\r\n	display: flex;\r\n	flex-direction: row;\r\n	gap: 5px;\r\n	width: 100%;\r\n	height: 80px;\r\n	margin-left: -10px;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n.d-rewards-slot {\r\n	width: 62px;\r\n	height: 62px;\r\n	position: relative;\r\n}\r\n\r\n.d-reward-item {\r\n	position: absolute;\r\n	top: 19px;\r\n	left: 19px;\r\n	width: 24px;\r\n	height: 24px;\r\n	background-repeat: no-repeat;\r\n	pointer-events: none;\r\n}\r\n\r\n.detail-view .d-claim-btn {\r\n	position: absolute;\r\n	bottom: 10px;\r\n	left: 90px;\r\n	width: 148px;\r\n	height: 20px;\r\n	text-align: center;\r\n}\r\n\r\n/* Scrollbar area */\r\n.scrollbar {\r\n	position: absolute;\r\n	top: 0;\r\n	right: 2px;\r\n	width: 15px;\r\n	height: 320px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Achievement/Achievement.js
@@ -514149,7 +521111,7 @@ var init_Achievement$1 = __esmMin((() => {
 					minorCategories: []
 				}
 			];
-			this.currentFilter = "complete";
+			this.currentFilter = "all";
 			this.currentMajor = 0;
 			this.currentMinor = -1;
 			this.selectedAchId = null;
@@ -514254,11 +521216,6 @@ var init_Achievement$1 = __esmMin((() => {
 			MAJOR_CATEGORIES.forEach((major) => {
 				const mDiv = document.createElement("div");
 				mDiv.className = "major-tab" + (this.currentMajor === major.id ? " active" : "");
-				mDiv.setAttribute("data-background", "achievement_re/tab_out.bmp");
-				mDiv.setAttribute("data-hover", "achievement_re/tab_over.bmp");
-				mDiv.setAttribute("data-down", "achievement_re/tab_press.bmp");
-				mDiv.setAttribute("data-active", "achievement_re/tab_press.bmp");
-				GUIComponent.processDataAttrs(mDiv);
 				const tNode = document.createTextNode(major.name);
 				mDiv.appendChild(tNode);
 				mDiv.addEventListener("click", () => {
@@ -514275,11 +521232,6 @@ var init_Achievement$1 = __esmMin((() => {
 					major.minorCategories.forEach((minor) => {
 						const minDiv = document.createElement("div");
 						minDiv.className = "minor-tab" + (this.currentMinor === minor.id ? " active" : "");
-						minDiv.setAttribute("data-background", "achievement_re/tab_sub_out.bmp");
-						minDiv.setAttribute("data-hover", "achievement_re/tab_sub_over.bmp");
-						minDiv.setAttribute("data-down", "achievement_re/tab_sub_press.bmp");
-						minDiv.setAttribute("data-active", "achievement_re/tab_sub_press.bmp");
-						GUIComponent.processDataAttrs(minDiv);
 						minDiv.textContent = minor.name;
 						minDiv.addEventListener("click", () => {
 							this.currentMinor = minor.id;
@@ -514435,6 +521387,8 @@ var init_Achievement$1 = __esmMin((() => {
 				if (this.currentMinor !== -1 && info.minor !== this.currentMinor) return;
 				const s = sessAch[achId];
 				const isCompleted = s ? s.completed : false;
+				if (this.currentFilter === "complete" && !isCompleted) return;
+				if (this.currentFilter === "incomplete" && isCompleted) return;
 				list.push({
 					achId,
 					info,
@@ -514442,9 +521396,7 @@ var init_Achievement$1 = __esmMin((() => {
 					isCompleted
 				});
 			});
-			if (this.currentFilter === "complete") list.sort((a, b) => b.isCompleted === a.isCompleted ? a.achId - b.achId : b.isCompleted ? 1 : -1);
-			else if (this.currentFilter === "incomplete") list.sort((a, b) => b.isCompleted === a.isCompleted ? a.achId - b.achId : a.isCompleted ? 1 : -1);
-			else list.sort((a, b) => a.achId - b.achId);
+			list.sort((a, b) => a.achId - b.achId);
 			list.forEach((itemData) => {
 				const { achId, info, s, isCompleted } = itemData;
 				if (this.selectedAchId === null) this.selectedAchId = parseInt(achId, 10);
@@ -515095,7 +522047,7 @@ var init_GameTools$2 = __esmMin((() => {
 //#region src/UI/Components/GameTools/GameTools.css?raw
 var GameTools_default$1;
 var init_GameTools$1 = __esmMin((() => {
-	GameTools_default$1 = ".game-tools-window {\r\n	position: relative;\r\n	isolation: isolate;\r\n	width: min(820px, calc(100vw - 24px));\r\n	height: min(620px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 2px;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 26px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n\r\n.management-tab {\r\n	height: 100%;\r\n	min-height: 0;\r\n	background: #f7f8f9;\r\n}\r\n.character-layout {\r\n	height: 100%;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.character-job-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	border-right: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.character-job-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-toolbar input {\r\n	width: 100%;\r\n	height: 27px;\r\n	min-width: 0;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-summary {\r\n	flex: 0 0 25px;\r\n	padding: 0 8px;\r\n	line-height: 25px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.character-job-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.character-job-row {\r\n	width: 100%;\r\n	height: 50px;\r\n	min-height: 50px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: #fff;\r\n	color: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.character-job-row.selected {\r\n	background: #dceaff;\r\n}\r\n.character-job-emblem {\r\n	width: 38px;\r\n	height: 38px;\r\n	flex: 0 0 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c3cbd2;\r\n	background: #e3e9ee;\r\n	color: #526273;\r\n	font-size: 16px;\r\n	font-weight: bold;\r\n}\r\n.character-job-empty {\r\n	padding: 18px 8px;\r\n	color: #777;\r\n	text-align: center;\r\n}\r\n.character-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	background: #f7f8f9;\r\n}\r\n.character-detail .character-summary {\r\n	flex: 0 0 auto;\r\n	padding: 12px;\r\n	background: #fff;\r\n}\r\n.character-detail-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 0 14px;\r\n	overflow-y: auto;\r\n}\r\n.character-detail-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.selected-job {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 8px 10px;\r\n	border: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.selected-job div {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.selected-job small {\r\n	color: #6c7177;\r\n}\r\n.selected-job button,\r\n.character-actions button {\r\n	height: 28px;\r\n	min-width: 88px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.selected-job button:disabled,\r\n.character-actions button:disabled {\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n.character-actions {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 7px;\r\n	padding: 9px 12px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #fff;\r\n}\r\n.character-actions .management-status {\r\n	width: 100%;\r\n	min-height: 14px;\r\n	padding: 0;\r\n}\r\n.management-loading,\r\n.management-error {\r\n	height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #666;\r\n}\r\n.management-error,\r\n.management-status.error {\r\n	color: #a61d24;\r\n}\r\n.management-scroll {\r\n	height: 100%;\r\n	padding: 12px;\r\n	overflow-y: auto;\r\n	box-sizing: border-box;\r\n}\r\n.character-summary {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 20px;\r\n	padding: 0 0 10px;\r\n	border-bottom: 1px solid #d6d8db;\r\n}\r\n.character-summary h3,\r\n.character-summary p {\r\n	margin: 0;\r\n}\r\n.character-summary p,\r\n.character-summary span {\r\n	color: #666;\r\n}\r\n.character-summary > div:last-child {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: end;\r\n	gap: 3px;\r\n}\r\n.management-grid {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);\r\n	gap: 18px;\r\n}\r\n.management-tab section {\r\n	padding: 10px 0;\r\n}\r\n.management-tab section h4 {\r\n	margin: 0 0 8px;\r\n	font-size: 13px;\r\n}\r\n.management-tab section h4 small {\r\n	margin-left: 6px;\r\n	color: #777;\r\n	font-weight: normal;\r\n}\r\n.management-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 8px;\r\n}\r\n.management-form label {\r\n	display: grid;\r\n	grid-template-columns: 48px 92px;\r\n	align-items: center;\r\n	justify-content: start;\r\n	gap: 6px;\r\n	white-space: nowrap;\r\n}\r\n.management-form label > span {\r\n	text-align: right;\r\n}\r\n.settings-grid label,\r\n.settings-footer label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.management-form input,\r\n.settings-form input {\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: #fff;\r\n	box-sizing: border-box;\r\n}\r\n.management-form input {\r\n	width: 92px;\r\n	padding: 2px 5px;\r\n}\r\n.management-form button,\r\n.maintenance-actions button,\r\n.settings-footer button {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.management-form button {\r\n	grid-column: 1 / -1;\r\n}\r\n.maintenance-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.maintenance-actions h4 {\r\n	margin: 0 5px 0 0 !important;\r\n}\r\n.maintenance-actions span {\r\n	color: #666;\r\n}\r\n.management-status {\r\n	min-height: 18px;\r\n	padding-top: 5px;\r\n	color: #287233;\r\n}\r\n.settings-form {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.settings-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 4px 14px;\r\n	overflow-y: auto;\r\n}\r\n.settings-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.settings-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 7px 22px;\r\n}\r\n.settings-rate-columns {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 22px;\r\n}\r\n.settings-rate-list {\r\n	display: grid;\r\n	gap: 7px;\r\n}\r\n.settings-rate-list label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.setting-number {\r\n	width: 132px;\r\n	min-width: 132px;\r\n	flex: 0 0 132px;\r\n}\r\n.settings-grid .game-select {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	margin-right: 26px;\r\n	flex: 0 0 106px;\r\n}\r\n.setting-number {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.setting-number input {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	flex: 0 0 106px;\r\n	padding: 2px 5px;\r\n}\r\n.setting-number em {\r\n	width: 26px;\r\n	flex: 0 0 26px;\r\n	font-style: normal;\r\n	text-align: right;\r\n}\r\n.settings-footer {\r\n	flex: 0 0 48px;\r\n	display: grid;\r\n	grid-template-columns: 1fr auto;\r\n	align-items: center;\r\n	gap: 12px;\r\n	padding: 8px 14px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #eceef0;\r\n	box-sizing: border-box;\r\n}\r\n.settings-footer .management-status {\r\n	padding: 0;\r\n	text-align: right;\r\n}\r\n.settings-footer button {\r\n	padding: 0 14px;\r\n}\r\n\r\n@media (max-width: 680px) {\r\n	.management-grid,\r\n	.settings-grid,\r\n	.settings-rate-columns {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.stat-form {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n	.settings-footer {\r\n		grid-template-columns: 1fr auto;\r\n	}\r\n	.settings-footer .management-status {\r\n		display: none;\r\n	}\r\n}\r\n@media (max-width: 640px) {\r\n	.character-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-resources {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 10px;\r\n	overflow: hidden;\r\n}\r\n.monster-drops,\r\n.monster-locations {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	border: 1px solid #ddd;\r\n	padding: 0 7px 7px;\r\n	box-sizing: border-box;\r\n}\r\n.monster-drops > h4,\r\n.monster-locations > h4 {\r\n	position: sticky;\r\n	top: 0;\r\n	z-index: 1;\r\n	margin: 0 -7px 5px;\r\n	padding: 6px 7px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #ddd;\r\n}\r\n.drop-group h4 {\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 4px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	min-width: 64px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	min-width: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	color: #64696e;\r\n}\r\n.management-form .game-select {\r\n	width: 112px;\r\n}\r\n\r\n.game-tools-tab,\r\n.world-catalog-tab {\r\n	position: relative;\r\n}\r\n.game-tools-confirm {\r\n	position: absolute;\r\n	inset: 0;\r\n	z-index: 100;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 20px;\r\n	background: rgb(0 0 0 / 55%);\r\n}\r\n.game-tools-confirm-card {\r\n	width: min(360px, 100%);\r\n	padding: 18px;\r\n	background: #fff;\r\n	border: 1px solid #8b929a;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n}\r\n.game-tools-confirm-card p {\r\n	margin: 0 0 16px;\r\n	line-height: 1.5;\r\n}\r\n.game-tools-confirm-card > div {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.game-tools-confirm-card button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.world-catalog-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.catalog-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-search {\r\n	flex: 1;\r\n	height: 27px;\r\n	min-width: 120px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.catalog-filter {\r\n	width: 124px;\r\n}\r\n.zeny-grant-open {\r\n	height: 27px;\r\n	padding: 0 10px;\r\n	white-space: nowrap;\r\n}\r\n.game-tools-number-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.game-tools-number-prompt input {\r\n	width: 180px;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.catalog-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.catalog-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.catalog-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.catalog-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.catalog-row.selected {\r\n	background: #dceaff;\r\n}\r\n.catalog-thumb,\r\n.catalog-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n}\r\n.catalog-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.catalog-row-text strong,\r\n.catalog-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.catalog-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.catalog-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.catalog-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.catalog-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-heading {\r\n	display: flex;\r\n	gap: 14px;\r\n	align-items: center;\r\n	padding-bottom: 12px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.catalog-portrait {\r\n	width: 112px;\r\n	height: 112px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.catalog-heading h3,\r\n.map-heading h3 {\r\n	margin: 0 0 6px;\r\n	font-size: 18px;\r\n}\r\n.catalog-heading p,\r\n.map-heading p {\r\n	margin: 0;\r\n	color: #70757a;\r\n}\r\n.catalog-metadata {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 12px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.catalog-metadata div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 8px;\r\n	background: #fafafa;\r\n}\r\n.catalog-metadata span {\r\n	color: #686d72;\r\n}\r\n.catalog-action-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: auto -12px -12px;\r\n	padding: 10px 12px;\r\n	border-top: 1px solid #ddd;\r\n	background: white;\r\n}\r\n.catalog-action-panel button {\r\n	height: 29px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.catalog-action-panel button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.catalog-status {\r\n	min-width: 0;\r\n	color: #64696e;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-status.error {\r\n	color: #a61d24;\r\n}\r\n.map-thumb {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 56px;\r\n	height: 42px;\r\n	background: #e3e9ee;\r\n	border: 1px solid #c3cbd2;\r\n	color: #59636d;\r\n	overflow: hidden;\r\n}\r\n.monster-location-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 2px;\r\n}\r\n.monster-location {\r\n	width: 100%;\r\n	padding: 5px 6px;\r\n	border: 1px solid transparent;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n.monster-location:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-location.selected {\r\n	border-color: #9ab4d2;\r\n	background: #dceaff;\r\n}\r\n.monster-location strong,\r\n.monster-location small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-location small {\r\n	margin-top: 2px;\r\n	color: #6c7177;\r\n}\r\n.monster-map-teleport {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.monster-map-teleport:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.map-thumb img,\r\n.map-thumb canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: cover;\r\n}\r\n.map-thumb span {\r\n	margin: auto;\r\n	font-size: 10px;\r\n	color: #7b838b;\r\n}\r\n.map-row {\r\n	min-height: 50px;\r\n}\r\n.map-heading {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding-bottom: 9px;\r\n}\r\n.map-heading > strong {\r\n	color: #5f666d;\r\n}\r\n.map-current-position {\r\n	display: block;\r\n	margin-top: 4px;\r\n	color: #4f6479;\r\n}\r\n.catalog-map-picker {\r\n	flex: 1;\r\n	min-height: 0;\r\n	width: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	background: #17191c;\r\n	cursor: crosshair;\r\n}\r\n.catalog-map {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	max-height: 100%;\r\n	object-fit: contain;\r\n	background: #17191c;\r\n}\r\n.npc-location-preview {\r\n	flex: 1;\r\n	min-height: 130px;\r\n	margin-top: 10px;\r\n	background: #17191c;\r\n	overflow: hidden;\r\n}\r\n.npc-map-canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: contain;\r\n}\r\n@media (max-width: 640px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.catalog-layout,\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.catalog-metadata {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.catalog-action-panel {\r\n		flex-wrap: wrap;\r\n	}\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n";
+	GameTools_default$1 = ".game-tools-window {\r\n	position: relative;\r\n	isolation: isolate;\r\n	width: min(820px, calc(100vw - 24px));\r\n	height: min(620px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 2px;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 26px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n\r\n.management-tab {\r\n	height: 100%;\r\n	min-height: 0;\r\n	background: #f7f8f9;\r\n}\r\n.character-layout {\r\n	height: 100%;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.character-job-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	border-right: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.character-job-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-toolbar input {\r\n	width: 100%;\r\n	height: 27px;\r\n	min-width: 0;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-summary {\r\n	flex: 0 0 25px;\r\n	padding: 0 8px;\r\n	line-height: 25px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.character-job-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.character-job-row {\r\n	width: 100%;\r\n	height: 50px;\r\n	min-height: 50px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: #fff;\r\n	color: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.character-job-row.selected {\r\n	background: #dceaff;\r\n}\r\n.character-job-emblem {\r\n	width: 38px;\r\n	height: 38px;\r\n	flex: 0 0 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c3cbd2;\r\n	background: #e3e9ee;\r\n	color: #526273;\r\n	font-size: 16px;\r\n	font-weight: bold;\r\n}\r\n.character-job-empty {\r\n	padding: 18px 8px;\r\n	color: #777;\r\n	text-align: center;\r\n}\r\n.character-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	background: #f7f8f9;\r\n}\r\n.character-detail .character-summary {\r\n	flex: 0 0 auto;\r\n	padding: 12px;\r\n	background: #fff;\r\n}\r\n.character-detail-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 0 14px;\r\n	overflow-y: auto;\r\n}\r\n.character-detail-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.selected-job {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 8px 10px;\r\n	border: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.selected-job div {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.selected-job small {\r\n	color: #6c7177;\r\n}\r\n.selected-job button,\r\n.character-actions button {\r\n	height: 28px;\r\n	min-width: 88px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.selected-job button:disabled,\r\n.character-actions button:disabled {\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n.character-actions {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 7px;\r\n	padding: 9px 12px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #fff;\r\n}\r\n.character-actions .management-status {\r\n	width: 100%;\r\n	min-height: 14px;\r\n	padding: 0;\r\n}\r\n.management-loading,\r\n.management-error {\r\n	height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #666;\r\n}\r\n.management-error,\r\n.management-status.error {\r\n	color: #a61d24;\r\n}\r\n.management-scroll {\r\n	height: 100%;\r\n	padding: 12px;\r\n	overflow-y: auto;\r\n	box-sizing: border-box;\r\n}\r\n.character-summary {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 20px;\r\n	padding: 0 0 10px;\r\n	border-bottom: 1px solid #d6d8db;\r\n}\r\n.character-summary h3,\r\n.character-summary p {\r\n	margin: 0;\r\n}\r\n.character-summary p,\r\n.character-summary span {\r\n	color: #666;\r\n}\r\n.character-summary > div:last-child {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: end;\r\n	gap: 3px;\r\n}\r\n.management-grid {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);\r\n	gap: 18px;\r\n}\r\n.management-tab section {\r\n	padding: 10px 0;\r\n}\r\n.management-tab section h4 {\r\n	margin: 0 0 8px;\r\n	font-size: 13px;\r\n}\r\n.management-tab section h4 small {\r\n	margin-left: 6px;\r\n	color: #777;\r\n	font-weight: normal;\r\n}\r\n.management-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 8px;\r\n}\r\n.management-form label {\r\n	display: grid;\r\n	grid-template-columns: 48px 92px;\r\n	align-items: center;\r\n	justify-content: start;\r\n	gap: 6px;\r\n	white-space: nowrap;\r\n}\r\n.management-form label > span {\r\n	text-align: right;\r\n}\r\n.settings-grid label,\r\n.settings-footer label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.management-form input,\r\n.settings-form input {\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: #fff;\r\n	box-sizing: border-box;\r\n}\r\n.management-form input {\r\n	width: 92px;\r\n	padding: 2px 5px;\r\n}\r\n.management-form button,\r\n.maintenance-actions button,\r\n.settings-footer button {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.management-form button {\r\n	grid-column: 1 / -1;\r\n}\r\n.maintenance-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.maintenance-actions h4 {\r\n	margin: 0 5px 0 0 !important;\r\n}\r\n.maintenance-actions span {\r\n	color: #666;\r\n}\r\n.management-status {\r\n	min-height: 18px;\r\n	padding-top: 5px;\r\n	color: #287233;\r\n}\r\n.settings-form {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.settings-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 4px 14px;\r\n	overflow-y: auto;\r\n}\r\n.settings-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.settings-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 7px 22px;\r\n}\r\n.settings-rate-columns {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 22px;\r\n}\r\n.settings-rate-list {\r\n	display: grid;\r\n	gap: 7px;\r\n}\r\n.settings-rate-list label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.setting-number {\r\n	width: 132px;\r\n	min-width: 132px;\r\n	flex: 0 0 132px;\r\n}\r\n.settings-grid .game-select {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	margin-right: 26px;\r\n	flex: 0 0 106px;\r\n}\r\n.setting-number {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.setting-number input {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	flex: 0 0 106px;\r\n	padding: 2px 5px;\r\n}\r\n.setting-number em {\r\n	width: 26px;\r\n	flex: 0 0 26px;\r\n	font-style: normal;\r\n	text-align: right;\r\n}\r\n.settings-footer {\r\n	flex: 0 0 48px;\r\n	display: grid;\r\n	grid-template-columns: 1fr auto;\r\n	align-items: center;\r\n	gap: 12px;\r\n	padding: 8px 14px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #eceef0;\r\n	box-sizing: border-box;\r\n}\r\n.settings-footer .management-status {\r\n	padding: 0;\r\n	text-align: right;\r\n}\r\n.settings-footer button {\r\n	padding: 0 14px;\r\n}\r\n\r\n@media (max-width: 680px) {\r\n	.management-grid,\r\n	.settings-grid,\r\n	.settings-rate-columns {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.stat-form {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n	.settings-footer {\r\n		grid-template-columns: 1fr auto;\r\n	}\r\n	.settings-footer .management-status {\r\n		display: none;\r\n	}\r\n}\r\n@media (max-width: 640px) {\r\n	.character-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-resources {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 10px;\r\n	overflow: hidden;\r\n}\r\n.monster-drops,\r\n.monster-locations {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	border: 1px solid #ddd;\r\n	padding: 0 7px 7px;\r\n	box-sizing: border-box;\r\n}\r\n.monster-drops > h4,\r\n.monster-locations > h4 {\r\n	position: sticky;\r\n	top: 0;\r\n	z-index: 1;\r\n	margin: 0 -7px 5px;\r\n	padding: 6px 7px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #ddd;\r\n}\r\n.drop-group h4 {\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 4px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	min-width: 64px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	min-width: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	color: #64696e;\r\n}\r\n.management-form .game-select {\r\n	width: 112px;\r\n}\r\n\r\n.game-tools-tab,\r\n.world-catalog-tab {\r\n	position: relative;\r\n}\r\n.game-tools-confirm {\r\n	position: absolute;\r\n	inset: 0;\r\n	z-index: 100;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 20px;\r\n	background: rgb(0 0 0 / 55%);\r\n}\r\n.game-tools-confirm-card {\r\n	width: min(360px, 100%);\r\n	padding: 18px;\r\n	background: #fff;\r\n	border: 1px solid #8b929a;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n}\r\n.game-tools-confirm-card p {\r\n	margin: 0 0 16px;\r\n	line-height: 1.5;\r\n}\r\n.game-tools-confirm-card > div {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.game-tools-confirm-card button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.world-catalog-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.catalog-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-search {\r\n	flex: 1;\r\n	height: 27px;\r\n	min-width: 120px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.catalog-filter {\r\n	width: 124px;\r\n}\r\n.catalog-scope {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	white-space: nowrap;\r\n}\r\n.catalog-scope-option {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n.catalog-scope-option input {\r\n	margin: 0;\r\n}\r\n.zeny-grant-open {\r\n	height: 27px;\r\n	padding: 0 10px;\r\n	white-space: nowrap;\r\n}\r\n.game-tools-number-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.game-tools-number-prompt input {\r\n	width: 180px;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.catalog-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.catalog-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.catalog-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.catalog-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.catalog-row.selected {\r\n	background: #dceaff;\r\n}\r\n.catalog-thumb,\r\n.catalog-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n}\r\n.catalog-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.catalog-row-text strong,\r\n.catalog-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.catalog-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.catalog-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.catalog-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.catalog-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-heading {\r\n	display: flex;\r\n	gap: 14px;\r\n	align-items: center;\r\n	padding-bottom: 12px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.catalog-portrait {\r\n	width: 112px;\r\n	height: 112px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.catalog-heading h3,\r\n.map-heading h3 {\r\n	margin: 0 0 6px;\r\n	font-size: 18px;\r\n}\r\n.catalog-heading p,\r\n.map-heading p {\r\n	margin: 0;\r\n	color: #70757a;\r\n}\r\n.catalog-metadata {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 12px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	max-width: 100%;\r\n}\r\n.catalog-metadata div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 8px;\r\n	background: #fafafa;\r\n}\r\n.catalog-metadata span {\r\n	color: #686d72;\r\n}\r\n.catalog-action-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: auto -12px -12px;\r\n	padding: 10px 12px;\r\n	border-top: 1px solid #ddd;\r\n	background: white;\r\n}\r\n.catalog-action-panel button {\r\n	height: 29px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.catalog-action-panel button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.catalog-status {\r\n	min-width: 0;\r\n	color: #64696e;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-status.error {\r\n	color: #a61d24;\r\n}\r\n.map-thumb {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 56px;\r\n	height: 42px;\r\n	background: #e3e9ee;\r\n	border: 1px solid #c3cbd2;\r\n	color: #59636d;\r\n	overflow: hidden;\r\n}\r\n.monster-location-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 2px;\r\n}\r\n.monster-location {\r\n	width: 100%;\r\n	padding: 5px 6px;\r\n	border: 1px solid transparent;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n.monster-location:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-location.selected {\r\n	border-color: #9ab4d2;\r\n	background: #dceaff;\r\n}\r\n.monster-location strong,\r\n.monster-location small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-location small {\r\n	margin-top: 2px;\r\n	color: #6c7177;\r\n}\r\n.monster-map-teleport {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.monster-map-teleport:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.map-thumb img,\r\n.map-thumb canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: cover;\r\n}\r\n.map-thumb span {\r\n	margin: auto;\r\n	font-size: 10px;\r\n	color: #7b838b;\r\n}\r\n.map-row {\r\n	min-height: 50px;\r\n}\r\n.map-heading {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding-bottom: 9px;\r\n}\r\n.map-heading > strong {\r\n	color: #5f666d;\r\n}\r\n.map-current-position {\r\n	display: block;\r\n	margin-top: 4px;\r\n	color: #4f6479;\r\n}\r\n.map-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 168px;\r\n	gap: 8px;\r\n}\r\n.catalog-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n	cursor: crosshair;\r\n}\r\n.catalog-map {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: #17191c;\r\n}\r\n.map-npc-list {\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border: 1px solid #d8dade;\r\n	background: #fff;\r\n}\r\n.map-npc-scroll {\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: auto;\r\n}\r\n.map-npc-list h4 {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n	font-size: 12px;\r\n}\r\n.map-npc-list ul {\r\n	margin: 0;\r\n	padding: 0;\r\n	list-style: none;\r\n}\r\n.map-npc-row {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 8px;\r\n	border-bottom: 1px solid #f0f1f2;\r\n	cursor: pointer;\r\n}\r\n.map-npc-row.selected {\r\n	background: #e8f0fa;\r\n}\r\n.map-npc-text {\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.map-npc-text strong,\r\n.map-npc-text small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.map-npc-text small {\r\n	color: #686d72;\r\n}\r\n.map-npc-empty {\r\n	margin: 0;\r\n	padding: 10px 8px;\r\n	color: #686d72;\r\n}\r\n.npc-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 188px;\r\n	gap: 8px;\r\n}\r\n.npc-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n}\r\n.npc-detail-info {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.npc-detail-info .catalog-metadata {\r\n	grid-template-columns: 1fr;\r\n	margin-top: 0;\r\n	border-top: 0;\r\n}\r\n.npc-map-canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n@media (max-width: 640px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.catalog-layout,\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.catalog-metadata {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.catalog-action-panel {\r\n		flex-wrap: wrap;\r\n	}\r\n	.map-detail-body,\r\n	.npc-detail-body {\r\n		grid-template-columns: 1fr;\r\n		grid-template-rows: minmax(0, 1fr) 120px;\r\n	}\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GameTools/ItemCatalogTab.css?raw
@@ -515179,8 +522131,8 @@ function maintainCurrentCharacter(type, payload) {
 		})
 	});
 }
-function loadAdventureGameRules() {
-	return request("/game-rules");
+function loadAdventureGameSettings() {
+	return request("/game-settings");
 }
 function searchAdventureItems({ query = "", type = "", subtype = "", page = 1, perPage = 30 } = {}) {
 	const params = new URLSearchParams({
@@ -515212,8 +522164,8 @@ function grantAdventureItem(itemId, amount) {
 		})
 	});
 }
-function applyAdventureGameRules(changes) {
-	return request("/game-rules", {
+function applyAdventureGameSettings(changes) {
+	return request("/game-settings", {
 		method: "PUT",
 		body: JSON.stringify({ changes })
 	});
@@ -515243,17 +522195,27 @@ function paginateCatalog(items, page, pageSize) {
 function escapeCatalogHtml(value) {
 	return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
 }
+function renderCatalogScopeFilter({ name, ariaLabel, value = "current" } = {}) {
+	const checked = value === "all" ? "" : " checked";
+	return `<label class="catalog-scope-option"><input class="catalog-scope-filter" type="checkbox" name="${escapeCatalogHtml(name)}" value="current"${checked}><span>${escapeCatalogHtml(ariaLabel || "当前地图")}</span></label>`;
+}
 var init_CatalogData = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/GameTools/MonsterCatalogData.js
 function normalizeMonsterSearch(value) {
 	return normalizeCatalogSearch(value);
 }
-function filterMonsters(monsters, search, category = "all") {
+function filterMonsters(monsters, search, category = "all", options = {}) {
 	const term = normalizeMonsterSearch(search);
+	const currentMap = String(options.currentMap || "").toLocaleLowerCase();
+	const scope = options.scope || "all";
 	const filtered = monsters.filter((monster) => {
 		if (category === "boss" && !monster.boss) return false;
 		if (category === "normal" && monster.boss) return false;
+		if (scope === "current" && !listMonsterSpawnMaps(monster.spawns, {
+			currentMap,
+			channelsEnabled: Boolean(options.channelsEnabled)
+		}).some((spawn) => spawn.mapName === currentMap)) return false;
 		if (!term) return true;
 		return matchesCatalogSearch([
 			monster.id,
@@ -515300,12 +522262,12 @@ function optionMarkup(option, selectedValue) {
 		<strong>${escapeHtml$2(option.label)}</strong>${option.description ? `<small>${escapeHtml$2(option.description)}</small>` : ""}
 	</button>`;
 }
-function renderGameSelect({ name = "", className = "", ariaLabel, value, options, searchable = false }) {
+function renderGameSelect({ name = "", className = "", ariaLabel, value, options, searchable = false, disabled = false }) {
 	const selectedValue = String(value ?? "");
 	const selected = options.find((option) => String(option.value) === selectedValue) || options[0];
 	return `<div class="game-select ${className}" data-game-select>
 		<input class="game-select-value ${className}" type="hidden"${name ? ` name="${escapeHtml$2(name)}"` : ""} value="${escapeHtml$2(selectedValue)}">
-		<button class="game-select-trigger" type="button" aria-label="${escapeHtml$2(ariaLabel)}" aria-haspopup="listbox" aria-expanded="false"><span>${escapeHtml$2(selected?.label || "")}</span><i></i></button>
+		<button class="game-select-trigger" type="button" aria-label="${escapeHtml$2(ariaLabel)}" aria-haspopup="listbox" aria-expanded="false"${disabled ? " disabled" : ""}><span>${escapeHtml$2(selected?.label || "")}</span><i></i></button>
 		<div class="game-select-menu" role="listbox" hidden>
 			${searchable ? `<input class="game-select-search" type="search" placeholder="搜索${escapeHtml$2(ariaLabel)}" aria-label="搜索${escapeHtml$2(ariaLabel)}">` : ""}
 			<div class="game-select-options">${options.map((option) => optionMarkup(option, selectedValue)).join("")}</div>
@@ -515319,7 +522281,6 @@ function mountGameSelect(root) {
 	const trigger = root.querySelector(".game-select-trigger");
 	const menu = root.querySelector(".game-select-menu");
 	const search = root.querySelector(".game-select-search");
-	const options = [...root.querySelectorAll(".game-select-option")];
 	const empty = root.querySelector(".game-select-empty");
 	function close() {
 		menu.hidden = true;
@@ -515340,6 +522301,21 @@ function mountGameSelect(root) {
 		root.classList.toggle("drop-up", menu.getBoundingClientRect().bottom > windowBottom);
 		search?.focus();
 	}
+	function currentOptions() {
+		return [...root.querySelectorAll(".game-select-option")];
+	}
+	function selectOption(option) {
+		input.value = option.dataset.value;
+		trigger.querySelector("span").textContent = option.querySelector("strong").textContent;
+		for (const candidate of currentOptions()) {
+			const selected = candidate === option;
+			candidate.classList.toggle("selected", selected);
+			candidate.setAttribute("aria-selected", String(selected));
+		}
+		close();
+		trigger.focus();
+		input.dispatchEvent(new Event("change", { bubbles: true }));
+	}
 	trigger.addEventListener("click", () => menu.hidden ? open() : close());
 	root.addEventListener("focusout", () => {
 		setTimeout(() => {
@@ -515352,22 +522328,15 @@ function mountGameSelect(root) {
 			trigger.focus();
 		}
 	});
-	for (const option of options) option.addEventListener("click", () => {
-		input.value = option.dataset.value;
-		trigger.querySelector("span").textContent = option.querySelector("strong").textContent;
-		for (const candidate of options) {
-			const selected = candidate === option;
-			candidate.classList.toggle("selected", selected);
-			candidate.setAttribute("aria-selected", String(selected));
-		}
-		close();
-		trigger.focus();
-		input.dispatchEvent(new Event("change", { bubbles: true }));
+	root.querySelector(".game-select-options").addEventListener("click", (event) => {
+		const option = event.target.closest(".game-select-option");
+		if (!option || !root.contains(option)) return;
+		selectOption(option);
 	});
 	search?.addEventListener("input", () => {
 		const term = search.value.trim().toLocaleLowerCase();
 		let visible = 0;
-		for (const option of options) {
+		for (const option of currentOptions()) {
 			option.hidden = term !== "" && !option.dataset.search.includes(term);
 			if (!option.hidden) visible += 1;
 		}
@@ -515377,6 +522346,21 @@ function mountGameSelect(root) {
 		input,
 		close
 	};
+}
+function setGameSelectOptions(root, { options, value = "", disabled = false, ariaLabel } = {}) {
+	if (!root) return;
+	const input = root.querySelector(".game-select-value");
+	const trigger = root.querySelector(".game-select-trigger");
+	const selectedValue = String(value ?? "");
+	const selected = options.find((option) => String(option.value) === selectedValue) || options[0];
+	input.value = selectedValue;
+	trigger.disabled = Boolean(disabled);
+	trigger.querySelector("span").textContent = selected?.label || "";
+	if (ariaLabel) trigger.setAttribute("aria-label", ariaLabel);
+	root.querySelector(".game-select-options").innerHTML = options.map((option) => optionMarkup(option, selectedValue)).join("");
+	root.querySelector(".game-select-menu").hidden = true;
+	root.classList.remove("open", "drop-up");
+	trigger.setAttribute("aria-expanded", "false");
 }
 function mountGameSelects(container) {
 	return [...container.querySelectorAll("[data-game-select]")].map(mountGameSelect);
@@ -515451,6 +522435,11 @@ function mount$5(container) {
 	container.innerHTML = `
 		<div class="monster-toolbar">
 			<input class="monster-search" type="search" placeholder="搜索名称、英文名或 ID" aria-label="搜索魔物">
+			${renderCatalogScopeFilter({
+		name: "monster-scope",
+		ariaLabel: "当前地图",
+		value: "current"
+	})}
 			${renderGameSelect({
 		className: "monster-filter",
 		ariaLabel: "魔物类型",
@@ -515485,14 +522474,32 @@ function mount$5(container) {
 		</div>`;
 	const search = container.querySelector(".monster-search");
 	const filter = container.querySelector(".monster-filter.game-select-value");
+	const scopeFilter = container.querySelector(".catalog-scope-filter");
 	const list = container.querySelector(".monster-list");
 	const summary = container.querySelector(".monster-summary");
 	const pageLabel = container.querySelector(".page-label");
 	mountGameSelects(container);
+	function getScope() {
+		return scopeFilter?.checked ? "current" : "all";
+	}
 	function applyFilter() {
-		state.filtered = filterMonsters(state.monsters, search.value, filter.value);
+		state.filtered = filterMonsters(state.monsters, search.value, filter.value, {
+			scope: getScope(),
+			currentMap: getCurrentAdventureMap(),
+			channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled
+		});
 		state.page = 1;
+		if (state.selected && !state.filtered.some((monster) => monster.id === state.selected.id)) state.selected = null;
+		if (!state.selected) {
+			state.selected = state.filtered[0] || null;
+			state.selectedSpawn = listMonsterSpawnMaps(state.selected?.spawns, {
+				channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled,
+				currentMap: getCurrentAdventureMap()
+			})[0] || null;
+			state.status = "";
+		}
 		renderList();
+		renderDetail();
 	}
 	function renderList() {
 		if (!state.catalog) return;
@@ -515608,6 +522615,7 @@ function mount$5(container) {
 	}
 	search.addEventListener("input", applyFilter);
 	filter.addEventListener("change", applyFilter);
+	scopeFilter?.addEventListener("change", applyFilter);
 	container.querySelector(".page-prev").addEventListener("click", () => {
 		state.page -= 1;
 		renderList();
@@ -515620,8 +522628,14 @@ function mount$5(container) {
 		state.catalog = catalog;
 		state.navigationMaps = navigationMaps;
 		state.monsters = catalog.monsters;
-		state.filtered = catalog.monsters;
-		renderList();
+		const currentMap = getCurrentAdventureMap();
+		const currentMonsters = filterMonsters(catalog.monsters, "", "all", {
+			scope: "current",
+			currentMap,
+			channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled
+		});
+		if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false;
+		applyFilter();
 	}).catch((error) => {
 		console.error(error);
 		summary.textContent = "魔物资料加载失败";
@@ -515650,6 +522664,7 @@ var init_MonsterCatalogTab = __esmMin((() => {
 	init_AdventureActionService();
 	init_MonsterCatalogData();
 	init_escapeHtml();
+	init_CatalogData();
 	init_GameSelect();
 	pageSize = 40;
 	raceNames = {
@@ -515728,7 +522743,12 @@ function mountCatalogBrowser(container, options) {
 	const list = container.querySelector(".catalog-list");
 	const detail = container.querySelector(".catalog-detail");
 	const filter = container.querySelector(".catalog-filter.game-select-value");
+	const scopeFilter = container.querySelector(".catalog-scope-filter");
 	mountGameSelects(container);
+	function getScope() {
+		if (scopeFilter) return scopeFilter.checked ? "current" : "all";
+		return filter?.value || "current";
+	}
 	function renderDetail() {
 		if (!state.selected) detail.innerHTML = `<div class="empty-detail">${options.emptyDetail}</div>`;
 		else options.renderDetail(detail, state.selected, api);
@@ -515751,9 +522771,12 @@ function mountCatalogBrowser(container, options) {
 		});
 	}
 	function applyFilter() {
-		state.filtered = options.filter(state.items, search.value, filter?.value || "all");
+		state.filtered = options.filter(state.items, search.value, getScope());
 		state.page = 1;
+		if (state.selected && !state.filtered.some((item) => options.key(item) === options.key(state.selected))) state.selected = null;
+		if (!state.selected && options.selectFirst !== false) state.selected = state.filtered[0] || null;
 		renderList();
+		renderDetail();
 	}
 	const api = {
 		get state() {
@@ -515775,6 +522798,7 @@ function mountCatalogBrowser(container, options) {
 	};
 	search.addEventListener("input", applyFilter);
 	filter?.addEventListener("change", applyFilter);
+	scopeFilter?.addEventListener("change", applyFilter);
 	container.querySelector(".catalog-prev").addEventListener("click", () => {
 		state.page -= 1;
 		renderList();
@@ -515788,50 +522812,6 @@ function mountCatalogBrowser(container, options) {
 var init_CatalogBrowser = __esmMin((() => {
 	init_CatalogData();
 	init_GameSelect();
-}));
-//#endregion
-//#region src/UI/Components/GameTools/NpcAvailabilityService.js
-function normalizeNpc(npc) {
-	return {
-		mapName: String(npc.mapName || "").replace(/\.gat$/i, "").toLocaleLowerCase(),
-		x: Math.max(0, Math.floor(npc.x)),
-		y: Math.max(0, Math.floor(npc.y)),
-		npcClass: Math.floor(npc.npcClass)
-	};
-}
-function requestNpcAvailability(npcs, timeout = 5e3) {
-	const candidates = npcs.slice(0, 50);
-	const requestId = ++nextRequestId;
-	const packet = new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY();
-	packet.requestId = requestId;
-	packet.npcs = candidates.map(normalizeNpc);
-	Network.sendPacket(packet);
-	return new Promise((resolve, reject) => {
-		const timer = setTimeout(() => {
-			pendingRequests.delete(requestId);
-			reject(/* @__PURE__ */ new Error("NPC availability request timed out"));
-		}, timeout);
-		pendingRequests.set(requestId, {
-			count: candidates.length,
-			resolve,
-			timer
-		});
-	});
-}
-function handleNpcAvailabilityResult(packet) {
-	const pending = pendingRequests.get(packet.requestId);
-	if (!pending || packet.available.length !== pending.count) return false;
-	clearTimeout(pending.timer);
-	pendingRequests.delete(packet.requestId);
-	pending.resolve(packet.available);
-	return true;
-}
-var nextRequestId, pendingRequests;
-var init_NpcAvailabilityService = __esmMin((() => {
-	init_NetworkManager();
-	init_PacketStructure();
-	nextRequestId = 2147483648;
-	pendingRequests = /* @__PURE__ */ new Map();
 }));
 //#endregion
 //#region src/UI/Components/GameTools/WorldAssetService.js
@@ -515902,15 +522882,16 @@ async function loadCatalogMap(mapName) {
 	return mapResourcePromises.get(paths.normalized);
 }
 function canvasToMapCoordinate(canvas, event, gat) {
-	const width = gat?.width || canvas.width;
-	const height = gat?.height || canvas.height;
-	const rect = canvas.getBoundingClientRect();
-	const x = Math.floor((event.clientX - rect.left) / rect.width * width);
-	const y = Math.floor(height - (event.clientY - rect.top) / rect.height * height);
-	return {
-		x: Math.max(0, Math.min(width - 1, x)),
-		y: Math.max(0, Math.min(height - 1, y))
+	const grid = gat?.width && gat?.height ? gat : {
+		width: canvas.width,
+		height: canvas.height
 	};
+	const rect = canvas.getBoundingClientRect();
+	const scaleX = (canvas.width || rect.width) / (rect.width || 1);
+	const scaleY = (canvas.height || rect.height) / (rect.height || 1);
+	const canvasX = (event.clientX - rect.left) * scaleX;
+	const canvasY = (event.clientY - rect.top) * scaleY;
+	return canvasPointToMap(canvas._mapFitRect || fittedMapRect(canvas.width, canvas.height, grid.width, grid.height), grid, canvasX, canvasY);
 }
 function findNearestWalkableCoordinate(gat, target, maxRadius = 12) {
 	if (!target) return null;
@@ -515944,27 +522925,59 @@ var init_WorldAssetService = __esmMin((() => {
 	init_DBManager();
 	init_MiniMapTable();
 	init_Altitude();
+	init_MapPreviewLayout();
 	mapImagePromises = /* @__PURE__ */ new Map();
 	mapResourcePromises = /* @__PURE__ */ new Map();
 }));
 //#endregion
 //#region src/UI/Components/GameTools/WorldMapPreview.js
-function mapToCanvas(canvas, coordinateGrid, point) {
-	return {
-		x: point.x / coordinateGrid.width * canvas.width,
-		y: (coordinateGrid.height - point.y) / coordinateGrid.height * canvas.height
-	};
+function loadPlayerArrow() {
+	if (playerArrow?.complete && playerArrow.width) return Promise.resolve(playerArrow);
+	if (playerArrowPromise) return playerArrowPromise;
+	playerArrow = new Image();
+	playerArrow.decoding = "async";
+	playerArrowPromise = new Promise((resolve) => {
+		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, (dataURI) => {
+			if (!dataURI) {
+				playerArrowPromise = null;
+				resolve(null);
+				return;
+			}
+			playerArrow.onload = () => resolve(playerArrow);
+			playerArrow.onerror = () => {
+				playerArrowPromise = null;
+				resolve(null);
+			};
+			playerArrow.src = dataURI;
+		});
+	});
+	return playerArrowPromise;
 }
-function drawMarker(context, canvas, marker, coordinateGrid) {
-	if (!marker || !coordinateGrid?.width || !coordinateGrid?.height) return;
-	const point = mapToCanvas(canvas, coordinateGrid, marker);
+function previewFit(canvas, coordinateGrid, sourceWidth, sourceHeight) {
+	const width = coordinateGrid?.width || sourceWidth || canvas.width;
+	const height = coordinateGrid?.height || sourceHeight || canvas.height;
+	canvas._mapFitRect = fittedMapRect(canvas.width, canvas.height, width, height);
+	return canvas._mapFitRect;
+}
+function mapToCanvas(canvas, coordinateGrid, point) {
+	return mapPointToCanvas(canvas._mapFitRect || fittedMapRect(canvas.width, canvas.height, coordinateGrid.width, coordinateGrid.height), coordinateGrid, point);
+}
+function drawDot(context, point, radius, fill) {
+	if (!point) return;
 	context.beginPath();
-	context.arc(point.x, point.y, 6, 0, Math.PI * 2);
-	context.fillStyle = "#e3362d";
+	context.arc(point.x, point.y, radius, 0, Math.PI * 2);
+	context.fillStyle = fill;
 	context.fill();
 	context.strokeStyle = "#fff";
 	context.lineWidth = 2;
 	context.stroke();
+}
+function drawMarker(context, canvas, marker, coordinateGrid, color = NPC_MARKER_COLOR, radius = 6) {
+	if (!marker || !coordinateGrid?.width || !coordinateGrid?.height) return;
+	drawDot(context, mapToCanvas(canvas, coordinateGrid, marker), radius, color);
+}
+function drawNpcMarker(context, canvas, npc, coordinateGrid) {
+	drawMarker(context, canvas, npc, coordinateGrid, NPC_MARKER_COLOR, 7);
 }
 function drawPath(context, canvas, path, coordinateGrid) {
 	if (!path?.length || !coordinateGrid?.width || !coordinateGrid?.height) return;
@@ -515987,23 +523000,32 @@ function drawPath(context, canvas, path, coordinateGrid) {
 function drawPlayer(context, canvas, player, coordinateGrid) {
 	if (!player || !coordinateGrid?.width || !coordinateGrid?.height) return;
 	const point = mapToCanvas(canvas, coordinateGrid, player);
-	context.beginPath();
-	context.arc(point.x, point.y, 6, 0, Math.PI * 2);
-	context.fillStyle = "#2f80ed";
-	context.fill();
-	context.strokeStyle = "#fff";
-	context.lineWidth = 2;
-	context.stroke();
+	if (!point) return;
+	if (!playerArrow?.complete || !playerArrow.width) return;
+	const direction = Number.isFinite(player.direction) ? player.direction : SessionStorage_default.Entity?.direction ?? 0;
+	context.save();
+	context.translate(point.x, point.y);
+	context.rotate((direction + 4) * 45 * Math.PI / 180);
+	context.drawImage(playerArrow, -playerArrow.width / 2, -playerArrow.height / 2);
+	context.restore();
 }
-function drawWalkableMapPreview(context, canvas, coordinateGrid) {
+function drawWalkableMapPreview(context, canvas, coordinateGrid, fit) {
 	if (!coordinateGrid?.cells || !coordinateGrid.width || !coordinateGrid.height) return false;
+	const mapFit = fit || fittedMapRect(canvas.width, canvas.height, coordinateGrid.width, coordinateGrid.height);
 	const image = context.createImageData(canvas.width, canvas.height);
 	for (let pixelY = 0; pixelY < canvas.height; pixelY += 1) {
-		const mapY = coordinateGrid.height - 1 - Math.floor(pixelY / canvas.height * coordinateGrid.height);
+		const mapY = coordinateGrid.height - 1 - Math.floor((pixelY - mapFit.y) / mapFit.height * coordinateGrid.height);
 		for (let pixelX = 0; pixelX < canvas.width; pixelX += 1) {
-			const mapX = Math.floor(pixelX / canvas.width * coordinateGrid.width);
-			const type = coordinateGrid.cells[(mapY * coordinateGrid.width + mapX) * 5 + 4];
+			const mapX = Math.floor((pixelX - mapFit.x) / mapFit.width * coordinateGrid.width);
 			const offset = (pixelY * canvas.width + pixelX) * 4;
+			if (mapX < 0 || mapY < 0 || mapX >= coordinateGrid.width || mapY >= coordinateGrid.height) {
+				image.data[offset] = 23;
+				image.data[offset + 1] = 25;
+				image.data[offset + 2] = 28;
+				image.data[offset + 3] = 255;
+				continue;
+			}
+			const type = coordinateGrid.cells[(mapY * coordinateGrid.width + mapX) * 5 + 4];
 			if (type & Altitude.TYPE.WATER) {
 				image.data[offset] = 65;
 				image.data[offset + 1] = 125;
@@ -516030,18 +523052,30 @@ function drawWalkableMapPreview(context, canvas, coordinateGrid) {
 function drawWorldMapPreview(canvas, imageSource, marker, coordinateGrid, overlays = {}) {
 	const renderToken = (canvas._worldMapRenderToken || 0) + 1;
 	canvas._worldMapRenderToken = renderToken;
+	syncMapPreviewCanvas(canvas);
 	const context = canvas.getContext("2d");
+	previewFit(canvas, coordinateGrid);
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	context.fillStyle = "#17191c";
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	const drawOverlays = () => {
 		drawPath(context, canvas, overlays.path, coordinateGrid);
-		drawMarker(context, canvas, marker, coordinateGrid);
-		drawPlayer(context, canvas, overlays.player, coordinateGrid);
+		drawNpcMarker(context, canvas, overlays.selectedNpc, coordinateGrid);
+		drawMarker(context, canvas, marker, coordinateGrid, NPC_MARKER_COLOR);
+		if (!overlays.player) return;
+		if (playerArrow?.complete && playerArrow.width) {
+			drawPlayer(context, canvas, overlays.player, coordinateGrid);
+			return;
+		}
+		loadPlayerArrow().then((arrow) => {
+			if (!arrow || canvas._worldMapRenderToken !== renderToken) return;
+			drawPlayer(context, canvas, overlays.player, coordinateGrid);
+		});
 	};
 	const drawFallback = () => {
 		if (canvas._worldMapRenderToken !== renderToken) return;
-		if (drawWalkableMapPreview(context, canvas, coordinateGrid)) {
+		previewFit(canvas, coordinateGrid);
+		if (drawWalkableMapPreview(context, canvas, coordinateGrid, canvas._mapFitRect)) {
 			drawOverlays();
 			return;
 		}
@@ -516057,17 +523091,46 @@ function drawWorldMapPreview(canvas, imageSource, marker, coordinateGrid, overla
 	image.decoding = "async";
 	image.onload = () => {
 		if (canvas._worldMapRenderToken !== renderToken) return;
-		context.drawImage(image, 0, 0, canvas.width, canvas.height);
+		previewFit(canvas, coordinateGrid, image.naturalWidth, image.naturalHeight);
+		const mapFit = canvas._mapFitRect;
+		const source = mapImageSourceRect(image.naturalWidth, image.naturalHeight, coordinateGrid);
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		context.fillStyle = "#17191c";
+		context.fillRect(0, 0, canvas.width, canvas.height);
+		context.drawImage(image, source.x, source.y, source.width, source.height, mapFit.x, mapFit.y, mapFit.width, mapFit.height);
 		drawOverlays();
 	};
 	image.onerror = drawFallback;
 	image.src = imageSource;
 }
+var playerArrow, playerArrowPromise, NPC_MARKER_COLOR;
 var init_WorldMapPreview = __esmMin((() => {
+	init_Client();
+	init_DBManager();
+	init_SessionStorage();
 	init_Altitude();
+	init_MapPreviewLayout();
+	playerArrow = null;
+	playerArrowPromise = null;
+	NPC_MARKER_COLOR = "#2f80ed";
 }));
 //#endregion
 //#region src/UI/Components/GameTools/NpcCatalogTab.js
+function loadAdventureNpcCatalog() {
+	const catalogKey = SessionStorage_default.NavigationMapChannelsEnabled ? "channels" : "shared";
+	if (!catalogPromises.has(catalogKey)) catalogPromises.set(catalogKey, Promise.all([loadNpcAssets(), Promise.resolve(DB.listNavigation("NPC", { channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled }))]).then(([assets, npcs]) => {
+		const mapNames = /* @__PURE__ */ new Map();
+		const localizeMap = (mapName) => {
+			if (!mapNames.has(mapName)) mapNames.set(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
+			return mapNames.get(mapName);
+		};
+		return {
+			assets,
+			items: mergeNpcCatalog(npcs, localizeMap)
+		};
+	}));
+	return catalogPromises.get(catalogKey);
+}
 function filterNpcs(npcs, search, scope) {
 	const currentMap = getCurrentAdventureMap();
 	const filtered = npcs.filter((npc) => (scope !== "current" || npc.mapName === currentMap) && matchesCatalogSearch([
@@ -516108,17 +523171,10 @@ function mount$4(container) {
 	const browser = mountCatalogBrowser(container, {
 		placeholder: "搜索 NPC、地图或编号",
 		searchLabel: "搜索 NPC",
-		filterHtml: renderGameSelect({
-			className: "catalog-filter",
-			ariaLabel: "NPC 范围",
-			value: "all",
-			options: [{
-				value: "all",
-				label: "全世界"
-			}, {
-				value: "current",
-				label: "当前地图"
-			}]
+		filterHtml: renderCatalogScopeFilter({
+			name: "npc-scope",
+			ariaLabel: "当前地图",
+			value: "current"
 		}),
 		emptyDetail: "选择一个 NPC 查看详情",
 		pageSize: 32,
@@ -516143,18 +523199,28 @@ function mount$4(container) {
 				});
 			}
 			const style = npcAtlasStyle(manifest, npc.spriteId, 112);
-			const canTeleport = actionState.canTeleport && !actionState.npcPending && available === true;
+			const canTeleport = npcTeleportEnabled(npc, available, {
+				...actionState,
+				...getAdventureActionState(npc)
+			});
 			detail.innerHTML = `<div class="catalog-heading">
 				<span class="catalog-portrait${style ? "" : " no-image"}" style="${style}"></span>
 				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)} · ${npc.npcClass}</p></div>
 			</div>
-			<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? "校验中..." : available ? "可用" : available === false ? "不可用" : "待校验"}</strong></div></div>
-			<div class="npc-location-preview"><canvas class="npc-map-canvas" width="480" height="240" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"></canvas></div>
+			<div class="npc-detail-body">
+				<div class="npc-map-picker" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"><canvas class="catalog-map npc-map-canvas" width="480" height="360"></canvas></div>
+				<section class="npc-detail-info">
+					<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? "校验中..." : available ? "可用" : available === false ? "不可用" : "待校验"}</strong></div></div>
+				</section>
+			</div>
 			<div class="catalog-action-panel">
 				<button class="catalog-teleport" type="button" ${canTeleport ? "" : "disabled"}>${actionState.npcPending ? "正在传送..." : "传送到 NPC 附近"}</button>
 				<span class="catalog-status${actionState.kind === "npc" && actionState.error ? " error" : ""}">${escapeCatalogHtml((actionState.kind === "npc" ? actionState.message : "") || (!SessionStorage_default.NavigationTeleportAllowed ? "当前账号没有传送权限" : ""))}</span>
 			</div>`;
-			drawWorldMapPreview(detail.querySelector(".npc-map-canvas"), loadedNpcMap?.image, npc, loadedNpcMap?.gat);
+			const canvas = detail.querySelector(".npc-map-canvas");
+			const paintNpcMap = () => drawWorldMapPreview(canvas, loadedNpcMap?.image, null, loadedNpcMap?.gat, { selectedNpc: npc });
+			paintNpcMap();
+			requestAnimationFrame(paintNpcMap);
 			detail.querySelector(".catalog-teleport").addEventListener("click", () => teleportToNpc(npc));
 			const token = selectionToken;
 			if (available === null && !checking) {
@@ -516184,19 +523250,7 @@ function mount$4(container) {
 		actionState = state;
 		originalRenderDetail();
 	});
-	const catalogKey = SessionStorage_default.NavigationMapChannelsEnabled ? "channels" : "shared";
-	if (!catalogPromises.has(catalogKey)) catalogPromises.set(catalogKey, Promise.all([loadNpcAssets(), Promise.resolve(DB.listNavigation("NPC", { channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled }))]).then(([assets, npcs]) => {
-		const mapNames = /* @__PURE__ */ new Map();
-		const localizeMap = (mapName) => {
-			if (!mapNames.has(mapName)) mapNames.set(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
-			return mapNames.get(mapName);
-		};
-		return {
-			assets,
-			items: mergeNpcCatalog(npcs, localizeMap)
-		};
-	}));
-	catalogPromises.get(catalogKey).then(({ assets, items }) => {
+	loadAdventureNpcCatalog().then(({ assets, items }) => {
 		manifest = assets;
 		browser.setItems(items);
 	}).catch((error) => {
@@ -516220,8 +523274,7 @@ var init_NpcCatalogTab = __esmMin((() => {
 	init_WorldAssetService();
 	init_WorldMapPreview();
 	init_WorldCatalogService();
-	init_GameSelect();
-	key = (npc) => `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
+	key = npcCatalogKey;
 	catalogPromises = /* @__PURE__ */ new Map();
 	NpcCatalogTab_default = {
 		id: "npcs",
@@ -516240,10 +523293,11 @@ function notify() {
 }
 function getStatus() {
 	const routeMatches = matchesTarget(navigationState.target, target);
+	const path = routeMatches ? remainingPathFromPosition(navigationState.path, getCurrentAdventurePosition()) : [];
 	return {
 		...status,
 		target: target ? { ...target } : null,
-		path: routeMatches ? navigationState.path : [],
+		path,
 		pending: routeMatches && navigationState.pending,
 		unavailable: routeMatches && navigationState.unavailable
 	};
@@ -516309,6 +523363,11 @@ function stopAdventureRoute(message = "") {
 	timer$1 = null;
 	navigationStarted = false;
 	update(false, message);
+	if (message === "已到达目的地") {
+		target = null;
+		Navigation_default.clear();
+		return;
+	}
 	Navigation_default.stopAutoWalk();
 }
 function subscribeAdventureRoute(listener) {
@@ -516319,6 +523378,7 @@ function subscribeAdventureRoute(listener) {
 var timer$1, target, navigationStarted, navigationState, status, listeners;
 var init_AdventureRouteService = __esmMin((() => {
 	init_Navigation();
+	init_NavigationAutoWalk();
 	init_AdventureActionService();
 	timer$1 = null;
 	target = null;
@@ -516333,10 +523393,8 @@ var init_AdventureRouteService = __esmMin((() => {
 		navigationState = nextState;
 		if (!target || !matchesTarget(nextState.target, target)) {
 			if (status.active) {
-				clearInterval(timer$1);
-				timer$1 = null;
-				navigationStarted = false;
-				update(false, "寻路已停止");
+				const position = getCurrentAdventurePosition();
+				stopAdventureRoute(target && getCurrentAdventureMap() === normalizeAdventureMap(target.mapName) && Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1 ? "已到达目的地" : "寻路已停止");
 			} else notify();
 			return;
 		}
@@ -516350,11 +523408,7 @@ var init_AdventureRouteService = __esmMin((() => {
 		}
 		if (status.active && navigationStarted && !nextState.active && !nextState.pending) {
 			const position = getCurrentAdventurePosition();
-			const arrived = Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1;
-			clearInterval(timer$1);
-			timer$1 = null;
-			navigationStarted = false;
-			update(false, arrived ? "已到达目的地" : "寻路已停止");
+			stopAdventureRoute(Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1 ? "已到达目的地" : "寻路已停止");
 			return;
 		}
 		if (!status.active && nextState.path.length) status = {
@@ -516427,6 +523481,12 @@ var init_MapCatalogData = __esmMin((() => {
 function filterMaps(maps, search, scope) {
 	return filterAndSortMaps(maps, search, scope, getCurrentAdventureMap());
 }
+function npcAvailabilityLabel(available) {
+	if (available === true) return "可传送";
+	if (available === false) return "不可用";
+	if (available === "checking") return "校验中...";
+	return "待校验";
+}
 function mount$3(container) {
 	container.classList.add("world-catalog-tab", "map-catalog-tab");
 	let actionState = {};
@@ -516438,6 +523498,12 @@ function mount$3(container) {
 	let thumbnailToken = 0;
 	let thumbnailObserver = null;
 	let redrawPreview = () => {};
+	let previewResizeObserver = null;
+	let catalogNpcs = [];
+	let npcAvailability = {};
+	let npcAvailabilityToken = 0;
+	let selectedNpcKey = "";
+	let pendingSelectionClear = "";
 	const browser = mountCatalogBrowser(container, {
 		placeholder: "搜索地图名称或代码",
 		searchLabel: "搜索地图",
@@ -516454,6 +523520,7 @@ function mount$3(container) {
 			}]
 		}),
 		emptyDetail: "选择一个地图查看详情",
+		selectFirst: false,
 		pageSize: 35,
 		key: (map) => map.id,
 		filter: filterMaps,
@@ -516509,6 +523576,8 @@ function mount$3(container) {
 					random: true
 				};
 				loadedMap = null;
+				selectedNpcKey = "";
+				npcAvailability = {};
 				const token = ++loadToken;
 				loadCatalogMap(map.mapName).then((resource) => {
 					if (token !== loadToken) return;
@@ -516516,6 +523585,30 @@ function mount$3(container) {
 					selectedCoordinate = findDefaultMapCoordinate(resource?.gat) || selectedCoordinate;
 					api.refreshDetail();
 				});
+				const mapNpcsForCheck = filterNpcsOnMap(catalogNpcs, map.mapName);
+				if (mapNpcsForCheck.length) {
+					const availabilityToken = ++npcAvailabilityToken;
+					for (const npc of mapNpcsForCheck) npcAvailability[npcCatalogKey(npc)] = "checking";
+					const batches = [];
+					for (let index = 0; index < mapNpcsForCheck.length; index += 50) batches.push(mapNpcsForCheck.slice(index, index + 50));
+					Promise.all(batches.map((batch) => requestNpcAvailability(batch))).then((results) => {
+						if (availabilityToken !== npcAvailabilityToken) return;
+						const next = {};
+						let offset = 0;
+						for (const result of results) for (const available of result) {
+							next[npcCatalogKey(mapNpcsForCheck[offset])] = available;
+							offset += 1;
+						}
+						npcAvailability = next;
+						api.refreshDetail();
+					}).catch(() => {
+						if (availabilityToken !== npcAvailabilityToken) return;
+						const next = {};
+						for (const npc of mapNpcsForCheck) next[npcCatalogKey(npc)] = false;
+						npcAvailability = next;
+						api.refreshDetail();
+					});
+				}
 			}
 			const target = selectedCoordinate ? {
 				...map,
@@ -516528,39 +523621,78 @@ function mount$3(container) {
 			const routeMatches = Boolean(routeTarget && routeState.target && normalizeAdventureMap(routeState.target.mapName) === normalizeAdventureMap(routeTarget.mapName) && routeState.target.x === routeTarget.x && routeState.target.y === routeTarget.y);
 			const routeActive = routeMatches && routeState.active;
 			const targetActionState = getAdventureActionState(target);
-			const canTeleport = target && targetActionState.canTeleport;
+			const canTeleport = target && !target.random && loadedMap && Number.isFinite(target.x) && Number.isFinite(target.y) && targetActionState.canTeleport;
 			const currentMapName = DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
 			const routeMessage = !sameMap ? "寻路仅支持角色当前所在地图" : routeMatches ? routeState.message : "";
-			detail.innerHTML = `<div class="map-heading"><div><h3>${escapeCatalogHtml(map.name)}</h3><p>${escapeCatalogHtml(map.id)}</p><small class="map-current-position">角色位置：${escapeCatalogHtml(currentMapName)} (${currentPosition.x}, ${currentPosition.y})</small></div><strong>${selectedCoordinate?.random ? "随机位置" : selectedCoordinate ? `${selectedCoordinate.x}, ${selectedCoordinate.y}` : "点击地图选择位置"}</strong></div>
+			const mapNpcs = filterNpcsOnMap(catalogNpcs, map.mapName);
+			const npcListScrollTop = detail.querySelector(".map-npc-scroll")?.scrollTop || 0;
+			const selectedNpc = mapNpcs.find((npc) => npcCatalogKey(npc) === selectedNpcKey);
+			if (selectedNpc) selectedCoordinate = {
+				x: selectedNpc.x,
+				y: selectedNpc.y
+			};
+			const npcActionState = selectedNpc ? {
+				...actionState,
+				...getAdventureActionState(selectedNpc)
+			} : actionState;
+			const canTeleportNpc = selectedNpc ? npcTeleportEnabled(selectedNpc, npcAvailability[npcCatalogKey(selectedNpc)], npcActionState) : false;
+			const canTeleportHere = selectedNpc ? canTeleportNpc : canTeleport;
+			const npcStatus = actionState.kind === "npc" ? actionState.message : "";
+			const mapStatus = (actionState.kind === "coordinate" ? actionState.message : "") || routeMessage || (!SessionStorage_default.NavigationTeleportAllowed ? "当前账号没有传送权限" : "");
+			const selectionLabel = selectedNpc ? `${selectedNpc.name} · ${selectedNpc.x}, ${selectedNpc.y}` : selectedCoordinate?.random ? "随机位置" : selectedCoordinate ? `${selectedCoordinate.x}, ${selectedCoordinate.y}` : "点击地图选择位置";
+			detail.innerHTML = `<div class="map-heading"><div><h3>${escapeCatalogHtml(map.name)}</h3><p>${escapeCatalogHtml(map.id)}</p><small class="map-current-position">角色位置：${escapeCatalogHtml(currentMapName)} (${currentPosition.x}, ${currentPosition.y})</small></div><strong>${escapeCatalogHtml(selectionLabel)}</strong></div>
+					<div class="map-detail-body">
 					<button class="catalog-map-picker" type="button" aria-label="在${escapeCatalogHtml(map.name)}选择坐标"><canvas class="catalog-map" width="480" height="360"></canvas></button>
+					<section class="map-npc-list" aria-label="${escapeCatalogHtml(map.name)}的 NPC">
+						<h4>NPC${mapNpcs.length ? `（${mapNpcs.length}）` : ""}</h4>
+						${mapNpcs.length ? `<div class="map-npc-scroll"><ul>${mapNpcs.map((npc) => {
+				const npcKey = npcCatalogKey(npc);
+				const available = npcAvailability[npcKey];
+				return `<li class="map-npc-row${selectedNpcKey === npcKey ? " selected" : ""}" data-npc-key="${escapeCatalogHtml(npcKey)}">
+												<span class="map-npc-text"><strong>${escapeCatalogHtml(npc.name)}</strong><small>${npc.x}, ${npc.y} · ${escapeCatalogHtml(npcAvailabilityLabel(available))}</small></span>
+											</li>`;
+			}).join("")}</ul></div>` : "<p class=\"map-npc-empty\">该地图没有可显示的 NPC</p>"}
+					</section>
+					</div>
 					<div class="catalog-action-panel">
 						<button class="catalog-route" type="button" ${routeTarget && sameMap ? "" : "disabled"}>${routeActive ? "停止寻路" : "开始寻路"}</button>
-					<button class="catalog-teleport" type="button" ${canTeleport ? "" : "disabled"}>传送到这里</button>
-					<span class="catalog-status${actionState.kind === "coordinate" && actionState.error ? " error" : ""}">${escapeCatalogHtml((actionState.kind === "coordinate" ? actionState.message : "") || routeMessage || (!SessionStorage_default.NavigationTeleportAllowed ? "当前账号没有传送权限" : ""))}</span>
+					<button class="catalog-teleport" type="button" ${canTeleportHere ? "" : "disabled"}>${actionState.npcPending && selectedNpc ? "正在传送..." : "传送到这里"}</button>
+					<span class="catalog-status${(actionState.kind === "coordinate" || actionState.kind === "npc") && actionState.error ? " error" : ""}">${escapeCatalogHtml(npcStatus || mapStatus)}</span>
 				</div>`;
 			const canvas = detail.querySelector(".catalog-map");
 			const picker = detail.querySelector(".catalog-map-picker");
 			let lastPositionKey = "";
-			redrawPreview = () => {
+			redrawPreview = (force) => {
 				if (!canvas.isConnected) return;
 				if (getCurrentAdventureMap() !== currentMap) {
 					api.refreshDetail();
 					return;
 				}
 				const position = getCurrentAdventurePosition();
-				const positionKey = `${position.x}:${position.y}`;
-				if (positionKey === lastPositionKey) return;
+				const direction = SessionStorage_default.Entity?.direction ?? 0;
+				const positionKey = `${position.x}:${position.y}:${direction}`;
+				if (!force && positionKey === lastPositionKey) return;
 				lastPositionKey = positionKey;
 				const label = detail.querySelector(".map-current-position");
 				if (label) label.textContent = `角色位置：${currentMapName} (${position.x}, ${position.y})`;
-				drawWorldMapPreview(canvas, loadedMap?.image, selectedCoordinate?.random ? null : selectedCoordinate, loadedMap?.gat, {
-					path: sameMap && routeMatches ? routeState.path : [],
-					player: sameMap ? position : null
+				drawWorldMapPreview(canvas, loadedMap?.image, selectedNpc || selectedCoordinate?.random ? null : selectedCoordinate, loadedMap?.gat, {
+					path: sameMap && routeMatches ? remainingPathFromPosition(routeState.path, position) : [],
+					player: sameMap ? {
+						...position,
+						direction
+					} : null,
+					selectedNpc
 				});
 			};
-			redrawPreview();
+			previewResizeObserver?.disconnect();
+			previewResizeObserver = typeof ResizeObserver === "function" ? new ResizeObserver(() => redrawPreview(true)) : null;
+			if (previewResizeObserver) previewResizeObserver.observe(picker);
+			redrawPreview(true);
+			const npcList = detail.querySelector(".map-npc-scroll");
+			if (npcList) npcList.scrollTop = npcListScrollTop;
 			picker.addEventListener("click", (event) => {
 				const raw = canvasToMapCoordinate(canvas, event, loadedMap?.gat);
+				selectedNpcKey = "";
 				selectedCoordinate = findNearestWalkableCoordinate(loadedMap?.gat, raw);
 				const nextTarget = {
 					...map,
@@ -516573,20 +523705,39 @@ function mount$3(container) {
 				else if (routeTarget) startAdventureRoute(routeTarget);
 			});
 			detail.querySelector(".catalog-teleport").addEventListener("click", () => {
-				if (target) teleportToCoordinate(target);
+				pendingSelectionClear = (selectedNpc ? teleportToNpc(selectedNpc) : target ? teleportToCoordinate(target) : false) ? "teleport" : "";
+			});
+			for (const row of detail.querySelectorAll(".map-npc-row")) row.addEventListener("click", () => {
+				selectedNpcKey = row.dataset.npcKey;
+				api.refreshDetail();
 			});
 		}
 	});
+	const clearMapMarker = () => {
+		selectedNpcKey = "";
+		selectedCoordinate = {
+			x: 0,
+			y: 0,
+			random: true
+		};
+		pendingSelectionClear = "";
+	};
 	const unsubscribeActions = subscribeAdventureActions((state) => {
+		const waiting = pendingSelectionClear === "teleport";
+		const wasPending = actionState.npcPending || actionState.mapPending;
 		actionState = state;
+		if (waiting && wasPending && !state.npcPending && !state.mapPending && !state.error) clearMapMarker();
+		else if (waiting && !state.npcPending && !state.mapPending && state.error) pendingSelectionClear = "";
 		browser.refreshDetail();
 	});
 	const unsubscribeRoute = subscribeAdventureRoute((state) => {
 		routeState = state;
+		if (state.message === "已到达目的地") clearMapMarker();
 		browser.refreshDetail();
 	});
 	const positionTimer = setInterval(() => redrawPreview(), 500);
-	loadNpcAssets().then(async (assets) => {
+	Promise.all([loadNpcAssets(), loadAdventureNpcCatalog()]).then(async ([assets, npcCatalog]) => {
+		catalogNpcs = npcCatalog.items;
 		const mapsWithImages = new Set(assets.mapImages || []);
 		const currentMap = normalizeAdventureMap(getCurrentAdventureMap());
 		const currentChannel = getMapChannel(currentMap);
@@ -516608,8 +523759,10 @@ function mount$3(container) {
 	});
 	return () => {
 		loadToken += 1;
+		npcAvailabilityToken += 1;
 		thumbnailToken += 1;
 		thumbnailObserver?.disconnect();
+		previewResizeObserver?.disconnect();
 		clearInterval(positionTimer);
 		redrawPreview = () => {};
 		unsubscribeActions();
@@ -516625,7 +523778,10 @@ var init_MapCatalogTab = __esmMin((() => {
 	init_CatalogBrowser();
 	init_CatalogData();
 	init_AdventureActionService();
+	init_NpcAvailabilityService();
+	init_NpcCatalogTab();
 	init_AdventureRouteService();
+	init_NavigationAutoWalk();
 	init_MapCatalogData();
 	init_GameSelect();
 	init_WorldAssetService();
@@ -516919,7 +524075,7 @@ function mount$1(container) {
 	async function load(message = "") {
 		container.innerHTML = "<div class=\"management-loading\">正在读取服务器实际设置...</div>";
 		try {
-			settings = await loadAdventureGameRules();
+			settings = await loadAdventureGameSettings();
 			render(message);
 		} catch (error) {
 			container.innerHTML = `<div class="management-error">${escapeHtml$2(error.message)}</div>`;
@@ -516928,7 +524084,7 @@ function mount$1(container) {
 	function render(message = "", error = false) {
 		container.innerHTML = `<form class="settings-form">
 			<div class="settings-scroll">
-				<section><h4>经验倍率</h4><div class="settings-grid">${groups[0].keys.map((key) => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join("")}</div></section>
+				<section><h4>经验倍率</h4><div class="settings-rate-columns">${groups[0].keys.map((key) => `<div class="settings-rate-list"><label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label></div>`).join("")}</div></section>
 				<section><h4>掉落倍率（普通魔物 &amp; MVP）</h4><div class="settings-rate-columns">
 					<div class="settings-rate-list">${normalDropKeys.map((key) => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join("")}</div>
 					<div class="settings-rate-list">${mvpDropKeys.map((key) => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join("")}</div>
@@ -516960,7 +524116,7 @@ function mount$1(container) {
 				return;
 			}
 			try {
-				const result = await applyAdventureGameRules(changes);
+				const result = await applyAdventureGameSettings(changes);
 				settings.values = result.values;
 				render("设置已应用并回读成功");
 			} catch (requestError) {
@@ -517016,7 +524172,7 @@ var init_GameSettingsTab = __esmMin((() => {
 		"item_rate_card_mvp"
 	];
 	labels = {
-		base_exp_rate: "基础经验倍率",
+		base_exp_rate: "基础倍率",
 		job_exp_rate: "职业经验倍率",
 		item_rate_common: "普通物品掉落倍率",
 		item_rate_common_boss: "Boss 普通物品掉落倍率",
@@ -517152,6 +524308,7 @@ function mountRemoteCatalogBrowser(container, options) {
 			state.items = result.items;
 			state.total = result.total;
 			if (state.selected) state.selected = state.items.find((item) => options.key(item) === options.key(state.selected)) || state.selected;
+			else state.selected = state.items[0] || null;
 		} catch (error) {
 			if (token !== requestToken) return;
 			state.items = [];
@@ -517204,6 +524361,26 @@ var init_RemoteCatalogBrowser = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/GameTools/ItemCatalogTab.js
+function subtypeOptions(type) {
+	const names = type === "Weapon" ? weaponSubtypeNames : type === "Armor" ? armorSlotNames : type === "Card" ? cardSubtypeNames : null;
+	if (!names) return {
+		disabled: true,
+		options: [{
+			value: "",
+			label: "子类"
+		}]
+	};
+	return {
+		disabled: false,
+		options: [{
+			value: "",
+			label: "全部子类"
+		}, ...Object.entries(names).map(([value, label]) => ({
+			value,
+			label
+		}))]
+	};
+}
 function loadImage(element, path, assetUrls) {
 	const frame = element.parentElement;
 	if (!path) {
@@ -517225,7 +524402,7 @@ function loadImage(element, path, assetUrls) {
 	}).catch(() => frame?.classList.add("no-image"));
 }
 function renderDescription(value) {
-	return (Array.isArray(value) ? value : [value]).filter(Boolean).map((line) => `<p>${escapeCatalogHtml(line)}</p>`).join("") || "<p>暂无说明</p>";
+	return (Array.isArray(value) ? value : [value]).filter(Boolean).map((line) => `<p>${escapeCatalogHtml(toPlainRagnarokText(line))}</p>`).join("") || "<p>暂无说明</p>";
 }
 function mount(container, context = {}) {
 	container.classList.add("world-catalog-tab", "item-catalog-tab");
@@ -517250,16 +524427,11 @@ function mount(container, context = {}) {
 			}))]
 		}) + renderGameSelect({
 			name: "subtype",
-			className: "catalog-filter weapon-subtype-filter",
-			ariaLabel: "武器类型",
+			className: "catalog-filter item-subtype-filter",
+			ariaLabel: "子类",
 			value: "",
-			options: [{
-				value: "",
-				label: "武器类型"
-			}, ...Object.entries(weaponSubtypeNames).map(([value, label]) => ({
-				value,
-				label
-			}))]
+			disabled: true,
+			options: subtypeOptions("").options
 		}),
 		toolbarActionHtml: `<button class="zeny-grant-open" type="button" ${context.capabilities?.itemGrantAllowed ? "" : "disabled"}>发放 Zeny</button>`,
 		emptyDetail: "选择一个物品查看详情",
@@ -517277,14 +524449,15 @@ function mount(container, context = {}) {
 			};
 		},
 		onFiltersChange(filters) {
-			const root = container.querySelector(".weapon-subtype-filter[data-game-select]");
-			const input = root.querySelector(".game-select-value");
-			const disabled = filters.type !== "Weapon";
-			root.querySelector(".game-select-trigger").disabled = disabled;
-			if (disabled && input.value) {
-				input.value = "";
-				root.querySelector(".game-select-trigger span").textContent = "武器类型";
-			}
+			const root = container.querySelector(".item-subtype-filter[data-game-select]");
+			const current = root.querySelector(".game-select-value").value;
+			const { disabled, options } = subtypeOptions(filters.type);
+			setGameSelectOptions(root, {
+				options,
+				value: !disabled && options.some((option) => option.value === current) ? current : "",
+				disabled,
+				ariaLabel: "子类"
+			});
 		},
 		onReady({ container: root, refreshDetail }) {
 			const button = root.querySelector(".zeny-grant-open");
@@ -517330,16 +524503,10 @@ function mount(container, context = {}) {
 		renderDetail(detail, item, api) {
 			const name = item.names?.["zh-CN"] || item.names?.["en-US"] || item.AegisName;
 			const canGrant = context.capabilities?.itemGrantAllowed && item.grantable;
-			const isEquipment = [
-				"Weapon",
-				"Armor",
-				"PetArmor",
-				"ShadowGear"
-			].includes(item.Type);
 			detail.innerHTML = `<div class="item-detail-content"><div class="catalog-heading item-heading"><span class="catalog-portrait item-portrait"><img alt="${escapeCatalogHtml(name)}"></span><div><h3>${escapeCatalogHtml(name)}</h3><p>${escapeCatalogHtml(item.AegisName)} · ID ${item.Id}</p></div></div>
-			<div class="catalog-metadata"><div><span>类型</span><strong>${escapeCatalogHtml(typeNames[item.Type] || item.Type || "其他")}</strong></div><div><span>重量</span><strong>${Number(item.Weight || 0) / 10}</strong></div><div><span>价格</span><strong>买 ${item.Buy ?? "-"} / 卖 ${item.Sell ?? "-"}</strong></div><div><span>洞数</span><strong>${item.Slots ?? 0}</strong></div></div>
+			<div class="catalog-metadata"><div><span>类型</span><strong>${escapeCatalogHtml(typeNames[item.Type] || item.Type || "其他")}</strong></div><div><span>重量</span><strong>${Number(item.Weight || 0) / 10}</strong></div><div><span>买 / 卖</span><strong>${item.Buy ?? "-"} / ${item.Sell ?? "-"}</strong></div><div><span>洞数</span><strong>${item.Slots ?? 0}</strong></div></div>
 			<div class="item-description">${renderDescription(item.description)}</div></div>
-			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? "disabled" : ""}>${pending ? "发放中..." : isEquipment ? "放大镜鉴定后发放" : "发放到背包"}</button><span class="catalog-status${statusError ? " error" : ""}">${escapeCatalogHtml(status || (!item.grantable ? "该特殊物品暂不支持直接发放" : !context.capabilities?.itemGrantAllowed ? "当前账号没有发放权限" : isEquipment ? "装备将先鉴定再发放到背包" : "仅发放给当前角色"))}</span></div>`;
+			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? "disabled" : ""}>${pending ? "发放中..." : "发放到背包"}</button><span class="catalog-status${statusError ? " error" : ""}">${escapeCatalogHtml(status || (!item.grantable ? "该特殊物品暂不支持直接发放" : !context.capabilities?.itemGrantAllowed ? "当前账号没有发放权限" : "仅发放给当前角色"))}</span></div>`;
 			loadImage(detail.querySelector(".item-portrait img"), item.illustration || item.icon, assetUrls);
 			detail.querySelector(".item-grant").addEventListener("click", async () => {
 				const amount = Number(detail.querySelector(".item-grant-amount").value);
@@ -517372,10 +524539,11 @@ function mount(container, context = {}) {
 		}
 	});
 }
-var typeNames, weaponSubtypeNames, errorMessages, ItemCatalogTab_default;
+var typeNames, weaponSubtypeNames, armorSlotNames, cardSubtypeNames, errorMessages, ItemCatalogTab_default;
 var init_ItemCatalogTab = __esmMin((() => {
 	init_AdventureControlService();
 	init_CatalogData();
+	init_RagnarokText();
 	init_GameToolsConfirm();
 	init_GameToolsNumberPrompt();
 	init_GameSelect();
@@ -517415,6 +524583,30 @@ var init_ItemCatalogTab = __esmMin((() => {
 		Gatling: "加特林机枪",
 		Shotgun: "霰弹枪",
 		Grenade: "榴弹发射器"
+	};
+	armorSlotNames = {
+		Head_Top: "头上",
+		Head_Mid: "头中",
+		Head_Low: "头下",
+		Head: "头部",
+		Armor: "衣服",
+		Garment: "披肩",
+		Shoes: "鞋子",
+		Shield: "盾",
+		Accessory: "饰品",
+		Right_Accessory: "右饰品",
+		Left_Accessory: "左饰品",
+		Costume_Head_Top: "时装头上",
+		Costume_Head_Mid: "时装头中",
+		Costume_Head_Low: "时装头下",
+		Costume_Head: "时装头部",
+		Costume_Garment: "时装披肩"
+	};
+	cardSubtypeNames = {
+		Enchant: "附魔",
+		...armorSlotNames,
+		Weapon: "武器",
+		Any: "任意部位"
 	};
 	errorMessages = {
 		inventory_full: "背包空间不足",
@@ -517462,19 +524654,17 @@ var init_GameTools = __esmMin((() => {
 	init_CharacterMaintenanceTab();
 	init_GameSettingsTab();
 	init_ItemCatalogTab();
+	registerGameToolsTab(MapCatalogTab_default);
 	registerGameToolsTab(MonsterCatalogTab_default);
 	registerGameToolsTab(NpcCatalogTab_default);
-	registerGameToolsTab(MapCatalogTab_default);
 	registerGameToolsTab(ItemCatalogTab_default);
 	registerGameToolsTab(CharacterMaintenanceTab_default);
 	registerGameToolsTab(GameSettingsTab_default);
-	preferences = Preferences.get("GameTools", { tab: "monsters" }, 1);
+	preferences = Preferences.get("GameTools", { tab: "maps" }, 2);
 	GameTools = new GUIComponent("GameTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default);
-	GameTools.needFocus = false;
 	GameTools.render = () => GameTools_default$2;
 	GameTools.init = function init() {
 		const root = this.getRoot();
-		this._host.style.zIndex = "1000";
 		this.draggable(".titlebar");
 		root.addEventListener("invalid", (event) => event.target.setCustomValidity(validationMessage(event.target)), true);
 		root.addEventListener("input", (event) => event.target.setCustomValidity?.(""), true);
@@ -517495,6 +524685,7 @@ var init_GameTools = __esmMin((() => {
 	};
 	GameTools.selectTab = function selectTab(id) {
 		if (!getGameToolsTabs().find((candidate) => candidate.id === id)) return;
+		if (id === preferences.tab) return;
 		preferences.tab = id;
 		preferences.save();
 		this.renderTabs();
@@ -517523,6 +524714,8 @@ var init_GameTools = __esmMin((() => {
 		this.append();
 		this._host.style.display = "";
 		this.centerInViewport();
+		this.focus();
+		this.renderTabs();
 		this.refreshCapabilities();
 	};
 	GameTools.refreshCapabilities = async function refreshCapabilities() {
@@ -517534,7 +524727,8 @@ var init_GameTools = __esmMin((() => {
 		} catch {
 			capabilities = {
 				characterMaintenanceAllowed: false,
-				gameSettingsAllowed: false
+				gameSettingsAllowed: false,
+				itemGrantAllowed: false
 			};
 			this.renderTabs();
 		}
@@ -517552,6 +524746,7 @@ var init_GameTools = __esmMin((() => {
 function createBasicInfo(config) {
 	const { name, htmlText, cssText, prefKey, reduceDefault = true, innerId, topbarItemSelector = ".topbar button", topbarDblClick = false, toggleButtonsEvent = "mousedown", buttonsSelector = ".buttons button", buttonsEvent = "mousedown", buttonKeyBy = "class", infoOpensWinStats = true, partyViaGetUI = false, hasToolbarToggle = false, miniLayout = false, hideIds = [], barScale = 1.27, hasApBar = false } = config;
 	const Component = new GUIComponent(name, cssText);
+	Component.needFocus = false;
 	/**
 	* Stored data
 	*/
@@ -517628,7 +524823,7 @@ function createBasicInfo(config) {
 			case "attendance":
 				if (Configs.get("enableCheckAttendance") && PacketVerManager_default.value >= 20180307) CheckAttendance_default.toggle();
 				break;
-			case "achievment":
+			case "achievement":
 				if (Configs.get("enableAchievements") && PacketVerManager_default.value >= 20150513) Achievement_default.toggle();
 				break;
 			case "repute": Reputation_default.toggle();
@@ -518011,7 +525206,7 @@ var init_BasicInfoV0 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV3/BasicInfoV3.html?raw
 var BasicInfoV3_default$2;
 var init_BasicInfoV3$2 = __esmMin((() => {
-	BasicInfoV3_default$2 = "<div\r\n	id=\"BasicInfoV3\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\"\r\n				>负重：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span\r\n			>\r\n			Zeny：<span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"line2\">\r\n			Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span class=\"jlvl_value\"></span>\r\n			/ Exp. <span class=\"bexp_value\"></span>\r\n		</div>\r\n		<div class=\"line3\">\r\n			HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span> | SP.\r\n			<span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"ro_menu_icon/btn_show1.bmp\"\r\n		data-hover=\"ro_menu_icon/btn_show2.bmp\"\r\n		data-down=\"ro_menu_icon/btn_show3.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"ro_menu_icon/btn_hide1.bmp\"\r\n		data-hover=\"ro_menu_icon/btn_hide2.bmp\"\r\n		data-down=\"ro_menu_icon/btn_hide3.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\">\r\n		<div\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/status_1.bmp\"\r\n			data-down=\"ro_menu_icon/status_1.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</div>\r\n		<div\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/equip_1.bmp\"\r\n			data-down=\"ro_menu_icon/equip_2.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</div>\r\n		<div\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/skill_1.bmp\"\r\n			data-down=\"ro_menu_icon/skill_2.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</div>\r\n		<div\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/item_1.bmp\"\r\n			data-down=\"ro_menu_icon/item_2.bmp\"\r\n		>\r\n			<span class=\"name\">物品栏（Alt + E）</span>\r\n		</div>\r\n		<div\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/party_1.bmp\"\r\n			data-down=\"ro_menu_icon/party_2.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/guild_1.bmp\"\r\n			data-down=\"ro_menu_icon/guild_2.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</div>\r\n		<div\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/battle_1.bmp\"\r\n			data-down=\"ro_menu_icon/battle_2.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</div>\r\n		<div\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/quest_1.bmp\"\r\n			data-down=\"ro_menu_icon/quest_2.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</div>\r\n		<div\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/map_1.bmp\"\r\n			data-down=\"ro_menu_icon/map_2.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</div>\r\n		<div\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/navigation_1.bmp\"\r\n			data-down=\"ro_menu_icon/navigation_2.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</div>\r\n		<div\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/option_1.bmp\"\r\n			data-down=\"ro_menu_icon/option_2.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</div>\r\n		<div\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/bank_1.bmp\"\r\n			data-down=\"ro_menu_icon/bank_2.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</div>\r\n		<div\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/rec_1.bmp\"\r\n			data-down=\"ro_menu_icon/rec_2.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</div>\r\n		<div\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/mail_1.bmp\"\r\n			data-down=\"ro_menu_icon/mail_2.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</div>\r\n		<div\r\n			id=\"achievment\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/achievement_1.bmp\"\r\n			data-down=\"ro_menu_icon/achievement_2.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n</div>\r\n";
+	BasicInfoV3_default$2 = "<div\r\n	id=\"BasicInfoV3\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\"\r\n				>负重：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span\r\n			>\r\n			Zeny：<span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"line2\">\r\n			Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span class=\"jlvl_value\"></span>\r\n			/ Exp. <span class=\"bexp_value\"></span>\r\n		</div>\r\n		<div class=\"line3\">\r\n			HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span> | SP.\r\n			<span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"ro_menu_icon/btn_show1.bmp\"\r\n		data-hover=\"ro_menu_icon/btn_show2.bmp\"\r\n		data-down=\"ro_menu_icon/btn_show3.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"ro_menu_icon/btn_hide1.bmp\"\r\n		data-hover=\"ro_menu_icon/btn_hide2.bmp\"\r\n		data-down=\"ro_menu_icon/btn_hide3.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\">\r\n		<div\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/status_1.bmp\"\r\n			data-down=\"ro_menu_icon/status_1.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</div>\r\n		<div\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/equip_1.bmp\"\r\n			data-down=\"ro_menu_icon/equip_2.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</div>\r\n		<div\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/skill_1.bmp\"\r\n			data-down=\"ro_menu_icon/skill_2.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</div>\r\n		<div\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/item_1.bmp\"\r\n			data-down=\"ro_menu_icon/item_2.bmp\"\r\n		>\r\n			<span class=\"name\">物品栏（Alt + E）</span>\r\n		</div>\r\n		<div\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/party_1.bmp\"\r\n			data-down=\"ro_menu_icon/party_2.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/guild_1.bmp\"\r\n			data-down=\"ro_menu_icon/guild_2.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</div>\r\n		<div\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/battle_1.bmp\"\r\n			data-down=\"ro_menu_icon/battle_2.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</div>\r\n		<div\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/quest_1.bmp\"\r\n			data-down=\"ro_menu_icon/quest_2.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</div>\r\n		<div\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/map_1.bmp\"\r\n			data-down=\"ro_menu_icon/map_2.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</div>\r\n		<div\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/navigation_1.bmp\"\r\n			data-down=\"ro_menu_icon/navigation_2.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</div>\r\n		<div\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/option_1.bmp\"\r\n			data-down=\"ro_menu_icon/option_2.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</div>\r\n		<div\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/bank_1.bmp\"\r\n			data-down=\"ro_menu_icon/bank_2.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</div>\r\n		<div\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/rec_1.bmp\"\r\n			data-down=\"ro_menu_icon/rec_2.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</div>\r\n		<div\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/mail_1.bmp\"\r\n			data-down=\"ro_menu_icon/mail_2.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</div>\r\n		<div\r\n			id=\"achievement\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"ro_menu_icon/achievement_1.bmp\"\r\n			data-down=\"ro_menu_icon/achievement_2.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV3/BasicInfoV3.css?raw
@@ -518047,7 +525242,7 @@ var init_BasicInfoV3 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.html?raw
 var BasicInfoV4_default$2;
 var init_BasicInfoV4$2 = __esmMin((() => {
-	BasicInfoV4_default$2 = "<div\r\n	id=\"BasicInfoV4\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"line2\">\r\n			Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span class=\"jlvl_value\"></span>\r\n			/ Exp. <span class=\"bexp_value\"></span>\r\n		</div>\r\n		<div class=\"line3\">\r\n			HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span> | SP.\r\n			<span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<button\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</button>\r\n		<button\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</button>\r\n		<button\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</button>\r\n		<button\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</button>\r\n		<button\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</button>\r\n		<button\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</button>\r\n		<button\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</button>\r\n		<button\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</button>\r\n		<button\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</button>\r\n		<button\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</button>\r\n		<button\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具</span>\r\n		</button>\r\n		<button\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</button>\r\n		<button\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</button>\r\n		<button\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</button>\r\n		<button\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</button>\r\n		<button\r\n			id=\"achievment\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</button>\r\n		<button\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</button>\r\n		<button\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</button>\r\n		<button\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</button>\r\n		<button\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</button>\r\n		<!--<button class=\"reputation\" data-background=\"menu_icon/\" data-hover=\"menu_icon/\" data-down=\"menu_icon/\"></button> -->\r\n	</div>\r\n</div>\r\n";
+	BasicInfoV4_default$2 = "<div\r\n	id=\"BasicInfoV4\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"line2\">\r\n			Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span class=\"jlvl_value\"></span>\r\n			/ Exp. <span class=\"bexp_value\"></span>\r\n		</div>\r\n		<div class=\"line3\">\r\n			HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span> | SP.\r\n			<span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<button\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</button>\r\n		<button\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</button>\r\n		<button\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</button>\r\n		<button\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</button>\r\n		<button\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</button>\r\n		<button\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</button>\r\n		<button\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</button>\r\n		<button\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</button>\r\n		<button\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</button>\r\n		<button\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</button>\r\n		<button\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具</span>\r\n		</button>\r\n		<button\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</button>\r\n		<button\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</button>\r\n		<button\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</button>\r\n		<button\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</button>\r\n		<button\r\n			id=\"achievement\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</button>\r\n		<button\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</button>\r\n		<button\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</button>\r\n		<button\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</button>\r\n		<button\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</button>\r\n		<!--<button class=\"reputation\" data-background=\"menu_icon/\" data-hover=\"menu_icon/\" data-down=\"menu_icon/\"></button> -->\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.css?raw
@@ -518091,7 +525286,7 @@ var init_BasicInfoV4 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.html?raw
 var BasicInfoV5_default$2;
 var init_BasicInfoV5$2 = __esmMin((() => {
-	BasicInfoV5_default$2 = "<div\r\n	id=\"BasicInfoV5\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/w_basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"ap_title\">AP</div>\r\n		<div class=\"ap_bar\">\r\n			<div class=\"ap_bar_left\"></div>\r\n			<div class=\"ap_bar_middle\"></div>\r\n			<div class=\"ap_bar_right\"></div>\r\n			<div class=\"ap_bar_perc\"><span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"ap_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"info-container\">\r\n			<div class=\"line2\">\r\n				Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span\r\n					class=\"jlvl_value\"\r\n				></span>\r\n			</div>\r\n			<div class=\"line3\">\r\n				<span class=\"hpcontainer\">HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></span\r\n				><span class=\"expcontainer\">| Exp. <span class=\"bexp_value\"></span></span>\r\n			</div>\r\n			<div class=\"line4\">\r\n				<span class=\"spcontainer\">SP. <span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></span\r\n				><span class=\"apcontainer\"\r\n					>| AP. <span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span\r\n				></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<div\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</div>\r\n		<div\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</div>\r\n		<div\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</div>\r\n		<div\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</div>\r\n		<div\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</div>\r\n		<div\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</div>\r\n		<div\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</div>\r\n		<div\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</div>\r\n		<div\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</div>\r\n		<div\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具</span>\r\n		</div>\r\n		<div\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</div>\r\n		<div\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</div>\r\n		<div\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</div>\r\n		<div\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</div>\r\n		<div\r\n			id=\"achievment\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</div>\r\n		<div\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</div>\r\n		<div\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</div>\r\n		<div\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</div>\r\n		<div\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"repute\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_repute.bmp\"\r\n			data-down=\"menu_icon/bt_repute_press.bmp\"\r\n		>\r\n			<span class=\"name\">声望状态</span>\r\n		</div>\r\n		<!-- <div class=\"clear\"></div> -->\r\n	</div>\r\n</div>\r\n";
+	BasicInfoV5_default$2 = "<div\r\n	id=\"BasicInfoV5\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/w_basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"ap_title\">AP</div>\r\n		<div class=\"ap_bar\">\r\n			<div class=\"ap_bar_left\"></div>\r\n			<div class=\"ap_bar_middle\"></div>\r\n			<div class=\"ap_bar_right\"></div>\r\n			<div class=\"ap_bar_perc\"><span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"ap_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"info-container\">\r\n			<div class=\"line2\">\r\n				Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span\r\n					class=\"jlvl_value\"\r\n				></span>\r\n			</div>\r\n			<div class=\"line3\">\r\n				<span class=\"hpcontainer\">HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></span\r\n				><span class=\"expcontainer\">| Exp. <span class=\"bexp_value\"></span></span>\r\n			</div>\r\n			<div class=\"line4\">\r\n				<span class=\"spcontainer\">SP. <span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></span\r\n				><span class=\"apcontainer\"\r\n					>| AP. <span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span\r\n				></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<div\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</div>\r\n		<div\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</div>\r\n		<div\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</div>\r\n		<div\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</div>\r\n		<div\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</div>\r\n		<div\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</div>\r\n		<div\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</div>\r\n		<div\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</div>\r\n		<div\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</div>\r\n		<div\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具</span>\r\n		</div>\r\n		<div\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</div>\r\n		<div\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</div>\r\n		<div\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</div>\r\n		<div\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</div>\r\n		<div\r\n			id=\"achievement\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</div>\r\n		<div\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</div>\r\n		<div\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</div>\r\n		<div\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</div>\r\n		<div\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"repute\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_repute.bmp\"\r\n			data-down=\"menu_icon/bt_repute_press.bmp\"\r\n		>\r\n			<span class=\"name\">声望状态</span>\r\n		</div>\r\n		<!-- <div class=\"clear\"></div> -->\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.css?raw
@@ -525741,6 +532936,36 @@ function _escapeHTML$1(text) {
 	div.textContent = text;
 	return div.innerHTML;
 }
+function handleMarkupClick(event) {
+	const itemLink = event.target.closest(".item-link");
+	if (itemLink) {
+		const itemId = parseInt(itemLink.dataset.itemId, 10);
+		if (!itemId) return;
+		if (ItemInfo.uid === itemId) {
+			ItemInfo.remove();
+			return;
+		}
+		ItemInfo.append();
+		ItemInfo.uid = itemId;
+		ItemInfo.setItem({
+			ITID: itemId,
+			IsIdentified: true
+		});
+		return;
+	}
+	const naviLink = event.target.closest(".navi-link");
+	if (!naviLink) return;
+	const naviInfo = naviLink.dataset.naviInfo;
+	const displayName = naviLink.dataset.naviName;
+	if (!naviInfo) return;
+	if (Navigation_default.uid === naviInfo && Navigation_default._host && Navigation_default._host.style.display !== "none") {
+		Navigation_default.hide();
+		return;
+	}
+	Navigation_default.show();
+	Navigation_default.uid = naviInfo;
+	Navigation_default.setNaviInfo(naviInfo, displayName);
+}
 /**
 * Add a card into a slot
 *
@@ -525828,7 +533053,7 @@ function addEvent(item) {
 	Renderer.stop(rendering$2);
 	switch (item.type) {
 		case ItemType_default.CARD:
-			if (viewBtn) viewBtn.style.display = "block";
+			if (viewBtn) viewBtn.style.display = "inline-flex";
 			break;
 		case ItemType_default.ETC: {
 			const filenameBook = `data/book/${item.ITID}.txt`;
@@ -526020,6 +533245,8 @@ var init_ItemInfo = __esmMin((() => {
 	init_Entity$1();
 	init_Equipment();
 	init_Inventory();
+	init_Navigation();
+	init_RagnarokText();
 	ItemInfo = new GUIComponent("ItemInfo", ItemInfo_default$1);
 	ItemInfo.render = () => ItemInfo_default$2;
 	_type$5 = 0;
@@ -526110,7 +533337,9 @@ var init_ItemInfo = __esmMin((() => {
 			CardIllustration_default.setCard(this.item);
 		});
 		this.draggable(".title");
+		root.addEventListener("click", handleMarkupClick);
 	};
+	ItemInfo.handleMarkupClick = handleMarkupClick;
 	/**
 	* Bind component
 	*
@@ -526149,10 +533378,7 @@ var init_ItemInfo = __esmMin((() => {
 			if (container) container.style.backgroundImage = `url(${data})`;
 		});
 		const descInner = root.querySelector(".description-inner");
-		if (descInner) {
-			const rawDesc = item.IsIdentified ? it.identifiedDescriptionName : it.unidentifiedDescriptionName;
-			descInner.innerHTML = DB.formatMsgToHtml(_escapeHTML$1(rawDesc));
-		}
+		if (descInner) descInner.innerHTML = formatRagnarokMarkup(item.IsIdentified ? it.identifiedDescriptionName : it.unidentifiedDescriptionName);
 		if (item.HireExpireDate) {
 			const dateText = DB.formatUnixDate(item.HireExpireDate);
 			let msg = DB.getMessage(1255).replace("%s", dateText);
@@ -526262,13 +533488,13 @@ var init_ItemInfo = __esmMin((() => {
 //#region src/UI/Components/NpcBox/NpcBox.html?raw
 var NpcBox_default$2;
 var init_NpcBox$2 = __esmMin((() => {
-	NpcBox_default$2 = "<div id=\"NpcBox\">\r\n	<div class=\"border\">\r\n		<div class=\"content\"></div>\r\n		<div class=\"btns\">\r\n			<ui-button class=\"btn close\">关闭</ui-button>\r\n			<ui-button class=\"btn next\">继续</ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	NpcBox_default$2 = "<div id=\"NpcBox\">\r\n	<div class=\"border\">\r\n		<div class=\"content\"></div>\r\n		<div class=\"btns\">\r\n			<ui-button class=\"btn close ui-btn localized-control\">关闭</ui-button>\r\n			<ui-button class=\"btn next ui-btn localized-control\">继续</ui-button>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcBox/NpcBox.css?raw
 var NpcBox_default$1;
 var init_NpcBox$1 = __esmMin((() => {
-	NpcBox_default$1 = ":host {\r\n	width: 276px;\r\n	height: 176px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcBox {\r\n	position: absolute;\r\n	width: 276px;\r\n	height: 176px;\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n}\r\n#NpcBox .border {\r\n	border: 1px solid #c1c6c2;\r\n	width: 264px;\r\n	height: 164px;\r\n	padding: 5px;\r\n	border-radius: 5px;\r\n}\r\n#NpcBox .content {\r\n	white-space: pre-wrap;\r\n	background-color: #eff4f0;\r\n	width: 254px;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n}\r\n#NpcBox .btns {\r\n	position: absolute;\r\n	bottom: 5px;\r\n	right: 5px;\r\n}\r\n#NpcBox .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	display: none;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link {\r\n	color: #0070c0;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link:hover {\r\n	color: #00a0ff;\r\n}\r\n\r\n.navi-link {\r\n	color: #c00000;\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n\r\n.navi-link:hover {\r\n	color: #ff0000;\r\n}\r\n";
+	NpcBox_default$1 = ":host {\r\n	width: 276px;\r\n	height: 176px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#NpcBox {\r\n	position: absolute;\r\n	width: 276px;\r\n	height: 176px;\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n}\r\n#NpcBox .border {\r\n	border: 1px solid #c1c6c2;\r\n	width: 264px;\r\n	height: 164px;\r\n	padding: 5px;\r\n	border-radius: 5px;\r\n}\r\n#NpcBox .content {\r\n	white-space: pre-wrap;\r\n	background-color: #eff4f0;\r\n	width: 254px;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n}\r\n#NpcBox .btns {\r\n	position: absolute;\r\n	bottom: 5px;\r\n	right: 5px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: flex-end;\r\n	gap: 2px;\r\n}\r\n#NpcBox .btn {\r\n	display: none;\r\n}\r\n#NpcBox .btn.is-visible {\r\n	display: inline-flex;\r\n}\r\n\r\n.item-link {\r\n	color: #0070c0;\r\n	cursor: pointer;\r\n}\r\n\r\n.item-link:hover {\r\n	color: #00a0ff;\r\n}\r\n\r\n.navi-link {\r\n	color: #c00000;\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n\r\n.navi-link:hover {\r\n	color: #ff0000;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcBox/NpcBox.js
@@ -526391,9 +533617,15 @@ var init_NpcBox = __esmMin((() => {
 	NpcBox.onRemove = function onRemove() {
 		const root = NpcBox.getRoot();
 		const nextBtn = root.querySelector(".next");
-		if (nextBtn) nextBtn.style.display = "none";
+		if (nextBtn) {
+			nextBtn.classList.remove("is-visible");
+			nextBtn.style.display = "";
+		}
 		const closeBtn = root.querySelector(".close");
-		if (closeBtn) closeBtn.style.display = "none";
+		if (closeBtn) {
+			closeBtn.classList.remove("is-visible");
+			closeBtn.style.display = "";
+		}
 		const content = root.querySelector(".content");
 		if (content) content.textContent = "";
 		_needCleanUp = false;
@@ -526459,8 +533691,14 @@ var init_NpcBox = __esmMin((() => {
 		const root = NpcBox.getRoot();
 		const nextBtn = root.querySelector(".next");
 		const closeBtn = root.querySelector(".close");
-		if (closeBtn) closeBtn.style.display = "none";
-		if (nextBtn) nextBtn.style.display = "block";
+		if (closeBtn) {
+			closeBtn.classList.remove("is-visible");
+			closeBtn.style.display = "";
+		}
+		if (nextBtn) {
+			nextBtn.classList.add("is-visible");
+			nextBtn.style.display = "";
+		}
 	};
 	/**
 	* Add close button
@@ -526472,8 +533710,14 @@ var init_NpcBox = __esmMin((() => {
 		const root = NpcBox.getRoot();
 		const closeBtn = root.querySelector(".close");
 		const nextBtn = root.querySelector(".next");
-		if (nextBtn) nextBtn.style.display = "none";
-		if (closeBtn) closeBtn.style.display = "block";
+		if (nextBtn) {
+			nextBtn.classList.remove("is-visible");
+			nextBtn.style.display = "";
+		}
+		if (closeBtn) {
+			closeBtn.classList.add("is-visible");
+			closeBtn.style.display = "";
+		}
 	};
 	/**
 	* Press "next" button
@@ -526481,7 +533725,10 @@ var init_NpcBox = __esmMin((() => {
 	NpcBox.next = function next() {
 		_needCleanUp = true;
 		const nextBtn = NpcBox.getRoot().querySelector(".next");
-		if (nextBtn) nextBtn.style.display = "none";
+		if (nextBtn) {
+			nextBtn.classList.remove("is-visible");
+			nextBtn.style.display = "";
+		}
 		this.onNextPressed(NpcBox.ownerID);
 	};
 	/**
@@ -526490,7 +533737,10 @@ var init_NpcBox = __esmMin((() => {
 	NpcBox.close = function close() {
 		_needCleanUp = true;
 		const closeBtn = NpcBox.getRoot().querySelector(".close");
-		if (closeBtn) closeBtn.style.display = "none";
+		if (closeBtn) {
+			closeBtn.classList.remove("is-visible");
+			closeBtn.style.display = "";
+		}
 		this.onClosePressed(NpcBox.ownerID);
 	};
 	/**
@@ -530207,7 +537457,7 @@ var init_CaptchaUpload$2 = __esmMin((() => {
 //#region src/UI/Components/Captcha/CaptchaUpload.css?raw
 var CaptchaUpload_default$1;
 var init_CaptchaUpload$1 = __esmMin((() => {
-	CaptchaUpload_default$1 = ":host {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 200px;\r\n}\r\n\r\n#CaptchaUpload {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #ffffff;\r\n	font-size: 12px;\r\n	border-radius: 3px;\r\n}\r\n\r\n#CaptchaUpload .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaUpload .titlebar {\r\n	width: 280px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaUpload .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaUpload .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaUpload .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaUpload .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaUpload .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaUpload .container {\r\n	padding: 10px;\r\n	text-align: center;\r\n}\r\n\r\n#CaptchaUpload .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	margin-left: 5px;\r\n}\r\n\r\n/* Custom File Input Styles */\r\n#CaptchaUpload .custom_file_input {\r\n	margin-bottom: 10px;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaUpload .captcha_file_text {\r\n	width: 170px;\r\n	border: 1px solid #7f9db9;\r\n	background-color: #fff;\r\n	color: #000;\r\n	height: 14px;\r\n}\r\n\r\n#CaptchaUpload .btn_browse {\r\n	width: 18px;\r\n	height: 18px;\r\n	cursor: pointer;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#CaptchaUpload .btn_browse:active {\r\n	border-color: #696969 #fff #fff #696969;\r\n}\r\n\r\n#CaptchaUpload .preview_box {\r\n	width: 220px;\r\n	height: 90px;\r\n	border: 1px solid #999;\r\n	margin: 0 auto 10px auto;\r\n	background-color: transparent;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	overflow: hidden;\r\n}\r\n\r\n#CaptchaUpload .preview_box img {\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n}\r\n\r\n#CaptchaUpload input[type='text'].answer_input {\r\n	width: 150px;\r\n	margin-right: 5px;\r\n	border: 1px solid #7f9db9;\r\n}\r\n\r\n#CaptchaUpload .controls {\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n";
+	CaptchaUpload_default$1 = ":host {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 200px;\r\n}\r\n\r\n#CaptchaUpload {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #ffffff;\r\n	font-size: 12px;\r\n	border-radius: 3px;\r\n}\r\n\r\n#CaptchaUpload .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaUpload .titlebar {\r\n	width: 280px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaUpload .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaUpload .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaUpload .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaUpload .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaUpload .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaUpload .container {\r\n	padding: 10px;\r\n	text-align: center;\r\n}\r\n\r\n#CaptchaUpload .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	margin-left: 5px;\r\n}\r\n\r\n/* Custom File Input Styles */\r\n#CaptchaUpload .custom_file_input {\r\n	margin-bottom: 10px;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaUpload .captcha_file_text {\r\n	width: 170px;\r\n	border: 1px solid #7f9db9;\r\n	background-color: #fff;\r\n	color: #000;\r\n	height: 14px;\r\n}\r\n\r\n#CaptchaUpload .btn_browse {\r\n	width: 18px;\r\n	height: 18px;\r\n	cursor: pointer;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#CaptchaUpload .btn_browse:active {\r\n	border-color: #696969 #fff #fff #696969;\r\n}\r\n\r\n#CaptchaUpload .preview_box {\r\n	width: 220px;\r\n	height: 90px;\r\n	border: 1px solid #999;\r\n	margin: 0 auto 10px auto;\r\n	background-color: transparent;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	overflow: hidden;\r\n}\r\n\r\n#CaptchaUpload .preview_box img {\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n}\r\n\r\n#CaptchaUpload input[type='text'].answer_input {\r\n	width: 150px;\r\n	margin-right: 5px;\r\n	border: 1px solid #7f9db9;\r\n}\r\n\r\n#CaptchaUpload .controls {\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaUpload.js
@@ -530336,7 +537586,7 @@ var init_CaptchaSelector$2 = __esmMin((() => {
 //#region src/UI/Components/Captcha/CaptchaSelector.css?raw
 var CaptchaSelector_default$1;
 var init_CaptchaSelector$1 = __esmMin((() => {
-	CaptchaSelector_default$1 = ":host {\r\n	position: absolute;\r\n	width: 210px;\r\n	height: 310px;\r\n	z-index: 50;\r\n}\r\n\r\n#CaptchaSelector {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #ffffff;\r\n	font-size: 12px;\r\n}\r\n\r\n#CaptchaSelector .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .titlebar {\r\n	width: 210px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaSelector .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaSelector .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaSelector .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaSelector .titlebar .right,\r\n#CaptchaSelector .character_info .close-character {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaSelector .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .container {\r\n	height: 293px;\r\n}\r\n\r\n#CaptchaSelector .options {\r\n	height: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaSelector .player_list {\r\n	height: 247px;\r\n	overflow-y: auto;\r\n	list-style: none;\r\n	margin: 0px 10px;\r\n	padding: 0;\r\n}\r\n\r\n#CaptchaSelector .player_list li {\r\n	width: 190px;\r\n	height: 24px;\r\n	margin: 2px 0;\r\n	background-color: #e5e5e5;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n\r\n#CaptchaSelector .footer {\r\n	display: flex;\r\n	justify-content: end;\r\n	align-items: center;\r\n	height: 24px;\r\n}\r\n\r\n#CaptchaSelector .range_val {\r\n	appearance: none;\r\n	width: 20px;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .range_val::-webkit-inner-spin-button,\r\n#CaptchaSelector .range_val::-webkit-outer-spin-button {\r\n	-webkit-appearance: none;\r\n	margin: 0;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .btn_active,\r\n#CaptchaSelector .footer .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n#CaptchaSelector .btn_active {\r\n	margin-left: 15px;\r\n}\r\n\r\n#CaptchaSelector .footer .btn {\r\n	margin-right: 10px;\r\n}\r\n\r\n#CaptchaSelector .character_info {\r\n	position: absolute;\r\n	bottom: 0;\r\n	left: 0;\r\n	width: 200px;\r\n	height: 35px;\r\n	background-color: #ffffff;\r\n	border-radius: 3px;\r\n	display: none;\r\n}\r\n\r\n#CaptchaSelector li a {\r\n	text-decoration: underline;\r\n	color: black;\r\n}\r\n\r\n#CaptchaSelector .player_list li .remove {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n";
+	CaptchaSelector_default$1 = ":host {\r\n	position: absolute;\r\n	width: 210px;\r\n	height: 310px;\r\n	z-index: 50;\r\n}\r\n\r\n#CaptchaSelector {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #ffffff;\r\n	font-size: 12px;\r\n}\r\n\r\n#CaptchaSelector .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .titlebar {\r\n	width: 210px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaSelector .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaSelector .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaSelector .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaSelector .titlebar .right,\r\n#CaptchaSelector .character_info .close-character {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaSelector .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .container {\r\n	height: 293px;\r\n}\r\n\r\n#CaptchaSelector .options {\r\n	height: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaSelector .player_list {\r\n	height: 247px;\r\n	overflow-y: auto;\r\n	list-style: none;\r\n	margin: 0px 10px;\r\n	padding: 0;\r\n}\r\n\r\n#CaptchaSelector .player_list li {\r\n	width: 190px;\r\n	height: 24px;\r\n	margin: 2px 0;\r\n	background-color: #e5e5e5;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n\r\n#CaptchaSelector .footer {\r\n	display: flex;\r\n	justify-content: end;\r\n	align-items: center;\r\n	height: 24px;\r\n}\r\n\r\n#CaptchaSelector .range_val {\r\n	appearance: none;\r\n	width: 20px;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .range_val::-webkit-inner-spin-button,\r\n#CaptchaSelector .range_val::-webkit-outer-spin-button {\r\n	-webkit-appearance: none;\r\n	margin: 0;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .btn_active,\r\n#CaptchaSelector .footer .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n#CaptchaSelector .btn_active {\r\n	margin-left: 15px;\r\n}\r\n\r\n#CaptchaSelector .footer .btn {\r\n	margin-right: 10px;\r\n}\r\n\r\n#CaptchaSelector .character_info {\r\n	position: absolute;\r\n	bottom: 0;\r\n	left: 0;\r\n	width: 200px;\r\n	height: 35px;\r\n	background-color: #ffffff;\r\n	border-radius: 3px;\r\n	display: none;\r\n}\r\n\r\n#CaptchaSelector li a {\r\n	text-decoration: underline;\r\n	color: black;\r\n}\r\n\r\n#CaptchaSelector .player_list li .remove {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaSelector.js
@@ -532123,10 +539373,11 @@ var init_ProcessCommand = __esmMin((() => {
 			callback: function(text) {
 				const matches = text.match(/(^mapmove|^mm)\s+([\w.]+)\s+(\d+)\s+(\d+)/);
 				if (matches) {
-					const pkt = new PACKET.CZ.MOVETO_MAP();
+					const pkt = new PACKET.CZ.HAPPYRO_MAP_TELEPORT();
+					pkt.requestId = Date.now() & 4294967295;
 					pkt.mapName = matches[2];
-					pkt.xPos = parseInt(matches[3], 10);
-					pkt.yPos = parseInt(matches[4], 10);
+					pkt.x = parseInt(matches[3], 10);
+					pkt.y = parseInt(matches[4], 10);
 					Network.sendPacket(pkt);
 					return;
 				}
@@ -582306,7 +589557,7 @@ var init_Trade$3 = __esmMin((() => {
 //#region src/UI/Components/Trade/Trade.css?raw
 var Trade_default$1;
 var init_Trade$2 = __esmMin((() => {
-	Trade_default$1 = ":host {\r\n	width: 560px;\r\n	height: 380px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#Trade {\r\n	position: absolute;\r\n	width: 560px;\r\n	height: 380px;\r\n}\r\n\r\n#Trade .titlebar {\r\n	height: 14px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 5px 5px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n	position: relative;\r\n	padding-left: 15px;\r\n	padding-top: 3px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n/** When mouse over items **/\r\n\r\n#Trade .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#Trade .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/** Content **/\r\n\r\n#Trade .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 560px;\r\n	height: 360px;\r\n}\r\n\r\n#Trade .box {\r\n	position: absolute;\r\n	top: 3px;\r\n	width: 275px;\r\n	height: 305px;\r\n	background-repeat: repeat-y;\r\n	background-size: 32px 10%; /* 10% for 10 items */\r\n	background-position: 1px 0px;\r\n}\r\n\r\n#Trade .box.disabled {\r\n	background: #ccc !important;\r\n}\r\n\r\n#Trade .box.send {\r\n	left: 2px;\r\n}\r\n\r\n#Trade .box.recv {\r\n	right: 3px;\r\n}\r\n\r\n/** Items in box **/\r\n\r\n#Trade .box .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 26px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n\r\n#Trade .box .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Trade .box .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#Trade .box .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n/** Zeny input **/\r\n\r\n#Trade .zeny {\r\n	position: absolute;\r\n	top: 311px;\r\n	background-color: #ddd;\r\n	border: none;\r\n	width: 70px;\r\n	height: 13px;\r\n	padding: 2px;\r\n}\r\n\r\n#Trade .zeny.send {\r\n	left: 160px;\r\n}\r\n\r\n#Trade .zeny.recv {\r\n	left: 440px;\r\n}\r\n\r\n#Trade .zeny.disabled {\r\n	background-color: transparent;\r\n}\r\n\r\n/** Buttons **/\r\n\r\n#Trade .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: inline-block;\r\n}\r\n#Trade .btn.disabled {\r\n	cursor: default;\r\n}\r\n#Trade .btn.ok {\r\n	left: 5px;\r\n}\r\n#Trade .btn.trade {\r\n	left: 260px;\r\n}\r\n#Trade .btn.cancel {\r\n	left: 510px;\r\n}\r\n";
+	Trade_default$1 = ":host {\r\n	width: 560px;\r\n	height: 380px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#Trade {\r\n	position: absolute;\r\n	width: 560px;\r\n	height: 380px;\r\n}\r\n\r\n#Trade .titlebar {\r\n	height: 14px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 5px 5px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n	position: relative;\r\n	padding-left: 15px;\r\n	padding-top: 3px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n/** When mouse over items **/\r\n\r\n#Trade .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#Trade .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/** Content **/\r\n\r\n#Trade .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 560px;\r\n	height: 360px;\r\n}\r\n\r\n#Trade .box {\r\n	position: absolute;\r\n	top: 3px;\r\n	width: 275px;\r\n	height: 305px;\r\n	background-repeat: repeat-y;\r\n	background-size: 32px 10%; /* 10% for 10 items */\r\n	background-position: 1px 0px;\r\n}\r\n\r\n#Trade .box.disabled {\r\n	background: #ccc !important;\r\n}\r\n\r\n#Trade .box.send {\r\n	left: 2px;\r\n}\r\n\r\n#Trade .box.recv {\r\n	right: 3px;\r\n}\r\n\r\n/** Items in box **/\r\n\r\n#Trade .box .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 26px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n\r\n#Trade .box .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Trade .box .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#Trade .box .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n/** Zeny input **/\r\n\r\n#Trade .zeny {\r\n	position: absolute;\r\n	top: 311px;\r\n	background-color: #ddd;\r\n	border: none;\r\n	width: 70px;\r\n	height: 13px;\r\n	padding: 2px;\r\n}\r\n\r\n#Trade .zeny.send {\r\n	left: 160px;\r\n}\r\n\r\n#Trade .zeny.recv {\r\n	left: 440px;\r\n}\r\n\r\n#Trade .zeny.disabled {\r\n	background-color: transparent;\r\n}\r\n\r\n/** Buttons **/\r\n\r\n#Trade .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: inline-flex;\r\n}\r\n#Trade .btn.disabled {\r\n	cursor: default;\r\n}\r\n#Trade .btn.ok {\r\n	left: 5px;\r\n}\r\n#Trade .btn.trade {\r\n	left: 260px;\r\n}\r\n#Trade .btn.cancel {\r\n	left: 510px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Trade/Trade.js
@@ -583540,6 +590791,7 @@ var vec4$3, _pos$3, _size$3, dpr, procCanvas, procCtx, _isUglyShadow, Display;
 var init_EntityDisplay = __esmMin((() => {
 	init_gl_matrix();
 	init_Map();
+	init_GuildPositionName();
 	vec4$3 = gl_matrix_default.vec4;
 	_pos$3 = /* @__PURE__ */ new Float32Array(4);
 	_size$3 = /* @__PURE__ */ new Float32Array(2);
@@ -583650,8 +590902,8 @@ var init_EntityDisplay = __esmMin((() => {
 			if (this.party_name.length && (style === this.STYLE.DEFAULT || style === this.STYLE.ADMIN || style === this.STYLE.MOB || style === this.STYLE.NPC)) lines[0] += " (" + this.party_name + ")";
 			if (this.guild_name.length && (style === this.STYLE.DEFAULT || style === this.STYLE.ADMIN || style === this.STYLE.MOB || style === this.STYLE.NPC)) {
 				lines[1] = this.guild_name;
-				if (this.guild_rank.length && Map_default.showname) lines[1] += " [" + this.guild_rank + "]";
-			} else if (this.guild_rank.length && (style === this.STYLE.DEFAULT || style === this.STYLE.ADMIN || style === this.STYLE.MOB || style === this.STYLE.NPC)) lines[1] = this.guild_rank;
+				if (this.guild_rank.length && Map_default.showname) lines[1] += " [" + localizeGuildPositionName(this.guild_rank) + "]";
+			} else if (this.guild_rank.length && (style === this.STYLE.DEFAULT || style === this.STYLE.ADMIN || style === this.STYLE.MOB || style === this.STYLE.NPC)) lines[1] = localizeGuildPositionName(this.guild_rank);
 			if (Map_default.showname && this.title_name.length && (style === this.STYLE.DEFAULT || style === this.STYLE.ADMIN || style === this.STYLE.MOB || style === this.STYLE.NPC)) lines[0] = "[" + this.title_name + "] " + lines[0];
 			ctx.font = (Map_default.showname ? "bold " : "") + fontSize + "px Arial";
 			const width = Math.max(ctx.measureText(lines[0]).width, ctx.measureText(lines[1]).width) + start_x + 5;
@@ -593013,7 +600265,7 @@ var init_Vending$2 = __esmMin((() => {
 //#region src/UI/Components/Vending/Vending.css?raw
 var Vending_default$1;
 var init_Vending$1 = __esmMin((() => {
-	Vending_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#vending {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#vending .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#vending .titlebar .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 15px;\r\n	white-space: nowrap;\r\n}\r\n#vending .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n#vending .resize {\r\n	position: absolute;\r\n	right: 1px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#vending .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	margin: 0;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .selectall {\r\n	vertical-align: 2px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .ask_quantity {\r\n	padding-top: 7px;\r\n	padding-left: 20px;\r\n}\r\n\r\n#vending .nstore {\r\n	position: absolute;\r\n	top: 24px;\r\n	border: none;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#vending .limit {\r\n	position: absolute;\r\n	top: 8px;\r\n	border: none;\r\n	padding-left: 5px;\r\n	outline: none;\r\n}\r\n#vending input.shopname {\r\n	position: absolute;\r\n	left: 55px;\r\n	width: 310px;\r\n	border: none;\r\n	background-color: #e9e9e9;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#vending input.shopname {\r\n	top: 22px;\r\n}\r\n#vending input.limitZeny {\r\n	top: 6px;\r\n}\r\n#vending input.limitZeny {\r\n	position: absolute;\r\n	left: 120px;\r\n	width: 100px;\r\n	border: none;\r\n	background-color: #e9e9e9;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n\r\n#vending .content .item-container {\r\n	width: 32px;\r\n	height: 32px;\r\n	display: block;\r\n	float: left;\r\n	clear: both;\r\n}\r\n#vending .content .damaged {\r\n	background-color: red;\r\n	background-blend-mode: luminosity;\r\n}\r\n#vending .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	background-repeat: repeat-y;\r\n	padding-right: 2px;\r\n	padding-top: 5px;\r\n	padding-bottom: 5px;\r\n}\r\n#vending .container .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 15px;\r\n	line-height: 15px;\r\n	border-radius: 3px;\r\n	padding: 4px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#vending .content {\r\n	overflow-y: auto;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n}\r\n#vending .content .add_shop {\r\n	margin-top: 10px;\r\n}\r\n#vending .content .item {\r\n	display: block;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#vending .content .item.selected {\r\n	background-color: #346ae180;\r\n}\r\n\r\n#vending .content.available {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat;\r\n}\r\n#vending .content.available .item {\r\n	display: block;\r\n	float: left;\r\n	width: 28px;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#vending .content.available .item.selected {\r\n	background-color: transparent;\r\n}\r\n\r\n#vending .content .item .icon {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .content .item .amount {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 18px;\r\n	left: 18px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#vending .content .item .amount_ {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 13px;\r\n	left: 200px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#vending .content .item .name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 32px;\r\n	width: 115px;\r\n	white-space: nowrap;\r\n}\r\n#vending .content .item .price {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 260px;\r\n	white-space: nowrap;\r\n	text-align: right;\r\n}\r\n#vending .content .item .unity {\r\n	position: absolute;\r\n	top: 13px;\r\n	right: 2px;\r\n	width: 10px;\r\n}\r\n\r\n#vending .footer .total,\r\n#vending .footer .totalP,\r\n#vending .footer .cashuser {\r\n	padding-left: 10px;\r\n	padding-top: 8px;\r\n}\r\n#vending .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#vending .InputWindow {\r\n	width: 280px;\r\n	position: absolute;\r\n	z-index: 50;\r\n}\r\n#vending .OutputWindow {\r\n	width: 400px;\r\n	position: absolute;\r\n	z-index: 50;\r\n}\r\n#vending .btn.buy,\r\n#vending .btn.sell {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 62px;\r\n}\r\n#vending .zeny {\r\n	position: absolute;\r\n	top: 8px;\r\n	left: 230px;\r\n}\r\n#vending .btn.cancel {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 15px;\r\n}\r\n#vending .zenyLabel,\r\n#vending .zenySpan,\r\n#vending .weightLabel,\r\n#vending .weightSpan {\r\n	position: absolute;\r\n	top: 10px;\r\n}\r\n#vending .zenyLabel {\r\n	left: 5px;\r\n}\r\n#vending .zenySpan {\r\n	left: 40px;\r\n}\r\n#vending .weightLabel {\r\n	left: 215px;\r\n}\r\n#vending .weightSpan {\r\n	left: 260px;\r\n}\r\n";
+	Vending_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#vending {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#vending .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#vending .titlebar .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 15px;\r\n	white-space: nowrap;\r\n}\r\n#vending .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n#vending .resize {\r\n	position: absolute;\r\n	right: 1px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#vending .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	margin: 0;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .selectall {\r\n	vertical-align: 2px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .ask_quantity {\r\n	padding-top: 7px;\r\n	padding-left: 20px;\r\n}\r\n\r\n#vending .nstore {\r\n	position: absolute;\r\n	top: 24px;\r\n	border: none;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#vending .limit {\r\n	position: absolute;\r\n	top: 8px;\r\n	border: none;\r\n	padding-left: 5px;\r\n	outline: none;\r\n}\r\n#vending input.shopname {\r\n	position: absolute;\r\n	left: 55px;\r\n	width: 310px;\r\n	border: none;\r\n	background-color: #e9e9e9;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#vending input.shopname {\r\n	top: 22px;\r\n}\r\n#vending input.limitZeny {\r\n	top: 6px;\r\n}\r\n#vending input.limitZeny {\r\n	position: absolute;\r\n	left: 120px;\r\n	width: 100px;\r\n	border: none;\r\n	background-color: #e9e9e9;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n\r\n#vending .content .item-container {\r\n	width: 32px;\r\n	height: 32px;\r\n	display: block;\r\n	float: left;\r\n	clear: both;\r\n}\r\n#vending .content .damaged {\r\n	background-color: red;\r\n	background-blend-mode: luminosity;\r\n}\r\n#vending .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	background-repeat: repeat-y;\r\n	padding-right: 2px;\r\n	padding-top: 5px;\r\n	padding-bottom: 5px;\r\n}\r\n#vending .container .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 15px;\r\n	line-height: 15px;\r\n	border-radius: 3px;\r\n	padding: 4px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#vending .content {\r\n	overflow-y: auto;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n}\r\n#vending .content .add_shop {\r\n	margin-top: 10px;\r\n}\r\n#vending .content .item {\r\n	display: block;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#vending .content .item.selected {\r\n	background-color: #346ae180;\r\n}\r\n\r\n#vending .content.available {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat;\r\n}\r\n#vending .content.available .item {\r\n	display: block;\r\n	float: left;\r\n	width: 28px;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#vending .content.available .item.selected {\r\n	background-color: transparent;\r\n}\r\n\r\n#vending .content .item .icon {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#vending .content .item .amount {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 18px;\r\n	left: 18px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#vending .content .item .amount_ {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 13px;\r\n	left: 200px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#vending .content .item .name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 32px;\r\n	width: 115px;\r\n	white-space: nowrap;\r\n}\r\n#vending .content .item .price {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 260px;\r\n	white-space: nowrap;\r\n	text-align: right;\r\n}\r\n#vending .content .item .unity {\r\n	position: absolute;\r\n	top: 13px;\r\n	right: 2px;\r\n	width: 10px;\r\n}\r\n\r\n#vending .footer .total,\r\n#vending .footer .totalP,\r\n#vending .footer .cashuser {\r\n	padding-left: 10px;\r\n	padding-top: 8px;\r\n}\r\n#vending .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#vending .InputWindow {\r\n	width: 280px;\r\n	position: absolute;\r\n	z-index: 50;\r\n}\r\n#vending .OutputWindow {\r\n	width: 400px;\r\n	position: absolute;\r\n	z-index: 50;\r\n}\r\n#vending .btn.buy,\r\n#vending .btn.sell {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 62px;\r\n}\r\n#vending .zeny {\r\n	position: absolute;\r\n	top: 8px;\r\n	left: 230px;\r\n}\r\n#vending .btn.cancel {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 15px;\r\n}\r\n#vending .zenyLabel,\r\n#vending .zenySpan,\r\n#vending .weightLabel,\r\n#vending .weightSpan {\r\n	position: absolute;\r\n	top: 10px;\r\n}\r\n#vending .zenyLabel {\r\n	left: 5px;\r\n}\r\n#vending .zenySpan {\r\n	left: 40px;\r\n}\r\n#vending .weightLabel {\r\n	left: 215px;\r\n}\r\n#vending .weightSpan {\r\n	left: 260px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Vending/Vending.js
@@ -598554,7 +605806,7 @@ var init_CaptchaAnswer$2 = __esmMin((() => {
 //#region src/UI/Components/Captcha/CaptchaAnswer.css?raw
 var CaptchaAnswer_default$1;
 var init_CaptchaAnswer$1 = __esmMin((() => {
-	CaptchaAnswer_default$1 = ":host {\r\n	position: absolute;\r\n	width: 340px;\r\n	height: 290px;\r\n}\r\n\r\n#CaptchaAnswer {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: rgba(255, 255, 255, 0.85);\r\n}\r\n\r\n#CaptchaAnswer .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaAnswer .titlebar {\r\n	width: 340px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaAnswer .container {\r\n	padding: 10px;\r\n	text-align: center;\r\n}\r\n\r\n#CaptchaAnswer .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	margin-left: 5px;\r\n}\r\n\r\n#CaptchaAnswer .preview_box {\r\n	width: 220px;\r\n	height: 90px;\r\n	border: 1px solid #999;\r\n	margin: 0 auto 10px auto;\r\n	background-color: transparent;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	overflow: hidden;\r\n}\r\n\r\n#CaptchaAnswer .preview_box img {\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n}\r\n\r\n#CaptchaAnswer input[type='text'].answer_input {\r\n	width: 150px;\r\n	margin-right: 5px;\r\n	border: 1px solid #7f9db9;\r\n}\r\n\r\n#CaptchaAnswer .controls {\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaAnswer .image_container {\r\n	width: 260px;\r\n	height: 100px;\r\n	margin: 10px auto;\r\n	background-color: #000;\r\n	border: 1px solid #333;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	position: relative;\r\n	overflow: hidden;\r\n}\r\n\r\n#CaptchaAnswer .status {\r\n	display: flex;\r\n	justify-content: center;\r\n	gap: 80px;\r\n}\r\n\r\n#CaptchaAnswer .image_container img {\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n}\r\n\r\n#CaptchaAnswer .timer_bar_bg {\r\n	width: 260px;\r\n	height: 30px;\r\n	background-color: #ccc;\r\n	margin: 5px auto;\r\n	border: 1px solid #999;\r\n}\r\n\r\n#CaptchaAnswer .timer_bar_fill {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #f00;\r\n}\r\n\r\n#CaptchaAnswer .answer_field {\r\n	width: 180px;\r\n	margin-right: 5px;\r\n}\r\n\r\n#CaptchaAnswer .message {\r\n	margin-bottom: 10px;\r\n}\r\n\r\n#CaptchaAnswer .message,\r\n#CaptchaAnswer .retry_count,\r\n#CaptchaAnswer .timer_text {\r\n	font-size: 12px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaAnswer .retry_count {\r\n	color: rgb(130, 0, 0);\r\n}\r\n\r\n#CaptchaAnswer .timer_text {\r\n	color: rgb(0, 0, 130);\r\n}\r\n\r\n#CaptchaAnswer .error_text {\r\n	display: inline-block;\r\n	min-width: 15px;\r\n	min-height: 15px;\r\n	font-weight: normal;\r\n	color: red;\r\n}\r\n";
+	CaptchaAnswer_default$1 = ":host {\r\n	position: absolute;\r\n	width: 340px;\r\n	height: 290px;\r\n}\r\n\r\n#CaptchaAnswer {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: rgba(255, 255, 255, 0.85);\r\n}\r\n\r\n#CaptchaAnswer .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaAnswer .titlebar {\r\n	width: 340px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaAnswer .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaAnswer .container {\r\n	padding: 10px;\r\n	text-align: center;\r\n}\r\n\r\n#CaptchaAnswer .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	margin-left: 5px;\r\n}\r\n\r\n#CaptchaAnswer .preview_box {\r\n	width: 220px;\r\n	height: 90px;\r\n	border: 1px solid #999;\r\n	margin: 0 auto 10px auto;\r\n	background-color: transparent;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	overflow: hidden;\r\n}\r\n\r\n#CaptchaAnswer .preview_box img {\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n}\r\n\r\n#CaptchaAnswer input[type='text'].answer_input {\r\n	width: 150px;\r\n	margin-right: 5px;\r\n	border: 1px solid #7f9db9;\r\n}\r\n\r\n#CaptchaAnswer .controls {\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaAnswer .image_container {\r\n	width: 260px;\r\n	height: 100px;\r\n	margin: 10px auto;\r\n	background-color: #000;\r\n	border: 1px solid #333;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	position: relative;\r\n	overflow: hidden;\r\n}\r\n\r\n#CaptchaAnswer .status {\r\n	display: flex;\r\n	justify-content: center;\r\n	gap: 80px;\r\n}\r\n\r\n#CaptchaAnswer .image_container img {\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n}\r\n\r\n#CaptchaAnswer .timer_bar_bg {\r\n	width: 260px;\r\n	height: 30px;\r\n	background-color: #ccc;\r\n	margin: 5px auto;\r\n	border: 1px solid #999;\r\n}\r\n\r\n#CaptchaAnswer .timer_bar_fill {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #f00;\r\n}\r\n\r\n#CaptchaAnswer .answer_field {\r\n	width: 180px;\r\n	margin-right: 5px;\r\n}\r\n\r\n#CaptchaAnswer .message {\r\n	margin-bottom: 10px;\r\n}\r\n\r\n#CaptchaAnswer .message,\r\n#CaptchaAnswer .retry_count,\r\n#CaptchaAnswer .timer_text {\r\n	font-size: 12px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaAnswer .retry_count {\r\n	color: rgb(130, 0, 0);\r\n}\r\n\r\n#CaptchaAnswer .timer_text {\r\n	color: rgb(0, 0, 130);\r\n}\r\n\r\n#CaptchaAnswer .error_text {\r\n	display: inline-block;\r\n	min-width: 15px;\r\n	min-height: 15px;\r\n	font-weight: normal;\r\n	color: red;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaAnswer.js
@@ -598758,7 +606010,7 @@ var init_Clan$3 = __esmMin((() => {
 //#region src/UI/Components/Clan/Clan.css?raw
 var Clan_default$1;
 var init_Clan$2 = __esmMin((() => {
-	Clan_default$1 = ":host {\r\n	top: 150px;\r\n	left: 150px;\r\n	width: 400px;\r\n	height: 317px;\r\n}\r\n\r\n#Clan {\r\n	position: absolute;\r\n	width: 400px;\r\n	height: 317px;\r\n}\r\n\r\n#Clan .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#Clan .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#Clan .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#Clan .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#Clan .panel {\r\n	background-color: white;\r\n	padding-right: 2px;\r\n}\r\n\r\n#Clan .content {\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow-y: auto;\r\n	padding: 2px;\r\n	border-top: 1px solid #c6c6c6;\r\n	height: 250px;\r\n}\r\n\r\n#Clan .tabs {\r\n	height: 23px;\r\n	background-color: #b5b6b5;\r\n	white-space: nowrap;\r\n}\r\n\r\n#Clan .tabs button.active {\r\n	background-color: #fff;\r\n}\r\n\r\n#Clan .tabs button {\r\n	width: 64px;\r\n	height: 23px;\r\n	margin-left: 1px;\r\n	margin-right: 1px;\r\n	margin-top: 1px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #cecece;\r\n	border: 0px;\r\n	padding: 3px;\r\n}\r\n\r\n#Clan .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n\r\n#Clan .footer .btn_ok {\r\n	display: none;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	right: 4px;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n\r\n/*\r\n * Clan Info CSS\r\n */\r\n#Clan .content.info .exp,\r\n#Clan .content.info .emblem,\r\n#Clan .content.info .tax,\r\n#Clan .content.info .ally,\r\n#Clan .content.info .ally_list,\r\n#Clan .content.info .hostile,\r\n#Clan .content.info .hostile_list {\r\n	position: absolute;\r\n	left: 201px;\r\n}\r\n\r\n#Clan .content.info .name {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 13px;\r\n}\r\n\r\n#Clan .content.info .level {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 28px;\r\n}\r\n\r\n#Clan .content.info .master {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 45px;\r\n}\r\n\r\n#Clan .content.info .members {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 61px;\r\n}\r\n\r\n#Clan .content.info .territory {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 77px;\r\n}\r\n\r\n#Clan .content.info .clan_illust {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 99px;\r\n	width: 180px;\r\n	height: 134px;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Clan .content.info .members ui-button {\r\n	margin-left: 5px;\r\n	vertical-align: -4px;\r\n	border: none;\r\n	width: 15px;\r\n	height: 15px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Clan .content.info .emblem {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 37px;\r\n}\r\n\r\n#Clan .content.info .ally {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 99px;\r\n}\r\n\r\n#Clan .content.info .ally_list {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 114px;\r\n	white-space: pre;\r\n	width: 168px;\r\n	height: 48px;\r\n	background: #cecece;\r\n}\r\n\r\n#Clan .content.info .hostile {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 173px;\r\n}\r\n\r\n#Clan .content.info .hostile_list {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 188px;\r\n	white-space: pre;\r\n	width: 168px;\r\n	height: 48px;\r\n	background: #cecece;\r\n}\r\n\r\n#Clan .content.info .ally_list div,\r\n#Clan .content.info .hostile_list div {\r\n	padding: 2px;\r\n}\r\n\r\n#Clan .content.info .ally_list div.active,\r\n#Clan .content.info .hostile_list div.active {\r\n	background-color: #739eef;\r\n	padding: 2px;\r\n}\r\n\r\n#Clan .content.info .emblem_container {\r\n	width: 24px;\r\n	height: 24px;\r\n	position: absolute;\r\n	top: 29px;\r\n	left: 300px;\r\n	background-color: #709ce7;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Clan .content.info .emblem_edit {\r\n	position: absolute;\r\n	top: 34px;\r\n	left: 330px;\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	overflow: hidden;\r\n}\r\n\r\n#Clan .content.info .emblem_edit input {\r\n	opacity: 0;\r\n}\r\n";
+	Clan_default$1 = ":host {\r\n	top: 150px;\r\n	left: 150px;\r\n	width: 400px;\r\n	height: 317px;\r\n}\r\n\r\n#Clan {\r\n	position: absolute;\r\n	width: 400px;\r\n	height: 317px;\r\n}\r\n\r\n#Clan .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#Clan .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#Clan .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#Clan .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#Clan .panel {\r\n	background-color: white;\r\n	padding-right: 2px;\r\n}\r\n\r\n#Clan .content {\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow-y: auto;\r\n	padding: 2px;\r\n	border-top: 1px solid #c6c6c6;\r\n	height: 250px;\r\n}\r\n\r\n#Clan .tabs {\r\n	height: 23px;\r\n	background-color: #b5b6b5;\r\n	white-space: nowrap;\r\n}\r\n\r\n#Clan .tabs button.active {\r\n	background-color: #fff;\r\n}\r\n\r\n#Clan .tabs button {\r\n	width: 64px;\r\n	height: 23px;\r\n	margin-left: 1px;\r\n	margin-right: 1px;\r\n	margin-top: 1px;\r\n	padding: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	background-color: #cecece;\r\n	border: 0px;\r\n	padding: 3px;\r\n}\r\n\r\n#Clan .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n\r\n#Clan .footer .btn_ok {\r\n	display: none;\r\n	position: absolute;\r\n	bottom: 4px;\r\n	right: 4px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n\r\n/*\r\n * Clan Info CSS\r\n */\r\n#Clan .content.info .exp,\r\n#Clan .content.info .emblem,\r\n#Clan .content.info .tax,\r\n#Clan .content.info .ally,\r\n#Clan .content.info .ally_list,\r\n#Clan .content.info .hostile,\r\n#Clan .content.info .hostile_list {\r\n	position: absolute;\r\n	left: 201px;\r\n}\r\n\r\n#Clan .content.info .name {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 13px;\r\n}\r\n\r\n#Clan .content.info .level {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 28px;\r\n}\r\n\r\n#Clan .content.info .master {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 45px;\r\n}\r\n\r\n#Clan .content.info .members {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 61px;\r\n}\r\n\r\n#Clan .content.info .territory {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 77px;\r\n}\r\n\r\n#Clan .content.info .clan_illust {\r\n	position: absolute;\r\n	left: 9px;\r\n	top: 99px;\r\n	width: 180px;\r\n	height: 134px;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Clan .content.info .members ui-button {\r\n	margin-left: 5px;\r\n	vertical-align: -4px;\r\n	border: none;\r\n	width: 15px;\r\n	height: 15px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#Clan .content.info .emblem {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 37px;\r\n}\r\n\r\n#Clan .content.info .ally {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 99px;\r\n}\r\n\r\n#Clan .content.info .ally_list {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 114px;\r\n	white-space: pre;\r\n	width: 168px;\r\n	height: 48px;\r\n	background: #cecece;\r\n}\r\n\r\n#Clan .content.info .hostile {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 173px;\r\n}\r\n\r\n#Clan .content.info .hostile_list {\r\n	position: absolute;\r\n	left: 201px;\r\n	top: 188px;\r\n	white-space: pre;\r\n	width: 168px;\r\n	height: 48px;\r\n	background: #cecece;\r\n}\r\n\r\n#Clan .content.info .ally_list div,\r\n#Clan .content.info .hostile_list div {\r\n	padding: 2px;\r\n}\r\n\r\n#Clan .content.info .ally_list div.active,\r\n#Clan .content.info .hostile_list div.active {\r\n	background-color: #739eef;\r\n	padding: 2px;\r\n}\r\n\r\n#Clan .content.info .emblem_container {\r\n	width: 24px;\r\n	height: 24px;\r\n	position: absolute;\r\n	top: 29px;\r\n	left: 300px;\r\n	background-color: #709ce7;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Clan .content.info .emblem_edit {\r\n	position: absolute;\r\n	top: 34px;\r\n	left: 330px;\r\n	width: 42px;\r\n	height: 20px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	overflow: hidden;\r\n}\r\n\r\n#Clan .content.info .emblem_edit input {\r\n	opacity: 0;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Clan/Clan.js
@@ -600874,7 +608126,7 @@ var init_WinPopup$2 = __esmMin((() => {
 //#region src/UI/Components/WinPopup/WinPopup.css?raw
 var WinPopup_default$1;
 var init_WinPopup$1 = __esmMin((() => {
-	WinPopup_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#win_popup {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n	z-index: 999;\r\n}\r\n\r\n#win_popup .titlebar {\r\n	position: absolute;\r\n	top: 1px;\r\n	left: 1px;\r\n	z-index: 1;\r\n	box-sizing: border-box;\r\n	width: 278px;\r\n	height: 17px;\r\n	border-bottom: 1px solid #7997c0;\r\n	background: linear-gradient(#f7faff, #cadcf4);\r\n	color: #202020;\r\n	font-size: 12px;\r\n	line-height: 16px;\r\n	padding-left: 7px;\r\n}\r\n\r\n#win_popup .container {\r\n	position: absolute;\r\n	height: 70px;\r\n	width: 270px;\r\n	top: 20px;\r\n	overflow: auto;\r\n}\r\n\r\n#win_popup .text {\r\n	padding: 5px 10px 0px 10px;\r\n}\r\n\r\n#win_popup .text.preserve-line-breaks {\r\n	white-space: pre-line;\r\n}\r\n\r\n#win_popup .buttonscontainer {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 280px;\r\n	top: 95px;\r\n}\r\n\r\n#win_popup .btns {\r\n	position: absolute;\r\n	bottom: 2px;\r\n	right: 3px;\r\n}\r\n\r\n#win_popup .btn {\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	margin-left: 3px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#win_popup .btn.localized {\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	color: #202622;\r\n	cursor: pointer;\r\n}\r\n\r\n#win_popup .btn.localized:hover {\r\n	background: #dcebe3;\r\n}\r\n\r\n#win_popup .btn.localized:active {\r\n	background: #c8ded2;\r\n}\r\n";
+	WinPopup_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#win_popup {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n	z-index: 999;\r\n}\r\n\r\n#win_popup .titlebar {\r\n	position: absolute;\r\n	top: 1px;\r\n	left: 1px;\r\n	z-index: 1;\r\n	box-sizing: border-box;\r\n	width: 278px;\r\n	height: 17px;\r\n	border-bottom: 1px solid #7997c0;\r\n	background: linear-gradient(#f7faff, #cadcf4);\r\n	color: #202020;\r\n	font-size: 12px;\r\n	line-height: 16px;\r\n	padding-left: 7px;\r\n}\r\n\r\n#win_popup .container {\r\n	position: absolute;\r\n	height: 70px;\r\n	width: 270px;\r\n	top: 20px;\r\n	overflow: auto;\r\n}\r\n\r\n#win_popup .text {\r\n	padding: 5px 10px 0px 10px;\r\n}\r\n\r\n#win_popup .text.preserve-line-breaks {\r\n	white-space: pre-line;\r\n}\r\n\r\n#win_popup .buttonscontainer {\r\n	position: absolute;\r\n	height: 25px;\r\n	width: 280px;\r\n	top: 95px;\r\n}\r\n\r\n#win_popup .btns {\r\n	position: absolute;\r\n	bottom: 3px;\r\n	right: 3px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: flex-end;\r\n	gap: 2px;\r\n}\r\n\r\n#win_popup .btn {\r\n	border: 0;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	margin-left: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinPopup/WinPopup.js
@@ -602342,7 +609594,7 @@ function onEntityIdentity(pkt) {
 		} else entity.display.title_name = "";
 		entity.display.party_name = pkt.PName || "";
 		entity.display.guild_name = pkt.GName || "";
-		entity.display.guild_rank = pkt.RName || "";
+		entity.display.guild_rank = localizeGuildPositionName(pkt.RName || "");
 		entity.display.load = entity.display.TYPE.COMPLETE;
 		if (entity.GUID) GuildEngine.requestGuildEmblem(entity.GUID, entity.GEmblemVer, (image, gif) => {
 			entity.setEntityGuildEmblem(image, gif);
@@ -603644,6 +610896,7 @@ function EntityEngine() {
 var SkillNameDisplayExclude, SkillBlueCombo, C_MULTIHIT_DELAY, AVG_ATTACK_SPEED, MAX_ATTACKMT, clanEmblems;
 var init_Entity = __esmMin((() => {
 	init_DBManager();
+	init_GuildPositionName();
 	init_SkillConst();
 	init_SkillInfo_generated();
 	init_StatusConst();
@@ -603896,7 +611149,7 @@ var init_ItemSelection$2 = __esmMin((() => {
 //#region src/UI/Components/ItemSelection/ItemSelection.css?raw
 var ItemSelection_default$1;
 var init_ItemSelection$1 = __esmMin((() => {
-	ItemSelection_default$1 = ":host {\r\n	width: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#ItemSelection {\r\n	position: absolute;\r\n	width: 200px;\r\n}\r\n#ItemSelection .head {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n	background-repeat: repeat-x;\r\n	background-color: white;\r\n}\r\n#ItemSelection .head .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 5px;\r\n	white-space: nowrap;\r\n}\r\n#ItemSelection .bottom {\r\n	position: relative;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#ItemSelection .content {\r\n	position: absolute;\r\n	top: 22px;\r\n	left: 0px;\r\n	background-color: white;\r\n	width: 100%;\r\n}\r\n#ItemSelection .list {\r\n	background-color: #f7f7f7;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	margin-left: 10px;\r\n	margin-right: 10px;\r\n}\r\n#ItemSelection .list .item {\r\n	display: block;\r\n	height: 28px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n}\r\n#ItemSelection .list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ItemSelection .list .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#ItemSelection ui-button.btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#ItemSelection .ok {\r\n	right: 50px;\r\n}\r\n#ItemSelection .cancel {\r\n	right: 5px;\r\n}\r\n";
+	ItemSelection_default$1 = ":host {\r\n	width: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#ItemSelection {\r\n	position: absolute;\r\n	width: 200px;\r\n}\r\n#ItemSelection .head {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n	background-repeat: repeat-x;\r\n	background-color: white;\r\n}\r\n#ItemSelection .head .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 5px;\r\n	white-space: nowrap;\r\n}\r\n#ItemSelection .bottom {\r\n	position: relative;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#ItemSelection .content {\r\n	position: absolute;\r\n	top: 22px;\r\n	left: 0px;\r\n	background-color: white;\r\n	width: 100%;\r\n}\r\n#ItemSelection .list {\r\n	background-color: #f7f7f7;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	margin-left: 10px;\r\n	margin-right: 10px;\r\n}\r\n#ItemSelection .list .item {\r\n	display: block;\r\n	height: 28px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n}\r\n#ItemSelection .list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#ItemSelection .list .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#ItemSelection ui-button.btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n}\r\n#ItemSelection .ok {\r\n	right: 49px;\r\n}\r\n#ItemSelection .cancel {\r\n	right: 5px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ItemSelection/ItemSelection.js
@@ -604063,7 +611316,7 @@ var init_MakeItemSelection$2 = __esmMin((() => {
 //#region src/UI/Components/MakeItemSelection/MakeItemSelection.css?raw
 var MakeItemSelection_default$1;
 var init_MakeItemSelection$1 = __esmMin((() => {
-	MakeItemSelection_default$1 = ":host {\r\n	width: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeItemSelection {\r\n	position: absolute;\r\n	width: 200px;\r\n}\r\n#MakeItemSelection .head {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n	background-repeat: repeat-x;\r\n	background-color: white;\r\n}\r\n#MakeItemSelection .head .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 5px;\r\n	white-space: nowrap;\r\n}\r\n#MakeItemSelection .bottom {\r\n	position: relative;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeItemSelection .content {\r\n	position: absolute;\r\n	top: 22px;\r\n	left: 0px;\r\n	background-color: white;\r\n	width: 100%;\r\n}\r\n#MakeItemSelection .list {\r\n	background-color: #f7f7f7;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	margin-left: 10px;\r\n	margin-right: 10px;\r\n}\r\n#MakeItemSelection .list .item {\r\n	display: block;\r\n	height: 28px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n}\r\n#MakeItemSelection .list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#MakeItemSelection .list .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#MakeItemSelection .materials {\r\n	position: absolute;\r\n	bottom: 0px;\r\n	left: 10px;\r\n	background-color: white;\r\n	width: 96px;\r\n	height: 28px;\r\n	display: none;\r\n}\r\n#MakeItemSelection .materials .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#MakeItemSelection .materials .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#MakeItemSelection .materials .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#MakeItemSelection ui-button.btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#MakeItemSelection .ok {\r\n	right: 50px;\r\n}\r\n#MakeItemSelection .cancel {\r\n	right: 5px;\r\n}\r\n\r\n#MakeItemSelection .select {\r\n	background-color: rgb(205, 224, 255);\r\n}\r\n";
+	MakeItemSelection_default$1 = ":host {\r\n	width: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeItemSelection {\r\n	position: absolute;\r\n	width: 200px;\r\n}\r\n#MakeItemSelection .head {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n	background-repeat: repeat-x;\r\n	background-color: white;\r\n}\r\n#MakeItemSelection .head .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 5px;\r\n	white-space: nowrap;\r\n}\r\n#MakeItemSelection .bottom {\r\n	position: relative;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeItemSelection .content {\r\n	position: absolute;\r\n	top: 22px;\r\n	left: 0px;\r\n	background-color: white;\r\n	width: 100%;\r\n}\r\n#MakeItemSelection .list {\r\n	background-color: #f7f7f7;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	margin-left: 10px;\r\n	margin-right: 10px;\r\n}\r\n#MakeItemSelection .list .item {\r\n	display: block;\r\n	height: 28px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n}\r\n#MakeItemSelection .list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#MakeItemSelection .list .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#MakeItemSelection .materials {\r\n	position: absolute;\r\n	bottom: 0px;\r\n	left: 10px;\r\n	background-color: white;\r\n	width: 96px;\r\n	height: 28px;\r\n	display: none;\r\n}\r\n#MakeItemSelection .materials .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 24px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n	float: left;\r\n}\r\n#MakeItemSelection .materials .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#MakeItemSelection .materials .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#MakeItemSelection ui-button.btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n#MakeItemSelection .ok {\r\n	right: 49px;\r\n}\r\n#MakeItemSelection .cancel {\r\n	right: 5px;\r\n}\r\n\r\n#MakeItemSelection .select {\r\n	background-color: rgb(205, 224, 255);\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MakeItemSelection/MakeItemSelection.js
@@ -604362,7 +611615,7 @@ var init_MakeModelMessage$2 = __esmMin((() => {
 //#region src/UI/Components/MakeItemSelection/ItemConvertSelection/MakeModelMessage/MakeModelMessage.css?raw
 var MakeModelMessage_default$1;
 var init_MakeModelMessage$1 = __esmMin((() => {
-	MakeModelMessage_default$1 = "/* Message Model */\r\n:host {\r\n	width: 270px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#MakeModelMessage {\r\n	position: absolute;\r\n	width: 270px;\r\n}\r\n\r\n#MakeModelMessage .titlebar {\r\n	border-radius: 3px 3px 0px 0px;\r\n	height: 15px;\r\n	align-items: center;\r\n	padding: 1px;\r\n}\r\n#MakeModelMessage .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	vertical-align: middle;\r\n}\r\n#MakeModelMessage .container {\r\n	background: white;\r\n	width: 268px;\r\n	height: 114px;\r\n	border-radius: 0px 0px 3px 3px;\r\n	border: 1px solid #ccc;\r\n	display: grid;\r\n}\r\n\r\n#MakeModelMessage .text_message {\r\n	height: 73px;\r\n	padding: 11px;\r\n}\r\n\r\n/** Buttons **/\r\n#MakeModelMessage .btns {\r\n	position: absolute;\r\n	bottom: -3px;\r\n	width: 100%;\r\n	height: 28px;\r\n}\r\n#MakeModelMessage ui-button.btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#MakeModelMessage .ok,\r\n#MakeModelMessage .make {\r\n	right: 50px;\r\n}\r\n#MakeModelMessage .cancel {\r\n	right: 4px;\r\n}\r\n#MakeModelMessage .delete {\r\n	left: 4px;\r\n}\r\n";
+	MakeModelMessage_default$1 = "/* Message Model */\r\n:host {\r\n	width: 270px;\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#MakeModelMessage {\r\n	position: absolute;\r\n	width: 270px;\r\n}\r\n\r\n#MakeModelMessage .titlebar {\r\n	border-radius: 3px 3px 0px 0px;\r\n	height: 15px;\r\n	align-items: center;\r\n	padding: 1px;\r\n}\r\n#MakeModelMessage .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	vertical-align: middle;\r\n}\r\n#MakeModelMessage .container {\r\n	background: white;\r\n	width: 268px;\r\n	height: 114px;\r\n	border-radius: 0px 0px 3px 3px;\r\n	border: 1px solid #ccc;\r\n	display: grid;\r\n}\r\n\r\n#MakeModelMessage .text_message {\r\n	height: 73px;\r\n	padding: 11px;\r\n}\r\n\r\n/** Buttons **/\r\n#MakeModelMessage .btns {\r\n	position: absolute;\r\n	bottom: -3px;\r\n	width: 100%;\r\n	height: 28px;\r\n}\r\n#MakeModelMessage ui-button.btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#MakeModelMessage .ok,\r\n#MakeModelMessage .make {\r\n	right: 48px;\r\n}\r\n#MakeModelMessage .cancel {\r\n	right: 4px;\r\n}\r\n#MakeModelMessage .delete {\r\n	left: 4px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MakeItemSelection/ItemConvertSelection/MakeModelMessage/MakeModelMessage.js
@@ -606479,7 +613732,7 @@ var init_MakeArrowSelection$2 = __esmMin((() => {
 //#region src/UI/Components/MakeArrowSelection/MakeArrowSelection.css?raw
 var MakeArrowSelection_default$1;
 var init_MakeArrowSelection$1 = __esmMin((() => {
-	MakeArrowSelection_default$1 = ":host {\r\n	width: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeArrowSelection {\r\n	position: absolute;\r\n	width: 200px;\r\n}\r\n#MakeArrowSelection .head {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n	background-repeat: repeat-x;\r\n	background-color: white;\r\n}\r\n#MakeArrowSelection .head .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 5px;\r\n	white-space: nowrap;\r\n}\r\n#MakeArrowSelection .bottom {\r\n	position: relative;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeArrowSelection .content {\r\n	position: absolute;\r\n	top: 22px;\r\n	left: 0px;\r\n	background-color: white;\r\n	width: 100%;\r\n}\r\n#MakeArrowSelection .list {\r\n	background-color: #f7f7f7;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	margin-left: 10px;\r\n	margin-right: 10px;\r\n}\r\n#MakeArrowSelection .list .item {\r\n	display: block;\r\n	height: 28px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n}\r\n#MakeArrowSelection .list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#MakeArrowSelection .list .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#MakeArrowSelection ui-button.btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#MakeArrowSelection .ok {\r\n	right: 50px;\r\n}\r\n#MakeArrowSelection .cancel {\r\n	right: 5px;\r\n}\r\n";
+	MakeArrowSelection_default$1 = ":host {\r\n	width: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeArrowSelection {\r\n	position: absolute;\r\n	width: 200px;\r\n}\r\n#MakeArrowSelection .head {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n	background-repeat: repeat-x;\r\n	background-color: white;\r\n}\r\n#MakeArrowSelection .head .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 5px;\r\n	white-space: nowrap;\r\n}\r\n#MakeArrowSelection .bottom {\r\n	position: relative;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#MakeArrowSelection .content {\r\n	position: absolute;\r\n	top: 22px;\r\n	left: 0px;\r\n	background-color: white;\r\n	width: 100%;\r\n}\r\n#MakeArrowSelection .list {\r\n	background-color: #f7f7f7;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	margin-left: 10px;\r\n	margin-right: 10px;\r\n}\r\n#MakeArrowSelection .list .item {\r\n	display: block;\r\n	height: 28px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n}\r\n#MakeArrowSelection .list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#MakeArrowSelection .list .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#MakeArrowSelection ui-button.btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n#MakeArrowSelection .ok {\r\n	right: 49px;\r\n}\r\n#MakeArrowSelection .cancel {\r\n	right: 5px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/MakeArrowSelection/MakeArrowSelection.js
@@ -606633,7 +613886,7 @@ var init_RefineWeaponSelection$2 = __esmMin((() => {
 //#region src/UI/Components/RefineWeaponSelection/RefineWeaponSelection.css?raw
 var RefineWeaponSelection_default$1;
 var init_RefineWeaponSelection$1 = __esmMin((() => {
-	RefineWeaponSelection_default$1 = ":host {\r\n	width: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#RefineWeaponSelection {\r\n	position: absolute;\r\n	width: 200px;\r\n}\r\n#RefineWeaponSelection .head {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n	background-repeat: repeat-x;\r\n	background-color: white;\r\n}\r\n#RefineWeaponSelection .head .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 5px;\r\n	white-space: nowrap;\r\n}\r\n#RefineWeaponSelection .bottom {\r\n	position: relative;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#RefineWeaponSelection .content {\r\n	position: absolute;\r\n	top: 22px;\r\n	left: 0px;\r\n	background-color: white;\r\n	width: 100%;\r\n}\r\n#RefineWeaponSelection .list {\r\n	background-color: #f7f7f7;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	margin-left: 10px;\r\n	margin-right: 10px;\r\n}\r\n#RefineWeaponSelection .list .item {\r\n	display: block;\r\n	height: 28px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n}\r\n#RefineWeaponSelection .list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#RefineWeaponSelection .list .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#RefineWeaponSelection ui-button.btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#RefineWeaponSelection .ok {\r\n	right: 50px;\r\n}\r\n#RefineWeaponSelection .cancel {\r\n	right: 5px;\r\n}\r\n";
+	RefineWeaponSelection_default$1 = ":host {\r\n	width: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#RefineWeaponSelection {\r\n	position: absolute;\r\n	width: 200px;\r\n}\r\n#RefineWeaponSelection .head {\r\n	position: absolute;\r\n	width: 100%;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n	background-repeat: repeat-x;\r\n	background-color: white;\r\n}\r\n#RefineWeaponSelection .head .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 5px;\r\n	white-space: nowrap;\r\n}\r\n#RefineWeaponSelection .bottom {\r\n	position: relative;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#RefineWeaponSelection .content {\r\n	position: absolute;\r\n	top: 22px;\r\n	left: 0px;\r\n	background-color: white;\r\n	width: 100%;\r\n}\r\n#RefineWeaponSelection .list {\r\n	background-color: #f7f7f7;\r\n	height: 130px;\r\n	overflow-y: auto;\r\n	margin-left: 10px;\r\n	margin-right: 10px;\r\n}\r\n#RefineWeaponSelection .list .item {\r\n	display: block;\r\n	height: 28px;\r\n	margin: 4px 4px 4px 4px;\r\n	position: relative;\r\n}\r\n#RefineWeaponSelection .list .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#RefineWeaponSelection .list .item .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 90px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#RefineWeaponSelection ui-button.btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n#RefineWeaponSelection .ok {\r\n	right: 49px;\r\n}\r\n#RefineWeaponSelection .cancel {\r\n	right: 5px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/RefineWeaponSelection/RefineWeaponSelection.js
@@ -607963,7 +615216,7 @@ var init_PetEvolution$2 = __esmMin((() => {
 //#region src/UI/Components/PetEvolution/PetEvolution.css?raw
 var PetEvolution_default$1;
 var init_PetEvolution$1 = __esmMin((() => {
-	PetEvolution_default$1 = ":host {\r\n	width: 280px;\r\n	height: 380px;\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#PetEvolution {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 380px;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n\r\n#PetEvolution .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#PetEvolution .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#PetEvolution .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 80px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#PetEvolution .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#PetEvolution .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#PetEvolution .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#PetEvolution .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 100%;\r\n	height: calc(100% - 17px);\r\n}\r\n\r\n#PetEvolution .pet_illust_holder {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 100%;\r\n	height: 100px;\r\n	margin-top: 10px;\r\n}\r\n\r\n#PetEvolution .base_pet_illust,\r\n#PetEvolution .target_pet_illust {\r\n	width: 100px;\r\n	height: 100px;\r\n	background-size: contain;\r\n	background-repeat: no-repeat;\r\n	background-position: center;\r\n}\r\n\r\n#PetEvolution .next {\r\n	font-size: 18px;\r\n	margin: 0 10px;\r\n	color: #333;\r\n}\r\n\r\n#PetEvolution .pet_eggID_holder {\r\n	display: flex;\r\n	justify-content: space-around;\r\n	width: 100%;\r\n	padding: 5px 0;\r\n	text-align: center;\r\n}\r\n\r\n#PetEvolution .base_petEggId,\r\n#PetEvolution .target_petEggId {\r\n	cursor: pointer;\r\n	color: blue;\r\n	text-decoration: underline;\r\n	font-size: 11px;\r\n}\r\n\r\n#PetEvolution .pet_eggID_holder > div:nth-child(2) {\r\n	margin-left: 20px;\r\n}\r\n\r\n#PetEvolution .evo_requirements {\r\n	padding: 5px 15px;\r\n	font-size: 11px;\r\n	overflow-y: auto;\r\n	max-height: 140px;\r\n}\r\n\r\n#PetEvolution .evo_item_name {\r\n	color: blue;\r\n	text-decoration: underline;\r\n}\r\n\r\n#PetEvolution .footer {\r\n	position: absolute;\r\n	bottom: 10px;\r\n	width: 100%;\r\n	display: flex;\r\n	justify-content: center;\r\n	gap: 10px;\r\n}\r\n\r\n#PetEvolution .evolve,\r\n#PetEvolution .big_cancel {\r\n	width: 42px;\r\n	height: 20px;\r\n	border: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
+	PetEvolution_default$1 = ":host {\r\n	width: 280px;\r\n	height: 380px;\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#PetEvolution {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 380px;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n\r\n#PetEvolution .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#PetEvolution .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#PetEvolution .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 80px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#PetEvolution .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#PetEvolution .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#PetEvolution .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#PetEvolution .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 100%;\r\n	height: calc(100% - 17px);\r\n}\r\n\r\n#PetEvolution .pet_illust_holder {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 100%;\r\n	height: 100px;\r\n	margin-top: 10px;\r\n}\r\n\r\n#PetEvolution .base_pet_illust,\r\n#PetEvolution .target_pet_illust {\r\n	width: 100px;\r\n	height: 100px;\r\n	background-size: contain;\r\n	background-repeat: no-repeat;\r\n	background-position: center;\r\n}\r\n\r\n#PetEvolution .next {\r\n	font-size: 18px;\r\n	margin: 0 10px;\r\n	color: #333;\r\n}\r\n\r\n#PetEvolution .pet_eggID_holder {\r\n	display: flex;\r\n	justify-content: space-around;\r\n	width: 100%;\r\n	padding: 5px 0;\r\n	text-align: center;\r\n}\r\n\r\n#PetEvolution .base_petEggId,\r\n#PetEvolution .target_petEggId {\r\n	cursor: pointer;\r\n	color: blue;\r\n	text-decoration: underline;\r\n	font-size: 11px;\r\n}\r\n\r\n#PetEvolution .pet_eggID_holder > div:nth-child(2) {\r\n	margin-left: 20px;\r\n}\r\n\r\n#PetEvolution .evo_requirements {\r\n	padding: 5px 15px;\r\n	font-size: 11px;\r\n	overflow-y: auto;\r\n	max-height: 140px;\r\n}\r\n\r\n#PetEvolution .evo_item_name {\r\n	color: blue;\r\n	text-decoration: underline;\r\n}\r\n\r\n#PetEvolution .footer {\r\n	position: absolute;\r\n	bottom: 10px;\r\n	width: 100%;\r\n	display: flex;\r\n	justify-content: center;\r\n	gap: 10px;\r\n}\r\n\r\n#PetEvolution .evolve,\r\n#PetEvolution .big_cancel {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	border: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/PetEvolution/PetEvolution.js
@@ -608885,7 +616138,7 @@ var init_NpcStore$2 = __esmMin((() => {
 //#region src/UI/Components/NpcStore/NpcStore.css?raw
 var NpcStore_default$1;
 var init_NpcStore$1 = __esmMin((() => {
-	NpcStore_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n\r\n#NpcStore {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#NpcStore .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#NpcStore .titlebar .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 15px;\r\n	white-space: nowrap;\r\n}\r\n#NpcStore .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n#NpcStore .resize {\r\n	position: absolute;\r\n	right: 1px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#NpcStore .btn {\r\n	width: 42px;\r\n	height: 20px;\r\n	margin: 0;\r\n}\r\n#NpcStore .selectall {\r\n	display: inline-block;\r\n	vertical-align: 2px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	cursor: pointer;\r\n}\r\n#NpcStore .ask_quantity {\r\n	padding-top: 7px;\r\n	padding-left: 20px;\r\n}\r\n\r\n#NpcStore .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	background-repeat: repeat-y;\r\n	padding-right: 2px;\r\n	padding-top: 5px;\r\n	padding-bottom: 5px;\r\n}\r\n#NpcStore .content {\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n	background-attachment: local;\r\n}\r\n#NpcStore .content.contentAvailable {\r\n	background-repeat: repeat;\r\n	overflow-y: unset;\r\n}\r\n#NpcStore .content .item {\r\n	display: block;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n\r\n#NpcStore .content .item.expanded-barter {\r\n	padding-bottom: 30px !important;\r\n}\r\n\r\n#NpcStore .content .item.selected {\r\n	background-color: #346ae180;\r\n}\r\n#NpcStore .content .item.itemAvailable {\r\n	display: block;\r\n	float: left;\r\n	width: 28px;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#NpcStore .content .item.itemAvailable.selected {\r\n	background-color: transparent;\r\n}\r\n\r\n#NpcStore .content .item .icon {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#NpcStore .content .item .amount {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 18px;\r\n	left: 18px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#NpcStore .content .item .amountBuying {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 13px;\r\n	left: 160px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n	color: red;\r\n}\r\n#NpcStore .content .item .name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 32px;\r\n	width: 115px;\r\n	white-space: nowrap;\r\n}\r\n#NpcStore .content .item .price {\r\n	position: absolute;\r\n	top: 13px;\r\n	right: 16px;\r\n	white-space: nowrap;\r\n	text-align: right;\r\n}\r\n#NpcStore .content .item .unity {\r\n	position: absolute;\r\n	top: 13px;\r\n	right: 2px;\r\n	width: 10px;\r\n}\r\n\r\n#NpcStore .footer .total,\r\n#NpcStore .footer .totalP,\r\n#NpcStore .footer .cashuser {\r\n	padding-left: 10px;\r\n	padding-top: 8px;\r\n}\r\n#NpcStore .footer .total,\r\n#NpcStore .footer .totalP,\r\n#NpcStore .footer .limitZeny {\r\n	padding-left: 10px;\r\n	padding-top: 8px;\r\n}\r\n#NpcStore .InputWindow,\r\n#NpcStore .OutputWindow,\r\n#NpcStore .AvailableItemsWindow,\r\n#NpcStore .PurchaseResult {\r\n	width: 280px;\r\n	position: absolute;\r\n	z-index: 50;\r\n	pointer-events: auto;\r\n}\r\n#NpcStore .btn.buy,\r\n#NpcStore .btn.sell {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 62px;\r\n}\r\n#NpcStore .OutputWindow .btn.buy {\r\n	right: 70px;\r\n}\r\n#NpcStore .btn.ok {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 20px;\r\n}\r\n#NpcStore .btn.cancel {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 15px;\r\n}\r\n\r\n#NpcStore .content .item .nameOverlay {\r\n	position: relative;\r\n	display: none;\r\n	top: -17px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#NpcStore .content .item:hover .nameOverlay {\r\n	display: table;\r\n}\r\n#NpcStore .content .item .nameOverlay {\r\n	display: none;\r\n}\r\n\r\n#NpcStore .content .item .currency_icon {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 200px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#NpcStore .content .item .currency_amount {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 18px;\r\n	right: 13px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#NpcStore .content .item .currency_nameOverlay {\r\n	position: relative;\r\n	display: none;\r\n	top: -17px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#NpcStore .content .item:hover .currency_nameOverlay {\r\n	display: table;\r\n}\r\n#NpcStore .content .item .currency_nameOverlay {\r\n	display: none;\r\n}\r\n\r\n#NpcStore .currency_section {\r\n	display: flex;\r\n	height: 25px;\r\n	position: relative;\r\n	left: 30px;\r\n	width: 200px;\r\n}\r\n#NpcStore .currency_slot {\r\n	width: 24px;\r\n	padding-right: 15px;\r\n}\r\n#NpcStore .expanded_currency_holder {\r\n	height: 27px;\r\n	width: 30px;\r\n	position: relative;\r\n}\r\n#NpcStore .expanded_currency_icon {\r\n	height: 24px;\r\n	width: 24px;\r\n	position: relative;\r\n	left: 5px;\r\n}\r\n#NpcStore .expanded_currency_amount {\r\n	position: relative;\r\n	white-space: nowrap;\r\n	top: -10px;\r\n	left: 15px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#NpcStore .expanded_currency_refinelvl {\r\n	position: relative;\r\n	white-space: nowrap;\r\n	top: -43px;\r\n	left: 12px;\r\n	text-align: left;\r\n	color: white;\r\n	font-weight: 850;\r\n	-webkit-text-stroke: 1px red;\r\n}\r\n#NpcStore .expanded_price {\r\n	position: relative;\r\n	top: -10px;\r\n	left: 215px;\r\n	white-space: nowrap;\r\n	text-align: right;\r\n	width: 80px;\r\n}\r\n#NpcStore .content .item .expanded_currency_nameOverlay {\r\n	position: relative;\r\n	visibility: hidden;\r\n	opacity: 0;\r\n	top: -17px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n	transition:\r\n		opacity 0.2s ease-in-out,\r\n		visibility 0.2s ease-in-out;\r\n	pointer-events: none;\r\n	z-index: 10;\r\n}\r\n#NpcStore .content .item:hover .expanded_currency_nameOverlay {\r\n	visibility: visible;\r\n	opacity: 1;\r\n}\r\n";
+	NpcStore_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n\r\n#NpcStore {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#NpcStore .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#NpcStore .titlebar .text {\r\n	position: relative;\r\n	top: 2px;\r\n	left: 15px;\r\n	white-space: nowrap;\r\n}\r\n#NpcStore .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n	border-radius: 0px 0px 3px 3px;\r\n}\r\n#NpcStore .resize {\r\n	position: absolute;\r\n	right: 1px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#NpcStore .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	margin: 0;\r\n}\r\n#NpcStore .selectall {\r\n	display: inline-block;\r\n	vertical-align: 2px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	cursor: pointer;\r\n}\r\n#NpcStore .ask_quantity {\r\n	padding-top: 7px;\r\n	padding-left: 20px;\r\n}\r\n\r\n#NpcStore .container {\r\n	padding-left: 16px;\r\n	border-right: 1px solid #ccc;\r\n	background: white;\r\n	background-repeat: repeat-y;\r\n	padding-right: 2px;\r\n	padding-top: 5px;\r\n	padding-bottom: 5px;\r\n}\r\n#NpcStore .content {\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 65px;\r\n	background-color: transparent;\r\n	background-repeat: repeat-y;\r\n	background-attachment: local;\r\n}\r\n#NpcStore .content.contentAvailable {\r\n	background-repeat: repeat;\r\n	overflow-y: unset;\r\n}\r\n#NpcStore .content .item {\r\n	display: block;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n\r\n#NpcStore .content .item.expanded-barter {\r\n	padding-bottom: 30px !important;\r\n}\r\n\r\n#NpcStore .content .item.selected {\r\n	background-color: #346ae180;\r\n}\r\n#NpcStore .content .item.itemAvailable {\r\n	display: block;\r\n	float: left;\r\n	width: 28px;\r\n	position: relative;\r\n	height: 28px;\r\n	padding-top: 4px;\r\n}\r\n#NpcStore .content .item.itemAvailable.selected {\r\n	background-color: transparent;\r\n}\r\n\r\n#NpcStore .content .item .icon {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 4px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#NpcStore .content .item .amount {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 18px;\r\n	left: 18px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#NpcStore .content .item .amountBuying {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 13px;\r\n	left: 160px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n	color: red;\r\n}\r\n#NpcStore .content .item .name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 32px;\r\n	width: 115px;\r\n	white-space: nowrap;\r\n}\r\n#NpcStore .content .item .price {\r\n	position: absolute;\r\n	top: 13px;\r\n	right: 16px;\r\n	white-space: nowrap;\r\n	text-align: right;\r\n}\r\n#NpcStore .content .item .unity {\r\n	position: absolute;\r\n	top: 13px;\r\n	right: 2px;\r\n	width: 10px;\r\n}\r\n\r\n#NpcStore .footer .total,\r\n#NpcStore .footer .totalP,\r\n#NpcStore .footer .cashuser {\r\n	padding-left: 10px;\r\n	padding-top: 8px;\r\n}\r\n#NpcStore .footer .total,\r\n#NpcStore .footer .totalP,\r\n#NpcStore .footer .limitZeny {\r\n	padding-left: 10px;\r\n	padding-top: 8px;\r\n}\r\n#NpcStore .InputWindow,\r\n#NpcStore .OutputWindow,\r\n#NpcStore .AvailableItemsWindow,\r\n#NpcStore .PurchaseResult {\r\n	width: 280px;\r\n	position: absolute;\r\n	z-index: 50;\r\n	pointer-events: auto;\r\n}\r\n#NpcStore .btn.buy,\r\n#NpcStore .btn.sell {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 59px;\r\n}\r\n#NpcStore .OutputWindow .btn.buy {\r\n	right: 59px;\r\n}\r\n#NpcStore .btn.ok {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 20px;\r\n}\r\n#NpcStore .btn.cancel {\r\n	position: absolute;\r\n	top: 4px;\r\n	right: 15px;\r\n}\r\n\r\n#NpcStore .content .item .nameOverlay {\r\n	position: relative;\r\n	display: none;\r\n	top: -17px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#NpcStore .content .item:hover .nameOverlay {\r\n	display: table;\r\n}\r\n#NpcStore .content .item .nameOverlay {\r\n	display: none;\r\n}\r\n\r\n#NpcStore .content .item .currency_icon {\r\n	position: absolute;\r\n	top: 6px;\r\n	left: 200px;\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n#NpcStore .content .item .currency_amount {\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	top: 18px;\r\n	right: 13px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#NpcStore .content .item .currency_nameOverlay {\r\n	position: relative;\r\n	display: none;\r\n	top: -17px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#NpcStore .content .item:hover .currency_nameOverlay {\r\n	display: table;\r\n}\r\n#NpcStore .content .item .currency_nameOverlay {\r\n	display: none;\r\n}\r\n\r\n#NpcStore .currency_section {\r\n	display: flex;\r\n	height: 25px;\r\n	position: relative;\r\n	left: 30px;\r\n	width: 200px;\r\n}\r\n#NpcStore .currency_slot {\r\n	width: 24px;\r\n	padding-right: 15px;\r\n}\r\n#NpcStore .expanded_currency_holder {\r\n	height: 27px;\r\n	width: 30px;\r\n	position: relative;\r\n}\r\n#NpcStore .expanded_currency_icon {\r\n	height: 24px;\r\n	width: 24px;\r\n	position: relative;\r\n	left: 5px;\r\n}\r\n#NpcStore .expanded_currency_amount {\r\n	position: relative;\r\n	white-space: nowrap;\r\n	top: -10px;\r\n	left: 15px;\r\n	text-align: left;\r\n	text-shadow: -1px -1px white;\r\n}\r\n#NpcStore .expanded_currency_refinelvl {\r\n	position: relative;\r\n	white-space: nowrap;\r\n	top: -43px;\r\n	left: 12px;\r\n	text-align: left;\r\n	color: white;\r\n	font-weight: 850;\r\n	-webkit-text-stroke: 1px red;\r\n}\r\n#NpcStore .expanded_price {\r\n	position: relative;\r\n	top: -10px;\r\n	left: 215px;\r\n	white-space: nowrap;\r\n	text-align: right;\r\n	width: 80px;\r\n}\r\n#NpcStore .content .item .expanded_currency_nameOverlay {\r\n	position: relative;\r\n	visibility: hidden;\r\n	opacity: 0;\r\n	top: -17px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n	transition:\r\n		opacity 0.2s ease-in-out,\r\n		visibility 0.2s ease-in-out;\r\n	pointer-events: none;\r\n	z-index: 10;\r\n}\r\n#NpcStore .content .item:hover .expanded_currency_nameOverlay {\r\n	visibility: visible;\r\n	opacity: 1;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/NpcStore/NpcStore.js
@@ -612605,7 +619858,7 @@ var init_MapEngine = __esmMin((() => {
 						SessionStorage_default.AID = fp.readLong();
 						SessionStorage_default.Entity.GID = SessionStorage_default.AID;
 					}
-				});
+				}, PacketVerManager_default.value < 20070521 ? 4 : 0);
 				const hbt = new PACKET.CZ.HBT();
 				const is_sec_hbt = Configs.get("sec_HBT", null);
 				let ping;
@@ -613255,7 +620508,7 @@ var init_CharSelect$3 = __esmMin((() => {
 //#region src/UI/Components/CharSelect/CharSelect/CharSelect.css?raw
 var CharSelect_default$1;
 var init_CharSelect$2 = __esmMin((() => {
-	CharSelect_default$1 = ":host {\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n#charselect {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n/** Box **/\r\n#charselect .box_select {\r\n	position: absolute;\r\n	width: 139px;\r\n	height: 144px;\r\n	top: 40px;\r\n	margin-left: -5px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charselect canvas {\r\n	position: absolute;\r\n	top: 44px;\r\n}\r\n#charselect .slot1 {\r\n	left: 60px;\r\n}\r\n#charselect .slot2 {\r\n	left: 224px;\r\n}\r\n#charselect .slot3 {\r\n	left: 386px;\r\n}\r\n\r\n/** Arrow **/\r\n#charselect .arrow {\r\n	position: absolute;\r\n	top: 105px;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#charselect .arrow.left {\r\n	left: 40px;\r\n}\r\n#charselect .arrow.right {\r\n	right: 40px;\r\n}\r\n\r\n/** Slot info **/\r\n#charselect .slotinfo {\r\n	position: absolute;\r\n	top: 195px;\r\n	right: 10px;\r\n	height: 20px;\r\n	display: block;\r\n	border: 1px solid #c6cee7;\r\n	border-radius: 4px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#charselect .slotinfo .number {\r\n	color: #58709e;\r\n	font-weight: bold;\r\n	margin-right: 10px;\r\n}\r\n#charselect .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#charselect .pageinfo {\r\n	position: absolute;\r\n	left: 275px;\r\n	top: 185px;\r\n	font-weight: bold;\r\n	color: #646464;\r\n}\r\n#charselect .pageinfo .current {\r\n	color: #fe3b7d;\r\n}\r\n\r\n/** Characters infos **/\r\n#charselect .charinfo {\r\n	position: absolute;\r\n	width: 285px;\r\n	top: 204px;\r\n	left: 16px;\r\n}\r\n#charselect .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#charselect .charinfo .name {\r\n	left: 52px;\r\n	top: 2px;\r\n	white-space: nowrap;\r\n}\r\n#charselect .charinfo .job {\r\n	left: 52px;\r\n	top: 18px;\r\n}\r\n#charselect .charinfo .lvl {\r\n	left: 52px;\r\n	top: 34px;\r\n}\r\n#charselect .charinfo .exp {\r\n	left: 52px;\r\n	top: 50px;\r\n}\r\n#charselect .charinfo .hp {\r\n	left: 52px;\r\n	top: 66px;\r\n}\r\n#charselect .charinfo .sp {\r\n	left: 52px;\r\n	top: 82px;\r\n}\r\n#charselect .charinfo .map {\r\n	left: 52px;\r\n	top: 98px;\r\n	width: 238px;\r\n}\r\n#charselect .charinfo .str {\r\n	left: 200px;\r\n	top: 2px;\r\n}\r\n#charselect .charinfo .agi {\r\n	left: 200px;\r\n	top: 18px;\r\n}\r\n#charselect .charinfo .vit {\r\n	left: 200px;\r\n	top: 34px;\r\n}\r\n#charselect .charinfo .int {\r\n	left: 200px;\r\n	top: 50px;\r\n}\r\n#charselect .charinfo .dex {\r\n	left: 200px;\r\n	top: 66px;\r\n}\r\n#charselect .charinfo .luk {\r\n	left: 200px;\r\n	top: 82px;\r\n}\r\n\r\n/** Buttons **/\r\n#charselect .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charselect .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#charselect .ok,\r\n#charselect .make {\r\n	right: 50px;\r\n}\r\n#charselect .cancel {\r\n	right: 4px;\r\n}\r\n#charselect .delete {\r\n	left: 4px;\r\n}\r\n";
+	CharSelect_default$1 = ":host {\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n#charselect {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n/** Box **/\r\n#charselect .box_select {\r\n	position: absolute;\r\n	width: 139px;\r\n	height: 144px;\r\n	top: 40px;\r\n	margin-left: -5px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charselect canvas {\r\n	position: absolute;\r\n	top: 44px;\r\n}\r\n#charselect .slot1 {\r\n	left: 60px;\r\n}\r\n#charselect .slot2 {\r\n	left: 224px;\r\n}\r\n#charselect .slot3 {\r\n	left: 386px;\r\n}\r\n\r\n/** Arrow **/\r\n#charselect .arrow {\r\n	position: absolute;\r\n	top: 105px;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#charselect .arrow.left {\r\n	left: 40px;\r\n}\r\n#charselect .arrow.right {\r\n	right: 40px;\r\n}\r\n\r\n/** Slot info **/\r\n#charselect .slotinfo {\r\n	position: absolute;\r\n	top: 195px;\r\n	right: 10px;\r\n	height: 20px;\r\n	display: block;\r\n	border: 1px solid #c6cee7;\r\n	border-radius: 4px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#charselect .slotinfo .number {\r\n	color: #58709e;\r\n	font-weight: bold;\r\n	margin-right: 10px;\r\n}\r\n#charselect .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#charselect .pageinfo {\r\n	position: absolute;\r\n	left: 275px;\r\n	top: 185px;\r\n	font-weight: bold;\r\n	color: #646464;\r\n}\r\n#charselect .pageinfo .current {\r\n	color: #fe3b7d;\r\n}\r\n\r\n/** Characters infos **/\r\n#charselect .charinfo {\r\n	position: absolute;\r\n	width: 285px;\r\n	top: 204px;\r\n	left: 16px;\r\n}\r\n#charselect .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#charselect .charinfo .name {\r\n	left: 52px;\r\n	top: 2px;\r\n	white-space: nowrap;\r\n}\r\n#charselect .charinfo .job {\r\n	left: 52px;\r\n	top: 18px;\r\n}\r\n#charselect .charinfo .lvl {\r\n	left: 52px;\r\n	top: 34px;\r\n}\r\n#charselect .charinfo .exp {\r\n	left: 52px;\r\n	top: 50px;\r\n}\r\n#charselect .charinfo .hp {\r\n	left: 52px;\r\n	top: 66px;\r\n}\r\n#charselect .charinfo .sp {\r\n	left: 52px;\r\n	top: 82px;\r\n}\r\n#charselect .charinfo .map {\r\n	left: 52px;\r\n	top: 98px;\r\n	width: 238px;\r\n}\r\n#charselect .charinfo .str {\r\n	left: 200px;\r\n	top: 2px;\r\n}\r\n#charselect .charinfo .agi {\r\n	left: 200px;\r\n	top: 18px;\r\n}\r\n#charselect .charinfo .vit {\r\n	left: 200px;\r\n	top: 34px;\r\n}\r\n#charselect .charinfo .int {\r\n	left: 200px;\r\n	top: 50px;\r\n}\r\n#charselect .charinfo .dex {\r\n	left: 200px;\r\n	top: 66px;\r\n}\r\n#charselect .charinfo .luk {\r\n	left: 200px;\r\n	top: 82px;\r\n}\r\n\r\n/** Buttons **/\r\n#charselect .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charselect .btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#charselect .ok,\r\n#charselect .make {\r\n	right: 50px;\r\n}\r\n#charselect .cancel {\r\n	right: 4px;\r\n}\r\n#charselect .delete {\r\n	left: 4px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelectCommon.js
@@ -614271,7 +621524,7 @@ var init_CharSelectV2$2 = __esmMin((() => {
 //#region src/UI/Components/CharSelect/CharSelectV2/CharSelectV2.css?raw
 var CharSelectV2_default$1;
 var init_CharSelectV2$1 = __esmMin((() => {
-	CharSelectV2_default$1 = ":host {\r\n	width: 576px;\r\n	height: 358px;\r\n}\r\n\r\n#CharSelectV2 {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 358px;\r\n}\r\n\r\n/** Box **/\r\n#CharSelectV2 .box_select {\r\n	position: absolute;\r\n	width: 139px;\r\n	height: 144px;\r\n	top: 40px;\r\n	margin-left: -5px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#CharSelectV2 canvas {\r\n	position: absolute;\r\n	top: 44px;\r\n}\r\n#CharSelectV2 .slot1 {\r\n	left: 60px;\r\n}\r\n#CharSelectV2 .slot2 {\r\n	left: 224px;\r\n}\r\n#CharSelectV2 .slot3 {\r\n	left: 386px;\r\n}\r\n\r\n/** Arrow **/\r\n#CharSelectV2 .arrow {\r\n	position: absolute;\r\n	top: 105px;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#CharSelectV2 .arrow.left {\r\n	left: 40px;\r\n}\r\n#CharSelectV2 .arrow.right {\r\n	right: 40px;\r\n}\r\n\r\n/** Slot info **/\r\n#CharSelectV2 .slotinfo {\r\n	position: absolute;\r\n	top: 195px;\r\n	right: 10px;\r\n	height: 20px;\r\n	display: block;\r\n	border: 1px solid #c6cee7;\r\n	border-radius: 4px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#CharSelectV2 .slotinfo .number {\r\n	color: #58709e;\r\n	font-weight: bold;\r\n	margin-right: 10px;\r\n}\r\n#CharSelectV2 .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#CharSelectV2 .pageinfo {\r\n	position: absolute;\r\n	left: 275px;\r\n	top: 185px;\r\n	font-weight: bold;\r\n	color: #646464;\r\n}\r\n#CharSelectV2 .pageinfo .current {\r\n	color: #fe3b7d;\r\n}\r\n\r\n/** Characters infos **/\r\n#CharSelectV2 .charinfo {\r\n	position: absolute;\r\n	width: 285px;\r\n	top: 204px;\r\n	left: 16px;\r\n}\r\n#CharSelectV2 .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#CharSelectV2 .charinfo .name {\r\n	left: 52px;\r\n	top: 2px;\r\n	white-space: nowrap;\r\n}\r\n#CharSelectV2 .charinfo .job {\r\n	left: 52px;\r\n	top: 18px;\r\n}\r\n#CharSelectV2 .charinfo .lvl {\r\n	left: 52px;\r\n	top: 34px;\r\n}\r\n#CharSelectV2 .charinfo .exp {\r\n	left: 52px;\r\n	top: 50px;\r\n}\r\n#CharSelectV2 .charinfo .hp {\r\n	left: 52px;\r\n	top: 66px;\r\n}\r\n#CharSelectV2 .charinfo .sp {\r\n	left: 52px;\r\n	top: 82px;\r\n}\r\n#CharSelectV2 .charinfo .map {\r\n	left: 52px;\r\n	top: 98px;\r\n	width: 238px;\r\n}\r\n#CharSelectV2 .charinfo .str {\r\n	left: 200px;\r\n	top: 2px;\r\n}\r\n#CharSelectV2 .charinfo .agi {\r\n	left: 200px;\r\n	top: 18px;\r\n}\r\n#CharSelectV2 .charinfo .vit {\r\n	left: 200px;\r\n	top: 34px;\r\n}\r\n#CharSelectV2 .charinfo .int {\r\n	left: 200px;\r\n	top: 50px;\r\n}\r\n#CharSelectV2 .charinfo .dex {\r\n	left: 200px;\r\n	top: 66px;\r\n}\r\n#CharSelectV2 .charinfo .luk {\r\n	left: 200px;\r\n	top: 82px;\r\n}\r\n\r\n/** Buttons **/\r\n#CharSelectV2 .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#CharSelectV2 .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#CharSelectV2 .ok,\r\n#CharSelectV2 .make {\r\n	right: 50px;\r\n}\r\n#CharSelectV2 .cancel {\r\n	right: 4px;\r\n}\r\n#CharSelectV2 .delete {\r\n	left: 4px;\r\n	width: 67px;\r\n}\r\n#CharSelectV2 .canceldelete {\r\n	left: 50px;\r\n	width: 67px;\r\n}\r\n#CharSelectV2 .finaldelete {\r\n	left: 4px;\r\n}\r\n#CharSelectV2 .timedelete {\r\n	position: absolute;\r\n	height: 20px;\r\n	width: 120px;\r\n	top: 75px;\r\n}\r\n#CharSelectV2 .timedelete.waitdelete {\r\n	color: blue;\r\n}\r\n#CharSelectV2 .timedelete.candelete {\r\n	color: red;\r\n}\r\n#CharSelectV2 .timedelete.slot1 {\r\n	left: 63px;\r\n}\r\n#CharSelectV2 .timedelete.slot2 {\r\n	left: 227px;\r\n}\r\n#CharSelectV2 .timedelete.slot3 {\r\n	left: 389px;\r\n}\r\n";
+	CharSelectV2_default$1 = ":host {\r\n	width: 576px;\r\n	height: 358px;\r\n}\r\n\r\n#CharSelectV2 {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 358px;\r\n}\r\n\r\n/** Box **/\r\n#CharSelectV2 .box_select {\r\n	position: absolute;\r\n	width: 139px;\r\n	height: 144px;\r\n	top: 40px;\r\n	margin-left: -5px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#CharSelectV2 canvas {\r\n	position: absolute;\r\n	top: 44px;\r\n}\r\n#CharSelectV2 .slot1 {\r\n	left: 60px;\r\n}\r\n#CharSelectV2 .slot2 {\r\n	left: 224px;\r\n}\r\n#CharSelectV2 .slot3 {\r\n	left: 386px;\r\n}\r\n\r\n/** Arrow **/\r\n#CharSelectV2 .arrow {\r\n	position: absolute;\r\n	top: 105px;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#CharSelectV2 .arrow.left {\r\n	left: 40px;\r\n}\r\n#CharSelectV2 .arrow.right {\r\n	right: 40px;\r\n}\r\n\r\n/** Slot info **/\r\n#CharSelectV2 .slotinfo {\r\n	position: absolute;\r\n	top: 195px;\r\n	right: 10px;\r\n	height: 20px;\r\n	display: block;\r\n	border: 1px solid #c6cee7;\r\n	border-radius: 4px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#CharSelectV2 .slotinfo .number {\r\n	color: #58709e;\r\n	font-weight: bold;\r\n	margin-right: 10px;\r\n}\r\n#CharSelectV2 .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#CharSelectV2 .pageinfo {\r\n	position: absolute;\r\n	left: 275px;\r\n	top: 185px;\r\n	font-weight: bold;\r\n	color: #646464;\r\n}\r\n#CharSelectV2 .pageinfo .current {\r\n	color: #fe3b7d;\r\n}\r\n\r\n/** Characters infos **/\r\n#CharSelectV2 .charinfo {\r\n	position: absolute;\r\n	width: 285px;\r\n	top: 204px;\r\n	left: 16px;\r\n}\r\n#CharSelectV2 .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#CharSelectV2 .charinfo .name {\r\n	left: 52px;\r\n	top: 2px;\r\n	white-space: nowrap;\r\n}\r\n#CharSelectV2 .charinfo .job {\r\n	left: 52px;\r\n	top: 18px;\r\n}\r\n#CharSelectV2 .charinfo .lvl {\r\n	left: 52px;\r\n	top: 34px;\r\n}\r\n#CharSelectV2 .charinfo .exp {\r\n	left: 52px;\r\n	top: 50px;\r\n}\r\n#CharSelectV2 .charinfo .hp {\r\n	left: 52px;\r\n	top: 66px;\r\n}\r\n#CharSelectV2 .charinfo .sp {\r\n	left: 52px;\r\n	top: 82px;\r\n}\r\n#CharSelectV2 .charinfo .map {\r\n	left: 52px;\r\n	top: 98px;\r\n	width: 238px;\r\n}\r\n#CharSelectV2 .charinfo .str {\r\n	left: 200px;\r\n	top: 2px;\r\n}\r\n#CharSelectV2 .charinfo .agi {\r\n	left: 200px;\r\n	top: 18px;\r\n}\r\n#CharSelectV2 .charinfo .vit {\r\n	left: 200px;\r\n	top: 34px;\r\n}\r\n#CharSelectV2 .charinfo .int {\r\n	left: 200px;\r\n	top: 50px;\r\n}\r\n#CharSelectV2 .charinfo .dex {\r\n	left: 200px;\r\n	top: 66px;\r\n}\r\n#CharSelectV2 .charinfo .luk {\r\n	left: 200px;\r\n	top: 82px;\r\n}\r\n\r\n/** Buttons **/\r\n#CharSelectV2 .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#CharSelectV2 .btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#CharSelectV2 .ok,\r\n#CharSelectV2 .make {\r\n	right: 50px;\r\n}\r\n#CharSelectV2 .cancel {\r\n	right: 4px;\r\n}\r\n#CharSelectV2 .delete {\r\n	left: 4px;\r\n	width: 67px;\r\n}\r\n#CharSelectV2 .canceldelete {\r\n	left: 50px;\r\n	width: 67px;\r\n}\r\n#CharSelectV2 .finaldelete {\r\n	left: 4px;\r\n}\r\n#CharSelectV2 .timedelete {\r\n	position: absolute;\r\n	height: 20px;\r\n	width: 120px;\r\n	top: 75px;\r\n}\r\n#CharSelectV2 .timedelete.waitdelete {\r\n	color: blue;\r\n}\r\n#CharSelectV2 .timedelete.candelete {\r\n	color: red;\r\n}\r\n#CharSelectV2 .timedelete.slot1 {\r\n	left: 63px;\r\n}\r\n#CharSelectV2 .timedelete.slot2 {\r\n	left: 227px;\r\n}\r\n#CharSelectV2 .timedelete.slot3 {\r\n	left: 389px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelectV2/CharSelectV2.js
@@ -614299,7 +621552,7 @@ var init_CharSelectV3$2 = __esmMin((() => {
 //#region src/UI/Components/CharSelect/CharSelectV3/CharSelectV3.css?raw
 var CharSelectV3_default$1;
 var init_CharSelectV3$1 = __esmMin((() => {
-	CharSelectV3_default$1 = ":host {\r\n	width: 576px;\r\n	height: 358px;\r\n}\r\n\r\n#CharSelectV3 {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 358px;\r\n}\r\n\r\n/** Box **/\r\n#CharSelectV3 .box_select {\r\n	position: absolute;\r\n	width: 134px;\r\n	height: 144px;\r\n	top: 30px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#CharSelectV3 canvas {\r\n	position: absolute;\r\n	top: 35px;\r\n}\r\n#CharSelectV3 .slot1 {\r\n	left: 57px;\r\n}\r\n#CharSelectV3 .slot2 {\r\n	left: 220px;\r\n}\r\n#CharSelectV3 .slot3 {\r\n	left: 386px;\r\n}\r\n\r\n#CharSelectV3 .make1 {\r\n	position: absolute;\r\n	top: 84px;\r\n	left: 107px;\r\n	width: 32px;\r\n	height: 32px;\r\n}\r\n#CharSelectV3 .make2 {\r\n	position: absolute;\r\n	top: 84px;\r\n	left: 270px;\r\n	width: 32px;\r\n	height: 32px;\r\n}\r\n#CharSelectV3 .make3 {\r\n	position: absolute;\r\n	top: 84px;\r\n	left: 436px;\r\n	width: 32px;\r\n	height: 32px;\r\n}\r\n\r\n/** Arrow **/\r\n#CharSelectV3 .arrow {\r\n	position: absolute;\r\n	top: 95px;\r\n	width: 14px;\r\n	height: 20px;\r\n}\r\n#CharSelectV3 .arrow.left {\r\n	left: 40px;\r\n}\r\n#CharSelectV3 .arrow.right {\r\n	right: 40px;\r\n}\r\n\r\n/** Slot info **/\r\n#CharSelectV3 .slotinfo {\r\n	position: absolute;\r\n	top: 180px;\r\n	right: 40px;\r\n	height: 20px;\r\n	display: block;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#CharSelectV3 .slotinfo .number {\r\n	/*color: #58709e;\r\n    font-weight: bold;*/\r\n	margin-right: 10px;\r\n}\r\n#CharSelectV3 .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#CharSelectV3 .pageinfo {\r\n	position: absolute;\r\n	top: 180px;\r\n}\r\n\r\n#CharSelectV3 .pageinfo .pagebtn .btn_pageinfo {\r\n	border: 0;\r\n	width: 8px;\r\n	height: 8px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n/** Characters infos **/\r\n#CharSelectV3 .charinfo {\r\n	position: absolute;\r\n	width: 285px;\r\n	top: 204px;\r\n	left: 16px;\r\n}\r\n#CharSelectV3 .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#CharSelectV3 .charinfo .name {\r\n	left: 95px;\r\n	top: -4px;\r\n	white-space: nowrap;\r\n}\r\n#CharSelectV3 .charinfo .job {\r\n	left: 95px;\r\n	top: 12px;\r\n}\r\n#CharSelectV3 .charinfo .lvl {\r\n	left: 95px;\r\n	top: 30px;\r\n}\r\n#CharSelectV3 .charinfo .exp {\r\n	left: 95px;\r\n	top: 47px;\r\n}\r\n#CharSelectV3 .charinfo .hp {\r\n	left: 95px;\r\n	top: 64px;\r\n}\r\n#CharSelectV3 .charinfo .sp {\r\n	left: 95px;\r\n	top: 81px;\r\n}\r\n#CharSelectV3 .charinfo .map {\r\n	left: 95px;\r\n	top: 104px;\r\n	width: 238px;\r\n}\r\n#CharSelectV3 .charinfo .str {\r\n	left: 250px;\r\n	top: -4px;\r\n}\r\n#CharSelectV3 .charinfo .agi {\r\n	left: 250px;\r\n	top: 12px;\r\n}\r\n#CharSelectV3 .charinfo .vit {\r\n	left: 250px;\r\n	top: 30px;\r\n}\r\n#CharSelectV3 .charinfo .int {\r\n	left: 250px;\r\n	top: 47px;\r\n}\r\n#CharSelectV3 .charinfo .dex {\r\n	left: 250px;\r\n	top: 64px;\r\n}\r\n#CharSelectV3 .charinfo .luk {\r\n	left: 250px;\r\n	top: 81px;\r\n}\r\n\r\n/** Buttons **/\r\n#CharSelectV3 .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#CharSelectV3 .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#CharSelectV3 .ok,\r\n#CharSelectV3 .make {\r\n	right: 50px;\r\n}\r\n#CharSelectV3 .cancel {\r\n	right: 4px;\r\n}\r\n#CharSelectV3 .delete {\r\n	left: 4px;\r\n	width: 67px;\r\n}\r\n#CharSelectV3 .canceldelete {\r\n	left: 50px;\r\n	width: 67px;\r\n}\r\n#CharSelectV3 .finaldelete {\r\n	left: 4px;\r\n}\r\n#CharSelectV3 .timedelete {\r\n	position: absolute;\r\n	height: 20px;\r\n	width: 120px;\r\n	top: 75px;\r\n}\r\n#CharSelectV3 .timedelete.waitdelete {\r\n	color: blue;\r\n}\r\n#CharSelectV3 .timedelete.candelete {\r\n	color: red;\r\n}\r\n#CharSelectV3 .timedelete.slot1 {\r\n	left: 63px;\r\n}\r\n#CharSelectV3 .timedelete.slot2 {\r\n	left: 227px;\r\n}\r\n#CharSelectV3 .timedelete.slot3 {\r\n	left: 389px;\r\n}\r\n";
+	CharSelectV3_default$1 = ":host {\r\n	width: 576px;\r\n	height: 358px;\r\n}\r\n\r\n#CharSelectV3 {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 358px;\r\n}\r\n\r\n/** Box **/\r\n#CharSelectV3 .box_select {\r\n	position: absolute;\r\n	width: 134px;\r\n	height: 144px;\r\n	top: 30px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#CharSelectV3 canvas {\r\n	position: absolute;\r\n	top: 35px;\r\n}\r\n#CharSelectV3 .slot1 {\r\n	left: 57px;\r\n}\r\n#CharSelectV3 .slot2 {\r\n	left: 220px;\r\n}\r\n#CharSelectV3 .slot3 {\r\n	left: 386px;\r\n}\r\n\r\n#CharSelectV3 .make1 {\r\n	position: absolute;\r\n	top: 84px;\r\n	left: 107px;\r\n	width: 32px;\r\n	height: 32px;\r\n}\r\n#CharSelectV3 .make2 {\r\n	position: absolute;\r\n	top: 84px;\r\n	left: 270px;\r\n	width: 32px;\r\n	height: 32px;\r\n}\r\n#CharSelectV3 .make3 {\r\n	position: absolute;\r\n	top: 84px;\r\n	left: 436px;\r\n	width: 32px;\r\n	height: 32px;\r\n}\r\n\r\n/** Arrow **/\r\n#CharSelectV3 .arrow {\r\n	position: absolute;\r\n	top: 95px;\r\n	width: 14px;\r\n	height: 20px;\r\n}\r\n#CharSelectV3 .arrow.left {\r\n	left: 40px;\r\n}\r\n#CharSelectV3 .arrow.right {\r\n	right: 40px;\r\n}\r\n\r\n/** Slot info **/\r\n#CharSelectV3 .slotinfo {\r\n	position: absolute;\r\n	top: 180px;\r\n	right: 40px;\r\n	height: 20px;\r\n	display: block;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#CharSelectV3 .slotinfo .number {\r\n	/*color: #58709e;\r\n    font-weight: bold;*/\r\n	margin-right: 10px;\r\n}\r\n#CharSelectV3 .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#CharSelectV3 .pageinfo {\r\n	position: absolute;\r\n	top: 180px;\r\n}\r\n\r\n#CharSelectV3 .pageinfo .pagebtn .btn_pageinfo {\r\n	border: 0;\r\n	width: 8px;\r\n	height: 8px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n/** Characters infos **/\r\n#CharSelectV3 .charinfo {\r\n	position: absolute;\r\n	width: 285px;\r\n	top: 204px;\r\n	left: 16px;\r\n}\r\n#CharSelectV3 .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#CharSelectV3 .charinfo .name {\r\n	left: 95px;\r\n	top: -4px;\r\n	white-space: nowrap;\r\n}\r\n#CharSelectV3 .charinfo .job {\r\n	left: 95px;\r\n	top: 12px;\r\n}\r\n#CharSelectV3 .charinfo .lvl {\r\n	left: 95px;\r\n	top: 30px;\r\n}\r\n#CharSelectV3 .charinfo .exp {\r\n	left: 95px;\r\n	top: 47px;\r\n}\r\n#CharSelectV3 .charinfo .hp {\r\n	left: 95px;\r\n	top: 64px;\r\n}\r\n#CharSelectV3 .charinfo .sp {\r\n	left: 95px;\r\n	top: 81px;\r\n}\r\n#CharSelectV3 .charinfo .map {\r\n	left: 95px;\r\n	top: 104px;\r\n	width: 238px;\r\n}\r\n#CharSelectV3 .charinfo .str {\r\n	left: 250px;\r\n	top: -4px;\r\n}\r\n#CharSelectV3 .charinfo .agi {\r\n	left: 250px;\r\n	top: 12px;\r\n}\r\n#CharSelectV3 .charinfo .vit {\r\n	left: 250px;\r\n	top: 30px;\r\n}\r\n#CharSelectV3 .charinfo .int {\r\n	left: 250px;\r\n	top: 47px;\r\n}\r\n#CharSelectV3 .charinfo .dex {\r\n	left: 250px;\r\n	top: 64px;\r\n}\r\n#CharSelectV3 .charinfo .luk {\r\n	left: 250px;\r\n	top: 81px;\r\n}\r\n\r\n/** Buttons **/\r\n#CharSelectV3 .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#CharSelectV3 .btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#CharSelectV3 .ok,\r\n#CharSelectV3 .make {\r\n	right: 50px;\r\n}\r\n#CharSelectV3 .cancel {\r\n	right: 4px;\r\n}\r\n#CharSelectV3 .delete {\r\n	left: 4px;\r\n	width: 67px;\r\n}\r\n#CharSelectV3 .canceldelete {\r\n	left: 50px;\r\n	width: 67px;\r\n}\r\n#CharSelectV3 .finaldelete {\r\n	left: 4px;\r\n}\r\n#CharSelectV3 .timedelete {\r\n	position: absolute;\r\n	height: 20px;\r\n	width: 120px;\r\n	top: 75px;\r\n}\r\n#CharSelectV3 .timedelete.waitdelete {\r\n	color: blue;\r\n}\r\n#CharSelectV3 .timedelete.candelete {\r\n	color: red;\r\n}\r\n#CharSelectV3 .timedelete.slot1 {\r\n	left: 63px;\r\n}\r\n#CharSelectV3 .timedelete.slot2 {\r\n	left: 227px;\r\n}\r\n#CharSelectV3 .timedelete.slot3 {\r\n	left: 389px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelectV3/CharSelectV3.js
@@ -614379,7 +621632,7 @@ var init_CharCreate$3 = __esmMin((() => {
 //#region src/UI/Components/CharCreate/CharCreate/CharCreate.css?raw
 var CharCreate_default$1;
 var init_CharCreate$2 = __esmMin((() => {
-	CharCreate_default$1 = ":host {\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n#charcreate {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n/** Name **/\r\n#charcreate input {\r\n	position: absolute;\r\n	top: 244px;\r\n	left: 62px;\r\n	width: 97px;\r\n	height: 14px;\r\n	padding-top: 2px;\r\n	padding-left: 3px;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n/** Chargen **/\r\n#charcreate .chargen ui-button {\r\n	position: absolute;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#charcreate .chargen .left {\r\n	top: 135px;\r\n	left: 47px;\r\n}\r\n#charcreate .chargen .up {\r\n	top: 105px;\r\n	left: 87px;\r\n}\r\n#charcreate .chargen .right {\r\n	top: 135px;\r\n	left: 127px;\r\n}\r\n#charcreate .chargen canvas {\r\n	position: absolute;\r\n	top: 120px;\r\n	left: 62px;\r\n}\r\n\r\n/** Graph buttons **/\r\n#charcreate .graph ui-button {\r\n	position: absolute;\r\n	width: 36px;\r\n	height: 36px;\r\n}\r\n#charcreate .graph .str {\r\n	top: 50px;\r\n	left: 270px;\r\n}\r\n#charcreate .graph .int {\r\n	top: 243px;\r\n	left: 270px;\r\n}\r\n#charcreate .graph .vit {\r\n	top: 104px;\r\n	left: 348px;\r\n}\r\n#charcreate .graph .dex {\r\n	top: 190px;\r\n	left: 191px;\r\n}\r\n#charcreate .graph .agi {\r\n	top: 103px;\r\n	left: 191px;\r\n}\r\n#charcreate .graph .luk {\r\n	top: 190px;\r\n	left: 348px;\r\n}\r\n#charcreate .graph canvas {\r\n	position: absolute;\r\n	left: 209px;\r\n	top: 86px;\r\n}\r\n\r\n/** Stats infos **/\r\n#charcreate .info {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 480px;\r\n}\r\n#charcreate .info div {\r\n	position: absolute;\r\n	left: 0px;\r\n}\r\n#charcreate .info .str {\r\n	top: 0px;\r\n}\r\n#charcreate .info .agi {\r\n	top: 16px;\r\n}\r\n#charcreate .info .vit {\r\n	top: 32px;\r\n}\r\n#charcreate .info .int {\r\n	top: 48px;\r\n}\r\n#charcreate .info .dex {\r\n	top: 64px;\r\n}\r\n#charcreate .info .luk {\r\n	top: 80px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate .make {\r\n	right: 50px;\r\n}\r\n#charcreate .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#charcreate .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
+	CharCreate_default$1 = ":host {\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n#charcreate {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n/** Name **/\r\n#charcreate input {\r\n	position: absolute;\r\n	top: 244px;\r\n	left: 62px;\r\n	width: 97px;\r\n	height: 14px;\r\n	padding-top: 2px;\r\n	padding-left: 3px;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n/** Chargen **/\r\n#charcreate .chargen ui-button {\r\n	position: absolute;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#charcreate .chargen .left {\r\n	top: 135px;\r\n	left: 47px;\r\n}\r\n#charcreate .chargen .up {\r\n	top: 105px;\r\n	left: 87px;\r\n}\r\n#charcreate .chargen .right {\r\n	top: 135px;\r\n	left: 127px;\r\n}\r\n#charcreate .chargen canvas {\r\n	position: absolute;\r\n	top: 120px;\r\n	left: 62px;\r\n}\r\n\r\n/** Graph buttons **/\r\n#charcreate .graph ui-button {\r\n	position: absolute;\r\n	width: 36px;\r\n	height: 36px;\r\n}\r\n#charcreate .graph .str {\r\n	top: 50px;\r\n	left: 270px;\r\n}\r\n#charcreate .graph .int {\r\n	top: 243px;\r\n	left: 270px;\r\n}\r\n#charcreate .graph .vit {\r\n	top: 104px;\r\n	left: 348px;\r\n}\r\n#charcreate .graph .dex {\r\n	top: 190px;\r\n	left: 191px;\r\n}\r\n#charcreate .graph .agi {\r\n	top: 103px;\r\n	left: 191px;\r\n}\r\n#charcreate .graph .luk {\r\n	top: 190px;\r\n	left: 348px;\r\n}\r\n#charcreate .graph canvas {\r\n	position: absolute;\r\n	left: 209px;\r\n	top: 86px;\r\n}\r\n\r\n/** Stats infos **/\r\n#charcreate .info {\r\n	position: absolute;\r\n	top: 40px;\r\n	left: 480px;\r\n}\r\n#charcreate .info div {\r\n	position: absolute;\r\n	left: 0px;\r\n}\r\n#charcreate .info .str {\r\n	top: 0px;\r\n}\r\n#charcreate .info .agi {\r\n	top: 16px;\r\n}\r\n#charcreate .info .vit {\r\n	top: 32px;\r\n}\r\n#charcreate .info .int {\r\n	top: 48px;\r\n}\r\n#charcreate .info .dex {\r\n	top: 64px;\r\n}\r\n#charcreate .info .luk {\r\n	top: 80px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate .btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate .make {\r\n	right: 50px;\r\n}\r\n#charcreate .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#charcreate .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreateCommon.js
@@ -615176,7 +622429,7 @@ var init_CharCreatev2$2 = __esmMin((() => {
 //#region src/UI/Components/CharCreate/CharCreatev2/CharCreatev2.css?raw
 var CharCreatev2_default$1;
 var init_CharCreatev2$1 = __esmMin((() => {
-	CharCreatev2_default$1 = ":host {\r\n	width: 150px;\r\n	height: 286px;\r\n}\r\n\r\n#charcreate_v2 {\r\n	position: absolute;\r\n	width: 150px;\r\n	height: 286px;\r\n}\r\n\r\n#charcreate_v2 .header {\r\n	width: 150px;\r\n	height: 17px;\r\n}\r\n#charcreate_v2 .header .corner {\r\n	position: absolute;\r\n	width: 12px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charcreate_v2 .header .corner.left {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n#charcreate_v2 .header .corner.right {\r\n	top: 0px;\r\n	right: 0px;\r\n}\r\n#charcreate_v2 .header .center {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 12px;\r\n	width: 128px;\r\n	height: 17px;\r\n}\r\n#charcreate_v2 .header .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 12px;\r\n	font-size: 13px;\r\n}\r\n\r\n#charcreate_v2 .content {\r\n	width: 150px;\r\n	height: 240px;\r\n}\r\n\r\n#charcreate_v2 .footer {\r\n	width: 150px;\r\n	height: 29px;\r\n}\r\n#charcreate_v2 .footer .corner {\r\n	position: absolute;\r\n	width: 21px;\r\n	height: 29px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charcreate_v2 .footer .corner.left {\r\n	bottom: 0px;\r\n	left: 0px;\r\n}\r\n#charcreate_v2 .footer .corner.right {\r\n	bottom: 0px;\r\n	right: 0px;\r\n}\r\n#charcreate_v2 .footer .center {\r\n	position: absolute;\r\n	bottom: 0px;\r\n	left: 21px;\r\n	width: 118px;\r\n	height: 29px;\r\n}\r\n\r\n/** Name **/\r\n#charcreate_v2 .content input {\r\n	position: absolute;\r\n	top: 142px;\r\n	left: 40px;\r\n	width: 96px;\r\n	height: 18px;\r\n	padding-top: 2px;\r\n	padding-left: 3px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	border: 0;\r\n}\r\n\r\n/** Chargen **/\r\n#charcreate_v2 .content ui-button {\r\n	position: absolute;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n\r\n#charcreate_v2 .content .styleleft {\r\n	top: 190px;\r\n	left: 15px;\r\n}\r\n#charcreate_v2 .content .styleright {\r\n	top: 190px;\r\n	left: 125px;\r\n}\r\n#charcreate_v2 .content .colorleft {\r\n	top: 230px;\r\n	left: 15px;\r\n}\r\n#charcreate_v2 .content .colorright {\r\n	top: 230px;\r\n	left: 125px;\r\n}\r\n\r\n#charcreate_v2 .content canvas {\r\n	position: absolute;\r\n	top: 25px;\r\n	left: 40px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate_v2 .footer .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate_v2 .footer .btn {\r\n	position: absolute;\r\n	width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate_v2 .footer .make {\r\n	right: 50px;\r\n}\r\n#charcreate_v2 .footer .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#charcreate_v2 .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
+	CharCreatev2_default$1 = ":host {\r\n	width: 150px;\r\n	height: 286px;\r\n}\r\n\r\n#charcreate_v2 {\r\n	position: absolute;\r\n	width: 150px;\r\n	height: 286px;\r\n}\r\n\r\n#charcreate_v2 .header {\r\n	width: 150px;\r\n	height: 17px;\r\n}\r\n#charcreate_v2 .header .corner {\r\n	position: absolute;\r\n	width: 12px;\r\n	height: 17px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charcreate_v2 .header .corner.left {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n#charcreate_v2 .header .corner.right {\r\n	top: 0px;\r\n	right: 0px;\r\n}\r\n#charcreate_v2 .header .center {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 12px;\r\n	width: 128px;\r\n	height: 17px;\r\n}\r\n#charcreate_v2 .header .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 12px;\r\n	font-size: 13px;\r\n}\r\n\r\n#charcreate_v2 .content {\r\n	width: 150px;\r\n	height: 240px;\r\n}\r\n\r\n#charcreate_v2 .footer {\r\n	width: 150px;\r\n	height: 29px;\r\n}\r\n#charcreate_v2 .footer .corner {\r\n	position: absolute;\r\n	width: 21px;\r\n	height: 29px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charcreate_v2 .footer .corner.left {\r\n	bottom: 0px;\r\n	left: 0px;\r\n}\r\n#charcreate_v2 .footer .corner.right {\r\n	bottom: 0px;\r\n	right: 0px;\r\n}\r\n#charcreate_v2 .footer .center {\r\n	position: absolute;\r\n	bottom: 0px;\r\n	left: 21px;\r\n	width: 118px;\r\n	height: 29px;\r\n}\r\n\r\n/** Name **/\r\n#charcreate_v2 .content input {\r\n	position: absolute;\r\n	top: 142px;\r\n	left: 40px;\r\n	width: 96px;\r\n	height: 18px;\r\n	padding-top: 2px;\r\n	padding-left: 3px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	border: 0;\r\n}\r\n\r\n/** Chargen **/\r\n#charcreate_v2 .content ui-button {\r\n	position: absolute;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n\r\n#charcreate_v2 .content .styleleft {\r\n	top: 190px;\r\n	left: 15px;\r\n}\r\n#charcreate_v2 .content .styleright {\r\n	top: 190px;\r\n	left: 125px;\r\n}\r\n#charcreate_v2 .content .colorleft {\r\n	top: 230px;\r\n	left: 15px;\r\n}\r\n#charcreate_v2 .content .colorright {\r\n	top: 230px;\r\n	left: 125px;\r\n}\r\n\r\n#charcreate_v2 .content canvas {\r\n	position: absolute;\r\n	top: 25px;\r\n	left: 40px;\r\n}\r\n\r\n/** Buttons **/\r\n#charcreate_v2 .footer .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charcreate_v2 .footer .btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n#charcreate_v2 .footer .make {\r\n	right: 50px;\r\n}\r\n#charcreate_v2 .footer .cancel {\r\n	right: 4px;\r\n}\r\n\r\n#charcreate_v2 .btns ui-button {\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreatev2/CharCreatev2.js
@@ -615881,7 +623134,7 @@ var init_CharEngine = __esmMin((() => {
 				Network.sendPacket(pkt);
 				Network.read((fp) => {
 					SessionStorage_default.AID = fp.readLong();
-				});
+				}, 4);
 			});
 			Controller$2.selectUIVersion();
 			Controller$1.selectUIVersion();
@@ -615928,7 +623181,7 @@ var init_WinList$2 = __esmMin((() => {
 //#region src/UI/Components/WinList/WinList.css?raw
 var WinList_default$1;
 var init_WinList$1 = __esmMin((() => {
-	WinList_default$1 = ":host {\r\n	width: 280px;\r\n	height: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#serverlist {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 200px;\r\n}\r\n#serverlist .head {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n#serverlist .bottom {\r\n	position: relative;\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#serverlist .content {\r\n	position: absolute;\r\n	width: 258px;\r\n	height: 145px;\r\n	top: 22px;\r\n	left: 0px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n	background-color: white;\r\n	border-left: 1px solid #c7c7c7;\r\n	border-right: 1px solid #c7c7c7;\r\n}\r\n#serverlist .list {\r\n	background-color: #f7f7f7;\r\n	height: 145px;\r\n	width: 260px;\r\n}\r\n#serverlist .menu_node {\r\n	width: 255px;\r\n	height: 15px;\r\n	display: block;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#serverlist .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-color: transparent;\r\n}\r\n#serverlist .ok {\r\n	right: 50px;\r\n}\r\n#serverlist .cancel {\r\n	right: 5px;\r\n}\r\n";
+	WinList_default$1 = ":host {\r\n	width: 280px;\r\n	height: 200px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#serverlist {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 200px;\r\n}\r\n#serverlist .head {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 22px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n#serverlist .bottom {\r\n	position: relative;\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 80px;\r\n	left: 0px;\r\n}\r\n\r\n#serverlist .content {\r\n	position: absolute;\r\n	width: 258px;\r\n	height: 145px;\r\n	top: 22px;\r\n	left: 0px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n	background-color: white;\r\n	border-left: 1px solid #c7c7c7;\r\n	border-right: 1px solid #c7c7c7;\r\n}\r\n#serverlist .list {\r\n	background-color: #f7f7f7;\r\n	height: 145px;\r\n	width: 260px;\r\n}\r\n#serverlist .menu_node {\r\n	width: 255px;\r\n	height: 15px;\r\n	display: block;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#serverlist .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-color: transparent;\r\n}\r\n#serverlist .ok {\r\n	right: 49px;\r\n}\r\n#serverlist .cancel {\r\n	right: 5px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinList/WinList.js
@@ -618812,7 +626065,7 @@ var init_WinLogin$3 = __esmMin((() => {
 //#region src/UI/Components/WinLogin/WinLogin/WinLogin.css?raw
 var WinLogin_default$1;
 var init_WinLogin$2 = __esmMin((() => {
-	WinLogin_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 60%;\r\n	left: calc(50% - 140px);\r\n}\r\n\r\n#WinLogin {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n}\r\n#WinLogin input {\r\n	position: absolute;\r\n	left: 91px;\r\n	height: 18px;\r\n	width: 127px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#WinLogin input.user {\r\n	top: 29px;\r\n}\r\n#WinLogin input.pass {\r\n	top: 61px;\r\n}\r\n#WinLogin .save {\r\n	position: absolute;\r\n	top: 26px;\r\n	right: 4px;\r\n	display: block;\r\n	width: 72px;\r\n	height: 18px;\r\n	border: none;\r\n	background-color: transparent;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	padding: 0 0 0 17px;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#WinLogin .save::before {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 1px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: 1px solid #696969;\r\n	background: #ffffff;\r\n	content: '';\r\n}\r\n#WinLogin .save.is-checked::after {\r\n	position: absolute;\r\n	top: -1px;\r\n	left: 2px;\r\n	color: #202020;\r\n	content: '\\2713';\r\n	font-size: 14px;\r\n	font-weight: bold;\r\n}\r\n#WinLogin .btn {\r\n	position: absolute;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	background-color: transparent;\r\n}\r\n#WinLogin .btn.connect {\r\n	right: 50px;\r\n}\r\n#WinLogin .btn.signup {\r\n	left: 5px;\r\n}\r\n#WinLogin .btn.exit {\r\n	right: 5px;\r\n}\r\n\r\n/* Override browser autofill styles */\r\n#WinLogin input:-webkit-autofill,\r\n#WinLogin input:-webkit-autofill:hover,\r\n#WinLogin input:-webkit-autofill:focus,\r\n#WinLogin input:-webkit-autofill:active,\r\n#WinLogin input:-internal-autofill-selected,\r\n#WinLogin input:-internal-autofill-previewed {\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000sease-in-out 0s;\r\n	box-shadow: inset 0 0 20px 20px #ffffff00;\r\n}\r\n";
+	WinLogin_default$1 = ":host {\r\n	width: 280px;\r\n	height: 120px;\r\n	top: 60%;\r\n	left: calc(50% - 140px);\r\n}\r\n\r\n#WinLogin {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 120px;\r\n}\r\n#WinLogin input {\r\n	position: absolute;\r\n	left: 91px;\r\n	height: 18px;\r\n	width: 127px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding-left: 2px;\r\n	outline: none;\r\n}\r\n#WinLogin input.user {\r\n	top: 29px;\r\n}\r\n#WinLogin input.pass {\r\n	top: 61px;\r\n}\r\n#WinLogin .save {\r\n	position: absolute;\r\n	top: 26px;\r\n	left: 8px;\r\n	display: block;\r\n	width: 72px;\r\n	height: 18px;\r\n	border: none;\r\n	background-color: transparent;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	padding: 0 0 0 17px;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#WinLogin .save::before {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 1px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: 1px solid #696969;\r\n	background: #ffffff;\r\n	content: '';\r\n}\r\n#WinLogin .save.is-checked::after {\r\n	position: absolute;\r\n	top: -1px;\r\n	left: 2px;\r\n	color: #202020;\r\n	content: '\\2713';\r\n	font-size: 14px;\r\n	font-weight: bold;\r\n}\r\n#WinLogin .btn {\r\n	position: absolute;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	background-color: transparent;\r\n}\r\n#WinLogin .btn.connect {\r\n	right: 50px;\r\n}\r\n#WinLogin .btn.signup {\r\n	left: 5px;\r\n}\r\n#WinLogin .btn.exit {\r\n	right: 5px;\r\n}\r\n\r\n/* Override browser autofill styles */\r\n#WinLogin input:-webkit-autofill,\r\n#WinLogin input:-webkit-autofill:hover,\r\n#WinLogin input:-webkit-autofill:focus,\r\n#WinLogin input:-webkit-autofill:active,\r\n#WinLogin input:-internal-autofill-selected,\r\n#WinLogin input:-internal-autofill-previewed {\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000s ease-in-out 0s;\r\n	box-shadow: inset 0 0 20px 20px #ffffff00;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinLogin/RememberedAccount.js
@@ -618841,12 +626094,10 @@ function createWinLogin({ name, htmlText, cssText }) {
 		_buttonSave = root.querySelector(".save");
 		_inputUsername.addEventListener("mousedown", function(event) {
 			this.focus();
-			this.value = "";
 			event.stopImmediatePropagation();
 		});
 		_inputPassword.addEventListener("mousedown", function(event) {
 			this.focus();
-			this.value = "";
 			event.stopImmediatePropagation();
 		});
 		_buttonSave.addEventListener("mousedown", (event) => {
@@ -618950,13 +626201,13 @@ var init_WinLogin$1 = __esmMin((() => {
 //#region src/UI/Components/WinLogin/WinLoginV2/WinLoginV2.html?raw
 var WinLoginV2_default$2;
 var init_WinLoginV2$2 = __esmMin((() => {
-	WinLoginV2_default$2 = "<div id=\"WinLogin\" class=\"win_login\">\r\n	<div class=\"win_login\">\r\n		<ui-image src=\"login_interface/bg_login.tga\"></ui-image>\r\n		<!-- User Auth -->\r\n		<div class=\"server-name\">HappyRO</div>\r\n		<input id=\"user\" class=\"user\" type=\"text\" value=\"\" />\r\n		<input id=\"pass\" class=\"pass\" type=\"password\" value=\"\" />\r\n		<button id=\"save\" class=\"save\" type=\"button\" role=\"checkbox\" aria-label=\"记住账号\" aria-checked=\"false\">\r\n			记住账号\r\n		</button>\r\n\r\n		<!-- Buttons -->\r\n		<button\r\n			id=\"btn_connect\"\r\n			class=\"btn connect\"\r\n			type=\"submit\"\r\n			data-background=\"login_interface/bt_start_normal.bmp\"\r\n			data-hover=\"login_interface/bt_start_over.bmp\"\r\n			data-down=\"login_interface/bt_start_press.bmp\"\r\n		></button>\r\n		<!--\r\n		<button id=\"btn_connect\" class=\"btn connect localized-login\" type=\"submit\">\r\n			登录\r\n		</button>\r\n		-->\r\n		<button\r\n			id=\"btn_connect\"\r\n			class=\"btn signup\"\r\n			type=\"button\"\r\n			data-localized-label=\"注册\"\r\n			data-background=\"login_interface/bt_join_normal.bmp\"\r\n			data-hover=\"login_interface/bt_join_over.bmp\"\r\n			data-down=\"login_interface/bt_join_press.bmp\"\r\n		>\r\n			注册\r\n		</button>\r\n		<button id=\"btn_exit\" class=\"btn exit\" type=\"button\"></button>\r\n	</div>\r\n</div>\r\n";
+	WinLoginV2_default$2 = "<div id=\"WinLogin\" class=\"win_login\">\r\n	<div class=\"win_login\">\r\n		<ui-image src=\"login_interface/bg_login.tga\"></ui-image>\r\n		<!-- User Auth -->\r\n		<div class=\"server-name\">HappyRO</div>\r\n		<input id=\"user\" class=\"user\" type=\"text\" value=\"\" />\r\n		<input id=\"pass\" class=\"pass\" type=\"password\" value=\"\" />\r\n		<button id=\"save\" class=\"save\" type=\"button\" role=\"checkbox\" aria-label=\"记住账号\" aria-checked=\"false\">\r\n			记住账号\r\n		</button>\r\n\r\n		<!-- Buttons -->\r\n		<button\r\n			id=\"btn_connect\"\r\n			class=\"btn connect\"\r\n			type=\"submit\"\r\n			data-background=\"login_interface/bt_start_normal.bmp\"\r\n			data-hover=\"login_interface/bt_start_over.bmp\"\r\n			data-down=\"login_interface/bt_start_press.bmp\"\r\n		></button>\r\n		<button\r\n			id=\"btn_signup\"\r\n			class=\"btn signup\"\r\n			type=\"button\"\r\n			data-localized-label=\"注册\"\r\n			data-background=\"login_interface/bt_join_normal.bmp\"\r\n			data-hover=\"login_interface/bt_join_over.bmp\"\r\n			data-down=\"login_interface/bt_join_press.bmp\"\r\n		></button>\r\n		<button id=\"btn_exit\" class=\"btn exit\" type=\"button\"></button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinLogin/WinLoginV2/WinLoginV2.css?raw
 var WinLoginV2_default$1;
 var init_WinLoginV2$1 = __esmMin((() => {
-	WinLoginV2_default$1 = ":host {\r\n	top: 60%;\r\n	left: calc(50% - 140px);\r\n	width: 301px;\r\n	height: 132px;\r\n}\r\n\r\n#WinLogin {\r\n	position: absolute;\r\n	width: 301px;\r\n	height: 132px;\r\n}\r\n#WinLogin .win_login {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#WinLogin .win_login .server-name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 17px;\r\n	width: 127px;\r\n	height: 18px;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	text-align: center;\r\n}\r\n#WinLogin .win_login input {\r\n	position: absolute;\r\n	left: 17px;\r\n	height: 18px;\r\n	width: 127px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding-left: 2px;\r\n	outline: none;\r\n	text-align: center;\r\n}\r\n#WinLogin .win_login input.user {\r\n	top: 39px;\r\n}\r\n#WinLogin .win_login input.pass {\r\n	top: 61px;\r\n}\r\n#WinLogin .win_login .save {\r\n	position: absolute;\r\n	top: 81px;\r\n	left: 45px;\r\n	display: block;\r\n	width: 72px;\r\n	height: 18px;\r\n	border: none;\r\n	background-color: transparent;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	padding: 0 0 0 17px;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#WinLogin .win_login .save::before {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 1px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: 1px solid #696969;\r\n	background: #ffffff;\r\n	content: '';\r\n}\r\n#WinLogin .win_login .save.is-checked::after {\r\n	position: absolute;\r\n	top: -1px;\r\n	left: 2px;\r\n	color: #202020;\r\n	content: '\\2713';\r\n	font-size: 14px;\r\n	font-weight: bold;\r\n}\r\n#WinLogin .win_login .btn {\r\n	position: absolute;\r\n	border: 0;\r\n	background-color: transparent;\r\n}\r\n#WinLogin .win_login .btn.connect {\r\n	width: 84px;\r\n	height: 84px;\r\n	right: 25px;\r\n	bottom: 15px;\r\n}\r\n#WinLogin .win_login .btn.localized-login {\r\n	border: 1px solid #6f8297;\r\n	border-radius: 4px;\r\n	background: #e8f0f6;\r\n	box-shadow: inset 0 1px 0 #ffffff;\r\n	color: #263747;\r\n	font-size: 14px;\r\n}\r\n#WinLogin .win_login .btn.localized-login:hover {\r\n	background: #d8e8f3;\r\n}\r\n#WinLogin .win_login .btn.localized-login:active {\r\n	background: #c7dce9;\r\n	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);\r\n}\r\n#WinLogin .win_login .btn.signup {\r\n	width: 84px;\r\n	height: 21px;\r\n	right: 130px;\r\n	bottom: 15px;\r\n}\r\n#WinLogin .win_login .btn.exit {\r\n	width: 24px;\r\n	height: 23px;\r\n	right: 7px;\r\n	bottom: 96px;\r\n}\r\n\r\n/* Override browser autofill styles */\r\n#WinLogin .win_login input:-webkit-autofill,\r\n#WinLogin .win_login input:-webkit-autofill:hover,\r\n#WinLogin .win_login input:-webkit-autofill:focus,\r\n#WinLogin .win_login input:-webkit-autofill:active,\r\n#WinLogin .win_login input:-internal-autofill-selected,\r\n#WinLogin .win_login input:-internal-autofill-previewed {\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000sease-in-out 0s;\r\n	box-shadow: inset 0 0 20px 20px #ffffff00;\r\n}\r\n";
+	WinLoginV2_default$1 = ":host {\r\n	top: 60%;\r\n	left: calc(50% - 140px);\r\n	width: 301px;\r\n	height: 132px;\r\n}\r\n\r\n#WinLogin {\r\n	position: absolute;\r\n	width: 301px;\r\n	height: 132px;\r\n}\r\n#WinLogin .win_login {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#WinLogin .win_login .server-name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 17px;\r\n	width: 127px;\r\n	height: 18px;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	text-align: center;\r\n}\r\n#WinLogin .win_login input {\r\n	position: absolute;\r\n	left: 17px;\r\n	height: 18px;\r\n	width: 127px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding-left: 2px;\r\n	outline: none;\r\n	text-align: center;\r\n}\r\n#WinLogin .win_login input.user {\r\n	top: 39px;\r\n}\r\n#WinLogin .win_login input.pass {\r\n	top: 61px;\r\n}\r\n#WinLogin .win_login .save {\r\n	position: absolute;\r\n	top: 81px;\r\n	left: 17px;\r\n	display: block;\r\n	width: 72px;\r\n	height: 18px;\r\n	border: none;\r\n	background-color: transparent;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	padding: 0 0 0 17px;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#WinLogin .win_login .save::before {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 1px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: 1px solid #696969;\r\n	background: #ffffff;\r\n	content: '';\r\n}\r\n#WinLogin .win_login .save.is-checked::after {\r\n	position: absolute;\r\n	top: -1px;\r\n	left: 2px;\r\n	color: #202020;\r\n	content: '\\2713';\r\n	font-size: 14px;\r\n	font-weight: bold;\r\n}\r\n#WinLogin .win_login .btn {\r\n	position: absolute;\r\n	border: 0;\r\n	background-color: transparent;\r\n}\r\n#WinLogin .win_login .btn.connect {\r\n	width: 84px;\r\n	height: 84px;\r\n	right: 25px;\r\n	bottom: 15px;\r\n}\r\n#WinLogin .win_login .btn.localized-login {\r\n	border: 1px solid #6f8297;\r\n	border-radius: 4px;\r\n	background: #e8f0f6;\r\n	box-shadow: inset 0 1px 0 #ffffff;\r\n	color: #263747;\r\n	font-size: 14px;\r\n}\r\n#WinLogin .win_login .btn.localized-login:hover {\r\n	background: #d8e8f3;\r\n}\r\n#WinLogin .win_login .btn.localized-login:active {\r\n	background: #c7dce9;\r\n	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);\r\n}\r\n#WinLogin .win_login .btn.signup {\r\n	width: 84px;\r\n	height: 21px;\r\n	right: 130px;\r\n	bottom: 15px;\r\n}\r\n#WinLogin .win_login .btn.exit {\r\n	width: 24px;\r\n	height: 23px;\r\n	right: 7px;\r\n	bottom: 96px;\r\n}\r\n\r\n/* Override browser autofill styles */\r\n#WinLogin .win_login input:-webkit-autofill,\r\n#WinLogin .win_login input:-webkit-autofill:hover,\r\n#WinLogin .win_login input:-webkit-autofill:focus,\r\n#WinLogin .win_login input:-webkit-autofill:active,\r\n#WinLogin .win_login input:-internal-autofill-selected,\r\n#WinLogin .win_login input:-internal-autofill-previewed {\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000s ease-in-out 0s;\r\n	box-shadow: inset 0 0 20px 20px #ffffff00;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinLogin/WinLoginV2/WinLoginV2.js
@@ -620791,7 +628042,7 @@ function _createButton(name, onClick) {
 		next: "继续"
 	}[name.toLowerCase()];
 	if (label) {
-		btn.classList.add("localized");
+		btn.classList.add("ui-btn", "localized-control");
 		btn.textContent = label;
 	} else {
 		btn.dataset.background = `btn_${name}.bmp`;
