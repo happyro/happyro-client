@@ -2,6 +2,7 @@ import Client from 'Core/Client.js';
 import DB from 'DB/DBManager.js';
 import MiniMapTable from 'DB/Map/MiniMapTable.js';
 import Altitude from 'Renderer/Map/Altitude.js';
+import { canvasPointToMap, fittedMapRect } from './MapPreviewLayout.js';
 
 let npcAssetsPromise;
 const mapImagePromises = new Map();
@@ -53,7 +54,9 @@ export function loadCatalogMapImage(mapName) {
 		mapImagePromises.set(
 			paths.normalized,
 			loadNpcAssets().then(assets =>
-				assets.mapImages?.includes(paths.miniMapBaseName) ? loadClientFile(`data/texture/${paths.bmpPath}`) : null
+				assets.mapImages?.includes(paths.miniMapBaseName)
+					? loadClientFile(`data/texture/${paths.bmpPath}`)
+					: null
 			)
 		);
 	}
@@ -88,12 +91,14 @@ export async function loadCatalogMap(mapName) {
 }
 
 export function canvasToMapCoordinate(canvas, event, gat) {
-	const width = gat?.width || canvas.width;
-	const height = gat?.height || canvas.height;
+	const grid = gat?.width && gat?.height ? gat : { width: canvas.width, height: canvas.height };
 	const rect = canvas.getBoundingClientRect();
-	const x = Math.floor(((event.clientX - rect.left) / rect.width) * width);
-	const y = Math.floor(height - ((event.clientY - rect.top) / rect.height) * height);
-	return { x: Math.max(0, Math.min(width - 1, x)), y: Math.max(0, Math.min(height - 1, y)) };
+	const scaleX = (canvas.width || rect.width) / (rect.width || 1);
+	const scaleY = (canvas.height || rect.height) / (rect.height || 1);
+	const canvasX = (event.clientX - rect.left) * scaleX;
+	const canvasY = (event.clientY - rect.top) * scaleY;
+	const fit = canvas._mapFitRect || fittedMapRect(canvas.width, canvas.height, grid.width, grid.height);
+	return canvasPointToMap(fit, grid, canvasX, canvasY);
 }
 
 export function findNearestWalkableCoordinate(gat, target, maxRadius = 12) {

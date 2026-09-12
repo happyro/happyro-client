@@ -1081,20 +1081,20 @@
 	gap: 8px;
 }
 .catalog-map-picker {
-	flex: 1;
+	min-width: 0;
 	min-height: 0;
 	width: 100%;
+	height: 100%;
 	padding: 0;
 	border: 0;
+	overflow: hidden;
 	background: #17191c;
 	cursor: crosshair;
 }
 .catalog-map {
 	display: block;
 	width: 100%;
-	height: auto;
-	max-height: 100%;
-	object-fit: contain;
+	height: 100%;
 	background: #17191c;
 }
 .map-npc-list {
@@ -1161,7 +1161,6 @@
 	display: block;
 	width: 100%;
 	height: 100%;
-	object-fit: contain;
 }
 @media (max-width: 640px) {
 	.game-tools-window {

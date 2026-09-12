@@ -132,7 +132,16 @@ function mount(container) {
 				<button class="catalog-teleport" type="button" ${canTeleport ? '' : 'disabled'}>${actionState.npcPending ? '正在传送...' : '传送到 NPC 附近'}</button>
 				<span class="catalog-status${actionState.kind === 'npc' && actionState.error ? ' error' : ''}">${escapeCatalogHtml((actionState.kind === 'npc' ? actionState.message : '') || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
-			drawWorldMapPreview(detail.querySelector('.npc-map-canvas'), loadedNpcMap?.image, npc, loadedNpcMap?.gat);
+			const paintNpcMap = () =>
+				drawWorldMapPreview(
+					detail.querySelector('.npc-map-canvas'),
+					loadedNpcMap?.image,
+					null,
+					loadedNpcMap?.gat,
+					{ selectedNpc: npc }
+				);
+			paintNpcMap();
+			requestAnimationFrame(paintNpcMap);
 			detail.querySelector('.catalog-teleport').addEventListener('click', () => teleportToNpc(npc));
 
 			const token = selectionToken;

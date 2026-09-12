@@ -93,10 +93,14 @@ describe('world map navigation', () => {
 	});
 
 	it('keeps coordinate actions visible and disabled until a map target is selected', () => {
-		expect(navigationSource).toContain("button.style.display = npcTarget ? 'none' : ''");
+		expect(navigationSource).toContain("button.style.display = npcTarget ? 'none' : 'inline-block'");
 		expect(navigationSource).toContain('button.disabled = !hasCoordinateTarget');
-		expect(navigationSource).toContain("start.style.display = _autoWalkActive ? 'none' : ''");
+		expect(navigationSource).toContain("start.style.display = _autoWalkActive ? 'none' : 'inline-block'");
 		expect(navigationSource).toContain('start.disabled = !canStart');
+		expect(navigationSource).toContain('mapImageSourceRect(');
+		expect(navigationSource).toContain("ctx.fillStyle = '#2f80ed'");
+		expect(navigationSource).toContain('remainingPathFromPosition(_path, currentPos)');
+		expect(navigationSource).toContain('point.isWarp || i === remainingPath.length - 1');
 	});
 
 	it('hides the window without stopping an active route', () => {
