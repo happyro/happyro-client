@@ -4,7 +4,14 @@
 }
 
 #SkillDescription {
-	position: absolute;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	width: min(380px, calc(100vw - 16px));
+	max-height: min(80dvh, calc(100dvh - 16px));
+	background: white;
+	overflow: hidden;
 	border-radius: 5px;
 	padding: 1px;
 	border: 1px solid #c5c5c5;
@@ -16,15 +23,17 @@
 	border-radius: 5px;
 	background-color: white;
 	box-sizing: border-box;
-	width: 380px;
-	max-width: calc(100vw - 24px);
-	max-height: calc(100vh - 24px);
+	min-height: 0;
+	width: 100%;
+	overflow-wrap: anywhere;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
 	overflow-y: auto;
 }
 #SkillDescription .close {
 	position: absolute;
-	right: 3px;
-	top: 3px;
+	right: 6px;
+	top: 7px;
 	border: none;
 	width: 9px;
 	height: 10px;
@@ -32,4 +41,16 @@
 	margin: 0px;
 	background-repeat: no-repeat;
 	background-color: transparent;
+}
+
+#SkillDescription .titlebar {
+	position: relative;
+	flex: 0 0 auto;
+	padding: 3px 24px 3px 7px;
+	background: #e9e9e9;
+	border-bottom: 1px solid #c5c5c5;
+	cursor: move;
+	user-select: none;
+	touch-action: none;
+	overflow-wrap: anywhere;
 }

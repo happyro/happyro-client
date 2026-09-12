@@ -83,7 +83,24 @@ SkillDescription.onKeyDown = function onKeyDown(event) {
  */
 SkillDescription.onRemove = function onRemove() {
 	this.uid = -1;
+	window.removeEventListener('resize', fitViewport);
 };
+
+function fitViewport() {
+	const host = SkillDescription._host;
+	if (!host?.isConnected) return;
+	const rect = host.getBoundingClientRect();
+	const width = Math.min(Renderer.width || innerWidth, innerWidth);
+	const height = Math.min(Renderer.height || innerHeight, innerHeight);
+	host.style.left = `${Math.max(0, Math.min(parseFloat(host.style.left) || 0, width - rect.width - 8))}px`;
+	host.style.top = `${Math.max(0, Math.min(parseFloat(host.style.top) || 0, height - rect.height - 8))}px`;
+}
+
+SkillDescription.onAppend = function onAppend() {
+	window.addEventListener('resize', fitViewport);
+	fitViewport();
+};
+SkillDescription.onDragEnd = fitViewport;
 
 /**
  * Initialize UI
@@ -97,7 +114,9 @@ SkillDescription.init = function init() {
 		closeBtn.addEventListener('click', () => SkillDescription.remove());
 	}
 
-	this.draggable();
+	root.querySelector('.content').addEventListener('wheel', event => event.stopPropagation(), { passive: true });
+	root.querySelector('.content').addEventListener('touchmove', event => event.stopPropagation(), { passive: true });
+	this.draggable('.titlebar');
 };
 
 /**
@@ -109,9 +128,11 @@ SkillDescription.setSkill = function setSkill(id) {
 	this.uid = id;
 
 	const root = this.getRoot();
+	root.querySelector('.title').textContent = DB.getSkillName(id);
 	const content = root.querySelector('.content');
 	if (content) {
 		content.innerHTML = _formatROText(DB.getSkillDescription(id));
+		content.scrollTop = 0;
 	}
 
 	const hostWidth = this._host.getBoundingClientRect().width;
@@ -119,6 +140,7 @@ SkillDescription.setSkill = function setSkill(id) {
 
 	this._host.style.top = `${Math.max(0, Math.min(Mouse.screen.y + 10, Renderer.height - hostHeight))}px`;
 	this._host.style.left = `${Math.max(0, Math.min(Mouse.screen.x + 10, Renderer.width - hostWidth))}px`;
+	fitViewport();
 };
 
 /**
