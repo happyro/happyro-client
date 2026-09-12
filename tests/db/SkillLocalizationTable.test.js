@@ -6,9 +6,14 @@ import SkillTreeView from '../../src/DB/Skills/SkillTreeView.generated.js';
 const HANGUL = /[\uac00-\ud7af\u1100-\u11ff\u3130-\u318f]/;
 
 describe('SkillLocalizationTable', () => {
+	it('preserves repeated cooldown levels instead of losing their mapping', () => {
+		expect(SkillLocalizationTable[375].description).toContain('冷却时间：Lv.1：10 秒 / Lv.2：10 秒 / Lv.3：10 秒 / Lv.4：10 秒 / Lv.5：15 秒');
+	});
 	it('contains the complete generated skill catalog', () => {
 		expect(Object.keys(SkillLocalizationTable)).toHaveLength(1767);
 		expect(SkillLocalizationTable[5]).toMatchObject({ key: 'SM_BASH', name: '狂击' });
+		expect(SkillLocalizationTable[5014].name).toBe('全力推进');
+		expect(SkillLocalizationTable[5014].description).toContain('冷却时间：50 分钟');
 		expect(SkillLocalizationTable[6].description).toContain('降低玩家目标的 VIT 防御力');
 		expect(SkillLocalizationTable[5201].description).toContain('操纵最多 5 个');
 		expect(SkillLocalizationTable[8001].description).toContain('红色纤细药水');

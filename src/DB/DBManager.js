@@ -6357,8 +6357,8 @@ function loadStateIconInfo(basePath, callback, onEnd) {
 				if (!StatusInfo[id]) {
 					StatusInfo[id] = {};
 				}
-				StatusInfo[id].haveTimeLimit = haveTimeLimit;
-				StatusInfo[id].posTimeLimitStr = posTimeLimitStr;
+				StatusInfo[id].haveTimeLimit = haveTimeLimit ?? 0;
+				StatusInfo[id].posTimeLimitStr = posTimeLimitStr ?? 0;
 				restoreLocalizedStatusDescription(StatusInfo, localizedStatusDescriptions, id);
 				return 1;
 			};
