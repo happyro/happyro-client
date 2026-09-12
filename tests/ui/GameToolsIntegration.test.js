@@ -83,14 +83,18 @@ describe('game tools integration', () => {
 
 	it('registers independent NPC and map catalog tabs', () => {
 		const source = read('src/UI/Components/GameTools/GameTools.js');
+		expect(source.indexOf('registerGameToolsTab(mapCatalogTab)')).toBeLessThan(
+			source.indexOf('registerGameToolsTab(monsterCatalogTab)')
+		);
+		expect(source).toContain("Preferences.get('GameTools', { tab: 'maps' }, 2.0)");
 		expect(source).toContain('registerGameToolsTab(npcCatalogTab)');
-		expect(source).toContain('registerGameToolsTab(mapCatalogTab)');
 		expect(source).toContain('registerGameToolsTab(itemCatalogTab)');
 	});
 
 	it('centers the adventure tools window from the current viewport dimensions', () => {
 		const source = read('src/UI/Components/GameTools/GameTools.js');
 		const css = read('src/UI/Components/GameTools/GameTools.css');
+		expect(source).toContain('this.renderTabs()');
 		expect(source).toContain('(viewportWidth - width) / 2');
 		expect(source).toContain('(viewportHeight - height) / 2');
 		expect(source).not.toContain('{ x: 250, y: 90');
@@ -105,6 +109,13 @@ describe('game tools integration', () => {
 		expect(mapSource).toContain('drawWorldMapPreview');
 		expect(npcSource).toContain('npc-map-canvas');
 		expect(npcSource).toContain('drawWorldMapPreview');
+		expect(npcSource).toContain('class="catalog-heading"');
+		expect(npcSource).toContain('class="npc-detail-body"');
+		expect(npcSource).toContain('renderCatalogScopeFilter');
+		expect(npcSource).not.toContain("value: 'all'");
+		expect(read('src/UI/Components/GameTools/CatalogBrowser.js')).toContain(
+			'if (!state.selected && options.selectFirst !== false) state.selected = state.filtered[0] || null'
+		);
 	});
 
 	it('lists NPCs for the selected map and teleports through the existing NPC action', () => {
@@ -117,6 +128,7 @@ describe('game tools integration', () => {
 		expect(mapSource).not.toContain('map-npc-teleport');
 		expect(mapSource).toContain('npcList.scrollTop = npcListScrollTop');
 		expect(mapSource).toContain('loadAdventureNpcCatalog()');
+		expect(mapSource).toContain('selectFirst: false');
 		expect(read('src/UI/Components/GameTools/NpcCatalogTab.js')).toContain('export function loadAdventureNpcCatalog()');
 	});
 
@@ -221,17 +233,25 @@ describe('game tools integration', () => {
 		expect(source).toContain('title="${escapeHtml(drop.nameEn || drop.Item)}"');
 		expect(source).toContain('teleportToCoordinate(teleportTarget);');
 		expect(source).toContain('>传送到地图</button>');
+		expect(source).toContain('renderCatalogScopeFilter');
+		expect(source).toContain("value: 'current'");
+		expect(source).toContain('if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false');
+		expect(source).toContain('if (!state.selected) {');
+		expect(source).toContain('state.selected = state.filtered[0] || null');
 		expect(source).not.toContain('${spawn.count} 只');
 	});
 
 	it('shows combined prices and equipment slot counts in item details', () => {
 		const source = read('src/UI/Components/GameTools/ItemCatalogTab.js');
-		expect(source).toContain('<span>价格</span>');
-		expect(source).toContain('买 ${item.Buy ?? \'-\'} / 卖 ${item.Sell ?? \'-\'}');
+		expect(source).toContain('<span>买 / 卖</span>');
+		expect(source).toContain('${item.Buy ?? \'-\'} / ${item.Sell ?? \'-\'}');
 		expect(source).toContain('<span>洞数</span>');
 		expect(source).toContain('${item.Slots ?? 0}');
 		expect(source).toContain("ariaLabel: '子类'");
 		expect(source).toContain("pending ? '发放中...' : '发放到背包'");
+		expect(read('src/UI/Components/GameTools/RemoteCatalogBrowser.js')).toContain(
+			'state.selected = state.items[0] || null'
+		);
 		expect(source).not.toContain('放大镜鉴定后发放');
 	});
 });

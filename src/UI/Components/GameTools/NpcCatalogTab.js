@@ -1,7 +1,7 @@
 import DB from 'DB/DBManager.js';
 import Session from 'Engine/SessionStorage.js';
 import { mountCatalogBrowser } from './CatalogBrowser.js';
-import { escapeCatalogHtml, matchesCatalogSearch } from './CatalogData.js';
+import { escapeCatalogHtml, matchesCatalogSearch, renderCatalogScopeFilter } from './CatalogData.js';
 import {
 	getAdventureActionState,
 	getCurrentAdventureMap,
@@ -13,7 +13,6 @@ import { loadNpcAssets, npcAtlasStyle } from './WorldAssetService.js';
 import { loadCatalogMap } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
 import { mergeNpcCatalog, npcCatalogKey, npcTeleportEnabled } from './WorldCatalogService.js';
-import { renderGameSelect } from './GameSelect.js';
 
 const key = npcCatalogKey;
 const catalogPromises = new Map();
@@ -89,15 +88,7 @@ function mount(container) {
 	const browser = mountCatalogBrowser(container, {
 		placeholder: '搜索 NPC、地图或编号',
 		searchLabel: '搜索 NPC',
-		filterHtml: renderGameSelect({
-			className: 'catalog-filter',
-			ariaLabel: 'NPC 范围',
-			value: 'all',
-			options: [
-				{ value: 'all', label: '全世界' },
-				{ value: 'current', label: '当前地图' }
-			]
-		}),
+		filterHtml: renderCatalogScopeFilter({ name: 'npc-scope', ariaLabel: '当前地图', value: 'current' }),
 		emptyDetail: '选择一个 NPC 查看详情',
 		pageSize: 32,
 		key,
@@ -126,20 +117,19 @@ function mount(container) {
 				<span class="catalog-portrait${style ? '' : ' no-image'}" style="${style}"></span>
 				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)} · ${npc.npcClass}</p></div>
 			</div>
-			<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
-			<div class="npc-location-preview"><canvas class="npc-map-canvas" width="480" height="240" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"></canvas></div>
+			<div class="npc-detail-body">
+				<div class="npc-map-picker" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"><canvas class="catalog-map npc-map-canvas" width="480" height="360"></canvas></div>
+				<section class="npc-detail-info">
+					<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
+				</section>
+			</div>
 			<div class="catalog-action-panel">
 				<button class="catalog-teleport" type="button" ${canTeleport ? '' : 'disabled'}>${actionState.npcPending ? '正在传送...' : '传送到 NPC 附近'}</button>
 				<span class="catalog-status${actionState.kind === 'npc' && actionState.error ? ' error' : ''}">${escapeCatalogHtml((actionState.kind === 'npc' ? actionState.message : '') || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
+			const canvas = detail.querySelector('.npc-map-canvas');
 			const paintNpcMap = () =>
-				drawWorldMapPreview(
-					detail.querySelector('.npc-map-canvas'),
-					loadedNpcMap?.image,
-					null,
-					loadedNpcMap?.gat,
-					{ selectedNpc: npc }
-				);
+				drawWorldMapPreview(canvas, loadedNpcMap?.image, null, loadedNpcMap?.gat, { selectedNpc: npc });
 			paintNpcMap();
 			requestAnimationFrame(paintNpcMap);
 			detail.querySelector('.catalog-teleport').addEventListener('click', () => teleportToNpc(npc));

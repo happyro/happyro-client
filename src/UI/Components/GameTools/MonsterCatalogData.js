@@ -6,11 +6,21 @@ export function normalizeMonsterSearch(value) {
 	return normalizeCatalogSearch(value);
 }
 
-export function filterMonsters(monsters, search, category = 'all') {
+export function filterMonsters(monsters, search, category = 'all', options = {}) {
 	const term = normalizeMonsterSearch(search);
+	const currentMap = String(options.currentMap || '').toLocaleLowerCase();
+	const scope = options.scope || 'all';
 	const filtered = monsters.filter(monster => {
 		if (category === 'boss' && !monster.boss) return false;
 		if (category === 'normal' && monster.boss) return false;
+		if (
+			scope === 'current' &&
+			!listMonsterSpawnMaps(monster.spawns, {
+				currentMap,
+				channelsEnabled: Boolean(options.channelsEnabled)
+			}).some(spawn => spawn.mapName === currentMap)
+		)
+			return false;
 		if (!term) return true;
 		return matchesCatalogSearch([monster.id, monster.name, monster.nameEn, monster.aegisName], term);
 	});

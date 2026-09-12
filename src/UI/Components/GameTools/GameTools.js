@@ -14,14 +14,14 @@ import characterMaintenanceTab from './CharacterMaintenanceTab.js';
 import gameSettingsTab from './GameSettingsTab.js';
 import itemCatalogTab from './ItemCatalogTab.js';
 
+registerGameToolsTab(mapCatalogTab);
 registerGameToolsTab(monsterCatalogTab);
 registerGameToolsTab(npcCatalogTab);
-registerGameToolsTab(mapCatalogTab);
 registerGameToolsTab(itemCatalogTab);
 registerGameToolsTab(characterMaintenanceTab);
 registerGameToolsTab(gameSettingsTab);
 
-const preferences = Preferences.get('GameTools', { tab: 'monsters' }, 1.0);
+const preferences = Preferences.get('GameTools', { tab: 'maps' }, 2.0);
 const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
 let cleanupTab;
 let capabilities;
@@ -106,6 +106,7 @@ GameTools.toggle = function toggle() {
 	this._host.style.display = '';
 	this.centerInViewport();
 	this.focus();
+	this.renderTabs();
 	void this.refreshCapabilities();
 };
 
