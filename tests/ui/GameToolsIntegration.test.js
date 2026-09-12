@@ -107,6 +107,19 @@ describe('game tools integration', () => {
 		expect(npcSource).toContain('drawWorldMapPreview');
 	});
 
+	it('lists NPCs for the selected map and teleports through the existing NPC action', () => {
+		const mapSource = read('src/UI/Components/GameTools/MapCatalogTab.js');
+		expect(mapSource).toContain('filterNpcsOnMap(catalogNpcs, map.mapName)');
+		expect(mapSource).toContain('teleportToNpc(selectedNpc)');
+		expect(mapSource).toContain('npcTeleportEnabled');
+		expect(mapSource).toContain('class="map-detail-body"');
+		expect(mapSource).toContain('class="map-npc-list"');
+		expect(mapSource).not.toContain('map-npc-teleport');
+		expect(mapSource).toContain('npcList.scrollTop = npcListScrollTop');
+		expect(mapSource).toContain('loadAdventureNpcCatalog()');
+		expect(read('src/UI/Components/GameTools/NpcCatalogTab.js')).toContain('export function loadAdventureNpcCatalog()');
+	});
+
 	it('provides current-map route previews, terrain thumbnails and route lifecycle state', () => {
 		const mapSource = read('src/UI/Components/GameTools/MapCatalogTab.js');
 		const previewSource = read('src/UI/Components/GameTools/WorldMapPreview.js');

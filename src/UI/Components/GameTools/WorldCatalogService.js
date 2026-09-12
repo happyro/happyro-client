@@ -107,3 +107,37 @@ export function entityKey(entity) {
 	if (!entity) return '';
 	return [entity.type, entity.mapName, entity.x ?? '', entity.y ?? '', entity.npcClass ?? entity.id ?? ''].join(':');
 }
+
+export function npcCatalogKey(npc) {
+	if (!npc) return '';
+	return `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
+}
+
+export function normalizeWorldMapName(mapName) {
+	return String(mapName || '')
+		.replace(/\.gat$/i, '')
+		.toLocaleLowerCase();
+}
+
+export function npcTeleportEnabled(npc, available, actionState) {
+	return Boolean(
+		actionState?.canTeleport &&
+			!actionState.npcPending &&
+			available === true &&
+			npc?.type === 'NPC' &&
+			Number.isFinite(npc.npcClass)
+	);
+}
+
+export function filterNpcsOnMap(npcs, mapName) {
+	const map = normalizeWorldMapName(mapName);
+	if (!map) return [];
+	return (npcs || [])
+		.filter(npc => normalizeWorldMapName(npc.mapName || npc.map) === map)
+		.sort(
+			(left, right) =>
+				String(left.name || left.display_name || '').localeCompare(String(right.name || right.display_name || '')) ||
+				(left.x ?? 0) - (right.x ?? 0) ||
+				(left.y ?? 0) - (right.y ?? 0)
+		);
+}
