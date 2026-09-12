@@ -58,7 +58,7 @@
 }
 #SkillListV2 .titlebar .right > :not(.view_skill_info) {
 	position: relative;
-	top: -2px;
+	top: -3px;
 }
 #SkillListV2 .titlebar .clear {
 	clear: both;
