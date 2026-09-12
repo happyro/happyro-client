@@ -4,8 +4,8 @@ export function applyOfficialStateIconTranslations(statusInfo, overlay = officia
 	for (const [id, entry] of Object.entries(overlay)) {
 		const statusId = Number(id);
 		if (!statusInfo[statusId]) statusInfo[statusId] = {};
-		if (entry.haveTimeLimit) statusInfo[statusId].haveTimeLimit = entry.haveTimeLimit;
-		if (entry.posTimeLimitStr) statusInfo[statusId].posTimeLimitStr = entry.posTimeLimitStr;
+		if (Object.hasOwn(entry, 'haveTimeLimit')) statusInfo[statusId].haveTimeLimit = entry.haveTimeLimit;
+		if (Object.hasOwn(entry, 'posTimeLimitStr')) statusInfo[statusId].posTimeLimitStr = entry.posTimeLimitStr;
 		statusInfo[statusId].descript = entry.descript.map(line => [...line]);
 	}
 	return statusInfo;

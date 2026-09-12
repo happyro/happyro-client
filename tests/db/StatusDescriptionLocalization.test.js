@@ -44,6 +44,14 @@ describe('status description localization', () => {
 		expect(StatusInfo[SC.FULL_THROTTLE].descript[0][0]).toBe('全力推进');
 	});
 
+	it('copies haveTimeLimit 0 from the official overlay instead of leaving a timed flag', () => {
+		const statusInfo = { 132: { haveTimeLimit: 1, posTimeLimitStr: 2 } };
+		applyOfficialStateIconTranslations(statusInfo, officialStateIconTranslations);
+		expect(statusInfo[132].haveTimeLimit).toBe(0);
+		expect(statusInfo[132].posTimeLimitStr).toBe(0);
+		expect(officialStateIconTranslations['132'].haveTimeLimit).toBe(0);
+	});
+
 	it('restores localized descriptions after official status metadata loads', () => {
 		const statusInfo = {
 			10: { descript: [['中文名称', '#fff'], ['中文说明']] },
