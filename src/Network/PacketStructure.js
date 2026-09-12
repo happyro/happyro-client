@@ -15476,9 +15476,11 @@ PACKET.CZ.HAPPYRO_NPC_AVAILABILITY.prototype.build = function () {
 };
 
 // 0xcfb - HappyRO live NPC availability result
-PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT = function PACKET_ZC_HAPPYRO_NPC_AVAILABILITY_RESULT(fp) {
+PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT = function PACKET_ZC_HAPPYRO_NPC_AVAILABILITY_RESULT(fp, end) {
+	if (end - fp.tell() < 6) throw new Error('Truncated NPC availability header');
 	this.requestId = fp.readULong();
 	const count = fp.readUShort();
+	if (count > 50 || end - fp.tell() !== count) throw new Error('Invalid NPC availability count');
 	this.available = new Array(count);
 	for (let i = 0; i < count; i++) this.available[i] = Boolean(fp.readUChar());
 };

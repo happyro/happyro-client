@@ -39,6 +39,10 @@ import {
 	subscribeAdventureActions,
 	teleportToCoordinate
 } from '../GameTools/AdventureActionService.js';
+import {
+	npcAvailabilityBatches,
+	requestNpcAvailability as sendNpcAvailabilityRequest
+} from '../GameTools/NpcAvailabilityService.js';
 
 /**
  * Create Navigation component
@@ -644,16 +648,6 @@ Navigation.requestNpcAvailability = function requestNpcAvailability(results, npc
 	const requestId = ++_npcAvailabilityRequestId;
 	_npcAvailabilityPending = { requestId, results, npcResults };
 	for (const npc of npcResults) npc.availability = 'pending';
-	const packet = new PACKET.CZ.HAPPYRO_NPC_AVAILABILITY();
-	packet.requestId = requestId;
-	packet.npcs = npcResults.map(npc => ({
-		mapName: normalizeMapName(npc.mapName),
-		x: Math.max(0, Math.floor(npc.x)),
-		y: Math.max(0, Math.floor(npc.y)),
-		npcClass: Math.floor(npc.npcClass)
-	}));
-	Network.sendPacket(packet);
-
 	this.displaySearchResults(results);
 	clearTimeout(_npcAvailabilityTimer);
 	_npcAvailabilityTimer = setTimeout(() => {
@@ -662,6 +656,25 @@ Navigation.requestNpcAvailability = function requestNpcAvailability(results, npc
 		for (const npc of npcResults) npc.availability = 'unknown';
 		this.displaySearchResults(results);
 	}, 5000);
+
+	Promise.all(npcAvailabilityBatches(npcResults).map(batch => sendNpcAvailabilityRequest(batch)))
+		.then(batchResults => {
+			if (_npcAvailabilityPending?.requestId !== requestId) return;
+			clearTimeout(_npcAvailabilityTimer);
+			const available = batchResults.flat();
+			npcResults.forEach((result, index) => {
+				result.availability = available[index] ? 'available' : 'unavailable';
+			});
+			_npcAvailabilityPending = null;
+			this.displaySearchResults(results);
+		})
+		.catch(() => {
+			if (_npcAvailabilityPending?.requestId !== requestId) return;
+			clearTimeout(_npcAvailabilityTimer);
+			_npcAvailabilityPending = null;
+			for (const npc of npcResults) npc.availability = 'unknown';
+			this.displaySearchResults(results);
+		});
 };
 
 Navigation.onNpcAvailabilityResult = function onNpcAvailabilityResult(packet) {

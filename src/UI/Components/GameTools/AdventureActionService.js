@@ -1,4 +1,5 @@
 import Network from 'Network/NetworkManager.js';
+import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
 import PACKET from 'Network/PacketStructure.js';
 import Session from 'Engine/SessionStorage.js';
 import MapRenderer from 'Renderer/MapRenderer.js';
@@ -15,6 +16,17 @@ let cooldownTimer = null;
 let statusTimer = null;
 let status = { message: '', error: false, kind: null };
 const listeners = new Set();
+
+onConnectionEnd(() => {
+	clearTimeout(npcTimer);
+	clearTimeout(mapTimer);
+	clearTimeout(cooldownTimer);
+	clearTimeout(statusTimer);
+	npcPending = mapPending = false;
+	cooldownUntil = 0;
+	status = { message: '', error: false, kind: null };
+	notify();
+});
 
 export function normalizeAdventureMap(mapName) {
 	return String(mapName || '')
@@ -106,7 +118,7 @@ export function teleportToCoordinate(target) {
 }
 
 export function handleMapTeleportResult(packet) {
-	if (packet.requestId !== nextMapRequestId) return false;
+	if (!mapPending || packet.requestId !== nextMapRequestId) return false;
 	clearTimeout(mapTimer);
 	mapPending = false;
 	const messages = {
@@ -161,7 +173,7 @@ export function teleportToNpc(npc) {
 }
 
 export function handleNpcTeleportResult(packet) {
-	if (packet.requestId !== nextNpcRequestId) return false;
+	if (!npcPending || packet.requestId !== nextNpcRequestId) return false;
 	clearTimeout(npcTimer);
 	npcPending = false;
 	const messages = {

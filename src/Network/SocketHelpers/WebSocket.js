@@ -66,7 +66,9 @@ function Socket(host, port, proxy) {
 Socket.prototype.send = function Send(buffer) {
 	if (this.connected) {
 		this.ws.send(buffer);
+		return true;
 	}
+	return false;
 };
 
 /**

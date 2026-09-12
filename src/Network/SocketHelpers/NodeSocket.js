@@ -59,7 +59,9 @@ class Socket {
 	send(buffer) {
 		if (this.connected) {
 			this._socket.write(buffer);
+			return true;
 		}
+		return false;
 	}
 
 	/**

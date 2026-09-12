@@ -96,7 +96,7 @@ class CharEngine {
 			// Server send back (new) AID
 			Network.read(fp => {
 				Session.AID = fp.readLong();
-			});
+			}, 4);
 		});
 
 		//Select UI version
