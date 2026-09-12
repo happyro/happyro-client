@@ -2,16 +2,46 @@ import DB from 'DB/DBManager.js';
 import Session from 'Engine/SessionStorage.js';
 import { mountCatalogBrowser } from './CatalogBrowser.js';
 import { escapeCatalogHtml, matchesCatalogSearch } from './CatalogData.js';
-import { getCurrentAdventureMap, subscribeAdventureActions, teleportToNpc } from './AdventureActionService.js';
+import {
+	getAdventureActionState,
+	getCurrentAdventureMap,
+	subscribeAdventureActions,
+	teleportToNpc
+} from './AdventureActionService.js';
 import { requestNpcAvailability } from './NpcAvailabilityService.js';
 import { loadNpcAssets, npcAtlasStyle } from './WorldAssetService.js';
 import { loadCatalogMap } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
-import { mergeNpcCatalog } from './WorldCatalogService.js';
+import { mergeNpcCatalog, npcCatalogKey, npcTeleportEnabled } from './WorldCatalogService.js';
 import { renderGameSelect } from './GameSelect.js';
 
-const key = npc => `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
+const key = npcCatalogKey;
 const catalogPromises = new Map();
+
+export function loadAdventureNpcCatalog() {
+	const catalogKey = Session.NavigationMapChannelsEnabled ? 'channels' : 'shared';
+	if (!catalogPromises.has(catalogKey)) {
+		catalogPromises.set(
+			catalogKey,
+			Promise.all([
+				loadNpcAssets(),
+				Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
+			]).then(([assets, npcs]) => {
+				const mapNames = new Map();
+				const localizeMap = mapName => {
+					if (!mapNames.has(mapName))
+						mapNames.set(
+							mapName,
+							DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
+						);
+					return mapNames.get(mapName);
+				};
+				return { assets, items: mergeNpcCatalog(npcs, localizeMap) };
+			})
+		);
+	}
+	return catalogPromises.get(catalogKey);
+}
 
 function filterNpcs(npcs, search, scope) {
 	const currentMap = getCurrentAdventureMap();
@@ -91,12 +121,7 @@ function mount(container) {
 				});
 			}
 			const style = npcAtlasStyle(manifest, npc.spriteId, 112);
-			const canTeleport =
-				actionState.canTeleport &&
-				!actionState.npcPending &&
-				available === true &&
-				npc?.type === 'NPC' &&
-				Number.isFinite(npc.npcClass);
+			const canTeleport = npcTeleportEnabled(npc, available, { ...actionState, ...getAdventureActionState(npc) });
 			detail.innerHTML = `<div class="catalog-heading">
 				<span class="catalog-portrait${style ? '' : ' no-image'}" style="${style}"></span>
 				<div><h3>${escapeCatalogHtml(npc.name)}</h3><p>${escapeCatalogHtml(npc.sourceName)} · ${npc.npcClass}</p></div>
@@ -142,29 +167,7 @@ function mount(container) {
 		originalRenderDetail();
 	});
 
-	const catalogKey = Session.NavigationMapChannelsEnabled ? 'channels' : 'shared';
-	if (!catalogPromises.has(catalogKey)) {
-		catalogPromises.set(
-			catalogKey,
-			Promise.all([
-				loadNpcAssets(),
-				Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
-			]).then(([assets, npcs]) => {
-				const mapNames = new Map();
-				const localizeMap = mapName => {
-					if (!mapNames.has(mapName))
-						mapNames.set(
-							mapName,
-							DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
-						);
-					return mapNames.get(mapName);
-				};
-				return { assets, items: mergeNpcCatalog(npcs, localizeMap) };
-			})
-		);
-	}
-	catalogPromises
-		.get(catalogKey)
+	loadAdventureNpcCatalog()
 		.then(({ assets, items }) => {
 			manifest = assets;
 			browser.setItems(items);
