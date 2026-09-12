@@ -76,6 +76,7 @@ function mount(container) {
 			]
 		}),
 		emptyDetail: '选择一个地图查看详情',
+		selectFirst: false,
 		pageSize: 35,
 		key: map => map.id,
 		filter: filterMaps,
@@ -225,7 +226,7 @@ function mount(container) {
 					<div class="map-detail-body">
 					<button class="catalog-map-picker" type="button" aria-label="在${escapeCatalogHtml(map.name)}选择坐标"><canvas class="catalog-map" width="480" height="360"></canvas></button>
 					<section class="map-npc-list" aria-label="${escapeCatalogHtml(map.name)}的 NPC">
-						<h4>本地图 NPC${mapNpcs.length ? `（${mapNpcs.length}）` : ''}</h4>
+						<h4>NPC${mapNpcs.length ? `（${mapNpcs.length}）` : ''}</h4>
 						${
 							mapNpcs.length
 								? `<div class="map-npc-scroll"><ul>${mapNpcs

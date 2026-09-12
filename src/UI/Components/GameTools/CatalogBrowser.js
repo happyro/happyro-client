@@ -25,7 +25,13 @@ export function mountCatalogBrowser(container, options) {
 	const list = container.querySelector('.catalog-list');
 	const detail = container.querySelector('.catalog-detail');
 	const filter = container.querySelector('.catalog-filter.game-select-value');
+	const scopeFilter = container.querySelector('.catalog-scope-filter');
 	mountGameSelects(container);
+
+	function getScope() {
+		if (scopeFilter) return scopeFilter.checked ? 'current' : 'all';
+		return filter?.value || 'current';
+	}
 
 	function renderDetail() {
 		if (!state.selected) detail.innerHTML = `<div class="empty-detail">${options.emptyDetail}</div>`;
@@ -51,9 +57,14 @@ export function mountCatalogBrowser(container, options) {
 	}
 
 	function applyFilter() {
-		state.filtered = options.filter(state.items, search.value, filter?.value || 'all');
+		state.filtered = options.filter(state.items, search.value, getScope());
 		state.page = 1;
+		if (state.selected && !state.filtered.some(item => options.key(item) === options.key(state.selected))) {
+			state.selected = null;
+		}
+		if (!state.selected && options.selectFirst !== false) state.selected = state.filtered[0] || null;
 		renderList();
+		renderDetail();
 	}
 
 	const api = {
@@ -77,6 +88,7 @@ export function mountCatalogBrowser(container, options) {
 
 	search.addEventListener('input', applyFilter);
 	filter?.addEventListener('change', applyFilter);
+	scopeFilter?.addEventListener('change', applyFilter);
 	container.querySelector('.catalog-prev').addEventListener('click', () => {
 		state.page -= 1;
 		renderList();

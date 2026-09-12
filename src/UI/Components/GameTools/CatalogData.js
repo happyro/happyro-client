@@ -32,3 +32,8 @@ export function escapeCatalogHtml(value) {
 		.replaceAll('"', '&quot;')
 		.replaceAll("'", '&#39;');
 }
+
+export function renderCatalogScopeFilter({ name, ariaLabel, value = 'current' } = {}) {
+	const checked = value === 'all' ? '' : ' checked';
+	return `<label class="catalog-scope-option"><input class="catalog-scope-filter" type="checkbox" name="${escapeCatalogHtml(name)}" value="current"${checked}><span>${escapeCatalogHtml(ariaLabel || '当前地图')}</span></label>`;
+}

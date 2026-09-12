@@ -74,9 +74,12 @@ export function mountRemoteCatalogBrowser(container, options) {
 			if (token !== requestToken) return;
 			state.items = result.items;
 			state.total = result.total;
-			if (state.selected)
+			if (state.selected) {
 				state.selected =
 					state.items.find(item => options.key(item) === options.key(state.selected)) || state.selected;
+			} else {
+				state.selected = state.items[0] || null;
+			}
 		} catch (error) {
 			if (token !== requestToken) return;
 			state.items = [];
