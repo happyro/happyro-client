@@ -670,6 +670,8 @@ function onConnectionRefused(pkt) {
  * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
  */
 function onMapChange(pkt) {
+	GameTools.prepareMapTransition();
+	Navigation.prepareMapTransition();
 	MapRenderer.onLoad = () => {
 		Session.Entity.set({
 			PosDir: [pkt.xPos, pkt.yPos, 0],
@@ -770,6 +772,7 @@ function onMapChange(pkt) {
 		MobileUI.append();
 		JoystickUI.append();
 		Navigation.append();
+		GameTools.restoreAfterMapLoad();
 		Roulette.append();
 		if (Configs.get('enableAchievements') && PACKETVER.value >= 20150513) {
 			Achievement.append();

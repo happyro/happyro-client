@@ -1,36 +1,28 @@
-import Client from 'Core/Client.js';
-import DB from 'DB/DBManager.js';
 import Session from 'Engine/SessionStorage.js';
 import Altitude from 'Renderer/Map/Altitude.js';
 import { fittedMapRect, mapImageSourceRect, mapPointToCanvas, syncMapPreviewCanvas } from './MapPreviewLayout.js';
 
-let playerArrow = null;
-let playerArrowPromise = null;
+export const NPC_MARKER_COLOR = '#a855f7';
 
-function loadPlayerArrow() {
-	if (playerArrow?.complete && playerArrow.width) return Promise.resolve(playerArrow);
-	if (playerArrowPromise) return playerArrowPromise;
-	playerArrow = new Image();
-	playerArrow.decoding = 'async';
-	playerArrowPromise = new Promise(resolve => {
-		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, dataURI => {
-			if (!dataURI) {
-				playerArrowPromise = null;
-				resolve(null);
-				return;
-			}
-			playerArrow.onload = () => resolve(playerArrow);
-			playerArrow.onerror = () => {
-				playerArrowPromise = null;
-				resolve(null);
-			};
-			playerArrow.src = dataURI;
-		});
-	});
-	return playerArrowPromise;
+export function drawPlayerArrow(context, point, direction = 0, scale = 1) {
+	if (!point) return;
+	context.save();
+	context.translate(point.x, point.y);
+	context.rotate((direction * 45 * Math.PI) / 180);
+	context.scale(scale, scale);
+	context.beginPath();
+	context.moveTo(0, 10);
+	context.lineTo(-7, -6);
+	context.lineTo(7, -6);
+	context.closePath();
+	context.fillStyle = '#2f80ed';
+	context.fill();
+	context.strokeStyle = '#fff';
+	context.lineWidth = 2;
+	context.lineJoin = 'round';
+	context.stroke();
+	context.restore();
 }
-
-export const NPC_MARKER_COLOR = '#2f80ed';
 
 function previewFit(canvas, coordinateGrid, sourceWidth, sourceHeight) {
 	const width = coordinateGrid?.width || sourceWidth || canvas.width;
@@ -71,7 +63,8 @@ function drawPath(context, canvas, path, coordinateGrid) {
 	context.beginPath();
 	path.forEach((point, index) => {
 		const position = mapToCanvas(canvas, coordinateGrid, point);
-		if (index === 0) context.moveTo(position.x, position.y);
+		// A warp belongs to the source point; the following point starts a new walking segment.
+		if (index === 0 || path[index - 1].isWarp) context.moveTo(position.x, position.y);
 		else context.lineTo(position.x, position.y);
 	});
 	context.strokeStyle = '#29d8e8';
@@ -88,13 +81,8 @@ function drawPlayer(context, canvas, player, coordinateGrid) {
 	if (!player || !coordinateGrid?.width || !coordinateGrid?.height) return;
 	const point = mapToCanvas(canvas, coordinateGrid, player);
 	if (!point) return;
-	if (!playerArrow?.complete || !playerArrow.width) return;
 	const direction = Number.isFinite(player.direction) ? player.direction : (Session.Entity?.direction ?? 0);
-	context.save();
-	context.translate(point.x, point.y);
-	context.rotate(((direction + 4) * 45 * Math.PI) / 180);
-	context.drawImage(playerArrow, -playerArrow.width / 2, -playerArrow.height / 2);
-	context.restore();
+	drawPlayerArrow(context, point, direction);
 }
 
 export function drawWalkableMapPreview(context, canvas, coordinateGrid, fit) {
@@ -153,14 +141,7 @@ export function drawWorldMapPreview(canvas, imageSource, marker, coordinateGrid,
 		drawNpcMarker(context, canvas, overlays.selectedNpc, coordinateGrid);
 		drawMarker(context, canvas, marker, coordinateGrid, NPC_MARKER_COLOR);
 		if (!overlays.player) return;
-		if (playerArrow?.complete && playerArrow.width) {
-			drawPlayer(context, canvas, overlays.player, coordinateGrid);
-			return;
-		}
-		loadPlayerArrow().then(arrow => {
-			if (!arrow || canvas._worldMapRenderToken !== renderToken) return;
-			drawPlayer(context, canvas, overlays.player, coordinateGrid);
-		});
+		drawPlayer(context, canvas, overlays.player, coordinateGrid);
 	};
 	const drawFallback = () => {
 		if (canvas._worldMapRenderToken !== renderToken) return;

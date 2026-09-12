@@ -16,6 +16,7 @@ import GUIComponent from 'UI/GUIComponent.js';
 import Session from 'Engine/SessionStorage.js';
 import Preferences from 'Core/Preferences.js';
 import Renderer from 'Renderer/Renderer.js';
+import numbersCss from './WinStatsNumbers.css?raw';
 
 /**
  * Factory: creates a WinStats GUIComponent
@@ -26,7 +27,7 @@ import Renderer from 'Renderer/Renderer.js';
  * @param {boolean} hasTraits - whether this version has trait stats
  */
 export function createWinStats({ name, htmlText, cssText, hasTraits }) {
-	const Component = new GUIComponent(name, cssText);
+	const Component = new GUIComponent(name, cssText + numbersCss);
 	Component.render = () => htmlText;
 
 	const _preferences = Preferences.get('WinStats', { x: 0, y: 233, show: false, reduce: false }, 1.0);
@@ -77,6 +78,29 @@ export function createWinStats({ name, htmlText, cssText, hasTraits }) {
 		this.draggable('.titlebar');
 
 		_root = this.getRoot();
+		// Widen the value areas of the original skin without stretching its labels vertically.
+		for (const panel of _root.querySelectorAll('.panel[data-background], .common_stats, .traits_panel')) {
+			const resource = panel.dataset.background;
+			if (!resource) continue;
+			Client.loadFile(DB.INTERFACE_PATH + resource, source => {
+				if (!source) return;
+				const image = new Image();
+				image.onload = () => {
+					const canvas = document.createElement('canvas');
+					canvas.width = 407;
+					canvas.height = image.naturalHeight;
+					const context = canvas.getContext('2d');
+					const original = [0, 37, 75, 85, 105, 140, 195, 230, 280];
+					const expanded = [0, 37, 77, 107, 157, 192, 282, 317, 407];
+					for (let i = 0; i < original.length - 1; i++) {
+						context.drawImage(image, original[i], 0, original[i + 1] - original[i], canvas.height,
+							expanded[i], 0, expanded[i + 1] - expanded[i], canvas.height);
+					}
+					panel.style.setProperty('background-image', `url(${canvas.toDataURL()})`, 'important');
+				};
+				image.src = source;
+			});
+		}
 
 		// Base stat up buttons
 		const upButtons = _root.querySelectorAll('.up button');
