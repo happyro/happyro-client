@@ -25,6 +25,7 @@ const preferences = Preferences.get('GameTools', { tab: 'maps' }, 2.0);
 const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
 let cleanupTab;
 let capabilities;
+let shouldRestoreAfterMapLoad = false;
 
 function validationMessage(input) {
 	const { validity } = input;
@@ -87,6 +88,20 @@ GameTools.mountTab = function mountTab(tab) {
 
 GameTools.onAppend = function onAppend() {
 	this.centerInViewport();
+};
+
+GameTools.prepareMapTransition = function prepareMapTransition() {
+	shouldRestoreAfterMapLoad = Boolean(
+		this.__active && this._host?.isConnected && this._host.style.display !== 'none'
+	);
+};
+
+GameTools.restoreAfterMapLoad = function restoreAfterMapLoad() {
+	if (!shouldRestoreAfterMapLoad) return;
+	shouldRestoreAfterMapLoad = false;
+	this.append();
+	this._host.style.display = '';
+	this.focus();
 };
 
 GameTools.centerInViewport = function centerInViewport() {
