@@ -623,6 +623,7 @@ ChatBox.init = function init() {
 	}
 
 	const stickButton = root.querySelector('.stickfucn');
+	ChatBox.scrollLocked = false;
 	stickButton.title = '固定消息滚动';
 	stickButton.setAttribute('aria-pressed', 'false');
 	stickButton.addEventListener('click', () => {
@@ -635,6 +636,7 @@ ChatBox.init = function init() {
 		}
 	});
 	const lockButton = root.querySelector('.lockdragwnd');
+	ChatBox.positionLocked = false;
 	lockButton.title = '锁定聊天窗口位置';
 	lockButton.setAttribute('aria-pressed', 'false');
 	lockButton.addEventListener('click', () => {

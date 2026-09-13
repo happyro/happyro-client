@@ -147,13 +147,20 @@
 	display: none;
 }
 
-#WorldMap .worldmap .section.allmapvisible .mapid {
+#WorldMap .worldmap .section.allmapvisible:not(.is-dungeon-stacked):hover .mapid {
 	display: block;
 	position: absolute;
 	bottom: 3px;
 	left: 50%;
 	transform: translate(-50%, 0);
-	height: 10px;
+	height: auto;
+	line-height: 16px;
+	white-space: nowrap;
+	padding: 2px 5px;
+	border-radius: 3px;
+	background: rgba(0, 0, 0, 0.85);
+	pointer-events: none;
+	z-index: 20;
 	color: white;
 	text-shadow:
 		-1px -1px 0 #000,

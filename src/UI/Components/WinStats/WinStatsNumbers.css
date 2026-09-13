@@ -5,7 +5,7 @@
 #WinStats .stats { left: 37px; width: 36px; text-align: right; }
 #WinStats .bonus { left: 79px; width: 26px; text-align: left; }
 #WinStats .up, #WinStats .t_up { left: 109px; }
-#WinStats .requirements, #WinStats .t_requirements { left: 131px; width: 23px; text-align: left; }
+#WinStats .requirements, #WinStats .t_requirements { left: 122px; width: 25px; box-sizing: border-box; padding-right: 3px; text-align: right; }
 #WinStats .group.column1, #WinStats .group.t_column1 { right: 130px; }
 #WinStats .group.column2, #WinStats .group.t_column2 { right: 5px; }
 #WinStats .column1_tooltip, #WinStats .t_column1_tooltip { left: 157px; width: 125px; }

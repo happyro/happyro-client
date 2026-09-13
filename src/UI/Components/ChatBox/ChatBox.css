@@ -56,8 +56,7 @@
 /** Content **/
 #chatbox .body {
 	background: rgba(0, 0, 0, 0.5);
-	border-left: 1px solid white;
-	border-right: 1px solid white;
+	border: 2px solid rgba(190, 230, 255, 0.95);
 	border-radius: 0px 3px 0px 0px;
 	padding: 0px 5px 5px 5px;
 	margin-left: 3px;
@@ -96,8 +95,8 @@
 	width: 592px;
 	height: 25px;
 	position: relative;
-	border-left: 1px solid white;
-	border-right: 1px solid white;
+	border-left: 2px solid rgba(190, 230, 255, 0.95);
+	border-right: 2px solid rgba(190, 230, 255, 0.95);
 	border-top: 1px solid grey;
 	background-color: rgba(0, 0, 0, 0.5);
 	margin-left: 3px;
@@ -235,5 +234,4 @@
 }
 :host .chat-function button[aria-pressed="true"] {
 	outline: 1px solid #2877b8;
-	background-color: #bcdff6;
 }
