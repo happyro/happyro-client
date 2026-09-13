@@ -16,8 +16,6 @@ export default createCharCreate({
 	name: 'CharCreate',
 	htmlText,
 	cssText,
-	hostHeight: 342,
-	hostWidth: 576,
 	hasStats: true,
 	chargenCanvasSelector: '.chargen canvas',
 	graphCanvasSelector: '.graph canvas',

@@ -16,8 +16,6 @@ export default createCharCreate({
 	name: 'CharCreatev2',
 	htmlText,
 	cssText,
-	hostHeight: 286,
-	hostWidth: 150,
 	chargenCanvasSelector: '.content canvas',
 	hairArrows: [
 		{ selector: '.content .styleleft', type: 'head', value: -1 },

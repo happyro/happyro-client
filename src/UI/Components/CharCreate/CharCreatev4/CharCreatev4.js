@@ -16,8 +16,6 @@ export default createCharCreate({
 	name: 'CharCreatev4',
 	htmlText,
 	cssText,
-	hostHeight: 342,
-	hostWidth: 576,
 	hasRace: true,
 	gridHairstyle: true,
 	humanCanvasSelector: '#human',
