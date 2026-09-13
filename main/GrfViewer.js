@@ -533482,6 +533482,10 @@ var init_SkillList = __esmMin((() => {
 //#endregion
 //#region src/UI/Components/Quest/QuestTabVisibility.js
 function showQuestList(root, listId) {
+	const selectedId = listId.replace(/^#/, "").replace(/-quest-list$/, "");
+	root.querySelectorAll(".quest-menu-item").forEach((item) => {
+		item.classList.toggle("selected", item.id === selectedId);
+	});
 	root.querySelectorAll(".quest-list").forEach((list) => {
 		list.style.display = "none";
 	});
@@ -534412,7 +534416,7 @@ var init_Quest$4 = __esmMin((() => {
 //#region src/UI/Components/Quest/Quest/Quest.css?raw
 var Quest_default$1;
 var init_Quest$3 = __esmMin((() => {
-	Quest_default$1 = ":host {\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#Quest {\r\n	width: 381px;\r\n	height: 466px;\r\n}\r\n\r\n#Quest .titlebar {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n\r\n#Quest .quest-top-panel {\r\n	float: left;\r\n	width: 381px;\r\n	height: 18px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-top-panel .quest-top-panel-text {\r\n	margin-left: 45px;\r\n	margin-top: 2px;\r\n}\r\n\r\n#Quest .quest-left-panel {\r\n	float: left;\r\n	width: 30px;\r\n	height: 420px;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item {\r\n	height: 100px;\r\n	width: 30px;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #aab4ae;\r\n	background: #f4f7f5;\r\n	line-height: 16px;\r\n	letter-spacing: 0;\r\n	cursor: pointer;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item:hover {\r\n	background: #dcebe3;\r\n}\r\n\r\n#Quest .quest-right-panel {\r\n	float: left;\r\n	width: 341px;\r\n	height: 420px;\r\n	display: block;\r\n	overflow: auto;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list {\r\n	list-style: none;\r\n	margin: 10px;\r\n	padding: 0px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item {\r\n	list-style: none;\r\n	width: 330px;\r\n	height: 42px;\r\n	margin-top: 2px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon {\r\n	float: left;\r\n	width: 42px;\r\n	height: 42px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon .quest-item-icon-image {\r\n	width: 26px;\r\n	height: 29px;\r\n	margin: 5px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon .quest-item-icon-image .quest-item-icon-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-title {\r\n	float: left;\r\n	width: 254px;\r\n	height: 21px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-title .quest-item-title-text {\r\n	margin: 5px;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 145);\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-toggle {\r\n	float: left;\r\n	width: 30px;\r\n	height: 21px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-toggle .quest-item-toggle-image {\r\n	width: 20px;\r\n	height: 17px;\r\n	margin: 3px;\r\n	border: 0;\r\n}\r\n\r\n#Quest\r\n	.quest-right-panel\r\n	.quest-list\r\n	.quest-item\r\n	.quest-item-toggle\r\n	.quest-item-toggle-image\r\n	.quest-item-toggle-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-display {\r\n	float: left;\r\n	width: 30px;\r\n	height: 21px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-display .quest-item-display-image {\r\n	width: 14px;\r\n	height: 14px;\r\n	margin: 3px;\r\n	border: 0;\r\n}\r\n\r\n#Quest\r\n	.quest-right-panel\r\n	.quest-list\r\n	.quest-item\r\n	.quest-item-display\r\n	.quest-item-display-image\r\n	.quest-item-display-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-summary {\r\n	float: left;\r\n	width: 254px;\r\n	height: 21px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-summary .quest-item-summary-text {\r\n	margin: 5px;\r\n}\r\n\r\n#Quest .quest-bottom-panel {\r\n	float: left;\r\n	width: 381px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-list {\r\n	float: left;\r\n	width: 50px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-list .toggle-quest-image {\r\n	width: 10px;\r\n	height: 10px;\r\n	margin-left: 40px;\r\n	margin-top: 5px;\r\n	border: 0;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-text {\r\n	width: 280px;\r\n	height: 25px;\r\n	float: left;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-text span {\r\n	margin: 4px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .close-quest-container {\r\n	float: left;\r\n	width: 51px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .close-quest-container .close-quest-container-btn {\r\n	background-image: none !important;\r\n	margin-top: 5px;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n.quest-info-container {\r\n	width: 342px;\r\n	height: 412px;\r\n}\r\n\r\n#active-quest-list,\r\n#feature-quest-list,\r\n#inactive-quest-list,\r\n#cooldown-quest-list {\r\n	display: none;\r\n}\r\n";
+	Quest_default$1 = ":host {\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#Quest {\r\n	width: 381px;\r\n	height: 466px;\r\n}\r\n\r\n#Quest .titlebar {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n\r\n#Quest .quest-top-panel {\r\n	float: left;\r\n	width: 381px;\r\n	height: 18px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-top-panel .quest-top-panel-text {\r\n	margin-left: 45px;\r\n	margin-top: 2px;\r\n}\r\n\r\n#Quest .quest-left-panel {\r\n	float: left;\r\n	width: 30px;\r\n	height: 420px;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu {\r\n	list-style: none;\r\n	margin: 0px;\r\n	padding: 0px;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item {\r\n	height: 100px;\r\n	width: 30px;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c1c6c2;\r\n	background: #dedede;\r\n	line-height: 16px;\r\n	letter-spacing: 0;\r\n	cursor: pointer;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item:hover {\r\n	background: #d2d2d2;\r\n}\r\n\r\n#Quest .quest-left-panel .quest-menu .quest-menu-item.selected {\r\n	background: #fff;\r\n	border-color: #c1c6c2;\r\n	color: #333;\r\n	font-weight: bold;\r\n}\r\n\r\n#Quest .quest-right-panel {\r\n	float: left;\r\n	width: 341px;\r\n	height: 420px;\r\n	display: block;\r\n	overflow: auto;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list {\r\n	list-style: none;\r\n	margin: 10px;\r\n	padding: 0px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item {\r\n	list-style: none;\r\n	width: 330px;\r\n	height: 42px;\r\n	margin-top: 2px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon {\r\n	float: left;\r\n	width: 42px;\r\n	height: 42px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon .quest-item-icon-image {\r\n	width: 26px;\r\n	height: 29px;\r\n	margin: 5px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-icon .quest-item-icon-image .quest-item-icon-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-title {\r\n	float: left;\r\n	width: 254px;\r\n	height: 21px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-title .quest-item-title-text {\r\n	margin: 5px;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 145);\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-toggle {\r\n	float: left;\r\n	width: 30px;\r\n	height: 21px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-toggle .quest-item-toggle-image {\r\n	width: 20px;\r\n	height: 17px;\r\n	margin: 3px;\r\n	border: 0;\r\n}\r\n\r\n#Quest\r\n	.quest-right-panel\r\n	.quest-list\r\n	.quest-item\r\n	.quest-item-toggle\r\n	.quest-item-toggle-image\r\n	.quest-item-toggle-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-display {\r\n	float: left;\r\n	width: 30px;\r\n	height: 21px;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-display .quest-item-display-image {\r\n	width: 14px;\r\n	height: 14px;\r\n	margin: 3px;\r\n	border: 0;\r\n}\r\n\r\n#Quest\r\n	.quest-right-panel\r\n	.quest-list\r\n	.quest-item\r\n	.quest-item-display\r\n	.quest-item-display-image\r\n	.quest-item-display-image-text {\r\n	visibility: hidden;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-summary {\r\n	float: left;\r\n	width: 254px;\r\n	height: 21px;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-right-panel .quest-list .quest-item .quest-item-summary .quest-item-summary-text {\r\n	margin: 5px;\r\n}\r\n\r\n#Quest .quest-bottom-panel {\r\n	float: left;\r\n	width: 381px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-list {\r\n	float: left;\r\n	width: 50px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-list .toggle-quest-image {\r\n	width: 10px;\r\n	height: 10px;\r\n	margin-left: 40px;\r\n	margin-top: 5px;\r\n	border: 0;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-text {\r\n	width: 280px;\r\n	height: 25px;\r\n	float: left;\r\n	display: flex;\r\n}\r\n\r\n#Quest .quest-bottom-panel .toggle-quest-text span {\r\n	margin: 4px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .close-quest-container {\r\n	float: left;\r\n	width: 51px;\r\n	height: 25px;\r\n}\r\n\r\n#Quest .quest-bottom-panel .close-quest-container .close-quest-container-btn {\r\n	background-image: none !important;\r\n	margin-top: 5px;\r\n	width: 42px;\r\n	height: 20px;\r\n	bottom: 4px;\r\n	box-sizing: border-box;\r\n	border: 1px solid #8b9690;\r\n	background: #f4f7f5;\r\n	text-align: center;\r\n	line-height: 18px;\r\n	cursor: pointer;\r\n}\r\n\r\n.quest-info-container {\r\n	width: 342px;\r\n	height: 412px;\r\n}\r\n\r\n#active-quest-list,\r\n#feature-quest-list,\r\n#inactive-quest-list,\r\n#cooldown-quest-list {\r\n	display: none;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Quest/Quest/Quest.js
@@ -634970,7 +634974,7 @@ var init_CharCreate$2 = __esmMin((() => {
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreateCommon.js
 function createCharCreate(config) {
-	const { name, htmlText, cssText, hostHeight = 342, hostWidth = 576, hasStats = false, hasRace = false, gridHairstyle = false, chargenCanvasSelector = ".content canvas", graphCanvasSelector = ".graph canvas", statButtonsSelector = ".graph ui-button", hairArrows = [], humanCanvasSelector = "#canvas_human", doramCanvasSelector = "#canvas_doram", modelCanvasSelector = "#canvas_model", nameInputSelector = "input", nameInputEvent = "mousedown", cancelSelectors = [".cancel"], makeSelector = ".make" } = config;
+	const { name, htmlText, cssText, hasStats = false, hasRace = false, gridHairstyle = false, chargenCanvasSelector = ".content canvas", graphCanvasSelector = ".graph canvas", statButtonsSelector = ".graph ui-button", hairArrows = [], humanCanvasSelector = "#canvas_human", doramCanvasSelector = "#canvas_doram", modelCanvasSelector = "#canvas_model", nameInputSelector = "input", nameInputEvent = "mousedown", cancelSelectors = [".cancel"], makeSelector = ".make" } = config;
 	const Component = new GUIComponent(name, cssText);
 	Component.render = () => htmlText;
 	/**
@@ -635073,9 +635077,16 @@ function createCharCreate(config) {
 	/**
 	* Once add to HTML, start rendering
 	*/
+	function centerWindow() {
+		const host = Component._host;
+		host.style.top = `${Math.max(0, (window.innerHeight - host.offsetHeight) / 2)}px`;
+		host.style.left = `${Math.max(0, (window.innerWidth - host.offsetWidth) / 2)}px`;
+	}
+	const sizeObserver = new ResizeObserver(centerWindow);
 	Component.onAppend = function onAppend() {
-		this._host.style.top = `${(Renderer.height - hostHeight) / 2}px`;
-		this._host.style.left = `${(Renderer.width - hostWidth) / 2}px`;
+		centerWindow();
+		sizeObserver.observe(this._host);
+		window.addEventListener("resize", centerWindow);
 		if (hasRace) {
 			_human.render = true;
 			_human.entity.set({
@@ -635130,6 +635141,8 @@ function createCharCreate(config) {
 	* Stop rendering
 	*/
 	Component.onRemove = function onRemove() {
+		sizeObserver.disconnect();
+		window.removeEventListener("resize", centerWindow);
 		Renderer.stop(render);
 	};
 	/**
@@ -635724,8 +635737,6 @@ var init_CharCreate$1 = __esmMin((() => {
 		name: "CharCreate",
 		htmlText: CharCreate_default$2,
 		cssText: CharCreate_default$1,
-		hostHeight: 342,
-		hostWidth: 576,
 		hasStats: true,
 		chargenCanvasSelector: ".chargen canvas",
 		graphCanvasSelector: ".graph canvas",
@@ -635775,8 +635786,6 @@ var init_CharCreatev2 = __esmMin((() => {
 		name: "CharCreatev2",
 		htmlText: CharCreatev2_default$2,
 		cssText: CharCreatev2_default$1,
-		hostHeight: 286,
-		hostWidth: 150,
 		chargenCanvasSelector: ".content canvas",
 		hairArrows: [
 			{
@@ -635828,8 +635837,6 @@ var init_CharCreatev3 = __esmMin((() => {
 		name: "CharCreatev3",
 		htmlText: CharCreatev3_default$2,
 		cssText: CharCreatev3_default$1,
-		hostHeight: 342,
-		hostWidth: 576,
 		hasRace: true,
 		humanCanvasSelector: "#canvas_human",
 		doramCanvasSelector: "#canvas_doram",
@@ -635863,8 +635870,6 @@ var init_CharCreatev4 = __esmMin((() => {
 		name: "CharCreatev4",
 		htmlText: CharCreatev4_default$2,
 		cssText: CharCreatev4_default$1,
-		hostHeight: 342,
-		hostWidth: 576,
 		hasRace: true,
 		gridHairstyle: true,
 		humanCanvasSelector: "#human",
