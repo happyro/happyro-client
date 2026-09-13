@@ -60,7 +60,7 @@ import MapInfo from './Map/MapTable.js';
 import { localizeAdventureAchievementMaps } from './Achievement/AdventureAchievementLocalization.js';
 import { mergeLocalizedMapInfo } from './Map/MapInfoLocalization.js';
 import {
-	listNavigationMaps,
+	listSharedMaps,
 	listNavigationRows,
 	searchNavigationMaps,
 	searchNavigationRows
@@ -3375,7 +3375,7 @@ class DB {
 			map: mapName => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 		};
 		if (type === 'MAP') {
-			return listNavigationMaps(WorldMap, MapInfo, type, id => DB.getMapName(id, id), options, catalog.maps);
+			return listSharedMaps(options);
 		}
 		return listNavigationRows(catalog.npcs, catalog.monsters, type, localizers, options);
 	}

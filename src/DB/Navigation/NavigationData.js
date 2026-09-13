@@ -1,6 +1,16 @@
 import { getMapChannelDisplayName, isVisibleMapChannel } from '../Map/MapChannels.js';
 import { isSupportedMapResource } from '../Map/SupportedMapTable.js';
 import { getNpcInstanceName } from './NpcInstanceNameTable.js';
+import MapCatalog from './MapCatalog.json';
+
+export function listSharedMaps(options = {}) {
+	const { channelsEnabled = false } = options;
+	return MapCatalog.entries.filter(map => map.supported && isVisibleMapChannel(map.map, channelsEnabled) && (options.scope !== 'CURRENT' || map.map === options.currentMap)).map(map => ({
+		type: 'MAP', id: map.map, mapName: map.map,
+		name: getMapChannelDisplayName(map.map, map.name, channelsEnabled),
+		mapDisplayName: getMapChannelDisplayName(map.map, map.name, channelsEnabled), x: null, y: null
+	}));
+}
 
 /**
  * Search loaded navigation rows using both resource and localized names.
@@ -170,7 +180,8 @@ export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMa
 		.trim()
 		.toLocaleLowerCase();
 	if (!normalizedQuery) return [];
-	const results = listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options, navigationMaps).filter(
+	if (type !== 'ALL' && type !== 'MAP') return [];
+	const results = listSharedMaps(options).filter(
 		result =>
 			result.id.toLocaleLowerCase().includes(normalizedQuery) ||
 			result.name.toLocaleLowerCase().includes(normalizedQuery)
