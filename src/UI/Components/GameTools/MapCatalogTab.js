@@ -139,7 +139,12 @@ function mount(container) {
 				loadCatalogMap(map.mapName).then(resource => {
 					if (token !== loadToken) return;
 					loadedMap = resource;
-					selectedCoordinate = findDefaultMapCoordinate(resource?.gat) || selectedCoordinate;
+					if (
+						selectedCoordinate?.random &&
+						normalizeAdventureMap(map.mapName) !== getCurrentAdventureMap()
+					) {
+						selectedCoordinate = findDefaultMapCoordinate(resource?.gat) || selectedCoordinate;
+					}
 					api.refreshDetail();
 				});
 				const mapNpcsForCheck = filterNpcsOnMap(catalogNpcs, map.mapName);
@@ -189,7 +194,7 @@ function mount(container) {
 			const targetActionState = getAdventureActionState(target);
 			const canTeleport =
 				target &&
-				!target.random &&
+				(!target.random || sameMap) &&
 				loadedMap &&
 				Number.isFinite(target.x) &&
 				Number.isFinite(target.y) &&

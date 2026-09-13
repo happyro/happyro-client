@@ -19,6 +19,7 @@ import KEYS from 'Controls/KeyEventHandler.js';
 import UIManager from 'UI/UIManager.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import 'UI/Elements/Elements.js';
+import { drawPlayerArrow } from '../GameTools/WorldMapPreview.js';
 
 /**
  * Create MiniMap component
@@ -104,10 +105,6 @@ export function createMiniMap({
 		return img;
 	}
 
-	/**
-	 * @var {Image} arrow image
-	 */
-	const _arrow = createAsyncImage();
 
 	/**
 	 * @var {Image} map information images
@@ -172,9 +169,6 @@ export function createMiniMap({
 			);
 		}
 
-		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, dataURI => {
-			_arrow.src = dataURI;
-		});
 		Client.loadFile(`${DB.INTERFACE_PATH}information/store.bmp`, dataURI => {
 			_toolDealer.src = dataURI;
 		});
@@ -701,10 +695,8 @@ export function createMiniMap({
 			}
 
 			// Render attached player arrow
-			if (_arrow.complete && _arrow.width) {
+			{
 				_ctx.save();
-				_ctx.translate(projectX(pos[0]), projectY(pos[1]));
-				_ctx.rotate(((Session.Entity.direction + 4) * 45 * Math.PI) / 180);
 
 				if (arrowShadow) {
 					_ctx.shadowColor = 'rgba(0, 0, 0, 1)';
@@ -713,7 +705,12 @@ export function createMiniMap({
 					_ctx.shadowOffsetY = 0;
 				}
 
-				_ctx.drawImage(_arrow, -_arrow.width * 0.5, -_arrow.height * 0.5);
+				drawPlayerArrow(
+					_ctx,
+					{ x: projectX(pos[0]), y: projectY(pos[1]) },
+					Session.Entity.direction,
+					0.75
+				);
 
 				if (arrowShadow) {
 					_ctx.shadowColor = 'rgba(0, 0, 0, 0)';

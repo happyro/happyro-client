@@ -161,7 +161,7 @@ function findPath(startX, startY, endX, endY, mapData, existingPath) {
 		// If we've reached the destination
 		if (currentX === endX && currentY === endY) {
 			// Reconstruct path
-			const path = [];
+			const path = [{ x: currentX, y: currentY }];
 			let key = currentKey;
 			while (cameFrom.has(key)) {
 				const [x, y, isWarp, warpId] = cameFrom.get(key);
@@ -169,11 +169,11 @@ function findPath(startX, startY, endX, endY, mapData, existingPath) {
 					x: parseInt(x),
 					y: parseInt(y),
 					isWarp: isWarp,
-					warpId: warpId
+					warpId: warpId,
+					warpSource: isWarp ? warps.find(warp => warp.id === warpId) : undefined
 				});
 				key = getKey(x, y);
 			}
-			path.unshift({ x: startX, y: startY });
 
 			return path;
 		}
@@ -193,17 +193,14 @@ function findPath(startX, startY, endX, endY, mapData, existingPath) {
 					x: parseInt(x),
 					y: parseInt(y),
 					isWarp: isWarp,
-					warpId: warpId
+					warpId: warpId,
+					warpSource: isWarp ? warps.find(warp => warp.id === warpId) : undefined
 				});
 				key = getKey(x, y);
 			}
-			newPath.unshift({ x: startX, y: startY });
-
-			// Append the rest of the existing path from this point onward
-			if (pathIndex < existingPath.length - 1) {
-				for (let i = pathIndex + 1; i < existingPath.length; i++) {
-					newPath.push(existingPath[i]);
-				}
+			// Keep the joining point, including its outgoing warp metadata.
+			for (let i = pathIndex; i < existingPath.length; i++) {
+				newPath.push(existingPath[i]);
 			}
 
 			return newPath;

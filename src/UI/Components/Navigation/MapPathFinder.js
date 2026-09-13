@@ -123,6 +123,7 @@ MapPathFinder.findPathBetweenMaps = async function findPathBetweenMaps(
 			type: warpType,
 			spriteId: warp[3],
 			name: warp[4],
+			npcName: warp[5],
 			srcMap: srcMap,
 			srcX: warp[6],
 			srcY: warp[7],
@@ -340,7 +341,8 @@ MapPathFinder.findPathBetweenMaps = async function findPathBetweenMaps(
 			y: warpInfo.srcY,
 			warpId: warpId,
 			warpType: warpInfo.type,
-			warpName: warpInfo.name || ''
+			warpName: warpInfo.name || '',
+			warpSource: warpInfo
 		});
 
 		current = prevMap;

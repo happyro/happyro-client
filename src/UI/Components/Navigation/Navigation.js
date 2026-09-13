@@ -11,6 +11,8 @@
 import KEYS from 'Controls/KeyEventHandler.js';
 import Renderer from 'Renderer/Renderer.js';
 import MapRenderer from 'Renderer/MapRenderer.js';
+import EntityManager from 'Renderer/EntityManager.js';
+import Entity from 'Renderer/Entity/Entity.js';
 import UIManager from 'UI/UIManager.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import 'UI/Elements/Elements.js';
@@ -21,7 +23,8 @@ import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import PACKETVER from 'Network/PacketVerManager.js';
 import DB from 'DB/DBManager.js';
-import MiniMapTable from 'DB/Map/MiniMapTable.js';
+import { loadCatalogMapImage } from '../GameTools/WorldAssetService.js';
+import { drawWalkableMapPreview, drawPlayerArrow, NPC_MARKER_COLOR } from '../GameTools/WorldMapPreview.js';
 import htmlText from './Navigation.html?raw';
 import cssText from './Navigation.css?raw';
 import MapPathFinder from './MapPathFinder.js';
@@ -109,7 +112,6 @@ function getSearchFilterValue(root, selector) {
 /**
  * @var {Image} arrow image
  */
-const _arrow = createAsyncImage();
 
 /**
  * @var {Image} map information images
@@ -171,6 +173,7 @@ let _pathFindingWorker = null;
  * @var {Object} map data
  */
 let _mapData = null;
+let _mapTerrain = null;
 
 /**
  * @var {number} latest map resource request
@@ -203,6 +206,8 @@ let _selectedTargetData = null;
 let _autoWalkTimer = null;
 let _autoWalkActive = false;
 let _autoWalkRequested = false;
+let _resumeAutoWalkAfterMapLoad = false;
+let _dialogueWarp = null;
 const _routeStateListeners = new Set();
 let _teleportCooldownUntil = 0;
 let _teleportCooldownTimer = null;
@@ -437,9 +442,6 @@ Navigation.init = function init() {
 	}
 
 	// Load arrow image
-	Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, dataURI => {
-		_arrow.src = dataURI;
-	});
 
 	// Load town info icons
 	Client.loadFile(`${DB.INTERFACE_PATH}information/store.bmp`, dataURI => {
@@ -543,6 +545,8 @@ Navigation.init = function init() {
  * Once append to the DOM
  */
 Navigation.onAppend = function onAppend() {
+	const resumeAutoWalk = _resumeAutoWalkAfterMapLoad;
+	_resumeAutoWalkAfterMapLoad = false;
 	// Clear path for clean render
 	this.clearPath();
 
@@ -571,9 +575,23 @@ Navigation.onAppend = function onAppend() {
 			endMap: _finalTargetData.map,
 			endX: _finalTargetData.x,
 			endY: _finalTargetData.y,
-			displayName: _finalTargetData.displayName
+			displayName: _finalTargetData.displayName,
+			autoWalk: resumeAutoWalk
 		});
 	}
+};
+
+Navigation.prepareMapTransition = function prepareMapTransition() {
+	const resume = Boolean(_finalTargetData && (_autoWalkActive || _autoWalkRequested));
+	_resumeAutoWalkAfterMapLoad = resume;
+	if (_autoWalkTimer) clearInterval(_autoWalkTimer);
+	_autoWalkTimer = null;
+	_autoWalkActive = false;
+	_autoWalkRequested = resume;
+	_dialogueWarp = null;
+	_navigationRequestId++;
+	terminatePathFindingWorker();
+	this.clearPath();
 };
 
 /**
@@ -582,7 +600,7 @@ Navigation.onAppend = function onAppend() {
 Navigation.onRemove = function onRemove() {
 	_searchRequestId++;
 	_navigationRequestId++;
-	this.stopAutoWalk();
+	if (!_resumeAutoWalkAfterMapLoad) this.stopAutoWalk();
 	this.clearPath();
 	terminatePathFindingWorker();
 	clearTimeout(_npcTeleportTimer);
@@ -985,6 +1003,7 @@ Navigation.startAutoWalk = function startAutoWalk() {
 	notifyRouteState();
 	const sendTarget = () => {
 		if (!_autoWalkActive || !_finalTargetData) return;
+		if (_dialogueWarp) return;
 		const currentMap = getCurrentMap();
 		if (!_targetData || _targetData.map !== currentMap) {
 			const position = getPlayerPosition();
@@ -1012,6 +1031,29 @@ Navigation.startAutoWalk = function startAutoWalk() {
 			return;
 		}
 		const waypoint = selectAutoWalkWaypoint(_path, position) || _targetData;
+		const source = waypoint.warpSource || _targetData.warpSource;
+		if (source && Math.hypot(position.x - source.srcX, position.y - source.srcY) <= 3) {
+			const normalizeNpc = name => String(name || '').replace(/^#/, '').toLowerCase();
+			const names = [source.name, source.npcName].filter(Boolean).map(normalizeNpc);
+			let npc = null;
+			EntityManager.forEach(entity => {
+				if (
+					(entity.objecttype === Entity.TYPE_NPC || entity.objecttype === Entity.TYPE_NPC2) &&
+					entity.job !== 45 &&
+					names.includes(normalizeNpc(entity.display.name)) &&
+					Math.hypot(entity.position[0] - source.srcX, entity.position[1] - source.srcY) <= 3
+				) npc = entity;
+			});
+			if (npc) {
+				_dialogueWarp = source;
+				const packet = new PACKET.CZ.CONTACTNPC();
+				packet.NAID = npc.GID;
+				packet.type = 1;
+				Network.sendPacket(packet);
+				this.setActionStatus('请完成传送对话；传送后继续寻路，取消对话后可停止或重新开始寻路');
+				return;
+			}
+		}
 		const packet = PACKETVER.value >= 20180307 ? new PACKET.CZ.REQUEST_MOVE2() : new PACKET.CZ.REQUEST_MOVE();
 		packet.dest[0] = Math.floor(waypoint.x);
 		packet.dest[1] = Math.floor(waypoint.y);
@@ -1022,6 +1064,7 @@ Navigation.startAutoWalk = function startAutoWalk() {
 };
 
 Navigation.stopAutoWalk = function stopAutoWalk() {
+	_dialogueWarp = null;
 	const changed = _autoWalkRequested || _autoWalkActive;
 	_autoWalkRequested = false;
 	_autoWalkActive = false;
@@ -1152,6 +1195,7 @@ Navigation.loadMap = function loadMap(mapName, displayName, onReady) {
 	}
 
 	const requestId = ++_mapLoadRequestId;
+	_mapTerrain = null;
 	if (_isMapClickTarget && _mapData && _mapData.map && _mapData.map !== mapName) {
 		this.clear();
 		_isMapClickTarget = false;
@@ -1167,22 +1211,18 @@ Navigation.loadMap = function loadMap(mapName, displayName, onReady) {
 	// Load town info
 	_towninfo = DB.getTownInfo(mapBaseName) || [];
 
-	// Get the correct map path using DB.mapalias
-	const miniMapBaseName = MiniMapTable[mapBaseName] || mapBaseName;
-	let bmpPath = DB.INTERFACE_PATH.replace('data/texture/', '') + 'map/' + miniMapBaseName + '.bmp';
-	bmpPath = bmpPath.replace(/\//g, '\\');
-	bmpPath = DB.mapalias[bmpPath] || bmpPath;
-
-	// Load the map image
-	Client.loadFile('data/texture/' + bmpPath, dataURI => {
+	// Use the same image availability data as the map catalog.
+	loadCatalogMapImage(mapBaseName).then(dataURI => {
 		if (requestId !== _mapLoadRequestId) return;
-
-		_mapImageMap = mapBaseName;
 		if (dataURI) {
+			_mapImageMap = mapBaseName;
+			_map.onerror = () => {
+				if (requestId === _mapLoadRequestId) _mapImageMap = null;
+			};
 			_map.src = dataURI;
-		} else {
-			_map.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
 		}
+	}).catch(error => {
+		console.warn('Navigation map image could not be loaded:', mapBaseName, error);
 	});
 
 	// Get the correct map path using DB.mapalias
@@ -1208,6 +1248,12 @@ Navigation.loadMap = function loadMap(mapName, displayName, onReady) {
 			}
 
 			_mapData.cellTypes = cellTypes;
+			// Cache the terrain background; navigation redraws every frame.
+			const terrain = document.createElement('canvas');
+			terrain.width = MAP_WIDTH;
+			terrain.height = MAP_HEIGHT;
+			drawWalkableMapPreview(terrain.getContext('2d'), terrain, _mapData);
+			_mapTerrain = terrain;
 			_mapData.ready = true;
 			if (onReady) onReady(true);
 			return;
@@ -1317,7 +1363,7 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 	// Check if player position has changed
 	const currentMap = getCurrentMap();
 	const currentPos = getPlayerPosition();
-	if (_finalTargetData && !_pathUnavailable && tick - _lastPathUpdate > _pathUpdateThrottle && !_pathUpdateLock) {
+	if (_finalTargetData && !_dialogueWarp && !_pathUnavailable && tick - _lastPathUpdate > _pathUpdateThrottle && !_pathUpdateLock) {
 		this.navigateTo({
 			startMap: currentMap,
 			startX: currentPos.x,
@@ -1342,6 +1388,8 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 		const fit = getMapFit(width, height);
 		const source = mapImageSourceRect(_map.naturalWidth || _map.width, _map.naturalHeight || _map.height, _mapData);
 		ctx.drawImage(_map, source.x, source.y, source.width, source.height, fit.x, fit.y, fit.width, fit.height);
+	} else if (_mapData?.ready && _mapTerrain) {
+		ctx.drawImage(_mapTerrain, 0, 0, width, height);
 	}
 
 	const mapToScreenBound = (x, y) => {
@@ -1401,7 +1449,8 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 
 			if (currentSegment.length === 0) {
 				currentSegment.push(pos);
-				continue;
+				// The first remaining point may itself be a warp entrance.
+				if (!point.isWarp) continue;
 			}
 
 			if (point.isWarp || i === remainingPath.length - 1) {
@@ -1446,7 +1495,7 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 	// Draw end marker (target position)
 	if (_targetData) {
 		const lastPoint = mapToScreenBound(_targetData.x, _targetData.y);
-		ctx.fillStyle = '#2f80ed';
+		ctx.fillStyle = NPC_MARKER_COLOR;
 		ctx.beginPath();
 		ctx.arc(lastPoint.x, lastPoint.y, 5, 0, Math.PI * 2);
 		ctx.fill();
@@ -1457,12 +1506,8 @@ Navigation.renderCanvas = function renderCanvas(tick) {
 
 	// Draw start marker (player position)
 	const startPos = mapToScreenBound(currentPos.x, currentPos.y);
-	if (_mapData.map === currentMap && _arrow.complete && _arrow.width) {
-		ctx.save();
-		ctx.translate(startPos.x, startPos.y);
-		ctx.rotate(((Session.Entity.direction + 4) * 45 * Math.PI) / 180);
-		ctx.drawImage(_arrow, -_arrow.width / 2, -_arrow.height / 2);
-		ctx.restore();
+	if (_mapData.map === currentMap) {
+		drawPlayerArrow(ctx, startPos, Session.Entity?.direction ?? 0);
 	}
 
 	// Draw custom markers
@@ -1664,6 +1709,8 @@ Navigation.findPath = async function findPath(startX, startY, endX, endY) {
 					warps.push({
 						id: warp[1],
 						type: warp[2],
+						name: warp[4],
+						npcName: warp[5],
 						srcX: warp[6],
 						srcY: warp[7],
 						destX: warp[9],
@@ -1673,15 +1720,19 @@ Navigation.findPath = async function findPath(startX, startY, endX, endY) {
 			}
 		}
 
-		_mapData.warps = warps;
-
 		_pathFindingWorker.postMessage({
 			type: 'findPath',
 			startX: startX,
 			startY: startY,
 			endX: endX,
 			endY: endY,
-			mapData: _mapData,
+			mapData: {
+				width: _mapData.width,
+				height: _mapData.height,
+				cellTypes: _mapData.cellTypes,
+				walkableType: _mapData.walkableType,
+				warps
+			},
 			workerId: _pathFindingWorker.id,
 			existingPath: _path
 		});
@@ -1938,7 +1989,8 @@ Navigation.navigateTo = async function navigateTo(options) {
 				map: target.map,
 				displayName: displayName,
 				warpType: target.warpType,
-				warpName: target.warpName
+				warpName: target.warpName,
+				warpSource: target.warpSource
 			};
 			this.findPath(options.startX, options.startY, _targetData.x, _targetData.y);
 		} else {

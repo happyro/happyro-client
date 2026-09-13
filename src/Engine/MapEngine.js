@@ -670,6 +670,7 @@ function onConnectionRefused(pkt) {
  * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
  */
 function onMapChange(pkt) {
+	Navigation.prepareMapTransition();
 	MapRenderer.onLoad = () => {
 		Session.Entity.set({
 			PosDir: [pkt.xPos, pkt.yPos, 0],

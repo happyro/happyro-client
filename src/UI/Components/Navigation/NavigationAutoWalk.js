@@ -21,5 +21,12 @@ export function remainingPathFromPosition(path, position) {
 export function selectAutoWalkWaypoint(path, position, lookAhead = 12) {
 	const nearestIndex = nearestPathIndex(path, position);
 	if (nearestIndex < 0) return null;
-	return path[Math.min(nearestIndex + lookAhead, path.length - 1)];
+	const endIndex = Math.min(nearestIndex + lookAhead, path.length - 1);
+	for (let index = nearestIndex; index <= endIndex; index++) {
+		if (path[index].isWarp) {
+			const source = path[index].warpSource;
+			return source ? { x: source.srcX, y: source.srcY, warpSource: source } : path[index];
+		}
+	}
+	return path[endIndex];
 }
