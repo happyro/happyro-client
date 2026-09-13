@@ -31,7 +31,7 @@ function changedValues(form, current) {
 	);
 }
 
-function mount(container) {
+function mount(container, { close }) {
 	container.classList.add('management-tab', 'character-attributes-tab');
 	let snapshot;
 	let selectedJobId;
@@ -70,6 +70,8 @@ function mount(container) {
 			}
 			selectedJobId = snapshot.job_id;
 			status = '操作成功，已读取最新状态';
+			const jobChange = commands.find(command => command.type === 'character.progression.update' && command.payload.job_id !== undefined);
+			if (jobChange && snapshot.job_id === jobChange.payload.job_id) close();
 		} catch (error) {
 			status = error.message;
 			statusError = true;

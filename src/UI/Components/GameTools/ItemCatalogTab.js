@@ -270,4 +270,4 @@ function mount(container, context = {}) {
 	});
 }
 
-export default { id: 'items', label: '物品图鉴', mount };
+export default { id: 'items', label: '物品图鉴', capability: 'adminAvailable', mount };

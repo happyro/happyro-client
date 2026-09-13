@@ -84,7 +84,10 @@ GameTools.mountTab = function mountTab(tab) {
 	cleanupTab?.();
 	const content = this.getRoot().querySelector('.tab-content');
 	content.innerHTML = '<div class="game-tools-tab"></div>';
-	cleanupTab = tab.mount(content.firstElementChild, { capabilities });
+	cleanupTab = tab.mount(content.firstElementChild, { capabilities, close: () => {
+		shouldRestoreAfterMapLoad = false;
+		this._host.style.display = 'none';
+	} });
 };
 
 GameTools.onAppend = function onAppend() {
@@ -128,12 +131,13 @@ GameTools.toggle = function toggle() {
 
 GameTools.refreshCapabilities = async function refreshCapabilities() {
 	try {
-		const nextCapabilities = await loadAdventureControlBootstrap();
+		const nextCapabilities = { ...(await loadAdventureControlBootstrap()), adminAvailable: true };
 		const changed = JSON.stringify(capabilities) !== JSON.stringify(nextCapabilities);
 		capabilities = nextCapabilities;
 		if (changed) this.renderTabs();
 	} catch {
 		capabilities = {
+			adminAvailable: false,
 			characterMaintenanceAllowed: false,
 			gameSettingsAllowed: false,
 			itemGrantAllowed: false
