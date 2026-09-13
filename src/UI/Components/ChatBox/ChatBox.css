@@ -233,3 +233,7 @@
 	width: 15px;
 	height: 10px;
 }
+:host .chat-function button[aria-pressed="true"] {
+	outline: 1px solid #2877b8;
+	background-color: #bcdff6;
+}

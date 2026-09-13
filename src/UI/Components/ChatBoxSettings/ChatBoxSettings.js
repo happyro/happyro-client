@@ -44,7 +44,7 @@ const _preferences = Preferences.get(
 		x: 480,
 		y: 200,
 		width: 7,
-		height: 4
+		height: 8
 	},
 	1.0
 );
@@ -78,8 +78,23 @@ ChatBoxSettings.init = function init() {
 		});
 	}
 
+	root.querySelector('.enable-all').addEventListener('click', () => {
+		const buttons = root.querySelectorAll('.listoption button[data-id]');
+		this.tabOption[this.activeTab] = [...buttons].map(button => Number(button.dataset.id));
+		buttons.forEach(button => {
+			button.classList.add('on');
+			updateOptionImage(button);
+		});
+	});
 	this.draggable('.titlebar');
 };
+
+function updateOptionImage(button) {
+	const enabled = button.classList.contains('on');
+	Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/grp_' + (enabled ? 'online' : 'offline') + '.bmp', data => {
+		if (button.classList.contains('on') === enabled) button.style.backgroundImage = `url(${data})`;
+	});
+}
 
 /**
  * Once in HTML
@@ -114,9 +129,7 @@ function onClickOption(btn) {
 		isOn = true;
 	}
 
-	Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/grp_' + (isOn ? 'online' : 'offline') + '.bmp', data => {
-		btn.style.backgroundImage = 'url(' + data + ')';
-	});
+	updateOptionImage(btn);
 
 	if (!isNaN(dataId)) {
 		const idsIndex = ChatBoxSettings.tabOption[ChatBoxSettings.activeTab].indexOf(dataId);
@@ -140,7 +153,7 @@ function onResize() {
 	function resizeProcess() {
 		const extraY = 31 + 19 - 30;
 		let h = Math.floor((Mouse.screen.y - top - extraY) / 32);
-		h = Math.min(Math.max(h, 3), 8);
+		h = Math.min(Math.max(h, 8), 12);
 		if (h === lastHeight) {
 			return;
 		}
@@ -177,21 +190,9 @@ ChatBoxSettings.updateTab = function updateTab(tabID, tabName) {
 	root.querySelector('.tabname').textContent = tabName;
 
 	buttons.forEach(btn => {
-		btn.classList.remove('on');
-		Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/grp_offline.bmp', data => {
-			btn.style.backgroundImage = 'url(' + data + ')';
-		});
-	});
-
-	buttons.forEach(btn => {
 		const id = parseInt(btn.getAttribute('data-id'), 10);
-
-		if (optList && optList.includes(id)) {
-			Client.loadFile(DB.INTERFACE_PATH + 'basic_interface/grp_online.bmp', data => {
-				btn.style.backgroundImage = 'url(' + data + ')';
-			});
-			btn.classList.add('on');
-		}
+		btn.classList.toggle('on', Boolean(optList?.includes(id)));
+		updateOptionImage(btn);
 	});
 };
 
@@ -199,7 +200,7 @@ ChatBoxSettings.updateTab = function updateTab(tabID, tabName) {
  * Extend window size
  */
 function resize(height) {
-	height = Math.min(Math.max(height, 3), 8);
+	height = Math.min(Math.max(height, 8), 12);
 	const root = ChatBoxSettings.getRoot();
 	const content = root.querySelector('.content');
 	if (content) {

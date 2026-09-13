@@ -128,12 +128,18 @@
 	width: 100%;
 	text-align: left;
 	background: #fff;
-	border: 0;
+	border: 1px solid transparent;
+	box-sizing: border-box;
+	line-height: 18px;
+	padding-top: 0;
+	padding-bottom: 0;
+	background-position: left center;
+	white-space: nowrap;
 	margin-bottom: 3px;
 	margin-top: 2px;
 	background-repeat: no-repeat;
 	padding-left: 19px;
-	height: 15px;
+	height: 22px;
 	text-overflow: ellipsis;
 }
 #ChatBoxSettings .listoption button:hover {

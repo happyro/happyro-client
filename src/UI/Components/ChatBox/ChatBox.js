@@ -622,6 +622,34 @@ ChatBox.init = function init() {
 		});
 	}
 
+	const stickButton = root.querySelector('.stickfucn');
+	stickButton.title = '固定消息滚动';
+	stickButton.setAttribute('aria-pressed', 'false');
+	stickButton.addEventListener('click', () => {
+		ChatBox.scrollLocked = !ChatBox.scrollLocked;
+		stickButton.setAttribute('aria-pressed', String(ChatBox.scrollLocked));
+		stickButton.title = ChatBox.scrollLocked ? '恢复消息自动滚动' : '固定消息滚动';
+		if (!ChatBox.scrollLocked) {
+			const content = root.querySelector('.content.active');
+			if (content) content.scrollTop = content.scrollHeight;
+		}
+	});
+	const lockButton = root.querySelector('.lockdragwnd');
+	lockButton.title = '锁定聊天窗口位置';
+	lockButton.setAttribute('aria-pressed', 'false');
+	lockButton.addEventListener('click', () => {
+		ChatBox.positionLocked = !ChatBox.positionLocked;
+		lockButton.setAttribute('aria-pressed', String(ChatBox.positionLocked));
+		lockButton.title = ChatBox.positionLocked ? '解锁聊天窗口位置' : '锁定聊天窗口位置';
+	});
+	for (const eventName of ['mousedown', 'touchstart']) {
+		root.addEventListener(eventName, event => {
+			if (ChatBox.positionLocked && event.target.closest('.input, .battlemode, .draggable')) {
+				event.stopPropagation();
+			}
+		}, true);
+	}
+
 	// Init settings window as well
 	ChatBoxSettings.append();
 
@@ -1316,7 +1344,7 @@ function flushMessageBuffer() {
 			element.remove();
 		}
 
-		if (wasAtBottom) {
+		if (wasAtBottom && !ChatBox.scrollLocked) {
 			content.scrollTop = content.scrollHeight;
 		}
 	});
@@ -1730,6 +1758,7 @@ function makeResizableDiv() {
 	};
 
 	resizer.addEventListener('mousedown', e => {
+		if (ChatBox.positionLocked) return;
 		e.preventDefault();
 		const contentWrapper = root.querySelector('.contentwrapper');
 		originalHeight = contentWrapper ? contentWrapper.offsetHeight : 0;
