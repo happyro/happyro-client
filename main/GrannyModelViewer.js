@@ -297057,9 +297057,13 @@ var init_ChatBox = __esmMin((() => {
 	ChatBox.onAppend = function OnAppend() {
 		const root = _root$18();
 		const inputEl = root.querySelector(".input");
-		if (inputEl) inputEl.style.display = "none";
+		if (inputEl) inputEl.style.display = "block";
 		const bmEl = root.querySelector(".battlemode");
-		if (bmEl) bmEl.style.display = "block";
+		if (bmEl) bmEl.style.display = "none";
+		Client.loadFile(`${DB.INTERFACE_PATH}basic_interface/chatmode_on.bmp`, (data) => {
+			const chatmodeBtn = root.querySelector(".chat-function .chatmode");
+			if (chatmodeBtn) chatmodeBtn.style.backgroundImage = `url(${data})`;
+		});
 		const content = root.querySelector(".content.active");
 		if (content) content.scrollTop = content.scrollHeight;
 	};
@@ -298311,7 +298315,7 @@ var init_ItemInfo$2 = __esmMin((() => {
 //#region src/UI/Components/ItemInfo/ItemInfo.css?raw
 var ItemInfo_default$1;
 var init_ItemInfo$1 = __esmMin((() => {
-	ItemInfo_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemInfo {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .container {\r\n	height: 140px;\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow: hidden;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .event_view {\r\n	position: absolute;\r\n	top: auto;\r\n	bottom: 8px;\r\n	left: 10px;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n.ItemInfo .event_view .view {\r\n	position: absolute;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n.ItemInfo .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemInfo .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemInfo .description {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemInfo .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemInfo .navi-link,\r\n.ItemInfo .item-link {\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n.ItemInfo .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemInfo .cardlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemInfo .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemInfo .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemInfo .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemInfo .optionlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n\r\n.ItemInfo .preview-action {\r\n	padding-top: 115px;\r\n	padding-left: 9px;\r\n}\r\n\r\n.moveinfo-label {\r\n	color: #000000;\r\n	display: block;\r\n	text-decoration: underline;\r\n}\r\n\r\n#moveinfo-tooltip {\r\n	position: absolute;\r\n	display: none;\r\n	pointer-events: none;\r\n	z-index: 9999;\r\n	background: #e6e7ef;\r\n	border: 2px solid #bdbdee;\r\n	padding: 6px 8px;\r\n	color: #183984;\r\n	white-space: nowrap;\r\n	border-radius: 8px;\r\n}\r\n\r\n.ItemInfo .btn_mounting {\r\n	border: 0;\r\n	width: 80px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
+	ItemInfo_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemInfo {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .container {\r\n	height: 140px;\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow: hidden;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .event_view {\r\n	position: absolute;\r\n	top: auto;\r\n	bottom: 6px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 20px;\r\n}\r\n.ItemInfo .event_view .view {\r\n	position: absolute;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: auto;\r\n	min-width: 48px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	white-space: nowrap;\r\n	word-break: normal;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n.ItemInfo .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemInfo .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemInfo .description {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemInfo .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemInfo .navi-link,\r\n.ItemInfo .item-link {\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n.ItemInfo .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemInfo .cardlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemInfo .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemInfo .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemInfo .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemInfo .optionlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n\r\n.ItemInfo .preview-action {\r\n	padding-top: 115px;\r\n	padding-left: 9px;\r\n}\r\n\r\n.moveinfo-label {\r\n	color: #000000;\r\n	display: block;\r\n	text-decoration: underline;\r\n}\r\n\r\n#moveinfo-tooltip {\r\n	position: absolute;\r\n	display: none;\r\n	pointer-events: none;\r\n	z-index: 9999;\r\n	background: #e6e7ef;\r\n	border: 2px solid #bdbdee;\r\n	padding: 6px 8px;\r\n	color: #183984;\r\n	white-space: nowrap;\r\n	border-radius: 8px;\r\n}\r\n\r\n.ItemInfo .btn_mounting {\r\n	border: 0;\r\n	width: 80px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/UIVersionManager.js
@@ -299297,6 +299301,357 @@ var init_MiniMapTable = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/UI/Components/GameTools/MapPreviewLayout.js
+function fittedMapRect(canvasWidth, canvasHeight, sourceWidth, sourceHeight) {
+	const srcW = Number(sourceWidth) || 0;
+	const srcH = Number(sourceHeight) || 0;
+	if (!canvasWidth || !canvasHeight || !srcW || !srcH) return {
+		x: 0,
+		y: 0,
+		width: canvasWidth || 0,
+		height: canvasHeight || 0
+	};
+	const scale = Math.min(canvasWidth / srcW, canvasHeight / srcH);
+	const width = srcW * scale;
+	const height = srcH * scale;
+	return {
+		x: (canvasWidth - width) / 2,
+		y: (canvasHeight - height) / 2,
+		width,
+		height
+	};
+}
+function mapImageSourceRect(imageWidth, imageHeight, grid) {
+	const width = Number(grid?.width) || 0;
+	const height = Number(grid?.height) || 0;
+	if (!imageWidth || !imageHeight || !width || !height) return {
+		x: 0,
+		y: 0,
+		width: imageWidth || 0,
+		height: imageHeight || 0
+	};
+	const max = Math.max(width, height);
+	return {
+		x: (max - width) / 2 / max * imageWidth,
+		y: (max - height) / 2 / max * imageHeight,
+		width: width / max * imageWidth,
+		height: height / max * imageHeight
+	};
+}
+function mapPointToCanvas(fit, grid, point) {
+	if (!fit?.width || !fit?.height || !grid?.width || !grid?.height || !point) return null;
+	return {
+		x: fit.x + point.x / grid.width * fit.width,
+		y: fit.y + (grid.height - point.y) / grid.height * fit.height
+	};
+}
+function canvasPointToMap(fit, grid, canvasX, canvasY) {
+	if (!fit?.width || !fit?.height || !grid?.width || !grid?.height) return {
+		x: 0,
+		y: 0
+	};
+	const x = Math.floor((canvasX - fit.x) / fit.width * grid.width);
+	const y = Math.floor(grid.height - (canvasY - fit.y) / fit.height * grid.height);
+	return {
+		x: Math.max(0, Math.min(grid.width - 1, x)),
+		y: Math.max(0, Math.min(grid.height - 1, y))
+	};
+}
+function syncMapPreviewCanvas(canvas) {
+	if (!canvas) return false;
+	const displayWidth = canvas.clientWidth;
+	const displayHeight = canvas.clientHeight;
+	if (!displayWidth || !displayHeight) return false;
+	const width = Math.max(1, Math.round(displayWidth));
+	const height = Math.max(1, Math.round(displayHeight));
+	if (canvas.width === width && canvas.height === height) return false;
+	canvas.width = width;
+	canvas.height = height;
+	return true;
+}
+var init_MapPreviewLayout = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Components/GameTools/WorldMapPreview.js
+function drawPlayerArrow(context, point, direction = 0, scale = 1) {
+	if (!point) return;
+	context.save();
+	context.translate(point.x, point.y);
+	context.rotate(direction * 45 * Math.PI / 180);
+	context.scale(scale, scale);
+	context.beginPath();
+	context.moveTo(0, 10);
+	context.lineTo(-7, -6);
+	context.lineTo(7, -6);
+	context.closePath();
+	context.fillStyle = "#2f80ed";
+	context.fill();
+	context.strokeStyle = "#fff";
+	context.lineWidth = 2;
+	context.lineJoin = "round";
+	context.stroke();
+	context.restore();
+}
+function previewFit(canvas, coordinateGrid, sourceWidth, sourceHeight) {
+	const width = coordinateGrid?.width || sourceWidth || canvas.width;
+	const height = coordinateGrid?.height || sourceHeight || canvas.height;
+	canvas._mapFitRect = fittedMapRect(canvas.width, canvas.height, width, height);
+	return canvas._mapFitRect;
+}
+function mapToCanvas(canvas, coordinateGrid, point) {
+	return mapPointToCanvas(canvas._mapFitRect || fittedMapRect(canvas.width, canvas.height, coordinateGrid.width, coordinateGrid.height), coordinateGrid, point);
+}
+function drawDot(context, point, radius, fill) {
+	if (!point) return;
+	context.beginPath();
+	context.arc(point.x, point.y, radius, 0, Math.PI * 2);
+	context.fillStyle = fill;
+	context.fill();
+	context.strokeStyle = "#fff";
+	context.lineWidth = 2;
+	context.stroke();
+}
+function drawMarker(context, canvas, marker, coordinateGrid, color = NPC_MARKER_COLOR, radius = 6) {
+	if (!marker || !coordinateGrid?.width || !coordinateGrid?.height) return;
+	drawDot(context, mapToCanvas(canvas, coordinateGrid, marker), radius, color);
+}
+function drawNpcMarker(context, canvas, npc, coordinateGrid) {
+	drawMarker(context, canvas, npc, coordinateGrid, NPC_MARKER_COLOR, 7);
+}
+function drawPath(context, canvas, path, coordinateGrid) {
+	if (!path?.length || !coordinateGrid?.width || !coordinateGrid?.height) return;
+	context.save();
+	context.beginPath();
+	path.forEach((point, index) => {
+		const position = mapToCanvas(canvas, coordinateGrid, point);
+		if (index === 0 || path[index - 1].isWarp) context.moveTo(position.x, position.y);
+		else context.lineTo(position.x, position.y);
+	});
+	context.strokeStyle = "#29d8e8";
+	context.lineWidth = 3;
+	context.lineJoin = "round";
+	context.lineCap = "round";
+	context.shadowColor = "rgba(0, 0, 0, 0.75)";
+	context.shadowBlur = 2;
+	context.stroke();
+	context.restore();
+}
+function drawPlayer(context, canvas, player, coordinateGrid) {
+	if (!player || !coordinateGrid?.width || !coordinateGrid?.height) return;
+	const point = mapToCanvas(canvas, coordinateGrid, player);
+	if (!point) return;
+	drawPlayerArrow(context, point, Number.isFinite(player.direction) ? player.direction : SessionStorage_default.Entity?.direction ?? 0);
+}
+function drawWalkableMapPreview(context, canvas, coordinateGrid, fit) {
+	if (!coordinateGrid?.cells || !coordinateGrid.width || !coordinateGrid.height) return false;
+	const mapFit = fit || fittedMapRect(canvas.width, canvas.height, coordinateGrid.width, coordinateGrid.height);
+	const image = context.createImageData(canvas.width, canvas.height);
+	for (let pixelY = 0; pixelY < canvas.height; pixelY += 1) {
+		const mapY = coordinateGrid.height - 1 - Math.floor((pixelY - mapFit.y) / mapFit.height * coordinateGrid.height);
+		for (let pixelX = 0; pixelX < canvas.width; pixelX += 1) {
+			const mapX = Math.floor((pixelX - mapFit.x) / mapFit.width * coordinateGrid.width);
+			const offset = (pixelY * canvas.width + pixelX) * 4;
+			if (mapX < 0 || mapY < 0 || mapX >= coordinateGrid.width || mapY >= coordinateGrid.height) {
+				image.data[offset] = 23;
+				image.data[offset + 1] = 25;
+				image.data[offset + 2] = 28;
+				image.data[offset + 3] = 255;
+				continue;
+			}
+			const type = coordinateGrid.cells[(mapY * coordinateGrid.width + mapX) * 5 + 4];
+			if (type & Altitude.TYPE.WATER) {
+				image.data[offset] = 65;
+				image.data[offset + 1] = 125;
+				image.data[offset + 2] = 153;
+			} else if (type & Altitude.TYPE.WALKABLE) {
+				image.data[offset] = 190;
+				image.data[offset + 1] = 198;
+				image.data[offset + 2] = 184;
+			} else if (type & Altitude.TYPE.SNIPABLE) {
+				image.data[offset] = 91;
+				image.data[offset + 1] = 99;
+				image.data[offset + 2] = 94;
+			} else {
+				image.data[offset] = 23;
+				image.data[offset + 1] = 25;
+				image.data[offset + 2] = 28;
+			}
+			image.data[offset + 3] = 255;
+		}
+	}
+	context.putImageData(image, 0, 0);
+	return true;
+}
+function drawWorldMapPreview(canvas, imageSource, marker, coordinateGrid, overlays = {}) {
+	const renderToken = (canvas._worldMapRenderToken || 0) + 1;
+	canvas._worldMapRenderToken = renderToken;
+	syncMapPreviewCanvas(canvas);
+	const context = canvas.getContext("2d");
+	previewFit(canvas, coordinateGrid);
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	context.fillStyle = "#17191c";
+	context.fillRect(0, 0, canvas.width, canvas.height);
+	const drawOverlays = () => {
+		drawPath(context, canvas, overlays.path, coordinateGrid);
+		drawNpcMarker(context, canvas, overlays.selectedNpc, coordinateGrid);
+		drawMarker(context, canvas, marker, coordinateGrid, NPC_MARKER_COLOR);
+		if (!overlays.player) return;
+		drawPlayer(context, canvas, overlays.player, coordinateGrid);
+	};
+	const drawFallback = () => {
+		if (canvas._worldMapRenderToken !== renderToken) return;
+		previewFit(canvas, coordinateGrid);
+		if (drawWalkableMapPreview(context, canvas, coordinateGrid, canvas._mapFitRect)) {
+			drawOverlays();
+			return;
+		}
+		context.fillStyle = "#b9bec4";
+		context.textAlign = "center";
+		context.fillText("暂无图片", canvas.width / 2, canvas.height / 2);
+	};
+	if (!imageSource) {
+		drawFallback();
+		return;
+	}
+	const image = new Image();
+	image.decoding = "async";
+	image.onload = () => {
+		if (canvas._worldMapRenderToken !== renderToken) return;
+		previewFit(canvas, coordinateGrid, image.naturalWidth, image.naturalHeight);
+		const mapFit = canvas._mapFitRect;
+		const source = mapImageSourceRect(image.naturalWidth, image.naturalHeight, coordinateGrid);
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		context.fillStyle = "#17191c";
+		context.fillRect(0, 0, canvas.width, canvas.height);
+		context.drawImage(image, source.x, source.y, source.width, source.height, mapFit.x, mapFit.y, mapFit.width, mapFit.height);
+		drawOverlays();
+	};
+	image.onerror = drawFallback;
+	image.src = imageSource;
+}
+var NPC_MARKER_COLOR;
+var init_WorldMapPreview = __esmMin((() => {
+	init_SessionStorage();
+	init_Altitude();
+	init_MapPreviewLayout();
+	NPC_MARKER_COLOR = "#a855f7";
+}));
+//#endregion
+//#region src/UI/Components/GameTools/WorldAssetService.js
+function loadNpcAssets() {
+	if (!npcAssetsPromise) npcAssetsPromise = fetch(new URL("./data/world/npc-assets.json", window.location.href)).then((response) => {
+		if (!response.ok) throw new Error(`NPC assets request failed: ${response.status}`);
+		return response.json();
+	});
+	return npcAssetsPromise;
+}
+function npcAtlasStyle(manifest, npcClass, displaySize) {
+	const sprite = manifest?.sprites?.[npcClass];
+	if (!sprite) return "";
+	const { tileSize, columns, rows } = manifest.atlas;
+	const scale = displaySize / tileSize;
+	const column = sprite.tile % columns;
+	const row = Math.floor(sprite.tile / columns);
+	return [
+		`background-image:url('./data/world/npc-atlas-${sprite.atlas}.webp')`,
+		`background-size:${columns * tileSize * scale}px ${rows * tileSize * scale}px`,
+		`background-position:${-column * displaySize}px ${-row * displaySize}px`
+	].join(";");
+}
+function loadClientFile(path) {
+	return new Promise((resolve) => Client.loadFile(path, (data) => resolve(data || null)));
+}
+function getMapPaths(mapName) {
+	const normalized = String(mapName || "").replace(/\.gat$/i, "").toLocaleLowerCase();
+	const miniMapBaseName = MiniMapTable_default[normalized] || normalized;
+	let bmpPath = `${DB.INTERFACE_PATH.replace("data/texture/", "")}map/${miniMapBaseName}.bmp`.replace(/\//g, "\\");
+	bmpPath = DB.mapalias[bmpPath] || bmpPath;
+	let gatPath = `${normalized}.gat`.replace(/\//g, "\\");
+	gatPath = DB.mapalias[gatPath] || gatPath;
+	return {
+		normalized,
+		miniMapBaseName,
+		bmpPath,
+		gatPath
+	};
+}
+function loadCatalogMapImage(mapName) {
+	const paths = getMapPaths(mapName);
+	if (!mapImagePromises.has(paths.normalized)) mapImagePromises.set(paths.normalized, loadNpcAssets().then((assets) => assets.mapImages?.includes(paths.miniMapBaseName) ? loadClientFile(`data/texture/${paths.bmpPath}`) : null));
+	return mapImagePromises.get(paths.normalized);
+}
+function loadImageDimensions(source) {
+	if (!source) return Promise.resolve(null);
+	return new Promise((resolve) => {
+		const image = new Image();
+		image.onload = () => resolve({
+			width: image.naturalWidth,
+			height: image.naturalHeight
+		});
+		image.onerror = () => resolve(null);
+		image.src = source;
+	});
+}
+async function loadCatalogMap(mapName) {
+	const paths = getMapPaths(mapName);
+	if (!mapResourcePromises.has(paths.normalized)) mapResourcePromises.set(paths.normalized, Promise.all([loadCatalogMapImage(paths.normalized), loadClientFile(`data/${paths.gatPath}`)]).then(async ([image, gat]) => {
+		const dimensions = gat?.width && gat?.height ? null : await loadImageDimensions(image);
+		return {
+			image,
+			gat: gat?.width && gat?.height ? gat : dimensions,
+			mapName: paths.normalized
+		};
+	}));
+	return mapResourcePromises.get(paths.normalized);
+}
+function canvasToMapCoordinate(canvas, event, gat) {
+	const grid = gat?.width && gat?.height ? gat : {
+		width: canvas.width,
+		height: canvas.height
+	};
+	const rect = canvas.getBoundingClientRect();
+	const scaleX = (canvas.width || rect.width) / (rect.width || 1);
+	const scaleY = (canvas.height || rect.height) / (rect.height || 1);
+	const canvasX = (event.clientX - rect.left) * scaleX;
+	const canvasY = (event.clientY - rect.top) * scaleY;
+	return canvasPointToMap(canvas._mapFitRect || fittedMapRect(canvas.width, canvas.height, grid.width, grid.height), grid, canvasX, canvasY);
+}
+function findNearestWalkableCoordinate(gat, target, maxRadius = 12) {
+	if (!target) return null;
+	if (!gat?.cells) return target;
+	const isWalkable = (x, y) => {
+		if (x < 0 || y < 0 || x >= gat.width || y >= gat.height) return false;
+		return (gat.cells[(y * gat.width + x) * 5 + 4] & Altitude.TYPE.WALKABLE) !== 0;
+	};
+	if (isWalkable(target.x, target.y)) return target;
+	for (let radius = 1; radius <= maxRadius; radius += 1) for (let offset = -radius; offset <= radius; offset += 1) for (const [x, y] of [
+		[target.x + offset, target.y - radius],
+		[target.x + offset, target.y + radius],
+		[target.x - radius, target.y + offset],
+		[target.x + radius, target.y + offset]
+	]) if (isWalkable(x, y)) return {
+		x,
+		y
+	};
+	return target;
+}
+function findDefaultMapCoordinate(gat) {
+	if (!gat?.width || !gat?.height) return null;
+	return findNearestWalkableCoordinate(gat, {
+		x: Math.floor(gat.width / 2),
+		y: Math.floor(gat.height / 2)
+	}, Math.max(gat.width, gat.height));
+}
+var npcAssetsPromise, mapImagePromises, mapResourcePromises;
+var init_WorldAssetService = __esmMin((() => {
+	init_Client();
+	init_DBManager();
+	init_MiniMapTable();
+	init_Altitude();
+	init_MapPreviewLayout();
+	mapImagePromises = /* @__PURE__ */ new Map();
+	mapResourcePromises = /* @__PURE__ */ new Map();
+}));
+//#endregion
 //#region src/UI/Components/Navigation/Navigation.html?raw
 var Navigation_default$2;
 var init_Navigation$2 = __esmMin((() => {
@@ -299366,6 +299721,7 @@ var init_MapPathFinder = __esmMin((() => {
 				type: warpType,
 				spriteId: warp[3],
 				name: warp[4],
+				npcName: warp[5],
 				srcMap,
 				srcX: warp[6],
 				srcY: warp[7],
@@ -299475,7 +299831,8 @@ var init_MapPathFinder = __esmMin((() => {
 				y: warpInfo.srcY,
 				warpId,
 				warpType: warpInfo.type,
-				warpName: warpInfo.name || ""
+				warpName: warpInfo.name || "",
+				warpSource: warpInfo
 			});
 			current = prevMap;
 		}
@@ -299521,7 +299878,16 @@ function remainingPathFromPosition(path, position) {
 function selectAutoWalkWaypoint(path, position, lookAhead = 12) {
 	const nearestIndex = nearestPathIndex(path, position);
 	if (nearestIndex < 0) return null;
-	return path[Math.min(nearestIndex + lookAhead, path.length - 1)];
+	const endIndex = Math.min(nearestIndex + lookAhead, path.length - 1);
+	for (let index = nearestIndex; index <= endIndex; index++) if (path[index].isWarp) {
+		const source = path[index].warpSource;
+		return source ? {
+			x: source.srcX,
+			y: source.srcY,
+			warpSource: source
+		} : path[index];
+	}
+	return path[endIndex];
 }
 var init_NavigationAutoWalk = __esmMin((() => {}));
 //#endregion
@@ -502854,76 +503220,6 @@ var init_WorldCatalogService = __esmMin((() => {
 	});
 }));
 //#endregion
-//#region src/UI/Components/GameTools/MapPreviewLayout.js
-function fittedMapRect(canvasWidth, canvasHeight, sourceWidth, sourceHeight) {
-	const srcW = Number(sourceWidth) || 0;
-	const srcH = Number(sourceHeight) || 0;
-	if (!canvasWidth || !canvasHeight || !srcW || !srcH) return {
-		x: 0,
-		y: 0,
-		width: canvasWidth || 0,
-		height: canvasHeight || 0
-	};
-	const scale = Math.min(canvasWidth / srcW, canvasHeight / srcH);
-	const width = srcW * scale;
-	const height = srcH * scale;
-	return {
-		x: (canvasWidth - width) / 2,
-		y: (canvasHeight - height) / 2,
-		width,
-		height
-	};
-}
-function mapImageSourceRect(imageWidth, imageHeight, grid) {
-	const width = Number(grid?.width) || 0;
-	const height = Number(grid?.height) || 0;
-	if (!imageWidth || !imageHeight || !width || !height) return {
-		x: 0,
-		y: 0,
-		width: imageWidth || 0,
-		height: imageHeight || 0
-	};
-	const max = Math.max(width, height);
-	return {
-		x: (max - width) / 2 / max * imageWidth,
-		y: (max - height) / 2 / max * imageHeight,
-		width: width / max * imageWidth,
-		height: height / max * imageHeight
-	};
-}
-function mapPointToCanvas(fit, grid, point) {
-	if (!fit?.width || !fit?.height || !grid?.width || !grid?.height || !point) return null;
-	return {
-		x: fit.x + point.x / grid.width * fit.width,
-		y: fit.y + (grid.height - point.y) / grid.height * fit.height
-	};
-}
-function canvasPointToMap(fit, grid, canvasX, canvasY) {
-	if (!fit?.width || !fit?.height || !grid?.width || !grid?.height) return {
-		x: 0,
-		y: 0
-	};
-	const x = Math.floor((canvasX - fit.x) / fit.width * grid.width);
-	const y = Math.floor(grid.height - (canvasY - fit.y) / fit.height * grid.height);
-	return {
-		x: Math.max(0, Math.min(grid.width - 1, x)),
-		y: Math.max(0, Math.min(grid.height - 1, y))
-	};
-}
-function syncMapPreviewCanvas(canvas) {
-	if (!canvas) return false;
-	const displayWidth = canvas.clientWidth;
-	const displayHeight = canvas.clientHeight;
-	if (!displayWidth || !displayHeight) return false;
-	const width = Math.max(1, Math.round(displayWidth));
-	const height = Math.max(1, Math.round(displayHeight));
-	if (canvas.width === width && canvas.height === height) return false;
-	canvas.width = width;
-	canvas.height = height;
-	return true;
-}
-var init_MapPreviewLayout = __esmMin((() => {}));
-//#endregion
 //#region src/UI/Components/GameTools/AdventureActionService.js
 function normalizeAdventureMap(mapName) {
 	return String(mapName || "").replace(/\.gat$/i, "").toLocaleLowerCase();
@@ -503357,11 +503653,23 @@ function resetPathFindingWorker() {
 	terminatePathFindingWorker();
 	initializePathFindingWorker();
 }
-var Navigation, NAVIGATION_WIDTH, NAVIGATION_HEIGHT, MAP_WIDTH, MAP_HEIGHT, _arrow, _toolDealer, _weaponDealer, _armorDealer, _blacksmith, _guide, _inn, _kafra, _map, _ctx$2, _towninfo, _markers, _path, _lastPathUpdate, _pathUpdateThrottle, _pathUpdateLock, _pathFindingWorker, _mapData, _mapLoadRequestId$1, _navigationRequestId, _mapImageMap, _targetData, _finalTargetData, _selectedTargetData, _autoWalkTimer, _autoWalkActive, _autoWalkRequested, _routeStateListeners, _teleportCooldownUntil, _teleportCooldownTimer, _npcTeleportPending, _npcTeleportRequestId, _npcTeleportTimer, _npcAvailabilityRequestId, _npcAvailabilityPending, _npcAvailabilityTimer, _searchRequestId, _unsubscribeAdventureActions, _isMapClickTarget, _pathUnavailable, _blinking, _fadeInterval, _originalColor, _documentClickHandler, Navigation_default;
+/**
+* Show the self-teleport action only when the server grants the capability.
+*/
+function getTeleportTarget() {
+	return _selectedTargetData || _finalTargetData || _targetData || {
+		map: _mapData?.map || getCurrentMap(),
+		x: 0,
+		y: 0
+	};
+}
+var Navigation, NAVIGATION_WIDTH, NAVIGATION_HEIGHT, MAP_WIDTH, MAP_HEIGHT, _toolDealer, _weaponDealer, _armorDealer, _blacksmith, _guide, _inn, _kafra, _map, _ctx$2, _towninfo, _markers, _path, _lastPathUpdate, _pathUpdateThrottle, _pathUpdateLock, _pathFindingWorker, _mapData, _mapTerrain, _mapLoadRequestId$1, _navigationRequestId, _mapImageMap, _targetData, _finalTargetData, _selectedTargetData, _autoWalkTimer, _autoWalkActive, _autoWalkRequested, _resumeAutoWalkAfterMapLoad, _dialogueWarp, _routeStateListeners, _teleportCooldownUntil, _teleportCooldownTimer, _npcTeleportPending, _npcTeleportRequestId, _npcTeleportTimer, _npcAvailabilityRequestId, _npcAvailabilityPending, _npcAvailabilityTimer, _searchRequestId, _unsubscribeAdventureActions, _isMapClickTarget, _pathUnavailable, _blinking, _fadeInterval, _originalColor, _documentClickHandler, Navigation_default;
 var init_Navigation = __esmMin((() => {
 	init_KeyEventHandler();
 	init_Renderer();
 	init_MapRenderer();
+	init_EntityManager();
+	init_Entity$1();
 	init_UIManager();
 	init_GUIComponent();
 	init_Elements();
@@ -503372,7 +503680,8 @@ var init_Navigation = __esmMin((() => {
 	init_PacketStructure();
 	init_PacketVerManager();
 	init_DBManager();
-	init_MiniMapTable();
+	init_WorldAssetService();
+	init_WorldMapPreview();
 	init_Navigation$2();
 	init_Navigation$1();
 	init_MapPathFinder();
@@ -503388,7 +503697,6 @@ var init_Navigation = __esmMin((() => {
 	MAP_WIDTH = 400;
 	MAP_HEIGHT = 340;
 	Navigation.render = () => Navigation_default$2;
-	_arrow = createAsyncImage();
 	_toolDealer = createAsyncImage();
 	_weaponDealer = createAsyncImage();
 	_armorDealer = createAsyncImage();
@@ -503406,6 +503714,7 @@ var init_Navigation = __esmMin((() => {
 	_pathUpdateLock = false;
 	_pathFindingWorker = null;
 	_mapData = null;
+	_mapTerrain = null;
 	_mapLoadRequestId$1 = 0;
 	_navigationRequestId = 0;
 	_mapImageMap = null;
@@ -503415,6 +503724,8 @@ var init_Navigation = __esmMin((() => {
 	_autoWalkTimer = null;
 	_autoWalkActive = false;
 	_autoWalkRequested = false;
+	_resumeAutoWalkAfterMapLoad = false;
+	_dialogueWarp = null;
 	_routeStateListeners = /* @__PURE__ */ new Set();
 	_teleportCooldownUntil = 0;
 	_teleportCooldownTimer = null;
@@ -503453,9 +503764,6 @@ var init_Navigation = __esmMin((() => {
 		_ctx$2 = canvas.getContext("2d");
 		const mapDisplay = root.querySelector(".map-display");
 		if (mapDisplay) mapDisplay.appendChild(canvas);
-		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, (dataURI) => {
-			_arrow.src = dataURI;
-		});
 		Client.loadFile(`${DB.INTERFACE_PATH}information/store.bmp`, (dataURI) => {
 			_toolDealer.src = dataURI;
 		});
@@ -503534,6 +503842,8 @@ var init_Navigation = __esmMin((() => {
 	* Once append to the DOM
 	*/
 	Navigation.onAppend = function onAppend() {
+		const resumeAutoWalk = _resumeAutoWalkAfterMapLoad;
+		_resumeAutoWalkAfterMapLoad = false;
 		this.clearPath();
 		Renderer.render(this.renderCanvas.bind(this));
 		initializePathFindingWorker();
@@ -503554,9 +503864,22 @@ var init_Navigation = __esmMin((() => {
 				endMap: _finalTargetData.map,
 				endX: _finalTargetData.x,
 				endY: _finalTargetData.y,
-				displayName: _finalTargetData.displayName
+				displayName: _finalTargetData.displayName,
+				autoWalk: resumeAutoWalk
 			});
 		}
+	};
+	Navigation.prepareMapTransition = function prepareMapTransition() {
+		const resume = Boolean(_finalTargetData && (_autoWalkActive || _autoWalkRequested));
+		_resumeAutoWalkAfterMapLoad = resume;
+		if (_autoWalkTimer) clearInterval(_autoWalkTimer);
+		_autoWalkTimer = null;
+		_autoWalkActive = false;
+		_autoWalkRequested = resume;
+		_dialogueWarp = null;
+		_navigationRequestId++;
+		terminatePathFindingWorker();
+		this.clearPath();
 	};
 	/**
 	* Once removed from DOM
@@ -503564,7 +503887,7 @@ var init_Navigation = __esmMin((() => {
 	Navigation.onRemove = function onRemove() {
 		_searchRequestId++;
 		_navigationRequestId++;
-		this.stopAutoWalk();
+		if (!_resumeAutoWalkAfterMapLoad) this.stopAutoWalk();
 		this.clearPath();
 		terminatePathFindingWorker();
 		clearTimeout(_npcTeleportTimer);
@@ -503834,15 +504157,12 @@ var init_Navigation = __esmMin((() => {
 			displayName: previewName
 		});
 	};
-	/**
-	* Show the self-teleport action only when the server grants the capability.
-	*/
 	Navigation.updateTeleportButton = function updateTeleportButton() {
 		const root = Navigation.getRoot();
 		const button = root?.querySelector(".teleport-button");
 		const npcButton = root?.querySelector(".npc-teleport-button");
 		if (!button || !npcButton) return;
-		const target = _selectedTargetData || _finalTargetData || _targetData;
+		const target = getTeleportTarget();
 		const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
 		const canTeleportTarget = canSelfTeleport() && (!isCrossMap || SessionStorage_default.NavigationTeleportCrossMap);
 		const coordinateActionState = getAdventureActionState(target ? {
@@ -503852,8 +504172,8 @@ var init_Navigation = __esmMin((() => {
 		} : null);
 		const npcTarget = this.targetResult?.type === "NPC" ? this.targetResult : null;
 		const npcTeleportable = npcTarget && npcTarget.availability !== "unavailable" && npcTarget.availability !== "pending";
-		const hasCoordinateTarget = Boolean(!npcTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y));
-		button.style.display = npcTarget ? "none" : "inline-block";
+		const hasCoordinateTarget = Boolean(target && Number.isFinite(target.x) && Number.isFinite(target.y));
+		button.style.display = "inline-block";
 		button.disabled = !hasCoordinateTarget || !canTeleportTarget || !coordinateActionState.canTeleport;
 		npcButton.style.display = npcTeleportable && canTeleportTarget ? "inline-block" : "none";
 		npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
@@ -503889,6 +504209,7 @@ var init_Navigation = __esmMin((() => {
 		notifyRouteState();
 		const sendTarget = () => {
 			if (!_autoWalkActive || !_finalTargetData) return;
+			if (_dialogueWarp) return;
 			const currentMap = getCurrentMap();
 			if (!_targetData || _targetData.map !== currentMap) {
 				const position = getPlayerPosition();
@@ -503916,6 +504237,24 @@ var init_Navigation = __esmMin((() => {
 				return;
 			}
 			const waypoint = selectAutoWalkWaypoint(_path, position) || _targetData;
+			const source = waypoint.warpSource || _targetData.warpSource;
+			if (source && Math.hypot(position.x - source.srcX, position.y - source.srcY) <= 3) {
+				const normalizeNpc = (name) => String(name || "").replace(/^#/, "").toLowerCase();
+				const names = [source.name, source.npcName].filter(Boolean).map(normalizeNpc);
+				let npc = null;
+				EntityManager.forEach((entity) => {
+					if ((entity.objecttype === Entity.TYPE_NPC || entity.objecttype === Entity.TYPE_NPC2) && entity.job !== 45 && names.includes(normalizeNpc(entity.display.name)) && Math.hypot(entity.position[0] - source.srcX, entity.position[1] - source.srcY) <= 3) npc = entity;
+				});
+				if (npc) {
+					_dialogueWarp = source;
+					const packet = new PACKET.CZ.CONTACTNPC();
+					packet.NAID = npc.GID;
+					packet.type = 1;
+					Network.sendPacket(packet);
+					this.setActionStatus("请完成传送对话；传送后继续寻路，取消对话后可停止或重新开始寻路");
+					return;
+				}
+			}
 			const packet = PacketVerManager_default.value >= 20180307 ? new PACKET.CZ.REQUEST_MOVE2() : new PACKET.CZ.REQUEST_MOVE();
 			packet.dest[0] = Math.floor(waypoint.x);
 			packet.dest[1] = Math.floor(waypoint.y);
@@ -503925,6 +504264,7 @@ var init_Navigation = __esmMin((() => {
 		_autoWalkTimer = setInterval(sendTarget, 1200);
 	};
 	Navigation.stopAutoWalk = function stopAutoWalk() {
+		_dialogueWarp = null;
 		const changed = _autoWalkRequested || _autoWalkActive;
 		_autoWalkRequested = false;
 		_autoWalkActive = false;
@@ -503952,15 +504292,14 @@ var init_Navigation = __esmMin((() => {
 	* The server derives the character from the authenticated game session.
 	*/
 	Navigation.teleportToSelectedTarget = function teleportToSelectedTarget() {
-		const target = _selectedTargetData || _finalTargetData || _targetData;
-		if (!target) return;
-		this.hide();
-		UIManager.components.WorldMap?.hide?.();
-		teleportToCoordinate({
+		const target = getTeleportTarget();
+		if (!teleportToCoordinate({
 			mapName: target.map,
 			x: target.x,
 			y: target.y
-		});
+		})) return;
+		this.hide();
+		UIManager.components.WorldMap?.hide?.();
 		this.setActionStatus("正在等待服务器确认...");
 		this.updateTeleportButton();
 	};
@@ -504038,6 +504377,7 @@ var init_Navigation = __esmMin((() => {
 			return;
 		}
 		const requestId = ++_mapLoadRequestId$1;
+		_mapTerrain = null;
 		if (_isMapClickTarget && _mapData && _mapData.map && _mapData.map !== mapName) {
 			this.clear();
 			_isMapClickTarget = false;
@@ -504049,15 +504389,17 @@ var init_Navigation = __esmMin((() => {
 		};
 		_mapImageMap = null;
 		_towninfo = DB.getTownInfo(mapBaseName) || [];
-		const miniMapBaseName = MiniMapTable_default[mapBaseName] || mapBaseName;
-		let bmpPath = DB.INTERFACE_PATH.replace("data/texture/", "") + "map/" + miniMapBaseName + ".bmp";
-		bmpPath = bmpPath.replace(/\//g, "\\");
-		bmpPath = DB.mapalias[bmpPath] || bmpPath;
-		Client.loadFile("data/texture/" + bmpPath, (dataURI) => {
+		loadCatalogMapImage(mapBaseName).then((dataURI) => {
 			if (requestId !== _mapLoadRequestId$1) return;
-			_mapImageMap = mapBaseName;
-			if (dataURI) _map.src = dataURI;
-			else _map.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+			if (dataURI) {
+				_mapImageMap = mapBaseName;
+				_map.onerror = () => {
+					if (requestId === _mapLoadRequestId$1) _mapImageMap = null;
+				};
+				_map.src = dataURI;
+			}
+		}).catch((error) => {
+			console.warn("Navigation map image could not be loaded:", mapBaseName, error);
 		});
 		let gatPath = mapBaseName + ".gat";
 		gatPath = gatPath.replace(/\//g, "\\");
@@ -504075,6 +504417,11 @@ var init_Navigation = __esmMin((() => {
 					cellTypes[i] = gatData.cells[cellIndex];
 				}
 				_mapData.cellTypes = cellTypes;
+				const terrain = document.createElement("canvas");
+				terrain.width = MAP_WIDTH;
+				terrain.height = MAP_HEIGHT;
+				drawWalkableMapPreview(terrain.getContext("2d"), terrain, _mapData);
+				_mapTerrain = terrain;
 				_mapData.ready = true;
 				if (onReady) onReady(true);
 				return;
@@ -504088,6 +504435,7 @@ var init_Navigation = __esmMin((() => {
 	*/
 	Navigation.showMap = function showMap(mapName, displayName, options = {}) {
 		this.clear();
+		this.targetResult = null;
 		this.show();
 		const root = this.getRoot();
 		const searchInput = root.querySelector(".search-input");
@@ -504103,6 +504451,8 @@ var init_Navigation = __esmMin((() => {
 		if (!mapName) return;
 		if (_autoWalkActive || _autoWalkRequested) {
 			this.show();
+			this.loadMap(mapName);
+			this.setLocationTitle(mapName, _finalTargetData?.map, _finalTargetData?.displayName);
 			return;
 		}
 		this.showMap(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
@@ -504155,7 +504505,7 @@ var init_Navigation = __esmMin((() => {
 		if (!ctx) return;
 		const currentMap = getCurrentMap();
 		const currentPos = getPlayerPosition();
-		if (_finalTargetData && !_pathUnavailable && tick - _lastPathUpdate > _pathUpdateThrottle && !_pathUpdateLock) {
+		if (_finalTargetData && !_dialogueWarp && !_pathUnavailable && tick - _lastPathUpdate > _pathUpdateThrottle && !_pathUpdateLock) {
 			this.navigateTo({
 				startMap: currentMap,
 				startX: currentPos.x,
@@ -504174,7 +504524,7 @@ var init_Navigation = __esmMin((() => {
 			const fit = getMapFit(width, height);
 			const source = mapImageSourceRect(_map.naturalWidth || _map.width, _map.naturalHeight || _map.height, _mapData);
 			ctx.drawImage(_map, source.x, source.y, source.width, source.height, fit.x, fit.y, fit.width, fit.height);
-		}
+		} else if (_mapData?.ready && _mapTerrain) ctx.drawImage(_mapTerrain, 0, 0, width, height);
 		const mapToScreenBound = (x, y) => {
 			return mapToScreen(x, y, width, height);
 		};
@@ -504218,7 +504568,7 @@ var init_Navigation = __esmMin((() => {
 				const pos = mapToScreenBound(point.x, point.y);
 				if (currentSegment.length === 0) {
 					currentSegment.push(pos);
-					continue;
+					if (!point.isWarp) continue;
 				}
 				if (point.isWarp || i === remainingPath.length - 1) {
 					currentSegment.push(pos);
@@ -504247,7 +504597,7 @@ var init_Navigation = __esmMin((() => {
 		}
 		if (_targetData) {
 			const lastPoint = mapToScreenBound(_targetData.x, _targetData.y);
-			ctx.fillStyle = "#2f80ed";
+			ctx.fillStyle = NPC_MARKER_COLOR;
 			ctx.beginPath();
 			ctx.arc(lastPoint.x, lastPoint.y, 5, 0, Math.PI * 2);
 			ctx.fill();
@@ -504256,13 +504606,7 @@ var init_Navigation = __esmMin((() => {
 			ctx.stroke();
 		}
 		const startPos = mapToScreenBound(currentPos.x, currentPos.y);
-		if (_mapData.map === currentMap && _arrow.complete && _arrow.width) {
-			ctx.save();
-			ctx.translate(startPos.x, startPos.y);
-			ctx.rotate((SessionStorage_default.Entity.direction + 4) * 45 * Math.PI / 180);
-			ctx.drawImage(_arrow, -_arrow.width / 2, -_arrow.height / 2);
-			ctx.restore();
-		}
+		if (_mapData.map === currentMap) drawPlayerArrow(ctx, startPos, SessionStorage_default.Entity?.direction ?? 0);
 		for (let i = 0; i < _markers.length; i++) {
 			const marker = _markers[i];
 			const pos = mapToScreenBound(marker.x, marker.y);
@@ -504398,20 +504742,27 @@ var init_Navigation = __esmMin((() => {
 				if (srcMap === currentMap && destMap === currentMap) warps.push({
 					id: warp[1],
 					type: warp[2],
+					name: warp[4],
+					npcName: warp[5],
 					srcX: warp[6],
 					srcY: warp[7],
 					destX: warp[9],
 					destY: warp[10]
 				});
 			}
-			_mapData.warps = warps;
 			_pathFindingWorker.postMessage({
 				type: "findPath",
 				startX,
 				startY,
 				endX,
 				endY,
-				mapData: _mapData,
+				mapData: {
+					width: _mapData.width,
+					height: _mapData.height,
+					cellTypes: _mapData.cellTypes,
+					walkableType: _mapData.walkableType,
+					warps
+				},
 				workerId: _pathFindingWorker.id,
 				existingPath: _path
 			});
@@ -504431,10 +504782,10 @@ var init_Navigation = __esmMin((() => {
 				maxZ = Math.max(maxZ, parseInt(other._host?.style.zIndex, 10) || 0);
 			}
 			if (currentZ >= maxZ) this.hide();
-			else this.focus();
+			else this.showCurrentMap();
 			return;
 		}
-		this.show();
+		this.showCurrentMap();
 	};
 	/**
 	* Show the navigation window
@@ -504602,7 +504953,8 @@ var init_Navigation = __esmMin((() => {
 					map: target.map,
 					displayName,
 					warpType: target.warpType,
-					warpName: target.warpName
+					warpName: target.warpName,
+					warpSource: target.warpSource
 				};
 				this.findPath(options.startX, options.startY, _targetData.x, _targetData.y);
 			} else {
@@ -504682,10 +505034,6 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 		return img;
 	}
 	/**
-	* @var {Image} arrow image
-	*/
-	const _arrow = createAsyncImage();
-	/**
 	* @var {Image} map information images
 	*/
 	const _toolDealer = createAsyncImage();
@@ -504735,9 +505083,6 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 				Navigation.focus();
 			});
 		}, true);
-		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, (dataURI) => {
-			_arrow.src = dataURI;
-		});
 		Client.loadFile(`${DB.INTERFACE_PATH}information/store.bmp`, (dataURI) => {
 			_toolDealer.src = dataURI;
 		});
@@ -505143,25 +505488,24 @@ function createMiniMap({ name, htmlText, cssText, worldMap = null, townInfoToggl
 					}
 				}
 			}
-			if (_arrow.complete && _arrow.width) {
-				_ctx.save();
-				_ctx.translate(projectX(pos[0]), projectY(pos[1]));
-				_ctx.rotate((SessionStorage_default.Entity.direction + 4) * 45 * Math.PI / 180);
-				if (arrowShadow) {
-					_ctx.shadowColor = "rgba(0, 0, 0, 1)";
-					_ctx.shadowBlur = 5;
-					_ctx.shadowOffsetX = 0;
-					_ctx.shadowOffsetY = 0;
-				}
-				_ctx.drawImage(_arrow, -_arrow.width * .5, -_arrow.height * .5);
-				if (arrowShadow) {
-					_ctx.shadowColor = "rgba(0, 0, 0, 0)";
-					_ctx.shadowBlur = 0;
-					_ctx.shadowOffsetX = 0;
-					_ctx.shadowOffsetY = 0;
-				}
-				_ctx.restore();
+			_ctx.save();
+			if (arrowShadow) {
+				_ctx.shadowColor = "rgba(0, 0, 0, 1)";
+				_ctx.shadowBlur = 5;
+				_ctx.shadowOffsetX = 0;
+				_ctx.shadowOffsetY = 0;
 			}
+			drawPlayerArrow(_ctx, {
+				x: projectX(pos[0]),
+				y: projectY(pos[1])
+			}, SessionStorage_default.Entity.direction, .75);
+			if (arrowShadow) {
+				_ctx.shadowColor = "rgba(0, 0, 0, 0)";
+				_ctx.shadowBlur = 0;
+				_ctx.shadowOffsetX = 0;
+				_ctx.shadowOffsetY = 0;
+			}
+			_ctx.restore();
 			if (tick % 1e3 > 500) {
 				count = _markers.length;
 				for (i = 0; i < count; ++i) {
@@ -505221,6 +505565,7 @@ var init_MiniMapCommon = __esmMin((() => {
 	init_UIManager();
 	init_GUIComponent();
 	init_Elements();
+	init_WorldMapPreview();
 	init_preload_helper();
 }));
 //#endregion
@@ -505246,7 +505591,7 @@ var init_WorldMap$2 = __esmMin((() => {
 //#region src/UI/Components/WorldMap/WorldMap.css?raw
 var WorldMap_default$1;
 var init_WorldMap$1 = __esmMin((() => {
-	WorldMap_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#loader {\r\n	position: relative;\r\n	transform: translate(-10%, -50%);\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#WorldMap {\r\n	position: fixed;\r\n	top: 0;\r\n	left: 0;\r\n	background: black;\r\n	height: 100%;\r\n	width: 100%;\r\n}\r\n\r\n#WorldMap .hidden {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .titlebar {\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n}\r\n\r\n#WorldMap .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#WorldMap .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#WorldMap .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 17px;\r\n}\r\n\r\n#WorldMap .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#WorldMap .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#WorldMap select {\r\n	height: 17px;\r\n}\r\n\r\n/* V2 */\r\n#WorldMap .worldmap {\r\n	box-sizing: border-box;\r\n	display: grid;\r\n	justify-content: center;\r\n	overflow: auto;\r\n}\r\n\r\n#WorldMap .worldmap * {\r\n	box-sizing: border-box;\r\n}\r\n\r\n#WorldMap .border,\r\n#WorldMap .map,\r\n#WorldMap .content,\r\n#WorldMap .worldmap,\r\n#WorldMap .map-view {\r\n	height: 100%;\r\n}\r\n\r\n#WorldMap .worldmap .map-view {\r\n	position: relative;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n}\r\n\r\n#WorldMap .worldmap .section {\r\n	position: absolute;\r\n	border: 0px;\r\n	border-radius: 4px;\r\n	background-color: rgba(0, 0, 0, 0);\r\n	cursor: pointer;\r\n	overflow: visible;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover,\r\n#WorldMap .worldmap .section.allmapvisible,\r\n#WorldMap .worldmap .section.currentmap,\r\n#WorldMap .worldmap .section.membersonmap {\r\n	border: 1px solid #dddddd7a;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover {\r\n	background-color: rgba(0, 128, 255, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.membersonmap:not(.currentmap) {\r\n	background-color: rgba(128, 255, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap {\r\n	background-color: rgba(255, 128, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section .mapname {\r\n	display: none;\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	color: #65ef83;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n	text-overflow: ellipsis;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap .worldmap .section .mapid {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.allmapvisible .mapid {\r\n	display: block;\r\n	position: absolute;\r\n	bottom: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: 10px;\r\n	color: white;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .airplane {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 32px;\r\n	top: 0px;\r\n	left: 0px;\r\n	transform: rotate(75deg);\r\n	background-repeat: no-repeat;\r\n	background-size: cover;\r\n}\r\n\r\n#WorldMap .showlvl {\r\n	width: 10px;\r\n	height: 12px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#WorldMap .worldmap .section .section-labels {\r\n	position: absolute;\r\n	top: 50%;\r\n	left: 50%;\r\n	transform: translate(-50%, calc(-50% + var(--label-offset-y, 0px)));\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	width: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap .worldmap .section .level-range-text {\r\n	display: none;\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	line-height: 14px;\r\n	font-weight: bold;\r\n	color: #ffffff;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon-stacked) .level-range-text,\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon):not(.is-dungeon-stacked) .mapname:not(:empty) {\r\n	display: block;\r\n}\r\n\r\n#WorldMap .worldmap .section .displayname {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .displayname {\r\n	display: block;\r\n	color: white;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap .displayname {\r\n	display: block;\r\n	color: white;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon {\r\n	border: 0 !important;\r\n	background-color: rgba(255, 0, 0, 0.4) !important;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .section-labels {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-label {\r\n	background-color: transparent !important;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-label .section-labels {\r\n	display: flex;\r\n	pointer-events: auto;\r\n	min-width: 100%;\r\n	width: max-content;\r\n	padding: 3px 5px;\r\n	border-radius: 4px;\r\n	background-color: rgba(255, 0, 0, 0.4);\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked {\r\n	border: 0 !important;\r\n	background-color: transparent !important;\r\n	display: block !important;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked .section-labels {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .connector-line {\r\n	position: absolute;\r\n	height: 1px;\r\n	background-color: rgba(255, 0, 0, 0.5);\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap #map-tooltip {\r\n	position: fixed;\r\n	z-index: 100;\r\n	pointer-events: none;\r\n	width: 190px;\r\n	padding: 5px;\r\n	background-color: rgba(0, 0, 0, 0.85);\r\n	border: 1px solid #666;\r\n	border-radius: 4px;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-img {\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	background-color: #111;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n	background-position: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapname {\r\n	color: gold;\r\n	font-weight: bold;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	padding: 3px 0 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapid {\r\n	color: white;\r\n	text-align: center;\r\n	font-size: 11px;\r\n	padding: 2px 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monster-info {\r\n	margin-top: 4px;\r\n	padding-top: 4px;\r\n	border-top: 1px solid #666;\r\n	color: #ffffff;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monstername {\r\n	color: #65ef83;\r\n	font-size: 11px;\r\n	line-height: 15px;\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monsterlevel {\r\n	margin-top: 2px;\r\n	color: #ffd85a;\r\n	font-size: 10px;\r\n	line-height: 13px;\r\n}\r\n";
+	WorldMap_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#loader {\r\n	position: relative;\r\n	transform: translate(-10%, -50%);\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#WorldMap {\r\n	position: fixed;\r\n	top: 0;\r\n	left: 0;\r\n	background: black;\r\n	height: 100%;\r\n	width: 100%;\r\n}\r\n\r\n#WorldMap .hidden {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .titlebar {\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n}\r\n\r\n#WorldMap .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#WorldMap .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#WorldMap .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 17px;\r\n}\r\n\r\n#WorldMap .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#WorldMap .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#WorldMap select {\r\n	height: 17px;\r\n}\r\n\r\n/* V2 */\r\n#WorldMap .worldmap {\r\n	box-sizing: border-box;\r\n	display: grid;\r\n	justify-content: center;\r\n	overflow: auto;\r\n}\r\n\r\n#WorldMap .worldmap * {\r\n	box-sizing: border-box;\r\n}\r\n\r\n#WorldMap .border,\r\n#WorldMap .map,\r\n#WorldMap .content,\r\n#WorldMap .worldmap,\r\n#WorldMap .map-view {\r\n	height: 100%;\r\n}\r\n\r\n#WorldMap .worldmap .map-view {\r\n	position: relative;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n}\r\n\r\n#WorldMap .worldmap .section {\r\n	position: absolute;\r\n	border: 0px;\r\n	border-radius: 4px;\r\n	background-color: rgba(0, 0, 0, 0);\r\n	cursor: pointer;\r\n	overflow: visible;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover,\r\n#WorldMap .worldmap .section.allmapvisible,\r\n#WorldMap .worldmap .section.currentmap,\r\n#WorldMap .worldmap .section.membersonmap {\r\n	border: 1px solid #dddddd7a;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover {\r\n	background-color: rgba(0, 128, 255, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.membersonmap:not(.currentmap) {\r\n	background-color: rgba(128, 255, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap {\r\n	background-color: rgba(255, 128, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section .mapname {\r\n	display: none;\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	color: #65ef83;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n	text-overflow: ellipsis;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap .worldmap .section .mapid {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.allmapvisible .mapid {\r\n	display: block;\r\n	position: absolute;\r\n	bottom: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: 10px;\r\n	color: white;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .airplane {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 32px;\r\n	top: 0px;\r\n	left: 0px;\r\n	transform: rotate(75deg);\r\n	background-repeat: no-repeat;\r\n	background-size: cover;\r\n}\r\n\r\n#WorldMap .showlvl {\r\n	width: 10px;\r\n	height: 12px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#WorldMap .worldmap .section .section-labels {\r\n	position: absolute;\r\n	top: 50%;\r\n	left: 50%;\r\n	transform: translate(-50%, calc(-50% + var(--label-offset-y, 0px)));\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	width: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap .worldmap .section .level-range-text {\r\n	display: none;\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	line-height: 14px;\r\n	font-weight: bold;\r\n	color: #ffffff;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon-stacked) .level-range-text,\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon):not(.is-dungeon-stacked) .mapname:not(:empty) {\r\n	display: block;\r\n}\r\n\r\n#WorldMap .worldmap .section .displayname {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .displayname {\r\n	display: block;\r\n	color: white;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap .displayname {\r\n	display: block;\r\n	color: white;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon {\r\n	border: 0 !important;\r\n	background-color: rgba(255, 0, 0, 0.4) !important;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .section-labels {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-label {\r\n	background-color: transparent !important;\r\n	pointer-events: none;\r\n	z-index: 1;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-label .section-labels {\r\n	display: flex;\r\n	pointer-events: auto;\r\n	min-width: 100%;\r\n	width: max-content;\r\n	padding: 3px 5px;\r\n	border-radius: 4px;\r\n	background-color: rgba(255, 0, 0, 0.4);\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked {\r\n	border: 0 !important;\r\n	background-color: transparent !important;\r\n	display: block !important;\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked .section-labels {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .connector-line {\r\n	position: absolute;\r\n	height: 1px;\r\n	background-color: rgba(255, 0, 0, 0.5);\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap #map-tooltip {\r\n	position: fixed;\r\n	z-index: 100;\r\n	pointer-events: none;\r\n	width: 190px;\r\n	padding: 5px;\r\n	background-color: rgba(0, 0, 0, 0.85);\r\n	border: 1px solid #666;\r\n	border-radius: 4px;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-img {\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	background-color: #111;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n	background-position: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapname {\r\n	color: gold;\r\n	font-weight: bold;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	padding: 3px 0 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapid {\r\n	color: white;\r\n	text-align: center;\r\n	font-size: 11px;\r\n	padding: 2px 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monster-info {\r\n	margin-top: 4px;\r\n	padding-top: 4px;\r\n	border-top: 1px solid #666;\r\n	color: #ffffff;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monstername {\r\n	color: #65ef83;\r\n	font-size: 11px;\r\n	line-height: 15px;\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monsterlevel {\r\n	margin-top: 2px;\r\n	color: #ffd85a;\r\n	font-size: 10px;\r\n	line-height: 13px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WorldMap/WorldMapState.js
@@ -505337,7 +505682,11 @@ function loadMonsterSummaries() {
 	return _monsterSummariesPromise;
 }
 function populateMonsterSummaries(mapView) {
-	loadMonsterSummaries().then((summaries) => applyMonsterSummaries(mapView, summaries)).catch((error) => console.error("[WorldMap] Failed to load monster summaries:", error));
+	loadMonsterSummaries().then((summaries) => {
+		if (!mapView.isConnected) return;
+		applyMonsterSummaries(mapView, summaries);
+		resizeMap();
+	}).catch((error) => console.error("[WorldMap] Failed to load monster summaries:", error));
 }
 /**
 * Create WorldMap list of maps (select Element)
@@ -505369,6 +505718,8 @@ function selectMap(name = null) {
 	if (!name || name === null || name === "") name = selectEl?.value || "worldmap.jpg";
 	if (selectEl) selectEl.value = name;
 	const requestId = ++_mapLoadRequestId;
+	_hoveredSection = null;
+	hideTooltip();
 	Client.loadFile(DB.INTERFACE_PATH + name, (data) => {
 		if (requestId !== _mapLoadRequestId) return;
 		for (const map of WorldMap_default$3) if (map.id === name) {
@@ -505385,6 +505736,8 @@ function selectMap(name = null) {
 function resizeMap() {
 	const mapContainer = WorldMap.getRoot().querySelector(".map-view");
 	if (!mapContainer) return;
+	_hoveredSection = null;
+	hideTooltip();
 	const currentwidth = typeof Renderer !== "undefined" && Renderer.width || window.innerWidth;
 	const currentheight = (typeof Renderer !== "undefined" && Renderer.height || window.innerHeight) - C_TITLEBARHEIGHT;
 	const xmult = currentwidth / C_BASEWIDTH;
@@ -505394,8 +505747,41 @@ function resizeMap() {
 	mapContainer.style.width = C_BASEWIDTH * mult + "px";
 	mapContainer.style.height = C_BASEHEIGHT * mult + "px";
 	resolveDungeonLabelCollisions(mapContainer);
+	updateDungeonConnectors(mapContainer);
+}
+function updateDungeonConnectors(mapView) {
+	const bounds = mapView.getBoundingClientRect();
+	if (!bounds.width || !bounds.height) return;
+	for (const line of mapView.querySelectorAll(".connector-line")) {
+		const label = [...mapView.querySelectorAll(".is-dungeon-label")].find((el) => el.id === line.dataset.targetMap)?.querySelector(".section-labels");
+		if (!label) continue;
+		const rect = label.getBoundingClientRect();
+		const from = {
+			x: Number(line.dataset.parentX) / C_BASEWIDTH * bounds.width,
+			y: Number(line.dataset.parentY) / C_BASEHEIGHT * bounds.height
+		};
+		const to = {
+			x: rect.left - bounds.left + rect.width / 2,
+			y: rect.top - bounds.top + rect.height / 2
+		};
+		const dx = to.x - from.x, dy = to.y - from.y;
+		const distance = Math.hypot(dx, dy);
+		if (!distance) {
+			line.style.width = "0px";
+			continue;
+		}
+		const ux = dx / distance, uy = dy / distance;
+		const edge = (width, height) => Math.min(ux ? width / 2 / Math.abs(ux) : Infinity, uy ? height / 2 / Math.abs(uy) : Infinity);
+		const start = edge(Number(line.dataset.parentWidth) / C_BASEWIDTH * bounds.width, Number(line.dataset.parentHeight) / C_BASEHEIGHT * bounds.height);
+		const end = edge(rect.width, rect.height);
+		line.style.left = `${from.x + ux * start}px`;
+		line.style.top = `${from.y + uy * start}px`;
+		line.style.width = `${Math.max(0, distance - start - end)}px`;
+		line.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
+	}
 }
 function resolveDungeonLabelCollisions(mapView) {
+	if (!mapView.getBoundingClientRect().width) return;
 	const labels = [...mapView.querySelectorAll(".section.is-dungeon-label .section-labels")].sort((left, right) => {
 		const leftRect = left.parentElement.getBoundingClientRect();
 		const rightRect = right.parentElement.getBoundingClientRect();
@@ -505403,8 +505789,8 @@ function resolveDungeonLabelCollisions(mapView) {
 	});
 	const mapRect = mapView.getBoundingClientRect();
 	const placed = [];
+	for (const label of labels) label.style.removeProperty("--label-offset-y");
 	for (const label of labels) {
-		label.style.removeProperty("--label-offset-y");
 		const offset = chooseDungeonLabelOffset(label.getBoundingClientRect(), mapRect, placed);
 		label.style.setProperty("--label-offset-y", `${offset}px`);
 		placed.push(label.getBoundingClientRect());
@@ -505545,6 +505931,11 @@ function createWorldMapView(map, imgData) {
 				if (!renderedConnectorPaths.has(connectorKey)) {
 					const line = document.createElement("div");
 					line.className = "connector-line";
+					line.dataset.targetMap = section.id;
+					line.dataset.parentX = parentPos.x;
+					line.dataset.parentY = parentPos.y;
+					line.dataset.parentWidth = parentW;
+					line.dataset.parentHeight = parentH;
 					line.style.left = `${startX / C_BASEWIDTH * 100}%`;
 					line.style.top = `${startY / C_BASEHEIGHT * 100}%`;
 					line.style.width = `${newLength / C_BASEWIDTH * 100}%`;
@@ -505579,7 +505970,7 @@ function createWorldMapView(map, imgData) {
 		const el_displayname = document.createElement("div");
 		el_displayname.className = "displayname";
 		if (sectionType === 1) {
-			const name = section.name.replace(" 1", "").trim();
+			const name = section.name.trim();
 			el_displayname.textContent = name;
 			el.setAttribute("data-displayname", name);
 		} else {
@@ -505652,7 +506043,11 @@ function onToggleMaps() {
 function onShowLVL() {
 	WorldMap.showLVLMode = !WorldMap.showLVLMode;
 	const root = WorldMap.getRoot();
+	const showLevels = WorldMap.showLVLMode;
+	_hoveredSection = null;
+	hideTooltip();
 	Client.loadFile(DB.INTERFACE_PATH + "checkbox_" + (WorldMap.showLVLMode ? "1" : "0") + ".bmp", function(data) {
+		if (showLevels !== WorldMap.showLVLMode) return;
 		const btn = root.querySelector(".showlvl");
 		if (btn) btn.style.backgroundImage = "url(" + data + ")";
 	});
@@ -510430,6 +510825,12 @@ var init_WinStats$2 = __esmMin((() => {
 	WinStats_default$1 = ":host {\r\n	width: 280px;\r\n	height: 130px;\r\n	top: 200px;\r\n	left: 200px;\r\n}\r\n\r\n#WinStats {\r\n	position: absolute;\r\n	width: 280px;\r\n	height: 130px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#WinStats .titlebar {\r\n	width: 280px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#WinStats .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#WinStats .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#WinStats .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#WinStats .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#WinStats .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#WinStats .panel {\r\n	height: 103px;\r\n}\r\n#WinStats .group {\r\n	position: absolute;\r\n	top: 23px;\r\n}\r\n#WinStats .group div {\r\n	height: 16px;\r\n	display: block;\r\n}\r\n#WinStats .stats {\r\n	left: 53px;\r\n}\r\n#WinStats .bonus {\r\n	left: 70px;\r\n}\r\n#WinStats .requirements {\r\n	left: 96px;\r\n	text-align: right;\r\n	width: 12px;\r\n}\r\n#WinStats .column1 {\r\n	top: 23px;\r\n	right: 87px;\r\n	text-align: right;\r\n}\r\n#WinStats .column2 {\r\n	top: 23px;\r\n	right: 5px;\r\n	text-align: right;\r\n}\r\n#WinStats .up {\r\n	left: 89px;\r\n	top: 18px;\r\n}\r\n#WinStats .up button {\r\n	display: block;\r\n	margin-top: 5px;\r\n	border: none;\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n";
 }));
 //#endregion
+//#region src/UI/Components/WinStats/WinStatsNumbers.css?raw
+var WinStatsNumbers_default;
+var init_WinStatsNumbers = __esmMin((() => {
+	WinStatsNumbers_default = ":host { width: 407px; max-width: 100vw; }\r\n#WinStats, #WinStats .titlebar { width: 407px; }\r\n#WinStats .traits_component, #WinStats .traits_panel { width: 407px; }\r\n#WinStats .group > div, #WinStats .trait > div { white-space: nowrap; font-variant-numeric: tabular-nums; }\r\n#WinStats .stats { left: 37px; width: 36px; text-align: right; }\r\n#WinStats .bonus { left: 79px; width: 26px; text-align: left; }\r\n#WinStats .up, #WinStats .t_up { left: 109px; }\r\n#WinStats .requirements, #WinStats .t_requirements { left: 131px; width: 23px; text-align: left; }\r\n#WinStats .group.column1, #WinStats .group.t_column1 { right: 130px; }\r\n#WinStats .group.column2, #WinStats .group.t_column2 { right: 5px; }\r\n#WinStats .column1_tooltip, #WinStats .t_column1_tooltip { left: 157px; width: 125px; }\r\n#WinStats .column2_tooltip, #WinStats .t_column2_tooltip { left: 282px; width: 125px; }\r\n#WinStats .column1_tooltip > div, #WinStats .t_column1_tooltip > div,\r\n#WinStats .column2_tooltip > div, #WinStats .t_column2_tooltip > div { width: 125px; }\r\n#WinStats .trait_point { left: 125px; }\r\n";
+}));
+//#endregion
 //#region src/UI/Components/WinStats/WinStatsCommon.js
 /**
 * Factory: creates a WinStats GUIComponent
@@ -510440,7 +510841,7 @@ var init_WinStats$2 = __esmMin((() => {
 * @param {boolean} hasTraits - whether this version has trait stats
 */
 function createWinStats({ name, htmlText, cssText, hasTraits }) {
-	const Component = new GUIComponent(name, cssText);
+	const Component = new GUIComponent(name, cssText + WinStatsNumbers_default);
 	Component.render = () => htmlText;
 	const _preferences = Preferences.get("WinStats", {
 		x: 0,
@@ -510481,6 +510882,45 @@ function createWinStats({ name, htmlText, cssText, hasTraits }) {
 		this.t_statuspoint = 0;
 		this.draggable(".titlebar");
 		_root = this.getRoot();
+		for (const panel of _root.querySelectorAll(".panel[data-background], .common_stats, .traits_panel")) {
+			const resource = panel.dataset.background;
+			if (!resource) continue;
+			Client.loadFile(DB.INTERFACE_PATH + resource, (source) => {
+				if (!source) return;
+				const image = new Image();
+				image.onload = () => {
+					const canvas = document.createElement("canvas");
+					canvas.width = 407;
+					canvas.height = image.naturalHeight;
+					const context = canvas.getContext("2d");
+					const original = [
+						0,
+						37,
+						75,
+						85,
+						105,
+						140,
+						195,
+						230,
+						280
+					];
+					const expanded = [
+						0,
+						37,
+						77,
+						107,
+						157,
+						192,
+						282,
+						317,
+						407
+					];
+					for (let i = 0; i < original.length - 1; i++) context.drawImage(image, original[i], 0, original[i + 1] - original[i], canvas.height, expanded[i], 0, expanded[i + 1] - expanded[i], canvas.height);
+					panel.style.setProperty("background-image", `url(${canvas.toDataURL()})`, "important");
+				};
+				image.src = source;
+			});
+		}
 		_root.querySelectorAll(".up button").forEach((btn) => {
 			btn.addEventListener("mousedown", () => {
 				const id = statButtonMap[btn.className];
@@ -510725,6 +511165,7 @@ var init_WinStatsCommon = __esmMin((() => {
 	init_SessionStorage();
 	init_Preferences$1();
 	init_Renderer();
+	init_WinStatsNumbers();
 }));
 //#endregion
 //#region src/UI/Components/WinStats/WinStats/WinStats.js
@@ -522928,307 +523369,6 @@ var init_CatalogBrowser = __esmMin((() => {
 	init_GameSelect();
 }));
 //#endregion
-//#region src/UI/Components/GameTools/WorldAssetService.js
-function loadNpcAssets() {
-	if (!npcAssetsPromise) npcAssetsPromise = fetch(new URL("./data/world/npc-assets.json", window.location.href)).then((response) => {
-		if (!response.ok) throw new Error(`NPC assets request failed: ${response.status}`);
-		return response.json();
-	});
-	return npcAssetsPromise;
-}
-function npcAtlasStyle(manifest, npcClass, displaySize) {
-	const sprite = manifest?.sprites?.[npcClass];
-	if (!sprite) return "";
-	const { tileSize, columns, rows } = manifest.atlas;
-	const scale = displaySize / tileSize;
-	const column = sprite.tile % columns;
-	const row = Math.floor(sprite.tile / columns);
-	return [
-		`background-image:url('./data/world/npc-atlas-${sprite.atlas}.webp')`,
-		`background-size:${columns * tileSize * scale}px ${rows * tileSize * scale}px`,
-		`background-position:${-column * displaySize}px ${-row * displaySize}px`
-	].join(";");
-}
-function loadClientFile(path) {
-	return new Promise((resolve) => Client.loadFile(path, (data) => resolve(data || null)));
-}
-function getMapPaths(mapName) {
-	const normalized = String(mapName || "").replace(/\.gat$/i, "").toLocaleLowerCase();
-	const miniMapBaseName = MiniMapTable_default[normalized] || normalized;
-	let bmpPath = `${DB.INTERFACE_PATH.replace("data/texture/", "")}map/${miniMapBaseName}.bmp`.replace(/\//g, "\\");
-	bmpPath = DB.mapalias[bmpPath] || bmpPath;
-	let gatPath = `${normalized}.gat`.replace(/\//g, "\\");
-	gatPath = DB.mapalias[gatPath] || gatPath;
-	return {
-		normalized,
-		miniMapBaseName,
-		bmpPath,
-		gatPath
-	};
-}
-function loadCatalogMapImage(mapName) {
-	const paths = getMapPaths(mapName);
-	if (!mapImagePromises.has(paths.normalized)) mapImagePromises.set(paths.normalized, loadNpcAssets().then((assets) => assets.mapImages?.includes(paths.miniMapBaseName) ? loadClientFile(`data/texture/${paths.bmpPath}`) : null));
-	return mapImagePromises.get(paths.normalized);
-}
-function loadImageDimensions(source) {
-	if (!source) return Promise.resolve(null);
-	return new Promise((resolve) => {
-		const image = new Image();
-		image.onload = () => resolve({
-			width: image.naturalWidth,
-			height: image.naturalHeight
-		});
-		image.onerror = () => resolve(null);
-		image.src = source;
-	});
-}
-async function loadCatalogMap(mapName) {
-	const paths = getMapPaths(mapName);
-	if (!mapResourcePromises.has(paths.normalized)) mapResourcePromises.set(paths.normalized, Promise.all([loadCatalogMapImage(paths.normalized), loadClientFile(`data/${paths.gatPath}`)]).then(async ([image, gat]) => {
-		const dimensions = gat?.width && gat?.height ? null : await loadImageDimensions(image);
-		return {
-			image,
-			gat: gat?.width && gat?.height ? gat : dimensions,
-			mapName: paths.normalized
-		};
-	}));
-	return mapResourcePromises.get(paths.normalized);
-}
-function canvasToMapCoordinate(canvas, event, gat) {
-	const grid = gat?.width && gat?.height ? gat : {
-		width: canvas.width,
-		height: canvas.height
-	};
-	const rect = canvas.getBoundingClientRect();
-	const scaleX = (canvas.width || rect.width) / (rect.width || 1);
-	const scaleY = (canvas.height || rect.height) / (rect.height || 1);
-	const canvasX = (event.clientX - rect.left) * scaleX;
-	const canvasY = (event.clientY - rect.top) * scaleY;
-	return canvasPointToMap(canvas._mapFitRect || fittedMapRect(canvas.width, canvas.height, grid.width, grid.height), grid, canvasX, canvasY);
-}
-function findNearestWalkableCoordinate(gat, target, maxRadius = 12) {
-	if (!target) return null;
-	if (!gat?.cells) return target;
-	const isWalkable = (x, y) => {
-		if (x < 0 || y < 0 || x >= gat.width || y >= gat.height) return false;
-		return (gat.cells[(y * gat.width + x) * 5 + 4] & Altitude.TYPE.WALKABLE) !== 0;
-	};
-	if (isWalkable(target.x, target.y)) return target;
-	for (let radius = 1; radius <= maxRadius; radius += 1) for (let offset = -radius; offset <= radius; offset += 1) for (const [x, y] of [
-		[target.x + offset, target.y - radius],
-		[target.x + offset, target.y + radius],
-		[target.x - radius, target.y + offset],
-		[target.x + radius, target.y + offset]
-	]) if (isWalkable(x, y)) return {
-		x,
-		y
-	};
-	return target;
-}
-function findDefaultMapCoordinate(gat) {
-	if (!gat?.width || !gat?.height) return null;
-	return findNearestWalkableCoordinate(gat, {
-		x: Math.floor(gat.width / 2),
-		y: Math.floor(gat.height / 2)
-	}, Math.max(gat.width, gat.height));
-}
-var npcAssetsPromise, mapImagePromises, mapResourcePromises;
-var init_WorldAssetService = __esmMin((() => {
-	init_Client();
-	init_DBManager();
-	init_MiniMapTable();
-	init_Altitude();
-	init_MapPreviewLayout();
-	mapImagePromises = /* @__PURE__ */ new Map();
-	mapResourcePromises = /* @__PURE__ */ new Map();
-}));
-//#endregion
-//#region src/UI/Components/GameTools/WorldMapPreview.js
-function loadPlayerArrow() {
-	if (playerArrow?.complete && playerArrow.width) return Promise.resolve(playerArrow);
-	if (playerArrowPromise) return playerArrowPromise;
-	playerArrow = new Image();
-	playerArrow.decoding = "async";
-	playerArrowPromise = new Promise((resolve) => {
-		Client.loadFile(`${DB.INTERFACE_PATH}map/map_arrow.bmp`, (dataURI) => {
-			if (!dataURI) {
-				playerArrowPromise = null;
-				resolve(null);
-				return;
-			}
-			playerArrow.onload = () => resolve(playerArrow);
-			playerArrow.onerror = () => {
-				playerArrowPromise = null;
-				resolve(null);
-			};
-			playerArrow.src = dataURI;
-		});
-	});
-	return playerArrowPromise;
-}
-function previewFit(canvas, coordinateGrid, sourceWidth, sourceHeight) {
-	const width = coordinateGrid?.width || sourceWidth || canvas.width;
-	const height = coordinateGrid?.height || sourceHeight || canvas.height;
-	canvas._mapFitRect = fittedMapRect(canvas.width, canvas.height, width, height);
-	return canvas._mapFitRect;
-}
-function mapToCanvas(canvas, coordinateGrid, point) {
-	return mapPointToCanvas(canvas._mapFitRect || fittedMapRect(canvas.width, canvas.height, coordinateGrid.width, coordinateGrid.height), coordinateGrid, point);
-}
-function drawDot(context, point, radius, fill) {
-	if (!point) return;
-	context.beginPath();
-	context.arc(point.x, point.y, radius, 0, Math.PI * 2);
-	context.fillStyle = fill;
-	context.fill();
-	context.strokeStyle = "#fff";
-	context.lineWidth = 2;
-	context.stroke();
-}
-function drawMarker(context, canvas, marker, coordinateGrid, color = NPC_MARKER_COLOR, radius = 6) {
-	if (!marker || !coordinateGrid?.width || !coordinateGrid?.height) return;
-	drawDot(context, mapToCanvas(canvas, coordinateGrid, marker), radius, color);
-}
-function drawNpcMarker(context, canvas, npc, coordinateGrid) {
-	drawMarker(context, canvas, npc, coordinateGrid, NPC_MARKER_COLOR, 7);
-}
-function drawPath(context, canvas, path, coordinateGrid) {
-	if (!path?.length || !coordinateGrid?.width || !coordinateGrid?.height) return;
-	context.save();
-	context.beginPath();
-	path.forEach((point, index) => {
-		const position = mapToCanvas(canvas, coordinateGrid, point);
-		if (index === 0) context.moveTo(position.x, position.y);
-		else context.lineTo(position.x, position.y);
-	});
-	context.strokeStyle = "#29d8e8";
-	context.lineWidth = 3;
-	context.lineJoin = "round";
-	context.lineCap = "round";
-	context.shadowColor = "rgba(0, 0, 0, 0.75)";
-	context.shadowBlur = 2;
-	context.stroke();
-	context.restore();
-}
-function drawPlayer(context, canvas, player, coordinateGrid) {
-	if (!player || !coordinateGrid?.width || !coordinateGrid?.height) return;
-	const point = mapToCanvas(canvas, coordinateGrid, player);
-	if (!point) return;
-	if (!playerArrow?.complete || !playerArrow.width) return;
-	const direction = Number.isFinite(player.direction) ? player.direction : SessionStorage_default.Entity?.direction ?? 0;
-	context.save();
-	context.translate(point.x, point.y);
-	context.rotate((direction + 4) * 45 * Math.PI / 180);
-	context.drawImage(playerArrow, -playerArrow.width / 2, -playerArrow.height / 2);
-	context.restore();
-}
-function drawWalkableMapPreview(context, canvas, coordinateGrid, fit) {
-	if (!coordinateGrid?.cells || !coordinateGrid.width || !coordinateGrid.height) return false;
-	const mapFit = fit || fittedMapRect(canvas.width, canvas.height, coordinateGrid.width, coordinateGrid.height);
-	const image = context.createImageData(canvas.width, canvas.height);
-	for (let pixelY = 0; pixelY < canvas.height; pixelY += 1) {
-		const mapY = coordinateGrid.height - 1 - Math.floor((pixelY - mapFit.y) / mapFit.height * coordinateGrid.height);
-		for (let pixelX = 0; pixelX < canvas.width; pixelX += 1) {
-			const mapX = Math.floor((pixelX - mapFit.x) / mapFit.width * coordinateGrid.width);
-			const offset = (pixelY * canvas.width + pixelX) * 4;
-			if (mapX < 0 || mapY < 0 || mapX >= coordinateGrid.width || mapY >= coordinateGrid.height) {
-				image.data[offset] = 23;
-				image.data[offset + 1] = 25;
-				image.data[offset + 2] = 28;
-				image.data[offset + 3] = 255;
-				continue;
-			}
-			const type = coordinateGrid.cells[(mapY * coordinateGrid.width + mapX) * 5 + 4];
-			if (type & Altitude.TYPE.WATER) {
-				image.data[offset] = 65;
-				image.data[offset + 1] = 125;
-				image.data[offset + 2] = 153;
-			} else if (type & Altitude.TYPE.WALKABLE) {
-				image.data[offset] = 190;
-				image.data[offset + 1] = 198;
-				image.data[offset + 2] = 184;
-			} else if (type & Altitude.TYPE.SNIPABLE) {
-				image.data[offset] = 91;
-				image.data[offset + 1] = 99;
-				image.data[offset + 2] = 94;
-			} else {
-				image.data[offset] = 23;
-				image.data[offset + 1] = 25;
-				image.data[offset + 2] = 28;
-			}
-			image.data[offset + 3] = 255;
-		}
-	}
-	context.putImageData(image, 0, 0);
-	return true;
-}
-function drawWorldMapPreview(canvas, imageSource, marker, coordinateGrid, overlays = {}) {
-	const renderToken = (canvas._worldMapRenderToken || 0) + 1;
-	canvas._worldMapRenderToken = renderToken;
-	syncMapPreviewCanvas(canvas);
-	const context = canvas.getContext("2d");
-	previewFit(canvas, coordinateGrid);
-	context.clearRect(0, 0, canvas.width, canvas.height);
-	context.fillStyle = "#17191c";
-	context.fillRect(0, 0, canvas.width, canvas.height);
-	const drawOverlays = () => {
-		drawPath(context, canvas, overlays.path, coordinateGrid);
-		drawNpcMarker(context, canvas, overlays.selectedNpc, coordinateGrid);
-		drawMarker(context, canvas, marker, coordinateGrid, NPC_MARKER_COLOR);
-		if (!overlays.player) return;
-		if (playerArrow?.complete && playerArrow.width) {
-			drawPlayer(context, canvas, overlays.player, coordinateGrid);
-			return;
-		}
-		loadPlayerArrow().then((arrow) => {
-			if (!arrow || canvas._worldMapRenderToken !== renderToken) return;
-			drawPlayer(context, canvas, overlays.player, coordinateGrid);
-		});
-	};
-	const drawFallback = () => {
-		if (canvas._worldMapRenderToken !== renderToken) return;
-		previewFit(canvas, coordinateGrid);
-		if (drawWalkableMapPreview(context, canvas, coordinateGrid, canvas._mapFitRect)) {
-			drawOverlays();
-			return;
-		}
-		context.fillStyle = "#b9bec4";
-		context.textAlign = "center";
-		context.fillText("暂无图片", canvas.width / 2, canvas.height / 2);
-	};
-	if (!imageSource) {
-		drawFallback();
-		return;
-	}
-	const image = new Image();
-	image.decoding = "async";
-	image.onload = () => {
-		if (canvas._worldMapRenderToken !== renderToken) return;
-		previewFit(canvas, coordinateGrid, image.naturalWidth, image.naturalHeight);
-		const mapFit = canvas._mapFitRect;
-		const source = mapImageSourceRect(image.naturalWidth, image.naturalHeight, coordinateGrid);
-		context.clearRect(0, 0, canvas.width, canvas.height);
-		context.fillStyle = "#17191c";
-		context.fillRect(0, 0, canvas.width, canvas.height);
-		context.drawImage(image, source.x, source.y, source.width, source.height, mapFit.x, mapFit.y, mapFit.width, mapFit.height);
-		drawOverlays();
-	};
-	image.onerror = drawFallback;
-	image.src = imageSource;
-}
-var playerArrow, playerArrowPromise, NPC_MARKER_COLOR;
-var init_WorldMapPreview = __esmMin((() => {
-	init_Client();
-	init_DBManager();
-	init_SessionStorage();
-	init_Altitude();
-	init_MapPreviewLayout();
-	playerArrow = null;
-	playerArrowPromise = null;
-	NPC_MARKER_COLOR = "#2f80ed";
-}));
-//#endregion
 //#region src/UI/Components/GameTools/NpcCatalogTab.js
 function loadAdventureNpcCatalog() {
 	const catalogKey = SessionStorage_default.NavigationMapChannelsEnabled ? "channels" : "shared";
@@ -523696,7 +523836,7 @@ function mount$3(container) {
 				loadCatalogMap(map.mapName).then((resource) => {
 					if (token !== loadToken) return;
 					loadedMap = resource;
-					selectedCoordinate = findDefaultMapCoordinate(resource?.gat) || selectedCoordinate;
+					if (selectedCoordinate?.random && normalizeAdventureMap(map.mapName) !== getCurrentAdventureMap()) selectedCoordinate = findDefaultMapCoordinate(resource?.gat) || selectedCoordinate;
 					api.refreshDetail();
 				});
 				const mapNpcsForCheck = filterNpcsOnMap(catalogNpcs, map.mapName);
@@ -523735,7 +523875,7 @@ function mount$3(container) {
 			const routeMatches = Boolean(routeTarget && routeState.target && normalizeAdventureMap(routeState.target.mapName) === normalizeAdventureMap(routeTarget.mapName) && routeState.target.x === routeTarget.x && routeState.target.y === routeTarget.y);
 			const routeActive = routeMatches && routeState.active;
 			const targetActionState = getAdventureActionState(target);
-			const canTeleport = target && !target.random && loadedMap && Number.isFinite(target.x) && Number.isFinite(target.y) && targetActionState.canTeleport;
+			const canTeleport = target && (!target.random || sameMap) && loadedMap && Number.isFinite(target.x) && Number.isFinite(target.y) && targetActionState.canTeleport;
 			const currentMapName = DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
 			const routeMessage = !sameMap ? "寻路仅支持角色当前所在地图" : routeMatches ? routeState.message : "";
 			const mapNpcs = filterNpcsOnMap(catalogNpcs, map.mapName);
@@ -524751,7 +524891,7 @@ function validationMessage(input) {
 	if (validity.patternMismatch) return "输入格式不正确";
 	return "请检查输入内容";
 }
-var preferences, GameTools, cleanupTab, capabilities, GameTools_default;
+var preferences, GameTools, cleanupTab, capabilities, shouldRestoreAfterMapLoad, GameTools_default;
 var init_GameTools = __esmMin((() => {
 	init_GUIComponent();
 	init_UIManager();
@@ -524776,6 +524916,7 @@ var init_GameTools = __esmMin((() => {
 	registerGameToolsTab(GameSettingsTab_default);
 	preferences = Preferences.get("GameTools", { tab: "maps" }, 2);
 	GameTools = new GUIComponent("GameTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default);
+	shouldRestoreAfterMapLoad = false;
 	GameTools.render = () => GameTools_default$2;
 	GameTools.init = function init() {
 		const root = this.getRoot();
@@ -524812,6 +524953,16 @@ var init_GameTools = __esmMin((() => {
 	};
 	GameTools.onAppend = function onAppend() {
 		this.centerInViewport();
+	};
+	GameTools.prepareMapTransition = function prepareMapTransition() {
+		shouldRestoreAfterMapLoad = Boolean(this.__active && this._host?.isConnected && this._host.style.display !== "none");
+	};
+	GameTools.restoreAfterMapLoad = function restoreAfterMapLoad() {
+		if (!shouldRestoreAfterMapLoad) return;
+		shouldRestoreAfterMapLoad = false;
+		this.append();
+		this._host.style.display = "";
+		this.focus();
 	};
 	GameTools.centerInViewport = function centerInViewport() {
 		const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
@@ -619397,6 +619548,8 @@ function onConnectionRefused$2(pkt) {
 * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
 */
 function onMapChange(pkt) {
+	GameTools_default.prepareMapTransition();
+	Navigation_default.prepareMapTransition();
 	MapRenderer.onLoad = () => {
 		SessionStorage_default.Entity.set({
 			PosDir: [
@@ -619485,6 +619638,7 @@ function onMapChange(pkt) {
 		MobileUI_default.append();
 		JoystickUI_default.append();
 		Navigation_default.append();
+		GameTools_default.restoreAfterMapLoad();
 		Roulette_default.append();
 		if (Configs.get("enableAchievements") && PacketVerManager_default.value >= 20150513) Achievement_default.append();
 		if (SessionStorage_default.PCGoldTimer) PCGoldTimer_default.append();

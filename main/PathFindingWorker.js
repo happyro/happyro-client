@@ -97,7 +97,10 @@
 			const currentY = current[1];
 			const currentKey = getKey(currentX, currentY);
 			if (currentX === endX && currentY === endY) {
-				const path = [];
+				const path = [{
+					x: currentX,
+					y: currentY
+				}];
 				let key = currentKey;
 				while (cameFrom.has(key)) {
 					const [x, y, isWarp, warpId] = cameFrom.get(key);
@@ -105,14 +108,11 @@
 						x: parseInt(x),
 						y: parseInt(y),
 						isWarp,
-						warpId
+						warpId,
+						warpSource: isWarp ? warps.find((warp) => warp.id === warpId) : void 0
 					});
 					key = getKey(x, y);
 				}
-				path.unshift({
-					x: startX,
-					y: startY
-				});
 				return path;
 			}
 			if (existingPathLookup.has(currentKey) && existingPathLookup.get(currentKey) >= minRecalculationPoints) {
@@ -125,15 +125,12 @@
 						x: parseInt(x),
 						y: parseInt(y),
 						isWarp,
-						warpId
+						warpId,
+						warpSource: isWarp ? warps.find((warp) => warp.id === warpId) : void 0
 					});
 					key = getKey(x, y);
 				}
-				newPath.unshift({
-					x: startX,
-					y: startY
-				});
-				if (pathIndex < existingPath.length - 1) for (let i = pathIndex + 1; i < existingPath.length; i++) newPath.push(existingPath[i]);
+				for (let i = pathIndex; i < existingPath.length; i++) newPath.push(existingPath[i]);
 				return newPath;
 			}
 			closedSet.add(currentKey);
