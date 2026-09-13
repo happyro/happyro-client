@@ -56,7 +56,8 @@
 /** Content **/
 #chatbox .body {
 	background: rgba(0, 0, 0, 0.5);
-	border: 2px solid rgba(190, 230, 255, 0.95);
+	border-left: 1px solid white;
+	border-right: 1px solid white;
 	border-radius: 0px 3px 0px 0px;
 	padding: 0px 5px 5px 5px;
 	margin-left: 3px;
@@ -95,8 +96,8 @@
 	width: 592px;
 	height: 25px;
 	position: relative;
-	border-left: 2px solid rgba(190, 230, 255, 0.95);
-	border-right: 2px solid rgba(190, 230, 255, 0.95);
+	border-left: 1px solid white;
+	border-right: 1px solid white;
 	border-top: 1px solid grey;
 	background-color: rgba(0, 0, 0, 0.5);
 	margin-left: 3px;
@@ -232,6 +233,8 @@
 	width: 15px;
 	height: 10px;
 }
-:host .chat-function button[aria-pressed="true"] {
-	outline: 1px solid #2877b8;
+#chatbox .chat-function .stickfucn[aria-pressed="true"],
+#chatbox .chat-function .lockdragwnd[aria-pressed="true"] {
+	outline: 1px solid #ffe16b;
+	outline-offset: 1px;
 }

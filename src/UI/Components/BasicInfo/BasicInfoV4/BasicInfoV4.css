@@ -155,12 +155,12 @@
 #BasicInfoV4 .large .extra {
 	position: absolute;
 	top: 119px;
-	right: -15px;
-	width: 100%;
-	padding-right: 20px;
+	left: 10px;
+	right: 10px;
+	width: auto;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	text-align: right;
+	text-align: left;
 	white-space: nowrap;
 }
 #BasicInfoV4 .buttons {
@@ -207,6 +207,9 @@
 	position: absolute;
 	top: 36px;
 	left: 10px;
+	right: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 #BasicInfoV4 .toggle_btns {
@@ -250,3 +253,11 @@
 	pointer-events: none;
 	top: -5px;
 }
+#BasicInfoV4 .hp_title,
+#BasicInfoV4 .sp_title,
+#BasicInfoV4 .hp_value,
+#BasicInfoV4 .hp_max_value,
+#BasicInfoV4 .sp_value,
+#BasicInfoV4 .sp_max_value,
+#BasicInfoV4 .hp_perc,
+#BasicInfoV4 .sp_perc { font-weight: normal; }

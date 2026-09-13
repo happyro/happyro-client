@@ -328,6 +328,8 @@ export function createBasicInfo(config) {
 
 		inner.classList.toggle('small');
 		inner.classList.toggle('large');
+		_preferences.reduce = inner.classList.contains('small');
+		_preferences.save();
 
 		if (hasToolbarToggle) {
 			applyToolbarButtons(root);
