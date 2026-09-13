@@ -233545,7 +233545,12985 @@ var init_NpcInstanceNameTable = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Navigation/MapCatalog.json
+var schema$1, version$2, sources, entries$1, MapCatalog_default;
+var init_MapCatalog = __esmMin((() => {
+	schema$1 = "happyro-map-catalog/v1";
+	version$2 = "99bf12e2620a60fe";
+	sources = ["happyro-server/db/map_index.txt", "happyro-client/src/DB/Map/{SupportedMapTable,WorldMap,MapTable,MiniMapTable,MapChannels}.js"];
+	entries$1 = [
+		{
+			"id": 1,
+			"map": "alb_ship",
+			"name": "艾尔贝塔船",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alb_ship",
+			"image_map": "alb_ship",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 2,
+			"map": "alb2trea",
+			"name": "艾尔贝塔岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alb2trea",
+			"image_map": "alb2trea",
+			"image_kind": "image"
+		},
+		{
+			"id": 3,
+			"map": "alberta",
+			"name": "艾尔贝塔，商人之城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alberta",
+			"image_map": "alberta",
+			"image_kind": "image"
+		},
+		{
+			"id": 4,
+			"map": "alberta_in",
+			"name": "艾尔贝塔内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alberta_in",
+			"image_map": "alberta_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 5,
+			"map": "alde_dun01",
+			"name": "钟楼 B1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alde_dun01",
+			"image_map": "alde_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 6,
+			"map": "alde_dun02",
+			"name": "钟楼 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alde_dun02",
+			"image_map": "alde_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 7,
+			"map": "alde_dun03",
+			"name": "钟楼 B3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alde_dun03",
+			"image_map": "alde_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 8,
+			"map": "alde_dun04",
+			"name": "钟楼 B4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alde_dun04",
+			"image_map": "alde_dun04",
+			"image_kind": "image"
+		},
+		{
+			"id": 9,
+			"map": "aldeba_in",
+			"name": "艾尔帕兰内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "aldeba_in",
+			"image_map": "aldeba_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 10,
+			"map": "aldebaran",
+			"name": "艾尔帕兰",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "aldebaran",
+			"image_map": "aldebaran",
+			"image_kind": "image"
+		},
+		{
+			"id": 11,
+			"map": "anthell01",
+			"name": "蚂蚁地狱地下城 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "anthell01",
+			"image_map": "anthell01",
+			"image_kind": "image"
+		},
+		{
+			"id": 12,
+			"map": "anthell02",
+			"name": "蚂蚁地狱迷宫 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "anthell02",
+			"image_map": "anthell02",
+			"image_kind": "image"
+		},
+		{
+			"id": 13,
+			"map": "arena_room",
+			"name": "等候室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "arena_room",
+			"image_map": "arena_room",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 14,
+			"map": "c_tower1",
+			"name": "钟楼 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "c_tower1",
+			"image_map": "c_tower1",
+			"image_kind": "image"
+		},
+		{
+			"id": 15,
+			"map": "c_tower2",
+			"name": "钟楼 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "c_tower2",
+			"image_map": "c_tower2",
+			"image_kind": "image"
+		},
+		{
+			"id": 16,
+			"map": "c_tower3",
+			"name": "钟楼 3层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "c_tower3",
+			"image_map": "c_tower3",
+			"image_kind": "image"
+		},
+		{
+			"id": 17,
+			"map": "c_tower4",
+			"name": "钟楼 4层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "c_tower4",
+			"image_map": "c_tower4",
+			"image_kind": "image"
+		},
+		{
+			"id": 18,
+			"map": "force_1-1",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_1-1",
+			"image_map": "force_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 19,
+			"map": "force_1-2",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_1-2",
+			"image_map": "force_1-2",
+			"image_kind": null
+		},
+		{
+			"id": 20,
+			"map": "force_1-3",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_1-3",
+			"image_map": "force_1-3",
+			"image_kind": null
+		},
+		{
+			"id": 21,
+			"map": "force_2-1",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_2-1",
+			"image_map": "force_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 22,
+			"map": "force_2-2",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_2-2",
+			"image_map": "force_2-2",
+			"image_kind": null
+		},
+		{
+			"id": 23,
+			"map": "force_2-3",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_2-3",
+			"image_map": "force_2-3",
+			"image_kind": null
+		},
+		{
+			"id": 24,
+			"map": "force_3-1",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_3-1",
+			"image_map": "force_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 25,
+			"map": "force_3-2",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_3-2",
+			"image_map": "force_3-2",
+			"image_kind": null
+		},
+		{
+			"id": 26,
+			"map": "force_3-3",
+			"name": "限时战斗",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_3-3",
+			"image_map": "force_3-3",
+			"image_kind": null
+		},
+		{
+			"id": 27,
+			"map": "gef_dun00",
+			"name": "吉芬迷宫 B1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_dun00",
+			"image_map": "gef_dun00",
+			"image_kind": "image"
+		},
+		{
+			"id": 28,
+			"map": "gef_dun01",
+			"name": "吉芬地下城 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_dun01",
+			"image_map": "gef_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 29,
+			"map": "gef_dun02",
+			"name": "吉芬地下城 B3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_dun02",
+			"image_map": "gef_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 30,
+			"map": "gef_dun03",
+			"name": "吉芬尼亚迷宫",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_dun03",
+			"image_map": "gef_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 31,
+			"map": "gef_fild00",
+			"name": "吉芬原野 00",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild00",
+			"image_map": "gef_fild00",
+			"image_kind": "image"
+		},
+		{
+			"id": 32,
+			"map": "gef_fild01",
+			"name": "吉芬原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild01",
+			"image_map": "gef_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 33,
+			"map": "gef_fild02",
+			"name": "吉芬原野 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild02",
+			"image_map": "gef_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 34,
+			"map": "gef_fild03",
+			"name": "吉芬原野 03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild03",
+			"image_map": "gef_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 35,
+			"map": "gef_fild04",
+			"name": "吉芬原野 04",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild04",
+			"image_map": "gef_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 36,
+			"map": "gef_fild05",
+			"name": "吉芬原野 05",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild05",
+			"image_map": "gef_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 37,
+			"map": "gef_fild06",
+			"name": "吉芬原野 06",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild06",
+			"image_map": "gef_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 38,
+			"map": "gef_fild07",
+			"name": "吉芬原野 07",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild07",
+			"image_map": "gef_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 39,
+			"map": "gef_fild08",
+			"name": "吉芬原野 08",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild08",
+			"image_map": "gef_fild08",
+			"image_kind": "image"
+		},
+		{
+			"id": 40,
+			"map": "gef_fild09",
+			"name": "吉芬原野 09",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild09",
+			"image_map": "gef_fild09",
+			"image_kind": "image"
+		},
+		{
+			"id": 41,
+			"map": "gef_fild10",
+			"name": "吉芬原野 10",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild10",
+			"image_map": "gef_fild10",
+			"image_kind": "image"
+		},
+		{
+			"id": 42,
+			"map": "gef_fild11",
+			"name": "吉芬原野 11",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild11",
+			"image_map": "gef_fild11",
+			"image_kind": "image"
+		},
+		{
+			"id": 43,
+			"map": "gef_fild12",
+			"name": "吉芬原野 12－科尔特森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild12",
+			"image_map": "gef_fild12",
+			"image_kind": "image"
+		},
+		{
+			"id": 44,
+			"map": "gef_fild13",
+			"name": "吉芬原野 13－布里特尼亚公会（吉芬）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild13",
+			"image_map": "gef_fild13",
+			"image_kind": "image"
+		},
+		{
+			"id": 45,
+			"map": "gef_fild14",
+			"name": "吉芬原野 14－西部兽人村落",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_fild14",
+			"image_map": "gef_fild14",
+			"image_kind": "image"
+		},
+		{
+			"id": 46,
+			"map": "gef_tower",
+			"name": "吉芬塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_tower",
+			"image_map": "gef_tower",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 47,
+			"map": "geffen",
+			"name": "吉芬",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "geffen",
+			"image_map": "geffen",
+			"image_kind": "image"
+		},
+		{
+			"id": 48,
+			"map": "geffen_in",
+			"name": "吉芬内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "geffen_in",
+			"image_map": "geffen_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 49,
+			"map": "gl_cas01",
+			"name": "格拉斯特海姆城堡 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_cas01",
+			"image_map": "gl_cas01",
+			"image_kind": "image"
+		},
+		{
+			"id": 50,
+			"map": "gl_cas02",
+			"name": "格拉斯特海姆城堡 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_cas02",
+			"image_map": "gl_cas02",
+			"image_kind": "image"
+		},
+		{
+			"id": 51,
+			"map": "gl_church",
+			"name": "格拉斯特海姆修道院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_church",
+			"image_map": "gl_church",
+			"image_kind": "image"
+		},
+		{
+			"id": 52,
+			"map": "gl_chyard",
+			"name": "克雷斯特汉姆地下墓园",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_chyard",
+			"image_map": "gl_chyard",
+			"image_kind": "image"
+		},
+		{
+			"id": 53,
+			"map": "gl_dun01",
+			"name": "格拉斯特海姆最低洞窟 B1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_dun01",
+			"image_map": "gl_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 54,
+			"map": "gl_dun02",
+			"name": "格拉斯特海姆最低洞窟 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_dun02",
+			"image_map": "gl_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 55,
+			"map": "gl_in01",
+			"name": "克雷斯特汉姆内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_in01",
+			"image_map": "gl_in01",
+			"image_kind": "image"
+		},
+		{
+			"id": 56,
+			"map": "gl_knt01",
+			"name": "古城骑士团内部 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_knt01",
+			"image_map": "gl_knt01",
+			"image_kind": "image"
+		},
+		{
+			"id": 57,
+			"map": "gl_knt02",
+			"name": "格拉斯特海姆骑士团内部 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_knt02",
+			"image_map": "gl_knt02",
+			"image_kind": "image"
+		},
+		{
+			"id": 58,
+			"map": "gl_prison",
+			"name": "格拉斯特海姆地下监狱 B1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_prison",
+			"image_map": "gl_prison",
+			"image_kind": "image"
+		},
+		{
+			"id": 59,
+			"map": "gl_prison1",
+			"name": "格拉斯特海姆地下监狱 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_prison1",
+			"image_map": "gl_prison1",
+			"image_kind": "image"
+		},
+		{
+			"id": 60,
+			"map": "gl_sew01",
+			"name": "格拉斯特海姆地下水道 B1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_sew01",
+			"image_map": "gl_sew01",
+			"image_kind": "image"
+		},
+		{
+			"id": 61,
+			"map": "gl_sew02",
+			"name": "古城地下水道 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_sew02",
+			"image_map": "gl_sew02",
+			"image_kind": "image"
+		},
+		{
+			"id": 62,
+			"map": "gl_sew03",
+			"name": "克雷斯特汉姆地下水道 B3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_sew03",
+			"image_map": "gl_sew03",
+			"image_kind": "image"
+		},
+		{
+			"id": 63,
+			"map": "gl_sew04",
+			"name": "格拉斯特海姆地下水道 B4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_sew04",
+			"image_map": "gl_sew04",
+			"image_kind": "image"
+		},
+		{
+			"id": 64,
+			"map": "gl_step",
+			"name": "格拉斯特海姆阶梯地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_step",
+			"image_map": "gl_step",
+			"image_kind": "image"
+		},
+		{
+			"id": 65,
+			"map": "glast_01",
+			"name": "格拉斯特海姆入口",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "glast_01",
+			"image_map": "glast_01",
+			"image_kind": "image"
+		},
+		{
+			"id": 66,
+			"map": "hunter_1-1",
+			"name": "猎人公会",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hunter_1-1",
+			"image_map": "hunter_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 67,
+			"map": "hunter_2-1",
+			"name": "猎人公会",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hunter_2-1",
+			"image_map": "hunter_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 68,
+			"map": "hunter_3-1",
+			"name": "猎人公会",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hunter_3-1",
+			"image_map": "hunter_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 69,
+			"map": "in_hunter",
+			"name": "猎人公会",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_hunter",
+			"image_map": "in_hunter",
+			"image_kind": "image"
+		},
+		{
+			"id": 70,
+			"map": "in_moc_16",
+			"name": "刺客公会",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_moc_16",
+			"image_map": "in_moc_16",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 71,
+			"map": "in_orcs01",
+			"name": "兽人村内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_orcs01",
+			"image_map": "in_orcs01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 72,
+			"map": "in_sphinx1",
+			"name": "梦罗克史芬克斯地下1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_sphinx1",
+			"image_map": "in_sphinx1",
+			"image_kind": "image"
+		},
+		{
+			"id": 73,
+			"map": "in_sphinx2",
+			"name": "梦罗克斯芬克斯 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_sphinx2",
+			"image_map": "in_sphinx2",
+			"image_kind": "image"
+		},
+		{
+			"id": 74,
+			"map": "in_sphinx3",
+			"name": "梦罗克斯芬克斯 B3层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_sphinx3",
+			"image_map": "in_sphinx3",
+			"image_kind": "image"
+		},
+		{
+			"id": 75,
+			"map": "in_sphinx4",
+			"name": "梦罗克斯芬克斯 B4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_sphinx4",
+			"image_map": "in_sphinx4",
+			"image_kind": "image"
+		},
+		{
+			"id": 76,
+			"map": "in_sphinx5",
+			"name": "梦罗克斯芬克斯 B5",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_sphinx5",
+			"image_map": "in_sphinx5",
+			"image_kind": "image"
+		},
+		{
+			"id": 77,
+			"map": "iz_dun00",
+			"name": "海底洞穴1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_dun00",
+			"image_map": "iz_dun00",
+			"image_kind": "image"
+		},
+		{
+			"id": 78,
+			"map": "iz_dun01",
+			"name": "海底隧道 B2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_dun01",
+			"image_map": "iz_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 79,
+			"map": "iz_dun02",
+			"name": "海底隧道 B3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_dun02",
+			"image_map": "iz_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 80,
+			"map": "iz_dun03",
+			"name": "海底隧道 B4层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_dun03",
+			"image_map": "iz_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 81,
+			"map": "iz_dun04",
+			"name": "海底隧道 B5",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_dun04",
+			"image_map": "iz_dun04",
+			"image_kind": "image"
+		},
+		{
+			"id": 82,
+			"map": "job_sword1",
+			"name": "job_sword1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_sword1",
+			"image_map": "job_sword1",
+			"image_kind": "image"
+		},
+		{
+			"id": 83,
+			"map": "izlu2dun",
+			"name": "拜安岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "izlu2dun",
+			"image_map": "izlu2dun",
+			"image_kind": "image"
+		},
+		{
+			"id": 84,
+			"map": "izlude",
+			"name": "依斯鲁得",
+			"supported": true,
+			"channel": 1,
+			"canonical_map": "izlude",
+			"image_map": "izlude",
+			"image_kind": "image"
+		},
+		{
+			"id": 85,
+			"map": "izlude_in",
+			"name": "伊斯鲁得内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "izlude_in",
+			"image_map": "izlude_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 86,
+			"map": "job_thief1",
+			"name": "蘑菇农场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_thief1",
+			"image_map": "job_thief1",
+			"image_kind": "image"
+		},
+		{
+			"id": 87,
+			"map": "knight_1-1",
+			"name": "骑士团",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "knight_1-1",
+			"image_map": "knight_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 88,
+			"map": "knight_2-1",
+			"name": "骑士团",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "knight_2-1",
+			"image_map": "knight_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 89,
+			"map": "knight_3-1",
+			"name": "骑士团",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "knight_3-1",
+			"image_map": "knight_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 90,
+			"map": "mjo_dun01",
+			"name": "妙勒尼山死坑 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjo_dun01",
+			"image_map": "mjo_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 91,
+			"map": "mjo_dun02",
+			"name": "妙勒尼山死坑 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjo_dun02",
+			"image_map": "mjo_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 92,
+			"map": "mjo_dun03",
+			"name": "妙勒尼山死坑 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjo_dun03",
+			"image_map": "mjo_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 93,
+			"map": "mjolnir_01",
+			"name": "妙勒尼山 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_01",
+			"image_map": "mjolnir_01",
+			"image_kind": "image"
+		},
+		{
+			"id": 94,
+			"map": "mjolnir_02",
+			"name": "妙勒尼山 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_02",
+			"image_map": "mjolnir_02",
+			"image_kind": "image"
+		},
+		{
+			"id": 95,
+			"map": "mjolnir_03",
+			"name": "妙勒尼山 03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_03",
+			"image_map": "mjolnir_03",
+			"image_kind": "image"
+		},
+		{
+			"id": 96,
+			"map": "mjolnir_04",
+			"name": "妙勒尼山 04",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_04",
+			"image_map": "mjolnir_04",
+			"image_kind": "image"
+		},
+		{
+			"id": 97,
+			"map": "mjolnir_05",
+			"name": "妙勒尼山 05",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_05",
+			"image_map": "mjolnir_05",
+			"image_kind": "image"
+		},
+		{
+			"id": 98,
+			"map": "mjolnir_06",
+			"name": "妙勒尼山 06",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_06",
+			"image_map": "mjolnir_06",
+			"image_kind": "image"
+		},
+		{
+			"id": 99,
+			"map": "mjolnir_07",
+			"name": "妙勒尼山 07",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_07",
+			"image_map": "mjolnir_07",
+			"image_kind": "image"
+		},
+		{
+			"id": 100,
+			"map": "mjolnir_08",
+			"name": "妙勒尼山 08",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_08",
+			"image_map": "mjolnir_08",
+			"image_kind": "image"
+		},
+		{
+			"id": 101,
+			"map": "mjolnir_09",
+			"name": "妙勒尼山 09",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_09",
+			"image_map": "mjolnir_09",
+			"image_kind": "image"
+		},
+		{
+			"id": 102,
+			"map": "mjolnir_10",
+			"name": "妙勒尼山 10",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_10",
+			"image_map": "mjolnir_10",
+			"image_kind": "image"
+		},
+		{
+			"id": 103,
+			"map": "mjolnir_11",
+			"name": "妙勒尼山 11",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_11",
+			"image_map": "mjolnir_11",
+			"image_kind": "image"
+		},
+		{
+			"id": 104,
+			"map": "mjolnir_12",
+			"name": "妙勒尼山 12",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mjolnir_12",
+			"image_map": "mjolnir_12",
+			"image_kind": "image"
+		},
+		{
+			"id": 105,
+			"map": "moc_castle",
+			"name": "moc_castle",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_castle",
+			"image_map": "moc_castle",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 106,
+			"map": "moc_fild01",
+			"name": "梦罗克原野 01 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild01",
+			"image_map": "moc_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 107,
+			"map": "moc_fild02",
+			"name": "梦罗克原野 02 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild02",
+			"image_map": "moc_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 108,
+			"map": "moc_fild03",
+			"name": "梦罗克原野 03 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild03",
+			"image_map": "moc_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 109,
+			"map": "moc_fild04",
+			"name": "梦罗克原野 04 - 苏格拉特沙漠",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_fild04",
+			"image_map": "moc_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 110,
+			"map": "moc_fild05",
+			"name": "梦罗克原野 05 - 苏格拉特沙漠",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_fild05",
+			"image_map": "moc_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 111,
+			"map": "moc_fild06",
+			"name": "梦罗克原野 06 - 苏格拉特沙漠",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_fild06",
+			"image_map": "moc_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 112,
+			"map": "moc_fild07",
+			"name": "梦罗克原野 07 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild07",
+			"image_map": "moc_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 113,
+			"map": "moc_fild08",
+			"name": "梦罗克原野 08 - 苏格拉特沙漠",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_fild08",
+			"image_map": "moc_fild08",
+			"image_kind": "image"
+		},
+		{
+			"id": 114,
+			"map": "moc_fild09",
+			"name": "梦罗克原野 09 - 苏格拉特沙漠",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_fild09",
+			"image_map": "moc_fild09",
+			"image_kind": "image"
+		},
+		{
+			"id": 115,
+			"map": "moc_fild10",
+			"name": "梦罗克原野 10 - 苏格拉特沙漠",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_fild10",
+			"image_map": "moc_fild10",
+			"image_kind": "image"
+		},
+		{
+			"id": 116,
+			"map": "moc_fild11",
+			"name": "梦罗克原野 11 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild11",
+			"image_map": "moc_fild11",
+			"image_kind": "image"
+		},
+		{
+			"id": 117,
+			"map": "moc_fild12",
+			"name": "梦罗克原野 12 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild12",
+			"image_map": "moc_fild12",
+			"image_kind": "image"
+		},
+		{
+			"id": 118,
+			"map": "moc_fild13",
+			"name": "梦罗克原野 13 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild13",
+			"image_map": "moc_fild13",
+			"image_kind": "image"
+		},
+		{
+			"id": 119,
+			"map": "moc_fild14",
+			"name": "梦罗克原野 14 - 苏格拉特沙漠",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_fild14",
+			"image_map": "moc_fild14",
+			"image_kind": "image"
+		},
+		{
+			"id": 120,
+			"map": "moc_fild15",
+			"name": "梦罗克原野 15 - 苏格拉特沙漠",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_fild15",
+			"image_map": "moc_fild15",
+			"image_kind": "image"
+		},
+		{
+			"id": 121,
+			"map": "moc_fild16",
+			"name": "梦罗克原野 16 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild16",
+			"image_map": "moc_fild16",
+			"image_kind": "image"
+		},
+		{
+			"id": 122,
+			"map": "moc_fild17",
+			"name": "梦罗克原野 17 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild17",
+			"image_map": "moc_fild17",
+			"image_kind": "image"
+		},
+		{
+			"id": 123,
+			"map": "moc_fild18",
+			"name": "梦罗克原野 18 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild18",
+			"image_map": "moc_fild18",
+			"image_kind": "image"
+		},
+		{
+			"id": 124,
+			"map": "moc_fild19",
+			"name": "梦罗克原野 19 - 苏格拉特沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild19",
+			"image_map": "moc_fild19",
+			"image_kind": "image"
+		},
+		{
+			"id": 125,
+			"map": "moc_pryd01",
+			"name": "梦罗克金字塔1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_pryd01",
+			"image_map": "moc_pryd01",
+			"image_kind": "image"
+		},
+		{
+			"id": 126,
+			"map": "moc_pryd02",
+			"name": "金字塔内部 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_pryd02",
+			"image_map": "moc_pryd02",
+			"image_kind": "image"
+		},
+		{
+			"id": 127,
+			"map": "moc_pryd03",
+			"name": "金字塔内部 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_pryd03",
+			"image_map": "moc_pryd03",
+			"image_kind": "image"
+		},
+		{
+			"id": 128,
+			"map": "moc_pryd04",
+			"name": "金字塔内部 F4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_pryd04",
+			"image_map": "moc_pryd04",
+			"image_kind": "image"
+		},
+		{
+			"id": 129,
+			"map": "moc_pryd05",
+			"name": "金字塔内部 B1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_pryd05",
+			"image_map": "moc_pryd05",
+			"image_kind": "image"
+		},
+		{
+			"id": 130,
+			"map": "moc_pryd06",
+			"name": "金字塔内部 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_pryd06",
+			"image_map": "moc_pryd06",
+			"image_kind": "image"
+		},
+		{
+			"id": 131,
+			"map": "moc_prydb1",
+			"name": "盗贼公会",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_prydb1",
+			"image_map": "moc_prydb1",
+			"image_kind": "image"
+		},
+		{
+			"id": 132,
+			"map": "moc_ruins",
+			"name": "梦罗克遗迹",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_ruins",
+			"image_map": "moc_ruins",
+			"image_kind": "image"
+		},
+		{
+			"id": 133,
+			"map": "monk_in",
+			"name": "圣修道院内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "monk_in",
+			"image_map": "monk_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 134,
+			"map": "morocc",
+			"name": "梦罗克城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "morocc",
+			"image_map": "morocc",
+			"image_kind": "image"
+		},
+		{
+			"id": 135,
+			"map": "morocc_in",
+			"name": "梦罗克内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "morocc_in",
+			"image_map": "morocc_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 136,
+			"map": "new_1-1",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_1-1",
+			"image_map": "new_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 137,
+			"map": "new_1-2",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_1-2",
+			"image_map": "new_1-2",
+			"image_kind": null
+		},
+		{
+			"id": 138,
+			"map": "new_1-3",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_1-3",
+			"image_map": "new_1-3",
+			"image_kind": null
+		},
+		{
+			"id": 139,
+			"map": "new_1-4",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_1-4",
+			"image_map": "new_1-4",
+			"image_kind": null
+		},
+		{
+			"id": 140,
+			"map": "new_2-1",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_2-1",
+			"image_map": "new_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 141,
+			"map": "new_2-2",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_2-2",
+			"image_map": "new_2-2",
+			"image_kind": null
+		},
+		{
+			"id": 142,
+			"map": "new_2-3",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_2-3",
+			"image_map": "new_2-3",
+			"image_kind": null
+		},
+		{
+			"id": 143,
+			"map": "new_2-4",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_2-4",
+			"image_map": "new_2-4",
+			"image_kind": null
+		},
+		{
+			"id": 144,
+			"map": "new_3-1",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_3-1",
+			"image_map": "new_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 145,
+			"map": "new_3-2",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_3-2",
+			"image_map": "new_3-2",
+			"image_kind": null
+		},
+		{
+			"id": 146,
+			"map": "new_3-3",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_3-3",
+			"image_map": "new_3-3",
+			"image_kind": null
+		},
+		{
+			"id": 147,
+			"map": "new_3-4",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_3-4",
+			"image_map": "new_3-4",
+			"image_kind": null
+		},
+		{
+			"id": 148,
+			"map": "new_4-1",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_4-1",
+			"image_map": "new_4-1",
+			"image_kind": null
+		},
+		{
+			"id": 149,
+			"map": "new_4-2",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_4-2",
+			"image_map": "new_4-2",
+			"image_kind": null
+		},
+		{
+			"id": 150,
+			"map": "new_4-3",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_4-3",
+			"image_map": "new_4-3",
+			"image_kind": null
+		},
+		{
+			"id": 151,
+			"map": "new_4-4",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_4-4",
+			"image_map": "new_4-4",
+			"image_kind": null
+		},
+		{
+			"id": 152,
+			"map": "new_5-1",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_5-1",
+			"image_map": "new_5-1",
+			"image_kind": null
+		},
+		{
+			"id": 153,
+			"map": "new_5-2",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_5-2",
+			"image_map": "new_5-2",
+			"image_kind": null
+		},
+		{
+			"id": 154,
+			"map": "new_5-3",
+			"name": "训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_5-3",
+			"image_map": "new_5-3",
+			"image_kind": null
+		},
+		{
+			"id": 155,
+			"map": "new_5-4",
+			"name": "new_5-4",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "new_5-4",
+			"image_map": "new_5-4",
+			"image_kind": null
+		},
+		{
+			"id": 156,
+			"map": "orcsdun01",
+			"name": "兽人地下城 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "orcsdun01",
+			"image_map": "orcsdun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 157,
+			"map": "orcsdun02",
+			"name": "兽人地下城 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "orcsdun02",
+			"image_map": "orcsdun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 158,
+			"map": "ordeal_1-1",
+			"name": "战斗试炼模式",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ordeal_1-1",
+			"image_map": "ordeal_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 159,
+			"map": "ordeal_1-2",
+			"name": "战斗试炼模式",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ordeal_1-2",
+			"image_map": "ordeal_1-2",
+			"image_kind": null
+		},
+		{
+			"id": 160,
+			"map": "ordeal_2-1",
+			"name": "战斗试炼模式",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ordeal_2-1",
+			"image_map": "ordeal_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 161,
+			"map": "ordeal_2-2",
+			"name": "战斗试炼模式",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ordeal_2-2",
+			"image_map": "ordeal_2-2",
+			"image_kind": null
+		},
+		{
+			"id": 162,
+			"map": "ordeal_3-1",
+			"name": "战斗试炼模式",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ordeal_3-1",
+			"image_map": "ordeal_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 163,
+			"map": "ordeal_3-2",
+			"name": "战斗试炼模式",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ordeal_3-2",
+			"image_map": "ordeal_3-2",
+			"image_kind": null
+		},
+		{
+			"id": 164,
+			"map": "pay_arche",
+			"name": "斐扬森林 - 弓箭手村",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_arche",
+			"image_map": "pay_arche",
+			"image_kind": "image"
+		},
+		{
+			"id": 165,
+			"map": "pay_dun00",
+			"name": "斐扬洞窟 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_dun00",
+			"image_map": "pay_dun00",
+			"image_kind": "image"
+		},
+		{
+			"id": 166,
+			"map": "pay_dun01",
+			"name": "斐扬洞窟 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_dun01",
+			"image_map": "pay_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 167,
+			"map": "pay_dun02",
+			"name": "斐扬洞窟 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_dun02",
+			"image_map": "pay_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 168,
+			"map": "pay_dun03",
+			"name": "斐扬洞窟 F4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_dun03",
+			"image_map": "pay_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 169,
+			"map": "pay_dun04",
+			"name": "斐扬洞窟 F5",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_dun04",
+			"image_map": "pay_dun04",
+			"image_kind": "image"
+		},
+		{
+			"id": 170,
+			"map": "pay_fild01",
+			"name": "斐扬森林 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild01",
+			"image_map": "pay_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 171,
+			"map": "pay_fild02",
+			"name": "斐扬森林 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild02",
+			"image_map": "pay_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 172,
+			"map": "pay_fild03",
+			"name": "斐扬森林 03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild03",
+			"image_map": "pay_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 173,
+			"map": "pay_fild04",
+			"name": "斐扬森林 04",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild04",
+			"image_map": "pay_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 174,
+			"map": "pay_fild05",
+			"name": "斐扬森林 05",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild05",
+			"image_map": "pay_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 175,
+			"map": "pay_fild06",
+			"name": "斐扬森林 06",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild06",
+			"image_map": "pay_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 176,
+			"map": "pay_fild07",
+			"name": "斐扬森林 07",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild07",
+			"image_map": "pay_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 177,
+			"map": "pay_fild08",
+			"name": "斐扬森林 08",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild08",
+			"image_map": "pay_fild08",
+			"image_kind": "image"
+		},
+		{
+			"id": 178,
+			"map": "pay_fild09",
+			"name": "斐扬森林 09",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild09",
+			"image_map": "pay_fild09",
+			"image_kind": "image"
+		},
+		{
+			"id": 179,
+			"map": "pay_fild10",
+			"name": "斐扬森林 10",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild10",
+			"image_map": "pay_fild10",
+			"image_kind": "image"
+		},
+		{
+			"id": 180,
+			"map": "pay_fild11",
+			"name": "斐扬森林 11",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_fild11",
+			"image_map": "pay_fild11",
+			"image_kind": "image"
+		},
+		{
+			"id": 181,
+			"map": "payon",
+			"name": "斐扬城，弓箭手的家乡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payon",
+			"image_map": "payon",
+			"image_kind": "image"
+		},
+		{
+			"id": 182,
+			"map": "payon_in01",
+			"name": "斐扬内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payon_in01",
+			"image_map": "payon_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 183,
+			"map": "payon_in02",
+			"name": "斐扬内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payon_in02",
+			"image_map": "payon_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 184,
+			"map": "priest_1-1",
+			"name": "圣所",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "priest_1-1",
+			"image_map": "priest_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 185,
+			"map": "priest_2-1",
+			"name": "圣所",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "priest_2-1",
+			"image_map": "priest_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 186,
+			"map": "priest_3-1",
+			"name": "圣所",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "priest_3-1",
+			"image_map": "priest_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 187,
+			"map": "prontera",
+			"name": "普隆德拉",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prontera",
+			"image_map": "prontera",
+			"image_kind": "image"
+		},
+		{
+			"id": 188,
+			"map": "prt_are_in",
+			"name": "等待室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_are_in",
+			"image_map": "prt_are_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 189,
+			"map": "prt_are01",
+			"name": "竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_are01",
+			"image_map": "prt_are01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 190,
+			"map": "pvp_room",
+			"name": "pvp_room",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_room",
+			"image_map": "pvp_room",
+			"image_kind": "image"
+		},
+		{
+			"id": 191,
+			"map": "prt_castle",
+			"name": "普隆德拉城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_castle",
+			"image_map": "prt_castle",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 192,
+			"map": "prt_church",
+			"name": "圣域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_church",
+			"image_map": "prt_church",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 193,
+			"map": "prt_fild00",
+			"name": "普隆德拉西北部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild00",
+			"image_map": "prt_fild00",
+			"image_kind": "image"
+		},
+		{
+			"id": 194,
+			"map": "prt_fild01",
+			"name": "普隆德拉北门",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild01",
+			"image_map": "prt_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 195,
+			"map": "prt_fild02",
+			"name": "普隆德拉东北部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild02",
+			"image_map": "prt_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 196,
+			"map": "prt_fild03",
+			"name": "普隆德拉东北遗迹",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild03",
+			"image_map": "prt_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 197,
+			"map": "prt_fild04",
+			"name": "普隆德拉西部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild04",
+			"image_map": "prt_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 198,
+			"map": "prt_fild05",
+			"name": "普隆德拉西门",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild05",
+			"image_map": "prt_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 199,
+			"map": "prt_fild06",
+			"name": "普隆德拉东门",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild06",
+			"image_map": "prt_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 200,
+			"map": "prt_fild07",
+			"name": "蝗虫区",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild07",
+			"image_map": "prt_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 201,
+			"map": "prt_fild08",
+			"name": "普隆德拉南门",
+			"supported": true,
+			"channel": 1,
+			"canonical_map": "prt_fild08",
+			"image_map": "prt_fild08",
+			"image_kind": "image"
+		},
+		{
+			"id": 202,
+			"map": "prt_fild09",
+			"name": "普隆德拉西南部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild09",
+			"image_map": "prt_fild09",
+			"image_kind": "image"
+		},
+		{
+			"id": 203,
+			"map": "prt_fild10",
+			"name": "普隆德拉南部西侧",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild10",
+			"image_map": "prt_fild10",
+			"image_kind": "image"
+		},
+		{
+			"id": 204,
+			"map": "prt_fild11",
+			"name": "哥布灵森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_fild11",
+			"image_map": "prt_fild11",
+			"image_kind": "image"
+		},
+		{
+			"id": 205,
+			"map": "prt_in",
+			"name": "普隆德拉内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_in",
+			"image_map": "prt_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 206,
+			"map": "prt_maze01",
+			"name": "迷宫森林 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_maze01",
+			"image_map": "prt_maze01",
+			"image_kind": "image"
+		},
+		{
+			"id": 207,
+			"map": "prt_maze02",
+			"name": "迷宫森林 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_maze02",
+			"image_map": "prt_maze02",
+			"image_kind": "image"
+		},
+		{
+			"id": 208,
+			"map": "prt_maze03",
+			"name": "迷宫森林 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_maze03",
+			"image_map": "prt_maze03",
+			"image_kind": "image"
+		},
+		{
+			"id": 209,
+			"map": "prt_monk",
+			"name": "圣卡皮托利纳修道院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_monk",
+			"image_map": "prt_monk",
+			"image_kind": "image"
+		},
+		{
+			"id": 210,
+			"map": "prt_sewb1",
+			"name": "普隆德拉下水道 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_sewb1",
+			"image_map": "prt_sewb1",
+			"image_kind": "image"
+		},
+		{
+			"id": 211,
+			"map": "prt_sewb2",
+			"name": "普隆德拉下水道 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_sewb2",
+			"image_map": "prt_sewb2",
+			"image_kind": "image"
+		},
+		{
+			"id": 212,
+			"map": "prt_sewb3",
+			"name": "普隆德拉下水道 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_sewb3",
+			"image_map": "prt_sewb3",
+			"image_kind": "image"
+		},
+		{
+			"id": 213,
+			"map": "prt_sewb4",
+			"name": "普隆德拉下水道 F4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_sewb4",
+			"image_map": "prt_sewb4",
+			"image_kind": "image"
+		},
+		{
+			"id": 214,
+			"map": "pvp_2vs2",
+			"name": "PvP：活动竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_2vs2",
+			"image_map": "pvp_2vs2",
+			"image_kind": "image"
+		},
+		{
+			"id": 215,
+			"map": "pvp_c_room",
+			"name": "PvP：等候室",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_c_room",
+			"image_map": "pvp_c_room",
+			"image_kind": null
+		},
+		{
+			"id": 216,
+			"map": "pvp_n_1-1",
+			"name": "PvP：三明治房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_1-1",
+			"image_map": "pvp_n_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 217,
+			"map": "pvp_n_1-2",
+			"name": "PvP：Rock On 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_1-2",
+			"image_map": "pvp_n_1-2",
+			"image_kind": null
+		},
+		{
+			"id": 218,
+			"map": "pvp_n_1-3",
+			"name": "PvP：四人房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_1-3",
+			"image_map": "pvp_n_1-3",
+			"image_kind": null
+		},
+		{
+			"id": 219,
+			"map": "pvp_n_1-4",
+			"name": "PvP：Undercross 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_1-4",
+			"image_map": "pvp_n_1-4",
+			"image_kind": null
+		},
+		{
+			"id": 220,
+			"map": "pvp_n_1-5",
+			"name": "PvP：Copass 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_1-5",
+			"image_map": "pvp_n_1-5",
+			"image_kind": null
+		},
+		{
+			"id": 221,
+			"map": "pvp_n_2-1",
+			"name": "PvP：三明治房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_2-1",
+			"image_map": "pvp_n_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 222,
+			"map": "pvp_n_2-2",
+			"name": "PvP：Rock On 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_2-2",
+			"image_map": "pvp_n_2-2",
+			"image_kind": null
+		},
+		{
+			"id": 223,
+			"map": "pvp_n_2-3",
+			"name": "PvP：四人房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_2-3",
+			"image_map": "pvp_n_2-3",
+			"image_kind": null
+		},
+		{
+			"id": 224,
+			"map": "pvp_n_2-4",
+			"name": "PvP：地下十字房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_2-4",
+			"image_map": "pvp_n_2-4",
+			"image_kind": null
+		},
+		{
+			"id": 225,
+			"map": "pvp_n_2-5",
+			"name": "PvP：Copass 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_2-5",
+			"image_map": "pvp_n_2-5",
+			"image_kind": null
+		},
+		{
+			"id": 226,
+			"map": "pvp_n_3-1",
+			"name": "PvP：三明治房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_3-1",
+			"image_map": "pvp_n_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 227,
+			"map": "pvp_n_3-2",
+			"name": "PvP：Rock On 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_3-2",
+			"image_map": "pvp_n_3-2",
+			"image_kind": null
+		},
+		{
+			"id": 228,
+			"map": "pvp_n_3-3",
+			"name": "PvP：四人房",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_3-3",
+			"image_map": "pvp_n_3-3",
+			"image_kind": null
+		},
+		{
+			"id": 229,
+			"map": "pvp_n_3-4",
+			"name": "PvP：地下十字房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_3-4",
+			"image_map": "pvp_n_3-4",
+			"image_kind": null
+		},
+		{
+			"id": 230,
+			"map": "pvp_n_3-5",
+			"name": "PvP：Copass 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_3-5",
+			"image_map": "pvp_n_3-5",
+			"image_kind": null
+		},
+		{
+			"id": 231,
+			"map": "pvp_n_4-1",
+			"name": "PvP：三明治房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_4-1",
+			"image_map": "pvp_n_4-1",
+			"image_kind": null
+		},
+		{
+			"id": 232,
+			"map": "pvp_n_4-2",
+			"name": "PvP：Rock On 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_4-2",
+			"image_map": "pvp_n_4-2",
+			"image_kind": null
+		},
+		{
+			"id": 233,
+			"map": "pvp_n_4-3",
+			"name": "PvP：四号房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_4-3",
+			"image_map": "pvp_n_4-3",
+			"image_kind": null
+		},
+		{
+			"id": 234,
+			"map": "pvp_n_4-4",
+			"name": "PvP：地下十字房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_4-4",
+			"image_map": "pvp_n_4-4",
+			"image_kind": null
+		},
+		{
+			"id": 235,
+			"map": "pvp_n_4-5",
+			"name": "PvP：Copass 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_4-5",
+			"image_map": "pvp_n_4-5",
+			"image_kind": null
+		},
+		{
+			"id": 236,
+			"map": "pvp_n_5-1",
+			"name": "PvP：三明治房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_5-1",
+			"image_map": "pvp_n_5-1",
+			"image_kind": null
+		},
+		{
+			"id": 237,
+			"map": "pvp_n_5-2",
+			"name": "PvP：Rock On 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_5-2",
+			"image_map": "pvp_n_5-2",
+			"image_kind": null
+		},
+		{
+			"id": 238,
+			"map": "pvp_n_5-3",
+			"name": "PvP：四人房",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_5-3",
+			"image_map": "pvp_n_5-3",
+			"image_kind": null
+		},
+		{
+			"id": 239,
+			"map": "pvp_n_5-4",
+			"name": "PvP：地下十字房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_5-4",
+			"image_map": "pvp_n_5-4",
+			"image_kind": null
+		},
+		{
+			"id": 240,
+			"map": "pvp_n_5-5",
+			"name": "PvP：Copass 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_5-5",
+			"image_map": "pvp_n_5-5",
+			"image_kind": null
+		},
+		{
+			"id": 241,
+			"map": "pvp_n_6-1",
+			"name": "PvP：三明治房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_6-1",
+			"image_map": "pvp_n_6-1",
+			"image_kind": null
+		},
+		{
+			"id": 242,
+			"map": "pvp_n_6-2",
+			"name": "PvP：Rock On 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_6-2",
+			"image_map": "pvp_n_6-2",
+			"image_kind": null
+		},
+		{
+			"id": 243,
+			"map": "pvp_n_6-3",
+			"name": "PvP：四人房",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_6-3",
+			"image_map": "pvp_n_6-3",
+			"image_kind": null
+		},
+		{
+			"id": 244,
+			"map": "pvp_n_6-4",
+			"name": "PvP：地下十字房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_6-4",
+			"image_map": "pvp_n_6-4",
+			"image_kind": null
+		},
+		{
+			"id": 245,
+			"map": "pvp_n_6-5",
+			"name": "PvP：Copass 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_6-5",
+			"image_map": "pvp_n_6-5",
+			"image_kind": null
+		},
+		{
+			"id": 246,
+			"map": "pvp_n_7-1",
+			"name": "PvP：三明治房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_7-1",
+			"image_map": "pvp_n_7-1",
+			"image_kind": null
+		},
+		{
+			"id": 247,
+			"map": "pvp_n_7-2",
+			"name": "PvP：Rock On 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_7-2",
+			"image_map": "pvp_n_7-2",
+			"image_kind": null
+		},
+		{
+			"id": 248,
+			"map": "pvp_n_7-3",
+			"name": "PvP：四人房",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_7-3",
+			"image_map": "pvp_n_7-3",
+			"image_kind": null
+		},
+		{
+			"id": 249,
+			"map": "pvp_n_7-4",
+			"name": "PvP：地下十字房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_7-4",
+			"image_map": "pvp_n_7-4",
+			"image_kind": null
+		},
+		{
+			"id": 250,
+			"map": "pvp_n_7-5",
+			"name": "PvP：Copass 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_7-5",
+			"image_map": "pvp_n_7-5",
+			"image_kind": null
+		},
+		{
+			"id": 251,
+			"map": "pvp_n_8-1",
+			"name": "PvP：三明治房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_8-1",
+			"image_map": "pvp_n_8-1",
+			"image_kind": null
+		},
+		{
+			"id": 252,
+			"map": "pvp_n_8-2",
+			"name": "PvP：Rock On 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_8-2",
+			"image_map": "pvp_n_8-2",
+			"image_kind": null
+		},
+		{
+			"id": 253,
+			"map": "pvp_n_8-3",
+			"name": "PvP：四人房",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_8-3",
+			"image_map": "pvp_n_8-3",
+			"image_kind": null
+		},
+		{
+			"id": 254,
+			"map": "pvp_n_8-4",
+			"name": "PvP：地下十字房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_8-4",
+			"image_map": "pvp_n_8-4",
+			"image_kind": null
+		},
+		{
+			"id": 255,
+			"map": "pvp_n_8-5",
+			"name": "PvP：Copass 房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_8-5",
+			"image_map": "pvp_n_8-5",
+			"image_kind": null
+		},
+		{
+			"id": 256,
+			"map": "pvp_n_room",
+			"name": "PvP：等候室",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_n_room",
+			"image_map": "pvp_n_room",
+			"image_kind": null
+		},
+		{
+			"id": 257,
+			"map": "pvp_y_1-1",
+			"name": "PvP：普隆德拉房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_1-1",
+			"image_map": "pvp_y_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 258,
+			"map": "pvp_y_1-2",
+			"name": "PvP：伊斯鲁得房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_y_1-2",
+			"image_map": "pvp_y_1-2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 259,
+			"map": "pvp_y_1-3",
+			"name": "PvP：斐扬房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_1-3",
+			"image_map": "pvp_y_1-3",
+			"image_kind": null
+		},
+		{
+			"id": 260,
+			"map": "pvp_y_1-4",
+			"name": "PvP：艾尔贝塔房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_1-4",
+			"image_map": "pvp_y_1-4",
+			"image_kind": null
+		},
+		{
+			"id": 261,
+			"map": "pvp_y_1-5",
+			"name": "PvP：梦罗克房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_1-5",
+			"image_map": "pvp_y_1-5",
+			"image_kind": null
+		},
+		{
+			"id": 262,
+			"map": "pvp_y_2-1",
+			"name": "PvP：普隆德拉房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_2-1",
+			"image_map": "pvp_y_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 263,
+			"map": "pvp_y_2-2",
+			"name": "PvP：伊兹鲁德房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_y_2-2",
+			"image_map": "pvp_y_2-2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 264,
+			"map": "pvp_y_2-3",
+			"name": "PvP：斐扬房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_2-3",
+			"image_map": "pvp_y_2-3",
+			"image_kind": null
+		},
+		{
+			"id": 265,
+			"map": "pvp_y_2-4",
+			"name": "PvP：艾尔贝塔房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_2-4",
+			"image_map": "pvp_y_2-4",
+			"image_kind": null
+		},
+		{
+			"id": 266,
+			"map": "pvp_y_2-5",
+			"name": "PvP：梦罗克房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_2-5",
+			"image_map": "pvp_y_2-5",
+			"image_kind": null
+		},
+		{
+			"id": 267,
+			"map": "pvp_y_3-1",
+			"name": "PvP：普隆德拉房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_3-1",
+			"image_map": "pvp_y_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 268,
+			"map": "pvp_y_3-2",
+			"name": "PvP：依斯鲁得房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_y_3-2",
+			"image_map": "pvp_y_3-2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 269,
+			"map": "pvp_y_3-3",
+			"name": "PvP：斐扬房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_3-3",
+			"image_map": "pvp_y_3-3",
+			"image_kind": null
+		},
+		{
+			"id": 270,
+			"map": "pvp_y_3-4",
+			"name": "PvP：艾尔贝塔房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_3-4",
+			"image_map": "pvp_y_3-4",
+			"image_kind": null
+		},
+		{
+			"id": 271,
+			"map": "pvp_y_3-5",
+			"name": "PvP：梦罗克房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_3-5",
+			"image_map": "pvp_y_3-5",
+			"image_kind": null
+		},
+		{
+			"id": 272,
+			"map": "pvp_y_4-1",
+			"name": "PvP：普隆德拉房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_4-1",
+			"image_map": "pvp_y_4-1",
+			"image_kind": null
+		},
+		{
+			"id": 273,
+			"map": "pvp_y_4-2",
+			"name": "PvP：伊斯鲁得房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_y_4-2",
+			"image_map": "pvp_y_4-2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 274,
+			"map": "pvp_y_4-3",
+			"name": "PvP：斐扬房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_4-3",
+			"image_map": "pvp_y_4-3",
+			"image_kind": null
+		},
+		{
+			"id": 275,
+			"map": "pvp_y_4-4",
+			"name": "PvP：艾尔贝塔房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_4-4",
+			"image_map": "pvp_y_4-4",
+			"image_kind": null
+		},
+		{
+			"id": 276,
+			"map": "pvp_y_4-5",
+			"name": "PvP：梦罗克房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_4-5",
+			"image_map": "pvp_y_4-5",
+			"image_kind": null
+		},
+		{
+			"id": 277,
+			"map": "pvp_y_5-1",
+			"name": "PvP：普隆德拉房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_5-1",
+			"image_map": "pvp_y_5-1",
+			"image_kind": null
+		},
+		{
+			"id": 278,
+			"map": "pvp_y_5-2",
+			"name": "PvP：伊兹鲁德房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_y_5-2",
+			"image_map": "pvp_y_5-2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 279,
+			"map": "pvp_y_5-3",
+			"name": "PvP：斐扬房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_5-3",
+			"image_map": "pvp_y_5-3",
+			"image_kind": null
+		},
+		{
+			"id": 280,
+			"map": "pvp_y_5-4",
+			"name": "PvP：艾尔贝塔房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_5-4",
+			"image_map": "pvp_y_5-4",
+			"image_kind": null
+		},
+		{
+			"id": 281,
+			"map": "pvp_y_5-5",
+			"name": "PvP：梦罗克房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_5-5",
+			"image_map": "pvp_y_5-5",
+			"image_kind": null
+		},
+		{
+			"id": 282,
+			"map": "pvp_y_6-1",
+			"name": "PvP：普隆德拉房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_6-1",
+			"image_map": "pvp_y_6-1",
+			"image_kind": null
+		},
+		{
+			"id": 283,
+			"map": "pvp_y_6-2",
+			"name": "PvP：伊兹鲁德房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_y_6-2",
+			"image_map": "pvp_y_6-2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 284,
+			"map": "pvp_y_6-3",
+			"name": "PvP：斐扬房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_6-3",
+			"image_map": "pvp_y_6-3",
+			"image_kind": null
+		},
+		{
+			"id": 285,
+			"map": "pvp_y_6-4",
+			"name": "PvP：艾尔贝塔房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_6-4",
+			"image_map": "pvp_y_6-4",
+			"image_kind": null
+		},
+		{
+			"id": 286,
+			"map": "pvp_y_6-5",
+			"name": "PvP：梦罗克房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_6-5",
+			"image_map": "pvp_y_6-5",
+			"image_kind": null
+		},
+		{
+			"id": 287,
+			"map": "pvp_y_7-1",
+			"name": "PvP：普隆德拉房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_7-1",
+			"image_map": "pvp_y_7-1",
+			"image_kind": null
+		},
+		{
+			"id": 288,
+			"map": "pvp_y_7-2",
+			"name": "PvP：依斯鲁得房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_y_7-2",
+			"image_map": "pvp_y_7-2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 289,
+			"map": "pvp_y_7-3",
+			"name": "PvP：斐扬房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_7-3",
+			"image_map": "pvp_y_7-3",
+			"image_kind": null
+		},
+		{
+			"id": 290,
+			"map": "pvp_y_7-4",
+			"name": "PvP：艾尔贝塔房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_7-4",
+			"image_map": "pvp_y_7-4",
+			"image_kind": null
+		},
+		{
+			"id": 291,
+			"map": "pvp_y_7-5",
+			"name": "PvP：梦罗克房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_7-5",
+			"image_map": "pvp_y_7-5",
+			"image_kind": null
+		},
+		{
+			"id": 292,
+			"map": "pvp_y_8-1",
+			"name": "PvP：普隆德拉房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_8-1",
+			"image_map": "pvp_y_8-1",
+			"image_kind": null
+		},
+		{
+			"id": 293,
+			"map": "pvp_y_8-2",
+			"name": "PvP：伊斯鲁得房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pvp_y_8-2",
+			"image_map": "pvp_y_8-2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 294,
+			"map": "pvp_y_8-3",
+			"name": "PvP：斐扬房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_8-3",
+			"image_map": "pvp_y_8-3",
+			"image_kind": null
+		},
+		{
+			"id": 295,
+			"map": "pvp_y_8-4",
+			"name": "PvP：艾尔贝塔房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_8-4",
+			"image_map": "pvp_y_8-4",
+			"image_kind": null
+		},
+		{
+			"id": 296,
+			"map": "pvp_y_8-5",
+			"name": "PvP：梦罗克房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_8-5",
+			"image_map": "pvp_y_8-5",
+			"image_kind": null
+		},
+		{
+			"id": 297,
+			"map": "pvp_y_room",
+			"name": "PvP：等候室",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "pvp_y_room",
+			"image_map": "pvp_y_room",
+			"image_kind": null
+		},
+		{
+			"id": 298,
+			"map": "sword_1-1",
+			"name": "sword_1-1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "sword_1-1",
+			"image_map": "sword_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 299,
+			"map": "sword_2-1",
+			"name": "sword_2-1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "sword_2-1",
+			"image_map": "sword_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 300,
+			"map": "sword_3-1",
+			"name": "剑士测试大厅",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "sword_3-1",
+			"image_map": "sword_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 301,
+			"map": "treasure01",
+			"name": "沉船 B1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "treasure01",
+			"image_map": "treasure01",
+			"image_kind": "image"
+		},
+		{
+			"id": 302,
+			"map": "treasure02",
+			"name": "沉船 B2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "treasure02",
+			"image_map": "treasure02",
+			"image_kind": "image"
+		},
+		{
+			"id": 303,
+			"map": "wizard_1-1",
+			"name": "巫师学院",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "wizard_1-1",
+			"image_map": "wizard_1-1",
+			"image_kind": null
+		},
+		{
+			"id": 304,
+			"map": "wizard_2-1",
+			"name": "巫师学院",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "wizard_2-1",
+			"image_map": "wizard_2-1",
+			"image_kind": null
+		},
+		{
+			"id": 305,
+			"map": "wizard_3-1",
+			"name": "巫师学院",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "wizard_3-1",
+			"image_map": "wizard_3-1",
+			"image_kind": null
+		},
+		{
+			"id": 306,
+			"map": "xmas",
+			"name": "鲁蒂耶",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "xmas",
+			"image_map": "xmas",
+			"image_kind": "image"
+		},
+		{
+			"id": 307,
+			"map": "xmas_dun01",
+			"name": "玩具工厂仓库",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "xmas_dun01",
+			"image_map": "xmas_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 308,
+			"map": "xmas_dun02",
+			"name": "玩具监控室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "xmas_dun02",
+			"image_map": "xmas_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 309,
+			"map": "xmas_fild01",
+			"name": "鲁蒂原野",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "xmas_fild01",
+			"image_map": "xmas_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 310,
+			"map": "xmas_in",
+			"name": "玩具工厂内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "xmas_in",
+			"image_map": "xmas_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 311,
+			"map": "beach_dun",
+			"name": "卡鲁西部洞穴",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "beach_dun",
+			"image_map": "beach_dun",
+			"image_kind": "image"
+		},
+		{
+			"id": 312,
+			"map": "beach_dun2",
+			"name": "卢安达北洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "beach_dun2",
+			"image_map": "beach_dun2",
+			"image_kind": "image"
+		},
+		{
+			"id": 313,
+			"map": "beach_dun3",
+			"name": "毛东部洞穴",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "beach_dun3",
+			"image_map": "beach_dun3",
+			"image_kind": "image"
+		},
+		{
+			"id": 314,
+			"map": "cmd_fild01",
+			"name": "可可岛原野 01 - 帕普奇查森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild01",
+			"image_map": "cmd_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 315,
+			"map": "cmd_fild02",
+			"name": "科摩多原野 02－可可莫海滩",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild02",
+			"image_map": "cmd_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 316,
+			"map": "cmd_fild03",
+			"name": "科摩多原野 03－真海沼泽",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild03",
+			"image_map": "cmd_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 317,
+			"map": "cmd_fild04",
+			"name": "科摩多原野 04－可可莫海滩",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild04",
+			"image_map": "cmd_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 318,
+			"map": "cmd_fild05",
+			"name": "科摩多原野 05－帕普奇卡森林边界",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild05",
+			"image_map": "cmd_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 319,
+			"map": "cmd_fild06",
+			"name": "科摩多原野 06－圣达尔迈因要塞（西）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild06",
+			"image_map": "cmd_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 320,
+			"map": "cmd_fild07",
+			"name": "科摩多原野 07－法罗斯灯塔岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild07",
+			"image_map": "cmd_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 321,
+			"map": "cmd_fild08",
+			"name": "科摩多原野 08－圣达尔迈因要塞（东）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild08",
+			"image_map": "cmd_fild08",
+			"image_kind": "image"
+		},
+		{
+			"id": 322,
+			"map": "cmd_fild09",
+			"name": "科摩多原野 09－圣达尔迈因要塞（南）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_fild09",
+			"image_map": "cmd_fild09",
+			"image_kind": "image"
+		},
+		{
+			"id": 323,
+			"map": "cmd_in01",
+			"name": "科摩多内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_in01",
+			"image_map": "cmd_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 324,
+			"map": "cmd_in02",
+			"name": "可可岛内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cmd_in02",
+			"image_map": "cmd_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 325,
+			"map": "comodo",
+			"name": "科摩多城镇",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "comodo",
+			"image_map": "comodo",
+			"image_kind": "image"
+		},
+		{
+			"id": 326,
+			"map": "quiz_00",
+			"name": "问答革命",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "quiz_00",
+			"image_map": "quiz_00",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 327,
+			"map": "quiz_01",
+			"name": "问答革命",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "quiz_01",
+			"image_map": "quiz_01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 328,
+			"map": "g_room1-1",
+			"name": "g_room1-1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "g_room1-1",
+			"image_map": "g_room1-1",
+			"image_kind": null
+		},
+		{
+			"id": 329,
+			"map": "g_room1-2",
+			"name": "g_room1-2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "g_room1-2",
+			"image_map": "g_room1-2",
+			"image_kind": null
+		},
+		{
+			"id": 330,
+			"map": "g_room1-3",
+			"name": "g_room1-3",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "g_room1-3",
+			"image_map": "g_room1-3",
+			"image_kind": null
+		},
+		{
+			"id": 331,
+			"map": "g_room2",
+			"name": "g_room2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "g_room2",
+			"image_map": "g_room2",
+			"image_kind": null
+		},
+		{
+			"id": 332,
+			"map": "tur_dun01",
+			"name": "海龟岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_dun01",
+			"image_map": "tur_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 333,
+			"map": "tur_dun02",
+			"name": "海龟岛地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_dun02",
+			"image_map": "tur_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 334,
+			"map": "tur_dun03",
+			"name": "海龟村",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_dun03",
+			"image_map": "tur_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 335,
+			"map": "tur_dun04",
+			"name": "海龟宫殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_dun04",
+			"image_map": "tur_dun04",
+			"image_kind": "image"
+		},
+		{
+			"id": 336,
+			"map": "tur_dun05",
+			"name": "地下沼泽区域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_dun05",
+			"image_map": "tur_dun05",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 337,
+			"map": "tur_dun06",
+			"name": "地下沼泽区域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_dun06",
+			"image_map": "tur_dun06",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 338,
+			"map": "alde_gld",
+			"name": "鲁因，艾尔帕兰的卫星城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alde_gld",
+			"image_map": "alde_gld",
+			"image_kind": "image"
+		},
+		{
+			"id": 339,
+			"map": "aldeg_cas01",
+			"name": "新天鹅堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "aldeg_cas01",
+			"image_map": "aldeg_cas01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 340,
+			"map": "aldeg_cas02",
+			"name": "霍恩施万高城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "aldeg_cas02",
+			"image_map": "aldeg_cas02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 341,
+			"map": "aldeg_cas03",
+			"name": "纽伦堡城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "aldeg_cas03",
+			"image_map": "aldeg_cas03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 342,
+			"map": "aldeg_cas04",
+			"name": "维尔茨堡城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "aldeg_cas04",
+			"image_map": "aldeg_cas04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 343,
+			"map": "aldeg_cas05",
+			"name": "罗滕堡城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "aldeg_cas05",
+			"image_map": "aldeg_cas05",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 344,
+			"map": "gefg_cas01",
+			"name": "雷斐里昂城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefg_cas01",
+			"image_map": "gefg_cas01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 345,
+			"map": "gefg_cas02",
+			"name": "埃约尔布里加城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefg_cas02",
+			"image_map": "gefg_cas02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 346,
+			"map": "gefg_cas03",
+			"name": "耶斯内尔夫城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefg_cas03",
+			"image_map": "gefg_cas03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 347,
+			"map": "gefg_cas04",
+			"name": "贝格尔城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefg_cas04",
+			"image_map": "gefg_cas04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 348,
+			"map": "gefg_cas05",
+			"name": "梅尔塞德茨城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefg_cas05",
+			"image_map": "gefg_cas05",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 349,
+			"map": "gld_dun01",
+			"name": "巴尔德公会地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gld_dun01",
+			"image_map": "gld_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 350,
+			"map": "gld_dun02",
+			"name": "卢因公会地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gld_dun02",
+			"image_map": "gld_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 351,
+			"map": "gld_dun03",
+			"name": "女武神公会地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gld_dun03",
+			"image_map": "gld_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 352,
+			"map": "gld_dun04",
+			"name": "布里托尼亚公会地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gld_dun04",
+			"image_map": "gld_dun04",
+			"image_kind": "image"
+		},
+		{
+			"id": 353,
+			"map": "guild_room",
+			"name": "公会竞技场等候室",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "guild_room",
+			"image_map": "guild_room",
+			"image_kind": null
+		},
+		{
+			"id": 354,
+			"map": "guild_vs1",
+			"name": "公会竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "guild_vs1",
+			"image_map": "guild_vs1",
+			"image_kind": "image"
+		},
+		{
+			"id": 355,
+			"map": "guild_vs2",
+			"name": "公会竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "guild_vs2",
+			"image_map": "guild_vs2",
+			"image_kind": "image"
+		},
+		{
+			"id": 356,
+			"map": "guild_vs3",
+			"name": "公会竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "guild_vs3",
+			"image_map": "guild_vs3",
+			"image_kind": "image"
+		},
+		{
+			"id": 357,
+			"map": "guild_vs4",
+			"name": "公会竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "guild_vs4",
+			"image_map": "guild_vs4",
+			"image_kind": "image"
+		},
+		{
+			"id": 358,
+			"map": "guild_vs5",
+			"name": "公会竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "guild_vs5",
+			"image_map": "guild_vs5",
+			"image_kind": "image"
+		},
+		{
+			"id": 359,
+			"map": "guild_vs1-1",
+			"name": "guild_vs1-1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "guild_vs1-1",
+			"image_map": "guild_vs1-1",
+			"image_kind": null
+		},
+		{
+			"id": 360,
+			"map": "guild_vs1-2",
+			"name": "guild_vs1-2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "guild_vs1-2",
+			"image_map": "guild_vs1-2",
+			"image_kind": null
+		},
+		{
+			"id": 361,
+			"map": "guild_vs1-3",
+			"name": "guild_vs1-3",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "guild_vs1-3",
+			"image_map": "guild_vs1-3",
+			"image_kind": null
+		},
+		{
+			"id": 362,
+			"map": "guild_vs1-4",
+			"name": "guild_vs1-4",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "guild_vs1-4",
+			"image_map": "guild_vs1-4",
+			"image_kind": null
+		},
+		{
+			"id": 363,
+			"map": "guild_vs2-1",
+			"name": "guild_vs2-1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "guild_vs2-1",
+			"image_map": "guild_vs2-1",
+			"image_kind": null
+		},
+		{
+			"id": 364,
+			"map": "guild_vs2-2",
+			"name": "guild_vs2-2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "guild_vs2-2",
+			"image_map": "guild_vs2-2",
+			"image_kind": null
+		},
+		{
+			"id": 365,
+			"map": "job_hunte",
+			"name": "猎人转职场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_hunte",
+			"image_map": "job_hunte",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 366,
+			"map": "job_knt",
+			"name": "骑士领域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_knt",
+			"image_map": "job_knt",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 367,
+			"map": "job_prist",
+			"name": "牧师领域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_prist",
+			"image_map": "job_prist",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 368,
+			"map": "job_wiz",
+			"name": "巫师领域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_wiz",
+			"image_map": "job_wiz",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 369,
+			"map": "pay_gld",
+			"name": "斐扬森林 - 绿林湖（公会）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_gld",
+			"image_map": "pay_gld",
+			"image_kind": "image"
+		},
+		{
+			"id": 370,
+			"map": "payg_cas01",
+			"name": "光辉树堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payg_cas01",
+			"image_map": "payg_cas01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 371,
+			"map": "payg_cas02",
+			"name": "绯红宫殿城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payg_cas02",
+			"image_map": "payg_cas02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 372,
+			"map": "payg_cas03",
+			"name": "圣影城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payg_cas03",
+			"image_map": "payg_cas03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 373,
+			"map": "payg_cas04",
+			"name": "圣坛城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payg_cas04",
+			"image_map": "payg_cas04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 374,
+			"map": "payg_cas05",
+			"name": "竹林山城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payg_cas05",
+			"image_map": "payg_cas05",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 375,
+			"map": "prt_gld",
+			"name": "女武神领域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_gld",
+			"image_map": "prt_gld",
+			"image_kind": "image"
+		},
+		{
+			"id": 376,
+			"map": "prtg_cas01",
+			"name": "克里姆希尔德城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prtg_cas01",
+			"image_map": "prtg_cas01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 377,
+			"map": "prtg_cas02",
+			"name": "斯旺希尔德城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prtg_cas02",
+			"image_map": "prtg_cas02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 378,
+			"map": "prtg_cas03",
+			"name": "法德格里德城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prtg_cas03",
+			"image_map": "prtg_cas03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 379,
+			"map": "prtg_cas04",
+			"name": "斯科格尔城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prtg_cas04",
+			"image_map": "prtg_cas04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 380,
+			"map": "prtg_cas05",
+			"name": "贡杜尔城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prtg_cas05",
+			"image_map": "prtg_cas05",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 381,
+			"map": "alde_alche",
+			"name": "炼金术士领域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alde_alche",
+			"image_map": "alde_alche",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 382,
+			"map": "in_rogue",
+			"name": "盗贼公会内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "in_rogue",
+			"image_map": "in_rogue",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 383,
+			"map": "job_cru",
+			"name": "十字军领域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_cru",
+			"image_map": "job_cru",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 384,
+			"map": "job_duncer",
+			"name": "科摩多剧院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_duncer",
+			"image_map": "job_duncer",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 385,
+			"map": "job_monk",
+			"name": "圣卡皮托利纳修道院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_monk",
+			"image_map": "job_monk",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 386,
+			"map": "job_sage",
+			"name": "贤者领域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_sage",
+			"image_map": "job_sage",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 387,
+			"map": "mag_dun01",
+			"name": "诺可罗德1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mag_dun01",
+			"image_map": "mag_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 388,
+			"map": "mag_dun02",
+			"name": "诺格道路 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mag_dun02",
+			"image_map": "mag_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 389,
+			"map": "monk_test",
+			"name": "圣卡皮托利纳修道院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "monk_test",
+			"image_map": "monk_test",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 390,
+			"map": "quiz_test",
+			"name": "问答大厅",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "quiz_test",
+			"image_map": "quiz_test",
+			"image_kind": null
+		},
+		{
+			"id": 391,
+			"map": "yuno",
+			"name": "朱诺，施瓦茨瓦尔德共和国首都",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno",
+			"image_map": "yuno",
+			"image_kind": "image"
+		},
+		{
+			"id": 392,
+			"map": "yuno_fild01",
+			"name": "朱诺原野 01 - 边境哨站",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild01",
+			"image_map": "yuno_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 393,
+			"map": "yuno_fild02",
+			"name": "朱诺原野 02 - 基尔·海伊尔的小屋",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild02",
+			"image_map": "yuno_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 394,
+			"map": "yuno_fild03",
+			"name": "朱诺原野 03 - 埃尔梅斯高原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild03",
+			"image_map": "yuno_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 395,
+			"map": "yuno_fild04",
+			"name": "朱诺原野 04 - 埃尔梅斯高原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild04",
+			"image_map": "yuno_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 396,
+			"map": "yuno_in01",
+			"name": "朱诺内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_in01",
+			"image_map": "yuno_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 397,
+			"map": "yuno_in02",
+			"name": "贤者城堡内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_in02",
+			"image_map": "yuno_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 398,
+			"map": "yuno_in03",
+			"name": "朱诺内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_in03",
+			"image_map": "yuno_in03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 399,
+			"map": "yuno_in04",
+			"name": "共和国图书馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_in04",
+			"image_map": "yuno_in04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 400,
+			"map": "yuno_in05",
+			"name": "伊米尔之心发电厂",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_in05",
+			"image_map": "yuno_in05",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 401,
+			"map": "ama_dun01",
+			"name": "榻榻米迷宫",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ama_dun01",
+			"image_map": "ama_dun01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 402,
+			"map": "ama_dun02",
+			"name": "地下森林战场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ama_dun02",
+			"image_map": "ama_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 403,
+			"map": "ama_dun03",
+			"name": "天津地下神社",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ama_dun03",
+			"image_map": "ama_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 404,
+			"map": "ama_fild01",
+			"name": "天津原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ama_fild01",
+			"image_map": "ama_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 405,
+			"map": "ama_in01",
+			"name": "天津町内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ama_in01",
+			"image_map": "ama_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 406,
+			"map": "ama_in02",
+			"name": "姬路城内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ama_in02",
+			"image_map": "ama_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 407,
+			"map": "ama_test",
+			"name": "桃太郎体验场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ama_test",
+			"image_map": "ama_test",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 408,
+			"map": "amatsu",
+			"name": "天津",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "amatsu",
+			"image_map": "amatsu",
+			"image_kind": "image"
+		},
+		{
+			"id": 409,
+			"map": "gon_dun01",
+			"name": "昆仑地下城 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gon_dun01",
+			"image_map": "gon_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 410,
+			"map": "gon_dun02",
+			"name": "隐士棋盘",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gon_dun02",
+			"image_map": "gon_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 411,
+			"map": "gon_dun03",
+			"name": "桃花乡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gon_dun03",
+			"image_map": "gon_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 412,
+			"map": "gon_fild01",
+			"name": "昆仑原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gon_fild01",
+			"image_map": "gon_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 413,
+			"map": "gon_in",
+			"name": "昆仑内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gon_in",
+			"image_map": "gon_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 414,
+			"map": "gon_test",
+			"name": "昆仑斗技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gon_test",
+			"image_map": "gon_test",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 415,
+			"map": "gonryun",
+			"name": "昆仑",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gonryun",
+			"image_map": "gonryun",
+			"image_kind": "image"
+		},
+		{
+			"id": 416,
+			"map": "sec_in01",
+			"name": "英灵殿内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sec_in01",
+			"image_map": "sec_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 417,
+			"map": "sec_in02",
+			"name": "英灵殿内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sec_in02",
+			"image_map": "sec_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 418,
+			"map": "sec_pri",
+			"name": "冥想之间（英灵殿监狱）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sec_pri",
+			"image_map": "sec_pri",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 419,
+			"map": "umbala",
+			"name": "乌姆巴拉城镇",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "umbala",
+			"image_map": "umbala",
+			"image_kind": "image"
+		},
+		{
+			"id": 420,
+			"map": "um_dun01",
+			"name": "树中木工坊",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "um_dun01",
+			"image_map": "um_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 421,
+			"map": "um_dun02",
+			"name": "异世界通道",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "um_dun02",
+			"image_map": "um_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 422,
+			"map": "um_fild01",
+			"name": "乌姆巴拉森林 01－鲁鲁卡森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "um_fild01",
+			"image_map": "um_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 423,
+			"map": "um_fild02",
+			"name": "乌姆巴拉森林 02－胡姆加森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "um_fild02",
+			"image_map": "um_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 424,
+			"map": "um_fild03",
+			"name": "乌姆巴拉森林 03－卡拉拉沼泽",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "um_fild03",
+			"image_map": "um_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 425,
+			"map": "um_fild04",
+			"name": "乌姆巴拉森林 04－胡姆加丛林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "um_fild04",
+			"image_map": "um_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 426,
+			"map": "um_in",
+			"name": "乌巴拉内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "um_in",
+			"image_map": "um_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 427,
+			"map": "niflheim",
+			"name": "尼芙菲姆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "niflheim",
+			"image_map": "niflheim",
+			"image_kind": "image"
+		},
+		{
+			"id": 428,
+			"map": "nif_fild01",
+			"name": "尼弗尔海姆的斯凯灵顿孤独村落",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nif_fild01",
+			"image_map": "nif_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 429,
+			"map": "nif_fild02",
+			"name": "尼芙菲姆山谷",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nif_fild02",
+			"image_map": "nif_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 430,
+			"map": "nif_in",
+			"name": "尼芙菲姆内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nif_in",
+			"image_map": "nif_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 431,
+			"map": "yggdrasil01",
+			"name": "赫瓦格密尔泉（天地树树干）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yggdrasil01",
+			"image_map": "yggdrasil01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 432,
+			"map": "valkyrie",
+			"name": "女武神大厅",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "valkyrie",
+			"image_map": "valkyrie",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 433,
+			"map": "himinn",
+			"name": "女武神大厅（Himinn）",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "himinn",
+			"image_map": "himinn",
+			"image_kind": null
+		},
+		{
+			"id": 434,
+			"map": "lou_in01",
+			"name": "洛阳内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lou_in01",
+			"image_map": "lou_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 435,
+			"map": "lou_in02",
+			"name": "洛阳内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lou_in02",
+			"image_map": "lou_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 436,
+			"map": "lou_dun03",
+			"name": "岁龙宫",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lou_dun03",
+			"image_map": "lou_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 437,
+			"map": "lou_dun02",
+			"name": "王家陵墓内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lou_dun02",
+			"image_map": "lou_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 438,
+			"map": "lou_dun01",
+			"name": "洛阳地下城 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lou_dun01",
+			"image_map": "lou_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 439,
+			"map": "lou_fild01",
+			"name": "洛阳原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lou_fild01",
+			"image_map": "lou_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 440,
+			"map": "louyang",
+			"name": "洛阳",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "louyang",
+			"image_map": "louyang",
+			"image_kind": "image"
+		},
+		{
+			"id": 441,
+			"map": "siege_test",
+			"name": "siege_test",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "siege_test",
+			"image_map": "siege_test",
+			"image_kind": null
+		},
+		{
+			"id": 442,
+			"map": "n_castle",
+			"name": "n_castle",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "n_castle",
+			"image_map": "n_castle",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 443,
+			"map": "nguild_gef",
+			"name": "nguild_gef",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "nguild_gef",
+			"image_map": "nguild_gef",
+			"image_kind": null
+		},
+		{
+			"id": 444,
+			"map": "nguild_prt",
+			"name": "nguild_prt",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "nguild_prt",
+			"image_map": "nguild_prt",
+			"image_kind": null
+		},
+		{
+			"id": 445,
+			"map": "nguild_pay",
+			"name": "nguild_pay",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "nguild_pay",
+			"image_map": "nguild_pay",
+			"image_kind": null
+		},
+		{
+			"id": 446,
+			"map": "nguild_alde",
+			"name": "nguild_alde",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "nguild_alde",
+			"image_map": "nguild_alde",
+			"image_kind": null
+		},
+		{
+			"id": 447,
+			"map": "jawaii",
+			"name": "蜜月岛爪哇",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jawaii",
+			"image_map": "jawaii",
+			"image_kind": "image"
+		},
+		{
+			"id": 448,
+			"map": "jawaii_in",
+			"name": "爪哇伊内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jawaii_in",
+			"image_map": "jawaii_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 449,
+			"map": "gefenia01",
+			"name": "吉芬尼亚",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefenia01",
+			"image_map": "gefenia01",
+			"image_kind": "image"
+		},
+		{
+			"id": 450,
+			"map": "gefenia02",
+			"name": "吉芬尼亚",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefenia02",
+			"image_map": "gefenia02",
+			"image_kind": "image"
+		},
+		{
+			"id": 451,
+			"map": "gefenia03",
+			"name": "吉芬尼亚",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefenia03",
+			"image_map": "gefenia03",
+			"image_kind": "image"
+		},
+		{
+			"id": 452,
+			"map": "gefenia04",
+			"name": "吉芬尼亚",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gefenia04",
+			"image_map": "gefenia04",
+			"image_kind": "image"
+		},
+		{
+			"id": 453,
+			"map": "new_zone01",
+			"name": "new_zone01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "new_zone01",
+			"image_map": "new_zone01",
+			"image_kind": "image"
+		},
+		{
+			"id": 454,
+			"map": "new_zone02",
+			"name": "new_zone02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "new_zone02",
+			"image_map": "new_zone02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 455,
+			"map": "new_zone03",
+			"name": "new_zone03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "new_zone03",
+			"image_map": "new_zone03",
+			"image_kind": "image"
+		},
+		{
+			"id": 456,
+			"map": "new_zone04",
+			"name": "new_zone04",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "new_zone04",
+			"image_map": "new_zone04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 457,
+			"map": "payon_in03",
+			"name": "斐扬内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "payon_in03",
+			"image_map": "payon_in03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 458,
+			"map": "ayothaya",
+			"name": "阿瑜陀耶",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ayothaya",
+			"image_map": "ayothaya",
+			"image_kind": "image"
+		},
+		{
+			"id": 459,
+			"map": "ayo_in01",
+			"name": "阿尤塔亚内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ayo_in01",
+			"image_map": "ayo_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 460,
+			"map": "ayo_in02",
+			"name": "阿育他亚内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ayo_in02",
+			"image_map": "ayo_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 461,
+			"map": "ayo_fild01",
+			"name": "阿瑜陀耶原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ayo_fild01",
+			"image_map": "ayo_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 462,
+			"map": "ayo_fild02",
+			"name": "阿育王朝原野",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ayo_fild02",
+			"image_map": "ayo_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 463,
+			"map": "ayo_dun01",
+			"name": "古代神殿迷宫",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ayo_dun01",
+			"image_map": "ayo_dun01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 464,
+			"map": "ayo_dun02",
+			"name": "古代神殿内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ayo_dun02",
+			"image_map": "ayo_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 465,
+			"map": "que_god01",
+			"name": "任务地图",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_god01",
+			"image_map": "que_god01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 466,
+			"map": "que_god02",
+			"name": "任务地图",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_god02",
+			"image_map": "que_god02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 467,
+			"map": "yuno_fild05",
+			"name": "朱诺原野 05 - 埃尔梅斯高原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild05",
+			"image_map": "yuno_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 468,
+			"map": "yuno_fild07",
+			"name": "朱诺原野 07 - 埃尔梅斯峡谷（深渊之谷）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild07",
+			"image_map": "yuno_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 469,
+			"map": "yuno_fild08",
+			"name": "朱诺原野 08 - 基尔·海伊尔学院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild08",
+			"image_map": "yuno_fild08",
+			"image_kind": "image"
+		},
+		{
+			"id": 470,
+			"map": "yuno_fild09",
+			"name": "朱诺原野 09 - 施瓦茨瓦尔德卫兵营地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild09",
+			"image_map": "yuno_fild09",
+			"image_kind": "image"
+		},
+		{
+			"id": 471,
+			"map": "yuno_fild11",
+			"name": "朱诺原野 11",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild11",
+			"image_map": "yuno_fild11",
+			"image_kind": "image"
+		},
+		{
+			"id": 472,
+			"map": "yuno_fild12",
+			"name": "朱诺原野 12 - 边境检查站",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild12",
+			"image_map": "yuno_fild12",
+			"image_kind": "image"
+		},
+		{
+			"id": 473,
+			"map": "alde_tt02",
+			"name": "alde_tt02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alde_tt02",
+			"image_map": "alde_tt02",
+			"image_kind": "image"
+		},
+		{
+			"id": 474,
+			"map": "turbo_n_1",
+			"name": "极速赛道竞技场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "turbo_n_1",
+			"image_map": "turbo_n_1",
+			"image_kind": null
+		},
+		{
+			"id": 475,
+			"map": "turbo_n_4",
+			"name": "极速赛道竞技场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "turbo_n_4",
+			"image_map": "turbo_n_4",
+			"image_kind": null
+		},
+		{
+			"id": 476,
+			"map": "turbo_n_8",
+			"name": "极速赛道竞技场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "turbo_n_8",
+			"image_map": "turbo_n_8",
+			"image_kind": null
+		},
+		{
+			"id": 477,
+			"map": "turbo_n_16",
+			"name": "极速赛道竞技场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "turbo_n_16",
+			"image_map": "turbo_n_16",
+			"image_kind": null
+		},
+		{
+			"id": 478,
+			"map": "turbo_e_4",
+			"name": "极速赛道体育场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "turbo_e_4",
+			"image_map": "turbo_e_4",
+			"image_kind": null
+		},
+		{
+			"id": 479,
+			"map": "turbo_e_8",
+			"name": "极速赛道竞技场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "turbo_e_8",
+			"image_map": "turbo_e_8",
+			"image_kind": null
+		},
+		{
+			"id": 480,
+			"map": "turbo_e_16",
+			"name": "极速赛道竞技场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "turbo_e_16",
+			"image_map": "turbo_e_16",
+			"image_kind": null
+		},
+		{
+			"id": 481,
+			"map": "turbo_room",
+			"name": "等候室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "turbo_room",
+			"image_map": "turbo_room",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 482,
+			"map": "airplane",
+			"name": "飞空艇",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "airplane",
+			"image_map": "airplane",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 483,
+			"map": "airport",
+			"name": "机场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "airport",
+			"image_map": "airport",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 484,
+			"map": "einbech",
+			"name": "艾因贝赫，矿业村庄",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "einbech",
+			"image_map": "einbech",
+			"image_kind": "image"
+		},
+		{
+			"id": 485,
+			"map": "einbroch",
+			"name": "艾因布洛克，钢铁之城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "einbroch",
+			"image_map": "einbroch",
+			"image_kind": "image"
+		},
+		{
+			"id": 486,
+			"map": "ein_dun01",
+			"name": "艾音布罗克矿山 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_dun01",
+			"image_map": "ein_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 487,
+			"map": "ein_dun02",
+			"name": "艾音布罗克矿山 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_dun02",
+			"image_map": "ein_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 488,
+			"map": "ein_fild06",
+			"name": "艾因布洛克原野 06",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild06",
+			"image_map": "ein_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 489,
+			"map": "ein_fild07",
+			"name": "艾因布洛克原野 07",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild07",
+			"image_map": "ein_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 490,
+			"map": "ein_fild08",
+			"name": "艾因布洛克原野 08",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild08",
+			"image_map": "ein_fild08",
+			"image_kind": "image"
+		},
+		{
+			"id": 491,
+			"map": "ein_fild09",
+			"name": "艾因布洛克原野 09",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild09",
+			"image_map": "ein_fild09",
+			"image_kind": "image"
+		},
+		{
+			"id": 492,
+			"map": "ein_fild10",
+			"name": "艾因布洛克原野 10",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild10",
+			"image_map": "ein_fild10",
+			"image_kind": "image"
+		},
+		{
+			"id": 493,
+			"map": "ein_in01",
+			"name": "艾因布洛克内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_in01",
+			"image_map": "ein_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 494,
+			"map": "que_sign01",
+			"name": "que_sign01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_sign01",
+			"image_map": "que_sign01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 495,
+			"map": "que_sign02",
+			"name": "que_sign02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_sign02",
+			"image_map": "que_sign02",
+			"image_kind": null
+		},
+		{
+			"id": 496,
+			"map": "ein_fild03",
+			"name": "艾因布洛克原野 03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild03",
+			"image_map": "ein_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 497,
+			"map": "ein_fild04",
+			"name": "艾因布洛克原野 04",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild04",
+			"image_map": "ein_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 498,
+			"map": "lhz_fild02",
+			"name": "莱特森原野 02 - 莱特森原野（死神之谷）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_fild02",
+			"image_map": "lhz_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 499,
+			"map": "lhz_fild03",
+			"name": "莱特森原野 03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_fild03",
+			"image_map": "lhz_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 500,
+			"map": "yuno_pre",
+			"name": "施瓦茨瓦尔德政府大楼",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_pre",
+			"image_map": "yuno_pre",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 501,
+			"map": "lhz_fild01",
+			"name": "莱特森原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_fild01",
+			"image_map": "lhz_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 502,
+			"map": "lighthalzen",
+			"name": "莱特森，繁荣的城邦",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lighthalzen",
+			"image_map": "lighthalzen",
+			"image_kind": "image"
+		},
+		{
+			"id": 503,
+			"map": "lhz_in01",
+			"name": "雷根贝勒公司总部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_in01",
+			"image_map": "lhz_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 504,
+			"map": "lhz_in02",
+			"name": "莱特森内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_in02",
+			"image_map": "lhz_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 505,
+			"map": "lhz_in03",
+			"name": "拉赫内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_in03",
+			"image_map": "lhz_in03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 506,
+			"map": "lhz_que01",
+			"name": "莱特森内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_que01",
+			"image_map": "lhz_que01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 507,
+			"map": "lhz_dun01",
+			"name": "生命体研究所 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_dun01",
+			"image_map": "lhz_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 508,
+			"map": "lhz_dun02",
+			"name": "生体研究所 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_dun02",
+			"image_map": "lhz_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 509,
+			"map": "lhz_dun03",
+			"name": "生体研究所 3层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_dun03",
+			"image_map": "lhz_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 510,
+			"map": "lhz_cube",
+			"name": "立方体房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_cube",
+			"image_map": "lhz_cube",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 511,
+			"map": "juperos_01",
+			"name": "朱诺斯遗迹外部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "juperos_01",
+			"image_map": "juperos_01",
+			"image_kind": "image"
+		},
+		{
+			"id": 512,
+			"map": "juperos_02",
+			"name": "朱佩洛斯遗迹内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "juperos_02",
+			"image_map": "juperos_02",
+			"image_kind": "image"
+		},
+		{
+			"id": 513,
+			"map": "jupe_area1",
+			"name": "朱佩洛斯限制区域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jupe_area1",
+			"image_map": "jupe_area1",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 514,
+			"map": "jupe_area2",
+			"name": "朱佩洛斯禁区",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jupe_area2",
+			"image_map": "jupe_area2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 515,
+			"map": "jupe_core",
+			"name": "朱佩洛斯中心",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jupe_core",
+			"image_map": "jupe_core",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 516,
+			"map": "jupe_ele",
+			"name": "朱佩洛斯升降梯",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jupe_ele",
+			"image_map": "jupe_ele",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 517,
+			"map": "jupe_ele_r",
+			"name": "朱佩洛斯电梯房",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jupe_ele_r",
+			"image_map": "jupe_ele_r",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 518,
+			"map": "jupe_gate",
+			"name": "朱佩洛斯",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jupe_gate",
+			"image_map": "jupe_gate",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 519,
+			"map": "y_airport",
+			"name": "朱诺机场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "y_airport",
+			"image_map": "y_airport",
+			"image_kind": null
+		},
+		{
+			"id": 520,
+			"map": "lhz_airport",
+			"name": "里希塔乐镇机场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "lhz_airport",
+			"image_map": "lhz_airport",
+			"image_kind": null
+		},
+		{
+			"id": 521,
+			"map": "airplane_01",
+			"name": "飞艇",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "airplane_01",
+			"image_map": "airplane_01",
+			"image_kind": null
+		},
+		{
+			"id": 522,
+			"map": "jupe_cave",
+			"name": "朱佩洛斯遗迹入口",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "jupe_cave",
+			"image_map": "jupe_cave",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 523,
+			"map": "quiz_02",
+			"name": "问答竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "quiz_02",
+			"image_map": "quiz_02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 524,
+			"map": "hu_fild07",
+			"name": "胡戈尔原野 07",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hu_fild07",
+			"image_map": "hu_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 525,
+			"map": "hu_fild05",
+			"name": "胡戈尔原野 05 - 深渊湖入口",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hu_fild05",
+			"image_map": "hu_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 526,
+			"map": "hu_fild04",
+			"name": "胡戈尔原野 04",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hu_fild04",
+			"image_map": "hu_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 527,
+			"map": "hu_fild01",
+			"name": "胡戈尔原野 01 - 塔纳托斯塔入口",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hu_fild01",
+			"image_map": "hu_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 528,
+			"map": "yuno_fild06",
+			"name": "朱诺原野 06 - 埃尔梅斯高原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild06",
+			"image_map": "yuno_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 529,
+			"map": "job_soul",
+			"name": "你的心",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_soul",
+			"image_map": "job_soul",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 530,
+			"map": "job_star",
+			"name": "日月星辰",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_star",
+			"image_map": "job_star",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 531,
+			"map": "que_job01",
+			"name": "私人酒馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_job01",
+			"image_map": "que_job01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 532,
+			"map": "que_job02",
+			"name": "que_job02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_job02",
+			"image_map": "que_job02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 533,
+			"map": "que_job03",
+			"name": "que_job03",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_job03",
+			"image_map": "que_job03",
+			"image_kind": null
+		},
+		{
+			"id": 534,
+			"map": "abyss_01",
+			"name": "深渊湖地下洞穴1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "abyss_01",
+			"image_map": "abyss_01",
+			"image_kind": "image"
+		},
+		{
+			"id": 535,
+			"map": "abyss_02",
+			"name": "深渊湖地下洞窟 2F",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "abyss_02",
+			"image_map": "abyss_02",
+			"image_kind": "image"
+		},
+		{
+			"id": 536,
+			"map": "abyss_03",
+			"name": "深渊湖地下洞窟 3层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "abyss_03",
+			"image_map": "abyss_03",
+			"image_kind": "image"
+		},
+		{
+			"id": 537,
+			"map": "thana_step",
+			"name": "塔纳托斯塔上层 - 楼梯",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "thana_step",
+			"image_map": "thana_step",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 538,
+			"map": "thana_boss",
+			"name": "塔纳托斯之塔－未知区域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "thana_boss",
+			"image_map": "thana_boss",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 539,
+			"map": "tha_scene01",
+			"name": "tha_scene01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_scene01",
+			"image_map": "tha_scene01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 540,
+			"map": "tha_t01",
+			"name": "达纳托斯塔博物馆入口",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t01",
+			"image_map": "tha_t01",
+			"image_kind": "image"
+		},
+		{
+			"id": 541,
+			"map": "tha_t02",
+			"name": "塔纳托斯塔博物馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t02",
+			"image_map": "tha_t02",
+			"image_kind": "image"
+		},
+		{
+			"id": 542,
+			"map": "tha_t03",
+			"name": "塔纳托斯塔废弃之地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t03",
+			"image_map": "tha_t03",
+			"image_kind": "image"
+		},
+		{
+			"id": 543,
+			"map": "tha_t04",
+			"name": "塔纳托斯塔废弃之地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t04",
+			"image_map": "tha_t04",
+			"image_kind": "image"
+		},
+		{
+			"id": 544,
+			"map": "tha_t07",
+			"name": "塔纳托斯塔上层 - 天使之室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t07",
+			"image_map": "tha_t07",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 545,
+			"map": "tha_t05",
+			"name": "塔纳托斯塔上层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t05",
+			"image_map": "tha_t05",
+			"image_kind": "image"
+		},
+		{
+			"id": 546,
+			"map": "tha_t06",
+			"name": "塔纳托斯塔上层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t06",
+			"image_map": "tha_t06",
+			"image_kind": "image"
+		},
+		{
+			"id": 547,
+			"map": "tha_t08",
+			"name": "塔纳托斯塔上层 - 天使之间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t08",
+			"image_map": "tha_t08",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 548,
+			"map": "tha_t09",
+			"name": "塔纳托斯之塔上层－苦痛房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t09",
+			"image_map": "tha_t09",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 549,
+			"map": "tha_t10",
+			"name": "塔纳托斯塔上层 - 悲伤之间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t10",
+			"image_map": "tha_t10",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 550,
+			"map": "tha_t11",
+			"name": "塔纳托斯塔上层 - 绝望之室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t11",
+			"image_map": "tha_t11",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 551,
+			"map": "tha_t12",
+			"name": "塔纳托斯塔上层－憎恨之间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tha_t12",
+			"image_map": "tha_t12",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 552,
+			"map": "auction_01",
+			"name": "拍卖大厅",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "auction_01",
+			"image_map": "auction_01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 553,
+			"map": "auction_02",
+			"name": "拍卖大厅",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "auction_02",
+			"image_map": "auction_02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 554,
+			"map": "hugel",
+			"name": "胡戈尔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hugel",
+			"image_map": "hugel",
+			"image_kind": "image"
+		},
+		{
+			"id": 555,
+			"map": "hu_in01",
+			"name": "胡戈尔内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hu_in01",
+			"image_map": "hu_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 556,
+			"map": "que_bingo",
+			"name": "宾果游戏室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_bingo",
+			"image_map": "que_bingo",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 557,
+			"map": "que_hugel",
+			"name": "奥丁神殿地下",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_hugel",
+			"image_map": "que_hugel",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 558,
+			"map": "p_track01",
+			"name": "魔物赛跑竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "p_track01",
+			"image_map": "p_track01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 559,
+			"map": "p_track02",
+			"name": "怪物赛跑竞技场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "p_track02",
+			"image_map": "p_track02",
+			"image_kind": null
+		},
+		{
+			"id": 560,
+			"map": "odin_tem01",
+			"name": "奥丁神殿 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "odin_tem01",
+			"image_map": "odin_tem01",
+			"image_kind": "image"
+		},
+		{
+			"id": 561,
+			"map": "odin_tem02",
+			"name": "奥丁神殿 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "odin_tem02",
+			"image_map": "odin_tem02",
+			"image_kind": "image"
+		},
+		{
+			"id": 562,
+			"map": "odin_tem03",
+			"name": "奥丁神殿 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "odin_tem03",
+			"image_map": "odin_tem03",
+			"image_kind": "image"
+		},
+		{
+			"id": 563,
+			"map": "hu_fild02",
+			"name": "胡戈尔原野 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hu_fild02",
+			"image_map": "hu_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 564,
+			"map": "hu_fild03",
+			"name": "胡戈尔原野 03 - 皇家狩猎场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hu_fild03",
+			"image_map": "hu_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 565,
+			"map": "hu_fild06",
+			"name": "胡戈尔原野 06",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "hu_fild06",
+			"image_map": "hu_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 566,
+			"map": "ein_fild01",
+			"name": "艾因布洛克原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild01",
+			"image_map": "ein_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 567,
+			"map": "ein_fild02",
+			"name": "艾因布洛克原野 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild02",
+			"image_map": "ein_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 568,
+			"map": "ein_fild05",
+			"name": "艾因布洛克原野 05",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_fild05",
+			"image_map": "ein_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 569,
+			"map": "yuno_fild10",
+			"name": "朱诺原野 10",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "yuno_fild10",
+			"image_map": "yuno_fild10",
+			"image_kind": "image"
+		},
+		{
+			"id": 570,
+			"map": "kh_kiehl02",
+			"name": "基尔的房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "kh_kiehl02",
+			"image_map": "kh_kiehl02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 571,
+			"map": "kh_kiehl01",
+			"name": "基尔的房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "kh_kiehl01",
+			"image_map": "kh_kiehl01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 572,
+			"map": "kh_dun02",
+			"name": "机器人制造厂 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "kh_dun02",
+			"image_map": "kh_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 573,
+			"map": "kh_dun01",
+			"name": "机器人工厂 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "kh_dun01",
+			"image_map": "kh_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 574,
+			"map": "kh_mansion",
+			"name": "基尔·海伊尔宅邸",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "kh_mansion",
+			"image_map": "kh_mansion",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 575,
+			"map": "kh_rossi",
+			"name": "罗西米尔宅邸",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "kh_rossi",
+			"image_map": "kh_rossi",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 576,
+			"map": "kh_school",
+			"name": "基尔·海勒学院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "kh_school",
+			"image_map": "kh_school",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 577,
+			"map": "kh_vila",
+			"name": "基尔·海伊尔的小屋",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "kh_vila",
+			"image_map": "kh_vila",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 578,
+			"map": "force_map1",
+			"name": "force_map1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_map1",
+			"image_map": "force_map1",
+			"image_kind": "image"
+		},
+		{
+			"id": 579,
+			"map": "force_map2",
+			"name": "force_map2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_map2",
+			"image_map": "force_map2",
+			"image_kind": "image"
+		},
+		{
+			"id": 580,
+			"map": "force_map3",
+			"name": "force_map3",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_map3",
+			"image_map": "force_map3",
+			"image_kind": "image"
+		},
+		{
+			"id": 581,
+			"map": "job_hunter",
+			"name": "job_hunter",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "job_hunter",
+			"image_map": "job_hunter",
+			"image_kind": "image"
+		},
+		{
+			"id": 582,
+			"map": "job_knight",
+			"name": "job_knight",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "job_knight",
+			"image_map": "job_knight",
+			"image_kind": "image"
+		},
+		{
+			"id": 583,
+			"map": "job_priest",
+			"name": "job_priest",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "job_priest",
+			"image_map": "job_priest",
+			"image_kind": "image"
+		},
+		{
+			"id": 584,
+			"map": "job_wizard",
+			"name": "job_wizard",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "job_wizard",
+			"image_map": "job_wizard",
+			"image_kind": "image"
+		},
+		{
+			"id": 585,
+			"map": "ve_in02",
+			"name": "维恩斯内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_in02",
+			"image_map": "ve_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 586,
+			"map": "rachel",
+			"name": "拉赫，阿鲁纳佩尔兹学术国首都",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "rachel",
+			"image_map": "rachel",
+			"image_kind": "image"
+		},
+		{
+			"id": 587,
+			"map": "ra_in01",
+			"name": "拉赫内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_in01",
+			"image_map": "ra_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 588,
+			"map": "ra_fild01",
+			"name": "拉赫原野 01 - 奥杜姆拉草原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild01",
+			"image_map": "ra_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 589,
+			"map": "ra_fild02",
+			"name": "拉赫原野 02 - 奥兹峡谷",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild02",
+			"image_map": "ra_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 590,
+			"map": "ra_fild03",
+			"name": "拉赫原野 03 - 伊达平原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild03",
+			"image_map": "ra_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 591,
+			"map": "ra_fild04",
+			"name": "拉赫原野 04 - 奥杜姆拉草原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild04",
+			"image_map": "ra_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 592,
+			"map": "ra_fild05",
+			"name": "拉赫原野 05 - 奥杜姆拉草原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild05",
+			"image_map": "ra_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 593,
+			"map": "ra_fild06",
+			"name": "拉赫原野 06 - 福图鲁纳",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild06",
+			"image_map": "ra_fild06",
+			"image_kind": "image"
+		},
+		{
+			"id": 594,
+			"map": "ra_fild07",
+			"name": "拉赫原野 07 - 奥兹峡谷",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild07",
+			"image_map": "ra_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 595,
+			"map": "ra_fild08",
+			"name": "拉赫原野 08 - 伊达平原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild08",
+			"image_map": "ra_fild08",
+			"image_kind": "image"
+		},
+		{
+			"id": 596,
+			"map": "ra_fild09",
+			"name": "拉赫原野 09 - 奥杜姆拉草原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild09",
+			"image_map": "ra_fild09",
+			"image_kind": "image"
+		},
+		{
+			"id": 597,
+			"map": "ra_fild10",
+			"name": "拉赫原野 10－奥兹峡谷",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild10",
+			"image_map": "ra_fild10",
+			"image_kind": "image"
+		},
+		{
+			"id": 598,
+			"map": "ra_fild11",
+			"name": "拉赫原野 11－伊达平原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild11",
+			"image_map": "ra_fild11",
+			"image_kind": "image"
+		},
+		{
+			"id": 599,
+			"map": "ra_fild12",
+			"name": "拉赫原野 12－伊达平原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild12",
+			"image_map": "ra_fild12",
+			"image_kind": "image"
+		},
+		{
+			"id": 600,
+			"map": "ra_fild13",
+			"name": "拉赫原野 13－泪之海滩",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_fild13",
+			"image_map": "ra_fild13",
+			"image_kind": "image"
+		},
+		{
+			"id": 601,
+			"map": "ra_san01",
+			"name": "拉赫神殿圣域北区1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_san01",
+			"image_map": "ra_san01",
+			"image_kind": "image"
+		},
+		{
+			"id": 602,
+			"map": "ra_san02",
+			"name": "拉赫神殿圣域西区 1F",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_san02",
+			"image_map": "ra_san02",
+			"image_kind": "image"
+		},
+		{
+			"id": 603,
+			"map": "ra_san03",
+			"name": "拉赫神殿圣域东区 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_san03",
+			"image_map": "ra_san03",
+			"image_kind": "image"
+		},
+		{
+			"id": 604,
+			"map": "ra_san04",
+			"name": "拉赫神殿圣域南区 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_san04",
+			"image_map": "ra_san04",
+			"image_kind": "image"
+		},
+		{
+			"id": 605,
+			"map": "ra_san05",
+			"name": "拉赫神殿圣域中央区域 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_san05",
+			"image_map": "ra_san05",
+			"image_kind": "image"
+		},
+		{
+			"id": 606,
+			"map": "ra_temin",
+			"name": "拉赫圣域内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_temin",
+			"image_map": "ra_temin",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 607,
+			"map": "ra_temple",
+			"name": "拉赫神殿（塞斯鲁姆尼斯）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_temple",
+			"image_map": "ra_temple",
+			"image_kind": "image"
+		},
+		{
+			"id": 608,
+			"map": "ra_temsky",
+			"name": "教皇房间（天空花园）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ra_temsky",
+			"image_map": "ra_temsky",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 609,
+			"map": "que_rachel",
+			"name": "芙蕾雅神殿内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_rachel",
+			"image_map": "que_rachel",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 610,
+			"map": "ice_dun01",
+			"name": "拉赫冰洞 1F",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ice_dun01",
+			"image_map": "ice_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 611,
+			"map": "ice_dun02",
+			"name": "拉赫冰洞 2F",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ice_dun02",
+			"image_map": "ice_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 612,
+			"map": "ice_dun03",
+			"name": "拉赫冰洞 3层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ice_dun03",
+			"image_map": "ice_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 613,
+			"map": "ice_dun04",
+			"name": "拉赫冰洞 - 封印空间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ice_dun04",
+			"image_map": "ice_dun04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 614,
+			"map": "que_thor",
+			"name": "托尔火山地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_thor",
+			"image_map": "que_thor",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 615,
+			"map": "thor_camp",
+			"name": "托尔火山营地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "thor_camp",
+			"image_map": "thor_camp",
+			"image_kind": "image"
+		},
+		{
+			"id": 616,
+			"map": "thor_v01",
+			"name": "托尔火山地下城 1F",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "thor_v01",
+			"image_map": "thor_v01",
+			"image_kind": "image"
+		},
+		{
+			"id": 617,
+			"map": "thor_v02",
+			"name": "托尔火山迷宫 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "thor_v02",
+			"image_map": "thor_v02",
+			"image_kind": "image"
+		},
+		{
+			"id": 618,
+			"map": "thor_v03",
+			"name": "托尔火山迷宫 3层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "thor_v03",
+			"image_map": "thor_v03",
+			"image_kind": "image"
+		},
+		{
+			"id": 619,
+			"map": "veins",
+			"name": "维恩斯，峡谷村落",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "veins",
+			"image_map": "veins",
+			"image_kind": "image"
+		},
+		{
+			"id": 620,
+			"map": "ve_in",
+			"name": "维因斯内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_in",
+			"image_map": "ve_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 621,
+			"map": "ve_fild01",
+			"name": "维恩斯原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_fild01",
+			"image_map": "ve_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 622,
+			"map": "ve_fild02",
+			"name": "维恩斯原野 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_fild02",
+			"image_map": "ve_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 623,
+			"map": "ve_fild03",
+			"name": "维恩斯原野 03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_fild03",
+			"image_map": "ve_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 624,
+			"map": "ve_fild04",
+			"name": "维恩斯原野 04",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_fild04",
+			"image_map": "ve_fild04",
+			"image_kind": "image"
+		},
+		{
+			"id": 625,
+			"map": "ve_fild05",
+			"name": "维恩斯原野 05",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_fild05",
+			"image_map": "ve_fild05",
+			"image_kind": "image"
+		},
+		{
+			"id": 626,
+			"map": "ve_fild06",
+			"name": "维恩斯原野 06",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_fild06",
+			"image_map": "ve_fild06",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 627,
+			"map": "ve_fild07",
+			"name": "维恩斯原野 07",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ve_fild07",
+			"image_map": "ve_fild07",
+			"image_kind": "image"
+		},
+		{
+			"id": 628,
+			"map": "poring_c01",
+			"name": "poring_c01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "poring_c01",
+			"image_map": "poring_c01",
+			"image_kind": null
+		},
+		{
+			"id": 629,
+			"map": "poring_c02",
+			"name": "poring_c02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "poring_c02",
+			"image_map": "poring_c02",
+			"image_kind": null
+		},
+		{
+			"id": 630,
+			"map": "que_ng",
+			"name": "未知地点",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_ng",
+			"image_map": "que_ng",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 631,
+			"map": "nameless_i",
+			"name": "无名岛入口",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nameless_i",
+			"image_map": "nameless_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 632,
+			"map": "nameless_n",
+			"name": "无名岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nameless_n",
+			"image_map": "nameless_n",
+			"image_kind": "image"
+		},
+		{
+			"id": 633,
+			"map": "nameless_in",
+			"name": "无名岛内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nameless_in",
+			"image_map": "nameless_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 634,
+			"map": "abbey01",
+			"name": "诅咒修道院地下城 B1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "abbey01",
+			"image_map": "abbey01",
+			"image_kind": "image"
+		},
+		{
+			"id": 635,
+			"map": "abbey02",
+			"name": "诅咒修道院地下城 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "abbey02",
+			"image_map": "abbey02",
+			"image_kind": "image"
+		},
+		{
+			"id": 636,
+			"map": "abbey03",
+			"name": "诅咒修道院地下城 B3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "abbey03",
+			"image_map": "abbey03",
+			"image_kind": "image"
+		},
+		{
+			"id": 637,
+			"map": "poring_w01",
+			"name": "波利战争等候室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "poring_w01",
+			"image_map": "poring_w01",
+			"image_kind": "image"
+		},
+		{
+			"id": 638,
+			"map": "poring_w02",
+			"name": "波利战争市场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "poring_w02",
+			"image_map": "poring_w02",
+			"image_kind": "image"
+		},
+		{
+			"id": 639,
+			"map": "que_san04",
+			"name": "que_san04",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_san04",
+			"image_map": "que_san04",
+			"image_kind": null
+		},
+		{
+			"id": 640,
+			"map": "moscovia",
+			"name": "莫斯科比亚",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moscovia",
+			"image_map": "moscovia",
+			"image_kind": "image"
+		},
+		{
+			"id": 641,
+			"map": "mosk_in",
+			"name": "莫斯科比亚内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mosk_in",
+			"image_map": "mosk_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 642,
+			"map": "mosk_ship",
+			"name": "查拉贝尔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mosk_ship",
+			"image_map": "mosk_ship",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 643,
+			"map": "mosk_fild01",
+			"name": "鲸鱼岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mosk_fild01",
+			"image_map": "mosk_fild01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 644,
+			"map": "mosk_fild02",
+			"name": "莫斯科比亚原野 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mosk_fild02",
+			"image_map": "mosk_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 645,
+			"map": "mosk_dun01",
+			"name": "莫斯科比亚地下城 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mosk_dun01",
+			"image_map": "mosk_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 646,
+			"map": "mosk_dun02",
+			"name": "莫斯科比亚地下城 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mosk_dun02",
+			"image_map": "mosk_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 647,
+			"map": "mosk_dun03",
+			"name": "莫斯科比亚地下城 03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mosk_dun03",
+			"image_map": "mosk_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 648,
+			"map": "mosk_que",
+			"name": "mosk_que",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mosk_que",
+			"image_map": "mosk_que",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 649,
+			"map": "force_4-1",
+			"name": "force_4-1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_4-1",
+			"image_map": "force_4-1",
+			"image_kind": null
+		},
+		{
+			"id": 650,
+			"map": "force_5-1",
+			"name": "force_5-1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "force_5-1",
+			"image_map": "force_5-1",
+			"image_kind": null
+		},
+		{
+			"id": 651,
+			"map": "06guild_r",
+			"name": "06guild_r",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "06guild_r",
+			"image_map": "06guild_r",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 652,
+			"map": "06guild_01",
+			"name": "06guild_01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "06guild_01",
+			"image_map": "06guild_01",
+			"image_kind": null
+		},
+		{
+			"id": 653,
+			"map": "06guild_02",
+			"name": "06guild_02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "06guild_02",
+			"image_map": "06guild_02",
+			"image_kind": null
+		},
+		{
+			"id": 654,
+			"map": "06guild_03",
+			"name": "06guild_03",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "06guild_03",
+			"image_map": "06guild_03",
+			"image_kind": null
+		},
+		{
+			"id": 655,
+			"map": "06guild_04",
+			"name": "06guild_04",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "06guild_04",
+			"image_map": "06guild_04",
+			"image_kind": null
+		},
+		{
+			"id": 656,
+			"map": "06guild_05",
+			"name": "06guild_05",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "06guild_05",
+			"image_map": "06guild_05",
+			"image_kind": null
+		},
+		{
+			"id": 657,
+			"map": "06guild_06",
+			"name": "06guild_06",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "06guild_06",
+			"image_map": "06guild_06",
+			"image_kind": null
+		},
+		{
+			"id": 658,
+			"map": "06guild_07",
+			"name": "06guild_07",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "06guild_07",
+			"image_map": "06guild_07",
+			"image_kind": null
+		},
+		{
+			"id": 659,
+			"map": "06guild_08",
+			"name": "06guild_08",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "06guild_08",
+			"image_map": "06guild_08",
+			"image_kind": null
+		},
+		{
+			"id": 660,
+			"map": "z_agit",
+			"name": "Z帮藏身处",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "z_agit",
+			"image_map": "z_agit",
+			"image_kind": null
+		},
+		{
+			"id": 661,
+			"map": "que_temsky",
+			"name": "教皇之间（天空花园",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_temsky",
+			"image_map": "que_temsky",
+			"image_kind": null
+		},
+		{
+			"id": 662,
+			"map": "itemmall",
+			"name": "卡普拉商店",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "itemmall",
+			"image_map": "itemmall",
+			"image_kind": null
+		},
+		{
+			"id": 663,
+			"map": "bossnia_01",
+			"name": "博斯尼亚",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bossnia_01",
+			"image_map": "bossnia_01",
+			"image_kind": null
+		},
+		{
+			"id": 664,
+			"map": "bossnia_02",
+			"name": "博斯尼亚",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bossnia_02",
+			"image_map": "bossnia_02",
+			"image_kind": null
+		},
+		{
+			"id": 665,
+			"map": "bossnia_03",
+			"name": "博斯尼亚",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bossnia_03",
+			"image_map": "bossnia_03",
+			"image_kind": null
+		},
+		{
+			"id": 666,
+			"map": "bossnia_04",
+			"name": "博斯尼亚",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bossnia_04",
+			"image_map": "bossnia_04",
+			"image_kind": null
+		},
+		{
+			"id": 667,
+			"map": "schg_cas01",
+			"name": "希明城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "schg_cas01",
+			"image_map": "schg_cas01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 668,
+			"map": "schg_cas02",
+			"name": "安德朗格城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "schg_cas02",
+			"image_map": "schg_cas02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 669,
+			"map": "schg_cas03",
+			"name": "维德布莱恩城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "schg_cas03",
+			"image_map": "schg_cas03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 670,
+			"map": "schg_cas04",
+			"name": "赫略德城堡",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "schg_cas04",
+			"image_map": "schg_cas04",
+			"image_kind": null
+		},
+		{
+			"id": 671,
+			"map": "schg_cas05",
+			"name": "斯基德布拉德尼尔城堡",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "schg_cas05",
+			"image_map": "schg_cas05",
+			"image_kind": null
+		},
+		{
+			"id": 672,
+			"map": "sch_gld",
+			"name": "尼德霍格尔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sch_gld",
+			"image_map": "sch_gld",
+			"image_kind": "image"
+		},
+		{
+			"id": 673,
+			"map": "cave",
+			"name": "洞窟村落",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "cave",
+			"image_map": "cave",
+			"image_kind": "image"
+		},
+		{
+			"id": 674,
+			"map": "moc_fild20",
+			"name": "梦罗克原野 20 - 苏格拉特沙漠 - 大陆卫队隔离区",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild20",
+			"image_map": "moc_fild20",
+			"image_kind": "image"
+		},
+		{
+			"id": 675,
+			"map": "moc_fild21",
+			"name": "苏格拉特沙漠－次元裂缝",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild21",
+			"image_map": "moc_fild21",
+			"image_kind": "image"
+		},
+		{
+			"id": 676,
+			"map": "moc_fild22",
+			"name": "苏克拉特沙漠 - 次元裂隙",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild22",
+			"image_map": "moc_fild22",
+			"image_kind": "image"
+		},
+		{
+			"id": 677,
+			"map": "que_ba",
+			"name": "que_ba",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_ba",
+			"image_map": "que_ba",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 678,
+			"map": "que_moc_16",
+			"name": "que_moc_16",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_moc_16",
+			"image_map": "que_moc_16",
+			"image_kind": null
+		},
+		{
+			"id": 679,
+			"map": "que_moon",
+			"name": "que_moon",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_moon",
+			"image_map": "que_moon",
+			"image_kind": null
+		},
+		{
+			"id": 680,
+			"map": "arug_cas01",
+			"name": "马德尔城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "arug_cas01",
+			"image_map": "arug_cas01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 681,
+			"map": "arug_cas02",
+			"name": "赛尔城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "arug_cas02",
+			"image_map": "arug_cas02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 682,
+			"map": "arug_cas03",
+			"name": "霍恩城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "arug_cas03",
+			"image_map": "arug_cas03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 683,
+			"map": "arug_cas04",
+			"name": "盖芬城堡",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "arug_cas04",
+			"image_map": "arug_cas04",
+			"image_kind": null
+		},
+		{
+			"id": 684,
+			"map": "arug_cas05",
+			"name": "巴纳迪斯城堡",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "arug_cas05",
+			"image_map": "arug_cas05",
+			"image_kind": null
+		},
+		{
+			"id": 685,
+			"map": "aru_gld",
+			"name": "阿鲁纳佩尔兹公会",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "aru_gld",
+			"image_map": "aru_gld",
+			"image_kind": "image"
+		},
+		{
+			"id": 686,
+			"map": "bat_room",
+			"name": "战场等候室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bat_room",
+			"image_map": "bat_room",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 687,
+			"map": "bat_a01",
+			"name": "提拉峡谷",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bat_a01",
+			"image_map": "bat_a01",
+			"image_kind": "image"
+		},
+		{
+			"id": 688,
+			"map": "bat_a02",
+			"name": "提拉谷",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bat_a02",
+			"image_map": "bat_a02",
+			"image_kind": null
+		},
+		{
+			"id": 689,
+			"map": "bat_b01",
+			"name": "弗拉维安",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bat_b01",
+			"image_map": "bat_b01",
+			"image_kind": "image"
+		},
+		{
+			"id": 690,
+			"map": "bat_b02",
+			"name": "弗拉维安",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bat_b02",
+			"image_map": "bat_b02",
+			"image_kind": null
+		},
+		{
+			"id": 691,
+			"map": "que_qsch01",
+			"name": "虚假的奥克尼尔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_qsch01",
+			"image_map": "que_qsch01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 692,
+			"map": "que_qsch02",
+			"name": "虚假的奥克尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qsch02",
+			"image_map": "que_qsch02",
+			"image_kind": null
+		},
+		{
+			"id": 693,
+			"map": "que_qsch03",
+			"name": "虚幻奥克尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qsch03",
+			"image_map": "que_qsch03",
+			"image_kind": null
+		},
+		{
+			"id": 694,
+			"map": "que_qsch04",
+			"name": "虚幻奥克尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qsch04",
+			"image_map": "que_qsch04",
+			"image_kind": null
+		},
+		{
+			"id": 695,
+			"map": "que_qsch05",
+			"name": "虚假的奥克尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qsch05",
+			"image_map": "que_qsch05",
+			"image_kind": null
+		},
+		{
+			"id": 696,
+			"map": "que_qaru01",
+			"name": "虚假的奥科尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qaru01",
+			"image_map": "que_qaru01",
+			"image_kind": null
+		},
+		{
+			"id": 697,
+			"map": "que_qaru02",
+			"name": "虚假的奥克尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qaru02",
+			"image_map": "que_qaru02",
+			"image_kind": null
+		},
+		{
+			"id": 698,
+			"map": "que_qaru03",
+			"name": "虚幻奥克尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qaru03",
+			"image_map": "que_qaru03",
+			"image_kind": null
+		},
+		{
+			"id": 699,
+			"map": "que_qaru04",
+			"name": "虚假的奥克尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qaru04",
+			"image_map": "que_qaru04",
+			"image_kind": null
+		},
+		{
+			"id": 700,
+			"map": "que_qaru05",
+			"name": "虚假的奥克尔尼尔",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "que_qaru05",
+			"image_map": "que_qaru05",
+			"image_kind": null
+		},
+		{
+			"id": 701,
+			"map": "1@cata",
+			"name": "地下墓穴",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@cata",
+			"image_map": "1@cata",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 702,
+			"map": "2@cata",
+			"name": "封印神殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@cata",
+			"image_map": "2@cata",
+			"image_kind": "image"
+		},
+		{
+			"id": 703,
+			"map": "e_tower",
+			"name": "迷雾岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "e_tower",
+			"image_map": "e_tower",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 704,
+			"map": "1@tower",
+			"name": "无限塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@tower",
+			"image_map": "1@tower",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 705,
+			"map": "2@tower",
+			"name": "无限塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@tower",
+			"image_map": "2@tower",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 706,
+			"map": "3@tower",
+			"name": "无限塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "3@tower",
+			"image_map": "3@tower",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 707,
+			"map": "4@tower",
+			"name": "无限塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "4@tower",
+			"image_map": "4@tower",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 708,
+			"map": "5@tower",
+			"name": "无限塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "5@tower",
+			"image_map": "5@tower",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 709,
+			"map": "6@tower",
+			"name": "无限塔（未知区域）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "6@tower",
+			"image_map": "6@tower",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 710,
+			"map": "mid_camp",
+			"name": "卢恩-米德加尔兹联军驻地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mid_camp",
+			"image_map": "mid_camp",
+			"image_kind": "image"
+		},
+		{
+			"id": 711,
+			"map": "mid_campin",
+			"name": "米德加尔特远征营地内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mid_campin",
+			"image_map": "mid_campin",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 712,
+			"map": "man_fild01",
+			"name": "马努克原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "man_fild01",
+			"image_map": "man_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 713,
+			"map": "man_fild03",
+			"name": "马努克原野 03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "man_fild03",
+			"image_map": "man_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 714,
+			"map": "spl_fild02",
+			"name": "斯普兰迪德原野 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "spl_fild02",
+			"image_map": "spl_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 715,
+			"map": "spl_fild03",
+			"name": "斯普兰迪德原野",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "spl_fild03",
+			"image_map": "spl_fild03",
+			"image_kind": "image"
+		},
+		{
+			"id": 716,
+			"map": "moc_fild22b",
+			"name": "苏克拉特沙漠次元裂隙",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_fild22b",
+			"image_map": "moc_fild22b",
+			"image_kind": "image"
+		},
+		{
+			"id": 717,
+			"map": "que_dan01",
+			"name": "胡戈尔原野",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_dan01",
+			"image_map": "que_dan01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 718,
+			"map": "que_dan02",
+			"name": "朱诺废弃房屋内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_dan02",
+			"image_map": "que_dan02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 719,
+			"map": "schg_que01",
+			"name": "莫尔斯通草原",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "schg_que01",
+			"image_map": "schg_que01",
+			"image_kind": null
+		},
+		{
+			"id": 720,
+			"map": "schg_dun01",
+			"name": "施瓦茨瓦尔德公会迷宫",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "schg_dun01",
+			"image_map": "schg_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 721,
+			"map": "arug_que01",
+			"name": "莫尔斯通草原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "arug_que01",
+			"image_map": "arug_que01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 722,
+			"map": "arug_dun01",
+			"name": "阿鲁纳佩尔兹公会地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "arug_dun01",
+			"image_map": "arug_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 723,
+			"map": "1@orcs",
+			"name": "兽人地下洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@orcs",
+			"image_map": "1@orcs",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 724,
+			"map": "2@orcs",
+			"name": "兽人地下洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@orcs",
+			"image_map": "2@orcs",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 725,
+			"map": "1@nyd",
+			"name": "尼德霍格的巢穴",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@nyd",
+			"image_map": "1@nyd",
+			"image_kind": "image"
+		},
+		{
+			"id": 726,
+			"map": "2@nyd",
+			"name": "尼德霍格的巢穴",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@nyd",
+			"image_map": "2@nyd",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 727,
+			"map": "nyd_dun01",
+			"name": "世界树树根 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nyd_dun01",
+			"image_map": "nyd_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 728,
+			"map": "nyd_dun02",
+			"name": "世界树树根 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nyd_dun02",
+			"image_map": "nyd_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 729,
+			"map": "manuk",
+			"name": "马努克矿业村",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "manuk",
+			"image_map": "manuk",
+			"image_kind": "image"
+		},
+		{
+			"id": 730,
+			"map": "man_fild02",
+			"name": "马努克原野 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "man_fild02",
+			"image_map": "man_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 731,
+			"map": "man_in01",
+			"name": "马努克内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "man_in01",
+			"image_map": "man_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 732,
+			"map": "splendide",
+			"name": "诗人村落斯普兰迪德",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "splendide",
+			"image_map": "splendide",
+			"image_kind": "image"
+		},
+		{
+			"id": 733,
+			"map": "spl_fild01",
+			"name": "斯普兰迪德原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "spl_fild01",
+			"image_map": "spl_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 734,
+			"map": "spl_in01",
+			"name": "斯普兰迪德原野指挥部内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "spl_in01",
+			"image_map": "spl_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 735,
+			"map": "spl_in02",
+			"name": "斯普兰迪德内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "spl_in02",
+			"image_map": "spl_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 736,
+			"map": "bat_c01",
+			"name": "米德加尔特战士",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bat_c01",
+			"image_map": "bat_c01",
+			"image_kind": "image"
+		},
+		{
+			"id": 737,
+			"map": "bat_c02",
+			"name": "米德加尔特战士",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bat_c02",
+			"image_map": "bat_c02",
+			"image_kind": null
+		},
+		{
+			"id": 738,
+			"map": "bat_c03",
+			"name": "米德加尔特战场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bat_c03",
+			"image_map": "bat_c03",
+			"image_kind": null
+		},
+		{
+			"id": 739,
+			"map": "moc_para01",
+			"name": "梦罗克伊甸园集团内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_para01",
+			"image_map": "moc_para01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 740,
+			"map": "job3_arch01",
+			"name": "大主教转职等候室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_arch01",
+			"image_map": "job3_arch01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 741,
+			"map": "job3_arch02",
+			"name": "奥丁神殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_arch02",
+			"image_map": "job3_arch02",
+			"image_kind": "image"
+		},
+		{
+			"id": 742,
+			"map": "job3_arch03",
+			"name": "大主教转职等候室",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "job3_arch03",
+			"image_map": "job3_arch03",
+			"image_kind": null
+		},
+		{
+			"id": 743,
+			"map": "job3_guil01",
+			"name": "秘密酒馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_guil01",
+			"image_map": "job3_guil01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 744,
+			"map": "job3_guil02",
+			"name": "旧仓库内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_guil02",
+			"image_map": "job3_guil02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 745,
+			"map": "job3_guil03",
+			"name": "孤立宅邸",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_guil03",
+			"image_map": "job3_guil03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 746,
+			"map": "job3_rang01",
+			"name": "游侠转职等待室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_rang01",
+			"image_map": "job3_rang01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 747,
+			"map": "job3_rang02",
+			"name": "游侠转职测试房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_rang02",
+			"image_map": "job3_rang02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 748,
+			"map": "job3_rune01",
+			"name": "卢恩骑士团内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_rune01",
+			"image_map": "job3_rune01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 749,
+			"map": "job3_rune02",
+			"name": "符文骑士转职测试房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_rune02",
+			"image_map": "job3_rune02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 750,
+			"map": "job3_rune03",
+			"name": "符文骑士转职测试房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "job3_rune03",
+			"image_map": "job3_rune03",
+			"image_kind": null
+		},
+		{
+			"id": 751,
+			"map": "job3_war01",
+			"name": "妖术师转职测试房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_war01",
+			"image_map": "job3_war01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 752,
+			"map": "job3_war02",
+			"name": "妖术师转职测试房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "job3_war02",
+			"image_map": "job3_war02",
+			"image_kind": null
+		},
+		{
+			"id": 753,
+			"map": "jupe_core2",
+			"name": "朱佩洛斯中心",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jupe_core2",
+			"image_map": "jupe_core2",
+			"image_kind": null
+		},
+		{
+			"id": 754,
+			"map": "brasilis",
+			"name": "巴西利斯",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "brasilis",
+			"image_map": "brasilis",
+			"image_kind": "image"
+		},
+		{
+			"id": 755,
+			"map": "bra_in01",
+			"name": "巴西利斯内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bra_in01",
+			"image_map": "bra_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 756,
+			"map": "bra_fild01",
+			"name": "巴西利斯原野 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bra_fild01",
+			"image_map": "bra_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 757,
+			"map": "bra_dun01",
+			"name": "瀑布彼端",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bra_dun01",
+			"image_map": "bra_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 758,
+			"map": "bra_dun02",
+			"name": "瀑布彼端",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bra_dun02",
+			"image_map": "bra_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 759,
+			"map": "dicastes01",
+			"name": "迪卡斯特斯，萨法首都",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dicastes01",
+			"image_map": "dicastes01",
+			"image_kind": "image"
+		},
+		{
+			"id": 760,
+			"map": "dicastes02",
+			"name": "迪卡斯特斯·迪尔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dicastes02",
+			"image_map": "dicastes02",
+			"image_kind": "image"
+		},
+		{
+			"id": 761,
+			"map": "dic_in01",
+			"name": "迪卡斯特斯内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dic_in01",
+			"image_map": "dic_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 762,
+			"map": "dic_fild01",
+			"name": "卡米达尔山外围 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dic_fild01",
+			"image_map": "dic_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 763,
+			"map": "dic_fild02",
+			"name": "卡米达尔山外围 02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dic_fild02",
+			"image_map": "dic_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 764,
+			"map": "dic_dun01",
+			"name": "卡米达隧道",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dic_dun01",
+			"image_map": "dic_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 765,
+			"map": "dic_dun02",
+			"name": "甲虫大厅",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dic_dun02",
+			"image_map": "dic_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 766,
+			"map": "job3_gen01",
+			"name": "基因学者实验室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_gen01",
+			"image_map": "job3_gen01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 767,
+			"map": "s_atelier",
+			"name": "暗影工坊",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "s_atelier",
+			"image_map": "s_atelier",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 768,
+			"map": "job3_sha01",
+			"name": "job3_sha01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job3_sha01",
+			"image_map": "job3_sha01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 769,
+			"map": "mora",
+			"name": "莫拉村落",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mora",
+			"image_map": "mora",
+			"image_kind": "image"
+		},
+		{
+			"id": 770,
+			"map": "bif_fild01",
+			"name": "彩虹桥",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bif_fild01",
+			"image_map": "bif_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 771,
+			"map": "bif_fild02",
+			"name": "北部彩虹桥",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bif_fild02",
+			"image_map": "bif_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 772,
+			"map": "1@mist",
+			"name": "朦胧迷宫森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@mist",
+			"image_map": "1@mist",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 773,
+			"map": "dewata",
+			"name": "爪哇岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dewata",
+			"image_map": "dewata",
+			"image_kind": "image"
+		},
+		{
+			"id": 774,
+			"map": "dew_in01",
+			"name": "达纳托斯岛内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dew_in01",
+			"image_map": "dew_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 775,
+			"map": "dew_fild01",
+			"name": "爪哇岛原野（部落村落）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dew_fild01",
+			"image_map": "dew_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 776,
+			"map": "dew_dun01",
+			"name": "爪哇岛地下城 01",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dew_dun01",
+			"image_map": "dew_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 777,
+			"map": "dew_dun02",
+			"name": "伊斯塔纳洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dew_dun02",
+			"image_map": "dew_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 778,
+			"map": "que_house_s",
+			"name": "奇怪的房子",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_house_s",
+			"image_map": "que_house_s",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 779,
+			"map": "malangdo",
+			"name": "马兰岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "malangdo",
+			"image_map": "malangdo",
+			"image_kind": "image"
+		},
+		{
+			"id": 780,
+			"map": "mal_in01",
+			"name": "马兰岛内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mal_in01",
+			"image_map": "mal_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 781,
+			"map": "mal_in02",
+			"name": "船舱内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mal_in02",
+			"image_map": "mal_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 782,
+			"map": "mal_dun01",
+			"name": "星光珊瑚区域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mal_dun01",
+			"image_map": "mal_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 783,
+			"map": "1@pump",
+			"name": "下水道",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@pump",
+			"image_map": "1@pump",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 784,
+			"map": "2@pump",
+			"name": "下水道",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@pump",
+			"image_map": "2@pump",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 785,
+			"map": "1@cash",
+			"name": "章鱼洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@cash",
+			"image_map": "1@cash",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 786,
+			"map": "iz_dun05",
+			"name": "海底隧道 B6",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_dun05",
+			"image_map": "iz_dun05",
+			"image_kind": "image"
+		},
+		{
+			"id": 787,
+			"map": "evt_mobroom",
+			"name": "evt_mobroom",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "evt_mobroom",
+			"image_map": "evt_mobroom",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 788,
+			"map": "alde_tt03",
+			"name": "alde_tt03",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "alde_tt03",
+			"image_map": "alde_tt03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 789,
+			"map": "dic_dun03",
+			"name": "斯卡拉巴洞穴－梦魇模式",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "dic_dun03",
+			"image_map": "dic_dun03",
+			"image_kind": null
+		},
+		{
+			"id": 790,
+			"map": "1@lhz",
+			"name": "沃尔夫切夫的实验室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@lhz",
+			"image_map": "1@lhz",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 791,
+			"map": "lhz_dun04",
+			"name": "生体实验研究所地下 4 楼",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_dun04",
+			"image_map": "lhz_dun04",
+			"image_kind": "image"
+		},
+		{
+			"id": 792,
+			"map": "que_lhz",
+			"name": "生体实验研究所地下 4 楼",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_lhz",
+			"image_map": "que_lhz",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 793,
+			"map": "evt_swar_b",
+			"name": "evt_swar_b",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "evt_swar_b",
+			"image_map": "evt_swar_b",
+			"image_kind": null
+		},
+		{
+			"id": 794,
+			"map": "evt_swar_r",
+			"name": "evt_swar_r",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "evt_swar_r",
+			"image_map": "evt_swar_r",
+			"image_kind": null
+		},
+		{
+			"id": 795,
+			"map": "evt_swar_s",
+			"name": "evt_swar_s",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "evt_swar_s",
+			"image_map": "evt_swar_s",
+			"image_kind": null
+		},
+		{
+			"id": 796,
+			"map": "evt_swar_t",
+			"name": "evt_swar_t",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "evt_swar_t",
+			"image_map": "evt_swar_t",
+			"image_kind": null
+		},
+		{
+			"id": 797,
+			"map": "gld2_ald",
+			"name": "深渊回廊：英雄之泪",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gld2_ald",
+			"image_map": "gld2_ald",
+			"image_kind": "image"
+		},
+		{
+			"id": 798,
+			"map": "gld2_gef",
+			"name": "深渊走廊：死者之山",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gld2_gef",
+			"image_map": "gld2_gef",
+			"image_kind": "image"
+		},
+		{
+			"id": 799,
+			"map": "gld2_pay",
+			"name": "深渊走廊：远古之风",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gld2_pay",
+			"image_map": "gld2_pay",
+			"image_kind": "image"
+		},
+		{
+			"id": 800,
+			"map": "gld2_prt",
+			"name": "深渊走廊：战士之路",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gld2_prt",
+			"image_map": "gld2_prt",
+			"image_kind": "image"
+		},
+		{
+			"id": 801,
+			"map": "gld_dun01_2",
+			"name": "绿林湖地下城 2F",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "gld_dun01_2",
+			"image_map": "gld_dun01_2",
+			"image_kind": null
+		},
+		{
+			"id": 802,
+			"map": "gld_dun02_2",
+			"name": "路易莎地下城 2F",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "gld_dun02_2",
+			"image_map": "gld_dun02_2",
+			"image_kind": null
+		},
+		{
+			"id": 803,
+			"map": "gld_dun03_2",
+			"name": "女武神领域迷宫 2层",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "gld_dun03_2",
+			"image_map": "gld_dun03_2",
+			"image_kind": null
+		},
+		{
+			"id": 804,
+			"map": "gld_dun04_2",
+			"name": "布里特尼亚迷宫 2层",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "gld_dun04_2",
+			"image_map": "gld_dun04_2",
+			"image_kind": null
+		},
+		{
+			"id": 805,
+			"map": "malaya",
+			"name": "马来岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "malaya",
+			"image_map": "malaya",
+			"image_kind": "image"
+		},
+		{
+			"id": 806,
+			"map": "job_ko",
+			"name": "隐藏地点",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_ko",
+			"image_map": "job_ko",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 807,
+			"map": "ma_scene01",
+			"name": "巴库纳瓦湖",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_scene01",
+			"image_map": "ma_scene01",
+			"image_kind": "image"
+		},
+		{
+			"id": 808,
+			"map": "1@ma_b",
+			"name": "巴库纳瓦藏身处",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ma_b",
+			"image_map": "1@ma_b",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 809,
+			"map": "1@ma_c",
+			"name": "布亚瓦洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ma_c",
+			"image_map": "1@ma_c",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 810,
+			"map": "1@ma_h",
+			"name": "梦魇医院 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ma_h",
+			"image_map": "1@ma_h",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 811,
+			"map": "ma_in01",
+			"name": "马来岛内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_in01",
+			"image_map": "ma_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 812,
+			"map": "ma_dun01",
+			"name": "梦魇医院 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_dun01",
+			"image_map": "ma_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 813,
+			"map": "ma_fild01",
+			"name": "马来岛原野 01－神秘村落",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_fild01",
+			"image_map": "ma_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 814,
+			"map": "ma_fild02",
+			"name": "马来岛原野 02－森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_fild02",
+			"image_map": "ma_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 815,
+			"map": "ma_zif01",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif01",
+			"image_map": "ma_zif01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 816,
+			"map": "ma_zif02",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif02",
+			"image_map": "ma_zif02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 817,
+			"map": "ma_zif03",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif03",
+			"image_map": "ma_zif03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 818,
+			"map": "ma_zif04",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif04",
+			"image_map": "ma_zif04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 819,
+			"map": "ma_zif05",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif05",
+			"image_map": "ma_zif05",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 820,
+			"map": "ma_zif06",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif06",
+			"image_map": "ma_zif06",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 821,
+			"map": "ma_zif07",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif07",
+			"image_map": "ma_zif07",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 822,
+			"map": "ma_zif08",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif08",
+			"image_map": "ma_zif08",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 823,
+			"map": "ma_zif09",
+			"name": "吉普尼内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ma_zif09",
+			"image_map": "ma_zif09",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 824,
+			"map": "new_event",
+			"name": "new_event",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "new_event",
+			"image_map": "new_event",
+			"image_kind": "image"
+		},
+		{
+			"id": 825,
+			"map": "eclage",
+			"name": "艾可拉珠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "eclage",
+			"image_map": "eclage",
+			"image_kind": "image"
+		},
+		{
+			"id": 826,
+			"map": "ecl_fild01",
+			"name": "繁花之地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_fild01",
+			"image_map": "ecl_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 827,
+			"map": "ecl_tdun01",
+			"name": "彩虹桥塔 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_tdun01",
+			"image_map": "ecl_tdun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 828,
+			"map": "ecl_tdun02",
+			"name": "彩虹桥塔 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_tdun02",
+			"image_map": "ecl_tdun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 829,
+			"map": "ecl_tdun03",
+			"name": "彩虹桥塔 3F",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_tdun03",
+			"image_map": "ecl_tdun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 830,
+			"map": "ecl_tdun04",
+			"name": "彩虹桥塔 4F",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_tdun04",
+			"image_map": "ecl_tdun04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 831,
+			"map": "que_avan01",
+			"name": "阿凡特的实验室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_avan01",
+			"image_map": "que_avan01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 832,
+			"map": "1@ecl",
+			"name": "艾可拉斯内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ecl",
+			"image_map": "1@ecl",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 833,
+			"map": "ecl_in01",
+			"name": "艾可拉珠内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_in01",
+			"image_map": "ecl_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 834,
+			"map": "ecl_in02",
+			"name": "艾可拉珠内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_in02",
+			"image_map": "ecl_in02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 835,
+			"map": "ecl_in03",
+			"name": "艾可拉斯室内",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_in03",
+			"image_map": "ecl_in03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 836,
+			"map": "ecl_in04",
+			"name": "艾可拉珠内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_in04",
+			"image_map": "ecl_in04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 837,
+			"map": "ecl_hub01",
+			"name": "艾可拉斯外围",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ecl_hub01",
+			"image_map": "ecl_hub01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 838,
+			"map": "moc_prydn1",
+			"name": "梦罗克金字塔 B1－噩梦",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_prydn1",
+			"image_map": "moc_prydn1",
+			"image_kind": "image"
+		},
+		{
+			"id": 839,
+			"map": "moc_prydn2",
+			"name": "梦罗克金字塔 B2 - 梦魇",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moc_prydn2",
+			"image_map": "moc_prydn2",
+			"image_kind": "image"
+		},
+		{
+			"id": 840,
+			"map": "iz_ac01",
+			"name": "克里图拉学院 1层",
+			"supported": true,
+			"channel": 1,
+			"canonical_map": "iz_ac01",
+			"image_map": "iz_ac01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 841,
+			"map": "iz_ac02",
+			"name": "克里图拉学院 F2",
+			"supported": true,
+			"channel": 1,
+			"canonical_map": "iz_ac02",
+			"image_map": "iz_ac02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 842,
+			"map": "treasure_n1",
+			"name": "伊斯鲁得沉船 B1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "treasure_n1",
+			"image_map": "treasure_n1",
+			"image_kind": "image"
+		},
+		{
+			"id": 843,
+			"map": "treasure_n2",
+			"name": "依斯鲁得沉船 B2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "treasure_n2",
+			"image_map": "treasure_n2",
+			"image_kind": "image"
+		},
+		{
+			"id": 844,
+			"map": "iz_int",
+			"name": "沉船",
+			"supported": true,
+			"channel": 1,
+			"canonical_map": "iz_int",
+			"image_map": "iz_int",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 845,
+			"map": "iz_ng01",
+			"name": "忍者教程地图",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_ng01",
+			"image_map": "iz_ng01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 846,
+			"map": "iz_int01",
+			"name": "沉船",
+			"supported": true,
+			"channel": 2,
+			"canonical_map": "iz_int",
+			"image_map": "iz_int01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 847,
+			"map": "iz_int02",
+			"name": "沉船",
+			"supported": true,
+			"channel": 3,
+			"canonical_map": "iz_int",
+			"image_map": "iz_int02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 848,
+			"map": "iz_int03",
+			"name": "沉船",
+			"supported": true,
+			"channel": 4,
+			"canonical_map": "iz_int",
+			"image_map": "iz_int03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 849,
+			"map": "iz_int04",
+			"name": "沉船",
+			"supported": true,
+			"channel": 5,
+			"canonical_map": "iz_int",
+			"image_map": "iz_int04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 850,
+			"map": "iz_ac01_a",
+			"name": "克里图拉学院 1层",
+			"supported": true,
+			"channel": 2,
+			"canonical_map": "iz_ac01",
+			"image_map": "iz_ac01_a",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 851,
+			"map": "iz_ac02_a",
+			"name": "克里图拉学院 F2",
+			"supported": true,
+			"channel": 2,
+			"canonical_map": "iz_ac02",
+			"image_map": "iz_ac02_a",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 852,
+			"map": "iz_ac01_b",
+			"name": "克里图拉学院 1层",
+			"supported": true,
+			"channel": 3,
+			"canonical_map": "iz_ac01",
+			"image_map": "iz_ac01_b",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 853,
+			"map": "iz_ac02_b",
+			"name": "克里图拉学院 F2",
+			"supported": true,
+			"channel": 3,
+			"canonical_map": "iz_ac02",
+			"image_map": "iz_ac02_b",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 854,
+			"map": "iz_ac01_c",
+			"name": "克里阿图拉学院 F1",
+			"supported": true,
+			"channel": 4,
+			"canonical_map": "iz_ac01",
+			"image_map": "iz_ac01_c",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 855,
+			"map": "iz_ac02_c",
+			"name": "克里图拉学院 2层",
+			"supported": true,
+			"channel": 4,
+			"canonical_map": "iz_ac02",
+			"image_map": "iz_ac02_c",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 856,
+			"map": "iz_ac01_d",
+			"name": "克里阿图拉学院 F1",
+			"supported": true,
+			"channel": 5,
+			"canonical_map": "iz_ac01",
+			"image_map": "iz_ac01_d",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 857,
+			"map": "iz_ac02_d",
+			"name": "克里图拉学院 F2",
+			"supported": true,
+			"channel": 5,
+			"canonical_map": "iz_ac02",
+			"image_map": "iz_ac02_d",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 858,
+			"map": "te_prtcas01",
+			"name": "乔伯格城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_prtcas01",
+			"image_map": "te_prtcas01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 859,
+			"map": "te_prtcas02",
+			"name": "理查德城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_prtcas02",
+			"image_map": "te_prtcas02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 860,
+			"map": "te_prtcas03",
+			"name": "维格纳城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_prtcas03",
+			"image_map": "te_prtcas03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 861,
+			"map": "te_prtcas04",
+			"name": "海涅城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_prtcas04",
+			"image_map": "te_prtcas04",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 862,
+			"map": "te_prtcas05",
+			"name": "尼利乌斯城堡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_prtcas05",
+			"image_map": "te_prtcas05",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 863,
+			"map": "te_aldecas1",
+			"name": "te_aldecas1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_aldecas1",
+			"image_map": "te_aldecas1",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 864,
+			"map": "te_aldecas2",
+			"name": "te_aldecas2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_aldecas2",
+			"image_map": "te_aldecas2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 865,
+			"map": "te_aldecas3",
+			"name": "te_aldecas3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_aldecas3",
+			"image_map": "te_aldecas3",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 866,
+			"map": "te_aldecas4",
+			"name": "te_aldecas4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_aldecas4",
+			"image_map": "te_aldecas4",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 867,
+			"map": "te_aldecas5",
+			"name": "te_aldecas5",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_aldecas5",
+			"image_map": "te_aldecas5",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 868,
+			"map": "prt_fild08a",
+			"name": "普隆德拉南门",
+			"supported": true,
+			"channel": 2,
+			"canonical_map": "prt_fild08",
+			"image_map": "prt_fild08a",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 869,
+			"map": "prt_fild08b",
+			"name": "普隆德拉南门",
+			"supported": true,
+			"channel": 3,
+			"canonical_map": "prt_fild08",
+			"image_map": "prt_fild08b",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 870,
+			"map": "prt_fild08c",
+			"name": "普隆德拉南门",
+			"supported": true,
+			"channel": 4,
+			"canonical_map": "prt_fild08",
+			"image_map": "prt_fild08c",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 871,
+			"map": "prt_fild08d",
+			"name": "普隆德拉南门",
+			"supported": true,
+			"channel": 5,
+			"canonical_map": "prt_fild08",
+			"image_map": "prt_fild08d",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 872,
+			"map": "izlude_a",
+			"name": "伊兹鲁德",
+			"supported": true,
+			"channel": 2,
+			"canonical_map": "izlude",
+			"image_map": "izlude_a",
+			"image_kind": "image"
+		},
+		{
+			"id": 873,
+			"map": "izlude_b",
+			"name": "伊兹鲁德",
+			"supported": true,
+			"channel": 3,
+			"canonical_map": "izlude",
+			"image_map": "izlude_b",
+			"image_kind": "image"
+		},
+		{
+			"id": 874,
+			"map": "izlude_c",
+			"name": "伊斯鲁得",
+			"supported": true,
+			"channel": 4,
+			"canonical_map": "izlude",
+			"image_map": "izlude_c",
+			"image_kind": "image"
+		},
+		{
+			"id": 875,
+			"map": "izlude_d",
+			"name": "卫星城依斯鲁得",
+			"supported": true,
+			"channel": 5,
+			"canonical_map": "izlude",
+			"image_map": "izlude_d",
+			"image_kind": "image"
+		},
+		{
+			"id": 876,
+			"map": "te_prt_gld",
+			"name": "荣耀之地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_prt_gld",
+			"image_map": "te_prt_gld",
+			"image_kind": "image"
+		},
+		{
+			"id": 877,
+			"map": "te_alde_gld",
+			"name": "卡普拉的巢穴",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "te_alde_gld",
+			"image_map": "te_alde_gld",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 878,
+			"map": "teg_dun01",
+			"name": "公会地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "teg_dun01",
+			"image_map": "teg_dun01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 879,
+			"map": "teg_dun02",
+			"name": "公会地下城",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "teg_dun02",
+			"image_map": "teg_dun02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 880,
+			"map": "1@gl_k",
+			"name": "旧格拉斯特海姆骑士团 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gl_k",
+			"image_map": "1@gl_k",
+			"image_kind": "image"
+		},
+		{
+			"id": 881,
+			"map": "2@gl_k",
+			"name": "旧格拉斯特海姆骑士团 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@gl_k",
+			"image_map": "2@gl_k",
+			"image_kind": "image"
+		},
+		{
+			"id": 882,
+			"map": "gl_chyard_",
+			"name": "修道院墓地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_chyard_",
+			"image_map": "gl_chyard_",
+			"image_kind": "image"
+		},
+		{
+			"id": 883,
+			"map": "gl_cas02_",
+			"name": "克雷斯特汉姆城堡 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_cas02_",
+			"image_map": "gl_cas02_",
+			"image_kind": "image"
+		},
+		{
+			"id": 884,
+			"map": "evt_bomb",
+			"name": "迷宫活动",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "evt_bomb",
+			"image_map": "evt_bomb",
+			"image_kind": "image"
+		},
+		{
+			"id": 885,
+			"map": "1@def01",
+			"name": "波浪迷宫－森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@def01",
+			"image_map": "1@def01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 886,
+			"map": "1@def02",
+			"name": "波利地下城 - 天空",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@def02",
+			"image_map": "1@def02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 887,
+			"map": "1@def03",
+			"name": "波利地下城 - 熔岩",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@def03",
+			"image_map": "1@def03",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 888,
+			"map": "1@gef",
+			"name": "吉芬魔法大赛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gef",
+			"image_map": "1@gef",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 889,
+			"map": "1@face",
+			"name": "脸虫巢穴",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@face",
+			"image_map": "1@face",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 890,
+			"map": "1@sara",
+			"name": "莎拉的记忆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@sara",
+			"image_map": "1@sara",
+			"image_kind": "image"
+		},
+		{
+			"id": 891,
+			"map": "1@gef_in",
+			"name": "吉芬魔法大赛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gef_in",
+			"image_map": "1@gef_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 892,
+			"map": "dali",
+			"name": "次元裂隙",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dali",
+			"image_map": "dali",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 893,
+			"map": "dali02",
+			"name": "次元裂缝",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "dali02",
+			"image_map": "dali02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 894,
+			"map": "1@ge_st",
+			"name": "吉芬魔法大赛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ge_st",
+			"image_map": "1@ge_st",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 895,
+			"map": "1@spa",
+			"name": "幽灵宫殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@spa",
+			"image_map": "1@spa",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 896,
+			"map": "1@tnm1",
+			"name": "恶魔之塔 - 上层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@tnm1",
+			"image_map": "1@tnm1",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 897,
+			"map": "1@tnm2",
+			"name": "恶魔之塔顶层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@tnm2",
+			"image_map": "1@tnm2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 898,
+			"map": "1@tnm3",
+			"name": "梦罗克城堡 - 地下室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@tnm3",
+			"image_map": "1@tnm3",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 899,
+			"map": "1@dth1",
+			"name": "生物岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@dth1",
+			"image_map": "1@dth1",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 900,
+			"map": "1@dth2",
+			"name": "生物岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@dth2",
+			"image_map": "1@dth2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 901,
+			"map": "1@dth3",
+			"name": "生物岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@dth3",
+			"image_map": "1@dth3",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 902,
+			"map": "1@eom",
+			"name": "魔神之殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@eom",
+			"image_map": "1@eom",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 903,
+			"map": "1@jtb",
+			"name": "梦与影",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@jtb",
+			"image_map": "1@jtb",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 904,
+			"map": "1@rev",
+			"name": "摩尔斯洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@rev",
+			"image_map": "1@rev",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 905,
+			"map": "1@xm_d",
+			"name": "恐怖玩具工厂",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@xm_d",
+			"image_map": "1@xm_d",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 906,
+			"map": "moro_cav",
+			"name": "火焰洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moro_cav",
+			"image_map": "moro_cav",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 907,
+			"map": "moro_vol",
+			"name": "火焰盆地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "moro_vol",
+			"image_map": "moro_vol",
+			"image_kind": "image"
+		},
+		{
+			"id": 908,
+			"map": "silk_lair",
+			"name": "巨蟒巢穴",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "silk_lair",
+			"image_map": "silk_lair",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 909,
+			"map": "c_tower2_",
+			"name": "扭曲钟楼 2层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "c_tower2_",
+			"image_map": "c_tower2_",
+			"image_kind": "image"
+		},
+		{
+			"id": 910,
+			"map": "c_tower3_",
+			"name": "扭曲钟楼 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "c_tower3_",
+			"image_map": "c_tower3_",
+			"image_kind": "image"
+		},
+		{
+			"id": 911,
+			"map": "1@mcd",
+			"name": "查尔斯顿工厂",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@mcd",
+			"image_map": "1@mcd",
+			"image_kind": "image"
+		},
+		{
+			"id": 912,
+			"map": "ver_eju",
+			"name": "朱佩罗斯东部遗迹",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ver_eju",
+			"image_map": "ver_eju",
+			"image_kind": "image"
+		},
+		{
+			"id": 913,
+			"map": "ver_tunn",
+			"name": "维鲁斯－隧道外围",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ver_tunn",
+			"image_map": "ver_tunn",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 914,
+			"map": "verus03",
+			"name": "维鲁斯 - 中央广场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "verus03",
+			"image_map": "verus03",
+			"image_kind": "image"
+		},
+		{
+			"id": 915,
+			"map": "verus04",
+			"name": "维鲁斯－挖掘现场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "verus04",
+			"image_map": "verus04",
+			"image_kind": "image"
+		},
+		{
+			"id": 916,
+			"map": "job_gun",
+			"name": "反叛者避难所",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job_gun",
+			"image_map": "job_gun",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 917,
+			"map": "1@air1",
+			"name": "飞艇",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@air1",
+			"image_map": "1@air1",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 918,
+			"map": "1@air2",
+			"name": "飞艇",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@air2",
+			"image_map": "1@air2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 919,
+			"map": "1@glast",
+			"name": "过去的克雷斯特汉姆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@glast",
+			"image_map": "1@glast",
+			"image_kind": "image"
+		},
+		{
+			"id": 920,
+			"map": "lhz_dun_n",
+			"name": "陨落者之墓",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_dun_n",
+			"image_map": "lhz_dun_n",
+			"image_kind": "image"
+		},
+		{
+			"id": 921,
+			"map": "lhz_d_n2",
+			"name": "邪念虚空",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lhz_d_n2",
+			"image_map": "lhz_d_n2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 922,
+			"map": "1@gl_kh",
+			"name": "旧格拉斯特海姆骑士团 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gl_kh",
+			"image_map": "1@gl_kh",
+			"image_kind": "image"
+		},
+		{
+			"id": 923,
+			"map": "2@gl_kh",
+			"name": "旧格拉斯特海姆骑士团 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@gl_kh",
+			"image_map": "2@gl_kh",
+			"image_kind": "image"
+		},
+		{
+			"id": 924,
+			"map": "1@lab",
+			"name": "中央实验室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@lab",
+			"image_map": "1@lab",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 925,
+			"map": "1@uns",
+			"name": "最后的房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@uns",
+			"image_map": "1@uns",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 926,
+			"map": "un_bk_q",
+			"name": "地下掩体",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "un_bk_q",
+			"image_map": "un_bk_q",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 927,
+			"map": "un_bunker",
+			"name": "地下掩体",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "un_bunker",
+			"image_map": "un_bunker",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 928,
+			"map": "un_myst",
+			"name": "地下隧道",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "un_myst",
+			"image_map": "un_myst",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 929,
+			"map": "verus01",
+			"name": "OPTATIO 实验室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "verus01",
+			"image_map": "verus01",
+			"image_kind": "image"
+		},
+		{
+			"id": 930,
+			"map": "verus02",
+			"name": "WISH 研究大楼",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "verus02",
+			"image_map": "verus02",
+			"image_kind": "image"
+		},
+		{
+			"id": 931,
+			"map": "paramk",
+			"name": "帕拉市场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "paramk",
+			"image_map": "paramk",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 932,
+			"map": "1@infi",
+			"name": "无限空间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@infi",
+			"image_map": "1@infi",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 933,
+			"map": "1@ffp",
+			"name": "残存者藏身处",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ffp",
+			"image_map": "1@ffp",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 934,
+			"map": "1@mir",
+			"name": "仪式之间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@mir",
+			"image_map": "1@mir",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 935,
+			"map": "2@mir",
+			"name": "仪式之间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@mir",
+			"image_map": "2@mir",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 936,
+			"map": "1@sthb",
+			"name": "空中要塞 - 内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@sthb",
+			"image_map": "1@sthb",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 937,
+			"map": "1@sthc",
+			"name": "空中要塞 - 秘密房间",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@sthc",
+			"image_map": "1@sthc",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 938,
+			"map": "1@sthd",
+			"name": "空中要塞 - 顶层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@sthd",
+			"image_map": "1@sthd",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 939,
+			"map": "prt_cas",
+			"name": "普隆德拉中央宫殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_cas",
+			"image_map": "prt_cas",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 940,
+			"map": "prt_cas_q",
+			"name": "普隆德拉星之宫殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_cas_q",
+			"image_map": "prt_cas_q",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 941,
+			"map": "prt_prison",
+			"name": "普隆德拉监狱牢房",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_prison",
+			"image_map": "prt_prison",
+			"image_kind": "image"
+		},
+		{
+			"id": 942,
+			"map": "prt_lib",
+			"name": "王室纪念馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_lib",
+			"image_map": "prt_lib",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 943,
+			"map": "prt_lib_q",
+			"name": "昔日王室纪念馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_lib_q",
+			"image_map": "prt_lib_q",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 944,
+			"map": "prt_q",
+			"name": "被入侵的普隆德拉",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_q",
+			"image_map": "prt_q",
+			"image_kind": "image"
+		},
+		{
+			"id": 945,
+			"map": "prt_pri00",
+			"name": "普隆德拉监狱",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_pri00",
+			"image_map": "prt_pri00",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 946,
+			"map": "int_land",
+			"name": "孤岛",
+			"supported": true,
+			"channel": 1,
+			"canonical_map": "int_land",
+			"image_map": "alb2trea",
+			"image_kind": "image"
+		},
+		{
+			"id": 947,
+			"map": "int_land01",
+			"name": "孤岛",
+			"supported": true,
+			"channel": 2,
+			"canonical_map": "int_land",
+			"image_map": "alb2trea",
+			"image_kind": "image"
+		},
+		{
+			"id": 948,
+			"map": "int_land02",
+			"name": "孤岛",
+			"supported": true,
+			"channel": 3,
+			"canonical_map": "int_land",
+			"image_map": "alb2trea",
+			"image_kind": "image"
+		},
+		{
+			"id": 949,
+			"map": "int_land03",
+			"name": "孤岛",
+			"supported": true,
+			"channel": 4,
+			"canonical_map": "int_land",
+			"image_map": "alb2trea",
+			"image_kind": "image"
+		},
+		{
+			"id": 950,
+			"map": "int_land04",
+			"name": "孤岛",
+			"supported": true,
+			"channel": 5,
+			"canonical_map": "int_land",
+			"image_map": "alb2trea",
+			"image_kind": "image"
+		},
+		{
+			"id": 951,
+			"map": "lasagna",
+			"name": "拉萨格港口城镇",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasagna",
+			"image_map": "lasagna",
+			"image_kind": "image"
+		},
+		{
+			"id": 952,
+			"map": "lasa_fild01",
+			"name": "馄饨平原边境哨所",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasa_fild01",
+			"image_map": "lasa_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 953,
+			"map": "lasa_fild02",
+			"name": "拉维奥利森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasa_fild02",
+			"image_map": "lasa_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 954,
+			"map": "lasa_dun01",
+			"name": "龙巢",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasa_dun01",
+			"image_map": "lasa_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 955,
+			"map": "lasa_dun02",
+			"name": "龙巢",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasa_dun02",
+			"image_map": "lasa_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 956,
+			"map": "lasa_dun03",
+			"name": "龙巢",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasa_dun03",
+			"image_map": "lasa_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 957,
+			"map": "conch_in",
+			"name": "海螺内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "conch_in",
+			"image_map": "conch_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 958,
+			"map": "lasa_in01",
+			"name": "拉萨格内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasa_in01",
+			"image_map": "lasa_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 959,
+			"map": "lasa_dun_q",
+			"name": "龙巢",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasa_dun_q",
+			"image_map": "lasa_dun_q",
+			"image_kind": "image"
+		},
+		{
+			"id": 960,
+			"map": "1@pop1",
+			"name": "教皇办公室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@pop1",
+			"image_map": "1@pop1",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 961,
+			"map": "1@pop2",
+			"name": "回家的路",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@pop2",
+			"image_map": "1@pop2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 962,
+			"map": "1@pop3",
+			"name": "天空花园",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@pop3",
+			"image_map": "1@pop3",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 963,
+			"map": "1@slw",
+			"name": "维尔纳研究所",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@slw",
+			"image_map": "1@slw",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 964,
+			"map": "1@swat",
+			"name": "心脏猎人军事基地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@swat",
+			"image_map": "1@swat",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 965,
+			"map": "que_swat",
+			"name": "心灵猎人军事基地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_swat",
+			"image_map": "que_swat",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 966,
+			"map": "slabw01",
+			"name": "沃纳研究所",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "slabw01",
+			"image_map": "slabw01",
+			"image_kind": "image"
+		},
+		{
+			"id": 967,
+			"map": "rebel_in",
+			"name": "克拉纳·内米耶里",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "rebel_in",
+			"image_map": "rebel_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 968,
+			"map": "1@md_gef",
+			"name": "星期五纪念馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@md_gef",
+			"image_map": "1@md_gef",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 969,
+			"map": "1@md_pay",
+			"name": "周末纪念馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@md_pay",
+			"image_map": "1@md_pay",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 970,
+			"map": "har_in01",
+			"name": "岩脊",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "har_in01",
+			"image_map": "har_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 971,
+			"map": "harboro1",
+			"name": "岩脊",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "harboro1",
+			"image_map": "harboro1",
+			"image_kind": "image"
+		},
+		{
+			"id": 972,
+			"map": "harboro2",
+			"name": "地下水道",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "harboro2",
+			"image_map": "harboro2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 973,
+			"map": "rockmi1",
+			"name": "岩脊矿山",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "rockmi1",
+			"image_map": "rockmi1",
+			"image_kind": "image"
+		},
+		{
+			"id": 974,
+			"map": "rockmi2",
+			"name": "洛克里奇矿山",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "rockmi2",
+			"image_map": "rockmi2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 975,
+			"map": "rockrdg1",
+			"name": "基瓦瓦沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "rockrdg1",
+			"image_map": "rockrdg1",
+			"image_kind": "image"
+		},
+		{
+			"id": 976,
+			"map": "rockrdg2",
+			"name": "基瓦瓦沙漠",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "rockrdg2",
+			"image_map": "rockrdg2",
+			"image_kind": "image"
+		},
+		{
+			"id": 977,
+			"map": "1@gl_k2",
+			"name": "旧格拉斯特海姆骑士团 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gl_k2",
+			"image_map": "1@gl_k2",
+			"image_kind": "image"
+		},
+		{
+			"id": 978,
+			"map": "2@gl_k2",
+			"name": "旧克雷斯特汉姆骑士团 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@gl_k2",
+			"image_map": "2@gl_k2",
+			"image_kind": "image"
+		},
+		{
+			"id": 979,
+			"map": "1@xm_d2",
+			"name": "恐怖玩具工厂",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@xm_d2",
+			"image_map": "1@xm_d2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 980,
+			"map": "pay_d03_i",
+			"name": "月光噩梦",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pay_d03_i",
+			"image_map": "pay_d03_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 981,
+			"map": "gef_d01_i",
+			"name": "第250页（吸血鬼幻影）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gef_d01_i",
+			"image_map": "gef_d01_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 982,
+			"map": "ice_d03_i",
+			"name": "冰封记忆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ice_d03_i",
+			"image_map": "ice_d03_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 983,
+			"map": "1@tre",
+			"name": "可疑沉船",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@tre",
+			"image_map": "1@tre",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 984,
+			"map": "1@begi",
+			"name": "波利村",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@begi",
+			"image_map": "1@begi",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 985,
+			"map": "tur_d03_i",
+			"name": "荒芜村庄",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_d03_i",
+			"image_map": "tur_d03_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 986,
+			"map": "tur_d04_i",
+			"name": "阴郁乌龟宫殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_d04_i",
+			"image_map": "tur_d04_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 987,
+			"map": "1@crd",
+			"name": "科罗多火山岛",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@crd",
+			"image_map": "1@crd",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 988,
+			"map": "ordeal_a00",
+			"name": "ordeal_a00",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ordeal_a00",
+			"image_map": "ordeal_a00",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 989,
+			"map": "ordeal_a02",
+			"name": "ordeal_a02",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ordeal_a02",
+			"image_map": "ordeal_a02",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 990,
+			"map": "pprontera",
+			"name": "pprontera",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pprontera",
+			"image_map": "pprontera",
+			"image_kind": "image"
+		},
+		{
+			"id": 991,
+			"map": "niflxmas",
+			"name": "niflxmas",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "niflxmas",
+			"image_map": "niflxmas",
+			"image_kind": "image"
+		},
+		{
+			"id": 992,
+			"map": "sch_lab",
+			"name": "sch_lab",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "sch_lab",
+			"image_map": "sch_lab",
+			"image_kind": null
+		},
+		{
+			"id": 993,
+			"map": "nakhyang",
+			"name": "nakhyang",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nakhyang",
+			"image_map": "nakhyang",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 994,
+			"map": "lasa_sea",
+			"name": "拉萨格纳洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "lasa_sea",
+			"image_map": "lasa_sea",
+			"image_kind": "image"
+		},
+		{
+			"id": 995,
+			"map": "1@drdo",
+			"name": "多拉多传说",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@drdo",
+			"image_map": "1@drdo",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 996,
+			"map": "x_lhz",
+			"name": "里希塔乐镇 - 次元彼端",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "x_lhz",
+			"image_map": "x_lhz",
+			"image_kind": "image"
+		},
+		{
+			"id": 997,
+			"map": "x_prt",
+			"name": "普隆德拉－异次元",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "x_prt",
+			"image_map": "x_prt",
+			"image_kind": "image"
+		},
+		{
+			"id": 998,
+			"map": "x_ra",
+			"name": "拉赫－异次元",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "x_ra",
+			"image_map": "x_ra",
+			"image_kind": "image"
+		},
+		{
+			"id": 999,
+			"map": "prt_evt_in",
+			"name": "狩猎小屋",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_evt_in",
+			"image_map": "prt_evt_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1e3,
+			"map": "vis_h01",
+			"name": "调查走廊 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "vis_h01",
+			"image_map": "vis_h01",
+			"image_kind": "image"
+		},
+		{
+			"id": 1001,
+			"map": "vis_h02",
+			"name": "调查走廊 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "vis_h02",
+			"image_map": "vis_h02",
+			"image_kind": "image"
+		},
+		{
+			"id": 1002,
+			"map": "vis_h03",
+			"name": "调查走廊 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "vis_h03",
+			"image_map": "vis_h03",
+			"image_kind": "image"
+		},
+		{
+			"id": 1003,
+			"map": "vis_h04",
+			"name": "调查走廊 F4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "vis_h04",
+			"image_map": "vis_h04",
+			"image_kind": "image"
+		},
+		{
+			"id": 1004,
+			"map": "ein_d02_i",
+			"name": "纳萨林帝国",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_d02_i",
+			"image_map": "ein_d02_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 1005,
+			"map": "com_d02_i",
+			"name": "卢安达北洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "com_d02_i",
+			"image_map": "com_d02_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 1006,
+			"map": "1@soul",
+			"name": "灵魂通道",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@soul",
+			"image_map": "1@soul",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1007,
+			"map": "star_frst",
+			"name": "流星林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "star_frst",
+			"image_map": "star_frst",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1008,
+			"map": "star_in",
+			"name": "刘成林内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "star_in",
+			"image_map": "star_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1009,
+			"map": "2009rwc_01",
+			"name": "2009rwc_01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_01",
+			"image_map": "2009rwc_01",
+			"image_kind": null
+		},
+		{
+			"id": 1010,
+			"map": "2009rwc_02",
+			"name": "2009rwc_02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_02",
+			"image_map": "2009rwc_02",
+			"image_kind": null
+		},
+		{
+			"id": 1011,
+			"map": "2009rwc_03",
+			"name": "2009rwc_03",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_03",
+			"image_map": "2009rwc_03",
+			"image_kind": null
+		},
+		{
+			"id": 1012,
+			"map": "2009rwc_04",
+			"name": "2009rwc_04",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_04",
+			"image_map": "2009rwc_04",
+			"image_kind": null
+		},
+		{
+			"id": 1013,
+			"map": "2009rwc_05",
+			"name": "2009rwc_05",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_05",
+			"image_map": "2009rwc_05",
+			"image_kind": null
+		},
+		{
+			"id": 1014,
+			"map": "2009rwc_06",
+			"name": "2009rwc_06",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_06",
+			"image_map": "2009rwc_06",
+			"image_kind": null
+		},
+		{
+			"id": 1015,
+			"map": "2009rwc_07",
+			"name": "2009rwc_07",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_07",
+			"image_map": "2009rwc_07",
+			"image_kind": null
+		},
+		{
+			"id": 1016,
+			"map": "2009rwc_08",
+			"name": "2009rwc_08",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_08",
+			"image_map": "2009rwc_08",
+			"image_kind": null
+		},
+		{
+			"id": 1017,
+			"map": "2009rwc_f01",
+			"name": "2009rwc_f01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2009rwc_f01",
+			"image_map": "2009rwc_f01",
+			"image_kind": null
+		},
+		{
+			"id": 1018,
+			"map": "2012rwc_01",
+			"name": "2012rwc_01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2012rwc_01",
+			"image_map": "2012rwc_01",
+			"image_kind": null
+		},
+		{
+			"id": 1019,
+			"map": "2012rwc_02",
+			"name": "2012rwc_02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2012rwc_02",
+			"image_map": "2012rwc_02",
+			"image_kind": null
+		},
+		{
+			"id": 1020,
+			"map": "2012rwc_03",
+			"name": "2012rwc_03",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2012rwc_03",
+			"image_map": "2012rwc_03",
+			"image_kind": null
+		},
+		{
+			"id": 1021,
+			"map": "2012rwc_04",
+			"name": "2012rwc_04",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2012rwc_04",
+			"image_map": "2012rwc_04",
+			"image_kind": null
+		},
+		{
+			"id": 1022,
+			"map": "2012rwc_05",
+			"name": "2012rwc_05",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2012rwc_05",
+			"image_map": "2012rwc_05",
+			"image_kind": null
+		},
+		{
+			"id": 1023,
+			"map": "2012rwc_06",
+			"name": "2012rwc_06",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2012rwc_06",
+			"image_map": "2012rwc_06",
+			"image_kind": null
+		},
+		{
+			"id": 1024,
+			"map": "2012rwc_07",
+			"name": "2012rwc_07",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2012rwc_07",
+			"image_map": "2012rwc_07",
+			"image_kind": null
+		},
+		{
+			"id": 1025,
+			"map": "2012rwc_08",
+			"name": "2012rwc_08",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2012rwc_08",
+			"image_map": "2012rwc_08",
+			"image_kind": null
+		},
+		{
+			"id": 1026,
+			"map": "1@4cdn",
+			"name": "最后试炼幻境洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4cdn",
+			"image_map": "1@4cdn",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1027,
+			"map": "1@4drk",
+			"name": "巨龙之路",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4drk",
+			"image_map": "1@4drk",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1028,
+			"map": "1@4igd",
+			"name": "正义战场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4igd",
+			"image_map": "1@4igd",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1029,
+			"map": "1@4inq",
+			"name": "修道院地下室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4inq",
+			"image_map": "1@4inq",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1030,
+			"map": "1@4mag",
+			"name": "魔法喷泉",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4mag",
+			"image_map": "1@4mag",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1031,
+			"map": "1@4mst",
+			"name": "欧佩罗斯中央 VT",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4mst",
+			"image_map": "1@4mst",
+			"image_kind": "image"
+		},
+		{
+			"id": 1032,
+			"map": "1@4sac",
+			"name": "暗影宅邸",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4sac",
+			"image_map": "1@4sac",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1033,
+			"map": "1@4tro",
+			"name": "克瓦希尔的船",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4tro",
+			"image_map": "1@4tro",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1034,
+			"map": "1@4win",
+			"name": "鲁鲁卡深林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@4win",
+			"image_map": "1@4win",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1035,
+			"map": "1@bamn",
+			"name": "黄昏花园",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@bamn",
+			"image_map": "1@bamn",
+			"image_kind": "image"
+		},
+		{
+			"id": 1036,
+			"map": "1@bamq",
+			"name": "不公码头",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@bamq",
+			"image_map": "1@bamq",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1037,
+			"map": "1@ch_t",
+			"name": "星座塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ch_t",
+			"image_map": "1@ch_t",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1038,
+			"map": "1@cor",
+			"name": "科尔纪念馆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@cor",
+			"image_map": "1@cor",
+			"image_kind": "image"
+		},
+		{
+			"id": 1039,
+			"map": "1@ge_sn",
+			"name": "吉芬夜间竞技场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ge_sn",
+			"image_map": "1@ge_sn",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1040,
+			"map": "1@ghg",
+			"name": "奥索斯水域",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ghg",
+			"image_map": "1@ghg",
+			"image_kind": "image"
+		},
+		{
+			"id": 1041,
+			"map": "1@gl_he",
+			"name": "污染次元",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gl_he",
+			"image_map": "1@gl_he",
+			"image_kind": "image"
+		},
+		{
+			"id": 1042,
+			"map": "1@gl_he2",
+			"name": "活动模式：未完成的次元",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gl_he2",
+			"image_map": "1@gl_he2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1043,
+			"map": "1@gl_prq",
+			"name": "格拉斯特海姆的陨落",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gl_prq",
+			"image_map": "1@gl_prq",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1044,
+			"map": "1@gol1",
+			"name": "生物实验中心",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gol1",
+			"image_map": "1@gol1",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1045,
+			"map": "1@gol2",
+			"name": "尸体储藏室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@gol2",
+			"image_map": "1@gol2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1046,
+			"map": "1@halo",
+			"name": "万圣节庆典",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@halo",
+			"image_map": "1@halo",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1047,
+			"map": "1@herbs",
+			"name": "隐秘花园",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@herbs",
+			"image_map": "1@herbs",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1048,
+			"map": "1@lost",
+			"name": "遗忘时光农场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@lost",
+			"image_map": "1@lost",
+			"image_kind": "image"
+		},
+		{
+			"id": 1049,
+			"map": "1@mjo1",
+			"name": "妙勒尼山脉－飞机坠毁地点",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@mjo1",
+			"image_map": "1@mjo1",
+			"image_kind": "image"
+		},
+		{
+			"id": 1050,
+			"map": "1@mjo2",
+			"name": "妙勒尼山脉 - 遗忘洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@mjo2",
+			"image_map": "1@mjo2",
+			"image_kind": "image"
+		},
+		{
+			"id": 1051,
+			"map": "1@odin",
+			"name": "1@odin",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@odin",
+			"image_map": "1@odin",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1052,
+			"map": "1@os_a",
+			"name": "占领战",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@os_a",
+			"image_map": "1@os_a",
+			"image_kind": "image"
+		},
+		{
+			"id": 1053,
+			"map": "1@os_b",
+			"name": "封印的 OS",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@os_b",
+			"image_map": "1@os_b",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1054,
+			"map": "1@rgsr",
+			"name": "雷根希尔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@rgsr",
+			"image_map": "1@rgsr",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1055,
+			"map": "1@spa2",
+			"name": "悔恨之墓",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@spa2",
+			"image_map": "1@spa2",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1056,
+			"map": "1@thts",
+			"name": "塔纳托斯塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@thts",
+			"image_map": "1@thts",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1057,
+			"map": "2@ch_t",
+			"name": "星座塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@ch_t",
+			"image_map": "2@ch_t",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1058,
+			"map": "2@thts",
+			"name": "天使的警告",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@thts",
+			"image_map": "2@thts",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1059,
+			"map": "3@ch_t",
+			"name": "星座塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "3@ch_t",
+			"image_map": "3@ch_t",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1060,
+			"map": "3@thts",
+			"name": "憎恨的记忆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "3@thts",
+			"image_map": "3@thts",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1061,
+			"map": "4@thts",
+			"name": "痛苦的记忆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "4@thts",
+			"image_map": "4@thts",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1062,
+			"map": "5@thts",
+			"name": "悲伤的记忆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "5@thts",
+			"image_map": "5@thts",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1063,
+			"map": "6@thts",
+			"name": "绝望的记忆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "6@thts",
+			"image_map": "6@thts",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1064,
+			"map": "7@thts",
+			"name": "愤怒的记忆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "7@thts",
+			"image_map": "7@thts",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1065,
+			"map": "8@thts",
+			"name": "塔纳托斯塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "8@thts",
+			"image_map": "8@thts",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1066,
+			"map": "abyss_04",
+			"name": "深渊湖地下洞窟 4层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "abyss_04",
+			"image_map": "abyss_04",
+			"image_kind": "image"
+		},
+		{
+			"id": 1067,
+			"map": "amicitia1",
+			"name": "废弃实验室阿米希提亚",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "amicitia1",
+			"image_map": "amicitia1",
+			"image_kind": "image"
+		},
+		{
+			"id": 1068,
+			"map": "amicitia2",
+			"name": "废弃实验室阿米希提亚",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "amicitia2",
+			"image_map": "amicitia2",
+			"image_kind": "image"
+		},
+		{
+			"id": 1069,
+			"map": "ba_2whs01",
+			"name": "塔尔塔洛斯仓库上层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_2whs01",
+			"image_map": "ba_2whs01",
+			"image_kind": "image"
+		},
+		{
+			"id": 1070,
+			"map": "ba_2whs02",
+			"name": "塔尔塔罗斯仓库下层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_2whs02",
+			"image_map": "ba_2whs02",
+			"image_kind": "image"
+		},
+		{
+			"id": 1071,
+			"map": "ba_bath",
+			"name": "大型浴池冥想处",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_bath",
+			"image_map": "ba_bath",
+			"image_kind": "image"
+		},
+		{
+			"id": 1072,
+			"map": "ba_chess",
+			"name": "将杀",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_chess",
+			"image_map": "ba_chess",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1073,
+			"map": "ba_go",
+			"name": "水域地图（手相师战场）",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_go",
+			"image_map": "ba_go",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1074,
+			"map": "ba_in01",
+			"name": "瓦尔蒙特宅邸内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_in01",
+			"image_map": "ba_in01",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1075,
+			"map": "ba_lib",
+			"name": "图书馆记忆回廊",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_lib",
+			"image_map": "ba_lib",
+			"image_kind": "image"
+		},
+		{
+			"id": 1076,
+			"map": "ba_lost",
+			"name": "失落农场山谷",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_lost",
+			"image_map": "ba_lost",
+			"image_kind": "image"
+		},
+		{
+			"id": 1077,
+			"map": "ba_maison",
+			"name": "瓦尔蒙德宅邸庭院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_maison",
+			"image_map": "ba_maison",
+			"image_kind": "image"
+		},
+		{
+			"id": 1078,
+			"map": "ba_pw01",
+			"name": "第一发电厂",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_pw01",
+			"image_map": "ba_pw01",
+			"image_kind": "image"
+		},
+		{
+			"id": 1079,
+			"map": "ba_pw02",
+			"name": "污水处理厂",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_pw02",
+			"image_map": "ba_pw02",
+			"image_kind": "image"
+		},
+		{
+			"id": 1080,
+			"map": "ba_pw03",
+			"name": "第二发电厂",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ba_pw03",
+			"image_map": "ba_pw03",
+			"image_kind": "image"
+		},
+		{
+			"id": 1081,
+			"map": "ein_dun03",
+			"name": "艾因贝赫矿山 3层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ein_dun03",
+			"image_map": "ein_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 1082,
+			"map": "e_hugel",
+			"name": "被入侵的胡格尔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "e_hugel",
+			"image_map": "e_hugel",
+			"image_kind": "image"
+		},
+		{
+			"id": 1083,
+			"map": "gl_cas01_",
+			"name": "深渊克雷斯特汉姆城堡 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gl_cas01_",
+			"image_map": "gl_cas01_",
+			"image_kind": "image"
+		},
+		{
+			"id": 1084,
+			"map": "grademk",
+			"name": "品级强化所",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "grademk",
+			"image_map": "grademk",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1085,
+			"map": "iz_d04_i",
+			"name": "深海洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_d04_i",
+			"image_map": "iz_d04_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 1086,
+			"map": "iz_d05_i",
+			"name": "深海洞窟",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "iz_d05_i",
+			"image_map": "iz_d05_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 1087,
+			"map": "job4_bio",
+			"name": "秘密花园",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job4_bio",
+			"image_map": "job4_bio",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1088,
+			"map": "job4_mag",
+			"name": "魔法喷泉",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job4_mag",
+			"image_map": "job4_mag",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1089,
+			"map": "job4_tro",
+			"name": "空荡的卡瓦希尔船",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "job4_tro",
+			"image_map": "job4_tro",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1090,
+			"map": "mag_dun03",
+			"name": "诺格道路 3层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "mag_dun03",
+			"image_map": "mag_dun03",
+			"image_kind": "image"
+		},
+		{
+			"id": 1091,
+			"map": "nif_dun01",
+			"name": "尼福尔海姆地下城 - 死者宴会厅",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nif_dun01",
+			"image_map": "nif_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 1092,
+			"map": "nif_dun02",
+			"name": "尼芙菲姆地下城－坍塌的歌剧院",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "nif_dun02",
+			"image_map": "nif_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 1093,
+			"map": "odin_past",
+			"name": "古代奥丁神殿",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "odin_past",
+			"image_map": "odin_past",
+			"image_kind": "image"
+		},
+		{
+			"id": 1094,
+			"map": "prt_mz03_i",
+			"name": "扭曲迷宫森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "prt_mz03_i",
+			"image_map": "prt_mz03_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 1095,
+			"map": "pub_cat",
+			"name": "子弹上的猫",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "pub_cat",
+			"image_map": "pub_cat",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1096,
+			"map": "rgsr_in",
+			"name": "雷肯贝尔研究所",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "rgsr_in",
+			"image_map": "rgsr_in",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1097,
+			"map": "sp_cor",
+			"name": "特殊边境区域科尔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sp_cor",
+			"image_map": "sp_cor",
+			"image_kind": "image"
+		},
+		{
+			"id": 1098,
+			"map": "sp_os",
+			"name": "特殊边境区域 OS",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sp_os",
+			"image_map": "sp_os",
+			"image_kind": "image"
+		},
+		{
+			"id": 1099,
+			"map": "sp_rudus",
+			"name": "鲁杜斯 F1",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sp_rudus",
+			"image_map": "sp_rudus",
+			"image_kind": "image"
+		},
+		{
+			"id": 1100,
+			"map": "sp_rudus2",
+			"name": "鲁杜斯 F2",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sp_rudus2",
+			"image_map": "sp_rudus2",
+			"image_kind": "image"
+		},
+		{
+			"id": 1101,
+			"map": "sp_rudus3",
+			"name": "鲁杜斯 F3",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sp_rudus3",
+			"image_map": "sp_rudus3",
+			"image_kind": "image"
+		},
+		{
+			"id": 1102,
+			"map": "sp_rudus4",
+			"name": "鲁杜斯 F4",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "sp_rudus4",
+			"image_map": "sp_rudus4",
+			"image_kind": "image"
+		},
+		{
+			"id": 1103,
+			"map": "tra_fild",
+			"name": "普隆德拉外围训练场",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tra_fild",
+			"image_map": "tra_fild",
+			"image_kind": "image"
+		},
+		{
+			"id": 1104,
+			"map": "verus02_a",
+			"name": "verus02_a",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "verus02_a",
+			"image_map": "verus02_a",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1105,
+			"map": "verus02_b",
+			"name": "verus02_b",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "verus02_b",
+			"image_map": "verus02_b",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1106,
+			"map": "1@adv",
+			"name": "大主教别墅",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@adv",
+			"image_map": "1@adv",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1107,
+			"map": "1@advs",
+			"name": "欺诈别墅",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@advs",
+			"image_map": "1@advs",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1108,
+			"map": "1@ch_u",
+			"name": "沉没之塔",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@ch_u",
+			"image_map": "1@ch_u",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1109,
+			"map": "1@nyr",
+			"name": "塞斯鲁姆尼尔圣域花园",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@nyr",
+			"image_map": "1@nyr",
+			"image_kind": "image"
+		},
+		{
+			"id": 1110,
+			"map": "1@oz",
+			"name": "奥兹迷宫",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@oz",
+			"image_map": "1@oz",
+			"image_kind": "image"
+		},
+		{
+			"id": 1111,
+			"map": "1@tcamp",
+			"name": "托尔火山军事基地",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@tcamp",
+			"image_map": "1@tcamp",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1112,
+			"map": "2@nyr",
+			"name": "塞斯鲁姆尼尔圣域心之仓库",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@nyr",
+			"image_map": "2@nyr",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1113,
+			"map": "ant_d02_i",
+			"name": "觉醒花园",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "ant_d02_i",
+			"image_map": "ant_d02_i",
+			"image_kind": "image"
+		},
+		{
+			"id": 1114,
+			"map": "gw_fild01",
+			"name": "灰狼森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gw_fild01",
+			"image_map": "gw_fild01",
+			"image_kind": "image"
+		},
+		{
+			"id": 1115,
+			"map": "gw_fild02",
+			"name": "灰狼森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "gw_fild02",
+			"image_map": "gw_fild02",
+			"image_kind": "image"
+		},
+		{
+			"id": 1116,
+			"map": "oz_dun01",
+			"name": "奥兹迷宫 1层",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "oz_dun01",
+			"image_map": "oz_dun01",
+			"image_kind": "image"
+		},
+		{
+			"id": 1117,
+			"map": "oz_dun02",
+			"name": "奥兹迷宫 2F",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "oz_dun02",
+			"image_map": "oz_dun02",
+			"image_kind": "image"
+		},
+		{
+			"id": 1118,
+			"map": "que_thr",
+			"name": "托尔火山内部",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "que_thr",
+			"image_map": "que_thr",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1119,
+			"map": "tur_d04ia",
+			"name": "tur_d04ia",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_d04ia",
+			"image_map": "tur_d04ia",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1120,
+			"map": "tur_d04ib",
+			"name": "tur_d04ib",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "tur_d04ib",
+			"image_map": "tur_d04ib",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1121,
+			"map": "wolfvill",
+			"name": "灰狼村",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "wolfvill",
+			"image_map": "wolfvill",
+			"image_kind": "image"
+		},
+		{
+			"id": 1122,
+			"map": "icecastle",
+			"name": "伊斯加德冰之城堡",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "icecastle",
+			"image_map": "icecastle",
+			"image_kind": null
+		},
+		{
+			"id": 1123,
+			"map": "icas_in",
+			"name": "冰之城堡内部",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "icas_in",
+			"image_map": "icas_in",
+			"image_kind": null
+		},
+		{
+			"id": 1124,
+			"map": "jor_tail",
+			"name": "冰冻尾巴",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_tail",
+			"image_map": "jor_tail",
+			"image_kind": null
+		},
+		{
+			"id": 1125,
+			"map": "jor_back1",
+			"name": "冰封鳞片山丘",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_back1",
+			"image_map": "jor_back1",
+			"image_kind": null
+		},
+		{
+			"id": 1126,
+			"map": "jor_back2",
+			"name": "冰鳞平原",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_back2",
+			"image_map": "jor_back2",
+			"image_kind": null
+		},
+		{
+			"id": 1127,
+			"map": "jor_back3",
+			"name": "冰鳞冰川",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_back3",
+			"image_map": "jor_back3",
+			"image_kind": null
+		},
+		{
+			"id": 1128,
+			"map": "jor_nest",
+			"name": "蛇巢穴",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_nest",
+			"image_map": "jor_nest",
+			"image_kind": null
+		},
+		{
+			"id": 1129,
+			"map": "jor_dun01",
+			"name": "蛇神之暖 1 楼",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_dun01",
+			"image_map": "jor_dun01",
+			"image_kind": null
+		},
+		{
+			"id": 1130,
+			"map": "jor_dun02",
+			"name": "蛇神温暖之地 2层",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_dun02",
+			"image_map": "jor_dun02",
+			"image_kind": null
+		},
+		{
+			"id": 1131,
+			"map": "jor_dun03",
+			"name": "蛇巢内部",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_dun03",
+			"image_map": "jor_dun03",
+			"image_kind": null
+		},
+		{
+			"id": 1132,
+			"map": "jor_ab01",
+			"name": "废弃矿坑 1层",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_ab01",
+			"image_map": "jor_ab01",
+			"image_kind": null
+		},
+		{
+			"id": 1133,
+			"map": "jor_ab02",
+			"name": "废弃矿坑 2 楼",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_ab02",
+			"image_map": "jor_ab02",
+			"image_kind": null
+		},
+		{
+			"id": 1134,
+			"map": "jor_que",
+			"name": "被遗弃的蛇神温暖之地",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_que",
+			"image_map": "jor_que",
+			"image_kind": null
+		},
+		{
+			"id": 1135,
+			"map": "air_if",
+			"name": "伊弗号飞机内部",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "air_if",
+			"image_map": "air_if",
+			"image_kind": null
+		},
+		{
+			"id": 1136,
+			"map": "1@iwp",
+			"name": "冰鳞山丘",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@iwp",
+			"image_map": "1@iwp",
+			"image_kind": null
+		},
+		{
+			"id": 1137,
+			"map": "1@jorchs",
+			"name": "混乱蛇巢穴",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@jorchs",
+			"image_map": "1@jorchs",
+			"image_kind": null
+		},
+		{
+			"id": 1138,
+			"map": "1@jorlab",
+			"name": "巴戈特实验室",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@jorlab",
+			"image_map": "1@jorlab",
+			"image_kind": null
+		},
+		{
+			"id": 1139,
+			"map": "1@whl",
+			"name": "未处理荒野内部（1）",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@whl",
+			"image_map": "1@whl",
+			"image_kind": null
+		},
+		{
+			"id": 1140,
+			"map": "1@exhn",
+			"name": "新手的记忆",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@exhn",
+			"image_map": "1@exhn",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1141,
+			"map": "1@exds",
+			"name": "无名山脚下",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@exds",
+			"image_map": "1@exds",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1142,
+			"map": "2@exds",
+			"name": "无名山脚下",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "2@exds",
+			"image_map": "2@exds",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1143,
+			"map": "1@exse",
+			"name": "银河天体支脉",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@exse",
+			"image_map": "1@exse",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1144,
+			"map": "1@exnw",
+			"name": "克拉纳·奈米里",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@exnw",
+			"image_map": "1@exnw",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1145,
+			"map": "1@exsr",
+			"name": "内在世界",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@exsr",
+			"image_map": "1@exsr",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1146,
+			"map": "1@exsh",
+			"name": "深邃森林",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "1@exsh",
+			"image_map": "1@exsh",
+			"image_kind": "terrain"
+		},
+		{
+			"id": 1147,
+			"map": "bl_grass",
+			"name": "生物圈标本环境 - 草原",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bl_grass",
+			"image_map": "bl_grass",
+			"image_kind": "image"
+		},
+		{
+			"id": 1148,
+			"map": "bl_lava",
+			"name": "生物圈样本环境－火焰",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bl_lava",
+			"image_map": "bl_lava",
+			"image_kind": "image"
+		},
+		{
+			"id": 1149,
+			"map": "bl_ice",
+			"name": "生物圈样本环境－严寒",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bl_ice",
+			"image_map": "bl_ice",
+			"image_kind": "image"
+		},
+		{
+			"id": 1150,
+			"map": "bl_death",
+			"name": "生物圈标本环境 - 死亡",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "bl_death",
+			"image_map": "bl_death",
+			"image_kind": "image"
+		},
+		{
+			"id": 1151,
+			"map": "clock_01",
+			"name": "钟楼未知地下室",
+			"supported": true,
+			"channel": null,
+			"canonical_map": "clock_01",
+			"image_map": "clock_01",
+			"image_kind": "image"
+		},
+		{
+			"id": 1152,
+			"map": "rag_fes",
+			"name": "RAG-FES 展览厅",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "rag_fes",
+			"image_map": "rag_fes",
+			"image_kind": null
+		},
+		{
+			"id": 1153,
+			"map": "rag_fes_a",
+			"name": "RAG-FES 展览馆",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "rag_fes_a",
+			"image_map": "rag_fes_a",
+			"image_kind": null
+		},
+		{
+			"id": 1154,
+			"map": "memohall",
+			"name": "次元守护者纪念馆",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "memohall",
+			"image_map": "memohall",
+			"image_kind": null
+		},
+		{
+			"id": 1155,
+			"map": "1@dime",
+			"name": "次元墙之外",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@dime",
+			"image_map": "1@dime",
+			"image_kind": null
+		},
+		{
+			"id": 1156,
+			"map": "prt_elib",
+			"name": "普隆德拉东部图书馆",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "prt_elib",
+			"image_map": "prt_elib",
+			"image_kind": null
+		},
+		{
+			"id": 1157,
+			"map": "1@vrcas",
+			"name": "幻想系列-百合宫殿",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrcas",
+			"image_map": "1@vrcas",
+			"image_kind": null
+		},
+		{
+			"id": 1158,
+			"map": "1@vrev",
+			"name": "幻想系列-艾米基提亚的秘密实验室",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrev",
+			"image_map": "1@vrev",
+			"image_kind": null
+		},
+		{
+			"id": 1159,
+			"map": "1@vrgen",
+			"name": "幻想系列-基因实验室",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrgen",
+			"image_map": "1@vrgen",
+			"image_kind": null
+		},
+		{
+			"id": 1160,
+			"map": "1@vrpo",
+			"name": "幻想系列－波利大地",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrpo",
+			"image_map": "1@vrpo",
+			"image_kind": null
+		},
+		{
+			"id": 1161,
+			"map": "1@pdb",
+			"name": "1@pdb",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@pdb",
+			"image_map": "1@pdb",
+			"image_kind": null
+		},
+		{
+			"id": 1162,
+			"map": "airplane2",
+			"name": "airplane2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "airplane2",
+			"image_map": "airplane2",
+			"image_kind": null
+		},
+		{
+			"id": 1163,
+			"map": "vr_bob",
+			"name": "幻想系列－今日餐桌",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_bob",
+			"image_map": "vr_bob",
+			"image_kind": null
+		},
+		{
+			"id": 1164,
+			"map": "hero_dun1",
+			"name": "赫罗斯利亚圣域 PvP 迷宫",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_dun1",
+			"image_map": "hero_dun1",
+			"image_kind": null
+		},
+		{
+			"id": 1165,
+			"map": "hero_ent1",
+			"name": "英雄之地第一英雄之门",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_ent1",
+			"image_map": "hero_ent1",
+			"image_kind": null
+		},
+		{
+			"id": 1166,
+			"map": "hero_ent2",
+			"name": "英雄之地第二英雄之门",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_ent2",
+			"image_map": "hero_ent2",
+			"image_kind": null
+		},
+		{
+			"id": 1167,
+			"map": "hero_ent3",
+			"name": "赫罗斯利亚第三英雄之门",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_ent3",
+			"image_map": "hero_ent3",
+			"image_kind": null
+		},
+		{
+			"id": 1168,
+			"map": "hero_in1",
+			"name": "英雄之地春之花园",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_in1",
+			"image_map": "hero_in1",
+			"image_kind": null
+		},
+		{
+			"id": 1169,
+			"map": "hero_in2",
+			"name": "赫罗斯利亚夏日花园",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_in2",
+			"image_map": "hero_in2",
+			"image_kind": null
+		},
+		{
+			"id": 1170,
+			"map": "hero_in3",
+			"name": "赫罗斯利亚秋日花园",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_in3",
+			"image_map": "hero_in3",
+			"image_kind": null
+		},
+		{
+			"id": 1171,
+			"map": "hero_in4",
+			"name": "英雄之地冬日庭园",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_in4",
+			"image_map": "hero_in4",
+			"image_kind": null
+		},
+		{
+			"id": 1172,
+			"map": "hero_lb",
+			"name": "英雄之地起源庭院",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_lb",
+			"image_map": "hero_lb",
+			"image_kind": null
+		},
+		{
+			"id": 1173,
+			"map": "hero_out1",
+			"name": "赫罗斯利亚希尔瓦里昂",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_out1",
+			"image_map": "hero_out1",
+			"image_kind": null
+		},
+		{
+			"id": 1174,
+			"map": "hero_out2",
+			"name": "英雄之地湖畔竞技场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_out2",
+			"image_map": "hero_out2",
+			"image_kind": null
+		},
+		{
+			"id": 1175,
+			"map": "hero_out3",
+			"name": "赫罗斯利亚巴斯蒂塔里乌姆",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_out3",
+			"image_map": "hero_out3",
+			"image_kind": null
+		},
+		{
+			"id": 1176,
+			"map": "hero_out4",
+			"name": "英雄之地拉比纳里乌姆",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_out4",
+			"image_map": "hero_out4",
+			"image_kind": null
+		},
+		{
+			"id": 1177,
+			"map": "hero_tra",
+			"name": "英雄之地圣域训练场",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hero_tra",
+			"image_map": "hero_tra",
+			"image_kind": null
+		},
+		{
+			"id": 1178,
+			"map": "herosria",
+			"name": "赫罗斯利亚圣域宝石房间",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "herosria",
+			"image_map": "herosria",
+			"image_kind": null
+		},
+		{
+			"id": 1179,
+			"map": "1@vrac1",
+			"name": "幻想系列 - 学院 1 楼",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrac1",
+			"image_map": "1@vrac1",
+			"image_kind": null
+		},
+		{
+			"id": 1180,
+			"map": "1@vrac2",
+			"name": "幻想系列－学院 2层",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrac2",
+			"image_map": "1@vrac2",
+			"image_kind": null
+		},
+		{
+			"id": 1181,
+			"map": "1@vrclo",
+			"name": "幻想系列－镜之修道院",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrclo",
+			"image_map": "1@vrclo",
+			"image_kind": null
+		},
+		{
+			"id": 1182,
+			"map": "1@vrhha",
+			"name": "幻想系列 - 心灵猎人训练中心",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrhha",
+			"image_map": "1@vrhha",
+			"image_kind": null
+		},
+		{
+			"id": 1183,
+			"map": "2@vrclo",
+			"name": "幻想系列－那些时光",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2@vrclo",
+			"image_map": "2@vrclo",
+			"image_kind": null
+		},
+		{
+			"id": 1184,
+			"map": "bl_soul",
+			"name": "生物圈样本环境 - 灵魂",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bl_soul",
+			"image_map": "bl_soul",
+			"image_kind": null
+		},
+		{
+			"id": 1185,
+			"map": "bl_temple",
+			"name": "生物圈样本环境－神殿",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bl_temple",
+			"image_map": "bl_temple",
+			"image_kind": null
+		},
+		{
+			"id": 1186,
+			"map": "bl_venom",
+			"name": "生物圈样本环境－毒液",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bl_venom",
+			"image_map": "bl_venom",
+			"image_kind": null
+		},
+		{
+			"id": 1187,
+			"map": "mjo_wst01",
+			"name": "妙勒尼地下洞窟",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "mjo_wst01",
+			"image_map": "mjo_wst01",
+			"image_kind": null
+		},
+		{
+			"id": 1188,
+			"map": "ra_pol01",
+			"name": "力量扭曲平原",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ra_pol01",
+			"image_map": "ra_pol01",
+			"image_kind": null
+		},
+		{
+			"id": 1189,
+			"map": "1@20cn1",
+			"name": "峡谷探索",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@20cn1",
+			"image_map": "1@20cn1",
+			"image_kind": null
+		},
+		{
+			"id": 1190,
+			"map": "1@20cn2",
+			"name": "峡谷探索",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@20cn2",
+			"image_map": "1@20cn2",
+			"image_kind": null
+		},
+		{
+			"id": 1191,
+			"map": "1@slug",
+			"name": "黏稠之海",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@slug",
+			"image_map": "1@slug",
+			"image_kind": null
+		},
+		{
+			"id": 1192,
+			"map": "1@twas",
+			"name": "分离圣域",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@twas",
+			"image_map": "1@twas",
+			"image_kind": null
+		},
+		{
+			"id": 1193,
+			"map": "1@twbs",
+			"name": "分离圣域",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@twbs",
+			"image_map": "1@twbs",
+			"image_kind": null
+		},
+		{
+			"id": 1194,
+			"map": "1@twig",
+			"name": "树枝的巢穴",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@twig",
+			"image_map": "1@twig",
+			"image_kind": null
+		},
+		{
+			"id": 1195,
+			"map": "1@twsd",
+			"name": "浮冰区域",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@twsd",
+			"image_map": "1@twsd",
+			"image_kind": null
+		},
+		{
+			"id": 1196,
+			"map": "icas_in2",
+			"name": "冰城堡内部",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "icas_in2",
+			"image_map": "icas_in2",
+			"image_kind": null
+		},
+		{
+			"id": 1197,
+			"map": "jor_back4",
+			"name": "冰鳞海滩",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_back4",
+			"image_map": "jor_back4",
+			"image_kind": null
+		},
+		{
+			"id": 1198,
+			"map": "jor_back5",
+			"name": "古代冰峡谷东部",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_back5",
+			"image_map": "jor_back5",
+			"image_kind": null
+		},
+		{
+			"id": 1199,
+			"map": "jor_back6",
+			"name": "远古冰峡谷西部",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_back6",
+			"image_map": "jor_back6",
+			"image_kind": null
+		},
+		{
+			"id": 1200,
+			"map": "jor_maze",
+			"name": "蛇之迷宫",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_maze",
+			"image_map": "jor_maze",
+			"image_kind": null
+		},
+		{
+			"id": 1201,
+			"map": "jor_root1",
+			"name": "蛇神之根 1F",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_root1",
+			"image_map": "jor_root1",
+			"image_kind": null
+		},
+		{
+			"id": 1202,
+			"map": "jor_root2",
+			"name": "蛇神之根 2F",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_root2",
+			"image_map": "jor_root2",
+			"image_kind": null
+		},
+		{
+			"id": 1203,
+			"map": "jor_root3",
+			"name": "深根洞窟",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_root3",
+			"image_map": "jor_root3",
+			"image_kind": null
+		},
+		{
+			"id": 1204,
+			"map": "jor_safty1",
+			"name": "安全地点",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_safty1",
+			"image_map": "jor_safty1",
+			"image_kind": null
+		},
+		{
+			"id": 1205,
+			"map": "jor_safty2",
+			"name": "安全地点",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_safty2",
+			"image_map": "jor_safty2",
+			"image_kind": null
+		},
+		{
+			"id": 1206,
+			"map": "jor_sanct",
+			"name": "神圣之根",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_sanct",
+			"image_map": "jor_sanct",
+			"image_kind": null
+		},
+		{
+			"id": 1207,
+			"map": "jor_twice",
+			"name": "浮冰区域",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_twice",
+			"image_map": "jor_twice",
+			"image_kind": null
+		},
+		{
+			"id": 1208,
+			"map": "jor_twig",
+			"name": "伊斯加尔德圣域树枝巢穴",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_twig",
+			"image_map": "jor_twig",
+			"image_kind": null
+		},
+		{
+			"id": 1209,
+			"map": "bl_depth1",
+			"name": "生物圈深处 1层",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bl_depth1",
+			"image_map": "bl_depth1",
+			"image_kind": null
+		},
+		{
+			"id": 1210,
+			"map": "1@ba_go",
+			"name": "1@ba_go",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@ba_go",
+			"image_map": "1@ba_go",
+			"image_kind": null
+		},
+		{
+			"id": 1211,
+			"map": "1@f_lake",
+			"name": "1@f_lake",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@f_lake",
+			"image_map": "1@f_lake",
+			"image_kind": null
+		},
+		{
+			"id": 1212,
+			"map": "for_dun01",
+			"name": "for_dun01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "for_dun01",
+			"image_map": "for_dun01",
+			"image_kind": null
+		},
+		{
+			"id": 1213,
+			"map": "for_dun02",
+			"name": "for_dun02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "for_dun02",
+			"image_map": "for_dun02",
+			"image_kind": null
+		},
+		{
+			"id": 1214,
+			"map": "t_garden",
+			"name": "t_garden",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "t_garden",
+			"image_map": "t_garden",
+			"image_kind": null
+		},
+		{
+			"id": 1215,
+			"map": "1@vrpop",
+			"name": "1@vrpop",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrpop",
+			"image_map": "1@vrpop",
+			"image_kind": null
+		},
+		{
+			"id": 1216,
+			"map": "2@vrpop",
+			"name": "2@vrpop",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2@vrpop",
+			"image_map": "2@vrpop",
+			"image_kind": null
+		},
+		{
+			"id": 1217,
+			"map": "3@vrpop",
+			"name": "3@vrpop",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "3@vrpop",
+			"image_map": "3@vrpop",
+			"image_kind": null
+		},
+		{
+			"id": 1218,
+			"map": "bl_depth2",
+			"name": "bl_depth2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "bl_depth2",
+			"image_map": "bl_depth2",
+			"image_kind": null
+		},
+		{
+			"id": 1219,
+			"map": "1@vrsn",
+			"name": "1@vrsn",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@vrsn",
+			"image_map": "1@vrsn",
+			"image_kind": null
+		},
+		{
+			"id": 1220,
+			"map": "1@ep21a",
+			"name": "1@ep21a",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@ep21a",
+			"image_map": "1@ep21a",
+			"image_kind": null
+		},
+		{
+			"id": 1221,
+			"map": "1@ep21b",
+			"name": "1@ep21b",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@ep21b",
+			"image_map": "1@ep21b",
+			"image_kind": null
+		},
+		{
+			"id": 1222,
+			"map": "1@mdtem",
+			"name": "1@mdtem",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@mdtem",
+			"image_map": "1@mdtem",
+			"image_kind": null
+		},
+		{
+			"id": 1223,
+			"map": "1@twbs2",
+			"name": "1@twbs2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@twbs2",
+			"image_map": "1@twbs2",
+			"image_kind": null
+		},
+		{
+			"id": 1224,
+			"map": "1@wtgs",
+			"name": "1@wtgs",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@wtgs",
+			"image_map": "1@wtgs",
+			"image_kind": null
+		},
+		{
+			"id": 1225,
+			"map": "2@mdtem",
+			"name": "2@mdtem",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2@mdtem",
+			"image_map": "2@mdtem",
+			"image_kind": null
+		},
+		{
+			"id": 1226,
+			"map": "jalbe_in",
+			"name": "jalbe_in",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jalbe_in",
+			"image_map": "jalbe_in",
+			"image_kind": null
+		},
+		{
+			"id": 1227,
+			"map": "jor_albe",
+			"name": "jor_albe",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_albe",
+			"image_map": "jor_albe",
+			"image_kind": null
+		},
+		{
+			"id": 1228,
+			"map": "jor_base",
+			"name": "jor_base",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_base",
+			"image_map": "jor_base",
+			"image_kind": null
+		},
+		{
+			"id": 1229,
+			"map": "jor_crk",
+			"name": "jor_crk",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_crk",
+			"image_map": "jor_crk",
+			"image_kind": null
+		},
+		{
+			"id": 1230,
+			"map": "jor_crk_p",
+			"name": "jor_crk_p",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_crk_p",
+			"image_map": "jor_crk_p",
+			"image_kind": null
+		},
+		{
+			"id": 1231,
+			"map": "jor_mbase",
+			"name": "jor_mbase",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_mbase",
+			"image_map": "jor_mbase",
+			"image_kind": null
+		},
+		{
+			"id": 1232,
+			"map": "jor_raise1",
+			"name": "jor_raise1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_raise1",
+			"image_map": "jor_raise1",
+			"image_kind": null
+		},
+		{
+			"id": 1233,
+			"map": "jor_raise2",
+			"name": "jor_raise2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_raise2",
+			"image_map": "jor_raise2",
+			"image_kind": null
+		},
+		{
+			"id": 1234,
+			"map": "jor_tmple1",
+			"name": "jor_tmple1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_tmple1",
+			"image_map": "jor_tmple1",
+			"image_kind": null
+		},
+		{
+			"id": 1235,
+			"map": "jor_tmple2",
+			"name": "jor_tmple2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_tmple2",
+			"image_map": "jor_tmple2",
+			"image_kind": null
+		},
+		{
+			"id": 1236,
+			"map": "luna_sf1",
+			"name": "luna_sf1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "luna_sf1",
+			"image_map": "luna_sf1",
+			"image_kind": null
+		},
+		{
+			"id": 1237,
+			"map": "luna_sf2",
+			"name": "luna_sf2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "luna_sf2",
+			"image_map": "luna_sf2",
+			"image_kind": null
+		},
+		{
+			"id": 1238,
+			"map": "mbase_in",
+			"name": "mbase_in",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "mbase_in",
+			"image_map": "mbase_in",
+			"image_kind": null
+		},
+		{
+			"id": 1239,
+			"map": "prt_mk",
+			"name": "prt_mk",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "prt_mk",
+			"image_map": "prt_mk",
+			"image_kind": null
+		},
+		{
+			"id": 1240,
+			"map": "moc_akhet",
+			"name": "moc_akhet",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "moc_akhet",
+			"image_map": "moc_akhet",
+			"image_kind": null
+		},
+		{
+			"id": 1241,
+			"map": "nif_fild03",
+			"name": "nif_fild03",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "nif_fild03",
+			"image_map": "nif_fild03",
+			"image_kind": null
+		},
+		{
+			"id": 1242,
+			"map": "iz_in_a",
+			"name": "iz_in_a",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "iz_in_a",
+			"image_map": "iz_in_a",
+			"image_kind": null
+		},
+		{
+			"id": 1243,
+			"map": "iz_in_b",
+			"name": "iz_in_b",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "iz_in_b",
+			"image_map": "iz_in_b",
+			"image_kind": null
+		},
+		{
+			"id": 1244,
+			"map": "iz_in_c",
+			"name": "iz_in_c",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "iz_in_c",
+			"image_map": "iz_in_c",
+			"image_kind": null
+		},
+		{
+			"id": 1245,
+			"map": "iz_in_d",
+			"name": "iz_in_d",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "iz_in_d",
+			"image_map": "iz_in_d",
+			"image_kind": null
+		},
+		{
+			"id": 1246,
+			"map": "jor_sklf1",
+			"name": "jor_sklf1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_sklf1",
+			"image_map": "jor_sklf1",
+			"image_kind": null
+		},
+		{
+			"id": 1247,
+			"map": "jor_sklf2",
+			"name": "jor_sklf2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "jor_sklf2",
+			"image_map": "jor_sklf2",
+			"image_kind": null
+		},
+		{
+			"id": 1248,
+			"map": "cmd_bhole",
+			"name": "cmd_bhole",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "cmd_bhole",
+			"image_map": "cmd_bhole",
+			"image_kind": null
+		},
+		{
+			"id": 1249,
+			"map": "1@ep21c",
+			"name": "1@ep21c",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@ep21c",
+			"image_map": "1@ep21c",
+			"image_kind": null
+		},
+		{
+			"id": 1250,
+			"map": "1@ch1a",
+			"name": "1@ch1a",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@ch1a",
+			"image_map": "1@ch1a",
+			"image_kind": null
+		},
+		{
+			"id": 1251,
+			"map": "1@ch1b",
+			"name": "1@ch1b",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "1@ch1b",
+			"image_map": "1@ch1b",
+			"image_kind": null
+		},
+		{
+			"id": 1252,
+			"map": "ch1_dw",
+			"name": "ch1_dw",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_dw",
+			"image_map": "ch1_dw",
+			"image_kind": null
+		},
+		{
+			"id": 1253,
+			"map": "ch1_gef_in",
+			"name": "ch1_gef_in",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_gef_in",
+			"image_map": "ch1_gef_in",
+			"image_kind": null
+		},
+		{
+			"id": 1254,
+			"map": "ch1_geffen",
+			"name": "ch1_geffen",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_geffen",
+			"image_map": "ch1_geffen",
+			"image_kind": null
+		},
+		{
+			"id": 1255,
+			"map": "ch1_gfn01",
+			"name": "ch1_gfn01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_gfn01",
+			"image_map": "ch1_gfn01",
+			"image_kind": null
+		},
+		{
+			"id": 1256,
+			"map": "ch1_gfn03",
+			"name": "ch1_gfn03",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_gfn03",
+			"image_map": "ch1_gfn03",
+			"image_kind": null
+		},
+		{
+			"id": 1257,
+			"map": "ch1_que01",
+			"name": "ch1_que01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_que01",
+			"image_map": "ch1_que01",
+			"image_kind": null
+		},
+		{
+			"id": 1258,
+			"map": "ch1_sf01",
+			"name": "ch1_sf01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_sf01",
+			"image_map": "ch1_sf01",
+			"image_kind": null
+		},
+		{
+			"id": 1259,
+			"map": "ch1_sf02",
+			"name": "ch1_sf02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_sf02",
+			"image_map": "ch1_sf02",
+			"image_kind": null
+		},
+		{
+			"id": 1260,
+			"map": "ch1_sf03",
+			"name": "ch1_sf03",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_sf03",
+			"image_map": "ch1_sf03",
+			"image_kind": null
+		},
+		{
+			"id": 1261,
+			"map": "ch1_vrgef1",
+			"name": "ch1_vrgef1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_vrgef1",
+			"image_map": "ch1_vrgef1",
+			"image_kind": null
+		},
+		{
+			"id": 1262,
+			"map": "ch1_vrgef2",
+			"name": "ch1_vrgef2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1_vrgef2",
+			"image_map": "ch1_vrgef2",
+			"image_kind": null
+		},
+		{
+			"id": 1263,
+			"map": "hem_dun01",
+			"name": "hem_dun01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hem_dun01",
+			"image_map": "hem_dun01",
+			"image_kind": null
+		},
+		{
+			"id": 1264,
+			"map": "hem_dun02",
+			"name": "hem_dun02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hem_dun02",
+			"image_map": "hem_dun02",
+			"image_kind": null
+		},
+		{
+			"id": 1265,
+			"map": "hem_fild",
+			"name": "hem_fild",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "hem_fild",
+			"image_map": "hem_fild",
+			"image_kind": null
+		},
+		{
+			"id": 1266,
+			"map": "mu_fild01",
+			"name": "mu_fild01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "mu_fild01",
+			"image_map": "mu_fild01",
+			"image_kind": null
+		},
+		{
+			"id": 1267,
+			"map": "uknw_ruin",
+			"name": "uknw_ruin",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "uknw_ruin",
+			"image_map": "uknw_ruin",
+			"image_kind": null
+		},
+		{
+			"id": 1268,
+			"map": "uknw_ruin2",
+			"name": "uknw_ruin2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "uknw_ruin2",
+			"image_map": "uknw_ruin2",
+			"image_kind": null
+		},
+		{
+			"id": 1269,
+			"map": "ygg_edge",
+			"name": "ygg_edge",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ygg_edge",
+			"image_map": "ygg_edge",
+			"image_kind": null
+		},
+		{
+			"id": 1270,
+			"map": "ygg_fruit",
+			"name": "ygg_fruit",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ygg_fruit",
+			"image_map": "ygg_fruit",
+			"image_kind": null
+		},
+		{
+			"id": 1271,
+			"map": "ygg_roots",
+			"name": "ygg_roots",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ygg_roots",
+			"image_map": "ygg_roots",
+			"image_kind": null
+		},
+		{
+			"id": 1272,
+			"map": "httyd_01",
+			"name": "httyd_01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "httyd_01",
+			"image_map": "httyd_01",
+			"image_kind": null
+		},
+		{
+			"id": 1273,
+			"map": "httyd_02",
+			"name": "httyd_02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "httyd_02",
+			"image_map": "httyd_02",
+			"image_kind": null
+		},
+		{
+			"id": 1274,
+			"map": "vr_po",
+			"name": "vr_po",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_po",
+			"image_map": "vr_po",
+			"image_kind": null
+		},
+		{
+			"id": 1275,
+			"map": "vr_pop1",
+			"name": "vr_pop1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_pop1",
+			"image_map": "vr_pop1",
+			"image_kind": null
+		},
+		{
+			"id": 1276,
+			"map": "vr_pop2",
+			"name": "vr_pop2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_pop2",
+			"image_map": "vr_pop2",
+			"image_kind": null
+		},
+		{
+			"id": 1277,
+			"map": "vr_pop3",
+			"name": "vr_pop3",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_pop3",
+			"image_map": "vr_pop3",
+			"image_kind": null
+		},
+		{
+			"id": 1278,
+			"map": "vr_clo1",
+			"name": "vr_clo1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_clo1",
+			"image_map": "vr_clo1",
+			"image_kind": null
+		},
+		{
+			"id": 1279,
+			"map": "vr_clo2",
+			"name": "vr_clo2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_clo2",
+			"image_map": "vr_clo2",
+			"image_kind": null
+		},
+		{
+			"id": 1280,
+			"map": "vr_gen",
+			"name": "vr_gen",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_gen",
+			"image_map": "vr_gen",
+			"image_kind": null
+		},
+		{
+			"id": 1281,
+			"map": "vr_cas",
+			"name": "vr_cas",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "vr_cas",
+			"image_map": "vr_cas",
+			"image_kind": null
+		},
+		{
+			"id": 1282,
+			"map": "2025arena1",
+			"name": "2025arena1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2025arena1",
+			"image_map": "2025arena1",
+			"image_kind": null
+		},
+		{
+			"id": 1283,
+			"map": "2025arena2",
+			"name": "2025arena2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2025arena2",
+			"image_map": "2025arena2",
+			"image_kind": null
+		},
+		{
+			"id": 1284,
+			"map": "2025arena3",
+			"name": "2025arena3",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2025arena3",
+			"image_map": "2025arena3",
+			"image_kind": null
+		},
+		{
+			"id": 1285,
+			"map": "2025arena4",
+			"name": "2025arena4",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2025arena4",
+			"image_map": "2025arena4",
+			"image_kind": null
+		},
+		{
+			"id": 1286,
+			"map": "2025arena5",
+			"name": "2025arena5",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "2025arena5",
+			"image_map": "2025arena5",
+			"image_kind": null
+		},
+		{
+			"id": 1287,
+			"map": "25ros03_01",
+			"name": "25ros03_01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "25ros03_01",
+			"image_map": "25ros03_01",
+			"image_kind": null
+		},
+		{
+			"id": 1288,
+			"map": "ch1zero1",
+			"name": "ch1zero1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1zero1",
+			"image_map": "ch1zero1",
+			"image_kind": null
+		},
+		{
+			"id": 1289,
+			"map": "ch1zero2",
+			"name": "ch1zero2",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1zero2",
+			"image_map": "ch1zero2",
+			"image_kind": null
+		},
+		{
+			"id": 1290,
+			"map": "ch1zero3",
+			"name": "ch1zero3",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1zero3",
+			"image_map": "ch1zero3",
+			"image_kind": null
+		},
+		{
+			"id": 1291,
+			"map": "ch1zero4",
+			"name": "ch1zero4",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1zero4",
+			"image_map": "ch1zero4",
+			"image_kind": null
+		},
+		{
+			"id": 1292,
+			"map": "ch1fild1",
+			"name": "ch1fild1",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "ch1fild1",
+			"image_map": "ch1fild1",
+			"image_kind": null
+		},
+		{
+			"id": 1293,
+			"map": "tra_fild01",
+			"name": "tra_fild01",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "tra_fild01",
+			"image_map": "tra_fild01",
+			"image_kind": null
+		},
+		{
+			"id": 1294,
+			"map": "tra_fild02",
+			"name": "tra_fild02",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "tra_fild02",
+			"image_map": "tra_fild02",
+			"image_kind": null
+		},
+		{
+			"id": 1295,
+			"map": "tra_fild03",
+			"name": "tra_fild03",
+			"supported": false,
+			"channel": null,
+			"canonical_map": "tra_fild03",
+			"image_map": "tra_fild03",
+			"image_kind": null
+		}
+	];
+	MapCatalog_default = {
+		schema: schema$1,
+		version: version$2,
+		sources,
+		entries: entries$1
+	};
+}));
+//#endregion
 //#region src/DB/Navigation/NavigationData.js
+function listSharedMaps(options = {}) {
+	const { channelsEnabled = false } = options;
+	return MapCatalog_default.entries.filter((map) => map.supported && isVisibleMapChannel(map.map, channelsEnabled) && (options.scope !== "CURRENT" || map.map === options.currentMap)).map((map) => ({
+		type: "MAP",
+		id: map.map,
+		mapName: map.map,
+		name: getMapChannelDisplayName(map.map, map.name, channelsEnabled),
+		mapDisplayName: getMapChannelDisplayName(map.map, map.name, channelsEnabled),
+		x: null,
+		y: null
+	}));
+}
 /**
 * Search loaded navigation rows using both resource and localized names.
 *
@@ -233620,66 +246598,11 @@ function searchNavigationRows(npcRows, mobRows, query, type, localizers, options
 	};
 	return results.sort((a, b) => Number(b.mapName.toLocaleLowerCase() === normalizedCurrentMap) - Number(a.mapName.toLocaleLowerCase() === normalizedCurrentMap) || matchRank(a) - matchRank(b) || a.name.localeCompare(b.name) || a.mapDisplayName.localeCompare(b.mapDisplayName)).slice(0, 50).map(({ rawName, aliases, ...result }) => result);
 }
-function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options = {}, navigationMaps = []) {
-	const { channelsEnabled = false, currentMap = "", scope = "WORLD" } = options;
-	if (type !== "ALL" && type !== "MAP") return [];
-	const results = /* @__PURE__ */ new Map();
-	for (const world of worldMaps || []) for (const map of world.maps || []) {
-		const id = String(map.id || "");
-		if (!id || results.has(id) || !isSupportedMapResource(id)) continue;
-		if (!isVisibleMapChannel(id, channelsEnabled)) continue;
-		if (scope === "CURRENT" && id !== currentMap) continue;
-		const name = getMapChannelDisplayName(id, map.name || localizeMap(id), channelsEnabled);
-		results.set(id, {
-			type: "MAP",
-			id,
-			name,
-			mapName: id,
-			mapDisplayName: name,
-			x: null,
-			y: null
-		});
-	}
-	for (const [resourceName, info] of Object.entries(mapInfo || {})) {
-		const id = resourceName.replace(/\.(?:rsw|gat)$/i, "");
-		if (!id || results.has(id) || !isSupportedMapResource(id)) continue;
-		if (!isVisibleMapChannel(id, channelsEnabled)) continue;
-		if (scope === "CURRENT" && id !== currentMap) continue;
-		const name = getMapChannelDisplayName(id, info.displayName || localizeMap(id), channelsEnabled);
-		results.set(id, {
-			type: "MAP",
-			id,
-			name,
-			mapName: id,
-			mapDisplayName: name,
-			x: null,
-			y: null
-		});
-	}
-	for (const row of navigationMaps || []) {
-		if (!Array.isArray(row)) continue;
-		const id = String(row[0] || "");
-		if (!id || results.has(id) || !isSupportedMapResource(id)) continue;
-		if (!isVisibleMapChannel(id, channelsEnabled)) continue;
-		if (scope === "CURRENT" && id !== currentMap) continue;
-		const localized = localizeMap(id);
-		const name = getMapChannelDisplayName(id, localized === id ? id : localized, channelsEnabled);
-		results.set(id, {
-			type: "MAP",
-			id,
-			name,
-			mapName: id,
-			mapDisplayName: name,
-			x: null,
-			y: null
-		});
-	}
-	return [...results.values()].sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
-}
 function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, options = {}, navigationMaps = []) {
 	const normalizedQuery = String(query || "").trim().toLocaleLowerCase();
 	if (!normalizedQuery) return [];
-	const results = listNavigationMaps(worldMaps, mapInfo, type, localizeMap, options, navigationMaps).filter((result) => result.id.toLocaleLowerCase().includes(normalizedQuery) || result.name.toLocaleLowerCase().includes(normalizedQuery));
+	if (type !== "ALL" && type !== "MAP") return [];
+	const results = listSharedMaps(options).filter((result) => result.id.toLocaleLowerCase().includes(normalizedQuery) || result.name.toLocaleLowerCase().includes(normalizedQuery));
 	const matchRank = (result) => {
 		const id = result.id.toLocaleLowerCase();
 		const name = result.name.toLocaleLowerCase();
@@ -233693,6 +246616,7 @@ var init_NavigationData = __esmMin((() => {
 	init_MapChannels();
 	init_SupportedMapTable();
 	init_NpcInstanceNameTable();
+	init_MapCatalog();
 }));
 //#endregion
 //#region src/DB/Navigation/NavigationResource.js
@@ -284658,7 +297582,7 @@ var init_Map = __esmMin((() => {
 		*
 		* Toggle by using "/fog" in the chatbox
 		*/
-		fog: true,
+		fog: false,
 		/**
 		* Display lightmap ?
 		*
@@ -294946,7 +307870,7 @@ var init_Announce = __esmMin((() => {
 }));
 //#endregion
 //#region src/Preferences/ShortCutControls.js
-var ShortCuts$2, ShortCutControls, ShortCutControls_default;
+var ShortCuts$2, ShortCutControls, preferences$1;
 var init_ShortCutControls = __esmMin((() => {
 	init_Preferences$1();
 	init_KeyEventHandler();
@@ -295424,6 +308348,17 @@ var init_ShortCutControls = __esmMin((() => {
 		component: "WorldMap",
 		cmd: "TOGGLE"
 	};
+	ShortCuts$2.GameTools = {
+		init: {
+			key: KEYS.F,
+			alt: true,
+			ctrl: false,
+			shift: false
+		},
+		cust: false,
+		component: "GameTools",
+		cmd: "TOGGLE"
+	};
 	ShortCuts$2.Equipment = {
 		init: {
 			key: KEYS.Q,
@@ -295832,7 +308767,11 @@ var init_ShortCutControls = __esmMin((() => {
 		cmd: "EXECUTE_FLAG_9"
 	};
 	ShortCutControls = { ShortCuts: ShortCuts$2 };
-	ShortCutControls_default = Preferences.get("ShortCutControls", ShortCutControls, 1.2);
+	preferences$1 = Preferences.get("ShortCutControls", ShortCutControls, 1.2);
+	preferences$1.ShortCuts = {
+		...ShortCuts$2,
+		...preferences$1.ShortCuts
+	};
 }));
 //#endregion
 //#region src/Controls/BattleMode.js
@@ -295841,7 +308780,7 @@ var init_ShortCutControls = __esmMin((() => {
 */
 function getKeyTable() {
 	const keySettings = {};
-	const ShortCuts = ShortCutControls_default.ShortCuts;
+	const ShortCuts = preferences$1.ShortCuts;
 	if (ShortCuts) Object.keys(ShortCuts).forEach((SC) => {
 		let key = ShortCuts[SC].init.key;
 		let shift = ShortCuts[SC].init.shift;
@@ -296104,22 +309043,28 @@ var init_ChatBox$2 = __esmMin((() => {
 //#region src/UI/Components/ChatBox/ChatBox.css?raw
 var ChatBox_default$1;
 var init_ChatBox$1 = __esmMin((() => {
-	ChatBox_default$1 = ":host {\r\n	position: absolute;\r\n}\r\n\r\n#chatbox {\r\n	position: relative;\r\n	left: 5px;\r\n	width: 595px;\r\n}\r\n\r\n/** Tabs **/\r\n#chatbox .header {\r\n	margin-left: 3px;\r\n	height: 17px;\r\n\r\n	max-width: 100%;\r\n}\r\n\r\n#chatbox .header .tab {\r\n	width: 75px;\r\n	color: white;\r\n	text-align: center;\r\n}\r\n\r\n#chatbox .header input {\r\n	border: none;\r\n	background-color: transparent;\r\n	color: white;\r\n	width: 75px;\r\n	height: 15px;\r\n	text-align: center;\r\n}\r\n\r\n#chatbox .header .tab div {\r\n	padding-top: 2px;\r\n	border-radius: 2px 2px 0px 0px;\r\n	background: rgba(0, 0, 0, 0.75);\r\n	border: 1px solid #959595;\r\n	border-bottom: 1px solid white;\r\n}\r\n\r\n#chatbox .header .tab div.on {\r\n	background: rgba(0, 0, 0, 0.5);\r\n	border: 1px solid white;\r\n	border-bottom: none;\r\n	border-right: none;\r\n	height: 18px;\r\n}\r\n\r\n#chatbox .header .options {\r\n	border-bottom: 1px solid white;\r\n	height: 18px;\r\n	margin-right: 4px;\r\n}\r\n\r\n/** Content **/\r\n#chatbox .body {\r\n	background: rgba(0, 0, 0, 0.5);\r\n	border-left: 1px solid white;\r\n	border-right: 1px solid white;\r\n	border-radius: 0px 3px 0px 0px;\r\n	padding: 0px 5px 5px 5px;\r\n	margin-left: 3px;\r\n	margin-right: -2px;\r\n	max-width: 100%;\r\n}\r\n#chatbox .contentwrapper {\r\n	height: 42px;\r\n}\r\n#chatbox .content {\r\n	text-shadow: 1px 1px 0px black;\r\n	height: 100%;\r\n	overflow-y: auto;\r\n	line-height: 14px;\r\n	display: none;\r\n}\r\n#chatbox .content.active {\r\n	display: block;\r\n}\r\n#chatbox .content a {\r\n	color: inherit;\r\n	text-decoration: underline;\r\n}\r\n\r\n#chatbox .content a,\r\n#chatbox .content .item-link {\r\n	cursor: pointer;\r\n}\r\n\r\n#chatbox .event_add_cursor {\r\n	height: 14px;\r\n	cursor: ns-resize;\r\n}\r\n\r\n#chatbox .battlemode {\r\n	width: 592px;\r\n	height: 25px;\r\n	position: relative;\r\n	border-left: 1px solid white;\r\n	border-right: 1px solid white;\r\n	border-top: 1px solid grey;\r\n	background-color: rgba(0, 0, 0, 0.5);\r\n	margin-left: 3px;\r\n	display: none;\r\n	max-width: 100%;\r\n}\r\n\r\n/** Input **/\r\n#chatbox .input {\r\n	width: 600px;\r\n	height: 25px;\r\n	position: relative;\r\n	max-width: 100%;\r\n}\r\n\r\n#chatbox .input.fix {\r\n	margin-top: 29px;\r\n}\r\n\r\n#chatbox .input input {\r\n	position: absolute;\r\n	top: 3px;\r\n	height: 18px;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n\r\n#chatbox .input .username {\r\n	left: 4px;\r\n	width: 90px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#chatbox .input .list {\r\n	width: 8px;\r\n	height: 18px;\r\n	border: none;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 97px;\r\n	background-repeat: no-repeat;\r\n	padding: 0;\r\n}\r\n#chatbox .input .wrapper {\r\n	display: flex;\r\n	align-items: center;\r\n	margin-left: 108px;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	width: calc(100% - 140px);\r\n}\r\n\r\n#chatbox .input .message {\r\n	width: 100%;\r\n	padding-left: 5px;\r\n\r\n	line-height: 18px;\r\n	outline: none;\r\n	white-space: nowrap;\r\n	overflow-x: hidden;\r\n	overflow-y: hidden;\r\n	max-width: 100%;\r\n	vertical-align: middle;\r\n	display: inline-block;\r\n}\r\n#chatbox .input .message.party {\r\n	color: #840084;\r\n}\r\n#chatbox .input .message.guild {\r\n	color: #008484;\r\n}\r\n#chatbox .input .message.clan {\r\n	color: #ffa631;\r\n}\r\n\r\n#chatbox .input .filter,\r\n#chatbox .input .size {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	position: absolute;\r\n	right: 13px;\r\n	top: 8px;\r\n	background-color: transparent;\r\n}\r\n\r\n#chatbox .input .size {\r\n	right: 1px;\r\n}\r\n\r\n#chatbox .battlemode .bmtoggle {\r\n	height: 100%;\r\n}\r\n#chatbox .chat-function {\r\n	position: absolute;\r\n	right: 0px;\r\n	top: 0px;\r\n	/* Expand the \"no-walk\" header zone around buttons (but don't move them visually). */\r\n	padding: 6px;\r\n	margin: -6px;\r\n}\r\n#chatbox .chat-function button {\r\n	background-size: auto;\r\n	border: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#chatbox .chat-function .chatmode {\r\n	width: 15px;\r\n	height: 9px;\r\n}\r\n#chatbox .chat-function .battleopt {\r\n	width: 10px;\r\n	height: 10px;\r\n	background-size: cover;\r\n}\r\n#chatbox .chat-function .stickfucn {\r\n	width: 14px;\r\n	height: 10px;\r\n	background-size: cover;\r\n}\r\n#chatbox .chat-function .battleopt2 {\r\n	width: 9px;\r\n	height: 9px;\r\n	background-size: cover;\r\n}\r\n#chatbox .chat-function .wndminib {\r\n	width: 9px;\r\n	height: 9px;\r\n	background-size: cover;\r\n}\r\n#chatbox .chat-function .lockdragwnd {\r\n	width: 15px;\r\n	height: 10px;\r\n}\r\n";
+	ChatBox_default$1 = ":host {\r\n	position: absolute;\r\n}\r\n\r\n#chatbox {\r\n	position: relative;\r\n	left: 5px;\r\n	width: 595px;\r\n}\r\n\r\n/** Tabs **/\r\n#chatbox .header {\r\n	margin-left: 3px;\r\n	height: 17px;\r\n\r\n	max-width: 100%;\r\n}\r\n\r\n#chatbox .header .tab {\r\n	width: 75px;\r\n	color: white;\r\n	text-align: center;\r\n}\r\n\r\n#chatbox .header input {\r\n	border: none;\r\n	background-color: transparent;\r\n	color: white;\r\n	width: 75px;\r\n	height: 15px;\r\n	text-align: center;\r\n}\r\n\r\n#chatbox .header .tab div {\r\n	padding-top: 2px;\r\n	border-radius: 2px 2px 0px 0px;\r\n	background: rgba(0, 0, 0, 0.75);\r\n	border: 1px solid #959595;\r\n	border-bottom: 1px solid white;\r\n}\r\n\r\n#chatbox .header .tab div.on {\r\n	background: rgba(0, 0, 0, 0.5);\r\n	border: 1px solid white;\r\n	border-bottom: none;\r\n	border-right: none;\r\n	height: 18px;\r\n}\r\n\r\n#chatbox .header .options {\r\n	border-bottom: 1px solid white;\r\n	height: 18px;\r\n	margin-right: 4px;\r\n}\r\n\r\n/** Content **/\r\n#chatbox .body {\r\n	background: rgba(0, 0, 0, 0.5);\r\n	border-left: 1px solid white;\r\n	border-right: 1px solid white;\r\n	border-radius: 0px 3px 0px 0px;\r\n	padding: 0px 5px 5px 5px;\r\n	margin-left: 3px;\r\n	margin-right: -2px;\r\n	max-width: 100%;\r\n}\r\n#chatbox .contentwrapper {\r\n	height: 42px;\r\n}\r\n#chatbox .content {\r\n	text-shadow: 1px 1px 0px black;\r\n	height: 100%;\r\n	overflow-y: auto;\r\n	line-height: 14px;\r\n	display: none;\r\n}\r\n#chatbox .content.active {\r\n	display: block;\r\n}\r\n#chatbox .content a {\r\n	color: inherit;\r\n	text-decoration: underline;\r\n}\r\n\r\n#chatbox .content a,\r\n#chatbox .content .item-link {\r\n	cursor: pointer;\r\n}\r\n\r\n#chatbox .event_add_cursor {\r\n	height: 14px;\r\n	cursor: ns-resize;\r\n}\r\n\r\n#chatbox .battlemode {\r\n	width: 592px;\r\n	height: 25px;\r\n	position: relative;\r\n	border-left: 1px solid white;\r\n	border-right: 1px solid white;\r\n	border-top: 1px solid grey;\r\n	background-color: rgba(0, 0, 0, 0.5);\r\n	margin-left: 3px;\r\n	display: none;\r\n	max-width: 100%;\r\n}\r\n\r\n/** Input **/\r\n#chatbox .input {\r\n	width: 600px;\r\n	height: 25px;\r\n	position: relative;\r\n	max-width: 100%;\r\n}\r\n\r\n#chatbox .input.fix {\r\n	margin-top: 29px;\r\n}\r\n\r\n#chatbox .input input {\r\n	position: absolute;\r\n	top: 3px;\r\n	height: 18px;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n\r\n#chatbox .input .username {\r\n	left: 4px;\r\n	width: 90px;\r\n	padding-left: 5px;\r\n}\r\n\r\n#chatbox .input .list {\r\n	width: 8px;\r\n	height: 18px;\r\n	border: none;\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 97px;\r\n	background-repeat: no-repeat;\r\n	padding: 0;\r\n}\r\n#chatbox .input .wrapper {\r\n	display: flex;\r\n	align-items: center;\r\n	margin-left: 108px;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	width: calc(100% - 140px);\r\n}\r\n\r\n#chatbox .input .message {\r\n	width: 100%;\r\n	padding-left: 5px;\r\n\r\n	line-height: 18px;\r\n	outline: none;\r\n	white-space: nowrap;\r\n	overflow-x: hidden;\r\n	overflow-y: hidden;\r\n	max-width: 100%;\r\n	vertical-align: middle;\r\n	display: inline-block;\r\n}\r\n#chatbox .input .message.party {\r\n	color: #840084;\r\n}\r\n#chatbox .input .message.guild {\r\n	color: #008484;\r\n}\r\n#chatbox .input .message.clan {\r\n	color: #ffa631;\r\n}\r\n\r\n#chatbox .input .filter,\r\n#chatbox .input .size {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	position: absolute;\r\n	right: 13px;\r\n	top: 8px;\r\n	background-color: transparent;\r\n}\r\n\r\n#chatbox .input .size {\r\n	right: 1px;\r\n}\r\n\r\n#chatbox .battlemode .bmtoggle {\r\n	height: 100%;\r\n}\r\n#chatbox .chat-function {\r\n	position: absolute;\r\n	right: 0px;\r\n	top: 0px;\r\n	/* Expand the \"no-walk\" header zone around buttons (but don't move them visually). */\r\n	padding: 6px;\r\n	margin: -6px;\r\n}\r\n#chatbox .chat-function button {\r\n	background-size: auto;\r\n	border: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#chatbox .chat-function .chatmode {\r\n	width: 15px;\r\n	height: 9px;\r\n}\r\n#chatbox .chat-function .battleopt {\r\n	width: 10px;\r\n	height: 10px;\r\n	background-size: cover;\r\n}\r\n#chatbox .chat-function .stickfucn {\r\n	width: 14px;\r\n	height: 10px;\r\n	background-size: cover;\r\n}\r\n#chatbox .chat-function .battleopt2 {\r\n	width: 9px;\r\n	height: 9px;\r\n	background-size: cover;\r\n}\r\n#chatbox .chat-function .wndminib {\r\n	width: 9px;\r\n	height: 9px;\r\n	background-size: cover;\r\n}\r\n#chatbox .chat-function .lockdragwnd {\r\n	width: 15px;\r\n	height: 10px;\r\n}\r\n#chatbox .chat-function .stickfucn[aria-pressed=\"true\"],\r\n#chatbox .chat-function .lockdragwnd[aria-pressed=\"true\"] {\r\n	outline: 1px solid #ffe16b;\r\n	outline-offset: 1px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ChatBoxSettings/ChatBoxSettings.html?raw
 var ChatBoxSettings_default$2;
 var init_ChatBoxSettings$2 = __esmMin((() => {
-	ChatBoxSettings_default$2 = "<div id=\"ChatBoxSettings\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"title\"><span class=\"tabname\"></span> 消息记录设置</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\" data-background=\"basic_interface/chatwin1_mid.bmp\">\r\n		<div class=\"content resize\">\r\n			<div class=\"listoption\">\r\n				<button data-id=\"0\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1291\">\r\n					公共记录\r\n				</button>\r\n				<button data-id=\"1\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1277\">\r\n					公共聊天\r\n				</button>\r\n				<button data-id=\"2\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1278\">私聊</button>\r\n				<button data-id=\"3\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1279\">队伍</button>\r\n				<button data-id=\"4\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1280\">公会</button>\r\n				<button data-id=\"5\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1281\">物品</button>\r\n				<button data-id=\"6\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1282\">\r\n					装备开关\r\n				</button>\r\n				<button data-id=\"7\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1283\">\r\n					异常状态\r\n				</button>\r\n				<button data-id=\"8\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1284\">\r\n					队伍物品\r\n				</button>\r\n				<button data-id=\"9\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1285\">\r\n					队伍状态\r\n				</button>\r\n				<button data-id=\"10\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1286\">\r\n					技能失败\r\n				</button>\r\n				<button data-id=\"11\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1287\">\r\n					队伍设置\r\n				</button>\r\n				<button data-id=\"12\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1288\">\r\n					装备损坏\r\n				</button>\r\n				<button data-id=\"13\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1289\">城战</button>\r\n				<button data-id=\"14\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1549\">\r\n					队伍搜索\r\n				</button>\r\n				<button data-id=\"15\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1618\">战斗</button>\r\n				<button data-id=\"16\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1619\">\r\n					队伍战斗\r\n				</button>\r\n				<button data-id=\"17\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1620\">经验值</button>\r\n				<button data-id=\"18\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1621\">\r\n					队伍经验值\r\n				</button>\r\n				<button data-id=\"19\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1622\">任务</button>\r\n				<button data-id=\"20\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1623\">\r\n					战场\r\n				</button>\r\n				<button data-id=\"21\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"2365\">氏族</button>\r\n				<!--<button data-id=\"22\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"\">Call</button>-->\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n			<div class=\"footer-opt\">全部开启</div>\r\n		</div>\r\n	</div>\r\n	<button class=\"extend\"></button>\r\n</div>\r\n";
+	ChatBoxSettings_default$2 = "<div id=\"ChatBoxSettings\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"title\"><span class=\"tabname\"></span> 消息记录设置</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\" data-background=\"basic_interface/chatwin1_mid.bmp\">\r\n		<div class=\"content resize\">\r\n			<div class=\"listoption\">\r\n				<button data-id=\"0\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1291\">\r\n					公共记录\r\n				</button>\r\n				<button data-id=\"1\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1277\">\r\n					公共聊天\r\n				</button>\r\n				<button data-id=\"2\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1278\">私聊</button>\r\n				<button data-id=\"3\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1279\">队伍</button>\r\n				<button data-id=\"4\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1280\">公会</button>\r\n				<button data-id=\"5\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1281\">物品</button>\r\n				<button data-id=\"6\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1282\">\r\n					装备开关\r\n				</button>\r\n				<button data-id=\"7\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1283\">\r\n					异常状态\r\n				</button>\r\n				<button data-id=\"8\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1284\">\r\n					队伍物品\r\n				</button>\r\n				<button data-id=\"9\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1285\">\r\n					队伍状态\r\n				</button>\r\n				<button data-id=\"10\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1286\">\r\n					技能失败\r\n				</button>\r\n				<button data-id=\"11\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1287\">\r\n					队伍设置\r\n				</button>\r\n				<button data-id=\"12\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1288\">\r\n					装备损坏\r\n				</button>\r\n				<button data-id=\"13\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1289\">城战</button>\r\n				<button data-id=\"14\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1549\">\r\n					队伍搜索\r\n				</button>\r\n				<button data-id=\"15\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1618\">战斗</button>\r\n				<button data-id=\"16\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1619\">\r\n					队伍战斗\r\n				</button>\r\n				<button data-id=\"17\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1620\">经验值</button>\r\n				<button data-id=\"18\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1621\">\r\n					队伍经验值\r\n				</button>\r\n				<button data-id=\"19\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1622\">任务</button>\r\n				<button data-id=\"20\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"1623\">\r\n					战场\r\n				</button>\r\n				<button data-id=\"21\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"2365\">氏族</button>\r\n				<!--<button data-id=\"22\" data-background=\"basic_interface/grp_offline.bmp\" data-text=\"\">Call</button>-->\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n			<div class=\"footer-opt\"><button class=\"enable-all ui-btn\" type=\"button\">全部开启</button></div>\r\n		</div>\r\n	</div>\r\n	<button class=\"extend\"></button>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ChatBoxSettings/ChatBoxSettings.css?raw
 var ChatBoxSettings_default$1;
 var init_ChatBoxSettings$1 = __esmMin((() => {
-	ChatBoxSettings_default$1 = ":host {\r\n	width: 255px;\r\n	height: 232px;\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#ChatBoxSettings {\r\n	position: absolute;\r\n	width: 255px;\r\n	height: auto;\r\n}\r\n\r\n#ChatBoxSettings table {\r\n	border-spacing: 0px;\r\n	display: inline-block;\r\n}\r\n\r\n#ChatBoxSettings .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 4px 4px 0px 0px;\r\n}\r\n#ChatBoxSettings .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#ChatBoxSettings .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	display: inline-block;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#ChatBoxSettings .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#ChatBoxSettings .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ChatBoxSettings .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#ChatBoxSettings .panel {\r\n	background-color: white;\r\n}\r\n#ChatBoxSettings .content {\r\n	height: 197px;\r\n}\r\n#ChatBoxSettings .content .clear {\r\n	clear: both;\r\n}\r\n\r\n#ChatBoxSettings .content .members {\r\n	width: 26%;\r\n	height: 120px;\r\n	float: left;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	padding-top: 5px;\r\n	padding-left: 3px;\r\n}\r\n#ChatBoxSettings .content .owner {\r\n	color: #36716d;\r\n}\r\n\r\n#ChatBoxSettings .send {\r\n	height: 30px;\r\n	position: relative;\r\n	padding-left: 5px;\r\n}\r\n#ChatBoxSettings .send input {\r\n	width: 100%;\r\n	height: 20px;\r\n	padding: 0px;\r\n	border: none;\r\n	border-top: 1px solid #ccc;\r\n}\r\n\r\n#ChatBoxSettings .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#ChatBoxSettings .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n#ChatBoxSettings .extend {\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	position: absolute;\r\n	bottom: 0px;\r\n	right: 0px;\r\n}\r\n#ChatBoxSettings .listoption {\r\n	width: 231px;\r\n	float: right;\r\n	background: #ffffff;\r\n	height: 166px;\r\n	overflow-y: auto;\r\n	padding-left: 5px;\r\n	padding-bottom: 5px;\r\n	border-left: 1px solid #cfcfcf;\r\n	border-bottom: 1px solid #cfcfcf;\r\n}\r\n#ChatBoxSettings .listoption button {\r\n	width: 100%;\r\n	text-align: left;\r\n	background: #fff;\r\n	border: 0;\r\n	margin-bottom: 3px;\r\n	margin-top: 2px;\r\n	background-repeat: no-repeat;\r\n	padding-left: 19px;\r\n	height: 15px;\r\n	text-overflow: ellipsis;\r\n}\r\n#ChatBoxSettings .listoption button:hover {\r\n	border: 1px solid #000;\r\n}\r\n\r\n#ChatBoxSettings .footer-opt {\r\n	margin-top: 5px;\r\n	width: 231px;\r\n	float: right;\r\n}\r\n";
+	ChatBoxSettings_default$1 = ":host {\r\n	width: 255px;\r\n	height: 232px;\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#ChatBoxSettings {\r\n	position: absolute;\r\n	width: 255px;\r\n	height: auto;\r\n}\r\n\r\n#ChatBoxSettings table {\r\n	border-spacing: 0px;\r\n	display: inline-block;\r\n}\r\n\r\n#ChatBoxSettings .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 4px 4px 0px 0px;\r\n}\r\n#ChatBoxSettings .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#ChatBoxSettings .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	display: inline-block;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#ChatBoxSettings .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#ChatBoxSettings .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#ChatBoxSettings .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#ChatBoxSettings .panel {\r\n	background-color: white;\r\n}\r\n#ChatBoxSettings .content {\r\n	height: 197px;\r\n}\r\n#ChatBoxSettings .content .clear {\r\n	clear: both;\r\n}\r\n\r\n#ChatBoxSettings .content .members {\r\n	width: 26%;\r\n	height: 120px;\r\n	float: left;\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	padding-top: 5px;\r\n	padding-left: 3px;\r\n}\r\n#ChatBoxSettings .content .owner {\r\n	color: #36716d;\r\n}\r\n\r\n#ChatBoxSettings .send {\r\n	height: 30px;\r\n	position: relative;\r\n	padding-left: 5px;\r\n}\r\n#ChatBoxSettings .send input {\r\n	width: 100%;\r\n	height: 20px;\r\n	padding: 0px;\r\n	border: none;\r\n	border-top: 1px solid #ccc;\r\n}\r\n\r\n#ChatBoxSettings .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n#ChatBoxSettings .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n#ChatBoxSettings .extend {\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	position: absolute;\r\n	bottom: 0px;\r\n	right: 0px;\r\n}\r\n#ChatBoxSettings .listoption {\r\n	width: 231px;\r\n	float: right;\r\n	background: #ffffff;\r\n	height: 166px;\r\n	overflow-y: auto;\r\n	padding-left: 5px;\r\n	padding-bottom: 5px;\r\n	border-left: 1px solid #cfcfcf;\r\n	border-bottom: 1px solid #cfcfcf;\r\n}\r\n#ChatBoxSettings .listoption button {\r\n	width: 100%;\r\n	text-align: left;\r\n	background: #fff;\r\n	border: 1px solid transparent;\r\n	box-sizing: border-box;\r\n	line-height: 18px;\r\n	padding-top: 0;\r\n	padding-bottom: 0;\r\n	background-position: left center;\r\n	white-space: nowrap;\r\n	margin-bottom: 3px;\r\n	margin-top: 2px;\r\n	background-repeat: no-repeat;\r\n	padding-left: 19px;\r\n	height: 22px;\r\n	text-overflow: ellipsis;\r\n}\r\n#ChatBoxSettings .listoption button:hover {\r\n	border: 1px solid #000;\r\n}\r\n\r\n#ChatBoxSettings .footer-opt {\r\n	margin-top: 5px;\r\n	width: 231px;\r\n	float: right;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/ChatBoxSettings/ChatBoxSettings.js
+function updateOptionImage(button) {
+	const enabled = button.classList.contains("on");
+	Client.loadFile(DB.INTERFACE_PATH + "basic_interface/grp_" + (enabled ? "online" : "offline") + ".bmp", (data) => {
+		if (button.classList.contains("on") === enabled) button.style.backgroundImage = `url(${data})`;
+	});
+}
 /**
 * Handle option button click
 */
@@ -296133,9 +309078,7 @@ function onClickOption(btn) {
 		btn.classList.add("on");
 		isOn = true;
 	}
-	Client.loadFile(DB.INTERFACE_PATH + "basic_interface/grp_" + (isOn ? "online" : "offline") + ".bmp", (data) => {
-		btn.style.backgroundImage = "url(" + data + ")";
-	});
+	updateOptionImage(btn);
 	if (!isNaN(dataId)) {
 		const idsIndex = ChatBoxSettings.tabOption[ChatBoxSettings.activeTab].indexOf(dataId);
 		if (idsIndex > -1) ChatBoxSettings.tabOption[ChatBoxSettings.activeTab].splice(idsIndex, 1);
@@ -296150,7 +309093,7 @@ function onResize$8() {
 	let lastHeight = 0;
 	function resizeProcess() {
 		let h = Math.floor((Mouse.screen.y - top - 20) / 32);
-		h = Math.min(Math.max(h, 3), 8);
+		h = Math.min(Math.max(h, 8), 12);
 		if (h === lastHeight) return;
 		resize$5(h);
 		lastHeight = h;
@@ -296168,7 +309111,7 @@ function onResize$8() {
 * Extend window size
 */
 function resize$5(height) {
-	height = Math.min(Math.max(height, 3), 8);
+	height = Math.min(Math.max(height, 8), 12);
 	const root = ChatBoxSettings.getRoot();
 	const content = root.querySelector(".content");
 	if (content) content.style.height = height * 32 + "px";
@@ -296205,7 +309148,7 @@ var init_ChatBoxSettings = __esmMin((() => {
 		x: 480,
 		y: 200,
 		width: 7,
-		height: 4
+		height: 8
 	}, 1);
 	/**
 	* Initialize UI
@@ -296222,6 +309165,14 @@ var init_ChatBoxSettings = __esmMin((() => {
 		if (listOption) listOption.addEventListener("click", (event) => {
 			const btn = event.target.closest("button");
 			if (btn) onClickOption(btn);
+		});
+		root.querySelector(".enable-all").addEventListener("click", () => {
+			const buttons = root.querySelectorAll(".listoption button[data-id]");
+			this.tabOption[this.activeTab] = [...buttons].map((button) => Number(button.dataset.id));
+			buttons.forEach((button) => {
+				button.classList.add("on");
+				updateOptionImage(button);
+			});
 		});
 		this.draggable(".titlebar");
 	};
@@ -296250,19 +309201,9 @@ var init_ChatBoxSettings = __esmMin((() => {
 		this.activeTab = tabID;
 		root.querySelector(".tabname").textContent = tabName;
 		buttons.forEach((btn) => {
-			btn.classList.remove("on");
-			Client.loadFile(DB.INTERFACE_PATH + "basic_interface/grp_offline.bmp", (data) => {
-				btn.style.backgroundImage = "url(" + data + ")";
-			});
-		});
-		buttons.forEach((btn) => {
 			const id = parseInt(btn.getAttribute("data-id"), 10);
-			if (optList && optList.includes(id)) {
-				Client.loadFile(DB.INTERFACE_PATH + "basic_interface/grp_online.bmp", (data) => {
-					btn.style.backgroundImage = "url(" + data + ")";
-				});
-				btn.classList.add("on");
-			}
+			btn.classList.toggle("on", Boolean(optList?.includes(id)));
+			updateOptionImage(btn);
 		});
 	};
 	ChatBoxSettings.onRemove = function onRemove() {
@@ -296333,7 +309274,7 @@ function flushMessageBuffer() {
 			if (matches) for (let i = 0; i < matches.length; i++) window.URL.revokeObjectURL(matches[i]);
 			element.remove();
 		}
-		if (wasAtBottom) content.scrollTop = content.scrollHeight;
+		if (wasAtBottom && !ChatBox.scrollLocked) content.scrollTop = content.scrollHeight;
 	});
 }
 function getColorForType(colorType) {
@@ -296507,6 +309448,7 @@ function makeResizableDiv() {
 		window.removeEventListener("mouseup", stopResize);
 	};
 	resizer.addEventListener("mousedown", (e) => {
+		if (ChatBox.positionLocked) return;
 		e.preventDefault();
 		const contentWrapper = root.querySelector(".contentwrapper");
 		originalHeight = contentWrapper ? contentWrapper.offsetHeight : 0;
@@ -296923,6 +309865,31 @@ var init_ChatBox = __esmMin((() => {
 		if (battleoptBtn) battleoptBtn.addEventListener("click", () => {
 			ChatBox.toggleChatBattleOption();
 		});
+		const stickButton = root.querySelector(".stickfucn");
+		ChatBox.scrollLocked = false;
+		stickButton.title = "固定消息滚动";
+		stickButton.setAttribute("aria-pressed", "false");
+		stickButton.addEventListener("click", () => {
+			ChatBox.scrollLocked = !ChatBox.scrollLocked;
+			stickButton.setAttribute("aria-pressed", String(ChatBox.scrollLocked));
+			stickButton.title = ChatBox.scrollLocked ? "恢复消息自动滚动" : "固定消息滚动";
+			if (!ChatBox.scrollLocked) {
+				const content = root.querySelector(".content.active");
+				if (content) content.scrollTop = content.scrollHeight;
+			}
+		});
+		const lockButton = root.querySelector(".lockdragwnd");
+		ChatBox.positionLocked = false;
+		lockButton.title = "锁定聊天窗口位置";
+		lockButton.setAttribute("aria-pressed", "false");
+		lockButton.addEventListener("click", () => {
+			ChatBox.positionLocked = !ChatBox.positionLocked;
+			lockButton.setAttribute("aria-pressed", String(ChatBox.positionLocked));
+			lockButton.title = ChatBox.positionLocked ? "解锁聊天窗口位置" : "锁定聊天窗口位置";
+		});
+		for (const eventName of ["mousedown", "touchstart"]) root.addEventListener(eventName, (event) => {
+			if (ChatBox.positionLocked && event.target.closest(".input, .battlemode, .draggable")) event.stopPropagation();
+		}, true);
 		ChatBoxSettings_default.append();
 		if (_preferences$41.tabs.length > 0 && _preferences$41.tabs.length == _preferences$41.tabOption.length) {
 			for (let i = 0; i < _preferences$41.tabs.length; i++) if (_preferences$41.tabs[i]) {
@@ -505607,13 +518574,13 @@ var init_MiniMap$1 = __esmMin((() => {
 //#region src/UI/Components/WorldMap/WorldMap.html?raw
 var WorldMap_default$2;
 var init_WorldMap$2 = __esmMin((() => {
-	WorldMap_default$2 = "<div id=\"WorldMap\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\">\r\n				<select name=\"mapList\" id=\"WorldMaps\"></select>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button class=\"base showlvl\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n				<span data-text=\"2209\">显示怪物</span>\r\n				<button\r\n					class=\"base togglemaps\"\r\n					data-background=\"minimap/i_object_3.bmp\"\r\n					data-hover=\"minimap/i_object_2.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"map\">\r\n			<div class=\"content\"></div>\r\n		</div>\r\n	</div>\r\n	<div id=\"map-tooltip\" style=\"display: none\">\r\n		<div class=\"tooltip-img\"></div>\r\n		<div class=\"tooltip-mapname\"></div>\r\n		<div class=\"tooltip-mapid\"></div>\r\n		<div class=\"tooltip-monster-info\" style=\"display: none\">\r\n			<div class=\"tooltip-monstername\"></div>\r\n			<div class=\"tooltip-monsterlevel\"></div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
+	WorldMap_default$2 = "<div id=\"WorldMap\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n			<div class=\"left\">\r\n				<select name=\"mapList\" id=\"WorldMaps\"></select>\r\n			</div>\r\n			<div class=\"right\">\r\n				<button class=\"base showlvl\" data-background=\"checkbox_0.bmp\" data-preload=\"checkbox_1.bmp\"></button>\r\n				<span data-text=\"2209\">显示怪物</span>\r\n				<button\r\n					class=\"base togglemaps\"\r\n					title=\"显示地图边界，悬停查看地图代码\"\r\n					aria-label=\"显示地图边界，悬停查看地图代码\"\r\n					data-background=\"minimap/i_object_3.bmp\"\r\n					data-hover=\"minimap/i_object_2.bmp\"\r\n				></button>\r\n				<button\r\n					class=\"base close\"\r\n					data-background=\"basic_interface/sys_close_off.bmp\"\r\n					data-hover=\"basic_interface/sys_close_on.bmp\"\r\n				></button>\r\n			</div>\r\n		</div>\r\n\r\n		<div class=\"map\">\r\n			<div class=\"content\"></div>\r\n		</div>\r\n	</div>\r\n	<div id=\"map-tooltip\" style=\"display: none\">\r\n		<div class=\"tooltip-img\"></div>\r\n		<div class=\"tooltip-mapname\"></div>\r\n		<div class=\"tooltip-mapid\"></div>\r\n		<div class=\"tooltip-monster-info\" style=\"display: none\">\r\n			<div class=\"tooltip-monstername\"></div>\r\n			<div class=\"tooltip-monsterlevel\"></div>\r\n		</div>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WorldMap/WorldMap.css?raw
 var WorldMap_default$1;
 var init_WorldMap$1 = __esmMin((() => {
-	WorldMap_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#loader {\r\n	position: relative;\r\n	transform: translate(-10%, -50%);\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#WorldMap {\r\n	position: fixed;\r\n	top: 0;\r\n	left: 0;\r\n	background: black;\r\n	height: 100%;\r\n	width: 100%;\r\n}\r\n\r\n#WorldMap .hidden {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .titlebar {\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n}\r\n\r\n#WorldMap .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#WorldMap .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#WorldMap .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 17px;\r\n}\r\n\r\n#WorldMap .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#WorldMap .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#WorldMap select {\r\n	height: 17px;\r\n}\r\n\r\n/* V2 */\r\n#WorldMap .worldmap {\r\n	box-sizing: border-box;\r\n	display: grid;\r\n	justify-content: center;\r\n	overflow: auto;\r\n}\r\n\r\n#WorldMap .worldmap * {\r\n	box-sizing: border-box;\r\n}\r\n\r\n#WorldMap .border,\r\n#WorldMap .map,\r\n#WorldMap .content,\r\n#WorldMap .worldmap,\r\n#WorldMap .map-view {\r\n	height: 100%;\r\n}\r\n\r\n#WorldMap .worldmap .map-view {\r\n	position: relative;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n}\r\n\r\n#WorldMap .worldmap .section {\r\n	position: absolute;\r\n	border: 0px;\r\n	border-radius: 4px;\r\n	background-color: rgba(0, 0, 0, 0);\r\n	cursor: pointer;\r\n	overflow: visible;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover,\r\n#WorldMap .worldmap .section.allmapvisible,\r\n#WorldMap .worldmap .section.currentmap,\r\n#WorldMap .worldmap .section.membersonmap {\r\n	border: 1px solid #dddddd7a;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover {\r\n	background-color: rgba(0, 128, 255, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.membersonmap:not(.currentmap) {\r\n	background-color: rgba(128, 255, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap {\r\n	background-color: rgba(255, 128, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section .mapname {\r\n	display: none;\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	color: #65ef83;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n	text-overflow: ellipsis;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap .worldmap .section .mapid {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.allmapvisible .mapid {\r\n	display: block;\r\n	position: absolute;\r\n	bottom: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: 10px;\r\n	color: white;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .airplane {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 32px;\r\n	top: 0px;\r\n	left: 0px;\r\n	transform: rotate(75deg);\r\n	background-repeat: no-repeat;\r\n	background-size: cover;\r\n}\r\n\r\n#WorldMap .showlvl {\r\n	width: 10px;\r\n	height: 12px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#WorldMap .worldmap .section .section-labels {\r\n	position: absolute;\r\n	top: 50%;\r\n	left: 50%;\r\n	transform: translate(-50%, calc(-50% + var(--label-offset-y, 0px)));\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	width: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap .worldmap .section .level-range-text {\r\n	display: none;\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	line-height: 14px;\r\n	font-weight: bold;\r\n	color: #ffffff;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon-stacked) .level-range-text,\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon):not(.is-dungeon-stacked) .mapname:not(:empty) {\r\n	display: block;\r\n}\r\n\r\n#WorldMap .worldmap .section .displayname {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .displayname {\r\n	display: block;\r\n	color: white;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap .displayname {\r\n	display: block;\r\n	color: white;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon {\r\n	border: 0 !important;\r\n	background-color: rgba(255, 0, 0, 0.4) !important;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .section-labels {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-label {\r\n	background-color: transparent !important;\r\n	pointer-events: none;\r\n	z-index: 1;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-label .section-labels {\r\n	display: flex;\r\n	pointer-events: auto;\r\n	min-width: 100%;\r\n	width: max-content;\r\n	padding: 3px 5px;\r\n	border-radius: 4px;\r\n	background-color: rgba(255, 0, 0, 0.4);\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked {\r\n	border: 0 !important;\r\n	background-color: transparent !important;\r\n	display: block !important;\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked .section-labels {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .connector-line {\r\n	position: absolute;\r\n	height: 1px;\r\n	background-color: rgba(255, 0, 0, 0.5);\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap #map-tooltip {\r\n	position: fixed;\r\n	z-index: 100;\r\n	pointer-events: none;\r\n	width: 190px;\r\n	padding: 5px;\r\n	background-color: rgba(0, 0, 0, 0.85);\r\n	border: 1px solid #666;\r\n	border-radius: 4px;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-img {\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	background-color: #111;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n	background-position: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapname {\r\n	color: gold;\r\n	font-weight: bold;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	padding: 3px 0 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapid {\r\n	color: white;\r\n	text-align: center;\r\n	font-size: 11px;\r\n	padding: 2px 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monster-info {\r\n	margin-top: 4px;\r\n	padding-top: 4px;\r\n	border-top: 1px solid #666;\r\n	color: #ffffff;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monstername {\r\n	color: #65ef83;\r\n	font-size: 11px;\r\n	line-height: 15px;\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monsterlevel {\r\n	margin-top: 2px;\r\n	color: #ffd85a;\r\n	font-size: 10px;\r\n	line-height: 13px;\r\n}\r\n";
+	WorldMap_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n\r\n#loader {\r\n	position: relative;\r\n	transform: translate(-10%, -50%);\r\n	top: 50%;\r\n	left: 50%;\r\n}\r\n\r\n#WorldMap {\r\n	position: fixed;\r\n	top: 0;\r\n	left: 0;\r\n	background: black;\r\n	height: 100%;\r\n	width: 100%;\r\n}\r\n\r\n#WorldMap .hidden {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .titlebar {\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n}\r\n\r\n#WorldMap .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#WorldMap .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#WorldMap .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 17px;\r\n}\r\n\r\n#WorldMap .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#WorldMap .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#WorldMap select {\r\n	height: 17px;\r\n}\r\n\r\n/* V2 */\r\n#WorldMap .worldmap {\r\n	box-sizing: border-box;\r\n	display: grid;\r\n	justify-content: center;\r\n	overflow: auto;\r\n}\r\n\r\n#WorldMap .worldmap * {\r\n	box-sizing: border-box;\r\n}\r\n\r\n#WorldMap .border,\r\n#WorldMap .map,\r\n#WorldMap .content,\r\n#WorldMap .worldmap,\r\n#WorldMap .map-view {\r\n	height: 100%;\r\n}\r\n\r\n#WorldMap .worldmap .map-view {\r\n	position: relative;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n}\r\n\r\n#WorldMap .worldmap .section {\r\n	position: absolute;\r\n	border: 0px;\r\n	border-radius: 4px;\r\n	background-color: rgba(0, 0, 0, 0);\r\n	cursor: pointer;\r\n	overflow: visible;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover,\r\n#WorldMap .worldmap .section.allmapvisible,\r\n#WorldMap .worldmap .section.currentmap,\r\n#WorldMap .worldmap .section.membersonmap {\r\n	border: 1px solid #dddddd7a;\r\n}\r\n\r\n#WorldMap .worldmap .section:hover {\r\n	background-color: rgba(0, 128, 255, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.membersonmap:not(.currentmap) {\r\n	background-color: rgba(128, 255, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap {\r\n	background-color: rgba(255, 128, 0, 0.5);\r\n}\r\n\r\n#WorldMap .worldmap .section .mapname {\r\n	display: none;\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	color: #65ef83;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n	text-overflow: ellipsis;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap .worldmap .section .mapid {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.allmapvisible:not(.is-dungeon-stacked):hover .mapid {\r\n	display: block;\r\n	position: absolute;\r\n	bottom: 3px;\r\n	left: 50%;\r\n	transform: translate(-50%, 0);\r\n	height: auto;\r\n	line-height: 16px;\r\n	white-space: nowrap;\r\n	padding: 2px 5px;\r\n	border-radius: 3px;\r\n	background: rgba(0, 0, 0, 0.85);\r\n	pointer-events: none;\r\n	z-index: 20;\r\n	color: white;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .airplane {\r\n	position: absolute;\r\n	width: 32px;\r\n	height: 32px;\r\n	top: 0px;\r\n	left: 0px;\r\n	transform: rotate(75deg);\r\n	background-repeat: no-repeat;\r\n	background-size: cover;\r\n}\r\n\r\n#WorldMap .showlvl {\r\n	width: 10px;\r\n	height: 12px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#WorldMap .worldmap .section .section-labels {\r\n	position: absolute;\r\n	top: 50%;\r\n	left: 50%;\r\n	transform: translate(-50%, calc(-50% + var(--label-offset-y, 0px)));\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	width: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap .worldmap .section .level-range-text {\r\n	display: none;\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	line-height: 14px;\r\n	font-weight: bold;\r\n	color: #ffffff;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon-stacked) .level-range-text,\r\n#WorldMap .worldmap.show-lvls .section:not(.is-dungeon):not(.is-dungeon-stacked) .mapname:not(:empty) {\r\n	display: block;\r\n}\r\n\r\n#WorldMap .worldmap .section .displayname {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .displayname {\r\n	display: block;\r\n	color: white;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.currentmap .displayname {\r\n	display: block;\r\n	color: white;\r\n	font-size: 11px;\r\n	line-height: 13px;\r\n	font-weight: bold;\r\n	white-space: nowrap;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon {\r\n	border: 0 !important;\r\n	background-color: rgba(255, 0, 0, 0.4) !important;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon .section-labels {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-label {\r\n	background-color: transparent !important;\r\n	pointer-events: none;\r\n	z-index: 1;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-label .section-labels {\r\n	display: flex;\r\n	pointer-events: auto;\r\n	min-width: 100%;\r\n	width: max-content;\r\n	padding: 3px 5px;\r\n	border-radius: 4px;\r\n	background-color: rgba(255, 0, 0, 0.4);\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked {\r\n	border: 0 !important;\r\n	background-color: transparent !important;\r\n	display: block !important;\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap .worldmap .section.is-dungeon-stacked .section-labels {\r\n	display: none;\r\n}\r\n\r\n#WorldMap .worldmap .connector-line {\r\n	position: absolute;\r\n	height: 1px;\r\n	background-color: rgba(255, 0, 0, 0.5);\r\n	pointer-events: none;\r\n}\r\n\r\n#WorldMap #map-tooltip {\r\n	position: fixed;\r\n	z-index: 100;\r\n	pointer-events: none;\r\n	width: 190px;\r\n	padding: 5px;\r\n	background-color: rgba(0, 0, 0, 0.85);\r\n	border: 1px solid #666;\r\n	border-radius: 4px;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-img {\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	background-color: #111;\r\n	background-repeat: no-repeat;\r\n	background-size: contain;\r\n	background-position: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapname {\r\n	color: gold;\r\n	font-weight: bold;\r\n	text-align: center;\r\n	font-size: 12px;\r\n	padding: 3px 0 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-mapid {\r\n	color: white;\r\n	text-align: center;\r\n	font-size: 11px;\r\n	padding: 2px 0;\r\n	text-shadow:\r\n		-1px -1px 0 #000,\r\n		1px -1px 0 #000,\r\n		-1px 1px 0 #000,\r\n		1px 1px 0 #000;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monster-info {\r\n	margin-top: 4px;\r\n	padding-top: 4px;\r\n	border-top: 1px solid #666;\r\n	color: #ffffff;\r\n	text-align: center;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monstername {\r\n	color: #65ef83;\r\n	font-size: 11px;\r\n	line-height: 15px;\r\n	white-space: pre-line;\r\n	overflow-wrap: anywhere;\r\n}\r\n\r\n#WorldMap #map-tooltip .tooltip-monsterlevel {\r\n	margin-top: 2px;\r\n	color: #ffd85a;\r\n	font-size: 10px;\r\n	line-height: 13px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WorldMap/WorldMapState.js
@@ -510850,7 +523817,7 @@ var init_WinStats$2 = __esmMin((() => {
 //#region src/UI/Components/WinStats/WinStatsNumbers.css?raw
 var WinStatsNumbers_default;
 var init_WinStatsNumbers = __esmMin((() => {
-	WinStatsNumbers_default = ":host { width: 407px; max-width: 100vw; }\r\n#WinStats, #WinStats .titlebar { width: 407px; }\r\n#WinStats .traits_component, #WinStats .traits_panel { width: 407px; }\r\n#WinStats .group > div, #WinStats .trait > div { white-space: nowrap; font-variant-numeric: tabular-nums; }\r\n#WinStats .stats { left: 37px; width: 36px; text-align: right; }\r\n#WinStats .bonus { left: 79px; width: 26px; text-align: left; }\r\n#WinStats .up, #WinStats .t_up { left: 109px; }\r\n#WinStats .requirements, #WinStats .t_requirements { left: 131px; width: 23px; text-align: left; }\r\n#WinStats .group.column1, #WinStats .group.t_column1 { right: 130px; }\r\n#WinStats .group.column2, #WinStats .group.t_column2 { right: 5px; }\r\n#WinStats .column1_tooltip, #WinStats .t_column1_tooltip { left: 157px; width: 125px; }\r\n#WinStats .column2_tooltip, #WinStats .t_column2_tooltip { left: 282px; width: 125px; }\r\n#WinStats .column1_tooltip > div, #WinStats .t_column1_tooltip > div,\r\n#WinStats .column2_tooltip > div, #WinStats .t_column2_tooltip > div { width: 125px; }\r\n#WinStats .trait_point { left: 125px; }\r\n";
+	WinStatsNumbers_default = ":host { width: 407px; max-width: 100vw; }\r\n#WinStats, #WinStats .titlebar { width: 407px; }\r\n#WinStats .traits_component, #WinStats .traits_panel { width: 407px; }\r\n#WinStats .group > div, #WinStats .trait > div { white-space: nowrap; font-variant-numeric: tabular-nums; }\r\n#WinStats .stats { left: 37px; width: 36px; text-align: right; }\r\n#WinStats .bonus { left: 79px; width: 26px; text-align: left; }\r\n#WinStats .up, #WinStats .t_up { left: 109px; }\r\n#WinStats .requirements, #WinStats .t_requirements { left: 122px; width: 25px; box-sizing: border-box; padding-right: 3px; text-align: right; }\r\n#WinStats .group.column1, #WinStats .group.t_column1 { right: 130px; }\r\n#WinStats .group.column2, #WinStats .group.t_column2 { right: 5px; }\r\n#WinStats .column1_tooltip, #WinStats .t_column1_tooltip { left: 157px; width: 125px; }\r\n#WinStats .column2_tooltip, #WinStats .t_column2_tooltip { left: 282px; width: 125px; }\r\n#WinStats .column1_tooltip > div, #WinStats .t_column1_tooltip > div,\r\n#WinStats .column2_tooltip > div, #WinStats .t_column2_tooltip > div { width: 125px; }\r\n#WinStats .trait_point { left: 125px; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinStats/WinStatsCommon.js
@@ -513154,7 +526121,7 @@ function applySettings() {
 			ShortCuts$1[SC].cust.shift = ShortCutsTemp[SC].cust.shift;
 		} else ShortCuts$1[SC].cust = false;
 	});
-	ShortCutControls_default.save();
+	preferences$1.save();
 	BattleMode.reload();
 	ShortCutsTemp = {};
 	updateKeyList();
@@ -513247,7 +526214,7 @@ var init_ShortCutOption = __esmMin((() => {
 	init_ShortCutOption$1();
 	init_Controls();
 	ShortCutOption = new GUIComponent("ShortCutOption", ShortCutOption_default$1);
-	ShortCuts$1 = ShortCutControls_default.ShortCuts;
+	ShortCuts$1 = preferences$1.ShortCuts;
 	ShortCutsTemp = {};
 	ShortCutOption.isCapturing = false;
 	_preferences$31 = Preferences.get("ShortCutOption", {
@@ -520244,7 +533211,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 				contentbig.style.height = `${height * 32}px`;
 			}
 			root.querySelectorAll(".footer .btn").forEach((el) => {
-				el.style.display = "block";
+				el.style.display = "inline-flex";
 			});
 		}
 	}
@@ -520456,13 +533423,13 @@ var init_SkillList$1 = __esmMin((() => {
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.html?raw
 var SkillListV2_default$2;
 var init_SkillListV2$2 = __esmMin((() => {
-	SkillListV2_default$2 = "<div id=\"SkillListV2\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"left\">\r\n				<ui-button\r\n					class=\"base\"\r\n					bg=\"basic_interface/sys_base_off.bmp\"\r\n					hover=\"basic_interface/sys_base_on.bmp\"\r\n				></ui-button>\r\n				<ui-text class=\"text\" msgid=\"283\">技能树</ui-text>\r\n			</div>\r\n			<div class=\"right\">\r\n				<input type=\"checkbox\" class=\"view_skill_info\" />查看技能信息\r\n				<ui-button\r\n					class=\"base mini\"\r\n					bg=\"basic_interface/sys_mini_off.bmp\"\r\n					hover=\"basic_interface/sys_mini_on.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"base close\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"panel\">\r\n			<div class=\"content\" style=\"display: block; width: 256px; height: 320px\">\r\n				<!-- Just to get reference, will be removed -->\r\n				<ui-button\r\n					class=\"btn levelup\"\r\n					bg=\"basic_interface/skill_up_a.bmp\"\r\n					hover=\"basic_interface/skill_up_b.bmp\"\r\n					down=\"basic_interface/skill_up_c.bmp\"\r\n				></ui-button>\r\n				<div class=\"tabs-mini\">\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-1-mini\" checked class=\"tab-switch-mini\" />\r\n						<label for=\"tab-1-mini\" class=\"tab-label-mini\">一转</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab1\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-2-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-2-mini\" id=\"tabminil2\" class=\"tab-label-mini\">二转</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab2\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-3-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-3-mini\" id=\"tabminil3\" class=\"tab-label-mini\">三转</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab3\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-4-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-4-mini\" id=\"tabminil4\" class=\"tab-label-mini\">四转</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab4\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-5-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-5-mini\" class=\"tab-label-mini\">其他</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab5\"></table>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div class=\"contentbig\" style=\"width: 480px; height: 384px; display: block\">\r\n				<div class=\"tabs\">\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-1\" checked class=\"tab-switch\" />\r\n						<label for=\"tab-1\" class=\"tab-label\">一转</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills1\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-2\" class=\"tab-switch\" />\r\n						<label for=\"tab-2\" id=\"tabl2\" class=\"tab-label\">二转</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills2\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-3\" class=\"tab-switch\" />\r\n						<label for=\"tab-3\" id=\"tabl3\" class=\"tab-label\">三转</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills3\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-4\" class=\"tab-switch\" />\r\n						<label for=\"tab-4\" id=\"tabl4\" class=\"tab-label\">四转</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills4\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-5\" class=\"tab-switch\" />\r\n						<label for=\"tab-5\" class=\"tab-label\">其他</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"etcBIG5\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n\r\n			<div class=\"footer\">\r\n				<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n				<div class=\"text\">技能点数：<span class=\"skpoints_count\">0</span></div>\r\n				<ui-button\r\n					class=\"btn apply\"\r\n					bg=\"btn_apply.bmp\"\r\n					hover=\"btn_apply_a.bmp\"\r\n					down=\"btn_apply_b.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"btn reset\"\r\n					bg=\"btn_reset.bmp\"\r\n					hover=\"btn_reset_a.bmp\"\r\n					down=\"btn_reset_b.bmp\"\r\n				></ui-button>\r\n				<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<ui-button id=\"lvlup_job\" bg=\"basic_interface/lv_up_off.bmp\" down=\"basic_interface/lv_up_on.bmp\"></ui-button>\r\n</div>\r\n";
+	SkillListV2_default$2 = "<div id=\"SkillListV2\">\r\n	<div class=\"border\">\r\n		<div class=\"titlebar\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<div class=\"left\">\r\n				<ui-button\r\n					class=\"base\"\r\n					bg=\"basic_interface/sys_base_off.bmp\"\r\n					hover=\"basic_interface/sys_base_on.bmp\"\r\n				></ui-button>\r\n				<ui-text class=\"text\" msgid=\"283\">技能树</ui-text>\r\n			</div>\r\n			<div class=\"right\">\r\n				<input type=\"checkbox\" class=\"view_skill_info\" /><span class=\"view_skill_label\">查看技能信息</span>\r\n				<ui-button\r\n					class=\"base mini\"\r\n					bg=\"basic_interface/sys_mini_off.bmp\"\r\n					hover=\"basic_interface/sys_mini_on.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"base close\"\r\n					bg=\"basic_interface/sys_close_off.bmp\"\r\n					hover=\"basic_interface/sys_close_on.bmp\"\r\n				></ui-button>\r\n			</div>\r\n			<div class=\"clear\"></div>\r\n		</div>\r\n\r\n		<div class=\"panel\">\r\n			<div class=\"content\" style=\"display: block; width: 256px; height: 320px\">\r\n				<!-- Just to get reference, will be removed -->\r\n				<ui-button\r\n					class=\"btn levelup\"\r\n					bg=\"basic_interface/skill_up_a.bmp\"\r\n					hover=\"basic_interface/skill_up_b.bmp\"\r\n					down=\"basic_interface/skill_up_c.bmp\"\r\n				></ui-button>\r\n				<div class=\"tabs-mini\">\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-1-mini\" checked class=\"tab-switch-mini\" />\r\n						<label for=\"tab-1-mini\" class=\"tab-label-mini\">一转</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab1\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-2-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-2-mini\" id=\"tabminil2\" class=\"tab-label-mini\">二转</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab2\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-3-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-3-mini\" id=\"tabminil3\" class=\"tab-label-mini\">三转</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab3\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-4-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-4-mini\" id=\"tabminil4\" class=\"tab-label-mini\">四转</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab4\"></table>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab-mini\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-5-mini\" class=\"tab-switch-mini\" />\r\n						<label for=\"tab-5-mini\" class=\"tab-label-mini\">其他</label>\r\n						<div class=\"tab-content-mini\">\r\n							<table id=\"minitab5\"></table>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n			<div class=\"contentbig\" style=\"width: 480px; height: 384px; display: block\">\r\n				<div class=\"tabs\">\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-1\" checked class=\"tab-switch\" />\r\n						<label for=\"tab-1\" class=\"tab-label\">一转</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills1\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-2\" class=\"tab-switch\" />\r\n						<label for=\"tab-2\" id=\"tabl2\" class=\"tab-label\">二转</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills2\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-3\" class=\"tab-switch\" />\r\n						<label for=\"tab-3\" id=\"tabl3\" class=\"tab-label\">三转</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills3\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-4\" class=\"tab-switch\" />\r\n						<label for=\"tab-4\" id=\"tabl4\" class=\"tab-label\">四转</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"positionSkills4\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n					<div class=\"tab\">\r\n						<input type=\"radio\" name=\"css-tabs\" id=\"tab-5\" class=\"tab-switch\" />\r\n						<label for=\"tab-5\" class=\"tab-label\">其他</label>\r\n						<div class=\"tab-content\">\r\n							<div id=\"etcBIG5\">\r\n								<div class=\"skillRow\" data-order=\"0\">\r\n									<div class=\"skillCol s0\"></div>\r\n									<div class=\"skillCol s1\"></div>\r\n									<div class=\"skillCol s2\"></div>\r\n									<div class=\"skillCol s3\"></div>\r\n									<div class=\"skillCol s4\"></div>\r\n									<div class=\"skillCol s5\"></div>\r\n									<div class=\"skillCol s6\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"1\">\r\n									<div class=\"skillCol s7\"></div>\r\n									<div class=\"skillCol s8\"></div>\r\n									<div class=\"skillCol s9\"></div>\r\n									<div class=\"skillCol s10\"></div>\r\n									<div class=\"skillCol s11\"></div>\r\n									<div class=\"skillCol s12\"></div>\r\n									<div class=\"skillCol s13\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"2\">\r\n									<div class=\"skillCol s14\"></div>\r\n									<div class=\"skillCol s15\"></div>\r\n									<div class=\"skillCol s16\"></div>\r\n									<div class=\"skillCol s17\"></div>\r\n									<div class=\"skillCol s18\"></div>\r\n									<div class=\"skillCol s19\"></div>\r\n									<div class=\"skillCol s20\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"3\">\r\n									<div class=\"skillCol s21\"></div>\r\n									<div class=\"skillCol s22\"></div>\r\n									<div class=\"skillCol s23\"></div>\r\n									<div class=\"skillCol s24\"></div>\r\n									<div class=\"skillCol s25\"></div>\r\n									<div class=\"skillCol s26\"></div>\r\n									<div class=\"skillCol s27\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"4\">\r\n									<div class=\"skillCol s28\"></div>\r\n									<div class=\"skillCol s29\"></div>\r\n									<div class=\"skillCol s30\"></div>\r\n									<div class=\"skillCol s31\"></div>\r\n									<div class=\"skillCol s32\"></div>\r\n									<div class=\"skillCol s33\"></div>\r\n									<div class=\"skillCol s34\"></div>\r\n								</div>\r\n								<div class=\"skillRow\" data-order=\"5\">\r\n									<div class=\"skillCol s35\"></div>\r\n									<div class=\"skillCol s36\"></div>\r\n									<div class=\"skillCol s37\"></div>\r\n									<div class=\"skillCol s38\"></div>\r\n									<div class=\"skillCol s39\"></div>\r\n									<div class=\"skillCol s40\"></div>\r\n									<div class=\"skillCol s41\"></div>\r\n								</div>\r\n							</div>\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n\r\n			<div class=\"footer\">\r\n				<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n				<div class=\"text\">技能点数：<span class=\"skpoints_count\">0</span></div>\r\n				<ui-button\r\n					class=\"btn apply\"\r\n					bg=\"btn_apply.bmp\"\r\n					hover=\"btn_apply_a.bmp\"\r\n					down=\"btn_apply_b.bmp\"\r\n				></ui-button>\r\n				<ui-button\r\n					class=\"btn reset\"\r\n					bg=\"btn_reset.bmp\"\r\n					hover=\"btn_reset_a.bmp\"\r\n					down=\"btn_reset_b.bmp\"\r\n				></ui-button>\r\n				<ui-button class=\"extend\" bg=\"btn_resize.bmp\"></ui-button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<ui-button id=\"lvlup_job\" bg=\"basic_interface/lv_up_off.bmp\" down=\"basic_interface/lv_up_on.bmp\"></ui-button>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.css?raw
 var SkillListV2_default$1;
 var init_SkillListV2$1 = __esmMin((() => {
-	SkillListV2_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#SkillListV2 {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	background: white;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n	border: 1px solid #c1c6c2;\r\n}\r\n#SkillListV2 .border {\r\n	border: 1px solid #c1c6c2;\r\n	margin: 1px;\r\n	border-radius: 5px;\r\n}\r\n\r\n#SkillListV2 .titlebar {\r\n	height: 18px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	background-position: 0 -1px;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SkillListV2 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SkillListV2 .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SkillListV2 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 18px;\r\n}\r\n#SkillListV2 .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SkillListV2 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SkillListV2 .content {\r\n	position: relative;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: 270px;\r\n	height: 200px;\r\n}\r\n#SkillListV2 .content table {\r\n	border: none;\r\n	border-spacing: 0px;\r\n	padding-top: 5px;\r\n}\r\n#SkillListV2 .content td,\r\n#SkillListV2 .content .name {\r\n	padding: 0px;\r\n}\r\n\r\n/* Mini Tab*/\r\n#SkillListV2 .tabs-mini {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs-mini::before,\r\n#SkillListV2 .tabs-mini::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs-mini::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch-mini {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label-mini {\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	min-height: 38px;\r\n	padding: 6px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 1px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content-mini {\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + .tab-label-mini {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + label + .tab-content-mini {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n\r\n#SkillListV2 .levelup {\r\n	border: 0;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#SkillListV2 td.type {\r\n	vertical-align: bottom;\r\n}\r\n\r\n#SkillListV2 .content .icon {\r\n	padding-left: 15px;\r\n}\r\n#SkillListV2 .content .levelupcontainer {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n	width: 24px;\r\n}\r\n#SkillListV2 .content div.name {\r\n	line-height: 12px;\r\n	white-space: nowrap;\r\n	padding-left: 5px;\r\n	white-space: nowrap;\r\n	width: 120px;\r\n	padding-top: 4px;\r\n	height: 28px;\r\n}\r\n#SkillListV2 .disabled .icon,\r\n#SkillListV2 .disabled .name {\r\n	opacity: 0.5;\r\n}\r\n#SkillListV2 .disabled .consume,\r\n#SkillListV2 .disabled .level {\r\n	display: none;\r\n}\r\n#SkillListV2 .currentDown,\r\n#SkillListV2 .currentUp {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#SkillListV2 .selected.disabled .selectable {\r\n	background-color: #b5b5b5;\r\n}\r\n#SkillListV2 .selected.passive .selectable {\r\n	background-color: #73d5ee;\r\n}\r\n/*#SkillListV2 .selected.active .selectable { background-color:#739cee;}*/\r\n\r\n#SkillListV2 .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n#SkillListV2 .footer .text {\r\n	padding-top: 7px;\r\n	margin-left: 10px;\r\n}\r\n#SkillListV2 .footer .btn {\r\n	position: absolute;\r\n	top: 5px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: none;\r\n}\r\n#SkillListV2 .footer .apply {\r\n	right: 70px;\r\n}\r\n#SkillListV2 .footer .reset {\r\n	right: 20px;\r\n}\r\n#SkillListV2 .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#lvlup_job {\r\n	z-index: 51;\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 0px;\r\n	width: 43px;\r\n	height: 43px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#SkillListV2 .tab-content {\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: calc(100% - 12px);\r\n	height: 375px;\r\n}\r\n\r\n/* skill tree with tabs */\r\n#SkillListV2 .skillCol .name,\r\n#SkillListV2 .skillCol .selectable {\r\n	position: relative;\r\n	text-align: center;\r\n	display: block;\r\n	width: 70px;\r\n	left: -23px;\r\n}\r\n#SkillListV2 .skillCol .skill {\r\n	position: relative;\r\n	top: -16px;\r\n}\r\n#SkillListV2 .skillRow {\r\n	display: flex;\r\n	padding-left: 40px;\r\n}\r\n#SkillListV2 .skillCol {\r\n	position: relative;\r\n	margin: 15px 17px;\r\n	border: 1px dashed #c0c0c0ff;\r\n	border-radius: 5px;\r\n	width: 28px;\r\n	height: 28px;\r\n	text-align: center;\r\n	white-space: nowrap;\r\n}\r\n#SkillListV2 .tabs {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs::before,\r\n#SkillListV2 .tabs::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label {\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	min-height: 48px;\r\n	padding: 8px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 2px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content {\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch:checked + .tab-label {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch:checked + label + .tab-content {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n#SkillListV2 .needleSkill {\r\n	background: pink !important;\r\n}\r\n#SkillListV2 .upgradable {\r\n	background: #c0cdff;\r\n}\r\n#SkillListV2 .counterSkill {\r\n	position: absolute;\r\n	left: 28px;\r\n	top: 18px;\r\n	color: #fff;\r\n	-webkit-text-stroke: 0.6px #2f2f2f;\r\n	font-weight: 1000;\r\n}\r\n";
+	SkillListV2_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#SkillListV2 {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	background: white;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n	border: 1px solid #c1c6c2;\r\n}\r\n#SkillListV2 .border {\r\n	border: 1px solid #c1c6c2;\r\n	margin: 1px;\r\n	border-radius: 5px;\r\n}\r\n\r\n#SkillListV2 .titlebar {\r\n	height: 18px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	background-position: 0 -1px;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SkillListV2 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SkillListV2 .titlebar .text {\r\n	position: relative;\r\n	top: -2px;\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SkillListV2 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 18px;\r\n}\r\n#SkillListV2 .titlebar .right {\r\n	position: relative;\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SkillListV2 .titlebar .right > :not(.view_skill_info) {\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n#SkillListV2 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SkillListV2 .content {\r\n	position: relative;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: 270px;\r\n	height: 200px;\r\n}\r\n#SkillListV2 .content table {\r\n	border: none;\r\n	border-spacing: 0px;\r\n	padding-top: 5px;\r\n}\r\n#SkillListV2 .content td,\r\n#SkillListV2 .content .name {\r\n	padding: 0px;\r\n}\r\n\r\n/* Mini Tab*/\r\n#SkillListV2 .tabs-mini {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs-mini::before,\r\n#SkillListV2 .tabs-mini::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs-mini::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch-mini {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label-mini {\r\n	display: block;\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	min-height: 38px;\r\n	padding: 6px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 1px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content-mini {\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + .tab-label-mini {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + label + .tab-content-mini {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n\r\n#SkillListV2 .levelup {\r\n	border: 0;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#SkillListV2 td.type {\r\n	vertical-align: bottom;\r\n}\r\n\r\n#SkillListV2 .content .icon {\r\n	padding-left: 15px;\r\n}\r\n#SkillListV2 .content .levelupcontainer {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n	width: 24px;\r\n}\r\n#SkillListV2 .content div.name {\r\n	line-height: 12px;\r\n	white-space: nowrap;\r\n	padding-left: 5px;\r\n	white-space: nowrap;\r\n	width: 120px;\r\n	padding-top: 4px;\r\n	height: 28px;\r\n}\r\n#SkillListV2 .disabled .icon,\r\n#SkillListV2 .disabled .name {\r\n	opacity: 0.5;\r\n}\r\n#SkillListV2 .disabled .consume,\r\n#SkillListV2 .disabled .level {\r\n	display: none;\r\n}\r\n#SkillListV2 .currentDown,\r\n#SkillListV2 .currentUp {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#SkillListV2 .selected.disabled .selectable {\r\n	background-color: #b5b5b5;\r\n}\r\n#SkillListV2 .selected.passive .selectable {\r\n	background-color: #73d5ee;\r\n}\r\n/*#SkillListV2 .selected.active .selectable { background-color:#739cee;}*/\r\n\r\n#SkillListV2 .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n#SkillListV2 .footer .text {\r\n	padding-top: 7px;\r\n	margin-left: 10px;\r\n}\r\n#SkillListV2 .footer .btn {\r\n	align-items: center;\r\n	justify-content: center;\r\n	white-space: nowrap;\r\n	position: absolute;\r\n	top: 5px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: none;\r\n}\r\n#SkillListV2 .footer .apply {\r\n	right: 70px;\r\n}\r\n#SkillListV2 .footer .reset {\r\n	right: 20px;\r\n}\r\n#SkillListV2 .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#lvlup_job {\r\n	z-index: 51;\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 0px;\r\n	width: 43px;\r\n	height: 43px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#SkillListV2 .tab-content {\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: calc(100% - 12px);\r\n	height: 375px;\r\n}\r\n\r\n/* skill tree with tabs */\r\n#SkillListV2 .skillCol .name,\r\n#SkillListV2 .skillCol .selectable {\r\n	position: relative;\r\n	text-align: center;\r\n	display: block;\r\n	width: 70px;\r\n	left: -23px;\r\n}\r\n#SkillListV2 .skillCol .skill {\r\n	position: relative;\r\n	top: -16px;\r\n}\r\n#SkillListV2 .skillRow {\r\n	display: flex;\r\n	padding-left: 40px;\r\n}\r\n#SkillListV2 .skillCol {\r\n	position: relative;\r\n	margin: 15px 17px;\r\n	border: 1px dashed #c0c0c0ff;\r\n	border-radius: 5px;\r\n	width: 28px;\r\n	height: 28px;\r\n	text-align: center;\r\n	white-space: nowrap;\r\n}\r\n#SkillListV2 .tabs {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs::before,\r\n#SkillListV2 .tabs::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label {\r\n	display: block;\r\n	top: 6px;\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -18px;\r\n	width: 18px;\r\n	min-height: 38px;\r\n	padding: 6px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 1px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content {\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch:checked + .tab-label {\r\n	width: 20px;\r\n	left: -20px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch:checked + label + .tab-content {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n#SkillListV2 .needleSkill {\r\n	background: pink !important;\r\n}\r\n#SkillListV2 .upgradable {\r\n	background: #c0cdff;\r\n}\r\n#SkillListV2 .counterSkill {\r\n	position: absolute;\r\n	left: 28px;\r\n	top: 18px;\r\n	color: #fff;\r\n	-webkit-text-stroke: 0.6px #2f2f2f;\r\n	font-weight: 1000;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.js
@@ -524094,7 +537061,7 @@ var init_GameToolsConfirm = __esmMin((() => {}));
 function changedValues(form, current) {
 	return Object.fromEntries(new FormData(form).entries().map(([key, value]) => [key, Number(value)]).filter(([key, value]) => value !== current[key]));
 }
-function mount$2(container) {
+function mount$2(container, { close }) {
 	container.classList.add("management-tab", "character-attributes-tab");
 	let snapshot;
 	let selectedJobId;
@@ -524129,6 +537096,8 @@ function mount$2(container) {
 			for (const { type, payload } of commands) snapshot = await maintainCurrentCharacter(type, payload);
 			selectedJobId = snapshot.job_id;
 			status = "操作成功，已读取最新状态";
+			const jobChange = commands.find((command) => command.type === "character.progression.update" && command.payload.job_id !== void 0);
+			if (jobChange && snapshot.job_id === jobChange.payload.job_id) close();
 		} catch (error) {
 			status = error.message;
 			statusError = true;
@@ -524895,6 +537864,7 @@ var init_ItemCatalogTab = __esmMin((() => {
 	ItemCatalogTab_default = {
 		id: "items",
 		label: "物品图鉴",
+		capability: "adminAvailable",
 		mount
 	};
 }));
@@ -524940,6 +537910,9 @@ var init_GameTools = __esmMin((() => {
 	GameTools = new GUIComponent("GameTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default);
 	shouldRestoreAfterMapLoad = false;
 	GameTools.render = () => GameTools_default$2;
+	GameTools.onShortCut = function onShortCut(key) {
+		if (key.cmd === "TOGGLE") this.toggle();
+	};
 	GameTools.init = function init() {
 		const root = this.getRoot();
 		this.draggable(".titlebar");
@@ -524953,6 +537926,7 @@ var init_GameTools = __esmMin((() => {
 	GameTools.renderTabs = function renderTabs() {
 		const root = this.getRoot();
 		const tabs = getGameToolsTabs().filter((tab) => !tab.capability || capabilities?.[tab.capability] === true);
+		if (!tabs.length) return;
 		const selected = tabs.find((tab) => tab.id === preferences.tab) || tabs[0];
 		root.querySelector(".tab-list").innerHTML = tabs.map((tab) => `<button class="tab-button${tab.id === selected.id ? " active" : ""}" type="button" role="tab" data-tab="${tab.id}">${tab.label}</button>`).join("");
 		root.querySelectorAll(".tab-button").forEach((button) => {
@@ -524971,7 +537945,13 @@ var init_GameTools = __esmMin((() => {
 		cleanupTab?.();
 		const content = this.getRoot().querySelector(".tab-content");
 		content.innerHTML = "<div class=\"game-tools-tab\"></div>";
-		cleanupTab = tab.mount(content.firstElementChild, { capabilities });
+		cleanupTab = tab.mount(content.firstElementChild, {
+			capabilities,
+			close: () => {
+				shouldRestoreAfterMapLoad = false;
+				this._host.style.display = "none";
+			}
+		});
 	};
 	GameTools.onAppend = function onAppend() {
 		this.centerInViewport();
@@ -525007,12 +537987,16 @@ var init_GameTools = __esmMin((() => {
 	};
 	GameTools.refreshCapabilities = async function refreshCapabilities() {
 		try {
-			const nextCapabilities = await loadAdventureControlBootstrap();
+			const nextCapabilities = {
+				...await loadAdventureControlBootstrap(),
+				adminAvailable: true
+			};
 			const changed = JSON.stringify(capabilities) !== JSON.stringify(nextCapabilities);
 			capabilities = nextCapabilities;
 			if (changed) this.renderTabs();
 		} catch {
 			capabilities = {
+				adminAvailable: false,
 				characterMaintenanceAllowed: false,
 				gameSettingsAllowed: false,
 				itemGrantAllowed: false
@@ -525239,6 +538223,8 @@ function createBasicInfo(config) {
 		if (!inner) return;
 		inner.classList.toggle("small");
 		inner.classList.toggle("large");
+		_preferences.reduce = inner.classList.contains("small");
+		_preferences.save();
 		if (hasToolbarToggle) {
 			applyToolbarButtons(root);
 			return;
@@ -525529,13 +538515,13 @@ var init_BasicInfoV3 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.html?raw
 var BasicInfoV4_default$2;
 var init_BasicInfoV4$2 = __esmMin((() => {
-	BasicInfoV4_default$2 = "<div\r\n	id=\"BasicInfoV4\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"line2\">\r\n			Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span class=\"jlvl_value\"></span>\r\n			/ Exp. <span class=\"bexp_value\"></span>\r\n		</div>\r\n		<div class=\"line3\">\r\n			HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span> | SP.\r\n			<span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<button\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</button>\r\n		<button\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</button>\r\n		<button\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</button>\r\n		<button\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</button>\r\n		<button\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</button>\r\n		<button\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</button>\r\n		<button\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</button>\r\n		<button\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</button>\r\n		<button\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</button>\r\n		<button\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</button>\r\n		<button\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具</span>\r\n		</button>\r\n		<button\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</button>\r\n		<button\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</button>\r\n		<button\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</button>\r\n		<button\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</button>\r\n		<button\r\n			id=\"achievement\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</button>\r\n		<button\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</button>\r\n		<button\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</button>\r\n		<button\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</button>\r\n		<button\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</button>\r\n		<!--<button class=\"reputation\" data-background=\"menu_icon/\" data-hover=\"menu_icon/\" data-down=\"menu_icon/\"></button> -->\r\n	</div>\r\n</div>\r\n";
+	BasicInfoV4_default$2 = "<div\r\n	id=\"BasicInfoV4\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"line2\">\r\n			Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span class=\"jlvl_value\"></span>\r\n			/ Exp. <span class=\"bexp_value\"></span>\r\n		</div>\r\n		<div class=\"line3\">\r\n			HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span> | SP.\r\n			<span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<button\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</button>\r\n		<button\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</button>\r\n		<button\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</button>\r\n		<button\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</button>\r\n		<button\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</button>\r\n		<button\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</button>\r\n		<button\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</button>\r\n		<button\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</button>\r\n		<button\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</button>\r\n		<button\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</button>\r\n		<button\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</button>\r\n		<button\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</button>\r\n		<button\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</button>\r\n		<button\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</button>\r\n		<button\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</button>\r\n		<button\r\n			id=\"achievement\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</button>\r\n		<button\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</button>\r\n		<button\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</button>\r\n		<button\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具（Alt + F）</span>\r\n		</button>\r\n		<button\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</button>\r\n		<!--<button class=\"reputation\" data-background=\"menu_icon/\" data-hover=\"menu_icon/\" data-down=\"menu_icon/\"></button> -->\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.css?raw
 var BasicInfoV4_default$1;
 var init_BasicInfoV4$1 = __esmMin((() => {
-	BasicInfoV4_default$1 = ":host {\r\n	width: 220px;\r\n	height: 135px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV4 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 135px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV4.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV4.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV4.small {\r\n	height: 53px;\r\n}\r\n#BasicInfoV4.large .bt_menu {\r\n	top: 135px;\r\n}\r\n#BasicInfoV4.small .bt_menu {\r\n	top: 53px;\r\n}\r\n\r\n#BasicInfoV4.large .buttons {\r\n	top: 144px;\r\n}\r\n#BasicInfoV4.small .buttons {\r\n	top: 62px;\r\n}\r\n\r\n#BasicInfoV4 .topbar {\r\n	height: 16px;\r\n}\r\n#BasicInfoV4 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV4 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV4 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV4 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV4 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV4 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .hp_bar,\r\n#BasicInfoV4 .large .sp_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV4 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV4 .large .hp_bar div,\r\n#BasicInfoV4 .large .sp_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV4 .large div.hp_bar_perc,\r\n#BasicInfoV4 .large div.sp_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV4 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV4 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV4 .large .blvl {\r\n	position: absolute;\r\n	top: 86px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .jlvl {\r\n	position: absolute;\r\n	top: 97px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .bexp,\r\n#BasicInfoV4 .large .jexp {\r\n	position: absolute;\r\n	top: 89px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV4 .large .bexp div,\r\n#BasicInfoV4 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV4 .large .jexp {\r\n	top: 101px;\r\n}\r\n#BasicInfoV4 .large .extra {\r\n	position: absolute;\r\n	top: 119px;\r\n	right: -15px;\r\n	width: 100%;\r\n	padding-right: 20px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: right;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	display: grid;\r\n	grid-template-columns: auto auto auto auto auto;\r\n	justify-items: center;\r\n	background-position: left bottom;\r\n}\r\n#BasicInfoV4 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV4 .buttons:hover {\r\n}\r\n#BasicInfoV4 .buttons button {\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n	background: transparent;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV4 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .small .line2 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .small .line3 {\r\n	position: absolute;\r\n	top: 36px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV4 .buttons button .name {\r\n	pointer-events: none;\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV4 .buttons button:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV4 .buttons button .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV4 .buttons .btn_overlay {\r\n	pointer-events: none;\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: relative;\r\n	top: -6px;\r\n	left: 0;\r\n	display: none;\r\n}\r\n#BasicInfoV4 .buttons button:active .btn_overlay {\r\n	pointer-events: none;\r\n	top: -5px;\r\n}\r\n";
+	BasicInfoV4_default$1 = ":host {\r\n	width: 220px;\r\n	height: 135px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV4 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 135px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV4.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV4.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV4.small {\r\n	height: 53px;\r\n}\r\n#BasicInfoV4.large .bt_menu {\r\n	top: 135px;\r\n}\r\n#BasicInfoV4.small .bt_menu {\r\n	top: 53px;\r\n}\r\n\r\n#BasicInfoV4.large .buttons {\r\n	top: 144px;\r\n}\r\n#BasicInfoV4.small .buttons {\r\n	top: 62px;\r\n}\r\n\r\n#BasicInfoV4 .topbar {\r\n	height: 16px;\r\n}\r\n#BasicInfoV4 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV4 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV4 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV4 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV4 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV4 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .hp_bar,\r\n#BasicInfoV4 .large .sp_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV4 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV4 .large .hp_bar div,\r\n#BasicInfoV4 .large .sp_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV4 .large div.hp_bar_perc,\r\n#BasicInfoV4 .large div.sp_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV4 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV4 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV4 .large .blvl {\r\n	position: absolute;\r\n	top: 86px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .jlvl {\r\n	position: absolute;\r\n	top: 97px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .bexp,\r\n#BasicInfoV4 .large .jexp {\r\n	position: absolute;\r\n	top: 89px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV4 .large .bexp div,\r\n#BasicInfoV4 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV4 .large .jexp {\r\n	top: 101px;\r\n}\r\n#BasicInfoV4 .large .extra {\r\n	position: absolute;\r\n	top: 119px;\r\n	left: 10px;\r\n	right: 10px;\r\n	width: auto;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	display: grid;\r\n	grid-template-columns: auto auto auto auto auto;\r\n	justify-items: center;\r\n	background-position: left bottom;\r\n}\r\n#BasicInfoV4 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV4 .buttons:hover {\r\n}\r\n#BasicInfoV4 .buttons button {\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n	background: transparent;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV4 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .small .line2 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .small .line3 {\r\n	position: absolute;\r\n	top: 36px;\r\n	left: 10px;\r\n	right: 10px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV4 .buttons button .name {\r\n	pointer-events: none;\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV4 .buttons button:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV4 .buttons button .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV4 .buttons .btn_overlay {\r\n	pointer-events: none;\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: relative;\r\n	top: -6px;\r\n	left: 0;\r\n	display: none;\r\n}\r\n#BasicInfoV4 .buttons button:active .btn_overlay {\r\n	pointer-events: none;\r\n	top: -5px;\r\n}\r\n#BasicInfoV4 .hp_title,\r\n#BasicInfoV4 .sp_title,\r\n#BasicInfoV4 .hp_value,\r\n#BasicInfoV4 .hp_max_value,\r\n#BasicInfoV4 .sp_value,\r\n#BasicInfoV4 .sp_max_value,\r\n#BasicInfoV4 .hp_perc,\r\n#BasicInfoV4 .sp_perc { font-weight: normal; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.js
@@ -525573,13 +538559,13 @@ var init_BasicInfoV4 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.html?raw
 var BasicInfoV5_default$2;
 var init_BasicInfoV5$2 = __esmMin((() => {
-	BasicInfoV5_default$2 = "<div\r\n	id=\"BasicInfoV5\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/w_basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"ap_title\">AP</div>\r\n		<div class=\"ap_bar\">\r\n			<div class=\"ap_bar_left\"></div>\r\n			<div class=\"ap_bar_middle\"></div>\r\n			<div class=\"ap_bar_right\"></div>\r\n			<div class=\"ap_bar_perc\"><span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"ap_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"info-container\">\r\n			<div class=\"line2\">\r\n				Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span\r\n					class=\"jlvl_value\"\r\n				></span>\r\n			</div>\r\n			<div class=\"line3\">\r\n				<span class=\"hpcontainer\">HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></span\r\n				><span class=\"expcontainer\">| Exp. <span class=\"bexp_value\"></span></span>\r\n			</div>\r\n			<div class=\"line4\">\r\n				<span class=\"spcontainer\">SP. <span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></span\r\n				><span class=\"apcontainer\"\r\n					>| AP. <span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span\r\n				></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<div\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</div>\r\n		<div\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</div>\r\n		<div\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</div>\r\n		<div\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</div>\r\n		<div\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</div>\r\n		<div\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</div>\r\n		<div\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</div>\r\n		<div\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</div>\r\n		<div\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</div>\r\n		<div\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具</span>\r\n		</div>\r\n		<div\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</div>\r\n		<div\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</div>\r\n		<div\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</div>\r\n		<div\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</div>\r\n		<div\r\n			id=\"achievement\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</div>\r\n		<div\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</div>\r\n		<div\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</div>\r\n		<div\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</div>\r\n		<div\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"repute\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_repute.bmp\"\r\n			data-down=\"menu_icon/bt_repute_press.bmp\"\r\n		>\r\n			<span class=\"name\">声望状态</span>\r\n		</div>\r\n		<!-- <div class=\"clear\"></div> -->\r\n	</div>\r\n</div>\r\n";
+	BasicInfoV5_default$2 = "<div\r\n	id=\"BasicInfoV5\"\r\n	class=\"large\"\r\n	data-background=\"basic_interface/w_basewin_bg2.bmp\"\r\n	data-preload=\"basic_interface/gzered_left.bmp;basic_interface/gzered_mid.bmp;basic_interface/gzered_right.bmp;basic_interface/gzeblue_left.bmp;basic_interface/gzeblue_mid.bmp;basic_interface/gzeblue_right.bmp\"\r\n>\r\n	<div class=\"topbar\">\r\n		<button\r\n			class=\"left\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<button\r\n			class=\"right\"\r\n			data-background=\"basic_interface/sys_mini_off.bmp\"\r\n			data-hover=\"basic_interface/sys_mini_on.bmp\"\r\n		></button>\r\n	</div>\r\n\r\n	<!-- LARGE INTERFACE -->\r\n	<div class=\"large\">\r\n		<div class=\"title\" data-text=\"238\">基本信息</div>\r\n		<div class=\"name\"><span class=\"name_value\"></span></div>\r\n		<div class=\"job\"><span class=\"job_value\"></span></div>\r\n\r\n		<div class=\"hp_title\">HP</div>\r\n		<div class=\"hp_bar\">\r\n			<div class=\"hp_bar_left\"></div>\r\n			<div class=\"hp_bar_middle\"></div>\r\n			<div class=\"hp_bar_right\"></div>\r\n			<div class=\"hp_bar_perc\"><span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"hp_perc\"></div>\r\n\r\n		<div class=\"sp_title\">SP</div>\r\n		<div class=\"sp_bar\">\r\n			<div class=\"sp_bar_left\"></div>\r\n			<div class=\"sp_bar_middle\"></div>\r\n			<div class=\"sp_bar_right\"></div>\r\n			<div class=\"sp_bar_perc\"><span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"sp_perc\"></div>\r\n\r\n		<div class=\"ap_title\">AP</div>\r\n		<div class=\"ap_bar\">\r\n			<div class=\"ap_bar_left\"></div>\r\n			<div class=\"ap_bar_middle\"></div>\r\n			<div class=\"ap_bar_right\"></div>\r\n			<div class=\"ap_bar_perc\"><span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span></div>\r\n		</div>\r\n		<div class=\"ap_perc\"></div>\r\n\r\n		<div class=\"blvl\">基础等级 <span class=\"blvl_value\"></span></div>\r\n		<div class=\"bexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"jlvl\">职业等级 <span class=\"jlvl_value\"></span></div>\r\n		<div class=\"jexp\">\r\n			<div></div>\r\n		</div>\r\n\r\n		<div class=\"extra\">\r\n			<span class=\"weight\">重量：<span class=\"weight_value\">0</span> / <span class=\"weight_total\">0</span></span>\r\n			Zeny : <span class=\"zeny_value\">0</span>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- SMALL INTERFACE -->\r\n	<div class=\"small\">\r\n		<div class=\"line1 name_value\"></div>\r\n		<div class=\"info-container\">\r\n			<div class=\"line2\">\r\n				Lv.<span class=\"blvl_value\"></span> / <span class=\"job_value\"></span> / Lv.<span\r\n					class=\"jlvl_value\"\r\n				></span>\r\n			</div>\r\n			<div class=\"line3\">\r\n				<span class=\"hpcontainer\">HP. <span class=\"hp_value\"></span> / <span class=\"hp_max_value\"></span></span\r\n				><span class=\"expcontainer\">| Exp. <span class=\"bexp_value\"></span></span>\r\n			</div>\r\n			<div class=\"line4\">\r\n				<span class=\"spcontainer\">SP. <span class=\"sp_value\"></span> / <span class=\"sp_max_value\"></span></span\r\n				><span class=\"apcontainer\"\r\n					>| AP. <span class=\"ap_value\"></span> / <span class=\"ap_max_value\"></span\r\n				></span>\r\n			</div>\r\n		</div>\r\n	</div>\r\n\r\n	<button\r\n		id=\"btn_open\"\r\n		class=\"btn_open bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_press.bmp\"\r\n	></button>\r\n	<button\r\n		id=\"btn_close\"\r\n		class=\"btn_close bt_menu toggle_btns\"\r\n		data-background=\"menu_icon/bt_menu_close_normal.bmp\"\r\n		data-hover=\"menu_icon/bt_menu_close_over.bmp\"\r\n		data-down=\"menu_icon/bt_menu_close_press.bmp\"\r\n	></button>\r\n\r\n	<!-- BUTTONS -->\r\n	<div class=\"buttons\" data-background=\"menu_icon/bg_menu.tga\">\r\n		<div\r\n			id=\"info\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_status.bmp\"\r\n			data-down=\"menu_icon/bt_status_press.bmp\"\r\n		>\r\n			<span class=\"name\">状态（Alt + A）</span>\r\n		</div>\r\n		<div\r\n			id=\"equip\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_equip.bmp\"\r\n			data-down=\"menu_icon/bt_equip_press.bmp\"\r\n		>\r\n			<span class=\"name\">装备（Alt + Q）</span>\r\n		</div>\r\n		<div\r\n			id=\"item\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_item.bmp\"\r\n			data-down=\"menu_icon/bt_item_press.bmp\"\r\n		>\r\n			<div\r\n				class=\"btn_overlay\"\r\n				data-background=\"menu_icon/bt_item_new.bmp\"\r\n				data-down=\"menu_icon/bt_item_new_press.bmp\"\r\n			></div>\r\n			<span class=\"name\">背包（Alt + E）</span>\r\n		</div>\r\n		<div\r\n			id=\"skill\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_skill.bmp\"\r\n			data-down=\"menu_icon/bt_skill_press.bmp\"\r\n		>\r\n			<span class=\"name\">技能树（Alt + S）</span>\r\n		</div>\r\n		<div\r\n			id=\"party\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_party.bmp\"\r\n			data-down=\"menu_icon/bt_party_press.bmp\"\r\n		>\r\n			<span class=\"name\">队伍（Alt + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"guild\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_guild.bmp\"\r\n			data-down=\"menu_icon/bt_guild_press.bmp\"\r\n		>\r\n			<span class=\"name\">公会（Alt + G）</span>\r\n		</div>\r\n		<div\r\n			id=\"battle\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_battle.bmp\"\r\n			data-down=\"menu_icon/bt_battle_press.bmp\"\r\n		>\r\n			<span class=\"name\">战场</span>\r\n		</div>\r\n		<div\r\n			id=\"quest\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_quest.bmp\"\r\n			data-down=\"menu_icon/bt_quest_press.bmp\"\r\n		>\r\n			<span class=\"name\">任务列表（Alt + U）</span>\r\n		</div>\r\n		<div\r\n			id=\"map\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_map.bmp\"\r\n			data-down=\"menu_icon/bt_map_press.bmp\"\r\n		>\r\n			<span class=\"name\">世界地图（Ctrl + '）</span>\r\n		</div>\r\n		<div\r\n			id=\"navigation\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_navigation.bmp\"\r\n			data-down=\"menu_icon/bt_navigation_press.bmp\"\r\n		>\r\n			<span class=\"name\">导航</span>\r\n		</div>\r\n		<div\r\n			id=\"attendance\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_attendance.bmp\"\r\n			data-down=\"menu_icon/bt_attendance_press.bmp\"\r\n		>\r\n			<span class=\"name\">签到</span>\r\n		</div>\r\n		<div\r\n			id=\"option\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_option.bmp\"\r\n			data-down=\"menu_icon/bt_option_press.bmp\"\r\n		>\r\n			<span class=\"name\">选项（Esc）</span>\r\n		</div>\r\n		<div\r\n			id=\"bank\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_bank.bmp\"\r\n			data-down=\"menu_icon/bt_bank_press.bmp\"\r\n		>\r\n			<span class=\"name\">银行（Ctrl + B）</span>\r\n		</div>\r\n		<div\r\n			id=\"replay\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_rec.bmp\"\r\n			data-down=\"menu_icon/bt_rec_press.bmp\"\r\n		>\r\n			<span class=\"name\">回放</span>\r\n		</div>\r\n		<div\r\n			id=\"mail\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_mail.bmp\"\r\n			data-down=\"menu_icon/bt_mail_press.bmp\"\r\n		>\r\n			<span class=\"name\">邮件</span>\r\n		</div>\r\n		<div\r\n			id=\"achievement\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_achievement.bmp\"\r\n			data-down=\"menu_icon/bt_achievement_press.bmp\"\r\n		>\r\n			<span class=\"name\">成就</span>\r\n		</div>\r\n		<div\r\n			id=\"tipbox\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">提示框（Alt + D）</span>\r\n		</div>\r\n		<div\r\n			id=\"shortcut\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_keyboard.bmp\"\r\n			data-down=\"menu_icon/bt_keyboard_press.bmp\"\r\n		>\r\n			<span class=\"name\">快捷键说明</span>\r\n		</div>\r\n		<div\r\n			id=\"game-tools\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_tip.bmp\"\r\n			data-down=\"menu_icon/bt_tip_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险工具（Alt + F）</span>\r\n		</div>\r\n		<div\r\n			id=\"agency\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_adventureragency.bmp\"\r\n			data-down=\"menu_icon/bt_adventureragency_press.bmp\"\r\n		>\r\n			<span class=\"name\">冒险者公会（Ctrl + Z）</span>\r\n		</div>\r\n		<div\r\n			id=\"repute\"\r\n			class=\"event_add_cursor\"\r\n			data-background=\"menu_icon/bt_repute.bmp\"\r\n			data-down=\"menu_icon/bt_repute_press.bmp\"\r\n		>\r\n			<span class=\"name\">声望状态</span>\r\n		</div>\r\n		<!-- <div class=\"clear\"></div> -->\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.css?raw
 var BasicInfoV5_default$1;
 var init_BasicInfoV5$1 = __esmMin((() => {
-	BasicInfoV5_default$1 = ":host {\r\n	width: 220px;\r\n	height: 150px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV5 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 150px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV5.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV5.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV5.small {\r\n	height: 70px;\r\n}\r\n#BasicInfoV5.large .bt_menu {\r\n	top: 150px;\r\n}\r\n#BasicInfoV5.small .bt_menu {\r\n	top: 70px;\r\n}\r\n\r\n#BasicInfoV5.large .buttons {\r\n	top: 160px;\r\n}\r\n#BasicInfoV5.small .buttons {\r\n	top: 80px;\r\n}\r\n\r\n#BasicInfoV5 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV5 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV5 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV5 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV5 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV5 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .ap_title {\r\n	position: absolute;\r\n	top: 80px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .hp_bar,\r\n#BasicInfoV5 .large .sp_bar,\r\n#BasicInfoV5 .large .ap_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV5 .large .ap_bar {\r\n	top: 83px;\r\n	background: linear-gradient(\r\n		to bottom,\r\n		#5a5a63 0%,\r\n		#a5a5ad 15%,\r\n		#bdc6ce 30%,\r\n		#ceced6 45%,\r\n		#d6dede 65%,\r\n		#e7e7ef 70%,\r\n		#f7f7f7 80%\r\n	);\r\n	border-radius: 15px;\r\n	border: 1px solid #b5b5b5;\r\n}\r\n#BasicInfoV5 .large .hp_bar div,\r\n#BasicInfoV5 .large .sp_bar div,\r\n#BasicInfoV5 .large .ap_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV5 .large div.hp_bar_perc,\r\n#BasicInfoV5 .large div.sp_bar_perc,\r\n#BasicInfoV5 .large div.ap_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV5 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .ap_perc {\r\n	position: absolute;\r\n	top: 80px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .blvl {\r\n	position: absolute;\r\n	top: 101px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .jlvl {\r\n	position: absolute;\r\n	top: 112px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .bexp,\r\n#BasicInfoV5 .large .jexp {\r\n	position: absolute;\r\n	top: 104px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV5 .large .bexp div,\r\n#BasicInfoV5 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV5 .large .jexp {\r\n	top: 116px;\r\n}\r\n#BasicInfoV5 .large .extra {\r\n	position: absolute;\r\n	top: 134px;\r\n	right: -15px;\r\n	width: 100%;\r\n	padding-right: 20px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: right;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	height: 176px;\r\n	background-repeat: repeat-y;\r\n	background-position: bottom; /* alinha o fundo pela base */\r\n}\r\n#BasicInfoV5 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV5 .buttons:hover {\r\n}\r\n#BasicInfoV5 .buttons > div[id] {\r\n	float: left;\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n}\r\n#BasicInfoV5 .buttons .clear {\r\n	clear: both;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV5 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .info-container {\r\n	position: absolute;\r\n	top: 17px;\r\n	height: 60px;\r\n	width: 220px;\r\n	background-color: #ffffff;\r\n}\r\n#BasicInfoV5 .small .hpcontainer,\r\n#BasicInfoV5 .small .spcontainer {\r\n	position: absolute;\r\n	width: 130px;\r\n}\r\n#BasicInfoV5 .small .expcontainer,\r\n#BasicInfoV5 .small .apcontainer {\r\n	position: absolute;\r\n	width: 65px;\r\n	left: 140px;\r\n}\r\n#BasicInfoV5 .small .line2 {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .line3 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line3 .hp_max_value {\r\n	display: inline-block;\r\n	width: 65px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 .sp_max_value {\r\n	display: inline-block;\r\n	width: 73px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV5 .buttons div .name {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV5 .buttons div:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV5 .buttons div .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV5 .buttons .btn_overlay {\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: relative;\r\n	top: -13px;\r\n	left: -7px;\r\n	z-index: 10;\r\n	display: none;\r\n}\r\n";
+	BasicInfoV5_default$1 = ":host {\r\n	width: 220px;\r\n	height: 150px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV5 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 150px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV5.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV5.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV5.small {\r\n	height: 70px;\r\n}\r\n#BasicInfoV5.large .bt_menu {\r\n	top: 150px;\r\n}\r\n#BasicInfoV5.small .bt_menu {\r\n	top: 70px;\r\n}\r\n\r\n#BasicInfoV5.large .buttons {\r\n	top: 160px;\r\n}\r\n#BasicInfoV5.small .buttons {\r\n	top: 80px;\r\n}\r\n\r\n#BasicInfoV5 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV5 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV5 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV5 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV5 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV5 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .ap_title {\r\n	position: absolute;\r\n	top: 80px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .hp_bar,\r\n#BasicInfoV5 .large .sp_bar,\r\n#BasicInfoV5 .large .ap_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV5 .large .ap_bar {\r\n	top: 83px;\r\n	background: linear-gradient(\r\n		to bottom,\r\n		#5a5a63 0%,\r\n		#a5a5ad 15%,\r\n		#bdc6ce 30%,\r\n		#ceced6 45%,\r\n		#d6dede 65%,\r\n		#e7e7ef 70%,\r\n		#f7f7f7 80%\r\n	);\r\n	border-radius: 15px;\r\n	border: 1px solid #b5b5b5;\r\n}\r\n#BasicInfoV5 .large .hp_bar div,\r\n#BasicInfoV5 .large .sp_bar div,\r\n#BasicInfoV5 .large .ap_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV5 .large div.hp_bar_perc,\r\n#BasicInfoV5 .large div.sp_bar_perc,\r\n#BasicInfoV5 .large div.ap_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV5 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .ap_perc {\r\n	position: absolute;\r\n	top: 80px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .blvl {\r\n	position: absolute;\r\n	top: 101px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .jlvl {\r\n	position: absolute;\r\n	top: 112px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .bexp,\r\n#BasicInfoV5 .large .jexp {\r\n	position: absolute;\r\n	top: 104px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV5 .large .bexp div,\r\n#BasicInfoV5 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV5 .large .jexp {\r\n	top: 116px;\r\n}\r\n#BasicInfoV5 .large .extra {\r\n	position: absolute;\r\n	top: 134px;\r\n	left: 10px;\r\n	right: 10px;\r\n	width: auto;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	height: 176px;\r\n	background-repeat: repeat-y;\r\n	background-position: bottom; /* alinha o fundo pela base */\r\n}\r\n#BasicInfoV5 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV5 .buttons:hover {\r\n}\r\n#BasicInfoV5 .buttons > div[id] {\r\n	float: left;\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n}\r\n#BasicInfoV5 .buttons .clear {\r\n	clear: both;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV5 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .info-container {\r\n	position: absolute;\r\n	top: 17px;\r\n	height: 60px;\r\n	width: 220px;\r\n	background-color: #ffffff;\r\n}\r\n#BasicInfoV5 .small .hpcontainer,\r\n#BasicInfoV5 .small .spcontainer {\r\n	position: absolute;\r\n	width: 130px;\r\n}\r\n#BasicInfoV5 .small .expcontainer,\r\n#BasicInfoV5 .small .apcontainer {\r\n	position: absolute;\r\n	width: 65px;\r\n	left: 140px;\r\n}\r\n#BasicInfoV5 .small .line2 {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .line3 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line3 .hp_max_value {\r\n	display: inline-block;\r\n	width: 65px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 .sp_max_value {\r\n	display: inline-block;\r\n	width: 73px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV5 .buttons div .name {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV5 .buttons div:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV5 .buttons div .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV5 .buttons .btn_overlay {\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: relative;\r\n	top: -13px;\r\n	left: -7px;\r\n	z-index: 10;\r\n	display: none;\r\n}\r\n#BasicInfoV5 .hp_title,\r\n#BasicInfoV5 .sp_title,\r\n#BasicInfoV5 .hp_value,\r\n#BasicInfoV5 .hp_max_value,\r\n#BasicInfoV5 .sp_value,\r\n#BasicInfoV5 .sp_max_value,\r\n#BasicInfoV5 .hp_perc,\r\n#BasicInfoV5 .sp_perc { font-weight: normal; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.js
@@ -545323,7 +558309,7 @@ function getHotKeyString(index) {
 	];
 	if (index < 0 || index >= shortcutKeys.length) return "";
 	const scKey = shortcutKeys[index];
-	const shortcut = ShortCutControls_default.ShortCuts[scKey];
+	const shortcut = preferences$1.ShortCuts[scKey];
 	if (!shortcut) return "";
 	const key = shortcut.cust ? shortcut.cust.key : shortcut.init.key;
 	const alt = shortcut.cust ? shortcut.cust.alt : shortcut.init.alt;
@@ -545603,7 +558589,7 @@ function convertHotkeysToServerFormat() {
 		"Macro9",
 		"Macro10"
 	].forEach((key, index) => {
-		const shortcut = ShortCutControls_default.ShortCuts[key];
+		const shortcut = preferences$1.ShortCuts[key];
 		if (shortcut && shortcut.cust && shortcut.cust.emotion) serverData.data.EmotionHotkey[index] = shortcut.cust.emotion;
 	});
 	[
@@ -545644,7 +558630,7 @@ function convertHotkeysToServerFormat() {
 		"F4_8",
 		"F4_9"
 	].forEach((key, index) => {
-		const shortcut = ShortCutControls_default.ShortCuts[key];
+		const shortcut = preferences$1.ShortCuts[key];
 		if (shortcut) {
 			const keyData = shortcut.cust || shortcut.init;
 			serverData.data.UserHotkey_V2.SkillBar_1Tab.push({
@@ -545674,8 +558660,8 @@ function convertHotkeysFromServerFormat(serverData) {
 		];
 		serverData.data.EmotionHotkey.forEach((emotion, index) => {
 			if (emotion && emotionKeys[index]) {
-				if (!ShortCutControls_default.ShortCuts[emotionKeys[index]].cust) ShortCutControls_default.ShortCuts[emotionKeys[index]].cust = {};
-				ShortCutControls_default.ShortCuts[emotionKeys[index]].cust.emotion = emotion;
+				if (!preferences$1.ShortCuts[emotionKeys[index]].cust) preferences$1.ShortCuts[emotionKeys[index]].cust = {};
+				preferences$1.ShortCuts[emotionKeys[index]].cust.emotion = emotion;
 			}
 		});
 	}
@@ -545722,8 +558708,8 @@ function convertHotkeysFromServerFormat(serverData) {
 			if (skillData && skillData.index < shortcutKeys.length) {
 				const key = shortcutKeys[skillData.index];
 				if (key && skillData.key1) {
-					if (!ShortCutControls_default.ShortCuts[key].cust) ShortCutControls_default.ShortCuts[key].cust = {};
-					ShortCutControls_default.ShortCuts[key].cust.key = skillData.key1;
+					if (!preferences$1.ShortCuts[key].cust) preferences$1.ShortCuts[key].cust = {};
+					preferences$1.ShortCuts[key].cust.key = skillData.key1;
 				}
 			}
 		});
@@ -589260,7 +602246,7 @@ var init_DBManager = __esmMin((() => {
 				mob: (id, fallback) => MonsterNameTable_default[id] || fallback,
 				map: (mapName) => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 			};
-			if (type === "MAP") return listNavigationMaps(WorldMap_default$3, MapInfo, type, (id) => DB.getMapName(id, id), options, catalog.maps);
+			if (type === "MAP") return listSharedMaps(options);
 			return listNavigationRows(catalog.npcs, catalog.monsters, type, localizers, options);
 		}
 		static getNavigationGraph() {
@@ -626554,7 +639540,7 @@ var init_WinLoginV2$2 = __esmMin((() => {
 //#region src/UI/Components/WinLogin/WinLoginV2/WinLoginV2.css?raw
 var WinLoginV2_default$1;
 var init_WinLoginV2$1 = __esmMin((() => {
-	WinLoginV2_default$1 = ":host {\r\n	top: 60%;\r\n	left: calc(50% - 140px);\r\n	width: 301px;\r\n	height: 132px;\r\n}\r\n\r\n#WinLogin {\r\n	position: absolute;\r\n	width: 301px;\r\n	height: 132px;\r\n}\r\n#WinLogin .win_login {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#WinLogin .win_login .server-name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 17px;\r\n	width: 127px;\r\n	height: 18px;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	text-align: center;\r\n}\r\n#WinLogin .win_login input {\r\n	position: absolute;\r\n	left: 17px;\r\n	height: 18px;\r\n	width: 127px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding-left: 2px;\r\n	outline: none;\r\n	text-align: center;\r\n}\r\n#WinLogin .win_login input.user {\r\n	top: 39px;\r\n}\r\n#WinLogin .win_login input.pass {\r\n	top: 61px;\r\n}\r\n#WinLogin .win_login .save {\r\n	position: absolute;\r\n	top: 81px;\r\n	left: 17px;\r\n	display: block;\r\n	width: 72px;\r\n	height: 18px;\r\n	border: none;\r\n	background-color: transparent;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	padding: 0 0 0 17px;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#WinLogin .win_login .save::before {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 1px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: 1px solid #696969;\r\n	background: #ffffff;\r\n	content: '';\r\n}\r\n#WinLogin .win_login .save.is-checked::after {\r\n	position: absolute;\r\n	top: -1px;\r\n	left: 2px;\r\n	color: #202020;\r\n	content: '\\2713';\r\n	font-size: 14px;\r\n	font-weight: bold;\r\n}\r\n#WinLogin .win_login .btn {\r\n	position: absolute;\r\n	border: 0;\r\n	background-color: transparent;\r\n}\r\n#WinLogin .win_login .btn.connect {\r\n	width: 84px;\r\n	height: 84px;\r\n	right: 25px;\r\n	bottom: 15px;\r\n}\r\n#WinLogin .win_login .btn.localized-login {\r\n	border: 1px solid #6f8297;\r\n	border-radius: 4px;\r\n	background: #e8f0f6;\r\n	box-shadow: inset 0 1px 0 #ffffff;\r\n	color: #263747;\r\n	font-size: 14px;\r\n}\r\n#WinLogin .win_login .btn.localized-login:hover {\r\n	background: #d8e8f3;\r\n}\r\n#WinLogin .win_login .btn.localized-login:active {\r\n	background: #c7dce9;\r\n	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);\r\n}\r\n#WinLogin .win_login .btn.signup {\r\n	width: 84px;\r\n	height: 21px;\r\n	right: 130px;\r\n	bottom: 15px;\r\n}\r\n#WinLogin .win_login .btn.exit {\r\n	width: 24px;\r\n	height: 23px;\r\n	right: 7px;\r\n	bottom: 96px;\r\n}\r\n\r\n/* Override browser autofill styles */\r\n#WinLogin .win_login input:-webkit-autofill,\r\n#WinLogin .win_login input:-webkit-autofill:hover,\r\n#WinLogin .win_login input:-webkit-autofill:focus,\r\n#WinLogin .win_login input:-webkit-autofill:active,\r\n#WinLogin .win_login input:-internal-autofill-selected,\r\n#WinLogin .win_login input:-internal-autofill-previewed {\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000s ease-in-out 0s;\r\n	box-shadow: inset 0 0 20px 20px #ffffff00;\r\n}\r\n";
+	WinLoginV2_default$1 = ":host {\r\n	top: 60%;\r\n	left: calc(50% - 140px);\r\n	width: 301px;\r\n	height: 132px;\r\n}\r\n\r\n#WinLogin {\r\n	position: absolute;\r\n	width: 301px;\r\n	height: 132px;\r\n}\r\n#WinLogin .win_login {\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n#WinLogin .win_login .server-name {\r\n	position: absolute;\r\n	top: 13px;\r\n	left: 17px;\r\n	width: 127px;\r\n	height: 18px;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	text-align: center;\r\n}\r\n#WinLogin .win_login input {\r\n	position: absolute;\r\n	left: 17px;\r\n	height: 18px;\r\n	width: 127px;\r\n	border: none;\r\n	background-color: transparent;\r\n	padding-left: 2px;\r\n	outline: none;\r\n	text-align: center;\r\n}\r\n#WinLogin .win_login input.user {\r\n	top: 39px;\r\n}\r\n#WinLogin .win_login input.pass {\r\n	top: 61px;\r\n}\r\n#WinLogin .win_login .save {\r\n	position: absolute;\r\n	top: 88px;\r\n	left: 17px;\r\n	display: block;\r\n	width: 72px;\r\n	height: 18px;\r\n	border: none;\r\n	background-color: transparent;\r\n	color: #303030;\r\n	font-size: 12px;\r\n	line-height: 18px;\r\n	padding: 0 0 0 17px;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#WinLogin .win_login .save::before {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 1px;\r\n	width: 10px;\r\n	height: 10px;\r\n	border: 1px solid #696969;\r\n	background: #ffffff;\r\n	content: '';\r\n}\r\n#WinLogin .win_login .save.is-checked::after {\r\n	position: absolute;\r\n	top: -1px;\r\n	left: 2px;\r\n	color: #202020;\r\n	content: '\\2713';\r\n	font-size: 14px;\r\n	font-weight: bold;\r\n}\r\n#WinLogin .win_login .btn {\r\n	position: absolute;\r\n	border: 0;\r\n	background-color: transparent;\r\n}\r\n#WinLogin .win_login .btn.connect {\r\n	width: 84px;\r\n	height: 84px;\r\n	right: 25px;\r\n	bottom: 15px;\r\n}\r\n#WinLogin .win_login .btn.localized-login {\r\n	border: 1px solid #6f8297;\r\n	border-radius: 4px;\r\n	background: #e8f0f6;\r\n	box-shadow: inset 0 1px 0 #ffffff;\r\n	color: #263747;\r\n	font-size: 14px;\r\n}\r\n#WinLogin .win_login .btn.localized-login:hover {\r\n	background: #d8e8f3;\r\n}\r\n#WinLogin .win_login .btn.localized-login:active {\r\n	background: #c7dce9;\r\n	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);\r\n}\r\n#WinLogin .win_login .btn.signup {\r\n	width: 73px;\r\n	height: 18px;\r\n	left: 99px;\r\n	top: 88px;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n#WinLogin .win_login .btn.exit {\r\n	width: 24px;\r\n	height: 23px;\r\n	right: 7px;\r\n	bottom: 96px;\r\n}\r\n\r\n/* Override browser autofill styles */\r\n#WinLogin .win_login input:-webkit-autofill,\r\n#WinLogin .win_login input:-webkit-autofill:hover,\r\n#WinLogin .win_login input:-webkit-autofill:focus,\r\n#WinLogin .win_login input:-webkit-autofill:active,\r\n#WinLogin .win_login input:-internal-autofill-selected,\r\n#WinLogin .win_login input:-internal-autofill-previewed {\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000s ease-in-out 0s;\r\n	box-shadow: inset 0 0 20px 20px #ffffff00;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/WinLogin/WinLoginV2/WinLoginV2.js
