@@ -247,6 +247,8 @@
 
 #WorldMap .worldmap .section.is-dungeon-label {
 	background-color: transparent !important;
+	pointer-events: none;
+	z-index: 1;
 }
 
 #WorldMap .worldmap .section.is-dungeon-label .section-labels {
@@ -263,6 +265,7 @@
 	border: 0 !important;
 	background-color: transparent !important;
 	display: block !important;
+	pointer-events: none;
 }
 
 #WorldMap .worldmap .section.is-dungeon-stacked .section-labels {

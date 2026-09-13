@@ -93,7 +93,11 @@ function loadMonsterSummaries() {
 
 function populateMonsterSummaries(mapView) {
 	loadMonsterSummaries()
-		.then(summaries => applyMonsterSummaries(mapView, summaries))
+		.then(summaries => {
+			if (!mapView.isConnected) return;
+			applyMonsterSummaries(mapView, summaries);
+			resizeMap();
+		})
 		.catch(error => console.error('[WorldMap] Failed to load monster summaries:', error));
 }
 
@@ -173,6 +177,8 @@ function selectMap(name = null) {
 	if (selectEl) selectEl.value = name;
 
 	const requestId = ++_mapLoadRequestId;
+	_hoveredSection = null;
+	hideTooltip();
 	// load map image asset and render it
 	Client.loadFile(DB.INTERFACE_PATH + name, data => {
 		if (requestId !== _mapLoadRequestId) return;
@@ -196,6 +202,8 @@ function resizeMap() {
 	const root = WorldMap.getRoot();
 	const mapContainer = root.querySelector('.map-view');
 	if (!mapContainer) return;
+	_hoveredSection = null;
+	hideTooltip();
 
 	const currentwidth = (typeof Renderer !== 'undefined' && Renderer.width) || window.innerWidth;
 	const currentheight =
@@ -212,9 +220,38 @@ function resizeMap() {
 	mapContainer.style.width = C_BASEWIDTH * mult + 'px';
 	mapContainer.style.height = C_BASEHEIGHT * mult + 'px';
 	resolveDungeonLabelCollisions(mapContainer);
+	updateDungeonConnectors(mapContainer);
+}
+
+function updateDungeonConnectors(mapView) {
+	const bounds = mapView.getBoundingClientRect();
+	if (!bounds.width || !bounds.height) return;
+	for (const line of mapView.querySelectorAll('.connector-line')) {
+		const section = [...mapView.querySelectorAll('.is-dungeon-label')].find(el => el.id === line.dataset.targetMap);
+		const label = section?.querySelector('.section-labels');
+		if (!label) continue;
+		const rect = label.getBoundingClientRect();
+		const from = {
+			x: Number(line.dataset.parentX) / C_BASEWIDTH * bounds.width,
+			y: Number(line.dataset.parentY) / C_BASEHEIGHT * bounds.height
+		};
+		const to = { x: rect.left - bounds.left + rect.width / 2, y: rect.top - bounds.top + rect.height / 2 };
+		const dx = to.x - from.x, dy = to.y - from.y;
+		const distance = Math.hypot(dx, dy);
+		if (!distance) { line.style.width = '0px'; continue; }
+		const ux = dx / distance, uy = dy / distance;
+		const edge = (width, height) => Math.min(ux ? width / 2 / Math.abs(ux) : Infinity, uy ? height / 2 / Math.abs(uy) : Infinity);
+		const start = edge(Number(line.dataset.parentWidth) / C_BASEWIDTH * bounds.width, Number(line.dataset.parentHeight) / C_BASEHEIGHT * bounds.height);
+		const end = edge(rect.width, rect.height);
+		line.style.left = `${from.x + ux * start}px`;
+		line.style.top = `${from.y + uy * start}px`;
+		line.style.width = `${Math.max(0, distance - start - end)}px`;
+		line.style.transform = `rotate(${Math.atan2(dy, dx)}rad)`;
+	}
 }
 
 function resolveDungeonLabelCollisions(mapView) {
+	if (!mapView.getBoundingClientRect().width) return;
 	const labels = [...mapView.querySelectorAll('.section.is-dungeon-label .section-labels')].sort((left, right) => {
 		const leftRect = left.parentElement.getBoundingClientRect();
 		const rightRect = right.parentElement.getBoundingClientRect();
@@ -222,9 +259,10 @@ function resolveDungeonLabelCollisions(mapView) {
 	});
 	const mapRect = mapView.getBoundingClientRect();
 	const placed = [];
+	// Measure every label from its original position before placing any of them.
+	for (const label of labels) label.style.removeProperty('--label-offset-y');
 
 	for (const label of labels) {
-		label.style.removeProperty('--label-offset-y');
 		const offset = chooseDungeonLabelOffset(label.getBoundingClientRect(), mapRect, placed);
 		label.style.setProperty('--label-offset-y', `${offset}px`);
 		placed.push(label.getBoundingClientRect());
@@ -420,6 +458,11 @@ function createWorldMapView(map, imgData) {
 					if (!renderedConnectorPaths.has(connectorKey)) {
 						const line = document.createElement('div');
 						line.className = 'connector-line';
+						line.dataset.targetMap = section.id;
+						line.dataset.parentX = parentPos.x;
+						line.dataset.parentY = parentPos.y;
+						line.dataset.parentWidth = parentW;
+						line.dataset.parentHeight = parentH;
 
 						line.style.left = `${(startX / C_BASEWIDTH) * 100}%`;
 						line.style.top = `${(startY / C_BASEHEIGHT) * 100}%`;
@@ -471,7 +514,7 @@ function createWorldMapView(map, imgData) {
 			el_displayname.className = 'displayname';
 			if (sectionType === 1) {
 				// dugeons name got direct from worldmap lua files
-				const name = section.name.replace(' 1', '').trim(); // small hack to remove 1 from dungeon names
+				const name = section.name.trim();
 				el_displayname.textContent = name;
 				el.setAttribute('data-displayname', name);
 			} else {
@@ -747,8 +790,12 @@ function onToggleMaps() {
 function onShowLVL() {
 	WorldMap.showLVLMode = !WorldMap.showLVLMode;
 	const root = WorldMap.getRoot();
+	const showLevels = WorldMap.showLVLMode;
+	_hoveredSection = null;
+	hideTooltip();
 
 	Client.loadFile(DB.INTERFACE_PATH + 'checkbox_' + (WorldMap.showLVLMode ? '1' : '0') + '.bmp', function (data) {
+		if (showLevels !== WorldMap.showLVLMode) return;
 		const btn = root.querySelector('.showlvl');
 		if (btn) btn.style.backgroundImage = 'url(' + data + ')';
 	});

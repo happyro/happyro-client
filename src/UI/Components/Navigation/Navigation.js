@@ -947,13 +947,21 @@ Navigation.onMapClick = function onMapClick(event) {
 /**
  * Show the self-teleport action only when the server grants the capability.
  */
+function getTeleportTarget() {
+	return _selectedTargetData || _finalTargetData || _targetData || {
+		map: _mapData?.map || getCurrentMap(),
+		x: 0,
+		y: 0
+	};
+}
+
 Navigation.updateTeleportButton = function updateTeleportButton() {
 	const root = Navigation.getRoot();
 	const button = root?.querySelector('.teleport-button');
 	const npcButton = root?.querySelector('.npc-teleport-button');
 	if (!button || !npcButton) return;
 
-	const target = _selectedTargetData || _finalTargetData || _targetData;
+	const target = getTeleportTarget();
 	const isCrossMap = target?.map && normalizeMapName(target.map) !== getCurrentMap();
 	const canTeleportTarget = canSelfTeleport() && (!isCrossMap || Session.NavigationTeleportCrossMap);
 	const coordinateActionState = getAdventureActionState(
@@ -962,8 +970,8 @@ Navigation.updateTeleportButton = function updateTeleportButton() {
 	const npcTarget = this.targetResult?.type === 'NPC' ? this.targetResult : null;
 	const npcTeleportable =
 		npcTarget && npcTarget.availability !== 'unavailable' && npcTarget.availability !== 'pending';
-	const hasCoordinateTarget = Boolean(!npcTarget && target && Number.isFinite(target.x) && Number.isFinite(target.y));
-	button.style.display = npcTarget ? 'none' : 'inline-block';
+	const hasCoordinateTarget = Boolean(target && Number.isFinite(target.x) && Number.isFinite(target.y));
+	button.style.display = 'inline-block';
 	button.disabled = !hasCoordinateTarget || !canTeleportTarget || !coordinateActionState.canTeleport;
 	npcButton.style.display = npcTeleportable && canTeleportTarget ? 'inline-block' : 'none';
 	npcButton.disabled = _npcTeleportPending || Date.now() < _teleportCooldownUntil;
@@ -1095,11 +1103,10 @@ Navigation.subscribeRouteState = function subscribeRouteState(listener) {
  * The server derives the character from the authenticated game session.
  */
 Navigation.teleportToSelectedTarget = function teleportToSelectedTarget() {
-	const target = _selectedTargetData || _finalTargetData || _targetData;
-	if (!target) return;
+	const target = getTeleportTarget();
+	if (!teleportToCoordinate({ mapName: target.map, x: target.x, y: target.y })) return;
 	this.hide();
 	UIManager.components.WorldMap?.hide?.();
-	teleportToCoordinate({ mapName: target.map, x: target.x, y: target.y });
 	this.setActionStatus('正在等待服务器确认...');
 	this.updateTeleportButton();
 };
@@ -1270,6 +1277,7 @@ Navigation.loadMap = function loadMap(mapName, displayName, onReady) {
  */
 Navigation.showMap = function showMap(mapName, displayName, options = {}) {
 	this.clear();
+	this.targetResult = null;
 	this.show();
 
 	const root = this.getRoot();
@@ -1289,6 +1297,8 @@ Navigation.showCurrentMap = function showCurrentMap() {
 	if (!mapName) return;
 	if (_autoWalkActive || _autoWalkRequested) {
 		this.show();
+		this.loadMap(mapName);
+		this.setLocationTitle(mapName, _finalTargetData?.map, _finalTargetData?.displayName);
 		return;
 	}
 	this.showMap(mapName, DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName));
@@ -1754,10 +1764,10 @@ Navigation.toggle = function toggle() {
 			maxZ = Math.max(maxZ, parseInt(other._host?.style.zIndex, 10) || 0);
 		}
 		if (currentZ >= maxZ) this.hide();
-		else this.focus();
+		else this.showCurrentMap();
 		return;
 	}
-	this.show();
+	this.showCurrentMap();
 };
 
 /**
