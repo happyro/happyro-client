@@ -1219,7 +1219,7 @@ export function createSkillList({
 				contentbig.style.height = `${height * 32}px`;
 			}
 			root.querySelectorAll('.footer .btn').forEach(el => {
-				el.style.display = 'block';
+				el.style.display = 'inline-flex';
 			});
 		}
 	}

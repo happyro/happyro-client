@@ -97,6 +97,7 @@
 	display: none;
 }
 #SkillListV2 .tab-label-mini {
+	display: block;
 	writing-mode: vertical-lr;
 	text-orientation: upright;
 	left: -23px;
@@ -202,6 +203,9 @@
 	margin-left: 10px;
 }
 #SkillListV2 .footer .btn {
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
 	position: absolute;
 	top: 5px;
 	border: 0;
@@ -290,15 +294,17 @@
 	display: none;
 }
 #SkillListV2 .tab-label {
+	display: block;
+	top: 6px;
 	writing-mode: vertical-lr;
 	text-orientation: upright;
-	left: -23px;
+	left: -18px;
 	width: 18px;
-	min-height: 48px;
-	padding: 8px 0;
+	min-height: 38px;
+	padding: 6px 0;
 	box-sizing: border-box;
 	position: relative;
-	margin: 2px 0;
+	margin: 1px 0;
 	border: 1px solid #c1c6c2;
 	background: #fff;
 	border-radius: 5px 0 0 5px;
@@ -314,7 +320,7 @@
 }
 #SkillListV2 .tab-switch:checked + .tab-label {
 	width: 20px;
-	left: -25px;
+	left: -20px;
 	z-index: 1;
 }
 #SkillListV2 .tab-switch:checked + label + .tab-content {
