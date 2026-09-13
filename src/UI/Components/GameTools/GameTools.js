@@ -57,6 +57,7 @@ GameTools.init = function init() {
 GameTools.renderTabs = function renderTabs() {
 	const root = this.getRoot();
 	const tabs = getGameToolsTabs().filter(tab => !tab.capability || capabilities?.[tab.capability] === true);
+	if (!tabs.length) return;
 	const selected = tabs.find(tab => tab.id === preferences.tab) || tabs[0];
 	root.querySelector('.tab-list').innerHTML = tabs
 		.map(
