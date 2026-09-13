@@ -43,6 +43,10 @@ function validationMessage(input) {
 
 GameTools.render = () => htmlText;
 
+GameTools.onShortCut = function onShortCut(key) {
+	if (key.cmd === 'TOGGLE') this.toggle();
+};
+
 GameTools.init = function init() {
 	const root = this.getRoot();
 	this.draggable('.titlebar');

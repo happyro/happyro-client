@@ -510,4 +510,6 @@ ShortCuts.Flag9 = {
 
 const ShortCutControls = { ShortCuts: ShortCuts };
 
-export default Preferences.get('ShortCutControls', ShortCutControls, 1.2);
+const preferences = Preferences.get('ShortCutControls', ShortCutControls, 1.2);
+preferences.ShortCuts = { ...ShortCuts, ...preferences.ShortCuts };
+export default preferences;
