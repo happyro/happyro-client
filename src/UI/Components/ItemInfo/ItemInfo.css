@@ -24,10 +24,9 @@
 .ItemInfo .event_view {
 	position: absolute;
 	top: auto;
-	bottom: 8px;
+	bottom: 6px;
 	left: 10px;
-	width: auto;
-	min-width: 42px;
+	width: 75px;
 	height: 20px;
 }
 .ItemInfo .event_view .view {
@@ -36,11 +35,14 @@
 	align-items: center;
 	justify-content: center;
 	width: auto;
-	min-width: 42px;
+	min-width: 48px;
 	height: 20px;
 	padding: 0 8px;
 	box-sizing: border-box;
 	font-size: 12px;
+	line-height: 1;
+	white-space: nowrap;
+	word-break: normal;
 	background-repeat: no-repeat;
 	background-color: transparent;
 	border: none;
