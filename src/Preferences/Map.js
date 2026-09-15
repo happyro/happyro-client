@@ -21,7 +21,7 @@ export default Preferences.get(
 		 *
 		 * Toggle by using "/fog" in the chatbox
 		 */
-		fog: true,
+		fog: false,
 
 		/**
 		 * Display lightmap ?

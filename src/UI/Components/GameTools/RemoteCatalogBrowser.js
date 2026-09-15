@@ -96,6 +96,7 @@ export function mountRemoteCatalogBrowser(container, options) {
 
 	function resetAndLoad() {
 		state.page = 1;
+		list.scrollTop = 0;
 		void loadPage();
 	}
 	search.addEventListener('input', () => {
@@ -113,7 +114,18 @@ export function mountRemoteCatalogBrowser(container, options) {
 	const filterValues = () =>
 		Object.fromEntries(filters.filter(item => item.name).map(item => [item.name, item.value]));
 	options.onFiltersChange?.(filterValues());
-	options.onReady?.({ container, reload: resetAndLoad, refreshDetail: renderDetail });
+	options.onReady?.({
+		container,
+		reload: resetAndLoad,
+		reset() {
+			clearTimeout(searchTimer);
+			search.value = '';
+			state.selected = null;
+			renderDetail();
+			resetAndLoad();
+		},
+		refreshDetail: renderDetail
+	});
 	container.querySelector('.catalog-prev').addEventListener('click', () => {
 		state.page -= 1;
 		void loadPage();

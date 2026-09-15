@@ -16,8 +16,6 @@ export default createCharCreate({
 	name: 'CharCreatev3',
 	htmlText,
 	cssText,
-	hostHeight: 342,
-	hostWidth: 576,
 	hasRace: true,
 	humanCanvasSelector: '#canvas_human',
 	doramCanvasSelector: '#canvas_doram',

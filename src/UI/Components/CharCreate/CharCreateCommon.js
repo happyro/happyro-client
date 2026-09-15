@@ -86,8 +86,6 @@ export function createCharCreate(config) {
 		name,
 		htmlText,
 		cssText,
-		hostHeight = 342,
-		hostWidth = 576,
 		hasStats = false,
 		hasRace = false,
 		gridHairstyle = false,
@@ -235,9 +233,18 @@ export function createCharCreate(config) {
 	/**
 	 * Once add to HTML, start rendering
 	 */
+	function centerWindow() {
+		const host = Component._host;
+		host.style.top = `${Math.max(0, (window.innerHeight - host.offsetHeight) / 2)}px`;
+		host.style.left = `${Math.max(0, (window.innerWidth - host.offsetWidth) / 2)}px`;
+	}
+
+	const sizeObserver = new ResizeObserver(centerWindow);
+
 	Component.onAppend = function onAppend() {
-		this._host.style.top = `${(Renderer.height - hostHeight) / 2}px`;
-		this._host.style.left = `${(Renderer.width - hostWidth) / 2}px`;
+		centerWindow();
+		sizeObserver.observe(this._host);
+		window.addEventListener('resize', centerWindow);
 
 		if (hasRace) {
 			_human.render = true;
@@ -305,6 +312,8 @@ export function createCharCreate(config) {
 	 * Stop rendering
 	 */
 	Component.onRemove = function onRemove() {
+		sizeObserver.disconnect();
+		window.removeEventListener('resize', centerWindow);
 		Renderer.stop(render);
 	};
 

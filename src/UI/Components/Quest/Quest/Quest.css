@@ -45,15 +45,22 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid #aab4ae;
-	background: #f4f7f5;
+	border: 1px solid #c1c6c2;
+	background: #dedede;
 	line-height: 16px;
 	letter-spacing: 0;
 	cursor: pointer;
 }
 
 #Quest .quest-left-panel .quest-menu .quest-menu-item:hover {
-	background: #dcebe3;
+	background: #d2d2d2;
+}
+
+#Quest .quest-left-panel .quest-menu .quest-menu-item.selected {
+	background: #fff;
+	border-color: #c1c6c2;
+	color: #333;
+	font-weight: bold;
 }
 
 #Quest .quest-right-panel {

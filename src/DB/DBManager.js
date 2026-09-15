@@ -65,7 +65,12 @@ import {
 	searchNavigationMaps,
 	searchNavigationRows
 } from './Navigation/NavigationData.js';
-import { loadNavigationCatalog, loadNavigationGraph } from './Navigation/NavigationResource.js';
+import {
+	loadMapCatalog,
+	loadNavigationCatalog,
+	loadNavigationGraph,
+	loadNpcInstanceNames
+} from './Navigation/NavigationResource.js';
 import { getNavigationNpcAliases, localizeNavigationNpcName } from './Navigation/NavigationNameLocalization.js';
 import SignBoardTranslationTable from './SignBoardTranslationTable.js';
 import Network from 'Network/NetworkManager.js';
@@ -3326,7 +3331,11 @@ class DB {
 	 * @returns {Promise<Array>} Array of search results
 	 */
 	static async searchNavigation(query, type, options = {}) {
-		const catalog = await loadNavigationCatalog();
+		const [catalog, instances, mapCatalog] = await Promise.all([
+			loadNavigationCatalog(),
+			loadNpcInstanceNames(),
+			loadMapCatalog()
+		]);
 		const results = searchNavigationRows(
 			catalog.npcs,
 			catalog.monsters,
@@ -3341,17 +3350,9 @@ class DB {
 				mob: (id, fallback) => MonsterNameTable[id] || fallback,
 				map: mapName => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 			},
-			options
+			{ ...options, instanceNames: instances.instances }
 		);
-		const maps = searchNavigationMaps(
-			WorldMap,
-			MapInfo,
-			query,
-			type,
-			mapId => DB.getMapName(mapId, mapId),
-			options,
-			catalog.maps
-		);
+		const maps = searchNavigationMaps(mapCatalog.entries, query, type, options);
 		if (type === 'MAP') return maps;
 		return results
 			.concat(maps)
@@ -3364,7 +3365,10 @@ class DB {
 	}
 
 	static async listNavigation(type, options = {}) {
-		const catalog = await loadNavigationCatalog();
+		if (type === 'MAP') {
+			return listSharedMaps((await loadMapCatalog()).entries, options);
+		}
+		const [catalog, instances] = await Promise.all([loadNavigationCatalog(), loadNpcInstanceNames()]);
 		const localizers = {
 			npc: name => {
 				const localized = DB.getNpcName(name);
@@ -3374,10 +3378,10 @@ class DB {
 			mob: (id, fallback) => MonsterNameTable[id] || fallback,
 			map: mapName => DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
 		};
-		if (type === 'MAP') {
-			return listSharedMaps(options);
-		}
-		return listNavigationRows(catalog.npcs, catalog.monsters, type, localizers, options);
+		return listNavigationRows(catalog.npcs, catalog.monsters, type, localizers, {
+			...options,
+			instanceNames: instances.instances
+		});
 	}
 
 	static getNavigationGraph() {

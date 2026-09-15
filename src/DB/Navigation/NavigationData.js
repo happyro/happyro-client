@@ -1,11 +1,12 @@
 import { getMapChannelDisplayName, isVisibleMapChannel } from '../Map/MapChannels.js';
 import { isSupportedMapResource } from '../Map/SupportedMapTable.js';
-import { getNpcInstanceName } from './NpcInstanceNameTable.js';
-import MapCatalog from './MapCatalog.json';
+function getNpcInstanceName(instanceNames, mapName, x, y) {
+	return instanceNames[`${String(mapName || '').toLocaleLowerCase()}:${Number(x)}:${Number(y)}`] || null;
+}
 
-export function listSharedMaps(options = {}) {
+export function listSharedMaps(mapCatalogEntries, options = {}) {
 	const { channelsEnabled = false } = options;
-	return MapCatalog.entries.filter(map => map.supported && isVisibleMapChannel(map.map, channelsEnabled) && (options.scope !== 'CURRENT' || map.map === options.currentMap)).map(map => ({
+	return mapCatalogEntries.filter(map => map.supported && isVisibleMapChannel(map.map, channelsEnabled) && (options.scope !== 'CURRENT' || map.map === options.currentMap)).map(map => ({
 		type: 'MAP', id: map.map, mapName: map.map,
 		name: getMapChannelDisplayName(map.map, map.name, channelsEnabled),
 		mapDisplayName: getMapChannelDisplayName(map.map, map.name, channelsEnabled), x: null, y: null
@@ -23,7 +24,7 @@ export function listSharedMaps(options = {}) {
  * @returns {Array}
  */
 export function listNavigationRows(npcRows, mobRows, type, localizers, options = {}) {
-	const { channelsEnabled = false, currentMap = '', scope = 'WORLD' } = options;
+	const { channelsEnabled = false, currentMap = '', scope = 'WORLD', instanceNames = {} } = options;
 	const normalizedCurrentMap = String(currentMap || '').toLocaleLowerCase();
 	const mapIsVisible = mapName =>
 		isSupportedMapResource(mapName) &&
@@ -37,7 +38,7 @@ export function listNavigationRows(npcRows, mobRows, type, localizers, options =
 			if (!mapIsVisible(npc[0])) continue;
 			// Navi_Npc rows store the navigation category before the live NPC class.
 			const rawName = npc[4] || '';
-			const instanceName = getNpcInstanceName(npc[0], npc[6], npc[7]);
+			const instanceName = getNpcInstanceName(instanceNames, npc[0], npc[6], npc[7]);
 			const localizedName = instanceName?.name || localizers.npc(rawName) || rawName;
 			const aliases = [instanceName?.sourceName, ...(localizers.npcAliases?.(rawName) || [])].filter(Boolean);
 			if (!rawName) continue;
@@ -175,13 +176,13 @@ export function listNavigationMaps(worldMaps, mapInfo, type, localizeMap, option
 	return [...results.values()].sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id));
 }
 
-export function searchNavigationMaps(worldMaps, mapInfo, query, type, localizeMap, options = {}, navigationMaps = []) {
+export function searchNavigationMaps(mapCatalogEntries, query, type, options = {}) {
 	const normalizedQuery = String(query || '')
 		.trim()
 		.toLocaleLowerCase();
 	if (!normalizedQuery) return [];
 	if (type !== 'ALL' && type !== 'MAP') return [];
-	const results = listSharedMaps(options).filter(
+	const results = listSharedMaps(mapCatalogEntries, options).filter(
 		result =>
 			result.id.toLocaleLowerCase().includes(normalizedQuery) ||
 			result.name.toLocaleLowerCase().includes(normalizedQuery)

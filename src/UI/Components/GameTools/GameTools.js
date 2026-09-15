@@ -24,6 +24,7 @@ registerGameToolsTab(gameSettingsTab);
 const preferences = Preferences.get('GameTools', { tab: 'maps' }, 2.0);
 const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
 let cleanupTab;
+let mountedTabId;
 let capabilities;
 let shouldRestoreAfterMapLoad = false;
 
@@ -85,8 +86,12 @@ GameTools.selectTab = function selectTab(id) {
 };
 
 GameTools.mountTab = function mountTab(tab) {
-	cleanupTab?.();
 	const content = this.getRoot().querySelector('.tab-content');
+	// Reopening the window and refreshing capabilities both re-render the tab
+	// strip; remounting the same tab would refetch its whole catalog.
+	if (tab.id === mountedTabId && content.firstElementChild) return;
+	cleanupTab?.();
+	mountedTabId = tab.id;
 	content.innerHTML = '<div class="game-tools-tab"></div>';
 	cleanupTab = tab.mount(content.firstElementChild, { capabilities, close: () => {
 		shouldRestoreAfterMapLoad = false;

@@ -58,17 +58,33 @@ const resultMessages = [
 ];
 
 let catalogPromise;
+let dropsPromise;
 let activeController;
 
 function loadCatalog() {
 	if (!catalogPromise) {
-		const url = new URL('./data/monsters/catalog.json', window.location.href);
-		catalogPromise = fetch(url).then(response => {
-			if (!response.ok) throw new Error(`Monster catalog request failed: ${response.status}`);
-			return response.json();
-		});
+		catalogPromise = loadMonsterFile('catalog.json', 'Monster catalog');
 	}
 	return catalogPromise;
+}
+
+/**
+ * Drops are most of the catalog's weight and only matter once a monster is
+ * opened, so they live in their own file fetched on first detail render.
+ */
+function loadDrops() {
+	if (!dropsPromise) {
+		dropsPromise = loadMonsterFile('drops.json', 'Monster drops');
+	}
+	return dropsPromise;
+}
+
+function loadMonsterFile(name, label) {
+	const url = new URL(`./data/monsters/${name}`, window.location.href);
+	return fetch(url).then(response => {
+		if (!response.ok) throw new Error(`${label} request failed: ${response.status}`);
+		return response.json();
+	});
 }
 
 function atlasStyle(catalog, monster, displaySize) {
@@ -92,6 +108,7 @@ function mount(container) {
 	container.classList.add('monster-tab');
 	const state = {
 		catalog: null,
+		drops: null,
 		monsters: [],
 		filtered: [],
 		selected: null,
@@ -233,6 +250,14 @@ function mount(container) {
 			detail.innerHTML = '<div class="empty-detail">选择一个魔物查看详情</div>';
 			return;
 		}
+		if (!state.drops) {
+			loadDrops()
+				.then(payload => {
+					state.drops = payload.drops;
+					renderDetail();
+				})
+				.catch(error => console.error(error));
+		}
 		const bossBlocked = monster.boss && !Session.GameToolsMonsterSpawnAllowBoss;
 		const cooldownRemaining = Math.max(0, Math.ceil((state.cooldownUntil - Date.now()) / 1000));
 		const disabled = !Session.GameToolsMonsterSpawnAllowed || bossBlocked || state.pending || cooldownRemaining > 0;
@@ -265,7 +290,11 @@ function mount(container) {
 				<div><span>体型</span><strong>${sizeNames[monster.size] || monster.size}</strong></div><div><span>经验</span><strong>${monster.baseExp} / ${monster.jobExp}</strong></div>
 			</div>
 			<div class="monster-resources">
-				<section class="monster-drops"><h4>掉落物品</h4>${renderDrops(monster.mvpDrops, 'MVP 奖励')}${renderDrops(monster.drops, '普通掉落') || '<p>无掉落资料</p>'}</section>
+				<section class="monster-drops"><h4>掉落物品</h4>${
+					state.drops
+						? `${renderDrops(state.drops[monster.id]?.mvpDrops, 'MVP 奖励')}${renderDrops(state.drops[monster.id]?.drops, '普通掉落') || '<p>无掉落资料</p>'}`
+						: '<p>掉落资料加载中...</p>'
+				}</section>
 				<section class="monster-locations">
 					<h4>出现地图</h4>
 					<div class="monster-location-list">${
