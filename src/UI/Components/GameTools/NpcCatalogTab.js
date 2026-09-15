@@ -1,3 +1,4 @@
+import MapRenderer from 'Renderer/MapRenderer.js';
 import Session from 'Engine/SessionStorage.js';
 import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
 import { escapeCatalogHtml, renderCatalogScopeFilter } from './CatalogData.js';
@@ -28,6 +29,7 @@ function mount(container) {
 	let mapLoadToken = 0;
 	let scopeFilter = null;
 	let browserApi = null;
+	let catalogMap = getCurrentAdventureMap();
 	const refreshDetail = () => browserApi?.refreshDetail();
 	const destroyBrowser = mountRemoteCatalogBrowser(container, {
 		placeholder: '搜索 NPC、地图或编号',
@@ -41,6 +43,7 @@ function mount(container) {
 			manifest ??= await loadNpcAssets();
 			const result = await searchAdventureNpcs({
 				query: query.query,
+				currentMap: getCurrentAdventureMap(),
 				onMap: scopeFilter?.checked ? getCurrentAdventureMap() : '',
 				page: query.page,
 				perPage: query.perPage
@@ -106,6 +109,11 @@ function mount(container) {
 					});
 			}
 		},
+		onSelectionChange() {
+			selectionToken += 1;
+			available = null;
+			checking = false;
+		},
 		onReady(api) {
 			browserApi = api;
 			scopeFilter = api.container.querySelector('.catalog-scope-filter');
@@ -113,18 +121,20 @@ function mount(container) {
 		}
 	});
 
-	const resetSelectionAvailability = () => {
-		selectionToken += 1;
-		available = null;
-		checking = false;
-	};
-	container.querySelector('.catalog-list').addEventListener('click', resetSelectionAvailability, true);
 	const unsubscribeActions = subscribeAdventureActions(state => {
 		actionState = state;
 		refreshDetail();
 	});
 
+	const mapTimer = setInterval(() => {
+		const currentMap = getCurrentAdventureMap();
+		if (!currentMap || MapRenderer.loading || currentMap === catalogMap) return;
+		catalogMap = currentMap;
+		browserApi?.reload();
+	}, 500);
+
 	return () => {
+		clearInterval(mapTimer);
 		selectionToken += 1;
 		mapLoadToken += 1;
 		unsubscribeActions();

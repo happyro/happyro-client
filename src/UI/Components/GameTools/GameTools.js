@@ -25,6 +25,7 @@ const preferences = Preferences.get('GameTools', { tab: 'maps' }, 2.0);
 const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
 let cleanupTab;
 let mountedTabId;
+let mountedCapabilities;
 let capabilities;
 let shouldRestoreAfterMapLoad = false;
 
@@ -59,7 +60,7 @@ GameTools.init = function init() {
 	this.renderTabs();
 };
 
-GameTools.renderTabs = function renderTabs() {
+GameTools.renderTabs = function renderTabs({ reopening = false } = {}) {
 	const root = this.getRoot();
 	const tabs = getGameToolsTabs().filter(tab => !tab.capability || capabilities?.[tab.capability] === true);
 	if (!tabs.length) return;
@@ -73,7 +74,7 @@ GameTools.renderTabs = function renderTabs() {
 	root.querySelectorAll('.tab-button').forEach(button => {
 		button.addEventListener('click', () => this.selectTab(button.dataset.tab));
 	});
-	this.mountTab(selected);
+	this.mountTab(selected, reopening);
 };
 
 GameTools.selectTab = function selectTab(id) {
@@ -85,11 +86,14 @@ GameTools.selectTab = function selectTab(id) {
 	this.renderTabs();
 };
 
-GameTools.mountTab = function mountTab(tab) {
+GameTools.mountTab = function mountTab(tab, reopening = false) {
 	const content = this.getRoot().querySelector('.tab-content');
 	// Reopening the window and refreshing capabilities both re-render the tab
 	// strip; remounting the same tab would refetch its whole catalog.
-	if (tab.id === mountedTabId && content.firstElementChild) return;
+	const nextCapabilities = JSON.stringify(capabilities);
+	const needsRefresh = (reopening && tab.refreshOnOpen) || (tab.capability && mountedCapabilities !== nextCapabilities);
+	if (tab.id === mountedTabId && content.firstElementChild && !needsRefresh) return;
+	mountedCapabilities = nextCapabilities;
 	cleanupTab?.();
 	mountedTabId = tab.id;
 	content.innerHTML = '<div class="game-tools-tab"></div>';
@@ -134,7 +138,7 @@ GameTools.toggle = function toggle() {
 	this._host.style.display = '';
 	this.centerInViewport();
 	this.focus();
-	this.renderTabs();
+	this.renderTabs({ reopening: true });
 	void this.refreshCapabilities();
 };
 

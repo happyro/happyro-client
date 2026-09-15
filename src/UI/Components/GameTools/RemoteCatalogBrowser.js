@@ -31,7 +31,13 @@ export function mountRemoteCatalogBrowser(container, options) {
 		reload: loadPage
 	};
 
+	let selectedKey;
 	function renderDetail() {
+		const nextKey = state.selected ? options.key(state.selected) : null;
+		if (nextKey !== selectedKey) {
+			selectedKey = nextKey;
+			options.onSelectionChange?.(state.selected);
+		}
 		if (!state.selected) detail.innerHTML = `<div class="empty-detail">${options.emptyDetail}</div>`;
 		else options.renderDetail(detail, state.selected, api);
 	}
@@ -95,6 +101,8 @@ export function mountRemoteCatalogBrowser(container, options) {
 	}
 
 	function resetAndLoad() {
+		state.selected = null;
+		renderDetail();
 		state.page = 1;
 		list.scrollTop = 0;
 		void loadPage();

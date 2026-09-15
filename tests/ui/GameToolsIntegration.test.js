@@ -184,9 +184,9 @@ describe('game tools integration', () => {
 		expect(previewSource).toContain('drawPath(context, canvas, overlays.path, coordinateGrid)');
 		expect(previewSource).toContain('drawPlayer(context, canvas, overlays.player, coordinateGrid)');
 		expect(previewSource).toContain('mapImageSourceRect(image.naturalWidth, image.naturalHeight, coordinateGrid)');
-		expect(previewSource).toContain('map/map_arrow.bmp');
-		expect(previewSource).toContain('context.rotate(((direction + 4) * 45 * Math.PI) / 180)');
-		expect(previewSource).toContain("export const NPC_MARKER_COLOR = '#2f80ed'");
+		expect(previewSource).toContain('export function drawPlayerArrow(context, point, direction = 0, scale = 1)');
+		expect(previewSource).toContain('context.rotate((direction * 45 * Math.PI) / 180)');
+		expect(previewSource).toContain("export const NPC_MARKER_COLOR = '#a855f7'");
 		expect(previewSource).toContain('drawMarker(context, canvas, marker, coordinateGrid, NPC_MARKER_COLOR)');
 		expect(mapSource).toContain('selectedNpc');
 		expect(mapSource).not.toContain('npcs: mapNpcs');
@@ -214,7 +214,7 @@ describe('game tools integration', () => {
 		const source = read('src/UI/Components/GameTools/NpcCatalogTab.js');
 
 		expect(source).toContain('const token = selectionToken;');
-		expect(source).toMatch(/resetSelectionAvailability = \(\) => \{\s*selectionToken \+= 1;/);
+		expect(source).toMatch(/onSelectionChange\(\) \{\s*selectionToken \+= 1;/);
 		expect(source).not.toContain('const token = ++selectionToken;');
 		expect(source).not.toContain('catalog-route');
 		expect(source).not.toContain('AdventureRouteService');

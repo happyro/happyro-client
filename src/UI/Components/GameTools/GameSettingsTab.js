@@ -172,4 +172,4 @@ function mount(container) {
 	return () => {};
 }
 
-export default { id: 'settings', label: '游戏设置', capability: 'gameSettingsAllowed', mount };
+export default { id: 'settings', label: '游戏设置', refreshOnOpen: true, capability: 'gameSettingsAllowed', mount };
