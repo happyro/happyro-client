@@ -139,10 +139,7 @@ function mount(container) {
 				loadCatalogMap(map.mapName).then(resource => {
 					if (token !== loadToken) return;
 					loadedMap = resource;
-					if (
-						selectedCoordinate?.random &&
-						normalizeAdventureMap(map.mapName) !== getCurrentAdventureMap()
-					) {
+					if (selectedCoordinate?.random && normalizeAdventureMap(map.mapName) !== getCurrentAdventureMap()) {
 						selectedCoordinate = findDefaultMapCoordinate(resource?.gat) || selectedCoordinate;
 					}
 					api.refreshDetail();
@@ -359,7 +356,8 @@ function mount(container) {
 				};
 			});
 			browser.setItems(items);
-			browser.selectItem(items.find(map => normalizeAdventureMap(map.mapName) === currentMap));
+			const currentMapItem = items.find(map => normalizeAdventureMap(map.mapName) === currentMap);
+			browser.selectItem(currentMapItem || browser.state.filtered[0] || null);
 		})
 		.catch(error => {
 			console.error(error);

@@ -65,12 +65,18 @@ describe('game tools integration', () => {
 		expect(catalog.entries.length).toBeGreaterThan(13000);
 		const teleportable = catalog.entries.filter(npc => Number.isFinite(npc.navigation_class));
 		const visible = teleportable.filter(npc => Number.isFinite(npc.display_sprite_id));
-		expect(teleportable).toHaveLength(4664);
-		expect(visible).toHaveLength(4410);
-		expect(catalog.entries.filter(npc => npc.game_visible)).toHaveLength(4410);
+		expect(teleportable).toHaveLength(4698);
+		expect(visible).toHaveLength(4438);
+		expect(catalog.entries.filter(npc => npc.game_visible)).toHaveLength(4438);
 		expect(catalog.entries.every((npc, index) => npc.catalog_order === index)).toBe(true);
 		expect(visible.every(npc => assets.sprites[npc.display_sprite_id])).toBe(true);
 		expect(Object.values(NpcInstanceNameTable).every(npc => /[\u3400-\u9fff]/.test(npc.name))).toBe(true);
+		expect(
+			visible.filter(npc => npc.map === 'iz_int' && npc.name === '受伤的剑士').map(npc => npc.navigation_class)
+		).toEqual([687]);
+		expect(
+			visible.filter(npc => npc.map === 'int_land').map(npc => npc.name)
+		).toEqual(expect.arrayContaining(['卡洛克船长', '卢敏', '水手']));
 		expect(NpcInstanceNameTable['aldeba_in:155:240']).toMatchObject({
 			name: '卡普拉员工',
 			sourceName: 'Kafra Employee'
@@ -112,6 +118,8 @@ describe('game tools integration', () => {
 		expect(npcSource).toContain('class="catalog-heading"');
 		expect(npcSource).toContain('class="npc-detail-body"');
 		expect(npcSource).toContain('renderCatalogScopeFilter');
+		expect(npcSource).toContain("!filterNpcs(items, '', 'current').length");
+		expect(npcSource).toContain('scopeFilter.checked = false');
 		expect(npcSource).not.toContain("value: 'all'");
 		expect(read('src/UI/Components/GameTools/CatalogBrowser.js')).toContain(
 			'if (!state.selected && options.selectFirst !== false) state.selected = state.filtered[0] || null'
@@ -129,6 +137,7 @@ describe('game tools integration', () => {
 		expect(mapSource).toContain('npcList.scrollTop = npcListScrollTop');
 		expect(mapSource).toContain('loadAdventureNpcCatalog()');
 		expect(mapSource).toContain('selectFirst: false');
+		expect(mapSource).toContain('currentMapItem || browser.state.filtered[0] || null');
 		expect(read('src/UI/Components/GameTools/NpcCatalogTab.js')).toContain('export function loadAdventureNpcCatalog()');
 	});
 

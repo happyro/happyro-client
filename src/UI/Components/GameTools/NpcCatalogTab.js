@@ -153,6 +153,7 @@ function mount(container) {
 			}
 		}
 	});
+	const scopeFilter = container.querySelector('.catalog-scope-filter');
 
 	const originalRenderDetail = browser.refreshDetail;
 	const resetSelectionAvailability = () => {
@@ -169,6 +170,7 @@ function mount(container) {
 	loadAdventureNpcCatalog()
 		.then(({ assets, items }) => {
 			manifest = assets;
+			if (scopeFilter && !filterNpcs(items, '', 'current').length) scopeFilter.checked = false;
 			browser.setItems(items);
 		})
 		.catch(error => {

@@ -30,7 +30,7 @@ describe('WorldCatalogService', () => {
 
 	it('only exposes server NPC instances with a teleport identity', () => {
 		const catalog = mergeNpcCatalog([], mapName => mapName);
-		expect(catalog).toHaveLength(4410);
+		expect(catalog).toHaveLength(4438);
 		expect(catalog.every(npc => npc.source === 'server+navigation')).toBe(true);
 		expect(catalog.every(npc => npc.capabilities.canTeleportToNpc)).toBe(true);
 		expect(catalog.every(npc => Number.isFinite(npc.spriteId))).toBe(true);
