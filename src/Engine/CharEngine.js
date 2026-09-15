@@ -527,6 +527,12 @@ function onCreateRequest(index) {
  * @param {number} sex - sex
  */
 function onCharCreationRequest(name, Str, Agi, Vit, Int, Dex, Luk, hair, color, job, sex) {
+	name = name.trim();
+	if (!name) {
+		UIManager.showMessageBox('请输入角色名', 'ok');
+		return;
+	}
+
 	let pkt;
 
 	// Old Packet required stats
