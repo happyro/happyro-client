@@ -210,4 +210,4 @@ function mount(container, { close }) {
 	return () => {};
 }
 
-export default { id: 'character', label: '角色属性', capability: 'characterMaintenanceAllowed', mount };
+export default { id: 'character', label: '角色属性', refreshOnOpen: true, capability: 'characterMaintenanceAllowed', mount };
