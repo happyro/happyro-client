@@ -275447,7 +275447,7 @@ function mount$3(container) {
 		},
 		renderRow(map, selected) {
 			return `<button class="catalog-row map-row${selected?.id === map.id ? " selected" : ""}" type="button" data-catalog-key="${escapeCatalogHtml(map.id)}">
-				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>无图</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}${map.isCurrentMap ? " · 当前所在" : ""}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
+				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>无图</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
 			</button>`;
 		},
 		onListRendered(list, maps) {
