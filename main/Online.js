@@ -274068,13 +274068,14 @@ function searchAdventureItems({ query = "", type = "", subtype = "", page = 1, p
 	if (subtype) params.set("subtype", subtype);
 	return requestBody(`/items?${params}`);
 }
-function searchAdventureNpcs({ query = "", onMap = "", page = 1, perPage = 32 } = {}) {
+function searchAdventureNpcs({ query = "", onMap = "", currentMap = "", page = 1, perPage = 32 } = {}) {
 	const params = new URLSearchParams({
 		page,
 		perPage
 	});
 	if (query) params.set("query", query);
 	if (onMap) params.set("onMap", onMap);
+	if (currentMap) params.set("currentMap", currentMap);
 	return requestBody(`/npcs?${params}`);
 }
 /**
@@ -274329,7 +274330,10 @@ function loadCatalog() {
 * opened, so they live in their own file fetched on first detail render.
 */
 function loadDrops() {
-	if (!dropsPromise) dropsPromise = loadMonsterFile("drops.json", "Monster drops");
+	if (!dropsPromise) dropsPromise = loadMonsterFile("drops.json", "Monster drops").catch((error) => {
+		dropsPromise = null;
+		throw error;
+	});
 	return dropsPromise;
 }
 function loadMonsterFile(name, label) {
@@ -274356,9 +274360,12 @@ function formatRate$1(rate) {
 }
 function mount$5(container) {
 	container.classList.add("monster-tab");
+	let destroyed = false;
 	const state = {
 		catalog: null,
 		drops: null,
+		dropsLoading: false,
+		dropsError: false,
 		monsters: [],
 		filtered: [],
 		selected: null,
@@ -274500,10 +274507,20 @@ function mount$5(container) {
 			detail.innerHTML = "<div class=\"empty-detail\">选择一个魔物查看详情</div>";
 			return;
 		}
-		if (!state.drops) loadDrops().then((payload) => {
-			state.drops = payload.drops;
-			renderDetail();
-		}).catch((error) => console.error(error));
+		if (!state.drops && !state.dropsLoading && !state.dropsError) {
+			state.dropsLoading = true;
+			loadDrops().then((payload) => {
+				if (destroyed) return;
+				state.drops = payload.drops;
+				state.dropsLoading = false;
+				renderDetail();
+			}).catch(() => {
+				if (destroyed) return;
+				state.dropsLoading = false;
+				state.dropsError = true;
+				renderDetail();
+			});
+		}
 		const bossBlocked = monster.boss && !SessionStorage_default.GameToolsMonsterSpawnAllowBoss;
 		const cooldownRemaining = Math.max(0, Math.ceil((state.cooldownUntil - Date.now()) / 1e3));
 		const disabled = !SessionStorage_default.GameToolsMonsterSpawnAllowed || bossBlocked || state.pending || cooldownRemaining > 0;
@@ -274532,7 +274549,7 @@ function mount$5(container) {
 				<div><span>体型</span><strong>${sizeNames[monster.size] || monster.size}</strong></div><div><span>经验</span><strong>${monster.baseExp} / ${monster.jobExp}</strong></div>
 			</div>
 			<div class="monster-resources">
-				<section class="monster-drops"><h4>掉落物品</h4>${state.drops ? `${renderDrops(state.drops[monster.id]?.mvpDrops, "MVP 奖励")}${renderDrops(state.drops[monster.id]?.drops, "普通掉落") || "<p>无掉落资料</p>"}` : "<p>掉落资料加载中...</p>"}</section>
+				<section class="monster-drops"><h4>掉落物品</h4>${state.drops ? `${renderDrops(state.drops[monster.id]?.mvpDrops, "MVP 奖励")}${renderDrops(state.drops[monster.id]?.drops, "普通掉落") || "<p>无掉落资料</p>"}` : state.dropsError ? "<p>掉落资料加载失败</p><button type=\"button\" class=\"monster-drops-retry\">重试</button>" : "<p>掉落资料加载中...</p>"}</section>
 				<section class="monster-locations">
 					<h4>出现地图</h4>
 					<div class="monster-location-list">${spawnMaps.length ? spawnMaps.map((spawn) => {
@@ -274604,8 +274621,14 @@ function mount$5(container) {
 		console.error(error);
 		summary.textContent = "魔物资料加载失败";
 	});
+	container.addEventListener("click", (event) => {
+		if (!event.target.closest(".monster-drops-retry")) return;
+		state.dropsError = false;
+		renderDetail();
+	});
 	const unsubscribeAdventureActions = subscribeAdventureActions(() => renderDetail());
 	return () => {
+		destroyed = true;
 		clearTimeout(state.requestTimer);
 		clearInterval(state.cooldownTimer);
 		unsubscribeAdventureActions();
@@ -274715,7 +274738,13 @@ function mountRemoteCatalogBrowser(container, options) {
 		refreshDetail: renderDetail,
 		reload: loadPage
 	};
+	let selectedKey;
 	function renderDetail() {
+		const nextKey = state.selected ? options.key(state.selected) : null;
+		if (nextKey !== selectedKey) {
+			selectedKey = nextKey;
+			options.onSelectionChange?.(state.selected);
+		}
 		if (!state.selected) detail.innerHTML = `<div class="empty-detail">${options.emptyDetail}</div>`;
 		else options.renderDetail(detail, state.selected, api);
 	}
@@ -274765,6 +274794,8 @@ function mountRemoteCatalogBrowser(container, options) {
 		}
 	}
 	function resetAndLoad() {
+		state.selected = null;
+		renderDetail();
 		state.page = 1;
 		list.scrollTop = 0;
 		loadPage();
@@ -274823,6 +274854,7 @@ function mount$4(container) {
 	let mapLoadToken = 0;
 	let scopeFilter = null;
 	let browserApi = null;
+	let catalogMap = getCurrentAdventureMap();
 	const refreshDetail = () => browserApi?.refreshDetail();
 	const destroyBrowser = mountRemoteCatalogBrowser(container, {
 		placeholder: "搜索 NPC、地图或编号",
@@ -274839,6 +274871,7 @@ function mount$4(container) {
 			manifest ??= await loadNpcAssets();
 			const result = await searchAdventureNpcs({
 				query: query.query,
+				currentMap: getCurrentAdventureMap(),
 				onMap: scopeFilter?.checked ? getCurrentAdventureMap() : "",
 				page: query.page,
 				perPage: query.perPage
@@ -274906,23 +274939,29 @@ function mount$4(container) {
 				});
 			}
 		},
+		onSelectionChange() {
+			selectionToken += 1;
+			available = null;
+			checking = false;
+		},
 		onReady(api) {
 			browserApi = api;
 			scopeFilter = api.container.querySelector(".catalog-scope-filter");
 			scopeFilter?.addEventListener("change", api.reload);
 		}
 	});
-	const resetSelectionAvailability = () => {
-		selectionToken += 1;
-		available = null;
-		checking = false;
-	};
-	container.querySelector(".catalog-list").addEventListener("click", resetSelectionAvailability, true);
 	const unsubscribeActions = subscribeAdventureActions((state) => {
 		actionState = state;
 		refreshDetail();
 	});
+	const mapTimer = setInterval(() => {
+		const currentMap = getCurrentAdventureMap();
+		if (!currentMap || MapRenderer.loading || currentMap === catalogMap) return;
+		catalogMap = currentMap;
+		browserApi?.reload();
+	}, 500);
 	return () => {
+		clearInterval(mapTimer);
 		selectionToken += 1;
 		mapLoadToken += 1;
 		unsubscribeActions();
@@ -274931,6 +274970,7 @@ function mount$4(container) {
 }
 var key, NpcCatalogTab_default;
 var init_NpcCatalogTab = __esmMin((() => {
+	init_MapRenderer();
 	init_SessionStorage();
 	init_RemoteCatalogBrowser();
 	init_CatalogData();
@@ -275645,6 +275685,7 @@ var init_CharacterMaintenanceTab = __esmMin((() => {
 	CharacterMaintenanceTab_default = {
 		id: "character",
 		label: "角色属性",
+		refreshOnOpen: true,
 		capability: "characterMaintenanceAllowed",
 		mount: mount$2
 	};
@@ -275832,6 +275873,7 @@ var init_GameSettingsTab = __esmMin((() => {
 	GameSettingsTab_default = {
 		id: "settings",
 		label: "游戏设置",
+		refreshOnOpen: true,
 		capability: "gameSettingsAllowed",
 		mount: mount$1
 	};
@@ -276138,7 +276180,7 @@ function validationMessage(input) {
 	if (validity.patternMismatch) return "输入格式不正确";
 	return "请检查输入内容";
 }
-var preferences, GameTools, cleanupTab, mountedTabId, capabilities, shouldRestoreAfterMapLoad, GameTools_default;
+var preferences, GameTools, cleanupTab, mountedTabId, mountedCapabilities, capabilities, shouldRestoreAfterMapLoad, GameTools_default;
 var init_GameTools = __esmMin((() => {
 	init_GUIComponent();
 	init_UIManager();
@@ -276178,7 +276220,7 @@ var init_GameTools = __esmMin((() => {
 		this._host.style.display = "none";
 		this.renderTabs();
 	};
-	GameTools.renderTabs = function renderTabs() {
+	GameTools.renderTabs = function renderTabs({ reopening = false } = {}) {
 		const root = this.getRoot();
 		const tabs = getGameToolsTabs().filter((tab) => !tab.capability || capabilities?.[tab.capability] === true);
 		if (!tabs.length) return;
@@ -276187,7 +276229,7 @@ var init_GameTools = __esmMin((() => {
 		root.querySelectorAll(".tab-button").forEach((button) => {
 			button.addEventListener("click", () => this.selectTab(button.dataset.tab));
 		});
-		this.mountTab(selected);
+		this.mountTab(selected, reopening);
 	};
 	GameTools.selectTab = function selectTab(id) {
 		if (!getGameToolsTabs().find((candidate) => candidate.id === id)) return;
@@ -276196,9 +276238,12 @@ var init_GameTools = __esmMin((() => {
 		preferences.save();
 		this.renderTabs();
 	};
-	GameTools.mountTab = function mountTab(tab) {
+	GameTools.mountTab = function mountTab(tab, reopening = false) {
 		const content = this.getRoot().querySelector(".tab-content");
-		if (tab.id === mountedTabId && content.firstElementChild) return;
+		const nextCapabilities = JSON.stringify(capabilities);
+		const needsRefresh = reopening && tab.refreshOnOpen || tab.capability && mountedCapabilities !== nextCapabilities;
+		if (tab.id === mountedTabId && content.firstElementChild && !needsRefresh) return;
+		mountedCapabilities = nextCapabilities;
 		cleanupTab?.();
 		mountedTabId = tab.id;
 		content.innerHTML = "<div class=\"game-tools-tab\"></div>";
@@ -276239,7 +276284,7 @@ var init_GameTools = __esmMin((() => {
 		this._host.style.display = "";
 		this.centerInViewport();
 		this.focus();
-		this.renderTabs();
+		this.renderTabs({ reopening: true });
 		this.refreshCapabilities();
 	};
 	GameTools.refreshCapabilities = async function refreshCapabilities() {
