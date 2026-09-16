@@ -82,10 +82,11 @@ export function loadAdventureMapNpcs(map) {
 	return request(`/maps/${encodeURIComponent(map)}/npcs`);
 }
 
-export function searchAdventureMaps({ query = '', onMap = '', page = 1, perPage = 35 } = {}) {
+export function searchAdventureMaps({ query = '', onMap = '', currentMap = '', page = 1, perPage = 35 } = {}) {
 	const params = new URLSearchParams({ page, perPage });
 	if (query) params.set('query', query);
 	if (onMap) params.set('onMap', onMap);
+	if (currentMap) params.set('currentMap', currentMap);
 	return requestBody(`/maps?${params}`);
 }
 

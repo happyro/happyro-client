@@ -22,7 +22,7 @@ import {
 	subscribeAdventureRoute
 } from './AdventureRouteService.js';
 import { remainingPathFromPosition } from 'UI/Components/Navigation/NavigationAutoWalk.js';
-import { renderGameSelect } from './GameSelect.js';
+import MapRenderer from 'Renderer/MapRenderer.js';
 import {
 	canvasToMapCoordinate,
 	findDefaultMapCoordinate,
@@ -61,6 +61,8 @@ function mount(container) {
 	let pendingSelectionClear = '';
 	let mapImageNames = new Set();
 	let browserApi = null;
+	let catalogMap = getCurrentAdventureMap();
+	let catalogChannelsEnabled = Session.NavigationMapChannelsEnabled;
 	const refreshDetail = () => browserApi?.refreshDetail();
 	/** Ask the map server which of this map's NPCs can actually be teleported to. */
 	const checkNpcAvailability = (npcs, api) => {
@@ -98,22 +100,13 @@ function mount(container) {
 			id: row.map,
 			mapName: resolvedMapName,
 			name: row.name_zh_cn || row.map,
+			isCurrentMap,
 			hasImage: mapImageNames.has(MiniMapTable[resolvedMapName] || resolvedMapName)
 		};
 	};
 	const destroyBrowser = mountRemoteCatalogBrowser(container, {
 		placeholder: '搜索地图名称或代码',
 		searchLabel: '搜索地图',
-		filterHtml: renderGameSelect({
-			name: 'map-scope',
-			className: 'catalog-filter',
-			ariaLabel: '地图范围',
-			value: 'all',
-			options: [
-				{ value: 'all', label: '全部地图' },
-				{ value: 'current', label: '当前地图' }
-			]
-		}),
 		emptyDetail: '选择一个地图查看详情',
 		pageSize: 35,
 		key: map => map.id,
@@ -122,15 +115,20 @@ function mount(container) {
 			if (!mapImageNames.size) mapImageNames = new Set((await loadNpcAssets()).mapImages || []);
 			const result = await searchAdventureMaps({
 				query: query.query,
-				onMap: query.filters['map-scope'] === 'current' ? getCurrentAdventureMap() : '',
+				// Server ignores this once a search term is set, matching the old
+				// client-side search-relevance-first ordering.
+				currentMap: getCurrentAdventureMap(),
 				page: query.page,
 				perPage: query.perPage
 			});
-			return { items: result.data.map(toCatalogMap), total: result.total };
+			return {
+				items: result.data.map(toCatalogMap),
+				total: result.total
+			};
 		},
 		renderRow(map, selected) {
 			return `<button class="catalog-row map-row${selected?.id === map.id ? ' selected' : ''}" type="button" data-catalog-key="${escapeCatalogHtml(map.id)}">
-				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>无图</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
+				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>无图</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}${map.isCurrentMap ? ' · 当前所在' : ''}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
 			</button>`;
 		},
 		onListRendered(list, maps) {
@@ -364,7 +362,18 @@ function mount(container) {
 		if (state.message === '已到达目的地') clearMapMarker();
 		refreshDetail();
 	});
-	const positionTimer = setInterval(() => redrawPreview(), 500);
+	const positionTimer = setInterval(() => {
+		const currentMap = getCurrentAdventureMap();
+		const channelsEnabled = Session.NavigationMapChannelsEnabled;
+		if (!MapRenderer.loading && currentMap && (currentMap !== catalogMap || channelsEnabled !== catalogChannelsEnabled)) {
+			const mapChanged = currentMap !== catalogMap;
+			catalogMap = currentMap;
+			catalogChannelsEnabled = channelsEnabled;
+			if (mapChanged) browserApi?.reset();
+			else browserApi?.reload();
+		}
+		redrawPreview();
+	}, 500);
 
 	return () => {
 		loadToken += 1;
