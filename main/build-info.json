@@ -1,16 +1,16 @@
 {
-  "buildId": "mu2me0qo",
-  "builtAt": "2026-09-15T12:00:18.240Z",
+  "buildId": "mu3uz14h",
+  "builtAt": "2026-09-16T08:48:21.617Z",
   "artifacts": {
-    "index.html": "cd9ffb9ec4e1df5196c7cf413f5bc7c356dfb8ae5658ca63bcde523c7e98dbf8",
-    "api.html": "e4aeeaec64938372f83d3b2afa488426d96ffe31cd7891b59d5f735e907bc914",
+    "index.html": "8754656507161282549c9f967bbe3d1711f36c71803259981150a579b883be24",
+    "api.html": "4616d1dabab7409484c4450e8931a61b3b2f8cc79516df4868982012bf34910a",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
-    "Online.js": "80d6ec4b297e9bf421b49d761bd4d916ca60697bb31195222cb2b6b828e82cd2",
+    "Online.js": "e40e3654c1ed76a5c4c93fa52392e95535483d27df64105a5c583af0f3aeaf82",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
     "Config.happyro.js": "5df726d480d10561680248044c7f187e5d26bb1e0b0973f0193d4df236b6fd04",
     "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",
     "data/navigation/graph.json": "faa9ce30aae5a71f41660ff9cafcc8b4c8c0730ac2350a50bf529a36d2a8267b",
-    "data/monsters/catalog.json": "6471eee8c7a123418360b0178bc508978892cc67840440066212ca781862d797",
+    "data/monsters/catalog.json": "52e77e4d16fd97e83b553b646f7ca463a349cc380a462b3a7404a0d291117383",
     "data/world/npc-assets.json": "45af370c2c7727b4f14fbcd3fbed60945d4ba8d7799d214d732787334be119db"
   }
 }
