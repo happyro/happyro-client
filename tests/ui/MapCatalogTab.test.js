@@ -93,9 +93,10 @@ describe('map catalog current map updates', () => {
 		expect(searchAdventureMaps).toHaveBeenCalledTimes(3);
 	});
 
-	it('opens on the current map with a label and no scope switch', () => {
+	it('opens on the current map with no scope switch', () => {
 		expect(container.querySelector('[name="map-scope"]')).toBeNull();
-		expect(container.querySelector('.map-row.selected').textContent).toContain('当前所在');
+		expect(container.querySelector('.map-row.selected small').textContent).toBe('payon');
+		expect(container.querySelector('.map-row.selected').textContent).not.toContain('当前所在');
 		expect(container.querySelector('.catalog-detail').textContent).toBe('payon');
 	});
 
