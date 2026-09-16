@@ -27,28 +27,30 @@ const groups = [
 		]
 	}
 ];
-const normalDropKeys = ['item_rate_common', 'item_rate_heal', 'item_rate_use', 'item_rate_equip', 'item_rate_card'];
-const mvpDropKeys = [
-	'item_rate_common_mvp',
-	'item_rate_heal_mvp',
-	'item_rate_use_mvp',
-	'item_rate_equip_mvp',
-	'item_rate_card_mvp'
+const dropTypes = ['common', 'heal', 'use', 'equip', 'card'];
+const dropCategories = [
+	{ suffix: '', label: '普通魔物' },
+	{ suffix: '_boss', label: 'Mini' },
+	{ suffix: '_mvp', label: 'MVP' }
 ];
+const dropKeys = dropTypes.flatMap(type => dropCategories.map(({ suffix }) => `item_rate_${type}${suffix}`));
 const labels = {
 	base_exp_rate: '基础倍率',
 	job_exp_rate: '职业经验倍率',
 	item_rate_common: '普通物品掉落倍率',
-	item_rate_common_boss: 'Boss 普通物品掉落倍率',
+	item_rate_common_boss: 'Mini 普通物品掉落倍率',
 	item_rate_common_mvp: 'MVP 普通物品掉落倍率',
 	item_rate_heal: '恢复品掉落倍率',
+	item_rate_heal_boss: 'Mini 恢复品掉落倍率',
 	item_rate_heal_mvp: 'MVP 恢复品掉落倍率',
 	item_rate_use: '消耗品掉落倍率',
+	item_rate_use_boss: 'Mini 消耗品掉落倍率',
 	item_rate_use_mvp: 'MVP 消耗品掉落倍率',
 	item_rate_equip: '装备与武器掉落倍率',
+	item_rate_equip_boss: 'Mini 装备与武器掉落倍率',
 	item_rate_equip_mvp: 'MVP 装备与武器掉落倍率',
 	item_rate_card: '卡片掉落倍率',
-	item_rate_card_boss: 'Boss 卡片掉落倍率',
+	item_rate_card_boss: 'Mini 卡片掉落倍率',
 	item_rate_card_mvp: 'MVP 卡片掉落倍率',
 	navigation_teleport_policy: '地图传送开放范围',
 	navigation_teleport_cross_map: '允许跨地图传送',
@@ -59,8 +61,8 @@ const labels = {
 	game_tools_monster_spawn_duration: '魔物存在时间',
 	game_tools_monster_spawn_allow_boss: '允许召唤 Boss / MVP'
 };
-const rateKeys = new Set([...groups[0].keys, ...normalDropKeys, ...mvpDropKeys]);
-const visibleKeys = new Set([...groups.flatMap(group => group.keys), ...normalDropKeys, ...mvpDropKeys]);
+const rateKeys = new Set([...groups[0].keys, ...dropKeys]);
+const visibleKeys = new Set([...groups.flatMap(group => group.keys), ...dropKeys]);
 
 function displayValue(key, value) {
 	return rateKeys.has(key) ? Number(value) / 100 : value;
@@ -96,7 +98,7 @@ function control(key, value, definition) {
 	}
 	const isRate = rateKeys.has(key);
 	const suffix = definition.unit === 'seconds' ? ' 秒' : ' 倍';
-	return `<span class="setting-number"><input name="${key}" type="number" min="${displayValue(key, definition.minimum)}" max="${displayValue(key, definition.maximum)}" step="${isRate ? '0.01' : '1'}" value="${displayValue(key, value)}" required><em>${suffix}</em></span>`;
+	return `<span class="setting-number"><input name="${key}" aria-label="${labels[key]}" type="number" min="${displayValue(key, definition.minimum)}" max="${displayValue(key, definition.maximum)}" step="${isRate ? '0.01' : '1'}" value="${displayValue(key, value)}" required><em>${suffix}</em></span>`;
 }
 
 function mount(container) {
@@ -117,10 +119,20 @@ function mount(container) {
 		container.innerHTML = `<form class="settings-form">
 			<div class="settings-scroll">
 				<section><h4>经验倍率</h4><div class="settings-rate-columns">${groups[0].keys.map(key => `<div class="settings-rate-list"><label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label></div>`).join('')}</div></section>
-				<section><h4>掉落倍率（普通魔物 &amp; MVP）</h4><div class="settings-rate-columns">
-					<div class="settings-rate-list">${normalDropKeys.map(key => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join('')}</div>
-					<div class="settings-rate-list">${mvpDropKeys.map(key => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join('')}</div>
-				</div></section>
+				<section><h4>掉落倍率（普通魔物 &amp; Mini &amp; MVP）</h4><div class="settings-drop-scroll"><table class="settings-drop-table">
+					<thead><tr><th scope="col">物品类型</th>${dropCategories.map(({ label }) => `<th scope="col">${label}</th>`).join('')}</tr></thead>
+					<tbody>${dropTypes
+						.map(
+							type =>
+								`<tr><th scope="row">${labels[`item_rate_${type}`]}</th>${dropCategories
+									.map(({ suffix }) => {
+										const key = `item_rate_${type}${suffix}`;
+										return `<td>${control(key, settings.values[key], settings.definitions[key])}</td>`;
+									})
+									.join('')}</tr>`
+						)
+						.join('')}</tbody>
+				</table></div></section>
 				${groups
 					.slice(1)
 					.map(

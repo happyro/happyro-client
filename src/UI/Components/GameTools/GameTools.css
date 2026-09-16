@@ -402,6 +402,31 @@
 	gap: 8px;
 	white-space: nowrap;
 }
+.settings-drop-scroll {
+	overflow-x: auto;
+}
+.settings-drop-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+.settings-drop-table th,
+.settings-drop-table td {
+	padding: 5px 8px;
+	white-space: nowrap;
+	text-align: left;
+}
+.settings-drop-table tbody th {
+	font-weight: normal;
+}
+.settings-drop-table .setting-number {
+	width: 110px;
+	min-width: 110px;
+}
+.settings-drop-table .setting-number input {
+	width: 84px;
+	min-width: 84px;
+	flex-basis: 84px;
+}
 .setting-number {
 	width: 132px;
 	min-width: 132px;
