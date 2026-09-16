@@ -28,12 +28,8 @@ const groups = [
 	}
 ];
 const dropTypes = ['common', 'heal', 'use', 'equip', 'card'];
-const dropCategories = [
-	{ suffix: '', label: '普通魔物' },
-	{ suffix: '_boss', label: 'Mini' },
-	{ suffix: '_mvp', label: 'MVP' }
-];
-const dropKeys = dropTypes.flatMap(type => dropCategories.map(({ suffix }) => `item_rate_${type}${suffix}`));
+const dropCategories = ['', '_boss', '_mvp'];
+const dropKeys = dropTypes.flatMap(type => dropCategories.map(suffix => `item_rate_${type}${suffix}`));
 const labels = {
 	base_exp_rate: '基础倍率',
 	job_exp_rate: '职业经验倍率',
@@ -120,12 +116,11 @@ function mount(container) {
 			<div class="settings-scroll">
 				<section><h4>经验倍率</h4><div class="settings-rate-columns">${groups[0].keys.map(key => `<div class="settings-rate-list"><label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label></div>`).join('')}</div></section>
 				<section><h4>掉落倍率（普通魔物 &amp; Mini &amp; MVP）</h4><div class="settings-drop-scroll"><table class="settings-drop-table">
-					<thead><tr><th scope="col">物品类型</th>${dropCategories.map(({ label }) => `<th scope="col">${label}</th>`).join('')}</tr></thead>
 					<tbody>${dropTypes
 						.map(
 							type =>
 								`<tr><th scope="row">${labels[`item_rate_${type}`]}</th>${dropCategories
-									.map(({ suffix }) => {
+									.map(suffix => {
 										const key = `item_rate_${type}${suffix}`;
 										return `<td>${control(key, settings.values[key], settings.definitions[key])}</td>`;
 									})

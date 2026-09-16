@@ -29,7 +29,7 @@ it('renders three drop categories and saves Mini independently with percentage c
 	document.body.replaceChildren(container);
 	GameSettingsTab.mount(container);
 	await vi.waitFor(() => expect(container.querySelectorAll('.settings-drop-table input')).toHaveLength(15));
-	expect([...container.querySelectorAll('thead th')].map(el => el.textContent)).toEqual(['物品类型', '普通魔物', 'Mini', 'MVP']);
+	expect(container.querySelector('.settings-drop-table thead')).toBeNull();
 	container.querySelector('[name=item_rate_card_boss]').value = '10000';
 	container.querySelector('[name=item_rate_heal_boss]').value = '2.5';
 	container.querySelector('form').dispatchEvent(new Event('submit', { cancelable: true }));
