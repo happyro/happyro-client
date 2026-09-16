@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { runInNewContext } from 'node:vm';
 
 const worldMapSource = readFileSync(
 	resolve(process.cwd(), 'src/UI/Components/WorldMap/WorldMap.js'),
@@ -93,12 +94,14 @@ describe('world map navigation', () => {
 	});
 
 	it('keeps coordinate actions visible and disabled until a map target is selected', () => {
-		expect(navigationSource).toContain("button.style.display = npcTarget ? 'none' : 'inline-block'");
-		expect(navigationSource).toContain('button.disabled = !hasCoordinateTarget');
+		expect(navigationSource).toContain("button.style.display = 'inline-block'");
+		expect(navigationSource).toContain(
+			'button.disabled = !hasCoordinateTarget || !canTeleportTarget || !coordinateActionState.canTeleport'
+		);
 		expect(navigationSource).toContain("start.style.display = _autoWalkActive ? 'none' : 'inline-block'");
 		expect(navigationSource).toContain('start.disabled = !canStart');
 		expect(navigationSource).toContain('mapImageSourceRect(');
-		expect(navigationSource).toContain("ctx.fillStyle = '#2f80ed'");
+		expect(navigationSource).toContain('ctx.fillStyle = NPC_MARKER_COLOR');
 		expect(navigationSource).toContain('remainingPathFromPosition(_path, currentPos)');
 		expect(navigationSource).toContain('point.isWarp || i === remainingPath.length - 1');
 	});
@@ -112,7 +115,7 @@ describe('world map navigation', () => {
 		expect(navigationSource).toContain("closeButton.addEventListener('mousedown', event => event.stopPropagation())");
 	});
 
-	it('closes navigation and world map before requesting a coordinate teleport without a success message', () => {
+	it('only closes navigation and world map once a coordinate teleport actually starts, without a success message', () => {
 		const requestHandler = navigationSource.match(
 			/Navigation\.teleportToSelectedTarget = function teleportToSelectedTarget\(\) \{[\s\S]*?\n\};/
 		)?.[0];
@@ -120,10 +123,25 @@ describe('world map navigation', () => {
 			/Navigation\.onMapTeleportResult = function onMapTeleportResult\(packet\) \{[\s\S]*?\n\};/
 		)?.[0];
 
-		expect(requestHandler.indexOf('this.hide()')).toBeLessThan(requestHandler.indexOf('teleportToCoordinate'));
-		expect(requestHandler.indexOf('UIManager.components.WorldMap?.hide?.()')).toBeLessThan(
-			requestHandler.indexOf('teleportToCoordinate')
-		);
+		for (const started of [false, true]) {
+			const Navigation = { hide: vi.fn(), setActionStatus: vi.fn(), updateTeleportButton: vi.fn() };
+			const worldMapHide = vi.fn();
+			const teleportToCoordinate = vi.fn(() => started);
+			runInNewContext(requestHandler, {
+				Navigation,
+				UIManager: { components: { WorldMap: { hide: worldMapHide } } },
+				getTeleportTarget: () => ({ map: 'payon', x: 100, y: 120 }),
+				teleportToCoordinate
+			});
+
+			Navigation.teleportToSelectedTarget();
+
+			expect(teleportToCoordinate).toHaveBeenCalledWith({ mapName: 'payon', x: 100, y: 120 });
+			expect(Navigation.hide).toHaveBeenCalledTimes(started ? 1 : 0);
+			expect(worldMapHide).toHaveBeenCalledTimes(started ? 1 : 0);
+			expect(Navigation.setActionStatus).toHaveBeenCalledTimes(started ? 1 : 0);
+			expect(Navigation.updateTeleportButton).toHaveBeenCalledTimes(started ? 1 : 0);
+		}
 		expect(resultHandler).not.toContain("this.setActionStatus('瞬间转移')");
 		expect(adventureActionSource).toContain("setStatus('', false, null)");
 	});
