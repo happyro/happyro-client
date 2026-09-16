@@ -214,7 +214,7 @@ describe('game tools integration', () => {
 		const source = read('src/UI/Components/GameTools/NpcCatalogTab.js');
 
 		expect(source).toContain('const token = selectionToken;');
-		expect(source).toMatch(/resetSelectionAvailability = \(\) => \{\s*selectionToken \+= 1;/);
+		expect(source).toMatch(/onSelectionChange\(\) \{\s*selectionToken \+= 1;/);
 		expect(source).not.toContain('const token = ++selectionToken;');
 		expect(source).not.toContain('catalog-route');
 		expect(source).not.toContain('AdventureRouteService');

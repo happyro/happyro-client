@@ -67,10 +67,11 @@ export function searchAdventureItems({ query = '', type = '', subtype = '', page
 	return requestBody(`/items?${params}`);
 }
 
-export function searchAdventureNpcs({ query = '', onMap = '', page = 1, perPage = 32 } = {}) {
+export function searchAdventureNpcs({ query = '', onMap = '', currentMap = '', page = 1, perPage = 32 } = {}) {
 	const params = new URLSearchParams({ page, perPage });
 	if (query) params.set('query', query);
 	if (onMap) params.set('onMap', onMap);
+	if (currentMap) params.set('currentMap', currentMap);
 	return requestBody(`/npcs?${params}`);
 }
 
