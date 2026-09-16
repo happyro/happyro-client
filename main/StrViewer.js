@@ -272008,7 +272008,7 @@ var init_SkillListV2$2 = __esmMin((() => {
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.css?raw
 var SkillListV2_default$1;
 var init_SkillListV2$1 = __esmMin((() => {
-	SkillListV2_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#SkillListV2 {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	background: white;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n	border: 1px solid #c1c6c2;\r\n}\r\n#SkillListV2 .border {\r\n	border: 1px solid #c1c6c2;\r\n	margin: 1px;\r\n	border-radius: 5px;\r\n}\r\n\r\n#SkillListV2 .titlebar {\r\n	height: 18px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	background-position: 0 -1px;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SkillListV2 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SkillListV2 .titlebar .text {\r\n	position: relative;\r\n	top: -2px;\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SkillListV2 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 18px;\r\n}\r\n#SkillListV2 .titlebar .right {\r\n	position: relative;\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SkillListV2 .titlebar .right > :not(.view_skill_info) {\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n#SkillListV2 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SkillListV2 .content {\r\n	position: relative;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: 270px;\r\n	height: 200px;\r\n}\r\n#SkillListV2 .content table {\r\n	border: none;\r\n	border-spacing: 0px;\r\n	padding-top: 5px;\r\n}\r\n#SkillListV2 .content td,\r\n#SkillListV2 .content .name {\r\n	padding: 0px;\r\n}\r\n\r\n/* Mini Tab*/\r\n#SkillListV2 .tabs-mini {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs-mini::before,\r\n#SkillListV2 .tabs-mini::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs-mini::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch-mini {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label-mini {\r\n	display: block;\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	min-height: 38px;\r\n	padding: 6px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 1px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content-mini {\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + .tab-label-mini {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + label + .tab-content-mini {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n\r\n#SkillListV2 .levelup {\r\n	border: 0;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#SkillListV2 td.type {\r\n	vertical-align: bottom;\r\n}\r\n\r\n#SkillListV2 .content .icon {\r\n	padding-left: 15px;\r\n}\r\n#SkillListV2 .content .levelupcontainer {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n	width: 24px;\r\n}\r\n#SkillListV2 .content div.name {\r\n	line-height: 12px;\r\n	white-space: nowrap;\r\n	padding-left: 5px;\r\n	white-space: nowrap;\r\n	width: 120px;\r\n	padding-top: 4px;\r\n	height: 28px;\r\n}\r\n#SkillListV2 .disabled .icon,\r\n#SkillListV2 .disabled .name {\r\n	opacity: 0.5;\r\n}\r\n#SkillListV2 .disabled .consume,\r\n#SkillListV2 .disabled .level {\r\n	display: none;\r\n}\r\n#SkillListV2 .currentDown,\r\n#SkillListV2 .currentUp {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#SkillListV2 .selected.disabled .selectable {\r\n	background-color: #b5b5b5;\r\n}\r\n#SkillListV2 .selected.passive .selectable {\r\n	background-color: #73d5ee;\r\n}\r\n/*#SkillListV2 .selected.active .selectable { background-color:#739cee;}*/\r\n\r\n#SkillListV2 .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n#SkillListV2 .footer .text {\r\n	padding-top: 7px;\r\n	margin-left: 10px;\r\n}\r\n#SkillListV2 .footer .btn {\r\n	align-items: center;\r\n	justify-content: center;\r\n	white-space: nowrap;\r\n	position: absolute;\r\n	top: 5px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: none;\r\n}\r\n#SkillListV2 .footer .apply {\r\n	right: 70px;\r\n}\r\n#SkillListV2 .footer .reset {\r\n	right: 20px;\r\n}\r\n#SkillListV2 .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#lvlup_job {\r\n	z-index: 51;\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 0px;\r\n	width: 43px;\r\n	height: 43px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#SkillListV2 .tab-content {\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: calc(100% - 12px);\r\n	height: 375px;\r\n}\r\n\r\n/* skill tree with tabs */\r\n#SkillListV2 .skillCol .name,\r\n#SkillListV2 .skillCol .selectable {\r\n	position: relative;\r\n	text-align: center;\r\n	display: block;\r\n	width: 70px;\r\n	left: -23px;\r\n}\r\n#SkillListV2 .skillCol .skill {\r\n	position: relative;\r\n	top: -16px;\r\n}\r\n#SkillListV2 .skillRow {\r\n	display: flex;\r\n	padding-left: 40px;\r\n}\r\n#SkillListV2 .skillCol {\r\n	position: relative;\r\n	margin: 15px 17px;\r\n	border: 1px dashed #c0c0c0ff;\r\n	border-radius: 5px;\r\n	width: 28px;\r\n	height: 28px;\r\n	text-align: center;\r\n	white-space: nowrap;\r\n}\r\n#SkillListV2 .tabs {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs::before,\r\n#SkillListV2 .tabs::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label {\r\n	display: block;\r\n	top: 6px;\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -18px;\r\n	width: 18px;\r\n	min-height: 38px;\r\n	padding: 6px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 1px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content {\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch:checked + .tab-label {\r\n	width: 20px;\r\n	left: -20px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch:checked + label + .tab-content {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n#SkillListV2 .needleSkill {\r\n	background: pink !important;\r\n}\r\n#SkillListV2 .upgradable {\r\n	background: #c0cdff;\r\n}\r\n#SkillListV2 .counterSkill {\r\n	position: absolute;\r\n	left: 28px;\r\n	top: 18px;\r\n	color: #fff;\r\n	-webkit-text-stroke: 0.6px #2f2f2f;\r\n	font-weight: 1000;\r\n}\r\n";
+	SkillListV2_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n}\r\n\r\n#SkillListV2 {\r\n	position: absolute;\r\n	border-radius: 5px;\r\n	background: white;\r\n	line-height: 18px;\r\n	letter-spacing: 0px;\r\n	border: 1px solid #c1c6c2;\r\n}\r\n#SkillListV2 .border {\r\n	border: 1px solid #c1c6c2;\r\n	margin: 1px;\r\n	border-radius: 5px;\r\n}\r\n\r\n#SkillListV2 .titlebar {\r\n	height: 18px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	background-position: 0 -1px;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SkillListV2 .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SkillListV2 .titlebar .text {\r\n	position: relative;\r\n	top: -2px;\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	width: 60px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SkillListV2 .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n	height: 18px;\r\n}\r\n#SkillListV2 .titlebar .right {\r\n	position: relative;\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SkillListV2 .titlebar .right > :not(.view_skill_info) {\r\n	position: relative;\r\n	top: -3px;\r\n}\r\n#SkillListV2 .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SkillListV2 .content {\r\n	position: relative;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: 270px;\r\n	height: 200px;\r\n}\r\n#SkillListV2 .content table {\r\n	border: none;\r\n	border-spacing: 0px;\r\n	padding-top: 5px;\r\n}\r\n#SkillListV2 .content td,\r\n#SkillListV2 .content .name {\r\n	padding: 0px;\r\n}\r\n\r\n/* Mini Tab*/\r\n#SkillListV2 .tabs-mini {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs-mini::before,\r\n#SkillListV2 .tabs-mini::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs-mini::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch-mini {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label-mini {\r\n	display: block;\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -23px;\r\n	width: 18px;\r\n	min-height: 38px;\r\n	padding: 6px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 1px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content-mini {\r\n	overflow-y: auto;\r\n	overflow-x: hidden;\r\n	width: 100%;\r\n	height: 100%;\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + .tab-label-mini {\r\n	width: 20px;\r\n	left: -25px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch-mini:checked + label + .tab-content-mini {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n\r\n#SkillListV2 .levelup {\r\n	border: 0;\r\n	width: 24px;\r\n	height: 24px;\r\n	padding: 0;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#SkillListV2 td.type {\r\n	vertical-align: bottom;\r\n}\r\n\r\n#SkillListV2 .content .icon {\r\n	padding-left: 15px;\r\n}\r\n#SkillListV2 .content .levelupcontainer {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n	width: 24px;\r\n}\r\n#SkillListV2 .content div.name {\r\n	line-height: 12px;\r\n	white-space: nowrap;\r\n	padding-left: 5px;\r\n	white-space: nowrap;\r\n	width: 120px;\r\n	padding-top: 4px;\r\n	height: 28px;\r\n}\r\n#SkillListV2 .disabled .icon,\r\n#SkillListV2 .disabled .name {\r\n	opacity: 0.5;\r\n}\r\n#SkillListV2 .disabled .consume,\r\n#SkillListV2 .disabled .level {\r\n	display: none;\r\n}\r\n#SkillListV2 .currentDown,\r\n#SkillListV2 .currentUp {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#SkillListV2 .selected.disabled .selectable {\r\n	background-color: #b5b5b5;\r\n}\r\n#SkillListV2 .selected.passive .selectable {\r\n	background-color: #73d5ee;\r\n}\r\n/*#SkillListV2 .selected.active .selectable { background-color:#739cee;}*/\r\n\r\n#SkillListV2 .footer {\r\n	width: 100%;\r\n	height: 27px;\r\n	background-repeat: repeat-x;\r\n	background-color: transparent;\r\n	position: relative;\r\n}\r\n#SkillListV2 .footer .text {\r\n	padding-top: 7px;\r\n	margin-left: 10px;\r\n}\r\n#SkillListV2 .footer .btn {\r\n	align-items: center;\r\n	justify-content: center;\r\n	white-space: nowrap;\r\n	position: absolute;\r\n	top: 5px;\r\n	border: 0;\r\n	width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: none;\r\n}\r\n#SkillListV2 .footer .apply {\r\n	right: 70px;\r\n}\r\n#SkillListV2 .footer .reset {\r\n	right: 20px;\r\n}\r\n#SkillListV2 .footer .extend {\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 1px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n#lvlup_job {\r\n	z-index: 51;\r\n	position: absolute;\r\n	right: 0px;\r\n	bottom: 0px;\r\n	width: 43px;\r\n	height: 43px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#SkillListV2 .tab-content {\r\n	overflow-y: auto;\r\n	padding: 5px;\r\n	border-top: 1px solid #c6c6c6;\r\n	width: calc(100% - 12px);\r\n	height: 375px;\r\n}\r\n\r\n/* skill tree with tabs */\r\n#SkillListV2 .skillCol .name,\r\n#SkillListV2 .skillCol .selectable {\r\n	position: relative;\r\n	text-align: center;\r\n	display: block;\r\n	width: 70px;\r\n	left: -23px;\r\n}\r\n#SkillListV2 .skillCol .skill {\r\n	position: relative;\r\n	top: -16px;\r\n}\r\n#SkillListV2 .skillRow {\r\n	display: flex;\r\n	padding-left: 40px;\r\n}\r\n#SkillListV2 .skillCol {\r\n	position: relative;\r\n	margin: 15px 17px;\r\n	border: 1px dashed #c0c0c0ff;\r\n	border-radius: 5px;\r\n	width: 28px;\r\n	height: 28px;\r\n	text-align: center;\r\n	white-space: nowrap;\r\n}\r\n#SkillListV2 .tabs {\r\n	position: relative;\r\n}\r\n#SkillListV2 .tabs::before,\r\n#SkillListV2 .tabs::after {\r\n	content: '';\r\n	display: table;\r\n}\r\n#SkillListV2 .tabs::after {\r\n	clear: both;\r\n}\r\n#SkillListV2 .tab-switch {\r\n	display: none;\r\n}\r\n#SkillListV2 .tab-label {\r\n	display: block;\r\n	top: 6px;\r\n	writing-mode: vertical-lr;\r\n	text-orientation: upright;\r\n	left: -18px;\r\n	width: 18px;\r\n	min-height: 48px;\r\n	padding: 8px 0;\r\n	box-sizing: border-box;\r\n	position: relative;\r\n	margin: 2px 0;\r\n	border: 1px solid #c1c6c2;\r\n	background: #fff;\r\n	border-radius: 5px 0 0 5px;\r\n	cursor: pointer;\r\n	line-height: 1.25;\r\n}\r\n#SkillListV2 .tab-content {\r\n	position: absolute;\r\n	z-index: 1;\r\n	left: 0;\r\n	top: 0;\r\n	opacity: 0;\r\n}\r\n#SkillListV2 .tab-switch:checked + .tab-label {\r\n	width: 20px;\r\n	left: -20px;\r\n	z-index: 1;\r\n}\r\n#SkillListV2 .tab-switch:checked + label + .tab-content {\r\n	z-index: 2;\r\n	opacity: 1;\r\n}\r\n#SkillListV2 .needleSkill {\r\n	background: pink !important;\r\n}\r\n#SkillListV2 .upgradable {\r\n	background: #c0cdff;\r\n}\r\n#SkillListV2 .counterSkill {\r\n	position: absolute;\r\n	left: 28px;\r\n	top: 18px;\r\n	color: #fff;\r\n	-webkit-text-stroke: 0.6px #2f2f2f;\r\n	font-weight: 1000;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/SkillList/SkillListV2/SkillListV2.js
@@ -274287,13 +274287,14 @@ function searchAdventureNpcs({ query = "", onMap = "", page = 1, perPage = 32 } 
 function loadAdventureMapNpcs(map) {
 	return request(`/maps/${encodeURIComponent(map)}/npcs`);
 }
-function searchAdventureMaps({ query = "", onMap = "", page = 1, perPage = 35 } = {}) {
+function searchAdventureMaps({ query = "", onMap = "", currentMap = "", page = 1, perPage = 35 } = {}) {
 	const params = new URLSearchParams({
 		page,
 		perPage
 	});
 	if (query) params.set("query", query);
 	if (onMap) params.set("onMap", onMap);
+	if (currentMap) params.set("currentMap", currentMap);
 	return requestBody(`/maps?${params}`);
 }
 function grantAdventureZeny(amount) {
@@ -274968,6 +274969,7 @@ function mountRemoteCatalogBrowser(container, options) {
 	}
 	function resetAndLoad() {
 		state.page = 1;
+		list.scrollTop = 0;
 		loadPage();
 	}
 	search.addEventListener("input", () => {
@@ -274983,6 +274985,13 @@ function mountRemoteCatalogBrowser(container, options) {
 	options.onReady?.({
 		container,
 		reload: resetAndLoad,
+		reset() {
+			clearTimeout(searchTimer);
+			search.value = "";
+			state.selected = null;
+			renderDetail();
+			resetAndLoad();
+		},
 		refreshDetail: renderDetail
 	});
 	container.querySelector(".catalog-prev").addEventListener("click", () => {
@@ -275305,6 +275314,8 @@ function mount$3(container) {
 	let pendingSelectionClear = "";
 	let mapImageNames = /* @__PURE__ */ new Set();
 	let browserApi = null;
+	let catalogMap = getCurrentAdventureMap();
+	let catalogChannelsEnabled = SessionStorage_default.NavigationMapChannelsEnabled;
 	const refreshDetail = () => browserApi?.refreshDetail();
 	/** Ask the map server which of this map's NPCs can actually be teleported to. */
 	const checkNpcAvailability = (npcs, api) => {
@@ -275328,30 +275339,19 @@ function mount$3(container) {
 		const currentChannel = getMapChannel(currentMap);
 		const mapName = normalizeAdventureMap(row.map);
 		const mapChannel = getMapChannel(mapName);
-		const resolvedMapName = mapName === currentMap || !SessionStorage_default.NavigationMapChannelsEnabled && currentChannel && mapChannel?.canonicalMapName === currentChannel.canonicalMapName ? currentMap : mapName;
+		const isCurrentMap = mapName === currentMap || !SessionStorage_default.NavigationMapChannelsEnabled && currentChannel && mapChannel?.canonicalMapName === currentChannel.canonicalMapName;
+		const resolvedMapName = isCurrentMap ? currentMap : mapName;
 		return {
 			id: row.map,
 			mapName: resolvedMapName,
 			name: row.name_zh_cn || row.map,
+			isCurrentMap,
 			hasImage: mapImageNames.has(MiniMapTable_default[resolvedMapName] || resolvedMapName)
 		};
 	};
 	const destroyBrowser = mountRemoteCatalogBrowser(container, {
 		placeholder: "搜索地图名称或代码",
 		searchLabel: "搜索地图",
-		filterHtml: renderGameSelect({
-			name: "map-scope",
-			className: "catalog-filter",
-			ariaLabel: "地图范围",
-			value: "all",
-			options: [{
-				value: "all",
-				label: "全部地图"
-			}, {
-				value: "current",
-				label: "当前地图"
-			}]
-		}),
 		emptyDetail: "选择一个地图查看详情",
 		pageSize: 35,
 		key: (map) => map.id,
@@ -275359,7 +275359,7 @@ function mount$3(container) {
 			if (!mapImageNames.size) mapImageNames = new Set((await loadNpcAssets()).mapImages || []);
 			const result = await searchAdventureMaps({
 				query: query.query,
-				onMap: query.filters["map-scope"] === "current" ? getCurrentAdventureMap() : "",
+				currentMap: getCurrentAdventureMap(),
 				page: query.page,
 				perPage: query.perPage
 			});
@@ -275370,7 +275370,7 @@ function mount$3(container) {
 		},
 		renderRow(map, selected) {
 			return `<button class="catalog-row map-row${selected?.id === map.id ? " selected" : ""}" type="button" data-catalog-key="${escapeCatalogHtml(map.id)}">
-				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>无图</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
+				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>无图</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}${map.isCurrentMap ? " · 当前所在" : ""}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
 			</button>`;
 		},
 		onListRendered(list, maps) {
@@ -275569,7 +275569,18 @@ function mount$3(container) {
 		if (state.message === "已到达目的地") clearMapMarker();
 		refreshDetail();
 	});
-	const positionTimer = setInterval(() => redrawPreview(), 500);
+	const positionTimer = setInterval(() => {
+		const currentMap = getCurrentAdventureMap();
+		const channelsEnabled = SessionStorage_default.NavigationMapChannelsEnabled;
+		if (!MapRenderer.loading && currentMap && (currentMap !== catalogMap || channelsEnabled !== catalogChannelsEnabled)) {
+			const mapChanged = currentMap !== catalogMap;
+			catalogMap = currentMap;
+			catalogChannelsEnabled = channelsEnabled;
+			if (mapChanged) browserApi?.reset();
+			else browserApi?.reload();
+		}
+		redrawPreview();
+	}, 500);
 	return () => {
 		loadToken += 1;
 		mapNpcsToken += 1;
@@ -275597,7 +275608,7 @@ var init_MapCatalogTab = __esmMin((() => {
 	init_NpcAvailabilityService();
 	init_AdventureRouteService();
 	init_NavigationAutoWalk();
-	init_GameSelect();
+	init_MapRenderer();
 	init_WorldAssetService();
 	init_WorldMapPreview();
 	init_WorldCatalogService();
@@ -374654,6 +374665,11 @@ function onCreateRequest(index) {
 * @param {number} sex - sex
 */
 function onCharCreationRequest(name, Str, Agi, Vit, Int, Dex, Luk, hair, color, job, sex) {
+	name = name.trim();
+	if (!name) {
+		UIManager.showMessageBox("请输入角色名", "ok");
+		return;
+	}
 	let pkt;
 	if (PacketVerManager_default.value < 20120307) {
 		pkt = new PACKET.CH.MAKE_CHAR();
