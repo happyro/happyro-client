@@ -73,9 +73,7 @@ function mount(container) {
 			.then(results => {
 				if (token !== npcAvailabilityToken) return;
 				const flattened = results.flat();
-				npcAvailability = Object.fromEntries(
-					npcs.map((npc, index) => [npcCatalogKey(npc), flattened[index]])
-				);
+				npcAvailability = Object.fromEntries(npcs.map((npc, index) => [npcCatalogKey(npc), flattened[index]]));
 				api.refreshDetail();
 			})
 			.catch(() => {
@@ -228,7 +226,7 @@ function mount(container) {
 				targetActionState.canTeleport;
 			const currentMapName =
 				DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
-			const routeMessage = !sameMap ? '寻路仅支持角色当前所在地图' : routeMatches ? routeState.message : '';
+			const routeMessage = routeMatches && routeState.message === '无法到达所选位置' ? routeState.message : '';
 			const npcListScrollTop = detail.querySelector('.map-npc-scroll')?.scrollTop || 0;
 			const selectedNpc = mapNpcs.find(npc => npcCatalogKey(npc) === selectedNpcKey);
 			if (selectedNpc) {
@@ -241,9 +239,9 @@ function mount(container) {
 				? npcTeleportEnabled(selectedNpc, npcAvailability[npcCatalogKey(selectedNpc)], npcActionState)
 				: false;
 			const canTeleportHere = selectedNpc ? canTeleportNpc : canTeleport;
-			const npcStatus = actionState.kind === 'npc' ? actionState.message : '';
+			const npcStatus = actionState.kind === 'npc' && actionState.error ? actionState.message : '';
 			const mapStatus =
-				(actionState.kind === 'coordinate' ? actionState.message : '') ||
+				(actionState.kind === 'coordinate' && actionState.error ? actionState.message : '') ||
 				routeMessage ||
 				(!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : '');
 			const selectionLabel = selectedNpc
@@ -274,9 +272,9 @@ function mount(container) {
 					</section>
 					</div>
 					<div class="catalog-action-panel">
-						<button class="catalog-route" type="button" ${routeTarget && sameMap ? '' : 'disabled'}>${routeActive ? '停止寻路' : '开始寻路'}</button>
+						<button class="catalog-route" title="${!sameMap ? '寻路仅支持角色当前所在地图' : !routeTarget ? '请先选择目标位置' : ''}" type="button" ${routeTarget && sameMap ? '' : 'disabled'}>${routeActive ? '停止寻路' : '开始寻路'}</button>
 					<button class="catalog-teleport" type="button" ${canTeleportHere ? '' : 'disabled'}>${actionState.npcPending && selectedNpc ? '正在传送...' : '传送到这里'}</button>
-					<span class="catalog-status${(actionState.kind === 'coordinate' || actionState.kind === 'npc') && actionState.error ? ' error' : ''}">${escapeCatalogHtml(npcStatus || mapStatus)}</span>
+					<span class="catalog-status error">${escapeCatalogHtml(npcStatus || mapStatus)}</span>
 				</div>`;
 			const canvas = detail.querySelector('.catalog-map');
 			const picker = detail.querySelector('.catalog-map-picker');
@@ -365,7 +363,11 @@ function mount(container) {
 	const positionTimer = setInterval(() => {
 		const currentMap = getCurrentAdventureMap();
 		const channelsEnabled = Session.NavigationMapChannelsEnabled;
-		if (!MapRenderer.loading && currentMap && (currentMap !== catalogMap || channelsEnabled !== catalogChannelsEnabled)) {
+		if (
+			!MapRenderer.loading &&
+			currentMap &&
+			(currentMap !== catalogMap || channelsEnabled !== catalogChannelsEnabled)
+		) {
 			const mapChanged = currentMap !== catalogMap;
 			catalogMap = currentMap;
 			catalogChannelsEnabled = channelsEnabled;

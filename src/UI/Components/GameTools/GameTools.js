@@ -1,3 +1,8 @@
+import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
+import { trackTabView } from './TabViewState.js';
+import { subscribeAdventureActions, clearAdventureActionFeedback } from './AdventureActionService.js';
+import { subscribeAdventureRoute, clearAdventureRouteFeedback } from './AdventureRouteService.js';
+import { clearGameToolsToast, showGameToolsToast } from './GameToolsToast.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import UIManager from 'UI/UIManager.js';
 import Preferences from 'Core/Preferences.js';
@@ -23,9 +28,8 @@ registerGameToolsTab(gameSettingsTab);
 
 const preferences = Preferences.get('GameTools', { tab: 'maps' }, 2.0);
 const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
-let cleanupTab;
-let mountedTabId;
-let mountedCapabilities;
+const mountedTabs = new Map();
+let activeTabId;
 let capabilities;
 let shouldRestoreAfterMapLoad = false;
 
@@ -52,10 +56,33 @@ GameTools.onShortCut = function onShortCut(key) {
 GameTools.init = function init() {
 	const root = this.getRoot();
 	this.draggable('.titlebar');
+	let lastActionMessage = '';
+	subscribeAdventureActions(state => {
+		const previous = lastActionMessage;
+		lastActionMessage = state.message;
+		if (this._host.style.display === 'none') return;
+		const window = root.querySelector('.game-tools-window');
+		if (state.error) clearGameToolsToast(window);
+		else if (state.message && state.message !== previous) {
+			showGameToolsToast(window, state.message, state.npcPending || state.mapPending ? 'info' : 'success');
+		}
+	});
+	let lastRouteMessage = '';
+	subscribeAdventureRoute(state => {
+		const previous = lastRouteMessage;
+		lastRouteMessage = state.message;
+		if (this._host.style.display === 'none') return;
+		const window = root.querySelector('.game-tools-window');
+		if (state.message === '无法到达所选位置') clearGameToolsToast(window);
+		else if (state.message && state.message !== previous) {
+			showGameToolsToast(window, state.message, state.message === '已到达目的地' ? 'success' : 'info');
+		}
+	});
 	root.addEventListener('invalid', event => event.target.setCustomValidity(validationMessage(event.target)), true);
 	root.addEventListener('input', event => event.target.setCustomValidity?.(''), true);
 	root.querySelector('.close').addEventListener('click', () => this.toggle());
 	root.querySelector('.close').addEventListener('mousedown', event => event.stopImmediatePropagation());
+	clearGameToolsToast(this.getRoot().querySelector('.game-tools-window'));
 	this._host.style.display = 'none';
 	this.renderTabs();
 };
@@ -63,6 +90,13 @@ GameTools.init = function init() {
 GameTools.renderTabs = function renderTabs({ reopening = false } = {}) {
 	const root = this.getRoot();
 	const tabs = getGameToolsTabs().filter(tab => !tab.capability || capabilities?.[tab.capability] === true);
+	for (const [id, entry] of mountedTabs) {
+		if (tabs.some(tab => tab.id === id)) continue;
+		entry.cleanup?.();
+		entry.view.destroy();
+		entry.container.remove();
+		mountedTabs.delete(id);
+	}
 	if (!tabs.length) return;
 	const selected = tabs.find(tab => tab.id === preferences.tab) || tabs[0];
 	root.querySelector('.tab-list').innerHTML = tabs
@@ -88,20 +122,49 @@ GameTools.selectTab = function selectTab(id) {
 
 GameTools.mountTab = function mountTab(tab, reopening = false) {
 	const content = this.getRoot().querySelector('.tab-content');
-	// Reopening the window and refreshing capabilities both re-render the tab
-	// strip; remounting the same tab would refetch its whole catalog.
-	const nextCapabilities = JSON.stringify(capabilities);
-	const needsRefresh = (reopening && tab.refreshOnOpen) || (tab.capability && mountedCapabilities !== nextCapabilities);
-	if (tab.id === mountedTabId && content.firstElementChild && !needsRefresh) return;
-	mountedCapabilities = nextCapabilities;
-	cleanupTab?.();
-	mountedTabId = tab.id;
-	content.innerHTML = '<div class="game-tools-tab"></div>';
-	cleanupTab = tab.mount(content.firstElementChild, { capabilities, close: () => {
-		shouldRestoreAfterMapLoad = false;
-		this._host.style.display = 'none';
-	} });
+	const switching = activeTabId !== tab.id;
+	if (!switching && !reopening && mountedTabs.has(tab.id)) return;
+	clearGameToolsToast(content.closest('.game-tools-window'));
+	clearAdventureActionFeedback();
+	clearAdventureRouteFeedback();
+	for (const [id, entry] of mountedTabs) {
+		entry.container.hidden = id !== tab.id;
+		entry.container.dispatchEvent(new Event('game-tools-reset-feedback'));
+	}
+	let entry = mountedTabs.get(tab.id);
+	if (!entry) {
+		const container = document.createElement('div');
+		container.className = 'game-tools-tab';
+		container.dataset.tabId = tab.id;
+		content.append(container);
+		const view = trackTabView(container);
+		const context = {
+			get capabilities() {
+				return capabilities;
+			}
+		};
+		entry = { container, view, cleanup: tab.mount(container, context) };
+		mountedTabs.set(tab.id, entry);
+	} else {
+		entry.container.hidden = false;
+		entry.container.dispatchEvent(new Event('game-tools-activate'));
+		entry.view.restore();
+	}
+	activeTabId = tab.id;
 };
+
+onConnectionEnd(() => {
+	for (const entry of mountedTabs.values()) {
+		entry.cleanup?.();
+		entry.view.destroy();
+		entry.container.remove();
+	}
+	mountedTabs.clear();
+	activeTabId = undefined;
+	capabilities = undefined;
+	shouldRestoreAfterMapLoad = false;
+	if (GameTools._host) GameTools._host.style.display = 'none';
+});
 
 GameTools.onAppend = function onAppend() {
 	this.centerInViewport();
@@ -131,6 +194,13 @@ GameTools.centerInViewport = function centerInViewport() {
 
 GameTools.toggle = function toggle() {
 	if (this.__active && this._host.style.display !== 'none') {
+		clearGameToolsToast(this.getRoot().querySelector('.game-tools-window'));
+		clearAdventureActionFeedback();
+		clearAdventureRouteFeedback();
+		for (const entry of mountedTabs.values()) {
+			entry.view.discardDrafts();
+			entry.container.dispatchEvent(new Event('game-tools-reset-feedback'));
+		}
 		this._host.style.display = 'none';
 		return;
 	}
@@ -147,7 +217,11 @@ GameTools.refreshCapabilities = async function refreshCapabilities() {
 		const nextCapabilities = { ...(await loadAdventureControlBootstrap()), adminAvailable: true };
 		const changed = JSON.stringify(capabilities) !== JSON.stringify(nextCapabilities);
 		capabilities = nextCapabilities;
-		if (changed) this.renderTabs();
+		if (changed) {
+			for (const entry of mountedTabs.values())
+				entry.container.dispatchEvent(new Event('game-tools-reset-feedback'));
+			this.renderTabs();
+		}
 	} catch {
 		capabilities = {
 			adminAvailable: false,

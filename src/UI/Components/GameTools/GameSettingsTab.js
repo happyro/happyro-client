@@ -1,3 +1,5 @@
+import { clearTabDrafts } from './TabViewState.js';
+import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
 import { applyAdventureGameSettings, loadAdventureGameSettings } from './AdventureControlService.js';
 import escapeHtml from './escapeHtml.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
@@ -27,28 +29,26 @@ const groups = [
 		]
 	}
 ];
-const normalDropKeys = ['item_rate_common', 'item_rate_heal', 'item_rate_use', 'item_rate_equip', 'item_rate_card'];
-const mvpDropKeys = [
-	'item_rate_common_mvp',
-	'item_rate_heal_mvp',
-	'item_rate_use_mvp',
-	'item_rate_equip_mvp',
-	'item_rate_card_mvp'
-];
+const dropTypes = ['common', 'heal', 'use', 'equip', 'card'];
+const dropCategories = ['', '_boss', '_mvp'];
+const dropKeys = dropTypes.flatMap(type => dropCategories.map(suffix => `item_rate_${type}${suffix}`));
 const labels = {
 	base_exp_rate: '基础倍率',
 	job_exp_rate: '职业经验倍率',
 	item_rate_common: '普通物品掉落倍率',
-	item_rate_common_boss: 'Boss 普通物品掉落倍率',
+	item_rate_common_boss: 'Mini 普通物品掉落倍率',
 	item_rate_common_mvp: 'MVP 普通物品掉落倍率',
 	item_rate_heal: '恢复品掉落倍率',
+	item_rate_heal_boss: 'Mini 恢复品掉落倍率',
 	item_rate_heal_mvp: 'MVP 恢复品掉落倍率',
 	item_rate_use: '消耗品掉落倍率',
+	item_rate_use_boss: 'Mini 消耗品掉落倍率',
 	item_rate_use_mvp: 'MVP 消耗品掉落倍率',
 	item_rate_equip: '装备与武器掉落倍率',
+	item_rate_equip_boss: 'Mini 装备与武器掉落倍率',
 	item_rate_equip_mvp: 'MVP 装备与武器掉落倍率',
 	item_rate_card: '卡片掉落倍率',
-	item_rate_card_boss: 'Boss 卡片掉落倍率',
+	item_rate_card_boss: 'Mini 卡片掉落倍率',
 	item_rate_card_mvp: 'MVP 卡片掉落倍率',
 	navigation_teleport_policy: '地图传送开放范围',
 	navigation_teleport_cross_map: '允许跨地图传送',
@@ -59,8 +59,8 @@ const labels = {
 	game_tools_monster_spawn_duration: '魔物存在时间',
 	game_tools_monster_spawn_allow_boss: '允许召唤 Boss / MVP'
 };
-const rateKeys = new Set([...groups[0].keys, ...normalDropKeys, ...mvpDropKeys]);
-const visibleKeys = new Set([...groups.flatMap(group => group.keys), ...normalDropKeys, ...mvpDropKeys]);
+const rateKeys = new Set([...groups[0].keys, ...dropKeys]);
+const visibleKeys = new Set([...groups.flatMap(group => group.keys), ...dropKeys]);
 
 function displayValue(key, value) {
 	return rateKeys.has(key) ? Number(value) / 100 : value;
@@ -96,19 +96,25 @@ function control(key, value, definition) {
 	}
 	const isRate = rateKeys.has(key);
 	const suffix = definition.unit === 'seconds' ? ' 秒' : ' 倍';
-	return `<span class="setting-number"><input name="${key}" type="number" min="${displayValue(key, definition.minimum)}" max="${displayValue(key, definition.maximum)}" step="${isRate ? '0.01' : '1'}" value="${displayValue(key, value)}" required><em>${suffix}</em></span>`;
+	return `<span class="setting-number"><input name="${key}" aria-label="${labels[key]}" type="number" min="${displayValue(key, definition.minimum)}" max="${displayValue(key, definition.maximum)}" step="${isRate ? '0.01' : '1'}" value="${displayValue(key, value)}" required><em>${suffix}</em></span>`;
 }
 
 function mount(container) {
 	container.classList.add('management-tab');
 	let settings;
+	let disposed = false;
+	let loadToken = 0;
 
 	async function load(message = '') {
-		container.innerHTML = '<div class="management-loading">正在读取服务器实际设置...</div>';
+		const token = ++loadToken;
+		if (!settings) container.innerHTML = '<div class="management-loading">正在读取服务器实际设置...</div>';
 		try {
-			settings = await loadAdventureGameSettings();
+			const next = await loadAdventureGameSettings();
+			if (disposed || token !== loadToken) return;
+			settings = next;
 			render(message);
 		} catch (error) {
+			if (disposed || token !== loadToken) return;
 			container.innerHTML = `<div class="management-error">${escapeHtml(error.message)}</div>`;
 		}
 	}
@@ -117,10 +123,19 @@ function mount(container) {
 		container.innerHTML = `<form class="settings-form">
 			<div class="settings-scroll">
 				<section><h4>经验倍率</h4><div class="settings-rate-columns">${groups[0].keys.map(key => `<div class="settings-rate-list"><label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label></div>`).join('')}</div></section>
-				<section><h4>掉落倍率（普通魔物 &amp; MVP）</h4><div class="settings-rate-columns">
-					<div class="settings-rate-list">${normalDropKeys.map(key => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join('')}</div>
-					<div class="settings-rate-list">${mvpDropKeys.map(key => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join('')}</div>
-				</div></section>
+				<section><h4>掉落倍率（普通魔物 &amp; Mini &amp; MVP）</h4><div class="settings-drop-scroll"><table class="settings-drop-table">
+					<tbody>${dropTypes
+						.map(
+							type =>
+								`<tr><th scope="row">${labels[`item_rate_${type}`]}</th>${dropCategories
+									.map(suffix => {
+										const key = `item_rate_${type}${suffix}`;
+										return `<td>${control(key, settings.values[key], settings.definitions[key])}</td>`;
+									})
+									.join('')}</tr>`
+						)
+						.join('')}</tbody>
+				</table></div></section>
 				${groups
 					.slice(1)
 					.map(
@@ -145,7 +160,8 @@ function mount(container) {
 				if (value !== settings.values[key]) changes[key] = value;
 			}
 			if (!Object.keys(changes).length) {
-				render('没有需要应用的修改');
+				render();
+				showGameToolsToast(container, '没有需要应用的修改', 'info');
 				return;
 			}
 			form.querySelectorAll('button, input').forEach(element => (element.disabled = true));
@@ -160,16 +176,32 @@ function mount(container) {
 			}
 			try {
 				const result = await applyAdventureGameSettings(changes);
+				clearTabDrafts(container);
 				settings.values = result.values;
-				render('设置已应用并回读成功');
+				render();
+				showGameToolsToast(container, '游戏设置已保存');
 			} catch (requestError) {
+				clearGameToolsToast(container);
 				render(requestError.message, true);
 			}
 		});
 	}
 
+	const refresh = () => {
+		void load();
+	};
+	const clearFeedback = () => {
+		if (settings) render();
+	};
+	container.addEventListener('game-tools-activate', refresh);
+	container.addEventListener('game-tools-reset-feedback', clearFeedback);
 	void load();
-	return () => {};
+	return () => {
+		disposed = true;
+		loadToken++;
+		container.removeEventListener('game-tools-activate', refresh);
+		container.removeEventListener('game-tools-reset-feedback', clearFeedback);
+	};
 }
 
 export default { id: 'settings', label: '游戏设置', refreshOnOpen: true, capability: 'gameSettingsAllowed', mount };

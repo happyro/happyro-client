@@ -89,3 +89,35 @@ describe('NPC catalog refresh', () => {
 		expect(root.querySelector('.catalog-teleport').disabled).toBe(true);
 	});
 });
+
+it('preserves empty scope across map changes until the user views all', async () => {
+ searchAdventureNpcs.mockImplementation(async ({ onMap }) => ({ data: onMap ? [] : [row('prontera')], total: onMap ? 0 : 1 }));
+ world.map = 'empty';
+ await vi.advanceTimersByTimeAsync(500);
+ const scope = root.querySelector('.catalog-scope-filter');
+ expect(scope.checked).toBe(true);
+ expect(root.querySelectorAll('.catalog-row')).toHaveLength(0);
+ root.querySelector('.catalog-empty-state button').click();
+ await vi.advanceTimersByTimeAsync(0);
+ expect(scope.checked).toBe(false);
+ expect(root.querySelectorAll('.catalog-row')).toHaveLength(1);
+ scope.checked = true; scope.dispatchEvent(new Event('change'));
+ await vi.advanceTimersByTimeAsync(0);
+ expect(scope.checked).toBe(true);
+ expect(root.querySelectorAll('.catalog-row')).toHaveLength(0);
+ const search = root.querySelector('.catalog-search');
+ search.value = 'missing'; search.dispatchEvent(new Event('input'));
+ await vi.advanceTimersByTimeAsync(250);
+ world.map = 'another_empty';
+ await vi.advanceTimersByTimeAsync(500);
+ expect(scope.checked).toBe(true);
+ expect(search.value).toBe('missing');
+});
+it('keeps current-map scope on initial empty load', async () => {
+ cleanup();
+ searchAdventureNpcs.mockImplementation(async ({ onMap }) => ({ data: onMap ? [] : [row('prontera')], total: onMap ? 0 : 1 }));
+ cleanup = tab.mount(root);
+ await vi.advanceTimersByTimeAsync(0);
+ expect(root.querySelector('.catalog-scope-filter').checked).toBe(true);
+ expect(root.querySelectorAll('.catalog-row')).toHaveLength(0);
+});

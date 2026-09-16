@@ -199,3 +199,7 @@ export function handleNpcTeleportResult(packet) {
 export function notifyAdventureConfigChanged() {
 	notify();
 }
+
+export function clearAdventureActionFeedback() {
+	setStatus('', false, null);
+}

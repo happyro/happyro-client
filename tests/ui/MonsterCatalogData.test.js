@@ -9,7 +9,7 @@ import {
 
 const monsters = [
 	{ id: 1002, name: '波利', nameEn: 'Poring', aegisName: 'PORING', boss: false },
-	{ id: 1039, name: '兽人英雄', nameEn: 'Orc Hero', aegisName: 'ORC_HERO', boss: true }
+	{ id: 1039, name: '兽人英雄', nameEn: 'Orc Hero', aegisName: 'ORC_HERO', boss: true, mvp: true }
 ];
 
 describe('monster catalog data', () => {
@@ -22,7 +22,7 @@ describe('monster catalog data', () => {
 
 	it('filters boss classification independently from search', () => {
 		expect(filterMonsters(monsters, '', 'normal')).toEqual([monsters[0]]);
-		expect(filterMonsters(monsters, '', 'boss')).toEqual([monsters[1]]);
+		expect(filterMonsters(monsters, '', 'mvp')).toEqual([monsters[1]]);
 	});
 
 	it('limits monsters to the current spawn map when scoped to the current map', () => {

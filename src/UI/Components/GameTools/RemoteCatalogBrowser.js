@@ -1,3 +1,4 @@
+import { resetTabScroll } from './TabViewState.js';
 import { mountGameSelects } from './GameSelect.js';
 
 export function mountRemoteCatalogBrowser(container, options) {
@@ -36,6 +37,7 @@ export function mountRemoteCatalogBrowser(container, options) {
 		const nextKey = state.selected ? options.key(state.selected) : null;
 		if (nextKey !== selectedKey) {
 			selectedKey = nextKey;
+			resetTabScroll(container, detail);
 			options.onSelectionChange?.(state.selected);
 		}
 		if (!state.selected) detail.innerHTML = `<div class="empty-detail">${options.emptyDetail}</div>`;
@@ -51,6 +53,7 @@ export function mountRemoteCatalogBrowser(container, options) {
 		container.querySelector('.catalog-prev').disabled = state.loading || state.page <= 1;
 		container.querySelector('.catalog-next').disabled = state.loading || state.page >= pageCount;
 		list.innerHTML = state.items.map(item => options.renderRow(item, state.selected)).join('');
+		if (!state.loading && !state.error && !state.items.length) options.renderEmptyList?.(list, search.value.trim());
 		list.querySelectorAll('[data-catalog-key]').forEach(button =>
 			button.addEventListener('click', () => {
 				state.selected =
@@ -62,7 +65,7 @@ export function mountRemoteCatalogBrowser(container, options) {
 		options.onListRendered?.(list, state.items);
 	}
 
-	async function loadPage() {
+	async function loadPage({ selectFirst = false } = {}) {
 		const token = ++requestToken;
 		state.loading = true;
 		state.error = '';
@@ -80,9 +83,8 @@ export function mountRemoteCatalogBrowser(container, options) {
 			if (token !== requestToken) return;
 			state.items = result.items;
 			state.total = result.total;
-			if (state.selected) {
-				state.selected =
-					state.items.find(item => options.key(item) === options.key(state.selected)) || state.selected;
+			if (state.selected && !selectFirst) {
+				state.selected = state.items.find(item => options.key(item) === options.key(state.selected)) || null;
 			} else {
 				state.selected = state.items[0] || null;
 			}
@@ -104,7 +106,7 @@ export function mountRemoteCatalogBrowser(container, options) {
 		state.selected = null;
 		renderDetail();
 		state.page = 1;
-		list.scrollTop = 0;
+		resetTabScroll(container, list);
 		void loadPage();
 	}
 	search.addEventListener('input', () => {
@@ -136,11 +138,13 @@ export function mountRemoteCatalogBrowser(container, options) {
 	});
 	container.querySelector('.catalog-prev').addEventListener('click', () => {
 		state.page -= 1;
-		void loadPage();
+		resetTabScroll(container, list);
+		void loadPage({ selectFirst: true });
 	});
 	container.querySelector('.catalog-next').addEventListener('click', () => {
 		state.page += 1;
-		void loadPage();
+		resetTabScroll(container, list);
+		void loadPage({ selectFirst: true });
 	});
 	void loadPage();
 
