@@ -74,7 +74,10 @@ function loadCatalog() {
  */
 function loadDrops() {
 	if (!dropsPromise) {
-		dropsPromise = loadMonsterFile('drops.json', 'Monster drops');
+		dropsPromise = loadMonsterFile('drops.json', 'Monster drops').catch(error => {
+			dropsPromise = null;
+			throw error;
+		});
 	}
 	return dropsPromise;
 }
@@ -106,9 +109,12 @@ function formatRate(rate) {
 
 function mount(container) {
 	container.classList.add('monster-tab');
+	let destroyed = false;
 	const state = {
 		catalog: null,
 		drops: null,
+		dropsLoading: false,
+		dropsError: false,
 		monsters: [],
 		filtered: [],
 		selected: null,
@@ -250,13 +256,21 @@ function mount(container) {
 			detail.innerHTML = '<div class="empty-detail">选择一个魔物查看详情</div>';
 			return;
 		}
-		if (!state.drops) {
+		if (!state.drops && !state.dropsLoading && !state.dropsError) {
+			state.dropsLoading = true;
 			loadDrops()
 				.then(payload => {
+					if (destroyed) return;
 					state.drops = payload.drops;
+					state.dropsLoading = false;
 					renderDetail();
 				})
-				.catch(error => console.error(error));
+				.catch(() => {
+					if (destroyed) return;
+					state.dropsLoading = false;
+					state.dropsError = true;
+					renderDetail();
+				});
 		}
 		const bossBlocked = monster.boss && !Session.GameToolsMonsterSpawnAllowBoss;
 		const cooldownRemaining = Math.max(0, Math.ceil((state.cooldownUntil - Date.now()) / 1000));
@@ -293,6 +307,8 @@ function mount(container) {
 				<section class="monster-drops"><h4>掉落物品</h4>${
 					state.drops
 						? `${renderDrops(state.drops[monster.id]?.mvpDrops, 'MVP 奖励')}${renderDrops(state.drops[monster.id]?.drops, '普通掉落') || '<p>无掉落资料</p>'}`
+						: state.dropsError
+						? '<p>掉落资料加载失败</p><button type="button" class="monster-drops-retry">重试</button>'
 						: '<p>掉落资料加载中...</p>'
 				}</section>
 				<section class="monster-locations">
@@ -380,9 +396,15 @@ function mount(container) {
 			console.error(error);
 			summary.textContent = '魔物资料加载失败';
 		});
+	container.addEventListener('click', event => {
+		if (!event.target.closest('.monster-drops-retry')) return;
+		state.dropsError = false;
+		renderDetail();
+	});
 	const unsubscribeAdventureActions = subscribeAdventureActions(() => renderDetail());
 
 	return () => {
+		destroyed = true;
 		clearTimeout(state.requestTimer);
 		clearInterval(state.cooldownTimer);
 		unsubscribeAdventureActions();
