@@ -57,50 +57,32 @@ export function toWorldEntities(results) {
 	return (results || []).map(toWorldEntity).filter(Boolean);
 }
 
-import NpcCatalog from 'DB/Navigation/NpcCatalog.json';
-
 /**
- * Build the adventure NPC catalogue from server instances that have an
- * official navigation identity and can therefore request NPC teleport.
+ * Adapt one adventure-tools NPC row into the shared world entity shape used by
+ * teleport, availability checks and the map preview.
  */
-export function mergeNpcCatalog(navigationResults, localizeMap) {
-	const navigation = toWorldEntities(navigationResults).filter(entity => entity.type === WORLD_ENTITY_TYPES.NPC);
-	const navigationByPosition = new Map();
-	for (const entity of navigation) {
-		const position = `${entity.mapName}:${entity.x}:${entity.y}`;
-		if (!navigationByPosition.has(position)) navigationByPosition.set(position, entity);
-	}
+export function toCatalogNpc(row) {
+	const npcClass = Number.isFinite(row.navigation?.class) ? row.navigation.class : null;
+	return toWorldEntity({
+		type: WORLD_ENTITY_TYPES.NPC,
+		id: row.id,
+		name: row.display_name,
+		sourceName: row.source_name,
+		rawName: row.name,
+		mapName: row.map,
+		mapDisplayName: row.map_name_zh_cn || row.map,
+		x: row.x,
+		y: row.y,
+		npcClass,
+		spriteId: Number.isFinite(row.display_sprite_id) ? row.display_sprite_id : null,
+		catalogOrder: row.catalog_order,
+		scriptType: row.type,
+		source: 'server'
+	});
+}
 
-	return NpcCatalog.entries
-		.map(instance => {
-			const position = `${instance.map}:${instance.x}:${instance.y}`;
-			const matched = navigationByPosition.get(position);
-			const npcClass = Number.isFinite(matched?.npcClass)
-				? matched.npcClass
-				: Number.isFinite(instance.navigation_class)
-					? instance.navigation_class
-					: null;
-			return toWorldEntity({
-				...(matched || {}),
-				type: WORLD_ENTITY_TYPES.NPC,
-				id: matched?.id || instance.navigation_id || instance.id,
-				name: instance.name,
-				sourceName: instance.source_name,
-				rawName: matched?.rawName || instance.source_name,
-				aliases: matched?.aliases || [],
-				mapName: instance.map,
-				mapDisplayName: matched?.mapDisplayName || localizeMap(instance.map),
-				x: instance.x,
-				y: instance.y,
-				npcClass,
-				spriteId: Number.isFinite(instance.display_sprite_id) ? instance.display_sprite_id : null,
-				catalogOrder: instance.catalog_order,
-				gameVisible: instance.game_visible,
-				scriptType: instance.type,
-				source: 'server+navigation'
-			});
-		})
-		.filter(npc => npc.gameVisible);
+export function toCatalogNpcs(rows) {
+	return (rows || []).map(toCatalogNpc);
 }
 
 export function entityKey(entity) {
@@ -127,17 +109,4 @@ export function npcTeleportEnabled(npc, available, actionState) {
 			npc?.type === 'NPC' &&
 			Number.isFinite(npc.npcClass)
 	);
-}
-
-export function filterNpcsOnMap(npcs, mapName) {
-	const map = normalizeWorldMapName(mapName);
-	if (!map) return [];
-	return (npcs || [])
-		.filter(npc => normalizeWorldMapName(npc.mapName || npc.map) === map)
-		.sort(
-			(left, right) =>
-				String(left.name || left.display_name || '').localeCompare(String(right.name || right.display_name || '')) ||
-				(left.x ?? 0) - (right.x ?? 0) ||
-				(left.y ?? 0) - (right.y ?? 0)
-		);
 }

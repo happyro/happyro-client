@@ -67,6 +67,28 @@ export function searchAdventureItems({ query = '', type = '', subtype = '', page
 	return requestBody(`/items?${params}`);
 }
 
+export function searchAdventureNpcs({ query = '', onMap = '', page = 1, perPage = 32 } = {}) {
+	const params = new URLSearchParams({ page, perPage });
+	if (query) params.set('query', query);
+	if (onMap) params.set('onMap', onMap);
+	return requestBody(`/npcs?${params}`);
+}
+
+/**
+ * Every NPC on one map. The map preview places all markers at once, so this
+ * stays unpaginated on purpose.
+ */
+export function loadAdventureMapNpcs(map) {
+	return request(`/maps/${encodeURIComponent(map)}/npcs`);
+}
+
+export function searchAdventureMaps({ query = '', onMap = '', page = 1, perPage = 35 } = {}) {
+	const params = new URLSearchParams({ page, perPage });
+	if (query) params.set('query', query);
+	if (onMap) params.set('onMap', onMap);
+	return requestBody(`/maps?${params}`);
+}
+
 export function grantAdventureZeny(amount) {
 	return request('/currency/zeny/grants', {
 		method: 'POST',

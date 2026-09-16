@@ -172,7 +172,7 @@ for (let sheetIndex = 0; sheetIndex * entriesPerSheet < monstersWithImages.lengt
 }
 
 const catalog = {
-	schema: 'happyro-monster-catalog/v2',
+	schema: 'happyro-monster-catalog/v3',
 	source: {
 		sha256: crypto.createHash('sha256').update(snapshotBuffer).digest('hex'),
 		itemsSha256: crypto.createHash('sha256').update(itemSnapshotBuffer).digest('hex'),
@@ -203,8 +203,6 @@ const catalog = {
 			mvp: Boolean(monster.MvpDrops?.length),
 			baseExp: monster.BaseExp,
 			jobExp: monster.JobExp,
-			drops: localizeDrops(monster.Drops),
-			mvpDrops: localizeDrops(monster.MvpDrops),
 			spawns: [...(spawnsByMonster.get(id)?.values() || [])].sort(
 				(left, right) => right.count - left.count || left.mapName.localeCompare(right.mapName)
 			),
@@ -214,7 +212,21 @@ const catalog = {
 	})
 };
 
+// Drops are 70% of the catalog by size and are only needed when a monster is
+// opened, so they ship as a separate file the detail pane fetches on demand.
+const drops = {
+	schema: 'happyro-monster-drops/v1',
+	source: catalog.source,
+	drops: Object.fromEntries(
+		monsters.map(({ id, monster }) => [
+			id,
+			{ drops: localizeDrops(monster.Drops), mvpDrops: localizeDrops(monster.MvpDrops) }
+		])
+	)
+};
+
 await fs.writeFile(path.join(outputDirectory, 'catalog.json'), `${JSON.stringify(catalog)}\n`);
+await fs.writeFile(path.join(outputDirectory, 'drops.json'), `${JSON.stringify(drops)}\n`);
 console.log(
 	`Generated ${monsters.length} monsters (${monstersWithImages.length} images) in ${Math.ceil(monstersWithImages.length / entriesPerSheet)} atlases.`
 );

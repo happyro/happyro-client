@@ -1,7 +1,7 @@
-import DB from 'DB/DBManager.js';
 import Session from 'Engine/SessionStorage.js';
-import { mountCatalogBrowser } from './CatalogBrowser.js';
-import { escapeCatalogHtml, matchesCatalogSearch, renderCatalogScopeFilter } from './CatalogData.js';
+import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
+import { escapeCatalogHtml, renderCatalogScopeFilter } from './CatalogData.js';
+import { searchAdventureNpcs } from './AdventureControlService.js';
 import {
 	getAdventureActionState,
 	getCurrentAdventureMap,
@@ -12,68 +12,9 @@ import { requestNpcAvailability } from './NpcAvailabilityService.js';
 import { loadNpcAssets, npcAtlasStyle } from './WorldAssetService.js';
 import { loadCatalogMap } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
-import { mergeNpcCatalog, npcCatalogKey, npcTeleportEnabled } from './WorldCatalogService.js';
+import { npcCatalogKey, npcTeleportEnabled, toCatalogNpcs } from './WorldCatalogService.js';
 
 const key = npcCatalogKey;
-const catalogPromises = new Map();
-
-export function loadAdventureNpcCatalog() {
-	const catalogKey = Session.NavigationMapChannelsEnabled ? 'channels' : 'shared';
-	if (!catalogPromises.has(catalogKey)) {
-		catalogPromises.set(
-			catalogKey,
-			Promise.all([
-				loadNpcAssets(),
-				Promise.resolve(DB.listNavigation('NPC', { channelsEnabled: Session.NavigationMapChannelsEnabled }))
-			]).then(([assets, npcs]) => {
-				const mapNames = new Map();
-				const localizeMap = mapName => {
-					if (!mapNames.has(mapName))
-						mapNames.set(
-							mapName,
-							DB.getMapInfo(`${mapName}.rsw`)?.displayName || DB.getMapName(mapName, mapName)
-						);
-					return mapNames.get(mapName);
-				};
-				return { assets, items: mergeNpcCatalog(npcs, localizeMap) };
-			})
-		);
-	}
-	return catalogPromises.get(catalogKey);
-}
-
-function filterNpcs(npcs, search, scope) {
-	const currentMap = getCurrentAdventureMap();
-	const filtered = npcs.filter(
-		npc =>
-			(scope !== 'current' || npc.mapName === currentMap) &&
-			matchesCatalogSearch(
-				[npc.name, npc.sourceName, npc.rawName, npc.aliases, npc.mapDisplayName, npc.mapName, npc.npcClass],
-				search
-			)
-	);
-	const term = String(search || '')
-		.trim()
-		.toLocaleLowerCase();
-	if (!term && scope === 'all') return filtered;
-	const rank = npc => {
-		const names = [npc.name, npc.sourceName, npc.rawName, npc.aliases]
-			.flat()
-			.map(value => String(value || '').toLocaleLowerCase());
-		if (names.some(name => name === term)) return 0;
-		if (names.some(name => name.startsWith(term))) return 1;
-		if (names.some(name => name.includes(term))) return 2;
-		return 3;
-	};
-	return filtered.sort(
-		(left, right) =>
-			Number(right.mapName === currentMap) - Number(left.mapName === currentMap) ||
-			rank(left) - rank(right) ||
-			Number(right.source === 'server+navigation') - Number(left.source === 'server+navigation') ||
-			left.name.localeCompare(right.name) ||
-			left.mapDisplayName.localeCompare(right.mapDisplayName)
-	);
-}
 
 function mount(container) {
 	container.classList.add('world-catalog-tab', 'npc-catalog-tab');
@@ -85,14 +26,27 @@ function mount(container) {
 	let loadedNpcMap = null;
 	let loadingNpcMapName = '';
 	let mapLoadToken = 0;
-	const browser = mountCatalogBrowser(container, {
+	let scopeFilter = null;
+	let browserApi = null;
+	const refreshDetail = () => browserApi?.refreshDetail();
+	const destroyBrowser = mountRemoteCatalogBrowser(container, {
 		placeholder: '搜索 NPC、地图或编号',
 		searchLabel: '搜索 NPC',
 		filterHtml: renderCatalogScopeFilter({ name: 'npc-scope', ariaLabel: '当前地图', value: 'current' }),
 		emptyDetail: '选择一个 NPC 查看详情',
 		pageSize: 32,
 		key,
-		filter: filterNpcs,
+		async load(query) {
+			// Resolved from a cached promise, so this only blocks the first page.
+			manifest ??= await loadNpcAssets();
+			const result = await searchAdventureNpcs({
+				query: query.query,
+				onMap: scopeFilter?.checked ? getCurrentAdventureMap() : '',
+				page: query.page,
+				perPage: query.perPage
+			});
+			return { items: toCatalogNpcs(result.data), total: result.total };
+		},
 		renderRow(npc, selected) {
 			const style = npcAtlasStyle(manifest, npc.spriteId, 48);
 			return `<button class="catalog-row${key(selected || {}) === key(npc) ? ' selected' : ''}" type="button" data-catalog-key="${escapeCatalogHtml(key(npc))}">
@@ -151,11 +105,14 @@ function mount(container) {
 						api.refreshDetail();
 					});
 			}
+		},
+		onReady(api) {
+			browserApi = api;
+			scopeFilter = api.container.querySelector('.catalog-scope-filter');
+			scopeFilter?.addEventListener('change', api.reload);
 		}
 	});
-	const scopeFilter = container.querySelector('.catalog-scope-filter');
 
-	const originalRenderDetail = browser.refreshDetail;
 	const resetSelectionAvailability = () => {
 		selectionToken += 1;
 		available = null;
@@ -164,24 +121,14 @@ function mount(container) {
 	container.querySelector('.catalog-list').addEventListener('click', resetSelectionAvailability, true);
 	const unsubscribeActions = subscribeAdventureActions(state => {
 		actionState = state;
-		originalRenderDetail();
+		refreshDetail();
 	});
-
-	loadAdventureNpcCatalog()
-		.then(({ assets, items }) => {
-			manifest = assets;
-			if (scopeFilter && !filterNpcs(items, '', 'current').length) scopeFilter.checked = false;
-			browser.setItems(items);
-		})
-		.catch(error => {
-			console.error(error);
-			browser.setStatus('NPC 资料加载失败');
-		});
 
 	return () => {
 		selectionToken += 1;
 		mapLoadToken += 1;
 		unsubscribeActions();
+		destroyBrowser();
 	};
 }
 

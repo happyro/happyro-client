@@ -14,10 +14,20 @@ const localizers = {
 	map: map => ({ prontera: '普隆德拉' })[map] || map
 };
 
+const instanceNames = {
+	'prontera:146:89': { name: '卡普拉员工', sourceName: 'Kafra Employee' }
+};
+const withInstances = (options = {}) => ({ ...options, instanceNames });
+
+const mapEntry = (map, name) => ({ map, name, supported: true });
+const novicePrtFild08 = ['prt_fild08', 'prt_fild08a', 'prt_fild08b', 'prt_fild08c', 'prt_fild08d'].map(id =>
+	mapEntry(id, '普隆德拉南门')
+);
+
 describe('navigation data', () => {
 	it('searches and displays localized NPC names', () => {
 		const rows = [['prontera', 10, 100, 4, 'Kafra', '', 146, 89]];
-		const results = searchNavigationRows(rows, [], '卡普拉', 'NPC', localizers);
+		const results = searchNavigationRows(rows, [], '卡普拉', 'NPC', localizers, withInstances());
 
 		expect(results).toEqual([
 			{
@@ -36,13 +46,13 @@ describe('navigation data', () => {
 	it('supports a single-character localized search', () => {
 		const rows = [['prontera', 10, 100, 4, 'Kafra', '', 146, 89]];
 
-		expect(searchNavigationRows(rows, [], '卡', 'NPC', localizers)).toHaveLength(1);
+		expect(searchNavigationRows(rows, [], '卡', 'NPC', localizers, withInstances())).toHaveLength(1);
 	});
 
 	it('lists the complete NPC catalog with searchable source metadata', () => {
 		const rows = [['prontera', 10, 100, 4, 'Kafra', '', 146, 89]];
 
-		expect(listNavigationRows(rows, [], 'NPC', localizers)[0]).toMatchObject({
+		expect(listNavigationRows(rows, [], 'NPC', localizers, withInstances())[0]).toMatchObject({
 			name: '卡普拉员工',
 			rawName: 'Kafra',
 			aliases: ['Kafra Employee']
@@ -76,23 +86,24 @@ describe('navigation data', () => {
 	});
 
 	it('searches maps by localized name or resource id without duplicates', () => {
-		const worlds = [
-			{ maps: [{ id: 'prontera', name: '普隆德拉' }, { id: 'prt_fild08', name: '普隆德拉原野 08' }] },
-			{ maps: [{ id: 'prontera', name: '普隆德拉' }] }
+		const entries = [
+			mapEntry('prontera', '普隆德拉'),
+			mapEntry('prt_fild08', '普隆德拉原野 08'),
+			mapEntry('prt_maze01', '普隆德拉迷宫 1F'),
+			{ map: 'prt_unsupported', name: '普隆德拉未支持', supported: false }
 		];
 
-		const mapInfo = { 'prt_maze01.rsw': { displayName: '普隆德拉迷宫 1F' } };
-		const localizedResults = searchNavigationMaps(worlds, mapInfo, '普隆德拉', 'MAP', id => id);
+		const localizedResults = searchNavigationMaps(entries, '普隆德拉', 'MAP');
 		expect(localizedResults).toHaveLength(3);
 		expect(localizedResults[0]).toMatchObject({ id: 'prontera', name: '普隆德拉' });
-		expect(searchNavigationMaps(worlds, mapInfo, 'prt_fild08', 'MAP', id => id)[0]).toMatchObject({
+		expect(searchNavigationMaps(entries, 'prt_fild08', 'MAP')[0]).toMatchObject({
 			type: 'MAP',
 			mapName: 'prt_fild08',
 			name: '普隆德拉原野 08',
 			x: null,
 			y: null
 		});
-		expect(searchNavigationMaps(worlds, mapInfo, '普隆德拉', 'NPC', id => id)).toEqual([]);
+		expect(searchNavigationMaps(entries, '普隆德拉', 'NPC')).toEqual([]);
 	});
 
 	it('lists all maps without requiring a search term', () => {
@@ -107,19 +118,12 @@ describe('navigation data', () => {
 
 		expect(maps).toEqual([]);
 		expect(
-			listNavigationRows([['jor_tail', 10, 100, 4, 'Kafra', '', 146, 89]], [], 'NPC', localizers)
+			listNavigationRows([['jor_tail', 10, 100, 4, 'Kafra', '', 146, 89]], [], 'NPC', localizers, withInstances())
 		).toEqual([]);
 	});
 
 	it('hides novice map channel replicas by default', () => {
-		const mapInfo = Object.fromEntries(
-			['prt_fild08', 'prt_fild08a', 'prt_fild08b', 'prt_fild08c', 'prt_fild08d'].map(id => [
-				`${id}.rsw`,
-				{ displayName: '普隆德拉南门' }
-			])
-		);
-
-		const results = searchNavigationMaps([], mapInfo, '普隆德拉南门', 'MAP', id => id);
+		const results = searchNavigationMaps(novicePrtFild08, '普隆德拉南门', 'MAP');
 
 		expect(results).toEqual([
 			expect.objectContaining({ id: 'prt_fild08', name: '普隆德拉南门' })
@@ -127,14 +131,7 @@ describe('navigation data', () => {
 	});
 
 	it('labels every novice map channel when channels are enabled', () => {
-		const mapInfo = Object.fromEntries(
-			['prt_fild08', 'prt_fild08a', 'prt_fild08b', 'prt_fild08c', 'prt_fild08d'].map(id => [
-				`${id}.rsw`,
-				{ displayName: '普隆德拉南门' }
-			])
-		);
-
-		const results = searchNavigationMaps([], mapInfo, '普隆德拉南门', 'MAP', id => id, {
+		const results = searchNavigationMaps(novicePrtFild08, '普隆德拉南门', 'MAP', {
 			channelsEnabled: true
 		});
 

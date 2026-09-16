@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
 	entityKey,
-	filterNpcsOnMap,
-	mergeNpcCatalog,
 	npcTeleportEnabled,
+	toCatalogNpcs,
 	toWorldEntity
 } from '../../src/UI/Components/GameTools/WorldCatalogService.js';
 
@@ -28,24 +27,46 @@ describe('WorldCatalogService', () => {
 		expect(entity.capabilities.canRoute).toBe(true);
 	});
 
-	it('only exposes server NPC instances with a teleport identity', () => {
-		const catalog = mergeNpcCatalog([], mapName => mapName);
-		expect(catalog).toHaveLength(4438);
-		expect(catalog.every(npc => npc.source === 'server+navigation')).toBe(true);
-		expect(catalog.every(npc => npc.capabilities.canTeleportToNpc)).toBe(true);
-		expect(catalog.every(npc => Number.isFinite(npc.spriteId))).toBe(true);
-		expect(catalog.some(npc => npc.npcClass !== npc.spriteId)).toBe(true);
+	it('adapts adventure-tools rows into teleportable world entities', () => {
+		const [npc] = toCatalogNpcs([
+			{
+				id: 'prontera:150:180:Kafra#prt',
+				map: 'Prontera.GAT',
+				map_name_zh_cn: '普隆德拉',
+				x: 150,
+				y: 180,
+				name: 'Kafra#prt',
+				source_name: 'Kafra Employee',
+				display_name: '卡普拉员工',
+				type: 'script',
+				display_sprite_id: 117,
+				navigation: { id: 1, class: 4 },
+				catalog_order: 7
+			}
+		]);
+
+		expect(npc).toMatchObject({
+			type: 'NPC',
+			name: '卡普拉员工',
+			sourceName: 'Kafra Employee',
+			mapName: 'prontera',
+			mapDisplayName: '普隆德拉',
+			x: 150,
+			y: 180,
+			npcClass: 4,
+			spriteId: 117,
+			source: 'server'
+		});
+		expect(npc.capabilities.canTeleportToNpc).toBe(true);
 	});
 
-	it('filters the shared NPC catalog down to one map', () => {
-		const npcs = [
-			{ mapName: 'prontera', name: '卡普拉', x: 150, y: 180, type: 'NPC' },
-			{ mapName: 'payon', name: '铁匠', x: 88, y: 99, type: 'NPC' },
-			{ mapName: 'PAYON.gat', name: '仓库', x: 10, y: 20, type: 'NPC' }
-		];
-		expect(filterNpcsOnMap(npcs, 'payon').map(npc => npc.name)).toEqual(['仓库', '铁匠']);
-		expect(filterNpcsOnMap(npcs, 'Prontera.GAT').map(npc => npc.name)).toEqual(['卡普拉']);
-		expect(filterNpcsOnMap(npcs, '').map(npc => npc.name)).toEqual([]);
+	it('leaves rows without a navigation class non-teleportable', () => {
+		const [npc] = toCatalogNpcs([
+			{ id: 'payon:1:1:Sign', map: 'payon', x: 1, y: 1, display_name: '告示牌', navigation: null }
+		]);
+
+		expect(npc.npcClass).toBeNull();
+		expect(npc.capabilities.canTeleportToNpc).toBe(false);
 	});
 });
 

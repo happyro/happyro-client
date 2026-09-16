@@ -1,7 +1,6 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import NpcInstanceNameTable from '../../src/DB/Navigation/NpcInstanceNameTable.js';
 
 const projectRoot = resolve(import.meta.dirname, '../..');
 const read = path => readFileSync(resolve(projectRoot, path), 'utf8');
@@ -12,7 +11,7 @@ describe('game tools integration', () => {
 		const ids = new Set(catalog.monsters.map(monster => monster.id));
 		const poring = catalog.monsters.find(monster => monster.id === 1002);
 
-		expect(catalog.schema).toBe('happyro-monster-catalog/v2');
+		expect(catalog.schema).toBe('happyro-monster-catalog/v3');
 		expect(catalog.source.sha256).toMatch(/^[a-f0-9]{64}$/);
 		expect(catalog.source.itemsSha256).toMatch(/^[a-f0-9]{64}$/);
 		expect(catalog.source.spawnsSha256).toMatch(/^[a-f0-9]{64}$/);
@@ -20,20 +19,30 @@ describe('game tools integration', () => {
 		expect(ids.size).toBe(catalog.monsters.length);
 		expect(poring).toMatchObject({ name: '波利', nameEn: 'Poring', atlas: 0 });
 		expect(poring.spawns).toContainEqual(expect.objectContaining({ mapName: 'prt_fild08', count: 87 }));
-		expect(poring.drops[0]).toMatchObject({
+		expect(catalog.monsters.every(monster => !('drops' in monster) && !('mvpDrops' in monster))).toBe(true);
+
+		for (const atlas of new Set(catalog.monsters.map(monster => monster.atlas).filter(Number.isInteger))) {
+			expect(existsSync(resolve(projectRoot, `applications/pwa/data/monsters/atlas-${atlas}.webp`))).toBe(true);
+		}
+	});
+
+	it('ships monster drops as a separate on-demand file', () => {
+		const dropsFile = JSON.parse(read('applications/pwa/data/monsters/drops.json'));
+		const catalog = JSON.parse(read('applications/pwa/data/monsters/catalog.json'));
+
+		expect(dropsFile.schema).toBe('happyro-monster-drops/v1');
+		expect(dropsFile.source.sha256).toBe(catalog.source.sha256);
+		expect(Object.keys(dropsFile.drops)).toHaveLength(catalog.monsters.length);
+		expect(dropsFile.drops[1002].drops[0]).toMatchObject({
 			Item: 'Jellopy',
 			itemId: 909,
 			name: '杰勒比结晶',
 			nameEn: 'Jellopy'
 		});
 
-		const drops = catalog.monsters.flatMap(monster => [...monster.drops, ...monster.mvpDrops]);
+		const drops = Object.values(dropsFile.drops).flatMap(entry => [...entry.drops, ...entry.mvpDrops]);
 		expect(drops).toHaveLength(13339);
 		expect(drops.every(drop => drop.itemId > 0 && drop.name && drop.nameEn)).toBe(true);
-
-		for (const atlas of new Set(catalog.monsters.map(monster => monster.atlas).filter(Number.isInteger))) {
-			expect(existsSync(resolve(projectRoot, `applications/pwa/data/monsters/atlas-${atlas}.webp`))).toBe(true);
-		}
 	});
 
 	it('ships the verified NPC image atlases', () => {
@@ -53,38 +62,58 @@ describe('game tools integration', () => {
 		}
 	});
 
-	it('shares the generated localized NPC instance table across navigation and the catalog', () => {
+	it('ships the localized NPC instance table as a fetched navigation resource', () => {
 		const names = JSON.parse(read('src/DB/NpcNameTranslations.zh-CN.json'));
-		const catalog = JSON.parse(read('src/DB/Navigation/NpcCatalog.json'));
+		const catalog = JSON.parse(read('../happyro-admin/backend/resources/game-data/world/npc-catalog.json'));
 		const assets = JSON.parse(read('applications/pwa/data/world/npc-assets.json'));
-		const instances = read('src/DB/Navigation/NpcInstanceNameTable.js');
+		const instances = JSON.parse(read('applications/pwa/data/navigation/npc-instances.json'));
 		expect(Object.keys(names)).toHaveLength(4335);
 		expect(Object.values(names).every(name => /[\u3400-\u9fff]/.test(name))).toBe(true);
-		expect(Object.keys(NpcInstanceNameTable).length).toBeGreaterThan(10000);
+		expect(instances.schemaVersion).toBe(1);
+		expect(Object.keys(instances.instances).length).toBeGreaterThan(10000);
 		expect(catalog.schema).toBe('happyro-npc-catalog/v1');
 		expect(catalog.entries.length).toBeGreaterThan(13000);
-		const teleportable = catalog.entries.filter(npc => Number.isFinite(npc.navigation_class));
+		const teleportable = catalog.entries.filter(npc => Number.isFinite(npc.navigation?.class));
 		const visible = teleportable.filter(npc => Number.isFinite(npc.display_sprite_id));
 		expect(teleportable).toHaveLength(4698);
 		expect(visible).toHaveLength(4438);
 		expect(catalog.entries.filter(npc => npc.game_visible)).toHaveLength(4438);
 		expect(catalog.entries.every((npc, index) => npc.catalog_order === index)).toBe(true);
 		expect(visible.every(npc => assets.sprites[npc.display_sprite_id])).toBe(true);
-		expect(Object.values(NpcInstanceNameTable).every(npc => /[\u3400-\u9fff]/.test(npc.name))).toBe(true);
+		expect(Object.values(instances.instances).every(npc => /[\u3400-\u9fff]/.test(npc.name))).toBe(true);
 		expect(
-			visible.filter(npc => npc.map === 'iz_int' && npc.name === '受伤的剑士').map(npc => npc.navigation_class)
+			visible.filter(npc => npc.map === 'iz_int' && npc.display_name === '受伤的剑士').map(npc => npc.navigation.class)
 		).toEqual([687]);
 		expect(
-			visible.filter(npc => npc.map === 'int_land').map(npc => npc.name)
+			visible.filter(npc => npc.map === 'int_land').map(npc => npc.display_name)
 		).toEqual(expect.arrayContaining(['卡洛克船长', '卢敏', '水手']));
-		expect(NpcInstanceNameTable['aldeba_in:155:240']).toMatchObject({
+		expect(instances.instances['aldeba_in:155:240']).toMatchObject({
 			name: '卡普拉员工',
 			sourceName: 'Kafra Employee'
 		});
-		expect(instances).toContain('aldeba_in:155:240');
-		expect(instances).toContain('卡普拉员工');
-		expect(read('src/DB/Navigation/NavigationData.js')).toContain('getNpcInstanceName(npc[0], npc[6], npc[7])');
-		expect(read('src/UI/Components/GameTools/NpcCatalogTab.js')).toContain('mergeNpcCatalog');
+		expect(read('src/DB/Navigation/NavigationData.js')).toContain(
+			'getNpcInstanceName(instanceNames, npc[0], npc[6], npc[7])'
+		);
+		expect(read('src/DB/DBManager.js')).toContain('loadNpcInstanceNames()');
+	});
+
+	it('keeps the big world catalogs out of the bundle', () => {
+		for (const bundled of [
+			'src/DB/Navigation/NpcCatalog.json',
+			'src/DB/Navigation/NpcInstanceNameTable.js',
+			'src/DB/Navigation/MapCatalog.json'
+		]) {
+			expect(existsSync(resolve(projectRoot, bundled))).toBe(false);
+		}
+		for (const fetched of [
+			'applications/pwa/data/navigation/npc-instances.json',
+			'applications/pwa/data/navigation/map-catalog.json',
+			'applications/pwa/data/monsters/drops.json'
+		]) {
+			expect(existsSync(resolve(projectRoot, fetched))).toBe(true);
+		}
+		expect(read('src/UI/Components/GameTools/NpcCatalogTab.js')).toContain('searchAdventureNpcs(');
+		expect(read('src/UI/Components/GameTools/MapCatalogTab.js')).toContain('searchAdventureMaps(');
 	});
 
 	it('registers independent NPC and map catalog tabs', () => {
@@ -118,27 +147,23 @@ describe('game tools integration', () => {
 		expect(npcSource).toContain('class="catalog-heading"');
 		expect(npcSource).toContain('class="npc-detail-body"');
 		expect(npcSource).toContain('renderCatalogScopeFilter');
-		expect(npcSource).toContain("!filterNpcs(items, '', 'current').length");
-		expect(npcSource).toContain('scopeFilter.checked = false');
+		expect(npcSource).toContain("scopeFilter?.checked ? getCurrentAdventureMap() : ''");
 		expect(npcSource).not.toContain("value: 'all'");
-		expect(read('src/UI/Components/GameTools/CatalogBrowser.js')).toContain(
-			'if (!state.selected && options.selectFirst !== false) state.selected = state.filtered[0] || null'
-		);
 	});
 
 	it('lists NPCs for the selected map and teleports through the existing NPC action', () => {
 		const mapSource = read('src/UI/Components/GameTools/MapCatalogTab.js');
-		expect(mapSource).toContain('filterNpcsOnMap(catalogNpcs, map.mapName)');
+		expect(mapSource).toContain('loadAdventureMapNpcs(map.mapName)');
 		expect(mapSource).toContain('teleportToNpc(selectedNpc)');
 		expect(mapSource).toContain('npcTeleportEnabled');
 		expect(mapSource).toContain('class="map-detail-body"');
 		expect(mapSource).toContain('class="map-npc-list"');
 		expect(mapSource).not.toContain('map-npc-teleport');
 		expect(mapSource).toContain('npcList.scrollTop = npcListScrollTop');
-		expect(mapSource).toContain('loadAdventureNpcCatalog()');
-		expect(mapSource).toContain('selectFirst: false');
-		expect(mapSource).toContain('currentMapItem || browser.state.filtered[0] || null');
-		expect(read('src/UI/Components/GameTools/NpcCatalogTab.js')).toContain('export function loadAdventureNpcCatalog()');
+		expect(mapSource).toContain('mapNpcs = toCatalogNpcs(rows)');
+		expect(read('src/UI/Components/GameTools/AdventureControlService.js')).toContain(
+			"return request(`/maps/${encodeURIComponent(map)}/npcs`)"
+		);
 	});
 
 	it('provides current-map route previews, terrain thumbnails and route lifecycle state', () => {
@@ -213,7 +238,7 @@ describe('game tools integration', () => {
 			'const packetLength = 10 + count * 24'
 		);
 		expect(read('src/UI/Components/GameTools/MapCatalogTab.js')).toContain(
-			'index += 50'
+			'npcAvailabilityBatches(npcs).map(batch => requestNpcAvailability(batch))'
 		);
 		expect(read('src/Network/PacketRegister.js')).toContain(
 			'0xcfb: PACKET.ZC.HAPPYRO_NPC_AVAILABILITY_RESULT'

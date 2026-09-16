@@ -2,8 +2,9 @@ import DB from 'DB/DBManager.js';
 import { getMapChannel } from 'DB/Map/MapChannels.js';
 import MiniMapTable from 'DB/Map/MiniMapTable.js';
 import Session from 'Engine/SessionStorage.js';
-import { mountCatalogBrowser } from './CatalogBrowser.js';
+import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
 import { escapeCatalogHtml } from './CatalogData.js';
+import { loadAdventureMapNpcs, searchAdventureMaps } from './AdventureControlService.js';
 import {
 	getAdventureActionState,
 	getCurrentAdventureMap,
@@ -13,8 +14,7 @@ import {
 	teleportToCoordinate,
 	teleportToNpc
 } from './AdventureActionService.js';
-import { requestNpcAvailability } from './NpcAvailabilityService.js';
-import { loadAdventureNpcCatalog } from './NpcCatalogTab.js';
+import { npcAvailabilityBatches, requestNpcAvailability } from './NpcAvailabilityService.js';
 import {
 	previewAdventureRoute,
 	startAdventureRoute,
@@ -22,7 +22,6 @@ import {
 	subscribeAdventureRoute
 } from './AdventureRouteService.js';
 import { remainingPathFromPosition } from 'UI/Components/Navigation/NavigationAutoWalk.js';
-import { filterAndSortMaps } from './MapCatalogData.js';
 import { renderGameSelect } from './GameSelect.js';
 import {
 	canvasToMapCoordinate,
@@ -33,11 +32,7 @@ import {
 	loadNpcAssets
 } from './WorldAssetService.js';
 import { drawWorldMapPreview } from './WorldMapPreview.js';
-import { filterNpcsOnMap, npcCatalogKey, npcTeleportEnabled, toWorldEntities } from './WorldCatalogService.js';
-
-function filterMaps(maps, search, scope) {
-	return filterAndSortMaps(maps, search, scope, getCurrentAdventureMap());
-}
+import { npcCatalogKey, npcTeleportEnabled, toCatalogNpcs } from './WorldCatalogService.js';
 
 function npcAvailabilityLabel(available) {
 	if (available === true) return '可传送';
@@ -58,15 +53,59 @@ function mount(container) {
 	let thumbnailObserver = null;
 	let redrawPreview = () => {};
 	let previewResizeObserver = null;
-	let catalogNpcs = [];
+	let mapNpcs = [];
+	let mapNpcsToken = 0;
 	let npcAvailability = {};
 	let npcAvailabilityToken = 0;
 	let selectedNpcKey = '';
 	let pendingSelectionClear = '';
-	const browser = mountCatalogBrowser(container, {
+	let mapImageNames = new Set();
+	let browserApi = null;
+	const refreshDetail = () => browserApi?.refreshDetail();
+	/** Ask the map server which of this map's NPCs can actually be teleported to. */
+	const checkNpcAvailability = (npcs, api) => {
+		if (!npcs.length) return;
+		const token = ++npcAvailabilityToken;
+		npcAvailability = Object.fromEntries(npcs.map(npc => [npcCatalogKey(npc), 'checking']));
+		Promise.all(npcAvailabilityBatches(npcs).map(batch => requestNpcAvailability(batch)))
+			.then(results => {
+				if (token !== npcAvailabilityToken) return;
+				const flattened = results.flat();
+				npcAvailability = Object.fromEntries(
+					npcs.map((npc, index) => [npcCatalogKey(npc), flattened[index]])
+				);
+				api.refreshDetail();
+			})
+			.catch(() => {
+				if (token !== npcAvailabilityToken) return;
+				npcAvailability = Object.fromEntries(npcs.map(npc => [npcCatalogKey(npc), false]));
+				api.refreshDetail();
+			});
+	};
+	/** Adapt one adventure-tools map row, resolving the channel the character is on. */
+	const toCatalogMap = row => {
+		const currentMap = normalizeAdventureMap(getCurrentAdventureMap());
+		const currentChannel = getMapChannel(currentMap);
+		const mapName = normalizeAdventureMap(row.map);
+		const mapChannel = getMapChannel(mapName);
+		const isCurrentMap =
+			mapName === currentMap ||
+			(!Session.NavigationMapChannelsEnabled &&
+				currentChannel &&
+				mapChannel?.canonicalMapName === currentChannel.canonicalMapName);
+		const resolvedMapName = isCurrentMap ? currentMap : mapName;
+		return {
+			id: row.map,
+			mapName: resolvedMapName,
+			name: row.name_zh_cn || row.map,
+			hasImage: mapImageNames.has(MiniMapTable[resolvedMapName] || resolvedMapName)
+		};
+	};
+	const destroyBrowser = mountRemoteCatalogBrowser(container, {
 		placeholder: '搜索地图名称或代码',
 		searchLabel: '搜索地图',
 		filterHtml: renderGameSelect({
+			name: 'map-scope',
 			className: 'catalog-filter',
 			ariaLabel: '地图范围',
 			value: 'all',
@@ -76,10 +115,19 @@ function mount(container) {
 			]
 		}),
 		emptyDetail: '选择一个地图查看详情',
-		selectFirst: false,
 		pageSize: 35,
 		key: map => map.id,
-		filter: filterMaps,
+		async load(query) {
+			// Resolved from a cached promise, so this only blocks the first page.
+			if (!mapImageNames.size) mapImageNames = new Set((await loadNpcAssets()).mapImages || []);
+			const result = await searchAdventureMaps({
+				query: query.query,
+				onMap: query.filters['map-scope'] === 'current' ? getCurrentAdventureMap() : '',
+				page: query.page,
+				perPage: query.perPage
+			});
+			return { items: result.data.map(toCatalogMap), total: result.total };
+		},
 		renderRow(map, selected) {
 			return `<button class="catalog-row map-row${selected?.id === map.id ? ' selected' : ''}" type="button" data-catalog-key="${escapeCatalogHtml(map.id)}">
 				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>无图</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
@@ -144,36 +192,20 @@ function mount(container) {
 					}
 					api.refreshDetail();
 				});
-				const mapNpcsForCheck = filterNpcsOnMap(catalogNpcs, map.mapName);
-				if (mapNpcsForCheck.length) {
-					const availabilityToken = ++npcAvailabilityToken;
-					for (const npc of mapNpcsForCheck) npcAvailability[npcCatalogKey(npc)] = 'checking';
-					const batches = [];
-					for (let index = 0; index < mapNpcsForCheck.length; index += 50) {
-						batches.push(mapNpcsForCheck.slice(index, index + 50));
-					}
-					Promise.all(batches.map(batch => requestNpcAvailability(batch)))
-						.then(results => {
-							if (availabilityToken !== npcAvailabilityToken) return;
-							const next = {};
-							let offset = 0;
-							for (const result of results) {
-								for (const available of result) {
-									next[npcCatalogKey(mapNpcsForCheck[offset])] = available;
-									offset += 1;
-								}
-							}
-							npcAvailability = next;
-							api.refreshDetail();
-						})
-						.catch(() => {
-							if (availabilityToken !== npcAvailabilityToken) return;
-							const next = {};
-							for (const npc of mapNpcsForCheck) next[npcCatalogKey(npc)] = false;
-							npcAvailability = next;
-							api.refreshDetail();
-						});
-				}
+				mapNpcs = [];
+				const npcsToken = ++mapNpcsToken;
+				loadAdventureMapNpcs(map.mapName)
+					.then(rows => {
+						if (npcsToken !== mapNpcsToken) return;
+						mapNpcs = toCatalogNpcs(rows);
+						api.refreshDetail();
+						checkNpcAvailability(mapNpcs, api);
+					})
+					.catch(() => {
+						if (npcsToken !== mapNpcsToken) return;
+						mapNpcs = [];
+						api.refreshDetail();
+					});
 			}
 			const target = selectedCoordinate ? { ...map, ...selectedCoordinate } : null;
 			const routeTarget = target && !target.random ? target : null;
@@ -199,7 +231,6 @@ function mount(container) {
 			const currentMapName =
 				DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
 			const routeMessage = !sameMap ? '寻路仅支持角色当前所在地图' : routeMatches ? routeState.message : '';
-			const mapNpcs = filterNpcsOnMap(catalogNpcs, map.mapName);
 			const npcListScrollTop = detail.querySelector('.map-npc-scroll')?.scrollTop || 0;
 			const selectedNpc = mapNpcs.find(npc => npcCatalogKey(npc) === selectedNpcKey);
 			if (selectedNpc) {
@@ -309,6 +340,9 @@ function mount(container) {
 					api.refreshDetail();
 				});
 			}
+		},
+		onReady(api) {
+			browserApi = api;
 		}
 	});
 
@@ -323,49 +357,18 @@ function mount(container) {
 		actionState = state;
 		if (waiting && wasPending && !state.npcPending && !state.mapPending && !state.error) clearMapMarker();
 		else if (waiting && !state.npcPending && !state.mapPending && state.error) pendingSelectionClear = '';
-		browser.refreshDetail();
+		refreshDetail();
 	});
 	const unsubscribeRoute = subscribeAdventureRoute(state => {
 		routeState = state;
 		if (state.message === '已到达目的地') clearMapMarker();
-		browser.refreshDetail();
+		refreshDetail();
 	});
 	const positionTimer = setInterval(() => redrawPreview(), 500);
-	Promise.all([loadNpcAssets(), loadAdventureNpcCatalog()])
-		.then(async ([assets, npcCatalog]) => {
-			catalogNpcs = npcCatalog.items;
-			const mapsWithImages = new Set(assets.mapImages || []);
-			const currentMap = normalizeAdventureMap(getCurrentAdventureMap());
-			const currentChannel = getMapChannel(currentMap);
-			const navigationMaps = await DB.listNavigation('MAP', {
-				channelsEnabled: Session.NavigationMapChannelsEnabled
-			});
-			const items = toWorldEntities(navigationMaps).map(map => {
-				const mapName = normalizeAdventureMap(map.mapName);
-				const mapChannel = getMapChannel(mapName);
-				const isCurrentMap =
-					mapName === currentMap ||
-					(!Session.NavigationMapChannelsEnabled &&
-						currentChannel &&
-						mapChannel?.canonicalMapName === currentChannel.canonicalMapName);
-				const resolvedMapName = isCurrentMap ? currentMap : mapName;
-				return {
-					...map,
-					mapName: resolvedMapName,
-					hasImage: mapsWithImages.has(MiniMapTable[resolvedMapName] || resolvedMapName)
-				};
-			});
-			browser.setItems(items);
-			const currentMapItem = items.find(map => normalizeAdventureMap(map.mapName) === currentMap);
-			browser.selectItem(currentMapItem || browser.state.filtered[0] || null);
-		})
-		.catch(error => {
-			console.error(error);
-			browser.setStatus('地图资料加载失败');
-		});
 
 	return () => {
 		loadToken += 1;
+		mapNpcsToken += 1;
 		npcAvailabilityToken += 1;
 		thumbnailToken += 1;
 		thumbnailObserver?.disconnect();
@@ -374,6 +377,7 @@ function mount(container) {
 		redrawPreview = () => {};
 		unsubscribeActions();
 		unsubscribeRoute();
+		destroyBrowser();
 	};
 }
 
