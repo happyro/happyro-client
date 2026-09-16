@@ -254971,6 +254971,9 @@ function handleNpcTeleportResult(packet) {
 function notifyAdventureConfigChanged() {
 	notify$1();
 }
+function clearAdventureActionFeedback() {
+	setStatus$1("", false, null);
+}
 var nextNpcRequestId, nextMapRequestId, npcPending, mapPending, npcTimer, mapTimer, cooldownUntil, cooldownTimer, statusTimer, status$1, listeners$2;
 var init_AdventureActionService = __esmMin((() => {
 	init_NetworkManager();
@@ -274202,6 +274205,295 @@ var init_Reputation = __esmMin((() => {
 	Reputation_default = UIManager.addComponent(Reputation);
 }));
 //#endregion
+//#region src/UI/Components/GameTools/TabViewState.js
+function fieldKey(input) {
+	return `${input.closest("form")?.dataset.form || ""}:${input.name || input.className}`;
+}
+function setFieldValue(input, value) {
+	input.value = value;
+	const select = input.closest("[data-game-select]");
+	if (!select) return;
+	const option = [...select.querySelectorAll("[data-value]")].find((node) => node.dataset.value === value);
+	if (!option) return;
+	select.querySelector(".game-select-trigger span").textContent = option.querySelector("strong").textContent;
+	for (const node of select.querySelectorAll("[data-value]")) {
+		node.classList.toggle("selected", node === option);
+		node.setAttribute("aria-selected", String(node === option));
+	}
+}
+function trackTabView(container) {
+	const drafts = /* @__PURE__ */ new Map();
+	const baselines = /* @__PURE__ */ new WeakMap();
+	const scrolls = /* @__PURE__ */ new Map();
+	let restoring = false;
+	const capture = (event) => {
+		const input = event.target;
+		if (!input.matches(fields)) return;
+		const key = fieldKey(input);
+		if (input.value === baselines.get(input)) drafts.delete(key);
+		else drafts.set(key, input.value);
+	};
+	const onScroll = (event) => {
+		if (!restoring && event.target instanceof HTMLElement && !container.hidden) scrolls.set(scrollKey(event.target), [event.target.scrollLeft, event.target.scrollTop]);
+	};
+	const restore = () => {
+		restoring = true;
+		for (const input of container.querySelectorAll(fields)) {
+			if (!baselines.has(input)) baselines.set(input, input.value);
+			if (drafts.has(fieldKey(input))) {
+				const value = drafts.get(fieldKey(input));
+				if (input.value !== value) setFieldValue(input, value);
+			}
+		}
+		if (!container.hidden) for (const node of [container, ...container.querySelectorAll("[class]")]) {
+			const scroll = scrolls.get(scrollKey(node));
+			if (scroll) {
+				node.scrollLeft = scroll[0];
+				node.scrollTop = scroll[1];
+			}
+		}
+		restoring = false;
+	};
+	const observer = new MutationObserver(restore);
+	observer.observe(container, {
+		childList: true,
+		subtree: true
+	});
+	container.addEventListener("input", capture);
+	container.addEventListener("change", capture);
+	container.addEventListener("scroll", onScroll, true);
+	const state = {
+		drafts,
+		scrolls,
+		restore,
+		discardDrafts() {
+			drafts.clear();
+			for (const input of container.querySelectorAll(fields)) {
+				setFieldValue(input, baselines.get(input) ?? input.defaultValue);
+				input.setCustomValidity("");
+			}
+		},
+		destroy() {
+			observer.disconnect();
+			container.removeEventListener("input", capture);
+			container.removeEventListener("change", capture);
+			container.removeEventListener("scroll", onScroll, true);
+			states.delete(container);
+		}
+	};
+	states.set(container, state);
+	return state;
+}
+function clearTabDrafts(container, names) {
+	const drafts = states.get(container)?.drafts;
+	if (!drafts) return;
+	for (const key of drafts.keys()) if (!names || names.includes(key.slice(key.indexOf(":") + 1))) drafts.delete(key);
+}
+function resetTabScroll(container, region) {
+	if (!region) return;
+	const scrolls = states.get(container)?.scrolls;
+	for (const node of [region, ...region.querySelectorAll("[class]")]) {
+		scrolls?.delete(scrollKey(node));
+		node.scrollLeft = 0;
+		node.scrollTop = 0;
+	}
+}
+var states, scrollKey, fields;
+var init_TabViewState = __esmMin((() => {
+	states = /* @__PURE__ */ new WeakMap();
+	scrollKey = (node) => `${node.tagName}.${node.className}`;
+	fields = "input[type=\"number\"], form .game-select-value";
+}));
+//#endregion
+//#region src/UI/Components/GameTools/AdventureRouteService.js
+function matchesTarget(navigationTarget, routeTarget) {
+	return Boolean(navigationTarget && routeTarget && navigationTarget.map === normalizeAdventureMap(routeTarget.mapName) && navigationTarget.x === routeTarget.x && navigationTarget.y === routeTarget.y);
+}
+function notify() {
+	const state = getStatus();
+	for (const listener of listeners) listener(state);
+}
+function getStatus() {
+	const routeMatches = matchesTarget(navigationState.target, target);
+	const path = routeMatches ? remainingPathFromPosition(navigationState.path, getCurrentAdventurePosition()) : [];
+	return {
+		...status,
+		target: target ? { ...target } : null,
+		path,
+		pending: routeMatches && navigationState.pending,
+		unavailable: routeMatches && navigationState.unavailable
+	};
+}
+function update(active, message) {
+	status = {
+		active,
+		message
+	};
+	notify();
+}
+function monitorArrival() {
+	if (!target || !status.active) return;
+	if (getCurrentAdventureMap() !== normalizeAdventureMap(target.mapName)) {
+		stopAdventureRoute("地图已切换，寻路已停止");
+		return;
+	}
+	const position = getCurrentAdventurePosition();
+	if (Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1) stopAdventureRoute("已到达目的地");
+}
+function previewAdventureRoute(nextTarget) {
+	if (!nextTarget?.mapName || !Number.isFinite(nextTarget.x) || !Number.isFinite(nextTarget.y) || normalizeAdventureMap(nextTarget.mapName) !== getCurrentAdventureMap()) return false;
+	Navigation_default.stopAutoWalk();
+	target = { ...nextTarget };
+	navigationStarted = false;
+	update(false, "正在计算路径...");
+	const position = getCurrentAdventurePosition();
+	Navigation_default.navigateTo({
+		startMap: getCurrentAdventureMap(),
+		startX: position.x,
+		startY: position.y,
+		endMap: normalizeAdventureMap(target.mapName),
+		endX: target.x,
+		endY: target.y,
+		displayName: target.mapDisplayName || target.mapName,
+		autoWalk: false
+	});
+	return true;
+}
+function startAdventureRoute(nextTarget) {
+	if (!nextTarget?.mapName || !Number.isFinite(nextTarget.x) || !Number.isFinite(nextTarget.y) || normalizeAdventureMap(nextTarget.mapName) !== getCurrentAdventureMap()) return false;
+	clearInterval(timer$1);
+	Navigation_default.stopAutoWalk();
+	target = { ...nextTarget };
+	navigationStarted = false;
+	update(true, `正在前往 ${target.mapDisplayName || target.mapName} (${target.x}, ${target.y})`);
+	const position = getCurrentAdventurePosition();
+	Navigation_default.navigateTo({
+		startMap: getCurrentAdventureMap(),
+		startX: position.x,
+		startY: position.y,
+		endMap: normalizeAdventureMap(target.mapName),
+		endX: target.x,
+		endY: target.y,
+		displayName: target.mapDisplayName || target.mapName,
+		autoWalk: true
+	});
+	timer$1 = setInterval(monitorArrival, 500);
+	return true;
+}
+function stopAdventureRoute(message = "") {
+	clearInterval(timer$1);
+	timer$1 = null;
+	navigationStarted = false;
+	update(false, message);
+	if (message === "已到达目的地") {
+		target = null;
+		Navigation_default.clear();
+		return;
+	}
+	Navigation_default.stopAutoWalk();
+}
+function subscribeAdventureRoute(listener) {
+	listeners.add(listener);
+	listener(getStatus());
+	return () => listeners.delete(listener);
+}
+function clearAdventureRouteFeedback() {
+	status = {
+		...status,
+		message: ""
+	};
+	notify();
+}
+var timer$1, target, navigationStarted, navigationState, status, listeners;
+var init_AdventureRouteService = __esmMin((() => {
+	init_Navigation();
+	init_NavigationAutoWalk();
+	init_AdventureActionService();
+	timer$1 = null;
+	target = null;
+	navigationStarted = false;
+	navigationState = Navigation_default.getRouteState();
+	status = {
+		active: false,
+		message: ""
+	};
+	listeners = /* @__PURE__ */ new Set();
+	Navigation_default.subscribeRouteState((nextState) => {
+		navigationState = nextState;
+		if (!target || !matchesTarget(nextState.target, target)) {
+			if (status.active) {
+				const position = getCurrentAdventurePosition();
+				stopAdventureRoute(target && getCurrentAdventureMap() === normalizeAdventureMap(target.mapName) && Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1 ? "已到达目的地" : "寻路已停止");
+			} else notify();
+			return;
+		}
+		if (nextState.active) navigationStarted = true;
+		if (nextState.unavailable) {
+			clearInterval(timer$1);
+			timer$1 = null;
+			navigationStarted = false;
+			update(false, "无法到达所选位置");
+			return;
+		}
+		if (status.active && navigationStarted && !nextState.active && !nextState.pending) {
+			const position = getCurrentAdventurePosition();
+			stopAdventureRoute(Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1 ? "已到达目的地" : "寻路已停止");
+			return;
+		}
+		if (!status.active && nextState.path.length) status = {
+			active: false,
+			message: ""
+		};
+		notify();
+	});
+}));
+//#endregion
+//#region src/UI/Components/GameTools/GameToolsToast.js
+function showGameToolsToast(container, message, kind = "success") {
+	const root = container?.closest(".game-tools-window");
+	if (!root?.isConnected || container.closest(".game-tools-tab")?.hidden || root.getRootNode().host?.style.display === "none") return;
+	const previous = activeToasts.get(root);
+	if (previous) {
+		clearTimeout(previous.timer);
+		previous.element.remove();
+	}
+	const element = document.createElement("div");
+	element.className = `game-tools-toast ${kind}`;
+	element.setAttribute("role", "status");
+	element.setAttribute("aria-live", "polite");
+	const text = document.createElement("span");
+	text.textContent = `${kind === "info" ? "ⓘ" : "✓"} ${message}`;
+	const close = document.createElement("button");
+	close.type = "button";
+	close.textContent = "×";
+	close.setAttribute("aria-label", "关闭提示");
+	const dismiss = () => {
+		clearTimeout(record.timer);
+		element.remove();
+		if (activeToasts.get(root) === record) activeToasts.delete(root);
+	};
+	close.addEventListener("click", dismiss);
+	element.append(text, close);
+	root.append(element);
+	const record = {
+		element,
+		timer: setTimeout(dismiss, 3e3)
+	};
+	activeToasts.set(root, record);
+}
+function clearGameToolsToast(container) {
+	const root = container?.closest(".game-tools-window");
+	const active = root && activeToasts.get(root);
+	if (!active) return;
+	clearTimeout(active.timer);
+	active.element.remove();
+	activeToasts.delete(root);
+}
+var activeToasts;
+var init_GameToolsToast = __esmMin((() => {
+	activeToasts = /* @__PURE__ */ new WeakMap();
+}));
+//#endregion
 //#region src/UI/Components/GameTools/GameTools.html?raw
 var GameTools_default$2;
 var init_GameTools$2 = __esmMin((() => {
@@ -274211,7 +274503,7 @@ var init_GameTools$2 = __esmMin((() => {
 //#region src/UI/Components/GameTools/GameTools.css?raw
 var GameTools_default$1;
 var init_GameTools$1 = __esmMin((() => {
-	GameTools_default$1 = ".game-tools-window {\r\n	position: relative;\r\n	isolation: isolate;\r\n	width: min(820px, calc(100vw - 24px));\r\n	height: min(620px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 2px;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 26px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n\r\n.management-tab {\r\n	height: 100%;\r\n	min-height: 0;\r\n	background: #f7f8f9;\r\n}\r\n.character-layout {\r\n	height: 100%;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.character-job-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	border-right: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.character-job-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-toolbar input {\r\n	width: 100%;\r\n	height: 27px;\r\n	min-width: 0;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-summary {\r\n	flex: 0 0 25px;\r\n	padding: 0 8px;\r\n	line-height: 25px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.character-job-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.character-job-row {\r\n	width: 100%;\r\n	height: 50px;\r\n	min-height: 50px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: #fff;\r\n	color: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.character-job-row.selected {\r\n	background: #dceaff;\r\n}\r\n.character-job-emblem {\r\n	width: 38px;\r\n	height: 38px;\r\n	flex: 0 0 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c3cbd2;\r\n	background: #e3e9ee;\r\n	color: #526273;\r\n	font-size: 16px;\r\n	font-weight: bold;\r\n}\r\n.character-job-empty {\r\n	padding: 18px 8px;\r\n	color: #777;\r\n	text-align: center;\r\n}\r\n.character-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	background: #f7f8f9;\r\n}\r\n.character-detail .character-summary {\r\n	flex: 0 0 auto;\r\n	padding: 12px;\r\n	background: #fff;\r\n}\r\n.character-detail-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 0 14px;\r\n	overflow-y: auto;\r\n}\r\n.character-detail-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.selected-job {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 8px 10px;\r\n	border: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.selected-job div {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.selected-job small {\r\n	color: #6c7177;\r\n}\r\n.selected-job button,\r\n.character-actions button {\r\n	height: 28px;\r\n	min-width: 88px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.selected-job button:disabled,\r\n.character-actions button:disabled {\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n.character-actions {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 7px;\r\n	padding: 9px 12px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #fff;\r\n}\r\n.character-actions .management-status {\r\n	width: 100%;\r\n	min-height: 14px;\r\n	padding: 0;\r\n}\r\n.management-loading,\r\n.management-error {\r\n	height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #666;\r\n}\r\n.management-error,\r\n.management-status.error {\r\n	color: #a61d24;\r\n}\r\n.management-scroll {\r\n	height: 100%;\r\n	padding: 12px;\r\n	overflow-y: auto;\r\n	box-sizing: border-box;\r\n}\r\n.character-summary {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 20px;\r\n	padding: 0 0 10px;\r\n	border-bottom: 1px solid #d6d8db;\r\n}\r\n.character-summary h3,\r\n.character-summary p {\r\n	margin: 0;\r\n}\r\n.character-summary p,\r\n.character-summary span {\r\n	color: #666;\r\n}\r\n.character-summary > div:last-child {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: end;\r\n	gap: 3px;\r\n}\r\n.management-grid {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);\r\n	gap: 18px;\r\n}\r\n.management-tab section {\r\n	padding: 10px 0;\r\n}\r\n.management-tab section h4 {\r\n	margin: 0 0 8px;\r\n	font-size: 13px;\r\n}\r\n.management-tab section h4 small {\r\n	margin-left: 6px;\r\n	color: #777;\r\n	font-weight: normal;\r\n}\r\n.management-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 8px;\r\n}\r\n.management-form label {\r\n	display: grid;\r\n	grid-template-columns: 48px 92px;\r\n	align-items: center;\r\n	justify-content: start;\r\n	gap: 6px;\r\n	white-space: nowrap;\r\n}\r\n.management-form label > span {\r\n	text-align: right;\r\n}\r\n.settings-grid label,\r\n.settings-footer label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.management-form input,\r\n.settings-form input {\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: #fff;\r\n	box-sizing: border-box;\r\n}\r\n.management-form input {\r\n	width: 92px;\r\n	padding: 2px 5px;\r\n}\r\n.management-form button,\r\n.maintenance-actions button,\r\n.settings-footer button {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.management-form button {\r\n	grid-column: 1 / -1;\r\n}\r\n.maintenance-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.maintenance-actions h4 {\r\n	margin: 0 5px 0 0 !important;\r\n}\r\n.maintenance-actions span {\r\n	color: #666;\r\n}\r\n.management-status {\r\n	min-height: 18px;\r\n	padding-top: 5px;\r\n	color: #287233;\r\n}\r\n.settings-form {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.settings-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 4px 14px;\r\n	overflow-y: auto;\r\n}\r\n.settings-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.settings-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 7px 22px;\r\n}\r\n.settings-rate-columns {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 22px;\r\n}\r\n.settings-rate-list {\r\n	display: grid;\r\n	gap: 7px;\r\n}\r\n.settings-rate-list label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.settings-drop-scroll {\r\n	overflow-x: auto;\r\n}\r\n.settings-drop-table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n.settings-drop-table th,\r\n.settings-drop-table td {\r\n	padding: 5px 8px;\r\n	white-space: nowrap;\r\n	text-align: left;\r\n}\r\n.settings-drop-table tbody th {\r\n	font-weight: normal;\r\n}\r\n.settings-drop-table .setting-number {\r\n	width: 110px;\r\n	min-width: 110px;\r\n}\r\n.settings-drop-table .setting-number input {\r\n	width: 84px;\r\n	min-width: 84px;\r\n	flex-basis: 84px;\r\n}\r\n.setting-number {\r\n	width: 132px;\r\n	min-width: 132px;\r\n	flex: 0 0 132px;\r\n}\r\n.settings-grid .game-select {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	margin-right: 26px;\r\n	flex: 0 0 106px;\r\n}\r\n.setting-number {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.setting-number input {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	flex: 0 0 106px;\r\n	padding: 2px 5px;\r\n}\r\n.setting-number em {\r\n	width: 26px;\r\n	flex: 0 0 26px;\r\n	font-style: normal;\r\n	text-align: right;\r\n}\r\n.settings-footer {\r\n	flex: 0 0 48px;\r\n	display: grid;\r\n	grid-template-columns: 1fr auto;\r\n	align-items: center;\r\n	gap: 12px;\r\n	padding: 8px 14px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #eceef0;\r\n	box-sizing: border-box;\r\n}\r\n.settings-footer .management-status {\r\n	padding: 0;\r\n	text-align: right;\r\n}\r\n.settings-footer button {\r\n	padding: 0 14px;\r\n}\r\n\r\n@media (max-width: 680px) {\r\n	.management-grid,\r\n	.settings-grid,\r\n	.settings-rate-columns {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.stat-form {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n	.settings-footer {\r\n		grid-template-columns: 1fr auto;\r\n	}\r\n	.settings-footer .management-status {\r\n		display: none;\r\n	}\r\n}\r\n@media (max-width: 640px) {\r\n	.character-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-resources {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 10px;\r\n	overflow: hidden;\r\n}\r\n.monster-drops,\r\n.monster-locations {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	border: 1px solid #ddd;\r\n	padding: 0 7px 7px;\r\n	box-sizing: border-box;\r\n}\r\n.monster-drops > h4,\r\n.monster-locations > h4 {\r\n	position: sticky;\r\n	top: 0;\r\n	z-index: 1;\r\n	margin: 0 -7px 5px;\r\n	padding: 6px 7px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #ddd;\r\n}\r\n.drop-group h4 {\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 4px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	min-width: 64px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	min-width: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	color: #64696e;\r\n}\r\n.management-form .game-select {\r\n	width: 112px;\r\n}\r\n\r\n.game-tools-tab,\r\n.world-catalog-tab {\r\n	position: relative;\r\n}\r\n.game-tools-confirm {\r\n	position: absolute;\r\n	inset: 0;\r\n	z-index: 100;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 20px;\r\n	background: rgb(0 0 0 / 55%);\r\n}\r\n.game-tools-confirm-card {\r\n	width: min(360px, 100%);\r\n	padding: 18px;\r\n	background: #fff;\r\n	border: 1px solid #8b929a;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n}\r\n.game-tools-confirm-card p {\r\n	margin: 0 0 16px;\r\n	line-height: 1.5;\r\n}\r\n.game-tools-confirm-card > div {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.game-tools-confirm-card button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.world-catalog-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.catalog-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-search {\r\n	flex: 1;\r\n	height: 27px;\r\n	min-width: 120px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.catalog-filter {\r\n	width: 124px;\r\n}\r\n.catalog-scope {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	white-space: nowrap;\r\n}\r\n.catalog-scope-option {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n.catalog-scope-option input {\r\n	margin: 0;\r\n}\r\n.zeny-grant-open {\r\n	height: 27px;\r\n	padding: 0 10px;\r\n	white-space: nowrap;\r\n}\r\n.game-tools-number-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.game-tools-number-prompt input {\r\n	width: 180px;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.catalog-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.catalog-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.catalog-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.catalog-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.catalog-row.selected {\r\n	background: #dceaff;\r\n}\r\n.catalog-thumb,\r\n.catalog-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n}\r\n.catalog-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.catalog-row-text strong,\r\n.catalog-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.catalog-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.catalog-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.catalog-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.catalog-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-heading {\r\n	display: flex;\r\n	gap: 14px;\r\n	align-items: center;\r\n	padding-bottom: 12px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.catalog-portrait {\r\n	width: 112px;\r\n	height: 112px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.catalog-heading h3,\r\n.map-heading h3 {\r\n	margin: 0 0 6px;\r\n	font-size: 18px;\r\n}\r\n.catalog-heading p,\r\n.map-heading p {\r\n	margin: 0;\r\n	color: #70757a;\r\n}\r\n.catalog-metadata {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 12px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	max-width: 100%;\r\n}\r\n.catalog-metadata div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 8px;\r\n	background: #fafafa;\r\n}\r\n.catalog-metadata span {\r\n	color: #686d72;\r\n}\r\n.catalog-action-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: auto -12px -12px;\r\n	padding: 10px 12px;\r\n	border-top: 1px solid #ddd;\r\n	background: white;\r\n}\r\n.catalog-action-panel button {\r\n	height: 29px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.catalog-action-panel button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.catalog-status {\r\n	min-width: 0;\r\n	color: #64696e;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-status.error {\r\n	color: #a61d24;\r\n}\r\n.map-thumb {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 56px;\r\n	height: 42px;\r\n	background: #e3e9ee;\r\n	border: 1px solid #c3cbd2;\r\n	color: #59636d;\r\n	overflow: hidden;\r\n}\r\n.monster-location-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 2px;\r\n}\r\n.monster-location {\r\n	width: 100%;\r\n	padding: 5px 6px;\r\n	border: 1px solid transparent;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n.monster-location:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-location.selected {\r\n	border-color: #9ab4d2;\r\n	background: #dceaff;\r\n}\r\n.monster-location strong,\r\n.monster-location small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-location small {\r\n	margin-top: 2px;\r\n	color: #6c7177;\r\n}\r\n.monster-map-teleport {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.monster-map-teleport:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.map-thumb img,\r\n.map-thumb canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: cover;\r\n}\r\n.map-thumb span {\r\n	margin: auto;\r\n	font-size: 10px;\r\n	color: #7b838b;\r\n}\r\n.map-row {\r\n	min-height: 50px;\r\n}\r\n.map-heading {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding-bottom: 9px;\r\n}\r\n.map-heading > strong {\r\n	color: #5f666d;\r\n}\r\n.map-current-position {\r\n	display: block;\r\n	margin-top: 4px;\r\n	color: #4f6479;\r\n}\r\n.map-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 168px;\r\n	gap: 8px;\r\n}\r\n.catalog-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n	cursor: crosshair;\r\n}\r\n.catalog-map {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: #17191c;\r\n}\r\n.map-npc-list {\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border: 1px solid #d8dade;\r\n	background: #fff;\r\n}\r\n.map-npc-scroll {\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: auto;\r\n}\r\n.map-npc-list h4 {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n	font-size: 12px;\r\n}\r\n.map-npc-list ul {\r\n	margin: 0;\r\n	padding: 0;\r\n	list-style: none;\r\n}\r\n.map-npc-row {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 8px;\r\n	border-bottom: 1px solid #f0f1f2;\r\n	cursor: pointer;\r\n}\r\n.map-npc-row.selected {\r\n	background: #e8f0fa;\r\n}\r\n.map-npc-text {\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.map-npc-text strong,\r\n.map-npc-text small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.map-npc-text small {\r\n	color: #686d72;\r\n}\r\n.map-npc-empty {\r\n	margin: 0;\r\n	padding: 10px 8px;\r\n	color: #686d72;\r\n}\r\n.npc-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 188px;\r\n	gap: 8px;\r\n}\r\n.npc-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n}\r\n.npc-detail-info {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.npc-detail-info .catalog-metadata {\r\n	grid-template-columns: 1fr;\r\n	margin-top: 0;\r\n	border-top: 0;\r\n}\r\n.npc-map-canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n@media (max-width: 640px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.catalog-layout,\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.catalog-metadata {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.catalog-action-panel {\r\n		flex-wrap: wrap;\r\n	}\r\n	.map-detail-body,\r\n	.npc-detail-body {\r\n		grid-template-columns: 1fr;\r\n		grid-template-rows: minmax(0, 1fr) 120px;\r\n	}\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n\r\n.summon-panel .summon-status.success,\r\n.catalog-status.success,\r\n.management-status.success {\r\n	color: #237a3b;\r\n	font-weight: 600;\r\n}\r\n";
+	GameTools_default$1 = ".game-tools-window {\r\n	position: relative;\r\n	isolation: isolate;\r\n	width: min(820px, calc(100vw - 24px));\r\n	height: min(620px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 2px;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 26px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n\r\n.management-tab {\r\n	height: 100%;\r\n	min-height: 0;\r\n	background: #f7f8f9;\r\n}\r\n.character-layout {\r\n	height: 100%;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.character-job-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	border-right: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.character-job-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-toolbar input {\r\n	width: 100%;\r\n	height: 27px;\r\n	min-width: 0;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-summary {\r\n	flex: 0 0 25px;\r\n	padding: 0 8px;\r\n	line-height: 25px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.character-job-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.character-job-row {\r\n	width: 100%;\r\n	height: 50px;\r\n	min-height: 50px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: #fff;\r\n	color: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.character-job-row.selected {\r\n	background: #dceaff;\r\n}\r\n.character-job-emblem {\r\n	width: 38px;\r\n	height: 38px;\r\n	flex: 0 0 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c3cbd2;\r\n	background: #e3e9ee;\r\n	color: #526273;\r\n	font-size: 16px;\r\n	font-weight: bold;\r\n}\r\n.character-job-empty {\r\n	padding: 18px 8px;\r\n	color: #777;\r\n	text-align: center;\r\n}\r\n.character-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	background: #f7f8f9;\r\n}\r\n.character-detail .character-summary {\r\n	flex: 0 0 auto;\r\n	padding: 12px;\r\n	background: #fff;\r\n}\r\n.character-detail-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 0 14px;\r\n	overflow-y: auto;\r\n}\r\n.character-detail-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.selected-job {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 8px 10px;\r\n	border: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.selected-job div {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.selected-job small {\r\n	color: #6c7177;\r\n}\r\n.selected-job button,\r\n.character-actions button,\r\n.catalog-empty-state button {\r\n	height: 28px;\r\n	min-width: 88px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.selected-job button:disabled,\r\n.character-actions button:disabled,\r\n.catalog-empty-state button:disabled {\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n.character-actions {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 7px;\r\n	padding: 9px 12px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #fff;\r\n}\r\n.character-actions .management-status {\r\n	width: 100%;\r\n	min-height: 14px;\r\n	padding: 0;\r\n}\r\n.management-loading,\r\n.management-error {\r\n	height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #666;\r\n}\r\n.management-error,\r\n.management-status.error {\r\n	color: #a61d24;\r\n}\r\n.management-scroll {\r\n	height: 100%;\r\n	padding: 12px;\r\n	overflow-y: auto;\r\n	box-sizing: border-box;\r\n}\r\n.character-summary {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 20px;\r\n	padding: 0 0 10px;\r\n	border-bottom: 1px solid #d6d8db;\r\n}\r\n.character-summary h3,\r\n.character-summary p {\r\n	margin: 0;\r\n}\r\n.character-summary p,\r\n.character-summary span {\r\n	color: #666;\r\n}\r\n.character-summary > div:last-child {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: end;\r\n	gap: 3px;\r\n}\r\n.management-grid {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);\r\n	gap: 18px;\r\n}\r\n.management-tab section {\r\n	padding: 10px 0;\r\n}\r\n.management-tab section h4 {\r\n	margin: 0 0 8px;\r\n	font-size: 13px;\r\n}\r\n.management-tab section h4 small {\r\n	margin-left: 6px;\r\n	color: #777;\r\n	font-weight: normal;\r\n}\r\n.management-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 8px;\r\n}\r\n.management-form label {\r\n	display: grid;\r\n	grid-template-columns: 48px 92px;\r\n	align-items: center;\r\n	justify-content: start;\r\n	gap: 6px;\r\n	white-space: nowrap;\r\n}\r\n.management-form label > span {\r\n	text-align: right;\r\n}\r\n.settings-grid label,\r\n.settings-footer label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.management-form input,\r\n.settings-form input {\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: #fff;\r\n	box-sizing: border-box;\r\n}\r\n.management-form input {\r\n	width: 92px;\r\n	padding: 2px 5px;\r\n}\r\n.management-form button,\r\n.maintenance-actions button,\r\n.settings-footer button {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.management-form button {\r\n	grid-column: 1 / -1;\r\n}\r\n.maintenance-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.maintenance-actions h4 {\r\n	margin: 0 5px 0 0 !important;\r\n}\r\n.maintenance-actions span {\r\n	color: #666;\r\n}\r\n.management-status {\r\n	min-height: 18px;\r\n	padding-top: 5px;\r\n	color: #287233;\r\n}\r\n.settings-form {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.settings-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 4px 14px;\r\n	overflow-y: auto;\r\n}\r\n.settings-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.settings-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 7px 22px;\r\n}\r\n.settings-rate-columns {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 22px;\r\n}\r\n.settings-rate-list {\r\n	display: grid;\r\n	gap: 7px;\r\n}\r\n.settings-rate-list label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.settings-drop-scroll {\r\n	overflow-x: auto;\r\n}\r\n.settings-drop-table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n.settings-drop-table th,\r\n.settings-drop-table td {\r\n	padding: 5px 8px;\r\n	white-space: nowrap;\r\n	text-align: left;\r\n}\r\n.settings-drop-table tbody th {\r\n	font-weight: normal;\r\n}\r\n.settings-drop-table .setting-number {\r\n	width: 110px;\r\n	min-width: 110px;\r\n}\r\n.settings-drop-table .setting-number input {\r\n	width: 84px;\r\n	min-width: 84px;\r\n	flex-basis: 84px;\r\n}\r\n.setting-number {\r\n	width: 132px;\r\n	min-width: 132px;\r\n	flex: 0 0 132px;\r\n}\r\n.settings-grid .game-select {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	margin-right: 26px;\r\n	flex: 0 0 106px;\r\n}\r\n.setting-number {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.setting-number input {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	flex: 0 0 106px;\r\n	padding: 2px 5px;\r\n}\r\n.setting-number em {\r\n	width: 26px;\r\n	flex: 0 0 26px;\r\n	font-style: normal;\r\n	text-align: right;\r\n}\r\n.settings-footer {\r\n	flex: 0 0 48px;\r\n	display: grid;\r\n	grid-template-columns: 1fr auto;\r\n	align-items: center;\r\n	gap: 12px;\r\n	padding: 8px 14px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #eceef0;\r\n	box-sizing: border-box;\r\n}\r\n.settings-footer .management-status {\r\n	padding: 0;\r\n	text-align: right;\r\n}\r\n.settings-footer button {\r\n	padding: 0 14px;\r\n}\r\n\r\n@media (max-width: 680px) {\r\n	.management-grid,\r\n	.settings-grid,\r\n	.settings-rate-columns {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.stat-form {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n	.settings-footer {\r\n		grid-template-columns: 1fr auto;\r\n	}\r\n	.settings-footer .management-status {\r\n		display: none;\r\n	}\r\n}\r\n@media (max-width: 640px) {\r\n	.character-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-resources {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 10px;\r\n	overflow: hidden;\r\n}\r\n.monster-drops,\r\n.monster-locations {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	border: 1px solid #ddd;\r\n	padding: 0 7px 7px;\r\n	box-sizing: border-box;\r\n}\r\n.monster-drops > h4,\r\n.monster-locations > h4 {\r\n	position: sticky;\r\n	top: 0;\r\n	z-index: 1;\r\n	margin: 0 -7px 5px;\r\n	padding: 6px 7px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #ddd;\r\n}\r\n.drop-group h4 {\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 4px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	min-width: 64px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	min-width: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	color: #64696e;\r\n}\r\n.management-form .game-select {\r\n	width: 112px;\r\n}\r\n\r\n.game-tools-tab,\r\n.world-catalog-tab {\r\n	position: relative;\r\n}\r\n.game-tools-confirm {\r\n	position: absolute;\r\n	inset: 0;\r\n	z-index: 100;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 20px;\r\n	background: rgb(0 0 0 / 55%);\r\n}\r\n.game-tools-confirm-card {\r\n	width: min(360px, 100%);\r\n	padding: 18px;\r\n	background: #fff;\r\n	border: 1px solid #8b929a;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n}\r\n.game-tools-confirm-card p {\r\n	margin: 0 0 16px;\r\n	line-height: 1.5;\r\n}\r\n.game-tools-confirm-card > div {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.game-tools-confirm-card button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.world-catalog-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.catalog-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-search {\r\n	flex: 1;\r\n	height: 27px;\r\n	min-width: 120px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.catalog-filter {\r\n	width: 124px;\r\n}\r\n.catalog-scope {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	white-space: nowrap;\r\n}\r\n.catalog-scope-option {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n.catalog-scope-option input {\r\n	margin: 0;\r\n}\r\n.zeny-grant-open {\r\n	height: 27px;\r\n	padding: 0 10px;\r\n	white-space: nowrap;\r\n}\r\n.game-tools-number-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.game-tools-number-prompt input {\r\n	width: 180px;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.catalog-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.catalog-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.catalog-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.catalog-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.catalog-row.selected {\r\n	background: #dceaff;\r\n}\r\n.catalog-thumb,\r\n.catalog-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n}\r\n.catalog-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.catalog-row-text strong,\r\n.catalog-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.catalog-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.catalog-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.catalog-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.catalog-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-heading {\r\n	display: flex;\r\n	gap: 14px;\r\n	align-items: center;\r\n	padding-bottom: 12px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.catalog-portrait {\r\n	width: 112px;\r\n	height: 112px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.catalog-heading h3,\r\n.map-heading h3 {\r\n	margin: 0 0 6px;\r\n	font-size: 18px;\r\n}\r\n.catalog-heading p,\r\n.map-heading p {\r\n	margin: 0;\r\n	color: #70757a;\r\n}\r\n.catalog-metadata {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 12px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	max-width: 100%;\r\n}\r\n.catalog-metadata div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 8px;\r\n	background: #fafafa;\r\n}\r\n.catalog-metadata span {\r\n	color: #686d72;\r\n}\r\n.catalog-action-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: auto -12px -12px;\r\n	padding: 10px 12px;\r\n	border-top: 1px solid #ddd;\r\n	background: white;\r\n}\r\n.catalog-action-panel button {\r\n	height: 29px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.catalog-action-panel button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.catalog-status {\r\n	min-width: 0;\r\n	color: #64696e;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-status.error {\r\n	color: #a61d24;\r\n}\r\n.map-thumb {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 56px;\r\n	height: 42px;\r\n	background: #e3e9ee;\r\n	border: 1px solid #c3cbd2;\r\n	color: #59636d;\r\n	overflow: hidden;\r\n}\r\n.monster-location-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 2px;\r\n}\r\n.monster-location {\r\n	width: 100%;\r\n	padding: 5px 6px;\r\n	border: 1px solid transparent;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n.monster-location:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-location.selected {\r\n	border-color: #9ab4d2;\r\n	background: #dceaff;\r\n}\r\n.monster-location strong,\r\n.monster-location small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-location small {\r\n	margin-top: 2px;\r\n	color: #6c7177;\r\n}\r\n.monster-map-teleport {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.monster-map-teleport:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.map-thumb img,\r\n.map-thumb canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: cover;\r\n}\r\n.map-thumb span {\r\n	margin: auto;\r\n	font-size: 10px;\r\n	color: #7b838b;\r\n}\r\n.map-row {\r\n	min-height: 50px;\r\n}\r\n.map-heading {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding-bottom: 9px;\r\n}\r\n.map-heading > strong {\r\n	color: #5f666d;\r\n}\r\n.map-current-position {\r\n	display: block;\r\n	margin-top: 4px;\r\n	color: #4f6479;\r\n}\r\n.map-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 168px;\r\n	gap: 8px;\r\n}\r\n.catalog-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n	cursor: crosshair;\r\n}\r\n.catalog-map {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: #17191c;\r\n}\r\n.map-npc-list {\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border: 1px solid #d8dade;\r\n	background: #fff;\r\n}\r\n.map-npc-scroll {\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: auto;\r\n}\r\n.map-npc-list h4 {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n	font-size: 12px;\r\n}\r\n.map-npc-list ul {\r\n	margin: 0;\r\n	padding: 0;\r\n	list-style: none;\r\n}\r\n.map-npc-row {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 8px;\r\n	border-bottom: 1px solid #f0f1f2;\r\n	cursor: pointer;\r\n}\r\n.map-npc-row.selected {\r\n	background: #e8f0fa;\r\n}\r\n.map-npc-text {\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.map-npc-text strong,\r\n.map-npc-text small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.map-npc-text small {\r\n	color: #686d72;\r\n}\r\n.map-npc-empty {\r\n	margin: 0;\r\n	padding: 10px 8px;\r\n	color: #686d72;\r\n}\r\n.npc-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 188px;\r\n	gap: 8px;\r\n}\r\n.npc-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n}\r\n.npc-detail-info {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.npc-detail-info .catalog-metadata {\r\n	grid-template-columns: 1fr;\r\n	margin-top: 0;\r\n	border-top: 0;\r\n}\r\n.npc-map-canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n@media (max-width: 640px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.catalog-layout,\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.catalog-metadata {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.catalog-action-panel {\r\n		flex-wrap: wrap;\r\n	}\r\n	.map-detail-body,\r\n	.npc-detail-body {\r\n		grid-template-columns: 1fr;\r\n		grid-template-rows: minmax(0, 1fr) 120px;\r\n	}\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n\r\n.summon-panel .summon-status.success,\r\n.catalog-status.success,\r\n.management-status.success {\r\n	color: #237a3b;\r\n	font-weight: 600;\r\n}\r\n\r\n.game-tools-window .game-tools-toast {\r\n	position: absolute;\r\n	top: 66px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	z-index: 20;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 14px;\r\n	max-width: calc(100% - 48px);\r\n	padding: 12px 16px;\r\n	border: 1px solid #a4d4ae;\r\n	border-radius: 6px;\r\n	background: #effbf1;\r\n	color: #237a3b;\r\n	box-shadow: 0 4px 16px #0003;\r\n	font-size: 14px;\r\n	font-weight: 600;\r\n	box-sizing: border-box;\r\n}\r\n.game-tools-window .game-tools-toast.info {\r\n	background: #f0f6ff;\r\n	border-color: #a8c8e8;\r\n	color: #245b8a;\r\n}\r\n.game-tools-toast span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.game-tools-window .game-tools-toast button {\r\n	background: transparent;\r\n	border: 0;\r\n	color: inherit;\r\n	font-size: 20px;\r\n	cursor: pointer;\r\n	padding: 0 4px;\r\n}\r\n\r\n.summon-panel .summon-status.error {\r\n	color: #a61d24;\r\n	white-space: normal;\r\n}\r\n.settings-footer .management-status.error {\r\n	display: block;\r\n}\r\n\r\n.game-tools-tab[hidden] {\r\n	display: none !important;\r\n}\r\n\r\n.game-tools-window .catalog-empty-state { padding: 24px 12px; text-align: center; color: #62666c; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GameTools/ItemCatalogTab.css?raw
@@ -274365,6 +274657,21 @@ var init_AdventureControlService = __esmMin((() => {
 	init_SessionStorage();
 }));
 //#endregion
+//#region src/UI/Components/GameTools/CatalogEmptyState.js
+function renderCatalogEmptyState(list, message, viewAll) {
+	list.innerHTML = "<div class=\"catalog-empty-state\"><p></p></div>";
+	const empty = list.firstElementChild;
+	empty.querySelector("p").textContent = message;
+	if (viewAll) {
+		const button = document.createElement("button");
+		button.type = "button";
+		button.textContent = "查看全部";
+		button.addEventListener("click", viewAll);
+		empty.append(button);
+	}
+}
+var init_CatalogEmptyState = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Components/GameTools/CatalogData.js
 function normalizeCatalogSearch(value) {
 	return String(value || "").trim().toLocaleLowerCase();
@@ -274401,8 +274708,9 @@ function filterMonsters(monsters, search, category = "all", options = {}) {
 	const currentMap = String(options.currentMap || "").toLocaleLowerCase();
 	const scope = options.scope || "all";
 	const filtered = monsters.filter((monster) => {
-		if (category === "boss" && !monster.boss) return false;
-		if (category === "normal" && monster.boss) return false;
+		if (category === "mini" && (!monster.boss || monster.mvp)) return false;
+		if (category === "mvp" && !monster.mvp) return false;
+		if (category === "normal" && (monster.boss || monster.mvp)) return false;
 		if (scope === "current" && !listMonsterSpawnMaps(monster.spawns, {
 			currentMap,
 			channelsEnabled: Boolean(options.channelsEnabled)
@@ -274613,6 +274921,7 @@ function mount$5(container) {
 		pending: false,
 		status: "",
 		statusError: false,
+		requestedMonsterName: "",
 		cooldownUntil: 0,
 		cooldownTimer: null,
 		requestTimer: null,
@@ -274626,6 +274935,10 @@ function mount$5(container) {
 			state.pending = false;
 			state.status = resultMessages[result] || "召唤失败";
 			state.statusError = result !== 0;
+			if (result === 0) {
+				showGameToolsToast(container, `已召唤 ${state.requestedMonsterName}`);
+				state.status = "";
+			} else clearGameToolsToast(container);
 			if (result === 0 && SessionStorage_default.GameToolsMonsterSpawnCooldown > 0) {
 				state.cooldownUntil = Date.now() + SessionStorage_default.GameToolsMonsterSpawnCooldown * 1e3;
 				clearInterval(state.cooldownTimer);
@@ -274663,8 +274976,12 @@ function mount$5(container) {
 				label: "普通"
 			},
 			{
-				value: "boss",
-				label: "Boss / MVP"
+				value: "mini",
+				label: "Mini"
+			},
+			{
+				value: "mvp",
+				label: "MVP"
 			}
 		]
 	})}
@@ -274692,6 +275009,7 @@ function mount$5(container) {
 		return scopeFilter?.checked ? "current" : "all";
 	}
 	function applyFilter() {
+		resetTabScroll(container, list);
 		state.filtered = filterMonsters(state.monsters, search.value, filter.value, {
 			scope: getScope(),
 			currentMap: getCurrentAdventureMap(),
@@ -274721,27 +275039,47 @@ function mount$5(container) {
 		list.innerHTML = page.items.map((monster) => `
 			<button class="monster-row${state.selected?.id === monster.id ? " selected" : ""}" type="button" data-id="${monster.id}">
 				<span class="monster-thumb${monster.atlas === null ? " no-image" : ""}" style="${atlasStyle(state.catalog, monster, 48)}"></span>
-				<span class="monster-row-text"><strong>${escapeHtml$2(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.boss ? " · Boss" : ""}</small></span>
+				<span class="monster-row-text"><strong>${escapeHtml$2(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.mvp ? " · MVP" : monster.boss ? " · Mini" : ""}</small></span>
 			</button>`).join("");
+		if (!page.items.length) renderCatalogEmptyState(list, search.value.trim() || filter.value !== "all" ? "没有匹配结果" : scopeFilter.checked ? "当前地图暂无魔物" : "暂无魔物资料", scopeFilter.checked ? () => {
+			scopeFilter.checked = false;
+			applyFilter();
+		} : null);
 		list.querySelectorAll(".monster-row").forEach((button) => {
 			button.addEventListener("click", () => {
-				state.selected = state.monsters.find((monster) => monster.id === Number(button.dataset.id));
-				state.selectedSpawn = listMonsterSpawnMaps(state.selected?.spawns, {
-					channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled,
-					currentMap: getCurrentAdventureMap()
-				})[0] || null;
-				state.status = "";
-				renderList();
-				renderDetail();
+				selectMonster(state.monsters.find((monster) => monster.id === Number(button.dataset.id)));
 			});
 		});
+	}
+	function selectMonster(monster) {
+		state.selected = monster;
+		state.selectedSpawn = listMonsterSpawnMaps(monster?.spawns, {
+			channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled,
+			currentMap: getCurrentAdventureMap()
+		})[0] || null;
+		state.status = "";
+		state.statusError = false;
+		renderList();
+		renderDetail();
+	}
+	function changePage(delta) {
+		const page = paginateMonsters(state.filtered, state.page + delta, pageSize);
+		state.page = page.page;
+		resetTabScroll(container, list);
+		selectMonster(page.items[0] || null);
 	}
 	function renderDrops(drops, title) {
 		if (!drops?.length) return "";
 		return `<div class="drop-group"><h4>${title}</h4>${drops.map((drop) => `<div><span title="${escapeHtml$2(drop.nameEn || drop.Item)}">${escapeHtml$2(drop.name || drop.Item)}</span><em>${formatRate$1(drop.Rate)}</em></div>`).join("")}</div>`;
 	}
+	let detailMonsterId;
 	function renderDetail() {
 		const detail = container.querySelector(".monster-detail");
+		if (detailMonsterId !== state.selected?.id) {
+			detailMonsterId = state.selected?.id;
+			resetTabScroll(container, detail);
+			state.locationScrollTop = 0;
+		}
 		const previousLocations = detail.querySelector(".monster-locations");
 		if (previousLocations) state.locationScrollTop = previousLocations.scrollTop;
 		const monster = state.selected;
@@ -274778,11 +275116,11 @@ function mount$5(container) {
 			y: state.selectedSpawn.y
 		} : null;
 		const teleportState = getAdventureActionState(teleportTarget);
-		const summonConstraintText = !SessionStorage_default.GameToolsMonsterSpawnAllowed ? "当前账号仅可查看图鉴" : bossBlocked ? "后台未开放 Boss / MVP 召唤" : "";
+		const summonConstraintText = !SessionStorage_default.GameToolsMonsterSpawnAllowed ? "当前账号仅可查看图鉴" : bossBlocked ? "后台未开放 Mini / MVP 召唤" : "";
 		detail.innerHTML = `
 			<div class="monster-heading">
 				<span class="monster-portrait${monster.atlas === null ? " no-image" : ""}" style="${atlasStyle(state.catalog, monster, 96)}"></span>
-				<div><h3>${escapeHtml$2(monster.name)}</h3><p>${escapeHtml$2(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.boss ? "Boss" : "普通"}</span></div>
+				<div><h3>${escapeHtml$2(monster.name)}</h3><p>${escapeHtml$2(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.mvp ? "MVP" : monster.boss ? "Mini" : "普通"}</span></div>
 			</div>
 			<div class="monster-stats">
 				<div><span>等级</span><strong>${monster.level}</strong></div><div><span>HP</span><strong>${monster.hp}</strong></div>
@@ -274803,7 +275141,7 @@ function mount$5(container) {
 			<div class="summon-panel">
 				<button class="summon-button" type="button" ${disabled ? "disabled" : ""}>${state.pending ? "召唤中..." : "召唤"}</button>
 				<button class="monster-map-teleport" type="button" ${teleportTarget && teleportState.canTeleport ? "" : "disabled"}>传送到地图</button>
-				<span class="summon-status${state.status && !state.statusError ? " success" : state.statusError ? " error" : ""}" role="status" aria-live="polite">${escapeHtml$2((teleportState.kind === "coordinate" ? teleportState.message : "") || state.status || summonConstraintText || (!teleportState.allowed ? "当前账号没有传送权限" : ""))}</span>
+				<span class="summon-status error" role="status" aria-live="polite">${escapeHtml$2((teleportState.kind === "coordinate" && teleportState.error ? teleportState.message : "") || (state.statusError ? state.status : "") || summonConstraintText || (!teleportState.allowed ? "当前账号没有传送权限" : ""))}</span>
 			</div>`;
 		const summonButton = detail.querySelector(".summon-button");
 		const locations = detail.querySelector(".monster-locations");
@@ -274823,11 +275161,16 @@ function mount$5(container) {
 		});
 		summonButton.addEventListener("click", () => {
 			state.pending = true;
-			state.status = "正在等待服务器确认...";
+			state.requestedMonsterName = monster.name;
+			state.statusError = false;
+			state.status = "";
+			showGameToolsToast(container, "正在等待服务器确认...", "info");
 			clearTimeout(state.requestTimer);
 			state.requestTimer = setTimeout(() => {
 				state.pending = false;
+				state.statusError = true;
 				state.status = "服务器响应超时，请稍后重试";
+				clearGameToolsToast(container);
 				renderDetail();
 			}, 8e3);
 			const packet = new PACKET.CZ.HAPPYRO_MONSTER_SPAWN();
@@ -274839,25 +275182,12 @@ function mount$5(container) {
 	search.addEventListener("input", applyFilter);
 	filter.addEventListener("change", applyFilter);
 	scopeFilter?.addEventListener("change", applyFilter);
-	container.querySelector(".page-prev").addEventListener("click", () => {
-		state.page -= 1;
-		renderList();
-	});
-	container.querySelector(".page-next").addEventListener("click", () => {
-		state.page += 1;
-		renderList();
-	});
+	container.querySelector(".page-prev").addEventListener("click", () => changePage(-1));
+	container.querySelector(".page-next").addEventListener("click", () => changePage(1));
 	Promise.all([loadCatalog(), DB.listNavigation("MAP", { channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled })]).then(([catalog, navigationMaps]) => {
 		state.catalog = catalog;
 		state.navigationMaps = navigationMaps;
 		state.monsters = catalog.monsters;
-		const currentMap = getCurrentAdventureMap();
-		const currentMonsters = filterMonsters(catalog.monsters, "", "all", {
-			scope: "current",
-			currentMap,
-			channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled
-		});
-		if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false;
 		applyFilter();
 	}).catch((error) => {
 		console.error(error);
@@ -274869,8 +275199,23 @@ function mount$5(container) {
 		renderDetail();
 	});
 	const unsubscribeAdventureActions = subscribeAdventureActions(() => renderDetail());
+	let catalogMap = getCurrentAdventureMap();
+	const mapTimer = setInterval(() => {
+		const currentMap = getCurrentAdventureMap();
+		if (!state.catalog || !currentMap || currentMap === catalogMap) return;
+		catalogMap = currentMap;
+		applyFilter();
+	}, 500);
+	const clearFeedback = () => {
+		state.status = "";
+		state.statusError = false;
+		if (state.catalog) renderDetail();
+	};
+	container.addEventListener("game-tools-reset-feedback", clearFeedback);
 	return () => {
 		destroyed = true;
+		clearInterval(mapTimer);
+		container.removeEventListener("game-tools-reset-feedback", clearFeedback);
 		clearTimeout(state.requestTimer);
 		clearInterval(state.cooldownTimer);
 		unsubscribeAdventureActions();
@@ -274885,6 +275230,9 @@ function notifyMonsterSpawnConfig() {
 }
 var pageSize, raceNames, elementNames, sizeNames, resultMessages, catalogPromise, dropsPromise, activeController, MonsterCatalogTab_default;
 var init_MonsterCatalogTab = __esmMin((() => {
+	init_CatalogEmptyState();
+	init_TabViewState();
+	init_GameToolsToast();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_SessionStorage();
@@ -274932,7 +275280,7 @@ var init_MonsterCatalogTab = __esmMin((() => {
 		"当前账号没有召唤权限",
 		"召唤冷却中，请稍后再试",
 		"魔物资料无效",
-		"当前不允许召唤 Boss / MVP",
+		"当前不允许召唤 Mini / MVP",
 		"当前地图禁止召唤",
 		"角色附近没有可用位置"
 	];
@@ -274985,6 +275333,7 @@ function mountRemoteCatalogBrowser(container, options) {
 		const nextKey = state.selected ? options.key(state.selected) : null;
 		if (nextKey !== selectedKey) {
 			selectedKey = nextKey;
+			resetTabScroll(container, detail);
 			options.onSelectionChange?.(state.selected);
 		}
 		if (!state.selected) detail.innerHTML = `<div class="empty-detail">${options.emptyDetail}</div>`;
@@ -274997,6 +275346,7 @@ function mountRemoteCatalogBrowser(container, options) {
 		container.querySelector(".catalog-prev").disabled = state.loading || state.page <= 1;
 		container.querySelector(".catalog-next").disabled = state.loading || state.page >= pageCount;
 		list.innerHTML = state.items.map((item) => options.renderRow(item, state.selected)).join("");
+		if (!state.loading && !state.error && !state.items.length) options.renderEmptyList?.(list, search.value.trim());
 		list.querySelectorAll("[data-catalog-key]").forEach((button) => button.addEventListener("click", () => {
 			state.selected = state.items.find((item) => String(options.key(item)) === button.dataset.catalogKey) || null;
 			renderList();
@@ -275004,7 +275354,7 @@ function mountRemoteCatalogBrowser(container, options) {
 		}));
 		options.onListRendered?.(list, state.items);
 	}
-	async function loadPage() {
+	async function loadPage({ selectFirst = false } = {}) {
 		const token = ++requestToken;
 		state.loading = true;
 		state.error = "";
@@ -275020,7 +275370,7 @@ function mountRemoteCatalogBrowser(container, options) {
 			if (token !== requestToken) return;
 			state.items = result.items;
 			state.total = result.total;
-			if (state.selected) state.selected = state.items.find((item) => options.key(item) === options.key(state.selected)) || state.selected;
+			if (state.selected && !selectFirst) state.selected = state.items.find((item) => options.key(item) === options.key(state.selected)) || null;
 			else state.selected = state.items[0] || null;
 		} catch (error) {
 			if (token !== requestToken) return;
@@ -275039,7 +275389,7 @@ function mountRemoteCatalogBrowser(container, options) {
 		state.selected = null;
 		renderDetail();
 		state.page = 1;
-		list.scrollTop = 0;
+		resetTabScroll(container, list);
 		loadPage();
 	}
 	search.addEventListener("input", () => {
@@ -275066,11 +275416,13 @@ function mountRemoteCatalogBrowser(container, options) {
 	});
 	container.querySelector(".catalog-prev").addEventListener("click", () => {
 		state.page -= 1;
-		loadPage();
+		resetTabScroll(container, list);
+		loadPage({ selectFirst: true });
 	});
 	container.querySelector(".catalog-next").addEventListener("click", () => {
 		state.page += 1;
-		loadPage();
+		resetTabScroll(container, list);
+		loadPage({ selectFirst: true });
 	});
 	loadPage();
 	return () => {
@@ -275080,6 +275432,7 @@ function mountRemoteCatalogBrowser(container, options) {
 	};
 }
 var init_RemoteCatalogBrowser = __esmMin((() => {
+	init_TabViewState();
 	init_GameSelect();
 }));
 //#endregion
@@ -275110,11 +275463,13 @@ function mount$4(container) {
 		pageSize: 32,
 		key,
 		async load(query) {
+			const currentMap = getCurrentAdventureMap();
+			const onMap = scopeFilter.checked ? currentMap : "";
 			manifest ??= await loadNpcAssets();
 			const result = await searchAdventureNpcs({
 				query: query.query,
-				currentMap: getCurrentAdventureMap(),
-				onMap: scopeFilter?.checked ? getCurrentAdventureMap() : "",
+				currentMap,
+				onMap,
 				page: query.page,
 				perPage: query.perPage
 			});
@@ -275122,6 +275477,12 @@ function mount$4(container) {
 				items: toCatalogNpcs(result.data),
 				total: result.total
 			};
+		},
+		renderEmptyList(list, query) {
+			renderCatalogEmptyState(list, query ? "没有匹配结果" : scopeFilter.checked ? "当前地图暂无 NPC" : "暂无 NPC 资料", scopeFilter.checked ? () => {
+				scopeFilter.checked = false;
+				browserApi.reload();
+			} : null);
 		},
 		renderRow(npc, selected) {
 			const style = npcAtlasStyle(manifest, npc.spriteId, 48);
@@ -275158,7 +275519,7 @@ function mount$4(container) {
 			</div>
 			<div class="catalog-action-panel">
 				<button class="catalog-teleport" type="button" ${canTeleport ? "" : "disabled"}>${actionState.npcPending ? "正在传送..." : "传送到 NPC 附近"}</button>
-				<span class="catalog-status${actionState.kind === "npc" && actionState.error ? " error" : ""}">${escapeCatalogHtml((actionState.kind === "npc" ? actionState.message : "") || (!SessionStorage_default.NavigationTeleportAllowed ? "当前账号没有传送权限" : ""))}</span>
+				<span class="catalog-status error">${escapeCatalogHtml((actionState.kind === "npc" && actionState.error ? actionState.message : "") || (!SessionStorage_default.NavigationTeleportAllowed ? "当前账号没有传送权限" : ""))}</span>
 			</div>`;
 			const canvas = detail.querySelector(".npc-map-canvas");
 			const paintNpcMap = () => drawWorldMapPreview(canvas, loadedNpcMap?.image, null, loadedNpcMap?.gat, { selectedNpc: npc });
@@ -275212,6 +275573,7 @@ function mount$4(container) {
 }
 var key, NpcCatalogTab_default;
 var init_NpcCatalogTab = __esmMin((() => {
+	init_CatalogEmptyState();
 	init_MapRenderer();
 	init_SessionStorage();
 	init_RemoteCatalogBrowser();
@@ -275228,142 +275590,6 @@ var init_NpcCatalogTab = __esmMin((() => {
 		label: "NPC 图鉴",
 		mount: mount$4
 	};
-}));
-//#endregion
-//#region src/UI/Components/GameTools/AdventureRouteService.js
-function matchesTarget(navigationTarget, routeTarget) {
-	return Boolean(navigationTarget && routeTarget && navigationTarget.map === normalizeAdventureMap(routeTarget.mapName) && navigationTarget.x === routeTarget.x && navigationTarget.y === routeTarget.y);
-}
-function notify() {
-	const state = getStatus();
-	for (const listener of listeners) listener(state);
-}
-function getStatus() {
-	const routeMatches = matchesTarget(navigationState.target, target);
-	const path = routeMatches ? remainingPathFromPosition(navigationState.path, getCurrentAdventurePosition()) : [];
-	return {
-		...status,
-		target: target ? { ...target } : null,
-		path,
-		pending: routeMatches && navigationState.pending,
-		unavailable: routeMatches && navigationState.unavailable
-	};
-}
-function update(active, message) {
-	status = {
-		active,
-		message
-	};
-	notify();
-}
-function monitorArrival() {
-	if (!target || !status.active) return;
-	if (getCurrentAdventureMap() !== normalizeAdventureMap(target.mapName)) {
-		stopAdventureRoute("地图已切换，寻路已停止");
-		return;
-	}
-	const position = getCurrentAdventurePosition();
-	if (Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1) stopAdventureRoute("已到达目的地");
-}
-function previewAdventureRoute(nextTarget) {
-	if (!nextTarget?.mapName || !Number.isFinite(nextTarget.x) || !Number.isFinite(nextTarget.y) || normalizeAdventureMap(nextTarget.mapName) !== getCurrentAdventureMap()) return false;
-	Navigation_default.stopAutoWalk();
-	target = { ...nextTarget };
-	navigationStarted = false;
-	update(false, "正在计算路径...");
-	const position = getCurrentAdventurePosition();
-	Navigation_default.navigateTo({
-		startMap: getCurrentAdventureMap(),
-		startX: position.x,
-		startY: position.y,
-		endMap: normalizeAdventureMap(target.mapName),
-		endX: target.x,
-		endY: target.y,
-		displayName: target.mapDisplayName || target.mapName,
-		autoWalk: false
-	});
-	return true;
-}
-function startAdventureRoute(nextTarget) {
-	if (!nextTarget?.mapName || !Number.isFinite(nextTarget.x) || !Number.isFinite(nextTarget.y) || normalizeAdventureMap(nextTarget.mapName) !== getCurrentAdventureMap()) return false;
-	clearInterval(timer$1);
-	Navigation_default.stopAutoWalk();
-	target = { ...nextTarget };
-	navigationStarted = false;
-	update(true, `正在前往 ${target.mapDisplayName || target.mapName} (${target.x}, ${target.y})`);
-	const position = getCurrentAdventurePosition();
-	Navigation_default.navigateTo({
-		startMap: getCurrentAdventureMap(),
-		startX: position.x,
-		startY: position.y,
-		endMap: normalizeAdventureMap(target.mapName),
-		endX: target.x,
-		endY: target.y,
-		displayName: target.mapDisplayName || target.mapName,
-		autoWalk: true
-	});
-	timer$1 = setInterval(monitorArrival, 500);
-	return true;
-}
-function stopAdventureRoute(message = "") {
-	clearInterval(timer$1);
-	timer$1 = null;
-	navigationStarted = false;
-	update(false, message);
-	if (message === "已到达目的地") {
-		target = null;
-		Navigation_default.clear();
-		return;
-	}
-	Navigation_default.stopAutoWalk();
-}
-function subscribeAdventureRoute(listener) {
-	listeners.add(listener);
-	listener(getStatus());
-	return () => listeners.delete(listener);
-}
-var timer$1, target, navigationStarted, navigationState, status, listeners;
-var init_AdventureRouteService = __esmMin((() => {
-	init_Navigation();
-	init_NavigationAutoWalk();
-	init_AdventureActionService();
-	timer$1 = null;
-	target = null;
-	navigationStarted = false;
-	navigationState = Navigation_default.getRouteState();
-	status = {
-		active: false,
-		message: ""
-	};
-	listeners = /* @__PURE__ */ new Set();
-	Navigation_default.subscribeRouteState((nextState) => {
-		navigationState = nextState;
-		if (!target || !matchesTarget(nextState.target, target)) {
-			if (status.active) {
-				const position = getCurrentAdventurePosition();
-				stopAdventureRoute(target && getCurrentAdventureMap() === normalizeAdventureMap(target.mapName) && Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1 ? "已到达目的地" : "寻路已停止");
-			} else notify();
-			return;
-		}
-		if (nextState.active) navigationStarted = true;
-		if (nextState.unavailable) {
-			clearInterval(timer$1);
-			timer$1 = null;
-			navigationStarted = false;
-			update(false, "无法到达所选位置");
-			return;
-		}
-		if (status.active && navigationStarted && !nextState.active && !nextState.pending) {
-			const position = getCurrentAdventurePosition();
-			stopAdventureRoute(Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1 ? "已到达目的地" : "寻路已停止");
-			return;
-		}
-		if (!status.active && nextState.path.length) status = {
-			active: false,
-			message: ""
-		};
-		notify();
-	});
 }));
 //#endregion
 //#region src/UI/Components/GameTools/MapCatalogTab.js
@@ -275534,7 +275760,7 @@ function mount$3(container) {
 			const targetActionState = getAdventureActionState(target);
 			const canTeleport = target && (!target.random || sameMap) && loadedMap && Number.isFinite(target.x) && Number.isFinite(target.y) && targetActionState.canTeleport;
 			const currentMapName = DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
-			const routeMessage = !sameMap ? "寻路仅支持角色当前所在地图" : routeMatches ? routeState.message : "";
+			const routeMessage = routeMatches && routeState.message === "无法到达所选位置" ? routeState.message : "";
 			const npcListScrollTop = detail.querySelector(".map-npc-scroll")?.scrollTop || 0;
 			const selectedNpc = mapNpcs.find((npc) => npcCatalogKey(npc) === selectedNpcKey);
 			if (selectedNpc) selectedCoordinate = {
@@ -275547,8 +275773,8 @@ function mount$3(container) {
 			} : actionState;
 			const canTeleportNpc = selectedNpc ? npcTeleportEnabled(selectedNpc, npcAvailability[npcCatalogKey(selectedNpc)], npcActionState) : false;
 			const canTeleportHere = selectedNpc ? canTeleportNpc : canTeleport;
-			const npcStatus = actionState.kind === "npc" ? actionState.message : "";
-			const mapStatus = (actionState.kind === "coordinate" ? actionState.message : "") || routeMessage || (!SessionStorage_default.NavigationTeleportAllowed ? "当前账号没有传送权限" : "");
+			const npcStatus = actionState.kind === "npc" && actionState.error ? actionState.message : "";
+			const mapStatus = (actionState.kind === "coordinate" && actionState.error ? actionState.message : "") || routeMessage || (!SessionStorage_default.NavigationTeleportAllowed ? "当前账号没有传送权限" : "");
 			const selectionLabel = selectedNpc ? `${selectedNpc.name} · ${selectedNpc.x}, ${selectedNpc.y}` : selectedCoordinate?.random ? "随机位置" : selectedCoordinate ? `${selectedCoordinate.x}, ${selectedCoordinate.y}` : "点击地图选择位置";
 			detail.innerHTML = `<div class="map-heading"><div><h3>${escapeCatalogHtml(map.name)}</h3><p>${escapeCatalogHtml(map.id)}</p><small class="map-current-position">角色位置：${escapeCatalogHtml(currentMapName)} (${currentPosition.x}, ${currentPosition.y})</small></div><strong>${escapeCatalogHtml(selectionLabel)}</strong></div>
 					<div class="map-detail-body">
@@ -275565,9 +275791,9 @@ function mount$3(container) {
 					</section>
 					</div>
 					<div class="catalog-action-panel">
-						<button class="catalog-route" type="button" ${routeTarget && sameMap ? "" : "disabled"}>${routeActive ? "停止寻路" : "开始寻路"}</button>
+						<button class="catalog-route" title="${!sameMap ? "寻路仅支持角色当前所在地图" : !routeTarget ? "请先选择目标位置" : ""}" type="button" ${routeTarget && sameMap ? "" : "disabled"}>${routeActive ? "停止寻路" : "开始寻路"}</button>
 					<button class="catalog-teleport" type="button" ${canTeleportHere ? "" : "disabled"}>${actionState.npcPending && selectedNpc ? "正在传送..." : "传送到这里"}</button>
-					<span class="catalog-status${(actionState.kind === "coordinate" || actionState.kind === "npc") && actionState.error ? " error" : ""}">${escapeCatalogHtml(npcStatus || mapStatus)}</span>
+					<span class="catalog-status error">${escapeCatalogHtml(npcStatus || mapStatus)}</span>
 				</div>`;
 			const canvas = detail.querySelector(".catalog-map");
 			const picker = detail.querySelector(".catalog-map-picker");
@@ -275722,21 +275948,30 @@ var init_GameToolsConfirm = __esmMin((() => {}));
 function changedValues(form, current) {
 	return Object.fromEntries(new FormData(form).entries().map(([key, value]) => [key, Number(value)]).filter(([key, value]) => value !== current[key]));
 }
-function mount$2(container, { close }) {
+function mount$2(container) {
 	container.classList.add("management-tab", "character-attributes-tab");
 	let snapshot;
+	let disposed = false;
+	let loadToken = 0;
 	let selectedJobId;
 	let search = "";
 	let pending = false;
 	let status = "";
 	let statusError = false;
 	async function load() {
-		container.innerHTML = "<div class=\"management-loading\">正在读取角色实时状态...</div>";
+		const token = ++loadToken;
+		if (!snapshot) container.innerHTML = "<div class=\"management-loading\">正在读取角色实时状态...</div>";
 		try {
-			snapshot = await loadCurrentCharacter();
-			selectedJobId = snapshot.job_id;
-			render();
+			const next = await loadCurrentCharacter();
+			if (disposed || token !== loadToken) return;
+			snapshot = next;
+			selectedJobId ??= snapshot.job_id;
+			if (container.querySelector(".character-detail")) {
+				renderJobs();
+				renderDetail();
+			} else render();
 		} catch (error) {
+			if (disposed || token !== loadToken) return;
 			container.innerHTML = `<div class="management-error">${escapeHtml$2(error.message)}</div>`;
 		}
 	}
@@ -275744,23 +275979,28 @@ function mount$2(container, { close }) {
 		if (pending) return;
 		if (confirmation && !await requestGameToolsConfirmation(container, confirmation)) return;
 		if (!commands.length) {
-			status = "没有需要应用的修改";
+			status = "";
+			showGameToolsToast(container, "没有需要应用的修改", "info");
 			statusError = false;
 			renderDetail();
 			return;
 		}
 		pending = true;
-		status = "正在提交...";
+		status = "";
+		showGameToolsToast(container, "正在提交...", "info");
 		statusError = false;
 		renderDetail();
 		try {
-			for (const { type, payload } of commands) snapshot = await maintainCurrentCharacter(type, payload);
+			for (const { type, payload } of commands) {
+				snapshot = await maintainCurrentCharacter(type, payload);
+				clearTabDrafts(container, Object.keys(payload));
+			}
 			selectedJobId = snapshot.job_id;
-			status = "操作成功，已读取最新状态";
-			const jobChange = commands.find((command) => command.type === "character.progression.update" && command.payload.job_id !== void 0);
-			if (jobChange && snapshot.job_id === jobChange.payload.job_id) close();
+			status = "";
+			showGameToolsToast(container, commands.find((command) => command.type === "character.progression.update" && command.payload.job_id !== void 0) ? `已转职为${getJobDisplayName(snapshot.job_id, "当前职业")}` : "操作成功，已读取最新状态");
 		} catch (error) {
 			status = error.message;
+			clearGameToolsToast(container);
 			statusError = true;
 		} finally {
 			pending = false;
@@ -275793,6 +276033,7 @@ function mount$2(container, { close }) {
 			</button>`).join("") || "<div class=\"character-job-empty\">没有匹配的职业</div>";
 		container.querySelectorAll("[data-job-id]").forEach((button) => {
 			button.addEventListener("click", () => {
+				if (selectedJobId !== Number(button.dataset.jobId)) resetTabScroll(container, container.querySelector(".character-detail"));
 				selectedJobId = Number(button.dataset.jobId);
 				status = "";
 				statusError = false;
@@ -275862,16 +276103,34 @@ function mount$2(container, { close }) {
 		searchInput.value = search;
 		searchInput.addEventListener("input", () => {
 			search = searchInput.value;
+			resetTabScroll(container, container.querySelector(".character-job-list"));
 			renderJobs();
 		});
 		renderJobs();
 		renderDetail();
 	}
+	const refresh = () => {
+		if (!pending) load();
+	};
+	const clearFeedback = () => {
+		status = "";
+		statusError = false;
+		if (snapshot) renderDetail();
+	};
+	container.addEventListener("game-tools-activate", refresh);
+	container.addEventListener("game-tools-reset-feedback", clearFeedback);
 	load();
-	return () => {};
+	return () => {
+		disposed = true;
+		loadToken++;
+		container.removeEventListener("game-tools-activate", refresh);
+		container.removeEventListener("game-tools-reset-feedback", clearFeedback);
+	};
 }
 var statFields, unsupportedJobIds, jobs, CharacterMaintenanceTab_default;
 var init_CharacterMaintenanceTab = __esmMin((() => {
+	init_TabViewState();
+	init_GameToolsToast();
 	init_JobDisplayNameTable();
 	init_DBManager();
 	init_AdventureControlService();
@@ -275979,12 +276238,18 @@ function control(key, value, definition) {
 function mount$1(container) {
 	container.classList.add("management-tab");
 	let settings;
+	let disposed = false;
+	let loadToken = 0;
 	async function load(message = "") {
-		container.innerHTML = "<div class=\"management-loading\">正在读取服务器实际设置...</div>";
+		const token = ++loadToken;
+		if (!settings) container.innerHTML = "<div class=\"management-loading\">正在读取服务器实际设置...</div>";
 		try {
-			settings = await loadAdventureGameSettings();
+			const next = await loadAdventureGameSettings();
+			if (disposed || token !== loadToken) return;
+			settings = next;
 			render(message);
 		} catch (error) {
+			if (disposed || token !== loadToken) return;
 			container.innerHTML = `<div class="management-error">${escapeHtml$2(error.message)}</div>`;
 		}
 	}
@@ -276016,7 +276281,8 @@ function mount$1(container) {
 				if (value !== settings.values[key]) changes[key] = value;
 			}
 			if (!Object.keys(changes).length) {
-				render("没有需要应用的修改");
+				render();
+				showGameToolsToast(container, "没有需要应用的修改", "info");
 				return;
 			}
 			form.querySelectorAll("button, input").forEach((element) => element.disabled = true);
@@ -276026,18 +276292,36 @@ function mount$1(container) {
 			}
 			try {
 				const result = await applyAdventureGameSettings(changes);
+				clearTabDrafts(container);
 				settings.values = result.values;
-				render("设置已应用并回读成功");
+				render();
+				showGameToolsToast(container, "游戏设置已保存");
 			} catch (requestError) {
+				clearGameToolsToast(container);
 				render(requestError.message, true);
 			}
 		});
 	}
+	const refresh = () => {
+		load();
+	};
+	const clearFeedback = () => {
+		if (settings) render();
+	};
+	container.addEventListener("game-tools-activate", refresh);
+	container.addEventListener("game-tools-reset-feedback", clearFeedback);
 	load();
-	return () => {};
+	return () => {
+		disposed = true;
+		loadToken++;
+		container.removeEventListener("game-tools-activate", refresh);
+		container.removeEventListener("game-tools-reset-feedback", clearFeedback);
+	};
 }
 var groups, dropTypes, dropCategories, dropKeys, labels, rateKeys, visibleKeys, GameSettingsTab_default;
 var init_GameSettingsTab = __esmMin((() => {
+	init_TabViewState();
+	init_GameToolsToast();
 	init_AdventureControlService();
 	init_escapeHtml();
 	init_GameToolsConfirm();
@@ -276188,8 +276472,20 @@ function mount(container, context = {}) {
 	container.classList.add("world-catalog-tab", "item-catalog-tab");
 	const assetUrls = /* @__PURE__ */ new Map();
 	let pending = false;
+	let zenyPending = false;
 	let status = "";
 	let statusError = false;
+	let browserApi;
+	const clearFeedback = () => {
+		status = "";
+		statusError = false;
+		const error = container.querySelector(".zeny-grant-error");
+		if (error) error.textContent = "";
+		const button = container.querySelector(".zeny-grant-open");
+		if (button) button.disabled = zenyPending || !context.capabilities?.itemGrantAllowed;
+		browserApi?.refreshDetail();
+	};
+	container.addEventListener("game-tools-reset-feedback", clearFeedback);
 	return mountRemoteCatalogBrowser(container, {
 		placeholder: "搜索中文名、英文名、Aegis 名或 ID",
 		searchLabel: "搜索物品",
@@ -276239,8 +276535,14 @@ function mount(container, context = {}) {
 				ariaLabel: "子类"
 			});
 		},
-		onReady({ container: root, refreshDetail }) {
+		onReady(api) {
+			browserApi = api;
+			const { container: root, refreshDetail } = api;
 			const button = root.querySelector(".zeny-grant-open");
+			const zenyError = document.createElement("span");
+			zenyError.className = "catalog-status error zeny-grant-error";
+			zenyError.setAttribute("role", "status");
+			button.after(zenyError);
 			button.addEventListener("click", async () => {
 				const amount = await requestGameToolsNumber(root, {
 					title: "向当前角色发放 Zeny",
@@ -276250,7 +276552,9 @@ function mount(container, context = {}) {
 					max: 2147483647
 				});
 				if (amount === null) return;
+				zenyPending = true;
 				button.disabled = true;
+				zenyError.textContent = "";
 				try {
 					await grantAdventureZeny(amount);
 					status = `已发放 ${amount.toLocaleString()} Zeny`;
@@ -276261,11 +276565,19 @@ function mount(container, context = {}) {
 					statusError = true;
 					button.textContent = "发放失败";
 				}
+				if (!statusError) {
+					showGameToolsToast(container, status);
+					status = "";
+				} else clearGameToolsToast(container);
+				zenyError.textContent = statusError ? status : "";
+				status = "";
+				statusError = false;
 				refreshDetail();
 				setTimeout(() => {
 					if (!button.isConnected) return;
 					button.textContent = "发放 Zeny";
-					button.disabled = false;
+					zenyPending = false;
+					button.disabled = !context.capabilities?.itemGrantAllowed;
 				}, 1500);
 			});
 		},
@@ -276286,7 +276598,7 @@ function mount(container, context = {}) {
 			detail.innerHTML = `<div class="item-detail-content"><div class="catalog-heading item-heading"><span class="catalog-portrait item-portrait"><img alt="${escapeCatalogHtml(name)}"></span><div><h3>${escapeCatalogHtml(name)}</h3><p>${escapeCatalogHtml(item.AegisName)} · ID ${item.Id}</p></div></div>
 			<div class="catalog-metadata"><div><span>类型</span><strong>${escapeCatalogHtml(typeNames[item.Type] || item.Type || "其他")}</strong></div><div><span>重量</span><strong>${Number(item.Weight || 0) / 10}</strong></div><div><span>买 / 卖</span><strong>${item.Buy ?? "-"} / ${item.Sell ?? "-"}</strong></div><div><span>洞数</span><strong>${item.Slots ?? 0}</strong></div></div>
 			<div class="item-description">${renderDescription(item.description)}</div></div>
-			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? "disabled" : ""}>${pending ? "发放中..." : "发放到背包"}</button><span class="catalog-status${statusError ? " error" : status ? " success" : ""}" role="status" aria-live="polite">${escapeCatalogHtml(status || (!item.grantable ? "该特殊物品暂不支持直接发放" : !context.capabilities?.itemGrantAllowed ? "当前账号没有发放权限" : "仅发放给当前角色"))}</span></div>`;
+			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? "disabled" : ""}>${pending ? "发放中..." : "发放到背包"}</button><span class="catalog-status error" role="status" aria-live="polite">${escapeCatalogHtml(status || (!item.grantable ? "该特殊物品暂不支持直接发放" : !context.capabilities?.itemGrantAllowed ? "当前账号没有发放权限" : ""))}</span></div>`;
 			loadImage(detail.querySelector(".item-portrait img"), item.illustration || item.icon, assetUrls);
 			detail.querySelector(".item-grant").addEventListener("click", async () => {
 				const amount = Number(detail.querySelector(".item-grant-amount").value);
@@ -276303,17 +276615,19 @@ function mount(container, context = {}) {
 				api.refreshDetail();
 				try {
 					await grantAdventureItem(item.Id, amount);
-					status = `已发放 ${amount} 个到当前角色背包`;
+					status = "";
 				} catch (error) {
 					status = errorMessages[error.code] || error.message;
 					statusError = true;
 				} finally {
+					clearGameToolsToast(container);
 					pending = false;
 					api.refreshDetail();
 				}
 			});
 		},
 		cleanup() {
+			container.removeEventListener("game-tools-reset-feedback", clearFeedback);
 			assetUrls.forEach((url) => URL.revokeObjectURL(url));
 			assetUrls.clear();
 		}
@@ -276321,6 +276635,7 @@ function mount(container, context = {}) {
 }
 var typeNames, weaponSubtypeNames, armorSlotNames, cardSubtypeNames, errorMessages, ItemCatalogTab_default;
 var init_ItemCatalogTab = __esmMin((() => {
+	init_GameToolsToast();
 	init_AdventureControlService();
 	init_CatalogData();
 	init_RagnarokText();
@@ -276418,8 +276733,13 @@ function validationMessage(input) {
 	if (validity.patternMismatch) return "输入格式不正确";
 	return "请检查输入内容";
 }
-var preferences, GameTools, cleanupTab, mountedTabId, mountedCapabilities, capabilities, shouldRestoreAfterMapLoad, GameTools_default;
+var preferences, GameTools, mountedTabs, activeTabId, capabilities, shouldRestoreAfterMapLoad, GameTools_default;
 var init_GameTools = __esmMin((() => {
+	init_ConnectionLifecycle();
+	init_TabViewState();
+	init_AdventureActionService();
+	init_AdventureRouteService();
+	init_GameToolsToast();
 	init_GUIComponent();
 	init_UIManager();
 	init_Preferences$1();
@@ -276443,6 +276763,7 @@ var init_GameTools = __esmMin((() => {
 	registerGameToolsTab(GameSettingsTab_default);
 	preferences = Preferences.get("GameTools", { tab: "maps" }, 2);
 	GameTools = new GUIComponent("GameTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default);
+	mountedTabs = /* @__PURE__ */ new Map();
 	shouldRestoreAfterMapLoad = false;
 	GameTools.render = () => GameTools_default$2;
 	GameTools.onShortCut = function onShortCut(key) {
@@ -276451,16 +276772,42 @@ var init_GameTools = __esmMin((() => {
 	GameTools.init = function init() {
 		const root = this.getRoot();
 		this.draggable(".titlebar");
+		let lastActionMessage = "";
+		subscribeAdventureActions((state) => {
+			const previous = lastActionMessage;
+			lastActionMessage = state.message;
+			if (this._host.style.display === "none") return;
+			const window = root.querySelector(".game-tools-window");
+			if (state.error) clearGameToolsToast(window);
+			else if (state.message && state.message !== previous) showGameToolsToast(window, state.message, state.npcPending || state.mapPending ? "info" : "success");
+		});
+		let lastRouteMessage = "";
+		subscribeAdventureRoute((state) => {
+			const previous = lastRouteMessage;
+			lastRouteMessage = state.message;
+			if (this._host.style.display === "none") return;
+			const window = root.querySelector(".game-tools-window");
+			if (state.message === "无法到达所选位置") clearGameToolsToast(window);
+			else if (state.message && state.message !== previous) showGameToolsToast(window, state.message, state.message === "已到达目的地" ? "success" : "info");
+		});
 		root.addEventListener("invalid", (event) => event.target.setCustomValidity(validationMessage(event.target)), true);
 		root.addEventListener("input", (event) => event.target.setCustomValidity?.(""), true);
 		root.querySelector(".close").addEventListener("click", () => this.toggle());
 		root.querySelector(".close").addEventListener("mousedown", (event) => event.stopImmediatePropagation());
+		clearGameToolsToast(this.getRoot().querySelector(".game-tools-window"));
 		this._host.style.display = "none";
 		this.renderTabs();
 	};
 	GameTools.renderTabs = function renderTabs({ reopening = false } = {}) {
 		const root = this.getRoot();
 		const tabs = getGameToolsTabs().filter((tab) => !tab.capability || capabilities?.[tab.capability] === true);
+		for (const [id, entry] of mountedTabs) {
+			if (tabs.some((tab) => tab.id === id)) continue;
+			entry.cleanup?.();
+			entry.view.destroy();
+			entry.container.remove();
+			mountedTabs.delete(id);
+		}
 		if (!tabs.length) return;
 		const selected = tabs.find((tab) => tab.id === preferences.tab) || tabs[0];
 		root.querySelector(".tab-list").innerHTML = tabs.map((tab) => `<button class="tab-button${tab.id === selected.id ? " active" : ""}" type="button" role="tab" data-tab="${tab.id}">${tab.label}</button>`).join("");
@@ -276478,21 +276825,47 @@ var init_GameTools = __esmMin((() => {
 	};
 	GameTools.mountTab = function mountTab(tab, reopening = false) {
 		const content = this.getRoot().querySelector(".tab-content");
-		const nextCapabilities = JSON.stringify(capabilities);
-		const needsRefresh = reopening && tab.refreshOnOpen || tab.capability && mountedCapabilities !== nextCapabilities;
-		if (tab.id === mountedTabId && content.firstElementChild && !needsRefresh) return;
-		mountedCapabilities = nextCapabilities;
-		cleanupTab?.();
-		mountedTabId = tab.id;
-		content.innerHTML = "<div class=\"game-tools-tab\"></div>";
-		cleanupTab = tab.mount(content.firstElementChild, {
-			capabilities,
-			close: () => {
-				shouldRestoreAfterMapLoad = false;
-				this._host.style.display = "none";
-			}
-		});
+		if (!(activeTabId !== tab.id) && !reopening && mountedTabs.has(tab.id)) return;
+		clearGameToolsToast(content.closest(".game-tools-window"));
+		clearAdventureActionFeedback();
+		clearAdventureRouteFeedback();
+		for (const [id, entry] of mountedTabs) {
+			entry.container.hidden = id !== tab.id;
+			entry.container.dispatchEvent(new Event("game-tools-reset-feedback"));
+		}
+		let entry = mountedTabs.get(tab.id);
+		if (!entry) {
+			const container = document.createElement("div");
+			container.className = "game-tools-tab";
+			container.dataset.tabId = tab.id;
+			content.append(container);
+			entry = {
+				container,
+				view: trackTabView(container),
+				cleanup: tab.mount(container, { get capabilities() {
+					return capabilities;
+				} })
+			};
+			mountedTabs.set(tab.id, entry);
+		} else {
+			entry.container.hidden = false;
+			entry.container.dispatchEvent(new Event("game-tools-activate"));
+			entry.view.restore();
+		}
+		activeTabId = tab.id;
 	};
+	onConnectionEnd(() => {
+		for (const entry of mountedTabs.values()) {
+			entry.cleanup?.();
+			entry.view.destroy();
+			entry.container.remove();
+		}
+		mountedTabs.clear();
+		activeTabId = void 0;
+		capabilities = void 0;
+		shouldRestoreAfterMapLoad = false;
+		if (GameTools._host) GameTools._host.style.display = "none";
+	});
 	GameTools.onAppend = function onAppend() {
 		this.centerInViewport();
 	};
@@ -276515,6 +276888,13 @@ var init_GameTools = __esmMin((() => {
 	};
 	GameTools.toggle = function toggle() {
 		if (this.__active && this._host.style.display !== "none") {
+			clearGameToolsToast(this.getRoot().querySelector(".game-tools-window"));
+			clearAdventureActionFeedback();
+			clearAdventureRouteFeedback();
+			for (const entry of mountedTabs.values()) {
+				entry.view.discardDrafts();
+				entry.container.dispatchEvent(new Event("game-tools-reset-feedback"));
+			}
 			this._host.style.display = "none";
 			return;
 		}
@@ -276533,7 +276913,10 @@ var init_GameTools = __esmMin((() => {
 			};
 			const changed = JSON.stringify(capabilities) !== JSON.stringify(nextCapabilities);
 			capabilities = nextCapabilities;
-			if (changed) this.renderTabs();
+			if (changed) {
+				for (const entry of mountedTabs.values()) entry.container.dispatchEvent(new Event("game-tools-reset-feedback"));
+				this.renderTabs();
+			}
 		} catch {
 			capabilities = {
 				adminAvailable: false,
