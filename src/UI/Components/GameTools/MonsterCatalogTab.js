@@ -121,6 +121,7 @@ function mount(container) {
 		page: 1,
 		pending: false,
 		status: '',
+		statusError: false,
 		cooldownUntil: 0,
 		cooldownTimer: null,
 		requestTimer: null,
@@ -133,6 +134,7 @@ function mount(container) {
 			clearTimeout(state.requestTimer);
 			state.pending = false;
 			state.status = resultMessages[result] || '召唤失败';
+			state.statusError = result !== 0;
 			if (result === 0 && Session.GameToolsMonsterSpawnCooldown > 0) {
 				state.cooldownUntil = Date.now() + Session.GameToolsMonsterSpawnCooldown * 1000;
 				clearInterval(state.cooldownTimer);
@@ -308,8 +310,8 @@ function mount(container) {
 					state.drops
 						? `${renderDrops(state.drops[monster.id]?.mvpDrops, 'MVP 奖励')}${renderDrops(state.drops[monster.id]?.drops, '普通掉落') || '<p>无掉落资料</p>'}`
 						: state.dropsError
-						? '<p>掉落资料加载失败</p><button type="button" class="monster-drops-retry">重试</button>'
-						: '<p>掉落资料加载中...</p>'
+							? '<p>掉落资料加载失败</p><button type="button" class="monster-drops-retry">重试</button>'
+							: '<p>掉落资料加载中...</p>'
 				}</section>
 				<section class="monster-locations">
 					<h4>出现地图</h4>
@@ -332,7 +334,7 @@ function mount(container) {
 			<div class="summon-panel">
 				<button class="summon-button" type="button" ${disabled ? 'disabled' : ''}>${state.pending ? '召唤中...' : '召唤'}</button>
 				<button class="monster-map-teleport" type="button" ${teleportTarget && teleportState.canTeleport ? '' : 'disabled'}>传送到地图</button>
-				<span>${escapeHtml((teleportState.kind === 'coordinate' ? teleportState.message : '') || state.status || summonConstraintText || (!teleportState.allowed ? '当前账号没有传送权限' : ''))}</span>
+				<span class="summon-status${state.status && !state.statusError ? ' success' : state.statusError ? ' error' : ''}" role="status" aria-live="polite">${escapeHtml((teleportState.kind === 'coordinate' ? teleportState.message : '') || state.status || summonConstraintText || (!teleportState.allowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
 		const summonButton = detail.querySelector('.summon-button');
 		const locations = detail.querySelector('.monster-locations');

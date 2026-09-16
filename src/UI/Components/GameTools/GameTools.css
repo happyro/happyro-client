@@ -1265,3 +1265,10 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+.summon-panel .summon-status.success,
+.catalog-status.success,
+.management-status.success {
+	color: #237a3b;
+	font-weight: 600;
+}

@@ -70,7 +70,9 @@ function mount(container, { close }) {
 			}
 			selectedJobId = snapshot.job_id;
 			status = '操作成功，已读取最新状态';
-			const jobChange = commands.find(command => command.type === 'character.progression.update' && command.payload.job_id !== undefined);
+			const jobChange = commands.find(
+				command => command.type === 'character.progression.update' && command.payload.job_id !== undefined
+			);
 			if (jobChange && snapshot.job_id === jobChange.payload.job_id) close();
 		} catch (error) {
 			status = error.message;
@@ -146,7 +148,7 @@ function mount(container, { close }) {
 			</div>
 			<footer class="character-actions">
 				<button type="button" data-action="vitals">恢复状态</button><button type="button" data-action="stats-reset">重置属性</button><button type="button" data-action="skills-reset">重置技能</button>
-				<span class="management-status${statusError ? ' error' : ''}">${escapeHtml(status)}</span>
+				<span class="management-status${statusError ? ' error' : status ? ' success' : ''}" role="status" aria-live="polite">${escapeHtml(status)}</span>
 			</footer>`;
 
 		detail
@@ -210,4 +212,10 @@ function mount(container, { close }) {
 	return () => {};
 }
 
-export default { id: 'character', label: '角色属性', refreshOnOpen: true, capability: 'characterMaintenanceAllowed', mount };
+export default {
+	id: 'character',
+	label: '角色属性',
+	refreshOnOpen: true,
+	capability: 'characterMaintenanceAllowed',
+	mount
+};
