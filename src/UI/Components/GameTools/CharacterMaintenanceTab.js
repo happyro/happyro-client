@@ -1,3 +1,6 @@
+import { resetTabScroll } from './TabViewState.js';
+import { clearTabDrafts } from './TabViewState.js';
+import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
 import JobDisplayNameTable, { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import DB from 'DB/DBManager.js';
 import { loadCurrentCharacter, maintainCurrentCharacter } from './AdventureControlService.js';
@@ -31,9 +34,11 @@ function changedValues(form, current) {
 	);
 }
 
-function mount(container, { close }) {
+function mount(container) {
 	container.classList.add('management-tab', 'character-attributes-tab');
 	let snapshot;
+	let disposed = false;
+	let loadToken = 0;
 	let selectedJobId;
 	let search = '';
 	let pending = false;
@@ -41,12 +46,19 @@ function mount(container, { close }) {
 	let statusError = false;
 
 	async function load() {
-		container.innerHTML = '<div class="management-loading">正在读取角色实时状态...</div>';
+		const token = ++loadToken;
+		if (!snapshot) container.innerHTML = '<div class="management-loading">正在读取角色实时状态...</div>';
 		try {
-			snapshot = await loadCurrentCharacter();
-			selectedJobId = snapshot.job_id;
-			render();
+			const next = await loadCurrentCharacter();
+			if (disposed || token !== loadToken) return;
+			snapshot = next;
+			selectedJobId ??= snapshot.job_id;
+			if (container.querySelector('.character-detail')) {
+				renderJobs();
+				renderDetail();
+			} else render();
 		} catch (error) {
+			if (disposed || token !== loadToken) return;
 			container.innerHTML = `<div class="management-error">${escapeHtml(error.message)}</div>`;
 		}
 	}
@@ -55,27 +67,34 @@ function mount(container, { close }) {
 		if (pending) return;
 		if (confirmation && !(await requestGameToolsConfirmation(container, confirmation))) return;
 		if (!commands.length) {
-			status = '没有需要应用的修改';
+			status = '';
+			showGameToolsToast(container, '没有需要应用的修改', 'info');
 			statusError = false;
 			renderDetail();
 			return;
 		}
 		pending = true;
-		status = '正在提交...';
+		status = '';
+		showGameToolsToast(container, '正在提交...', 'info');
 		statusError = false;
 		renderDetail();
 		try {
 			for (const { type, payload } of commands) {
 				snapshot = await maintainCurrentCharacter(type, payload);
+				clearTabDrafts(container, Object.keys(payload));
 			}
 			selectedJobId = snapshot.job_id;
-			status = '操作成功，已读取最新状态';
+			status = '';
 			const jobChange = commands.find(
 				command => command.type === 'character.progression.update' && command.payload.job_id !== undefined
 			);
-			if (jobChange && snapshot.job_id === jobChange.payload.job_id) close();
+			showGameToolsToast(
+				container,
+				jobChange ? `已转职为${getJobDisplayName(snapshot.job_id, '当前职业')}` : '操作成功，已读取最新状态'
+			);
 		} catch (error) {
 			status = error.message;
+			clearGameToolsToast(container);
 			statusError = true;
 		} finally {
 			pending = false;
@@ -115,6 +134,9 @@ function mount(container, { close }) {
 				.join('') || '<div class="character-job-empty">没有匹配的职业</div>';
 		container.querySelectorAll('[data-job-id]').forEach(button => {
 			button.addEventListener('click', () => {
+				if (selectedJobId !== Number(button.dataset.jobId)) {
+					resetTabScroll(container, container.querySelector('.character-detail'));
+				}
 				selectedJobId = Number(button.dataset.jobId);
 				status = '';
 				statusError = false;
@@ -202,14 +224,30 @@ function mount(container, { close }) {
 		searchInput.value = search;
 		searchInput.addEventListener('input', () => {
 			search = searchInput.value;
+			resetTabScroll(container, container.querySelector('.character-job-list'));
 			renderJobs();
 		});
 		renderJobs();
 		renderDetail();
 	}
 
+	const refresh = () => {
+		if (!pending) void load();
+	};
+	const clearFeedback = () => {
+		status = '';
+		statusError = false;
+		if (snapshot) renderDetail();
+	};
+	container.addEventListener('game-tools-activate', refresh);
+	container.addEventListener('game-tools-reset-feedback', clearFeedback);
 	void load();
-	return () => {};
+	return () => {
+		disposed = true;
+		loadToken++;
+		container.removeEventListener('game-tools-activate', refresh);
+		container.removeEventListener('game-tools-reset-feedback', clearFeedback);
+	};
 }
 
 export default {

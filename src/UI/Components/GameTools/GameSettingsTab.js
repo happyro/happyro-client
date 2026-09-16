@@ -1,3 +1,5 @@
+import { clearTabDrafts } from './TabViewState.js';
+import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
 import { applyAdventureGameSettings, loadAdventureGameSettings } from './AdventureControlService.js';
 import escapeHtml from './escapeHtml.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
@@ -100,13 +102,19 @@ function control(key, value, definition) {
 function mount(container) {
 	container.classList.add('management-tab');
 	let settings;
+	let disposed = false;
+	let loadToken = 0;
 
 	async function load(message = '') {
-		container.innerHTML = '<div class="management-loading">正在读取服务器实际设置...</div>';
+		const token = ++loadToken;
+		if (!settings) container.innerHTML = '<div class="management-loading">正在读取服务器实际设置...</div>';
 		try {
-			settings = await loadAdventureGameSettings();
+			const next = await loadAdventureGameSettings();
+			if (disposed || token !== loadToken) return;
+			settings = next;
 			render(message);
 		} catch (error) {
+			if (disposed || token !== loadToken) return;
 			container.innerHTML = `<div class="management-error">${escapeHtml(error.message)}</div>`;
 		}
 	}
@@ -152,7 +160,8 @@ function mount(container) {
 				if (value !== settings.values[key]) changes[key] = value;
 			}
 			if (!Object.keys(changes).length) {
-				render('没有需要应用的修改');
+				render();
+				showGameToolsToast(container, '没有需要应用的修改', 'info');
 				return;
 			}
 			form.querySelectorAll('button, input').forEach(element => (element.disabled = true));
@@ -167,16 +176,32 @@ function mount(container) {
 			}
 			try {
 				const result = await applyAdventureGameSettings(changes);
+				clearTabDrafts(container);
 				settings.values = result.values;
-				render('设置已应用并回读成功');
+				render();
+				showGameToolsToast(container, '游戏设置已保存');
 			} catch (requestError) {
+				clearGameToolsToast(container);
 				render(requestError.message, true);
 			}
 		});
 	}
 
+	const refresh = () => {
+		void load();
+	};
+	const clearFeedback = () => {
+		if (settings) render();
+	};
+	container.addEventListener('game-tools-activate', refresh);
+	container.addEventListener('game-tools-reset-feedback', clearFeedback);
 	void load();
-	return () => {};
+	return () => {
+		disposed = true;
+		loadToken++;
+		container.removeEventListener('game-tools-activate', refresh);
+		container.removeEventListener('game-tools-reset-feedback', clearFeedback);
+	};
 }
 
 export default { id: 'settings', label: '游戏设置', refreshOnOpen: true, capability: 'gameSettingsAllowed', mount };

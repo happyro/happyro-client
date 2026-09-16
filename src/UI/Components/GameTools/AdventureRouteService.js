@@ -161,3 +161,8 @@ Navigation.subscribeRouteState(nextState => {
 	if (!status.active && nextState.path.length) status = { active: false, message: '' };
 	notify();
 });
+
+export function clearAdventureRouteFeedback() {
+	status = { ...status, message: '' };
+	notify();
+}

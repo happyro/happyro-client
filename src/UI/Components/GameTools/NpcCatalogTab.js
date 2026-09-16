@@ -1,3 +1,4 @@
+import { renderCatalogEmptyState } from './CatalogEmptyState.js';
 import MapRenderer from 'Renderer/MapRenderer.js';
 import Session from 'Engine/SessionStorage.js';
 import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
@@ -39,16 +40,15 @@ function mount(container) {
 		pageSize: 32,
 		key,
 		async load(query) {
-			// Resolved from a cached promise, so this only blocks the first page.
+			const currentMap = getCurrentAdventureMap();
+			const onMap = scopeFilter.checked ? currentMap : '';
 			manifest ??= await loadNpcAssets();
-			const result = await searchAdventureNpcs({
-				query: query.query,
-				currentMap: getCurrentAdventureMap(),
-				onMap: scopeFilter?.checked ? getCurrentAdventureMap() : '',
-				page: query.page,
-				perPage: query.perPage
-			});
+			const result = await searchAdventureNpcs({ query: query.query, currentMap, onMap, page: query.page, perPage: query.perPage });
 			return { items: toCatalogNpcs(result.data), total: result.total };
+		},
+		renderEmptyList(list, query) {
+			renderCatalogEmptyState(list, query ? '没有匹配结果' : scopeFilter.checked ? '当前地图暂无 NPC' : '暂无 NPC 资料',
+				scopeFilter.checked ? () => { scopeFilter.checked = false; browserApi.reload(); } : null);
 		},
 		renderRow(npc, selected) {
 			const style = npcAtlasStyle(manifest, npc.spriteId, 48);
@@ -82,7 +82,7 @@ function mount(container) {
 			</div>
 			<div class="catalog-action-panel">
 				<button class="catalog-teleport" type="button" ${canTeleport ? '' : 'disabled'}>${actionState.npcPending ? '正在传送...' : '传送到 NPC 附近'}</button>
-				<span class="catalog-status${actionState.kind === 'npc' && actionState.error ? ' error' : ''}">${escapeCatalogHtml((actionState.kind === 'npc' ? actionState.message : '') || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
+				<span class="catalog-status error">${escapeCatalogHtml((actionState.kind === 'npc' && actionState.error ? actionState.message : '') || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
 			const canvas = detail.querySelector('.npc-map-canvas');
 			const paintNpcMap = () =>

@@ -37,6 +37,7 @@ it('shows an error then recovers drop details by retrying without reloading the 
 	root = document.createElement('div');
 	document.body.append(root);
 	cleanup = tab.mount(root);
+ root.querySelector('.catalog-scope-filter').checked = false;
 	await vi.waitFor(() => expect(root.querySelector('.monster-drops-retry')).not.toBeNull());
 	expect(root.querySelector('.monster-drops').textContent).toContain('掉落资料加载失败');
 	root.querySelector('.monster-drops-retry').click();

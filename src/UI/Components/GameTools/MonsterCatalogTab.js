@@ -1,3 +1,6 @@
+import { renderCatalogEmptyState } from './CatalogEmptyState.js';
+import { resetTabScroll } from './TabViewState.js';
+import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Session from 'Engine/SessionStorage.js';
@@ -52,7 +55,7 @@ const resultMessages = [
 	'当前账号没有召唤权限',
 	'召唤冷却中，请稍后再试',
 	'魔物资料无效',
-	'当前不允许召唤 Boss / MVP',
+	'当前不允许召唤 Mini / MVP',
 	'当前地图禁止召唤',
 	'角色附近没有可用位置'
 ];
@@ -122,6 +125,7 @@ function mount(container) {
 		pending: false,
 		status: '',
 		statusError: false,
+		requestedMonsterName: '',
 		cooldownUntil: 0,
 		cooldownTimer: null,
 		requestTimer: null,
@@ -135,6 +139,12 @@ function mount(container) {
 			state.pending = false;
 			state.status = resultMessages[result] || '召唤失败';
 			state.statusError = result !== 0;
+			if (result === 0) {
+				showGameToolsToast(container, `已召唤 ${state.requestedMonsterName}`);
+				state.status = '';
+			} else {
+				clearGameToolsToast(container);
+			}
 			if (result === 0 && Session.GameToolsMonsterSpawnCooldown > 0) {
 				state.cooldownUntil = Date.now() + Session.GameToolsMonsterSpawnCooldown * 1000;
 				clearInterval(state.cooldownTimer);
@@ -162,7 +172,8 @@ function mount(container) {
 				options: [
 					{ value: 'all', label: '全部' },
 					{ value: 'normal', label: '普通' },
-					{ value: 'boss', label: 'Boss / MVP' }
+					{ value: 'mini', label: 'Mini' },
+					{ value: 'mvp', label: 'MVP' }
 				]
 			})}
 		</div>
@@ -192,6 +203,7 @@ function mount(container) {
 	}
 
 	function applyFilter() {
+		resetTabScroll(container, list);
 		state.filtered = filterMonsters(state.monsters, search.value, filter.value, {
 			scope: getScope(),
 			currentMap: getCurrentAdventureMap(),
@@ -225,23 +237,40 @@ function mount(container) {
 				monster => `
 			<button class="monster-row${state.selected?.id === monster.id ? ' selected' : ''}" type="button" data-id="${monster.id}">
 				<span class="monster-thumb${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, 48)}"></span>
-				<span class="monster-row-text"><strong>${escapeHtml(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.boss ? ' · Boss' : ''}</small></span>
+				<span class="monster-row-text"><strong>${escapeHtml(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.mvp ? ' · MVP' : monster.boss ? ' · Mini' : ''}</small></span>
 			</button>`
 			)
 			.join('');
+		if (!page.items.length) {
+			renderCatalogEmptyState(list,
+				search.value.trim() || filter.value !== 'all' ? '没有匹配结果' : scopeFilter.checked ? '当前地图暂无魔物' : '暂无魔物资料',
+				scopeFilter.checked ? () => { scopeFilter.checked = false; applyFilter(); } : null);
+		}
 		list.querySelectorAll('.monster-row').forEach(button => {
 			button.addEventListener('click', () => {
-				state.selected = state.monsters.find(monster => monster.id === Number(button.dataset.id));
-				state.selectedSpawn =
-					listMonsterSpawnMaps(state.selected?.spawns, {
-						channelsEnabled: Session.NavigationMapChannelsEnabled,
-						currentMap: getCurrentAdventureMap()
-					})[0] || null;
-				state.status = '';
-				renderList();
-				renderDetail();
+				selectMonster(state.monsters.find(monster => monster.id === Number(button.dataset.id)));
 			});
 		});
+	}
+
+	function selectMonster(monster) {
+		state.selected = monster;
+		state.selectedSpawn =
+			listMonsterSpawnMaps(monster?.spawns, {
+				channelsEnabled: Session.NavigationMapChannelsEnabled,
+				currentMap: getCurrentAdventureMap()
+			})[0] || null;
+		state.status = '';
+		state.statusError = false;
+		renderList();
+		renderDetail();
+	}
+
+	function changePage(delta) {
+		const page = paginateMonsters(state.filtered, state.page + delta, pageSize);
+		state.page = page.page;
+		resetTabScroll(container, list);
+		selectMonster(page.items[0] || null);
 	}
 
 	function renderDrops(drops, title) {
@@ -249,8 +278,14 @@ function mount(container) {
 		return `<div class="drop-group"><h4>${title}</h4>${drops.map(drop => `<div><span title="${escapeHtml(drop.nameEn || drop.Item)}">${escapeHtml(drop.name || drop.Item)}</span><em>${formatRate(drop.Rate)}</em></div>`).join('')}</div>`;
 	}
 
+	let detailMonsterId;
 	function renderDetail() {
 		const detail = container.querySelector('.monster-detail');
+		if (detailMonsterId !== state.selected?.id) {
+			detailMonsterId = state.selected?.id;
+			resetTabScroll(container, detail);
+			state.locationScrollTop = 0;
+		}
 		const previousLocations = detail.querySelector('.monster-locations');
 		if (previousLocations) state.locationScrollTop = previousLocations.scrollTop;
 		const monster = state.selected;
@@ -292,12 +327,12 @@ function mount(container) {
 		const summonConstraintText = !Session.GameToolsMonsterSpawnAllowed
 			? '当前账号仅可查看图鉴'
 			: bossBlocked
-				? '后台未开放 Boss / MVP 召唤'
+				? '后台未开放 Mini / MVP 召唤'
 				: '';
 		detail.innerHTML = `
 			<div class="monster-heading">
 				<span class="monster-portrait${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, 96)}"></span>
-				<div><h3>${escapeHtml(monster.name)}</h3><p>${escapeHtml(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.boss ? 'Boss' : '普通'}</span></div>
+				<div><h3>${escapeHtml(monster.name)}</h3><p>${escapeHtml(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.mvp ? 'MVP' : monster.boss ? 'Mini' : '普通'}</span></div>
 			</div>
 			<div class="monster-stats">
 				<div><span>等级</span><strong>${monster.level}</strong></div><div><span>HP</span><strong>${monster.hp}</strong></div>
@@ -334,7 +369,7 @@ function mount(container) {
 			<div class="summon-panel">
 				<button class="summon-button" type="button" ${disabled ? 'disabled' : ''}>${state.pending ? '召唤中...' : '召唤'}</button>
 				<button class="monster-map-teleport" type="button" ${teleportTarget && teleportState.canTeleport ? '' : 'disabled'}>传送到地图</button>
-				<span class="summon-status${state.status && !state.statusError ? ' success' : state.statusError ? ' error' : ''}" role="status" aria-live="polite">${escapeHtml((teleportState.kind === 'coordinate' ? teleportState.message : '') || state.status || summonConstraintText || (!teleportState.allowed ? '当前账号没有传送权限' : ''))}</span>
+				<span class="summon-status error" role="status" aria-live="polite">${escapeHtml((teleportState.kind === 'coordinate' && teleportState.error ? teleportState.message : '') || (state.statusError ? state.status : '') || summonConstraintText || (!teleportState.allowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
 		const summonButton = detail.querySelector('.summon-button');
 		const locations = detail.querySelector('.monster-locations');
@@ -354,11 +389,16 @@ function mount(container) {
 		});
 		summonButton.addEventListener('click', () => {
 			state.pending = true;
-			state.status = '正在等待服务器确认...';
+			state.requestedMonsterName = monster.name;
+			state.statusError = false;
+			state.status = '';
+			showGameToolsToast(container, '正在等待服务器确认...', 'info');
 			clearTimeout(state.requestTimer);
 			state.requestTimer = setTimeout(() => {
 				state.pending = false;
+				state.statusError = true;
 				state.status = '服务器响应超时，请稍后重试';
+				clearGameToolsToast(container);
 				renderDetail();
 			}, 8000);
 			const packet = new PACKET.CZ.HAPPYRO_MONSTER_SPAWN();
@@ -371,27 +411,14 @@ function mount(container) {
 	search.addEventListener('input', applyFilter);
 	filter.addEventListener('change', applyFilter);
 	scopeFilter?.addEventListener('change', applyFilter);
-	container.querySelector('.page-prev').addEventListener('click', () => {
-		state.page -= 1;
-		renderList();
-	});
-	container.querySelector('.page-next').addEventListener('click', () => {
-		state.page += 1;
-		renderList();
-	});
+	container.querySelector('.page-prev').addEventListener('click', () => changePage(-1));
+	container.querySelector('.page-next').addEventListener('click', () => changePage(1));
 
 	Promise.all([loadCatalog(), DB.listNavigation('MAP', { channelsEnabled: Session.NavigationMapChannelsEnabled })])
 		.then(([catalog, navigationMaps]) => {
 			state.catalog = catalog;
 			state.navigationMaps = navigationMaps;
 			state.monsters = catalog.monsters;
-			const currentMap = getCurrentAdventureMap();
-			const currentMonsters = filterMonsters(catalog.monsters, '', 'all', {
-				scope: 'current',
-				currentMap,
-				channelsEnabled: Session.NavigationMapChannelsEnabled
-			});
-			if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false;
 			applyFilter();
 		})
 		.catch(error => {
@@ -404,9 +431,24 @@ function mount(container) {
 		renderDetail();
 	});
 	const unsubscribeAdventureActions = subscribeAdventureActions(() => renderDetail());
+	let catalogMap = getCurrentAdventureMap();
+	const mapTimer = setInterval(() => {
+		const currentMap = getCurrentAdventureMap();
+		if (!state.catalog || !currentMap || currentMap === catalogMap) return;
+		catalogMap = currentMap;
+		applyFilter();
+	}, 500);
+	const clearFeedback = () => {
+		state.status = '';
+		state.statusError = false;
+		if (state.catalog) renderDetail();
+	};
+	container.addEventListener('game-tools-reset-feedback', clearFeedback);
 
 	return () => {
 		destroyed = true;
+		clearInterval(mapTimer);
+		container.removeEventListener('game-tools-reset-feedback', clearFeedback);
 		clearTimeout(state.requestTimer);
 		clearInterval(state.cooldownTimer);
 		unsubscribeAdventureActions();
