@@ -28,10 +28,12 @@ it('uses Mini and MVP labels and preserves current-map scope until the user view
  await vi.advanceTimersByTimeAsync(0);
  const scope=root.querySelector('.catalog-scope-filter');
  expect(scope.checked).toBe(true);
+ expect(root.querySelector('.monster-summary').textContent).toContain('（当前地图）');
  expect(root.querySelector('[data-value=mini]').textContent).toContain('Mini');
  expect(root.querySelector('[data-value=mvp]').textContent).toContain('MVP');
  root.querySelector('.catalog-empty-state button').click();
  expect(scope.checked).toBe(false);
+ expect(root.querySelector('.monster-summary').textContent).toContain('（全部地图）');
  const search=root.querySelector('.monster-search');
  search.value='1096';search.dispatchEvent(new Event('input'));
  expect(root.querySelector('.monster-badge').textContent).toBe('Mini');

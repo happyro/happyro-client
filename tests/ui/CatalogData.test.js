@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+	catalogScopeLabel,
+	formatCatalogCount,
 	matchesCatalogSearch,
 	normalizeCatalogSearch,
 	paginateCatalog,
@@ -22,5 +24,12 @@ describe('catalog data', () => {
 		expect(html).toContain('当前地图');
 		expect(html).not.toContain('全世界');
 		expect(renderCatalogScopeFilter({ name: 'npc-scope', value: 'all' })).not.toContain('checked');
+	});
+
+	it('labels catalog counts with the current-map or all-maps scope', () => {
+		expect(catalogScopeLabel(true)).toBe('当前地图');
+		expect(catalogScopeLabel(false)).toBe('全部地图');
+		expect(formatCatalogCount(78, '个魔物', true)).toBe('共 78 个魔物（当前地图）');
+		expect(formatCatalogCount(0, '个 NPC', false)).toBe('共 0 个 NPC（全部地图）');
 	});
 });

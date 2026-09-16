@@ -11,7 +11,7 @@ describe('game tools integration', () => {
 		const ids = new Set(catalog.monsters.map(monster => monster.id));
 		const poring = catalog.monsters.find(monster => monster.id === 1002);
 
-		expect(catalog.schema).toBe('happyro-monster-catalog/v3');
+		expect(catalog.schema).toBe('happyro-monster-catalog/v4');
 		expect(catalog.source.sha256).toMatch(/^[a-f0-9]{64}$/);
 		expect(catalog.source.itemsSha256).toMatch(/^[a-f0-9]{64}$/);
 		expect(catalog.source.spawnsSha256).toMatch(/^[a-f0-9]{64}$/);
@@ -147,7 +147,8 @@ describe('game tools integration', () => {
 		expect(npcSource).toContain('class="catalog-heading"');
 		expect(npcSource).toContain('class="npc-detail-body"');
 		expect(npcSource).toContain('renderCatalogScopeFilter');
-		expect(npcSource).toContain("scopeFilter?.checked ? getCurrentAdventureMap() : ''");
+		expect(npcSource).toContain('const onMap = scopeFilter.checked ? currentMap : \'\'');
+		expect(npcSource).toContain("scopeFilter.checked ? () => { scopeFilter.checked = false; browserApi.reload(); } : null");
 		expect(npcSource).not.toContain("value: 'all'");
 	});
 
@@ -275,7 +276,8 @@ describe('game tools integration', () => {
 		expect(source).toContain('>传送到地图</button>');
 		expect(source).toContain('renderCatalogScopeFilter');
 		expect(source).toContain("value: 'current'");
-		expect(source).toContain('if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false');
+		expect(source).toContain("scopeFilter.checked ? () => { scopeFilter.checked = false; applyFilter(); } : null");
+		expect(source).not.toContain('if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false');
 		expect(source).toContain('if (!state.selected) {');
 		expect(source).toContain('state.selected = state.filtered[0] || null');
 		expect(source).not.toContain('${spawn.count} 只');
