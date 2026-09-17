@@ -191,26 +191,26 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>    
         <meta charset="UTF-8">    
         <meta name="happyro-build-id" content="${buildId}">
-        <title>roBrowser [${pkg.version} - ${buildDate}]</title>    
-        <link rel="icon" type="image/png" href="./icon.png">    
+        <title>HappyRO</title>    
+        <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
     
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    
         <meta name="HandheldFriendly" content="true">    
     
         <meta name="apple-mobile-web-app-capable" content="yes">    
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">    
-        <meta name="apple-mobile-web-app-title" content="roBrowser">    
+        <meta name="apple-mobile-web-app-title" content="HappyRO">    
         <meta name="mobile-web-app-capable" content="yes">    
     
-        <meta name="description" content="roBrowser">    
-        <meta name="keywords" content="roBrowser">    
-        <meta name="author" content="roBrowser">    
+        <meta name="description" content="HappyRO">    
+        <meta name="keywords" content="HappyRO">    
+        <meta name="author" content="HappyRO">    
         <meta name="robots" content="index">    
     
         <meta name="theme-color" content="#ff8cb5">    
     
-        <meta property="og:title" content="roBrowser">    
-        <meta property="og:description" content="roBrowser">    
+        <meta property="og:title" content="HappyRO">    
+        <meta property="og:description" content="HappyRO">    
         <meta property="og:type" content="website">    
         <meta property="og:locale" content="en_US">    
     
@@ -520,7 +520,9 @@ function createApiHTML() {
     <head>    
         <meta charset="UTF-8">    
         <meta name="happyro-build-id" content="${buildId}">
-        <title>roBrowserLegacy</title>    
+        <title>HappyRO</title>    
+        <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
+        <link rel="apple-touch-icon" href="./icon.png">    
         <style>    
             html, body {    
                 margin: 0; padding: 0; border: 0;    
@@ -674,7 +676,9 @@ async function copyPwaFiles() {
 	const start = Date.now();
 	const sharp = (await import('sharp')).default;
 	const bgPath = './src/UI/Components/Intro/images/background.jpg';
+	fs.copyFileSync('./applications/pwa/favicon.ico', dist + platform + '/favicon.ico');
 	fs.copyFileSync('./applications/pwa/icon.png', dist + platform + '/icon.png');
+	fs.copyFileSync('./applications/pwa/icon-512.png', dist + platform + '/icon-512.png');
 	fs.copyFileSync('./applications/pwa/manifest.webmanifest', dist + platform + '/manifest.webmanifest');
 	copyFolder('./applications/pwa/data', dist + platform + '/data');
 	await sharp(bgPath)
