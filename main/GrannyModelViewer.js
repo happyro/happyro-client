@@ -275818,7 +275818,7 @@ function mount$4(container) {
 			value: "current"
 		}),
 		emptyDetail: "选择一个 NPC 查看详情",
-		summarize: (state) => formatCatalogCount(state.total, "个 NPC", scopeFilter?.checked),
+		summarize: (state) => formatCatalogCount(state.total, "个 NPC", Boolean(scopeFilter?.checked)),
 		pageSize: 32,
 		key,
 		async load(query) {
