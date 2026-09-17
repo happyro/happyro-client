@@ -37,3 +37,11 @@ export function renderCatalogScopeFilter({ name, ariaLabel, value = 'current' } 
 	const checked = value === 'all' ? '' : ' checked';
 	return `<label class="catalog-scope-option"><input class="catalog-scope-filter" type="checkbox" name="${escapeCatalogHtml(name)}" value="current"${checked}><span>${escapeCatalogHtml(ariaLabel || '当前地图')}</span></label>`;
 }
+
+export function catalogScopeLabel(currentMap) {
+	return currentMap ? '当前地图' : '全部地图';
+}
+
+export function formatCatalogCount(count, noun, currentMap) {
+	return `共 ${count} ${noun}（${catalogScopeLabel(currentMap)}）`;
+}

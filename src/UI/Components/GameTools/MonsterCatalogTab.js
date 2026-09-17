@@ -19,7 +19,7 @@ import {
 	paginateMonsters
 } from './MonsterCatalogData.js';
 import escapeHtml from './escapeHtml.js';
-import { renderCatalogScopeFilter } from './CatalogData.js';
+import { formatCatalogCount, renderCatalogScopeFilter } from './CatalogData.js';
 import { mountGameSelects, renderGameSelect } from './GameSelect.js';
 
 const pageSize = 40;
@@ -228,7 +228,7 @@ function mount(container) {
 		if (!state.catalog) return;
 		const page = paginateMonsters(state.filtered, state.page, pageSize);
 		state.page = page.page;
-		summary.textContent = `共 ${state.filtered.length} 个魔物`;
+		summary.textContent = formatCatalogCount(state.filtered.length, '个魔物', getScope() === 'current');
 		pageLabel.textContent = `${page.page} / ${page.pageCount}`;
 		container.querySelector('.page-prev').disabled = page.page <= 1;
 		container.querySelector('.page-next').disabled = page.page >= page.pageCount;

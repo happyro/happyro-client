@@ -2,7 +2,7 @@ import { renderCatalogEmptyState } from './CatalogEmptyState.js';
 import MapRenderer from 'Renderer/MapRenderer.js';
 import Session from 'Engine/SessionStorage.js';
 import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
-import { escapeCatalogHtml, renderCatalogScopeFilter } from './CatalogData.js';
+import { escapeCatalogHtml, formatCatalogCount, renderCatalogScopeFilter } from './CatalogData.js';
 import { searchAdventureNpcs } from './AdventureControlService.js';
 import {
 	getAdventureActionState,
@@ -37,6 +37,7 @@ function mount(container) {
 		searchLabel: '搜索 NPC',
 		filterHtml: renderCatalogScopeFilter({ name: 'npc-scope', ariaLabel: '当前地图', value: 'current' }),
 		emptyDetail: '选择一个 NPC 查看详情',
+		summarize: state => formatCatalogCount(state.total, '个 NPC', scopeFilter?.checked),
 		pageSize: 32,
 		key,
 		async load(query) {
