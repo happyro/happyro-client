@@ -37,7 +37,8 @@ function mount(container) {
 		searchLabel: '搜索 NPC',
 		filterHtml: renderCatalogScopeFilter({ name: 'npc-scope', ariaLabel: '当前地图', value: 'current' }),
 		emptyDetail: '选择一个 NPC 查看详情',
-		summarize: state => formatCatalogCount(state.total, '个 NPC', scopeFilter?.checked),
+		summarize: state =>
+			formatCatalogCount(state.total, '个 NPC', Boolean(scopeFilter?.checked)),
 		pageSize: 32,
 		key,
 		async load(query) {
