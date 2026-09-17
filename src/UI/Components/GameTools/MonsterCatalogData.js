@@ -25,13 +25,7 @@ export function filterMonsters(monsters, search, category = 'all', options = {})
 		if (!term) return true;
 		return matchesCatalogSearch([monster.id, monster.name, monster.nameEn, monster.aegisName], term);
 	});
-	const seen = new Set();
-	return filtered.filter(monster => {
-		const key = `${normalizeMonsterSearch(monster.name)}:${monster.boss ? 'boss' : 'normal'}`;
-		if (seen.has(key)) return false;
-		seen.add(key);
-		return true;
-	});
+	return filtered;
 }
 
 export function paginateMonsters(monsters, page, pageSize) {

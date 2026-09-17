@@ -9,20 +9,22 @@ import {
 
 const monsters = [
 	{ id: 1002, name: '波利', nameEn: 'Poring', aegisName: 'PORING', boss: false },
+	{ id: 2401, name: '波利', nameEn: 'Poring', aegisName: 'G_PORING', boss: false },
 	{ id: 1039, name: '兽人英雄', nameEn: 'Orc Hero', aegisName: 'ORC_HERO', boss: true, mvp: true }
 ];
 
 describe('monster catalog data', () => {
 	it('normalizes and searches localized names, resource names and ids', () => {
 		expect(normalizeMonsterSearch('  PORING ')).toBe('poring');
-		expect(filterMonsters(monsters, '波利')).toEqual([monsters[0]]);
-		expect(filterMonsters(monsters, 'orc_hero')).toEqual([monsters[1]]);
+		expect(filterMonsters(monsters, '波利')).toEqual([monsters[0], monsters[1]]);
+		expect(filterMonsters(monsters, 'orc_hero')).toEqual([monsters[2]]);
 		expect(filterMonsters(monsters, '1002')).toEqual([monsters[0]]);
+		expect(filterMonsters(monsters, 'g_poring')).toEqual([monsters[1]]);
 	});
 
 	it('filters boss classification independently from search', () => {
-		expect(filterMonsters(monsters, '', 'normal')).toEqual([monsters[0]]);
-		expect(filterMonsters(monsters, '', 'mvp')).toEqual([monsters[1]]);
+		expect(filterMonsters(monsters, '', 'normal')).toEqual([monsters[0], monsters[1]]);
+		expect(filterMonsters(monsters, '', 'mvp')).toEqual([monsters[2]]);
 	});
 
 	it('limits monsters to the current spawn map when scoped to the current map', () => {
@@ -40,7 +42,7 @@ describe('monster catalog data', () => {
 	});
 
 	it('clamps pagination to a valid page', () => {
-		expect(paginateMonsters(monsters, 9, 1)).toEqual({ page: 2, pageCount: 2, items: [monsters[1]] });
+		expect(paginateMonsters(monsters, 9, 1)).toEqual({ page: 3, pageCount: 3, items: [monsters[2]] });
 	});
 
 	it('prioritizes the current spawn map and hides optional channels', () => {
