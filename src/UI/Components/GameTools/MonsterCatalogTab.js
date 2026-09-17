@@ -237,7 +237,7 @@ function mount(container) {
 				monster => `
 			<button class="monster-row${state.selected?.id === monster.id ? ' selected' : ''}" type="button" data-id="${monster.id}">
 				<span class="monster-thumb${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, 48)}"></span>
-				<span class="monster-row-text"><strong>${escapeHtml(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.mvp ? ' · MVP' : monster.boss ? ' · Mini' : ''}</small></span>
+				<span class="monster-row-text"><strong>${escapeHtml(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.kind === 'mvp' ? ' · MVP' : monster.kind === 'mini' ? ' · Mini' : ''}</small></span>
 			</button>`
 			)
 			.join('');
@@ -309,7 +309,7 @@ function mount(container) {
 					renderDetail();
 				});
 		}
-		const bossBlocked = monster.boss && !Session.GameToolsMonsterSpawnAllowBoss;
+		const bossBlocked = monster.kind !== 'normal' && !Session.GameToolsMonsterSpawnAllowBoss;
 		const cooldownRemaining = Math.max(0, Math.ceil((state.cooldownUntil - Date.now()) / 1000));
 		const disabled = !Session.GameToolsMonsterSpawnAllowed || bossBlocked || state.pending || cooldownRemaining > 0;
 		const spawnMaps = listMonsterSpawnMaps(monster.spawns, {
@@ -332,7 +332,7 @@ function mount(container) {
 		detail.innerHTML = `
 			<div class="monster-heading">
 				<span class="monster-portrait${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, 96)}"></span>
-				<div><h3>${escapeHtml(monster.name)}</h3><p>${escapeHtml(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.mvp ? 'MVP' : monster.boss ? 'Mini' : '普通'}</span></div>
+				<div><h3>${escapeHtml(monster.name)}</h3><p>${escapeHtml(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.kind === 'mvp' ? 'MVP' : monster.kind === 'mini' ? 'Mini' : '普通'}</span></div>
 			</div>
 			<div class="monster-stats">
 				<div><span>等级</span><strong>${monster.level}</strong></div><div><span>HP</span><strong>${monster.hp}</strong></div>

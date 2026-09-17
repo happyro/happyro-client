@@ -11,7 +11,7 @@ describe('game tools integration', () => {
 		const ids = new Set(catalog.monsters.map(monster => monster.id));
 		const poring = catalog.monsters.find(monster => monster.id === 1002);
 
-		expect(catalog.schema).toBe('happyro-monster-catalog/v3');
+		expect(catalog.schema).toBe('happyro-monster-catalog/v4');
 		expect(catalog.source.sha256).toMatch(/^[a-f0-9]{64}$/);
 		expect(catalog.source.itemsSha256).toMatch(/^[a-f0-9]{64}$/);
 		expect(catalog.source.spawnsSha256).toMatch(/^[a-f0-9]{64}$/);

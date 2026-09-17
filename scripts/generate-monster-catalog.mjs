@@ -172,7 +172,7 @@ for (let sheetIndex = 0; sheetIndex * entriesPerSheet < monstersWithImages.lengt
 }
 
 const catalog = {
-	schema: 'happyro-monster-catalog/v3',
+	schema: 'happyro-monster-catalog/v4',
 	source: {
 		sha256: crypto.createHash('sha256').update(snapshotBuffer).digest('hex'),
 		itemsSha256: crypto.createHash('sha256').update(itemSnapshotBuffer).digest('hex'),
@@ -199,8 +199,7 @@ const catalog = {
 			elementLevel: monster.ElementLevel,
 			size: monster.Size,
 			class: monster.Class || 'Normal',
-			boss: monster.Class === 'Boss',
-			mvp: Boolean(monster.MvpDrops?.length),
+			kind: monster.MvpDrops?.length ? 'mvp' : monster.Class === 'Boss' ? 'mini' : 'normal',
 			baseExp: monster.BaseExp,
 			jobExp: monster.JobExp,
 			spawns: [...(spawnsByMonster.get(id)?.values() || [])].sort(

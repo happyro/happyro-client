@@ -11,9 +11,7 @@ export function filterMonsters(monsters, search, category = 'all', options = {})
 	const currentMap = String(options.currentMap || '').toLocaleLowerCase();
 	const scope = options.scope || 'all';
 	const filtered = monsters.filter(monster => {
-		if (category === 'mini' && (!monster.boss || monster.mvp)) return false;
-		if (category === 'mvp' && !monster.mvp) return false;
-		if (category === 'normal' && (monster.boss || monster.mvp)) return false;
+		if (category !== 'all' && monster.kind !== category) return false;
 		if (
 			scope === 'current' &&
 			!listMonsterSpawnMaps(monster.spawns, {

@@ -8,9 +8,9 @@ import {
 } from '../../src/UI/Components/GameTools/MonsterCatalogData.js';
 
 const monsters = [
-	{ id: 1002, name: '波利', nameEn: 'Poring', aegisName: 'PORING', boss: false },
-	{ id: 2401, name: '波利', nameEn: 'Poring', aegisName: 'G_PORING', boss: false },
-	{ id: 1039, name: '兽人英雄', nameEn: 'Orc Hero', aegisName: 'ORC_HERO', boss: true, mvp: true }
+	{ id: 1002, name: '波利', nameEn: 'Poring', aegisName: 'PORING', kind: 'normal' },
+	{ id: 2401, name: '波利', nameEn: 'Poring', aegisName: 'G_PORING', kind: 'normal' },
+	{ id: 1039, name: '兽人英雄', nameEn: 'Orc Hero', aegisName: 'ORC_HERO', kind: 'mvp' }
 ];
 
 describe('monster catalog data', () => {
@@ -22,7 +22,7 @@ describe('monster catalog data', () => {
 		expect(filterMonsters(monsters, 'g_poring')).toEqual([monsters[1]]);
 	});
 
-	it('filters boss classification independently from search', () => {
+	it('filters kind independently from search', () => {
 		expect(filterMonsters(monsters, '', 'normal')).toEqual([monsters[0], monsters[1]]);
 		expect(filterMonsters(monsters, '', 'mvp')).toEqual([monsters[2]]);
 	});
