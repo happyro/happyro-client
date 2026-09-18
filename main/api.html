@@ -2,7 +2,7 @@
 <html>    
     <head>    
         <meta charset="UTF-8">    
-        <meta name="happyro-build-id" content="mu6kjq8v">
+        <meta name="happyro-build-id" content="mu6payr5">
         <title>HappyRO</title>    
         <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
         <link rel="apple-touch-icon" href="./icon.png">    
@@ -51,7 +51,7 @@
                 50% { opacity: 1; transform: translateY(-4px); }    
             }    
         </style>    
-        <script src="api.js?v=mu6kjq8v"></script>
+        <script src="api.js?v=mu6payr5"></script>
     </head>    
     <body>    
         <div id="ro-preloader">    
@@ -61,9 +61,9 @@
             </p>    
         </div>    
     
-        <script src="Config.js?v=mu6kjq8v"></script>
-        <script src="Config.runtime.js?v=mu6kjq8v"></script>
-        <script src="Config.happyro.js?v=mu6kjq8v"></script>
+        <script src="Config.js?v=mu6payr5"></script>
+        <script src="Config.runtime.js?v=mu6payr5"></script>
+        <script src="Config.happyro.js?v=mu6payr5"></script>
         <script>    
             function deepMerge(target, source) {    
                 for (var key in source) {    
@@ -96,7 +96,7 @@
                 if (window.ROConfigLocal) { config = deepMerge(config, window.ROConfigLocal); }    
                 if (extraConfig) { config = deepMerge(config, extraConfig); }    
                 window.ROConfig = config;    
-                import('./' + scriptFile + '?v=mu6kjq8v').then(function() {
+                import('./' + scriptFile + '?v=mu6payr5').then(function() {
                     var preloader = document.getElementById('ro-preloader');    
                     if (preloader) { preloader.remove(); }    
                 }).catch(function(err) { console.error('Failed to load app:', scriptFile, err); });    

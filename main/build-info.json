@@ -1,9 +1,9 @@
 {
-  "buildId": "mu6kjq8v",
-  "builtAt": "2026-09-18T06:19:50.047Z",
+  "buildId": "mu6payr5",
+  "builtAt": "2026-09-18T08:32:59.249Z",
   "artifacts": {
-    "index.html": "b2e513ca976f7f4e1245eb9f106703fb14d1aa3ab3f85968b1662ffed8bd6218",
-    "api.html": "eb846a2b3943277ece5f6997ac58009e1ca4bedaec24c50abaff0b8ce4140240",
+    "index.html": "c445d7d42291708f94aa617e7ba889a705311282ba9e5840ee202171fdc98d58",
+    "api.html": "fe62a2fa18fb95cb8c7c84769c022f630461a2d940151c0818d8c631221aace7",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "Online.js": "2656873e99d5c7a8efaa169fba4e2f7501c7fe93680d045d886ad2734a741f8e",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
