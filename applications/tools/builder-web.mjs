@@ -191,7 +191,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>    
         <meta charset="UTF-8">    
         <meta name="happyro-build-id" content="${buildId}">
-        <title>roBrowser [${pkg.version} - ${buildDate}]</title>    
+        <title>HappyRO</title>    
         <link rel="icon" type="image/png" href="./icon.png">    
     
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    
@@ -199,18 +199,18 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
     
         <meta name="apple-mobile-web-app-capable" content="yes">    
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">    
-        <meta name="apple-mobile-web-app-title" content="roBrowser">    
+        <meta name="apple-mobile-web-app-title" content="HappyRO">    
         <meta name="mobile-web-app-capable" content="yes">    
     
-        <meta name="description" content="roBrowser">    
-        <meta name="keywords" content="roBrowser">    
-        <meta name="author" content="roBrowser">    
+        <meta name="description" content="HappyRO">    
+        <meta name="keywords" content="HappyRO">    
+        <meta name="author" content="HappyRO">    
         <meta name="robots" content="index">    
     
         <meta name="theme-color" content="#ff8cb5">    
     
-        <meta property="og:title" content="roBrowser">    
-        <meta property="og:description" content="roBrowser">    
+        <meta property="og:title" content="HappyRO">    
+        <meta property="og:description" content="HappyRO">    
         <meta property="og:type" content="website">    
         <meta property="og:locale" content="en_US">    
     
@@ -520,7 +520,7 @@ function createApiHTML() {
     <head>    
         <meta charset="UTF-8">    
         <meta name="happyro-build-id" content="${buildId}">
-        <title>roBrowserLegacy</title>    
+        <title>HappyRO</title>    
         <style>    
             html, body {    
                 margin: 0; padding: 0; border: 0;    
