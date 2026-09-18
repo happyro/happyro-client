@@ -1,8 +1,8 @@
 {
-	"name": "roBrowser Progressive Web App",
-	"short_name": "roBrowser",
+	"name": "HappyRO",
+	"short_name": "HappyRO",
 	"start_url": "./",
-	"description": "roBrowser Progressive Web App.",
+	"description": "HappyRO Progressive Web App.",
 	"display": "fullscreen",
 	"theme_color": "#4169e1",
 	"background_color": "#000000",
