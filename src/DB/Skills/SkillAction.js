@@ -223,6 +223,8 @@ SkillAction[SK.AC_DOUBLE] =
 	SkillAction[SK.RA_ARROWSTORM] =
 	SkillAction[SK.RA_AIMEDBOLT] =
 	SkillAction[SK.SC_TRIANGLESHOT] =
+	SkillAction[SK.WH_GALESTORM] =
+	SkillAction[SK.WH_CRESCIVE_BOLT] =
 		function (entity, tick) {
 			return {
 				action: entity.ACTION.ATTACK3,

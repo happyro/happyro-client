@@ -9,7 +9,8 @@ afterEach(() => { document.body.replaceChildren(); vi.clearAllMocks(); });
 it('keeps the window open after changing jobs and shows failures beside actions', async () => {
 	const snapshot = { job_id: 0, name: '测试角色', map: 'prontera', x: 1, y: 1, hp: 50, max_hp: 50, sp: 10, max_sp: 10,
 		base_level: 1, job_level: 1, skill_points: 0, status_points: 0, max_base_level: 200, max_job_level: 50, max_skill_points: 1000,
-		str: 1, agi: 1, vit: 1, int: 1, dex: 1, luk: 1, max_stat: 130 };
+		str: 1, agi: 1, vit: 1, int: 1, dex: 1, luk: 1, max_stat: 130,
+		traits: { enabled: false }, jobs: [{id: 0, max_base_level: 99, max_job_level: 10}, {id: 1, max_base_level: 99, max_job_level: 50}] };
 	loadCurrentCharacter.mockResolvedValue(snapshot);
 	maintainCurrentCharacter.mockResolvedValue({ ...snapshot, job_id: 1 });
 	document.body.innerHTML = '<div class="game-tools-window"><div class="tab"></div></div>';

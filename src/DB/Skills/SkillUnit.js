@@ -10,6 +10,7 @@
 
 import SU from './SkillUnitConst.js';
 import EC from 'DB/Effects/EffectConst.js';
+import { fourthJobGroundUnits } from './FourthJobGroundEffects.js';
 
 const SkillUnit = {};
 
@@ -126,5 +127,7 @@ SkillUnit[SU.UNT_VENOMFOG] = EC.EF_NONE; // Todo
 SkillUnit[SU.UNT_ICEMINE] = EC.EF_NONE; // Todo
 SkillUnit[SU.UNT_MAGMA_ERUPTION] = EC.EF_NONE; // Todo
 SkillUnit[SU.UNT_B_TRAP] = EC.EF_NONE; // Todo
+
+Object.assign(SkillUnit, fourthJobGroundUnits);
 
 export default SkillUnit;

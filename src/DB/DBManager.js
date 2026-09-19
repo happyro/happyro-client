@@ -38,6 +38,7 @@ import RobeTable from './Items/RobeTable.js';
 import RandomOption from 'DB/Items/ItemRandomOptionTable.js';
 import WorldMap from './Map/WorldMap.js';
 import SKID from './Skills/SkillConst.js';
+import { fourthJobBsonGroundNames, registerFourthJobBsonGroundEffects } from './Skills/FourthJobGroundEffects.js';
 import SkillInfo from './Skills/SkillInfo.generated.js';
 import SkillLocalizationTable from './Skills/SkillLocalizationTable.generated.js';
 import JobHitSoundTable from './Jobs/JobHitSoundTable.js';
@@ -4364,7 +4365,7 @@ function mergeEz2Effects(EffectTable, SkillEffect) {
 				type: 'STR',
 				file: (entry.FilePath || '').replace(/\\/g, '/').replace(/\.str$/i, ''),
 				texturePath: texturePath,
-				renderBeforeEntities: entry.IsFloor ? false : true,
+				renderBeforeEntities: !!entry.IsFloor,
 				xOffset: entry.PosX || 0,
 				yOffset: entry.PosY || 0,
 				wav: entry.SoundPath ? entry.SoundPath.replace(/\\/g, '/').replace(/\.wav$/i, '') : null,
@@ -4376,7 +4377,7 @@ function mergeEz2Effects(EffectTable, SkillEffect) {
 		count++;
 
 		// Pass 6: SkillEffect Mapping with differentiated fields
-		if (skillId) {
+		if (skillId && !fourthJobBsonGroundNames.has(effectName)) {
 			const skillEntry = SkillEffect[skillId] || (SkillEffect[skillId] = {});
 			const field = meta.field;
 
@@ -4394,6 +4395,7 @@ function mergeEz2Effects(EffectTable, SkillEffect) {
 		}
 	}
 
+	registerFourthJobBsonGroundEffects(Ez2streffect, EffectTable);
 	console.log(`[DBManager] Loaded ${count} effects and mapped ${skillCount} skills.`);
 }
 

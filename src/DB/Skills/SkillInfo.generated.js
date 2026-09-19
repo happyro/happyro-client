@@ -13334,14 +13334,14 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4252: [] },
 		_NeedSkillList: []
 	},
 	5202: {
 		Name: 'DK_SERVANTWEAPON_ATK',
 		SkillName: '侍从武器攻击',
 		MaxLv: 5,
-		SpAmount: [0, 0, 0, 0, 0],
+		SpAmount: [1, 1, 1, 1, 1],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
@@ -13356,7 +13356,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4252: [[5201, 3]] },
 		_NeedSkillList: [[5201, 3]]
 	},
 	5204: {
@@ -13367,7 +13367,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4252: [
+				[5201, 5],
+				[5203, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5201, 5],
 			[5203, 5]
@@ -13381,7 +13386,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4252: [[5204, 5]] },
 		_NeedSkillList: [[5204, 5]]
 	},
 	5206: {
@@ -13392,7 +13397,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4252: [[2004, 5]] },
 		_NeedSkillList: [[2004, 5]]
 	},
 	5207: {
@@ -13403,19 +13408,30 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4252: [] },
 		_NeedSkillList: []
 	},
 	5208: {
 		Name: 'DK_HACKANDSLASHER',
 		SkillName: '砍杀者',
 		MaxLv: 10,
-		SpAmount: [34, 38, 42, 46, 50, 54, 58, 62, 66, 70],
+		SpAmount: [36, 40, 44, 48, 52, 56, 60, 64, 68, 72],
+		bSeperateLv: true,
+		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+		SkillScale: [],
+		NeedSkillList: { 4252: [[5207, 5]] },
+		_NeedSkillList: [[5207, 5]]
+	},
+	5209: {
+		Name: 'DK_HACKANDSLASHER_ATK',
+		SkillName: '砍杀者攻击',
+		MaxLv: 10,
+		SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SkillScale: [],
 		NeedSkillList: {},
-		_NeedSkillList: [[5207, 5]]
+		_NeedSkillList: []
 	},
 	5210: {
 		Name: 'DK_DRAGONIC_AURA',
@@ -13425,7 +13441,13 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4252: [
+				[5206, 10],
+				[2008, 10],
+				[5004, 10]
+			]
+		},
 		_NeedSkillList: [
 			[5206, 10],
 			[2008, 10],
@@ -13436,11 +13458,16 @@ export default {
 		Name: 'DK_MADNESS_CRUSHER',
 		SkillName: '疯狂粉碎',
 		MaxLv: 5,
-		SpAmount: [34, 38, 42, 46, 50],
+		SpAmount: [27, 34, 41, 48, 55],
 		bSeperateLv: true,
 		AttackRange: [7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4252: [
+				[5206, 5],
+				[5208, 10]
+			]
+		},
 		_NeedSkillList: [
 			[5206, 5],
 			[5208, 10]
@@ -13454,7 +13481,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4252: [
+				[5205, 3],
+				[5213, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5205, 3],
 			[5213, 5]
@@ -13464,58 +13496,68 @@ export default {
 		Name: 'DK_STORMSLASH',
 		SkillName: '风暴斩',
 		MaxLv: 5,
-		SpAmount: [40, 45, 50, 55, 60],
+		SpAmount: [35, 40, 45, 50, 55],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4252: [
+				[5208, 5],
+				[5207, 10]
+			]
+		},
 		_NeedSkillList: [
-			[5207, 10],
-			[5208, 5]
+			[5208, 5],
+			[5207, 10]
 		]
 	},
 	5214: {
 		Name: 'AG_DEADLY_PROJECTION',
 		SkillName: '致命投影',
 		MaxLv: 5,
-		SpAmount: [80, 90, 100, 110, 120],
+		SpAmount: [70, 75, 80, 85, 90],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[5217, 3]] },
 		_NeedSkillList: [[5217, 3]]
 	},
 	5215: {
 		Name: 'AG_DESTRUCTIVE_HURRICANE',
 		SkillName: '毁灭飓风',
 		MaxLv: 5,
-		SpAmount: [80, 90, 100, 110, 120],
+		SpAmount: [170, 174, 178, 182, 186],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[5227, 3]] },
 		_NeedSkillList: [[5227, 3]]
 	},
 	5216: {
 		Name: 'AG_RAIN_OF_CRYSTAL',
 		SkillName: '水晶之雨',
 		MaxLv: 5,
-		SpAmount: [40, 50, 60, 70, 80],
+		SpAmount: [85, 95, 105, 115, 125],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[2203, 3]] },
 		_NeedSkillList: [[2203, 3]]
 	},
 	5217: {
 		Name: 'AG_MYSTERY_ILLUSION',
 		SkillName: '神秘幻象',
 		MaxLv: 5,
-		SpAmount: [80, 90, 100, 110, 120],
+		SpAmount: [78, 86, 94, 102, 110],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4255: [
+				[5220, 3],
+				[2212, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5220, 3],
 			[2212, 3]
@@ -13525,65 +13567,103 @@ export default {
 		Name: 'AG_VIOLENT_QUAKE',
 		SkillName: '暴烈地震',
 		MaxLv: 5,
-		SpAmount: [80, 90, 100, 110, 120],
+		SpAmount: [110, 114, 118, 122, 126],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: { 4255: [[5221, 3]] },
+		_NeedSkillList: [[5221, 3]]
+	},
+	5219: {
+		Name: 'AG_VIOLENT_QUAKE_ATK',
+		SkillName: '暴烈地震攻击',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
 		NeedSkillList: {},
-		_NeedSkillList: [[5221, 3]]
+		_NeedSkillList: []
 	},
 	5220: {
 		Name: 'AG_SOUL_VC_STRIKE',
 		SkillName: '灵魂火神击',
 		MaxLv: 5,
-		SpAmount: [80, 90, 100, 110, 120],
+		SpAmount: [90, 95, 100, 105, 110],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4255: [
+				[5228, 3],
+				[2202, 5]
+			]
+		},
 		_NeedSkillList: [
-			[2202, 5],
-			[5228, 3]
+			[5228, 3],
+			[2202, 5]
 		]
 	},
 	5221: {
 		Name: 'AG_STRANTUM_TREMOR',
 		SkillName: '地层震颤',
 		MaxLv: 5,
-		SpAmount: [35, 45, 55, 65, 75],
+		SpAmount: [74, 79, 84, 89, 94],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[2207, 3]] },
 		_NeedSkillList: [[2207, 3]]
 	},
 	5222: {
 		Name: 'AG_ALL_BLOOM',
 		SkillName: '全花绽放',
 		MaxLv: 5,
-		SpAmount: [80, 90, 100, 110, 120],
+		SpAmount: [94, 102, 110, 118, 126],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: { 4255: [[5229, 3]] },
+		_NeedSkillList: [[5229, 3]]
+	},
+	5223: {
+		Name: 'AG_ALL_BLOOM_ATK',
+		SkillName: '全花绽放攻击',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
 		NeedSkillList: {},
-		_NeedSkillList: [[5229, 3]]
+		_NeedSkillList: []
+	},
+	5224: {
+		Name: 'AG_ALL_BLOOM_ATK2',
+		SkillName: '万紫千红二段',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
 	},
 	5225: {
 		Name: 'AG_CRYSTAL_IMPACT',
 		SkillName: '水晶冲击',
 		MaxLv: 5,
-		SpAmount: [80, 90, 100, 110, 120],
+		SpAmount: [170, 174, 178, 182, 186],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[5216, 3]] },
 		_NeedSkillList: [[5216, 3]]
 	},
 	5226: {
 		Name: 'AG_CRYSTAL_IMPACT_ATK',
 		SkillName: '水晶冲击攻击',
 		MaxLv: 5,
-		SpAmount: [0, 0, 0, 0, 0],
+		SpAmount: [1, 1, 1, 1, 1],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
@@ -13594,11 +13674,11 @@ export default {
 		Name: 'AG_TORNADO_STORM',
 		SkillName: '龙卷风暴',
 		MaxLv: 5,
-		SpAmount: [45, 55, 65, 75, 85],
+		SpAmount: [78, 82, 86, 90, 94],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[2214, 3]] },
 		_NeedSkillList: [[2214, 3]]
 	},
 	5228: {
@@ -13609,34 +13689,51 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [] },
 		_NeedSkillList: []
 	},
 	5229: {
 		Name: 'AG_FLORAL_FLARE_ROAD',
 		SkillName: '花焰之路',
 		MaxLv: 5,
-		SpAmount: [30, 40, 50, 60, 70],
+		SpAmount: [70, 76, 82, 88, 94],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1],
+		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[2211, 3]] },
 		_NeedSkillList: [[2211, 3]]
 	},
 	5230: {
 		Name: 'AG_ASTRAL_STRIKE',
 		SkillName: '星界打击',
 		MaxLv: 10,
-		SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+		SpAmount: [130, 130, 130, 130, 130, 130, 130, 130, 130, 130],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {
+			4255: [
+				[5214, 3],
+				[5217, 3],
+				[2213, 5]
+			]
+		},
+		_NeedSkillList: [
+			[5214, 3],
+			[5217, 3],
+			[2213, 5]
+		]
+	},
+	5231: {
+		Name: 'AG_ASTRAL_STRIKE_ATK',
+		SkillName: '星界冲击攻击',
+		MaxLv: 10,
+		SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
 		NeedSkillList: {},
-		_NeedSkillList: [
-			[2213, 5],
-			[5217, 3],
-			[5214, 3]
-		]
+		_NeedSkillList: []
 	},
 	5232: {
 		Name: 'AG_CLIMAX',
@@ -13646,50 +13743,55 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4255: [
+				[5228, 3],
+				[2217, 5]
+			]
+		},
 		_NeedSkillList: [
-			[2217, 5],
-			[5228, 3]
+			[5228, 3],
+			[2217, 5]
 		]
 	},
 	5233: {
 		Name: 'AG_ROCK_DOWN',
 		SkillName: '岩石坠落',
 		MaxLv: 5,
-		SpAmount: [65, 70, 75, 80, 85],
+		SpAmount: [72, 76, 80, 84, 88],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[5221, 1]] },
 		_NeedSkillList: [[5221, 1]]
 	},
 	5234: {
 		Name: 'AG_STORM_CANNON',
 		SkillName: '风暴加农炮',
 		MaxLv: 5,
-		SpAmount: [60, 70, 80, 90, 100],
+		SpAmount: [79, 79, 82, 85, 88],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[5227, 1]] },
 		_NeedSkillList: [[5227, 1]]
 	},
 	5235: {
 		Name: 'AG_CRIMSON_ARROW',
 		SkillName: '猩红之箭',
 		MaxLv: 5,
-		SpAmount: [65, 75, 85, 95, 105],
+		SpAmount: [74, 78, 82, 86, 90],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[5229, 1]] },
 		_NeedSkillList: [[5229, 1]]
 	},
 	5236: {
 		Name: 'AG_CRIMSON_ARROW_ATK',
 		SkillName: '绯红箭攻击',
 		MaxLv: 5,
-		SpAmount: [0, 0, 0, 0, 0],
+		SpAmount: [1, 1, 1, 1, 1],
 		bSeperateLv: false,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
@@ -13700,11 +13802,11 @@ export default {
 		Name: 'AG_FROZEN_SLASH',
 		SkillName: '冰冻斩',
 		MaxLv: 5,
-		SpAmount: [45, 55, 65, 75, 85],
+		SpAmount: [103, 106, 109, 112, 115],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4255: [[5216, 1]] },
 		_NeedSkillList: [[5216, 1]]
 	},
 	5238: {
@@ -13715,7 +13817,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5240, 1]] },
 		_NeedSkillList: [[5240, 1]]
 	},
 	5239: {
@@ -13726,7 +13828,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5240, 1]] },
 		_NeedSkillList: [[5240, 1]]
 	},
 	5240: {
@@ -13737,18 +13839,23 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [] },
 		_NeedSkillList: []
 	},
 	5241: {
 		Name: 'IQ_OLEUM_SANCTUM',
 		SkillName: '神圣圣油',
 		MaxLv: 5,
-		SpAmount: [30, 40, 50, 60, 70],
+		SpAmount: [45, 55, 65, 75, 85],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1],
+		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4262: [
+				[31, 1],
+				[5240, 3]
+			]
+		},
 		_NeedSkillList: [
 			[31, 1],
 			[5240, 3]
@@ -13762,7 +13869,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5240, 1]] },
 		_NeedSkillList: [[5240, 1]]
 	},
 	5243: {
@@ -13771,12 +13878,18 @@ export default {
 		MaxLv: 10,
 		SpAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4262: [
+				[5244, 3],
+				[5241, 3],
+				[5240, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5241, 3],
 			[5244, 3],
+			[5241, 3],
 			[5240, 5]
 		]
 	},
@@ -13784,22 +13897,22 @@ export default {
 		Name: 'IQ_EXPOSION_BLASTER',
 		SkillName: '爆炸爆破',
 		MaxLv: 5,
-		SpAmount: [80, 90, 100, 110, 120],
+		SpAmount: [105, 110, 115, 120, 125],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1],
+		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5241, 1]] },
 		_NeedSkillList: [[5241, 1]]
 	},
 	5245: {
 		Name: 'IQ_FIRST_BRAND',
 		SkillName: '第一烙印',
 		MaxLv: 5,
-		SpAmount: [22, 29, 36, 43, 50],
+		SpAmount: [46, 50, 54, 58, 62],
 		bSeperateLv: true,
-		AttackRange: [2, 2, 2, 2, 2],
+		AttackRange: [3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5240, 2]] },
 		_NeedSkillList: [[5240, 2]]
 	},
 	5246: {
@@ -13810,10 +13923,15 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4262: [
+				[5245, 1],
+				[5240, 3]
+			]
+		},
 		_NeedSkillList: [
-			[5240, 3],
-			[5245, 1]
+			[5245, 1],
+			[5240, 3]
 		]
 	},
 	5247: {
@@ -13824,40 +13942,40 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5246, 1]] },
 		_NeedSkillList: [[5246, 1]]
 	},
 	5248: {
 		Name: 'IQ_SECOND_FLAME',
 		SkillName: '第二火焰',
 		MaxLv: 5,
-		SpAmount: [46, 52, 58, 64, 70],
+		SpAmount: [51, 57, 63, 69, 75],
 		bSeperateLv: true,
 		AttackRange: [3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5254, 1]] },
 		_NeedSkillList: [[5254, 1]]
 	},
 	5249: {
 		Name: 'IQ_SECOND_FAITH',
 		SkillName: '第二信仰',
 		MaxLv: 5,
-		SpAmount: [36, 42, 48, 54, 60],
+		SpAmount: [41, 47, 53, 59, 65],
 		bSeperateLv: true,
 		AttackRange: [3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5246, 1]] },
 		_NeedSkillList: [[5246, 1]]
 	},
 	5250: {
 		Name: 'IQ_SECOND_JUDGEMENT',
 		SkillName: '第二审判',
 		MaxLv: 5,
-		SpAmount: [45, 50, 55, 60, 65],
+		SpAmount: [50, 55, 60, 65, 70],
 		bSeperateLv: true,
 		AttackRange: [3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5247, 1]] },
 		_NeedSkillList: [[5247, 1]]
 	},
 	5251: {
@@ -13868,7 +13986,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5249, 2]] },
 		_NeedSkillList: [[5249, 2]]
 	},
 	5252: {
@@ -13879,7 +13997,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5248, 2]] },
 		_NeedSkillList: [[5248, 2]]
 	},
 	5253: {
@@ -13890,7 +14008,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5250, 2]] },
 		_NeedSkillList: [[5250, 2]]
 	},
 	5254: {
@@ -13901,7 +14019,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4262: [[5247, 1]] },
 		_NeedSkillList: [[5247, 1]]
 	},
 	5255: {
@@ -13912,7 +14030,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4258: [[5258, 3]] },
 		_NeedSkillList: [[5258, 3]]
 	},
 	5256: {
@@ -13923,7 +14041,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4258: [[5255, 2]] },
 		_NeedSkillList: [[5255, 2]]
 	},
 	5257: {
@@ -13934,7 +14052,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4258: [[5255, 4]] },
 		_NeedSkillList: [[5255, 4]]
 	},
 	5258: {
@@ -13945,7 +14063,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4258: [] },
 		_NeedSkillList: []
 	},
 	5259: {
@@ -13956,7 +14074,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4258: [] },
 		_NeedSkillList: []
 	},
 	5260: {
@@ -13967,7 +14085,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4258: [[5259, 3]] },
 		_NeedSkillList: [[5259, 3]]
 	},
 	5261: {
@@ -13978,10 +14096,15 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4258: [
+				[5256, 3],
+				[5257, 3]
+			]
+		},
 		_NeedSkillList: [
-			[5257, 3],
-			[5256, 3]
+			[5256, 3],
+			[5257, 3]
 		]
 	},
 	5262: {
@@ -13992,21 +14115,31 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4258: [
+				[5267, 3],
+				[5258, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5258, 5],
-			[5267, 3]
+			[5267, 3],
+			[5258, 5]
 		]
 	},
 	5263: {
 		Name: 'IG_GRAND_JUDGEMENT',
 		SkillName: '大审判',
 		MaxLv: 10,
-		SpAmount: [41, 44, 47, 50, 53, 56, 59, 62, 65, 68],
+		SpAmount: [51, 54, 57, 60, 63, 66, 69, 72, 75, 78],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4258: [
+				[5266, 5],
+				[5259, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5266, 5],
 			[5259, 5]
@@ -14016,11 +14149,16 @@ export default {
 		Name: 'IG_JUDGEMENT_CROSS',
 		SkillName: '审判十字',
 		MaxLv: 10,
-		SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+		SpAmount: [60, 65, 70, 75, 80, 85, 90, 95, 100, 105],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4258: [
+				[5267, 5],
+				[5262, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5267, 5],
 			[5262, 3]
@@ -14032,34 +14170,39 @@ export default {
 		MaxLv: 5,
 		SpAmount: [40, 45, 50, 55, 60],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1],
+		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4258: [
+				[5260, 2],
+				[5258, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5258, 5],
-			[5260, 2]
+			[5260, 2],
+			[5258, 5]
 		]
 	},
 	5266: {
 		Name: 'IG_OVERSLASH',
 		SkillName: '过度斩击',
 		MaxLv: 10,
-		SpAmount: [41, 44, 47, 50, 53, 56, 59, 62, 65, 68],
+		SpAmount: [38, 41, 44, 47, 50, 53, 56, 59, 62, 65],
 		bSeperateLv: true,
 		AttackRange: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4258: [[5260, 3]] },
 		_NeedSkillList: [[5260, 3]]
 	},
 	5267: {
 		Name: 'IG_CROSS_RAIN',
 		SkillName: '十字雨',
 		MaxLv: 10,
-		SpAmount: [50, 54, 58, 62, 66, 70, 74, 78, 82, 86],
+		SpAmount: [67, 70, 73, 76, 79, 82, 85, 88, 91, 94],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4258: [[5258, 1]] },
 		_NeedSkillList: [[5258, 1]]
 	},
 	5268: {
@@ -14070,7 +14213,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4256: [[5269, 3]] },
 		_NeedSkillList: [[5269, 3]]
 	},
 	5269: {
@@ -14081,7 +14224,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4256: [[5280, 3]] },
 		_NeedSkillList: [[5280, 3]]
 	},
 	5270: {
@@ -14092,7 +14235,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4256: [] },
 		_NeedSkillList: []
 	},
 	5271: {
@@ -14103,7 +14246,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[5269, 3],
+				[5268, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5269, 3],
 			[5268, 3]
@@ -14117,7 +14265,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[5269, 3],
+				[5268, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5269, 3],
 			[5268, 3]
@@ -14127,11 +14280,16 @@ export default {
 		Name: 'CD_ARBITRIUM',
 		SkillName: '裁决',
 		MaxLv: 10,
-		SpAmount: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140],
+		SpAmount: [107, 109, 111, 113, 115, 117, 119, 121, 123, 125],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[2040, 5],
+				[5284, 3]
+			]
+		},
 		_NeedSkillList: [
 			[2040, 5],
 			[5284, 3]
@@ -14141,7 +14299,7 @@ export default {
 		Name: 'CD_ARBITRIUM_ATK',
 		SkillName: '裁决攻击',
 		MaxLv: 10,
-		SpAmount: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+		SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
@@ -14156,7 +14314,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[5269, 3],
+				[5268, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5269, 3],
 			[5268, 3]
@@ -14170,18 +14333,23 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4256: [] },
 		_NeedSkillList: []
 	},
 	5277: {
 		Name: 'CD_EFFLIGO',
 		SkillName: '神罚',
 		MaxLv: 10,
-		SpAmount: [60, 60, 60, 60, 60, 60, 60, 60, 60, 60],
+		SpAmount: [75, 75, 75, 75, 75, 75, 75, 75, 75, 75],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[2046, 5],
+				[5283, 10]
+			]
+		},
 		_NeedSkillList: [
 			[2046, 5],
 			[5283, 10]
@@ -14195,11 +14363,17 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[5272, 2],
+				[5271, 2],
+				[5275, 2]
+			]
+		},
 		_NeedSkillList: [
-			[5275, 2],
 			[5272, 2],
-			[5271, 2]
+			[5271, 2],
+			[5275, 2]
 		]
 	},
 	5279: {
@@ -14210,10 +14384,15 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[5273, 10],
+				[5284, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5284, 5],
-			[5273, 10]
+			[5273, 10],
+			[5284, 5]
 		]
 	},
 	5280: {
@@ -14224,7 +14403,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[2043, 3],
+				[2051, 3]
+			]
+		},
 		_NeedSkillList: [
 			[2043, 3],
 			[2051, 3]
@@ -14238,7 +14422,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[2041, 3],
+				[5280, 2]
+			]
+		},
 		_NeedSkillList: [
 			[2041, 3],
 			[5280, 2]
@@ -14252,7 +14441,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[2042, 3],
+				[5280, 2]
+			]
+		},
 		_NeedSkillList: [
 			[2042, 3],
 			[5280, 2]
@@ -14262,11 +14456,16 @@ export default {
 		Name: 'CD_PETITIO',
 		SkillName: '请求',
 		MaxLv: 10,
-		SpAmount: [32, 34, 36, 38, 40, 42, 44, 46, 48, 50],
+		SpAmount: [38, 41, 44, 47, 50, 53, 56, 59, 62, 65],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[2054, 10],
+				[5270, 5]
+			]
+		},
 		_NeedSkillList: [
 			[2054, 10],
 			[5270, 5]
@@ -14276,11 +14475,16 @@ export default {
 		Name: 'CD_FRAMEN',
 		SkillName: '弗拉门',
 		MaxLv: 5,
-		SpAmount: [40, 45, 50, 55, 60],
+		SpAmount: [80, 83, 86, 89, 92],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4256: [
+				[2038, 10],
+				[5276, 5]
+			]
+		},
 		_NeedSkillList: [
 			[2038, 10],
 			[5276, 5]
@@ -14294,11 +14498,17 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4254: [
+				[5293, 5],
+				[5290, 3],
+				[5288, 7]
+			]
+		},
 		_NeedSkillList: [
-			[5288, 7],
 			[5293, 5],
-			[5290, 3]
+			[5290, 3],
+			[5288, 7]
 		]
 	},
 	5286: {
@@ -14309,21 +14519,26 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4254: [[5288, 3]] },
 		_NeedSkillList: [[5288, 3]]
 	},
 	5287: {
 		Name: 'SHC_SAVAGE_IMPACT',
 		SkillName: '野蛮冲击',
 		MaxLv: 10,
-		SpAmount: [28, 31, 34, 37, 40, 43, 46, 49, 52, 55],
+		SpAmount: [45, 48, 51, 54, 57, 60, 63, 66, 69, 72],
 		bSeperateLv: true,
 		AttackRange: [7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4254: [
+				[2022, 5],
+				[5288, 3]
+			]
+		},
 		_NeedSkillList: [
-			[5288, 3],
-			[2022, 5]
+			[2022, 5],
+			[5288, 3]
 		]
 	},
 	5288: {
@@ -14334,22 +14549,28 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4254: [] },
 		_NeedSkillList: []
 	},
 	5289: {
 		Name: 'SHC_ETERNAL_SLASH',
 		SkillName: '永恒斩击',
 		MaxLv: 5,
-		SpAmount: [40, 40, 40, 40, 40],
+		SpAmount: [60, 60, 60, 60, 60],
 		bSeperateLv: true,
-		AttackRange: [2, 2, 2, 2, 2],
+		AttackRange: [3, 3, 3, 3, 3],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4254: [
+				[2028, 3],
+				[5286, 3],
+				[5288, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5288, 5],
+			[2028, 3],
 			[5286, 3],
-			[2028, 3]
+			[5288, 5]
 		]
 	},
 	5290: {
@@ -14360,42 +14581,61 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4254: [
+				[5293, 3],
+				[5288, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5288, 5],
-			[5293, 3]
+			[5293, 3],
+			[5288, 5]
 		]
 	},
 	5291: {
 		Name: 'SHC_SHADOW_STAB',
 		SkillName: '暗影刺击',
 		MaxLv: 5,
-		SpAmount: [45, 50, 55, 60, 65],
+		SpAmount: [40, 45, 50, 55, 60],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4254: [
+				[2033, 5],
+				[5286, 5],
+				[5289, 3],
+				[5288, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5288, 5],
+			[2033, 5],
 			[5286, 5],
 			[5289, 3],
-			[2033, 5]
+			[5288, 5]
 		]
 	},
 	5292: {
 		Name: 'SHC_IMPACT_CRATER',
 		SkillName: '冲击陨坑',
 		MaxLv: 5,
-		SpAmount: [43, 46, 49, 52, 55],
+		SpAmount: [53, 56, 59, 62, 65],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4254: [
+				[2036, 5],
+				[2028, 3],
+				[5287, 5],
+				[5288, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5288, 5],
-			[5287, 5],
 			[2036, 5],
-			[2028, 3]
+			[2028, 3],
+			[5287, 5],
+			[5288, 5]
 		]
 	},
 	5293: {
@@ -14406,10 +14646,15 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4254: [
+				[2027, 5],
+				[5288, 3]
+			]
+		},
 		_NeedSkillList: [
-			[5288, 3],
-			[2027, 5]
+			[2027, 5],
+			[5288, 3]
 		]
 	},
 	5294: {
@@ -14420,21 +14665,26 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4254: [
+				[5292, 5],
+				[5291, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5291, 5],
-			[5292, 5]
+			[5292, 5],
+			[5291, 5]
 		]
 	},
 	5295: {
 		Name: 'MT_AXE_STOMP',
 		SkillName: '战斧践踏',
 		MaxLv: 5,
-		SpAmount: [25, 30, 35, 40, 45],
+		SpAmount: [45, 55, 65, 75, 85],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4253: [[5300, 5]] },
 		_NeedSkillList: [[5300, 5]]
 	},
 	5296: {
@@ -14445,7 +14695,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4253: [[5295, 5]] },
 		_NeedSkillList: [[5295, 5]]
 	},
 	5297: {
@@ -14456,7 +14706,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4253: [] },
 		_NeedSkillList: []
 	},
 	5298: {
@@ -14467,7 +14717,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4253: [
+				[5295, 3],
+				[5297, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5295, 3],
 			[5297, 3]
@@ -14481,7 +14736,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4253: [[5297, 1]] },
 		_NeedSkillList: [[5297, 1]]
 	},
 	5300: {
@@ -14492,7 +14747,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4253: [] },
 		_NeedSkillList: []
 	},
 	5301: {
@@ -14503,7 +14758,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4253: [[5297, 1]] },
 		_NeedSkillList: [[5297, 1]]
 	},
 	5302: {
@@ -14514,7 +14769,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4253: [[5301, 1]] },
 		_NeedSkillList: [[5301, 1]]
 	},
 	5303: {
@@ -14525,7 +14780,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4253: [
+				[5301, 3],
+				[5302, 2]
+			]
+		},
 		_NeedSkillList: [
 			[5301, 3],
 			[5302, 2]
@@ -14539,7 +14799,13 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4253: [
+				[5301, 5],
+				[5302, 3],
+				[5303, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5301, 5],
 			[5302, 3],
@@ -14554,13 +14820,75 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4253: [
+				[5301, 10],
+				[5302, 4],
+				[5303, 4],
+				[5304, 4]
+			]
+		},
 		_NeedSkillList: [
 			[5301, 10],
 			[5302, 4],
 			[5303, 4],
 			[5304, 4]
 		]
+	},
+	5306: {
+		Name: 'AG_DESTRUCTIVE_HURRICANE_CLIMAX',
+		SkillName: '毁灭飓风终曲',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5307: {
+		Name: 'BO_ACIDIFIED_ZONE_WATER_ATK',
+		SkillName: '活化区域水属性攻击',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5308: {
+		Name: 'BO_ACIDIFIED_ZONE_GROUND_ATK',
+		SkillName: '活化区域地属性攻击',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5309: {
+		Name: 'BO_ACIDIFIED_ZONE_WIND_ATK',
+		SkillName: '活化区域风属性攻击',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5310: {
+		Name: 'BO_ACIDIFIED_ZONE_FIRE_ATK',
+		SkillName: '活化区域火属性攻击',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
 	},
 	5311: {
 		Name: 'ABC_DAGGER_AND_BOW_M',
@@ -14570,7 +14898,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4260: [] },
 		_NeedSkillList: []
 	},
 	5312: {
@@ -14581,10 +14909,15 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[2286, 5],
+				[2285, 5]
+			]
+		},
 		_NeedSkillList: [
-			[2285, 5],
-			[2286, 5]
+			[2286, 5],
+			[2285, 5]
 		]
 	},
 	5313: {
@@ -14593,26 +14926,36 @@ export default {
 		MaxLv: 5,
 		SpAmount: [29, 33, 37, 41, 45],
 		bSeperateLv: true,
-		AttackRange: [3, 3, 3, 3, 3],
+		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5311, 7],
+				[2298, 1]
+			]
+		},
 		_NeedSkillList: [
-			[2298, 1],
-			[5311, 7]
+			[5311, 7],
+			[2298, 1]
 		]
 	},
 	5314: {
 		Name: 'ABC_ABYSS_DAGGER',
 		SkillName: '深渊匕首',
 		MaxLv: 5,
-		SpAmount: [40, 45, 50, 55, 60],
+		SpAmount: [60, 64, 68, 72, 76],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5311, 3],
+				[2284, 5]
+			]
+		},
 		_NeedSkillList: [
-			[2284, 5],
-			[5311, 3]
+			[5311, 3],
+			[2284, 5]
 		]
 	},
 	5315: {
@@ -14621,9 +14964,14 @@ export default {
 		MaxLv: 5,
 		SpAmount: [30, 35, 40, 45, 50],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5314, 3],
+				[5311, 4]
+			]
+		},
 		_NeedSkillList: [
 			[5314, 3],
 			[5311, 4]
@@ -14633,14 +14981,19 @@ export default {
 		Name: 'ABC_CHAIN_REACTION_SHOT',
 		SkillName: '连锁反应射击',
 		MaxLv: 5,
-		SpAmount: [40, 50, 60, 70, 80],
+		SpAmount: [35, 45, 55, 65, 75],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5311, 3],
+				[2288, 5]
+			]
+		},
 		_NeedSkillList: [
-			[2288, 5],
-			[5311, 3]
+			[5311, 3],
+			[2288, 5]
 		]
 	},
 	5317: {
@@ -14651,7 +15004,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4260: [[5312, 3]] },
 		_NeedSkillList: [[5312, 3]]
 	},
 	5318: {
@@ -14662,7 +15015,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5314, 5],
+				[5320, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5314, 5],
 			[5320, 5]
@@ -14672,25 +15030,35 @@ export default {
 		Name: 'ABC_ABYSS_STRIKE',
 		SkillName: '欧米伽深渊打击',
 		MaxLv: 10,
-		SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+		SpAmount: [125, 125, 125, 125, 125, 125, 125, 125, 125, 125],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5321, 3],
+				[5317, 3]
+			]
+		},
 		_NeedSkillList: [
-			[5317, 3],
-			[5321, 3]
+			[5321, 3],
+			[5317, 3]
 		]
 	},
 	5320: {
 		Name: 'ABC_DEFT_STAB',
 		SkillName: '灵巧刺击',
 		MaxLv: 10,
-		SpAmount: [28, 31, 34, 37, 40, 43, 46, 49, 52, 55],
+		SpAmount: [45, 48, 51, 54, 57, 60, 63, 66, 69, 72],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5314, 3],
+				[5311, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5314, 3],
 			[5311, 5]
@@ -14704,21 +15072,31 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5317, 1],
+				[5312, 5]
+			]
+		},
 		_NeedSkillList: [
-			[5312, 5],
-			[5317, 1]
+			[5317, 1],
+			[5312, 5]
 		]
 	},
 	5322: {
 		Name: 'ABC_FRENZY_SHOT',
 		SkillName: '狂热射击',
 		MaxLv: 10,
-		SpAmount: [35, 45, 55, 65, 75, 85, 95, 105, 115, 125],
+		SpAmount: [47, 49, 51, 53, 55, 57, 59, 61, 63, 65],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4260: [
+				[5316, 3],
+				[5311, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5316, 3],
 			[5311, 5]
@@ -14732,7 +15110,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[2248, 3]] },
 		_NeedSkillList: [[2248, 3]]
 	},
 	5324: {
@@ -14743,7 +15121,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[5325, 5]] },
 		_NeedSkillList: [[5325, 5]]
 	},
 	5325: {
@@ -14754,7 +15132,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [] },
 		_NeedSkillList: []
 	},
 	5326: {
@@ -14765,7 +15143,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[5327, 1]] },
 		_NeedSkillList: [[5327, 1]]
 	},
 	5327: {
@@ -14776,7 +15154,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[128, 1]] },
 		_NeedSkillList: [[128, 1]]
 	},
 	5328: {
@@ -14787,7 +15165,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4257: [
+				[5330, 5],
+				[5324, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5330, 5],
 			[5324, 5]
@@ -14797,77 +15180,77 @@ export default {
 		Name: 'WH_HAWKBOOMERANG',
 		SkillName: '猎鹰回旋镖',
 		MaxLv: 5,
-		SpAmount: [120, 120, 120, 120, 120],
+		SpAmount: [80, 80, 80, 80, 80],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[5326, 5]] },
 		_NeedSkillList: [[5326, 5]]
 	},
 	5330: {
 		Name: 'WH_GALESTORM',
 		SkillName: '狂风暴雨',
 		MaxLv: 10,
-		SpAmount: [80, 91, 102, 113, 124, 135, 146, 157, 168, 179],
+		SpAmount: [93, 96, 99, 102, 105, 108, 111, 114, 117, 120],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[5334, 3]] },
 		_NeedSkillList: [[5334, 3]]
 	},
 	5331: {
 		Name: 'WH_DEEPBLINDTRAP',
 		SkillName: '深度失明陷阱',
 		MaxLv: 5,
-		SpAmount: [50, 53, 56, 59, 62],
+		SpAmount: [68, 72, 76, 80, 84],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[5323, 3]] },
 		_NeedSkillList: [[5323, 3]]
 	},
 	5332: {
 		Name: 'WH_SOLIDTRAP',
 		SkillName: '坚固陷阱',
 		MaxLv: 5,
-		SpAmount: [70, 80, 90, 100, 110],
+		SpAmount: [68, 72, 76, 80, 84],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[5323, 3]] },
 		_NeedSkillList: [[5323, 3]]
 	},
 	5333: {
 		Name: 'WH_SWIFTTRAP',
 		SkillName: '迅捷陷阱',
 		MaxLv: 5,
-		SpAmount: [60, 62, 64, 66, 68],
+		SpAmount: [68, 72, 76, 80, 84],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[5331, 1]] },
 		_NeedSkillList: [[5331, 1]]
 	},
 	5334: {
 		Name: 'WH_CRESCIVE_BOLT',
 		SkillName: '成长箭矢',
 		MaxLv: 10,
-		SpAmount: [55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+		SpAmount: [47, 49, 51, 53, 55, 57, 59, 61, 63, 65],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[2236, 5]] },
 		_NeedSkillList: [[2236, 5]]
 	},
 	5335: {
 		Name: 'WH_FLAMETRAP',
 		SkillName: '火焰陷阱',
 		MaxLv: 5,
-		SpAmount: [40, 44, 48, 52, 56],
+		SpAmount: [68, 72, 76, 80, 84],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4257: [[5332, 1]] },
 		_NeedSkillList: [[5332, 1]]
 	},
 	5336: {
@@ -14878,7 +15261,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [[2497, 5]] },
 		_NeedSkillList: [[2497, 5]]
 	},
 	5337: {
@@ -14889,7 +15272,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [] },
 		_NeedSkillList: []
 	},
 	5338: {
@@ -14900,7 +15283,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [[5336, 5]] },
 		_NeedSkillList: [[5336, 5]]
 	},
 	5339: {
@@ -14911,29 +15294,34 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [[5336, 5]] },
 		_NeedSkillList: [[5336, 5]]
 	},
 	5340: {
 		Name: 'BO_ACIDIFIED_ZONE_WATER',
 		SkillName: '水属性酸化区域',
 		MaxLv: 5,
-		SpAmount: [40, 52, 64, 76, 88],
+		SpAmount: [51, 54, 57, 60, 63],
 		bSeperateLv: true,
 		AttackRange: [7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [[5342, 1]] },
 		_NeedSkillList: [[5342, 1]]
 	},
 	5341: {
 		Name: 'BO_ACIDIFIED_ZONE_GROUND',
 		SkillName: '地属性酸化区域',
 		MaxLv: 5,
-		SpAmount: [40, 52, 64, 76, 88],
+		SpAmount: [51, 54, 57, 60, 63],
 		bSeperateLv: true,
 		AttackRange: [7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4259: [
+				[5337, 3],
+				[5336, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5337, 3],
 			[5336, 5]
@@ -14943,11 +15331,16 @@ export default {
 		Name: 'BO_ACIDIFIED_ZONE_WIND',
 		SkillName: '风属性酸化区域',
 		MaxLv: 5,
-		SpAmount: [40, 52, 64, 76, 88],
+		SpAmount: [51, 54, 57, 60, 63],
 		bSeperateLv: true,
 		AttackRange: [7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4259: [
+				[5337, 3],
+				[5336, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5337, 3],
 			[5336, 5]
@@ -14957,11 +15350,11 @@ export default {
 		Name: 'BO_ACIDIFIED_ZONE_FIRE',
 		SkillName: '火属性酸化区域',
 		MaxLv: 5,
-		SpAmount: [40, 52, 64, 76, 88],
+		SpAmount: [51, 54, 57, 60, 63],
 		bSeperateLv: true,
 		AttackRange: [7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [[5341, 1]] },
 		_NeedSkillList: [[5341, 1]]
 	},
 	5344: {
@@ -14972,7 +15365,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [[5346, 3]] },
 		_NeedSkillList: [[5346, 3]]
 	},
 	5345: {
@@ -14983,7 +15376,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [[5346, 3]] },
 		_NeedSkillList: [[5346, 3]]
 	},
 	5346: {
@@ -14994,7 +15387,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4259: [[5337, 5]] },
 		_NeedSkillList: [[5337, 5]]
 	},
 	5347: {
@@ -15005,7 +15398,12 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4259: [
+				[5343, 3],
+				[5340, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5343, 3],
 			[5340, 3]
@@ -15019,7 +15417,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4259: [
+				[5344, 3],
+				[5345, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5344, 3],
 			[5345, 3]
@@ -15033,7 +15436,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [], 4264: [] },
 		_NeedSkillList: []
 	},
 	5350: {
@@ -15044,7 +15447,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5349, 1]], 4264: [[5349, 1]] },
 		_NeedSkillList: [[5349, 1]]
 	},
 	5351: {
@@ -15055,7 +15458,16 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4263: [
+				[5356, 1],
+				[5353, 5]
+			],
+			4264: [
+				[5356, 1],
+				[5353, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5356, 1],
 			[5353, 5]
@@ -15069,28 +15481,37 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4263: [
+				[5363, 1],
+				[5359, 1]
+			],
+			4264: [
+				[5363, 1],
+				[5359, 1]
+			]
+		},
 		_NeedSkillList: [
-			[5359, 1],
-			[5363, 1]
+			[5363, 1],
+			[5359, 1]
 		]
 	},
 	5353: {
 		Name: 'TR_ROSEBLOSSOM',
 		SkillName: '玫瑰绽放',
 		MaxLv: 5,
-		SpAmount: [105, 110, 115, 120, 125],
+		SpAmount: [70, 76, 82, 88, 94],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5355, 3]], 4264: [[5355, 3]] },
 		_NeedSkillList: [[5355, 3]]
 	},
 	5354: {
 		Name: 'TR_ROSEBLOSSOM_ATK',
 		SkillName: '玫瑰绽放攻击',
 		MaxLv: 5,
-		SpAmount: [0, 0, 0, 0, 0],
+		SpAmount: [1, 1, 1, 1, 1],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
@@ -15101,33 +15522,33 @@ export default {
 		Name: 'TR_RHYTHMSHOOTING',
 		SkillName: '节奏射击',
 		MaxLv: 5,
-		SpAmount: [66, 72, 78, 84, 90],
+		SpAmount: [36, 40, 44, 48, 52],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [], 4264: [] },
 		_NeedSkillList: []
 	},
 	5356: {
 		Name: 'TR_METALIC_FURY',
 		SkillName: '金属狂怒',
 		MaxLv: 5,
-		SpAmount: [120, 132, 144, 156, 168],
+		SpAmount: [70, 76, 82, 88, 94],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5357, 1]], 4264: [[5357, 1]] },
 		_NeedSkillList: [[5357, 1]]
 	},
 	5357: {
 		Name: 'TR_SOUNDBLEND',
 		SkillName: '声音融合',
 		MaxLv: 5,
-		SpAmount: [80, 92, 104, 116, 128],
+		SpAmount: [40, 50, 60, 70, 80],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[2413, 5]], 4264: [[2413, 5]] },
 		_NeedSkillList: [[2413, 5]]
 	},
 	5358: {
@@ -15138,7 +15559,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5349, 3]], 4264: [[5349, 3]] },
 		_NeedSkillList: [[5349, 3]]
 	},
 	5359: {
@@ -15149,7 +15570,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5362, 1]], 4264: [[5362, 1]] },
 		_NeedSkillList: [[5362, 1]]
 	},
 	5360: {
@@ -15160,7 +15581,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5349, 3]], 4264: [[5349, 3]] },
 		_NeedSkillList: [[5349, 3]]
 	},
 	5361: {
@@ -15171,7 +15592,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5360, 1]], 4264: [[5360, 1]] },
 		_NeedSkillList: [[5360, 1]]
 	},
 	5362: {
@@ -15182,7 +15603,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5358, 1]], 4264: [[5358, 1]] },
 		_NeedSkillList: [[5358, 1]]
 	},
 	5363: {
@@ -15193,7 +15614,16 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4263: [
+				[5361, 1],
+				[5364, 1]
+			],
+			4264: [
+				[5361, 1],
+				[5364, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5361, 1],
 			[5364, 1]
@@ -15207,7 +15637,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4263: [[5360, 1]], 4264: [[5360, 1]] },
 		_NeedSkillList: [[5360, 1]]
 	},
 	5365: {
@@ -15218,7 +15648,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [] },
 		_NeedSkillList: []
 	},
 	5366: {
@@ -15229,7 +15659,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5365, 5]] },
 		_NeedSkillList: [[5365, 5]]
 	},
 	5367: {
@@ -15240,7 +15670,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5366, 3]] },
 		_NeedSkillList: [[5366, 3]]
 	},
 	5368: {
@@ -15251,62 +15681,62 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5367, 5]] },
 		_NeedSkillList: [[5367, 5]]
 	},
 	5369: {
 		Name: 'EM_DIAMOND_STORM',
 		SkillName: '钻石风暴',
 		MaxLv: 5,
-		SpAmount: [84, 88, 92, 96, 100],
+		SpAmount: [80, 84, 88, 92, 96],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5365, 2]] },
 		_NeedSkillList: [[5365, 2]]
 	},
 	5370: {
 		Name: 'EM_LIGHTNING_LAND',
 		SkillName: '雷电之地',
 		MaxLv: 5,
-		SpAmount: [65, 70, 80, 85, 95],
+		SpAmount: [94, 98, 102, 106, 110],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5365, 2]] },
 		_NeedSkillList: [[5365, 2]]
 	},
 	5371: {
 		Name: 'EM_VENOM_SWAMP',
 		SkillName: '毒液沼泽',
 		MaxLv: 5,
-		SpAmount: [84, 88, 92, 96, 100],
+		SpAmount: [92, 97, 102, 107, 112],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5365, 2]] },
 		_NeedSkillList: [[5365, 2]]
 	},
 	5372: {
 		Name: 'EM_CONFLAGRATION',
 		SkillName: '大火灾',
 		MaxLv: 5,
-		SpAmount: [70, 80, 90, 100, 110],
+		SpAmount: [97, 101, 105, 109, 113],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5365, 2]] },
 		_NeedSkillList: [[5365, 2]]
 	},
 	5373: {
 		Name: 'EM_TERRA_DRIVE',
 		SkillName: '大地驱动',
 		MaxLv: 5,
-		SpAmount: [84, 88, 92, 96, 100],
+		SpAmount: [80, 84, 88, 92, 96],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5365, 2]] },
 		_NeedSkillList: [[5365, 2]]
 	},
 	5374: {
@@ -15317,7 +15747,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[2463, 1]] },
 		_NeedSkillList: [[2463, 1]]
 	},
 	5375: {
@@ -15328,11 +15758,17 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4261: [
+				[5372, 1],
+				[5374, 1],
+				[2457, 3]
+			]
+		},
 		_NeedSkillList: [
-			[2457, 3],
+			[5372, 1],
 			[5374, 1],
-			[5372, 1]
+			[2457, 3]
 		]
 	},
 	5376: {
@@ -15343,11 +15779,17 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4261: [
+				[5369, 1],
+				[5374, 1],
+				[2458, 3]
+			]
+		},
 		_NeedSkillList: [
-			[2458, 3],
+			[5369, 1],
 			[5374, 1],
-			[5369, 1]
+			[2458, 3]
 		]
 	},
 	5377: {
@@ -15358,11 +15800,17 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4261: [
+				[5374, 1],
+				[5370, 1],
+				[2459, 3]
+			]
+		},
 		_NeedSkillList: [
-			[2459, 3],
 			[5374, 1],
-			[5370, 1]
+			[5370, 1],
+			[2459, 3]
 		]
 	},
 	5378: {
@@ -15373,11 +15821,17 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4261: [
+				[5374, 1],
+				[5373, 1],
+				[2460, 3]
+			]
+		},
 		_NeedSkillList: [
-			[2460, 3],
 			[5374, 1],
-			[5373, 1]
+			[5373, 1],
+			[2460, 3]
 		]
 	},
 	5379: {
@@ -15388,32 +15842,50 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4261: [
+				[5374, 1],
+				[5371, 1],
+				[2457, 3],
+				[2458, 3],
+				[2460, 3],
+				[2459, 3]
+			]
+		},
 		_NeedSkillList: [
+			[5374, 1],
+			[5371, 1],
 			[2457, 3],
 			[2458, 3],
-			[2459, 3],
 			[2460, 3],
-			[5374, 1],
-			[5371, 1]
+			[2459, 3]
 		]
 	},
 	5380: {
 		Name: 'EM_ELEMENTAL_BUSTER',
 		SkillName: '元素破坏',
 		MaxLv: 10,
-		SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+		SpAmount: [140, 140, 140, 140, 140, 140, 140, 140, 140, 140],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4261: [
+				[5374, 5],
+				[5375, 1],
+				[5376, 1],
+				[5377, 1],
+				[5379, 1],
+				[5378, 1]
+			]
+		},
 		_NeedSkillList: [
-			[5379, 1],
-			[5378, 1],
-			[5377, 1],
-			[5376, 1],
 			[5374, 5],
-			[5375, 1]
+			[5375, 1],
+			[5376, 1],
+			[5377, 1],
+			[5379, 1],
+			[5378, 1]
 		]
 	},
 	5381: {
@@ -15424,16 +15896,93 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4261: [[5374, 3]] },
 		_NeedSkillList: [[5374, 3]]
+	},
+	5382: {
+		Name: 'ABC_CHAIN_REACTION_SHOT_ATK',
+		SkillName: '连锁反应射击攻击',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5383: {
+		Name: 'ABC_FROM_THE_ABYSS_ATK',
+		SkillName: '来自深渊攻击',
+		MaxLv: 5,
+		SpAmount: [1, 1, 1, 1, 1],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5384: {
+		Name: 'BO_WOODEN_THROWROCK',
+		SkillName: '木石投掷',
+		MaxLv: 1,
+		SpAmount: [1],
+		bSeperateLv: false,
+		AttackRange: [9],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5385: {
+		Name: 'BO_WOODEN_ATTACK',
+		SkillName: '木攻击',
+		MaxLv: 1,
+		SpAmount: [1],
+		bSeperateLv: false,
+		AttackRange: [1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5386: {
+		Name: 'BO_HELL_HOWLING',
+		SkillName: '地狱咆哮',
+		MaxLv: 1,
+		SpAmount: [1],
+		bSeperateLv: false,
+		AttackRange: [1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5387: {
+		Name: 'BO_HELL_DUSTY',
+		SkillName: '地狱尘',
+		MaxLv: 1,
+		SpAmount: [1],
+		bSeperateLv: false,
+		AttackRange: [1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5388: {
+		Name: 'BO_FAIRY_DUSTY',
+		SkillName: '妖精尘',
+		MaxLv: 1,
+		SpAmount: [1],
+		bSeperateLv: false,
+		AttackRange: [1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
 	},
 	5389: {
 		Name: 'EM_ELEMENTAL_BUSTER_FIRE',
 		SkillName: '元素破坏·火',
-		MaxLv: 1,
-		SpAmount: [],
+		MaxLv: 10,
+		SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		bSeperateLv: false,
-		AttackRange: [],
+		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -15441,10 +15990,10 @@ export default {
 	5390: {
 		Name: 'EM_ELEMENTAL_BUSTER_WATER',
 		SkillName: '元素破坏·水',
-		MaxLv: 1,
-		SpAmount: [],
+		MaxLv: 10,
+		SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		bSeperateLv: false,
-		AttackRange: [],
+		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -15452,10 +16001,10 @@ export default {
 	5391: {
 		Name: 'EM_ELEMENTAL_BUSTER_WIND',
 		SkillName: '元素破坏·风',
-		MaxLv: 1,
-		SpAmount: [],
+		MaxLv: 10,
+		SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		bSeperateLv: false,
-		AttackRange: [],
+		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -15463,10 +16012,10 @@ export default {
 	5392: {
 		Name: 'EM_ELEMENTAL_BUSTER_GROUND',
 		SkillName: '元素破坏·地',
-		MaxLv: 1,
-		SpAmount: [],
+		MaxLv: 10,
+		SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		bSeperateLv: false,
-		AttackRange: [],
+		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -15474,10 +16023,10 @@ export default {
 	5393: {
 		Name: 'EM_ELEMENTAL_BUSTER_POISON',
 		SkillName: '元素破坏·毒',
-		MaxLv: 1,
-		SpAmount: [],
+		MaxLv: 10,
+		SpAmount: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		bSeperateLv: false,
-		AttackRange: [],
+		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -15490,7 +16039,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4306: [] },
 		_NeedSkillList: []
 	},
 	5402: {
@@ -15501,7 +16050,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4306: [] },
 		_NeedSkillList: []
 	},
 	5403: {
@@ -15512,7 +16061,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4306: [[5401, 1]] },
 		_NeedSkillList: [[5401, 1]]
 	},
 	5404: {
@@ -15523,18 +16072,23 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4306: [[5402, 1]] },
 		_NeedSkillList: [[5402, 1]]
 	},
 	5405: {
 		Name: 'NW_THE_VIGILANTE_AT_NIGHT',
 		SkillName: '暗夜守望者',
 		MaxLv: 5,
-		SpAmount: [49, 53, 57, 61, 65],
+		SpAmount: [72, 76, 80, 84, 88],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4306: [
+				[5401, 3],
+				[5403, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5401, 3],
 			[5403, 1]
@@ -15544,11 +16098,16 @@ export default {
 		Name: 'NW_ONLY_ONE_BULLET',
 		SkillName: '致命一弹',
 		MaxLv: 5,
-		SpAmount: [30, 32, 34, 36, 38],
+		SpAmount: [39, 43, 47, 51, 55],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4306: [
+				[5401, 3],
+				[5403, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5401, 3],
 			[5403, 1]
@@ -15560,9 +16119,14 @@ export default {
 		MaxLv: 5,
 		SpAmount: [48, 53, 58, 63, 68],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4306: [
+				[5401, 3],
+				[5403, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5401, 3],
 			[5403, 1]
@@ -15572,11 +16136,16 @@ export default {
 		Name: 'NW_MAGAZINE_FOR_ONE',
 		SkillName: '单人弹匣',
 		MaxLv: 5,
-		SpAmount: [30, 33, 36, 39, 42],
+		SpAmount: [42, 46, 50, 54, 58],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4306: [
+				[5401, 3],
+				[5403, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5401, 3],
 			[5403, 1]
@@ -15588,9 +16157,14 @@ export default {
 		MaxLv: 5,
 		SpAmount: [51, 55, 59, 63, 67],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4306: [
+				[5401, 3],
+				[5403, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5401, 3],
 			[5403, 1]
@@ -15600,11 +16174,11 @@ export default {
 		Name: 'NW_BASIC_GRENADE',
 		SkillName: '基础榴弹',
 		MaxLv: 5,
-		SpAmount: [31, 37, 43, 49, 55],
+		SpAmount: [36, 42, 48, 54, 60],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4306: [[5402, 3]] },
 		_NeedSkillList: [[5402, 3]]
 	},
 	5411: {
@@ -15613,20 +16187,20 @@ export default {
 		MaxLv: 5,
 		SpAmount: [50, 53, 56, 59, 62],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4306: [[5410, 3]] },
 		_NeedSkillList: [[5410, 3]]
 	},
 	5412: {
 		Name: 'NW_GRENADES_DROPPING',
 		SkillName: '榴弹倾泻',
 		MaxLv: 5,
-		SpAmount: [54, 60, 66, 72, 78],
+		SpAmount: [60, 66, 72, 78, 84],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4306: [[5411, 3]] },
 		_NeedSkillList: [[5411, 3]]
 	},
 	5413: {
@@ -15637,7 +16211,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4306: [[5412, 3]] },
 		_NeedSkillList: [[5412, 3]]
 	},
 	5414: {
@@ -15648,7 +16222,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4306: [
+				[5401, 5],
+				[5403, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5401, 5],
 			[5403, 1]
@@ -15658,11 +16237,16 @@ export default {
 		Name: 'NW_MISSION_BOMBARD',
 		SkillName: '任务轰炸',
 		MaxLv: 10,
-		SpAmount: [150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+		SpAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9, -9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4306: [
+				[5402, 5],
+				[5412, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5402, 5],
 			[5412, 3]
@@ -15676,7 +16260,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [] },
 		_NeedSkillList: []
 	},
 	5417: {
@@ -15687,7 +16271,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [] },
 		_NeedSkillList: []
 	},
 	5418: {
@@ -15698,7 +16282,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [[5416, 1]] },
 		_NeedSkillList: [[5416, 1]]
 	},
 	5419: {
@@ -15709,7 +16293,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [[5416, 1]] },
 		_NeedSkillList: [[5416, 1]]
 	},
 	5420: {
@@ -15720,18 +16304,23 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [[5416, 1]] },
 		_NeedSkillList: [[5416, 1]]
 	},
 	5421: {
 		Name: 'SOA_SOUL_GATHERING',
 		SkillName: '灵魂聚集',
 		MaxLv: 5,
-		SpAmount: [80, 85, 90, 95, 100],
+		SpAmount: [70, 75, 80, 85, 90],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4303: [
+				[2611, 5],
+				[5417, 3]
+			]
+		},
 		_NeedSkillList: [
 			[2611, 5],
 			[5417, 3]
@@ -15743,9 +16332,14 @@ export default {
 		MaxLv: 5,
 		SpAmount: [76, 92, 108, 124, 140],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [11, 11, 11, 11, 11],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4303: [
+				[5416, 3],
+				[5417, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5416, 3],
 			[5417, 3]
@@ -15759,18 +16353,23 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [[5416, 1]] },
 		_NeedSkillList: [[5416, 1]]
 	},
 	5424: {
 		Name: 'SOA_TALISMAN_OF_SOUL_STEALING',
 		SkillName: '摄魂符',
 		MaxLv: 5,
-		SpAmount: [30, 30, 30, 30, 30],
+		SpAmount: [84, 84, 84, 84, 84],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4303: [
+				[5416, 1],
+				[5417, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5416, 1],
 			[5417, 1]
@@ -15780,69 +16379,81 @@ export default {
 		Name: 'SOA_EXORCISM_OF_MALICIOUS_SOUL',
 		SkillName: '死灵净化',
 		MaxLv: 5,
-		SpAmount: [60, 75, 90, 105, 120],
+		SpAmount: [70, 80, 90, 100, 110],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4303: [
+				[5421, 1],
+				[2601, 5]
+			]
+		},
 		_NeedSkillList: [
-			[2601, 5],
-			[5421, 1]
+			[5421, 1],
+			[2601, 5]
 		]
 	},
 	5426: {
 		Name: 'SOA_TALISMAN_OF_BLUE_DRAGON',
 		SkillName: '青龙符',
 		MaxLv: 5,
-		SpAmount: [42, 47, 52, 57, 62],
+		SpAmount: [54, 58, 62, 66, 70],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [11, 11, 11, 11, 11],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [[5424, 1]] },
 		_NeedSkillList: [[5424, 1]]
 	},
 	5427: {
 		Name: 'SOA_TALISMAN_OF_WHITE_TIGER',
 		SkillName: '白虎符',
 		MaxLv: 5,
-		SpAmount: [66, 69, 72, 75, 78],
+		SpAmount: [110, 112, 114, 116, 118],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [[5426, 1]] },
 		_NeedSkillList: [[5426, 1]]
 	},
 	5428: {
 		Name: 'SOA_TALISMAN_OF_RED_PHOENIX',
 		SkillName: '朱雀符',
 		MaxLv: 5,
-		SpAmount: [65, 75, 85, 95, 105],
+		SpAmount: [72, 76, 80, 84, 88],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [[5427, 1]] },
 		_NeedSkillList: [[5427, 1]]
 	},
 	5429: {
 		Name: 'SOA_TALISMAN_OF_BLACK_TORTOISE',
 		SkillName: '玄武符',
 		MaxLv: 5,
-		SpAmount: [67, 79, 91, 103, 115],
+		SpAmount: [72, 77, 82, 87, 92],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4303: [[5428, 1]] },
 		_NeedSkillList: [[5428, 1]]
 	},
 	5430: {
 		Name: 'SOA_TALISMAN_OF_FOUR_BEARING_GOD',
 		SkillName: '四方神符',
 		MaxLv: 5,
-		SpAmount: [70, 86, 102, 118, 134],
+		SpAmount: [86, 88, 90, 92, 94],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4303: [
+				[5426, 1],
+				[5427, 1],
+				[5428, 1],
+				[5429, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5426, 1],
 			[5427, 1],
@@ -15854,11 +16465,17 @@ export default {
 		Name: 'SOA_CIRCLE_OF_DIRECTIONS_AND_ELEMENTALS',
 		SkillName: '四方五行阵',
 		MaxLv: 5,
-		SpAmount: [90, 105, 120, 135, 150],
+		SpAmount: [120, 140, 160, 180, 200],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4303: [
+				[5417, 3],
+				[5423, 1],
+				[5430, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5417, 3],
 			[5423, 1],
@@ -15871,9 +16488,16 @@ export default {
 		MaxLv: 10,
 		SpAmount: [90, 100, 110, 120, 130, 140, 150, 160, 170, 180],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		AttackRange: [11, 11, 11, 11, 11, 11, 11, 11, 11, 11],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4303: [
+				[5418, 5],
+				[5419, 5],
+				[5420, 5],
+				[5423, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5418, 5],
 			[5419, 5],
@@ -15889,18 +16513,23 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4308: [] },
 		_NeedSkillList: []
 	},
 	5434: {
 		Name: 'SH_COMMUNE_WITH_CHUL_HO',
 		SkillName: '与铁虎共鸣',
 		MaxLv: 1,
-		SpAmount: [],
+		SpAmount: [0],
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 7],
+				[5437, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 7],
 			[5437, 3]
@@ -15910,22 +16539,27 @@ export default {
 		Name: 'SH_CHUL_HO_SONIC_CLAW',
 		SkillName: '铁虎音速爪',
 		MaxLv: 7,
-		SpAmount: [24, 27, 30, 33, 36, 39, 42],
+		SpAmount: [42, 44, 46, 48, 50, 52, 54],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9, 9, 9],
+		AttackRange: [-11, -11, -11, -11, -11, -11, -11],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4308: [[5433, 1]] },
 		_NeedSkillList: [[5433, 1]]
 	},
 	5436: {
 		Name: 'SH_HOWLING_OF_CHUL_HO',
 		SkillName: '铁虎咆哮',
 		MaxLv: 7,
-		SpAmount: [32, 37, 42, 47, 52, 57, 62],
+		SpAmount: [72, 72, 72, 72, 72, 72, 72],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 3],
+				[5435, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 3],
 			[5435, 3]
@@ -15935,25 +16569,35 @@ export default {
 		Name: 'SH_HOGOGONG_STRIKE',
 		SkillName: '虎高功乱打',
 		MaxLv: 7,
-		SpAmount: [50, 53, 56, 59, 62, 65, 68],
+		SpAmount: [67, 70, 73, 76, 79, 82, 85],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1, 1, 1],
+		AttackRange: [-9, -9, -9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 5],
+				[5435, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 5],
-			[5436, 3]
+			[5435, 3]
 		]
 	},
 	5438: {
 		Name: 'SH_COMMUNE_WITH_KI_SUL',
 		SkillName: '与龟雪共鸣',
 		MaxLv: 1,
-		SpAmount: [],
+		SpAmount: [0],
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 7],
+				[5442, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 7],
 			[5442, 3]
@@ -15967,7 +16611,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4308: [[5433, 1]] },
 		_NeedSkillList: [[5433, 1]]
 	},
 	5440: {
@@ -15978,7 +16622,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 3],
+				[5439, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 3],
 			[5439, 3]
@@ -15992,7 +16641,12 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 3],
+				[5439, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 3],
 			[5439, 3]
@@ -16006,7 +16660,13 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 5],
+				[5440, 2],
+				[5441, 2]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 5],
 			[5440, 2],
@@ -16017,11 +16677,16 @@ export default {
 		Name: 'SH_COMMUNE_WITH_HYUN_ROK',
 		SkillName: '与玄鹿共鸣',
 		MaxLv: 1,
-		SpAmount: [],
+		SpAmount: [0],
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 7],
+				[5446, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 7],
 			[5446, 3]
@@ -16035,18 +16700,23 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4308: [[5433, 1]] },
 		_NeedSkillList: [[5433, 1]]
 	},
 	5445: {
 		Name: 'SH_HYUN_ROKS_BREEZE',
 		SkillName: '玄鹿叶风',
 		MaxLv: 7,
-		SpAmount: [56, 62, 68, 74, 80, 86, 92],
+		SpAmount: [58, 64, 70, 76, 82, 88, 94],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 3],
+				[5444, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 3],
 			[5444, 3]
@@ -16056,11 +16726,16 @@ export default {
 		Name: 'SH_HYUN_ROK_CANNON',
 		SkillName: '玄鹿炮',
 		MaxLv: 7,
-		SpAmount: [44, 47, 50, 53, 56, 59, 62],
+		SpAmount: [47, 50, 53, 56, 59, 62, 65],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9, 9, 9],
+		AttackRange: [-11, -11, -11, -11, -11, -11, -11],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5433, 5],
+				[5445, 3]
+			]
+		},
 		_NeedSkillList: [
 			[5433, 5],
 			[5445, 3]
@@ -16074,7 +16749,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4308: [[5433, 10]] },
 		_NeedSkillList: [[5433, 10]]
 	},
 	5448: {
@@ -16083,12 +16758,17 @@ export default {
 		MaxLv: 5,
 		SpAmount: [100, 100, 100, 100, 100],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4308: [
+				[5438, 1],
+				[5433, 10]
+			]
+		},
 		_NeedSkillList: [
-			[5433, 10],
-			[5438, 1]
+			[5438, 1],
+			[5433, 10]
 		]
 	},
 	5449: {
@@ -16099,7 +16779,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [] },
 		_NeedSkillList: []
 	},
 	5450: {
@@ -16110,117 +16790,117 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [] },
 		_NeedSkillList: []
 	},
 	5451: {
 		Name: 'HN_DOUBLEBOWLINGBASH',
 		SkillName: '双重保龄球猛击',
 		MaxLv: 10,
-		SpAmount: [54, 56, 58, 60, 62, 64, 66, 68, 70, 72],
+		SpAmount: [38, 41, 44, 47, 50, 53, 56, 59, 62, 65],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5449, 5]] },
 		_NeedSkillList: [[5449, 5]]
 	},
 	5452: {
 		Name: 'HN_MEGA_SONIC_BLOW',
 		SkillName: '超级音速投掷',
 		MaxLv: 10,
-		SpAmount: [27, 29, 31, 33, 35, 37, 39, 41, 43, 45],
+		SpAmount: [42, 44, 46, 48, 50, 52, 54, 56, 58, 60],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5451, 7]] },
 		_NeedSkillList: [[5451, 7]]
 	},
 	5453: {
 		Name: 'HN_SHIELD_CHAIN_RUSH',
 		SkillName: '盾链冲锋',
 		MaxLv: 10,
-		SpAmount: [38, 41, 44, 47, 50, 53, 56, 59, 62, 65],
+		SpAmount: [35, 38, 41, 44, 47, 50, 53, 56, 59, 62],
 		bSeperateLv: true,
-		AttackRange: [7, 7, 7, 7, 9, 9, 9, 9, 11, 11],
+		AttackRange: [7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5449, 5]] },
 		_NeedSkillList: [[5449, 5]]
 	},
 	5454: {
 		Name: 'HN_SPIRAL_PIERCE_MAX',
 		SkillName: '螺旋刺击·极',
 		MaxLv: 10,
-		SpAmount: [20, 23, 26, 29, 32, 35, 38, 41, 44, 47],
+		SpAmount: [37, 39, 41, 43, 45, 47, 49, 51, 53, 55],
 		bSeperateLv: true,
 		AttackRange: [7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5453, 7]] },
 		_NeedSkillList: [[5453, 7]]
 	},
 	5455: {
 		Name: 'HN_METEOR_STORM_BUSTER',
 		SkillName: '流星风暴破坏',
 		MaxLv: 10,
-		SpAmount: [55, 58, 61, 64, 67, 70, 73, 76, 79, 82],
+		SpAmount: [74, 78, 82, 86, 90, 94, 98, 102, 106, 110],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9, -9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5450, 5]] },
 		_NeedSkillList: [[5450, 5]]
 	},
 	5456: {
 		Name: 'HN_JUPITEL_THUNDER_STORM',
 		SkillName: '尤佩特雷暴',
 		MaxLv: 10,
-		SpAmount: [50, 52, 54, 56, 58, 60, 62, 64, 66, 68],
+		SpAmount: [75, 80, 85, 90, 95, 100, 105, 110, 115, 120],
 		bSeperateLv: true,
 		AttackRange: [11, 11, 11, 11, 11, 11, 11, 11, 11, 11],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5450, 5]] },
 		_NeedSkillList: [[5450, 5]]
 	},
 	5457: {
 		Name: 'HN_JACK_FROST_NOVA',
 		SkillName: '杰克霜冻新星',
 		MaxLv: 10,
-		SpAmount: [58, 61, 64, 67, 70, 73, 76, 79, 83, 85],
+		SpAmount: [68, 71, 74, 77, 80, 83, 86, 89, 92, 95],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9, -9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5450, 5]] },
 		_NeedSkillList: [[5450, 5]]
 	},
 	5458: {
 		Name: 'HN_HELLS_DRIVE',
 		SkillName: '地狱驱动',
 		MaxLv: 10,
-		SpAmount: [43, 46, 49, 52, 55, 58, 61, 64, 67, 70],
+		SpAmount: [88, 91, 94, 97, 100, 103, 106, 109, 112, 115],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5450, 5]] },
 		_NeedSkillList: [[5450, 5]]
 	},
 	5459: {
 		Name: 'HN_GROUND_GRAVITATION',
 		SkillName: '大地重力',
 		MaxLv: 10,
-		SpAmount: [70, 72, 74, 76, 78, 80, 82, 84, 86, 88],
+		SpAmount: [93, 96, 99, 102, 105, 108, 111, 114, 117, 120],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		AttackRange: [-9, -9, -9, -9, -9, -9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5450, 5]] },
 		_NeedSkillList: [[5450, 5]]
 	},
 	5460: {
 		Name: 'HN_NAPALM_VULCAN_STRIKE',
 		SkillName: '念力连击·冲击',
 		MaxLv: 10,
-		SpAmount: [40, 42, 44, 46, 48, 50, 52, 54, 56, 58],
+		SpAmount: [48, 51, 54, 57, 60, 63, 66, 69, 72, 75],
 		bSeperateLv: true,
 		AttackRange: [11, 11, 11, 11, 11, 11, 11, 11, 11, 11],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4307: [[5450, 5]] },
 		_NeedSkillList: [[5450, 5]]
 	},
 	5461: {
@@ -16231,7 +16911,14 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4307: [
+				[5451, 7],
+				[5452, 7],
+				[5453, 7],
+				[5454, 7]
+			]
+		},
 		_NeedSkillList: [
 			[5451, 7],
 			[5452, 7],
@@ -16247,7 +16934,16 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4307: [
+				[5455, 5],
+				[5456, 5],
+				[5457, 5],
+				[5458, 5],
+				[5459, 5],
+				[5460, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5455, 5],
 			[5456, 5],
@@ -16265,7 +16961,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4302: [] },
 		_NeedSkillList: []
 	},
 	5464: {
@@ -16276,29 +16972,34 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4302: [] },
 		_NeedSkillList: []
 	},
 	5465: {
 		Name: 'SKE_RISING_SUN',
 		SkillName: '朝阳',
 		MaxLv: 5,
-		SpAmount: [25, 25, 25, 25, 25],
+		SpAmount: [60, 60, 60, 60, 60],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4302: [[5463, 1]] },
 		_NeedSkillList: [[5463, 1]]
 	},
 	5466: {
 		Name: 'SKE_NOON_BLAST',
 		SkillName: '正午爆破',
 		MaxLv: 5,
-		SpAmount: [24, 28, 32, 36, 40],
+		SpAmount: [49, 53, 57, 61, 65],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4302: [
+				[5463, 3],
+				[5465, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5463, 3],
 			[5465, 1]
@@ -16308,11 +17009,16 @@ export default {
 		Name: 'SKE_SUNSET_BLAST',
 		SkillName: '日落爆破',
 		MaxLv: 5,
-		SpAmount: [28, 30, 32, 34, 36],
+		SpAmount: [46, 50, 54, 58, 62],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4302: [
+				[5463, 5],
+				[5466, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5463, 5],
 			[5466, 1]
@@ -16322,22 +17028,27 @@ export default {
 		Name: 'SKE_RISING_MOON',
 		SkillName: '月升',
 		MaxLv: 5,
-		SpAmount: [35, 35, 35, 35, 35],
+		SpAmount: [64, 64, 64, 64, 64],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1],
+		AttackRange: [2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4302: [[5463, 1]] },
 		_NeedSkillList: [[5463, 1]]
 	},
 	5469: {
 		Name: 'SKE_MIDNIGHT_KICK',
 		SkillName: '午夜踢',
 		MaxLv: 5,
-		SpAmount: [36, 40, 44, 48, 52],
+		SpAmount: [60, 62, 64, 66, 68],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4302: [
+				[5463, 3],
+				[5468, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5463, 3],
 			[5468, 1]
@@ -16347,11 +17058,16 @@ export default {
 		Name: 'SKE_DAWN_BREAK',
 		SkillName: '破晓',
 		MaxLv: 5,
-		SpAmount: [34, 37, 40, 43, 46],
+		SpAmount: [56, 58, 60, 62, 64],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4302: [
+				[5463, 5],
+				[5469, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5463, 5],
 			[5469, 1]
@@ -16361,22 +17077,27 @@ export default {
 		Name: 'SKE_TWINKLING_GALAXY',
 		SkillName: '闪耀银河',
 		MaxLv: 5,
-		SpAmount: [30, 30, 30, 30, 30],
+		SpAmount: [124, 124, 124, 124, 124],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4302: [[5463, 1]] },
 		_NeedSkillList: [[5463, 1]]
 	},
 	5472: {
 		Name: 'SKE_STAR_BURST',
 		SkillName: '星辰爆发',
 		MaxLv: 5,
-		SpAmount: [41, 45, 49, 53, 57],
+		SpAmount: [54, 56, 58, 60, 62],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1],
+		AttackRange: [2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4302: [
+				[5463, 3],
+				[5471, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5463, 3],
 			[5471, 1]
@@ -16386,11 +17107,16 @@ export default {
 		Name: 'SKE_STAR_CANNON',
 		SkillName: '星辰炮',
 		MaxLv: 5,
-		SpAmount: [29, 33, 37, 41, 45],
+		SpAmount: [90, 95, 100, 105, 110],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4302: [
+				[5463, 5],
+				[5472, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5463, 5],
 			[5472, 1]
@@ -16400,11 +17126,17 @@ export default {
 		Name: 'SKE_ALL_IN_THE_SKY',
 		SkillName: '天穹万象',
 		MaxLv: 10,
-		SpAmount: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+		SpAmount: [85, 85, 85, 85, 85, 85, 85, 85, 85, 85],
 		bSeperateLv: true,
-		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+		AttackRange: [-9, -9, -9, -9, -9, -9, -9, -9, -9, -9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4302: [
+				[5464, 5],
+				[5465, 1],
+				[5468, 1]
+			]
+		},
 		_NeedSkillList: [
 			[5464, 5],
 			[5465, 1],
@@ -16419,7 +17151,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4302: [[5463, 5]] },
 		_NeedSkillList: [[5463, 5]]
 	},
 	5476: {
@@ -16430,7 +17162,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [5, 5, 5, 5, 5],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5479, 1]], 4305: [[5479, 1]] },
 		_NeedSkillList: [[5479, 1]]
 	},
 	5477: {
@@ -16441,7 +17173,7 @@ export default {
 		bSeperateLv: true,
 		AttackRange: [11, 11, 11, 11, 11],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5479, 1]], 4305: [[5479, 1]] },
 		_NeedSkillList: [[5479, 1]]
 	},
 	5478: {
@@ -16452,7 +17184,7 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [], 4305: [] },
 		_NeedSkillList: []
 	},
 	5479: {
@@ -16463,29 +17195,29 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [5],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [], 4305: [] },
 		_NeedSkillList: []
 	},
 	5480: {
 		Name: 'SS_KAGEGARI',
 		SkillName: '猎影',
 		MaxLv: 10,
-		SpAmount: [30, 32, 34, 36, 38, 40, 42, 44, 46, 48],
+		SpAmount: [33, 36, 39, 42, 45, 48, 51, 54, 57, 60],
 		bSeperateLv: true,
 		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5479, 1]], 4305: [[5479, 1]] },
 		_NeedSkillList: [[5479, 1]]
 	},
 	5481: {
 		Name: 'SS_KAGENOMAI',
 		SkillName: '影舞',
 		MaxLv: 10,
-		SpAmount: [30, 33, 36, 39, 42, 45, 48, 51, 49, 52],
+		SpAmount: [37, 42, 47, 52, 57, 62, 67, 72, 77, 82],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5480, 3]], 4305: [[5480, 3]] },
 		_NeedSkillList: [[5480, 3]]
 	},
 	5482: {
@@ -16494,119 +17226,119 @@ export default {
 		MaxLv: 10,
 		SpAmount: [36, 39, 42, 45, 48, 51, 54, 57, 60, 63],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		AttackRange: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5481, 5]], 4305: [[5481, 5]] },
 		_NeedSkillList: [[5481, 5]]
 	},
 	5483: {
 		Name: 'SS_FUUMASHOUAKU',
 		SkillName: '风魔手里剑·掌握',
 		MaxLv: 10,
-		SpAmount: [38, 40, 42, 44, 46, 48, 50, 52, 54, 56],
+		SpAmount: [48, 52, 56, 60, 64, 68, 72, 76, 80, 84],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5485, 3]], 4305: [[5485, 3]] },
 		_NeedSkillList: [[5485, 3]]
 	},
 	5484: {
 		Name: 'SS_FUUMAKOUCHIKU',
 		SkillName: '风魔手里剑 - 构筑',
 		MaxLv: 10,
-		SpAmount: [34, 37, 40, 43, 46, 49, 52, 55, 58, 61],
+		SpAmount: [29, 33, 37, 41, 45, 49, 53, 57, 61, 65],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5483, 5]], 4305: [[5483, 5]] },
 		_NeedSkillList: [[5483, 5]]
 	},
 	5485: {
 		Name: 'SS_KUNAIWAIKYOKU',
 		SkillName: '苦无 - 扭曲',
 		MaxLv: 10,
-		SpAmount: [28, 30, 32, 34, 36, 38, 40, 42, 44, 46],
+		SpAmount: [36, 38, 40, 42, 44, 46, 48, 50, 52, 54],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5479, 1]], 4305: [[5479, 1]] },
 		_NeedSkillList: [[5479, 1]]
 	},
 	5486: {
 		Name: 'SS_KUNAIKAITEN',
 		SkillName: '苦无 - 旋转',
 		MaxLv: 5,
-		SpAmount: [55, 55, 55, 55, 55],
+		SpAmount: [44, 52, 60, 68, 76],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5485, 3]], 4305: [[5485, 3]] },
 		_NeedSkillList: [[5485, 3]]
 	},
 	5487: {
 		Name: 'SS_KUNAIKUSSETSU',
 		SkillName: '苦无 - 折射',
 		MaxLv: 10,
-		SpAmount: [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
+		SpAmount: [49, 52, 55, 58, 61, 64, 67, 70, 73, 76],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [[5486, 5]], 4305: [[5486, 5]] },
 		_NeedSkillList: [[5486, 5]]
 	},
 	5488: {
 		Name: 'SS_SEKIENHOU',
 		SkillName: '红炎炮',
 		MaxLv: 10,
-		SpAmount: [44, 46, 48, 50, 52, 54, 56, 58, 60, 62],
+		SpAmount: [53, 56, 59, 62, 65, 68, 71, 74, 77, 80],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [], 4305: [] },
 		_NeedSkillList: []
 	},
 	5489: {
 		Name: 'SS_REIKETSUHOU',
 		SkillName: '冷血炮',
 		MaxLv: 10,
-		SpAmount: [34, 37, 40, 43, 46, 49, 52, 55, 58, 61],
+		SpAmount: [52, 56, 60, 64, 68, 72, 76, 80, 84, 88],
 		bSeperateLv: true,
 		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [], 4305: [] },
 		_NeedSkillList: []
 	},
 	5490: {
 		Name: 'SS_RAIDENPOU',
 		SkillName: '雷电炮',
 		MaxLv: 10,
-		SpAmount: [44, 46, 48, 50, 52, 54, 56, 58, 60, 62],
+		SpAmount: [53, 56, 59, 62, 65, 68, 71, 74, 77, 80],
 		bSeperateLv: true,
-		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [], 4305: [] },
 		_NeedSkillList: []
 	},
 	5491: {
 		Name: 'SS_KINRYUUHOU',
 		SkillName: '金龙炮',
 		MaxLv: 10,
-		SpAmount: [30, 32, 34, 36, 38, 40, 42, 44, 46, 48],
+		SpAmount: [47, 49, 51, 53, 55, 57, 59, 61, 63, 65],
 		bSeperateLv: true,
-		AttackRange: [13, 13, 13, 13, 13, 13, 13, 13, 13, 13],
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [], 4305: [] },
 		_NeedSkillList: []
 	},
 	5492: {
 		Name: 'SS_ANTENPOU',
 		SkillName: '暗转炮',
 		MaxLv: 10,
-		SpAmount: [40, 42, 44, 46, 48, 50, 52, 54, 56, 58],
+		SpAmount: [40, 46, 52, 58, 64, 70, 76, 82, 88, 94],
 		bSeperateLv: true,
 		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: { 4304: [], 4305: [] },
 		_NeedSkillList: []
 	},
 	5493: {
@@ -16617,7 +17349,16 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4304: [
+				[5479, 1],
+				[5482, 7]
+			],
+			4305: [
+				[5479, 1],
+				[5482, 7]
+			]
+		},
 		_NeedSkillList: [
 			[5479, 1],
 			[5482, 7]
@@ -16631,7 +17372,20 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4304: [
+				[5479, 1],
+				[5485, 5],
+				[5486, 5],
+				[5487, 5]
+			],
+			4305: [
+				[5479, 1],
+				[5485, 5],
+				[5486, 5],
+				[5487, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5479, 1],
 			[5485, 5],
@@ -16647,7 +17401,24 @@ export default {
 		bSeperateLv: false,
 		AttackRange: [1],
 		SkillScale: [],
-		NeedSkillList: {},
+		NeedSkillList: {
+			4304: [
+				[5479, 1],
+				[5488, 5],
+				[5489, 5],
+				[5490, 5],
+				[5491, 5],
+				[5492, 5]
+			],
+			4305: [
+				[5479, 1],
+				[5488, 5],
+				[5489, 5],
+				[5490, 5],
+				[5491, 5],
+				[5492, 5]
+			]
+		},
 		_NeedSkillList: [
 			[5479, 1],
 			[5488, 5],
@@ -16675,6 +17446,576 @@ export default {
 		SpAmount: [0, 0, 0, 0, 0],
 		bSeperateLv: false,
 		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {},
+		_NeedSkillList: []
+	},
+	5499: {
+		Name: 'SS_FOUR_CHARM',
+		SkillName: '四色护符',
+		MaxLv: 1,
+		SpAmount: [90],
+		bSeperateLv: false,
+		AttackRange: [1],
+		SkillScale: [],
+		NeedSkillList: {
+			4304: [
+				[3019, 1],
+				[5479, 1]
+			],
+			4305: [
+				[3019, 1],
+				[5479, 1]
+			]
+		},
+		_NeedSkillList: [
+			[3019, 1],
+			[5479, 1]
+		]
+	},
+	5500: {
+		Name: 'NW_WILD_SHOT',
+		SkillName: '野性射击',
+		MaxLv: 5,
+		SpAmount: [60, 63, 66, 69, 72],
+		bSeperateLv: true,
+		AttackRange: [-9, -9, -9, -9, -9],
+		SkillScale: [],
+		NeedSkillList: {
+			4306: [
+				[5406, 3],
+				[5407, 3],
+				[5408, 3]
+			]
+		},
+		_NeedSkillList: [
+			[5406, 3],
+			[5407, 3],
+			[5408, 3]
+		]
+	},
+	5501: {
+		Name: 'NW_MIDNIGHT_FALLEN',
+		SkillName: '午夜坠落',
+		MaxLv: 5,
+		SpAmount: [50, 55, 60, 65, 70],
+		bSeperateLv: true,
+		AttackRange: [-9, -9, -9, -9, -9],
+		SkillScale: [],
+		NeedSkillList: {
+			4306: [
+				[5405, 3],
+				[5408, 3],
+				[5409, 3]
+			]
+		},
+		_NeedSkillList: [
+			[5405, 3],
+			[5408, 3],
+			[5409, 3]
+		]
+	},
+	5502: {
+		Name: 'SKE_SKY_SUN',
+		SkillName: '天空之日',
+		MaxLv: 5,
+		SpAmount: [72, 76, 80, 84, 88],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {
+			4302: [
+				[5466, 3],
+				[5467, 3],
+				[5475, 7]
+			]
+		},
+		_NeedSkillList: [
+			[5466, 3],
+			[5467, 3],
+			[5475, 7]
+		]
+	},
+	5503: {
+		Name: 'SKE_SKY_MOON',
+		SkillName: '天空之月',
+		MaxLv: 5,
+		SpAmount: [56, 59, 62, 65, 68],
+		bSeperateLv: true,
+		AttackRange: [2, 2, 2, 2, 2],
+		SkillScale: [],
+		NeedSkillList: {
+			4302: [
+				[5469, 3],
+				[5470, 3],
+				[5475, 7]
+			]
+		},
+		_NeedSkillList: [
+			[5469, 3],
+			[5470, 3],
+			[5475, 7]
+		]
+	},
+	5504: {
+		Name: 'SKE_STAR_LIGHT_KICK',
+		SkillName: '星光踢',
+		MaxLv: 5,
+		SpAmount: [52, 57, 62, 67, 72],
+		bSeperateLv: true,
+		AttackRange: [7, 7, 7, 7, 7],
+		SkillScale: [],
+		NeedSkillList: {
+			4302: [
+				[5472, 3],
+				[5473, 3],
+				[5475, 7]
+			]
+		},
+		_NeedSkillList: [
+			[5472, 3],
+			[5473, 3],
+			[5475, 7]
+		]
+	},
+	5505: {
+		Name: 'HN_OVERCOMING_CRISIS',
+		SkillName: '克服危机',
+		MaxLv: 5,
+		SpAmount: [70, 73, 76, 79, 82],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {
+			4307: [
+				[5449, 5],
+				[5450, 5]
+			]
+		},
+		_NeedSkillList: [
+			[5449, 5],
+			[5450, 5]
+		]
+	},
+	5506: {
+		Name: 'SH_CHUL_HO_BATTERING',
+		SkillName: '铁虎重击',
+		MaxLv: 7,
+		SpAmount: [64, 66, 68, 70, 72, 74, 76],
+		bSeperateLv: true,
+		AttackRange: [7, 7, 7, 7, 7, 7, 7],
+		SkillScale: [],
+		NeedSkillList: {
+			4308: [
+				[5433, 7],
+				[5435, 5]
+			]
+		},
+		_NeedSkillList: [
+			[5433, 7],
+			[5435, 5]
+		]
+	},
+	5507: {
+		Name: 'SH_HYUN_ROK_SPIRIT_POWER',
+		SkillName: '玄禄灵力',
+		MaxLv: 7,
+		SpAmount: [70, 73, 76, 79, 82, 85, 88],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {
+			4308: [
+				[5433, 7],
+				[5445, 5]
+			]
+		},
+		_NeedSkillList: [
+			[5433, 7],
+			[5445, 5]
+		]
+	},
+	6001: {
+		Name: 'DK_DRAGONIC_BREATH',
+		SkillName: '龙之呼吸',
+		MaxLv: 10,
+		SpAmount: [61, 64, 67, 70, 73, 76, 79, 82, 85, 88],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {
+			4252: [
+				[2008, 10],
+				[5004, 10]
+			]
+		},
+		_NeedSkillList: [
+			[2008, 10],
+			[5004, 10]
+		]
+	},
+	6002: {
+		Name: 'MT_SPARK_BLASTER',
+		SkillName: '火花爆破',
+		MaxLv: 10,
+		SpAmount: [48, 52, 56, 60, 64, 68, 72, 76, 80, 84],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: { 4253: [[5297, 1]] },
+		_NeedSkillList: [[5297, 1]]
+	},
+	6003: {
+		Name: 'MT_TRIPLE_LASER',
+		SkillName: '三重激光',
+		MaxLv: 5,
+		SpAmount: [40, 45, 50, 55, 60],
+		bSeperateLv: true,
+		AttackRange: [11, 11, 11, 11, 11],
+		SkillScale: [],
+		NeedSkillList: { 4253: [[6002, 5]] },
+		_NeedSkillList: [[6002, 5]]
+	},
+	6004: {
+		Name: 'MT_MIGHTY_SMASH',
+		SkillName: '强力粉碎',
+		MaxLv: 10,
+		SpAmount: [68, 71, 74, 77, 80, 83, 86, 89, 92, 95],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: { 4253: [[5295, 3]] },
+		_NeedSkillList: [[5295, 3]]
+	},
+	6005: {
+		Name: 'BO_EXPLOSIVE_POWDER',
+		SkillName: '爆炸粉末',
+		MaxLv: 5,
+		SpAmount: [69, 76, 83, 90, 97],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: { 4259: [[5337, 3]] },
+		_NeedSkillList: [[5337, 3]]
+	},
+	6006: {
+		Name: 'BO_MAYHEMIC_THORNS',
+		SkillName: '混乱荆棘',
+		MaxLv: 10,
+		SpAmount: [68, 70, 72, 74, 76, 78, 80, 82, 84, 86],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {
+			4259: [
+				[5337, 5],
+				[6005, 3]
+			]
+		},
+		_NeedSkillList: [
+			[5337, 5],
+			[6005, 3]
+		]
+	},
+	6502: {
+		Name: 'DK_DRAGONIC_PIERCE',
+		SkillName: '龙之穿刺',
+		MaxLv: 5,
+		SpAmount: [45, 50, 55, 60, 65],
+		bSeperateLv: true,
+		AttackRange: [7, 7, 7, 7, 7],
+		SkillScale: [],
+		NeedSkillList: { 4252: [[5208, 7]] },
+		_NeedSkillList: [[5208, 7]]
+	},
+	6503: {
+		Name: 'IG_RADIANT_SPEAR',
+		SkillName: '光辉长矛',
+		MaxLv: 10,
+		SpAmount: [67, 69, 71, 73, 75, 77, 79, 81, 83, 85],
+		bSeperateLv: true,
+		AttackRange: [7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+		SkillScale: [],
+		NeedSkillList: {
+			4258: [
+				[5266, 3],
+				[5265, 3]
+			]
+		},
+		_NeedSkillList: [
+			[5266, 3],
+			[5265, 3]
+		]
+	},
+	6504: {
+		Name: 'IG_IMPERIAL_CROSS',
+		SkillName: '帝国十字',
+		MaxLv: 5,
+		SpAmount: [49, 53, 57, 61, 65],
+		bSeperateLv: true,
+		AttackRange: [2, 2, 2, 2, 2],
+		SkillScale: [],
+		NeedSkillList: { 4258: [[5266, 5]] },
+		_NeedSkillList: [[5266, 5]]
+	},
+	6505: {
+		Name: 'IG_IMPERIAL_PRESSURE',
+		SkillName: '帝国压力',
+		MaxLv: 5,
+		SpAmount: [89, 93, 97, 101, 105],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {
+			4258: [
+				[5259, 7],
+				[5255, 3]
+			]
+		},
+		_NeedSkillList: [
+			[5259, 7],
+			[5255, 3]
+		]
+	},
+	6506: {
+		Name: 'MT_RUSH_STRIKE',
+		SkillName: '冲锋打击',
+		MaxLv: 5,
+		SpAmount: [85, 80, 75, 70, 65],
+		bSeperateLv: true,
+		AttackRange: [7, 7, 7, 7, 7],
+		SkillScale: [],
+		NeedSkillList: { 4253: [[5296, 5]] },
+		_NeedSkillList: [[5296, 5]]
+	},
+	6507: {
+		Name: 'MT_POWERFUL_SWING',
+		SkillName: '强力挥击',
+		MaxLv: 5,
+		SpAmount: [62, 64, 66, 68, 70],
+		bSeperateLv: true,
+		AttackRange: [2, 2, 2, 2, 2],
+		SkillScale: [],
+		NeedSkillList: { 4253: [[6506, 3]] },
+		_NeedSkillList: [[6506, 3]]
+	},
+	6508: {
+		Name: 'MT_ENERGY_CANNONADE',
+		SkillName: '能量炮击',
+		MaxLv: 5,
+		SpAmount: [58, 64, 70, 76, 82],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: { 4253: [[6003, 3]] },
+		_NeedSkillList: [[6003, 3]]
+	},
+	6509: {
+		Name: 'BO_MYSTERY_POWDER',
+		SkillName: '神秘粉末',
+		MaxLv: 5,
+		SpAmount: [82, 82, 82, 82, 82],
+		bSeperateLv: true,
+		AttackRange: [3, 3, 3, 3, 3],
+		SkillScale: [],
+		NeedSkillList: { 4259: [[6005, 5]] },
+		_NeedSkillList: [[6005, 5]]
+	},
+	6510: {
+		Name: 'BO_DUST_EXPLOSION',
+		SkillName: '粉尘爆炸',
+		MaxLv: 5,
+		SpAmount: [64, 67, 70, 73, 76],
+		bSeperateLv: true,
+		AttackRange: [3, 3, 3, 3, 3],
+		SkillScale: [],
+		NeedSkillList: { 4259: [[6509, 3]] },
+		_NeedSkillList: [[6509, 3]]
+	},
+	6511: {
+		Name: 'SHC_CROSS_SLASH',
+		SkillName: '交叉斩',
+		MaxLv: 5,
+		SpAmount: [58, 63, 68, 73, 78],
+		bSeperateLv: true,
+		AttackRange: [3, 3, 3, 3, 3],
+		SkillScale: [],
+		NeedSkillList: {
+			4254: [
+				[2028, 3],
+				[5286, 3]
+			]
+		},
+		_NeedSkillList: [
+			[2028, 3],
+			[5286, 3]
+		]
+	},
+	6512: {
+		Name: 'ABC_HIT_AND_SLIDING',
+		SkillName: '滑步打击',
+		MaxLv: 5,
+		SpAmount: [43, 46, 49, 52, 55],
+		bSeperateLv: true,
+		AttackRange: [2, 2, 2, 2, 2],
+		SkillScale: [],
+		NeedSkillList: { 4260: [[5311, 3]] },
+		_NeedSkillList: [[5311, 3]]
+	},
+	6513: {
+		Name: 'ABC_CHASING_BREAK',
+		SkillName: '追击破坏',
+		MaxLv: 5,
+		SpAmount: [62, 66, 70, 74, 78],
+		bSeperateLv: true,
+		AttackRange: [7, 7, 7, 7, 7],
+		SkillScale: [],
+		NeedSkillList: { 4260: [[6512, 3]] },
+		_NeedSkillList: [[6512, 3]]
+	},
+	6514: {
+		Name: 'ABC_CHASING_SHOT',
+		SkillName: '追击射击',
+		MaxLv: 5,
+		SpAmount: [85, 90, 95, 100, 105],
+		bSeperateLv: true,
+		AttackRange: [7, 7, 7, 7, 7],
+		SkillScale: [],
+		NeedSkillList: { 4260: [[6512, 3]] },
+		_NeedSkillList: [[6512, 3]]
+	},
+	6515: {
+		Name: 'ABC_ABYSS_FLAME',
+		SkillName: '深渊烈焰',
+		MaxLv: 5,
+		SpAmount: [82, 86, 90, 94, 98],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {
+			4260: [
+				[5312, 5],
+				[5317, 3]
+			]
+		},
+		_NeedSkillList: [
+			[5312, 5],
+			[5317, 3]
+		]
+	},
+	6516: {
+		Name: 'AG_ENERGY_CONVERSION',
+		SkillName: '能量转换',
+		MaxLv: 5,
+		SpAmount: [10, 10, 10, 10, 10],
+		bSeperateLv: true,
+		AttackRange: [1, 1, 1, 1, 1],
+		SkillScale: [],
+		NeedSkillList: {
+			4255: [
+				[2206, 2],
+				[5232, 1]
+			]
+		},
+		_NeedSkillList: [
+			[2206, 2],
+			[5232, 1]
+		]
+	},
+	6517: {
+		Name: 'EM_PSYCHIC_STREAM',
+		SkillName: '念力洪流',
+		MaxLv: 5,
+		SpAmount: [77, 84, 91, 98, 105],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {
+			4261: [
+				[5365, 5],
+				[5369, 3],
+				[5372, 3],
+				[5370, 3],
+				[5373, 3],
+				[5371, 3]
+			]
+		},
+		_NeedSkillList: [
+			[5365, 5],
+			[5369, 3],
+			[5372, 3],
+			[5370, 3],
+			[5373, 3],
+			[5371, 3]
+		]
+	},
+	6518: {
+		Name: 'CD_DIVINUS_FLOS',
+		SkillName: '神圣之花',
+		MaxLv: 5,
+		SpAmount: [99, 103, 107, 111, 115],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: {
+			4256: [
+				[2040, 5],
+				[5284, 5]
+			]
+		},
+		_NeedSkillList: [
+			[2040, 5],
+			[5284, 5]
+		]
+	},
+	6519: {
+		Name: 'IQ_BLAZING_FLAME_BLAST',
+		SkillName: '炽焰爆破',
+		MaxLv: 5,
+		SpAmount: [54, 58, 62, 66, 68],
+		bSeperateLv: true,
+		AttackRange: [7, 7, 7, 7, 7],
+		SkillScale: [],
+		NeedSkillList: { 4262: [[5243, 7]] },
+		_NeedSkillList: [[5243, 7]]
+	},
+	6520: {
+		Name: 'WH_WILD_WALK',
+		SkillName: '荒野疾行',
+		MaxLv: 5,
+		SpAmount: [63, 66, 69, 72, 75],
+		bSeperateLv: true,
+		AttackRange: [11, 11, 11, 11, 11],
+		SkillScale: [],
+		NeedSkillList: {
+			4257: [
+				[5325, 3],
+				[5326, 3]
+			]
+		},
+		_NeedSkillList: [
+			[5325, 3],
+			[5326, 3]
+		]
+	},
+	6521: {
+		Name: 'TR_RHYTHMICAL_WAVE',
+		SkillName: '节奏波',
+		MaxLv: 5,
+		SpAmount: [56, 62, 68, 74, 80],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
+		SkillScale: [],
+		NeedSkillList: { 4263: [[5356, 3]], 4264: [[5356, 3]] },
+		_NeedSkillList: [[5356, 3]]
+	},
+	6522: {
+		Name: 'ABC_ABYSS_FLAME_ATK',
+		SkillName: '深渊火焰攻击',
+		MaxLv: 5,
+		SpAmount: [0, 0, 0, 0, 0],
+		bSeperateLv: true,
+		AttackRange: [9, 9, 9, 9, 9],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -18234,7 +19575,7 @@ export default {
 		Name: 'EM_EL_FLAMETECHNIC',
 		SkillName: '火焰技法',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18245,7 +19586,7 @@ export default {
 		Name: 'EM_EL_FLAMEARMOR',
 		SkillName: '火焰铠甲',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18256,9 +19597,9 @@ export default {
 		Name: 'EM_EL_FLAMEROCK',
 		SkillName: '火焰岩石',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
-		AttackRange: [7],
+		AttackRange: [6],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -18267,7 +19608,7 @@ export default {
 		Name: 'EM_EL_COLD_FORCE',
 		SkillName: '寒冷之力',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18278,7 +19619,7 @@ export default {
 		Name: 'EM_EL_CRYSTAL_ARMOR',
 		SkillName: '水晶铠甲',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18289,9 +19630,9 @@ export default {
 		Name: 'EM_EL_AGE_OF_ICE',
 		SkillName: '冰之时代',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
-		AttackRange: [1],
+		AttackRange: [9],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -18300,7 +19641,7 @@ export default {
 		Name: 'EM_EL_GRACE_BREEZE',
 		SkillName: '恩典微风',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18311,7 +19652,7 @@ export default {
 		Name: 'EM_EL_EYES_OF_STORM',
 		SkillName: '风暴之眼',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18322,9 +19663,9 @@ export default {
 		Name: 'EM_EL_STORM_WIND',
 		SkillName: '风暴之风',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
-		AttackRange: [7],
+		AttackRange: [11],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -18333,7 +19674,7 @@ export default {
 		Name: 'EM_EL_EARTH_CARE',
 		SkillName: '大地守护',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18344,7 +19685,7 @@ export default {
 		Name: 'EM_EL_STRONG_PROTECTION',
 		SkillName: '强力保护',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18355,9 +19696,9 @@ export default {
 		Name: 'EM_EL_AVALANCHE',
 		SkillName: '雪崩',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
-		AttackRange: [7],
+		AttackRange: [5],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
@@ -18366,7 +19707,7 @@ export default {
 		Name: 'EM_EL_DEEP_POISONING',
 		SkillName: '深度中毒',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18377,7 +19718,7 @@ export default {
 		Name: 'EM_EL_POISON_SHIELD',
 		SkillName: '毒之盾',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
 		AttackRange: [1],
 		SkillScale: [],
@@ -18388,9 +19729,9 @@ export default {
 		Name: 'EM_EL_DEADLY_POISON',
 		SkillName: '致命毒药',
 		MaxLv: 1,
-		SpAmount: [0],
+		SpAmount: [1],
 		bSeperateLv: true,
-		AttackRange: [7],
+		AttackRange: [5],
 		SkillScale: [],
 		NeedSkillList: {},
 		_NeedSkillList: []
