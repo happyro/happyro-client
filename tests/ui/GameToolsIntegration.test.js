@@ -75,9 +75,9 @@ describe('game tools integration', () => {
 		expect(catalog.entries.length).toBeGreaterThan(13000);
 		const teleportable = catalog.entries.filter(npc => Number.isFinite(npc.navigation?.class));
 		const visible = teleportable.filter(npc => Number.isFinite(npc.display_sprite_id));
-		expect(teleportable).toHaveLength(4698);
-		expect(visible).toHaveLength(4438);
-		expect(catalog.entries.filter(npc => npc.game_visible)).toHaveLength(4438);
+		expect(teleportable).toHaveLength(4699);
+		expect(visible).toHaveLength(4439);
+		expect(catalog.entries.filter(npc => npc.game_visible)).toHaveLength(4439);
 		expect(catalog.entries.every((npc, index) => npc.catalog_order === index)).toBe(true);
 		expect(visible.every(npc => assets.sprites[npc.display_sprite_id])).toBe(true);
 		expect(Object.values(instances.instances).every(npc => /[\u3400-\u9fff]/.test(npc.name))).toBe(true);

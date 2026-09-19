@@ -37,6 +37,7 @@ import WinStats from 'UI/Components/WinStats/WinStats.js';
 import GraphicsSettings from 'Preferences/Graphics.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
 import Entity from 'Renderer/Entity/Entity.js';
+import { createEquipmentPreviewEntity } from './EquipmentPreviewEntity.js';
 
 function escapeHTML(str) {
 	const div = document.createElement('div');
@@ -615,7 +616,7 @@ export function createEquipment({
 			return 0;
 		}
 		for (const key in _list) {
-			const equipMask = switchEquip ? _list[key].location : _list[key].equipped;
+			const equipMask = _list[key].equipped;
 			if (equipMask & location) {
 				return _list[key].wItemSpriteNumber;
 			}
@@ -687,6 +688,7 @@ export function createEquipment({
 			delay: 0,
 			save: false
 		};
+		const resolvePreview = createEquipmentPreviewEntity(() => Entity);
 
 		const HasAttachmentState =
 			StatusConst.EffectState.FALCON |
@@ -763,41 +765,36 @@ export function createEquipment({
 		}
 
 		function renderEntity() {
-			const equip_character = new Entity();
-			equip_character.set({
+			const preview = {
 				GID: Session.Entity.GID + '_EQUIP',
-				objecttype: equip_character.constructor.TYPE_PC,
 				job: Session.Entity.job,
 				sex: Session.Entity.sex,
-				name: '',
-				hideShadow: true,
 				head: Session.Entity.head,
 				headpalette: Session.Entity.headpalette,
-				bodypalette: Session.Entity.bodypalette
-			});
+				bodypalette: Session.Entity.bodypalette,
+				accessory: 0,
+				accessory2: 0,
+				accessory3: 0,
+				robe: 0,
+				direction: 0
+			};
 
 			updateAttachmentButtons();
 
 			if (currentTabId === 'general') {
-				equip_character.accessory = Component.checkEquipLoc(EquipLocation.HEAD_BOTTOM);
-				equip_character.accessory2 = Component.checkEquipLoc(EquipLocation.HEAD_TOP);
-				equip_character.accessory3 = Component.checkEquipLoc(EquipLocation.HEAD_MID);
-				equip_character.robe = Component.checkEquipLoc(EquipLocation.GARMENT);
+				preview.accessory = Component.checkEquipLoc(EquipLocation.HEAD_BOTTOM);
+				preview.accessory2 = Component.checkEquipLoc(EquipLocation.HEAD_TOP);
+				preview.accessory3 = Component.checkEquipLoc(EquipLocation.HEAD_MID);
+				preview.robe = Component.checkEquipLoc(EquipLocation.GARMENT);
 			} else if (currentTabId === 'costume') {
-				equip_character.accessory = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_BOTTOM);
-				equip_character.accessory2 = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_TOP);
-				equip_character.accessory3 = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_MID);
-				equip_character.robe = Component.checkEquipLoc(EquipLocation.COSTUME_ROBE);
+				preview.accessory = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_BOTTOM);
+				preview.accessory2 = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_TOP);
+				preview.accessory3 = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_MID);
+				preview.robe = Component.checkEquipLoc(EquipLocation.COSTUME_ROBE);
 			}
 
-			_savedColor.set(equip_character.effectColor);
-			equip_character.effectColor.set(_cleanColor);
-
+			const equip_character = resolvePreview(preview, _animation);
 			Camera.direction = 0;
-			equip_character.direction = 0;
-			equip_character.headDir = 0;
-			equip_character.action = equip_character.ACTION.IDLE;
-			equip_character.animation = _animation;
 
 			for (let i = 0; i < _ctx.length; i++) {
 				const ctx = _ctx[i];

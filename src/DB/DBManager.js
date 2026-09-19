@@ -74,6 +74,7 @@ import {
 } from './Navigation/NavigationResource.js';
 import { getNavigationNpcAliases, localizeNavigationNpcName } from './Navigation/NavigationNameLocalization.js';
 import SignBoardTranslationTable from './SignBoardTranslationTable.js';
+import { ongoingQuestInfoAliases } from './Quest/QuestResource.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import PACKETVER from 'Network/PacketVerManager.js';
@@ -412,7 +413,9 @@ class DB {
 				function (json) {
 					Object.assign(HatTable, json);
 				},
-				onLoad()
+				onLoad(),
+				undefined,
+				'latin1'
 			);
 			loadLuaTable(
 				[DB.LUA_PATH + 'datainfo/spriterobeid.lub', DB.LUA_PATH + 'datainfo/spriterobename.lub'],
@@ -420,7 +423,9 @@ class DB {
 				function (json) {
 					Object.assign(RobeTable, json);
 				},
-				onLoad()
+				onLoad(),
+				undefined,
+				'latin1'
 			);
 
 			if (PACKETVER.value >= 20141008) {
@@ -440,7 +445,8 @@ class DB {
 								onLoad()
 							);
 						});
-					}
+					},
+					'latin1'
 				);
 			} else {
 				loadLuaTable(
@@ -449,7 +455,9 @@ class DB {
 					function (json) {
 						Object.assign(MonsterTable, json);
 					},
-					onLoad()
+					onLoad(),
+					undefined,
+					'latin1'
 				);
 			}
 
@@ -544,7 +552,7 @@ class DB {
 
 			// Quest
 			const onQuestEnd = onLoad();
-			tryLoadLuaAliases(loadQuestInfo, getSystemAliases('System/OngoingQuestInfoList.lub'), null, () => {
+			tryLoadLuaAliases(loadQuestInfo, ongoingQuestInfoAliases, null, () => {
 				// this is not official, its a translation file
 				loadQuestInfo('SystemEN/OngoingQuests.lub', null, onQuestEnd);
 			});
@@ -6498,7 +6506,7 @@ function loadStateIconInfo(basePath, callback, onEnd) {
  *
  * @author alisonrag
  */
-function loadLuaTable(file_list, table_name, callback, onEnd, contextFunc) {
+function loadLuaTable(file_list, table_name, callback, onEnd, contextFunc, valueCharset = userCharpage) {
 	const id_filename = file_list[0];
 	const value_table_filename = file_list[1];
 
@@ -6544,7 +6552,8 @@ function loadLuaTable(file_list, table_name, callback, onEnd, contextFunc) {
 
 			// create context function
 			ctx.addKeyAndValueToTable = (key, value) => {
-				table[key] = userStringDecoder.decode(value, userCharpage);
+				// Resource names must preserve bytes for GRF lookup; display text uses the user charset.
+				table[key] = userStringDecoder.decode(value, valueCharset);
 				return 1;
 			};
 
@@ -6553,7 +6562,7 @@ function loadLuaTable(file_list, table_name, callback, onEnd, contextFunc) {
 				if (!table[key]) {
 					table[key] = '';
 				}
-				table[key] += userStringDecoder.decode(value, userCharpage) + '\n';
+				table[key] += userStringDecoder.decode(value, valueCharset) + '\n';
 				return 1;
 			};
 

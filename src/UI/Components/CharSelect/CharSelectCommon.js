@@ -31,6 +31,7 @@ import UIManager from 'UI/UIManager.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import 'UI/Elements/Elements.js';
 import PACKETVER from 'Network/PacketVerManager.js';
+import { upsertCharacterBySlot } from './CharSelectState.js';
 
 export function createCharSelect(config) {
 	const {
@@ -542,11 +543,12 @@ export function createCharSelect(config) {
 			character.sex = _sex;
 		}
 
+		upsertCharacterBySlot(_list, character);
+
 		if (gridLayout) {
-			_list.push(character);
 			_slots[character.CharNum] = character;
 
-			_entitySlots[character.CharNum] = new Entity();
+			_entitySlots[character.CharNum] ??= new Entity();
 			_entitySlots[character.CharNum].set(character);
 			_entitySlots[character.CharNum].effectState =
 				_entitySlots[character.CharNum]._effectState & ~StatusConst.EffectState.INVISIBLE;
@@ -566,10 +568,9 @@ export function createCharSelect(config) {
 			character.DeleteDate = timer;
 		}
 
-		_list.push(character);
 		_slots[character.CharNum] = character;
 
-		_entitySlots[character.CharNum] = new Entity();
+		_entitySlots[character.CharNum] ??= new Entity();
 		_entitySlots[character.CharNum].set(character);
 		_entitySlots[character.CharNum].effectState =
 			_entitySlots[character.CharNum]._effectState & ~StatusConst.EffectState.INVISIBLE;
