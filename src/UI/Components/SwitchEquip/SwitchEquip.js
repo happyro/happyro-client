@@ -24,6 +24,7 @@ import ItemInfo from 'UI/Components/ItemInfo/ItemInfo.js';
 import htmlText from './SwitchEquip.html?raw';
 import cssText from './SwitchEquip.css?raw';
 import Entity from 'Renderer/Entity/Entity.js';
+import { createEquipmentPreviewEntity } from 'UI/Components/Equipment/EquipmentPreviewEntity.js';
 import Equipment from 'UI/Components/Equipment/Equipment.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
 
@@ -255,8 +256,6 @@ SwitchEquip.unEquip = function unEquip(index, location) {
  * Rendering character
  */
 const swaprender = (function swaprenderClosure() {
-	const _cleanColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
-	const _savedColor = new Float32Array(4);
 	const _animation = {
 		tick: 0,
 		frame: 0,
@@ -266,43 +265,39 @@ const swaprender = (function swaprenderClosure() {
 		delay: 0,
 		save: false
 	};
+	const resolvePreview = createEquipmentPreviewEntity(() => Entity);
 
 	return function _renderFrame() {
-		const swap_character = new Entity();
-		swap_character.set({
+		const preview = {
 			GID: Session.Entity.GID + '_SWAPEQUIP',
-			objecttype: swap_character.constructor.TYPE_PC,
 			job: Session.Entity.job,
 			sex: Session.Entity.sex,
-			name: '',
-			hideShadow: true,
 			head: Session.Entity.head,
 			headpalette: Session.Entity.headpalette,
-			bodypalette: Session.Entity.bodypalette
-		});
+			bodypalette: Session.Entity.bodypalette,
+			accessory: 0,
+			accessory2: 0,
+			accessory3: 0,
+			robe: 0,
+			direction: 0
+		};
 
 		const currentEquipTabId = Equipment.getUI().getCurrentTabId();
 
 		if (currentEquipTabId === 'general') {
-			swap_character.accessory = SwitchEquip.checkEquipLoc(EquipLocation.HEAD_BOTTOM);
-			swap_character.accessory2 = SwitchEquip.checkEquipLoc(EquipLocation.HEAD_TOP);
-			swap_character.accessory3 = SwitchEquip.checkEquipLoc(EquipLocation.HEAD_MID);
-			swap_character.robe = SwitchEquip.checkEquipLoc(EquipLocation.GARMENT);
+			preview.accessory = SwitchEquip.checkEquipLoc(EquipLocation.HEAD_BOTTOM);
+			preview.accessory2 = SwitchEquip.checkEquipLoc(EquipLocation.HEAD_TOP);
+			preview.accessory3 = SwitchEquip.checkEquipLoc(EquipLocation.HEAD_MID);
+			preview.robe = SwitchEquip.checkEquipLoc(EquipLocation.GARMENT);
 		} else if (currentEquipTabId === 'costume') {
-			swap_character.accessory = SwitchEquip.checkEquipLoc(EquipLocation.COSTUME_HEAD_BOTTOM);
-			swap_character.accessory2 = SwitchEquip.checkEquipLoc(EquipLocation.COSTUME_HEAD_TOP);
-			swap_character.accessory3 = SwitchEquip.checkEquipLoc(EquipLocation.COSTUME_HEAD_MID);
-			swap_character.robe = SwitchEquip.checkEquipLoc(EquipLocation.COSTUME_ROBE);
+			preview.accessory = SwitchEquip.checkEquipLoc(EquipLocation.COSTUME_HEAD_BOTTOM);
+			preview.accessory2 = SwitchEquip.checkEquipLoc(EquipLocation.COSTUME_HEAD_TOP);
+			preview.accessory3 = SwitchEquip.checkEquipLoc(EquipLocation.COSTUME_HEAD_MID);
+			preview.robe = SwitchEquip.checkEquipLoc(EquipLocation.COSTUME_ROBE);
 		}
 
-		_savedColor.set(swap_character.effectColor);
-		swap_character.effectColor.set(_cleanColor);
-
+		const swap_character = resolvePreview(preview, _animation);
 		Camera.direction = 0;
-		swap_character.direction = 0;
-		swap_character.headDir = 0;
-		swap_character.action = swap_character.ACTION.IDLE;
-		swap_character.animation = _animation;
 
 		for (let i = 0; i < _swapctx.length; i++) {
 			const ctx = _swapctx[i];

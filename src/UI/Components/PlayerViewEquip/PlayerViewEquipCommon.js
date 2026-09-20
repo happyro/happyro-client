@@ -19,6 +19,7 @@ import UIManager from 'UI/UIManager.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import ItemInfo from 'UI/Components/ItemInfo/ItemInfo.js';
 import Entity from 'Renderer/Entity/Entity.js';
+import { createEquipmentPreviewEntity } from 'UI/Components/Equipment/EquipmentPreviewEntity.js';
 
 /**
  * Escape HTML special characters
@@ -500,7 +501,6 @@ export function createPlayerViewEquip({ name, cssText, hasTabs, costumeRows, cos
 	// ─── renderCharacter ───────────────────────────────────
 
 	const renderCharacter = (function renderCharacterClosure() {
-		const _cleanColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -510,42 +510,39 @@ export function createPlayerViewEquip({ name, cssText, hasTabs, costumeRows, cos
 			delay: 0,
 			save: false
 		};
-		const show_character = new Entity();
+		const resolvePreview = createEquipmentPreviewEntity(() => Entity);
 
 		return function renderChar() {
-			show_character.set({
+			const preview = {
 				GID: charName + '_EQUIP',
-				objecttype: show_character.constructor.TYPE_PC,
 				job: jobID,
 				sex: sexID,
-				name: '',
-				hideShadow: true,
 				head: headID,
 				headpalette: headpalID,
-				bodypalette: bodypalID
-			});
+				bodypalette: bodypalID,
+				accessory: 0,
+				accessory2: 0,
+				accessory3: 0,
+				robe: 0,
+				direction: 0
+			};
 
 			if (hasTabs && currentTabId === 'vieweqcostume') {
 				// Costume tab — show costume headgears
-				show_character.accessory = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_BOTTOM);
-				show_character.accessory2 = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_TOP);
-				show_character.accessory3 = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_MID);
-				show_character.robe = Component.checkEquipLoc(EquipLocation.COSTUME_ROBE);
+				preview.accessory = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_BOTTOM);
+				preview.accessory2 = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_TOP);
+				preview.accessory3 = Component.checkEquipLoc(EquipLocation.COSTUME_HEAD_MID);
+				preview.robe = Component.checkEquipLoc(EquipLocation.COSTUME_ROBE);
 			} else {
 				// General tab (or no tabs) — show normal headgears
-				show_character.accessory = Component.checkEquipLoc(EquipLocation.HEAD_BOTTOM);
-				show_character.accessory2 = Component.checkEquipLoc(EquipLocation.HEAD_TOP);
-				show_character.accessory3 = Component.checkEquipLoc(EquipLocation.HEAD_MID);
-				show_character.robe = Component.checkEquipLoc(EquipLocation.GARMENT);
+				preview.accessory = Component.checkEquipLoc(EquipLocation.HEAD_BOTTOM);
+				preview.accessory2 = Component.checkEquipLoc(EquipLocation.HEAD_TOP);
+				preview.accessory3 = Component.checkEquipLoc(EquipLocation.HEAD_MID);
+				preview.robe = Component.checkEquipLoc(EquipLocation.GARMENT);
 			}
 
-			show_character.effectColor.set(_cleanColor);
-
+			const show_character = resolvePreview(preview, _animation);
 			Camera.direction = 0;
-			show_character.direction = 0;
-			show_character.headDir = 0;
-			show_character.action = show_character.ACTION.IDLE;
-			show_character.animation = _animation;
 
 			for (let i = 0; i < _vieweqctx.length; i++) {
 				const ctx = _vieweqctx[i];

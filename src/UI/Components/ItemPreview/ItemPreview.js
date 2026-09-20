@@ -19,6 +19,7 @@ import htmlText from './ItemPreview.html?raw';
 import cssText from './ItemPreview.css?raw';
 import ItemInfo from 'UI/Components/ItemInfo/ItemInfo.js';
 import Entity from 'Renderer/Entity/Entity.js';
+import { createEquipmentPreviewEntity } from 'UI/Components/Equipment/EquipmentPreviewEntity.js';
 
 /**
  * Create Component
@@ -219,8 +220,6 @@ function getPreviewSpriteId(item, it) {
  * Rendering character
  */
 const renderPreview = (function renderPreviewClosure() {
-	const _cleanColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
-	const _savedColor = new Float32Array(4);
 	const _animation = {
 		tick: 0,
 		frame: 0,
@@ -230,6 +229,7 @@ const renderPreview = (function renderPreviewClosure() {
 		delay: 0,
 		save: false
 	};
+	const resolvePreview = createEquipmentPreviewEntity(() => Entity);
 
 	return function render() {
 		if (!_ctx) {
@@ -242,40 +242,29 @@ const renderPreview = (function renderPreviewClosure() {
 			return;
 		}
 
-		const previewCharacter = new Entity();
-		previewCharacter.set({
+		const preview = {
 			GID: Session.Entity.GID + '_PREVIEW',
-			objecttype: previewCharacter.constructor.TYPE_PC,
 			job: Session.Entity.job,
 			sex: Session.Entity.sex,
-			name: '',
-			hideShadow: true,
 			head: Session.Entity.head,
 			headpalette: Session.Entity.headpalette,
 			bodypalette: Session.Entity.bodypalette,
 			accessory: Session.Entity.accessory,
 			accessory2: Session.Entity.accessory2,
 			accessory3: Session.Entity.accessory3,
-			robe: Session.Entity.robe
-		});
+			robe: Session.Entity.robe,
+			direction: _direction
+		};
 
 		if (!_remove) {
-			applyPreviewItem(previewCharacter);
+			applyPreviewItem(preview);
 		}
 
-		_savedColor.set(previewCharacter.effectColor);
-		previewCharacter.effectColor.set(_cleanColor);
-
-		// Set action
+		const previewCharacter = resolvePreview(preview, _animation);
 		Camera.direction = 0;
-		previewCharacter.direction = _direction;
-		previewCharacter.headDir = 0;
-		previewCharacter.action = previewCharacter.ACTION.IDLE;
-		previewCharacter.animation = _animation;
 
 		SpriteRenderer.bind2DContext(_ctx, Math.floor(_ctx.canvas.width / 2), _ctx.canvas.height);
 		previewCharacter.renderEntity(_ctx);
-		previewCharacter.effectColor.set(_savedColor);
 	};
 })();
 
