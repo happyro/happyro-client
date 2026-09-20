@@ -163,17 +163,17 @@ function mount(container) {
 				<div><strong>HP ${snapshot.hp} / ${snapshot.max_hp}</strong><span>SP ${snapshot.sp} / ${snapshot.max_sp}${snapshot.max_ap ? ` · AP ${snapshot.ap} / ${snapshot.max_ap}` : ''}</span></div>
 			</header>
 			<div class="character-detail-scroll">
-				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml(selectedJob?.name || `职业 ${selectedJobId}`)}</strong><small>ID ${selectedJobId}</small></div><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? 'disabled' : ''}>转换职业</button></div>
+				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml(selectedJob?.name || `职业 ${selectedJobId}`)}</strong><small>ID ${selectedJobId}</small></div><span class="management-form-actions"><button type="button" data-action="vitals">恢复状态</button><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? 'disabled' : ''}>转换职业</button></span></div>
 				${selectedJob && selectedJobId !== snapshot.job_id ? `<form data-form="job-target" class="management-form level-form"><label><span>转职后的基础等级</span><input name="base_level" type="number" min="1" max="${selectedJob.max_base_level}" value="${snapshot.base_level}" required></label><small>该职业最高 Base ${selectedJob.max_base_level} / Job ${selectedJob.max_job_level}，转职后 Job 从 1 开始。超出上限时请明确调整目标等级。</small></form>` : ''}</section>
 				<section><h4>等级</h4><form data-form="progression" class="management-form level-form">
 					<label><span>基础等级</span><input name="base_level" type="number" min="1" max="${snapshot.max_base_level}" value="${snapshot.base_level}" required></label>
 					<label><span>职业等级</span><input name="job_level" type="number" min="1" max="${snapshot.max_job_level}" value="${snapshot.job_level}" required></label>
 					<label><span>技能点</span><input name="skill_points" type="number" min="0" max="${snapshot.max_skill_points}" value="${snapshot.skill_points}" required></label>
-					<div class="management-form-actions"><button type="submit">应用等级</button></div>
+					<div class="management-form-actions"><button type="submit">应用等级</button><button type="button" data-action="skills-reset">重置技能</button></div>
 				</form></section>
 				<section><h4>基础属性 <small>剩余 ${snapshot.status_points} 点</small></h4><form data-form="stats" class="management-form stat-form">
 					${statFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="1" max="${snapshot.max_stats?.[key] ?? snapshot.max_stat}" value="${snapshot[key]}" required></label>`).join('')}
-					<div class="management-form-actions"><button type="submit">应用属性</button></div>
+					<div class="management-form-actions"><button type="submit">应用属性</button><button type="button" data-action="stats-reset">重置属性</button></div>
 				</form></section>
 				${snapshot.traits.enabled ? `<section><h4>四转特性 <small>剩余 ${snapshot.traits.points} / 总计 ${snapshot.traits.budget} 点</small></h4><form data-form="traits" class="management-form stat-form">
 					${traitFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="0" max="${snapshot.traits.maximums[key]}" value="${snapshot.traits.values[key]}" required></label>`).join('')}
@@ -182,7 +182,6 @@ function mount(container) {
 				</form></section>` : ''}
 			</div>
 			<footer class="character-actions">
-				<button type="button" data-action="vitals">恢复状态</button><button type="button" data-action="stats-reset">重置属性</button><button type="button" data-action="skills-reset">重置技能</button>
 				<span class="management-status${statusError ? ' error' : status ? ' success' : ''}" role="status" aria-live="polite">${escapeHtml(status)}</span>
 			</footer>`;
 
@@ -239,8 +238,8 @@ function mount(container) {
 	}
 
 	function render() {
-		container.innerHTML = `<div class="character-layout"><section class="character-job-browser">
-			<div class="character-job-toolbar"><input type="search" placeholder="搜索职业名称或 ID" aria-label="搜索职业"><select aria-label="职业分组"><option value="">全部职业</option><option>基础与进阶</option><option>四转</option><option>扩展进阶</option></select></div>
+		container.innerHTML = `<div class="character-job-toolbar catalog-toolbar"><input class="catalog-search" type="search" placeholder="搜索职业名称或 ID" aria-label="搜索职业"><select class="catalog-filter" aria-label="职业分组"><option value="">全部职业</option><option>基础与进阶</option><option>四转</option><option>扩展进阶</option></select></div>
+			<div class="character-layout"><section class="character-job-browser">
 			<div class="character-job-summary"></div><div class="character-job-list"></div>
 		</section><section class="character-detail"></section></div>`;
 		const searchInput = container.querySelector('.character-job-toolbar input');
