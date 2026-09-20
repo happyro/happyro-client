@@ -255430,6 +255430,64 @@ var init_ItemPreview$1 = __esmMin((() => {
 	ItemPreview_default$1 = ":host {\r\n	width: 170px;\r\n	height: 210px;\r\n	top: 200px;\r\n	left: 520px;\r\n}\r\n\r\n#ItemPreview {\r\n	position: absolute;\r\n	width: 170px;\r\n	height: 210px;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n}\r\n#ItemPreview .titlebar {\r\n	position: relative;\r\n	height: 17px;\r\n	background-repeat: repeat-x;\r\n	border-radius: 4px 4px 0 0;\r\n}\r\n#ItemPreview .titlebar .title {\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	max-width: 130px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#ItemPreview .titlebar .close {\r\n	position: absolute;\r\n	right: 3px;\r\n	top: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#ItemPreview .content {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 0;\r\n	right: 0;\r\n	bottom: 0;\r\n	text-align: center;\r\n}\r\n#ItemPreview .controls {\r\n	margin-top: 6px;\r\n}\r\n#ItemPreview .controls ui-button {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	vertical-align: middle;\r\n}\r\n#ItemPreview .controls .rot_left,\r\n#ItemPreview .controls .rot_right {\r\n	width: 20px;\r\n	height: 20px;\r\n}\r\n#ItemPreview .controls .reset {\r\n	border: 0;\r\n	width: 80px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	margin: 0 2px;\r\n}\r\n";
 }));
 //#endregion
+//#region src/UI/Components/Equipment/EquipmentPreviewEntity.js
+function getSignature(config) {
+	return [
+		config.GID,
+		config.job,
+		config.sex,
+		config.head,
+		config.headpalette,
+		config.bodypalette,
+		config.accessory,
+		config.accessory2,
+		config.accessory3,
+		config.robe,
+		config.direction
+	].join(":");
+}
+function createEquipmentPreviewEntity(getEntityClass) {
+	let entity = null;
+	let signature = "";
+	return function resolveEquipmentPreview(config, animation) {
+		const nextSignature = getSignature(config);
+		if (entity && signature === nextSignature) return entity;
+		const EntityClass = getEntityClass();
+		entity = new EntityClass();
+		entity.set({
+			GID: config.GID,
+			objecttype: EntityClass.TYPE_PC,
+			job: config.job,
+			sex: config.sex,
+			name: "",
+			hideShadow: true,
+			head: config.head,
+			headpalette: config.headpalette,
+			bodypalette: config.bodypalette,
+			accessory: config.accessory,
+			accessory2: config.accessory2,
+			accessory3: config.accessory3,
+			Robe: config.robe
+		});
+		entity.effectColor.set(CLEAN_COLOR);
+		entity.direction = config.direction;
+		entity.headDir = 0;
+		entity.action = entity.ACTION.IDLE;
+		entity.animation = animation;
+		signature = nextSignature;
+		return entity;
+	};
+}
+var CLEAN_COLOR;
+var init_EquipmentPreviewEntity = __esmMin((() => {
+	CLEAN_COLOR = new Float32Array([
+		1,
+		1,
+		1,
+		1
+	]);
+}));
+//#endregion
 //#region src/UI/Components/ItemPreview/ItemPreview.js
 /**
 * Rotate preview direction
@@ -255500,6 +255558,7 @@ var init_ItemPreview = __esmMin((() => {
 	init_ItemPreview$1();
 	init_ItemInfo();
 	init_Entity$1();
+	init_EquipmentPreviewEntity();
 	ItemPreview = new GUIComponent("ItemPreview", ItemPreview_default$1);
 	/**
 	* Render HTML
@@ -255586,13 +255645,6 @@ var init_ItemPreview = __esmMin((() => {
 		_direction = 0;
 	};
 	renderPreview = (function renderPreviewClosure() {
-		const _cleanColor = new Float32Array([
-			1,
-			1,
-			1,
-			1
-		]);
-		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -255602,37 +255654,29 @@ var init_ItemPreview = __esmMin((() => {
 			delay: 0,
 			save: false
 		};
+		const resolvePreview = createEquipmentPreviewEntity(() => Entity);
 		return function render() {
 			if (!_ctx$3) return;
 			_ctx$3.clearRect(0, 0, _ctx$3.canvas.width, _ctx$3.canvas.height);
 			if (!_previewSpriteId || !_previewLocation || !SessionStorage_default.Entity) return;
-			const previewCharacter = new Entity();
-			previewCharacter.set({
+			const preview = {
 				GID: SessionStorage_default.Entity.GID + "_PREVIEW",
-				objecttype: previewCharacter.constructor.TYPE_PC,
 				job: SessionStorage_default.Entity.job,
 				sex: SessionStorage_default.Entity.sex,
-				name: "",
-				hideShadow: true,
 				head: SessionStorage_default.Entity.head,
 				headpalette: SessionStorage_default.Entity.headpalette,
 				bodypalette: SessionStorage_default.Entity.bodypalette,
 				accessory: SessionStorage_default.Entity.accessory,
 				accessory2: SessionStorage_default.Entity.accessory2,
 				accessory3: SessionStorage_default.Entity.accessory3,
-				robe: SessionStorage_default.Entity.robe
-			});
-			if (!_remove) applyPreviewItem(previewCharacter);
-			_savedColor.set(previewCharacter.effectColor);
-			previewCharacter.effectColor.set(_cleanColor);
+				robe: SessionStorage_default.Entity.robe,
+				direction: _direction
+			};
+			if (!_remove) applyPreviewItem(preview);
+			const previewCharacter = resolvePreview(preview, _animation);
 			Camera.direction = 0;
-			previewCharacter.direction = _direction;
-			previewCharacter.headDir = 0;
-			previewCharacter.action = previewCharacter.ACTION.IDLE;
-			previewCharacter.animation = _animation;
 			SpriteRenderer.bind2DContext(_ctx$3, Math.floor(_ctx$3.canvas.width / 2), _ctx$3.canvas.height);
 			previewCharacter.renderEntity(_ctx$3);
-			previewCharacter.effectColor.set(_savedColor);
 		};
 	})();
 	ItemPreview_default = UIManager.addComponent(ItemPreview);
@@ -256113,6 +256157,7 @@ var init_SwitchEquip = __esmMin((() => {
 	init_SwitchEquip$2();
 	init_SwitchEquip$1();
 	init_Entity$1();
+	init_EquipmentPreviewEntity();
 	init_Equipment();
 	init_Inventory();
 	SwitchEquip = new GUIComponent("SwitchEquip", SwitchEquip_default$1);
@@ -256270,13 +256315,6 @@ var init_SwitchEquip = __esmMin((() => {
 		delete SwitchEquip._list[index];
 	};
 	swaprender = (function swaprenderClosure() {
-		const _cleanColor = new Float32Array([
-			1,
-			1,
-			1,
-			1
-		]);
-		const _savedColor = /* @__PURE__ */ new Float32Array(4);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -256286,38 +256324,35 @@ var init_SwitchEquip = __esmMin((() => {
 			delay: 0,
 			save: false
 		};
+		const resolvePreview = createEquipmentPreviewEntity(() => Entity);
 		return function _renderFrame() {
-			const swap_character = new Entity();
-			swap_character.set({
+			const preview = {
 				GID: SessionStorage_default.Entity.GID + "_SWAPEQUIP",
-				objecttype: swap_character.constructor.TYPE_PC,
 				job: SessionStorage_default.Entity.job,
 				sex: SessionStorage_default.Entity.sex,
-				name: "",
-				hideShadow: true,
 				head: SessionStorage_default.Entity.head,
 				headpalette: SessionStorage_default.Entity.headpalette,
-				bodypalette: SessionStorage_default.Entity.bodypalette
-			});
+				bodypalette: SessionStorage_default.Entity.bodypalette,
+				accessory: 0,
+				accessory2: 0,
+				accessory3: 0,
+				robe: 0,
+				direction: 0
+			};
 			const currentEquipTabId = EquipmentController.getUI().getCurrentTabId();
 			if (currentEquipTabId === "general") {
-				swap_character.accessory = SwitchEquip.checkEquipLoc(EquipmentLocation_default.HEAD_BOTTOM);
-				swap_character.accessory2 = SwitchEquip.checkEquipLoc(EquipmentLocation_default.HEAD_TOP);
-				swap_character.accessory3 = SwitchEquip.checkEquipLoc(EquipmentLocation_default.HEAD_MID);
-				swap_character.robe = SwitchEquip.checkEquipLoc(EquipmentLocation_default.GARMENT);
+				preview.accessory = SwitchEquip.checkEquipLoc(EquipmentLocation_default.HEAD_BOTTOM);
+				preview.accessory2 = SwitchEquip.checkEquipLoc(EquipmentLocation_default.HEAD_TOP);
+				preview.accessory3 = SwitchEquip.checkEquipLoc(EquipmentLocation_default.HEAD_MID);
+				preview.robe = SwitchEquip.checkEquipLoc(EquipmentLocation_default.GARMENT);
 			} else if (currentEquipTabId === "costume") {
-				swap_character.accessory = SwitchEquip.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_BOTTOM);
-				swap_character.accessory2 = SwitchEquip.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_TOP);
-				swap_character.accessory3 = SwitchEquip.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_MID);
-				swap_character.robe = SwitchEquip.checkEquipLoc(EquipmentLocation_default.COSTUME_ROBE);
+				preview.accessory = SwitchEquip.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_BOTTOM);
+				preview.accessory2 = SwitchEquip.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_TOP);
+				preview.accessory3 = SwitchEquip.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_MID);
+				preview.robe = SwitchEquip.checkEquipLoc(EquipmentLocation_default.COSTUME_ROBE);
 			}
-			_savedColor.set(swap_character.effectColor);
-			swap_character.effectColor.set(_cleanColor);
+			const swap_character = resolvePreview(preview, _animation);
 			Camera.direction = 0;
-			swap_character.direction = 0;
-			swap_character.headDir = 0;
-			swap_character.action = swap_character.ACTION.IDLE;
-			swap_character.animation = _animation;
 			for (let i = 0; i < _swapctx.length; i++) {
 				const ctx = _swapctx[i];
 				SpriteRenderer.bind2DContext(ctx, 30, 130);
@@ -279984,7 +280019,7 @@ var init_BasicInfoV4$2 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.css?raw
 var BasicInfoV4_default$1;
 var init_BasicInfoV4$1 = __esmMin((() => {
-	BasicInfoV4_default$1 = ":host {\r\n	width: 220px;\r\n	height: 135px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV4 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 135px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV4.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV4.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV4.small {\r\n	height: 53px;\r\n}\r\n#BasicInfoV4.large .bt_menu {\r\n	top: 135px;\r\n}\r\n#BasicInfoV4.small .bt_menu {\r\n	top: 53px;\r\n}\r\n\r\n#BasicInfoV4.large .buttons {\r\n	top: 144px;\r\n}\r\n#BasicInfoV4.small .buttons {\r\n	top: 62px;\r\n}\r\n\r\n#BasicInfoV4 .topbar {\r\n	height: 16px;\r\n}\r\n#BasicInfoV4 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV4 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV4 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV4 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV4 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV4 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .hp_bar,\r\n#BasicInfoV4 .large .sp_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV4 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV4 .large .hp_bar div,\r\n#BasicInfoV4 .large .sp_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV4 .large div.hp_bar_perc,\r\n#BasicInfoV4 .large div.sp_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV4 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV4 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV4 .large .blvl {\r\n	position: absolute;\r\n	top: 86px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .jlvl {\r\n	position: absolute;\r\n	top: 97px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .bexp,\r\n#BasicInfoV4 .large .jexp {\r\n	position: absolute;\r\n	top: 89px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV4 .large .bexp div,\r\n#BasicInfoV4 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV4 .large .jexp {\r\n	top: 101px;\r\n}\r\n#BasicInfoV4 .large .extra {\r\n	position: absolute;\r\n	top: 119px;\r\n	left: 10px;\r\n	right: 10px;\r\n	width: auto;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	display: grid;\r\n	grid-template-columns: auto auto auto auto auto;\r\n	justify-items: center;\r\n	background-position: left bottom;\r\n}\r\n#BasicInfoV4 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV4 .buttons:hover {\r\n}\r\n#BasicInfoV4 .buttons button {\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n	background: transparent;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV4 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .small .line2 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .small .line3 {\r\n	position: absolute;\r\n	top: 36px;\r\n	left: 10px;\r\n	right: 10px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV4 .buttons button .name {\r\n	pointer-events: none;\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV4 .buttons button:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV4 .buttons button .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV4 .buttons .btn_overlay {\r\n	pointer-events: none;\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: relative;\r\n	top: -6px;\r\n	left: 0;\r\n	display: none;\r\n}\r\n#BasicInfoV4 .buttons button:active .btn_overlay {\r\n	pointer-events: none;\r\n	top: -5px;\r\n}\r\n#BasicInfoV4 .hp_title,\r\n#BasicInfoV4 .sp_title,\r\n#BasicInfoV4 .hp_value,\r\n#BasicInfoV4 .hp_max_value,\r\n#BasicInfoV4 .sp_value,\r\n#BasicInfoV4 .sp_max_value,\r\n#BasicInfoV4 .hp_perc,\r\n#BasicInfoV4 .sp_perc { font-weight: normal; }\r\n";
+	BasicInfoV4_default$1 = ":host {\r\n	width: 220px;\r\n	height: 135px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV4 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 135px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV4.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV4.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV4.small {\r\n	height: 53px;\r\n}\r\n#BasicInfoV4.large .bt_menu {\r\n	top: 135px;\r\n}\r\n#BasicInfoV4.small .bt_menu {\r\n	top: 53px;\r\n}\r\n\r\n#BasicInfoV4.large .buttons {\r\n	top: 144px;\r\n}\r\n#BasicInfoV4.small .buttons {\r\n	top: 62px;\r\n}\r\n\r\n#BasicInfoV4 .topbar {\r\n	height: 16px;\r\n}\r\n#BasicInfoV4 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV4 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV4 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV4 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV4 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV4 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .hp_bar,\r\n#BasicInfoV4 .large .sp_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV4 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV4 .large .hp_bar div,\r\n#BasicInfoV4 .large .sp_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV4 .large div.hp_bar_perc,\r\n#BasicInfoV4 .large div.sp_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV4 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV4 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV4 .large .blvl {\r\n	position: absolute;\r\n	top: 86px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .jlvl {\r\n	position: absolute;\r\n	top: 97px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV4 .large .bexp,\r\n#BasicInfoV4 .large .jexp {\r\n	position: absolute;\r\n	top: 89px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV4 .large .bexp div,\r\n#BasicInfoV4 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV4 .large .jexp {\r\n	top: 101px;\r\n}\r\n#BasicInfoV4 .large .extra {\r\n	position: absolute;\r\n	top: 119px;\r\n	left: 10px;\r\n	right: 10px;\r\n	width: auto;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	display: grid;\r\n	grid-template-columns: auto auto auto auto auto;\r\n	justify-items: center;\r\n	background-position: left bottom;\r\n}\r\n#BasicInfoV4 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV4 .buttons:hover {\r\n}\r\n#BasicInfoV4 .buttons button {\r\n	position: relative;\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n	background: transparent;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV4 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .small .line2 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .small .line3 {\r\n	position: absolute;\r\n	top: 36px;\r\n	left: 10px;\r\n	right: 10px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV4 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV4 .buttons button .name {\r\n	pointer-events: none;\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV4 .buttons button:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV4 .buttons button .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV4 .buttons .btn_overlay {\r\n	pointer-events: none;\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: absolute;\r\n	bottom: 0;\r\n	left: 0;\r\n	display: none;\r\n}\r\n#BasicInfoV4 .buttons button:active .btn_overlay {\r\n	pointer-events: none;\r\n	bottom: -1px;\r\n}\r\n#BasicInfoV4 .hp_title,\r\n#BasicInfoV4 .sp_title,\r\n#BasicInfoV4 .hp_value,\r\n#BasicInfoV4 .hp_max_value,\r\n#BasicInfoV4 .sp_value,\r\n#BasicInfoV4 .sp_max_value,\r\n#BasicInfoV4 .hp_perc,\r\n#BasicInfoV4 .sp_perc { font-weight: normal; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV4/BasicInfoV4.js
@@ -280028,7 +280063,7 @@ var init_BasicInfoV5$2 = __esmMin((() => {
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.css?raw
 var BasicInfoV5_default$1;
 var init_BasicInfoV5$1 = __esmMin((() => {
-	BasicInfoV5_default$1 = ":host {\r\n	width: 220px;\r\n	height: 150px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV5 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 150px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV5.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV5.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV5.small {\r\n	height: 70px;\r\n}\r\n#BasicInfoV5.large .bt_menu {\r\n	top: 150px;\r\n}\r\n#BasicInfoV5.small .bt_menu {\r\n	top: 70px;\r\n}\r\n\r\n#BasicInfoV5.large .buttons {\r\n	top: 160px;\r\n}\r\n#BasicInfoV5.small .buttons {\r\n	top: 80px;\r\n}\r\n\r\n#BasicInfoV5 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV5 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV5 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV5 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV5 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV5 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .ap_title {\r\n	position: absolute;\r\n	top: 80px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .hp_bar,\r\n#BasicInfoV5 .large .sp_bar,\r\n#BasicInfoV5 .large .ap_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV5 .large .ap_bar {\r\n	top: 83px;\r\n	background: linear-gradient(\r\n		to bottom,\r\n		#5a5a63 0%,\r\n		#a5a5ad 15%,\r\n		#bdc6ce 30%,\r\n		#ceced6 45%,\r\n		#d6dede 65%,\r\n		#e7e7ef 70%,\r\n		#f7f7f7 80%\r\n	);\r\n	border-radius: 15px;\r\n	border: 1px solid #b5b5b5;\r\n}\r\n#BasicInfoV5 .large .hp_bar div,\r\n#BasicInfoV5 .large .sp_bar div,\r\n#BasicInfoV5 .large .ap_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV5 .large div.hp_bar_perc,\r\n#BasicInfoV5 .large div.sp_bar_perc,\r\n#BasicInfoV5 .large div.ap_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV5 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .ap_perc {\r\n	position: absolute;\r\n	top: 80px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .blvl {\r\n	position: absolute;\r\n	top: 101px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .jlvl {\r\n	position: absolute;\r\n	top: 112px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .bexp,\r\n#BasicInfoV5 .large .jexp {\r\n	position: absolute;\r\n	top: 104px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV5 .large .bexp div,\r\n#BasicInfoV5 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV5 .large .jexp {\r\n	top: 116px;\r\n}\r\n#BasicInfoV5 .large .extra {\r\n	position: absolute;\r\n	top: 134px;\r\n	left: 10px;\r\n	right: 10px;\r\n	width: auto;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	height: 176px;\r\n	background-repeat: repeat-y;\r\n	background-position: bottom; /* alinha o fundo pela base */\r\n}\r\n#BasicInfoV5 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV5 .buttons:hover {\r\n}\r\n#BasicInfoV5 .buttons > div[id] {\r\n	float: left;\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n}\r\n#BasicInfoV5 .buttons .clear {\r\n	clear: both;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV5 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .info-container {\r\n	position: absolute;\r\n	top: 17px;\r\n	height: 60px;\r\n	width: 220px;\r\n	background-color: #ffffff;\r\n}\r\n#BasicInfoV5 .small .hpcontainer,\r\n#BasicInfoV5 .small .spcontainer {\r\n	position: absolute;\r\n	width: 130px;\r\n}\r\n#BasicInfoV5 .small .expcontainer,\r\n#BasicInfoV5 .small .apcontainer {\r\n	position: absolute;\r\n	width: 65px;\r\n	left: 140px;\r\n}\r\n#BasicInfoV5 .small .line2 {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .line3 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line3 .hp_max_value {\r\n	display: inline-block;\r\n	width: 65px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 .sp_max_value {\r\n	display: inline-block;\r\n	width: 73px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV5 .buttons div .name {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV5 .buttons div:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV5 .buttons div .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV5 .buttons .btn_overlay {\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: relative;\r\n	top: -13px;\r\n	left: -7px;\r\n	z-index: 10;\r\n	display: none;\r\n}\r\n#BasicInfoV5 .hp_title,\r\n#BasicInfoV5 .sp_title,\r\n#BasicInfoV5 .hp_value,\r\n#BasicInfoV5 .hp_max_value,\r\n#BasicInfoV5 .sp_value,\r\n#BasicInfoV5 .sp_max_value,\r\n#BasicInfoV5 .hp_perc,\r\n#BasicInfoV5 .sp_perc { font-weight: normal; }\r\n";
+	BasicInfoV5_default$1 = ":host {\r\n	width: 220px;\r\n	height: 150px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#BasicInfoV5 {\r\n	position: absolute;\r\n	width: 220px;\r\n	height: 150px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#BasicInfoV5.small .large {\r\n	display: none;\r\n}\r\n#BasicInfoV5.large .small {\r\n	display: none;\r\n	border-radius: 5px;\r\n}\r\n#BasicInfoV5.small {\r\n	height: 70px;\r\n}\r\n#BasicInfoV5.large .bt_menu {\r\n	top: 150px;\r\n}\r\n#BasicInfoV5.small .bt_menu {\r\n	top: 70px;\r\n}\r\n\r\n#BasicInfoV5.large .buttons {\r\n	top: 160px;\r\n}\r\n#BasicInfoV5.small .buttons {\r\n	top: 80px;\r\n}\r\n\r\n#BasicInfoV5 .topbar .left {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 4px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n#BasicInfoV5 .topbar .right {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 2px;\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background: none;\r\n}\r\n\r\n/* LARGE */\r\n#BasicInfoV5 .large .title {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n}\r\n#BasicInfoV5 .large .name {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 20px;\r\n}\r\n#BasicInfoV5 .large .job {\r\n	position: absolute;\r\n	left: 10px;\r\n	top: 33px;\r\n}\r\n#BasicInfoV5 .large .hp_title {\r\n	position: absolute;\r\n	top: 50px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .sp_title {\r\n	position: absolute;\r\n	top: 65px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .ap_title {\r\n	position: absolute;\r\n	top: 80px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .hp_bar,\r\n#BasicInfoV5 .large .sp_bar,\r\n#BasicInfoV5 .large .ap_bar {\r\n	position: absolute;\r\n	top: 53px;\r\n	left: 35px;\r\n	width: 135px;\r\n	height: 9px;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .large .sp_bar {\r\n	top: 68px;\r\n}\r\n#BasicInfoV5 .large .ap_bar {\r\n	top: 83px;\r\n	background: linear-gradient(\r\n		to bottom,\r\n		#5a5a63 0%,\r\n		#a5a5ad 15%,\r\n		#bdc6ce 30%,\r\n		#ceced6 45%,\r\n		#d6dede 65%,\r\n		#e7e7ef 70%,\r\n		#f7f7f7 80%\r\n	);\r\n	border-radius: 15px;\r\n	border: 1px solid #b5b5b5;\r\n}\r\n#BasicInfoV5 .large .hp_bar div,\r\n#BasicInfoV5 .large .sp_bar div,\r\n#BasicInfoV5 .large .ap_bar div {\r\n	width: 4px;\r\n	height: 9px;\r\n	float: left;\r\n}\r\n#BasicInfoV5 .large div.hp_bar_perc,\r\n#BasicInfoV5 .large div.sp_bar_perc,\r\n#BasicInfoV5 .large div.ap_bar_perc {\r\n	text-align: center;\r\n	width: 127px;\r\n	position: absolute;\r\n	top: -1px;\r\n}\r\n#BasicInfoV5 .large .hp_perc {\r\n	position: absolute;\r\n	top: 50px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .sp_perc {\r\n	position: absolute;\r\n	top: 65px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .ap_perc {\r\n	position: absolute;\r\n	top: 80px;\r\n	right: 20px;\r\n}\r\n#BasicInfoV5 .large .blvl {\r\n	position: absolute;\r\n	top: 101px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .jlvl {\r\n	position: absolute;\r\n	top: 112px;\r\n	left: 15px;\r\n}\r\n#BasicInfoV5 .large .bexp,\r\n#BasicInfoV5 .large .jexp {\r\n	position: absolute;\r\n	top: 104px;\r\n	left: 84px;\r\n	width: 110px;\r\n	height: 4px;\r\n	border: 1px solid #afafaf;\r\n	background-color: white;\r\n}\r\n#BasicInfoV5 .large .bexp div,\r\n#BasicInfoV5 .large .jexp div {\r\n	position: absolute;\r\n	top: 0px;\r\n	left: 0px;\r\n	width: 0%;\r\n	height: 4px;\r\n	background-color: #4262a5;\r\n}\r\n#BasicInfoV5 .large .jexp {\r\n	top: 116px;\r\n}\r\n#BasicInfoV5 .large .extra {\r\n	position: absolute;\r\n	top: 134px;\r\n	left: 10px;\r\n	right: 10px;\r\n	width: auto;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	text-align: left;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .buttons {\r\n	position: absolute;\r\n	left: 0px;\r\n	top: 9px;\r\n	width: 220px;\r\n	height: 176px;\r\n	background-repeat: repeat-y;\r\n	background-position: bottom; /* alinha o fundo pela base */\r\n}\r\n#BasicInfoV5 .bt_menu {\r\n	position: absolute;\r\n	left: 0px;\r\n	width: 219px;\r\n	height: 9px;\r\n}\r\n#BasicInfoV5 .buttons:hover {\r\n}\r\n#BasicInfoV5 .buttons > div[id] {\r\n	position: relative;\r\n	float: left;\r\n	width: 32px;\r\n	height: 32px;\r\n	border: none;\r\n	margin: 6px;\r\n}\r\n#BasicInfoV5 .buttons .clear {\r\n	clear: both;\r\n}\r\n\r\n/* REDUCED */\r\n#BasicInfoV5 .small .line1 {\r\n	position: absolute;\r\n	top: 2px;\r\n	left: 18px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .info-container {\r\n	position: absolute;\r\n	top: 17px;\r\n	height: 60px;\r\n	width: 220px;\r\n	background-color: #ffffff;\r\n}\r\n#BasicInfoV5 .small .hpcontainer,\r\n#BasicInfoV5 .small .spcontainer {\r\n	position: absolute;\r\n	width: 130px;\r\n}\r\n#BasicInfoV5 .small .expcontainer,\r\n#BasicInfoV5 .small .apcontainer {\r\n	position: absolute;\r\n	width: 65px;\r\n	left: 140px;\r\n}\r\n#BasicInfoV5 .small .line2 {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n}\r\n#BasicInfoV5 .small .line3 {\r\n	position: absolute;\r\n	top: 20px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line3 .hp_max_value {\r\n	display: inline-block;\r\n	width: 65px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 10px;\r\n	white-space: nowrap;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .small .line4 .sp_max_value {\r\n	display: inline-block;\r\n	width: 73px;\r\n	text-align: left;\r\n	font-weight: normal;\r\n}\r\n#BasicInfoV5 .toggle_btns {\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\n#BasicInfoV5 .buttons div .name {\r\n	position: relative;\r\n	display: none;\r\n	z-index: 1;\r\n	top: -20px;\r\n	left: 0px;\r\n	background-color: rgba(0, 0, 0, 0.6);\r\n	text-shadow: 1px 1px black;\r\n	color: white;\r\n	padding: 5px;\r\n	white-space: nowrap;\r\n	font-size: 0.6rem;\r\n}\r\n#BasicInfoV5 .buttons div:hover .name {\r\n	display: table;\r\n}\r\n#BasicInfoV5 .buttons div .name {\r\n	display: none;\r\n}\r\n\r\n#BasicInfoV5 .buttons .btn_overlay {\r\n	pointer-events: none;\r\n	width: 35px;\r\n	height: 40px;\r\n	border: none;\r\n	position: absolute;\r\n	bottom: 0;\r\n	left: 0;\r\n	z-index: 10;\r\n	display: none;\r\n}\r\n#BasicInfoV5 .hp_title,\r\n#BasicInfoV5 .sp_title,\r\n#BasicInfoV5 .hp_value,\r\n#BasicInfoV5 .hp_max_value,\r\n#BasicInfoV5 .sp_value,\r\n#BasicInfoV5 .sp_max_value,\r\n#BasicInfoV5 .hp_perc,\r\n#BasicInfoV5 .sp_perc { font-weight: normal; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/BasicInfo/BasicInfoV5/BasicInfoV5.js
@@ -287125,7 +287160,7 @@ function createEquipment({ name, htmlText, cssText, entityRender = true, enchant
 	};
 	Component.checkEquipLoc = function checkEquipLoc(location) {
 		if (!entityRender) return 0;
-		for (const key in _list) if ((switchEquip ? _list[key].location : _list[key].equipped) & location) return _list[key].wItemSpriteNumber;
+		for (const key in _list) if (_list[key].equipped & location) return _list[key].wItemSpriteNumber;
 		return 0;
 	};
 	function hideStatus() {
@@ -287185,6 +287220,7 @@ function createEquipment({ name, htmlText, cssText, entityRender = true, enchant
 			delay: 0,
 			save: false
 		};
+		const resolvePreview = createEquipmentPreviewEntity(() => Entity);
 		const HasAttachmentState = StatusState_default.EffectState.FALCON | StatusState_default.EffectState.RIDING | StatusState_default.EffectState.DRAGON1 | StatusState_default.EffectState.DRAGON2 | StatusState_default.EffectState.DRAGON3 | StatusState_default.EffectState.DRAGON4 | StatusState_default.EffectState.DRAGON5 | StatusState_default.EffectState.MADOGEAR | StatusState_default.EffectState.CART1 | StatusState_default.EffectState.CART2 | StatusState_default.EffectState.CART3 | StatusState_default.EffectState.CART4 | StatusState_default.EffectState.CART5;
 		const HasCartState = StatusState_default.EffectState.CART1 | StatusState_default.EffectState.CART2 | StatusState_default.EffectState.CART3 | StatusState_default.EffectState.CART4 | StatusState_default.EffectState.CART5;
 		function updateAttachmentButtons() {
@@ -287226,37 +287262,33 @@ function createEquipment({ name, htmlText, cssText, entityRender = true, enchant
 			character.effectColor.set(_savedColor);
 		}
 		function renderEntity() {
-			const equip_character = new Entity();
-			equip_character.set({
+			const preview = {
 				GID: SessionStorage_default.Entity.GID + "_EQUIP",
-				objecttype: equip_character.constructor.TYPE_PC,
 				job: SessionStorage_default.Entity.job,
 				sex: SessionStorage_default.Entity.sex,
-				name: "",
-				hideShadow: true,
 				head: SessionStorage_default.Entity.head,
 				headpalette: SessionStorage_default.Entity.headpalette,
-				bodypalette: SessionStorage_default.Entity.bodypalette
-			});
+				bodypalette: SessionStorage_default.Entity.bodypalette,
+				accessory: 0,
+				accessory2: 0,
+				accessory3: 0,
+				robe: 0,
+				direction: 0
+			};
 			updateAttachmentButtons();
 			if (currentTabId === "general") {
-				equip_character.accessory = Component.checkEquipLoc(EquipmentLocation_default.HEAD_BOTTOM);
-				equip_character.accessory2 = Component.checkEquipLoc(EquipmentLocation_default.HEAD_TOP);
-				equip_character.accessory3 = Component.checkEquipLoc(EquipmentLocation_default.HEAD_MID);
-				equip_character.robe = Component.checkEquipLoc(EquipmentLocation_default.GARMENT);
+				preview.accessory = Component.checkEquipLoc(EquipmentLocation_default.HEAD_BOTTOM);
+				preview.accessory2 = Component.checkEquipLoc(EquipmentLocation_default.HEAD_TOP);
+				preview.accessory3 = Component.checkEquipLoc(EquipmentLocation_default.HEAD_MID);
+				preview.robe = Component.checkEquipLoc(EquipmentLocation_default.GARMENT);
 			} else if (currentTabId === "costume") {
-				equip_character.accessory = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_BOTTOM);
-				equip_character.accessory2 = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_TOP);
-				equip_character.accessory3 = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_MID);
-				equip_character.robe = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_ROBE);
+				preview.accessory = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_BOTTOM);
+				preview.accessory2 = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_TOP);
+				preview.accessory3 = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_MID);
+				preview.robe = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_ROBE);
 			}
-			_savedColor.set(equip_character.effectColor);
-			equip_character.effectColor.set(_cleanColor);
+			const equip_character = resolvePreview(preview, _animation);
 			Camera.direction = 0;
-			equip_character.direction = 0;
-			equip_character.headDir = 0;
-			equip_character.action = equip_character.ACTION.IDLE;
-			equip_character.animation = _animation;
 			for (let i = 0; i < _ctx.length; i++) {
 				const ctx = _ctx[i];
 				SpriteRenderer.bind2DContext(ctx, 30, 130);
@@ -287503,6 +287535,7 @@ var init_EquipmentCommon = __esmMin((() => {
 	init_Graphics();
 	init_Inventory();
 	init_Entity$1();
+	init_EquipmentPreviewEntity();
 }));
 //#endregion
 //#region src/UI/Components/Equipment/EquipmentV0/EquipmentV0.html?raw
@@ -341023,7 +341056,7 @@ function loadStateIconInfo(basePath, callback, onEnd) {
 	}
 	loadNext(0);
 }
-function loadLuaTable(file_list, table_name, callback, onEnd, contextFunc) {
+function loadLuaTable(file_list, table_name, callback, onEnd, contextFunc, valueCharset = userCharpage) {
 	const id_filename = file_list[0];
 	const value_table_filename = file_list[1];
 	try {
@@ -341055,12 +341088,12 @@ function loadLuaTable(file_list, table_name, callback, onEnd, contextFunc) {
 			const table = {};
 			const ctx = lua.ctx;
 			ctx.addKeyAndValueToTable = (key, value) => {
-				table[key] = userStringDecoder.decode(value, userCharpage);
+				table[key] = userStringDecoder.decode(value, valueCharset);
 				return 1;
 			};
 			ctx.addKeyAndMoreValuesToTable = (key, value) => {
 				if (!table[key]) table[key] = "";
-				table[key] += userStringDecoder.decode(value, userCharpage) + "\n";
+				table[key] += userStringDecoder.decode(value, valueCharset) + "\n";
 				return 1;
 			};
 			lua.doStringSync(`
@@ -341661,20 +341694,20 @@ var init_DBManager = __esmMin((() => {
 				}
 				loadLuaTable([DB.LUA_PATH + "datainfo/accessoryid.lub", DB.LUA_PATH + "datainfo/accname.lub"], "AccNameTable", function(json) {
 					Object.assign(HatTable_default, json);
-				}, onLoad());
+				}, onLoad(), void 0, "latin1");
 				loadLuaTable([DB.LUA_PATH + "datainfo/spriterobeid.lub", DB.LUA_PATH + "datainfo/spriterobename.lub"], "RobeNameTable", function(json) {
 					Object.assign(RobeTable_default, json);
-				}, onLoad());
+				}, onLoad(), void 0, "latin1");
 				if (PacketVerManager_default.value >= 20141008) loadLuaTable([DB.LUA_PATH + "datainfo/npcidentity.lub", DB.LUA_PATH + "datainfo/jobname.lub"], "JobNameTable", function(json) {
 					Object.assign(MonsterTable_default, json);
 				}, onLoad(), function() {
 					loadPetInfo(DB.LUA_PATH + "datainfo/petinfo.lub", null, function() {
 						tryLoadLuaAliases(loadPetEvolution, getSystemAliases("System/PetEvolutionCln.lub"), null, onLoad());
 					});
-				});
+				}, "latin1");
 				else loadLuaTable([DB.LUA_PATH + "datainfo/npcidentity.lub", DB.LUA_PATH + "datainfo/jobname.lub"], "JobNameTable", function(json) {
 					Object.assign(MonsterTable_default, json);
-				}, onLoad());
+				}, onLoad(), void 0, "latin1");
 				loadLuaTable([DB.LUA_PATH + "datainfo/enumvar.lub", DB.LUA_PATH + "datainfo/addrandomoptionnametable.lub"], "NameTable_VAR", function(json) {
 					Object.assign(ItemRandomOptionTable_default, json);
 				}, onLoad());
@@ -361652,12 +361685,6 @@ function createPlayerViewEquip({ name, cssText, hasTabs, costumeRows, costumeTab
 		}
 	};
 	const renderCharacter = (function renderCharacterClosure() {
-		const _cleanColor = new Float32Array([
-			1,
-			1,
-			1,
-			1
-		]);
 		const _animation = {
 			tick: 0,
 			frame: 0,
@@ -361667,36 +361694,34 @@ function createPlayerViewEquip({ name, cssText, hasTabs, costumeRows, costumeTab
 			delay: 0,
 			save: false
 		};
-		const show_character = new Entity();
+		const resolvePreview = createEquipmentPreviewEntity(() => Entity);
 		return function renderChar() {
-			show_character.set({
+			const preview = {
 				GID: charName + "_EQUIP",
-				objecttype: show_character.constructor.TYPE_PC,
 				job: jobID,
 				sex: sexID,
-				name: "",
-				hideShadow: true,
 				head: headID,
 				headpalette: headpalID,
-				bodypalette: bodypalID
-			});
+				bodypalette: bodypalID,
+				accessory: 0,
+				accessory2: 0,
+				accessory3: 0,
+				robe: 0,
+				direction: 0
+			};
 			if (hasTabs && currentTabId === "vieweqcostume") {
-				show_character.accessory = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_BOTTOM);
-				show_character.accessory2 = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_TOP);
-				show_character.accessory3 = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_MID);
-				show_character.robe = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_ROBE);
+				preview.accessory = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_BOTTOM);
+				preview.accessory2 = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_TOP);
+				preview.accessory3 = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_HEAD_MID);
+				preview.robe = Component.checkEquipLoc(EquipmentLocation_default.COSTUME_ROBE);
 			} else {
-				show_character.accessory = Component.checkEquipLoc(EquipmentLocation_default.HEAD_BOTTOM);
-				show_character.accessory2 = Component.checkEquipLoc(EquipmentLocation_default.HEAD_TOP);
-				show_character.accessory3 = Component.checkEquipLoc(EquipmentLocation_default.HEAD_MID);
-				show_character.robe = Component.checkEquipLoc(EquipmentLocation_default.GARMENT);
+				preview.accessory = Component.checkEquipLoc(EquipmentLocation_default.HEAD_BOTTOM);
+				preview.accessory2 = Component.checkEquipLoc(EquipmentLocation_default.HEAD_TOP);
+				preview.accessory3 = Component.checkEquipLoc(EquipmentLocation_default.HEAD_MID);
+				preview.robe = Component.checkEquipLoc(EquipmentLocation_default.GARMENT);
 			}
-			show_character.effectColor.set(_cleanColor);
+			const show_character = resolvePreview(preview, _animation);
 			Camera.direction = 0;
-			show_character.direction = 0;
-			show_character.headDir = 0;
-			show_character.action = show_character.ACTION.IDLE;
-			show_character.animation = _animation;
 			for (let i = 0; i < _vieweqctx.length; i++) {
 				const ctx = _vieweqctx[i];
 				SpriteRenderer.bind2DContext(ctx, 30, 130);
@@ -361743,6 +361768,7 @@ var init_PlayerViewEquipCommon = __esmMin((() => {
 	init_GUIComponent();
 	init_ItemInfo();
 	init_Entity$1();
+	init_EquipmentPreviewEntity();
 }));
 //#endregion
 //#region src/UI/Components/PlayerViewEquip/PlayerViewEquipV0/PlayerViewEquipV0.js
@@ -375384,6 +375410,15 @@ var init_CharSelect$2 = __esmMin((() => {
 	CharSelect_default$1 = ":host {\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n#charselect {\r\n	position: absolute;\r\n	width: 576px;\r\n	height: 342px;\r\n}\r\n\r\n/** Box **/\r\n#charselect .box_select {\r\n	position: absolute;\r\n	width: 139px;\r\n	height: 144px;\r\n	top: 40px;\r\n	margin-left: -5px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n#charselect canvas {\r\n	position: absolute;\r\n	top: 44px;\r\n}\r\n#charselect .slot1 {\r\n	left: 60px;\r\n}\r\n#charselect .slot2 {\r\n	left: 224px;\r\n}\r\n#charselect .slot3 {\r\n	left: 386px;\r\n}\r\n\r\n/** Arrow **/\r\n#charselect .arrow {\r\n	position: absolute;\r\n	top: 105px;\r\n	width: 13px;\r\n	height: 13px;\r\n}\r\n#charselect .arrow.left {\r\n	left: 40px;\r\n}\r\n#charselect .arrow.right {\r\n	right: 40px;\r\n}\r\n\r\n/** Slot info **/\r\n#charselect .slotinfo {\r\n	position: absolute;\r\n	top: 195px;\r\n	right: 10px;\r\n	height: 20px;\r\n	display: block;\r\n	border: 1px solid #c6cee7;\r\n	border-radius: 4px;\r\n	padding-left: 10px;\r\n	padding-right: 10px;\r\n}\r\n#charselect .slotinfo .number {\r\n	color: #58709e;\r\n	font-weight: bold;\r\n	margin-right: 10px;\r\n}\r\n#charselect .slotinfo .content {\r\n	color: #555;\r\n	top: 6px;\r\n	right: 8px;\r\n}\r\n\r\n/** Page info **/\r\n#charselect .pageinfo {\r\n	position: absolute;\r\n	left: 275px;\r\n	top: 185px;\r\n	font-weight: bold;\r\n	color: #646464;\r\n}\r\n#charselect .pageinfo .current {\r\n	color: #fe3b7d;\r\n}\r\n\r\n/** Characters infos **/\r\n#charselect .charinfo {\r\n	position: absolute;\r\n	width: 285px;\r\n	top: 204px;\r\n	left: 16px;\r\n}\r\n#charselect .charinfo div {\r\n	position: absolute;\r\n	width: 90px;\r\n	height: 13px;\r\n}\r\n#charselect .charinfo .name {\r\n	left: 52px;\r\n	top: 2px;\r\n	white-space: nowrap;\r\n}\r\n#charselect .charinfo .job {\r\n	left: 52px;\r\n	top: 18px;\r\n}\r\n#charselect .charinfo .lvl {\r\n	left: 52px;\r\n	top: 34px;\r\n}\r\n#charselect .charinfo .exp {\r\n	left: 52px;\r\n	top: 50px;\r\n}\r\n#charselect .charinfo .hp {\r\n	left: 52px;\r\n	top: 66px;\r\n}\r\n#charselect .charinfo .sp {\r\n	left: 52px;\r\n	top: 82px;\r\n}\r\n#charselect .charinfo .map {\r\n	left: 52px;\r\n	top: 98px;\r\n	width: 238px;\r\n}\r\n#charselect .charinfo .str {\r\n	left: 200px;\r\n	top: 2px;\r\n}\r\n#charselect .charinfo .agi {\r\n	left: 200px;\r\n	top: 18px;\r\n}\r\n#charselect .charinfo .vit {\r\n	left: 200px;\r\n	top: 34px;\r\n}\r\n#charselect .charinfo .int {\r\n	left: 200px;\r\n	top: 50px;\r\n}\r\n#charselect .charinfo .dex {\r\n	left: 200px;\r\n	top: 66px;\r\n}\r\n#charselect .charinfo .luk {\r\n	left: 200px;\r\n	top: 82px;\r\n}\r\n\r\n/** Buttons **/\r\n#charselect .btns {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	width: 100%;\r\n	height: 20px;\r\n}\r\n#charselect .btn {\r\n	position: absolute;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n}\r\n\r\n#charselect .ok,\r\n#charselect .make {\r\n	right: 50px;\r\n}\r\n#charselect .cancel {\r\n	right: 4px;\r\n}\r\n#charselect .delete {\r\n	left: 4px;\r\n}\r\n";
 }));
 //#endregion
+//#region src/UI/Components/CharSelect/CharSelectState.js
+function upsertCharacterBySlot(characters, character) {
+	const index = characters.findIndex((value) => value.CharNum === character.CharNum);
+	if (index === -1) characters.push(character);
+	else characters[index] = character;
+	return index;
+}
+var init_CharSelectState = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Components/CharSelect/CharSelectCommon.js
 function createCharSelect(config) {
 	const { name, htmlText, cssText, gridLayout = false, hostHeight = 342, defaultMaxSlots = 27, deleteReservation = false, packetverGatedDelete = false, pageBalls = false } = config;
@@ -375715,10 +375750,10 @@ function createCharSelect(config) {
 	*/
 	Component.addCharacter = function addCharacter(character) {
 		if (!("sex" in character) || character.sex === 99) character.sex = _sex;
+		upsertCharacterBySlot(_list, character);
 		if (gridLayout) {
-			_list.push(character);
 			_slots[character.CharNum] = character;
-			_entitySlots[character.CharNum] = new Entity();
+			_entitySlots[character.CharNum] ??= new Entity();
 			_entitySlots[character.CharNum].set(character);
 			_entitySlots[character.CharNum].effectState = _entitySlots[character.CharNum]._effectState & ~StatusState_default.EffectState.INVISIBLE;
 			_entitySlots[character.CharNum].hideShadow = true;
@@ -375729,9 +375764,8 @@ function createCharSelect(config) {
 			const now = Math.floor(Date.now() / 1e3);
 			character.DeleteDate = PacketVerManager_default.value > 2013e4 && PacketVerManager_default.value <= 20141022 || PacketVerManager_default.value >= 20150513 ? character.DeleteDate + now : character.DeleteDate;
 		}
-		_list.push(character);
 		_slots[character.CharNum] = character;
-		_entitySlots[character.CharNum] = new Entity();
+		_entitySlots[character.CharNum] ??= new Entity();
 		_entitySlots[character.CharNum].set(character);
 		_entitySlots[character.CharNum].effectState = _entitySlots[character.CharNum]._effectState & ~StatusState_default.EffectState.INVISIBLE;
 		if (deleteReservation && (!packetverGatedDelete || PacketVerManager_default.value >= 20100803)) {
@@ -376372,6 +376406,7 @@ var init_CharSelectCommon = __esmMin((() => {
 	init_GUIComponent();
 	init_Elements();
 	init_PacketVerManager();
+	init_CharSelectState();
 }));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelect/CharSelect.js
