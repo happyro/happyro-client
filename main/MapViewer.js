@@ -247762,15 +247762,29 @@ var init_Sounds = __esmMin((() => {
 }));
 //#endregion
 //#region src/DB/Skills/FourthJobEffects.js
-var fourthJobEffectResources, fourthJobSkillEffects, fourthJobRenderEffects;
+function registerEffect(key, resources) {
+	const { files, ...semantics } = typeof resources === "object" && !Array.isArray(resources) ? resources : { files: resources };
+	delete semantics.name;
+	fourthJobRenderEffects[key] = [files].flat().map((file) => ({
+		type: "STR",
+		file,
+		texturePath: file.slice(0, file.lastIndexOf("/") + 1),
+		...semantics
+	}));
+}
+var fourthJobEffectResources, fourthJobStatusEffectResources, fourthJobSkillEffects, fourthJobRenderEffects, fourthJobStatusEffects;
 var init_FourthJobEffects = __esmMin((() => {
 	init_SkillConst();
+	init_StatusConst();
 	fourthJobEffectResources = {
-		DK_SERVANTWEAPON: {
-			beginCastEffectId: "servantweapon/servantweapon_cast/servantweapon_cast",
-			effectId: "servantweapon/servantweapon/servantweapon"
+		DK_SERVANTWEAPON: { beginCastEffectId: "servantweapon/servantweapon_cast/servantweapon_cast" },
+		DK_SERVANTWEAPON_ATK: {
+			beforeHitEffectId: {
+				files: ["servantweapon/servantweapon_shoot/servantweapon_shoot", "servantweapon/servantweapon_shoot_bottom/servantweapon_shoot_bottom"],
+				travelsFromOther: true
+			},
+			hitEffectId: ["servantweapon/servantweapon_hit/servantweapon_hit", "servantweapon/servantweapon_hit_bottom/servantweapon_hit_bottom"]
 		},
-		DK_SERVANTWEAPON_ATK: { hitEffectId: "servantweapon/servantweapon_hit/servantweapon_hit" },
 		DK_SERVANT_W_SIGN: { effectId: "servant_sign/servant_sign_down/servant_sign_down" },
 		DK_SERVANT_W_PHANTOM: { hitEffectId: "servant_phantom/servant_phantom_hit/servant_phantom_hit" },
 		DK_SERVANT_W_DEMOL: { hitEffectId: "servant_demolition/servant_demolition_hit/servant_demolition_hit" },
@@ -247860,8 +247874,23 @@ var init_FourthJobEffects = __esmMin((() => {
 		},
 		WH_WIND_SIGN: { effectId: "windsign/windsign/windsign" },
 		WH_HAWKRUSH: { hitEffectId: "hawkrush/hawkrush/hawkrush" },
-		WH_GALESTORM: { hitEffectId: "galestorm/galestorm_hit/galestorm_hit" },
-		WH_CRESCIVE_BOLT: { hitEffectId: "crescivebolt/crescivebolt_hit/crescivebolt_hit" },
+		WH_GALESTORM: {
+			beginCastEffectId: "galestorm/galestorm_cast/galestorm_cast",
+			effectId: "galestorm/galestorm/galestorm",
+			beforeHitEffectId: {
+				files: "galestorm/galestorm_arrow/galestorm_arrow",
+				travelsFromOther: true
+			},
+			hitEffectId: "galestorm/galestorm_hit/galestorm_hit"
+		},
+		WH_CRESCIVE_BOLT: {
+			beginCastEffectId: "crescivebolt/crescivebolt_cast/crescivebolt_cast",
+			beforeHitEffectId: {
+				files: "crescivebolt/crescivebolt/crescivebolt",
+				travelsFromOther: true
+			},
+			hitEffectId: "crescivebolt/crescivebolt_hit/crescivebolt_hit"
+		},
 		WH_DEEPBLINDTRAP: {
 			beginCastEffectId: "deepblindtrap/deepblindtrap_cast/deepblindtrap_cast",
 			hitEffectId: "deepblindtrap/deepblindtrap_hit/deepblindtrap_hit"
@@ -248047,23 +248076,35 @@ var init_FourthJobEffects = __esmMin((() => {
 				"hyper_novice/hn_jupitel_thunder_storm/jupitel_thunder_storm/jupitel_thunder_storm_01",
 				"hyper_novice/hn_jupitel_thunder_storm/jupitel_thunder_storm/jupitel_thunder_storm_02"
 			]
+		},
+		MT_SUMMON_ABR_BATTLE_WARIOR: {
+			beginCastEffectId: "new_battle_w/new_battle_w_cast/new_battle_w_cast",
+			effectId: ["new_battle_w/new_battle_w/new_battle_w", "new_battle_w/new_battle_w_bottom/new_battle_w_bottom"]
 		}
 	};
+	fourthJobStatusEffectResources = { [StatusConst_default.SERVANTWEAPON]: {
+		name: "SERVANTWEAPON",
+		files: "servantweapon/servantweapon/servantweapon",
+		attachedEntity: true,
+		repeat: true
+	} };
 	fourthJobSkillEffects = {};
 	fourthJobRenderEffects = {};
+	fourthJobStatusEffects = {};
 	for (const [skill, stages] of Object.entries(fourthJobEffectResources)) {
 		if (!Number.isInteger(SkillConst_default[skill])) throw new Error(`Unknown fourth-job effect skill: ${skill}`);
 		const mapping = {};
-		for (const [stage, files] of Object.entries(stages)) {
+		for (const [stage, resources] of Object.entries(stages)) {
 			const key = `fourth:${skill}:${stage}`;
 			mapping[stage] = key;
-			fourthJobRenderEffects[key] = [files].flat().map((file) => ({
-				type: "STR",
-				file,
-				texturePath: file.slice(0, file.lastIndexOf("/") + 1)
-			}));
+			registerEffect(key, resources);
 		}
 		fourthJobSkillEffects[SkillConst_default[skill]] = mapping;
+	}
+	for (const [status, resources] of Object.entries(fourthJobStatusEffectResources)) {
+		const key = `fourth:status:${resources.name}`;
+		fourthJobStatusEffects[status] = key;
+		registerEffect(key, resources);
 	}
 }));
 //#endregion
@@ -281908,6 +281949,10 @@ var init_StrEffect$1 = __esmMin((() => {
 }));
 //#endregion
 //#region src/Renderer/Effects/StrEffect.js
+function interpolateProjectilePosition(source, target, startTick, duration, tick) {
+	const progress = Math.max(0, Math.min(1, (tick - startTick) / Math.max(duration, 1)));
+	return source.map((value, index) => value + (target[index] - value) * progress);
+}
 function copyAnim(src) {
 	return {
 		type: src.type,
@@ -282065,7 +282110,10 @@ var init_StrEffect = __esmMin((() => {
 		render(gl, tick) {
 			let layer;
 			let i, keyIndex;
-			if (this.ownerEntity && this.ownerEntity.position) {
+			if (this.travelFrom && this.travelTo) {
+				this.position = interpolateProjectilePosition(this.travelFrom, this.travelTo, this.startTick, this.travelDuration, tick);
+				if (this._Params && this._Params.Inst) this._Params.Inst.position = this.position;
+			} else if (this.ownerEntity && this.ownerEntity.position) {
 				this.position = this.ownerEntity.position;
 				this.ownerDirection = this.ownerEntity.direction;
 				if (this._Params && this._Params.Inst) this._Params.Inst.position = this.position;
@@ -297529,7 +297577,17 @@ function spamSTR(Params) {
 	if (Map_default.mineffect && Params.effect.min) filename = Params.effect.min;
 	else filename = Params.effect.file;
 	if (Params.effect.rand) filename = filename.replace("%d", Math.round(Params.effect.rand[0] + (Params.effect.rand[1] - Params.effect.rand[0]) * Math.random()));
-	EffectManager.add(new StrEffect("data/texture/effect/" + filename + ".str", Params.Inst.position, Params.Inst.startTick, texturePath), Params);
+	const effect = new StrEffect("data/texture/effect/" + filename + ".str", Params.Inst.position, Params.Inst.startTick, texturePath);
+	if (Params.effect.attachedEntity) {
+		effect.ownerEntity = Params.Init.ownerEntity;
+		effect.persistent = Params.Inst.persistent;
+	}
+	if (Params.effect.travelsFromOther) {
+		effect.travelFrom = Array.from(Params.Inst.otherPosition);
+		effect.travelTo = Array.from(Params.Inst.position);
+		effect.travelDuration = Math.max(Params.Init.travelDuration || 300, 1);
+	}
+	EffectManager.add(effect, Params);
 }
 /**
 * Spam an effect to the scene
@@ -298090,7 +298148,7 @@ var init_EffectManager = __esmMin((() => {
 		* @param {number} target aid
 		* @param {number} tick
 		*/
-		static spamSkillBeforeHit(skillId, destAID, tick, srcAID) {
+		static spamSkillBeforeHit(skillId, destAID, tick, srcAID, travelDuration) {
 			let effects, EF_Init_Par;
 			if (!(skillId in SkillEffect)) return;
 			if (SkillEffect[skillId].beforeHitEffectId) {
@@ -298100,7 +298158,8 @@ var init_EffectManager = __esmMin((() => {
 						effectId,
 						ownerAID: destAID,
 						startTick: tick,
-						otherAID: srcAID
+						otherAID: srcAID,
+						travelDuration
 					};
 					EffectManager.spam(EF_Init_Par);
 				});
@@ -363304,7 +363363,7 @@ var init_SkillAction = __esmMin((() => {
 			}
 		};
 	};
-	SkillAction[SkillConst_default.AC_DOUBLE] = SkillAction[SkillConst_default.ASC_BREAKER] = SkillAction[SkillConst_default.HT_PHANTASMIC] = SkillAction[SkillConst_default.SN_SHARPSHOOTING] = SkillAction[SkillConst_default.RA_ARROWSTORM] = SkillAction[SkillConst_default.RA_AIMEDBOLT] = SkillAction[SkillConst_default.SC_TRIANGLESHOT] = function(entity, tick) {
+	SkillAction[SkillConst_default.AC_DOUBLE] = SkillAction[SkillConst_default.ASC_BREAKER] = SkillAction[SkillConst_default.HT_PHANTASMIC] = SkillAction[SkillConst_default.SN_SHARPSHOOTING] = SkillAction[SkillConst_default.RA_ARROWSTORM] = SkillAction[SkillConst_default.RA_AIMEDBOLT] = SkillAction[SkillConst_default.SC_TRIANGLESHOT] = SkillAction[SkillConst_default.WH_GALESTORM] = SkillAction[SkillConst_default.WH_CRESCIVE_BOLT] = function(entity, tick) {
 		return {
 			action: entity.ACTION.ATTACK3,
 			frame: 0,
@@ -363766,6 +363825,21 @@ var init_AttackEffectTable = __esmMin((() => {
 	AE.SPAWN[JOB.DROSERA] = AE.SPAWN[JOB.C2_DROSERA] = "ef_drosera_attack";
 	AE.SPAWN[JOB.MAVKA] = AE.SPAWN[JOB.G_MAVKA] = "ef_mavka_attack";
 	AE.SPAWN[JOB.ENTWEIHEN] = AE.SPAWN[JOB.G_ENTWEIHEN_R] = AE.SPAWN[JOB.G_ENTWEIHEN_H] = AE.SPAWN[JOB.G_ENTWEIHEN_M] = AE.SPAWN[JOB.G_ENTWEIHEN_S] = AE.SPAWN[JOB.VH_ENTWEIHEN] = AE.SPAWN[JOB.VH_ENTWEIHEN_R] = AE.SPAWN[JOB.VH_ENTWEIHEN_H] = AE.SPAWN[JOB.VH_ENTWEIHEN_M] = AE.SPAWN[JOB.VH_ENTWEIHEN_S] = AE.SPAWN[JOB.MD_G_ENTWEIHEN_M] = "ef_entweihen_attack";
+}));
+//#endregion
+//#region src/Engine/MapEngine/FalconSkillMotion.js
+function isFalconTargetAttackSkill(skillId) {
+	return targetAttackSkills.has(skillId);
+}
+var targetAttackSkills;
+var init_FalconSkillMotion = __esmMin((() => {
+	init_SkillConst();
+	targetAttackSkills = /* @__PURE__ */ new Set([
+		SkillConst_default.HT_BLITZBEAT,
+		SkillConst_default.SN_FALCONASSAULT,
+		SkillConst_default.WH_HAWKRUSH,
+		SkillConst_default.WH_HAWKBOOMERANG
+	]);
 }));
 //#endregion
 //#region src/Engine/MapEngine/Entity.js
@@ -364687,7 +364761,7 @@ function onEntityUseSkillToAttack(pkt) {
 			}
 		}
 		if (srcEntity.falcon) {
-			if (pkt.SKID == SkillConst_default.HT_BLITZBEAT || pkt.SKID == SkillConst_default.SN_FALCONASSAULT) {
+			if (isFalconTargetAttackSkill(pkt.SKID)) {
 				srcEntity.falcon.action = srcEntity.action;
 				srcEntity.falcon.walk.speed = 35;
 				srcEntity.falcon.walkToNonWalkableGround(srcEntity.falcon.position[0], srcEntity.falcon.position[1], dstEntity.position[0], dstEntity.position[1], 0, true, true);
@@ -364714,7 +364788,7 @@ function onEntityUseSkillToAttack(pkt) {
 				if (isCombo) Damage.add(pkt.damage / pkt.count * (i + 1), target, startTick, srcWeapon, (isBlueCombo ? Damage.TYPE.COMBO_B : Damage.TYPE.COMBO) | (i + 1 === pkt.count ? Damage.TYPE.COMBO_FINAL : 0));
 			};
 			for (let i = 0; i < pkt.count; ++i) {
-				EffectManager.spamSkillBeforeHit(pkt.SKID, pkt.targetID, Renderer.tick + C_MULTIHIT_DELAY * i, pkt.AID);
+				EffectManager.spamSkillBeforeHit(pkt.SKID, pkt.targetID, Renderer.tick + C_MULTIHIT_DELAY * i, pkt.AID, pkt.attackMT);
 				addDamage(i, Renderer.tick + pkt.attackMT + C_MULTIHIT_DELAY * i);
 			}
 		}
@@ -364902,6 +364976,16 @@ function onEntityStatusChange(pkt) {
 		return;
 	}
 	switch (pkt.index) {
+		case StatusConst_default.SERVANTWEAPON: {
+			const effectId = fourthJobStatusEffects[pkt.index];
+			EffectManager.remove(null, pkt.AID, effectId);
+			if (pkt.state || !Object.prototype.hasOwnProperty.call(pkt, "state")) EffectManager.spam({
+				effectId,
+				ownerAID: pkt.AID,
+				persistent: true
+			});
+			break;
+		}
 		case StatusConst_default.CLAIRVOYANCE:
 			if (entity === SessionStorage_default.Entity) {
 				SessionStorage_default.Entity.intravision = pkt.state;
@@ -365648,6 +365732,7 @@ var init_Entity = __esmMin((() => {
 	init_Emotions();
 	init_SkillEffect();
 	init_SkillAction();
+	init_FourthJobEffects();
 	init_EffectConst();
 	init_PetMessageConst();
 	init_JobConst();
@@ -365655,6 +365740,7 @@ var init_Entity = __esmMin((() => {
 	init_SoundManager();
 	init_Events();
 	init_Guild();
+	init_FalconSkillMotion();
 	init_SessionStorage();
 	init_NetworkManager();
 	init_PacketVerManager();
