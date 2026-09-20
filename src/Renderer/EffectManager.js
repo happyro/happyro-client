@@ -13,6 +13,7 @@ import EffectDB from 'DB/Effects/EffectTable.js';
 import SkillEffect from 'DB/Skills/SkillEffect.js';
 import SkillUnit from 'DB/Skills/SkillUnit.js';
 import SU from 'DB/Skills/SkillUnitConst.js';
+import { fourthJobGroundEndEffects } from 'DB/Skills/FourthJobGroundEffects.js';
 import ItemEffect from 'DB/Items/ItemEffect.js';
 import Commands from 'Controls/ProcessCommand.js';
 import Events from 'Core/Events.js';
@@ -764,6 +765,7 @@ class EffectManager {
 				? entity.constructor.TYPE_UNIT
 				: entity.constructor.TYPE_EFFECT;
 		entity.creatorGID = creatorUid;
+		entity.skillUnitId = unit_id;
 
 		EntityManager.add(entity);
 
@@ -781,14 +783,18 @@ class EffectManager {
 		EffectManager.spam(EF_Init_Par);
 	}
 
-	/**
-	 * Spam a skill on a target
-	 *
-	 * @param {number} skill id
-	 * @param {number} target aid
-	 * @param {Array} position
-	 * @param {number} tick
-	 */
+	/** Remove a server skill unit, then play its detached one-shot end layers. */
+	static removeSkillZone(uid) {
+		const entity = EntityManager.get(uid);
+		const effectId = entity && fourthJobGroundEndEffects[entity.skillUnitId];
+		const position = entity && Array.from(entity.position);
+		EffectManager.remove(null, uid);
+		if (effectId && position) {
+			EffectManager.spam({ effectId, position, startTick: Renderer.tick });
+		}
+	}
+
+	/** Spam a skill on a target. */
 	static spamSkill(skillId, destAID, position, tick, srcAID) {
 		let effects, EF_Init_Par;
 		if (!(skillId in SkillEffect)) {

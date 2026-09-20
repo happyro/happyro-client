@@ -438,21 +438,14 @@ PACKET.CZ.STATUS_CHANGE = function PACKET_CZ_STATUS_CHANGE() {
 	this.changeAmount = 0;
 };
 PACKET.CZ.STATUS_CHANGE.prototype.build = function () {
-	let pkt_len;
-	if (this.statusID >= 219 && this.statusID <= 224) {
-		pkt_len = 2 + 3 + 1;
-	} else {
-		pkt_len = 2 + 2 + 1;
-	}
+	const trait = this.statusID >= 219 && this.statusID <= 224;
+	const pkt_len = trait ? 6 : 5;
 	const pkt_buf = new BinaryWriter(pkt_len);
 
-	if (this.statusID >= 219 && this.statusID <= 224) {
-		pkt_buf.writeShort(0xb24);
-	} else {
-		pkt_buf.writeShort(0xbb);
-	}
-	pkt_buf.writeUShort(this.statusID);
-	pkt_buf.writeUChar(this.changeAmount);
+	pkt_buf.writeShort(trait ? 0xb24 : 0xbb);
+	 pkt_buf.writeUShort(this.statusID);
+	if (trait) pkt_buf.writeUShort(this.changeAmount);
+	else pkt_buf.writeUChar(this.changeAmount);
 	return pkt_buf;
 };
 

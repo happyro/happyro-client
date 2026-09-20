@@ -106,6 +106,7 @@
 	background: #fff;
 }
 .character-job-toolbar {
+	gap: 6px;
 	flex: 0 0 42px;
 	display: flex;
 	align-items: center;
@@ -121,6 +122,11 @@
 	padding: 3px 8px;
 	border: 1px solid #aeb2b7;
 	box-sizing: border-box;
+}
+.character-job-toolbar select {
+	height: 27px;
+	max-width: 100px;
+	border: 1px solid #aeb2b7;
 }
 .character-job-summary {
 	flex: 0 0 25px;

@@ -8,6 +8,8 @@
  */
 
 import RainWeatherEffect from 'Renderer/Effects/RainWeather.js';
+import { fourthJobRenderEffects } from '../Skills/FourthJobEffects.js';
+import { fourthJobGroundEffects } from '../Skills/FourthJobGroundEffects.js';
 import SnowWeatherEffect from 'Renderer/Effects/SnowWeather.js';
 import SakuraWeatherEffect from 'Renderer/Effects/SakuraWeatherEffect.js';
 import Camera from 'Renderer/Camera.js';
@@ -62,6 +64,8 @@ const GravityEffects = SongEffects.GravityEffects;
 const EvillandEffects = SongEffects.EvillandEffects;
 
 export default {
+	...fourthJobRenderEffects,
+	...fourthJobGroundEffects,
 	/// Common parameters
 	///
 	/// - duration:

@@ -1446,7 +1446,7 @@ function onSkillAppear(pkt) {
  * @param {object} pkt - PACKET.ZC.SKILL_DISAPPEAR
  */
 function onSkillDisapear(pkt) {
-	EffectManager.remove(null, pkt.AID);
+	EffectManager.removeSkillZone(pkt.AID);
 	const entity = EntityManager.get(pkt.AID);
 	if (entity) {
 		entity.remove();

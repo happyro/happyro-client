@@ -42,6 +42,7 @@
  */
 
 import SK from 'DB/Skills/SkillConst.js';
+import { fourthJobSkillEffects } from './FourthJobEffects.js';
 import EntityManager from 'Renderer/EntityManager.js';
 import JobId from 'DB/Jobs/JobConst.js';
 
@@ -1182,4 +1183,5 @@ SkillEffect[SK.GD_RESTORE] = {}; //Restoration
 SkillEffect[SK.GD_EMERGENCYCALL] = {}; //Urgent Call
 SkillEffect[SK.GD_ITEMEMERGENCYCALL] = {}; //Item Emergency Call
 
+Object.assign(SkillEffect, fourthJobSkillEffects);
 export default SkillEffect;

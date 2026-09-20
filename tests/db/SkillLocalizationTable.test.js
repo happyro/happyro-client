@@ -185,7 +185,7 @@ describe('SkillLocalizationTable', () => {
 	});
 
 	it('contains the complete static runtime definitions and job trees', () => {
-		expect(Object.keys(SkillInfo)).toHaveLength(1572);
+		expect(Object.keys(SkillInfo)).toHaveLength(1625);
 		expect(Object.keys(SkillTreeView)).toHaveLength(251);
 		expect(SkillInfo[5]).toMatchObject({
 			Name: 'SM_BASH',
