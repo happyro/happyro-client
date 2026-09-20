@@ -116899,6 +116899,312 @@ var init_SkillConst = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Skills/SkillUnitConst.js
+var SkillUnitConst_default;
+var init_SkillUnitConst = __esmMin((() => {
+	SkillUnitConst_default = {
+		UNT_SAFETYWALL: 126,
+		UNT_FIREWALL: 127,
+		UNT_WARPPORTAL: 128,
+		UNT_PRE_WARPPORTAL: 129,
+		UNT_BENEDICTIO: 130,
+		UNT_SANCTUARY: 131,
+		UNT_MAGNUS: 132,
+		UNT_PNEUMA: 133,
+		UNT_DUMMYSKILL: 134,
+		UNT_FIREPILLAR_WAITING: 135,
+		UNT_FIREPILLAR_ACTIVE: 136,
+		UNT_HIDDEN_TRAP: 137,
+		UNT_TRAP: 138,
+		UNT_HIDDEN_WARP_NPC: 139,
+		UNT_USED_TRAPS: 140,
+		UNT_ICEWALL: 141,
+		UNT_QUAGMIRE: 142,
+		UNT_BLASTMINE: 143,
+		UNT_SKIDTRAP: 144,
+		UNT_ANKLESNARE: 145,
+		UNT_VENOMDUST: 146,
+		UNT_LANDMINE: 147,
+		UNT_SHOCKWAVE: 148,
+		UNT_SANDMAN: 149,
+		UNT_FLASHER: 150,
+		UNT_FREEZINGTRAP: 151,
+		UNT_CLAYMORETRAP: 152,
+		UNT_TALKIEBOX: 153,
+		UNT_VOLCANO: 154,
+		UNT_DELUGE: 155,
+		UNT_VIOLENTGALE: 156,
+		UNT_LANDPROTECTOR: 157,
+		UNT_LULLABY: 158,
+		UNT_RICHMANKIM: 159,
+		UNT_ETERNALCHAOS: 160,
+		UNT_DRUMBATTLEFIELD: 161,
+		UNT_RINGNIBELUNGEN: 162,
+		UNT_ROKISWEIL: 163,
+		UNT_INTOABYSS: 164,
+		UNT_SIEGFRIED: 165,
+		UNT_DISSONANCE: 166,
+		UNT_WHISTLE: 167,
+		UNT_ASSASSINCROSS: 168,
+		UNT_POEMBRAGI: 169,
+		UNT_APPLEIDUN: 170,
+		UNT_UGLYDANCE: 171,
+		UNT_HUMMING: 172,
+		UNT_DONTFORGETME: 173,
+		UNT_FORTUNEKISS: 174,
+		UNT_SERVICEFORYOU: 175,
+		UNT_GRAFFITI: 176,
+		UNT_DEMONSTRATION: 177,
+		UNT_CALLFAMILY: 178,
+		UNT_GOSPEL: 179,
+		UNT_BASILICA: 180,
+		UNT_MOONLIT: 181,
+		UNT_FOGWALL: 182,
+		UNT_SPIDERWEB: 183,
+		UNT_GRAVITATION: 184,
+		UNT_HERMODE: 185,
+		UNT_KAENSIN: 186,
+		UNT_SUITON: 187,
+		UNT_TATAMIGAESHI: 188,
+		UNT_KAEN: 189,
+		UNT_GROUNDDRIFT_WIND: 190,
+		UNT_GROUNDDRIFT_DARK: 191,
+		UNT_GROUNDDRIFT_POISON: 192,
+		UNT_GROUNDDRIFT_WATER: 193,
+		UNT_GROUNDDRIFT_FIRE: 194,
+		UNT_DEATHWAVE: 195,
+		UNT_WATERATTACK: 196,
+		UNT_WINDATTACK: 197,
+		UNT_EARTHQUAKE: 198,
+		UNT_EVILLAND: 199,
+		UNT_DARK_RUNNER: 200,
+		UNT_DARK_TRANSFER: 201,
+		UNT_EPICLESIS: 202,
+		UNT_EARTHSTRAIN: 203,
+		UNT_MANHOLE: 204,
+		UNT_DIMENSIONDOOR: 205,
+		UNT_CHAOSPANIC: 206,
+		UNT_MAELSTROM: 207,
+		UNT_BLOODYLUST: 208,
+		UNT_FEINTBOMB: 209,
+		UNT_MAGENTATRAP: 210,
+		UNT_COBALTTRAP: 211,
+		UNT_MAIZETRAP: 212,
+		UNT_VERDURETRAP: 213,
+		UNT_FIRINGTRAP: 214,
+		UNT_ICEBOUNDTRAP: 215,
+		UNT_ELECTRICSHOCKER: 216,
+		UNT_CLUSTERBOMB: 217,
+		UNT_REVERBERATION: 218,
+		UNT_SEVERE_RAINSTORM: 219,
+		UNT_FIREWALK: 220,
+		UNT_ELECTRICWALK: 221,
+		UNT_NETHERWORLD: 222,
+		UNT_PSYCHIC_WAVE: 223,
+		UNT_CLOUD_KILL: 224,
+		UNT_POISONSMOKE: 225,
+		UNT_NEUTRALBARRIER: 226,
+		UNT_STEALTHFIELD: 227,
+		UNT_WARMER: 228,
+		UNT_THORNS_TRAP: 229,
+		UNT_WALLOFTHORN: 230,
+		UNT_DEMONIC_FIRE: 231,
+		UNT_FIRE_EXPANSION_SMOKE_POWDER: 232,
+		UNT_FIRE_EXPANSION_TEAR_GAS: 233,
+		UNT_HELLS_PLANT: 234,
+		UNT_VACUUM_EXTREME: 235,
+		UNT_BANDING: 236,
+		UNT_FIRE_MANTLE: 237,
+		UNT_WATER_BARRIER: 238,
+		UNT_ZEPHYR: 239,
+		UNT_POWER_OF_GAIA: 240,
+		UNT_FIRE_INSIGNIA: 241,
+		UNT_WATER_INSIGNIA: 242,
+		UNT_WIND_INSIGNIA: 243,
+		UNT_EARTH_INSIGNIA: 244,
+		UNT_POISON_MIST: 245,
+		UNT_LAVA_SLIDE: 246,
+		UNT_VOLCANIC_ASH: 247,
+		UNT_ZENKAI_WATER: 248,
+		UNT_ZENKAI_LAND: 249,
+		UNT_ZENKAI_FIRE: 250,
+		UNT_ZENKAI_WIND: 251,
+		UNT_MAKIBISHI: 252,
+		UNT_VENOMFOG: 253,
+		UNT_ICEMINE: 254,
+		UNT_FLAMECROSS: 255,
+		UNT_HELLBURNING: 256,
+		UNT_MAGMA_ERUPTION: 257,
+		UNT_KINGS_GRACE: 258,
+		UNT_GLITTERING_GREED: 259,
+		UNT_B_TRAP: 260,
+		UNT_FIRE_RAIN: 261,
+		UNT_CATNIPPOWDER: 262,
+		UNT_NYANGGRASS: 263,
+		UNT_GROUNDDRIFT_NEUTRAL: 264,
+		UNT_CREATINGSTAR: 265,
+		UNT_RAIN_OF_CRYSTAL: 266,
+		UNT_MYSTERY_ILLUSION: 267,
+		UNT_STRANTUM_TREMOR: 269,
+		UNT_VIOLENT_QUAKE: 270,
+		UNT_ALL_BLOOM: 271,
+		UNT_TORNADO_STORM: 272,
+		UNT_FLORAL_FLARE_ROAD: 273,
+		UNT_ASTRAL_STRIKE: 274,
+		UNT_CROSS_RAIN: 275,
+		UNT_PNEUMATICUS_PROCELLA: 276,
+		UNT_ABYSS_SQUARE: 277,
+		UNT_ACIDIFIED_ZONE_WATER: 278,
+		UNT_ACIDIFIED_ZONE_GROUND: 279,
+		UNT_ACIDIFIED_ZONE_WIND: 280,
+		UNT_ACIDIFIED_ZONE_FIRE: 281,
+		UNT_LIGHTNING_LAND: 282,
+		UNT_VENOM_SWAMP: 283,
+		UNT_CONFLAGRATION: 284,
+		UNT_CANE_OF_EVIL_EYE: 285,
+		UNT_TWINKLING_GALAXY: 286,
+		UNT_STAR_CANNON: 287,
+		UNT_GRENADES_DROPPING: 288,
+		UNT_FUUMASHOUAKU: 290,
+		UNT_MISSION_BOMBARD: 291,
+		UNT_TOTEM_OF_TUTELARY: 292,
+		UNT_HYUN_ROKS_BREEZE: 293,
+		UNT_SHINKIROU: 294,
+		UNT_JACK_FROST_NOVA: 295,
+		UNT_GROUND_GRAVITATION: 296,
+		UNT_KUNAIWAIKYOKU: 298,
+		UNT_DEEPBLINDTRAP: 20852,
+		UNT_SOLIDTRAP: 20853,
+		UNT_SWIFTTRAP: 20854,
+		UNT_FLAMETRAP: 20855,
+		UNT_GD_LEADERSHIP: 193,
+		UNT_GD_GLORYWOUNDS: 194,
+		UNT_GD_SOULCOLD: 195,
+		UNT_GD_HAWKEYES: 196,
+		UNT_MAX: 400
+	};
+}));
+//#endregion
+//#region src/DB/Skills/FourthJobGroundEffects.js
+function registerFourthJobBsonGroundEffects(bson, effectTable) {
+	for (const [unit, stages] of Object.entries(fourthJobBsonGroundStages)) for (const [phase, names] of Object.entries(stages)) {
+		if (!names.length) continue;
+		const id = phase === "end" ? fourthJobGroundEndEffects[SkillUnitConst_default[unit]] : fourthJobGroundUnits[SkillUnitConst_default[unit]];
+		effectTable[id] = names.map((name) => {
+			const entry = bson[name];
+			if (!entry?.FilePath) throw new Error(`Missing fourth-job ground phase: ${name}`);
+			const file = entry.FilePath.replaceAll("\\", "/").replace(/\.str$/i, "");
+			return {
+				type: "STR",
+				file,
+				texturePath: file.slice(0, file.lastIndexOf("/") + 1),
+				renderBeforeEntities: !!entry.IsFloor,
+				xOffset: entry.PosX || 0,
+				yOffset: entry.PosY || 0,
+				wav: entry.SoundPath ? entry.SoundPath.replaceAll("\\", "/").replace(/\.wav$/i, "") : null,
+				delayStart: phase === "end" ? 0 : entry.StartDelayTime || 0,
+				repeat: phase !== "end" && !!entry.IsInfinite,
+				attachedEntity: phase !== "end"
+			};
+		});
+	}
+}
+var fourthJobGroundResources, fourthJobGroundUnits, fourthJobGroundEffects, fourthJobGroundEndEffects, fourthJobBsonGroundStages, fourthJobBsonGroundNames;
+var init_FourthJobGroundEffects = __esmMin((() => {
+	init_SkillUnitConst();
+	fourthJobGroundResources = {
+		UNT_RAIN_OF_CRYSTAL: [["rain_of_crystal/rain_of_crystal_attack/rain_of_crystal_attack", false], ["rain_of_crystal/rain_of_crystal_attack_bottom/rain_of_crystal_attack_bottom", true]],
+		UNT_STAR_CANNON: [["sky_emperor/ske_star_cannon/star_cannon/ske_star_cannon", false], ["sky_emperor/ske_star_cannon/star_cannon_bottom/ske_star_cannon_bottom", true]],
+		UNT_GRENADES_DROPPING: [["night_watch/nw_grenades_dropping/grenades_dropping/grenades_dropping", false], ["night_watch/nw_grenades_dropping/grenades_dropping_bottom/grenades_dropping_bottom", true]],
+		UNT_FUUMASHOUAKU: [["shinkiro_shiranui/ss_fuumashouaku/fuumashouaku/fuumashouaku", false]],
+		UNT_TWINKLING_GALAXY: [...Array.from({ length: 4 }, (_, index) => [`sky_emperor/ske_twinkling_galaxy/twinkling_galaxy/ske_twinkling_galaxy0${index}`, false]), ["sky_emperor/ske_twinkling_galaxy/twinkling_galaxy_bottom/ske_twinkling_galaxy_bottom", true]],
+		UNT_MYSTERY_ILLUSION: [["mystery_illusion/mystery_illusion/mystery_illusion", false], ["mystery_illusion/mystery_illusion_bottom/mystery_illusion_bottom", true]],
+		UNT_STRANTUM_TREMOR: [["strantumtremor/strantumtremor/strantumtremor", false], ["strantumtremor/strantumtremor_bottom/strantumtremor_bottom", true]],
+		UNT_ALL_BLOOM: [["allbloom/allbloom/allbloom", false], ["allbloom/allbloom_bottom/allbloom_bottom", true]],
+		UNT_TORNADO_STORM: [["tornadostorm/tornadostorm/tornadostorm", false], ["tornadostorm/tornadostorm_bottom/tornadostorm_bottom", true]],
+		UNT_CROSS_RAIN: [["crossrain/cross_rain/cross_rain", false], ["crossrain/cross_rain_bottom/cross_rain_bottom", true]],
+		UNT_ABYSS_SQUARE: [["abyss_square/abyss_square/abyss_square", false], ["abyss_square/abyss_square_bottom/abyss_square_bottom", true]],
+		UNT_LIGHTNING_LAND: [["lightning_land/lightning_land/lightning_land", false], ["lightning_land/lightning_land_bottom/lightning_land_bottom", true]],
+		UNT_VENOM_SWAMP: [["venom_swamp/venom_swamp_bottom/venom_swamp_bottom", true]],
+		UNT_CONFLAGRATION: [["conflagration/conflagration/conflagration", false], ["conflagration/conflagration_bottom/conflagration_bottom", true]]
+	};
+	for (const trap of [
+		"DEEPBLINDTRAP",
+		"SOLIDTRAP",
+		"SWIFTTRAP",
+		"FLAMETRAP"
+	]) {
+		const name = trap.toLowerCase();
+		fourthJobGroundResources[`UNT_${trap}`] = [[`${name}/${name}/${name}`, false], [`${name}/${name}_bottom/${name}_bottom`, true]];
+	}
+	for (const element of [
+		"WATER",
+		"GROUND",
+		"WIND",
+		"FIRE"
+	]) {
+		const name = `acidified_zone_${element.toLowerCase()}`;
+		fourthJobGroundResources[`UNT_ACIDIFIED_ZONE_${element}`] = [[`${name}/${name}_a_loop/${name}_a_loop`, false], [`${name}/${name}_a_loop_bottom/${name}_a_loop_bottom`, true]];
+	}
+	fourthJobGroundUnits = {};
+	fourthJobGroundEffects = {};
+	fourthJobGroundEndEffects = {};
+	fourthJobBsonGroundStages = {
+		UNT_TOTEM_OF_TUTELARY: {
+			active: [
+				"totem_of_tutelary_start",
+				"totem_of_tutelary_bottom_start",
+				"totem_of_tutelary_loop",
+				"totem_of_tutelary_bottom_loop"
+			],
+			end: ["totem_of_tutelary_end", "totem_of_tutelary_bottom_end"]
+		},
+		UNT_HYUN_ROKS_BREEZE: {
+			active: ["hyun_roks_breeze", "hyun_roks_breeze_bottom"],
+			end: []
+		},
+		UNT_GROUND_GRAVITATION: {
+			active: [
+				"ground_gravitation_start",
+				"ground_gravitation_bottom_start",
+				"ground_gravitation_loop",
+				"ground_gravitation_bottom_loop"
+			],
+			end: []
+		},
+		UNT_JACK_FROST_NOVA: {
+			active: [
+				"jack_frost_nova_start",
+				"jack_frost_nova_start_bottom",
+				"jack_frost_nova_loop",
+				"jack_frost_nova_loop_bottom"
+			],
+			end: ["jack_frost_nova_end"]
+		},
+		UNT_SHINKIROU: {
+			active: ["shinkirou_idle_start", "shinkirou_idle_loop"],
+			end: ["shinkirou_idle_end"]
+		}
+	};
+	fourthJobBsonGroundNames = new Set(Object.values(fourthJobBsonGroundStages).flatMap((stages) => [...stages.active, ...stages.end]));
+	for (const [unit, stages] of Object.entries(fourthJobBsonGroundStages)) {
+		fourthJobGroundUnits[SkillUnitConst_default[unit]] = `fourth:ground:${unit}`;
+		if (stages.end.length) fourthJobGroundEndEffects[SkillUnitConst_default[unit]] = `fourth:ground-end:${unit}`;
+	}
+	for (const [unit, layers] of Object.entries(fourthJobGroundResources)) {
+		if (!Number.isInteger(SkillUnitConst_default[unit])) throw new Error(`Unknown fourth-job unit: ${unit}`);
+		const effectId = `fourth:ground:${unit}`;
+		fourthJobGroundUnits[SkillUnitConst_default[unit]] = effectId;
+		fourthJobGroundEffects[effectId] = layers.map(([file, floor]) => ({
+			type: "STR",
+			file,
+			texturePath: file.slice(0, file.lastIndexOf("/") + 1),
+			attachedEntity: true,
+			renderBeforeEntities: floor
+		}));
+	}
+}));
+//#endregion
 //#region src/DB/Skills/SkillInfo.generated.js
 var SkillInfo_generated_default;
 var init_SkillInfo_generated = __esmMin((() => {
@@ -143775,7 +144081,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [] },
 			_NeedSkillList: []
 		},
 		5202: {
@@ -143783,11 +144089,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "侍从武器攻击",
 			MaxLv: 5,
 			SpAmount: [
-				0,
-				0,
-				0,
-				0,
-				0
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -143821,7 +144127,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [[5201, 3]] },
 			_NeedSkillList: [[5201, 3]]
 		},
 		5204: {
@@ -143844,7 +144150,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [[5201, 5], [5203, 5]] },
 			_NeedSkillList: [[5201, 5], [5203, 5]]
 		},
 		5205: {
@@ -143867,7 +144173,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [[5204, 5]] },
 			_NeedSkillList: [[5204, 5]]
 		},
 		5206: {
@@ -143900,7 +144206,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [[2004, 5]] },
 			_NeedSkillList: [[2004, 5]]
 		},
 		5207: {
@@ -143933,7 +144239,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [] },
 			_NeedSkillList: []
 		},
 		5208: {
@@ -143941,16 +144247,49 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "砍杀者",
 			MaxLv: 10,
 			SpAmount: [
-				34,
-				38,
-				42,
-				46,
-				50,
-				54,
-				58,
-				62,
-				66,
-				70
+				36,
+				40,
+				44,
+				48,
+				52,
+				56,
+				60,
+				64,
+				68,
+				72
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2
+			],
+			SkillScale: [],
+			NeedSkillList: { 4252: [[5207, 5]] },
+			_NeedSkillList: [[5207, 5]]
+		},
+		5209: {
+			Name: "DK_HACKANDSLASHER_ATK",
+			SkillName: "砍杀者攻击",
+			MaxLv: 10,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -143967,7 +144306,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			SkillScale: [],
 			NeedSkillList: {},
-			_NeedSkillList: [[5207, 5]]
+			_NeedSkillList: []
 		},
 		5210: {
 			Name: "DK_DRAGONIC_AURA",
@@ -143999,7 +144338,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [
+				[5206, 10],
+				[2008, 10],
+				[5004, 10]
+			] },
 			_NeedSkillList: [
 				[5206, 10],
 				[2008, 10],
@@ -144011,11 +144354,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "疯狂粉碎",
 			MaxLv: 5,
 			SpAmount: [
+				27,
 				34,
-				38,
-				42,
-				46,
-				50
+				41,
+				48,
+				55
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144026,7 +144369,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [[5206, 5], [5208, 10]] },
 			_NeedSkillList: [[5206, 5], [5208, 10]]
 		},
 		5212: {
@@ -144059,7 +144402,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4252: [[5205, 3], [5213, 5]] },
 			_NeedSkillList: [[5205, 3], [5213, 5]]
 		},
 		5213: {
@@ -144067,11 +144410,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "风暴斩",
 			MaxLv: 5,
 			SpAmount: [
+				35,
 				40,
 				45,
 				50,
-				55,
-				60
+				55
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144082,19 +144425,19 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5207, 10], [5208, 5]]
+			NeedSkillList: { 4252: [[5208, 5], [5207, 10]] },
+			_NeedSkillList: [[5208, 5], [5207, 10]]
 		},
 		5214: {
 			Name: "AG_DEADLY_PROJECTION",
 			SkillName: "致命投影",
 			MaxLv: 5,
 			SpAmount: [
+				70,
+				75,
 				80,
-				90,
-				100,
-				110,
-				120
+				85,
+				90
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144105,7 +144448,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[5217, 3]] },
 			_NeedSkillList: [[5217, 3]]
 		},
 		5215: {
@@ -144113,11 +144456,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "毁灭飓风",
 			MaxLv: 5,
 			SpAmount: [
-				80,
-				90,
-				100,
-				110,
-				120
+				170,
+				174,
+				178,
+				182,
+				186
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144128,7 +144471,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[5227, 3]] },
 			_NeedSkillList: [[5227, 3]]
 		},
 		5216: {
@@ -144136,11 +144479,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "水晶之雨",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				50,
-				60,
-				70,
-				80
+				85,
+				95,
+				105,
+				115,
+				125
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144151,7 +144494,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[2203, 3]] },
 			_NeedSkillList: [[2203, 3]]
 		},
 		5217: {
@@ -144159,11 +144502,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "神秘幻象",
 			MaxLv: 5,
 			SpAmount: [
-				80,
-				90,
-				100,
-				110,
-				120
+				78,
+				86,
+				94,
+				102,
+				110
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144174,7 +144517,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[5220, 3], [2212, 3]] },
 			_NeedSkillList: [[5220, 3], [2212, 3]]
 		},
 		5218: {
@@ -144182,11 +144525,34 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "暴烈地震",
 			MaxLv: 5,
 			SpAmount: [
-				80,
-				90,
-				100,
 				110,
-				120
+				114,
+				118,
+				122,
+				126
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4255: [[5221, 3]] },
+			_NeedSkillList: [[5221, 3]]
+		},
+		5219: {
+			Name: "AG_VIOLENT_QUAKE_ATK",
+			SkillName: "暴烈地震攻击",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144198,18 +144564,18 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			SkillScale: [],
 			NeedSkillList: {},
-			_NeedSkillList: [[5221, 3]]
+			_NeedSkillList: []
 		},
 		5220: {
 			Name: "AG_SOUL_VC_STRIKE",
 			SkillName: "灵魂火神击",
 			MaxLv: 5,
 			SpAmount: [
-				80,
 				90,
+				95,
 				100,
-				110,
-				120
+				105,
+				110
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144220,19 +144586,19 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[2202, 5], [5228, 3]]
+			NeedSkillList: { 4255: [[5228, 3], [2202, 5]] },
+			_NeedSkillList: [[5228, 3], [2202, 5]]
 		},
 		5221: {
 			Name: "AG_STRANTUM_TREMOR",
 			SkillName: "地层震颤",
 			MaxLv: 5,
 			SpAmount: [
-				35,
-				45,
-				55,
-				65,
-				75
+				74,
+				79,
+				84,
+				89,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144243,7 +144609,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[2207, 3]] },
 			_NeedSkillList: [[2207, 3]]
 		},
 		5222: {
@@ -144251,11 +144617,34 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "全花绽放",
 			MaxLv: 5,
 			SpAmount: [
-				80,
-				90,
-				100,
+				94,
+				102,
 				110,
-				120
+				118,
+				126
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4255: [[5229, 3]] },
+			_NeedSkillList: [[5229, 3]]
+		},
+		5223: {
+			Name: "AG_ALL_BLOOM_ATK",
+			SkillName: "全花绽放攻击",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144267,18 +144656,41 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			SkillScale: [],
 			NeedSkillList: {},
-			_NeedSkillList: [[5229, 3]]
+			_NeedSkillList: []
+		},
+		5224: {
+			Name: "AG_ALL_BLOOM_ATK2",
+			SkillName: "万紫千红二段",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
 		},
 		5225: {
 			Name: "AG_CRYSTAL_IMPACT",
 			SkillName: "水晶冲击",
 			MaxLv: 5,
 			SpAmount: [
-				80,
-				90,
-				100,
-				110,
-				120
+				170,
+				174,
+				178,
+				182,
+				186
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144289,7 +144701,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[5216, 3]] },
 			_NeedSkillList: [[5216, 3]]
 		},
 		5226: {
@@ -144297,11 +144709,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "水晶冲击攻击",
 			MaxLv: 5,
 			SpAmount: [
-				0,
-				0,
-				0,
-				0,
-				0
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144320,11 +144732,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "龙卷风暴",
 			MaxLv: 5,
 			SpAmount: [
-				45,
-				55,
-				65,
-				75,
-				85
+				78,
+				82,
+				86,
+				90,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144335,7 +144747,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[2214, 3]] },
 			_NeedSkillList: [[2214, 3]]
 		},
 		5228: {
@@ -144368,7 +144780,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [] },
 			_NeedSkillList: []
 		},
 		5229: {
@@ -144376,22 +144788,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "花焰之路",
 			MaxLv: 5,
 			SpAmount: [
-				30,
-				40,
-				50,
-				60,
-				70
+				70,
+				76,
+				82,
+				88,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[2211, 3]] },
 			_NeedSkillList: [[2211, 3]]
 		},
 		5230: {
@@ -144399,16 +144811,57 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "星界打击",
 			MaxLv: 10,
 			SpAmount: [
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150
+				130,
+				130,
+				130,
+				130,
+				130,
+				130,
+				130,
+				130,
+				130,
+				130
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4255: [
+				[5214, 3],
+				[5217, 3],
+				[2213, 5]
+			] },
+			_NeedSkillList: [
+				[5214, 3],
+				[5217, 3],
+				[2213, 5]
+			]
+		},
+		5231: {
+			Name: "AG_ASTRAL_STRIKE_ATK",
+			SkillName: "星界冲击攻击",
+			MaxLv: 10,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144425,11 +144878,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			SkillScale: [],
 			NeedSkillList: {},
-			_NeedSkillList: [
-				[2213, 5],
-				[5217, 3],
-				[5214, 3]
-			]
+			_NeedSkillList: []
 		},
 		5232: {
 			Name: "AG_CLIMAX",
@@ -144451,19 +144900,19 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[2217, 5], [5228, 3]]
+			NeedSkillList: { 4255: [[5228, 3], [2217, 5]] },
+			_NeedSkillList: [[5228, 3], [2217, 5]]
 		},
 		5233: {
 			Name: "AG_ROCK_DOWN",
 			SkillName: "岩石坠落",
 			MaxLv: 5,
 			SpAmount: [
-				65,
-				70,
-				75,
+				72,
+				76,
 				80,
-				85
+				84,
+				88
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144474,7 +144923,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[5221, 1]] },
 			_NeedSkillList: [[5221, 1]]
 		},
 		5234: {
@@ -144482,11 +144931,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "风暴加农炮",
 			MaxLv: 5,
 			SpAmount: [
-				60,
-				70,
-				80,
-				90,
-				100
+				79,
+				79,
+				82,
+				85,
+				88
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144497,7 +144946,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[5227, 1]] },
 			_NeedSkillList: [[5227, 1]]
 		},
 		5235: {
@@ -144505,11 +144954,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "猩红之箭",
 			MaxLv: 5,
 			SpAmount: [
-				65,
-				75,
-				85,
-				95,
-				105
+				74,
+				78,
+				82,
+				86,
+				90
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144520,7 +144969,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[5229, 1]] },
 			_NeedSkillList: [[5229, 1]]
 		},
 		5236: {
@@ -144528,11 +144977,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "绯红箭攻击",
 			MaxLv: 5,
 			SpAmount: [
-				0,
-				0,
-				0,
-				0,
-				0
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: false,
 			AttackRange: [
@@ -144551,11 +145000,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "冰冻斩",
 			MaxLv: 5,
 			SpAmount: [
-				45,
-				55,
-				65,
-				75,
-				85
+				103,
+				106,
+				109,
+				112,
+				115
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144566,7 +145015,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4255: [[5216, 1]] },
 			_NeedSkillList: [[5216, 1]]
 		},
 		5238: {
@@ -144589,7 +145038,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5240, 1]] },
 			_NeedSkillList: [[5240, 1]]
 		},
 		5239: {
@@ -144612,7 +145061,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5240, 1]] },
 			_NeedSkillList: [[5240, 1]]
 		},
 		5240: {
@@ -144645,7 +145094,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [] },
 			_NeedSkillList: []
 		},
 		5241: {
@@ -144653,22 +145102,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "神圣圣油",
 			MaxLv: 5,
 			SpAmount: [
-				30,
-				40,
-				50,
-				60,
-				70
+				45,
+				55,
+				65,
+				75,
+				85
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[31, 1], [5240, 3]] },
 			_NeedSkillList: [[31, 1], [5240, 3]]
 		},
 		5242: {
@@ -144691,7 +145140,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5240, 1]] },
 			_NeedSkillList: [[5240, 1]]
 		},
 		5243: {
@@ -144712,22 +145161,26 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[5241, 3],
+			NeedSkillList: { 4262: [
 				[5244, 3],
+				[5241, 3],
+				[5240, 5]
+			] },
+			_NeedSkillList: [
+				[5244, 3],
+				[5241, 3],
 				[5240, 5]
 			]
 		},
@@ -144736,22 +145189,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "爆炸爆破",
 			MaxLv: 5,
 			SpAmount: [
-				80,
-				90,
-				100,
+				105,
 				110,
-				120
+				115,
+				120,
+				125
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5241, 1]] },
 			_NeedSkillList: [[5241, 1]]
 		},
 		5245: {
@@ -144759,22 +145212,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "第一烙印",
 			MaxLv: 5,
 			SpAmount: [
-				22,
-				29,
-				36,
-				43,
-				50
+				46,
+				50,
+				54,
+				58,
+				62
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				2,
-				2,
-				2,
-				2,
-				2
+				3,
+				3,
+				3,
+				3,
+				3
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5240, 2]] },
 			_NeedSkillList: [[5240, 2]]
 		},
 		5246: {
@@ -144797,8 +145250,8 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5240, 3], [5245, 1]]
+			NeedSkillList: { 4262: [[5245, 1], [5240, 3]] },
+			_NeedSkillList: [[5245, 1], [5240, 3]]
 		},
 		5247: {
 			Name: "IQ_JUDGE",
@@ -144820,7 +145273,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5246, 1]] },
 			_NeedSkillList: [[5246, 1]]
 		},
 		5248: {
@@ -144828,11 +145281,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "第二火焰",
 			MaxLv: 5,
 			SpAmount: [
-				46,
-				52,
-				58,
-				64,
-				70
+				51,
+				57,
+				63,
+				69,
+				75
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -144843,7 +145296,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				3
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5254, 1]] },
 			_NeedSkillList: [[5254, 1]]
 		},
 		5249: {
@@ -144851,33 +145304,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "第二信仰",
 			MaxLv: 5,
 			SpAmount: [
-				36,
-				42,
-				48,
-				54,
-				60
-			],
-			bSeperateLv: true,
-			AttackRange: [
-				3,
-				3,
-				3,
-				3,
-				3
-			],
-			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5246, 1]]
-		},
-		5250: {
-			Name: "IQ_SECOND_JUDGEMENT",
-			SkillName: "第二审判",
-			MaxLv: 5,
-			SpAmount: [
-				45,
-				50,
-				55,
-				60,
+				41,
+				47,
+				53,
+				59,
 				65
 			],
 			bSeperateLv: true,
@@ -144889,7 +145319,30 @@ var init_SkillInfo_generated = __esmMin((() => {
 				3
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5246, 1]] },
+			_NeedSkillList: [[5246, 1]]
+		},
+		5250: {
+			Name: "IQ_SECOND_JUDGEMENT",
+			SkillName: "第二审判",
+			MaxLv: 5,
+			SpAmount: [
+				50,
+				55,
+				60,
+				65,
+				70
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				3,
+				3,
+				3,
+				3,
+				3
+			],
+			SkillScale: [],
+			NeedSkillList: { 4262: [[5247, 1]] },
 			_NeedSkillList: [[5247, 1]]
 		},
 		5251: {
@@ -144912,7 +145365,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				3
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5249, 2]] },
 			_NeedSkillList: [[5249, 2]]
 		},
 		5252: {
@@ -144935,7 +145388,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				3
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5248, 2]] },
 			_NeedSkillList: [[5248, 2]]
 		},
 		5253: {
@@ -144958,7 +145411,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				3
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5250, 2]] },
 			_NeedSkillList: [[5250, 2]]
 		},
 		5254: {
@@ -144981,7 +145434,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4262: [[5247, 1]] },
 			_NeedSkillList: [[5247, 1]]
 		},
 		5255: {
@@ -145004,7 +145457,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [[5258, 3]] },
 			_NeedSkillList: [[5258, 3]]
 		},
 		5256: {
@@ -145027,7 +145480,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [[5255, 2]] },
 			_NeedSkillList: [[5255, 2]]
 		},
 		5257: {
@@ -145050,7 +145503,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [[5255, 4]] },
 			_NeedSkillList: [[5255, 4]]
 		},
 		5258: {
@@ -145083,7 +145536,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [] },
 			_NeedSkillList: []
 		},
 		5259: {
@@ -145116,7 +145569,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [] },
 			_NeedSkillList: []
 		},
 		5260: {
@@ -145139,7 +145592,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [[5259, 3]] },
 			_NeedSkillList: [[5259, 3]]
 		},
 		5261: {
@@ -145162,8 +145615,8 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5257, 3], [5256, 3]]
+			NeedSkillList: { 4258: [[5256, 3], [5257, 3]] },
+			_NeedSkillList: [[5256, 3], [5257, 3]]
 		},
 		5262: {
 			Name: "IG_HOLY_SHIELD",
@@ -145185,24 +145638,24 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5258, 5], [5267, 3]]
+			NeedSkillList: { 4258: [[5267, 3], [5258, 5]] },
+			_NeedSkillList: [[5267, 3], [5258, 5]]
 		},
 		5263: {
 			Name: "IG_GRAND_JUDGEMENT",
 			SkillName: "大审判",
 			MaxLv: 10,
 			SpAmount: [
-				41,
-				44,
-				47,
-				50,
-				53,
-				56,
-				59,
-				62,
-				65,
-				68
+				51,
+				54,
+				57,
+				60,
+				63,
+				66,
+				69,
+				72,
+				75,
+				78
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145218,7 +145671,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [[5266, 5], [5259, 5]] },
 			_NeedSkillList: [[5266, 5], [5259, 5]]
 		},
 		5264: {
@@ -145226,16 +145679,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "审判十字",
 			MaxLv: 10,
 			SpAmount: [
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150
+				60,
+				65,
+				70,
+				75,
+				80,
+				85,
+				90,
+				95,
+				100,
+				105
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145251,7 +145704,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [[5267, 5], [5262, 3]] },
 			_NeedSkillList: [[5267, 5], [5262, 3]]
 		},
 		5265: {
@@ -145267,21 +145720,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5258, 5], [5260, 2]]
+			NeedSkillList: { 4258: [[5260, 2], [5258, 5]] },
+			_NeedSkillList: [[5260, 2], [5258, 5]]
 		},
 		5266: {
 			Name: "IG_OVERSLASH",
 			SkillName: "过度斩击",
 			MaxLv: 10,
 			SpAmount: [
+				38,
 				41,
 				44,
 				47,
@@ -145290,8 +145744,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				56,
 				59,
 				62,
-				65,
-				68
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145307,7 +145760,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				3
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [[5260, 3]] },
 			_NeedSkillList: [[5260, 3]]
 		},
 		5267: {
@@ -145315,16 +145768,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "十字雨",
 			MaxLv: 10,
 			SpAmount: [
-				50,
-				54,
-				58,
-				62,
-				66,
+				67,
 				70,
-				74,
-				78,
+				73,
+				76,
+				79,
 				82,
-				86
+				85,
+				88,
+				91,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145340,7 +145793,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4258: [[5258, 1]] },
 			_NeedSkillList: [[5258, 1]]
 		},
 		5268: {
@@ -145363,7 +145816,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[5269, 3]] },
 			_NeedSkillList: [[5269, 3]]
 		},
 		5269: {
@@ -145386,7 +145839,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[5280, 3]] },
 			_NeedSkillList: [[5280, 3]]
 		},
 		5270: {
@@ -145419,7 +145872,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [] },
 			_NeedSkillList: []
 		},
 		5271: {
@@ -145442,7 +145895,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[5269, 3], [5268, 3]] },
 			_NeedSkillList: [[5269, 3], [5268, 3]]
 		},
 		5272: {
@@ -145465,7 +145918,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[5269, 3], [5268, 3]] },
 			_NeedSkillList: [[5269, 3], [5268, 3]]
 		},
 		5273: {
@@ -145473,16 +145926,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "裁决",
 			MaxLv: 10,
 			SpAmount: [
-				50,
-				60,
-				70,
-				80,
-				90,
-				100,
-				110,
-				120,
-				130,
-				140
+				107,
+				109,
+				111,
+				113,
+				115,
+				117,
+				119,
+				121,
+				123,
+				125
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145498,7 +145951,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[2040, 5], [5284, 3]] },
 			_NeedSkillList: [[2040, 5], [5284, 3]]
 		},
 		5274: {
@@ -145506,16 +145959,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "裁决攻击",
 			MaxLv: 10,
 			SpAmount: [
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0,
-				0
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145554,7 +146007,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[5269, 3], [5268, 3]] },
 			_NeedSkillList: [[5269, 3], [5268, 3]]
 		},
 		5276: {
@@ -145587,7 +146040,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [] },
 			_NeedSkillList: []
 		},
 		5277: {
@@ -145595,16 +146048,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "神罚",
 			MaxLv: 10,
 			SpAmount: [
-				60,
-				60,
-				60,
-				60,
-				60,
-				60,
-				60,
-				60,
-				60,
-				60
+				75,
+				75,
+				75,
+				75,
+				75,
+				75,
+				75,
+				75,
+				75,
+				75
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145620,7 +146073,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[2046, 5], [5283, 10]] },
 			_NeedSkillList: [[2046, 5], [5283, 10]]
 		},
 		5278: {
@@ -145643,11 +146096,15 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[5275, 2],
+			NeedSkillList: { 4256: [
 				[5272, 2],
-				[5271, 2]
+				[5271, 2],
+				[5275, 2]
+			] },
+			_NeedSkillList: [
+				[5272, 2],
+				[5271, 2],
+				[5275, 2]
 			]
 		},
 		5279: {
@@ -145680,8 +146137,8 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5284, 5], [5273, 10]]
+			NeedSkillList: { 4256: [[5273, 10], [5284, 5]] },
+			_NeedSkillList: [[5273, 10], [5284, 5]]
 		},
 		5280: {
 			Name: "CD_DILECTIO_HEAL",
@@ -145703,7 +146160,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[2043, 3], [2051, 3]] },
 			_NeedSkillList: [[2043, 3], [2051, 3]]
 		},
 		5281: {
@@ -145726,7 +146183,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[2041, 3], [5280, 2]] },
 			_NeedSkillList: [[2041, 3], [5280, 2]]
 		},
 		5282: {
@@ -145749,7 +146206,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[2042, 3], [5280, 2]] },
 			_NeedSkillList: [[2042, 3], [5280, 2]]
 		},
 		5283: {
@@ -145757,16 +146214,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "请求",
 			MaxLv: 10,
 			SpAmount: [
-				32,
-				34,
-				36,
 				38,
-				40,
-				42,
+				41,
 				44,
-				46,
-				48,
-				50
+				47,
+				50,
+				53,
+				56,
+				59,
+				62,
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145782,7 +146239,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[2054, 10], [5270, 5]] },
 			_NeedSkillList: [[2054, 10], [5270, 5]]
 		},
 		5284: {
@@ -145790,11 +146247,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "弗拉门",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				45,
-				50,
-				55,
-				60
+				80,
+				83,
+				86,
+				89,
+				92
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145805,7 +146262,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4256: [[2038, 10], [5276, 5]] },
 			_NeedSkillList: [[2038, 10], [5276, 5]]
 		},
 		5285: {
@@ -145838,11 +146295,15 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[5288, 7],
+			NeedSkillList: { 4254: [
 				[5293, 5],
-				[5290, 3]
+				[5290, 3],
+				[5288, 7]
+			] },
+			_NeedSkillList: [
+				[5293, 5],
+				[5290, 3],
+				[5288, 7]
 			]
 		},
 		5286: {
@@ -145865,7 +146326,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4254: [[5288, 3]] },
 			_NeedSkillList: [[5288, 3]]
 		},
 		5287: {
@@ -145873,16 +146334,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "野蛮冲击",
 			MaxLv: 10,
 			SpAmount: [
-				28,
-				31,
-				34,
-				37,
-				40,
-				43,
-				46,
-				49,
-				52,
-				55
+				45,
+				48,
+				51,
+				54,
+				57,
+				60,
+				63,
+				66,
+				69,
+				72
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -145898,8 +146359,8 @@ var init_SkillInfo_generated = __esmMin((() => {
 				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5288, 3], [2022, 5]]
+			NeedSkillList: { 4254: [[2022, 5], [5288, 3]] },
+			_NeedSkillList: [[2022, 5], [5288, 3]]
 		},
 		5288: {
 			Name: "SHC_SHADOW_SENSE",
@@ -145931,7 +146392,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4254: [] },
 			_NeedSkillList: []
 		},
 		5289: {
@@ -145939,26 +146400,30 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "永恒斩击",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				40,
-				40,
-				40,
-				40
+				60,
+				60,
+				60,
+				60,
+				60
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				2,
-				2,
-				2,
-				2,
-				2
+				3,
+				3,
+				3,
+				3,
+				3
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[5288, 5],
+			NeedSkillList: { 4254: [
+				[2028, 3],
 				[5286, 3],
-				[2028, 3]
+				[5288, 5]
+			] },
+			_NeedSkillList: [
+				[2028, 3],
+				[5286, 3],
+				[5288, 5]
 			]
 		},
 		5290: {
@@ -145991,19 +146456,19 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5288, 5], [5293, 3]]
+			NeedSkillList: { 4254: [[5293, 3], [5288, 5]] },
+			_NeedSkillList: [[5293, 3], [5288, 5]]
 		},
 		5291: {
 			Name: "SHC_SHADOW_STAB",
 			SkillName: "暗影刺击",
 			MaxLv: 5,
 			SpAmount: [
+				40,
 				45,
 				50,
 				55,
-				60,
-				65
+				60
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146014,12 +146479,17 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[5288, 5],
+			NeedSkillList: { 4254: [
+				[2033, 5],
 				[5286, 5],
 				[5289, 3],
-				[2033, 5]
+				[5288, 5]
+			] },
+			_NeedSkillList: [
+				[2033, 5],
+				[5286, 5],
+				[5289, 3],
+				[5288, 5]
 			]
 		},
 		5292: {
@@ -146027,11 +146497,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "冲击陨坑",
 			MaxLv: 5,
 			SpAmount: [
-				43,
-				46,
-				49,
-				52,
-				55
+				53,
+				56,
+				59,
+				62,
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146042,12 +146512,17 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[5288, 5],
-				[5287, 5],
+			NeedSkillList: { 4254: [
 				[2036, 5],
-				[2028, 3]
+				[2028, 3],
+				[5287, 5],
+				[5288, 5]
+			] },
+			_NeedSkillList: [
+				[2036, 5],
+				[2028, 3],
+				[5287, 5],
+				[5288, 5]
 			]
 		},
 		5293: {
@@ -146070,8 +146545,8 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5288, 3], [2027, 5]]
+			NeedSkillList: { 4254: [[2027, 5], [5288, 3]] },
+			_NeedSkillList: [[2027, 5], [5288, 3]]
 		},
 		5294: {
 			Name: "SHC_FATAL_SHADOW_CROW",
@@ -146103,19 +146578,19 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5291, 5], [5292, 5]]
+			NeedSkillList: { 4254: [[5292, 5], [5291, 5]] },
+			_NeedSkillList: [[5292, 5], [5291, 5]]
 		},
 		5295: {
 			Name: "MT_AXE_STOMP",
 			SkillName: "战斧践踏",
 			MaxLv: 5,
 			SpAmount: [
-				25,
-				30,
-				35,
-				40,
-				45
+				45,
+				55,
+				65,
+				75,
+				85
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146126,7 +146601,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [[5300, 5]] },
 			_NeedSkillList: [[5300, 5]]
 		},
 		5296: {
@@ -146159,7 +146634,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [[5295, 5]] },
 			_NeedSkillList: [[5295, 5]]
 		},
 		5297: {
@@ -146182,7 +146657,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [] },
 			_NeedSkillList: []
 		},
 		5298: {
@@ -146205,7 +146680,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [[5295, 3], [5297, 3]] },
 			_NeedSkillList: [[5295, 3], [5297, 3]]
 		},
 		5299: {
@@ -146228,7 +146703,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [[5297, 1]] },
 			_NeedSkillList: [[5297, 1]]
 		},
 		5300: {
@@ -146261,7 +146736,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [] },
 			_NeedSkillList: []
 		},
 		5301: {
@@ -146294,7 +146769,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [[5297, 1]] },
 			_NeedSkillList: [[5297, 1]]
 		},
 		5302: {
@@ -146315,7 +146790,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [[5301, 1]] },
 			_NeedSkillList: [[5301, 1]]
 		},
 		5303: {
@@ -146336,7 +146811,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [[5301, 3], [5302, 2]] },
 			_NeedSkillList: [[5301, 3], [5302, 2]]
 		},
 		5304: {
@@ -146357,7 +146832,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [
+				[5301, 5],
+				[5302, 3],
+				[5303, 3]
+			] },
 			_NeedSkillList: [
 				[5301, 5],
 				[5302, 3],
@@ -146382,13 +146861,133 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4253: [
+				[5301, 10],
+				[5302, 4],
+				[5303, 4],
+				[5304, 4]
+			] },
 			_NeedSkillList: [
 				[5301, 10],
 				[5302, 4],
 				[5303, 4],
 				[5304, 4]
 			]
+		},
+		5306: {
+			Name: "AG_DESTRUCTIVE_HURRICANE_CLIMAX",
+			SkillName: "毁灭飓风终曲",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5307: {
+			Name: "BO_ACIDIFIED_ZONE_WATER_ATK",
+			SkillName: "活化区域水属性攻击",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5308: {
+			Name: "BO_ACIDIFIED_ZONE_GROUND_ATK",
+			SkillName: "活化区域地属性攻击",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5309: {
+			Name: "BO_ACIDIFIED_ZONE_WIND_ATK",
+			SkillName: "活化区域风属性攻击",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5310: {
+			Name: "BO_ACIDIFIED_ZONE_FIRE_ATK",
+			SkillName: "活化区域火属性攻击",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
 		},
 		5311: {
 			Name: "ABC_DAGGER_AND_BOW_M",
@@ -146420,7 +147019,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4260: [] },
 			_NeedSkillList: []
 		},
 		5312: {
@@ -146453,8 +147052,8 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[2285, 5], [2286, 5]]
+			NeedSkillList: { 4260: [[2286, 5], [2285, 5]] },
+			_NeedSkillList: [[2286, 5], [2285, 5]]
 		},
 		5313: {
 			Name: "ABC_STRIP_SHADOW",
@@ -146469,26 +147068,26 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				3,
-				3,
-				3,
-				3,
-				3
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[2298, 1], [5311, 7]]
+			NeedSkillList: { 4260: [[5311, 7], [2298, 1]] },
+			_NeedSkillList: [[5311, 7], [2298, 1]]
 		},
 		5314: {
 			Name: "ABC_ABYSS_DAGGER",
 			SkillName: "深渊匕首",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				45,
-				50,
-				55,
-				60
+				60,
+				64,
+				68,
+				72,
+				76
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146499,8 +147098,8 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[2284, 5], [5311, 3]]
+			NeedSkillList: { 4260: [[5311, 3], [2284, 5]] },
+			_NeedSkillList: [[5311, 3], [2284, 5]]
 		},
 		5315: {
 			Name: "ABC_UNLUCKY_RUSH",
@@ -146515,14 +147114,14 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				7,
+				7,
+				7,
+				7,
+				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4260: [[5314, 3], [5311, 4]] },
 			_NeedSkillList: [[5314, 3], [5311, 4]]
 		},
 		5316: {
@@ -146530,11 +147129,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "连锁反应射击",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				50,
-				60,
-				70,
-				80
+				35,
+				45,
+				55,
+				65,
+				75
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146545,8 +147144,8 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[2288, 5], [5311, 3]]
+			NeedSkillList: { 4260: [[5311, 3], [2288, 5]] },
+			_NeedSkillList: [[5311, 3], [2288, 5]]
 		},
 		5317: {
 			Name: "ABC_FROM_THE_ABYSS",
@@ -146568,7 +147167,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4260: [[5312, 3]] },
 			_NeedSkillList: [[5312, 3]]
 		},
 		5318: {
@@ -146601,7 +147200,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4260: [[5314, 5], [5320, 5]] },
 			_NeedSkillList: [[5314, 5], [5320, 5]]
 		},
 		5319: {
@@ -146609,16 +147208,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "欧米伽深渊打击",
 			MaxLv: 10,
 			SpAmount: [
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150
+				125,
+				125,
+				125,
+				125,
+				125,
+				125,
+				125,
+				125,
+				125,
+				125
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146634,24 +147233,24 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5317, 3], [5321, 3]]
+			NeedSkillList: { 4260: [[5321, 3], [5317, 3]] },
+			_NeedSkillList: [[5321, 3], [5317, 3]]
 		},
 		5320: {
 			Name: "ABC_DEFT_STAB",
 			SkillName: "灵巧刺击",
 			MaxLv: 10,
 			SpAmount: [
-				28,
-				31,
-				34,
-				37,
-				40,
-				43,
-				46,
-				49,
-				52,
-				55
+				45,
+				48,
+				51,
+				54,
+				57,
+				60,
+				63,
+				66,
+				69,
+				72
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146667,7 +147266,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4260: [[5314, 3], [5311, 5]] },
 			_NeedSkillList: [[5314, 3], [5311, 5]]
 		},
 		5321: {
@@ -146690,24 +147289,24 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5312, 5], [5317, 1]]
+			NeedSkillList: { 4260: [[5317, 1], [5312, 5]] },
+			_NeedSkillList: [[5317, 1], [5312, 5]]
 		},
 		5322: {
 			Name: "ABC_FRENZY_SHOT",
 			SkillName: "狂热射击",
 			MaxLv: 10,
 			SpAmount: [
-				35,
-				45,
+				47,
+				49,
+				51,
+				53,
 				55,
-				65,
-				75,
-				85,
-				95,
-				105,
-				115,
-				125
+				57,
+				59,
+				61,
+				63,
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146723,7 +147322,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4260: [[5316, 3], [5311, 5]] },
 			_NeedSkillList: [[5316, 3], [5311, 5]]
 		},
 		5323: {
@@ -146746,7 +147345,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[2248, 3]] },
 			_NeedSkillList: [[2248, 3]]
 		},
 		5324: {
@@ -146769,7 +147368,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[5325, 5]] },
 			_NeedSkillList: [[5325, 5]]
 		},
 		5325: {
@@ -146792,7 +147391,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [] },
 			_NeedSkillList: []
 		},
 		5326: {
@@ -146815,7 +147414,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[5327, 1]] },
 			_NeedSkillList: [[5327, 1]]
 		},
 		5327: {
@@ -146826,7 +147425,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[128, 1]] },
 			_NeedSkillList: [[128, 1]]
 		},
 		5328: {
@@ -146837,7 +147436,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[5330, 5], [5324, 5]] },
 			_NeedSkillList: [[5330, 5], [5324, 5]]
 		},
 		5329: {
@@ -146845,10 +147444,38 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "猎鹰回旋镖",
 			MaxLv: 5,
 			SpAmount: [
-				120,
-				120,
-				120,
-				120,
+				80,
+				80,
+				80,
+				80,
+				80
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4257: [[5326, 5]] },
+			_NeedSkillList: [[5326, 5]]
+		},
+		5330: {
+			Name: "WH_GALESTORM",
+			SkillName: "狂风暴雨",
+			MaxLv: 10,
+			SpAmount: [
+				93,
+				96,
+				99,
+				102,
+				105,
+				108,
+				111,
+				114,
+				117,
 				120
 			],
 			bSeperateLv: true,
@@ -146857,34 +147484,6 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9,
 				9,
 				9,
-				9
-			],
-			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5326, 5]]
-		},
-		5330: {
-			Name: "WH_GALESTORM",
-			SkillName: "狂风暴雨",
-			MaxLv: 10,
-			SpAmount: [
-				80,
-				91,
-				102,
-				113,
-				124,
-				135,
-				146,
-				157,
-				168,
-				179
-			],
-			bSeperateLv: true,
-			AttackRange: [
-				9,
-				9,
-				9,
-				9,
 				9,
 				9,
 				9,
@@ -146893,7 +147492,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[5334, 3]] },
 			_NeedSkillList: [[5334, 3]]
 		},
 		5331: {
@@ -146901,11 +147500,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "深度失明陷阱",
 			MaxLv: 5,
 			SpAmount: [
-				50,
-				53,
-				56,
-				59,
-				62
+				68,
+				72,
+				76,
+				80,
+				84
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146916,7 +147515,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[5323, 3]] },
 			_NeedSkillList: [[5323, 3]]
 		},
 		5332: {
@@ -146924,11 +147523,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "坚固陷阱",
 			MaxLv: 5,
 			SpAmount: [
-				70,
+				68,
+				72,
+				76,
 				80,
-				90,
-				100,
-				110
+				84
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146939,7 +147538,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[5323, 3]] },
 			_NeedSkillList: [[5323, 3]]
 		},
 		5333: {
@@ -146947,11 +147546,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "迅捷陷阱",
 			MaxLv: 5,
 			SpAmount: [
-				60,
-				62,
-				64,
-				66,
-				68
+				68,
+				72,
+				76,
+				80,
+				84
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146962,7 +147561,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[5331, 1]] },
 			_NeedSkillList: [[5331, 1]]
 		},
 		5334: {
@@ -146970,16 +147569,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "成长箭矢",
 			MaxLv: 10,
 			SpAmount: [
+				47,
+				49,
+				51,
+				53,
 				55,
-				60,
-				65,
-				70,
-				75,
-				80,
-				85,
-				90,
-				95,
-				100
+				57,
+				59,
+				61,
+				63,
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -146995,7 +147594,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[2236, 5]] },
 			_NeedSkillList: [[2236, 5]]
 		},
 		5335: {
@@ -147003,11 +147602,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "火焰陷阱",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				44,
-				48,
-				52,
-				56
+				68,
+				72,
+				76,
+				80,
+				84
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147018,7 +147617,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4257: [[5332, 1]] },
 			_NeedSkillList: [[5332, 1]]
 		},
 		5336: {
@@ -147041,7 +147640,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[2497, 5]] },
 			_NeedSkillList: [[2497, 5]]
 		},
 		5337: {
@@ -147074,7 +147673,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [] },
 			_NeedSkillList: []
 		},
 		5338: {
@@ -147097,7 +147696,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5336, 5]] },
 			_NeedSkillList: [[5336, 5]]
 		},
 		5339: {
@@ -147118,7 +147717,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5336, 5]] },
 			_NeedSkillList: [[5336, 5]]
 		},
 		5340: {
@@ -147126,11 +147725,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "水属性酸化区域",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				52,
-				64,
-				76,
-				88
+				51,
+				54,
+				57,
+				60,
+				63
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147141,7 +147740,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5342, 1]] },
 			_NeedSkillList: [[5342, 1]]
 		},
 		5341: {
@@ -147149,11 +147748,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "地属性酸化区域",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				52,
-				64,
-				76,
-				88
+				51,
+				54,
+				57,
+				60,
+				63
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147164,7 +147763,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5337, 3], [5336, 5]] },
 			_NeedSkillList: [[5337, 3], [5336, 5]]
 		},
 		5342: {
@@ -147172,11 +147771,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "风属性酸化区域",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				52,
-				64,
-				76,
-				88
+				51,
+				54,
+				57,
+				60,
+				63
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147187,7 +147786,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5337, 3], [5336, 5]] },
 			_NeedSkillList: [[5337, 3], [5336, 5]]
 		},
 		5343: {
@@ -147195,11 +147794,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "火属性酸化区域",
 			MaxLv: 5,
 			SpAmount: [
-				40,
-				52,
-				64,
-				76,
-				88
+				51,
+				54,
+				57,
+				60,
+				63
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147210,7 +147809,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5341, 1]] },
 			_NeedSkillList: [[5341, 1]]
 		},
 		5344: {
@@ -147233,7 +147832,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5346, 3]] },
 			_NeedSkillList: [[5346, 3]]
 		},
 		5345: {
@@ -147256,7 +147855,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5346, 3]] },
 			_NeedSkillList: [[5346, 3]]
 		},
 		5346: {
@@ -147279,7 +147878,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5337, 5]] },
 			_NeedSkillList: [[5337, 5]]
 		},
 		5347: {
@@ -147290,7 +147889,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5343, 3], [5340, 3]] },
 			_NeedSkillList: [[5343, 3], [5340, 3]]
 		},
 		5348: {
@@ -147313,7 +147912,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4259: [[5344, 3], [5345, 3]] },
 			_NeedSkillList: [[5344, 3], [5345, 3]]
 		},
 		5349: {
@@ -147336,7 +147935,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [],
+				4264: []
+			},
 			_NeedSkillList: []
 		},
 		5350: {
@@ -147347,7 +147949,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5349, 1]],
+				4264: [[5349, 1]]
+			},
 			_NeedSkillList: [[5349, 1]]
 		},
 		5351: {
@@ -147358,7 +147963,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5356, 1], [5353, 5]],
+				4264: [[5356, 1], [5353, 5]]
+			},
 			_NeedSkillList: [[5356, 1], [5353, 5]]
 		},
 		5352: {
@@ -147369,19 +147977,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5359, 1], [5363, 1]]
+			NeedSkillList: {
+				4263: [[5363, 1], [5359, 1]],
+				4264: [[5363, 1], [5359, 1]]
+			},
+			_NeedSkillList: [[5363, 1], [5359, 1]]
 		},
 		5353: {
 			Name: "TR_ROSEBLOSSOM",
 			SkillName: "玫瑰绽放",
 			MaxLv: 5,
 			SpAmount: [
-				105,
-				110,
-				115,
-				120,
-				125
+				70,
+				76,
+				82,
+				88,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147392,7 +148003,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5355, 3]],
+				4264: [[5355, 3]]
+			},
 			_NeedSkillList: [[5355, 3]]
 		},
 		5354: {
@@ -147400,11 +148014,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "玫瑰绽放攻击",
 			MaxLv: 5,
 			SpAmount: [
-				0,
-				0,
-				0,
-				0,
-				0
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147423,11 +148037,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "节奏射击",
 			MaxLv: 5,
 			SpAmount: [
-				66,
-				72,
-				78,
-				84,
-				90
+				36,
+				40,
+				44,
+				48,
+				52
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147438,7 +148052,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [],
+				4264: []
+			},
 			_NeedSkillList: []
 		},
 		5356: {
@@ -147446,11 +148063,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "金属狂怒",
 			MaxLv: 5,
 			SpAmount: [
-				120,
-				132,
-				144,
-				156,
-				168
+				70,
+				76,
+				82,
+				88,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147461,7 +148078,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5357, 1]],
+				4264: [[5357, 1]]
+			},
 			_NeedSkillList: [[5357, 1]]
 		},
 		5357: {
@@ -147469,11 +148089,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "声音融合",
 			MaxLv: 5,
 			SpAmount: [
-				80,
-				92,
-				104,
-				116,
-				128
+				40,
+				50,
+				60,
+				70,
+				80
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147484,7 +148104,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[2413, 5]],
+				4264: [[2413, 5]]
+			},
 			_NeedSkillList: [[2413, 5]]
 		},
 		5358: {
@@ -147507,7 +148130,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5349, 3]],
+				4264: [[5349, 3]]
+			},
 			_NeedSkillList: [[5349, 3]]
 		},
 		5359: {
@@ -147530,7 +148156,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5362, 1]],
+				4264: [[5362, 1]]
+			},
 			_NeedSkillList: [[5362, 1]]
 		},
 		5360: {
@@ -147553,7 +148182,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5349, 3]],
+				4264: [[5349, 3]]
+			},
 			_NeedSkillList: [[5349, 3]]
 		},
 		5361: {
@@ -147576,7 +148208,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5360, 1]],
+				4264: [[5360, 1]]
+			},
 			_NeedSkillList: [[5360, 1]]
 		},
 		5362: {
@@ -147599,7 +148234,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5358, 1]],
+				4264: [[5358, 1]]
+			},
 			_NeedSkillList: [[5358, 1]]
 		},
 		5363: {
@@ -147622,7 +148260,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5361, 1], [5364, 1]],
+				4264: [[5361, 1], [5364, 1]]
+			},
 			_NeedSkillList: [[5361, 1], [5364, 1]]
 		},
 		5364: {
@@ -147645,7 +148286,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4263: [[5360, 1]],
+				4264: [[5360, 1]]
+			},
 			_NeedSkillList: [[5360, 1]]
 		},
 		5365: {
@@ -147678,7 +148322,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [] },
 			_NeedSkillList: []
 		},
 		5366: {
@@ -147701,7 +148345,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [[5365, 5]] },
 			_NeedSkillList: [[5365, 5]]
 		},
 		5367: {
@@ -147724,7 +148368,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [[5366, 3]] },
 			_NeedSkillList: [[5366, 3]]
 		},
 		5368: {
@@ -147747,7 +148391,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [[5367, 5]] },
 			_NeedSkillList: [[5367, 5]]
 		},
 		5369: {
@@ -147755,11 +148399,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "钻石风暴",
 			MaxLv: 5,
 			SpAmount: [
+				80,
 				84,
 				88,
 				92,
-				96,
-				100
+				96
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147770,7 +148414,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [[5365, 2]] },
 			_NeedSkillList: [[5365, 2]]
 		},
 		5370: {
@@ -147778,56 +148422,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "雷电之地",
 			MaxLv: 5,
 			SpAmount: [
-				65,
-				70,
-				80,
-				85,
-				95
-			],
-			bSeperateLv: true,
-			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
-			],
-			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5365, 2]]
-		},
-		5371: {
-			Name: "EM_VENOM_SWAMP",
-			SkillName: "毒液沼泽",
-			MaxLv: 5,
-			SpAmount: [
-				84,
-				88,
-				92,
-				96,
-				100
-			],
-			bSeperateLv: true,
-			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
-			],
-			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5365, 2]]
-		},
-		5372: {
-			Name: "EM_CONFLAGRATION",
-			SkillName: "大火灾",
-			MaxLv: 5,
-			SpAmount: [
-				70,
-				80,
-				90,
-				100,
+				94,
+				98,
+				102,
+				106,
 				110
 			],
 			bSeperateLv: true,
@@ -147839,19 +148437,19 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [[5365, 2]] },
 			_NeedSkillList: [[5365, 2]]
 		},
-		5373: {
-			Name: "EM_TERRA_DRIVE",
-			SkillName: "大地驱动",
+		5371: {
+			Name: "EM_VENOM_SWAMP",
+			SkillName: "毒液沼泽",
 			MaxLv: 5,
 			SpAmount: [
-				84,
-				88,
 				92,
-				96,
-				100
+				97,
+				102,
+				107,
+				112
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -147862,7 +148460,53 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [[5365, 2]] },
+			_NeedSkillList: [[5365, 2]]
+		},
+		5372: {
+			Name: "EM_CONFLAGRATION",
+			SkillName: "大火灾",
+			MaxLv: 5,
+			SpAmount: [
+				97,
+				101,
+				105,
+				109,
+				113
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4261: [[5365, 2]] },
+			_NeedSkillList: [[5365, 2]]
+		},
+		5373: {
+			Name: "EM_TERRA_DRIVE",
+			SkillName: "大地驱动",
+			MaxLv: 5,
+			SpAmount: [
+				80,
+				84,
+				88,
+				92,
+				96
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4261: [[5365, 2]] },
 			_NeedSkillList: [[5365, 2]]
 		},
 		5374: {
@@ -147895,7 +148539,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [[2463, 1]] },
 			_NeedSkillList: [[2463, 1]]
 		},
 		5375: {
@@ -147906,11 +148550,15 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[2457, 3],
+			NeedSkillList: { 4261: [
+				[5372, 1],
 				[5374, 1],
-				[5372, 1]
+				[2457, 3]
+			] },
+			_NeedSkillList: [
+				[5372, 1],
+				[5374, 1],
+				[2457, 3]
 			]
 		},
 		5376: {
@@ -147921,11 +148569,15 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[2458, 3],
+			NeedSkillList: { 4261: [
+				[5369, 1],
 				[5374, 1],
-				[5369, 1]
+				[2458, 3]
+			] },
+			_NeedSkillList: [
+				[5369, 1],
+				[5374, 1],
+				[2458, 3]
 			]
 		},
 		5377: {
@@ -147936,11 +148588,15 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[2459, 3],
+			NeedSkillList: { 4261: [
 				[5374, 1],
-				[5370, 1]
+				[5370, 1],
+				[2459, 3]
+			] },
+			_NeedSkillList: [
+				[5374, 1],
+				[5370, 1],
+				[2459, 3]
 			]
 		},
 		5378: {
@@ -147951,11 +148607,15 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[2460, 3],
+			NeedSkillList: { 4261: [
 				[5374, 1],
-				[5373, 1]
+				[5373, 1],
+				[2460, 3]
+			] },
+			_NeedSkillList: [
+				[5374, 1],
+				[5373, 1],
+				[2460, 3]
 			]
 		},
 		5379: {
@@ -147966,14 +148626,21 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
+			NeedSkillList: { 4261: [
+				[5374, 1],
+				[5371, 1],
 				[2457, 3],
 				[2458, 3],
-				[2459, 3],
 				[2460, 3],
+				[2459, 3]
+			] },
+			_NeedSkillList: [
 				[5374, 1],
-				[5371, 1]
+				[5371, 1],
+				[2457, 3],
+				[2458, 3],
+				[2460, 3],
+				[2459, 3]
 			]
 		},
 		5380: {
@@ -147981,16 +148648,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "元素破坏",
 			MaxLv: 10,
 			SpAmount: [
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150
+				140,
+				140,
+				140,
+				140,
+				140,
+				140,
+				140,
+				140,
+				140,
+				140
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148006,14 +148673,21 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [
-				[5379, 1],
-				[5378, 1],
-				[5377, 1],
-				[5376, 1],
+			NeedSkillList: { 4261: [
 				[5374, 5],
-				[5375, 1]
+				[5375, 1],
+				[5376, 1],
+				[5377, 1],
+				[5379, 1],
+				[5378, 1]
+			] },
+			_NeedSkillList: [
+				[5374, 5],
+				[5375, 1],
+				[5376, 1],
+				[5377, 1],
+				[5379, 1],
+				[5378, 1]
 			]
 		},
 		5381: {
@@ -148036,16 +148710,139 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4261: [[5374, 3]] },
 			_NeedSkillList: [[5374, 3]]
+		},
+		5382: {
+			Name: "ABC_CHAIN_REACTION_SHOT_ATK",
+			SkillName: "连锁反应射击攻击",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5383: {
+			Name: "ABC_FROM_THE_ABYSS_ATK",
+			SkillName: "来自深渊攻击",
+			MaxLv: 5,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5384: {
+			Name: "BO_WOODEN_THROWROCK",
+			SkillName: "木石投掷",
+			MaxLv: 1,
+			SpAmount: [1],
+			bSeperateLv: false,
+			AttackRange: [9],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5385: {
+			Name: "BO_WOODEN_ATTACK",
+			SkillName: "木攻击",
+			MaxLv: 1,
+			SpAmount: [1],
+			bSeperateLv: false,
+			AttackRange: [1],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5386: {
+			Name: "BO_HELL_HOWLING",
+			SkillName: "地狱咆哮",
+			MaxLv: 1,
+			SpAmount: [1],
+			bSeperateLv: false,
+			AttackRange: [1],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5387: {
+			Name: "BO_HELL_DUSTY",
+			SkillName: "地狱尘",
+			MaxLv: 1,
+			SpAmount: [1],
+			bSeperateLv: false,
+			AttackRange: [1],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5388: {
+			Name: "BO_FAIRY_DUSTY",
+			SkillName: "妖精尘",
+			MaxLv: 1,
+			SpAmount: [1],
+			bSeperateLv: false,
+			AttackRange: [1],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
 		},
 		5389: {
 			Name: "EM_ELEMENTAL_BUSTER_FIRE",
 			SkillName: "元素破坏·火",
-			MaxLv: 1,
-			SpAmount: [],
+			MaxLv: 10,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			bSeperateLv: false,
-			AttackRange: [],
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -148053,10 +148850,32 @@ var init_SkillInfo_generated = __esmMin((() => {
 		5390: {
 			Name: "EM_ELEMENTAL_BUSTER_WATER",
 			SkillName: "元素破坏·水",
-			MaxLv: 1,
-			SpAmount: [],
+			MaxLv: 10,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			bSeperateLv: false,
-			AttackRange: [],
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -148064,10 +148883,32 @@ var init_SkillInfo_generated = __esmMin((() => {
 		5391: {
 			Name: "EM_ELEMENTAL_BUSTER_WIND",
 			SkillName: "元素破坏·风",
-			MaxLv: 1,
-			SpAmount: [],
+			MaxLv: 10,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			bSeperateLv: false,
-			AttackRange: [],
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -148075,10 +148916,32 @@ var init_SkillInfo_generated = __esmMin((() => {
 		5392: {
 			Name: "EM_ELEMENTAL_BUSTER_GROUND",
 			SkillName: "元素破坏·地",
-			MaxLv: 1,
-			SpAmount: [],
+			MaxLv: 10,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			bSeperateLv: false,
-			AttackRange: [],
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -148086,10 +148949,32 @@ var init_SkillInfo_generated = __esmMin((() => {
 		5393: {
 			Name: "EM_ELEMENTAL_BUSTER_POISON",
 			SkillName: "元素破坏·毒",
-			MaxLv: 1,
-			SpAmount: [],
+			MaxLv: 10,
+			SpAmount: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			bSeperateLv: false,
-			AttackRange: [],
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -148124,7 +149009,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [] },
 			_NeedSkillList: []
 		},
 		5402: {
@@ -148157,7 +149042,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [] },
 			_NeedSkillList: []
 		},
 		5403: {
@@ -148168,7 +149053,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5401, 1]] },
 			_NeedSkillList: [[5401, 1]]
 		},
 		5404: {
@@ -148195,7 +149080,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5402, 1]] },
 			_NeedSkillList: [[5402, 1]]
 		},
 		5405: {
@@ -148203,11 +149088,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "暗夜守望者",
 			MaxLv: 5,
 			SpAmount: [
-				49,
-				53,
-				57,
-				61,
-				65
+				72,
+				76,
+				80,
+				84,
+				88
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148218,7 +149103,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5401, 3], [5403, 1]] },
 			_NeedSkillList: [[5401, 3], [5403, 1]]
 		},
 		5406: {
@@ -148226,22 +149111,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "致命一弹",
 			MaxLv: 5,
 			SpAmount: [
-				30,
-				32,
-				34,
-				36,
-				38
+				39,
+				43,
+				47,
+				51,
+				55
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5401, 3], [5403, 1]] },
 			_NeedSkillList: [[5401, 3], [5403, 1]]
 		},
 		5407: {
@@ -148257,14 +149142,14 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5401, 3], [5403, 1]] },
 			_NeedSkillList: [[5401, 3], [5403, 1]]
 		},
 		5408: {
@@ -148272,22 +149157,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "单人弹匣",
 			MaxLv: 5,
 			SpAmount: [
-				30,
-				33,
-				36,
-				39,
-				42
+				42,
+				46,
+				50,
+				54,
+				58
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5401, 3], [5403, 1]] },
 			_NeedSkillList: [[5401, 3], [5403, 1]]
 		},
 		5409: {
@@ -148303,14 +149188,14 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5401, 3], [5403, 1]] },
 			_NeedSkillList: [[5401, 3], [5403, 1]]
 		},
 		5410: {
@@ -148318,22 +149203,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "基础榴弹",
 			MaxLv: 5,
 			SpAmount: [
-				31,
-				37,
-				43,
-				49,
-				55
+				36,
+				42,
+				48,
+				54,
+				60
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5402, 3]] },
 			_NeedSkillList: [[5402, 3]]
 		},
 		5411: {
@@ -148349,14 +149234,14 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5410, 3]] },
 			_NeedSkillList: [[5410, 3]]
 		},
 		5412: {
@@ -148364,22 +149249,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "榴弹倾泻",
 			MaxLv: 5,
 			SpAmount: [
-				54,
 				60,
 				66,
 				72,
-				78
+				78,
+				84
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5411, 3]] },
 			_NeedSkillList: [[5411, 3]]
 		},
 		5413: {
@@ -148402,7 +149287,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5412, 3]] },
 			_NeedSkillList: [[5412, 3]]
 		},
 		5414: {
@@ -148435,7 +149320,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5401, 5], [5403, 1]] },
 			_NeedSkillList: [[5401, 5], [5403, 1]]
 		},
 		5415: {
@@ -148443,32 +149328,32 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "任务轰炸",
 			MaxLv: 10,
 			SpAmount: [
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150,
-				150
+				100,
+				100,
+				100,
+				100,
+				100,
+				100,
+				100,
+				100,
+				100,
+				100
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4306: [[5402, 5], [5412, 3]] },
 			_NeedSkillList: [[5402, 5], [5412, 3]]
 		},
 		5416: {
@@ -148501,7 +149386,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [] },
 			_NeedSkillList: []
 		},
 		5417: {
@@ -148534,7 +149419,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [] },
 			_NeedSkillList: []
 		},
 		5418: {
@@ -148557,7 +149442,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5416, 1]] },
 			_NeedSkillList: [[5416, 1]]
 		},
 		5419: {
@@ -148580,7 +149465,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5416, 1]] },
 			_NeedSkillList: [[5416, 1]]
 		},
 		5420: {
@@ -148603,7 +149488,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5416, 1]] },
 			_NeedSkillList: [[5416, 1]]
 		},
 		5421: {
@@ -148611,11 +149496,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "灵魂聚集",
 			MaxLv: 5,
 			SpAmount: [
+				70,
+				75,
 				80,
 				85,
-				90,
-				95,
-				100
+				90
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148626,7 +149511,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[2611, 5], [5417, 3]] },
 			_NeedSkillList: [[2611, 5], [5417, 3]]
 		},
 		5422: {
@@ -148642,14 +149527,14 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				11,
+				11,
+				11,
+				11,
+				11
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5416, 3], [5417, 3]] },
 			_NeedSkillList: [[5416, 3], [5417, 3]]
 		},
 		5423: {
@@ -148672,7 +149557,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5416, 1]] },
 			_NeedSkillList: [[5416, 1]]
 		},
 		5424: {
@@ -148680,11 +149565,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "摄魂符",
 			MaxLv: 5,
 			SpAmount: [
-				30,
-				30,
-				30,
-				30,
-				30
+				84,
+				84,
+				84,
+				84,
+				84
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148695,7 +149580,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5416, 1], [5417, 1]] },
 			_NeedSkillList: [[5416, 1], [5417, 1]]
 		},
 		5425: {
@@ -148703,11 +149588,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "死灵净化",
 			MaxLv: 5,
 			SpAmount: [
-				60,
-				75,
+				70,
+				80,
 				90,
-				105,
-				120
+				100,
+				110
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148718,30 +149603,30 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[2601, 5], [5421, 1]]
+			NeedSkillList: { 4303: [[5421, 1], [2601, 5]] },
+			_NeedSkillList: [[5421, 1], [2601, 5]]
 		},
 		5426: {
 			Name: "SOA_TALISMAN_OF_BLUE_DRAGON",
 			SkillName: "青龙符",
 			MaxLv: 5,
 			SpAmount: [
-				42,
-				47,
-				52,
-				57,
-				62
+				54,
+				58,
+				62,
+				66,
+				70
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				11,
+				11,
+				11,
+				11,
+				11
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5424, 1]] },
 			_NeedSkillList: [[5424, 1]]
 		},
 		5427: {
@@ -148749,22 +149634,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "白虎符",
 			MaxLv: 5,
 			SpAmount: [
-				66,
-				69,
-				72,
-				75,
-				78
+				110,
+				112,
+				114,
+				116,
+				118
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				1,
+				1,
+				1,
+				1,
+				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5426, 1]] },
 			_NeedSkillList: [[5426, 1]]
 		},
 		5428: {
@@ -148772,11 +149657,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "朱雀符",
 			MaxLv: 5,
 			SpAmount: [
-				65,
-				75,
-				85,
-				95,
-				105
+				72,
+				76,
+				80,
+				84,
+				88
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148787,7 +149672,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5427, 1]] },
 			_NeedSkillList: [[5427, 1]]
 		},
 		5429: {
@@ -148795,11 +149680,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "玄武符",
 			MaxLv: 5,
 			SpAmount: [
-				67,
-				79,
-				91,
-				103,
-				115
+				72,
+				77,
+				82,
+				87,
+				92
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148810,7 +149695,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [[5428, 1]] },
 			_NeedSkillList: [[5428, 1]]
 		},
 		5430: {
@@ -148818,11 +149703,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "四方神符",
 			MaxLv: 5,
 			SpAmount: [
-				70,
 				86,
-				102,
-				118,
-				134
+				88,
+				90,
+				92,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148833,7 +149718,12 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [
+				[5426, 1],
+				[5427, 1],
+				[5428, 1],
+				[5429, 1]
+			] },
 			_NeedSkillList: [
 				[5426, 1],
 				[5427, 1],
@@ -148846,11 +149736,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "四方五行阵",
 			MaxLv: 5,
 			SpAmount: [
-				90,
-				105,
 				120,
-				135,
-				150
+				140,
+				160,
+				180,
+				200
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -148861,7 +149751,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [
+				[5417, 3],
+				[5423, 1],
+				[5430, 1]
+			] },
 			_NeedSkillList: [
 				[5417, 3],
 				[5423, 1],
@@ -148886,19 +149780,24 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
+				11,
+				11,
+				11,
+				11,
+				11,
+				11,
+				11,
+				11,
+				11,
+				11
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4303: [
+				[5418, 5],
+				[5419, 5],
+				[5420, 5],
+				[5423, 5]
+			] },
 			_NeedSkillList: [
 				[5418, 5],
 				[5419, 5],
@@ -148936,18 +149835,18 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [] },
 			_NeedSkillList: []
 		},
 		5434: {
 			Name: "SH_COMMUNE_WITH_CHUL_HO",
 			SkillName: "与铁虎共鸣",
 			MaxLv: 1,
-			SpAmount: [],
+			SpAmount: [0],
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 7], [5437, 3]] },
 			_NeedSkillList: [[5433, 7], [5437, 3]]
 		},
 		5435: {
@@ -148955,26 +149854,26 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "铁虎音速爪",
 			MaxLv: 7,
 			SpAmount: [
-				24,
-				27,
-				30,
-				33,
-				36,
-				39,
-				42
+				42,
+				44,
+				46,
+				48,
+				50,
+				52,
+				54
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9
+				-11,
+				-11,
+				-11,
+				-11,
+				-11,
+				-11,
+				-11
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 1]] },
 			_NeedSkillList: [[5433, 1]]
 		},
 		5436: {
@@ -148982,26 +149881,26 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "铁虎咆哮",
 			MaxLv: 7,
 			SpAmount: [
-				32,
-				37,
-				42,
-				47,
-				52,
-				57,
-				62
+				72,
+				72,
+				72,
+				72,
+				72,
+				72,
+				72
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 3], [5435, 3]] },
 			_NeedSkillList: [[5433, 3], [5435, 3]]
 		},
 		5437: {
@@ -149009,37 +149908,37 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "虎高功乱打",
 			MaxLv: 7,
 			SpAmount: [
-				50,
-				53,
-				56,
-				59,
-				62,
-				65,
-				68
+				67,
+				70,
+				73,
+				76,
+				79,
+				82,
+				85
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5433, 5], [5436, 3]]
+			NeedSkillList: { 4308: [[5433, 5], [5435, 3]] },
+			_NeedSkillList: [[5433, 5], [5435, 3]]
 		},
 		5438: {
 			Name: "SH_COMMUNE_WITH_KI_SUL",
 			SkillName: "与龟雪共鸣",
 			MaxLv: 1,
-			SpAmount: [],
+			SpAmount: [0],
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 7], [5442, 3]] },
 			_NeedSkillList: [[5433, 7], [5442, 3]]
 		},
 		5439: {
@@ -149066,7 +149965,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 1]] },
 			_NeedSkillList: [[5433, 1]]
 		},
 		5440: {
@@ -149089,7 +149988,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 3], [5439, 3]] },
 			_NeedSkillList: [[5433, 3], [5439, 3]]
 		},
 		5441: {
@@ -149112,7 +150011,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 3], [5439, 3]] },
 			_NeedSkillList: [[5433, 3], [5439, 3]]
 		},
 		5442: {
@@ -149139,7 +150038,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [
+				[5433, 5],
+				[5440, 2],
+				[5441, 2]
+			] },
 			_NeedSkillList: [
 				[5433, 5],
 				[5440, 2],
@@ -149150,11 +150053,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "SH_COMMUNE_WITH_HYUN_ROK",
 			SkillName: "与玄鹿共鸣",
 			MaxLv: 1,
-			SpAmount: [],
+			SpAmount: [0],
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 7], [5446, 3]] },
 			_NeedSkillList: [[5433, 7], [5446, 3]]
 		},
 		5444: {
@@ -149181,7 +150084,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 1]] },
 			_NeedSkillList: [[5433, 1]]
 		},
 		5445: {
@@ -149189,13 +150092,13 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "玄鹿叶风",
 			MaxLv: 7,
 			SpAmount: [
-				56,
-				62,
-				68,
-				74,
-				80,
-				86,
-				92
+				58,
+				64,
+				70,
+				76,
+				82,
+				88,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149208,7 +150111,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 3], [5444, 3]] },
 			_NeedSkillList: [[5433, 3], [5444, 3]]
 		},
 		5446: {
@@ -149216,26 +150119,26 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "玄鹿炮",
 			MaxLv: 7,
 			SpAmount: [
-				44,
 				47,
 				50,
 				53,
 				56,
 				59,
-				62
+				62,
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9
+				-11,
+				-11,
+				-11,
+				-11,
+				-11,
+				-11,
+				-11
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 5], [5445, 3]] },
 			_NeedSkillList: [[5433, 5], [5445, 3]]
 		},
 		5447: {
@@ -149258,7 +150161,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4308: [[5433, 10]] },
 			_NeedSkillList: [[5433, 10]]
 		},
 		5448: {
@@ -149274,15 +150177,15 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5433, 10], [5438, 1]]
+			NeedSkillList: { 4308: [[5438, 1], [5433, 10]] },
+			_NeedSkillList: [[5438, 1], [5433, 10]]
 		},
 		5449: {
 			Name: "HN_SELFSTUDY_TATICS",
@@ -149314,7 +150217,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [] },
 			_NeedSkillList: []
 		},
 		5450: {
@@ -149347,78 +150250,12 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [] },
 			_NeedSkillList: []
 		},
 		5451: {
 			Name: "HN_DOUBLEBOWLINGBASH",
 			SkillName: "双重保龄球猛击",
-			MaxLv: 10,
-			SpAmount: [
-				54,
-				56,
-				58,
-				60,
-				62,
-				64,
-				66,
-				68,
-				70,
-				72
-			],
-			bSeperateLv: true,
-			AttackRange: [
-				2,
-				2,
-				2,
-				2,
-				2,
-				2,
-				2,
-				2,
-				2,
-				2
-			],
-			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5449, 5]]
-		},
-		5452: {
-			Name: "HN_MEGA_SONIC_BLOW",
-			SkillName: "超级音速投掷",
-			MaxLv: 10,
-			SpAmount: [
-				27,
-				29,
-				31,
-				33,
-				35,
-				37,
-				39,
-				41,
-				43,
-				45
-			],
-			bSeperateLv: true,
-			AttackRange: [
-				2,
-				2,
-				2,
-				2,
-				2,
-				2,
-				2,
-				2,
-				2,
-				2
-			],
-			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: [[5451, 7]]
-		},
-		5453: {
-			Name: "HN_SHIELD_CHAIN_RUSH",
-			SkillName: "盾链冲锋",
 			MaxLv: 10,
 			SpAmount: [
 				38,
@@ -149434,36 +150271,69 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				7,
-				7,
-				7,
-				7,
-				9,
-				9,
-				9,
-				9,
-				11,
-				11
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [[5449, 5]] },
 			_NeedSkillList: [[5449, 5]]
 		},
-		5454: {
-			Name: "HN_SPIRAL_PIERCE_MAX",
-			SkillName: "螺旋刺击·极",
+		5452: {
+			Name: "HN_MEGA_SONIC_BLOW",
+			SkillName: "超级音速投掷",
 			MaxLv: 10,
 			SpAmount: [
-				20,
-				23,
-				26,
-				29,
-				32,
+				42,
+				44,
+				46,
+				48,
+				50,
+				52,
+				54,
+				56,
+				58,
+				60
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2
+			],
+			SkillScale: [],
+			NeedSkillList: { 4307: [[5451, 7]] },
+			_NeedSkillList: [[5451, 7]]
+		},
+		5453: {
+			Name: "HN_SHIELD_CHAIN_RUSH",
+			SkillName: "盾链冲锋",
+			MaxLv: 10,
+			SpAmount: [
 				35,
 				38,
 				41,
 				44,
-				47
+				47,
+				50,
+				53,
+				56,
+				59,
+				62
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149479,7 +150349,40 @@ var init_SkillInfo_generated = __esmMin((() => {
 				7
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [[5449, 5]] },
+			_NeedSkillList: [[5449, 5]]
+		},
+		5454: {
+			Name: "HN_SPIRAL_PIERCE_MAX",
+			SkillName: "螺旋刺击·极",
+			MaxLv: 10,
+			SpAmount: [
+				37,
+				39,
+				41,
+				43,
+				45,
+				47,
+				49,
+				51,
+				53,
+				55
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4307: [[5453, 7]] },
 			_NeedSkillList: [[5453, 7]]
 		},
 		5455: {
@@ -149487,32 +150390,32 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "流星风暴破坏",
 			MaxLv: 10,
 			SpAmount: [
-				55,
-				58,
-				61,
-				64,
-				67,
-				70,
-				73,
-				76,
-				79,
-				82
+				74,
+				78,
+				82,
+				86,
+				90,
+				94,
+				98,
+				102,
+				106,
+				110
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [[5450, 5]] },
 			_NeedSkillList: [[5450, 5]]
 		},
 		5456: {
@@ -149520,16 +150423,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "尤佩特雷暴",
 			MaxLv: 10,
 			SpAmount: [
-				50,
-				52,
-				54,
-				56,
-				58,
-				60,
-				62,
-				64,
-				66,
-				68
+				75,
+				80,
+				85,
+				90,
+				95,
+				100,
+				105,
+				110,
+				115,
+				120
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149545,7 +150448,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				11
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [[5450, 5]] },
 			_NeedSkillList: [[5450, 5]]
 		},
 		5457: {
@@ -149553,32 +150456,32 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "杰克霜冻新星",
 			MaxLv: 10,
 			SpAmount: [
-				58,
-				61,
-				64,
-				67,
-				70,
-				73,
-				76,
-				79,
+				68,
+				71,
+				74,
+				77,
+				80,
 				83,
-				85
+				86,
+				89,
+				92,
+				95
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [[5450, 5]] },
 			_NeedSkillList: [[5450, 5]]
 		},
 		5458: {
@@ -149586,16 +150489,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "地狱驱动",
 			MaxLv: 10,
 			SpAmount: [
-				43,
-				46,
-				49,
-				52,
-				55,
-				58,
-				61,
-				64,
-				67,
-				70
+				88,
+				91,
+				94,
+				97,
+				100,
+				103,
+				106,
+				109,
+				112,
+				115
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149611,7 +150514,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [[5450, 5]] },
 			_NeedSkillList: [[5450, 5]]
 		},
 		5459: {
@@ -149619,32 +150522,32 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "大地重力",
 			MaxLv: 10,
 			SpAmount: [
-				70,
-				72,
-				74,
-				76,
-				78,
-				80,
-				82,
-				84,
-				86,
-				88
+				93,
+				96,
+				99,
+				102,
+				105,
+				108,
+				111,
+				114,
+				117,
+				120
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [[5450, 5]] },
 			_NeedSkillList: [[5450, 5]]
 		},
 		5460: {
@@ -149652,16 +150555,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "念力连击·冲击",
 			MaxLv: 10,
 			SpAmount: [
-				40,
-				42,
-				44,
-				46,
 				48,
-				50,
-				52,
+				51,
 				54,
-				56,
-				58
+				57,
+				60,
+				63,
+				66,
+				69,
+				72,
+				75
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149677,7 +150580,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				11
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [[5450, 5]] },
 			_NeedSkillList: [[5450, 5]]
 		},
 		5461: {
@@ -149688,7 +150591,12 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [
+				[5451, 7],
+				[5452, 7],
+				[5453, 7],
+				[5454, 7]
+			] },
 			_NeedSkillList: [
 				[5451, 7],
 				[5452, 7],
@@ -149704,7 +150612,14 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4307: [
+				[5455, 5],
+				[5456, 5],
+				[5457, 5],
+				[5458, 5],
+				[5459, 5],
+				[5460, 5]
+			] },
 			_NeedSkillList: [
 				[5455, 5],
 				[5456, 5],
@@ -149744,7 +150659,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [] },
 			_NeedSkillList: []
 		},
 		5464: {
@@ -149777,7 +150692,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [] },
 			_NeedSkillList: []
 		},
 		5465: {
@@ -149785,11 +150700,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "朝阳",
 			MaxLv: 5,
 			SpAmount: [
-				25,
-				25,
-				25,
-				25,
-				25
+				60,
+				60,
+				60,
+				60,
+				60
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149800,7 +150715,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 1]] },
 			_NeedSkillList: [[5463, 1]]
 		},
 		5466: {
@@ -149808,11 +150723,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "正午爆破",
 			MaxLv: 5,
 			SpAmount: [
-				24,
-				28,
-				32,
-				36,
-				40
+				49,
+				53,
+				57,
+				61,
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149823,7 +150738,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 3], [5465, 1]] },
 			_NeedSkillList: [[5463, 3], [5465, 1]]
 		},
 		5467: {
@@ -149831,11 +150746,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "日落爆破",
 			MaxLv: 5,
 			SpAmount: [
-				28,
-				30,
-				32,
-				34,
-				36
+				46,
+				50,
+				54,
+				58,
+				62
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149846,7 +150761,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 5], [5466, 1]] },
 			_NeedSkillList: [[5463, 5], [5466, 1]]
 		},
 		5468: {
@@ -149854,22 +150769,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "月升",
 			MaxLv: 5,
 			SpAmount: [
-				35,
-				35,
-				35,
-				35,
-				35
+				64,
+				64,
+				64,
+				64,
+				64
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1
+				2,
+				2,
+				2,
+				2,
+				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 1]] },
 			_NeedSkillList: [[5463, 1]]
 		},
 		5469: {
@@ -149877,11 +150792,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "午夜踢",
 			MaxLv: 5,
 			SpAmount: [
-				36,
-				40,
-				44,
-				48,
-				52
+				60,
+				62,
+				64,
+				66,
+				68
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149892,7 +150807,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 3], [5468, 1]] },
 			_NeedSkillList: [[5463, 3], [5468, 1]]
 		},
 		5470: {
@@ -149900,11 +150815,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "破晓",
 			MaxLv: 5,
 			SpAmount: [
-				34,
-				37,
-				40,
-				43,
-				46
+				56,
+				58,
+				60,
+				62,
+				64
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149915,7 +150830,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 5], [5469, 1]] },
 			_NeedSkillList: [[5463, 5], [5469, 1]]
 		},
 		5471: {
@@ -149923,11 +150838,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "闪耀银河",
 			MaxLv: 5,
 			SpAmount: [
-				30,
-				30,
-				30,
-				30,
-				30
+				124,
+				124,
+				124,
+				124,
+				124
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149938,7 +150853,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 1]] },
 			_NeedSkillList: [[5463, 1]]
 		},
 		5472: {
@@ -149946,22 +150861,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "星辰爆发",
 			MaxLv: 5,
 			SpAmount: [
-				41,
-				45,
-				49,
-				53,
-				57
+				54,
+				56,
+				58,
+				60,
+				62
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1
+				2,
+				2,
+				2,
+				2,
+				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 3], [5471, 1]] },
 			_NeedSkillList: [[5463, 3], [5471, 1]]
 		},
 		5473: {
@@ -149969,11 +150884,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "星辰炮",
 			MaxLv: 5,
 			SpAmount: [
-				29,
-				33,
-				37,
-				41,
-				45
+				90,
+				95,
+				100,
+				105,
+				110
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -149984,7 +150899,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 5], [5472, 1]] },
 			_NeedSkillList: [[5463, 5], [5472, 1]]
 		},
 		5474: {
@@ -149992,32 +150907,36 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "天穹万象",
 			MaxLv: 10,
 			SpAmount: [
-				100,
-				100,
-				100,
-				100,
-				100,
-				100,
-				100,
-				100,
-				100,
-				100
+				85,
+				85,
+				85,
+				85,
+				85,
+				85,
+				85,
+				85,
+				85,
+				85
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9,
-				9
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [
+				[5464, 5],
+				[5465, 1],
+				[5468, 1]
+			] },
 			_NeedSkillList: [
 				[5464, 5],
 				[5465, 1],
@@ -150054,7 +150973,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: { 4302: [[5463, 5]] },
 			_NeedSkillList: [[5463, 5]]
 		},
 		5476: {
@@ -150077,7 +150996,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				5
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5479, 1]],
+				4305: [[5479, 1]]
+			},
 			_NeedSkillList: [[5479, 1]]
 		},
 		5477: {
@@ -150100,7 +151022,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				11
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5479, 1]],
+				4305: [[5479, 1]]
+			},
 			_NeedSkillList: [[5479, 1]]
 		},
 		5478: {
@@ -150111,7 +151036,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [],
+				4305: []
+			},
 			_NeedSkillList: []
 		},
 		5479: {
@@ -150122,7 +151050,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [5],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [],
+				4305: []
+			},
 			_NeedSkillList: []
 		},
 		5480: {
@@ -150130,16 +151061,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "猎影",
 			MaxLv: 10,
 			SpAmount: [
-				30,
-				32,
-				34,
+				33,
 				36,
-				38,
-				40,
+				39,
 				42,
-				44,
-				46,
-				48
+				45,
+				48,
+				51,
+				54,
+				57,
+				60
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -150155,7 +151086,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5479, 1]],
+				4305: [[5479, 1]]
+			},
 			_NeedSkillList: [[5479, 1]]
 		},
 		5481: {
@@ -150163,16 +151097,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "影舞",
 			MaxLv: 10,
 			SpAmount: [
-				30,
-				33,
-				36,
-				39,
+				37,
 				42,
-				45,
-				48,
-				51,
-				49,
-				52
+				47,
+				52,
+				57,
+				62,
+				67,
+				72,
+				77,
+				82
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -150188,7 +151122,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5480, 3]],
+				4305: [[5480, 3]]
+			},
 			_NeedSkillList: [[5480, 3]]
 		},
 		5482: {
@@ -150209,19 +151146,22 @@ var init_SkillInfo_generated = __esmMin((() => {
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2,
+				2
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5481, 5]],
+				4305: [[5481, 5]]
+			},
 			_NeedSkillList: [[5481, 5]]
 		},
 		5483: {
@@ -150229,16 +151169,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "风魔手里剑·掌握",
 			MaxLv: 10,
 			SpAmount: [
-				38,
-				40,
-				42,
-				44,
-				46,
 				48,
-				50,
 				52,
-				54,
-				56
+				56,
+				60,
+				64,
+				68,
+				72,
+				76,
+				80,
+				84
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -150254,7 +151194,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5485, 3]],
+				4305: [[5485, 3]]
+			},
 			_NeedSkillList: [[5485, 3]]
 		},
 		5484: {
@@ -150262,32 +151205,35 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "风魔手里剑 - 构筑",
 			MaxLv: 10,
 			SpAmount: [
-				34,
+				29,
+				33,
 				37,
-				40,
-				43,
-				46,
+				41,
+				45,
 				49,
-				52,
-				55,
-				58,
-				61
+				53,
+				57,
+				61,
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5483, 5]],
+				4305: [[5483, 5]]
+			},
 			_NeedSkillList: [[5483, 5]]
 		},
 		5485: {
@@ -150295,16 +151241,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "苦无 - 扭曲",
 			MaxLv: 10,
 			SpAmount: [
-				28,
-				30,
-				32,
-				34,
 				36,
 				38,
 				40,
 				42,
 				44,
-				46
+				46,
+				48,
+				50,
+				52,
+				54
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -150320,7 +151266,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5479, 1]],
+				4305: [[5479, 1]]
+			},
 			_NeedSkillList: [[5479, 1]]
 		},
 		5486: {
@@ -150328,11 +151277,11 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "苦无 - 旋转",
 			MaxLv: 5,
 			SpAmount: [
-				55,
-				55,
-				55,
-				55,
-				55
+				44,
+				52,
+				60,
+				68,
+				76
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -150343,7 +151292,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5485, 3]],
+				4305: [[5485, 3]]
+			},
 			_NeedSkillList: [[5485, 3]]
 		},
 		5487: {
@@ -150351,16 +151303,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "苦无 - 折射",
 			MaxLv: 10,
 			SpAmount: [
-				50,
-				50,
-				50,
-				50,
-				50,
-				50,
-				50,
-				50,
-				50,
-				50
+				49,
+				52,
+				55,
+				58,
+				61,
+				64,
+				67,
+				70,
+				73,
+				76
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -150376,7 +151328,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5486, 5]],
+				4305: [[5486, 5]]
+			},
 			_NeedSkillList: [[5486, 5]]
 		},
 		5488: {
@@ -150384,49 +151339,16 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "红炎炮",
 			MaxLv: 10,
 			SpAmount: [
-				44,
-				46,
-				48,
-				50,
-				52,
-				54,
+				53,
 				56,
-				58,
-				60,
-				62
-			],
-			bSeperateLv: true,
-			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
-			],
-			SkillScale: [],
-			NeedSkillList: {},
-			_NeedSkillList: []
-		},
-		5489: {
-			Name: "SS_REIKETSUHOU",
-			SkillName: "冷血炮",
-			MaxLv: 10,
-			SpAmount: [
-				34,
-				37,
-				40,
-				43,
-				46,
-				49,
-				52,
-				55,
-				58,
-				61
+				59,
+				62,
+				65,
+				68,
+				71,
+				74,
+				77,
+				80
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -150442,7 +151364,46 @@ var init_SkillInfo_generated = __esmMin((() => {
 				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [],
+				4305: []
+			},
+			_NeedSkillList: []
+		},
+		5489: {
+			Name: "SS_REIKETSUHOU",
+			SkillName: "冷血炮",
+			MaxLv: 10,
+			SpAmount: [
+				52,
+				56,
+				60,
+				64,
+				68,
+				72,
+				76,
+				80,
+				84,
+				88
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: {
+				4304: [],
+				4305: []
+			},
 			_NeedSkillList: []
 		},
 		5490: {
@@ -150450,32 +151411,35 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "雷电炮",
 			MaxLv: 10,
 			SpAmount: [
-				44,
-				46,
-				48,
-				50,
-				52,
-				54,
+				53,
 				56,
-				58,
-				60,
-				62
+				59,
+				62,
+				65,
+				68,
+				71,
+				74,
+				77,
+				80
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [],
+				4305: []
+			},
 			_NeedSkillList: []
 		},
 		5491: {
@@ -150483,32 +151447,35 @@ var init_SkillInfo_generated = __esmMin((() => {
 			SkillName: "金龙炮",
 			MaxLv: 10,
 			SpAmount: [
-				30,
-				32,
-				34,
-				36,
-				38,
-				40,
-				42,
-				44,
-				46,
-				48
+				47,
+				49,
+				51,
+				53,
+				55,
+				57,
+				59,
+				61,
+				63,
+				65
 			],
 			bSeperateLv: true,
 			AttackRange: [
-				13,
-				13,
-				13,
-				13,
-				13,
-				13,
-				13,
-				13,
-				13,
-				13
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [],
+				4305: []
+			},
 			_NeedSkillList: []
 		},
 		5492: {
@@ -150517,15 +151484,15 @@ var init_SkillInfo_generated = __esmMin((() => {
 			MaxLv: 10,
 			SpAmount: [
 				40,
-				42,
-				44,
 				46,
-				48,
-				50,
 				52,
-				54,
-				56,
-				58
+				58,
+				64,
+				70,
+				76,
+				82,
+				88,
+				94
 			],
 			bSeperateLv: true,
 			AttackRange: [
@@ -150541,7 +151508,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1
 			],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [],
+				4305: []
+			},
 			_NeedSkillList: []
 		},
 		5493: {
@@ -150552,7 +151522,10 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [[5479, 1], [5482, 7]],
+				4305: [[5479, 1], [5482, 7]]
+			},
 			_NeedSkillList: [[5479, 1], [5482, 7]]
 		},
 		5494: {
@@ -150563,7 +151536,20 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [
+					[5479, 1],
+					[5485, 5],
+					[5486, 5],
+					[5487, 5]
+				],
+				4305: [
+					[5479, 1],
+					[5485, 5],
+					[5486, 5],
+					[5487, 5]
+				]
+			},
 			_NeedSkillList: [
 				[5479, 1],
 				[5485, 5],
@@ -150579,7 +151565,24 @@ var init_SkillInfo_generated = __esmMin((() => {
 			bSeperateLv: false,
 			AttackRange: [1],
 			SkillScale: [],
-			NeedSkillList: {},
+			NeedSkillList: {
+				4304: [
+					[5479, 1],
+					[5488, 5],
+					[5489, 5],
+					[5490, 5],
+					[5491, 5],
+					[5492, 5]
+				],
+				4305: [
+					[5479, 1],
+					[5488, 5],
+					[5489, 5],
+					[5490, 5],
+					[5491, 5],
+					[5492, 5]
+				]
+			},
 			_NeedSkillList: [
 				[5479, 1],
 				[5488, 5],
@@ -150630,6 +151633,940 @@ var init_SkillInfo_generated = __esmMin((() => {
 				1,
 				1,
 				1
+			],
+			SkillScale: [],
+			NeedSkillList: {},
+			_NeedSkillList: []
+		},
+		5499: {
+			Name: "SS_FOUR_CHARM",
+			SkillName: "四色护符",
+			MaxLv: 1,
+			SpAmount: [90],
+			bSeperateLv: false,
+			AttackRange: [1],
+			SkillScale: [],
+			NeedSkillList: {
+				4304: [[3019, 1], [5479, 1]],
+				4305: [[3019, 1], [5479, 1]]
+			},
+			_NeedSkillList: [[3019, 1], [5479, 1]]
+		},
+		5500: {
+			Name: "NW_WILD_SHOT",
+			SkillName: "野性射击",
+			MaxLv: 5,
+			SpAmount: [
+				60,
+				63,
+				66,
+				69,
+				72
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4306: [
+				[5406, 3],
+				[5407, 3],
+				[5408, 3]
+			] },
+			_NeedSkillList: [
+				[5406, 3],
+				[5407, 3],
+				[5408, 3]
+			]
+		},
+		5501: {
+			Name: "NW_MIDNIGHT_FALLEN",
+			SkillName: "午夜坠落",
+			MaxLv: 5,
+			SpAmount: [
+				50,
+				55,
+				60,
+				65,
+				70
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				-9,
+				-9,
+				-9,
+				-9,
+				-9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4306: [
+				[5405, 3],
+				[5408, 3],
+				[5409, 3]
+			] },
+			_NeedSkillList: [
+				[5405, 3],
+				[5408, 3],
+				[5409, 3]
+			]
+		},
+		5502: {
+			Name: "SKE_SKY_SUN",
+			SkillName: "天空之日",
+			MaxLv: 5,
+			SpAmount: [
+				72,
+				76,
+				80,
+				84,
+				88
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: { 4302: [
+				[5466, 3],
+				[5467, 3],
+				[5475, 7]
+			] },
+			_NeedSkillList: [
+				[5466, 3],
+				[5467, 3],
+				[5475, 7]
+			]
+		},
+		5503: {
+			Name: "SKE_SKY_MOON",
+			SkillName: "天空之月",
+			MaxLv: 5,
+			SpAmount: [
+				56,
+				59,
+				62,
+				65,
+				68
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				2,
+				2,
+				2,
+				2,
+				2
+			],
+			SkillScale: [],
+			NeedSkillList: { 4302: [
+				[5469, 3],
+				[5470, 3],
+				[5475, 7]
+			] },
+			_NeedSkillList: [
+				[5469, 3],
+				[5470, 3],
+				[5475, 7]
+			]
+		},
+		5504: {
+			Name: "SKE_STAR_LIGHT_KICK",
+			SkillName: "星光踢",
+			MaxLv: 5,
+			SpAmount: [
+				52,
+				57,
+				62,
+				67,
+				72
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4302: [
+				[5472, 3],
+				[5473, 3],
+				[5475, 7]
+			] },
+			_NeedSkillList: [
+				[5472, 3],
+				[5473, 3],
+				[5475, 7]
+			]
+		},
+		5505: {
+			Name: "HN_OVERCOMING_CRISIS",
+			SkillName: "克服危机",
+			MaxLv: 5,
+			SpAmount: [
+				70,
+				73,
+				76,
+				79,
+				82
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: { 4307: [[5449, 5], [5450, 5]] },
+			_NeedSkillList: [[5449, 5], [5450, 5]]
+		},
+		5506: {
+			Name: "SH_CHUL_HO_BATTERING",
+			SkillName: "铁虎重击",
+			MaxLv: 7,
+			SpAmount: [
+				64,
+				66,
+				68,
+				70,
+				72,
+				74,
+				76
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4308: [[5433, 7], [5435, 5]] },
+			_NeedSkillList: [[5433, 7], [5435, 5]]
+		},
+		5507: {
+			Name: "SH_HYUN_ROK_SPIRIT_POWER",
+			SkillName: "玄禄灵力",
+			MaxLv: 7,
+			SpAmount: [
+				70,
+				73,
+				76,
+				79,
+				82,
+				85,
+				88
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4308: [[5433, 7], [5445, 5]] },
+			_NeedSkillList: [[5433, 7], [5445, 5]]
+		},
+		6001: {
+			Name: "DK_DRAGONIC_BREATH",
+			SkillName: "龙之呼吸",
+			MaxLv: 10,
+			SpAmount: [
+				61,
+				64,
+				67,
+				70,
+				73,
+				76,
+				79,
+				82,
+				85,
+				88
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4252: [[2008, 10], [5004, 10]] },
+			_NeedSkillList: [[2008, 10], [5004, 10]]
+		},
+		6002: {
+			Name: "MT_SPARK_BLASTER",
+			SkillName: "火花爆破",
+			MaxLv: 10,
+			SpAmount: [
+				48,
+				52,
+				56,
+				60,
+				64,
+				68,
+				72,
+				76,
+				80,
+				84
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4253: [[5297, 1]] },
+			_NeedSkillList: [[5297, 1]]
+		},
+		6003: {
+			Name: "MT_TRIPLE_LASER",
+			SkillName: "三重激光",
+			MaxLv: 5,
+			SpAmount: [
+				40,
+				45,
+				50,
+				55,
+				60
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				11,
+				11,
+				11,
+				11,
+				11
+			],
+			SkillScale: [],
+			NeedSkillList: { 4253: [[6002, 5]] },
+			_NeedSkillList: [[6002, 5]]
+		},
+		6004: {
+			Name: "MT_MIGHTY_SMASH",
+			SkillName: "强力粉碎",
+			MaxLv: 10,
+			SpAmount: [
+				68,
+				71,
+				74,
+				77,
+				80,
+				83,
+				86,
+				89,
+				92,
+				95
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: { 4253: [[5295, 3]] },
+			_NeedSkillList: [[5295, 3]]
+		},
+		6005: {
+			Name: "BO_EXPLOSIVE_POWDER",
+			SkillName: "爆炸粉末",
+			MaxLv: 5,
+			SpAmount: [
+				69,
+				76,
+				83,
+				90,
+				97
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: { 4259: [[5337, 3]] },
+			_NeedSkillList: [[5337, 3]]
+		},
+		6006: {
+			Name: "BO_MAYHEMIC_THORNS",
+			SkillName: "混乱荆棘",
+			MaxLv: 10,
+			SpAmount: [
+				68,
+				70,
+				72,
+				74,
+				76,
+				78,
+				80,
+				82,
+				84,
+				86
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4259: [[5337, 5], [6005, 3]] },
+			_NeedSkillList: [[5337, 5], [6005, 3]]
+		},
+		6502: {
+			Name: "DK_DRAGONIC_PIERCE",
+			SkillName: "龙之穿刺",
+			MaxLv: 5,
+			SpAmount: [
+				45,
+				50,
+				55,
+				60,
+				65
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4252: [[5208, 7]] },
+			_NeedSkillList: [[5208, 7]]
+		},
+		6503: {
+			Name: "IG_RADIANT_SPEAR",
+			SkillName: "光辉长矛",
+			MaxLv: 10,
+			SpAmount: [
+				67,
+				69,
+				71,
+				73,
+				75,
+				77,
+				79,
+				81,
+				83,
+				85
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4258: [[5266, 3], [5265, 3]] },
+			_NeedSkillList: [[5266, 3], [5265, 3]]
+		},
+		6504: {
+			Name: "IG_IMPERIAL_CROSS",
+			SkillName: "帝国十字",
+			MaxLv: 5,
+			SpAmount: [
+				49,
+				53,
+				57,
+				61,
+				65
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				2,
+				2,
+				2,
+				2,
+				2
+			],
+			SkillScale: [],
+			NeedSkillList: { 4258: [[5266, 5]] },
+			_NeedSkillList: [[5266, 5]]
+		},
+		6505: {
+			Name: "IG_IMPERIAL_PRESSURE",
+			SkillName: "帝国压力",
+			MaxLv: 5,
+			SpAmount: [
+				89,
+				93,
+				97,
+				101,
+				105
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4258: [[5259, 7], [5255, 3]] },
+			_NeedSkillList: [[5259, 7], [5255, 3]]
+		},
+		6506: {
+			Name: "MT_RUSH_STRIKE",
+			SkillName: "冲锋打击",
+			MaxLv: 5,
+			SpAmount: [
+				85,
+				80,
+				75,
+				70,
+				65
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4253: [[5296, 5]] },
+			_NeedSkillList: [[5296, 5]]
+		},
+		6507: {
+			Name: "MT_POWERFUL_SWING",
+			SkillName: "强力挥击",
+			MaxLv: 5,
+			SpAmount: [
+				62,
+				64,
+				66,
+				68,
+				70
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				2,
+				2,
+				2,
+				2,
+				2
+			],
+			SkillScale: [],
+			NeedSkillList: { 4253: [[6506, 3]] },
+			_NeedSkillList: [[6506, 3]]
+		},
+		6508: {
+			Name: "MT_ENERGY_CANNONADE",
+			SkillName: "能量炮击",
+			MaxLv: 5,
+			SpAmount: [
+				58,
+				64,
+				70,
+				76,
+				82
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4253: [[6003, 3]] },
+			_NeedSkillList: [[6003, 3]]
+		},
+		6509: {
+			Name: "BO_MYSTERY_POWDER",
+			SkillName: "神秘粉末",
+			MaxLv: 5,
+			SpAmount: [
+				82,
+				82,
+				82,
+				82,
+				82
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				3,
+				3,
+				3,
+				3,
+				3
+			],
+			SkillScale: [],
+			NeedSkillList: { 4259: [[6005, 5]] },
+			_NeedSkillList: [[6005, 5]]
+		},
+		6510: {
+			Name: "BO_DUST_EXPLOSION",
+			SkillName: "粉尘爆炸",
+			MaxLv: 5,
+			SpAmount: [
+				64,
+				67,
+				70,
+				73,
+				76
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				3,
+				3,
+				3,
+				3,
+				3
+			],
+			SkillScale: [],
+			NeedSkillList: { 4259: [[6509, 3]] },
+			_NeedSkillList: [[6509, 3]]
+		},
+		6511: {
+			Name: "SHC_CROSS_SLASH",
+			SkillName: "交叉斩",
+			MaxLv: 5,
+			SpAmount: [
+				58,
+				63,
+				68,
+				73,
+				78
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				3,
+				3,
+				3,
+				3,
+				3
+			],
+			SkillScale: [],
+			NeedSkillList: { 4254: [[2028, 3], [5286, 3]] },
+			_NeedSkillList: [[2028, 3], [5286, 3]]
+		},
+		6512: {
+			Name: "ABC_HIT_AND_SLIDING",
+			SkillName: "滑步打击",
+			MaxLv: 5,
+			SpAmount: [
+				43,
+				46,
+				49,
+				52,
+				55
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				2,
+				2,
+				2,
+				2,
+				2
+			],
+			SkillScale: [],
+			NeedSkillList: { 4260: [[5311, 3]] },
+			_NeedSkillList: [[5311, 3]]
+		},
+		6513: {
+			Name: "ABC_CHASING_BREAK",
+			SkillName: "追击破坏",
+			MaxLv: 5,
+			SpAmount: [
+				62,
+				66,
+				70,
+				74,
+				78
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4260: [[6512, 3]] },
+			_NeedSkillList: [[6512, 3]]
+		},
+		6514: {
+			Name: "ABC_CHASING_SHOT",
+			SkillName: "追击射击",
+			MaxLv: 5,
+			SpAmount: [
+				85,
+				90,
+				95,
+				100,
+				105
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4260: [[6512, 3]] },
+			_NeedSkillList: [[6512, 3]]
+		},
+		6515: {
+			Name: "ABC_ABYSS_FLAME",
+			SkillName: "深渊烈焰",
+			MaxLv: 5,
+			SpAmount: [
+				82,
+				86,
+				90,
+				94,
+				98
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4260: [[5312, 5], [5317, 3]] },
+			_NeedSkillList: [[5312, 5], [5317, 3]]
+		},
+		6516: {
+			Name: "AG_ENERGY_CONVERSION",
+			SkillName: "能量转换",
+			MaxLv: 5,
+			SpAmount: [
+				10,
+				10,
+				10,
+				10,
+				10
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			SkillScale: [],
+			NeedSkillList: { 4255: [[2206, 2], [5232, 1]] },
+			_NeedSkillList: [[2206, 2], [5232, 1]]
+		},
+		6517: {
+			Name: "EM_PSYCHIC_STREAM",
+			SkillName: "念力洪流",
+			MaxLv: 5,
+			SpAmount: [
+				77,
+				84,
+				91,
+				98,
+				105
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4261: [
+				[5365, 5],
+				[5369, 3],
+				[5372, 3],
+				[5370, 3],
+				[5373, 3],
+				[5371, 3]
+			] },
+			_NeedSkillList: [
+				[5365, 5],
+				[5369, 3],
+				[5372, 3],
+				[5370, 3],
+				[5373, 3],
+				[5371, 3]
+			]
+		},
+		6518: {
+			Name: "CD_DIVINUS_FLOS",
+			SkillName: "神圣之花",
+			MaxLv: 5,
+			SpAmount: [
+				99,
+				103,
+				107,
+				111,
+				115
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: { 4256: [[2040, 5], [5284, 5]] },
+			_NeedSkillList: [[2040, 5], [5284, 5]]
+		},
+		6519: {
+			Name: "IQ_BLAZING_FLAME_BLAST",
+			SkillName: "炽焰爆破",
+			MaxLv: 5,
+			SpAmount: [
+				54,
+				58,
+				62,
+				66,
+				68
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				7,
+				7,
+				7,
+				7,
+				7
+			],
+			SkillScale: [],
+			NeedSkillList: { 4262: [[5243, 7]] },
+			_NeedSkillList: [[5243, 7]]
+		},
+		6520: {
+			Name: "WH_WILD_WALK",
+			SkillName: "荒野疾行",
+			MaxLv: 5,
+			SpAmount: [
+				63,
+				66,
+				69,
+				72,
+				75
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				11,
+				11,
+				11,
+				11,
+				11
+			],
+			SkillScale: [],
+			NeedSkillList: { 4257: [[5325, 3], [5326, 3]] },
+			_NeedSkillList: [[5325, 3], [5326, 3]]
+		},
+		6521: {
+			Name: "TR_RHYTHMICAL_WAVE",
+			SkillName: "节奏波",
+			MaxLv: 5,
+			SpAmount: [
+				56,
+				62,
+				68,
+				74,
+				80
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
+			],
+			SkillScale: [],
+			NeedSkillList: {
+				4263: [[5356, 3]],
+				4264: [[5356, 3]]
+			},
+			_NeedSkillList: [[5356, 3]]
+		},
+		6522: {
+			Name: "ABC_ABYSS_FLAME_ATK",
+			SkillName: "深渊火焰攻击",
+			MaxLv: 5,
+			SpAmount: [
+				0,
+				0,
+				0,
+				0,
+				0
+			],
+			bSeperateLv: true,
+			AttackRange: [
+				9,
+				9,
+				9,
+				9,
+				9
 			],
 			SkillScale: [],
 			NeedSkillList: {},
@@ -153612,7 +155549,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_FLAMETECHNIC",
 			SkillName: "火焰技法",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153623,7 +155560,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_FLAMEARMOR",
 			SkillName: "火焰铠甲",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153634,9 +155571,9 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_FLAMEROCK",
 			SkillName: "火焰岩石",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
-			AttackRange: [7],
+			AttackRange: [6],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -153645,7 +155582,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_COLD_FORCE",
 			SkillName: "寒冷之力",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153656,7 +155593,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_CRYSTAL_ARMOR",
 			SkillName: "水晶铠甲",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153667,9 +155604,9 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_AGE_OF_ICE",
 			SkillName: "冰之时代",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
-			AttackRange: [1],
+			AttackRange: [9],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -153678,7 +155615,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_GRACE_BREEZE",
 			SkillName: "恩典微风",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153689,7 +155626,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_EYES_OF_STORM",
 			SkillName: "风暴之眼",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153700,9 +155637,9 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_STORM_WIND",
 			SkillName: "风暴之风",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
-			AttackRange: [7],
+			AttackRange: [11],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -153711,7 +155648,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_EARTH_CARE",
 			SkillName: "大地守护",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153722,7 +155659,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_STRONG_PROTECTION",
 			SkillName: "强力保护",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153733,9 +155670,9 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_AVALANCHE",
 			SkillName: "雪崩",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
-			AttackRange: [7],
+			AttackRange: [5],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -153744,7 +155681,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_DEEP_POISONING",
 			SkillName: "深度中毒",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153755,7 +155692,7 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_POISON_SHIELD",
 			SkillName: "毒之盾",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
 			AttackRange: [1],
 			SkillScale: [],
@@ -153766,9 +155703,9 @@ var init_SkillInfo_generated = __esmMin((() => {
 			Name: "EM_EL_DEADLY_POISON",
 			SkillName: "致命毒药",
 			MaxLv: 1,
-			SpAmount: [0],
+			SpAmount: [1],
 			bSeperateLv: true,
-			AttackRange: [7],
+			AttackRange: [5],
 			SkillScale: [],
 			NeedSkillList: {},
 			_NeedSkillList: []
@@ -160560,7 +162497,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5213: {
 			key: "DK_STORMSLASH",
 			name: "风暴斩",
-			description: "风暴斩\n恢复 1 AP；\n双手剑或双手斧专用。\n连续斩击目标；\n拥有巨人成长效果时有概率造成双倍伤害。\n伤害受基础等级与 POW 影响且可暴击，暴击伤害加成仅应用一半。\n[等级 1]：ATK 120%，攻击 1 次\n[等级 2]：ATK 240%，攻击 2 次\n[等级 3]：ATK 360%，攻击 3 次\n[等级 4]：ATK 480%，攻击 4 次\n[等级 5]：ATK 600%，攻击 5 次\n最高等级：5\n习得条件：双手防御 Lv.10、砍杀者 Lv.5\n类别：主动\n类型：近战物理\n目标：单个目标\n属性：武器属性\n施放范围：2\n独立冷却：350 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：35 / 40 / 45 / 50 / 55"
+			description: "风暴斩\n恢复 1 AP；\n双手剑或双手斧专用。\n连续斩击目标；\n拥有巨人成长效果时有概率造成双倍伤害。\n伤害受基础等级与 POW 影响且可暴击，暴击伤害加成仅应用一半。\n[等级 1]：ATK 120%，攻击 1 次\n[等级 2]：ATK 240%，攻击 2 次\n[等级 3]：ATK 360%，攻击 3 次\n[等级 4]：ATK 480%，攻击 4 次\n[等级 5]：ATK 600%，攻击 5 次\n最高等级：5\n习得条件：砍杀者 Lv.5、双手防御 Lv.10\n类别：主动\n类型：近战物理\n目标：单个目标\n属性：武器属性\n施放范围：2\n独立冷却：350 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：35 / 40 / 45 / 50 / 55"
 		},
 		5214: {
 			key: "AG_DEADLY_PROJECTION",
@@ -160595,7 +162532,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5220: {
 			key: "AG_SOUL_VC_STRIKE",
 			name: "灵魂火神击",
-			description: "灵魂火神击\n向目标及其周围连续发射强力灵魂攻击；\n伤害受基础等级与 SPL 影响。\n[等级 1]：MATK 180%，灵魂：3个，作用范围 3×3 格\n[等级 2]：MATK 360%，灵魂：4个，作用范围 5×5 格\n[等级 3]：MATK 540%，灵魂：5个，作用范围 7×7 格\n[等级 4]：MATK 720%，灵魂：6个，作用范围 9×9 格\n[等级 5]：MATK 900%，灵魂：7个，作用范围 11×11 格\n最高等级：5\n习得条件：灵魂扩张 Lv.5、双手杖修炼 Lv.3\n类别：主动\n类型：魔法\n目标：单个目标\n属性：念属性\n施放范围：9\n作用范围：1 / 2 / 3 / 4 / 5\n独立冷却：700 毫秒\n施放后延迟：500 毫秒\n可变吟唱：3 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：90 / 95 / 100 / 105 / 110"
+			description: "灵魂火神击\n向目标及其周围连续发射强力灵魂攻击；\n伤害受基础等级与 SPL 影响。\n[等级 1]：MATK 180%，灵魂：3个，作用范围 3×3 格\n[等级 2]：MATK 360%，灵魂：4个，作用范围 5×5 格\n[等级 3]：MATK 540%，灵魂：5个，作用范围 7×7 格\n[等级 4]：MATK 720%，灵魂：6个，作用范围 9×9 格\n[等级 5]：MATK 900%，灵魂：7个，作用范围 11×11 格\n最高等级：5\n习得条件：双手杖修炼 Lv.3、灵魂扩张 Lv.5\n类别：主动\n类型：魔法\n目标：单个目标\n属性：念属性\n施放范围：9\n作用范围：1 / 2 / 3 / 4 / 5\n独立冷却：700 毫秒\n施放后延迟：500 毫秒\n可变吟唱：3 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：90 / 95 / 100 / 105 / 110"
 		},
 		5221: {
 			key: "AG_STRANTUM_TREMOR",
@@ -160645,7 +162582,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5230: {
 			key: "AG_ASTRAL_STRIKE",
 			name: "星界打击",
-			description: "星界打击\n消耗 150 AP；\n向指定地面坠落强力陨石，先造成无属性魔法伤害，再周期性追加伤害；\n对不死型与龙族目标伤害更高，并受基础等级与 SPL 影响。\n[等级 1]：MATK 500%，MATK 1100%(不死，龙族)，作用范围 5×5 格\n[等级 2]：MATK 1000%，MATK 2200%(不死，龙族)，作用范围 5×5 格\n[等级 3]：MATK 1500%，MATK 3300%(不死，龙族)，作用范围 5×5 格\n[等级 4]：MATK 2000%，MATK 4400%(不死，龙族)，作用范围 7×7 格\n[等级 5]：MATK 2500%，MATK 5500%(不死，龙族)，作用范围 7×7 格\n[等级 6]：MATK 3000%，MATK 6600%(不死，龙族)，作用范围 7×7 格\n[等级 7]：MATK 3500%，MATK 7700%(不死，龙族)，作用范围 9×9 格\n[等级 8]：MATK 4000%，MATK 8800%(不死，龙族)，作用范围 9×9 格\n[等级 9]：MATK 4500%，MATK 9900%(不死，龙族)，作用范围 9×9 格\n[等级 10]：MATK 5000%，MATK 11000%(不死，龙族)，作用范围 11×11 格\n最高等级：10\n习得条件：彗星 Lv.5、神秘幻象 Lv.3、致命投影 Lv.3\n类别：主动（AP）\n类型：魔法\n目标：地面 1 格\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3 / 3 / 4 / 4 / 4 / 5\n持续时间：6 秒\n独立冷却：6 秒\n施放后延迟：1 秒\n可变吟唱：4 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：130"
+			description: "星界打击\n消耗 150 AP；\n向指定地面坠落强力陨石，先造成无属性魔法伤害，再周期性追加伤害；\n对不死型与龙族目标伤害更高，并受基础等级与 SPL 影响。\n[等级 1]：MATK 500%，MATK 1100%(不死，龙族)，作用范围 5×5 格\n[等级 2]：MATK 1000%，MATK 2200%(不死，龙族)，作用范围 5×5 格\n[等级 3]：MATK 1500%，MATK 3300%(不死，龙族)，作用范围 5×5 格\n[等级 4]：MATK 2000%，MATK 4400%(不死，龙族)，作用范围 7×7 格\n[等级 5]：MATK 2500%，MATK 5500%(不死，龙族)，作用范围 7×7 格\n[等级 6]：MATK 3000%，MATK 6600%(不死，龙族)，作用范围 7×7 格\n[等级 7]：MATK 3500%，MATK 7700%(不死，龙族)，作用范围 9×9 格\n[等级 8]：MATK 4000%，MATK 8800%(不死，龙族)，作用范围 9×9 格\n[等级 9]：MATK 4500%，MATK 9900%(不死，龙族)，作用范围 9×9 格\n[等级 10]：MATK 5000%，MATK 11000%(不死，龙族)，作用范围 11×11 格\n最高等级：10\n习得条件：致命投影 Lv.3、神秘幻象 Lv.3、彗星 Lv.5\n类别：主动（AP）\n类型：魔法\n目标：地面 1 格\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3 / 3 / 4 / 4 / 4 / 5\n持续时间：6 秒\n独立冷却：6 秒\n施放后延迟：1 秒\n可变吟唱：4 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：130"
 		},
 		5231: {
 			key: "AG_ASTRAL_STRIKE_ATK",
@@ -160655,7 +162592,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5232: {
 			key: "AG_CLIMAX",
 			name: "高潮",
-			description: "高潮\n消耗 150 AP；\n在 300 秒内为自身施加高潮状态，使特定魔法获得特殊效果；\n具体效果随技能等级而变化。\n[等级 1]：施加高潮第 1 阶段\n[等级 2]：施加高潮第 2 阶段\n[等级 3]：施加高潮第 3 阶段\n[等级 4]：施加高潮第 4 阶段\n[等级 5]：施加高潮第 5 阶段\n最高等级：5\n习得条件：四元漩涡 Lv.5、双手杖修炼 Lv.3\n类别：主动（AP）\n类型：魔法\n目标：自身\n持续时间：5 分钟\n独立冷却：1 分钟\n施放后延迟：300 毫秒\n可变吟唱：无\n固定吟唱：4 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
+			description: "高潮\n消耗 150 AP；\n在 300 秒内为自身施加高潮状态，使特定魔法获得特殊效果；\n具体效果随技能等级而变化。\n[等级 1]：施加高潮第 1 阶段\n[等级 2]：施加高潮第 2 阶段\n[等级 3]：施加高潮第 3 阶段\n[等级 4]：施加高潮第 4 阶段\n[等级 5]：施加高潮第 5 阶段\n最高等级：5\n习得条件：双手杖修炼 Lv.3、四元漩涡 Lv.5\n类别：主动（AP）\n类型：魔法\n目标：自身\n持续时间：5 分钟\n独立冷却：1 分钟\n施放后延迟：300 毫秒\n可变吟唱：无\n固定吟唱：4 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
 		},
 		5233: {
 			key: "AG_ROCK_DOWN",
@@ -160710,7 +162647,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5243: {
 			key: "IQ_MASSIVE_F_BLASTER",
 			name: "巨大火焰爆破",
-			description: "巨大火焰爆破\n消耗 150 AP；\n瞬间引爆体内积蓄的强大气劲，对周围造成强力远程物理伤害；\n对恶魔型与动物型敌人伤害更高。\n之后 300 秒内使用雷光弹和爆气散弹不再消耗气弹，技能可暴击。\n伤害还会随施法者的基础等级和 POW 提高。\n暴击伤害增加效果只应用一半。\n[等级 1]：ATK 800%；\n对恶魔型与动物型敌人 ATK 1100%\n[等级 2]：ATK 1600%；\n对恶魔型与动物型敌人 ATK 2200%\n[等级 3]：ATK 2400%；\n对恶魔型与动物型敌人 ATK 3300%\n[等级 4]：ATK 3200%；\n对恶魔型与动物型敌人 ATK 4400%\n[等级 5]：ATK 4000%；\n对恶魔型与动物型敌人 ATK 5500%\n[等级 6]：ATK 4800%；\n对恶魔型与动物型敌人 ATK 6600%\n[等级 7]：ATK 5600%；\n对恶魔型与动物型敌人 ATK 7700%\n[等级 8]：ATK 6400%；\n对恶魔型与动物型敌人 ATK 8800%\n[等级 9]：ATK 7200%；\n对恶魔型与动物型敌人 ATK 9900%\n[等级 10]：ATK 8000%；\n对恶魔型与动物型敌人 ATK 11000%\n最高等级：10\n习得条件：神圣圣油 Lv.3、爆炸爆破 Lv.3、信仰意志 Lv.5\n类别：主动（AP）\n类型：远程物理\n目标：范围内目标\n属性：武器属性\n施放范围：9\n作用范围：4\n持续时间：150 秒\n独立冷却：5 秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
+			description: "巨大火焰爆破\n消耗 150 AP；\n瞬间引爆体内积蓄的强大气劲，对周围造成强力远程物理伤害；\n对恶魔型与动物型敌人伤害更高。\n之后 300 秒内使用雷光弹和爆气散弹不再消耗气弹，技能可暴击。\n伤害还会随施法者的基础等级和 POW 提高。\n暴击伤害增加效果只应用一半。\n[等级 1]：ATK 800%；\n对恶魔型与动物型敌人 ATK 1100%\n[等级 2]：ATK 1600%；\n对恶魔型与动物型敌人 ATK 2200%\n[等级 3]：ATK 2400%；\n对恶魔型与动物型敌人 ATK 3300%\n[等级 4]：ATK 3200%；\n对恶魔型与动物型敌人 ATK 4400%\n[等级 5]：ATK 4000%；\n对恶魔型与动物型敌人 ATK 5500%\n[等级 6]：ATK 4800%；\n对恶魔型与动物型敌人 ATK 6600%\n[等级 7]：ATK 5600%；\n对恶魔型与动物型敌人 ATK 7700%\n[等级 8]：ATK 6400%；\n对恶魔型与动物型敌人 ATK 8800%\n[等级 9]：ATK 7200%；\n对恶魔型与动物型敌人 ATK 9900%\n[等级 10]：ATK 8000%；\n对恶魔型与动物型敌人 ATK 11000%\n最高等级：10\n习得条件：爆炸爆破 Lv.3、神圣圣油 Lv.3、信仰意志 Lv.5\n类别：主动（AP）\n类型：远程物理\n目标：范围内目标\n属性：武器属性\n施放范围：9\n作用范围：4\n持续时间：150 秒\n独立冷却：5 秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
 		},
 		5244: {
 			key: "IQ_EXPOSION_BLASTER",
@@ -160725,7 +162662,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5246: {
 			key: "IQ_FIRST_FAITH_POWER",
 			name: "第一信仰之力",
-			description: "第一信仰之力\n接受真实信念并进入“信念之力”状态；\n持续期间可不消耗气弹使用大纏崩坠。\n[等级 1]：持续时间：60秒\n[等级 2]：持续时间：120秒\n[等级 3]：持续时间：180秒\n[等级 4]：持续时间：240秒\n[等级 5]：持续时间：300秒\n最高等级：5\n习得条件：信仰意志 Lv.3、第一烙印 Lv.1\n类别：主动\n类型：辅助\n目标：自身\n持续时间：5 分钟\n独立冷却：Lv.1：3 分钟 / Lv.2：150 秒 / Lv.3：2 分钟 / Lv.4：90 秒 / Lv.5：1 分钟\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：2 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
+			description: "第一信仰之力\n接受真实信念并进入“信念之力”状态；\n持续期间可不消耗气弹使用大纏崩坠。\n[等级 1]：持续时间：60秒\n[等级 2]：持续时间：120秒\n[等级 3]：持续时间：180秒\n[等级 4]：持续时间：240秒\n[等级 5]：持续时间：300秒\n最高等级：5\n习得条件：第一烙印 Lv.1、信仰意志 Lv.3\n类别：主动\n类型：辅助\n目标：自身\n持续时间：5 分钟\n独立冷却：Lv.1：3 分钟 / Lv.2：150 秒 / Lv.3：2 分钟 / Lv.4：90 秒 / Lv.5：1 分钟\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：2 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
 		},
 		5247: {
 			key: "IQ_JUDGE",
@@ -160800,12 +162737,12 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5261: {
 			key: "IG_ULTIMATE_SACRIFICE",
 			name: "终极牺牲",
-			description: "终极牺牲\n仅可在防御姿态下使用，消耗除 1 点以外的全部剩余 HP，为周围队伍成员赋予复活印记；\n持有印记者倒地时会原地以满 HP 和 SP 立即复活。\n[等级 1]：技能冷却时间：20秒，作用范围 3×3 格\n[等级 2]：技能冷却时间：40秒，作用范围 3×3 格\n[等级 3]：技能冷却时间：60秒，作用范围 5×5 格\n[等级 4]：技能冷却时间：80秒，作用范围 5×5 格\n[等级 5]：技能冷却时间：100秒，作用范围 7×7 格\n最高等级：5\n习得条件：反弹之盾 Lv.3、守护者之盾 Lv.3\n类别：主动\n类型：辅助\n目标：自身及队伍成员\n作用范围：1 / 1 / 2 / 2 / 3\n持续时间：5 分钟\n独立冷却：Lv.1：20 秒 / Lv.2：40 秒 / Lv.3：1 分钟 / Lv.4：80 秒 / Lv.5：100 秒\n施放后延迟：1 秒\n可变吟唱：2 秒\n固定吟唱：2 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：120"
+			description: "终极牺牲\n仅可在防御姿态下使用，消耗除 1 点以外的全部剩余 HP，为周围队伍成员赋予复活印记；\n持有印记者倒地时会原地以满 HP 和 SP 立即复活。\n[等级 1]：技能冷却时间：20秒，作用范围 3×3 格\n[等级 2]：技能冷却时间：40秒，作用范围 3×3 格\n[等级 3]：技能冷却时间：60秒，作用范围 5×5 格\n[等级 4]：技能冷却时间：80秒，作用范围 5×5 格\n[等级 5]：技能冷却时间：100秒，作用范围 7×7 格\n最高等级：5\n习得条件：守护者之盾 Lv.3、反弹之盾 Lv.3\n类别：主动\n类型：辅助\n目标：自身及队伍成员\n作用范围：1 / 1 / 2 / 2 / 3\n持续时间：5 分钟\n独立冷却：Lv.1：20 秒 / Lv.2：40 秒 / Lv.3：1 分钟 / Lv.4：80 秒 / Lv.5：100 秒\n施放后延迟：1 秒\n可变吟唱：2 秒\n固定吟唱：2 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：120"
 		},
 		5262: {
 			key: "IG_HOLY_SHIELD",
 			name: "神圣盾牌",
-			description: "神圣盾牌\n装备盾牌时，为自身提高暗属性与不死属性攻击抗性，并提高圣属性魔法伤害。\n[等级 1]：抗性增加(暗，不死)：7%，圣属性魔法伤害增加：7%\n[等级 2]：抗性增加(暗，不死)：9%，圣属性魔法伤害增加：9%\n[等级 3]：抗性增加(暗，不死)：11%，圣属性魔法伤害增加：11%\n[等级 4]：抗性增加(暗，不死)：13%，圣属性魔法伤害增加：13%\n[等级 5]：抗性增加(暗，不死)：15%，圣属性魔法伤害增加：15%\n最高等级：5\n习得条件：盾牌修炼 Lv.5、十字雨 Lv.3\n类别：主动\n类型：增益\n目标：自身\n持续时间：3 分钟\n独立冷却：Lv.1：40 秒 / Lv.2：1 分钟 / Lv.3：80 秒 / Lv.4：100 秒 / Lv.5：2 分钟\n施放后延迟：1 秒\n可变吟唱：2 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
+			description: "神圣盾牌\n装备盾牌时，为自身提高暗属性与不死属性攻击抗性，并提高圣属性魔法伤害。\n[等级 1]：抗性增加(暗，不死)：7%，圣属性魔法伤害增加：7%\n[等级 2]：抗性增加(暗，不死)：9%，圣属性魔法伤害增加：9%\n[等级 3]：抗性增加(暗，不死)：11%，圣属性魔法伤害增加：11%\n[等级 4]：抗性增加(暗，不死)：13%，圣属性魔法伤害增加：13%\n[等级 5]：抗性增加(暗，不死)：15%，圣属性魔法伤害增加：15%\n最高等级：5\n习得条件：十字雨 Lv.3、盾牌修炼 Lv.5\n类别：主动\n类型：增益\n目标：自身\n持续时间：3 分钟\n独立冷却：Lv.1：40 秒 / Lv.2：1 分钟 / Lv.3：80 秒 / Lv.4：100 秒 / Lv.5：2 分钟\n施放后延迟：1 秒\n可变吟唱：2 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
 		},
 		5263: {
 			key: "IG_GRAND_JUDGEMENT",
@@ -160820,7 +162757,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5265: {
 			key: "IG_SHIELD_SHOOTING",
 			name: "盾牌射击",
-			description: "盾牌射击\n恢复 2 AP；\n盾牌专用且仅可在攻击姿态下使用，投掷盾牌造成远程物理伤害，并在 10 秒内强化盾链、盾压和大地毁灭；\n伤害还受盾牌重量与精炼等级影响。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：ATK 600+(盾牌精通等级×15+500)%\n[等级 2]：ATK 1200+(盾牌精通等级×30+500)%\n[等级 3]：ATK 1800+(盾牌精通等级×45+500)%\n[等级 4]：ATK 2400+(盾牌精通等级×60+500)%\n[等级 5]：ATK 3000+(盾牌精通等级×75+500)%\n最高等级：5\n习得条件：盾牌修炼 Lv.5、攻击姿态 Lv.2\n类别：主动\n类型：远程物理\n目标：单个目标\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n持续时间：10 秒\n独立冷却：700 毫秒\n施放后延迟：500 毫秒\n可变吟唱：500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：40 / 45 / 50 / 55 / 60"
+			description: "盾牌射击\n恢复 2 AP；\n盾牌专用且仅可在攻击姿态下使用，投掷盾牌造成远程物理伤害，并在 10 秒内强化盾链、盾压和大地毁灭；\n伤害还受盾牌重量与精炼等级影响。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：ATK 600+(盾牌精通等级×15+500)%\n[等级 2]：ATK 1200+(盾牌精通等级×30+500)%\n[等级 3]：ATK 1800+(盾牌精通等级×45+500)%\n[等级 4]：ATK 2400+(盾牌精通等级×60+500)%\n[等级 5]：ATK 3000+(盾牌精通等级×75+500)%\n最高等级：5\n习得条件：攻击姿态 Lv.2、盾牌修炼 Lv.5\n类别：主动\n类型：远程物理\n目标：单个目标\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n持续时间：10 秒\n独立冷却：700 毫秒\n施放后延迟：500 毫秒\n可变吟唱：500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：40 / 45 / 50 / 55 / 60"
 		},
 		5266: {
 			key: "IG_OVERSLASH",
@@ -160885,12 +162822,12 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5278: {
 			key: "CD_COMPETENTIA",
 			name: "能力",
-			description: "能力\n消耗 200 AP；\n恢复自身及周围队伍成员的 HP 与 SP，并提高其 P.ATK 与 S.MATK。\n[等级 1]：HP 与 SP 恢复比例：20%，持续时间：120秒\n[等级 2]：HP 与 SP 恢复比例：40%，持续时间：150秒\n[等级 3]：HP 与 SP 恢复比例：60%，持续时间：180秒\n[等级 4]：HP 与 SP 恢复比例：80%，持续时间：210秒\n[等级 5]：HP 与 SP 恢复比例：100%，持续时间：240秒\n最高等级：5\n习得条件：临在之锋 Lv.2、锐利武器 Lv.2、锐利生命 Lv.2\n类别：主动（AP）\n类型：恢复\n目标：范围内目标\n作用范围：10\n持续时间：Lv.1：3 分钟 / Lv.2：210 秒 / Lv.3：4 分钟 / Lv.4：270 秒 / Lv.5：5 分钟\n独立冷却：1 分钟\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：4 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
+			description: "能力\n消耗 200 AP；\n恢复自身及周围队伍成员的 HP 与 SP，并提高其 P.ATK 与 S.MATK。\n[等级 1]：HP 与 SP 恢复比例：20%，持续时间：120秒\n[等级 2]：HP 与 SP 恢复比例：40%，持续时间：150秒\n[等级 3]：HP 与 SP 恢复比例：60%，持续时间：180秒\n[等级 4]：HP 与 SP 恢复比例：80%，持续时间：210秒\n[等级 5]：HP 与 SP 恢复比例：100%，持续时间：240秒\n最高等级：5\n习得条件：锐利武器 Lv.2、锐利生命 Lv.2、临在之锋 Lv.2\n类别：主动（AP）\n类型：恢复\n目标：范围内目标\n作用范围：10\n持续时间：Lv.1：3 分钟 / Lv.2：210 秒 / Lv.3：4 分钟 / Lv.4：270 秒 / Lv.5：5 分钟\n独立冷却：1 分钟\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：4 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
 		},
 		5279: {
 			key: "CD_PNEUMATICUS_PROCELLA",
 			name: "气流风暴",
-			description: "气流风暴\n消耗 150 AP；\n在指定区域引发圣灵风暴，对范围内目标造成圣属性魔法伤害；\n对恶魔型与不死型敌人伤害更高，并受基础等级与 SPL 影响。\n[等级 1]：MATK 200%，MATK(恶魔，不死) 300%，作用范围 5×5 格\n[等级 2]：MATK 400%，MATK(恶魔，不死) 600%，作用范围 5×5 格\n[等级 3]：MATK 600%，MATK(恶魔，不死) 900%，作用范围 5×5 格\n[等级 4]：MATK 800%，MATK(恶魔，不死) 1200%，作用范围 7×7 格\n[等级 5]：MATK 1000%，MATK(恶魔，不死) 1500%，作用范围 7×7 格\n[等级 6]：MATK 1200%，MATK(恶魔，不死) 1800%，作用范围 7×7 格\n[等级 7]：MATK 1400%，MATK(恶魔，不死) 2100%，作用范围 9×9 格\n[等级 8]：MATK 1600%，MATK(恶魔，不死) 2400%，作用范围 9×9 格\n[等级 9]：MATK 1800%，MATK(恶魔，不死) 2700%，作用范围 9×9 格\n[等级 10]：MATK 2000%，MATK(恶魔，不死) 3000%，作用范围 11×11 格\n最高等级：10\n习得条件：弗拉门 Lv.5、裁决 Lv.10\n类别：主动（AP）\n类型：魔法\n目标：地面 1 格\n属性：无属性\n施放范围：9\n持续时间：12 秒\n独立冷却：5 秒\n施放后延迟：500 毫秒\n可变吟唱：4 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：150"
+			description: "气流风暴\n消耗 150 AP；\n在指定区域引发圣灵风暴，对范围内目标造成圣属性魔法伤害；\n对恶魔型与不死型敌人伤害更高，并受基础等级与 SPL 影响。\n[等级 1]：MATK 200%，MATK(恶魔，不死) 300%，作用范围 5×5 格\n[等级 2]：MATK 400%，MATK(恶魔，不死) 600%，作用范围 5×5 格\n[等级 3]：MATK 600%，MATK(恶魔，不死) 900%，作用范围 5×5 格\n[等级 4]：MATK 800%，MATK(恶魔，不死) 1200%，作用范围 7×7 格\n[等级 5]：MATK 1000%，MATK(恶魔，不死) 1500%，作用范围 7×7 格\n[等级 6]：MATK 1200%，MATK(恶魔，不死) 1800%，作用范围 7×7 格\n[等级 7]：MATK 1400%，MATK(恶魔，不死) 2100%，作用范围 9×9 格\n[等级 8]：MATK 1600%，MATK(恶魔，不死) 2400%，作用范围 9×9 格\n[等级 9]：MATK 1800%，MATK(恶魔，不死) 2700%，作用范围 9×9 格\n[等级 10]：MATK 2000%，MATK(恶魔，不死) 3000%，作用范围 11×11 格\n最高等级：10\n习得条件：裁决 Lv.10、弗拉门 Lv.5\n类别：主动（AP）\n类型：魔法\n目标：地面 1 格\n属性：无属性\n施放范围：9\n持续时间：12 秒\n独立冷却：5 秒\n施放后延迟：500 毫秒\n可变吟唱：4 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：150"
 		},
 		5280: {
 			key: "CD_DILECTIO_HEAL",
@@ -160920,7 +162857,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5285: {
 			key: "SHC_SHADOW_EXCEED",
 			name: "暗影超越",
-			description: "暗影超越\n消耗 150 AP；\n将自身能力提升至极限，在持续时间内强化野蛮冲击与永恒斩击。\n[等级 1]：持续时间：60秒\n[等级 2]：持续时间：80秒\n[等级 3]：持续时间：100秒\n[等级 4]：持续时间：120秒\n[等级 5]：持续时间：140秒\n[等级 6]：持续时间：160秒\n[等级 7]：持续时间：180秒\n[等级 8]：持续时间：200秒\n[等级 9]：持续时间：220秒\n[等级 10]：持续时间：240秒\n最高等级：10\n习得条件：影之感知 Lv.7、附魔之影 Lv.5、强力毒液 Lv.3\n类别：主动（AP）\n类型：增益\n目标：自身\n持续时间：Lv.1：30 秒 / Lv.2：1 分钟 / Lv.3：90 秒 / Lv.4：2 分钟 / Lv.5：150 秒 / Lv.6：3 分钟 / Lv.7：210 秒 / Lv.8：4 分钟 / Lv.9：270 秒 / Lv.10：5 分钟\n独立冷却：1 分钟\n施放后延迟：无\n可变吟唱：无\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
+			description: "暗影超越\n消耗 150 AP；\n将自身能力提升至极限，在持续时间内强化野蛮冲击与永恒斩击。\n[等级 1]：持续时间：60秒\n[等级 2]：持续时间：80秒\n[等级 3]：持续时间：100秒\n[等级 4]：持续时间：120秒\n[等级 5]：持续时间：140秒\n[等级 6]：持续时间：160秒\n[等级 7]：持续时间：180秒\n[等级 8]：持续时间：200秒\n[等级 9]：持续时间：220秒\n[等级 10]：持续时间：240秒\n最高等级：10\n习得条件：附魔之影 Lv.5、强力毒液 Lv.3、影之感知 Lv.7\n类别：主动（AP）\n类型：增益\n目标：自身\n持续时间：Lv.1：30 秒 / Lv.2：1 分钟 / Lv.3：90 秒 / Lv.4：2 分钟 / Lv.5：150 秒 / Lv.6：3 分钟 / Lv.7：210 秒 / Lv.8：4 分钟 / Lv.9：270 秒 / Lv.10：5 分钟\n独立冷却：1 分钟\n施放后延迟：无\n可变吟唱：无\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
 		},
 		5286: {
 			key: "SHC_DANCING_KNIFE",
@@ -160930,7 +162867,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5287: {
 			key: "SHC_SAVAGE_IMPACT",
 			name: "野蛮冲击",
-			description: "野蛮冲击\n拳刃专用。\n快速接近目标并对其周围 3×3 格攻击 3 次；\n在高级隐匿状态下改为 5 次。\n技能以自身暴击率一半的概率暴击，暴击伤害加成仅应用一半。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：每次 ATK 60%\n[等级 2]：每次 ATK 120%\n[等级 3]：每次 ATK 180%\n[等级 4]：每次 ATK 240%\n[等级 5]：每次 ATK 300%\n[等级 6]：每次 ATK 360%\n[等级 7]：每次 ATK 420%\n[等级 8]：每次 ATK 480%\n[等级 9]：每次 ATK 540%\n[等级 10]：每次 ATK 600%\n最高等级：10\n习得条件：影之感知 Lv.3、十字冲击 Lv.5\n类别：主动\n类型：近战物理\n目标：范围内目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 2 / 2 / 3 / 3 / 3 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：300 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：45 / 48 / 51 / 54 / 57 / 60 / 63 / 66 / 69 / 72"
+			description: "野蛮冲击\n拳刃专用。\n快速接近目标并对其周围 3×3 格攻击 3 次；\n在高级隐匿状态下改为 5 次。\n技能以自身暴击率一半的概率暴击，暴击伤害加成仅应用一半。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：每次 ATK 60%\n[等级 2]：每次 ATK 120%\n[等级 3]：每次 ATK 180%\n[等级 4]：每次 ATK 240%\n[等级 5]：每次 ATK 300%\n[等级 6]：每次 ATK 360%\n[等级 7]：每次 ATK 420%\n[等级 8]：每次 ATK 480%\n[等级 9]：每次 ATK 540%\n[等级 10]：每次 ATK 600%\n最高等级：10\n习得条件：十字冲击 Lv.5、影之感知 Lv.3\n类别：主动\n类型：近战物理\n目标：范围内目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 2 / 2 / 3 / 3 / 3 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：300 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：45 / 48 / 51 / 54 / 57 / 60 / 63 / 66 / 69 / 72"
 		},
 		5288: {
 			key: "SHC_SHADOW_SENSE",
@@ -160940,32 +162877,32 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5289: {
 			key: "SHC_ETERNAL_SLASH",
 			name: "永恒斩击",
-			description: "永恒斩击\n武器格挡触发后可用，对目标造成可暴击的近战物理伤害；\n在 3 秒内连续使用时攻击次数逐次增加，暴击概率与加成均受限制。\n伤害还会随施法者的基础等级和 POW 提高。\n暴击伤害增加效果只应用一半。\n暴击概率为施法者暴击率的一半。\n[等级 1]：ATK 350%\n[等级 2]：ATK 700%\n[等级 3]：ATK 1050%\n[等级 4]：ATK 1400%\n[等级 5]：ATK 1750%\n最高等级：5\n习得条件：影之感知 Lv.5、舞动之刃 Lv.3、武器格挡 Lv.3\n类别：主动\n类型：近战物理\n目标：单个目标\n属性：武器属性\n施放范围：3\n持续时间：3 秒\n独立冷却：500 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
+			description: "永恒斩击\n武器格挡触发后可用，对目标造成可暴击的近战物理伤害；\n在 3 秒内连续使用时攻击次数逐次增加，暴击概率与加成均受限制。\n伤害还会随施法者的基础等级和 POW 提高。\n暴击伤害增加效果只应用一半。\n暴击概率为施法者暴击率的一半。\n[等级 1]：ATK 350%\n[等级 2]：ATK 700%\n[等级 3]：ATK 1050%\n[等级 4]：ATK 1400%\n[等级 5]：ATK 1750%\n最高等级：5\n习得条件：武器格挡 Lv.3、舞动之刃 Lv.3、影之感知 Lv.5\n类别：主动\n类型：近战物理\n目标：单个目标\n属性：武器属性\n施放范围：3\n持续时间：3 秒\n独立冷却：500 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60"
 		},
 		5290: {
 			key: "SHC_POTENT_VENOM",
 			name: "强力毒液",
-			description: "强力毒液\n武器已附加致命毒药时可用，使自身获得无视目标物理抗性的效果。\n[等级 1]：物理抗性无视量：3%，持续时间：30秒\n[等级 2]：物理抗性无视量：6%，持续时间：40秒\n[等级 3]：物理抗性无视量：9%，持续时间：50秒\n[等级 4]：物理抗性无视量：12%，持续时间：60秒\n[等级 5]：物理抗性无视量：15%，持续时间：70秒\n[等级 6]：物理抗性无视量：18%，持续时间：80秒\n[等级 7]：物理抗性无视量：21%，持续时间：90秒\n[等级 8]：物理抗性无视量：24%，持续时间：100秒\n[等级 9]：物理抗性无视量：27%，持续时间：110秒\n[等级 10]：物理抗性无视量：30%，持续时间：120秒\n最高等级：10\n习得条件：影之感知 Lv.5、附魔之影 Lv.3\n类别：主动\n类型：增益\n目标：自身\n持续时间：Lv.1：75 秒 / Lv.2：100 秒 / Lv.3：125 秒 / Lv.4：150 秒 / Lv.5：175 秒 / Lv.6：200 秒 / Lv.7：225 秒 / Lv.8：250 秒 / Lv.9：275 秒 / Lv.10：5 分钟\n独立冷却：3 秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55 / 60"
+			description: "强力毒液\n武器已附加致命毒药时可用，使自身获得无视目标物理抗性的效果。\n[等级 1]：物理抗性无视量：3%，持续时间：30秒\n[等级 2]：物理抗性无视量：6%，持续时间：40秒\n[等级 3]：物理抗性无视量：9%，持续时间：50秒\n[等级 4]：物理抗性无视量：12%，持续时间：60秒\n[等级 5]：物理抗性无视量：15%，持续时间：70秒\n[等级 6]：物理抗性无视量：18%，持续时间：80秒\n[等级 7]：物理抗性无视量：21%，持续时间：90秒\n[等级 8]：物理抗性无视量：24%，持续时间：100秒\n[等级 9]：物理抗性无视量：27%，持续时间：110秒\n[等级 10]：物理抗性无视量：30%，持续时间：120秒\n最高等级：10\n习得条件：附魔之影 Lv.3、影之感知 Lv.5\n类别：主动\n类型：增益\n目标：自身\n持续时间：Lv.1：75 秒 / Lv.2：100 秒 / Lv.3：125 秒 / Lv.4：150 秒 / Lv.5：175 秒 / Lv.6：200 秒 / Lv.7：225 秒 / Lv.8：250 秒 / Lv.9：275 秒 / Lv.10：5 分钟\n独立冷却：3 秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：15 / 20 / 25 / 30 / 35 / 40 / 45 / 50 / 55 / 60"
 		},
 		5291: {
 			key: "SHC_SHADOW_STAB",
 			name: "暗影刺击",
-			description: "暗影刺击\n恢复 1 AP；\n短剑专用。\n对目标造成无视物理防御的近战伤害；\n在隐匿或高级隐匿状态下使用时攻击两次。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：ATK 750%\n[等级 2]：ATK 1500%\n[等级 3]：ATK 2250%\n[等级 4]：ATK 3000%\n[等级 5]：ATK 3750%\n最高等级：5\n习得条件：影之感知 Lv.5、舞动之刃 Lv.5、永恒斩击 Lv.3、超越隐匿 Lv.5\n类别：主动\n类型：近战物理\n目标：单个目标\n属性：武器属性\n施放范围：2\n独立冷却：350 毫秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：40 / 45 / 50 / 55 / 60"
+			description: "暗影刺击\n恢复 1 AP；\n短剑专用。\n对目标造成无视物理防御的近战伤害；\n在隐匿或高级隐匿状态下使用时攻击两次。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：ATK 750%\n[等级 2]：ATK 1500%\n[等级 3]：ATK 2250%\n[等级 4]：ATK 3000%\n[等级 5]：ATK 3750%\n最高等级：5\n习得条件：超越隐匿 Lv.5、舞动之刃 Lv.5、永恒斩击 Lv.3、影之感知 Lv.5\n类别：主动\n类型：近战物理\n目标：单个目标\n属性：武器属性\n施放范围：2\n独立冷却：350 毫秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：40 / 45 / 50 / 55 / 60"
 		},
 		5292: {
 			key: "SHC_IMPACT_CRATER",
 			name: "冲击陨坑",
-			description: "冲击陨坑\n恢复 5 AP；\n拳刃专用。\n按已累积的旋转层数攻击周围敌人，并赋予武器格挡成功状态；\n技能以自身暴击率一半的概率暴击，暴击伤害加成仅应用一半。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：ATK 65%，作用范围 3×3\n[等级 2]：ATK 130%，作用范围 3×3\n[等级 3]：ATK 195%，作用范围 5×5\n[等级 4]：ATK 260%，作用范围 5×5\n[等级 5]：ATK 325%，作用范围 7×7\n最高等级：5\n习得条件：影之感知 Lv.5、野蛮冲击 Lv.5、滚动切割 Lv.5、武器格挡 Lv.3\n类别：主动\n类型：近战物理\n目标：范围内目标\n属性：武器属性\n作用范围：1 / 1 / 2 / 2 / 3\n持续时间：10 秒\n独立冷却：Lv.1：5 秒 / Lv.2：4125 毫秒 / Lv.3：3250 毫秒 / Lv.4：2375 毫秒 / Lv.5：1500 毫秒\n施放后延迟：300 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：53 / 56 / 59 / 62 / 65"
+			description: "冲击陨坑\n恢复 5 AP；\n拳刃专用。\n按已累积的旋转层数攻击周围敌人，并赋予武器格挡成功状态；\n技能以自身暴击率一半的概率暴击，暴击伤害加成仅应用一半。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：ATK 65%，作用范围 3×3\n[等级 2]：ATK 130%，作用范围 3×3\n[等级 3]：ATK 195%，作用范围 5×5\n[等级 4]：ATK 260%，作用范围 5×5\n[等级 5]：ATK 325%，作用范围 7×7\n最高等级：5\n习得条件：滚动切割 Lv.5、武器格挡 Lv.3、野蛮冲击 Lv.5、影之感知 Lv.5\n类别：主动\n类型：近战物理\n目标：范围内目标\n属性：武器属性\n作用范围：1 / 1 / 2 / 2 / 3\n持续时间：10 秒\n独立冷却：Lv.1：5 秒 / Lv.2：4125 毫秒 / Lv.3：3250 毫秒 / Lv.4：2375 毫秒 / Lv.5：1500 毫秒\n施放后延迟：300 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：53 / 56 / 59 / 62 / 65"
 		},
 		5293: {
 			key: "SHC_ENCHANTING_SHADOW",
 			name: "附魔之影",
-			description: "附魔之影\n为武器附加影之力；\n攻击时有概率在目标身上留下暗影伤口，伤口层数越高，目标受到的伤害越高。\n[等级 1]：影子伤口赋予概率：1%\n[等级 2]：影子伤口赋予概率：2%\n[等级 3]：影子伤口赋予概率：3%\n[等级 4]：影子伤口赋予概率：4%\n[等级 5]：影子伤口赋予概率：5%\n最高等级：5\n习得条件：影之感知 Lv.3、武器涂毒 Lv.5\n类别：主动\n类型：增益\n目标：自身\n持续时间：3 分钟\n独立冷却：Lv.1：30 秒 / Lv.2：1 分钟 / Lv.3：90 秒 / Lv.4：2 分钟 / Lv.5：150 秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：30 / 40 / 50 / 60 / 70"
+			description: "附魔之影\n为武器附加影之力；\n攻击时有概率在目标身上留下暗影伤口，伤口层数越高，目标受到的伤害越高。\n[等级 1]：影子伤口赋予概率：1%\n[等级 2]：影子伤口赋予概率：2%\n[等级 3]：影子伤口赋予概率：3%\n[等级 4]：影子伤口赋予概率：4%\n[等级 5]：影子伤口赋予概率：5%\n最高等级：5\n习得条件：武器涂毒 Lv.5、影之感知 Lv.3\n类别：主动\n类型：增益\n目标：自身\n持续时间：3 分钟\n独立冷却：Lv.1：30 秒 / Lv.2：1 分钟 / Lv.3：90 秒 / Lv.4：2 分钟 / Lv.5：150 秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：30 / 40 / 50 / 60 / 70"
 		},
 		5294: {
 			key: "SHC_FATAL_SHADOW_CROW",
 			name: "致命暗影爪",
-			description: "致命暗影爪\n消耗 150 AP；\n迅速接近目标，对其及周围敌人施加黑暗利爪效果并造成可暴击的近战伤害；\n黑暗利爪效果采用自身已习得等级，对人形与龙族魔物伤害更高。\n伤害还会随施法者的基础等级和 POW 提高。\n暴击伤害增加效果只应用一半。\n[等级 1]：ATK 650%；\n对人形与龙族魔物 ATK 950%\n[等级 2]：ATK 1300%；\n对人形与龙族魔物 ATK 1900%\n[等级 3]：ATK 1950%；\n对人形与龙族魔物 ATK 2850%\n[等级 4]：ATK 2600%；\n对人形与龙族魔物 ATK 3800%\n[等级 5]：ATK 3250%；\n对人形与龙族魔物 ATK 4750%\n[等级 6]：ATK 3900%；\n对人形与龙族魔物 ATK 5700%\n[等级 7]：ATK 4550%；\n对人形与龙族魔物 ATK 6650%\n[等级 8]：ATK 5200%；\n对人形与龙族魔物 ATK 7600%\n[等级 9]：ATK 5850%；\n对人形与龙族魔物 ATK 8550%\n[等级 10]：ATK 6500%；\n对人形与龙族魔物 ATK 9500%\n最高等级：10\n习得条件：暗影刺击 Lv.5、冲击陨坑 Lv.5\n类别：主动（AP）\n类型：近战物理\n目标：单个目标\n属性：武器属性\n施放范围：9\n作用范围：3\n持续时间：20 秒\n独立冷却：1 分钟\n施放后延迟：无\n可变吟唱：500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：150"
+			description: "致命暗影爪\n消耗 150 AP；\n迅速接近目标，对其及周围敌人施加黑暗利爪效果并造成可暴击的近战伤害；\n黑暗利爪效果采用自身已习得等级，对人形与龙族魔物伤害更高。\n伤害还会随施法者的基础等级和 POW 提高。\n暴击伤害增加效果只应用一半。\n[等级 1]：ATK 650%；\n对人形与龙族魔物 ATK 950%\n[等级 2]：ATK 1300%；\n对人形与龙族魔物 ATK 1900%\n[等级 3]：ATK 1950%；\n对人形与龙族魔物 ATK 2850%\n[等级 4]：ATK 2600%；\n对人形与龙族魔物 ATK 3800%\n[等级 5]：ATK 3250%；\n对人形与龙族魔物 ATK 4750%\n[等级 6]：ATK 3900%；\n对人形与龙族魔物 ATK 5700%\n[等级 7]：ATK 4550%；\n对人形与龙族魔物 ATK 6650%\n[等级 8]：ATK 5200%；\n对人形与龙族魔物 ATK 7600%\n[等级 9]：ATK 5850%；\n对人形与龙族魔物 ATK 8550%\n[等级 10]：ATK 6500%；\n对人形与龙族魔物 ATK 9500%\n最高等级：10\n习得条件：冲击陨坑 Lv.5、暗影刺击 Lv.5\n类别：主动（AP）\n类型：近战物理\n目标：单个目标\n属性：武器属性\n施放范围：9\n作用范围：3\n持续时间：20 秒\n独立冷却：1 分钟\n施放后延迟：无\n可变吟唱：500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：150"
 		},
 		5295: {
 			key: "MT_AXE_STOMP",
@@ -161055,17 +162992,17 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5312: {
 			key: "ABC_MAGIC_SWORD_M",
 			name: "魔法剑修炼",
-			description: "魔法剑修炼\n装备短剑或单手剑时，提高对不同体型敌人的魔法伤害。\n[等级 1]：按体型敌人造成的魔法伤害增加 - 小型：2%，中型：2%，大型：2%\n[等级 2]：按体型敌人造成的魔法伤害增加 - 小型：3%，中型：3%，大型：3%\n[等级 3]：按体型敌人造成的魔法伤害增加 - 小型：5%，中型：5%，大型：5%\n[等级 4]：按体型敌人造成的魔法伤害增加 - 小型：6%，中型：6%，大型：6%\n[等级 5]：按体型敌人造成的魔法伤害增加 - 小型：8%，中型：8%，大型：8%\n[等级 6]：按体型敌人造成的魔法伤害增加 - 小型：9%，中型：9%，大型：9%\n[等级 7]：按体型敌人造成的魔法伤害增加 - 小型：11%，中型：11%，大型：11%\n[等级 8]：按体型敌人造成的魔法伤害增加 - 小型：12%，中型：12%，大型：12%\n[等级 9]：按体型敌人造成的魔法伤害增加 - 小型：14%，中型：14%，大型：14%\n[等级 10]：按体型敌人造成的魔法伤害增加 - 小型：15%，中型：15%，大型：15%\n最高等级：10\n习得条件：复制 Lv.5、自动暗影法术 Lv.5\n类别：被动\n类型：辅助"
+			description: "魔法剑修炼\n装备短剑或单手剑时，提高对不同体型敌人的魔法伤害。\n[等级 1]：按体型敌人造成的魔法伤害增加 - 小型：2%，中型：2%，大型：2%\n[等级 2]：按体型敌人造成的魔法伤害增加 - 小型：3%，中型：3%，大型：3%\n[等级 3]：按体型敌人造成的魔法伤害增加 - 小型：5%，中型：5%，大型：5%\n[等级 4]：按体型敌人造成的魔法伤害增加 - 小型：6%，中型：6%，大型：6%\n[等级 5]：按体型敌人造成的魔法伤害增加 - 小型：8%，中型：8%，大型：8%\n[等级 6]：按体型敌人造成的魔法伤害增加 - 小型：9%，中型：9%，大型：9%\n[等级 7]：按体型敌人造成的魔法伤害增加 - 小型：11%，中型：11%，大型：11%\n[等级 8]：按体型敌人造成的魔法伤害增加 - 小型：12%，中型：12%，大型：12%\n[等级 9]：按体型敌人造成的魔法伤害增加 - 小型：14%，中型：14%，大型：14%\n[等级 10]：按体型敌人造成的魔法伤害增加 - 小型：15%，中型：15%，大型：15%\n最高等级：10\n习得条件：自动暗影法术 Lv.5、复制 Lv.5\n类别：被动\n类型：辅助"
 		},
 		5313: {
 			key: "ABC_STRIP_SHADOW",
 			name: "脱卸影子装备",
-			description: "脱卸影子装备\n解除目标装备的全部影子装备，并使其在一定时间内无法重新装备；\n对魔物使用时改为降低其物理与魔法抗性。\n[等级 1]：卸除成功率：20%，卸除持续时间：60秒\n[等级 2]：卸除成功率：25%，卸除持续时间：70秒\n[等级 3]：卸除成功率：30%，卸除持续时间：80秒\n[等级 4]：卸除成功率：35%，卸除持续时间：90秒\n[等级 5]：卸除成功率：40%，卸除持续时间：100秒\n最高等级：5\n习得条件：卸除饰品 Lv.1、匕首与弓术修炼 Lv.7\n类别：主动\n类型：减益\n目标：单个目标\n施放范围：1\n持续时间：Lv.1：1 分钟 / Lv.2：70 秒 / Lv.3：80 秒 / Lv.4：90 秒 / Lv.5：100 秒\n独立冷却：2 秒\n施放后延迟：1 秒\n可变吟唱：1 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：29 / 33 / 37 / 41 / 45"
+			description: "脱卸影子装备\n解除目标装备的全部影子装备，并使其在一定时间内无法重新装备；\n对魔物使用时改为降低其物理与魔法抗性。\n[等级 1]：卸除成功率：20%，卸除持续时间：60秒\n[等级 2]：卸除成功率：25%，卸除持续时间：70秒\n[等级 3]：卸除成功率：30%，卸除持续时间：80秒\n[等级 4]：卸除成功率：35%，卸除持续时间：90秒\n[等级 5]：卸除成功率：40%，卸除持续时间：100秒\n最高等级：5\n习得条件：匕首与弓术修炼 Lv.7、卸除饰品 Lv.1\n类别：主动\n类型：减益\n目标：单个目标\n施放范围：1\n持续时间：Lv.1：1 分钟 / Lv.2：70 秒 / Lv.3：80 秒 / Lv.4：90 秒 / Lv.5：100 秒\n独立冷却：2 秒\n施放后延迟：1 秒\n可变吟唱：1 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：29 / 33 / 37 / 41 / 45"
 		},
 		5314: {
 			key: "ABC_ABYSS_DAGGER",
 			name: "深渊匕首",
-			description: "深渊匕首\n短剑或单手剑专用。\n对自身周围 7×7 格敌人造成两次近战物理伤害，并使自身获得致命威胁伤害加成。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：每次 ATK 350%，效果持续时间：3秒\n[等级 2]：每次 ATK 700%，效果持续时间：6秒\n[等级 3]：每次 ATK 1050%，效果持续时间：9秒\n[等级 4]：每次 ATK 1400%，效果持续时间：12秒\n[等级 5]：每次 ATK 1750%，效果持续时间：15秒\n最高等级：5\n习得条件：致命威胁 Lv.5、匕首与弓术修炼 Lv.3\n类别：主动\n类型：近战物理\n目标：自身\n属性：武器属性\n作用范围：3\n持续时间：Lv.1：3 秒 / Lv.2：6 秒 / Lv.3：9 秒 / Lv.4：12 秒 / Lv.5：15 秒\n独立冷却：Lv.1：1600 毫秒 / Lv.2：1300 毫秒 / Lv.3：1 秒 / Lv.4：700 毫秒 / Lv.5：400 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60 / 64 / 68 / 72 / 76"
+			description: "深渊匕首\n短剑或单手剑专用。\n对自身周围 7×7 格敌人造成两次近战物理伤害，并使自身获得致命威胁伤害加成。\n伤害还会随施法者的基础等级和 POW 提高。\n[等级 1]：每次 ATK 350%，效果持续时间：3秒\n[等级 2]：每次 ATK 700%，效果持续时间：6秒\n[等级 3]：每次 ATK 1050%，效果持续时间：9秒\n[等级 4]：每次 ATK 1400%，效果持续时间：12秒\n[等级 5]：每次 ATK 1750%，效果持续时间：15秒\n最高等级：5\n习得条件：匕首与弓术修炼 Lv.3、致命威胁 Lv.5\n类别：主动\n类型：近战物理\n目标：自身\n属性：武器属性\n作用范围：3\n持续时间：Lv.1：3 秒 / Lv.2：6 秒 / Lv.3：9 秒 / Lv.4：12 秒 / Lv.5：15 秒\n独立冷却：Lv.1：1600 毫秒 / Lv.2：1300 毫秒 / Lv.3：1 秒 / Lv.4：700 毫秒 / Lv.5：400 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60 / 64 / 68 / 72 / 76"
 		},
 		5315: {
 			key: "ABC_UNLUCKY_RUSH",
@@ -161075,7 +163012,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5316: {
 			key: "ABC_CHAIN_REACTION_SHOT",
 			name: "连锁反应射击",
-			description: "连锁反应射击\n弓专用。\n持有至少 8 支箭时消耗 7 支，先攻击目标及周围敌人；\n每个命中目标随后再对其周围 3×3 格造成第二段远程物理伤害。\n伤害还会随施法者的基础等级和 CON 提高。\n[等级 1]：第一段 ATK 600%，第二段 ATK 950%，作用范围 3×3 格\n[等级 2]：第一段 ATK 1200%，第二段 ATK 1900%，作用范围 3×3 格\n[等级 3]：第一段 ATK 1800%，第二段 ATK 2850%，作用范围 5×5 格\n[等级 4]：第一段 ATK 2400%，第二段 ATK 3800%，作用范围 5×5 格\n[等级 5]：第一段 ATK 3000%，第二段 ATK 4750%，作用范围 7×7 格\n最高等级：5\n习得条件：三角射击 Lv.5、匕首与弓术修炼 Lv.3\n类别：主动\n类型：远程物理\n目标：单个目标\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 3 / 3 / 4\n独立冷却：1 秒\n施放后延迟：无\n可变吟唱：1 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：35 / 45 / 55 / 65 / 75"
+			description: "连锁反应射击\n弓专用。\n持有至少 8 支箭时消耗 7 支，先攻击目标及周围敌人；\n每个命中目标随后再对其周围 3×3 格造成第二段远程物理伤害。\n伤害还会随施法者的基础等级和 CON 提高。\n[等级 1]：第一段 ATK 600%，第二段 ATK 950%，作用范围 3×3 格\n[等级 2]：第一段 ATK 1200%，第二段 ATK 1900%，作用范围 3×3 格\n[等级 3]：第一段 ATK 1800%，第二段 ATK 2850%，作用范围 5×5 格\n[等级 4]：第一段 ATK 2400%，第二段 ATK 3800%，作用范围 5×5 格\n[等级 5]：第一段 ATK 3000%，第二段 ATK 4750%，作用范围 7×7 格\n最高等级：5\n习得条件：匕首与弓术修炼 Lv.3、三角射击 Lv.5\n类别：主动\n类型：远程物理\n目标：单个目标\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 3 / 3 / 4\n独立冷却：1 秒\n施放后延迟：无\n可变吟唱：1 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：35 / 45 / 55 / 65 / 75"
 		},
 		5317: {
 			key: "ABC_FROM_THE_ABYSS",
@@ -161090,7 +163027,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5319: {
 			key: "ABC_ABYSS_STRIKE",
 			name: "欧米伽深渊打击",
-			description: "欧米伽深渊打击\n消耗 150 AP；\n向指定地面坠落强力陨石，对 9×9 格造成无属性魔法伤害；\n对天使型与恶魔型敌人伤害更高。\n伤害还会随施法者的基础等级和 SPL 提高。\n[等级 1]：MATK 600%，MATK(天使型，恶魔) 1150%\n[等级 2]：MATK 1200%，MATK(天使型，恶魔) 2300%\n[等级 3]：MATK 1800%，MATK(天使型，恶魔) 3450%\n[等级 4]：MATK 2400%，MATK(天使型，恶魔) 4600%\n[等级 5]：MATK 3000%，MATK(天使型，恶魔) 5750%\n[等级 6]：MATK 3600%，MATK(天使型，恶魔) 6900%\n[等级 7]：MATK 4200%，MATK(天使型，恶魔) 8050%\n[等级 8]：MATK 4800%，MATK(天使型，恶魔) 9200%\n[等级 9]：MATK 5400%，MATK(天使型，恶魔) 10350%\n[等级 10]：MATK 6000%，MATK(天使型，恶魔) 11500%\n最高等级：10\n习得条件：来自深渊 Lv.3、深渊方阵 Lv.3\n类别：主动（AP）\n类型：魔法\n目标：地面 1 格\n属性：火属性\n施放范围：9\n持续时间：100 毫秒\n独立冷却：700 毫秒\n施放后延迟：500 毫秒\n可变吟唱：4 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：125"
+			description: "欧米伽深渊打击\n消耗 150 AP；\n向指定地面坠落强力陨石，对 9×9 格造成无属性魔法伤害；\n对天使型与恶魔型敌人伤害更高。\n伤害还会随施法者的基础等级和 SPL 提高。\n[等级 1]：MATK 600%，MATK(天使型，恶魔) 1150%\n[等级 2]：MATK 1200%，MATK(天使型，恶魔) 2300%\n[等级 3]：MATK 1800%，MATK(天使型，恶魔) 3450%\n[等级 4]：MATK 2400%，MATK(天使型，恶魔) 4600%\n[等级 5]：MATK 3000%，MATK(天使型，恶魔) 5750%\n[等级 6]：MATK 3600%，MATK(天使型，恶魔) 6900%\n[等级 7]：MATK 4200%，MATK(天使型，恶魔) 8050%\n[等级 8]：MATK 4800%，MATK(天使型，恶魔) 9200%\n[等级 9]：MATK 5400%，MATK(天使型，恶魔) 10350%\n[等级 10]：MATK 6000%，MATK(天使型，恶魔) 11500%\n最高等级：10\n习得条件：深渊方阵 Lv.3、来自深渊 Lv.3\n类别：主动（AP）\n类型：魔法\n目标：地面 1 格\n属性：火属性\n施放范围：9\n持续时间：100 毫秒\n独立冷却：700 毫秒\n施放后延迟：500 毫秒\n可变吟唱：4 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：125"
 		},
 		5320: {
 			key: "ABC_DEFT_STAB",
@@ -161100,7 +163037,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5321: {
 			key: "ABC_ABYSS_SQUARE",
 			name: "深渊方阵",
-			description: "深渊方阵\n恢复 4 AP；\n唤醒指定地面 7×7 格的深渊之力，造成无属性魔法伤害；\n施法者站在范围内时每次攻击变为两次。\n拥有深渊降临效果时，普通攻击有概率自动施展已习得最高等级的该技能。\n伤害还会随施法者的基础等级和 SPL 提高。\n[等级 1]：MATK 140%\n[等级 2]：MATK 280%\n[等级 3]：MATK 420%\n[等级 4]：MATK 560%\n[等级 5]：MATK 700%\n最高等级：5\n习得条件：魔法剑修炼 Lv.5、来自深渊 Lv.1\n类别：主动\n类型：魔法\n目标：地面 1 格\n施放范围：9\n持续时间：3 秒\n独立冷却：3 秒\n施放后延迟：500 毫秒\n可变吟唱：5 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：65 / 75 / 85 / 95 / 105"
+			description: "深渊方阵\n恢复 4 AP；\n唤醒指定地面 7×7 格的深渊之力，造成无属性魔法伤害；\n施法者站在范围内时每次攻击变为两次。\n拥有深渊降临效果时，普通攻击有概率自动施展已习得最高等级的该技能。\n伤害还会随施法者的基础等级和 SPL 提高。\n[等级 1]：MATK 140%\n[等级 2]：MATK 280%\n[等级 3]：MATK 420%\n[等级 4]：MATK 560%\n[等级 5]：MATK 700%\n最高等级：5\n习得条件：来自深渊 Lv.1、魔法剑修炼 Lv.5\n类别：主动\n类型：魔法\n目标：地面 1 格\n施放范围：9\n持续时间：3 秒\n独立冷却：3 秒\n施放后延迟：500 毫秒\n可变吟唱：5 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：65 / 75 / 85 / 95 / 105"
 		},
 		5322: {
 			key: "ABC_FRENZY_SHOT",
@@ -161255,7 +163192,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5352: {
 			key: "TR_KVASIR_SONATA",
 			name: "夸西尔奏鸣曲",
-			description: "夸西尔奏鸣曲\n消耗 100 AP；\n乐器、弓或鞭专用且仅组队时可用，使施法者在 60 秒内能够独自施展所有合奏技能。\n[等级 1]：可以独自使用合奏技能\n最高等级：1\n习得条件：洛奇随想曲 Lv.1、尼伯勒海姆安魂曲 Lv.1\n类别：主动（AP）\n类型：增益\n目标：自身\n持续时间：1 分钟\n独立冷却：2 分钟\n施放后延迟：150 毫秒\n可变吟唱：2 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：300"
+			description: "夸西尔奏鸣曲\n消耗 100 AP；\n乐器、弓或鞭专用且仅组队时可用，使施法者在 60 秒内能够独自施展所有合奏技能。\n[等级 1]：可以独自使用合奏技能\n最高等级：1\n习得条件：尼伯勒海姆安魂曲 Lv.1、洛奇随想曲 Lv.1\n类别：主动（AP）\n类型：增益\n目标：自身\n持续时间：1 分钟\n独立冷却：2 分钟\n施放后延迟：150 毫秒\n可变吟唱：2 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：300"
 		},
 		5353: {
 			key: "TR_ROSEBLOSSOM",
@@ -161370,32 +163307,32 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5375: {
 			key: "EM_SUMMON_ELEMENTAL_ARDOR",
 			name: "召唤阿多尔",
-			description: "召唤阿多尔\n消耗 1 个火焰石，让大型阿格尼降临为火之上位精灵阿尔多尔；\n召唤者火属性魔法伤害 +10%，并强化烈焰灾变。\n阿尔多尔的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：召唤火精灵阿格尼 Lv.3、元素精灵精通 Lv.1、大火灾 Lv.1\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
+			description: "召唤阿多尔\n消耗 1 个火焰石，让大型阿格尼降临为火之上位精灵阿尔多尔；\n召唤者火属性魔法伤害 +10%，并强化烈焰灾变。\n阿尔多尔的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：大火灾 Lv.1、元素精灵精通 Lv.1、召唤火精灵阿格尼 Lv.3\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
 		},
 		5376: {
 			key: "EM_SUMMON_ELEMENTAL_DILUVIO",
 			name: "召唤迪鲁维奥",
-			description: "召唤迪鲁维奥\n消耗 1 个寒冰石，让大型阿奎亚降临为水之上位精灵迪鲁维奥；\n召唤者水属性魔法伤害 +10%，并强化钻石风暴。\n迪鲁维奥的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：召唤水精灵阿夸 Lv.3、元素精灵精通 Lv.1、钻石风暴 Lv.1\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
+			description: "召唤迪鲁维奥\n消耗 1 个寒冰石，让大型阿奎亚降临为水之上位精灵迪鲁维奥；\n召唤者水属性魔法伤害 +10%，并强化钻石风暴。\n迪鲁维奥的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：钻石风暴 Lv.1、元素精灵精通 Lv.1、召唤水精灵阿夸 Lv.3\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
 		},
 		5377: {
 			key: "EM_SUMMON_ELEMENTAL_PROCELLA",
 			name: "召唤普罗塞拉",
-			description: "召唤普罗塞拉\n消耗 1 个雷电石，让大型温蒂妮降临为风之上位精灵普罗塞拉；\n召唤者风属性魔法伤害 +10%，并强化雷霆领域。\n普罗塞拉的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：召唤风精灵文图斯 Lv.3、元素精灵精通 Lv.1、雷电之地 Lv.1\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
+			description: "召唤普罗塞拉\n消耗 1 个雷电石，让大型温蒂妮降临为风之上位精灵普罗塞拉；\n召唤者风属性魔法伤害 +10%，并强化雷霆领域。\n普罗塞拉的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：元素精灵精通 Lv.1、雷电之地 Lv.1、召唤风精灵文图斯 Lv.3\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
 		},
 		5378: {
 			key: "EM_SUMMON_ELEMENTAL_TERREMOTUS",
 			name: "召唤泰雷莫图斯",
-			description: "召唤泰雷莫图斯\n消耗 1 个大地石，让大型泰拉降临为地之上位精灵特雷莫图斯；\n召唤者地属性魔法伤害 +10%，并强化大地驱动。\n特雷莫图斯的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：召唤地精灵特拉 Lv.3、元素精灵精通 Lv.1、大地驱动 Lv.1\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
+			description: "召唤泰雷莫图斯\n消耗 1 个大地石，让大型泰拉降临为地之上位精灵特雷莫图斯；\n召唤者地属性魔法伤害 +10%，并强化大地驱动。\n特雷莫图斯的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：元素精灵精通 Lv.1、大地驱动 Lv.1、召唤地精灵特拉 Lv.3\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
 		},
 		5379: {
 			key: "EM_SUMMON_ELEMENTAL_SERPENS",
 			name: "召唤塞彭斯",
-			description: "召唤塞彭斯\n大型阿格尼、阿奎亚、温蒂妮或泰拉存在时，消耗 1 个毒石使其降临为毒之上位精灵塞尔彭斯；\n召唤者毒属性魔法伤害 +10%，并强化剧毒沼泽；\n塞尔彭斯的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：召唤火精灵阿格尼 Lv.3、召唤水精灵阿夸 Lv.3、召唤风精灵文图斯 Lv.3、召唤地精灵特拉 Lv.3、元素精灵精通 Lv.1、毒液沼泽 Lv.1\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
+			description: "召唤塞彭斯\n大型阿格尼、阿奎亚、温蒂妮或泰拉存在时，消耗 1 个毒石使其降临为毒之上位精灵塞尔彭斯；\n召唤者毒属性魔法伤害 +10%，并强化剧毒沼泽；\n塞尔彭斯的能力随召唤者属性和元素精灵精通等级提高。\n[等级 1]：精灵持续时间：1500秒\n最高等级：1\n习得条件：元素精灵精通 Lv.1、毒液沼泽 Lv.1、召唤火精灵阿格尼 Lv.3、召唤水精灵阿夸 Lv.3、召唤地精灵特拉 Lv.3、召唤风精灵文图斯 Lv.3\n类别：主动\n类型：召唤\n目标：自身\n持续时间：25 分钟\n独立冷却：1 分钟\n施放后延迟：1 秒\n可变吟唱：5 秒\n固定吟唱：3 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
 		},
 		5380: {
 			key: "EM_ELEMENTAL_BUSTER",
 			name: "元素破坏",
-			description: "元素破坏\n消耗 150 AP；\n仅有上位精灵时可用，对自身周围 13×13 格造成与当前精灵属性一致的魔法伤害；\n对龙族与无形敌人伤害更高。\n伤害还会随施法者的基础等级和 SPL 提高。\n[等级 1]：MATK 480%，MATK(龙族，无形型) 1100%\n[等级 2]：MATK 960%，MATK(龙族，无形型) 2200%\n[等级 3]：MATK 1440%，MATK(龙族，无形型) 3300%\n[等级 4]：MATK 1920%，MATK(龙族，无形型) 4400%\n[等级 5]：MATK 2400%，MATK(龙族，无形型) 5500%\n[等级 6]：MATK 2880%，MATK(龙族，无形型) 6600%\n[等级 7]：MATK 3360%，MATK(龙族，无形型) 7700%\n[等级 8]：MATK 3840%，MATK(龙族，无形型) 8800%\n[等级 9]：MATK 4320%，MATK(龙族，无形型) 9900%\n[等级 10]：MATK 4800%，MATK(龙族，无形型) 11000%\n最高等级：10\n习得条件：召唤塞彭斯 Lv.1、召唤泰雷莫图斯 Lv.1、召唤普罗塞拉 Lv.1、召唤迪鲁维奥 Lv.1、元素精灵精通 Lv.5、召唤阿多尔 Lv.1\n类别：主动（AP）\n类型：魔法\n目标：范围内目标\n独立冷却：2 秒\n施放后延迟：500 毫秒\n可变吟唱：4 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：140"
+			description: "元素破坏\n消耗 150 AP；\n仅有上位精灵时可用，对自身周围 13×13 格造成与当前精灵属性一致的魔法伤害；\n对龙族与无形敌人伤害更高。\n伤害还会随施法者的基础等级和 SPL 提高。\n[等级 1]：MATK 480%，MATK(龙族，无形型) 1100%\n[等级 2]：MATK 960%，MATK(龙族，无形型) 2200%\n[等级 3]：MATK 1440%，MATK(龙族，无形型) 3300%\n[等级 4]：MATK 1920%，MATK(龙族，无形型) 4400%\n[等级 5]：MATK 2400%，MATK(龙族，无形型) 5500%\n[等级 6]：MATK 2880%，MATK(龙族，无形型) 6600%\n[等级 7]：MATK 3360%，MATK(龙族，无形型) 7700%\n[等级 8]：MATK 3840%，MATK(龙族，无形型) 8800%\n[等级 9]：MATK 4320%，MATK(龙族，无形型) 9900%\n[等级 10]：MATK 4800%，MATK(龙族，无形型) 11000%\n最高等级：10\n习得条件：元素精灵精通 Lv.5、召唤阿多尔 Lv.1、召唤迪鲁维奥 Lv.1、召唤普罗塞拉 Lv.1、召唤塞彭斯 Lv.1、召唤泰雷莫图斯 Lv.1\n类别：主动（AP）\n类型：魔法\n目标：范围内目标\n独立冷却：2 秒\n施放后延迟：500 毫秒\n可变吟唱：4 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：140"
 		},
 		5381: {
 			key: "EM_ELEMENTAL_VEIL",
@@ -161585,7 +163522,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5425: {
 			key: "SOA_EXORCISM_OF_MALICIOUS_SOUL",
 			name: "死灵净化",
-			description: "死灵净化\n恢复 2 AP；\n消耗全部灵魂能量对周围敌人造成无属性魔法伤害；\n消耗越多伤害越高。\n目标带有死灵诅咒或施法者位于城隍堂内时伤害更高，并根据暖风改变属性。\n伤害还会随施法者的基础等级和 SPL 提高。\n[等级 1]：MATK ((150+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((250+灵魂精通等级×2)×灵魂能量)%，范围 11×11 格\n[等级 2]：MATK ((300+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((500+灵魂精通等级×2)×灵魂能量)%，范围 11×11 格\n[等级 3]：MATK ((450+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((750+灵魂精通等级×2)×灵魂能量)%，范围 11×11 格\n[等级 4]：MATK ((600+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((1000+灵魂精通等级×2)×灵魂能量)%，范围 13×13 格\n[等级 5]：MATK ((750+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((1250+灵魂精通等级×2)×灵魂能量)%，范围 13×13 格\n最高等级：5\n习得条件：灵魂诅咒 Lv.5、灵魂聚集 Lv.1\n类别：主动\n类型：魔法\n目标：立即施放\n属性：赋予属性\n作用范围：5 / 5 / 5 / 6 / 6\n独立冷却：1 秒\n施放后延迟：无\n可变吟唱：3 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：70 / 80 / 90 / 100 / 110"
+			description: "死灵净化\n恢复 2 AP；\n消耗全部灵魂能量对周围敌人造成无属性魔法伤害；\n消耗越多伤害越高。\n目标带有死灵诅咒或施法者位于城隍堂内时伤害更高，并根据暖风改变属性。\n伤害还会随施法者的基础等级和 SPL 提高。\n[等级 1]：MATK ((150+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((250+灵魂精通等级×2)×灵魂能量)%，范围 11×11 格\n[等级 2]：MATK ((300+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((500+灵魂精通等级×2)×灵魂能量)%，范围 11×11 格\n[等级 3]：MATK ((450+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((750+灵魂精通等级×2)×灵魂能量)%，范围 11×11 格\n[等级 4]：MATK ((600+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((1000+灵魂精通等级×2)×灵魂能量)%，范围 13×13 格\n[等级 5]：MATK ((750+灵魂精通等级×2)×灵魂能量)%；\n诅咒目标 MATK ((1250+灵魂精通等级×2)×灵魂能量)%，范围 13×13 格\n最高等级：5\n习得条件：灵魂聚集 Lv.1、灵魂诅咒 Lv.5\n类别：主动\n类型：魔法\n目标：立即施放\n属性：赋予属性\n作用范围：5 / 5 / 5 / 6 / 6\n独立冷却：1 秒\n施放后延迟：无\n可变吟唱：3 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：70 / 80 / 90 / 100 / 110"
 		},
 		5426: {
 			key: "SOA_TALISMAN_OF_BLUE_DRAGON",
@@ -161645,7 +163582,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5437: {
 			key: "SH_HOGOGONG_STRIKE",
 			name: "虎高功乱打",
-			description: "虎高功乱打\n恢复 1 AP，与灵物共鸣时恢复 2 AP；\n攻击附近带有虎高功效果的目标并造成远程物理伤害；\n伤害受灵物理解、基础等级和 POW 影响，技能可暴击；\n与铁虎共鸣后提高 AP 恢复量和伤害，暴击伤害加成仅应用一半。\n[等级 1]：每次 ATK 300+(灵物理解等级×10)%；\n共鸣时每次 ATK 300+(灵物理解等级×20)%，范围 7×7 格\n[等级 2]：每次 ATK 400+(灵物理解等级×10)%；\n共鸣时每次 ATK 500+(灵物理解等级×20)%，范围 7×7 格\n[等级 3]：每次 ATK 500+(灵物理解等级×10)%；\n共鸣时每次 ATK 700+(灵物理解等级×20)%，范围 7×7 格\n[等级 4]：每次 ATK 600+(灵物理解等级×10)%；\n共鸣时每次 ATK 900+(灵物理解等级×20)%，范围 9×9 格\n[等级 5]：每次 ATK 700+(灵物理解等级×10)%；\n共鸣时每次 ATK 1100+(灵物理解等级×20)%，范围 9×9 格\n[等级 6]：每次 ATK 800+(灵物理解等级×10)%；\n共鸣时每次 ATK 1300+(灵物理解等级×20)%，范围 9×9 格\n[等级 7]：每次 ATK 900+(灵物理解等级×10)%；\n共鸣时每次 ATK 1500+(灵物理解等级×20)%，范围 11×11 格\n最高等级：7\n习得条件：灵物理解 Lv.5、铁虎咆哮 Lv.3\n类别：主动\n类型：远程物理\n目标：单个目标\n属性：武器属性\n施放范围：9\n作用范围：3 / 3 / 3 / 4 / 4 / 4 / 5\n独立冷却：350 毫秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：67 / 70 / 73 / 76 / 79 / 82 / 85"
+			description: "虎高功乱打\n恢复 1 AP，与灵物共鸣时恢复 2 AP；\n攻击附近带有虎高功效果的目标并造成远程物理伤害；\n伤害受灵物理解、基础等级和 POW 影响，技能可暴击；\n与铁虎共鸣后提高 AP 恢复量和伤害，暴击伤害加成仅应用一半。\n[等级 1]：每次 ATK 300+(灵物理解等级×10)%；\n共鸣时每次 ATK 300+(灵物理解等级×20)%，范围 7×7 格\n[等级 2]：每次 ATK 400+(灵物理解等级×10)%；\n共鸣时每次 ATK 500+(灵物理解等级×20)%，范围 7×7 格\n[等级 3]：每次 ATK 500+(灵物理解等级×10)%；\n共鸣时每次 ATK 700+(灵物理解等级×20)%，范围 7×7 格\n[等级 4]：每次 ATK 600+(灵物理解等级×10)%；\n共鸣时每次 ATK 900+(灵物理解等级×20)%，范围 9×9 格\n[等级 5]：每次 ATK 700+(灵物理解等级×10)%；\n共鸣时每次 ATK 1100+(灵物理解等级×20)%，范围 9×9 格\n[等级 6]：每次 ATK 800+(灵物理解等级×10)%；\n共鸣时每次 ATK 1300+(灵物理解等级×20)%，范围 9×9 格\n[等级 7]：每次 ATK 900+(灵物理解等级×10)%；\n共鸣时每次 ATK 1500+(灵物理解等级×20)%，范围 11×11 格\n最高等级：7\n习得条件：灵物理解 Lv.5、铁虎音速爪 Lv.3\n类别：主动\n类型：远程物理\n目标：单个目标\n属性：武器属性\n施放范围：9\n作用范围：3 / 3 / 3 / 4 / 4 / 4 / 5\n独立冷却：350 毫秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：67 / 70 / 73 / 76 / 79 / 82 / 85"
 		},
 		5438: {
 			key: "SH_COMMUNE_WITH_KI_SUL",
@@ -161700,7 +163637,7 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5448: {
 			key: "SH_BLESSING_OF_MYSTICAL_CREATURES",
 			name: "灵物祝福",
-			description: "灵物祝福\n消耗 100 AP；\n为自身以外的一名非喵族队伍成员降下灵物祝福，将其 AP 设为 200 并在 10 秒内提高 P.ATK 与 S.MATK；\n结束后 AP 归零，且 1 分钟内不能再次接受祝福。\n[等级 1]：P.ATK 与 S.MATK +10\n[等级 2]：P.ATK 与 S.MATK +20\n[等级 3]：P.ATK 与 S.MATK +30\n[等级 4]：P.ATK 与 S.MATK +40\n[等级 5]：P.ATK 与 S.MATK +50\n最高等级：5\n习得条件：灵物理解 Lv.10、与龟雪共鸣 Lv.1\n类别：主动（AP）\n类型：辅助\n目标：单个目标\n施放范围：9\n持续时间：10 秒\n独立冷却：1 分钟\n施放后延迟：500 毫秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
+			description: "灵物祝福\n消耗 100 AP；\n为自身以外的一名非喵族队伍成员降下灵物祝福，将其 AP 设为 200 并在 10 秒内提高 P.ATK 与 S.MATK；\n结束后 AP 归零，且 1 分钟内不能再次接受祝福。\n[等级 1]：P.ATK 与 S.MATK +10\n[等级 2]：P.ATK 与 S.MATK +20\n[等级 3]：P.ATK 与 S.MATK +30\n[等级 4]：P.ATK 与 S.MATK +40\n[等级 5]：P.ATK 与 S.MATK +50\n最高等级：5\n习得条件：与龟雪共鸣 Lv.1、灵物理解 Lv.10\n类别：主动（AP）\n类型：辅助\n目标：单个目标\n施放范围：9\n持续时间：10 秒\n独立冷却：1 分钟\n施放后延迟：500 毫秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：100"
 		},
 		5449: {
 			key: "HN_SELFSTUDY_TATICS",
@@ -161950,177 +163887,177 @@ var init_SkillLocalizationTable_generated = __esmMin((() => {
 		5499: {
 			key: "SS_FOUR_CHARM",
 			name: "四色护符",
-			description: "四色护符\n最高等级：1\n类型：魔法\n目标：自身\n施放范围：1\n持续时间：5 分钟\n独立冷却：3 秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：90"
+			description: "四色护符\n最高等级：1\n习得条件：术式解放 Lv.1、蜃景 Lv.1\n类型：魔法\n目标：自身\n施放范围：1\n持续时间：5 分钟\n独立冷却：3 秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：90"
 		},
 		5500: {
 			key: "NW_WILD_SHOT",
 			name: "野性射击",
-			description: "野性射击\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：750 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60 / 63 / 66 / 69 / 72"
+			description: "野性射击\n最高等级：5\n习得条件：致命一弹 Lv.3、螺旋射击 Lv.3、单人弹匣 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：750 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：60 / 63 / 66 / 69 / 72"
 		},
 		5501: {
 			key: "NW_MIDNIGHT_FALLEN",
 			name: "午夜坠落",
-			description: "午夜坠落\n最高等级：5\n类型：物理\n目标：指定地面\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：50 / 55 / 60 / 65 / 70"
+			description: "午夜坠落\n最高等级：5\n习得条件：暗夜守望者 Lv.3、单人弹匣 Lv.3、野火 Lv.3\n类型：物理\n目标：指定地面\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：50 / 55 / 60 / 65 / 70"
 		},
 		5502: {
 			key: "SKE_SKY_SUN",
 			name: "天空之日",
-			description: "天空之日\n最高等级：5\n类型：物理\n目标：自身\n属性：武器属性\n施放范围：1\n作用范围：1 / 1 / 2 / 2 / 3\n独立冷却：1 秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：72 / 76 / 80 / 84 / 88"
+			description: "天空之日\n最高等级：5\n习得条件：正午爆破 Lv.3、日落爆破 Lv.3、苍穹附魔 Lv.7\n类型：物理\n目标：自身\n属性：武器属性\n施放范围：1\n作用范围：1 / 1 / 2 / 2 / 3\n独立冷却：1 秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：72 / 76 / 80 / 84 / 88"
 		},
 		5503: {
 			key: "SKE_SKY_MOON",
 			name: "天空之月",
-			description: "天空之月\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：2\n作用范围：2 / 2 / 3 / 3 / 4\n独立冷却：1 秒\n施放后延迟：300 毫秒\n可变吟唱：1 秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：56 / 59 / 62 / 65 / 68"
+			description: "天空之月\n最高等级：5\n习得条件：午夜踢 Lv.3、破晓 Lv.3、苍穹附魔 Lv.7\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：2\n作用范围：2 / 2 / 3 / 3 / 4\n独立冷却：1 秒\n施放后延迟：300 毫秒\n可变吟唱：1 秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：56 / 59 / 62 / 65 / 68"
 		},
 		5504: {
 			key: "SKE_STAR_LIGHT_KICK",
 			name: "星光踢",
-			description: "星光踢\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：750 毫秒\n施放后延迟：300 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：52 / 57 / 62 / 67 / 72"
+			description: "星光踢\n最高等级：5\n习得条件：星辰爆发 Lv.3、星辰炮 Lv.3、苍穹附魔 Lv.7\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：750 毫秒\n施放后延迟：300 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：52 / 57 / 62 / 67 / 72"
 		},
 		5505: {
 			key: "HN_OVERCOMING_CRISIS",
 			name: "克服危机",
-			description: "克服危机\n最高等级：5\n类型：魔法\n目标：自身\n施放范围：1\n持续时间：5 分钟\n独立冷却：1 分钟\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：70 / 73 / 76 / 79 / 82"
+			description: "克服危机\n最高等级：5\n习得条件：自学战术 Lv.5、魔法自学 Lv.5\n类型：魔法\n目标：自身\n施放范围：1\n持续时间：5 分钟\n独立冷却：1 分钟\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：70 / 73 / 76 / 79 / 82"
 		},
 		5506: {
 			key: "SH_CHUL_HO_BATTERING",
 			name: "铁虎重击",
-			description: "铁虎重击\n最高等级：7\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 2 / 3 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：64 / 66 / 68 / 70 / 72 / 74 / 76"
+			description: "铁虎重击\n最高等级：7\n习得条件：灵物理解 Lv.7、铁虎音速爪 Lv.5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 2 / 3 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：64 / 66 / 68 / 70 / 72 / 74 / 76"
 		},
 		5507: {
 			key: "SH_HYUN_ROK_SPIRIT_POWER",
 			name: "玄禄灵力",
-			description: "玄禄灵力\n最高等级：7\n类型：魔法\n目标：敌方目标\n属性：无属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3 / 3 / 4\n独立冷却：1 秒\n施放后延迟：700 毫秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：70 / 73 / 76 / 79 / 82 / 85 / 88"
+			description: "玄禄灵力\n最高等级：7\n习得条件：灵物理解 Lv.7、玄鹿叶风 Lv.5\n类型：魔法\n目标：敌方目标\n属性：无属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3 / 3 / 4\n独立冷却：1 秒\n施放后延迟：700 毫秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：70 / 73 / 76 / 79 / 82 / 85 / 88"
 		},
 		6001: {
 			key: "DK_DRAGONIC_BREATH",
 			name: "龙之呼吸",
-			description: "龙之呼吸\n最高等级：10\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：3 / 3 / 3 / 3 / 3 / 4 / 4 / 4 / 4 / 4\n独立冷却：500 毫秒\n施放后延迟：150 毫秒\n可变吟唱：2 秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：61 / 64 / 67 / 70 / 73 / 76 / 79 / 82 / 85 / 88"
+			description: "龙之呼吸\n最高等级：10\n习得条件：龙息 Lv.10、龙息·水 Lv.10\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：3 / 3 / 3 / 3 / 3 / 4 / 4 / 4 / 4 / 4\n独立冷却：500 毫秒\n施放后延迟：150 毫秒\n可变吟唱：2 秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：61 / 64 / 67 / 70 / 73 / 76 / 79 / 82 / 85 / 88"
 		},
 		6002: {
 			key: "MT_SPARK_BLASTER",
 			name: "火花爆破",
-			description: "火花爆破\n最高等级：10\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：3 / 3 / 3 / 3 / 3 / 4 / 4 / 4 / 4 / 4\n独立冷却：500 毫秒\n施放后延迟：250 毫秒\n可变吟唱：1500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：48 / 52 / 56 / 60 / 64 / 68 / 72 / 76 / 80 / 84"
+			description: "火花爆破\n最高等级：10\n习得条件：制造装置 Lv.1\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：3 / 3 / 3 / 3 / 3 / 4 / 4 / 4 / 4 / 4\n独立冷却：500 毫秒\n施放后延迟：250 毫秒\n可变吟唱：1500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：48 / 52 / 56 / 60 / 64 / 68 / 72 / 76 / 80 / 84"
 		},
 		6003: {
 			key: "MT_TRIPLE_LASER",
 			name: "三重激光",
-			description: "三重激光\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：11\n独立冷却：350 毫秒\n施放后延迟：250 毫秒\n可变吟唱：1 秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：40 / 45 / 50 / 55 / 60"
+			description: "三重激光\n最高等级：5\n习得条件：火花爆破 Lv.5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：11\n独立冷却：350 毫秒\n施放后延迟：250 毫秒\n可变吟唱：1 秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：40 / 45 / 50 / 55 / 60"
 		},
 		6004: {
 			key: "MT_MIGHTY_SMASH",
 			name: "强力粉碎",
-			description: "强力粉碎\n最高等级：10\n类型：物理\n目标：自身\n属性：武器属性\n施放范围：1\n作用范围：1 / 1 / 1 / 1 / 2 / 2 / 2 / 2 / 3 / 3\n独立冷却：500 毫秒\n施放后延迟：700 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：68 / 71 / 74 / 77 / 80 / 83 / 86 / 89 / 92 / 95"
+			description: "强力粉碎\n最高等级：10\n习得条件：战斧践踏 Lv.3\n类型：物理\n目标：自身\n属性：武器属性\n施放范围：1\n作用范围：1 / 1 / 1 / 1 / 2 / 2 / 2 / 2 / 3 / 3\n独立冷却：500 毫秒\n施放后延迟：700 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：68 / 71 / 74 / 77 / 80 / 83 / 86 / 89 / 92 / 95"
 		},
 		6005: {
 			key: "BO_EXPLOSIVE_POWDER",
 			name: "爆炸粉末",
-			description: "爆炸粉末\n最高等级：5\n类型：物理\n目标：自身\n属性：武器属性\n作用范围：3\n独立冷却：700 毫秒\n施放后延迟：250 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：69 / 76 / 83 / 90 / 97"
+			description: "爆炸粉末\n最高等级：5\n习得条件：仿生学精通 Lv.3\n类型：物理\n目标：自身\n属性：武器属性\n作用范围：3\n独立冷却：700 毫秒\n施放后延迟：250 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：69 / 76 / 83 / 90 / 97"
 		},
 		6006: {
 			key: "BO_MAYHEMIC_THORNS",
 			name: "混乱荆棘",
-			description: "混乱荆棘\n最高等级：10\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：3 / 3 / 3 / 3 / 3 / 4 / 4 / 4 / 4 / 4\n独立冷却：700 毫秒\n施放后延迟：150 毫秒\n可变吟唱：1 秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：68 / 70 / 72 / 74 / 76 / 78 / 80 / 82 / 84 / 86"
+			description: "混乱荆棘\n最高等级：10\n习得条件：仿生学精通 Lv.5、爆炸粉末 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：3 / 3 / 3 / 3 / 3 / 4 / 4 / 4 / 4 / 4\n独立冷却：700 毫秒\n施放后延迟：150 毫秒\n可变吟唱：1 秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：68 / 70 / 72 / 74 / 76 / 78 / 80 / 82 / 84 / 86"
 		},
 		6502: {
 			key: "DK_DRAGONIC_PIERCE",
 			name: "龙之穿刺",
-			description: "龙之穿刺\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n独立冷却：500 毫秒\n施放后延迟：700 毫秒\n可变吟唱：500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：45 / 50 / 55 / 60 / 65"
+			description: "龙之穿刺\n最高等级：5\n习得条件：砍杀者 Lv.7\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n独立冷却：500 毫秒\n施放后延迟：700 毫秒\n可变吟唱：500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：45 / 50 / 55 / 60 / 65"
 		},
 		6503: {
 			key: "IG_RADIANT_SPEAR",
 			name: "光辉长矛",
-			description: "光辉长矛\n最高等级：10\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：1 / 1 / 1 / 1 / 2 / 2 / 2 / 2 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1200 毫秒\n可变吟唱：1 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：67 / 69 / 71 / 73 / 75 / 77 / 79 / 81 / 83 / 85"
+			description: "光辉长矛\n最高等级：10\n习得条件：过度斩击 Lv.3、盾牌射击 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：1 / 1 / 1 / 1 / 2 / 2 / 2 / 2 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1200 毫秒\n可变吟唱：1 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：67 / 69 / 71 / 73 / 75 / 77 / 79 / 81 / 83 / 85"
 		},
 		6504: {
 			key: "IG_IMPERIAL_CROSS",
 			name: "帝国十字",
-			description: "帝国十字\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：2\n独立冷却：400 毫秒\n施放后延迟：700 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：49 / 53 / 57 / 61 / 65"
+			description: "帝国十字\n最高等级：5\n习得条件：过度斩击 Lv.5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：2\n独立冷却：400 毫秒\n施放后延迟：700 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：49 / 53 / 57 / 61 / 65"
 		},
 		6505: {
 			key: "IG_IMPERIAL_PRESSURE",
 			name: "帝国压力",
-			description: "帝国压力\n最高等级：5\n类型：魔法\n目标：敌方目标\n施放范围：9\n作用范围：2 / 2 / 3 / 3 / 4\n独立冷却：450 毫秒\n施放后延迟：1 秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：89 / 93 / 97 / 101 / 105"
+			description: "帝国压力\n最高等级：5\n习得条件：矛剑修炼 Lv.7、防御姿态 Lv.3\n类型：魔法\n目标：敌方目标\n施放范围：9\n作用范围：2 / 2 / 3 / 3 / 4\n独立冷却：450 毫秒\n施放后延迟：1 秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：89 / 93 / 97 / 101 / 105"
 		},
 		6506: {
 			key: "MT_RUSH_STRIKE",
 			name: "冲锋打击",
-			description: "冲锋打击\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：1 / 2 / 2 / 3 / 3\n独立冷却：Lv.1：2 秒 / Lv.2：1750 毫秒 / Lv.3：1500 毫秒 / Lv.4：1250 毫秒 / Lv.5：1 秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：85 / 80 / 75 / 70 / 65"
+			description: "冲锋打击\n最高等级：5\n习得条件：冲锋震击 Lv.5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：1 / 2 / 2 / 3 / 3\n独立冷却：Lv.1：2 秒 / Lv.2：1750 毫秒 / Lv.3：1500 毫秒 / Lv.4：1250 毫秒 / Lv.5：1 秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：85 / 80 / 75 / 70 / 65"
 		},
 		6507: {
 			key: "MT_POWERFUL_SWING",
 			name: "强力挥击",
-			description: "强力挥击\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：2\n作用范围：1 / 1 / 2 / 2 / 3\n独立冷却：500 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：62 / 64 / 66 / 68 / 70"
+			description: "强力挥击\n最高等级：5\n习得条件：冲锋打击 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：2\n作用范围：1 / 1 / 2 / 2 / 3\n独立冷却：500 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：62 / 64 / 66 / 68 / 70"
 		},
 		6508: {
 			key: "MT_ENERGY_CANNONADE",
 			name: "能量炮击",
-			description: "能量炮击\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 3 / 3 / 4\n独立冷却：1250 毫秒\n施放后延迟：500 毫秒\n可变吟唱：1500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：58 / 64 / 70 / 76 / 82"
+			description: "能量炮击\n最高等级：5\n习得条件：三重激光 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：9\n作用范围：2 / 2 / 3 / 3 / 4\n独立冷却：1250 毫秒\n施放后延迟：500 毫秒\n可变吟唱：1500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：58 / 64 / 70 / 76 / 82"
 		},
 		6509: {
 			key: "BO_MYSTERY_POWDER",
 			name: "神秘粉末",
-			description: "神秘粉末\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：3\n作用范围：2 / 2 / 2 / 3 / 3\n持续时间：1 分钟\n独立冷却：1500 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：82"
+			description: "神秘粉末\n最高等级：5\n习得条件：爆炸粉末 Lv.5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：3\n作用范围：2 / 2 / 2 / 3 / 3\n持续时间：1 分钟\n独立冷却：1500 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：82"
 		},
 		6510: {
 			key: "BO_DUST_EXPLOSION",
 			name: "粉尘爆炸",
-			description: "粉尘爆炸\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：3\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：500 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：64 / 67 / 70 / 73 / 76"
+			description: "粉尘爆炸\n最高等级：5\n习得条件：神秘粉末 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：3\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：500 毫秒\n施放后延迟：500 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：64 / 67 / 70 / 73 / 76"
 		},
 		6511: {
 			key: "SHC_CROSS_SLASH",
 			name: "交叉斩",
-			description: "交叉斩\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：3\n作用范围：2 / 2 / 2 / 3 / 3\n持续时间：10 秒\n独立冷却：1 秒\n施放后延迟：700 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：58 / 63 / 68 / 73 / 78"
+			description: "交叉斩\n最高等级：5\n习得条件：武器格挡 Lv.3、舞动之刃 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：3\n作用范围：2 / 2 / 2 / 3 / 3\n持续时间：10 秒\n独立冷却：1 秒\n施放后延迟：700 毫秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：58 / 63 / 68 / 73 / 78"
 		},
 		6512: {
 			key: "ABC_HIT_AND_SLIDING",
 			name: "滑步打击",
-			description: "滑步打击\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：2\n持续时间：1 分钟\n独立冷却：Lv.1：3 秒 / Lv.2：2500 毫秒 / Lv.3：2 秒 / Lv.4：1500 毫秒 / Lv.5：1 秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：43 / 46 / 49 / 52 / 55"
+			description: "滑步打击\n最高等级：5\n习得条件：匕首与弓术修炼 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：2\n持续时间：1 分钟\n独立冷却：Lv.1：3 秒 / Lv.2：2500 毫秒 / Lv.3：2 秒 / Lv.4：1500 毫秒 / Lv.5：1 秒\n施放后延迟：无\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：43 / 46 / 49 / 52 / 55"
 		},
 		6513: {
 			key: "ABC_CHASING_BREAK",
 			name: "追击破坏",
-			description: "追击破坏\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：62 / 66 / 70 / 74 / 78"
+			description: "追击破坏\n最高等级：5\n习得条件：滑步打击 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：无\n固定吟唱：无\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：62 / 66 / 70 / 74 / 78"
 		},
 		6514: {
 			key: "ABC_CHASING_SHOT",
 			name: "追击射击",
-			description: "追击射击\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：750 毫秒\n施放后延迟：500 毫秒\n可变吟唱：1 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：85 / 90 / 95 / 100 / 105"
+			description: "追击射击\n最高等级：5\n习得条件：滑步打击 Lv.3\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：750 毫秒\n施放后延迟：500 毫秒\n可变吟唱：1 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：85 / 90 / 95 / 100 / 105"
 		},
 		6515: {
 			key: "ABC_ABYSS_FLAME",
 			name: "深渊烈焰",
-			description: "深渊烈焰\n最高等级：5\n类型：魔法\n目标：敌方目标\n属性：火属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：3 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：82 / 86 / 90 / 94 / 98"
+			description: "深渊烈焰\n最高等级：5\n习得条件：魔法剑修炼 Lv.5、来自深渊 Lv.3\n类型：魔法\n目标：敌方目标\n属性：火属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：3 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：82 / 86 / 90 / 94 / 98"
 		},
 		6516: {
 			key: "AG_ENERGY_CONVERSION",
 			name: "能量转换",
-			description: "能量转换\n最高等级：5\n类型：魔法\n目标：自身\n独立冷却：Lv.1：15 秒 / Lv.2：12 秒 / Lv.3：9 秒 / Lv.4：6 秒 / Lv.5：3 秒\n施放后延迟：500 毫秒\n可变吟唱：1 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：10"
+			description: "能量转换\n最高等级：5\n习得条件：识别魔法 Lv.2、高潮 Lv.1\n类型：魔法\n目标：自身\n独立冷却：Lv.1：15 秒 / Lv.2：12 秒 / Lv.3：9 秒 / Lv.4：6 秒 / Lv.5：3 秒\n施放后延迟：500 毫秒\n可变吟唱：1 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：10"
 		},
 		6517: {
 			key: "EM_PSYCHIC_STREAM",
 			name: "念力洪流",
-			description: "念力洪流\n最高等级：5\n类型：魔法\n目标：敌方目标\n属性：无属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：Lv.1：10 秒 / Lv.2：8 秒 / Lv.3：6 秒 / Lv.4：4 秒 / Lv.5：2 秒\n施放后延迟：Lv.1：1500 毫秒 / Lv.2：1250 毫秒 / Lv.3：1 秒 / Lv.4：750 毫秒 / Lv.5：500 毫秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：77 / 84 / 91 / 98 / 105"
+			description: "念力洪流\n最高等级：5\n习得条件：魔法书修炼 Lv.5、钻石风暴 Lv.3、大火灾 Lv.3、雷电之地 Lv.3、大地驱动 Lv.3、毒液沼泽 Lv.3\n类型：魔法\n目标：敌方目标\n属性：无属性\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 3\n独立冷却：Lv.1：10 秒 / Lv.2：8 秒 / Lv.3：6 秒 / Lv.4：4 秒 / Lv.5：2 秒\n施放后延迟：Lv.1：1500 毫秒 / Lv.2：1250 毫秒 / Lv.3：1 秒 / Lv.4：750 毫秒 / Lv.5：500 毫秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：77 / 84 / 91 / 98 / 105"
 		},
 		6518: {
 			key: "CD_DIVINUS_FLOS",
 			name: "神圣之花",
-			description: "神圣之花\n最高等级：5\n类型：魔法\n目标：敌方目标\n属性：圣属性\n施放范围：9\n作用范围：3\n独立冷却：700 毫秒\n施放后延迟：850 毫秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：99 / 103 / 107 / 111 / 115"
+			description: "神圣之花\n最高等级：5\n习得条件：阿多拉穆斯 Lv.5、弗拉门 Lv.5\n类型：魔法\n目标：敌方目标\n属性：圣属性\n施放范围：9\n作用范围：3\n独立冷却：700 毫秒\n施放后延迟：850 毫秒\n可变吟唱：2 秒\n固定吟唱：1500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：99 / 103 / 107 / 111 / 115"
 		},
 		6519: {
 			key: "IQ_BLAZING_FLAME_BLAST",
 			name: "炽焰爆破",
-			description: "炽焰爆破\n最高等级：5\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：54 / 58 / 62 / 66 / 68"
+			description: "炽焰爆破\n最高等级：5\n习得条件：巨大火焰爆破 Lv.7\n类型：物理\n目标：敌方目标\n属性：武器属性\n施放范围：7\n独立冷却：700 毫秒\n施放后延迟：1 秒\n可变吟唱：500 毫秒\n固定吟唱：500 毫秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：54 / 58 / 62 / 66 / 68"
 		},
 		6520: {
 			key: "WH_WILD_WALK",
 			name: "荒野疾行",
-			description: "荒野疾行\n最高等级：5\n类型：物理\n目标：敌方目标\n施放范围：11\n持续时间：Lv.1：6 秒 / Lv.2：9 秒 / Lv.3：12 秒 / Lv.4：15 秒 / Lv.5：18 秒\n独立冷却：20 秒\n施放后延迟：500 毫秒\n可变吟唱：500 毫秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：63 / 66 / 69 / 72 / 75"
+			description: "荒野疾行\n最高等级：5\n习得条件：亲近自然 Lv.3、猎鹰冲锋 Lv.3\n类型：物理\n目标：敌方目标\n施放范围：11\n持续时间：Lv.1：6 秒 / Lv.2：9 秒 / Lv.3：12 秒 / Lv.4：15 秒 / Lv.5：18 秒\n独立冷却：20 秒\n施放后延迟：500 毫秒\n可变吟唱：500 毫秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：63 / 66 / 69 / 72 / 75"
 		},
 		6521: {
 			key: "TR_RHYTHMICAL_WAVE",
 			name: "节奏波",
-			description: "节奏波\n最高等级：5\n类型：魔法\n目标：敌方目标\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 4\n独立冷却：400 毫秒\n施放后延迟：1 秒\n可变吟唱：2 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：56 / 62 / 68 / 74 / 80"
+			description: "节奏波\n最高等级：5\n习得条件：金属狂怒 Lv.3\n类型：魔法\n目标：敌方目标\n施放范围：9\n作用范围：2 / 2 / 2 / 3 / 4\n独立冷却：400 毫秒\n施放后延迟：1 秒\n可变吟唱：2 秒\n固定吟唱：1 秒\n实际时间受角色属性、装备和状态影响，以服务器为准；无独立冷却不代表不受动作间隔限制。\nSP 消耗：56 / 62 / 68 / 74 / 80"
 		},
 		6522: {
 			key: "ABC_ABYSS_FLAME_ATK",
@@ -189590,14 +191527,12 @@ var init_PacketStructure = __esmMin((() => {
 		this.changeAmount = 0;
 	};
 	PACKET.CZ.STATUS_CHANGE.prototype.build = function() {
-		let pkt_len;
-		if (this.statusID >= 219 && this.statusID <= 224) pkt_len = 6;
-		else pkt_len = 5;
-		const pkt_buf = new BinaryWriter(pkt_len);
-		if (this.statusID >= 219 && this.statusID <= 224) pkt_buf.writeShort(2852);
-		else pkt_buf.writeShort(187);
+		const trait = this.statusID >= 219 && this.statusID <= 224;
+		const pkt_buf = new BinaryWriter(trait ? 6 : 5);
+		pkt_buf.writeShort(trait ? 2852 : 187);
 		pkt_buf.writeUShort(this.statusID);
-		pkt_buf.writeUChar(this.changeAmount);
+		if (trait) pkt_buf.writeUShort(this.changeAmount);
+		else pkt_buf.writeUChar(this.changeAmount);
 		return pkt_buf;
 	};
 	PACKET.CZ.REQ_EMOTION = function PACKET_CZ_REQ_EMOTION() {
@@ -245826,11 +247761,318 @@ var init_Sounds = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Skills/FourthJobEffects.js
+var fourthJobEffectResources, fourthJobSkillEffects, fourthJobRenderEffects;
+var init_FourthJobEffects = __esmMin((() => {
+	init_SkillConst();
+	fourthJobEffectResources = {
+		DK_SERVANTWEAPON: {
+			beginCastEffectId: "servantweapon/servantweapon_cast/servantweapon_cast",
+			effectId: "servantweapon/servantweapon/servantweapon"
+		},
+		DK_SERVANTWEAPON_ATK: { hitEffectId: "servantweapon/servantweapon_hit/servantweapon_hit" },
+		DK_SERVANT_W_SIGN: { effectId: "servant_sign/servant_sign_down/servant_sign_down" },
+		DK_SERVANT_W_PHANTOM: { hitEffectId: "servant_phantom/servant_phantom_hit/servant_phantom_hit" },
+		DK_SERVANT_W_DEMOL: { hitEffectId: "servant_demolition/servant_demolition_hit/servant_demolition_hit" },
+		DK_CHARGINGPIERCE: { effectId: "new_chargingpierce/new_chargingpierce_cast/new_chargingpierce_cast" },
+		DK_HACKANDSLASHER: {
+			effectId: "hackandslash/hackandslash/hackandslash",
+			hitEffectId: "hackandslash/hackandslash_hit/hackandslash_hit"
+		},
+		DK_HACKANDSLASHER_ATK: { hitEffectId: "hackandslash/hackandslash_hit/hackandslash_hit" },
+		DK_DRAGONIC_AURA: { hitEffectId: "dragonnic_ora/dragonnic_ora_hit/dragonnic_ora_hit" },
+		DK_MADNESS_CRUSHER: { hitEffectId: "madness_crusher/madness_crusher/madness_crusher" },
+		DK_VIGOR: { effectId: "vigor/vigor_cast/vigor_cast" },
+		DK_STORMSLASH: { hitEffectId: "stormslash/stormslash/stormslash_1" },
+		MT_A_MACHINE: {
+			beginCastEffectId: "a_machine/a_machine_cast/a_machine_cast",
+			hitEffectId: "a_machine/a_machine_hit/a_machine_hit"
+		},
+		SHC_SHADOW_EXCEED: { effectId: "shadow_exceed/shadow_exceed/shadow_exceed" },
+		SHC_DANCING_KNIFE: {
+			effectIdOnCaster: "dancing_knife/dancing_knife_cast/dancing_knife_cast",
+			hitEffectId: "dancing_knife/dancing_knife_hit/dancing_knife_hit"
+		},
+		SHC_SAVAGE_IMPACT: { hitEffectId: "savage_impact/savage_impact_hit/savage_impact_hit" },
+		SHC_ETERNAL_SLASH: { hitEffectId: "eternal_slash/eternal_slash_hit/eternal_slash_hit" },
+		SHC_SHADOW_STAB: { hitEffectId: "shadow_stab/shadow_stab/shadow_stab" },
+		SHC_IMPACT_CRATER: { hitEffectId: "impact_crater/impact_crater_hit/impact_crater_hit" },
+		SHC_FATAL_SHADOW_CROW: { hitEffectId: "fatal_shadow_crow/fatal_shadow_crow_hit/fatal_shadow_crow_hit" },
+		SHC_POTENT_VENOM: { effectId: "new_potent_venom/new_potent_venom" },
+		SHC_ENCHANTING_SHADOW: { effectId: ["enchanting_shadow/enchanting_shadow/new_enchanting_shadow", "enchanting_shadow/enchanting_shadow_bottom/new_enchanting_shadow_bottom"] },
+		MT_AXE_STOMP: {
+			effectId: ["new_axe_stomp/new_axe_stomp/new_axe_stomp", "new_axe_stomp/new_axe_stomp_bottom/new_axe_stomp_bottom"],
+			hitEffectId: "new_axe_stomp/new_axe_stomp_hit/new_axe_stomp_hit"
+		},
+		MT_RUSH_QUAKE: {
+			effectId: ["new_rush_quake/new_rush_quake/new_rush_quake", "new_rush_quake/new_rush_quake_bottom/new_rush_quake"],
+			hitEffectId: "new_rush_quake/new_rush_quake_hit/new_rush_quake_hit"
+		},
+		MT_D_MACHINE: {
+			beginCastEffectId: ["new_d_machine/new_d_machine_cast/new_d_machine_cast", "new_d_machine/new_d_machine_cast_bottom/new_d_machine_cast_bottom"],
+			effectId: "new_d_machine/new_d_machine/new_d_machine"
+		},
+		AG_DEADLY_PROJECTION: {
+			beginCastEffectId: "deadly_projection/deadly_projection_cast/deadly_projection_cast",
+			hitEffectId: "deadly_projection/deadly_projection_hit/deadly_projection_hit"
+		},
+		AG_DESTRUCTIVE_HURRICANE: {
+			beginCastEffectId: "destructive_hurricane/destructive_hurricane_cast/destructive_hurricane_cast",
+			hitEffectId: "destructive_hurricane/destructive_hurricane_hit/destructive_hurricane_hit"
+		},
+		AG_MYSTERY_ILLUSION: {
+			beginCastEffectId: "mystery_illusion/mystery_illusion_cast/mystery_illusion_cast",
+			hitEffectId: "mystery_illusion/mystery_illusion_hit/mystery_illusion_hit"
+		},
+		AG_VIOLENT_QUAKE: {
+			beginCastEffectId: "violentquake/violentquake_cast/violentquake_cast",
+			hitEffectId: "violentquake/violentquake_hit/violentquake_hit"
+		},
+		AG_SOUL_VC_STRIKE: { hitEffectId: "soul_vc_strike/soul_vc_strike_hit/soul_vc_strike_hit" },
+		AG_STRANTUM_TREMOR: { hitEffectId: "strantumtremor/strantumtremor_hit/strantumtremor_hit" },
+		AG_ALL_BLOOM: { hitEffectId: "allbloom/allbloom_hit/allbloom_hit" },
+		AG_CRYSTAL_IMPACT: { hitEffectId: "crystal_impact/crystal_impact_hit/crystal_impact_hit" },
+		AG_TORNADO_STORM: { hitEffectId: "tornadostorm/tornadostorm_hit/tornadostorm_hit" },
+		AG_ASTRAL_STRIKE: {
+			beginCastEffectId: "astralstrike/astralstrike_cast/astralstrike_cast",
+			hitEffectId: "astralstrike/astralstrike/astralstrike"
+		},
+		AG_CLIMAX: { effectId: "climax/climax/climax" },
+		AG_ROCK_DOWN: { hitEffectId: "rockdown/rockdown_hit/rockdown_hit" },
+		AG_STORM_CANNON: { hitEffectId: "stormcannon/stormcannon/stormcannon" },
+		AG_CRIMSON_ARROW: { hitEffectId: "crimsonarrow/crimsonarrow_hit/crimsonarrow_hit" },
+		AG_FROZEN_SLASH: { hitEffectId: "frozen_slash/frozen_slash_hit/frozen_slash_hit" },
+		AG_RAIN_OF_CRYSTAL: { beginCastEffectId: ["rain_of_crystal/rain_of_crystal_casting/rain_of_crystal_casting", "rain_of_crystal/rain_of_crystal_casting_bottom/rain_of_crystal_casting_bottom"] },
+		CD_MEDIALE_VOTUM: { effectId: "medialevotum/medialevotum/medialevotum" },
+		CD_ARGUTUS_VITA: { effectId: "argutusvita/argutusvita/argutusvita" },
+		CD_ARGUTUS_TELUM: { effectId: "argutustelum/argutustelum/argutustelum" },
+		CD_ARBITRIUM: { hitEffectId: "arbitrium/arbitrium_hit/arbitrium_hit" },
+		CD_PRESENS_ACIES: { effectId: "presensacies/presensacies/presensacies" },
+		CD_EFFLIGO: { hitEffectId: "effligo/effligo_hit/effligo_hit" },
+		CD_COMPETENTIA: { effectId: "competentia/competentia/competentia" },
+		CD_PNEUMATICUS_PROCELLA: { beginCastEffectId: "pneumaticusprocella/pneumaticusprocella_cast/pneumaticusprocella_cast" },
+		CD_RELIGIO: { effectId: "religio/religio/religio" },
+		CD_BENEDICTUM: { effectId: "benedictum/benedictum/benedictum" },
+		CD_PETITIO: { hitEffectId: "petitio/petitio/petitio" },
+		CD_REPARATIO: {
+			beginCastEffectId: ["new_reparatio/new_reparatio_cast/new_reparatio_cast", "new_reparatio/new_reparatio_cast_bottom/new_reparatio_cast_bottom"],
+			effectId: ["new_reparatio/new_reparatio_target/new_reparatio_target", "new_reparatio/new_reparatio_target_bottom/new_reparatio_target_bottom"]
+		},
+		WH_WIND_SIGN: { effectId: "windsign/windsign/windsign" },
+		WH_HAWKRUSH: { hitEffectId: "hawkrush/hawkrush/hawkrush" },
+		WH_GALESTORM: { hitEffectId: "galestorm/galestorm_hit/galestorm_hit" },
+		WH_CRESCIVE_BOLT: { hitEffectId: "crescivebolt/crescivebolt_hit/crescivebolt_hit" },
+		WH_DEEPBLINDTRAP: {
+			beginCastEffectId: "deepblindtrap/deepblindtrap_cast/deepblindtrap_cast",
+			hitEffectId: "deepblindtrap/deepblindtrap_hit/deepblindtrap_hit"
+		},
+		WH_SOLIDTRAP: {
+			beginCastEffectId: "solidtrap/solidtrap_cast/solidtrap_cast",
+			hitEffectId: "solidtrap/solidtrap_hit/solidtrap_hit"
+		},
+		WH_SWIFTTRAP: {
+			beginCastEffectId: "swifttrap/swifttrap_cast/swifttrap_cast",
+			hitEffectId: "swifttrap/swifttrap_hit/swifttrap_hit"
+		},
+		WH_FLAMETRAP: {
+			beginCastEffectId: "flametrap/flametrap_cast/flametrap_cast",
+			hitEffectId: "flametrap/flametrap_hit/flametrap_hit"
+		},
+		IG_GUARD_STANCE: { effectId: "guard_stance/guard_stance/guard_stance" },
+		IG_REBOUND_SHIELD: { effectId: "rebound_shield/rebound_shield/rebound_shield" },
+		IG_ATTACK_STANCE: { effectId: "attack_stance/attack_stance/attack_stance" },
+		IG_HOLY_SHIELD: { effectId: "holy_shield/holy_shield/holy_shield" },
+		IG_GRAND_JUDGEMENT: { hitEffectId: "grand_judgement/grand_judgement/grand_judgement" },
+		IG_JUDGEMENT_CROSS: { hitEffectId: "judgement_cross/judgement_cross/judgement_cross" },
+		IG_SHIELD_SHOOTING: { hitEffectId: "shield_shooting/shield_shooting_hit/shield_shooting_hit" },
+		IG_OVERSLASH: { hitEffectId: "overslash/overslash_hit/overslash_hit" },
+		IG_CROSS_RAIN: { beginCastEffectId: ["crossrain/cross_rain_cast/cross_rain_cast", "crossrain/cross_rain_cast_bottom/cross_rain_cast_bottom"] },
+		IG_ULTIMATE_SACRIFICE: { effectId: [
+			"ultimate_sacrifice/ultimatesacrifice/ultimatesacrifice",
+			"ultimate_sacrifice/ultimatesacrifice_bottom/ultimatesacrifice_bottom",
+			"ultimate_sacrifice/ultimatesacrifice_shine/ultimatesacrifice_shine"
+		] },
+		ABC_ABYSS_DAGGER: {
+			effectId: "abyss_dagger/abyss_dagger/abyss_dagger",
+			hitEffectId: "abyss_dagger/abyss_dagger_hit/abyss_dagger_hit"
+		},
+		ABC_UNLUCKY_RUSH: {
+			effectId: "unlucky_rush/unlucky_rush_cast/unlucky_rush_cast",
+			hitEffectId: "unlucky_rush/unlucky_rush_hit/unlucky_rush_hit"
+		},
+		ABC_CHAIN_REACTION_SHOT: {
+			beginCastEffectId: ["chain_reaction_shot/chain_reaction_shot_cast/chain_reaction_shot_cast", "chain_reaction_shot/chain_reaction_shot_cast_bottom/chain_reaction_shot_cast_bottom"],
+			beforeHitEffectId: "chain_reaction_shot/chain_reaction_shot/chain_reaction_shot",
+			hitEffectId: "chain_reaction_shot/chain_reaction_shot_hit/chain_reaction_shot_hit"
+		},
+		ABC_CHAIN_REACTION_SHOT_ATK: { hitEffectId: "chain_reaction_shot/chain_reaction_shot_hitsub/chain_reaction_shot_hitsub" },
+		ABC_FROM_THE_ABYSS: { effectId: "from_the_abyss/from_the_abyss_shadowball_create/from_the_abyss_shadowball_create" },
+		ABC_FROM_THE_ABYSS_ATK: { hitEffectId: "from_the_abyss/from_the_abyss_attack/from_the_abyss_attack" },
+		ABC_ABYSS_SLAYER: {
+			beginCastEffectId: ["4abc_abyss_slayer/abyss_slayer_cast/abyss_slayer_cast", "4abc_abyss_slayer/abyss_slayer_cast_bottom/abyss_slayer_cast_bottom"],
+			effectId: "4abc_abyss_slayer/abyss_slayer/abyss_slayer"
+		},
+		ABC_ABYSS_STRIKE: {
+			beginCastEffectId: ["abyss_strike/abyss_strike_cast/abyss_strike_cast", "abyss_strike/abyss_strike_cast_bottom/abyss_strike_cast_bottom"],
+			effectId: [
+				"abyss_strike/abyss_strike/abyss_strike",
+				"abyss_strike/abyss_strike_bottom/abyss_strike_bottom",
+				"abyss_strike/abyss_strike_ground/abyss_strike_ground",
+				"abyss_strike/abyss_strike_ground_bottom/abyss_strike_ground_bottom"
+			],
+			hitEffectId: "abyss_strike/abyss_strike_hit/abyss_strike_hit"
+		},
+		ABC_DEFT_STAB: { hitEffectId: "deft_stab/deft_stab/deft_stab" },
+		ABC_ABYSS_SQUARE: { hitEffectId: "abyss_square/abyss_square_hit/abyss_square_hit" },
+		ABC_FRENZY_SHOT: {
+			beforeHitEffectId: "frenzy_shot/frenzy_shot/frenzy_shot",
+			hitEffectId: "frenzy_shot/frenzy_shot_hit/frenzy_shot_hit"
+		},
+		BO_ACIDIFIED_ZONE_WATER: {
+			beginCastEffectId: ["acidified_zone_water/acidified_zone_water_cast/acidified_zone_water_cast", "acidified_zone_water/acidified_zone_water_cast_bottom/acidified_zone_water_cast_bottom"],
+			hitEffectId: "acidified_zone_water/acidified_zone_water_hit/acidified_zone_water_hit"
+		},
+		BO_ACIDIFIED_ZONE_GROUND: {
+			beginCastEffectId: ["acidified_zone_ground/acidified_zone_ground_cast/acidified_zone_ground_cast", "acidified_zone_ground/acidified_zone_ground_cast_bottom/acidified_zone_ground_cast_bottom"],
+			hitEffectId: "acidified_zone_ground/acidified_zone_ground_hit/acidified_zone_ground_hit"
+		},
+		BO_ACIDIFIED_ZONE_WIND: {
+			beginCastEffectId: ["acidified_zone_wind/acidified_zone_wind_cast/acidified_zone_wind_cast", "acidified_zone_wind/acidified_zone_wind_cast_bottom/acidified_zone_wind_cast_bottom"],
+			hitEffectId: "acidified_zone_wind/acidified_zone_wind_hit/acidified_zone_wind_hit"
+		},
+		BO_ACIDIFIED_ZONE_FIRE: {
+			beginCastEffectId: ["acidified_zone_fire/acidified_zone_fire_cast/acidified_zone_fire_cast", "acidified_zone_fire/acidified_zone_fire_cast_bottom/acidified_zone_fire_cast_bottom"],
+			hitEffectId: "acidified_zone_fire/acidified_zone_fire_hit/acidified_zone_fire_hit"
+		},
+		BO_RESEARCHREPORT: { effectId: "research_report/researchreport/researchreport" },
+		BO_WOODEN_FAIRY: {
+			beginCastEffectId: ["wooden_fairy/wooden_cast/wooden_cast", "wooden_fairy/wooden_cast_bottom/wooden_cast_bottom"],
+			effectId: "wooden_fairy/fairy_dusty/fairy_dusty"
+		},
+		BO_HELLTREE: {
+			beginCastEffectId: ["helltree/helltree_cast/helltree_cast", "helltree/helltree_cast_bottom/helltree_cast_bottom"],
+			effectId: "helltree/hell_dusty/hell_dusty"
+		},
+		EM_SPELL_ENCHANTING: { effectId: "spell_enchanting/spell_enchanting/spell_enchanting" },
+		EM_INCREASING_ACTIVITY: {
+			beginCastEffectId: ["increasing_activity/increasing_activity_cast/increasing_activity_cast", "increasing_activity/increasing_activity_cast_bottom/increasing_activity_cast_bottom"],
+			effectId: "increasing_activity/increasing_activity/increasing_activity"
+		},
+		EM_ACTIVITY_BURN: {
+			beginCastEffectId: ["activity_burn/activity_burn_cast/activity_burn_cast", "activity_burn/activity_burn_cast_bottom/activity_burn_cast_bottom"],
+			effectId: "activity_burn/activity_burn/activity_burn"
+		},
+		EM_DIAMOND_STORM: {
+			beginCastEffectId: ["diamond_storm/diamond_storm_cast/diamond_storm_cast", "diamond_storm/diamond_storm_cast_bottom/diamond_storm_cast_bottom"],
+			effectId: ["diamond_storm/diamond_storm/diamond_storm", "diamond_storm/diamond_storm_bottom/diamond_storm_bottom"],
+			hitEffectId: "diamond_storm/diamond_storm_hit/diamond_storm_hit"
+		},
+		EM_LIGHTNING_LAND: {
+			beginCastEffectId: ["lightning_land/lightning_land_cast/lightning_land_cast", "lightning_land/lightning_land_cast_bottom/lightning_land_cast_bottom"],
+			hitEffectId: "lightning_land/lightning_land_hit/lightning_land_hit"
+		},
+		EM_VENOM_SWAMP: {
+			beginCastEffectId: ["venom_swamp/venom_swamp_cast/venom_swamp_cast", "venom_swamp/venom_swamp_cast_bottom/venom_swamp_cast_bottom"],
+			hitEffectId: "venom_swamp/venom_swamp_hit/venom_swamp_hit"
+		},
+		EM_CONFLAGRATION: {
+			beginCastEffectId: ["conflagration/conflagration_cast/conflagration_cast", "conflagration/conflagration_cast_bottom/conflagration_cast_bottom"],
+			hitEffectId: "conflagration/conflagration_hit/conflagration_hit"
+		},
+		EM_ELEMENTAL_BUSTER: { beginCastEffectId: "elemental_buster/elemental_buster_cast/elemental_buster_cast" },
+		EM_ELEMENTAL_BUSTER_FIRE: {
+			effectId: ["elemental_buster/elemental_buster/elemental_buster_fire/elemental_buster_fire", "elemental_buster/elemental_buster/elemental_buster_fire_bottom/elemental_buster_fire_bottom"],
+			hitEffectId: "elemental_buster/elemental_buster_hit/elemental_buster_fire_hit/elemental_buster_fire_hit"
+		},
+		EM_ELEMENTAL_BUSTER_WATER: {
+			effectId: ["elemental_buster/elemental_buster/elemental_buster_water/elemental_buster_water", "elemental_buster/elemental_buster/elemental_buster_water_bottom/elemental_buster_water_bottom"],
+			hitEffectId: "elemental_buster/elemental_buster_hit/elemental_buster_water_hit/elemental_buster_water_hit"
+		},
+		EM_ELEMENTAL_BUSTER_WIND: {
+			effectId: ["elemental_buster/elemental_buster/elemental_buster_wind/elemental_buster_wind", "elemental_buster/elemental_buster/elemental_buster_wind_bottom/elemental_buster_wind_bottom"],
+			hitEffectId: "elemental_buster/elemental_buster_hit/elemental_buster_wind_hit/elemental_buster_wind_hit"
+		},
+		EM_ELEMENTAL_BUSTER_GROUND: {
+			effectId: ["elemental_buster/elemental_buster/elemental_buster_land/elemental_buster_land", "elemental_buster/elemental_buster/elemental_buster_land_bottom/elemental_buster_land_bottom"],
+			hitEffectId: "elemental_buster/elemental_buster_hit/elemental_buster_land_hit/elemental_buster_land_hit"
+		},
+		EM_ELEMENTAL_BUSTER_POISON: {
+			effectId: ["elemental_buster/elemental_buster/elemental_buster_poison/elemental_buster_poison", "elemental_buster/elemental_buster/elemental_buster_poison_bottom/elemental_buster_poison_bottom"],
+			hitEffectId: "elemental_buster/elemental_buster_hit/elemental_buster_poison_hit/elemental_buster_poison_hit"
+		},
+		IQ_JUDGE: { effectId: [
+			"4ig_judge/judge_start/judge_start",
+			"4ig_judge/judge/judge",
+			"4ig_judge/judge_aura/judge_aura"
+		] },
+		TR_ROSEBLOSSOM: {
+			beginCastEffectId: ["roseblossom/roseblossom_cast/roseblossom_cast", "roseblossom/roseblossom_cast_bottom/roseblossom_cast_bottom"],
+			beforeHitEffectId: "roseblossom/roseblossom_shot/roseblossom_shot",
+			hitEffectId: "roseblossom/roseblossom_hit/roseblossom_hit"
+		},
+		TR_ROSEBLOSSOM_ATK: { hitEffectId: "roseblossom/roseblossom_rose/roseblossom_rose" },
+		TR_RHYTHMSHOOTING: {
+			beginCastEffectId: ["rhythmshooting/rhythmshooting_cast/rhythmshooting_cast", "rhythmshooting/rhythmshooting_cast_bottom/rhythmshooting_cast_bottom"],
+			beforeHitEffectId: "rhythmshooting/rhythmshooting_shot/rhythmshooting_shot",
+			hitEffectId: "rhythmshooting/rhythmshooting_hit/rhythmshooting_hit"
+		},
+		TR_SOUNDBLEND: {
+			beginCastEffectId: ["soundblend/soundblend_cast/soundblend_cast", "soundblend/soundblend_cast_bottom/soundblend_cast_bottom"],
+			effectId: ["soundblend/soundblend/soundblend", "soundblend/soundblend_red/soundblend_red"]
+		},
+		TR_AIN_RHAPSODY: {
+			beginCastEffectId: "ain_rhapsody/ain_rhapsody_cast/ain_rhapsody_cast",
+			effectId: "ain_rhapsody/ain_rhapsody/ain_rhapsody"
+		},
+		TR_GEF_NOCTURN: {
+			beginCastEffectId: ["gef_nocturn/gef_nocturn_cast/gef_nocturn_cast", "gef_nocturn/gef_nocturn_cast_bottom/gef_nocturn_cast_bottom"],
+			effectId: "gef_nocturn/gef_nocturn/gef_nocturn"
+		},
+		TR_ROKI_CAPRICCIO: {
+			beginCastEffectId: ["roki_capriccio/roki_capriccio_cast/roki_capriccio_cast", "roki_capriccio/roki_capriccio_cast_bottom/roki_capriccio_cast_bottom"],
+			effectId: "roki_capriccio/roki_capriccio/roki_capriccio"
+		},
+		TR_MUSICAL_INTERLUDE: {
+			beginCastEffectId: "musical_interlude/musical_interlude_cast/musical_interlude_cast",
+			effectId: "musical_interlude/musical_interlude/musical_interlude"
+		},
+		TR_JAWAII_SERENADE: {
+			beginCastEffectId: ["jawaii_serenade/jawaii_serenade_cast/jawaii_serenade_cast", "jawaii_serenade/jawaii_serenade_cast_bottom/jawaii_serenade_cast_bottom"],
+			effectId: "jawaii_serenade/jawaii_serenade/jawaii_serenade"
+		},
+		HN_JUPITEL_THUNDER_STORM: {
+			beforeHitEffectId: "hyper_novice/hn_jupitel_thunder_storm/jupitel_thunder_storm_ball/jupitel_thunder_storm_ball",
+			hitEffectId: [
+				"hyper_novice/hn_jupitel_thunder_storm/jupitel_thunder_storm/jupitel_thunder_storm_00",
+				"hyper_novice/hn_jupitel_thunder_storm/jupitel_thunder_storm/jupitel_thunder_storm_01",
+				"hyper_novice/hn_jupitel_thunder_storm/jupitel_thunder_storm/jupitel_thunder_storm_02"
+			]
+		}
+	};
+	fourthJobSkillEffects = {};
+	fourthJobRenderEffects = {};
+	for (const [skill, stages] of Object.entries(fourthJobEffectResources)) {
+		if (!Number.isInteger(SkillConst_default[skill])) throw new Error(`Unknown fourth-job effect skill: ${skill}`);
+		const mapping = {};
+		for (const [stage, files] of Object.entries(stages)) {
+			const key = `fourth:${skill}:${stage}`;
+			mapping[stage] = key;
+			fourthJobRenderEffects[key] = [files].flat().map((file) => ({
+				type: "STR",
+				file,
+				texturePath: file.slice(0, file.lastIndexOf("/") + 1)
+			}));
+		}
+		fourthJobSkillEffects[SkillConst_default[skill]] = mapping;
+	}
+}));
+//#endregion
 //#region src/DB/Skills/SkillEffect.js
 var SkillEffect_exports = /* @__PURE__ */ __exportAll({ default: () => SkillEffect });
 var CHAMPION_JOBS, SkillEffect;
 var init_SkillEffect = __esmMin((() => {
 	init_SkillConst();
+	init_FourthJobEffects();
 	init_EntityManager();
 	init_JobConst();
 	CHAMPION_JOBS = /* @__PURE__ */ new Set([
@@ -247201,192 +249443,7 @@ var init_SkillEffect = __esmMin((() => {
 	SkillEffect[SkillConst_default.GD_RESTORE] = {};
 	SkillEffect[SkillConst_default.GD_EMERGENCYCALL] = {};
 	SkillEffect[SkillConst_default.GD_ITEMEMERGENCYCALL] = {};
-}));
-//#endregion
-//#region src/DB/Skills/SkillUnitConst.js
-var SkillUnitConst_default;
-var init_SkillUnitConst = __esmMin((() => {
-	SkillUnitConst_default = {
-		UNT_SAFETYWALL: 126,
-		UNT_FIREWALL: 127,
-		UNT_WARPPORTAL: 128,
-		UNT_PRE_WARPPORTAL: 129,
-		UNT_BENEDICTIO: 130,
-		UNT_SANCTUARY: 131,
-		UNT_MAGNUS: 132,
-		UNT_PNEUMA: 133,
-		UNT_DUMMYSKILL: 134,
-		UNT_FIREPILLAR_WAITING: 135,
-		UNT_FIREPILLAR_ACTIVE: 136,
-		UNT_HIDDEN_TRAP: 137,
-		UNT_TRAP: 138,
-		UNT_HIDDEN_WARP_NPC: 139,
-		UNT_USED_TRAPS: 140,
-		UNT_ICEWALL: 141,
-		UNT_QUAGMIRE: 142,
-		UNT_BLASTMINE: 143,
-		UNT_SKIDTRAP: 144,
-		UNT_ANKLESNARE: 145,
-		UNT_VENOMDUST: 146,
-		UNT_LANDMINE: 147,
-		UNT_SHOCKWAVE: 148,
-		UNT_SANDMAN: 149,
-		UNT_FLASHER: 150,
-		UNT_FREEZINGTRAP: 151,
-		UNT_CLAYMORETRAP: 152,
-		UNT_TALKIEBOX: 153,
-		UNT_VOLCANO: 154,
-		UNT_DELUGE: 155,
-		UNT_VIOLENTGALE: 156,
-		UNT_LANDPROTECTOR: 157,
-		UNT_LULLABY: 158,
-		UNT_RICHMANKIM: 159,
-		UNT_ETERNALCHAOS: 160,
-		UNT_DRUMBATTLEFIELD: 161,
-		UNT_RINGNIBELUNGEN: 162,
-		UNT_ROKISWEIL: 163,
-		UNT_INTOABYSS: 164,
-		UNT_SIEGFRIED: 165,
-		UNT_DISSONANCE: 166,
-		UNT_WHISTLE: 167,
-		UNT_ASSASSINCROSS: 168,
-		UNT_POEMBRAGI: 169,
-		UNT_APPLEIDUN: 170,
-		UNT_UGLYDANCE: 171,
-		UNT_HUMMING: 172,
-		UNT_DONTFORGETME: 173,
-		UNT_FORTUNEKISS: 174,
-		UNT_SERVICEFORYOU: 175,
-		UNT_GRAFFITI: 176,
-		UNT_DEMONSTRATION: 177,
-		UNT_CALLFAMILY: 178,
-		UNT_GOSPEL: 179,
-		UNT_BASILICA: 180,
-		UNT_MOONLIT: 181,
-		UNT_FOGWALL: 182,
-		UNT_SPIDERWEB: 183,
-		UNT_GRAVITATION: 184,
-		UNT_HERMODE: 185,
-		UNT_KAENSIN: 186,
-		UNT_SUITON: 187,
-		UNT_TATAMIGAESHI: 188,
-		UNT_KAEN: 189,
-		UNT_GROUNDDRIFT_WIND: 190,
-		UNT_GROUNDDRIFT_DARK: 191,
-		UNT_GROUNDDRIFT_POISON: 192,
-		UNT_GROUNDDRIFT_WATER: 193,
-		UNT_GROUNDDRIFT_FIRE: 194,
-		UNT_DEATHWAVE: 195,
-		UNT_WATERATTACK: 196,
-		UNT_WINDATTACK: 197,
-		UNT_EARTHQUAKE: 198,
-		UNT_EVILLAND: 199,
-		UNT_DARK_RUNNER: 200,
-		UNT_DARK_TRANSFER: 201,
-		UNT_EPICLESIS: 202,
-		UNT_EARTHSTRAIN: 203,
-		UNT_MANHOLE: 204,
-		UNT_DIMENSIONDOOR: 205,
-		UNT_CHAOSPANIC: 206,
-		UNT_MAELSTROM: 207,
-		UNT_BLOODYLUST: 208,
-		UNT_FEINTBOMB: 209,
-		UNT_MAGENTATRAP: 210,
-		UNT_COBALTTRAP: 211,
-		UNT_MAIZETRAP: 212,
-		UNT_VERDURETRAP: 213,
-		UNT_FIRINGTRAP: 214,
-		UNT_ICEBOUNDTRAP: 215,
-		UNT_ELECTRICSHOCKER: 216,
-		UNT_CLUSTERBOMB: 217,
-		UNT_REVERBERATION: 218,
-		UNT_SEVERE_RAINSTORM: 219,
-		UNT_FIREWALK: 220,
-		UNT_ELECTRICWALK: 221,
-		UNT_NETHERWORLD: 222,
-		UNT_PSYCHIC_WAVE: 223,
-		UNT_CLOUD_KILL: 224,
-		UNT_POISONSMOKE: 225,
-		UNT_NEUTRALBARRIER: 226,
-		UNT_STEALTHFIELD: 227,
-		UNT_WARMER: 228,
-		UNT_THORNS_TRAP: 229,
-		UNT_WALLOFTHORN: 230,
-		UNT_DEMONIC_FIRE: 231,
-		UNT_FIRE_EXPANSION_SMOKE_POWDER: 232,
-		UNT_FIRE_EXPANSION_TEAR_GAS: 233,
-		UNT_HELLS_PLANT: 234,
-		UNT_VACUUM_EXTREME: 235,
-		UNT_BANDING: 236,
-		UNT_FIRE_MANTLE: 237,
-		UNT_WATER_BARRIER: 238,
-		UNT_ZEPHYR: 239,
-		UNT_POWER_OF_GAIA: 240,
-		UNT_FIRE_INSIGNIA: 241,
-		UNT_WATER_INSIGNIA: 242,
-		UNT_WIND_INSIGNIA: 243,
-		UNT_EARTH_INSIGNIA: 244,
-		UNT_POISON_MIST: 245,
-		UNT_LAVA_SLIDE: 246,
-		UNT_VOLCANIC_ASH: 247,
-		UNT_ZENKAI_WATER: 248,
-		UNT_ZENKAI_LAND: 249,
-		UNT_ZENKAI_FIRE: 250,
-		UNT_ZENKAI_WIND: 251,
-		UNT_MAKIBISHI: 252,
-		UNT_VENOMFOG: 253,
-		UNT_ICEMINE: 254,
-		UNT_FLAMECROSS: 255,
-		UNT_HELLBURNING: 256,
-		UNT_MAGMA_ERUPTION: 257,
-		UNT_KINGS_GRACE: 258,
-		UNT_GLITTERING_GREED: 259,
-		UNT_B_TRAP: 260,
-		UNT_FIRE_RAIN: 261,
-		UNT_CATNIPPOWDER: 262,
-		UNT_NYANGGRASS: 263,
-		UNT_GROUNDDRIFT_NEUTRAL: 264,
-		UNT_CREATINGSTAR: 265,
-		UNT_RAIN_OF_CRYSTAL: 266,
-		UNT_MYSTERY_ILLUSION: 267,
-		UNT_STRANTUM_TREMOR: 269,
-		UNT_VIOLENT_QUAKE: 270,
-		UNT_ALL_BLOOM: 271,
-		UNT_TORNADO_STORM: 272,
-		UNT_FLORAL_FLARE_ROAD: 273,
-		UNT_ASTRAL_STRIKE: 274,
-		UNT_CROSS_RAIN: 275,
-		UNT_PNEUMATICUS_PROCELLA: 276,
-		UNT_ABYSS_SQUARE: 277,
-		UNT_ACIDIFIED_ZONE_WATER: 278,
-		UNT_ACIDIFIED_ZONE_GROUND: 279,
-		UNT_ACIDIFIED_ZONE_WIND: 280,
-		UNT_ACIDIFIED_ZONE_FIRE: 281,
-		UNT_LIGHTNING_LAND: 282,
-		UNT_VENOM_SWAMP: 283,
-		UNT_CONFLAGRATION: 284,
-		UNT_CANE_OF_EVIL_EYE: 285,
-		UNT_TWINKLING_GALAXY: 286,
-		UNT_STAR_CANNON: 287,
-		UNT_GRENADES_DROPPING: 288,
-		UNT_FUUMASHOUAKU: 290,
-		UNT_MISSION_BOMBARD: 291,
-		UNT_TOTEM_OF_TUTELARY: 292,
-		UNT_HYUN_ROKS_BREEZE: 293,
-		UNT_SHINKIROU: 294,
-		UNT_JACK_FROST_NOVA: 295,
-		UNT_GROUND_GRAVITATION: 296,
-		UNT_KUNAIWAIKYOKU: 298,
-		UNT_DEEPBLINDTRAP: 20852,
-		UNT_SOLIDTRAP: 20853,
-		UNT_SWIFTTRAP: 20854,
-		UNT_FLAMETRAP: 20855,
-		UNT_GD_LEADERSHIP: 193,
-		UNT_GD_GLORYWOUNDS: 194,
-		UNT_GD_SOULCOLD: 195,
-		UNT_GD_HAWKEYES: 196,
-		UNT_MAX: 400
-	};
+	Object.assign(SkillEffect, fourthJobSkillEffects);
 }));
 //#endregion
 //#region src/DB/Effects/EffectConst.js
@@ -248550,6 +250607,7 @@ var SkillUnit;
 var init_SkillUnit = __esmMin((() => {
 	init_SkillUnitConst();
 	init_EffectConst();
+	init_FourthJobGroundEffects();
 	SkillUnit = {};
 	SkillUnit[SkillUnitConst_default.UNT_SAFETYWALL] = EffectConst_default.EF_GLASSWALL2;
 	SkillUnit[SkillUnitConst_default.UNT_FIREWALL] = EffectConst_default.EF_FIREWALL;
@@ -248664,6 +250722,7 @@ var init_SkillUnit = __esmMin((() => {
 	SkillUnit[SkillUnitConst_default.UNT_ICEMINE] = EffectConst_default.EF_NONE;
 	SkillUnit[SkillUnitConst_default.UNT_MAGMA_ERUPTION] = EffectConst_default.EF_NONE;
 	SkillUnit[SkillUnitConst_default.UNT_B_TRAP] = EffectConst_default.EF_NONE;
+	Object.assign(SkillUnit, fourthJobGroundUnits);
 }));
 //#endregion
 //#region src/DB/Items/ItemEffect.js
@@ -254459,7 +256518,34 @@ var init_JobDisplayNameTable = __esmMin((() => {
 		4111: "宝宝游侠（第二系）",
 		4112: "宝宝机甲神匠（第二系）",
 		4218: "召唤师",
-		4220: "召唤师宝宝"
+		4220: "召唤师宝宝",
+		4190: "进阶超级初心者",
+		4191: "进阶超级宝宝",
+		4211: "影狼",
+		4212: "胧",
+		4215: "反叛者",
+		4239: "星帝",
+		4240: "猎灵士",
+		4252: "龙骑士",
+		4253: "机甲大师",
+		4254: "暗影十字",
+		4255: "至高法师",
+		4256: "枢机主教",
+		4257: "风鹰",
+		4258: "帝国卫士",
+		4259: "生物学者",
+		4260: "深渊追踪者",
+		4261: "元素大师",
+		4262: "审判官",
+		4263: "吟游诗人",
+		4264: "咏唱舞姬",
+		4302: "天帝",
+		4303: "灵魂修行者",
+		4304: "蜃气楼",
+		4305: "不知火",
+		4306: "夜巡者",
+		4307: "极限初心者",
+		4308: "灵兽师"
 	};
 	translatedJobNames = {
 		Swordman: "剑士",
@@ -270951,6 +273037,8 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5211: 19,
 			5212: 24,
 			5213: 17,
+			6001: 27,
+			6502: 28,
 			list: 4,
 			beforeJob: 4060
 		},
@@ -270966,6 +273054,12 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5303: 19,
 			5304: 26,
 			5305: 33,
+			6002: 34,
+			6003: 35,
+			6004: 36,
+			6506: 37,
+			6507: 38,
+			6508: 39,
 			list: 4,
 			beforeJob: 4064
 		},
@@ -270980,6 +273074,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5292: 17,
 			5293: 12,
 			5294: 30,
+			6511: 31,
 			list: 4,
 			beforeJob: 4065
 		},
@@ -271002,6 +273097,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5234: 12,
 			5235: 10,
 			5237: 11,
+			6516: 23,
 			list: 4,
 			beforeJob: 4061
 		},
@@ -271022,6 +273118,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5282: 9,
 			5283: 13,
 			5284: 11,
+			6518: 30,
 			list: 4,
 			beforeJob: 4063
 		},
@@ -271039,6 +273136,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5333: 18,
 			5334: 0,
 			5335: 17,
+			6520: 27,
 			list: 4,
 			beforeJob: 4062
 		},
@@ -271056,6 +273154,9 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5265: 16,
 			5266: 15,
 			5267: 12,
+			6503: 28,
+			6504: 27,
+			6505: 29,
 			list: 4,
 			beforeJob: 4073
 		},
@@ -271073,6 +273174,10 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5346: 12,
 			5347: 24,
 			5348: 25,
+			6005: 26,
+			6006: 27,
+			6509: 28,
+			6510: 29,
 			list: 4,
 			beforeJob: 4078
 		},
@@ -271089,6 +273194,10 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5320: 16,
 			5321: 19,
 			5322: 17,
+			6512: 27,
+			6513: 28,
+			6514: 29,
+			6515: 30,
 			list: 4,
 			beforeJob: 4079
 		},
@@ -271110,6 +273219,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5379: 26,
 			5380: 33,
 			5381: 12,
+			6517: 34,
 			list: 4,
 			beforeJob: 4074
 		},
@@ -271131,6 +273241,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5252: 33,
 			5253: 32,
 			5254: 19,
+			6519: 34,
 			list: 4,
 			beforeJob: 4077
 		},
@@ -271150,6 +273261,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5362: 17,
 			5363: 25,
 			5364: 19,
+			6521: 32,
 			list: 4,
 			beforeJob: 4075
 		},
@@ -271169,6 +273281,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5362: 17,
 			5363: 25,
 			5364: 19,
+			6521: 32,
 			list: 4,
 			beforeJob: 4076
 		},
@@ -271254,6 +273367,9 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5473: 26,
 			5474: 30,
 			5475: 32,
+			5502: 33,
+			5503: 34,
+			5504: 35,
 			list: 4,
 			beforeJob: 4239
 		},
@@ -271299,6 +273415,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5493: 32,
 			5494: 30,
 			5495: 41,
+			5499: 42,
 			list: 4,
 			beforeJob: 4211
 		},
@@ -271323,6 +273440,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5493: 32,
 			5494: 30,
 			5495: 41,
+			5499: 42,
 			list: 4,
 			beforeJob: 4212
 		},
@@ -271342,6 +273460,8 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5413: 27,
 			5414: 10,
 			5415: 33,
+			5500: 34,
+			5501: 35,
 			list: 4,
 			beforeJob: 4215
 		},
@@ -271360,6 +273480,7 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5460: 18,
 			5461: 21,
 			5462: 24,
+			5505: 25,
 			list: 4,
 			beforeJob: 4190
 		},
@@ -271380,6 +273501,8 @@ var init_SkillTreeView_generated = __esmMin((() => {
 			5446: 26,
 			5447: 37,
 			5448: 39,
+			5506: 40,
+			5507: 41,
 			list: 2,
 			beforeJob: 4218
 		},
@@ -274890,7 +277013,7 @@ var init_GameTools$2 = __esmMin((() => {
 //#region src/UI/Components/GameTools/GameTools.css?raw
 var GameTools_default$1;
 var init_GameTools$1 = __esmMin((() => {
-	GameTools_default$1 = ".game-tools-window {\r\n	position: relative;\r\n	isolation: isolate;\r\n	width: min(820px, calc(100vw - 24px));\r\n	height: min(620px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 2px;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 26px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n\r\n.management-tab {\r\n	height: 100%;\r\n	min-height: 0;\r\n	background: #f7f8f9;\r\n}\r\n.character-layout {\r\n	height: 100%;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.character-job-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	border-right: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.character-job-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-toolbar input {\r\n	width: 100%;\r\n	height: 27px;\r\n	min-width: 0;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-summary {\r\n	flex: 0 0 25px;\r\n	padding: 0 8px;\r\n	line-height: 25px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.character-job-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.character-job-row {\r\n	width: 100%;\r\n	height: 50px;\r\n	min-height: 50px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: #fff;\r\n	color: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.character-job-row.selected {\r\n	background: #dceaff;\r\n}\r\n.character-job-emblem {\r\n	width: 38px;\r\n	height: 38px;\r\n	flex: 0 0 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c3cbd2;\r\n	background: #e3e9ee;\r\n	color: #526273;\r\n	font-size: 16px;\r\n	font-weight: bold;\r\n}\r\n.character-job-empty {\r\n	padding: 18px 8px;\r\n	color: #777;\r\n	text-align: center;\r\n}\r\n.character-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	background: #f7f8f9;\r\n}\r\n.character-detail .character-summary {\r\n	flex: 0 0 auto;\r\n	padding: 12px;\r\n	background: #fff;\r\n}\r\n.character-detail-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 0 14px;\r\n	overflow-y: auto;\r\n}\r\n.character-detail-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.selected-job {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 8px 10px;\r\n	border: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.selected-job div {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.selected-job small {\r\n	color: #6c7177;\r\n}\r\n.selected-job button,\r\n.character-actions button,\r\n.catalog-empty-state button {\r\n	height: 28px;\r\n	min-width: 88px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.selected-job button:disabled,\r\n.character-actions button:disabled,\r\n.catalog-empty-state button:disabled {\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n.character-actions {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 7px;\r\n	padding: 9px 12px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #fff;\r\n}\r\n.character-actions .management-status {\r\n	width: 100%;\r\n	min-height: 14px;\r\n	padding: 0;\r\n}\r\n.management-loading,\r\n.management-error {\r\n	height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #666;\r\n}\r\n.management-error,\r\n.management-status.error {\r\n	color: #a61d24;\r\n}\r\n.management-scroll {\r\n	height: 100%;\r\n	padding: 12px;\r\n	overflow-y: auto;\r\n	box-sizing: border-box;\r\n}\r\n.character-summary {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 20px;\r\n	padding: 0 0 10px;\r\n	border-bottom: 1px solid #d6d8db;\r\n}\r\n.character-summary h3,\r\n.character-summary p {\r\n	margin: 0;\r\n}\r\n.character-summary p,\r\n.character-summary span {\r\n	color: #666;\r\n}\r\n.character-summary > div:last-child {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: end;\r\n	gap: 3px;\r\n}\r\n.management-grid {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);\r\n	gap: 18px;\r\n}\r\n.management-tab section {\r\n	padding: 10px 0;\r\n}\r\n.management-tab section h4 {\r\n	margin: 0 0 8px;\r\n	font-size: 13px;\r\n}\r\n.management-tab section h4 small {\r\n	margin-left: 6px;\r\n	color: #777;\r\n	font-weight: normal;\r\n}\r\n.management-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 8px;\r\n}\r\n.management-form label {\r\n	display: grid;\r\n	grid-template-columns: 48px 92px;\r\n	align-items: center;\r\n	justify-content: start;\r\n	gap: 6px;\r\n	white-space: nowrap;\r\n}\r\n.management-form label > span {\r\n	text-align: right;\r\n}\r\n.settings-grid label,\r\n.settings-footer label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.management-form input,\r\n.settings-form input {\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: #fff;\r\n	box-sizing: border-box;\r\n}\r\n.management-form input {\r\n	width: 92px;\r\n	padding: 2px 5px;\r\n}\r\n.management-form button,\r\n.maintenance-actions button,\r\n.settings-footer button {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.management-form button {\r\n	grid-column: 1 / -1;\r\n}\r\n.maintenance-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.maintenance-actions h4 {\r\n	margin: 0 5px 0 0 !important;\r\n}\r\n.maintenance-actions span {\r\n	color: #666;\r\n}\r\n.management-status {\r\n	min-height: 18px;\r\n	padding-top: 5px;\r\n	color: #287233;\r\n}\r\n.settings-form {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.settings-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 4px 14px;\r\n	overflow-y: auto;\r\n}\r\n.settings-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.settings-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 7px 22px;\r\n}\r\n.settings-rate-columns {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 22px;\r\n}\r\n.settings-rate-list {\r\n	display: grid;\r\n	gap: 7px;\r\n}\r\n.settings-rate-list label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.settings-drop-scroll {\r\n	overflow-x: auto;\r\n}\r\n.settings-drop-table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n.settings-drop-table th,\r\n.settings-drop-table td {\r\n	padding: 5px 8px;\r\n	white-space: nowrap;\r\n	text-align: left;\r\n}\r\n.settings-drop-table tbody th {\r\n	font-weight: normal;\r\n}\r\n.settings-drop-table .setting-number {\r\n	width: 110px;\r\n	min-width: 110px;\r\n}\r\n.settings-drop-table .setting-number input {\r\n	width: 84px;\r\n	min-width: 84px;\r\n	flex-basis: 84px;\r\n}\r\n.setting-number {\r\n	width: 132px;\r\n	min-width: 132px;\r\n	flex: 0 0 132px;\r\n}\r\n.settings-grid .game-select {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	margin-right: 26px;\r\n	flex: 0 0 106px;\r\n}\r\n.setting-number {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.setting-number input {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	flex: 0 0 106px;\r\n	padding: 2px 5px;\r\n}\r\n.setting-number em {\r\n	width: 26px;\r\n	flex: 0 0 26px;\r\n	font-style: normal;\r\n	text-align: right;\r\n}\r\n.settings-footer {\r\n	flex: 0 0 48px;\r\n	display: grid;\r\n	grid-template-columns: 1fr auto;\r\n	align-items: center;\r\n	gap: 12px;\r\n	padding: 8px 14px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #eceef0;\r\n	box-sizing: border-box;\r\n}\r\n.settings-footer .management-status {\r\n	padding: 0;\r\n	text-align: right;\r\n}\r\n.settings-footer button {\r\n	padding: 0 14px;\r\n}\r\n\r\n@media (max-width: 680px) {\r\n	.management-grid,\r\n	.settings-grid,\r\n	.settings-rate-columns {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.stat-form {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n	.settings-footer {\r\n		grid-template-columns: 1fr auto;\r\n	}\r\n	.settings-footer .management-status {\r\n		display: none;\r\n	}\r\n}\r\n@media (max-width: 640px) {\r\n	.character-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-resources {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 10px;\r\n	overflow: hidden;\r\n}\r\n.monster-drops,\r\n.monster-locations {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	border: 1px solid #ddd;\r\n	padding: 0 7px 7px;\r\n	box-sizing: border-box;\r\n}\r\n.monster-drops > h4,\r\n.monster-locations > h4 {\r\n	position: sticky;\r\n	top: 0;\r\n	z-index: 1;\r\n	margin: 0 -7px 5px;\r\n	padding: 6px 7px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #ddd;\r\n}\r\n.drop-group h4 {\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 4px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	min-width: 64px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	min-width: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	color: #64696e;\r\n}\r\n.management-form .game-select {\r\n	width: 112px;\r\n}\r\n\r\n.game-tools-tab,\r\n.world-catalog-tab {\r\n	position: relative;\r\n}\r\n.game-tools-confirm {\r\n	position: absolute;\r\n	inset: 0;\r\n	z-index: 100;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 20px;\r\n	background: rgb(0 0 0 / 55%);\r\n}\r\n.game-tools-confirm-card {\r\n	width: min(360px, 100%);\r\n	padding: 18px;\r\n	background: #fff;\r\n	border: 1px solid #8b929a;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n}\r\n.game-tools-confirm-card p {\r\n	margin: 0 0 16px;\r\n	line-height: 1.5;\r\n}\r\n.game-tools-confirm-card > div {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.game-tools-confirm-card button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.world-catalog-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.catalog-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-search {\r\n	flex: 1;\r\n	height: 27px;\r\n	min-width: 120px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.catalog-filter {\r\n	width: 124px;\r\n}\r\n.catalog-scope {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	white-space: nowrap;\r\n}\r\n.catalog-scope-option {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n.catalog-scope-option input {\r\n	margin: 0;\r\n}\r\n.zeny-grant-open {\r\n	height: 27px;\r\n	padding: 0 10px;\r\n	white-space: nowrap;\r\n}\r\n.game-tools-number-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.game-tools-number-prompt input {\r\n	width: 180px;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.catalog-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.catalog-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.catalog-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.catalog-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.catalog-row.selected {\r\n	background: #dceaff;\r\n}\r\n.catalog-thumb,\r\n.catalog-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n}\r\n.catalog-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.catalog-row-text strong,\r\n.catalog-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.catalog-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.catalog-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.catalog-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.catalog-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-heading {\r\n	display: flex;\r\n	gap: 14px;\r\n	align-items: center;\r\n	padding-bottom: 12px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.catalog-portrait {\r\n	width: 112px;\r\n	height: 112px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.catalog-heading h3,\r\n.map-heading h3 {\r\n	margin: 0 0 6px;\r\n	font-size: 18px;\r\n}\r\n.catalog-heading p,\r\n.map-heading p {\r\n	margin: 0;\r\n	color: #70757a;\r\n}\r\n.catalog-metadata {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 12px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	max-width: 100%;\r\n}\r\n.catalog-metadata div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 8px;\r\n	background: #fafafa;\r\n}\r\n.catalog-metadata span {\r\n	color: #686d72;\r\n}\r\n.catalog-action-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: auto -12px -12px;\r\n	padding: 10px 12px;\r\n	border-top: 1px solid #ddd;\r\n	background: white;\r\n}\r\n.catalog-action-panel button {\r\n	height: 29px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.catalog-action-panel button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.catalog-status {\r\n	min-width: 0;\r\n	color: #64696e;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-status.error {\r\n	color: #a61d24;\r\n}\r\n.map-thumb {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 56px;\r\n	height: 42px;\r\n	background: #e3e9ee;\r\n	border: 1px solid #c3cbd2;\r\n	color: #59636d;\r\n	overflow: hidden;\r\n}\r\n.monster-location-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 2px;\r\n}\r\n.monster-location {\r\n	width: 100%;\r\n	padding: 5px 6px;\r\n	border: 1px solid transparent;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n.monster-location:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-location.selected {\r\n	border-color: #9ab4d2;\r\n	background: #dceaff;\r\n}\r\n.monster-location strong,\r\n.monster-location small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-location small {\r\n	margin-top: 2px;\r\n	color: #6c7177;\r\n}\r\n.monster-map-teleport {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.monster-map-teleport:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.map-thumb img,\r\n.map-thumb canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: cover;\r\n}\r\n.map-thumb span {\r\n	margin: auto;\r\n	font-size: 10px;\r\n	color: #7b838b;\r\n}\r\n.map-row {\r\n	min-height: 50px;\r\n}\r\n.map-heading {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding-bottom: 9px;\r\n}\r\n.map-heading > strong {\r\n	color: #5f666d;\r\n}\r\n.map-current-position {\r\n	display: block;\r\n	margin-top: 4px;\r\n	color: #4f6479;\r\n}\r\n.map-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 168px;\r\n	gap: 8px;\r\n}\r\n.catalog-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n	cursor: crosshair;\r\n}\r\n.catalog-map {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: #17191c;\r\n}\r\n.map-npc-list {\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border: 1px solid #d8dade;\r\n	background: #fff;\r\n}\r\n.map-npc-scroll {\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: auto;\r\n}\r\n.map-npc-list h4 {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n	font-size: 12px;\r\n}\r\n.map-npc-list ul {\r\n	margin: 0;\r\n	padding: 0;\r\n	list-style: none;\r\n}\r\n.map-npc-row {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 8px;\r\n	border-bottom: 1px solid #f0f1f2;\r\n	cursor: pointer;\r\n}\r\n.map-npc-row.selected {\r\n	background: #e8f0fa;\r\n}\r\n.map-npc-text {\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.map-npc-text strong,\r\n.map-npc-text small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.map-npc-text small {\r\n	color: #686d72;\r\n}\r\n.map-npc-empty {\r\n	margin: 0;\r\n	padding: 10px 8px;\r\n	color: #686d72;\r\n}\r\n.npc-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 188px;\r\n	gap: 8px;\r\n}\r\n.npc-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n}\r\n.npc-detail-info {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.npc-detail-info .catalog-metadata {\r\n	grid-template-columns: 1fr;\r\n	margin-top: 0;\r\n	border-top: 0;\r\n}\r\n.npc-map-canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n@media (max-width: 640px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.catalog-layout,\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.catalog-metadata {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.catalog-action-panel {\r\n		flex-wrap: wrap;\r\n	}\r\n	.map-detail-body,\r\n	.npc-detail-body {\r\n		grid-template-columns: 1fr;\r\n		grid-template-rows: minmax(0, 1fr) 120px;\r\n	}\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n\r\n.summon-panel .summon-status.success,\r\n.catalog-status.success,\r\n.management-status.success {\r\n	color: #237a3b;\r\n	font-weight: 600;\r\n}\r\n\r\n.game-tools-window .game-tools-toast {\r\n	position: absolute;\r\n	top: 66px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	z-index: 20;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 14px;\r\n	max-width: calc(100% - 48px);\r\n	padding: 12px 16px;\r\n	border: 1px solid #a4d4ae;\r\n	border-radius: 6px;\r\n	background: #effbf1;\r\n	color: #237a3b;\r\n	box-shadow: 0 4px 16px #0003;\r\n	font-size: 14px;\r\n	font-weight: 600;\r\n	box-sizing: border-box;\r\n}\r\n.game-tools-window .game-tools-toast.info {\r\n	background: #f0f6ff;\r\n	border-color: #a8c8e8;\r\n	color: #245b8a;\r\n}\r\n.game-tools-toast span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.game-tools-window .game-tools-toast button {\r\n	background: transparent;\r\n	border: 0;\r\n	color: inherit;\r\n	font-size: 20px;\r\n	cursor: pointer;\r\n	padding: 0 4px;\r\n}\r\n\r\n.summon-panel .summon-status.error {\r\n	color: #a61d24;\r\n	white-space: normal;\r\n}\r\n.settings-footer .management-status.error {\r\n	display: block;\r\n}\r\n\r\n.game-tools-tab[hidden] {\r\n	display: none !important;\r\n}\r\n\r\n.game-tools-window .catalog-empty-state { padding: 24px 12px; text-align: center; color: #62666c; }\r\n";
+	GameTools_default$1 = ".game-tools-window {\r\n	position: relative;\r\n	isolation: isolate;\r\n	width: min(820px, calc(100vw - 24px));\r\n	height: min(620px, calc(100vh - 36px));\r\n	min-width: 520px;\r\n	min-height: 360px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	background: #eef0f2;\r\n	border: 1px solid #73777d;\r\n	box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.45);\r\n	color: #202225;\r\n	font:\r\n		12px Arial,\r\n		sans-serif;\r\n	box-sizing: border-box;\r\n}\r\n.titlebar {\r\n	position: relative;\r\n	height: 24px;\r\n	flex: 0 0 24px;\r\n	cursor: move;\r\n	background: linear-gradient(#f7f8f9, #cfd3d7);\r\n	border-bottom: 1px solid #8b9096;\r\n}\r\n.title {\r\n	line-height: 24px;\r\n	padding-left: 9px;\r\n	font-weight: bold;\r\n}\r\n.close {\r\n	position: absolute;\r\n	right: 5px;\r\n	top: 5px;\r\n	width: 14px;\r\n	height: 14px;\r\n	border: 1px solid #777;\r\n	background: #f4f4f4;\r\n	cursor: pointer;\r\n}\r\n.close::before,\r\n.close::after {\r\n	content: '';\r\n	position: absolute;\r\n	left: 6px;\r\n	top: 2px;\r\n	width: 1px;\r\n	height: 9px;\r\n	background: #333;\r\n	transform: rotate(45deg);\r\n}\r\n.close::after {\r\n	transform: rotate(-45deg);\r\n}\r\n.tab-list {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	gap: 2px;\r\n	align-items: end;\r\n	padding: 0 8px;\r\n	border-bottom: 1px solid #aeb2b7;\r\n	background: #e3e5e8;\r\n}\r\n.tab-button {\r\n	height: 26px;\r\n	padding: 0 14px;\r\n	border: 1px solid #aeb2b7;\r\n	border-bottom: none;\r\n	background: #d5d8dc;\r\n	cursor: pointer;\r\n}\r\n.tab-button.active {\r\n	background: #fff;\r\n	font-weight: bold;\r\n	height: 28px;\r\n	margin-bottom: -1px;\r\n}\r\n.tab-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	background: #fff;\r\n}\r\n.game-tools-tab {\r\n	height: 100%;\r\n}\r\n\r\n.management-tab {\r\n	height: 100%;\r\n	min-height: 0;\r\n	background: #f7f8f9;\r\n}\r\n.character-layout {\r\n	height: 100%;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(190px, 28%) minmax(0, 1fr);\r\n}\r\n.character-job-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	border-right: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.character-job-toolbar {\r\n	gap: 6px;\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-toolbar input {\r\n	width: 100%;\r\n	height: 27px;\r\n	min-width: 0;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-toolbar select {\r\n	height: 27px;\r\n	max-width: 100px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.character-job-summary {\r\n	flex: 0 0 25px;\r\n	padding: 0 8px;\r\n	line-height: 25px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.character-job-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.character-job-row {\r\n	width: 100%;\r\n	height: 50px;\r\n	min-height: 50px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: #fff;\r\n	color: inherit;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.character-job-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.character-job-row.selected {\r\n	background: #dceaff;\r\n}\r\n.character-job-emblem {\r\n	width: 38px;\r\n	height: 38px;\r\n	flex: 0 0 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	border: 1px solid #c3cbd2;\r\n	background: #e3e9ee;\r\n	color: #526273;\r\n	font-size: 16px;\r\n	font-weight: bold;\r\n}\r\n.character-job-empty {\r\n	padding: 18px 8px;\r\n	color: #777;\r\n	text-align: center;\r\n}\r\n.character-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 0 !important;\r\n	background: #f7f8f9;\r\n}\r\n.character-detail .character-summary {\r\n	flex: 0 0 auto;\r\n	padding: 12px;\r\n	background: #fff;\r\n}\r\n.character-detail-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 0 14px;\r\n	overflow-y: auto;\r\n}\r\n.character-detail-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.selected-job {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	padding: 8px 10px;\r\n	border: 1px solid #d6d8db;\r\n	background: #fff;\r\n}\r\n.selected-job div {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.selected-job small {\r\n	color: #6c7177;\r\n}\r\n.selected-job button,\r\n.character-actions button,\r\n.catalog-empty-state button {\r\n	height: 28px;\r\n	min-width: 88px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.selected-job button:disabled,\r\n.character-actions button:disabled,\r\n.catalog-empty-state button:disabled {\r\n	color: #888;\r\n	cursor: default;\r\n}\r\n.character-actions {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 7px;\r\n	padding: 9px 12px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #fff;\r\n}\r\n.character-actions .management-status {\r\n	width: 100%;\r\n	min-height: 14px;\r\n	padding: 0;\r\n}\r\n.management-loading,\r\n.management-error {\r\n	height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #666;\r\n}\r\n.management-error,\r\n.management-status.error {\r\n	color: #a61d24;\r\n}\r\n.management-scroll {\r\n	height: 100%;\r\n	padding: 12px;\r\n	overflow-y: auto;\r\n	box-sizing: border-box;\r\n}\r\n.character-summary {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 20px;\r\n	padding: 0 0 10px;\r\n	border-bottom: 1px solid #d6d8db;\r\n}\r\n.character-summary h3,\r\n.character-summary p {\r\n	margin: 0;\r\n}\r\n.character-summary p,\r\n.character-summary span {\r\n	color: #666;\r\n}\r\n.character-summary > div:last-child {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: end;\r\n	gap: 3px;\r\n}\r\n.management-grid {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);\r\n	gap: 18px;\r\n}\r\n.management-tab section {\r\n	padding: 10px 0;\r\n}\r\n.management-tab section h4 {\r\n	margin: 0 0 8px;\r\n	font-size: 13px;\r\n}\r\n.management-tab section h4 small {\r\n	margin-left: 6px;\r\n	color: #777;\r\n	font-weight: normal;\r\n}\r\n.management-form {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));\r\n	gap: 10px 12px;\r\n}\r\n.management-form label {\r\n	display: grid;\r\n	min-width: 0;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n.management-form label > span {\r\n	text-align: left;\r\n}\r\n.management-form-actions,\r\n.management-form > small {\r\n	grid-column: 1 / -1;\r\n}\r\n.management-form-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n}\r\n.management-form > small {\r\n	color: #686d72;\r\n	line-height: 1.6;\r\n}\r\n.character-summary {\r\n	flex-wrap: wrap;\r\n}\r\n.character-summary > div {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-grid label,\r\n.settings-footer label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.management-form input,\r\n.settings-form input {\r\n	height: 27px;\r\n	border: 1px solid #aeb2b7;\r\n	background: #fff;\r\n	box-sizing: border-box;\r\n}\r\n.management-form input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	padding: 2px 5px;\r\n}\r\n.management-form button,\r\n.maintenance-actions button,\r\n.settings-footer button {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 12px;\r\n	white-space: nowrap;\r\n	border: 1px solid #888d93;\r\n	background: linear-gradient(#fff, #dfe2e5);\r\n	cursor: pointer;\r\n}\r\n.management-form button {\r\n	grid-column: 1 / -1;\r\n}\r\n.maintenance-actions {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.maintenance-actions h4 {\r\n	margin: 0 5px 0 0 !important;\r\n}\r\n.maintenance-actions span {\r\n	color: #666;\r\n}\r\n.management-status {\r\n	min-height: 18px;\r\n	padding-top: 5px;\r\n	color: #287233;\r\n}\r\n.settings-form {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.settings-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	padding: 4px 14px;\r\n	overflow-y: auto;\r\n}\r\n.settings-scroll section + section {\r\n	border-top: 1px solid #d6d8db;\r\n}\r\n.settings-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 7px 22px;\r\n}\r\n.settings-rate-columns {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 22px;\r\n}\r\n.settings-rate-list {\r\n	display: grid;\r\n	gap: 7px;\r\n}\r\n.settings-rate-list label {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	white-space: nowrap;\r\n}\r\n.settings-drop-scroll {\r\n	overflow-x: auto;\r\n}\r\n.settings-drop-table {\r\n	width: 100%;\r\n	border-collapse: collapse;\r\n}\r\n.settings-drop-table th,\r\n.settings-drop-table td {\r\n	padding: 5px 8px;\r\n	white-space: nowrap;\r\n	text-align: left;\r\n}\r\n.settings-drop-table tbody th {\r\n	font-weight: normal;\r\n}\r\n.settings-drop-table .setting-number {\r\n	width: 110px;\r\n	min-width: 110px;\r\n}\r\n.settings-drop-table .setting-number input {\r\n	width: 84px;\r\n	min-width: 84px;\r\n	flex-basis: 84px;\r\n}\r\n.setting-number {\r\n	width: 132px;\r\n	min-width: 132px;\r\n	flex: 0 0 132px;\r\n}\r\n.settings-grid .game-select {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	margin-right: 26px;\r\n	flex: 0 0 106px;\r\n}\r\n.setting-number {\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n.setting-number input {\r\n	width: 106px;\r\n	min-width: 106px;\r\n	flex: 0 0 106px;\r\n	padding: 2px 5px;\r\n}\r\n.setting-number em {\r\n	width: 26px;\r\n	flex: 0 0 26px;\r\n	font-style: normal;\r\n	text-align: right;\r\n}\r\n.settings-footer {\r\n	flex: 0 0 48px;\r\n	display: grid;\r\n	grid-template-columns: 1fr auto;\r\n	align-items: center;\r\n	gap: 12px;\r\n	padding: 8px 14px;\r\n	border-top: 1px solid #bbbfc4;\r\n	background: #eceef0;\r\n	box-sizing: border-box;\r\n}\r\n.settings-footer .management-status {\r\n	padding: 0;\r\n	text-align: right;\r\n}\r\n.settings-footer button {\r\n	padding: 0 14px;\r\n}\r\n\r\n@media (max-width: 680px) {\r\n	.management-grid,\r\n	.settings-grid,\r\n	.settings-rate-columns {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.settings-footer {\r\n		grid-template-columns: 1fr auto;\r\n	}\r\n	.settings-footer .management-status {\r\n		display: none;\r\n	}\r\n}\r\n@media (max-width: 640px) {\r\n	.character-layout {\r\n		grid-template-columns: minmax(140px, 30%) minmax(0, 1fr);\r\n	}\r\n	.character-job-toolbar {\r\n		flex: 0 0 auto;\r\n		flex-wrap: wrap;\r\n	}\r\n}\r\n.monster-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.monster-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.monster-search {\r\n	flex: 1;\r\n	min-width: 120px;\r\n	height: 27px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.monster-filter {\r\n	width: 116px;\r\n}\r\n.monster-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.monster-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.monster-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.monster-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.monster-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.monster-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-row.selected {\r\n	background: #dceaff;\r\n}\r\n.monster-thumb,\r\n.monster-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n	image-rendering: auto;\r\n}\r\n.no-image {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	color: #85898d;\r\n	background: #f2f3f4;\r\n}\r\n.no-image::after {\r\n	content: '无图';\r\n	font-size: 11px;\r\n}\r\n.monster-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.monster-row-text strong,\r\n.monster-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.monster-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.monster-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.monster-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.monster-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.empty-detail {\r\n	margin: auto;\r\n	color: #85898d;\r\n}\r\n.monster-heading {\r\n	display: flex;\r\n	gap: 12px;\r\n	align-items: center;\r\n	padding-bottom: 10px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.monster-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.monster-heading h3 {\r\n	margin: 0 0 5px;\r\n	font-size: 18px;\r\n}\r\n.monster-heading p {\r\n	margin: 0 0 7px;\r\n	color: #70757a;\r\n}\r\n.monster-badge {\r\n	display: inline-block;\r\n	padding: 2px 6px;\r\n	border: 1px solid #b4b8bc;\r\n	background: #f3f4f5;\r\n}\r\n.monster-stats {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 10px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n}\r\n.monster-stats div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 6px;\r\n	background: #fafafa;\r\n}\r\n.monster-stats span {\r\n	color: #686d72;\r\n}\r\n.monster-resources {\r\n	flex: 1;\r\n	min-height: 70px;\r\n	margin-top: 10px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 10px;\r\n	overflow: hidden;\r\n}\r\n.monster-drops,\r\n.monster-locations {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	border: 1px solid #ddd;\r\n	padding: 0 7px 7px;\r\n	box-sizing: border-box;\r\n}\r\n.monster-drops > h4,\r\n.monster-locations > h4 {\r\n	position: sticky;\r\n	top: 0;\r\n	z-index: 1;\r\n	margin: 0 -7px 5px;\r\n	padding: 6px 7px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #ddd;\r\n}\r\n.drop-group h4 {\r\n	margin: 7px 0 4px;\r\n}\r\n.drop-group div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	padding: 3px 4px;\r\n	border-bottom: 1px dotted #d6d6d6;\r\n}\r\n.drop-group em {\r\n	color: #62676c;\r\n	font-style: normal;\r\n}\r\n.summon-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	gap: 9px;\r\n	align-items: center;\r\n	margin: 0 -12px -12px;\r\n	padding: 9px 12px 10px;\r\n	background: white;\r\n	border-top: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n}\r\n.summon-button {\r\n	height: 29px;\r\n	min-width: 64px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.summon-button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.summon-panel span {\r\n	min-width: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	color: #64696e;\r\n}\r\n.management-form .game-select {\r\n	width: 112px;\r\n}\r\n\r\n.game-tools-tab,\r\n.world-catalog-tab {\r\n	position: relative;\r\n}\r\n.game-tools-confirm {\r\n	position: absolute;\r\n	inset: 0;\r\n	z-index: 100;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding: 20px;\r\n	background: rgb(0 0 0 / 55%);\r\n}\r\n.game-tools-confirm-card {\r\n	width: min(360px, 100%);\r\n	padding: 18px;\r\n	background: #fff;\r\n	border: 1px solid #8b929a;\r\n	box-shadow: 0 8px 24px rgb(0 0 0 / 25%);\r\n}\r\n.game-tools-confirm-card p {\r\n	margin: 0 0 16px;\r\n	line-height: 1.5;\r\n}\r\n.game-tools-confirm-card > div {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 8px;\r\n}\r\n.game-tools-confirm-card button {\r\n	min-width: 72px;\r\n	padding: 5px 12px;\r\n	white-space: nowrap;\r\n}\r\n.world-catalog-tab {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n}\r\n.catalog-toolbar {\r\n	flex: 0 0 42px;\r\n	display: flex;\r\n	gap: 8px;\r\n	align-items: center;\r\n	padding: 7px 10px;\r\n	background: #f5f6f7;\r\n	border-bottom: 1px solid #d6d8db;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-search {\r\n	flex: 1;\r\n	height: 27px;\r\n	min-width: 120px;\r\n	padding: 3px 8px;\r\n	border: 1px solid #aeb2b7;\r\n}\r\n.catalog-filter {\r\n	width: 124px;\r\n}\r\n.catalog-scope {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	white-space: nowrap;\r\n}\r\n.catalog-scope-option {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n.catalog-scope-option input {\r\n	margin: 0;\r\n}\r\n.zeny-grant-open {\r\n	height: 27px;\r\n	padding: 0 10px;\r\n	white-space: nowrap;\r\n}\r\n.game-tools-number-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 16px;\r\n}\r\n.game-tools-number-prompt input {\r\n	width: 180px;\r\n	height: 28px;\r\n	padding: 2px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(250px, 36%) 1fr;\r\n}\r\n.catalog-browser {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border-right: 1px solid #d6d8db;\r\n}\r\n.catalog-summary {\r\n	flex: 0 0 25px;\r\n	line-height: 25px;\r\n	padding: 0 8px;\r\n	color: #666;\r\n	background: #fafafa;\r\n}\r\n.catalog-list {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n}\r\n.catalog-row {\r\n	width: 100%;\r\n	min-height: 58px;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #eceeef;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-row:hover {\r\n	background: #f0f6ff;\r\n}\r\n.catalog-row.selected {\r\n	background: #dceaff;\r\n}\r\n.catalog-thumb,\r\n.catalog-portrait {\r\n	display: block;\r\n	flex: 0 0 auto;\r\n	width: 48px;\r\n	height: 48px;\r\n	background-repeat: no-repeat;\r\n}\r\n.catalog-row-text {\r\n	min-width: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 3px;\r\n}\r\n.catalog-row-text strong,\r\n.catalog-row-text small {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-row-text small {\r\n	color: #6c7177;\r\n	font-weight: normal;\r\n}\r\n.catalog-pagination {\r\n	flex: 0 0 31px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 12px;\r\n	border-top: 1px solid #ddd;\r\n}\r\n.catalog-pagination button {\r\n	width: 26px;\r\n	height: 22px;\r\n	padding: 0;\r\n	border: 1px solid #aaa;\r\n	background: #f5f5f5;\r\n	cursor: pointer;\r\n}\r\n.catalog-pagination button:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.catalog-detail {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding: 12px;\r\n	overflow: hidden;\r\n	box-sizing: border-box;\r\n}\r\n.catalog-heading {\r\n	display: flex;\r\n	gap: 14px;\r\n	align-items: center;\r\n	padding-bottom: 12px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n}\r\n.catalog-portrait {\r\n	width: 112px;\r\n	height: 112px;\r\n	background-color: #f4f5f6;\r\n	border: 1px solid #d8dade;\r\n}\r\n.catalog-heading h3,\r\n.map-heading h3 {\r\n	margin: 0 0 6px;\r\n	font-size: 18px;\r\n}\r\n.catalog-heading p,\r\n.map-heading p {\r\n	margin: 0;\r\n	color: #70757a;\r\n}\r\n.catalog-metadata {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 1px;\r\n	margin-top: 12px;\r\n	background: #ddd;\r\n	border: 1px solid #ddd;\r\n	box-sizing: border-box;\r\n	width: 100%;\r\n	max-width: 100%;\r\n}\r\n.catalog-metadata div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	padding: 8px;\r\n	background: #fafafa;\r\n}\r\n.catalog-metadata span {\r\n	color: #686d72;\r\n}\r\n.catalog-action-panel {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin: auto -12px -12px;\r\n	padding: 10px 12px;\r\n	border-top: 1px solid #ddd;\r\n	background: white;\r\n}\r\n.catalog-action-panel button {\r\n	height: 29px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.catalog-action-panel button:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.catalog-status {\r\n	min-width: 0;\r\n	color: #64696e;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.catalog-status.error {\r\n	color: #a61d24;\r\n}\r\n.map-thumb {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: 56px;\r\n	height: 42px;\r\n	background: #e3e9ee;\r\n	border: 1px solid #c3cbd2;\r\n	color: #59636d;\r\n	overflow: hidden;\r\n}\r\n.monster-location-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 2px;\r\n}\r\n.monster-location {\r\n	width: 100%;\r\n	padding: 5px 6px;\r\n	border: 1px solid transparent;\r\n	background: white;\r\n	text-align: left;\r\n	cursor: pointer;\r\n}\r\n.monster-location:hover {\r\n	background: #f0f6ff;\r\n}\r\n.monster-location.selected {\r\n	border-color: #9ab4d2;\r\n	background: #dceaff;\r\n}\r\n.monster-location strong,\r\n.monster-location small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.monster-location small {\r\n	margin-top: 2px;\r\n	color: #6c7177;\r\n}\r\n.monster-map-teleport {\r\n	height: 28px;\r\n	min-width: 104px;\r\n	padding: 0 14px;\r\n	white-space: nowrap;\r\n	flex: 0 0 auto;\r\n	border: 1px solid #6d7f98;\r\n	background: #e5edf7;\r\n	cursor: pointer;\r\n}\r\n.monster-map-teleport:disabled {\r\n	color: #888;\r\n	background: #eee;\r\n	border-color: #bbb;\r\n	cursor: default;\r\n}\r\n.map-thumb img,\r\n.map-thumb canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	object-fit: cover;\r\n}\r\n.map-thumb span {\r\n	margin: auto;\r\n	font-size: 10px;\r\n	color: #7b838b;\r\n}\r\n.map-row {\r\n	min-height: 50px;\r\n}\r\n.map-heading {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding-bottom: 9px;\r\n}\r\n.map-heading > strong {\r\n	color: #5f666d;\r\n}\r\n.map-current-position {\r\n	display: block;\r\n	margin-top: 4px;\r\n	color: #4f6479;\r\n}\r\n.map-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 168px;\r\n	gap: 8px;\r\n}\r\n.catalog-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	padding: 0;\r\n	border: 0;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n	cursor: crosshair;\r\n}\r\n.catalog-map {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: #17191c;\r\n}\r\n.map-npc-list {\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	border: 1px solid #d8dade;\r\n	background: #fff;\r\n}\r\n.map-npc-scroll {\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: auto;\r\n}\r\n.map-npc-list h4 {\r\n	margin: 0;\r\n	padding: 6px 8px;\r\n	border-bottom: 1px solid #e1e3e5;\r\n	font-size: 12px;\r\n}\r\n.map-npc-list ul {\r\n	margin: 0;\r\n	padding: 0;\r\n	list-style: none;\r\n}\r\n.map-npc-row {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 4px 8px;\r\n	border-bottom: 1px solid #f0f1f2;\r\n	cursor: pointer;\r\n}\r\n.map-npc-row.selected {\r\n	background: #e8f0fa;\r\n}\r\n.map-npc-text {\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.map-npc-text strong,\r\n.map-npc-text small {\r\n	display: block;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.map-npc-text small {\r\n	color: #686d72;\r\n}\r\n.map-npc-empty {\r\n	margin: 0;\r\n	padding: 10px 8px;\r\n	color: #686d72;\r\n}\r\n.npc-detail-body {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) 188px;\r\n	gap: 8px;\r\n}\r\n.npc-map-picker {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	overflow: hidden;\r\n	background: #17191c;\r\n}\r\n.npc-detail-info {\r\n	min-width: 0;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.npc-detail-info .catalog-metadata {\r\n	grid-template-columns: 1fr;\r\n	margin-top: 0;\r\n	border-top: 0;\r\n}\r\n.npc-map-canvas {\r\n	display: block;\r\n	width: 100%;\r\n	height: 100%;\r\n}\r\n@media (max-width: 640px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.catalog-layout,\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.catalog-metadata {\r\n		grid-template-columns: 1fr;\r\n	}\r\n	.catalog-action-panel {\r\n		flex-wrap: wrap;\r\n	}\r\n	.map-detail-body,\r\n	.npc-detail-body {\r\n		grid-template-columns: 1fr;\r\n		grid-template-rows: minmax(0, 1fr) 120px;\r\n	}\r\n}\r\n@media (max-width: 560px) {\r\n	.game-tools-window {\r\n		min-width: 0;\r\n	}\r\n	.monster-layout {\r\n		grid-template-columns: minmax(190px, 43%) 1fr;\r\n	}\r\n	.monster-detail {\r\n		padding: 8px;\r\n	}\r\n	.summon-panel {\r\n		margin: 0 -8px -8px;\r\n		padding-inline: 8px;\r\n	}\r\n	.monster-heading {\r\n		align-items: flex-start;\r\n	}\r\n	.monster-stats {\r\n		grid-template-columns: 1fr;\r\n	}\r\n}\r\n\r\n.summon-panel .summon-status.success,\r\n.catalog-status.success,\r\n.management-status.success {\r\n	color: #237a3b;\r\n	font-weight: 600;\r\n}\r\n\r\n.game-tools-window .game-tools-toast {\r\n	position: absolute;\r\n	top: 66px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	z-index: 20;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 14px;\r\n	max-width: calc(100% - 48px);\r\n	padding: 12px 16px;\r\n	border: 1px solid #a4d4ae;\r\n	border-radius: 6px;\r\n	background: #effbf1;\r\n	color: #237a3b;\r\n	box-shadow: 0 4px 16px #0003;\r\n	font-size: 14px;\r\n	font-weight: 600;\r\n	box-sizing: border-box;\r\n}\r\n.game-tools-window .game-tools-toast.info {\r\n	background: #f0f6ff;\r\n	border-color: #a8c8e8;\r\n	color: #245b8a;\r\n}\r\n.game-tools-toast span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.game-tools-window .game-tools-toast button {\r\n	background: transparent;\r\n	border: 0;\r\n	color: inherit;\r\n	font-size: 20px;\r\n	cursor: pointer;\r\n	padding: 0 4px;\r\n}\r\n\r\n.summon-panel .summon-status.error {\r\n	color: #a61d24;\r\n	white-space: normal;\r\n}\r\n.settings-footer .management-status.error {\r\n	display: block;\r\n}\r\n\r\n.game-tools-tab[hidden] {\r\n	display: none !important;\r\n}\r\n\r\n.game-tools-window .catalog-empty-state { padding: 24px 12px; text-align: center; color: #62666c; }\r\n";
 }));
 //#endregion
 //#region src/UI/Components/GameTools/ItemCatalogTab.css?raw
@@ -276330,16 +278453,21 @@ function requestGameToolsConfirmation(container, message) {
 var init_GameToolsConfirm = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/GameTools/CharacterMaintenanceTab.js
+function jobGroup(job) {
+	return job.traits ? job.id >= 4302 ? "扩展进阶" : "四转" : "基础与进阶";
+}
 function changedValues(form, current) {
 	return Object.fromEntries(new FormData(form).entries().map(([key, value]) => [key, Number(value)]).filter(([key, value]) => value !== current[key]));
 }
 function mount$2(container) {
 	container.classList.add("management-tab", "character-attributes-tab");
 	let snapshot;
+	let jobs = [];
 	let disposed = false;
 	let loadToken = 0;
 	let selectedJobId;
 	let search = "";
+	let group = "";
 	let pending = false;
 	let status = "";
 	let statusError = false;
@@ -276350,6 +278478,7 @@ function mount$2(container) {
 			const next = await loadCurrentCharacter();
 			if (disposed || token !== loadToken) return;
 			snapshot = next;
+			updateJobs();
 			selectedJobId ??= snapshot.job_id;
 			if (container.querySelector(".character-detail")) {
 				renderJobs();
@@ -276378,6 +278507,7 @@ function mount$2(container) {
 		try {
 			for (const { type, payload } of commands) {
 				snapshot = await maintainCurrentCharacter(type, payload);
+				updateJobs();
 				clearTabDrafts(container, Object.keys(payload));
 			}
 			selectedJobId = snapshot.job_id;
@@ -276397,7 +278527,8 @@ function mount$2(container) {
 		return submitCommands(![
 			"character.progression.update",
 			"character.skill_points.update",
-			"character.stats.update"
+			"character.stats.update",
+			"character.traits.update"
 		].includes(type) || Object.keys(payload).length ? [{
 			type,
 			payload
@@ -276405,8 +278536,13 @@ function mount$2(container) {
 	}
 	function filteredJobs() {
 		const term = search.trim().toLocaleLowerCase();
-		if (!term) return jobs;
-		return jobs.filter((job) => job.name.toLocaleLowerCase().includes(term) || String(job.id).includes(term));
+		return jobs.filter((job) => (!group || jobGroup(job) === group) && (!term || job.name.toLocaleLowerCase().includes(term) || String(job.id).includes(term)));
+	}
+	function updateJobs() {
+		jobs = snapshot.jobs.map((job) => ({
+			...job,
+			name: getJobDisplayName(job.id, `职业 ${job.id}`)
+		})).sort((a, b) => a.id - b.id);
 	}
 	function renderJobs() {
 		const filtered = filteredJobs();
@@ -276414,7 +278550,7 @@ function mount$2(container) {
 		container.querySelector(".character-job-list").innerHTML = filtered.map((job) => `
 			<button class="character-job-row${job.id === selectedJobId ? " selected" : ""}" type="button" data-job-id="${job.id}">
 				<span class="character-job-emblem">${escapeHtml$2(job.name.slice(0, 1))}</span>
-				<span class="monster-row-text"><strong>${escapeHtml$2(job.name)}</strong><small>ID ${job.id}</small></span>
+				<span class="monster-row-text"><strong>${escapeHtml$2(job.name)}</strong><small>${jobGroup(job)} · ID ${job.id}</small></span>
 			</button>`).join("") || "<div class=\"character-job-empty\">没有匹配的职业</div>";
 		container.querySelectorAll("[data-job-id]").forEach((button) => {
 			button.addEventListener("click", () => {
@@ -276437,23 +278573,36 @@ function mount$2(container) {
 				<div><strong>HP ${snapshot.hp} / ${snapshot.max_hp}</strong><span>SP ${snapshot.sp} / ${snapshot.max_sp}${snapshot.max_ap ? ` · AP ${snapshot.ap} / ${snapshot.max_ap}` : ""}</span></div>
 			</header>
 			<div class="character-detail-scroll">
-				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml$2(selectedJob?.name || `职业 ${selectedJobId}`)}</strong><small>ID ${selectedJobId}</small></div><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? "disabled" : ""}>转换职业</button></div></section>
+				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml$2(selectedJob?.name || `职业 ${selectedJobId}`)}</strong><small>ID ${selectedJobId}</small></div><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? "disabled" : ""}>转换职业</button></div>
+				${selectedJob && selectedJobId !== snapshot.job_id ? `<form data-form="job-target" class="management-form level-form"><label><span>转职后的基础等级</span><input name="base_level" type="number" min="1" max="${selectedJob.max_base_level}" value="${snapshot.base_level}" required></label><small>该职业最高 Base ${selectedJob.max_base_level} / Job ${selectedJob.max_job_level}，转职后 Job 从 1 开始。超出上限时请明确调整目标等级。</small></form>` : ""}</section>
 				<section><h4>等级</h4><form data-form="progression" class="management-form level-form">
 					<label><span>基础等级</span><input name="base_level" type="number" min="1" max="${snapshot.max_base_level}" value="${snapshot.base_level}" required></label>
 					<label><span>职业等级</span><input name="job_level" type="number" min="1" max="${snapshot.max_job_level}" value="${snapshot.job_level}" required></label>
 					<label><span>技能点</span><input name="skill_points" type="number" min="0" max="${snapshot.max_skill_points}" value="${snapshot.skill_points}" required></label>
-					<button type="submit">应用等级</button>
+					<div class="management-form-actions"><button type="submit">应用等级</button></div>
 				</form></section>
 				<section><h4>基础属性 <small>剩余 ${snapshot.status_points} 点</small></h4><form data-form="stats" class="management-form stat-form">
 					${statFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="1" max="${snapshot.max_stats?.[key] ?? snapshot.max_stat}" value="${snapshot[key]}" required></label>`).join("")}
-					<button type="submit">应用属性</button>
+					<div class="management-form-actions"><button type="submit">应用属性</button></div>
 				</form></section>
+				${snapshot.traits.enabled ? `<section><h4>四转特性 <small>剩余 ${snapshot.traits.points} / 总计 ${snapshot.traits.budget} 点</small></h4><form data-form="traits" class="management-form stat-form">
+					${traitFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="0" max="${snapshot.traits.maximums[key]}" value="${snapshot.traits.values[key]}" required></label>`).join("")}
+					<div class="management-form-actions"><button type="submit">应用特性</button><button type="button" data-action="traits-reset">重置特性</button></div>
+					<small>每点特性消耗 1 点，合计不能超过当前等级的特性点总额。降低数值会返还点数。</small>
+				</form></section>` : ""}
 			</div>
 			<footer class="character-actions">
 				<button type="button" data-action="vitals">恢复状态</button><button type="button" data-action="stats-reset">重置属性</button><button type="button" data-action="skills-reset">重置技能</button>
 				<span class="management-status${statusError ? " error" : status ? " success" : ""}" role="status" aria-live="polite">${escapeHtml$2(status)}</span>
 			</footer>`;
-		detail.querySelector("[data-action=\"apply-job\"]").addEventListener("click", () => void submit("character.progression.update", { job_id: selectedJobId }, `确认将当前角色转换为“${selectedJob?.name}”？`));
+		detail.querySelector("[data-action=\"apply-job\"]").addEventListener("click", () => {
+			const form = detail.querySelector("[data-form=\"job-target\"]");
+			if (!form || !form.reportValidity()) return;
+			submit("character.progression.update", {
+				job_id: selectedJobId,
+				base_level: Number(new FormData(form).get("base_level"))
+			}, `确认将当前角色转换为“${selectedJob?.name}”？降低基础等级会回收成长点数，点数不足时重置相应属性。`);
+		});
 		detail.querySelector("[data-form=\"progression\"]").addEventListener("submit", (event) => {
 			event.preventDefault();
 			const changes = changedValues(event.currentTarget, snapshot);
@@ -276468,12 +278617,17 @@ function mount$2(container) {
 				type: "character.skill_points.update",
 				payload: { skill_points: skillPoints }
 			});
-			submitCommands(commands);
+			submitCommands(commands, changes.base_level < snapshot.base_level ? "确认降低基础等级？成长点数将被回收，点数不足时重置相应属性。" : void 0);
 		});
 		detail.querySelector("[data-form=\"stats\"]").addEventListener("submit", (event) => {
 			event.preventDefault();
 			submit("character.stats.update", changedValues(event.currentTarget, snapshot));
 		});
+		detail.querySelector("[data-form=\"traits\"]")?.addEventListener("submit", (event) => {
+			event.preventDefault();
+			submit("character.traits.update", changedValues(event.currentTarget, snapshot.traits.values));
+		});
+		detail.querySelector("[data-action=\"traits-reset\"]")?.addEventListener("click", () => void submit("character.traits.reset", {}, "确认重置六项四转特性并返还特性点？基础属性不受影响。"));
 		detail.querySelector("[data-action=\"vitals\"]").addEventListener("click", () => void submit("character.vitals.restore", {}));
 		detail.querySelector("[data-action=\"stats-reset\"]").addEventListener("click", () => void submit("character.stats.reset", {}, "确认重置当前角色的全部基础属性？"));
 		detail.querySelector("[data-action=\"skills-reset\"]").addEventListener("click", () => void submit("character.skills.reset", {}, "确认重置当前角色的全部技能？"));
@@ -276481,10 +278635,16 @@ function mount$2(container) {
 	}
 	function render() {
 		container.innerHTML = `<div class="character-layout"><section class="character-job-browser">
-			<div class="character-job-toolbar"><input type="search" placeholder="搜索职业名称或 ID" aria-label="搜索职业"></div>
+			<div class="character-job-toolbar"><input type="search" placeholder="搜索职业名称或 ID" aria-label="搜索职业"><select aria-label="职业分组"><option value="">全部职业</option><option>基础与进阶</option><option>四转</option><option>扩展进阶</option></select></div>
 			<div class="character-job-summary"></div><div class="character-job-list"></div>
 		</section><section class="character-detail"></section></div>`;
 		const searchInput = container.querySelector(".character-job-toolbar input");
+		const groupInput = container.querySelector(".character-job-toolbar select");
+		groupInput.value = group;
+		groupInput.addEventListener("change", () => {
+			group = groupInput.value;
+			renderJobs();
+		});
 		searchInput.value = search;
 		searchInput.addEventListener("input", () => {
 			search = searchInput.value;
@@ -276512,7 +278672,7 @@ function mount$2(container) {
 		container.removeEventListener("game-tools-reset-feedback", clearFeedback);
 	};
 }
-var statFields, unsupportedJobIds, jobs, CharacterMaintenanceTab_default;
+var statFields, traitFields, CharacterMaintenanceTab_default;
 var init_CharacterMaintenanceTab = __esmMin((() => {
 	init_TabViewState();
 	init_GameToolsToast();
@@ -276529,45 +278689,14 @@ var init_CharacterMaintenanceTab = __esmMin((() => {
 		["dex", "灵巧"],
 		["luk", "幸运"]
 	];
-	unsupportedJobIds = /* @__PURE__ */ new Set([
-		13,
-		21,
-		22,
-		26,
-		27,
-		28,
-		29,
-		30,
-		4014,
-		4022,
-		4036,
-		4044,
-		4048,
-		4080,
-		4081,
-		4082,
-		4083,
-		4084,
-		4085,
-		4086,
-		4087,
-		4109,
-		4110,
-		4111,
-		4112,
-		4238,
-		4243,
-		4244,
-		4278,
-		4279,
-		4280,
-		4281,
-		4316
-	]);
-	jobs = Object.keys(JobDisplayNameTable).map(Number).filter((id) => !unsupportedJobIds.has(id)).sort((a, b) => a - b).map((id) => ({
-		id,
-		name: getJobDisplayName(id, `职业 ${id}`)
-	}));
+	traitFields = [
+		["pow", "力量 POW"],
+		["sta", "耐力 STA"],
+		["wis", "智慧 WIS"],
+		["spl", "法力 SPL"],
+		["con", "专注 CON"],
+		["crt", "创造 CRT"]
+	];
 	CharacterMaintenanceTab_default = {
 		id: "character",
 		label: "角色属性",
@@ -279943,6 +282072,14 @@ var init_StrEffect = __esmMin((() => {
 			}
 			const strFile = Client.loadFile(this.filename, null, null, { texturePath: this.texturePath });
 			if (strFile === null) return;
+			if (!this.resourcesReady) {
+				if (strFile.layers.some((pendingLayer) => pendingLayer.materials.filter(Boolean).length < pendingLayer.texcnt)) {
+					if (tick - this.startTick > 15e3) this.needCleanUp = true;
+					return;
+				}
+				this.resourcesReady = true;
+				if (!this.persistent && !this._Params?.Inst.persistent && !this._Params?.Inst.repeatEnd) this.startTick = Math.max(this.startTick, tick);
+			}
 			keyIndex = (tick - this.startTick) / 1e3 * strFile.fps;
 			if (this.persistent && strFile && strFile.maxKey) keyIndex = keyIndex % strFile.maxKey;
 			if (!this._lastValidAnim) this._lastValidAnim = {};
@@ -295496,6 +297633,7 @@ var init_EffectManager = __esmMin((() => {
 	init_SkillEffect();
 	init_SkillUnit();
 	init_SkillUnitConst();
+	init_FourthJobGroundEffects();
 	init_ItemEffect();
 	init_ProcessCommand();
 	init_Events();
@@ -295813,6 +297951,7 @@ var init_EffectManager = __esmMin((() => {
 			entity.hideShadow = true;
 			entity.objecttype = traps.includes(unit_id) ? entity.constructor.TYPE_TRAP : targetableUnits.includes(unit_id) ? entity.constructor.TYPE_UNIT : entity.constructor.TYPE_EFFECT;
 			entity.creatorGID = creatorUid;
+			entity.skillUnitId = unit_id;
 			EntityManager.add(entity);
 			const EF_Init_Par = {
 				effectId,
@@ -295829,14 +297968,19 @@ var init_EffectManager = __esmMin((() => {
 			};
 			EffectManager.spam(EF_Init_Par);
 		}
-		/**
-		* Spam a skill on a target
-		*
-		* @param {number} skill id
-		* @param {number} target aid
-		* @param {Array} position
-		* @param {number} tick
-		*/
+		/** Remove a server skill unit, then play its detached one-shot end layers. */
+		static removeSkillZone(uid) {
+			const entity = EntityManager.get(uid);
+			const effectId = entity && fourthJobGroundEndEffects[entity.skillUnitId];
+			const position = entity && Array.from(entity.position);
+			EffectManager.remove(null, uid);
+			if (effectId && position) EffectManager.spam({
+				effectId,
+				position,
+				startTick: Renderer.tick
+			});
+		}
+		/** Spam a skill on a target. */
 		static spamSkill(skillId, destAID, position, tick, srcAID) {
 			let effects, EF_Init_Par;
 			if (!(skillId in SkillEffect)) return;
@@ -305049,6 +307193,8 @@ var EffectTable_exports = /* @__PURE__ */ __exportAll({ default: () => EffectTab
 var ServiceEffects, getBragiSpellNote, DissonanceEffects, LullabyEffects, MrKimEffects, EtChaosEffects, DrumEffects, NibelungEffects, LokiEffects, AbyssEffects, SiegfiedEffects, WhistleEffects, SinEffects, AppleEffects, UglyEffects, HummingEffects, ForgetEffects, FortuneEffects, GospelEffects, FogEffects, GravityEffects, EvillandEffects, EffectTable_default;
 var init_EffectTable = __esmMin((() => {
 	init_RainWeather();
+	init_FourthJobEffects();
+	init_FourthJobGroundEffects();
 	init_SnowWeather();
 	init_SakuraWeatherEffect();
 	init_Camera();
@@ -305100,6 +307246,8 @@ var init_EffectTable = __esmMin((() => {
 	GravityEffects = Songs_default.GravityEffects;
 	EvillandEffects = Songs_default.EvillandEffects;
 	EffectTable_default = {
+		...fourthJobRenderEffects,
+		...fourthJobGroundEffects,
 		0: [{
 			type: "3D",
 			duplicate: 4,
@@ -337197,7 +339345,7 @@ function mergeEz2Effects(EffectTable, SkillEffect) {
 			type: "STR",
 			file: (entry.FilePath || "").replace(/\\/g, "/").replace(/\.str$/i, ""),
 			texturePath,
-			renderBeforeEntities: entry.IsFloor ? false : true,
+			renderBeforeEntities: !!entry.IsFloor,
 			xOffset: entry.PosX || 0,
 			yOffset: entry.PosY || 0,
 			wav: entry.SoundPath ? entry.SoundPath.replace(/\\/g, "/").replace(/\.wav$/i, "") : null,
@@ -337206,7 +339354,7 @@ function mergeEz2Effects(EffectTable, SkillEffect) {
 			attachedEntity: true
 		}];
 		count++;
-		if (skillId) {
+		if (skillId && !fourthJobBsonGroundNames.has(effectName)) {
 			const skillEntry = SkillEffect[skillId] || (SkillEffect[skillId] = {});
 			const field = meta.field;
 			if (skillEntry[field]) {
@@ -337216,6 +339364,7 @@ function mergeEz2Effects(EffectTable, SkillEffect) {
 			skillCount++;
 		}
 	}
+	registerFourthJobBsonGroundEffects(Ez2streffect, EffectTable);
 	console.log(`[DBManager] Loaded ${count} effects and mapped ${skillCount} skills.`);
 }
 /**
@@ -339296,6 +341445,7 @@ var init_DBManager = __esmMin((() => {
 	init_ItemRandomOptionTable();
 	init_WorldMap$3();
 	init_SkillConst();
+	init_FourthJobGroundEffects();
 	init_SkillInfo_generated();
 	init_SkillLocalizationTable_generated();
 	init_JobHitSoundTable();
@@ -362484,7 +364634,7 @@ function onSkillAppear(pkt) {
 * @param {object} pkt - PACKET.ZC.SKILL_DISAPPEAR
 */
 function onSkillDisapear(pkt) {
-	EffectManager.remove(null, pkt.AID);
+	EffectManager.removeSkillZone(pkt.AID);
 	const entity = EntityManager.get(pkt.AID);
 	if (entity) entity.remove();
 }
