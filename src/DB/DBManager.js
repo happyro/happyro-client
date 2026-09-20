@@ -74,6 +74,7 @@ import {
 } from './Navigation/NavigationResource.js';
 import { getNavigationNpcAliases, localizeNavigationNpcName } from './Navigation/NavigationNameLocalization.js';
 import SignBoardTranslationTable from './SignBoardTranslationTable.js';
+import { ongoingQuestInfoAliases } from './Quest/QuestResource.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import PACKETVER from 'Network/PacketVerManager.js';
@@ -544,7 +545,7 @@ class DB {
 
 			// Quest
 			const onQuestEnd = onLoad();
-			tryLoadLuaAliases(loadQuestInfo, getSystemAliases('System/OngoingQuestInfoList.lub'), null, () => {
+			tryLoadLuaAliases(loadQuestInfo, ongoingQuestInfoAliases, null, () => {
 				// this is not official, its a translation file
 				loadQuestInfo('SystemEN/OngoingQuests.lub', null, onQuestEnd);
 			});
