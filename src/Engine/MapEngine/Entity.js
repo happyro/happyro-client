@@ -25,6 +25,7 @@ import AttackEffect from 'DB/Monsters/AttackEffectTable.js';
 import Sound from 'Audio/SoundManager.js';
 import Events from 'Core/Events.js';
 import Guild from 'Engine/MapEngine/Guild.js';
+import { isFalconTargetAttackSkill } from 'Engine/MapEngine/FalconSkillMotion.js';
 import Session from 'Engine/SessionStorage.js';
 import Network from 'Network/NetworkManager.js';
 import PACKETVER from 'Network/PacketVerManager.js';
@@ -1541,7 +1542,7 @@ function onEntityUseSkillToAttack(pkt) {
 		}
 
 		if (srcEntity.falcon) {
-			if (pkt.SKID == SkillId.HT_BLITZBEAT || pkt.SKID == SkillId.SN_FALCONASSAULT) {
+			if (isFalconTargetAttackSkill(pkt.SKID)) {
 				srcEntity.falcon.action = srcEntity.action;
 				srcEntity.falcon.walk.speed = 35;
 
