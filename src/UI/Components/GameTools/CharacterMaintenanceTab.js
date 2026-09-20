@@ -169,15 +169,15 @@ function mount(container) {
 					<label><span>基础等级</span><input name="base_level" type="number" min="1" max="${snapshot.max_base_level}" value="${snapshot.base_level}" required></label>
 					<label><span>职业等级</span><input name="job_level" type="number" min="1" max="${snapshot.max_job_level}" value="${snapshot.job_level}" required></label>
 					<label><span>技能点</span><input name="skill_points" type="number" min="0" max="${snapshot.max_skill_points}" value="${snapshot.skill_points}" required></label>
-					<button type="submit">应用等级</button>
+					<div class="management-form-actions"><button type="submit">应用等级</button></div>
 				</form></section>
 				<section><h4>基础属性 <small>剩余 ${snapshot.status_points} 点</small></h4><form data-form="stats" class="management-form stat-form">
 					${statFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="1" max="${snapshot.max_stats?.[key] ?? snapshot.max_stat}" value="${snapshot[key]}" required></label>`).join('')}
-					<button type="submit">应用属性</button>
+					<div class="management-form-actions"><button type="submit">应用属性</button></div>
 				</form></section>
 				${snapshot.traits.enabled ? `<section><h4>四转特性 <small>剩余 ${snapshot.traits.points} / 总计 ${snapshot.traits.budget} 点</small></h4><form data-form="traits" class="management-form stat-form">
 					${traitFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="0" max="${snapshot.traits.maximums[key]}" value="${snapshot.traits.values[key]}" required></label>`).join('')}
-					<button type="submit">应用特性</button><button type="button" data-action="traits-reset">重置特性</button>
+					<div class="management-form-actions"><button type="submit">应用特性</button><button type="button" data-action="traits-reset">重置特性</button></div>
 					<small>每点特性消耗 1 点，合计不能超过当前等级的特性点总额。降低数值会返还点数。</small>
 				</form></section>` : ''}
 			</div>

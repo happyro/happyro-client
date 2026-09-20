@@ -267,6 +267,20 @@ class StrEffect {
 			return;
 		}
 
+		// Short one-shot effects can expire while their textures are still loading.
+		// Start their animation only after the GPU materials are available, while
+		// preserving scheduled delays and the clock of persistent server effects.
+		if (!this.resourcesReady) {
+			if (strFile.layers.some(pendingLayer => pendingLayer.materials.filter(Boolean).length < pendingLayer.texcnt)) {
+				if (tick - this.startTick > 15000) this.needCleanUp = true;
+				return;
+			}
+			this.resourcesReady = true;
+			if (!this.persistent && !this._Params?.Inst.persistent && !this._Params?.Inst.repeatEnd) {
+				this.startTick = Math.max(this.startTick, tick);
+			}
+		}
+
 		keyIndex = ((tick - this.startTick) / 1000) * strFile.fps;
 
 		// Loop persistent effects

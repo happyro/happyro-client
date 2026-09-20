@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import SU from '../../src/DB/Skills/SkillUnitConst.js';
 import {
 	fourthJobBsonGroundNames,
+	fourthJobGroundEffects,
 	fourthJobGroundUnits,
 	fourthJobGroundEndEffects,
 	registerFourthJobBsonGroundEffects
@@ -34,5 +35,12 @@ describe('fourth-job BSON ground phases', () => {
 		const bson = fixture();
 		delete bson.totem_of_tutelary_loop;
 		expect(() => registerFourthJobBsonGroundEffects(bson, {})).toThrow('totem_of_tutelary_loop');
+	});
+
+	it('includes representative ground units from other fourth-job classes', () => {
+		for (const unit of [SU.UNT_DEEPBLINDTRAP, SU.UNT_FLAMETRAP, SU.UNT_TWINKLING_GALAXY]) {
+			expect(fourthJobGroundUnits[unit]).toBeDefined();
+			expect(fourthJobGroundUnits[unit] in fourthJobGroundEffects).toBe(true);
+		}
 	});
 });

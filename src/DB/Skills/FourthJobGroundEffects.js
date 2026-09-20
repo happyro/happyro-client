@@ -16,6 +16,10 @@ export const fourthJobGroundResources = {
 		['night_watch/nw_grenades_dropping/grenades_dropping_bottom/grenades_dropping_bottom', true]
 	],
 	UNT_FUUMASHOUAKU: [['shinkiro_shiranui/ss_fuumashouaku/fuumashouaku/fuumashouaku', false]],
+	UNT_TWINKLING_GALAXY: [
+		...Array.from({length: 4}, (_, index) => [`sky_emperor/ske_twinkling_galaxy/twinkling_galaxy/ske_twinkling_galaxy0${index}`, false]),
+		['sky_emperor/ske_twinkling_galaxy/twinkling_galaxy_bottom/ske_twinkling_galaxy_bottom', true]
+	],
 	UNT_MYSTERY_ILLUSION: [
 		['mystery_illusion/mystery_illusion/mystery_illusion', false],
 		['mystery_illusion/mystery_illusion_bottom/mystery_illusion_bottom', true]
@@ -50,6 +54,14 @@ export const fourthJobGroundResources = {
 		['conflagration/conflagration_bottom/conflagration_bottom', true]
 	]
 };
+
+for (const trap of ['DEEPBLINDTRAP', 'SOLIDTRAP', 'SWIFTTRAP', 'FLAMETRAP']) {
+	const name = trap.toLowerCase();
+	fourthJobGroundResources[`UNT_${trap}`] = [
+		[`${name}/${name}/${name}`, false],
+		[`${name}/${name}_bottom/${name}_bottom`, true]
+	];
+}
 
 for (const element of ['WATER', 'GROUND', 'WIND', 'FIRE']) {
 	const name = `acidified_zone_${element.toLowerCase()}`;
