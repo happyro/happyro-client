@@ -18,6 +18,7 @@ import StatusState from 'DB/Status/StatusState.js';
 import Emotions from 'DB/Emotions.js';
 import SkillEffect from 'DB/Skills/SkillEffect.js';
 import SkillActionTable from 'DB/Skills/SkillAction.js';
+import { fourthJobStatusEffects } from 'DB/Skills/FourthJobEffects.js';
 import EffectConst from 'DB/Effects/EffectConst.js';
 import PetMessageConst from 'DB/Pets/PetMessageConst.js';
 import JobId from 'DB/Jobs/JobConst.js';
@@ -1620,7 +1621,13 @@ function onEntityUseSkillToAttack(pkt) {
 			};
 
 			for (let i = 0; i < pkt.count; ++i) {
-				EffectManager.spamSkillBeforeHit(pkt.SKID, pkt.targetID, Renderer.tick + C_MULTIHIT_DELAY * i, pkt.AID);
+				EffectManager.spamSkillBeforeHit(
+					pkt.SKID,
+					pkt.targetID,
+					Renderer.tick + C_MULTIHIT_DELAY * i,
+					pkt.AID,
+					pkt.attackMT
+				);
 				addDamage(i, Renderer.tick + pkt.attackMT + C_MULTIHIT_DELAY * i);
 			}
 		}
@@ -1890,6 +1897,14 @@ function onEntityStatusChange(pkt) {
 
 	// TODO: add other status
 	switch (pkt.index) {
+		case StatusConst.SERVANTWEAPON: {
+			const effectId = fourthJobStatusEffects[pkt.index];
+			EffectManager.remove(null, pkt.AID, effectId);
+			if (pkt.state || !Object.prototype.hasOwnProperty.call(pkt, 'state')) {
+				EffectManager.spam({ effectId, ownerAID: pkt.AID, persistent: true });
+			}
+			break;
+		}
 		// Maya purple card
 		case StatusConst.CLAIRVOYANCE:
 			if (entity === Session.Entity) {

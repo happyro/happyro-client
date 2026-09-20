@@ -3,7 +3,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 vi.mock('Core/Client.js', () => ({ default: { loadFile: vi.fn() } }));
 vi.mock('Utils/WebGL.js', () => ({ default: {} }));
 import Client from '../../src/Core/Client.js';
-import StrEffect from '../../src/Renderer/Effects/StrEffect.js';
+import StrEffect, { interpolateProjectilePosition } from '../../src/Renderer/Effects/StrEffect.js';
 
 let layer;
 beforeEach(() => {
@@ -47,4 +47,22 @@ it('cleans up an effect whose textures never become available', () => {
 	const effect = new StrEffect('missing-texture.str', [0, 0, 0], 1000, '');
 	effect.render({}, 16001);
 	expect(effect.needCleanUp).toBe(true);
+});
+
+it('interpolates a projectile from source to target and clamps its flight', () => {
+	expect(interpolateProjectilePosition([0, 2, 4], [10, 12, 14], 1000, 500, 900)).toEqual([0, 2, 4]);
+	expect(interpolateProjectilePosition([0, 2, 4], [10, 12, 14], 1000, 500, 1250)).toEqual([5, 7, 9]);
+	expect(interpolateProjectilePosition([0, 2, 4], [10, 12, 14], 1000, 500, 1600)).toEqual([10, 12, 14]);
+});
+
+it('keeps a persistent attachment on its moving owner', () => {
+	layer.materials[0] = {};
+	const effect = new StrEffect('status.str', [0, 0, 0], 1000, '');
+	effect.ownerEntity = { position: [4, 5, 6], direction: 3 };
+	effect.persistent = true;
+	effect.renderAnimation = vi.fn();
+	effect.render({}, 1600);
+	expect(effect.position).toBe(effect.ownerEntity.position);
+	expect(effect.ownerDirection).toBe(3);
+	expect(effect.needCleanUp).not.toBe(true);
 });

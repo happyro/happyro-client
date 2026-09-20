@@ -102,15 +102,22 @@ function spamSTR(Params) {
 	}
 
 	// Start effect
-	EffectManager.add(
-		new StrEffect(
-			'data/texture/effect/' + filename + '.str',
-			Params.Inst.position,
-			Params.Inst.startTick,
-			texturePath
-		),
-		Params
+	const effect = new StrEffect(
+		'data/texture/effect/' + filename + '.str',
+		Params.Inst.position,
+		Params.Inst.startTick,
+		texturePath
 	);
+	if (Params.effect.attachedEntity) {
+		effect.ownerEntity = Params.Init.ownerEntity;
+		effect.persistent = Params.Inst.persistent;
+	}
+	if (Params.effect.travelsFromOther) {
+		effect.travelFrom = Array.from(Params.Inst.otherPosition);
+		effect.travelTo = Array.from(Params.Inst.position);
+		effect.travelDuration = Math.max(Params.Init.travelDuration || 300, 1);
+	}
+	EffectManager.add(effect, Params);
 }
 
 /**
@@ -941,7 +948,7 @@ class EffectManager {
 	 * @param {number} target aid
 	 * @param {number} tick
 	 */
-	static spamSkillBeforeHit(skillId, destAID, tick, srcAID) {
+	static spamSkillBeforeHit(skillId, destAID, tick, srcAID, travelDuration) {
 		let effects, EF_Init_Par;
 		if (!(skillId in SkillEffect)) {
 			return;
@@ -957,7 +964,8 @@ class EffectManager {
 					effectId: effectId,
 					ownerAID: destAID,
 					startTick: tick,
-					otherAID: srcAID
+					otherAID: srcAID,
+					travelDuration
 				};
 
 				EffectManager.spam(EF_Init_Par);

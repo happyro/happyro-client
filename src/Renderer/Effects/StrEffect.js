@@ -49,6 +49,11 @@ let _lastAngle = -1;
 // Pixel to world conversion for attachment offsets
 const PIXEL_TO_WORLD_Z = 1.0 / 5.0;
 
+export function interpolateProjectilePosition(source, target, startTick, duration, tick) {
+	const progress = Math.max(0, Math.min(1, (tick - startTick) / Math.max(duration, 1)));
+	return source.map((value, index) => value + (target[index] - value) * progress);
+}
+
 const anim = {
 	frame: 0,
 	type: 0,
@@ -251,8 +256,18 @@ class StrEffect {
 		let layer;
 		let i, keyIndex;
 
+		if (this.travelFrom && this.travelTo) {
+			this.position = interpolateProjectilePosition(
+				this.travelFrom,
+				this.travelTo,
+				this.startTick,
+				this.travelDuration,
+				tick
+			);
+			if (this._Params && this._Params.Inst) this._Params.Inst.position = this.position;
+		}
 		// Follow entity position for attachments
-		if (this.ownerEntity && this.ownerEntity.position) {
+		else if (this.ownerEntity && this.ownerEntity.position) {
 			this.position = this.ownerEntity.position;
 			this.ownerDirection = this.ownerEntity.direction;
 			if (this._Params && this._Params.Inst) {
@@ -271,7 +286,9 @@ class StrEffect {
 		// Start their animation only after the GPU materials are available, while
 		// preserving scheduled delays and the clock of persistent server effects.
 		if (!this.resourcesReady) {
-			if (strFile.layers.some(pendingLayer => pendingLayer.materials.filter(Boolean).length < pendingLayer.texcnt)) {
+			if (
+				strFile.layers.some(pendingLayer => pendingLayer.materials.filter(Boolean).length < pendingLayer.texcnt)
+			) {
 				if (tick - this.startTick > 15000) this.needCleanUp = true;
 				return;
 			}
