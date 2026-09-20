@@ -190908,6 +190908,17 @@ var init_SignBoardTranslationTable = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Quest/QuestResource.js
+var ongoingQuestInfoAliases;
+var init_QuestResource = __esmMin((() => {
+	ongoingQuestInfoAliases = Object.freeze([
+		"System/OngoingQuestInfoList_True.lub",
+		"System/OngoingQuestInfoList_True.lua",
+		"System/OngoingQuestInfoList.lub",
+		"System/OngoingQuestInfoList.lua"
+	]);
+}));
+//#endregion
 //#region src/Utils/BinaryWriter.js
 /**
 * BinaryWriter
@@ -341490,6 +341501,7 @@ var init_DBManager = __esmMin((() => {
 	init_NavigationResource();
 	init_NavigationNameLocalization();
 	init_SignBoardTranslationTable();
+	init_QuestResource();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_PacketVerManager();
@@ -341683,7 +341695,7 @@ var init_DBManager = __esmMin((() => {
 				});
 				if (Configs.get("enableCheckAttendance") && PacketVerManager_default.value >= 20180307) loadAttendanceFile("System/CheckAttendance.lub", null, onLoad());
 				const onQuestEnd = onLoad();
-				tryLoadLuaAliases(loadQuestInfo, getSystemAliases("System/OngoingQuestInfoList.lub"), null, () => {
+				tryLoadLuaAliases(loadQuestInfo, ongoingQuestInfoAliases, null, () => {
 					loadQuestInfo("SystemEN/OngoingQuests.lub", null, onQuestEnd);
 				});
 				if (Configs.get("enableAchievements") && PacketVerManager_default.value >= 20150513) loadLuaValue("System/achievement_list.lub", "achievement_tbl", function(json) {
