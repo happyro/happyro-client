@@ -233,3 +233,18 @@
 	background-repeat: no-repeat;
 	background-color: transparent;
 }
+
+#Reputation .search,
+#Reputation .big_btn_close {
+	padding: 0;
+	border: 1px solid #9b9b9b;
+	border-radius: 3px;
+	background: linear-gradient(#fff, #dedede);
+	color: #222;
+	font: 12px Arial, sans-serif;
+	cursor: pointer;
+}
+#Reputation .search:hover,
+#Reputation .big_btn_close:hover {
+	background: #f1f5fa;
+}

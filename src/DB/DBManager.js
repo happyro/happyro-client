@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import { localizeReputation, reputationGroupNames, reputationNames } from './Reputation/ReputationLocalization.js';
 import Client from 'Core/Client.js';
 import Configs from 'Core/Configs.js';
 import TextEncoding from 'Utils/CodepageManager.js';
@@ -759,10 +760,18 @@ class DB {
 			);
 		}
 
-		// Reputation
-		if (PACKETVER.value >= 20220330) {
-			loadBSONFile('data/contentdata/repute/reputegroupdata.bson', ReputeGroup, function () {});
-			loadBSONFile('data/contentdata/repute/reputeinfodata.bson', ReputeInfo, function () {});
+		// Reputation: RE 2021-11-03 and main clients from 2022-03-30.
+		if ((PACKETVER.value >= 20211103 && PACKETVER.value <= 20211118) || PACKETVER.value >= 20220330) {
+			const ReputeGroupLoaded = onLoad();
+			loadBSONFile('data/contentdata/repute/reputegroupdata.bson', ReputeGroup, () => {
+				localizeReputation(ReputeGroup, reputationGroupNames);
+				ReputeGroupLoaded();
+			}, 'ReputeGroup');
+			const ReputeInfoLoaded = onLoad();
+			loadBSONFile('data/contentdata/repute/reputeinfodata.bson', ReputeInfo, () => {
+				localizeReputation(ReputeInfo, reputationNames);
+				ReputeInfoLoaded();
+			}, 'reputeInfo');
 		}
 
 		Network.hookPacket(PACKET.ZC.ACK_REQNAME_BYGID, onUpdateOwnerName);
@@ -4150,7 +4159,7 @@ function loadXMLFile(filename, callback, onEnd) {
  * @param {function} onEnd    Called when finished (success or error)
  *
  */
-function loadBSONFile(filename, targetTable, onEnd) {
+function loadBSONFile(filename, targetTable, onEnd, tableKey) {
 	Client.loadFile(
 		filename,
 		function (arrayBuffer) {
@@ -4189,8 +4198,10 @@ function loadBSONFile(filename, targetTable, onEnd) {
 					delete targetTable[k];
 				}
 
-				// If root has exactly ONE key, unwrap it
-				if (typeof data === 'object' && !Array.isArray(data) && Object.keys(data).length === 1) {
+				// Named tables can share the root with BSON comment fields.
+				if (tableKey) {
+					data = data[tableKey];
+				} else if (typeof data === 'object' && !Array.isArray(data) && Object.keys(data).length === 1) {
 					const rootKey = Object.keys(data)[0];
 					data = data[rootKey];
 				}
