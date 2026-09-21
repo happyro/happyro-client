@@ -3,6 +3,8 @@ import { clearTabDrafts } from './TabViewState.js';
 import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
 import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import DB from 'DB/DBManager.js';
+import JobPropertyTable from 'DB/Jobs/JobPropertyTable.js';
+import { renderGameSelect, mountGameSelect } from './GameSelect.js';
 import { loadCurrentCharacter, maintainCurrentCharacter } from './AdventureControlService.js';
 import escapeHtml from './escapeHtml.js';
 import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
@@ -19,7 +21,14 @@ const traitFields = [['pow', '力量 POW'], ['sta', '耐力 STA'], ['wis', '智�
 	['spl', '法力 SPL'], ['con', '专注 CON'], ['crt', '创造 CRT']];
 
 function jobGroup(job) {
-	return job.traits ? (job.id >= 4302 ? '扩展进阶' : '四转') : '基础与进阶';
+	const properties = JobPropertyTable[job.id];
+	if (job.traits || properties?.isFourthClass) return '四转';
+	if (properties?.isExpanded || properties?.isDoram) return '扩展职业';
+	if (properties?.isThirdClass) return '三转';
+	if (properties?.isSecondClass) return '二转';
+	if (properties?.isFirstClass) return '一转';
+	if (properties?.isNoviceClass) return '初心者';
+	return '其它';
 }
 
 function changedValues(form, current) {
@@ -107,7 +116,7 @@ function mount(container) {
 	function submit(type, payload, confirmation) {
 		const mayBeEmpty = ![
 			'character.progression.update',
-			'character.skill_points.update',
+			'character.points.update',
 			'character.stats.update',
 			'character.traits.update'
 		].includes(type);
@@ -164,21 +173,22 @@ function mount(container) {
 			</header>
 			<div class="character-detail-scroll">
 				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml(selectedJob?.name || `职业 ${selectedJobId}`)}</strong><small>ID ${selectedJobId}</small></div><span class="management-form-actions"><button type="button" data-action="vitals">恢复状态</button><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? 'disabled' : ''}>转换职业</button></span></div>
-				${selectedJob && selectedJobId !== snapshot.job_id ? `<form data-form="job-target" class="management-form level-form"><label><span>转职后的基础等级</span><input name="base_level" type="number" min="1" max="${selectedJob.max_base_level}" value="${snapshot.base_level}" required></label><small>该职业最高 Base ${selectedJob.max_base_level} / Job ${selectedJob.max_job_level}，转职后 Job 从 1 开始。超出上限时请明确调整目标等级。</small></form>` : ''}</section>
-				<section><h4>等级</h4><form data-form="progression" class="management-form level-form">
+				</section>
+				<section><h4>等级与点数</h4><form data-form="progression" class="management-form progression-form">
 					<label><span>基础等级</span><input name="base_level" type="number" min="1" max="${snapshot.max_base_level}" value="${snapshot.base_level}" required></label>
 					<label><span>职业等级</span><input name="job_level" type="number" min="1" max="${snapshot.max_job_level}" value="${snapshot.job_level}" required></label>
+					<label><span>素质点</span><input name="status_points" type="number" min="0" max="${snapshot.max_status_points}" value="${snapshot.status_points}" required></label>
 					<label><span>技能点</span><input name="skill_points" type="number" min="0" max="${snapshot.max_skill_points}" value="${snapshot.skill_points}" required></label>
-					<div class="management-form-actions"><button type="submit">应用等级</button><button type="button" data-action="skills-reset">重置技能</button></div>
+					<div class="management-form-actions"><button type="submit">应用</button><button type="button" data-action="skills-reset">重置技能</button><button type="button" data-action="skills-learn-all">学满技能</button></div>
 				</form></section>
 				<section><h4>基础属性 <small>剩余 ${snapshot.status_points} 点</small></h4><form data-form="stats" class="management-form stat-form">
 					${statFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="1" max="${snapshot.max_stats?.[key] ?? snapshot.max_stat}" value="${snapshot[key]}" required></label>`).join('')}
-					<div class="management-form-actions"><button type="submit">应用属性</button><button type="button" data-action="stats-reset">重置属性</button></div>
+					<div class="management-form-actions"><button type="submit">应用</button><button type="button" data-action="stats-reset">重置</button></div>
 				</form></section>
-				${snapshot.traits.enabled ? `<section><h4>四转特性 <small>剩余 ${snapshot.traits.points} / 总计 ${snapshot.traits.budget} 点</small></h4><form data-form="traits" class="management-form stat-form">
+				${snapshot.traits.enabled ? `<section><h4>四转特性 <small>剩余 ${snapshot.traits.points} 点</small></h4><form data-form="traits" class="management-form stat-form">
 					${traitFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="0" max="${snapshot.traits.maximums[key]}" value="${snapshot.traits.values[key]}" required></label>`).join('')}
-					<div class="management-form-actions"><button type="submit">应用特性</button><button type="button" data-action="traits-reset">重置特性</button></div>
-					<small>每点特性消耗 1 点，合计不能超过当前等级的特性点总额。降低数值会返还点数。</small>
+					<div class="management-form-actions"><button type="submit">应用</button><button type="button" data-action="traits-reset">重置</button></div>
+					<small>直接设置特性值，不受当前特性点限制，不消耗剩余点数。</small>
 				</form></section>` : ''}
 			</div>
 			<footer class="character-actions">
@@ -190,26 +200,24 @@ function mount(container) {
 			.addEventListener(
 				'click',
 				() => {
-					const form = detail.querySelector('[data-form="job-target"]');
-					if (!form || !form.reportValidity()) return;
+					if (!selectedJob || selectedJobId === snapshot.job_id) return;
 					void submit(
 						'character.progression.update',
-						{ job_id: selectedJobId, base_level: Number(new FormData(form).get('base_level')) },
-						`确认将当前角色转换为“${selectedJob?.name}”？降低基础等级会回收成长点数，点数不足时重置相应属性。`
+						{ job_id: selectedJobId, base_level: Math.min(snapshot.base_level, selectedJob.max_base_level) },
+						`是否确认转职为"${selectedJob.name}"?`
 					);
 				}
 			);
 		detail.querySelector('[data-form="progression"]').addEventListener('submit', event => {
 			event.preventDefault();
+			if (!event.currentTarget.reportValidity()) return;
 			const changes = changedValues(event.currentTarget, snapshot);
-			const skillPoints = changes.skill_points;
-			delete changes.skill_points;
+			const levels = Object.fromEntries(Object.entries(changes).filter(([key]) => ['base_level', 'job_level'].includes(key)));
+			const points = Object.fromEntries(Object.entries(changes).filter(([key]) => ['status_points', 'skill_points'].includes(key)));
 			const commands = [];
-			if (Object.keys(changes).length) commands.push({ type: 'character.progression.update', payload: changes });
-			if (skillPoints !== undefined) {
-				commands.push({ type: 'character.skill_points.update', payload: { skill_points: skillPoints } });
-			}
-			void submitCommands(commands, changes.base_level < snapshot.base_level
+			if (Object.keys(levels).length) commands.push({ type: 'character.progression.update', payload: levels });
+			if (Object.keys(points).length) commands.push({ type: 'character.points.update', payload: points });
+			void submitCommands(commands, levels.base_level < snapshot.base_level
 				? '确认降低基础等级？成长点数将被回收，点数不足时重置相应属性。' : undefined);
 		});
 		detail.querySelector('[data-form="stats"]').addEventListener('submit', event => {
@@ -218,7 +226,9 @@ function mount(container) {
 		});
 		detail.querySelector('[data-form="traits"]')?.addEventListener('submit', event => {
 			event.preventDefault();
-			void submit('character.traits.update', changedValues(event.currentTarget, snapshot.traits.values));
+			const form = event.currentTarget;
+			if (pending || !form.reportValidity()) return;
+			void submit('character.traits.update', changedValues(form, snapshot.traits.values));
 		});
 		detail.querySelector('[data-action="traits-reset"]')?.addEventListener('click', () =>
 			void submit('character.traits.reset', {}, '确认重置六项四转特性并返还特性点？基础属性不受影响。'));
@@ -234,18 +244,22 @@ function mount(container) {
 		detail
 			.querySelector('[data-action="skills-reset"]')
 			.addEventListener('click', () => void submit('character.skills.reset', {}, '确认重置当前角色的全部技能？'));
+		detail.querySelector('[data-action="skills-learn-all"]').addEventListener('click', () =>
+			void submit('character.skills.learn_all', {}, '确认学满当前职业及继承职业的技能树？不消耗技能点。'));
 		if (pending) detail.querySelectorAll('button, input').forEach(element => (element.disabled = true));
 	}
 
 	function render() {
-		container.innerHTML = `<div class="character-job-toolbar catalog-toolbar"><input class="catalog-search" type="search" placeholder="搜索职业名称或 ID" aria-label="搜索职业"><select class="catalog-filter" aria-label="职业分组"><option value="">全部职业</option><option>基础与进阶</option><option>四转</option><option>扩展进阶</option></select></div>
+		container.innerHTML = `<div class="character-job-toolbar catalog-toolbar"><input class="catalog-search" type="search" placeholder="搜索职业名称或 ID" aria-label="搜索职业">${renderGameSelect({
+			className: 'catalog-filter', ariaLabel: '职业分组', value: group,
+			options: [{ value: '', label: '全部' }, ...['一转', '二转', '三转', '四转', '初心者', '扩展职业', '其它'].map(label => ({ value: label, label }))]
+		})}</div>
 			<div class="character-layout"><section class="character-job-browser">
 			<div class="character-job-summary"></div><div class="character-job-list"></div>
 		</section><section class="character-detail"></section></div>`;
-		const searchInput = container.querySelector('.character-job-toolbar input');
-		const groupInput = container.querySelector('.character-job-toolbar select');
-		groupInput.value = group;
-		groupInput.addEventListener('change', () => { group = groupInput.value; renderJobs(); });
+		const searchInput = container.querySelector('.character-job-toolbar .catalog-search');
+		const { input: groupInput } = mountGameSelect(container.querySelector('[data-game-select]'));
+		groupInput.addEventListener('change', () => { group = groupInput.value; resetTabScroll(container, container.querySelector('.character-job-list')); renderJobs(); });
 		searchInput.value = search;
 		searchInput.addEventListener('input', () => {
 			search = searchInput.value;

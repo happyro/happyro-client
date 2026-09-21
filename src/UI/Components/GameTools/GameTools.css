@@ -1,4 +1,5 @@
 .game-tools-window {
+	--game-tools-footer-height: 36px;
 	position: relative;
 	isolation: isolate;
 	width: min(820px, calc(100vw - 24px));
@@ -98,7 +99,7 @@
 	flex: 1;
 	min-height: 0;
 	display: grid;
-	grid-template-columns: minmax(190px, 28%) minmax(0, 1fr);
+	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);
 }
 .character-job-browser {
 	min-width: 0;
@@ -296,6 +297,10 @@
 	grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
 	gap: 10px 12px;
 }
+.management-form.progression-form {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	align-items: start;
+}
 .management-form label {
 	display: grid;
 	min-width: 0;
@@ -314,6 +319,16 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
+}
+.character-attributes-tab .management-form > .management-form-actions {
+	display: grid;
+	grid-template-columns: subgrid;
+	column-gap: inherit;
+}
+.character-attributes-tab .management-form > .management-form-actions > button {
+	grid-column: auto;
+	width: 100%;
+	min-width: 0;
 }
 .management-form > small {
 	color: #686d72;
@@ -498,7 +513,7 @@
 }
 @media (max-width: 640px) {
 	.character-layout {
-		grid-template-columns: minmax(140px, 30%) minmax(0, 1fr);
+		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);
 	}
 	.character-job-toolbar {
 		flex: 0 0 auto;
@@ -534,7 +549,7 @@
 	flex: 1;
 	min-height: 0;
 	display: grid;
-	grid-template-columns: minmax(250px, 36%) 1fr;
+	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);
 }
 .monster-browser {
 	min-width: 0;
@@ -866,7 +881,7 @@
 	flex: 1;
 	min-height: 0;
 	display: grid;
-	grid-template-columns: minmax(250px, 36%) 1fr;
+	grid-template-columns: minmax(190px, 32%) minmax(0, 1fr);
 }
 .catalog-browser {
 	min-width: 0;
@@ -1241,7 +1256,7 @@
 	}
 	.catalog-layout,
 	.monster-layout {
-		grid-template-columns: minmax(190px, 43%) 1fr;
+		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);
 	}
 	.catalog-metadata {
 		grid-template-columns: 1fr;
@@ -1260,7 +1275,7 @@
 		min-width: 0;
 	}
 	.monster-layout {
-		grid-template-columns: minmax(190px, 43%) 1fr;
+		grid-template-columns: minmax(140px, 32%) minmax(0, 1fr);
 	}
 	.monster-detail {
 		padding: 8px;
@@ -1334,3 +1349,32 @@
 }
 
 .game-tools-window .catalog-empty-state { padding: 24px 12px; text-align: center; color: #62666c; }
+
+/* Keep list pagers and detail actions on the same baseline. */
+.monster-pagination,
+.catalog-pagination,
+.character-actions,
+.settings-footer,
+.summon-panel,
+.catalog-action-panel {
+	flex: 0 0 var(--game-tools-footer-height);
+	height: var(--game-tools-footer-height);
+	min-height: 0;
+	box-sizing: border-box;
+}
+.character-actions,
+.settings-footer,
+.summon-panel,
+.catalog-action-panel {
+	padding-block: 3px;
+	flex-wrap: nowrap;
+}
+.character-actions button,
+.settings-footer button,
+.summon-panel button,
+.catalog-action-panel button,
+.catalog-action-panel input {
+	height: 24px;
+	min-height: 0;
+	box-sizing: border-box;
+}
