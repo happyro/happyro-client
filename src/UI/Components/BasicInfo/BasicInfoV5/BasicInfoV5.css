@@ -234,14 +234,18 @@
 }
 #BasicInfoV5 .small .hpcontainer,
 #BasicInfoV5 .small .spcontainer {
-	position: absolute;
-	width: 130px;
+	min-width: 0;
 }
 #BasicInfoV5 .small .expcontainer,
 #BasicInfoV5 .small .apcontainer {
-	position: absolute;
-	width: 65px;
-	left: 140px;
+	text-align: left;
+}
+#BasicInfoV5 .small .line3,
+#BasicInfoV5 .small .line4 {
+	right: 10px;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 78px;
+	column-gap: 6px;
 }
 #BasicInfoV5 .small .line2 {
 	position: absolute;
@@ -258,7 +262,7 @@
 }
 #BasicInfoV5 .small .line3 .hp_max_value {
 	display: inline-block;
-	width: 65px;
+	width: auto;
 	text-align: left;
 	font-weight: normal;
 }
@@ -271,7 +275,7 @@
 }
 #BasicInfoV5 .small .line4 .sp_max_value {
 	display: inline-block;
-	width: 73px;
+	width: auto;
 	text-align: left;
 	font-weight: normal;
 }
@@ -307,7 +311,7 @@
 	height: 40px;
 	border: none;
 	position: absolute;
-	bottom: 0;
+	top: -6px;
 	left: 0;
 	z-index: 10;
 	display: none;
