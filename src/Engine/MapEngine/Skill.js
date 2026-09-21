@@ -37,7 +37,7 @@ import Announce from 'UI/Components/Announce/Announce.js';
 import Renderer from 'Renderer/Renderer.js';
 import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import CartDecoration from 'UI/Components/CartDecoration/CartDecoration.js';
-import { skillFailMessageId } from './SkillFail.js';
+import { skillFailMessage } from './SkillFail.js';
 
 import SnowWeatherEffect from 'Renderer/Effects/SnowWeather.js';
 import RainWeatherEffect from 'Renderer/Effects/RainWeather.js';
@@ -154,25 +154,11 @@ function onSkillResult(pkt) {
 		return;
 	}
 
-	const error = skillFailMessageId(pkt);
-	if (error) {
-		ChatBox.addText(DB.getMessage(error), ChatBox.TYPE.ERROR, ChatBox.FILTER.SKILL_FAIL);
-		// all skills fails that i tested not executed skill action
-		// maybe there is some edge case that i missed
-		// so i'm commenting out for now
-		//if (pkt.SKID in SkillActionTable) {
-		//	var action = SkillActionTable[pkt.SKID];
-		//	if (action) {
-		//		srcEntity.setAction(action(srcEntity, Renderer.tick));
-		//	}
-		//} else {
-		//	if(DB.isDoram(srcEntity.job)){
-		//		srcEntity.setAction(SkillActionTable['DEFAULT_DORAM'](srcEntity, Renderer.tick));
-		//	} else {
-		//		srcEntity.setAction(SkillActionTable['DEFAULT'](srcEntity, Renderer.tick));
-		//	}
-		//}
-	}
+	const text = skillFailMessage(pkt, {
+		skillName: id => SkillInfo[id]?.SkillName,
+		itemName: id => DB.getItemInfo(id)?.identifiedDisplayName
+	});
+	ChatBox.addText(text, ChatBox.TYPE.ERROR, ChatBox.FILTER.SKILL_FAIL);
 }
 
 /**

@@ -1897,7 +1897,12 @@ function onEntityStatusChange(pkt) {
 
 	// TODO: add other status
 	switch (pkt.index) {
-		case StatusConst.SERVANTWEAPON: {
+		case StatusConst.SERVANTWEAPON:
+		case StatusConst.FIRE_CHARM_POWER:
+		case StatusConst.WATER_CHARM_POWER:
+		case StatusConst.WIND_CHARM_POWER:
+		case StatusConst.GROUND_CHARM_POWER:
+		case StatusConst.MYSTERY_POWDER: {
 			const effectId = fourthJobStatusEffects[pkt.index];
 			EffectManager.remove(null, pkt.AID, effectId);
 			if (pkt.state || !Object.prototype.hasOwnProperty.call(pkt, 'state')) {
