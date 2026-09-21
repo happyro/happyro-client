@@ -12,4 +12,4 @@
 #WinStats .column2_tooltip, #WinStats .t_column2_tooltip { left: 282px; width: 125px; }
 #WinStats .column1_tooltip > div, #WinStats .t_column1_tooltip > div,
 #WinStats .column2_tooltip > div, #WinStats .t_column2_tooltip > div { width: 125px; }
-#WinStats .trait_point { left: 125px; }
+#WinStats .trait_point { left: auto; right: -125px; width: 85px; text-align: right; }
