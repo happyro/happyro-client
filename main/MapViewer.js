@@ -116714,6 +116714,36 @@ var init_SkillConst = __esmMin((() => {
 		MT_MIGHTY_SMASH: 6004,
 		BO_EXPLOSIVE_POWDER: 6005,
 		BO_MAYHEMIC_THORNS: 6006,
+		DK_DRAGONIC_PIERCE: 6502,
+		MT_RUSH_STRIKE: 6506,
+		MT_POWERFUL_SWING: 6507,
+		MT_ENERGY_CANNONADE: 6508,
+		BO_MYSTERY_POWDER: 6509,
+		BO_DUST_EXPLOSION: 6510,
+		SHC_CROSS_SLASH: 6511,
+		AG_ENERGY_CONVERSION: 6516,
+		WH_WILD_WALK: 6520,
+		SKE_SKY_MOON: 5503,
+		SKE_STAR_LIGHT_KICK: 5504,
+		HN_OVERCOMING_CRISIS: 5505,
+		SH_CHUL_HO_BATTERING: 5506,
+		SH_HYUN_ROK_SPIRIT_POWER: 5507,
+		IG_RADIANT_SPEAR: 6503,
+		IG_IMPERIAL_CROSS: 6504,
+		IG_IMPERIAL_PRESSURE: 6505,
+		EM_PSYCHIC_STREAM: 6517,
+		CD_DIVINUS_FLOS: 6518,
+		IQ_BLAZING_FLAME_BLAST: 6519,
+		TR_RHYTHMICAL_WAVE: 6521,
+		SS_FOUR_CHARM: 5499,
+		NW_WILD_SHOT: 5500,
+		NW_MIDNIGHT_FALLEN: 5501,
+		SKE_SKY_SUN: 5502,
+		ABC_HIT_AND_SLIDING: 6512,
+		ABC_CHASING_BREAK: 6513,
+		ABC_CHASING_SHOT: 6514,
+		ABC_ABYSS_FLAME: 6515,
+		ABC_ABYSS_FLAME_ATK: 6522,
 		EM_EL_FLAMETECHNIC: 8443,
 		EM_EL_FLAMEARMOR: 8444,
 		EM_EL_FLAMEROCK: 8445,
@@ -167983,7 +168013,12 @@ var init_StatusConst = __esmMin((() => {
 		C_RATE_PLUS: 1447,
 		RESIST_PLUS: 1448,
 		PVP_DUN_BUFF: 1449,
-		MAX: 1450
+		MYSTERY_POWDER: 1665,
+		FIRE_CHARM_POWER: 1667,
+		WATER_CHARM_POWER: 1668,
+		WIND_CHARM_POWER: 1669,
+		GROUND_CHARM_POWER: 1670,
+		MAX: 1671
 	};
 }));
 //#endregion
@@ -247789,6 +247824,618 @@ var init_Sounds = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/DB/Skills/FourthJobEffectMetadata.js
+var FourthJobEffectMetadata_default;
+var init_FourthJobEffectMetadata = __esmMin((() => {
+	FourthJobEffectMetadata_default = {
+		"SHADOW_CROSS/SHC_CROSS_SLASH/cross_slash/cross_slash": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"shadow_stab/shadow_stab_hit1/shadow_stab_hit1": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath/dragonic_breath": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath_bottom/dragonic_breath_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath_hit/dragonic_breath_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_bottom/dragonic_pierce_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_cast/dragonic_pierce_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_hit/dragonic_pierce_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_hit_bottom/dragonic_pierce_hit_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_horizon/dragonic_pierce_horizon": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_vertical/dragonic_pierce_vertical": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 0
+		},
+		"ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion/energy_conversion": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion_cast/energy_conversion_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion_cast_bottom/energy_conversion_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"WINDHAWK/WH_WILD_WALK/wild_walk/wild_walk": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"WINDHAWK/WH_WILD_WALK/wild_walk_cast/wild_walk_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"WINDHAWK/WH_WILD_WALK/wild_walk_cast_bottom/wild_walk_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"WINDHAWK/WH_WILD_WALK/wild_walk_hit/wild_walk_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"BIOLO/EXPLOSIVE_POWDER/explosive_powder/explosive_powder": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"BIOLO/MAYHEMIC_THORNS/mayhemic_thorns/mayhemic_thorns": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"BIOLO/MAYHEMIC_THORNS/mayhemic_thorns_bottom/mayhemic_thorns_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"MEISTER/MIGHTY_SMASH/mighty_smash/mighty_smash": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"MEISTER/SPARK_BLASTER/spark_blaster/spark_blaster": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"MEISTER/SPARK_BLASTER/spark_blaster_bottom/spark_blaster_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"MEISTER/TRIPLE_LASER/triple_laser/triple_laser": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 13
+		},
+		"BIOLO/BO_DUST_EXPLOSION/dust_explosion/dust_explosion": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 0
+		},
+		"BIOLO/BO_DUST_EXPLOSION/dust_explosion_hit/dust_explosion_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"BIOLO/BO_DUST_EXPLOSION/dust_explosion_hit_bottom/dust_explosion_hit_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"BIOLO/BO_MYSTERY_POWDER/mistery_powder/mistery_powder": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"BIOLO/BO_MYSTERY_POWDER/mistery_powder_hit/mistery_powder_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"BIOLO/BO_MYSTERY_POWDER/mistery_powder_loop/mistery_powder_loop": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"BIOLO/BO_MYSTERY_POWDER/mistery_powder_loop_bottom/mistery_powder_loop_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"MEISTER/MT_ENERGY_CANNONADE/energy_cannonade/energy_cannonade": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_cast/energy_cannonade_cast": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_cast_bottom/energy_cannonade_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_hit/energy_cannonade_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_hit/energy_cannonade_hit_big": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"MEISTER/MT_POWERFUL_SWING/powerful_swing/powerful_swing": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 0
+		},
+		"MEISTER/MT_POWERFUL_SWING/powerful_swing_bottom/powerful_swing_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 0
+		},
+		"MEISTER/MT_POWERFUL_SWING/powerful_swing_hit/powerful_swing_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"MEISTER/MT_RUSH_STRIKE/rush_strike/rush_strike": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"MEISTER/MT_RUSH_STRIKE/rush_strike_bottom/rush_strike_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"new_axe_stomp/new_axe_stomp_hit/new_axe_stomp_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"CARDINAL/CD_DIVINUS_FLOS/divinus_flos/divinus_flos": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"CARDINAL/CD_DIVINUS_FLOS/divinus_flos_bottom/divinus_flos_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"CARDINAL/CD_DIVINUS_FLOS/divinus_flos_cast/divinus_flos_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"CARDINAL/CD_DIVINUS_FLOS/divinus_flos_cast_bottom/divinus_flos_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"CARDINAL/CD_DIVINUS_FLOS/divinus_flos_hit/divinus_flos_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 6
+		},
+		"ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream/psychic_stream": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_bottom/psychic_stream_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_cast/psychic_stream_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_hit/psychic_stream_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 8
+		},
+		"HYPER_NOVICE/HN_OVERCOMING_CRISIS/overcoming_crisis/overcoming_crisis": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"HYPER_NOVICE/HN_OVERCOMING_CRISIS/overcoming_crisis_bottom/overcoming_crisis_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure_cast/imperal_pressure_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure/imperal_pressure": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure_bottom/imperal_pressure_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"new_rayofgenesis/new_rayofgenesis_hit/new_rayofgenesis_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 8
+		},
+		"INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast/blazing_flame_blast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_cast/blazing_flame_blast_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_cast_bottom/blazing_flame_blast_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_hit/blazing_flame_blast_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 8
+		},
+		"SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering/chul_ho_battering": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_bottom/chul_ho_battering_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_cast/chul_ho_battering_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_hit/chul_ho_battering_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power/hyun_rok_spirit_power": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_bottom/hyun_rok_spirit_power_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_cast/hyun_rok_spirit_power_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_cast_bottom/hyun_rok_spirit_power_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_hit/hyun_rok_spirit_power_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"SKY_EMPEROR/SKE_SKY_MOON/sky_moon/sky_moon": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SKY_EMPEROR/SKE_SKY_MOON/sky_moon_bottom/sky_moon_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SKY_EMPEROR/SKE_SKY_MOON/sky_moon_cast/sky_moon_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SKY_EMPEROR/SKE_SKY_MOON/sky_moon_cast_bottom/sky_moon_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SKY_EMPEROR/SKE_SKY_MOON/sky_moon_hit/sky_moon_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 8
+		},
+		"SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick/star_light_kick": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 13
+		},
+		"SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick_bottom/star_light_kick_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick_hit/star_light_kick_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 7
+		},
+		"IMPERIAL_GUARD/IG_IMPERIAL_CROSS/imperial_cross/imperial_cross": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"IMPERIAL_GUARD/IG_OVERSLASH/new_overslash/new_overslash_hit/new_overslash_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 6
+		},
+		"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_cast/radiant_spear_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"new_banishingpoint/new_banishingpoint_target/new_banishingpoint_target": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_leftdown/radiant_spear_leftdown": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_leftdown_bottom/radiant_spear_leftdown_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_rightdown/radiant_spear_rightdown": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_rightdown_bottom/radiant_spear_rightdown_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave/rhythmical_wave": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_bottom/rhythmical_wave_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_cast/rhythmical_wave_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_cast_bottom/rhythmical_wave_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_hit/rhythmical_wave_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame/abyss_flame": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_cast/abyss_flame_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_cast_bottom/abyss_flame_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_hit/abyss_flame_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 6
+		},
+		"ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_target/abyss_flame_target": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SKY_EMPEROR/SKE_SKY_SUN/sky_sun/sky_sun": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"SKY_EMPEROR/SKE_SKY_SUN/sky_sun_hit/sky_sun_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 8
+		},
+		"SKY_EMPEROR/SKE_SUNSET_BLAST/sunset_blast_small": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"ABYSS_CHASER/ABC_CHASING_BREAK/chasing_break/chasing_break": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"abyss_dagger/abyss_dagger_hit/abyss_dagger_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_cast/chasing_shot_cast": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_cast_bottom/chasing_shot_cast_bottom": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 12
+		},
+		"ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_hit/chasing_shot_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_hitsub/chasing_shot_hitsub": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_single/chasing_shot_single": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 0
+		},
+		"NIGHT_WATCH/NW_MIDNIGHT_FALLEN/midnight_fallen_bottom/midnight_fallen_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 1,
+			yOffset: 11
+		},
+		"NIGHT_WATCH/NW_MIDNIGHT_FALLEN/midnight_fallen_cast_bottom/midnight_fallen_cast_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 1,
+			yOffset: 11
+		},
+		"NIGHT_WATCH/NW_MAGAZINE_FOR_ONE/magazine_for_one": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 10
+		},
+		"NIGHT_WATCH/NW_WILD_SHOT/wild_shot/wild_shot": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 5
+		},
+		"NIGHT_WATCH/NW_WILD_SHOT/wild_shot_cast/wild_shot_cast": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"NIGHT_WATCH/NW_WILD_SHOT/wild_shot_hit/wild_shot_hit": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 6
+		},
+		"SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_earth/four_charm_earth": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_earth_bottom/four_charm_earth_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_fire/four_charm_fire": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_fire_bottom/four_charm_fire_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_ice/four_charm_ice": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_ice_bottom/four_charm_ice_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_wind/four_charm_wind": {
+			renderBeforeEntities: false,
+			xOffset: 0,
+			yOffset: 11
+		},
+		"SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_wind_bottom/four_charm_wind_bottom": {
+			renderBeforeEntities: true,
+			xOffset: 0,
+			yOffset: 11
+		}
+	};
+}));
+//#endregion
 //#region src/DB/Skills/FourthJobEffects.js
 function registerEffect(key, resources) {
 	const { files, ...semantics } = typeof resources === "object" && !Array.isArray(resources) ? resources : { files: resources };
@@ -247797,6 +248444,7 @@ function registerEffect(key, resources) {
 		type: "STR",
 		file,
 		texturePath: file.slice(0, file.lastIndexOf("/") + 1),
+		...FourthJobEffectMetadata_default[file],
 		...semantics
 	}));
 }
@@ -247804,7 +248452,154 @@ var fourthJobEffectResources, fourthJobStatusEffectResources, fourthJobSkillEffe
 var init_FourthJobEffects = __esmMin((() => {
 	init_SkillConst();
 	init_StatusConst();
+	init_FourthJobEffectMetadata();
 	fourthJobEffectResources = {
+		ABC_ABYSS_FLAME: {
+			beginCastEffectId: ["ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_cast/abyss_flame_cast", "ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_cast_bottom/abyss_flame_cast_bottom"],
+			successEffectId: ["ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame/abyss_flame"],
+			hitEffectId: ["ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_hit/abyss_flame_hit"]
+		},
+		ABC_ABYSS_FLAME_ATK: {
+			successEffectId: ["ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_target/abyss_flame_target"],
+			hitEffectId: ["ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_hit/abyss_flame_hit"]
+		},
+		ABC_CHASING_BREAK: {
+			successEffectId: ["ABYSS_CHASER/ABC_CHASING_BREAK/chasing_break/chasing_break"],
+			hitEffectId: ["abyss_dagger/abyss_dagger_hit/abyss_dagger_hit"]
+		},
+		ABC_CHASING_SHOT: {
+			beginCastEffectId: ["ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_cast/chasing_shot_cast", "ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_cast_bottom/chasing_shot_cast_bottom"],
+			beforeHitEffectId: {
+				files: ["ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_single/chasing_shot_single"],
+				travelsFromOther: true
+			},
+			hitEffectId: ["ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_hit/chasing_shot_hit", "ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_hitsub/chasing_shot_hitsub"]
+		},
+		ABC_HIT_AND_SLIDING: { hitEffectId: ["abyss_dagger/abyss_dagger_hit/abyss_dagger_hit"] },
+		NW_WILD_SHOT: {
+			beginCastEffectId: ["NIGHT_WATCH/NW_WILD_SHOT/wild_shot_cast/wild_shot_cast"],
+			successEffectId: ["NIGHT_WATCH/NW_WILD_SHOT/wild_shot/wild_shot"],
+			hitEffectId: ["NIGHT_WATCH/NW_WILD_SHOT/wild_shot_hit/wild_shot_hit"]
+		},
+		NW_MIDNIGHT_FALLEN: {
+			beginCastEffectId: ["NIGHT_WATCH/NW_MIDNIGHT_FALLEN/midnight_fallen_cast_bottom/midnight_fallen_cast_bottom"],
+			groundCastEffectId: ["NIGHT_WATCH/NW_MIDNIGHT_FALLEN/midnight_fallen_bottom/midnight_fallen_bottom"],
+			hitEffectId: ["NIGHT_WATCH/NW_MAGAZINE_FOR_ONE/magazine_for_one"]
+		},
+		SKE_SKY_SUN: {
+			successEffectId: "SKY_EMPEROR/SKE_SKY_SUN/sky_sun/sky_sun",
+			hitEffectId: ["SKY_EMPEROR/SKE_SKY_SUN/sky_sun_hit/sky_sun_hit", "SKY_EMPEROR/SKE_SUNSET_BLAST/sunset_blast_small"]
+		},
+		CD_DIVINUS_FLOS: {
+			successEffectId: ["CARDINAL/CD_DIVINUS_FLOS/divinus_flos/divinus_flos", "CARDINAL/CD_DIVINUS_FLOS/divinus_flos_bottom/divinus_flos_bottom"],
+			beginCastEffectId: ["CARDINAL/CD_DIVINUS_FLOS/divinus_flos_cast/divinus_flos_cast", "CARDINAL/CD_DIVINUS_FLOS/divinus_flos_cast_bottom/divinus_flos_cast_bottom"],
+			hitEffectId: "CARDINAL/CD_DIVINUS_FLOS/divinus_flos_hit/divinus_flos_hit"
+		},
+		EM_PSYCHIC_STREAM: {
+			successEffectId: ["ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream/psychic_stream", "ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_bottom/psychic_stream_bottom"],
+			beginCastEffectId: "ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_cast/psychic_stream_cast",
+			hitEffectId: "ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_hit/psychic_stream_hit"
+		},
+		HN_OVERCOMING_CRISIS: { successEffectId: ["HYPER_NOVICE/HN_OVERCOMING_CRISIS/overcoming_crisis/overcoming_crisis", "HYPER_NOVICE/HN_OVERCOMING_CRISIS/overcoming_crisis_bottom/overcoming_crisis_bottom"] },
+		IG_IMPERIAL_PRESSURE: {
+			beginCastEffectId: "IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure_cast/imperal_pressure_cast",
+			successEffectId: ["IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure/imperal_pressure", "IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure_bottom/imperal_pressure_bottom"],
+			hitEffectId: "new_rayofgenesis/new_rayofgenesis_hit/new_rayofgenesis_hit"
+		},
+		IQ_BLAZING_FLAME_BLAST: {
+			successEffectId: "INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast/blazing_flame_blast",
+			beginCastEffectId: ["INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_cast/blazing_flame_blast_cast", "INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_cast_bottom/blazing_flame_blast_cast_bottom"],
+			hitEffectId: "INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_hit/blazing_flame_blast_hit"
+		},
+		SH_CHUL_HO_BATTERING: {
+			successEffectId: ["SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering/chul_ho_battering", "SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_bottom/chul_ho_battering_bottom"],
+			beginCastEffectId: "SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_cast/chul_ho_battering_cast",
+			hitEffectId: "SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_hit/chul_ho_battering_hit"
+		},
+		SH_HYUN_ROK_SPIRIT_POWER: {
+			successEffectId: ["SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power/hyun_rok_spirit_power", "SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_bottom/hyun_rok_spirit_power_bottom"],
+			beginCastEffectId: ["SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_cast/hyun_rok_spirit_power_cast", "SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_cast_bottom/hyun_rok_spirit_power_cast_bottom"],
+			hitEffectId: "SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_hit/hyun_rok_spirit_power_hit"
+		},
+		SKE_SKY_MOON: {
+			successEffectId: ["SKY_EMPEROR/SKE_SKY_MOON/sky_moon/sky_moon", "SKY_EMPEROR/SKE_SKY_MOON/sky_moon_bottom/sky_moon_bottom"],
+			beginCastEffectId: ["SKY_EMPEROR/SKE_SKY_MOON/sky_moon_cast/sky_moon_cast", "SKY_EMPEROR/SKE_SKY_MOON/sky_moon_cast_bottom/sky_moon_cast_bottom"],
+			hitEffectId: "SKY_EMPEROR/SKE_SKY_MOON/sky_moon_hit/sky_moon_hit"
+		},
+		SKE_STAR_LIGHT_KICK: {
+			successEffectId: ["SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick/star_light_kick", "SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick_bottom/star_light_kick_bottom"],
+			hitEffectId: "SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick_hit/star_light_kick_hit"
+		},
+		IG_IMPERIAL_CROSS: {
+			successEffectId: "IMPERIAL_GUARD/IG_IMPERIAL_CROSS/imperial_cross/imperial_cross",
+			hitEffectId: "IMPERIAL_GUARD/IG_OVERSLASH/new_overslash/new_overslash_hit/new_overslash_hit"
+		},
+		IG_RADIANT_SPEAR: {
+			beginCastEffectId: "IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_cast/radiant_spear_cast",
+			hitEffectId: "new_banishingpoint/new_banishingpoint_target/new_banishingpoint_target",
+			successEffectId: [
+				"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_leftdown/radiant_spear_leftdown",
+				"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_leftdown_bottom/radiant_spear_leftdown_bottom",
+				"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_rightdown/radiant_spear_rightdown",
+				"IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_rightdown_bottom/radiant_spear_rightdown_bottom"
+			]
+		},
+		TR_RHYTHMICAL_WAVE: {
+			successEffectId: ["TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave/rhythmical_wave", "TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_bottom/rhythmical_wave_bottom"],
+			beginCastEffectId: ["TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_cast/rhythmical_wave_cast", "TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_cast_bottom/rhythmical_wave_cast_bottom"],
+			hitEffectId: "TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_hit/rhythmical_wave_hit"
+		},
+		BO_DUST_EXPLOSION: {
+			successEffectId: "BIOLO/BO_DUST_EXPLOSION/dust_explosion/dust_explosion",
+			hitEffectId: ["BIOLO/BO_DUST_EXPLOSION/dust_explosion_hit/dust_explosion_hit", "BIOLO/BO_DUST_EXPLOSION/dust_explosion_hit_bottom/dust_explosion_hit_bottom"]
+		},
+		BO_MYSTERY_POWDER: {
+			successEffectId: "BIOLO/BO_MYSTERY_POWDER/mistery_powder/mistery_powder",
+			hitEffectId: "BIOLO/BO_MYSTERY_POWDER/mistery_powder_hit/mistery_powder_hit"
+		},
+		MT_ENERGY_CANNONADE: {
+			successEffectId: "MEISTER/MT_ENERGY_CANNONADE/energy_cannonade/energy_cannonade",
+			beginCastEffectId: ["MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_cast/energy_cannonade_cast", "MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_cast_bottom/energy_cannonade_cast_bottom"],
+			hitEffectId: "MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_hit/energy_cannonade_hit"
+		},
+		MT_POWERFUL_SWING: {
+			successEffectId: ["MEISTER/MT_POWERFUL_SWING/powerful_swing/powerful_swing", "MEISTER/MT_POWERFUL_SWING/powerful_swing_bottom/powerful_swing_bottom"],
+			hitEffectId: "MEISTER/MT_POWERFUL_SWING/powerful_swing_hit/powerful_swing_hit"
+		},
+		MT_RUSH_STRIKE: {
+			successEffectId: ["MEISTER/MT_RUSH_STRIKE/rush_strike/rush_strike", "MEISTER/MT_RUSH_STRIKE/rush_strike_bottom/rush_strike_bottom"],
+			hitEffectId: "new_axe_stomp/new_axe_stomp_hit/new_axe_stomp_hit"
+		},
+		BO_EXPLOSIVE_POWDER: { successEffectId: ["BIOLO/EXPLOSIVE_POWDER/explosive_powder/explosive_powder"] },
+		BO_MAYHEMIC_THORNS: { successEffectId: ["BIOLO/MAYHEMIC_THORNS/mayhemic_thorns/mayhemic_thorns", "BIOLO/MAYHEMIC_THORNS/mayhemic_thorns_bottom/mayhemic_thorns_bottom"] },
+		MT_MIGHTY_SMASH: { successEffectId: ["MEISTER/MIGHTY_SMASH/mighty_smash/mighty_smash"] },
+		MT_SPARK_BLASTER: { successEffectId: ["MEISTER/SPARK_BLASTER/spark_blaster/spark_blaster", "MEISTER/SPARK_BLASTER/spark_blaster_bottom/spark_blaster_bottom"] },
+		MT_TRIPLE_LASER: { hitEffectId: ["MEISTER/TRIPLE_LASER/triple_laser/triple_laser"] },
+		DK_DRAGONIC_BREATH: {
+			successEffectId: ["DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath/dragonic_breath", "DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath_bottom/dragonic_breath_bottom"],
+			hitEffectId: "DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath_hit/dragonic_breath_hit"
+		},
+		DK_DRAGONIC_PIERCE: {
+			beginCastEffectId: "DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_cast/dragonic_pierce_cast",
+			hitEffectId: ["DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_hit/dragonic_pierce_hit", "DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_hit_bottom/dragonic_pierce_hit_bottom"]
+		},
+		SHC_CROSS_SLASH: {
+			successEffectId: "SHADOW_CROSS/SHC_CROSS_SLASH/cross_slash/cross_slash",
+			hitEffectId: "shadow_stab/shadow_stab_hit1/shadow_stab_hit1"
+		},
+		AG_ENERGY_CONVERSION: {
+			beginCastEffectId: ["ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion_cast/energy_conversion_cast", "ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion_cast_bottom/energy_conversion_cast_bottom"],
+			effectId: "ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion/energy_conversion"
+		},
+		WH_WILD_WALK: {
+			beginCastEffectId: ["WINDHAWK/WH_WILD_WALK/wild_walk_cast/wild_walk_cast", "WINDHAWK/WH_WILD_WALK/wild_walk_cast_bottom/wild_walk_cast_bottom"],
+			successEffectId: "WINDHAWK/WH_WILD_WALK/wild_walk/wild_walk",
+			hitEffectId: "WINDHAWK/WH_WILD_WALK/wild_walk_hit/wild_walk_hit"
+		},
+		WH_CALAMITYGALE: {
+			beginCastEffectId: "4wh_calumitygale/calumitygale_cast/calumitygale_cast",
+			effectId: "4wh_calumitygale/calumitygale/calumitygale"
+		},
 		DK_SERVANTWEAPON: { beginCastEffectId: "servantweapon/servantweapon_cast/servantweapon_cast" },
 		DK_SERVANTWEAPON_ATK: {
 			beforeHitEffectId: {
@@ -247818,7 +248613,7 @@ var init_FourthJobEffects = __esmMin((() => {
 		DK_SERVANT_W_DEMOL: { hitEffectId: "servant_demolition/servant_demolition_hit/servant_demolition_hit" },
 		DK_CHARGINGPIERCE: { effectId: "new_chargingpierce/new_chargingpierce_cast/new_chargingpierce_cast" },
 		DK_HACKANDSLASHER: {
-			effectId: "hackandslash/hackandslash/hackandslash",
+			successEffectId: "hackandslash/hackandslash/hackandslash",
 			hitEffectId: "hackandslash/hackandslash_hit/hackandslash_hit"
 		},
 		DK_HACKANDSLASHER_ATK: { hitEffectId: "hackandslash/hackandslash_hit/hackandslash_hit" },
@@ -247904,7 +248699,7 @@ var init_FourthJobEffects = __esmMin((() => {
 		WH_HAWKRUSH: { hitEffectId: "hawkrush/hawkrush/hawkrush" },
 		WH_GALESTORM: {
 			beginCastEffectId: "galestorm/galestorm_cast/galestorm_cast",
-			effectId: "galestorm/galestorm/galestorm",
+			successEffectId: "galestorm/galestorm/galestorm",
 			beforeHitEffectId: {
 				files: "galestorm/galestorm_arrow/galestorm_arrow",
 				travelsFromOther: true
@@ -248110,12 +248905,44 @@ var init_FourthJobEffects = __esmMin((() => {
 			effectId: ["new_battle_w/new_battle_w/new_battle_w", "new_battle_w/new_battle_w_bottom/new_battle_w_bottom"]
 		}
 	};
-	fourthJobStatusEffectResources = { [StatusConst_default.SERVANTWEAPON]: {
-		name: "SERVANTWEAPON",
-		files: "servantweapon/servantweapon/servantweapon",
-		attachedEntity: true,
-		repeat: true
-	} };
+	fourthJobStatusEffectResources = {
+		[StatusConst_default.FIRE_CHARM_POWER]: {
+			name: "FIRE_CHARM_POWER",
+			files: ["SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_fire/four_charm_fire", "SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_fire_bottom/four_charm_fire_bottom"],
+			attachedEntity: true,
+			repeat: false
+		},
+		[StatusConst_default.WATER_CHARM_POWER]: {
+			name: "WATER_CHARM_POWER",
+			files: ["SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_ice/four_charm_ice", "SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_ice_bottom/four_charm_ice_bottom"],
+			attachedEntity: true,
+			repeat: false
+		},
+		[StatusConst_default.WIND_CHARM_POWER]: {
+			name: "WIND_CHARM_POWER",
+			files: ["SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_wind/four_charm_wind", "SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_wind_bottom/four_charm_wind_bottom"],
+			attachedEntity: true,
+			repeat: false
+		},
+		[StatusConst_default.GROUND_CHARM_POWER]: {
+			name: "GROUND_CHARM_POWER",
+			files: ["SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_earth/four_charm_earth", "SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_earth_bottom/four_charm_earth_bottom"],
+			attachedEntity: true,
+			repeat: false
+		},
+		[StatusConst_default.MYSTERY_POWDER]: {
+			name: "MYSTERY_POWDER",
+			files: ["BIOLO/BO_MYSTERY_POWDER/mistery_powder_loop/mistery_powder_loop", "BIOLO/BO_MYSTERY_POWDER/mistery_powder_loop_bottom/mistery_powder_loop_bottom"],
+			attachedEntity: true,
+			repeat: true
+		},
+		[StatusConst_default.SERVANTWEAPON]: {
+			name: "SERVANTWEAPON",
+			files: "servantweapon/servantweapon/servantweapon",
+			attachedEntity: true,
+			repeat: true
+		}
+	};
 	fourthJobSkillEffects = {};
 	fourthJobRenderEffects = {};
 	fourthJobStatusEffects = {};
@@ -298342,9 +299169,10 @@ var init_EffectManager = __esmMin((() => {
 		static spamSkill(skillId, destAID, position, tick, srcAID) {
 			let effects, EF_Init_Par;
 			if (!(skillId in SkillEffect)) return;
-			if (SkillEffect[skillId].effectId) {
-				if (typeof SkillEffect[skillId].effectId === "function") effects = SkillEffect[skillId].effectId(srcAID);
-				else effects = SkillEffect[skillId].effectId;
+			const skillEffect = position && SkillEffect[skillId].groundCastEffectId ? SkillEffect[skillId].groundCastEffectId : SkillEffect[skillId].effectId;
+			if (skillEffect) {
+				if (typeof skillEffect === "function") effects = skillEffect(srcAID);
+				else effects = skillEffect;
 				effects = Array.isArray(effects) ? effects : [effects];
 				effects.forEach((effectId) => {
 					EF_Init_Par = {
@@ -364142,7 +364970,8 @@ var init_FalconSkillMotion = __esmMin((() => {
 		SkillConst_default.HT_BLITZBEAT,
 		SkillConst_default.SN_FALCONASSAULT,
 		SkillConst_default.WH_HAWKRUSH,
-		SkillConst_default.WH_HAWKBOOMERANG
+		SkillConst_default.WH_HAWKBOOMERANG,
+		SkillConst_default.WH_WILD_WALK
 	]);
 }));
 //#endregion
@@ -365280,7 +366109,12 @@ function onEntityStatusChange(pkt) {
 		return;
 	}
 	switch (pkt.index) {
-		case StatusConst_default.SERVANTWEAPON: {
+		case StatusConst_default.SERVANTWEAPON:
+		case StatusConst_default.FIRE_CHARM_POWER:
+		case StatusConst_default.WATER_CHARM_POWER:
+		case StatusConst_default.WIND_CHARM_POWER:
+		case StatusConst_default.GROUND_CHARM_POWER:
+		case StatusConst_default.MYSTERY_POWDER: {
 			const effectId = fourthJobStatusEffects[pkt.index];
 			EffectManager.remove(null, pkt.AID, effectId);
 			if (pkt.state || !Object.prototype.hasOwnProperty.call(pkt, "state")) EffectManager.spam({
@@ -369323,71 +370157,166 @@ var init_Sense = __esmMin((() => {
 }));
 //#endregion
 //#region src/Engine/MapEngine/SkillFail.js
-function skillFailMessageId(pkt) {
-	if (!pkt || pkt.result) return 0;
-	let error = 0;
-	if (pkt.NUM) switch (pkt.SKID) {
-		default:
-			error = GENERIC_SKILL_FAIL;
-			break;
-		case NV_BASIC:
-			error = pkt.NUM < 7 ? 159 + pkt.NUM : pkt.NUM == 7 ? 383 : 0;
-			break;
-		case AL_WARP:
-			error = 214;
-			break;
-		case TF_STEAL:
-			error = 205;
-			break;
-		case TF_POISON: error = 207;
+/** Keep server-provided quantities and item IDs; never infer an unreported cause. */
+function skillFailMessage(pkt, { skillName, itemName } = {}) {
+	if (!pkt || pkt.result) return "";
+	let reason = skillFailReasons[pkt.cause];
+	if (pkt.cause === 71 || pkt.cause === 72) {
+		const item = pkt.itemId ? itemName?.(pkt.itemId) || `物品 #${pkt.itemId}` : "指定物品";
+		reason = pkt.cause === 72 ? `需要装备「${item}」` : `需要「${item}」${pkt.NUM > 0 ? ` ×${pkt.NUM}` : ""}，当前数量不足`;
+	} else if ([
+		74,
+		85,
+		96,
+		101,
+		103,
+		104
+	].includes(pkt.cause) && pkt.NUM > 0) reason += `（需要 ${pkt.NUM} 个）`;
+	else if (pkt.cause === 20 && pkt.SKID === 5499) reason = "需要先召唤 10 枚同属性护符";
+	else if (pkt.cause === 0 && pkt.SKID === 1) reason = "基础技能等级不足";
+	else if (pkt.cause === 112) reason = requiredStateReasons[pkt.NUM] || reason;
+	else if (pkt.cause === 113 && pkt.NUM > 0) {
+		const prerequisite = skillName?.(pkt.NUM);
+		if (prerequisite) reason = `需要先获得「${prerequisite}」状态`;
+	} else if (pkt.cause === 114) {
+		const ammo = Object.entries(ammoNames).filter(([type]) => pkt.NUM & 1 << Number(type)).map(([, name]) => name);
+		if (ammo.length) reason = `需要装备${ammo.join("或")}`;
+	} else if (pkt.cause === 73 && pkt.NUM > 0) {
+		const prerequisite = skillName?.(pkt.NUM);
+		if (prerequisite) reason = `需要在「${prerequisite}」的连招期间使用`;
 	}
-	if (pkt.SKID == CG_TAROTCARD) error = GENERIC_SKILL_FAIL;
-	else switch (pkt.cause) {
-		case 1:
-			error = 202;
-			break;
-		case 2:
-			error = 203;
-			break;
-		case 3:
-			error = 808;
-			break;
-		case 4:
-			error = 219;
-			break;
-		case 5:
-			error = 233;
-			break;
-		case 6:
-			error = 239;
-			break;
-		case 7:
-			error = 246;
-			break;
-		case 8:
-			error = 247;
-			break;
-		case 9:
-			error = 580;
-			break;
-		case 10:
-			error = 285;
-			break;
-		case 13:
-			error = 1398;
-			break;
-		case 83: error = 661;
-	}
-	return error || GENERIC_SKILL_FAIL;
+	if (!reason) reason = `服务端返回了未识别的失败原因（${pkt.cause}）`;
+	const name = skillName?.(pkt.SKID);
+	return `${name ? `「${name}」` : "技能"}使用失败：${reason}。`;
 }
-var NV_BASIC, AL_WARP, TF_STEAL, TF_POISON, CG_TAROTCARD, GENERIC_SKILL_FAIL;
+var skillFailReasons, requiredStateReasons, ammoNames;
 var init_SkillFail = __esmMin((() => {
-	NV_BASIC = 1;
-	AL_WARP = 27;
-	TF_STEAL = 50;
-	TF_POISON = 52;
-	CG_TAROTCARD = 396;
-	GENERIC_SKILL_FAIL = 204;
+	skillFailReasons = {
+		0: "未通过技能判定，服务端未提供具体原因",
+		1: "SP 不足",
+		2: "HP 不足",
+		3: "所需材料不足",
+		4: "技能仍在冷却或施放间隔中，请稍后再试",
+		5: "Zeny 不足",
+		6: "当前武器类型不符合要求",
+		7: "需要红色魔力矿石",
+		8: "需要蓝色魔力矿石",
+		9: "负重过高，请先减轻负重",
+		10: "服务端未提供具体原因",
+		11: "当前目标不符合技能要求",
+		12: "携带的圣灵药数量已达上限",
+		13: "需要圣水",
+		14: "需要圣灵药",
+		15: "作用范围内已有同类效果",
+		16: "需要先使用前置技能",
+		17: "缺少协助施法的角色",
+		18: "施放方向不符合要求",
+		19: "召唤数量已达上限",
+		20: "所需召唤物或召唤数量不足",
+		21: "没有可使用的复制技能",
+		22: "同类技能或状态已经生效",
+		23: "当前状态不满足技能条件",
+		24: "需要绘画笔",
+		25: "需要先骑乘龙",
+		26: "当前位置无法施放此技能",
+		27: "协助者 SP 不足",
+		28: "需要靠近墙壁",
+		29: "需要至少 1% 的经验值",
+		30: "合唱成员 SP 不足",
+		31: "需要先触发武器格挡",
+		32: "需要先使用武器涂毒",
+		33: "需要乘坐魔导机甲",
+		34: "需要装备足够的苦无",
+		35: "只能对玩家使用",
+		36: "目标体型不符合要求",
+		37: "需要装备炮弹",
+		40: "需要先启动魔导机甲悬浮",
+		43: "需要十字斩首者毒药",
+		50: "乘坐魔导机甲时不能使用此技能",
+		51: "需要魔法书",
+		52: "尚未学会魔法书中的技能，阅读失败并陷入睡眠",
+		53: "魔法保存点数不足",
+		54: "无法阅读魔法书，请检查阅读技能等级及保存栏位",
+		57: "需要先装备手推车",
+		60: "没有可释放的保存魔法",
+		70: "技能条件不满足",
+		71: "所需物品不足",
+		72: "缺少指定装备",
+		73: "需要在对应连招期间使用",
+		74: "气弹数量不足",
+		75: "需要先进入爆气状态",
+		76: "当前 HP 过高，不满足施放条件",
+		77: "需要先进入皇家禁卫队状态",
+		78: "需要装备指定类型的武器",
+		79: "需要先召唤元素精灵",
+		80: "亲密度不足",
+		81: "需要切换为攻击模式",
+		82: "需要切换为格斗模式",
+		83: "距离 NPC 太近，请离开后再试",
+		84: "装备的子弹数量不足",
+		85: "硬币数量不足",
+		86: "需要先学习至少一种灵物交流技能",
+		87: "当前地图禁止使用此技能",
+		88: "召唤物 SP 不足",
+		89: "附近已有同类商店",
+		90: "需要装备子弹",
+		91: "需要装备箭矢",
+		92: "需要先加入队伍",
+		93: "只有队长可以使用",
+		94: "搭档 SP 不足",
+		95: "需要装备武器",
+		96: "能量球数量不足",
+		97: "需要先触发武器格挡",
+		98: "陷阱数量已达上限",
+		99: "需要魔法书",
+		100: "AP 不足",
+		101: "侍从武器数量不足",
+		102: "需要先使用闪耀银河",
+		103: "灵魂能量不足",
+		104: "护符数量不足",
+		105: "需要装备格林机枪或霰弹枪",
+		106: "需要装备步枪或左轮手枪",
+		107: "需要装备榴弹发射器或步枪",
+		108: "需要装备格林机枪或左轮手枪",
+		109: "需要装备霰弹枪或榴弹发射器",
+		110: "需要装备盾牌",
+		111: "目标不在影子空间中",
+		112: "未满足技能要求的姿态或环境条件",
+		113: "缺少技能要求的前置状态",
+		114: "未装备技能要求的弹药"
+	};
+	requiredStateReasons = {
+		1: "需要先进入隐匿状态",
+		2: "需要先骑乘大嘴鸟或龙",
+		3: "需要先携带猎鹰",
+		4: "需要先装备手推车",
+		5: "需要装备盾牌",
+		6: "负重过高，无法自然恢复",
+		7: "当前无法移动，不能使用此技能",
+		8: "需要处于水域、水领域或水遁范围内",
+		9: "需要先骑乘龙",
+		10: "需要先召唤战狼",
+		11: "需要先骑乘战狼",
+		12: "需要乘坐魔导机甲",
+		13: "需要先召唤元素精灵",
+		14: "需要先召唤元素精灵",
+		15: "需要先骑乘大嘴鸟",
+		16: "需要太阳姿态或宇宙姿态",
+		17: "需要月亮姿态或宇宙姿态",
+		18: "需要星星姿态或宇宙姿态",
+		19: "需要宇宙姿态"
+	};
+	ammoNames = {
+		1: "箭矢",
+		2: "飞刀",
+		3: "子弹",
+		4: "霰弹",
+		5: "榴弹",
+		6: "手里剑",
+		7: "苦无",
+		8: "炮弹",
+		9: "投掷物"
+	};
 }));
 //#endregion
 //#region src/Engine/MapEngine/Skill.js
@@ -369487,8 +370416,11 @@ function onSkillToGround(pkt) {
 */
 function onSkillResult(pkt) {
 	if (pkt.result) return;
-	const error = skillFailMessageId(pkt);
-	if (error) ChatBox_default.addText(DB.getMessage(error), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
+	const text = skillFailMessage(pkt, {
+		skillName: (id) => SkillInfo_generated_default[id]?.SkillName,
+		itemName: (id) => DB.getItemInfo(id)?.identifiedDisplayName
+	});
+	ChatBox_default.addText(text, ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
 }
 /**
 * List of skills
