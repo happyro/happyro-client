@@ -1,11 +1,11 @@
 {
-  "buildId": "mucjf9vm",
-  "builtAt": "2026-09-22T10:34:59.650Z",
+  "buildId": "muckg8k0",
+  "builtAt": "2026-09-22T11:03:44.208Z",
   "artifacts": {
-    "index.html": "dfa419b72e83dbf02cfdeb6f8257d28209e91c75c2697aa270ac44a95043193f",
-    "api.html": "37a54136df742c3acd5f235142220bf73dcfbb37a37a81a5eece0a8009f7e358",
+    "index.html": "bc6da48577a62a7d85def27542aa16d8a9031c15ca5533067e071f90ae968b77",
+    "api.html": "df616523c517cbe96e1a460813e4d2aa23e623853d9dbbe10f7b5722be89ba32",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
-    "Online.js": "f5540351f1432a836fe60770d941abf04b393553afa275fe3a17f67351cc78ac",
+    "Online.js": "60790df1c6955daa8efd36f08731243a4ef5539b2b3dc82ceddcd23e88e3b904",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
     "Config.happyro.js": "5df726d480d10561680248044c7f187e5d26bb1e0b0973f0193d4df236b6fd04",
     "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",

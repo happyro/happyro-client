@@ -376656,7 +376656,10 @@ var init_CharSelectState = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelectCommon.js
 function createCharSelect(config) {
-	const { name, htmlText, cssText, gridLayout = false, hostHeight = 342, defaultMaxSlots = 27, deleteReservation = false, packetverGatedDelete = false, pageBalls = false, activationEvent = "mousedown", onSelectionChange = () => {} } = config;
+	const { name, htmlText, cssText, gridLayout = false, hostHeight = 342, defaultMaxSlots = 27, deleteReservation = false, packetverGatedDelete = false, pageBalls = false, activationEvent = "mousedown", bitmapSkin = true, onSelectionChange = () => {} } = config;
+	function loadSkin(path, callback) {
+		if (bitmapSkin) Client.loadFile(path, callback);
+	}
 	const Component = new GUIComponent(name, cssText);
 	Component.render = () => htmlText;
 	/**
@@ -376695,6 +376698,8 @@ function createCharSelect(config) {
 	* var {boolean} disable input
 	*/
 	let _disable_UI = false;
+	let _pendingDeletion = false;
+	const isUIBlocked = () => _disable_UI || _pendingDeletion;
 	/**
 	* Grid (V4) background/countdown state
 	*/
@@ -376728,12 +376733,12 @@ function createCharSelect(config) {
 				});
 				_ctx.push(canvas.getContext("2d"));
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_info.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_info.bmp`, (dataURI) => {
 				root.querySelector(".charinfo").style.backgroundImage = `url(${dataURI})`;
 			});
 			for (let i = 0; i < 15; i++) {
 				const slotCanvas = root.querySelector(`#slot${i}`);
-				if (slotCanvas) Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, (dataURI) => {
+				if (slotCanvas) loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, (dataURI) => {
 					slotCanvas.style.backgroundImage = `url(${dataURI})`;
 				});
 			}
@@ -376779,11 +376784,12 @@ function createCharSelect(config) {
 	* Once append to body
 	*/
 	Component.onAppend = function onAppend() {
+		_pendingDeletion = false;
 		if (gridLayout) {
 			Component.updateCharSlot();
 			startCountdownInterval();
 			moveCursorTo(_index);
-			_bgInterval = setInterval(changeBackgroundEverySecond, 250);
+			if (bitmapSkin) _bgInterval = setInterval(changeBackgroundEverySecond, 250);
 			Renderer.render(render);
 			return;
 		}
@@ -376826,18 +376832,16 @@ function createCharSelect(config) {
 	* @param {object} event
 	*/
 	Component.onKeyDown = function onKeyDown(event) {
-		if (this._host.style.display === "none") return true;
+		if (isUIBlocked() || this._host.style.display === "none") return true;
 		switch (event.which) {
 			case KEYS.ESCAPE:
 				cancel();
 				break;
 			case KEYS.LEFT:
-				if (gridLayout) moveCursorTo(_index - 1 > _list.length - 1 ? _list.length - 1 : _index - 1 < 0 ? 0 : _index - 1);
-				else moveCursorTo(_index - 1);
+				moveCursorTo(_index - 1);
 				break;
 			case KEYS.RIGHT:
-				if (gridLayout) moveCursorTo(_index + 1 > _list.length - 1 ? _list.length - 1 : _index + 1 < 0 ? 0 : _index + 1);
-				else moveCursorTo(_index + 1);
+				moveCursorTo(_index + 1);
 				break;
 			case KEYS.SUPR:
 				if (_slots[_index]) suppress();
@@ -376885,6 +376889,7 @@ function createCharSelect(config) {
 	* @param {number} error id
 	*/
 	Component.deleteAnswer = function deleteAnswer(error) {
+		_pendingDeletion = false;
 		this.on("keydown");
 		if (gridLayout) switch (error) {
 			case -1:
@@ -376994,6 +376999,7 @@ function createCharSelect(config) {
 			_entitySlots[character.CharNum].effectState = _entitySlots[character.CharNum]._effectState & ~StatusState_default.EffectState.INVISIBLE;
 			_entitySlots[character.CharNum].hideShadow = true;
 			Component.updateCharSlot(character.CharNum);
+			if (character.CharNum === _index) moveCursorTo(_index);
 			return;
 		}
 		if (deleteReservation && character.DeleteDate) {
@@ -377050,6 +377056,7 @@ function createCharSelect(config) {
 	*/
 	function genericArrowDown(value) {
 		return (event) => {
+			if (isUIBlocked()) return;
 			moveCursorTo((_index + _maxSlots + value) % _maxSlots);
 			event.stopImmediatePropagation();
 			return false;
@@ -377062,6 +377069,7 @@ function createCharSelect(config) {
 	*/
 	function genericCanvasDown(value) {
 		return (event) => {
+			if (isUIBlocked()) return;
 			if (gridLayout) moveCursorTo(value);
 			else moveCursorTo(Math.floor(_index / 3) * 3 + value);
 			event.stopImmediatePropagation();
@@ -377072,14 +377080,13 @@ function createCharSelect(config) {
 	* Press "cancel" or ESCAPE key
 	*/
 	function cancel() {
-		if (_disable_UI === false) {
-			if (gridLayout) {
-				UIManager.showPromptBox(DB.getMessage(17), "ok", "cancel", () => {
-					Component.onExitRequest();
-					Component.clearAllSlots();
-				}, null);
+		if (!isUIBlocked()) {
+			if (gridLayout) UIManager.showPromptBox(DB.getMessage(17), "ok", "cancel", () => {
 				stopCountdownInterval();
-			} else UIManager.showPromptBox(DB.getMessage(17), "ok", "cancel", () => {
+				Component.onExitRequest();
+				Component.clearAllSlots();
+			}, null);
+			else UIManager.showPromptBox(DB.getMessage(17), "ok", "cancel", () => {
 				Component.onExitRequest();
 			}, null);
 		}
@@ -377088,13 +377095,13 @@ function createCharSelect(config) {
 	* Jumping to Character creation window
 	*/
 	function create() {
-		if (_disable_UI === false) Component.onCreateRequest(_index);
+		if (!isUIBlocked() && _index >= 0 && _index < _maxSlots && !_slots[_index]) Component.onCreateRequest(_index);
 	}
 	/**
 	* Select Player, connect
 	*/
 	function connect() {
-		if (_disable_UI === false) {
+		if (!isUIBlocked()) {
 			if (gridLayout) {
 				if (_slots[_index] && !_slots[_index].DeleteDate) {
 					_preferences.index = _index;
@@ -377113,8 +377120,9 @@ function createCharSelect(config) {
 	* Request to delete a character
 	*/
 	function reserve() {
-		if (_disable_UI === false) {
+		if (!isUIBlocked()) {
 			if (_slots[_index]) {
+				_pendingDeletion = true;
 				Component.off("keydown");
 				Component.onDeleteReqDelay(_slots[_index].GID);
 			}
@@ -377124,8 +377132,9 @@ function createCharSelect(config) {
 	* Delete a character
 	*/
 	function suppress() {
-		if (_disable_UI === false) {
+		if (!isUIBlocked()) {
 			if (_slots[_index]) {
+				_pendingDeletion = true;
 				Component.off("keydown");
 				Component.onDeleteRequest(_slots[_index].GID);
 			}
@@ -377138,6 +377147,7 @@ function createCharSelect(config) {
 	* @param {object} pkt - packet structure
 	*/
 	Component.reqdeleteAnswer = gridLayout ? function reqdeleteAnswer(pkt) {
+		_pendingDeletion = false;
 		this.on("keydown");
 		const deleteReservedDate = pkt.DeleteReservedDate;
 		const result = typeof pkt.Result === "undefined" ? -1 : pkt.Result;
@@ -377158,6 +377168,7 @@ function createCharSelect(config) {
 			default: return;
 		}
 	} : function reqdeleteAnswer(pkt) {
+		_pendingDeletion = false;
 		this.on("keydown");
 		const now = Math.floor(Date.now() / 1e3);
 		const result = typeof pkt.Result === "undefined" ? -1 : pkt.Result;
@@ -377227,7 +377238,7 @@ function createCharSelect(config) {
 	* Update UI and remove timer
 	*/
 	function removedelete() {
-		if (_slots[_index]) {
+		if (!isUIBlocked() && _slots[_index]) {
 			const root = Component.getRoot();
 			_slots[_index].DeleteDate = 0;
 			if (gridLayout) {
@@ -377272,7 +377283,7 @@ function createCharSelect(config) {
 		const imgEl = document.createElement("img");
 		imgEl.width = 8;
 		const imagePath = sel ? "select_character/page_ball_fill.bmp" : "select_character/page_ball_empty.bmp";
-		Client.loadFile(DB.INTERFACE_PATH + imagePath, (data) => {
+		loadSkin(DB.INTERFACE_PATH + imagePath, (data) => {
 			btn.style.backgroundImage = `url("${data}")`;
 		});
 		btn.addEventListener("click", () => {
@@ -377491,11 +377502,11 @@ function createCharSelect(config) {
 		const prevIndex = _index;
 		let entity = _slots[_index];
 		shouldRunBackgroundChange = false;
-		if (entity) Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, (dataURI) => {
+		if (entity) loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, (dataURI) => {
 			const prevSlot = root.querySelector(`#slot${prevIndex}`);
 			if (prevSlot) prevSlot.style.backgroundImage = `url(${dataURI})`;
 		});
-		const slotIndex = _index = index > _maxSlots ? _maxSlots : index < 0 ? 0 : index;
+		const slotIndex = _index = Math.max(0, Math.min(index, _maxSlots - 1));
 		entity = _slots[_index];
 		onSelectionChange(root, {
 			index: _index,
@@ -377549,7 +377560,7 @@ function createCharSelect(config) {
 	function changeBackgroundEverySecond() {
 		const backgroundchange = Component.getRoot().querySelector(`#slot${_curindex}`);
 		if (backgroundchange && shouldRunBackgroundChange === true) {
-			Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_select${img}.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_select${img}.bmp`, (dataURI) => {
 				backgroundchange.style.backgroundImage = `url(${dataURI})`;
 				backgroundchange.style.width = "157px";
 				backgroundchange.style.height = "197px";
@@ -377570,11 +377581,11 @@ function createCharSelect(config) {
 		const charCanvases = root.querySelectorAll(".char_canvas");
 		const jobIcons = root.querySelectorAll(".job_icon");
 		for (let i = start; i < loopMax; ++i) {
-			if (charCanvases[i]) charCanvases[i].querySelector(".name").innerHTML = _slots[i] ? _slots[i].name : "";
+			if (charCanvases[i]) charCanvases[i].querySelector(".name").textContent = _slots[i] ? _slots[i].name : "";
 			if (!_slots[i]) {
 				if (jobIcons[i]) jobIcons[i].style.backgroundImage = "";
 				const slotCanvas = root.querySelector(`#slot${i}`);
-				if (slotCanvas) Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, (dataURI) => {
+				if (slotCanvas) loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, (dataURI) => {
 					slotCanvas.style.backgroundImage = `url(${dataURI})`;
 				});
 				const countdown = root.querySelector(`.timedelete.slot${i}`);
@@ -377585,12 +377596,12 @@ function createCharSelect(config) {
 				}
 			} else {
 				const slotCanvas = root.querySelector(`#slot${i}`);
-				if (slotCanvas) Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, (dataURI) => {
+				if (slotCanvas) loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, (dataURI) => {
 					slotCanvas.style.backgroundImage = `url(${dataURI})`;
 				});
 				if (jobIcons[i]) {
 					const slotJobIcon = jobIcons[i];
-					Client.loadFile(`${DB.INTERFACE_PATH}renewalparty/icon_jobs_${_slots[i].job}.bmp`, (dataURI) => {
+					loadSkin(`${DB.INTERFACE_PATH}renewalparty/icon_jobs_${_slots[i].job}.bmp`, (dataURI) => {
 						slotJobIcon.style.backgroundImage = `url(${dataURI})`;
 					});
 				}
@@ -377856,6 +377867,9 @@ function withMobileShell(component) {
 	};
 	component.onKeyDown = function(event) {
 		if (event.isComposing) return true;
+		const target = event.composedPath?.()[0] || event.target;
+		if (target?.matches?.("button, a, select, input[type=radio], input[type=checkbox]")) return true;
+		if (target?.matches?.("input, textarea, [contenteditable]") && !this._shadow.contains(target)) return true;
 		return keydown?.call(this, event);
 	};
 	component.onAppend = function() {
@@ -377946,6 +377960,7 @@ var init_CharacterSelect = __esmMin((() => {
 		deleteReservation: true,
 		defaultMaxSlots: 15,
 		activationEvent: "click",
+		bitmapSkin: false,
 		onSelectionChange(root, { index, character, maxSlots }) {
 			root.querySelectorAll(".char_canvas").forEach((slot, i) => {
 				slot.hidden = i >= maxSlots;
@@ -377997,7 +378012,10 @@ var init_CharCreate$2 = __esmMin((() => {
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreateCommon.js
 function createCharCreate(config) {
-	const { name, htmlText, cssText, hasStats = false, hasRace = false, gridHairstyle = false, chargenCanvasSelector = ".content canvas", graphCanvasSelector = ".graph canvas", statButtonsSelector = ".graph ui-button", hairArrows = [], humanCanvasSelector = "#canvas_human", doramCanvasSelector = "#canvas_doram", modelCanvasSelector = "#canvas_model", nameInputSelector = "input", nameInputEvent = "mousedown", cancelSelectors = [".cancel"], makeSelector = ".make", draggable = true, autofocus = true, centered = true, activationEvent = "mousedown", onAppearanceChange = () => {} } = config;
+	const { name, htmlText, cssText, hasStats = false, hasRace = false, gridHairstyle = false, chargenCanvasSelector = ".content canvas", graphCanvasSelector = ".graph canvas", statButtonsSelector = ".graph ui-button", hairArrows = [], humanCanvasSelector = "#canvas_human", doramCanvasSelector = "#canvas_doram", modelCanvasSelector = "#canvas_model", nameInputSelector = "input", nameInputEvent = "mousedown", cancelSelectors = [".cancel"], makeSelector = ".make", draggable = true, autofocus = true, centered = true, activationEvent = "mousedown", nativeControls = false, bitmapSkin = true, onAppearanceChange = () => {} } = config;
+	function loadSkin(path, callback) {
+		if (bitmapSkin) Client.loadFile(path, callback);
+	}
 	const Component = new GUIComponent(name, cssText);
 	Component.render = () => htmlText;
 	/**
@@ -378154,8 +378172,8 @@ function createCharCreate(config) {
 			if (gridHairstyle) {
 				_race = "human";
 				_gender = "male";
-				updateRace();
 				cleanup();
+				updateRace();
 			} else setDefault();
 		}
 		Renderer.render(render);
@@ -378373,22 +378391,22 @@ function createCharCreate(config) {
 		_model.ctx.clearRect(0, 0, _model.ctx.canvas.width, _model.ctx.canvas.height);
 		_model.entity.renderEntity();
 		if (autofocus) root.querySelector(nameInputSelector).focus();
-		if (gridHairstyle) {
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_${_race}_on.bmp`, (dataURI) => {
+		if (gridHairstyle && bitmapSkin) {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_${_race}_on.bmp`, (dataURI) => {
 				root.querySelector(`.${_race}_label`).style.backgroundImage = `url(${dataURI})`;
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_${_gender}_on.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_${_gender}_on.bmp`, (dataURI) => {
 				root.querySelector(`#${_gender}_container`).style.backgroundImage = `url(${dataURI})`;
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/color0${parseInt(_curcolor) + 1}_on.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/color0${parseInt(_curcolor) + 1}_on.bmp`, (dataURI) => {
 				const el = root.querySelector(`.cstyle0${_curcolor}`);
 				if (el) el.style.backgroundImage = `url(${dataURI})`;
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, (dataURI) => {
 				const el = root.querySelector(`.style${_prevhead}`);
 				if (el) el.style.backgroundImage = `url(${dataURI})`;
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_select.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_select.bmp`, (dataURI) => {
 				const el = root.querySelector(`.style${_curhead}`);
 				if (el) el.style.backgroundImage = `url(${dataURI})`;
 			});
@@ -378441,17 +378459,17 @@ function createCharCreate(config) {
 			case TYPE.GENDER:
 				_model.entity.sex = value;
 				if (_model.entity.sex == GENDER.MALE) {
-					Client.loadFile(`${DB.INTERFACE_PATH}make_character/btn_gender_m_press.bmp`, (dataURI) => {
+					loadSkin(`${DB.INTERFACE_PATH}make_character/btn_gender_m_press.bmp`, (dataURI) => {
 						root.querySelector("#male_container").style.backgroundImage = `url(${dataURI})`;
 					});
-					Client.loadFile(`${DB.INTERFACE_PATH}make_character/btn_gender_f_out.bmp`, (dataURI) => {
+					loadSkin(`${DB.INTERFACE_PATH}make_character/btn_gender_f_out.bmp`, (dataURI) => {
 						root.querySelector("#female_container").style.backgroundImage = `url(${dataURI})`;
 					});
 				} else {
-					Client.loadFile(`${DB.INTERFACE_PATH}make_character/btn_gender_m_out.bmp`, (dataURI) => {
+					loadSkin(`${DB.INTERFACE_PATH}make_character/btn_gender_m_out.bmp`, (dataURI) => {
 						root.querySelector("#male_container").style.backgroundImage = `url(${dataURI})`;
 					});
-					Client.loadFile(`${DB.INTERFACE_PATH}make_character/btn_gender_f_press.bmp`, (dataURI) => {
+					loadSkin(`${DB.INTERFACE_PATH}make_character/btn_gender_f_press.bmp`, (dataURI) => {
 						root.querySelector("#female_container").style.backgroundImage = `url(${dataURI})`;
 					});
 				}
@@ -378460,13 +378478,13 @@ function createCharCreate(config) {
 				_model.entity.job = value;
 				_model.entity.head = 1;
 				if (_model.entity.job === RACE.HUMAN) {
-					Client.loadFile(RACE_MARK, (dataURI) => {
+					loadSkin(RACE_MARK, (dataURI) => {
 						root.querySelector(".race_select .human label").style.backgroundImage = `url(${dataURI})`;
 					});
 					root.querySelector(".race_select .doram label").style.backgroundImage = "none";
 				} else {
 					root.querySelector(".race_select .human label").style.backgroundImage = "none";
-					Client.loadFile(RACE_MARK, (dataURI) => {
+					loadSkin(RACE_MARK, (dataURI) => {
 						root.querySelector(".race_select .doram label").style.backgroundImage = `url(${dataURI})`;
 					});
 				}
@@ -378501,32 +378519,42 @@ function createCharCreate(config) {
 		_curhead = 1;
 		_prevcolor = 0;
 		_curcolor = 0;
-		root.querySelector(".gender .male_button").addEventListener(activationEvent, updateCharacterGenericGrid("gender", 1));
-		root.querySelector(".gender .female_button").addEventListener(activationEvent, updateCharacterGenericGrid("gender", 0));
+		if (nativeControls) root.addEventListener("change", (event) => {
+			const input = event.target;
+			if (!input.matches("input[type=radio]") || !input.checked) return;
+			if (input.name === "gender") updateCharacterGenericGrid("gender", input.id === "male" ? 1 : 0)();
+			else if (input.classList.contains("race")) updateRace();
+			else if (input.classList.contains("hstyle")) updateHStyle(Number.parseInt(input.id, 10));
+			else if (input.classList.contains("hcolor")) updateHColor(Number.parseInt(input.id, 10));
+		});
+		else {
+			root.querySelector(".gender .male_button").addEventListener(activationEvent, updateCharacterGenericGrid("gender", 1));
+			root.querySelector(".gender .female_button").addEventListener(activationEvent, updateCharacterGenericGrid("gender", 0));
+		}
 		root.querySelector("#style .rot_left").addEventListener(activationEvent, updateCharacterGenericGrid("direction", 0));
 		root.querySelector("#style .rot_right").addEventListener(activationEvent, updateCharacterGenericGrid("direction", 1));
+		if (nativeControls) return;
 		root.querySelectorAll(".race").forEach((el) => {
 			el.addEventListener("click", updateRace);
 		});
 		root.addEventListener("click", (event) => {
 			const hstyleBtn = event.target.closest(".hstyle_button");
 			if (hstyleBtn) {
-				updateHStyle(hstyleBtn);
+				updateHStyle(parseInt(hstyleBtn.getAttribute("for")));
 				return;
 			}
 			const hcolorBtn = event.target.closest(".hcolor_button");
-			if (hcolorBtn) updateHColor(hcolorBtn);
+			if (hcolorBtn) updateHColor(parseInt(hcolorBtn.getAttribute("for")));
 		});
 	}
 	/**
 	* Update model hairstyle
 	*/
-	function updateHStyle(target) {
+	function updateHStyle(value) {
 		const root = Component.getRoot();
 		const type = "head";
-		const value = parseInt(target.getAttribute("for"));
 		_prevhead = _model.entity.head;
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, (dataURI) => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, (dataURI) => {
 			const el = root.querySelector(`.style${_prevhead}`);
 			if (el) el.style.backgroundImage = `url(${dataURI})`;
 		});
@@ -378536,12 +378564,11 @@ function createCharCreate(config) {
 	/**
 	* Update model haircolor
 	*/
-	function updateHColor(target) {
+	function updateHColor(value) {
 		const root = Component.getRoot();
 		const type = "headpalette";
-		const value = parseInt(target.getAttribute("for"));
 		_prevcolor = _model.entity.headpalette;
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/color0${parseInt(_prevcolor) + 1}_off.bmp`, (dataURI) => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/color0${parseInt(_prevcolor) + 1}_off.bmp`, (dataURI) => {
 			const el = root.querySelector(`.cstyle0${_prevcolor}`);
 			if (el) el.style.backgroundImage = `url(${dataURI})`;
 		});
@@ -378557,24 +378584,24 @@ function createCharCreate(config) {
 		const type = "race";
 		let value = 0;
 		if (select && select.id === "human_race") {
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_human_on.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_human_on.bmp`, (dataURI) => {
 				root.querySelector(".human_label").style.backgroundImage = `url(${dataURI})`;
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_doram_off.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_doram_off.bmp`, (dataURI) => {
 				root.querySelector(".doram_label").style.backgroundImage = `url(${dataURI})`;
 			});
 			value = 0;
 		}
 		if (select && select.id === "doram_race") {
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_human_off.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_human_off.bmp`, (dataURI) => {
 				root.querySelector(".human_label").style.backgroundImage = `url(${dataURI})`;
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_doram_on.bmp`, (dataURI) => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_doram_on.bmp`, (dataURI) => {
 				root.querySelector(".doram_label").style.backgroundImage = `url(${dataURI})`;
 			});
 			value = 4218;
 		}
-		for (let i = 1; i <= 24; i++) Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, (dataURI) => {
+		for (let i = 1; i <= 24; i++) loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, (dataURI) => {
 			const el = root.querySelector(`.style${i}`);
 			if (el) el.style.backgroundImage = `url(${dataURI})`;
 		});
@@ -378605,13 +378632,13 @@ function createCharCreate(config) {
 			case "race": if (value === 0) _race = "human";
 			else _race = "doram";
 		}
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_male_off.bmp`, (dataURI) => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_male_off.bmp`, (dataURI) => {
 			root.querySelector("#male_container").style.backgroundImage = `url(${dataURI})`;
 		});
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_female_off.bmp`, (dataURI) => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_female_off.bmp`, (dataURI) => {
 			root.querySelector("#female_container").style.backgroundImage = `url(${dataURI})`;
 		});
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_${_gender}_on.bmp`, (dataURI) => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_${_gender}_on.bmp`, (dataURI) => {
 			root.querySelector(`#${_gender}_container`).style.backgroundImage = `url(${dataURI})`;
 		});
 		root.querySelectorAll(".hair-style").forEach((el) => {
@@ -378639,7 +378666,7 @@ function createCharCreate(config) {
 		if (defaultHstyle) defaultHstyle.checked = true;
 		const defaultColor = root.querySelector("[id=\"0_color\"]");
 		if (defaultColor) defaultColor.checked = true;
-		for (let i = 0; i <= 8; i++) Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/color0${i + 1}_off.bmp`, (dataURI) => {
+		for (let i = 0; i <= 8; i++) loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/color0${i + 1}_off.bmp`, (dataURI) => {
 			const el = root.querySelector(`.cstyle0${i}`);
 			if (el) el.style.backgroundImage = `url(${dataURI})`;
 		});
@@ -378974,6 +379001,8 @@ var init_CharacterCreate = __esmMin((() => {
 		autofocus: false,
 		centered: false,
 		activationEvent: "click",
+		nativeControls: true,
+		bitmapSkin: false,
 		onAppearanceChange(root, { race, gender, hair, color }) {
 			root.querySelectorAll(".hstyle").forEach((input) => {
 				input.checked = input.id === `${hair}_${race}_${gender}`;
@@ -382746,6 +382775,7 @@ function onConnectionRequest(username, password) {
 	_loginID = username;
 	Network.connect(_server.address, _server.port, (success) => {
 		if (!success) {
+			WinLoading.remove();
 			UIManager.showMessageBox(DB.getMessage(1), "ok", () => {
 				UIManager.removeComponents();
 				Controller.getUI().append();
@@ -382891,6 +382921,7 @@ function onConnectionAccepted(pkt) {
 * @param {object} pkt - PACKET.AC.LOGIN_TAREN_REFUSE
 */
 function onTarenConnectionRefused(pkt) {
+	WinLoading.remove();
 	let msg_id;
 	switch (pkt.ErrorCode) {
 		case 1:
@@ -382931,6 +382962,8 @@ function onTarenConnectionRefused(pkt) {
 * @param {object} pkt - PACKET.AC.LOGIN_TAREN_REFUSE2
 */
 function onTarenConnectionRefused2(pkt) {
+	WinLoading.remove();
+	Network.close();
 	let msg_id;
 	switch (pkt.ErrorCode) {
 		case 1:
@@ -382978,6 +383011,7 @@ function onTarenConnectionRefused2(pkt) {
 * @param {object} pkt - PACKET.AC.REFUSE_LOGIN_USA
 */
 function onInternationalConnectionRefused(pkt) {
+	WinLoading.remove();
 	let msg_id;
 	switch (pkt.ErrorCode) {
 		default:
