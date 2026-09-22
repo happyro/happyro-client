@@ -1,11 +1,256 @@
 import SK from './SkillConst.js';
 import StatusConst from '../Status/StatusConst.js';
+import effectMetadata from './FourthJobEffectMetadata.js';
 
 // Explicit associations with STR assets in the deployed kRO resource set.
 // Each nested STR uses textures relative to its own directory.
 // Expanded-job effects are already loaded from ez2streffect.bson; do not
 // duplicate those entries here, as that would play the same STR twice.
 export const fourthJobEffectResources = {
+	ABC_ABYSS_FLAME: {
+		beginCastEffectId: [
+			'ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_cast/abyss_flame_cast',
+			'ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_cast_bottom/abyss_flame_cast_bottom'
+		],
+		successEffectId: ['ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame/abyss_flame'],
+		hitEffectId: ['ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_hit/abyss_flame_hit']
+	},
+	ABC_ABYSS_FLAME_ATK: {
+		successEffectId: ['ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_target/abyss_flame_target'],
+		hitEffectId: ['ABYSS_CHASER/ABC_ABYSS_FLAME/abyss_flame_hit/abyss_flame_hit']
+	},
+	ABC_CHASING_BREAK: {
+		successEffectId: ['ABYSS_CHASER/ABC_CHASING_BREAK/chasing_break/chasing_break'],
+		hitEffectId: ['abyss_dagger/abyss_dagger_hit/abyss_dagger_hit']
+	},
+	ABC_CHASING_SHOT: {
+		beginCastEffectId: [
+			'ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_cast/chasing_shot_cast',
+			'ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_cast_bottom/chasing_shot_cast_bottom'
+		],
+		beforeHitEffectId: {
+			files: ['ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_single/chasing_shot_single'],
+			travelsFromOther: true
+		},
+		hitEffectId: [
+			'ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_hit/chasing_shot_hit',
+			'ABYSS_CHASER/ABC_CHASING_SHOT/chasing_shot_hitsub/chasing_shot_hitsub'
+		]
+	},
+	ABC_HIT_AND_SLIDING: {
+		hitEffectId: ['abyss_dagger/abyss_dagger_hit/abyss_dagger_hit']
+	},
+	NW_WILD_SHOT: {
+		beginCastEffectId: ['NIGHT_WATCH/NW_WILD_SHOT/wild_shot_cast/wild_shot_cast'],
+		successEffectId: ['NIGHT_WATCH/NW_WILD_SHOT/wild_shot/wild_shot'],
+		hitEffectId: ['NIGHT_WATCH/NW_WILD_SHOT/wild_shot_hit/wild_shot_hit']
+	},
+	NW_MIDNIGHT_FALLEN: {
+		beginCastEffectId: ['NIGHT_WATCH/NW_MIDNIGHT_FALLEN/midnight_fallen_cast_bottom/midnight_fallen_cast_bottom'],
+		groundCastEffectId: ['NIGHT_WATCH/NW_MIDNIGHT_FALLEN/midnight_fallen_bottom/midnight_fallen_bottom'],
+		hitEffectId: ['NIGHT_WATCH/NW_MAGAZINE_FOR_ONE/magazine_for_one']
+	},
+	SKE_SKY_SUN: {
+		successEffectId: 'SKY_EMPEROR/SKE_SKY_SUN/sky_sun/sky_sun',
+		hitEffectId: [
+			'SKY_EMPEROR/SKE_SKY_SUN/sky_sun_hit/sky_sun_hit',
+			'SKY_EMPEROR/SKE_SUNSET_BLAST/sunset_blast_small'
+		]
+	},
+	CD_DIVINUS_FLOS: {
+		successEffectId: [
+			'CARDINAL/CD_DIVINUS_FLOS/divinus_flos/divinus_flos',
+			'CARDINAL/CD_DIVINUS_FLOS/divinus_flos_bottom/divinus_flos_bottom'
+		],
+		beginCastEffectId: [
+			'CARDINAL/CD_DIVINUS_FLOS/divinus_flos_cast/divinus_flos_cast',
+			'CARDINAL/CD_DIVINUS_FLOS/divinus_flos_cast_bottom/divinus_flos_cast_bottom'
+		],
+		hitEffectId: 'CARDINAL/CD_DIVINUS_FLOS/divinus_flos_hit/divinus_flos_hit'
+	},
+	EM_PSYCHIC_STREAM: {
+		successEffectId: [
+			'ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream/psychic_stream',
+			'ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_bottom/psychic_stream_bottom'
+		],
+		beginCastEffectId: 'ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_cast/psychic_stream_cast',
+		hitEffectId: 'ELEMENTAL_MASTER/EM_PSYCHIC_STREAM/psychic_stream_hit/psychic_stream_hit'
+	},
+	HN_OVERCOMING_CRISIS: {
+		successEffectId: [
+			'HYPER_NOVICE/HN_OVERCOMING_CRISIS/overcoming_crisis/overcoming_crisis',
+			'HYPER_NOVICE/HN_OVERCOMING_CRISIS/overcoming_crisis_bottom/overcoming_crisis_bottom'
+		]
+	},
+	IG_IMPERIAL_PRESSURE: {
+		beginCastEffectId: 'IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure_cast/imperal_pressure_cast',
+		successEffectId: [
+			'IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure/imperal_pressure',
+			'IMPERIAL_GUARD/IG_IMPERIAL_PRESSURE/imperal_pressure_bottom/imperal_pressure_bottom'
+		],
+		hitEffectId: 'new_rayofgenesis/new_rayofgenesis_hit/new_rayofgenesis_hit'
+	},
+	IQ_BLAZING_FLAME_BLAST: {
+		successEffectId: 'INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast/blazing_flame_blast',
+		beginCastEffectId: [
+			'INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_cast/blazing_flame_blast_cast',
+			'INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_cast_bottom/blazing_flame_blast_cast_bottom'
+		],
+		hitEffectId: 'INQUISITOR/IQ_BLAZING_FLAME_BLAST/blazing_flame_blast_hit/blazing_flame_blast_hit'
+	},
+	SH_CHUL_HO_BATTERING: {
+		successEffectId: [
+			'SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering/chul_ho_battering',
+			'SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_bottom/chul_ho_battering_bottom'
+		],
+		beginCastEffectId: 'SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_cast/chul_ho_battering_cast',
+		hitEffectId: 'SPIRIT_HANDLER/SH_CHUL_HO_BATTERING/chul_ho_battering_hit/chul_ho_battering_hit'
+	},
+	SH_HYUN_ROK_SPIRIT_POWER: {
+		successEffectId: [
+			'SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power/hyun_rok_spirit_power',
+			'SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_bottom/hyun_rok_spirit_power_bottom'
+		],
+		beginCastEffectId: [
+			'SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_cast/hyun_rok_spirit_power_cast',
+			'SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_cast_bottom/hyun_rok_spirit_power_cast_bottom'
+		],
+		hitEffectId: 'SPIRIT_HANDLER/SH_HYUN_ROK_SPIRIT_POWER/hyun_rok_spirit_power_hit/hyun_rok_spirit_power_hit'
+	},
+	SKE_SKY_MOON: {
+		successEffectId: [
+			'SKY_EMPEROR/SKE_SKY_MOON/sky_moon/sky_moon',
+			'SKY_EMPEROR/SKE_SKY_MOON/sky_moon_bottom/sky_moon_bottom'
+		],
+		beginCastEffectId: [
+			'SKY_EMPEROR/SKE_SKY_MOON/sky_moon_cast/sky_moon_cast',
+			'SKY_EMPEROR/SKE_SKY_MOON/sky_moon_cast_bottom/sky_moon_cast_bottom'
+		],
+		hitEffectId: 'SKY_EMPEROR/SKE_SKY_MOON/sky_moon_hit/sky_moon_hit'
+	},
+	SKE_STAR_LIGHT_KICK: {
+		successEffectId: [
+			'SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick/star_light_kick',
+			'SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick_bottom/star_light_kick_bottom'
+		],
+		hitEffectId: 'SKY_EMPEROR/SKE_STAR_LIGHT_KICK/star_light_kick_hit/star_light_kick_hit'
+	},
+	IG_IMPERIAL_CROSS: {
+		successEffectId: 'IMPERIAL_GUARD/IG_IMPERIAL_CROSS/imperial_cross/imperial_cross',
+		hitEffectId: 'IMPERIAL_GUARD/IG_OVERSLASH/new_overslash/new_overslash_hit/new_overslash_hit'
+	},
+	IG_RADIANT_SPEAR: {
+		beginCastEffectId: 'IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_cast/radiant_spear_cast',
+		hitEffectId: 'new_banishingpoint/new_banishingpoint_target/new_banishingpoint_target',
+		successEffectId: [
+			'IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_leftdown/radiant_spear_leftdown',
+			'IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_leftdown_bottom/radiant_spear_leftdown_bottom',
+			'IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_rightdown/radiant_spear_rightdown',
+			'IMPERIAL_GUARD/IG_RADIANT_SPEAR/radiant_spear_rightdown_bottom/radiant_spear_rightdown_bottom'
+		]
+	},
+	TR_RHYTHMICAL_WAVE: {
+		successEffectId: [
+			'TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave/rhythmical_wave',
+			'TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_bottom/rhythmical_wave_bottom'
+		],
+		beginCastEffectId: [
+			'TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_cast/rhythmical_wave_cast',
+			'TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_cast_bottom/rhythmical_wave_cast_bottom'
+		],
+		hitEffectId: 'TROUBADOUR_TROUVERE/TR_RHYTHMICAL_WAVE/rhythmical_wave_hit/rhythmical_wave_hit'
+	},
+	BO_DUST_EXPLOSION: {
+		successEffectId: 'BIOLO/BO_DUST_EXPLOSION/dust_explosion/dust_explosion',
+		hitEffectId: [
+			'BIOLO/BO_DUST_EXPLOSION/dust_explosion_hit/dust_explosion_hit',
+			'BIOLO/BO_DUST_EXPLOSION/dust_explosion_hit_bottom/dust_explosion_hit_bottom'
+		]
+	},
+	BO_MYSTERY_POWDER: {
+		successEffectId: 'BIOLO/BO_MYSTERY_POWDER/mistery_powder/mistery_powder',
+		hitEffectId: 'BIOLO/BO_MYSTERY_POWDER/mistery_powder_hit/mistery_powder_hit'
+	},
+	MT_ENERGY_CANNONADE: {
+		successEffectId: 'MEISTER/MT_ENERGY_CANNONADE/energy_cannonade/energy_cannonade',
+		beginCastEffectId: [
+			'MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_cast/energy_cannonade_cast',
+			'MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_cast_bottom/energy_cannonade_cast_bottom'
+		],
+		hitEffectId: 'MEISTER/MT_ENERGY_CANNONADE/energy_cannonade_hit/energy_cannonade_hit'
+	},
+	MT_POWERFUL_SWING: {
+		successEffectId: [
+			'MEISTER/MT_POWERFUL_SWING/powerful_swing/powerful_swing',
+			'MEISTER/MT_POWERFUL_SWING/powerful_swing_bottom/powerful_swing_bottom'
+		],
+		hitEffectId: 'MEISTER/MT_POWERFUL_SWING/powerful_swing_hit/powerful_swing_hit'
+	},
+	MT_RUSH_STRIKE: {
+		successEffectId: [
+			'MEISTER/MT_RUSH_STRIKE/rush_strike/rush_strike',
+			'MEISTER/MT_RUSH_STRIKE/rush_strike_bottom/rush_strike_bottom'
+		],
+		hitEffectId: 'new_axe_stomp/new_axe_stomp_hit/new_axe_stomp_hit'
+	},
+	BO_EXPLOSIVE_POWDER: {
+		successEffectId: ['BIOLO/EXPLOSIVE_POWDER/explosive_powder/explosive_powder']
+	},
+	BO_MAYHEMIC_THORNS: {
+		successEffectId: [
+			'BIOLO/MAYHEMIC_THORNS/mayhemic_thorns/mayhemic_thorns',
+			'BIOLO/MAYHEMIC_THORNS/mayhemic_thorns_bottom/mayhemic_thorns_bottom'
+		]
+	},
+	MT_MIGHTY_SMASH: {
+		successEffectId: ['MEISTER/MIGHTY_SMASH/mighty_smash/mighty_smash']
+	},
+	MT_SPARK_BLASTER: {
+		successEffectId: [
+			'MEISTER/SPARK_BLASTER/spark_blaster/spark_blaster',
+			'MEISTER/SPARK_BLASTER/spark_blaster_bottom/spark_blaster_bottom'
+		]
+	},
+	MT_TRIPLE_LASER: {
+		hitEffectId: ['MEISTER/TRIPLE_LASER/triple_laser/triple_laser']
+	},
+	DK_DRAGONIC_BREATH: {
+		successEffectId: [
+			'DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath/dragonic_breath',
+			'DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath_bottom/dragonic_breath_bottom'
+		],
+		hitEffectId: 'DRAGON_KNIGHT/DRAGONIC_BREATH/dragonic_breath_hit/dragonic_breath_hit'
+	},
+	DK_DRAGONIC_PIERCE: {
+		beginCastEffectId: 'DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_cast/dragonic_pierce_cast',
+		hitEffectId: [
+			'DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_hit/dragonic_pierce_hit',
+			'DRAGON_KNIGHT/DK_DRAGONIC_PIERCE/dragonic_pierce_hit_bottom/dragonic_pierce_hit_bottom'
+		]
+	},
+	SHC_CROSS_SLASH: {
+		successEffectId: 'SHADOW_CROSS/SHC_CROSS_SLASH/cross_slash/cross_slash',
+		hitEffectId: 'shadow_stab/shadow_stab_hit1/shadow_stab_hit1'
+	},
+	AG_ENERGY_CONVERSION: {
+		beginCastEffectId: [
+			'ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion_cast/energy_conversion_cast',
+			'ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion_cast_bottom/energy_conversion_cast_bottom'
+		],
+		effectId: 'ARCHMAGE/AG_ENERGY_CONVERSION/energy_conversion/energy_conversion'
+	},
+	WH_WILD_WALK: {
+		beginCastEffectId: [
+			'WINDHAWK/WH_WILD_WALK/wild_walk_cast/wild_walk_cast',
+			'WINDHAWK/WH_WILD_WALK/wild_walk_cast_bottom/wild_walk_cast_bottom'
+		],
+		successEffectId: 'WINDHAWK/WH_WILD_WALK/wild_walk/wild_walk',
+		hitEffectId: 'WINDHAWK/WH_WILD_WALK/wild_walk_hit/wild_walk_hit'
+	},
+	WH_CALAMITYGALE: {
+		beginCastEffectId: '4wh_calumitygale/calumitygale_cast/calumitygale_cast',
+		effectId: '4wh_calumitygale/calumitygale/calumitygale'
+	},
 	DK_SERVANTWEAPON: {
 		beginCastEffectId: 'servantweapon/servantweapon_cast/servantweapon_cast'
 	},
@@ -27,7 +272,7 @@ export const fourthJobEffectResources = {
 	DK_SERVANT_W_DEMOL: { hitEffectId: 'servant_demolition/servant_demolition_hit/servant_demolition_hit' },
 	DK_CHARGINGPIERCE: { effectId: 'new_chargingpierce/new_chargingpierce_cast/new_chargingpierce_cast' },
 	DK_HACKANDSLASHER: {
-		effectId: 'hackandslash/hackandslash/hackandslash',
+		successEffectId: 'hackandslash/hackandslash/hackandslash',
 		hitEffectId: 'hackandslash/hackandslash_hit/hackandslash_hit'
 	},
 	// Secondary damage packets carry their own skill ID.
@@ -141,7 +386,7 @@ export const fourthJobEffectResources = {
 	WH_HAWKRUSH: { hitEffectId: 'hawkrush/hawkrush/hawkrush' },
 	WH_GALESTORM: {
 		beginCastEffectId: 'galestorm/galestorm_cast/galestorm_cast',
-		effectId: 'galestorm/galestorm/galestorm',
+		successEffectId: 'galestorm/galestorm/galestorm',
 		beforeHitEffectId: { files: 'galestorm/galestorm_arrow/galestorm_arrow', travelsFromOther: true },
 		hitEffectId: 'galestorm/galestorm_hit/galestorm_hit'
 	},
@@ -434,6 +679,51 @@ export const fourthJobEffectResources = {
 };
 
 export const fourthJobStatusEffectResources = {
+	[StatusConst.FIRE_CHARM_POWER]: {
+		name: 'FIRE_CHARM_POWER',
+		files: [
+			'SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_fire/four_charm_fire',
+			'SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_fire_bottom/four_charm_fire_bottom'
+		],
+		attachedEntity: true,
+		repeat: false
+	},
+	[StatusConst.WATER_CHARM_POWER]: {
+		name: 'WATER_CHARM_POWER',
+		files: [
+			'SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_ice/four_charm_ice',
+			'SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_ice_bottom/four_charm_ice_bottom'
+		],
+		attachedEntity: true,
+		repeat: false
+	},
+	[StatusConst.WIND_CHARM_POWER]: {
+		name: 'WIND_CHARM_POWER',
+		files: [
+			'SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_wind/four_charm_wind',
+			'SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_wind_bottom/four_charm_wind_bottom'
+		],
+		attachedEntity: true,
+		repeat: false
+	},
+	[StatusConst.GROUND_CHARM_POWER]: {
+		name: 'GROUND_CHARM_POWER',
+		files: [
+			'SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_earth/four_charm_earth',
+			'SHINKIRO_SHIRANUI/SS_FOUR_CHARM/four_charm_earth_bottom/four_charm_earth_bottom'
+		],
+		attachedEntity: true,
+		repeat: false
+	},
+	[StatusConst.MYSTERY_POWDER]: {
+		name: 'MYSTERY_POWDER',
+		files: [
+			'BIOLO/BO_MYSTERY_POWDER/mistery_powder_loop/mistery_powder_loop',
+			'BIOLO/BO_MYSTERY_POWDER/mistery_powder_loop_bottom/mistery_powder_loop_bottom'
+		],
+		attachedEntity: true,
+		repeat: true
+	},
 	[StatusConst.SERVANTWEAPON]: {
 		name: 'SERVANTWEAPON',
 		files: 'servantweapon/servantweapon/servantweapon',
@@ -454,6 +744,7 @@ function registerEffect(key, resources) {
 		type: 'STR',
 		file,
 		texturePath: file.slice(0, file.lastIndexOf('/') + 1),
+		...effectMetadata[file],
 		...semantics
 	}));
 }

@@ -4,7 +4,7 @@ import { isFalconTargetAttackSkill } from '../../src/Engine/MapEngine/FalconSkil
 
 describe('falcon target attack movement', () => {
 	it('covers hunter and fourth-job windhawk attacks', () => {
-		for (const skill of [SK.HT_BLITZBEAT, SK.SN_FALCONASSAULT, SK.WH_HAWKRUSH, SK.WH_HAWKBOOMERANG]) {
+		for (const skill of [SK.HT_BLITZBEAT, SK.SN_FALCONASSAULT, SK.WH_HAWKRUSH, SK.WH_HAWKBOOMERANG, SK.WH_WILD_WALK]) {
 			expect(isFalconTargetAttackSkill(skill)).toBe(true);
 		}
 	});

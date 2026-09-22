@@ -808,9 +808,14 @@ class EffectManager {
 			return;
 		}
 
-		if (SkillEffect[skillId].effectId) {
-			if (typeof SkillEffect[skillId].effectId === 'function') effects = SkillEffect[skillId].effectId(srcAID);
-			else effects = SkillEffect[skillId].effectId;
+		// Ground notifications carry a position; damage notifications do not.
+		const skillEffect =
+			position && SkillEffect[skillId].groundCastEffectId
+				? SkillEffect[skillId].groundCastEffectId
+				: SkillEffect[skillId].effectId;
+		if (skillEffect) {
+			if (typeof skillEffect === 'function') effects = skillEffect(srcAID);
+			else effects = skillEffect;
 			effects = Array.isArray(effects) ? effects : [effects];
 
 			effects.forEach(effectId => {

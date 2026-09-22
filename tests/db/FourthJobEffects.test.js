@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import SK from '../../src/DB/Skills/SkillConst.js';
+import SkillInfo from '../../src/DB/Skills/SkillInfo.generated.js';
 import {
 	fourthJobEffectResources,
 	fourthJobRenderEffects,
@@ -13,6 +14,36 @@ function filesOf(resources) {
 }
 
 describe('fourth-job explicit skill effects', () => {
+	it('resolves later fourth-job packet IDs to their own effect stages', () => {
+		for (const name of Object.keys(fourthJobEffectResources)) {
+			const id = Number(Object.keys(SkillInfo).find(key => SkillInfo[key].Name === name));
+			expect(SK[name], name).toBe(id);
+			const mapping = fourthJobSkillEffects[id];
+			expect(mapping, name).toBeDefined();
+			for (const effect of Object.values(mapping)) {
+				expect(fourthJobRenderEffects[effect].every(layer => typeof layer.file === 'string' && layer.file.length > 0)).toBe(true);
+			}
+		}
+	});
+
+	it('plays area explosions once on success, separately from damage hit packets', () => {
+		for (const name of ['BO_EXPLOSIVE_POWDER', 'BO_MAYHEMIC_THORNS', 'MT_MIGHTY_SMASH', 'MT_SPARK_BLASTER']) {
+			const stages = fourthJobSkillEffects[SK[name]];
+			expect(stages.successEffectId, name).toBeDefined();
+			expect(stages.effectId, name).toBeUndefined();
+			expect(stages.hitEffectId, name).toBeUndefined();
+		}
+	});
+
+	it('keeps official floor layers behind entities and separates cross-slash impact', () => {
+		const cast = fourthJobRenderEffects[fourthJobSkillEffects[SK.WH_WILD_WALK].beginCastEffectId];
+		expect(cast.map(layer => layer.renderBeforeEntities)).toEqual([false, true]);
+		expect(cast.map(layer => layer.yOffset)).toEqual([10, 10]);
+		const slash = fourthJobSkillEffects[SK.SHC_CROSS_SLASH];
+		expect(fourthJobRenderEffects[slash.successEffectId][0].file).toContain('cross_slash/cross_slash');
+		expect(fourthJobRenderEffects[slash.hitEffectId][0].file).toContain('shadow_stab_hit1');
+	});
+
 	it('registers every configured stage and all of its visual layers', () => {
 		for (const [name, stages] of Object.entries(fourthJobEffectResources)) {
 			const mapped = fourthJobSkillEffects[SK[name]];
@@ -37,7 +68,22 @@ describe('fourth-job explicit skill effects', () => {
 		}
 	});
 
+	it('selects four distinct one-shot charm effects from server status IDs', () => {
+		for (const [status, color] of [['FIRE_CHARM_POWER', 'fire'], ['WATER_CHARM_POWER', 'ice'], ['WIND_CHARM_POWER', 'wind'], ['GROUND_CHARM_POWER', 'earth']]) {
+			const layers = fourthJobRenderEffects[fourthJobStatusEffects[StatusConst[status]]];
+			expect(layers).toHaveLength(2);
+			expect(layers.every(layer => layer.file.includes(`four_charm_${color}`) && layer.repeat === false)).toBe(true);
+			expect(layers.map(layer => layer.renderBeforeEntities)).toEqual([false, true]);
+		}
+	});
+
 	it('preserves high-value visual semantics for status, projectile, and summon samples', () => {
+		const mysteryStatus = fourthJobRenderEffects[fourthJobStatusEffects[StatusConst.MYSTERY_POWDER]];
+		expect(mysteryStatus).toHaveLength(2);
+		expect(mysteryStatus.every(layer => layer.attachedEntity && layer.repeat)).toBe(true);
+		expect(mysteryStatus.map(layer => layer.renderBeforeEntities)).toEqual([false, true]);
+		expect(StatusConst.MAX).toBeGreaterThan(StatusConst.MYSTERY_POWDER);
+
 		const servantStatus = fourthJobRenderEffects[fourthJobStatusEffects[StatusConst.SERVANTWEAPON]];
 		expect(servantStatus).toMatchObject([{ attachedEntity: true, repeat: true }]);
 
