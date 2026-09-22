@@ -18792,8 +18792,9 @@ var FileManager = class FileManager {
 			}).then((buffer) => {
 				callback(buffer);
 				FileSystem.saveFile(filename, buffer);
-			}).catch(() => {
-				callback(null, "Can't get file");
+			}, (error) => {
+				const reason = String(error?.message || "Network request failed").replace(/https?:\/\/\S+/g, "[URL]").slice(0, 160);
+				callback(null, (error?.name || "Error") + ": " + reason);
 			});
 			return;
 		}

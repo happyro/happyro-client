@@ -92,6 +92,7 @@ var init_Configs = __esmMin((() => {
 	* Apply configs
 	*/
 	(function init(configs) {
+		window.happyroDiagnosticConfig?.("configs.init", configs);
 		if (typeof configs !== "object") return;
 		const keys = Object.keys(configs);
 		let i, count;
@@ -240204,6 +240205,13 @@ function Socket$1(host, port, proxy) {
 	let url = "ws://" + host + ":" + port + "/";
 	const self = this;
 	this.connected = false;
+	this.closing = false;
+	let completed = false;
+	function complete(success) {
+		if (completed || self.closing) return;
+		completed = true;
+		self.onComplete(success);
+	}
 	if (proxy) {
 		url = proxy;
 		if (!url.match(/\/$/)) url += "/";
@@ -240212,18 +240220,19 @@ function Socket$1(host, port, proxy) {
 	this.ws = new WebSocket(url);
 	this.ws.binaryType = "arraybuffer";
 	this.ws.onopen = function OnOpen() {
+		if (self.closing) return;
 		self.connected = true;
-		self.onComplete(true);
+		complete(true);
 	};
 	this.ws.onerror = function OnError() {
-		if (!self.connected) self.onComplete(false);
+		complete(false);
 	};
 	this.ws.onmessage = function OnMessage(event) {
 		self.onMessage(event.data);
 	};
 	this.ws.onclose = function OnClose() {
 		self.connected = false;
-		this.close();
+		complete(false);
 		if (self.onClose) self.onClose();
 	};
 }
@@ -240244,10 +240253,9 @@ var init_WebSocket = __esmMin((() => {
 	* Closing connection to server
 	*/
 	Socket$1.prototype.close = function Close() {
-		if (this.connected) {
-			this.ws.close();
-			this.connected = false;
-		}
+		this.closing = true;
+		this.connected = false;
+		if (this.ws.readyState === WebSocket.CONNECTING || this.ws.readyState === WebSocket.OPEN) this.ws.close();
 	};
 }));
 //#endregion
@@ -240377,6 +240385,12 @@ function connect(host, port, callback, isZone) {
 	socket.isZone = !!isZone;
 	socket.onClose = onClose$9;
 	socket.onComplete = function onComplete(success) {
+		window.happyroDiagnostic?.("network.complete", {
+			socket: socket.ws?.diagnosticId,
+			target: `${host}:${port}`,
+			success,
+			current: socket === _socket
+		});
 		let msg = "Fail";
 		let color = "red";
 		if (success) {
@@ -240547,6 +240561,10 @@ function failProtocol(reason) {
 * Server ask to close the socket
 */
 function onClose$9() {
+	window.happyroDiagnostic?.("network.close", {
+		socket: this.ws?.diagnosticId,
+		current: this === _socket
+	});
 	const idx = _sockets.indexOf(this);
 	if (this === _socket) {
 		endConnection();
@@ -256538,11 +256556,18 @@ var init_ItemInfo$1 = __esmMin((() => {
 	ItemInfo_default$1 = ":host {\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n.ItemInfo {\r\n	position: relative;\r\n	width: 280px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .container {\r\n	height: 140px;\r\n	position: relative;\r\n	box-sizing: border-box;\r\n	overflow: hidden;\r\n	box-shadow:\r\n		white 0px 0px 0px 3px inset,\r\n		rgb(192, 192, 192) 0px 0px 0px 4px inset;\r\n	background-repeat: no-repeat;\r\n	background-color: white;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .event_view {\r\n	position: absolute;\r\n	top: auto;\r\n	bottom: 6px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 20px;\r\n}\r\n.ItemInfo .event_view .view {\r\n	position: absolute;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	width: auto;\r\n	min-width: 48px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	white-space: nowrap;\r\n	word-break: normal;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n	top: 0;\r\n	left: 0;\r\n}\r\n.ItemInfo .collection {\r\n	position: absolute;\r\n	top: 11px;\r\n	left: 10px;\r\n	width: 75px;\r\n	height: 100px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n.ItemInfo .title {\r\n	position: absolute;\r\n	top: 3px;\r\n	left: 86px;\r\n	width: 185px;\r\n	height: 14px;\r\n	padding-left: 4px;\r\n	padding-top: 6px;\r\n	text-shadow: 1px 1px 0px white;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n.ItemInfo .close {\r\n	position: absolute;\r\n	top: 3px;\r\n	right: 3px;\r\n	width: 11px;\r\n	height: 11px;\r\n	display: block;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: none;\r\n}\r\n.ItemInfo .description {\r\n	position: absolute;\r\n	top: 35px;\r\n	left: 100px;\r\n	line-height: 18px;\r\n	width: 170px;\r\n	height: 75px;\r\n	overflow-y: auto;\r\n}\r\n.ItemInfo .description .description-inner {\r\n	width: 150px;\r\n	white-space: pre-wrap;\r\n}\r\n.ItemInfo .navi-link,\r\n.ItemInfo .item-link {\r\n	cursor: pointer;\r\n	text-decoration: underline;\r\n}\r\n.ItemInfo .extend {\r\n	position: absolute;\r\n	right: 4px;\r\n	bottom: 3px;\r\n	width: 13px;\r\n	height: 13px;\r\n	border: none;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n\r\n.ItemInfo .cardlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .cardlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .cardlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .cardlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .cardlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .cardlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .book_open {\r\n	margin-top: 6px;\r\n	margin-left: 7px;\r\n}\r\n.ItemInfo .book_read {\r\n	position: absolute;\r\n	margin-top: 7px;\r\n}\r\n\r\n.ItemInfo .overlay_open {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 7px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n.ItemInfo .overlay_read {\r\n	pointer-events: none;\r\n	position: absolute;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	background: rgba(0, 0, 0, 0.5);\r\n	color: white;\r\n	text-shadow: black 1px 1px;\r\n	top: -7px;\r\n	left: 27px;\r\n	text-align: center;\r\n	padding: 3px 4px 1px 4px;\r\n	display: none;\r\n}\r\n\r\n.ItemInfo .optionlist {\r\n	border-radius: 5px;\r\n	background: white;\r\n	padding: 2px;\r\n	margin-top: 3px;\r\n}\r\n.ItemInfo .optionlist .border {\r\n	border: 1px solid #c1c6c2;\r\n	padding-top: 2px;\r\n	padding-left: 5px;\r\n	border-radius: 5px;\r\n}\r\n.ItemInfo .optionlist .item {\r\n	position: relative;\r\n	display: inline-block;\r\n}\r\n.ItemInfo .optionlist .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n}\r\n.ItemInfo .optionlist .item .name {\r\n	position: absolute;\r\n	top: -20px;\r\n	left: -20px;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n.ItemInfo .optionlist .item:hover .name {\r\n	display: block;\r\n}\r\n\r\n.ItemInfo .title.damaged {\r\n	text-shadow: red 1px 1px 0px;\r\n}\r\n\r\n.ItemInfo .preview-action {\r\n	padding-top: 115px;\r\n	padding-left: 9px;\r\n}\r\n\r\n.moveinfo-label {\r\n	color: #000000;\r\n	display: block;\r\n	text-decoration: underline;\r\n}\r\n\r\n#moveinfo-tooltip {\r\n	position: absolute;\r\n	display: none;\r\n	pointer-events: none;\r\n	z-index: 9999;\r\n	background: #e6e7ef;\r\n	border: 2px solid #bdbdee;\r\n	padding: 6px 8px;\r\n	color: #183984;\r\n	white-space: nowrap;\r\n	border-radius: 8px;\r\n}\r\n\r\n.ItemInfo .btn_mounting {\r\n	border: 0;\r\n	width: 80px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n}\r\n";
 }));
 //#endregion
+//#region src/UI/MobileAuth/Device.js
+function isPhone(env = window) {
+	return env.matchMedia("(pointer: coarse)").matches && Math.min(env.screen.width, env.screen.height) <= 600;
+}
+var init_Device = __esmMin((() => {}));
+//#endregion
 //#region src/UI/UIVersionManager.js
 var _UIAliases, UIVersionManager;
 var init_UIVersionManager = __esmMin((() => {
 	init_Configs();
 	init_PacketVerManager();
+	init_Device();
 	_UIAliases = {};
 	UIVersionManager = class UIVersionManager {
 		static getUIAlias(name) {
@@ -256563,6 +256588,7 @@ var init_UIVersionManager = __esmMin((() => {
 			getUIbyGameMode(versionInfo.common);
 			if (Configs.get("renewal")) getUIbyGameMode(versionInfo.re);
 			else getUIbyGameMode(versionInfo.prere);
+			if (versionInfo.mobile && isPhone()) SelectedUI = versionInfo.mobile;
 			_UIAliases[publicName] = SelectedUI.name;
 			console.log("%c[UIVersion] " + publicName + ": ", "color:#007000", SelectedUI.name);
 			return SelectedUI;
@@ -277643,7 +277669,7 @@ function trackTabView(container) {
 	let restoring = false;
 	const capture = (event) => {
 		const input = event.target;
-		if (!input.matches(fields)) return;
+		if (!input.matches(fields$1)) return;
 		const key = fieldKey(input);
 		if (input.value === baselines.get(input)) drafts.delete(key);
 		else drafts.set(key, input.value);
@@ -277653,7 +277679,7 @@ function trackTabView(container) {
 	};
 	const restore = () => {
 		restoring = true;
-		for (const input of container.querySelectorAll(fields)) {
+		for (const input of container.querySelectorAll(fields$1)) {
 			if (!baselines.has(input)) baselines.set(input, input.value);
 			if (drafts.has(fieldKey(input))) {
 				const value = drafts.get(fieldKey(input));
@@ -277683,7 +277709,7 @@ function trackTabView(container) {
 		restore,
 		discardDrafts() {
 			drafts.clear();
-			for (const input of container.querySelectorAll(fields)) {
+			for (const input of container.querySelectorAll(fields$1)) {
 				setFieldValue(input, baselines.get(input) ?? input.defaultValue);
 				input.setCustomValidity("");
 			}
@@ -277713,11 +277739,11 @@ function resetTabScroll(container, region) {
 		node.scrollTop = 0;
 	}
 }
-var states, scrollKey, fields;
+var states, scrollKey, fields$1;
 var init_TabViewState = __esmMin((() => {
 	states = /* @__PURE__ */ new WeakMap();
 	scrollKey = (node) => `${node.tagName}.${node.className}`;
-	fields = "input[type=\"number\"], form .game-select-value";
+	fields$1 = "input[type=\"number\"], form .game-select-value";
 }));
 //#endregion
 //#region src/UI/Components/GameTools/AdventureRouteService.js
@@ -351664,26 +351690,46 @@ var init_CursorManager = __esmMin((() => {
 		/**
 		* Load cursor data (action, sprite)
 		*/
-		static init(fn) {
-			if (_sprite$2) {
+		static init(fn, onerror) {
+			if (_sprite$2 && _action$2) {
 				fn();
 				return;
 			}
+			let settled = false;
+			const fail = (reason, file) => {
+				if (settled) return;
+				settled = true;
+				clearTimeout(timer);
+				_sprite$2 = _action$2 = null;
+				window.happyroDiagnostic?.("cursor.failed", {
+					target: file || "cursor",
+					message: String(reason)
+				});
+				window.happyroDiagnosticFlush?.();
+				onerror?.(file ? "光标资源 " + file.split("/").pop() + " 加载失败，请重新加载。" : "光标初始化失败或超时，请重新加载。");
+			};
+			const timer = setTimeout(() => fail("Cursor initialization timed out after 15000ms"), 15e3);
 			Client.getFiles(["data/sprite/cursors.spr", "data/sprite/cursors.act"], (spr, act) => {
+				if (settled) return;
+				window.happyroDiagnostic?.("loading.stage", { stage: "cursor.parse.start" });
 				try {
 					_sprite$2 = new SPR(spr);
 					_action$2 = new ACT(act);
+					MemoryManager.remove(null, "data/sprite/cursors.spr");
+					MemoryManager.remove(null, "data/sprite/cursors.act");
+					bindMouseEvents();
+					window.happyroDiagnostic?.("loading.stage", { stage: "cursor.animations.start" });
+					preCompiledAnimations();
+					window.happyroDiagnostic?.("loading.stage", { stage: "cursor.sheet.start" });
+					createSpriteSheet();
 				} catch (e) {
-					console.error("Cursor::init() - " + e.message);
+					fail(e?.name || "Cursor initialization error");
 					return;
 				}
-				MemoryManager.remove(null, "data/sprite/cursors.spr");
-				MemoryManager.remove(null, "data/sprite/cursors.act");
-				bindMouseEvents();
-				preCompiledAnimations();
-				createSpriteSheet();
+				settled = true;
+				clearTimeout(timer);
 				fn();
-			});
+			}, fail);
 		}
 		/**
 		* Change cursor action
@@ -352255,6 +352301,7 @@ var init_GUIComponent = __esmMin((() => {
 			this._isDraggable = false;
 			this.mouseMode = MouseMode.STOP;
 			this.needFocus = true;
+			this.nativeScrolling = false;
 			this.manager = null;
 			this.__loaded = false;
 			this.__active = false;
@@ -352803,6 +352850,7 @@ var init_GUIComponent = __esmMin((() => {
 			this._setupShadowCursorEvents();
 		}
 		_setupScrollbars() {
+			if (this.nativeScrolling) return;
 			const self = this;
 			const root = this._container || this._host;
 			const observeTarget = this._shadow || this._host;
@@ -376619,7 +376667,7 @@ var init_CharSelectState = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/CharSelect/CharSelectCommon.js
 function createCharSelect(config) {
-	const { name, htmlText, cssText, gridLayout = false, hostHeight = 342, defaultMaxSlots = 27, deleteReservation = false, packetverGatedDelete = false, pageBalls = false } = config;
+	const { name, htmlText, cssText, gridLayout = false, hostHeight = 342, defaultMaxSlots = 27, deleteReservation = false, packetverGatedDelete = false, pageBalls = false, activationEvent = "mousedown", onSelectionChange = () => {} } = config;
 	const Component = new GUIComponent(name, cssText);
 	Component.render = () => htmlText;
 	/**
@@ -376679,9 +376727,10 @@ function createCharSelect(config) {
 			root.querySelector(".delete").addEventListener("click", reserve);
 			root.querySelector(".canceldelete").addEventListener("click", removedelete);
 			root.querySelector(".finaldelete").addEventListener("click", suppress);
+			root.querySelector(".make")?.addEventListener("click", create);
 			for (let i = 0; i < 15; i++) {
 				const slot = root.querySelector(`#slot${i}`);
-				if (slot) slot.addEventListener("mousedown", genericCanvasDown(i));
+				if (slot) slot.addEventListener(activationEvent, genericCanvasDown(i));
 			}
 			root.querySelectorAll("canvas").forEach((canvas) => {
 				canvas.addEventListener("dblclick", () => {
@@ -377459,6 +377508,11 @@ function createCharSelect(config) {
 		});
 		const slotIndex = _index = index > _maxSlots ? _maxSlots : index < 0 ? 0 : index;
 		entity = _slots[_index];
+		onSelectionChange(root, {
+			index: _index,
+			character: entity,
+			maxSlots: _maxSlots
+		});
 		if (!entity) {
 			charinfo.querySelectorAll("div").forEach((div) => {
 				div.textContent = "";
@@ -377705,6 +377759,215 @@ var init_CharSelectV4 = __esmMin((() => {
 	});
 }));
 //#endregion
+//#region src/UI/MobileAuth/Shell.js
+function acquireViewport() {
+	cancelAnimationFrame(restoreFrame);
+	if (owners++ || viewport) return;
+	documentScroll = {
+		left: window.scrollX,
+		top: window.scrollY
+	};
+	const style = document.documentElement.style;
+	documentStyles = ["overflow", "overscroll-behavior"].map((property) => [
+		property,
+		style.getPropertyValue(property),
+		style.getPropertyPriority(property)
+	]);
+	style.setProperty("overflow", "hidden");
+	style.setProperty("overscroll-behavior", "none");
+	viewport = document.querySelector("meta[name=\"viewport\"]");
+	created = !viewport;
+	if (created) {
+		viewport = document.createElement("meta");
+		viewport.name = "viewport";
+		document.head.appendChild(viewport);
+	}
+	originalContent = viewport.getAttribute("content");
+	viewport.setAttribute("content", "width=device-width, initial-scale=1, viewport-fit=cover");
+}
+function releaseViewport() {
+	owners--;
+	queueMicrotask(() => {
+		if (owners || !viewport) return;
+		if (created) viewport.remove();
+		else if (originalContent === null) viewport.removeAttribute("content");
+		else viewport.setAttribute("content", originalContent);
+		for (const [property, value, priority] of documentStyles) if (value) document.documentElement.style.setProperty(property, value, priority);
+		else document.documentElement.style.removeProperty(property);
+		viewport = void 0;
+		const position = documentScroll;
+		window.scrollTo(position.left, position.top);
+		restoreFrame = requestAnimationFrame(() => {
+			restoreFrame = requestAnimationFrame(() => {
+				if (owners) return;
+				window.scrollTo(position.left, position.top);
+				Renderer.resize();
+				window.happyroDiagnostic?.("loading.stage", {
+					stage: "mobile-auth.viewport.restored",
+					message: JSON.stringify({
+						width: window.innerWidth,
+						height: window.innerHeight,
+						scrollX: window.scrollX,
+						scrollY: window.scrollY,
+						visualHeight: window.visualViewport?.height,
+						offsetTop: window.visualViewport?.offsetTop
+					})
+				});
+			});
+		});
+	});
+}
+/** Attach only to phone authentication components; never change GUIComponent globally. */
+function withMobileShell(component) {
+	component.nativeScrolling = true;
+	const init = component.init;
+	const append = component.onAppend;
+	const remove = component.onRemove;
+	const keydown = component.onKeyDown;
+	let attached = false;
+	let frame;
+	const visual = window.visualViewport;
+	const resize = () => {
+		const host = component._host;
+		host.style.setProperty("--auth-top", `${visual?.offsetTop || 0}px`);
+		host.style.setProperty("--auth-left", `${visual?.offsetLeft || 0}px`);
+		host.style.setProperty("--auth-width", `${visual?.width || window.innerWidth}px`);
+		host.style.setProperty("--auth-height", `${visual?.height || window.innerHeight}px`);
+		cancelAnimationFrame(frame);
+		frame = requestAnimationFrame(() => {
+			const input = component._shadow.activeElement;
+			if (input?.matches("input, select, textarea")) {
+				const field = input.getBoundingClientRect();
+				const panel = host.getBoundingClientRect();
+				if (field.bottom > panel.bottom - 12) host.scrollTop += field.bottom - panel.bottom + 12;
+				else if (field.top < panel.top + 12) host.scrollTop -= panel.top + 12 - field.top;
+			}
+		});
+	};
+	component.init = function() {
+		init?.call(this);
+		this._shadow.addEventListener("keydown", (event) => {
+			if (event.key !== "Enter" || event.isComposing) return;
+			const input = event.target;
+			const hint = input.getAttribute("enterkeyhint");
+			if (hint !== "next" && hint !== "done") return;
+			event.preventDefault();
+			event.stopPropagation();
+			if (hint === "done") input.blur();
+			else {
+				const fields = [...this._shadow.querySelectorAll("input[type=text], input[type=password], textarea, select")];
+				fields[fields.indexOf(input) + 1]?.focus();
+			}
+		});
+		for (const type of [
+			"touchstart",
+			"touchmove",
+			"touchend"
+		]) this._host.addEventListener(type, (event) => event.stopPropagation(), { passive: true });
+	};
+	component.onKeyDown = function(event) {
+		if (event.isComposing) return true;
+		return keydown?.call(this, event);
+	};
+	component.onAppend = function() {
+		if (!attached) {
+			attached = true;
+			acquireViewport();
+			visual?.addEventListener("resize", resize);
+			visual?.addEventListener("scroll", resize);
+			window.addEventListener("resize", resize);
+		}
+		append?.call(this);
+		resize();
+	};
+	component.onRemove = function() {
+		this._shadow.activeElement?.blur();
+		remove?.call(this);
+		if (!attached) return;
+		attached = false;
+		cancelAnimationFrame(frame);
+		visual?.removeEventListener("resize", resize);
+		visual?.removeEventListener("scroll", resize);
+		window.removeEventListener("resize", resize);
+		releaseViewport();
+	};
+	return component;
+}
+var owners, viewport, originalContent, created, documentStyles, documentScroll, restoreFrame;
+var init_Shell$1 = __esmMin((() => {
+	init_Renderer();
+	owners = 0;
+	created = false;
+}));
+//#endregion
+//#region src/UI/MobileAuth/Shell.css?raw
+var Shell_default;
+var init_Shell = __esmMin((() => {
+	Shell_default = ":host {\r\n	position: fixed !important;\r\n	top: var(--auth-top, 0px) !important;\r\n	left: var(--auth-left, 0px) !important;\r\n	width: var(--auth-width, 100vw) !important;\r\n	height: var(--auth-height, 100dvh) !important;\r\n	box-sizing: border-box;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y pinch-zoom;\r\n	background: #edf2f8;\r\n	color: #23324a;\r\n	font:\r\n		16px/1.5 system-ui,\r\n		sans-serif;\r\n	-webkit-text-size-adjust: 100%;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.mobile-auth {\r\n	width: 100%;\r\n	max-width: 720px;\r\n	margin: 0 auto;\r\n	padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n	font:\r\n		16px/1.5 system-ui,\r\n		sans-serif;\r\n	text-shadow: none;\r\n}\r\nh1 {\r\n	font-size: 26px;\r\n	margin: 0 0 8px;\r\n}\r\nh2 {\r\n	font-size: 18px;\r\n	margin: 16px 0 8px;\r\n}\r\np {\r\n	margin: 8px 0 20px;\r\n	color: #53637b;\r\n}\r\nbutton,\r\ninput,\r\nselect,\r\nlabel {\r\n	font: inherit;\r\n}\r\ninput,\r\nselect {\r\n	font-size: 16px !important;\r\n}\r\ninput[type='text'],\r\ninput[type='password'],\r\nselect {\r\n	display: block;\r\n	width: 100%;\r\n	min-height: 48px;\r\n	padding: 10px 12px;\r\n	border: 1px solid #a4b3c6;\r\n	border-radius: 10px;\r\n	background: white;\r\n	color: #17283e;\r\n	user-select: text;\r\n	-webkit-user-select: text;\r\n}\r\ninput[type='checkbox'],\r\ninput[type='radio'] {\r\n	width: 22px;\r\n	height: 22px;\r\n	accent-color: #2465bf;\r\n}\r\nbutton {\r\n	min-height: 48px;\r\n	padding: 10px 16px;\r\n	border: 1px solid #b1bfd0;\r\n	border-radius: 10px;\r\n	color: #23324a;\r\n	background: white;\r\n	touch-action: manipulation;\r\n}\r\nbutton.primary {\r\n	background: #2465bf;\r\n	color: white;\r\n	border-color: #2465bf;\r\n}\r\nbutton:disabled {\r\n	opacity: 0.5;\r\n}\r\nbutton:focus-visible,\r\ninput:focus-visible,\r\nselect:focus-visible {\r\n	outline: 3px solid #6ba7ef;\r\n	outline-offset: 2px;\r\n}\r\n.field {\r\n	display: block;\r\n	margin: 16px 0;\r\n}\r\n.field input {\r\n	margin-top: 6px;\r\n}\r\n.actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 10px;\r\n	margin: 16px 0;\r\n}\r\n.actions > button {\r\n	flex: 1;\r\n}\r\n.panel {\r\n	background: white;\r\n	border: 1px solid #d5deea;\r\n	border-radius: 16px;\r\n	padding: 16px;\r\n	margin: 16px 0;\r\n}\r\n.hidden,\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/MobileAuth/CharacterSelect.css?raw
+var CharacterSelect_default$1;
+var init_CharacterSelect$1 = __esmMin((() => {
+	CharacterSelect_default$1 = ".char_list {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));\r\n	gap: 12px;\r\n	max-height: min(45dvh, 440px);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.char_canvas {\r\n	position: relative;\r\n	width: 100% !important;\r\n	height: auto !important;\r\n	padding: 8px;\r\n	background: white !important;\r\n	border: 2px solid #d5deea;\r\n	border-radius: 14px;\r\n	color: #23324a;\r\n	overflow: hidden;\r\n}\r\n.char_canvas[aria-pressed='true'] {\r\n	border-color: #2465bf;\r\n	background: #e4efff !important;\r\n}\r\n.char_canvas canvas {\r\n	display: block;\r\n	width: 100%;\r\n	max-width: 157px;\r\n	height: auto;\r\n	margin: -20px auto 0;\r\n	touch-action: pan-y;\r\n}\r\n.char_canvas .name {\r\n	display: block;\r\n	min-height: 24px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.char_canvas .name:empty::after {\r\n	content: '空角色栏';\r\n	color: #53637b;\r\n}\r\n.slot-number {\r\n	display: block;\r\n	font-size: 14px;\r\n}\r\n.job_icon {\r\n	display: none;\r\n}\r\n.timedelete {\r\n	color: #ab3434;\r\n	font-size: 14px;\r\n}\r\n.charinfo {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	background: none !important;\r\n}\r\n.charinfo > div::before {\r\n	content: attr(data-label) '：';\r\n	color: #53637b;\r\n}\r\n.charinfo > div:empty {\r\n	display: none;\r\n}\r\n.delete,\r\n.finaldelete {\r\n	color: #ab3434;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/MobileAuth/CharacterSelect.js
+var slots, fields, CharacterSelect_default;
+var init_CharacterSelect = __esmMin((() => {
+	init_CharSelectCommon();
+	init_Shell$1();
+	init_Shell();
+	init_CharacterSelect$1();
+	slots = Array.from({ length: 15 }, (_, i) => `
+	<button class="char_canvas" id="slot${i}" type="button" aria-label="角色栏 ${i + 1}">
+		<span class="slot-number">角色栏 ${i + 1}</span>
+		<canvas width="157" height="195"></canvas>
+		<span class="name"></span><span class="job_icon"></span>
+		<span class="timedelete slot${i} hidden"></span>
+	</button>`).join("");
+	fields = [
+		["job", "职业"],
+		["lvl", "等级"],
+		["map", "地图"],
+		["exp", "经验"],
+		["hp", "HP"],
+		["sp", "SP"],
+		["str", "力量"],
+		["agi", "敏捷"],
+		["vit", "体力"],
+		["int", "智力"],
+		["dex", "灵巧"],
+		["luk", "幸运"]
+	];
+	CharacterSelect_default = withMobileShell(createCharSelect({
+		name: "MobileCharSelect",
+		htmlText: `<main class="mobile-auth">
+		<h1>选择角色</h1><p>点选角色，再进入游戏；选择空栏可创建角色。</p>
+		<div class="char_list">${slots}</div>
+		<section class="panel"><h2 class="selection-label">角色信息</h2>
+			<div class="charinfo">${fields.map(([key, label]) => `<div class="${key}" data-label="${label}"></div>`).join("")}</div>
+			<div class="actions"><button class="ok primary">进入游戏</button><button class="make primary">创建角色</button></div>
+			<div class="actions"><button class="delete">预约删除</button><button class="canceldelete">取消删除</button><button class="finaldelete">删除角色</button></div>
+		</section>
+		<div class="actions"><button class="cancel">返回登录</button></div>
+	</main>`,
+		cssText: Shell_default + CharacterSelect_default$1,
+		gridLayout: true,
+		deleteReservation: true,
+		defaultMaxSlots: 15,
+		activationEvent: "click",
+		onSelectionChange(root, { index, character, maxSlots }) {
+			root.querySelectorAll(".char_canvas").forEach((slot, i) => {
+				slot.hidden = i >= maxSlots;
+				slot.setAttribute("aria-pressed", String(i === index));
+			});
+			root.querySelector(".make").hidden = !!character || index >= maxSlots;
+			root.querySelector(".selection-label").textContent = character?.name || `角色栏 ${index + 1} · 空`;
+		}
+	}));
+}));
+//#endregion
 //#region src/UI/Components/CharSelect/CharSelect.js
 var publicName$2, versionInfo$2, Controller$2;
 var init_CharSelect = __esmMin((() => {
@@ -377713,8 +377976,10 @@ var init_CharSelect = __esmMin((() => {
 	init_CharSelectV3();
 	init_CharSelectV4();
 	init_UIVersionManager();
+	init_CharacterSelect();
 	publicName$2 = "CharSelect";
 	versionInfo$2 = {
+		mobile: CharacterSelect_default,
 		default: CharSelect_default,
 		common: {
 			20180124: CharSelectV4_default,
@@ -377743,7 +378008,7 @@ var init_CharCreate$2 = __esmMin((() => {
 //#endregion
 //#region src/UI/Components/CharCreate/CharCreateCommon.js
 function createCharCreate(config) {
-	const { name, htmlText, cssText, hasStats = false, hasRace = false, gridHairstyle = false, chargenCanvasSelector = ".content canvas", graphCanvasSelector = ".graph canvas", statButtonsSelector = ".graph ui-button", hairArrows = [], humanCanvasSelector = "#canvas_human", doramCanvasSelector = "#canvas_doram", modelCanvasSelector = "#canvas_model", nameInputSelector = "input", nameInputEvent = "mousedown", cancelSelectors = [".cancel"], makeSelector = ".make" } = config;
+	const { name, htmlText, cssText, hasStats = false, hasRace = false, gridHairstyle = false, chargenCanvasSelector = ".content canvas", graphCanvasSelector = ".graph canvas", statButtonsSelector = ".graph ui-button", hairArrows = [], humanCanvasSelector = "#canvas_human", doramCanvasSelector = "#canvas_doram", modelCanvasSelector = "#canvas_model", nameInputSelector = "input", nameInputEvent = "mousedown", cancelSelectors = [".cancel"], makeSelector = ".make", draggable = true, autofocus = true, centered = true, activationEvent = "mousedown", onAppearanceChange = () => {} } = config;
 	const Component = new GUIComponent(name, cssText);
 	Component.render = () => htmlText;
 	/**
@@ -377804,7 +378069,7 @@ function createCharCreate(config) {
 			_chargen.ctx = root.querySelector(chargenCanvasSelector).getContext("2d");
 			if (hasStats) _graph = root.querySelector(graphCanvasSelector).getContext("2d");
 		}
-		this.draggable();
+		if (draggable) this.draggable();
 		if (hasRace) {
 			root.querySelectorAll("input[type=\"radio\"]").forEach((input) => {
 				input.classList.add("event_add_cursor");
@@ -377853,9 +378118,11 @@ function createCharCreate(config) {
 	}
 	const sizeObserver = new ResizeObserver(centerWindow);
 	Component.onAppend = function onAppend() {
-		centerWindow();
-		sizeObserver.observe(this._host);
-		window.addEventListener("resize", centerWindow);
+		if (centered) {
+			centerWindow();
+			sizeObserver.observe(this._host);
+			window.addEventListener("resize", centerWindow);
+		}
 		if (hasRace) {
 			_human.render = true;
 			_human.entity.set({
@@ -377893,7 +378160,7 @@ function createCharCreate(config) {
 		}
 		const input = this.getRoot().querySelector(nameInputSelector);
 		input.value = "";
-		input.focus();
+		if (autofocus) input.focus();
 		if (hasRace) {
 			if (gridHairstyle) {
 				_race = "human";
@@ -378116,7 +378383,7 @@ function createCharCreate(config) {
 		SpriteRenderer.bind2DContext(_model.ctx, 32, 115);
 		_model.ctx.clearRect(0, 0, _model.ctx.canvas.width, _model.ctx.canvas.height);
 		_model.entity.renderEntity();
-		root.querySelector(nameInputSelector).focus();
+		if (autofocus) root.querySelector(nameInputSelector).focus();
 		if (gridHairstyle) {
 			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_${_race}_on.bmp`, (dataURI) => {
 				root.querySelector(`.${_race}_label`).style.backgroundImage = `url(${dataURI})`;
@@ -378245,10 +378512,10 @@ function createCharCreate(config) {
 		_curhead = 1;
 		_prevcolor = 0;
 		_curcolor = 0;
-		root.querySelector(".gender .male_button").addEventListener("mousedown", updateCharacterGenericGrid("gender", 1));
-		root.querySelector(".gender .female_button").addEventListener("mousedown", updateCharacterGenericGrid("gender", 0));
-		root.querySelector("#style .rot_left").addEventListener("mousedown", updateCharacterGenericGrid("direction", 0));
-		root.querySelector("#style .rot_right").addEventListener("mousedown", updateCharacterGenericGrid("direction", 1));
+		root.querySelector(".gender .male_button").addEventListener(activationEvent, updateCharacterGenericGrid("gender", 1));
+		root.querySelector(".gender .female_button").addEventListener(activationEvent, updateCharacterGenericGrid("gender", 0));
+		root.querySelector("#style .rot_left").addEventListener(activationEvent, updateCharacterGenericGrid("direction", 0));
+		root.querySelector("#style .rot_right").addEventListener(activationEvent, updateCharacterGenericGrid("direction", 1));
 		root.querySelectorAll(".race").forEach((el) => {
 			el.addEventListener("click", updateRace);
 		});
@@ -378421,6 +378688,12 @@ function createCharCreate(config) {
 				_model.entity.head = 1;
 				_model.entity.headpalette = 0;
 		}
+		onAppearanceChange(Component.getRoot(), {
+			race: _race,
+			gender: _gender,
+			hair: _model.entity.head,
+			color: _model.entity.headpalette
+		});
 	}
 	/**
 	* Callback to define
@@ -378651,6 +378924,78 @@ var init_CharCreatev4 = __esmMin((() => {
 	});
 }));
 //#endregion
+//#region src/UI/MobileAuth/CharacterCreate.css?raw
+var CharacterCreate_default$1;
+var init_CharacterCreate$1 = __esmMin((() => {
+	CharacterCreate_default$1 = "h1.title {\r\n	font-size: 26px;\r\n}\r\n.races {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n}\r\n.races label {\r\n	display: block;\r\n	background: none !important;\r\n}\r\n.races canvas {\r\n	display: block;\r\n	margin: auto;\r\n	pointer-events: none;\r\n}\r\n.human_desc,\r\n.doram_desc {\r\n	display: block;\r\n	font-size: 14px;\r\n	color: #53637b;\r\n}\r\n.choices {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n}\r\n.choices > span,\r\n.styleCol {\r\n	display: inline-block;\r\n	position: relative;\r\n	background: none !important;\r\n}\r\n.choices input,\r\n.styleCol input {\r\n	position: absolute;\r\n	opacity: 0;\r\n	width: 1px;\r\n	height: 1px;\r\n}\r\n.choices label,\r\n.styleCol label {\r\n	display: inline-flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	min-width: 48px;\r\n	min-height: 48px;\r\n	padding: 8px;\r\n	border: 1px solid #b1bfd0;\r\n	border-radius: 10px;\r\n	margin: 4px 0;\r\n}\r\ninput:checked + label {\r\n	border-color: #2465bf;\r\n	color: #164f9b;\r\n	background-color: #e4efff !important;\r\n}\r\ninput:focus-visible + label {\r\n	outline: 3px solid #6ba7ef;\r\n}\r\n.styleCol {\r\n	margin-right: 6px;\r\n}\r\n.model {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	gap: 24px;\r\n}\r\n.model canvas {\r\n	pointer-events: none;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/MobileAuth/CharacterCreate.js
+var hairstyles, colors, CharacterCreate_default;
+var init_CharacterCreate = __esmMin((() => {
+	init_CharCreateCommon();
+	init_Shell$1();
+	init_Shell();
+	init_CharacterCreate$1();
+	hairstyles = ["human", "doram"].flatMap((race) => ["male", "female"].map((gender) => `
+	<div id="${race}_${gender}" class="hair-style">
+		${Array.from({ length: race === "human" ? 23 : 6 }, (_, i) => `
+			<span class="styleCol style${i + 1}">
+				<input type="radio" name="hstyle" id="${i + 1}_${race}_${gender}" class="hstyle" />
+				<label for="${i + 1}_${race}_${gender}" class="hstyle_button">${i + 1}</label>
+			</span>`).join("")}
+	</div>`)).join("");
+	colors = Array.from({ length: 9 }, (_, i) => `
+	<span class="colorCol cstyle0${i}"><input type="radio" name="hcolor" id="${i}_color" class="hcolor" />
+	<label for="${i}_color" class="hcolor_button">${i + 1}</label></span>`).join("");
+	CharacterCreate_default = withMobileShell(createCharCreate({
+		name: "MobileCharCreate",
+		htmlText: `<main class="mobile-auth">
+		<h1 class="title">创建角色</h1>
+		<p>选择种族和外观，为新角色取一个名字。</p>
+		<label class="field">角色名称<input type="text" id="char_name" maxlength="24" autocomplete="off" autocorrect="off" spellcheck="false" enterkeyhint="done" /></label>
+		<section class="races panel">
+			<div><input type="radio" name="race" id="human_race" checked class="race" />
+				<label for="human_race" class="human_label"><strong class="human_title"></strong><canvas id="human" width="65" height="130"></canvas><span class="human_desc"></span></label></div>
+			<div><input type="radio" name="race" id="doram_race" class="race" />
+				<label for="doram_race" class="doram_label"><strong class="doram_title"></strong><canvas id="doram" width="65" height="130"></canvas><span class="doram_desc"></span></label></div>
+		</section>
+		<section id="style" class="panel">
+			<h2>外观预览</h2>
+			<div class="gender choices">
+				<span id="male_container"><input type="radio" name="gender" id="male" checked /><label for="male" class="male_button">男</label></span>
+				<span id="female_container"><input type="radio" name="gender" id="female" /><label for="female" class="female_button">女</label></span>
+			</div>
+			<div class="model"><button class="rot_left" aria-label="向左旋转">向左</button><canvas id="style_model" width="65" height="130"></canvas><button class="rot_right" aria-label="向右旋转">向右</button></div>
+			<h2 class="hair_style_title">发型</h2>${hairstyles}
+			<h2 class="hair_color_title">发色</h2><div class="choices">${colors}</div>
+		</section>
+		<div class="actions"><button class="return">返回</button><button class="make primary">创建角色</button></div>
+	</main>`,
+		cssText: Shell_default + CharacterCreate_default$1,
+		hasRace: true,
+		gridHairstyle: true,
+		humanCanvasSelector: "#human",
+		doramCanvasSelector: "#doram",
+		modelCanvasSelector: "#style_model",
+		nameInputSelector: "#char_name",
+		nameInputEvent: "click",
+		cancelSelectors: [".return"],
+		draggable: false,
+		autofocus: false,
+		centered: false,
+		activationEvent: "click",
+		onAppearanceChange(root, { race, gender, hair, color }) {
+			root.querySelectorAll(".hstyle").forEach((input) => {
+				input.checked = input.id === `${hair}_${race}_${gender}`;
+			});
+			root.querySelectorAll(".hcolor").forEach((input) => {
+				input.checked = input.id === `${color}_color`;
+			});
+		}
+	}));
+}));
+//#endregion
 //#region src/UI/Components/CharCreate/CharCreate.js
 var publicName$1, versionInfo$1, Controller$1;
 var init_CharCreate = __esmMin((() => {
@@ -378659,8 +379004,10 @@ var init_CharCreate = __esmMin((() => {
 	init_CharCreatev3();
 	init_CharCreatev4();
 	init_UIVersionManager();
+	init_CharacterCreate();
 	publicName$1 = "CharCreate";
 	versionInfo$1 = {
+		mobile: CharacterCreate_default,
 		default: CharCreate_default,
 		common: {
 			20180124: CharCreatev4_default,
@@ -378806,7 +379153,7 @@ function onConnectionRefused$1(pkt) {
 * @param {object} pkt - PACKET.HC.NOTIFY_ACCESSIBLE_MAPNAME
 */
 function onMapUnavailable(pkt) {
-	UIManager.showMessageBox(DB.getMessage(1811), "ok", () => {
+	UIManager.showMessageBox("地图服务器暂时不可用，请稍后重试。", "ok", () => {
 		UIManager.getComponent("WinLoading").remove();
 		Controller$2.getUI().append();
 	}, true);
@@ -382187,7 +382534,7 @@ function normalizeRememberedAccount(account) {
 var init_RememberedAccount = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/WinLogin/WinLoginCommon.js
-function createWinLogin({ name, htmlText, cssText }) {
+function createWinLogin({ name, htmlText, cssText, draggable = true, autofocus = true, activationEvent = "mousedown" }) {
 	const Component = new GUIComponent(name, cssText);
 	Component.render = () => htmlText;
 	Component.needFocus = false;
@@ -382199,7 +382546,7 @@ function createWinLogin({ name, htmlText, cssText }) {
 	let _inputPassword;
 	let _buttonSave;
 	Component.init = function init() {
-		this.draggable();
+		if (draggable) this.draggable();
 		const root = this.getRoot();
 		_inputUsername = root.querySelector(".user");
 		_inputPassword = root.querySelector(".pass");
@@ -382212,7 +382559,7 @@ function createWinLogin({ name, htmlText, cssText }) {
 			this.focus();
 			event.stopImmediatePropagation();
 		});
-		_buttonSave.addEventListener("mousedown", (event) => {
+		_buttonSave.addEventListener(activationEvent, (event) => {
 			toggleSaveButton();
 			event.stopImmediatePropagation();
 		});
@@ -382224,8 +382571,10 @@ function createWinLogin({ name, htmlText, cssText }) {
 		_inputUsername.value = _preferences.saveID ? normalizeRememberedAccount(_preferences.ID) : "";
 		_inputPassword.value = "";
 		updateSaveButton();
-		if (_preferences.ID.length) _inputPassword.focus();
-		else _inputUsername.focus();
+		if (autofocus) {
+			if (_preferences.ID.length) _inputPassword.focus();
+			else _inputUsername.focus();
+		}
 		Component.placeOnTop();
 	};
 	Component.onKeyDown = function onKeyDown(event) {
@@ -382348,6 +382697,29 @@ var init_WinLoginV3 = __esmMin((() => {
 	});
 }));
 //#endregion
+//#region src/UI/MobileAuth/Login.html?raw
+var Login_default$1;
+var init_Login$1 = __esmMin((() => {
+	Login_default$1 = "<main class=\"mobile-auth login\">\r\n	<h1>欢迎来到 HappyRO</h1>\r\n	<p>登录账号，开始冒险。</p>\r\n	<section class=\"panel\">\r\n		<label class=\"field\"\r\n			>账号<input\r\n				class=\"user\"\r\n				type=\"text\"\r\n				autocomplete=\"username\"\r\n				autocapitalize=\"none\"\r\n				autocorrect=\"off\"\r\n				spellcheck=\"false\"\r\n				enterkeyhint=\"next\"\r\n		/></label>\r\n		<label class=\"field\"\r\n			>密码<input class=\"pass\" type=\"password\" autocomplete=\"current-password\" enterkeyhint=\"go\"\r\n		/></label>\r\n		<button class=\"save\" type=\"button\" role=\"checkbox\" aria-checked=\"false\">记住账号</button>\r\n		<div class=\"actions\"><button class=\"connect primary\" type=\"button\">登录</button></div>\r\n	</section>\r\n	<div class=\"actions\">\r\n		<button class=\"signup\" type=\"button\">注册说明</button><button class=\"exit\" type=\"button\">退出</button>\r\n	</div>\r\n</main>\r\n";
+}));
+//#endregion
+//#region src/UI/MobileAuth/Login.js
+var Login_default;
+var init_Login = __esmMin((() => {
+	init_WinLoginCommon();
+	init_Shell$1();
+	init_Shell();
+	init_Login$1();
+	Login_default = withMobileShell(createWinLogin({
+		name: "MobileLogin",
+		htmlText: Login_default$1,
+		cssText: `${Shell_default}\n.login { max-width: 480px; } .save::before { content: '□ '; } .save.is-checked::before { content: '☑ '; }`,
+		draggable: false,
+		autofocus: false,
+		activationEvent: "click"
+	}));
+}));
+//#endregion
 //#region src/UI/Components/WinLogin/WinLogin.js
 var publicName, versionInfo, Controller;
 var init_WinLogin = __esmMin((() => {
@@ -382355,8 +382727,10 @@ var init_WinLogin = __esmMin((() => {
 	init_WinLoginV2();
 	init_WinLoginV3();
 	init_UIVersionManager();
+	init_Login();
 	publicName = "WinLogin";
 	versionInfo = {
+		mobile: Login_default,
 		default: WinLogin_default,
 		common: {
 			20221207: WinLoginV3_default,
@@ -382674,6 +383048,7 @@ function onInternationalConnectionRefused(pkt) {
 * @param {object} pkt - PACKET.AC.REFUSE_LOGIN
 */
 function onConnectionRefused(pkt) {
+	WinLoading.remove();
 	let error = 9;
 	switch (pkt.ErrorCode) {
 		case 0:
@@ -383068,7 +383443,9 @@ var init_LoginEngine = __esmMin((() => {
 				onConnectionRequest.apply(null, autoLogin);
 				Configs.set("autoLogin", null);
 			} else q.add(function() {
+				window.happyroDiagnostic?.("loading.stage", { stage: "login.form.start" });
 				Controller.getUI().append();
+				window.happyroDiagnostic?.("loading.stage", { stage: "login.form.ready" });
 			});
 			if (PacketVerManager_default.value < 20170315) Network.hookPacket(PACKET.AC.ACCEPT_LOGIN, onConnectionAccepted);
 			else Network.hookPacket(PACKET.AC.ACCEPT_LOGIN3, onConnectionAccepted);
@@ -383103,6 +383480,30 @@ var init_LoginEngine = __esmMin((() => {
 		}
 	};
 }));
+//#endregion
+//#region src/UI/LoadingError.js
+function showLoadingError(message, reload = () => window.location.reload()) {
+	document.getElementById("happyro-loading-error")?.remove();
+	const panel = document.createElement("div");
+	panel.id = "happyro-loading-error";
+	panel.style.cssText = "position:fixed;inset:0;z-index:2147483646;background:#101522;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;font:16px sans-serif";
+	const text = document.createElement("p");
+	text.textContent = message;
+	text.setAttribute("role", "alert");
+	text.style.cssText = "padding:20px;text-align:center";
+	const button = document.createElement("button");
+	button.textContent = "重新加载";
+	button.style.cssText = "font-size:16px;padding:12px 24px";
+	button.onclick = reload;
+	for (const type of [
+		"touchstart",
+		"touchmove",
+		"touchend"
+	]) panel.addEventListener(type, (event) => event.stopPropagation(), { passive: true });
+	panel.append(text, button);
+	document.body.appendChild(panel);
+}
+var init_LoadingError = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Components/Intro/Intro.html?raw
 var Intro_default$2;
@@ -383889,7 +384290,18 @@ function loadFiles(callback) {
 	const q = new Queue();
 	q.add(() => {
 		Client.onFilesLoaded = (count) => {
+			window.happyroDiagnosticConfig?.("client.files.effective", {
+				remoteClient: Configs.get("remoteClient"),
+				servers: Configs.get("servers")
+			});
+			window.happyroDiagnosticConfig?.("client.files.global", window.ROConfig);
+			window.happyroDiagnostic?.("client.files.loaded", {
+				bytes: count,
+				success: Boolean(Configs.get("remoteClient")) || count > 0
+			});
 			if (!Configs.get("remoteClient") && !count && !window.electronAPI?.isElectron) {
+				window.happyroDiagnostic?.("startup.no-client");
+				window.happyroDiagnosticFlush?.();
 				alert("没有可用于初始化 roBrowser 的客户端");
 				Intro_default.remove();
 				Intro_default.append();
@@ -383908,25 +384320,37 @@ function loadFiles(callback) {
 	q.add(() => {
 		roInitSpinner.remove();
 		DB.onReady = () => {
+			window.happyroDiagnostic?.("loading.stage", { stage: "database.ready" });
 			q._next();
 		};
 		DB.onProgress = (i, count) => {
+			if (i === count) window.happyroDiagnostic?.("loading.stage", {
+				stage: "database.100",
+				code: i,
+				bytes: count
+			});
 			Background.setPercent(Math.floor(i / count * 100));
 		};
 		UIManager.removeComponents();
 		Background.init();
 		Background.resize(Renderer.width, Renderer.height);
 		Background.setImage("bgi_temp.bmp", () => {
+			window.happyroDiagnostic?.("loading.stage", { stage: "database.start" });
 			DB.init();
 		});
 	});
 	q.add(() => {
+		window.happyroDiagnostic?.("loading.stage", { stage: "client-info.start" });
 		Thread.send("CLIENT_FILES_ALIAS", DB.mapalias);
 		loadClientInfo(q.next);
 	});
 	q.add(() => {
 		ScrollBar.init();
-		Cursor.init(q.next);
+		window.happyroDiagnostic?.("loading.stage", { stage: "cursor.start" });
+		Cursor.init(() => {
+			window.happyroDiagnostic?.("loading.stage", { stage: "cursor.ready" });
+			q.next();
+		}, showLoadingError);
 	});
 	q.add(() => {
 		callback();
@@ -383934,6 +384358,10 @@ function loadFiles(callback) {
 	q.run();
 }
 function onReload() {
+	window.happyroDiagnostic?.("loading.stage", {
+		stage: "login.background.ready",
+		code: _servers.length
+	});
 	const list = new Array(_servers.length);
 	let i;
 	const count = list.length;
@@ -384066,6 +384494,7 @@ var init_GameEngine = __esmMin((() => {
 	init_CursorManager();
 	init_Scrollbar();
 	init_Background();
+	init_LoadingError();
 	init_Intro();
 	init_WinList();
 	init_ConsoleManager();
@@ -384107,6 +384536,7 @@ var init_GameEngine = __esmMin((() => {
 		* Reload the game
 		*/
 		static reload() {
+			window.happyroDiagnostic?.("loading.stage", { stage: "login.background.start" });
 			BGM.setAvailableExtensions(Configs.get("BGMFileExtension", ["mp3"]));
 			BGM.play("01.mp3");
 			UIManager.removeComponents();
@@ -384285,6 +384715,10 @@ var init_UIManager = __esmMin((() => {
 		* @param {string} error message
 		*/
 		static showErrorBox(text) {
+			window.happyroDiagnostic?.("popup.error", {
+				message: text,
+				stack: (/* @__PURE__ */ new Error()).stack?.split("\n").slice(1, 9).join("\n").replace(/\?[^\s:)]+/g, "")
+			});
 			const WinError = this.getComponent("WinPopup").clone("WinError");
 			let overlay;
 			WinError.init = function Init() {
@@ -384320,6 +384754,10 @@ var init_UIManager = __esmMin((() => {
 		* @param {function} callback once the button is pressed
 		*/
 		static showMessageBox(text, btn_name, callback, keydown) {
+			window.happyroDiagnostic?.("popup.message", {
+				message: text,
+				stack: (/* @__PURE__ */ new Error()).stack?.split("\n").slice(1, 9).join("\n").replace(/\?[^\s:)]+/g, "")
+			});
 			const WinMSG = this.getComponent("WinPopup").clone("WinMSG");
 			WinMSG.init = function Init() {
 				this.draggable();
@@ -384668,6 +385106,12 @@ function savingFiles(files) {
 	});
 }
 function onFileGetted(data, error, input) {
+	if (/^data\/sprite\/cursors\.(spr|act)$/.test(input.filename)) window.happyroDiagnostic?.("cursor.file", {
+		target: input.filename,
+		success: !error && Boolean(data),
+		bytes: data?.byteLength || 0,
+		message: error || ""
+	});
 	MemoryManager.set(input.filename, data, error);
 }
 async function onFileLoaded(data, error, input) {
@@ -384803,7 +385247,7 @@ var init_Client = __esmMin((() => {
 		* @param {string[]} filenames
 		* @param {function} callback once loaded
 		*/
-		static getFiles(filenames, callback) {
+		static getFiles(filenames, callback, onerror) {
 			let index;
 			const count = filenames.length;
 			const out = new Array(count);
@@ -384813,10 +385257,13 @@ var init_Client = __esmMin((() => {
 					if (callback) callback.apply(null, out);
 					return;
 				}
-				Client.getFile(filenames[index], onload);
+				Client.getFile(filenames[index], onload, fail);
 			}
 			index = 0;
-			Client.getFile(filenames[index], onload);
+			function fail(error) {
+				onerror?.(error, filenames[index]);
+			}
+			Client.getFile(filenames[index], onload, fail);
 		}
 		/**
 		* Get and load a file from Game Data files
