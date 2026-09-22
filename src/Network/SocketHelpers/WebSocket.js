@@ -17,6 +17,16 @@ function Socket(host, port, proxy) {
 	let url = 'ws://' + host + ':' + port + '/';
 	const self = this;
 	this.connected = false;
+	this.closing = false;
+	let completed = false;
+
+	function complete(success) {
+		if (completed || self.closing) {
+			return;
+		}
+		completed = true;
+		self.onComplete(success);
+	}
 
 	// Use of a proxy
 	if (proxy) {
@@ -34,14 +44,15 @@ function Socket(host, port, proxy) {
 	this.ws.binaryType = 'arraybuffer';
 
 	this.ws.onopen = function OnOpen() {
+		if (self.closing) {
+			return;
+		}
 		self.connected = true;
-		self.onComplete(true);
+		complete(true);
 	};
 
 	this.ws.onerror = function OnError() {
-		if (!self.connected) {
-			self.onComplete(false);
-		}
+		complete(false);
 	};
 
 	this.ws.onmessage = function OnMessage(event) {
@@ -50,9 +61,9 @@ function Socket(host, port, proxy) {
 
 	this.ws.onclose = function OnClose() {
 		self.connected = false;
-		this.close();
+		complete(false);
 
-		if (self.onClose) {
+		if (self.onClose && !self.closing) {
 			self.onClose();
 		}
 	};
@@ -75,9 +86,10 @@ Socket.prototype.send = function Send(buffer) {
  * Closing connection to server
  */
 Socket.prototype.close = function Close() {
-	if (this.connected) {
+	this.closing = true;
+	this.connected = false;
+	if (this.ws.readyState === WebSocket.CONNECTING || this.ws.readyState === WebSocket.OPEN) {
 		this.ws.close();
-		this.connected = false;
 	}
 };
 
