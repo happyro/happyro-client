@@ -751,9 +751,69 @@ dd {
 	min-height: 44px;
 	max-width: 100%;
 }
-.container-toolbar { display: flex; gap: 8px; flex-shrink: 0; }
-.container-toolbar select, .inventory-body > select, .inventory-detail input, .inventory-detail select {
- font-size: 16px; min-height: 44px; max-width: 100%; box-sizing: border-box;
+.container-toolbar {
+	display: flex;
+	gap: 8px;
+	flex-shrink: 0;
 }
-.shop-summary, .shop-footer, .container-capacity { flex-shrink: 0; margin: 0; }
-.inventory-detail > button { margin: 6px 6px 0 0; }
+.container-toolbar select,
+.inventory-body > select,
+.inventory-detail input,
+.inventory-detail select {
+	font-size: 16px;
+	min-height: 44px;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+.shop-summary,
+.shop-footer,
+.container-capacity {
+	flex-shrink: 0;
+	margin: 0;
+}
+.inventory-detail > button {
+	margin: 6px 6px 0 0;
+}
+
+.map-preview {
+	display: block;
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+}
+.map-detail .large-map {
+	max-width: 100%;
+	height: auto;
+}
+
+.chat-form {
+	flex-wrap: wrap;
+}
+.chat-form select,
+.chat-form input {
+	min-width: 0;
+}
+.chat-form input[aria-label='私聊对象'] {
+	flex: 0 1 120px;
+}
+
+.social-form {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 12px 0;
+}
+.social-form label {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+.social-form input,
+.social-form textarea,
+.social-form select {
+	min-width: 0;
+	max-width: 100%;
+	flex: 1;
+	font-size: 16px;
+}

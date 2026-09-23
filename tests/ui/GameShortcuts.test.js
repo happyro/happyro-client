@@ -1,3 +1,4 @@
+vi.mock('UI/Components/Guild/Guild.js', () => ({default:{getSocialSnapshot:()=>({skills:[]})}}));
 import { beforeEach, expect, it, vi } from 'vitest';
 const s = vi.hoisted(() => ({
 	session: { Playing: true, FreezeUI: false, Entity: { action: 0, ACTION: { DIE: 99 }, life: { sp: 10 } } },
@@ -81,4 +82,10 @@ it('configures and uses non-stackable equipment even when packet data omits quan
  expect(service.snapshot().slots[0].amount).toBe(1);
  expect(service.snapshot().slots[0].available).toBe(true);
  service.use(0); expect(s.useItem).toHaveBeenCalledExactlyOnceWith(s.items[0]);
+});
+it('rejects a saved guild shortcut after leaving the guild or losing master rights',()=>{
+ const originalSkill=s.skill;s.skill={SKID:10013,level:1,type:4,spcost:0};s.bindings=[{isSkill:true,ID:10013,count:1}];
+ s.session.hasGuild=true;s.session.isGuildMaster=true;const service=createGameShortcuts();expect(service.snapshot().slots[0].available).toBe(true);
+ s.session.isGuildMaster=false;service.use(0);expect(s.selection.onUseSkillToId).not.toHaveBeenCalled();expect(service.snapshot().slots[0].reason).toContain('权限');
+ s.session.isGuildMaster=true;s.session.hasGuild=false;expect(service.snapshot().slots[0].available).toBe(false);s.skill=originalSkill;
 });

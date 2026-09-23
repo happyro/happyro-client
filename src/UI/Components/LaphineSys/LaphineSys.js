@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { openItemTransformation, finishItemTransformation } from 'UI/Game/GameItemTransformation.js';
 /**
  * UI/Components/LaphineSys/LaphineSys.js
  *
@@ -253,6 +255,10 @@ LaphineSys.init = function init() {
  * @param {object} pkt - The packet containing item information.
  */
 function onOpenLaphineUI(pkt) {
+	if (Platform.isMobile) {
+		openItemTransformation('synthesis', pkt.itemId);
+		return;
+	}
 	if (pkt) {
 		const laphineInfo = DB.getLaphineSysInfoById(pkt.itemId);
 
@@ -379,6 +385,10 @@ function onAddMaterialItem(item, inventory_count, source_needcount, source_iconn
  * Handles the result of Laphine Synthesis.
  */
 function onLaphineSysResult(pkt) {
+	if (Platform.isMobile) {
+		finishItemTransformation('synthesis', pkt);
+		return;
+	}
 	if (pkt) {
 		switch (pkt.result) {
 			case 0:

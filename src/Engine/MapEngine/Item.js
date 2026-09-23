@@ -1,3 +1,7 @@
+import { notifyEquipmentSetResult } from 'UI/Game/GameEquipmentSets.js';
+import { finishRefinement } from 'UI/Game/GameRefinement.js';
+import { openGameMaterials } from 'UI/Game/GameMaterials.js';
+import { openGameSelection, selectionEntries } from 'UI/Game/GameSelection.js';
 import Platform from 'UI/Platform.js';
 /**
  * Engine/MapEngine/Item.js
@@ -311,20 +315,33 @@ function onItemCompositionList(pkt) {
 	}
 
 	const card = Inventory.getUI().getItemByIndex(_cardComposition);
+	if (!card) return;
+	const cardIndex = _cardComposition;
 
-	ItemSelection.append();
-	ItemSelection.setList(pkt.ITIDList);
-	ItemSelection.setTitle(DB.getMessage(522) + '(' + DB.getItemInfo(card.ITID).identifiedDisplayName + ')');
 	ItemSelection.onIndexSelected = function (index) {
-		if (index >= 0) {
+		if (index >= 0 && Inventory.getUI().getItemByIndex(cardIndex)?.ITID === card.ITID) {
 			const _pkt = new PACKET.CZ.REQ_ITEMCOMPOSITION();
-			_pkt.cardIndex = _cardComposition;
+			_pkt.cardIndex = cardIndex;
 			_pkt.equipIndex = index;
 			Network.sendPacket(_pkt);
 		}
 
 		_cardComposition = null;
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection(
+			'镶嵌卡片：' + DB.getItemInfo(card.ITID).identifiedDisplayName,
+			selectionEntries(pkt.ITIDList, 'inventory'),
+			ItemSelection.onIndexSelected,
+			() => ItemSelection.onIndexSelected(-1),
+			'镶嵌会消耗卡片，请确认目标装备'
+		);
+		return;
+	}
+	ItemSelection.append();
+	ItemSelection.setList(pkt.ITIDList);
+	ItemSelection.setTitle(DB.getMessage(522) + '(' + DB.getItemInfo(card.ITID).identifiedDisplayName + ')');
 }
 
 /**
@@ -361,6 +378,21 @@ function onItemCompositionResult(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_ITEMREFINING
  */
 function onRefineResult(pkt) {
+	if (Platform.isMobile) {
+		const item = Inventory.getUI().removeItem(pkt.itemIndex, 1);
+		if (item) {
+			item.RefiningLevel = pkt.RefiningLevel;
+			Inventory.getUI().addItem(item);
+		}
+		finishRefinement('refine', pkt);
+		ChatBox.addText(
+			pkt.result === 0 ? '精炼成功' : '精炼失败，请检查装备状态',
+			ChatBox.TYPE.BLUE,
+			ChatBox.FILTER.ITEM
+		);
+		return;
+	}
+
 	// Check if refine UI is enabled and packet version is >= 20161012
 	if (Configs.get('enableRefineUI') && PACKETVER.value >= 20161012) {
 		import('UI/Components/Refine/Refine.js').then(m => m.default.onRefineResult(pkt));
@@ -478,9 +510,6 @@ function onMakeitemList(pkt) {
 		return;
 	}
 
-	MakeItemSelection.append();
-	MakeItemSelection.setList(pkt.itemList);
-	MakeItemSelection.setTitle(DB.getMessage(425));
 	MakeItemSelection.onIndexSelected = function (index, material) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQMAKINGITEM();
@@ -492,6 +521,25 @@ function onMakeitemList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		const entries = selectionEntries(
+			pkt.itemList.map(item => item.ITID),
+			'item'
+		).map(entry => ({ ...entry, materials: DB.getItemInfo(entry.id).processitemlist !== '' }));
+		const choose = (id, materials = []) => MakeItemSelection.onIndexSelected(id, materials);
+		openGameSelection(
+			'制作物品',
+			entries,
+			choose,
+			() => choose(-1),
+			'附加材料最多 3 份，属性石最多 1 份；制作会消耗材料'
+		);
+		return;
+	}
+	MakeItemSelection.append();
+	MakeItemSelection.setList(pkt.itemList);
+	MakeItemSelection.setTitle(DB.getMessage(425));
 }
 
 /**
@@ -500,6 +548,10 @@ function onMakeitemList(pkt) {
  * @param {object} pkt - PACKET.ZC.ITEMLISTWIN_OPEN
  */
 function onListWinItem(ptk) {
+	if (Platform.isMobile) {
+		openGameMaterials(ptk.Type, ItemListWindowSelection.onItemListWindowSelected);
+		return;
+	}
 	if (!ptk.Type) {
 		ItemListWindowSelection.append();
 	}
@@ -547,9 +599,6 @@ function onMakeitem_List(pkt) {
 		itemList = itemList.slice(1); // Remove mktype from item list
 	}
 
-	MakeItemSelection.append();
-	MakeItemSelection.setCookingList(itemList, makeType);
-	MakeItemSelection.setTitle(DB.getMessage(425));
 	MakeItemSelection.onIndexSelected = function (index, material, mkType) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_MAKINGITEM();
@@ -558,6 +607,21 @@ function onMakeitem_List(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		const choose = index => MakeItemSelection.onIndexSelected(index, [], makeType);
+		openGameSelection(
+			'制作物品',
+			selectionEntries(itemList, 'item'),
+			choose,
+			() => choose(-1),
+			'制作将消耗所需材料，结果以服务器回复为准'
+		);
+		return;
+	}
+	MakeItemSelection.append();
+	MakeItemSelection.setCookingList(itemList, makeType);
+	MakeItemSelection.setTitle(DB.getMessage(425));
 }
 
 /**
@@ -652,10 +716,11 @@ function onFavItemList(pkt) {
  * Received Switch Equip List
  */
 function onSwitchEquipList(pkt) {
+	notifyEquipmentSetResult();
 	if (pkt && pkt.ItemInfo) {
 		pkt.ItemInfo.forEach(function (item) {
 			if (Inventory.getUI().getItemByIndex(item.index)) {
-				Inventory.getUI().addItemtoSwitch(item.index);
+				Inventory.getUI().addItemtoSwitch(item.index, item.location);
 			}
 		});
 	}
@@ -665,10 +730,11 @@ function onSwitchEquipList(pkt) {
  * Add item to Switch Equip
  */
 function onSwitchEquipAdd(pkt) {
+	notifyEquipmentSetResult();
 	if (pkt) {
 		switch (pkt.flag) {
 			case 0:
-				Inventory.getUI().addItemtoSwitch(pkt.index);
+				Inventory.getUI().addItemtoSwitch(pkt.index, pkt.location);
 				break;
 			case 1:
 			case 2:
@@ -683,6 +749,7 @@ function onSwitchEquipAdd(pkt) {
  * Remove item to Switch Equip
  */
 function onSwitchEquipRemove(pkt) {
+	notifyEquipmentSetResult();
 	if (pkt) {
 		switch (pkt.flag) {
 			case 0:

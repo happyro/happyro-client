@@ -1,3 +1,6 @@
+vi.mock('UI/Platform.js',()=>({default:{isMobile:true}}));
+vi.mock('UI/Game/GameSelection.js',()=>({openGameSelection:vi.fn(),selectionEntries:vi.fn()}));
+vi.mock('UI/Game/GameMonsterInformation.js',()=>({openMonsterInformation:vi.fn()}));
 import { beforeEach, expect, it, vi } from 'vitest';
 const state = vi.hoisted(() => ({
 	selection: {},

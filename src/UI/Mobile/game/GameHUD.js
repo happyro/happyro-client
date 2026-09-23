@@ -1,3 +1,8 @@
+import { createGameEquipmentSets } from 'UI/Game/GameEquipmentSets.js';
+import { createGameSocial } from 'UI/Game/GameSocial.js';
+import { createGameChat, chatChannel } from 'UI/Game/GameChat.js';
+import { createGameQuests } from 'UI/Game/GameQuests.js';
+import { createGameMaps } from 'UI/Game/GameMaps.js';
 import { createGameContainers } from 'UI/Game/GameContainers.js';
 import { subscribeInteraction, clearInteraction } from 'UI/Game/ServerInteraction.js';
 import { createGameSkills } from 'UI/Game/GameSkills.js';
@@ -37,6 +42,9 @@ let inventory;
 let equipment;
 let containers;
 let skills;
+let quests;
+let chat;
+let social;
 let timer;
 let unsubscribe;
 let unsubscribeOrientation;
@@ -124,6 +132,12 @@ HUD.onAppend = function () {
 	shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
 	inventory = createGameInventory(() => modal && !previousFreeze);
 	containers = createGameContainers(() => modal && !previousFreeze);
+	social = createGameSocial(() => modal && !previousFreeze, shortcuts);
+	chat = createGameChat(
+		(...args) => HUD.actions.sendChat(...args),
+		() => modal && !previousFreeze
+	);
+	quests = createGameQuests(() => modal && !previousFreeze);
 	skills = createGameSkills(() => modal && !previousFreeze, shortcuts);
 	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity));
 	view = createGameHUDView(HUD.getRoot(), {
@@ -136,6 +150,11 @@ HUD.onAppend = function () {
 			snapshot();
 		},
 		canOperate: () => modal && !previousFreeze,
+		maps: createGameMaps(),
+		social,
+		equipmentSets: createGameEquipmentSets(() => modal && !previousFreeze),
+		questSnapshot: () => quests.snapshot(),
+		questToggle: (...args) => quests.toggle(...args),
 		containerSnapshot: source => containers.snapshot(source),
 		transferItem: (...args) => containers.transfer(...args),
 		skillsSnapshot: () => skills.snapshot(),
@@ -160,7 +179,7 @@ HUD.onAppend = function () {
 			shortcuts.self();
 			snapshot();
 		},
-		sendChat: message => HUD.actions.sendChat(message),
+		sendChat: (...args) => chat.send(...args),
 		returnToCharacters: () => HUD.actions.returnToCharacters()
 	});
 	unsubscribeInteraction = subscribeInteraction(state => view.showInteraction(state));
@@ -200,9 +219,9 @@ HUD.onAppend = function () {
 	unsubscribe = subscribeChatFeed(messages => {
 		view.setMessages(
 			messages.map(message => {
-				if (!message.html) return message.text;
+				if (!message.html) return { text: message.text, channel: chatChannel(message) };
 				const parsed = new DOMParser().parseFromString(message.text, 'text/html');
-				return parsed.body.textContent || '';
+				return { text: parsed.body.textContent || '', channel: chatChannel(message) };
 			})
 		);
 	});
@@ -237,6 +256,9 @@ HUD.onRemove = function (resetInteraction = true) {
 	inventory = null;
 	equipment = null;
 	skills = null;
+	quests = null;
+	chat = null;
+	social = null;
 	containers = null;
 	clearAttackIntent();
 	clearInterval(timer);

@@ -1,3 +1,8 @@
+vi.mock('UI/Game/GameEquipmentSets.js', () => ({ createGameEquipmentSets: () => ({ snapshot: () => ({ items: [] }) }) }));
+vi.mock('UI/Game/GameSocial.js', () => ({ createGameSocial: () => ({ snapshot: () => ({ friends: [], party: [] }) }) }));
+vi.mock('UI/Game/GameChat.js', () => ({ createGameChat: () => ({ send: vi.fn() }), chatChannel: () => 'public' }));
+vi.mock('UI/Game/GameQuests.js', () => ({ createGameQuests: () => ({ snapshot: () => ({ quests: [] }) }) }));
+vi.mock('UI/Game/GameMaps.js', () => ({ createGameMaps: () => ({ regions: [] }) }));
 vi.mock('UI/Game/GameContainers.js', () => ({ createGameContainers: () => ({ snapshot: () => ({ items: [] }) }) }));
 vi.mock('UI/Game/GameSkills.js', () => ({ createGameSkills: () => ({ snapshot: () => ({ skills: [] }) }) }));
 vi.mock('UI/Game/GameInventory.js', () => ({ createGameInventory: canOperate => { state.inventoryAllowed = canOperate; return { snapshot: () => [], act: vi.fn() }; } }));

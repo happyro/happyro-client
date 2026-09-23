@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { openItemTransformation, finishItemTransformation } from 'UI/Game/GameItemTransformation.js';
 /**
  * UI/Components/LaphineUpg/LaphineUpg.js
  *
@@ -266,6 +268,10 @@ LaphineUpg.init = function init() {
  * @param {object} pkt - The packet containing item information.
  */
 function onOpenLaphineUpgUI(pkt) {
+	if (Platform.isMobile) {
+		openItemTransformation('upgrade', pkt.itemId);
+		return;
+	}
 	if (pkt) {
 		clearLaphineUpgUIState();
 
@@ -407,6 +413,10 @@ function onAddMaterialItem(item, target_iconname) {
  * Handles the result of Laphine Upgrade.
  */
 function onLaphineUpgResult(pkt) {
+	if (Platform.isMobile) {
+		finishItemTransformation('upgrade', pkt);
+		return;
+	}
 	if (pkt) {
 		switch (pkt.result) {
 			case 0:

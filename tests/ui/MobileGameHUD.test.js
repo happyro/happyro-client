@@ -40,11 +40,11 @@ describe('mobile game HUD', () => {
 	});
 	it('renders messages as text, submits once, and releases modal state on removal', () => {
 		click('[data-panel="chat"]');
-		view.setMessages(['<img src=x onerror=alert(1)>']);
+		view.setMessages([{ text: '<img src=x onerror=alert(1)>', channel: 'public' }]);
 		expect(root.querySelector('.chat-log img')).toBeNull();
-		root.querySelector('input').value = '你好';
+		root.querySelector('[aria-label="聊天内容"]').value = '你好';
 		root.querySelector('form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-		expect(actions.sendChat).toHaveBeenCalledExactlyOnceWith('你好');
+		expect(actions.sendChat).toHaveBeenCalledExactlyOnceWith('你好', 'public', '');
 		view.destroy();
 		expect(actions.setModal).toHaveBeenLastCalledWith(false);
 		expect(root.childElementCount).toBe(0);

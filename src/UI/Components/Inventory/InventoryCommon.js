@@ -1502,8 +1502,9 @@ export function createInventory(config) {
 	}
 
 	if (equipSwitch) {
-		Component.addItemtoSwitch = function (index) {
-			const item = this.getItemByIndex(index);
+		Component.addItemtoSwitch = function (index, location) {
+			const original = this.getItemByIndex(index);
+			const item = original && { ...original, location };
 			if (!item) {
 				console.warn(`Item with index ${index} not found in inventory.`);
 				return;

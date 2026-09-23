@@ -1,3 +1,4 @@
+import Guild from 'UI/Components/Guild/Guild.js';
 import ShortCut from 'UI/Components/ShortCut/ShortCut.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
 import SkillWindow from 'UI/Components/SkillList/SkillList.js';
@@ -35,6 +36,8 @@ export function createGameShortcuts(moving = () => false) {
 				: binding.count < 1 || binding.count > skill.level
 					? '技能等级不可用'
 					: '';
+			if (!reason && binding.ID > 10000 && binding.ID < 10100 && (!Session.hasGuild || !Session.isGuildMaster))
+				reason = '没有公会技能使用权限';
 			if (!reason && binding.count === skill.level && skill.spcost > Session.Entity.life.sp) reason = 'SP 不足';
 			return {
 				name: info?.SkillName || `技能 ${binding.ID}`,
@@ -93,8 +96,10 @@ export function createGameShortcuts(moving = () => false) {
 		},
 		configure: (...args) => ShortCut.configure(...args),
 		candidates: () => [
-			...SkillWindow.getUI()
-				.getSkills()
+			...[
+				...SkillWindow.getUI().getSkills(),
+				...(Session.hasGuild && Session.isGuildMaster ? Guild.getSocialSnapshot().skills : [])
+			]
 				.filter(canExecuteSkill)
 				.map(skill => ({
 					isSkill: true,

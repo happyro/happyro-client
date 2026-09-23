@@ -196,18 +196,21 @@ class MapEngine {
 				Network.sendPacket(pkt);
 
 				// Server send back AID
-				Network.read(fp => {
-					// PACKETVER < 20070521: the map-server prefixes the stream with a raw
-					// 4-byte account id (no packet header) before the first real packet.
-					// It must be consumed even when TCP coalesces it with following packets;
-					// the previous fp.length === 4 check only worked when the AID arrived in
-					// its own segment, otherwise the parser read the AID as an opcode and
-					// desynced the whole stream.
-					if (PACKETVER.value < 20070521) {
-						Session.AID = fp.readLong();
-						Session.Entity.GID = Session.AID;
-					}
-				}, PACKETVER.value < 20070521 ? 4 : 0);
+				Network.read(
+					fp => {
+						// PACKETVER < 20070521: the map-server prefixes the stream with a raw
+						// 4-byte account id (no packet header) before the first real packet.
+						// It must be consumed even when TCP coalesces it with following packets;
+						// the previous fp.length === 4 check only worked when the AID arrived in
+						// its own segment, otherwise the parser read the AID as an opcode and
+						// desynced the whole stream.
+						if (PACKETVER.value < 20070521) {
+							Session.AID = fp.readLong();
+							Session.Entity.GID = Session.AID;
+						}
+					},
+					PACKETVER.value < 20070521 ? 4 : 0
+				);
 
 				const hbt = new PACKET.CZ.HBT();
 				const is_sec_hbt = Configs.get('sec_HBT', null);
@@ -620,6 +623,7 @@ function onConnectionAccepted(pkt) {
 	Session.hasParty = false;
 	Session.isPartyLeader = false;
 	Session.hasGuild = false;
+	if (Platform.isMobile) Guild.resetSocialState();
 	Session.guildRight = 0;
 
 	Session.homunId = 0;
@@ -802,7 +806,10 @@ function onMapChange(pkt) {
 		}
 
 		appendGameHUD({
-			sendChat: text => onRequestTalk('', text, ChatBox.TYPE.PUBLIC),
+			sendChat: (text, channel, receiver) =>
+				onRequestTalk(channel === 'private' ? receiver : '', text, ChatBox.TYPE[channel.toUpperCase()], {
+					literal: true
+				}),
 			returnToCharacters: () => UIManager.showPromptBox('确定返回选角？', '确定', '取消', onRestartRequest)
 		});
 
@@ -975,26 +982,27 @@ function onDisconnectAnswer(pkt) {
  * @param {string} text
  * @param {number} target
  */
-function onRequestTalk(user, text, target) {
+function onRequestTalk(user, text, target, { literal = false } = {}) {
 	let pkt;
-	const flag_party = text[0] === '%' || KEYS.CTRL;
+	const flag_party = !literal && (text[0] === '%' || KEYS.CTRL);
 	const flag_guild =
-		text[0] === '$' ||
-		(KEYS.ALT &&
-			!(
-				KEYS[0] ||
-				KEYS[1] ||
-				KEYS[2] ||
-				KEYS[3] ||
-				KEYS[4] ||
-				KEYS[5] ||
-				KEYS[6] ||
-				KEYS[7] ||
-				KEYS[8] ||
-				KEYS[9]
-			));
+		!literal &&
+		(text[0] === '$' ||
+			(KEYS.ALT &&
+				!(
+					KEYS[0] ||
+					KEYS[1] ||
+					KEYS[2] ||
+					KEYS[3] ||
+					KEYS[4] ||
+					KEYS[5] ||
+					KEYS[6] ||
+					KEYS[7] ||
+					KEYS[8] ||
+					KEYS[9]
+				)));
 
-	text = text.replace(/^(\$|%)/, '');
+	if (!literal) text = text.replace(/^(\$|%)/, '');
 
 	// Private messages
 	if (user && user.length) {

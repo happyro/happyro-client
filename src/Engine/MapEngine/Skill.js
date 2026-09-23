@@ -1,3 +1,6 @@
+import { openMonsterInformation } from 'UI/Game/GameMonsterInformation.js';
+import Platform from 'UI/Platform.js';
+import { openGameSelection, selectionEntries } from 'UI/Game/GameSelection.js';
 /**
  * Engine/MapEngine/Skill.js
  *
@@ -219,9 +222,6 @@ function onIdentifyList(pkt) {
 		return;
 	}
 
-	ItemSelection.append();
-	ItemSelection.setList(pkt.ITIDList);
-	ItemSelection.setTitle(DB.getMessage(521));
 	ItemSelection.onIndexSelected = function (index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_ITEMIDENTIFY();
@@ -229,6 +229,16 @@ function onIdentifyList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection('鉴定物品', selectionEntries(pkt.ITIDList, 'inventory'), ItemSelection.onIndexSelected, () =>
+			ItemSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	ItemSelection.append();
+	ItemSelection.setList(pkt.ITIDList);
+	ItemSelection.setTitle(DB.getMessage(521));
 }
 
 /**
@@ -273,9 +283,6 @@ function onAutoSpellList(pkt) {
 		return;
 	}
 
-	ItemSelection.append();
-	ItemSelection.setList(pkt.SKID, true);
-	ItemSelection.setTitle(DB.getMessage(697));
 	ItemSelection.onIndexSelected = function (index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.SELECTAUTOSPELL();
@@ -283,6 +290,16 @@ function onAutoSpellList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection('自动技能', selectionEntries(pkt.SKID, 'skill'), ItemSelection.onIndexSelected, () =>
+			ItemSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	ItemSelection.append();
+	ItemSelection.setList(pkt.SKID, true);
+	ItemSelection.setTitle(DB.getMessage(697));
 }
 
 /**
@@ -317,9 +334,6 @@ function onSelectSkillList(pkt) {
 		return;
 	}
 
-	ItemSelection.append();
-	ItemSelection.setList(pkt.SKID, true);
-	ItemSelection.setTitle(DB.getMessage(697));
 	ItemSelection.onIndexSelected = index => {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.SKILL_SELECT_RESPONSE();
@@ -328,6 +342,16 @@ function onSelectSkillList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection('选择技能', selectionEntries(pkt.SKID, 'skill'), ItemSelection.onIndexSelected, () =>
+			ItemSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	ItemSelection.append();
+	ItemSelection.setList(pkt.SKID, true);
+	ItemSelection.setTitle(DB.getMessage(697));
 }
 
 /**
@@ -336,6 +360,25 @@ function onSelectSkillList(pkt) {
  * @param {object} pkt - PACKET.ZC.WARPLIST
  */
 function onTeleportList(pkt) {
+	if (Platform.isMobile) {
+		const send = mapName => {
+			const response = new PACKET.CZ.SELECT_WARPPOINT();
+			response.SKID = pkt.SKID;
+			response.mapName = mapName;
+			Network.sendPacket(response);
+		};
+		const entries = pkt.mapName
+			.map((name, index) => ({ id: index, name: DB.getMapName(name, name) }))
+			.filter(entry => pkt.mapName[entry.id]);
+		openGameSelection(
+			'选择传送地点',
+			entries,
+			index => send(pkt.mapName[index]),
+			() => send('cancel')
+		);
+		return;
+	}
+
 	// Once selected
 	NpcMenu.onSelectMenu = (skillid, index) => {
 		NpcMenu.remove();
@@ -408,10 +451,6 @@ function onMakingarrowList(pkt) {
 		return;
 	}
 
-	MakeArrowSelection.append();
-	MakeArrowSelection.setList(pkt.arrowList);
-	//MakeArrowSelection.setTitle(DB.getMessage(658));
-	MakeArrowSelection.setTitle('LIST');
 	MakeArrowSelection.onIndexSelected = function (index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_MAKINGARROW();
@@ -419,6 +458,23 @@ function onMakingarrowList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection(
+			'制作箭矢',
+			selectionEntries(
+				pkt.arrowList.map(item => item.index),
+				'item'
+			),
+			MakeArrowSelection.onIndexSelected,
+			() => MakeArrowSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	MakeArrowSelection.append();
+	MakeArrowSelection.setList(pkt.arrowList);
+	//MakeArrowSelection.setTitle(DB.getMessage(658));
+	MakeArrowSelection.setTitle('LIST');
 }
 
 /**
@@ -431,9 +487,6 @@ function onRefineList(pkt) {
 		return;
 	}
 
-	RefineWeaponSelection.append();
-	RefineWeaponSelection.setList(pkt.itemList);
-	RefineWeaponSelection.setTitle(DB.getMessage(910));
 	RefineWeaponSelection.onIndexSelected = index => {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_WEAPONREFINE();
@@ -441,6 +494,23 @@ function onRefineList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection(
+			'精炼武器',
+			selectionEntries(
+				pkt.itemList.map(item => item.index),
+				'inventory'
+			),
+			RefineWeaponSelection.onIndexSelected,
+			() => RefineWeaponSelection.onIndexSelected(-1),
+			'精炼可能导致装备损坏，请核对后确认'
+		);
+		return;
+	}
+	RefineWeaponSelection.append();
+	RefineWeaponSelection.setList(pkt.itemList);
+	RefineWeaponSelection.setTitle(DB.getMessage(910));
 }
 
 /**
@@ -453,21 +523,33 @@ function onRepairList(pkt) {
 		return;
 	}
 
-	RefineWeaponSelection.append();
-	RefineWeaponSelection.setList(pkt.itemList);
-	RefineWeaponSelection.setTitle(DB.getMessage(812));
 	RefineWeaponSelection.onIndexSelected = index => {
 		if (index >= -1) {
-			const item = RefineWeaponSelection.getItemByIndex(index);
+			const item = Platform.isMobile
+				? pkt.itemList.find(entry => entry.index === index)
+				: RefineWeaponSelection.getItemByIndex(index);
 
 			const _pkt = new PACKET.CZ.REQ_ITEMREPAIR();
 			_pkt.index = index;
-			_pkt.itemId = item.ITID;
-			_pkt.RefiningLevel = item.RefiningLevel;
-			_pkt.slots = item.slot;
+			_pkt.itemId = item?.ITID || 0;
+			_pkt.RefiningLevel = item?.RefiningLevel || 0;
+			if (item) _pkt.slots = item.slot;
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection(
+			'修理装备',
+			selectionEntries(pkt.itemList, 'equipment'),
+			RefineWeaponSelection.onIndexSelected,
+			() => RefineWeaponSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	RefineWeaponSelection.append();
+	RefineWeaponSelection.setList(pkt.itemList);
+	RefineWeaponSelection.setTitle(DB.getMessage(812));
 }
 
 /**
@@ -787,6 +869,10 @@ function onMessageSkill(pkt) {
 }
 
 function onSense(pkt) {
+	if (Platform.isMobile) {
+		openMonsterInformation(pkt);
+		return;
+	}
 	Sense.append();
 	Sense.setWindow(pkt);
 }

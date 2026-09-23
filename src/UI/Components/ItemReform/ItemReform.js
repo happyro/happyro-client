@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { openItemTransformation, finishItemTransformation } from 'UI/Game/GameItemTransformation.js';
 /**
  * UI/Components/ItemReform/ItemReform.js
  *
@@ -262,6 +264,10 @@ function GetInventoryItemsById(id) {
  * @param {object} pkt - The packet containing item information.
  */
 function onOpenReformUI(pkt) {
+	if (Platform.isMobile) {
+		openItemTransformation('reform', pkt.ITID);
+		return;
+	}
 	if (pkt) {
 		ReformInfo = {};
 		SelectedReformInfo = {};
@@ -651,6 +657,10 @@ function onHoverOutDetails() {
  * Handles the result of Item Reform
  */
 function onItemReformResult(pkt) {
+	if (Platform.isMobile) {
+		finishItemTransformation('reform', pkt);
+		return;
+	}
 	if (pkt) {
 		switch (pkt.result) {
 			case 0: {

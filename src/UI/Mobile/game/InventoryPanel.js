@@ -68,7 +68,7 @@ export function createInventoryPanel(body, actions) {
 		const ops = document.createElement('div');
 		ops.className = 'inventory-actions';
 		if (item.action) {
-			const use = button({ use: '使用', equip: '穿戴', unequip: '卸下' }[item.action], () => {
+			const use = button({ use: '使用', equip: '穿戴', unequip: '卸下', card: '镶嵌卡片' }[item.action], () => {
 				status(actions.act(item.index, item.ID, item.action));
 				update();
 			});

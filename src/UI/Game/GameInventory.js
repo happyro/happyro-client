@@ -1,3 +1,4 @@
+import ItemType from 'DB/Items/ItemType.js';
 import MapControl from 'Controls/MapControl.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
 import Equipment from 'UI/Components/Equipment/Equipment.js';
@@ -33,7 +34,15 @@ export function createGameInventory(canOperate) {
 		}
 		const equippable = equipment.includes(item.type);
 		const usable = consumables.includes(item.type);
-		const action = worn ? 'unequip' : equippable ? 'equip' : usable ? 'use' : null;
+		const action = worn
+			? 'unequip'
+			: equippable
+				? 'equip'
+				: usable
+					? 'use'
+					: item.type === ItemType.CARD
+						? 'card'
+						: null;
 		const reason = !available()
 			? '当前无法操作物品'
 			: !worn && equippable && !item.IsIdentified
@@ -83,7 +92,8 @@ export function createGameInventory(canOperate) {
 				)
 					return '装备不适用于此部位';
 				Inventory.getUI().onEquipItem(index, location ?? entry.item.location);
-			} else if (Inventory.getUI().onUseItem(index) === false) return '当前无法使用此物品';
+			} else if (action === 'card') Inventory.getUI().onUseCard(index);
+			else if (Inventory.getUI().onUseItem(index) === false) return '当前无法使用此物品';
 			return '已发送请求，结果以服务器回复为准';
 		},
 		drop(index, id, count) {

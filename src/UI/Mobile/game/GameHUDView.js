@@ -1,3 +1,12 @@
+import { createEquipmentSetsPanel } from './EquipmentSetsPanel.js';
+import { createEnchantPanel } from './EnchantPanel.js';
+import { createRefinementPanel } from './RefinementPanel.js';
+import { createMaterialsPanel } from './MaterialsPanel.js';
+import { createSelectionPanel } from './SelectionPanel.js';
+import { createSocialPanel } from './SocialPanel.js';
+import { createChatPanel } from './ChatPanel.js';
+import { createQuestsPanel } from './QuestsPanel.js';
+import { createMapsPanel } from './MapsPanel.js';
 import { createContainerPanel } from './ContainerPanel.js';
 import { createShopPanel } from './ShopPanel.js';
 import { createNPCPanel, updateNPCCutin } from './NPCPanel.js';
@@ -19,6 +28,15 @@ export function createGameHUDView(root, actions) {
 	let inventoryPanel = null;
 	let equipmentPanel = null;
 	let skillsPanel = null;
+	let questsPanel = null;
+	let mapsPanel = null;
+	let chatPanel = null;
+	let socialPanel = null;
+	let selectionPanel = null;
+	let materialsPanel = null;
+	let refinementPanel = null;
+	let enchantPanel = null;
+	let equipmentSetsPanel = null;
 	let shopPanel = null;
 	let containerPanel = null;
 	let noticeUntil = 0;
@@ -90,25 +108,30 @@ export function createGameHUDView(root, actions) {
 		skillsPanel = null;
 		shopPanel = null;
 		containerPanel = null;
+		questsPanel = null;
+		chatPanel = null;
+		socialPanel = null;
+		selectionPanel = null;
+		materialsPanel = null;
+		refinementPanel = null;
+		enchantPanel = null;
+		equipmentSetsPanel = null;
+		mapsPanel?.destroy();
+		mapsPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
 		if (notify) interaction?.close?.();
 	}
 	function updateMessages() {
-		text('[data-chat-preview]', messages.slice(-2).join('\n') || '暂无消息');
-		const log = $('.chat-log');
-		if (log) {
-			const atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
-			log.replaceChildren(
-				...messages.map(message => {
-					const p = document.createElement('p');
-					p.textContent = message;
-					return p;
-				})
-			);
-			if (atBottom) log.scrollTop = log.scrollHeight;
-		}
+		text(
+			'[data-chat-preview]',
+			messages
+				.slice(-2)
+				.map(message => message.text)
+				.join('\n') || '暂无消息'
+		);
+		chatPanel?.update(messages);
 	}
 	function details(entries) {
 		const dl = document.createElement('dl');
@@ -163,7 +186,16 @@ export function createGameHUDView(root, actions) {
 				shortcuts: '快捷配置',
 				inventory: '背包',
 				equipment: '装备',
+				equipmentSets: '装备方案',
 				skills: '技能',
+				quests: '任务',
+				social: '社交',
+				transformation: serverState?.title,
+				information: serverState?.title,
+				selection: serverState?.title,
+				materials: serverState?.title,
+				refinement: serverState?.title,
+				enchant: serverState?.title,
 				cart: '手推车',
 				storage: serverState?.title || '仓库',
 				shop: serverState?.title,
@@ -174,24 +206,59 @@ export function createGameHUDView(root, actions) {
 		body.replaceChildren();
 		body.classList.toggle('equipment-body', panel === 'equipment');
 		$('.panel').classList.toggle('equipment-panel', panel === 'equipment');
-		body.classList.toggle('inventory-body', ['inventory', 'skills', 'shop', 'storage', 'cart'].includes(panel));
+		body.classList.toggle(
+			'inventory-body',
+			[
+				'inventory',
+				'skills',
+				'shop',
+				'storage',
+				'cart',
+				'quests',
+				'map',
+				'social',
+				'selection',
+				'transformation',
+				'refinement',
+				'enchant',
+				'equipmentSets',
+				'materials'
+			].includes(panel)
+		);
 		$('.panel').classList.toggle(
 			'inventory-panel',
-			['inventory', 'skills', 'shop', 'storage', 'cart'].includes(panel)
+			[
+				'inventory',
+				'skills',
+				'shop',
+				'storage',
+				'cart',
+				'quests',
+				'map',
+				'social',
+				'selection',
+				'transformation',
+				'refinement',
+				'enchant',
+				'equipmentSets',
+				'materials'
+			].includes(panel)
 		);
 		body.classList.toggle('chat-body', panel === 'chat');
 		$('.panel').classList.toggle('chat-panel', panel === 'chat');
+		if (panel === 'information') {
+			const list = document.createElement('dl');
+			for (const [label, value] of serverState.rows) {
+				const term = document.createElement('dt'),
+					description = document.createElement('dd');
+				term.textContent = label;
+				description.textContent = String(value);
+				list.append(term, description);
+			}
+			body.append(list);
+		}
 		if (panel === 'npc') createNPCPanel(body, serverState);
 		if (panel === 'profile' || panel === 'status') renderDetails();
-		if (panel === 'map') {
-			const canvas = document.createElement('canvas');
-			canvas.width = canvas.height = 256;
-			canvas.className = 'large-map';
-			const name = document.createElement('p');
-			name.textContent = snapshot.mapName;
-			body.append(name, canvas);
-			drawMap(canvas);
-		}
 		if (panel === 'menu') {
 			const grid = document.createElement('div');
 			grid.className = 'menu-grid';
@@ -204,10 +271,11 @@ export function createGameHUDView(root, actions) {
 				['快捷配置', 'shortcuts'],
 				['背包', 'inventory'],
 				['装备', 'equipment'],
+				['装备方案', 'equipmentSets'],
 				['技能', 'skills'],
 				['手推车', 'cart'],
-				['任务'],
-				['社交']
+				['任务', 'quests'],
+				['社交', 'social']
 			]) {
 				const button = document.createElement('button');
 				button.textContent = label;
@@ -230,12 +298,47 @@ export function createGameHUDView(root, actions) {
 		skillsPanel = null;
 		shopPanel = null;
 		containerPanel = null;
+		questsPanel = null;
+		chatPanel = null;
+		socialPanel = null;
+		selectionPanel = null;
+		materialsPanel = null;
+		refinementPanel = null;
+		enchantPanel = null;
+		equipmentSetsPanel = null;
+		mapsPanel?.destroy();
+		mapsPanel = null;
+		if (panel === 'social') socialPanel = createSocialPanel(body, actions.social, name => open('chat', name));
+		if (panel === 'quests')
+			questsPanel = createQuestsPanel(body, {
+				snapshot: actions.questSnapshot,
+				toggle: actions.questToggle,
+				showMap: target => open('map', target)
+			});
+		if (panel === 'map') mapsPanel = createMapsPanel(body, actions.maps, drawMap, slotIndex);
 		if (panel === 'storage' || panel === 'cart')
 			containerPanel = createContainerPanel(
 				body,
 				{ snapshot: actions.containerSnapshot, transfer: actions.transferItem },
 				panel
 			);
+		if (panel === 'equipmentSets') equipmentSetsPanel = createEquipmentSetsPanel(body, actions.equipmentSets);
+		if (panel === 'enchant') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			enchantPanel = createEnchantPanel(body, serverState.service);
+		}
+		if (panel === 'refinement') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			refinementPanel = createRefinementPanel(body, serverState.service);
+		}
+		if (panel === 'materials' || panel === 'transformation') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			materialsPanel = createMaterialsPanel(body, serverState.service);
+		}
+		if (panel === 'selection') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			selectionPanel = createSelectionPanel(body, serverState.service);
+		}
 		if (panel === 'shop') {
 			serverState.service.setOperationGuard(actions.canOperate);
 			shopPanel = createShopPanel(body, serverState.service);
@@ -290,17 +393,7 @@ export function createGameHUDView(root, actions) {
 			body.append(grid);
 		}
 		if (panel === 'chat') {
-			body.innerHTML =
-				'<div class="chat-log" role="log" aria-label="聊天消息"></div><form class="chat-form"><input aria-label="聊天内容" placeholder="发送公开消息" maxlength="120" autocomplete="off"><button type="submit">发送</button></form>';
-			$('.chat-form').onsubmit = event => {
-				event.preventDefault();
-				const input = $('.chat-form input');
-				const message = input.value.trim();
-				if (message) {
-					actions.sendChat(message);
-					input.value = '';
-				}
-			};
+			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
 			updateMessages();
 		}
 		$('h2').focus();
@@ -380,6 +473,13 @@ export function createGameHUDView(root, actions) {
 			skillsPanel?.update();
 			shopPanel?.update();
 			containerPanel?.update();
+			questsPanel?.update();
+			socialPanel?.update();
+			selectionPanel?.update();
+			materialsPanel?.update();
+			refinementPanel?.update();
+			enchantPanel?.update();
+			equipmentSetsPanel?.update();
 		},
 		setMap(image) {
 			mapImage = image;
@@ -400,7 +500,20 @@ export function createGameHUDView(root, actions) {
 				return;
 			}
 			serverState = state;
-			open(['shop', 'storage'].includes(state.kind) ? state.kind : 'npc');
+			open(
+				[
+					'shop',
+					'storage',
+					'selection',
+					'materials',
+					'refinement',
+					'enchant',
+					'information',
+					'transformation'
+				].includes(state.kind)
+					? state.kind
+					: 'npc'
+			);
 		},
 		openShortcuts: index => open('shortcuts', index),
 		updateShortcuts(state) {

@@ -8,6 +8,8 @@
  * @author Vincent Thibault, AoShinHo
  */
 
+import Platform from 'UI/Platform.js';
+import { openCartAppearance } from 'UI/Game/GameCartAppearance.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Renderer from 'Renderer/Renderer.js';
@@ -114,6 +116,10 @@ CartDecoration.onAppend = function onAppend() {
  * @param {object} pkt - parsed ZC_SELECTCART packet
  */
 CartDecoration.onSelectCart = function onSelectCart(pkt) {
+	if (Platform.isMobile) {
+		openCartAppearance(pkt);
+		return;
+	}
 	const root = CartDecoration.getRoot();
 	_identity = pkt.identity;
 
