@@ -47,7 +47,8 @@ export function createCharSelect(config) {
 		pageBalls = false,
 		activationEvent = 'mousedown',
 		bitmapSkin = true,
-		onSelectionChange = () => {}
+		onSelectionChange = () => {},
+		onSlotChange = () => {}
 	} = config;
 	function loadSkin(path, callback) {
 		if (bitmapSkin) Client.loadFile(path, callback);
@@ -1377,6 +1378,7 @@ export function createCharSelect(config) {
 		for (let i = start; i < loopMax; ++i) {
 			if (charCanvases[i]) {
 				charCanvases[i].querySelector('.name').textContent = _slots[i] ? _slots[i].name : '';
+				onSlotChange(charCanvases[i], { index: i, character: _slots[i] });
 			}
 			if (!_slots[i]) {
 				if (jobIcons[i]) {

@@ -105,7 +105,7 @@ describe('mobile authentication', () => {
 		root.querySelector('#doram_race').click();
 		root.querySelector('.female_button').click();
 		Renderer.render.mock.calls.at(-1)[0](1000);
-		expect(Client.loadFile).not.toHaveBeenCalled();
+		expect(Client.loadFile.mock.calls.every(([path]) => /make_character_ver2\/color0[1-9]_off\.bmp$/.test(path))).toBe(true);
 	});
 	it('keeps the deletion target fixed until the server answers, then unlocks selection', () => {
 		const Select = createDeletionSelect();
@@ -139,6 +139,11 @@ describe('mobile authentication', () => {
 		expect(root.querySelector('.ok').style.display).not.toBe('none');
 		expect(root.querySelector('#slot0 .name').textContent).toBe('<b>角色</b>');
 		expect(root.querySelector('#slot0 .name b')).toBeNull();
+		expect(root.querySelector('#slot0 .empty-placeholder').hidden).toBe(true);
+		expect(root.querySelector('#slot1 .empty-placeholder').hidden).toBe(false);
+		Select.addCharacter({ ...character(), CharNum: 1, GID: 456, name: '新到达角色' });
+		expect(root.querySelector('#slot1 .empty-placeholder').hidden).toBe(true);
+		expect(root.querySelector('#slot1').dataset.empty).toBe('false');
 		Select.onCreateRequest = vi.fn();
 		root.querySelector('.make').click();
 		expect(Select.onCreateRequest).not.toHaveBeenCalled();

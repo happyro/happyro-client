@@ -24,7 +24,7 @@ const slots = Array.from(
 	<button class="char_canvas" id="slot${i}" type="button" aria-label="角色栏 ${i + 1}">
 		<canvas width="157" height="195"></canvas>
 		<span class="name"></span>
-		<span class="empty-placeholder" aria-hidden="true"><span class="empty-plus">+</span><span>创建角色</span></span>
+		<span class="empty-placeholder" hidden aria-hidden="true"><span class="empty-plus">+</span><span>创建角色</span></span>
 		<span class="timedelete slot${i} hidden"></span>
 	</button>`
 ).join('');
@@ -42,12 +42,15 @@ export default withMobileShell(
 		defaultMaxSlots: 15,
 		activationEvent: 'click',
 		bitmapSkin: false,
+		onSlotChange(slot, { index, character }) {
+			slot.dataset.empty = String(!character);
+			slot.querySelector('.empty-placeholder').hidden = !!character;
+			slot.setAttribute('aria-label', character?.name || `创建角色，角色栏 ${index + 1}`);
+		},
 		onSelectionChange(root, { index, character, maxSlots }) {
 			root.querySelectorAll('.char_canvas').forEach((slot, i) => {
 				slot.hidden = i >= maxSlots;
 				slot.setAttribute('aria-pressed', String(i === index));
-				const name = slot.querySelector('.name').textContent;
-				slot.setAttribute('aria-label', name || `创建角色，角色栏 ${i + 1}`);
 			});
 			root.querySelector('.selection-label').textContent =
 				character?.name || (index < maxSlots ? `角色栏 ${index + 1}` : '');

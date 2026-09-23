@@ -1,28 +1,23 @@
 import { expect, it, vi } from 'vitest';
-vi.mock('Renderer/Entity/Entity.js', () => ({ default: class {
-	set(data) { Object.assign(this, data); }
-	renderEntity = vi.fn();
-} }));
-vi.mock('Renderer/SpriteRenderer.js', () => ({ default: { bind2DContext: vi.fn() } }));
-import { createAppearancePreviews } from '../../src/UI/Mobile/auth/AppearancePreviews.js';
-import Entity from 'Renderer/Entity/Entity.js';
-import SpriteRenderer from 'Renderer/SpriteRenderer.js';
+vi.mock('Core/Client.js', () => ({ default: { loadFile: vi.fn((path, callback) => callback('data:image/png;base64,test')) } }));
+vi.mock('DB/DBManager.js', () => ({ default: { INTERFACE_PATH: 'interface/' } }));
+import { loadAppearanceColors } from '../../src/UI/Mobile/auth/AppearancePreviews.js';
+import Client from 'Core/Client.js';
 
-it('renders the active race and gender with each actual hairstyle and palette', () => {
+it('samples desktop swatch colors once per screen without rendering characters', () => {
 	const root = document.createElement('div');
-	root.innerHTML = '<div id="human_male"><canvas class="hair-preview" data-hair="2"></canvas></div><div id="doram_female"><canvas class="hair-preview" data-hair="5"></canvas></div><canvas class="color-preview" data-color="8"></canvas>';
-	const ctx = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(function () { return { canvas: this, clearRect: vi.fn() }; });
-	const set = vi.spyOn(Entity.prototype, 'set');
+	root.innerHTML = '<span class="color-swatch" data-color="0"></span><span class="color-swatch" data-color="8"></span>';
+	const drawImage = vi.fn();
+	const ctx = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ drawImage, getImageData: () => ({ data: [120, 70, 30, 255] }) });
+	vi.stubGlobal('Image', class {
+		naturalWidth = 20; naturalHeight = 20;
+		set src(value) { this.onload(); }
+	});
 	try {
-		const previews = createAppearancePreviews();
-		previews.update(root, { race: 'human', gender: 'male', hair: 3, color: 4 });
-		expect(set.mock.calls.map(([data]) => [data.job, data.sex, data.head, data.headpalette])).toEqual([[0, 1, 2, 4], [0, 1, 3, 8]]);
-		previews.render();
-		expect(SpriteRenderer.bind2DContext).toHaveBeenCalledTimes(2);
-		set.mockClear();
-		previews.update(root, { race: 'doram', gender: 'female', hair: 6, color: 1 });
-		expect(set.mock.calls.map(([data]) => [data.job, data.sex, data.head, data.headpalette])).toEqual([[4218, 0, 5, 1], [4218, 0, 6, 8]]);
-		previews.render();
-		expect(SpriteRenderer.bind2DContext).toHaveBeenCalledTimes(4);
-	} finally { ctx.mockRestore(); set.mockRestore(); }
+		loadAppearanceColors(root);
+		loadAppearanceColors(root);
+		expect(Client.loadFile.mock.calls.map(([path]) => path)).toEqual(['interface/make_character_ver2/color01_off.bmp', 'interface/make_character_ver2/color09_off.bmp']);
+		expect(drawImage).toHaveBeenCalledTimes(2);
+		expect(root.firstElementChild.style.backgroundColor).toBe('rgb(120, 70, 30)');
+	} finally { ctx.mockRestore(); vi.unstubAllGlobals(); }
 });

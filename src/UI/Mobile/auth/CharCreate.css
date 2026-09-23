@@ -317,6 +317,7 @@
 	.style-section { grid-column: 2; grid-row: 3; }
 }
 
-/* Sprite portraits use the selected race, gender, hairstyle and real palette. */
-.hstyle_button, .hcolor_button { width: 64px; height: 64px; overflow: hidden; }
-.hair-preview, .color-preview { display: block; width: 64px; height: 64px; pointer-events: none; }
+/* Reuse desktop hair icons; colors are sampled from its palette swatches. */
+.hstyle_button, .hcolor_button { width: 52px; height: 52px; overflow: hidden; }
+.hair-preview { display: block; width: 44px; height: 44px; background-position: center; background-repeat: no-repeat; background-size: contain; pointer-events: none; }
+.color-swatch { display: block; width: 32px; height: 32px; border-radius: 6px; pointer-events: none; }
