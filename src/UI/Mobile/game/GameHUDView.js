@@ -1,3 +1,4 @@
+import { createNavigationPanel } from './NavigationPanel.js';
 import { createCompanionsPanel } from './CompanionsPanel.js';
 import { createPetPanel } from './PetPanel.js';
 import { createMailPanel } from './MailPanel.js';
@@ -37,6 +38,7 @@ export function createGameHUDView(root, actions) {
 	let skillsPanel = null;
 	let questsPanel = null;
 	let mapsPanel = null;
+	let navigationPanel = null;
 	let chatPanel = null;
 	let socialPanel = null;
 	let selectionPanel = null;
@@ -136,6 +138,8 @@ export function createGameHUDView(root, actions) {
 		enchantPanel = null;
 		equipmentSetsPanel = null;
 		mapsPanel?.destroy();
+		navigationPanel?.destroy();
+		navigationPanel = null;
 		mapsPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
@@ -200,6 +204,7 @@ export function createGameHUDView(root, actions) {
 				profile: '人物信息',
 				status: '状态效果',
 				map: '地图',
+				navigation: '导航',
 				menu: '菜单',
 				chat: '聊天',
 				camera: '镜头',
@@ -299,6 +304,7 @@ export function createGameHUDView(root, actions) {
 				['设置', 'settings'],
 				['人物', 'profile'],
 				['地图', 'map'],
+				['导航', 'navigation'],
 				['聊天', 'chat'],
 				['状态', 'status'],
 				['镜头', 'camera'],
@@ -376,6 +382,8 @@ export function createGameHUDView(root, actions) {
 		enchantPanel = null;
 		equipmentSetsPanel = null;
 		mapsPanel?.destroy();
+		navigationPanel?.destroy();
+		navigationPanel = null;
 		mapsPanel = null;
 		if (panel === 'social') socialPanel = createSocialPanel(body, actions.social, name => open('chat', name));
 		if (panel === 'quests')
@@ -384,6 +392,7 @@ export function createGameHUDView(root, actions) {
 				toggle: actions.questToggle,
 				showMap: target => open('map', target)
 			});
+		if (panel === 'navigation') navigationPanel = createNavigationPanel(body, actions.canOperate);
 		if (panel === 'map') mapsPanel = createMapsPanel(body, actions.maps, drawMap, slotIndex);
 		if (panel === 'storage' || panel === 'cart')
 			containerPanel = createContainerPanel(
