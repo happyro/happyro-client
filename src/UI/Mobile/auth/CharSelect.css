@@ -232,7 +232,7 @@
 .hidden { display: none; }
 .selection-label { overflow-wrap: anywhere; }
 
-@media (max-width: 600px) and (min-height: 480px) {
+@media (orientation: portrait) and (max-width: 600px) and (min-height: 480px) {
 	.layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, calc((100% - 12px) / 2 - 8px)) minmax(200px, 1fr); }
 	.char_list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: max-content; }
 	.char_canvas canvas { max-width: 80px; transform: translateY(8px) scale(1.375); }
@@ -241,4 +241,19 @@
 	.action-group { border-top: none; }
 	.charinfo { border-bottom: 1px solid var(--m-border); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
 	.charinfo > div:nth-last-child(-n + 2) { border-bottom: none; }
+}
+
+/* Landscape: keep two character cards per row and reserve a narrower detail column. */
+@media (orientation: landscape) {
+	.layout { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+	.char_list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-auto-rows: max-content;
+		align-content: start;
+		min-width: 0;
+	}
+	.char_canvas { min-width: 0; }
+	.detail-panel { min-width: 0; grid-template-columns: minmax(0, 1fr); }
+	.charinfo > div { overflow-wrap: anywhere; }
 }

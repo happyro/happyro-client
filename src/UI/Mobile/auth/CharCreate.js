@@ -52,6 +52,8 @@ const htmlText = `<div class="page">
 		<button class="return" type="button">返回</button>
 	</header>
 
+	<div class="create-layout">
+	<div class="create-identity">
 	<div class="name-field">
 		<span class="field-label">角色名称</span>
 		<input type="text" id="char_name" maxlength="24"
@@ -59,7 +61,7 @@ const htmlText = `<div class="page">
 			enterkeyhint="done" placeholder="输入角色名" />
 	</div>
 
-	<div>
+	<div class="race-section">
 		<p class="section-title">种族</p>
 		<div class="races">
 			<div>
@@ -81,6 +83,7 @@ const htmlText = `<div class="page">
 		</div>
 	</div>
 
+	</div>
 	<div id="style" class="style-section">
 		<div class="gender-row">
 			<span id="male_container">
@@ -99,6 +102,7 @@ const htmlText = `<div class="page">
 			<button class="rot_right" type="button" aria-label="向右旋转">▶</button>
 		</div>
 
+		<div class="appearance-options">
 		<div>
 			<p class="section-title hair_style_title">发型</p>
 			${hairstyles}
@@ -110,6 +114,8 @@ const htmlText = `<div class="page">
 		</div>
 	</div>
 
+	</div>
+	</div>
 	<button class="make" type="button">创建角色</button>
 </div>`;
 

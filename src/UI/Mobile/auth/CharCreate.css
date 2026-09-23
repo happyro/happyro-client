@@ -311,13 +311,84 @@
 
 [hidden] { display: none !important; }
 
-@media (min-width: 640px) {
-	.page { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
-	.top-bar, .name-field, .page > .make { grid-column: 1 / -1; }
-	.style-section { grid-column: 2; grid-row: 3; }
-}
 
 /* Reuse desktop hair icons; colors are sampled from its palette swatches. */
 .hstyle_button, .hcolor_button { width: 52px; height: 52px; overflow: hidden; }
 .hair-preview { display: block; width: 44px; height: 44px; background-position: center; background-repeat: no-repeat; background-size: contain; pointer-events: none; }
 .color-swatch { display: block; width: 32px; height: 32px; border-radius: 6px; pointer-events: none; }
+
+/* Structural groups are transparent to the existing portrait layout. */
+.create-layout, .create-identity, .appearance-options { display: contents; }
+#char_name { min-width: 0; }
+
+@media (orientation: landscape) {
+	:host { overflow: hidden; }
+	.page {
+		height: 100%;
+		min-height: 0;
+		display: grid;
+		grid-template-rows: auto minmax(0, 1fr) auto;
+		gap: 10px;
+		padding-top: max(10px, env(safe-area-inset-top));
+		padding-bottom: max(10px, env(safe-area-inset-bottom));
+	}
+	.screen-title, .title { font-size: 18px; }
+	.return { min-height: 36px; padding: 6px 12px; }
+	.create-layout {
+		display: grid;
+		grid-template-columns: minmax(0, 0.9fr) minmax(140px, 0.65fr) minmax(0, 0.85fr);
+		grid-template-rows: auto auto minmax(0, 1fr);
+		gap: 8px 12px;
+		min-height: 0;
+	}
+	.create-identity, .style-section { display: contents; }
+	.race-section {
+		grid-column: 1;
+		grid-row: 1 / -1;
+		min-width: 0;
+		min-height: 0;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		padding: 3px;
+	}
+	.name-field { grid-column: 2; grid-row: 1; min-width: 0; gap: 4px; }
+	#char_name { height: 40px; padding: 0 10px; }
+	.section-title { margin-bottom: 6px; }
+	.races { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+	.races > div, .races label { min-width: 0; }
+	.races label { padding: 8px 4px; gap: 4px; }
+	.races canvas { max-width: 100%; width: 52px; height: auto; }
+	.races strong { font-size: 12px; }
+	.human_desc, .doram_desc { font-size: 11px; overflow-wrap: anywhere; }
+	.gender-row { grid-column: 2; grid-row: 2; gap: 6px; }
+	.gender-row label { height: 36px; font-size: 13px; }
+	.model-row {
+		grid-column: 2;
+		grid-row: 3;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-content: start;
+		justify-items: center;
+		gap: 6px;
+		min-height: 0;
+		overflow-y: auto;
+	}
+	#style_model { grid-column: 1 / -1; grid-row: 1; width: 52px; height: auto; }
+	.rot_left, .rot_right { grid-row: 2; width: 36px; height: 36px; font-size: 14px; }
+	.appearance-options {
+		display: flex;
+		flex-direction: column;
+		grid-column: 3;
+		grid-row: 1 / -1;
+		gap: 12px;
+		min-width: 0;
+		min-height: 0;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		padding: 3px;
+	}
+	.hair-style, .color-row { gap: 4px; }
+	.hstyle_button, .hcolor_button { width: 44px; height: 44px; }
+	.hair-preview { width: 40px; height: 40px; }
+	.page > .make { height: 40px; margin: 0; font-size: 15px; }
+}
