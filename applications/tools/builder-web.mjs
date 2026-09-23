@@ -333,7 +333,7 @@ ${buttons}
                 var top = (screen.height - h) / 2;    
                 var left = (screen.width - w) / 2;    
                 window.open(    
-                    'api.html?v=${buildId}&app=' + appName,
+                    'api.html?v=${buildId}&app=' + appName + (new URLSearchParams(location.search).get('debug') === '1' ? '&debug=1' : ''),
                     '_blank',    
                     'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',menubar=0,toolbar=0,location=0,status=0,resizable=1,scrollbars=0'    
                 );    
@@ -578,6 +578,7 @@ function createApiHTML() {
                 #ro-preloader .pre-spinner { animation: none; }
             }
         </style>    
+        <script src="debug.js?v=${buildId}"></script>
         <script src="api.js?v=${buildId}"></script>
     </head>    
     <body>    
@@ -651,6 +652,7 @@ function createApiHTML() {
 `;
 	fs.writeFileSync(dist + platform + '/api.html', apiHtml, { encoding: 'utf8' });
 	fs.copyFileSync('./applications/api/api.js', dist + platform + '/api.js');
+	fs.copyFileSync('./applications/api/debug.js', dist + platform + '/debug.js');
 }
 
 function writeBuildInfo() {
@@ -659,6 +661,7 @@ function writeBuildInfo() {
 		'index.html',
 		'api.html',
 		'api.js',
+		'debug.js',
 		'Online.js',
 		'Config.js',
 		'Config.happyro.js',
