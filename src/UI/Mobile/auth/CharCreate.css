@@ -336,7 +336,7 @@
 	.return { min-height: 36px; padding: 6px 12px; }
 	.create-layout {
 		display: grid;
-		grid-template-columns: minmax(0, 0.9fr) minmax(140px, 0.65fr) minmax(0, 0.85fr);
+		grid-template-columns: minmax(0, 0.9fr) minmax(152px, 0.65fr) minmax(0, 0.85fr);
 		grid-template-rows: auto auto minmax(0, 1fr);
 		gap: 8px 12px;
 		min-height: 0;
@@ -366,15 +366,18 @@
 		grid-column: 2;
 		grid-row: 3;
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-columns: 36px minmax(0, 1fr) 36px;
+		grid-template-rows: minmax(0, 1fr);
 		align-content: start;
 		justify-items: center;
 		gap: 6px;
 		min-height: 0;
 		overflow-y: auto;
 	}
-	#style_model { grid-column: 1 / -1; grid-row: 1; width: 52px; height: auto; }
-	.rot_left, .rot_right { grid-row: 2; width: 36px; height: 36px; font-size: 14px; }
+	#style_model { grid-column: 2; grid-row: 1; width: 65px; max-width: 100%; height: auto; max-height: 100%; object-fit: contain; }
+	.rot_left, .rot_right { grid-row: 1; width: 36px; height: 36px; font-size: 14px; }
+	.rot_left { grid-column: 1; }
+	.rot_right { grid-column: 3; }
 	.appearance-options {
 		display: flex;
 		flex-direction: column;
