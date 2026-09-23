@@ -3,6 +3,7 @@ export function bindPointerControls(root, scene, actions) {
 	const abort = new AbortController();
 	const joystick = root.querySelector('.joystick');
 	const attack = root.querySelector('.attack');
+	const skills = [...root.querySelectorAll('[data-shortcut]')];
 	const knob = joystick.querySelector('span');
 	const owners = new Map();
 	let vector = [0, 0],
@@ -47,15 +48,16 @@ export function bindPointerControls(root, scene, actions) {
 			vector = [0, 0];
 			knob.style.transform = '';
 			actions.stopMove();
-		} else actions.stopAttack();
+		} else if (node === attack) actions.stopAttack();
 	}
 	function cancel() {
 		release(joystick);
 		release(attack);
+		for (const skill of skills) release(skill);
 		if (sceneStart && scene.hasPointerCapture(sceneStart.id)) scene.releasePointerCapture(sceneStart.id);
 		sceneStart = null;
 	}
-	for (const node of [joystick, attack]) {
+	for (const node of [joystick, attack, ...skills]) {
 		listen(node, 'pointerdown', event => {
 			event.preventDefault();
 			if (!actions.enabled() || owners.has(node) || event.button !== 0) return;
@@ -63,11 +65,12 @@ export function bindPointerControls(root, scene, actions) {
 			node.setPointerCapture(event.pointerId);
 			node.classList.add('held');
 			if (node === joystick) {
+				actions.startMove?.();
 				actions.stopMove();
 				update(event);
 				tick();
 				if (owners.has(attack)) actions.attack(moving());
-			} else {
+			} else if (node === attack) {
 				attackTicks = 0;
 				actions.attack(moving());
 			}
@@ -78,7 +81,18 @@ export function bindPointerControls(root, scene, actions) {
 		});
 		for (const type of ['pointerup', 'pointercancel', 'lostpointercapture'])
 			listen(node, type, event => {
-				if (owners.get(node) === event.pointerId) release(node);
+				if (owners.get(node) !== event.pointerId) return;
+				const rect = node.getBoundingClientRect();
+				const activate =
+					skills.includes(node) &&
+					type === 'pointerup' &&
+					actions.enabled() &&
+					event.clientX >= rect.left &&
+					event.clientX <= rect.right &&
+					event.clientY >= rect.top &&
+					event.clientY <= rect.bottom;
+				release(node);
+				if (activate) actions.shortcut(Number(node.dataset.shortcut));
 			});
 	}
 	const oldTouchAction = scene.style.touchAction;
@@ -114,6 +128,8 @@ export function bindPointerControls(root, scene, actions) {
 		});
 	return {
 		cancel,
+		releaseAttack: () => release(attack),
+		isMoving: moving,
 		destroy() {
 			cancel();
 			abort.abort();

@@ -1,3 +1,4 @@
+import { createShortcutPanel } from './ShortcutPanel.js';
 import html from './GameHUD.html?raw';
 import css from './GameHUD.css?raw';
 
@@ -7,6 +8,8 @@ export function createGameHUDView(root, actions) {
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
+	let shortcutPanel = null;
+	let noticeUntil = 0;
 	let lastTrigger;
 	let snapshot = {};
 	let messages = [];
@@ -38,9 +41,13 @@ export function createGameHUDView(root, actions) {
 		});
 	}
 	listen(root, 'pointerdown', event => {
-		if (!event.target.closest('.joystick, .combat')) actions.cancelSceneInput();
+		if (!event.target.closest('.joystick, .combat, .skill-prompt')) actions.cancelSceneInput();
 	});
 	listen($('[data-interact]'), 'click', () => actions.interact());
+	for (const button of root.querySelectorAll('[data-shortcut-page]'))
+		listen(button, 'click', () => actions.shortcutPage(Number(button.dataset.shortcutPage)));
+	listen($('[data-skill-cancel]'), 'click', () => actions.cancelSkill());
+	listen($('[data-skill-self]'), 'click', () => actions.selfSkill());
 	const text = (selector, value) => {
 		$(selector).textContent = value ?? '';
 	};
@@ -61,6 +68,7 @@ export function createGameHUDView(root, actions) {
 	function close() {
 		if (!currentPanel) return;
 		currentPanel = null;
+		shortcutPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
@@ -114,14 +122,22 @@ export function createGameHUDView(root, actions) {
 			);
 		}
 	}
-	function open(panel) {
+	function open(panel, slotIndex) {
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
 		backdrop.hidden = false;
 		actions.setModal(true);
 		text(
 			'h2',
-			{ profile: '人物信息', status: '状态效果', map: '地图', menu: '菜单', chat: '聊天', camera: '镜头' }[panel]
+			{
+				profile: '人物信息',
+				status: '状态效果',
+				map: '地图',
+				menu: '菜单',
+				chat: '聊天',
+				camera: '镜头',
+				shortcuts: '快捷配置'
+			}[panel]
 		);
 		body.replaceChildren();
 		body.classList.toggle('chat-body', panel === 'chat');
@@ -145,6 +161,7 @@ export function createGameHUDView(root, actions) {
 				['聊天', 'chat'],
 				['状态', 'status'],
 				['镜头', 'camera'],
+				['快捷配置', 'shortcuts'],
 				['背包'],
 				['装备'],
 				['技能'],
@@ -166,6 +183,15 @@ export function createGameHUDView(root, actions) {
 			grid.append(exit);
 			body.append(grid);
 		}
+		shortcutPanel = null;
+		if (panel === 'shortcuts')
+			shortcutPanel = createShortcutPanel(body, {
+				index: slotIndex,
+				snapshot: actions.shortcutSnapshot,
+				candidates: actions.shortcutCandidates,
+				configure: actions.configureShortcut,
+				saved: close
+			});
 		if (panel === 'camera') {
 			const grid = document.createElement('div');
 			grid.className = 'menu-grid';
@@ -223,7 +249,7 @@ export function createGameHUDView(root, actions) {
 	return {
 		update(next) {
 			snapshot = next;
-			text('[data-target]', next.target?.name || '点击目标进行选择');
+			if (performance.now() >= noticeUntil) text('[data-target]', next.target?.name || '点击目标进行选择');
 			$('[data-interact]').hidden = !next.target?.interaction;
 			text('[data-interact]', next.target?.interaction);
 			$('.attack').setAttribute('aria-disabled', String(!next.target?.attack));
@@ -265,6 +291,56 @@ export function createGameHUDView(root, actions) {
 		setMessages(next) {
 			messages = next;
 			updateMessages();
+		},
+		openShortcuts: index => open('shortcuts', index),
+		updateShortcuts(state) {
+			shortcutPanel?.updateIcons(actions.shortcutCandidates());
+			text('[data-shortcut-page-label]', `${state.page + 1}/${state.pages}`);
+			for (const button of root.querySelectorAll('[data-shortcut]')) {
+				const slot = state.slots[Number(button.dataset.shortcut)];
+				button.hidden = !slot;
+				if (!slot) continue;
+				button.setAttribute(
+					'aria-label',
+					`槽位 ${slot.index + 1}：${slot.name}${slot.reason ? '，' + slot.reason : ''}`
+				);
+				button.setAttribute('aria-disabled', String(!slot.available));
+				const key = JSON.stringify([
+					slot.icon,
+					slot.amount,
+					slot.empty,
+					Math.ceil((slot.cooldown || 0) / 1000)
+				]);
+				if (button.dataset.content !== key) {
+					button.dataset.content = key;
+					button.replaceChildren();
+					if (slot.empty) button.textContent = '＋';
+					else {
+						const img = document.createElement('img');
+						img.alt = '';
+						if (slot.icon) img.src = slot.icon;
+						const count = document.createElement('small');
+						count.textContent = slot.amount;
+						button.append(img, count);
+						if (slot.cooldown > 0) {
+							const cooldown = document.createElement('b');
+							cooldown.className = 'slot-cooldown';
+							cooldown.textContent = Math.ceil(slot.cooldown / 1000);
+							button.append(cooldown);
+						}
+					}
+				}
+			}
+			$('.skill-prompt').hidden = !state.pending;
+			text(
+				'[data-skill-prompt]',
+				state.pending ? `${state.pending.name}：${state.pending.ground ? '点击地面施放' : '点击有效目标'}` : ''
+			);
+			$('[data-skill-self]').hidden = !state.pending?.self;
+		},
+		notice(message) {
+			noticeUntil = performance.now() + 3000;
+			text('[data-target]', message);
 		},
 		close,
 		destroy() {

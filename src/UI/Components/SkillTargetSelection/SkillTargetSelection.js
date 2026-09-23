@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import { canTargetSkill } from 'UI/Game/SkillTargets.js';
 import DB from 'DB/DBManager.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import KEYS from 'Controls/KeyEventHandler.js';
@@ -334,35 +335,14 @@ function intersectEntities(event) {
  * @param {object} entity
  */
 function intersectEntity(entity) {
-	let target = 0;
-
-	switch (entity.objecttype) {
-		case Entity.TYPE_MOB:
-		case Entity.TYPE_UNIT:
-			target = SkillTargetSelection.TYPE.ENEMY | SkillTargetSelection.TYPE.PET;
-			break;
-
-		case Entity.TYPE_TRAP:
-			target = SkillTargetSelection.TYPE.TRAP;
-			break;
-
-		case Entity.TYPE_HOM:
-		case Entity.TYPE_MERC:
-			target = SkillTargetSelection.TYPE.HOMUN | SkillTargetSelection.TYPE.FRIEND;
-			break;
-
-		case Entity.TYPE_PC:
-		case Entity.TYPE_ELEM:
-			target = SkillTargetSelection.TYPE.FRIEND;
-			break;
-
-		default:
-			return;
-	}
-
-	if (!(target & _flag) && !KEYS.SHIFT && !Controls.noshift && !SkillTargetSelection.checkMapState(entity)) {
+	if (
+		!canTargetSkill(entity, _flag, {
+			self: Session.Entity,
+			override: KEYS.SHIFT || Controls.noshift,
+			canAttack: SkillTargetSelection.checkMapState
+		})
+	)
 		return;
-	}
 
 	if (_flag === SkillTargetSelection.TYPE.PET) {
 		SkillTargetSelection.onPetSelected(entity.GID);

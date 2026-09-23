@@ -1,4 +1,5 @@
 import { clearAttackIntent } from 'Controls/AttackIntent.js';
+import { createGameShortcuts } from 'UI/Game/GameShortcuts.js';
 import Renderer from 'Renderer/Renderer.js';
 import * as Commands from 'UI/Game/GameCommands.js';
 import { bindPointerControls } from './PointerControls.js';
@@ -25,6 +26,7 @@ HUD.needFocus = false;
 HUD.nativeScrolling = true;
 let view;
 let controls;
+let shortcuts;
 let timer;
 let unsubscribe;
 let unsubscribeOrientation;
@@ -35,6 +37,7 @@ let modal = false;
 HUD.actions = {};
 
 function cancelSceneInput() {
+	shortcuts?.cancel();
 	controls?.cancel();
 	Session.moveAction = null;
 	Mobile.cancelInteraction();
@@ -55,6 +58,7 @@ function setModal(value) {
 function snapshot() {
 	const entity = Session.Entity;
 	if (!entity) return;
+	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
 		name: entity.display.name,
 		job: getJobDisplayName(entity.job),
@@ -106,11 +110,27 @@ HUD.onAppend = function () {
 	// Repeated map mounting must not duplicate subscriptions or timers.
 	HUD.onRemove();
 	abort = new AbortController();
+	shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
 		setModal,
 		interact: Commands.interactSelected,
 		camera: Commands.adjustCamera,
+		shortcutPage: delta => {
+			shortcuts.turn(delta);
+			snapshot();
+		},
+		shortcutSnapshot: () => shortcuts.snapshot(),
+		shortcutCandidates: () => shortcuts.candidates(),
+		configureShortcut: (...args) => shortcuts.configure(...args),
+		cancelSkill: () => {
+			shortcuts.cancel();
+			snapshot();
+		},
+		selfSkill: () => {
+			shortcuts.self();
+			snapshot();
+		},
 		sendChat: message => HUD.actions.sendChat(message),
 		returnToCharacters: () => HUD.actions.returnToCharacters()
 	});
@@ -120,15 +140,28 @@ HUD.onAppend = function () {
 			Session.Playing &&
 			Platform.orientation === 'landscape' &&
 			Session.Entity?.action !== Session.Entity?.ACTION.DIE,
+		startMove: () => shortcuts.cancel(),
 		move: Commands.moveDirection,
 		stopMove: () => {
 			MapControl.onRequestStopWalk();
 			Session.moveAction = null;
 		},
-		attack: Commands.attackSelected,
+		attack: moving => {
+			shortcuts.cancel();
+			Commands.attackSelected(moving);
+		},
+		shortcut: slot => {
+			controls.releaseAttack();
+			const index = shortcuts.snapshot().page * 3 + slot;
+			const result = shortcuts.use(index);
+			if (shortcuts.snapshot().pending?.ground) controls.cancel();
+			snapshot();
+			if (result.configure !== undefined) view.openShortcuts(result.configure);
+			if (result.message) view.notice(result.message);
+		},
 		stopAttack: Commands.stopAttack,
 		tap: (x, y) => {
-			Commands.tapScene(x, y);
+			if (!shortcuts.pick(x, y)) Commands.tapScene(x, y);
 			snapshot();
 		}
 	});
@@ -166,6 +199,8 @@ HUD.onAppend = function () {
 HUD.onRemove = function () {
 	controls?.destroy();
 	controls = null;
+	shortcuts?.cancel();
+	shortcuts = null;
 	clearAttackIntent();
 	clearInterval(timer);
 	timer = null;

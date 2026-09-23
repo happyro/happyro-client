@@ -1,3 +1,4 @@
+vi.mock('UI/Game/GameShortcuts.js', () => ({ createGameShortcuts: () => ({ snapshot: () => ({}), cancel: vi.fn() }) }));
 vi.mock('Renderer/Renderer.js', () => ({ default: { canvas: document.createElement('canvas') } }));
 vi.mock('UI/Game/GameCommands.js', () => ({ adjustCamera: vi.fn(), targetSnapshot: () => ({}), moveDirection: vi.fn(), stopAttack: vi.fn(), attackSelected: vi.fn(), tapScene: vi.fn(), interactSelected: vi.fn() }));
 vi.mock('../../src/UI/Mobile/game/PointerControls.js', () => ({ bindPointerControls: () => ({ cancel: vi.fn(), destroy: vi.fn() }) }));
@@ -5,7 +6,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 const state = vi.hoisted(() => ({
 	Session: { FreezeUI: false, Entity: { display: { name: '角色' }, job: 0, clevel: 1, joblevel: 1, money: 0, life: { hp: 10, hp_max: 10, sp: 2, sp_max: 3 }, position: [1, 2] } },
 	cancel: vi.fn(), stopWalk: vi.fn(), feed: new Set(), orientation: new Set(), connection: new Set(), actions: null,
-	view: { update: vi.fn(), setMap: vi.fn(), setMessages: vi.fn(), close: vi.fn(), destroy: vi.fn() }
+	view: { updateShortcuts: vi.fn(), update: vi.fn(), setMap: vi.fn(), setMessages: vi.fn(), close: vi.fn(), destroy: vi.fn() }
 }));
 vi.mock('UI/GUIComponent.js', () => ({ default: class {
 	static MouseMode = { CROSS: 0 };

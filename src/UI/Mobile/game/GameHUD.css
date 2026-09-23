@@ -386,3 +386,125 @@ dd {
 	border: 1px solid #ecce94;
 	border-radius: 8px;
 }
+
+.shortcut-tools {
+	position: absolute;
+	right: max(16px, env(safe-area-inset-right));
+	bottom: 174px;
+	width: 188px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	pointer-events: auto;
+}
+.shortcut-tools button {
+	min-width: 38px;
+	min-height: 38px;
+	padding: 4px;
+	border: 0;
+	background: transparent;
+}
+.shortcut-tools span {
+	font-size: 11px;
+}
+.combat .skill {
+	overflow: hidden;
+	touch-action: none;
+}
+.skill img {
+	width: 32px;
+	height: 32px;
+	object-fit: contain;
+	image-rendering: pixelated;
+	pointer-events: none;
+}
+.skill small {
+	position: absolute;
+	bottom: 5px;
+	left: 0;
+	right: 0;
+	text-align: center;
+	text-shadow: 0 1px 2px black;
+	font-size: 10px;
+	background: transparent;
+	line-height: 1.1;
+	pointer-events: none;
+}
+.skill[aria-disabled='true'] {
+	opacity: 0.55;
+}
+.slot-cooldown {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	background: #0009;
+	color: white;
+	font-size: 16px;
+	pointer-events: none;
+}
+.skill-prompt {
+	position: absolute;
+	top: 70px;
+	left: 240px;
+	right: 206px;
+	padding: 6px;
+	pointer-events: auto;
+	font-size: 12px;
+}
+.skill-prompt button {
+	min-height: 38px;
+	background: #483a25;
+	border: 1px solid #ecce94;
+	border-radius: 8px;
+	margin: 3px;
+}
+.slot-picker {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 10px;
+}
+.slot-picker button {
+	flex: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.slot-picker [aria-pressed='true'] {
+	outline: 2px solid #ffca67;
+}
+.shortcut-choices {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 6px;
+}
+.shortcut-choice {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	text-align: left;
+}
+.shortcut-choice img {
+	width: 32px;
+	height: 32px;
+	object-fit: contain;
+}
+.shortcut-config {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 12px 0;
+}
+.shortcut-config select {
+	font-size: 16px;
+	min-height: 40px;
+}
+.shortcut-config[hidden],
+.skill-prompt[hidden] {
+	display: none;
+}
+@media (max-height: 360px) {
+	.shortcut-tools {
+		bottom: 150px;
+	}
+}

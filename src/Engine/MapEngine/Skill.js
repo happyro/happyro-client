@@ -521,7 +521,7 @@ Guild.onIncreaseSkill =
  * @param {number} level
  * @param {optional|number} target game id
  */
-function onUseSkill(id, level, targetID) {
+function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
 	let entity;
 	let range;
 
@@ -572,9 +572,9 @@ function onUseSkill(id, level, targetID) {
 		Altitude.TYPE.WALKABLE
 	);
 
-	// Can't attack to this point
-	if (!count) {
-		return;
+	// A held touch joystick owns movement; do not auto-chase its skill target.
+	if (!count || (!allowMove && count >= 2)) {
+		return false;
 	}
 
 	if (id === SkillId.MC_CHANGECART) {

@@ -19,10 +19,18 @@
 	<button class="chat-preview surface" data-panel="chat" aria-label="打开聊天">
 		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>
 	</button>
+	<div class="shortcut-tools surface">
+		<button data-shortcut-page="-1" aria-label="上一组快捷槽">‹</button><span data-shortcut-page-label></span
+		><button data-shortcut-page="1" aria-label="下一组快捷槽">›</button><button data-panel="shortcuts">配置</button>
+	</div>
+	<div class="skill-prompt surface" hidden>
+		<span data-skill-prompt></span><button data-skill-self hidden>对自己施放</button
+		><button data-skill-cancel>取消施法</button>
+	</div>
 	<div class="combat reserved" aria-label="战斗按钮">
-		<button class="skill skill-one" disabled aria-label="技能槽位 1">＋</button
-		><button class="skill skill-two" disabled aria-label="技能槽位 2">＋</button
-		><button class="skill skill-three" disabled aria-label="技能槽位 3">＋</button>
+		<button class="skill skill-one" data-shortcut="0" aria-label="技能槽位 1">＋</button
+		><button class="skill skill-two" data-shortcut="1" aria-label="技能槽位 2">＋</button
+		><button class="skill skill-three" data-shortcut="2" aria-label="技能槽位 3">＋</button>
 		<button class="attack">攻击</button>
 	</div>
 	<div class="backdrop" hidden>

@@ -8,18 +8,23 @@ afterEach(() => {
 function setup() {
 	vi.useFakeTimers();
 	const root = document.createElement('div');
-	root.innerHTML = '<div class="joystick"><span></span></div><button class="attack"></button>';
+	root.innerHTML =
+		'<div class="joystick"><span></span></div><button class="attack"></button><button data-shortcut="0"></button>';
 	const scene = document.createElement('canvas'),
 		stick = root.firstChild,
-		attack = root.lastChild;
-	for (const node of [stick, attack, scene]) {
+		attack = root.querySelector('.attack'),
+		skill = root.querySelector('[data-shortcut]');
+	for (const node of [stick, attack, scene, skill]) {
 		const captures = new Set();
 		node.setPointerCapture = id => captures.add(id);
 		node.hasPointerCapture = id => captures.has(id);
 		node.releasePointerCapture = id => captures.delete(id);
 	}
 	stick.getBoundingClientRect = () => ({ left: 0, top: 0, width: 100, height: 100 });
-	const actions = Object.fromEntries(['move', 'stopMove', 'attack', 'stopAttack', 'tap'].map(k => [k, vi.fn()]));
+	skill.getBoundingClientRect = () => ({ left: 0, right: 100, top: 0, bottom: 100 });
+	const actions = Object.fromEntries(
+		['shortcut', 'move', 'stopMove', 'attack', 'stopAttack', 'tap'].map(k => [k, vi.fn()])
+	);
 	actions.enabled = vi.fn(() => true);
 	controls = bindPointerControls(root, scene, actions);
 	const fire = (node, type, id, x = 80, y = 50) => {
@@ -27,7 +32,7 @@ function setup() {
 		Object.assign(event, { pointerId: id, clientX: x, clientY: y, button: 0 });
 		node.dispatchEvent(event);
 	};
-	return { root, scene, stick, attack, actions, fire };
+	return { root, scene, stick, attack, skill, actions, fire };
 }
 it('tracks two fingers independently and ignores an unrelated pointer release', () => {
 	const { stick, attack, actions, fire } = setup();
@@ -82,5 +87,23 @@ it('only taps the scene without a held control or a drag and removes all listene
 	expect(actions.tap).toHaveBeenCalledTimes(1);
 	controls.destroy();
 	fire(stick, 'pointerdown', 4);
+	expect(vi.getTimerCount()).toBe(0);
+});
+
+it('activates one skill on its own release without stopping the joystick, and ignores cancelled/outside releases', () => {
+	const { stick, skill, actions, fire } = setup();
+	fire(stick, 'pointerdown', 1);
+	fire(skill, 'pointerdown', 2);
+	fire(skill, 'pointerup', 2);
+	expect(actions.shortcut).toHaveBeenCalledExactlyOnceWith(0);
+	const count = actions.move.mock.calls.length;
+	vi.advanceTimersByTime(400);
+	expect(actions.move.mock.calls.length).toBeGreaterThan(count);
+	fire(skill, 'pointerdown', 2);
+	fire(skill, 'pointercancel', 2);
+	fire(skill, 'pointerdown', 3);
+	fire(skill, 'pointerup', 3, 120, 120);
+	expect(actions.shortcut).toHaveBeenCalledTimes(1);
+	controls.cancel();
 	expect(vi.getTimerCount()).toBe(0);
 });

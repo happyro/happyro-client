@@ -49,8 +49,8 @@ describe('mobile game HUD', () => {
 		expect(actions.setModal).toHaveBeenLastCalledWith(false);
 		expect(root.childElementCount).toBe(0);
 	});
-	it('keeps skill placeholders disabled and provides menu navigation', () => {
-		expect([...root.querySelectorAll('.combat .skill')].every(button => button.disabled)).toBe(true);
+	it('provides touch shortcut buttons and provides menu navigation', () => {
+		expect([...root.querySelectorAll('.combat .skill')].every(button => !button.disabled)).toBe(true);
 		click('[data-panel="menu"]');
 		const buttons = [...root.querySelectorAll('.menu-grid button')];
 		expect(buttons.find(button => button.textContent === '背包').disabled).toBe(true);
