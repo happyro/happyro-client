@@ -173,6 +173,7 @@ class MapEngine {
 
 				// Fail to connect...
 				if (!success) {
+					UIManager.getComponent('WinLoading').remove();
 					RotationGuard.release();
 					UIManager.showErrorBox(DB.getMessage(1));
 					return;
@@ -663,6 +664,7 @@ function onConnectionAccepted(pkt) {
  * @param {object} pkt - PACKET.ZC.REFUSE_ENTER
  */
 function onConnectionRefused(pkt) {
+	UIManager.getComponent('WinLoading').remove();
 	RotationGuard.release();
 	UIManager.showErrorBox(DB.getMessage(9)); // MSI_ACCESS_DENIED = Rejected from Server.
 }

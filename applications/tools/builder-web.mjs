@@ -568,6 +568,15 @@ function createApiHTML() {
                 0%, 100% { opacity: 0.4; transform: translateY(0); }    
                 50% { opacity: 1; transform: translateY(-4px); }    
             }    
+                    @media (pointer: coarse) {
+                #ro-preloader { background: #f8f9fb; gap: 20px; padding: 24px; }
+                #ro-preloader .pre-spinner { width: 32px; height: 32px; border: 3px solid #e2e5e9; border-top-color: #b44800; }
+                #ro-preloader .pre-text { display: none; }
+                #ro-preloader::after { content: '正在启动 HappyRO…'; color: #34383d; font: 16px/1.5 system-ui, sans-serif; }
+            }
+            @media (pointer: coarse) and (prefers-reduced-motion: reduce) {
+                #ro-preloader .pre-spinner { animation: none; }
+            }
         </style>    
         <script src="api.js?v=${buildId}"></script>
     </head>    

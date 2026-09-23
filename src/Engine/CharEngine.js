@@ -82,6 +82,7 @@ class CharEngine {
 		Network.connect(ip, server.port, success => {
 			// Fail to connect...
 			if (!success) {
+				UIManager.getComponent('WinLoading').remove();
 				UIManager.showErrorBox(DB.getMessage(1));
 				return;
 			}
@@ -231,6 +232,7 @@ function onConnectionAccepted(pkt) {
  * @param {object} pkt - PACKET.HC.REFUSE_SELECTCHAR
  */
 function onSelectionRefused(pkt) {
+	UIManager.getComponent('WinLoading').remove();
 	RotationGuard.release();
 	let msg_id;
 
@@ -267,6 +269,7 @@ function onSelectionRefused(pkt) {
  * @param {object} pkt - PACKET.HC.REFUSE_ENTER
  */
 function onConnectionRefused(pkt) {
+	UIManager.getComponent('WinLoading').remove();
 	let msg_id;
 
 	switch (pkt.ErrorCode) {
@@ -296,6 +299,8 @@ function onConnectionRefused(pkt) {
  * @param {object} pkt - PACKET.HC.NOTIFY_ACCESSIBLE_MAPNAME
  */
 function onMapUnavailable(pkt) {
+	RotationGuard.release();
+	UIManager.getComponent('WinLoading').remove();
 	// no map server avaiable
 	UIManager.showMessageBox(
 		DB.getMessage(1811),

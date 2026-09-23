@@ -11,6 +11,8 @@
 /**
  * Load dependencies
  */
+import Platform from 'UI/Platform.js';
+import MobileBackground from 'UI/Mobile/Background.js';
 import DB from 'DB/DBManager.js';
 import Client from 'Core/Client.js';
 import Configs from 'Core/Configs.js';
@@ -343,4 +345,4 @@ function transition(callback) {
 /**
  * Export
  */
-export default Background;
+export default Platform.isMobile ? MobileBackground : Background;
