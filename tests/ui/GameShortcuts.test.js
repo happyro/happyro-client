@@ -4,7 +4,7 @@ const s = vi.hoisted(() => ({
 	session: { Playing: true, FreezeUI: false, Entity: { action: 0, ACTION: { DIE: 99 }, life: { sp: 10 } } },
 	skill: { SKID: 1, level: 3, type: 4, spcost: 15 },
 	bindings: [{ isSkill: true, ID: 1, count: 3 }],
-	items: [],
+	items: [], companions: new Map(), homSkills: [], mercSkills: [],
 	selection: { onUseSkillToId: vi.fn(), onUseSkillToPos: vi.fn(), checkMapState: () => false },
 	useItem: vi.fn(), configure: vi.fn(() => true)
 }));
@@ -16,7 +16,7 @@ vi.mock('UI/Components/Inventory/Inventory.js', () => ({
 		getUI: () => ({ list: s.items, getItemById: id => s.items.find(i => i.ITID === id), useItem: s.useItem })
 	}
 }));
-vi.mock('UI/Components/SkillList/SkillList.js', () => ({ default: { getUI: () => ({ getSkills: () => [s.skill] }) } }));
+vi.mock('UI/Components/SkillList/SkillList.js', () => ({ default: { getUI: () => ({ getSkills: () => s.skill.SKID < 8000 ? [s.skill] : [] }) } }));
 vi.mock('UI/Components/SkillTargetSelection/SkillTargetSelection.js', () => ({ default: s.selection }));
 vi.mock('DB/Skills/SkillInfo.generated.js', () => ({ default: { 1: { Name: 'test', SkillName: '测试技能' } } }));
 vi.mock('DB/DBManager.js', () => ({
@@ -30,13 +30,15 @@ vi.mock('Core/Client.js', () => ({
 	default: { loadFile: (path, callback) => callback('data:image/png;base64,AA==') }
 }));
 vi.mock('Engine/SessionStorage.js', () => ({ default: s.session }));
-vi.mock('Renderer/EntityManager.js', () => ({ default: { getFocusEntity: () => null, setSupportPicking: vi.fn() } }));
+vi.mock('UI/Components/SkillListMH/SkillListMH.js',()=>({default:{homunculus:{getSkills:()=>s.homSkills},mercenary:{getSkills:()=>s.mercSkills}}}));
+vi.mock('Renderer/EntityManager.js', () => ({ default: { get:id=>s.companions.get(id), getFocusEntity: () => null, setSupportPicking: vi.fn() } }));
 vi.mock('Renderer/Camera.js', () => ({ default: {} }));
 vi.mock('Renderer/Map/Altitude.js', () => ({ default: {} }));
 vi.mock('Controls/MouseEventHandler.js', () => ({ default: {} }));
 import { createGameShortcuts } from '../../src/UI/Game/GameShortcuts.js';
 beforeEach(() => {
 	vi.clearAllMocks();
+ s.companions.clear(); s.homSkills=[]; s.mercSkills=[]; s.session.homunId=31; s.session.mercId=32;
 	s.session.FreezeUI = false;
 	s.session.Entity.life.sp = 10;
 	s.bindings = [{ isSkill: true, ID: 1, count: 3 }];
@@ -88,4 +90,14 @@ it('rejects a saved guild shortcut after leaving the guild or losing master righ
  s.session.hasGuild=true;s.session.isGuildMaster=true;const service=createGameShortcuts();expect(service.snapshot().slots[0].available).toBe(true);
  s.session.isGuildMaster=false;service.use(0);expect(s.selection.onUseSkillToId).not.toHaveBeenCalled();expect(service.snapshot().slots[0].reason).toContain('权限');
  s.session.isGuildMaster=true;s.session.hasGuild=false;expect(service.snapshot().slots[0].available).toBe(false);s.skill=originalSkill;
+});
+
+it.each([[8044,31,'homSkills'],[8201,32,'mercSkills']])('uses companion SP and includes learned skill %i in candidates', (id,gid,list)=>{
+ const old=s.skill; s.skill={SKID:id,level:1,type:4,spcost:15};s[list]=[s.skill];s.bindings=[{isSkill:true,ID:id,count:1}];
+ const actor={GID:gid,life:{sp:20},ACTION:{DIE:99},action:0};s.companions.set(gid,actor);
+ const service=createGameShortcuts();expect(service.snapshot().slots[0].available).toBe(true);
+ expect(service.candidates().some(c=>c.ID===id)).toBe(true);
+ actor.life.sp=0;expect(service.snapshot().slots[0].reason).toBe('SP 不足');
+ actor.life.sp=20;s.companions.delete(gid);service.use(0);expect(s.selection.onUseSkillToId).not.toHaveBeenCalled();
+ expect(service.snapshot().slots[0].reason).toBe('施法者不可用');expect(service.candidates().some(c=>c.ID===id)).toBe(false);s.skill=old;
 });

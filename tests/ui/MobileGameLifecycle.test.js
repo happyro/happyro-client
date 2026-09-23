@@ -1,3 +1,7 @@
+vi.mock('UI/Game/GameCompanions.js',()=>({openGameCompanions:vi.fn()}));
+vi.mock('UI/Game/GamePet.js',()=>({openGamePet:vi.fn()}));
+vi.mock('UI/Game/GameMail.js',()=>({openGameMail:vi.fn(),gameMailUnread:()=>false}));
+vi.mock('UI/Game/GameVending.js', () => ({showOwnedVending:vi.fn()}));
 vi.mock('UI/Game/GameEquipmentSets.js', () => ({ createGameEquipmentSets: () => ({ snapshot: () => ({ items: [] }) }) }));
 vi.mock('UI/Game/GameSocial.js', () => ({ createGameSocial: () => ({ snapshot: () => ({ friends: [], party: [] }) }) }));
 vi.mock('UI/Game/GameChat.js', () => ({ createGameChat: () => ({ send: vi.fn() }), chatChannel: () => 'public' }));

@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { updateGameCompanion } from 'UI/Game/GameCompanions.js';
 /**
  * Engine/MapEngine/Mercenary.js
  *
@@ -26,6 +28,7 @@ import Mouse from 'Controls/MouseEventHandler.js';
  */
 function onMercenaryInit(pkt) {
 	Session.mercId = pkt.AID;
+	if (Platform.isMobile) updateGameCompanion('mercenary', pkt, pkt.AID);
 	const entity = EntityManager.get(pkt.AID);
 
 	if (entity) {
@@ -50,8 +53,8 @@ function onMercenaryInit(pkt) {
 	// Add skill points to the packet
 	pkt.SKPoint = pkt.SKPoint || 0;
 
-	MercenaryInformations.append();
-	MercenaryInformations.setInformations(pkt);
+	if (!Platform.isMobile) MercenaryInformations.append();
+	if (!Platform.isMobile) MercenaryInformations.setInformations(pkt);
 	MercenaryInformations.startAI();
 }
 
@@ -61,6 +64,7 @@ function onMercenaryInit(pkt) {
  * @param {object} pkt - PACKET.ZC.MER_PROPERTY
  */
 function onMercenaryProperty(pkt) {
+	if (Platform.isMobile) updateGameCompanion('mercenary', pkt);
 	const entity = EntityManager.get(Session.mercId);
 
 	if (entity) {
@@ -81,7 +85,7 @@ function onMercenaryProperty(pkt) {
 		pkt.life = entity.life;
 	}
 
-	MercenaryInformations.setInformations(pkt);
+	if (!Platform.isMobile) MercenaryInformations.setInformations(pkt);
 }
 
 /**
@@ -90,6 +94,10 @@ function onMercenaryProperty(pkt) {
  * @param {object} pkt - PACKET.ZC.MER_PAR_CHANGE
  */
 function onParameterChange(pkt) {
+	if (Platform.isMobile) {
+		const key = ['hp', 'sp', 'maxHP', 'maxSP'][pkt.param];
+		if (key) updateGameCompanion('mercenary', { [key]: pkt.value });
+	}
 	const entity = EntityManager.get(Session.mercId);
 	if (!entity) {
 		return;

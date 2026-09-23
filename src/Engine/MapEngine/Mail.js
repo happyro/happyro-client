@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { openGameMail, currentGameMail } from 'UI/Game/GameMail.js';
 /**
  * Engine/MapEngine/Mail.js
  *
@@ -181,6 +183,11 @@ function mailDelete(result) {
 ///     0 = open
 ///     1 = close
 function openWindowsMail(pkt) {
+	if (Platform.isMobile) {
+		if (pkt.Type) currentGameMail()?.close();
+		else openGameMail();
+		return;
+	}
 	if (pkt.Type) {
 		Mail.remove();
 	} else {

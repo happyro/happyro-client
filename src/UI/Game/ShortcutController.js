@@ -22,6 +22,7 @@ export function createShortcutController(data) {
 		const current = describe(pending.index);
 		return (
 			current.available &&
+			data.self(pending.binding.ID) === pending.caster &&
 			current.binding?.isSkill &&
 			current.binding.ID === pending.binding.ID &&
 			current.binding.count === pending.binding.count
@@ -32,7 +33,12 @@ export function createShortcutController(data) {
 		data.supportPicking(false);
 	}
 	function castTarget(target) {
-		if (!pending || !data.canTarget(target, pending.inf)) return false;
+		if (!pending) return false;
+		if (!validPending()) {
+			cancel();
+			return false;
+		}
+		if (!data.canTarget(target, pending.inf, pending.binding.ID)) return false;
 		const { index, binding } = pending;
 		const current = describe(index);
 		if (!current.available || current.binding?.ID !== binding.ID || current.binding?.count !== binding.count) {
@@ -58,7 +64,7 @@ export function createShortcutController(data) {
 		executeSkillUse(skill, binding.count, {
 			onUseSkill: (id, level) => data.castId(id, level),
 			onSelectTarget: (_, inf) => {
-				pending = { index, binding, inf, name: entry.name };
+				pending = { index, binding, inf, name: entry.name, caster: data.self(binding.ID) };
 				data.supportPicking(Boolean(inf & SKILL_INF.FRIEND));
 				if (!(inf & SKILL_INF.PLACE)) castTarget(data.target());
 			}
@@ -125,7 +131,7 @@ export function createShortcutController(data) {
 			return true; // Selection consumes the tap even if the target is invalid.
 		},
 		self() {
-			return castTarget(data.self());
+			return pending ? castTarget(data.self(pending.binding.ID)) : false;
 		},
 		cancel
 	};

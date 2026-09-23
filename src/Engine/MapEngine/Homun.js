@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { updateGameCompanion, receiveGameCompanionFeed } from 'UI/Game/GameCompanions.js';
 /**
  * Engine/MapEngine/Homun.js
  *
@@ -74,6 +76,7 @@ let _info = {};
  */
 function onHomunInformation(pkt) {
 	_info = pkt;
+	if (Platform.isMobile) updateGameCompanion('homunculus', pkt, Session.homunId);
 
 	if (!Session.homunId) {
 		return;
@@ -103,7 +106,7 @@ function onHomunInformation(pkt) {
 		hunger_max: 100
 	});
 
-	HomunInformations.setInformations(pkt);
+	if (!Platform.isMobile) HomunInformations.setInformations(pkt);
 	HomunInformations.startAI();
 }
 
@@ -113,6 +116,7 @@ function onHomunInformation(pkt) {
  * @param {object} pkt - PACKET.ZC.FEED_HOMUN
  */
 function onFeedResult(pkt) {
+	if (Platform.isMobile) receiveGameCompanionFeed(pkt.cRet);
 	// Fail to feed
 	if (!pkt.cRet) {
 		ChatBox.addText(
@@ -132,12 +136,24 @@ function onFeedResult(pkt) {
  * @param {object} pkt - PACKET.ZC.HO_PAR_CHANGE
  */
 function onHomunParameterChange(pkt) {
+	if (Platform.isMobile) {
+		const key = {
+			[StatusProperty.EXP]: 'exp',
+			[StatusProperty.HP]: 'hp',
+			[StatusProperty.MAXHP]: 'maxHP',
+			[StatusProperty.SP]: 'sp',
+			[StatusProperty.MAXSP]: 'maxSP',
+			[StatusProperty.CLEVEL]: 'nLevel',
+			[StatusProperty.MAXEXP]: 'maxEXP'
+		}[pkt.param];
+		if (key) updateGameCompanion('homunculus', { [key]: pkt.value });
+	}
 	if (!Session.homunId) {
 		return;
 	}
 
 	// UI update
-	HomunInformations.setInformations(pkt);
+	if (!Platform.isMobile) HomunInformations.setInformations(pkt);
 
 	const entity = EntityManager.get(Session.homunId);
 
@@ -152,35 +168,36 @@ function onHomunParameterChange(pkt) {
 
 		case StatusProperty.EXP:
 			HomunInformations.base_exp = pkt.value;
-			HomunInformations.setExp(HomunInformations.base_exp, HomunInformations.base_exp_next);
+			if (!Platform.isMobile)
+				HomunInformations.setExp(HomunInformations.base_exp, HomunInformations.base_exp_next);
 			break;
 
 		case StatusProperty.HP:
 			entity.life.hp = pkt.value;
 			entity.life.update();
 			EntityManager.storeLife(Session.homunId, { hp: pkt.value });
-			HomunInformations.setHpSpBar('hp', entity.life.hp, entity.life.hp_max);
+			if (!Platform.isMobile) HomunInformations.setHpSpBar('hp', entity.life.hp, entity.life.hp_max);
 			break;
 
 		case StatusProperty.MAXHP:
 			entity.life.hp_max = pkt.value;
 			entity.life.update();
 			EntityManager.storeLife(Session.homunId, { hp_max: pkt.value });
-			HomunInformations.setHpSpBar('hp', entity.life.hp, entity.life.hp_max);
+			if (!Platform.isMobile) HomunInformations.setHpSpBar('hp', entity.life.hp, entity.life.hp_max);
 			break;
 
 		case StatusProperty.SP:
 			entity.life.sp = pkt.value;
 			entity.life.update();
 			EntityManager.storeLife(Session.homunId, { sp: pkt.value });
-			HomunInformations.setHpSpBar('sp', entity.life.sp, entity.life.sp_max);
+			if (!Platform.isMobile) HomunInformations.setHpSpBar('sp', entity.life.sp, entity.life.sp_max);
 			break;
 
 		case StatusProperty.MAXSP:
 			entity.life.sp_max = pkt.value;
 			entity.life.update();
 			EntityManager.storeLife(Session.homunId, { sp_max: pkt.value });
-			HomunInformations.setHpSpBar('sp', entity.life.sp, entity.life.sp_max);
+			if (!Platform.isMobile) HomunInformations.setHpSpBar('sp', entity.life.sp, entity.life.sp_max);
 			break;
 
 		case StatusProperty.CLEVEL:
@@ -189,7 +206,8 @@ function onHomunParameterChange(pkt) {
 
 		case StatusProperty.MAXEXP:
 			HomunInformations.base_exp_next = pkt.value;
-			HomunInformations.setExp(HomunInformations.base_exp, HomunInformations.base_exp_next);
+			if (!Platform.isMobile)
+				HomunInformations.setExp(HomunInformations.base_exp, HomunInformations.base_exp_next);
 			break;
 
 		default:
@@ -203,21 +221,28 @@ function onHomunParameterChange(pkt) {
  * @param {object} pkt - PACKET.ZC.CHANGESTATE_HOMUN
  */
 function onHomunInformationUpdate(pkt) {
+	if (Platform.isMobile) {
+		if (pkt.state === 0) {
+			Session.homunId = pkt.GID;
+			updateGameCompanion('homunculus', {}, pkt.GID);
+		} else if (pkt.GID === Session.homunId && (pkt.state === 1 || pkt.state === 2))
+			updateGameCompanion('homunculus', { [pkt.state === 1 ? 'nRelationship' : 'nFullness']: pkt.data });
+	}
 	const entity = EntityManager.get(pkt.GID);
 
 	if (entity) {
 		switch (pkt.state) {
 			case 0:
-				HomunInformations.append();
+				if (!Platform.isMobile) HomunInformations.append();
 				Session.homunId = pkt.GID;
 				break;
 
 			case 1:
-				HomunInformations.setIntimacy(pkt.data);
+				if (!Platform.isMobile) HomunInformations.setIntimacy(pkt.data);
 				break;
 
 			case 2:
-				HomunInformations.setHunger(pkt.data);
+				if (!Platform.isMobile) HomunInformations.setHunger(pkt.data);
 				entity.life.hunger = pkt.data;
 				entity.life.hunger_max = 100;
 				entity.life.update();

@@ -5,6 +5,8 @@ import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import SkillTargetSelection from 'UI/Components/SkillTargetSelection/SkillTargetSelection.js';
 import { canExecuteSkill } from 'UI/Components/SkillList/SkillUse.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
+import SkillId from 'DB/Skills/SkillConst.js';
+import SkillListMH from 'UI/Components/SkillListMH/SkillListMH.js';
 import { equipment, usableItems as usable, itemQuantity } from './InventoryItems.js';
 import DB from 'DB/DBManager.js';
 import Client from 'Core/Client.js';
@@ -16,6 +18,12 @@ import Mouse from 'Controls/MouseEventHandler.js';
 import { remainingCooldown } from 'Network/SkillCooldowns.js';
 import { createShortcutController } from './ShortcutController.js';
 import { canTargetSkill } from './SkillTargets.js';
+
+function caster(id) {
+	if (id > SkillId.HOMUN_BEGIN && id < SkillId.HOMUN_LAST) return EntityManager.get(Session.homunId);
+	if (id > SkillId.MERCENARY_BEGIN && id < SkillId.MERCENARY_LAST) return EntityManager.get(Session.mercId);
+	return Session.Entity;
+}
 
 export function createGameShortcuts(moving = () => false) {
 	const icons = new Map();
@@ -38,7 +46,10 @@ export function createGameShortcuts(moving = () => false) {
 					: '';
 			if (!reason && binding.ID > 10000 && binding.ID < 10100 && (!Session.hasGuild || !Session.isGuildMaster))
 				reason = '没有公会技能使用权限';
-			if (!reason && binding.count === skill.level && skill.spcost > Session.Entity.life.sp) reason = 'SP 不足';
+			const actor = caster(binding.ID);
+			if (!reason && (!actor || actor.action === actor.ACTION.DIE || actor.remove_tick > 0))
+				reason = '施法者不可用';
+			if (!reason && binding.count === skill.level && skill.spcost > actor.life.sp) reason = 'SP 不足';
 			return {
 				name: info?.SkillName || `技能 ${binding.ID}`,
 				icon: icon(info?.Name),
@@ -76,13 +87,13 @@ export function createGameShortcuts(moving = () => false) {
 				Session.Entity.action !== Session.Entity.ACTION.DIE
 			),
 		target: () => EntityManager.getFocusEntity(),
-		self: () => Session.Entity,
+		self: id => caster(id),
 		supportPicking: value => EntityManager.setSupportPicking(value),
-		canTarget: (target, flag) =>
+		canTarget: (target, flag, id) =>
 			Boolean(
 				target &&
 				EntityManager.get(target.GID) === target &&
-				canTargetSkill(target, flag, { self: Session.Entity, canAttack: SkillTargetSelection.checkMapState })
+				canTargetSkill(target, flag, { self: caster(id), canAttack: SkillTargetSelection.checkMapState })
 			),
 		castId: (id, level, target) => SkillTargetSelection.onUseSkillToId(id, level, target, { allowMove: !moving() }),
 		castGround: (...args) => SkillTargetSelection.onUseSkillToPos(...args),
@@ -98,6 +109,8 @@ export function createGameShortcuts(moving = () => false) {
 		candidates: () => [
 			...[
 				...SkillWindow.getUI().getSkills(),
+				...(EntityManager.get(Session.homunId) ? SkillListMH.homunculus.getSkills() : []),
+				...(EntityManager.get(Session.mercId) ? SkillListMH.mercenary.getSkills() : []),
 				...(Session.hasGuild && Session.isGuildMaster ? Guild.getSocialSnapshot().skills : [])
 			]
 				.filter(canExecuteSkill)

@@ -11,6 +11,7 @@
 import DB from 'DB/DBManager.js';
 import ItemType from 'DB/Items/ItemType.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
+import SkillId from 'DB/Skills/SkillConst.js';
 import Client from 'Core/Client.js';
 import Preferences from 'Core/Preferences.js';
 import Session from 'Engine/SessionStorage.js';
@@ -259,10 +260,10 @@ ShortCut.onShortCut = function onShortCut(key) {
 ShortCut.useSkill = function useSkill(id, level) {
 	if (id > 10000 && id < 10100) {
 		Guild.useSkillID(id, level);
-	} else if (id > 8000 && id < 8044) {
-		// if one of them don't have the skill, it returns early
-		SkillListMH.mercenary.useSkillID(id, level);
+	} else if (id > SkillId.HOMUN_BEGIN && id < SkillId.HOMUN_LAST) {
 		SkillListMH.homunculus.useSkillID(id, level);
+	} else if (id > SkillId.MERCENARY_BEGIN && id < SkillId.MERCENARY_LAST) {
+		SkillListMH.mercenary.useSkillID(id, level);
 	} else {
 		SkillWindow.getUI().useSkillID(id, level);
 	}
@@ -273,11 +274,10 @@ ShortCut.getSkillById = function getSkillById(id) {
 
 	if (id > 10000 && id < 10100) {
 		skill = Guild.getSkillById(id);
-	} else if (id > 8000 && id < 8044) {
+	} else if (id > SkillId.HOMUN_BEGIN && id < SkillId.HOMUN_LAST) {
+		skill = SkillListMH.homunculus.getSkillById(id);
+	} else if (id > SkillId.MERCENARY_BEGIN && id < SkillId.MERCENARY_LAST) {
 		skill = SkillListMH.mercenary.getSkillById(id);
-		if (!skill) {
-			skill = SkillListMH.homunculus.getSkillById(id);
-		}
 	} else {
 		skill = SkillWindow.getUI().getSkillById(id);
 	}

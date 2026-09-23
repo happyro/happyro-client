@@ -1,6 +1,9 @@
+vi.mock('UI/Components/Trade/Trade.js', () => ({default:{reqExchange:s.trade}}));
+vi.mock('UI/UIManager.js', () => ({default:{showPromptBox:s.prompt}}));
 import { beforeEach, expect, it, vi } from 'vitest';
 const s = vi.hoisted(() => ({
 	session: { Playing: true, Entity: null },
+	trade: vi.fn(), prompt: vi.fn(),
 	target: null,
 	over: null,
 	send: vi.fn(),
@@ -141,4 +144,8 @@ it('exposes and dispatches only valid contextual interactions', () => {
 	s.target = entity(1);
 	interactSelected();
 	expect(s.target.onMouseDown).not.toHaveBeenCalled();
+});
+
+it('requires explicit trade confirmation and rejects a target that changed during the prompt',()=>{
+ s.target=entity(2);expect(targetSnapshot().interaction).toBe('交易');interactSelected();expect(s.trade).not.toHaveBeenCalled();const confirm=s.prompt.mock.calls[0][3];s.target=null;confirm();expect(s.trade).not.toHaveBeenCalled();s.target=entity(2);interactSelected();s.prompt.mock.calls[1][3]();expect(s.trade).toHaveBeenCalledExactlyOnceWith(42,'目标');
 });

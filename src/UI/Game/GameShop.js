@@ -38,7 +38,7 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 					!item ||
 					item.ITID !== offer.identity ||
 					item.equipped ||
-					(Inventory.getUI().npcsalelock && !(item.PlaceETCTab < 1))
+					(options.type !== 'player-buying' && Inventory.getUI().npcsalelock && !(item.PlaceETCTab < 1))
 				)
 					return [];
 			}
@@ -56,7 +56,7 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 					materials,
 					limit:
 						mode === 'sell'
-							? Math.min(view.count, 65535)
+							? Math.min(view.count, options.limitToOffer ? offer.qty : 65535, 65535)
 							: Math.min(offer.qty ?? offer.amount ?? 65535, 65535),
 					quantity: order.get(offer.index)?.count || 0
 				}
@@ -93,6 +93,12 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 				if (!item || entry.count > item.limit || !Number.isFinite(item.price) || item.price < 0)
 					return '物品已变化，请重新选择';
 			}
+			if (options.limitToOffer) {
+				const counts = new Map();
+				for (const entry of order.values()) counts.set(entry.ITID, (counts.get(entry.ITID) || 0) + entry.count);
+				for (const [id, count] of counts)
+					if (count > original.find(entry => entry.ITID === id).qty) return '超过对方收购数量';
+			}
 			const required = new Map();
 			for (const item of state.items)
 				for (const material of item.materials) {
@@ -105,7 +111,11 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 					.reduce((sum, item) => sum + itemQuantity(item), 0);
 				if (!Number.isSafeInteger(count) || count > owned) return '兑换材料不足，请核对订单';
 			}
-			if (!Number.isSafeInteger(state.total) || (mode === 'buy' && state.total > state.money))
+			if (
+				!Number.isSafeInteger(state.total) ||
+				(mode === 'buy' && state.total > state.money) ||
+				(options.maxTotal !== undefined && state.total > options.maxTotal)
+			)
 				return '持有金额不足或订单金额无效';
 			pending = true;
 			submit(
@@ -117,7 +127,24 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 					...(options.type === 'cash' ? { price: entry.price, discountprice: entry.discountprice } : {})
 				}))
 			);
+			if (options.requestOnly) {
+				finished = true;
+				showInteraction({
+					kind: 'notice',
+					title: '购买请求已发送',
+					lines: ['购买结果以服务器返回的背包、金额和消息为准。'],
+					close: () => clearInteraction('notice')
+				});
+			}
 			return '已提交，等待服务器回复';
+		},
+		acknowledgeSale(index, count) {
+			if (!pending || options.type !== 'player-buying') return false;
+			const entry = order.get(index);
+			if (!entry) return false;
+			entry.count -= count;
+			if (entry.count <= 0) order.delete(index);
+			return order.size === 0;
 		},
 		finish() {
 			finished = true;

@@ -1,3 +1,7 @@
+import { resetGameCompanions, updateGameCompanionAutoFeed } from 'UI/Game/GameCompanions.js';
+import {resetGamePet,updateGamePetAutoFeed} from 'UI/Game/GamePet.js';
+import {setGameMailUnread} from 'UI/Game/GameMail.js';
+import { resetGameVending } from 'UI/Game/GameVending.js';
 /**
  * Engine/MapEngine.js
  *
@@ -511,11 +515,11 @@ function onConfig(pkt) {
 			ChatBox.addText(DB.getMessage(2978 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 2:
-			PetInformations.setFeedConfig(pkt.Value);
+			if(Platform.isMobile)updateGamePetAutoFeed(pkt.Value);else PetInformations.setFeedConfig(pkt.Value);
 			ChatBox.addText(DB.getMessage(2579 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 3:
-			HomunInformations.setFeedConfig(pkt.Value);
+			if (Platform.isMobile) updateGameCompanionAutoFeed(pkt.Value); else HomunInformations.setFeedConfig(pkt.Value);
 			ChatBox.addText(DB.getMessage(3282 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 5:
@@ -623,7 +627,13 @@ function onConnectionAccepted(pkt) {
 	Session.hasParty = false;
 	Session.isPartyLeader = false;
 	Session.hasGuild = false;
-	if (Platform.isMobile) Guild.resetSocialState();
+	if (Platform.isMobile) {
+		Guild.resetSocialState();
+		resetGameVending();
+		setGameMailUnread(false);
+		resetGamePet();
+		resetGameCompanions();
+	}
 	Session.guildRight = 0;
 
 	Session.homunId = 0;

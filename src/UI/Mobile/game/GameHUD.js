@@ -1,3 +1,9 @@
+import { openGameCompanions } from 'UI/Game/GameCompanions.js';
+import { openGamePet } from 'UI/Game/GamePet.js';
+import { openGameMail, gameMailUnread } from 'UI/Game/GameMail.js';
+import { graphicsFields, settingsSnapshot, saveGameSettings } from 'UI/Game/GameSettings.js';
+import { requestGameBank } from 'UI/Game/GameBank.js';
+import { showOwnedVending } from 'UI/Game/GameVending.js';
 import { createGameEquipmentSets } from 'UI/Game/GameEquipmentSets.js';
 import { createGameSocial } from 'UI/Game/GameSocial.js';
 import { createGameChat, chatChannel } from 'UI/Game/GameChat.js';
@@ -79,6 +85,7 @@ function snapshot() {
 	if (!entity) return;
 	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
+		unreadMail: gameMailUnread(),
 		name: entity.display.name,
 		job: getJobDisplayName(entity.job),
 		level: entity.clevel,
@@ -149,6 +156,12 @@ HUD.onAppend = function () {
 			shortcuts.turn(delta);
 			snapshot();
 		},
+		settings: { fields: graphicsFields, snapshot: settingsSnapshot, save: saveGameSettings },
+		openCompanion: kind => openGameCompanions(kind, () => modal && !previousFreeze),
+		openPet: () => openGamePet(() => modal && !previousFreeze),
+		openMail: () => openGameMail(() => modal && !previousFreeze),
+		openBank: () => requestGameBank(() => modal && !previousFreeze),
+		showOwnedVending,
 		canOperate: () => modal && !previousFreeze,
 		maps: createGameMaps(),
 		social,

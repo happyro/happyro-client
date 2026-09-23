@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { openGameBank, updateGameBank, closeGameBank } from 'UI/Game/GameBank.js';
 /**
  * Engine/MapEngine/Bank.js
  *
@@ -30,6 +32,10 @@ function onOpenBank(pkt) {
 }
 
 function onBankInfo(pkt) {
+	if (Platform.isMobile) {
+		openGameBank(pkt.money);
+		return;
+	}
 	if (!Bank.__active) {
 		Bank.append();
 		Bank.updateBankDisplay(pkt.money, Session.zeny);
@@ -38,12 +44,20 @@ function onBankInfo(pkt) {
 }
 
 function onBankClose() {
+	if (Platform.isMobile) {
+		closeGameBank();
+		return;
+	}
 	if (Bank.__active) {
 		Bank.remove();
 	}
 }
 
 function onBankDepoUpdate(pkt) {
+	if (Platform.isMobile && pkt) {
+		updateGameBank(pkt);
+		return;
+	}
 	if (!pkt) {
 		return;
 	}
@@ -71,6 +85,10 @@ function onBankDepoUpdate(pkt) {
 }
 
 function onBankWithdrawUpdate(pkt) {
+	if (Platform.isMobile && pkt) {
+		updateGameBank(pkt);
+		return;
+	}
 	if (!pkt) {
 		return;
 	}

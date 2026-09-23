@@ -9972,6 +9972,17 @@ PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE = function PACKET_ZC_UPDATE_ITEM_FROM_BU
 };
 PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE.size = 10;
 
+// Current 20211103 buying-store receipt: 32-bit item ID and sale details.
+PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE2 = function PACKET_ZC_UPDATE_ITEM_FROM_BUYING_STORE2(fp) {
+	this.ITID = fp.readULong();
+	this.count = fp.readUShort();
+	this.zeny = fp.readULong();
+	this.limitZeny = fp.readULong();
+	this.GID = fp.readULong();
+	this.date = fp.readULong();
+};
+PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE2.size = 24;
+
 // 0x81c
 PACKET.ZC.ITEM_DELETE_BUYING_STORE = function PACKET_ZC_ITEM_DELETE_BUYING_STORE(fp, end) {
 	this.index = fp.readShort();
@@ -11566,7 +11577,7 @@ PACKET.AC.REFUSE_LOGIN3.size = 7;
 
 // 0x9a6
 PACKET.ZC.BANKING_CHECK = function PACKET_ZC_BANKING_CHECK(fp, end) {
-	this.money = fp.readLong();
+	this.money = fp.readULong() + fp.readULong() * 0x100000000;
 	this.reason = fp.readShort();
 };
 PACKET.ZC.BANKING_CHECK.size = 12;
@@ -12243,8 +12254,7 @@ PACKET.CZ.OPEN_RODEXBOX.prototype.build = function () {
 
 	pkt_buf.writeShort(0x9e8);
 	pkt_buf.writeUChar(this.openType);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
 	return pkt_buf;
 };
 
@@ -12268,8 +12278,7 @@ PACKET.CZ.REQ_READ_RODEX.prototype.build = function () {
 
 	pkt_buf.writeShort(0x9ea);
 	pkt_buf.writeUChar(this.openType);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
 	return pkt_buf;
 };
 
@@ -12284,8 +12293,7 @@ PACKET.CZ.REQ_NEXT_RODEX.prototype.build = function () {
 
 	pkt_buf.writeShort(0x9ee);
 	pkt_buf.writeUChar(this.openType);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
 	return pkt_buf;
 };
 
@@ -12300,8 +12308,7 @@ PACKET.CZ.REQ_REFRESH_RODEX.prototype.build = function () {
 
 	pkt_buf.writeShort(0x9ef);
 	pkt_buf.writeUChar(this.openType);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
 	return pkt_buf;
 };
 
@@ -12315,8 +12322,7 @@ PACKET.CZ.REQ_ZENY_FROM_RODEX.prototype.build = function () {
 	const pkt_buf = new BinaryWriter(pkt_len);
 
 	pkt_buf.writeShort(0x9f1);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
 	pkt_buf.writeUChar(this.openType);
 	return pkt_buf;
 };
@@ -12331,8 +12337,7 @@ PACKET.CZ.REQ_ITEM_FROM_RODEX.prototype.build = function () {
 	const pkt_buf = new BinaryWriter(pkt_len);
 
 	pkt_buf.writeShort(0x9f3);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
 	pkt_buf.writeUChar(this.openType);
 	return pkt_buf;
 };
@@ -12348,8 +12353,7 @@ PACKET.CZ.REQ_DELETE_RODEX.prototype.build = function () {
 
 	pkt_buf.writeShort(0x9f5);
 	pkt_buf.writeUChar(this.openType);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
 	return pkt_buf;
 };
 
@@ -12442,12 +12446,9 @@ PACKET.CZ.OPEN_ALL_RODEX.prototype.build = function () {
 	const pkt_buf = new BinaryWriter(pkt_len);
 
 	pkt_buf.writeShort(0xac0);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
-	pkt_buf.writeULong(this.MailReturnID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
-	pkt_buf.writeULong(this.MailAccountID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
+	pkt_buf.writeUInt64(this.MailReturnID);
+	pkt_buf.writeUInt64(this.MailAccountID);
 	return pkt_buf;
 };
 
@@ -12462,12 +12463,9 @@ PACKET.CZ.UPDATE_ALL_RODEX.prototype.build = function () {
 	const pkt_buf = new BinaryWriter(pkt_len);
 
 	pkt_buf.writeShort(0xac1);
-	pkt_buf.writeULong(this.MailID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
-	pkt_buf.writeULong(this.MailReturnID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
-	pkt_buf.writeULong(this.MailAccountID);
-	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
+	pkt_buf.writeUInt64(this.MailID);
+	pkt_buf.writeUInt64(this.MailReturnID);
+	pkt_buf.writeUInt64(this.MailAccountID);
 	return pkt_buf;
 };
 
@@ -12510,7 +12508,9 @@ PACKET.CZ.REQ_SEND_RODEX2 = function PACKET_CZ_REQ_SEND_RODEX2() {
 	this.body = '';
 };
 PACKET.CZ.REQ_SEND_RODEX2.prototype.build = function () {
-	const pkt_len = 2 + 66 + this.Titlelength + this.Bodylength;
+	const titleLength = new TextEncoder().encode(this.title).length;
+	const bodyLength = new TextEncoder().encode(this.body).length;
+	const pkt_len = 68 + titleLength + bodyLength;
 	const pkt_buf = new BinaryWriter(pkt_len);
 
 	pkt_buf.writeShort(0xa6e);
@@ -12519,11 +12519,11 @@ PACKET.CZ.REQ_SEND_RODEX2.prototype.build = function () {
 	pkt_buf.writeString(this.sender, 24);
 	pkt_buf.writeULong(this.zeny);
 	pkt_buf.writeULong(0); // TODO check or convert to 8 bytes (UINT64)
-	pkt_buf.writeUShort(this.Titlelength);
-	pkt_buf.writeUShort(this.Bodylength);
+	pkt_buf.writeUShort(titleLength);
+	pkt_buf.writeUShort(bodyLength);
 	pkt_buf.writeULong(this.CharID);
-	pkt_buf.writeString(this.title);
-	pkt_buf.writeString(this.body);
+	pkt_buf.writeString(this.title, titleLength);
+	pkt_buf.writeString(this.body, bodyLength);
 	return pkt_buf;
 };
 

@@ -1,3 +1,12 @@
+import Platform from 'UI/Platform.js';
+import {
+	openGamePetCapture,
+	receiveGamePetCapture,
+	openGamePetEggs,
+	updateGamePetInfo,
+	updateGamePetState,
+	receiveGamePetResult
+} from 'UI/Game/GamePet.js';
 /**
  * Engine/MapEngine/Pet.js
  *
@@ -33,6 +42,10 @@ import PetEvolution from 'UI/Components/PetEvolution/PetEvolution.js';
  * @param {object} pkt - PACKET.ZC.START_CAPTURE
  */
 function onStartCapture(pkt) {
+	if (Platform.isMobile) {
+		openGamePetCapture();
+		return;
+	}
 	const fakeSkill = { SKID: -10, level: 0 };
 
 	SkillTargetSelection.append();
@@ -53,6 +66,10 @@ function onStartCapture(pkt) {
  * @param {object} pkt - PACKET.ZC.TRYCAPTURE_MONSTER
  */
 function onCaptureResult(pkt) {
+	if (Platform.isMobile) {
+		receiveGamePetCapture(pkt.result);
+		return;
+	}
 	SlotMachine.setResult(pkt.result);
 }
 
@@ -62,6 +79,10 @@ function onCaptureResult(pkt) {
  * @param {object} pkt - PACKET.ZC.PETEGG_LIST
  */
 function onPetList(pkt) {
+	if (Platform.isMobile) {
+		openGamePetEggs(pkt.eggList);
+		return;
+	}
 	if (!pkt.eggList.length) {
 		return;
 	}
@@ -84,8 +105,11 @@ function onPetList(pkt) {
  * @param {object} pkt - PACKET.ZC.PROPERTY_PET
  */
 function onPetInformation(pkt) {
-	PetInformations.append();
-	PetInformations.setInformations(pkt);
+	if (Platform.isMobile) updateGamePetInfo(pkt);
+	else {
+		PetInformations.append();
+		PetInformations.setInformations(pkt);
+	}
 
 	if (Session.petId) {
 		const entity = EntityManager.get(Session.petId);
@@ -113,6 +137,7 @@ function onPetInformation(pkt) {
  * @param {object} pkt - PACKET.ZC.FEED_PET
  */
 function onFeedResult(pkt) {
+	if (Platform.isMobile) receiveGamePetResult('feed', pkt.cRet);
 	// Fail to feed
 	if (!pkt.cRet) {
 		ChatBox.addText(
@@ -156,6 +181,13 @@ function petTalk(GID, msg) {
  * @param {object} pkt - PACKET.ZC.CHANGESTATE_PET
  */
 function onPetInformationUpdate(pkt) {
+	if (Platform.isMobile) {
+		updateGamePetState(pkt);
+		if (pkt.type === 0) {
+			Session.petId = pkt.GID;
+			Session.pet.GID = pkt.GID;
+		}
+	}
 	const entity = EntityManager.get(pkt.GID);
 	let path;
 
@@ -171,12 +203,12 @@ function onPetInformationUpdate(pkt) {
 			break;
 
 		case 1: //
-			PetInformations.setIntimacy(pkt.data);
+			if (!Platform.isMobile) PetInformations.setIntimacy(pkt.data);
 			Session.pet.friendly = pkt.data;
 			break;
 
 		case 2: {
-			PetInformations.setHunger(pkt.data);
+			if (!Platform.isMobile) PetInformations.setHunger(pkt.data);
 			entity.life.hp = pkt.data;
 			entity.life.hp_max = 100;
 			entity.life.update();

@@ -1,3 +1,10 @@
+import { createCompanionsPanel } from './CompanionsPanel.js';
+import { createPetPanel } from './PetPanel.js';
+import { createMailPanel } from './MailPanel.js';
+import { createSettingsPanel } from './SettingsPanel.js';
+import { createBankPanel } from './BankPanel.js';
+import { createVendingPanel } from './VendingPanel.js';
+import { createTradePanel } from './TradePanel.js';
 import { createEquipmentSetsPanel } from './EquipmentSetsPanel.js';
 import { createEnchantPanel } from './EnchantPanel.js';
 import { createRefinementPanel } from './RefinementPanel.js';
@@ -37,6 +44,12 @@ export function createGameHUDView(root, actions) {
 	let refinementPanel = null;
 	let enchantPanel = null;
 	let equipmentSetsPanel = null;
+	let petPanel = null;
+	let companionsPanel = null;
+	let mailPanel = null;
+	let bankPanel = null;
+	let vendingPanel = null;
+	let tradePanel = null;
 	let shopPanel = null;
 	let containerPanel = null;
 	let noticeUntil = 0;
@@ -106,6 +119,12 @@ export function createGameHUDView(root, actions) {
 		inventoryPanel = null;
 		equipmentPanel = null;
 		skillsPanel = null;
+		petPanel = null;
+		companionsPanel = null;
+		mailPanel = null;
+		bankPanel = null;
+		vendingPanel = null;
+		tradePanel = null;
 		shopPanel = null;
 		containerPanel = null;
 		questsPanel = null;
@@ -177,6 +196,7 @@ export function createGameHUDView(root, actions) {
 		text(
 			'h2',
 			{
+				settings: '设置',
 				profile: '人物信息',
 				status: '状态效果',
 				map: '地图',
@@ -198,6 +218,12 @@ export function createGameHUDView(root, actions) {
 				enchant: serverState?.title,
 				cart: '手推车',
 				storage: serverState?.title || '仓库',
+				pet: serverState?.title,
+				companions: serverState?.title,
+				mail: serverState?.title,
+				bank: serverState?.title,
+				vending: serverState?.title,
+				trade: serverState?.title,
 				shop: serverState?.title,
 				npc: serverState?.title || 'NPC 对话'
 			}[panel]
@@ -209,9 +235,12 @@ export function createGameHUDView(root, actions) {
 		body.classList.toggle(
 			'inventory-body',
 			[
+				'mail',
 				'inventory',
 				'skills',
 				'shop',
+				'trade',
+				'vending',
 				'storage',
 				'cart',
 				'quests',
@@ -228,9 +257,12 @@ export function createGameHUDView(root, actions) {
 		$('.panel').classList.toggle(
 			'inventory-panel',
 			[
+				'mail',
 				'inventory',
 				'skills',
 				'shop',
+				'trade',
+				'vending',
 				'storage',
 				'cart',
 				'quests',
@@ -257,12 +289,14 @@ export function createGameHUDView(root, actions) {
 			}
 			body.append(list);
 		}
+		if (panel === 'settings') createSettingsPanel(body, actions.settings);
 		if (panel === 'npc') createNPCPanel(body, serverState);
 		if (panel === 'profile' || panel === 'status') renderDetails();
 		if (panel === 'menu') {
 			const grid = document.createElement('div');
 			grid.className = 'menu-grid';
 			for (const [label, panelName] of [
+				['设置', 'settings'],
 				['人物', 'profile'],
 				['地图', 'map'],
 				['聊天', 'chat'],
@@ -283,6 +317,35 @@ export function createGameHUDView(root, actions) {
 				if (panelName) button.onclick = () => open(panelName);
 				grid.append(button);
 			}
+			const petButton = document.createElement('button');
+			petButton.textContent = '宠物';
+			petButton.onclick = () => actions.openPet();
+			grid.append(petButton);
+			for (const [kind, label] of [
+				['homunculus', '生命体'],
+				['mercenary', '佣兵']
+			]) {
+				const button = document.createElement('button');
+				button.textContent = label;
+				button.onclick = () => actions.openCompanion(kind);
+				grid.append(button);
+			}
+			const mailButton = document.createElement('button');
+			mailButton.textContent = '邮件';
+			mailButton.onclick = () => actions.openMail();
+			grid.append(mailButton);
+			const bankButton = document.createElement('button');
+			bankButton.textContent = '银行';
+			bankButton.onclick = () => {
+				bankButton.textContent = actions.openBank();
+			};
+			grid.append(bankButton);
+			const storeButton = document.createElement('button');
+			storeButton.textContent = '我的摊位';
+			storeButton.onclick = () => {
+				if (!actions.showOwnedVending()) storeButton.textContent = '尚未开店：请先使用摆摊或收购技能';
+			};
+			grid.append(storeButton);
 			const exit = document.createElement('button');
 			exit.textContent = '返回选角';
 			exit.onclick = () => {
@@ -296,6 +359,12 @@ export function createGameHUDView(root, actions) {
 		inventoryPanel = null;
 		equipmentPanel = null;
 		skillsPanel = null;
+		petPanel = null;
+		companionsPanel = null;
+		mailPanel = null;
+		bankPanel = null;
+		vendingPanel = null;
+		tradePanel = null;
 		shopPanel = null;
 		containerPanel = null;
 		questsPanel = null;
@@ -338,6 +407,30 @@ export function createGameHUDView(root, actions) {
 		if (panel === 'selection') {
 			serverState.service.setOperationGuard(actions.canOperate);
 			selectionPanel = createSelectionPanel(body, serverState.service);
+		}
+		if (panel === 'companions') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			companionsPanel = createCompanionsPanel(body, serverState.service);
+		}
+		if (panel === 'pet') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			petPanel = createPetPanel(body, serverState.service);
+		}
+		if (panel === 'mail') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			mailPanel = createMailPanel(body, serverState.service);
+		}
+		if (panel === 'bank') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			bankPanel = createBankPanel(body, serverState.service);
+		}
+		if (panel === 'vending') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			vendingPanel = createVendingPanel(body, serverState.service);
+		}
+		if (panel === 'trade') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			tradePanel = createTradePanel(body, serverState.service);
 		}
 		if (panel === 'shop') {
 			serverState.service.setOperationGuard(actions.canOperate);
@@ -434,6 +527,7 @@ export function createGameHUDView(root, actions) {
 	return {
 		update(next) {
 			snapshot = next;
+			text('[data-panel=menu]', next.unreadMail ? '菜单 · 新邮件' : '菜单');
 			if (performance.now() >= noticeUntil) text('[data-target]', next.target?.name || '点击目标进行选择');
 			$('[data-interact]').hidden = !next.target?.interaction;
 			text('[data-interact]', next.target?.interaction);
@@ -471,6 +565,12 @@ export function createGameHUDView(root, actions) {
 			inventoryPanel?.update();
 			equipmentPanel?.update();
 			skillsPanel?.update();
+			petPanel?.update();
+			companionsPanel?.update();
+			mailPanel?.update();
+			bankPanel?.update();
+			vendingPanel?.update();
+			tradePanel?.update();
 			shopPanel?.update();
 			containerPanel?.update();
 			questsPanel?.update();
@@ -503,6 +603,12 @@ export function createGameHUDView(root, actions) {
 			open(
 				[
 					'shop',
+					'trade',
+					'vending',
+					'mail',
+					'pet',
+					'companions',
+					'bank',
 					'storage',
 					'selection',
 					'materials',

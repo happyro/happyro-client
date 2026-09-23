@@ -41,6 +41,7 @@ import Renderer from 'Renderer/Renderer.js';
 import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import CartDecoration from 'UI/Components/CartDecoration/CartDecoration.js';
 import { skillFailMessage } from './SkillFail.js';
+import { cancelCompanionSkill, queueCompanionSkill } from './CompanionSkillAction.js';
 
 import SnowWeatherEffect from 'Renderer/Effects/SnowWeather.js';
 import RainWeatherEffect from 'Renderer/Effects/RainWeather.js';
@@ -627,14 +628,19 @@ function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
 	}
 
 	// Client side minimum delay
-	if (entity && entity.amotionTick > Renderer.tick) {
+	if (!entity || entity.amotionTick > Renderer.tick) {
 		// Can't spam skills faster than amotion
 		return;
 	}
 
 	const target = EntityManager.get(targetID) || entity;
-	const skill = SkillWindow.getUI().getSkillById(id);
+	const skill = isHomun
+		? SkillListMH.homunculus.getSkillById(id)
+		: isMerc
+			? SkillListMH.mercenary.getSkillById(id)
+			: SkillWindow.getUI().getSkillById(id);
 	const out = [];
+	if (isHomun || isMerc) cancelCompanionSkill(entity);
 
 	if (skill) {
 		range = skill.attackRange + 1;
@@ -672,7 +678,7 @@ function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
 	}
 	pkt.SKID = id;
 	pkt.selectedLevel = level;
-	pkt.targetID = targetID || Session.Entity.GID;
+	pkt.targetID = targetID || entity.GID;
 
 	// In range
 	if (count < 2 || target === entity) {
@@ -680,8 +686,28 @@ function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
 		return;
 	}
 
-	// Save the packet
-	Session.moveAction = pkt;
+	// Keep pending casts with the entity that is actually moving.
+	if (isHomun || isMerc) {
+		queueCompanionSkill(
+			entity,
+			pkt,
+			out.slice((count - 1) * 2, count * 2),
+			() =>
+				EntityManager.get(target.GID) === target &&
+				target.action !== target.ACTION.DIE &&
+				PathFinding.search(
+					entity.position[0] | 0,
+					entity.position[1] | 0,
+					target.position[0] | 0,
+					target.position[1] | 0,
+					range,
+					[],
+					Altitude.TYPE.WALKABLE
+				) === 1
+		);
+	} else {
+		Session.moveAction = pkt;
+	}
 
 	// Move to position
 	if (isHomun) {
@@ -719,27 +745,35 @@ SkillTargetSelection.onUseSkillToPos = function onUseSkillToPos(id, level, x, y)
 	let entity;
 	let range;
 
-	const isHomun = id > 8000 && id < 8044;
+	const isHomun = id > SkillId.HOMUN_BEGIN && id < SkillId.HOMUN_LAST;
+	const isMerc = id > SkillId.MERCENARY_BEGIN && id < SkillId.MERCENARY_LAST;
 
 	if (isHomun) {
 		entity = EntityManager.get(Session.homunId);
+	} else if (isMerc) {
+		entity = EntityManager.get(Session.mercId);
 	} else {
 		entity = Session.Entity;
-		if (entity.isOverWeight) {
+		if (entity?.isOverWeight) {
 			ChatBox.addText(DB.getMessage(243), ChatBox.TYPE.ERROR, ChatBox.FILTER.SKILL_FAIL);
 			return true;
 		}
 	}
 
 	// Client side minimum delay
-	if (entity && entity.amotionTick > Renderer.tick) {
+	if (!entity || entity.amotionTick > Renderer.tick) {
 		// Can't spam skills faster than amotion
 		return;
 	}
 
 	const pos = entity.position;
-	const skill = SkillWindow.getUI().getSkillById(id);
+	const skill = isHomun
+		? SkillListMH.homunculus.getSkillById(id)
+		: isMerc
+			? SkillListMH.mercenary.getSkillById(id)
+			: SkillWindow.getUI().getSkillById(id);
 	const out = [];
+	if (isHomun || isMerc) cancelCompanionSkill(entity);
 
 	if (skill) {
 		range = skill.attackRange + 1;
@@ -778,13 +812,34 @@ SkillTargetSelection.onUseSkillToPos = function onUseSkillToPos(id, level, x, y)
 		return;
 	}
 
-	// Save the packet
-	Session.moveAction = pkt;
+	// Keep pending casts with the entity that is actually moving.
+	if (isHomun || isMerc) {
+		queueCompanionSkill(
+			entity,
+			pkt,
+			out.slice((count - 1) * 2, count * 2),
+			() =>
+				PathFinding.search(
+					entity.position[0] | 0,
+					entity.position[1] | 0,
+					x | 0,
+					y | 0,
+					range,
+					[],
+					Altitude.TYPE.WALKABLE
+				) === 1
+		);
+	} else {
+		Session.moveAction = pkt;
+	}
 
 	// Move to the position
 	if (isHomun) {
 		pkt = new PACKET.CZ.REQUEST_MOVENPC();
 		pkt.GID = Session.homunId;
+	} else if (isMerc) {
+		pkt = new PACKET.CZ.REQUEST_MOVENPC();
+		pkt.GID = Session.mercId;
 	} else {
 		if (PACKETVER.value >= 20180307) {
 			pkt = new PACKET.CZ.REQUEST_MOVE2();

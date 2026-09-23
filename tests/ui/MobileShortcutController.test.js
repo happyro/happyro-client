@@ -28,7 +28,7 @@ beforeEach(() => {
 		supportPicking: vi.fn(),
 		canTarget: (t, inf) => Boolean(t && t.kind === inf),
 		target: () => target,
-		self: () => ({ GID: 9, kind: 16 }),
+		self: (() => { const caster = { GID: 9, kind: 16 }; return () => caster; })(),
 		castId: vi.fn(),
 		castGround: vi.fn(),
 		useItem: vi.fn(),
@@ -116,4 +116,13 @@ it('supports explicit friendly self targeting and live item use', () => {
 	controller.use(1);
 	expect(data.useItem).toHaveBeenCalledExactlyOnceWith(501);
 	expect(controller.use(2)).toEqual({ configure: 2 });
+});
+
+it('selects self for the actual skill caster and cancels when that caster is replaced',()=>{
+ const companion={GID:31,kind:16};data.self=vi.fn(()=>companion);
+ controller.configure(0,{isSkill:true,ID:4},1);controller.use(0);controller.self();
+ expect(data.self).toHaveBeenCalledWith(4);expect(data.castId).toHaveBeenCalledWith(4,1,31);
+ data.castId.mockClear();controller.use(0);data.self=()=>({GID:32,kind:16});
+ expect(controller.self()).toBe(false);expect(data.castId).not.toHaveBeenCalled();
+ expect(controller.snapshot().pending).toBeNull();
 });

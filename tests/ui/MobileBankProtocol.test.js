@@ -1,0 +1,16 @@
+import {beforeEach,it,expect,vi} from 'vitest';
+const s=vi.hoisted(()=>({mobile:true,hooks:new Map(),send:vi.fn(),open:vi.fn(),update:vi.fn(),close:vi.fn(),bank:{__active:false,append:vi.fn(),remove:vi.fn(),updateBankDisplay:vi.fn(),focusInput:vi.fn(),clearError:vi.fn(),clearInput:vi.fn(),setError:vi.fn()}}));
+vi.mock('UI/Platform.js',()=>({default:{get isMobile(){return s.mobile;}}}));
+vi.mock('UI/Game/GameBank.js',()=>({openGameBank:s.open,updateGameBank:s.update,closeGameBank:s.close}));
+vi.mock('UI/Components/Bank/Bank.js',()=>({default:s.bank}));
+vi.mock('Engine/SessionStorage.js',()=>({default:{AID:42,zeny:99}}));
+vi.mock('UI/Components/ChatBox/ChatBox.js',()=>({default:{addText:vi.fn(),TYPE:{ERROR:0},FILTER:{PUBLIC_LOG:0}}}));
+vi.mock('DB/DBManager.js',()=>({default:{getMessage:id=>String(id)}}));
+vi.mock('Network/NetworkManager.js',()=>({default:{sendPacket:s.send,hookPacket:(kind,callback)=>s.hooks.set(kind,callback)}}));
+vi.mock('Network/PacketStructure.js',()=>{const group=()=>new Proxy({}, {get:(t,k)=>t[k]||=(class{constructor(){this.packet=k;}})});return{default:{CZ:group(),ZC:group()}};});
+import Bank from '../../src/Engine/MapEngine/Bank.js';
+import PACKET from 'Network/PacketStructure.js';
+const receive=(name,pkt)=>s.hooks.get(PACKET.ZC[name])(pkt);
+beforeEach(()=>{vi.clearAllMocks();s.mobile=true;s.bank.__active=false;Bank.init();});
+it('queries after open and routes balances and transaction replies to the mobile owner',()=>{receive('ACK_OPEN_BANKING',{});expect(s.send).toHaveBeenCalledWith(expect.objectContaining({packet:'REQ_BANKING_CHECK',AID:42}));receive('BANKING_CHECK',{money:50});expect(s.open).toHaveBeenCalledWith(50);for(const type of ['ACK_BANKING_DEPOSIT','ACK_BANKING_WITHDRAW'])receive(type,{money:70,zeny:79,reason:0});expect(s.update).toHaveBeenCalledTimes(2);receive('ACK_CLOSE_BANKING',{});expect(s.close).toHaveBeenCalledOnce();expect(s.bank.append).not.toHaveBeenCalled();expect(s.bank.updateBankDisplay).not.toHaveBeenCalled();});
+it('keeps desktop focus, amounts, error messages and close callbacks',()=>{s.mobile=false;receive('BANKING_CHECK',{money:50});expect(s.bank.append).toHaveBeenCalledOnce();expect(s.bank.focusInput).toHaveBeenCalledOnce();expect(s.bank.updateBankDisplay).toHaveBeenCalledWith(50,99);receive('ACK_BANKING_DEPOSIT',{money:70,reason:0});expect(s.bank.clearError).toHaveBeenCalledOnce();receive('ACK_BANKING_WITHDRAW',{reason:1});expect(s.bank.setError).toHaveBeenCalledWith('2786');s.bank.__active=true;receive('ACK_CLOSE_BANKING');expect(s.bank.remove).toHaveBeenCalledOnce();expect(s.open).not.toHaveBeenCalled();expect(s.update).not.toHaveBeenCalled();});

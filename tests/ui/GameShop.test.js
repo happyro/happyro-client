@@ -47,3 +47,13 @@ it('aggregates exchange materials across order lines and preserves shop indices 
 it('can explicitly clear a stale order before rebuilding it',()=>{
  const send=vi.fn();const shop=openGameShop('sell',[{index:3,price:10}],send,vi.fn());shop.set(3,501,1);s.items=[];expect(shop.submit()).toContain('变化');expect(shop.clear()).toBe(true);expect(shop.submit()).toContain('先选择');expect(send).not.toHaveBeenCalled();
 });
+
+it('caps sales to a buying store across inventory stacks and acknowledges every sold stack',()=>{
+ s.items.push({index:4,ITID:501,count:5,PlaceETCTab:0});const send=vi.fn();const t=openGameShop('sell',[{index:3,ITID:501,price:10,qty:3},{index:4,ITID:501,price:10,qty:3}],send,vi.fn(),{type:'player-buying',limitToOffer:true,maxTotal:25});
+ t.set(3,501,2);t.set(4,501,2);expect(t.submit()).toContain('数量');t.set(4,501,1);expect(t.submit()).toContain('金额');t.set(3,501,1);t.submit();expect(send).toHaveBeenCalledExactlyOnceWith([{index:3,ITID:501,count:1},{index:4,ITID:501,count:1}]);expect(t.acknowledgeSale(3,1)).toBe(false);expect(t.acknowledgeSale(4,1)).toBe(true);
+});
+it('does not wait for a nonexistent success acknowledgement when buying from a player vendor',()=>{
+ const send=vi.fn(),t=openGameShop('buy',[{ITID:501,price:10,qty:2}],send,vi.fn(),{type:'player-vending',requestOnly:true});t.set(0,501,1);t.submit();expect(send).toHaveBeenCalledOnce();expect(interactionSnapshot()).toMatchObject({kind:'notice',title:'购买请求已发送'});t.submit();expect(send).toHaveBeenCalledOnce();
+});
+
+it('keeps the NPC sale lock from excluding items requested by a player buying store',()=>{s.lock=true;s.items[0].PlaceETCTab=1;const send=vi.fn(),t=openGameShop('sell',[{index:3,ITID:501,price:1,qty:2}],send,vi.fn(),{type:'player-buying',limitToOffer:true,maxTotal:100});expect(t.set(3,501,1)).toBe('');t.submit();expect(send).toHaveBeenCalledOnce();});

@@ -12,7 +12,7 @@ it('locks browser zoom and page movement while preserving native scrolling and g
 		const { lockMobileViewport } = await import('../../src/UI/Mobile/Viewport.js');
 		lockMobileViewport();
 		expect(document.body.style.position).toBe('fixed');
-		expect(document.documentElement.style.overflow).toBe('hidden');
+		expect(document.documentElement.style.overflow).toBe('clip');
 		expect(document.querySelector('meta[name=viewport]').content).toContain('user-scalable=no');
 		expect(scroll).toHaveBeenCalledWith(0, 0);
 		const count = listeners.length;

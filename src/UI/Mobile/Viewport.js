@@ -17,10 +17,12 @@ export function lockMobileViewport() {
 		document.head.appendChild(meta);
 	}
 	meta.content = MOBILE_VIEWPORT_CONTENT;
+	// Hidden overflow is still programmatically scrollable when WebKit focuses an input.
+	// Clip keeps the outer page stationary; scrolling belongs to the inner panels.
 	for (const element of [document.documentElement, document.body]) {
 		Object.assign(element.style, {
 			position: 'fixed', inset: '0', width: '100%', height: '100%',
-			margin: '0', overflow: 'hidden', overscrollBehavior: 'none',
+			margin: '0', overflow: 'clip', overscrollBehavior: 'none',
 			touchAction: 'pan-x pan-y'
 		});
 	}

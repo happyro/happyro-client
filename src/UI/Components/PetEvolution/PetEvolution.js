@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { receiveGamePetResult } from 'UI/Game/GamePet.js';
 /**
  * UI/Components/PetEvolution/PetEvolution.js
  *
@@ -298,6 +300,10 @@ function onItemInfo(event) {
  * @param {PACKET.ZC.PET_EVOLUTION} pkt
  */
 function onPetEvolveResult(pkt) {
+	if (Platform.isMobile) {
+		if (pkt) receiveGamePetResult('evolve', pkt.result);
+		return;
+	}
 	if (pkt) {
 		switch (pkt.result) {
 			case 0: // Unknown Error

@@ -1,3 +1,5 @@
+import Trade from 'UI/Components/Trade/Trade.js';
+import UIManager from 'UI/UIManager.js';
 import { ownAttack, releaseAttack } from 'Controls/AttackIntent.js';
 import DB from 'DB/DBManager.js';
 import Session from 'Engine/SessionStorage.js';
@@ -81,6 +83,20 @@ export function interactSelected() {
 	const target = selectedTarget();
 	if (!target) return;
 	const T = target.constructor;
+	if (
+		target.room?.display &&
+		[target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)
+	) {
+		target.onRoomEnter();
+		return;
+	}
+	if (target.objecttype === T.TYPE_PC && target !== Session.Entity) {
+		UIManager.showPromptBox(`向 ${target.display.name} 发起交易？`, 'ok', 'cancel', () => {
+			if (Session.Playing && !Session.FreezeUI && selectedTarget() === target)
+				Trade.reqExchange(target.GID, target.display.name);
+		});
+		return;
+	}
 	if (![T.TYPE_NPC, T.TYPE_NPC2, T.TYPE_ITEM, T.TYPE_WARP].includes(target.objecttype)) return;
 	Mouse.world.x = Math.round(target.position[0]);
 	Mouse.world.y = Math.round(target.position[1]);
@@ -94,13 +110,18 @@ export function targetSnapshot() {
 		name: target.display.name || '已选目标',
 		attack: canAttack(target),
 		interaction:
-			target.objecttype === T.TYPE_ITEM
-				? '拾取'
-				: target.objecttype === T.TYPE_WARP
-					? '进入'
-					: [T.TYPE_NPC, T.TYPE_NPC2].includes(target.objecttype)
-						? '交谈'
-						: ''
+			target.room?.display &&
+			[target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)
+				? '查看摊位'
+				: target.objecttype === T.TYPE_PC && target !== Session.Entity
+					? '交易'
+					: target.objecttype === T.TYPE_ITEM
+						? '拾取'
+						: target.objecttype === T.TYPE_WARP
+							? '进入'
+							: [T.TYPE_NPC, T.TYPE_NPC2].includes(target.objecttype)
+								? '交谈'
+								: ''
 	};
 }
 
