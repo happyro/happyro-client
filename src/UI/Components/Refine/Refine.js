@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { openGameRefinement, updateRefinementMaterials } from 'UI/Game/GameRefinement.js';
 /**
  * UI/Components/Refine/Refine.js
  *
@@ -371,6 +373,10 @@ function onOpenRefineUI() {
 		return false;
 	}
 
+	if (Platform.isMobile) {
+		openGameRefinement('refine');
+		return false;
+	}
 	Refine.append();
 
 	const isInventoryOpen = Inventory.getUI().ui ? Inventory.getUI().ui.is(':visible') : false;
@@ -487,6 +493,10 @@ function onRefineUIUpdateMaterials(pkt) {
 		return false;
 	}
 
+	if (Platform.isMobile) {
+		updateRefinementMaterials('refine', pkt);
+		return;
+	}
 	const root = _root();
 
 	if (pkt && pkt.MaterialInfo.length > 0) {

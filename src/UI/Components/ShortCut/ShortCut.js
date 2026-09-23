@@ -11,6 +11,7 @@
 import DB from 'DB/DBManager.js';
 import ItemType from 'DB/Items/ItemType.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
+import SkillId from 'DB/Skills/SkillConst.js';
 import Client from 'Core/Client.js';
 import Preferences from 'Core/Preferences.js';
 import Session from 'Engine/SessionStorage.js';
@@ -259,10 +260,10 @@ ShortCut.onShortCut = function onShortCut(key) {
 ShortCut.useSkill = function useSkill(id, level) {
 	if (id > 10000 && id < 10100) {
 		Guild.useSkillID(id, level);
-	} else if (id > 8000 && id < 8044) {
-		// if one of them don't have the skill, it returns early
-		SkillListMH.mercenary.useSkillID(id, level);
+	} else if (id > SkillId.HOMUN_BEGIN && id < SkillId.HOMUN_LAST) {
 		SkillListMH.homunculus.useSkillID(id, level);
+	} else if (id > SkillId.MERCENARY_BEGIN && id < SkillId.MERCENARY_LAST) {
+		SkillListMH.mercenary.useSkillID(id, level);
 	} else {
 		SkillWindow.getUI().useSkillID(id, level);
 	}
@@ -273,11 +274,10 @@ ShortCut.getSkillById = function getSkillById(id) {
 
 	if (id > 10000 && id < 10100) {
 		skill = Guild.getSkillById(id);
-	} else if (id > 8000 && id < 8044) {
+	} else if (id > SkillId.HOMUN_BEGIN && id < SkillId.HOMUN_LAST) {
+		skill = SkillListMH.homunculus.getSkillById(id);
+	} else if (id > SkillId.MERCENARY_BEGIN && id < SkillId.MERCENARY_LAST) {
 		skill = SkillListMH.mercenary.getSkillById(id);
-		if (!skill) {
-			skill = SkillListMH.homunculus.getSkillById(id);
-		}
 	} else {
 		skill = SkillWindow.getUI().getSkillById(id);
 	}
@@ -627,6 +627,7 @@ ShortCut.addElement = function addElement(index, isSkill, ID, count) {
 	const tooltipText = hotkey ? `[ ${hotkey} ] ${name}` : name;
 
 	Client.loadFile(`${DB.INTERFACE_PATH}item/${file}.bmp`, url => {
+		if (_list[index]?.ID !== ID || Boolean(_list[index]?.isSkill) !== Boolean(isSkill)) return;
 		ui.innerHTML = '<div draggable="true" class="icon"><div class="img"></div><div class="amount"></div></div>';
 
 		ui.querySelector('.img').style.backgroundImage = `url(${url})`;
@@ -688,7 +689,10 @@ function setDelayOnIndex(index, delay) {
 
 		if (remaining <= 0 || !overlay.isConnected) {
 			if (overlay.isConnected && _list[index].isSkill)
-				ui.setAttribute('data-tooltip', `[ ${getHotKeyString(index)} ] ${SkillInfo[_list[index].ID]?.SkillName || ''}`);
+				ui.setAttribute(
+					'data-tooltip',
+					`[ ${getHotKeyString(index)} ] ${SkillInfo[_list[index].ID]?.SkillName || ''}`
+				);
 			overlay.remove();
 			if (_activeAnimations.has(index)) {
 				cancelAnimationFrame(_activeAnimations.get(index));
@@ -699,7 +703,10 @@ function setDelayOnIndex(index, delay) {
 
 		const percentage = Math.min(1, remaining / Math.max(1, delay));
 		const seconds = Math.ceil(remaining / 1000);
-		ui.setAttribute('data-tooltip', `[ ${getHotKeyString(index)} ] ${SkillInfo[_list[index].ID]?.SkillName || ''} · 冷却 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`);
+		ui.setAttribute(
+			'data-tooltip',
+			`[ ${getHotKeyString(index)} ] ${SkillInfo[_list[index].ID]?.SkillName || ''} · 冷却 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
+		);
 		const degrees = (1 - percentage) * 360;
 		overlay.style.background = `conic-gradient(transparent 0deg, transparent ${degrees}deg, rgba(0,0,0,0.75) ${degrees}deg)`;
 
@@ -1250,6 +1257,13 @@ ShortCut.loadFromServer = function loadFromServer(callback) {
 	} else if (callback) {
 		callback();
 	}
+};
+
+ShortCut.configure = function configure(index, isSkill, ID, count) {
+	if (!Number.isInteger(index) || index < 0 || index >= _list.length) return false;
+	ShortCut.addElement(index, isSkill, ID, count);
+	ShortCut.onChange(index, isSkill, ID, count);
+	return true;
 };
 
 ShortCut.getList = function getList() {

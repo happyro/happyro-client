@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import Platform from 'UI/Platform.js';
 import Client from 'Core/Client.js';
 import MemoryManager from 'Core/MemoryManager.js';
 import Graphics from 'Preferences/Graphics.js';
@@ -188,7 +189,7 @@ class Cursor {
 	 * Render the cursor (update)
 	 */
 	static render(tick) {
-		if (!Graphics.cursor || !_compiledStyle.length) {
+		if (Platform.isMobile || !Graphics.cursor || !_compiledStyle.length) {
 			if (_selector) {
 				// Pre-rework it used 'hidden' css
 				_selector.style.display = 'none';

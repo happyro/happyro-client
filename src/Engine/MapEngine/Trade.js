@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { openGameTrade, currentGameTrade } from 'UI/Game/GameTrade.js';
 /**
  * Engine/MapEngine/Trade.js
  *
@@ -85,7 +87,14 @@ function onTradeRequestAnswer(pkt) {
 			if ('level' in pkt && 'GID' in pkt) {
 				Trade.title += `  Lv${pkt.level} (${tradeGIDEncoding(pkt.GID)})`;
 			}
-			Trade.append();
+			if (Platform.isMobile)
+				openGameTrade(Trade.title, {
+					add: Trade.reqAddItem,
+					lock: Trade.onConclude,
+					execute: Trade.onTradeSubmit,
+					cancel: Trade.onCancel
+				});
+			else Trade.append();
 			break;
 
 		case 4: // Cancel
@@ -117,6 +126,10 @@ Trade.reqAddItem = function reqAddItem(index, count) {
  * @param {object} pkt - PACKET.ZC.ACK_ADD_EXCHANGE_ITEM
  */
 function onAddItemResult(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.acknowledge(pkt.Index, pkt.result === 0);
+		return;
+	}
 	switch (pkt.result) {
 		case 1: // overweight
 			ChatBox.addText(DB.getMessage(73), ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
@@ -136,6 +149,10 @@ function onAddItemResult(pkt) {
  * @param {object} pkt - PACKET.ZC.ADD_EXCHANGE_ITEM
  */
 function onItemAdded(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.receive(pkt);
+		return;
+	}
 	Trade.addItem(pkt);
 }
 
@@ -153,6 +170,10 @@ Trade.onCancel = function onCancel() {
  * @param {object} pkt - PACKET.ZC.CANCEL_EXCHANGE_ITEM
  */
 function onTradeCancel(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.finish(DB.getMessage(74));
+		return;
+	}
 	ChatBox.addText(DB.getMessage(74), ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 	Trade.remove();
 }
@@ -171,6 +192,10 @@ Trade.onConclude = function onConclude() {
  * @param {object} pkt - PACKET.ZC.CONCLUDE_EXCHANGE_ITEM
  */
 function onTradeConclude(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.conclude(Boolean(pkt.who));
+		return;
+	}
 	Trade.conclude(pkt.who ? 'recv' : 'send');
 }
 
@@ -188,6 +213,10 @@ Trade.onTradeSubmit = function onTradeSubmit() {
  * @param {object} pkt - PACKET.ZC.EXEC_EXCHANGE_ITEM
  */
 function onTradeSubmitAnswer(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.finish(DB.getMessage(pkt.result === 1 ? 76 : 75));
+		return;
+	}
 	// Fail
 	if (pkt.result === 1) {
 		ChatBox.addText(DB.getMessage(76), ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);

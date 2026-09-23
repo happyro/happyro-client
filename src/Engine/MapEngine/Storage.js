@@ -1,3 +1,8 @@
+import Inventory from 'UI/Components/Inventory/Inventory.js';
+import Equipment from 'UI/Components/Equipment/Equipment.js';
+import CartItems from 'UI/Components/CartItems/CartItems.js';
+import Platform from 'UI/Platform.js';
+import { interactionSnapshot, showInteraction, clearInteraction } from 'UI/Game/ServerInteraction.js';
 /**
  * Engine/MapEngine/Storage.js
  *
@@ -32,6 +37,25 @@ let InvTypeName = '';
  * @param {object} pkt - PACKET.ZC.NOTIFY_STOREITEM_COUNTINFO
  */
 function onStorageInfo(pkt) {
+	if (Platform.isMobile) {
+		const ui = Storage.getUI();
+		ui.prepare();
+		ui.setItemInfo(pkt.curCount, pkt.maxCount);
+		ui.setItems(itemBuffer);
+		itemBuffer = [];
+		if (interactionSnapshot()?.kind !== 'storage') {
+			const token = {};
+			showInteraction({
+				kind: 'storage',
+				title: InvTypeName === 'Storage' ? '仓库' : InvTypeName || '仓库',
+				token,
+				close: () => {
+					if (interactionSnapshot()?.token === token) Storage.onClosePressed();
+				}
+			});
+		}
+		return;
+	}
 	if (!(Storage.getUI().__loaded && Storage.getUI().__active)) {
 		Storage.getUI().append();
 		// Update Storage Title based on InvTypeName
@@ -80,6 +104,11 @@ function onStorageItemRemoved(pkt) {
  * @param {object} pkt - PACKET.ZC.CLOSE_STORE
  */
 function onStorageClose() {
+	if (Platform.isMobile) {
+		clearInteraction('storage');
+		Storage.getUI().clearItems();
+		itemBuffer = [];
+	}
 	Storage.getUI().remove();
 }
 
@@ -91,7 +120,7 @@ Storage.onClosePressed = function onClosePressed() {
 	const pkt = new PACKET.CZ.CLOSE_STORE();
 	Network.sendPacket(pkt);
 
-	Storage.getUI().remove();
+	onStorageClose();
 };
 
 /**
@@ -162,6 +191,22 @@ Storage.reqMoveItemToCart = function reqMoveItemToCart(index, count) {
  * @param {object} pkt - PACKET.ZC.SPLIT_SEND_ITEMLIST_SET
  */
 function onItemListSet(pkt) {
+	// Prepared mobile models are not mounted, so DOM removal cannot reset their data.
+	if (Platform.isMobile && pkt.invType === 0) {
+		Inventory.getUI().prepare();
+		Equipment.getUI().prepare();
+		Inventory.getUI().clearItems();
+		Equipment.getUI().clearItems();
+	}
+	if (Platform.isMobile && pkt.invType === 1) {
+		CartItems.prepare();
+		CartItems.clearItems();
+	}
+	if (Platform.isMobile && [2, 3].includes(pkt.invType)) {
+		Storage.getUI().prepare();
+		Storage.getUI().clearItems();
+		itemBuffer = [];
+	}
 	switch (pkt.invType) {
 		case 0: // Inventory - name is always blank
 		case 1: // Cart - name is always blank

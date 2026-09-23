@@ -1,0 +1,22 @@
+import {beforeEach,expect,it,vi} from 'vitest';
+const s=vi.hoisted(()=>({quests:[],send:vi.fn(),playing:true,allowed:true}));
+vi.mock('UI/Components/Quest/Quest.js',()=>({default:{getUI:()=>({getQuests:()=>s.quests})}}));
+vi.mock('Network/NetworkManager.js',()=>({default:{sendPacket:s.send}}));
+vi.mock('Network/PacketStructure.js',()=>({default:{CZ:{ACTIVE_QUEST:class {}}}}));
+vi.mock('Engine/SessionStorage.js',()=>({default:{get Playing(){return s.playing;}}}));
+vi.mock('DB/DBManager.js',()=>({default:{getItemInfo:()=>({identifiedDisplayName:'药水'})}}));
+import {createGameQuests} from '../../src/UI/Game/GameQuests.js';
+import {createQuestsPanel} from '../../src/UI/Mobile/game/QuestsPanel.js';
+beforeEach(()=>{vi.clearAllMocks();s.playing=true;s.allowed=true;s.quests=[{questID:1,active:1,title:'^ff0000任务',description:'<NAVI>城门<INFO>prontera,100,200</INFO></NAVI>',hunt_list:[{mobName:'波利',huntCount:2,maxCount:5}],reward_item_list:[{ItemID:501,ItemNum:3}]}];});
+it('waits for server state and rejects stale, completed or disconnected requests',()=>{
+ const service=createGameQuests(()=>s.allowed);expect(service.snapshot().quests[0].targets).toEqual([{id:'prontera',name:'城门',x:100,y:200}]);
+ expect(service.toggle(1,0)).toBe(false);expect(service.toggle(1,1)).toBe(true);expect(service.toggle(1,1)).toBe(false);expect(s.quests[0].active).toBe(1);expect(s.send).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({questID:1,active:0}));
+ s.quests[0].active=0;expect(service.snapshot().pending).toBeUndefined();s.allowed=false;expect(service.toggle(1,0)).toBe(false);s.allowed=true;s.playing=false;expect(service.toggle(1,0)).toBe(false);s.playing=true;s.quests[0].active=2;expect(service.toggle(1,2)).toBe(false);
+});
+it('updates progress without replacing list nodes and opens navigation targets without HTML execution',()=>{
+ const body=document.createElement('div');const service=createGameQuests(()=>true);const showMap=vi.fn();const panel=createQuestsPanel(body,{...service,showMap});
+ const button=body.querySelector('[data-quest]');button.click();expect(body.textContent).toContain('波利：2 / 5');expect(body.querySelector('navi')).toBeNull();
+ s.quests[0].hunt_list[0].huntCount=3;panel.update();expect(body.querySelector('[data-quest]')).toBe(button);expect(body.textContent).toContain('波利：3 / 5');
+ [...body.querySelectorAll('button')].find(b=>b.textContent==='查看地图：城门').click();expect(showMap).toHaveBeenCalledWith(expect.objectContaining({id:'prontera'}));
+ s.quests=[];panel.update();expect(body.textContent).toContain('当前分类没有任务');expect(body.textContent).not.toContain('波利');
+});

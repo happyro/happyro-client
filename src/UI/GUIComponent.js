@@ -105,6 +105,8 @@ class GUIComponent {
 
 		this.mouseMode = MouseMode.STOP;
 		this.needFocus = true;
+		// Opt in only for interfaces that need native touch scrolling.
+		this.nativeScrolling = false;
 		this.manager = null; // Set by UIManager.addComponent()
 
 		this.__loaded = false;
@@ -911,6 +913,7 @@ class GUIComponent {
 	// ─── Scrollbar setup ───────────────────────────────────
 
 	_setupScrollbars() {
+		if (this.nativeScrolling) return;
 		const self = this;
 		// Search inside the shadow container, not the host (light DOM)
 		const root = this._container || this._host;

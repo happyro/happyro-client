@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { receiveGameMail, setGameMailUnread } from 'UI/Game/GameMail.js';
 /**
  * Engine/MapEngine/RodEx.js
  *
@@ -258,6 +260,10 @@ WriteRodex.validateName = function (name) {
  * @param {object} pkt - PACKET.ZC.RODEX_ICON
  */
 function rodexIcon(pkt) {
+	if (Platform.isMobile) {
+		setGameMailUnread(pkt.show);
+		return;
+	}
 	if (pkt.show) {
 		RodexIcon.append();
 	} else {
@@ -271,6 +277,10 @@ function rodexIcon(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_RODEX_LIST
  */
 function rodexList(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('list', pkt);
+		return;
+	}
 	Rodex.initData(pkt);
 }
 
@@ -280,6 +290,10 @@ function rodexList(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_FAILED_ALL_RODEX_LIST
  */
 function rodexGetListFailed(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('listFailed', pkt);
+		return;
+	}
 	Rodex.getListFailed(pkt);
 }
 
@@ -289,6 +303,10 @@ function rodexGetListFailed(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_READ_RODEX
  */
 function rodexRead(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('read', pkt);
+		return;
+	}
 	const mail = Rodex.getMailByID(pkt.MailID);
 	ReadRodex.append();
 	ReadRodex.initData(pkt, mail);
@@ -300,6 +318,10 @@ function rodexRead(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_ZENY_FROM_RODEX
  */
 function rodexGetZeny(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('zeny', pkt);
+		return;
+	}
 	switch (pkt.result) {
 		case 1: // failure
 			ChatBox.addText(DB.getMessage(2592), ChatBox.TYPE.INFO_MAIL, ChatBox.FILTER.PUBLIC_LOG);
@@ -319,6 +341,10 @@ function rodexGetZeny(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_ITEM_FROM_RODEX
  */
 function rodexGetItem(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('items', pkt);
+		return;
+	}
 	switch (pkt.result) {
 		case 1: // failure
 			ChatBox.addText(DB.getMessage(2589), ChatBox.TYPE.INFO_MAIL, ChatBox.FILTER.PUBLIC_LOG);
@@ -338,6 +364,10 @@ function rodexGetItem(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_OPEN_WRITE_RODEX
  */
 function openWindowsWriteMail(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('compose', pkt);
+		return;
+	}
 	WriteRodex.append();
 	WriteRodex.initData(pkt);
 }
@@ -348,6 +378,10 @@ function openWindowsWriteMail(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_ADD_ITEM_RODEX
  */
 function onRodexItemAdded(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('add', pkt);
+		return;
+	}
 	if (!pkt.result) {
 		ChatBox.addText(DB.getMessage(2594), ChatBox.TYPE.INFO_MAIL, ChatBox.FILTER.PUBLIC_LOG);
 		WriteRodex.addItem(pkt);
@@ -362,6 +396,10 @@ function onRodexItemAdded(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_REMOVE_RODEX_ITEM
  */
 function onRodexRemoveItem(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('remove', pkt);
+		return;
+	}
 	if (pkt.result) {
 		ChatBox.addText(DB.getMessage(2589), ChatBox.TYPE.INFO_MAIL, ChatBox.FILTER.PUBLIC_LOG);
 		WriteRodex.removeItem(pkt.index, pkt.count, pkt.weight);
@@ -376,6 +414,10 @@ function onRodexRemoveItem(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_SEND_RODEX
  */
 function rodexSend(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('send', pkt);
+		return;
+	}
 	if (!pkt.result) {
 		ChatBox.addText(DB.getMessage(2587), ChatBox.TYPE.INFO_MAIL, ChatBox.FILTER.PUBLIC_LOG);
 	} else {
@@ -390,6 +432,10 @@ function rodexSend(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_DELETE_RODEX
  */
 function rodexDelete(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('delete', pkt);
+		return;
+	}
 	if (!pkt.result) {
 		ChatBox.addText(DB.getMessage(1038), ChatBox.TYPE.INFO_MAIL, ChatBox.FILTER.PUBLIC_LOG);
 		Rodex.updateDeletedMailContent(pkt.openType, pkt.MailID);
@@ -400,6 +446,10 @@ function rodexDelete(pkt) {
 }
 
 function rodexCharacterInfo(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail('validate', pkt);
+		return;
+	}
 	if (pkt.CharID > 0) {
 		WriteRodex.characterInfo(pkt);
 	} else {

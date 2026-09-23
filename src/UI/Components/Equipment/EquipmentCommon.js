@@ -946,6 +946,15 @@ export function createEquipment({
 		}
 	};
 
+	/** Snapshot for alternative presentations; keep equipment ownership here. */
+	Component.clearItems = () => {
+		_list = {};
+		Component.getRoot()
+			.querySelectorAll('.col1, .col3, .ammo')
+			.forEach(el => el.replaceChildren());
+	};
+	Component.getItems = () => Object.values(_list).map(item => ({ ...item }));
+
 	Component.getNumber = function () {
 		let num = 0;
 		for (const key in _list) {

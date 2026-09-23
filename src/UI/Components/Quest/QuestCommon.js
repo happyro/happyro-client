@@ -364,6 +364,12 @@ export function createQuest(config) {
 	 *
 	 * @param {number} questID
 	 */
+	Quest.getQuests = () =>
+		Object.values(_questList).map(quest => ({
+			...quest,
+			hunt_list: Object.values(quest.hunt_list || {}).map(hunt => ({ ...hunt }))
+		}));
+
 	Quest.questExists = function questExists(questID) {
 		return typeof _questList[questID] !== 'undefined' ? true : false;
 	};

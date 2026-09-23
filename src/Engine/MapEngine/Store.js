@@ -1,3 +1,13 @@
+import { interactionSnapshot } from 'UI/Game/ServerInteraction.js';
+import {
+	openVendingSetup,
+	vendingSetupFailed,
+	setOwnedVending,
+	updateOwnedVending,
+	finishOwnedBuying
+} from 'UI/Game/GameVending.js';
+import Platform from 'UI/Platform.js';
+import { openGameShop, finishGameShop } from 'UI/Game/GameShop.js';
 /**
  * Engine/MapEngine/Store.js
  *
@@ -30,15 +40,16 @@ import ChatBox from 'UI/Components/ChatBox/ChatBox.js';
  * @param {object} pkt - PACKET.ZC.ZC_PC_CASH_POINT_ITEMLIST
  */
 function onBuyCashList(pkt) {
-	NpcStore.append();
-	NpcStore.setType(NpcStore.Type.CASH_SHOP);
-	NpcStore.setList(pkt.itemList);
+	if (!Platform.isMobile) {
+		NpcStore.append();
+		NpcStore.setType(NpcStore.Type.CASH_SHOP);
+		NpcStore.setList(pkt.itemList);
 
-	const entity = Session.Entity;
-	NpcStore.ui.find('.cashuser .buyer').text(entity ? entity.display.name : '');
-	NpcStore.ui.find('.cashuser .cashpoints').text(pkt.KafraPoint);
-
-	NpcStore.onSubmit = itemList => {
+		const entity = Session.Entity;
+		NpcStore.ui.find('.cashuser .buyer').text(entity ? entity.display.name : '');
+		NpcStore.ui.find('.cashuser .cashpoints').text(pkt.KafraPoint);
+	}
+	const submit = itemList => {
 		// add prompt confirmation first later...
 		const _pkt = new PACKET.CZ.PC_BUY_CASH_POINT_ITEM();
 		const count = itemList.length;
@@ -55,6 +66,15 @@ function onBuyCashList(pkt) {
 
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile)
+		openGameShop('buy', pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_TRADE_QUIT()), {
+			type: 'cash',
+			title: '点数商店',
+			currency: '商店点数',
+			balance: pkt.KafraPoint,
+			closeAfterResult: true
+		});
+	else NpcStore.onSubmit = submit;
 }
 
 /**
@@ -63,6 +83,10 @@ function onBuyCashList(pkt) {
  * @param {object} pkt - PACKET.ZC.ZC_PC_CASH_POINT_ITEMLIST
  */
 function onBuyVendingList(pkt) {
+	if (Platform.isMobile) {
+		setOwnedVending('sell', pkt);
+		return;
+	}
 	VendingShop.append();
 	VendingShop.setType(VendingShop.Type.VENDING_LIST);
 	VendingShop.setItems(pkt.itemList);
@@ -74,12 +98,20 @@ function onBuyVendingList(pkt) {
  * @param {object} pkt - PACKET.ZC.ZC_PC_CASH_POINT_ITEMLIST
  */
 function onBuyingList(pkt) {
+	if (Platform.isMobile) {
+		setOwnedVending('buy', pkt);
+		return;
+	}
 	VendingShop.append();
 	VendingShop.setType(VendingShop.Type.BUYING_LIST);
 	VendingShop.setItems(pkt.itemList);
 }
 
 function onDeleteVendingItem(pkt) {
+	if (Platform.isMobile) {
+		updateOwnedVending(pkt.index, pkt.count);
+		return;
+	}
 	// Vending Report
 	if (PACKETVER.value >= 20141016) {
 		VendingReport.add(pkt);
@@ -94,10 +126,12 @@ function onDeleteVendingItem(pkt) {
  * @param {object} pkt - PACKET.ZC.PC_PURCHASE_ITEMLIST
  */
 function onBuyList(pkt) {
-	NpcStore.append();
-	NpcStore.setType(NpcStore.Type.BUY);
-	NpcStore.setList(pkt.itemList);
-	NpcStore.onSubmit = itemList => {
+	if (!Platform.isMobile) {
+		NpcStore.append();
+		NpcStore.setType(NpcStore.Type.BUY);
+		NpcStore.setList(pkt.itemList);
+	}
+	const submit = itemList => {
 		const _pkt = new PACKET.CZ.PC_PURCHASE_ITEMLIST();
 		const count = itemList.length;
 
@@ -110,6 +144,9 @@ function onBuyList(pkt) {
 
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile)
+		openGameShop('buy', pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_TRADE_QUIT()));
+	else NpcStore.onSubmit = submit;
 }
 
 /**
@@ -118,10 +155,12 @@ function onBuyList(pkt) {
  * @param {object} pkt - PACKET.ZC.NPC_BARTER_MARKET_ITEMINFO
  */
 function onBarterBuyList(pkt) {
-	NpcStore.append();
-	NpcStore.setType(NpcStore.Type.BARTER_MARKET);
-	NpcStore.setList(pkt.itemList);
-	NpcStore.onSubmit = itemList => {
+	if (!Platform.isMobile) {
+		NpcStore.append();
+		NpcStore.setType(NpcStore.Type.BARTER_MARKET);
+		NpcStore.setList(pkt.itemList);
+	}
+	const submit = itemList => {
 		const _pkt = new PACKET.CZ.NPC_BARTER_MARKET_PURCHASE();
 		const count = itemList.length;
 
@@ -138,6 +177,13 @@ function onBarterBuyList(pkt) {
 
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile)
+		openGameShop('buy', pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_BARTER_MARKET_CLOSE()), {
+			type: 'barter',
+			title: '材料兑换',
+			closeAfterResult: true
+		});
+	else NpcStore.onSubmit = submit;
 }
 
 /**
@@ -146,10 +192,12 @@ function onBarterBuyList(pkt) {
  * @param {object} pkt - PACKET.ZC.NPC_EXPANDED_BARTER_MARKET_ITEMINFO
  */
 function onExpandedBarterBuyList(pkt) {
-	NpcStore.append();
-	NpcStore.setType(NpcStore.Type.BARTER_MARKET_EXTENDED);
-	NpcStore.setList(pkt.itemList);
-	NpcStore.onSubmit = itemList => {
+	if (!Platform.isMobile) {
+		NpcStore.append();
+		NpcStore.setType(NpcStore.Type.BARTER_MARKET_EXTENDED);
+		NpcStore.setList(pkt.itemList);
+	}
+	const submit = itemList => {
 		const _pkt = new PACKET.CZ.NPC_EXPANDED_BARTER_MARKET_PURCHASE();
 		const count = itemList.length;
 
@@ -163,6 +211,15 @@ function onExpandedBarterBuyList(pkt) {
 
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile)
+		openGameShop(
+			'buy',
+			pkt.itemList,
+			submit,
+			() => Network.sendPacket(new PACKET.CZ.NPC_EXPANDED_BARTER_MARKET_CLOSE()),
+			{ type: 'barter-expanded', title: '材料兑换', closeAfterResult: true }
+		);
+	else NpcStore.onSubmit = submit;
 }
 
 /**
@@ -171,6 +228,16 @@ function onExpandedBarterBuyList(pkt) {
  * @param {object} pkt - PACKET_ZC_PC_PURCHASE_RESULT
  */
 function onBuyResult(pkt) {
+	if (
+		Platform.isMobile &&
+		finishGameShop(
+			DB.getMessage(
+				{ 0: 54, 1: 55, 2: 56, 4: 230, 5: 281, 7: 1797, 11: 3554, 12: 3555, 13: 3557, 14: 3556 }[pkt.result] ??
+					57
+			)
+		)
+	)
+		return;
 	NpcStore.remove();
 
 	switch (pkt.result) {
@@ -223,6 +290,13 @@ function onBuyResult(pkt) {
  */
 
 function onBuyCashResult(pkt) {
+	if (
+		Platform.isMobile &&
+		finishGameShop(
+			DB.getMessage({ 0: 54, 1: 1227, 2: 1228, 4: 1229, 5: 1230, 6: 1254, 7: 1813 }[pkt.Error] ?? 1814)
+		)
+	)
+		return;
 	if (NpcStore.getCurrentType() >= 4 && NpcStore.getCurrentType() != NpcStore.Type.CASH_SHOP) {
 		NpcStore.setClosePacketSent(true);
 		// Marketshop && Barter
@@ -267,6 +341,8 @@ function onBuyCashResult(pkt) {
  */
 
 function onSellToBuyingStoreResult(pkt) {
+	if (Platform.isMobile && finishGameShop('收购交易未全部完成，请检查物品数量和对方预算；已成交部分以背包更新为准。'))
+		return;
 	switch (pkt.Result) {
 		case 6:
 			ChatBox.addText(DB.getMessage(1742), ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
@@ -286,10 +362,12 @@ function onSellToBuyingStoreResult(pkt) {
  * @param {object} pkt - PACKET.ZC.PC_SELL_ITEMLIST
  */
 function onSellList(pkt) {
-	NpcStore.append();
-	NpcStore.setType(NpcStore.Type.SELL);
-	NpcStore.setList(pkt.itemList);
-	NpcStore.onSubmit = itemList => {
+	if (!Platform.isMobile) {
+		NpcStore.append();
+		NpcStore.setType(NpcStore.Type.SELL);
+		NpcStore.setList(pkt.itemList);
+	}
+	const submit = itemList => {
 		const _pkt = new PACKET.CZ.PC_SELL_ITEMLIST();
 		const count = itemList.length;
 
@@ -302,6 +380,9 @@ function onSellList(pkt) {
 
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile)
+		openGameShop('sell', pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_TRADE_QUIT()));
+	else NpcStore.onSubmit = submit;
 }
 
 /**
@@ -310,6 +391,7 @@ function onSellList(pkt) {
  * @param {object} pkt - PACKET_ZC.PC.SELL_RESULT
  */
 function onSellResult(pkt) {
+	if (Platform.isMobile && finishGameShop(DB.getMessage(pkt.result === 0 ? 54 : 57))) return;
 	NpcStore.setClosePacketSent(true);
 	NpcStore.remove();
 
@@ -330,18 +412,22 @@ function onSellResult(pkt) {
  * @param {object} pkt - PACKET.ZC.PC_PURCHASE_ITEMLIST_FROMMC
  */
 function onVendingStoreList(_pkt) {
-	NpcStore.append();
-	NpcStore.setType(NpcStore.Type.VENDING_STORE);
-	NpcStore.setList(_pkt.itemList);
+	if (!Platform.isMobile) {
+		NpcStore.append();
+		NpcStore.setType(NpcStore.Type.VENDING_STORE);
+		NpcStore.setList(_pkt.itemList);
 
-	// Get seller name
-	const entity = EntityManager.get(_pkt.AID);
-	NpcStore.ui.find('.seller').text(entity ? entity.display.name : '');
+		// Get seller name
+		const entity = EntityManager.get(_pkt.AID);
+		NpcStore.ui.find('.seller').text(entity ? entity.display.name : '');
+	}
 
 	// Bying items
-	NpcStore.onSubmit = function (itemList) {
-		NpcStore.setClosePacketSent(true);
-		NpcStore.remove();
+	const submit = function (itemList) {
+		if (!Platform.isMobile) {
+			NpcStore.setClosePacketSent(true);
+			NpcStore.remove();
+		}
 
 		let pkt;
 
@@ -367,27 +453,39 @@ function onVendingStoreList(_pkt) {
 
 		Network.sendPacket(pkt);
 	};
+	if (Platform.isMobile)
+		openGameShop(
+			'buy',
+			_pkt.itemList.map(item => ({ ...item, qty: item.count })),
+			submit,
+			() => {},
+			{ type: 'player-vending', title: '玩家售卖摊位', requestOnly: true }
+		);
+	else NpcStore.onSubmit = submit;
 }
-
 /**
  * Received items list to buy from player
  *
  * @param {object} pkt - PACKET.ZC.ACK_ITEMLIST_BUYING_STORE
  */
 function onBuyingStoreList(_pkt) {
-	NpcStore.append();
-	NpcStore.setType(NpcStore.Type.BUYING_STORE);
-	NpcStore.setList(_pkt.itemList);
-	NpcStore.setPriceLimit(_pkt.limitZeny);
+	if (!Platform.isMobile) {
+		NpcStore.append();
+		NpcStore.setType(NpcStore.Type.BUYING_STORE);
+		NpcStore.setList(_pkt.itemList);
+		NpcStore.setPriceLimit(_pkt.limitZeny);
 
-	// Get seller name
-	const entity = EntityManager.get(_pkt.AID);
-	NpcStore.ui.find('.seller').text(entity ? entity.display.name : '');
+		// Get seller name
+		const entity = EntityManager.get(_pkt.AID);
+		NpcStore.ui.find('.seller').text(entity ? entity.display.name : '');
+	}
 
 	// Bying items
-	NpcStore.onSubmit = function (itemList) {
-		NpcStore.setClosePacketSent(true);
-		NpcStore.remove();
+	const submit = function (itemList) {
+		if (!Platform.isMobile) {
+			NpcStore.setClosePacketSent(true);
+			NpcStore.remove();
+		}
 
 		const pkt = new PACKET.CZ.REQ_TRADE_BUYING_STORE();
 		pkt.UniqueID = _pkt.UniqueID;
@@ -405,14 +503,31 @@ function onBuyingStoreList(_pkt) {
 
 		Network.sendPacket(pkt);
 	};
+	if (Platform.isMobile) {
+		const offers = Inventory.getUI().list.flatMap(item => {
+			const offer = _pkt.itemList.find(row => row.ITID === item.ITID);
+			return offer && !item.equipped && item.IsIdentified
+				? [{ ...offer, index: item.index, qty: offer.count }]
+				: [];
+		});
+		openGameShop('sell', offers, submit, () => {}, {
+			type: 'player-buying',
+			title: '出售给玩家收购摊位',
+			limitToOffer: true,
+			maxTotal: _pkt.limitZeny
+		});
+	} else NpcStore.onSubmit = submit;
 }
-
 /**
  * Open vending creation window with X slots
  *
  * @param {object} pkt - PACKET.ZC.PACKET_ZC_OPENSTORE
  */
 function onOpenVending(pkt) {
+	if (Platform.isMobile) {
+		openVendingSetup('sell', pkt.itemcount);
+		return;
+	}
 	if (Vending.isOpen) {
 		return;
 	}
@@ -428,6 +543,10 @@ function onOpenVending(pkt) {
  * @param {object} pkt - PACKET.ZC.PACKET_ZC_OPENSTORE
  */
 function onOpenBuying(pkt) {
+	if (Platform.isMobile) {
+		openVendingSetup('buy', pkt.itemcount);
+		return;
+	}
 	Vending.setType(Vending.Type.BUYING_STORE);
 	Vending.onBuyingSkill(pkt);
 }
@@ -438,6 +557,7 @@ function onOpenBuying(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_OPENSTORE2
  */
 function onOpenVendingResult(pkt) {
+	if (Platform.isMobile && pkt.result !== 0) vendingSetupFailed();
 	// TODO: check what it do in client
 }
 
@@ -447,6 +567,10 @@ function onOpenVendingResult(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_OPENSTORE2
  */
 function onOpenBuyingResult(pkt) {
+	if (Platform.isMobile) {
+		vendingSetupFailed();
+		return;
+	}
 	// client use same message for all errors, i just documented it here:
 	switch (pkt.Result) {
 		case 1:
@@ -466,13 +590,15 @@ function onOpenBuyingResult(pkt) {
  * @param {object} pkt - PACKET.ZC.NPC_MARKET_OPEN2
  */
 function onMarketShop(pkt) {
-	// Initialize the NPC store for Market Shop
-	NpcStore.append();
-	NpcStore.setType(NpcStore.Type.MARKETSHOP); // Set the type to MARKETSHOP
-	NpcStore.setList(pkt.itemList); // Set the item list from the packet
+	if (!Platform.isMobile) {
+		// Initialize the NPC store for Market Shop
+		NpcStore.append();
+		NpcStore.setType(NpcStore.Type.MARKETSHOP); // Set the type to MARKETSHOP
+		NpcStore.setList(pkt.itemList); // Set the item list from the packet
 
-	// Define the submission callback
-	NpcStore.onSubmit = itemList => {
+		// Define the submission callback
+	}
+	const submit = itemList => {
 		const _pkt = new PACKET.CZ.NPC_MARKET_PURCHASE(); // Use the market purchase packet
 		const count = itemList.length;
 
@@ -486,6 +612,13 @@ function onMarketShop(pkt) {
 		// Send the constructed packet
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile)
+		openGameShop('buy', pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_MARKET_CLOSE()), {
+			type: 'market',
+			title: '限量商店',
+			closeAfterResult: true
+		});
+	else NpcStore.onSubmit = submit;
 }
 
 /**
@@ -495,6 +628,7 @@ function onMarketShop(pkt) {
  * @param {PACKET.ZC.NPC_MARKET_PURCHASE_RESULT2} pkt
  */
 function onMarketShopResult(pkt) {
+	if (Platform.isMobile && finishGameShop(DB.getMessage(pkt.result === 0 ? 54 : 57))) return;
 	if (pkt) {
 		switch (pkt.result) {
 			case 0: // PACKETVER.value >= 20190807 success
@@ -506,6 +640,16 @@ function onMarketShopResult(pkt) {
 				break;
 		}
 	}
+}
+
+function onBuyingItemDeleted(pkt) {
+	Inventory.getUI().removeItem(pkt.index, pkt.count);
+	if (Platform.isMobile && interactionSnapshot()?.shopType === 'player-buying') {
+		if (interactionSnapshot().service.acknowledgeSale(pkt.index, pkt.count)) finishGameShop('订单已成交');
+	}
+}
+function onBuyingStoreUpdated(pkt) {
+	if (Platform.isMobile) updateOwnedVending(pkt.ITID, pkt.count, true, pkt.limitZeny);
 }
 
 /**
@@ -527,6 +671,11 @@ export default function MainEngine() {
 	Network.hookPacket(PACKET.ZC.PC_PURCHASE_MYITEMLIST2, onBuyVendingList);
 	Network.hookPacket(PACKET.ZC.DELETEITEM_FROM_MCSTORE, onDeleteVendingItem);
 	Network.hookPacket(PACKET.ZC.DELETEITEM_FROM_MCSTORE2, onDeleteVendingItem);
+	Network.hookPacket(PACKET.ZC.FAILED_TRADE_BUYING_STORE_TO_BUYER, () => {
+		if (Platform.isMobile) finishOwnedBuying();
+	});
+	Network.hookPacket(PACKET.ZC.ITEM_DELETE_BUYING_STORE, onBuyingItemDeleted);
+	Network.hookPacket(PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE2, onBuyingStoreUpdated);
 	Network.hookPacket(PACKET.ZC.OPENSTORE, onOpenVending);
 	Network.hookPacket(PACKET.ZC.ACK_OPENSTORE2, onOpenVendingResult);
 	Network.hookPacket(PACKET.ZC.OPEN_BUYING_STORE, onOpenBuying);

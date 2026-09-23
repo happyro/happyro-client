@@ -1,3 +1,4 @@
+import Platform from 'UI/Platform.js';
 /**
  * Engine/MapEngine/Group.js
  *
@@ -755,7 +756,10 @@ function onGuildCreationResult(pkt) {
 		case 0: // Success
 			Session.hasGuild = true;
 			ChatBox.addText(DB.getMessage(374), ChatBox.TYPE.BLUE, ChatBox.FILTER.GUILD);
-			Guild.show();
+			if (Platform.isMobile) {
+				GuildEngine.requestAccess();
+				for (let type = 0; type <= 4; type++) GuildEngine.requestInfo(type);
+			} else Guild.show();
 			break;
 
 		case 1: // You are already in a Guild.#
@@ -790,6 +794,7 @@ function onGuildDestroy(pkt) {
 			GuildCompanion.closeDisband();
 			Guild.hide();
 			Session.hasGuild = false;
+			if (Platform.isMobile) Guild.resetSocialState();
 			Session.guildName = '';
 			Session.isGuildMaster = false;
 			Session.guildRight = 0;
@@ -868,6 +873,7 @@ function onGuildMemberStatus(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_BAN_GUILD_SSO
  */
 function onGuildMemberExpulsion(pkt) {
+	if (Platform.isMobile) Guild.removeSocialMember(pkt.charName);
 	// %s has been expelled from our guild.
 	// Expulsion Reason: %s
 	ChatBox.addText(
@@ -888,6 +894,7 @@ function onGuildMemberExpulsion(pkt) {
 	if (pkt.charName === Session.Entity.display.name) {
 		Guild.hide();
 		Session.hasGuild = false;
+		if (Platform.isMobile) Guild.resetSocialState();
 		Session.guildName = '';
 		Session.isGuildMaster = false;
 		Session.guildRight = 0;
@@ -901,6 +908,7 @@ function onGuildMemberExpulsion(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_LEAVE_GUILD
  */
 function onGuildMemberLeave(pkt) {
+	if (Platform.isMobile) Guild.removeSocialMember(pkt.charName);
 	// %s has withdrawn from the guild
 	// Secession Reason: %s
 	ChatBox.addText(
@@ -921,6 +929,7 @@ function onGuildMemberLeave(pkt) {
 	if (pkt.charName === Session.Entity.display.name) {
 		Guild.hide();
 		Session.hasGuild = false;
+		if (Platform.isMobile) Guild.resetSocialState();
 		Session.guildName = '';
 		Session.isGuildMaster = false;
 		Session.guildRight = 0;

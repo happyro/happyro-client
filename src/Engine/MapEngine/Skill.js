@@ -1,3 +1,6 @@
+import { openMonsterInformation } from 'UI/Game/GameMonsterInformation.js';
+import Platform from 'UI/Platform.js';
+import { openGameSelection, selectionEntries } from 'UI/Game/GameSelection.js';
 /**
  * Engine/MapEngine/Skill.js
  *
@@ -38,6 +41,7 @@ import Renderer from 'Renderer/Renderer.js';
 import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import CartDecoration from 'UI/Components/CartDecoration/CartDecoration.js';
 import { skillFailMessage } from './SkillFail.js';
+import { cancelCompanionSkill, queueCompanionSkill } from './CompanionSkillAction.js';
 
 import SnowWeatherEffect from 'Renderer/Effects/SnowWeather.js';
 import RainWeatherEffect from 'Renderer/Effects/RainWeather.js';
@@ -219,9 +223,6 @@ function onIdentifyList(pkt) {
 		return;
 	}
 
-	ItemSelection.append();
-	ItemSelection.setList(pkt.ITIDList);
-	ItemSelection.setTitle(DB.getMessage(521));
 	ItemSelection.onIndexSelected = function (index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_ITEMIDENTIFY();
@@ -229,6 +230,16 @@ function onIdentifyList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection('鉴定物品', selectionEntries(pkt.ITIDList, 'inventory'), ItemSelection.onIndexSelected, () =>
+			ItemSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	ItemSelection.append();
+	ItemSelection.setList(pkt.ITIDList);
+	ItemSelection.setTitle(DB.getMessage(521));
 }
 
 /**
@@ -273,9 +284,6 @@ function onAutoSpellList(pkt) {
 		return;
 	}
 
-	ItemSelection.append();
-	ItemSelection.setList(pkt.SKID, true);
-	ItemSelection.setTitle(DB.getMessage(697));
 	ItemSelection.onIndexSelected = function (index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.SELECTAUTOSPELL();
@@ -283,6 +291,16 @@ function onAutoSpellList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection('自动技能', selectionEntries(pkt.SKID, 'skill'), ItemSelection.onIndexSelected, () =>
+			ItemSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	ItemSelection.append();
+	ItemSelection.setList(pkt.SKID, true);
+	ItemSelection.setTitle(DB.getMessage(697));
 }
 
 /**
@@ -317,9 +335,6 @@ function onSelectSkillList(pkt) {
 		return;
 	}
 
-	ItemSelection.append();
-	ItemSelection.setList(pkt.SKID, true);
-	ItemSelection.setTitle(DB.getMessage(697));
 	ItemSelection.onIndexSelected = index => {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.SKILL_SELECT_RESPONSE();
@@ -328,6 +343,16 @@ function onSelectSkillList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection('选择技能', selectionEntries(pkt.SKID, 'skill'), ItemSelection.onIndexSelected, () =>
+			ItemSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	ItemSelection.append();
+	ItemSelection.setList(pkt.SKID, true);
+	ItemSelection.setTitle(DB.getMessage(697));
 }
 
 /**
@@ -336,6 +361,25 @@ function onSelectSkillList(pkt) {
  * @param {object} pkt - PACKET.ZC.WARPLIST
  */
 function onTeleportList(pkt) {
+	if (Platform.isMobile) {
+		const send = mapName => {
+			const response = new PACKET.CZ.SELECT_WARPPOINT();
+			response.SKID = pkt.SKID;
+			response.mapName = mapName;
+			Network.sendPacket(response);
+		};
+		const entries = pkt.mapName
+			.map((name, index) => ({ id: index, name: DB.getMapName(name, name) }))
+			.filter(entry => pkt.mapName[entry.id]);
+		openGameSelection(
+			'选择传送地点',
+			entries,
+			index => send(pkt.mapName[index]),
+			() => send('cancel')
+		);
+		return;
+	}
+
 	// Once selected
 	NpcMenu.onSelectMenu = (skillid, index) => {
 		NpcMenu.remove();
@@ -408,10 +452,6 @@ function onMakingarrowList(pkt) {
 		return;
 	}
 
-	MakeArrowSelection.append();
-	MakeArrowSelection.setList(pkt.arrowList);
-	//MakeArrowSelection.setTitle(DB.getMessage(658));
-	MakeArrowSelection.setTitle('LIST');
 	MakeArrowSelection.onIndexSelected = function (index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_MAKINGARROW();
@@ -419,6 +459,23 @@ function onMakingarrowList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection(
+			'制作箭矢',
+			selectionEntries(
+				pkt.arrowList.map(item => item.index),
+				'item'
+			),
+			MakeArrowSelection.onIndexSelected,
+			() => MakeArrowSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	MakeArrowSelection.append();
+	MakeArrowSelection.setList(pkt.arrowList);
+	//MakeArrowSelection.setTitle(DB.getMessage(658));
+	MakeArrowSelection.setTitle('LIST');
 }
 
 /**
@@ -431,9 +488,6 @@ function onRefineList(pkt) {
 		return;
 	}
 
-	RefineWeaponSelection.append();
-	RefineWeaponSelection.setList(pkt.itemList);
-	RefineWeaponSelection.setTitle(DB.getMessage(910));
 	RefineWeaponSelection.onIndexSelected = index => {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_WEAPONREFINE();
@@ -441,6 +495,23 @@ function onRefineList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection(
+			'精炼武器',
+			selectionEntries(
+				pkt.itemList.map(item => item.index),
+				'inventory'
+			),
+			RefineWeaponSelection.onIndexSelected,
+			() => RefineWeaponSelection.onIndexSelected(-1),
+			'精炼可能导致装备损坏，请核对后确认'
+		);
+		return;
+	}
+	RefineWeaponSelection.append();
+	RefineWeaponSelection.setList(pkt.itemList);
+	RefineWeaponSelection.setTitle(DB.getMessage(910));
 }
 
 /**
@@ -453,21 +524,33 @@ function onRepairList(pkt) {
 		return;
 	}
 
-	RefineWeaponSelection.append();
-	RefineWeaponSelection.setList(pkt.itemList);
-	RefineWeaponSelection.setTitle(DB.getMessage(812));
 	RefineWeaponSelection.onIndexSelected = index => {
 		if (index >= -1) {
-			const item = RefineWeaponSelection.getItemByIndex(index);
+			const item = Platform.isMobile
+				? pkt.itemList.find(entry => entry.index === index)
+				: RefineWeaponSelection.getItemByIndex(index);
 
 			const _pkt = new PACKET.CZ.REQ_ITEMREPAIR();
 			_pkt.index = index;
-			_pkt.itemId = item.ITID;
-			_pkt.RefiningLevel = item.RefiningLevel;
-			_pkt.slots = item.slot;
+			_pkt.itemId = item?.ITID || 0;
+			_pkt.RefiningLevel = item?.RefiningLevel || 0;
+			if (item) _pkt.slots = item.slot;
 			Network.sendPacket(_pkt);
 		}
 	};
+
+	if (Platform.isMobile) {
+		openGameSelection(
+			'修理装备',
+			selectionEntries(pkt.itemList, 'equipment'),
+			RefineWeaponSelection.onIndexSelected,
+			() => RefineWeaponSelection.onIndexSelected(-1)
+		);
+		return;
+	}
+	RefineWeaponSelection.append();
+	RefineWeaponSelection.setList(pkt.itemList);
+	RefineWeaponSelection.setTitle(DB.getMessage(812));
 }
 
 /**
@@ -514,6 +597,28 @@ Guild.onIncreaseSkill =
 	SkillListMH.mercenary.onIncreaseSkill =
 		onIncreaseSkill;
 
+const queuedTargetSkills = new WeakMap();
+
+/** Re-evaluate a queued targeted cast after walking, rather than send a stale request. */
+export function resumeQueuedTargetSkill(packet) {
+	const queued = queuedTargetSkills.get(packet);
+	if (!queued) return false;
+	queuedTargetSkills.delete(packet);
+	const { caster, target } = queued;
+	if (
+		!Session.Playing ||
+		Session.Entity !== caster ||
+		caster.action === caster.ACTION.DIE ||
+		EntityManager.get(target.GID) !== target ||
+		(target.action === target.ACTION.DIE && packet.SKID !== SkillId.ALL_RESURRECTION) ||
+		target.remove_tick > 0
+	)
+		return true;
+	// onUseSkill searches from the current positions and queues a fresh walk if needed.
+	onUseSkill(packet.SKID, packet.selectedLevel, packet.targetID);
+	return true;
+}
+
 /**
  * Cast a skill on someone
  *
@@ -521,7 +626,7 @@ Guild.onIncreaseSkill =
  * @param {number} level
  * @param {optional|number} target game id
  */
-function onUseSkill(id, level, targetID) {
+function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
 	let entity;
 	let range;
 
@@ -545,14 +650,19 @@ function onUseSkill(id, level, targetID) {
 	}
 
 	// Client side minimum delay
-	if (entity && entity.amotionTick > Renderer.tick) {
+	if (!entity || entity.amotionTick > Renderer.tick) {
 		// Can't spam skills faster than amotion
 		return;
 	}
 
 	const target = EntityManager.get(targetID) || entity;
-	const skill = SkillWindow.getUI().getSkillById(id);
+	const skill = isHomun
+		? SkillListMH.homunculus.getSkillById(id)
+		: isMerc
+			? SkillListMH.mercenary.getSkillById(id)
+			: SkillWindow.getUI().getSkillById(id);
 	const out = [];
+	if (isHomun || isMerc) cancelCompanionSkill(entity);
 
 	if (skill) {
 		range = skill.attackRange + 1;
@@ -572,9 +682,9 @@ function onUseSkill(id, level, targetID) {
 		Altitude.TYPE.WALKABLE
 	);
 
-	// Can't attack to this point
-	if (!count) {
-		return;
+	// A held touch joystick owns movement; do not auto-chase its skill target.
+	if (!count || (!allowMove && count >= 2)) {
+		return false;
 	}
 
 	if (id === SkillId.MC_CHANGECART) {
@@ -590,7 +700,7 @@ function onUseSkill(id, level, targetID) {
 	}
 	pkt.SKID = id;
 	pkt.selectedLevel = level;
-	pkt.targetID = targetID || Session.Entity.GID;
+	pkt.targetID = targetID || entity.GID;
 
 	// In range
 	if (count < 2 || target === entity) {
@@ -598,8 +708,29 @@ function onUseSkill(id, level, targetID) {
 		return;
 	}
 
-	// Save the packet
-	Session.moveAction = pkt;
+	// Keep pending casts with the entity that is actually moving.
+	if (isHomun || isMerc) {
+		queueCompanionSkill(
+			entity,
+			pkt,
+			out.slice((count - 1) * 2, count * 2),
+			() =>
+				EntityManager.get(target.GID) === target &&
+				target.action !== target.ACTION.DIE &&
+				PathFinding.search(
+					entity.position[0] | 0,
+					entity.position[1] | 0,
+					target.position[0] | 0,
+					target.position[1] | 0,
+					range,
+					[],
+					Altitude.TYPE.WALKABLE
+				) === 1
+		);
+	} else {
+		queuedTargetSkills.set(pkt, { caster: entity, target });
+		Session.moveAction = pkt;
+	}
 
 	// Move to position
 	if (isHomun) {
@@ -637,27 +768,35 @@ SkillTargetSelection.onUseSkillToPos = function onUseSkillToPos(id, level, x, y)
 	let entity;
 	let range;
 
-	const isHomun = id > 8000 && id < 8044;
+	const isHomun = id > SkillId.HOMUN_BEGIN && id < SkillId.HOMUN_LAST;
+	const isMerc = id > SkillId.MERCENARY_BEGIN && id < SkillId.MERCENARY_LAST;
 
 	if (isHomun) {
 		entity = EntityManager.get(Session.homunId);
+	} else if (isMerc) {
+		entity = EntityManager.get(Session.mercId);
 	} else {
 		entity = Session.Entity;
-		if (entity.isOverWeight) {
+		if (entity?.isOverWeight) {
 			ChatBox.addText(DB.getMessage(243), ChatBox.TYPE.ERROR, ChatBox.FILTER.SKILL_FAIL);
 			return true;
 		}
 	}
 
 	// Client side minimum delay
-	if (entity && entity.amotionTick > Renderer.tick) {
+	if (!entity || entity.amotionTick > Renderer.tick) {
 		// Can't spam skills faster than amotion
 		return;
 	}
 
 	const pos = entity.position;
-	const skill = SkillWindow.getUI().getSkillById(id);
+	const skill = isHomun
+		? SkillListMH.homunculus.getSkillById(id)
+		: isMerc
+			? SkillListMH.mercenary.getSkillById(id)
+			: SkillWindow.getUI().getSkillById(id);
 	const out = [];
+	if (isHomun || isMerc) cancelCompanionSkill(entity);
 
 	if (skill) {
 		range = skill.attackRange + 1;
@@ -696,13 +835,34 @@ SkillTargetSelection.onUseSkillToPos = function onUseSkillToPos(id, level, x, y)
 		return;
 	}
 
-	// Save the packet
-	Session.moveAction = pkt;
+	// Keep pending casts with the entity that is actually moving.
+	if (isHomun || isMerc) {
+		queueCompanionSkill(
+			entity,
+			pkt,
+			out.slice((count - 1) * 2, count * 2),
+			() =>
+				PathFinding.search(
+					entity.position[0] | 0,
+					entity.position[1] | 0,
+					x | 0,
+					y | 0,
+					range,
+					[],
+					Altitude.TYPE.WALKABLE
+				) === 1
+		);
+	} else {
+		Session.moveAction = pkt;
+	}
 
 	// Move to the position
 	if (isHomun) {
 		pkt = new PACKET.CZ.REQUEST_MOVENPC();
 		pkt.GID = Session.homunId;
+	} else if (isMerc) {
+		pkt = new PACKET.CZ.REQUEST_MOVENPC();
+		pkt.GID = Session.mercId;
 	} else {
 		if (PACKETVER.value >= 20180307) {
 			pkt = new PACKET.CZ.REQUEST_MOVE2();
@@ -787,6 +947,10 @@ function onMessageSkill(pkt) {
 }
 
 function onSense(pkt) {
+	if (Platform.isMobile) {
+		openMonsterInformation(pkt);
+		return;
+	}
 	Sense.append();
 	Sense.setWindow(pkt);
 }

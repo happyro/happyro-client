@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import Platform from 'UI/Platform.js';
 import DB from 'DB/DBManager.js';
 import Friends from 'Engine/MapEngine/Friends.js';
 import Network from 'Network/NetworkManager.js';
@@ -24,7 +25,7 @@ import PACKETVER from 'Network/PacketVerManager.js';
  * @returns {boolean}
  */
 function getShouldOpenWhisperBox(nickname) {
-	if (PACKETVER.value < 20090617) {
+	if (Platform.isMobile || PACKETVER.value < 20090617) {
 		return false;
 	}
 

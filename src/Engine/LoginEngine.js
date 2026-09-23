@@ -10,6 +10,7 @@
  */
 
 // Load dependencies
+import RotationGuard from 'UI/RotationGuard.js';
 import TextEncoding from 'Utils/CodepageManager.js';
 import DB from 'DB/DBManager.js';
 import BGM from 'Audio/BGM.js';
@@ -25,7 +26,7 @@ import PluginManager from 'Plugins/PluginManager.js';
 import Renderer from 'Renderer/Renderer.js';
 import UIManager from 'UI/UIManager.js';
 import WinList from 'UI/Components/WinList/WinList.js';
-import WinPopup from 'UI/Components/WinPopup/WinPopup.js';
+import WinLoading from 'UI/WinLoading.js';
 import Queue from 'Utils/Queue.js';
 import Background from 'UI/Background.js';
 import MD5 from 'Vendors/spark-md5.min.js';
@@ -33,19 +34,6 @@ import Rijndael from 'Utils/Rijndael.js';
 
 // Version Dependent UIs
 import WinLogin from 'UI/Components/WinLogin/WinLogin.js';
-
-/**
- * Creating WinLoading
- */
-const WinLoading = WinPopup.clone('WinLoading');
-WinLoading.init = function () {
-	Object.assign(this._host.style, {
-		top: (Renderer.height - 120) / 1.5 + 'px',
-		left: (Renderer.width - 280) / 2.0 + 'px'
-	});
-	this._shadow.querySelector('.text').textContent = DB.getMessage(121);
-};
-UIManager.addComponent(WinLoading);
 
 /**
  * @var {object} server object stored in clientinfo.xml
@@ -67,6 +55,7 @@ class LoginEngine {
 	 * Init Game
 	 */
 	static init(server) {
+		RotationGuard.release();
 		const q = new Queue();
 		const old_server = _server;
 
@@ -150,6 +139,7 @@ class LoginEngine {
 
 		// Handle unexpected disconnects during login phase
 		Network.onDisconnect = () => {
+			WinLoading.remove();
 			UIManager.showMessageBox(
 				DB.getMessage(1),
 				'ok',
@@ -202,6 +192,7 @@ class LoginEngine {
 	 * Reload WinLogin
 	 */
 	static reload() {
+		RotationGuard.release();
 		UIManager.removeComponents();
 		WinLogin.getUI().onConnectionRequest = onConnectionRequest;
 		WinLogin.getUI().onExitRequest = onExitRequest;
@@ -241,6 +232,7 @@ function onConnectionRequest(username, password) {
 	Network.connect(_server.address, _server.port, success => {
 		// Fail to connect...
 		if (!success) {
+			WinLoading.remove();
 			UIManager.showMessageBox(
 				DB.getMessage(1),
 				'ok',
@@ -446,6 +438,7 @@ function onConnectionAccepted(pkt) {
  * @param {object} pkt - PACKET.AC.LOGIN_TAREN_REFUSE
  */
 function onTarenConnectionRefused(pkt) {
+	WinLoading.remove();
 	let msg_id;
 
 	switch (pkt.ErrorCode) {
@@ -497,6 +490,7 @@ function onTarenConnectionRefused(pkt) {
  * @param {object} pkt - PACKET.AC.LOGIN_TAREN_REFUSE2
  */
 function onTarenConnectionRefused2(pkt) {
+	WinLoading.remove();
 	let msg_id;
 
 	switch (pkt.ErrorCode) {
@@ -554,6 +548,7 @@ function onTarenConnectionRefused2(pkt) {
  * @param {object} pkt - PACKET.AC.REFUSE_LOGIN_USA
  */
 function onInternationalConnectionRefused(pkt) {
+	WinLoading.remove();
 	let msg_id;
 	switch (pkt.ErrorCode) {
 		default:
@@ -623,6 +618,7 @@ function onInternationalConnectionRefused(pkt) {
  * @param {object} pkt - PACKET.AC.REFUSE_LOGIN
  */
 function onConnectionRefused(pkt) {
+	WinLoading.remove();
 	let error = 9;
 	switch (pkt.ErrorCode) {
 		case 0:
@@ -833,6 +829,7 @@ function onConnectionRefused(pkt) {
  * @param {object} pkt - PACKET.SC.NOTIFY_BAN
  */
 function onServerClosed(pkt) {
+	WinLoading.remove();
 	let msg_id;
 
 	switch (pkt.ErrorCode) {

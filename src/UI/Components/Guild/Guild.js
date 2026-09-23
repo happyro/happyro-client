@@ -59,6 +59,11 @@ let _memberViewTemplate, _positionViewTemplate, _expelViewTemplate;
 
 const _positions = [];
 const _members = [];
+let guildInformation = null;
+let guildEmblem = '';
+let guildNotice = { subject: '', notice: '' };
+let guildRelations = [];
+let guildHistory = [];
 const _skills = [];
 
 let _btnIncSkillTemplate;
@@ -433,7 +438,36 @@ Guild.hide = function hide() {
 	Renderer.stop(renderMemberFaces);
 };
 
+Guild.resetSocialState = function () {
+	guildInformation = null;
+	guildEmblem = '';
+	guildNotice = { subject: '', notice: '' };
+	guildRelations = [];
+	guildHistory = [];
+	this.setSkills([]);
+	this.setMembers([]);
+	this.setPositions([], true);
+	_skpoints = 0;
+	_guildAccess = 0;
+};
+Guild.removeSocialMember = function (name) {
+	this.setMembers(_members.filter(member => member.CharName !== name));
+};
+Guild.getSocialSnapshot = () => ({
+	info: guildInformation && { ...guildInformation },
+	emblem: guildEmblem,
+	notice: { ...guildNotice },
+	relations: guildRelations.map(relation => ({ ...relation })),
+	history: guildHistory.map(entry => ({ ...entry })),
+	members: _members.map(({ entity, ...member }) => member),
+	positions: Object.values(_positions).map(position => ({ ...position })),
+	skills: _skills.map(skill => ({ ...skill })),
+	points: _skpoints,
+	access: _guildAccess
+});
+
 Guild.setGuildInformations = function setGuildInformations(info) {
+	guildInformation = { ...info };
 	const root = _root(this);
 	const general = root.querySelector('.content.info');
 	if (!general) {
@@ -451,7 +485,9 @@ Guild.setGuildInformations = function setGuildInformations(info) {
 	general.querySelector('.tax .value').textContent = info.point;
 
 	Guild.updateSession(info);
-	Guild.onRequestGuildEmblem(info.GDID, info.emblemVersion, Guild.setEmblem.bind(this));
+	Guild.onRequestGuildEmblem(info.GDID, info.emblemVersion, image => {
+		if (guildInformation?.GDID === info.GDID) Guild.setEmblem(image);
+	});
 
 	const emblemEdit = general.querySelector('.emblem_edit');
 	if (emblemEdit) {
@@ -466,6 +502,7 @@ Guild.setGuildInformations = function setGuildInformations(info) {
 };
 
 Guild.setEmblem = function setEmblem(image) {
+	guildEmblem = image.src;
 	const root = _root(this);
 	const el = root.querySelector('.content.info .emblem_container');
 	if (el) {
@@ -474,6 +511,7 @@ Guild.setEmblem = function setEmblem(image) {
 };
 
 Guild.setRelations = function setRelations(guilds) {
+	guildRelations = [];
 	const root = _root(this);
 	const allyList = root.querySelector('.ally_list');
 	const hostileList = root.querySelector('.hostile_list');
@@ -490,6 +528,9 @@ Guild.setRelations = function setRelations(guilds) {
 };
 
 Guild.addRelation = function addRelation(guild) {
+	const existing = guildRelations.findIndex(entry => entry.GDID === guild.GDID && entry.relation === guild.relation);
+	if (existing < 0) guildRelations.push({ ...guild });
+	else guildRelations[existing] = { ...guild };
 	const root = _root(this);
 	const list = root.querySelector(`.${guild.relation === 0 ? 'ally' : 'hostile'}_list`);
 	if (!list) {
@@ -502,6 +543,7 @@ Guild.addRelation = function addRelation(guild) {
 };
 
 Guild.removeRelation = function removeRelation(guildId, relation) {
+	guildRelations = guildRelations.filter(entry => entry.GDID !== guildId || entry.relation !== relation);
 	const root = _root(this);
 	const list = root.querySelector(`.content.info .${relation === 0 ? 'ally' : 'hostile'}_list`);
 	if (!list) {
@@ -559,6 +601,8 @@ Guild.setMember = function setMember(member) {
 	let view;
 
 	if (i < count) {
+		Object.assign(_members[i], member);
+		member = _members[i];
 		view = root.querySelector(`.MemberView[data-index="${i}"]`);
 	} else {
 		view = _memberViewTemplate.cloneNode(true);
@@ -774,6 +818,7 @@ Guild.updatePositionView = function updatePositionView() {
 	for (let i = 0; i < count; ++i) {
 		const view = _positionViewTemplate.cloneNode(true);
 		const rank = _positions[i];
+		if (!rank) continue;
 
 		if (i === 0) {
 			view.classList.add('active');
@@ -1127,6 +1172,7 @@ function skillLevelSelectDown(skill) {
 }
 
 Guild.setNotice = function setNotice(subject, notice) {
+	guildNotice = { subject, notice };
 	const root = _root(this);
 	const subjectInput = root.querySelector('.content.notice .subject');
 	if (subjectInput) {
@@ -1139,6 +1185,7 @@ Guild.setNotice = function setNotice(subject, notice) {
 };
 
 Guild.setExpelList = function setExpelList(list) {
+	guildHistory = list.map(entry => ({ ...entry }));
 	const root = _root(this);
 	const container = root.querySelector('.content.history tbody');
 	if (!container) {

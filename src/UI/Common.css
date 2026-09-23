@@ -174,3 +174,11 @@ ui-button {
 :host-context(.custom-cursor) * {
 	cursor: none !important;
 }
+
+/* Touch-primary screens do not display a mouse cursor, including inside UI roots. */
+@media (pointer: coarse) {
+	*,
+	:host {
+		cursor: none !important;
+	}
+}

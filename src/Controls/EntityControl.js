@@ -259,7 +259,7 @@ class EntityControl {
 	/**
 	 * Focus the entity
 	 */
-	static onFocus() {
+	static onFocus({ attack = !Session.TouchTargeting && !Session.autoFollow, allowMove = true } = {}) {
 		const Entity = this.constructor;
 		const main = Session.Entity;
 		let pkt;
@@ -273,7 +273,7 @@ class EntityControl {
 					if (!Camera.action.active) {
 						Cursor.setType(Cursor.ACTION.DEFAULT);
 					}
-					if (!Session.TouchTargeting && !Session.autoFollow) {
+					if (attack) {
 						break;
 					}
 				}
@@ -293,7 +293,7 @@ class EntityControl {
 					depth: 10.0
 				});
 
-				if (!Session.TouchTargeting && !Session.autoFollow) {
+				if (attack) {
 					const out = [];
 					const count = PathFinding.search(
 						main.position[0] | 0,
@@ -313,6 +313,8 @@ class EntityControl {
 						ChatBox.addText(DB.getMessage(243), ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 						return true;
 					}
+
+					if (!allowMove && count >= 2) return true;
 
 					// send look to target
 					main.lookTo(this.position[0], this.position[1]);

@@ -103,13 +103,9 @@ function RenderCanvas3D(isBlendModeOne) {
  * Render in 2D
  */
 const RenderCanvas2D = (function RenderCanvas2DClosure() {
-	let imageData;
-
-	const canvas = document.createElement('canvas');
-	const ctx = canvas.getContext('2d');
-	canvas.width = 20;
-	canvas.height = 20;
-	imageData = ctx.createImageData(canvas.width, canvas.height);
+	// Isolate source images by destination and frame. Once drawn, a source
+	// canvas stays immutable so later draws cannot overwrite pending ones.
+	const contextCanvases = new WeakMap();
 
 	return function () {
 		// Nothing to render
@@ -143,54 +139,69 @@ const RenderCanvas2D = (function RenderCanvas2DClosure() {
 			_size[1] *= -1;
 		}
 
-		// Keep the backing store exact. Reusing a larger transparent canvas can
-		// leave stale pixels on some WebKit 2D Canvas implementations.
-		if (width !== canvas.width || height !== canvas.height) {
+		let frameCanvases = contextCanvases.get(_ctx);
+		if (!frameCanvases) {
+			frameCanvases = new WeakMap();
+			contextCanvases.set(_ctx, frameCanvases);
+		}
+		const color = this.color;
+		let backing = frameCanvases.get(frame);
+		if (
+			!backing ||
+			backing.canvas.width !== width ||
+			backing.canvas.height !== height ||
+			backing.palette !== pal ||
+			backing.color.some((value, index) => value !== color[index])
+		) {
+			const canvas = document.createElement('canvas');
 			canvas.width = width;
 			canvas.height = height;
-			imageData = ctx.createImageData(width, height);
-		}
+			const ctx = canvas.getContext('2d');
+			const imageData = ctx.createImageData(width, height);
+			const input = frame.data;
+			const output = imageData.data;
 
-		const input = frame.data;
-		const output = imageData.data;
-		const color = this.color;
+			// RGBA images
+			if (this.sprite.type === 1) {
+				for (y = 0; y < height; ++y) {
+					outRow = y * width * 4;
+					inRow = y * width * 4;
 
-		// RGBA images
-		if (this.sprite.type === 1) {
-			for (y = 0; y < height; ++y) {
-				outRow = y * width * 4;
-				inRow = y * width * 4;
-
-				for (x = 0; x < width; ++x) {
-					const src = inRow + x * 4;
-					const dst = outRow + x * 4;
-					output[dst + 0] = input[src + 0] * color[0];
-					output[dst + 1] = input[src + 1] * color[1];
-					output[dst + 2] = input[src + 2] * color[2];
-					output[dst + 3] = input[src + 3] * color[3];
+					for (x = 0; x < width; ++x) {
+						const src = inRow + x * 4;
+						const dst = outRow + x * 4;
+						output[dst + 0] = input[src + 0] * color[0];
+						output[dst + 1] = input[src + 1] * color[1];
+						output[dst + 2] = input[src + 2] * color[2];
+						output[dst + 3] = input[src + 3] * color[3];
+					}
 				}
 			}
-		}
 
-		// Palettes
-		else {
-			for (y = 0; y < height; ++y) {
-				outRow = y * width * 4;
-				inRow = y * width;
-				for (x = 0; x < width; ++x) {
-					const paletteIndex = input[inRow + x];
-					const src = paletteIndex * 4;
-					const dst = outRow + x * 4;
-					output[dst + 0] = pal[src + 0] * color[0];
-					output[dst + 1] = pal[src + 1] * color[1];
-					output[dst + 2] = pal[src + 2] * color[2];
-					output[dst + 3] = paletteIndex ? 255 * color[3] : 0;
+			// Palettes
+			else {
+				for (y = 0; y < height; ++y) {
+					outRow = y * width * 4;
+					inRow = y * width;
+					for (x = 0; x < width; ++x) {
+						const paletteIndex = input[inRow + x];
+						const src = paletteIndex * 4;
+						const dst = outRow + x * 4;
+						output[dst + 0] = pal[src + 0] * color[0];
+						output[dst + 1] = pal[src + 1] * color[1];
+						output[dst + 2] = pal[src + 2] * color[2];
+						output[dst + 3] = paletteIndex ? 255 * color[3] : 0;
+					}
 				}
 			}
-		}
 
-		// Insert into the canvas
-		ctx.putImageData(imageData, 0, 0);
+			// Insert into the canvas
+			ctx.putImageData(imageData, 0, 0);
+
+			backing = { canvas, palette: pal, color: Array.from(color) };
+			frameCanvases.set(frame, backing);
+		}
+		const { canvas } = backing;
 
 		// Render sprite in context
 		_ctx.save();

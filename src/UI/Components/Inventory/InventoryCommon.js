@@ -604,6 +604,12 @@ export function createInventory(config) {
 	 * Add items to the list
 	 * if the item index is exist you should clear it;[skybook888]
 	 */
+	Component.clearItems = function clearItems() {
+		this.list.length = 0;
+		if (equipSwitch) this.equipswitchlist.length = 0;
+		this.newItems.length = 0;
+		this.getRoot().querySelector('.container .content')?.replaceChildren();
+	};
 	Component.setItems = function SetItems(items) {
 		const root = Component.getRoot();
 		for (let i = 0, count = items.length; i < count; ++i) {
@@ -1496,8 +1502,9 @@ export function createInventory(config) {
 	}
 
 	if (equipSwitch) {
-		Component.addItemtoSwitch = function (index) {
-			const item = this.getItemByIndex(index);
+		Component.addItemtoSwitch = function (index, location) {
+			const original = this.getItemByIndex(index);
+			const item = original && { ...original, location };
 			if (!item) {
 				console.warn(`Item with index ${index} not found in inventory.`);
 				return;

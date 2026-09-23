@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { openGameRefinement, updateRefinementMaterials, finishRefinement } from 'UI/Game/GameRefinement.js';
 /**
  * UI/Components/EnchantGrade/EnchantGrade.js
  *
@@ -235,6 +237,10 @@ function stopPropagation(event) {
  * Open EnchantGrade UI
  */
 EnchantGrade.onOpenEnchantGradeUI = function onOpenEnchantGradeUI() {
+	if (Platform.isMobile) {
+		openGameRefinement('grade');
+		return;
+	}
 	EnchantGrade.append();
 
 	const invUI = Inventory.getUI();
@@ -400,6 +406,10 @@ function disableDropProxy() {
  * @param {pkt} - PACKET.ZC.REFINING_MATERIAL_LIST
  */
 function onEnchantGradeUIUpdateMaterials(pkt) {
+	if (Platform.isMobile) {
+		updateRefinementMaterials('grade', pkt);
+		return;
+	}
 	const root = _root();
 
 	if (pkt && pkt.materialList.length > 0) {
@@ -886,6 +896,17 @@ function onRequestEnchantGrade() {
  * 4= The equipment is protected.
  */
 function onEnchantGradeResult(pkt) {
+	if (Platform.isMobile) {
+		const item = Inventory.getUI().removeItem(pkt.index, 1);
+		if (item) {
+			item.enchantgrade = pkt.grade;
+			if (pkt.result === 0) item.RefiningLevel = 0;
+			Inventory.getUI().addItem(item);
+		}
+		finishRefinement('grade', pkt);
+		return;
+	}
+
 	if (pkt) {
 		EnchantGrade_result = pkt.result;
 

@@ -464,6 +464,12 @@ export function createPartyFriends(config) {
 	 *
 	 * @param {Array} friends list
 	 */
+	Component.getSocialSnapshot = () => ({
+		friends: _friends.map(friend => ({ ...friend })),
+		party: _party.map(member => ({ ...member })),
+		options: { ..._options }
+	});
+
 	Component.setFriends = function setFriends(friends) {
 		const root = _root();
 		const count = friends.length;

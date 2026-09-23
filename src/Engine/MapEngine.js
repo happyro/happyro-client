@@ -1,3 +1,7 @@
+import { resetGameCompanions, updateGameCompanionAutoFeed } from 'UI/Game/GameCompanions.js';
+import { resetGamePet, updateGamePetAutoFeed } from 'UI/Game/GamePet.js';
+import { setGameMailUnread } from 'UI/Game/GameMail.js';
+import { resetGameVending } from 'UI/Game/GameVending.js';
 /**
  * Engine/MapEngine.js
  *
@@ -9,6 +13,9 @@
  * @author Vincent Thibault
  */
 
+import Platform from 'UI/Platform.js';
+import { appendGameComponent, appendGameHUD } from 'UI/Game/GamePresentation.js';
+import RotationGuard from 'UI/RotationGuard.js';
 import DB from 'DB/DBManager.js';
 import Configs from 'Core/Configs.js';
 import SoundManager from 'Audio/SoundManager.js';
@@ -107,7 +114,7 @@ import PrivateMessageEngine from './MapEngine/PrivateMessage.js';
 import StorageEngine from './MapEngine/Storage.js';
 import GroupEngine from './MapEngine/Group.js';
 import GuildEngine from './MapEngine/Guild.js';
-import SkillEngine from './MapEngine/Skill.js';
+import SkillEngine, { resumeQueuedTargetSkill } from './MapEngine/Skill.js';
 import ChatRoomEngine from './MapEngine/ChatRoom.js';
 import PetEngine from './MapEngine/Pet.js';
 import HomunEngine from './MapEngine/Homun.js';
@@ -172,6 +179,8 @@ class MapEngine {
 
 				// Fail to connect...
 				if (!success) {
+					UIManager.getComponent('WinLoading').remove();
+					RotationGuard.release();
 					UIManager.showErrorBox(DB.getMessage(1));
 					return;
 				}
@@ -191,18 +200,21 @@ class MapEngine {
 				Network.sendPacket(pkt);
 
 				// Server send back AID
-				Network.read(fp => {
-					// PACKETVER < 20070521: the map-server prefixes the stream with a raw
-					// 4-byte account id (no packet header) before the first real packet.
-					// It must be consumed even when TCP coalesces it with following packets;
-					// the previous fp.length === 4 check only worked when the AID arrived in
-					// its own segment, otherwise the parser read the AID as an opcode and
-					// desynced the whole stream.
-					if (PACKETVER.value < 20070521) {
-						Session.AID = fp.readLong();
-						Session.Entity.GID = Session.AID;
-					}
-				}, PACKETVER.value < 20070521 ? 4 : 0);
+				Network.read(
+					fp => {
+						// PACKETVER < 20070521: the map-server prefixes the stream with a raw
+						// 4-byte account id (no packet header) before the first real packet.
+						// It must be consumed even when TCP coalesces it with following packets;
+						// the previous fp.length === 4 check only worked when the AID arrived in
+						// its own segment, otherwise the parser read the AID as an opcode and
+						// desynced the whole stream.
+						if (PACKETVER.value < 20070521) {
+							Session.AID = fp.readLong();
+							Session.Entity.GID = Session.AID;
+						}
+					},
+					PACKETVER.value < 20070521 ? 4 : 0
+				);
 
 				const hbt = new PACKET.CZ.HBT();
 				const is_sec_hbt = Configs.get('sec_HBT', null);
@@ -503,11 +515,13 @@ function onConfig(pkt) {
 			ChatBox.addText(DB.getMessage(2978 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 2:
-			PetInformations.setFeedConfig(pkt.Value);
+			if (Platform.isMobile) updateGamePetAutoFeed(pkt.Value);
+			else PetInformations.setFeedConfig(pkt.Value);
 			ChatBox.addText(DB.getMessage(2579 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 3:
-			HomunInformations.setFeedConfig(pkt.Value);
+			if (Platform.isMobile) updateGameCompanionAutoFeed(pkt.Value);
+			else HomunInformations.setFeedConfig(pkt.Value);
 			ChatBox.addText(DB.getMessage(3282 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 5:
@@ -615,6 +629,13 @@ function onConnectionAccepted(pkt) {
 	Session.hasParty = false;
 	Session.isPartyLeader = false;
 	Session.hasGuild = false;
+	if (Platform.isMobile) {
+		Guild.resetSocialState();
+		resetGameVending();
+		setGameMailUnread(false);
+		resetGamePet();
+		resetGameCompanions();
+	}
 	Session.guildRight = 0;
 
 	Session.homunId = 0;
@@ -661,6 +682,8 @@ function onConnectionAccepted(pkt) {
  * @param {object} pkt - PACKET.ZC.REFUSE_ENTER
  */
 function onConnectionRefused(pkt) {
+	UIManager.getComponent('WinLoading').remove();
+	RotationGuard.release();
 	UIManager.showErrorBox(DB.getMessage(9)); // MSI_ACCESS_DENIED = Rejected from Server.
 }
 
@@ -741,58 +764,66 @@ function onMapChange(pkt) {
 		Camera.init();
 
 		// Add Game UI
-		MiniMap.getUI().append();
+		appendGameComponent(MiniMap.getUI());
 		MiniMap.getUI().setMap(MapRenderer.currentMap);
 		if (Configs.get('enableMapName')) {
 			MapName.setMap(MapRenderer.currentMap);
-			MapName.append();
+			appendGameComponent(MapName);
 		}
-		ChatBox.append();
-		ChatBoxSettings.append();
-		BasicInfo.getUI().append();
-		Escape.append();
-		Inventory.getUI().append();
-		CartItems.append();
-		Vending.append();
-		ChangeCart.append();
-		CartDecoration.append();
-		Equipment.getUI().append();
-		ShortCuts.append();
-		StatusIcons.append();
-		ShortCut.append();
-		ChatRoomCreate.append();
-		Emoticons.append();
-		SkillList.getUI().append();
-		FPS.append();
-		PartyFriends.getUI().append();
-		Guild.append();
-		WorldMap.append();
-		SkillListMH.homunculus.append();
-		SkillListMH.mercenary.append();
-		MobileUI.append();
-		JoystickUI.append();
-		Navigation.append();
-		GameTools.restoreAfterMapLoad();
-		Roulette.append();
+		appendGameComponent(ChatBox);
+		appendGameComponent(ChatBoxSettings);
+		appendGameComponent(BasicInfo.getUI());
+		appendGameComponent(Escape);
+		appendGameComponent(Inventory.getUI());
+		appendGameComponent(CartItems);
+		appendGameComponent(Vending);
+		appendGameComponent(ChangeCart);
+		appendGameComponent(CartDecoration);
+		appendGameComponent(Equipment.getUI());
+		appendGameComponent(ShortCuts);
+		appendGameComponent(StatusIcons);
+		appendGameComponent(ShortCut);
+		appendGameComponent(ChatRoomCreate);
+		appendGameComponent(Emoticons);
+		appendGameComponent(SkillList.getUI());
+		appendGameComponent(FPS);
+		appendGameComponent(PartyFriends.getUI());
+		appendGameComponent(Guild);
+		appendGameComponent(WorldMap);
+		appendGameComponent(SkillListMH.homunculus);
+		appendGameComponent(SkillListMH.mercenary);
+		appendGameComponent(MobileUI);
+		appendGameComponent(JoystickUI);
+		appendGameComponent(Navigation);
+		if (!Platform.isMobile) GameTools.restoreAfterMapLoad();
+		appendGameComponent(Roulette);
 		if (Configs.get('enableAchievements') && PACKETVER.value >= 20150513) {
-			Achievement.append();
+			appendGameComponent(Achievement);
 		}
 
 		if (Session.PCGoldTimer) {
-			PCGoldTimer.append();
+			appendGameComponent(PCGoldTimer);
 		}
 
-		WinStats.getUI().append();
+		appendGameComponent(WinStats.getUI());
 
-		Quest.getUI().append();
+		appendGameComponent(Quest.getUI());
 
 		if (Configs.get('enableCashShop')) {
-			CashShopIcon.append();
+			appendGameComponent(CashShopIcon);
 		}
 
 		if (Configs.get('enableCheckAttendance') && PACKETVER.value >= 20180307) {
-			CheckAttendance.append();
+			appendGameComponent(CheckAttendance);
 		}
+
+		appendGameHUD({
+			sendChat: (text, channel, receiver) =>
+				onRequestTalk(channel === 'private' ? receiver : '', text, ChatBox.TYPE[channel.toUpperCase()], {
+					literal: true
+				}),
+			returnToCharacters: () => UIManager.showPromptBox('确定返回选角？', '确定', '取消', onRestartRequest)
+		});
 
 		// Reload plugins
 		PluginManager.init();
@@ -858,6 +889,7 @@ function onExitFail(pkt) {
  * @param {object} pkt - PACKET.ZC.REFUSE_QUIT
  */
 function onExitSuccess() {
+	RotationGuard.release();
 	if (PACKETVER.value >= 20170315 && Session.WebToken) {
 		ShortCut.saveToServer();
 	}
@@ -962,26 +994,27 @@ function onDisconnectAnswer(pkt) {
  * @param {string} text
  * @param {number} target
  */
-function onRequestTalk(user, text, target) {
+function onRequestTalk(user, text, target, { literal = false } = {}) {
 	let pkt;
-	const flag_party = text[0] === '%' || KEYS.CTRL;
+	const flag_party = !literal && (text[0] === '%' || KEYS.CTRL);
 	const flag_guild =
-		text[0] === '$' ||
-		(KEYS.ALT &&
-			!(
-				KEYS[0] ||
-				KEYS[1] ||
-				KEYS[2] ||
-				KEYS[3] ||
-				KEYS[4] ||
-				KEYS[5] ||
-				KEYS[6] ||
-				KEYS[7] ||
-				KEYS[8] ||
-				KEYS[9]
-			));
+		!literal &&
+		(text[0] === '$' ||
+			(KEYS.ALT &&
+				!(
+					KEYS[0] ||
+					KEYS[1] ||
+					KEYS[2] ||
+					KEYS[3] ||
+					KEYS[4] ||
+					KEYS[5] ||
+					KEYS[6] ||
+					KEYS[7] ||
+					KEYS[8] ||
+					KEYS[9]
+				)));
 
-	text = text.replace(/^(\$|%)/, '');
+	if (!literal) text = text.replace(/^(\$|%)/, '');
 
 	// Private messages
 	if (user && user.length) {
@@ -1193,19 +1226,14 @@ function isFreeCell(x, y) {
  * If the character moved to attack, once it finished to move ask to attack
  */
 function onWalkEnd() {
-	// No action to do ?
-	if (Session.moveAction) {
-		// Not sure why, but there is a synchronization error with the
-		// server when moving to attack (wrong position).
-		// So wait 50ms to be sure we are at the correct position before
-		// performing an action
-		Events.setTimeout(() => {
-			if (Session.moveAction) {
-				Network.sendPacket(Session.moveAction);
-				Session.moveAction = null;
-			}
-		}, 50);
-	}
+	const action = Session.moveAction;
+	if (!action) return;
+	// Allow the server position to settle; manual input or a newer action cancels this one.
+	Events.setTimeout(() => {
+		if (Session.moveAction !== action) return;
+		Session.moveAction = null;
+		if (!resumeQueuedTargetSkill(action)) Network.sendPacket(action);
+	}, 50);
 }
 
 /**

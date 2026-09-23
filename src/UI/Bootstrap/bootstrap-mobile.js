@@ -10,12 +10,17 @@
  */
 
 import UIVersionManager from 'UI/UIVersionManager.js';
-import RotationGuard from 'UI/RotationGuard.js';
+import { lockMobileViewport } from 'UI/Mobile/Viewport.js';
 import MobileWinLogin from 'UI/Mobile/WinLogin/WinLogin.js';
 
+import MobileCharSelect from 'UI/Mobile/auth/CharSelect.js';
+import MobileCharCreate from 'UI/Mobile/auth/CharCreate.js';
+
 export function init() {
-	RotationGuard.init();
+	lockMobileViewport();
 
 	// WinLogin — mobile component is ready, override the controller path.
 	UIVersionManager.registerMobileComponent('WinLogin', MobileWinLogin);
+	UIVersionManager.registerMobileComponent('CharSelect', MobileCharSelect);
+	UIVersionManager.registerMobileComponent('CharCreate', MobileCharCreate);
 }

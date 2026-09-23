@@ -99,8 +99,18 @@ export function createCharCreate(config) {
 		nameInputSelector = 'input',
 		nameInputEvent = 'mousedown',
 		cancelSelectors = ['.cancel'],
-		makeSelector = '.make'
+		makeSelector = '.make',
+		draggable = true,
+		autofocus = true,
+		centered = true,
+		activationEvent = 'mousedown',
+		nativeControls = false,
+		bitmapSkin = true,
+		onAppearanceChange = () => {}
 	} = config;
+	function loadSkin(path, callback) {
+		if (bitmapSkin) Client.loadFile(path, callback);
+	}
 
 	const Component = new GUIComponent(name, cssText);
 
@@ -175,7 +185,7 @@ export function createCharCreate(config) {
 			}
 		}
 
-		this.draggable();
+		if (draggable) this.draggable();
 
 		if (hasRace) {
 			// Update cursor
@@ -242,9 +252,11 @@ export function createCharCreate(config) {
 	const sizeObserver = new ResizeObserver(centerWindow);
 
 	Component.onAppend = function onAppend() {
-		centerWindow();
-		sizeObserver.observe(this._host);
-		window.addEventListener('resize', centerWindow);
+		if (centered) {
+			centerWindow();
+			sizeObserver.observe(this._host);
+			window.addEventListener('resize', centerWindow);
+		}
 
 		if (hasRace) {
 			_human.render = true;
@@ -287,14 +299,14 @@ export function createCharCreate(config) {
 		const root = this.getRoot();
 		const input = root.querySelector(nameInputSelector);
 		input.value = '';
-		input.focus();
+		if (autofocus) input.focus();
 
 		if (hasRace) {
 			if (gridHairstyle) {
 				_race = 'human';
 				_gender = 'male';
-				updateRace();
 				cleanup();
+				updateRace();
 			} else {
 				setDefault();
 			}
@@ -599,34 +611,31 @@ export function createCharCreate(config) {
 		_model.ctx.clearRect(0, 0, _model.ctx.canvas.width, _model.ctx.canvas.height);
 		_model.entity.renderEntity();
 
-		root.querySelector(nameInputSelector).focus();
+		if (autofocus) root.querySelector(nameInputSelector).focus();
 
-		if (gridHairstyle) {
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_${_race}_on.bmp`, dataURI => {
+		if (gridHairstyle && bitmapSkin) {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_${_race}_on.bmp`, dataURI => {
 				root.querySelector(`.${_race}_label`).style.backgroundImage = `url(${dataURI})`;
 			});
 
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_${_gender}_on.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_${_gender}_on.bmp`, dataURI => {
 				root.querySelector(`#${_gender}_container`).style.backgroundImage = `url(${dataURI})`;
 			});
 
-			Client.loadFile(
-				`${DB.INTERFACE_PATH}make_character_ver2/color0${parseInt(_curcolor) + 1}_on.bmp`,
-				dataURI => {
-					const el = root.querySelector(`.cstyle0${_curcolor}`);
-					if (el) {
-						el.style.backgroundImage = `url(${dataURI})`;
-					}
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/color0${parseInt(_curcolor) + 1}_on.bmp`, dataURI => {
+				const el = root.querySelector(`.cstyle0${_curcolor}`);
+				if (el) {
+					el.style.backgroundImage = `url(${dataURI})`;
 				}
-			);
+			});
 
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, dataURI => {
 				const el = root.querySelector(`.style${_prevhead}`);
 				if (el) {
 					el.style.backgroundImage = `url(${dataURI})`;
 				}
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_select.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_select.bmp`, dataURI => {
 				const el = root.querySelector(`.style${_curhead}`);
 				if (el) {
 					el.style.backgroundImage = `url(${dataURI})`;
@@ -694,17 +703,17 @@ export function createCharCreate(config) {
 				_model.entity.sex = value;
 
 				if (_model.entity.sex == GENDER.MALE) {
-					Client.loadFile(`${DB.INTERFACE_PATH}make_character/btn_gender_m_press.bmp`, dataURI => {
+					loadSkin(`${DB.INTERFACE_PATH}make_character/btn_gender_m_press.bmp`, dataURI => {
 						root.querySelector('#male_container').style.backgroundImage = `url(${dataURI})`;
 					});
-					Client.loadFile(`${DB.INTERFACE_PATH}make_character/btn_gender_f_out.bmp`, dataURI => {
+					loadSkin(`${DB.INTERFACE_PATH}make_character/btn_gender_f_out.bmp`, dataURI => {
 						root.querySelector('#female_container').style.backgroundImage = `url(${dataURI})`;
 					});
 				} else {
-					Client.loadFile(`${DB.INTERFACE_PATH}make_character/btn_gender_m_out.bmp`, dataURI => {
+					loadSkin(`${DB.INTERFACE_PATH}make_character/btn_gender_m_out.bmp`, dataURI => {
 						root.querySelector('#male_container').style.backgroundImage = `url(${dataURI})`;
 					});
-					Client.loadFile(`${DB.INTERFACE_PATH}make_character/btn_gender_f_press.bmp`, dataURI => {
+					loadSkin(`${DB.INTERFACE_PATH}make_character/btn_gender_f_press.bmp`, dataURI => {
 						root.querySelector('#female_container').style.backgroundImage = `url(${dataURI})`;
 					});
 				}
@@ -715,13 +724,13 @@ export function createCharCreate(config) {
 				_model.entity.head = 1;
 
 				if (_model.entity.job === RACE.HUMAN) {
-					Client.loadFile(RACE_MARK, dataURI => {
+					loadSkin(RACE_MARK, dataURI => {
 						root.querySelector('.race_select .human label').style.backgroundImage = `url(${dataURI})`;
 					});
 					root.querySelector('.race_select .doram label').style.backgroundImage = 'none';
 				} else {
 					root.querySelector('.race_select .human label').style.backgroundImage = 'none';
-					Client.loadFile(RACE_MARK, dataURI => {
+					loadSkin(RACE_MARK, dataURI => {
 						root.querySelector('.race_select .doram label').style.backgroundImage = `url(${dataURI})`;
 					});
 				}
@@ -777,23 +786,35 @@ export function createCharCreate(config) {
 		_prevcolor = 0;
 		_curcolor = 0;
 
-		root.querySelector('.gender .male_button').addEventListener(
-			'mousedown',
-			updateCharacterGenericGrid('gender', 1)
-		);
-		root.querySelector('.gender .female_button').addEventListener(
-			'mousedown',
-			updateCharacterGenericGrid('gender', 0)
-		);
+		if (nativeControls) {
+			root.addEventListener('change', event => {
+				const input = event.target;
+				if (!input.matches('input[type=radio]') || !input.checked) return;
+				if (input.name === 'gender') updateCharacterGenericGrid('gender', input.id === 'male' ? 1 : 0)();
+				else if (input.classList.contains('race')) updateRace();
+				else if (input.classList.contains('hstyle')) updateHStyle(Number.parseInt(input.id, 10));
+				else if (input.classList.contains('hcolor')) updateHColor(Number.parseInt(input.id, 10));
+			});
+		} else {
+			root.querySelector('.gender .male_button').addEventListener(
+				activationEvent,
+				updateCharacterGenericGrid('gender', 1)
+			);
+			root.querySelector('.gender .female_button').addEventListener(
+				activationEvent,
+				updateCharacterGenericGrid('gender', 0)
+			);
+		}
 		root.querySelector('#style .rot_left').addEventListener(
-			'mousedown',
+			activationEvent,
 			updateCharacterGenericGrid('direction', 0)
 		);
 		root.querySelector('#style .rot_right').addEventListener(
-			'mousedown',
+			activationEvent,
 			updateCharacterGenericGrid('direction', 1)
 		);
 
+		if (nativeControls) return;
 		root.querySelectorAll('.race').forEach(el => {
 			el.addEventListener('click', updateRace);
 		});
@@ -802,12 +823,12 @@ export function createCharCreate(config) {
 		root.addEventListener('click', event => {
 			const hstyleBtn = event.target.closest('.hstyle_button');
 			if (hstyleBtn) {
-				updateHStyle(hstyleBtn);
+				updateHStyle(parseInt(hstyleBtn.getAttribute('for')));
 				return;
 			}
 			const hcolorBtn = event.target.closest('.hcolor_button');
 			if (hcolorBtn) {
-				updateHColor(hcolorBtn);
+				updateHColor(parseInt(hcolorBtn.getAttribute('for')));
 			}
 		});
 	}
@@ -815,13 +836,12 @@ export function createCharCreate(config) {
 	/**
 	 * Update model hairstyle
 	 */
-	function updateHStyle(target) {
+	function updateHStyle(value) {
 		const root = Component.getRoot();
 		const type = 'head';
-		const value = parseInt(target.getAttribute('for'));
 
 		_prevhead = _model.entity.head;
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, dataURI => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, dataURI => {
 			const el = root.querySelector(`.style${_prevhead}`);
 			if (el) {
 				el.style.backgroundImage = `url(${dataURI})`;
@@ -836,22 +856,18 @@ export function createCharCreate(config) {
 	/**
 	 * Update model haircolor
 	 */
-	function updateHColor(target) {
+	function updateHColor(value) {
 		const root = Component.getRoot();
 		const type = 'headpalette';
-		const value = parseInt(target.getAttribute('for'));
 
 		_prevcolor = _model.entity.headpalette;
 
-		Client.loadFile(
-			`${DB.INTERFACE_PATH}make_character_ver2/color0${parseInt(_prevcolor) + 1}_off.bmp`,
-			dataURI => {
-				const el = root.querySelector(`.cstyle0${_prevcolor}`);
-				if (el) {
-					el.style.backgroundImage = `url(${dataURI})`;
-				}
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/color0${parseInt(_prevcolor) + 1}_off.bmp`, dataURI => {
+			const el = root.querySelector(`.cstyle0${_prevcolor}`);
+			if (el) {
+				el.style.backgroundImage = `url(${dataURI})`;
 			}
-		);
+		});
 
 		_curcolor = value;
 
@@ -868,20 +884,20 @@ export function createCharCreate(config) {
 		let value = 0;
 
 		if (select && select.id === 'human_race') {
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_human_on.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_human_on.bmp`, dataURI => {
 				root.querySelector('.human_label').style.backgroundImage = `url(${dataURI})`;
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_doram_off.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_doram_off.bmp`, dataURI => {
 				root.querySelector('.doram_label').style.backgroundImage = `url(${dataURI})`;
 			});
 			value = 0;
 		}
 
 		if (select && select.id === 'doram_race') {
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_human_off.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_human_off.bmp`, dataURI => {
 				root.querySelector('.human_label').style.backgroundImage = `url(${dataURI})`;
 			});
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/img_doram_on.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/img_doram_on.bmp`, dataURI => {
 				root.querySelector('.doram_label').style.backgroundImage = `url(${dataURI})`;
 			});
 			value = 4218;
@@ -889,7 +905,7 @@ export function createCharCreate(config) {
 
 		// In between changes of race, it needs to clear everything
 		for (let i = 1; i <= 24; i++) {
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_hairstyle_normal.bmp`, dataURI => {
 				const el = root.querySelector(`.style${i}`);
 				if (el) {
 					el.style.backgroundImage = `url(${dataURI})`;
@@ -940,14 +956,14 @@ export function createCharCreate(config) {
 				break;
 		}
 
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_male_off.bmp`, dataURI => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_male_off.bmp`, dataURI => {
 			root.querySelector('#male_container').style.backgroundImage = `url(${dataURI})`;
 		});
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_female_off.bmp`, dataURI => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_female_off.bmp`, dataURI => {
 			root.querySelector('#female_container').style.backgroundImage = `url(${dataURI})`;
 		});
 
-		Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/bt_${_gender}_on.bmp`, dataURI => {
+		loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/bt_${_gender}_on.bmp`, dataURI => {
 			root.querySelector(`#${_gender}_container`).style.backgroundImage = `url(${dataURI})`;
 		});
 
@@ -959,7 +975,7 @@ export function createCharCreate(config) {
 		// Show the correct one
 		const hairStyleEl = root.querySelector(`#${_race}_${_gender}`);
 		if (hairStyleEl) {
-			hairStyleEl.style.display = 'block';
+			hairStyleEl.style.display = nativeControls ? 'flex' : 'block';
 		}
 	}
 
@@ -995,7 +1011,7 @@ export function createCharCreate(config) {
 		}
 
 		for (let i = 0; i <= 8; i++) {
-			Client.loadFile(`${DB.INTERFACE_PATH}make_character_ver2/color0${i + 1}_off.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}make_character_ver2/color0${i + 1}_off.bmp`, dataURI => {
 				const el = root.querySelector(`.cstyle0${i}`);
 				if (el) {
 					el.style.backgroundImage = `url(${dataURI})`;
@@ -1047,6 +1063,12 @@ export function createCharCreate(config) {
 				_model.entity.headpalette = 0;
 				break;
 		}
+		onAppearanceChange(Component.getRoot(), {
+			race: _race,
+			gender: _gender,
+			hair: _model.entity.head,
+			color: _model.entity.headpalette
+		});
 	}
 
 	/**

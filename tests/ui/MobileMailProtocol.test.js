@@ -1,0 +1,18 @@
+import {beforeEach,it,expect,vi} from 'vitest';
+const s=vi.hoisted(()=>({mobile:true,hooks:new Map(),receive:vi.fn(),unread:vi.fn(),icon:{append:vi.fn(),remove:vi.fn()},mail:{initData:vi.fn(),getMailByID:vi.fn(()=>({MailID:1})),updateDeletedMailContent:vi.fn()},read:{append:vi.fn(),initData:vi.fn(),clearZeny:vi.fn(),clearItemList:vi.fn(),close:vi.fn()},write:{append:vi.fn(),initData:vi.fn(),addItem:vi.fn(),removeItem:vi.fn(),close:vi.fn(),characterInfo:vi.fn()}}));
+vi.mock('UI/Platform.js',()=>({default:{get isMobile(){return s.mobile;}}}));
+vi.mock('UI/Game/GameMail.js',()=>({receiveGameMail:s.receive,setGameMailUnread:s.unread}));
+vi.mock('UI/Components/Rodex/RodexIcon.js',()=>({default:s.icon}));
+vi.mock('UI/Components/Rodex/Rodex.js',()=>({default:s.mail}));
+vi.mock('UI/Components/Rodex/ReadRodex.js',()=>({default:s.read}));
+vi.mock('UI/Components/Rodex/WriteRodex.js',()=>({default:s.write}));
+vi.mock('UI/Components/ChatBox/ChatBox.js',()=>({default:{addText:vi.fn(),TYPE:{INFO_MAIL:0},FILTER:{PUBLIC_LOG:0}}}));
+vi.mock('DB/DBManager.js',()=>({default:{getMessage:id=>String(id)}}));
+vi.mock('Network/NetworkManager.js',()=>({default:{sendPacket:vi.fn(),hookPacket:(type,fn)=>s.hooks.set(type,fn)}}));
+vi.mock('Network/PacketStructure.js',()=>{const group=()=>new Proxy({}, {get:(t,k)=>t[k]||=(class{})});return{default:{CZ:group(),ZC:group()}};});
+import initialize from '../../src/Engine/MapEngine/Rodex.js';
+import PACKET from 'Network/PacketStructure.js';
+const receive=(name,p)=>s.hooks.get(PACKET.ZC[name])(p);
+beforeEach(()=>{vi.clearAllMocks();s.mobile=true;initialize();});
+it('routes mail replies and unread notification without mounting desktop windows',()=>{for(const [type,kind]of [['ACK_RODEX_LIST3','list'],['ACK_READ_RODEX2','read'],['ACK_ADD_ITEM_RODEX2','add'],['ACK_REMOVE_RODEX_ITEM','remove'],['ACK_OPEN_WRITE_RODEX','compose'],['CHECK_RECEIVE_CHARACTER_NAME2','validate'],['ACK_SEND_RODEX','send'],['ACK_ZENY_FROM_RODEX','zeny'],['ACK_ITEM_FROM_RODEX','items'],['ACK_DELETE_RODEX','delete'],['ACK_FAILED_ALL_RODEX_LIST','listFailed']]){const p={MailID:1};receive(type,p);expect(s.receive).toHaveBeenLastCalledWith(kind,p);}receive('RODEX_ICON',{show:1});expect(s.unread).toHaveBeenCalledWith(1);expect(s.icon.append).not.toHaveBeenCalled();expect(s.read.append).not.toHaveBeenCalled();expect(s.write.append).not.toHaveBeenCalled();});
+it('preserves original desktop inbox, reader, composer and item reply callbacks',()=>{s.mobile=false;receive('ACK_RODEX_LIST3',{MailList:[]});expect(s.mail.initData).toHaveBeenCalled();receive('ACK_READ_RODEX2',{MailID:1});expect(s.read.append).toHaveBeenCalledOnce();receive('ACK_OPEN_WRITE_RODEX',{result:1});expect(s.write.append).toHaveBeenCalledOnce();receive('ACK_ADD_ITEM_RODEX2',{result:0,index:2});expect(s.write.addItem).toHaveBeenCalledWith({result:0,index:2});receive('ACK_REMOVE_RODEX_ITEM',{result:1,index:2,count:1,weight:0});expect(s.write.removeItem).toHaveBeenCalledWith(2,1,0);receive('RODEX_ICON',{show:1});expect(s.icon.append).toHaveBeenCalledOnce();expect(s.receive).not.toHaveBeenCalled();});

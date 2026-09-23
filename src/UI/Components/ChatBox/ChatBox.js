@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import { publishChatMessage, clearChatFeed } from 'UI/Game/ChatFeed.js';
 import DB from 'DB/DBManager.js';
 import Renderer from 'Renderer/Renderer.js';
 import Client from 'Core/Client.js';
@@ -720,6 +721,7 @@ ChatBox.init = function init() {
  * Clean up the box
  */
 ChatBox.clean = function Clean() {
+	clearChatFeed();
 	const root = _root();
 
 	const contents = root.querySelectorAll('.content');
@@ -1267,6 +1269,7 @@ ChatBox.addText = function addText(text, colorType, filterType, color, override)
 		filterType = ChatBox.FILTER.PUBLIC_LOG;
 	}
 
+	publishChatMessage({ text, html: !!override, colorType, filterType });
 	_messageBuffer.push({
 		text: text,
 		colorType: colorType,

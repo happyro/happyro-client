@@ -42,9 +42,18 @@ export function createCharSelect(config) {
 		hostHeight = 342,
 		defaultMaxSlots = 3 * 9,
 		deleteReservation = false,
+		deletionEnabled = true,
+		resetSelectionOnLogin = false,
 		packetverGatedDelete = false,
-		pageBalls = false
+		pageBalls = false,
+		activationEvent = 'mousedown',
+		bitmapSkin = true,
+		onSelectionChange = () => {},
+		onSlotChange = () => {}
 	} = config;
+	function loadSkin(path, callback) {
+		if (bitmapSkin) Client.loadFile(path, callback);
+	}
 
 	const Component = new GUIComponent(name, cssText);
 
@@ -100,6 +109,8 @@ export function createCharSelect(config) {
 	 * var {boolean} disable input
 	 */
 	let _disable_UI = false;
+	let _pendingDeletion = false;
+	const isUIBlocked = () => _disable_UI || _pendingDeletion;
 
 	/**
 	 * Grid (V4) background/countdown state
@@ -123,15 +134,18 @@ export function createCharSelect(config) {
 			// Bind buttons
 			root.querySelector('.ok').addEventListener('click', connect);
 			root.querySelector('.cancel').addEventListener('click', cancel);
-			root.querySelector('.delete').addEventListener('click', reserve);
-			root.querySelector('.canceldelete').addEventListener('click', removedelete);
-			root.querySelector('.finaldelete').addEventListener('click', suppress);
+			if (deletionEnabled) {
+				root.querySelector('.delete').addEventListener('click', reserve);
+				root.querySelector('.canceldelete').addEventListener('click', removedelete);
+				root.querySelector('.finaldelete').addEventListener('click', suppress);
+			}
+			root.querySelector('.make')?.addEventListener('click', create);
 
 			// Bind canvas
 			for (let i = 0; i < 15; i++) {
 				const slot = root.querySelector(`#slot${i}`);
 				if (slot) {
-					slot.addEventListener('mousedown', genericCanvasDown(i));
+					slot.addEventListener(activationEvent, genericCanvasDown(i));
 				}
 			}
 
@@ -147,7 +161,7 @@ export function createCharSelect(config) {
 			});
 
 			// Load charinfo panel background
-			Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_info.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_info.bmp`, dataURI => {
 				root.querySelector('.charinfo').style.backgroundImage = `url(${dataURI})`;
 			});
 
@@ -155,7 +169,7 @@ export function createCharSelect(config) {
 			for (let i = 0; i < 15; i++) {
 				const slotCanvas = root.querySelector(`#slot${i}`);
 				if (slotCanvas) {
-					Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, dataURI => {
+					loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, dataURI => {
 						slotCanvas.style.backgroundImage = `url(${dataURI})`;
 					});
 				}
@@ -170,11 +184,13 @@ export function createCharSelect(config) {
 		root.querySelector('.ok').addEventListener('click', connect);
 		root.querySelector('.cancel').addEventListener('click', cancel);
 		root.querySelector('.make').addEventListener('click', create);
-		root.querySelector('.delete').addEventListener('click', deleteReservation ? reserve : suppress);
+		if (deletionEnabled) root.querySelector('.delete').addEventListener('click', deleteReservation ? reserve : suppress);
 
 		if (deleteReservation) {
-			root.querySelector('.canceldelete').addEventListener('click', removedelete);
-			root.querySelector('.finaldelete').addEventListener('click', suppress);
+			if (deletionEnabled) {
+				root.querySelector('.canceldelete').addEventListener('click', removedelete);
+				root.querySelector('.finaldelete').addEventListener('click', suppress);
+			}
 		}
 
 		root.querySelector('.arrow.left').addEventListener('mousedown', genericArrowDown(-1));
@@ -216,6 +232,7 @@ export function createCharSelect(config) {
 	 * Once append to body
 	 */
 	Component.onAppend = function onAppend() {
+		_pendingDeletion = false;
 		if (gridLayout) {
 			Component.updateCharSlot();
 
@@ -223,7 +240,7 @@ export function createCharSelect(config) {
 
 			// Update values
 			moveCursorTo(_index);
-			_bgInterval = setInterval(changeBackgroundEverySecond, 250);
+			if (bitmapSkin) _bgInterval = setInterval(changeBackgroundEverySecond, 250);
 			// Start rendering
 			Renderer.render(render);
 			return;
@@ -283,7 +300,7 @@ export function createCharSelect(config) {
 	 * @param {object} event
 	 */
 	Component.onKeyDown = function onKeyDown(event) {
-		if (this._host.style.display === 'none') {
+		if (isUIBlocked() || this._host.style.display === 'none') {
 			return true;
 		}
 		switch (event.which) {
@@ -292,19 +309,11 @@ export function createCharSelect(config) {
 				break;
 
 			case KEYS.LEFT:
-				if (gridLayout) {
-					moveCursorTo(_index - 1 > _list.length - 1 ? _list.length - 1 : _index - 1 < 0 ? 0 : _index - 1);
-				} else {
-					moveCursorTo(_index - 1);
-				}
+				moveCursorTo(_index - 1);
 				break;
 
 			case KEYS.RIGHT:
-				if (gridLayout) {
-					moveCursorTo(_index + 1 > _list.length - 1 ? _list.length - 1 : _index + 1 < 0 ? 0 : _index + 1);
-				} else {
-					moveCursorTo(_index + 1);
-				}
+				moveCursorTo(_index + 1);
 				break;
 
 			case KEYS.SUPR:
@@ -335,6 +344,7 @@ export function createCharSelect(config) {
 	 * @param {object} pkt - packet structure
 	 */
 	Component.setInfo = function setInfo(pkt) {
+		if (resetSelectionOnLogin) _index = 0;
 		if (gridLayout) {
 			Component.clearAllSlots();
 
@@ -383,6 +393,7 @@ export function createCharSelect(config) {
 	 * @param {number} error id
 	 */
 	Component.deleteAnswer = function deleteAnswer(error) {
+		_pendingDeletion = false;
 		this.on('keydown');
 
 		if (gridLayout) {
@@ -555,6 +566,7 @@ export function createCharSelect(config) {
 			_entitySlots[character.CharNum].hideShadow = true;
 
 			Component.updateCharSlot(character.CharNum);
+			if (character.CharNum === _index) moveCursorTo(_index);
 			return;
 		}
 
@@ -624,6 +636,7 @@ export function createCharSelect(config) {
 	 */
 	function genericArrowDown(value) {
 		return event => {
+			if (isUIBlocked()) return;
 			moveCursorTo((_index + _maxSlots + value) % _maxSlots);
 			event.stopImmediatePropagation();
 			return false;
@@ -637,6 +650,7 @@ export function createCharSelect(config) {
 	 */
 	function genericCanvasDown(value) {
 		return event => {
+			if (isUIBlocked()) return;
 			if (gridLayout) {
 				moveCursorTo(value);
 			} else {
@@ -651,38 +665,19 @@ export function createCharSelect(config) {
 	 * Press "cancel" or ESCAPE key
 	 */
 	function cancel() {
-		if (_disable_UI === false) {
-			if (gridLayout) {
-				UIManager.showPromptBox(
-					DB.getMessage(17),
-					'ok',
-					'cancel',
-					() => {
-						Component.onExitRequest();
-						Component.clearAllSlots();
-					},
-					null
-				);
-				stopCountdownInterval();
-			} else {
-				UIManager.showPromptBox(
-					DB.getMessage(17),
-					'ok',
-					'cancel',
-					() => {
-						Component.onExitRequest();
-					},
-					null
-				);
-			}
-		}
+		if (isUIBlocked()) return;
+		UIManager.showPromptBox(DB.getMessage(17), 'ok', 'cancel', () => {
+			if (gridLayout) stopCountdownInterval();
+			Component.onExitRequest();
+			if (gridLayout) Component.clearAllSlots();
+		});
 	}
 
 	/**
 	 * Jumping to Character creation window
 	 */
 	function create() {
-		if (_disable_UI === false) {
+		if (!isUIBlocked() && _index >= 0 && _index < _maxSlots && !_slots[_index]) {
 			Component.onCreateRequest(_index);
 		}
 	}
@@ -691,13 +686,12 @@ export function createCharSelect(config) {
 	 * Select Player, connect
 	 */
 	function connect() {
-		if (_disable_UI === false) {
+		if (!isUIBlocked()) {
 			if (gridLayout) {
 				if (_slots[_index] && !_slots[_index].DeleteDate) {
 					_preferences.index = _index;
 					_preferences.save();
 					Component.onConnectRequest(_slots[_index]);
-					stopCountdownInterval();
 				}
 			} else if (_slots[_index]) {
 				_preferences.index = _index;
@@ -711,8 +705,10 @@ export function createCharSelect(config) {
 	 * Request to delete a character
 	 */
 	function reserve() {
-		if (_disable_UI === false) {
+		if (!deletionEnabled) return;
+		if (!isUIBlocked()) {
 			if (_slots[_index]) {
+				_pendingDeletion = true;
 				Component.off('keydown');
 				Component.onDeleteReqDelay(_slots[_index].GID);
 			}
@@ -723,8 +719,10 @@ export function createCharSelect(config) {
 	 * Delete a character
 	 */
 	function suppress() {
-		if (_disable_UI === false) {
+		if (!deletionEnabled) return;
+		if (!isUIBlocked()) {
 			if (_slots[_index]) {
+				_pendingDeletion = true;
 				Component.off('keydown');
 				Component.onDeleteRequest(_slots[_index].GID);
 			}
@@ -743,6 +741,7 @@ export function createCharSelect(config) {
 		 */
 		Component.reqdeleteAnswer = gridLayout
 			? function reqdeleteAnswer(pkt) {
+					_pendingDeletion = false;
 					this.on('keydown');
 					const deleteReservedDate = pkt.DeleteReservedDate;
 					const result = typeof pkt.Result === 'undefined' ? -1 : pkt.Result;
@@ -775,6 +774,7 @@ export function createCharSelect(config) {
 					}
 				}
 			: function reqdeleteAnswer(pkt) {
+					_pendingDeletion = false;
 					this.on('keydown');
 					const now = Math.floor(Date.now() / 1000);
 					const result = typeof pkt.Result === 'undefined' ? -1 : pkt.Result;
@@ -833,9 +833,11 @@ export function createCharSelect(config) {
 			}
 
 			// Adjust the buttons
-			root.querySelector('.delete').style.display = 'none';
-			root.querySelector('.canceldelete').style.display = 'block';
-			root.querySelector('.finaldelete').style.display = 'block';
+			if (deletionEnabled) {
+				root.querySelector('.delete').style.display = 'none';
+				root.querySelector('.canceldelete').style.display = 'block';
+				root.querySelector('.finaldelete').style.display = 'block';
+			}
 			return;
 		}
 
@@ -862,12 +864,14 @@ export function createCharSelect(config) {
 		entity.action = action;
 
 		// Adjust the buttons
-		root.querySelector('.delete').style.display = 'none';
-		root.querySelector('.canceldelete').style.display = 'block';
+		if (deletionEnabled) {
+			root.querySelector('.delete').style.display = 'none';
+			root.querySelector('.canceldelete').style.display = 'block';
+		}
 		if (Math.floor(Date.now() / 1000) > timer) {
-			root.querySelector('.finaldelete').style.display = 'block';
+			if (deletionEnabled) root.querySelector('.finaldelete').style.display = 'block';
 		} else {
-			root.querySelector('.finaldelete').style.display = 'none';
+			if (deletionEnabled) root.querySelector('.finaldelete').style.display = 'none';
 		}
 	}
 
@@ -876,7 +880,8 @@ export function createCharSelect(config) {
 	 * Update UI and remove timer
 	 */
 	function removedelete() {
-		if (_slots[_index]) {
+		if (!deletionEnabled) return;
+		if (!isUIBlocked() && _slots[_index]) {
 			const root = Component.getRoot();
 
 			// Delete here as well? Though server should tell us this
@@ -896,9 +901,11 @@ export function createCharSelect(config) {
 				}
 
 				// Adjust the buttons
-				root.querySelector('.canceldelete').style.display = 'none';
-				root.querySelector('.finaldelete').style.display = 'none';
-				root.querySelector('.delete').style.display = 'block';
+				if (deletionEnabled) {
+					root.querySelector('.canceldelete').style.display = 'none';
+					root.querySelector('.finaldelete').style.display = 'none';
+					root.querySelector('.delete').style.display = 'block';
+				}
 
 				// Send request to the server
 				Component.onCancelDeleteRequest(_slots[_index].GID);
@@ -916,9 +923,11 @@ export function createCharSelect(config) {
 			countdown.style.display = 'none';
 
 			// Adjust the buttons
-			root.querySelector('.canceldelete').style.display = 'none';
-			root.querySelector('.finaldelete').style.display = 'none';
-			root.querySelector('.delete').style.display = 'block';
+			if (deletionEnabled) {
+				root.querySelector('.canceldelete').style.display = 'none';
+				root.querySelector('.finaldelete').style.display = 'none';
+				root.querySelector('.delete').style.display = 'block';
+			}
 
 			// Send request to the server
 			Component.onCancelDeleteRequest(_slots[_index].GID);
@@ -946,7 +955,7 @@ export function createCharSelect(config) {
 		imgEl.width = 8;
 
 		const imagePath = sel ? 'select_character/page_ball_fill.bmp' : 'select_character/page_ball_empty.bmp';
-		Client.loadFile(DB.INTERFACE_PATH + imagePath, data => {
+		loadSkin(DB.INTERFACE_PATH + imagePath, data => {
 			btn.style.backgroundImage = `url("${data}")`;
 		});
 
@@ -1081,10 +1090,12 @@ export function createCharSelect(config) {
 				div.textContent = '';
 			});
 			root.querySelector('.make').style.display = 'block';
-			root.querySelector('.delete').style.display = 'none';
+			if (deletionEnabled) root.querySelector('.delete').style.display = 'none';
 			if (deleteReservation) {
-				root.querySelector('.canceldelete').style.display = 'none';
-				root.querySelector('.finaldelete').style.display = 'none';
+				if (deletionEnabled) {
+					root.querySelector('.canceldelete').style.display = 'none';
+					root.querySelector('.finaldelete').style.display = 'none';
+				}
 			}
 			root.querySelector('.ok').style.display = 'none';
 			return;
@@ -1093,13 +1104,15 @@ export function createCharSelect(config) {
 		info = _slots[_index];
 		// Bind new value
 		if (deleteReservation && info.DeleteDate && (!packetverGatedDelete || PACKETVER.value >= 20100803)) {
-			root.querySelector('.delete').style.display = 'none';
-			root.querySelector('.canceldelete').style.display = 'block';
+			if (deletionEnabled) {
+				root.querySelector('.delete').style.display = 'none';
+				root.querySelector('.canceldelete').style.display = 'block';
+			}
 			if (Math.floor(Date.now() / 1000) > info.DeleteDate) {
-				root.querySelector('.finaldelete').style.display = 'block';
+				if (deletionEnabled) root.querySelector('.finaldelete').style.display = 'block';
 				action = entity.ACTION.DIE;
 			} else {
-				root.querySelector('.finaldelete').style.display = 'none';
+				if (deletionEnabled) root.querySelector('.finaldelete').style.display = 'none';
 				action = entity.ACTION.SIT;
 			}
 			root.querySelector('.make').style.display = 'none';
@@ -1107,18 +1120,22 @@ export function createCharSelect(config) {
 		} else {
 			if (deleteReservation) {
 				if (!packetverGatedDelete || PACKETVER.value >= 20100803) {
-					root.querySelector('.delete').style.display = 'block';
-					root.querySelector('.canceldelete').style.display = 'none';
-					root.querySelector('.finaldelete').style.display = 'none';
+					if (deletionEnabled) {
+						root.querySelector('.delete').style.display = 'block';
+						root.querySelector('.canceldelete').style.display = 'none';
+						root.querySelector('.finaldelete').style.display = 'none';
+					}
 				} else {
-					root.querySelector('.delete').style.display = 'none';
-					root.querySelector('.canceldelete').style.display = 'none';
-					root.querySelector('.finaldelete').style.display = 'block';
+					if (deletionEnabled) {
+						root.querySelector('.delete').style.display = 'none';
+						root.querySelector('.canceldelete').style.display = 'none';
+						root.querySelector('.finaldelete').style.display = 'block';
+					}
 				}
 				root.querySelector('.make').style.display = 'none';
 			} else {
 				root.querySelector('.make').style.display = 'none';
-				root.querySelector('.delete').style.display = 'block';
+				if (deletionEnabled) root.querySelector('.delete').style.display = 'block';
 			}
 			root.querySelector('.ok').style.display = 'block';
 			action = entity.ACTION.READYFIGHT;
@@ -1240,7 +1257,7 @@ export function createCharSelect(config) {
 		shouldRunBackgroundChange = false;
 
 		if (entity) {
-			Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, dataURI => {
 				const prevSlot = root.querySelector(`#slot${prevIndex}`);
 				if (prevSlot) {
 					prevSlot.style.backgroundImage = `url(${dataURI})`;
@@ -1248,17 +1265,20 @@ export function createCharSelect(config) {
 			});
 		}
 
-		const slotIndex = (_index = index > _maxSlots ? _maxSlots : index < 0 ? 0 : index);
+		const slotIndex = (_index = Math.max(0, Math.min(index, _maxSlots - 1)));
 
 		// Not found, just clean up.
 		entity = _slots[_index];
+		onSelectionChange(root, { index: _index, character: entity, maxSlots: _maxSlots });
 		if (!entity) {
 			charinfo.querySelectorAll('div').forEach(div => {
 				div.textContent = '';
 			});
-			root.querySelector('.delete').style.display = 'none';
-			root.querySelector('.canceldelete').style.display = 'none';
-			root.querySelector('.finaldelete').style.display = 'none';
+			if (deletionEnabled) {
+				root.querySelector('.delete').style.display = 'none';
+				root.querySelector('.canceldelete').style.display = 'none';
+				root.querySelector('.finaldelete').style.display = 'none';
+			}
 			root.querySelector('.ok').style.display = 'none';
 			const countdown = root.querySelector(`.timedelete.slot${_index}`);
 			if (countdown) {
@@ -1279,13 +1299,17 @@ export function createCharSelect(config) {
 		const info = _slots[_index];
 		// Bind new value
 		if (info.DeleteDate) {
-			root.querySelector('.delete').style.display = 'none';
-			root.querySelector('.canceldelete').style.display = 'block';
-			root.querySelector('.finaldelete').style.display = 'block';
+			if (deletionEnabled) {
+				root.querySelector('.delete').style.display = 'none';
+				root.querySelector('.canceldelete').style.display = 'block';
+				root.querySelector('.finaldelete').style.display = 'block';
+			}
 		} else {
-			root.querySelector('.canceldelete').style.display = 'none';
-			root.querySelector('.finaldelete').style.display = 'none';
-			root.querySelector('.delete').style.display = 'block';
+			if (deletionEnabled) {
+				root.querySelector('.canceldelete').style.display = 'none';
+				root.querySelector('.finaldelete').style.display = 'none';
+				root.querySelector('.delete').style.display = 'block';
+			}
 		}
 
 		root.querySelector('.ok').style.display = 'block';
@@ -1308,7 +1332,7 @@ export function createCharSelect(config) {
 		const root = Component.getRoot();
 		const backgroundchange = root.querySelector(`#slot${_curindex}`);
 		if (backgroundchange && shouldRunBackgroundChange === true) {
-			Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_select${img}.bmp`, dataURI => {
+			loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_select${img}.bmp`, dataURI => {
 				backgroundchange.style.backgroundImage = `url(${dataURI})`;
 				backgroundchange.style.width = '157px';
 				backgroundchange.style.height = '197px';
@@ -1336,7 +1360,8 @@ export function createCharSelect(config) {
 
 		for (let i = start; i < loopMax; ++i) {
 			if (charCanvases[i]) {
-				charCanvases[i].querySelector('.name').innerHTML = _slots[i] ? _slots[i].name : '';
+				charCanvases[i].querySelector('.name').textContent = _slots[i] ? _slots[i].name : '';
+				onSlotChange(charCanvases[i], { index: i, character: _slots[i] });
 			}
 			if (!_slots[i]) {
 				if (jobIcons[i]) {
@@ -1344,7 +1369,7 @@ export function createCharSelect(config) {
 				}
 				const slotCanvas = root.querySelector(`#slot${i}`);
 				if (slotCanvas) {
-					Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, dataURI => {
+					loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot2_normal.bmp`, dataURI => {
 						slotCanvas.style.backgroundImage = `url(${dataURI})`;
 					});
 				}
@@ -1357,14 +1382,14 @@ export function createCharSelect(config) {
 			} else {
 				const slotCanvas = root.querySelector(`#slot${i}`);
 				if (slotCanvas) {
-					Client.loadFile(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, dataURI => {
+					loadSkin(`${DB.INTERFACE_PATH}select_character_ver3/img_slot_normal.bmp`, dataURI => {
 						slotCanvas.style.backgroundImage = `url(${dataURI})`;
 					});
 				}
 
 				if (jobIcons[i]) {
 					const slotJobIcon = jobIcons[i];
-					Client.loadFile(`${DB.INTERFACE_PATH}renewalparty/icon_jobs_${_slots[i].job}.bmp`, dataURI => {
+					loadSkin(`${DB.INTERFACE_PATH}renewalparty/icon_jobs_${_slots[i].job}.bmp`, dataURI => {
 						slotJobIcon.style.backgroundImage = `url(${dataURI})`;
 					});
 				}

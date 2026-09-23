@@ -8,6 +8,8 @@
  * @author Vincent Thibault, AoShinHo
  */
 
+import Platform from 'UI/Platform.js';
+import { openCartAppearance } from 'UI/Game/GameCartAppearance.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Session from 'Engine/SessionStorage.js';
@@ -120,6 +122,10 @@ ChangeCart.onChangeCartSkill = function onChangeCartSkill() {
 	if (Session.Entity) {
 		Session.Entity.dialog.set(msg);
 	}
+	if (Platform.isMobile) {
+		openCartAppearance();
+		return;
+	}
 	ChangeCart.ui.show();
 	updateList(Session.Entity.clevel);
 	// Avoid stacking duplicate render callbacks if invoked while already open
@@ -128,7 +134,7 @@ ChangeCart.onChangeCartSkill = function onChangeCartSkill() {
 };
 
 ChangeCart.onLevelUp = function onLevelUp(blvl) {
-	updateList(blvl);
+	if (!Platform.isMobile) updateList(blvl);
 };
 
 function updateList(blvl) {

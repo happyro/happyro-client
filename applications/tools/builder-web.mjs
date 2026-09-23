@@ -192,9 +192,9 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
         <meta charset="UTF-8">    
         <meta name="happyro-build-id" content="${buildId}">
         <title>HappyRO</title>    
-        <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
+        <link rel="icon" type="image/png" href="./favicon.png?v=happyro-icon-2">    
     
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">    
         <meta name="HandheldFriendly" content="true">    
     
         <meta name="apple-mobile-web-app-capable" content="yes">    
@@ -280,8 +280,11 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
                 display: flex;    
                 flex-direction: column;    
                 align-items: center;    
-                justify-content: center;    
-                min-height: 100vh;    
+                justify-content: safe center;
+                box-sizing: border-box;
+                height: 100dvh;
+                overflow: auto;
+                padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
                 background: rgba(6, 8, 16, 0.97);    
                 font-family: serif;    
                 color: #e8b84b;    
@@ -315,7 +318,35 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
                 background: rgba(232, 184, 75, 0.15);    
                 border-color: #e8b84b;    
             }    
-            .build-id { position: fixed; right: 16px; bottom: 12px; color: #8b8f98; font: 12px monospace; }
+            @media (orientation: portrait) and (max-width: 600px) {
+                .app-launcher {
+                    justify-content: flex-start;
+                    padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(44px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+                }
+                .app-launcher h1 {
+                    flex-shrink: 0;
+                    margin: auto 0 20px;
+                    font: 600 21px/1.3 system-ui, sans-serif;
+                    letter-spacing: 0;
+                    text-align: center;
+                }
+                .button-grid {
+                    display: grid;
+                    grid-template-columns: minmax(0, 1fr);
+                    width: min(100%, 360px);
+                    gap: 10px;
+                    flex-shrink: 0;
+                    margin-bottom: auto;
+                }
+                .app-btn {
+                    width: 100%;
+                    min-height: 46px;
+                    padding: 10px 16px;
+                    font: 600 15px/1.2 system-ui, sans-serif;
+                    letter-spacing: 0;
+                }
+            }
+            .build-id { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); color: #8b8f98; font: 12px monospace; }
         </style>    
     </head>    
     <body>    
@@ -329,11 +360,17 @@ ${buttons}
   
         <script type="text/javascript">    
             function launchApp(appName) {    
+                var url = 'api.html?v=${buildId}&app=' + appName + (new URLSearchParams(location.search).get('debug') === '1' ? '&debug=1' : '');
+                // Keep touch devices and installed apps in their existing app window.
+                if (window.matchMedia('(pointer: coarse), (display-mode: standalone), (display-mode: fullscreen)').matches) {
+                    window.location.assign(url);
+                    return;
+                }
                 var w = 1024, h = 768;
                 var top = (screen.height - h) / 2;    
                 var left = (screen.width - w) / 2;    
                 window.open(    
-                    'api.html?v=${buildId}&app=' + appName,
+                    url,
                     '_blank',    
                     'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',menubar=0,toolbar=0,location=0,status=0,resizable=1,scrollbars=0'    
                 );    
@@ -518,10 +555,13 @@ function createApiHTML() {
 	const apiHtml = `<!DOCTYPE html>    
 <html>    
     <head>    
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
         <meta charset="UTF-8">    
         <meta name="happyro-build-id" content="${buildId}">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <title>HappyRO</title>    
-        <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
+        <link rel="icon" type="image/png" href="./favicon.png?v=happyro-icon-2">    
         <link rel="apple-touch-icon" href="./icon.png">    
         <style>    
             html, body {    
@@ -567,11 +607,24 @@ function createApiHTML() {
                 0%, 100% { opacity: 0.4; transform: translateY(0); }    
                 50% { opacity: 1; transform: translateY(-4px); }    
             }    
+            #ro-preloader .pre-poring { display: none; }
+            @media (pointer: coarse) {
+                #ro-preloader { box-sizing: border-box; background: #f8f9fb; gap: 16px; padding: 24px; text-align: center; }
+                #ro-preloader .pre-poring { display: block; width: min(80px, 18vh); height: auto; aspect-ratio: 1; object-fit: contain; image-rendering: pixelated; }
+                #ro-preloader .pre-spinner { width: 32px; height: 32px; border: 3px solid #e2e5e9; border-top-color: #b44800; }
+                #ro-preloader .pre-text { display: none; }
+                #ro-preloader::after { content: '正在启动…'; color: #34383d; font: 16px/1.5 system-ui, sans-serif; }
+            }
+            @media (pointer: coarse) and (prefers-reduced-motion: reduce) {
+                #ro-preloader .pre-spinner { animation: none; }
+            }
         </style>    
+        <script src="debug.js?v=${buildId}"></script>
         <script src="api.js?v=${buildId}"></script>
     </head>    
     <body>    
         <div id="ro-preloader">    
+            <img class="pre-poring" src="./ro-poring-1.webp" alt="">
             <div class="pre-spinner"></div>    
             <p class="pre-text">    
                 <span style="--i:0">L</span><span style="--i:1">o</span><span style="--i:2">a</span><span style="--i:3">d</span><span style="--i:4">i</span><span style="--i:5">n</span><span style="--i:6">g</span><span style="--i:7">.</span><span style="--i:8">.</span><span style="--i:9">.</span>    
@@ -641,6 +694,7 @@ function createApiHTML() {
 `;
 	fs.writeFileSync(dist + platform + '/api.html', apiHtml, { encoding: 'utf8' });
 	fs.copyFileSync('./applications/api/api.js', dist + platform + '/api.js');
+	fs.copyFileSync('./applications/api/debug.js', dist + platform + '/debug.js');
 }
 
 function writeBuildInfo() {
@@ -649,6 +703,7 @@ function writeBuildInfo() {
 		'index.html',
 		'api.html',
 		'api.js',
+		'debug.js',
 		'Online.js',
 		'Config.js',
 		'Config.happyro.js',
@@ -676,9 +731,10 @@ async function copyPwaFiles() {
 	const start = Date.now();
 	const sharp = (await import('sharp')).default;
 	const bgPath = './src/UI/Components/Intro/images/background.jpg';
-	fs.copyFileSync('./applications/pwa/favicon.ico', dist + platform + '/favicon.ico');
+	fs.copyFileSync('./applications/pwa/favicon.png', dist + platform + '/favicon.png');
 	fs.copyFileSync('./applications/pwa/icon.png', dist + platform + '/icon.png');
 	fs.copyFileSync('./applications/pwa/icon-512.png', dist + platform + '/icon-512.png');
+	fs.copyFileSync('./applications/pwa/ro-poring-1.webp', dist + platform + '/ro-poring-1.webp');
 	fs.copyFileSync('./applications/pwa/manifest.webmanifest', dist + platform + '/manifest.webmanifest');
 	copyFolder('./applications/pwa/data', dist + platform + '/data');
 	await sharp(bgPath)

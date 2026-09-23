@@ -11,7 +11,7 @@
 import KEYS from 'Controls/KeyEventHandler.js';
 import Mouse from 'Controls/MouseEventHandler.js';
 import Events from 'Core/Events.js';
-import Preferences from 'Preferences/Camera.js';
+import Preferences, { DEFAULT_CAMERA_ZOOM } from 'Preferences/Camera.js';
 import Session from 'Engine/SessionStorage.js';
 import glMatrix from 'Utils/gl-matrix.js';
 import Configs from 'Core/Configs.js';
@@ -291,11 +291,11 @@ class Camera {
 		import('Renderer/MapRenderer.js').then(MapRenderer => {
 			this.currentMap = MapRenderer.default.currentMap;
 			if (DB.isIndoor(this.currentMap)) {
-				this.zoomFinal = Preferences.indoorZoom || 125;
+				this.zoomFinal = Preferences.indoorZoom ?? DEFAULT_CAMERA_ZOOM;
 				this.angleFinal[0] = 230;
 				this.angleFinal[1] = -40;
 			} else {
-				this.zoomFinal = Preferences.zoom || 125;
+				this.zoomFinal = Preferences.zoom ?? DEFAULT_CAMERA_ZOOM;
 			}
 		});
 	}
@@ -330,7 +330,7 @@ class Camera {
 				}
 			}
 			if (KEYS.CTRL) {
-				this.zoomFinal = 125.0;
+				this.zoomFinal = DEFAULT_CAMERA_ZOOM;
 			} else {
 				if (DB.isIndoor(this.currentMap)) {
 					this.angleFinal[1] = this.indoorRotationTo;
