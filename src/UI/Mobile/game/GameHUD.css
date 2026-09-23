@@ -185,19 +185,29 @@ button.surface,
 	gap: 6px;
 }
 .battle-status {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 30px;
 	padding: 5px 8px;
 	font-size: 11px;
 }
+.battle-dock .surface {
+	border-radius: 8px;
+}
 .battle-status span {
-	display: block;
-	overflow-wrap: anywhere;
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 .battle-dock button {
 	pointer-events: auto;
 }
 .battle-status button,
 .skill-prompt button {
-	margin-top: 4px;
+	flex-shrink: 0;
 	min-height: 30px;
 	border: 1px solid #ecce94;
 	border-radius: 6px;
@@ -215,9 +225,14 @@ button.surface,
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+[data-auto-toggle] {
+	font-weight: 600;
+	border-color: #ceaa70;
+	background: #59432be8;
+}
 [data-auto-toggle][aria-pressed='true'] {
-	background: #744124;
-	border-color: #ffca67;
+	background: #763d2d;
+	border-color: #ffb18e;
 }
 .combat {
 	display: grid;

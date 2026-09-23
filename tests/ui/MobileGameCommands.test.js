@@ -12,7 +12,7 @@ const s = vi.hoisted(() => ({
 	free: vi.fn(),
 	camera: { direction: 0 },
 	mouse: { screen: {}, world: {} },
-	types: { TYPE_MOB: 1, TYPE_PC: 2, TYPE_NPC: 3, TYPE_ITEM: 4 }
+	types: { TYPE_MOB: 1, TYPE_PC: 2, TYPE_NPC: 3, TYPE_ITEM: 4, TYPE_NPC2: 5 }
 }));
 vi.mock('DB/DBManager.js', () => ({ default: {} }));
 vi.mock('Engine/SessionStorage.js', () => ({ default: s.session }));
@@ -133,11 +133,11 @@ it('rotates movement with the camera and respects blocked cells and sitting', ()
 });
 it('exposes and dispatches only valid contextual interactions', () => {
 	s.target = entity(3);
-	expect(targetSnapshot().interaction).toBe('交谈');
+	expect(targetSnapshot().interaction).toBe('');
 	interactSelected();
 	expect(s.target.onMouseDown).toHaveBeenCalledOnce();
 	s.target = entity(4);
-	expect(targetSnapshot().interaction).toBe('拾取');
+	expect(targetSnapshot().interaction).toBe('');
 	interactSelected();
 	expect(s.mouse.world).toMatchObject({ x: 2, y: 3 });
 	expect(s.target.onMouseDown).toHaveBeenCalledOnce();
@@ -148,4 +148,19 @@ it('exposes and dispatches only valid contextual interactions', () => {
 
 it('requires explicit trade confirmation and rejects a target that changed during the prompt',()=>{
  s.target=entity(2);expect(targetSnapshot().interaction).toBe('交易');interactSelected();expect(s.trade).not.toHaveBeenCalled();const confirm=s.prompt.mock.calls[0][3];s.target=null;confirm();expect(s.trade).not.toHaveBeenCalled();s.target=entity(2);interactSelected();s.prompt.mock.calls[1][3]();expect(s.trade).toHaveBeenCalledExactlyOnceWith(42,'目标');
+});
+
+it('picks up a ground item on the initial tap using the item position without an extra button', () => {
+ s.over = entity(s.types.TYPE_ITEM); tapScene(100, 200);
+ expect(s.over.onMouseDown).toHaveBeenCalledOnce();
+ expect(s.mouse.world).toEqual({ x: 2, y: 3 });
+ expect(targetSnapshot().interaction).toBe('');
+});
+
+
+it.each([3, 5])('talks to NPC type %i on the first tap without an extra interaction button', type => {
+ s.over = entity(type); tapScene(100, 200);
+ expect(s.over.onMouseDown).toHaveBeenCalledOnce();
+ expect(targetSnapshot().interaction).toBe('');
+ expect(s.walk).not.toHaveBeenCalled();
 });

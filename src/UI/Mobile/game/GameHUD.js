@@ -277,7 +277,16 @@ HUD.onAppend = function () {
 				} else view.notice('请点击一只存活的魔物');
 			} else {
 				autoCombat.stop('手动操作，自动战斗已停止');
-				if (!shortcuts.pick(x, y)) Commands.tapScene(x, y);
+				const hit = Commands.pickSceneEntity(x, y);
+				if (
+					hit &&
+					[hit.constructor.TYPE_ITEM, hit.constructor.TYPE_NPC, hit.constructor.TYPE_NPC2].includes(
+						hit.objecttype
+					)
+				) {
+					shortcuts.cancel();
+					Commands.tapScene(x, y);
+				} else if (!shortcuts.pick(x, y)) Commands.tapScene(x, y);
 			}
 			snapshot();
 		}

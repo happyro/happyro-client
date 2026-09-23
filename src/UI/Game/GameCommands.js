@@ -77,6 +77,12 @@ export function tapScene(x, y) {
 		EntityManager.setFocusEntity(target);
 		EntityManager.setOverEntity(target);
 		target.onFocus({ attack: false });
+		if (
+			[target.constructor.TYPE_ITEM, target.constructor.TYPE_NPC, target.constructor.TYPE_NPC2].includes(
+				target.objecttype
+			)
+		)
+			interactSelected();
 		return;
 	}
 	if (ground) {
@@ -120,13 +126,9 @@ export function targetSnapshot() {
 				? '查看摊位'
 				: target.objecttype === T.TYPE_PC && target !== Session.Entity
 					? '交易'
-					: target.objecttype === T.TYPE_ITEM
-						? '拾取'
-						: target.objecttype === T.TYPE_WARP
-							? '进入'
-							: [T.TYPE_NPC, T.TYPE_NPC2].includes(target.objecttype)
-								? '交谈'
-								: ''
+					: target.objecttype === T.TYPE_WARP
+						? '进入'
+						: ''
 	};
 }
 
