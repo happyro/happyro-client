@@ -5,6 +5,7 @@ import DB from 'DB/DBManager.js';
 import Session from 'Engine/SessionStorage.js';
 import EntityManager from 'Renderer/EntityManager.js';
 import Camera from 'Renderer/Camera.js';
+import { DEFAULT_CAMERA_ZOOM } from 'Preferences/Camera.js';
 import Altitude from 'Renderer/Map/Altitude.js';
 import Mouse from 'Controls/MouseEventHandler.js';
 import MapControl, { checkFreeCell } from 'Controls/MapControl.js';
@@ -134,11 +135,11 @@ export function targetSnapshot() {
 
 export function adjustCamera(action) {
 	const indoor = DB.isIndoor(Camera.currentMap);
-	if (action === 'zoomIn' || action === 'zoomOut') Camera.setZoom(action === 'zoomIn' ? 1 : -1);
+	if (action === 'zoomIn' || action === 'zoomOut') Camera.setZoom(action === 'zoomIn' ? -1 : 1);
 	else if (action === 'reset') {
 		Camera.angleFinal[0] = indoor ? Camera.indoorRange : Camera.range;
 		Camera.angleFinal[1] = indoor ? Camera.indoorRotationTo : 0;
-		Camera.zoomFinal = 125;
+		Camera.zoomFinal = DEFAULT_CAMERA_ZOOM;
 	} else {
 		const tilt = action === 'up' || action === 'down';
 		const index = tilt ? 0 : 1;
