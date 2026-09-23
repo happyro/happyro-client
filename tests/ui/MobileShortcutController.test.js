@@ -43,13 +43,16 @@ beforeEach(() => {
 	controller = createShortcutController(data);
 });
 it('pages through shared bindings and validates replacement, level and clearing', () => {
-	expect(controller.snapshot().pages).toBe(12);
+	expect(controller.snapshot().pages).toBe(8);
+	expect(controller.snapshot().slots).toHaveLength(5);
 	controller.turn(-1);
-	expect(controller.snapshot().slots[0].index).toBe(33);
-	expect(controller.configure(33, { isSkill: true, ID: 1 }, 6)).toBe(false);
-	expect(controller.configure(33, { isSkill: true, ID: 1 }, 2)).toBe(true);
-	expect(bindings[33]).toEqual({ isSkill: true, ID: 1, count: 2 });
-	expect(controller.configure(33, null)).toBe(true);
+	expect(controller.snapshot().slots[0].index).toBe(35);
+	expect(controller.snapshot().slots[1].unavailable).toBe(true);
+	expect(controller.use(36)).toEqual({});
+	expect(controller.configure(35, { isSkill: true, ID: 1 }, 6)).toBe(false);
+	expect(controller.configure(35, { isSkill: true, ID: 1 }, 2)).toBe(true);
+	expect(bindings[35]).toEqual({ isSkill: true, ID: 1, count: 2 });
+	expect(controller.configure(35, null)).toBe(true);
 	expect(controller.snapshot().slots[0].empty).toBe(true);
 	expect(controller.configure(36, null)).toBe(false);
 	expect(controller.configure(1, { isSkill: false, ID: 999 })).toBe(false);
@@ -66,19 +69,22 @@ it('executes a self skill once with the configured level, and blocks cooldown/de
 	controller.use(0);
 	expect(data.castId).toHaveBeenCalledTimes(1);
 });
-it('uses current valid target or waits without sending to an invalid target', () => {
+it('always waits for a new target tap and cancels on a repeated skill tap', () => {
 	controller.configure(0, { isSkill: true, ID: 2 }, 3);
 	target = { GID: 22, kind: 16 };
 	controller.use(0);
 	expect(data.castId).not.toHaveBeenCalled();
 	expect(controller.snapshot().pending).not.toBeNull();
-	hit = { target: { GID: 33, kind: 1 } };
+	hit = { target: { GID: 35, kind: 1 } };
 	expect(controller.pick(10, 20)).toBe(true);
-	expect(data.castId).toHaveBeenCalledExactlyOnceWith(2, 3, 33);
+	expect(data.castId).toHaveBeenCalledExactlyOnceWith(2, 3, 35);
 	expect(controller.snapshot().pending).toBeNull();
 	target = { GID: 22, kind: 1 };
 	controller.use(0);
-	expect(data.castId).toHaveBeenLastCalledWith(2, 3, 22);
+	expect(data.castId).toHaveBeenCalledTimes(1);
+	expect(controller.snapshot().pending).not.toBeNull();
+	controller.use(0);
+	expect(controller.snapshot().pending).toBeNull();
 });
 it('ground targeting consumes invalid taps, uses clicked coordinates and cancels cleanly', () => {
 	controller.configure(0, { isSkill: true, ID: 3 }, 1);

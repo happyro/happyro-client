@@ -56,6 +56,11 @@ export function moveDirection(x, y) {
 	packet.dest[1] = dest[1];
 	Network.sendPacket(packet);
 }
+export function pickSceneEntity(x, y) {
+	Mouse.screen.x = x;
+	Mouse.screen.y = y;
+	return EntityManager.intersect();
+}
 export function tapScene(x, y) {
 	Mouse.screen.x = x;
 	Mouse.screen.y = y;

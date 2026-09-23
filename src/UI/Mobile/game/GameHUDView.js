@@ -1,3 +1,4 @@
+import { createAutoCombatPanel } from './AutoCombatPanel.js';
 import { createNavigationPanel } from './NavigationPanel.js';
 import { createCompanionsPanel } from './CompanionsPanel.js';
 import { createPetPanel } from './PetPanel.js';
@@ -88,8 +89,10 @@ export function createGameHUDView(root, actions) {
 		});
 	}
 	listen(root, 'pointerdown', event => {
-		if (!event.target.closest('.joystick, .combat, .skill-prompt')) actions.cancelSceneInput();
+		if (!event.target.closest('.joystick, .combat, .battle-dock')) actions.cancelSceneInput();
 	});
+	listen($('[data-auto-toggle]'), 'click', () => actions.toggleAutoCombat());
+	listen($('[data-cancel-species]'), 'click', () => actions.cancelSpecies());
 	listen($('[data-interact]'), 'click', () => actions.interact());
 	for (const button of root.querySelectorAll('[data-shortcut-page]'))
 		listen(button, 'click', () => actions.shortcutPage(Number(button.dataset.shortcutPage)));
@@ -200,6 +203,7 @@ export function createGameHUDView(root, actions) {
 		text(
 			'h2',
 			{
+				autoCombat: '自动战斗设置',
 				settings: '设置',
 				profile: '人物信息',
 				status: '状态效果',
@@ -294,6 +298,7 @@ export function createGameHUDView(root, actions) {
 			}
 			body.append(list);
 		}
+		if (panel === 'autoCombat') createAutoCombatPanel(body, { ...actions.autoCombat, close });
 		if (panel === 'settings') createSettingsPanel(body, actions.settings);
 		if (panel === 'npc') createNPCPanel(body, serverState);
 		if (panel === 'profile' || panel === 'status') renderDetails();
@@ -537,10 +542,17 @@ export function createGameHUDView(root, actions) {
 		update(next) {
 			snapshot = next;
 			text('[data-panel=menu]', next.unreadMail ? '菜单 · 新邮件' : '菜单');
-			if (performance.now() >= noticeUntil) text('[data-target]', next.target?.name || '点击目标进行选择');
+			if (performance.now() >= noticeUntil)
+				text(
+					'[data-target]',
+					next.pickingSpecies ? '点击场景中的魔物，选择同类目标' : next.autoCombat?.status || '自动战斗已停止'
+				);
+			text('[data-auto-target]', `目标：${next.autoCombat?.species?.name || '全部魔物'} ▾`);
+			text('[data-auto-toggle]', next.autoCombat?.active ? '停止战斗' : '自动战斗');
+			$('[data-auto-toggle]').setAttribute('aria-pressed', String(Boolean(next.autoCombat?.active)));
+			$('[data-cancel-species]').hidden = !next.pickingSpecies;
 			$('[data-interact]').hidden = !next.target?.interaction;
 			text('[data-interact]', next.target?.interaction);
-			$('.attack').setAttribute('aria-disabled', String(!next.target?.attack));
 			text('[data-name]', next.name);
 			text('[data-job]', `Lv.${next.level} ${next.job}`);
 			for (const type of ['hp', 'sp']) {
@@ -637,6 +649,8 @@ export function createGameHUDView(root, actions) {
 			for (const button of root.querySelectorAll('[data-shortcut]')) {
 				const slot = state.slots[Number(button.dataset.shortcut)];
 				button.hidden = !slot;
+				button.disabled = Boolean(slot?.unavailable);
+				button.classList.toggle('selected-skill', Boolean(slot && state.pending?.index === slot.index));
 				if (!slot) continue;
 				button.setAttribute(
 					'aria-label',
@@ -669,6 +683,7 @@ export function createGameHUDView(root, actions) {
 					}
 				}
 			}
+			$('.battle-status').hidden = Boolean(state.pending);
 			$('.skill-prompt').hidden = !state.pending;
 			text(
 				'[data-skill-prompt]',

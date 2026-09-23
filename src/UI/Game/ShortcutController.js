@@ -1,13 +1,17 @@
 import { canExecuteSkill, executeSkillUse, SKILL_INF } from 'UI/Components/SkillList/SkillUse.js';
 
+export const SHORTCUT_PAGE_SIZE = 5;
+
 /** UI-independent shortcut flow. Reads current server-backed state again before every use. */
 export function createShortcutController(data) {
 	let page = 0,
 		pending = null,
 		message = '';
 	const count = () => Math.min(36, data.bindings().length);
-	const pages = () => Math.max(1, Math.ceil(count() / 3));
+	const pages = () => Math.max(1, Math.ceil(count() / SHORTCUT_PAGE_SIZE));
 	function describe(index) {
+		if (index >= count())
+			return { index, empty: true, name: '无槽位', available: false, reason: '无槽位', unavailable: true };
 		const binding = data.bindings()[index];
 		if (!binding?.ID) return { index, empty: true, name: '空槽位', available: true };
 		const entry = data.describe(binding);
@@ -51,8 +55,13 @@ export function createShortcutController(data) {
 	}
 	function use(index) {
 		message = '';
+		if (pending?.index === index) {
+			cancel();
+			return {};
+		}
 		cancel();
 		const entry = describe(index);
+		if (entry.unavailable) return {};
 		if (entry.empty) return { configure: index };
 		if (!entry.available) return { message: entry.reason };
 		const binding = entry.binding;
@@ -66,7 +75,6 @@ export function createShortcutController(data) {
 			onSelectTarget: (_, inf) => {
 				pending = { index, binding, inf, name: entry.name, caster: data.self(binding.ID) };
 				data.supportPicking(Boolean(inf & SKILL_INF.FRIEND));
-				if (!(inf & SKILL_INF.PLACE)) castTarget(data.target());
 			}
 		});
 		return { message };
@@ -81,11 +89,11 @@ export function createShortcutController(data) {
 			return {
 				page,
 				pages: pages(),
-				slots: Array.from({ length: Math.min(3, Math.max(0, count() - page * 3)) }, (_, i) =>
-					describe(page * 3 + i)
-				),
+				total: count(),
+				slots: Array.from({ length: SHORTCUT_PAGE_SIZE }, (_, i) => describe(page * SHORTCUT_PAGE_SIZE + i)),
 				pending: pending
 					? {
+							index: pending.index,
 							name: pending.name,
 							ground: Boolean(pending.inf & SKILL_INF.PLACE),
 							self: Boolean(pending.inf & SKILL_INF.FRIEND)

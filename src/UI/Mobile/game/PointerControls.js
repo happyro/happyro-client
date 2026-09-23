@@ -2,14 +2,12 @@
 export function bindPointerControls(root, scene, actions) {
 	const abort = new AbortController();
 	const joystick = root.querySelector('.joystick');
-	const attack = root.querySelector('.attack');
 	const skills = [...root.querySelectorAll('[data-shortcut]')];
 	const knob = joystick.querySelector('span');
 	const owners = new Map();
 	let vector = [0, 0],
 		timer,
-		sceneStart,
-		attackTicks = 0;
+		sceneStart;
 	const listen = (node, type, fn) => node.addEventListener(type, fn, { signal: abort.signal });
 	const moving = () => vector[0] !== 0 || vector[1] !== 0;
 	function tick() {
@@ -18,7 +16,6 @@ export function bindPointerControls(root, scene, actions) {
 			return;
 		}
 		if (moving()) actions.move(...vector);
-		if (owners.has(attack) && moving() && ++attackTicks % 3 === 0) actions.attack(true);
 	}
 	function update(event) {
 		const rect = joystick.getBoundingClientRect(),
@@ -48,16 +45,15 @@ export function bindPointerControls(root, scene, actions) {
 			vector = [0, 0];
 			knob.style.transform = '';
 			actions.stopMove();
-		} else if (node === attack) actions.stopAttack();
+		}
 	}
 	function cancel() {
 		release(joystick);
-		release(attack);
 		for (const skill of skills) release(skill);
 		if (sceneStart && scene.hasPointerCapture(sceneStart.id)) scene.releasePointerCapture(sceneStart.id);
 		sceneStart = null;
 	}
-	for (const node of [joystick, attack, ...skills]) {
+	for (const node of [joystick, ...skills]) {
 		listen(node, 'pointerdown', event => {
 			event.preventDefault();
 			if (!actions.enabled() || owners.has(node) || event.button !== 0) return;
@@ -69,10 +65,6 @@ export function bindPointerControls(root, scene, actions) {
 				actions.stopMove();
 				update(event);
 				tick();
-				if (owners.has(attack)) actions.attack(moving());
-			} else if (node === attack) {
-				attackTicks = 0;
-				actions.attack(moving());
 			}
 			if (!timer) timer = setInterval(tick, 200);
 		});
@@ -128,7 +120,6 @@ export function bindPointerControls(root, scene, actions) {
 		});
 	return {
 		cancel,
-		releaseAttack: () => release(attack),
 		isMoving: moving,
 		destroy() {
 			cancel();

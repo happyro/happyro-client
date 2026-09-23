@@ -55,9 +55,9 @@ export function createSkillsPanel(body, actions) {
 			const slot = document.createElement('select');
 			slot.setAttribute('aria-label', '技能快捷槽');
 			const page = actions.shortcuts();
-			for (let i = 0; i < page.pages * 3; i++)
+			for (let i = 0; i < page.total; i++)
 				slot.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
-			slot.value = String(page.page * 3);
+			slot.value = String(page.slots[0].index);
 			detail.append(
 				level,
 				slot,

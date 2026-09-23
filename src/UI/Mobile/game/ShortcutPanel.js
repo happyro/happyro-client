@@ -16,7 +16,7 @@ export function createShortcutPanel(body, actions) {
 			button.setAttribute('aria-pressed', String(Number(button.dataset.index) === index));
 		$('[data-config-status]').textContent = `正在配置槽位 ${index + 1}`;
 	}
-	for (const slot of actions.snapshot().slots) {
+	for (const slot of actions.snapshot().slots.filter(entry => !entry.unavailable)) {
 		const button = document.createElement('button');
 		button.type = 'button';
 		button.dataset.index = slot.index;

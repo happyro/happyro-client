@@ -112,8 +112,8 @@ export function createInventoryPanel(body, actions) {
 		const select = document.createElement('select');
 		select.setAttribute('aria-label', '目标快捷槽');
 		const page = actions.shortcuts();
-		for (let i = 0; i < page.pages * 3; i++) select.add(new Option(`槽位 ${i + 1}`, String(i)));
-		select.value = String(page.page * 3);
+		for (let i = 0; i < page.total; i++) select.add(new Option(`槽位 ${i + 1}`, String(i)));
+		select.value = String(page.slots[0].index);
 		const preview = document.createElement('p');
 		function describeSlot() {
 			preview.textContent = `当前内容：${actions.slotName(Number(select.value))}`;

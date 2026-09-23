@@ -7,7 +7,7 @@ const click = (body, label) => [...body.querySelectorAll('button')].find(node =>
 it('keeps a chosen casting level through async icons and requires confirmation before learning', () => {
  const body = document.createElement('div');
  const skill = { id: 1, name: '技能', kind: '主动', level: 3, max: 10, active: true, learnable: true, requirements: [], description: '说明' };
- const actions = { snapshot: () => ({ points: 2, skills: [skill] }), learn: vi.fn(), bind: vi.fn(() => true), shortcuts: () => ({ pages: 12, page: 0 }), slotName: () => '空' };
+ const actions = { snapshot: () => ({ points: 2, skills: [skill] }), learn: vi.fn(), bind: vi.fn(() => true), shortcuts: () => ({ pages: 8, page: 0, total: 36, slots: [{ index: 0 }] }), slotName: () => '空' };
  const panel = createSkillsPanel(body, actions); body.querySelector('[data-skill]').click();
  const level = body.querySelector('[aria-label="施放等级"]'); level.value = '1'; skill.icon = 'icon.bmp'; panel.update(); expect(body.querySelector('[aria-label="施放等级"]')).toBe(level); expect(level.value).toBe('1');
  click(body,'确认设置快捷槽'); expect(actions.bind).toHaveBeenCalledExactlyOnceWith(1,1,0);

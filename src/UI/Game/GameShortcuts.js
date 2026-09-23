@@ -3,7 +3,7 @@ import ShortCut from 'UI/Components/ShortCut/ShortCut.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
 import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import SkillTargetSelection from 'UI/Components/SkillTargetSelection/SkillTargetSelection.js';
-import { canExecuteSkill } from 'UI/Components/SkillList/SkillUse.js';
+import { canExecuteSkill, SKILL_INF } from 'UI/Components/SkillList/SkillUse.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import SkillId from 'DB/Skills/SkillConst.js';
 import SkillListMH from 'UI/Components/SkillListMH/SkillListMH.js';
@@ -86,13 +86,14 @@ export function createGameShortcuts(moving = () => false) {
 				Session.Entity &&
 				Session.Entity.action !== Session.Entity.ACTION.DIE
 			),
-		target: () => EntityManager.getFocusEntity(),
 		self: id => caster(id),
 		supportPicking: value => EntityManager.setSupportPicking(value),
 		canTarget: (target, flag, id) =>
 			Boolean(
 				target &&
 				EntityManager.get(target.GID) === target &&
+				(!(flag & SKILL_INF.ENEMY) || target.action !== target.ACTION.DIE) &&
+				target.remove_tick <= 0 &&
 				canTargetSkill(target, flag, { self: caster(id), canAttack: SkillTargetSelection.checkMapState })
 			),
 		castId: (id, level, target) => SkillTargetSelection.onUseSkillToId(id, level, target, { allowMove: !moving() }),
