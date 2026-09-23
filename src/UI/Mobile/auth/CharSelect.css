@@ -46,18 +46,22 @@
 }
 
 .cancel {
-	background: none;
-	border: none;
-	color: var(--m-text-muted);
+	background: var(--m-surface);
+	border: 1px solid var(--m-border);
+	color: var(--m-text);
 	font: 15px/1 system-ui, sans-serif;
-	padding: 8px 4px;
+	padding: 8px 16px;
+	min-width: 72px;
 	min-height: 44px;
 	cursor: pointer;
 	touch-action: manipulation;
 	border-radius: var(--m-r-sm);
 	transition: color 150ms;
 }
-.cancel:hover { color: var(--m-text); }
+@media (hover: hover) and (pointer: fine) {
+	.cancel:hover { background: var(--m-surface-raised); }
+}
+.cancel:active { background: var(--m-surface-active); }
 .cancel:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }
 
 /* ── Two-column layout ── */
@@ -105,7 +109,7 @@
 .char_canvas canvas {
 	display: block;
 	width: 100%;
-	max-width: 110px;
+	max-width: 130px;
 	height: auto;
 	margin: -10px auto 0;
 	pointer-events: none;
@@ -249,6 +253,6 @@
 @media (max-width: 600px) and (min-height: 480px) {
 	.layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, 1fr) minmax(200px, 1fr); }
 	.char_list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: max-content; }
-	.char_canvas canvas { max-width: 80px; }
+	.char_canvas canvas { max-width: 110px; }
 	.charinfo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
 }
