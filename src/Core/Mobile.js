@@ -45,6 +45,16 @@ class Mobile {
 	 * Initialize
 	 */
 	static init() {}
+
+	static cancelInteraction() {
+		if (_timer > -1) Events.clearTimeout(_timer);
+		_timer = -1;
+		if (_processGesture) KEYS.SHIFT = false;
+		_processGesture = false;
+		_intersect = false;
+		Camera.rotate(false);
+		Mouse.intersect = false;
+	}
 }
 
 /**

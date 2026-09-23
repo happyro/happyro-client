@@ -7,6 +7,7 @@
  *
 + */
 
+import Platform from 'UI/Platform.js';
 import Context from 'Core/Context.js';
 import UIManager from 'UI/UIManager.js';
 import GUIComponent from 'UI/GUIComponent.js';
@@ -962,6 +963,10 @@ function isFreeCell(x, y) {
  * Apply preferences once append to body
  */
 MobileUI.onAppend = function onAppend() {
+	if (Platform.isMobile) {
+		this._host.style.display = 'none';
+		return;
+	}
 	if (Session.isTouchDevice) {
 		this._host.style.display = 'block';
 	} else {
@@ -981,6 +986,7 @@ MobileUI.onAppend = function onAppend() {
  * @param {object} key
  */
 MobileUI.onShortCut = function onShortCut(key) {
+	if (Platform.isMobile) return;
 	switch (key.cmd) {
 		case 'SHOW':
 			Session.isTouchDevice = true;
@@ -1021,6 +1027,7 @@ MobileUI.onRemove = function onRemove() {
  * Shows MobileUI
  */
 MobileUI.show = function show() {
+	if (Platform.isMobile) return;
 	this._host.style.display = 'block';
 };
 

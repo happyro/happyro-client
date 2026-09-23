@@ -1,0 +1,55 @@
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+const state = vi.hoisted(() => ({
+	Session: { FreezeUI: false, Entity: { display: { name: '角色' }, job: 0, clevel: 1, joblevel: 1, money: 0, life: { hp: 10, hp_max: 10, sp: 2, sp_max: 3 }, position: [1, 2] } },
+	cancel: vi.fn(), stopWalk: vi.fn(), feed: new Set(), orientation: new Set(), connection: new Set(), actions: null,
+	view: { update: vi.fn(), setMap: vi.fn(), setMessages: vi.fn(), close: vi.fn(), destroy: vi.fn() }
+}));
+vi.mock('UI/GUIComponent.js', () => ({ default: class {
+	static MouseMode = { CROSS: 0 };
+	constructor(name) { this.name = name; this._host = document.createElement('div'); this.root = this._host.attachShadow({ mode: 'open' }); }
+	getRoot() { return this.root; }
+	remove() { this.onRemove(); }
+} }));
+vi.mock('UI/UIManager.js', () => ({ default: { addComponent: component => component } }));
+vi.mock('Engine/SessionStorage.js', () => ({ default: state.Session }));
+vi.mock('UI/Platform.js', () => ({ default: { onOrientationChange: fn => { state.orientation.add(fn); return () => state.orientation.delete(fn); } } }));
+vi.mock('Core/Mobile.js', () => ({ default: { cancelInteraction: state.cancel } }));
+vi.mock('Controls/MouseEventHandler.js', () => ({ default: { intersect: true } }));
+vi.mock('Controls/MapControl.js', () => ({ default: { onRequestStopWalk: state.stopWalk } }));
+vi.mock('Renderer/Map/Altitude.js', () => ({ default: { width: 0, height: 0 } }));
+vi.mock('Renderer/MapRenderer.js', () => ({ default: { currentMap: 'test.gat' } }));
+vi.mock('DB/DBManager.js', () => ({ default: { getMapName: () => '地图' } }));
+vi.mock('DB/Jobs/JobDisplayNameTable.js', () => ({ getJobDisplayName: () => '初心者' }));
+vi.mock('UI/Components/StatusIcons/StatusIcons.js', () => ({ default: { getSnapshot: () => [] } }));
+vi.mock('UI/Game/ChatFeed.js', () => ({ subscribeChatFeed: fn => { state.feed.add(fn); return () => state.feed.delete(fn); } }));
+vi.mock('Network/ConnectionLifecycle.js', () => ({ onConnectionEnd: fn => { state.connection.add(fn); return () => state.connection.delete(fn); } }));
+vi.mock('../../src/UI/Mobile/game/GameHUDView.js', () => ({ createGameHUDView: (root, actions) => { state.actions = actions; return state.view; } }));
+import HUD from '../../src/UI/Mobile/game/GameHUD.js';
+beforeEach(() => {
+	vi.useFakeTimers(); vi.clearAllMocks(); state.Session.FreezeUI = false;
+	vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ fillRect() {} });
+	state.view.close.mockImplementation(() => state.actions.setModal(false));
+	state.view.destroy.mockImplementation(() => state.actions.setModal(false));
+});
+afterEach(() => { HUD.onRemove(); vi.useRealTimers(); vi.restoreAllMocks(); });
+it('replaces subscriptions and timers on repeat mounting and releases all on map removal', () => {
+	HUD.onAppend(); HUD.onAppend();
+	expect(vi.getTimerCount()).toBe(1);
+	for (const listeners of [state.feed, state.orientation, state.connection]) expect(listeners.size).toBe(1);
+	state.actions.setModal(true); expect(state.Session.FreezeUI).toBe(true);
+	HUD.onRemove();
+	expect(state.Session.FreezeUI).toBe(false); expect(vi.getTimerCount()).toBe(0);
+	for (const listeners of [state.feed, state.orientation, state.connection]) expect(listeners.size).toBe(0);
+	const calls = state.view.update.mock.calls.length; vi.advanceTimersByTime(1000);
+	expect(state.view.update).toHaveBeenCalledTimes(calls);
+});
+it('cancels scene input on blur, orientation changes, and disconnect', () => {
+	HUD.onAppend(); state.actions.setModal(true);
+	window.dispatchEvent(new Event('blur'));
+	expect(state.Session.FreezeUI).toBe(false); expect(state.stopWalk).toHaveBeenCalled();
+	const count = state.cancel.mock.calls.length;
+	for (const fn of state.orientation) fn('portrait');
+	expect(state.cancel.mock.calls.length).toBeGreaterThan(count);
+	for (const fn of [...state.connection]) fn();
+	expect(vi.getTimerCount()).toBe(0); expect(state.feed.size).toBe(0);
+});

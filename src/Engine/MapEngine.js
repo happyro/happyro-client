@@ -9,6 +9,8 @@
  * @author Vincent Thibault
  */
 
+import Platform from 'UI/Platform.js';
+import { appendGameComponent, appendGameHUD } from 'UI/Game/GamePresentation.js';
 import RotationGuard from 'UI/RotationGuard.js';
 import DB from 'DB/DBManager.js';
 import Configs from 'Core/Configs.js';
@@ -746,58 +748,63 @@ function onMapChange(pkt) {
 		Camera.init();
 
 		// Add Game UI
-		MiniMap.getUI().append();
+		appendGameComponent(MiniMap.getUI());
 		MiniMap.getUI().setMap(MapRenderer.currentMap);
 		if (Configs.get('enableMapName')) {
 			MapName.setMap(MapRenderer.currentMap);
-			MapName.append();
+			appendGameComponent(MapName);
 		}
-		ChatBox.append();
-		ChatBoxSettings.append();
-		BasicInfo.getUI().append();
-		Escape.append();
-		Inventory.getUI().append();
-		CartItems.append();
-		Vending.append();
-		ChangeCart.append();
-		CartDecoration.append();
-		Equipment.getUI().append();
-		ShortCuts.append();
-		StatusIcons.append();
-		ShortCut.append();
-		ChatRoomCreate.append();
-		Emoticons.append();
-		SkillList.getUI().append();
-		FPS.append();
-		PartyFriends.getUI().append();
-		Guild.append();
-		WorldMap.append();
-		SkillListMH.homunculus.append();
-		SkillListMH.mercenary.append();
-		MobileUI.append();
-		JoystickUI.append();
-		Navigation.append();
-		GameTools.restoreAfterMapLoad();
-		Roulette.append();
+		appendGameComponent(ChatBox);
+		appendGameComponent(ChatBoxSettings);
+		appendGameComponent(BasicInfo.getUI());
+		appendGameComponent(Escape);
+		appendGameComponent(Inventory.getUI());
+		appendGameComponent(CartItems);
+		appendGameComponent(Vending);
+		appendGameComponent(ChangeCart);
+		appendGameComponent(CartDecoration);
+		appendGameComponent(Equipment.getUI());
+		appendGameComponent(ShortCuts);
+		appendGameComponent(StatusIcons);
+		appendGameComponent(ShortCut);
+		appendGameComponent(ChatRoomCreate);
+		appendGameComponent(Emoticons);
+		appendGameComponent(SkillList.getUI());
+		appendGameComponent(FPS);
+		appendGameComponent(PartyFriends.getUI());
+		appendGameComponent(Guild);
+		appendGameComponent(WorldMap);
+		appendGameComponent(SkillListMH.homunculus);
+		appendGameComponent(SkillListMH.mercenary);
+		appendGameComponent(MobileUI);
+		appendGameComponent(JoystickUI);
+		appendGameComponent(Navigation);
+		if (!Platform.isMobile) GameTools.restoreAfterMapLoad();
+		appendGameComponent(Roulette);
 		if (Configs.get('enableAchievements') && PACKETVER.value >= 20150513) {
-			Achievement.append();
+			appendGameComponent(Achievement);
 		}
 
 		if (Session.PCGoldTimer) {
-			PCGoldTimer.append();
+			appendGameComponent(PCGoldTimer);
 		}
 
-		WinStats.getUI().append();
+		appendGameComponent(WinStats.getUI());
 
-		Quest.getUI().append();
+		appendGameComponent(Quest.getUI());
 
 		if (Configs.get('enableCashShop')) {
-			CashShopIcon.append();
+			appendGameComponent(CashShopIcon);
 		}
 
 		if (Configs.get('enableCheckAttendance') && PACKETVER.value >= 20180307) {
-			CheckAttendance.append();
+			appendGameComponent(CheckAttendance);
 		}
+
+		appendGameHUD({
+			sendChat: text => onRequestTalk('', text, ChatBox.TYPE.PUBLIC),
+			returnToCharacters: () => UIManager.showPromptBox('确定返回选角？', '确定', '取消', onRestartRequest)
+		});
 
 		// Reload plugins
 		PluginManager.init();

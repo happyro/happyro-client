@@ -1,0 +1,36 @@
+<div class="hud">
+	<button class="profile surface" data-panel="profile" aria-label="人物信息">
+		<strong data-name></strong><span data-job></span>
+		<label>HP <meter data-hp min="0" max="1"></meter><span data-hp-text></span></label>
+		<label>SP <meter data-sp min="0" max="1"></meter><span data-sp-text></span></label>
+	</button>
+	<button class="statuses surface" data-panel="status">
+		<span data-status-icons></span>状态 <span data-status-count>0</span>
+	</button>
+	<div class="top-right">
+		<button class="map surface" data-panel="map" aria-label="展开地图">
+			<canvas width="128" height="128" data-mini-map></canvas><span data-map-name></span
+			><small data-coordinates></small>
+		</button>
+		<button class="surface menu-button" data-panel="menu">菜单</button>
+	</div>
+	<div class="joystick reserved" role="img" aria-label="移动摇杆预留区"><span></span><small>移动</small></div>
+	<button class="chat-preview surface" data-panel="chat" aria-label="打开聊天">
+		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>
+	</button>
+	<div class="combat reserved" aria-label="战斗按钮预留区">
+		<button class="skill skill-one" disabled aria-label="技能槽位 1">＋</button
+		><button class="skill skill-two" disabled aria-label="技能槽位 2">＋</button
+		><button class="skill skill-three" disabled aria-label="技能槽位 3">＋</button>
+		<button class="attack" disabled>攻击</button>
+	</div>
+	<div class="backdrop" hidden>
+		<section class="panel surface" role="dialog" aria-modal="true" aria-labelledby="mobile-game-panel-title">
+			<header>
+				<h2 id="mobile-game-panel-title" tabindex="-1"></h2>
+				<button data-close aria-label="关闭面板">关闭</button>
+			</header>
+			<div class="panel-body"></div>
+		</section>
+	</div>
+</div>

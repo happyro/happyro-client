@@ -98,6 +98,20 @@ StatusIcons.clean = function clean() {
  * @param {number} enable/disable
  * @param {number} life time
  */
+StatusIcons.getSnapshot = function () {
+	return Object.entries(_status)
+		.filter(([, status]) => status.end > Renderer.tick)
+		.map(([id, status]) => {
+			const seconds = Number.isFinite(status.end)
+				? Math.max(0, Math.ceil((status.end - Renderer.tick) / 1000))
+				: null;
+			const description = (StatusTable[id].descript || [])
+				.map(line => toPlainRagnarokText(line[0]).replace('%s', seconds === null ? '持续' : `${seconds}秒`))
+				.join(' ');
+			return { id, description, icon: status.img?.src };
+		});
+};
+
 StatusIcons.update = function update(index, state, life) {
 	// Not in DB, no icons...
 	if (!(index in StatusTable) || !StatusTable[index].icon) {
