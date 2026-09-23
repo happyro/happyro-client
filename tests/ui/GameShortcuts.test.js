@@ -5,10 +5,10 @@ const s = vi.hoisted(() => ({
 	bindings: [{ isSkill: true, ID: 1, count: 3 }],
 	items: [],
 	selection: { onUseSkillToId: vi.fn(), onUseSkillToPos: vi.fn(), checkMapState: () => false },
-	useItem: vi.fn()
+	useItem: vi.fn(), configure: vi.fn(() => true)
 }));
 vi.mock('UI/Components/ShortCut/ShortCut.js', () => ({
-	default: { getList: () => s.bindings, getSkillById: () => s.skill, configure: vi.fn() }
+	default: { getList: () => s.bindings, getSkillById: () => s.skill, configure: s.configure }
 }));
 vi.mock('UI/Components/Inventory/Inventory.js', () => ({
 	default: {
@@ -69,4 +69,16 @@ it('updates item count and identity from live data and passes joystick ownership
 	s.items[0].count = 0;
 	service.use(0);
 	expect(s.useItem).toHaveBeenCalledTimes(1);
+});
+
+it('configures and uses non-stackable equipment even when packet data omits quantity', () => {
+ const service = createGameShortcuts();
+ s.items = [{ ITID: 1201, index: 7, type: 5, IsIdentified: true }];
+ s.bindings = [{ isSkill: false, ID: 1201, count: 0 }];
+ expect(service.candidates().some(item => item.ID === 1201)).toBe(true);
+ expect(service.configure(0, { isSkill: false, ID: 1201 })).toBe(true);
+ expect(s.configure).toHaveBeenCalledWith(0, false, 1201, 0);
+ expect(service.snapshot().slots[0].amount).toBe(1);
+ expect(service.snapshot().slots[0].available).toBe(true);
+ service.use(0); expect(s.useItem).toHaveBeenCalledExactlyOnceWith(s.items[0]);
 });

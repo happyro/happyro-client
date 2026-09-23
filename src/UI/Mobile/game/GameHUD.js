@@ -1,4 +1,5 @@
 import { clearAttackIntent } from 'Controls/AttackIntent.js';
+import { createGameInventory } from 'UI/Game/GameInventory.js';
 import { createGameShortcuts } from 'UI/Game/GameShortcuts.js';
 import Renderer from 'Renderer/Renderer.js';
 import * as Commands from 'UI/Game/GameCommands.js';
@@ -27,6 +28,7 @@ HUD.nativeScrolling = true;
 let view;
 let controls;
 let shortcuts;
+let inventory;
 let timer;
 let unsubscribe;
 let unsubscribeOrientation;
@@ -111,6 +113,7 @@ HUD.onAppend = function () {
 	HUD.onRemove();
 	abort = new AbortController();
 	shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
+	inventory = createGameInventory(() => modal && !previousFreeze);
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
 		setModal,
@@ -120,6 +123,11 @@ HUD.onAppend = function () {
 			shortcuts.turn(delta);
 			snapshot();
 		},
+		inventorySnapshot: () => inventory.snapshot(),
+		inventoryAct: (...args) => inventory.act(...args),
+		bindInventory: (index, id, slot) =>
+			inventory.canBind(index, id) && shortcuts.configure(slot, { isSkill: false, ID: id }),
+		shortcutName: index => shortcuts.slotName(index),
 		shortcutSnapshot: () => shortcuts.snapshot(),
 		shortcutCandidates: () => shortcuts.candidates(),
 		configureShortcut: (...args) => shortcuts.configure(...args),
@@ -201,6 +209,7 @@ HUD.onRemove = function () {
 	controls = null;
 	shortcuts?.cancel();
 	shortcuts = null;
+	inventory = null;
 	clearAttackIntent();
 	clearInterval(timer);
 	timer = null;

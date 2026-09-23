@@ -6,7 +6,7 @@ let host, root, view, actions;
 const state = { name: '测试角色', job: '初心者', level: 10, jobLevel: 5, money: 123, hp: 80, maxHp: 100, sp: 20, maxSp: 40, position: [12, 34], mapName: '普隆德拉', statuses: [{ id: 1, description: '加速术 10秒', icon: 'data:image/png;base64,AA==' }] };
 beforeEach(() => {
 	host = document.createElement('div'); document.body.append(host); root = host.attachShadow({ mode: 'open' });
-	actions = { cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
+	actions = { inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
 	view = createGameHUDView(root, actions); view.update(state);
 });
 afterEach(() => { view.destroy(); host.remove(); clearChatFeed(); vi.restoreAllMocks(); });
@@ -53,8 +53,13 @@ describe('mobile game HUD', () => {
 		expect([...root.querySelectorAll('.combat .skill')].every(button => !button.disabled)).toBe(true);
 		click('[data-panel="menu"]');
 		const buttons = [...root.querySelectorAll('.menu-grid button')];
-		expect(buttons.find(button => button.textContent === '背包').disabled).toBe(true);
-		buttons.find(button => button.textContent === '人物').click();
+		expect(buttons.find(button => button.textContent === '背包').disabled).toBe(false);
+		buttons.find(button => button.textContent === '背包').click();
+		expect(root.querySelector('h2').textContent).toBe('背包');
+		expect(root.querySelector('.inventory-list').textContent).toContain('暂无物品');
+		view.update(state);
+		click('[data-close]');
+		click('[data-panel="profile"]');
 		expect(root.querySelector('h2').textContent).toBe('人物信息');
 		root.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
 		expect(root.querySelector('.backdrop').hidden).toBe(true);
@@ -72,4 +77,13 @@ it('bounds shared chat history and unsubscribes removed views', () => {
 	clearChatFeed();
 	const next = vi.fn(); const stop = subscribeChatFeed(next);
 	expect(next).toHaveBeenCalledWith([]); stop();
+});
+
+it('does not dismiss a panel from a pre-existing touch release, but accepts a new backdrop tap', () => {
+ click('[data-panel="menu"]');
+ const backdrop = root.querySelector('.backdrop');
+ const pointer = type => { const event = new Event(type, { bubbles: true }); Object.defineProperty(event, 'pointerId', { value: 7 }); backdrop.dispatchEvent(event); };
+ pointer('pointerup'); backdrop.click(); expect(backdrop.hidden).toBe(false);
+ pointer('pointerdown'); pointer('pointercancel'); backdrop.click(); expect(backdrop.hidden).toBe(false);
+ pointer('pointerdown'); pointer('pointerup'); backdrop.click(); expect(backdrop.hidden).toBe(true);
 });

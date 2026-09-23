@@ -946,6 +946,9 @@ export function createEquipment({
 		}
 	};
 
+	/** Snapshot for alternative presentations; keep equipment ownership here. */
+	Component.getItems = () => Object.values(_list).map(item => ({ ...item }));
+
 	Component.getNumber = function () {
 		let num = 0;
 		for (const key in _list) {

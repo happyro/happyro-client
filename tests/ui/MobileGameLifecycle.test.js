@@ -1,3 +1,4 @@
+vi.mock('UI/Game/GameInventory.js', () => ({ createGameInventory: canOperate => { state.inventoryAllowed = canOperate; return { snapshot: () => [], act: vi.fn() }; } }));
 vi.mock('UI/Game/GameShortcuts.js', () => ({ createGameShortcuts: () => ({ snapshot: () => ({}), cancel: vi.fn() }) }));
 vi.mock('Renderer/Renderer.js', () => ({ default: { canvas: document.createElement('canvas') } }));
 vi.mock('UI/Game/GameCommands.js', () => ({ adjustCamera: vi.fn(), targetSnapshot: () => ({}), moveDirection: vi.fn(), stopAttack: vi.fn(), attackSelected: vi.fn(), tapScene: vi.fn(), interactSelected: vi.fn() }));
@@ -56,4 +57,12 @@ it('cancels scene input on blur, orientation changes, and disconnect', () => {
 	expect(state.cancel.mock.calls.length).toBeGreaterThan(count);
 	for (const fn of [...state.connection]) fn();
 	expect(vi.getTimerCount()).toBe(0); expect(state.feed.size).toBe(0);
+});
+
+it('allows inventory actions only while its own modal is open, without bypassing an existing freeze', () => {
+ HUD.onAppend(); expect(state.inventoryAllowed()).toBe(false);
+ state.actions.setModal(true); expect(state.inventoryAllowed()).toBe(true);
+ state.actions.setModal(false); expect(state.inventoryAllowed()).toBe(false);
+ state.Session.FreezeUI = true; state.actions.setModal(true); expect(state.inventoryAllowed()).toBe(false);
+ state.actions.setModal(false); expect(state.Session.FreezeUI).toBe(true);
 });

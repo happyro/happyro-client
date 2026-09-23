@@ -66,6 +66,9 @@ export function createShortcutController(data) {
 		return { message };
 	}
 	return {
+		slotName(index) {
+			return describe(index).name;
+		},
 		snapshot() {
 			page = Math.min(page, pages() - 1);
 			if (pending && (!data.canUse() || !validPending())) cancel();

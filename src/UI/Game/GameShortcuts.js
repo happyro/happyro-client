@@ -4,7 +4,7 @@ import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import SkillTargetSelection from 'UI/Components/SkillTargetSelection/SkillTargetSelection.js';
 import { canExecuteSkill } from 'UI/Components/SkillList/SkillUse.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
-import ItemType from 'DB/Items/ItemType.js';
+import { equipment, usableItems as usable, itemQuantity } from './InventoryItems.js';
 import DB from 'DB/DBManager.js';
 import Client from 'Core/Client.js';
 import Session from 'Engine/SessionStorage.js';
@@ -16,17 +16,6 @@ import { remainingCooldown } from 'Network/SkillCooldowns.js';
 import { createShortcutController } from './ShortcutController.js';
 import { canTargetSkill } from './SkillTargets.js';
 
-const usable = [
-	ItemType.HEALING,
-	ItemType.USABLE,
-	ItemType.CASH,
-	ItemType.WEAPON,
-	ItemType.ARMOR,
-	ItemType.SHADOWGEAR,
-	ItemType.PETARMOR,
-	ItemType.AMMO
-];
-const equipment = [ItemType.WEAPON, ItemType.ARMOR, ItemType.SHADOWGEAR, ItemType.PETARMOR, ItemType.AMMO];
 export function createGameShortcuts(moving = () => false) {
 	const icons = new Map();
 	function icon(file) {
@@ -57,7 +46,7 @@ export function createGameShortcuts(moving = () => false) {
 		const item = Inventory.getUI().getItemById(binding.ID),
 			info = DB.getItemInfo(binding.ID);
 		const file = item && !item.IsIdentified ? info.unidentifiedResourceName : info.identifiedResourceName;
-		const reason = !item?.count
+		const reason = !itemQuantity(item)
 			? '道具已用完'
 			: !usable.includes(item.type)
 				? '此物品不能快捷使用'
@@ -67,7 +56,7 @@ export function createGameShortcuts(moving = () => false) {
 		return {
 			name: item ? DB.getItemName(item) : info.identifiedDisplayName,
 			icon: icon(file),
-			amount: item?.count || 0,
+			amount: itemQuantity(item),
 			reason
 		};
 	}
@@ -100,7 +89,7 @@ export function createGameShortcuts(moving = () => false) {
 		},
 		hasItem: id => {
 			const item = Inventory.getUI().getItemById(id);
-			return Boolean(item?.count && usable.includes(item.type));
+			return Boolean(itemQuantity(item) && usable.includes(item.type));
 		},
 		configure: (...args) => ShortCut.configure(...args),
 		candidates: () => [
@@ -114,7 +103,7 @@ export function createGameShortcuts(moving = () => false) {
 					...describe({ isSkill: true, ID: skill.SKID, count: skill.level })
 				})),
 			...Inventory.getUI()
-				.list.filter(item => item.count && usable.includes(item.type))
+				.list.filter(item => itemQuantity(item) && usable.includes(item.type))
 				.filter((item, i, list) => list.findIndex(other => other.ITID === item.ITID) === i)
 				.map(item => ({ isSkill: false, ID: item.ITID, ...describe({ isSkill: false, ID: item.ITID }) }))
 		],

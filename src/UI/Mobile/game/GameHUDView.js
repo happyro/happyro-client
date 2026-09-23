@@ -1,3 +1,4 @@
+import { createInventoryPanel } from './InventoryPanel.js';
 import { createShortcutPanel } from './ShortcutPanel.js';
 import html from './GameHUD.html?raw';
 import css from './GameHUD.css?raw';
@@ -9,7 +10,10 @@ export function createGameHUDView(root, actions) {
 	const abort = new AbortController();
 	let currentPanel = null;
 	let shortcutPanel = null;
+	let inventoryPanel = null;
 	let noticeUntil = 0;
+	let backdropPointer = null;
+	let dismissBackdrop = false;
 	let lastTrigger;
 	let snapshot = {};
 	let messages = [];
@@ -69,6 +73,7 @@ export function createGameHUDView(root, actions) {
 		if (!currentPanel) return;
 		currentPanel = null;
 		shortcutPanel = null;
+		inventoryPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
@@ -125,6 +130,8 @@ export function createGameHUDView(root, actions) {
 	function open(panel, slotIndex) {
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
+		backdropPointer = null;
+		dismissBackdrop = false;
 		backdrop.hidden = false;
 		actions.setModal(true);
 		text(
@@ -136,10 +143,13 @@ export function createGameHUDView(root, actions) {
 				menu: '菜单',
 				chat: '聊天',
 				camera: '镜头',
-				shortcuts: '快捷配置'
+				shortcuts: '快捷配置',
+				inventory: '背包'
 			}[panel]
 		);
 		body.replaceChildren();
+		body.classList.toggle('inventory-body', panel === 'inventory');
+		$('.panel').classList.toggle('inventory-panel', panel === 'inventory');
 		body.classList.toggle('chat-body', panel === 'chat');
 		$('.panel').classList.toggle('chat-panel', panel === 'chat');
 		if (panel === 'profile' || panel === 'status') renderDetails();
@@ -162,7 +172,7 @@ export function createGameHUDView(root, actions) {
 				['状态', 'status'],
 				['镜头', 'camera'],
 				['快捷配置', 'shortcuts'],
-				['背包'],
+				['背包', 'inventory'],
 				['装备'],
 				['技能'],
 				['任务'],
@@ -184,6 +194,15 @@ export function createGameHUDView(root, actions) {
 			body.append(grid);
 		}
 		shortcutPanel = null;
+		inventoryPanel = null;
+		if (panel === 'inventory')
+			inventoryPanel = createInventoryPanel(body, {
+				snapshot: actions.inventorySnapshot,
+				act: actions.inventoryAct,
+				shortcuts: actions.shortcutSnapshot,
+				slotName: actions.shortcutName,
+				bind: actions.bindInventory
+			});
 		if (panel === 'shortcuts')
 			shortcutPanel = createShortcutPanel(body, {
 				index: slotIndex,
@@ -230,8 +249,22 @@ export function createGameHUDView(root, actions) {
 	for (const button of root.querySelectorAll('[data-panel]'))
 		listen(button, 'click', () => open(button.dataset.panel));
 	listen($('[data-close]'), 'click', close);
+	// A touch held before opening the panel must not dismiss it on release.
+	listen(backdrop, 'pointerdown', event => {
+		backdropPointer = event.target === backdrop ? event.pointerId : null;
+		dismissBackdrop = false;
+	});
+	listen(backdrop, 'pointerup', event => {
+		dismissBackdrop = event.target === backdrop && backdropPointer !== null && backdropPointer === event.pointerId;
+		backdropPointer = null;
+	});
+	listen(backdrop, 'pointercancel', () => {
+		backdropPointer = null;
+		dismissBackdrop = false;
+	});
 	listen(backdrop, 'click', event => {
-		if (event.target === backdrop) close();
+		if (event.target === backdrop && dismissBackdrop) close();
+		dismissBackdrop = false;
 	});
 	listen(root, 'keydown', event => {
 		if (!currentPanel) return;
@@ -240,7 +273,7 @@ export function createGameHUDView(root, actions) {
 			close();
 		}
 		if (event.key === 'Tab') {
-			const items = [...backdrop.querySelectorAll('button:not(:disabled), input')];
+			const items = [...backdrop.querySelectorAll('button:not(:disabled), input, select')];
 			const index = items.indexOf(root.activeElement);
 			event.preventDefault();
 			items[(index + (event.shiftKey ? -1 : 1) + items.length) % items.length]?.focus();
@@ -283,6 +316,7 @@ export function createGameHUDView(root, actions) {
 			drawMap($('[data-mini-map]'));
 			drawMap($('.large-map'));
 			renderDetails();
+			inventoryPanel?.update();
 		},
 		setMap(image) {
 			mapImage = image;
