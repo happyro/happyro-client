@@ -194,7 +194,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
         <title>HappyRO</title>    
         <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
     
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">    
         <meta name="HandheldFriendly" content="true">    
     
         <meta name="apple-mobile-web-app-capable" content="yes">    
@@ -280,8 +280,11 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
                 display: flex;    
                 flex-direction: column;    
                 align-items: center;    
-                justify-content: center;    
-                min-height: 100vh;    
+                justify-content: safe center;
+                box-sizing: border-box;
+                height: 100dvh;
+                overflow: auto;
+                padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(32px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
                 background: rgba(6, 8, 16, 0.97);    
                 font-family: serif;    
                 color: #e8b84b;    
@@ -315,7 +318,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
                 background: rgba(232, 184, 75, 0.15);    
                 border-color: #e8b84b;    
             }    
-            .build-id { position: fixed; right: 16px; bottom: 12px; color: #8b8f98; font: 12px monospace; }
+            .build-id { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); color: #8b8f98; font: 12px monospace; }
         </style>    
     </head>    
     <body>    
@@ -329,11 +332,17 @@ ${buttons}
   
         <script type="text/javascript">    
             function launchApp(appName) {    
+                var url = 'api.html?v=${buildId}&app=' + appName + (new URLSearchParams(location.search).get('debug') === '1' ? '&debug=1' : '');
+                // Keep touch devices and installed apps in their existing app window.
+                if (window.matchMedia('(pointer: coarse), (display-mode: standalone), (display-mode: fullscreen)').matches) {
+                    window.location.assign(url);
+                    return;
+                }
                 var w = 1024, h = 768;
                 var top = (screen.height - h) / 2;    
                 var left = (screen.width - w) / 2;    
                 window.open(    
-                    'api.html?v=${buildId}&app=' + appName + (new URLSearchParams(location.search).get('debug') === '1' ? '&debug=1' : ''),
+                    url,
                     '_blank',    
                     'width=' + w + ',height=' + h + ',top=' + top + ',left=' + left + ',menubar=0,toolbar=0,location=0,status=0,resizable=1,scrollbars=0'    
                 );    
@@ -521,6 +530,8 @@ function createApiHTML() {
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
         <meta charset="UTF-8">    
         <meta name="happyro-build-id" content="${buildId}">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <title>HappyRO</title>    
         <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
         <link rel="apple-touch-icon" href="./icon.png">    
