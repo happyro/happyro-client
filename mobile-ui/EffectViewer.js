@@ -77968,7 +77968,7 @@ function showMobileDialog({ text, title = "提示", buttons, onCancel, keyboardA
 	for (const { name, callback, primary } of buttons) {
 		const button = document.createElement("button");
 		button.type = "button";
-		button.textContent = labels$1[name.toLowerCase()] || name;
+		button.textContent = labels$2[name.toLowerCase()] || name;
 		button.classList.toggle("primary", !!primary);
 		button.addEventListener("click", () => finish(callback));
 		root.querySelector(".btns").append(button);
@@ -77997,12 +77997,12 @@ function showMobileDialog({ text, title = "提示", buttons, onCancel, keyboardA
 	component.append();
 	return component;
 }
-var activeDialogs, labels$1;
+var activeDialogs, labels$2;
 var init_MessageDialog = __esmMin((() => {
 	init_tokens();
 	init_MessageDialog$1();
 	activeDialogs = /* @__PURE__ */ new Set();
-	labels$1 = {
+	labels$2 = {
 		ok: "确定",
 		yes: "确定",
 		cancel: "取消",
@@ -199039,6 +199039,15 @@ var init_PacketStructure = __esmMin((() => {
 		this.limitZeny = fp.readLong();
 	};
 	PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE.size = 10;
+	PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE2 = function PACKET_ZC_UPDATE_ITEM_FROM_BUYING_STORE2(fp) {
+		this.ITID = fp.readULong();
+		this.count = fp.readUShort();
+		this.zeny = fp.readULong();
+		this.limitZeny = fp.readULong();
+		this.GID = fp.readULong();
+		this.date = fp.readULong();
+	};
+	PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE2.size = 24;
 	PACKET.ZC.ITEM_DELETE_BUYING_STORE = function PACKET_ZC_ITEM_DELETE_BUYING_STORE(fp, end) {
 		this.index = fp.readShort();
 		this.count = fp.readShort();
@@ -200264,7 +200273,7 @@ var init_PacketStructure = __esmMin((() => {
 	};
 	PACKET.AC.REFUSE_LOGIN3.size = 7;
 	PACKET.ZC.BANKING_CHECK = function PACKET_ZC_BANKING_CHECK(fp, end) {
-		this.money = fp.readLong();
+		this.money = fp.readULong() + fp.readULong() * 4294967296;
 		this.reason = fp.readShort();
 	};
 	PACKET.ZC.BANKING_CHECK.size = 12;
@@ -200816,8 +200825,7 @@ var init_PacketStructure = __esmMin((() => {
 		const pkt_buf = new BinaryWriter(11);
 		pkt_buf.writeShort(2536);
 		pkt_buf.writeUChar(this.openType);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
 		return pkt_buf;
 	};
 	PACKET.CZ.CLOSE_RODEXBOX = function PACKET_CZ_CLOSE_RODEXBOX() {};
@@ -200834,8 +200842,7 @@ var init_PacketStructure = __esmMin((() => {
 		const pkt_buf = new BinaryWriter(11);
 		pkt_buf.writeShort(2538);
 		pkt_buf.writeUChar(this.openType);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
 		return pkt_buf;
 	};
 	PACKET.CZ.REQ_NEXT_RODEX = function PACKET_CZ_REQ_NEXT_RODEX() {
@@ -200846,8 +200853,7 @@ var init_PacketStructure = __esmMin((() => {
 		const pkt_buf = new BinaryWriter(11);
 		pkt_buf.writeShort(2542);
 		pkt_buf.writeUChar(this.openType);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
 		return pkt_buf;
 	};
 	PACKET.CZ.REQ_REFRESH_RODEX = function PACKET_CZ_REQ_REFRESH_RODEX() {
@@ -200858,8 +200864,7 @@ var init_PacketStructure = __esmMin((() => {
 		const pkt_buf = new BinaryWriter(11);
 		pkt_buf.writeShort(2543);
 		pkt_buf.writeUChar(this.openType);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
 		return pkt_buf;
 	};
 	PACKET.CZ.REQ_ZENY_FROM_RODEX = function PACKET_CZ_REQ_ZENY_FROM_RODEX() {
@@ -200869,8 +200874,7 @@ var init_PacketStructure = __esmMin((() => {
 	PACKET.CZ.REQ_ZENY_FROM_RODEX.prototype.build = function() {
 		const pkt_buf = new BinaryWriter(11);
 		pkt_buf.writeShort(2545);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
 		pkt_buf.writeUChar(this.openType);
 		return pkt_buf;
 	};
@@ -200881,8 +200885,7 @@ var init_PacketStructure = __esmMin((() => {
 	PACKET.CZ.REQ_ITEM_FROM_RODEX.prototype.build = function() {
 		const pkt_buf = new BinaryWriter(11);
 		pkt_buf.writeShort(2547);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
 		pkt_buf.writeUChar(this.openType);
 		return pkt_buf;
 	};
@@ -200894,8 +200897,7 @@ var init_PacketStructure = __esmMin((() => {
 		const pkt_buf = new BinaryWriter(11);
 		pkt_buf.writeShort(2549);
 		pkt_buf.writeUChar(this.openType);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
 		return pkt_buf;
 	};
 	PACKET.CZ.REQ_CANCEL_WRITE_RODEX = function PACKET_CZ_REQ_CANCEL_WRITE_RODEX() {};
@@ -200963,12 +200965,9 @@ var init_PacketStructure = __esmMin((() => {
 	PACKET.CZ.OPEN_ALL_RODEX.prototype.build = function() {
 		const pkt_buf = new BinaryWriter(26);
 		pkt_buf.writeShort(2752);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
-		pkt_buf.writeULong(this.MailReturnID);
-		pkt_buf.writeULong(0);
-		pkt_buf.writeULong(this.MailAccountID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
+		pkt_buf.writeUInt64(this.MailReturnID);
+		pkt_buf.writeUInt64(this.MailAccountID);
 		return pkt_buf;
 	};
 	PACKET.CZ.UPDATE_ALL_RODEX = function PACKET_CZ_UPDATE_ALL_RODEX() {
@@ -200979,12 +200978,9 @@ var init_PacketStructure = __esmMin((() => {
 	PACKET.CZ.UPDATE_ALL_RODEX.prototype.build = function() {
 		const pkt_buf = new BinaryWriter(26);
 		pkt_buf.writeShort(2753);
-		pkt_buf.writeULong(this.MailID);
-		pkt_buf.writeULong(0);
-		pkt_buf.writeULong(this.MailReturnID);
-		pkt_buf.writeULong(0);
-		pkt_buf.writeULong(this.MailAccountID);
-		pkt_buf.writeULong(0);
+		pkt_buf.writeUInt64(this.MailID);
+		pkt_buf.writeUInt64(this.MailReturnID);
+		pkt_buf.writeUInt64(this.MailAccountID);
 		return pkt_buf;
 	};
 	PACKET.CZ.REQ_SEND_RODEX = function PACKET_CZ_REQ_SEND_RODEX() {
@@ -201022,7 +201018,9 @@ var init_PacketStructure = __esmMin((() => {
 		this.body = "";
 	};
 	PACKET.CZ.REQ_SEND_RODEX2.prototype.build = function() {
-		const pkt_len = 68 + this.Titlelength + this.Bodylength;
+		const titleLength = new TextEncoder().encode(this.title).length;
+		const bodyLength = new TextEncoder().encode(this.body).length;
+		const pkt_len = 68 + titleLength + bodyLength;
 		const pkt_buf = new BinaryWriter(pkt_len);
 		pkt_buf.writeShort(2670);
 		pkt_buf.writeShort(pkt_len);
@@ -201030,11 +201028,11 @@ var init_PacketStructure = __esmMin((() => {
 		pkt_buf.writeString(this.sender, 24);
 		pkt_buf.writeULong(this.zeny);
 		pkt_buf.writeULong(0);
-		pkt_buf.writeUShort(this.Titlelength);
-		pkt_buf.writeUShort(this.Bodylength);
+		pkt_buf.writeUShort(titleLength);
+		pkt_buf.writeUShort(bodyLength);
 		pkt_buf.writeULong(this.CharID);
-		pkt_buf.writeString(this.title);
-		pkt_buf.writeString(this.body);
+		pkt_buf.writeString(this.title, titleLength);
+		pkt_buf.writeString(this.body, bodyLength);
 		return pkt_buf;
 	};
 	PACKET.CZ.CHECK_RECEIVE_CHARACTER_NAME = function PACKET_CZ_CHECK_RECEIVE_CHARACTER_NAME() {
@@ -237593,6 +237591,7 @@ var init_PacketRegister = __esmMin((() => {
 		2089: PACKET.CH.DELETE_CHAR3,
 		2074: PACKET.ZC.FAILED_TRADE_BUYING_STORE_TO_BUYER,
 		2075: PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE,
+		2534: PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE2,
 		2076: PACKET.ZC.ITEM_DELETE_BUYING_STORE,
 		2077: PACKET.ZC.EL_INIT,
 		2078: PACKET.ZC.EL_PAR_CHANGE,
@@ -240462,19 +240461,19 @@ var init_NodeSocket = __esmMin((() => {
 //#endregion
 //#region src/Network/ConnectionLifecycle.js
 function onConnectionEnd(listener) {
-	listeners$3.add(listener);
-	return () => listeners$3.delete(listener);
+	listeners$5.add(listener);
+	return () => listeners$5.delete(listener);
 }
 function endConnection() {
-	for (const listener of listeners$3) try {
+	for (const listener of listeners$5) try {
 		listener();
 	} catch (error) {
 		console.error("[Network] Connection cleanup failed", error);
 	}
 }
-var listeners$3;
+var listeners$5;
 var init_ConnectionLifecycle = __esmMin((() => {
-	listeners$3 = /* @__PURE__ */ new Set();
+	listeners$5 = /* @__PURE__ */ new Set();
 }));
 //#endregion
 //#region src/Network/NetworkManager.js
@@ -240558,14 +240557,14 @@ function sendPacket(Packet) {
 	}
 	console.log("%c[Network] Send:", "color:#007070", Packet);
 	if (_socket && _socket.isZone) PacketCrypt_default.process(pkt.view);
-	return send(pkt.buffer);
+	return send$5(pkt.buffer);
 }
 /**
 * Send buffer to the server
 *
 * @param {ArrayBuffer} buffer
 */
-function send(buffer) {
+function send$5(buffer) {
 	if (_socket) return _socket.send(buffer);
 	return false;
 }
@@ -240716,7 +240715,7 @@ function onClose$9() {
 * Close connection with server
 * Is this needed ?
 */
-function close() {
+function close$1() {
 	let idx;
 	if (_socket) {
 		const s = _socket;
@@ -240818,11 +240817,11 @@ var init_NetworkManager = __esmMin((() => {
 		for (i = 0; i < count; ++i) registerPacket(keys[i], PacketRegister_default[keys[i]]);
 		return {
 			sendPacket,
-			send,
+			send: send$5,
 			setPing,
 			connect,
 			hookPacket,
-			close,
+			close: close$1,
 			read: read$1,
 			set onDisconnect(callback) {
 				_onDisconnect = callback;
@@ -242408,12 +242407,7 @@ var init_SpriteRenderer = __esmMin((() => {
 	init_SpriteRenderer$1();
 	mat4$20 = gl_matrix_default.mat4;
 	RenderCanvas2D = (function RenderCanvas2DClosure() {
-		let imageData;
-		const canvas = document.createElement("canvas");
-		const ctx = canvas.getContext("2d");
-		canvas.width = 20;
-		canvas.height = 20;
-		imageData = ctx.createImageData(canvas.width, canvas.height);
+		const contextCanvases = /* @__PURE__ */ new WeakMap();
 		return function() {
 			if (this.sprite.width <= 0 || this.sprite.height <= 0) return;
 			let scale_x, scale_y;
@@ -242436,40 +242430,55 @@ var init_SpriteRenderer = __esmMin((() => {
 				scale_y *= -1;
 				_size$7[1] *= -1;
 			}
-			if (width !== canvas.width || height !== canvas.height) {
+			let frameCanvases = contextCanvases.get(_ctx$5);
+			if (!frameCanvases) {
+				frameCanvases = /* @__PURE__ */ new WeakMap();
+				contextCanvases.set(_ctx$5, frameCanvases);
+			}
+			const color = this.color;
+			let backing = frameCanvases.get(frame);
+			if (!backing || backing.canvas.width !== width || backing.canvas.height !== height || backing.palette !== pal || backing.color.some((value, index) => value !== color[index])) {
+				const canvas = document.createElement("canvas");
 				canvas.width = width;
 				canvas.height = height;
-				imageData = ctx.createImageData(width, height);
-			}
-			const input = frame.data;
-			const output = imageData.data;
-			const color = this.color;
-			if (this.sprite.type === 1) for (y = 0; y < height; ++y) {
-				outRow = y * width * 4;
-				inRow = y * width * 4;
-				for (x = 0; x < width; ++x) {
-					const src = inRow + x * 4;
-					const dst = outRow + x * 4;
-					output[dst + 0] = input[src + 0] * color[0];
-					output[dst + 1] = input[src + 1] * color[1];
-					output[dst + 2] = input[src + 2] * color[2];
-					output[dst + 3] = input[src + 3] * color[3];
+				const ctx = canvas.getContext("2d");
+				const imageData = ctx.createImageData(width, height);
+				const input = frame.data;
+				const output = imageData.data;
+				if (this.sprite.type === 1) for (y = 0; y < height; ++y) {
+					outRow = y * width * 4;
+					inRow = y * width * 4;
+					for (x = 0; x < width; ++x) {
+						const src = inRow + x * 4;
+						const dst = outRow + x * 4;
+						output[dst + 0] = input[src + 0] * color[0];
+						output[dst + 1] = input[src + 1] * color[1];
+						output[dst + 2] = input[src + 2] * color[2];
+						output[dst + 3] = input[src + 3] * color[3];
+					}
 				}
-			}
-			else for (y = 0; y < height; ++y) {
-				outRow = y * width * 4;
-				inRow = y * width;
-				for (x = 0; x < width; ++x) {
-					const paletteIndex = input[inRow + x];
-					const src = paletteIndex * 4;
-					const dst = outRow + x * 4;
-					output[dst + 0] = pal[src + 0] * color[0];
-					output[dst + 1] = pal[src + 1] * color[1];
-					output[dst + 2] = pal[src + 2] * color[2];
-					output[dst + 3] = paletteIndex ? 255 * color[3] : 0;
+				else for (y = 0; y < height; ++y) {
+					outRow = y * width * 4;
+					inRow = y * width;
+					for (x = 0; x < width; ++x) {
+						const paletteIndex = input[inRow + x];
+						const src = paletteIndex * 4;
+						const dst = outRow + x * 4;
+						output[dst + 0] = pal[src + 0] * color[0];
+						output[dst + 1] = pal[src + 1] * color[1];
+						output[dst + 2] = pal[src + 2] * color[2];
+						output[dst + 3] = paletteIndex ? 255 * color[3] : 0;
+					}
 				}
+				ctx.putImageData(imageData, 0, 0);
+				backing = {
+					canvas,
+					palette: pal,
+					color: Array.from(color)
+				};
+				frameCanvases.set(frame, backing);
 			}
-			ctx.putImageData(imageData, 0, 0);
+			const { canvas } = backing;
 			_ctx$5.save();
 			_ctx$5.translate(_x | 0, _y | 0);
 			_ctx$5.rotate(this.angle / 180 * Math.PI);
@@ -253265,6 +253274,27 @@ var init_Announce = __esmMin((() => {
 	Announce_default = UIManager.addComponent(Announce);
 }));
 //#endregion
+//#region src/UI/Game/ChatFeed.js
+function publishChatMessage(message) {
+	messages.push(Object.freeze({ ...message }));
+	if (messages.length > 80) messages.shift();
+	for (const listener of listeners$4) listener(messages.slice());
+}
+function subscribeChatFeed(listener) {
+	listeners$4.add(listener);
+	listener(messages.slice());
+	return () => listeners$4.delete(listener);
+}
+function clearChatFeed() {
+	messages.length = 0;
+	for (const listener of listeners$4) listener([]);
+}
+var messages, listeners$4;
+var init_ChatFeed = __esmMin((() => {
+	messages = [];
+	listeners$4 = /* @__PURE__ */ new Set();
+}));
+//#endregion
 //#region src/Preferences/ShortCutControls.js
 var ShortCuts$2, ShortCutControls, preferences$1;
 var init_ShortCutControls = __esmMin((() => {
@@ -254856,6 +254886,7 @@ function makeResizableDiv() {
 }
 var MAX_MSG, MAX_LENGTH, MAGIC_NUMBER, _historyMessage, _historyNickName, _heightIndex, _messageBuffer, _rafScheduled, _preferences$42, ChatBox, ChatBox_default;
 var init_ChatBox = __esmMin((() => {
+	init_ChatFeed();
 	init_DBManager();
 	init_Renderer();
 	init_Client();
@@ -255328,6 +255359,7 @@ var init_ChatBox = __esmMin((() => {
 	* Clean up the box
 	*/
 	ChatBox.clean = function Clean() {
+		clearChatFeed();
 		const root = _root$18();
 		root.querySelectorAll(".content").forEach((content) => {
 			const matches = content.innerHTML.match(/(blob:[^"]+)/g);
@@ -255679,6 +255711,12 @@ var init_ChatBox = __esmMin((() => {
 		});
 		if (!override && /<span\s+class="nickname-link"/.test(text)) override = true;
 		if (isNaN(filterType)) filterType = ChatBox.FILTER.PUBLIC_LOG;
+		publishChatMessage({
+			text,
+			html: !!override,
+			colorType,
+			filterType
+		});
 		_messageBuffer.push({
 			text,
 			colorType,
@@ -258437,6 +258475,9 @@ function npcCatalogKey(npc) {
 	if (!npc) return "";
 	return `${npc.mapName}:${npc.x}:${npc.y}:${npc.npcClass}:${npc.id}`;
 }
+function normalizeWorldMapName(mapName) {
+	return String(mapName || "").replace(/\.gat$/i, "").toLocaleLowerCase();
+}
 function npcTeleportEnabled(npc, available, actionState) {
 	return Boolean(actionState?.canTeleport && !actionState.npcPending && available === true && npc?.type === "NPC" && Number.isFinite(npc.npcClass));
 }
@@ -258464,7 +258505,7 @@ function getCurrentAdventurePosition() {
 	};
 }
 function notify$1() {
-	for (const listener of listeners$2) listener(getAdventureActionState());
+	for (const listener of listeners$3) listener(getAdventureActionState());
 }
 function setStatus$1(message, error = false, kind = null, duration = 0) {
 	clearTimeout(statusTimer);
@@ -258504,9 +258545,9 @@ function getAdventureActionState(target = null) {
 	};
 }
 function subscribeAdventureActions(listener) {
-	listeners$2.add(listener);
+	listeners$3.add(listener);
 	listener(getAdventureActionState());
-	return () => listeners$2.delete(listener);
+	return () => listeners$3.delete(listener);
 }
 function teleportToCoordinate(target) {
 	if (!getAdventureActionState(target).canTeleport || !target?.mapName || !Number.isFinite(target.x) || !Number.isFinite(target.y)) return false;
@@ -258599,7 +258640,7 @@ function notifyAdventureConfigChanged() {
 function clearAdventureActionFeedback() {
 	setStatus$1("", false, null);
 }
-var nextNpcRequestId, nextMapRequestId, npcPending, mapPending, npcTimer, mapTimer, cooldownUntil, cooldownTimer, statusTimer, status$1, listeners$2;
+var nextNpcRequestId, nextMapRequestId, npcPending, mapPending, npcTimer, mapTimer, cooldownUntil, cooldownTimer, statusTimer, status$1, listeners$3;
 var init_AdventureActionService = __esmMin((() => {
 	init_NetworkManager();
 	init_ConnectionLifecycle();
@@ -258621,7 +258662,7 @@ var init_AdventureActionService = __esmMin((() => {
 		error: false,
 		kind: null
 	};
-	listeners$2 = /* @__PURE__ */ new Set();
+	listeners$3 = /* @__PURE__ */ new Set();
 	onConnectionEnd(() => {
 		clearTimeout(npcTimer);
 		clearTimeout(mapTimer);
@@ -262555,6 +262596,35 @@ var init_PartyMemberExternal$1 = __esmMin((() => {
 	PartyMemberExternal_default$1 = ":host {\r\n	position: absolute;\r\n}\r\n\r\n#PartyMemberExternal {\r\n	width: 150px;\r\n	height: 38px;\r\n	display: flex;\r\n	align-items: center;\r\n	padding: 3px 5px;\r\n	box-sizing: border-box;\r\n	z-index: 100;\r\n	cursor: move;\r\n}\r\n\r\n#PartyMemberExternal .close {\r\n	display: none;\r\n}\r\n\r\n#PartyMemberExternal .job-icon-container {\r\n	position: relative;\r\n	width: 24px;\r\n	height: 24px;\r\n	min-width: 24px;\r\n	margin-right: 8px;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n#PartyMemberExternal .job-icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	background-repeat: no-repeat;\r\n	background-position: center;\r\n	position: absolute;\r\n	z-index: 5;\r\n}\r\n\r\n#PartyMemberExternal:not(.online) .job-icon,\r\n#PartyMemberExternal:not(.online) .crown {\r\n	filter: grayscale(100%);\r\n}\r\n\r\n#PartyMemberExternal .crown {\r\n	position: absolute;\r\n	top: -14px;\r\n	left: 50%;\r\n	transform: translateX(-50%);\r\n	width: 25px;\r\n	height: 25px;\r\n	background-repeat: no-repeat;\r\n	background-position: center;\r\n	z-index: 20;\r\n	pointer-events: none;\r\n	display: none;\r\n}\r\n\r\n#PartyMemberExternal .info-container {\r\n	flex: 1;\r\n	overflow: hidden;\r\n}\r\n\r\n#PartyMemberExternal .row1,\r\n#PartyMemberExternal .row2 {\r\n	display: flex;\r\n	align-items: center;\r\n	width: 100%;\r\n}\r\n\r\n#PartyMemberExternal .row2 {\r\n	margin-top: 2px;\r\n	height: 12px;\r\n	gap: 5px;\r\n}\r\n\r\n#PartyMemberExternal .level {\r\n	font-size: 11px;\r\n	color: #fff;\r\n	font-weight: bold;\r\n	margin-right: 5px;\r\n	white-space: nowrap;\r\n}\r\n\r\n#PartyMemberExternal .name {\r\n	font-weight: normal;\r\n	color: #fff;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	flex: 1;\r\n}\r\n\r\n#PartyMemberExternal .map {\r\n	display: none;\r\n}\r\n\r\n#PartyMemberExternal .hp-bar-container {\r\n	min-width: 75px;\r\n	width: 75px;\r\n	height: 5px;\r\n	background: #333;\r\n	border: 1px solid #111;\r\n	overflow: hidden;\r\n	position: relative;\r\n}\r\n\r\n#PartyMemberExternal .life {\r\n	display: block;\r\n	height: 5px;\r\n	width: 75px;\r\n}\r\n\r\n#PartyMemberExternal .hp-text {\r\n	display: none;\r\n}\r\n\r\n#PartyMemberExternal .status-icon {\r\n	display: none;\r\n}\r\n";
 }));
 //#endregion
+//#region src/UI/Game/SkillTargets.js
+/** Shared entity-category validation, independent of mouse or touch input. */
+function canTargetSkill(entity, flag, { self, override = false, canAttack = () => false } = {}) {
+	if (!entity) return false;
+	const T = entity.constructor;
+	let mask = 0;
+	switch (entity.objecttype) {
+		case T.TYPE_MOB:
+		case T.TYPE_UNIT:
+			mask = 65;
+			break;
+		case T.TYPE_TRAP:
+			mask = 32;
+			break;
+		case T.TYPE_HOM:
+		case T.TYPE_MERC:
+			mask = 144;
+			break;
+		case T.TYPE_PC:
+		case T.TYPE_ELEM:
+			mask = 16;
+			break;
+		default: return false;
+	}
+	if (!(mask & flag) && !override && !canAttack(entity)) return false;
+	return !(flag & 1 && entity === self);
+}
+var init_SkillTargets = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Components/SkillTargetSelection/SkillTargetSelection.html?raw
 var SkillTargetSelection_default$2;
 var init_SkillTargetSelection$2 = __esmMin((() => {
@@ -262637,26 +262707,11 @@ function intersectEntities(event) {
 * @param {object} entity
 */
 function intersectEntity(entity) {
-	let target = 0;
-	switch (entity.objecttype) {
-		case Entity.TYPE_MOB:
-		case Entity.TYPE_UNIT:
-			target = SkillTargetSelection.TYPE.ENEMY | SkillTargetSelection.TYPE.PET;
-			break;
-		case Entity.TYPE_TRAP:
-			target = SkillTargetSelection.TYPE.TRAP;
-			break;
-		case Entity.TYPE_HOM:
-		case Entity.TYPE_MERC:
-			target = SkillTargetSelection.TYPE.HOMUN | SkillTargetSelection.TYPE.FRIEND;
-			break;
-		case Entity.TYPE_PC:
-		case Entity.TYPE_ELEM:
-			target = SkillTargetSelection.TYPE.FRIEND;
-			break;
-		default: return;
-	}
-	if (!(target & _flag) && !KEYS.SHIFT && !Controls_default.noshift && !SkillTargetSelection.checkMapState(entity)) return;
+	if (!canTargetSkill(entity, _flag, {
+		self: SessionStorage_default.Entity,
+		override: KEYS.SHIFT || Controls_default.noshift,
+		canAttack: SkillTargetSelection.checkMapState
+	})) return;
 	if (_flag === SkillTargetSelection.TYPE.PET) {
 		SkillTargetSelection.onPetSelected(entity.GID);
 		return;
@@ -262666,6 +262721,7 @@ function intersectEntity(entity) {
 }
 var SkillTargetSelection, _flag, _skill, _skillName, _description, _skillLevel, _mousedownHandler, SkillTargetSelection_default;
 var init_SkillTargetSelection = __esmMin((() => {
+	init_SkillTargets();
 	init_DBManager();
 	init_SkillInfo_generated();
 	init_KeyEventHandler();
@@ -264482,6 +264538,11 @@ function createPartyFriends(config) {
 	*
 	* @param {Array} friends list
 	*/
+	Component.getSocialSnapshot = () => ({
+		friends: _friends.map((friend) => ({ ...friend })),
+		party: _party.map((member) => ({ ...member })),
+		options: { ..._options }
+	});
 	Component.setFriends = function setFriends(friends) {
 		const root = _root();
 		const count = friends.length;
@@ -265958,31 +266019,31 @@ var init_SkillDescription = __esmMin((() => {
 //#endregion
 //#region src/Network/SkillCooldowns.js
 function remainingCooldown(id, time = now()) {
-	return Math.max(0, (skills.get(id) || 0) - time, globalEnd - time);
+	return Math.max(0, (skills$1.get(id) || 0) - time, globalEnd - time);
 }
 function setSkillCooldown(id, milliseconds, time = now()) {
-	if (milliseconds > 0) skills.set(id, time + milliseconds);
-	else skills.delete(id);
-	for (const listener of listeners$1) listener(id);
+	if (milliseconds > 0) skills$1.set(id, time + milliseconds);
+	else skills$1.delete(id);
+	for (const listener of listeners$2) listener(id);
 }
 function setGlobalCooldown(milliseconds, time = now()) {
 	globalEnd = time + Math.max(0, milliseconds);
-	for (const listener of listeners$1) listener(null);
+	for (const listener of listeners$2) listener(null);
 }
 function subscribeCooldowns(listener) {
-	listeners$1.add(listener);
-	return () => listeners$1.delete(listener);
+	listeners$2.add(listener);
+	return () => listeners$2.delete(listener);
 }
 function clearCooldowns() {
-	skills.clear();
+	skills$1.clear();
 	globalEnd = 0;
-	for (const listener of listeners$1) listener(null);
+	for (const listener of listeners$2) listener(null);
 }
-var skills, listeners$1, globalEnd, now;
+var skills$1, listeners$2, globalEnd, now;
 var init_SkillCooldowns = __esmMin((() => {
 	init_ConnectionLifecycle();
-	skills = /* @__PURE__ */ new Map();
-	listeners$1 = /* @__PURE__ */ new Set();
+	skills$1 = /* @__PURE__ */ new Map();
+	listeners$2 = /* @__PURE__ */ new Set();
 	globalEnd = 0;
 	now = () => performance.now();
 	onConnectionEnd(clearCooldowns);
@@ -266695,7 +266756,7 @@ function updateDisbandButton(root, activeTab) {
 		});
 	}
 }
-var AccessTypeBit, Guild, _memberViewTemplate, _positionViewTemplate, _expelViewTemplate, _positions, _members, _skills, _btnIncSkillTemplate, _skpoints, _btnLevelUp, lArrow, rArrow, _totalExp, _guildAccess, _checkbox_off, _checkbox_on, renderMemberFaces, Guild_default;
+var AccessTypeBit, Guild, _memberViewTemplate, _positionViewTemplate, _expelViewTemplate, _positions, _members, guildInformation, guildEmblem, guildNotice, guildRelations, guildHistory, _skills, _btnIncSkillTemplate, _skpoints, _btnLevelUp, lArrow, rArrow, _totalExp, _guildAccess, _checkbox_off, _checkbox_on, renderMemberFaces, Guild_default;
 var init_Guild$1 = __esmMin((() => {
 	init_DBManager();
 	init_SkillInfo_generated();
@@ -266734,6 +266795,14 @@ var init_Guild$1 = __esmMin((() => {
 	Guild.render = () => Guild_default$2;
 	_positions = [];
 	_members = [];
+	guildInformation = null;
+	guildEmblem = "";
+	guildNotice = {
+		subject: "",
+		notice: ""
+	};
+	guildRelations = [];
+	guildHistory = [];
 	_skills = [];
 	_skpoints = 0;
 	_totalExp = 0;
@@ -266955,7 +267024,38 @@ var init_Guild$1 = __esmMin((() => {
 		this.ui.hide();
 		Renderer.stop(renderMemberFaces);
 	};
+	Guild.resetSocialState = function() {
+		guildInformation = null;
+		guildEmblem = "";
+		guildNotice = {
+			subject: "",
+			notice: ""
+		};
+		guildRelations = [];
+		guildHistory = [];
+		this.setSkills([]);
+		this.setMembers([]);
+		this.setPositions([], true);
+		_skpoints = 0;
+		_guildAccess = 0;
+	};
+	Guild.removeSocialMember = function(name) {
+		this.setMembers(_members.filter((member) => member.CharName !== name));
+	};
+	Guild.getSocialSnapshot = () => ({
+		info: guildInformation && { ...guildInformation },
+		emblem: guildEmblem,
+		notice: { ...guildNotice },
+		relations: guildRelations.map((relation) => ({ ...relation })),
+		history: guildHistory.map((entry) => ({ ...entry })),
+		members: _members.map(({ entity, ...member }) => member),
+		positions: Object.values(_positions).map((position) => ({ ...position })),
+		skills: _skills.map((skill) => ({ ...skill })),
+		points: _skpoints,
+		access: _guildAccess
+	});
 	Guild.setGuildInformations = function setGuildInformations(info) {
+		guildInformation = { ...info };
 		const root = _root$13(this);
 		const general = root.querySelector(".content.info");
 		if (!general) return;
@@ -266969,7 +267069,9 @@ var init_Guild$1 = __esmMin((() => {
 		general.querySelector(".exp .value").textContent = info.exp;
 		general.querySelector(".tax .value").textContent = info.point;
 		Guild.updateSession(info);
-		Guild.onRequestGuildEmblem(info.GDID, info.emblemVersion, Guild.setEmblem.bind(this));
+		Guild.onRequestGuildEmblem(info.GDID, info.emblemVersion, (image) => {
+			if (guildInformation?.GDID === info.GDID) Guild.setEmblem(image);
+		});
 		const emblemEdit = general.querySelector(".emblem_edit");
 		if (emblemEdit) emblemEdit.style.display = SessionStorage_default.isGuildMaster ? "" : "none";
 		updateDisbandButton(root, getActiveTab(root));
@@ -266977,10 +267079,12 @@ var init_Guild$1 = __esmMin((() => {
 		renderTendency(info.honor, info.virtue);
 	};
 	Guild.setEmblem = function setEmblem(image) {
+		guildEmblem = image.src;
 		const el = _root$13(this).querySelector(".content.info .emblem_container");
 		if (el) el.style.backgroundImage = `url(${image.src})`;
 	};
 	Guild.setRelations = function setRelations(guilds) {
+		guildRelations = [];
 		const root = _root$13(this);
 		const allyList = root.querySelector(".ally_list");
 		const hostileList = root.querySelector(".hostile_list");
@@ -266989,6 +267093,9 @@ var init_Guild$1 = __esmMin((() => {
 		for (let i = 0, count = guilds.length; i < count; ++i) this.addRelation(guilds[i]);
 	};
 	Guild.addRelation = function addRelation(guild) {
+		const existing = guildRelations.findIndex((entry) => entry.GDID === guild.GDID && entry.relation === guild.relation);
+		if (existing < 0) guildRelations.push({ ...guild });
+		else guildRelations[existing] = { ...guild };
 		const list = _root$13(this).querySelector(`.${guild.relation === 0 ? "ally" : "hostile"}_list`);
 		if (!list) return;
 		const div = document.createElement("div");
@@ -266997,6 +267104,7 @@ var init_Guild$1 = __esmMin((() => {
 		list.appendChild(div);
 	};
 	Guild.removeRelation = function removeRelation(guildId, relation) {
+		guildRelations = guildRelations.filter((entry) => entry.GDID !== guildId || entry.relation !== relation);
 		const list = _root$13(this).querySelector(`.content.info .${relation === 0 ? "ally" : "hostile"}_list`);
 		if (!list) return;
 		const el = list.querySelector(`div[data-guild-id="${guildId}"]`);
@@ -267026,8 +267134,11 @@ var init_Guild$1 = __esmMin((() => {
 		const root = _root$13(this);
 		for (i = 0, count = _members.length; i < count; ++i) if (_members[i].AID === member.AID && _members[i].GID === member.GID) break;
 		let view;
-		if (i < count) view = root.querySelector(`.MemberView[data-index="${i}"]`);
-		else {
+		if (i < count) {
+			Object.assign(_members[i], member);
+			member = _members[i];
+			view = root.querySelector(`.MemberView[data-index="${i}"]`);
+		} else {
 			view = _memberViewTemplate.cloneNode(true);
 			const tbody = root.querySelector(".content.members tbody");
 			if (tbody) tbody.appendChild(view);
@@ -267149,6 +267260,7 @@ var init_Guild$1 = __esmMin((() => {
 		for (let i = 0; i < count; ++i) {
 			const view = _positionViewTemplate.cloneNode(true);
 			const rank = _positions[i];
+			if (!rank) continue;
 			if (i === 0) view.classList.add("active");
 			const idCell = view.querySelector(".id");
 			if (idCell) idCell.textContent = rank.positionID;
@@ -267284,6 +267396,10 @@ var init_Guild$1 = __esmMin((() => {
 		if (_btnLevelUp) document.body.appendChild(_btnLevelUp);
 	};
 	Guild.setNotice = function setNotice(subject, notice) {
+		guildNotice = {
+			subject,
+			notice
+		};
 		const root = _root$13(this);
 		const subjectInput = root.querySelector(".content.notice .subject");
 		if (subjectInput) subjectInput.value = subject;
@@ -267291,6 +267407,7 @@ var init_Guild$1 = __esmMin((() => {
 		if (noticeTextarea) noticeTextarea.value = notice;
 	};
 	Guild.setExpelList = function setExpelList(list) {
+		guildHistory = list.map((entry) => ({ ...entry }));
 		const container = _root$13(this).querySelector(".content.history tbody");
 		if (!container) return;
 		container.innerHTML = "";
@@ -274745,6 +274862,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 	}
 	let _btnIncSkill;
 	let _points = 0;
+	let skillRevision = 0;
 	let totalCounter = 0;
 	let _btnLevelUp;
 	let _lArrow, _rArrow;
@@ -275145,6 +275263,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 		return positions;
 	}
 	Component.addSkill = function addSkill(skill) {
+		skillRevision++;
 		if (!(skill.SKID in SkillInfo_generated_default)) return;
 		if (this.getRoot().querySelector(`.skill.id${skill.SKID}`)) {
 			this.updateSkill(skill);
@@ -275331,6 +275450,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 	};
 	Component.removeSkill = function removeSkill() {};
 	Component.updateSkill = function updateSkill(skill) {
+		skillRevision++;
 		let target = getSkillById(skill.SKID);
 		const root = this.getRoot();
 		if (!target) {
@@ -275380,6 +275500,7 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 		});
 	};
 	Component.setPoints = function setPoints(amount) {
+		skillRevision++;
 		const root = this.getRoot();
 		const el = root.querySelector(".skpoints_count");
 		if (el) el.textContent = amount;
@@ -275647,6 +275768,9 @@ function createSkillList({ name, htmlText, cssText, hasTabs = false, needSkillLi
 	Component.onIncreaseSkill = function onIncreaseSkill() {};
 	Component.onUpdateSkill = function onUpdateSkill() {};
 	Component.getSkillById = getSkillById;
+	Component.getSkillPoints = () => _points;
+	Component.getSkillRevision = () => skillRevision;
+	Component.getSkills = () => _list.map((skill) => ({ ...skill }));
 	return UIManager.addComponent(Component);
 }
 var init_SkillListCommon = __esmMin((() => {
@@ -276015,6 +276139,10 @@ function createQuest(config) {
 	*
 	* @param {number} questID
 	*/
+	Quest.getQuests = () => Object.values(_questList).map((quest) => ({
+		...quest,
+		hunt_list: Object.values(quest.hunt_list || {}).map((hunt) => ({ ...hunt }))
+	}));
 	Quest.questExists = function questExists(questID) {
 		return typeof _questList[questID] !== "undefined" ? true : false;
 	};
@@ -277940,29 +278068,29 @@ function trackTabView(container) {
 			container.removeEventListener("input", capture);
 			container.removeEventListener("change", capture);
 			container.removeEventListener("scroll", onScroll, true);
-			states.delete(container);
+			states$1.delete(container);
 		}
 	};
-	states.set(container, state);
+	states$1.set(container, state);
 	return state;
 }
 function clearTabDrafts(container, names) {
-	const drafts = states.get(container)?.drafts;
+	const drafts = states$1.get(container)?.drafts;
 	if (!drafts) return;
 	for (const key of drafts.keys()) if (!names || names.includes(key.slice(key.indexOf(":") + 1))) drafts.delete(key);
 }
 function resetTabScroll(container, region) {
 	if (!region) return;
-	const scrolls = states.get(container)?.scrolls;
+	const scrolls = states$1.get(container)?.scrolls;
 	for (const node of [region, ...region.querySelectorAll("[class]")]) {
 		scrolls?.delete(scrollKey(node));
 		node.scrollLeft = 0;
 		node.scrollTop = 0;
 	}
 }
-var states, scrollKey, fields;
+var states$1, scrollKey, fields;
 var init_TabViewState = __esmMin((() => {
-	states = /* @__PURE__ */ new WeakMap();
+	states$1 = /* @__PURE__ */ new WeakMap();
 	scrollKey = (node) => `${node.tagName}.${node.className}`;
 	fields = "input[type=\"number\"], form .game-select-value";
 }));
@@ -277973,7 +278101,7 @@ function matchesTarget(navigationTarget, routeTarget) {
 }
 function notify() {
 	const state = getStatus();
-	for (const listener of listeners) listener(state);
+	for (const listener of listeners$1) listener(state);
 }
 function getStatus() {
 	const routeMatches = matchesTarget(navigationState.target, target);
@@ -278023,7 +278151,7 @@ function previewAdventureRoute(nextTarget) {
 }
 function startAdventureRoute(nextTarget) {
 	if (!nextTarget?.mapName || !Number.isFinite(nextTarget.x) || !Number.isFinite(nextTarget.y) || normalizeAdventureMap(nextTarget.mapName) !== getCurrentAdventureMap()) return false;
-	clearInterval(timer$1);
+	clearInterval(timer$2);
 	Navigation_default.stopAutoWalk();
 	target = { ...nextTarget };
 	navigationStarted = false;
@@ -278039,12 +278167,12 @@ function startAdventureRoute(nextTarget) {
 		displayName: target.mapDisplayName || target.mapName,
 		autoWalk: true
 	});
-	timer$1 = setInterval(monitorArrival, 500);
+	timer$2 = setInterval(monitorArrival, 500);
 	return true;
 }
 function stopAdventureRoute(message = "") {
-	clearInterval(timer$1);
-	timer$1 = null;
+	clearInterval(timer$2);
+	timer$2 = null;
 	navigationStarted = false;
 	update$1(false, message);
 	if (message === "已到达目的地") {
@@ -278055,9 +278183,9 @@ function stopAdventureRoute(message = "") {
 	Navigation_default.stopAutoWalk();
 }
 function subscribeAdventureRoute(listener) {
-	listeners.add(listener);
+	listeners$1.add(listener);
 	listener(getStatus());
-	return () => listeners.delete(listener);
+	return () => listeners$1.delete(listener);
 }
 function clearAdventureRouteFeedback() {
 	status = {
@@ -278066,12 +278194,12 @@ function clearAdventureRouteFeedback() {
 	};
 	notify();
 }
-var timer$1, target, navigationStarted, navigationState, status, listeners;
+var timer$2, target, navigationStarted, navigationState, status, listeners$1;
 var init_AdventureRouteService = __esmMin((() => {
 	init_Navigation();
 	init_NavigationAutoWalk();
 	init_AdventureActionService();
-	timer$1 = null;
+	timer$2 = null;
 	target = null;
 	navigationStarted = false;
 	navigationState = Navigation_default.getRouteState();
@@ -278079,7 +278207,7 @@ var init_AdventureRouteService = __esmMin((() => {
 		active: false,
 		message: ""
 	};
-	listeners = /* @__PURE__ */ new Set();
+	listeners$1 = /* @__PURE__ */ new Set();
 	Navigation_default.subscribeRouteState((nextState) => {
 		navigationState = nextState;
 		if (!target || !matchesTarget(nextState.target, target)) {
@@ -278091,8 +278219,8 @@ var init_AdventureRouteService = __esmMin((() => {
 		}
 		if (nextState.active) navigationStarted = true;
 		if (nextState.unavailable) {
-			clearInterval(timer$1);
-			timer$1 = null;
+			clearInterval(timer$2);
+			timer$2 = null;
 			navigationStarted = false;
 			update$1(false, "无法到达所选位置");
 			return;
@@ -279121,7 +279249,7 @@ function mount$4(container) {
 		emptyDetail: "选择一个 NPC 查看详情",
 		summarize: (state) => formatCatalogCount(state.total, "个 NPC", Boolean(scopeFilter?.checked)),
 		pageSize: 32,
-		key,
+		key: key$1,
 		async load(query) {
 			const currentMap = getCurrentAdventureMap();
 			const onMap = scopeFilter.checked ? currentMap : "";
@@ -279146,7 +279274,7 @@ function mount$4(container) {
 		},
 		renderRow(npc, selected) {
 			const style = npcAtlasStyle(manifest, npc.spriteId, 48);
-			return `<button class="catalog-row${key(selected || {}) === key(npc) ? " selected" : ""}" type="button" data-catalog-key="${escapeCatalogHtml(key(npc))}">
+			return `<button class="catalog-row${key$1(selected || {}) === key$1(npc) ? " selected" : ""}" type="button" data-catalog-key="${escapeCatalogHtml(key$1(npc))}">
 				<span class="catalog-thumb${style ? "" : " no-image"}" style="${style}"></span>
 				<span class="catalog-row-text"><strong>${escapeCatalogHtml(npc.name)}</strong><small>${escapeCatalogHtml(npc.mapDisplayName)} · ${npc.x},${npc.y}</small></span>
 			</button>`;
@@ -279231,7 +279359,7 @@ function mount$4(container) {
 		destroyBrowser();
 	};
 }
-var key, NpcCatalogTab_default;
+var key$1, NpcCatalogTab_default;
 var init_NpcCatalogTab = __esmMin((() => {
 	init_CatalogEmptyState();
 	init_MapRenderer();
@@ -279244,7 +279372,7 @@ var init_NpcCatalogTab = __esmMin((() => {
 	init_WorldAssetService();
 	init_WorldMapPreview();
 	init_WorldCatalogService();
-	key = npcCatalogKey;
+	key$1 = npcCatalogKey;
 	NpcCatalogTab_default = {
 		id: "npcs",
 		label: "NPC 图鉴",
@@ -280107,7 +280235,7 @@ function serverValue(key, value) {
 function control(key, value, definition) {
 	if (definition.unit === "boolean") return renderGameSelect({
 		name: key,
-		ariaLabel: labels[key],
+		ariaLabel: labels$1[key],
 		value,
 		options: [{
 			value: 1,
@@ -280119,7 +280247,7 @@ function control(key, value, definition) {
 	});
 	if (definition.unit === "policy") return renderGameSelect({
 		name: key,
-		ariaLabel: labels[key],
+		ariaLabel: labels$1[key],
 		value,
 		options: [
 			...definition.minimum === 0 ? [{
@@ -280138,7 +280266,7 @@ function control(key, value, definition) {
 	});
 	const isRate = rateKeys.has(key);
 	const suffix = definition.unit === "seconds" ? " 秒" : " 倍";
-	return `<span class="setting-number"><input name="${key}" aria-label="${labels[key]}" type="number" min="${displayValue(key, definition.minimum)}" max="${displayValue(key, definition.maximum)}" step="${isRate ? "0.01" : "1"}" value="${displayValue(key, value)}" required><em>${suffix}</em></span>`;
+	return `<span class="setting-number"><input name="${key}" aria-label="${labels$1[key]}" type="number" min="${displayValue(key, definition.minimum)}" max="${displayValue(key, definition.maximum)}" step="${isRate ? "0.01" : "1"}" value="${displayValue(key, value)}" required><em>${suffix}</em></span>`;
 }
 function mount$1(container) {
 	container.classList.add("management-tab");
@@ -280161,14 +280289,14 @@ function mount$1(container) {
 	function render(message = "", error = false) {
 		container.innerHTML = `<form class="settings-form">
 			<div class="settings-scroll">
-				<section><h4>经验倍率</h4><div class="settings-rate-columns">${groups[0].keys.map((key) => `<div class="settings-rate-list"><label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label></div>`).join("")}</div></section>
+				<section><h4>经验倍率</h4><div class="settings-rate-columns">${groups[0].keys.map((key) => `<div class="settings-rate-list"><label><span>${labels$1[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label></div>`).join("")}</div></section>
 				<section><h4>掉落倍率（普通魔物 &amp; Mini &amp; MVP）</h4><div class="settings-drop-scroll"><table class="settings-drop-table">
-					<tbody>${dropTypes.map((type) => `<tr><th scope="row">${labels[`item_rate_${type}`]}</th>${dropCategories.map((suffix) => {
+					<tbody>${dropTypes.map((type) => `<tr><th scope="row">${labels$1[`item_rate_${type}`]}</th>${dropCategories.map((suffix) => {
 			const key = `item_rate_${type}${suffix}`;
 			return `<td>${control(key, settings.values[key], settings.definitions[key])}</td>`;
 		}).join("")}</tr>`).join("")}</tbody>
 				</table></div></section>
-				${groups.slice(1).map((group) => `<section><h4>${group.title}</h4><div class="settings-grid">${group.keys.map((key) => `<label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join("")}</div></section>`).join("")}
+				${groups.slice(1).map((group) => `<section><h4>${group.title}</h4><div class="settings-grid">${group.keys.map((key) => `<label><span>${labels$1[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label>`).join("")}</div></section>`).join("")}
 			</div>
 			<footer class="settings-footer">
 				<span class="management-status${error ? " error" : ""}">${escapeHtml$2(message)}</span>
@@ -280223,7 +280351,7 @@ function mount$1(container) {
 		container.removeEventListener("game-tools-reset-feedback", clearFeedback);
 	};
 }
-var groups, dropTypes, dropCategories, dropKeys, labels, rateKeys, visibleKeys, GameSettingsTab_default;
+var groups, dropTypes, dropCategories, dropKeys, labels$1, rateKeys, visibleKeys, GameSettingsTab_default;
 var init_GameSettingsTab = __esmMin((() => {
 	init_TabViewState();
 	init_GameToolsToast();
@@ -280268,7 +280396,7 @@ var init_GameSettingsTab = __esmMin((() => {
 		"_mvp"
 	];
 	dropKeys = dropTypes.flatMap((type) => dropCategories.map((suffix) => `item_rate_${type}${suffix}`));
-	labels = {
+	labels$1 = {
 		base_exp_rate: "基础倍率",
 		job_exp_rate: "职业经验倍率",
 		item_rate_common: "普通物品掉落倍率",
@@ -281457,6 +281585,3926 @@ var init_BasicInfo = __esmMin((() => {
 	BasicInfoController = UIVersionManager.getUIController(publicName$7, versionInfo$7);
 }));
 //#endregion
+//#region src/Controls/AttackIntent.js
+function ownAttack(gid, callback) {
+	requested.add(gid);
+	retry = {
+		gid,
+		callback
+	};
+}
+function releaseAttack() {
+	retry = null;
+}
+function clearAttackIntent() {
+	requested.clear();
+	retry = null;
+}
+function retryOwnedAttack(gid) {
+	if (!requested.has(gid)) return false;
+	if (retry?.gid === gid) retry.callback();
+	return true;
+}
+var requested, retry;
+var init_AttackIntent = __esmMin((() => {
+	requested = /* @__PURE__ */ new Set();
+}));
+//#endregion
+//#region src/UI/Components/MobileUI/MobileUI.html?raw
+var MobileUI_default$2;
+var init_MobileUI$2 = __esmMin((() => {
+	MobileUI_default$2 = "<div id=\"MobileUI\">\r\n	<button id=\"toggleUIButton\" class=\"buttons\">🛠️</button>\r\n\r\n	<div id=\"topBar\" class=\"buttonBar disabled\">\r\n		<button id=\"fullscreenButton\" class=\"buttons mobileKeys secondary horizontal\">⛶</button>\r\n	</div>\r\n\r\n	<!-- Joystick -MicromeX -->\r\n	<div id=\"joystickContainer\" class=\"joystick-container disabled\">\r\n		<div id=\"joystickBase\" class=\"joystick-base\">\r\n			<div id=\"joystickThumb\" class=\"joystick-thumb\"></div>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- Functional Buttons -MicromeX -->\r\n	<div id=\"buttonContainer\" class=\"buttonContainer disabled\">\r\n		<!-- Functional Buttons -->\r\n		<button id=\"f1Button\" class=\"FButton mobileKeys vertical secondary disabled\">F1</button>\r\n		<button id=\"f2Button\" class=\"FButton mobileKeys vertical secondary disabled\">F2</button>\r\n		<button id=\"f3Button\" class=\"FButton mobileKeys vertical secondary disabled\">F3</button>\r\n		<button id=\"f4Button\" class=\"FButton mobileKeys vertical secondary disabled\">F4</button>\r\n		<button id=\"f5Button\" class=\"FButton mobileKeys vertical secondary disabled\">F5</button>\r\n		<button id=\"f6Button\" class=\"FButton mobileKeys vertical secondary disabled\">F6</button>\r\n		<button id=\"f7Button\" class=\"FButton mobileKeys vertical secondary disabled\">F7</button>\r\n		<button id=\"f8Button\" class=\"FButton mobileKeys vertical secondary disabled\">F8</button>\r\n		<button id=\"f9Button\" class=\"FButton mobileKeys vertical secondary disabled\">F9</button>\r\n\r\n		<button id=\"n1Button\" class=\"FButton mobileKeys vertical secondary disabled\">1</button>\r\n		<button id=\"n2Button\" class=\"FButton mobileKeys vertical secondary disabled\">2</button>\r\n		<button id=\"n3Button\" class=\"FButton mobileKeys vertical secondary disabled\">3</button>\r\n		<button id=\"n4Button\" class=\"FButton mobileKeys vertical secondary disabled\">4</button>\r\n		<button id=\"n5Button\" class=\"FButton mobileKeys vertical secondary disabled\">5</button>\r\n		<button id=\"n6Button\" class=\"FButton mobileKeys vertical secondary disabled\">6</button>\r\n		<button id=\"n7Button\" class=\"FButton mobileKeys vertical secondary disabled\">7</button>\r\n		<button id=\"n8Button\" class=\"FButton mobileKeys vertical secondary disabled\">8</button>\r\n		<button id=\"n9Button\" class=\"FButton mobileKeys vertical secondary disabled\">9</button>\r\n\r\n		<button id=\"qButton\" class=\"FButton mobileKeys vertical secondary disabled\">Q</button>\r\n		<button id=\"wButton\" class=\"FButton mobileKeys vertical secondary disabled\">W</button>\r\n		<button id=\"eButton\" class=\"FButton mobileKeys vertical secondary disabled\">E</button>\r\n		<button id=\"rButton\" class=\"FButton mobileKeys vertical secondary disabled\">R</button>\r\n		<button id=\"tButton\" class=\"FButton mobileKeys vertical secondary disabled\">T</button>\r\n		<button id=\"yButton\" class=\"FButton mobileKeys vertical secondary disabled\">Y</button>\r\n		<button id=\"uButton\" class=\"FButton mobileKeys vertical secondary disabled\">U</button>\r\n		<button id=\"iButton\" class=\"FButton mobileKeys vertical secondary disabled\">I</button>\r\n		<button id=\"oButton\" class=\"FButton mobileKeys vertical secondary disabled\">O</button>\r\n\r\n		<button id=\"aButton\" class=\"FButton mobileKeys vertical secondary disabled\">A</button>\r\n		<button id=\"sButton\" class=\"FButton mobileKeys vertical secondary disabled\">S</button>\r\n		<button id=\"dButton\" class=\"FButton mobileKeys vertical secondary disabled\">D</button>\r\n		<button id=\"fButton\" class=\"FButton mobileKeys vertical secondary disabled\">F</button>\r\n		<button id=\"gButton\" class=\"FButton mobileKeys vertical secondary disabled\">G</button>\r\n		<button id=\"hButton\" class=\"FButton mobileKeys vertical secondary disabled\">H</button>\r\n		<button id=\"jButton\" class=\"FButton mobileKeys vertical secondary disabled\">J</button>\r\n		<button id=\"kButton\" class=\"FButton mobileKeys vertical secondary disabled\">K</button>\r\n		<button id=\"lButton\" class=\"FButton mobileKeys vertical secondary disabled\">L</button>\r\n\r\n		<button id=\"pickupButton\" class=\"pickupButton mobileKeys vertical secondary disabled\">🖐</button>\r\n		<!-- Pick Up Button -MicromeX -->\r\n		<button id=\"talktonpcButton\" class=\"talktonpcButton mobileKeys vertical secondary disabled\">💬</button>\r\n		<!-- Talk to NPC Button -MicromeX -->\r\n		<button id=\"switchshorcutButton\" class=\"switchshorcutButton mobileKeys vertical secondary disabled\">🔄</button>\r\n		<!-- Auto Skill Button -MicromeX -->\r\n\r\n		<!-- Attack Button -MicromeX -->\r\n		<button id=\"attackButton\" class=\"atkButton mobileKeys vertical secondary disabled\">⚔️</button>\r\n	</div>\r\n\r\n	<div id=\"leftBar\" class=\"buttonBar disabled\">\r\n		<button id=\"f10Button\" class=\"buttons mobileKeys secondary vertical\">F10</button><br />\r\n		<button id=\"f12Button\" class=\"buttons mobileKeys secondary vertical\">F12</button><br />\r\n		<button id=\"insButton\" class=\"buttons mobileKeys secondary vertical\">🧎</button><br />\r\n	</div>\r\n\r\n	<div id=\"rightBar\" class=\"buttonBar disabled\">\r\n		<button id=\"toggleStatusButton\" class=\"buttons mobileKeys secondary vertical\">👀</button><br />\r\n		<button id=\"toggleTargetingButton\" class=\"buttons mobileKeys secondary vertical\">⚙️</button><br />\r\n		<button id=\"toggleAutoFollowButton\" class=\"buttons mobileKeys vertical secondary disabled\">👥</button><br />\r\n		<button id=\"toggleAutoTargetButton\" class=\"buttons mobileKeys vertical secondary disabled\">🎯</button><br />\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/MobileUI/MobileUI.css?raw
+var MobileUI_default$1;
+var init_MobileUI$1 = __esmMin((() => {
+	MobileUI_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#MobileUI {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#MobileUI button,\r\n#MobileUI .joystick-base {\r\n	pointer-events: auto;\r\n}\r\n\r\n#MobileUI * {\r\n	z-index: 1000;\r\n}\r\n\r\n#MobileUI .buttonBar,\r\n#MobileUI #toggleUIButton {\r\n	position: absolute;\r\n}\r\n\r\n#MobileUI #toggleUIButton {\r\n	top: 1%;\r\n	left: 1%;\r\n	width: 6.5vmin;\r\n	height: 6.5vmin;\r\n}\r\n\r\n#MobileUI .buttons {\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border-radius: 6px;\r\n	border: 1px solid grey;\r\n	font-size: 4vmin;\r\n	font-weight: bold;\r\n}\r\n\r\n#MobileUI .mobileKeys {\r\n	visibility: inherit;\r\n}\r\n\r\n#MobileUI .horizontal {\r\n	margin: 0 3.5vmin;\r\n}\r\n\r\n#MobileUI .vertical {\r\n	margin: 3.5vmin 0;\r\n}\r\n\r\n#MobileUI .disabled {\r\n	visibility: hidden;\r\n}\r\n\r\n#MobileUI #topBar {\r\n	left: 50%;\r\n	top: 1%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n#MobileUI #leftBar {\r\n	left: 1%;\r\n	bottom: 35%;\r\n	transform: translate(0, 50%);\r\n}\r\n\r\n#MobileUI #rightBar {\r\n	right: 1%;\r\n	bottom: 35%;\r\n	transform: translate(0, 50%);\r\n}\r\n\r\n#MobileUI #rightBar .buttons {\r\n	float: right;\r\n}\r\n\r\n#MobileUI .active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 8px;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #toggleUIButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 8px;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n@keyframes pulse {\r\n	0% {\r\n		box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	}\r\n	50% {\r\n		box-shadow: 0px 6px 12px rgba(144, 238, 144, 0.6);\r\n	}\r\n	100% {\r\n		box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	}\r\n}\r\n\r\n#MobileUI .pressed {\r\n	background: rgba(193, 255, 255, 0.33);\r\n}\r\n\r\n#MobileUI .primary {\r\n	width: 11vmin;\r\n	height: 11vmin;\r\n}\r\n\r\n#MobileUI .secondary {\r\n	width: 7.5vmin;\r\n	height: 7.5vmin;\r\n}\r\n\r\n/* Container for all buttons -MicromeX */\r\n#MobileUI #buttonContainer {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	position: absolute;\r\n	bottom: 10%;\r\n	right: 10%;\r\n	width: 37.5vmin;\r\n	height: 37.5vmin;\r\n	z-index: 1000;\r\n}\r\n\r\n/* Attack Button (center and larger) -MicromeX */\r\n#MobileUI .atkButton {\r\n	position: absolute;\r\n	width: 17.5vmin;\r\n	height: 17.5vmin;\r\n	background-color: #f44336;\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 7vmin;\r\n	color: white;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Functional Buttons (around the attack button) -MicromeX */\r\n#MobileUI .pickupButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n#MobileUI .talktonpcButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n#MobileUI .switchshorcutButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Functional Buttons (smaller and proportional) -MicromeX */\r\n#MobileUI .FButton {\r\n	position: absolute;\r\n	width: 7.5vmin;\r\n	height: 7.5vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 3.75vmin;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #f1Button {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f2Button {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f3Button {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f4Button {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f5Button {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f6Button {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f7Button {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f8Button {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f9Button {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #n1Button {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n2Button {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n3Button {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n4Button {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n5Button {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n6Button {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n7Button {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n8Button {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n9Button {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #qButton {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #wButton {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #eButton {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #rButton {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #tButton {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #yButton {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #uButton {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #iButton {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #oButton {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #aButton {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #sButton {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #dButton {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #fButton {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #gButton {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #hButton {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #jButton {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #kButton {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #lButton {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Pickup Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #attackButton {\r\n	bottom: -10%;\r\n	left: 60%;\r\n	transform: translate(-50%, 0);\r\n}\r\n/* Pickup Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #pickupButton {\r\n	bottom: 10%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n/* TalkToNpc Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #talktonpcButton {\r\n	bottom: -23%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n/* TalkToNpc Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #switchshorcutButton {\r\n	bottom: 43%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n/* Hover Effect for Buttons -MicromeX */\r\n#MobileUI #f1Button:active,\r\n#MobileUI #f2Button:active,\r\n#MobileUI #f3Button:active,\r\n#MobileUI #f4Button:active,\r\n#MobileUI #f5Button:active,\r\n#MobileUI #f6Button:active,\r\n#MobileUI #f7Button:active,\r\n#MobileUI #f8Button:active,\r\n#MobileUI #f9Button:active,\r\n#MobileUI #n1Button:active,\r\n#MobileUI #n2Button:active,\r\n#MobileUI #n3Button:active,\r\n#MobileUI #n4Button:active,\r\n#MobileUI #n5Button:active,\r\n#MobileUI #n6Button:active,\r\n#MobileUI #n7Button:active,\r\n#MobileUI #n8Button:active,\r\n#MobileUI #n9Button:active,\r\n#MobileUI #qButton:active,\r\n#MobileUI #wButton:active,\r\n#MobileUI #eButton:active,\r\n#MobileUI #rButton:active,\r\n#MobileUI #tButton:active,\r\n#MobileUI #yButton:active,\r\n#MobileUI #uButton:active,\r\n#MobileUI #iButton:active,\r\n#MobileUI #oButton:active,\r\n#MobileUI #aButton:active,\r\n#MobileUI #sButton:active,\r\n#MobileUI #dButton:active,\r\n#MobileUI #fButton:active,\r\n#MobileUI #gButton:active,\r\n#MobileUI #hButton:active,\r\n#MobileUI #jButton:active,\r\n#MobileUI #kButton:active,\r\n#MobileUI #lButton:active,\r\n#MobileUI #switchshorcutButton:active,\r\n#MobileUI #pickupButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 50%;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #talktonpcButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 50%;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #attackButton:active {\r\n	background-color: #4caf50;\r\n	box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);\r\n	border: 2px solid #388e3c;\r\n	transition:\r\n		transform 0.2s ease,\r\n		background-color 0.2s ease,\r\n		box-shadow 0.2s ease,\r\n		border 0.2s ease;\r\n}\r\n\r\n/* Joystick container -MicromeX */\r\n#MobileUI .joystick-container {\r\n	position: absolute;\r\n	bottom: 7%;\r\n	left: 10%;\r\n	width: 25vmin;\r\n	height: 25vmin;\r\n	z-index: 1000;\r\n}\r\n\r\n/* Joystick base -MicromeX */\r\n#MobileUI .joystick-base {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border-radius: 50%;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n/* Joystick thumb -MicromeX */\r\n#MobileUI .joystick-thumb {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: radial-gradient(circle, rgba(236, 240, 241, 1) 70%, rgba(189, 195, 199, 1) 100%);\r\n	border-radius: 50%;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);\r\n	touch-action: none;\r\n	cursor: grab;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/MobileUI/MobileUI.js
+/**
+* Helper to bind click+touchstart on an element
+*/
+function bindButton(root, selector, handler) {
+	const el = root.querySelector(selector);
+	if (el) {
+		let touchHandled = false;
+		let releaseTimer = null;
+		const clearGuard = () => {
+			if (releaseTimer !== null) {
+				clearTimeout(releaseTimer);
+				releaseTimer = null;
+			}
+		};
+		const releaseGuard = () => {
+			clearGuard();
+			releaseTimer = setTimeout(() => {
+				releaseTimer = null;
+				touchHandled = false;
+			}, C_TOUCH_CLICK_GUARD);
+		};
+		el.addEventListener("click", (event) => {
+			if (touchHandled) {
+				touchHandled = false;
+				clearGuard();
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				return;
+			}
+			handler(event);
+		});
+		el.addEventListener("touchstart", (event) => {
+			touchHandled = true;
+			clearGuard();
+			handler(event);
+		});
+		el.addEventListener("touchend", releaseGuard);
+		el.addEventListener("touchcancel", releaseGuard);
+	}
+}
+/**
+* Logs the key press to the console and performs the key press action.
+* @param {number} keyCode - The key code of the pressed key.
+*/
+function logKeyPress(keyCode) {
+	keyPress(keyCode);
+}
+/**
+* Toggles full screen display
+*/
+function toggleFullScreen() {
+	if (!Context.isFullScreen()) Context.requestFullScreen();
+	else Context.cancelFullScreen();
+}
+/**
+* Emulates a keypress event
+*
+* @param {number} keyId
+*/
+function keyPress(k) {
+	const roWindow = window;
+	roWindow.document.getElementsByTagName("body")[0].focus();
+	roWindow.dispatchEvent(new KeyboardEvent("keydown", {
+		keyCode: k,
+		which: k
+	}));
+}
+/**
+* Toggles MobileUI button bars visibility (and thus buttons)
+*/
+function toggleButtons() {
+	const root = MobileUI.getRoot();
+	if (showButtons) {
+		[
+			"#topBar",
+			"#leftBar",
+			"#rightBar",
+			"#joystickContainer",
+			"#buttonContainer",
+			"#attackButton",
+			"#pickupButton",
+			"#talktonpcButton",
+			"#switchshorcutButton"
+		].forEach((sel) => {
+			const el = root.querySelector(sel);
+			if (el) el.classList.add("disabled");
+		});
+		for (let i = 1; i <= 9; i++) {
+			const fBtn = root.querySelector(`#f${i}Button`);
+			if (fBtn) fBtn.classList.add("disabled");
+		}
+		[
+			"n",
+			"q",
+			"w",
+			"e",
+			"r",
+			"t",
+			"y",
+			"u",
+			"i",
+			"o",
+			"a",
+			"s",
+			"d",
+			"f",
+			"g",
+			"h",
+			"j",
+			"k",
+			"l"
+		].forEach((key) => {
+			const btn = root.querySelector(`#${key}Button`) || root.querySelector(`#${key}${key === "n" ? "" : "B"}utton`);
+			if (btn) btn.classList.add("disabled");
+		});
+		for (let i = 1; i <= 9; i++) {
+			const nBtn = root.querySelector(`#n${i}Button`);
+			if (nBtn) nBtn.classList.add("disabled");
+		}
+		[
+			"q",
+			"w",
+			"e",
+			"r",
+			"t",
+			"y",
+			"u",
+			"i",
+			"o",
+			"a",
+			"s",
+			"d",
+			"f",
+			"g",
+			"h",
+			"j",
+			"k",
+			"l"
+		].forEach((key) => {
+			const btn = root.querySelector(`#${key}Button`);
+			if (btn) btn.classList.add("disabled");
+		});
+		if (SessionStorage_default.TouchTargeting) toggleTouchTargeting();
+		showButtons = false;
+	} else {
+		[
+			"#topBar",
+			"#leftBar",
+			"#rightBar",
+			"#joystickContainer",
+			"#buttonContainer",
+			"#attackButton",
+			"#pickupButton",
+			"#talktonpcButton",
+			"#switchshorcutButton"
+		].forEach((sel) => {
+			const el = root.querySelector(sel);
+			if (el) el.classList.remove("disabled");
+		});
+		for (let i = 1; i <= 9; i++) {
+			const fBtn = root.querySelector(`#f${i}Button`);
+			if (fBtn) fBtn.classList.remove("disabled");
+		}
+		showButtons = true;
+	}
+}
+/**
+* Toggles switch skill
+*/
+function switchSkillButtons() {
+	const root = MobileUI.getRoot();
+	const skillSets = [
+		[
+			"#f1Button",
+			"#f2Button",
+			"#f3Button",
+			"#f4Button",
+			"#f5Button",
+			"#f6Button",
+			"#f7Button",
+			"#f8Button",
+			"#f9Button"
+		],
+		[
+			"#n1Button",
+			"#n2Button",
+			"#n3Button",
+			"#n4Button",
+			"#n5Button",
+			"#n6Button",
+			"#n7Button",
+			"#n8Button",
+			"#n9Button"
+		],
+		[
+			"#qButton",
+			"#wButton",
+			"#eButton",
+			"#rButton",
+			"#tButton",
+			"#yButton",
+			"#uButton",
+			"#iButton",
+			"#oButton"
+		],
+		[
+			"#aButton",
+			"#sButton",
+			"#dButton",
+			"#fButton",
+			"#gButton",
+			"#hButton",
+			"#jButton",
+			"#kButton",
+			"#lButton"
+		]
+	];
+	const nextSetIndex = ((switchSkillButtons.currentSetIndex || 0) + 1) % skillSets.length;
+	skillSets.flat().forEach((selector) => {
+		const el = root.querySelector(selector);
+		if (el) el.classList.add("disabled");
+	});
+	skillSets[nextSetIndex].forEach((selector) => {
+		const el = root.querySelector(selector);
+		if (el) el.classList.remove("disabled");
+	});
+	switchSkillButtons.currentSetIndex = nextSetIndex;
+}
+/**
+* Toggles status view
+*/
+function toggleStatus() {
+	const statusIcons = document.querySelector("#StatusIcons");
+	if (statusIcons) statusIcons.style.display = statusIcons.style.display === "none" ? "" : "none";
+}
+/**
+* Toggles touch targeting
+*/
+function toggleTouchTargeting() {
+	const root = MobileUI.getRoot();
+	if (SessionStorage_default.TouchTargeting) {
+		root.querySelector("#toggleTargetingButton").classList.remove("active");
+		root.querySelector("#toggleAutoFollowButton").classList.add("disabled");
+		root.querySelector("#toggleAutoTargetButton").classList.add("disabled");
+		if (SessionStorage_default.AutoTargeting) toggleAutoTargeting();
+		SessionStorage_default.TouchTargeting = false;
+	} else {
+		root.querySelector("#toggleTargetingButton").classList.add("active");
+		root.querySelector("#toggleAutoFollowButton").classList.remove("disabled");
+		root.querySelector("#toggleAutoTargetButton").classList.remove("disabled");
+		SessionStorage_default.TouchTargeting = true;
+	}
+}
+/**
+* Toggles automatic targeting
+*/
+function toggleAutoTargeting() {
+	const root = MobileUI.getRoot();
+	if (SessionStorage_default.AutoTargeting) {
+		root.querySelector("#toggleAutoTargetButton").classList.remove("active");
+		SessionStorage_default.AutoTargeting = false;
+	} else {
+		root.querySelector("#toggleAutoTargetButton").classList.add("active");
+		SessionStorage_default.AutoTargeting = true;
+		autoTarget();
+	}
+}
+/**
+* Toggles auto follow
+*/
+function toggleAutoFollow() {
+	const root = MobileUI.getRoot();
+	if (SessionStorage_default.autoFollow) {
+		root.querySelector("#toggleAutoFollowButton").classList.remove("active");
+		SessionStorage_default.autoFollow = false;
+	} else {
+		const entityFocus = EntityManager.getFocusEntity();
+		if (entityFocus) {
+			root.querySelector("#toggleAutoFollowButton").classList.add("active");
+			SessionStorage_default.autoFollow = true;
+			SessionStorage_default.autoFollowTarget = entityFocus;
+			onAutoFollow$1();
+		}
+	}
+}
+/**
+* Attacks a targeted enemy (if present)
+*/
+function attackTargeted() {
+	const main = SessionStorage_default.Entity;
+	let pkt;
+	let entityFocus = EntityManager.getFocusEntity();
+	if (!entityFocus || entityFocus.action === entityFocus.ACTION.DIE) {
+		autoTarget();
+		entityFocus = EntityManager.getFocusEntity();
+	}
+	if (entityFocus) {
+		const out = [];
+		const count = PathFinding_default.search(main.position[0] | 0, main.position[1] | 0, entityFocus.position[0] | 0, entityFocus.position[1] | 0, main.attack_range + 1, out);
+		if (!count) return true;
+		if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_ACT2();
+		else pkt = new PACKET.CZ.REQUEST_ACT();
+		pkt.action = 7;
+		pkt.targetGID = entityFocus.GID;
+		if (count < 2) {
+			Network.sendPacket(pkt);
+			return true;
+		}
+		SessionStorage_default.moveAction = pkt;
+		if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
+		else pkt = new PACKET.CZ.REQUEST_MOVE();
+		pkt.dest[0] = out[(count - 1) * 2 + 0];
+		pkt.dest[1] = out[(count - 1) * 2 + 1];
+		Network.sendPacket(pkt);
+	}
+}
+/**
+* Automatically targeting the closest enemy
+*/
+function autoTarget() {
+	const Player = SessionStorage_default.Entity;
+	const entityFocus = EntityManager.getFocusEntity();
+	const closestEntity = EntityManager.getClosestEntity(Player, SessionStorage_default.Entity.constructor.TYPE_MOB);
+	if (closestEntity) {
+		if (entityFocus && closestEntity.GID !== entityFocus.GID) {
+			entityFocus.onFocusEnd();
+			EntityManager.setFocusEntity(null);
+			closestEntity.onFocus();
+			EntityManager.setFocusEntity(closestEntity);
+		} else if (!entityFocus) {
+			closestEntity.onFocus();
+			EntityManager.setFocusEntity(closestEntity);
+		}
+	}
+	if (SessionStorage_default.AutoTargeting && SessionStorage_default.Playing) startAutoTarget();
+}
+/**
+* Starting automatic targeting cycle
+*/
+function startAutoTarget() {
+	window.setTimeout(autoTarget, C_AUTOTARGET_DELAY);
+}
+/**
+* Stop event propagation
+*/
+function stopPropagation$9(event) {
+	if (event && typeof event.preventDefault === "function") event.preventDefault();
+	event.stopImmediatePropagation();
+	return false;
+}
+/**
+* Auto follow logic
+*/
+function onAutoFollow$1() {
+	const root = MobileUI.getRoot();
+	if (SessionStorage_default.autoFollow) {
+		const player = SessionStorage_default.Entity;
+		const target = SessionStorage_default.autoFollowTarget;
+		const dx = Math.abs(player.position[0] - target.position[0]);
+		const dy = Math.abs(player.position[1] - target.position[1]);
+		if (dx > 1 || dy > 1) {
+			const dest = [0, 0];
+			if (checkFreeCell$2(Math.round(target.position[0]), Math.round(target.position[1]), 1, dest)) {
+				let pkt;
+				if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
+				else pkt = new PACKET.CZ.REQUEST_MOVE();
+				pkt.dest = dest;
+				Network.sendPacket(pkt);
+			}
+		}
+		Events.setTimeout(onAutoFollow$1, 500);
+	} else root.querySelector("#toggleAutoFollowButton").classList.remove("active");
+}
+/**
+* Picks up the nearest item - MicromeX
+*/
+function pickUpItem() {
+	const player = SessionStorage_default.Entity;
+	if (!player) return;
+	const closestItem = EntityManager.getClosestEntity(player, SessionStorage_default.Entity.constructor.TYPE_ITEM);
+	if (!closestItem) return;
+	let dx = Math.abs(player.position[0] - closestItem.position[0]);
+	let dy = Math.abs(player.position[1] - closestItem.position[1]);
+	if (dx < 0) dx = -dx;
+	if (dy < 0) dy = -dy;
+	if ((dx < dy ? dy : dx) > 2) {
+		const dest = [0, 0];
+		if (checkFreeCell$2(Math.round(closestItem.position[0]), Math.round(closestItem.position[1]), 1, dest)) {
+			let pkt;
+			if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
+			else pkt = new PACKET.CZ.REQUEST_MOVE();
+			pkt.dest = dest;
+			Network.sendPacket(pkt);
+		}
+	}
+	let pickUpPacket;
+	if (PacketVerManager_default.value >= 20180307) pickUpPacket = new PACKET.CZ.ITEM_PICKUP2();
+	else pickUpPacket = new PACKET.CZ.ITEM_PICKUP();
+	pickUpPacket.ITAID = closestItem.GID;
+	Network.sendPacket(pickUpPacket);
+}
+/**
+* Joystick handling for both mouse and touch input - MicromeX
+*/
+function setupJoystick() {
+	const root = MobileUI.getRoot();
+	_joystickBase = root.querySelector("#joystickBase");
+	_joystickThumb = root.querySelector("#joystickThumb");
+	maxDistance = _joystickBase.offsetWidth / 2;
+	_joystickThumb.addEventListener("mousedown", startDrag);
+	_joystickThumb.addEventListener("touchstart", startDrag);
+}
+function startDrag(event) {
+	event.preventDefault();
+	const touch = event.touches ? event.touches[0] : event;
+	const rect = _joystickBase.getBoundingClientRect();
+	centerX = rect.left + rect.width / 2;
+	centerY = rect.top + rect.height / 2;
+	document.addEventListener("mousemove", moveJoystick);
+	document.addEventListener("mouseup", stopDrag);
+	document.addEventListener("touchmove", moveJoystick);
+	document.addEventListener("touchend", stopDrag);
+	moveJoystick(touch);
+	startMovement();
+}
+function moveJoystick(event) {
+	const deadZone = 15;
+	const touch = event.touches ? event.touches[0] : event;
+	const deltaX = touch.clientX - centerX;
+	const deltaY = touch.clientY - centerY;
+	const distance = Math.min(Math.sqrt(deltaX ** 2 + deltaY ** 2), maxDistance);
+	const angle = Math.atan2(deltaY, deltaX);
+	const offsetX = Math.cos(angle) * distance;
+	const offsetY = Math.sin(angle) * distance;
+	_joystickThumb.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+	if (distance < deadZone) {
+		normalizedX = 0;
+		normalizedY = 0;
+		return;
+	}
+	normalizedX = offsetX / maxDistance;
+	normalizedY = -offsetY / maxDistance;
+}
+function stopDrag() {
+	_joystickThumb.style.transform = "translate(0, 0)";
+	normalizedX = 0;
+	normalizedY = 0;
+	stopMovement();
+	document.removeEventListener("mousemove", moveJoystick);
+	document.removeEventListener("mouseup", stopDrag);
+	document.removeEventListener("touchmove", moveJoystick);
+	document.removeEventListener("touchend", stopDrag);
+}
+function startMovement() {
+	const tileSize = 3;
+	if (movementTimer) clearInterval(movementTimer);
+	const executeMove = () => {
+		if (normalizedX !== 0 || normalizedY !== 0) moveCharacter(normalizedX, normalizedY, tileSize);
+	};
+	executeMove();
+	movementTimer = setInterval(executeMove, 100);
+}
+function stopMovement() {
+	if (movementTimer) {
+		clearInterval(movementTimer);
+		movementTimer = null;
+	}
+}
+/**
+* Moves the character to a new tile and waits for the movement to complete.
+* @param {number} x - Normalized x-axis input (-1 to 1)
+* @param {number} y - Normalized y-axis input (-1 to 1)
+* @param {number} tileSize - The size of each tile in the game world
+*/
+function moveCharacter(x, y, tileSize) {
+	const player = SessionStorage_default.Entity;
+	if (!player) return;
+	direction$1[0] = x;
+	direction$1[1] = y;
+	mat2.identity(rotate$1);
+	mat2.rotate(rotate$1, rotate$1, -Camera.direction * 45 / 180 * Math.PI);
+	vec2$2.transformMat2(direction$1, direction$1, rotate$1);
+	const newPos = [Math.round(player.position[0] + direction$1[0] * tileSize), Math.round(player.position[1] + direction$1[1] * tileSize)];
+	const dest = [0, 0];
+	if (checkFreeCell$2(newPos[0], newPos[1], 5, dest)) {
+		if (targetPos[0] !== dest[0] || targetPos[1] !== dest[1]) {
+			targetPos[0] = dest[0];
+			targetPos[1] = dest[1];
+			let movePacket;
+			if (PacketVerManager_default.value >= 20180307) movePacket = new PACKET.CZ.REQUEST_MOVE2();
+			else movePacket = new PACKET.CZ.REQUEST_MOVE();
+			movePacket.dest[0] = dest[0];
+			movePacket.dest[1] = dest[1];
+			Network.sendPacket(movePacket);
+		}
+	}
+}
+/**
+* Talk to NPC Button Function - MicromeX
+*/
+function setupTalkToNpcButton() {
+	const talkButton = MobileUI.getRoot().querySelector("#talktonpcButton");
+	function findNearestNpc() {
+		const player = SessionStorage_default.Entity;
+		if (!player) return null;
+		let nearestNpc = null;
+		let minDistance = 3;
+		EntityManager.forEach((entity) => {
+			if (entity.objecttype === entity.constructor.TYPE_NPC) {
+				const dx = entity.position[0] - player.position[0];
+				const dy = entity.position[1] - player.position[1];
+				const distance = Math.sqrt(dx ** 2 + dy ** 2);
+				if (distance <= minDistance) {
+					minDistance = distance;
+					nearestNpc = entity;
+				}
+			}
+		});
+		return nearestNpc;
+	}
+	function talkToNearestNpc() {
+		const nearestNpc = findNearestNpc();
+		if (!nearestNpc) return;
+		const talkPacket = new PACKET.CZ.CONTACTNPC();
+		talkPacket.NAID = nearestNpc.GID;
+		Network.sendPacket(talkPacket);
+	}
+	talkButton.addEventListener("click", talkToNearestNpc);
+}
+/**
+* Search free cells around a position
+*
+* @param {number} x
+* @param {number} y
+* @param {number} range
+* @param {array} out
+*/
+function checkFreeCell$2(x, y, range, out) {
+	let _x, _y, r;
+	const d_x = SessionStorage_default.Entity.position[0] < x ? -1 : 1;
+	const d_y = SessionStorage_default.Entity.position[1] < y ? -1 : 1;
+	for (r = 0; r <= range; ++r) for (_x = -r; _x <= r; ++_x) for (_y = -r; _y <= r; ++_y) if (isFreeCell$2(x + _x * d_x, y + _y * d_y)) {
+		out[0] = x + _x * d_x;
+		out[1] = y + _y * d_y;
+		return true;
+	}
+	return false;
+}
+/**
+* Does a cell is free (walkable, and no entity on)
+*
+* @param {number} x
+* @param {number} y
+* @param {returns} is free
+*/
+function isFreeCell$2(x, y) {
+	if (!(Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE)) return false;
+	let free = true;
+	EntityManager.forEach((entity) => {
+		if (entity.objecttype !== entity.constructor.TYPE_EFFECT && entity.objecttype !== entity.constructor.TYPE_UNIT && entity.objecttype !== entity.constructor.TYPE_TRAP && Math.round(entity.position[0]) === x && Math.round(entity.position[1]) === y) {
+			free = false;
+			return false;
+		}
+		return true;
+	});
+	return free;
+}
+var vec2$2, mat2, direction$1, rotate$1, targetPos, movementTimer, MobileUI, _preferences$27, showButtons, C_AUTOTARGET_DELAY, C_TOUCH_CLICK_GUARD, centerX, centerY, maxDistance, normalizedX, normalizedY, _joystickBase, _joystickThumb, MobileUI_default;
+var init_MobileUI = __esmMin((() => {
+	init_Platform();
+	init_Context();
+	init_UIManager();
+	init_GUIComponent();
+	init_Preferences$1();
+	init_SessionStorage();
+	init_Renderer();
+	init_PacketVerManager();
+	init_PacketStructure();
+	init_EntityManager();
+	init_NetworkManager();
+	init_PathFinding();
+	init_Altitude();
+	init_Events();
+	init_MobileUI$2();
+	init_MobileUI$1();
+	init_gl_matrix$1();
+	init_Camera();
+	init_KeyEventHandler();
+	vec2$2 = exports$3.vec2;
+	mat2 = exports$3.mat2;
+	direction$1 = vec2$2.create();
+	rotate$1 = mat2.create();
+	targetPos = [0, 0];
+	movementTimer = null;
+	MobileUI = new GUIComponent("MobileUI", MobileUI_default$1);
+	MobileUI.render = () => MobileUI_default$2;
+	_preferences$27 = Preferences.get("MobileUI", {
+		x: 0,
+		y: 0,
+		zIndex: 1e3,
+		width: window.innerWidth,
+		height: window.innerHeight,
+		show: false
+	}, 1);
+	showButtons = false;
+	C_AUTOTARGET_DELAY = 500;
+	C_TOUCH_CLICK_GUARD = 750;
+	maxDistance = 0;
+	normalizedX = 0;
+	normalizedY = 0;
+	_joystickBase = null;
+	_joystickThumb = null;
+	/**
+	* Initialize UI
+	*/
+	MobileUI.init = function init() {
+		const root = MobileUI.getRoot();
+		bindButton(root, "#toggleUIButton", (e) => {
+			toggleButtons();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#fullscreenButton", (e) => {
+			toggleFullScreen();
+			stopPropagation$9(e);
+		});
+		const fKeyMap = [
+			["#f1Button", 112],
+			["#f2Button", 113],
+			["#f3Button", 114],
+			["#f4Button", 115],
+			["#f5Button", 116],
+			["#f6Button", 117],
+			["#f7Button", 118],
+			["#f8Button", 119],
+			["#f9Button", 120]
+		];
+		const nKeyMap = [
+			["#n1Button", 49],
+			["#n2Button", 50],
+			["#n3Button", 51],
+			["#n4Button", 52],
+			["#n5Button", 53],
+			["#n6Button", 54],
+			["#n7Button", 55],
+			["#n8Button", 56],
+			["#n9Button", 57]
+		];
+		const letterKeyMap = [
+			["#qButton", 81],
+			["#wButton", 87],
+			["#eButton", 69],
+			["#rButton", 82],
+			["#tButton", 84],
+			["#yButton", 89],
+			["#uButton", 85],
+			["#iButton", 73],
+			["#oButton", 79],
+			["#aButton", 65],
+			["#sButton", 83],
+			["#dButton", 68],
+			["#fButton", 70],
+			["#gButton", 71],
+			["#hButton", 72],
+			["#jButton", 74],
+			["#kButton", 75],
+			["#lButton", 76]
+		];
+		[
+			...fKeyMap,
+			...nKeyMap,
+			...letterKeyMap
+		].forEach(([selector, keyCode]) => {
+			bindButton(root, selector, (e) => {
+				logKeyPress(keyCode);
+				stopPropagation$9(e);
+			});
+		});
+		bindButton(root, "#f10Button", (e) => {
+			logKeyPress(121);
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#f12Button", (e) => {
+			logKeyPress(123);
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#insButton", (e) => {
+			logKeyPress(45);
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#toggleStatusButton", (e) => {
+			toggleStatus();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#toggleTargetingButton", (e) => {
+			toggleTouchTargeting();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#toggleAutoFollowButton", (e) => {
+			toggleAutoFollow();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#toggleAutoTargetButton", (e) => {
+			toggleAutoTargeting();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#attackButton", (e) => {
+			attackTargeted();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#pickupButton", (e) => {
+			pickUpItem();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#switchshorcutButton", (e) => {
+			switchSkillButtons();
+			stopPropagation$9(e);
+		});
+		root.querySelectorAll(".buttons").forEach((btn) => {
+			btn.addEventListener("mousedown", (e) => e.target.classList.add("pressed"));
+			btn.addEventListener("touchstart", (e) => e.target.classList.add("pressed"));
+			btn.addEventListener("mouseup", (e) => e.target.classList.remove("pressed"));
+			btn.addEventListener("touchend", (e) => e.target.classList.remove("pressed"));
+		});
+		root.querySelectorAll(".FButton").forEach((btn) => {
+			btn.addEventListener("mousedown", (e) => e.target.classList.add("pressed"));
+			btn.addEventListener("touchstart", (e) => e.target.classList.add("pressed"));
+			btn.addEventListener("mouseup", (e) => e.target.classList.remove("pressed"));
+			btn.addEventListener("touchend", (e) => e.target.classList.remove("pressed"));
+		});
+		setupJoystick();
+		setupTalkToNpcButton();
+	};
+	/**
+	* Apply preferences once append to body
+	*/
+	MobileUI.onAppend = function onAppend() {
+		if (Platform.isMobile) {
+			this._host.style.display = "none";
+			return;
+		}
+		if (SessionStorage_default.isTouchDevice) this._host.style.display = "block";
+		else this._host.style.display = "none";
+		this._host.style.top = "0px";
+		this._host.style.left = "0px";
+		this._host.style.zIndex = "1000";
+	};
+	/**
+	* Process shortcut
+	*
+	* @param {object} key
+	*/
+	MobileUI.onShortCut = function onShortCut(key) {
+		if (Platform.isMobile) return;
+		switch (key.cmd) {
+			case "SHOW":
+				SessionStorage_default.isTouchDevice = true;
+				this.show();
+				break;
+			case "TOGGLE":
+				toggleButtons();
+				break;
+			case "TG":
+				toggleTouchTargeting();
+				break;
+			case "AT":
+				toggleAutoTargeting();
+				break;
+			case "ATK": attackTargeted();
+		}
+	};
+	/**
+	* Removes MobileUI
+	*/
+	MobileUI.onRemove = function onRemove() {
+		_preferences$27.y = 0;
+		_preferences$27.x = 0;
+		_preferences$27.zIndex = 1e3;
+		_preferences$27.width = Renderer.width;
+		_preferences$27.height = Renderer.height;
+		_preferences$27.save();
+		if (SessionStorage_default.AutoTargeting) toggleAutoTargeting();
+	};
+	/**
+	* Shows MobileUI
+	*/
+	MobileUI.show = function show() {
+		if (Platform.isMobile) return;
+		this._host.style.display = "block";
+	};
+	MobileUI_default = UIManager.addComponent(MobileUI);
+}));
+//#endregion
+//#region src/Core/Mobile.js
+/**
+* Return distance between touches
+*
+* @param {TouchList} touches
+* @return {number} distance
+*/
+function touchDistance(touches) {
+	const x = touches[0].pageX - touches[1].pageX;
+	const y = touches[0].pageY - touches[1].pageY;
+	return Math.sqrt(x * x + y * y);
+}
+/**
+* Get angle from touches
+*
+* @param {TouchList} touches
+* @return {number} rotation angle
+*/
+function touchAngle(touches) {
+	const x = touches[0].pageX - touches[1].pageX;
+	const y = touches[0].pageY - touches[1].pageY;
+	return Math.atan2(y, x) * 180 / Math.PI;
+}
+/**
+* Get translation size (width)
+*
+* @param {TouchList} old touches
+* @param {TouchList} new touches
+*/
+function touchTranslationX(oldTouches, touches) {
+	const x1 = touches[0].pageX - oldTouches[0].pageX;
+	const x2 = touches[1].pageX - oldTouches[1].pageX;
+	if (x1 && x2 && x1 < 0 === x2 < 0 && Math.abs(1 - x1 / x2) < .25) return x1 + x2 >> 1;
+	return 0;
+}
+/**
+* Get translation size (height)
+*
+* @param {TouchList} old touches
+* @param {TouchList} new touches
+*/
+function touchTranslationY(oldTouches, touches) {
+	const y1 = touches[0].pageY - oldTouches[0].pageY;
+	const y2 = touches[1].pageY - oldTouches[1].pageY;
+	if (y1 && y2 && y1 < 0 === y2 < 0 && Math.abs(1 - y1 / y2) < .25) return y1 + y2 >> 1;
+	return 0;
+}
+/**
+* Hook touch end to know when a gesture end
+* process OnMouseUp if no gesture detected
+*/
+function onTouchEnd(event) {
+	if (Platform.isMobile && SessionStorage_default.Playing) return;
+	if (_processGesture) {
+		_processGesture = false;
+		KEYS.SHIFT = false;
+		Camera.rotate(false);
+		return;
+	}
+	if (_timer$1 > -1) {
+		_intersect = false;
+		return;
+	}
+	if (Mobile.onTouchEnd) Mobile.onTouchEnd();
+	Mouse.intersect = false;
+}
+/**
+* Process gesture (scale, rotate)
+* Else move.
+*/
+function onTouchMove(event) {
+	if (Platform.isMobile && SessionStorage_default.Playing) return;
+	event.stopImmediatePropagation();
+	const touches = event.touches;
+	Mouse.screen.x = touches[0].pageX;
+	Mouse.screen.y = touches[0].pageY;
+	if (!_processGesture) return;
+	const scale = touchDistance(touches) - _scale;
+	const x = Math.abs(touchTranslationX(_touches, touches));
+	const y = Math.abs(touchTranslationY(_touches, touches));
+	if (!Camera.action.active && (x > 10 || y > 10)) {
+		KEYS.SHIFT = y > x;
+		Camera.rotate(true);
+		return;
+	}
+	if (Math.abs(scale) > 10) {
+		Camera.zoomFinal -= scale * .1;
+		Camera.zoomFinal = Math.min(Camera.zoomFinal, Math.abs(Camera.altitudeTo - Camera.altitudeFrom) * Camera.MAX_ZOOM);
+		Camera.zoomFinal = Math.max(Camera.zoomFinal, 2);
+	}
+}
+function touchDevice() {
+	SessionStorage_default.isTouchDevice = true;
+	if (SessionStorage_default.Playing) MobileUI_default.show();
+}
+var _processGesture, _scale, _touches, _intersect, _timer$1, Mobile, remoteAutoFocus, onTouchStart;
+var init_Mobile = __esmMin((() => {
+	init_Platform();
+	init_Context();
+	init_Events();
+	init_Camera();
+	init_SessionStorage();
+	init_MouseEventHandler();
+	init_KeyEventHandler();
+	init_MobileUI();
+	_processGesture = false;
+	_timer$1 = -1;
+	Mobile = class {
+		/**
+		* Initialize
+		*/
+		static init() {}
+		static cancelInteraction() {
+			if (_timer$1 > -1) Events.clearTimeout(_timer$1);
+			_timer$1 = -1;
+			if (_processGesture) KEYS.SHIFT = false;
+			_processGesture = false;
+			_intersect = false;
+			Camera.rotate(false);
+			Mouse.intersect = false;
+		}
+	};
+	remoteAutoFocus = (function removeAutoFocusClosure() {
+		let _done = false;
+		return function removeAutoFocus() {
+			if (_done) return;
+			_done = true;
+		};
+	})();
+	onTouchStart = (function onTouchStartClosure() {
+		function delayedClick() {
+			if (!_processGesture) {
+				_timer$1 = -1;
+				if (Mobile.onTouchStart) Mobile.onTouchStart();
+				if (!_intersect) {
+					if (Mobile.onTouchEnd) Mobile.onTouchEnd();
+				}
+				Mouse.intersect = _intersect;
+			}
+		}
+		return function(event) {
+			if (Platform.isMobile && SessionStorage_default.Playing) return;
+			remoteAutoFocus();
+			_touches = event.touches;
+			const target = event.target;
+			if (!(target && /^(input|textarea|select)$/i.test(target.tagName))) event.preventDefault();
+			event.stopImmediatePropagation();
+			if (_timer$1 > -1) {
+				Events.clearTimeout(_timer$1);
+				_timer$1 = -1;
+			}
+			if (_touches.length > 1) {
+				_scale = touchDistance(_touches);
+				touchAngle(_touches);
+				_processGesture = true;
+				return;
+			}
+			Mouse.screen.x = _touches[0].pageX;
+			Mouse.screen.y = _touches[0].pageY;
+			if (!SessionStorage_default.FreezeUI) {
+				Mouse.intersect = true;
+				_intersect = true;
+			}
+			_timer$1 = Events.setTimeout(delayedClick, 200);
+		};
+	})();
+	if (Math.max(screen.availHeight, screen.availWidth) <= 800) window.addEventListener("touchstart", () => {
+		if (!Context.isFullScreen()) Context.requestFullScreen();
+	});
+	window.addEventListener("touchstart", touchDevice, { once: true });
+	window.addEventListener("touchstart", onTouchStart, { passive: false });
+	window.addEventListener("touchend", onTouchEnd);
+	window.addEventListener("touchmove", onTouchMove);
+}));
+//#endregion
+//#region src/Core/AIDriver.js
+var msg, resMsg, AIDriver;
+var init_AIDriver = __esmMin((() => {
+	init_DBManager();
+	init_SessionStorage();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_PacketVerManager();
+	init_SkillInfo_generated();
+	init_EntityManager();
+	init_Client();
+	init_Configs();
+	init_UIManager();
+	init_CodepageManager();
+	msg = {};
+	resMsg = {};
+	AIDriver = class AIDriver {
+		static HOM_AGGRESSIVE = false;
+		static MER_AGGRESSIVE = false;
+		static HO_AI = null;
+		static MER_AI = null;
+		static default_HO_AI = null;
+		static default_MER_AI = null;
+		static ready = {
+			homunculus: false,
+			mercenary: false
+		};
+		static initialization = {
+			homunculus: null,
+			mercenary: null
+		};
+		static generation = {
+			homunculus: 0,
+			mercenary: 0
+		};
+		static init() {}
+		static setmsg(homId, str) {
+			if (!msg[homId]) msg[homId] = str;
+			else resMsg[homId] = str;
+		}
+		static addCTX(homunculus, defaultAI, customAI) {
+			const scriptStartTime = Date.now();
+			const Homun = UIManager.getComponent("HomunInformations");
+			const Mercenary = UIManager.getComponent("MercenaryInformations");
+			function addCTX(lua, isHoAI = true) {
+				const ctx = lua.ctx;
+				lua.doStringSync(`
+			function GetV(V_, id)
+				local res = GetVJS(V_, id)
+				if(V_ == 1 or V_ == 13) then
+					return res[1], res[2]
+				end
+				return res
+			end
+			function GetMsg(id)
+				local res = GetMsgJS(id)
+				local result = {}
+				local i = 0
+				while res[i] ~= nil do
+					result[i + 1] = res[i]
+					i = i + 1
+				end
+				return result
+			end
+			function GetResMsg(id)
+				local res = GetResMsgJS(id)
+				local result = {}
+				local i = 0
+				while res[i] ~= nil do
+					result[i + 1] = res[i]
+					i = i + 1
+				end
+				return result
+			end
+		`);
+				ctx.log = (logMessage) => {
+					if (Configs.get("debugAI", false)) console.log(typeof logMessage === "object" && logMessage.buffer ? CodepageManager.decode(logMessage) : logMessage);
+				};
+				ctx.MoveToOwner = (id) => {
+					if (isHoAI) Homun.reqMoveToOwner(id);
+					else Mercenary.reqMoveToOwner(id);
+				};
+				ctx.Move = (id, x, y) => {
+					if (isHoAI) Homun.reqMoveTo(id, x, y);
+					else Mercenary.reqMoveTo(id, x, y);
+				};
+				ctx.Attack = (id, targetGID) => {
+					if (isHoAI) Homun.reqAttack(id, targetGID);
+					else Mercenary.reqAttack(id, targetGID);
+				};
+				ctx.GetVJS = (V_, id) => {
+					const entity = EntityManager.get(Number(id));
+					switch (V_) {
+						case 0: return SessionStorage_default.AID;
+						case 1:
+						case 13: {
+							let posX = -1, posY = -1;
+							if (entity && entity.position) {
+								posX = parseInt(entity.position[0]);
+								posY = parseInt(entity.position[1]);
+							}
+							return [
+								V_,
+								posX,
+								posY
+							];
+						}
+						case 2: return 1;
+						case 3: return entity ? entity.action : 0;
+						case 4: return entity ? entity.attack_range : 1;
+						case 5: return entity && entity.targetGID && entity.targetGID > 0 ? entity.targetGID : -1;
+						case 6: return entity ? entity.attack_range : 1;
+						case 7: return entity ? entity.job % 6e3 : -1;
+						case 8: return entity.life.hp || -1;
+						case 9: return entity.life.sp || -1;
+						case 10: return entity.life.hp_max || -1;
+						case 11: return entity.life.sp_max || -1;
+						case 12:
+							if (entity === null) return 0;
+							return Number((entity.job + "").substring(1));
+						case 14:
+							if (entity !== null) return entity.attack_range || 1;
+							return 1;
+						default:
+							if (Configs.get("debugAI", false)) console.error("unknown V_ ", V_, entity);
+							return 0;
+					}
+				};
+				function distance(x1, y1, x2, y2) {
+					const dx = x2 - x1;
+					const dy = y2 - y1;
+					return Math.sqrt(dx * dx + dy * dy);
+				}
+				function canUseAISkill(entity) {
+					if (!entity || entity.action === entity.ACTION.DIE || entity.action === entity.ACTION.HURT) return false;
+					return [
+						entity.ACTION.IDLE,
+						entity.ACTION.WALK,
+						entity.ACTION.ATTACK,
+						entity.ACTION.ATTACK2,
+						entity.ACTION.ATTACK3
+					].some((action) => action >= 0 && action === entity.action);
+				}
+				ctx.GetActors = function() {
+					AIDriver.exec("status = MyState", isHoAI);
+					const res = [0];
+					EntityManager.forEach((item) => {
+						res.push(item.GID);
+					});
+					if (res.length > 3) {
+						if (isHoAI ? AIDriver.HOM_AGGRESSIVE : AIDriver.MER_AGGRESSIVE) {
+							let closest = 0;
+							let lastDist = 32;
+							const thisentity = EntityManager.get(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId);
+							for (const item of res) if (item !== 0 && item !== SessionStorage_default.AID && item !== SessionStorage_default.homunId && item !== SessionStorage_default.mercId) {
+								const entity = EntityManager.get(item);
+								if (entity && (entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_MOB || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_ABR || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_BIONIC) && !entity.isDead() && entity.action !== entity.ACTION.DIE && entity.isVisible()) {
+									const dist = distance(thisentity.position[0], thisentity.position[1], entity.position[0], entity.position[1]);
+									if (dist < lastDist) {
+										closest = item;
+										lastDist = dist;
+									}
+								}
+							}
+							if (closest > 0) AIDriver.setmsg(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId, "3," + closest);
+						}
+					}
+					return res;
+				};
+				ctx.GetTick = () => Date.now() - scriptStartTime;
+				ctx.GetMsgJS = (id) => {
+					let raw = "0";
+					if (id in msg) {
+						raw = msg[id];
+						delete msg[id];
+					}
+					return raw.split(",").map(Number);
+				};
+				ctx.GetResMsgJS = (id) => {
+					let raw = "0";
+					if (id in resMsg) {
+						raw = resMsg[id];
+						delete resMsg[id];
+					}
+					return raw.split(",").map(Number);
+				};
+				ctx.SkillObject = (homunId, level, skillId, targetID) => {
+					if (homunId === (isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId)) {
+						const homun = EntityManager.get(Number(homunId));
+						const target = EntityManager.get(Number(targetID));
+						if (!homun || !target) return 0;
+						const range = SkillInfo_generated_default[skillId].AttackRange[level - 1] + 1 || homun.attack_range || 1;
+						if (homun.position[0] > 0 && homun.position[1] > 0 && target.position[0] > 0 && target.position[1] > 0) {
+							if (range >= distance(homun.position[0], homun.position[1], target.position[0], target.position[1])) {
+								if (canUseAISkill(homun)) {
+									let pkt;
+									if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL2();
+									else pkt = new PACKET.CZ.USE_SKILL();
+									pkt.SKID = skillId;
+									pkt.selectedLevel = level;
+									pkt.targetID = targetID || SessionStorage_default.Entity.GID;
+									Network.sendPacket(pkt);
+								}
+							}
+						}
+					}
+					return 0;
+				};
+				ctx.SkillGround = (homunId, level, skillId, x, y) => {
+					if (homunId === (isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId)) {
+						const homun = EntityManager.get(Number(homunId));
+						if (homun && [
+							0,
+							1,
+							4
+						].includes(homun.action)) {
+							let pkt;
+							if (PacketVerManager_default.value >= 20190904) pkt = new PACKET.CZ.USE_SKILL_TOGROUND3();
+							else if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL_TOGROUND2();
+							else pkt = new PACKET.CZ.USE_SKILL_TOGROUND();
+							pkt.SKID = skillId;
+							pkt.selectedLevel = level;
+							pkt.xPos = x;
+							pkt.yPos = y;
+							Network.sendPacket(pkt);
+						}
+					}
+					return 0;
+				};
+				ctx.IsMonster = (id) => {
+					if (typeof id !== "number" || id <= 0) return 0;
+					const entity = EntityManager.get(Number(id));
+					if (entity && (entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_MOB || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_ABR || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_BIONIC) && !entity.isDead() && entity.action !== entity.ACTION.DIE && entity.isVisible()) return 1;
+					return 0;
+				};
+				ctx.TraceAI = (str) => {
+					if (Configs.get("debugAI", false)) console.log("TraceAI - ", typeof str === "object" && str.buffer ? CodepageManager.decode(str) : str);
+				};
+				ctx.status = null;
+				ctx.Trace = (logMessage) => {
+					if (Configs.get("debugAI", false)) console.debug(typeof logMessage === "object" && logMessage.buffer ? CodepageManager.decode(logMessage) : logMessage);
+				};
+				ctx.TraceValue = (val) => {
+					return val.toString();
+				};
+			}
+			if (homunculus) {
+				addCTX(defaultAI, true);
+				addCTX(customAI, true);
+				return;
+			}
+			addCTX(defaultAI, false);
+			addCTX(customAI, false);
+		}
+		static initAI = (homunculus) => {
+			const kind = homunculus ? "homunculus" : "mercenary";
+			if (AIDriver.ready[kind]) return Promise.resolve();
+			if (AIDriver.initialization[kind]) return AIDriver.initialization[kind];
+			const initialization = AIDriver.initializeAI(homunculus, AIDriver.generation[kind]);
+			AIDriver.initialization[kind] = initialization;
+			return initialization;
+		};
+		static initializeAI = async (homunculus, generation) => {
+			const kind = homunculus ? "homunculus" : "mercenary";
+			let loadedFiles = {};
+			let loadPromises = [];
+			let defaultAI;
+			let customAI;
+			function preloadFiles(fileList, lua) {
+				const ctx = lua.ctx;
+				function customRequire(modulePath, isJS = false) {
+					return new Promise((resolve, reject) => {
+						let filename;
+						if (!isJS) filename = CodepageManager.decode(modulePath);
+						else filename = modulePath;
+						filename = filename.replaceAll("\\\\", "/").replaceAll("\\", "/").replace("./", "").replace("pcall", "").replace("function", "").replace(".lua", "").trim();
+						if (filename.endsWith("end")) filename = filename.replace("end", "").trim();
+						filename = filename + ".lua";
+						if (filename.includes("Timeouts") || filename.includes("AggressiveRelogPath") || filename.startsWith("--")) {
+							resolve();
+							return;
+						}
+						if (loadedFiles[filename]) {
+							resolve();
+							return;
+						}
+						loadedFiles[filename] = filename;
+						Client.loadFile(filename, function(file) {
+							try {
+								if (Configs.get("debugAI", false)) console.log(`Loading file "${filename}"...`);
+								const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
+								const str = CodepageManager.decode(buffer);
+								const nestedPromises = [];
+								for (const line of str.split("\n")) if (line.includes("dofile")) {
+									const nestedPromise = customRequire(line.replace("dofile", "").replaceAll("(", "").replaceAll(")", "").replace(/['"]/g, "").trim(), true);
+									nestedPromises.push(nestedPromise);
+								}
+								Promise.all(nestedPromises).then(() => {
+									lua.mountFile("./" + filename, buffer);
+									resolve();
+								}).catch(reject);
+							} catch (error) {
+								console.error("[require] : ", error);
+								reject(error);
+							}
+						}, reject);
+					});
+				}
+				ctx.require = customRequire;
+				for (const filename of fileList) if (!loadedFiles[filename]) {
+					loadedFiles[filename] = filename;
+					const promise = new Promise((resolve, reject) => {
+						Client.loadFile(filename, function(file) {
+							try {
+								if (Configs.get("debugAI", false)) console.log("Loading file \"" + filename + "\"...");
+								const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
+								const text = CodepageManager.decode(buffer);
+								const nestedPromises = [];
+								for (const line of text.split("\n")) if (line.includes("dofile")) {
+									const nestedPromise = customRequire(line.replace("dofile", "").replaceAll("(", "").replaceAll(")", "").replace(/['"]/g, "").trim(), true);
+									nestedPromises.push(nestedPromise);
+								}
+								Promise.all(nestedPromises).then(() => {
+									lua.mountFile("./" + filename, buffer);
+									resolve();
+								}).catch(reject);
+							} catch (error) {
+								console.error("[prepareAIFiles] : ", error);
+								reject(error);
+							}
+						}, reject);
+					});
+					loadPromises.push(promise);
+				}
+			}
+			async function doFiles(fileList, lua) {
+				await Promise.all(loadPromises);
+				for (const key in fileList) await lua.doFileSync(fileList[key]);
+			}
+			try {
+				defaultAI = await DB.createLuaVM();
+				customAI = await DB.createLuaVM();
+				AIDriver.addCTX(homunculus, defaultAI, customAI);
+				let files = homunculus ? [
+					"AI/Util.lua",
+					"AI/Const.lua",
+					"AI/AI.lua"
+				] : [
+					"AI/Util.lua",
+					"AI/Const.lua",
+					"AI/AI_M.lua"
+				];
+				console.log(`Loading Default ${homunculus ? "HOAI" : "MERAI"}...`);
+				preloadFiles(files, defaultAI);
+				await doFiles(files, defaultAI);
+				loadedFiles = {};
+				loadPromises = [];
+				files = homunculus ? [
+					"AI/USER_AI/Util.lua",
+					"AI/USER_AI/Const.lua",
+					"AI/USER_AI/AI.lua"
+				] : [
+					"AI/USER_AI/Util.lua",
+					"AI/USER_AI/Const.lua",
+					"AI/USER_AI/AI_M.lua"
+				];
+				console.log(`Loading Custom ${homunculus ? "HOAI" : "MERAI"}...`);
+				preloadFiles(files, customAI);
+				await doFiles(files, customAI);
+			} catch (error) {
+				defaultAI?.global?.close?.();
+				customAI?.global?.close?.();
+				console.warn("[AIDriver] AI files not available, skipping AI initialization:", error.message || error);
+				throw error;
+			}
+			if (generation !== AIDriver.generation[kind]) {
+				defaultAI.global.close();
+				customAI.global.close();
+				return;
+			}
+			if (homunculus) {
+				AIDriver.default_HO_AI = defaultAI;
+				AIDriver.HO_AI = customAI;
+			} else {
+				AIDriver.default_MER_AI = defaultAI;
+				AIDriver.MER_AI = customAI;
+			}
+			AIDriver.ready[kind] = true;
+		};
+		static exec = (code, homunculus = true) => {
+			try {
+				const kind = homunculus ? "homunculus" : "mercenary";
+				if (!AIDriver.ready[kind]) {
+					AIDriver.initAI(homunculus).catch(() => {});
+					return;
+				}
+				let lua;
+				if (homunculus) {
+					if (SessionStorage_default.homCustomAI) lua = AIDriver.HO_AI;
+					else lua = AIDriver.default_HO_AI;
+				} else if (SessionStorage_default.merCustomAI) lua = AIDriver.MER_AI;
+				else lua = AIDriver.default_MER_AI;
+				lua.doStringSync(code);
+			} catch (e) {
+				console.error("%c[AI] %cAI Error: ", "color:#DD0078", "color:inherit", e);
+			}
+		};
+		static reset = (homunculus = null) => {
+			const kinds = homunculus === null ? [true, false] : [homunculus];
+			for (const isHomunculus of kinds) {
+				const kind = isHomunculus ? "homunculus" : "mercenary";
+				const instances = isHomunculus ? [AIDriver.HO_AI, AIDriver.default_HO_AI] : [AIDriver.MER_AI, AIDriver.default_MER_AI];
+				for (const lua of instances) lua?.global?.close?.();
+				if (isHomunculus) {
+					AIDriver.HO_AI = null;
+					AIDriver.default_HO_AI = null;
+				} else {
+					AIDriver.MER_AI = null;
+					AIDriver.default_MER_AI = null;
+				}
+				AIDriver.ready[kind] = false;
+				AIDriver.initialization[kind] = null;
+				AIDriver.generation[kind] += 1;
+			}
+		};
+	};
+}));
+//#endregion
+//#region src/UI/Components/Captcha/CaptchaSelector.html?raw
+var CaptchaSelector_default$2;
+var init_CaptchaSelector$2 = __esmMin((() => {
+	CaptchaSelector_default$2 = "<div id=\"CaptchaSelector\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"options\">\r\n			<input id=\"target_type_character\" type=\"radio\" name=\"target_type\" value=\"character\" checked />\r\n			<label for=\"target_type_character\"><ui-text msg=\"2887\"></ui-text></label>\r\n			<input id=\"target_type_range\" type=\"radio\" name=\"target_type\" value=\"range\" />\r\n			<label for=\"target_type_range\"><ui-text msg=\"2888\"></ui-text></label>\r\n			<input type=\"number\" class=\"range_val\" value=\"1\" min=\"1\" max=\"9\" />\r\n			<ui-button\r\n				class=\"btn btn_active\"\r\n				bg=\"btn_q_active.bmp\"\r\n				hover=\"btn_q_active_a.bmp\"\r\n				down=\"btn_q_active_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<ul class=\"player_list\">\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n		</ul>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n	<div class=\"character_info\">\r\n		<ui-button\r\n			class=\"base close-character\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n		<span class=\"character-name\"></span><br />\r\n		<span class=\"character-job\"></span>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Captcha/CaptchaSelector.css?raw
+var CaptchaSelector_default$1;
+var init_CaptchaSelector$1 = __esmMin((() => {
+	CaptchaSelector_default$1 = ":host {\r\n	position: absolute;\r\n	width: 210px;\r\n	height: 310px;\r\n	z-index: 50;\r\n}\r\n\r\n#CaptchaSelector {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #ffffff;\r\n	font-size: 12px;\r\n}\r\n\r\n#CaptchaSelector .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .titlebar {\r\n	width: 210px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaSelector .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaSelector .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaSelector .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaSelector .titlebar .right,\r\n#CaptchaSelector .character_info .close-character {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaSelector .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .container {\r\n	height: 293px;\r\n}\r\n\r\n#CaptchaSelector .options {\r\n	height: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaSelector .player_list {\r\n	height: 247px;\r\n	overflow-y: auto;\r\n	list-style: none;\r\n	margin: 0px 10px;\r\n	padding: 0;\r\n}\r\n\r\n#CaptchaSelector .player_list li {\r\n	width: 190px;\r\n	height: 24px;\r\n	margin: 2px 0;\r\n	background-color: #e5e5e5;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n\r\n#CaptchaSelector .footer {\r\n	display: flex;\r\n	justify-content: end;\r\n	align-items: center;\r\n	height: 24px;\r\n}\r\n\r\n#CaptchaSelector .range_val {\r\n	appearance: none;\r\n	width: 20px;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .range_val::-webkit-inner-spin-button,\r\n#CaptchaSelector .range_val::-webkit-outer-spin-button {\r\n	-webkit-appearance: none;\r\n	margin: 0;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .btn_active,\r\n#CaptchaSelector .footer .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n#CaptchaSelector .btn_active {\r\n	margin-left: 15px;\r\n}\r\n\r\n#CaptchaSelector .footer .btn {\r\n	margin-right: 10px;\r\n}\r\n\r\n#CaptchaSelector .character_info {\r\n	position: absolute;\r\n	bottom: 0;\r\n	left: 0;\r\n	width: 200px;\r\n	height: 35px;\r\n	background-color: #ffffff;\r\n	border-radius: 3px;\r\n	display: none;\r\n}\r\n\r\n#CaptchaSelector li a {\r\n	text-decoration: underline;\r\n	color: black;\r\n}\r\n\r\n#CaptchaSelector .player_list li .remove {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Captcha/CaptchaSelector.js
+var CaptchaSelector, _preferences$26, _aidList, _aidInformation, _range, _active$2, CaptchaSelector_default;
+var init_CaptchaSelector = __esmMin((() => {
+	init_UIManager();
+	init_GUIComponent();
+	init_Preferences$1();
+	init_Renderer();
+	init_EntityManager();
+	init_SessionStorage();
+	init_DBManager();
+	init_JobDisplayNameTable();
+	init_Elements();
+	init_CaptchaSelector$2();
+	init_CaptchaSelector$1();
+	CaptchaSelector = new GUIComponent("CaptchaSelector", CaptchaSelector_default$1);
+	_preferences$26 = Preferences.get("CaptchaSelector", {
+		x: 230,
+		y: 295
+	}, 2);
+	_aidList = [];
+	_aidInformation = [];
+	_range = 1;
+	_active$2 = false;
+	CaptchaSelector.render = () => CaptchaSelector_default$2;
+	CaptchaSelector.captureKeyEvents = true;
+	/**
+	* Initialize GUI
+	*/
+	CaptchaSelector.init = function init() {
+		this.draggable(".titlebar");
+		const root = this.getRoot();
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) closeBtn.addEventListener("click", () => this.remove());
+		const activeBtn = root.querySelector(".btn_active");
+		if (activeBtn) activeBtn.addEventListener("click", () => {
+			_active$2 = !_active$2;
+			if (_active$2) {
+				const checked = root.querySelector("input[name=\"target_type\"]:checked");
+				const type = checked ? checked.value : "character";
+				const rangeInput = root.querySelector(".range_val");
+				_range = parseInt(rangeInput ? rangeInput.value : "1", 10) || 1;
+				_range = Math.min(Math.max(1, _range), 9);
+				if (type === "character") {
+					SessionStorage_default.captchaGetIdOnEntityClick = true;
+					SessionStorage_default.captchaGetIdOnFloorClick = false;
+				} else if (type === "range") {
+					SessionStorage_default.captchaGetIdOnFloorClick = true;
+					SessionStorage_default.captchaGetIdOnFloorRange = _range;
+					SessionStorage_default.captchaGetIdOnEntityClick = false;
+				}
+			} else {
+				SessionStorage_default.captchaGetIdOnEntityClick = false;
+				SessionStorage_default.captchaGetIdOnFloorClick = false;
+			}
+		});
+		const okBtn = root.querySelector(".ok");
+		if (okBtn) okBtn.addEventListener("click", () => {
+			if (_aidList.length > 0) UIManager.showPromptBox(DB.getMessage(2876).replace("%d", _aidList.length), "ok", "cancel", () => {
+				CaptchaSelector.sendCaptchaToPlayers();
+			}, () => {});
+		});
+		const closeCharBtn = root.querySelector(".close-character");
+		if (closeCharBtn) closeCharBtn.addEventListener("click", () => {
+			const charInfo = root.querySelector(".character_info");
+			if (charInfo) charInfo.style.display = "none";
+		});
+	};
+	CaptchaSelector.onKeyDown = function onKeyDown(event) {
+		if (CaptchaSelector.isEditableFocused()) {
+			event.stopImmediatePropagation();
+			return true;
+		}
+		return true;
+	};
+	/**
+	* Append to DOM
+	*/
+	CaptchaSelector.onAppend = function onAppend() {
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$26.y), Renderer.height - this._host.offsetHeight)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$26.x), Renderer.width - this._host.offsetWidth)}px`;
+	};
+	/**
+	* Remove data from UI
+	*/
+	CaptchaSelector.onRemove = function onRemove() {
+		_preferences$26.y = parseInt(this._host.style.top, 10);
+		_preferences$26.x = parseInt(this._host.style.left, 10);
+		_preferences$26.save();
+		const charInfo = this.getRoot().querySelector(".character_info");
+		if (charInfo) charInfo.style.display = "none";
+		this.cleanUIList();
+		_aidList = [];
+		_aidInformation = [];
+		_range = 1;
+		_active$2 = false;
+		SessionStorage_default.captchaGetIdOnEntityClick = false;
+		SessionStorage_default.captchaGetIdOnFloorClick = false;
+		SessionStorage_default.captchaGetIdOnFloorRange = 1;
+	};
+	/**
+	* Set player list
+	* @param {Array} players - List of player AIDs
+	*/
+	CaptchaSelector.setPlayers = function setPlayers(players) {
+		this.cleanUIList();
+		_aidInformation = [];
+		const root = this.getRoot();
+		const liElements = root.querySelectorAll(".player_list li");
+		players = players.filter((aid) => SessionStorage_default.Entity.GID !== aid);
+		for (let i = 0; i < players.length && i < liElements.length; i++) {
+			const li = liElements[i];
+			const entity = EntityManager.get(players[i]);
+			const name = entity?.display?.name ?? "未知";
+			const aid = players[i];
+			li.classList.add("player");
+			li.dataset.aid = aid;
+			li.innerHTML = "";
+			const removeBtn = document.createElement("ui-button");
+			removeBtn.classList.add("base", "remove");
+			removeBtn.setAttribute("bg", "basic_interface/sys_close_off.bmp");
+			removeBtn.setAttribute("hover", "basic_interface/sys_close_on.bmp");
+			removeBtn.dataset.aid = aid;
+			removeBtn.addEventListener("click", () => {
+				_aidList = _aidList.filter((item) => item !== aid);
+				CaptchaSelector.setPlayers(_aidList);
+			});
+			li.appendChild(removeBtn);
+			const span = document.createElement("span");
+			const link = document.createElement("a");
+			link.dataset.aid = aid;
+			link.textContent = name;
+			link.addEventListener("click", () => {
+				const charEntity = EntityManager.get(aid);
+				const charName = charEntity?.display?.name ?? "未知";
+				const charJob = getJobDisplayName(charEntity?._job ?? 0);
+				const charInfo = root.querySelector(".character_info");
+				if (charInfo) {
+					const nameEl = charInfo.querySelector(".character-name");
+					if (nameEl) nameEl.textContent = charName;
+					const jobEl = charInfo.querySelector(".character-job");
+					if (jobEl) jobEl.textContent = charJob;
+					charInfo.style.top = `${li.offsetTop}px`;
+					charInfo.style.left = "0px";
+					charInfo.style.display = "block";
+				}
+			});
+			span.appendChild(link);
+			li.appendChild(document.createTextNode(" "));
+			li.appendChild(span);
+			_aidInformation.push({
+				aid,
+				name,
+				job: getJobDisplayName(entity?._job ?? 0)
+			});
+		}
+		_aidList = players;
+	};
+	CaptchaSelector.cleanUIList = function cleanList() {
+		this.getRoot().querySelectorAll(".player_list li").forEach((li) => {
+			li.innerHTML = "";
+			li.classList.remove("player");
+			delete li.dataset.aid;
+		});
+	};
+	CaptchaSelector.addPlayer = function addPlayer(aid) {
+		if (_aidList.includes(aid)) return;
+		_aidList.push(aid);
+		CaptchaSelector.setPlayers(_aidList);
+	};
+	CaptchaSelector.requestPlayersIds = function requestPlayersIds(xPos, yPos) {
+		if (CaptchaSelector.requestPlayersIdsInRange) CaptchaSelector.requestPlayersIdsInRange(xPos, yPos, _range);
+	};
+	CaptchaSelector.sendCaptchaToPlayers = function sendCaptchaToPlayers() {
+		_aidList.forEach((aid) => {
+			if (CaptchaSelector.sendCaptchaToPlayer) CaptchaSelector.sendCaptchaToPlayer(aid);
+		});
+		this.cleanUIList();
+		_aidList = [];
+	};
+	/**
+	* Callbacks
+	*/
+	CaptchaSelector.requestPlayersIdsInRange = null;
+	CaptchaSelector.sendCaptchaToPlayer = null;
+	CaptchaSelector_default = UIManager.addComponent(CaptchaSelector);
+}));
+//#endregion
+//#region src/Vendors/html2canvas.js
+var html2canvas, html2canvas_default;
+var init_html2canvas = __esmMin((() => {
+	/**
+	@license html2canvas v0.34 <http://html2canvas.hertzen.com>
+	Copyright (c) 2011 Niklas von Hertzen. All rights reserved.
+	http://www.twitter.com/niklasvh
+	
+	Released under MIT License
+	*/
+	(function(window, document, undefined) {
+		"use strict";
+		let _html2canvas = {}, previousElement, computedCSS;
+		function h2clog(a) {
+			if (_html2canvas.logging && window.console && window.console.log) window.console.log(a);
+		}
+		_html2canvas.Util = {};
+		_html2canvas.Util.backgroundImage = function(src) {
+			if (/data:image\/.*;base64,/i.test(src) || /^(-webkit|-moz|linear-gradient|-o-)/.test(src)) return src;
+			if (src.toLowerCase().substr(0, 5) === "url(\"") {
+				src = src.substr(5);
+				src = src.substr(0, src.length - 2);
+			} else {
+				src = src.substr(4);
+				src = src.substr(0, src.length - 1);
+			}
+			return src;
+		};
+		_html2canvas.Util.Bounds = function getBounds(el) {
+			let clientRect, bounds = {};
+			if (el.getBoundingClientRect) {
+				clientRect = el.getBoundingClientRect();
+				bounds.top = clientRect.top;
+				bounds.bottom = clientRect.bottom || clientRect.top + clientRect.height;
+				bounds.left = clientRect.left;
+				bounds.width = clientRect.width || clientRect.right - clientRect.left;
+				bounds.height = clientRect.height || clientRect.bottom - clientRect.top;
+				return bounds;
+			}
+		};
+		_html2canvas.Util.getCSS = function(el, attribute) {
+			let val;
+			function toPX(attribute, val) {
+				let rsLeft = el.runtimeStyle && el.runtimeStyle[attribute], left, style = el.style;
+				if (!/^-?[0-9]+\.?[0-9]*(?:px)?$/i.test(val) && /^-?\d/.test(val)) {
+					left = style.left;
+					if (rsLeft) el.runtimeStyle.left = el.currentStyle.left;
+					style.left = attribute === "fontSize" ? "1em" : val || 0;
+					val = style.pixelLeft + "px";
+					style.left = left;
+					if (rsLeft) el.runtimeStyle.left = rsLeft;
+				}
+				if (!/^(thin|medium|thick)$/i.test(val)) return Math.round(parseFloat(val)) + "px";
+				return val;
+			}
+			if (window.getComputedStyle) {
+				if (previousElement !== el) computedCSS = document.defaultView.getComputedStyle(el, null);
+				val = computedCSS[attribute];
+				if (attribute === "backgroundPosition") {
+					val = (val.split(",")[0] || "0 0").split(" ");
+					val[0] = val[0].indexOf("%") === -1 ? toPX(attribute + "X", val[0]) : val[0];
+					val[1] = val[1] === undefined ? val[0] : val[1];
+					val[1] = val[1].indexOf("%") === -1 ? toPX(attribute + "Y", val[1]) : val[1];
+				} else if (/border(Top|Bottom)(Left|Right)Radius/.test(attribute)) {
+					let arr = val.split(" ");
+					if (arr.length <= 1) arr[1] = arr[0];
+					arr[0] = parseInt(arr[0], 10);
+					arr[1] = parseInt(arr[1], 10);
+					val = arr;
+				}
+			} else if (el.currentStyle) {
+				if (attribute === "backgroundPosition") val = [toPX(attribute + "X", el.currentStyle[attribute + "X"]), toPX(attribute + "Y", el.currentStyle[attribute + "Y"])];
+				else {
+					val = toPX(attribute, el.currentStyle[attribute]);
+					if (/^(border)/i.test(attribute) && /^(medium|thin|thick)$/i.test(val)) switch (val) {
+						case "thin":
+							val = "1px";
+							break;
+						case "medium":
+							val = "0px";
+							break;
+						case "thick": val = "5px";
+					}
+				}
+			}
+			return val;
+		};
+		_html2canvas.Util.BackgroundPosition = function(el, bounds, image) {
+			let bgposition = _html2canvas.Util.getCSS(el, "backgroundPosition"), topPos, left, percentage, val;
+			if (bgposition.length === 1) {
+				val = bgposition;
+				bgposition = [];
+				bgposition[0] = val;
+				bgposition[1] = val;
+			}
+			if (bgposition[0].toString().indexOf("%") !== -1) {
+				percentage = parseFloat(bgposition[0]) / 100;
+				left = bounds.width * percentage - image.width * percentage;
+			} else left = parseInt(bgposition[0], 10);
+			if (bgposition[1].toString().indexOf("%") !== -1) {
+				percentage = parseFloat(bgposition[1]) / 100;
+				topPos = bounds.height * percentage - image.height * percentage;
+			} else topPos = parseInt(bgposition[1], 10);
+			return {
+				top: topPos,
+				left
+			};
+		};
+		_html2canvas.Util.Extend = function(options, defaults) {
+			for (var key in options) if (options.hasOwnProperty(key)) defaults[key] = options[key];
+			return defaults;
+		};
+		_html2canvas.Util.Children = function(elem) {
+			let children;
+			try {
+				children = elem.nodeName && elem.nodeName.toUpperCase() === "IFRAME" ? elem.contentDocument || elem.contentWindow.document : (function(array) {
+					let ret = [];
+					if (array !== null) (function(first, second) {
+						let i = first.length, j = 0;
+						if (typeof second.length === "number") for (var l = second.length; j < l; j++) first[i++] = second[j];
+						else while (second[j] !== undefined) first[i++] = second[j++];
+						first.length = i;
+						return first;
+					})(ret, array);
+					return ret;
+				})(elem.childNodes);
+			} catch (ex) {
+				h2clog("html2canvas.Util.Children failed with exception: " + ex.message);
+				children = [];
+			}
+			return children;
+		};
+		(function() {
+			_html2canvas.Generate = {};
+			let reGradients = [
+				/^(-webkit-linear-gradient)\(([a-z\s]+)([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-o-linear-gradient)\(([a-z\s]+)([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-webkit-gradient)\((linear|radial),\s((?:\d{1,3}%?)\s(?:\d{1,3}%?),\s(?:\d{1,3}%?)\s(?:\d{1,3}%?))([\w\d\.\s,%\(\)-]+)\)$/,
+				/^(-moz-linear-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?))([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-webkit-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s([a-z-]+)([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-moz-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s?([a-z-]*)([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-o-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s([a-z-]+)([\w\d\.\s,%\(\)]+)\)$/
+			];
+			_html2canvas.Generate.parseGradient = function(css, bounds) {
+				let gradient, i, len = reGradients.length, m1, stop, m2, m2Len, step, m3;
+				for (i = 0; i < len; i += 1) {
+					m1 = css.match(reGradients[i]);
+					if (m1) break;
+				}
+				if (m1) switch (m1[1]) {
+					case "-webkit-linear-gradient":
+					case "-o-linear-gradient":
+						gradient = {
+							type: "linear",
+							x0: null,
+							y0: null,
+							x1: null,
+							y1: null,
+							colorStops: []
+						};
+						m2 = m1[2].match(/\w+/g);
+						if (m2) {
+							m2Len = m2.length;
+							for (i = 0; i < m2Len; i += 1) switch (m2[i]) {
+								case "top":
+									gradient.y0 = 0;
+									gradient.y1 = bounds.height;
+									break;
+								case "right":
+									gradient.x0 = bounds.width;
+									gradient.x1 = 0;
+									break;
+								case "bottom":
+									gradient.y0 = bounds.height;
+									gradient.y1 = 0;
+									break;
+								case "left":
+									gradient.x0 = 0;
+									gradient.x1 = bounds.width;
+							}
+						}
+						if (gradient.x0 === null && gradient.x1 === null) gradient.x0 = gradient.x1 = bounds.width / 2;
+						if (gradient.y0 === null && gradient.y1 === null) gradient.y0 = gradient.y1 = bounds.height / 2;
+						m2 = m1[3].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}(?:%|px))?)+/g);
+						if (m2) {
+							m2Len = m2.length;
+							step = 1 / Math.max(m2Len - 1, 1);
+							for (i = 0; i < m2Len; i += 1) {
+								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%|px)?/);
+								if (m3[2]) {
+									stop = parseFloat(m3[2]);
+									if (m3[3] === "%") stop /= 100;
+									else stop /= bounds.width;
+								} else stop = i * step;
+								gradient.colorStops.push({
+									color: m3[1],
+									stop
+								});
+							}
+						}
+						break;
+					case "-webkit-gradient":
+						gradient = {
+							type: m1[2] === "radial" ? "circle" : m1[2],
+							x0: 0,
+							y0: 0,
+							x1: 0,
+							y1: 0,
+							colorStops: []
+						};
+						m2 = m1[3].match(/(\d{1,3})%?\s(\d{1,3})%?,\s(\d{1,3})%?\s(\d{1,3})%?/);
+						if (m2) {
+							gradient.x0 = m2[1] * bounds.width / 100;
+							gradient.y0 = m2[2] * bounds.height / 100;
+							gradient.x1 = m2[3] * bounds.width / 100;
+							gradient.y1 = m2[4] * bounds.height / 100;
+						}
+						m2 = m1[4].match(/((?:from|to|color-stop)\((?:[0-9\.]+,\s)?(?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)\))+/g);
+						if (m2) {
+							m2Len = m2.length;
+							for (i = 0; i < m2Len; i += 1) {
+								m3 = m2[i].match(/(from|to|color-stop)\(([0-9\.]+)?(?:,\s)?((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\)/);
+								stop = parseFloat(m3[2]);
+								if (m3[1] === "from") stop = 0;
+								if (m3[1] === "to") stop = 1;
+								gradient.colorStops.push({
+									color: m3[3],
+									stop
+								});
+							}
+						}
+						break;
+					case "-moz-linear-gradient":
+						gradient = {
+							type: "linear",
+							x0: 0,
+							y0: 0,
+							x1: 0,
+							y1: 0,
+							colorStops: []
+						};
+						m2 = m1[2].match(/(\d{1,3})%?\s(\d{1,3})%?/);
+						if (m2) {
+							gradient.x0 = m2[1] * bounds.width / 100;
+							gradient.y0 = m2[2] * bounds.height / 100;
+							gradient.x1 = bounds.width - gradient.x0;
+							gradient.y1 = bounds.height - gradient.y0;
+						}
+						m2 = m1[3].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}%)?)+/g);
+						if (m2) {
+							m2Len = m2.length;
+							step = 1 / Math.max(m2Len - 1, 1);
+							for (i = 0; i < m2Len; i += 1) {
+								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%)?/);
+								if (m3[2]) {
+									stop = parseFloat(m3[2]);
+									if (m3[3]) stop /= 100;
+								} else stop = i * step;
+								gradient.colorStops.push({
+									color: m3[1],
+									stop
+								});
+							}
+						}
+						break;
+					case "-webkit-radial-gradient":
+					case "-moz-radial-gradient":
+					case "-o-radial-gradient":
+						gradient = {
+							type: "circle",
+							x0: 0,
+							y0: 0,
+							x1: bounds.width,
+							y1: bounds.height,
+							cx: 0,
+							cy: 0,
+							rx: 0,
+							ry: 0,
+							colorStops: []
+						};
+						m2 = m1[2].match(/(\d{1,3})%?\s(\d{1,3})%?/);
+						if (m2) {
+							gradient.cx = m2[1] * bounds.width / 100;
+							gradient.cy = m2[2] * bounds.height / 100;
+						}
+						m2 = m1[3].match(/\w+/);
+						m3 = m1[4].match(/[a-z-]*/);
+						if (m2 && m3) switch (m3[0]) {
+							case "farthest-corner":
+							case "cover":
+							case "":
+								let tl = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.cy, 2));
+								let tr = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
+								let br = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
+								let bl = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.cy, 2));
+								gradient.rx = gradient.ry = Math.max(tl, tr, br, bl);
+								break;
+							case "closest-corner":
+								let tl2 = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.cy, 2));
+								let tr2 = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
+								let br2 = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
+								let bl2 = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.cy, 2));
+								gradient.rx = gradient.ry = Math.min(tl2, tr2, br2, bl2);
+								break;
+							case "farthest-side":
+								if (m2[0] === "circle") gradient.rx = gradient.ry = Math.max(gradient.cx, gradient.cy, gradient.x1 - gradient.cx, gradient.y1 - gradient.cy);
+								else {
+									gradient.type = m2[0];
+									gradient.rx = Math.max(gradient.cx, gradient.x1 - gradient.cx);
+									gradient.ry = Math.max(gradient.cy, gradient.y1 - gradient.cy);
+								}
+								break;
+							case "closest-side":
+							case "contain": if (m2[0] === "circle") gradient.rx = gradient.ry = Math.min(gradient.cx, gradient.cy, gradient.x1 - gradient.cx, gradient.y1 - gradient.cy);
+							else {
+								gradient.type = m2[0];
+								gradient.rx = Math.min(gradient.cx, gradient.x1 - gradient.cx);
+								gradient.ry = Math.min(gradient.cy, gradient.y1 - gradient.cy);
+							}
+						}
+						m2 = m1[5].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}(?:%|px))?)+/g);
+						if (m2) {
+							m2Len = m2.length;
+							step = 1 / Math.max(m2Len - 1, 1);
+							for (i = 0; i < m2Len; i += 1) {
+								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%|px)?/);
+								if (m3[2]) {
+									stop = parseFloat(m3[2]);
+									if (m3[3] === "%") stop /= 100;
+									else stop /= bounds.width;
+								} else stop = i * step;
+								gradient.colorStops.push({
+									color: m3[1],
+									stop
+								});
+							}
+						}
+				}
+				return gradient;
+			};
+			_html2canvas.Generate.Gradient = function(src, bounds) {
+				let canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), gradient, grad, i, len, img;
+				canvas.width = bounds.width;
+				canvas.height = bounds.height;
+				gradient = _html2canvas.Generate.parseGradient(src, bounds);
+				img = new Image();
+				if (gradient) {
+					if (gradient.type === "linear") {
+						grad = ctx.createLinearGradient(gradient.x0, gradient.y0, gradient.x1, gradient.y1);
+						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
+							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
+						} catch (e) {
+							h2clog([
+								"failed to add color stop: ",
+								e,
+								"; tried to add: ",
+								gradient.colorStops[i],
+								"; stop: ",
+								i,
+								"; in: ",
+								src
+							]);
+						}
+						ctx.fillStyle = grad;
+						ctx.fillRect(0, 0, bounds.width, bounds.height);
+						img.src = canvas.toDataURL();
+					} else if (gradient.type === "circle") {
+						grad = ctx.createRadialGradient(gradient.cx, gradient.cy, 0, gradient.cx, gradient.cy, gradient.rx);
+						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
+							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
+						} catch (e) {
+							h2clog([
+								"failed to add color stop: ",
+								e,
+								"; tried to add: ",
+								gradient.colorStops[i],
+								"; stop: ",
+								i,
+								"; in: ",
+								src
+							]);
+						}
+						ctx.fillStyle = grad;
+						ctx.fillRect(0, 0, bounds.width, bounds.height);
+						img.src = canvas.toDataURL();
+					} else if (gradient.type === "ellipse") {
+						let canvasRadial = document.createElement("canvas"), ctxRadial = canvasRadial.getContext("2d"), ri = Math.max(gradient.rx, gradient.ry), di = ri * 2, imgRadial;
+						canvasRadial.width = canvasRadial.height = di;
+						grad = ctxRadial.createRadialGradient(gradient.rx, gradient.ry, 0, gradient.rx, gradient.ry, ri);
+						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
+							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
+						} catch (e) {
+							h2clog([
+								"failed to add color stop: ",
+								e,
+								"; tried to add: ",
+								gradient.colorStops[i],
+								"; stop: ",
+								i,
+								"; in: ",
+								src
+							]);
+						}
+						ctxRadial.fillStyle = grad;
+						ctxRadial.fillRect(0, 0, di, di);
+						ctx.fillStyle = gradient.colorStops[i - 1].color;
+						ctx.fillRect(0, 0, canvas.width, canvas.height);
+						imgRadial = new Image();
+						imgRadial.onload = function() {
+							ctx.drawImage(imgRadial, gradient.cx - gradient.rx, gradient.cy - gradient.ry, 2 * gradient.rx, 2 * gradient.ry);
+							img.src = canvas.toDataURL();
+						};
+						imgRadial.src = canvasRadial.toDataURL();
+					}
+				}
+				return img;
+			};
+			_html2canvas.Generate.ListAlpha = function(number) {
+				let tmp = "", modulus;
+				do {
+					modulus = number % 26;
+					tmp = String.fromCharCode(modulus + 64) + tmp;
+					number = number / 26;
+				} while (number * 26 > 26);
+				return tmp;
+			};
+			_html2canvas.Generate.ListRoman = function(number) {
+				let romanArray = [
+					"M",
+					"CM",
+					"D",
+					"CD",
+					"C",
+					"XC",
+					"L",
+					"XL",
+					"X",
+					"IX",
+					"V",
+					"IV",
+					"I"
+				], decimal = [
+					1e3,
+					900,
+					500,
+					400,
+					100,
+					90,
+					50,
+					40,
+					10,
+					9,
+					5,
+					4,
+					1
+				], roman = "", v, len = romanArray.length;
+				if (number <= 0 || number >= 4e3) return number;
+				for (v = 0; v < len; v += 1) while (number >= decimal[v]) {
+					number -= decimal[v];
+					roman += romanArray[v];
+				}
+				return roman;
+			};
+		})();
+		_html2canvas.Parse = function(images, options) {
+			window.scroll(0, 0);
+			let support = {
+				rangeBounds: false,
+				svgRendering: options.svgRendering && (function() {
+					let img = new Image(), canvas = document.createElement("canvas"), ctx = canvas.getContext === undefined ? false : canvas.getContext("2d");
+					if (ctx === false) return false;
+					canvas.width = canvas.height = 10;
+					img.src = [
+						"data:image/svg+xml,",
+						"<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'>",
+						"<foreignObject width='10' height='10'>",
+						"<div xmlns='http://www.w3.org/1999/xhtml' style='width:10;height:10;'>",
+						"sup",
+						"</div>",
+						"</foreignObject>",
+						"</svg>"
+					].join("");
+					try {
+						ctx.drawImage(img, 0, 0);
+						canvas.toDataURL();
+					} catch (e) {
+						return false;
+					}
+					h2clog("html2canvas: Parse: SVG powered rendering available");
+					return true;
+				})()
+			}, element = options.elements === undefined ? document.body : options.elements[0], numDraws = 0, fontData = {}, doc = element.ownerDocument, ignoreElementsRegExp = new RegExp("(" + options.ignoreElements + ")"), body = doc.body, r, testElement, rangeBounds, rangeHeight, stack, ctx, docDim, i, children, childrenLen;
+			function docSize() {
+				return {
+					width: Math.max(Math.max(doc.body.scrollWidth, doc.documentElement.scrollWidth), Math.max(doc.body.offsetWidth, doc.documentElement.offsetWidth), Math.max(doc.body.clientWidth, doc.documentElement.clientWidth)),
+					height: Math.max(Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight), Math.max(doc.body.offsetHeight, doc.documentElement.offsetHeight), Math.max(doc.body.clientHeight, doc.documentElement.clientHeight))
+				};
+			}
+			images = images || {};
+			if (doc.createRange) {
+				r = doc.createRange();
+				if (r.getBoundingClientRect) {
+					testElement = doc.createElement("boundtest");
+					testElement.style.height = "123px";
+					testElement.style.display = "block";
+					body.appendChild(testElement);
+					r.selectNode(testElement);
+					rangeBounds = r.getBoundingClientRect();
+					rangeHeight = rangeBounds.height;
+					if (rangeHeight === 123) support.rangeBounds = true;
+					body.removeChild(testElement);
+				}
+			}
+			let getCSS = _html2canvas.Util.getCSS;
+			function getCSSInt(element, attribute) {
+				let val = parseInt(getCSS(element, attribute), 10);
+				return isNaN(val) ? 0 : val;
+			}
+			function renderRect(ctx, x, y, w, h, bgcolor) {
+				if (bgcolor !== "transparent") {
+					ctx.setVariable("fillStyle", bgcolor);
+					ctx.fillRect(x, y, w, h);
+					numDraws += 1;
+				}
+			}
+			function textTransform(text, transform) {
+				switch (transform) {
+					case "lowercase": return text.toLowerCase();
+					case "capitalize": return text.replace(/(^|\s|:|-|\(|\))([a-z])/g, function(m, p1, p2) {
+						if (m.length > 0) return p1 + p2.toUpperCase();
+					});
+					case "uppercase": return text.toUpperCase();
+					default: return text;
+				}
+			}
+			function trimText(text) {
+				return text.replace(/^\s*/g, "").replace(/\s*$/g, "");
+			}
+			function fontMetrics(font, fontSize) {
+				if (fontData[font + "-" + fontSize] !== undefined) return fontData[font + "-" + fontSize];
+				let container = doc.createElement("div"), img = doc.createElement("img"), span = doc.createElement("span"), baseline, middle, metricsObj;
+				container.style.visibility = "hidden";
+				container.style.fontFamily = font;
+				container.style.fontSize = fontSize;
+				container.style.margin = 0;
+				container.style.padding = 0;
+				body.appendChild(container);
+				img.src = "data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACwAAAAAAQABAAACAkQBADs=";
+				img.width = 1;
+				img.height = 1;
+				img.style.margin = 0;
+				img.style.padding = 0;
+				img.style.verticalAlign = "baseline";
+				span.style.fontFamily = font;
+				span.style.fontSize = fontSize;
+				span.style.margin = 0;
+				span.style.padding = 0;
+				span.appendChild(doc.createTextNode("Hidden Text"));
+				container.appendChild(span);
+				container.appendChild(img);
+				baseline = img.offsetTop - span.offsetTop + 1;
+				container.removeChild(span);
+				container.appendChild(doc.createTextNode("Hidden Text"));
+				container.style.lineHeight = "normal";
+				img.style.verticalAlign = "super";
+				middle = img.offsetTop - container.offsetTop + 1;
+				metricsObj = {
+					baseline,
+					lineWidth: 1,
+					middle
+				};
+				fontData[font + "-" + fontSize] = metricsObj;
+				body.removeChild(container);
+				return metricsObj;
+			}
+			function drawText(currentText, x, y, ctx) {
+				if (trimText(currentText).length > 0) {
+					ctx.fillText(currentText, x, y);
+					numDraws += 1;
+				}
+			}
+			function renderText(el, textNode, stack) {
+				let ctx = stack.ctx, family = getCSS(el, "fontFamily"), size = getCSS(el, "fontSize"), color = getCSS(el, "color"), text_decoration = getCSS(el, "textDecoration"), text_align = getCSS(el, "textAlign"), letter_spacing = getCSS(el, "letterSpacing"), bounds, text, metrics, renderList, listLen, bold = getCSS(el, "fontWeight"), font_style = getCSS(el, "fontStyle"), font_variant = getCSS(el, "fontVariant"), newTextNode, textValue, textOffset = 0, oldTextNode, c, range, parent, wrapElement, backupText;
+				textNode.nodeValue = textTransform(textNode.nodeValue, getCSS(el, "textTransform"));
+				text = trimText(textNode.nodeValue);
+				if (text.length > 0) {
+					if (text_decoration !== "none") metrics = fontMetrics(family, size);
+					text_align = text_align.replace(["-webkit-auto"], ["auto"]);
+					if (options.letterRendering === false && /^(left|right|justify|auto)$/.test(text_align) && /^(normal|none)$/.test(letter_spacing)) renderList = textNode.nodeValue.split(/(\b| )/);
+					else renderList = textNode.nodeValue.split("");
+					switch (parseInt(bold, 10)) {
+						case 401:
+							bold = "bold";
+							break;
+						case 400: bold = "normal";
+					}
+					ctx.setVariable("fillStyle", color);
+					ctx.setVariable("font", font_style + " " + font_variant + " " + bold + " " + size + " " + family);
+					ctx.setVariable("textAlign", "left");
+					oldTextNode = textNode;
+					for (c = 0, listLen = renderList.length; c < listLen; c += 1) {
+						textValue = null;
+						if (support.rangeBounds) {
+							if (text_decoration !== "none" || trimText(renderList[c]).length !== 0) {
+								textValue = renderList[c];
+								if (doc.createRange) {
+									range = doc.createRange();
+									range.setStart(textNode, textOffset);
+									range.setEnd(textNode, textOffset + textValue.length);
+								} else range = body.createTextRange();
+								if (range.getBoundingClientRect()) bounds = range.getBoundingClientRect();
+								else bounds = {};
+							}
+						} else {
+							if (typeof oldTextNode.nodeValue !== "string") continue;
+							newTextNode = oldTextNode.splitText(renderList[c].length);
+							parent = oldTextNode.parentNode;
+							wrapElement = doc.createElement("wrapper");
+							backupText = oldTextNode.cloneNode(true);
+							wrapElement.appendChild(oldTextNode.cloneNode(true));
+							parent.replaceChild(wrapElement, oldTextNode);
+							bounds = _html2canvas.Util.Bounds(wrapElement);
+							textValue = oldTextNode.nodeValue;
+							oldTextNode = newTextNode;
+							parent.replaceChild(backupText, wrapElement);
+						}
+						if (textValue !== null) drawText(textValue, bounds.left, bounds.bottom, ctx);
+						switch (text_decoration) {
+							case "underline":
+								renderRect(ctx, bounds.left, Math.round(bounds.top + metrics.baseline + metrics.lineWidth), bounds.width, 1, color);
+								break;
+							case "overline":
+								renderRect(ctx, bounds.left, bounds.top, bounds.width, 1, color);
+								break;
+							case "line-through": renderRect(ctx, bounds.left, Math.ceil(bounds.top + metrics.middle + metrics.lineWidth), bounds.width, 1, color);
+						}
+						textOffset += renderList[c].length;
+					}
+				}
+			}
+			function listPosition(element, val) {
+				let boundElement = doc.createElement("boundelement"), type, bounds;
+				boundElement.style.display = "inline";
+				type = element.style.listStyleType;
+				element.style.listStyleType = "none";
+				boundElement.appendChild(doc.createTextNode(val));
+				element.insertBefore(boundElement, element.firstChild);
+				bounds = _html2canvas.Util.Bounds(boundElement);
+				element.removeChild(boundElement);
+				element.style.listStyleType = type;
+				return bounds;
+			}
+			function elementIndex(el) {
+				let i = -1, count = 1, childs = el.parentNode.childNodes;
+				if (el.parentNode) {
+					while (childs[++i] !== el) if (childs[i].nodeType === 1) count++;
+					return count;
+				} else return -1;
+			}
+			function renderListItem(element, stack, elBounds) {
+				let position = getCSS(element, "listStylePosition"), x, y, type = getCSS(element, "listStyleType"), currentIndex, text, listBounds, bold = getCSS(element, "fontWeight");
+				if (/^(decimal|decimal-leading-zero|upper-alpha|upper-latin|upper-roman|lower-alpha|lower-greek|lower-latin|lower-roman)$/i.test(type)) {
+					currentIndex = elementIndex(element);
+					switch (type) {
+						case "decimal":
+							text = currentIndex;
+							break;
+						case "decimal-leading-zero":
+							if (currentIndex.toString().length === 1) text = currentIndex = "0" + currentIndex.toString();
+							else text = currentIndex.toString();
+							break;
+						case "upper-roman":
+							text = _html2canvas.Generate.ListRoman(currentIndex);
+							break;
+						case "lower-roman":
+							text = _html2canvas.Generate.ListRoman(currentIndex).toLowerCase();
+							break;
+						case "lower-alpha":
+							text = _html2canvas.Generate.ListAlpha(currentIndex).toLowerCase();
+							break;
+						case "upper-alpha": text = _html2canvas.Generate.ListAlpha(currentIndex);
+					}
+					text += ". ";
+					listBounds = listPosition(element, text);
+					switch (bold) {
+						case 401:
+							bold = "bold";
+							break;
+						case 400: bold = "normal";
+					}
+					ctx.setVariable("fillStyle", getCSS(element, "color"));
+					ctx.setVariable("font", getCSS(element, "fontVariant") + " " + bold + " " + getCSS(element, "fontStyle") + " " + getCSS(element, "fontSize") + " " + getCSS(element, "fontFamily"));
+					if (position === "inside") {
+						ctx.setVariable("textAlign", "left");
+						x = elBounds.left;
+					} else return;
+					y = listBounds.bottom;
+					drawText(text, x, y, ctx);
+				}
+			}
+			function loadImage(src) {
+				let img = images[src];
+				if (img && img.succeeded === true) return img.img;
+				else return false;
+			}
+			function clipBounds(src, dst) {
+				let x = Math.max(src.left, dst.left), y = Math.max(src.top, dst.top), x2 = Math.min(src.left + src.width, dst.left + dst.width), y2 = Math.min(src.top + src.height, dst.top + dst.height);
+				return {
+					left: x,
+					top: y,
+					width: x2 - x,
+					height: y2 - y
+				};
+			}
+			function setZ(zIndex, parentZ) {
+				let newContext;
+				if (!parentZ) {
+					newContext = h2czContext(0);
+					return newContext;
+				}
+				if (zIndex !== "auto") {
+					newContext = h2czContext(zIndex);
+					parentZ.children.push(newContext);
+					return newContext;
+				}
+				return parentZ;
+			}
+			function renderBorders(el, ctx, bounds, clip) {
+				let x = bounds.left, y = bounds.top, w = bounds.width, h = bounds.height, borderSide, borderData, bx, by, bw, bh, i, borderArgs, borderBounds, borders = function(el) {
+					let borders = [], sides = [
+						"Top",
+						"Right",
+						"Bottom",
+						"Left"
+					], s = 0;
+					for (; s < 4; s += 1) borders.push({
+						width: getCSSInt(el, "border" + sides[s] + "Width"),
+						color: getCSS(el, "border" + sides[s] + "Color")
+					});
+					return borders;
+				}(el);
+				(function(el) {
+					let borders = [], sides = [
+						"TopLeft",
+						"TopRight",
+						"BottomRight",
+						"BottomLeft"
+					], s = 0;
+					for (; s < 4; s += 1) borders.push(getCSS(el, "border" + sides[s] + "Radius"));
+					return borders;
+				})(el);
+				for (borderSide = 0; borderSide < 4; borderSide += 1) {
+					borderData = borders[borderSide];
+					borderArgs = [];
+					if (borderData.width > 0) {
+						bx = x;
+						by = y;
+						bw = w;
+						bh = h - borders[2].width;
+						switch (borderSide) {
+							case 0:
+								bh = borders[0].width;
+								i = 0;
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw - borders[1].width,
+									by + bh
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + borders[3].width,
+									by + bh
+								];
+								break;
+							case 1:
+								bx = x + w - borders[1].width;
+								bw = borders[1].width;
+								i = 0;
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by + borders[0].width
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by + bh + borders[2].width
+								];
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by + bh
+								];
+								break;
+							case 2:
+								by = by + h - borders[2].width;
+								bh = borders[2].width;
+								i = 0;
+								borderArgs[i++] = [
+									"line",
+									bx + borders[3].width,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw - borders[2].width,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by + bh
+								];
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by + bh
+								];
+								break;
+							case 3:
+								bw = borders[3].width;
+								i = 0;
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by + borders[0].width
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by + bh
+								];
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by + bh + borders[2].width
+								];
+						}
+						borderBounds = {
+							left: bx,
+							top: by,
+							width: bw,
+							height: bh
+						};
+						if (clip) borderBounds = clipBounds(borderBounds, clip);
+						if (borderBounds.width > 0 && borderBounds.height > 0) {
+							if (borderData.color !== "transparent") {
+								ctx.setVariable("fillStyle", borderData.color);
+								let shape = ctx.drawShape(), numBorderArgs = borderArgs.length;
+								for (i = 0; i < numBorderArgs; i++) shape[i === 0 ? "moveTo" : borderArgs[i][0] + "To"].apply(null, borderArgs[i].slice(1));
+								numDraws += 1;
+							}
+						}
+					}
+				}
+				return borders;
+			}
+			function renderFormValue(el, bounds, stack) {
+				let valueWrap = doc.createElement("valuewrap"), cssArr = [
+					"lineHeight",
+					"textAlign",
+					"fontFamily",
+					"color",
+					"fontSize",
+					"paddingLeft",
+					"paddingTop",
+					"width",
+					"height",
+					"border",
+					"borderLeftWidth",
+					"borderTopWidth"
+				], i, textValue, textNode, arrLen, style;
+				for (i = 0, arrLen = cssArr.length; i < arrLen; i += 1) {
+					style = cssArr[i];
+					try {
+						valueWrap.style[style] = getCSS(el, style);
+					} catch (e) {
+						h2clog("html2canvas: Parse: Exception caught in renderFormValue: " + e.message);
+					}
+				}
+				valueWrap.style.borderColor = "black";
+				valueWrap.style.borderStyle = "solid";
+				valueWrap.style.display = "block";
+				valueWrap.style.position = "absolute";
+				if (/^(submit|reset|button|text|password)$/.test(el.type) || el.nodeName === "SELECT") valueWrap.style.lineHeight = getCSS(el, "height");
+				valueWrap.style.top = bounds.top + "px";
+				valueWrap.style.left = bounds.left + "px";
+				if (el.nodeName === "SELECT") textValue = el.options[el.selectedIndex].text;
+				else textValue = el.value;
+				textNode = doc.createTextNode(textValue);
+				valueWrap.appendChild(textNode);
+				body.appendChild(valueWrap);
+				renderText(el, textNode, stack);
+				body.removeChild(valueWrap);
+			}
+			function renderImage(ctx, image, sx, sy, sw, sh, dx, dy, dw, dh) {
+				ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
+				numDraws += 1;
+			}
+			function renderBackgroundRepeat(ctx, image, x, y, width, height, elx, ely) {
+				let sourceX = 0, sourceY = 0;
+				if (elx - x > 0) sourceX = elx - x;
+				if (ely - y > 0) sourceY = ely - y;
+				renderImage(ctx, image, sourceX, sourceY, width - sourceX, height - sourceY, x + sourceX, y + sourceY, width - sourceX, height - sourceY);
+			}
+			function renderBackgroundRepeatY(ctx, image, bgp, x, y, w, h) {
+				let height, width = Math.min(image.width, w), bgy;
+				bgp.top = bgp.top - Math.ceil(bgp.top / image.height) * image.height;
+				for (bgy = y + bgp.top; bgy < h + y;) {
+					if (Math.floor(bgy + image.height) > h + y) height = h + y - bgy;
+					else height = image.height;
+					renderBackgroundRepeat(ctx, image, x + bgp.left, bgy, width, height, x, y);
+					bgy = Math.floor(bgy + image.height);
+				}
+			}
+			function renderBackgroundRepeatX(ctx, image, bgp, x, y, w, h) {
+				let height = Math.min(image.height, h), width, bgx;
+				bgp.left = bgp.left - Math.ceil(bgp.left / image.width) * image.width;
+				for (bgx = x + bgp.left; bgx < w + x;) {
+					if (Math.floor(bgx + image.width) > w + x) width = w + x - bgx;
+					else width = image.width;
+					renderBackgroundRepeat(ctx, image, bgx, y + bgp.top, width, height, x, y);
+					bgx = Math.floor(bgx + image.width);
+				}
+			}
+			function renderBackground(el, bounds, ctx) {
+				let background_image = getCSS(el, "backgroundImage"), background_repeat = getCSS(el, "backgroundRepeat").split(",")[0], image, bgp, bgy, bgw, bgsx, bgsy, bgdx, bgdy, bgh, h, height, add;
+				if (!/data:image\/.*;base64,/i.test(background_image) && !/^(-webkit|-moz|linear-gradient|-o-)/.test(background_image)) background_image = background_image.split(",")[0];
+				if (typeof background_image !== "undefined" && /^(1|none)$/.test(background_image) === false) {
+					background_image = _html2canvas.Util.backgroundImage(background_image);
+					image = loadImage(background_image);
+					bgp = _html2canvas.Util.BackgroundPosition(el, bounds, image);
+					if (image) switch (background_repeat) {
+						case "repeat-x":
+							renderBackgroundRepeatX(ctx, image, bgp, bounds.left, bounds.top, bounds.width, bounds.height);
+							break;
+						case "repeat-y":
+							renderBackgroundRepeatY(ctx, image, bgp, bounds.left, bounds.top, bounds.width, bounds.height);
+							break;
+						case "no-repeat":
+							bgw = bounds.width - bgp.left;
+							bgh = bounds.height - bgp.top;
+							bgsx = bgp.left;
+							bgsy = bgp.top;
+							bgdx = bgp.left + bounds.left;
+							bgdy = bgp.top + bounds.top;
+							if (bgsx < 0) {
+								bgsx = Math.abs(bgsx);
+								bgdx += bgsx;
+								bgw = Math.min(bounds.width, image.width - bgsx);
+							} else {
+								bgw = Math.min(bgw, image.width);
+								bgsx = 0;
+							}
+							if (bgsy < 0) {
+								bgsy = Math.abs(bgsy);
+								bgdy += bgsy;
+								bgh = Math.min(bounds.height, image.height - bgsy);
+							} else {
+								bgh = Math.min(bgh, image.height);
+								bgsy = 0;
+							}
+							if (bgh > 0 && bgw > 0) renderImage(ctx, image, bgsx, bgsy, bgw, bgh, bgdx, bgdy, bgw, bgh);
+							break;
+						default:
+							bgp.top = bgp.top - Math.ceil(bgp.top / image.height) * image.height;
+							for (bgy = bounds.top + bgp.top; bgy < bounds.height + bounds.top;) {
+								h = Math.min(image.height, bounds.height + bounds.top - bgy);
+								if (Math.floor(bgy + image.height) > h + bgy) height = h + bgy - bgy;
+								else height = image.height;
+								if (bgy < bounds.top) {
+									add = bounds.top - bgy;
+									bgy = bounds.top;
+								} else add = 0;
+								renderBackgroundRepeatX(ctx, image, bgp, bounds.left, bgy, bounds.width, height);
+								if (add > 0) bgp.top += add;
+								bgy = Math.floor(bgy + image.height) - add;
+							}
+					}
+					else h2clog("html2canvas: Error loading background:" + background_image);
+				}
+			}
+			function renderElement(el, parentStack) {
+				let bounds = _html2canvas.Util.Bounds(el), x = bounds.left, y = bounds.top, w = bounds.width, h = bounds.height, image, bgcolor = getCSS(el, "backgroundColor"), cssPosition = getCSS(el, "position"), zindex, opacity = getCSS(el, "opacity"), stack, stackLength, borders, ctx, bgbounds, imgSrc, paddingLeft, paddingTop, paddingRight, paddingBottom;
+				if (!parentStack) {
+					docDim = docSize();
+					parentStack = { opacity: 1 };
+				} else docDim = {};
+				zindex = setZ(getCSS(el, "zIndex"), parentStack.zIndex);
+				stack = {
+					ctx: h2cRenderContext(docDim.width || w, docDim.height || h),
+					zIndex: zindex,
+					opacity: opacity * parentStack.opacity,
+					cssPosition
+				};
+				if (parentStack.clip) stack.clip = _html2canvas.Util.Extend({}, parentStack.clip);
+				if (options.useOverflow === true && /(hidden|scroll|auto)/.test(getCSS(el, "overflow")) === true && /(BODY)/i.test(el.nodeName) === false) {
+					if (stack.clip) stack.clip = clipBounds(stack.clip, bounds);
+					else stack.clip = bounds;
+				}
+				stackLength = zindex.children.push(stack);
+				ctx = zindex.children[stackLength - 1].ctx;
+				ctx.setVariable("globalAlpha", stack.opacity);
+				borders = renderBorders(el, ctx, bounds, false);
+				stack.borders = borders;
+				if (ignoreElementsRegExp.test(el.nodeName) && options.iframeDefault !== "transparent") {
+					if (options.iframeDefault === "default") bgcolor = "#efefef";
+					else bgcolor = options.iframeDefault;
+				}
+				bgbounds = {
+					left: x + borders[3].width,
+					top: y + borders[0].width,
+					width: w - (borders[1].width + borders[3].width),
+					height: h - (borders[0].width + borders[2].width)
+				};
+				if (stack.clip) bgbounds = clipBounds(bgbounds, stack.clip);
+				if (bgbounds.height > 0 && bgbounds.width > 0) {
+					renderRect(ctx, bgbounds.left, bgbounds.top, bgbounds.width, bgbounds.height, bgcolor);
+					renderBackground(el, bgbounds, ctx);
+				}
+				switch (el.nodeName) {
+					case "IMG":
+						imgSrc = el.getAttribute("src");
+						image = loadImage(imgSrc);
+						if (image) {
+							paddingLeft = getCSSInt(el, "paddingLeft");
+							paddingTop = getCSSInt(el, "paddingTop");
+							paddingRight = getCSSInt(el, "paddingRight");
+							paddingBottom = getCSSInt(el, "paddingBottom");
+							renderImage(ctx, image, 0, 0, image.width, image.height, x + paddingLeft + borders[3].width, y + paddingTop + borders[0].width, bounds.width - (borders[1].width + borders[3].width + paddingLeft + paddingRight), bounds.height - (borders[0].width + borders[2].width + paddingTop + paddingBottom));
+						} else h2clog("html2canvas: Error loading <img>:" + imgSrc);
+						break;
+					case "INPUT":
+						if (/^(text|url|email|submit|button|reset)$/.test(el.type) && el.value.length > 0) renderFormValue(el, bounds, stack);
+						break;
+					case "TEXTAREA":
+						if (el.value.length > 0) renderFormValue(el, bounds, stack);
+						break;
+					case "SELECT":
+						if (el.options.length > 0) renderFormValue(el, bounds, stack);
+						break;
+					case "LI":
+						renderListItem(el, stack, bgbounds);
+						break;
+					case "CANVAS":
+						paddingLeft = getCSSInt(el, "paddingLeft");
+						paddingTop = getCSSInt(el, "paddingTop");
+						paddingRight = getCSSInt(el, "paddingRight");
+						paddingBottom = getCSSInt(el, "paddingBottom");
+						renderImage(ctx, el, 0, 0, el.width, el.height, x + paddingLeft + borders[3].width, y + paddingTop + borders[0].width, bounds.width - (borders[1].width + borders[3].width + paddingLeft + paddingRight), bounds.height - (borders[0].width + borders[2].width + paddingTop + paddingBottom));
+				}
+				return zindex.children[stackLength - 1];
+			}
+			function parseElement(el, stack) {
+				if (getCSS(el, "display") !== "none" && getCSS(el, "visibility") !== "hidden" && !el.hasAttribute("data-html2canvas-ignore")) {
+					stack = renderElement(el, stack) || stack;
+					ctx = stack.ctx;
+					if (!ignoreElementsRegExp.test(el.nodeName)) {
+						let elementChildren = _html2canvas.Util.Children(el), i, node, childrenLen;
+						for (i = 0, childrenLen = elementChildren.length; i < childrenLen; i += 1) {
+							node = elementChildren[i];
+							if (node.nodeType === 1) parseElement(node, stack);
+							else if (node.nodeType === 3) renderText(el, node, stack);
+						}
+					}
+				}
+			}
+			stack = renderElement(element, null);
+			if (support.svgRendering) (function(body) {
+				let img = new Image(), size = docSize(), html = "";
+				function parseDOM(el) {
+					let children = _html2canvas.Util.Children(el), len = children.length, attr, a, alen, elm, i = 0;
+					for (; i < len; i += 1) {
+						elm = children[i];
+						if (elm.nodeType === 3) html += elm.nodeValue.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
+						else if (elm.nodeType === 1) {
+							if (!/^(script|meta|title)$/.test(elm.nodeName.toLowerCase())) {
+								html += "<" + elm.nodeName.toLowerCase();
+								if (elm.hasAttributes()) {
+									attr = elm.attributes;
+									alen = attr.length;
+									for (a = 0; a < alen; a += 1) html += " " + attr[a].name + "=\"" + attr[a].value + "\"";
+								}
+								html += ">";
+								parseDOM(elm);
+								html += "</" + elm.nodeName.toLowerCase() + ">";
+							}
+						}
+					}
+				}
+				parseDOM(body);
+				img.src = [
+					"data:image/svg+xml,",
+					"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='" + size.width + "' height='" + size.height + "'>",
+					"<foreignObject width='" + size.width + "' height='" + size.height + "'>",
+					"<html xmlns='http://www.w3.org/1999/xhtml' style='margin:0;'>",
+					html.replace(/\#/g, "%23"),
+					"</html>",
+					"</foreignObject>",
+					"</svg>"
+				].join("");
+				img.onload = function() {
+					stack.svgRender = img;
+				};
+			})(document.documentElement);
+			for (i = 0, children = element.children, childrenLen = children.length; i < childrenLen; i += 1) parseElement(children[i], stack);
+			stack.backgroundColor = getCSS(document.documentElement, "backgroundColor");
+			return stack;
+		};
+		function h2czContext(zindex) {
+			return {
+				zindex,
+				children: []
+			};
+		}
+		_html2canvas.Preload = function(options) {
+			let images = {
+				numLoaded: 0,
+				numFailed: 0,
+				numTotal: 0,
+				cleanupDone: false
+			}, pageOrigin, methods, i, count = 0, element = options.elements[0] || document.body, doc = element.ownerDocument, domImages = doc.images, imgLen = domImages.length, link = doc.createElement("a"), supportCORS = (function(img) {
+				return img.crossOrigin !== undefined;
+			})(new Image()), timeoutTimer;
+			link.href = window.location.href;
+			pageOrigin = link.protocol + link.host;
+			function isSameOrigin(url) {
+				link.href = url;
+				link.href = link.href;
+				return link.protocol + link.host === pageOrigin;
+			}
+			function start() {
+				h2clog("html2canvas: start: images: " + images.numLoaded + " / " + images.numTotal + " (failed: " + images.numFailed + ")");
+				if (!images.firstRun && images.numLoaded >= images.numTotal) {
+					h2clog("Finished loading images: # " + images.numTotal + " (failed: " + images.numFailed + ")");
+					if (typeof options.complete === "function") options.complete(images);
+				}
+			}
+			function proxyGetImage(url, img, imageObj) {
+				let callback_name, scriptUrl = options.proxy, script;
+				link.href = url;
+				url = link.href;
+				callback_name = "html2canvas_" + count++;
+				imageObj.callbackname = callback_name;
+				if (scriptUrl.indexOf("?") > -1) scriptUrl += "&";
+				else scriptUrl += "?";
+				scriptUrl += "url=" + encodeURIComponent(url) + "&callback=" + callback_name;
+				script = doc.createElement("script");
+				window[callback_name] = function(a) {
+					if (a.substring(0, 6) === "error:") {
+						imageObj.succeeded = false;
+						images.numLoaded++;
+						images.numFailed++;
+						start();
+					} else {
+						setImageLoadHandlers(img, imageObj);
+						img.src = a;
+					}
+					window[callback_name] = undefined;
+					try {
+						delete window[callback_name];
+					} catch (ex) {}
+					script.parentNode.removeChild(script);
+					script = null;
+					delete imageObj.script;
+					delete imageObj.callbackname;
+				};
+				script.setAttribute("type", "text/javascript");
+				script.setAttribute("src", scriptUrl);
+				imageObj.script = script;
+				window.document.body.appendChild(script);
+			}
+			function getImages(el) {
+				let contents = _html2canvas.Util.Children(el), i, background_image, src, img, elNodeType = false;
+				try {
+					let contentsLen = contents.length;
+					for (i = 0; i < contentsLen; i += 1) getImages(contents[i]);
+				} catch (e) {}
+				try {
+					elNodeType = el.nodeType;
+				} catch (ex) {
+					elNodeType = false;
+					h2clog("html2canvas: failed to access some element's nodeType - Exception: " + ex.message);
+				}
+				if (elNodeType === 1 || elNodeType === undefined) {
+					try {
+						background_image = _html2canvas.Util.getCSS(el, "backgroundImage");
+					} catch (e) {
+						h2clog("html2canvas: failed to get background-image - Exception: " + e.message);
+					}
+					if (background_image && background_image !== "1" && background_image !== "none") {
+						if (/^(-webkit|-o|-moz|-ms|linear)-/.test(background_image)) {
+							img = _html2canvas.Generate.Gradient(background_image, _html2canvas.Util.Bounds(el));
+							if (img !== undefined) {
+								images[background_image] = {
+									img,
+									succeeded: true
+								};
+								images.numTotal++;
+								images.numLoaded++;
+								start();
+							}
+						} else {
+							src = _html2canvas.Util.backgroundImage(background_image.match(/data:image\/.*;base64,/i) ? background_image : background_image.split(",")[0]);
+							methods.loadImage(src);
+						}
+					}
+				}
+			}
+			function setImageLoadHandlers(img, imageObj) {
+				img.onload = function() {
+					if (imageObj.timer !== undefined) window.clearTimeout(imageObj.timer);
+					images.numLoaded++;
+					imageObj.succeeded = true;
+					img.onerror = img.onload = null;
+					start();
+				};
+				img.onerror = function() {
+					if (img.crossOrigin === "anonymous") {
+						window.clearTimeout(imageObj.timer);
+						if (options.proxy) {
+							let src = img.src;
+							img = new Image();
+							imageObj.img = img;
+							img.src = src;
+							proxyGetImage(img.src, img, imageObj);
+							return;
+						}
+					}
+					images.numLoaded++;
+					images.numFailed++;
+					imageObj.succeeded = false;
+					img.onerror = img.onload = null;
+					start();
+				};
+			}
+			methods = {
+				loadImage: function(src) {
+					let img, imageObj;
+					if (src && images[src] === undefined) {
+						img = new Image();
+						if (src.match(/data:image\/.*;base64,/i)) {
+							img.src = src.replace(/url\(['"]{0,}|['"]{0,}\)$/gi, "");
+							imageObj = images[src] = { img };
+							images.numTotal++;
+							setImageLoadHandlers(img, imageObj);
+						} else if (isSameOrigin(src) || options.allowTaint === true) {
+							imageObj = images[src] = { img };
+							images.numTotal++;
+							setImageLoadHandlers(img, imageObj);
+							img.src = src;
+						} else if (supportCORS && !options.allowTaint && options.useCORS) {
+							img.crossOrigin = "anonymous";
+							imageObj = images[src] = { img };
+							images.numTotal++;
+							setImageLoadHandlers(img, imageObj);
+							img.src = src;
+							img.customComplete = function() {
+								if (!this.img.complete) this.timer = window.setTimeout(this.img.customComplete, 100);
+								else this.img.onerror();
+							}.bind(imageObj);
+							img.customComplete();
+						} else if (options.proxy) {
+							imageObj = images[src] = { img };
+							images.numTotal++;
+							proxyGetImage(src, img, imageObj);
+						}
+					}
+				},
+				cleanupDOM: function(cause) {
+					let img, src;
+					if (!images.cleanupDone) {
+						if (cause && typeof cause === "string") h2clog("html2canvas: Cleanup because: " + cause);
+						else h2clog("html2canvas: Cleanup after timeout: " + options.timeout + " ms.");
+						for (src in images) if (images.hasOwnProperty(src)) {
+							img = images[src];
+							if (typeof img === "object" && img.callbackname && img.succeeded === undefined) {
+								window[img.callbackname] = undefined;
+								try {
+									delete window[img.callbackname];
+								} catch (ex) {}
+								if (img.script && img.script.parentNode) {
+									img.script.setAttribute("src", "about:blank");
+									img.script.parentNode.removeChild(img.script);
+								}
+								images.numLoaded++;
+								images.numFailed++;
+								h2clog("html2canvas: Cleaned up failed img: '" + src + "' Steps: " + images.numLoaded + " / " + images.numTotal);
+							}
+						}
+						if (window.stop !== undefined) window.stop();
+						else if (document.execCommand !== undefined) document.execCommand("Stop", false);
+						if (document.close !== undefined) document.close();
+						images.cleanupDone = true;
+						if (!(cause && typeof cause === "string")) start();
+					}
+				},
+				renderingDone: function() {
+					if (timeoutTimer) window.clearTimeout(timeoutTimer);
+				}
+			};
+			if (options.timeout > 0) timeoutTimer = window.setTimeout(methods.cleanupDOM, options.timeout);
+			h2clog("html2canvas: Preload starts: finding background-images");
+			images.firstRun = true;
+			getImages(element);
+			h2clog("html2canvas: Preload: Finding images");
+			for (i = 0; i < imgLen; i += 1) methods.loadImage(domImages[i].getAttribute("src"));
+			images.firstRun = false;
+			h2clog("html2canvas: Preload: Done.");
+			if (images.numTotal === images.numLoaded) start();
+			return methods;
+		};
+		function h2cRenderContext(width, height) {
+			let storage = [];
+			return {
+				storage,
+				width,
+				height,
+				fillRect: function() {
+					storage.push({
+						type: "function",
+						name: "fillRect",
+						"arguments": arguments
+					});
+				},
+				drawShape: function() {
+					let shape = [];
+					storage.push({
+						type: "function",
+						name: "drawShape",
+						"arguments": shape
+					});
+					return {
+						moveTo: function() {
+							shape.push({
+								name: "moveTo",
+								"arguments": arguments
+							});
+						},
+						lineTo: function() {
+							shape.push({
+								name: "lineTo",
+								"arguments": arguments
+							});
+						},
+						bezierCurveTo: function() {
+							shape.push({
+								name: "bezierCurveTo",
+								"arguments": arguments
+							});
+						},
+						quadraticCurveTo: function() {
+							shape.push({
+								name: "quadraticCurveTo",
+								"arguments": arguments
+							});
+						}
+					};
+				},
+				drawImage: function() {
+					storage.push({
+						type: "function",
+						name: "drawImage",
+						"arguments": arguments
+					});
+				},
+				fillText: function() {
+					storage.push({
+						type: "function",
+						name: "fillText",
+						"arguments": arguments
+					});
+				},
+				setVariable: function(variable, value) {
+					storage.push({
+						type: "variable",
+						name: variable,
+						"arguments": value
+					});
+				}
+			};
+		}
+		_html2canvas.Renderer = function(parseQueue, options) {
+			let queue = [];
+			function sortZ(zStack) {
+				let subStacks = [], stackValues = [], zStackChildren = zStack.children, s, i, stackLen, zValue, zLen, stackChild, b, subStackLen;
+				for (s = 0, zLen = zStackChildren.length; s < zLen; s += 1) {
+					stackChild = zStackChildren[s];
+					if (stackChild.children && stackChild.children.length > 0) {
+						subStacks.push(stackChild);
+						stackValues.push(stackChild.zindex);
+					} else queue.push(stackChild);
+				}
+				stackValues.sort(function(a, b) {
+					return a - b;
+				});
+				for (i = 0, stackLen = stackValues.length; i < stackLen; i += 1) {
+					zValue = stackValues[i];
+					for (b = 0, subStackLen = subStacks.length; b <= subStackLen; b += 1) if (subStacks[b].zindex === zValue) {
+						stackChild = subStacks.splice(b, 1);
+						sortZ(stackChild[0]);
+						break;
+					}
+				}
+			}
+			sortZ(parseQueue.zIndex);
+			if (typeof options._renderer._create !== "function") throw new Error("Invalid renderer defined");
+			return options._renderer._create(parseQueue, options, document, queue, _html2canvas);
+		};
+		html2canvas = function(elements, opts) {
+			let queue, canvas, options = {
+				logging: false,
+				elements,
+				proxy: "http://html2canvas.appspot.com/",
+				timeout: 0,
+				useCORS: false,
+				allowTaint: false,
+				svgRendering: false,
+				iframeDefault: "default",
+				ignoreElements: "IFRAME|OBJECT|PARAM",
+				useOverflow: true,
+				letterRendering: false,
+				flashcanvas: undefined,
+				width: null,
+				height: null,
+				taintTest: true,
+				renderer: "Canvas"
+			};
+			options = _html2canvas.Util.Extend(opts, options);
+			if (typeof options.renderer === "string" && _html2canvas.Renderer[options.renderer] !== undefined) options._renderer = _html2canvas.Renderer[options.renderer](options);
+			else if (typeof options.renderer === "function") options._renderer = options.renderer(options);
+			else throw "Unknown renderer";
+			_html2canvas.logging = options.logging;
+			options.complete = function(images) {
+				if (typeof options.onpreloaded === "function") {
+					if (options.onpreloaded(images) === false) return;
+				}
+				queue = _html2canvas.Parse(images, options);
+				if (typeof options.onparsed === "function") {
+					if (options.onparsed(queue) === false) return;
+				}
+				canvas = _html2canvas.Renderer(queue, options);
+				if (typeof options.onrendered === "function") options.onrendered(canvas);
+			};
+			window.setTimeout(function() {
+				_html2canvas.Preload(options);
+			}, 0);
+			return {
+				render: function(queue, opts) {
+					return _html2canvas.Renderer(queue, _html2canvas.Util.Extend(opts, options));
+				},
+				parse: function(images, opts) {
+					return _html2canvas.Parse(images, _html2canvas.Util.Extend(opts, options));
+				},
+				preload: function(opts) {
+					return _html2canvas.Preload(_html2canvas.Util.Extend(opts, options));
+				},
+				log: h2clog
+			};
+		};
+		html2canvas.log = h2clog;
+		html2canvas.Renderer = { Canvas: undefined };
+		_html2canvas.Renderer.Canvas = function(options) {
+			options = options || {};
+			let doc = document, canvas = options.canvas || doc.createElement("canvas"), usingFlashcanvas = false, _createCalled = false, canvasReadyToDraw = false, methods, flashMaxSize = 2880;
+			if (canvas.getContext) {
+				h2clog("html2canvas: Renderer: using canvas renderer");
+				canvasReadyToDraw = true;
+			} else if (options.flashcanvas !== undefined) {
+				usingFlashcanvas = true;
+				h2clog("html2canvas: Renderer: canvas not available, using flashcanvas");
+				let script = doc.createElement("script");
+				script.src = options.flashcanvas;
+				script.onload = (function(script, func) {
+					let intervalFunc;
+					if (script.onload === undefined) {
+						if (script.onreadystatechange !== undefined) {
+							intervalFunc = function() {
+								if (script.readyState !== "loaded" && script.readyState !== "complete") window.setTimeout(intervalFunc, 250);
+								else func();
+							};
+							window.setTimeout(intervalFunc, 250);
+						} else h2clog("html2canvas: Renderer: Can't track when flashcanvas is loaded");
+					} else return func;
+				})(script, function() {
+					if (typeof window.FlashCanvas !== "undefined") {
+						h2clog("html2canvas: Renderer: Flashcanvas initialized");
+						window.FlashCanvas.initElement(canvas);
+						canvasReadyToDraw = true;
+						if (_createCalled !== false) methods._create.apply(null, _createCalled);
+					}
+				});
+				doc.body.appendChild(script);
+			}
+			methods = { _create: function(zStack, options, doc, queue, _html2canvas) {
+				if (!canvasReadyToDraw) {
+					_createCalled = arguments;
+					return canvas;
+				}
+				let ctx = canvas.getContext("2d"), storageContext, i, queueLen, a, newCanvas, bounds, testCanvas = document.createElement("canvas"), hasCTX = testCanvas.getContext !== undefined, storageLen, renderItem, testctx = hasCTX ? testCanvas.getContext("2d") : {}, safeImages = [], fstyle;
+				canvas.width = canvas.style.width = !usingFlashcanvas ? options.width || zStack.ctx.width : Math.min(flashMaxSize, options.width || zStack.ctx.width);
+				canvas.height = canvas.style.height = !usingFlashcanvas ? options.height || zStack.ctx.height : Math.min(flashMaxSize, options.height || zStack.ctx.height);
+				fstyle = ctx.fillStyle;
+				ctx.fillStyle = zStack.backgroundColor;
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				ctx.fillStyle = fstyle;
+				if (options.svgRendering && zStack.svgRender !== undefined) ctx.drawImage(zStack.svgRender, 0, 0);
+				else for (i = 0, queueLen = queue.length; i < queueLen; i += 1) {
+					storageContext = queue.splice(0, 1)[0];
+					storageContext.canvasPosition = storageContext.canvasPosition || {};
+					ctx.textBaseline = "bottom";
+					if (storageContext.clip) {
+						ctx.save();
+						ctx.beginPath();
+						ctx.rect(storageContext.clip.left, storageContext.clip.top, storageContext.clip.width, storageContext.clip.height);
+						ctx.clip();
+					}
+					if (storageContext.ctx.storage) for (a = 0, storageLen = storageContext.ctx.storage.length; a < storageLen; a += 1) {
+						renderItem = storageContext.ctx.storage[a];
+						switch (renderItem.type) {
+							case "variable":
+								ctx[renderItem.name] = renderItem["arguments"];
+								break;
+							case "function": if (renderItem.name === "fillRect") {
+								if (!usingFlashcanvas || renderItem["arguments"][0] + renderItem["arguments"][2] < flashMaxSize && renderItem["arguments"][1] + renderItem["arguments"][3] < flashMaxSize) ctx.fillRect.apply(ctx, renderItem["arguments"]);
+							} else if (renderItem.name === "drawShape") (function(args) {
+								let i, len = args.length;
+								ctx.beginPath();
+								for (i = 0; i < len; i++) ctx[args[i].name].apply(ctx, args[i]["arguments"]);
+								ctx.closePath();
+								ctx.fill();
+							})(renderItem["arguments"]);
+							else if (renderItem.name === "fillText") {
+								if (!usingFlashcanvas || renderItem["arguments"][1] < flashMaxSize && renderItem["arguments"][2] < flashMaxSize) ctx.fillText.apply(ctx, renderItem["arguments"]);
+							} else if (renderItem.name === "drawImage") {
+								if (renderItem["arguments"][8] > 0 && renderItem["arguments"][7]) {
+									if (hasCTX && options.taintTest) {
+										if (safeImages.indexOf(renderItem["arguments"][0].src) === -1) {
+											testctx.drawImage(renderItem["arguments"][0], 0, 0);
+											try {
+												testctx.getImageData(0, 0, 1, 1);
+											} catch (e) {
+												testCanvas = doc.createElement("canvas");
+												testctx = testCanvas.getContext("2d");
+												continue;
+											}
+											safeImages.push(renderItem["arguments"][0].src);
+										}
+									}
+									ctx.drawImage.apply(ctx, renderItem["arguments"]);
+								}
+							}
+						}
+					}
+					if (storageContext.clip) ctx.restore();
+				}
+				h2clog("html2canvas: Renderer: Canvas renderer done - returning canvas obj");
+				queueLen = options.elements.length;
+				if (queueLen === 1) {
+					if (typeof options.elements[0] === "object" && options.elements[0].nodeName !== "BODY" && usingFlashcanvas === false) {
+						bounds = _html2canvas.Util.Bounds(options.elements[0]);
+						newCanvas = doc.createElement("canvas");
+						newCanvas.width = bounds.width;
+						newCanvas.height = bounds.height;
+						ctx = newCanvas.getContext("2d");
+						ctx.drawImage(canvas, bounds.left, bounds.top, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+						canvas = null;
+						return newCanvas;
+					}
+				}
+				return canvas;
+			} };
+			return methods;
+		};
+		_html2canvas.Renderer.SVG = function(options) {
+			options = options || {};
+			let doc = document, svgNS = "http://www.w3.org/2000/svg", svg = doc.createElementNS(svgNS, "svg"), xlinkNS = "http://www.w3.org/1999/xlink", defs = doc.createElementNS(svgNS, "defs"), i, a, queueLen, storageLen, storageContext, renderItem, el, settings = {}, text, fontStyle, clipId = 0;
+			return { _create: function(zStack, options, doc, queue, _html2canvas) {
+				svg.setAttribute("version", "1.1");
+				svg.setAttribute("baseProfile", "full");
+				svg.setAttribute("viewBox", "0 0 " + Math.max(zStack.ctx.width, options.width) + " " + Math.max(zStack.ctx.height, options.height));
+				svg.setAttribute("width", Math.max(zStack.ctx.width, options.width) + "px");
+				svg.setAttribute("height", Math.max(zStack.ctx.height, options.height) + "px");
+				svg.setAttribute("preserveAspectRatio", "none");
+				svg.appendChild(defs);
+				for (i = 0, queueLen = queue.length; i < queueLen; i += 1) {
+					storageContext = queue.splice(0, 1)[0];
+					storageContext.canvasPosition = storageContext.canvasPosition || {};
+					if (storageContext.ctx.storage) for (a = 0, storageLen = storageContext.ctx.storage.length; a < storageLen; a += 1) {
+						renderItem = storageContext.ctx.storage[a];
+						switch (renderItem.type) {
+							case "variable":
+								settings[renderItem.name] = renderItem["arguments"];
+								break;
+							case "function": if (renderItem.name === "fillRect") {
+								el = doc.createElementNS(svgNS, "rect");
+								el.setAttribute("x", renderItem["arguments"][0]);
+								el.setAttribute("y", renderItem["arguments"][1]);
+								el.setAttribute("width", renderItem["arguments"][2]);
+								el.setAttribute("height", renderItem["arguments"][3]);
+								el.setAttribute("fill", settings.fillStyle);
+								svg.appendChild(el);
+							} else if (renderItem.name === "fillText") {
+								el = doc.createElementNS(svgNS, "text");
+								fontStyle = settings.font.split(" ");
+								el.style.fontVariant = fontStyle.splice(0, 1)[0];
+								el.style.fontWeight = fontStyle.splice(0, 1)[0];
+								el.style.fontStyle = fontStyle.splice(0, 1)[0];
+								el.style.fontSize = fontStyle.splice(0, 1)[0];
+								el.setAttribute("x", renderItem["arguments"][1]);
+								el.setAttribute("y", renderItem["arguments"][2] - (parseInt(el.style.fontSize, 10) + 3));
+								el.setAttribute("fill", settings.fillStyle);
+								el.style.dominantBaseline = "text-before-edge";
+								el.style.fontFamily = fontStyle.join(" ");
+								text = doc.createTextNode(renderItem["arguments"][0]);
+								el.appendChild(text);
+								svg.appendChild(el);
+							} else if (renderItem.name === "drawImage") {
+								if (renderItem["arguments"][8] > 0 && renderItem["arguments"][7]) {
+									el = doc.createElementNS(svgNS, "clipPath");
+									el.setAttribute("id", "clipId" + clipId);
+									text = doc.createElementNS(svgNS, "rect");
+									text.setAttribute("x", renderItem["arguments"][5]);
+									text.setAttribute("y", renderItem["arguments"][6]);
+									text.setAttribute("width", renderItem["arguments"][3]);
+									text.setAttribute("height", renderItem["arguments"][4]);
+									el.appendChild(text);
+									defs.appendChild(el);
+									el = doc.createElementNS(svgNS, "image");
+									el.setAttributeNS(xlinkNS, "xlink:href", renderItem["arguments"][0].src);
+									el.setAttribute("width", renderItem["arguments"][7]);
+									el.setAttribute("height", renderItem["arguments"][8]);
+									el.setAttribute("x", renderItem["arguments"][5]);
+									el.setAttribute("y", renderItem["arguments"][6]);
+									el.setAttribute("clip-path", "url(#clipId" + clipId + ")");
+									el.setAttribute("preserveAspectRatio", "none");
+									svg.appendChild(el);
+									clipId += 1;
+								}
+							}
+						}
+					}
+				}
+				h2clog("html2canvas: Renderer: SVG Renderer done - returning SVG DOM obj");
+				return svg;
+			} };
+		};
+	})(window, document);
+	html2canvas_default = html2canvas;
+}));
+//#endregion
+//#region src/Controls/ScreenShot.js
+var ScreenShot;
+var init_ScreenShot = __esmMin((() => {
+	init_Client();
+	init_html2canvas();
+	init_KeyEventHandler();
+	init_ChatBox();
+	ScreenShot = class ScreenShot {
+		/**
+		* Take a ScreenShot
+		*/
+		static take() {
+			if (!ChatBox_default.ui) return;
+			html2canvas_default([document.body], { onrendered: this.process });
+		}
+		/**
+		* Process ScreenShot
+		*
+		* @param {canvasElement} canvas
+		*/
+		static process(canvas) {
+			let x, y;
+			const tzoffset = (/* @__PURE__ */ new Date()).getTimezoneOffset() * 6e4;
+			let localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
+			localISOTime = localISOTime.replace("T", " ");
+			const timezone = (/* @__PURE__ */ new Date()).getTimezoneOffset() / 60;
+			const date = `${localISOTime} (GMT ${timezone > 0 ? "-" : "+"}${Math.abs(timezone).toString()})`;
+			const context = canvas.getContext("2d");
+			context.fillStyle = "white";
+			context.strokeStyle = "black";
+			x = 20;
+			y = canvas.height - 5;
+			context.font = "bold 16px Arial";
+			context.fillText(date, x, y);
+			context.strokeText(date, x, y);
+			Client.loadFile("data/texture/scr_logo.bmp", (url) => {
+				const img = new Image();
+				img.decoding = "async";
+				img.src = url;
+				img.onload = () => {
+					x = canvas.width - img.width - 20;
+					y = canvas.height - img.height - 5;
+					context.drawImage(img, x, y);
+					ScreenShot.display(canvas, date);
+				};
+			}, () => {
+				ScreenShot.display(canvas, date);
+			});
+		}
+		/**
+		* Display the ScreenShot, this method is ment to be replaced by plugins if wanted.
+		*
+		* @param {canvasElement} canvas
+		* @param {string} date
+		*/
+		static display(canvas, date) {
+			let i;
+			const binary = atob(canvas.toDataURL("image/png").replace(/^data[^,]+,/, ""));
+			const count = binary.length;
+			const data = new Uint8Array(count);
+			for (i = 0; i < count; ++i) data[i] = binary.charCodeAt(i);
+			const url = window.URL.createObjectURL(new Blob([data], { type: "image/png" }));
+			ChatBox_default.addText(`截图 ${date} 可通过<a style="color:#F88" download="ScreenShot (${date.replace("/", "-")}).png" href="${url}" target="_blank">点击此处</a>保存。`, ChatBox_default.TYPE.PUBLIC, ChatBox_default.FILTER.PUBLIC_LOG, null, true);
+		}
+	};
+	/**
+	* Key Listener
+	*/
+	window.addEventListener("keydown", (event) => {
+		if (KEYS.ALT && event.which === KEYS.P) {
+			ScreenShot.take();
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		}
+	});
+}));
+//#endregion
+//#region src/Controls/MapControl.js
+/**
+* What to do when clicking on the map ?
+*/
+function onMouseDown(event) {
+	const action = event && event.which || 1;
+	if (!Mouse.intersect) return;
+	clearAttackIntent();
+	const entityFocus = EntityManager.getFocusEntity();
+	const entityOver = EntityManager.getOverEntity();
+	switch (action) {
+		case 1:
+			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
+				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.mercId, "3," + entityOver.GID);
+				else AIDriver.setmsg(SessionStorage_default.mercId, "1," + Mouse.world.x + "," + Mouse.world.y);
+			} else {
+				SessionStorage_default.moveAction = null;
+				SessionStorage_default.autoFollow = false;
+				let stop = false;
+				if (entityOver != SessionStorage_default.Entity) {
+					if (entityFocus && entityFocus != entityOver) {
+						if (!(SessionStorage_default.TouchTargeting && !entityOver)) {
+							entityFocus.onFocusEnd();
+							EntityManager.setFocusEntity(null);
+						}
+					}
+					if (entityOver) {
+						stop = stop || entityOver.onMouseDown();
+						stop = stop || entityOver.onFocus();
+						EntityManager.setFocusEntity(entityOver);
+						if (stop) return;
+					}
+				}
+				if (this.onRequestWalk) this.onRequestWalk();
+			}
+			break;
+		case 3:
+			_rightClickPosition[0] = Mouse.screen.x;
+			_rightClickPosition[1] = Mouse.screen.y;
+			if (SessionStorage_default.captchaGetIdOnFloorClick) CaptchaSelector_default.requestPlayersIds(Mouse.world.x, Mouse.world.y);
+			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
+				Camera.rotate(false);
+				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.homunId, "3," + entityOver.GID);
+				else AIDriver.setmsg(SessionStorage_default.homunId, "1," + Mouse.world.x + "," + Mouse.world.y);
+			} else {
+				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) {
+					if (KEYS.SHIFT) {
+						SessionStorage_default.autoFollowTarget = entityOver;
+						SessionStorage_default.autoFollow = true;
+						onAutoFollow();
+					}
+					entityOver.onMouseDown();
+					entityOver.onFocus();
+					EntityManager.setFocusEntity(entityOver);
+				}
+				Cursor.setType(Cursor.ACTION.ROTATE);
+				Camera.rotate(true);
+			}
+	}
+}
+/**
+* What to do when stop clicking on the map ?
+*/
+function onMouseUp(event) {
+	let entity, ET;
+	const action = event && event.which || 1;
+	if (!Mouse.intersect) return;
+	switch (action) {
+		case 1:
+			entity = EntityManager.getFocusEntity();
+			if (entity) {
+				ET = entity.constructor;
+				entity.onMouseUp();
+				if (!SessionStorage_default.TouchTargeting && (Controls_default.noctrl === false || ![
+					ET.TYPE_MOB,
+					ET.TYPE_NPC_ABR,
+					ET.TYPE_NPC_BIONIC
+				].includes(entity.objecttype))) {
+					EntityManager.setFocusEntity(null);
+					entity.onFocusEnd();
+				}
+			}
+			if (this.onRequestStopWalk) this.onRequestStopWalk();
+			break;
+		case 3:
+			Cursor.setType(Cursor.ACTION.DEFAULT);
+			Camera.rotate(false);
+			if (_rightClickPosition[0] === Mouse.screen.x && _rightClickPosition[1] === Mouse.screen.y && !KEYS.SHIFT) {
+				entity = EntityManager.getOverEntity();
+				if (entity && entity !== SessionStorage_default.Entity) entity.onContextMenu();
+			}
+	}
+}
+/**
+* Zoom feature
+*/
+function onMouseWheel(event) {
+	if (Mouse.state === Mouse.MOUSE_STATE.USESKILL) {
+		if (event.deltaY < 0) SkillTargetSelection_default.setSkillLevelDelta(1);
+		else SkillTargetSelection_default.setSkillLevelDelta(-1);
+		return;
+	}
+	const delta = event.deltaY < 0 ? 1 : event.deltaY > 0 ? -1 : 0;
+	Camera.setZoom(delta);
+}
+/**
+* Allow dropping data
+*/
+function onDragOver(event) {
+	event.stopImmediatePropagation();
+	event.preventDefault();
+}
+/**
+* Drop items to the map
+*/
+function onDrop$10(event) {
+	let data;
+	try {
+		data = JSON.parse(event.dataTransfer.getData("Text"));
+	} catch (e) {
+		console.error(e);
+	}
+	event.preventDefault();
+	event.stopImmediatePropagation();
+	if (!data) return;
+	if (data.from) {
+		const comp = UIManager.getComponent(data.from);
+		if (comp && comp.ui) (comp.ui[0] || comp.ui).dispatchEvent(new MouseEvent("mouseleave", { bubbles: false }));
+	}
+	if (data.type !== "item" || data.from !== "Inventory") return;
+	if (EquipmentController.getUI().ui.is(":visible")) {
+		ChatBox_default.addText(DB.getMessage(189), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.ITEM);
+		return;
+	}
+	if (UIManager.getComponent("Inventory").name !== "InventoryV0" && InventoryController.getUI().itemlock === true) return;
+	const item = data.data;
+	if (item.count > 1) {
+		InputBox_default.append();
+		InputBox_default.setType("item", false, item.count, item.ITID);
+		InputBox_default.onSubmitRequest = function onSubmitRequest(count) {
+			InputBox_default.remove();
+			MapControl.onRequestDropItem(item.index, parseInt(count, 10));
+		};
+	} else MapControl.onRequestDropItem(item.index, 1);
+}
+/**
+* Auto follow logic
+*/
+function onAutoFollow() {
+	if (SessionStorage_default.autoFollow) {
+		const player = SessionStorage_default.Entity;
+		const target = SessionStorage_default.autoFollowTarget;
+		const dx = Math.abs(player.position[0] - target.position[0]);
+		const dy = Math.abs(player.position[1] - target.position[1]);
+		if (dx > 1 || dy > 1) {
+			const dest = [0, 0];
+			if (checkFreeCell$1(Math.round(target.position[0]), Math.round(target.position[1]), 1, dest)) {
+				let pkt;
+				if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
+				else pkt = new PACKET.CZ.REQUEST_MOVE();
+				pkt.dest = dest;
+				Network.sendPacket(pkt);
+			}
+		}
+		Events.setTimeout(onAutoFollow, 500);
+	}
+}
+/**
+* Search free cells around a position
+*
+* @param {number} x
+* @param {number} y
+* @param {number} range
+* @param {array} out
+*/
+function checkFreeCell$1(x, y, range, out) {
+	let _x, _y, r;
+	const d_x = SessionStorage_default.Entity.position[0] < x ? -1 : 1;
+	const d_y = SessionStorage_default.Entity.position[1] < y ? -1 : 1;
+	for (r = 0; r <= range; ++r) for (_x = -r; _x <= r; ++_x) for (_y = -r; _y <= r; ++_y) if (isFreeCell$1(x + _x * d_x, y + _y * d_y)) {
+		out[0] = x + _x * d_x;
+		out[1] = y + _y * d_y;
+		return true;
+	}
+	return false;
+}
+/**
+* Does a cell is free (walkable, and no entity on)
+*
+* @param {number} x
+* @param {number} y
+* @param {returns} is free
+*/
+function isFreeCell$1(x, y) {
+	if (!(Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE)) return false;
+	let free = true;
+	EntityManager.forEach(function(entity) {
+		if (entity.objecttype != entity.constructor.TYPE_EFFECT && entity.objecttype != entity.constructor.TYPE_UNIT && entity.objecttype != entity.constructor.TYPE_TRAP && Math.round(entity.position[0]) === x && Math.round(entity.position[1]) === y) {
+			free = false;
+			return false;
+		}
+		return true;
+	});
+	return free;
+}
+var _rightClickPosition, MapControl;
+var init_MapControl = __esmMin((() => {
+	init_AttackIntent();
+	init_DBManager();
+	init_UIManager();
+	init_CursorManager();
+	init_Entity$1();
+	init_InputBox();
+	init_ChatBox();
+	init_Equipment();
+	init_Inventory();
+	init_SkillTargetSelection();
+	init_MouseEventHandler();
+	init_Mobile();
+	init_Renderer();
+	init_Camera();
+	init_EntityManager();
+	init_SessionStorage();
+	init_Controls();
+	init_KeyEventHandler();
+	init_AIDriver();
+	init_Altitude();
+	init_PacketVerManager();
+	init_PacketStructure();
+	init_NetworkManager();
+	init_Events();
+	init_CaptchaSelector();
+	init_ScreenShot();
+	_rightClickPosition = /* @__PURE__ */ new Int16Array(2);
+	MapControl = class {
+		/**
+		* Callback used when requesting to move somewhere
+		*/
+		static onRequestWalk() {}
+		/**
+		* Callback used when request to stop move
+		*/
+		static onRequestStopWalk() {}
+		/**
+		* Callback used when dropping an item to the map
+		*/
+		static onRequestDropItem() {}
+		/**
+		* Initializing the controller
+		*/
+		static init() {
+			Mobile.init();
+			Mobile.onTouchStart = onMouseDown.bind(this);
+			Mobile.onTouchEnd = onMouseUp.bind(this);
+			Renderer.canvas.addEventListener("wheel", onMouseWheel);
+			Renderer.canvas.addEventListener("dragover", onDragOver);
+			Renderer.canvas.addEventListener("drop", onDrop$10.bind(this));
+			window.addEventListener("mousedown", onMouseDown.bind(this));
+			window.addEventListener("mouseup", onMouseUp.bind(this));
+		}
+	};
+}));
+//#endregion
+//#region src/UI/Game/InventoryItems.js
+function itemQuantity(item) {
+	if (!item) return 0;
+	return equipment$1.includes(item.type) && item.type !== ItemType_default.AMMO ? 1 : item.count || 0;
+}
+var consumables, equipment$1, usableItems;
+var init_InventoryItems = __esmMin((() => {
+	init_ItemType();
+	consumables = [
+		ItemType_default.HEALING,
+		ItemType_default.USABLE,
+		ItemType_default.CASH
+	];
+	equipment$1 = [
+		ItemType_default.WEAPON,
+		ItemType_default.ARMOR,
+		ItemType_default.SHADOWGEAR,
+		ItemType_default.PETARMOR,
+		ItemType_default.AMMO
+	];
+	usableItems = [...consumables, ...equipment$1];
+}));
+//#endregion
+//#region src/UI/Game/GameInventory.js
+/** Read live inventory identities; never optimistically mutate server-owned counts or equipment. */
+function createGameInventory(canOperate) {
+	const icons = /* @__PURE__ */ new Map();
+	function entries() {
+		const items = new Map(InventoryController.getUI().list.filter((item) => itemQuantity(item) > 0).map((item) => [item.index, {
+			item,
+			worn: false
+		}]));
+		for (const item of EquipmentController.getUI().getItems()) items.set(item.index, {
+			item,
+			worn: true
+		});
+		return [...items.values()];
+	}
+	function available() {
+		return Boolean(canOperate() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
+	}
+	function describe({ item, worn }) {
+		const info = DB.getItemInfo(item.ITID);
+		const file = item.IsIdentified ? info.identifiedResourceName : info.unidentifiedResourceName;
+		if (file && !icons.has(file)) {
+			icons.set(file, "");
+			Client.loadFile(`${DB.INTERFACE_PATH}item/${file}.bmp`, (url) => icons.set(file, url));
+		}
+		const equippable = equipment$1.includes(item.type);
+		const usable = consumables.includes(item.type);
+		const action = worn ? "unequip" : equippable ? "equip" : usable ? "use" : item.type === ItemType_default.CARD ? "card" : null;
+		const reason = !available() ? "当前无法操作物品" : !worn && equippable && !item.IsIdentified ? "装备尚未鉴定" : !worn && equippable && item.IsDamaged ? "装备已损坏" : !action ? "此物品没有直接使用操作" : "";
+		return {
+			index: item.index,
+			ID: item.ITID,
+			name: DB.getItemName(item),
+			count: itemQuantity(item),
+			icon: icons.get(file) || "",
+			worn,
+			location: item.location,
+			wearLocation: worn ? item.equipped : 0,
+			category: equippable ? "equipment" : usable ? "usable" : "other",
+			description: toPlainRagnarokText(item.IsIdentified ? info.identifiedDescriptionName : info.unidentifiedDescriptionName),
+			action,
+			reason,
+			shortcut: !worn && (equippable || usable),
+			identified: Boolean(item.IsIdentified),
+			damaged: Boolean(item.IsDamaged)
+		};
+	}
+	return {
+		snapshot: () => entries().map(describe),
+		describe: (item) => describe({
+			item,
+			worn: false
+		}),
+		act(index, id, action, location) {
+			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
+			if (!entry) return "物品已经变化，请重新选择";
+			const state = describe(entry);
+			if (state.reason) return state.reason;
+			if (state.action !== action) return "穿戴状态已经变化，请重新选择操作";
+			if (action === "unequip") EquipmentController.getUI().onUnEquip(index);
+			else if (action === "equip") {
+				if (location !== void 0 && (!Number.isInteger(location) || location <= 0 || (location & location - 1) !== 0 || !(entry.item.location & location))) return "装备不适用于此部位";
+				InventoryController.getUI().onEquipItem(index, location ?? entry.item.location);
+			} else if (action === "card") InventoryController.getUI().onUseCard(index);
+			else if (InventoryController.getUI().onUseItem(index) === false) return "当前无法使用此物品";
+			return "已发送请求，结果以服务器回复为准";
+		},
+		drop(index, id, count) {
+			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
+			if (!available()) return "当前无法丢弃物品";
+			if (!entry || entry.worn || !Number.isInteger(count) || count < 1 || count > 65535 || count > itemQuantity(entry.item)) return "物品或数量已经变化，请重新选择";
+			MapControl.onRequestDropItem(index, count);
+			return "已请求丢弃，等待服务器更新";
+		},
+		canBind(index, id) {
+			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
+			return Boolean(entry && available() && describe(entry).shortcut);
+		}
+	};
+}
+var init_GameInventory = __esmMin((() => {
+	init_ItemType();
+	init_MapControl();
+	init_Inventory();
+	init_Equipment();
+	init_InventoryItems();
+	init_DBManager();
+	init_Client();
+	init_SessionStorage();
+	init_RagnarokText();
+}));
+//#endregion
+//#region src/UI/Game/ServerInteraction.js
+function interactionSnapshot() {
+	return current$1;
+}
+function showInteraction(state) {
+	current$1 = {
+		...state,
+		revision: ++revision$1
+	};
+	for (const listener of listeners) listener(current$1);
+}
+function clearInteraction(kind) {
+	if (kind && current$1?.kind !== kind) return;
+	current$1 = null;
+	for (const listener of listeners) listener(null);
+}
+function subscribeInteraction(listener) {
+	listeners.add(listener);
+	listener(current$1);
+	return () => listeners.delete(listener);
+}
+var current$1, revision$1, listeners;
+var init_ServerInteraction = __esmMin((() => {
+	current$1 = null;
+	revision$1 = 0;
+	listeners = /* @__PURE__ */ new Set();
+}));
+//#endregion
+//#region src/UI/Game/GameRefinement.js
+function updateRefinementMaterials(kind, pkt) {
+	return activeService?.materials(kind, pkt);
+}
+function finishRefinement(kind, pkt) {
+	return activeService?.result(kind, pkt);
+}
+function openGameRefinement(kind) {
+	const token = Symbol(kind), inventory = createGameInventory(() => true);
+	let guard = () => false, selected = null, offer = null, pending = false, message = "请选择装备";
+	const current = () => SessionStorage_default.Playing && interactionSnapshot()?.token === token;
+	const available = () => current() && guard() && !pending && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE;
+	const count = (id) => InventoryController.getUI().list.filter((item) => item.ITID === id).reduce((sum, item) => sum + (item.count || 0), 0);
+	const live = () => selected && InventoryController.getUI().getItemByIndex(selected.index);
+	function valid() {
+		const item = live();
+		return item && item.ITID === selected.ID && item.RefiningLevel === selected.refine && item.enchantgrade === selected.grade && inventory.snapshot().some((entry) => entry.index === selected.index && !entry.worn && entry.identified && !entry.damaged);
+	}
+	const service = {
+		setOperationGuard(fn) {
+			guard = fn;
+		},
+		snapshot() {
+			return {
+				kind,
+				items: inventory.snapshot().filter((item) => !item.worn && item.category === "equipment" && item.identified && !item.damaged),
+				selected,
+				offer,
+				pending,
+				message,
+				allowed: available(),
+				zeny: SessionStorage_default.zeny,
+				materials: (kind === "refine" ? offer?.MaterialInfo : offer?.materialList)?.map((material, index) => ({
+					...material,
+					index,
+					name: DB.getItemInfo(material.itemId).identifiedDisplayName,
+					owned: count(material.itemId)
+				})) || []
+			};
+		},
+		select(index, id) {
+			if (!available()) return "当前不能选择装备";
+			const item = InventoryController.getUI().getItemByIndex(index);
+			if (!item || item.ITID !== id || !service.snapshot().items.some((entry) => entry.index === index)) return "装备已经变化";
+			selected = {
+				index,
+				ID: id,
+				refine: item.RefiningLevel,
+				grade: item.enchantgrade
+			};
+			offer = null;
+			pending = true;
+			message = "正在请求材料和费用";
+			const pkt = kind === "refine" ? new PACKET.CZ.REFINING_SELECT_ITEM() : new PACKET.CZ.GRADE_ENCHANT_SELECT_EQUIPMENT();
+			pkt.index = index;
+			Network.sendPacket(pkt);
+			return "";
+		},
+		materials(type, pkt) {
+			if (type !== kind || !current() || !selected || (pkt.itemIndex ?? pkt.index) !== selected.index) return false;
+			offer = pkt;
+			pending = false;
+			message = service.snapshot().materials.length ? "请选择材料，核对费用与风险" : "此装备无法继续强化";
+			return true;
+		},
+		confirm(materialIndex, blessing = 0) {
+			if (!available() || !offer || !valid()) return "装备或状态已变化，请重新选择";
+			const material = service.snapshot().materials.find((entry) => entry.index === materialIndex);
+			if (!material) return "请选择材料";
+			if (SessionStorage_default.zeny < (material.zeny ?? material.price) || material.owned < (material.amount ?? 1)) return "材料或 Zeny 不足";
+			if (!Number.isInteger(blessing) || blessing < 0) return "祝福数量无效";
+			if (kind === "refine") {
+				if (blessing !== 0 && blessing !== offer.blacksmithBlessing) return "祝福数量已变化";
+				if (blessing + (material.itemId === 6635 ? material.amount ?? 1 : 0) > count(6635)) return "铁匠的祝福不足";
+			} else {
+				const info = offer.blessing_info;
+				if (blessing > (info?.max_blessing || 0) || blessing * (info?.amount || 0) + (material.itemId === info?.id ? material.amount ?? 1 : 0) > count(info?.id)) return "祝福材料不足";
+			}
+			const pkt = kind === "refine" ? new PACKET.CZ.REQ_REFINING() : new PACKET.CZ.GRADE_ENCHANT_REQ();
+			pkt.index = selected.index;
+			if (kind === "refine") {
+				pkt.itemId = material.itemId;
+				pkt.blacksmithBlessing = blessing;
+			} else {
+				pkt.material_index = materialIndex;
+				pkt.blessing_flag = blessing ? 1 : 0;
+				pkt.blessing_amount = blessing;
+				pkt.protect_flag = 0;
+			}
+			pending = true;
+			message = "已请求强化，等待服务器结果";
+			Network.sendPacket(pkt);
+			return "";
+		},
+		result(type, pkt) {
+			if (type !== kind || !current() || !selected || (pkt.itemIndex ?? pkt.index) !== selected.index) return false;
+			pending = false;
+			offer = null;
+			selected = null;
+			message = [
+				"强化成功",
+				"强化失败",
+				"强化失败，精炼等级降低",
+				"装备损坏",
+				"装备受到保护"
+			][pkt.result] || `强化结果：${pkt.result}`;
+			return true;
+		}
+	};
+	activeService = service;
+	showInteraction({
+		kind: "refinement",
+		title: kind === "refine" ? "装备精炼" : "装备评级",
+		token,
+		service,
+		close() {
+			if (!current()) return;
+			clearInteraction("refinement");
+			Network.sendPacket(kind === "refine" ? new PACKET.CZ.CLOSE_REFINING_UI() : new PACKET.CZ.GRADE_ENCHANT_CLOSE_UI());
+		}
+	});
+	return service;
+}
+var activeService;
+var init_GameRefinement = __esmMin((() => {
+	init_SessionStorage();
+	init_Inventory();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_DBManager();
+	init_GameInventory();
+	init_ServerInteraction();
+}));
+//#endregion
 //#region src/UI/Components/Refine/Refine.html?raw
 var Refine_default$2;
 var init_Refine$2 = __esmMin((() => {
@@ -281508,6 +285556,10 @@ function clearRefineStates() {
 function onOpenRefineUI() {
 	if (!Configs.get("enableRefineUI") || PacketVerManager_default.value < 20161012) {
 		console.warn("Renewal Refine is enabled in your server. Please enable refine UI in your configs.");
+		return false;
+	}
+	if (Platform.isMobile) {
+		openGameRefinement("refine");
 		return false;
 	}
 	Refine.append();
@@ -281585,6 +285637,10 @@ function onRefineUIUpdateMaterials(pkt) {
 	if (!Configs.get("enableRefineUI") || PacketVerManager_default.value < 20161012) {
 		console.warn("Renewal Refine is enabled in your server. Please enable refine UI in your configs.");
 		return false;
+	}
+	if (Platform.isMobile) {
+		updateRefinementMaterials("refine", pkt);
+		return;
 	}
 	const root = _root$11();
 	if (pkt && pkt.MaterialInfo.length > 0) {
@@ -282233,6 +286289,8 @@ function onBroadcastRefineResult(pkt) {
 }
 var Refine, BSB_ITID, refiningMaterials, blacksmithBlessing, refine_item_index, refine_item_mat, refine_fee, refine_bsb, refine_result, refine_result_div, refine_can_cont, refine_no_mats, refine_no_zeny, refine_no_bsb, refine_item_broken, refine_new_mats, refine_ongoing, refine_current_chance, refine_current_zeny, initialsuccess, currentLoopHandle, itemMessageMapping, images$1, Refine_default;
 var init_Refine = __esmMin((() => {
+	init_Platform();
+	init_GameRefinement();
 	init_DBManager();
 	init_Configs();
 	init_NetworkManager();
@@ -282579,7 +286637,7 @@ function clearEnchantGradeStates() {
 /**
 * Stop event propagation
 */
-function stopPropagation$9(event) {
+function stopPropagation$8(event) {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 }
@@ -282683,6 +286741,10 @@ function disableDropProxy() {
 * @param {pkt} - PACKET.ZC.REFINING_MATERIAL_LIST
 */
 function onEnchantGradeUIUpdateMaterials(pkt) {
+	if (Platform.isMobile) {
+		updateRefinementMaterials("grade", pkt);
+		return;
+	}
 	const root = _root$10();
 	if (pkt && pkt.materialList.length > 0) {
 		disableDropProxy();
@@ -282963,6 +287025,16 @@ function onRequestEnchantGrade() {
 * 4= The equipment is protected.
 */
 function onEnchantGradeResult(pkt) {
+	if (Platform.isMobile) {
+		const item = InventoryController.getUI().removeItem(pkt.index, 1);
+		if (item) {
+			item.enchantgrade = pkt.grade;
+			if (pkt.result === 0) item.RefiningLevel = 0;
+			InventoryController.getUI().addItem(item);
+		}
+		finishRefinement("grade", pkt);
+		return;
+	}
 	if (pkt) {
 		EnchantGrade_result = pkt.result;
 		controlPhase("process", true, 200, ".grade-wheel");
@@ -283083,6 +287155,8 @@ function playEffect$1(effectId, duration, onEnd) {
 }
 var EnchantGrade, gradingMaterials, EnchantGrade_item_index, EnchantGrade_item_mat, EnchantGrade_result, EnchantGrade_can_cont, EnchantGrade_blessing_used, EnchantGrade_currentBlessing, EnchantGrade_current_success, materialNormal, materialOver, materialPick, startNormal, startDisable, _materialSlotAbort, GradeMapping, scenarioMsgMapping, images, EnchantGrade_default;
 var init_EnchantGrade = __esmMin((() => {
+	init_Platform();
+	init_GameRefinement();
 	init_DBManager();
 	init_EffectConst();
 	init_NetworkManager();
@@ -283187,7 +287261,7 @@ var init_EnchantGrade = __esmMin((() => {
 		const dropProxy = root.querySelector(".enchant_drop_proxy");
 		if (dropProxy) {
 			dropProxy.addEventListener("drop", onItemDrop);
-			dropProxy.addEventListener("dragover", stopPropagation$9);
+			dropProxy.addEventListener("dragover", stopPropagation$8);
 		}
 		const enchantContainer = root.querySelector(".enchant_container");
 		if (enchantContainer) {
@@ -283250,6 +287324,10 @@ var init_EnchantGrade = __esmMin((() => {
 	* Open EnchantGrade UI
 	*/
 	EnchantGrade.onOpenEnchantGradeUI = function onOpenEnchantGradeUI() {
+		if (Platform.isMobile) {
+			openGameRefinement("grade");
+			return;
+		}
 		EnchantGrade.append();
 		const invUI = InventoryController.getUI();
 		if (!(invUI && invUI._host ? invUI._host.isConnected && invUI._host.style.display !== "none" : false)) invUI.toggle();
@@ -283284,6 +287362,335 @@ var init_EnchantGrade = __esmMin((() => {
 	Network.hookPacket(PACKET.ZC.GRADE_ENCHANT_ACK, onEnchantGradeResult);
 	Network.hookPacket(PACKET.ZC.GRADE_ENCHANT_BROADCAST_RESULT, onBroadcastEnchantGradeResult);
 	EnchantGrade_default = UIManager.addComponent(EnchantGrade);
+}));
+//#endregion
+//#region src/UI/Game/EnchantRules.js
+function getSlotKey(slotNum) {
+	return "card" + (slotNum + 1);
+}
+function getSlotValue(item, slotNum) {
+	if (!item || !item.slot) return 0;
+	return item.slot[getSlotKey(slotNum)] || 0;
+}
+function setSlotValue(item, slotNum, value) {
+	if (!item) return;
+	if (!item.slot) item.slot = {};
+	item.slot[getSlotKey(slotNum)] = value;
+}
+function getBaseSlotCount(item) {
+	const it = DB.getItemInfo(item.ITID);
+	const slotCount = it && it.slotCount ? parseInt(it.slotCount, 10) : 0;
+	return isNaN(slotCount) ? 0 : slotCount;
+}
+function getItemGrade(item) {
+	return item.enchantgrade || item.grade || 0;
+}
+function hasRandomOptions(item) {
+	if (!item || !item.Options) return false;
+	for (let i = 1; i < item.Options.length; i++) if (item.Options[i] && item.Options[i].index > 0) return true;
+	return false;
+}
+function isTargetItem(item, group) {
+	if (!item || !group || !group.targetItems) return false;
+	const baseName = DB.getBasefromItemID(item.ITID);
+	for (let i = 0; i < group.targetItems.length; i++) {
+		const target = group.targetItems[i];
+		if (target.id && target.id === item.ITID) return true;
+		if (!target.id && baseName && target.base === baseName) return true;
+	}
+	return false;
+}
+function getNextEnchantSlot(item, group) {
+	const slotOrder = group && group.slotOrder && group.slotOrder.length ? group.slotOrder : [
+		0,
+		1,
+		2,
+		3
+	];
+	const baseSlots = getBaseSlotCount(item);
+	for (let i = 0; i < slotOrder.length; i++) {
+		const slotNum = slotOrder[i];
+		if (slotNum < baseSlots) continue;
+		if (!getSlotValue(item, slotNum)) return slotNum;
+	}
+	return null;
+}
+function getUpgradeCandidates(item, group) {
+	const candidates = [];
+	const slotOrder = group.slotOrder && group.slotOrder.length ? group.slotOrder : [
+		0,
+		1,
+		2,
+		3
+	];
+	const baseSlots = getBaseSlotCount(item);
+	for (let i = 0; i < slotOrder.length; i++) {
+		const slotNum = slotOrder[i];
+		if (slotNum < baseSlots) continue;
+		const slotData = group.slots[slotNum];
+		if (!slotData || !slotData.upgrade) continue;
+		const currentId = getSlotValue(item, slotNum);
+		if (!currentId) continue;
+		const baseName = DB.getBasefromItemID(currentId);
+		const entry = baseName ? slotData.upgrade[baseName] : null;
+		if (!entry) continue;
+		candidates.push({
+			slotNum,
+			baseName,
+			entry,
+			currentId
+		});
+	}
+	return candidates;
+}
+function validateEnchantItem(item, group) {
+	if (!group) return {
+		ok: false,
+		message: "此附魔组缺少附魔数据。"
+	};
+	if (!item) return {
+		ok: false,
+		message: "物品无效。"
+	};
+	if (item.WearState) return {
+		ok: false,
+		message: "物品必须位于背包中。"
+	};
+	if (item.equipSwitch && item.equipSwitch > 0 || item.EquipSwitch && item.EquipSwitch > 0) return {
+		ok: false,
+		message: "物品不能位于装备切换栏中。"
+	};
+	if (item.attribute && item.attribute !== 0) return {
+		ok: false,
+		message: "物品属性必须为普通。"
+	};
+	if (!isTargetItem(item, group)) return {
+		ok: false,
+		message: "物品不适用于此附魔组。"
+	};
+	if ((item.RefiningLevel || item.refiningLevel || 0) < group.condition.minRefine) return {
+		ok: false,
+		message: "精炼等级过低。"
+	};
+	if (getItemGrade(item) < group.condition.minGrade) return {
+		ok: false,
+		message: "附魔等级过低。"
+	};
+	if (!group.allowRandomOption && hasRandomOptions(item)) return {
+		ok: false,
+		message: "不允许使用随机选项。"
+	};
+	return { ok: true };
+}
+var init_EnchantRules = __esmMin((() => {
+	init_DBManager();
+}));
+//#endregion
+//#region src/UI/Game/GameEnchant.js
+function finishGameEnchant(pkt) {
+	return currentService?.result(pkt);
+}
+function openGameEnchant(groupId) {
+	const group = DB.getEnchantGroup(groupId), token = Symbol("enchant"), inventory = createGameInventory(() => true);
+	let guard = () => false, selected = null, pending = null, message = group ? "请选择装备" : `附魔组数据缺失：${groupId}`;
+	const current = () => SessionStorage_default.Playing && interactionSnapshot()?.token === token;
+	const allowed = () => current() && guard() && !pending && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE;
+	const live = () => selected && InventoryController.getUI().getItemByIndex(selected.index);
+	const itemId = (entry) => entry?.id || DB.getItemIdfromBase(entry?.base) || 0;
+	const name = (entry) => {
+		const id = itemId(entry);
+		return id ? DB.getItemInfo(id).identifiedDisplayName : entry?.base || "";
+	};
+	function choices(item) {
+		if (!validateEnchantItem(item, group).ok) return [];
+		const slot = getNextEnchantSlot(item, group), data = slot === null ? null : group.slots[slot], rows = [];
+		if (data?.random && Object.keys(data.random).length) rows.push({
+			key: "random",
+			action: "random",
+			slot,
+			name: "随机附魔",
+			rate: Math.min(1e5, (data.successRate || 0) + (data.gradeBonus?.[getItemGrade(item)] || 0)),
+			...data.require,
+			results: (data.random[getItemGrade(item)] || data.random[0] || []).map(name)
+		});
+		for (const [key, value] of Object.entries(data?.perfect || {})) rows.push({
+			key: `perfect:${key}`,
+			action: "perfect",
+			slot,
+			ITID: itemId(value),
+			name: `指定附魔：${name(value)}`,
+			rate: 1e5,
+			zeny: value.zeny,
+			materials: value.materials
+		});
+		for (const candidate of getUpgradeCandidates(item, group)) rows.push({
+			key: `upgrade:${candidate.slotNum}`,
+			action: "upgrade",
+			slot: candidate.slotNum,
+			name: `升级槽位 ${candidate.slotNum + 1}：${name(candidate.entry.result)}`,
+			rate: 1e5,
+			zeny: candidate.entry.zeny,
+			materials: candidate.entry.materials
+		});
+		const slots = group.slotOrder?.length ? group.slotOrder : [
+			0,
+			1,
+			2,
+			3
+		];
+		if (group.reset?.enabled && slots.some((slotNum) => slotNum >= getBaseSlotCount(item) && getSlotValue(item, slotNum))) rows.push({
+			key: "reset",
+			action: "reset",
+			name: "重置附魔",
+			slot: null,
+			rate: group.reset.rate,
+			zeny: group.reset.zeny,
+			materials: group.reset.materials
+		});
+		return rows.map((row) => ({
+			...row,
+			zeny: row.zeny || 0,
+			materials: (row.materials || []).map((material) => ({
+				...material,
+				ITID: itemId(material),
+				name: name(material)
+			}))
+		}));
+	}
+	function identity(item) {
+		return JSON.stringify([
+			item?.ITID,
+			item?.RefiningLevel,
+			item?.enchantgrade,
+			item?.slot,
+			item?.Options
+		]);
+	}
+	const service = {
+		setOperationGuard(fn) {
+			guard = fn;
+		},
+		snapshot() {
+			const item = live();
+			return {
+				items: group ? inventory.snapshot().filter((entry) => !entry.worn && validateEnchantItem(InventoryController.getUI().getItemByIndex(entry.index), group).ok) : [],
+				selected,
+				choices: item && item.ITID === selected.ID ? choices(item) : [],
+				allowed: allowed(),
+				message,
+				pending: !!pending
+			};
+		},
+		select(index, id) {
+			if (!allowed()) return "当前不能操作";
+			const item = InventoryController.getUI().getItemByIndex(index);
+			if (!item || item.ITID !== id) return "装备已变化";
+			const valid = validateEnchantItem(item, group);
+			if (!valid.ok) return valid.message;
+			selected = {
+				index,
+				ID: id,
+				identity: identity(item)
+			};
+			return "";
+		},
+		confirm(key, expected) {
+			if (!allowed()) return "当前不能操作";
+			const item = live();
+			if (!item || item.ITID !== selected.ID || identity(item) !== selected.identity || !service.snapshot().items.some((entry) => entry.index === selected.index)) return "装备已变化";
+			const choice = choices(item).find((entry) => entry.key === key);
+			if (!choice || JSON.stringify(choice) !== expected) return "附魔条件已变化，请重新核对";
+			if (choice.action === "perfect" && !choice.ITID) return "附魔数据无效";
+			if (SessionStorage_default.zeny < choice.zeny) return "Zeny 不足";
+			const needed = /* @__PURE__ */ new Map();
+			for (const material of choice.materials) {
+				if (!material.ITID) return "附魔材料数据无效";
+				needed.set(material.ITID, (needed.get(material.ITID) || 0) + (material.count || 0));
+			}
+			for (const [id, count] of needed) if (InventoryController.getUI().list.filter((entry) => entry.ITID === id).reduce((sum, entry) => sum + (entry.count || 0), 0) < count) return "材料不足";
+			const pkt = new {
+				random: PACKET.CZ.REQUEST_RANDOM_ENCHANT,
+				perfect: PACKET.CZ.REQUEST_PERFECT_ENCHANT,
+				upgrade: PACKET.CZ.REQUEST_UPGRADE_ENCHANT,
+				reset: PACKET.CZ.REQUEST_RESET_ENCHANT
+			}[choice.action]();
+			pkt.enchant_group = groupId;
+			pkt.index = selected.index;
+			if (choice.action === "perfect") pkt.ITID = choice.ITID;
+			if (choice.action === "upgrade") pkt.slot = choice.slot;
+			pending = {
+				...choice,
+				item,
+				index: selected.index,
+				identity: identity(item)
+			};
+			message = "等待附魔结果";
+			showInteraction({
+				kind: "enchant",
+				title: "装备附魔",
+				token,
+				service,
+				canClose: false,
+				close
+			});
+			Network.sendPacket(pkt);
+			return "";
+		},
+		result(pkt) {
+			if (!current() || !pending) return false;
+			const item = InventoryController.getUI().getItemByIndex(pending.index);
+			if (pkt.msgId === 3857 && item && identity(item) === pending.identity) {
+				if (pending.action === "reset") {
+					for (const slot of group.slotOrder?.length ? group.slotOrder : [
+						0,
+						1,
+						2,
+						3
+					]) if (slot >= getBaseSlotCount(item)) setSlotValue(item, slot, 0);
+				} else if (pkt.ITID && pending.slot !== null) setSlotValue(item, pending.slot, pkt.ITID);
+			}
+			pending = null;
+			selected = null;
+			message = DB.getMessage(pkt.msgId) || `附魔结果：${pkt.msgId}`;
+			const resultToken = Symbol("enchant-result");
+			showInteraction({
+				kind: "information",
+				title: "附魔结果",
+				token: resultToken,
+				rows: [["结果", toPlainRagnarokText(message)], ["提示", "继续附魔需重新打开附魔窗口"]],
+				close() {
+					if (interactionSnapshot()?.token === resultToken) clearInteraction("information");
+				}
+			});
+			return true;
+		}
+	};
+	function close() {
+		if (!current() || pending) return;
+		clearInteraction("enchant");
+		Network.sendPacket(new PACKET.CZ.CLOSE_UI_ENCHANT());
+	}
+	currentService = service;
+	showInteraction({
+		kind: "enchant",
+		title: "装备附魔",
+		token,
+		service,
+		close
+	});
+	return service;
+}
+var currentService;
+var init_GameEnchant = __esmMin((() => {
+	init_RagnarokText();
+	init_DBManager();
+	init_Inventory();
+	init_SessionStorage();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_EnchantRules();
+	init_GameInventory();
+	init_ServerInteraction();
 }));
 //#endregion
 //#region src/Renderer/Effects/StrEffect.vs?raw
@@ -283670,84 +288077,6 @@ function clearState() {
 }
 function formatZeny(zeny) {
 	return String(zeny || 0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-function getSlotKey(slotNum) {
-	return "card" + (slotNum + 1);
-}
-function getSlotValue(item, slotNum) {
-	if (!item || !item.slot) return 0;
-	return item.slot[getSlotKey(slotNum)] || 0;
-}
-function setSlotValue(item, slotNum, value) {
-	if (!item) return;
-	if (!item.slot) item.slot = {};
-	item.slot[getSlotKey(slotNum)] = value;
-}
-function getBaseSlotCount(item) {
-	const it = DB.getItemInfo(item.ITID);
-	const slotCount = it && it.slotCount ? parseInt(it.slotCount, 10) : 0;
-	return isNaN(slotCount) ? 0 : slotCount;
-}
-function getItemGrade(item) {
-	return item.enchantgrade || item.grade || 0;
-}
-function hasRandomOptions(item) {
-	if (!item || !item.Options) return false;
-	for (let i = 1; i < item.Options.length; i++) if (item.Options[i] && item.Options[i].index > 0) return true;
-	return false;
-}
-function isTargetItem(item, group) {
-	if (!item || !group || !group.targetItems) return false;
-	const baseName = DB.getBasefromItemID(item.ITID);
-	for (let i = 0; i < group.targetItems.length; i++) {
-		const target = group.targetItems[i];
-		if (target.id && target.id === item.ITID) return true;
-		if (!target.id && baseName && target.base === baseName) return true;
-	}
-	return false;
-}
-function getNextEnchantSlot(item, group) {
-	const slotOrder = group && group.slotOrder && group.slotOrder.length ? group.slotOrder : [
-		0,
-		1,
-		2,
-		3
-	];
-	const baseSlots = getBaseSlotCount(item);
-	for (let i = 0; i < slotOrder.length; i++) {
-		const slotNum = slotOrder[i];
-		if (slotNum < baseSlots) continue;
-		if (!getSlotValue(item, slotNum)) return slotNum;
-	}
-	return null;
-}
-function getUpgradeCandidates(item, group) {
-	const candidates = [];
-	const slotOrder = group.slotOrder && group.slotOrder.length ? group.slotOrder : [
-		0,
-		1,
-		2,
-		3
-	];
-	const baseSlots = getBaseSlotCount(item);
-	for (let i = 0; i < slotOrder.length; i++) {
-		const slotNum = slotOrder[i];
-		if (slotNum < baseSlots) continue;
-		const slotData = group.slots[slotNum];
-		if (!slotData || !slotData.upgrade) continue;
-		const currentId = getSlotValue(item, slotNum);
-		if (!currentId) continue;
-		const baseName = DB.getBasefromItemID(currentId);
-		const entry = baseName ? slotData.upgrade[baseName] : null;
-		if (!entry) continue;
-		candidates.push({
-			slotNum,
-			baseName,
-			entry,
-			currentId
-		});
-	}
-	return candidates;
 }
 function setStatus(message, isError) {
 	const root = _root$9();
@@ -284527,43 +288856,7 @@ function refreshUI() {
 	setCaution(EnchantState.group ? EnchantState.group.caution : "");
 }
 function validateItem(item) {
-	if (!EnchantState.group) return {
-		ok: false,
-		message: "此附魔组缺少附魔数据。"
-	};
-	if (!item) return {
-		ok: false,
-		message: "物品无效。"
-	};
-	if (item.WearState) return {
-		ok: false,
-		message: "物品必须位于背包中。"
-	};
-	if (item.equipSwitch && item.equipSwitch > 0 || item.EquipSwitch && item.EquipSwitch > 0) return {
-		ok: false,
-		message: "物品不能位于装备切换栏中。"
-	};
-	if (item.attribute && item.attribute !== 0) return {
-		ok: false,
-		message: "物品属性必须为普通。"
-	};
-	if (!isTargetItem(item, EnchantState.group)) return {
-		ok: false,
-		message: "物品不适用于此附魔组。"
-	};
-	if ((item.RefiningLevel || item.refiningLevel || 0) < EnchantState.group.condition.minRefine) return {
-		ok: false,
-		message: "精炼等级过低。"
-	};
-	if (getItemGrade(item) < EnchantState.group.condition.minGrade) return {
-		ok: false,
-		message: "附魔等级过低。"
-	};
-	if (!EnchantState.group.allowRandomOption && hasRandomOptions(item)) return {
-		ok: false,
-		message: "不允许使用随机选项。"
-	};
-	return { ok: true };
+	return validateEnchantItem(item, EnchantState.group);
 }
 function getInventoryItemByIndex(index) {
 	const inventoryUI = InventoryController.getUI && InventoryController.getUI();
@@ -284774,6 +289067,10 @@ function applyEnchantResult(item, action, slotNum, itid) {
 	if (slotNum !== null && itid) setSlotValue(item, slotNum, itid);
 }
 function onEnchantResult(pkt) {
+	if (Platform.isMobile) {
+		finishGameEnchant(pkt);
+		return;
+	}
 	if (!EnchantState.pending) return;
 	const message = DB.getMessage(pkt.msgId) || "Enchant result: " + pkt.msgId;
 	const isSuccess = pkt.msgId === 3857;
@@ -284798,6 +289095,9 @@ function onRequestClose() {
 }
 var Enchant, EnchantState, EnchantAssets, DEFAULT_INTRO_DURATION_MS, EnchantEffectState, EnchantEffectDurations, EnchantEffectGroups, ENCHANT_OVERLAY_COLOR, EnchantEffectFog, _effectStyleNode, Enchant_default;
 var init_Enchant = __esmMin((() => {
+	init_Platform();
+	init_GameEnchant();
+	init_EnchantRules();
 	init_DBManager();
 	init_Client();
 	init_EffectTable();
@@ -285090,6 +289390,10 @@ var init_Enchant = __esmMin((() => {
 		setStatus("", false);
 	};
 	Enchant.onOpenEnchantUI = function onOpenEnchantUI(groupId) {
+		if (Platform.isMobile) {
+			openGameEnchant(Number(groupId));
+			return;
+		}
 		clearState();
 		EnchantState.groupId = Number(groupId);
 		EnchantState.group = DB.getEnchantGroup(EnchantState.groupId);
@@ -285202,7 +289506,7 @@ function onClickValidateName(e) {
 *
 * @param {event}
 */
-function onDrop$10(event) {
+function onDrop$9(event) {
 	let item, data;
 	event.stopImmediatePropagation();
 	event.preventDefault();
@@ -285231,7 +289535,7 @@ function onDrop$10(event) {
 /**
 * Stop event propagation
 */
-function stopPropagation$8(event) {
+function stopPropagation$7(event) {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 }
@@ -285372,8 +289676,8 @@ var init_WriteRodex = __esmMin((() => {
 		valueInput.max = SessionStorage_default.zeny;
 		root.querySelector(".item-list").innerHTML = "";
 		const itemsEl = root.querySelector(".items");
-		itemsEl.addEventListener("drop", onDrop$10);
-		itemsEl.addEventListener("dragover", stopPropagation$8);
+		itemsEl.addEventListener("drop", onDrop$9);
+		itemsEl.addEventListener("dragover", stopPropagation$7);
 		this._host.style.display = "";
 		this.focus();
 	};
@@ -285850,6 +290154,12 @@ function createInventory(config) {
 	* Add items to the list
 	* if the item index is exist you should clear it;[skybook888]
 	*/
+	Component.clearItems = function clearItems() {
+		this.list.length = 0;
+		if (equipSwitch) this.equipswitchlist.length = 0;
+		this.newItems.length = 0;
+		this.getRoot().querySelector(".container .content")?.replaceChildren();
+	};
 	Component.setItems = function SetItems(items) {
 		const root = Component.getRoot();
 		for (let i = 0, count = items.length; i < count; ++i) {
@@ -286441,8 +290751,12 @@ function createInventory(config) {
 		}
 	}
 	if (equipSwitch) {
-		Component.addItemtoSwitch = function(index) {
-			const item = this.getItemByIndex(index);
+		Component.addItemtoSwitch = function(index, location) {
+			const original = this.getItemByIndex(index);
+			const item = original && {
+				...original,
+				location
+			};
 			if (!item) {
 				console.warn(`Item with index ${index} not found in inventory.`);
 				return;
@@ -286765,6 +291079,21 @@ function createStorage(config) {
 		ETC: 6
 	};
 	const _list = [];
+	let capacity = {
+		current: 0,
+		limit: 0
+	};
+	Component.getItems = () => _list.map((item) => ({ ...item }));
+	Component.getCapacity = () => ({ ...capacity });
+	Component.clearItems = () => {
+		_list.length = 0;
+		capacity = {
+			current: 0,
+			limit: 0
+		};
+		const content = Component.getRoot().querySelector(".container .content");
+		if (content) content.replaceChildren();
+	};
 	let _openFilters = {};
 	const _preferences = Preferences.get("Storage", {
 		x: 200,
@@ -286966,6 +291295,10 @@ function createStorage(config) {
 		return item;
 	};
 	Component.setItemInfo = function setItemInfo(current, limit) {
+		capacity = {
+			current,
+			limit
+		};
 		const root = this.getRoot();
 		const currentEl = root.querySelector(".footer .current");
 		const limitEl = root.querySelector(".footer .limit");
@@ -287624,7 +291957,7 @@ function onToggleReduction() {
 *
 * @param {event}
 */
-function onDrop$9(event) {
+function onDrop$8(event) {
 	let item, data;
 	event.stopImmediatePropagation();
 	try {
@@ -287782,7 +292115,7 @@ function onItemUsed$1(event) {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 }
-var CartItems, _realSize$1, _preferences$27, CartItems_default;
+var CartItems, _realSize$1, _preferences$25, CartItems_default;
 var init_CartItems = __esmMin((() => {
 	init_DBManager();
 	init_ItemType();
@@ -287809,8 +292142,13 @@ var init_CartItems = __esmMin((() => {
 	* Store inventory items
 	*/
 	CartItems.list = [];
+	CartItems.clearItems = function clearItems() {
+		this.list.length = 0;
+		this.capacity = void 0;
+		this.getRoot().querySelector(".container .content")?.replaceChildren();
+	};
 	_realSize$1 = 0;
-	_preferences$27 = Preferences.get("CartItems", {
+	_preferences$25 = Preferences.get("CartItems", {
 		x: 200,
 		y: 200,
 		width: 7,
@@ -287833,7 +292171,7 @@ var init_CartItems = __esmMin((() => {
 		if (closeBtn) closeBtn.addEventListener("click", () => {
 			CartItems._host.style.display = "none";
 		});
-		this._host.addEventListener("drop", onDrop$9);
+		this._host.addEventListener("drop", onDrop$8);
 		this._host.addEventListener("dragover", (e) => e.stopImmediatePropagation());
 		const content = root.querySelector(".container .content");
 		if (content) {
@@ -287869,12 +292207,12 @@ var init_CartItems = __esmMin((() => {
 	*/
 	CartItems.onAppend = function OnAppend() {
 		if (SessionStorage_default.Entity.hasCart === false) this._host.style.display = "none";
-		if (!_preferences$27.show) this._host.style.display = "none";
-		this.resize(_preferences$27.width, _preferences$27.height);
+		if (!_preferences$25.show) this._host.style.display = "none";
+		this.resize(_preferences$25.width, _preferences$25.height);
 		const hostRect = this._host.getBoundingClientRect();
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$27.y), Renderer.height - hostRect.height)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$27.x), Renderer.width - hostRect.width)}px`;
-		_realSize$1 = _preferences$27.reduce ? 0 : hostRect.height;
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$25.y), Renderer.height - hostRect.height)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$25.x), Renderer.width - hostRect.width)}px`;
+		_realSize$1 = _preferences$25.reduce ? 0 : hostRect.height;
 		const miniBtn = this.getRoot().querySelector(".titlebar .mini");
 		if (miniBtn) miniBtn.dispatchEvent(new Event("mousedown"));
 	};
@@ -287886,14 +292224,14 @@ var init_CartItems = __esmMin((() => {
 		if (content) content.innerHTML = "";
 		this.list.length = 0;
 		document.querySelectorAll(".ItemInfo").forEach((el) => el.remove());
-		_preferences$27.show = this._host.style.display !== "none";
-		_preferences$27.reduce = !!_realSize$1;
-		_preferences$27.y = parseInt(this._host.style.top, 10);
-		_preferences$27.x = parseInt(this._host.style.left, 10);
+		_preferences$25.show = this._host.style.display !== "none";
+		_preferences$25.reduce = !!_realSize$1;
+		_preferences$25.y = parseInt(this._host.style.top, 10);
+		_preferences$25.x = parseInt(this._host.style.left, 10);
 		const hostRect = this._host.getBoundingClientRect();
-		_preferences$27.width = Math.floor((hostRect.width - 25) / 32);
-		_preferences$27.height = Math.floor((hostRect.height - 20) / 32);
-		_preferences$27.save();
+		_preferences$25.width = Math.floor((hostRect.width - 25) / 32);
+		_preferences$25.height = Math.floor((hostRect.height - 20) / 32);
+		_preferences$25.save();
 	};
 	/**
 	* Process shortcut
@@ -287966,6 +292304,12 @@ var init_CartItems = __esmMin((() => {
 		}
 	};
 	CartItems.setCartInfo = function SetCartInfo(curCount, maxCount, curWeight, maxWeight) {
+		this.capacity = {
+			current: curCount,
+			limit: maxCount,
+			weight: curWeight / 10,
+			maxWeight: maxWeight / 10
+		};
 		const root = this.getRoot();
 		const ncnt = root.querySelector(".ncnt");
 		const mcnt = root.querySelector(".mcnt");
@@ -288732,6 +293076,12 @@ function createEquipment({ name, htmlText, cssText, entityRender = true, enchant
 			});
 		}
 	};
+	/** Snapshot for alternative presentations; keep equipment ownership here. */
+	Component.clearItems = () => {
+		_list = {};
+		Component.getRoot().querySelectorAll(".col1, .col3, .ammo").forEach((el) => el.replaceChildren());
+	};
+	Component.getItems = () => Object.values(_list).map((item) => ({ ...item }));
 	Component.getNumber = function() {
 		let num = 0;
 		for (const key in _list) if (_list[key].location && _list[key].location !== EquipmentLocation_default.AMMO) num++;
@@ -289889,7 +294239,7 @@ function parseChatSetup() {
 	this.requestRoom();
 	this.hide();
 }
-var ChatRoomCreate, _preferences$26, ChatRoomCreate_default;
+var ChatRoomCreate, _preferences$24, ChatRoomCreate_default;
 var init_ChatRoomCreate = __esmMin((() => {
 	init_DBManager();
 	init_KeyEventHandler();
@@ -289925,7 +294275,7 @@ var init_ChatRoomCreate = __esmMin((() => {
 	* @var {string} password
 	*/
 	ChatRoomCreate.password = "";
-	_preferences$26 = Preferences.get("ChatRoomCreate", {
+	_preferences$24 = Preferences.get("ChatRoomCreate", {
 		x: 480,
 		y: 200,
 		show: false
@@ -289959,18 +294309,18 @@ var init_ChatRoomCreate = __esmMin((() => {
 	* Once append to body
 	*/
 	ChatRoomCreate.onAppend = function onAppend() {
-		if (!_preferences$26.show) this._host.style.display = "none";
-		this._host.style.top = Math.min(Math.max(0, _preferences$26.y), Renderer.height - this._host.offsetHeight) + "px";
-		this._host.style.left = Math.min(Math.max(0, _preferences$26.x), Renderer.width - this._host.offsetWidth) + "px";
+		if (!_preferences$24.show) this._host.style.display = "none";
+		this._host.style.top = Math.min(Math.max(0, _preferences$24.y), Renderer.height - this._host.offsetHeight) + "px";
+		this._host.style.left = Math.min(Math.max(0, _preferences$24.x), Renderer.width - this._host.offsetWidth) + "px";
 	};
 	/**
 	* Once removed from DOM, save preferences
 	*/
 	ChatRoomCreate.onRemove = function onRemove() {
-		_preferences$26.show = this._host.style.display !== "none";
-		_preferences$26.y = parseInt(this._host.style.top, 10);
-		_preferences$26.x = parseInt(this._host.style.left, 10);
-		_preferences$26.save();
+		_preferences$24.show = this._host.style.display !== "none";
+		_preferences$24.y = parseInt(this._host.style.top, 10);
+		_preferences$24.x = parseInt(this._host.style.left, 10);
+		_preferences$24.save();
 		ChatRoomCreate.editMode = false;
 	};
 	/**
@@ -289980,7 +294330,7 @@ var init_ChatRoomCreate = __esmMin((() => {
 		this._host.style.display = "";
 		this.getRoot().querySelector(".title").focus();
 		this._fixPositionOverflow();
-		_preferences$26.show = true;
+		_preferences$24.show = true;
 	};
 	/**
 	* Hide the setup ui
@@ -289989,7 +294339,7 @@ var init_ChatRoomCreate = __esmMin((() => {
 		this._host.style.display = "none";
 		this.getRoot().querySelector(".setup").reset();
 		ChatRoomCreate.editMode = false;
-		_preferences$26.show = false;
+		_preferences$24.show = false;
 	};
 	/**
 	* Pre-fill form with values (used by ChatRoom.openRoomSettings)
@@ -290198,7 +294548,7 @@ function resize$2(width, height) {
 		if (inner) ChatRoom._host.style.height = inner.offsetHeight + "px";
 	}
 }
-var ChatRoom, _gridWidth, _gridHeight, _preferences$25, ChatRoom_default;
+var ChatRoom, _gridWidth, _gridHeight, _preferences$23, ChatRoom_default;
 var init_ChatRoom$1 = __esmMin((() => {
 	init_Preferences$1();
 	init_Renderer();
@@ -290255,7 +294605,7 @@ var init_ChatRoom$1 = __esmMin((() => {
 	ChatRoom.isOpen = false;
 	_gridWidth = 7;
 	_gridHeight = 3;
-	_preferences$25 = Preferences.get("ChatRoom", {
+	_preferences$23 = Preferences.get("ChatRoom", {
 		x: 480,
 		y: 200,
 		width: 7,
@@ -290284,11 +294634,11 @@ var init_ChatRoom$1 = __esmMin((() => {
 	ChatRoom.onAppend = function onAppend() {
 		const root = this.getRoot();
 		this.isOpen = true;
-		_gridWidth = _preferences$25.width;
-		_gridHeight = _preferences$25.height;
+		_gridWidth = _preferences$23.width;
+		_gridHeight = _preferences$23.height;
 		resize$2(_gridWidth, _gridHeight);
-		this._host.style.top = Math.min(Math.max(0, _preferences$25.y), Renderer.height - this._host.getBoundingClientRect().height) + "px";
-		this._host.style.left = Math.min(Math.max(0, _preferences$25.x), Renderer.width - this._host.getBoundingClientRect().width) + "px";
+		this._host.style.top = Math.min(Math.max(0, _preferences$23.y), Renderer.height - this._host.getBoundingClientRect().height) + "px";
+		this._host.style.left = Math.min(Math.max(0, _preferences$23.x), Renderer.width - this._host.getBoundingClientRect().width) + "px";
 		root.querySelector(".sendmsg").focus();
 		this.updateChat();
 	};
@@ -290305,11 +294655,11 @@ var init_ChatRoom$1 = __esmMin((() => {
 		this.isOpen = false;
 		const messages = this.getRoot().querySelector(".messages");
 		if (messages) messages.innerHTML = "";
-		_preferences$25.y = parseInt(this._host.style.top, 10);
-		_preferences$25.x = parseInt(this._host.style.left, 10);
-		_preferences$25.width = _gridWidth;
-		_preferences$25.height = _gridHeight;
-		_preferences$25.save();
+		_preferences$23.y = parseInt(this._host.style.top, 10);
+		_preferences$23.x = parseInt(this._host.style.left, 10);
+		_preferences$23.width = _gridWidth;
+		_preferences$23.height = _gridHeight;
+		_preferences$23.save();
 		this.exitRoom();
 	};
 	/**
@@ -291768,7 +296118,10 @@ function onGuildCreationResult(pkt) {
 		case 0:
 			SessionStorage_default.hasGuild = true;
 			ChatBox_default.addText(DB.getMessage(374), ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.GUILD);
-			Guild_default.show();
+			if (Platform.isMobile) {
+				GuildEngine.requestAccess();
+				for (let type = 0; type <= 4; type++) GuildEngine.requestInfo(type);
+			} else Guild_default.show();
 			break;
 		case 1:
 			createFailed(DB.getMessage(375, "你已经加入公会。"));
@@ -291796,6 +296149,7 @@ function onGuildDestroy(pkt) {
 			GuildCompanion_default.closeDisband();
 			Guild_default.hide();
 			SessionStorage_default.hasGuild = false;
+			if (Platform.isMobile) Guild_default.resetSocialState();
 			SessionStorage_default.guildName = "";
 			SessionStorage_default.isGuildMaster = false;
 			SessionStorage_default.guildRight = 0;
@@ -291858,11 +296212,13 @@ function onGuildMemberStatus(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_BAN_GUILD_SSO
 */
 function onGuildMemberExpulsion(pkt) {
+	if (Platform.isMobile) Guild_default.removeSocialMember(pkt.charName);
 	ChatBox_default.addText(DB.getMessage(370).replace("%s", pkt.charName), ChatBox_default.TYPE.GUILD, ChatBox_default.FILTER.GUILD, "#FFFF00");
 	ChatBox_default.addText(DB.getMessage(371).replace("%s", pkt.reasonDesc), ChatBox_default.TYPE.GUILD, ChatBox_default.FILTER.GUILD, "#FFFF00");
 	if (pkt.charName === SessionStorage_default.Entity.display.name) {
 		Guild_default.hide();
 		SessionStorage_default.hasGuild = false;
+		if (Platform.isMobile) Guild_default.resetSocialState();
 		SessionStorage_default.guildName = "";
 		SessionStorage_default.isGuildMaster = false;
 		SessionStorage_default.guildRight = 0;
@@ -291875,11 +296231,13 @@ function onGuildMemberExpulsion(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_LEAVE_GUILD
 */
 function onGuildMemberLeave(pkt) {
+	if (Platform.isMobile) Guild_default.removeSocialMember(pkt.charName);
 	ChatBox_default.addText(DB.getMessage(364).replace("%s", pkt.charName), ChatBox_default.TYPE.GUILD, ChatBox_default.FILTER.GUILD, "#FFFF00");
 	ChatBox_default.addText(DB.getMessage(365).replace("%s", pkt.reasonDesc), ChatBox_default.TYPE.GUILD, ChatBox_default.FILTER.GUILD, "#FFFF00");
 	if (pkt.charName === SessionStorage_default.Entity.display.name) {
 		Guild_default.hide();
 		SessionStorage_default.hasGuild = false;
+		if (Platform.isMobile) Guild_default.resetSocialState();
 		SessionStorage_default.guildName = "";
 		SessionStorage_default.isGuildMaster = false;
 		SessionStorage_default.guildRight = 0;
@@ -291966,6 +296324,7 @@ function onGuildHostilityResult(pkt) {
 function onGuildCastleInfo(pkt) {}
 var _emblems, GuildEngine, onGuildEmblem;
 var init_Guild = __esmMin((() => {
+	init_Platform();
 	init_DBManager();
 	init_Inflate();
 	init_Texture();
@@ -292437,434 +296796,6 @@ var init_SkillListMH = __esmMin((() => {
 	};
 }));
 //#endregion
-//#region src/Core/AIDriver.js
-var msg, resMsg, AIDriver;
-var init_AIDriver = __esmMin((() => {
-	init_DBManager();
-	init_SessionStorage();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_PacketVerManager();
-	init_SkillInfo_generated();
-	init_EntityManager();
-	init_Client();
-	init_Configs();
-	init_UIManager();
-	init_CodepageManager();
-	msg = {};
-	resMsg = {};
-	AIDriver = class AIDriver {
-		static HOM_AGGRESSIVE = false;
-		static MER_AGGRESSIVE = false;
-		static HO_AI = null;
-		static MER_AI = null;
-		static default_HO_AI = null;
-		static default_MER_AI = null;
-		static ready = {
-			homunculus: false,
-			mercenary: false
-		};
-		static initialization = {
-			homunculus: null,
-			mercenary: null
-		};
-		static generation = {
-			homunculus: 0,
-			mercenary: 0
-		};
-		static init() {}
-		static setmsg(homId, str) {
-			if (!msg[homId]) msg[homId] = str;
-			else resMsg[homId] = str;
-		}
-		static addCTX(homunculus, defaultAI, customAI) {
-			const scriptStartTime = Date.now();
-			const Homun = UIManager.getComponent("HomunInformations");
-			const Mercenary = UIManager.getComponent("MercenaryInformations");
-			function addCTX(lua, isHoAI = true) {
-				const ctx = lua.ctx;
-				lua.doStringSync(`
-			function GetV(V_, id)
-				local res = GetVJS(V_, id)
-				if(V_ == 1 or V_ == 13) then
-					return res[1], res[2]
-				end
-				return res
-			end
-			function GetMsg(id)
-				local res = GetMsgJS(id)
-				local result = {}
-				local i = 0
-				while res[i] ~= nil do
-					result[i + 1] = res[i]
-					i = i + 1
-				end
-				return result
-			end
-			function GetResMsg(id)
-				local res = GetResMsgJS(id)
-				local result = {}
-				local i = 0
-				while res[i] ~= nil do
-					result[i + 1] = res[i]
-					i = i + 1
-				end
-				return result
-			end
-		`);
-				ctx.log = (logMessage) => {
-					if (Configs.get("debugAI", false)) console.log(typeof logMessage === "object" && logMessage.buffer ? CodepageManager.decode(logMessage) : logMessage);
-				};
-				ctx.MoveToOwner = (id) => {
-					if (isHoAI) Homun.reqMoveToOwner(id);
-					else Mercenary.reqMoveToOwner(id);
-				};
-				ctx.Move = (id, x, y) => {
-					if (isHoAI) Homun.reqMoveTo(id, x, y);
-					else Mercenary.reqMoveTo(id, x, y);
-				};
-				ctx.Attack = (id, targetGID) => {
-					if (isHoAI) Homun.reqAttack(id, targetGID);
-					else Mercenary.reqAttack(id, targetGID);
-				};
-				ctx.GetVJS = (V_, id) => {
-					const entity = EntityManager.get(Number(id));
-					switch (V_) {
-						case 0: return SessionStorage_default.AID;
-						case 1:
-						case 13: {
-							let posX = -1, posY = -1;
-							if (entity && entity.position) {
-								posX = parseInt(entity.position[0]);
-								posY = parseInt(entity.position[1]);
-							}
-							return [
-								V_,
-								posX,
-								posY
-							];
-						}
-						case 2: return 1;
-						case 3: return entity ? entity.action : 0;
-						case 4: return entity ? entity.attack_range : 1;
-						case 5: return entity && entity.targetGID && entity.targetGID > 0 ? entity.targetGID : -1;
-						case 6: return entity ? entity.attack_range : 1;
-						case 7: return entity ? entity.job % 6e3 : -1;
-						case 8: return entity.life.hp || -1;
-						case 9: return entity.life.sp || -1;
-						case 10: return entity.life.hp_max || -1;
-						case 11: return entity.life.sp_max || -1;
-						case 12:
-							if (entity === null) return 0;
-							return Number((entity.job + "").substring(1));
-						case 14:
-							if (entity !== null) return entity.attack_range || 1;
-							return 1;
-						default:
-							if (Configs.get("debugAI", false)) console.error("unknown V_ ", V_, entity);
-							return 0;
-					}
-				};
-				function distance(x1, y1, x2, y2) {
-					const dx = x2 - x1;
-					const dy = y2 - y1;
-					return Math.sqrt(dx * dx + dy * dy);
-				}
-				function canUseAISkill(entity) {
-					if (!entity || entity.action === entity.ACTION.DIE || entity.action === entity.ACTION.HURT) return false;
-					return [
-						entity.ACTION.IDLE,
-						entity.ACTION.WALK,
-						entity.ACTION.ATTACK,
-						entity.ACTION.ATTACK2,
-						entity.ACTION.ATTACK3
-					].some((action) => action >= 0 && action === entity.action);
-				}
-				ctx.GetActors = function() {
-					AIDriver.exec("status = MyState", isHoAI);
-					const res = [0];
-					EntityManager.forEach((item) => {
-						res.push(item.GID);
-					});
-					if (res.length > 3) {
-						if (isHoAI ? AIDriver.HOM_AGGRESSIVE : AIDriver.MER_AGGRESSIVE) {
-							let closest = 0;
-							let lastDist = 32;
-							const thisentity = EntityManager.get(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId);
-							for (const item of res) if (item !== 0 && item !== SessionStorage_default.AID && item !== SessionStorage_default.homunId && item !== SessionStorage_default.mercId) {
-								const entity = EntityManager.get(item);
-								if (entity && (entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_MOB || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_ABR || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_BIONIC) && !entity.isDead() && entity.action !== entity.ACTION.DIE && entity.isVisible()) {
-									const dist = distance(thisentity.position[0], thisentity.position[1], entity.position[0], entity.position[1]);
-									if (dist < lastDist) {
-										closest = item;
-										lastDist = dist;
-									}
-								}
-							}
-							if (closest > 0) AIDriver.setmsg(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId, "3," + closest);
-						}
-					}
-					return res;
-				};
-				ctx.GetTick = () => Date.now() - scriptStartTime;
-				ctx.GetMsgJS = (id) => {
-					let raw = "0";
-					if (id in msg) {
-						raw = msg[id];
-						delete msg[id];
-					}
-					return raw.split(",").map(Number);
-				};
-				ctx.GetResMsgJS = (id) => {
-					let raw = "0";
-					if (id in resMsg) {
-						raw = resMsg[id];
-						delete resMsg[id];
-					}
-					return raw.split(",").map(Number);
-				};
-				ctx.SkillObject = (homunId, level, skillId, targetID) => {
-					if (homunId === (isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId)) {
-						const homun = EntityManager.get(Number(homunId));
-						const target = EntityManager.get(Number(targetID));
-						if (!homun || !target) return 0;
-						const range = SkillInfo_generated_default[skillId].AttackRange[level - 1] + 1 || homun.attack_range || 1;
-						if (homun.position[0] > 0 && homun.position[1] > 0 && target.position[0] > 0 && target.position[1] > 0) {
-							if (range >= distance(homun.position[0], homun.position[1], target.position[0], target.position[1])) {
-								if (canUseAISkill(homun)) {
-									let pkt;
-									if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL2();
-									else pkt = new PACKET.CZ.USE_SKILL();
-									pkt.SKID = skillId;
-									pkt.selectedLevel = level;
-									pkt.targetID = targetID || SessionStorage_default.Entity.GID;
-									Network.sendPacket(pkt);
-								}
-							}
-						}
-					}
-					return 0;
-				};
-				ctx.SkillGround = (homunId, level, skillId, x, y) => {
-					if (homunId === (isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId)) {
-						const homun = EntityManager.get(Number(homunId));
-						if (homun && [
-							0,
-							1,
-							4
-						].includes(homun.action)) {
-							let pkt;
-							if (PacketVerManager_default.value >= 20190904) pkt = new PACKET.CZ.USE_SKILL_TOGROUND3();
-							else if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL_TOGROUND2();
-							else pkt = new PACKET.CZ.USE_SKILL_TOGROUND();
-							pkt.SKID = skillId;
-							pkt.selectedLevel = level;
-							pkt.xPos = x;
-							pkt.yPos = y;
-							Network.sendPacket(pkt);
-						}
-					}
-					return 0;
-				};
-				ctx.IsMonster = (id) => {
-					if (typeof id !== "number" || id <= 0) return 0;
-					const entity = EntityManager.get(Number(id));
-					if (entity && (entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_MOB || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_ABR || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_BIONIC) && !entity.isDead() && entity.action !== entity.ACTION.DIE && entity.isVisible()) return 1;
-					return 0;
-				};
-				ctx.TraceAI = (str) => {
-					if (Configs.get("debugAI", false)) console.log("TraceAI - ", typeof str === "object" && str.buffer ? CodepageManager.decode(str) : str);
-				};
-				ctx.status = null;
-				ctx.Trace = (logMessage) => {
-					if (Configs.get("debugAI", false)) console.debug(typeof logMessage === "object" && logMessage.buffer ? CodepageManager.decode(logMessage) : logMessage);
-				};
-				ctx.TraceValue = (val) => {
-					return val.toString();
-				};
-			}
-			if (homunculus) {
-				addCTX(defaultAI, true);
-				addCTX(customAI, true);
-				return;
-			}
-			addCTX(defaultAI, false);
-			addCTX(customAI, false);
-		}
-		static initAI = (homunculus) => {
-			const kind = homunculus ? "homunculus" : "mercenary";
-			if (AIDriver.ready[kind]) return Promise.resolve();
-			if (AIDriver.initialization[kind]) return AIDriver.initialization[kind];
-			const initialization = AIDriver.initializeAI(homunculus, AIDriver.generation[kind]);
-			AIDriver.initialization[kind] = initialization;
-			return initialization;
-		};
-		static initializeAI = async (homunculus, generation) => {
-			const kind = homunculus ? "homunculus" : "mercenary";
-			let loadedFiles = {};
-			let loadPromises = [];
-			let defaultAI;
-			let customAI;
-			function preloadFiles(fileList, lua) {
-				const ctx = lua.ctx;
-				function customRequire(modulePath, isJS = false) {
-					return new Promise((resolve, reject) => {
-						let filename;
-						if (!isJS) filename = CodepageManager.decode(modulePath);
-						else filename = modulePath;
-						filename = filename.replaceAll("\\\\", "/").replaceAll("\\", "/").replace("./", "").replace("pcall", "").replace("function", "").replace(".lua", "").trim();
-						if (filename.endsWith("end")) filename = filename.replace("end", "").trim();
-						filename = filename + ".lua";
-						if (filename.includes("Timeouts") || filename.includes("AggressiveRelogPath") || filename.startsWith("--")) {
-							resolve();
-							return;
-						}
-						if (loadedFiles[filename]) {
-							resolve();
-							return;
-						}
-						loadedFiles[filename] = filename;
-						Client.loadFile(filename, function(file) {
-							try {
-								if (Configs.get("debugAI", false)) console.log(`Loading file "${filename}"...`);
-								const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
-								const str = CodepageManager.decode(buffer);
-								const nestedPromises = [];
-								for (const line of str.split("\n")) if (line.includes("dofile")) {
-									const nestedPromise = customRequire(line.replace("dofile", "").replaceAll("(", "").replaceAll(")", "").replace(/['"]/g, "").trim(), true);
-									nestedPromises.push(nestedPromise);
-								}
-								Promise.all(nestedPromises).then(() => {
-									lua.mountFile("./" + filename, buffer);
-									resolve();
-								}).catch(reject);
-							} catch (error) {
-								console.error("[require] : ", error);
-								reject(error);
-							}
-						}, reject);
-					});
-				}
-				ctx.require = customRequire;
-				for (const filename of fileList) if (!loadedFiles[filename]) {
-					loadedFiles[filename] = filename;
-					const promise = new Promise((resolve, reject) => {
-						Client.loadFile(filename, function(file) {
-							try {
-								if (Configs.get("debugAI", false)) console.log("Loading file \"" + filename + "\"...");
-								const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
-								const text = CodepageManager.decode(buffer);
-								const nestedPromises = [];
-								for (const line of text.split("\n")) if (line.includes("dofile")) {
-									const nestedPromise = customRequire(line.replace("dofile", "").replaceAll("(", "").replaceAll(")", "").replace(/['"]/g, "").trim(), true);
-									nestedPromises.push(nestedPromise);
-								}
-								Promise.all(nestedPromises).then(() => {
-									lua.mountFile("./" + filename, buffer);
-									resolve();
-								}).catch(reject);
-							} catch (error) {
-								console.error("[prepareAIFiles] : ", error);
-								reject(error);
-							}
-						}, reject);
-					});
-					loadPromises.push(promise);
-				}
-			}
-			async function doFiles(fileList, lua) {
-				await Promise.all(loadPromises);
-				for (const key in fileList) await lua.doFileSync(fileList[key]);
-			}
-			try {
-				defaultAI = await DB.createLuaVM();
-				customAI = await DB.createLuaVM();
-				AIDriver.addCTX(homunculus, defaultAI, customAI);
-				let files = homunculus ? [
-					"AI/Util.lua",
-					"AI/Const.lua",
-					"AI/AI.lua"
-				] : [
-					"AI/Util.lua",
-					"AI/Const.lua",
-					"AI/AI_M.lua"
-				];
-				console.log(`Loading Default ${homunculus ? "HOAI" : "MERAI"}...`);
-				preloadFiles(files, defaultAI);
-				await doFiles(files, defaultAI);
-				loadedFiles = {};
-				loadPromises = [];
-				files = homunculus ? [
-					"AI/USER_AI/Util.lua",
-					"AI/USER_AI/Const.lua",
-					"AI/USER_AI/AI.lua"
-				] : [
-					"AI/USER_AI/Util.lua",
-					"AI/USER_AI/Const.lua",
-					"AI/USER_AI/AI_M.lua"
-				];
-				console.log(`Loading Custom ${homunculus ? "HOAI" : "MERAI"}...`);
-				preloadFiles(files, customAI);
-				await doFiles(files, customAI);
-			} catch (error) {
-				defaultAI?.global?.close?.();
-				customAI?.global?.close?.();
-				console.warn("[AIDriver] AI files not available, skipping AI initialization:", error.message || error);
-				throw error;
-			}
-			if (generation !== AIDriver.generation[kind]) {
-				defaultAI.global.close();
-				customAI.global.close();
-				return;
-			}
-			if (homunculus) {
-				AIDriver.default_HO_AI = defaultAI;
-				AIDriver.HO_AI = customAI;
-			} else {
-				AIDriver.default_MER_AI = defaultAI;
-				AIDriver.MER_AI = customAI;
-			}
-			AIDriver.ready[kind] = true;
-		};
-		static exec = (code, homunculus = true) => {
-			try {
-				const kind = homunculus ? "homunculus" : "mercenary";
-				if (!AIDriver.ready[kind]) {
-					AIDriver.initAI(homunculus).catch(() => {});
-					return;
-				}
-				let lua;
-				if (homunculus) {
-					if (SessionStorage_default.homCustomAI) lua = AIDriver.HO_AI;
-					else lua = AIDriver.default_HO_AI;
-				} else if (SessionStorage_default.merCustomAI) lua = AIDriver.MER_AI;
-				else lua = AIDriver.default_MER_AI;
-				lua.doStringSync(code);
-			} catch (e) {
-				console.error("%c[AI] %cAI Error: ", "color:#DD0078", "color:inherit", e);
-			}
-		};
-		static reset = (homunculus = null) => {
-			const kinds = homunculus === null ? [true, false] : [homunculus];
-			for (const isHomunculus of kinds) {
-				const kind = isHomunculus ? "homunculus" : "mercenary";
-				const instances = isHomunculus ? [AIDriver.HO_AI, AIDriver.default_HO_AI] : [AIDriver.MER_AI, AIDriver.default_MER_AI];
-				for (const lua of instances) lua?.global?.close?.();
-				if (isHomunculus) {
-					AIDriver.HO_AI = null;
-					AIDriver.default_HO_AI = null;
-				} else {
-					AIDriver.MER_AI = null;
-					AIDriver.default_MER_AI = null;
-				}
-				AIDriver.ready[kind] = false;
-				AIDriver.initialization[kind] = null;
-				AIDriver.generation[kind] += 1;
-			}
-		};
-	};
-}));
-//#endregion
 //#region src/UI/Components/HomunInformations/HomunInformations.html?raw
 var HomunInformations_default$2;
 var init_HomunInformations$2 = __esmMin((() => {
@@ -292882,7 +296813,7 @@ var init_HomunInformations$1 = __esmMin((() => {
 * Checks if homun should be fed or not
 */
 function autoFeedCheck() {
-	if (_preferences$24.autoFeed != 1) return;
+	if (_preferences$22.autoFeed != 1) return;
 	const player = SessionStorage_default.Entity;
 	if (!player) return;
 	if (player.life.hp <= 0) return;
@@ -292897,11 +296828,11 @@ function autoFeedCheck() {
 * Toggle AutoFeed
 */
 function homunToggleAutoFeed() {
-	HomunInformations.setFeedConfig(_preferences$24.autoFeed == 1 ? 0 : 1);
+	HomunInformations.setFeedConfig(_preferences$22.autoFeed == 1 ? 0 : 1);
 	if (PacketVerManager_default.value < 20170920) return;
-	HomunInformations.onConfigUpdate(3, _preferences$24.autoFeed ? 1 : 0);
+	HomunInformations.onConfigUpdate(3, _preferences$22.autoFeed ? 1 : 0);
 }
-var autoFeedInterval, autoFeedIntervalMs, autoFeedPercent, HomunInformations, _preferences$24, HomunInformations_default;
+var autoFeedInterval, autoFeedIntervalMs, autoFeedPercent, HomunInformations, _preferences$22, HomunInformations_default;
 var init_HomunInformations = __esmMin((() => {
 	init_DBManager();
 	init_Client();
@@ -292924,7 +296855,7 @@ var init_HomunInformations = __esmMin((() => {
 	HomunInformations = new GUIComponent("HomunInformations", HomunInformations_default$1);
 	HomunInformations.render = () => HomunInformations_default$2;
 	HomunInformations.captureKeyEvents = true;
-	_preferences$24 = Preferences.get("HomunInformations", {
+	_preferences$22 = Preferences.get("HomunInformations", {
 		x: 100,
 		y: 200,
 		show: false,
@@ -292964,7 +296895,7 @@ var init_HomunInformations = __esmMin((() => {
 		if (autoFeedBtn) autoFeedBtn.addEventListener("click", () => {
 			homunToggleAutoFeed();
 		});
-		if (!_preferences$24.show) this._host.style.display = "none";
+		if (!_preferences$22.show) this._host.style.display = "none";
 		const skillBtn = root.querySelector(".skill");
 		if (skillBtn) skillBtn.addEventListener("mousedown", () => {
 			SkillListMH_default.homunculus.toggle();
@@ -292974,7 +296905,7 @@ var init_HomunInformations = __esmMin((() => {
 	};
 	HomunInformations.onAppend = function onAppend() {
 		const root = HomunInformations.getRoot();
-		Client.loadFile(DB.INTERFACE_PATH + `checkbox_${_preferences$24.autoFeed ? "1" : "0"}.bmp`, (data) => {
+		Client.loadFile(DB.INTERFACE_PATH + `checkbox_${_preferences$22.autoFeed ? "1" : "0"}.bmp`, (data) => {
 			const el = root.querySelector(".homun_auto_feed");
 			if (el) el.style.backgroundImage = `url(${data})`;
 		});
@@ -292985,8 +296916,8 @@ var init_HomunInformations = __esmMin((() => {
 				if (feeding) feeding.style.display = "none";
 			}
 		}
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$24.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$24.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$22.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$22.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
 	};
 	HomunInformations.startAutoFeed = function startAutoFeed() {
 		window.clearInterval(autoFeedInterval);
@@ -293000,10 +296931,10 @@ var init_HomunInformations = __esmMin((() => {
 	* Once remove from body, save user preferences
 	*/
 	HomunInformations.onRemove = function onRemove() {
-		_preferences$24.show = this._host.style.display !== "none";
-		_preferences$24.y = parseInt(this._host.style.top, 10);
-		_preferences$24.x = parseInt(this._host.style.left, 10);
-		_preferences$24.save();
+		_preferences$22.show = this._host.style.display !== "none";
+		_preferences$22.y = parseInt(this._host.style.top, 10);
+		_preferences$22.x = parseInt(this._host.style.left, 10);
+		_preferences$22.save();
 		HomunInformations.stopAutoFeed();
 		this.stopAI();
 	};
@@ -293244,10 +297175,10 @@ var init_HomunInformations = __esmMin((() => {
 		this.startAI();
 	};
 	HomunInformations.setFeedConfig = function setFeedConfig(flag) {
-		_preferences$24.autoFeed = flag;
-		_preferences$24.save();
+		_preferences$22.autoFeed = flag;
+		_preferences$22.save();
 		const root = HomunInformations.getRoot();
-		if (root) Client.loadFile(DB.INTERFACE_PATH + `checkbox_${_preferences$24.autoFeed ? "1" : "0"}.bmp`, (data) => {
+		if (root) Client.loadFile(DB.INTERFACE_PATH + `checkbox_${_preferences$22.autoFeed ? "1" : "0"}.bmp`, (data) => {
 			const el = root.querySelector(".homun_auto_feed");
 			if (el) el.style.backgroundImage = `url(${data})`;
 		});
@@ -293279,7 +297210,7 @@ var init_MercenaryInformations$1 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/MercenaryInformations/MercenaryInformations.js
-var MercenaryInformations, _preferences$23, MercenaryInformations_default;
+var MercenaryInformations, _preferences$21, MercenaryInformations_default;
 var init_MercenaryInformations = __esmMin((() => {
 	init_DBManager();
 	init_Client();
@@ -293297,7 +297228,7 @@ var init_MercenaryInformations = __esmMin((() => {
 	init_MercenaryInformations$1();
 	MercenaryInformations = new GUIComponent("MercenaryInformations", MercenaryInformations_default$1);
 	MercenaryInformations.render = () => MercenaryInformations_default$2;
-	_preferences$23 = Preferences.get("MercenaryInformations", {
+	_preferences$21 = Preferences.get("MercenaryInformations", {
 		x: 100,
 		y: 100,
 		show: false,
@@ -293326,7 +297257,7 @@ var init_MercenaryInformations = __esmMin((() => {
 		if (dismissBtn) dismissBtn.addEventListener("click", () => {
 			MercenaryInformations.reqDeleteMercenary();
 		});
-		if (!_preferences$23.show) this._host.style.display = "none";
+		if (!_preferences$21.show) this._host.style.display = "none";
 		const skillBtn = root.querySelector(".skill");
 		if (skillBtn) skillBtn.addEventListener("mousedown", () => {
 			SkillListMH_default.mercenary.toggle();
@@ -293338,18 +297269,18 @@ var init_MercenaryInformations = __esmMin((() => {
 	* Once append to body
 	*/
 	MercenaryInformations.onAppend = function onAppend() {
-		if (!_preferences$23.show) this._host.style.display = "none";
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$23.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$23.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
+		if (!_preferences$21.show) this._host.style.display = "none";
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$21.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$21.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
 	};
 	/**
 	* Once remove from body
 	*/
 	MercenaryInformations.onRemove = function onRemove() {
-		_preferences$23.show = this._host.style.display !== "none";
-		_preferences$23.y = parseInt(this._host.style.top, 10);
-		_preferences$23.x = parseInt(this._host.style.left, 10);
-		_preferences$23.save();
+		_preferences$21.show = this._host.style.display !== "none";
+		_preferences$21.y = parseInt(this._host.style.top, 10);
+		_preferences$21.x = parseInt(this._host.style.left, 10);
+		_preferences$21.save();
 		this.stopAI();
 	};
 	/**
@@ -293575,7 +297506,7 @@ var init_CaptchaUpload$1 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/Captcha/CaptchaUpload.js
-var CaptchaUpload, _preferences$22, CaptchaUpload_default;
+var CaptchaUpload, _preferences$20, CaptchaUpload_default;
 var init_CaptchaUpload = __esmMin((() => {
 	init_UIManager();
 	init_GUIComponent();
@@ -293586,7 +297517,7 @@ var init_CaptchaUpload = __esmMin((() => {
 	init_CaptchaUpload$2();
 	init_CaptchaUpload$1();
 	CaptchaUpload = new GUIComponent("CaptchaUpload", CaptchaUpload_default$1);
-	_preferences$22 = Preferences.get("CaptchaUpload", {
+	_preferences$20 = Preferences.get("CaptchaUpload", {
 		x: 230,
 		y: 295
 	}, 2);
@@ -293657,16 +297588,16 @@ var init_CaptchaUpload = __esmMin((() => {
 	* Append to DOM
 	*/
 	CaptchaUpload.onAppend = function onAppend() {
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$22.y), Renderer.height - this._host.offsetHeight)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$22.x), Renderer.width - this._host.offsetWidth)}px`;
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$20.y), Renderer.height - this._host.offsetHeight)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$20.x), Renderer.width - this._host.offsetWidth)}px`;
 	};
 	/**
 	* Remove data from UI
 	*/
 	CaptchaUpload.onRemove = function onRemove() {
-		_preferences$22.y = parseInt(this._host.style.top, 10);
-		_preferences$22.x = parseInt(this._host.style.left, 10);
-		_preferences$22.save();
+		_preferences$20.y = parseInt(this._host.style.top, 10);
+		_preferences$20.x = parseInt(this._host.style.left, 10);
+		_preferences$20.save();
 		const root = this.getRoot();
 		const previewBox = root.querySelector(".preview_box");
 		if (previewBox) previewBox.innerHTML = "";
@@ -293689,205 +297620,6 @@ var init_CaptchaUpload = __esmMin((() => {
 	CaptchaUpload.uploadCaptcha = function() {};
 	CaptchaUpload.compressImage = function() {};
 	CaptchaUpload_default = UIManager.addComponent(CaptchaUpload);
-}));
-//#endregion
-//#region src/UI/Components/Captcha/CaptchaSelector.html?raw
-var CaptchaSelector_default$2;
-var init_CaptchaSelector$2 = __esmMin((() => {
-	CaptchaSelector_default$2 = "<div id=\"CaptchaSelector\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"options\">\r\n			<input id=\"target_type_character\" type=\"radio\" name=\"target_type\" value=\"character\" checked />\r\n			<label for=\"target_type_character\"><ui-text msg=\"2887\"></ui-text></label>\r\n			<input id=\"target_type_range\" type=\"radio\" name=\"target_type\" value=\"range\" />\r\n			<label for=\"target_type_range\"><ui-text msg=\"2888\"></ui-text></label>\r\n			<input type=\"number\" class=\"range_val\" value=\"1\" min=\"1\" max=\"9\" />\r\n			<ui-button\r\n				class=\"btn btn_active\"\r\n				bg=\"btn_q_active.bmp\"\r\n				hover=\"btn_q_active_a.bmp\"\r\n				down=\"btn_q_active_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<ul class=\"player_list\">\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n		</ul>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n	<div class=\"character_info\">\r\n		<ui-button\r\n			class=\"base close-character\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n		<span class=\"character-name\"></span><br />\r\n		<span class=\"character-job\"></span>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Captcha/CaptchaSelector.css?raw
-var CaptchaSelector_default$1;
-var init_CaptchaSelector$1 = __esmMin((() => {
-	CaptchaSelector_default$1 = ":host {\r\n	position: absolute;\r\n	width: 210px;\r\n	height: 310px;\r\n	z-index: 50;\r\n}\r\n\r\n#CaptchaSelector {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #ffffff;\r\n	font-size: 12px;\r\n}\r\n\r\n#CaptchaSelector .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .titlebar {\r\n	width: 210px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaSelector .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaSelector .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaSelector .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaSelector .titlebar .right,\r\n#CaptchaSelector .character_info .close-character {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaSelector .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .container {\r\n	height: 293px;\r\n}\r\n\r\n#CaptchaSelector .options {\r\n	height: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaSelector .player_list {\r\n	height: 247px;\r\n	overflow-y: auto;\r\n	list-style: none;\r\n	margin: 0px 10px;\r\n	padding: 0;\r\n}\r\n\r\n#CaptchaSelector .player_list li {\r\n	width: 190px;\r\n	height: 24px;\r\n	margin: 2px 0;\r\n	background-color: #e5e5e5;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n\r\n#CaptchaSelector .footer {\r\n	display: flex;\r\n	justify-content: end;\r\n	align-items: center;\r\n	height: 24px;\r\n}\r\n\r\n#CaptchaSelector .range_val {\r\n	appearance: none;\r\n	width: 20px;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .range_val::-webkit-inner-spin-button,\r\n#CaptchaSelector .range_val::-webkit-outer-spin-button {\r\n	-webkit-appearance: none;\r\n	margin: 0;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .btn_active,\r\n#CaptchaSelector .footer .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n#CaptchaSelector .btn_active {\r\n	margin-left: 15px;\r\n}\r\n\r\n#CaptchaSelector .footer .btn {\r\n	margin-right: 10px;\r\n}\r\n\r\n#CaptchaSelector .character_info {\r\n	position: absolute;\r\n	bottom: 0;\r\n	left: 0;\r\n	width: 200px;\r\n	height: 35px;\r\n	background-color: #ffffff;\r\n	border-radius: 3px;\r\n	display: none;\r\n}\r\n\r\n#CaptchaSelector li a {\r\n	text-decoration: underline;\r\n	color: black;\r\n}\r\n\r\n#CaptchaSelector .player_list li .remove {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Captcha/CaptchaSelector.js
-var CaptchaSelector, _preferences$21, _aidList, _aidInformation, _range, _active$2, CaptchaSelector_default;
-var init_CaptchaSelector = __esmMin((() => {
-	init_UIManager();
-	init_GUIComponent();
-	init_Preferences$1();
-	init_Renderer();
-	init_EntityManager();
-	init_SessionStorage();
-	init_DBManager();
-	init_JobDisplayNameTable();
-	init_Elements();
-	init_CaptchaSelector$2();
-	init_CaptchaSelector$1();
-	CaptchaSelector = new GUIComponent("CaptchaSelector", CaptchaSelector_default$1);
-	_preferences$21 = Preferences.get("CaptchaSelector", {
-		x: 230,
-		y: 295
-	}, 2);
-	_aidList = [];
-	_aidInformation = [];
-	_range = 1;
-	_active$2 = false;
-	CaptchaSelector.render = () => CaptchaSelector_default$2;
-	CaptchaSelector.captureKeyEvents = true;
-	/**
-	* Initialize GUI
-	*/
-	CaptchaSelector.init = function init() {
-		this.draggable(".titlebar");
-		const root = this.getRoot();
-		const closeBtn = root.querySelector(".close");
-		if (closeBtn) closeBtn.addEventListener("click", () => this.remove());
-		const activeBtn = root.querySelector(".btn_active");
-		if (activeBtn) activeBtn.addEventListener("click", () => {
-			_active$2 = !_active$2;
-			if (_active$2) {
-				const checked = root.querySelector("input[name=\"target_type\"]:checked");
-				const type = checked ? checked.value : "character";
-				const rangeInput = root.querySelector(".range_val");
-				_range = parseInt(rangeInput ? rangeInput.value : "1", 10) || 1;
-				_range = Math.min(Math.max(1, _range), 9);
-				if (type === "character") {
-					SessionStorage_default.captchaGetIdOnEntityClick = true;
-					SessionStorage_default.captchaGetIdOnFloorClick = false;
-				} else if (type === "range") {
-					SessionStorage_default.captchaGetIdOnFloorClick = true;
-					SessionStorage_default.captchaGetIdOnFloorRange = _range;
-					SessionStorage_default.captchaGetIdOnEntityClick = false;
-				}
-			} else {
-				SessionStorage_default.captchaGetIdOnEntityClick = false;
-				SessionStorage_default.captchaGetIdOnFloorClick = false;
-			}
-		});
-		const okBtn = root.querySelector(".ok");
-		if (okBtn) okBtn.addEventListener("click", () => {
-			if (_aidList.length > 0) UIManager.showPromptBox(DB.getMessage(2876).replace("%d", _aidList.length), "ok", "cancel", () => {
-				CaptchaSelector.sendCaptchaToPlayers();
-			}, () => {});
-		});
-		const closeCharBtn = root.querySelector(".close-character");
-		if (closeCharBtn) closeCharBtn.addEventListener("click", () => {
-			const charInfo = root.querySelector(".character_info");
-			if (charInfo) charInfo.style.display = "none";
-		});
-	};
-	CaptchaSelector.onKeyDown = function onKeyDown(event) {
-		if (CaptchaSelector.isEditableFocused()) {
-			event.stopImmediatePropagation();
-			return true;
-		}
-		return true;
-	};
-	/**
-	* Append to DOM
-	*/
-	CaptchaSelector.onAppend = function onAppend() {
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$21.y), Renderer.height - this._host.offsetHeight)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$21.x), Renderer.width - this._host.offsetWidth)}px`;
-	};
-	/**
-	* Remove data from UI
-	*/
-	CaptchaSelector.onRemove = function onRemove() {
-		_preferences$21.y = parseInt(this._host.style.top, 10);
-		_preferences$21.x = parseInt(this._host.style.left, 10);
-		_preferences$21.save();
-		const charInfo = this.getRoot().querySelector(".character_info");
-		if (charInfo) charInfo.style.display = "none";
-		this.cleanUIList();
-		_aidList = [];
-		_aidInformation = [];
-		_range = 1;
-		_active$2 = false;
-		SessionStorage_default.captchaGetIdOnEntityClick = false;
-		SessionStorage_default.captchaGetIdOnFloorClick = false;
-		SessionStorage_default.captchaGetIdOnFloorRange = 1;
-	};
-	/**
-	* Set player list
-	* @param {Array} players - List of player AIDs
-	*/
-	CaptchaSelector.setPlayers = function setPlayers(players) {
-		this.cleanUIList();
-		_aidInformation = [];
-		const root = this.getRoot();
-		const liElements = root.querySelectorAll(".player_list li");
-		players = players.filter((aid) => SessionStorage_default.Entity.GID !== aid);
-		for (let i = 0; i < players.length && i < liElements.length; i++) {
-			const li = liElements[i];
-			const entity = EntityManager.get(players[i]);
-			const name = entity?.display?.name ?? "未知";
-			const aid = players[i];
-			li.classList.add("player");
-			li.dataset.aid = aid;
-			li.innerHTML = "";
-			const removeBtn = document.createElement("ui-button");
-			removeBtn.classList.add("base", "remove");
-			removeBtn.setAttribute("bg", "basic_interface/sys_close_off.bmp");
-			removeBtn.setAttribute("hover", "basic_interface/sys_close_on.bmp");
-			removeBtn.dataset.aid = aid;
-			removeBtn.addEventListener("click", () => {
-				_aidList = _aidList.filter((item) => item !== aid);
-				CaptchaSelector.setPlayers(_aidList);
-			});
-			li.appendChild(removeBtn);
-			const span = document.createElement("span");
-			const link = document.createElement("a");
-			link.dataset.aid = aid;
-			link.textContent = name;
-			link.addEventListener("click", () => {
-				const charEntity = EntityManager.get(aid);
-				const charName = charEntity?.display?.name ?? "未知";
-				const charJob = getJobDisplayName(charEntity?._job ?? 0);
-				const charInfo = root.querySelector(".character_info");
-				if (charInfo) {
-					const nameEl = charInfo.querySelector(".character-name");
-					if (nameEl) nameEl.textContent = charName;
-					const jobEl = charInfo.querySelector(".character-job");
-					if (jobEl) jobEl.textContent = charJob;
-					charInfo.style.top = `${li.offsetTop}px`;
-					charInfo.style.left = "0px";
-					charInfo.style.display = "block";
-				}
-			});
-			span.appendChild(link);
-			li.appendChild(document.createTextNode(" "));
-			li.appendChild(span);
-			_aidInformation.push({
-				aid,
-				name,
-				job: getJobDisplayName(entity?._job ?? 0)
-			});
-		}
-		_aidList = players;
-	};
-	CaptchaSelector.cleanUIList = function cleanList() {
-		this.getRoot().querySelectorAll(".player_list li").forEach((li) => {
-			li.innerHTML = "";
-			li.classList.remove("player");
-			delete li.dataset.aid;
-		});
-	};
-	CaptchaSelector.addPlayer = function addPlayer(aid) {
-		if (_aidList.includes(aid)) return;
-		_aidList.push(aid);
-		CaptchaSelector.setPlayers(_aidList);
-	};
-	CaptchaSelector.requestPlayersIds = function requestPlayersIds(xPos, yPos) {
-		if (CaptchaSelector.requestPlayersIdsInRange) CaptchaSelector.requestPlayersIdsInRange(xPos, yPos, _range);
-	};
-	CaptchaSelector.sendCaptchaToPlayers = function sendCaptchaToPlayers() {
-		_aidList.forEach((aid) => {
-			if (CaptchaSelector.sendCaptchaToPlayer) CaptchaSelector.sendCaptchaToPlayer(aid);
-		});
-		this.cleanUIList();
-		_aidList = [];
-	};
-	/**
-	* Callbacks
-	*/
-	CaptchaSelector.requestPlayersIdsInRange = null;
-	CaptchaSelector.sendCaptchaToPlayer = null;
-	CaptchaSelector_default = UIManager.addComponent(CaptchaSelector);
 }));
 //#endregion
 //#region src/Renderer/Effects/SnowWeather.js
@@ -301103,14 +304835,14 @@ var ShortCut_exports = /* @__PURE__ */ __exportAll({ default: () => ShortCut_def
 function saveLayoutPreferences() {
 	const host = ShortCut._host;
 	if (!host) return;
-	_preferences$20.y = parseInt(host.style.top, 10) || 0;
-	_preferences$20.x = parseInt(host.style.left, 10) || 0;
-	_preferences$20.size = Math.floor(parseInt(host.style.height, 10) / 34);
-	_preferences$20.magnet_top = ShortCut.magnet.TOP;
-	_preferences$20.magnet_bottom = ShortCut.magnet.BOTTOM;
-	_preferences$20.magnet_left = ShortCut.magnet.LEFT;
-	_preferences$20.magnet_right = ShortCut.magnet.RIGHT;
-	_preferences$20.save();
+	_preferences$19.y = parseInt(host.style.top, 10) || 0;
+	_preferences$19.x = parseInt(host.style.left, 10) || 0;
+	_preferences$19.size = Math.floor(parseInt(host.style.height, 10) / 34);
+	_preferences$19.magnet_top = ShortCut.magnet.TOP;
+	_preferences$19.magnet_bottom = ShortCut.magnet.BOTTOM;
+	_preferences$19.magnet_left = ShortCut.magnet.LEFT;
+	_preferences$19.magnet_right = ShortCut.magnet.RIGHT;
+	_preferences$19.save();
 }
 /**
 * Update tooltip for empty slots with hotkey only
@@ -301222,8 +304954,8 @@ function onResize$3(event) {
 		h = Math.min(Math.max(h, 1), _rowCount);
 		if (h === lastHeight) return;
 		host.style.height = `${h * 34}px`;
-		_preferences$20.size = h;
-		_preferences$20.save();
+		_preferences$19.size = h;
+		_preferences$19.save();
 		lastHeight = h;
 	}
 	const _Interval = setInterval(resizing, 30);
@@ -301296,7 +305028,7 @@ function setDelayOnIndex(index, delay) {
 * Does the client allow other source than shortcut, inventory
 * and skill window to save to shortcut ?
 */
-function onDrop$8(event, target) {
+function onDrop$7(event, target) {
 	let data, element;
 	const index = parseInt(target.getAttribute("data-index"), 10);
 	const row = Math.floor(index / 9);
@@ -301403,8 +305135,8 @@ function clickElement(index) {
 */
 function onClose$5() {
 	ShortCut._host.style.height = "0px";
-	_preferences$20.size = 0;
-	_preferences$20.save();
+	_preferences$19.size = 0;
+	_preferences$19.save();
 }
 /**
 * Hook Inventory, get informations when there is a change
@@ -301579,11 +305311,12 @@ function haveHotkeysChanged(currentData) {
 	if (!_lastServerHotkeys) return true;
 	return JSON.stringify(currentData) !== JSON.stringify(_lastServerHotkeys);
 }
-var ShortCut, _list$1, _rowCount, _lastServerHotkeys, _activeAnimations, _preferences$20, ShortCut_default;
+var ShortCut, _list$1, _rowCount, _lastServerHotkeys, _activeAnimations, _preferences$19, ShortCut_default;
 var init_ShortCut = __esmMin((() => {
 	init_DBManager();
 	init_ItemType();
 	init_SkillInfo_generated();
+	init_SkillConst();
 	init_Client();
 	init_Preferences$1();
 	init_SessionStorage();
@@ -301611,7 +305344,7 @@ var init_ShortCut = __esmMin((() => {
 	_rowCount = 0;
 	_lastServerHotkeys = null;
 	_activeAnimations = /* @__PURE__ */ new Map();
-	_preferences$20 = Preferences.get("ShortCut", {
+	_preferences$19 = Preferences.get("ShortCut", {
 		x: 480,
 		y: 0,
 		size: 1,
@@ -301639,7 +305372,7 @@ var init_ShortCut = __esmMin((() => {
 		const container = root.querySelector("#ShortCut");
 		container.addEventListener("drop", (e) => {
 			const target = e.target.closest(".container");
-			if (target) onDrop$8(e, target);
+			if (target) onDrop$7(e, target);
 		});
 		container.addEventListener("dragover", (e) => {
 			if (e.target.closest(".container")) {
@@ -301678,14 +305411,14 @@ var init_ShortCut = __esmMin((() => {
 	* Append to body
 	*/
 	ShortCut.onAppend = function onAppend() {
-		this._host.style.height = `${34 * _preferences$20.size}px`;
+		this._host.style.height = `${34 * _preferences$19.size}px`;
 		const rect = this._host.getBoundingClientRect();
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$20.y), Renderer.height - rect.height)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$20.x), Renderer.width - rect.width)}px`;
-		this.magnet.TOP = _preferences$20.magnet_top;
-		this.magnet.BOTTOM = _preferences$20.magnet_bottom;
-		this.magnet.LEFT = _preferences$20.magnet_left;
-		this.magnet.RIGHT = _preferences$20.magnet_right;
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$19.y), Renderer.height - rect.height)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$19.x), Renderer.width - rect.width)}px`;
+		this.magnet.TOP = _preferences$19.magnet_top;
+		this.magnet.BOTTOM = _preferences$19.magnet_bottom;
+		this.magnet.LEFT = _preferences$19.magnet_left;
+		this.magnet.RIGHT = _preferences$19.magnet_right;
 		Controller$4.getUI().onUpdateSkill = onUpdateSkill;
 		updateEmptySlotTooltips();
 	};
@@ -301722,25 +305455,23 @@ var init_ShortCut = __esmMin((() => {
 				clickElement(parseInt(key.cmd.match(/\d+$/).toString(), 10));
 				break;
 			case "EXTEND":
-				_preferences$20.size = (_preferences$20.size + 1) % (_rowCount + 1);
-				_preferences$20.save();
-				this._host.style.height = `${_preferences$20.size * 34}px`;
+				_preferences$19.size = (_preferences$19.size + 1) % (_rowCount + 1);
+				_preferences$19.save();
+				this._host.style.height = `${_preferences$19.size * 34}px`;
 		}
 	};
 	ShortCut.useSkill = function useSkill(id, level) {
 		if (id > 1e4 && id < 10100) Guild_default.useSkillID(id, level);
-		else if (id > 8e3 && id < 8044) {
-			SkillListMH_default.mercenary.useSkillID(id, level);
-			SkillListMH_default.homunculus.useSkillID(id, level);
-		} else Controller$4.getUI().useSkillID(id, level);
+		else if (id > SkillConst_default.HOMUN_BEGIN && id < SkillConst_default.HOMUN_LAST) SkillListMH_default.homunculus.useSkillID(id, level);
+		else if (id > SkillConst_default.MERCENARY_BEGIN && id < SkillConst_default.MERCENARY_LAST) SkillListMH_default.mercenary.useSkillID(id, level);
+		else Controller$4.getUI().useSkillID(id, level);
 	};
 	ShortCut.getSkillById = function getSkillById(id) {
 		let skill;
 		if (id > 1e4 && id < 10100) skill = Guild_default.getSkillById(id);
-		else if (id > 8e3 && id < 8044) {
-			skill = SkillListMH_default.mercenary.getSkillById(id);
-			if (!skill) skill = SkillListMH_default.homunculus.getSkillById(id);
-		} else skill = Controller$4.getUI().getSkillById(id);
+		else if (id > SkillConst_default.HOMUN_BEGIN && id < SkillConst_default.HOMUN_LAST) skill = SkillListMH_default.homunculus.getSkillById(id);
+		else if (id > SkillConst_default.MERCENARY_BEGIN && id < SkillConst_default.MERCENARY_LAST) skill = SkillListMH_default.mercenary.getSkillById(id);
+		else skill = Controller$4.getUI().getSkillById(id);
 		return skill;
 	};
 	/**
@@ -301835,6 +305566,7 @@ var init_ShortCut = __esmMin((() => {
 		const hotkey = getHotKeyString(index);
 		const tooltipText = hotkey ? `[ ${hotkey} ] ${name}` : name;
 		Client.loadFile(`${DB.INTERFACE_PATH}item/${file}.bmp`, (url) => {
+			if (_list$1[index]?.ID !== ID || Boolean(_list$1[index]?.isSkill) !== Boolean(isSkill)) return;
 			ui.innerHTML = "<div draggable=\"true\" class=\"icon\"><div class=\"img\"></div><div class=\"amount\"></div></div>";
 			ui.querySelector(".img").style.backgroundImage = `url(${url})`;
 			ui.querySelector(".amount").textContent = count;
@@ -301961,6 +305693,12 @@ var init_ShortCut = __esmMin((() => {
 			};
 			xhr.send(formData);
 		} else if (callback) callback();
+	};
+	ShortCut.configure = function configure(index, isSkill, ID, count) {
+		if (!Number.isInteger(index) || index < 0 || index >= _list$1.length) return false;
+		ShortCut.addElement(index, isSkill, ID, count);
+		ShortCut.onChange(index, isSkill, ID, count);
+		return true;
 	};
 	ShortCut.getList = function getList() {
 		return _list$1;
@@ -302299,19 +306037,20 @@ var init_JoystickTargetService = __esmMin((() => {
 function move$1(x, y) {
 	const player = SessionStorage_default.Entity;
 	if (!player) return;
-	direction$1[0] = x;
-	direction$1[1] = y;
-	exports$3.mat2.identity(rotate$1);
-	exports$3.mat2.rotate(rotate$1, rotate$1, -Camera.direction * 45 / 180 * Math.PI);
-	exports$3.vec2.transformMat2(direction$1, direction$1, rotate$1);
-	const nx = Math.round(player.position[0] + direction$1[0] * 3);
-	const ny = Math.round(player.position[1] + direction$1[1] * 3);
+	direction[0] = x;
+	direction[1] = y;
+	exports$3.mat2.identity(rotate);
+	exports$3.mat2.rotate(rotate, rotate, -Camera.direction * 45 / 180 * Math.PI);
+	exports$3.vec2.transformMat2(direction, direction, rotate);
+	const nx = Math.round(player.position[0] + direction[0] * 3);
+	const ny = Math.round(player.position[1] + direction[1] * 3);
 	const movePacket = PacketVerManager_default.value >= 20180307 ? new PACKET.CZ.REQUEST_MOVE2() : new PACKET.CZ.REQUEST_MOVE();
 	movePacket.dest[0] = nx;
 	movePacket.dest[1] = ny;
 	Network.sendPacket(movePacket);
 }
 function attack() {
+	clearAttackIntent();
 	const Player = SessionStorage_default.Entity;
 	if (!Player) return;
 	const target = JoystickTargetService_default.getEntity();
@@ -302347,19 +306086,20 @@ function pickUp() {
 	pkt.ITAID = item.GID;
 	Network.sendPacket(pkt);
 }
-var direction$1, rotate$1, JoystickCharacterControl_default;
+var direction, rotate, JoystickCharacterControl_default;
 var init_JoystickCharacterControl = __esmMin((() => {
 	init_SessionStorage();
 	init_EntityManager();
 	init_NetworkManager();
 	init_PacketStructure();
+	init_AttackIntent();
 	init_PacketVerManager();
 	init_gl_matrix$1();
 	init_Camera();
 	init_PathFinding();
 	init_JoystickTargetService();
-	direction$1 = exports$3.vec2.create();
-	rotate$1 = exports$3.mat2.create();
+	direction = exports$3.vec2.create();
+	rotate = exports$3.mat2.create();
 	JoystickCharacterControl_default = {
 		attack,
 		pickUp,
@@ -304267,7 +308007,7 @@ function save$1() {
 	else Camera_default.indoorZoom = Camera.zoomFinal;
 	Camera_default.save();
 }
-var mat4$10, mat3, vec2$2, vec3$1, _position$1, C_MIN_ZOOM, C_MAX_ZOOM, C_MIN_V_ANGLE_ISOMETRIC, C_MAX_V_ANGLE_ISOMETRIC, C_THIRDPERSON_TRESHOLD_ZOOM, C_MIN_V_ANGLE_3RDPERSON, C_MAX_V_ANGLE_3RDPERSON, C_MIN_V_ANGLE_1STPERSON, C_MAX_V_ANGLE_1STPERSON, C_QUAKE_MULT, _pending, Camera;
+var mat4$10, mat3, vec2$1, vec3$1, _position$1, C_MIN_ZOOM, C_MAX_ZOOM, C_MIN_V_ANGLE_ISOMETRIC, C_MAX_V_ANGLE_ISOMETRIC, C_THIRDPERSON_TRESHOLD_ZOOM, C_MIN_V_ANGLE_3RDPERSON, C_MAX_V_ANGLE_3RDPERSON, C_MIN_V_ANGLE_1STPERSON, C_MAX_V_ANGLE_1STPERSON, C_QUAKE_MULT, _pending, Camera;
 var init_Camera = __esmMin((() => {
 	init_KeyEventHandler();
 	init_MouseEventHandler();
@@ -304278,7 +308018,7 @@ var init_Camera = __esmMin((() => {
 	init_Configs();
 	init_DBManager();
 	init_preload_helper();
-	({mat4: mat4$10, mat3, vec2: vec2$2, vec3: vec3$1} = gl_matrix_default);
+	({mat4: mat4$10, mat3, vec2: vec2$1, vec3: vec3$1} = gl_matrix_default);
 	_position$1 = vec3$1.create();
 	C_MIN_ZOOM = 1;
 	C_MAX_ZOOM = 5;
@@ -304318,11 +308058,11 @@ var init_Camera = __esmMin((() => {
 		/**
 		* @type {vec2} angle rotation
 		*/
-		static angle = vec2$2.create();
+		static angle = vec2$1.create();
 		/**
 		* @type {vec2} angle final rotation
 		*/
-		static angleFinal = vec2$2.create();
+		static angleFinal = vec2$1.create();
 		/**
 		* @type {vec3}
 		*/
@@ -345492,7 +349232,7 @@ var init_PetInformations$1 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/PetInformations/PetInformations.js
-var PetInformations, _preferences$19, petAutoFeeding, PetInformations_default;
+var PetInformations, _preferences$18, petAutoFeeding, PetInformations_default;
 var init_PetInformations = __esmMin((() => {
 	init_DBManager();
 	init_Client();
@@ -345507,7 +349247,7 @@ var init_PetInformations = __esmMin((() => {
 	PetInformations = new GUIComponent("PetInformations", PetInformations_default$1);
 	PetInformations.render = () => PetInformations_default$2;
 	PetInformations.captureKeyEvents = true;
-	_preferences$19 = Preferences.get("PetInformations", {
+	_preferences$18 = Preferences.get("PetInformations", {
 		x: 100,
 		y: 200,
 		show: true
@@ -345569,17 +349309,17 @@ var init_PetInformations = __esmMin((() => {
 			const feeding = root.querySelector(".feeding");
 			if (feeding) feeding.style.display = "none";
 		}
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$19.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$19.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$18.y), Renderer.height - this._host.getBoundingClientRect().height)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$18.x), Renderer.width - this._host.getBoundingClientRect().width)}px`;
 	};
 	/**
 	* Once remove from body, save user preferences
 	*/
 	PetInformations.onRemove = function onRemove() {
-		_preferences$19.show = this._host.style.display !== "none";
-		_preferences$19.y = parseInt(this._host.style.top, 10);
-		_preferences$19.x = parseInt(this._host.style.left, 10);
-		_preferences$19.save();
+		_preferences$18.show = this._host.style.display !== "none";
+		_preferences$18.y = parseInt(this._host.style.top, 10);
+		_preferences$18.x = parseInt(this._host.style.left, 10);
+		_preferences$18.save();
 	};
 	/**
 	* Process shortcut
@@ -345824,7 +349564,7 @@ function onTrade() {
 /**
 * Drop from inventory to trade
 */
-function onDrop$7(event) {
+function onDrop$6(event) {
 	let data;
 	try {
 		data = JSON.parse(event.dataTransfer ? event.dataTransfer.getData("Text") : event.originalEvent.dataTransfer.getData("Text"));
@@ -345951,7 +349691,7 @@ var init_Trade$1 = __esmMin((() => {
 		root.addEventListener("mousedown", (e) => {
 			if (e.target.closest && e.target.closest(".disabled")) e.stopImmediatePropagation();
 		});
-		this._host.addEventListener("drop", (e) => onDrop$7(e));
+		this._host.addEventListener("drop", (e) => onDrop$6(e));
 		this._host.addEventListener("dragover", (e) => {
 			e.preventDefault();
 			e.stopImmediatePropagation();
@@ -346119,7 +349859,7 @@ function Init$11() {
 	this.onContextMenu = EntityControl.onContextMenu;
 	this.canAttackEntity = EntityControl.canAttackEntity;
 }
-var mat4$1, vec2$1, _matrix, EntityControl;
+var mat4$1, vec2, _matrix, EntityControl;
 var init_EntityControl = __esmMin((() => {
 	init_gl_matrix();
 	init_PathFinding();
@@ -346150,7 +349890,7 @@ var init_EntityControl = __esmMin((() => {
 	init_HomunInformations();
 	init_MercenaryInformations();
 	mat4$1 = gl_matrix_default.mat4;
-	vec2$1 = gl_matrix_default.vec2;
+	vec2 = gl_matrix_default.vec2;
 	_matrix = mat4$1.create();
 	EntityControl = class {
 		static onMouseOver() {
@@ -346231,7 +349971,7 @@ var init_EntityControl = __esmMin((() => {
 					if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.ITEM_PICKUP2();
 					else pkt = new PACKET.CZ.ITEM_PICKUP();
 					pkt.ITAID = this.GID;
-					if (vec2$1.distance(SessionStorage_default.Entity.position, this.position) > 2) {
+					if (vec2.distance(SessionStorage_default.Entity.position, this.position) > 2) {
 						SessionStorage_default.moveAction = pkt;
 						if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
 						else pkt = new PACKET.CZ.REQUEST_MOVE();
@@ -346288,7 +350028,7 @@ var init_EntityControl = __esmMin((() => {
 		/**
 		* Focus the entity
 		*/
-		static onFocus() {
+		static onFocus({ attack = !SessionStorage_default.TouchTargeting && !SessionStorage_default.autoFollow, allowMove = true } = {}) {
 			const Entity = this.constructor;
 			const main = SessionStorage_default.Entity;
 			let pkt;
@@ -346297,7 +350037,7 @@ var init_EntityControl = __esmMin((() => {
 				case Entity.TYPE_ELEM:
 				case Entity.TYPE_HOM: if (KEYS.SHIFT === false && Controls_default.noshift === false && !this.canAttackEntity()) {
 					if (!Camera.action.active) Cursor.setType(Cursor.ACTION.DEFAULT);
-					if (!SessionStorage_default.TouchTargeting && !SessionStorage_default.autoFollow) break;
+					if (attack) break;
 				}
 				case Entity.TYPE_MOB:
 				case Entity.TYPE_UNIT:
@@ -346311,7 +350051,7 @@ var init_EntityControl = __esmMin((() => {
 						repeat: true,
 						depth: 10
 					});
-					if (!SessionStorage_default.TouchTargeting && !SessionStorage_default.autoFollow) {
+					if (attack) {
 						const out = [];
 						const count = PathFinding_default.search(main.position[0] | 0, main.position[1] | 0, this.position[0] | 0, this.position[1] | 0, main.attack_range + 1, out);
 						if (!count) return true;
@@ -346319,6 +350059,7 @@ var init_EntityControl = __esmMin((() => {
 							ChatBox_default.addText(DB.getMessage(243), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 							return true;
 						}
+						if (!allowMove && count >= 2) return true;
 						main.lookTo(this.position[0], this.position[1]);
 						if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.CHANGE_DIRECTION2();
 						else pkt = new PACKET.CZ.CHANGE_DIRECTION();
@@ -353444,9 +357185,9 @@ var init_Queue = __esmMin((() => {
 function update() {
 	const portrait = Platform.orientation === "portrait";
 	overlay.hidden = !portrait;
-	if (!portrait && pending) {
-		const proceed = pending;
-		pending = null;
+	if (!portrait && pending$1) {
+		const proceed = pending$1;
+		pending$1 = null;
 		cancelOnDisconnect?.();
 		cancelOnDisconnect = null;
 		overlay.querySelector("button").hidden = true;
@@ -353461,11 +357202,11 @@ function blockKeys(event) {
 }
 function release() {
 	window.removeEventListener("keydown", blockKeys, true);
-	pending = null;
+	pending$1 = null;
 	cancelOnDisconnect?.();
 	cancelOnDisconnect = null;
-	unsubscribe?.();
-	unsubscribe = null;
+	unsubscribe$1?.();
+	unsubscribe$1 = null;
 	overlay?.remove();
 	overlay = null;
 }
@@ -353502,14 +357243,14 @@ function requireLandscape(proceed) {
 	overlay.querySelector("button").addEventListener("click", release);
 	document.body.appendChild(overlay);
 	window.addEventListener("keydown", blockKeys, true);
-	pending = proceed;
+	pending$1 = proceed;
 	cancelOnDisconnect = onConnectionEnd(() => {
-		if (pending) release();
+		if (pending$1) release();
 	});
-	unsubscribe = Platform.onOrientationChange(update);
+	unsubscribe$1 = Platform.onOrientationChange(update);
 	update();
 }
-var overlay, unsubscribe, cancelOnDisconnect, pending, RotationGuard_default;
+var overlay, unsubscribe$1, cancelOnDisconnect, pending$1, RotationGuard_default;
 var init_RotationGuard = __esmMin((() => {
 	init_Platform();
 	init_ConnectionLifecycle();
@@ -353519,2973 +357260,6740 @@ var init_RotationGuard = __esmMin((() => {
 	};
 }));
 //#endregion
-//#region src/UI/Components/MobileUI/MobileUI.html?raw
-var MobileUI_default$2;
-var init_MobileUI$2 = __esmMin((() => {
-	MobileUI_default$2 = "<div id=\"MobileUI\">\r\n	<button id=\"toggleUIButton\" class=\"buttons\">🛠️</button>\r\n\r\n	<div id=\"topBar\" class=\"buttonBar disabled\">\r\n		<button id=\"fullscreenButton\" class=\"buttons mobileKeys secondary horizontal\">⛶</button>\r\n	</div>\r\n\r\n	<!-- Joystick -MicromeX -->\r\n	<div id=\"joystickContainer\" class=\"joystick-container disabled\">\r\n		<div id=\"joystickBase\" class=\"joystick-base\">\r\n			<div id=\"joystickThumb\" class=\"joystick-thumb\"></div>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- Functional Buttons -MicromeX -->\r\n	<div id=\"buttonContainer\" class=\"buttonContainer disabled\">\r\n		<!-- Functional Buttons -->\r\n		<button id=\"f1Button\" class=\"FButton mobileKeys vertical secondary disabled\">F1</button>\r\n		<button id=\"f2Button\" class=\"FButton mobileKeys vertical secondary disabled\">F2</button>\r\n		<button id=\"f3Button\" class=\"FButton mobileKeys vertical secondary disabled\">F3</button>\r\n		<button id=\"f4Button\" class=\"FButton mobileKeys vertical secondary disabled\">F4</button>\r\n		<button id=\"f5Button\" class=\"FButton mobileKeys vertical secondary disabled\">F5</button>\r\n		<button id=\"f6Button\" class=\"FButton mobileKeys vertical secondary disabled\">F6</button>\r\n		<button id=\"f7Button\" class=\"FButton mobileKeys vertical secondary disabled\">F7</button>\r\n		<button id=\"f8Button\" class=\"FButton mobileKeys vertical secondary disabled\">F8</button>\r\n		<button id=\"f9Button\" class=\"FButton mobileKeys vertical secondary disabled\">F9</button>\r\n\r\n		<button id=\"n1Button\" class=\"FButton mobileKeys vertical secondary disabled\">1</button>\r\n		<button id=\"n2Button\" class=\"FButton mobileKeys vertical secondary disabled\">2</button>\r\n		<button id=\"n3Button\" class=\"FButton mobileKeys vertical secondary disabled\">3</button>\r\n		<button id=\"n4Button\" class=\"FButton mobileKeys vertical secondary disabled\">4</button>\r\n		<button id=\"n5Button\" class=\"FButton mobileKeys vertical secondary disabled\">5</button>\r\n		<button id=\"n6Button\" class=\"FButton mobileKeys vertical secondary disabled\">6</button>\r\n		<button id=\"n7Button\" class=\"FButton mobileKeys vertical secondary disabled\">7</button>\r\n		<button id=\"n8Button\" class=\"FButton mobileKeys vertical secondary disabled\">8</button>\r\n		<button id=\"n9Button\" class=\"FButton mobileKeys vertical secondary disabled\">9</button>\r\n\r\n		<button id=\"qButton\" class=\"FButton mobileKeys vertical secondary disabled\">Q</button>\r\n		<button id=\"wButton\" class=\"FButton mobileKeys vertical secondary disabled\">W</button>\r\n		<button id=\"eButton\" class=\"FButton mobileKeys vertical secondary disabled\">E</button>\r\n		<button id=\"rButton\" class=\"FButton mobileKeys vertical secondary disabled\">R</button>\r\n		<button id=\"tButton\" class=\"FButton mobileKeys vertical secondary disabled\">T</button>\r\n		<button id=\"yButton\" class=\"FButton mobileKeys vertical secondary disabled\">Y</button>\r\n		<button id=\"uButton\" class=\"FButton mobileKeys vertical secondary disabled\">U</button>\r\n		<button id=\"iButton\" class=\"FButton mobileKeys vertical secondary disabled\">I</button>\r\n		<button id=\"oButton\" class=\"FButton mobileKeys vertical secondary disabled\">O</button>\r\n\r\n		<button id=\"aButton\" class=\"FButton mobileKeys vertical secondary disabled\">A</button>\r\n		<button id=\"sButton\" class=\"FButton mobileKeys vertical secondary disabled\">S</button>\r\n		<button id=\"dButton\" class=\"FButton mobileKeys vertical secondary disabled\">D</button>\r\n		<button id=\"fButton\" class=\"FButton mobileKeys vertical secondary disabled\">F</button>\r\n		<button id=\"gButton\" class=\"FButton mobileKeys vertical secondary disabled\">G</button>\r\n		<button id=\"hButton\" class=\"FButton mobileKeys vertical secondary disabled\">H</button>\r\n		<button id=\"jButton\" class=\"FButton mobileKeys vertical secondary disabled\">J</button>\r\n		<button id=\"kButton\" class=\"FButton mobileKeys vertical secondary disabled\">K</button>\r\n		<button id=\"lButton\" class=\"FButton mobileKeys vertical secondary disabled\">L</button>\r\n\r\n		<button id=\"pickupButton\" class=\"pickupButton mobileKeys vertical secondary disabled\">🖐</button>\r\n		<!-- Pick Up Button -MicromeX -->\r\n		<button id=\"talktonpcButton\" class=\"talktonpcButton mobileKeys vertical secondary disabled\">💬</button>\r\n		<!-- Talk to NPC Button -MicromeX -->\r\n		<button id=\"switchshorcutButton\" class=\"switchshorcutButton mobileKeys vertical secondary disabled\">🔄</button>\r\n		<!-- Auto Skill Button -MicromeX -->\r\n\r\n		<!-- Attack Button -MicromeX -->\r\n		<button id=\"attackButton\" class=\"atkButton mobileKeys vertical secondary disabled\">⚔️</button>\r\n	</div>\r\n\r\n	<div id=\"leftBar\" class=\"buttonBar disabled\">\r\n		<button id=\"f10Button\" class=\"buttons mobileKeys secondary vertical\">F10</button><br />\r\n		<button id=\"f12Button\" class=\"buttons mobileKeys secondary vertical\">F12</button><br />\r\n		<button id=\"insButton\" class=\"buttons mobileKeys secondary vertical\">🧎</button><br />\r\n	</div>\r\n\r\n	<div id=\"rightBar\" class=\"buttonBar disabled\">\r\n		<button id=\"toggleStatusButton\" class=\"buttons mobileKeys secondary vertical\">👀</button><br />\r\n		<button id=\"toggleTargetingButton\" class=\"buttons mobileKeys secondary vertical\">⚙️</button><br />\r\n		<button id=\"toggleAutoFollowButton\" class=\"buttons mobileKeys vertical secondary disabled\">👥</button><br />\r\n		<button id=\"toggleAutoTargetButton\" class=\"buttons mobileKeys vertical secondary disabled\">🎯</button><br />\r\n	</div>\r\n</div>\r\n";
+//#region src/Engine/MapEngine/CompanionSkillAction.js
+function cancelCompanionSkill(entity) {
+	const action = entity && pending.get(entity);
+	if (!action) return;
+	if (entity.onWalkEnd === action.onEnd) entity.onWalkEnd = action.previous;
+	pending.delete(entity);
+}
+function queueCompanionSkill(entity, packet, destination, validate) {
+	cancelCompanionSkill(entity);
+	const owner = SessionStorage_default.Entity;
+	const action = { previous: entity.onWalkEnd };
+	const valid = () => pending.get(entity) === action && Boolean(owner) && SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && SessionStorage_default.Entity === owner && owner.action !== owner.ACTION.DIE && EntityManager.get(entity.GID) === entity && (entity.GID === SessionStorage_default.homunId || entity.GID === SessionStorage_default.mercId) && entity.action !== entity.ACTION.DIE && entity.remove_tick === 0 && Math.round(entity.position[0]) === destination[0] && Math.round(entity.position[1]) === destination[1] && validate();
+	action.onEnd = function() {
+		if (entity.onWalkEnd === action.onEnd) entity.onWalkEnd = action.previous;
+		action.previous?.call(entity);
+		if (!valid()) {
+			if (pending.get(entity) === action) pending.delete(entity);
+			return;
+		}
+		Events.setTimeout(() => {
+			const send = valid();
+			if (pending.get(entity) === action) pending.delete(entity);
+			if (send) Network.sendPacket(packet);
+		}, 50);
+	};
+	pending.set(entity, action);
+	entity.onWalkEnd = action.onEnd;
+}
+var pending;
+var init_CompanionSkillAction = __esmMin((() => {
+	init_SessionStorage();
+	init_EntityManager();
+	init_NetworkManager();
+	init_Events();
+	pending = /* @__PURE__ */ new WeakMap();
 }));
 //#endregion
-//#region src/UI/Components/MobileUI/MobileUI.css?raw
-var MobileUI_default$1;
-var init_MobileUI$1 = __esmMin((() => {
-	MobileUI_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#MobileUI {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#MobileUI button,\r\n#MobileUI .joystick-base {\r\n	pointer-events: auto;\r\n}\r\n\r\n#MobileUI * {\r\n	z-index: 1000;\r\n}\r\n\r\n#MobileUI .buttonBar,\r\n#MobileUI #toggleUIButton {\r\n	position: absolute;\r\n}\r\n\r\n#MobileUI #toggleUIButton {\r\n	top: 1%;\r\n	left: 1%;\r\n	width: 6.5vmin;\r\n	height: 6.5vmin;\r\n}\r\n\r\n#MobileUI .buttons {\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border-radius: 6px;\r\n	border: 1px solid grey;\r\n	font-size: 4vmin;\r\n	font-weight: bold;\r\n}\r\n\r\n#MobileUI .mobileKeys {\r\n	visibility: inherit;\r\n}\r\n\r\n#MobileUI .horizontal {\r\n	margin: 0 3.5vmin;\r\n}\r\n\r\n#MobileUI .vertical {\r\n	margin: 3.5vmin 0;\r\n}\r\n\r\n#MobileUI .disabled {\r\n	visibility: hidden;\r\n}\r\n\r\n#MobileUI #topBar {\r\n	left: 50%;\r\n	top: 1%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n#MobileUI #leftBar {\r\n	left: 1%;\r\n	bottom: 35%;\r\n	transform: translate(0, 50%);\r\n}\r\n\r\n#MobileUI #rightBar {\r\n	right: 1%;\r\n	bottom: 35%;\r\n	transform: translate(0, 50%);\r\n}\r\n\r\n#MobileUI #rightBar .buttons {\r\n	float: right;\r\n}\r\n\r\n#MobileUI .active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 8px;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #toggleUIButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 8px;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n@keyframes pulse {\r\n	0% {\r\n		box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	}\r\n	50% {\r\n		box-shadow: 0px 6px 12px rgba(144, 238, 144, 0.6);\r\n	}\r\n	100% {\r\n		box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	}\r\n}\r\n\r\n#MobileUI .pressed {\r\n	background: rgba(193, 255, 255, 0.33);\r\n}\r\n\r\n#MobileUI .primary {\r\n	width: 11vmin;\r\n	height: 11vmin;\r\n}\r\n\r\n#MobileUI .secondary {\r\n	width: 7.5vmin;\r\n	height: 7.5vmin;\r\n}\r\n\r\n/* Container for all buttons -MicromeX */\r\n#MobileUI #buttonContainer {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	position: absolute;\r\n	bottom: 10%;\r\n	right: 10%;\r\n	width: 37.5vmin;\r\n	height: 37.5vmin;\r\n	z-index: 1000;\r\n}\r\n\r\n/* Attack Button (center and larger) -MicromeX */\r\n#MobileUI .atkButton {\r\n	position: absolute;\r\n	width: 17.5vmin;\r\n	height: 17.5vmin;\r\n	background-color: #f44336;\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 7vmin;\r\n	color: white;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Functional Buttons (around the attack button) -MicromeX */\r\n#MobileUI .pickupButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n#MobileUI .talktonpcButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n#MobileUI .switchshorcutButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Functional Buttons (smaller and proportional) -MicromeX */\r\n#MobileUI .FButton {\r\n	position: absolute;\r\n	width: 7.5vmin;\r\n	height: 7.5vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 3.75vmin;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #f1Button {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f2Button {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f3Button {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f4Button {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f5Button {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f6Button {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f7Button {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f8Button {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f9Button {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #n1Button {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n2Button {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n3Button {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n4Button {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n5Button {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n6Button {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n7Button {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n8Button {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n9Button {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #qButton {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #wButton {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #eButton {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #rButton {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #tButton {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #yButton {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #uButton {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #iButton {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #oButton {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #aButton {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #sButton {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #dButton {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #fButton {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #gButton {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #hButton {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #jButton {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #kButton {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #lButton {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Pickup Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #attackButton {\r\n	bottom: -10%;\r\n	left: 60%;\r\n	transform: translate(-50%, 0);\r\n}\r\n/* Pickup Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #pickupButton {\r\n	bottom: 10%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n/* TalkToNpc Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #talktonpcButton {\r\n	bottom: -23%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n/* TalkToNpc Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #switchshorcutButton {\r\n	bottom: 43%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n/* Hover Effect for Buttons -MicromeX */\r\n#MobileUI #f1Button:active,\r\n#MobileUI #f2Button:active,\r\n#MobileUI #f3Button:active,\r\n#MobileUI #f4Button:active,\r\n#MobileUI #f5Button:active,\r\n#MobileUI #f6Button:active,\r\n#MobileUI #f7Button:active,\r\n#MobileUI #f8Button:active,\r\n#MobileUI #f9Button:active,\r\n#MobileUI #n1Button:active,\r\n#MobileUI #n2Button:active,\r\n#MobileUI #n3Button:active,\r\n#MobileUI #n4Button:active,\r\n#MobileUI #n5Button:active,\r\n#MobileUI #n6Button:active,\r\n#MobileUI #n7Button:active,\r\n#MobileUI #n8Button:active,\r\n#MobileUI #n9Button:active,\r\n#MobileUI #qButton:active,\r\n#MobileUI #wButton:active,\r\n#MobileUI #eButton:active,\r\n#MobileUI #rButton:active,\r\n#MobileUI #tButton:active,\r\n#MobileUI #yButton:active,\r\n#MobileUI #uButton:active,\r\n#MobileUI #iButton:active,\r\n#MobileUI #oButton:active,\r\n#MobileUI #aButton:active,\r\n#MobileUI #sButton:active,\r\n#MobileUI #dButton:active,\r\n#MobileUI #fButton:active,\r\n#MobileUI #gButton:active,\r\n#MobileUI #hButton:active,\r\n#MobileUI #jButton:active,\r\n#MobileUI #kButton:active,\r\n#MobileUI #lButton:active,\r\n#MobileUI #switchshorcutButton:active,\r\n#MobileUI #pickupButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 50%;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #talktonpcButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 50%;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #attackButton:active {\r\n	background-color: #4caf50;\r\n	box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);\r\n	border: 2px solid #388e3c;\r\n	transition:\r\n		transform 0.2s ease,\r\n		background-color 0.2s ease,\r\n		box-shadow 0.2s ease,\r\n		border 0.2s ease;\r\n}\r\n\r\n/* Joystick container -MicromeX */\r\n#MobileUI .joystick-container {\r\n	position: absolute;\r\n	bottom: 7%;\r\n	left: 10%;\r\n	width: 25vmin;\r\n	height: 25vmin;\r\n	z-index: 1000;\r\n}\r\n\r\n/* Joystick base -MicromeX */\r\n#MobileUI .joystick-base {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border-radius: 50%;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n/* Joystick thumb -MicromeX */\r\n#MobileUI .joystick-thumb {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: radial-gradient(circle, rgba(236, 240, 241, 1) 70%, rgba(189, 195, 199, 1) 100%);\r\n	border-radius: 50%;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);\r\n	touch-action: none;\r\n	cursor: grab;\r\n}\r\n";
+//#region src/UI/Game/GameCompanions.js
+function resetGameCompanions() {
+	owner = SessionStorage_default.Entity;
+	states = Object.fromEntries(["homunculus", "mercenary"].map((kind) => [kind, {
+		gid: 0,
+		info: null,
+		pending: null,
+		autoFeed: false,
+		message: ""
+	}]));
+}
+function state$1(kind) {
+	if (!states || owner !== SessionStorage_default.Entity) resetGameCompanions();
+	return states[kind];
+}
+function entity(kind) {
+	const s = state$1(kind);
+	return s.gid && s.gid === SessionStorage_default[kind === "homunculus" ? "homunId" : "mercId"] ? EntityManager.get(s.gid) : null;
+}
+function send$4(name, values) {
+	const packet = new PACKET.CZ[name]();
+	Object.assign(packet, values);
+	Network.sendPacket(packet);
+}
+function updateGameCompanion(kind, values, gid) {
+	let s = state$1(kind);
+	if (gid && gid !== s.gid) {
+		cancelCompanionSkill(entity(kind));
+		s = states[kind] = {
+			gid,
+			info: s.gid ? null : s.info,
+			pending: null,
+			autoFeed: s.gid ? false : s.autoFeed,
+			message: ""
+		};
+	}
+	s.info = {
+		...s.info,
+		...values
+	};
+}
+function updateGameCompanionAutoFeed(value) {
+	state$1("homunculus").autoFeed = Boolean(value);
+}
+function receiveGameCompanionFeed(result) {
+	const s = state$1("homunculus");
+	if (s.pending !== "feed") return;
+	s.pending = null;
+	s.message = result ? "喂食成功" : "喂食失败，请检查生命体食物";
+}
+function openGameCompanions(kind, canOperate = () => true) {
+	if (!["homunculus", "mercenary"].includes(kind) || !canOperate() || !SessionStorage_default.Playing || !SessionStorage_default.Entity || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.DIE) return null;
+	const token = {};
+	const openingOwner = SessionStorage_default.Entity;
+	let guard = canOperate, review = null, learning = null;
+	const active = () => interactionSnapshot()?.token === token && SessionStorage_default.Entity === openingOwner && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
+	const allowed = () => {
+		const actor = entity(kind);
+		return Boolean(active() && actor && actor.action !== actor.ACTION.DIE && !actor.remove_tick && state$1(kind).info && !state$1(kind).pending);
+	};
+	const aiKey = kind === "homunculus" ? "HOM_AGGRESSIVE" : "MER_AGGRESSIVE";
+	function validate(action, value) {
+		if (!allowed()) return "当前无法操作";
+		const info = state$1(kind).info;
+		if ([
+			"feed",
+			"rename",
+			"autofeed"
+		].includes(action) && kind !== "homunculus") return "佣兵不支持此操作";
+		if (action === "rename" && (info.bModified || !value || new TextEncoder().encode(value).length > 23 || Array.from(value).some((char) => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127))) return "名称无效或生命体已经改名";
+		if (![
+			"feed",
+			"rename",
+			"autofeed",
+			"dismiss",
+			"return",
+			"aggressive"
+		].includes(action)) return "未知操作";
+		return "";
+	}
+	const service = {
+		setOperationGuard: (value) => {
+			guard = value;
+		},
+		snapshot() {
+			const s = state$1(kind), model = SkillListMH_default[kind];
+			if (learning && (learning.actor !== entity(kind) || learning.revision !== model.getSkillRevision())) learning = null;
+			if (review && (review.actor !== entity(kind) || !allowed())) review = null;
+			return {
+				kind,
+				gid: s.gid,
+				info: entity(kind) ? { ...s.info } : null,
+				allowed: allowed(),
+				pending: s.pending,
+				message: s.message,
+				autoFeed: s.autoFeed,
+				aggressive: Boolean(AIDriver[aiKey]),
+				review,
+				skills: entity(kind) ? model.getSkills().map((skill) => ({
+					...skill,
+					name: SkillInfo_generated_default[skill.SKID]?.SkillName || `技能 #${skill.SKID}`,
+					learnable: kind === "homunculus" && allowed() && !learning && s.info.SKPoint > 0 && Boolean(skill.upgradable)
+				})) : []
+			};
+		},
+		prepare(action, value) {
+			value = action === "rename" ? String(value).trim() : value;
+			const error = validate(action, value);
+			if (error) return error;
+			review = {
+				action,
+				value,
+				actor: entity(kind)
+			};
+			return "";
+		},
+		cancel() {
+			review = null;
+		},
+		confirm() {
+			if (!review) return "请先选择操作";
+			const { action, value, actor } = review;
+			review = null;
+			const error = validate(action, value);
+			if (error || actor !== entity(kind)) return error || "伴侣已变化，请重新确认";
+			const s = state$1(kind);
+			cancelCompanionSkill(actor);
+			switch (action) {
+				case "feed":
+					s.pending = "feed";
+					send$4("COMMAND_MER", {
+						type: 0,
+						command: 1
+					});
+					break;
+				case "rename":
+					send$4("RENAME_MER", { name: value });
+					break;
+				case "dismiss":
+					if (kind === "homunculus") send$4("COMMAND_MER", {
+						type: 0,
+						command: 2
+					});
+					else send$4("MER_COMMAND", { command: 2 });
+					break;
+				case "return":
+					send$4("REQUEST_MOVETOOWNER", { GID: actor.GID });
+					break;
+				case "autofeed":
+					send$4("CONFIG", {
+						Config: 3,
+						Value: s.autoFeed ? 0 : 1
+					});
+					break;
+				case "aggressive":
+					AIDriver[aiKey] = !AIDriver[aiKey];
+					localStorage.setItem(aiKey, AIDriver[aiKey] ? "1" : "0");
+			}
+			s.message = action === "aggressive" ? "攻击模式已更新" : "已发送请求，以服务器状态为准";
+			return s.message;
+		},
+		learn(id, expectedLevel) {
+			const skill = service.snapshot().skills.find((s) => s.SKID === id);
+			if (!skill?.learnable || skill.level + 1 !== expectedLevel) return "技能状态已变化，请重新确认";
+			learning = {
+				actor: entity(kind),
+				revision: SkillListMH_default[kind].getSkillRevision()
+			};
+			SkillListMH_default[kind].onIncreaseSkill(id);
+			return "已请求学习一级，等待服务器更新";
+		},
+		close() {
+			if (interactionSnapshot()?.token === token) clearInteraction("companions");
+		}
+	};
+	showInteraction({
+		kind: "companions",
+		title: kind === "homunculus" ? "生命体" : "佣兵",
+		token,
+		service,
+		close: service.close
+	});
+	return service;
+}
+var owner, states;
+var init_GameCompanions = __esmMin((() => {
+	init_SessionStorage();
+	init_EntityManager();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_AIDriver();
+	init_SkillListMH();
+	init_SkillInfo_generated();
+	init_CompanionSkillAction();
+	init_ServerInteraction();
 }));
 //#endregion
-//#region src/UI/Components/MobileUI/MobileUI.js
-/**
-* Helper to bind click+touchstart on an element
-*/
-function bindButton(root, selector, handler) {
-	const el = root.querySelector(selector);
-	if (el) {
-		let touchHandled = false;
-		let releaseTimer = null;
-		const clearGuard = () => {
-			if (releaseTimer !== null) {
-				clearTimeout(releaseTimer);
-				releaseTimer = null;
+//#region src/UI/Game/CraftingMaterials.js
+function validateSmithingMaterials(ids, inventory) {
+	if (!Array.isArray(ids) || ids.length > 3 || ids.some((id) => !smithingMaterials.includes(id))) return false;
+	if (ids.filter((id) => id !== 1e3).length > 1) return false;
+	return [...new Set(ids)].every((id) => inventory.filter((item) => item.ITID === id).reduce((sum, item) => sum + (item.count || 0), 0) >= ids.filter((value) => value === id).length);
+}
+var smithingMaterials;
+var init_CraftingMaterials = __esmMin((() => {
+	smithingMaterials = [
+		1e3,
+		997,
+		996,
+		995,
+		994
+	];
+}));
+//#endregion
+//#region src/UI/Game/GameSelection.js
+function selectionEntries(values, type) {
+	return values.map((value) => {
+		if (type === "skill") {
+			const info = SkillInfo_generated_default[value];
+			return info && value > 0 ? {
+				id: value,
+				name: info.SkillName,
+				description: toPlainRagnarokText(DB.getSkillDescription(value)),
+				file: info.Name
+			} : null;
+		}
+		if (type === "inventory") {
+			const item = InventoryController.getUI().getItemByIndex(value);
+			return item ? {
+				id: value,
+				item: { ...item },
+				inventory: true,
+				identity: itemIdentity(item)
+			} : null;
+		}
+		if (type === "item") return {
+			id: value,
+			item: {
+				index: value,
+				ITID: value,
+				count: 1,
+				IsIdentified: true
 			}
 		};
-		const releaseGuard = () => {
-			clearGuard();
-			releaseTimer = setTimeout(() => {
-				releaseTimer = null;
-				touchHandled = false;
-			}, C_TOUCH_CLICK_GUARD);
-		};
-		el.addEventListener("click", (event) => {
-			if (touchHandled) {
-				touchHandled = false;
-				clearGuard();
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				return;
+		return {
+			id: value.index,
+			item: {
+				...value,
+				count: 1,
+				IsIdentified: true
 			}
-			handler(event);
-		});
-		el.addEventListener("touchstart", (event) => {
-			touchHandled = true;
-			clearGuard();
-			handler(event);
-		});
-		el.addEventListener("touchend", releaseGuard);
-		el.addEventListener("touchcancel", releaseGuard);
+		};
+	}).filter(Boolean);
+}
+function openGameSelection(title, entries, submit, cancel, warning = "") {
+	const token = Symbol("selection"), inventory = createGameInventory(() => true), icons = /* @__PURE__ */ new Map();
+	let done = false, guard = () => false;
+	function current() {
+		return !done && interactionSnapshot()?.token === token && SessionStorage_default.Playing;
+	}
+	function finish(fn) {
+		if (!current()) return false;
+		done = true;
+		clearInteraction("selection");
+		fn();
+		return true;
+	}
+	const service = {
+		setOperationGuard(fn) {
+			guard = fn;
+		},
+		snapshot() {
+			return {
+				warning,
+				materials: entries.some((entry) => entry.materials) ? InventoryController.getUI().list.filter((item) => smithingMaterials.includes(item.ITID) && item.count > 0).map((item) => ({
+					id: item.ITID,
+					name: DB.getItemName(item),
+					count: item.count
+				})) : [],
+				entries: entries.map((entry) => {
+					const info = entry.item ? inventory.describe(entry.item) : entry;
+					if (entry.loadIcon && !icons.has(entry.id)) {
+						icons.set(entry.id, "");
+						entry.loadIcon((url) => {
+							if (current()) icons.set(entry.id, url);
+						});
+					}
+					if (entry.file && !icons.has(entry.file)) {
+						icons.set(entry.file, "");
+						Client.loadFile(`${DB.INTERFACE_PATH}item/${entry.file}.bmp`, (url) => icons.set(entry.file, url));
+					}
+					return {
+						...info,
+						id: entry.id,
+						icon: info.icon || icons.get(entry.id) || icons.get(entry.file) || "",
+						materials: Boolean(entry.materials)
+					};
+				}),
+				allowed: current() && guard() && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE
+			};
+		},
+		choose(id, materials = []) {
+			if (!service.snapshot().allowed) return "当前不能操作";
+			const entry = entries.find((e) => e.id === id);
+			if (!entry) return "选择已失效";
+			if (entry.validate && !entry.validate()) return "选择已失效，请重新打开";
+			if (entry.inventory) {
+				const live = InventoryController.getUI().getItemByIndex(id);
+				if (!live || itemIdentity(live) !== entry.identity) return "物品已经变化，请重新打开";
+			}
+			if (!entry.materials && materials.length || !validateSmithingMaterials(materials, InventoryController.getUI().list)) return "附加材料或数量已变化";
+			finish(() => entry.materials ? submit(id, materials.map((ITID) => ({ ITID }))) : submit(id));
+			return "";
+		}
+	};
+	showInteraction({
+		kind: "selection",
+		title,
+		token,
+		service,
+		close: () => finish(cancel)
+	});
+	return service;
+}
+var itemIdentity;
+var init_GameSelection = __esmMin((() => {
+	init_CraftingMaterials();
+	init_SessionStorage();
+	init_Inventory();
+	init_DBManager();
+	init_SkillInfo_generated();
+	init_Client();
+	init_GameInventory();
+	init_ServerInteraction();
+	init_RagnarokText();
+	itemIdentity = (item) => JSON.stringify([
+		item.ITID,
+		item.RefiningLevel,
+		item.enchantgrade,
+		item.slot,
+		item.Options
+	]);
+}));
+//#endregion
+//#region src/UI/Game/GamePet.js
+function resetGamePet() {
+	state = {
+		owner: SessionStorage_default.Entity,
+		gid: 0,
+		info: null,
+		pending: null,
+		message: "",
+		autoFeed: false,
+		accessory: false
+	};
+	captureToken = null;
+}
+function current() {
+	if (!state || state.owner !== SessionStorage_default.Entity) resetGamePet();
+	return state;
+}
+function send$3(name, fields) {
+	const packet = new PACKET.CZ[name]();
+	Object.assign(packet, fields);
+	Network.sendPacket(packet);
+}
+function updateGamePetInfo(info) {
+	const s = current();
+	s.info = { ...info };
+	s.accessory = Boolean(info.ITID);
+	if (s.pending === "rename" || s.pending === "refresh") s.pending = null;
+	s.message = "宠物状态已更新";
+}
+function updateGamePetState(pkt) {
+	const s = current();
+	if (pkt.type === 0) {
+		if (s.gid !== pkt.GID && s.gid) {
+			s.info = null;
+			s.pending = null;
+			s.accessory = false;
+			s.autoFeed = false;
+			s.message = "宠物已更换";
+		}
+		s.gid = pkt.GID;
+		return;
+	}
+	if (pkt.GID !== s.gid) return;
+	if (s.info) {
+		if (pkt.type === 1) s.info.nRelationship = pkt.data;
+		if (pkt.type === 2) s.info.nFullness = pkt.data;
+		if (pkt.type === 3) s.accessory = Boolean(pkt.data);
 	}
 }
-/**
-* Logs the key press to the console and performs the key press action.
-* @param {number} keyCode - The key code of the pressed key.
-*/
-function logKeyPress(keyCode) {
-	keyPress(keyCode);
+function updateGamePetAutoFeed(value) {
+	const s = current();
+	s.autoFeed = Boolean(value);
 }
-/**
-* Toggles full screen display
-*/
-function toggleFullScreen() {
-	if (!Context.isFullScreen()) Context.requestFullScreen();
-	else Context.cancelFullScreen();
+function receiveGamePetResult(kind, result) {
+	const s = current();
+	if (s.pending !== kind) return;
+	s.pending = null;
+	if (kind === "feed") s.message = result ? "喂食成功" : "喂食失败，请检查宠物食物";
+	if (kind === "evolve") s.message = result === 6 ? "进化成功" : "进化失败，请检查亲密度、宠物状态及材料";
 }
-/**
-* Emulates a keypress event
-*
-* @param {number} keyId
-*/
-function keyPress(k) {
-	const roWindow = window;
-	roWindow.document.getElementsByTagName("body")[0].focus();
-	roWindow.dispatchEvent(new KeyboardEvent("keydown", {
-		keyCode: k,
-		which: k
+function evolutions() {
+	const s = current();
+	return Object.entries(DB.getPetEvolutionByJob(s.info?.job) || {}).map(([egg, materials]) => ({
+		egg: Number(egg),
+		name: DB.getItemInfo(Number(egg)).identifiedDisplayName || `宠物蛋 #${egg}`,
+		materials: materials.map((m) => ({
+			id: m.MaterialID,
+			name: DB.getItemInfo(m.MaterialID).identifiedDisplayName,
+			count: m.Amount,
+			owned: InventoryController.getUI().list.filter((i) => i.ITID === m.MaterialID && !i.equipped).reduce((n, i) => n + itemQuantity(i), 0)
+		}))
 	}));
 }
-/**
-* Toggles MobileUI button bars visibility (and thus buttons)
-*/
-function toggleButtons() {
-	const root = MobileUI.getRoot();
-	if (showButtons) {
-		[
-			"#topBar",
-			"#leftBar",
-			"#rightBar",
-			"#joystickContainer",
-			"#buttonContainer",
-			"#attackButton",
-			"#pickupButton",
-			"#talktonpcButton",
-			"#switchshorcutButton"
-		].forEach((sel) => {
-			const el = root.querySelector(sel);
-			if (el) el.classList.add("disabled");
-		});
-		for (let i = 1; i <= 9; i++) {
-			const fBtn = root.querySelector(`#f${i}Button`);
-			if (fBtn) fBtn.classList.add("disabled");
+function openGamePet(canOperate = () => true) {
+	if (!canOperate() || !SessionStorage_default.Playing || !SessionStorage_default.Entity || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.DIE) return null;
+	const token = {};
+	let guard = canOperate;
+	const active = () => interactionSnapshot()?.token === token && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
+	const exists = () => {
+		const s = current();
+		return s.gid === SessionStorage_default.petId && Boolean(EntityManager.get(s.gid));
+	};
+	const allowed = () => active() && exists() && current().info && !current().pending;
+	const service = {
+		setOperationGuard: (value) => {
+			guard = value;
+		},
+		snapshot: () => {
+			const s = current();
+			return {
+				gid: s.gid,
+				info: exists() ? s.info : null,
+				accessory: s.accessory,
+				allowed: Boolean(allowed()),
+				pending: s.pending,
+				canRefresh: Boolean(active() && exists() && !s.pending),
+				message: s.message,
+				autoFeed: s.autoFeed,
+				evolutions: exists() ? evolutions() : []
+			};
+		},
+		command(action, value) {
+			if (!allowed()) return "当前无法操作宠物";
+			const s = current();
+			if (action === "rename") {
+				const name = String(value).trim();
+				if (s.info.bModified || !name || new TextEncoder().encode(name).length > 23 || Array.from(name).some((char) => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127)) return "名称无效或宠物已经改名";
+				s.pending = "rename";
+				send$3("RENAME_PET", { szName: name });
+			} else if (action === "evolve") {
+				const evo = evolutions().find((e) => e.egg === value);
+				if (s.info.nRelationship < 1e3 || !evo || evo.materials.some((m) => m.owned < m.count)) return "亲密度或进化材料不足";
+				s.pending = "evolve";
+				send$3("PET_EVOLUTION", { evolutionPetEggITID: value });
+			} else if (action === "autofeed") send$3("CONFIG", {
+				Config: 2,
+				Value: s.autoFeed ? 0 : 1
+			});
+			else {
+				const command = {
+					feed: 1,
+					perform: 2,
+					egg: 3,
+					unequip: 4
+				}[action];
+				if (!command) return "未知操作";
+				if (action === "unequip" && !s.accessory) return "宠物未装备饰品";
+				if (action === "feed") s.pending = "feed";
+				send$3("COMMAND_PET", { cSub: command });
+			}
+			s.message = "已发送请求，以服务器状态为准";
+			return s.message;
+		},
+		refresh() {
+			if (!active() || !exists() || current().pending) return;
+			current().pending = "refresh";
+			send$3("COMMAND_PET", { cSub: 0 });
+		},
+		close() {
+			if (interactionSnapshot()?.token === token) clearInteraction("pet");
 		}
-		[
-			"n",
-			"q",
-			"w",
-			"e",
-			"r",
-			"t",
-			"y",
-			"u",
-			"i",
-			"o",
-			"a",
-			"s",
-			"d",
-			"f",
-			"g",
-			"h",
-			"j",
-			"k",
-			"l"
-		].forEach((key) => {
-			const btn = root.querySelector(`#${key}Button`) || root.querySelector(`#${key}${key === "n" ? "" : "B"}utton`);
-			if (btn) btn.classList.add("disabled");
+	};
+	showInteraction({
+		kind: "pet",
+		title: "宠物",
+		token,
+		service,
+		close: service.close
+	});
+	return service;
+}
+function openGamePetEggs(indices) {
+	return openGameSelection("选择宠物蛋", selectionEntries(indices, "inventory"), (index) => send$3("SELECT_PETEGG", { index }), () => send$3("SELECT_PETEGG", { index: 0 }));
+}
+function captureVisible(entity) {
+	const rect = entity.boundingRect;
+	return entity.objecttype === entity.constructor.TYPE_MOB && entity.action !== entity.ACTION.DIE && entity.remove_tick === 0 && entity.effectColor[3] > 0 && rect.x2 > rect.x1 && rect.y2 > rect.y1 && rect.x2 > 0 && rect.y2 > 0 && rect.x1 < Renderer.width && rect.y1 < Renderer.height;
+}
+function openGamePetCapture() {
+	const candidates = [];
+	EntityManager.forEach((entity) => {
+		if (captureVisible(entity)) candidates.push({
+			id: entity.GID,
+			name: entity.display.name,
+			description: "捕捉结果由服务器判定，确认后使用当前捕捉机会。",
+			validate: () => EntityManager.get(entity.GID) === entity && captureVisible(entity)
 		});
-		for (let i = 1; i <= 9; i++) {
-			const nBtn = root.querySelector(`#n${i}Button`);
-			if (nBtn) nBtn.classList.add("disabled");
+	});
+	captureToken = null;
+	return openGameSelection("选择要捕捉的魔物", candidates, (id) => {
+		const token = {};
+		captureToken = token;
+		showInteraction({
+			kind: "information",
+			title: "捕捉宠物",
+			token,
+			rows: [["状态", "等待捕捉结果"]],
+			close: () => {
+				if (interactionSnapshot()?.token === token) clearInteraction("information");
+				captureToken = null;
+			}
+		});
+		send$3("TRYCAPTURE_MONSTER", { targetAID: id });
+	}, () => send$3("TRYCAPTURE_MONSTER", { targetAID: 0 }), candidates.length ? "请选择当前可见的魔物" : "当前没有可见魔物，可取消本次捕捉");
+}
+function receiveGamePetCapture(result) {
+	if (!captureToken || interactionSnapshot()?.token !== captureToken) return;
+	const token = captureToken;
+	captureToken = null;
+	showInteraction({
+		kind: "information",
+		title: "捕捉宠物",
+		token,
+		rows: [["结果", result ? "捕捉成功，请查看背包中的宠物蛋" : "捕捉失败"]],
+		close: () => {
+			if (interactionSnapshot()?.token === token) clearInteraction("information");
 		}
-		[
-			"q",
-			"w",
-			"e",
-			"r",
-			"t",
-			"y",
-			"u",
-			"i",
-			"o",
-			"a",
-			"s",
-			"d",
-			"f",
-			"g",
-			"h",
-			"j",
-			"k",
-			"l"
-		].forEach((key) => {
-			const btn = root.querySelector(`#${key}Button`);
-			if (btn) btn.classList.add("disabled");
-		});
-		if (SessionStorage_default.TouchTargeting) toggleTouchTargeting();
-		showButtons = false;
-	} else {
-		[
-			"#topBar",
-			"#leftBar",
-			"#rightBar",
-			"#joystickContainer",
-			"#buttonContainer",
-			"#attackButton",
-			"#pickupButton",
-			"#talktonpcButton",
-			"#switchshorcutButton"
-		].forEach((sel) => {
-			const el = root.querySelector(sel);
-			if (el) el.classList.remove("disabled");
-		});
-		for (let i = 1; i <= 9; i++) {
-			const fBtn = root.querySelector(`#f${i}Button`);
-			if (fBtn) fBtn.classList.remove("disabled");
+	});
+}
+var state, captureToken;
+var init_GamePet = __esmMin((() => {
+	init_Renderer();
+	init_SessionStorage();
+	init_DBManager();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_EntityManager();
+	init_Inventory();
+	init_InventoryItems();
+	init_GameSelection();
+	init_ServerInteraction();
+}));
+//#endregion
+//#region src/UI/Game/GameMail.js
+function setGameMailUnread(value) {
+	unread = Boolean(value);
+}
+function currentGameMail() {
+	const state = interactionSnapshot();
+	return state?.kind === "mail" ? state.service : null;
+}
+function receiveGameMail(kind, packet) {
+	currentGameMail()?.receive(kind, packet);
+}
+function openGameMail(canOperate = () => true) {
+	if (!canOperate() || !SessionStorage_default.Playing || !SessionStorage_default.Entity || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.DIE) return null;
+	if (currentGameMail()) return currentGameMail();
+	const token = {}, details = /* @__PURE__ */ new Map(), deleting = /* @__PURE__ */ new Set();
+	let guard = () => !SessionStorage_default.FreezeUI, closed = false, pending = null, list = [], selected = null, writing = false, attachments = [], recipient = null, message = "正在读取邮件", revision = 0, weight = 0;
+	const alive = () => !closed && interactionSnapshot()?.token === token && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
+	const allowed = () => alive() && !pending;
+	const inventory = createGameInventory(allowed);
+	const request = (name, fields, wait) => {
+		pending = wait;
+		message = "等待服务器回复";
+		send$2(name, fields);
+	};
+	const draft = {
+		receiver: "",
+		title: "",
+		body: "",
+		zeny: 0
+	};
+	const service = {
+		setOperationGuard: (value) => {
+			guard = value;
+		},
+		snapshot: () => ({
+			list: list.map((m) => ({
+				...m,
+				deleting: deleting.has(key(m))
+			})),
+			selected,
+			detail: details.has(selected) ? {
+				...details.get(selected),
+				describedItems: details.get(selected).ItemList.map((item) => inventory.describe(item))
+			} : null,
+			writing,
+			draft: { ...draft },
+			recipient,
+			attachments: attachments.map((i) => ({
+				...inventory.describe(i),
+				identity: i.identity
+			})),
+			inventory: inventory.snapshot().filter((i) => !i.worn),
+			pending: Boolean(pending),
+			allowed: Boolean(allowed()),
+			message,
+			revision,
+			weight,
+			wallet: SessionStorage_default.zeny,
+			fee: attachments.length * 2500 + Math.floor(draft.zeny * .02)
+		}),
+		refresh() {
+			if (!allowed() || writing) return;
+			deleting.clear();
+			request("UPDATE_ALL_RODEX", {}, { kind: "list" });
+		},
+		read(mailKey) {
+			if (!allowed() || writing) return;
+			const mail = list.find((m) => key(m) === mailKey);
+			if (!mail) return;
+			selected = mailKey;
+			request("REQ_READ_RODEX", mail, {
+				kind: "read",
+				key: mailKey
+			});
+		},
+		claim(type) {
+			if (!allowed() || writing || !["items", "zeny"].includes(type)) return;
+			const mail = details.get(selected);
+			if (!mail || (type === "items" ? !mail.ItemList.length : !mail.zeny)) return;
+			request(type === "items" ? "REQ_ITEM_FROM_RODEX" : "REQ_ZENY_FROM_RODEX", mail, {
+				kind: type,
+				key: selected
+			});
+		},
+		delete() {
+			if (!allowed() || writing) return;
+			const mail = details.get(selected);
+			if (!mail || mail.ItemList.length || mail.zeny || deleting.has(selected)) return;
+			deleting.add(selected);
+			send$2("REQ_DELETE_RODEX", mail);
+			message = "已请求删除；以列表更新为准，可刷新核对";
+		},
+		compose() {
+			if (!allowed() || writing) return;
+			request("REQ_OPEN_WRITE_RODEX", {}, { kind: "compose" });
+		},
+		change(field, value) {
+			if (!allowed() || !writing || !Object.hasOwn(draft, field)) return;
+			if (field === "receiver") recipient = null;
+			draft[field] = value;
+		},
+		validate() {
+			if (!allowed() || !writing) return;
+			const name = draft.receiver.trim();
+			if (!name || bytes(name) > 23 || /[\0\t\r\n]/.test(name)) {
+				message = "收件人姓名无效（最多 23 字节）";
+				return;
+			}
+			recipient = null;
+			request("CHECK_RODEX_RECEIVE", { name }, {
+				kind: "validate",
+				name
+			});
+		},
+		add(index, id, count) {
+			if (!allowed() || !writing) return;
+			const item = InventoryController.getUI().list.find((i) => i.index === index && i.ITID === id);
+			const existing = attachments.find((i) => i.index === index);
+			if (!item || item.equipped || item.equipSwitch || !Number.isInteger(count) || count <= 0 || count > 32767 || count + (existing?.count || 0) > itemQuantity(item) || !existing && attachments.length >= 5) {
+				message = "物品或数量无效，最多附加五种物品";
+				return;
+			}
+			request("REQ_ADD_ITEM_RODEX", {
+				index,
+				count
+			}, {
+				kind: "add",
+				index,
+				identity: identity$3(item)
+			});
+		},
+		remove(index, count) {
+			if (!allowed() || !writing) return;
+			const item = attachments.find((i) => i.index === index);
+			if (!item || !Number.isInteger(count) || count <= 0 || count > item.count) return;
+			request("REQ_REMOVE_RODEX_ITEM", {
+				index,
+				count
+			}, {
+				kind: "remove",
+				index
+			});
+		},
+		review() {
+			if (!allowed() || !writing) return { error: "当前无法发送" };
+			if (!recipient || recipient.name !== draft.receiver.trim()) return { error: "请先校验收件人" };
+			if (!draft.title.trim() || bytes(draft.title) > 39 || bytes(draft.body) > 499 || /[\0]/.test(draft.title + draft.body)) return { error: "标题最多 39 字节，正文最多 499 字节，标题不能为空" };
+			if (!Number.isInteger(draft.zeny) || draft.zeny < 0 || draft.zeny > 2147483647) return { error: "附件金额无效" };
+			const fee = attachments.length * 2500 + Math.floor(draft.zeny * .02);
+			if (draft.zeny + fee > SessionStorage_default.zeny) return { error: "余额不足以支付金额和预计邮费" };
+			for (const item of attachments) {
+				const live = InventoryController.getUI().list.find((i) => i.index === item.index);
+				if (!live || identity$3(live) !== item.identity || itemQuantity(live) < item.count || live.equipped) return { error: "附件已变化，请移除后重新选择" };
+			}
+			return {
+				receiver: recipient.name,
+				zeny: draft.zeny,
+				fee,
+				title: draft.title,
+				body: draft.body,
+				items: attachments.map((i) => ({
+					index: i.index,
+					count: i.count,
+					identity: i.identity
+				})),
+				CharID: recipient.CharID
+			};
+		},
+		send(review) {
+			const next = service.review();
+			if (next.error || JSON.stringify(next) !== JSON.stringify(review)) {
+				message = next.error || "内容已变化，请重新确认";
+				return;
+			}
+			const title = draft.title + "\0", body = draft.body + "\0";
+			request("REQ_SEND_RODEX2", {
+				receiver: recipient.name,
+				sender: SessionStorage_default.Entity.display.name,
+				zeny: draft.zeny,
+				CharID: recipient.CharID,
+				title,
+				body,
+				Titlelength: bytes(title),
+				Bodylength: bytes(body)
+			}, { kind: "send" });
+		},
+		cancelCompose() {
+			if (!alive() || pending?.kind === "send") return;
+			if (writing || pending?.kind === "compose") send$2("REQ_CANCEL_WRITE_RODEX");
+			pending = null;
+			writing = false;
+			attachments = [];
+			recipient = null;
+			revision++;
+			message = "已取消写信";
+		},
+		close() {
+			if (closed || interactionSnapshot()?.token !== token) return;
+			if (writing || pending?.kind === "compose") send$2("REQ_CANCEL_WRITE_RODEX");
+			closed = true;
+			send$2("CLOSE_RODEXBOX");
+			clearInteraction("mail");
+		},
+		receive(kind, pkt) {
+			if (closed || interactionSnapshot()?.token !== token) return;
+			if (kind === "list") {
+				if (pending?.kind !== "list") return;
+				list = pkt.MailList;
+				details.clear();
+				selected = null;
+				deleting.clear();
+				pending = null;
+				message = list.length ? "请选择邮件" : "暂无邮件";
+				revision++;
+				return;
+			}
+			if (kind === "listFailed") {
+				if (pending?.kind === "list") {
+					pending = null;
+					message = "邮件读取失败，可重新刷新";
+				}
+				return;
+			}
+			if (kind === "delete") {
+				const id = key(pkt);
+				list = list.filter((m) => key(m) !== id);
+				details.delete(id);
+				deleting.delete(id);
+				if (selected === id) selected = null;
+				message = "邮件已删除";
+				revision++;
+				return;
+			}
+			if (!pending || pending.kind !== kind) return;
+			const wait = pending;
+			if ([
+				"read",
+				"items",
+				"zeny"
+			].includes(kind) && key(pkt) !== wait.key) return;
+			if (["add", "remove"].includes(kind) && pkt.index !== wait.index) return;
+			pending = null;
+			if (kind === "read") {
+				details.set(wait.key, {
+					...list.find((m) => key(m) === wait.key),
+					...pkt
+				});
+				const row = list.find((m) => key(m) === wait.key);
+				if (row) row.Isread = 1;
+				message = "";
+			}
+			if (kind === "items" || kind === "zeny") {
+				if (!pkt.result) {
+					const mail = details.get(wait.key);
+					if (mail) {
+						if (kind === "items") mail.ItemList = [];
+						else mail.zeny = 0;
+					}
+					message = "领取成功";
+				} else message = "领取失败，请检查负重、空位和金额上限";
+			}
+			if (kind === "compose") {
+				if (pkt.result) {
+					writing = true;
+					attachments = [];
+					recipient = null;
+					Object.assign(draft, {
+						receiver: pkt.receiveName || "",
+						title: "",
+						body: "",
+						zeny: 0
+					});
+					message = "填写收件人并校验后发送";
+				} else message = "当前无法写信";
+			}
+			if (kind === "validate") {
+				if (pkt.CharID > 0 && pkt.name === wait.name) {
+					recipient = { ...pkt };
+					draft.receiver = pkt.name;
+					message = `收件人已确认：${pkt.name}（Lv${pkt.level}）`;
+				} else message = "收件人不存在或无法收信";
+			}
+			if (kind === "add") {
+				if (!pkt.result) {
+					const item = attachments.find((i) => i.index === pkt.index);
+					if (item) item.count += pkt.count;
+					else attachments.push({
+						...pkt,
+						identity: wait.identity
+					});
+					weight = pkt.weight;
+					message = "附件已添加";
+				} else message = "无法附加该物品：请核对限制、数量及重量";
+			}
+			if (kind === "remove") {
+				if (pkt.result) {
+					const item = attachments.find((i) => i.index === pkt.index);
+					if (item) item.count -= pkt.count;
+					attachments = attachments.filter((i) => i.count > 0);
+					weight = pkt.weight;
+					message = "附件已移除";
+				} else message = "移除附件失败";
+			}
+			if (kind === "send") {
+				send$2("REQ_CANCEL_WRITE_RODEX");
+				writing = false;
+				attachments = [];
+				recipient = null;
+				message = pkt.result ? "发送失败，请检查服务器提示后重新写信" : "邮件已发送";
+			}
+			revision++;
 		}
-		showButtons = true;
+	};
+	showInteraction({
+		kind: "mail",
+		title: "邮件",
+		token,
+		service,
+		close: service.close
+	});
+	request("OPEN_ALL_RODEX", {}, { kind: "list" });
+	return service;
+}
+var unread, gameMailUnread, bytes, key, identity$3, send$2;
+var init_GameMail = __esmMin((() => {
+	init_SessionStorage();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_Inventory();
+	init_GameInventory();
+	init_InventoryItems();
+	init_ServerInteraction();
+	unread = false;
+	gameMailUnread = () => unread;
+	bytes = (value) => new TextEncoder().encode(value).length;
+	key = (mail) => `${mail.openType}:${mail.MailID}`;
+	identity$3 = (item) => JSON.stringify([
+		item.ITID,
+		item.RefiningLevel,
+		item.slot,
+		item.Options
+	]);
+	send$2 = (name, fields = {}) => {
+		const packet = new PACKET.CZ[name]();
+		Object.assign(packet, fields);
+		Network.sendPacket(packet);
+	};
+}));
+//#endregion
+//#region src/UI/Game/GameVending.js
+function resetGameVending() {
+	ownedStore = null;
+}
+function openVendingSetup(mode, slots) {
+	const token = {}, order = /* @__PURE__ */ new Map();
+	let guard = () => !SessionStorage_default.FreezeUI, pending = false, ended = false;
+	const available = () => interactionSnapshot()?.token === token && !pending && !ended && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
+	const inventory = createGameInventory(available);
+	const items = () => (mode === "sell" ? CartItems_default.list : InventoryController.getUI().list).filter((item) => item.IsIdentified && !item.IsDamaged && !item.equipped && (mode === "sell" || ![
+		ItemType_default.WEAPON,
+		ItemType_default.ARMOR,
+		ItemType_default.SHADOWGEAR,
+		ItemType_default.PETEGG,
+		ItemType_default.PETARMOR
+	].includes(item.type) && DB.isBuyable(item.ITID)));
+	const service = {
+		setOperationGuard: (next) => {
+			guard = next;
+		},
+		snapshot() {
+			return {
+				mode,
+				slots,
+				pending,
+				allowed: Boolean(available()),
+				money: SessionStorage_default.zeny,
+				items: items().map((item) => ({
+					...inventory.describe(item),
+					identity: identity$2(item),
+					quantity: order.get(item.index)?.count || 0,
+					price: order.get(item.index)?.price || 0
+				})),
+				order: [...order.values()].map((item) => ({
+					...inventory.describe(item),
+					count: item.count,
+					price: item.price
+				})),
+				total: [...order.values()].reduce((sum, item) => sum + item.price * item.count, 0)
+			};
+		},
+		set(index, expected, count, price) {
+			const item = items().find((entry) => entry.index === index);
+			if (!available() || !item || identity$2(item) !== expected || !Number.isInteger(count) || count < 0 || count > (mode === "sell" ? Math.min(itemQuantity(item), 32767) : 9999)) return "物品或数量已变化";
+			if (!count) {
+				order.delete(index);
+				return "";
+			}
+			if (!integer(price, 2147483647) || !order.has(index) && order.size >= slots) return "单价无效或已达到摊位栏位上限";
+			if (mode === "buy" && [...order.values()].some((row) => row.index !== index && row.ITID === item.ITID)) return "同种物品只能设置一条收购记录";
+			order.set(index, {
+				...item,
+				count,
+				price,
+				identity: expected
+			});
+			return "";
+		},
+		submit(name, budget) {
+			if (!available() || !order.size || !name.trim()) return "请填写摊位名称并选择物品";
+			for (const entry of order.values()) {
+				const item = items().find((row) => row.index === entry.index);
+				if (!item || identity$2(item) !== entry.identity || mode === "sell" && itemQuantity(item) < entry.count) return "物品已经变化，请重新选择";
+			}
+			const total = service.snapshot().total;
+			if (!Number.isSafeInteger(total)) return "总金额无效";
+			if (mode === "buy" && (!integer(budget, 2147483647) || budget > SessionStorage_default.zeny)) return "收购预算无效或余额不足";
+			const packet = mode === "sell" ? new PACKET.CZ.REQ_OPENSTORE2() : new PACKET.CZ.REQ_OPEN_BUYING_STORE();
+			packet.storeName = name.trim();
+			packet.result = 1;
+			packet.storeList = [...order.values()].map(({ index, ITID, count, price }) => ({
+				index,
+				ITID,
+				count,
+				price
+			}));
+			if (mode === "buy") packet.LimitZeny = budget;
+			pending = true;
+			Network.sendPacket(packet);
+			return "等待服务器开店结果";
+		},
+		fail() {
+			if (interactionSnapshot()?.token !== token) return;
+			ended = true;
+			showInteraction({
+				kind: "notice",
+				title: "开店失败",
+				lines: ["服务器未接受开店请求，请检查物品、金额及摆摊条件后重新使用技能。"],
+				close: () => clearInteraction("notice")
+			});
+		},
+		close() {
+			if (interactionSnapshot()?.token !== token || pending || ended) return;
+			ended = true;
+			Network.sendPacket(mode === "sell" ? new PACKET.CZ.REQ_OPENSTORE2() : new PACKET.CZ.REQ_OPEN_BUYING_STORE());
+			clearInteraction("vending");
+		}
+	};
+	showInteraction({
+		kind: "vending",
+		canClose: false,
+		title: mode === "sell" ? "设置售卖摊位" : "设置收购摊位",
+		token,
+		service,
+		close: service.close
+	});
+	return service;
+}
+function vendingSetupFailed() {
+	const current = interactionSnapshot();
+	if (current?.kind === "vending") current.service.fail();
+}
+function setOwnedVending(mode, packet) {
+	ownedStore = {
+		mode,
+		items: packet.itemList.map((item) => ({
+			...item,
+			IsIdentified: 1
+		})),
+		budget: packet.limitZeny,
+		owner: SessionStorage_default.Entity,
+		log: []
+	};
+	showOwnedVending();
+}
+function updateOwnedVending(index, count, byItemID = false, budget) {
+	if (!ownedStore || ownedStore.owner !== SessionStorage_default.Entity) return;
+	const item = ownedStore.items.find((row) => byItemID ? row.ITID === index : row.index === index);
+	if (!item) return;
+	item.count = Math.max(0, item.count - count);
+	if (budget !== void 0) ownedStore.budget = budget;
+	ownedStore.log.push(`${DB.getItemName(item)} × ${count}，单价 ${item.price} Zeny`);
+	if (ownedStore.mode === "sell" && ownedStore.items.every((row) => row.count === 0)) {
+		Network.sendPacket(new PACKET.CZ.REQ_CLOSESTORE());
+		const log = [...ownedStore.log];
+		ownedStore = null;
+		if (interactionSnapshot()?.kind === "vending") showInteraction({
+			kind: "notice",
+			title: "商品已售完",
+			lines: log,
+			close: () => clearInteraction("notice")
+		});
 	}
 }
-/**
-* Toggles switch skill
-*/
-function switchSkillButtons() {
-	const root = MobileUI.getRoot();
-	const skillSets = [
+function showOwnedVending() {
+	if (!ownedStore || ownedStore.owner !== SessionStorage_default.Entity) return false;
+	const store = ownedStore, token = {};
+	let guard = () => !SessionStorage_default.FreezeUI, closed = false;
+	const inventory = createGameInventory(() => true);
+	const service = {
+		setOperationGuard: (next) => {
+			guard = next;
+		},
+		snapshot: () => ({
+			mode: store.mode,
+			owned: true,
+			budget: store.budget,
+			items: store.items.map((item) => ({
+				...inventory.describe(item),
+				count: item.count,
+				price: item.price
+			})),
+			log: [...store.log],
+			allowed: !closed && SessionStorage_default.Playing && guard()
+		}),
+		closeStore() {
+			if (interactionSnapshot()?.token !== token || !service.snapshot().allowed) return "当前无法关闭摊位";
+			Network.sendPacket(store.mode === "sell" ? new PACKET.CZ.REQ_CLOSESTORE() : new PACKET.CZ.REQ_CLOSE_BUYING_STORE());
+			closed = true;
+			ownedStore = null;
+			clearInteraction("vending");
+			return "已请求关闭摊位";
+		}
+	};
+	showInteraction({
+		kind: "vending",
+		title: store.mode === "sell" ? "我的售卖摊位" : "我的收购摊位",
+		token,
+		service,
+		close: () => clearInteraction("vending")
+	});
+	return true;
+}
+function finishOwnedBuying() {
+	if (ownedStore?.mode !== "buy") return;
+	ownedStore = null;
+	if (interactionSnapshot()?.kind === "vending") showInteraction({
+		kind: "notice",
+		title: "收购摊位已关闭",
+		lines: ["收购数量已满足或预算已用完。"],
+		close: () => clearInteraction("notice")
+	});
+}
+var identity$2, integer, ownedStore;
+var init_GameVending = __esmMin((() => {
+	init_SessionStorage();
+	init_Inventory();
+	init_CartItems();
+	init_DBManager();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_GameInventory();
+	init_InventoryItems();
+	init_ItemType();
+	init_ServerInteraction();
+	identity$2 = (item) => JSON.stringify([
+		item.ITID,
+		item.RefiningLevel,
+		item.enchantgrade,
+		item.slot,
+		item.Options
+	]);
+	integer = (value, max) => Number.isInteger(value) && value > 0 && value <= max;
+	ownedStore = null;
+}));
+//#endregion
+//#region src/UI/Game/GameSettings.js
+function settingsSnapshot(defaults = false) {
+	return {
+		graphics: Object.fromEntries(graphicsFields.map(([key]) => [key, (defaults ? GraphicsSettings.defaults : GraphicsSettings)[key]])),
+		audio: Object.fromEntries(["BGM", "Sound"].map((key) => [key, defaults ? {
+			play: true,
+			volume: .5
+		} : {
+			play: Audio_default[key].play,
+			volume: Audio_default[key].volume
+		}]))
+	};
+}
+function saveGameSettings(draft) {
+	for (const [key, , range, max] of graphicsFields) {
+		const value = draft?.graphics?.[key];
+		if (range === void 0 ? typeof value !== "boolean" : Array.isArray(range) ? !range.includes(value) : !Number.isFinite(value) || value < range || value > max) return "设置值无效，未保存";
+	}
+	for (const key of ["BGM", "Sound"]) {
+		const value = draft?.audio?.[key];
+		if (!value || typeof value.play !== "boolean" || !Number.isFinite(value.volume) || value.volume < 0 || value.volume > 1) return "音量无效，未保存";
+	}
+	const previous = settingsSnapshot();
+	for (const [key] of graphicsFields) GraphicsSettings[key] = draft.graphics[key];
+	for (const key of ["BGM", "Sound"]) Object.assign(Audio_default[key], draft.audio[key]);
+	GraphicsSettings.save();
+	Audio_default.save();
+	if (previous.graphics.quality !== GraphicsSettings.quality) {
+		Configs.set("quality", GraphicsSettings.quality);
+		Renderer.resize();
+	}
+	document.body.classList.toggle("custom-cursor", GraphicsSettings.cursor);
+	if (previous.audio.Sound.play !== Audio_default.Sound.play || previous.audio.Sound.volume !== Audio_default.Sound.volume) {
+		SoundManager.setVolume(Audio_default.Sound.play ? Audio_default.Sound.volume : 0);
+		if (!Audio_default.Sound.play) SoundManager.stop();
+	}
+	if (previous.audio.BGM.volume !== Audio_default.BGM.volume) BGM.setVolume(Audio_default.BGM.volume);
+	if (previous.audio.BGM.play !== Audio_default.BGM.play) {
+		if (Audio_default.BGM.play) {
+			if (BGM.filename) BGM.play(BGM.filename);
+		} else BGM.stop();
+	}
+	return previous.graphics.pixelPerfectSprites !== GraphicsSettings.pixelPerfectSprites ? "已保存；像素完美设置需重新加载页面后完全生效" : "设置已保存";
+}
+var graphicsFields;
+var init_GameSettings = __esmMin((() => {
+	init_Graphics();
+	init_Audio();
+	init_Configs();
+	init_Renderer();
+	init_BGM();
+	init_SoundManager();
+	graphicsFields = [
 		[
-			"#f1Button",
-			"#f2Button",
-			"#f3Button",
-			"#f4Button",
-			"#f5Button",
-			"#f6Button",
-			"#f7Button",
-			"#f8Button",
-			"#f9Button"
+			"quality",
+			"渲染比例",
+			25,
+			100,
+			5
 		],
 		[
-			"#n1Button",
-			"#n2Button",
-			"#n3Button",
-			"#n4Button",
-			"#n5Button",
-			"#n6Button",
-			"#n7Button",
-			"#n8Button",
-			"#n9Button"
+			"fpslimit",
+			"帧率上限",
+			[
+				-1,
+				30,
+				60,
+				90,
+				120
+			]
+		],
+		["performanceMode", "性能模式"],
+		[
+			"viewArea",
+			"显示范围",
+			4,
+			20,
+			1
+		],
+		["cursor", "游戏光标"],
+		["pixelPerfectSprites", "像素完美（重新加载后完全生效）"],
+		["bloom", "泛光"],
+		[
+			"bloomIntensity",
+			"泛光强度",
+			.1,
+			3,
+			.05
+		],
+		["blur", "景深"],
+		[
+			"blurArea",
+			"景深范围",
+			3,
+			20,
+			1
 		],
 		[
-			"#qButton",
-			"#wButton",
-			"#eButton",
-			"#rButton",
-			"#tButton",
-			"#yButton",
-			"#uButton",
-			"#iButton",
-			"#oButton"
+			"blurIntensity",
+			"景深强度",
+			2,
+			10,
+			.1
+		],
+		["fxaaEnabled", "抗锯齿"],
+		[
+			"fxaaSubpix",
+			"亚像素抗锯齿",
+			0,
+			1,
+			.05
 		],
 		[
-			"#aButton",
-			"#sButton",
-			"#dButton",
-			"#fButton",
-			"#gButton",
-			"#hButton",
-			"#jButton",
-			"#kButton",
-			"#lButton"
+			"fxaaEdgeThreshold",
+			"边缘阈值",
+			.063,
+			.333,
+			.001
+		],
+		["vibranceEnabled", "自然饱和度"],
+		[
+			"vibrance",
+			"饱和强度",
+			-.9,
+			.9,
+			.1
+		],
+		["cartoonEnabled", "卡通效果"],
+		[
+			"cartoonPower",
+			"卡通强度",
+			.1,
+			9.9,
+			.1
+		],
+		[
+			"cartoonEdgeSlope",
+			"描边强度",
+			1.5,
+			5.9,
+			.1
+		],
+		["casEnabled", "锐化"],
+		[
+			"casContrast",
+			"锐化对比度",
+			0,
+			1,
+			.05
+		],
+		[
+			"casSharpening",
+			"锐化强度",
+			0,
+			1,
+			.05
 		]
 	];
-	const nextSetIndex = ((switchSkillButtons.currentSetIndex || 0) + 1) % skillSets.length;
-	skillSets.flat().forEach((selector) => {
-		const el = root.querySelector(selector);
-		if (el) el.classList.add("disabled");
-	});
-	skillSets[nextSetIndex].forEach((selector) => {
-		const el = root.querySelector(selector);
-		if (el) el.classList.remove("disabled");
-	});
-	switchSkillButtons.currentSetIndex = nextSetIndex;
+}));
+//#endregion
+//#region src/UI/Game/GameBank.js
+function send$1(Type, money) {
+	const packet = new Type();
+	packet.AID = SessionStorage_default.AID;
+	if (money !== void 0) packet.money = money;
+	Network.sendPacket(packet);
 }
-/**
-* Toggles status view
-*/
-function toggleStatus() {
-	const statusIcons = document.querySelector("#StatusIcons");
-	if (statusIcons) statusIcons.style.display = statusIcons.style.display === "none" ? "" : "none";
+function requestGameBank(canOperate) {
+	if (!Configs.get("enableBank")) return "银行功能未启用";
+	if (!canOperate() || !SessionStorage_default.Playing || !SessionStorage_default.Entity || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.DIE) return "当前无法打开银行";
+	send$1(PACKET.CZ.REQ_BANK_OPEN);
+	return "已请求打开银行";
 }
-/**
-* Toggles touch targeting
-*/
-function toggleTouchTargeting() {
-	const root = MobileUI.getRoot();
-	if (SessionStorage_default.TouchTargeting) {
-		root.querySelector("#toggleTargetingButton").classList.remove("active");
-		root.querySelector("#toggleAutoFollowButton").classList.add("disabled");
-		root.querySelector("#toggleAutoTargetButton").classList.add("disabled");
-		if (SessionStorage_default.AutoTargeting) toggleAutoTargeting();
-		SessionStorage_default.TouchTargeting = false;
-	} else {
-		root.querySelector("#toggleTargetingButton").classList.add("active");
-		root.querySelector("#toggleAutoFollowButton").classList.remove("disabled");
-		root.querySelector("#toggleAutoTargetButton").classList.remove("disabled");
-		SessionStorage_default.TouchTargeting = true;
+function openGameBank(balance) {
+	if (interactionSnapshot()?.kind === "bank") {
+		interactionSnapshot().service.receive(balance);
+		return interactionSnapshot().service;
 	}
-}
-/**
-* Toggles automatic targeting
-*/
-function toggleAutoTargeting() {
-	const root = MobileUI.getRoot();
-	if (SessionStorage_default.AutoTargeting) {
-		root.querySelector("#toggleAutoTargetButton").classList.remove("active");
-		SessionStorage_default.AutoTargeting = false;
-	} else {
-		root.querySelector("#toggleAutoTargetButton").classList.add("active");
-		SessionStorage_default.AutoTargeting = true;
-		autoTarget();
-	}
-}
-/**
-* Toggles auto follow
-*/
-function toggleAutoFollow() {
-	const root = MobileUI.getRoot();
-	if (SessionStorage_default.autoFollow) {
-		root.querySelector("#toggleAutoFollowButton").classList.remove("active");
-		SessionStorage_default.autoFollow = false;
-	} else {
-		const entityFocus = EntityManager.getFocusEntity();
-		if (entityFocus) {
-			root.querySelector("#toggleAutoFollowButton").classList.add("active");
-			SessionStorage_default.autoFollow = true;
-			SessionStorage_default.autoFollowTarget = entityFocus;
-			onAutoFollow$1();
+	const token = {};
+	let money = balance, pending = false, closed = false, message = "", guard = () => !SessionStorage_default.FreezeUI;
+	const allowed = () => !closed && !pending && interactionSnapshot()?.token === token && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
+	const service = {
+		setOperationGuard: (value) => {
+			guard = value;
+		},
+		snapshot: () => ({
+			balance: money,
+			wallet: SessionStorage_default.zeny,
+			pending,
+			allowed: Boolean(allowed()),
+			message,
+			depositMax: Math.max(0, Math.min(SessionStorage_default.zeny, MAX - money)),
+			withdrawMax: Math.max(0, Math.min(money, MAX - SessionStorage_default.zeny))
+		}),
+		submit(action, amount) {
+			const state = service.snapshot();
+			if (!state.allowed || !["deposit", "withdraw"].includes(action) || !Number.isInteger(amount) || amount <= 0 || amount > (action === "deposit" ? state.depositMax : state.withdrawMax)) return "金额无效、余额不足或超过持有上限";
+			pending = true;
+			message = "等待服务器回复";
+			send$1(action === "deposit" ? PACKET.CZ.REQ_BANKING_DEPOSIT : PACKET.CZ.REQ_BANKING_WITHDRAW, amount);
+			return message;
+		},
+		receive(next, reason = 0) {
+			if (closed || interactionSnapshot()?.token !== token) return;
+			pending = false;
+			if (Number.isInteger(next) && next >= 0 && next <= MAX) money = next;
+			message = reason === 0 ? "余额已更新" : "服务器拒绝存取，请核对余额、持有上限及当前位置";
+		},
+		close() {
+			if (closed || interactionSnapshot()?.token !== token) return;
+			closed = true;
+			send$1(PACKET.CZ.REQ_BANK_CLOSE);
+			clearInteraction("bank");
 		}
-	}
+	};
+	showInteraction({
+		kind: "bank",
+		title: "银行",
+		token,
+		service,
+		close: service.close
+	});
+	return service;
 }
-/**
-* Attacks a targeted enemy (if present)
-*/
-function attackTargeted() {
-	const main = SessionStorage_default.Entity;
-	let pkt;
-	let entityFocus = EntityManager.getFocusEntity();
-	if (!entityFocus || entityFocus.action === entityFocus.ACTION.DIE) {
-		autoTarget();
-		entityFocus = EntityManager.getFocusEntity();
+function updateGameBank(packet) {
+	if (Number.isInteger(packet.zeny) && packet.zeny >= 0 && packet.zeny <= MAX) SessionStorage_default.zeny = packet.zeny;
+	if (interactionSnapshot()?.kind === "bank") interactionSnapshot().service.receive(packet.money, packet.reason);
+}
+function closeGameBank() {
+	clearInteraction("bank");
+}
+var MAX;
+var init_GameBank = __esmMin((() => {
+	init_SessionStorage();
+	init_Configs();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_ServerInteraction();
+	MAX = 2147483647;
+}));
+//#endregion
+//#region src/UI/Game/GameEquipment.js
+function createEquipmentController(inventory, stats) {
+	function snapshot() {
+		const items = inventory.snapshot();
+		return {
+			slots: equipmentSlots.map((slot) => ({
+				...slot,
+				item: items.find((item) => item.worn && item.wearLocation & slot.location),
+				candidates: items.filter((item) => !item.worn && item.category === "equipment" && item.location & slot.location)
+			})),
+			stats: stats()
+		};
 	}
-	if (entityFocus) {
-		const out = [];
-		const count = PathFinding_default.search(main.position[0] | 0, main.position[1] | 0, entityFocus.position[0] | 0, entityFocus.position[1] | 0, main.attack_range + 1, out);
-		if (!count) return true;
-		if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_ACT2();
-		else pkt = new PACKET.CZ.REQUEST_ACT();
-		pkt.action = 7;
-		pkt.targetGID = entityFocus.GID;
-		if (count < 2) {
+	return {
+		snapshot,
+		act(slotKey, index, id, action) {
+			const slot = snapshot().slots.find((entry) => entry.key === slotKey);
+			if (!slot) return "请选择装备部位";
+			const item = action === "unequip" ? slot.item : action === "equip" ? slot.candidates.find((entry) => entry.index === index && entry.ID === id) : null;
+			if (!item || item.index !== index || item.ID !== id) return "装备已经变化，请重新选择";
+			return inventory.act(index, id, action, action === "equip" ? slot.location : void 0);
+		}
+	};
+}
+var equipmentSlots;
+var init_GameEquipment = __esmMin((() => {
+	init_EquipmentLocation();
+	equipmentSlots = [
+		[
+			"HEAD_TOP",
+			"头饰（上）",
+			"normal"
+		],
+		[
+			"HEAD_MID",
+			"头饰（中）",
+			"normal"
+		],
+		[
+			"HEAD_BOTTOM",
+			"头饰（下）",
+			"normal"
+		],
+		[
+			"WEAPON",
+			"右手／武器",
+			"normal"
+		],
+		[
+			"SHIELD",
+			"左手／盾牌",
+			"normal"
+		],
+		[
+			"ARMOR",
+			"铠甲",
+			"normal"
+		],
+		[
+			"GARMENT",
+			"披肩",
+			"normal"
+		],
+		[
+			"SHOES",
+			"鞋子",
+			"normal"
+		],
+		[
+			"ACCESSORY1",
+			"饰品（右）",
+			"normal"
+		],
+		[
+			"ACCESSORY2",
+			"饰品（左）",
+			"normal"
+		],
+		[
+			"AMMO",
+			"弹药",
+			"normal"
+		],
+		[
+			"COSTUME_HEAD_TOP",
+			"时装头饰（上）",
+			"costume"
+		],
+		[
+			"COSTUME_HEAD_MID",
+			"时装头饰（中）",
+			"costume"
+		],
+		[
+			"COSTUME_HEAD_BOTTOM",
+			"时装头饰（下）",
+			"costume"
+		],
+		[
+			"COSTUME_ROBE",
+			"时装披肩",
+			"costume"
+		],
+		[
+			"COSTUME_FLOOR",
+			"时装地面",
+			"costume"
+		],
+		[
+			"SHADOW_WEAPON",
+			"影子武器",
+			"shadow"
+		],
+		[
+			"SHADOW_SHIELD",
+			"影子盾牌",
+			"shadow"
+		],
+		[
+			"SHADOW_ARMOR",
+			"影子铠甲",
+			"shadow"
+		],
+		[
+			"SHADOW_SHOES",
+			"影子鞋子",
+			"shadow"
+		],
+		[
+			"SHADOW_R_ACCESSORY_SHADOW",
+			"影子饰品（右）",
+			"shadow"
+		],
+		[
+			"SHADOW_L_ACCESSORY_SHADOW",
+			"影子饰品（左）",
+			"shadow"
+		]
+	].map(([key, label, group]) => ({
+		key,
+		label,
+		group,
+		location: EquipmentLocation_default[key]
+	}));
+}));
+//#endregion
+//#region src/UI/Game/GameEquipmentSets.js
+function notifyEquipmentSetResult() {
+	revision++;
+}
+function createGameEquipmentSets(canOperate) {
+	const inventory = createGameInventory(canOperate);
+	let pending = null, lastSwap = 0;
+	function snapshot() {
+		if (pending !== null && pending !== revision) pending = null;
+		const reserved = InventoryController.getUI().equipswitchlist;
+		return {
+			allowed: !!(canOperate() && SessionStorage_default.Playing && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE) && pending === null,
+			slots: equipmentSlots,
+			items: inventory.snapshot().filter((item) => !item.worn && item.category === "equipment").map((item) => ({
+				...item,
+				registered: reserved.some((row) => row.index === item.index),
+				registeredLocation: reserved.find((row) => row.index === item.index)?.location
+			})),
+			pending: pending !== null
+		};
+	}
+	return {
+		snapshot,
+		act(index, id, location, action) {
+			const state = snapshot(), item = state.items.find((row) => row.index === index && row.ID === id);
+			if (!state.allowed || !item) return "装备或状态已变化";
+			if (action === "add") {
+				if (item.registered || !item.identified || item.damaged || !equipmentSlots.some((slot) => slot.location === location && item.location & location)) return "请选择有效部位和可用装备";
+				pending = revision;
+				SwitchEquip_default.onAddSwitchEquip(index, location);
+			} else if (action === "remove") {
+				if (!item.registered) return "装备未加入方案";
+				pending = revision;
+				SwitchEquip_default.onRemoveSwitchEquip(index);
+			} else return "未知操作";
+			return "已请求，等待服务器更新";
+		},
+		swap() {
+			if (!snapshot().allowed || !InventoryController.getUI().equipswitchlist.length || Date.now() - lastSwap < 1e4) return "请等待后再切换";
+			lastSwap = Date.now();
+			SwitchEquip_default.RequestSwitch();
+			return "已请求切换，结果以服务器回复为准";
+		}
+	};
+}
+var revision;
+var init_GameEquipmentSets = __esmMin((() => {
+	init_Inventory();
+	init_SwitchEquip();
+	init_SessionStorage();
+	init_GameInventory();
+	init_GameEquipment();
+	revision = 0;
+}));
+//#endregion
+//#region src/UI/Game/GameSocial.js
+function createGameSocial(canOperate, shortcuts) {
+	let pendingSkill = null;
+	function allowed() {
+		return Boolean(canOperate() && SessionStorage_default.Playing);
+	}
+	function snapshot() {
+		const social = controller.getUI().getSocialSnapshot();
+		const guild = Guild_default.getSocialSnapshot();
+		const signature = JSON.stringify([guild.points, guild.skills]);
+		if (pendingSkill && pendingSkill !== signature) pendingSkill = null;
+		return {
+			...social,
+			party: SessionStorage_default.hasParty ? social.party : [],
+			guild: SessionStorage_default.hasGuild ? guild : null,
+			allowed: allowed(),
+			hasParty: !!SessionStorage_default.hasParty,
+			leader: !!SessionStorage_default.isPartyLeader,
+			master: !!SessionStorage_default.isGuildMaster,
+			rights: SessionStorage_default.guildRight || 0,
+			self: {
+				AID: SessionStorage_default.AID,
+				GID: SessionStorage_default.GID
+			},
+			guildName: SessionStorage_default.guildName || "",
+			guildSkills: SessionStorage_default.hasGuild ? guild.skills.filter((skill) => SkillInfo_generated_default[skill.SKID]).map((skill) => ({
+				...skill,
+				name: SkillInfo_generated_default[skill.SKID].SkillName,
+				description: toPlainRagnarokText(DB.getSkillDescription(skill.SKID)),
+				active: canExecuteSkill(skill),
+				learnable: allowed() && SessionStorage_default.isGuildMaster && guild.points > 0 && skill.upgradable && !pendingSkill
+			})) : []
+		};
+	}
+	function act(action, data = {}) {
+		const state = snapshot();
+		if (!state.allowed) return "当前不能操作";
+		const name = String(data.name || "").trim();
+		const friend = state.friends.find((f) => f.AID === data.AID && f.GID === data.GID);
+		const member = state.party.find((m) => m.AID === data.AID);
+		const guildMember = state.guild?.members.find((m) => m.AID === data.AID && m.GID === data.GID);
+		switch (action) {
+			case "addFriend":
+				if (!name || name.length > 24) return "请输入有效角色名";
+				FriendEngine.addFriend(name);
+				break;
+			case "removeFriend":
+				if (!friend) return "好友已变化";
+				FriendEngine.removeFriend(state.friends.indexOf(friend));
+				break;
+			case "createParty":
+				if (state.hasParty || !name || name.length > 24) return "无法创建队伍，请检查名称";
+				GroupEngine.onRequestCreation(name, Number(data.pickup) || 0, Number(data.division) || 0);
+				break;
+			case "inviteParty":
+				if (!state.leader || !state.hasParty || !name || name.length > 24) return "只有队长可以邀请有效角色";
+				GroupEngine.onRequestInvitation(0, name);
+				break;
+			case "leaveParty":
+				if (!state.hasParty) return "尚未加入队伍";
+				GroupEngine.onRequestLeave();
+				break;
+			case "expelParty":
+			case "leadParty":
+				if (!state.leader || !member || member.AID === SessionStorage_default.AID) return "队员或权限已变化";
+				if (action === "expelParty") GroupEngine.onRequestExpel(member.AID, member.characterName);
+				else GroupEngine.onRequestChangeLeader(member.AID);
+				break;
+			case "partyOptions":
+				if (!state.leader || ![
+					data.exp,
+					data.pickup,
+					data.division
+				].every((v) => v === 0 || v === 1)) return "队伍设置无效";
+				GroupEngine.onRequestInfoUpdate(data.exp, data.pickup, data.division);
+				break;
+			case "createGuild":
+				if (state.guild || !name || name.length > 24) return "无法创建公会，请检查名称";
+				GuildEngine.createGuild(name);
+				break;
+			case "leaveGuild":
+				if (!state.guild || state.master) return "公会会长不能直接离会";
+				GuildEngine.requestLeave(SessionStorage_default.AID, SessionStorage_default.GID, String(data.reason || "").slice(0, 40));
+				break;
+			case "breakGuild":
+				if (!state.master || name !== state.guildName) return "请确认完整公会名称";
+				GuildEngine.breakGuild(name);
+				break;
+			case "inviteGuild": {
+				if (!state.guild || !(state.master || state.rights & 1) || !name) return "没有邀请权限";
+				let target;
+				EntityManager.forEach((entity) => {
+					if (entity.objecttype === Entity.TYPE_PC && entity.display?.name === name) target = entity;
+				});
+				if (!target) return "请在附近找到该角色再邀请";
+				GuildEngine.requestPlayerInvitation(target.GID);
+				break;
+			}
+			case "guildNotice":
+				if (!state.master) return "仅会长可修改公告";
+				GuildEngine.requestNoticeUpdate(String(data.subject || "").slice(0, 60), String(data.notice || "").slice(0, 120));
+				break;
+			case "expelGuild":
+				if (!(state.master || state.rights & 16) || !guildMember || guildMember.AID === SessionStorage_default.AID) return "成员或权限已变化";
+				GuildEngine.requestMemberExpel(guildMember.AID, guildMember.GID, String(data.reason || "").slice(0, 40));
+				break;
+			case "learnGuildSkill": {
+				const skill = state.guildSkills.find((entry) => entry.SKID === data.id);
+				if (!skill?.learnable || skill.level + 1 !== data.level) return "技能或学习权限已变化";
+				pendingSkill = JSON.stringify([state.guild.points, state.guild.skills]);
+				Guild_default.onIncreaseSkill(data.id);
+				break;
+			}
+			case "bindGuildSkill": {
+				const skill = state.guildSkills.find((entry) => entry.SKID === data.id);
+				if (!state.master || !skill?.active || !Number.isInteger(data.level) || data.level < 1 || data.level > skill.level || !shortcuts.configure(data.slot, {
+					isSkill: true,
+					ID: data.id
+				}, data.level)) return "技能、等级或快捷槽已变化";
+				return "已设置快捷槽，关闭面板后可施放";
+			}
+			case "editGuildPosition": {
+				const position = state.guild?.positions.find((entry) => entry.positionID === data.position);
+				if (!state.master || !position || !name || name.length > 24 || !Number.isInteger(data.tax) || data.tax < 0 || data.tax > 50 || ![
+					0,
+					1,
+					16,
+					17
+				].includes(data.right)) return "职位、权限或税率无效";
+				GuildEngine.requestPositionUpdate([{
+					positionID: position.positionID,
+					ranking: position.ranking,
+					right: data.right,
+					posName: name,
+					payRate: data.tax
+				}]);
+				break;
+			}
+			case "guildAlliance":
+			case "guildHostility": {
+				if (!state.master || !state.guild || !name) return "仅会长可设置公会关系";
+				let target;
+				EntityManager.forEach((entity) => {
+					if (entity.objecttype === Entity.TYPE_PC && entity.display?.name === name && entity.GUID && entity.GUID !== SessionStorage_default.Entity.GUID) target = entity;
+				});
+				if (!target) return "请在附近找到其他公会的角色";
+				if (action === "guildAlliance") GuildEngine.requestAlliance(target.GID);
+				else GuildEngine.requestHostility(target.GID);
+				break;
+			}
+			case "removeGuildRelation": {
+				const relation = state.guild?.relations.find((entry) => entry.GDID === data.GDID && entry.relation === data.relation);
+				if (!state.master || !relation) return "公会关系或权限已变化";
+				GuildEngine.requestDeleteRelatedGuild(relation.GDID, relation.relation);
+				break;
+			}
+			case "guildPosition":
+				if (!state.master || !guildMember || !state.guild.positions.some((p) => p.positionID === data.position)) return "成员或职位已变化";
+				GuildEngine.requestChangeMemberPos([{
+					AID: guildMember.AID,
+					GID: guildMember.GID,
+					positionID: data.position
+				}]);
+				break;
+			default: return "未知操作";
+		}
+		return "已请求，等待服务器回复";
+	}
+	return {
+		snapshot,
+		act,
+		shortcutName(index) {
+			return shortcuts.slotName(index);
+		},
+		async uploadEmblem(file) {
+			const guildId = SessionStorage_default.Entity?.GUID;
+			if (!allowed() || !SessionStorage_default.hasGuild || !SessionStorage_default.isGuildMaster || !file || file.size > 5e4) return "没有上传权限或文件过大";
+			const data = new Uint8Array(await file.arrayBuffer());
+			const gif = data.length >= 6 && String.fromCharCode(...data.subarray(0, 6)).match(/^GIF8[79]a$/);
+			const bmp = data.length >= 30 && data[0] === 66 && data[1] === 77;
+			if (!gif && !bmp) return "请选择 BMP 或 GIF 徽章";
+			if (bmp && (data.length > 1783 || new DataView(data.buffer).getUint16(28, true) > 24)) return "BMP 徽章需为 24 位或以下，且不超过 1783 字节";
+			if (!allowed() || !SessionStorage_default.hasGuild || !SessionStorage_default.isGuildMaster || SessionStorage_default.Entity?.GUID !== guildId) return "公会或操作状态已变化";
+			Guild_default.onSendEmblem(data);
+			return "已请求上传徽章，结果以服务器回复为准";
+		},
+		refreshGuild() {
+			if (allowed() && SessionStorage_default.hasGuild) {
+				GuildEngine.requestAccess();
+				for (let type = 0; type <= 4; type++) GuildEngine.requestInfo(type);
+			}
+		}
+	};
+}
+var init_GameSocial = __esmMin((() => {
+	init_DBManager();
+	init_SkillInfo_generated();
+	init_SkillUse();
+	init_RagnarokText();
+	init_Entity$1();
+	init_SessionStorage();
+	init_PartyFriends();
+	init_Guild$1();
+	init_Friends();
+	init_Group();
+	init_Guild();
+	init_EntityManager();
+}));
+//#endregion
+//#region src/UI/Game/GameChat.js
+function chatChannel(message) {
+	const type = message.colorType || 0;
+	if (type & ChatBox_default.TYPE.PRIVATE) return "private";
+	if (type & ChatBox_default.TYPE.PARTY) return "party";
+	if (type & ChatBox_default.TYPE.GUILD) return "guild";
+	if (type & ChatBox_default.TYPE.CLAN) return "clan";
+	if (message.filterType === ChatBox_default.FILTER.PUBLIC_CHAT) return "public";
+	return "system";
+}
+function createGameChat(send, canOperate) {
+	return { send(text, channel, receiver = "") {
+		text = text.trim();
+		receiver = receiver.trim();
+		if (!canOperate() || !SessionStorage_default.Playing) return "当前不能发送消息";
+		if (!text || text.length > 120) return "请输入 1 至 120 个字符";
+		if (![
+			"public",
+			"private",
+			"party",
+			"guild",
+			"clan"
+		].includes(channel)) return "请选择聊天频道";
+		if (channel === "private" && (!receiver || receiver.length > 24)) return "请输入有效的私聊对象";
+		if (channel === "party" && !SessionStorage_default.hasParty) return "尚未加入队伍";
+		if (channel === "guild" && !SessionStorage_default.hasGuild) return "尚未加入公会";
+		send(text, channel, receiver);
+		return "";
+	} };
+}
+var init_GameChat = __esmMin((() => {
+	init_SessionStorage();
+	init_ChatBox();
+}));
+//#endregion
+//#region src/UI/Game/GameQuests.js
+function targets(quest) {
+	const result = [];
+	for (const text of [quest.summary, quest.description]) for (const match of String(text || "").matchAll(/<NAVI>(.*?)<INFO>(.*?)<\/INFO><\/NAVI>/gi)) {
+		const [id, x, y] = match[2].split(",");
+		if (id && Number.isFinite(Number(x)) && Number.isFinite(Number(y))) result.push({
+			id,
+			name: toPlainRagnarokText(match[1]),
+			x: Number(x),
+			y: Number(y)
+		});
+	}
+	if (quest.npc_navi && !result.length) {
+		const [id, x, y] = String(quest.npc_navi).split(",");
+		result.push({
+			id,
+			name: id,
+			x: Number(x ?? quest.npc_pos_x),
+			y: Number(y ?? quest.npc_pos_y)
+		});
+	}
+	return result;
+}
+function createGameQuests(canOperate) {
+	let pending = null;
+	function snapshot() {
+		const quests = Controller$3.getUI().getQuests().map((quest) => ({
+			...quest,
+			targets: targets(quest),
+			title: toPlainRagnarokText(quest.title) || `任务 ${quest.questID}`,
+			summary: toPlainRagnarokText(quest.summary),
+			description: toPlainRagnarokText(quest.description),
+			objectives: Object.values(quest.hunt_list || {}).map((hunt) => ({
+				name: hunt.mobName || `目标 ${hunt.mobGID || hunt.huntID}`,
+				count: hunt.huntCount,
+				total: hunt.maxCount
+			})),
+			rewards: (quest.reward_item_list || []).map((item) => ({
+				...item,
+				name: DB.getItemInfo(item.ItemID).identifiedDisplayName
+			}))
+		}));
+		if (pending && !quests.some((q) => q.questID === pending.id && q.active === pending.active)) pending = null;
+		return {
+			quests,
+			allowed: Boolean(canOperate() && SessionStorage_default.Playing),
+			pending: pending?.id
+		};
+	}
+	return {
+		snapshot,
+		toggle(id, active) {
+			const state = snapshot(), quest = state.quests.find((q) => q.questID === id);
+			if (!state.allowed || pending || !quest || quest.active !== active || active === 2) return false;
+			const pkt = new PACKET.CZ.ACTIVE_QUEST();
+			pkt.questID = id;
+			pkt.active = active === 1 ? 0 : 1;
+			pending = {
+				id,
+				active
+			};
 			Network.sendPacket(pkt);
 			return true;
 		}
-		SessionStorage_default.moveAction = pkt;
-		if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
-		else pkt = new PACKET.CZ.REQUEST_MOVE();
-		pkt.dest[0] = out[(count - 1) * 2 + 0];
-		pkt.dest[1] = out[(count - 1) * 2 + 1];
-		Network.sendPacket(pkt);
-	}
-}
-/**
-* Automatically targeting the closest enemy
-*/
-function autoTarget() {
-	const Player = SessionStorage_default.Entity;
-	const entityFocus = EntityManager.getFocusEntity();
-	const closestEntity = EntityManager.getClosestEntity(Player, SessionStorage_default.Entity.constructor.TYPE_MOB);
-	if (closestEntity) {
-		if (entityFocus && closestEntity.GID !== entityFocus.GID) {
-			entityFocus.onFocusEnd();
-			EntityManager.setFocusEntity(null);
-			closestEntity.onFocus();
-			EntityManager.setFocusEntity(closestEntity);
-		} else if (!entityFocus) {
-			closestEntity.onFocus();
-			EntityManager.setFocusEntity(closestEntity);
-		}
-	}
-	if (SessionStorage_default.AutoTargeting && SessionStorage_default.Playing) startAutoTarget();
-}
-/**
-* Starting automatic targeting cycle
-*/
-function startAutoTarget() {
-	window.setTimeout(autoTarget, C_AUTOTARGET_DELAY);
-}
-/**
-* Stop event propagation
-*/
-function stopPropagation$7(event) {
-	if (event && typeof event.preventDefault === "function") event.preventDefault();
-	event.stopImmediatePropagation();
-	return false;
-}
-/**
-* Auto follow logic
-*/
-function onAutoFollow$1() {
-	const root = MobileUI.getRoot();
-	if (SessionStorage_default.autoFollow) {
-		const player = SessionStorage_default.Entity;
-		const target = SessionStorage_default.autoFollowTarget;
-		const dx = Math.abs(player.position[0] - target.position[0]);
-		const dy = Math.abs(player.position[1] - target.position[1]);
-		if (dx > 1 || dy > 1) {
-			const dest = [0, 0];
-			if (checkFreeCell$2(Math.round(target.position[0]), Math.round(target.position[1]), 1, dest)) {
-				let pkt;
-				if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
-				else pkt = new PACKET.CZ.REQUEST_MOVE();
-				pkt.dest = dest;
-				Network.sendPacket(pkt);
-			}
-		}
-		Events.setTimeout(onAutoFollow$1, 500);
-	} else root.querySelector("#toggleAutoFollowButton").classList.remove("active");
-}
-/**
-* Picks up the nearest item - MicromeX
-*/
-function pickUpItem() {
-	const player = SessionStorage_default.Entity;
-	if (!player) return;
-	const closestItem = EntityManager.getClosestEntity(player, SessionStorage_default.Entity.constructor.TYPE_ITEM);
-	if (!closestItem) return;
-	let dx = Math.abs(player.position[0] - closestItem.position[0]);
-	let dy = Math.abs(player.position[1] - closestItem.position[1]);
-	if (dx < 0) dx = -dx;
-	if (dy < 0) dy = -dy;
-	if ((dx < dy ? dy : dx) > 2) {
-		const dest = [0, 0];
-		if (checkFreeCell$2(Math.round(closestItem.position[0]), Math.round(closestItem.position[1]), 1, dest)) {
-			let pkt;
-			if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
-			else pkt = new PACKET.CZ.REQUEST_MOVE();
-			pkt.dest = dest;
-			Network.sendPacket(pkt);
-		}
-	}
-	let pickUpPacket;
-	if (PacketVerManager_default.value >= 20180307) pickUpPacket = new PACKET.CZ.ITEM_PICKUP2();
-	else pickUpPacket = new PACKET.CZ.ITEM_PICKUP();
-	pickUpPacket.ITAID = closestItem.GID;
-	Network.sendPacket(pickUpPacket);
-}
-/**
-* Joystick handling for both mouse and touch input - MicromeX
-*/
-function setupJoystick() {
-	const root = MobileUI.getRoot();
-	_joystickBase = root.querySelector("#joystickBase");
-	_joystickThumb = root.querySelector("#joystickThumb");
-	maxDistance = _joystickBase.offsetWidth / 2;
-	_joystickThumb.addEventListener("mousedown", startDrag);
-	_joystickThumb.addEventListener("touchstart", startDrag);
-}
-function startDrag(event) {
-	event.preventDefault();
-	const touch = event.touches ? event.touches[0] : event;
-	const rect = _joystickBase.getBoundingClientRect();
-	centerX = rect.left + rect.width / 2;
-	centerY = rect.top + rect.height / 2;
-	document.addEventListener("mousemove", moveJoystick);
-	document.addEventListener("mouseup", stopDrag);
-	document.addEventListener("touchmove", moveJoystick);
-	document.addEventListener("touchend", stopDrag);
-	moveJoystick(touch);
-	startMovement();
-}
-function moveJoystick(event) {
-	const deadZone = 15;
-	const touch = event.touches ? event.touches[0] : event;
-	const deltaX = touch.clientX - centerX;
-	const deltaY = touch.clientY - centerY;
-	const distance = Math.min(Math.sqrt(deltaX ** 2 + deltaY ** 2), maxDistance);
-	const angle = Math.atan2(deltaY, deltaX);
-	const offsetX = Math.cos(angle) * distance;
-	const offsetY = Math.sin(angle) * distance;
-	_joystickThumb.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-	if (distance < deadZone) {
-		normalizedX = 0;
-		normalizedY = 0;
-		return;
-	}
-	normalizedX = offsetX / maxDistance;
-	normalizedY = -offsetY / maxDistance;
-}
-function stopDrag() {
-	_joystickThumb.style.transform = "translate(0, 0)";
-	normalizedX = 0;
-	normalizedY = 0;
-	stopMovement();
-	document.removeEventListener("mousemove", moveJoystick);
-	document.removeEventListener("mouseup", stopDrag);
-	document.removeEventListener("touchmove", moveJoystick);
-	document.removeEventListener("touchend", stopDrag);
-}
-function startMovement() {
-	const tileSize = 3;
-	if (movementTimer) clearInterval(movementTimer);
-	const executeMove = () => {
-		if (normalizedX !== 0 || normalizedY !== 0) moveCharacter(normalizedX, normalizedY, tileSize);
 	};
-	executeMove();
-	movementTimer = setInterval(executeMove, 100);
 }
-function stopMovement() {
-	if (movementTimer) {
-		clearInterval(movementTimer);
-		movementTimer = null;
+var init_GameQuests = __esmMin((() => {
+	init_Quest$1();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_SessionStorage();
+	init_DBManager();
+	init_RagnarokText();
+}));
+//#endregion
+//#region src/UI/Game/GameMaps.js
+function createGameMaps() {
+	const config = Configs.get("worldMapSettings", {
+		episode: 98,
+		add: [],
+		remove: []
+	});
+	const episode = config.episode ?? 98;
+	return {
+		regions: WorldMap_default$3.filter((region) => episode >= region.ep_from && episode < region.ep_to).map((region) => ({
+			...region,
+			maps: region.maps.filter((map) => (episode >= map.ep_from && episode < map.ep_to || config.add?.includes(map.id)) && !config.remove?.includes(map.id))
+		})),
+		current: () => MapRenderer.currentMap.replace(/\.gat$/i, ""),
+		loadRegion: (id, done) => Client.loadFile(DB.INTERFACE_PATH + id, done),
+		loadMap: (id, done) => Client.loadFile(`${DB.INTERFACE_PATH}map/${id}.bmp`, done),
+		mapName: (id) => DB.getMapName(`${id}.gat`, id)
+	};
+}
+var init_GameMaps = __esmMin((() => {
+	init_WorldMap$3();
+	init_Configs();
+	init_Client();
+	init_DBManager();
+	init_MapRenderer();
+}));
+//#endregion
+//#region src/UI/Game/GameContainers.js
+function createGameContainers(canOperate) {
+	const inventory = createGameInventory(canOperate);
+	function available() {
+		return canOperate() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
 	}
-}
-/**
-* Moves the character to a new tile and waits for the movement to complete.
-* @param {number} x - Normalized x-axis input (-1 to 1)
-* @param {number} y - Normalized y-axis input (-1 to 1)
-* @param {number} tileSize - The size of each tile in the game world
-*/
-function moveCharacter(x, y, tileSize) {
-	const player = SessionStorage_default.Entity;
-	if (!player) return;
-	direction[0] = x;
-	direction[1] = y;
-	mat2.identity(rotate);
-	mat2.rotate(rotate, rotate, -Camera.direction * 45 / 180 * Math.PI);
-	vec2.transformMat2(direction, direction, rotate);
-	const newPos = [Math.round(player.position[0] + direction[0] * tileSize), Math.round(player.position[1] + direction[1] * tileSize)];
-	const dest = [0, 0];
-	if (checkFreeCell$2(newPos[0], newPos[1], 5, dest)) {
-		if (targetPos[0] !== dest[0] || targetPos[1] !== dest[1]) {
-			targetPos[0] = dest[0];
-			targetPos[1] = dest[1];
-			let movePacket;
-			if (PacketVerManager_default.value >= 20180307) movePacket = new PACKET.CZ.REQUEST_MOVE2();
-			else movePacket = new PACKET.CZ.REQUEST_MOVE();
-			movePacket.dest[0] = dest[0];
-			movePacket.dest[1] = dest[1];
-			Network.sendPacket(movePacket);
+	function sources() {
+		return [
+			"inventory",
+			...interactionSnapshot()?.kind === "storage" ? ["storage"] : [],
+			...SessionStorage_default.Entity?.hasCart ? ["cart"] : []
+		];
+	}
+	function raw(source) {
+		if (source === "storage") return StorageController.getUI().getItems();
+		if (source === "cart") return CartItems_default.list;
+		const worn = new Set(EquipmentController.getUI().getItems().map((item) => item.index));
+		return InventoryController.getUI().list.filter((item) => !item.equipped && !worn.has(item.index));
+	}
+	return {
+		snapshot(source) {
+			const containers = sources();
+			return {
+				containers,
+				allowed: Boolean(available()),
+				items: containers.includes(source) ? raw(source).map(inventory.describe).filter((item) => item.count > 0) : [],
+				capacity: source === "storage" ? StorageController.getUI().getCapacity() : source === "cart" ? CartItems_default.capacity : null
+			};
+		},
+		transfer(source, destination, index, id, count) {
+			const containers = sources();
+			if (!available() || source === destination || !containers.includes(source) || !containers.includes(destination)) return "当前不能转移物品";
+			const item = raw(source).find((entry) => entry.index === index && entry.ITID === id);
+			if (!item || !Number.isInteger(count) || count < 1 || count > 2147483647 || count > inventory.describe(item).count) return "物品或数量已经变化，请重新选择";
+			({
+				"inventory:storage": StorageController.reqAddItem,
+				"storage:inventory": StorageController.reqRemoveItem,
+				"cart:storage": StorageController.reqAddItemFromCart,
+				"storage:cart": StorageController.reqMoveItemToCart,
+				"inventory:cart": InventoryController.getUI().reqMoveItemToCart,
+				"cart:inventory": CartItems_default.reqRemoveItem
+			})[`${source}:${destination}`](index, count);
+			return "已请求转移，等待服务器更新";
 		}
-	}
+	};
 }
-/**
-* Talk to NPC Button Function - MicromeX
-*/
-function setupTalkToNpcButton() {
-	const talkButton = MobileUI.getRoot().querySelector("#talktonpcButton");
-	function findNearestNpc() {
-		const player = SessionStorage_default.Entity;
-		if (!player) return null;
-		let nearestNpc = null;
-		let minDistance = 3;
-		EntityManager.forEach((entity) => {
-			if (entity.objecttype === entity.constructor.TYPE_NPC) {
-				const dx = entity.position[0] - player.position[0];
-				const dy = entity.position[1] - player.position[1];
-				const distance = Math.sqrt(dx ** 2 + dy ** 2);
-				if (distance <= minDistance) {
-					minDistance = distance;
-					nearestNpc = entity;
+var init_GameContainers = __esmMin((() => {
+	init_SessionStorage();
+	init_Inventory();
+	init_Equipment();
+	init_Storage$1();
+	init_CartItems();
+	init_GameInventory();
+	init_ServerInteraction();
+}));
+//#endregion
+//#region src/UI/Game/GameSkills.js
+function createGameSkills(canOperate, shortcuts) {
+	const icons = /* @__PURE__ */ new Map();
+	let pending = null;
+	function snapshot() {
+		const ui = Controller$4.getUI();
+		const learned = new Map(ui.getSkills().map((skill) => [skill.SKID, skill]));
+		const ids = new Set(learned.keys());
+		let job = SessionStorage_default.Entity?._job ?? SessionStorage_default.Entity?.job;
+		while (job !== null && SkillTreeView_generated_default[job]) {
+			const tree = SkillTreeView_generated_default[job];
+			for (const key of Object.keys(tree)) if (/^\d+$/.test(key)) ids.add(Number(key));
+			job = tree.beforeJob;
+		}
+		if (pending && pending.revision !== ui.getSkillRevision()) pending = null;
+		const points = ui.getSkillPoints();
+		const allowed = Boolean(canOperate() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
+		return {
+			points,
+			allowed,
+			skills: [...ids].filter((id) => SkillInfo_generated_default[id]).map((id) => {
+				const info = SkillInfo_generated_default[id], skill = learned.get(id), level = skill?.level || 0;
+				if (!icons.has(id)) {
+					icons.set(id, "");
+					Client.loadFile(`${DB.INTERFACE_PATH}item/${info.Name}.bmp`, (url) => icons.set(id, url));
 				}
-			}
-		});
-		return nearestNpc;
+				const requirements = (info._NeedSkillList || []).map(([need, required]) => `${SkillInfo_generated_default[need]?.SkillName || need} ${learned.get(need)?.level || 0}/${required}`);
+				const reason = !allowed ? "当前不能学习技能" : pending ? "等待服务器更新技能" : !points ? "技能点不足" : !skill?.upgradable ? "尚未满足学习条件，或已达到可学习上限" : "";
+				return {
+					id,
+					name: info.SkillName,
+					icon: icons.get(id),
+					description: toPlainRagnarokText(DB.getSkillDescription(id)),
+					level,
+					max: Math.max(info.MaxLv, level),
+					active: canExecuteSkill(skill),
+					kind: level ? skill.type === 0 ? "被动" : "主动" : "未学习",
+					requirements,
+					reason,
+					learnable: !reason
+				};
+			})
+		};
 	}
-	function talkToNearestNpc() {
-		const nearestNpc = findNearestNpc();
-		if (!nearestNpc) return;
-		const talkPacket = new PACKET.CZ.CONTACTNPC();
-		talkPacket.NAID = nearestNpc.GID;
-		Network.sendPacket(talkPacket);
-	}
-	talkButton.addEventListener("click", talkToNearestNpc);
+	return {
+		snapshot,
+		learn(id, expectedLevel) {
+			const skill = snapshot().skills.find((entry) => entry.id === id);
+			if (!skill || !skill.learnable || skill.level + 1 !== expectedLevel) return "技能状态已经变化，请重新确认";
+			pending = { revision: Controller$4.getUI().getSkillRevision() };
+			Controller$4.getUI().onIncreaseSkill(id);
+			return "已请求学习一级，等待服务器更新";
+		},
+		bind(id, level, slot) {
+			const state = snapshot();
+			const skill = state.skills.find((entry) => entry.id === id);
+			return Boolean(state.allowed && skill?.active && Number.isInteger(level) && level > 0 && level <= skill.level && shortcuts.configure(slot, {
+				isSkill: true,
+				ID: id
+			}, level));
+		}
+	};
 }
-/**
-* Search free cells around a position
-*
-* @param {number} x
-* @param {number} y
-* @param {number} range
-* @param {array} out
-*/
-function checkFreeCell$2(x, y, range, out) {
-	let _x, _y, r;
-	const d_x = SessionStorage_default.Entity.position[0] < x ? -1 : 1;
-	const d_y = SessionStorage_default.Entity.position[1] < y ? -1 : 1;
-	for (r = 0; r <= range; ++r) for (_x = -r; _x <= r; ++_x) for (_y = -r; _y <= r; ++_y) if (isFreeCell$2(x + _x * d_x, y + _y * d_y)) {
-		out[0] = x + _x * d_x;
-		out[1] = y + _y * d_y;
-		return true;
-	}
-	return false;
+var init_GameSkills = __esmMin((() => {
+	init_SkillList();
+	init_SkillInfo_generated();
+	init_SkillTreeView_generated();
+	init_SkillUse();
+	init_DBManager();
+	init_Client();
+	init_SessionStorage();
+	init_RagnarokText();
+}));
+//#endregion
+//#region src/UI/Game/CharacterStats.js
+function updateCharacterStat(entity, type, value) {
+	if (!entity) return;
+	if (!values.has(entity)) values.set(entity, {});
+	values.get(entity)[type] = value;
 }
-/**
-* Does a cell is free (walkable, and no entity on)
-*
-* @param {number} x
-* @param {number} y
-* @param {returns} is free
-*/
-function isFreeCell$2(x, y) {
-	if (!(Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE)) return false;
-	let free = true;
-	EntityManager.forEach((entity) => {
-		if (entity.objecttype !== entity.constructor.TYPE_EFFECT && entity.objecttype !== entity.constructor.TYPE_UNIT && entity.objecttype !== entity.constructor.TYPE_TRAP && Math.round(entity.position[0]) === x && Math.round(entity.position[1]) === y) {
-			free = false;
+function characterStats(entity) {
+	const state = values.get(entity) || {};
+	const pair = (key, bonus = key + "2") => state[key] === void 0 ? "—" : `${state[key]}${state[bonus] ? ` ${state[bonus] < 0 ? "−" : "+"} ${Math.abs(state[bonus])}` : ""}`;
+	return [
+		...[
+			["str", "力量"],
+			["agi", "敏捷"],
+			["vit", "体力"],
+			["int", "智力"],
+			["dex", "灵巧"],
+			["luk", "幸运"],
+			["atak", "物理攻击"],
+			["matak", "魔法攻击"],
+			["def", "物理防御"],
+			["mdef", "魔法防御"],
+			["flee", "回避"]
+		].map(([key, label]) => ({
+			key,
+			label,
+			value: pair(key)
+		})),
+		...[["hit", "命中"], ["critical", "暴击"]].map(([key, label]) => ({
+			key,
+			label,
+			value: state[key] ?? "—"
+		})),
+		{
+			key: "aspd",
+			label: "攻击速度",
+			value: state.aspd === void 0 ? "—" : Math.floor(200 - state.aspd / 10)
+		}
+	];
+}
+var values;
+var init_CharacterStats = __esmMin((() => {
+	values = /* @__PURE__ */ new WeakMap();
+}));
+//#endregion
+//#region src/UI/Game/ShortcutController.js
+/** UI-independent shortcut flow. Reads current server-backed state again before every use. */
+function createShortcutController(data) {
+	let page = 0, pending = null, message = "";
+	const count = () => Math.min(36, data.bindings().length);
+	const pages = () => Math.max(1, Math.ceil(count() / 3));
+	function describe(index) {
+		const binding = data.bindings()[index];
+		if (!binding?.ID) return {
+			index,
+			empty: true,
+			name: "空槽位",
+			available: true
+		};
+		const entry = data.describe(binding);
+		const cooldown = binding.isSkill ? data.cooldown(binding.ID) : 0;
+		let reason = entry.reason || "";
+		if (!reason && cooldown > 0) reason = `冷却 ${Math.ceil(cooldown / 1e3)} 秒`;
+		if (!reason && !data.canUse()) reason = "当前无法使用";
+		return {
+			...entry,
+			index,
+			binding: { ...binding },
+			cooldown,
+			reason,
+			available: !reason,
+			empty: false
+		};
+	}
+	function validPending() {
+		if (!pending) return false;
+		const current = describe(pending.index);
+		return current.available && data.self(pending.binding.ID) === pending.caster && current.binding?.isSkill && current.binding.ID === pending.binding.ID && current.binding.count === pending.binding.count;
+	}
+	function cancel() {
+		pending = null;
+		data.supportPicking(false);
+	}
+	function castTarget(target) {
+		if (!pending) return false;
+		if (!validPending()) {
+			cancel();
 			return false;
 		}
+		if (!data.canTarget(target, pending.inf, pending.binding.ID)) return false;
+		const { index, binding } = pending;
+		const current = describe(index);
+		if (!current.available || current.binding?.ID !== binding.ID || current.binding?.count !== binding.count) {
+			cancel();
+			return false;
+		}
+		cancel();
+		if (data.castId(binding.ID, binding.count, target.GID) === false) message = "无法施放，请先靠近目标";
 		return true;
-	});
-	return free;
+	}
+	function use(index) {
+		message = "";
+		cancel();
+		const entry = describe(index);
+		if (entry.empty) return { configure: index };
+		if (!entry.available) return { message: entry.reason };
+		const binding = entry.binding;
+		if (!binding.isSkill) {
+			data.useItem(binding.ID);
+			return {};
+		}
+		executeSkillUse(data.skill(binding.ID), binding.count, {
+			onUseSkill: (id, level) => data.castId(id, level),
+			onSelectTarget: (_, inf) => {
+				pending = {
+					index,
+					binding,
+					inf,
+					name: entry.name,
+					caster: data.self(binding.ID)
+				};
+				data.supportPicking(Boolean(inf & SKILL_INF.FRIEND));
+				if (!(inf & SKILL_INF.PLACE)) castTarget(data.target());
+			}
+		});
+		return { message };
+	}
+	return {
+		slotName(index) {
+			return describe(index).name;
+		},
+		snapshot() {
+			page = Math.min(page, pages() - 1);
+			if (pending && (!data.canUse() || !validPending())) cancel();
+			return {
+				page,
+				pages: pages(),
+				slots: Array.from({ length: Math.min(3, Math.max(0, count() - page * 3)) }, (_, i) => describe(page * 3 + i)),
+				pending: pending ? {
+					name: pending.name,
+					ground: Boolean(pending.inf & SKILL_INF.PLACE),
+					self: Boolean(pending.inf & SKILL_INF.FRIEND)
+				} : null
+			};
+		},
+		turn(delta) {
+			cancel();
+			page = (page + delta + pages()) % pages();
+		},
+		candidates() {
+			return data.candidates();
+		},
+		configure(index, choice, level) {
+			if (!Number.isInteger(index) || index < 0 || index >= count()) return false;
+			cancel();
+			if (!choice) return data.configure(index, false, 0, 0);
+			if (choice.isSkill) {
+				const skill = data.skill(choice.ID);
+				if (!canExecuteSkill(skill) || !Number.isInteger(level) || level < 1 || level > skill.level) return false;
+			} else if (!data.hasItem(choice.ID)) return false;
+			return data.configure(index, choice.isSkill, choice.ID, choice.isSkill ? level : 0);
+		},
+		use,
+		pick(x, y) {
+			if (!pending) return false;
+			if (!validPending()) {
+				cancel();
+				return true;
+			}
+			const hit = data.pick(x, y);
+			if (pending.inf & SKILL_INF.PLACE) {
+				if (hit.ground) {
+					const { index, binding } = pending;
+					if (describe(index).available) {
+						cancel();
+						data.castGround(binding.ID, binding.count, hit.ground[0], hit.ground[1]);
+					} else cancel();
+				}
+			} else castTarget(hit.target);
+			return true;
+		},
+		self() {
+			return pending ? castTarget(data.self(pending.binding.ID)) : false;
+		},
+		cancel
+	};
 }
-var vec2, mat2, direction, rotate, targetPos, movementTimer, MobileUI, _preferences$18, showButtons, C_AUTOTARGET_DELAY, C_TOUCH_CLICK_GUARD, centerX, centerY, maxDistance, normalizedX, normalizedY, _joystickBase, _joystickThumb, MobileUI_default;
-var init_MobileUI = __esmMin((() => {
-	init_Context();
+var init_ShortcutController = __esmMin((() => {
+	init_SkillUse();
+}));
+//#endregion
+//#region src/UI/Game/GameShortcuts.js
+function caster(id) {
+	if (id > SkillConst_default.HOMUN_BEGIN && id < SkillConst_default.HOMUN_LAST) return EntityManager.get(SessionStorage_default.homunId);
+	if (id > SkillConst_default.MERCENARY_BEGIN && id < SkillConst_default.MERCENARY_LAST) return EntityManager.get(SessionStorage_default.mercId);
+	return SessionStorage_default.Entity;
+}
+function createGameShortcuts(moving = () => false) {
+	const icons = /* @__PURE__ */ new Map();
+	function icon(file) {
+		if (!file) return "";
+		if (!icons.has(file)) {
+			icons.set(file, "");
+			Client.loadFile(`${DB.INTERFACE_PATH}item/${file}.bmp`, (url) => icons.set(file, url));
+		}
+		return icons.get(file);
+	}
+	function describe(binding) {
+		if (binding.isSkill) {
+			const skill = ShortCut_default.getSkillById(binding.ID), info = SkillInfo_generated_default[binding.ID];
+			let reason = !canExecuteSkill(skill) ? "技能不可用" : binding.count < 1 || binding.count > skill.level ? "技能等级不可用" : "";
+			if (!reason && binding.ID > 1e4 && binding.ID < 10100 && (!SessionStorage_default.hasGuild || !SessionStorage_default.isGuildMaster)) reason = "没有公会技能使用权限";
+			const actor = caster(binding.ID);
+			if (!reason && (!actor || actor.action === actor.ACTION.DIE || actor.remove_tick > 0)) reason = "施法者不可用";
+			if (!reason && binding.count === skill.level && skill.spcost > actor.life.sp) reason = "SP 不足";
+			return {
+				name: info?.SkillName || `技能 ${binding.ID}`,
+				icon: icon(info?.Name),
+				amount: `Lv.${binding.count}`,
+				reason
+			};
+		}
+		const item = InventoryController.getUI().getItemById(binding.ID), info = DB.getItemInfo(binding.ID);
+		const file = item && !item.IsIdentified ? info.unidentifiedResourceName : info.identifiedResourceName;
+		const reason = !itemQuantity(item) ? "道具已用完" : !usableItems.includes(item.type) ? "此物品不能快捷使用" : equipment$1.includes(item.type) && (!item.IsIdentified || item.IsDamaged) ? "装备不可用" : "";
+		return {
+			name: item ? DB.getItemName(item) : info.identifiedDisplayName,
+			icon: icon(file),
+			amount: itemQuantity(item),
+			reason
+		};
+	}
+	return createShortcutController({
+		bindings: () => ShortCut_default.getList(),
+		skill: (id) => ShortCut_default.getSkillById(id),
+		cooldown: remainingCooldown,
+		describe,
+		canUse: () => Boolean(SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE),
+		target: () => EntityManager.getFocusEntity(),
+		self: (id) => caster(id),
+		supportPicking: (value) => EntityManager.setSupportPicking(value),
+		canTarget: (target, flag, id) => Boolean(target && EntityManager.get(target.GID) === target && canTargetSkill(target, flag, {
+			self: caster(id),
+			canAttack: SkillTargetSelection_default.checkMapState
+		})),
+		castId: (id, level, target) => SkillTargetSelection_default.onUseSkillToId(id, level, target, { allowMove: !moving() }),
+		castGround: (...args) => SkillTargetSelection_default.onUseSkillToPos(...args),
+		useItem: (id) => {
+			const item = InventoryController.getUI().getItemById(id);
+			if (item) InventoryController.getUI().useItem(item);
+		},
+		hasItem: (id) => {
+			const item = InventoryController.getUI().getItemById(id);
+			return Boolean(itemQuantity(item) && usableItems.includes(item.type));
+		},
+		configure: (...args) => ShortCut_default.configure(...args),
+		candidates: () => [...[
+			...Controller$4.getUI().getSkills(),
+			...EntityManager.get(SessionStorage_default.homunId) ? SkillListMH_default.homunculus.getSkills() : [],
+			...EntityManager.get(SessionStorage_default.mercId) ? SkillListMH_default.mercenary.getSkills() : [],
+			...SessionStorage_default.hasGuild && SessionStorage_default.isGuildMaster ? Guild_default.getSocialSnapshot().skills : []
+		].filter(canExecuteSkill).map((skill) => ({
+			isSkill: true,
+			ID: skill.SKID,
+			level: skill.level,
+			...describe({
+				isSkill: true,
+				ID: skill.SKID,
+				count: skill.level
+			})
+		})), ...InventoryController.getUI().list.filter((item) => itemQuantity(item) && usableItems.includes(item.type)).filter((item, i, list) => list.findIndex((other) => other.ITID === item.ITID) === i).map((item) => ({
+			isSkill: false,
+			ID: item.ITID,
+			...describe({
+				isSkill: false,
+				ID: item.ITID
+			})
+		}))],
+		pick: (x, y) => {
+			Mouse.screen.x = x;
+			Mouse.screen.y = y;
+			const pos = [];
+			return {
+				ground: Altitude.intersect(Camera.modelView, Camera.projection, pos) ? pos : null,
+				target: EntityManager.intersect()
+			};
+		}
+	});
+}
+var init_GameShortcuts = __esmMin((() => {
+	init_Guild$1();
+	init_ShortCut();
+	init_Inventory();
+	init_SkillList();
+	init_SkillTargetSelection();
+	init_SkillUse();
+	init_SkillInfo_generated();
+	init_SkillConst();
+	init_SkillListMH();
+	init_InventoryItems();
+	init_DBManager();
+	init_Client();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Camera();
+	init_Altitude();
+	init_MouseEventHandler();
+	init_SkillCooldowns();
+	init_ShortcutController();
+	init_SkillTargets();
+}));
+//#endregion
+//#region src/UI/Game/GameCommands.js
+function selectedTarget() {
+	const target = EntityManager.getFocusEntity();
+	return target && EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE ? target : null;
+}
+function canAttack(target) {
+	if (!target || target === SessionStorage_default.Entity) return false;
+	const T = target.constructor;
+	return [
+		T.TYPE_MOB,
+		T.TYPE_UNIT,
+		T.TYPE_NPC_ABR,
+		T.TYPE_NPC_BIONIC
+	].includes(target.objecttype) || [
+		T.TYPE_PC,
+		T.TYPE_ELEM,
+		T.TYPE_HOM
+	].includes(target.objecttype) && target.canAttackEntity();
+}
+function stopAttack() {
+	releaseAttack();
+	SessionStorage_default.moveAction = null;
+	if (SessionStorage_default.Playing) Network.sendPacket(new PACKET.CZ.CANCEL_LOCKON());
+}
+function attackSelected(moving = false) {
+	const target = selectedTarget();
+	if (canAttack(target)) {
+		ownAttack(target.GID, () => {
+			if (!SessionStorage_default.FreezeUI && selectedTarget() === target) target.onFocus({
+				attack: true,
+				allowMove: !moving
+			});
+		});
+		target.onFocus({
+			attack: true,
+			allowMove: !moving
+		});
+	}
+}
+function moveDirection(x, y) {
+	const player = SessionStorage_default.Entity;
+	if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
+	Navigation_default.stopAutoWalk();
+	MapControl.onRequestStopWalk();
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	const angle = -Camera.direction * Math.PI / 4;
+	const dx = x * Math.cos(angle) - y * Math.sin(angle);
+	const dy = x * Math.sin(angle) + y * Math.cos(angle);
+	const dest = [];
+	if (!checkFreeCell$1(Math.round(player.position[0] + dx * 3), Math.round(player.position[1] + dy * 3), 1, dest)) return;
+	const packet = new PACKET.CZ.REQUEST_MOVE2();
+	packet.dest[0] = dest[0];
+	packet.dest[1] = dest[1];
+	Network.sendPacket(packet);
+}
+function tapScene(x, y) {
+	Mouse.screen.x = x;
+	Mouse.screen.y = y;
+	const pos = [];
+	const ground = Altitude.intersect(Camera.modelView, Camera.projection, pos);
+	Mouse.world.x = ground ? pos[0] : -1;
+	Mouse.world.y = ground ? pos[1] : -1;
+	const target = EntityManager.intersect();
+	const previous = EntityManager.getFocusEntity();
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	if (target && target !== SessionStorage_default.Entity) {
+		if (previous && previous !== target) previous.onFocusEnd();
+		EntityManager.setFocusEntity(target);
+		EntityManager.setOverEntity(target);
+		target.onFocus({ attack: false });
+		return;
+	}
+	if (ground) {
+		MapControl.onRequestWalk();
+		MapControl.onRequestStopWalk();
+	}
+}
+function interactSelected() {
+	const target = selectedTarget();
+	if (!target) return;
+	const T = target.constructor;
+	if (target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)) {
+		target.onRoomEnter();
+		return;
+	}
+	if (target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity) {
+		UIManager.showPromptBox(`向 ${target.display.name} 发起交易？`, "ok", "cancel", () => {
+			if (SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && selectedTarget() === target) Trade_default.reqExchange(target.GID, target.display.name);
+		});
+		return;
+	}
+	if (![
+		T.TYPE_NPC,
+		T.TYPE_NPC2,
+		T.TYPE_ITEM,
+		T.TYPE_WARP
+	].includes(target.objecttype)) return;
+	Mouse.world.x = Math.round(target.position[0]);
+	Mouse.world.y = Math.round(target.position[1]);
+	target.onMouseDown();
+}
+function targetSnapshot() {
+	const target = selectedTarget();
+	if (!target) return {
+		name: "点击目标进行选择",
+		attack: false,
+		interaction: ""
+	};
+	const T = target.constructor;
+	return {
+		name: target.display.name || "已选目标",
+		attack: canAttack(target),
+		interaction: target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type) ? "查看摊位" : target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? "交易" : target.objecttype === T.TYPE_ITEM ? "拾取" : target.objecttype === T.TYPE_WARP ? "进入" : [T.TYPE_NPC, T.TYPE_NPC2].includes(target.objecttype) ? "交谈" : ""
+	};
+}
+function adjustCamera(action) {
+	const indoor = DB.isIndoor(Camera.currentMap);
+	if (action === "zoomIn" || action === "zoomOut") Camera.setZoom(action === "zoomIn" ? 1 : -1);
+	else if (action === "reset") {
+		Camera.angleFinal[0] = indoor ? Camera.indoorRange : Camera.range;
+		Camera.angleFinal[1] = indoor ? Camera.indoorRotationTo : 0;
+		Camera.zoomFinal = 125;
+	} else {
+		const tilt = action === "up" || action === "down";
+		const index = tilt ? 0 : 1;
+		const min = tilt ? indoor ? Camera.MIN_ALTITUDE_INDOOR : Camera.MIN_V_ANGLE : indoor ? Camera.indoorRotationFrom : Camera.rotationFrom;
+		const max = tilt ? indoor ? Camera.MAX_ALTITUDE_INDOOR : Camera.MAX_V_ANGLE : indoor ? Camera.indoorRotationTo : Camera.rotationTo;
+		const delta = tilt ? action === "up" ? 5 : -5 : action === "left" ? -15 : 15;
+		Camera.angleFinal[index] = Math.max(min, Math.min(max, Camera.angleFinal[index] + delta));
+	}
+	Camera.save();
+}
+var init_GameCommands = __esmMin((() => {
+	init_Trade$1();
+	init_UIManager();
+	init_AttackIntent();
+	init_DBManager();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Camera();
+	init_Altitude();
+	init_MouseEventHandler();
+	init_MapControl();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_Navigation();
+}));
+//#endregion
+//#region src/UI/Mobile/game/PointerControls.js
+/** Each control owns one pointer; releasing a button never releases the joystick. */
+function bindPointerControls(root, scene, actions) {
+	const abort = new AbortController();
+	const joystick = root.querySelector(".joystick");
+	const attack = root.querySelector(".attack");
+	const skills = [...root.querySelectorAll("[data-shortcut]")];
+	const knob = joystick.querySelector("span");
+	const owners = /* @__PURE__ */ new Map();
+	let vector = [0, 0], timer, sceneStart, attackTicks = 0;
+	const listen = (node, type, fn) => node.addEventListener(type, fn, { signal: abort.signal });
+	const moving = () => vector[0] !== 0 || vector[1] !== 0;
+	function tick() {
+		if (!actions.enabled()) {
+			cancel();
+			return;
+		}
+		if (moving()) actions.move(...vector);
+		if (owners.has(attack) && moving() && ++attackTicks % 3 === 0) actions.attack(true);
+	}
+	function update(event) {
+		const rect = joystick.getBoundingClientRect(), radius = rect.width * .3;
+		let x = event.clientX - rect.left - rect.width / 2;
+		let y = event.clientY - rect.top - rect.height / 2;
+		const distance = Math.hypot(x, y);
+		if (distance > radius) {
+			x *= radius / distance;
+			y *= radius / distance;
+		}
+		knob.style.transform = `translate(${x}px, ${y}px)`;
+		vector = distance < radius * .2 ? [0, 0] : [x / Math.max(1, Math.hypot(x, y)), -y / Math.max(1, Math.hypot(x, y))];
+	}
+	function release(node) {
+		const id = owners.get(node);
+		if (id === void 0) return;
+		owners.delete(node);
+		if (node.hasPointerCapture(id)) node.releasePointerCapture(id);
+		node.classList.remove("held");
+		if (!owners.size) {
+			clearInterval(timer);
+			timer = null;
+		}
+		if (node === joystick) {
+			vector = [0, 0];
+			knob.style.transform = "";
+			actions.stopMove();
+		} else if (node === attack) actions.stopAttack();
+	}
+	function cancel() {
+		release(joystick);
+		release(attack);
+		for (const skill of skills) release(skill);
+		if (sceneStart && scene.hasPointerCapture(sceneStart.id)) scene.releasePointerCapture(sceneStart.id);
+		sceneStart = null;
+	}
+	for (const node of [
+		joystick,
+		attack,
+		...skills
+	]) {
+		listen(node, "pointerdown", (event) => {
+			event.preventDefault();
+			if (!actions.enabled() || owners.has(node) || event.button !== 0) return;
+			owners.set(node, event.pointerId);
+			node.setPointerCapture(event.pointerId);
+			node.classList.add("held");
+			if (node === joystick) {
+				actions.startMove?.();
+				actions.stopMove();
+				update(event);
+				tick();
+				if (owners.has(attack)) actions.attack(moving());
+			} else if (node === attack) {
+				attackTicks = 0;
+				actions.attack(moving());
+			}
+			if (!timer) timer = setInterval(tick, 200);
+		});
+		listen(node, "pointermove", (event) => {
+			if (node === joystick && owners.get(node) === event.pointerId) update(event);
+		});
+		for (const type of [
+			"pointerup",
+			"pointercancel",
+			"lostpointercapture"
+		]) listen(node, type, (event) => {
+			if (owners.get(node) !== event.pointerId) return;
+			const rect = node.getBoundingClientRect();
+			const activate = skills.includes(node) && type === "pointerup" && actions.enabled() && event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+			release(node);
+			if (activate) actions.shortcut(Number(node.dataset.shortcut));
+		});
+	}
+	const oldTouchAction = scene.style.touchAction;
+	scene.style.touchAction = "none";
+	for (const type of [
+		"touchstart",
+		"touchmove",
+		"touchend",
+		"touchcancel",
+		"mousedown",
+		"mouseup",
+		"contextmenu"
+	]) listen(scene, type, (event) => {
+		event.preventDefault();
+		event.stopPropagation();
+	});
+	listen(scene, "pointerdown", (event) => {
+		if (!actions.enabled() || owners.size || sceneStart || event.button !== 0) return;
+		sceneStart = {
+			id: event.pointerId,
+			x: event.clientX,
+			y: event.clientY
+		};
+		scene.setPointerCapture(event.pointerId);
+	});
+	listen(scene, "pointermove", (event) => {
+		if (sceneStart?.id === event.pointerId && Math.hypot(event.clientX - sceneStart.x, event.clientY - sceneStart.y) > 12) sceneStart.cancelled = true;
+	});
+	listen(scene, "pointerup", (event) => {
+		if (sceneStart?.id !== event.pointerId) return;
+		const start = sceneStart;
+		sceneStart = null;
+		if (scene.hasPointerCapture(event.pointerId)) scene.releasePointerCapture(event.pointerId);
+		if (!start.cancelled && actions.enabled() && !owners.size) actions.tap(event.clientX, event.clientY);
+	});
+	for (const type of ["pointercancel", "lostpointercapture"]) listen(scene, type, (event) => {
+		if (sceneStart?.id === event.pointerId) sceneStart = null;
+	});
+	return {
+		cancel,
+		releaseAttack: () => release(attack),
+		isMoving: moving,
+		destroy() {
+			cancel();
+			abort.abort();
+			scene.style.touchAction = oldTouchAction;
+		}
+	};
+}
+var init_PointerControls = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Components/StatusIcons/StatusIcons.html?raw
+var StatusIcons_default$2;
+var init_StatusIcons$2 = __esmMin((() => {
+	StatusIcons_default$2 = "<div id=\"StatusIcons\"></div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/StatusIcons/StatusIcons.css?raw
+var StatusIcons_default$1;
+var init_StatusIcons$1 = __esmMin((() => {
+	StatusIcons_default$1 = ":host {\r\n	top: 166px;\r\n	right: 20px;\r\n	overflow: visible;\r\n}\r\n\r\n#StatusIcons {\r\n	display: block;\r\n}\r\n\r\n#StatusIcons .state {\r\n	position: absolute;\r\n}\r\n\r\n#StatusIcons .state .description {\r\n	display: none;\r\n	z-index: 51;\r\n	position: absolute;\r\n	right: 33px;\r\n	top: 0px;\r\n	padding: 0px 5px 0px 5px;\r\n	background-color: rgba(0, 0, 0, 0.5);\r\n	border: 1px solid #c6c6c6;\r\n	border-radius: 3px;\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n	white-space: nowrap;\r\n	line-height: 16px;\r\n}\r\n\r\n#StatusIcons .state:hover .description {\r\n	display: block;\r\n}\r\n\r\n#StatusIcons .state canvas {\r\n	width: 32px;\r\n	height: 32px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/StatusIcons/StatusIcons.js
+function loadStatusIcon(index) {
+	const tkmVariant = SessionStorage_default.Entity && DB.isTaeKwon(SessionStorage_default.Entity._job) && TKM_ICON_OVERRIDE[index] || null;
+	const iconName = tkmVariant || StatusInfo[index].icon;
+	_status[index].tkmVariant = tkmVariant;
+	Client.loadFile(`data/texture/effect/${iconName}`, (data) => {
+		Texture.load(data, function() {
+			if (_status[index] && !_status[index].img) addResizedStatusIcon(this, index);
+		});
+	});
+}
+function addResizedStatusIcon(img, index) {
+	if (img.width < 33 && img.height < 33) {
+		_status[index].img = img;
+		addElement$4(_status[index].element);
+		return;
+	}
+	const canvas = document.createElement("canvas");
+	canvas.width = 32;
+	canvas.height = 32;
+	const ctx = canvas.getContext("2d");
+	ctx.save();
+	ctx.translate(0, 32);
+	ctx.scale(1, -1);
+	const scale = Math.min(32 / img.width, 32 / img.height);
+	const width = img.width * scale;
+	const height = img.height * scale;
+	const x = (32 - width) / 2;
+	const y = (32 - height) / 2;
+	ctx.drawImage(img, x, y, width, height);
+	ctx.restore();
+	const resizedImg = new Image();
+	resizedImg.src = canvas.toDataURL();
+	resizedImg.onload = () => {
+		_status[index].img = resizedImg;
+		addElement$4(_status[index].element);
+	};
+}
+/**
+* Reset elements position.
+*
+* Used when one element is removed.
+*/
+function resetElementsPosition() {
+	const elements = StatusIcons.getRoot().querySelectorAll(".state");
+	const count = elements.length;
+	let x = 0;
+	let y = 0;
+	for (let i = 0; i < count; ++i, y += 36) {
+		if (y > Renderer.height - 166) {
+			y = 0;
+			x += 45;
+		}
+		const element = elements[i];
+		element.style.top = `${y}px`;
+		element.style.right = `${x}px`;
+	}
+}
+/**
+* Remove an element from list and DOM
+*
+* @param {number} index
+*/
+function removeElementIndex(index) {
+	if (!(index in _status)) return;
+	const element = _status[index].element;
+	if (element && element.parentNode) element.parentNode.removeChild(element);
+	ScreenEffectManager.cleanStatusEffect(index);
+	delete _status[index];
+}
+/**
+* Create an element
+*
+* @param {number} index
+*/
+function createElement(index) {
+	const state = document.createElement("div");
+	state.className = "state";
+	const canvas = document.createElement("canvas");
+	canvas.width = 32;
+	canvas.height = 32;
+	state.appendChild(canvas);
+	_status[index] = {};
+	_status[index].element = state;
+	_status[index].ctx = canvas.getContext("2d");
+	if (StatusInfo[index].descript) {
+		const info = document.createElement("div");
+		info.className = "description";
+		const lines = StatusInfo[index].descript;
+		const count = lines.length;
+		for (let i = 0; i < count; ++i) {
+			const line = document.createElement("div");
+			line.textContent = toPlainRagnarokText(lines[i][0]);
+			if (lines[i][1]) line.style.color = lines[i][1];
+			line.innerHTML = line.innerHTML.replace("%s", "<span class=\"time\">0</span>");
+			info.appendChild(line);
+		}
+		const time = info.getElementsByClassName("time");
+		if (time.length) {
+			_status[index].time = time[0];
+			_status[index].timeTick = 0;
+		}
+		state.appendChild(info);
+	}
+}
+/**
+* Add element to the list, helper for multi-column
+*
+* @param {CanvasElement}
+*/
+function addElement$4(element) {
+	const root = StatusIcons.getRoot();
+	const elements = root.querySelectorAll(".state");
+	const max = (Renderer.height - 166) / 36 | 0;
+	const count = elements.length;
+	const x = (count / max | 0) * 45;
+	const y = count % max * 36;
+	element.style.top = `${y}px`;
+	element.style.right = `${x}px`;
+	const container = root.querySelector("#StatusIcons");
+	if (container) container.appendChild(element);
+}
+/**
+* Rendering a status icon
+*
+* @param {object} status
+* @param {number} tick
+*/
+function renderStatus(status, now) {
+	if (!status.img) return;
+	const ctx = status.ctx;
+	const start = status.start;
+	let end = status.end;
+	let color, perc;
+	if (now > end) end = now;
+	if (end < now + 6e4) {
+		color = "rgba(255,150,50,0.65)";
+		perc = 1 - (end - now) / 6e4;
+	} else {
+		color = "rgba(255,255,255,0.65)";
+		perc = (now - start) / (end - 6e4 - start);
+	}
+	ctx.clearRect(0, 0, 32, 32);
+	ctx.drawImage(status.img, 0, 0);
+	ctx.fillStyle = color;
+	ctx.beginPath();
+	ctx.arc(16, 16, 24, 1.5 * Math.PI, (1.5 + perc * 2) % 2 * Math.PI);
+	ctx.lineTo(16, 16);
+	ctx.fill();
+	if (status.time && status.timeTick + 1e3 < now) {
+		status.timeTick = now;
+		const tick = (end - now) / 1e3 | 0;
+		const seconds = tick % 60;
+		const minutes = tick / 60 | 0;
+		status.time.textContent = now >= end || end === Infinity ? "" : (minutes ? `${minutes} ${DB.getMessage(1807, "minute")} ` : "") + `${seconds} ${DB.getMessage(1808, "second")}`;
+	}
+}
+/**
+* Rendering status icons progressbar
+*
+* @param {number} tick
+*/
+function rendering$1(tick) {
+	const indexes = Object.keys(_status);
+	const count = indexes.length;
+	const time_now = Date.now();
+	if (time_now - _last_updated_time > _render_time) {
+		_last_updated_time = time_now;
+		for (let i = 0; i < count; ++i) renderStatus(_status[indexes[i]], tick);
+	}
+}
+var StatusIcons, _status, _last_updated_time, _render_time, TKM_ICON_OVERRIDE, StatusIcons_default;
+var init_StatusIcons = __esmMin((() => {
+	init_StatusInfo();
+	init_StatusConst();
+	init_DBManager();
+	init_RagnarokText();
+	init_Texture();
+	init_Client();
+	init_Renderer();
 	init_UIManager();
 	init_GUIComponent();
-	init_Preferences$1();
+	init_ScreenEffectManager();
 	init_SessionStorage();
-	init_Renderer();
-	init_PacketVerManager();
-	init_PacketStructure();
-	init_EntityManager();
-	init_NetworkManager();
-	init_PathFinding();
-	init_Altitude();
-	init_Events();
-	init_MobileUI$2();
-	init_MobileUI$1();
-	init_gl_matrix$1();
-	init_Camera();
-	init_KeyEventHandler();
-	vec2 = exports$3.vec2;
-	mat2 = exports$3.mat2;
-	direction = vec2.create();
-	rotate = mat2.create();
-	targetPos = [0, 0];
-	movementTimer = null;
-	MobileUI = new GUIComponent("MobileUI", MobileUI_default$1);
-	MobileUI.render = () => MobileUI_default$2;
-	_preferences$18 = Preferences.get("MobileUI", {
-		x: 0,
-		y: 0,
-		zIndex: 1e3,
-		width: window.innerWidth,
-		height: window.innerHeight,
-		show: false
-	}, 1);
-	showButtons = false;
-	C_AUTOTARGET_DELAY = 500;
-	C_TOUCH_CLICK_GUARD = 750;
-	maxDistance = 0;
-	normalizedX = 0;
-	normalizedY = 0;
-	_joystickBase = null;
-	_joystickThumb = null;
+	init_StatusIcons$2();
+	init_StatusIcons$1();
+	StatusIcons = new GUIComponent("StatusIcons", StatusIcons_default$1);
+	StatusIcons.render = () => StatusIcons_default$2;
 	/**
-	* Initialize UI
+	* Mouse can cross this UI
 	*/
-	MobileUI.init = function init() {
-		const root = MobileUI.getRoot();
-		bindButton(root, "#toggleUIButton", (e) => {
-			toggleButtons();
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#fullscreenButton", (e) => {
-			toggleFullScreen();
-			stopPropagation$7(e);
-		});
-		const fKeyMap = [
-			["#f1Button", 112],
-			["#f2Button", 113],
-			["#f3Button", 114],
-			["#f4Button", 115],
-			["#f5Button", 116],
-			["#f6Button", 117],
-			["#f7Button", 118],
-			["#f8Button", 119],
-			["#f9Button", 120]
-		];
-		const nKeyMap = [
-			["#n1Button", 49],
-			["#n2Button", 50],
-			["#n3Button", 51],
-			["#n4Button", 52],
-			["#n5Button", 53],
-			["#n6Button", 54],
-			["#n7Button", 55],
-			["#n8Button", 56],
-			["#n9Button", 57]
-		];
-		const letterKeyMap = [
-			["#qButton", 81],
-			["#wButton", 87],
-			["#eButton", 69],
-			["#rButton", 82],
-			["#tButton", 84],
-			["#yButton", 89],
-			["#uButton", 85],
-			["#iButton", 73],
-			["#oButton", 79],
-			["#aButton", 65],
-			["#sButton", 83],
-			["#dButton", 68],
-			["#fButton", 70],
-			["#gButton", 71],
-			["#hButton", 72],
-			["#jButton", 74],
-			["#kButton", 75],
-			["#lButton", 76]
-		];
-		[
-			...fKeyMap,
-			...nKeyMap,
-			...letterKeyMap
-		].forEach(([selector, keyCode]) => {
-			bindButton(root, selector, (e) => {
-				logKeyPress(keyCode);
-				stopPropagation$7(e);
-			});
-		});
-		bindButton(root, "#f10Button", (e) => {
-			logKeyPress(121);
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#f12Button", (e) => {
-			logKeyPress(123);
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#insButton", (e) => {
-			logKeyPress(45);
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#toggleStatusButton", (e) => {
-			toggleStatus();
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#toggleTargetingButton", (e) => {
-			toggleTouchTargeting();
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#toggleAutoFollowButton", (e) => {
-			toggleAutoFollow();
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#toggleAutoTargetButton", (e) => {
-			toggleAutoTargeting();
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#attackButton", (e) => {
-			attackTargeted();
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#pickupButton", (e) => {
-			pickUpItem();
-			stopPropagation$7(e);
-		});
-		bindButton(root, "#switchshorcutButton", (e) => {
-			switchSkillButtons();
-			stopPropagation$7(e);
-		});
-		root.querySelectorAll(".buttons").forEach((btn) => {
-			btn.addEventListener("mousedown", (e) => e.target.classList.add("pressed"));
-			btn.addEventListener("touchstart", (e) => e.target.classList.add("pressed"));
-			btn.addEventListener("mouseup", (e) => e.target.classList.remove("pressed"));
-			btn.addEventListener("touchend", (e) => e.target.classList.remove("pressed"));
-		});
-		root.querySelectorAll(".FButton").forEach((btn) => {
-			btn.addEventListener("mousedown", (e) => e.target.classList.add("pressed"));
-			btn.addEventListener("touchstart", (e) => e.target.classList.add("pressed"));
-			btn.addEventListener("mouseup", (e) => e.target.classList.remove("pressed"));
-			btn.addEventListener("touchend", (e) => e.target.classList.remove("pressed"));
-		});
-		setupJoystick();
-		setupTalkToNpcButton();
+	StatusIcons.mouseMode = GUIComponent.MouseMode.CROSS;
+	/**
+	* @var {boolean} do not focus this UI
+	*/
+	StatusIcons.needFocus = false;
+	_status = {};
+	_last_updated_time = Date.now();
+	_render_time = 500;
+	TKM_ICON_OVERRIDE = {
+		[StatusConst_default.ASPERSIO]: "i_p_SAINT.tga",
+		[StatusConst_default.PROPERTYFIRE]: "i_p_FIRE.tga",
+		[StatusConst_default.PROPERTYWATER]: "i_p_WATER.tga",
+		[StatusConst_default.PROPERTYWIND]: "i_p_WIND.tga",
+		[StatusConst_default.PROPERTYGROUND]: "i_p_EARTH.tga",
+		[StatusConst_default.PROPERTYDARK]: "i_p_DARK.tga",
+		[StatusConst_default.PROPERTYTELEKINESIS]: "i_p_TELE.tga"
 	};
 	/**
-	* Apply preferences once append to body
+	* Start rendering icons
 	*/
-	MobileUI.onAppend = function onAppend() {
-		if (SessionStorage_default.isTouchDevice) this._host.style.display = "block";
-		else this._host.style.display = "none";
-		this._host.style.top = "0px";
-		this._host.style.left = "0px";
-		this._host.style.zIndex = "1000";
+	StatusIcons.onAppend = function onAppend() {
+		Renderer.render(rendering$1);
 	};
 	/**
-	* Process shortcut
+	* Stop rendering icons
+	*/
+	StatusIcons.onRemove = function onRemove() {
+		Renderer.stop(rendering$1);
+	};
+	/**
+	* Clean up component
+	*/
+	StatusIcons.clean = function clean() {
+		const container = StatusIcons.getRoot().querySelector("#StatusIcons");
+		if (container) container.innerHTML = "";
+		_status = {};
+		ScreenEffectManager.clean();
+	};
+	/**
+	* Update icon on screen
 	*
-	* @param {object} key
+	* @param {number} status id
+	* @param {number} enable/disable
+	* @param {number} life time
 	*/
-	MobileUI.onShortCut = function onShortCut(key) {
-		switch (key.cmd) {
-			case "SHOW":
-				SessionStorage_default.isTouchDevice = true;
-				this.show();
-				break;
-			case "TOGGLE":
-				toggleButtons();
-				break;
-			case "TG":
-				toggleTouchTargeting();
-				break;
-			case "AT":
-				toggleAutoTargeting();
-				break;
-			case "ATK": attackTargeted();
+	StatusIcons.getSnapshot = function() {
+		return Object.entries(_status).filter(([, status]) => status.end > Renderer.tick).map(([id, status]) => {
+			const seconds = Number.isFinite(status.end) ? Math.max(0, Math.ceil((status.end - Renderer.tick) / 1e3)) : null;
+			return {
+				id,
+				description: (StatusInfo[id].descript || []).map((line) => toPlainRagnarokText(line[0]).replace("%s", seconds === null ? "持续" : `${seconds}秒`)).join(" "),
+				icon: status.img?.src
+			};
+		});
+	};
+	StatusIcons.update = function update(index, state, life) {
+		if (!(index in StatusInfo) || !StatusInfo[index].icon) return;
+		if (!state && (!life || life <= 0)) {
+			removeElementIndex(index);
+			resetElementsPosition();
+			return;
 		}
+		if (!(index in _status)) createElement(index);
+		_status[index].start = Renderer.tick;
+		_status[index].end = Renderer.tick + life;
+		if (life === 9999 || StatusInfo[index].haveTimeLimit === 0 || life < 0) _status[index].end = Infinity;
+		if (_status[index].img) {
+			if (TKM_ICON_OVERRIDE[index]) {
+				const wantVariant = SessionStorage_default.Entity && DB.isTaeKwon(SessionStorage_default.Entity._job) && TKM_ICON_OVERRIDE[index] || null;
+				if (_status[index].tkmVariant !== wantVariant) _status[index].img = null;
+				else return;
+			} else return;
+		}
+		loadStatusIcon(index);
+		ScreenEffectManager.parseStatus(index);
 	};
-	/**
-	* Removes MobileUI
-	*/
-	MobileUI.onRemove = function onRemove() {
-		_preferences$18.y = 0;
-		_preferences$18.x = 0;
-		_preferences$18.zIndex = 1e3;
-		_preferences$18.width = Renderer.width;
-		_preferences$18.height = Renderer.height;
-		_preferences$18.save();
-		if (SessionStorage_default.AutoTargeting) toggleAutoTargeting();
-	};
-	/**
-	* Shows MobileUI
-	*/
-	MobileUI.show = function show() {
-		this._host.style.display = "block";
-	};
-	MobileUI_default = UIManager.addComponent(MobileUI);
+	StatusIcons_default = UIManager.addComponent(StatusIcons);
 }));
 //#endregion
-//#region src/Core/Mobile.js
-/**
-* Return distance between touches
-*
-* @param {TouchList} touches
-* @return {number} distance
-*/
-function touchDistance(touches) {
-	const x = touches[0].pageX - touches[1].pageX;
-	const y = touches[0].pageY - touches[1].pageY;
-	return Math.sqrt(x * x + y * y);
-}
-/**
-* Get angle from touches
-*
-* @param {TouchList} touches
-* @return {number} rotation angle
-*/
-function touchAngle(touches) {
-	const x = touches[0].pageX - touches[1].pageX;
-	const y = touches[0].pageY - touches[1].pageY;
-	return Math.atan2(y, x) * 180 / Math.PI;
-}
-/**
-* Get translation size (width)
-*
-* @param {TouchList} old touches
-* @param {TouchList} new touches
-*/
-function touchTranslationX(oldTouches, touches) {
-	const x1 = touches[0].pageX - oldTouches[0].pageX;
-	const x2 = touches[1].pageX - oldTouches[1].pageX;
-	if (x1 && x2 && x1 < 0 === x2 < 0 && Math.abs(1 - x1 / x2) < .25) return x1 + x2 >> 1;
-	return 0;
-}
-/**
-* Get translation size (height)
-*
-* @param {TouchList} old touches
-* @param {TouchList} new touches
-*/
-function touchTranslationY(oldTouches, touches) {
-	const y1 = touches[0].pageY - oldTouches[0].pageY;
-	const y2 = touches[1].pageY - oldTouches[1].pageY;
-	if (y1 && y2 && y1 < 0 === y2 < 0 && Math.abs(1 - y1 / y2) < .25) return y1 + y2 >> 1;
-	return 0;
-}
-/**
-* Hook touch end to know when a gesture end
-* process OnMouseUp if no gesture detected
-*/
-function onTouchEnd(event) {
-	if (_processGesture) {
-		_processGesture = false;
-		KEYS.SHIFT = false;
-		Camera.rotate(false);
-		return;
-	}
-	if (_timer$1 > -1) {
-		_intersect = false;
-		return;
-	}
-	if (Mobile.onTouchEnd) Mobile.onTouchEnd();
-	Mouse.intersect = false;
-}
-/**
-* Process gesture (scale, rotate)
-* Else move.
-*/
-function onTouchMove(event) {
-	event.stopImmediatePropagation();
-	const touches = event.touches;
-	Mouse.screen.x = touches[0].pageX;
-	Mouse.screen.y = touches[0].pageY;
-	if (!_processGesture) return;
-	const scale = touchDistance(touches) - _scale;
-	const x = Math.abs(touchTranslationX(_touches, touches));
-	const y = Math.abs(touchTranslationY(_touches, touches));
-	if (!Camera.action.active && (x > 10 || y > 10)) {
-		KEYS.SHIFT = y > x;
-		Camera.rotate(true);
-		return;
-	}
-	if (Math.abs(scale) > 10) {
-		Camera.zoomFinal -= scale * .1;
-		Camera.zoomFinal = Math.min(Camera.zoomFinal, Math.abs(Camera.altitudeTo - Camera.altitudeFrom) * Camera.MAX_ZOOM);
-		Camera.zoomFinal = Math.max(Camera.zoomFinal, 2);
-	}
-}
-function touchDevice() {
-	SessionStorage_default.isTouchDevice = true;
-	if (SessionStorage_default.Playing) MobileUI_default.show();
-}
-var _processGesture, _scale, _touches, _intersect, _timer$1, Mobile, remoteAutoFocus, onTouchStart;
-var init_Mobile = __esmMin((() => {
-	init_Context();
-	init_Events();
-	init_Camera();
-	init_SessionStorage();
-	init_MouseEventHandler();
-	init_KeyEventHandler();
-	init_MobileUI();
-	_processGesture = false;
-	_timer$1 = -1;
-	Mobile = class {
-		/**
-		* Initialize
-		*/
-		static init() {}
+//#region src/UI/Game/GameNavigation.js
+function createGameNavigation(canOperate) {
+	const owner = SessionStorage_default.Entity;
+	let revision = 0, disposed = false;
+	let state = {
+		results: [],
+		target: null,
+		route: [],
+		pending: false,
+		message: ""
 	};
-	remoteAutoFocus = (function removeAutoFocusClosure() {
-		let _done = false;
-		return function removeAutoFocus() {
-			if (_done) return;
-			_done = true;
-		};
-	})();
-	onTouchStart = (function onTouchStartClosure() {
-		function delayedClick() {
-			if (!_processGesture) {
-				_timer$1 = -1;
-				if (Mobile.onTouchStart) Mobile.onTouchStart();
-				if (!_intersect) {
-					if (Mobile.onTouchEnd) Mobile.onTouchEnd();
+	const currentMap = () => normalizeWorldMapName(MapRenderer.currentMap);
+	const active = () => !disposed && canOperate() && SessionStorage_default.Playing && SessionStorage_default.Entity === owner && owner && owner.action !== owner.ACTION.DIE;
+	const snapshot = () => ({
+		...state,
+		currentMap: currentMap(),
+		position: owner ? [Math.floor(owner.position[0]), Math.floor(owner.position[1])] : [0, 0],
+		allowed: Boolean(active())
+	});
+	return {
+		snapshot,
+		async search(query, type = "ALL", scope = "WORLD") {
+			if (!active()) return;
+			const request = ++revision, map = currentMap();
+			state = {
+				...state,
+				results: [],
+				pending: true,
+				message: ""
+			};
+			try {
+				const rows = query.trim() ? await DB.searchNavigation(query.trim(), type, {
+					currentMap: map,
+					scope,
+					channelsEnabled: SessionStorage_default.NavigationMapChannelsEnabled
+				}) : [];
+				if (request !== revision || !active()) return;
+				if (currentMap() !== map) {
+					state.message = "地图已变化，请重新搜索";
+					return;
 				}
-				Mouse.intersect = _intersect;
+				state = {
+					...state,
+					results: toWorldEntities(rows),
+					message: rows.length ? "" : "没有匹配的目的地"
+				};
+			} catch {
+				if (request === revision && active()) state.message = "目的地目录加载失败，请重试";
+			} finally {
+				if (request === revision) state.pending = false;
 			}
+		},
+		async plan(destination) {
+			if (!active()) return false;
+			const map = normalizeWorldMapName(destination.mapName), x = Number(destination.x), y = Number(destination.y);
+			if (destination.x === "" || destination.y === "" || destination.x == null || destination.y == null || !/^[a-z0-9_@-]+$/.test(map) || !Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x > 1023 || y > 1023) {
+				state.message = "请填写有效地图和整数坐标（0–1023）";
+				return false;
+			}
+			const request = ++revision, start = currentMap(), position = snapshot().position;
+			state = {
+				...state,
+				target: {
+					mapName: map,
+					x,
+					y,
+					name: destination.name || map
+				},
+				route: [],
+				pending: true,
+				message: "正在计算路径"
+			};
+			try {
+				const route = await MapPathFinder.findPathBetweenMaps(start, ...position, map, x, y, [200, 201]);
+				if (request !== revision || !active()) return false;
+				if (currentMap() !== start) {
+					state.message = "地图已变化，请重新规划";
+					return false;
+				}
+				state.route = route || [];
+				state.message = state.route.length ? "跨地图路线已规划；地图内可达性须由行走路径确认" : "未找到通往目的地的路线";
+				return Boolean(state.route.length);
+			} catch {
+				if (request === revision && active()) state.message = "路径计算失败，请重试";
+				return false;
+			} finally {
+				if (request === revision) state.pending = false;
+			}
+		},
+		cancel() {
+			revision++;
+			state = {
+				...state,
+				pending: false,
+				route: [],
+				target: null,
+				message: ""
+			};
+		},
+		destroy() {
+			disposed = true;
+			revision++;
 		}
-		return function(event) {
-			remoteAutoFocus();
-			_touches = event.touches;
-			const target = event.target;
-			if (!(target && /^(input|textarea|select)$/i.test(target.tagName))) event.preventDefault();
-			event.stopImmediatePropagation();
-			if (_timer$1 > -1) {
-				Events.clearTimeout(_timer$1);
-				_timer$1 = -1;
-			}
-			if (_touches.length > 1) {
-				_scale = touchDistance(_touches);
-				touchAngle(_touches);
-				_processGesture = true;
+	};
+}
+var init_GameNavigation = __esmMin((() => {
+	init_DBManager();
+	init_SessionStorage();
+	init_MapRenderer();
+	init_MapPathFinder();
+	init_WorldCatalogService();
+}));
+//#endregion
+//#region src/UI/Mobile/game/NavigationPanel.js
+function createNavigationPanel(body, canOperate) {
+	const service = createGameNavigation(canOperate);
+	body.innerHTML = "<form data-search class=\"skills-toolbar\"><input aria-label=\"搜索目的地\" placeholder=\"地图、NPC 或魔物\"><select aria-label=\"目的地类型\"><option value=\"ALL\">全部类型</option><option value=\"MAP\">地图</option><option value=\"NPC\">NPC</option><option value=\"MOB\">魔物</option></select><select aria-label=\"搜索范围\"><option value=\"WORLD\">所有地图</option><option value=\"CURRENT\">当前地图</option></select><button>搜索</button></form><div class=\"inventory-layout\"><div class=\"inventory-list\" data-results></div><section class=\"inventory-detail\"><form class=\"social-form\" data-route><label>目的地图<input data-map required></label><label>X 坐标<input data-x type=\"number\" min=\"0\" max=\"1023\" step=\"1\" required></label><label>Y 坐标<input data-y type=\"number\" min=\"0\" max=\"1023\" step=\"1\" required></label><button>预览路线</button></form><button data-clear>清除路线</button><ol data-path></ol><p role=\"status\"></p></section></div>";
+	const $ = (selector) => body.querySelector(selector);
+	let alive = true;
+	const start = service.snapshot();
+	$("[data-map]").value = start.currentMap;
+	$("[data-x]").value = start.position[0];
+	$("[data-y]").value = start.position[1];
+	function render() {
+		if (!alive) return;
+		const state = service.snapshot();
+		$("[role=status]").textContent = state.message;
+		$("[data-path]").replaceChildren();
+		for (const step of state.route) {
+			const li = document.createElement("li");
+			li.textContent = `${step.map} (${step.x}, ${step.y})${step.warpName ? " · " + step.warpName : ""}`;
+			$("[data-path]").append(li);
+		}
+		$("[data-results]").replaceChildren();
+		for (const result of state.results) {
+			const b = document.createElement("button");
+			b.type = "button";
+			b.className = "inventory-item";
+			b.textContent = `${result.name} · ${result.mapDisplayName || result.mapName}${result.hasCoordinates ? ` (${result.x}, ${result.y})` : ""}`;
+			b.onclick = () => {
+				$("[data-map]").value = result.mapName;
+				$("[data-x]").value = result.hasCoordinates ? result.x : "";
+				$("[data-y]").value = result.hasCoordinates ? result.y : "";
+			};
+			$("[data-results]").append(b);
+		}
+		for (const b of body.querySelectorAll("button")) b.disabled = !state.allowed || state.pending;
+		$("[data-clear]").disabled = !state.allowed;
+	}
+	$("[data-search]").onsubmit = async (event) => {
+		event.preventDefault();
+		const pending = service.search($("[aria-label=\"搜索目的地\"]").value, $("[aria-label=\"目的地类型\"]").value, $("[aria-label=\"搜索范围\"]").value);
+		render();
+		await pending;
+		render();
+	};
+	$("[data-route]").onsubmit = async (event) => {
+		event.preventDefault();
+		const pending = service.plan({
+			mapName: $("[data-map]").value.trim(),
+			x: $("[data-x]").value,
+			y: $("[data-y]").value
+		});
+		render();
+		await pending;
+		render();
+	};
+	$("[data-clear]").onclick = () => {
+		service.cancel();
+		render();
+	};
+	render();
+	return { destroy() {
+		alive = false;
+		service.destroy();
+	} };
+}
+var init_NavigationPanel = __esmMin((() => {
+	init_GameNavigation();
+}));
+//#endregion
+//#region src/UI/Mobile/game/CompanionsPanel.js
+function createCompanionsPanel(body, service) {
+	body.innerHTML = "<dl data-info></dl><div class=\"social-form\"><label>生命体名称<input data-companion-name maxlength=\"23\"></label><div class=\"inventory-actions\" data-actions></div></div><h3>技能</h3><p>主动技能可从战斗快捷栏的配置入口绑定。</p><div class=\"inventory-list\" data-skills></div><p data-review></p><button data-confirm hidden>确认</button><button data-cancel hidden>取消</button><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector);
+	let gid, nameDirty = false, learning = null, skillKey = "", lastMessage = "";
+	const labels = {
+		feed: "喂食",
+		rename: "改名",
+		autofeed: "切换自动喂食",
+		dismiss: "解除",
+		return: "返回身边",
+		aggressive: "切换主动攻击"
+	};
+	function cancel() {
+		learning = null;
+		service.cancel();
+		$("[data-review]").textContent = "";
+		$("[data-confirm]").hidden = $("[data-cancel]").hidden = true;
+	}
+	function review(text) {
+		$("[data-review]").textContent = text;
+		$("[data-confirm]").hidden = $("[data-cancel]").hidden = false;
+	}
+	for (const [action, label] of Object.entries(labels)) {
+		if (service.snapshot().kind === "mercenary" && [
+			"feed",
+			"rename",
+			"autofeed"
+		].includes(action)) continue;
+		const button = document.createElement("button");
+		button.textContent = label;
+		button.dataset.action = action;
+		button.onclick = () => {
+			cancel();
+			const error = service.prepare(action, action === "rename" ? $("[data-companion-name]").value : void 0);
+			if (error) {
+				$("[role=status]").textContent = error;
 				return;
 			}
-			Mouse.screen.x = _touches[0].pageX;
-			Mouse.screen.y = _touches[0].pageY;
-			if (!SessionStorage_default.FreezeUI) {
-				Mouse.intersect = true;
-				_intersect = true;
-			}
-			_timer$1 = Events.setTimeout(delayedClick, 200);
+			review(action === "dismiss" ? service.snapshot().kind === "homunculus" ? "永久删除当前生命体？此操作无法撤销。" : "提前解除佣兵契约？" : `确认${label}？${action === "feed" ? "将消耗食物，过度喂食可能降低亲密度。" : ""}`);
 		};
-	})();
-	if (Math.max(screen.availHeight, screen.availWidth) <= 800) window.addEventListener("touchstart", () => {
-		if (!Context.isFullScreen()) Context.requestFullScreen();
-	});
-	window.addEventListener("touchstart", touchDevice, { once: true });
-	window.addEventListener("touchstart", onTouchStart, { passive: false });
-	window.addEventListener("touchend", onTouchEnd);
-	window.addEventListener("touchmove", onTouchMove);
-}));
-//#endregion
-//#region src/Vendors/html2canvas.js
-var html2canvas, html2canvas_default;
-var init_html2canvas = __esmMin((() => {
-	/**
-	@license html2canvas v0.34 <http://html2canvas.hertzen.com>
-	Copyright (c) 2011 Niklas von Hertzen. All rights reserved.
-	http://www.twitter.com/niklasvh
-	
-	Released under MIT License
-	*/
-	(function(window, document, undefined) {
-		"use strict";
-		let _html2canvas = {}, previousElement, computedCSS;
-		function h2clog(a) {
-			if (_html2canvas.logging && window.console && window.console.log) window.console.log(a);
+		$("[data-actions]").append(button);
+	}
+	$("[data-companion-name]").oninput = () => {
+		nameDirty = true;
+		cancel();
+	};
+	$("[data-cancel]").onclick = cancel;
+	$("[data-confirm]").onclick = () => {
+		const requested = learning;
+		learning = null;
+		$("[role=status]").textContent = requested ? requested.gid === service.snapshot().gid ? service.learn(requested.id, requested.level) : "伴侣已变化，请重新确认" : service.confirm();
+		cancel();
+		update();
+	};
+	function update() {
+		const s = service.snapshot(), info = s.info;
+		if (gid !== s.gid) {
+			gid = s.gid;
+			nameDirty = false;
+			cancel();
 		}
-		_html2canvas.Util = {};
-		_html2canvas.Util.backgroundImage = function(src) {
-			if (/data:image\/.*;base64,/i.test(src) || /^(-webkit|-moz|linear-gradient|-o-)/.test(src)) return src;
-			if (src.toLowerCase().substr(0, 5) === "url(\"") {
-				src = src.substr(5);
-				src = src.substr(0, src.length - 2);
-			} else {
-				src = src.substr(4);
-				src = src.substr(0, src.length - 1);
-			}
-			return src;
-		};
-		_html2canvas.Util.Bounds = function getBounds(el) {
-			let clientRect, bounds = {};
-			if (el.getBoundingClientRect) {
-				clientRect = el.getBoundingClientRect();
-				bounds.top = clientRect.top;
-				bounds.bottom = clientRect.bottom || clientRect.top + clientRect.height;
-				bounds.left = clientRect.left;
-				bounds.width = clientRect.width || clientRect.right - clientRect.left;
-				bounds.height = clientRect.height || clientRect.bottom - clientRect.top;
-				return bounds;
-			}
-		};
-		_html2canvas.Util.getCSS = function(el, attribute) {
-			let val;
-			function toPX(attribute, val) {
-				let rsLeft = el.runtimeStyle && el.runtimeStyle[attribute], left, style = el.style;
-				if (!/^-?[0-9]+\.?[0-9]*(?:px)?$/i.test(val) && /^-?\d/.test(val)) {
-					left = style.left;
-					if (rsLeft) el.runtimeStyle.left = el.currentStyle.left;
-					style.left = attribute === "fontSize" ? "1em" : val || 0;
-					val = style.pixelLeft + "px";
-					style.left = left;
-					if (rsLeft) el.runtimeStyle.left = rsLeft;
-				}
-				if (!/^(thin|medium|thick)$/i.test(val)) return Math.round(parseFloat(val)) + "px";
-				return val;
-			}
-			if (window.getComputedStyle) {
-				if (previousElement !== el) computedCSS = document.defaultView.getComputedStyle(el, null);
-				val = computedCSS[attribute];
-				if (attribute === "backgroundPosition") {
-					val = (val.split(",")[0] || "0 0").split(" ");
-					val[0] = val[0].indexOf("%") === -1 ? toPX(attribute + "X", val[0]) : val[0];
-					val[1] = val[1] === undefined ? val[0] : val[1];
-					val[1] = val[1].indexOf("%") === -1 ? toPX(attribute + "Y", val[1]) : val[1];
-				} else if (/border(Top|Bottom)(Left|Right)Radius/.test(attribute)) {
-					let arr = val.split(" ");
-					if (arr.length <= 1) arr[1] = arr[0];
-					arr[0] = parseInt(arr[0], 10);
-					arr[1] = parseInt(arr[1], 10);
-					val = arr;
-				}
-			} else if (el.currentStyle) {
-				if (attribute === "backgroundPosition") val = [toPX(attribute + "X", el.currentStyle[attribute + "X"]), toPX(attribute + "Y", el.currentStyle[attribute + "Y"])];
-				else {
-					val = toPX(attribute, el.currentStyle[attribute]);
-					if (/^(border)/i.test(attribute) && /^(medium|thin|thick)$/i.test(val)) switch (val) {
-						case "thin":
-							val = "1px";
-							break;
-						case "medium":
-							val = "0px";
-							break;
-						case "thick": val = "5px";
-					}
-				}
-			}
-			return val;
-		};
-		_html2canvas.Util.BackgroundPosition = function(el, bounds, image) {
-			let bgposition = _html2canvas.Util.getCSS(el, "backgroundPosition"), topPos, left, percentage, val;
-			if (bgposition.length === 1) {
-				val = bgposition;
-				bgposition = [];
-				bgposition[0] = val;
-				bgposition[1] = val;
-			}
-			if (bgposition[0].toString().indexOf("%") !== -1) {
-				percentage = parseFloat(bgposition[0]) / 100;
-				left = bounds.width * percentage - image.width * percentage;
-			} else left = parseInt(bgposition[0], 10);
-			if (bgposition[1].toString().indexOf("%") !== -1) {
-				percentage = parseFloat(bgposition[1]) / 100;
-				topPos = bounds.height * percentage - image.height * percentage;
-			} else topPos = parseInt(bgposition[1], 10);
-			return {
-				top: topPos,
-				left
-			};
-		};
-		_html2canvas.Util.Extend = function(options, defaults) {
-			for (var key in options) if (options.hasOwnProperty(key)) defaults[key] = options[key];
-			return defaults;
-		};
-		_html2canvas.Util.Children = function(elem) {
-			let children;
-			try {
-				children = elem.nodeName && elem.nodeName.toUpperCase() === "IFRAME" ? elem.contentDocument || elem.contentWindow.document : (function(array) {
-					let ret = [];
-					if (array !== null) (function(first, second) {
-						let i = first.length, j = 0;
-						if (typeof second.length === "number") for (var l = second.length; j < l; j++) first[i++] = second[j];
-						else while (second[j] !== undefined) first[i++] = second[j++];
-						first.length = i;
-						return first;
-					})(ret, array);
-					return ret;
-				})(elem.childNodes);
-			} catch (ex) {
-				h2clog("html2canvas.Util.Children failed with exception: " + ex.message);
-				children = [];
-			}
-			return children;
-		};
-		(function() {
-			_html2canvas.Generate = {};
-			let reGradients = [
-				/^(-webkit-linear-gradient)\(([a-z\s]+)([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-o-linear-gradient)\(([a-z\s]+)([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-webkit-gradient)\((linear|radial),\s((?:\d{1,3}%?)\s(?:\d{1,3}%?),\s(?:\d{1,3}%?)\s(?:\d{1,3}%?))([\w\d\.\s,%\(\)-]+)\)$/,
-				/^(-moz-linear-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?))([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-webkit-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s([a-z-]+)([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-moz-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s?([a-z-]*)([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-o-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s([a-z-]+)([\w\d\.\s,%\(\)]+)\)$/
-			];
-			_html2canvas.Generate.parseGradient = function(css, bounds) {
-				let gradient, i, len = reGradients.length, m1, stop, m2, m2Len, step, m3;
-				for (i = 0; i < len; i += 1) {
-					m1 = css.match(reGradients[i]);
-					if (m1) break;
-				}
-				if (m1) switch (m1[1]) {
-					case "-webkit-linear-gradient":
-					case "-o-linear-gradient":
-						gradient = {
-							type: "linear",
-							x0: null,
-							y0: null,
-							x1: null,
-							y1: null,
-							colorStops: []
-						};
-						m2 = m1[2].match(/\w+/g);
-						if (m2) {
-							m2Len = m2.length;
-							for (i = 0; i < m2Len; i += 1) switch (m2[i]) {
-								case "top":
-									gradient.y0 = 0;
-									gradient.y1 = bounds.height;
-									break;
-								case "right":
-									gradient.x0 = bounds.width;
-									gradient.x1 = 0;
-									break;
-								case "bottom":
-									gradient.y0 = bounds.height;
-									gradient.y1 = 0;
-									break;
-								case "left":
-									gradient.x0 = 0;
-									gradient.x1 = bounds.width;
-							}
-						}
-						if (gradient.x0 === null && gradient.x1 === null) gradient.x0 = gradient.x1 = bounds.width / 2;
-						if (gradient.y0 === null && gradient.y1 === null) gradient.y0 = gradient.y1 = bounds.height / 2;
-						m2 = m1[3].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}(?:%|px))?)+/g);
-						if (m2) {
-							m2Len = m2.length;
-							step = 1 / Math.max(m2Len - 1, 1);
-							for (i = 0; i < m2Len; i += 1) {
-								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%|px)?/);
-								if (m3[2]) {
-									stop = parseFloat(m3[2]);
-									if (m3[3] === "%") stop /= 100;
-									else stop /= bounds.width;
-								} else stop = i * step;
-								gradient.colorStops.push({
-									color: m3[1],
-									stop
-								});
-							}
-						}
-						break;
-					case "-webkit-gradient":
-						gradient = {
-							type: m1[2] === "radial" ? "circle" : m1[2],
-							x0: 0,
-							y0: 0,
-							x1: 0,
-							y1: 0,
-							colorStops: []
-						};
-						m2 = m1[3].match(/(\d{1,3})%?\s(\d{1,3})%?,\s(\d{1,3})%?\s(\d{1,3})%?/);
-						if (m2) {
-							gradient.x0 = m2[1] * bounds.width / 100;
-							gradient.y0 = m2[2] * bounds.height / 100;
-							gradient.x1 = m2[3] * bounds.width / 100;
-							gradient.y1 = m2[4] * bounds.height / 100;
-						}
-						m2 = m1[4].match(/((?:from|to|color-stop)\((?:[0-9\.]+,\s)?(?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)\))+/g);
-						if (m2) {
-							m2Len = m2.length;
-							for (i = 0; i < m2Len; i += 1) {
-								m3 = m2[i].match(/(from|to|color-stop)\(([0-9\.]+)?(?:,\s)?((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\)/);
-								stop = parseFloat(m3[2]);
-								if (m3[1] === "from") stop = 0;
-								if (m3[1] === "to") stop = 1;
-								gradient.colorStops.push({
-									color: m3[3],
-									stop
-								});
-							}
-						}
-						break;
-					case "-moz-linear-gradient":
-						gradient = {
-							type: "linear",
-							x0: 0,
-							y0: 0,
-							x1: 0,
-							y1: 0,
-							colorStops: []
-						};
-						m2 = m1[2].match(/(\d{1,3})%?\s(\d{1,3})%?/);
-						if (m2) {
-							gradient.x0 = m2[1] * bounds.width / 100;
-							gradient.y0 = m2[2] * bounds.height / 100;
-							gradient.x1 = bounds.width - gradient.x0;
-							gradient.y1 = bounds.height - gradient.y0;
-						}
-						m2 = m1[3].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}%)?)+/g);
-						if (m2) {
-							m2Len = m2.length;
-							step = 1 / Math.max(m2Len - 1, 1);
-							for (i = 0; i < m2Len; i += 1) {
-								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%)?/);
-								if (m3[2]) {
-									stop = parseFloat(m3[2]);
-									if (m3[3]) stop /= 100;
-								} else stop = i * step;
-								gradient.colorStops.push({
-									color: m3[1],
-									stop
-								});
-							}
-						}
-						break;
-					case "-webkit-radial-gradient":
-					case "-moz-radial-gradient":
-					case "-o-radial-gradient":
-						gradient = {
-							type: "circle",
-							x0: 0,
-							y0: 0,
-							x1: bounds.width,
-							y1: bounds.height,
-							cx: 0,
-							cy: 0,
-							rx: 0,
-							ry: 0,
-							colorStops: []
-						};
-						m2 = m1[2].match(/(\d{1,3})%?\s(\d{1,3})%?/);
-						if (m2) {
-							gradient.cx = m2[1] * bounds.width / 100;
-							gradient.cy = m2[2] * bounds.height / 100;
-						}
-						m2 = m1[3].match(/\w+/);
-						m3 = m1[4].match(/[a-z-]*/);
-						if (m2 && m3) switch (m3[0]) {
-							case "farthest-corner":
-							case "cover":
-							case "":
-								let tl = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.cy, 2));
-								let tr = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
-								let br = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
-								let bl = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.cy, 2));
-								gradient.rx = gradient.ry = Math.max(tl, tr, br, bl);
-								break;
-							case "closest-corner":
-								let tl2 = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.cy, 2));
-								let tr2 = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
-								let br2 = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
-								let bl2 = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.cy, 2));
-								gradient.rx = gradient.ry = Math.min(tl2, tr2, br2, bl2);
-								break;
-							case "farthest-side":
-								if (m2[0] === "circle") gradient.rx = gradient.ry = Math.max(gradient.cx, gradient.cy, gradient.x1 - gradient.cx, gradient.y1 - gradient.cy);
-								else {
-									gradient.type = m2[0];
-									gradient.rx = Math.max(gradient.cx, gradient.x1 - gradient.cx);
-									gradient.ry = Math.max(gradient.cy, gradient.y1 - gradient.cy);
-								}
-								break;
-							case "closest-side":
-							case "contain": if (m2[0] === "circle") gradient.rx = gradient.ry = Math.min(gradient.cx, gradient.cy, gradient.x1 - gradient.cx, gradient.y1 - gradient.cy);
-							else {
-								gradient.type = m2[0];
-								gradient.rx = Math.min(gradient.cx, gradient.x1 - gradient.cx);
-								gradient.ry = Math.min(gradient.cy, gradient.y1 - gradient.cy);
-							}
-						}
-						m2 = m1[5].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}(?:%|px))?)+/g);
-						if (m2) {
-							m2Len = m2.length;
-							step = 1 / Math.max(m2Len - 1, 1);
-							for (i = 0; i < m2Len; i += 1) {
-								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%|px)?/);
-								if (m3[2]) {
-									stop = parseFloat(m3[2]);
-									if (m3[3] === "%") stop /= 100;
-									else stop /= bounds.width;
-								} else stop = i * step;
-								gradient.colorStops.push({
-									color: m3[1],
-									stop
-								});
-							}
-						}
-				}
-				return gradient;
-			};
-			_html2canvas.Generate.Gradient = function(src, bounds) {
-				let canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), gradient, grad, i, len, img;
-				canvas.width = bounds.width;
-				canvas.height = bounds.height;
-				gradient = _html2canvas.Generate.parseGradient(src, bounds);
-				img = new Image();
-				if (gradient) {
-					if (gradient.type === "linear") {
-						grad = ctx.createLinearGradient(gradient.x0, gradient.y0, gradient.x1, gradient.y1);
-						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
-							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
-						} catch (e) {
-							h2clog([
-								"failed to add color stop: ",
-								e,
-								"; tried to add: ",
-								gradient.colorStops[i],
-								"; stop: ",
-								i,
-								"; in: ",
-								src
-							]);
-						}
-						ctx.fillStyle = grad;
-						ctx.fillRect(0, 0, bounds.width, bounds.height);
-						img.src = canvas.toDataURL();
-					} else if (gradient.type === "circle") {
-						grad = ctx.createRadialGradient(gradient.cx, gradient.cy, 0, gradient.cx, gradient.cy, gradient.rx);
-						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
-							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
-						} catch (e) {
-							h2clog([
-								"failed to add color stop: ",
-								e,
-								"; tried to add: ",
-								gradient.colorStops[i],
-								"; stop: ",
-								i,
-								"; in: ",
-								src
-							]);
-						}
-						ctx.fillStyle = grad;
-						ctx.fillRect(0, 0, bounds.width, bounds.height);
-						img.src = canvas.toDataURL();
-					} else if (gradient.type === "ellipse") {
-						let canvasRadial = document.createElement("canvas"), ctxRadial = canvasRadial.getContext("2d"), ri = Math.max(gradient.rx, gradient.ry), di = ri * 2, imgRadial;
-						canvasRadial.width = canvasRadial.height = di;
-						grad = ctxRadial.createRadialGradient(gradient.rx, gradient.ry, 0, gradient.rx, gradient.ry, ri);
-						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
-							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
-						} catch (e) {
-							h2clog([
-								"failed to add color stop: ",
-								e,
-								"; tried to add: ",
-								gradient.colorStops[i],
-								"; stop: ",
-								i,
-								"; in: ",
-								src
-							]);
-						}
-						ctxRadial.fillStyle = grad;
-						ctxRadial.fillRect(0, 0, di, di);
-						ctx.fillStyle = gradient.colorStops[i - 1].color;
-						ctx.fillRect(0, 0, canvas.width, canvas.height);
-						imgRadial = new Image();
-						imgRadial.onload = function() {
-							ctx.drawImage(imgRadial, gradient.cx - gradient.rx, gradient.cy - gradient.ry, 2 * gradient.rx, 2 * gradient.ry);
-							img.src = canvas.toDataURL();
-						};
-						imgRadial.src = canvasRadial.toDataURL();
-					}
-				}
-				return img;
-			};
-			_html2canvas.Generate.ListAlpha = function(number) {
-				let tmp = "", modulus;
-				do {
-					modulus = number % 26;
-					tmp = String.fromCharCode(modulus + 64) + tmp;
-					number = number / 26;
-				} while (number * 26 > 26);
-				return tmp;
-			};
-			_html2canvas.Generate.ListRoman = function(number) {
-				let romanArray = [
-					"M",
-					"CM",
-					"D",
-					"CD",
-					"C",
-					"XC",
-					"L",
-					"XL",
-					"X",
-					"IX",
-					"V",
-					"IV",
-					"I"
-				], decimal = [
-					1e3,
-					900,
-					500,
-					400,
-					100,
-					90,
-					50,
-					40,
-					10,
-					9,
-					5,
-					4,
-					1
-				], roman = "", v, len = romanArray.length;
-				if (number <= 0 || number >= 4e3) return number;
-				for (v = 0; v < len; v += 1) while (number >= decimal[v]) {
-					number -= decimal[v];
-					roman += romanArray[v];
-				}
-				return roman;
-			};
-		})();
-		_html2canvas.Parse = function(images, options) {
-			window.scroll(0, 0);
-			let support = {
-				rangeBounds: false,
-				svgRendering: options.svgRendering && (function() {
-					let img = new Image(), canvas = document.createElement("canvas"), ctx = canvas.getContext === undefined ? false : canvas.getContext("2d");
-					if (ctx === false) return false;
-					canvas.width = canvas.height = 10;
-					img.src = [
-						"data:image/svg+xml,",
-						"<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'>",
-						"<foreignObject width='10' height='10'>",
-						"<div xmlns='http://www.w3.org/1999/xhtml' style='width:10;height:10;'>",
-						"sup",
-						"</div>",
-						"</foreignObject>",
-						"</svg>"
-					].join("");
-					try {
-						ctx.drawImage(img, 0, 0);
-						canvas.toDataURL();
-					} catch (e) {
-						return false;
-					}
-					h2clog("html2canvas: Parse: SVG powered rendering available");
-					return true;
-				})()
-			}, element = options.elements === undefined ? document.body : options.elements[0], numDraws = 0, fontData = {}, doc = element.ownerDocument, ignoreElementsRegExp = new RegExp("(" + options.ignoreElements + ")"), body = doc.body, r, testElement, rangeBounds, rangeHeight, stack, ctx, docDim, i, children, childrenLen;
-			function docSize() {
-				return {
-					width: Math.max(Math.max(doc.body.scrollWidth, doc.documentElement.scrollWidth), Math.max(doc.body.offsetWidth, doc.documentElement.offsetWidth), Math.max(doc.body.clientWidth, doc.documentElement.clientWidth)),
-					height: Math.max(Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight), Math.max(doc.body.offsetHeight, doc.documentElement.offsetHeight), Math.max(doc.body.clientHeight, doc.documentElement.clientHeight))
-				};
-			}
-			images = images || {};
-			if (doc.createRange) {
-				r = doc.createRange();
-				if (r.getBoundingClientRect) {
-					testElement = doc.createElement("boundtest");
-					testElement.style.height = "123px";
-					testElement.style.display = "block";
-					body.appendChild(testElement);
-					r.selectNode(testElement);
-					rangeBounds = r.getBoundingClientRect();
-					rangeHeight = rangeBounds.height;
-					if (rangeHeight === 123) support.rangeBounds = true;
-					body.removeChild(testElement);
-				}
-			}
-			let getCSS = _html2canvas.Util.getCSS;
-			function getCSSInt(element, attribute) {
-				let val = parseInt(getCSS(element, attribute), 10);
-				return isNaN(val) ? 0 : val;
-			}
-			function renderRect(ctx, x, y, w, h, bgcolor) {
-				if (bgcolor !== "transparent") {
-					ctx.setVariable("fillStyle", bgcolor);
-					ctx.fillRect(x, y, w, h);
-					numDraws += 1;
-				}
-			}
-			function textTransform(text, transform) {
-				switch (transform) {
-					case "lowercase": return text.toLowerCase();
-					case "capitalize": return text.replace(/(^|\s|:|-|\(|\))([a-z])/g, function(m, p1, p2) {
-						if (m.length > 0) return p1 + p2.toUpperCase();
-					});
-					case "uppercase": return text.toUpperCase();
-					default: return text;
-				}
-			}
-			function trimText(text) {
-				return text.replace(/^\s*/g, "").replace(/\s*$/g, "");
-			}
-			function fontMetrics(font, fontSize) {
-				if (fontData[font + "-" + fontSize] !== undefined) return fontData[font + "-" + fontSize];
-				let container = doc.createElement("div"), img = doc.createElement("img"), span = doc.createElement("span"), baseline, middle, metricsObj;
-				container.style.visibility = "hidden";
-				container.style.fontFamily = font;
-				container.style.fontSize = fontSize;
-				container.style.margin = 0;
-				container.style.padding = 0;
-				body.appendChild(container);
-				img.src = "data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACwAAAAAAQABAAACAkQBADs=";
-				img.width = 1;
-				img.height = 1;
-				img.style.margin = 0;
-				img.style.padding = 0;
-				img.style.verticalAlign = "baseline";
-				span.style.fontFamily = font;
-				span.style.fontSize = fontSize;
-				span.style.margin = 0;
-				span.style.padding = 0;
-				span.appendChild(doc.createTextNode("Hidden Text"));
-				container.appendChild(span);
-				container.appendChild(img);
-				baseline = img.offsetTop - span.offsetTop + 1;
-				container.removeChild(span);
-				container.appendChild(doc.createTextNode("Hidden Text"));
-				container.style.lineHeight = "normal";
-				img.style.verticalAlign = "super";
-				middle = img.offsetTop - container.offsetTop + 1;
-				metricsObj = {
-					baseline,
-					lineWidth: 1,
-					middle
-				};
-				fontData[font + "-" + fontSize] = metricsObj;
-				body.removeChild(container);
-				return metricsObj;
-			}
-			function drawText(currentText, x, y, ctx) {
-				if (trimText(currentText).length > 0) {
-					ctx.fillText(currentText, x, y);
-					numDraws += 1;
-				}
-			}
-			function renderText(el, textNode, stack) {
-				let ctx = stack.ctx, family = getCSS(el, "fontFamily"), size = getCSS(el, "fontSize"), color = getCSS(el, "color"), text_decoration = getCSS(el, "textDecoration"), text_align = getCSS(el, "textAlign"), letter_spacing = getCSS(el, "letterSpacing"), bounds, text, metrics, renderList, listLen, bold = getCSS(el, "fontWeight"), font_style = getCSS(el, "fontStyle"), font_variant = getCSS(el, "fontVariant"), newTextNode, textValue, textOffset = 0, oldTextNode, c, range, parent, wrapElement, backupText;
-				textNode.nodeValue = textTransform(textNode.nodeValue, getCSS(el, "textTransform"));
-				text = trimText(textNode.nodeValue);
-				if (text.length > 0) {
-					if (text_decoration !== "none") metrics = fontMetrics(family, size);
-					text_align = text_align.replace(["-webkit-auto"], ["auto"]);
-					if (options.letterRendering === false && /^(left|right|justify|auto)$/.test(text_align) && /^(normal|none)$/.test(letter_spacing)) renderList = textNode.nodeValue.split(/(\b| )/);
-					else renderList = textNode.nodeValue.split("");
-					switch (parseInt(bold, 10)) {
-						case 401:
-							bold = "bold";
-							break;
-						case 400: bold = "normal";
-					}
-					ctx.setVariable("fillStyle", color);
-					ctx.setVariable("font", font_style + " " + font_variant + " " + bold + " " + size + " " + family);
-					ctx.setVariable("textAlign", "left");
-					oldTextNode = textNode;
-					for (c = 0, listLen = renderList.length; c < listLen; c += 1) {
-						textValue = null;
-						if (support.rangeBounds) {
-							if (text_decoration !== "none" || trimText(renderList[c]).length !== 0) {
-								textValue = renderList[c];
-								if (doc.createRange) {
-									range = doc.createRange();
-									range.setStart(textNode, textOffset);
-									range.setEnd(textNode, textOffset + textValue.length);
-								} else range = body.createTextRange();
-								if (range.getBoundingClientRect()) bounds = range.getBoundingClientRect();
-								else bounds = {};
-							}
-						} else {
-							if (typeof oldTextNode.nodeValue !== "string") continue;
-							newTextNode = oldTextNode.splitText(renderList[c].length);
-							parent = oldTextNode.parentNode;
-							wrapElement = doc.createElement("wrapper");
-							backupText = oldTextNode.cloneNode(true);
-							wrapElement.appendChild(oldTextNode.cloneNode(true));
-							parent.replaceChild(wrapElement, oldTextNode);
-							bounds = _html2canvas.Util.Bounds(wrapElement);
-							textValue = oldTextNode.nodeValue;
-							oldTextNode = newTextNode;
-							parent.replaceChild(backupText, wrapElement);
-						}
-						if (textValue !== null) drawText(textValue, bounds.left, bounds.bottom, ctx);
-						switch (text_decoration) {
-							case "underline":
-								renderRect(ctx, bounds.left, Math.round(bounds.top + metrics.baseline + metrics.lineWidth), bounds.width, 1, color);
-								break;
-							case "overline":
-								renderRect(ctx, bounds.left, bounds.top, bounds.width, 1, color);
-								break;
-							case "line-through": renderRect(ctx, bounds.left, Math.ceil(bounds.top + metrics.middle + metrics.lineWidth), bounds.width, 1, color);
-						}
-						textOffset += renderList[c].length;
-					}
-				}
-			}
-			function listPosition(element, val) {
-				let boundElement = doc.createElement("boundelement"), type, bounds;
-				boundElement.style.display = "inline";
-				type = element.style.listStyleType;
-				element.style.listStyleType = "none";
-				boundElement.appendChild(doc.createTextNode(val));
-				element.insertBefore(boundElement, element.firstChild);
-				bounds = _html2canvas.Util.Bounds(boundElement);
-				element.removeChild(boundElement);
-				element.style.listStyleType = type;
-				return bounds;
-			}
-			function elementIndex(el) {
-				let i = -1, count = 1, childs = el.parentNode.childNodes;
-				if (el.parentNode) {
-					while (childs[++i] !== el) if (childs[i].nodeType === 1) count++;
-					return count;
-				} else return -1;
-			}
-			function renderListItem(element, stack, elBounds) {
-				let position = getCSS(element, "listStylePosition"), x, y, type = getCSS(element, "listStyleType"), currentIndex, text, listBounds, bold = getCSS(element, "fontWeight");
-				if (/^(decimal|decimal-leading-zero|upper-alpha|upper-latin|upper-roman|lower-alpha|lower-greek|lower-latin|lower-roman)$/i.test(type)) {
-					currentIndex = elementIndex(element);
-					switch (type) {
-						case "decimal":
-							text = currentIndex;
-							break;
-						case "decimal-leading-zero":
-							if (currentIndex.toString().length === 1) text = currentIndex = "0" + currentIndex.toString();
-							else text = currentIndex.toString();
-							break;
-						case "upper-roman":
-							text = _html2canvas.Generate.ListRoman(currentIndex);
-							break;
-						case "lower-roman":
-							text = _html2canvas.Generate.ListRoman(currentIndex).toLowerCase();
-							break;
-						case "lower-alpha":
-							text = _html2canvas.Generate.ListAlpha(currentIndex).toLowerCase();
-							break;
-						case "upper-alpha": text = _html2canvas.Generate.ListAlpha(currentIndex);
-					}
-					text += ". ";
-					listBounds = listPosition(element, text);
-					switch (bold) {
-						case 401:
-							bold = "bold";
-							break;
-						case 400: bold = "normal";
-					}
-					ctx.setVariable("fillStyle", getCSS(element, "color"));
-					ctx.setVariable("font", getCSS(element, "fontVariant") + " " + bold + " " + getCSS(element, "fontStyle") + " " + getCSS(element, "fontSize") + " " + getCSS(element, "fontFamily"));
-					if (position === "inside") {
-						ctx.setVariable("textAlign", "left");
-						x = elBounds.left;
-					} else return;
-					y = listBounds.bottom;
-					drawText(text, x, y, ctx);
-				}
-			}
-			function loadImage(src) {
-				let img = images[src];
-				if (img && img.succeeded === true) return img.img;
-				else return false;
-			}
-			function clipBounds(src, dst) {
-				let x = Math.max(src.left, dst.left), y = Math.max(src.top, dst.top), x2 = Math.min(src.left + src.width, dst.left + dst.width), y2 = Math.min(src.top + src.height, dst.top + dst.height);
-				return {
-					left: x,
-					top: y,
-					width: x2 - x,
-					height: y2 - y
-				};
-			}
-			function setZ(zIndex, parentZ) {
-				let newContext;
-				if (!parentZ) {
-					newContext = h2czContext(0);
-					return newContext;
-				}
-				if (zIndex !== "auto") {
-					newContext = h2czContext(zIndex);
-					parentZ.children.push(newContext);
-					return newContext;
-				}
-				return parentZ;
-			}
-			function renderBorders(el, ctx, bounds, clip) {
-				let x = bounds.left, y = bounds.top, w = bounds.width, h = bounds.height, borderSide, borderData, bx, by, bw, bh, i, borderArgs, borderBounds, borders = function(el) {
-					let borders = [], sides = [
-						"Top",
-						"Right",
-						"Bottom",
-						"Left"
-					], s = 0;
-					for (; s < 4; s += 1) borders.push({
-						width: getCSSInt(el, "border" + sides[s] + "Width"),
-						color: getCSS(el, "border" + sides[s] + "Color")
-					});
-					return borders;
-				}(el);
-				(function(el) {
-					let borders = [], sides = [
-						"TopLeft",
-						"TopRight",
-						"BottomRight",
-						"BottomLeft"
-					], s = 0;
-					for (; s < 4; s += 1) borders.push(getCSS(el, "border" + sides[s] + "Radius"));
-					return borders;
-				})(el);
-				for (borderSide = 0; borderSide < 4; borderSide += 1) {
-					borderData = borders[borderSide];
-					borderArgs = [];
-					if (borderData.width > 0) {
-						bx = x;
-						by = y;
-						bw = w;
-						bh = h - borders[2].width;
-						switch (borderSide) {
-							case 0:
-								bh = borders[0].width;
-								i = 0;
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw - borders[1].width,
-									by + bh
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + borders[3].width,
-									by + bh
-								];
-								break;
-							case 1:
-								bx = x + w - borders[1].width;
-								bw = borders[1].width;
-								i = 0;
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by + borders[0].width
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by + bh + borders[2].width
-								];
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by + bh
-								];
-								break;
-							case 2:
-								by = by + h - borders[2].width;
-								bh = borders[2].width;
-								i = 0;
-								borderArgs[i++] = [
-									"line",
-									bx + borders[3].width,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw - borders[2].width,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by + bh
-								];
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by + bh
-								];
-								break;
-							case 3:
-								bw = borders[3].width;
-								i = 0;
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by + borders[0].width
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by + bh
-								];
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by + bh + borders[2].width
-								];
-						}
-						borderBounds = {
-							left: bx,
-							top: by,
-							width: bw,
-							height: bh
-						};
-						if (clip) borderBounds = clipBounds(borderBounds, clip);
-						if (borderBounds.width > 0 && borderBounds.height > 0) {
-							if (borderData.color !== "transparent") {
-								ctx.setVariable("fillStyle", borderData.color);
-								let shape = ctx.drawShape(), numBorderArgs = borderArgs.length;
-								for (i = 0; i < numBorderArgs; i++) shape[i === 0 ? "moveTo" : borderArgs[i][0] + "To"].apply(null, borderArgs[i].slice(1));
-								numDraws += 1;
-							}
-						}
-					}
-				}
-				return borders;
-			}
-			function renderFormValue(el, bounds, stack) {
-				let valueWrap = doc.createElement("valuewrap"), cssArr = [
-					"lineHeight",
-					"textAlign",
-					"fontFamily",
-					"color",
-					"fontSize",
-					"paddingLeft",
-					"paddingTop",
-					"width",
-					"height",
-					"border",
-					"borderLeftWidth",
-					"borderTopWidth"
-				], i, textValue, textNode, arrLen, style;
-				for (i = 0, arrLen = cssArr.length; i < arrLen; i += 1) {
-					style = cssArr[i];
-					try {
-						valueWrap.style[style] = getCSS(el, style);
-					} catch (e) {
-						h2clog("html2canvas: Parse: Exception caught in renderFormValue: " + e.message);
-					}
-				}
-				valueWrap.style.borderColor = "black";
-				valueWrap.style.borderStyle = "solid";
-				valueWrap.style.display = "block";
-				valueWrap.style.position = "absolute";
-				if (/^(submit|reset|button|text|password)$/.test(el.type) || el.nodeName === "SELECT") valueWrap.style.lineHeight = getCSS(el, "height");
-				valueWrap.style.top = bounds.top + "px";
-				valueWrap.style.left = bounds.left + "px";
-				if (el.nodeName === "SELECT") textValue = el.options[el.selectedIndex].text;
-				else textValue = el.value;
-				textNode = doc.createTextNode(textValue);
-				valueWrap.appendChild(textNode);
-				body.appendChild(valueWrap);
-				renderText(el, textNode, stack);
-				body.removeChild(valueWrap);
-			}
-			function renderImage(ctx, image, sx, sy, sw, sh, dx, dy, dw, dh) {
-				ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
-				numDraws += 1;
-			}
-			function renderBackgroundRepeat(ctx, image, x, y, width, height, elx, ely) {
-				let sourceX = 0, sourceY = 0;
-				if (elx - x > 0) sourceX = elx - x;
-				if (ely - y > 0) sourceY = ely - y;
-				renderImage(ctx, image, sourceX, sourceY, width - sourceX, height - sourceY, x + sourceX, y + sourceY, width - sourceX, height - sourceY);
-			}
-			function renderBackgroundRepeatY(ctx, image, bgp, x, y, w, h) {
-				let height, width = Math.min(image.width, w), bgy;
-				bgp.top = bgp.top - Math.ceil(bgp.top / image.height) * image.height;
-				for (bgy = y + bgp.top; bgy < h + y;) {
-					if (Math.floor(bgy + image.height) > h + y) height = h + y - bgy;
-					else height = image.height;
-					renderBackgroundRepeat(ctx, image, x + bgp.left, bgy, width, height, x, y);
-					bgy = Math.floor(bgy + image.height);
-				}
-			}
-			function renderBackgroundRepeatX(ctx, image, bgp, x, y, w, h) {
-				let height = Math.min(image.height, h), width, bgx;
-				bgp.left = bgp.left - Math.ceil(bgp.left / image.width) * image.width;
-				for (bgx = x + bgp.left; bgx < w + x;) {
-					if (Math.floor(bgx + image.width) > w + x) width = w + x - bgx;
-					else width = image.width;
-					renderBackgroundRepeat(ctx, image, bgx, y + bgp.top, width, height, x, y);
-					bgx = Math.floor(bgx + image.width);
-				}
-			}
-			function renderBackground(el, bounds, ctx) {
-				let background_image = getCSS(el, "backgroundImage"), background_repeat = getCSS(el, "backgroundRepeat").split(",")[0], image, bgp, bgy, bgw, bgsx, bgsy, bgdx, bgdy, bgh, h, height, add;
-				if (!/data:image\/.*;base64,/i.test(background_image) && !/^(-webkit|-moz|linear-gradient|-o-)/.test(background_image)) background_image = background_image.split(",")[0];
-				if (typeof background_image !== "undefined" && /^(1|none)$/.test(background_image) === false) {
-					background_image = _html2canvas.Util.backgroundImage(background_image);
-					image = loadImage(background_image);
-					bgp = _html2canvas.Util.BackgroundPosition(el, bounds, image);
-					if (image) switch (background_repeat) {
-						case "repeat-x":
-							renderBackgroundRepeatX(ctx, image, bgp, bounds.left, bounds.top, bounds.width, bounds.height);
-							break;
-						case "repeat-y":
-							renderBackgroundRepeatY(ctx, image, bgp, bounds.left, bounds.top, bounds.width, bounds.height);
-							break;
-						case "no-repeat":
-							bgw = bounds.width - bgp.left;
-							bgh = bounds.height - bgp.top;
-							bgsx = bgp.left;
-							bgsy = bgp.top;
-							bgdx = bgp.left + bounds.left;
-							bgdy = bgp.top + bounds.top;
-							if (bgsx < 0) {
-								bgsx = Math.abs(bgsx);
-								bgdx += bgsx;
-								bgw = Math.min(bounds.width, image.width - bgsx);
-							} else {
-								bgw = Math.min(bgw, image.width);
-								bgsx = 0;
-							}
-							if (bgsy < 0) {
-								bgsy = Math.abs(bgsy);
-								bgdy += bgsy;
-								bgh = Math.min(bounds.height, image.height - bgsy);
-							} else {
-								bgh = Math.min(bgh, image.height);
-								bgsy = 0;
-							}
-							if (bgh > 0 && bgw > 0) renderImage(ctx, image, bgsx, bgsy, bgw, bgh, bgdx, bgdy, bgw, bgh);
-							break;
-						default:
-							bgp.top = bgp.top - Math.ceil(bgp.top / image.height) * image.height;
-							for (bgy = bounds.top + bgp.top; bgy < bounds.height + bounds.top;) {
-								h = Math.min(image.height, bounds.height + bounds.top - bgy);
-								if (Math.floor(bgy + image.height) > h + bgy) height = h + bgy - bgy;
-								else height = image.height;
-								if (bgy < bounds.top) {
-									add = bounds.top - bgy;
-									bgy = bounds.top;
-								} else add = 0;
-								renderBackgroundRepeatX(ctx, image, bgp, bounds.left, bgy, bounds.width, height);
-								if (add > 0) bgp.top += add;
-								bgy = Math.floor(bgy + image.height) - add;
-							}
-					}
-					else h2clog("html2canvas: Error loading background:" + background_image);
-				}
-			}
-			function renderElement(el, parentStack) {
-				let bounds = _html2canvas.Util.Bounds(el), x = bounds.left, y = bounds.top, w = bounds.width, h = bounds.height, image, bgcolor = getCSS(el, "backgroundColor"), cssPosition = getCSS(el, "position"), zindex, opacity = getCSS(el, "opacity"), stack, stackLength, borders, ctx, bgbounds, imgSrc, paddingLeft, paddingTop, paddingRight, paddingBottom;
-				if (!parentStack) {
-					docDim = docSize();
-					parentStack = { opacity: 1 };
-				} else docDim = {};
-				zindex = setZ(getCSS(el, "zIndex"), parentStack.zIndex);
-				stack = {
-					ctx: h2cRenderContext(docDim.width || w, docDim.height || h),
-					zIndex: zindex,
-					opacity: opacity * parentStack.opacity,
-					cssPosition
-				};
-				if (parentStack.clip) stack.clip = _html2canvas.Util.Extend({}, parentStack.clip);
-				if (options.useOverflow === true && /(hidden|scroll|auto)/.test(getCSS(el, "overflow")) === true && /(BODY)/i.test(el.nodeName) === false) {
-					if (stack.clip) stack.clip = clipBounds(stack.clip, bounds);
-					else stack.clip = bounds;
-				}
-				stackLength = zindex.children.push(stack);
-				ctx = zindex.children[stackLength - 1].ctx;
-				ctx.setVariable("globalAlpha", stack.opacity);
-				borders = renderBorders(el, ctx, bounds, false);
-				stack.borders = borders;
-				if (ignoreElementsRegExp.test(el.nodeName) && options.iframeDefault !== "transparent") {
-					if (options.iframeDefault === "default") bgcolor = "#efefef";
-					else bgcolor = options.iframeDefault;
-				}
-				bgbounds = {
-					left: x + borders[3].width,
-					top: y + borders[0].width,
-					width: w - (borders[1].width + borders[3].width),
-					height: h - (borders[0].width + borders[2].width)
-				};
-				if (stack.clip) bgbounds = clipBounds(bgbounds, stack.clip);
-				if (bgbounds.height > 0 && bgbounds.width > 0) {
-					renderRect(ctx, bgbounds.left, bgbounds.top, bgbounds.width, bgbounds.height, bgcolor);
-					renderBackground(el, bgbounds, ctx);
-				}
-				switch (el.nodeName) {
-					case "IMG":
-						imgSrc = el.getAttribute("src");
-						image = loadImage(imgSrc);
-						if (image) {
-							paddingLeft = getCSSInt(el, "paddingLeft");
-							paddingTop = getCSSInt(el, "paddingTop");
-							paddingRight = getCSSInt(el, "paddingRight");
-							paddingBottom = getCSSInt(el, "paddingBottom");
-							renderImage(ctx, image, 0, 0, image.width, image.height, x + paddingLeft + borders[3].width, y + paddingTop + borders[0].width, bounds.width - (borders[1].width + borders[3].width + paddingLeft + paddingRight), bounds.height - (borders[0].width + borders[2].width + paddingTop + paddingBottom));
-						} else h2clog("html2canvas: Error loading <img>:" + imgSrc);
-						break;
-					case "INPUT":
-						if (/^(text|url|email|submit|button|reset)$/.test(el.type) && el.value.length > 0) renderFormValue(el, bounds, stack);
-						break;
-					case "TEXTAREA":
-						if (el.value.length > 0) renderFormValue(el, bounds, stack);
-						break;
-					case "SELECT":
-						if (el.options.length > 0) renderFormValue(el, bounds, stack);
-						break;
-					case "LI":
-						renderListItem(el, stack, bgbounds);
-						break;
-					case "CANVAS":
-						paddingLeft = getCSSInt(el, "paddingLeft");
-						paddingTop = getCSSInt(el, "paddingTop");
-						paddingRight = getCSSInt(el, "paddingRight");
-						paddingBottom = getCSSInt(el, "paddingBottom");
-						renderImage(ctx, el, 0, 0, el.width, el.height, x + paddingLeft + borders[3].width, y + paddingTop + borders[0].width, bounds.width - (borders[1].width + borders[3].width + paddingLeft + paddingRight), bounds.height - (borders[0].width + borders[2].width + paddingTop + paddingBottom));
-				}
-				return zindex.children[stackLength - 1];
-			}
-			function parseElement(el, stack) {
-				if (getCSS(el, "display") !== "none" && getCSS(el, "visibility") !== "hidden" && !el.hasAttribute("data-html2canvas-ignore")) {
-					stack = renderElement(el, stack) || stack;
-					ctx = stack.ctx;
-					if (!ignoreElementsRegExp.test(el.nodeName)) {
-						let elementChildren = _html2canvas.Util.Children(el), i, node, childrenLen;
-						for (i = 0, childrenLen = elementChildren.length; i < childrenLen; i += 1) {
-							node = elementChildren[i];
-							if (node.nodeType === 1) parseElement(node, stack);
-							else if (node.nodeType === 3) renderText(el, node, stack);
-						}
-					}
-				}
-			}
-			stack = renderElement(element, null);
-			if (support.svgRendering) (function(body) {
-				let img = new Image(), size = docSize(), html = "";
-				function parseDOM(el) {
-					let children = _html2canvas.Util.Children(el), len = children.length, attr, a, alen, elm, i = 0;
-					for (; i < len; i += 1) {
-						elm = children[i];
-						if (elm.nodeType === 3) html += elm.nodeValue.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
-						else if (elm.nodeType === 1) {
-							if (!/^(script|meta|title)$/.test(elm.nodeName.toLowerCase())) {
-								html += "<" + elm.nodeName.toLowerCase();
-								if (elm.hasAttributes()) {
-									attr = elm.attributes;
-									alen = attr.length;
-									for (a = 0; a < alen; a += 1) html += " " + attr[a].name + "=\"" + attr[a].value + "\"";
-								}
-								html += ">";
-								parseDOM(elm);
-								html += "</" + elm.nodeName.toLowerCase() + ">";
-							}
-						}
-					}
-				}
-				parseDOM(body);
-				img.src = [
-					"data:image/svg+xml,",
-					"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='" + size.width + "' height='" + size.height + "'>",
-					"<foreignObject width='" + size.width + "' height='" + size.height + "'>",
-					"<html xmlns='http://www.w3.org/1999/xhtml' style='margin:0;'>",
-					html.replace(/\#/g, "%23"),
-					"</html>",
-					"</foreignObject>",
-					"</svg>"
-				].join("");
-				img.onload = function() {
-					stack.svgRender = img;
-				};
-			})(document.documentElement);
-			for (i = 0, children = element.children, childrenLen = children.length; i < childrenLen; i += 1) parseElement(children[i], stack);
-			stack.backgroundColor = getCSS(document.documentElement, "backgroundColor");
-			return stack;
-		};
-		function h2czContext(zindex) {
-			return {
-				zindex,
-				children: []
-			};
+		if (!s.allowed) cancel();
+		if (!nameDirty) $("[data-companion-name]").value = info?.szName || "";
+		$("[data-companion-name]").parentElement.hidden = s.kind !== "homunculus";
+		$("[data-companion-name]").disabled = !s.allowed || Boolean(info?.bModified);
+		const rows = info ? [
+			["名称", s.kind === "homunculus" ? info.szName : info.name],
+			["等级", s.kind === "homunculus" ? info.nLevel : info.level],
+			["HP", `${info.hp ?? 0} / ${info.maxHP ?? 0}`],
+			["SP", `${info.sp ?? 0} / ${info.maxSP ?? 0}`],
+			["攻击模式", s.aggressive ? "主动攻击" : "被动攻击"],
+			...s.kind === "homunculus" ? [
+				["饱食度", info.nFullness],
+				["亲密度", info.nRelationship],
+				["技能点", info.SKPoint],
+				["经验", `${info.exp ?? 0} / ${info.maxEXP ?? 0}`],
+				["自动喂食", s.autoFeed ? "开启" : "关闭"]
+			] : [
+				["忠诚度", info.faith],
+				["击杀数", info.approval_monster_kill_counter],
+				["召唤次数", info.toal_call_num],
+				["契约到期", info.ExpireDate ? (/* @__PURE__ */ new Date(info.ExpireDate * 1e3)).toLocaleString("zh-CN") : "—"]
+			]
+		] : [["状态", "暂无已召出的伴侣"]];
+		$("[data-info]").replaceChildren();
+		for (const [label, value] of rows) {
+			const dt = document.createElement("dt"), dd = document.createElement("dd");
+			dt.textContent = label;
+			dd.textContent = value ?? "—";
+			$("[data-info]").append(dt, dd);
 		}
-		_html2canvas.Preload = function(options) {
-			let images = {
-				numLoaded: 0,
-				numFailed: 0,
-				numTotal: 0,
-				cleanupDone: false
-			}, pageOrigin, methods, i, count = 0, element = options.elements[0] || document.body, doc = element.ownerDocument, domImages = doc.images, imgLen = domImages.length, link = doc.createElement("a"), supportCORS = (function(img) {
-				return img.crossOrigin !== undefined;
-			})(new Image()), timeoutTimer;
-			link.href = window.location.href;
-			pageOrigin = link.protocol + link.host;
-			function isSameOrigin(url) {
-				link.href = url;
-				link.href = link.href;
-				return link.protocol + link.host === pageOrigin;
-			}
-			function start() {
-				h2clog("html2canvas: start: images: " + images.numLoaded + " / " + images.numTotal + " (failed: " + images.numFailed + ")");
-				if (!images.firstRun && images.numLoaded >= images.numTotal) {
-					h2clog("Finished loading images: # " + images.numTotal + " (failed: " + images.numFailed + ")");
-					if (typeof options.complete === "function") options.complete(images);
-				}
-			}
-			function proxyGetImage(url, img, imageObj) {
-				let callback_name, scriptUrl = options.proxy, script;
-				link.href = url;
-				url = link.href;
-				callback_name = "html2canvas_" + count++;
-				imageObj.callbackname = callback_name;
-				if (scriptUrl.indexOf("?") > -1) scriptUrl += "&";
-				else scriptUrl += "?";
-				scriptUrl += "url=" + encodeURIComponent(url) + "&callback=" + callback_name;
-				script = doc.createElement("script");
-				window[callback_name] = function(a) {
-					if (a.substring(0, 6) === "error:") {
-						imageObj.succeeded = false;
-						images.numLoaded++;
-						images.numFailed++;
-						start();
-					} else {
-						setImageLoadHandlers(img, imageObj);
-						img.src = a;
-					}
-					window[callback_name] = undefined;
-					try {
-						delete window[callback_name];
-					} catch (ex) {}
-					script.parentNode.removeChild(script);
-					script = null;
-					delete imageObj.script;
-					delete imageObj.callbackname;
-				};
-				script.setAttribute("type", "text/javascript");
-				script.setAttribute("src", scriptUrl);
-				imageObj.script = script;
-				window.document.body.appendChild(script);
-			}
-			function getImages(el) {
-				let contents = _html2canvas.Util.Children(el), i, background_image, src, img, elNodeType = false;
-				try {
-					let contentsLen = contents.length;
-					for (i = 0; i < contentsLen; i += 1) getImages(contents[i]);
-				} catch (e) {}
-				try {
-					elNodeType = el.nodeType;
-				} catch (ex) {
-					elNodeType = false;
-					h2clog("html2canvas: failed to access some element's nodeType - Exception: " + ex.message);
-				}
-				if (elNodeType === 1 || elNodeType === undefined) {
-					try {
-						background_image = _html2canvas.Util.getCSS(el, "backgroundImage");
-					} catch (e) {
-						h2clog("html2canvas: failed to get background-image - Exception: " + e.message);
-					}
-					if (background_image && background_image !== "1" && background_image !== "none") {
-						if (/^(-webkit|-o|-moz|-ms|linear)-/.test(background_image)) {
-							img = _html2canvas.Generate.Gradient(background_image, _html2canvas.Util.Bounds(el));
-							if (img !== undefined) {
-								images[background_image] = {
-									img,
-									succeeded: true
-								};
-								images.numTotal++;
-								images.numLoaded++;
-								start();
-							}
-						} else {
-							src = _html2canvas.Util.backgroundImage(background_image.match(/data:image\/.*;base64,/i) ? background_image : background_image.split(",")[0]);
-							methods.loadImage(src);
-						}
-					}
-				}
-			}
-			function setImageLoadHandlers(img, imageObj) {
-				img.onload = function() {
-					if (imageObj.timer !== undefined) window.clearTimeout(imageObj.timer);
-					images.numLoaded++;
-					imageObj.succeeded = true;
-					img.onerror = img.onload = null;
-					start();
-				};
-				img.onerror = function() {
-					if (img.crossOrigin === "anonymous") {
-						window.clearTimeout(imageObj.timer);
-						if (options.proxy) {
-							let src = img.src;
-							img = new Image();
-							imageObj.img = img;
-							img.src = src;
-							proxyGetImage(img.src, img, imageObj);
-							return;
-						}
-					}
-					images.numLoaded++;
-					images.numFailed++;
-					imageObj.succeeded = false;
-					img.onerror = img.onload = null;
-					start();
-				};
-			}
-			methods = {
-				loadImage: function(src) {
-					let img, imageObj;
-					if (src && images[src] === undefined) {
-						img = new Image();
-						if (src.match(/data:image\/.*;base64,/i)) {
-							img.src = src.replace(/url\(['"]{0,}|['"]{0,}\)$/gi, "");
-							imageObj = images[src] = { img };
-							images.numTotal++;
-							setImageLoadHandlers(img, imageObj);
-						} else if (isSameOrigin(src) || options.allowTaint === true) {
-							imageObj = images[src] = { img };
-							images.numTotal++;
-							setImageLoadHandlers(img, imageObj);
-							img.src = src;
-						} else if (supportCORS && !options.allowTaint && options.useCORS) {
-							img.crossOrigin = "anonymous";
-							imageObj = images[src] = { img };
-							images.numTotal++;
-							setImageLoadHandlers(img, imageObj);
-							img.src = src;
-							img.customComplete = function() {
-								if (!this.img.complete) this.timer = window.setTimeout(this.img.customComplete, 100);
-								else this.img.onerror();
-							}.bind(imageObj);
-							img.customComplete();
-						} else if (options.proxy) {
-							imageObj = images[src] = { img };
-							images.numTotal++;
-							proxyGetImage(src, img, imageObj);
-						}
-					}
-				},
-				cleanupDOM: function(cause) {
-					let img, src;
-					if (!images.cleanupDone) {
-						if (cause && typeof cause === "string") h2clog("html2canvas: Cleanup because: " + cause);
-						else h2clog("html2canvas: Cleanup after timeout: " + options.timeout + " ms.");
-						for (src in images) if (images.hasOwnProperty(src)) {
-							img = images[src];
-							if (typeof img === "object" && img.callbackname && img.succeeded === undefined) {
-								window[img.callbackname] = undefined;
-								try {
-									delete window[img.callbackname];
-								} catch (ex) {}
-								if (img.script && img.script.parentNode) {
-									img.script.setAttribute("src", "about:blank");
-									img.script.parentNode.removeChild(img.script);
-								}
-								images.numLoaded++;
-								images.numFailed++;
-								h2clog("html2canvas: Cleaned up failed img: '" + src + "' Steps: " + images.numLoaded + " / " + images.numTotal);
-							}
-						}
-						if (window.stop !== undefined) window.stop();
-						else if (document.execCommand !== undefined) document.execCommand("Stop", false);
-						if (document.close !== undefined) document.close();
-						images.cleanupDone = true;
-						if (!(cause && typeof cause === "string")) start();
-					}
-				},
-				renderingDone: function() {
-					if (timeoutTimer) window.clearTimeout(timeoutTimer);
-				}
-			};
-			if (options.timeout > 0) timeoutTimer = window.setTimeout(methods.cleanupDOM, options.timeout);
-			h2clog("html2canvas: Preload starts: finding background-images");
-			images.firstRun = true;
-			getImages(element);
-			h2clog("html2canvas: Preload: Finding images");
-			for (i = 0; i < imgLen; i += 1) methods.loadImage(domImages[i].getAttribute("src"));
-			images.firstRun = false;
-			h2clog("html2canvas: Preload: Done.");
-			if (images.numTotal === images.numLoaded) start();
-			return methods;
-		};
-		function h2cRenderContext(width, height) {
-			let storage = [];
-			return {
-				storage,
-				width,
-				height,
-				fillRect: function() {
-					storage.push({
-						type: "function",
-						name: "fillRect",
-						"arguments": arguments
-					});
-				},
-				drawShape: function() {
-					let shape = [];
-					storage.push({
-						type: "function",
-						name: "drawShape",
-						"arguments": shape
-					});
-					return {
-						moveTo: function() {
-							shape.push({
-								name: "moveTo",
-								"arguments": arguments
-							});
-						},
-						lineTo: function() {
-							shape.push({
-								name: "lineTo",
-								"arguments": arguments
-							});
-						},
-						bezierCurveTo: function() {
-							shape.push({
-								name: "bezierCurveTo",
-								"arguments": arguments
-							});
-						},
-						quadraticCurveTo: function() {
-							shape.push({
-								name: "quadraticCurveTo",
-								"arguments": arguments
-							});
-						}
+		for (const b of body.querySelectorAll("[data-action]")) b.disabled = !s.allowed || b.dataset.action === "rename" && Boolean(info?.bModified);
+		const key = JSON.stringify(s.skills);
+		if (key !== skillKey) {
+			skillKey = key;
+			$("[data-skills]").replaceChildren();
+			for (const skill of s.skills) {
+				const entry = document.createElement("div"), button = document.createElement("button");
+				entry.textContent = `${skill.name} · Lv.${skill.level} · ${skill.type ? "主动" : "被动"} `;
+				button.textContent = "学习一级";
+				button.disabled = !skill.learnable;
+				button.onclick = () => {
+					cancel();
+					learning = {
+						id: skill.SKID,
+						level: skill.level + 1,
+						gid: s.gid
 					};
-				},
-				drawImage: function() {
-					storage.push({
-						type: "function",
-						name: "drawImage",
-						"arguments": arguments
-					});
-				},
-				fillText: function() {
-					storage.push({
-						type: "function",
-						name: "fillText",
-						"arguments": arguments
-					});
-				},
-				setVariable: function(variable, value) {
-					storage.push({
-						type: "variable",
-						name: variable,
-						"arguments": value
-					});
-				}
-			};
-		}
-		_html2canvas.Renderer = function(parseQueue, options) {
-			let queue = [];
-			function sortZ(zStack) {
-				let subStacks = [], stackValues = [], zStackChildren = zStack.children, s, i, stackLen, zValue, zLen, stackChild, b, subStackLen;
-				for (s = 0, zLen = zStackChildren.length; s < zLen; s += 1) {
-					stackChild = zStackChildren[s];
-					if (stackChild.children && stackChild.children.length > 0) {
-						subStacks.push(stackChild);
-						stackValues.push(stackChild.zindex);
-					} else queue.push(stackChild);
-				}
-				stackValues.sort(function(a, b) {
-					return a - b;
-				});
-				for (i = 0, stackLen = stackValues.length; i < stackLen; i += 1) {
-					zValue = stackValues[i];
-					for (b = 0, subStackLen = subStacks.length; b <= subStackLen; b += 1) if (subStacks[b].zindex === zValue) {
-						stackChild = subStacks.splice(b, 1);
-						sortZ(stackChild[0]);
-						break;
-					}
-				}
-			}
-			sortZ(parseQueue.zIndex);
-			if (typeof options._renderer._create !== "function") throw new Error("Invalid renderer defined");
-			return options._renderer._create(parseQueue, options, document, queue, _html2canvas);
-		};
-		html2canvas = function(elements, opts) {
-			let queue, canvas, options = {
-				logging: false,
-				elements,
-				proxy: "http://html2canvas.appspot.com/",
-				timeout: 0,
-				useCORS: false,
-				allowTaint: false,
-				svgRendering: false,
-				iframeDefault: "default",
-				ignoreElements: "IFRAME|OBJECT|PARAM",
-				useOverflow: true,
-				letterRendering: false,
-				flashcanvas: undefined,
-				width: null,
-				height: null,
-				taintTest: true,
-				renderer: "Canvas"
-			};
-			options = _html2canvas.Util.Extend(opts, options);
-			if (typeof options.renderer === "string" && _html2canvas.Renderer[options.renderer] !== undefined) options._renderer = _html2canvas.Renderer[options.renderer](options);
-			else if (typeof options.renderer === "function") options._renderer = options.renderer(options);
-			else throw "Unknown renderer";
-			_html2canvas.logging = options.logging;
-			options.complete = function(images) {
-				if (typeof options.onpreloaded === "function") {
-					if (options.onpreloaded(images) === false) return;
-				}
-				queue = _html2canvas.Parse(images, options);
-				if (typeof options.onparsed === "function") {
-					if (options.onparsed(queue) === false) return;
-				}
-				canvas = _html2canvas.Renderer(queue, options);
-				if (typeof options.onrendered === "function") options.onrendered(canvas);
-			};
-			window.setTimeout(function() {
-				_html2canvas.Preload(options);
-			}, 0);
-			return {
-				render: function(queue, opts) {
-					return _html2canvas.Renderer(queue, _html2canvas.Util.Extend(opts, options));
-				},
-				parse: function(images, opts) {
-					return _html2canvas.Parse(images, _html2canvas.Util.Extend(opts, options));
-				},
-				preload: function(opts) {
-					return _html2canvas.Preload(_html2canvas.Util.Extend(opts, options));
-				},
-				log: h2clog
-			};
-		};
-		html2canvas.log = h2clog;
-		html2canvas.Renderer = { Canvas: undefined };
-		_html2canvas.Renderer.Canvas = function(options) {
-			options = options || {};
-			let doc = document, canvas = options.canvas || doc.createElement("canvas"), usingFlashcanvas = false, _createCalled = false, canvasReadyToDraw = false, methods, flashMaxSize = 2880;
-			if (canvas.getContext) {
-				h2clog("html2canvas: Renderer: using canvas renderer");
-				canvasReadyToDraw = true;
-			} else if (options.flashcanvas !== undefined) {
-				usingFlashcanvas = true;
-				h2clog("html2canvas: Renderer: canvas not available, using flashcanvas");
-				let script = doc.createElement("script");
-				script.src = options.flashcanvas;
-				script.onload = (function(script, func) {
-					let intervalFunc;
-					if (script.onload === undefined) {
-						if (script.onreadystatechange !== undefined) {
-							intervalFunc = function() {
-								if (script.readyState !== "loaded" && script.readyState !== "complete") window.setTimeout(intervalFunc, 250);
-								else func();
-							};
-							window.setTimeout(intervalFunc, 250);
-						} else h2clog("html2canvas: Renderer: Can't track when flashcanvas is loaded");
-					} else return func;
-				})(script, function() {
-					if (typeof window.FlashCanvas !== "undefined") {
-						h2clog("html2canvas: Renderer: Flashcanvas initialized");
-						window.FlashCanvas.initElement(canvas);
-						canvasReadyToDraw = true;
-						if (_createCalled !== false) methods._create.apply(null, _createCalled);
-					}
-				});
-				doc.body.appendChild(script);
-			}
-			methods = { _create: function(zStack, options, doc, queue, _html2canvas) {
-				if (!canvasReadyToDraw) {
-					_createCalled = arguments;
-					return canvas;
-				}
-				let ctx = canvas.getContext("2d"), storageContext, i, queueLen, a, newCanvas, bounds, testCanvas = document.createElement("canvas"), hasCTX = testCanvas.getContext !== undefined, storageLen, renderItem, testctx = hasCTX ? testCanvas.getContext("2d") : {}, safeImages = [], fstyle;
-				canvas.width = canvas.style.width = !usingFlashcanvas ? options.width || zStack.ctx.width : Math.min(flashMaxSize, options.width || zStack.ctx.width);
-				canvas.height = canvas.style.height = !usingFlashcanvas ? options.height || zStack.ctx.height : Math.min(flashMaxSize, options.height || zStack.ctx.height);
-				fstyle = ctx.fillStyle;
-				ctx.fillStyle = zStack.backgroundColor;
-				ctx.fillRect(0, 0, canvas.width, canvas.height);
-				ctx.fillStyle = fstyle;
-				if (options.svgRendering && zStack.svgRender !== undefined) ctx.drawImage(zStack.svgRender, 0, 0);
-				else for (i = 0, queueLen = queue.length; i < queueLen; i += 1) {
-					storageContext = queue.splice(0, 1)[0];
-					storageContext.canvasPosition = storageContext.canvasPosition || {};
-					ctx.textBaseline = "bottom";
-					if (storageContext.clip) {
-						ctx.save();
-						ctx.beginPath();
-						ctx.rect(storageContext.clip.left, storageContext.clip.top, storageContext.clip.width, storageContext.clip.height);
-						ctx.clip();
-					}
-					if (storageContext.ctx.storage) for (a = 0, storageLen = storageContext.ctx.storage.length; a < storageLen; a += 1) {
-						renderItem = storageContext.ctx.storage[a];
-						switch (renderItem.type) {
-							case "variable":
-								ctx[renderItem.name] = renderItem["arguments"];
-								break;
-							case "function": if (renderItem.name === "fillRect") {
-								if (!usingFlashcanvas || renderItem["arguments"][0] + renderItem["arguments"][2] < flashMaxSize && renderItem["arguments"][1] + renderItem["arguments"][3] < flashMaxSize) ctx.fillRect.apply(ctx, renderItem["arguments"]);
-							} else if (renderItem.name === "drawShape") (function(args) {
-								let i, len = args.length;
-								ctx.beginPath();
-								for (i = 0; i < len; i++) ctx[args[i].name].apply(ctx, args[i]["arguments"]);
-								ctx.closePath();
-								ctx.fill();
-							})(renderItem["arguments"]);
-							else if (renderItem.name === "fillText") {
-								if (!usingFlashcanvas || renderItem["arguments"][1] < flashMaxSize && renderItem["arguments"][2] < flashMaxSize) ctx.fillText.apply(ctx, renderItem["arguments"]);
-							} else if (renderItem.name === "drawImage") {
-								if (renderItem["arguments"][8] > 0 && renderItem["arguments"][7]) {
-									if (hasCTX && options.taintTest) {
-										if (safeImages.indexOf(renderItem["arguments"][0].src) === -1) {
-											testctx.drawImage(renderItem["arguments"][0], 0, 0);
-											try {
-												testctx.getImageData(0, 0, 1, 1);
-											} catch (e) {
-												testCanvas = doc.createElement("canvas");
-												testctx = testCanvas.getContext("2d");
-												continue;
-											}
-											safeImages.push(renderItem["arguments"][0].src);
-										}
-									}
-									ctx.drawImage.apply(ctx, renderItem["arguments"]);
-								}
-							}
-						}
-					}
-					if (storageContext.clip) ctx.restore();
-				}
-				h2clog("html2canvas: Renderer: Canvas renderer done - returning canvas obj");
-				queueLen = options.elements.length;
-				if (queueLen === 1) {
-					if (typeof options.elements[0] === "object" && options.elements[0].nodeName !== "BODY" && usingFlashcanvas === false) {
-						bounds = _html2canvas.Util.Bounds(options.elements[0]);
-						newCanvas = doc.createElement("canvas");
-						newCanvas.width = bounds.width;
-						newCanvas.height = bounds.height;
-						ctx = newCanvas.getContext("2d");
-						ctx.drawImage(canvas, bounds.left, bounds.top, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
-						canvas = null;
-						return newCanvas;
-					}
-				}
-				return canvas;
-			} };
-			return methods;
-		};
-		_html2canvas.Renderer.SVG = function(options) {
-			options = options || {};
-			let doc = document, svgNS = "http://www.w3.org/2000/svg", svg = doc.createElementNS(svgNS, "svg"), xlinkNS = "http://www.w3.org/1999/xlink", defs = doc.createElementNS(svgNS, "defs"), i, a, queueLen, storageLen, storageContext, renderItem, el, settings = {}, text, fontStyle, clipId = 0;
-			return { _create: function(zStack, options, doc, queue, _html2canvas) {
-				svg.setAttribute("version", "1.1");
-				svg.setAttribute("baseProfile", "full");
-				svg.setAttribute("viewBox", "0 0 " + Math.max(zStack.ctx.width, options.width) + " " + Math.max(zStack.ctx.height, options.height));
-				svg.setAttribute("width", Math.max(zStack.ctx.width, options.width) + "px");
-				svg.setAttribute("height", Math.max(zStack.ctx.height, options.height) + "px");
-				svg.setAttribute("preserveAspectRatio", "none");
-				svg.appendChild(defs);
-				for (i = 0, queueLen = queue.length; i < queueLen; i += 1) {
-					storageContext = queue.splice(0, 1)[0];
-					storageContext.canvasPosition = storageContext.canvasPosition || {};
-					if (storageContext.ctx.storage) for (a = 0, storageLen = storageContext.ctx.storage.length; a < storageLen; a += 1) {
-						renderItem = storageContext.ctx.storage[a];
-						switch (renderItem.type) {
-							case "variable":
-								settings[renderItem.name] = renderItem["arguments"];
-								break;
-							case "function": if (renderItem.name === "fillRect") {
-								el = doc.createElementNS(svgNS, "rect");
-								el.setAttribute("x", renderItem["arguments"][0]);
-								el.setAttribute("y", renderItem["arguments"][1]);
-								el.setAttribute("width", renderItem["arguments"][2]);
-								el.setAttribute("height", renderItem["arguments"][3]);
-								el.setAttribute("fill", settings.fillStyle);
-								svg.appendChild(el);
-							} else if (renderItem.name === "fillText") {
-								el = doc.createElementNS(svgNS, "text");
-								fontStyle = settings.font.split(" ");
-								el.style.fontVariant = fontStyle.splice(0, 1)[0];
-								el.style.fontWeight = fontStyle.splice(0, 1)[0];
-								el.style.fontStyle = fontStyle.splice(0, 1)[0];
-								el.style.fontSize = fontStyle.splice(0, 1)[0];
-								el.setAttribute("x", renderItem["arguments"][1]);
-								el.setAttribute("y", renderItem["arguments"][2] - (parseInt(el.style.fontSize, 10) + 3));
-								el.setAttribute("fill", settings.fillStyle);
-								el.style.dominantBaseline = "text-before-edge";
-								el.style.fontFamily = fontStyle.join(" ");
-								text = doc.createTextNode(renderItem["arguments"][0]);
-								el.appendChild(text);
-								svg.appendChild(el);
-							} else if (renderItem.name === "drawImage") {
-								if (renderItem["arguments"][8] > 0 && renderItem["arguments"][7]) {
-									el = doc.createElementNS(svgNS, "clipPath");
-									el.setAttribute("id", "clipId" + clipId);
-									text = doc.createElementNS(svgNS, "rect");
-									text.setAttribute("x", renderItem["arguments"][5]);
-									text.setAttribute("y", renderItem["arguments"][6]);
-									text.setAttribute("width", renderItem["arguments"][3]);
-									text.setAttribute("height", renderItem["arguments"][4]);
-									el.appendChild(text);
-									defs.appendChild(el);
-									el = doc.createElementNS(svgNS, "image");
-									el.setAttributeNS(xlinkNS, "xlink:href", renderItem["arguments"][0].src);
-									el.setAttribute("width", renderItem["arguments"][7]);
-									el.setAttribute("height", renderItem["arguments"][8]);
-									el.setAttribute("x", renderItem["arguments"][5]);
-									el.setAttribute("y", renderItem["arguments"][6]);
-									el.setAttribute("clip-path", "url(#clipId" + clipId + ")");
-									el.setAttribute("preserveAspectRatio", "none");
-									svg.appendChild(el);
-									clipId += 1;
-								}
-							}
-						}
-					}
-				}
-				h2clog("html2canvas: Renderer: SVG Renderer done - returning SVG DOM obj");
-				return svg;
-			} };
-		};
-	})(window, document);
-	html2canvas_default = html2canvas;
-}));
-//#endregion
-//#region src/Controls/ScreenShot.js
-var ScreenShot;
-var init_ScreenShot = __esmMin((() => {
-	init_Client();
-	init_html2canvas();
-	init_KeyEventHandler();
-	init_ChatBox();
-	ScreenShot = class ScreenShot {
-		/**
-		* Take a ScreenShot
-		*/
-		static take() {
-			if (!ChatBox_default.ui) return;
-			html2canvas_default([document.body], { onrendered: this.process });
-		}
-		/**
-		* Process ScreenShot
-		*
-		* @param {canvasElement} canvas
-		*/
-		static process(canvas) {
-			let x, y;
-			const tzoffset = (/* @__PURE__ */ new Date()).getTimezoneOffset() * 6e4;
-			let localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
-			localISOTime = localISOTime.replace("T", " ");
-			const timezone = (/* @__PURE__ */ new Date()).getTimezoneOffset() / 60;
-			const date = `${localISOTime} (GMT ${timezone > 0 ? "-" : "+"}${Math.abs(timezone).toString()})`;
-			const context = canvas.getContext("2d");
-			context.fillStyle = "white";
-			context.strokeStyle = "black";
-			x = 20;
-			y = canvas.height - 5;
-			context.font = "bold 16px Arial";
-			context.fillText(date, x, y);
-			context.strokeText(date, x, y);
-			Client.loadFile("data/texture/scr_logo.bmp", (url) => {
-				const img = new Image();
-				img.decoding = "async";
-				img.src = url;
-				img.onload = () => {
-					x = canvas.width - img.width - 20;
-					y = canvas.height - img.height - 5;
-					context.drawImage(img, x, y);
-					ScreenShot.display(canvas, date);
+					review(`消耗 1 点技能点，将「${skill.name}」提升至 Lv.${skill.level + 1}？`);
 				};
-			}, () => {
-				ScreenShot.display(canvas, date);
-			});
+				entry.append(button);
+				$("[data-skills]").append(entry);
+			}
 		}
-		/**
-		* Display the ScreenShot, this method is ment to be replaced by plugins if wanted.
-		*
-		* @param {canvasElement} canvas
-		* @param {string} date
-		*/
-		static display(canvas, date) {
-			let i;
-			const binary = atob(canvas.toDataURL("image/png").replace(/^data[^,]+,/, ""));
-			const count = binary.length;
-			const data = new Uint8Array(count);
-			for (i = 0; i < count; ++i) data[i] = binary.charCodeAt(i);
-			const url = window.URL.createObjectURL(new Blob([data], { type: "image/png" }));
-			ChatBox_default.addText(`截图 ${date} 可通过<a style="color:#F88" download="ScreenShot (${date.replace("/", "-")}).png" href="${url}" target="_blank">点击此处</a>保存。`, ChatBox_default.TYPE.PUBLIC, ChatBox_default.FILTER.PUBLIC_LOG, null, true);
+		if (lastMessage !== s.message) {
+			lastMessage = s.message;
+			$("[role=status]").textContent = s.message;
 		}
+	}
+	update();
+	return { update };
+}
+var init_CompanionsPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/PetPanel.js
+function createPetPanel(body, service) {
+	body.innerHTML = "<button data-refresh>刷新宠物状态</button><dl data-info></dl><div class=\"social-form\"><label>宠物名称<input data-name maxlength=\"23\"></label><div class=\"inventory-actions\" data-actions></div></div><div data-evolution></div><p data-review></p><button data-confirm hidden>确认</button><button data-cancel hidden>取消</button><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector);
+	let review = null, lastPet = null, evoKey = "", lastMessage = "", nameDirty = false;
+	function cancel() {
+		review = null;
+		$("[data-review]").textContent = "";
+		$("[data-confirm]").hidden = true;
+		$("[data-cancel]").hidden = true;
+	}
+	function prepare(action, value, label) {
+		review = {
+			action,
+			value,
+			pet: service.snapshot().gid
+		};
+		$("[data-review]").textContent = label;
+		$("[data-confirm]").hidden = false;
+		$("[data-cancel]").hidden = false;
+	}
+	for (const [action, label] of [
+		["feed", "喂食"],
+		["perform", "表演"],
+		["egg", "收回为宠物蛋"],
+		["unequip", "卸下饰品"],
+		["rename", "改名"],
+		["autofeed", "切换自动喂食"]
+	]) {
+		const b = document.createElement("button");
+		b.type = "button";
+		b.textContent = label;
+		b.dataset.action = action;
+		b.onclick = () => {
+			prepare(action, action === "rename" ? $("[data-name]").value : void 0, `${label}${action === "rename" ? "为「" + $("[data-name]").value + "」" : ""}？${action === "feed" ? "将使用宠物食物，过度喂食可能降低亲密度。" : ""}`);
+		};
+		$("[data-actions]").append(b);
+	}
+	$("[data-refresh]").onclick = () => {
+		cancel();
+		service.refresh();
+		update();
 	};
-	/**
-	* Key Listener
-	*/
-	window.addEventListener("keydown", (event) => {
-		if (KEYS.ALT && event.which === KEYS.P) {
-			ScreenShot.take();
-			event.stopImmediatePropagation();
-			event.preventDefault();
+	$("[data-name]").oninput = () => {
+		nameDirty = true;
+		cancel();
+	};
+	$("[data-cancel]").onclick = cancel;
+	$("[data-confirm]").onclick = () => {
+		if (!review) return;
+		const { action, value, pet } = review;
+		cancel();
+		if (service.snapshot().gid !== pet) {
+			$("[role=status]").textContent = "宠物已变化，请重新确认";
+			return;
 		}
-	});
+		$("[role=status]").textContent = service.command(action, value);
+		update();
+	};
+	function update() {
+		const state = service.snapshot(), info = state.info;
+		const rows = info ? [
+			["名称", info.szName],
+			["等级", info.nLevel],
+			["饱食度", `${info.nFullness} / 100`],
+			["亲密度", info.nRelationship],
+			["饰品", state.accessory ? "已装备" : "未装备"],
+			["自动喂食", state.autoFeed ? "已开启" : "未开启"]
+		] : [["状态", "暂无已召唤的宠物"]];
+		$("[data-info]").replaceChildren();
+		for (const [label, value] of rows) {
+			const dt = document.createElement("dt"), dd = document.createElement("dd");
+			dt.textContent = label;
+			dd.textContent = value;
+			$("[data-info]").append(dt, dd);
+		}
+		if (lastPet !== state.gid) {
+			lastPet = state.gid;
+			nameDirty = false;
+			cancel();
+		}
+		if (!nameDirty) $("[data-name]").value = info?.szName || "";
+		const nextKey = JSON.stringify(state.evolutions);
+		if (nextKey !== evoKey) {
+			evoKey = nextKey;
+			$("[data-evolution]").replaceChildren();
+			for (const evo of state.evolutions) {
+				const title = document.createElement("h3");
+				title.textContent = `进化为 ${evo.name}`;
+				$("[data-evolution]").append(title);
+				for (const mat of evo.materials) {
+					const p = document.createElement("p");
+					p.textContent = `${mat.name}：${mat.owned} / ${mat.count}`;
+					$("[data-evolution]").append(p);
+				}
+				const b = document.createElement("button");
+				b.type = "button";
+				b.textContent = "进化为 " + evo.name;
+				b.onclick = () => prepare("evolve", evo.egg, "确认消耗上述材料，将宠物进化为 " + evo.name + "？");
+				$("[data-evolution]").append(b);
+			}
+		}
+		for (const button of body.querySelectorAll("button")) button.disabled = !state.allowed;
+		$("[data-refresh]").disabled = !state.canRefresh;
+		$("[data-name]").disabled = !state.allowed || Boolean(info?.bModified);
+		$("[data-action=rename]").disabled = !state.allowed || Boolean(info?.bModified);
+		$("[data-action=unequip]").disabled = !state.allowed || !state.accessory;
+		if (lastMessage !== state.message) {
+			lastMessage = state.message;
+			$("[role=status]").textContent = state.message;
+		}
+	}
+	update();
+	return { update };
+}
+var init_PetPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/MailPanel.js
+/** Native scrolling and explicit actions replace mail attachment drag/drop. */
+function createMailPanel(body, service) {
+	let version = -1, tab = 0, page = 0, term = "", review = null;
+	const controls = [], detail = document.createElement("section"), list = document.createElement("section"), status = document.createElement("p");
+	list.className = "inventory-list";
+	detail.className = "inventory-detail";
+	status.role = "status";
+	const layout = document.createElement("div");
+	layout.className = "inventory-layout";
+	layout.append(list, detail);
+	status.className = "inventory-status";
+	body.replaceChildren(layout, status);
+	const button = (parent, label, action) => {
+		const b = document.createElement("button");
+		b.type = "button";
+		if (parent === list) b.className = "inventory-item";
+		b.textContent = label;
+		b.onclick = () => {
+			action();
+			update();
+		};
+		parent.append(b);
+		controls.push(b);
+		return b;
+	};
+	const para = (parent, text) => {
+		const p = document.createElement("p");
+		p.textContent = text;
+		p.className = "item-description";
+		p.style.overflowWrap = "anywhere";
+		parent.append(p);
+		return p;
+	};
+	const field = (parent, label, value, oninput, type = "text") => {
+		const row = document.createElement("label"), input = document.createElement(type === "textarea" ? "textarea" : "input");
+		if (type !== "textarea") input.type = type;
+		input.value = value;
+		input.oninput = () => {
+			review = null;
+			oninput(type === "number" ? Number(input.value) : input.value);
+		};
+		row.append(document.createTextNode(label), input);
+		parent.append(row);
+		controls.push(input);
+		return input;
+	};
+	const mailKey = (m) => `${m.openType}:${m.MailID}`;
+	function render() {
+		const state = service.snapshot();
+		version = state.revision;
+		controls.length = 0;
+		list.replaceChildren();
+		detail.replaceChildren();
+		if (state.writing) {
+			para(list, "背包：点击物品选择附件");
+			for (const item of state.inventory) button(list, `${item.name} × ${item.count}`, () => {
+				const count = Number(quantity.value);
+				service.add(item.index, item.ID, count);
+			});
+			const quantity = field(detail, "每次添加数量", 1, () => {}, "number");
+			quantity.min = 1;
+			quantity.max = 32767;
+			quantity.inputMode = "numeric";
+			const form = document.createElement("div");
+			form.className = "social-form";
+			detail.append(form);
+			field(form, "收件人", state.draft.receiver, (value) => service.change("receiver", value));
+			button(form, "校验收件人", () => service.validate());
+			field(form, "标题（最多 39 字节）", state.draft.title, (value) => service.change("title", value));
+			field(form, "正文（最多 499 字节）", state.draft.body, (value) => service.change("body", value), "textarea");
+			const amount = field(form, "附加 Zeny", state.draft.zeny, (value) => service.change("zeny", value), "number");
+			amount.min = 0;
+			amount.max = 2147483647;
+			amount.inputMode = "numeric";
+			para(detail, `当前附件重量 ${state.weight}；实际限制由服务器检查`);
+			for (const item of state.attachments) {
+				para(detail, `${item.name} × ${item.count}`);
+				para(detail, item.description);
+				button(detail, `移除 ${item.name}`, () => service.remove(item.index, item.count));
+			}
+			para(detail, "预计邮费：每种附件 2500 Zeny，附加金额的 2%；最终以服务器配置为准。");
+			const summary = para(detail, ""), confirm = button(detail, "确认发送", () => {
+				if (review) service.send(review);
+				review = null;
+				summary.textContent = "";
+				confirm.hidden = true;
+			});
+			confirm.hidden = true;
+			button(detail, "核对发送内容", () => {
+				review = service.review();
+				if (review.error) {
+					summary.textContent = review.error;
+					review = null;
+					confirm.hidden = true;
+					return;
+				}
+				summary.textContent = `发送给 ${review.receiver}：${review.title}；附件 ${review.items.length} 种，金额 ${review.zeny}，预计邮费 ${review.fee}。`;
+				confirm.hidden = false;
+			});
+			button(detail, "取消写信", () => {
+				service.cancelCompose();
+				review = null;
+			});
+		} else {
+			const filters = document.createElement("div");
+			list.append(filters);
+			for (const [value, label] of [
+				[0, "个人"],
+				[1, "账号"],
+				[2, "退回"]
+			]) button(filters, label, () => {
+				tab = value;
+				page = 0;
+				render();
+			});
+			const search = field(list, "搜索标题或寄件人", term, (value) => {
+				term = value;
+				page = 0;
+			});
+			button(list, "搜索", () => render());
+			search.onkeydown = (event) => {
+				if (event.key === "Enter") {
+					event.preventDefault();
+					render();
+					update();
+				}
+			};
+			const rows = state.list.filter((m) => m.openType === tab && `${m.title} ${m.SenderName}`.includes(term));
+			const pages = Math.max(1, Math.ceil(rows.length / 8));
+			page = Math.min(page, pages - 1);
+			for (const mail of rows.slice(page * 8, page * 8 + 8)) button(list, `${mail.Isread ? "" : "未读 · "}${mail.title} — ${mail.SenderName}${mail.deleting ? "（请求删除中）" : ""}`, () => {
+				review = null;
+				service.read(mailKey(mail));
+			});
+			para(list, `${page + 1} / ${pages} 页，共 ${rows.length} 封`);
+			button(list, "上一页", () => {
+				page = Math.max(0, page - 1);
+				render();
+			});
+			button(list, "下一页", () => {
+				page = Math.min(pages - 1, page + 1);
+				render();
+			});
+			button(list, "刷新", () => {
+				review = null;
+				service.refresh();
+			});
+			button(list, "写信", () => service.compose());
+			const mail = state.detail;
+			if (mail) {
+				para(detail, mail.title);
+				para(detail, `寄件人：${mail.SenderName}`);
+				para(detail, toPlainRagnarokText(mail.Textcontent));
+				para(detail, `附加金额：${mail.zeny} Zeny`);
+				for (const item of mail.describedItems) {
+					para(detail, `${item.name} × ${item.count}`);
+					para(detail, item.description);
+				}
+				if (mail.zeny) button(detail, "领取金额", () => service.claim("zeny"));
+				if (mail.ItemList.length) button(detail, "领取物品", () => service.claim("items"));
+				if (!mail.zeny && !mail.ItemList.length) {
+					const confirm = button(detail, "确认删除邮件", () => {
+						service.delete();
+						confirm.hidden = true;
+					});
+					confirm.hidden = true;
+					button(detail, "删除邮件", () => {
+						confirm.hidden = false;
+					});
+				}
+			} else para(detail, "请选择邮件；领取附件前请预留背包容量和负重。");
+		}
+	}
+	function update() {
+		const state = service.snapshot();
+		if (version !== state.revision) render();
+		for (const control of controls) control.disabled = !state.allowed;
+		status.textContent = state.message;
+	}
+	render();
+	update();
+	return { update };
+}
+var init_MailPanel = __esmMin((() => {
+	init_RagnarokText();
 }));
 //#endregion
-//#region src/Controls/MapControl.js
-/**
-* What to do when clicking on the map ?
-*/
-function onMouseDown(event) {
-	const action = event && event.which || 1;
-	if (!Mouse.intersect) return;
-	const entityFocus = EntityManager.getFocusEntity();
-	const entityOver = EntityManager.getOverEntity();
-	switch (action) {
-		case 1:
-			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
-				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.mercId, "3," + entityOver.GID);
-				else AIDriver.setmsg(SessionStorage_default.mercId, "1," + Mouse.world.x + "," + Mouse.world.y);
+//#region src/UI/Mobile/game/SettingsPanel.js
+/** Draft-only inputs: closing or cancelling leaves runtime and preferences untouched. */
+function createSettingsPanel(body, service) {
+	let draft = service.snapshot();
+	function render() {
+		body.replaceChildren();
+		const form = document.createElement("form");
+		form.className = "social-form";
+		form.onsubmit = (event) => event.preventDefault();
+		const status = document.createElement("p");
+		status.role = "status";
+		const heading = (label) => {
+			const h = document.createElement("h3");
+			h.textContent = label;
+			form.append(h);
+		};
+		const field = (label, input) => {
+			const row = document.createElement("label");
+			row.append(document.createTextNode(label), input);
+			form.append(row);
+		};
+		heading("画面");
+		for (const [key, label, range, max, step] of service.fields) {
+			const input = document.createElement(Array.isArray(range) ? "select" : "input");
+			input.dataset.setting = key;
+			if (Array.isArray(range)) {
+				for (const value of range) {
+					const option = document.createElement("option");
+					option.value = String(value);
+					option.textContent = value === -1 ? "不限制" : String(value);
+					input.append(option);
+				}
+				input.value = String(draft.graphics[key]);
+			} else if (range === void 0) {
+				input.type = "checkbox";
+				input.checked = draft.graphics[key];
 			} else {
-				SessionStorage_default.moveAction = null;
-				SessionStorage_default.autoFollow = false;
-				let stop = false;
-				if (entityOver != SessionStorage_default.Entity) {
-					if (entityFocus && entityFocus != entityOver) {
-						if (!(SessionStorage_default.TouchTargeting && !entityOver)) {
-							entityFocus.onFocusEnd();
-							EntityManager.setFocusEntity(null);
+				input.type = "number";
+				input.min = range;
+				input.max = max;
+				input.step = step;
+				input.value = draft.graphics[key];
+				input.inputMode = "decimal";
+			}
+			input.oninput = () => {
+				draft.graphics[key] = input.type === "checkbox" ? input.checked : Number(input.value);
+				status.textContent = "修改尚未保存";
+			};
+			field(label, input);
+		}
+		heading("声音");
+		for (const [key, name] of [["BGM", "背景音乐"], ["Sound", "音效"]]) {
+			const enabled = document.createElement("input");
+			enabled.type = "checkbox";
+			enabled.checked = draft.audio[key].play;
+			enabled.dataset.audio = key;
+			enabled.oninput = () => {
+				draft.audio[key].play = enabled.checked;
+				status.textContent = "修改尚未保存";
+			};
+			field(name, enabled);
+			const volume = document.createElement("input");
+			volume.type = "range";
+			volume.min = 0;
+			volume.max = 100;
+			volume.step = 1;
+			volume.value = draft.audio[key].volume * 100;
+			volume.oninput = () => {
+				draft.audio[key].volume = Number(volume.value) / 100;
+				status.textContent = "修改尚未保存";
+			};
+			field(name + "音量", volume);
+		}
+		const note = document.createElement("p");
+		note.textContent = "移动端尺寸随横屏窗口自适应。关闭面板会放弃尚未保存的修改。";
+		form.append(note);
+		for (const [label, action] of [
+			["保存", () => {
+				status.textContent = service.save(draft);
+			}],
+			["取消修改", () => {
+				draft = service.snapshot();
+				render();
+			}],
+			["恢复默认（待保存）", () => {
+				draft = service.snapshot(true);
+				render();
+			}]
+		]) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = label;
+			button.onclick = action;
+			form.append(button);
+		}
+		form.append(status);
+		body.append(form);
+	}
+	render();
+}
+var init_SettingsPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/BankPanel.js
+function createBankPanel(body, service) {
+	body.innerHTML = "<form class=\"bank-form\"><dl><dt>持有 Zeny</dt><dd data-wallet></dd><dt>银行余额</dt><dd data-bank></dd></dl><label>金额<input data-amount type=\"number\" min=\"1\" max=\"2147483647\" step=\"1\" inputmode=\"numeric\"></label><div class=\"inventory-actions\"><button data-max=\"deposit\">最大可存</button><button data-max=\"withdraw\">最大可取</button><button data-action=\"deposit\">存入</button><button data-action=\"withdraw\">取出</button></div><p data-review></p><div class=\"inventory-actions\"><button data-confirm hidden>确认</button><button data-cancel hidden>返回修改</button></div><p role=\"status\"></p></form>";
+	const $ = (selector) => body.querySelector(selector);
+	let review = null;
+	$("form").onsubmit = (event) => event.preventDefault();
+	for (const button of body.querySelectorAll("button")) button.type = "button";
+	function reset() {
+		review = null;
+		$("[data-review]").textContent = "";
+		$("[data-confirm]").hidden = true;
+		$("[data-cancel]").hidden = true;
+	}
+	$("[data-amount]").oninput = reset;
+	$("[data-cancel]").onclick = reset;
+	for (const button of body.querySelectorAll("[data-max]")) button.onclick = () => {
+		reset();
+		$("[data-amount]").value = String(service.snapshot()[button.dataset.max + "Max"]);
+	};
+	for (const button of body.querySelectorAll("[data-action]")) button.onclick = () => {
+		const state = service.snapshot(), amount = Number($("[data-amount]").value), action = button.dataset.action;
+		if (!state.allowed || !Number.isInteger(amount) || amount <= 0 || amount > state[action + "Max"]) {
+			$("[role=status]").textContent = "请填写有效金额";
+			reset();
+			return;
+		}
+		review = {
+			action,
+			amount
+		};
+		$("[data-review]").textContent = `${action === "deposit" ? "存入" : "取出"} ${amount.toLocaleString()} Zeny？`;
+		$("[data-confirm]").hidden = false;
+		$("[data-cancel]").hidden = false;
+	};
+	$("[data-confirm]").onclick = () => {
+		if (!review) return;
+		const { action, amount } = review;
+		reset();
+		$("[role=status]").textContent = service.submit(action, amount);
+		update();
+	};
+	let lastMessage = "";
+	function update() {
+		const state = service.snapshot();
+		$("[data-wallet]").textContent = Number(state.wallet).toLocaleString();
+		$("[data-bank]").textContent = Number(state.balance).toLocaleString();
+		for (const button of body.querySelectorAll("button")) button.disabled = !state.allowed;
+		$("[data-amount]").disabled = !state.allowed;
+		if (state.message !== lastMessage) {
+			lastMessage = state.message;
+			$("[role=status]").textContent = state.message;
+		}
+	}
+	update();
+	return { update };
+}
+var init_BankPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/VendingPanel.js
+function createVendingPanel(body, service) {
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\"></div><section class=\"inventory-detail\"><div data-fields></div><div data-selected></div><div data-order></div><button data-submit></button><button data-cancel>取消开店</button><p data-message role=\"status\"></p></section></div>";
+	const $ = (selector) => body.querySelector(selector), nodes = /* @__PURE__ */ new Map();
+	let selected = null, key = "", confirm = false;
+	const initial = service.snapshot();
+	$("[data-cancel]").hidden = Boolean(initial.owned);
+	$("[data-cancel]").onclick = () => service.close();
+	if (!initial.owned) {
+		$("[data-fields]").innerHTML = "<label>摊位名称<input data-title maxlength=\"24\"></label><label data-budget-label>收购预算<input data-budget type=\"number\" min=\"1\" step=\"1\"></label>";
+		$("[data-budget-label]").hidden = initial.mode !== "buy";
+		$("[data-fields]").oninput = () => {
+			confirm = false;
+			update();
+		};
+	}
+	$("[data-submit]").onclick = () => {
+		if (!confirm) {
+			confirm = true;
+			update();
+			return;
+		}
+		confirm = false;
+		$("[data-message]").textContent = initial.owned ? service.closeStore() : service.submit($("[data-title]").value, Number($("[data-budget]").value));
+		update();
+	};
+	function update() {
+		const state = service.snapshot();
+		$("[data-cancel]").disabled = Boolean(state.pending);
+		for (const [id, node] of nodes) if (!state.items.some((item) => item.index === id)) {
+			node.remove();
+			nodes.delete(id);
+		}
+		for (const item of state.items) {
+			let node = nodes.get(item.index);
+			if (!node) {
+				node = document.createElement("button");
+				node.className = "inventory-item";
+				node.onclick = () => {
+					selected = item.index;
+					key = "";
+					confirm = false;
+					update();
+				};
+				nodes.set(item.index, node);
+				$(".inventory-list").append(node);
+			}
+			node.textContent = `${item.name} × ${item.count}${state.owned ? " · " + item.price + " Zeny" : ""}`;
+			node.setAttribute("aria-pressed", String(selected === item.index));
+		}
+		const item = state.items.find((row) => row.index === selected), next = JSON.stringify([item && {
+			...item,
+			icon: void 0
+		}, state.allowed]);
+		if (next !== key) {
+			key = next;
+			const panel = $("[data-selected]");
+			panel.replaceChildren();
+			if (item) {
+				const description = document.createElement("p");
+				description.className = "item-description";
+				description.textContent = item.description;
+				panel.append(description);
+				if (!state.owned) {
+					const amount = document.createElement("input"), price = document.createElement("input");
+					for (const input of [amount, price]) {
+						input.type = "number";
+						input.min = "0";
+						input.step = "1";
+					}
+					amount.value = String(item.quantity || 1);
+					amount.setAttribute("aria-label", "数量");
+					price.value = String(item.price);
+					price.setAttribute("aria-label", "单价");
+					const button = document.createElement("button");
+					button.textContent = "保存数量与单价（数量 0 移除）";
+					button.disabled = !state.allowed;
+					button.onclick = () => {
+						confirm = false;
+						$("[data-message]").textContent = service.set(item.index, item.identity, Number(amount.value), Number(price.value));
+						update();
+					};
+					panel.append(amount, price, button);
+				}
+			} else panel.textContent = "点选物品查看详情";
+		}
+		$("[data-order]").textContent = state.owned ? `剩余预算：${state.budget ?? "—"}\n${state.log.join("\n")}` : `${state.order.length}/${state.slots} 栏 · 合计 ${state.total} Zeny\n` + state.order.map((row) => `${row.name} × ${row.count} · 单价 ${row.price}`).join("\n");
+		$("[data-submit]").textContent = confirm ? state.owned ? "确认关闭摊位" : "确认开店" : state.owned ? "关闭摊位" : "核对开店";
+		$("[data-submit]").disabled = !state.allowed;
+	}
+	update();
+	return { update };
+}
+var init_VendingPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/TradePanel.js
+function createTradePanel(body, service) {
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可交易物品\"></div><section class=\"inventory-detail\"><div data-picker></div><label>Zeny <input data-money type=\"number\" min=\"0\" step=\"1\" value=\"0\"></label><button data-send-money>设置金额</button><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div><p data-phase></p><button data-lock>锁定报价</button><button data-execute>确认成交</button><button data-cancel>取消交易</button></section></div><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), nodes = /* @__PURE__ */ new Map();
+	let preview = null;
+	let selected = null, pickerKey = "", confirm = false;
+	function action(result) {
+		$("[role=status]").textContent = result;
+		confirm = false;
+		update();
+	}
+	$("[data-send-money]").onclick = () => action(service.setMoney(Number($("[data-money]").value)));
+	$("[data-lock]").onclick = () => action(service.lock());
+	$("[data-execute]").onclick = () => {
+		if (!confirm) {
+			confirm = true;
+			$("[data-execute]").textContent = "再次确认成交";
+			return;
+		}
+		action(service.execute());
+	};
+	$("[data-cancel]").onclick = () => action(service.cancel());
+	function update() {
+		const state = service.snapshot();
+		const active = state.allowed && !state.pending;
+		for (const [id, node] of nodes) if (!state.items.some((item) => item.index === id)) {
+			node.remove();
+			nodes.delete(id);
+		}
+		for (const item of state.items) {
+			let node = nodes.get(item.index);
+			if (!node) {
+				node = document.createElement("button");
+				node.className = "inventory-item";
+				node.onclick = () => {
+					selected = item.index;
+					preview = null;
+					pickerKey = "";
+					update();
+				};
+				nodes.set(item.index, node);
+				$(".inventory-list").append(node);
+			}
+			node.textContent = `${item.name} × ${item.count}`;
+			node.setAttribute("aria-pressed", String(selected === item.index));
+		}
+		const item = preview ? state[preview.side].find((entry) => entry.index === preview.index) : state.items.find((entry) => entry.index === selected);
+		const key = JSON.stringify([
+			item && {
+				...item,
+				icon: void 0
+			},
+			active,
+			state.ownLocked,
+			preview
+		]);
+		if (key !== pickerKey) {
+			pickerKey = key;
+			const picker = $("[data-picker]");
+			picker.replaceChildren();
+			if (item) {
+				const text = document.createElement("p");
+				text.textContent = item.description;
+				const input = document.createElement("input");
+				input.type = "number";
+				input.min = "1";
+				input.max = String(item.count);
+				input.value = "1";
+				input.setAttribute("aria-label", "交易数量");
+				const button = document.createElement("button");
+				button.textContent = "加入交易";
+				button.disabled = !active || state.ownLocked;
+				button.onclick = () => action(service.add(item.index, item.identity, Number(input.value)));
+				if (preview) picker.append(text);
+				else picker.append(text, input, button);
+			} else picker.textContent = "点击左侧物品设置数量";
+		}
+		for (const [selector, side, money] of [[
+			"[data-own]",
+			"offered",
+			state.money
+		], [
+			"[data-peer]",
+			"received",
+			state.peerMoney
+		]]) {
+			const parent = $(selector), rows = state[side];
+			const signature = JSON.stringify([money, rows.map(({ index, name, count, description }) => ({
+				index,
+				name,
+				count,
+				description
+			}))]);
+			if (parent.dataset.signature === signature) continue;
+			parent.dataset.signature = signature;
+			parent.textContent = `${money} Zeny`;
+			for (const entry of rows) {
+				const button = document.createElement("button");
+				button.textContent = `查看：${entry.name} × ${entry.count}`;
+				button.onclick = () => {
+					preview = {
+						side,
+						index: entry.index
+					};
+					selected = null;
+					pickerKey = "";
+					confirm = false;
+					update();
+					$("[data-picker]").scrollIntoView({ block: "nearest" });
+				};
+				parent.append(button);
+			}
+		}
+		$("[data-phase]").textContent = state.status;
+		$("[data-money]").disabled = !active || state.ownLocked;
+		$("[data-send-money]").disabled = !active || state.ownLocked;
+		$("[data-lock]").disabled = !active || state.ownLocked;
+		$("[data-execute]").disabled = !active || !state.ownLocked || !state.peerLocked;
+		if (!confirm) $("[data-execute]").textContent = "确认成交";
+		$("[data-cancel]").disabled = !state.allowed;
+	}
+	update();
+	return { update };
+}
+var init_TradePanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/EquipmentSetsPanel.js
+function createEquipmentSetsPanel(body, service) {
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"方案装备\"></div><section class=\"inventory-detail\" aria-label=\"装备方案详情\"></section></div><button type=\"button\" data-swap>切换装备方案</button><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail"), nodes = /* @__PURE__ */ new Map();
+	let selected = null, key = "", swapReview = false;
+	function update() {
+		const state = service.snapshot();
+		$("[data-swap]").disabled = !state.allowed || !state.items.some((item) => item.registered);
+		const ids = new Set(state.items.map((item) => item.index));
+		for (const [id, node] of nodes) if (!ids.has(id)) {
+			node.remove();
+			nodes.delete(id);
+		}
+		for (const item of state.items) {
+			let button = nodes.get(item.index);
+			if (!button) {
+				button = document.createElement("button");
+				button.className = "inventory-item";
+				button.onclick = () => {
+					selected = item.index;
+					key = "";
+					update();
+				};
+				nodes.set(item.index, button);
+				list.append(button);
+			}
+			button.textContent = `${item.name}${item.registered ? " · 已加入方案" : ""}`;
+		}
+		const item = state.items.find((entry) => entry.index === selected);
+		const next = JSON.stringify([item && {
+			...item,
+			icon: void 0
+		}, state.allowed]);
+		if (key === next) return;
+		key = next;
+		detail.replaceChildren();
+		if (!item) {
+			detail.textContent = "点选背包装备，设置切换方案";
+			return;
+		}
+		const title = document.createElement("h3");
+		title.textContent = item.name;
+		const select = document.createElement("select");
+		select.setAttribute("aria-label", "方案装备部位");
+		for (const slot of state.slots.filter((entry) => item.location & entry.location)) select.add(new Option(slot.label, slot.location));
+		if (item.registeredLocation) select.value = item.registeredLocation;
+		const button = document.createElement("button");
+		button.textContent = item.registered ? "确认移出方案" : "确认加入方案";
+		button.disabled = !state.allowed || !item.registered && (!item.identified || item.damaged);
+		button.onclick = () => {
+			$("[role=status]").textContent = service.act(item.index, item.ID, Number(select.value), item.registered ? "remove" : "add");
+			key = "";
+			update();
+		};
+		detail.append(title, select, button);
+	}
+	$("[data-swap]").onclick = () => {
+		if (!swapReview) {
+			swapReview = true;
+			$("[data-swap]").textContent = "确认切换装备方案";
+			return;
+		}
+		swapReview = false;
+		$("[data-swap]").textContent = "切换装备方案";
+		$("[role=status]").textContent = service.swap();
+	};
+	update();
+	return { update };
+}
+var init_EquipmentSetsPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/EnchantPanel.js
+function createEnchantPanel(body, service) {
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可附魔装备\"></div><section class=\"inventory-detail\" aria-label=\"附魔详情\"></section></div><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
+	let key = "", choiceKey = null;
+	const nodes = /* @__PURE__ */ new Map();
+	function update() {
+		const state = service.snapshot();
+		$("[role=status]").textContent = state.message;
+		const ids = new Set(state.items.map((item) => item.index));
+		for (const [id, node] of nodes) if (!ids.has(id)) {
+			node.remove();
+			nodes.delete(id);
+		}
+		for (const item of state.items) {
+			let b = nodes.get(item.index);
+			if (!b) {
+				b = document.createElement("button");
+				b.className = "inventory-item";
+				b.onclick = () => {
+					const error = service.select(item.index, item.ID);
+					if (error) {
+						$("[role=status]").textContent = error;
+						return;
+					}
+					key = "";
+					choiceKey = null;
+					update();
+				};
+				nodes.set(item.index, b);
+				list.append(b);
+			}
+			b.textContent = item.name;
+			b.disabled = !state.allowed;
+		}
+		const next = JSON.stringify([
+			state.selected,
+			state.choices,
+			state.allowed,
+			choiceKey
+		]);
+		if (next === key) return;
+		key = next;
+		detail.replaceChildren();
+		if (!state.selected) {
+			detail.textContent = state.message;
+			return;
+		}
+		const select = document.createElement("select");
+		select.setAttribute("aria-label", "附魔方式");
+		select.add(new Option("请选择附魔方式", ""));
+		for (const choice of state.choices) select.add(new Option(choice.name, choice.key));
+		select.value = choiceKey || "";
+		select.onchange = () => {
+			choiceKey = select.value;
+			key = "";
+			update();
+		};
+		detail.append(select);
+		const choice = state.choices.find((entry) => entry.key === choiceKey);
+		if (!choice) return;
+		const summary = document.createElement("p");
+		summary.textContent = `成功率：${choice.rate / 1e3}% · 费用：${choice.zeny} Zeny\n${choice.materials.map((material) => `${material.name} × ${material.count}`).join("\n")}`;
+		summary.className = "item-description";
+		detail.append(summary);
+		if (choice.results?.length) {
+			const outcomes = document.createElement("p");
+			outcomes.textContent = `可能获得：${choice.results.join("、")}`;
+			detail.append(outcomes);
+		}
+		const warning = document.createElement("p");
+		warning.textContent = "附魔会消耗费用与材料，重置会清除现有附魔。";
+		const confirm = document.createElement("button");
+		confirm.textContent = "核对附魔";
+		confirm.disabled = !state.allowed;
+		let reviewed = false;
+		confirm.onclick = () => {
+			if (!reviewed) {
+				reviewed = true;
+				confirm.textContent = "确认消耗并附魔";
+				return;
+			}
+			const error = service.confirm(choice.key, JSON.stringify(choice));
+			if (error) $("[role=status]").textContent = error;
+		};
+		detail.append(warning, confirm);
+	}
+	update();
+	return { update };
+}
+var init_EnchantPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/RefinementPanel.js
+function createRefinementPanel(body, service) {
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可强化装备\"></div><section class=\"inventory-detail\" aria-label=\"强化详情\"></section></div><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail"), nodes = /* @__PURE__ */ new Map();
+	let key = "";
+	function update() {
+		const state = service.snapshot();
+		$("[role=status]").textContent = state.message;
+		const ids = new Set(state.items.map((item) => item.index));
+		for (const [id, node] of nodes) if (!ids.has(id)) {
+			node.remove();
+			nodes.delete(id);
+		}
+		for (const item of state.items) {
+			let button = nodes.get(item.index);
+			if (!button) {
+				button = document.createElement("button");
+				button.className = "inventory-item";
+				button.onclick = () => {
+					const current = service.snapshot().items.find((entry) => entry.index === item.index);
+					const error = current ? service.select(current.index, current.ID) : "装备已经变化";
+					if (error) $("[role=status]").textContent = error;
+					key = "";
+					update();
+				};
+				nodes.set(item.index, button);
+				list.append(button);
+			}
+			button.textContent = item.name;
+			button.disabled = !state.allowed;
+		}
+		const next = JSON.stringify([
+			state.selected,
+			state.offer,
+			state.pending,
+			state.allowed,
+			state.zeny,
+			state.materials
+		]);
+		if (key === next) return;
+		key = next;
+		detail.replaceChildren();
+		if (!state.offer) {
+			detail.textContent = state.message;
+			return;
+		}
+		const warning = document.createElement("p");
+		warning.textContent = "强化会消耗材料与 Zeny，失败可能降低等级或损坏装备。";
+		const materials = document.createElement("select");
+		materials.setAttribute("aria-label", "强化材料");
+		for (const material of state.materials) materials.add(new Option(`${material.name} × ${material.amount ?? 1} · ${material.zeny ?? material.price} Zeny · 持有 ${material.owned}`, material.index));
+		const chance = document.createElement("p");
+		const blessing = document.createElement("input");
+		blessing.type = "number";
+		blessing.min = "0";
+		blessing.step = "1";
+		blessing.value = "0";
+		blessing.setAttribute("aria-label", "祝福次数");
+		let protection;
+		if (state.kind === "refine") {
+			blessing.type = "checkbox";
+			blessing.setAttribute("aria-label", "使用铁匠的祝福");
+			blessing.disabled = !state.offer.blacksmithBlessing;
+			protection = `使用铁匠的祝福：${state.offer.blacksmithBlessing || 0} 个`;
+		} else {
+			blessing.max = state.offer.blessing_info?.max_blessing || 0;
+			protection = `祝福次数（每次消耗 ${state.offer.blessing_info?.amount || 0} 个，最多 ${blessing.max} 次）`;
+		}
+		const label = document.createElement("label");
+		label.textContent = protection;
+		label.append(blessing);
+		const confirm = document.createElement("button");
+		confirm.textContent = "核对强化";
+		let reviewed = "";
+		function selected() {
+			return {
+				material: Number(materials.value),
+				blessing: state.kind === "refine" ? blessing.checked ? state.offer.blacksmithBlessing : 0 : Number(blessing.value)
+			};
+		}
+		function details() {
+			const material = state.materials.find((row) => row.index === Number(materials.value));
+			chance.textContent = state.kind === "refine" ? `成功率：${material?.chance ?? 0}%` : `成功率：${Math.min(1e4, (state.offer.success_chance || 0) + Number(blessing.value) * (state.offer.blessing_info?.bonus || 0)) / 100}% · 失败降级：${material?.downgrade || 0} · 可能损坏：${material?.breakable ? "是" : "否"}`;
+			reviewed = "";
+			confirm.textContent = "核对强化";
+		}
+		materials.onchange = details;
+		blessing.onchange = details;
+		details();
+		confirm.disabled = !state.allowed || !state.materials.length;
+		confirm.onclick = () => {
+			const choice = selected(), signature = JSON.stringify(choice);
+			if (reviewed !== signature) {
+				reviewed = signature;
+				confirm.textContent = "确认消耗并强化";
+				return;
+			}
+			const error = service.confirm(choice.material, choice.blessing);
+			if (error) {
+				$("[role=status]").textContent = error;
+				return;
+			}
+			key = "";
+			update();
+		};
+		detail.append(warning, materials, chance, label, confirm);
+	}
+	update();
+	return { update };
+}
+var init_RefinementPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/MaterialsPanel.js
+function createMaterialsPanel(body, service) {
+	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"材料列表\"></div><section class=\"inventory-detail\" aria-label=\"材料详情\"></section></div><div class=\"skills-toolbar\"><button type=\"button\" data-review>核对材料</button><button type=\"button\" data-clear>清空材料</button></div><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
+	let selected = null, key = "", review = false;
+	const nodes = /* @__PURE__ */ new Map();
+	function status(text) {
+		$("[role=status]").textContent = text;
+	}
+	function update() {
+		const state = service.snapshot();
+		if (state.message) status(state.message);
+		$("[data-clear]").disabled = !state.allowed;
+		const ids = new Set(state.items.map((item) => item.index));
+		for (const [id, node] of nodes) if (!ids.has(id)) {
+			node.remove();
+			nodes.delete(id);
+		}
+		for (const item of state.items) {
+			let b = nodes.get(item.index);
+			if (!b) {
+				b = document.createElement("button");
+				b.className = "inventory-item";
+				b.onclick = () => {
+					selected = item.index;
+					review = false;
+					key = "";
+					update();
+				};
+				nodes.set(item.index, b);
+				list.append(b);
+			}
+			b.textContent = `${item.name} × ${item.count}`;
+		}
+		const item = state.items.find((entry) => entry.index === selected);
+		const next = JSON.stringify([
+			review,
+			review ? state.order : item && {
+				...item,
+				icon: void 0
+			},
+			state.allowed
+		]);
+		if (next === key) return;
+		key = next;
+		detail.replaceChildren();
+		if (review) {
+			for (const row of state.order) {
+				const p = document.createElement("p");
+				p.textContent = `${row.name} × ${row.count}${row.description ? "\n" + row.description : ""}`;
+				detail.append(p);
+			}
+			const confirm = document.createElement("button");
+			confirm.textContent = "确认消耗材料";
+			confirm.disabled = !state.allowed || !state.order.length;
+			confirm.onclick = () => status(service.confirm());
+			detail.append(confirm);
+			return;
+		}
+		if (!item) {
+			detail.textContent = state.instruction || "点选物品，输入转换数量";
+			return;
+		}
+		const name = document.createElement("p");
+		name.textContent = `${item.name}${item.description ? "\n" + item.description : ""}`;
+		name.style.whiteSpace = "pre-line";
+		const form = document.createElement("form");
+		const input = document.createElement("input");
+		input.type = "number";
+		input.min = "0";
+		input.max = item.count;
+		input.step = "1";
+		input.value = state.order.find((row) => row.index === item.index)?.count || item.requiredCount || 1;
+		input.setAttribute("aria-label", "材料数量");
+		const save = document.createElement("button");
+		save.type = "submit";
+		save.textContent = "加入材料";
+		save.disabled = !state.allowed;
+		form.append(input, save);
+		form.onsubmit = (e) => {
+			e.preventDefault();
+			status(service.set(item.index, item.ID, Number(input.value)) || "已更新材料，输入 0 可移除");
+		};
+		detail.append(name, form);
+	}
+	$("[data-review]").onclick = () => {
+		review = true;
+		key = "";
+		update();
+	};
+	$("[data-clear]").onclick = () => {
+		service.clear();
+		review = false;
+		key = "";
+		update();
+	};
+	update();
+	return { update };
+}
+var init_MaterialsPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/SelectionPanel.js
+function createSelectionPanel(body, service) {
+	body.innerHTML = "<p data-warning></p><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"可选列表\"></div><section class=\"inventory-detail\" aria-label=\"选项详情\"></section></div><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
+	let selected = null, key = "";
+	const nodes = /* @__PURE__ */ new Map();
+	function update() {
+		const state = service.snapshot();
+		$("[data-warning]").textContent = state.warning;
+		for (const entry of state.entries) {
+			let b = nodes.get(entry.id);
+			if (!b) {
+				b = document.createElement("button");
+				b.className = "inventory-item";
+				b.innerHTML = "<img alt=\"\"><span></span>";
+				b.onclick = () => {
+					selected = entry.id;
+					key = "";
+					update();
+				};
+				nodes.set(entry.id, b);
+				list.append(b);
+			}
+			b.querySelector("span").textContent = entry.name;
+			b.querySelector("img").hidden = !entry.icon;
+			if (entry.icon) b.querySelector("img").src = entry.icon;
+			b.setAttribute("aria-pressed", String(selected === entry.id));
+		}
+		const entry = state.entries.find((e) => e.id === selected);
+		const preview = detail.querySelector(".selection-preview");
+		if (preview && entry) {
+			preview.hidden = !entry.icon;
+			if (entry.icon) preview.src = entry.icon;
+		}
+		const next = JSON.stringify([entry && {
+			...entry,
+			icon: void 0
+		}, state.allowed]);
+		if (next === key) return;
+		key = next;
+		detail.replaceChildren();
+		if (!entry) {
+			detail.textContent = state.entries.length ? "点选条目后确认" : "没有可选条目";
+			return;
+		}
+		const title = document.createElement("h3");
+		title.textContent = entry.name;
+		const description = document.createElement("p");
+		description.className = "item-description";
+		description.textContent = entry.description || "";
+		const materials = [];
+		if (entry.materials) for (let index = 0; index < 3; index++) {
+			const select = document.createElement("select");
+			select.setAttribute("aria-label", `附加材料 ${index + 1}`);
+			select.add(new Option("不使用附加材料", "0"));
+			for (const material of state.materials) select.add(new Option(`${material.name} × ${material.count}`, material.id));
+			materials.push(select);
+			detail.append(select);
+		}
+		const button = document.createElement("button");
+		button.textContent = "确认选择";
+		button.disabled = !state.allowed;
+		button.onclick = () => {
+			$("[role=status]").textContent = service.choose(entry.id, materials.map((select) => Number(select.value)).filter(Boolean));
+		};
+		if (entry.preview) {
+			const img = document.createElement("img");
+			img.className = "selection-preview";
+			img.alt = entry.name;
+			img.width = img.height = 100;
+			img.hidden = !entry.icon;
+			if (entry.icon) img.src = entry.icon;
+			detail.append(img);
+		}
+		detail.append(title, description, button);
+	}
+	update();
+	return { update };
+}
+var init_SelectionPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/SocialPanel.js
+function createSocialPanel(body, service, whisper) {
+	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"社交分类\"><option value=\"friends\">好友</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option></select><button type=\"button\" data-refresh>刷新公会</button></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"社交列表\"></div><section class=\"inventory-detail\" aria-label=\"社交详情\"></section></div><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), detail = $(".inventory-detail"), list = $(".inventory-list");
+	let state, selected = null, lastKey = "", listKey = "";
+	const status = (text) => {
+		$("[role=status]").textContent = text;
+	};
+	const act = (action, data) => {
+		status(service.act(action, data));
+	};
+	function button(text, fn) {
+		const b = document.createElement("button");
+		b.type = "button";
+		b.textContent = text;
+		b.onclick = fn;
+		return b;
+	}
+	function paragraph(text) {
+		const p = document.createElement("p");
+		p.textContent = text;
+		return p;
+	}
+	function form(title, fields, submit, confirm = false) {
+		const f = document.createElement("form");
+		f.className = "social-form";
+		const inputs = {};
+		for (const [name, label, type = "text", value = "", options] of fields) {
+			const l = document.createElement("label");
+			l.textContent = label;
+			const input = document.createElement(options ? "select" : type === "textarea" ? "textarea" : "input");
+			input.setAttribute("aria-label", label);
+			if (options) for (const [id, text] of options) input.add(new Option(text, id));
+			else {
+				if (type !== "textarea") input.type = type;
+				input.maxLength = name === "notice" ? 120 : name === "subject" ? 60 : name === "reason" ? 40 : 24;
+			}
+			input.value = value;
+			inputs[name] = input;
+			l.append(input);
+			f.append(l);
+		}
+		const send = document.createElement("button");
+		send.type = "submit";
+		send.textContent = title;
+		f.append(send);
+		let review = null;
+		f.onsubmit = (e) => {
+			e.preventDefault();
+			const values = Object.fromEntries(Object.entries(inputs).map(([name, node]) => [name, node.value]));
+			if (confirm && JSON.stringify(values) !== review) {
+				review = JSON.stringify(values);
+				send.textContent = `确认${title}`;
+				return;
+			}
+			review = null;
+			submit(values);
+			send.textContent = title;
+		};
+		detail.append(f);
+		return f;
+	}
+	function identity(member) {
+		return `${member.AID}:${member.GID || 0}`;
+	}
+	function render() {
+		const type = $("select").value;
+		const emblem = detail.querySelector("[data-guild-emblem]");
+		if (emblem) {
+			emblem.hidden = !state.guild?.emblem;
+			if (state.guild?.emblem) emblem.src = state.guild.emblem;
+		}
+		const members = type === "friends" ? state.friends : type === "party" ? state.party : state.guild?.members || [];
+		const next = JSON.stringify([type, members.map((m) => [
+			identity(m),
+			m.Name || m.characterName || m.CharName,
+			m.State,
+			m.state,
+			m.CurrentState
+		])]);
+		if (next !== listKey) {
+			listKey = next;
+			list.replaceChildren(button(type === "friends" ? "好友管理" : type === "party" ? "队伍管理" : "公会管理", () => {
+				selected = null;
+				lastKey = "";
+				render();
+			}));
+			for (const member of members) {
+				const b = button(member.Name || member.characterName || member.CharName, () => {
+					selected = identity(member);
+					lastKey = "";
+					render();
+				});
+				b.className = "inventory-item";
+				list.append(b);
+			}
+			if (!members.length) list.append(paragraph("暂无成员"));
+		}
+		const member = members.find((m) => identity(m) === selected);
+		if (selected && !member) selected = null;
+		const key = JSON.stringify([
+			type,
+			selected,
+			member,
+			state.allowed,
+			state.hasParty,
+			state.leader,
+			state.master,
+			state.rights,
+			state.guild?.info,
+			state.guild?.notice,
+			state.guild?.positions,
+			state.guild?.relations,
+			state.guild?.history,
+			state.guildSkills
+		]);
+		if (key === lastKey) return;
+		lastKey = key;
+		detail.replaceChildren();
+		if (member) {
+			const name = member.Name || member.characterName || member.CharName;
+			detail.append(paragraph(name), button("私聊", () => whisper(name)));
+			if (type === "friends") {
+				detail.append(paragraph(member.State === 0 ? "在线" : "离线"));
+				form("删除好友", [], () => act("removeFriend", member), true);
+			} else if (type === "party") {
+				detail.append(paragraph(`地图：${member.mapName || member.mapname || "未知"} · 等级：${member.baseLevel || "未知"}`));
+				if (state.leader && member.AID !== state.self.AID) {
+					form("转交队长", [], () => act("leadParty", member), true);
+					form("移出队伍", [], () => act("expelParty", member), true);
+				}
+			} else {
+				detail.append(paragraph(`${member.CurrentState ? "在线" : "离线"} · 等级：${member.Level || 0}`));
+				if (state.master) form("设置职位", [[
+					"position",
+					"公会职位",
+					"",
+					member.GPositionID,
+					(state.guild.positions || []).map((p) => [p.positionID, p.posName])
+				]], (values) => act("guildPosition", {
+					...member,
+					position: Number(values.position)
+				}), true);
+				if ((state.master || state.rights & 16) && member.AID !== state.self.AID) form("移出公会", [["reason", "移出原因"]], (values) => act("expelGuild", {
+					...member,
+					...values
+				}), true);
+			}
+			return;
+		}
+		if (type === "friends") form("添加好友", [["name", "角色名"]], (values) => act("addFriend", values));
+		if (type === "party") {
+			if (!state.hasParty) form("创建队伍", [["name", "队伍名"]], (values) => act("createParty", values), true);
+			else {
+				detail.append(paragraph(state.leader ? "你是队长" : "你是队员"));
+				if (state.leader) {
+					form("邀请入队", [["name", "邀请角色名"]], (values) => act("inviteParty", values));
+					form("保存队伍设置", [
+						[
+							"exp",
+							"经验分配",
+							"",
+							state.options.exp_share,
+							[[0, "各自获得"], [1, "平均分配"]]
+						],
+						[
+							"pickup",
+							"拾取规则",
+							"",
+							state.options.item_share,
+							[[0, "各自拾取"], [1, "队伍共享"]]
+						],
+						[
+							"division",
+							"物品分配",
+							"",
+							state.options.item_sharing_type,
+							[[0, "拾取者获得"], [1, "随机分配"]]
+						]
+					], (values) => act("partyOptions", Object.fromEntries(Object.entries(values).map(([k, v]) => [k, Number(v)]))), true);
+				}
+				form("退出队伍", [], () => act("leaveParty"), true);
+			}
+		}
+		if (type === "guild") {
+			if (!state.guild) {
+				form("创建公会", [["name", "公会名"]], (values) => act("createGuild", values), true);
+				detail.append(paragraph("创建公会所需材料由服务器检查"));
+				return;
+			}
+			const skillGroup = document.createElement("details"), summary = document.createElement("summary");
+			summary.textContent = `公会技能 · 剩余点数 ${state.guild.points}`;
+			skillGroup.append(summary);
+			detail.append(skillGroup);
+			for (const skill of state.guildSkills) {
+				skillGroup.append(paragraph(`${skill.name} Lv.${skill.level}`), paragraph(skill.description));
+				if (skill.learnable) skillGroup.append(form(`学习 ${skill.name} 一级`, [], () => act("learnGuildSkill", {
+					id: skill.SKID,
+					level: skill.level + 1
+				}), true));
+				if (state.master && skill.active) skillGroup.append(form(`设置 ${skill.name} 快捷槽`, [[
+					"level",
+					`${skill.name} 施放等级`,
+					"number",
+					skill.level
+				], [
+					"slot",
+					`${skill.name} 快捷槽`,
+					"",
+					0,
+					Array.from({ length: 36 }, (_, index) => [index, `${index + 1}：${service.shortcutName(index)}`])
+				]], (values) => act("bindGuildSkill", {
+					id: skill.SKID,
+					level: Number(values.level),
+					slot: Number(values.slot)
+				}), true));
+			}
+			if (state.master) {
+				const upload = document.createElement("form");
+				upload.className = "social-form";
+				const file = document.createElement("input");
+				file.type = "file";
+				file.accept = ".bmp,.gif,image/bmp,image/gif";
+				file.setAttribute("aria-label", "公会徽章文件");
+				const send = document.createElement("button");
+				send.type = "submit";
+				send.textContent = "确认上传徽章";
+				upload.append(paragraph("徽章：BMP 不超过 1783 字节、24 位或以下；GIF 不超过 50 KB"), file, send);
+				upload.onsubmit = async (event) => {
+					event.preventDefault();
+					send.disabled = true;
+					try {
+						status(await service.uploadEmblem(file.files[0]));
+					} catch {
+						status("无法读取徽章文件，请重新选择");
+					} finally {
+						send.disabled = false;
+					}
+				};
+				detail.append(upload);
+			}
+			const info = state.guild.info;
+			const emblemImage = document.createElement("img");
+			emblemImage.dataset.guildEmblem = "";
+			emblemImage.alt = "公会徽章";
+			emblemImage.width = emblemImage.height = 48;
+			emblemImage.hidden = !state.guild.emblem;
+			if (state.guild.emblem) emblemImage.src = state.guild.emblem;
+			detail.append(emblemImage);
+			detail.append(paragraph(state.guildName), paragraph(info ? `Lv.${info.level} · 会长：${info.masterName} · 成员：${info.userNum}/${info.maxUserNum}` : "正在获取公会信息"), paragraph(state.guild.notice.subject), paragraph(state.guild.notice.notice));
+			for (const relation of state.guild.relations) {
+				detail.append(paragraph(`${relation.relation === 0 ? "同盟" : "敌对"}：${relation.guildName}`));
+				if (state.master) form(`解除与 ${relation.guildName} 的关系`, [], () => act("removeGuildRelation", relation), true);
+			}
+			if (state.master) {
+				form("申请同盟", [["name", "附近其他公会角色名"]], (values) => act("guildAlliance", values), true);
+				form("设为敌对", [["name", "附近敌对角色名"]], (values) => act("guildHostility", values), true);
+				for (const position of state.guild.positions) form(`保存职位 ${position.positionID}`, [
+					[
+						"name",
+						`职位 ${position.positionID} 名称`,
+						"text",
+						position.posName
+					],
+					[
+						"tax",
+						`职位 ${position.positionID} 经验税率（0–50）`,
+						"number",
+						position.payRate
+					],
+					[
+						"right",
+						`职位 ${position.positionID} 权限`,
+						"",
+						position.right & 17,
+						[
+							[0, "无管理权限"],
+							[1, "邀请成员"],
+							[16, "移出成员"],
+							[17, "邀请和移出成员"]
+						]
+					]
+				], (values) => act("editGuildPosition", {
+					...values,
+					position: position.positionID,
+					tax: Number(values.tax),
+					right: Number(values.right)
+				}), true);
+			}
+			for (const entry of state.guild.history) detail.append(paragraph(`移出记录：${entry.charname} · ${entry.reason}`));
+			if (state.master || state.rights & 1) form("邀请入会", [["name", "附近角色名"]], (values) => act("inviteGuild", values));
+			if (state.master) {
+				form("修改公告", [[
+					"subject",
+					"公告标题",
+					"text",
+					state.guild.notice.subject
+				], [
+					"notice",
+					"公告内容",
+					"textarea",
+					state.guild.notice.notice
+				]], (values) => act("guildNotice", values), true);
+				form("解散公会", [["name", "输入完整公会名称"]], (values) => act("breakGuild", values), true);
+			} else form("退出公会", [["reason", "离会原因"]], (values) => act("leaveGuild", values), true);
+		}
+	}
+	function update() {
+		state = service.snapshot();
+		render();
+	}
+	$("select").onchange = () => {
+		selected = null;
+		lastKey = "";
+		listKey = "";
+		if ($("select").value === "guild") service.refreshGuild();
+		update();
+	};
+	$("[data-refresh]").onclick = () => service.refreshGuild();
+	update();
+	return { update };
+}
+var init_SocialPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/ChatPanel.js
+function createChatPanel(body, send, initialReceiver = "") {
+	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"消息筛选\"><option value=\"all\">全部消息</option><option value=\"public\">公开</option><option value=\"private\">私聊</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option><option value=\"clan\">氏族</option><option value=\"system\">系统</option></select></div><div class=\"chat-log\" role=\"log\" aria-label=\"聊天消息\"></div><form class=\"chat-form\"><select aria-label=\"发送频道\"><option value=\"public\">公开</option><option value=\"private\">私聊</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option><option value=\"clan\">氏族</option></select><input aria-label=\"私聊对象\" maxlength=\"24\" placeholder=\"角色名\" hidden><input aria-label=\"聊天内容\" placeholder=\"输入消息\" maxlength=\"120\" autocomplete=\"off\"><button type=\"submit\">发送</button></form><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), log = $(".chat-log"), channel = $("[aria-label=\"发送频道\"]"), receiver = $("[aria-label=\"私聊对象\"]"), input = $("[aria-label=\"聊天内容\"]");
+	let messages = [];
+	channel.onchange = () => {
+		receiver.hidden = channel.value !== "private";
+	};
+	if (initialReceiver) {
+		channel.value = "private";
+		receiver.value = initialReceiver;
+		channel.onchange();
+	}
+	function update(next = messages) {
+		messages = next;
+		const atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
+		const filter = $("[aria-label=\"消息筛选\"]").value;
+		log.replaceChildren(...messages.filter((m) => filter === "all" || m.channel === filter).map((m) => {
+			const p = document.createElement("p");
+			p.textContent = m.text;
+			return p;
+		}));
+		if (atBottom) log.scrollTop = log.scrollHeight;
+	}
+	$("[aria-label=\"消息筛选\"]").onchange = () => update();
+	$("form").onsubmit = (event) => {
+		event.preventDefault();
+		const error = send(input.value, channel.value, receiver.value);
+		$("[role=status]").textContent = error || "已发送";
+		if (!error) input.value = "";
+	};
+	return { update };
+}
+var init_ChatPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/QuestsPanel.js
+function createQuestsPanel(body, actions) {
+	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"任务分类\"><option value=\"all\">全部任务</option><option value=\"1\">进行中</option><option value=\"0\">已暂停</option><option value=\"2\">已完成</option></select></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"任务列表\"></div><section class=\"inventory-detail\" aria-label=\"任务详情\"></section></div><p role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
+	let selected = null, state, detailKey = "";
+	const nodes = /* @__PURE__ */ new Map();
+	function paragraph(value) {
+		const p = document.createElement("p");
+		p.textContent = value;
+		return p;
+	}
+	function update() {
+		state = actions.snapshot();
+		const quests = state.quests.filter((q) => $("select").value === "all" || String(q.active) === $("select").value);
+		const ids = new Set(quests.map((q) => q.questID));
+		for (const [id, node] of nodes) if (!ids.has(id)) {
+			node.remove();
+			nodes.delete(id);
+		}
+		if (selected !== null && !ids.has(selected)) selected = null;
+		for (const q of quests) {
+			let node = nodes.get(q.questID);
+			if (!node) {
+				node = document.createElement("button");
+				node.className = "inventory-item";
+				node.dataset.quest = q.questID;
+				node.onclick = () => {
+					selected = q.questID;
+					detailKey = "";
+					update();
+				};
+				nodes.set(q.questID, node);
+				list.append(node);
+			}
+			node.textContent = q.title;
+			node.setAttribute("aria-pressed", String(selected === q.questID));
+		}
+		let empty = list.querySelector("[data-empty]");
+		if (!quests.length && !empty) {
+			empty = paragraph("当前分类没有任务");
+			empty.dataset.empty = "";
+			list.append(empty);
+		}
+		if (quests.length) empty?.remove();
+		const q = quests.find((entry) => entry.questID === selected);
+		const key = JSON.stringify([
+			q,
+			state.allowed,
+			state.pending
+		]);
+		if (key === detailKey) return;
+		detailKey = key;
+		detail.replaceChildren();
+		if (!q) {
+			detail.textContent = "点击任务查看目标、进度和奖励";
+			return;
+		}
+		const title = document.createElement("h3");
+		title.textContent = q.title;
+		detail.append(title, paragraph(q.summary), paragraph(q.description));
+		for (const hunt of q.objectives) detail.append(paragraph(`${hunt.name}：${hunt.count} / ${hunt.total}`));
+		if (q.end_time) detail.append(paragraph(`截止时间：${(/* @__PURE__ */ new Date(q.end_time * 1e3)).toLocaleString()}`));
+		for (const reward of q.rewards) detail.append(paragraph(`${reward.name} × ${reward.ItemNum}`));
+		if (q.reward_exp_base || q.reward_exp_job) detail.append(paragraph(`经验：${q.reward_exp_base} / 职业经验：${q.reward_exp_job}`));
+		if (q.active !== 2) {
+			const button = document.createElement("button");
+			button.textContent = q.active === 1 ? "暂停任务" : "启用任务";
+			button.disabled = !state.allowed || state.pending !== void 0;
+			button.onclick = () => {
+				$("[role=status]").textContent = actions.toggle(q.questID, q.active) ? "已请求，等待服务器更新" : "任务状态已变化";
+				update();
+			};
+			detail.append(button);
+		}
+		for (const target of q.targets || []) {
+			const button = document.createElement("button");
+			button.textContent = `查看地图：${target.name}`;
+			button.onclick = () => actions.showMap(target);
+			detail.append(button);
+		}
+	}
+	$("select").onchange = () => {
+		detailKey = "";
+		update();
+	};
+	update();
+	return { update };
+}
+var init_QuestsPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/MapsPanel.js
+function createMapsPanel(body, maps, local, target) {
+	body.innerHTML = "<div class=\"skills-toolbar\"><button type=\"button\" data-local>当前地图</button><select aria-label=\"世界区域\"></select><input aria-label=\"搜索地图\" placeholder=\"搜索地图名称\"></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"地图列表\"></div><section class=\"inventory-detail map-detail\" aria-label=\"地图详情\"></section></div>";
+	const $ = (selector) => body.querySelector(selector), detail = $(".map-detail"), list = $(".inventory-list");
+	const regionSelect = $("select");
+	let generation = 0;
+	for (const region of maps.regions) regionSelect.add(new Option(region.name, region.id));
+	function image(title, load) {
+		const request = ++generation;
+		detail.replaceChildren();
+		const heading = document.createElement("h3");
+		heading.textContent = title;
+		const status = document.createElement("p");
+		status.textContent = "正在加载地图";
+		detail.append(heading, status);
+		load((url) => {
+			if (request !== generation) return;
+			status.remove();
+			if (!url) {
+				detail.append(document.createTextNode("地图图片不可用"));
+				return;
+			}
+			const img = document.createElement("img");
+			img.className = "map-preview";
+			img.alt = title;
+			img.src = url;
+			detail.append(img);
+		});
+	}
+	function showMap(map) {
+		image(`${map.name || maps.mapName(map.id)}（${map.id}）${Number.isFinite(map.x) ? ` · ${map.x}, ${map.y}` : ""}`, (done) => maps.loadMap(map.id, done));
+	}
+	function showRegion() {
+		const region = maps.regions.find((r) => r.id === regionSelect.value);
+		list.replaceChildren();
+		if (!region) return;
+		const query = $("input").value.trim().toLocaleLowerCase();
+		const whole = document.createElement("button");
+		whole.className = "inventory-item";
+		whole.textContent = `${region.name}全图`;
+		whole.onclick = () => image(region.name, (done) => maps.loadRegion(region.id, done));
+		list.append(whole);
+		for (const map of region.maps.filter((m) => `${m.name} ${m.id}`.toLocaleLowerCase().includes(query))) {
+			const button = document.createElement("button");
+			button.className = "inventory-item";
+			button.textContent = `${map.name} · ${map.id}${map.id === maps.current() ? "（当前位置）" : ""}`;
+			button.onclick = () => showMap(map);
+			list.append(button);
+		}
+	}
+	regionSelect.onchange = () => {
+		showRegion();
+		const region = maps.regions.find((r) => r.id === regionSelect.value);
+		if (region) image(region.name, (done) => maps.loadRegion(region.id, done));
+	};
+	$("input").oninput = showRegion;
+	$("[data-local]").onclick = () => {
+		generation++;
+		detail.replaceChildren();
+		const title = document.createElement("h3");
+		title.textContent = maps.mapName(maps.current());
+		const canvas = document.createElement("canvas");
+		canvas.width = canvas.height = 256;
+		canvas.className = "large-map";
+		detail.append(title, canvas);
+		local(canvas);
+	};
+	showRegion();
+	if (target) showMap(target);
+	else $("[data-local]").click();
+	return { destroy() {
+		generation++;
+	} };
+}
+var init_MapsPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/ContainerPanel.js
+function createContainerPanel(body, actions, initialSource) {
+	body.innerHTML = "<div class=\"container-toolbar\"></div><p class=\"container-capacity\"></p><div class=\"inventory-layout\"><div class=\"inventory-list\"></div><section class=\"inventory-detail\"></section></div><p class=\"inventory-status\" role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector);
+	const sourceSelect = document.createElement("select");
+	sourceSelect.setAttribute("aria-label", "物品所在位置");
+	const category = document.createElement("select");
+	category.setAttribute("aria-label", "物品分类");
+	for (const [key, text] of [
+		["all", "全部"],
+		["usable", "消耗品"],
+		["equipment", "装备"],
+		["other", "其他"]
+	]) category.add(new Option(text, key));
+	$(".container-toolbar").append(sourceSelect, category);
+	let source = initialSource, selected = null, state;
+	const nodes = /* @__PURE__ */ new Map();
+	function button(text, fn) {
+		const node = document.createElement("button");
+		node.type = "button";
+		node.textContent = text;
+		node.onclick = fn;
+		return node;
+	}
+	function reset() {
+		selected = null;
+		$(".inventory-detail").textContent = "点击物品选择转移位置和数量";
+	}
+	sourceSelect.onchange = () => {
+		source = sourceSelect.value;
+		reset();
+		update();
+	};
+	category.onchange = () => update();
+	function select(item) {
+		selected = {
+			index: item.index,
+			ID: item.ID
+		};
+		const title = document.createElement("h3");
+		title.textContent = item.name;
+		const description = document.createElement("p");
+		description.textContent = item.description;
+		description.className = "item-description";
+		const amount = document.createElement("input");
+		amount.type = "number";
+		amount.min = "1";
+		amount.max = String(item.count);
+		amount.step = "1";
+		amount.value = "1";
+		amount.setAttribute("aria-label", "转移数量");
+		const destination = document.createElement("select");
+		destination.setAttribute("aria-label", "转移到");
+		for (const target of state.containers.filter((entry) => entry !== source)) destination.add(new Option(labels[target], target));
+		const count = document.createElement("p");
+		count.className = "container-item-count";
+		count.textContent = `当前数量：${item.count}`;
+		const transfer = button("确认转移", () => {
+			$(".inventory-status").textContent = actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value));
+			update();
+		});
+		$(".inventory-detail").replaceChildren(title, count, destination, amount, button("全部数量", () => {
+			amount.value = String(state.items.find((entry) => entry.index === item.index && entry.ID === item.ID)?.count || 0);
+		}), transfer, description);
+	}
+	function update() {
+		state = actions.snapshot(source);
+		const optionsKey = state.containers.join(",");
+		if (sourceSelect.dataset.options !== optionsKey) {
+			sourceSelect.replaceChildren(...state.containers.map((key) => new Option(labels[key], key)));
+			sourceSelect.dataset.options = optionsKey;
+			sourceSelect.value = source;
+		}
+		const capacity = state.capacity;
+		$(".container-capacity").textContent = !state.containers.includes(source) ? `${labels[source]}当前不可用` : capacity ? `格数：${capacity.current}/${capacity.limit}${capacity.weight === void 0 ? "" : ` · 重量：${capacity.weight}/${capacity.maxWeight}`}` : "已穿戴物品请先卸下再转移";
+		const keys = /* @__PURE__ */ new Set();
+		for (const item of state.items.filter((entry) => category.value === "all" || entry.category === category.value)) {
+			const key = `${source}:${item.index}:${item.ID}`;
+			keys.add(key);
+			let node = nodes.get(key);
+			if (!node) {
+				node = button("", () => select(state.items.find((entry) => entry.index === item.index && entry.ID === item.ID)));
+				node.className = "inventory-item";
+				node.append(document.createElement("img"), document.createElement("span"));
+				nodes.set(key, node);
+				$(".inventory-list").append(node);
+			}
+			node.querySelector("span").textContent = `${item.name} ×${item.count}`;
+			if (item.icon && node.querySelector("img").getAttribute("src") !== item.icon) node.querySelector("img").src = item.icon;
+			node.disabled = !state.allowed;
+		}
+		for (const [key, node] of nodes) if (!keys.has(key)) {
+			node.remove();
+			nodes.delete(key);
+		}
+		const item = state.items.find((entry) => entry.index === selected?.index && entry.ID === selected?.ID);
+		if (selected && !item) reset();
+		else if (item) {
+			$(".container-item-count").textContent = `当前数量：${item.count}`;
+			$(".inventory-detail input").max = String(item.count);
+		}
+		for (const node of $(".inventory-detail").querySelectorAll("button,input,select")) node.disabled = !state.allowed;
+	}
+	reset();
+	update();
+	return { update };
+}
+var labels;
+var init_ContainerPanel = __esmMin((() => {
+	labels = {
+		inventory: "背包",
+		storage: "仓库",
+		cart: "手推车"
+	};
+}));
+//#endregion
+//#region src/UI/Mobile/game/ShopPanel.js
+/** Shop orders use explicit quantities and a separate review before sending. */
+function createShopPanel(body, service) {
+	body.innerHTML = "<div class=\"shop-summary\"></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"商店物品\"></div><section class=\"inventory-detail\"></section></div><div class=\"shop-footer\"></div><p class=\"inventory-status\" role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector);
+	const nodes = /* @__PURE__ */ new Map();
+	let selected = null;
+	let state;
+	const status = (message) => {
+		$(".inventory-status").textContent = message;
+	};
+	function button(label, fn) {
+		const node = document.createElement("button");
+		node.type = "button";
+		node.textContent = label;
+		node.onclick = fn;
+		return node;
+	}
+	function detail(item) {
+		selected = item;
+		const title = document.createElement("h3");
+		title.textContent = item.name;
+		const price = document.createElement("p");
+		price.textContent = `单价：${item.price} ${state.currency || "Zeny"} · 数量上限：${item.limit}`;
+		if (item.materials?.length) price.textContent += "\n材料：" + item.materials.map((material) => `${material.name}${material.refine_level ? `（精炼 +${material.refine_level}）` : ""} ×${material.amount}`).join("、");
+		const input = document.createElement("input");
+		input.type = "number";
+		input.min = "0";
+		input.max = String(item.limit);
+		input.step = "1";
+		input.value = String(item.quantity || 1);
+		input.setAttribute("aria-label", "交易数量");
+		const description = document.createElement("p");
+		description.className = "item-description";
+		description.textContent = item.description;
+		$(".inventory-detail").replaceChildren(title, price, input, button("设置数量", () => {
+			status(service.set(item.index, item.ID, Number(input.value)));
+			update();
+		}), button("移出订单", () => {
+			status(service.set(item.index, item.ID, 0));
+			input.value = "0";
+			update();
+		}), description);
+	}
+	function review() {
+		const reviewArea = $(".inventory-detail");
+		reviewArea.replaceChildren();
+		for (const item of state.items.filter((entry) => entry.quantity)) {
+			const row = document.createElement("p");
+			row.textContent = `${item.name} ×${item.quantity} = ${item.price * item.quantity} ${state.currency || "Zeny"}`;
+			if (item.materials?.length) row.textContent += "\n消耗材料：" + item.materials.map((material) => `${material.name}${material.refine_level ? `（精炼 +${material.refine_level}）` : ""} ×${material.amount * item.quantity}`).join("、");
+			reviewArea.append(row);
+		}
+		const total = document.createElement("p");
+		total.textContent = `${state.mode === "buy" ? "支付" : "获得"}：${state.total} ${state.currency || "Zeny"}`;
+		reviewArea.append(total, button(state.mode === "buy" ? "确认购买" : "确认出售", () => {
+			status(service.submit());
+			update();
+		}), button("返回修改", () => {
+			if (selected) detailItem();
+			else reviewArea.textContent = "请选择物品";
+		}));
+	}
+	function detailItem() {
+		const item = state.items.find((entry) => entry.index === selected?.index && entry.ID === selected?.ID);
+		if (item) detail(item);
+	}
+	const reviewButton = button("核对订单", review);
+	const clearButton = button("清空订单", () => {
+		if (service.clear()) {
+			selected = null;
+			$(".inventory-detail").textContent = "订单已清空，请重新选择物品";
+			status("");
+			update();
+		}
+	});
+	$(".shop-footer").append(reviewButton, clearButton);
+	function update() {
+		state = service.snapshot();
+		$(".shop-summary").textContent = `持有：${state.money} ${state.currency || "Zeny"} · 订单合计：${state.total} ${state.currency || "Zeny"}`;
+		clearButton.disabled = !state.allowed;
+		reviewButton.disabled = !state.allowed || !state.items.some((item) => item.quantity);
+		const keys = /* @__PURE__ */ new Set();
+		for (const item of state.items) {
+			const key = `${item.index}:${item.ID}`;
+			keys.add(key);
+			let node = nodes.get(key);
+			if (!node) {
+				node = button("", () => {
+					detail(state.items.find((entry) => entry.index === item.index && entry.ID === item.ID));
+				});
+				node.className = "inventory-item";
+				node.append(document.createElement("img"), document.createElement("span"));
+				$(".inventory-list").append(node);
+				nodes.set(key, node);
+			}
+			node.disabled = !state.allowed;
+			node.querySelector("span").textContent = `${item.name} · ${item.price} ${state.currency || "Zeny"}${item.quantity ? ` · 已选 ${item.quantity}` : ""}`;
+			if (item.icon && node.querySelector("img").getAttribute("src") !== item.icon) node.querySelector("img").src = item.icon;
+		}
+		for (const [key, node] of nodes) if (!keys.has(key)) {
+			node.remove();
+			nodes.delete(key);
+		}
+		if (selected && !state.items.some((item) => item.index === selected.index && item.ID === selected.ID)) {
+			selected = null;
+			$(".inventory-detail").textContent = "物品已经变化，请重新选择";
+		}
+		for (const node of $(".inventory-detail").querySelectorAll("button,input")) node.disabled = !state.allowed;
+	}
+	update();
+	return { update };
+}
+var init_ShopPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/NPCPanel.js
+function createNPCPanel(body, state) {
+	body.replaceChildren();
+	const text = document.createElement("div");
+	text.className = "npc-lines";
+	text.textContent = (state.lines || []).join("\n");
+	body.append(text);
+	updateNPCCutin(body, state);
+	function button(label, respond) {
+		const node = document.createElement("button");
+		node.type = "button";
+		node.textContent = label;
+		node.onclick = respond;
+		body.append(node);
+	}
+	if (state.kind === "deal") {
+		button("购买", () => state.respond(0));
+		button("出售", () => state.respond(1));
+		return;
+	}
+	if (state.mode === "menu") for (const option of state.options) button(option.text, () => state.respond(option.value));
+	if (state.mode === "next") button("下一步", () => state.respond());
+	if (state.mode === "close") button("结束对话", () => state.respond());
+	if (state.mode === "waiting") {
+		const status = document.createElement("p");
+		status.textContent = "等待 NPC 回复…";
+		body.append(status);
+	}
+	if (["number", "text"].includes(state.mode)) {
+		const form = document.createElement("form"), input = document.createElement("input"), submit = document.createElement("button"), error = document.createElement("p");
+		input.type = "text";
+		input.inputMode = state.mode === "number" ? "numeric" : "text";
+		input.setAttribute("aria-label", state.mode === "number" ? "输入数字" : "输入文字");
+		input.maxLength = state.mode === "text" ? 255 : 11;
+		submit.type = "submit";
+		submit.textContent = "确定";
+		error.setAttribute("role", "status");
+		form.append(input, submit, error);
+		form.onsubmit = (event) => {
+			event.preventDefault();
+			const result = state.respond(input.value);
+			if (typeof result === "string") error.textContent = result;
+		};
+		body.append(form);
+	}
+}
+function updateNPCCutin(body, state) {
+	let image = body.querySelector(".npc-cutin");
+	if (!state.image) {
+		image?.remove();
+		return;
+	}
+	if (!image) {
+		image = document.createElement("img");
+		image.alt = "";
+		image.className = "npc-cutin";
+		body.prepend(image);
+	}
+	if (image.getAttribute("src") !== state.image) image.src = state.image;
+}
+var init_NPCPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/SkillsPanel.js
+function createSkillsPanel(body, actions) {
+	body.innerHTML = "<div class=\"skills-toolbar\"><strong data-skill-points></strong><select aria-label=\"技能分类\"><option value=\"all\">全部技能</option><option value=\"active\">已学主动</option><option value=\"passive\">已学被动</option><option value=\"locked\">未学习</option></select></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"技能列表\"></div><section class=\"inventory-detail\" aria-label=\"技能详情\"></section></div><p role=\"status\" data-skill-status></p>";
+	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
+	let selected = null, key = "", state;
+	const nodes = /* @__PURE__ */ new Map();
+	function button(text, fn) {
+		const b = document.createElement("button");
+		b.type = "button";
+		b.textContent = text;
+		b.onclick = fn;
+		return b;
+	}
+	function status(text) {
+		$("[data-skill-status]").textContent = text;
+	}
+	function renderDetail() {
+		const skill = state.skills.find((entry) => entry.id === selected);
+		if (!skill) {
+			detail.textContent = "点击技能查看说明、学习或设置快捷槽";
+			return;
+		}
+		const next = JSON.stringify({
+			...skill,
+			icon: void 0
+		});
+		if (next === key) return;
+		key = next;
+		detail.replaceChildren();
+		const title = document.createElement("h3");
+		title.textContent = skill.name;
+		const summary = document.createElement("p");
+		summary.textContent = `${skill.kind} · 等级 ${skill.level}/${skill.max}`;
+		const learn = button(skill.level ? "升级一级" : "学习一级", () => {
+			learn.disabled = true;
+			const confirm = button(`确认消耗 1 技能点，学习到 ${skill.level + 1} 级`, () => {
+				status(actions.learn(skill.id, skill.level + 1));
+				key = "";
+				update();
+			});
+			const cancel = button("取消学习", () => {
+				key = "";
+				renderDetail();
+			});
+			learn.after(confirm, cancel);
+		});
+		learn.disabled = !skill.learnable;
+		detail.append(title, summary, learn);
+		if (skill.active) {
+			const level = document.createElement("select");
+			level.setAttribute("aria-label", "施放等级");
+			for (let i = 1; i <= skill.level; i++) level.add(new Option(`Lv.${i}`, String(i)));
+			level.value = String(skill.level);
+			const slot = document.createElement("select");
+			slot.setAttribute("aria-label", "技能快捷槽");
+			const page = actions.shortcuts();
+			for (let i = 0; i < page.pages * 3; i++) slot.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
+			slot.value = String(page.page * 3);
+			detail.append(level, slot, button("确认设置快捷槽", () => status(actions.bind(skill.id, Number(level.value), Number(slot.value)) ? "快捷槽已设置" : "设置失败，请重新选择")));
+		}
+		const requirements = document.createElement("p");
+		requirements.textContent = `前置技能：${skill.requirements.join("；") || "无"}${skill.reason ? "\n" + skill.reason : ""}`;
+		const description = document.createElement("p");
+		description.className = "item-description";
+		description.textContent = skill.description;
+		detail.append(requirements, description);
+	}
+	function render() {
+		$("[data-skill-points]").textContent = `剩余技能点：${state.points}`;
+		const category = $("select").value;
+		const filtered = state.skills.filter((skill) => category === "all" || (category === "active" ? skill.active : category === "passive" ? skill.kind === "被动" : !skill.level));
+		const ids = new Set(filtered.map((skill) => skill.id));
+		for (const [id, node] of nodes) if (!ids.has(id)) {
+			node.remove();
+			nodes.delete(id);
+		}
+		for (const skill of filtered) {
+			let node = nodes.get(skill.id);
+			if (!node) {
+				node = button("", () => {
+					selected = skill.id;
+					key = "";
+					status("");
+					render();
+					detail.scrollTop = 0;
+				});
+				node.className = "inventory-item";
+				node.dataset.skill = skill.id;
+				node.append(document.createElement("img"), document.createElement("span"));
+				nodes.set(skill.id, node);
+				list.append(node);
+			}
+			node.setAttribute("aria-pressed", String(selected === skill.id));
+			node.querySelector("span").textContent = `${skill.name} · ${skill.kind} Lv.${skill.level}`;
+			const img = node.querySelector("img");
+			img.alt = "";
+			if (skill.icon && img.getAttribute("src") !== skill.icon) img.src = skill.icon;
+		}
+		renderDetail();
+	}
+	$("select").onchange = render;
+	function update() {
+		state = actions.snapshot();
+		render();
+	}
+	update();
+	return { update };
+}
+var init_SkillsPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/EquipmentPanel.js
+/** Independent touch equipment view; server snapshots own all item and stat values. */
+function createEquipmentPanel(body, actions) {
+	body.innerHTML = "<nav class=\"equipment-tabs\" aria-label=\"装备分类\"></nav><div class=\"equipment-layout\"><div class=\"equipment-slots\" aria-label=\"装备部位\"></div><section class=\"equipment-detail\" aria-label=\"装备详情\"></section></div><dl class=\"equipment-stats\" hidden></dl><p class=\"equipment-message\" role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector);
+	const slotsRoot = $(".equipment-slots"), detail = $(".equipment-detail");
+	let group = "normal", selected = "HEAD_TOP", changing = false, choice = null, detailKey = "";
+	let state;
+	const slots = /* @__PURE__ */ new Map(), statNodes = /* @__PURE__ */ new Map();
+	function button(text, fn) {
+		const node = document.createElement("button");
+		node.type = "button";
+		node.textContent = text;
+		node.onclick = fn;
+		return node;
+	}
+	function message(text) {
+		$(".equipment-message").textContent = text;
+	}
+	function select(slot) {
+		selected = slot.key;
+		changing = !slot.item;
+		choice = null;
+		detailKey = "";
+		message("");
+		render();
+		detail.scrollTop = 0;
+	}
+	for (const [key, label] of [
+		["normal", "装备"],
+		["costume", "时装"],
+		["shadow", "影子"],
+		["stats", "属性"]
+	]) {
+		const tab = button(label, () => {
+			group = key;
+			const first = state.slots.find((slot) => slot.group === group);
+			if (first) select(first);
+			else render();
+		});
+		tab.dataset.group = key;
+		$(".equipment-tabs").append(tab);
+	}
+	function itemDetails(item) {
+		const title = document.createElement("h3");
+		title.textContent = item.name;
+		const description = document.createElement("p");
+		description.className = "item-description";
+		description.textContent = item.description || "暂无装备说明";
+		const status = document.createElement("p");
+		status.textContent = `数量：${item.count}${item.worn ? " · 已穿戴" : ""}${!item.identified ? " · 未鉴定" : ""}${item.damaged ? " · 已损坏" : ""}`;
+		return [
+			title,
+			status,
+			description
+		];
+	}
+	function perform(slot, item, action) {
+		message(actions.act(slot.key, item.index, item.ID, action));
+		update();
+	}
+	function renderDetail() {
+		const slot = state.slots.find((entry) => entry.key === selected);
+		if (!slot) return;
+		if (changing && choice && slot.item?.index === choice.index && slot.item?.ID === choice.ID) {
+			changing = false;
+			choice = null;
+		}
+		const key = JSON.stringify([
+			slot,
+			changing,
+			choice
+		]);
+		if (key === detailKey) return;
+		detailKey = key;
+		detail.replaceChildren();
+		const heading = document.createElement("h3");
+		heading.textContent = slot.label;
+		detail.append(heading);
+		if (!changing) {
+			if (!slot.item) detail.append(document.createTextNode("此部位未穿戴装备"));
+			else {
+				const remove = button("卸下", () => perform(slot, slot.item, "unequip"));
+				remove.disabled = Boolean(slot.item.reason);
+				const [title, status, description] = itemDetails(slot.item);
+				detail.append(title, status, remove, description);
+				if (slot.item.reason) {
+					const reason = document.createElement("p");
+					reason.textContent = slot.item.reason;
+					detail.append(reason);
+				}
+			}
+			const change = button(slot.item ? "更换" : "选择装备", () => {
+				changing = true;
+				choice = null;
+				detailKey = "";
+				renderDetail();
+			});
+			const description = detail.querySelector(".item-description");
+			if (description) description.before(change);
+			else detail.append(change);
+			return;
+		}
+		detail.append(button("返回部位详情", () => {
+			changing = false;
+			choice = null;
+			detailKey = "";
+			renderDetail();
+		}));
+		const selectedItem = slot.candidates.find((item) => item.index === choice?.index && item.ID === choice?.ID);
+		if (selectedItem) {
+			const equip = button("穿戴", () => perform(slot, selectedItem, "equip"));
+			equip.disabled = Boolean(selectedItem.reason);
+			const [title, status, description] = itemDetails(selectedItem);
+			detail.append(title, status, equip, description);
+			if (selectedItem.reason) {
+				const reason = document.createElement("p");
+				reason.textContent = selectedItem.reason;
+				detail.append(reason);
+			}
+		}
+		const label = document.createElement("p");
+		label.textContent = slot.candidates.length ? "点击背包中的装备查看并穿戴" : "背包中没有此部位的装备";
+		detail.append(label);
+		for (const item of slot.candidates) {
+			const candidate = button("", () => {
+				choice = {
+					index: item.index,
+					ID: item.ID
+				};
+				detailKey = "";
+				renderDetail();
+				detail.scrollTop = 0;
+			});
+			candidate.className = "equipment-candidate";
+			candidate.dataset.index = item.index;
+			candidate.setAttribute("aria-pressed", String(selectedItem?.index === item.index));
+			const image = document.createElement("img");
+			image.alt = "";
+			if (item.icon) image.src = item.icon;
+			const text = document.createElement("span");
+			text.textContent = item.name;
+			candidate.append(image, text);
+			detail.append(candidate);
+		}
+	}
+	function render() {
+		for (const tab of $(".equipment-tabs").children) tab.setAttribute("aria-pressed", String(tab.dataset.group === group));
+		$(".equipment-layout").hidden = group === "stats";
+		$(".equipment-stats").hidden = group !== "stats";
+		for (const slot of state.slots) {
+			let node = slots.get(slot.key);
+			if (!node) {
+				node = button("", () => select(state.slots.find((entry) => entry.key === slot.key)));
+				node.className = "equipment-slot";
+				node.dataset.slot = slot.key;
+				node.append(document.createElement("img"), document.createElement("strong"), document.createElement("span"));
+				slots.set(slot.key, node);
+				slotsRoot.append(node);
+			}
+			node.hidden = slot.group !== group;
+			node.setAttribute("aria-pressed", String(selected === slot.key));
+			node.querySelector("strong").textContent = slot.label;
+			node.querySelector("span").textContent = slot.item?.name || "＋ 选择装备";
+			const image = node.querySelector("img");
+			image.alt = "";
+			image.hidden = !slot.item?.icon;
+			if (slot.item?.icon && image.getAttribute("src") !== slot.item.icon) image.src = slot.item.icon;
+		}
+		for (const stat of state.stats) {
+			if (!statNodes.has(stat.key)) {
+				const dt = document.createElement("dt");
+				dt.textContent = stat.label;
+				const dd = document.createElement("dd");
+				dd.dataset.stat = stat.key;
+				$(".equipment-stats").append(dt, dd);
+				statNodes.set(stat.key, dd);
+			}
+			statNodes.get(stat.key).textContent = stat.value;
+		}
+		renderDetail();
+	}
+	function update() {
+		state = actions.snapshot();
+		render();
+	}
+	update();
+	return { update };
+}
+var init_EquipmentPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/InventoryPanel.js
+/** Touch-only inventory presentation. Actions receive inventory indices, never DOM-derived item data. */
+function createInventoryPanel(body, actions) {
+	body.innerHTML = "<nav class=\"inventory-tabs\" aria-label=\"背包分类\"></nav><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"物品列表\"></div><section class=\"inventory-detail\" aria-label=\"物品详情\"></section></div><p class=\"inventory-status\" role=\"status\"></p>";
+	const $ = (selector) => body.querySelector(selector);
+	const list = $(".inventory-list"), detail = $(".inventory-detail");
+	let category = "all", selected = null, state = [], detailKey = "", binding = false;
+	const buttons = /* @__PURE__ */ new Map();
+	const sort = document.createElement("select");
+	sort.setAttribute("aria-label", "背包排序");
+	for (const [key, name] of [
+		["index", "原始顺序"],
+		["name", "名称排序"],
+		["count", "数量排序"],
+		["category", "分类排序"]
+	]) sort.add(new Option(name, key));
+	sort.onchange = () => render();
+	body.prepend(sort);
+	const status = (message) => {
+		$(".inventory-status").textContent = message;
+	};
+	function button(label, fn) {
+		const node = document.createElement("button");
+		node.type = "button";
+		node.textContent = label;
+		node.onclick = fn;
+		return node;
+	}
+	for (const [key, label] of [
+		["all", "全部"],
+		["usable", "消耗品"],
+		["equipment", "装备"],
+		["other", "其他"],
+		["worn", "已穿戴"]
+	]) {
+		const tab = button(label, () => {
+			category = key;
+			render();
+		});
+		tab.dataset.category = key;
+		$(".inventory-tabs").append(tab);
+	}
+	function renderDetail() {
+		const item = state.find((entry) => entry.index === selected?.index && entry.ID === selected?.ID);
+		if (!item) {
+			selected = null;
+			binding = false;
+			detailKey = "";
+			detail.textContent = "点击物品查看详情和操作";
+			return;
+		}
+		const key = JSON.stringify(item);
+		if (binding || key === detailKey) return;
+		detailKey = key;
+		const title = document.createElement("h3");
+		title.textContent = item.name;
+		const count = document.createElement("p");
+		count.textContent = `数量：${item.count}${item.worn ? " · 已穿戴" : ""}${!item.identified ? " · 未鉴定" : ""}${item.damaged ? " · 已损坏" : ""}`;
+		const description = document.createElement("p");
+		description.className = "item-description";
+		description.textContent = item.description || "暂无物品说明";
+		const ops = document.createElement("div");
+		ops.className = "inventory-actions";
+		if (item.action) {
+			const use = button({
+				use: "使用",
+				equip: "穿戴",
+				unequip: "卸下",
+				card: "镶嵌卡片"
+			}[item.action], () => {
+				status(actions.act(item.index, item.ID, item.action));
+				update();
+			});
+			use.disabled = Boolean(item.reason);
+			ops.append(use);
+		}
+		if (item.shortcut) ops.append(button("设置快捷槽", () => chooseBinding(item)));
+		if (!item.worn) ops.append(button("丢弃", () => chooseDrop(item)));
+		const reason = document.createElement("p");
+		reason.textContent = item.reason;
+		detail.replaceChildren(title, count, ops, reason, description);
+	}
+	function chooseDrop(item) {
+		binding = true;
+		const warning = document.createElement("p");
+		warning.textContent = `丢弃 ${item.name} 后物品将落到地上，可能被其他玩家拾取。`;
+		const input = document.createElement("input");
+		input.type = "number";
+		input.min = "1";
+		input.max = String(Math.min(item.count, 65535));
+		input.step = "1";
+		input.value = "1";
+		input.setAttribute("aria-label", "丢弃数量");
+		const confirm = button("确认丢弃", () => {
+			status(actions.drop(item.index, item.ID, Number(input.value)));
+			binding = false;
+			detailKey = "";
+			update();
+		});
+		const cancel = button("取消丢弃", () => {
+			binding = false;
+			detailKey = "";
+			renderDetail();
+		});
+		detail.replaceChildren(warning, input, confirm, cancel);
+	}
+	function chooseBinding(item) {
+		binding = true;
+		const title = document.createElement("p");
+		title.textContent = `将 ${item.name} 设置到快捷槽；已有内容将被替换。`;
+		const select = document.createElement("select");
+		select.setAttribute("aria-label", "目标快捷槽");
+		const page = actions.shortcuts();
+		for (let i = 0; i < page.pages * 3; i++) select.add(new Option(`槽位 ${i + 1}`, String(i)));
+		select.value = String(page.page * 3);
+		const preview = document.createElement("p");
+		function describeSlot() {
+			preview.textContent = `当前内容：${actions.slotName(Number(select.value))}`;
+		}
+		select.onchange = describeSlot;
+		describeSlot();
+		const save = button("确认设置", () => {
+			const success = actions.bind(item.index, item.ID, Number(select.value));
+			status(success ? `已设置到槽位 ${Number(select.value) + 1}` : "设置失败，物品或角色状态已经变化");
+			binding = false;
+			detailKey = "";
+			update();
+		});
+		const cancel = button("取消设置", () => {
+			binding = false;
+			detailKey = "";
+			renderDetail();
+		});
+		detail.replaceChildren(title, select, preview, save, cancel);
+	}
+	function render() {
+		for (const tab of $(".inventory-tabs").children) tab.setAttribute("aria-pressed", String(tab.dataset.category === category));
+		const filtered = state.filter((item) => category === "all" || (category === "worn" ? item.worn : item.category === category));
+		filtered.sort((a, b) => sort.value === "name" ? a.name.localeCompare(b.name, "zh-CN") : sort.value === "count" ? b.count - a.count || a.index - b.index : sort.value === "category" ? a.category.localeCompare(b.category) || a.name.localeCompare(b.name, "zh-CN") : a.index - b.index);
+		const keys = new Set(filtered.map((item) => `${item.index}:${item.ID}`));
+		for (const [key, node] of buttons) if (!keys.has(key)) {
+			node.remove();
+			buttons.delete(key);
+		}
+		list.querySelector("p")?.remove();
+		if (!filtered.length) {
+			const empty = document.createElement("p");
+			empty.textContent = "该分类暂无物品";
+			list.append(empty);
+		}
+		for (const [position, item] of filtered.entries()) {
+			const key = `${item.index}:${item.ID}`;
+			let node = buttons.get(key);
+			if (!node) {
+				node = button("", () => {
+					selected = {
+						index: item.index,
+						ID: item.ID
+					};
+					binding = false;
+					detailKey = "";
+					status("");
+					render();
+					detail.scrollTop = 0;
+				});
+				node.className = "inventory-item";
+				node.dataset.index = item.index;
+				node.append(document.createElement("img"), document.createElement("span"));
+				buttons.set(key, node);
+				list.append(node);
+			}
+			if (list.children[position] !== node) list.insertBefore(node, list.children[position] || null);
+			const image = node.querySelector("img");
+			image.alt = "";
+			if (item.icon && image.getAttribute("src") !== item.icon) image.src = item.icon;
+			node.querySelector("span").textContent = `${item.name} ×${item.count}${item.worn ? " · 已穿戴" : ""}`;
+			node.setAttribute("aria-pressed", String(selected?.index === item.index && selected?.ID === item.ID));
+		}
+		renderDetail();
+	}
+	function update() {
+		state = actions.snapshot();
+		render();
+	}
+	update();
+	return { update };
+}
+var init_InventoryPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/ShortcutPanel.js
+/** Tap-only configuration; the chosen level remains stable during live HUD refreshes. */
+function createShortcutPanel(body, actions) {
+	let index, selected;
+	body.innerHTML = "<p>与桌面快捷栏共享配置。选择槽位，再选择技能或道具。</p><div class=\"slot-picker\"></div><div class=\"shortcut-choices\"></div><form class=\"shortcut-config\" hidden><span data-choice></span><label>等级 <select aria-label=\"技能等级\"></select></label><button type=\"submit\">保存</button></form><button type=\"button\" data-clear-slot>清空槽位</button><p role=\"status\" data-config-status></p>";
+	const $ = (s) => body.querySelector(s);
+	const picker = $(".slot-picker"), choices = $(".shortcut-choices"), form = $("form");
+	form.after($("[data-clear-slot]"), choices);
+	function chooseSlot(next) {
+		index = next;
+		selected = null;
+		form.hidden = true;
+		for (const button of picker.children) button.setAttribute("aria-pressed", String(Number(button.dataset.index) === index));
+		$("[data-config-status]").textContent = `正在配置槽位 ${index + 1}`;
+	}
+	for (const slot of actions.snapshot().slots) {
+		const button = document.createElement("button");
+		button.type = "button";
+		button.dataset.index = slot.index;
+		button.textContent = `${slot.index + 1} · ${slot.name}`;
+		button.onclick = () => chooseSlot(slot.index);
+		picker.append(button);
+	}
+	function renderChoices() {
+		const entries = actions.candidates();
+		for (const entry of entries) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.className = "shortcut-choice";
+			button.dataset.key = `${entry.isSkill}:${entry.ID}`;
+			const img = document.createElement("img");
+			img.alt = "";
+			if (entry.icon) img.src = entry.icon;
+			const label = document.createElement("span");
+			label.textContent = `${entry.name} · ${entry.amount}`;
+			button.append(img, label);
+			button.onclick = () => {
+				selected = entry;
+				form.hidden = false;
+				$("[data-choice]").textContent = entry.name;
+				$("label").hidden = !entry.isSkill;
+				const select = $("select");
+				select.replaceChildren();
+				if (entry.isSkill) for (let level = 1; level <= entry.level; level++) select.add(new Option(String(level), String(level)));
+				select.value = String(entry.level || 1);
+				body.scrollTop = 0;
+			};
+			choices.append(button);
+		}
+		if (!entries.length) choices.textContent = "当前没有可配置的主动技能或可用道具";
+	}
+	form.onsubmit = (event) => {
+		event.preventDefault();
+		if (selected && actions.configure(index, selected, Number($("select").value))) actions.saved();
+		else $("[data-config-status]").textContent = "配置失败，请重新选择；技能或物品可能已经变化";
+	};
+	$("[data-clear-slot]").onclick = () => {
+		if (actions.configure(index, null)) actions.saved();
+	};
+	renderChoices();
+	chooseSlot(actions.index ?? actions.snapshot().slots[0]?.index ?? 0);
+	return { updateIcons(entries) {
+		const byKey = new Map(entries.map((entry) => [`${entry.isSkill}:${entry.ID}`, entry]));
+		for (const button of choices.children) {
+			const entry = byKey.get(button.dataset.key);
+			if (!entry) continue;
+			const img = button.querySelector("img");
+			if (entry.icon && img.getAttribute("src") !== entry.icon) img.src = entry.icon;
+			button.querySelector("span").textContent = `${entry.name} · ${entry.amount}`;
+		}
+	} };
+}
+var init_ShortcutPanel = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/GameHUD.html?raw
+var GameHUD_default$2;
+var init_GameHUD$2 = __esmMin((() => {
+	GameHUD_default$2 = "<div class=\"hud\">\r\n	<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n		<strong data-name></strong><span data-job></span>\r\n		<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n		<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n	</button>\r\n	<button class=\"statuses surface\" data-panel=\"status\">\r\n		<span data-status-icons></span>状态 <span data-status-count>0</span>\r\n	</button>\r\n	<div class=\"target surface\"><span data-target>点击目标进行选择</span><button data-interact hidden></button></div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map surface\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n		<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n	</div>\r\n	<div class=\"joystick reserved\" role=\"group\" aria-label=\"移动摇杆\"><span></span><small>移动</small></div>\r\n	<button class=\"chat-preview surface\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>\r\n	</button>\r\n	<div class=\"shortcut-tools surface\">\r\n		<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷槽\">‹</button><span data-shortcut-page-label></span\r\n		><button data-shortcut-page=\"1\" aria-label=\"下一组快捷槽\">›</button><button data-panel=\"shortcuts\">配置</button>\r\n	</div>\r\n	<div class=\"skill-prompt surface\" hidden>\r\n		<span data-skill-prompt></span><button data-skill-self hidden>对自己施放</button\r\n		><button data-skill-cancel>取消施法</button>\r\n	</div>\r\n	<div class=\"combat reserved\" aria-label=\"战斗按钮\">\r\n		<button class=\"skill skill-one\" data-shortcut=\"0\" aria-label=\"技能槽位 1\">＋</button\r\n		><button class=\"skill skill-two\" data-shortcut=\"1\" aria-label=\"技能槽位 2\">＋</button\r\n		><button class=\"skill skill-three\" data-shortcut=\"2\" aria-label=\"技能槽位 3\">＋</button>\r\n		<button class=\"attack\">攻击</button>\r\n	</div>\r\n	<div class=\"backdrop\" hidden>\r\n		<section class=\"panel surface\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mobile-game-panel-title\">\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<button data-close aria-label=\"关闭面板\">关闭</button>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/GameHUD.css?raw
+var GameHUD_default$1;
+var init_GameHUD$1 = __esmMin((() => {
+	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		14px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 12px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.profile {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(10px, env(safe-area-inset-top));\r\n	width: 218px;\r\n	padding: 9px 12px;\r\n	text-align: left;\r\n}\r\n.profile strong {\r\n	display: inline-block;\r\n	max-width: 110px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	vertical-align: middle;\r\n}\r\n.profile > span {\r\n	float: right;\r\n	font-size: 11px;\r\n	max-width: 90px;\r\n	text-align: right;\r\n}\r\n.profile label {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 5px;\r\n	font-size: 10px;\r\n	margin-top: 5px;\r\n}\r\nmeter {\r\n	width: 70px;\r\n	height: 10px;\r\n	flex: 1;\r\n}\r\n.profile label span {\r\n	min-width: 74px;\r\n	text-align: right;\r\n}\r\n.statuses {\r\n	position: absolute;\r\n	top: 98px;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	min-height: 36px;\r\n	padding: 5px 12px;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(10px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 5px;\r\n	width: 116px;\r\n}\r\n.map canvas {\r\n	width: 82px;\r\n	height: 82px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 8px 12px;\r\n	min-height: 44px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.joystick {\r\n	position: absolute;\r\n	left: max(24px, env(safe-area-inset-left));\r\n	bottom: max(20px, env(safe-area-inset-bottom));\r\n	width: 108px;\r\n	height: 108px;\r\n	border-radius: 50%;\r\n	background: #17233066;\r\n	border: 2px solid #d9e4ee88;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.joystick span {\r\n	width: 46px;\r\n	height: 46px;\r\n	border-radius: 50%;\r\n	background: #cbd5df77;\r\n	border: 1px solid #e8eef5aa;\r\n}\r\n.joystick small {\r\n	position: absolute;\r\n	bottom: 5px;\r\n	color: #eff4f9;\r\n}\r\n.combat {\r\n	position: absolute;\r\n	bottom: max(14px, env(safe-area-inset-bottom));\r\n	right: max(16px, env(safe-area-inset-right));\r\n	width: 188px;\r\n	height: 152px;\r\n}\r\n.combat button {\r\n	position: absolute;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 50%;\r\n	background: #483a25dd;\r\n}\r\n.attack {\r\n	width: 76px;\r\n	height: 76px;\r\n	right: 4px;\r\n	bottom: 0;\r\n	font-size: 18px;\r\n}\r\n.skill {\r\n	width: 46px;\r\n	height: 46px;\r\n	font-size: 22px;\r\n}\r\n.skill-one {\r\n	left: 12px;\r\n	bottom: 5px;\r\n}\r\n.skill-two {\r\n	left: 38px;\r\n	top: 24px;\r\n}\r\n.skill-three {\r\n	right: 3px;\r\n	top: 0;\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(520px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 17px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 42px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 6px 12px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 10px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 60px;\r\n		height: 60px;\r\n	}\r\n	.joystick {\r\n		width: 92px;\r\n		height: 92px;\r\n		bottom: 12px;\r\n	}\r\n	.combat {\r\n		transform: scale(0.86);\r\n		transform-origin: bottom right;\r\n	}\r\n	.statuses {\r\n		top: 88px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.joystick,\r\n.attack {\r\n	touch-action: none;\r\n}\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.attack[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.target {\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 240px;\r\n	right: 206px;\r\n	padding: 6px;\r\n	text-align: center;\r\n	font-size: 12px;\r\n}\r\n.target span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.target button {\r\n	pointer-events: auto;\r\n	min-height: 40px;\r\n	margin-top: 4px;\r\n	background: #483a25;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 8px;\r\n}\r\n\r\n.shortcut-tools {\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: 174px;\r\n	width: 188px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 38px;\r\n	min-height: 38px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.combat .skill {\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.skill img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 5px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-prompt {\r\n	position: absolute;\r\n	top: 70px;\r\n	left: 240px;\r\n	right: 206px;\r\n	padding: 6px;\r\n	pointer-events: auto;\r\n	font-size: 12px;\r\n}\r\n.skill-prompt button {\r\n	min-height: 38px;\r\n	background: #483a25;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 8px;\r\n	margin: 3px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	margin-bottom: 10px;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.slot-picker [aria-pressed='true'] {\r\n	outline: 2px solid #ffca67;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 6px;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n}\r\n.shortcut-choice img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n}\r\n.shortcut-config {\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 40px;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n@media (max-height: 360px) {\r\n	.shortcut-tools {\r\n		bottom: 150px;\r\n	}\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 16px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 42px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 76px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 15px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 42px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 44px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 44px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/GameHUDView.js
+/** DOM-only view; no packets, desktop windows or map event handlers. */
+function createGameHUDView(root, actions) {
+	root.innerHTML = `<style>${GameHUD_default$1}</style>${GameHUD_default$2}`;
+	const $ = (selector) => root.querySelector(selector);
+	const abort = new AbortController();
+	let currentPanel = null;
+	let serverState = null;
+	let shortcutPanel = null;
+	let inventoryPanel = null;
+	let equipmentPanel = null;
+	let skillsPanel = null;
+	let questsPanel = null;
+	let mapsPanel = null;
+	let navigationPanel = null;
+	let chatPanel = null;
+	let socialPanel = null;
+	let selectionPanel = null;
+	let materialsPanel = null;
+	let refinementPanel = null;
+	let enchantPanel = null;
+	let equipmentSetsPanel = null;
+	let petPanel = null;
+	let companionsPanel = null;
+	let mailPanel = null;
+	let bankPanel = null;
+	let vendingPanel = null;
+	let tradePanel = null;
+	let shopPanel = null;
+	let containerPanel = null;
+	let noticeUntil = 0;
+	let backdropPointer = null;
+	let dismissBackdrop = false;
+	let lastTrigger;
+	let snapshot = {};
+	let messages = [];
+	let mapImage;
+	const backdrop = $(".backdrop");
+	const body = $(".panel-body");
+	const listen = (node, type, handler) => node.addEventListener(type, handler, { signal: abort.signal });
+	for (const type of [
+		"pointerdown",
+		"pointerup",
+		"pointermove",
+		"pointercancel",
+		"mousedown",
+		"mouseup",
+		"click",
+		"dblclick",
+		"contextmenu",
+		"touchstart",
+		"touchmove",
+		"touchend",
+		"touchcancel",
+		"wheel",
+		"keydown",
+		"keyup"
+	]) listen(root, type, (event) => {
+		event.stopPropagation();
+	});
+	listen(root, "pointerdown", (event) => {
+		if (!event.target.closest(".joystick, .combat, .skill-prompt")) actions.cancelSceneInput();
+	});
+	listen($("[data-interact]"), "click", () => actions.interact());
+	for (const button of root.querySelectorAll("[data-shortcut-page]")) listen(button, "click", () => actions.shortcutPage(Number(button.dataset.shortcutPage)));
+	listen($("[data-skill-cancel]"), "click", () => actions.cancelSkill());
+	listen($("[data-skill-self]"), "click", () => actions.selfSkill());
+	const text = (selector, value) => {
+		$(selector).textContent = value ?? "";
+	};
+	function drawMap(canvas) {
+		if (!canvas || !mapImage) return;
+		const ctx = canvas.getContext("2d");
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.drawImage(mapImage.canvas, 0, 0, canvas.width, canvas.height);
+		const extent = Math.max(mapImage.width, mapImage.height);
+		if (!extent || !snapshot.position) return;
+		const x = (snapshot.position[0] + (extent - mapImage.width) / 2) / extent * canvas.width;
+		const y = (extent - snapshot.position[1] - (extent - mapImage.height) / 2) / extent * canvas.height;
+		ctx.fillStyle = "#ffca67";
+		ctx.beginPath();
+		ctx.arc(x, y, 3, 0, Math.PI * 2);
+		ctx.fill();
+	}
+	function close(notify = true) {
+		if (!currentPanel || notify && serverState?.canClose === false) return;
+		const interaction = serverState;
+		serverState = null;
+		currentPanel = null;
+		shortcutPanel = null;
+		inventoryPanel = null;
+		equipmentPanel = null;
+		skillsPanel = null;
+		petPanel = null;
+		companionsPanel = null;
+		mailPanel = null;
+		bankPanel = null;
+		vendingPanel = null;
+		tradePanel = null;
+		shopPanel = null;
+		containerPanel = null;
+		questsPanel = null;
+		chatPanel = null;
+		socialPanel = null;
+		selectionPanel = null;
+		materialsPanel = null;
+		refinementPanel = null;
+		enchantPanel = null;
+		equipmentSetsPanel = null;
+		mapsPanel?.destroy();
+		navigationPanel?.destroy();
+		navigationPanel = null;
+		mapsPanel = null;
+		backdrop.hidden = true;
+		actions.setModal(false);
+		lastTrigger?.focus();
+		if (notify) interaction?.close?.();
+	}
+	function updateMessages() {
+		text("[data-chat-preview]", messages.slice(-2).map((message) => message.text).join("\n") || "暂无消息");
+		chatPanel?.update(messages);
+	}
+	function details(entries) {
+		const dl = document.createElement("dl");
+		for (const [label, value] of entries) {
+			const dt = document.createElement("dt");
+			dt.textContent = label;
+			const dd = document.createElement("dd");
+			dd.textContent = value;
+			dl.append(dt, dd);
+		}
+		body.replaceChildren(dl);
+	}
+	function renderDetails() {
+		if (currentPanel === "profile") details([
+			["角色", snapshot.name],
+			["职业", snapshot.job],
+			["等级", snapshot.level],
+			["职业等级", snapshot.jobLevel],
+			["HP", `${snapshot.hp} / ${snapshot.maxHp}`],
+			["SP", `${snapshot.sp} / ${snapshot.maxSp}`],
+			["Zeny", snapshot.money]
+		]);
+		if (currentPanel === "status") body.replaceChildren(...snapshot.statuses?.length ? snapshot.statuses.map((status) => {
+			const p = document.createElement("p");
+			p.textContent = status.description;
+			return p;
+		}) : [document.createTextNode("当前没有状态效果")]);
+	}
+	function open(panel, slotIndex) {
+		if (!currentPanel) lastTrigger = root.activeElement;
+		currentPanel = panel;
+		backdropPointer = null;
+		dismissBackdrop = false;
+		backdrop.hidden = false;
+		actions.setModal(true);
+		text("h2", {
+			settings: "设置",
+			profile: "人物信息",
+			status: "状态效果",
+			map: "地图",
+			navigation: "导航",
+			menu: "菜单",
+			chat: "聊天",
+			camera: "镜头",
+			shortcuts: "快捷配置",
+			inventory: "背包",
+			equipment: "装备",
+			equipmentSets: "装备方案",
+			skills: "技能",
+			quests: "任务",
+			social: "社交",
+			transformation: serverState?.title,
+			information: serverState?.title,
+			selection: serverState?.title,
+			materials: serverState?.title,
+			refinement: serverState?.title,
+			enchant: serverState?.title,
+			cart: "手推车",
+			storage: serverState?.title || "仓库",
+			pet: serverState?.title,
+			companions: serverState?.title,
+			mail: serverState?.title,
+			bank: serverState?.title,
+			vending: serverState?.title,
+			trade: serverState?.title,
+			shop: serverState?.title,
+			npc: serverState?.title || "NPC 对话"
+		}[panel]);
+		$("[data-close]").disabled = serverState?.canClose === false;
+		body.replaceChildren();
+		body.classList.toggle("equipment-body", panel === "equipment");
+		$(".panel").classList.toggle("equipment-panel", panel === "equipment");
+		body.classList.toggle("inventory-body", [
+			"mail",
+			"inventory",
+			"skills",
+			"shop",
+			"trade",
+			"vending",
+			"storage",
+			"cart",
+			"quests",
+			"map",
+			"social",
+			"selection",
+			"transformation",
+			"refinement",
+			"enchant",
+			"equipmentSets",
+			"materials"
+		].includes(panel));
+		$(".panel").classList.toggle("inventory-panel", [
+			"mail",
+			"inventory",
+			"skills",
+			"shop",
+			"trade",
+			"vending",
+			"storage",
+			"cart",
+			"quests",
+			"map",
+			"social",
+			"selection",
+			"transformation",
+			"refinement",
+			"enchant",
+			"equipmentSets",
+			"materials"
+		].includes(panel));
+		body.classList.toggle("chat-body", panel === "chat");
+		$(".panel").classList.toggle("chat-panel", panel === "chat");
+		if (panel === "information") {
+			const list = document.createElement("dl");
+			for (const [label, value] of serverState.rows) {
+				const term = document.createElement("dt"), description = document.createElement("dd");
+				term.textContent = label;
+				description.textContent = String(value);
+				list.append(term, description);
+			}
+			body.append(list);
+		}
+		if (panel === "settings") createSettingsPanel(body, actions.settings);
+		if (panel === "npc") createNPCPanel(body, serverState);
+		if (panel === "profile" || panel === "status") renderDetails();
+		if (panel === "menu") {
+			const grid = document.createElement("div");
+			grid.className = "menu-grid";
+			for (const [label, panelName] of [
+				["设置", "settings"],
+				["人物", "profile"],
+				["地图", "map"],
+				["导航", "navigation"],
+				["聊天", "chat"],
+				["状态", "status"],
+				["镜头", "camera"],
+				["快捷配置", "shortcuts"],
+				["背包", "inventory"],
+				["装备", "equipment"],
+				["装备方案", "equipmentSets"],
+				["技能", "skills"],
+				["手推车", "cart"],
+				["任务", "quests"],
+				["社交", "social"]
+			]) {
+				const button = document.createElement("button");
+				button.textContent = label;
+				button.disabled = !panelName;
+				if (panelName) button.onclick = () => open(panelName);
+				grid.append(button);
+			}
+			const petButton = document.createElement("button");
+			petButton.textContent = "宠物";
+			petButton.onclick = () => actions.openPet();
+			grid.append(petButton);
+			for (const [kind, label] of [["homunculus", "生命体"], ["mercenary", "佣兵"]]) {
+				const button = document.createElement("button");
+				button.textContent = label;
+				button.onclick = () => actions.openCompanion(kind);
+				grid.append(button);
+			}
+			const mailButton = document.createElement("button");
+			mailButton.textContent = "邮件";
+			mailButton.onclick = () => actions.openMail();
+			grid.append(mailButton);
+			const bankButton = document.createElement("button");
+			bankButton.textContent = "银行";
+			bankButton.onclick = () => {
+				bankButton.textContent = actions.openBank();
+			};
+			grid.append(bankButton);
+			const storeButton = document.createElement("button");
+			storeButton.textContent = "我的摊位";
+			storeButton.onclick = () => {
+				if (!actions.showOwnedVending()) storeButton.textContent = "尚未开店：请先使用摆摊或收购技能";
+			};
+			grid.append(storeButton);
+			const exit = document.createElement("button");
+			exit.textContent = "返回选角";
+			exit.onclick = () => {
+				close();
+				actions.returnToCharacters();
+			};
+			grid.append(exit);
+			body.append(grid);
+		}
+		shortcutPanel = null;
+		inventoryPanel = null;
+		equipmentPanel = null;
+		skillsPanel = null;
+		petPanel = null;
+		companionsPanel = null;
+		mailPanel = null;
+		bankPanel = null;
+		vendingPanel = null;
+		tradePanel = null;
+		shopPanel = null;
+		containerPanel = null;
+		questsPanel = null;
+		chatPanel = null;
+		socialPanel = null;
+		selectionPanel = null;
+		materialsPanel = null;
+		refinementPanel = null;
+		enchantPanel = null;
+		equipmentSetsPanel = null;
+		mapsPanel?.destroy();
+		navigationPanel?.destroy();
+		navigationPanel = null;
+		mapsPanel = null;
+		if (panel === "social") socialPanel = createSocialPanel(body, actions.social, (name) => open("chat", name));
+		if (panel === "quests") questsPanel = createQuestsPanel(body, {
+			snapshot: actions.questSnapshot,
+			toggle: actions.questToggle,
+			showMap: (target) => open("map", target)
+		});
+		if (panel === "navigation") navigationPanel = createNavigationPanel(body, actions.canOperate);
+		if (panel === "map") mapsPanel = createMapsPanel(body, actions.maps, drawMap, slotIndex);
+		if (panel === "storage" || panel === "cart") containerPanel = createContainerPanel(body, {
+			snapshot: actions.containerSnapshot,
+			transfer: actions.transferItem
+		}, panel);
+		if (panel === "equipmentSets") equipmentSetsPanel = createEquipmentSetsPanel(body, actions.equipmentSets);
+		if (panel === "enchant") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			enchantPanel = createEnchantPanel(body, serverState.service);
+		}
+		if (panel === "refinement") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			refinementPanel = createRefinementPanel(body, serverState.service);
+		}
+		if (panel === "materials" || panel === "transformation") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			materialsPanel = createMaterialsPanel(body, serverState.service);
+		}
+		if (panel === "selection") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			selectionPanel = createSelectionPanel(body, serverState.service);
+		}
+		if (panel === "companions") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			companionsPanel = createCompanionsPanel(body, serverState.service);
+		}
+		if (panel === "pet") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			petPanel = createPetPanel(body, serverState.service);
+		}
+		if (panel === "mail") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			mailPanel = createMailPanel(body, serverState.service);
+		}
+		if (panel === "bank") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			bankPanel = createBankPanel(body, serverState.service);
+		}
+		if (panel === "vending") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			vendingPanel = createVendingPanel(body, serverState.service);
+		}
+		if (panel === "trade") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			tradePanel = createTradePanel(body, serverState.service);
+		}
+		if (panel === "shop") {
+			serverState.service.setOperationGuard(actions.canOperate);
+			shopPanel = createShopPanel(body, serverState.service);
+		}
+		if (panel === "skills") skillsPanel = createSkillsPanel(body, {
+			snapshot: actions.skillsSnapshot,
+			learn: actions.skillsLearn,
+			bind: actions.skillsBind,
+			shortcuts: actions.shortcutSnapshot,
+			slotName: actions.shortcutName
+		});
+		if (panel === "equipment") equipmentPanel = createEquipmentPanel(body, {
+			snapshot: actions.equipmentSnapshot,
+			act: actions.equipmentAct
+		});
+		if (panel === "inventory") inventoryPanel = createInventoryPanel(body, {
+			snapshot: actions.inventorySnapshot,
+			act: actions.inventoryAct,
+			drop: actions.inventoryDrop,
+			shortcuts: actions.shortcutSnapshot,
+			slotName: actions.shortcutName,
+			bind: actions.bindInventory
+		});
+		if (panel === "shortcuts") shortcutPanel = createShortcutPanel(body, {
+			index: slotIndex,
+			snapshot: actions.shortcutSnapshot,
+			candidates: actions.shortcutCandidates,
+			configure: actions.configureShortcut,
+			saved: close
+		});
+		if (panel === "camera") {
+			const grid = document.createElement("div");
+			grid.className = "menu-grid";
+			for (const [label, action] of [
+				["左转", "left"],
+				["右转", "right"],
+				["拉近", "zoomIn"],
+				["拉远", "zoomOut"],
+				["抬高", "up"],
+				["降低", "down"],
+				["重置", "reset"]
+			]) {
+				const button = document.createElement("button");
+				button.textContent = label;
+				button.onclick = () => actions.camera(action);
+				grid.append(button);
+			}
+			body.append(grid);
+		}
+		if (panel === "chat") {
+			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
+			updateMessages();
+		}
+		$("h2").focus();
+	}
+	for (const button of root.querySelectorAll("[data-panel]")) listen(button, "click", () => open(button.dataset.panel));
+	listen($("[data-close]"), "click", () => close());
+	listen(backdrop, "pointerdown", (event) => {
+		backdropPointer = event.target === backdrop ? event.pointerId : null;
+		dismissBackdrop = false;
+	});
+	listen(backdrop, "pointerup", (event) => {
+		dismissBackdrop = event.target === backdrop && backdropPointer !== null && backdropPointer === event.pointerId;
+		backdropPointer = null;
+	});
+	listen(backdrop, "pointercancel", () => {
+		backdropPointer = null;
+		dismissBackdrop = false;
+	});
+	listen(backdrop, "click", (event) => {
+		if (event.target === backdrop && dismissBackdrop) close();
+		dismissBackdrop = false;
+	});
+	listen(root, "keydown", (event) => {
+		if (!currentPanel) return;
+		if (event.key === "Escape") {
+			event.preventDefault();
+			close();
+		}
+		if (event.key === "Tab") {
+			const items = [...backdrop.querySelectorAll("button:not(:disabled), input, select")];
+			const index = items.indexOf(root.activeElement);
+			event.preventDefault();
+			items[(index + (event.shiftKey ? -1 : 1) + items.length) % items.length]?.focus();
+		}
+	});
+	return {
+		update(next) {
+			snapshot = next;
+			text("[data-panel=menu]", next.unreadMail ? "菜单 · 新邮件" : "菜单");
+			if (performance.now() >= noticeUntil) text("[data-target]", next.target?.name || "点击目标进行选择");
+			$("[data-interact]").hidden = !next.target?.interaction;
+			text("[data-interact]", next.target?.interaction);
+			$(".attack").setAttribute("aria-disabled", String(!next.target?.attack));
+			text("[data-name]", next.name);
+			text("[data-job]", `Lv.${next.level} ${next.job}`);
+			for (const type of ["hp", "sp"]) {
+				const max = type === "hp" ? next.maxHp : next.maxSp;
+				$(`[data-${type}]`).max = Math.max(1, max || 0);
+				$(`[data-${type}]`).value = next[type] || 0;
+				text(`[data-${type}-text]`, `${next[type] ?? 0} / ${max ?? 0}`);
+			}
+			text("[data-map-name]", next.mapName);
+			text("[data-coordinates]", next.position?.map(Math.floor).join(", "));
+			text("[data-status-count]", next.statuses?.length || 0);
+			const icons = $("[data-status-icons]");
+			const iconKey = JSON.stringify(next.statuses?.map((status) => [status.id, status.icon]));
+			if (icons.dataset.key !== iconKey) {
+				icons.dataset.key = iconKey;
+				icons.replaceChildren(...(next.statuses || []).filter((status) => status.icon).slice(0, 4).map((status) => {
+					const img = document.createElement("img");
+					img.src = status.icon;
+					img.alt = "";
+					return img;
+				}));
+			}
+			drawMap($("[data-mini-map]"));
+			drawMap($(".large-map"));
+			renderDetails();
+			inventoryPanel?.update();
+			equipmentPanel?.update();
+			skillsPanel?.update();
+			petPanel?.update();
+			companionsPanel?.update();
+			mailPanel?.update();
+			bankPanel?.update();
+			vendingPanel?.update();
+			tradePanel?.update();
+			shopPanel?.update();
+			containerPanel?.update();
+			questsPanel?.update();
+			socialPanel?.update();
+			selectionPanel?.update();
+			materialsPanel?.update();
+			refinementPanel?.update();
+			enchantPanel?.update();
+			equipmentSetsPanel?.update();
+		},
+		setMap(image) {
+			mapImage = image;
+			drawMap($("[data-mini-map]"));
+		},
+		setMessages(next) {
+			messages = next;
+			updateMessages();
+		},
+		showInteraction(state) {
+			if (!state) {
+				if (serverState) close(false);
+				return;
+			}
+			if (serverState?.token === state.token && currentPanel === "npc") {
+				serverState = state;
+				updateNPCCutin(body, state);
+				return;
+			}
+			serverState = state;
+			open([
+				"shop",
+				"trade",
+				"vending",
+				"mail",
+				"pet",
+				"companions",
+				"bank",
+				"storage",
+				"selection",
+				"materials",
+				"refinement",
+				"enchant",
+				"information",
+				"transformation"
+			].includes(state.kind) ? state.kind : "npc");
+		},
+		openShortcuts: (index) => open("shortcuts", index),
+		updateShortcuts(state) {
+			shortcutPanel?.updateIcons(actions.shortcutCandidates());
+			text("[data-shortcut-page-label]", `${state.page + 1}/${state.pages}`);
+			for (const button of root.querySelectorAll("[data-shortcut]")) {
+				const slot = state.slots[Number(button.dataset.shortcut)];
+				button.hidden = !slot;
+				if (!slot) continue;
+				button.setAttribute("aria-label", `槽位 ${slot.index + 1}：${slot.name}${slot.reason ? "，" + slot.reason : ""}`);
+				button.setAttribute("aria-disabled", String(!slot.available));
+				const key = JSON.stringify([
+					slot.icon,
+					slot.amount,
+					slot.empty,
+					Math.ceil((slot.cooldown || 0) / 1e3)
+				]);
+				if (button.dataset.content !== key) {
+					button.dataset.content = key;
+					button.replaceChildren();
+					if (slot.empty) button.textContent = "＋";
+					else {
+						const img = document.createElement("img");
+						img.alt = "";
+						if (slot.icon) img.src = slot.icon;
+						const count = document.createElement("small");
+						count.textContent = slot.amount;
+						button.append(img, count);
+						if (slot.cooldown > 0) {
+							const cooldown = document.createElement("b");
+							cooldown.className = "slot-cooldown";
+							cooldown.textContent = Math.ceil(slot.cooldown / 1e3);
+							button.append(cooldown);
 						}
 					}
-					if (entityOver) {
-						stop = stop || entityOver.onMouseDown();
-						stop = stop || entityOver.onFocus();
-						EntityManager.setFocusEntity(entityOver);
-						if (stop) return;
-					}
-				}
-				if (this.onRequestWalk) this.onRequestWalk();
-			}
-			break;
-		case 3:
-			_rightClickPosition[0] = Mouse.screen.x;
-			_rightClickPosition[1] = Mouse.screen.y;
-			if (SessionStorage_default.captchaGetIdOnFloorClick) CaptchaSelector_default.requestPlayersIds(Mouse.world.x, Mouse.world.y);
-			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
-				Camera.rotate(false);
-				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.homunId, "3," + entityOver.GID);
-				else AIDriver.setmsg(SessionStorage_default.homunId, "1," + Mouse.world.x + "," + Mouse.world.y);
-			} else {
-				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) {
-					if (KEYS.SHIFT) {
-						SessionStorage_default.autoFollowTarget = entityOver;
-						SessionStorage_default.autoFollow = true;
-						onAutoFollow();
-					}
-					entityOver.onMouseDown();
-					entityOver.onFocus();
-					EntityManager.setFocusEntity(entityOver);
-				}
-				Cursor.setType(Cursor.ACTION.ROTATE);
-				Camera.rotate(true);
-			}
-	}
-}
-/**
-* What to do when stop clicking on the map ?
-*/
-function onMouseUp(event) {
-	let entity, ET;
-	const action = event && event.which || 1;
-	if (!Mouse.intersect) return;
-	switch (action) {
-		case 1:
-			entity = EntityManager.getFocusEntity();
-			if (entity) {
-				ET = entity.constructor;
-				entity.onMouseUp();
-				if (!SessionStorage_default.TouchTargeting && (Controls_default.noctrl === false || ![
-					ET.TYPE_MOB,
-					ET.TYPE_NPC_ABR,
-					ET.TYPE_NPC_BIONIC
-				].includes(entity.objecttype))) {
-					EntityManager.setFocusEntity(null);
-					entity.onFocusEnd();
 				}
 			}
-			if (this.onRequestStopWalk) this.onRequestStopWalk();
-			break;
-		case 3:
-			Cursor.setType(Cursor.ACTION.DEFAULT);
-			Camera.rotate(false);
-			if (_rightClickPosition[0] === Mouse.screen.x && _rightClickPosition[1] === Mouse.screen.y && !KEYS.SHIFT) {
-				entity = EntityManager.getOverEntity();
-				if (entity && entity !== SessionStorage_default.Entity) entity.onContextMenu();
-			}
-	}
-}
-/**
-* Zoom feature
-*/
-function onMouseWheel(event) {
-	if (Mouse.state === Mouse.MOUSE_STATE.USESKILL) {
-		if (event.deltaY < 0) SkillTargetSelection_default.setSkillLevelDelta(1);
-		else SkillTargetSelection_default.setSkillLevelDelta(-1);
-		return;
-	}
-	const delta = event.deltaY < 0 ? 1 : event.deltaY > 0 ? -1 : 0;
-	Camera.setZoom(delta);
-}
-/**
-* Allow dropping data
-*/
-function onDragOver(event) {
-	event.stopImmediatePropagation();
-	event.preventDefault();
-}
-/**
-* Drop items to the map
-*/
-function onDrop$6(event) {
-	let data;
-	try {
-		data = JSON.parse(event.dataTransfer.getData("Text"));
-	} catch (e) {
-		console.error(e);
-	}
-	event.preventDefault();
-	event.stopImmediatePropagation();
-	if (!data) return;
-	if (data.from) {
-		const comp = UIManager.getComponent(data.from);
-		if (comp && comp.ui) (comp.ui[0] || comp.ui).dispatchEvent(new MouseEvent("mouseleave", { bubbles: false }));
-	}
-	if (data.type !== "item" || data.from !== "Inventory") return;
-	if (EquipmentController.getUI().ui.is(":visible")) {
-		ChatBox_default.addText(DB.getMessage(189), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.ITEM);
-		return;
-	}
-	if (UIManager.getComponent("Inventory").name !== "InventoryV0" && InventoryController.getUI().itemlock === true) return;
-	const item = data.data;
-	if (item.count > 1) {
-		InputBox_default.append();
-		InputBox_default.setType("item", false, item.count, item.ITID);
-		InputBox_default.onSubmitRequest = function onSubmitRequest(count) {
-			InputBox_default.remove();
-			MapControl.onRequestDropItem(item.index, parseInt(count, 10));
-		};
-	} else MapControl.onRequestDropItem(item.index, 1);
-}
-/**
-* Auto follow logic
-*/
-function onAutoFollow() {
-	if (SessionStorage_default.autoFollow) {
-		const player = SessionStorage_default.Entity;
-		const target = SessionStorage_default.autoFollowTarget;
-		const dx = Math.abs(player.position[0] - target.position[0]);
-		const dy = Math.abs(player.position[1] - target.position[1]);
-		if (dx > 1 || dy > 1) {
-			const dest = [0, 0];
-			if (checkFreeCell$1(Math.round(target.position[0]), Math.round(target.position[1]), 1, dest)) {
-				let pkt;
-				if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
-				else pkt = new PACKET.CZ.REQUEST_MOVE();
-				pkt.dest = dest;
-				Network.sendPacket(pkt);
-			}
-		}
-		Events.setTimeout(onAutoFollow, 500);
-	}
-}
-/**
-* Search free cells around a position
-*
-* @param {number} x
-* @param {number} y
-* @param {number} range
-* @param {array} out
-*/
-function checkFreeCell$1(x, y, range, out) {
-	let _x, _y, r;
-	const d_x = SessionStorage_default.Entity.position[0] < x ? -1 : 1;
-	const d_y = SessionStorage_default.Entity.position[1] < y ? -1 : 1;
-	for (r = 0; r <= range; ++r) for (_x = -r; _x <= r; ++_x) for (_y = -r; _y <= r; ++_y) if (isFreeCell$1(x + _x * d_x, y + _y * d_y)) {
-		out[0] = x + _x * d_x;
-		out[1] = y + _y * d_y;
-		return true;
-	}
-	return false;
-}
-/**
-* Does a cell is free (walkable, and no entity on)
-*
-* @param {number} x
-* @param {number} y
-* @param {returns} is free
-*/
-function isFreeCell$1(x, y) {
-	if (!(Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE)) return false;
-	let free = true;
-	EntityManager.forEach(function(entity) {
-		if (entity.objecttype != entity.constructor.TYPE_EFFECT && entity.objecttype != entity.constructor.TYPE_UNIT && entity.objecttype != entity.constructor.TYPE_TRAP && Math.round(entity.position[0]) === x && Math.round(entity.position[1]) === y) {
-			free = false;
-			return false;
-		}
-		return true;
-	});
-	return free;
-}
-var _rightClickPosition, MapControl;
-var init_MapControl = __esmMin((() => {
-	init_DBManager();
-	init_UIManager();
-	init_CursorManager();
-	init_Entity$1();
-	init_InputBox();
-	init_ChatBox();
-	init_Equipment();
-	init_Inventory();
-	init_SkillTargetSelection();
-	init_MouseEventHandler();
-	init_Mobile();
-	init_Renderer();
-	init_Camera();
-	init_EntityManager();
-	init_SessionStorage();
-	init_Controls();
-	init_KeyEventHandler();
-	init_AIDriver();
-	init_Altitude();
-	init_PacketVerManager();
-	init_PacketStructure();
-	init_NetworkManager();
-	init_Events();
-	init_CaptchaSelector();
-	init_ScreenShot();
-	_rightClickPosition = /* @__PURE__ */ new Int16Array(2);
-	MapControl = class {
-		/**
-		* Callback used when requesting to move somewhere
-		*/
-		static onRequestWalk() {}
-		/**
-		* Callback used when request to stop move
-		*/
-		static onRequestStopWalk() {}
-		/**
-		* Callback used when dropping an item to the map
-		*/
-		static onRequestDropItem() {}
-		/**
-		* Initializing the controller
-		*/
-		static init() {
-			Mobile.init();
-			Mobile.onTouchStart = onMouseDown.bind(this);
-			Mobile.onTouchEnd = onMouseUp.bind(this);
-			Renderer.canvas.addEventListener("wheel", onMouseWheel);
-			Renderer.canvas.addEventListener("dragover", onDragOver);
-			Renderer.canvas.addEventListener("drop", onDrop$6.bind(this));
-			window.addEventListener("mousedown", onMouseDown.bind(this));
-			window.addEventListener("mouseup", onMouseUp.bind(this));
+			$(".skill-prompt").hidden = !state.pending;
+			text("[data-skill-prompt]", state.pending ? `${state.pending.name}：${state.pending.ground ? "点击地面施放" : "点击有效目标"}` : "");
+			$("[data-skill-self]").hidden = !state.pending?.self;
+		},
+		notice(message) {
+			noticeUntil = performance.now() + 3e3;
+			text("[data-target]", message);
+		},
+		close,
+		destroy() {
+			close(false);
+			abort.abort();
+			root.replaceChildren();
 		}
 	};
+}
+var init_GameHUDView = __esmMin((() => {
+	init_NavigationPanel();
+	init_CompanionsPanel();
+	init_PetPanel();
+	init_MailPanel();
+	init_SettingsPanel();
+	init_BankPanel();
+	init_VendingPanel();
+	init_TradePanel();
+	init_EquipmentSetsPanel();
+	init_EnchantPanel();
+	init_RefinementPanel();
+	init_MaterialsPanel();
+	init_SelectionPanel();
+	init_SocialPanel();
+	init_ChatPanel();
+	init_QuestsPanel();
+	init_MapsPanel();
+	init_ContainerPanel();
+	init_ShopPanel();
+	init_NPCPanel();
+	init_SkillsPanel();
+	init_EquipmentPanel();
+	init_InventoryPanel();
+	init_ShortcutPanel();
+	init_GameHUD$2();
+	init_GameHUD$1();
+}));
+//#endregion
+//#region src/UI/Mobile/game/GameHUD.js
+function cancelSceneInput() {
+	shortcuts?.cancel();
+	controls?.cancel();
+	SessionStorage_default.moveAction = null;
+	Mobile.cancelInteraction();
+	MapControl.onRequestStopWalk();
+}
+function setModal(value) {
+	if (value === modal) return;
+	modal = value;
+	if (value) {
+		previousFreeze = SessionStorage_default.FreezeUI;
+		cancelSceneInput();
+		SessionStorage_default.FreezeUI = true;
+		Mouse.intersect = false;
+	} else SessionStorage_default.FreezeUI = previousFreeze;
+}
+function snapshot() {
+	const entity = SessionStorage_default.Entity;
+	if (!entity) return;
+	view.updateShortcuts(shortcuts.snapshot());
+	view.update({
+		unreadMail: gameMailUnread(),
+		name: entity.display.name,
+		job: getJobDisplayName(entity.job),
+		level: entity.clevel,
+		jobLevel: entity.joblevel,
+		money: entity.money,
+		hp: entity.life.hp,
+		maxHp: entity.life.hp_max,
+		sp: entity.life.sp,
+		maxSp: entity.life.sp_max,
+		position: [entity.position[0], entity.position[1]],
+		mapName: DB.getMapName(MapRenderer.currentMap, MapRenderer.currentMap),
+		statuses: StatusIcons_default.getSnapshot(),
+		target: targetSnapshot()
+	});
+}
+/** Render the actual walkability grid once per map, rather than sample a desktop canvas. */
+function createMap() {
+	const width = Altitude.width, height = Altitude.height;
+	const extent = Math.max(width, height);
+	const canvas = document.createElement("canvas");
+	canvas.width = canvas.height = 256;
+	const ctx = canvas.getContext("2d");
+	ctx.fillStyle = "#18232d";
+	ctx.fillRect(0, 0, 256, 256);
+	if (extent) for (let y = 0; y < 256; y++) for (let x = 0; x < 256; x++) {
+		const cellX = Math.floor(x / 256 * extent - (extent - width) / 2);
+		const cellY = height - 1 - Math.floor(y / 256 * extent - (extent - height) / 2);
+		if (cellX < 0 || cellY < 0 || cellX >= width || cellY >= height) continue;
+		const type = Altitude.getCellType(cellX, cellY);
+		if (!(type & (Altitude.TYPE.WALKABLE | Altitude.TYPE.WATER))) continue;
+		ctx.fillStyle = type & Altitude.TYPE.WATER ? "#58899e" : "#bec9ce";
+		ctx.fillRect(x, y, 1, 1);
+	}
+	return {
+		canvas,
+		width,
+		height
+	};
+}
+function updateViewport() {
+	const viewport = window.visualViewport;
+	HUD._host.style.height = `${viewport?.height || window.innerHeight}px`;
+	HUD._host.style.width = `${viewport?.width || window.innerWidth}px`;
+	HUD._host.style.top = `${viewport?.offsetTop || 0}px`;
+	HUD._host.style.left = `${viewport?.offsetLeft || 0}px`;
+}
+var HUD, view, controls, shortcuts, inventory, equipment, containers, skills, quests, chat, social, timer$1, unsubscribe, unsubscribeOrientation, unsubscribeConnection, unsubscribeInteraction, abort, previousFreeze, modal, GameHUD_default;
+var init_GameHUD = __esmMin((() => {
+	init_GameCompanions();
+	init_GamePet();
+	init_GameMail();
+	init_GameSettings();
+	init_GameBank();
+	init_GameVending();
+	init_GameEquipmentSets();
+	init_GameSocial();
+	init_GameChat();
+	init_GameQuests();
+	init_GameMaps();
+	init_GameContainers();
+	init_ServerInteraction();
+	init_GameSkills();
+	init_GameEquipment();
+	init_CharacterStats();
+	init_AttackIntent();
+	init_GameInventory();
+	init_GameShortcuts();
+	init_Renderer();
+	init_GameCommands();
+	init_PointerControls();
+	init_GUIComponent();
+	init_UIManager();
+	init_SessionStorage();
+	init_Platform();
+	init_Mobile();
+	init_MouseEventHandler();
+	init_MapControl();
+	init_Altitude();
+	init_MapRenderer();
+	init_DBManager();
+	init_JobDisplayNameTable();
+	init_StatusIcons();
+	init_ChatFeed();
+	init_ConnectionLifecycle();
+	init_GameHUDView();
+	HUD = new GUIComponent("MobileGameHUD", "");
+	HUD.render = () => "";
+	HUD.mouseMode = GUIComponent.MouseMode.CROSS;
+	HUD.needFocus = false;
+	HUD.nativeScrolling = true;
+	modal = false;
+	HUD.actions = {};
+	HUD.onAppend = function() {
+		HUD.onRemove(false);
+		abort = new AbortController();
+		shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
+		inventory = createGameInventory(() => modal && !previousFreeze);
+		containers = createGameContainers(() => modal && !previousFreeze);
+		social = createGameSocial(() => modal && !previousFreeze, shortcuts);
+		chat = createGameChat((...args) => HUD.actions.sendChat(...args), () => modal && !previousFreeze);
+		quests = createGameQuests(() => modal && !previousFreeze);
+		skills = createGameSkills(() => modal && !previousFreeze, shortcuts);
+		equipment = createEquipmentController(inventory, () => characterStats(SessionStorage_default.Entity));
+		view = createGameHUDView(HUD.getRoot(), {
+			cancelSceneInput,
+			setModal,
+			interact: interactSelected,
+			camera: adjustCamera,
+			shortcutPage: (delta) => {
+				shortcuts.turn(delta);
+				snapshot();
+			},
+			settings: {
+				fields: graphicsFields,
+				snapshot: settingsSnapshot,
+				save: saveGameSettings
+			},
+			openCompanion: (kind) => openGameCompanions(kind, () => modal && !previousFreeze),
+			openPet: () => openGamePet(() => modal && !previousFreeze),
+			openMail: () => openGameMail(() => modal && !previousFreeze),
+			openBank: () => requestGameBank(() => modal && !previousFreeze),
+			showOwnedVending,
+			canOperate: () => modal && !previousFreeze,
+			maps: createGameMaps(),
+			social,
+			equipmentSets: createGameEquipmentSets(() => modal && !previousFreeze),
+			questSnapshot: () => quests.snapshot(),
+			questToggle: (...args) => quests.toggle(...args),
+			containerSnapshot: (source) => containers.snapshot(source),
+			transferItem: (...args) => containers.transfer(...args),
+			skillsSnapshot: () => skills.snapshot(),
+			skillsLearn: (...args) => skills.learn(...args),
+			skillsBind: (...args) => skills.bind(...args),
+			equipmentSnapshot: () => equipment.snapshot(),
+			equipmentAct: (...args) => equipment.act(...args),
+			inventorySnapshot: () => inventory.snapshot(),
+			inventoryDrop: (...args) => inventory.drop(...args),
+			inventoryAct: (...args) => inventory.act(...args),
+			bindInventory: (index, id, slot) => inventory.canBind(index, id) && shortcuts.configure(slot, {
+				isSkill: false,
+				ID: id
+			}),
+			shortcutName: (index) => shortcuts.slotName(index),
+			shortcutSnapshot: () => shortcuts.snapshot(),
+			shortcutCandidates: () => shortcuts.candidates(),
+			configureShortcut: (...args) => shortcuts.configure(...args),
+			cancelSkill: () => {
+				shortcuts.cancel();
+				snapshot();
+			},
+			selfSkill: () => {
+				shortcuts.self();
+				snapshot();
+			},
+			sendChat: (...args) => chat.send(...args),
+			returnToCharacters: () => HUD.actions.returnToCharacters()
+		});
+		unsubscribeInteraction = subscribeInteraction((state) => view.showInteraction(state));
+		controls = bindPointerControls(HUD.getRoot(), Renderer.canvas, {
+			enabled: () => !SessionStorage_default.FreezeUI && SessionStorage_default.Playing && Platform.orientation === "landscape" && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE,
+			startMove: () => shortcuts.cancel(),
+			move: moveDirection,
+			stopMove: () => {
+				MapControl.onRequestStopWalk();
+				SessionStorage_default.moveAction = null;
+			},
+			attack: (moving) => {
+				shortcuts.cancel();
+				attackSelected(moving);
+			},
+			shortcut: (slot) => {
+				controls.releaseAttack();
+				const index = shortcuts.snapshot().page * 3 + slot;
+				const result = shortcuts.use(index);
+				if (shortcuts.snapshot().pending?.ground) controls.cancel();
+				snapshot();
+				if (result.configure !== void 0) view.openShortcuts(result.configure);
+				if (result.message) view.notice(result.message);
+			},
+			stopAttack,
+			tap: (x, y) => {
+				if (!shortcuts.pick(x, y)) tapScene(x, y);
+				snapshot();
+			}
+		});
+		view.setMap(createMap());
+		snapshot();
+		unsubscribe = subscribeChatFeed((messages) => {
+			view.setMessages(messages.map((message) => {
+				if (!message.html) return {
+					text: message.text,
+					channel: chatChannel(message)
+				};
+				return {
+					text: new DOMParser().parseFromString(message.text, "text/html").body.textContent || "",
+					channel: chatChannel(message)
+				};
+			}));
+		});
+		timer$1 = window.setInterval(snapshot, 200);
+		const cancel = () => {
+			cancelSceneInput();
+			view.close();
+		};
+		window.addEventListener("blur", cancel, { signal: abort.signal });
+		document.addEventListener("visibilitychange", () => {
+			if (document.hidden) cancel();
+		}, { signal: abort.signal });
+		unsubscribeOrientation = Platform.onOrientationChange(() => cancel());
+		unsubscribeConnection = onConnectionEnd(() => HUD.remove());
+		for (const type of ["resize", "scroll"]) window.visualViewport?.addEventListener(type, updateViewport, { signal: abort.signal });
+		window.addEventListener("resize", updateViewport, { signal: abort.signal });
+		updateViewport();
+	};
+	HUD.onRemove = function(resetInteraction = true) {
+		unsubscribeInteraction?.();
+		unsubscribeInteraction = null;
+		if (resetInteraction) clearInteraction();
+		controls?.destroy();
+		controls = null;
+		shortcuts?.cancel();
+		shortcuts = null;
+		inventory = null;
+		equipment = null;
+		skills = null;
+		quests = null;
+		chat = null;
+		social = null;
+		containers = null;
+		clearAttackIntent();
+		clearInterval(timer$1);
+		timer$1 = null;
+		unsubscribe?.();
+		unsubscribe = null;
+		unsubscribeOrientation?.();
+		unsubscribeOrientation = null;
+		unsubscribeConnection?.();
+		unsubscribeConnection = null;
+		abort?.abort();
+		abort = null;
+		if (view) {
+			cancelSceneInput();
+			view.destroy();
+			view = null;
+		}
+	};
+	GameHUD_default = UIManager.addComponent(HUD);
+}));
+//#endregion
+//#region src/UI/Game/GamePresentation.js
+/** Keep map/network initialization common; choose the visible game UI in one place. */
+function appendGameComponent(component) {
+	if (Platform.isMobile && component.name !== "JoystickUI") {
+		component.prepare();
+		return;
+	}
+	component.append();
+}
+function appendGameHUD(actions) {
+	if (!Platform.isMobile) return;
+	GameHUD_default.actions = actions;
+	GameHUD_default.append();
+}
+var init_GamePresentation = __esmMin((() => {
+	init_Platform();
+	init_GameHUD();
 }));
 //#endregion
 //#region src/UI/Components/Vending/VendingModelMessage/VendingModelMessage.html?raw
@@ -357863,6 +365371,74 @@ var init_VendingReport = __esmMin((() => {
 	VendingReport_default = UIManager.addComponent(VendingReport);
 }));
 //#endregion
+//#region src/UI/Mobile/game/CartPreview.js
+/** A static preview uses the same sprite/action and origin as the desktop cart picker. */
+function loadCartPreview(id, callback) {
+	const path = DB.getCartPath(id);
+	Client.loadFiles([`${path}.spr`, `${path}.act`], (spr, act) => {
+		const animations = act?.actions?.[0]?.animations;
+		if (!spr || !animations?.length) return;
+		const canvas = document.createElement("canvas");
+		canvas.width = 100;
+		canvas.height = 100;
+		const context = canvas.getContext("2d"), entity = new Entity();
+		SpriteRenderer.bind2DContext(context, canvas.width / 2, canvas.height + 10);
+		for (const layer of animations[animations.length / 2 | 0].layers) entity.renderLayer(layer, spr, spr, 1, [0, 0], false);
+		callback(canvas.toDataURL());
+	});
+}
+var init_CartPreview = __esmMin((() => {
+	init_DBManager();
+	init_Client();
+	init_Entity$1();
+	init_SpriteRenderer();
+}));
+//#endregion
+//#region src/UI/Game/GameCartAppearance.js
+function openCartAppearance(offer) {
+	const valid = (id) => Boolean(SessionStorage_default.Entity?.hasCart) && (offer ? decorative.includes(id) : SessionStorage_default.Entity.clevel >= levels[id - 1]);
+	const types = offer ? offer.typeList?.length ? offer.typeList : decorative : levels.map((_, i) => i + 1);
+	return openGameSelection("更换手推车外观", [...new Set(types)].filter(valid).map((id) => ({
+		id,
+		preview: true,
+		name: `手推车外观 ${id}`,
+		description: offer ? "装饰手推车" : `需要基础等级 ${levels[id - 1] || 1}`,
+		validate: () => valid(id),
+		loadIcon: (callback) => loadCartPreview(id, callback)
+	})), (id) => {
+		const packet = offer ? new PACKET.CZ.SELECTCART() : new PACKET.CZ.REQ_CHANGECART();
+		if (offer) {
+			packet.identity = offer.identity;
+			packet.type = id;
+		} else packet.num = id;
+		Network.sendPacket(packet);
+	}, () => {});
+}
+var levels, decorative;
+var init_GameCartAppearance = __esmMin((() => {
+	init_SessionStorage();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_GameSelection();
+	init_CartPreview();
+	levels = [
+		0,
+		41,
+		66,
+		81,
+		91,
+		101,
+		112,
+		122,
+		132
+	];
+	decorative = [
+		10,
+		11,
+		12
+	];
+}));
+//#endregion
 //#region src/UI/Components/ChangeCart/ChangeCart.html?raw
 var ChangeCart_default$2;
 var init_ChangeCart$2 = __esmMin((() => {
@@ -357950,6 +365526,8 @@ function render$4(tick) {
 }
 var CART_LIMIT, ChangeCart, _carts$1, _layerEntity$3, ChangeCart_default;
 var init_ChangeCart = __esmMin((() => {
+	init_Platform();
+	init_GameCartAppearance();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_SessionStorage();
@@ -358012,13 +365590,17 @@ var init_ChangeCart = __esmMin((() => {
 		}
 		ChatBox_default.addText(msg, ChatBox_default.TYPE.PUBLIC | ChatBox_default.TYPE.SELF, ChatBox_default.FILTER.PUBLIC_LOG);
 		if (SessionStorage_default.Entity) SessionStorage_default.Entity.dialog.set(msg);
+		if (Platform.isMobile) {
+			openCartAppearance();
+			return;
+		}
 		ChangeCart.ui.show();
 		updateList(SessionStorage_default.Entity.clevel);
 		Renderer.stop(render$4);
 		Renderer.render(render$4);
 	};
 	ChangeCart.onLevelUp = function onLevelUp(blvl) {
-		updateList(blvl);
+		if (!Platform.isMobile) updateList(blvl);
 	};
 	/**
 	* Remove component from HTML
@@ -358113,6 +365695,8 @@ function render$3() {
 }
 var CartDecoration, _carts, _layerEntity$2, _identity, CART_TYPES, CartDecoration_default;
 var init_CartDecoration = __esmMin((() => {
+	init_Platform();
+	init_GameCartAppearance();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_Renderer();
@@ -358169,6 +365753,10 @@ var init_CartDecoration = __esmMin((() => {
 	* @param {object} pkt - parsed ZC_SELECTCART packet
 	*/
 	CartDecoration.onSelectCart = function onSelectCart(pkt) {
+		if (Platform.isMobile) {
+			openCartAppearance(pkt);
+			return;
+		}
 		const root = CartDecoration.getRoot();
 		_identity = pkt.identity;
 		root.querySelectorAll(".cart").forEach((el) => {
@@ -358696,278 +366284,6 @@ var init_ShortCuts = __esmMin((() => {
 		this._host.style.height = `${50 + height * 32}px`;
 	};
 	ShortCuts_default = UIManager.addComponent(ShortCuts);
-}));
-//#endregion
-//#region src/UI/Components/StatusIcons/StatusIcons.html?raw
-var StatusIcons_default$2;
-var init_StatusIcons$2 = __esmMin((() => {
-	StatusIcons_default$2 = "<div id=\"StatusIcons\"></div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/StatusIcons/StatusIcons.css?raw
-var StatusIcons_default$1;
-var init_StatusIcons$1 = __esmMin((() => {
-	StatusIcons_default$1 = ":host {\r\n	top: 166px;\r\n	right: 20px;\r\n	overflow: visible;\r\n}\r\n\r\n#StatusIcons {\r\n	display: block;\r\n}\r\n\r\n#StatusIcons .state {\r\n	position: absolute;\r\n}\r\n\r\n#StatusIcons .state .description {\r\n	display: none;\r\n	z-index: 51;\r\n	position: absolute;\r\n	right: 33px;\r\n	top: 0px;\r\n	padding: 0px 5px 0px 5px;\r\n	background-color: rgba(0, 0, 0, 0.5);\r\n	border: 1px solid #c6c6c6;\r\n	border-radius: 3px;\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n	white-space: nowrap;\r\n	line-height: 16px;\r\n}\r\n\r\n#StatusIcons .state:hover .description {\r\n	display: block;\r\n}\r\n\r\n#StatusIcons .state canvas {\r\n	width: 32px;\r\n	height: 32px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/StatusIcons/StatusIcons.js
-function loadStatusIcon(index) {
-	const tkmVariant = SessionStorage_default.Entity && DB.isTaeKwon(SessionStorage_default.Entity._job) && TKM_ICON_OVERRIDE[index] || null;
-	const iconName = tkmVariant || StatusInfo[index].icon;
-	_status[index].tkmVariant = tkmVariant;
-	Client.loadFile(`data/texture/effect/${iconName}`, (data) => {
-		Texture.load(data, function() {
-			if (_status[index] && !_status[index].img) addResizedStatusIcon(this, index);
-		});
-	});
-}
-function addResizedStatusIcon(img, index) {
-	if (img.width < 33 && img.height < 33) {
-		_status[index].img = img;
-		addElement$4(_status[index].element);
-		return;
-	}
-	const canvas = document.createElement("canvas");
-	canvas.width = 32;
-	canvas.height = 32;
-	const ctx = canvas.getContext("2d");
-	ctx.save();
-	ctx.translate(0, 32);
-	ctx.scale(1, -1);
-	const scale = Math.min(32 / img.width, 32 / img.height);
-	const width = img.width * scale;
-	const height = img.height * scale;
-	const x = (32 - width) / 2;
-	const y = (32 - height) / 2;
-	ctx.drawImage(img, x, y, width, height);
-	ctx.restore();
-	const resizedImg = new Image();
-	resizedImg.src = canvas.toDataURL();
-	resizedImg.onload = () => {
-		_status[index].img = resizedImg;
-		addElement$4(_status[index].element);
-	};
-}
-/**
-* Reset elements position.
-*
-* Used when one element is removed.
-*/
-function resetElementsPosition() {
-	const elements = StatusIcons.getRoot().querySelectorAll(".state");
-	const count = elements.length;
-	let x = 0;
-	let y = 0;
-	for (let i = 0; i < count; ++i, y += 36) {
-		if (y > Renderer.height - 166) {
-			y = 0;
-			x += 45;
-		}
-		const element = elements[i];
-		element.style.top = `${y}px`;
-		element.style.right = `${x}px`;
-	}
-}
-/**
-* Remove an element from list and DOM
-*
-* @param {number} index
-*/
-function removeElementIndex(index) {
-	if (!(index in _status)) return;
-	const element = _status[index].element;
-	if (element && element.parentNode) element.parentNode.removeChild(element);
-	ScreenEffectManager.cleanStatusEffect(index);
-	delete _status[index];
-}
-/**
-* Create an element
-*
-* @param {number} index
-*/
-function createElement(index) {
-	const state = document.createElement("div");
-	state.className = "state";
-	const canvas = document.createElement("canvas");
-	canvas.width = 32;
-	canvas.height = 32;
-	state.appendChild(canvas);
-	_status[index] = {};
-	_status[index].element = state;
-	_status[index].ctx = canvas.getContext("2d");
-	if (StatusInfo[index].descript) {
-		const info = document.createElement("div");
-		info.className = "description";
-		const lines = StatusInfo[index].descript;
-		const count = lines.length;
-		for (let i = 0; i < count; ++i) {
-			const line = document.createElement("div");
-			line.textContent = toPlainRagnarokText(lines[i][0]);
-			if (lines[i][1]) line.style.color = lines[i][1];
-			line.innerHTML = line.innerHTML.replace("%s", "<span class=\"time\">0</span>");
-			info.appendChild(line);
-		}
-		const time = info.getElementsByClassName("time");
-		if (time.length) {
-			_status[index].time = time[0];
-			_status[index].timeTick = 0;
-		}
-		state.appendChild(info);
-	}
-}
-/**
-* Add element to the list, helper for multi-column
-*
-* @param {CanvasElement}
-*/
-function addElement$4(element) {
-	const root = StatusIcons.getRoot();
-	const elements = root.querySelectorAll(".state");
-	const max = (Renderer.height - 166) / 36 | 0;
-	const count = elements.length;
-	const x = (count / max | 0) * 45;
-	const y = count % max * 36;
-	element.style.top = `${y}px`;
-	element.style.right = `${x}px`;
-	const container = root.querySelector("#StatusIcons");
-	if (container) container.appendChild(element);
-}
-/**
-* Rendering a status icon
-*
-* @param {object} status
-* @param {number} tick
-*/
-function renderStatus(status, now) {
-	if (!status.img) return;
-	const ctx = status.ctx;
-	const start = status.start;
-	let end = status.end;
-	let color, perc;
-	if (now > end) end = now;
-	if (end < now + 6e4) {
-		color = "rgba(255,150,50,0.65)";
-		perc = 1 - (end - now) / 6e4;
-	} else {
-		color = "rgba(255,255,255,0.65)";
-		perc = (now - start) / (end - 6e4 - start);
-	}
-	ctx.clearRect(0, 0, 32, 32);
-	ctx.drawImage(status.img, 0, 0);
-	ctx.fillStyle = color;
-	ctx.beginPath();
-	ctx.arc(16, 16, 24, 1.5 * Math.PI, (1.5 + perc * 2) % 2 * Math.PI);
-	ctx.lineTo(16, 16);
-	ctx.fill();
-	if (status.time && status.timeTick + 1e3 < now) {
-		status.timeTick = now;
-		const tick = (end - now) / 1e3 | 0;
-		const seconds = tick % 60;
-		const minutes = tick / 60 | 0;
-		status.time.textContent = now >= end || end === Infinity ? "" : (minutes ? `${minutes} ${DB.getMessage(1807, "minute")} ` : "") + `${seconds} ${DB.getMessage(1808, "second")}`;
-	}
-}
-/**
-* Rendering status icons progressbar
-*
-* @param {number} tick
-*/
-function rendering$1(tick) {
-	const indexes = Object.keys(_status);
-	const count = indexes.length;
-	const time_now = Date.now();
-	if (time_now - _last_updated_time > _render_time) {
-		_last_updated_time = time_now;
-		for (let i = 0; i < count; ++i) renderStatus(_status[indexes[i]], tick);
-	}
-}
-var StatusIcons, _status, _last_updated_time, _render_time, TKM_ICON_OVERRIDE, StatusIcons_default;
-var init_StatusIcons = __esmMin((() => {
-	init_StatusInfo();
-	init_StatusConst();
-	init_DBManager();
-	init_RagnarokText();
-	init_Texture();
-	init_Client();
-	init_Renderer();
-	init_UIManager();
-	init_GUIComponent();
-	init_ScreenEffectManager();
-	init_SessionStorage();
-	init_StatusIcons$2();
-	init_StatusIcons$1();
-	StatusIcons = new GUIComponent("StatusIcons", StatusIcons_default$1);
-	StatusIcons.render = () => StatusIcons_default$2;
-	/**
-	* Mouse can cross this UI
-	*/
-	StatusIcons.mouseMode = GUIComponent.MouseMode.CROSS;
-	/**
-	* @var {boolean} do not focus this UI
-	*/
-	StatusIcons.needFocus = false;
-	_status = {};
-	_last_updated_time = Date.now();
-	_render_time = 500;
-	TKM_ICON_OVERRIDE = {
-		[StatusConst_default.ASPERSIO]: "i_p_SAINT.tga",
-		[StatusConst_default.PROPERTYFIRE]: "i_p_FIRE.tga",
-		[StatusConst_default.PROPERTYWATER]: "i_p_WATER.tga",
-		[StatusConst_default.PROPERTYWIND]: "i_p_WIND.tga",
-		[StatusConst_default.PROPERTYGROUND]: "i_p_EARTH.tga",
-		[StatusConst_default.PROPERTYDARK]: "i_p_DARK.tga",
-		[StatusConst_default.PROPERTYTELEKINESIS]: "i_p_TELE.tga"
-	};
-	/**
-	* Start rendering icons
-	*/
-	StatusIcons.onAppend = function onAppend() {
-		Renderer.render(rendering$1);
-	};
-	/**
-	* Stop rendering icons
-	*/
-	StatusIcons.onRemove = function onRemove() {
-		Renderer.stop(rendering$1);
-	};
-	/**
-	* Clean up component
-	*/
-	StatusIcons.clean = function clean() {
-		const container = StatusIcons.getRoot().querySelector("#StatusIcons");
-		if (container) container.innerHTML = "";
-		_status = {};
-		ScreenEffectManager.clean();
-	};
-	/**
-	* Update icon on screen
-	*
-	* @param {number} status id
-	* @param {number} enable/disable
-	* @param {number} life time
-	*/
-	StatusIcons.update = function update(index, state, life) {
-		if (!(index in StatusInfo) || !StatusInfo[index].icon) return;
-		if (!state && (!life || life <= 0)) {
-			removeElementIndex(index);
-			resetElementsPosition();
-			return;
-		}
-		if (!(index in _status)) createElement(index);
-		_status[index].start = Renderer.tick;
-		_status[index].end = Renderer.tick + life;
-		if (life === 9999 || StatusInfo[index].haveTimeLimit === 0 || life < 0) _status[index].end = Infinity;
-		if (_status[index].img) {
-			if (TKM_ICON_OVERRIDE[index]) {
-				const wantVariant = SessionStorage_default.Entity && DB.isTaeKwon(SessionStorage_default.Entity._job) && TKM_ICON_OVERRIDE[index] || null;
-				if (_status[index].tkmVariant !== wantVariant) _status[index].img = null;
-				else return;
-			} else return;
-		}
-		loadStatusIcon(index);
-		ScreenEffectManager.parseStatus(index);
-	};
-	StatusIcons_default = UIManager.addComponent(StatusIcons);
 }));
 //#endregion
 //#region src/UI/Components/CashShop/CashShop.html?raw
@@ -359801,6 +367117,187 @@ var init_CashShop$1 = __esmMin((() => {
 	CashShop_default = UIManager.addComponent(CashShop);
 }));
 //#endregion
+//#region src/UI/Game/GameItemTransformation.js
+function transformationMatches(item, rule) {
+	return (item.RefiningLevel || 0) >= (rule.NeedRefineMin || 0) && (rule.NeedRefineMax === void 0 || (item.RefiningLevel || 0) <= rule.NeedRefineMax) && (item.Options || []).filter((option) => option.index !== 0).length >= (rule.NeedOptionNumMin || 0) && (!(rule.IsEmptySocket || rule.NotSocketEnchantItem) || !Object.values(item.slot || {}).some(Boolean));
+}
+function finishItemTransformation(kind, packet) {
+	return active?.result(kind, packet);
+}
+function openItemTransformation(kind, itemId) {
+	const recipes = kind === "reform" ? DB.getAllReformInfos(DB.findReformListByItemID(itemId) || []) : [kind === "synthesis" ? DB.getLaphineSysInfoById(itemId) : DB.getLaphineUpgInfoById(itemId)].filter(Boolean);
+	const token = Symbol(kind), inventory = createGameInventory(() => true), order = /* @__PURE__ */ new Map();
+	let guard = () => false, pending = false, message = recipes.length ? "选择材料后核对并确认，操作会消耗道具或改变装备。" : "没有此道具的配方信息，请关闭窗口";
+	const current = () => SessionStorage_default.Playing && interactionSnapshot()?.token === token;
+	const allowed = () => current() && guard() && !pending && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE;
+	const source = () => InventoryController.getUI();
+	function recipeFor(item) {
+		return recipes.find((rule) => transformationMatches(item, rule) && (kind === "reform" ? rule.BaseItemId === item.ITID : (kind === "synthesis" ? rule.SourceItems : rule.TargetItems).some((entry) => entry.id === item.ITID)));
+	}
+	function eligible(item) {
+		return item && item.IsIdentified && !item.IsDamaged && !item.WearState && !source().equipswitchlist?.some((entry) => entry.index === item.index) && recipeFor(item);
+	}
+	function required(item, recipe) {
+		return kind === "synthesis" ? recipe.SourceItems.find((entry) => entry.id === item.ITID).count : 1;
+	}
+	function costs(recipe) {
+		return kind === "reform" ? recipe.Materials.map((entry) => ({
+			id: entry.MaterialItemID,
+			count: entry.Amount
+		})) : [];
+	}
+	function explanation(item, recipe) {
+		const lines = [toPlainRagnarokText(recipe.NeedSource_String || "")];
+		if (kind === "reform") {
+			lines.push(`改造结果：${DB.getItemName({
+				ITID: recipe.ResultItemId,
+				IsIdentified: true
+			})}`, `精炼变化：${recipe.ChangeRefineValue}；保留评级：${recipe.PreserveGrade ? "是" : "否"}；保留插槽：${recipe.PreserveSocketItem ? "是" : "否"}`);
+			lines.push(...costs(recipe).map((row) => `${DB.getItemName({
+				ITID: row.id,
+				IsIdentified: true
+			})} × ${row.count}`));
+		}
+		lines.push(`本条目需要数量：${required(item, recipe)}`);
+		return lines.filter(Boolean).join("\n");
+	}
+	function display() {
+		showInteraction({
+			kind: "transformation",
+			title: titles[kind],
+			token,
+			service,
+			canClose: true,
+			close
+		});
+	}
+	function close() {
+		if (!current()) return;
+		clearInteraction("transformation");
+		Network.sendPacket(new PACKET.CZ[closePackets[kind]]());
+	}
+	const service = {
+		setOperationGuard(fn) {
+			guard = fn;
+		},
+		snapshot() {
+			return {
+				items: inventory.snapshot().filter((row) => eligible(source().getItemByIndex(row.index))).map((row) => {
+					const item = source().getItemByIndex(row.index), recipe = recipeFor(item);
+					return {
+						...row,
+						requiredCount: required(item, recipe),
+						description: explanation(item, recipe)
+					};
+				}),
+				order: [...order.values()],
+				allowed: allowed(),
+				message,
+				pending,
+				instruction: kind === "synthesis" ? `需要选择 ${recipes[0]?.NeedCount || 0} 个不同的背包条目` : "选择一个目标装备，确认前请核对消耗与结果"
+			};
+		},
+		set(index, id, count) {
+			const item = source().getItemByIndex(index), recipe = eligible(item);
+			if (!allowed() || !recipe || item.ITID !== id || !Number.isInteger(count) || count !== 0 && count !== required(item, recipe) || count > itemQuantity(item)) return "物品、资格或所需数量已变化";
+			if (!count) order.delete(index);
+			else {
+				if (kind !== "synthesis") order.clear();
+				order.set(index, {
+					index,
+					ID: id,
+					count,
+					name: DB.getItemName(item),
+					identity: identity$1(item),
+					description: explanation(item, recipe)
+				});
+			}
+			return "";
+		},
+		clear() {
+			if (allowed()) order.clear();
+		},
+		confirm() {
+			if (!allowed()) return "当前不能操作";
+			if (order.size !== (kind === "synthesis" ? recipes[0]?.NeedCount : 1)) return "所选材料条目数不符合配方";
+			const totals = /* @__PURE__ */ new Map();
+			for (const row of order.values()) {
+				const item = source().getItemByIndex(row.index), recipe = eligible(item);
+				if (!recipe || identity$1(item) !== row.identity || itemQuantity(item) < row.count || row.count !== required(item, recipe)) return "材料已经变化，请重新选择";
+				for (const cost of costs(recipe)) totals.set(cost.id, (totals.get(cost.id) || 0) + cost.count);
+			}
+			if (kind === "upgrade" && !source().list.some((item) => item.ITID === itemId && itemQuantity(item) > 0)) return "开启窗口的道具已不存在";
+			for (const [id, count] of totals) if (source().list.filter((item) => item.ITID === id && !order.has(item.index) && !item.WearState).reduce((sum, item) => sum + itemQuantity(item), 0) < count) return "改造材料不足";
+			let packet;
+			if (kind === "synthesis") {
+				packet = new PACKET.CZ.REQ_RANDOM_COMBINE_ITEM();
+				packet.itemId = itemId;
+				packet.items = [...order.values()].map(({ index, count }) => ({
+					index,
+					count
+				}));
+			} else if (kind === "upgrade") {
+				packet = new PACKET.CZ.REQ_RANDOM_UPGRADE_ITEM();
+				packet.itemId = itemId;
+				packet.item_index = [...order.keys()][0];
+			} else {
+				packet = new PACKET.CZ.ITEM_REFORM();
+				packet.ITID = itemId;
+				packet.index = [...order.keys()][0];
+			}
+			pending = true;
+			message = "等待服务器结果";
+			display();
+			Network.sendPacket(packet);
+			return "";
+		},
+		result(type, packet) {
+			if (type !== kind || !current() || !pending) return false;
+			if (kind === "reform" && !order.has(packet.index)) return false;
+			pending = false;
+			if (packet.result === 0) {
+				close();
+				return true;
+			}
+			message = `操作未完成（服务器结果 ${packet.result}），请重新核对材料`;
+			display();
+			return true;
+		}
+	};
+	active = service;
+	display();
+	return service;
+}
+var active, titles, closePackets, identity$1;
+var init_GameItemTransformation = __esmMin((() => {
+	init_SessionStorage();
+	init_Inventory();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_DBManager();
+	init_GameInventory();
+	init_InventoryItems();
+	init_ServerInteraction();
+	init_RagnarokText();
+	titles = {
+		synthesis: "Laphine 合成",
+		upgrade: "Laphine 升级",
+		reform: "装备改造"
+	};
+	closePackets = {
+		synthesis: "RANDOM_COMBINE_ITEM_UI_CLOSE",
+		upgrade: "RANDOM_UPGRADE_ITEM_UI_CLOSE",
+		reform: "CLOSE_REFORM_UI"
+	};
+	identity$1 = (item) => JSON.stringify([
+		item.ITID,
+		item.RefiningLevel,
+		item.enchantgrade,
+		item.slot,
+		item.Options
+	]);
+}));
+//#endregion
 //#region src/UI/Components/ItemReform/ItemReform.html?raw
 var ItemReform_default$2;
 var init_ItemReform$2 = __esmMin((() => {
@@ -359843,6 +367340,10 @@ function GetInventoryItemsById$2(id) {
 * @param {object} pkt - The packet containing item information.
 */
 function onOpenReformUI(pkt) {
+	if (Platform.isMobile) {
+		openItemTransformation("reform", pkt.ITID);
+		return;
+	}
 	if (pkt) {
 		ReformInfo = {};
 		SelectedReformInfo = {};
@@ -360069,6 +367570,10 @@ function onHoverOutDetails() {
 * Handles the result of Item Reform
 */
 function onItemReformResult(pkt) {
+	if (Platform.isMobile) {
+		finishItemTransformation("reform", pkt);
+		return;
+	}
 	if (pkt) switch (pkt.result) {
 		case 0: {
 			const item = InventoryController.getUI().getItemByIndex(pkt.index);
@@ -360201,6 +367706,8 @@ function showItemPreview(item) {
 }
 var ItemReform, ReformInfo, SelectedReformInfo, ReformUIState, _npcBoxMoveHandler, ItemReform_default;
 var init_ItemReform = __esmMin((() => {
+	init_Platform();
+	init_GameItemTransformation();
 	init_DBManager();
 	init_EffectConst();
 	init_ItemType();
@@ -360383,6 +367890,10 @@ function _root$4() {
 * @param {object} pkt - The packet containing item information.
 */
 function onOpenLaphineUI(pkt) {
+	if (Platform.isMobile) {
+		openItemTransformation("synthesis", pkt.itemId);
+		return;
+	}
 	if (pkt) {
 		const laphineInfo = DB.getLaphineSysInfoById(pkt.itemId);
 		if (laphineInfo) {
@@ -360459,6 +367970,10 @@ function onAddMaterialItem$1(item, inventory_count, source_needcount, source_ico
 * Handles the result of Laphine Synthesis.
 */
 function onLaphineSysResult(pkt) {
+	if (Platform.isMobile) {
+		finishItemTransformation("synthesis", pkt);
+		return;
+	}
 	if (pkt) switch (pkt.result) {
 		case 0: onRequestLaphineClose();
 	}
@@ -360800,6 +368315,8 @@ function onItemInfo$6(event) {
 }
 var LaphineSys, LaphineUIState, LaphineSys_default;
 var init_LaphineSys = __esmMin((() => {
+	init_Platform();
+	init_GameItemTransformation();
 	init_DBManager();
 	init_ItemType();
 	init_NetworkManager();
@@ -360991,6 +368508,10 @@ function clearLaphineUpgUIState() {
 * @param {object} pkt - The packet containing item information.
 */
 function onOpenLaphineUpgUI(pkt) {
+	if (Platform.isMobile) {
+		openItemTransformation("upgrade", pkt.itemId);
+		return;
+	}
 	if (pkt) {
 		clearLaphineUpgUIState();
 		const laphineUpgInfo = DB.getLaphineUpgInfoById(pkt.itemId);
@@ -361081,6 +368602,10 @@ function onAddMaterialItem(item, target_iconname) {
 * Handles the result of Laphine Upgrade.
 */
 function onLaphineUpgResult(pkt) {
+	if (Platform.isMobile) {
+		finishItemTransformation("upgrade", pkt);
+		return;
+	}
 	if (pkt) switch (pkt.result) {
 		case 0: onRequestLaphineUpgClose();
 	}
@@ -361369,6 +368894,8 @@ function onItemInfo$5(event) {
 }
 var LaphineUpg, LaphineUpgUIState, LaphineUpg_default;
 var init_LaphineUpg = __esmMin((() => {
+	init_Platform();
+	init_GameItemTransformation();
 	init_DBManager();
 	init_ItemType();
 	init_NetworkManager();
@@ -363651,6 +371178,7 @@ function onPlayerMessage(pkt) {
 * @param {object} pkt - PACKET.ZC.ATTACK_FAILURE_FOR_DISTANCE
 */
 function onPlayerTooFarToAttack(pkt) {
+	if (retryOwnedAttack(pkt.targetAID)) return;
 	const entity = EntityManager.get(pkt.targetAID);
 	if (entity) entity.onFocus();
 }
@@ -363662,38 +371190,42 @@ function onPlayerTooFarToAttack(pkt) {
 function onAttackRangeUpdate(pkt) {
 	SessionStorage_default.Entity.attack_range = pkt.currentAttRange;
 }
+function updateStats(type, value) {
+	updateCharacterStat(SessionStorage_default.Entity, type, value);
+	WinStatsController.getUI().update(type, value);
+}
 /**
 * Update status parameters
 *
 * @param {object} pkt - PACKET.ZC.STATUS
 */
 function onStatusParameterChange(pkt) {
-	WinStatsController.getUI().update("str", pkt.str);
-	WinStatsController.getUI().update("agi", pkt.agi);
-	WinStatsController.getUI().update("vit", pkt.vit);
-	WinStatsController.getUI().update("int", pkt.Int);
-	WinStatsController.getUI().update("dex", pkt.dex);
-	WinStatsController.getUI().update("luk", pkt.luk);
-	WinStatsController.getUI().update("str3", pkt.standardStr);
-	WinStatsController.getUI().update("agi3", pkt.standardAgi);
-	WinStatsController.getUI().update("vit3", pkt.standardVit);
-	WinStatsController.getUI().update("int3", pkt.standardInt);
-	WinStatsController.getUI().update("dex3", pkt.standardDex);
-	WinStatsController.getUI().update("luk3", pkt.standardLuk);
-	WinStatsController.getUI().update("aspd", (pkt.ASPD + pkt.plusASPD) / 4);
-	WinStatsController.getUI().update("atak", pkt.attPower);
-	WinStatsController.getUI().update("atak2", pkt.refiningPower);
-	WinStatsController.getUI().update("matak", pkt.min_mattPower);
-	WinStatsController.getUI().update("matak2", pkt.max_mattPower);
-	WinStatsController.getUI().update("flee", pkt.avoidSuccessValue);
-	WinStatsController.getUI().update("flee2", pkt.plusAvoidSuccessValue);
-	WinStatsController.getUI().update("critical", pkt.criticalSuccessValue);
-	WinStatsController.getUI().update("hit", pkt.hitSuccessValue);
-	WinStatsController.getUI().update("def", pkt.itemdefPower);
-	WinStatsController.getUI().update("def2", pkt.plusdefPower);
-	WinStatsController.getUI().update("mdef", pkt.mdefPower);
-	WinStatsController.getUI().update("mdef2", pkt.plusmdefPower);
-	WinStatsController.getUI().update("statuspoint", pkt.point);
+	updateStats("str", pkt.str);
+	updateStats("agi", pkt.agi);
+	updateStats("vit", pkt.vit);
+	updateStats("int", pkt.Int);
+	updateStats("dex", pkt.dex);
+	updateStats("luk", pkt.luk);
+	updateStats("str3", pkt.standardStr);
+	updateStats("agi3", pkt.standardAgi);
+	updateStats("vit3", pkt.standardVit);
+	updateStats("int3", pkt.standardInt);
+	updateStats("dex3", pkt.standardDex);
+	updateStats("luk3", pkt.standardLuk);
+	updateStats("aspd", (pkt.ASPD + pkt.plusASPD) / 4);
+	updateStats("atak", pkt.attPower);
+	updateStats("atak2", pkt.refiningPower);
+	updateStats("matak", pkt.min_mattPower);
+	updateStats("matak2", pkt.max_mattPower);
+	updateStats("flee", pkt.avoidSuccessValue);
+	updateStats("flee2", pkt.plusAvoidSuccessValue);
+	updateStats("critical", pkt.criticalSuccessValue);
+	updateStats("hit", pkt.hitSuccessValue);
+	updateStats("def", pkt.itemdefPower);
+	updateStats("def2", pkt.plusdefPower);
+	updateStats("mdef", pkt.mdefPower);
+	updateStats("mdef2", pkt.plusmdefPower);
+	updateStats("statuspoint", pkt.point);
 }
 /**
 * Answer from server for updating parameter
@@ -363704,39 +371236,39 @@ function onStatusParameterUpdateAnswer(pkt) {
 	if (!pkt.result) return;
 	switch (pkt.statusID) {
 		case StatusProperty_default.STR:
-			WinStatsController.getUI().update("str", pkt.value);
+			updateStats("str", pkt.value);
 			break;
 		case StatusProperty_default.AGI:
-			WinStatsController.getUI().update("agi", pkt.value);
+			updateStats("agi", pkt.value);
 			break;
 		case StatusProperty_default.VIT:
-			WinStatsController.getUI().update("vit", pkt.value);
+			updateStats("vit", pkt.value);
 			break;
 		case StatusProperty_default.INT:
-			WinStatsController.getUI().update("int", pkt.value);
+			updateStats("int", pkt.value);
 			break;
 		case StatusProperty_default.DEX:
-			WinStatsController.getUI().update("dex", pkt.value);
+			updateStats("dex", pkt.value);
 			break;
 		case StatusProperty_default.LUK:
-			WinStatsController.getUI().update("luk", pkt.value);
+			updateStats("luk", pkt.value);
 			break;
 		case StatusProperty_default.VAR_SP_POW:
-			WinStatsController.getUI().update("pow", pkt.value);
+			updateStats("pow", pkt.value);
 			break;
 		case StatusProperty_default.VAR_SP_STA:
-			WinStatsController.getUI().update("sta", pkt.value);
+			updateStats("sta", pkt.value);
 			break;
 		case StatusProperty_default.VAR_SP_WIS:
-			WinStatsController.getUI().update("wis", pkt.value);
+			updateStats("wis", pkt.value);
 			break;
 		case StatusProperty_default.VAR_SP_SPL:
-			WinStatsController.getUI().update("spl", pkt.value);
+			updateStats("spl", pkt.value);
 			break;
 		case StatusProperty_default.VAR_SP_CON:
-			WinStatsController.getUI().update("con", pkt.value);
+			updateStats("con", pkt.value);
 			break;
-		case StatusProperty_default.VAR_SP_CRT: WinStatsController.getUI().update("crt", pkt.value);
+		case StatusProperty_default.VAR_SP_CRT: updateStats("crt", pkt.value);
 	}
 }
 /**
@@ -363814,7 +371346,7 @@ function onParameterChange$1(pkt) {
 			if (SessionStorage_default.Entity.life.sp > -1) BasicInfoController.getUI().update("sp", SessionStorage_default.Entity.life.sp, SessionStorage_default.Entity.life.sp_max);
 			break;
 		case StatusProperty_default.POINT:
-			WinStatsController.getUI().update("statuspoint", amount);
+			updateStats("statuspoint", amount);
 			break;
 		case StatusProperty_default.CLEVEL:
 			SessionStorage_default.Entity.clevel = amount;
@@ -363835,28 +371367,28 @@ function onParameterChange$1(pkt) {
 			Controller$4.getUI().setPoints(amount);
 			break;
 		case StatusProperty_default.STR:
-			WinStatsController.getUI().update("str", pkt.defaultStatus);
-			WinStatsController.getUI().update("str2", pkt.plusStatus);
+			updateStats("str", pkt.defaultStatus);
+			updateStats("str2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.AGI:
-			WinStatsController.getUI().update("agi", pkt.defaultStatus);
-			WinStatsController.getUI().update("agi2", pkt.plusStatus);
+			updateStats("agi", pkt.defaultStatus);
+			updateStats("agi2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.VIT:
-			WinStatsController.getUI().update("vit", pkt.defaultStatus);
-			WinStatsController.getUI().update("vit2", pkt.plusStatus);
+			updateStats("vit", pkt.defaultStatus);
+			updateStats("vit2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.INT:
-			WinStatsController.getUI().update("int", pkt.defaultStatus);
-			WinStatsController.getUI().update("int2", pkt.plusStatus);
+			updateStats("int", pkt.defaultStatus);
+			updateStats("int2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.DEX:
-			WinStatsController.getUI().update("dex", pkt.defaultStatus);
-			WinStatsController.getUI().update("dex2", pkt.plusStatus);
+			updateStats("dex", pkt.defaultStatus);
+			updateStats("dex2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.LUK:
-			WinStatsController.getUI().update("luk", pkt.defaultStatus);
-			WinStatsController.getUI().update("luk2", pkt.plusStatus);
+			updateStats("luk", pkt.defaultStatus);
+			updateStats("luk2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.MONEY:
 			BasicInfoController.getUI().update("zeny", amount);
@@ -363879,110 +371411,110 @@ function onParameterChange$1(pkt) {
 			if (BasicInfoController.getUI().weight > -1) BasicInfoController.getUI().update("weight", SessionStorage_default.Entity.weight, BasicInfoController.getUI().weight_max);
 			break;
 		case StatusProperty_default.STANDARD_STR:
-			WinStatsController.getUI().update("str3", amount);
+			updateStats("str3", amount);
 			break;
 		case StatusProperty_default.STANDARD_AGI:
-			WinStatsController.getUI().update("agi3", amount);
+			updateStats("agi3", amount);
 			break;
 		case StatusProperty_default.STANDARD_VIT:
-			WinStatsController.getUI().update("vit3", amount);
+			updateStats("vit3", amount);
 			break;
 		case StatusProperty_default.STANDARD_INT:
-			WinStatsController.getUI().update("int3", amount);
+			updateStats("int3", amount);
 			break;
 		case StatusProperty_default.STANDARD_DEX:
-			WinStatsController.getUI().update("dex3", amount);
+			updateStats("dex3", amount);
 			break;
 		case StatusProperty_default.STANDARD_LUK:
-			WinStatsController.getUI().update("luk3", amount);
+			updateStats("luk3", amount);
 			break;
 		case StatusProperty_default.ATTPOWER:
-			WinStatsController.getUI().update("atak", amount);
+			updateStats("atak", amount);
 			break;
 		case StatusProperty_default.REFININGPOWER:
-			WinStatsController.getUI().update("atak2", amount);
+			updateStats("atak2", amount);
 			break;
 		case StatusProperty_default.MAX_MATTPOWER:
-			WinStatsController.getUI().update("matak", amount);
+			updateStats("matak", amount);
 			break;
 		case StatusProperty_default.MIN_MATTPOWER:
-			WinStatsController.getUI().update("matak2", amount);
+			updateStats("matak2", amount);
 			break;
 		case StatusProperty_default.ITEMDEFPOWER:
-			WinStatsController.getUI().update("def", amount);
+			updateStats("def", amount);
 			break;
 		case StatusProperty_default.PLUSDEFPOWER:
-			WinStatsController.getUI().update("def2", amount);
+			updateStats("def2", amount);
 			break;
 		case StatusProperty_default.MDEFPOWER:
-			WinStatsController.getUI().update("mdef", amount);
+			updateStats("mdef", amount);
 			break;
 		case StatusProperty_default.PLUSMDEFPOWER:
-			WinStatsController.getUI().update("mdef2", amount);
+			updateStats("mdef2", amount);
 			break;
 		case StatusProperty_default.HITSUCCESSVALUE:
-			WinStatsController.getUI().update("hit", amount);
+			updateStats("hit", amount);
 			break;
 		case StatusProperty_default.AVOIDSUCCESSVALUE:
-			WinStatsController.getUI().update("flee", amount);
+			updateStats("flee", amount);
 			break;
 		case StatusProperty_default.PLUSAVOIDSUCCESSVALUE:
-			WinStatsController.getUI().update("flee2", amount);
+			updateStats("flee2", amount);
 			break;
 		case StatusProperty_default.CRITICALSUCCESSVALUE:
-			WinStatsController.getUI().update("critical", amount);
+			updateStats("critical", amount);
 			break;
 		case StatusProperty_default.ASPD:
-			WinStatsController.getUI().update("aspd", amount);
+			updateStats("aspd", amount);
 			break;
 		case StatusProperty_default.JOBLEVEL:
 			BasicInfoController.getUI().update("jlvl", amount);
 			Controller$4.getUI().onLevelUp();
 			break;
 		case StatusProperty_default.VAR_SP_POW:
-			WinStatsController.getUI().update("pow", pkt.defaultStatus);
-			WinStatsController.getUI().update("pow2", pkt.plusStatus);
+			updateStats("pow", pkt.defaultStatus);
+			updateStats("pow2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.VAR_SP_STA:
-			WinStatsController.getUI().update("sta", pkt.defaultStatus);
-			WinStatsController.getUI().update("sta2", pkt.plusStatus);
+			updateStats("sta", pkt.defaultStatus);
+			updateStats("sta2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.VAR_SP_WIS:
-			WinStatsController.getUI().update("wis", pkt.defaultStatus);
-			WinStatsController.getUI().update("wis2", pkt.plusStatus);
+			updateStats("wis", pkt.defaultStatus);
+			updateStats("wis2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.VAR_SP_SPL:
-			WinStatsController.getUI().update("spl", pkt.defaultStatus);
-			WinStatsController.getUI().update("spl2", pkt.plusStatus);
+			updateStats("spl", pkt.defaultStatus);
+			updateStats("spl2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.VAR_SP_CON:
-			WinStatsController.getUI().update("con", pkt.defaultStatus);
-			WinStatsController.getUI().update("con2", pkt.plusStatus);
+			updateStats("con", pkt.defaultStatus);
+			updateStats("con2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.VAR_SP_CRT:
-			WinStatsController.getUI().update("crt", pkt.defaultStatus);
-			WinStatsController.getUI().update("crt2", pkt.plusStatus);
+			updateStats("crt", pkt.defaultStatus);
+			updateStats("crt2", pkt.plusStatus);
 			break;
 		case StatusProperty_default.VAR_SP_PATK:
-			WinStatsController.getUI().update("patk", amount);
+			updateStats("patk", amount);
 			break;
 		case StatusProperty_default.VAR_SP_SMATK:
-			WinStatsController.getUI().update("smatk", amount);
+			updateStats("smatk", amount);
 			break;
 		case StatusProperty_default.VAR_SP_RES:
-			WinStatsController.getUI().update("res", amount);
+			updateStats("res", amount);
 			break;
 		case StatusProperty_default.VAR_SP_MRES:
-			WinStatsController.getUI().update("mres", amount);
+			updateStats("mres", amount);
 			break;
 		case StatusProperty_default.VAR_SP_HPLUS:
-			WinStatsController.getUI().update("hplus", amount);
+			updateStats("hplus", amount);
 			break;
 		case StatusProperty_default.VAR_SP_CRATE:
-			WinStatsController.getUI().update("crate", amount);
+			updateStats("crate", amount);
 			break;
 		case StatusProperty_default.VAR_SP_TRAITPOINT:
-			WinStatsController.getUI().update("trait_point", amount);
+			updateStats("trait_point", amount);
 			break;
 		case StatusProperty_default.VAR_SP_AP:
 			SessionStorage_default.Entity.life.ap = amount;
@@ -363995,22 +371527,22 @@ function onParameterChange$1(pkt) {
 			if (SessionStorage_default.Entity.life.ap > -1) BasicInfoController.getUI().update("ap", SessionStorage_default.Entity.life.ap, SessionStorage_default.Entity.life.ap_max);
 			break;
 		case StatusProperty_default.VAR_SP_UPOW:
-			WinStatsController.getUI().update("pow3", amount);
+			updateStats("pow3", amount);
 			break;
 		case StatusProperty_default.VAR_SP_USTA:
-			WinStatsController.getUI().update("sta3", amount);
+			updateStats("sta3", amount);
 			break;
 		case StatusProperty_default.VAR_SP_UWIS:
-			WinStatsController.getUI().update("wis3", amount);
+			updateStats("wis3", amount);
 			break;
 		case StatusProperty_default.VAR_SP_USPL:
-			WinStatsController.getUI().update("spl3", amount);
+			updateStats("spl3", amount);
 			break;
 		case StatusProperty_default.VAR_SP_UCON:
-			WinStatsController.getUI().update("con3", amount);
+			updateStats("con3", amount);
 			break;
 		case StatusProperty_default.VAR_SP_UCRT:
-			WinStatsController.getUI().update("crt3", amount);
+			updateStats("crt3", amount);
 			break;
 		default: console.error("Main::onParameterChange() - Unsupported type", pkt);
 	}
@@ -364253,6 +371785,8 @@ function MainEngine$11() {
 	Network.hookPacket(PACKET.ZC.ACK_STATUS_GM, onGMCheckStatus);
 }
 var init_Main = __esmMin((() => {
+	init_CharacterStats();
+	init_AttackIntent();
 	init_DBManager();
 	init_StatusProperty();
 	init_EffectConst();
@@ -364390,6 +371924,158 @@ var init_MapState = __esmMin((() => {
 	MapProperty = MapState_default.MapProperty;
 	MapType = MapState_default.MapType;
 	MapFlag = MapState_default.MapFlag;
+}));
+//#endregion
+//#region src/Engine/MapEngine/MobileNPC.js
+function send(Packet, id, fields = {}) {
+	const packet = new Packet();
+	Object.assign(packet, fields, { NAID: id });
+	Network.sendPacket(packet);
+}
+function stateFor(id) {
+	const current = interactionSnapshot();
+	return current?.kind === "npc" && current.id === id ? current : {
+		kind: "npc",
+		id,
+		title: "NPC 对话",
+		lines: [],
+		mode: "waiting",
+		image: cutinImage
+	};
+}
+function close(id) {
+	send(PACKET.CZ.CLOSE_DIALOG, id);
+	clearInteraction("npc");
+}
+function present(state) {
+	const token = {};
+	showInteraction({
+		...state,
+		token,
+		canClose: state.mode === "menu" || state.mode === "close",
+		close: () => {
+			if (interactionSnapshot()?.token !== token) return;
+			if (state.mode === "menu") {
+				send(PACKET.CZ.CHOOSE_MENU, state.id, { num: 255 });
+				clearInteraction("npc");
+			} else if (state.mode === "close") close(state.id);
+		},
+		respond: (value) => {
+			if (interactionSnapshot()?.token !== token || state.mode === "waiting") return false;
+			const mode = state.mode;
+			if (mode === "number" && (!/^-?\d+$/.test(String(value)) || Number(value) < -2147483648 || Number(value) > 2147483647)) return "请输入有效的整数";
+			if (mode === "menu" && !state.options.some((option) => option.value === value)) return "请选择有效选项";
+			present({
+				...state,
+				mode: "waiting",
+				awaiting: true
+			});
+			if (mode === "next") send(PACKET.CZ.REQ_NEXT_SCRIPT, state.id);
+			if (mode === "close") close(state.id);
+			if (mode === "menu") send(PACKET.CZ.CHOOSE_MENU, state.id, { num: value });
+			if (mode === "text") send(PACKET.CZ.INPUT_EDITDLGSTR, state.id, { msg: String(value) });
+			if (mode === "number") send(PACKET.CZ.INPUT_EDITDLG, state.id, { value: Number(value) });
+			return true;
+		}
+	});
+}
+var cutinImage, cutinGeneration, mobileNPC;
+var init_MobileNPC = __esmMin((() => {
+	init_DBManager();
+	init_Client();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_ServerInteraction();
+	init_RagnarokText();
+	cutinImage = "";
+	cutinGeneration = 0;
+	subscribeInteraction((state) => {
+		if (!state) {
+			cutinImage = "";
+			cutinGeneration++;
+		}
+	});
+	mobileNPC = {
+		message(pkt) {
+			const state = stateFor(pkt.NAID);
+			const text = toPlainRagnarokText(pkt.msg).replace(/^\[([^\]]+)\]/, (_, name) => `[${DB.getNpcName(name)}]`);
+			present({
+				...state,
+				lines: [...state.awaiting ? [] : state.lines, text],
+				awaiting: false,
+				mode: "waiting"
+			});
+		},
+		next: (pkt) => present({
+			...stateFor(pkt.NAID),
+			mode: "next"
+		}),
+		closeButton(pkt) {
+			const state = interactionSnapshot();
+			if (state?.kind === "npc" && state.id === pkt.NAID) present({
+				...state,
+				mode: "close"
+			});
+		},
+		closeScript(pkt) {
+			if (interactionSnapshot()?.id === pkt.NAID) clearInteraction("npc");
+		},
+		menu(pkt) {
+			const options = pkt.msg.split(":").filter(Boolean).map((text, index) => ({
+				value: index + 1,
+				text: toPlainRagnarokText(text)
+			}));
+			present({
+				...stateFor(pkt.NAID),
+				mode: "menu",
+				options
+			});
+		},
+		input: (pkt) => present({
+			...stateFor(pkt.NAID),
+			mode: pkt instanceof PACKET.ZC.OPEN_EDITDLGSTR ? "text" : "number"
+		}),
+		deal(pkt) {
+			const token = {};
+			showInteraction({
+				kind: "deal",
+				title: "商店",
+				token,
+				close: () => clearInteraction("deal"),
+				respond: (type) => {
+					if (interactionSnapshot()?.token !== token || ![0, 1].includes(type)) return;
+					clearInteraction("deal");
+					send(PACKET.CZ.ACK_SELECT_DEALTYPE, pkt.NAID, { type });
+				}
+			});
+		},
+		cutin(pkt) {
+			const generation = ++cutinGeneration;
+			cutinImage = "";
+			const state = interactionSnapshot();
+			if (state?.kind === "npc") showInteraction({
+				...state,
+				image: ""
+			});
+			if (!pkt.imageName || ![
+				0,
+				1,
+				2,
+				3,
+				4
+			].includes(pkt.type)) return;
+			const filename = pkt.imageName.includes(".") ? pkt.imageName : pkt.imageName + ".bmp";
+			Client.loadFile(`${DB.INTERFACE_PATH}illust/${filename}`, (image) => {
+				if (generation !== cutinGeneration) return;
+				cutinImage = image;
+				const latest = interactionSnapshot();
+				if (latest?.kind === "npc") showInteraction({
+					...latest,
+					image
+				});
+			});
+		}
+	};
 }));
 //#endregion
 //#region src/UI/Components/WinPopup/WinPopup.html?raw
@@ -364690,24 +372376,26 @@ function onBGM(pkt) {
 * Initialize
 */
 function NPCEngine$2() {
-	Network.hookPacket(PACKET.ZC.SAY_DIALOG, onMessage);
-	Network.hookPacket(PACKET.ZC.WAIT_DIALOG, onNextAppear);
-	Network.hookPacket(PACKET.ZC.CLOSE_DIALOG, onCloseAppear);
-	Network.hookPacket(PACKET.ZC.OPEN_EDITDLG, onInputAppear);
-	Network.hookPacket(PACKET.ZC.OPEN_EDITDLGSTR, onInputAppear);
-	Network.hookPacket(PACKET.ZC.MENU_LIST, onMenuAppear);
-	Network.hookPacket(PACKET.ZC.SELECT_DEALTYPE, onDealSelection);
-	Network.hookPacket(PACKET.ZC.SHOW_IMAGE, onCutin);
-	Network.hookPacket(PACKET.ZC.SHOW_IMAGE2, onCutin);
+	Network.hookPacket(PACKET.ZC.SAY_DIALOG, Platform.isMobile ? mobileNPC.message : onMessage);
+	Network.hookPacket(PACKET.ZC.WAIT_DIALOG, Platform.isMobile ? mobileNPC.next : onNextAppear);
+	Network.hookPacket(PACKET.ZC.CLOSE_DIALOG, Platform.isMobile ? mobileNPC.closeButton : onCloseAppear);
+	Network.hookPacket(PACKET.ZC.OPEN_EDITDLG, Platform.isMobile ? mobileNPC.input : onInputAppear);
+	Network.hookPacket(PACKET.ZC.OPEN_EDITDLGSTR, Platform.isMobile ? mobileNPC.input : onInputAppear);
+	Network.hookPacket(PACKET.ZC.MENU_LIST, Platform.isMobile ? mobileNPC.menu : onMenuAppear);
+	Network.hookPacket(PACKET.ZC.SELECT_DEALTYPE, Platform.isMobile ? mobileNPC.deal : onDealSelection);
+	Network.hookPacket(PACKET.ZC.SHOW_IMAGE, Platform.isMobile ? mobileNPC.cutin : onCutin);
+	Network.hookPacket(PACKET.ZC.SHOW_IMAGE2, Platform.isMobile ? mobileNPC.cutin : onCutin);
 	Network.hookPacket(PACKET.ZC.COMPASS, onMinimapMarker);
 	Network.hookPacket(PACKET.ZC.PROGRESS, onProgressBar);
 	Network.hookPacket(PACKET.ZC.PROGRESS_CANCEL, onProgressBarStop);
 	Network.hookPacket(PACKET.ZC.SOUND, onSound);
 	Network.hookPacket(PACKET.ZC.PLAY_NPC_BGM, onBGM);
-	Network.hookPacket(PACKET.ZC.CLOSE_SCRIPT, onCloseScript);
+	Network.hookPacket(PACKET.ZC.CLOSE_SCRIPT, Platform.isMobile ? mobileNPC.closeScript : onCloseScript);
 	Network.hookPacket(PACKET.ZC.DYNAMICNPC_CREATE_RESULT, onDynamicNPCCreateRequest);
 }
 var init_NPC = __esmMin((() => {
+	init_Platform();
+	init_MobileNPC();
 	init_DBManager();
 	init_SoundManager();
 	init_BGM();
@@ -367284,6 +374972,74 @@ var init_Entity = __esmMin((() => {
 	clanEmblems = {};
 }));
 //#endregion
+//#region src/UI/Game/GameMaterials.js
+function openGameMaterials(type, submit) {
+	const token = Symbol("materials"), inventory = createGameInventory(() => true), order = /* @__PURE__ */ new Map();
+	let guard = () => false, done = false;
+	const active = () => !done && SessionStorage_default.Playing && interactionSnapshot()?.token === token;
+	function finish(action) {
+		if (!active()) return false;
+		done = true;
+		clearInteraction("materials");
+		submit({
+			Type: type,
+			Action: action,
+			MaterialList: action ? [...order.values()].map(({ index, count }) => ({
+				index,
+				count
+			})) : []
+		});
+		return true;
+	}
+	const service = {
+		setOperationGuard(fn) {
+			guard = fn;
+		},
+		snapshot() {
+			return {
+				items: inventory.snapshot().filter((item) => !item.worn),
+				order: [...order.values()],
+				allowed: active() && guard() && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE
+			};
+		},
+		set(index, id, count) {
+			const state = service.snapshot(), item = state.items.find((entry) => entry.index === index && entry.ID === id);
+			if (!state.allowed || !item || !Number.isInteger(count) || count < 0 || count > 65535 || count > item.count) return "物品或数量已变化";
+			if (count) order.set(index, {
+				index,
+				ID: id,
+				count,
+				name: item.name
+			});
+			else order.delete(index);
+			return "";
+		},
+		confirm() {
+			const state = service.snapshot();
+			if (!state.allowed || !order.size) return "请先选择材料";
+			if (state.order.some((row) => !state.items.some((item) => item.index === row.index && item.ID === row.ID && item.count >= row.count))) return "材料已变化，请重新选择";
+			finish(1);
+			return "";
+		},
+		clear() {
+			order.clear();
+		}
+	};
+	showInteraction({
+		kind: "materials",
+		title: type === 0 ? "材料转换" : type === 1 ? "元素分析：纯矿转原石" : "元素分析：原石转纯矿",
+		token,
+		service,
+		close: () => finish(0)
+	});
+	return service;
+}
+var init_GameMaterials = __esmMin((() => {
+	init_SessionStorage();
+	init_GameInventory();
+	init_ServerInteraction();
+}));
+//#endregion
 //#region src/Renderer/ItemObject.js
 var ItemObject;
 var init_ItemObject = __esmMin((() => {
@@ -368881,18 +376637,24 @@ function onUseCard(index) {
 function onItemCompositionList(pkt) {
 	if (!pkt.ITIDList.length) return;
 	const card = InventoryController.getUI().getItemByIndex(_cardComposition);
-	ItemSelection_default.append();
-	ItemSelection_default.setList(pkt.ITIDList);
-	ItemSelection_default.setTitle(DB.getMessage(522) + "(" + DB.getItemInfo(card.ITID).identifiedDisplayName + ")");
+	if (!card) return;
+	const cardIndex = _cardComposition;
 	ItemSelection_default.onIndexSelected = function(index) {
-		if (index >= 0) {
+		if (index >= 0 && InventoryController.getUI().getItemByIndex(cardIndex)?.ITID === card.ITID) {
 			const _pkt = new PACKET.CZ.REQ_ITEMCOMPOSITION();
-			_pkt.cardIndex = _cardComposition;
+			_pkt.cardIndex = cardIndex;
 			_pkt.equipIndex = index;
 			Network.sendPacket(_pkt);
 		}
 		_cardComposition = null;
 	};
+	if (Platform.isMobile) {
+		openGameSelection("镶嵌卡片：" + DB.getItemInfo(card.ITID).identifiedDisplayName, selectionEntries(pkt.ITIDList, "inventory"), ItemSelection_default.onIndexSelected, () => ItemSelection_default.onIndexSelected(-1), "镶嵌会消耗卡片，请确认目标装备");
+		return;
+	}
+	ItemSelection_default.append();
+	ItemSelection_default.setList(pkt.ITIDList);
+	ItemSelection_default.setTitle(DB.getMessage(522) + "(" + DB.getItemInfo(card.ITID).identifiedDisplayName + ")");
 }
 /**
 * Get the result once card inserted
@@ -368921,6 +376683,16 @@ function onItemCompositionResult(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_ITEMREFINING
 */
 function onRefineResult(pkt) {
+	if (Platform.isMobile) {
+		const item = InventoryController.getUI().removeItem(pkt.itemIndex, 1);
+		if (item) {
+			item.RefiningLevel = pkt.RefiningLevel;
+			InventoryController.getUI().addItem(item);
+		}
+		finishRefinement("refine", pkt);
+		ChatBox_default.addText(pkt.result === 0 ? "精炼成功" : "精炼失败，请检查装备状态", ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.ITEM);
+		return;
+	}
 	if (Configs.get("enableRefineUI") && PacketVerManager_default.value >= 20161012) __vitePreload(() => Promise.resolve().then(() => (init_Refine(), Refine_exports)).then((m) => m.default.onRefineResult(pkt)), void 0, import.meta.url);
 	else {
 		const item = InventoryController.getUI().removeItem(pkt.itemIndex, 1);
@@ -368983,9 +376755,6 @@ function onAckAddItemToCart(pkt) {
 */
 function onMakeitemList(pkt) {
 	if (!pkt.itemList.length) return;
-	MakeItemSelection_default.append();
-	MakeItemSelection_default.setList(pkt.itemList);
-	MakeItemSelection_default.setTitle(DB.getMessage(425));
 	MakeItemSelection_default.onIndexSelected = function(index, material) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQMAKINGITEM();
@@ -368997,6 +376766,18 @@ function onMakeitemList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+	if (Platform.isMobile) {
+		const entries = selectionEntries(pkt.itemList.map((item) => item.ITID), "item").map((entry) => ({
+			...entry,
+			materials: DB.getItemInfo(entry.id).processitemlist !== ""
+		}));
+		const choose = (id, materials = []) => MakeItemSelection_default.onIndexSelected(id, materials);
+		openGameSelection("制作物品", entries, choose, () => choose(-1), "附加材料最多 3 份，属性石最多 1 份；制作会消耗材料");
+		return;
+	}
+	MakeItemSelection_default.append();
+	MakeItemSelection_default.setList(pkt.itemList);
+	MakeItemSelection_default.setTitle(DB.getMessage(425));
 }
 /**
 * Get a list of items to create
@@ -369004,6 +376785,10 @@ function onMakeitemList(pkt) {
 * @param {object} pkt - PACKET.ZC.ITEMLISTWIN_OPEN
 */
 function onListWinItem(ptk) {
+	if (Platform.isMobile) {
+		openGameMaterials(ptk.Type, ItemListWindowSelection_default.onItemListWindowSelected);
+		return;
+	}
 	if (!ptk.Type) ItemListWindowSelection_default.append();
 }
 /**
@@ -369024,9 +376809,6 @@ function onMakeitem_List(pkt) {
 		makeType = itemList[0];
 		itemList = itemList.slice(1);
 	}
-	MakeItemSelection_default.append();
-	MakeItemSelection_default.setCookingList(itemList, makeType);
-	MakeItemSelection_default.setTitle(DB.getMessage(425));
 	MakeItemSelection_default.onIndexSelected = function(index, material, mkType) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_MAKINGITEM();
@@ -369035,6 +376817,14 @@ function onMakeitem_List(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+	if (Platform.isMobile) {
+		const choose = (index) => MakeItemSelection_default.onIndexSelected(index, [], makeType);
+		openGameSelection("制作物品", selectionEntries(itemList, "item"), choose, () => choose(-1), "制作将消耗所需材料，结果以服务器回复为准");
+		return;
+	}
+	MakeItemSelection_default.append();
+	MakeItemSelection_default.setCookingList(itemList, makeType);
+	MakeItemSelection_default.setTitle(DB.getMessage(425));
 }
 /**
 * Result of Inventory Expansion
@@ -369069,7 +376859,9 @@ function onItemListNormal(pkt) {
 			CartItems_default.setItems(pkt.itemInfo || pkt.ItemInfo);
 			break;
 		case 2:
-			StorageController.getUI().append();
+		case 3:
+			if (Platform.isMobile) StorageController.getUI().prepare();
+			else StorageController.getUI().append();
 			StorageController.getUI().setItems(pkt.itemInfo || pkt.ItemInfo);
 			break;
 		default: throw new Error("[PACKET.ZC.SPLIT_SEND_ITEMLIST_NORMAL] - Unknown invType '" + pkt.invType + "'.");
@@ -369089,6 +376881,7 @@ function onItemListEquip(pkt) {
 			CartItems_default.setItems(pkt.itemInfo || pkt.ItemInfo);
 			break;
 		case 2:
+		case 3:
 			StorageController.getUI().setItems(pkt.itemInfo || pkt.ItemInfo);
 			break;
 		default: throw new Error("[PACKET.ZC.SPLIT_SEND_ITEMLIST_NORMAL] - Unknown invType '" + pkt.invType + "'.");
@@ -369112,17 +376905,19 @@ function onFavItemList(pkt) {
 * Received Switch Equip List
 */
 function onSwitchEquipList(pkt) {
+	notifyEquipmentSetResult();
 	if (pkt && pkt.ItemInfo) pkt.ItemInfo.forEach(function(item) {
-		if (InventoryController.getUI().getItemByIndex(item.index)) InventoryController.getUI().addItemtoSwitch(item.index);
+		if (InventoryController.getUI().getItemByIndex(item.index)) InventoryController.getUI().addItemtoSwitch(item.index, item.location);
 	});
 }
 /**
 * Add item to Switch Equip
 */
 function onSwitchEquipAdd(pkt) {
+	notifyEquipmentSetResult();
 	if (pkt) switch (pkt.flag) {
 		case 0:
-			InventoryController.getUI().addItemtoSwitch(pkt.index);
+			InventoryController.getUI().addItemtoSwitch(pkt.index, pkt.location);
 			break;
 		case 1:
 		case 2: break;
@@ -369133,6 +376928,7 @@ function onSwitchEquipAdd(pkt) {
 * Remove item to Switch Equip
 */
 function onSwitchEquipRemove(pkt) {
+	notifyEquipmentSetResult();
 	if (pkt) switch (pkt.flag) {
 		case 0:
 			InventoryController.getUI().removeItemFromSwitch(pkt.index);
@@ -369217,6 +377013,11 @@ function ItemEngine() {
 }
 var _cardComposition;
 var init_Item = __esmMin((() => {
+	init_GameEquipmentSets();
+	init_GameRefinement();
+	init_GameMaterials();
+	init_GameSelection();
+	init_Platform();
 	init_DBManager();
 	init_Configs();
 	init_EquipmentLocation();
@@ -369590,6 +377391,11 @@ function mailDelete(result) {
 * @param {object} pkt - PACKET.ZC.MAIL_WINDOWS
 */
 function openWindowsMail(pkt) {
+	if (Platform.isMobile) {
+		if (pkt.Type) currentGameMail()?.close();
+		else openGameMail();
+		return;
+	}
 	if (pkt.Type) Mail_default.remove();
 	else Mail_default.append();
 }
@@ -369679,6 +377485,8 @@ function MailEngine() {
 	Network.hookPacket(PACKET.ZC.MAIL_REQ_GET_ITEM, mailGetItem);
 }
 var init_Mail = __esmMin((() => {
+	init_Platform();
+	init_GameMail();
 	init_DBManager();
 	init_ChatBox();
 	init_NetworkManager();
@@ -369802,7 +377610,7 @@ var init_Mail = __esmMin((() => {
 * @returns {boolean}
 */
 function getShouldOpenWhisperBox(nickname) {
-	if (PacketVerManager_default.value < 20090617) return false;
+	if (Platform.isMobile || PacketVerManager_default.value < 20090617) return false;
 	if (WhisperBox.instances[nickname]) return true;
 	const prefs = WhisperBox.preferences;
 	const isFriend = FriendEngine.isFriend(nickname);
@@ -369862,6 +377670,7 @@ function PrivateMessageEngine() {
 	};
 }
 var init_PrivateMessage = __esmMin((() => {
+	init_Platform();
 	init_DBManager();
 	init_Friends();
 	init_NetworkManager();
@@ -369879,6 +377688,25 @@ var init_PrivateMessage = __esmMin((() => {
 * @param {object} pkt - PACKET.ZC.NOTIFY_STOREITEM_COUNTINFO
 */
 function onStorageInfo(pkt) {
+	if (Platform.isMobile) {
+		const ui = StorageController.getUI();
+		ui.prepare();
+		ui.setItemInfo(pkt.curCount, pkt.maxCount);
+		ui.setItems(itemBuffer);
+		itemBuffer = [];
+		if (interactionSnapshot()?.kind !== "storage") {
+			const token = {};
+			showInteraction({
+				kind: "storage",
+				title: InvTypeName === "Storage" ? "仓库" : InvTypeName || "仓库",
+				token,
+				close: () => {
+					if (interactionSnapshot()?.token === token) StorageController.onClosePressed();
+				}
+			});
+		}
+		return;
+	}
 	if (!(StorageController.getUI().__loaded && StorageController.getUI().__active)) {
 		StorageController.getUI().append();
 		if (PacketVerManager_default.value >= 20181002) StorageController.getUI().ui.find(".titlebar .text").text(InvTypeName === "Storage" ? "仓库" : InvTypeName || "仓库");
@@ -369917,6 +377745,11 @@ function onStorageItemRemoved(pkt) {
 * @param {object} pkt - PACKET.ZC.CLOSE_STORE
 */
 function onStorageClose() {
+	if (Platform.isMobile) {
+		clearInteraction("storage");
+		StorageController.getUI().clearItems();
+		itemBuffer = [];
+	}
 	StorageController.getUI().remove();
 }
 /**
@@ -369925,6 +377758,21 @@ function onStorageClose() {
 * @param {object} pkt - PACKET.ZC.SPLIT_SEND_ITEMLIST_SET
 */
 function onItemListSet(pkt) {
+	if (Platform.isMobile && pkt.invType === 0) {
+		InventoryController.getUI().prepare();
+		EquipmentController.getUI().prepare();
+		InventoryController.getUI().clearItems();
+		EquipmentController.getUI().clearItems();
+	}
+	if (Platform.isMobile && pkt.invType === 1) {
+		CartItems_default.prepare();
+		CartItems_default.clearItems();
+	}
+	if (Platform.isMobile && [2, 3].includes(pkt.invType)) {
+		StorageController.getUI().prepare();
+		StorageController.getUI().clearItems();
+		itemBuffer = [];
+	}
 	switch (pkt.invType) {
 		case 0:
 		case 1:
@@ -369974,6 +377822,11 @@ function StorageEngine() {
 }
 var itemBuffer, InvTypeName;
 var init_Storage = __esmMin((() => {
+	init_Inventory();
+	init_Equipment();
+	init_CartItems();
+	init_Platform();
+	init_ServerInteraction();
 	init_NetworkManager();
 	init_PacketVerManager();
 	init_PacketStructure();
@@ -369987,7 +377840,7 @@ var init_Storage = __esmMin((() => {
 	StorageController.onClosePressed = function onClosePressed() {
 		const pkt = new PACKET.CZ.CLOSE_STORE();
 		Network.sendPacket(pkt);
-		StorageController.getUI().remove();
+		onStorageClose();
 	};
 	/**
 	* Send item to storage
@@ -370029,6 +377882,59 @@ var init_Storage = __esmMin((() => {
 		pkt.count = count;
 		Network.sendPacket(pkt);
 	};
+}));
+//#endregion
+//#region src/UI/Game/GameMonsterInformation.js
+function openMonsterInformation(packet) {
+	const token = Symbol("monster-information");
+	const races = [
+		2285,
+		2276,
+		2277,
+		2278,
+		2279,
+		2280,
+		2281,
+		2282,
+		2283,
+		2284
+	];
+	const message = (id) => toPlainRagnarokText(DB.getMessage(id));
+	const rows = [
+		["名称", toPlainRagnarokText(DB.getMonsterName(packet.job))],
+		["等级", packet.level],
+		["体型", message(443 + packet.size)],
+		["种族", message(races[packet.raceType])],
+		["HP", packet.hp],
+		["防御", packet.def],
+		["魔法防御", packet.mdefPower],
+		["属性", message(414 + packet.property)]
+	];
+	for (const [key, id] of Object.entries({
+		water: 415,
+		earth: 416,
+		fire: 417,
+		wind: 418,
+		poison: 419,
+		saint: 420,
+		dark: 421,
+		mental: 422,
+		undead: 423
+	})) rows.push([`${message(id)}属性倍率`, `${packet.propertyTable[key]}%`]);
+	showInteraction({
+		kind: "information",
+		title: "怪物识别",
+		token,
+		rows,
+		close: () => {
+			if (interactionSnapshot()?.token === token) clearInteraction("information");
+		}
+	});
+}
+var init_GameMonsterInformation = __esmMin((() => {
+	init_DBManager();
+	init_ServerInteraction();
+	init_RagnarokText();
 }));
 //#endregion
 //#region src/UI/Components/MakeArrowSelection/MakeArrowSelection.html?raw
@@ -370810,9 +378716,6 @@ function onAutoCastSkill(pkt) {
 */
 function onIdentifyList(pkt) {
 	if (!pkt.ITIDList.length) return;
-	ItemSelection_default.append();
-	ItemSelection_default.setList(pkt.ITIDList);
-	ItemSelection_default.setTitle(DB.getMessage(521));
 	ItemSelection_default.onIndexSelected = function(index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_ITEMIDENTIFY();
@@ -370820,6 +378723,13 @@ function onIdentifyList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+	if (Platform.isMobile) {
+		openGameSelection("鉴定物品", selectionEntries(pkt.ITIDList, "inventory"), ItemSelection_default.onIndexSelected, () => ItemSelection_default.onIndexSelected(-1));
+		return;
+	}
+	ItemSelection_default.append();
+	ItemSelection_default.setList(pkt.ITIDList);
+	ItemSelection_default.setTitle(DB.getMessage(521));
 }
 /**
 * Get the result once item identified
@@ -370848,9 +378758,6 @@ function onIdentifyResult(pkt) {
 */
 function onAutoSpellList(pkt) {
 	if (!pkt.SKID.length) return;
-	ItemSelection_default.append();
-	ItemSelection_default.setList(pkt.SKID, true);
-	ItemSelection_default.setTitle(DB.getMessage(697));
 	ItemSelection_default.onIndexSelected = function(index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.SELECTAUTOSPELL();
@@ -370858,6 +378765,13 @@ function onAutoSpellList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+	if (Platform.isMobile) {
+		openGameSelection("自动技能", selectionEntries(pkt.SKID, "skill"), ItemSelection_default.onIndexSelected, () => ItemSelection_default.onIndexSelected(-1));
+		return;
+	}
+	ItemSelection_default.append();
+	ItemSelection_default.setList(pkt.SKID, true);
+	ItemSelection_default.setTitle(DB.getMessage(697));
 }
 /**
 * Get a list of players under the effect of devotion
@@ -370885,9 +378799,6 @@ function onDevotionList(pkt) {
 */
 function onSelectSkillList(pkt) {
 	if (!pkt.SKID.length) return;
-	ItemSelection_default.append();
-	ItemSelection_default.setList(pkt.SKID, true);
-	ItemSelection_default.setTitle(DB.getMessage(697));
 	ItemSelection_default.onIndexSelected = (index) => {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.SKILL_SELECT_RESPONSE();
@@ -370896,6 +378807,13 @@ function onSelectSkillList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+	if (Platform.isMobile) {
+		openGameSelection("选择技能", selectionEntries(pkt.SKID, "skill"), ItemSelection_default.onIndexSelected, () => ItemSelection_default.onIndexSelected(-1));
+		return;
+	}
+	ItemSelection_default.append();
+	ItemSelection_default.setList(pkt.SKID, true);
+	ItemSelection_default.setTitle(DB.getMessage(697));
 }
 /**
 * Manage menu to select zone to warp on
@@ -370903,6 +378821,19 @@ function onSelectSkillList(pkt) {
 * @param {object} pkt - PACKET.ZC.WARPLIST
 */
 function onTeleportList(pkt) {
+	if (Platform.isMobile) {
+		const send = (mapName) => {
+			const response = new PACKET.CZ.SELECT_WARPPOINT();
+			response.SKID = pkt.SKID;
+			response.mapName = mapName;
+			Network.sendPacket(response);
+		};
+		openGameSelection("选择传送地点", pkt.mapName.map((name, index) => ({
+			id: index,
+			name: DB.getMapName(name, name)
+		})).filter((entry) => pkt.mapName[entry.id]), (index) => send(pkt.mapName[index]), () => send("cancel"));
+		return;
+	}
 	NpcMenu_default.onSelectMenu = (skillid, index) => {
 		NpcMenu_default.remove();
 		const _pkt = new PACKET.CZ.SELECT_WARPPOINT();
@@ -370954,9 +378885,6 @@ function onMemoResult(pkt) {
 */
 function onMakingarrowList(pkt) {
 	if (!pkt.arrowList.length) return;
-	MakeArrowSelection_default.append();
-	MakeArrowSelection_default.setList(pkt.arrowList);
-	MakeArrowSelection_default.setTitle("LIST");
 	MakeArrowSelection_default.onIndexSelected = function(index) {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_MAKINGARROW();
@@ -370964,6 +378892,13 @@ function onMakingarrowList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+	if (Platform.isMobile) {
+		openGameSelection("制作箭矢", selectionEntries(pkt.arrowList.map((item) => item.index), "item"), MakeArrowSelection_default.onIndexSelected, () => MakeArrowSelection_default.onIndexSelected(-1));
+		return;
+	}
+	MakeArrowSelection_default.append();
+	MakeArrowSelection_default.setList(pkt.arrowList);
+	MakeArrowSelection_default.setTitle("LIST");
 }
 /**
 * Get a list of items to refine
@@ -370972,9 +378907,6 @@ function onMakingarrowList(pkt) {
 */
 function onRefineList(pkt) {
 	if (!pkt.itemList.length) return;
-	RefineWeaponSelection_default.append();
-	RefineWeaponSelection_default.setList(pkt.itemList);
-	RefineWeaponSelection_default.setTitle(DB.getMessage(910));
 	RefineWeaponSelection_default.onIndexSelected = (index) => {
 		if (index >= -1) {
 			const _pkt = new PACKET.CZ.REQ_WEAPONREFINE();
@@ -370982,6 +378914,13 @@ function onRefineList(pkt) {
 			Network.sendPacket(_pkt);
 		}
 	};
+	if (Platform.isMobile) {
+		openGameSelection("精炼武器", selectionEntries(pkt.itemList.map((item) => item.index), "inventory"), RefineWeaponSelection_default.onIndexSelected, () => RefineWeaponSelection_default.onIndexSelected(-1), "精炼可能导致装备损坏，请核对后确认");
+		return;
+	}
+	RefineWeaponSelection_default.append();
+	RefineWeaponSelection_default.setList(pkt.itemList);
+	RefineWeaponSelection_default.setTitle(DB.getMessage(910));
 }
 /**
 * Get a list of items to repair
@@ -370990,20 +378929,24 @@ function onRefineList(pkt) {
 */
 function onRepairList(pkt) {
 	if (!pkt.itemList.length) return;
-	RefineWeaponSelection_default.append();
-	RefineWeaponSelection_default.setList(pkt.itemList);
-	RefineWeaponSelection_default.setTitle(DB.getMessage(812));
 	RefineWeaponSelection_default.onIndexSelected = (index) => {
 		if (index >= -1) {
-			const item = RefineWeaponSelection_default.getItemByIndex(index);
+			const item = Platform.isMobile ? pkt.itemList.find((entry) => entry.index === index) : RefineWeaponSelection_default.getItemByIndex(index);
 			const _pkt = new PACKET.CZ.REQ_ITEMREPAIR();
 			_pkt.index = index;
-			_pkt.itemId = item.ITID;
-			_pkt.RefiningLevel = item.RefiningLevel;
-			_pkt.slots = item.slot;
+			_pkt.itemId = item?.ITID || 0;
+			_pkt.RefiningLevel = item?.RefiningLevel || 0;
+			if (item) _pkt.slots = item.slot;
 			Network.sendPacket(_pkt);
 		}
 	};
+	if (Platform.isMobile) {
+		openGameSelection("修理装备", selectionEntries(pkt.itemList, "equipment"), RefineWeaponSelection_default.onIndexSelected, () => RefineWeaponSelection_default.onIndexSelected(-1));
+		return;
+	}
+	RefineWeaponSelection_default.append();
+	RefineWeaponSelection_default.setList(pkt.itemList);
+	RefineWeaponSelection_default.setTitle(DB.getMessage(812));
 }
 function onSetSkillDelay(pkt) {
 	ShortCut_default.setSkillDelay(pkt.SKID, pkt.DelayTM);
@@ -371025,7 +378968,7 @@ function onIncreaseSkill(SKID) {
 * @param {number} level
 * @param {optional|number} target game id
 */
-function onUseSkill(id, level, targetID) {
+function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
 	let entity;
 	let range;
 	const isHomun = id > SkillConst_default.HOMUN_BEGIN && id < SkillConst_default.HOMUN_LAST;
@@ -371033,15 +378976,16 @@ function onUseSkill(id, level, targetID) {
 	if (isHomun) entity = EntityManager.get(SessionStorage_default.homunId);
 	else if (isMerc) entity = EntityManager.get(SessionStorage_default.mercId);
 	else entity = SessionStorage_default.Entity;
-	if (entity && entity.amotionTick > Renderer.tick) return;
+	if (!entity || entity.amotionTick > Renderer.tick) return;
 	const target = EntityManager.get(targetID) || entity;
-	const skill = Controller$4.getUI().getSkillById(id);
+	const skill = isHomun ? SkillListMH_default.homunculus.getSkillById(id) : isMerc ? SkillListMH_default.mercenary.getSkillById(id) : Controller$4.getUI().getSkillById(id);
 	const out = [];
+	if (isHomun || isMerc) cancelCompanionSkill(entity);
 	if (skill) range = skill.attackRange + 1;
 	else if (SkillInfo_generated_default[id]) range = SkillInfo_generated_default[id].AttackRange[level - 1] + 1;
 	else range = entity.attack_range;
 	const count = PathFinding_default.search(entity.position[0] | 0, entity.position[1] | 0, target.position[0] | 0, target.position[1] | 0, range, out, Altitude.TYPE.WALKABLE);
-	if (!count) return;
+	if (!count || !allowMove && count >= 2) return false;
 	if (id === SkillConst_default.MC_CHANGECART) {
 		if (SessionStorage_default.Entity.hasCart == true) UIManager.getComponent("ChangeCart").onChangeCartSkill();
 	}
@@ -371050,12 +378994,13 @@ function onUseSkill(id, level, targetID) {
 	else pkt = new PACKET.CZ.USE_SKILL();
 	pkt.SKID = id;
 	pkt.selectedLevel = level;
-	pkt.targetID = targetID || SessionStorage_default.Entity.GID;
+	pkt.targetID = targetID || entity.GID;
 	if (count < 2 || target === entity) {
 		Network.sendPacket(pkt);
 		return;
 	}
-	SessionStorage_default.moveAction = pkt;
+	if (isHomun || isMerc) queueCompanionSkill(entity, pkt, out.slice((count - 1) * 2, count * 2), () => EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE && PathFinding_default.search(entity.position[0] | 0, entity.position[1] | 0, target.position[0] | 0, target.position[1] | 0, range, [], Altitude.TYPE.WALKABLE) === 1);
+	else SessionStorage_default.moveAction = pkt;
 	if (isHomun) {
 		pkt = new PACKET.CZ.REQUEST_MOVENPC();
 		pkt.GID = SessionStorage_default.homunId;
@@ -371126,6 +379071,10 @@ function onMessageSkill(pkt) {
 	ChatBox_default.addText(message, ChatBox_default.TYPE.ANNOUNCE, ChatBox_default.FILTER.PUBLIC_LOG, color);
 }
 function onSense(pkt) {
+	if (Platform.isMobile) {
+		openMonsterInformation(pkt);
+		return;
+	}
 	Sense_default.append();
 	Sense_default.setWindow(pkt);
 }
@@ -371181,6 +379130,9 @@ function SkillEngine() {
 	Network.hookPacket(PACKET.ZC.SELECTCART, (pkt) => CartDecoration_default.onSelectCart(pkt));
 }
 var init_Skill = __esmMin((() => {
+	init_GameMonsterInformation();
+	init_Platform();
+	init_GameSelection();
 	init_DBManager();
 	init_UIManager();
 	init_SkillConst();
@@ -371210,6 +379162,7 @@ var init_Skill = __esmMin((() => {
 	init_SkillList();
 	init_CartDecoration();
 	init_SkillFail();
+	init_CompanionSkillAction();
 	init_SnowWeather();
 	init_RainWeather();
 	init_PokJukWeatherEffect();
@@ -371247,19 +379200,22 @@ var init_Skill = __esmMin((() => {
 	SkillTargetSelection_default.onUseSkillToPos = function onUseSkillToPos(id, level, x, y) {
 		let entity;
 		let range;
-		const isHomun = id > 8e3 && id < 8044;
+		const isHomun = id > SkillConst_default.HOMUN_BEGIN && id < SkillConst_default.HOMUN_LAST;
+		const isMerc = id > SkillConst_default.MERCENARY_BEGIN && id < SkillConst_default.MERCENARY_LAST;
 		if (isHomun) entity = EntityManager.get(SessionStorage_default.homunId);
+		else if (isMerc) entity = EntityManager.get(SessionStorage_default.mercId);
 		else {
 			entity = SessionStorage_default.Entity;
-			if (entity.isOverWeight) {
+			if (entity?.isOverWeight) {
 				ChatBox_default.addText(DB.getMessage(243), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.SKILL_FAIL);
 				return true;
 			}
 		}
-		if (entity && entity.amotionTick > Renderer.tick) return;
+		if (!entity || entity.amotionTick > Renderer.tick) return;
 		const pos = entity.position;
-		const skill = Controller$4.getUI().getSkillById(id);
+		const skill = isHomun ? SkillListMH_default.homunculus.getSkillById(id) : isMerc ? SkillListMH_default.mercenary.getSkillById(id) : Controller$4.getUI().getSkillById(id);
 		const out = [];
+		if (isHomun || isMerc) cancelCompanionSkill(entity);
 		if (skill) range = skill.attackRange + 1;
 		else if (SkillInfo_generated_default[id]) range = SkillInfo_generated_default[id].AttackRange[level - 1] + 1;
 		else range = entity.attack_range;
@@ -371279,10 +379235,14 @@ var init_Skill = __esmMin((() => {
 			Network.sendPacket(pkt);
 			return;
 		}
-		SessionStorage_default.moveAction = pkt;
+		if (isHomun || isMerc) queueCompanionSkill(entity, pkt, out.slice((count - 1) * 2, count * 2), () => PathFinding_default.search(entity.position[0] | 0, entity.position[1] | 0, x | 0, y | 0, range, [], Altitude.TYPE.WALKABLE) === 1);
+		else SessionStorage_default.moveAction = pkt;
 		if (isHomun) {
 			pkt = new PACKET.CZ.REQUEST_MOVENPC();
 			pkt.GID = SessionStorage_default.homunId;
+		} else if (isMerc) {
+			pkt = new PACKET.CZ.REQUEST_MOVENPC();
+			pkt.GID = SessionStorage_default.mercId;
 		} else if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
 		else pkt = new PACKET.CZ.REQUEST_MOVE();
 		pkt.dest[0] = out[(count - 1) * 2 + 0];
@@ -371686,6 +379646,10 @@ function onItemInfo$1(event) {
 * @param {PACKET.ZC.PET_EVOLUTION} pkt
 */
 function onPetEvolveResult(pkt) {
+	if (Platform.isMobile) {
+		if (pkt) receiveGamePetResult("evolve", pkt.result);
+		return;
+	}
 	if (pkt) switch (pkt.result) {
 		case 0:
 			ChatBox_default.addText(DB.getMessage(2571), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
@@ -371708,6 +379672,8 @@ function onPetEvolveResult(pkt) {
 }
 var PetEvolution, currentMaterials, targetEvoPetEggId, _preferences$4, PetEvolution_default;
 var init_PetEvolution = __esmMin((() => {
+	init_Platform();
+	init_GamePet();
 	init_DBManager();
 	init_Client();
 	init_Preferences$1();
@@ -371876,6 +379842,10 @@ var init_PetEvolution = __esmMin((() => {
 * @param {object} pkt - PACKET.ZC.START_CAPTURE
 */
 function onStartCapture(pkt) {
+	if (Platform.isMobile) {
+		openGamePetCapture();
+		return;
+	}
 	const fakeSkill = {
 		SKID: -10,
 		level: 0
@@ -371897,6 +379867,10 @@ function onStartCapture(pkt) {
 * @param {object} pkt - PACKET.ZC.TRYCAPTURE_MONSTER
 */
 function onCaptureResult(pkt) {
+	if (Platform.isMobile) {
+		receiveGamePetCapture(pkt.result);
+		return;
+	}
 	SlotMachine_default.setResult(pkt.result);
 }
 /**
@@ -371905,6 +379879,10 @@ function onCaptureResult(pkt) {
 * @param {object} pkt - PACKET.ZC.PETEGG_LIST
 */
 function onPetList(pkt) {
+	if (Platform.isMobile) {
+		openGamePetEggs(pkt.eggList);
+		return;
+	}
 	if (!pkt.eggList.length) return;
 	ItemSelection_default.append();
 	ItemSelection_default.setList(pkt.eggList);
@@ -371923,8 +379901,11 @@ function onPetList(pkt) {
 * @param {object} pkt - PACKET.ZC.PROPERTY_PET
 */
 function onPetInformation(pkt) {
-	PetInformations_default.append();
-	PetInformations_default.setInformations(pkt);
+	if (Platform.isMobile) updateGamePetInfo(pkt);
+	else {
+		PetInformations_default.append();
+		PetInformations_default.setInformations(pkt);
+	}
 	if (SessionStorage_default.petId) {
 		const entity = EntityManager.get(SessionStorage_default.petId);
 		if (entity) {
@@ -371949,6 +379930,7 @@ function onPetInformation(pkt) {
 * @param {object} pkt - PACKET.ZC.FEED_PET
 */
 function onFeedResult$1(pkt) {
+	if (Platform.isMobile) receiveGamePetResult("feed", pkt.cRet);
 	if (!pkt.cRet) {
 		ChatBox_default.addText(DB.getMessage(591).replace("%s", DB.getItemInfo(pkt.ITID).identifiedDisplayName), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 		return;
@@ -371984,6 +379966,13 @@ function petTalk(GID, msg) {
 * @param {object} pkt - PACKET.ZC.CHANGESTATE_PET
 */
 function onPetInformationUpdate(pkt) {
+	if (Platform.isMobile) {
+		updateGamePetState(pkt);
+		if (pkt.type === 0) {
+			SessionStorage_default.petId = pkt.GID;
+			SessionStorage_default.pet.GID = pkt.GID;
+		}
+	}
 	const entity = EntityManager.get(pkt.GID);
 	let path;
 	if (!entity) return;
@@ -371994,11 +379983,11 @@ function onPetInformationUpdate(pkt) {
 			SessionStorage_default.pet.job = entity._job;
 			break;
 		case 1:
-			PetInformations_default.setIntimacy(pkt.data);
+			if (!Platform.isMobile) PetInformations_default.setIntimacy(pkt.data);
 			SessionStorage_default.pet.friendly = pkt.data;
 			break;
 		case 2: {
-			PetInformations_default.setHunger(pkt.data);
+			if (!Platform.isMobile) PetInformations_default.setHunger(pkt.data);
 			entity.life.hp = pkt.data;
 			entity.life.hp_max = 100;
 			entity.life.update();
@@ -372074,6 +380063,8 @@ function NPCEngine$1() {
 	Network.hookPacket(PACKET.ZC.PET_ACT, onPetAction);
 }
 var init_Pet = __esmMin((() => {
+	init_Platform();
+	init_GamePet();
 	init_DBManager();
 	init_NetworkManager();
 	init_PacketStructure();
@@ -372160,6 +380151,7 @@ var init_Pet = __esmMin((() => {
 * @param {THomunPacket} pkt - PACKET.ZC.PROPERTY_HOMUN
 */
 function onHomunInformation(pkt) {
+	if (Platform.isMobile) updateGameCompanion("homunculus", pkt, SessionStorage_default.homunId);
 	if (!SessionStorage_default.homunId) return;
 	const entity = EntityManager.get(SessionStorage_default.homunId);
 	if (!entity) return;
@@ -372179,7 +380171,7 @@ function onHomunInformation(pkt) {
 		hunger: pkt.nFullness,
 		hunger_max: 100
 	});
-	HomunInformations_default.setInformations(pkt);
+	if (!Platform.isMobile) HomunInformations_default.setInformations(pkt);
 	HomunInformations_default.startAI();
 }
 /**
@@ -372188,6 +380180,7 @@ function onHomunInformation(pkt) {
 * @param {object} pkt - PACKET.ZC.FEED_HOMUN
 */
 function onFeedResult(pkt) {
+	if (Platform.isMobile) receiveGameCompanionFeed(pkt.cRet);
 	if (!pkt.cRet) {
 		ChatBox_default.addText(DB.getMessage(591).replace("%s", DB.getItemInfo(pkt.ITID).identifiedDisplayName), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 		return;
@@ -372199,8 +380192,20 @@ function onFeedResult(pkt) {
 * @param {object} pkt - PACKET.ZC.HO_PAR_CHANGE
 */
 function onHomunParameterChange(pkt) {
+	if (Platform.isMobile) {
+		const key = {
+			[StatusProperty_default.EXP]: "exp",
+			[StatusProperty_default.HP]: "hp",
+			[StatusProperty_default.MAXHP]: "maxHP",
+			[StatusProperty_default.SP]: "sp",
+			[StatusProperty_default.MAXSP]: "maxSP",
+			[StatusProperty_default.CLEVEL]: "nLevel",
+			[StatusProperty_default.MAXEXP]: "maxEXP"
+		}[pkt.param];
+		if (key) updateGameCompanion("homunculus", { [key]: pkt.value });
+	}
 	if (!SessionStorage_default.homunId) return;
-	HomunInformations_default.setInformations(pkt);
+	if (!Platform.isMobile) HomunInformations_default.setInformations(pkt);
 	const entity = EntityManager.get(SessionStorage_default.homunId);
 	if (!entity) return;
 	switch (pkt.param) {
@@ -372209,38 +380214,38 @@ function onHomunParameterChange(pkt) {
 			break;
 		case StatusProperty_default.EXP:
 			HomunInformations_default.base_exp = pkt.value;
-			HomunInformations_default.setExp(HomunInformations_default.base_exp, HomunInformations_default.base_exp_next);
+			if (!Platform.isMobile) HomunInformations_default.setExp(HomunInformations_default.base_exp, HomunInformations_default.base_exp_next);
 			break;
 		case StatusProperty_default.HP:
 			entity.life.hp = pkt.value;
 			entity.life.update();
 			EntityManager.storeLife(SessionStorage_default.homunId, { hp: pkt.value });
-			HomunInformations_default.setHpSpBar("hp", entity.life.hp, entity.life.hp_max);
+			if (!Platform.isMobile) HomunInformations_default.setHpSpBar("hp", entity.life.hp, entity.life.hp_max);
 			break;
 		case StatusProperty_default.MAXHP:
 			entity.life.hp_max = pkt.value;
 			entity.life.update();
 			EntityManager.storeLife(SessionStorage_default.homunId, { hp_max: pkt.value });
-			HomunInformations_default.setHpSpBar("hp", entity.life.hp, entity.life.hp_max);
+			if (!Platform.isMobile) HomunInformations_default.setHpSpBar("hp", entity.life.hp, entity.life.hp_max);
 			break;
 		case StatusProperty_default.SP:
 			entity.life.sp = pkt.value;
 			entity.life.update();
 			EntityManager.storeLife(SessionStorage_default.homunId, { sp: pkt.value });
-			HomunInformations_default.setHpSpBar("sp", entity.life.sp, entity.life.sp_max);
+			if (!Platform.isMobile) HomunInformations_default.setHpSpBar("sp", entity.life.sp, entity.life.sp_max);
 			break;
 		case StatusProperty_default.MAXSP:
 			entity.life.sp_max = pkt.value;
 			entity.life.update();
 			EntityManager.storeLife(SessionStorage_default.homunId, { sp_max: pkt.value });
-			HomunInformations_default.setHpSpBar("sp", entity.life.sp, entity.life.sp_max);
+			if (!Platform.isMobile) HomunInformations_default.setHpSpBar("sp", entity.life.sp, entity.life.sp_max);
 			break;
 		case StatusProperty_default.CLEVEL:
 			entity.clevel = pkt.value;
 			break;
 		case StatusProperty_default.MAXEXP:
 			HomunInformations_default.base_exp_next = pkt.value;
-			HomunInformations_default.setExp(HomunInformations_default.base_exp, HomunInformations_default.base_exp_next);
+			if (!Platform.isMobile) HomunInformations_default.setExp(HomunInformations_default.base_exp, HomunInformations_default.base_exp_next);
 			break;
 		default: console.log("Homun::onHomunParameterChange() - Unsupported type", pkt);
 	}
@@ -372251,17 +380256,23 @@ function onHomunParameterChange(pkt) {
 * @param {object} pkt - PACKET.ZC.CHANGESTATE_HOMUN
 */
 function onHomunInformationUpdate(pkt) {
+	if (Platform.isMobile) {
+		if (pkt.state === 0) {
+			SessionStorage_default.homunId = pkt.GID;
+			updateGameCompanion("homunculus", {}, pkt.GID);
+		} else if (pkt.GID === SessionStorage_default.homunId && (pkt.state === 1 || pkt.state === 2)) updateGameCompanion("homunculus", { [pkt.state === 1 ? "nRelationship" : "nFullness"]: pkt.data });
+	}
 	const entity = EntityManager.get(pkt.GID);
 	if (entity) switch (pkt.state) {
 		case 0:
-			HomunInformations_default.append();
+			if (!Platform.isMobile) HomunInformations_default.append();
 			SessionStorage_default.homunId = pkt.GID;
 			break;
 		case 1:
-			HomunInformations_default.setIntimacy(pkt.data);
+			if (!Platform.isMobile) HomunInformations_default.setIntimacy(pkt.data);
 			break;
 		case 2:
-			HomunInformations_default.setHunger(pkt.data);
+			if (!Platform.isMobile) HomunInformations_default.setHunger(pkt.data);
 			entity.life.hunger = pkt.data;
 			entity.life.hunger_max = 100;
 			entity.life.update();
@@ -372300,6 +380311,8 @@ function NPCEngine() {
 	Network.hookPacket(PACKET.ZC.HOSKILLINFO_UPDATE, onSkillUpdate$1);
 }
 var init_Homun = __esmMin((() => {
+	init_Platform();
+	init_GameCompanions();
 	init_DBManager();
 	init_NetworkManager();
 	init_PacketStructure();
@@ -372400,6 +380413,7 @@ var init_Homun = __esmMin((() => {
 */
 function onMercenaryInit(pkt) {
 	SessionStorage_default.mercId = pkt.AID;
+	if (Platform.isMobile) updateGameCompanion("mercenary", pkt, pkt.AID);
 	const entity = EntityManager.get(pkt.AID);
 	if (entity) {
 		entity.attack_range = pkt.ATKRange;
@@ -372417,8 +380431,8 @@ function onMercenaryInit(pkt) {
 	}
 	if (entity && entity.life.display) pkt.life = entity.life;
 	pkt.SKPoint = pkt.SKPoint || 0;
-	MercenaryInformations_default.append();
-	MercenaryInformations_default.setInformations(pkt);
+	if (!Platform.isMobile) MercenaryInformations_default.append();
+	if (!Platform.isMobile) MercenaryInformations_default.setInformations(pkt);
 	MercenaryInformations_default.startAI();
 }
 /**
@@ -372427,6 +380441,7 @@ function onMercenaryInit(pkt) {
 * @param {object} pkt - PACKET.ZC.MER_PROPERTY
 */
 function onMercenaryProperty(pkt) {
+	if (Platform.isMobile) updateGameCompanion("mercenary", pkt);
 	const entity = EntityManager.get(SessionStorage_default.mercId);
 	if (entity) {
 		entity.life.hp = pkt.hp;
@@ -372442,7 +380457,7 @@ function onMercenaryProperty(pkt) {
 		});
 	}
 	if (entity && entity.life.display) pkt.life = entity.life;
-	MercenaryInformations_default.setInformations(pkt);
+	if (!Platform.isMobile) MercenaryInformations_default.setInformations(pkt);
 }
 /**
 * Update parameter
@@ -372450,6 +380465,15 @@ function onMercenaryProperty(pkt) {
 * @param {object} pkt - PACKET.ZC.MER_PAR_CHANGE
 */
 function onParameterChange(pkt) {
+	if (Platform.isMobile) {
+		const key = [
+			"hp",
+			"sp",
+			"maxHP",
+			"maxSP"
+		][pkt.param];
+		if (key) updateGameCompanion("mercenary", { [key]: pkt.value });
+	}
 	const entity = EntityManager.get(SessionStorage_default.mercId);
 	if (!entity) return;
 	switch (pkt.param) {
@@ -372501,6 +380525,8 @@ function MercenaryEngine() {
 	Network.hookPacket(PACKET.ZC.MER_SKILLINFO_UPDATE, onSkillUpdate);
 }
 var init_Mercenary = __esmMin((() => {
+	init_Platform();
+	init_GameCompanions();
 	init_DBManager();
 	init_NetworkManager();
 	init_PacketStructure();
@@ -372550,6 +380576,183 @@ var init_Mercenary = __esmMin((() => {
 		pkt.dest[1] = y > 0 ? y : Mouse.world.y;
 		Network.sendPacket(pkt);
 	};
+}));
+//#endregion
+//#region src/UI/Game/GameShop.js
+/** A server offer owns its order; counts and currency remain server-authoritative. */
+function openGameShop(mode, offers, submit, quit, options = {}) {
+	const token = {};
+	const currency = options.currency || "Zeny";
+	const balance = () => options.balance ?? SessionStorage_default.zeny;
+	let pending = false;
+	let canOperate = () => !SessionStorage_default.FreezeUI;
+	let finished = false;
+	const order = /* @__PURE__ */ new Map();
+	const original = offers.map((offer, index) => ({
+		...offer,
+		index: offer.index ?? index,
+		identity: mode === "sell" ? InventoryController.getUI().getItemByIndex(offer.index)?.ITID : offer.ITID
+	}));
+	const available = () => interactionSnapshot()?.token === token && !pending && !finished && canOperate() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
+	const inventory = createGameInventory(available);
+	function snapshot() {
+		const items = original.flatMap((offer) => {
+			let item = {
+				...offer,
+				IsIdentified: true,
+				count: 65535
+			};
+			if (mode === "sell") {
+				item = InventoryController.getUI().getItemByIndex(offer.index);
+				if (!item || item.ITID !== offer.identity || item.equipped || options.type !== "player-buying" && InventoryController.getUI().npcsalelock && !(item.PlaceETCTab < 1)) return [];
+			}
+			const materials = (offer.currencyList || (offer.currencyITID ? [{
+				ITID: offer.currencyITID,
+				amount: offer.currencyamount
+			}] : [])).map((material) => ({
+				...material,
+				name: DB.getItemName({
+					ITID: material.ITID,
+					IsIdentified: true
+				})
+			}));
+			const view = inventory.describe(item);
+			const price = mode === "sell" ? offer.overchargeprice ?? offer.price : offer.discountprice ?? offer.price ?? 0;
+			return [{
+				...view,
+				price,
+				materials,
+				limit: mode === "sell" ? Math.min(view.count, options.limitToOffer ? offer.qty : 65535, 65535) : Math.min(offer.qty ?? offer.amount ?? 65535, 65535),
+				quantity: order.get(offer.index)?.count || 0
+			}];
+		});
+		return {
+			mode,
+			items,
+			total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+			money: balance(),
+			currency,
+			pending,
+			allowed: Boolean(available())
+		};
+	}
+	const service = {
+		snapshot,
+		setOperationGuard: (guard) => {
+			canOperate = guard;
+		},
+		set(index, id, count) {
+			const item = snapshot().items.find((entry) => entry.index === index && entry.ID === id);
+			if (!available() || !item || !Number.isInteger(count) || count < 0 || count > item.limit) return "数量或物品状态已变化";
+			if (count) order.set(index, {
+				...original.find((offer) => offer.index === index),
+				ITID: id,
+				index,
+				count
+			});
+			else order.delete(index);
+			return "";
+		},
+		clear() {
+			if (!available()) return false;
+			order.clear();
+			return true;
+		},
+		submit() {
+			const state = snapshot();
+			if (!available() || !order.size) return "请先选择物品及数量";
+			for (const entry of order.values()) {
+				const item = state.items.find((candidate) => candidate.index === entry.index && candidate.ID === entry.ITID);
+				if (!item || entry.count > item.limit || !Number.isFinite(item.price) || item.price < 0) return "物品已变化，请重新选择";
+			}
+			if (options.limitToOffer) {
+				const counts = /* @__PURE__ */ new Map();
+				for (const entry of order.values()) counts.set(entry.ITID, (counts.get(entry.ITID) || 0) + entry.count);
+				for (const [id, count] of counts) if (count > original.find((entry) => entry.ITID === id).qty) return "超过对方收购数量";
+			}
+			const required = /* @__PURE__ */ new Map();
+			for (const item of state.items) for (const material of item.materials) {
+				const amount = material.amount * item.quantity;
+				required.set(material.ITID, (required.get(material.ITID) || 0) + amount);
+			}
+			for (const [id, count] of required) {
+				const owned = InventoryController.getUI().list.filter((item) => item.ITID === id && !item.equipped).reduce((sum, item) => sum + itemQuantity(item), 0);
+				if (!Number.isSafeInteger(count) || count > owned) return "兑换材料不足，请核对订单";
+			}
+			if (!Number.isSafeInteger(state.total) || mode === "buy" && state.total > state.money || options.maxTotal !== void 0 && state.total > options.maxTotal) return "持有金额不足或订单金额无效";
+			pending = true;
+			submit([...order.values()].map((entry) => ({
+				ITID: entry.ITID,
+				index: entry.index,
+				count: entry.count,
+				...entry.currencyITID ? {
+					shopIndex: entry.index,
+					matcurrency: entry.currencyITID
+				} : {},
+				...options.type === "cash" ? {
+					price: entry.price,
+					discountprice: entry.discountprice
+				} : {}
+			})));
+			if (options.requestOnly) {
+				finished = true;
+				showInteraction({
+					kind: "notice",
+					title: "购买请求已发送",
+					lines: ["购买结果以服务器返回的背包、金额和消息为准。"],
+					close: () => clearInteraction("notice")
+				});
+			}
+			return "已提交，等待服务器回复";
+		},
+		acknowledgeSale(index, count) {
+			if (!pending || options.type !== "player-buying") return false;
+			const entry = order.get(index);
+			if (!entry) return false;
+			entry.count -= count;
+			if (entry.count <= 0) order.delete(index);
+			return order.size === 0;
+		},
+		finish() {
+			finished = true;
+			if (options.closeAfterResult) quit();
+		},
+		close() {
+			if (interactionSnapshot()?.token !== token) return;
+			finished = true;
+			clearInteraction("shop");
+			quit();
+		}
+	};
+	showInteraction({
+		kind: "shop",
+		title: options.title || (mode === "buy" ? "购买物品" : "出售物品"),
+		shopType: options.type || mode,
+		token,
+		service,
+		close: service.close
+	});
+	return service;
+}
+function finishGameShop(message) {
+	if (interactionSnapshot()?.kind !== "shop") return false;
+	interactionSnapshot().service.finish();
+	showInteraction({
+		kind: "notice",
+		title: "交易结果",
+		lines: [toPlainRagnarokText(message)],
+		close: () => clearInteraction("notice")
+	});
+	return true;
+}
+var init_GameShop = __esmMin((() => {
+	init_DBManager();
+	init_InventoryItems();
+	init_RagnarokText();
+	init_Inventory();
+	init_SessionStorage();
+	init_GameInventory();
+	init_ServerInteraction();
 }));
 //#endregion
 //#region src/UI/Components/NpcStore/NpcStore.html?raw
@@ -373473,13 +381676,15 @@ var init_NpcStore = __esmMin((() => {
 * @param {object} pkt - PACKET.ZC.ZC_PC_CASH_POINT_ITEMLIST
 */
 function onBuyCashList(pkt) {
-	NpcStore_default.append();
-	NpcStore_default.setType(NpcStore_default.Type.CASH_SHOP);
-	NpcStore_default.setList(pkt.itemList);
-	const entity = SessionStorage_default.Entity;
-	NpcStore_default.ui.find(".cashuser .buyer").text(entity ? entity.display.name : "");
-	NpcStore_default.ui.find(".cashuser .cashpoints").text(pkt.KafraPoint);
-	NpcStore_default.onSubmit = (itemList) => {
+	if (!Platform.isMobile) {
+		NpcStore_default.append();
+		NpcStore_default.setType(NpcStore_default.Type.CASH_SHOP);
+		NpcStore_default.setList(pkt.itemList);
+		const entity = SessionStorage_default.Entity;
+		NpcStore_default.ui.find(".cashuser .buyer").text(entity ? entity.display.name : "");
+		NpcStore_default.ui.find(".cashuser .cashpoints").text(pkt.KafraPoint);
+	}
+	const submit = (itemList) => {
 		const _pkt = new PACKET.CZ.PC_BUY_CASH_POINT_ITEM();
 		const count = itemList.length;
 		_pkt.kafrapts = 0;
@@ -373490,6 +381695,14 @@ function onBuyCashList(pkt) {
 		});
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile) openGameShop("buy", pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_TRADE_QUIT()), {
+		type: "cash",
+		title: "点数商店",
+		currency: "商店点数",
+		balance: pkt.KafraPoint,
+		closeAfterResult: true
+	});
+	else NpcStore_default.onSubmit = submit;
 }
 /**
 * Received items list to sell
@@ -373497,6 +381710,10 @@ function onBuyCashList(pkt) {
 * @param {object} pkt - PACKET.ZC.ZC_PC_CASH_POINT_ITEMLIST
 */
 function onBuyVendingList(pkt) {
+	if (Platform.isMobile) {
+		setOwnedVending("sell", pkt);
+		return;
+	}
 	VendingShop_default.append();
 	VendingShop_default.setType(VendingShop_default.Type.VENDING_LIST);
 	VendingShop_default.setItems(pkt.itemList);
@@ -373507,11 +381724,19 @@ function onBuyVendingList(pkt) {
 * @param {object} pkt - PACKET.ZC.ZC_PC_CASH_POINT_ITEMLIST
 */
 function onBuyingList(pkt) {
+	if (Platform.isMobile) {
+		setOwnedVending("buy", pkt);
+		return;
+	}
 	VendingShop_default.append();
 	VendingShop_default.setType(VendingShop_default.Type.BUYING_LIST);
 	VendingShop_default.setItems(pkt.itemList);
 }
 function onDeleteVendingItem(pkt) {
+	if (Platform.isMobile) {
+		updateOwnedVending(pkt.index, pkt.count);
+		return;
+	}
 	if (PacketVerManager_default.value >= 20141016) VendingReport_default.add(pkt);
 	VendingShop_default.removeItem(pkt.index, pkt.count);
 }
@@ -373521,10 +381746,12 @@ function onDeleteVendingItem(pkt) {
 * @param {object} pkt - PACKET.ZC.PC_PURCHASE_ITEMLIST
 */
 function onBuyList(pkt) {
-	NpcStore_default.append();
-	NpcStore_default.setType(NpcStore_default.Type.BUY);
-	NpcStore_default.setList(pkt.itemList);
-	NpcStore_default.onSubmit = (itemList) => {
+	if (!Platform.isMobile) {
+		NpcStore_default.append();
+		NpcStore_default.setType(NpcStore_default.Type.BUY);
+		NpcStore_default.setList(pkt.itemList);
+	}
+	const submit = (itemList) => {
 		const _pkt = new PACKET.CZ.PC_PURCHASE_ITEMLIST();
 		const count = itemList.length;
 		for (let i = 0; i < count; ++i) _pkt.itemList.push({
@@ -373533,6 +381760,8 @@ function onBuyList(pkt) {
 		});
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile) openGameShop("buy", pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_TRADE_QUIT()));
+	else NpcStore_default.onSubmit = submit;
 }
 /**
 * Received items list to from barter NPC
@@ -373540,10 +381769,12 @@ function onBuyList(pkt) {
 * @param {object} pkt - PACKET.ZC.NPC_BARTER_MARKET_ITEMINFO
 */
 function onBarterBuyList(pkt) {
-	NpcStore_default.append();
-	NpcStore_default.setType(NpcStore_default.Type.BARTER_MARKET);
-	NpcStore_default.setList(pkt.itemList);
-	NpcStore_default.onSubmit = (itemList) => {
+	if (!Platform.isMobile) {
+		NpcStore_default.append();
+		NpcStore_default.setType(NpcStore_default.Type.BARTER_MARKET);
+		NpcStore_default.setList(pkt.itemList);
+	}
+	const submit = (itemList) => {
 		const _pkt = new PACKET.CZ.NPC_BARTER_MARKET_PURCHASE();
 		const count = itemList.length;
 		for (let i = 0; i < count; ++i) {
@@ -373558,6 +381789,12 @@ function onBarterBuyList(pkt) {
 		}
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile) openGameShop("buy", pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_BARTER_MARKET_CLOSE()), {
+		type: "barter",
+		title: "材料兑换",
+		closeAfterResult: true
+	});
+	else NpcStore_default.onSubmit = submit;
 }
 /**
 * Received items list to from expanded barter NPC
@@ -373565,10 +381802,12 @@ function onBarterBuyList(pkt) {
 * @param {object} pkt - PACKET.ZC.NPC_EXPANDED_BARTER_MARKET_ITEMINFO
 */
 function onExpandedBarterBuyList(pkt) {
-	NpcStore_default.append();
-	NpcStore_default.setType(NpcStore_default.Type.BARTER_MARKET_EXTENDED);
-	NpcStore_default.setList(pkt.itemList);
-	NpcStore_default.onSubmit = (itemList) => {
+	if (!Platform.isMobile) {
+		NpcStore_default.append();
+		NpcStore_default.setType(NpcStore_default.Type.BARTER_MARKET_EXTENDED);
+		NpcStore_default.setList(pkt.itemList);
+	}
+	const submit = (itemList) => {
 		const _pkt = new PACKET.CZ.NPC_EXPANDED_BARTER_MARKET_PURCHASE();
 		const count = itemList.length;
 		for (let i = 0; i < count; ++i) _pkt.itemList.push({
@@ -373578,6 +381817,12 @@ function onExpandedBarterBuyList(pkt) {
 		});
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile) openGameShop("buy", pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_EXPANDED_BARTER_MARKET_CLOSE()), {
+		type: "barter-expanded",
+		title: "材料兑换",
+		closeAfterResult: true
+	});
+	else NpcStore_default.onSubmit = submit;
 }
 /**
 * Received purchased informations
@@ -373585,6 +381830,18 @@ function onExpandedBarterBuyList(pkt) {
 * @param {object} pkt - PACKET_ZC_PC_PURCHASE_RESULT
 */
 function onBuyResult(pkt) {
+	if (Platform.isMobile && finishGameShop(DB.getMessage({
+		0: 54,
+		1: 55,
+		2: 56,
+		4: 230,
+		5: 281,
+		7: 1797,
+		11: 3554,
+		12: 3555,
+		13: 3557,
+		14: 3556
+	}[pkt.result] ?? 57))) return;
 	NpcStore_default.remove();
 	switch (pkt.result) {
 		case 0:
@@ -373627,6 +381884,15 @@ function onBuyResult(pkt) {
 * @param {object} pkt - PACKET_ZC_PC_CASH_POINT_UPDATE
 */
 function onBuyCashResult(pkt) {
+	if (Platform.isMobile && finishGameShop(DB.getMessage({
+		0: 54,
+		1: 1227,
+		2: 1228,
+		4: 1229,
+		5: 1230,
+		6: 1254,
+		7: 1813
+	}[pkt.Error] ?? 1814))) return;
 	if (NpcStore_default.getCurrentType() >= 4 && NpcStore_default.getCurrentType() != NpcStore_default.Type.CASH_SHOP) {
 		NpcStore_default.setClosePacketSent(true);
 		NpcStore_default.remove();
@@ -373664,6 +381930,7 @@ function onBuyCashResult(pkt) {
 * @param {object} pkt - FAILED_TRADE_BUYING_STORE_TO_SELLER
 */
 function onSellToBuyingStoreResult(pkt) {
+	if (Platform.isMobile && finishGameShop("收购交易未全部完成，请检查物品数量和对方预算；已成交部分以背包更新为准。")) return;
 	switch (pkt.Result) {
 		case 6:
 			ChatBox_default.addText(DB.getMessage(1742), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
@@ -373680,10 +381947,12 @@ function onSellToBuyingStoreResult(pkt) {
 * @param {object} pkt - PACKET.ZC.PC_SELL_ITEMLIST
 */
 function onSellList(pkt) {
-	NpcStore_default.append();
-	NpcStore_default.setType(NpcStore_default.Type.SELL);
-	NpcStore_default.setList(pkt.itemList);
-	NpcStore_default.onSubmit = (itemList) => {
+	if (!Platform.isMobile) {
+		NpcStore_default.append();
+		NpcStore_default.setType(NpcStore_default.Type.SELL);
+		NpcStore_default.setList(pkt.itemList);
+	}
+	const submit = (itemList) => {
 		const _pkt = new PACKET.CZ.PC_SELL_ITEMLIST();
 		const count = itemList.length;
 		for (let i = 0; i < count; ++i) _pkt.itemList.push({
@@ -373692,6 +381961,8 @@ function onSellList(pkt) {
 		});
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile) openGameShop("sell", pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_TRADE_QUIT()));
+	else NpcStore_default.onSubmit = submit;
 }
 /**
 * Receive sell list result
@@ -373699,6 +381970,7 @@ function onSellList(pkt) {
 * @param {object} pkt - PACKET_ZC.PC.SELL_RESULT
 */
 function onSellResult(pkt) {
+	if (Platform.isMobile && finishGameShop(DB.getMessage(pkt.result === 0 ? 54 : 57))) return;
 	NpcStore_default.setClosePacketSent(true);
 	NpcStore_default.remove();
 	if (pkt.result === 0) ChatBox_default.addText(DB.getMessage(54), ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PUBLIC_LOG);
@@ -373710,14 +381982,18 @@ function onSellResult(pkt) {
 * @param {object} pkt - PACKET.ZC.PC_PURCHASE_ITEMLIST_FROMMC
 */
 function onVendingStoreList(_pkt) {
-	NpcStore_default.append();
-	NpcStore_default.setType(NpcStore_default.Type.VENDING_STORE);
-	NpcStore_default.setList(_pkt.itemList);
-	const entity = EntityManager.get(_pkt.AID);
-	NpcStore_default.ui.find(".seller").text(entity ? entity.display.name : "");
-	NpcStore_default.onSubmit = function(itemList) {
-		NpcStore_default.setClosePacketSent(true);
-		NpcStore_default.remove();
+	if (!Platform.isMobile) {
+		NpcStore_default.append();
+		NpcStore_default.setType(NpcStore_default.Type.VENDING_STORE);
+		NpcStore_default.setList(_pkt.itemList);
+		const entity = EntityManager.get(_pkt.AID);
+		NpcStore_default.ui.find(".seller").text(entity ? entity.display.name : "");
+	}
+	const submit = function(itemList) {
+		if (!Platform.isMobile) {
+			NpcStore_default.setClosePacketSent(true);
+			NpcStore_default.remove();
+		}
 		let pkt;
 		if (_pkt instanceof PACKET.ZC.PC_PURCHASE_ITEMLIST_FROMMC3) {
 			pkt = new PACKET.CZ.PC_PURCHASE_ITEMLIST_FROMMC2();
@@ -373734,6 +382010,15 @@ function onVendingStoreList(_pkt) {
 		});
 		Network.sendPacket(pkt);
 	};
+	if (Platform.isMobile) openGameShop("buy", _pkt.itemList.map((item) => ({
+		...item,
+		qty: item.count
+	})), submit, () => {}, {
+		type: "player-vending",
+		title: "玩家售卖摊位",
+		requestOnly: true
+	});
+	else NpcStore_default.onSubmit = submit;
 }
 /**
 * Received items list to buy from player
@@ -373741,15 +382026,19 @@ function onVendingStoreList(_pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_ITEMLIST_BUYING_STORE
 */
 function onBuyingStoreList(_pkt) {
-	NpcStore_default.append();
-	NpcStore_default.setType(NpcStore_default.Type.BUYING_STORE);
-	NpcStore_default.setList(_pkt.itemList);
-	NpcStore_default.setPriceLimit(_pkt.limitZeny);
-	const entity = EntityManager.get(_pkt.AID);
-	NpcStore_default.ui.find(".seller").text(entity ? entity.display.name : "");
-	NpcStore_default.onSubmit = function(itemList) {
-		NpcStore_default.setClosePacketSent(true);
-		NpcStore_default.remove();
+	if (!Platform.isMobile) {
+		NpcStore_default.append();
+		NpcStore_default.setType(NpcStore_default.Type.BUYING_STORE);
+		NpcStore_default.setList(_pkt.itemList);
+		NpcStore_default.setPriceLimit(_pkt.limitZeny);
+		const entity = EntityManager.get(_pkt.AID);
+		NpcStore_default.ui.find(".seller").text(entity ? entity.display.name : "");
+	}
+	const submit = function(itemList) {
+		if (!Platform.isMobile) {
+			NpcStore_default.setClosePacketSent(true);
+			NpcStore_default.remove();
+		}
 		const pkt = new PACKET.CZ.REQ_TRADE_BUYING_STORE();
 		pkt.UniqueID = _pkt.UniqueID;
 		pkt.AID = _pkt.AID;
@@ -373761,6 +382050,20 @@ function onBuyingStoreList(_pkt) {
 		});
 		Network.sendPacket(pkt);
 	};
+	if (Platform.isMobile) openGameShop("sell", InventoryController.getUI().list.flatMap((item) => {
+		const offer = _pkt.itemList.find((row) => row.ITID === item.ITID);
+		return offer && !item.equipped && item.IsIdentified ? [{
+			...offer,
+			index: item.index,
+			qty: offer.count
+		}] : [];
+	}), submit, () => {}, {
+		type: "player-buying",
+		title: "出售给玩家收购摊位",
+		limitToOffer: true,
+		maxTotal: _pkt.limitZeny
+	});
+	else NpcStore_default.onSubmit = submit;
 }
 /**
 * Open vending creation window with X slots
@@ -373768,6 +382071,10 @@ function onBuyingStoreList(_pkt) {
 * @param {object} pkt - PACKET.ZC.PACKET_ZC_OPENSTORE
 */
 function onOpenVending(pkt) {
+	if (Platform.isMobile) {
+		openVendingSetup("sell", pkt.itemcount);
+		return;
+	}
 	if (Vending_default.isOpen) return;
 	Vending_default.setType(Vending_default.Type.VENDING_STORE);
 	Vending_default.onVendingSkill(pkt);
@@ -373778,6 +382085,10 @@ function onOpenVending(pkt) {
 * @param {object} pkt - PACKET.ZC.PACKET_ZC_OPENSTORE
 */
 function onOpenBuying(pkt) {
+	if (Platform.isMobile) {
+		openVendingSetup("buy", pkt.itemcount);
+		return;
+	}
 	Vending_default.setType(Vending_default.Type.BUYING_STORE);
 	Vending_default.onBuyingSkill(pkt);
 }
@@ -373786,13 +382097,19 @@ function onOpenBuying(pkt) {
 *
 * @param {object} pkt - PACKET.ZC.ACK_OPENSTORE2
 */
-function onOpenVendingResult(pkt) {}
+function onOpenVendingResult(pkt) {
+	if (Platform.isMobile && pkt.result !== 0) vendingSetupFailed();
+}
 /**
 * Open vending creation window with X slots
 *
 * @param {object} pkt - PACKET.ZC.ACK_OPENSTORE2
 */
 function onOpenBuyingResult(pkt) {
+	if (Platform.isMobile) {
+		vendingSetupFailed();
+		return;
+	}
 	switch (pkt.Result) {
 		case 1:
 			ChatBox_default.addText(DB.getMessage(1741), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
@@ -373809,10 +382126,12 @@ function onOpenBuyingResult(pkt) {
 * @param {object} pkt - PACKET.ZC.NPC_MARKET_OPEN2
 */
 function onMarketShop(pkt) {
-	NpcStore_default.append();
-	NpcStore_default.setType(NpcStore_default.Type.MARKETSHOP);
-	NpcStore_default.setList(pkt.itemList);
-	NpcStore_default.onSubmit = (itemList) => {
+	if (!Platform.isMobile) {
+		NpcStore_default.append();
+		NpcStore_default.setType(NpcStore_default.Type.MARKETSHOP);
+		NpcStore_default.setList(pkt.itemList);
+	}
+	const submit = (itemList) => {
 		const _pkt = new PACKET.CZ.NPC_MARKET_PURCHASE();
 		const count = itemList.length;
 		for (let i = 0; i < count; ++i) _pkt.itemList.push({
@@ -373821,6 +382140,12 @@ function onMarketShop(pkt) {
 		});
 		Network.sendPacket(_pkt);
 	};
+	if (Platform.isMobile) openGameShop("buy", pkt.itemList, submit, () => Network.sendPacket(new PACKET.CZ.NPC_MARKET_CLOSE()), {
+		type: "market",
+		title: "限量商店",
+		closeAfterResult: true
+	});
+	else NpcStore_default.onSubmit = submit;
 }
 /**
 * Handles marketshop purchase result packet
@@ -373829,12 +382154,22 @@ function onMarketShop(pkt) {
 * @param {PACKET.ZC.NPC_MARKET_PURCHASE_RESULT2} pkt
 */
 function onMarketShopResult(pkt) {
+	if (Platform.isMobile && finishGameShop(DB.getMessage(pkt.result === 0 ? 54 : 57))) return;
 	if (pkt) switch (pkt.result) {
 		case 0:
 		case 1:
 			ChatBox_default.addText(DB.getMessage(54), ChatBox_default.TYPE.BLUE, ChatBox_default.FILTER.PUBLIC_LOG);
 			NpcStore_default.onMarketShopResultUI(pkt.itemList);
 	}
+}
+function onBuyingItemDeleted(pkt) {
+	InventoryController.getUI().removeItem(pkt.index, pkt.count);
+	if (Platform.isMobile && interactionSnapshot()?.shopType === "player-buying") {
+		if (interactionSnapshot().service.acknowledgeSale(pkt.index, pkt.count)) finishGameShop("订单已成交");
+	}
+}
+function onBuyingStoreUpdated(pkt) {
+	if (Platform.isMobile) updateOwnedVending(pkt.ITID, pkt.count, true, pkt.limitZeny);
 }
 /**
 * Initialize
@@ -373855,6 +382190,11 @@ function MainEngine$9() {
 	Network.hookPacket(PACKET.ZC.PC_PURCHASE_MYITEMLIST2, onBuyVendingList);
 	Network.hookPacket(PACKET.ZC.DELETEITEM_FROM_MCSTORE, onDeleteVendingItem);
 	Network.hookPacket(PACKET.ZC.DELETEITEM_FROM_MCSTORE2, onDeleteVendingItem);
+	Network.hookPacket(PACKET.ZC.FAILED_TRADE_BUYING_STORE_TO_BUYER, () => {
+		if (Platform.isMobile) finishOwnedBuying();
+	});
+	Network.hookPacket(PACKET.ZC.ITEM_DELETE_BUYING_STORE, onBuyingItemDeleted);
+	Network.hookPacket(PACKET.ZC.UPDATE_ITEM_FROM_BUYING_STORE2, onBuyingStoreUpdated);
 	Network.hookPacket(PACKET.ZC.OPENSTORE, onOpenVending);
 	Network.hookPacket(PACKET.ZC.ACK_OPENSTORE2, onOpenVendingResult);
 	Network.hookPacket(PACKET.ZC.OPEN_BUYING_STORE, onOpenBuying);
@@ -373870,6 +382210,10 @@ function MainEngine$9() {
 	Network.hookPacket(PACKET.ZC.NPC_EXPANDED_BARTER_MARKET_ITEMINFO, onExpandedBarterBuyList);
 }
 var init_Store = __esmMin((() => {
+	init_ServerInteraction();
+	init_GameVending();
+	init_Platform();
+	init_GameShop();
 	init_DBManager();
 	init_SessionStorage();
 	init_NetworkManager();
@@ -373882,6 +382226,144 @@ var init_Store = __esmMin((() => {
 	init_VendingReport();
 	init_VendingShop();
 	init_ChatBox();
+}));
+//#endregion
+//#region src/UI/Game/GameTrade.js
+function openGameTrade(name, callbacks) {
+	const token = {}, offered = /* @__PURE__ */ new Map(), received = [];
+	let cancelling = false;
+	let guard = () => !SessionStorage_default.FreezeUI, pending = null, ownLocked = false, peerLocked = false;
+	let money = 0, peerMoney = 0, status = "添加物品和金额后锁定报价，再核对双方内容确认成交。";
+	const owned = () => interactionSnapshot()?.token === token;
+	const allowed = () => owned() && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
+	const inventory = createGameInventory(allowed);
+	const eligible = (item) => item && !item.equipped && !InventoryController.getUI().equipswitchlist.some((entry) => entry.index === item.index);
+	const service = {
+		setOperationGuard: (value) => {
+			guard = value;
+		},
+		snapshot() {
+			return {
+				name,
+				status,
+				pending: Boolean(pending || cancelling),
+				ownLocked,
+				peerLocked,
+				money,
+				peerMoney,
+				allowed: Boolean(allowed()),
+				balance: SessionStorage_default.zeny,
+				items: InventoryController.getUI().list.filter((item) => eligible(item) && !offered.has(item.index)).map((item) => ({
+					...inventory.describe(item),
+					identity: identity(item)
+				})),
+				offered: [...offered.values()].map((item) => inventory.describe(item)),
+				received: received.map((item) => inventory.describe(item))
+			};
+		},
+		add(index, expected, count) {
+			const item = InventoryController.getUI().getItemByIndex(index);
+			if (!allowed() || cancelling || pending || ownLocked || !eligible(item) || identity(item) !== expected || offered.has(index) || offered.size >= 10 || !Number.isInteger(count) || count < 1 || count > Math.min(32767, itemQuantity(item))) return "物品或数量已变化，无法加入交易";
+			pending = {
+				type: "item",
+				index,
+				item: {
+					...item,
+					count
+				}
+			};
+			callbacks.add(index, count);
+			return "等待服务器确认物品";
+		},
+		setMoney(value) {
+			if (!allowed() || cancelling || pending || ownLocked || !Number.isInteger(value) || value < 0 || value > Math.min(SessionStorage_default.zeny, 2147483647)) return "金额无效或正在等待回复";
+			money = value;
+			callbacks.add(0, value);
+			return "金额已发送，请核对后锁定报价";
+		},
+		acknowledge(index, success) {
+			if (!owned() || pending?.type !== "item" || pending.index !== index) return;
+			const request = pending;
+			pending = null;
+			if (success) {
+				InventoryController.getUI().removeItem(index, request.item.count);
+				offered.set(index, request.item);
+			}
+			status = success ? "物品已加入；需要修改请取消后重新交易" : "服务器拒绝加入该物品";
+		},
+		receive(item) {
+			if (!owned() || pending?.type === "execute") return;
+			if (!item.ITID) peerMoney = item.count;
+			else received.push({
+				...item,
+				index: received.length
+			});
+			status = "对方更新了报价，请重新核对";
+		},
+		lock() {
+			if (!allowed() || cancelling || pending || ownLocked || money > SessionStorage_default.zeny) return "当前无法锁定报价";
+			pending = { type: "lock" };
+			callbacks.lock();
+			return "等待服务器锁定报价";
+		},
+		conclude(peer) {
+			if (!owned()) return;
+			if (peer) peerLocked = true;
+			else {
+				ownLocked = true;
+				if (pending?.type === "lock") pending = null;
+			}
+			status = ownLocked && peerLocked ? "双方已锁定，请核对物品和金额后确认成交" : "等待另一方锁定报价";
+		},
+		execute() {
+			if (!allowed() || cancelling || pending || !ownLocked || !peerLocked) return "双方尚未锁定报价";
+			pending = { type: "execute" };
+			callbacks.execute();
+			return "已确认，等待交易结果";
+		},
+		cancel() {
+			if (!allowed() || cancelling || pending?.type === "execute") return "正在等待交易结果";
+			cancelling = true;
+			callbacks.cancel();
+			return "等待服务器取消交易";
+		},
+		finish(message) {
+			if (!owned()) return;
+			showInteraction({
+				kind: "notice",
+				title: "交易结果",
+				lines: [message],
+				close: () => clearInteraction("notice")
+			});
+		}
+	};
+	showInteraction({
+		kind: "trade",
+		title: `与 ${name} 交易`,
+		token,
+		service,
+		canClose: false
+	});
+	return service;
+}
+function currentGameTrade() {
+	const current = interactionSnapshot();
+	return current?.kind === "trade" ? current.service : null;
+}
+var identity;
+var init_GameTrade = __esmMin((() => {
+	init_SessionStorage();
+	init_Inventory();
+	init_GameInventory();
+	init_InventoryItems();
+	init_ServerInteraction();
+	identity = (item) => JSON.stringify([
+		item.ITID,
+		item.RefiningLevel,
+		item.enchantgrade,
+		item.slot,
+		item.Options
+	]);
 }));
 //#endregion
 //#region src/Engine/MapEngine/Trade.js
@@ -373935,7 +382417,13 @@ function onTradeRequestAnswer(pkt) {
 			break;
 		case 3:
 			if ("level" in pkt && "GID" in pkt) Trade_default.title += `  Lv${pkt.level} (${tradeGIDEncoding(pkt.GID)})`;
-			Trade_default.append();
+			if (Platform.isMobile) openGameTrade(Trade_default.title, {
+				add: Trade_default.reqAddItem,
+				lock: Trade_default.onConclude,
+				execute: Trade_default.onTradeSubmit,
+				cancel: Trade_default.onCancel
+			});
+			else Trade_default.append();
 			break;
 		case 4: ChatBox_default.addText(DB.getMessage(74), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 	}
@@ -373946,6 +382434,10 @@ function onTradeRequestAnswer(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_ADD_EXCHANGE_ITEM
 */
 function onAddItemResult(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.acknowledge(pkt.Index, pkt.result === 0);
+		return;
+	}
 	switch (pkt.result) {
 		case 1:
 			ChatBox_default.addText(DB.getMessage(73), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
@@ -373960,6 +382452,10 @@ function onAddItemResult(pkt) {
 * @param {object} pkt - PACKET.ZC.ADD_EXCHANGE_ITEM
 */
 function onItemAdded(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.receive(pkt);
+		return;
+	}
 	Trade_default.addItem(pkt);
 }
 /**
@@ -373968,6 +382464,10 @@ function onItemAdded(pkt) {
 * @param {object} pkt - PACKET.ZC.CANCEL_EXCHANGE_ITEM
 */
 function onTradeCancel(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.finish(DB.getMessage(74));
+		return;
+	}
 	ChatBox_default.addText(DB.getMessage(74), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 	Trade_default.remove();
 }
@@ -373977,6 +382477,10 @@ function onTradeCancel(pkt) {
 * @param {object} pkt - PACKET.ZC.CONCLUDE_EXCHANGE_ITEM
 */
 function onTradeConclude(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.conclude(Boolean(pkt.who));
+		return;
+	}
 	Trade_default.conclude(pkt.who ? "recv" : "send");
 }
 /**
@@ -373985,6 +382489,10 @@ function onTradeConclude(pkt) {
 * @param {object} pkt - PACKET.ZC.EXEC_EXCHANGE_ITEM
 */
 function onTradeSubmitAnswer(pkt) {
+	if (Platform.isMobile) {
+		currentGameTrade()?.finish(DB.getMessage(pkt.result === 1 ? 76 : 75));
+		return;
+	}
 	if (pkt.result === 1) {
 		ChatBox_default.addText(DB.getMessage(76), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 		Trade_default.remove();
@@ -374012,6 +382520,8 @@ function MainEngine$8() {
 	Network.hookPacket(PACKET.ZC.EXEC_EXCHANGE_ITEM, onTradeSubmitAnswer);
 }
 var init_Trade = __esmMin((() => {
+	init_Platform();
+	init_GameTrade();
 	init_DBManager();
 	init_NetworkManager();
 	init_PacketStructure();
@@ -374466,6 +382976,10 @@ var init_ReadRodex = __esmMin((() => {
 * @param {object} pkt - PACKET.ZC.RODEX_ICON
 */
 function rodexIcon(pkt) {
+	if (Platform.isMobile) {
+		setGameMailUnread(pkt.show);
+		return;
+	}
 	if (pkt.show) RodexIcon_default.append();
 	else RodexIcon_default.remove();
 }
@@ -374475,6 +382989,10 @@ function rodexIcon(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_RODEX_LIST
 */
 function rodexList(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("list", pkt);
+		return;
+	}
 	Rodex_default.initData(pkt);
 }
 /**
@@ -374483,6 +383001,10 @@ function rodexList(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_FAILED_ALL_RODEX_LIST
 */
 function rodexGetListFailed(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("listFailed", pkt);
+		return;
+	}
 	Rodex_default.getListFailed(pkt);
 }
 /**
@@ -374491,6 +383013,10 @@ function rodexGetListFailed(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_READ_RODEX
 */
 function rodexRead(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("read", pkt);
+		return;
+	}
 	const mail = Rodex_default.getMailByID(pkt.MailID);
 	ReadRodex_default.append();
 	ReadRodex_default.initData(pkt, mail);
@@ -374501,6 +383027,10 @@ function rodexRead(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_ZENY_FROM_RODEX
 */
 function rodexGetZeny(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("zeny", pkt);
+		return;
+	}
 	switch (pkt.result) {
 		case 1:
 			ChatBox_default.addText(DB.getMessage(2592), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
@@ -374519,6 +383049,10 @@ function rodexGetZeny(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_ITEM_FROM_RODEX
 */
 function rodexGetItem(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("items", pkt);
+		return;
+	}
 	switch (pkt.result) {
 		case 1:
 			ChatBox_default.addText(DB.getMessage(2589), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
@@ -374537,6 +383071,10 @@ function rodexGetItem(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_OPEN_WRITE_RODEX
 */
 function openWindowsWriteMail(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("compose", pkt);
+		return;
+	}
 	WriteRodex_default.append();
 	WriteRodex_default.initData(pkt);
 }
@@ -374546,6 +383084,10 @@ function openWindowsWriteMail(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_ADD_ITEM_RODEX
 */
 function onRodexItemAdded(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("add", pkt);
+		return;
+	}
 	if (!pkt.result) {
 		ChatBox_default.addText(DB.getMessage(2594), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
 		WriteRodex_default.addItem(pkt);
@@ -374557,6 +383099,10 @@ function onRodexItemAdded(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_REMOVE_RODEX_ITEM
 */
 function onRodexRemoveItem(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("remove", pkt);
+		return;
+	}
 	if (pkt.result) {
 		ChatBox_default.addText(DB.getMessage(2589), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
 		WriteRodex_default.removeItem(pkt.index, pkt.count, pkt.weight);
@@ -374568,6 +383114,10 @@ function onRodexRemoveItem(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_SEND_RODEX
 */
 function rodexSend(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("send", pkt);
+		return;
+	}
 	if (!pkt.result) ChatBox_default.addText(DB.getMessage(2587), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
 	else ChatBox_default.addText(DB.getMessage(2597), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
 	WriteRodex_default.close();
@@ -374578,6 +383128,10 @@ function rodexSend(pkt) {
 * @param {object} pkt - PACKET.ZC.ACK_DELETE_RODEX
 */
 function rodexDelete(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("delete", pkt);
+		return;
+	}
 	if (!pkt.result) {
 		ChatBox_default.addText(DB.getMessage(1038), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
 		Rodex_default.updateDeletedMailContent(pkt.openType, pkt.MailID);
@@ -374585,6 +383139,10 @@ function rodexDelete(pkt) {
 	} else ChatBox_default.addText(DB.getMessage(1039), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
 }
 function rodexCharacterInfo(pkt) {
+	if (Platform.isMobile) {
+		receiveGameMail("validate", pkt);
+		return;
+	}
 	if (pkt.CharID > 0) WriteRodex_default.characterInfo(pkt);
 	else ChatBox_default.addText(DB.getMessage(2615), ChatBox_default.TYPE.INFO_MAIL, ChatBox_default.FILTER.PUBLIC_LOG);
 }
@@ -374612,6 +383170,8 @@ function MainEngine$5() {
 	Network.hookPacket(PACKET.ZC.CHECK_RECEIVE_CHARACTER_NAME2, rodexCharacterInfo);
 }
 var init_Rodex = __esmMin((() => {
+	init_Platform();
+	init_GameMail();
 	init_DBManager();
 	init_ChatBox();
 	init_NetworkManager();
@@ -375338,6 +383898,10 @@ function onOpenBank(pkt) {
 	Network.sendPacket(send_pkt);
 }
 function onBankInfo(pkt) {
+	if (Platform.isMobile) {
+		openGameBank(pkt.money);
+		return;
+	}
 	if (!Bank_default.__active) {
 		Bank_default.append();
 		Bank_default.updateBankDisplay(pkt.money, SessionStorage_default.zeny);
@@ -375345,9 +383909,17 @@ function onBankInfo(pkt) {
 	}
 }
 function onBankClose() {
+	if (Platform.isMobile) {
+		closeGameBank();
+		return;
+	}
 	if (Bank_default.__active) Bank_default.remove();
 }
 function onBankDepoUpdate(pkt) {
+	if (Platform.isMobile && pkt) {
+		updateGameBank(pkt);
+		return;
+	}
 	if (!pkt) return;
 	switch (pkt.reason) {
 		case 0:
@@ -375366,6 +383938,10 @@ function onBankDepoUpdate(pkt) {
 	Bank_default.clearInput();
 }
 function onBankWithdrawUpdate(pkt) {
+	if (Platform.isMobile && pkt) {
+		updateGameBank(pkt);
+		return;
+	}
 	if (!pkt) return;
 	switch (pkt.reason) {
 		case 0:
@@ -375380,6 +383956,8 @@ function onBankWithdrawUpdate(pkt) {
 }
 var BankEngine;
 var init_Bank = __esmMin((() => {
+	init_Platform();
+	init_GameBank();
 	init_DBManager();
 	init_NetworkManager();
 	init_PacketStructure();
@@ -375513,11 +384091,13 @@ function onConfig(pkt) {
 			ChatBox_default.addText(DB.getMessage(2978 + (pkt.Value ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 2:
-			PetInformations_default.setFeedConfig(pkt.Value);
+			if (Platform.isMobile) updateGamePetAutoFeed(pkt.Value);
+			else PetInformations_default.setFeedConfig(pkt.Value);
 			ChatBox_default.addText(DB.getMessage(2579 + (pkt.Value ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 3:
-			HomunInformations_default.setFeedConfig(pkt.Value);
+			if (Platform.isMobile) updateGameCompanionAutoFeed(pkt.Value);
+			else HomunInformations_default.setFeedConfig(pkt.Value);
 			ChatBox_default.addText(DB.getMessage(3282 + (pkt.Value ? 0 : 1)), ChatBox_default.TYPE.INFO, ChatBox_default.FILTER.PUBLIC_LOG);
 			break;
 		case 5:
@@ -375604,6 +384184,13 @@ function onConnectionAccepted$2(pkt) {
 	SessionStorage_default.hasParty = false;
 	SessionStorage_default.isPartyLeader = false;
 	SessionStorage_default.hasGuild = false;
+	if (Platform.isMobile) {
+		Guild_default.resetSocialState();
+		resetGameVending();
+		setGameMailUnread(false);
+		resetGamePet();
+		resetGameCompanions();
+	}
 	SessionStorage_default.guildRight = 0;
 	SessionStorage_default.homunId = 0;
 	SessionStorage_default.mapState = {
@@ -375710,45 +384297,49 @@ function onMapChange(pkt) {
 		}
 		Camera.setTarget(SessionStorage_default.Entity);
 		Camera.init();
-		Controller$5.getUI().append();
+		appendGameComponent(Controller$5.getUI());
 		Controller$5.getUI().setMap(MapRenderer.currentMap);
 		if (Configs.get("enableMapName")) {
 			MapName_default.setMap(MapRenderer.currentMap);
-			MapName_default.append();
+			appendGameComponent(MapName_default);
 		}
-		ChatBox_default.append();
-		ChatBoxSettings_default.append();
-		BasicInfoController.getUI().append();
-		Escape_default.append();
-		InventoryController.getUI().append();
-		CartItems_default.append();
-		Vending_default.append();
-		ChangeCart_default.append();
-		CartDecoration_default.append();
-		EquipmentController.getUI().append();
-		ShortCuts_default.append();
-		StatusIcons_default.append();
-		ShortCut_default.append();
-		ChatRoomCreate_default.append();
-		Emoticons_default.append();
-		Controller$4.getUI().append();
-		FPS_default.append();
-		controller.getUI().append();
-		Guild_default.append();
-		WorldMap_default.append();
-		SkillListMH_default.homunculus.append();
-		SkillListMH_default.mercenary.append();
-		MobileUI_default.append();
-		JoystickUI_default.append();
-		Navigation_default.append();
-		GameTools_default.restoreAfterMapLoad();
-		Roulette_default.append();
-		if (Configs.get("enableAchievements") && PacketVerManager_default.value >= 20150513) Achievement_default.append();
-		if (SessionStorage_default.PCGoldTimer) PCGoldTimer_default.append();
-		WinStatsController.getUI().append();
-		Controller$3.getUI().append();
-		if (Configs.get("enableCashShop")) CashShopIcon_default.append();
-		if (Configs.get("enableCheckAttendance") && PacketVerManager_default.value >= 20180307) CheckAttendance_default.append();
+		appendGameComponent(ChatBox_default);
+		appendGameComponent(ChatBoxSettings_default);
+		appendGameComponent(BasicInfoController.getUI());
+		appendGameComponent(Escape_default);
+		appendGameComponent(InventoryController.getUI());
+		appendGameComponent(CartItems_default);
+		appendGameComponent(Vending_default);
+		appendGameComponent(ChangeCart_default);
+		appendGameComponent(CartDecoration_default);
+		appendGameComponent(EquipmentController.getUI());
+		appendGameComponent(ShortCuts_default);
+		appendGameComponent(StatusIcons_default);
+		appendGameComponent(ShortCut_default);
+		appendGameComponent(ChatRoomCreate_default);
+		appendGameComponent(Emoticons_default);
+		appendGameComponent(Controller$4.getUI());
+		appendGameComponent(FPS_default);
+		appendGameComponent(controller.getUI());
+		appendGameComponent(Guild_default);
+		appendGameComponent(WorldMap_default);
+		appendGameComponent(SkillListMH_default.homunculus);
+		appendGameComponent(SkillListMH_default.mercenary);
+		appendGameComponent(MobileUI_default);
+		appendGameComponent(JoystickUI_default);
+		appendGameComponent(Navigation_default);
+		if (!Platform.isMobile) GameTools_default.restoreAfterMapLoad();
+		appendGameComponent(Roulette_default);
+		if (Configs.get("enableAchievements") && PacketVerManager_default.value >= 20150513) appendGameComponent(Achievement_default);
+		if (SessionStorage_default.PCGoldTimer) appendGameComponent(PCGoldTimer_default);
+		appendGameComponent(WinStatsController.getUI());
+		appendGameComponent(Controller$3.getUI());
+		if (Configs.get("enableCashShop")) appendGameComponent(CashShopIcon_default);
+		if (Configs.get("enableCheckAttendance") && PacketVerManager_default.value >= 20180307) appendGameComponent(CheckAttendance_default);
+		appendGameHUD({
+			sendChat: (text, channel, receiver) => onRequestTalk(channel === "private" ? receiver : "", text, ChatBox_default.TYPE[channel.toUpperCase()], { literal: true }),
+			returnToCharacters: () => UIManager.showPromptBox("确定返回选角？", "确定", "取消", onRestartRequest)
+		});
 		Plugins.init();
 		Network.sendPacket(new PACKET.CZ.NOTIFY_ACTORINIT());
 		if (SessionStorage_default.ratesInfo) {
@@ -375882,11 +384473,11 @@ function onDisconnectAnswer(pkt) {
 * @param {string} text
 * @param {number} target
 */
-function onRequestTalk(user, text, target) {
+function onRequestTalk(user, text, target, { literal = false } = {}) {
 	let pkt;
-	const flag_party = text[0] === "%" || KEYS.CTRL;
-	const flag_guild = text[0] === "$" || KEYS.ALT && !(KEYS[0] || KEYS[1] || KEYS[2] || KEYS[3] || KEYS[4] || KEYS[5] || KEYS[6] || KEYS[7] || KEYS[8] || KEYS[9]);
-	text = text.replace(/^(\$|%)/, "");
+	const flag_party = !literal && (text[0] === "%" || KEYS.CTRL);
+	const flag_guild = !literal && (text[0] === "$" || KEYS.ALT && !(KEYS[0] || KEYS[1] || KEYS[2] || KEYS[3] || KEYS[4] || KEYS[5] || KEYS[6] || KEYS[7] || KEYS[8] || KEYS[9]));
+	if (!literal) text = text.replace(/^(\$|%)/, "");
 	if (user && user.length) {
 		pkt = new PACKET.CZ.WHISPER();
 		pkt.receiver = user;
@@ -376133,6 +384724,12 @@ function onReassemblyAuth(pkt) {
 }
 var _mapName, _isInitialised, snCounter, chatLines, packetMap, MapEngine, _walkTimer, _walkLastTick;
 var init_MapEngine = __esmMin((() => {
+	init_GameCompanions();
+	init_GamePet();
+	init_GameMail();
+	init_GameVending();
+	init_Platform();
+	init_GamePresentation();
 	init_RotationGuard();
 	init_DBManager();
 	init_Configs();
@@ -379955,7 +388552,7 @@ function lockMobileViewport() {
 		width: "100%",
 		height: "100%",
 		margin: "0",
-		overflow: "hidden",
+		overflow: "clip",
 		overscrollBehavior: "none",
 		touchAction: "pan-x pan-y"
 	});
@@ -384753,7 +393350,7 @@ var init_WinLogin = __esmMin((() => {
 //#region src/UI/Mobile/auth/CharSelect.css?raw
 var CharSelect_default$1;
 var init_CharSelect$2 = __esmMin((() => {
-	CharSelect_default$1 = "/*\r\n * UI/Mobile/auth/CharSelect.css\r\n *\r\n * Composed with tokens.css + Shell.css via ?raw in CharSelect.js.\r\n * Tokens provide all color/radius values — no hardcoded values here.\r\n *\r\n * Layout strategy:\r\n *   - :host is overflow:hidden (Shell.css sets overflow:auto; we override)\r\n *   - .page fills host height as a flex column\r\n *   - .layout is a 2-col grid, height fills remaining space\r\n *   - Left column (.char_list): flex column, overflow-y:auto — scrolls when slots exceed height\r\n *   - Right column (.detail-panel): 3-row grid — name row (auto), info row (1fr, scrolls),\r\n *     action row (auto, always visible) — fixes buttons disappearing when charinfo is tall\r\n */\r\n\r\n:host {\r\n	overflow: hidden;\r\n}\r\n\r\n/* ── Page ── */\r\n.page {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding:\r\n		max(16px, env(safe-area-inset-top))\r\n		max(12px, env(safe-area-inset-right))\r\n		max(16px, env(safe-area-inset-bottom))\r\n		max(12px, env(safe-area-inset-left));\r\n	gap: 12px;\r\n}\r\n\r\n/* ── Top bar ── */\r\n.top-bar {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n}\r\n\r\n.screen-title {\r\n	font-size: 22px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.3px;\r\n}\r\n\r\n.cancel {\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	color: var(--m-text);\r\n	font: 15px/1 system-ui, sans-serif;\r\n	padding: 8px 16px;\r\n	min-width: 72px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	border-radius: var(--m-r-sm);\r\n	transition: color 150ms;\r\n}\r\n@media (hover: hover) and (pointer: fine) {\r\n	.cancel:hover { background: var(--m-surface-raised); }\r\n}\r\n.cancel:active { background: var(--m-surface-active); }\r\n.cancel:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* ── Two-column layout ── */\r\n.layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n	gap: 12px;\r\n}\r\n\r\n/* ── Left: single-column scrollable slot list ── */\r\n.char_list {\r\n	/* min-height:0 lets this grid item shrink below its content height, enabling overflow scroll */\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	padding-right: 2px;\r\n}\r\n\r\n.char_canvas {\r\n	flex-shrink: 0;           /* don't compress — let the list scroll instead */\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 8px 6px 10px;\r\n	background: var(--m-surface);\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-md);\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	width: 100%;\r\n	transition: border-color 150ms, background 150ms;\r\n}\r\n\r\n.char_canvas[aria-pressed='true'] {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n}\r\n\r\n.char_canvas canvas {\r\n	display: block;\r\n	width: 100%;\r\n	max-width: 110px;\r\n	/* Enlarge the preview without changing the card layout or label position. */\r\n	transform: scale(1.18);\r\n	height: auto;\r\n	margin: -10px auto 0;\r\n	pointer-events: none;\r\n}\r\n\r\n.char_canvas .name {\r\n	display: block;\r\n	font-size: 13px;\r\n	font-weight: 500;\r\n	margin-top: 4px;\r\n	text-align: center;\r\n	overflow-wrap: anywhere;\r\n	line-height: 1.3;\r\n	min-height: 18px;\r\n}\r\n\r\n.char_canvas { position: relative; }\r\n.empty-placeholder[hidden] { display: none !important; }\r\n.char_canvas[data-empty=\"true\"] canvas,\r\n.char_canvas[data-empty=\"true\"] .name { visibility: hidden; }\r\n.char_canvas[data-empty=\"true\"] .empty-placeholder {\r\n	position: absolute; inset: 0; display: flex; flex-direction: column;\r\n	align-items: center; justify-content: center; gap: 6px;\r\n	color: var(--m-text-muted); font-size: 13px; pointer-events: none;\r\n}\r\n.empty-plus { font-size: 36px; line-height: 1; font-weight: 300; }\r\n\r\n\r\n.timedelete {\r\n	font-size: 11px;\r\n	color: var(--m-danger);\r\n	text-align: center;\r\n	margin-top: 2px;\r\n}\r\n\r\n/* ── Right: detail panel ── */\r\n/*\r\n * 3-row grid: name (auto) / scrollable info (1fr) / actions (auto)\r\n * The action-group row is always visible because its height is auto,\r\n * independent of how tall the charinfo content is.\r\n */\r\n.detail-panel {\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	grid-template-columns: 1fr;\r\n	gap: 8px;\r\n}\r\n\r\n.selection-label {\r\n	font-size: 18px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.2px;\r\n	min-height: 27px;\r\n	align-self: start;\r\n}\r\n\r\n/* Scrollable info rows — occupies 1fr, never pushes action-group out */\r\n.charinfo {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n\r\n.charinfo > div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	font-size: 13px;\r\n	padding: 5px 0;\r\n	border-bottom: 1px solid var(--m-border);\r\n}\r\n\r\n.charinfo > div:last-child { border-bottom: none; }\r\n\r\n.charinfo > div::before {\r\n	content: attr(data-label);\r\n	color: var(--m-text-muted);\r\n	flex-shrink: 0;\r\n	margin-right: 8px;\r\n}\r\n\r\n.charinfo > div:empty { display: none; }\r\n\r\n/* ── Action buttons — always visible, pinned to row 3 ── */\r\n/*\r\n * The engine (CharSelectCommon moveCursorToGrid) sets style.display on\r\n * .ok directly. We only control .make\r\n * via onSelectionChange (hidden attribute). Both work because the grid row\r\n * always has auto height.\r\n */\r\n.action-group {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	padding-top: 8px;\r\n	border-top: 1px solid var(--m-border);\r\n	align-self: end;\r\n}\r\n\r\n.ok,\r\n.make {\r\n	display: block;\r\n	width: 100%;\r\n	height: 46px;\r\n	border: none;\r\n	border-radius: var(--m-r-sm);\r\n	font: 600 15px/1 system-ui, sans-serif;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: opacity 150ms, transform 80ms;\r\n}\r\n.ok:active, .make:active { transform: scale(0.97); }\r\n.ok:focus-visible, .make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n.ok  { background: var(--m-accent); color: var(--m-accent-fg); }\r\n.make { background: var(--m-surface-raised); color: var(--m-text); border: 1.5px solid var(--m-border); }\r\n\r\n.hidden { display: none; }\r\n.selection-label { overflow-wrap: anywhere; }\r\n\r\n@media (max-width: 600px) and (min-height: 480px) {\r\n	.layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, calc((100% - 12px) / 2 - 8px)) minmax(200px, 1fr); }\r\n	.char_list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: max-content; }\r\n	.char_canvas canvas { max-width: 80px; transform: scale(1.375); }\r\n	.detail-panel { border-top: 1px solid var(--m-border); padding-top: 8px; row-gap: 0; }\r\n	.selection-label { margin-bottom: 8px; }\r\n	.action-group { border-top: none; }\r\n	.charinfo { border-bottom: 1px solid var(--m-border); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }\r\n	.charinfo > div:nth-last-child(-n + 2) { border-bottom: none; }\r\n}\r\n";
+	CharSelect_default$1 = "/*\r\n * UI/Mobile/auth/CharSelect.css\r\n *\r\n * Composed with tokens.css + Shell.css via ?raw in CharSelect.js.\r\n * Tokens provide all color/radius values — no hardcoded values here.\r\n *\r\n * Layout strategy:\r\n *   - :host is overflow:hidden (Shell.css sets overflow:auto; we override)\r\n *   - .page fills host height as a flex column\r\n *   - .layout is a 2-col grid, height fills remaining space\r\n *   - Left column (.char_list): flex column, overflow-y:auto — scrolls when slots exceed height\r\n *   - Right column (.detail-panel): 3-row grid — name row (auto), info row (1fr, scrolls),\r\n *     action row (auto, always visible) — fixes buttons disappearing when charinfo is tall\r\n */\r\n\r\n:host {\r\n	overflow: hidden;\r\n}\r\n\r\n/* ── Page ── */\r\n.page {\r\n	height: 100%;\r\n	display: flex;\r\n	flex-direction: column;\r\n	padding:\r\n		max(16px, env(safe-area-inset-top))\r\n		max(12px, env(safe-area-inset-right))\r\n		max(16px, env(safe-area-inset-bottom))\r\n		max(12px, env(safe-area-inset-left));\r\n	gap: 12px;\r\n}\r\n\r\n/* ── Top bar ── */\r\n.top-bar {\r\n	flex-shrink: 0;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n}\r\n\r\n.screen-title {\r\n	font-size: 22px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.3px;\r\n}\r\n\r\n.cancel {\r\n	background: var(--m-surface);\r\n	border: 1px solid var(--m-border);\r\n	color: var(--m-text);\r\n	font: 15px/1 system-ui, sans-serif;\r\n	padding: 8px 16px;\r\n	min-width: 72px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	border-radius: var(--m-r-sm);\r\n	transition: color 150ms;\r\n}\r\n@media (hover: hover) and (pointer: fine) {\r\n	.cancel:hover { background: var(--m-surface-raised); }\r\n}\r\n.cancel:active { background: var(--m-surface-active); }\r\n.cancel:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n\r\n/* ── Two-column layout ── */\r\n.layout {\r\n	flex: 1;\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n	gap: 12px;\r\n}\r\n\r\n/* ── Left: single-column scrollable slot list ── */\r\n.char_list {\r\n	/* min-height:0 lets this grid item shrink below its content height, enabling overflow scroll */\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	padding-right: 2px;\r\n}\r\n\r\n.char_canvas {\r\n	flex-shrink: 0;           /* don't compress — let the list scroll instead */\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 8px 6px 10px;\r\n	background: var(--m-surface);\r\n	border: 1.5px solid var(--m-border);\r\n	border-radius: var(--m-r-md);\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	width: 100%;\r\n	transition: border-color 150ms, background 150ms;\r\n}\r\n\r\n.char_canvas[aria-pressed='true'] {\r\n	border-color: var(--m-border-active);\r\n	background: var(--m-surface-active);\r\n}\r\n\r\n.char_canvas canvas {\r\n	display: block;\r\n	width: 100%;\r\n	max-width: 110px;\r\n	/* Bring the enlarged preview closer to its label without moving the card. */\r\n	transform: translateY(8px) scale(1.18);\r\n	height: auto;\r\n	margin: -10px auto 0;\r\n	pointer-events: none;\r\n}\r\n\r\n.char_canvas .name {\r\n	display: block;\r\n	font-size: 13px;\r\n	font-weight: 500;\r\n	margin-top: 4px;\r\n	text-align: center;\r\n	overflow-wrap: anywhere;\r\n	line-height: 1.3;\r\n	min-height: 18px;\r\n}\r\n\r\n.char_canvas { position: relative; }\r\n.empty-placeholder[hidden] { display: none !important; }\r\n.char_canvas[data-empty=\"true\"] canvas,\r\n.char_canvas[data-empty=\"true\"] .name { visibility: hidden; }\r\n.char_canvas[data-empty=\"true\"] .empty-placeholder {\r\n	position: absolute; inset: 0; display: flex; flex-direction: column;\r\n	align-items: center; justify-content: center; gap: 6px;\r\n	color: var(--m-text-muted); font-size: 13px; pointer-events: none;\r\n}\r\n.empty-plus { font-size: 36px; line-height: 1; font-weight: 300; }\r\n\r\n\r\n.timedelete {\r\n	font-size: 11px;\r\n	color: var(--m-danger);\r\n	text-align: center;\r\n	margin-top: 2px;\r\n}\r\n\r\n/* ── Right: detail panel ── */\r\n/*\r\n * 3-row grid: name (auto) / scrollable info (1fr) / actions (auto)\r\n * The action-group row is always visible because its height is auto,\r\n * independent of how tall the charinfo content is.\r\n */\r\n.detail-panel {\r\n	min-height: 0;\r\n	display: grid;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	grid-template-columns: 1fr;\r\n	gap: 8px;\r\n}\r\n\r\n.selection-label {\r\n	font-size: 18px;\r\n	font-weight: 700;\r\n	margin: 0;\r\n	letter-spacing: -0.2px;\r\n	min-height: 27px;\r\n	align-self: start;\r\n}\r\n\r\n/* Scrollable info rows — occupies 1fr, never pushes action-group out */\r\n.charinfo {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n\r\n.charinfo > div {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	font-size: 13px;\r\n	padding: 5px 0;\r\n	border-bottom: 1px solid var(--m-border);\r\n}\r\n\r\n.charinfo > div:last-child { border-bottom: none; }\r\n\r\n.charinfo > div::before {\r\n	content: attr(data-label);\r\n	color: var(--m-text-muted);\r\n	flex-shrink: 0;\r\n	margin-right: 8px;\r\n}\r\n\r\n.charinfo > div:empty { display: none; }\r\n\r\n/* ── Action buttons — always visible, pinned to row 3 ── */\r\n/*\r\n * The engine (CharSelectCommon moveCursorToGrid) sets style.display on\r\n * .ok directly. We only control .make\r\n * via onSelectionChange (hidden attribute). Both work because the grid row\r\n * always has auto height.\r\n */\r\n.action-group {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	padding-top: 8px;\r\n	border-top: 1px solid var(--m-border);\r\n	align-self: end;\r\n}\r\n\r\n.ok,\r\n.make {\r\n	display: block;\r\n	width: 100%;\r\n	height: 46px;\r\n	border: none;\r\n	border-radius: var(--m-r-sm);\r\n	font: 600 15px/1 system-ui, sans-serif;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n	transition: opacity 150ms, transform 80ms;\r\n}\r\n.ok:active, .make:active { transform: scale(0.97); }\r\n.ok:focus-visible, .make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }\r\n.ok  { background: var(--m-accent); color: var(--m-accent-fg); }\r\n.make { background: var(--m-surface-raised); color: var(--m-text); border: 1.5px solid var(--m-border); }\r\n\r\n.hidden { display: none; }\r\n.selection-label { overflow-wrap: anywhere; }\r\n\r\n@media (max-width: 600px) and (min-height: 480px) {\r\n	.layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, calc((100% - 12px) / 2 - 8px)) minmax(200px, 1fr); }\r\n	.char_list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: max-content; }\r\n	.char_canvas canvas { max-width: 80px; transform: translateY(8px) scale(1.375); }\r\n	.detail-panel { border-top: 1px solid var(--m-border); padding-top: 8px; row-gap: 0; }\r\n	.selection-label { margin-bottom: 8px; }\r\n	.action-group { border-top: none; }\r\n	.charinfo { border-bottom: 1px solid var(--m-border); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }\r\n	.charinfo > div:nth-last-child(-n + 2) { border-bottom: none; }\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/auth/CharSelect.html?raw
