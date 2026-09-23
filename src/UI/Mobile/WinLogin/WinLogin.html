@@ -41,7 +41,25 @@
 		<div class="m-login__actions">
 			<button class="m-login__btn m-login__btn--secondary m-login__signup" type="button">注册</button>
 			<button class="m-login__btn m-login__btn--primary m-login__connect" type="button">登录</button>
-			<button class="m-login__btn m-login__btn--ghost m-login__exit" type="button">退出</button>
 		</div>
 	</div>
 </div>
+
+<dialog class="m-signup" aria-labelledby="m-signup-title" aria-describedby="m-signup-description">
+	<h2 id="m-signup-title">注册账号</h2>
+	<div id="m-signup-description">
+		<div class="m-signup__automatic">
+			<p>在登录页即可创建账号：</p>
+			<ol>
+				<li>账号末尾加 <strong>_M</strong>（男）或 <strong>_F</strong>（女）。</li>
+				<li>输入要设置的密码，点击“登录”。</li>
+			</ol>
+			<p class="m-signup__example">例如：<strong>happyro_M</strong><br>下次登录使用 <strong>happyro</strong> 即可。</p>
+		</div>
+		<p class="m-signup__external" hidden>即将在新页面打开账号注册。</p>
+	</div>
+	<div class="m-signup__actions">
+		<button class="m-login__btn m-login__btn--secondary m-signup__cancel" type="button">取消</button>
+		<button class="m-login__btn m-login__btn--primary m-signup__confirm" type="button" autofocus>知道了</button>
+	</div>
+</dialog>

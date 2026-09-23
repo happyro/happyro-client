@@ -251,14 +251,29 @@
 	background: var(--a-100);
 }
 
-/* Ghost — text only */
-.m-login__btn--ghost {
-	color: var(--c-muted);
-}
-
-.m-login__btn--ghost:hover {
-	color: var(--c-text);
-	background: var(--n-100);
-}
-
 .m-login { padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+
+
+.m-signup {
+	width: min(400px, calc(100% - 32px));
+	max-height: calc(100% - 32px);
+	margin: auto;
+	padding: var(--sp-6);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--c-border);
+	border-radius: var(--r-md);
+	background: var(--c-surface);
+	color: var(--c-text);
+	box-shadow: 0 12px 40px oklch(0% 0 0 / 0.18);
+	font: 16px/1.6 system-ui, sans-serif;
+}
+
+.m-signup::backdrop { background: oklch(14% 0.01 250 / 0.38); }
+.m-signup h2 { margin: 0 0 var(--sp-4); font-size: 20px; color: var(--c-accent); }
+.m-signup p { margin: 0 0 var(--sp-3); }
+.m-signup ol { margin: 0 0 var(--sp-4); padding-left: 24px; }
+.m-signup li + li { margin-top: var(--sp-2); }
+.m-signup__example { padding: var(--sp-3); border-radius: var(--r-sm); background: var(--n-50); color: var(--c-muted); }
+.m-signup__actions { display: flex; gap: var(--sp-2); margin-top: var(--sp-5); }
+.m-signup__actions .m-login__btn { flex: 1; min-width: 0; }

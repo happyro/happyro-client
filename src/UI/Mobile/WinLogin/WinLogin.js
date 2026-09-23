@@ -31,6 +31,8 @@ const _preferences = Preferences.get('WinLogin', { saveID: true, ID: '' }, 1.0);
 let _inputUser;
 let _inputPass;
 let _btnSave;
+let _signupDialog;
+let _registrationURL;
 
 MobileWinLogin.init = function init() {
 	const root = this._shadow;
@@ -42,10 +44,15 @@ MobileWinLogin.init = function init() {
 	_btnSave.addEventListener('click', _toggleSave);
 	root.querySelector('.m-login__connect').addEventListener('click', _connect);
 	root.querySelector('.m-login__signup').addEventListener('click', _signup);
-	root.querySelector('.m-login__exit').addEventListener('click', _exit);
+	_signupDialog = root.querySelector('.m-signup');
+	root.querySelector('.m-signup__cancel').addEventListener('click', () => _signupDialog.close());
+	root.querySelector('.m-signup__confirm').addEventListener('click', () => {
+		if (_registrationURL) window.open(_registrationURL, '_blank', 'noopener,noreferrer');
+		_signupDialog.close();
+	});
 
 	_inputPass.addEventListener('keydown', e => {
-		if (e.key === 'Enter') _connect();
+		if (e.key === 'Enter' && !e.isComposing) _connect();
 	});
 };
 
@@ -65,7 +72,12 @@ function _updateSave() {
 	_btnSave.setAttribute('aria-checked', String(_preferences.saveID));
 }
 
+MobileWinLogin.onRemove = function onRemove() {
+	if (_signupDialog.open) _signupDialog.close();
+};
+
 function _connect() {
+	if (_signupDialog.open) return;
 	const user = _inputUser.value.trim();
 	const pass = _inputPass.value;
 
@@ -82,29 +94,15 @@ function _connect() {
 }
 
 function _signup() {
-	const url = Configs.get('registrationweb');
-	if (url) {
-		UIManager.showPromptBox(
-			'前往注册页面？',
-			'ok',
-			'cancel',
-			() => window.open(url),
-			null
-		);
-	} else {
-		UIManager.showPromptBox(
-			'自动注册：\n1. 在账号名末尾添加 _M（男）或 _F（女）\n2. 输入要设置的密码后登录\n3. 例如：happyro_M',
-			'ok',
-			'cancel',
-			null,
-			null,
-			true
-		);
-	}
-}
-
-function _exit() {
-	MobileWinLogin.onExitRequest();
+	const root = MobileWinLogin._shadow;
+	_registrationURL = Configs.get('registrationweb');
+	root.querySelector('.m-signup__automatic').hidden = !!_registrationURL;
+	root.querySelector('.m-signup__external').hidden = !_registrationURL;
+	root.querySelector('.m-signup__cancel').hidden = !_registrationURL;
+	root.querySelector('.m-signup__confirm').textContent = _registrationURL ? '前往注册' : '知道了';
+	_inputUser.blur();
+	_inputPass.blur();
+	_signupDialog.showModal();
 }
 
 MobileWinLogin.onConnectionRequest = function onConnectionRequest() {};
