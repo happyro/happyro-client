@@ -1,7 +1,9 @@
 /** Nearby combat policy. Runtime adapters own pathfinding, packets and live skill checks. */
 export function createAutoCombatController(data) {
 	let active = false,
-		species = null,
+		continuous = false,
+		preferred = null,
+		species = [],
 		selected = [],
 		target = null,
 		nextAction = 0;
@@ -14,11 +16,19 @@ export function createAutoCombatController(data) {
 	function stop(message = '自动战斗已停止') {
 		if (active || target) data.stop();
 		active = false;
+		continuous = false;
+		preferred = null;
 		target = null;
 		status = message;
 	}
 	function snapshot() {
-		return { active, species, skills: [...selected], status, target: target?.name || '' };
+		return {
+			active,
+			species: species.map(entry => ({ ...entry })),
+			skills: [...selected],
+			status,
+			target: target?.name || ''
+		};
 	}
 	function tick() {
 		if (!active) return;
@@ -33,13 +43,19 @@ export function createAutoCombatController(data) {
 			.targets()
 			.filter(
 				entity =>
-					(species === null || entity.species === species.id) &&
+					(entity.id === preferred ||
+						(continuous && (!species.length || species.some(entry => entity.species === entry.id)))) &&
 					distance(player, entity.position) <= 14 &&
 					distance(origin, entity.position) <= 20 &&
 					(skipped.get(entity.id) || 0) <= now
 			);
 		const current = target && targets.find(entity => entity.id === target.id);
 		if (target && !current) {
+			if (!continuous) {
+				stop('目标已结束或离开，攻击已停止');
+				return;
+			}
+			preferred = null;
 			data.stop();
 			target = null;
 			nextAction = 0;
@@ -61,6 +77,11 @@ export function createAutoCombatController(data) {
 			lastDistance = range;
 		}
 		if (now - progressAt >= 8000) {
+			if (!continuous) {
+				stop('目标无法接近，攻击已停止');
+				return;
+			}
+			preferred = null;
 			skipped.set(target.id, now + 30000);
 			data.stop();
 			target = null;
@@ -73,6 +94,11 @@ export function createAutoCombatController(data) {
 		const skills = data.skills().filter(skill => selected.includes(skill.id) && skill.available);
 		const skill = skills.length ? skills[Math.floor(data.random() * skills.length)] : null;
 		if (data.act(target, skill) === false) {
+			if (!continuous) {
+				stop('无法攻击目标');
+				return;
+			}
+			preferred = null;
 			skipped.set(target.id, now + 30000);
 			data.stop();
 			target = null;
@@ -88,6 +114,8 @@ export function createAutoCombatController(data) {
 			data.stop();
 			origin = [...data.position()];
 			active = true;
+			continuous = true;
+			preferred = null;
 			target = null;
 			nextAction = 0;
 			skipped.clear();
@@ -95,9 +123,28 @@ export function createAutoCombatController(data) {
 			tick();
 			return true;
 		},
+		attackTarget(id) {
+			if (!data.enabled()) return false;
+			const choice = data.targets().find(entity => entity.id === id);
+			if (!choice || !data.reachable(choice)) return false;
+			// Keep automatic searching only if it was already enabled before this tap.
+			continuous = active && continuous;
+			data.stop();
+			active = true;
+			preferred = id;
+			target = choice;
+			origin = [...data.position()];
+			nextAction = 0;
+			lastDistance = Infinity;
+			progressAt = data.now();
+			skipped.delete(id);
+			data.select(target);
+			tick();
+			return true;
+		},
 		configure(nextSpecies, ids) {
 			stop();
-			species = nextSpecies ? { id: nextSpecies.id, name: nextSpecies.name } : null;
+			species = [...new Map(nextSpecies.map(entry => [entry.id, { id: entry.id, name: entry.name }])).values()];
 			const learned = new Set(data.skills().map(skill => skill.id));
 			selected = [...new Set(ids)].filter(id => learned.has(id));
 		},

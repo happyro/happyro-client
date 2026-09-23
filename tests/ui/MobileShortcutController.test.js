@@ -43,17 +43,17 @@ beforeEach(() => {
 	controller = createShortcutController(data);
 });
 it('pages through shared bindings and validates replacement, level and clearing', () => {
-	expect(controller.snapshot().pages).toBe(8);
-	expect(controller.snapshot().slots).toHaveLength(5);
+	expect(controller.snapshot().pages).toBe(6);
+	expect(controller.snapshot().slots).toHaveLength(6);
 	controller.turn(-1);
-	expect(controller.snapshot().slots[0].index).toBe(35);
-	expect(controller.snapshot().slots[1].unavailable).toBe(true);
+	expect(controller.snapshot().slots[0].index).toBe(30);
+	expect(controller.snapshot().slots[5].index).toBe(35);
 	expect(controller.use(36)).toEqual({});
 	expect(controller.configure(35, { isSkill: true, ID: 1 }, 6)).toBe(false);
 	expect(controller.configure(35, { isSkill: true, ID: 1 }, 2)).toBe(true);
 	expect(bindings[35]).toEqual({ isSkill: true, ID: 1, count: 2 });
 	expect(controller.configure(35, null)).toBe(true);
-	expect(controller.snapshot().slots[0].empty).toBe(true);
+	expect(controller.snapshot().slots[5].empty).toBe(true);
 	expect(controller.configure(36, null)).toBe(false);
 	expect(controller.configure(1, { isSkill: false, ID: 999 })).toBe(false);
 });

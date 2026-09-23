@@ -1,6 +1,6 @@
 import { resetGameCompanions, updateGameCompanionAutoFeed } from 'UI/Game/GameCompanions.js';
-import {resetGamePet,updateGamePetAutoFeed} from 'UI/Game/GamePet.js';
-import {setGameMailUnread} from 'UI/Game/GameMail.js';
+import { resetGamePet, updateGamePetAutoFeed } from 'UI/Game/GamePet.js';
+import { setGameMailUnread } from 'UI/Game/GameMail.js';
 import { resetGameVending } from 'UI/Game/GameVending.js';
 /**
  * Engine/MapEngine.js
@@ -114,7 +114,7 @@ import PrivateMessageEngine from './MapEngine/PrivateMessage.js';
 import StorageEngine from './MapEngine/Storage.js';
 import GroupEngine from './MapEngine/Group.js';
 import GuildEngine from './MapEngine/Guild.js';
-import SkillEngine from './MapEngine/Skill.js';
+import SkillEngine, { resumeQueuedTargetSkill } from './MapEngine/Skill.js';
 import ChatRoomEngine from './MapEngine/ChatRoom.js';
 import PetEngine from './MapEngine/Pet.js';
 import HomunEngine from './MapEngine/Homun.js';
@@ -515,11 +515,13 @@ function onConfig(pkt) {
 			ChatBox.addText(DB.getMessage(2978 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 2:
-			if(Platform.isMobile)updateGamePetAutoFeed(pkt.Value);else PetInformations.setFeedConfig(pkt.Value);
+			if (Platform.isMobile) updateGamePetAutoFeed(pkt.Value);
+			else PetInformations.setFeedConfig(pkt.Value);
 			ChatBox.addText(DB.getMessage(2579 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 3:
-			if (Platform.isMobile) updateGameCompanionAutoFeed(pkt.Value); else HomunInformations.setFeedConfig(pkt.Value);
+			if (Platform.isMobile) updateGameCompanionAutoFeed(pkt.Value);
+			else HomunInformations.setFeedConfig(pkt.Value);
 			ChatBox.addText(DB.getMessage(3282 + (pkt.Value ? 0 : 1)), ChatBox.TYPE.INFO, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 5:
@@ -1224,19 +1226,14 @@ function isFreeCell(x, y) {
  * If the character moved to attack, once it finished to move ask to attack
  */
 function onWalkEnd() {
-	// No action to do ?
-	if (Session.moveAction) {
-		// Not sure why, but there is a synchronization error with the
-		// server when moving to attack (wrong position).
-		// So wait 50ms to be sure we are at the correct position before
-		// performing an action
-		Events.setTimeout(() => {
-			if (Session.moveAction) {
-				Network.sendPacket(Session.moveAction);
-				Session.moveAction = null;
-			}
-		}, 50);
-	}
+	const action = Session.moveAction;
+	if (!action) return;
+	// Allow the server position to settle; manual input or a newer action cancels this one.
+	Events.setTimeout(() => {
+		if (Session.moveAction !== action) return;
+		Session.moveAction = null;
+		if (!resumeQueuedTargetSkill(action)) Network.sendPacket(action);
+	}, 50);
 }
 
 /**

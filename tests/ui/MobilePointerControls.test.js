@@ -1,108 +1,73 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { bindPointerControls } from '../../src/UI/Mobile/game/PointerControls.js';
 let controls;
-afterEach(() => {
-	controls?.destroy();
-	vi.useRealTimers();
-});
+afterEach(() => { controls?.destroy(); vi.useRealTimers(); });
 function setup() {
-	vi.useFakeTimers();
-	const root = document.createElement('div');
-	root.innerHTML =
-		'<div class="joystick"><span></span></div><button data-shortcut="0"></button>';
-	const scene = document.createElement('canvas'),
-		stick = root.firstChild,
-		skill = root.querySelector('[data-shortcut]');
-	for (const node of [stick, scene, skill]) {
-		const captures = new Set();
-		node.setPointerCapture = id => captures.add(id);
-		node.hasPointerCapture = id => captures.has(id);
-		node.releasePointerCapture = id => captures.delete(id);
-	}
-	stick.getBoundingClientRect = () => ({ left: 0, top: 0, width: 100, height: 100 });
-	skill.getBoundingClientRect = () => ({ left: 0, right: 100, top: 0, bottom: 100 });
-	const actions = Object.fromEntries(
-		['shortcut', 'move', 'stopMove', 'startMove', 'tap'].map(k => [k, vi.fn()])
-	);
-	actions.enabled = vi.fn(() => true);
-	controls = bindPointerControls(root, scene, actions);
-	const fire = (node, type, id, x = 80, y = 50) => {
-		const event = new Event(type, { bubbles: true, cancelable: true });
-		Object.assign(event, { pointerId: id, clientX: x, clientY: y, button: 0 });
-		node.dispatchEvent(event);
-	};
-	return { root, scene, stick, skill, actions, fire };
+ vi.useFakeTimers();
+ const root = document.createElement('div');
+ root.innerHTML = '<button data-shortcut="0"></button>';
+ const scene = document.createElement('canvas'), skill = root.querySelector('button');
+ for (const node of [scene, skill]) {
+  const captures = new Set();
+  node.setPointerCapture = id => captures.add(id);
+  node.hasPointerCapture = id => captures.has(id);
+  node.releasePointerCapture = id => captures.delete(id);
+ }
+ root.getBoundingClientRect = () => ({ left: 10, top: 20 });
+ scene.getBoundingClientRect = () => ({ left: 10, top: 20, width: 800, height: 400 });
+ skill.getBoundingClientRect = () => ({ left: 600, right: 640, top: 300, bottom: 340 });
+ const actions = Object.fromEntries(['shortcut','move','stopMove','startMove','tap'].map(k=>[k,vi.fn()]));
+ actions.enabled = vi.fn(() => true);
+ controls = bindPointerControls(root, scene, actions);
+ const fire = (node,type,id,x=100,y=200) => {
+  const event = new Event(type,{bubbles:true,cancelable:true});
+  Object.assign(event,{pointerId:id,clientX:x,clientY:y,button:0});node.dispatchEvent(event);
+ };
+ const drag = () => { fire(scene,'pointerdown',1); fire(scene,'pointermove',1,130,200); };
+ return { scene, skill, actions, fire, drag };
 }
-it('tracks two fingers independently and ignores an unrelated pointer release', () => {
-	const { stick, skill, actions, fire } = setup();
-	fire(stick, 'pointerdown', 1);
-	fire(skill, 'pointerdown', 2);
-	expect(actions.startMove).toHaveBeenCalledOnce();
-	fire(stick, 'pointerup', 2);
-	fire(skill, 'pointerup', 2);
-	const count = actions.move.mock.calls.length;
-	vi.advanceTimersByTime(400);
-	expect(actions.move.mock.calls.length).toBeGreaterThan(count);
-	expect(skill.hasPointerCapture(2)).toBe(false);
-	fire(stick, 'pointerup', 1);
-	const end = actions.move.mock.calls.length;
-	vi.advanceTimersByTime(1000);
-	expect(actions.move).toHaveBeenCalledTimes(end);
-	expect(vi.getTimerCount()).toBe(0);
+it('preserves simple scene taps without a joystick element',()=>{
+ const {scene,actions,fire}=setup();
+ fire(scene,'pointerdown',1);
+ fire(scene,'pointermove',1,103,202);expect(actions.move).not.toHaveBeenCalled();
+ fire(scene,'pointerup',1,103,202);expect(actions.tap).toHaveBeenCalledExactlyOnceWith(103,202);
+ expect(vi.getTimerCount()).toBe(0);
 });
-it('cancels capture, movement and held skills on cancellation or loss of capture', () => {
-	const { stick, skill, actions, fire } = setup();
-	fire(stick, 'pointerdown', 1);
-	fire(skill, 'pointerdown', 2);
-	fire(stick, 'lostpointercapture', 1);
-	expect(skill.hasPointerCapture(2)).toBe(true);
-	fire(skill, 'pointercancel', 2);
-	expect(skill.hasPointerCapture(2)).toBe(false);
-	expect(vi.getTimerCount()).toBe(0);
+it('left dragging moves continuously in the chosen direction and releasing never taps',()=>{
+ const {scene,actions,fire,drag}=setup();drag();
+ expect(actions.startMove).toHaveBeenCalledOnce();expect(actions.move).toHaveBeenLastCalledWith(1,-0);
+ vi.advanceTimersByTime(400);expect(actions.move).toHaveBeenCalledTimes(3);
+ fire(scene,'pointermove',1,100,170);vi.advanceTimersByTime(200);expect(actions.move).toHaveBeenLastCalledWith(0,1);
+ fire(scene,'pointerup',1,100,170);expect(controls.isMoving()).toBe(false);
+ expect(actions.tap).not.toHaveBeenCalled();const count=actions.move.mock.calls.length;
+ vi.advanceTimersByTime(1000);expect(actions.move).toHaveBeenCalledTimes(count);expect(vi.getTimerCount()).toBe(0);
 });
-it('stops both controls when a modal or death blocks input', () => {
-	const { stick, skill, actions, fire } = setup();
-	fire(stick, 'pointerdown', 1);
-	fire(skill, 'pointerdown', 2);
-	actions.enabled.mockReturnValue(false);
-	vi.advanceTimersByTime(200);
-	expect(skill.hasPointerCapture(2)).toBe(false);
-	expect(stick.hasPointerCapture(1)).toBe(false);
-	expect(vi.getTimerCount()).toBe(0);
+it('skill releases do not release the movement pointer and unrelated releases are ignored',()=>{
+ const {scene,skill,actions,fire,drag}=setup();drag();
+ fire(skill,'pointerdown',2,620,320);fire(scene,'pointerup',2);fire(skill,'pointerup',2,620,320);
+ expect(actions.shortcut).toHaveBeenCalledExactlyOnceWith(0);expect(controls.isMoving()).toBe(true);
+ vi.advanceTimersByTime(400);expect(actions.move).toHaveBeenCalledTimes(3);
 });
-it('only taps the scene without a held control or a drag and removes all listeners', () => {
-	const { scene, stick, actions, fire } = setup();
-	fire(scene, 'pointerdown', 3);
-	fire(scene, 'pointerup', 3);
-	expect(actions.tap).toHaveBeenCalledTimes(1);
-	fire(stick, 'pointerdown', 1);
-	fire(scene, 'pointerdown', 3);
-	fire(scene, 'pointerup', 3);
-	expect(actions.tap).toHaveBeenCalledTimes(1);
-	controls.cancel();
-	fire(scene, 'pointerdown', 3);
-	fire(scene, 'pointermove', 3, 150);
-	fire(scene, 'pointerup', 3, 150);
-	expect(actions.tap).toHaveBeenCalledTimes(1);
-	controls.destroy();
-	fire(stick, 'pointerdown', 4);
-	expect(vi.getTimerCount()).toBe(0);
+it.each(['pointercancel','lostpointercapture'])('stops movement on %s',type=>{
+ const {scene,actions,fire,drag}=setup();drag();fire(scene,type,1);
+ expect(controls.isMoving()).toBe(false);expect(actions.tap).not.toHaveBeenCalled();
+ expect(vi.getTimerCount()).toBe(0);
 });
-
-it('activates one skill on its own release without stopping the joystick, and ignores cancelled/outside releases', () => {
-	const { stick, skill, actions, fire } = setup();
-	fire(stick, 'pointerdown', 1);
-	fire(skill, 'pointerdown', 2);
-	fire(skill, 'pointerup', 2);
-	expect(actions.shortcut).toHaveBeenCalledExactlyOnceWith(0);
-	const count = actions.move.mock.calls.length;
-	vi.advanceTimersByTime(400);
-	expect(actions.move.mock.calls.length).toBeGreaterThan(count);
-	fire(skill, 'pointerdown', 2);
-	fire(skill, 'pointercancel', 2);
-	fire(skill, 'pointerdown', 3);
-	fire(skill, 'pointerup', 3, 120, 120);
-	expect(actions.shortcut).toHaveBeenCalledTimes(1);
-	controls.cancel();
-	expect(vi.getTimerCount()).toBe(0);
+it('right-side drags do not move while right-side taps still select',()=>{
+ const {scene,actions,fire}=setup();fire(scene,'pointerdown',1,600,200);
+ fire(scene,'pointermove',1,630,200);fire(scene,'pointerup',1,630,200);
+ expect(actions.move).not.toHaveBeenCalled();expect(actions.tap).not.toHaveBeenCalled();
+ fire(scene,'pointerdown',2,600,200);fire(scene,'pointerup',2,600,200);expect(actions.tap).toHaveBeenCalledOnce();
+});
+it('modal or death cancels movement and all skill captures',()=>{
+ const {scene,skill,actions,fire,drag}=setup();drag();fire(skill,'pointerdown',2,620,320);
+ actions.enabled.mockReturnValue(false);vi.advanceTimersByTime(200);
+ expect(scene.hasPointerCapture(1)).toBe(false);expect(skill.hasPointerCapture(2)).toBe(false);
+ expect(vi.getTimerCount()).toBe(0);
+});
+it('cancellation and destruction remove held state and listeners without firing skills',()=>{
+ const {scene,skill,actions,fire,drag}=setup();drag();fire(skill,'pointerdown',2,620,320);
+ fire(skill,'pointercancel',2);expect(actions.shortcut).not.toHaveBeenCalled();
+ controls.destroy();fire(scene,'pointerdown',3);
+ expect(vi.getTimerCount()).toBe(0);
 });

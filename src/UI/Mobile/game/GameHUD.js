@@ -46,7 +46,6 @@ let view;
 let controls;
 let shortcuts;
 let autoCombat;
-let pickingSpecies = false;
 let inventory;
 let equipment;
 let containers;
@@ -66,7 +65,6 @@ HUD.actions = {};
 
 function cancelSceneInput() {
 	autoCombat?.stop();
-	pickingSpecies = false;
 	shortcuts?.cancel();
 	controls?.cancel();
 	Session.moveAction = null;
@@ -92,7 +90,6 @@ function snapshot() {
 	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
 		autoCombat: autoCombat.snapshot(),
-		pickingSpecies,
 		unreadMail: gameMailUnread(),
 		name: entity.display.name,
 		job: getJobDisplayName(entity.job),
@@ -177,26 +174,15 @@ HUD.onAppend = function () {
 			else {
 				shortcuts.cancel();
 				controls.cancel();
-				pickingSpecies = false;
 				if (!autoCombat.start()) view.notice('当前不能开始自动战斗');
 			}
-			snapshot();
-		},
-		cancelSpecies: () => {
-			pickingSpecies = false;
 			snapshot();
 		},
 		autoCombat: {
 			snapshot: () => autoCombat.snapshot(),
 			targets: () => autoCombat.targets(),
 			skills: () => autoCombat.skills(),
-			configure: (...args) => autoCombat.configure(...args),
-			pickSpecies: () => {
-				autoCombat.stop();
-				shortcuts.cancel();
-				pickingSpecies = true;
-				snapshot();
-			}
+			configure: (...args) => autoCombat.configure(...args)
 		},
 		camera: Commands.adjustCamera,
 		shortcutPage: delta => {
@@ -247,7 +233,6 @@ HUD.onAppend = function () {
 		enabled,
 		startMove: () => {
 			autoCombat.stop('手动移动，自动战斗已停止');
-			pickingSpecies = false;
 			shortcuts.cancel();
 		},
 		move: Commands.moveDirection,
@@ -257,37 +242,34 @@ HUD.onAppend = function () {
 		},
 		shortcut: slot => {
 			autoCombat.stop('手动施法，自动战斗已停止');
-			pickingSpecies = false;
 			Commands.stopAttack();
 			const index = shortcuts.snapshot().slots[slot].index;
 			const result = shortcuts.use(index);
-			if (shortcuts.snapshot().pending?.ground) controls.cancel();
 			snapshot();
 			if (result.configure !== undefined) view.openShortcuts(result.configure);
 			if (result.message) view.notice(result.message);
 		},
 		tap: (x, y) => {
-			if (pickingSpecies) {
-				const target = Commands.pickSceneEntity(x, y);
-				const choice = autoCombat.targets().find(entry => entry.id === target?.GID);
-				if (choice) {
-					autoCombat.configure({ id: choice.species, name: choice.name }, autoCombat.snapshot().skills);
-					pickingSpecies = false;
-					view.notice(`已选择 ${choice.name}，点击自动战斗开始`);
-				} else view.notice('请点击一只存活的魔物');
+			const hit = Commands.pickSceneEntity(x, y);
+			if (
+				hit &&
+				[hit.constructor.TYPE_ITEM, hit.constructor.TYPE_NPC, hit.constructor.TYPE_NPC2].includes(
+					hit.objecttype
+				)
+			) {
+				autoCombat.stop('手动操作，自动战斗已停止');
+				shortcuts.cancel();
+				Commands.tapScene(x, y);
+			} else if (shortcuts.snapshot().pending) {
+				autoCombat.stop('手动施法，自动战斗已停止');
+				shortcuts.pick(x, y);
+			} else if (hit && hit.objecttype === hit.constructor.TYPE_MOB) {
+				if (!autoCombat.attackTarget(hit.GID)) view.notice('当前无法攻击这只魔物');
 			} else {
 				autoCombat.stop('手动操作，自动战斗已停止');
-				const hit = Commands.pickSceneEntity(x, y);
-				if (
-					hit &&
-					[hit.constructor.TYPE_ITEM, hit.constructor.TYPE_NPC, hit.constructor.TYPE_NPC2].includes(
-						hit.objecttype
-					)
-				) {
-					shortcuts.cancel();
-					Commands.tapScene(x, y);
-				} else if (!shortcuts.pick(x, y)) Commands.tapScene(x, y);
+				Commands.tapScene(x, y);
 			}
+
 			snapshot();
 		}
 	});
@@ -325,7 +307,6 @@ HUD.onAppend = function () {
 HUD.onRemove = function (resetInteraction = true) {
 	autoCombat?.stop();
 	autoCombat = null;
-	pickingSpecies = false;
 	unsubscribeInteraction?.();
 	unsubscribeInteraction = null;
 	if (resetInteraction) clearInteraction();

@@ -89,10 +89,9 @@ export function createGameHUDView(root, actions) {
 		});
 	}
 	listen(root, 'pointerdown', event => {
-		if (!event.target.closest('.joystick, .combat, .battle-dock')) actions.cancelSceneInput();
+		if (!event.target.closest('.combat, .battle-dock')) actions.cancelSceneInput();
 	});
 	listen($('[data-auto-toggle]'), 'click', () => actions.toggleAutoCombat());
-	listen($('[data-cancel-species]'), 'click', () => actions.cancelSpecies());
 	listen($('[data-interact]'), 'click', () => actions.interact());
 	for (const button of root.querySelectorAll('[data-shortcut-page]'))
 		listen(button, 'click', () => actions.shortcutPage(Number(button.dataset.shortcutPage)));
@@ -285,6 +284,10 @@ export function createGameHUDView(root, actions) {
 				'materials'
 			].includes(panel)
 		);
+		body.classList.toggle('shortcut-body', panel === 'shortcuts');
+		body.classList.toggle('auto-config-body', panel === 'autoCombat');
+		$('.panel').classList.toggle('auto-config-panel', panel === 'autoCombat');
+		$('.panel').classList.toggle('shortcut-panel', panel === 'shortcuts');
 		body.classList.toggle('chat-body', panel === 'chat');
 		$('.panel').classList.toggle('chat-panel', panel === 'chat');
 		if (panel === 'information') {
@@ -477,8 +480,7 @@ export function createGameHUDView(root, actions) {
 				index: slotIndex,
 				snapshot: actions.shortcutSnapshot,
 				candidates: actions.shortcutCandidates,
-				configure: actions.configureShortcut,
-				saved: close
+				configure: actions.configureShortcut
 			});
 		if (panel === 'camera') {
 			const grid = document.createElement('div');
@@ -542,15 +544,13 @@ export function createGameHUDView(root, actions) {
 		update(next) {
 			snapshot = next;
 			text('[data-panel=menu]', next.unreadMail ? '菜单 · 新邮件' : '菜单');
-			if (performance.now() >= noticeUntil)
-				text(
-					'[data-target]',
-					next.pickingSpecies ? '点击场景中的魔物，选择同类目标' : next.autoCombat?.status || '自动战斗已停止'
-				);
-			text('[data-auto-target]', `目标：${next.autoCombat?.species?.name || '全部魔物'} ▾`);
+			if (performance.now() >= noticeUntil) text('[data-target]', next.autoCombat?.status || '自动战斗已停止');
+			const species = next.autoCombat?.species || [];
+			const targetLabel = species.length > 1 ? `${species.length} 种魔物` : species[0]?.name || '全部魔物';
+			text('[data-auto-target]', `${targetLabel} ▾`);
+			$('[data-auto-target]').title = species.map(entry => entry.name).join('、') || '全部魔物';
 			text('[data-auto-toggle]', next.autoCombat?.active ? '停止战斗' : '自动战斗');
 			$('[data-auto-toggle]').setAttribute('aria-pressed', String(Boolean(next.autoCombat?.active)));
-			$('[data-cancel-species]').hidden = !next.pickingSpecies;
 			$('[data-interact]').hidden = !next.target?.interaction;
 			text('[data-interact]', next.target?.interaction);
 			text('[data-name]', next.name);
@@ -563,7 +563,6 @@ export function createGameHUDView(root, actions) {
 			}
 			text('[data-map-name]', next.mapName);
 			text('[data-coordinates]', next.position?.map(Math.floor).join(', '));
-			text('[data-status-count]', next.statuses?.length || 0);
 			const icons = $('[data-status-icons]');
 			const iconKey = JSON.stringify(next.statuses?.map(status => [status.id, status.icon]));
 			if (icons.dataset.key !== iconKey) {
@@ -685,6 +684,8 @@ export function createGameHUDView(root, actions) {
 			}
 			$('.battle-status').hidden = Boolean(state.pending);
 			$('.skill-prompt').hidden = !state.pending;
+			$('.skill-actions').hidden = !state.pending;
+			$('.shortcut-tools').hidden = Boolean(state.pending);
 			text(
 				'[data-skill-prompt]',
 				state.pending ? `${state.pending.name}：${state.pending.ground ? '点击地面施放' : '点击有效目标'}` : ''

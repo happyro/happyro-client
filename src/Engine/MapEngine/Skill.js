@@ -597,6 +597,28 @@ Guild.onIncreaseSkill =
 	SkillListMH.mercenary.onIncreaseSkill =
 		onIncreaseSkill;
 
+const queuedTargetSkills = new WeakMap();
+
+/** Re-evaluate a queued targeted cast after walking, rather than send a stale request. */
+export function resumeQueuedTargetSkill(packet) {
+	const queued = queuedTargetSkills.get(packet);
+	if (!queued) return false;
+	queuedTargetSkills.delete(packet);
+	const { caster, target } = queued;
+	if (
+		!Session.Playing ||
+		Session.Entity !== caster ||
+		caster.action === caster.ACTION.DIE ||
+		EntityManager.get(target.GID) !== target ||
+		(target.action === target.ACTION.DIE && packet.SKID !== SkillId.ALL_RESURRECTION) ||
+		target.remove_tick > 0
+	)
+		return true;
+	// onUseSkill searches from the current positions and queues a fresh walk if needed.
+	onUseSkill(packet.SKID, packet.selectedLevel, packet.targetID);
+	return true;
+}
+
 /**
  * Cast a skill on someone
  *
@@ -706,6 +728,7 @@ function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
 				) === 1
 		);
 	} else {
+		queuedTargetSkills.set(pkt, { caster: entity, target });
 		Session.moveAction = pkt;
 	}
 

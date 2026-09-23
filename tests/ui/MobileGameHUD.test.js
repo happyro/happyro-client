@@ -111,16 +111,19 @@ it('keeps server input and focus during a portrait update and prevents unsupport
 });
 
 
-it('groups five skills and combat controls at the bottom right and highlights only the pending skill', () => {
+it('groups six skills and combat controls at the bottom right and highlights only the pending skill', () => {
  expect(root.querySelector('.target')).toBeNull();
- expect(root.querySelectorAll('.battle-dock [data-shortcut]')).toHaveLength(5);
+ expect(root.querySelectorAll('.battle-dock [data-shortcut]')).toHaveLength(6);
  expect(root.querySelector('.battle-dock [data-auto-toggle]')).not.toBeNull();
- view.update({ ...state, autoCombat: { active: true, species: { id: 1002, name: '波利' }, status: '攻击：波利' } });
+ view.update({ ...state, autoCombat: { active: true, species: [{ id: 1002, name: '波利' }], status: '攻击：波利' } });
  expect(root.querySelector('[data-auto-target]').textContent).toContain('波利');
  expect(root.querySelector('[data-auto-toggle]').getAttribute('aria-pressed')).toBe('true');
  expect(root.querySelector('[data-auto-toggle]').textContent).toBe('停止战斗');
- view.updateShortcuts({ page: 0, pages: 8, slots: Array.from({ length: 5 }, (_, index) => ({ index, name: '技能', available: true, empty: true })), pending: { index: 2, name: '狂击' } });
+ view.updateShortcuts({ page: 0, pages: 6, slots: Array.from({ length: 6 }, (_, index) => ({ index, name: '技能', available: true, empty: true })), pending: { index: 2, name: '狂击' } });
  expect(root.querySelectorAll('.selected-skill')).toHaveLength(1);
  expect(root.querySelector('.selected-skill').dataset.shortcut).toBe('2');
  expect(root.querySelector('.skill-prompt').hidden).toBe(false);
+ expect(root.querySelector('.skill-actions').hidden).toBe(false);
+ expect(root.querySelector('.shortcut-tools').hidden).toBe(true);
+ expect(root.querySelector('.skill-actions [data-skill-cancel]')).not.toBeNull();
 });

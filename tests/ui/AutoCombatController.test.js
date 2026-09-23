@@ -8,7 +8,7 @@ beforeEach(() => {
 	controller = createAutoCombatController(data);
 });
 it('selects the nearest of the chosen species, replaces dead targets and waits for new spawns', () => {
-	controller.configure({ id: 1002, name: '波利' }, []); controller.start();
+	controller.configure([{ id: 1002, name: '波利' }], []); controller.start();
 	expect(data.act).toHaveBeenLastCalledWith(targets[0], null);
 	targets = targets.slice(1); controller.tick();
 	expect(data.act).toHaveBeenLastCalledWith(targets[0], null);
@@ -23,7 +23,7 @@ it('all monsters includes different species but excludes distant and unreachable
 });
 it('randomly chooses only configured available skills and falls back to normal attacks', () => {
 	skills = [{ id: 5, available: true }, { id: 6, available: false }, { id: 7, available: true }, { id: 8, available: true }];
-	controller.configure(null, [5, 6, 7]); controller.start();
+	controller.configure([], [5, 6, 7]); controller.start();
 	expect(data.act.mock.calls[0][1].id).toBe(7);
 	data.random = () => 0; time = 1000; controller.tick(); expect(data.act.mock.calls[1][1].id).toBe(5);
 	skills.forEach(skill => skill.available = false); time = 2000; controller.tick(); expect(data.act.mock.calls[2][1]).toBeNull();
@@ -47,4 +47,26 @@ it('abandons stalled chases and temporarily skips unreachable targets', () => {
 it('cancels pending actions immediately when the target leaves the visible entity list', () => {
 	controller.start(); data.stop.mockClear(); targets = []; busy = true; controller.tick();
 	expect(data.stop).toHaveBeenCalledOnce(); expect(controller.snapshot().target).toBe('');
+});
+
+it('attacks only the tapped monster with configured skills and stops when it disappears', () => {
+ skills = [{ id: 5, available: true }];
+ controller.configure([{ id: 1003, name: '土波利' }], [5]);
+ expect(controller.attackTarget(1)).toBe(true);
+ expect(data.act).toHaveBeenLastCalledWith(targets[0], skills[0]);
+ time = 1000; controller.tick();
+ expect(data.act).toHaveBeenCalledTimes(2);
+ targets = targets.slice(1); controller.tick();
+ expect(controller.snapshot().active).toBe(false);
+ expect(data.act).toHaveBeenCalledTimes(2);
+ expect(controller.snapshot().species).toEqual([{ id: 1003, name: '土波利' }]);
+});
+it('temporarily switches an automatic battle to a tapped species without changing its filter', () => {
+ controller.configure([{ id: 1002, name: '波利' }], []);
+ controller.start(); controller.attackTarget(3);
+ expect(data.act).toHaveBeenLastCalledWith(targets[2], null);
+ targets = targets.slice(0, 2); controller.tick();
+ expect(controller.snapshot().active).toBe(true);
+ expect(data.act).toHaveBeenLastCalledWith(targets[0], null);
+ expect(controller.snapshot().species).toEqual([{ id: 1002, name: '波利' }]);
 });

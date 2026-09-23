@@ -2,35 +2,32 @@
 	<div class="top-left">
 		<button class="profile surface" data-panel="profile" aria-label="人物信息">
 			<span class="profile-heading"><strong data-name></strong><span data-job></span></span>
-			<label>HP <meter data-hp min="0" max="1"></meter><span data-hp-text></span></label>
-			<label>SP <meter data-sp min="0" max="1"></meter><span data-sp-text></span></label>
+			<span class="profile-bars">
+				<label>HP <meter data-hp min="0" max="1"></meter><span data-hp-text></span></label>
+				<label>SP <meter data-sp min="0" max="1"></meter><span data-sp-text></span></label>
+			</span>
 		</button>
 		<div class="profile-actions">
 			<button class="surface menu-button" data-panel="menu">菜单</button>
-			<button class="statuses surface" data-panel="status">
-				<span data-status-icons></span>状态 <span data-status-count>0</span>
-			</button>
+			<button class="statuses surface" data-panel="status"><span data-status-icons></span>状态</button>
 		</div>
 	</div>
 	<div class="top-right">
-		<button class="map surface" data-panel="map" aria-label="展开地图">
+		<button class="map" data-panel="map" aria-label="展开地图">
 			<canvas width="128" height="128" data-mini-map></canvas><span data-map-name></span
 			><small data-coordinates></small>
 		</button>
 	</div>
-	<div class="joystick reserved" role="group" aria-label="移动摇杆"><span></span><small>移动</small></div>
 	<!-- 聊天 UI 暂时隐藏，保留消息订阅与面板实现。 -->
 	<button hidden class="chat-preview surface" data-panel="chat" aria-label="打开聊天">
 		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>
 	</button>
 	<div class="battle-dock">
 		<div class="battle-status surface">
-			<span data-target role="status">自动战斗已停止</span><button data-interact hidden></button
-			><button data-cancel-species hidden>取消选怪</button>
+			<span data-target role="status">自动战斗已停止</span><button data-interact hidden></button>
 		</div>
 		<div class="skill-prompt surface" hidden>
-			<span data-skill-prompt></span><button data-skill-self hidden>对自己施放</button
-			><button data-skill-cancel>取消施法</button>
+			<span data-skill-prompt role="status"></span>
 		</div>
 		<div class="battle-tools">
 			<button class="surface" data-panel="autoCombat" data-auto-target>目标：全部魔物</button>
@@ -41,12 +38,17 @@
 			><button data-shortcut-page="1" aria-label="下一组快捷槽">›</button
 			><button data-panel="shortcuts">配置槽位</button>
 		</div>
+		<div class="skill-actions" hidden>
+			<button class="surface" data-skill-self hidden>对自己施放</button>
+			<button class="surface" data-skill-cancel>取消施法</button>
+		</div>
 		<div class="combat reserved" aria-label="技能快捷栏">
 			<button class="skill" data-shortcut="0" aria-label="技能槽位 1">＋</button>
 			<button class="skill" data-shortcut="1" aria-label="技能槽位 2">＋</button>
 			<button class="skill" data-shortcut="2" aria-label="技能槽位 3">＋</button>
 			<button class="skill" data-shortcut="3" aria-label="技能槽位 4">＋</button>
 			<button class="skill" data-shortcut="4" aria-label="技能槽位 5">＋</button>
+			<button class="skill" data-shortcut="5" aria-label="技能槽位 6">＋</button>
 		</div>
 	</div>
 	<div class="backdrop" hidden>

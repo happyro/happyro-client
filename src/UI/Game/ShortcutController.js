@@ -1,6 +1,6 @@
 import { canExecuteSkill, executeSkillUse, SKILL_INF } from 'UI/Components/SkillList/SkillUse.js';
 
-export const SHORTCUT_PAGE_SIZE = 5;
+export const SHORTCUT_PAGE_SIZE = 6;
 
 /** UI-independent shortcut flow. Reads current server-backed state again before every use. */
 export function createShortcutController(data) {

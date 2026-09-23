@@ -1,9 +1,7 @@
-/** Each control owns one pointer; releasing a button never releases the joystick. */
+/** A left-side canvas drag owns movement; each skill keeps its own pointer. */
 export function bindPointerControls(root, scene, actions) {
 	const abort = new AbortController();
-	const joystick = root.querySelector('.joystick');
 	const skills = [...root.querySelectorAll('[data-shortcut]')];
-	const knob = joystick.querySelector('span');
 	const owners = new Map();
 	let vector = [0, 0],
 		timer,
@@ -17,106 +15,111 @@ export function bindPointerControls(root, scene, actions) {
 		}
 		if (moving()) actions.move(...vector);
 	}
-	function update(event) {
-		const rect = joystick.getBoundingClientRect(),
-			radius = rect.width * 0.3;
-		let x = event.clientX - rect.left - rect.width / 2;
-		let y = event.clientY - rect.top - rect.height / 2;
-		const distance = Math.hypot(x, y);
-		if (distance > radius) {
-			x *= radius / distance;
-			y *= radius / distance;
-		}
-		knob.style.transform = `translate(${x}px, ${y}px)`;
-		vector =
-			distance < radius * 0.2 ? [0, 0] : [x / Math.max(1, Math.hypot(x, y)), -y / Math.max(1, Math.hypot(x, y))];
+	function startTimer() {
+		if (!timer) timer = setInterval(tick, 200);
 	}
-	function release(node) {
+	function clearIdleTimer() {
+		if (!owners.size && !sceneStart) {
+			clearInterval(timer);
+			timer = null;
+		}
+	}
+	function update(event) {
+		const x = event.clientX - sceneStart.x,
+			y = event.clientY - sceneStart.y;
+		const distance = Math.hypot(x, y);
+		vector = distance < 8 ? [0, 0] : [x / distance, -y / distance];
+	}
+	function releaseSkill(node) {
 		const id = owners.get(node);
 		if (id === undefined) return;
 		owners.delete(node);
 		if (node.hasPointerCapture(id)) node.releasePointerCapture(id);
 		node.classList.remove('held');
-		if (!owners.size) {
-			clearInterval(timer);
-			timer = null;
-		}
-		if (node === joystick) {
-			vector = [0, 0];
-			knob.style.transform = '';
-			actions.stopMove();
-		}
+		clearIdleTimer();
+	}
+	function releaseScene() {
+		const start = sceneStart;
+		sceneStart = null;
+		if (start && scene.hasPointerCapture(start.id)) scene.releasePointerCapture(start.id);
+		vector = [0, 0];
+		if (start?.dragging) actions.stopMove();
+		clearIdleTimer();
+		return start;
 	}
 	function cancel() {
-		release(joystick);
-		for (const skill of skills) release(skill);
-		if (sceneStart && scene.hasPointerCapture(sceneStart.id)) scene.releasePointerCapture(sceneStart.id);
-		sceneStart = null;
+		releaseScene();
+		for (const skill of skills) releaseSkill(skill);
 	}
-	for (const node of [joystick, ...skills]) {
+	for (const node of skills) {
 		listen(node, 'pointerdown', event => {
 			event.preventDefault();
 			if (!actions.enabled() || owners.has(node) || event.button !== 0) return;
 			owners.set(node, event.pointerId);
 			node.setPointerCapture(event.pointerId);
 			node.classList.add('held');
-			if (node === joystick) {
-				actions.startMove?.();
-				actions.stopMove();
-				update(event);
-				tick();
-			}
-			if (!timer) timer = setInterval(tick, 200);
-		});
-		listen(node, 'pointermove', event => {
-			if (node === joystick && owners.get(node) === event.pointerId) update(event);
+			startTimer();
 		});
 		for (const type of ['pointerup', 'pointercancel', 'lostpointercapture'])
 			listen(node, type, event => {
 				if (owners.get(node) !== event.pointerId) return;
 				const rect = node.getBoundingClientRect();
 				const activate =
-					skills.includes(node) &&
 					type === 'pointerup' &&
 					actions.enabled() &&
 					event.clientX >= rect.left &&
 					event.clientX <= rect.right &&
 					event.clientY >= rect.top &&
 					event.clientY <= rect.bottom;
-				release(node);
+				releaseSkill(node);
 				if (activate) actions.shortcut(Number(node.dataset.shortcut));
 			});
 	}
 	const oldTouchAction = scene.style.touchAction;
 	scene.style.touchAction = 'none';
-	// Suppress legacy touch and synthesized mouse paths only on the game canvas.
 	for (const type of ['touchstart', 'touchmove', 'touchend', 'touchcancel', 'mousedown', 'mouseup', 'contextmenu'])
 		listen(scene, type, event => {
 			event.preventDefault();
 			event.stopPropagation();
 		});
 	listen(scene, 'pointerdown', event => {
-		if (!actions.enabled() || owners.size || sceneStart || event.button !== 0) return;
-		sceneStart = { id: event.pointerId, x: event.clientX, y: event.clientY };
+		if (!actions.enabled() || sceneStart || event.button !== 0) return;
+		const rect = scene.getBoundingClientRect();
+		// Target taps stay unobstructed; a left-side drag can still take over movement.
+		const left = event.clientX < rect.left + rect.width / 2;
+		if (!left && owners.size) return;
+		sceneStart = { id: event.pointerId, x: event.clientX, y: event.clientY, left, cancelled: owners.size > 0 };
 		scene.setPointerCapture(event.pointerId);
+		startTimer();
 	});
 	listen(scene, 'pointermove', event => {
-		if (
-			sceneStart?.id === event.pointerId &&
-			Math.hypot(event.clientX - sceneStart.x, event.clientY - sceneStart.y) > 12
-		)
+		if (sceneStart?.id !== event.pointerId) return;
+		if (!actions.enabled()) {
+			cancel();
+			return;
+		}
+		const distance = Math.hypot(event.clientX - sceneStart.x, event.clientY - sceneStart.y);
+		if (!sceneStart.left) {
+			if (distance > 12) sceneStart.cancelled = true;
+			return;
+		}
+		if (!sceneStart.dragging && distance >= 8) {
+			sceneStart.dragging = true;
 			sceneStart.cancelled = true;
+			actions.startMove();
+			actions.stopMove();
+			update(event);
+			tick();
+		} else if (sceneStart.dragging) update(event);
 	});
 	listen(scene, 'pointerup', event => {
 		if (sceneStart?.id !== event.pointerId) return;
-		const start = sceneStart;
-		sceneStart = null;
-		if (scene.hasPointerCapture(event.pointerId)) scene.releasePointerCapture(event.pointerId);
+		const start = releaseScene();
 		if (!start.cancelled && actions.enabled() && !owners.size) actions.tap(event.clientX, event.clientY);
 	});
 	for (const type of ['pointercancel', 'lostpointercapture'])
 		listen(scene, type, event => {
-			if (sceneStart?.id === event.pointerId) sceneStart = null;
+			if (sceneStart?.id === event.pointerId) releaseScene();
 		});
 	return {
 		cancel,
