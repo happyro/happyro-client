@@ -6,7 +6,7 @@
  *
  * CharSelectCommon (V4 grid path) writes directly into these class names:
  *   .job .lvl .map .exp .hp .sp .str .agi .vit .int .dex .luk (via charinfo.querySelector)
- *   .ok .delete .canceldelete .finaldelete (via style.display)
+ *   .ok (via style.display)
  *   #slot0…#slot14 .name (via slot canvas)
  * The class contract must be preserved exactly.
  */
@@ -37,6 +37,7 @@ export default withMobileShell(
 		cssText: tokens + shellCSS + screenCSS,
 		gridLayout: true,
 		deleteReservation: true,
+		deletionEnabled: false,
 		defaultMaxSlots: 15,
 		activationEvent: 'click',
 		bitmapSkin: false,
@@ -47,7 +48,7 @@ export default withMobileShell(
 			});
 			root.querySelector('.selection-label').textContent =
 				character?.name || (index < maxSlots ? `角色栏 ${index + 1}` : '');
-			// Engine controls .ok/.delete via style.display.
+			// Engine controls .ok via style.display.
 			// .make is not managed by the engine in grid mode, so we handle it here.
 			root.querySelector('.make').hidden = !!character;
 		},

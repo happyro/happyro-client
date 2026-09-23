@@ -41,11 +41,26 @@ vi.mock('Renderer/Entity/Entity.js', () => ({ default: class {
 } }));
 vi.mock('Network/PacketVerManager.js', () => ({ default: { value: 20211103 } }));
 
+import { createCharSelect } from '../../src/UI/Components/CharSelect/CharSelectCommon.js';
 import Login from '../../src/UI/Mobile/WinLogin/WinLogin.js';
 import Select from '../../src/UI/Mobile/auth/CharSelect.js';
 import Create from '../../src/UI/Mobile/auth/CharCreate.js';
 import Renderer from 'Renderer/Renderer.js';
 import Client from 'Core/Client.js';
+
+
+// Exercise the desktop deletion capability with the same shared grid factory.
+function createDeletionSelect() {
+	return createCharSelect({
+		name: 'DeletionSelect', cssText: '', gridLayout: true, deleteReservation: true,
+		bitmapSkin: false, activationEvent: 'click',
+		htmlText: Select.render() + '<button class="delete"></button><button class="canceldelete"></button><button class="finaldelete"></button>',
+		onSelectionChange(root, { index, character }) {
+			root.querySelectorAll('.char_canvas').forEach((slot, i) => slot.setAttribute('aria-pressed', String(i === index)));
+			root.querySelector('.make').hidden = !!character;
+		}
+	});
+}
 
 const mounted = new Set();
 function mount(component) { mounted.add(component); component.append(); return component.getRoot(); }
@@ -70,6 +85,17 @@ afterEach(async () => {
 });
 
 describe('mobile authentication', () => {
+	it('omits all deletion controls for normal and reserved mobile characters', () => {
+		const root = mount(Select);
+		Select.setInfo({ TotalSlotNum: 3, PremiumStartSlot: 0, sex: 1, charInfo: [character()] });
+		for (const DeleteDate of [0, 60]) {
+			Select.addCharacter({ ...character(), DeleteDate });
+			root.querySelector('#slot0').click();
+			expect(root.querySelector('.delete, .canceldelete, .finaldelete')).toBeNull();
+			root.querySelector('#slot1').click();
+			expect(root.querySelector('.make').hidden).toBe(false);
+		}
+	});
 	it('does not request desktop bitmap decorations for phone selection or creation', () => {
 		Client.loadFile.mockClear();
 		mount(Select);
@@ -82,6 +108,7 @@ describe('mobile authentication', () => {
 		expect(Client.loadFile).not.toHaveBeenCalled();
 	});
 	it('keeps the deletion target fixed until the server answers, then unlocks selection', () => {
+		const Select = createDeletionSelect();
 		const root = mount(Select);
 		Select.setInfo({ TotalSlotNum: 3, PremiumStartSlot: 0, sex: 1, charInfo: [character()] });
 		root.querySelector('#slot0').click();
@@ -117,6 +144,7 @@ describe('mobile authentication', () => {
 		expect(Select.onCreateRequest).not.toHaveBeenCalled();
 	});
 	it('releases failed deletion waits without releasing an external UI lock', () => {
+		const Select = createDeletionSelect();
 		const root = mount(Select);
 		Select.setInfo({ TotalSlotNum: 3, PremiumStartSlot: 0, sex: 1, charInfo: [character()] });
 		root.querySelector('#slot0').click();
@@ -148,6 +176,7 @@ describe('mobile authentication', () => {
 		expect(Select.onCreateRequest).toHaveBeenCalledExactlyOnceWith(2);
 	});
 	it('does not move a locked selection or cancel its deletion reservation', () => {
+		const Select = createDeletionSelect();
 		const root = mount(Select);
 		Select.setInfo({ TotalSlotNum: 3, PremiumStartSlot: 0, sex: 1, charInfo: [character()] });
 		root.querySelector('#slot0').click();
@@ -245,6 +274,7 @@ describe('mobile authentication', () => {
 		Select.setUIEnabled(true);
 	});
 	it('keeps reservation, cancellation and successful deletion in the shared flow', () => {
+		const Select = createDeletionSelect();
 		const root = mount(Select);
 		Select.setInfo({ TotalSlotNum: 3, PremiumStartSlot: 0, sex: 1, charInfo: [character()] });
 		root.querySelector('#slot0').click();

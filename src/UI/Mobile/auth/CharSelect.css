@@ -193,7 +193,7 @@
 /* ── Action buttons — always visible, pinned to row 3 ── */
 /*
  * The engine (CharSelectCommon moveCursorToGrid) sets style.display on
- * .ok, .delete, .canceldelete, .finaldelete directly. We only control .make
+ * .ok directly. We only control .make
  * via onSelectionChange (hidden attribute). Both work because the grid row
  * always has auto height.
  */
@@ -223,34 +223,8 @@
 .ok  { background: var(--m-accent); color: var(--m-accent-fg); }
 .make { background: var(--m-surface-raised); color: var(--m-text); border: 1.5px solid var(--m-border); }
 
-.danger-row {
-	display: flex;
-	gap: 6px;
-}
-
-.delete,
-.canceldelete,
-.finaldelete {
-	flex: 1;
-	height: 38px;
-	background: var(--m-danger-bg);
-	border: 1px solid var(--m-danger-border);
-	border-radius: var(--m-r-sm);
-	color: var(--m-danger);
-	font: 13px/1 system-ui, sans-serif;
-	cursor: pointer;
-	touch-action: manipulation;
-	transition: background 150ms;
-}
-.delete:hover, .canceldelete:hover, .finaldelete:hover { background: rgba(255,107,107,0.2); }
-.delete:focus-visible, .canceldelete:focus-visible, .finaldelete:focus-visible {
-	outline: 2px solid var(--m-danger);
-	outline-offset: 2px;
-}
-
 .hidden { display: none; }
 .selection-label { overflow-wrap: anywhere; }
-.delete, .canceldelete, .finaldelete { min-height: 44px; height: auto; }
 
 @media (max-width: 600px) and (min-height: 480px) {
 	.layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, 1fr) minmax(200px, 1fr); }
