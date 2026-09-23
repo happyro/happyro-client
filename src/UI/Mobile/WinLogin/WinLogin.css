@@ -236,19 +236,22 @@
 	box-shadow: 0 1px 2px oklch(0% 0 0 / 0.10);
 }
 
-.m-login__btn--primary:hover {
-	background: var(--c-accent-hover);
-	box-shadow: 0 2px 6px oklch(0% 0 0 / 0.14);
-}
-
 /* Secondary — outlined accent */
 .m-login__btn--secondary {
 	border: 1.5px solid var(--c-accent);
 	color: var(--c-accent);
 }
 
-.m-login__btn--secondary:hover {
-	background: var(--a-100);
+/* Touch taps can leave :hover active while a dialog is open. */
+@media (hover: hover) and (pointer: fine) {
+	.m-login__btn--primary:hover {
+		background: var(--c-accent-hover);
+		box-shadow: 0 2px 6px oklch(0% 0 0 / 0.14);
+	}
+
+	.m-login__btn--secondary:hover {
+		background: var(--a-100);
+	}
 }
 
 .m-login { padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
