@@ -48,7 +48,8 @@ export function createCharSelect(config) {
 		activationEvent = 'mousedown',
 		bitmapSkin = true,
 		onSelectionChange = () => {},
-		onSlotChange = () => {}
+		onSlotChange = () => {},
+		confirmExit = (message, onConfirm) => UIManager.showPromptBox(message, 'ok', 'cancel', onConfirm, null)
 	} = config;
 	function loadSkin(path, callback) {
 		if (bitmapSkin) Client.loadFile(path, callback);
@@ -663,31 +664,12 @@ export function createCharSelect(config) {
 	 * Press "cancel" or ESCAPE key
 	 */
 	function cancel() {
-		if (!isUIBlocked()) {
-			if (gridLayout) {
-				UIManager.showPromptBox(
-					DB.getMessage(17),
-					'ok',
-					'cancel',
-					() => {
-						stopCountdownInterval();
-						Component.onExitRequest();
-						Component.clearAllSlots();
-					},
-					null
-				);
-			} else {
-				UIManager.showPromptBox(
-					DB.getMessage(17),
-					'ok',
-					'cancel',
-					() => {
-						Component.onExitRequest();
-					},
-					null
-				);
-			}
-		}
+		if (isUIBlocked()) return;
+		confirmExit(DB.getMessage(17), () => {
+			if (gridLayout) stopCountdownInterval();
+			Component.onExitRequest();
+			if (gridLayout) Component.clearAllSlots();
+		});
 	}
 
 	/**

@@ -31,7 +31,7 @@ const slots = Array.from(
 
 const htmlText = rawHTML.replace('CHAR_SLOTS_PLACEHOLDER', slots);
 
-export default withMobileShell(
+const CharSelect = withMobileShell(
 	createCharSelect({
 		name: 'MobileCharSelect',
 		htmlText,
@@ -42,6 +42,16 @@ export default withMobileShell(
 		defaultMaxSlots: 15,
 		activationEvent: 'click',
 		bitmapSkin: false,
+		confirmExit(message, onConfirm) {
+			const dialog = CharSelect.getRoot().querySelector('.exit-dialog');
+			if (dialog.open) return;
+			dialog.querySelector('#exit-message').textContent = message;
+			dialog.returnValue = '';
+			dialog.onclose = () => {
+				if (dialog.returnValue === 'confirm') onConfirm();
+			};
+			dialog.showModal();
+		},
 		onSlotChange(slot, { index, character }) {
 			slot.dataset.empty = String(!character);
 			slot.querySelector('.empty-placeholder').hidden = !!character;
@@ -60,3 +70,18 @@ export default withMobileShell(
 		},
 	})
 );
+
+const onKeyDown = CharSelect.onKeyDown;
+CharSelect.onKeyDown = function (event) {
+	if (this.getRoot().querySelector('.exit-dialog').open) return true;
+	return onKeyDown.call(this, event);
+};
+const onRemove = CharSelect.onRemove;
+CharSelect.onRemove = function () {
+	const dialog = this.getRoot().querySelector('.exit-dialog');
+	dialog.onclose = null;
+	if (dialog.open) dialog.close('cancel');
+	onRemove.call(this);
+};
+
+export default CharSelect;
