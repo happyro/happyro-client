@@ -1,0 +1,254 @@
+/*
+ * UI/Mobile/auth/CharSelect.css
+ *
+ * Composed with tokens.css + Shell.css via ?raw in CharSelect.js.
+ * Tokens provide all color/radius values — no hardcoded values here.
+ *
+ * Layout strategy:
+ *   - :host is overflow:hidden (Shell.css sets overflow:auto; we override)
+ *   - .page fills host height as a flex column
+ *   - .layout is a 2-col grid, height fills remaining space
+ *   - Left column (.char_list): flex column, overflow-y:auto — scrolls when slots exceed height
+ *   - Right column (.detail-panel): 3-row grid — name row (auto), info row (1fr, scrolls),
+ *     action row (auto, always visible) — fixes buttons disappearing when charinfo is tall
+ */
+
+:host {
+	overflow: hidden;
+}
+
+/* ── Page ── */
+.page {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	padding:
+		max(16px, env(safe-area-inset-top))
+		max(12px, env(safe-area-inset-right))
+		max(16px, env(safe-area-inset-bottom))
+		max(12px, env(safe-area-inset-left));
+	gap: 12px;
+}
+
+/* ── Top bar ── */
+.top-bar {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.screen-title {
+	font-size: 22px;
+	font-weight: 700;
+	margin: 0;
+	letter-spacing: -0.3px;
+}
+
+.cancel {
+	background: none;
+	border: none;
+	color: var(--m-text-muted);
+	font: 15px/1 system-ui, sans-serif;
+	padding: 8px 4px;
+	min-height: 44px;
+	cursor: pointer;
+	touch-action: manipulation;
+	border-radius: var(--m-r-sm);
+	transition: color 150ms;
+}
+.cancel:hover { color: var(--m-text); }
+.cancel:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }
+
+/* ── Two-column layout ── */
+.layout {
+	flex: 1;
+	min-height: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr);
+	gap: 12px;
+}
+
+/* ── Left: single-column scrollable slot list ── */
+.char_list {
+	/* min-height:0 lets this grid item shrink below its content height, enabling overflow scroll */
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding-right: 2px;
+}
+
+.char_canvas {
+	flex-shrink: 0;           /* don't compress — let the list scroll instead */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 8px 6px 10px;
+	background: var(--m-surface);
+	border: 1.5px solid var(--m-border);
+	border-radius: var(--m-r-md);
+	cursor: pointer;
+	touch-action: manipulation;
+	width: 100%;
+	transition: border-color 150ms, background 150ms;
+}
+
+.char_canvas[aria-pressed='true'] {
+	border-color: var(--m-border-active);
+	background: var(--m-surface-active);
+}
+
+.char_canvas canvas {
+	display: block;
+	width: 100%;
+	max-width: 110px;
+	height: auto;
+	margin: -10px auto 0;
+	pointer-events: none;
+}
+
+.char_canvas .name {
+	display: block;
+	font-size: 13px;
+	font-weight: 500;
+	margin-top: 4px;
+	text-align: center;
+	overflow-wrap: anywhere;
+	line-height: 1.3;
+	min-height: 18px;
+}
+
+.char_canvas .name:empty::after {
+	content: '空';
+	color: var(--m-text-muted);
+	font-weight: 400;
+}
+
+.timedelete {
+	font-size: 11px;
+	color: var(--m-danger);
+	text-align: center;
+	margin-top: 2px;
+}
+
+/* ── Right: detail panel ── */
+/*
+ * 3-row grid: name (auto) / scrollable info (1fr) / actions (auto)
+ * The action-group row is always visible because its height is auto,
+ * independent of how tall the charinfo content is.
+ */
+.detail-panel {
+	min-height: 0;
+	display: grid;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	grid-template-columns: 1fr;
+	gap: 8px;
+}
+
+.selection-label {
+	font-size: 18px;
+	font-weight: 700;
+	margin: 0;
+	letter-spacing: -0.2px;
+	min-height: 27px;
+	align-self: start;
+}
+
+/* Scrollable info rows — occupies 1fr, never pushes action-group out */
+.charinfo {
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.charinfo > div {
+	display: flex;
+	justify-content: space-between;
+	font-size: 13px;
+	padding: 5px 0;
+	border-bottom: 1px solid var(--m-border);
+}
+
+.charinfo > div:last-child { border-bottom: none; }
+
+.charinfo > div::before {
+	content: attr(data-label);
+	color: var(--m-text-muted);
+	flex-shrink: 0;
+	margin-right: 8px;
+}
+
+.charinfo > div:empty { display: none; }
+
+/* ── Action buttons — always visible, pinned to row 3 ── */
+/*
+ * The engine (CharSelectCommon moveCursorToGrid) sets style.display on
+ * .ok, .delete, .canceldelete, .finaldelete directly. We only control .make
+ * via onSelectionChange (hidden attribute). Both work because the grid row
+ * always has auto height.
+ */
+.action-group {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding-top: 8px;
+	border-top: 1px solid var(--m-border);
+	align-self: end;
+}
+
+.ok,
+.make {
+	display: block;
+	width: 100%;
+	height: 46px;
+	border: none;
+	border-radius: var(--m-r-sm);
+	font: 600 15px/1 system-ui, sans-serif;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: opacity 150ms, transform 80ms;
+}
+.ok:active, .make:active { transform: scale(0.97); }
+.ok:focus-visible, .make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }
+.ok  { background: var(--m-accent); color: var(--m-accent-fg); }
+.make { background: var(--m-surface-raised); color: var(--m-text); border: 1.5px solid var(--m-border); }
+
+.danger-row {
+	display: flex;
+	gap: 6px;
+}
+
+.delete,
+.canceldelete,
+.finaldelete {
+	flex: 1;
+	height: 38px;
+	background: var(--m-danger-bg);
+	border: 1px solid var(--m-danger-border);
+	border-radius: var(--m-r-sm);
+	color: var(--m-danger);
+	font: 13px/1 system-ui, sans-serif;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: background 150ms;
+}
+.delete:hover, .canceldelete:hover, .finaldelete:hover { background: rgba(255,107,107,0.2); }
+.delete:focus-visible, .canceldelete:focus-visible, .finaldelete:focus-visible {
+	outline: 2px solid var(--m-danger);
+	outline-offset: 2px;
+}
+
+.hidden { display: none; }
+.selection-label { overflow-wrap: anywhere; }
+.delete, .canceldelete, .finaldelete { min-height: 44px; height: auto; }
+
+@media (max-width: 600px) and (min-height: 480px) {
+	.layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(120px, 1fr) minmax(200px, 1fr); }
+	.char_list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: max-content; }
+	.char_canvas canvas { max-width: 80px; }
+	.charinfo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
+}

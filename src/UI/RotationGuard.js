@@ -1,88 +1,71 @@
-/**
- * UI/RotationGuard.js
- *
- * Shows a full-screen "please rotate" overlay when a mobile device
- * is in portrait mode. Hides automatically when the user rotates to landscape.
- * Only active when Platform.isMobile is true.
- */
-
+/** Landscape is required only while entering or playing the game. */
 import Platform from 'UI/Platform.js';
+import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
 
-const CSS = `
-	#ro-rotation-guard {
-		display: none;
-		position: fixed;
-		inset: 0;
-		z-index: 99999;
-		background: #0a0a0a;
-		color: #e8e8e8;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 16px;
-		font-family: sans-serif;
-		font-size: 16px;
-		text-align: center;
-		user-select: none;
-	}
-	#ro-rotation-guard.visible {
-		display: flex;
-	}
-	#ro-rotation-guard svg {
-		width: 56px;
-		height: 56px;
-		animation: ro-spin 2s ease-in-out infinite;
-	}
-	@keyframes ro-spin {
-		0%   { transform: rotate(0deg); }
-		40%  { transform: rotate(90deg); }
-		100% { transform: rotate(90deg); }
-	}
-	@media (prefers-reduced-motion: reduce) {
-		#ro-rotation-guard svg { animation: none; transform: rotate(45deg); }
-	}
-`;
+let overlay;
+let unsubscribe;
+let cancelOnDisconnect;
+let pending;
 
-const ICON_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#e8e8e8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-	<rect x="4" y="2" width="16" height="20" rx="2"/>
-	<line x1="12" y1="18" x2="12" y2="18.5"/>
-</svg>`;
-
-let _guard = null;
-let _unsub = null;
-
-function _setVisible(portrait) {
-	if (_guard) _guard.classList.toggle('visible', portrait);
+function update() {
+	const portrait = Platform.orientation === 'portrait';
+	overlay.hidden = !portrait;
+	if (!portrait && pending) {
+		const proceed = pending;
+		pending = null;
+		cancelOnDisconnect?.();
+		cancelOnDisconnect = null;
+		overlay.querySelector('button').hidden = true;
+		proceed();
+	}
 }
 
-/**
- * Mount the rotation guard. Safe to call multiple times.
- * Does nothing on desktop.
- */
-function init() {
-	if (!Platform.isMobile || _guard) return;
-
-	const style = document.createElement('style');
-	style.textContent = CSS;
-	document.head.appendChild(style);
-
-	_guard = document.createElement('div');
-	_guard.id = 'ro-rotation-guard';
-	_guard.setAttribute('role', 'alert');
-	_guard.setAttribute('aria-live', 'polite');
-	_guard.innerHTML = `${ICON_SVG}<span>请将设备旋转至横屏</span>`;
-	document.body.appendChild(_guard);
-
-	_setVisible(Platform.orientation === 'portrait');
-	_unsub = Platform.onOrientationChange(o => _setVisible(o === 'portrait'));
+function blockKeys(event) {
+	if (overlay && !overlay.hidden && !overlay.contains(event.target)) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
+	}
 }
 
-/**
- * Unmount the rotation guard and clean up listeners.
- */
-function destroy() {
-	if (_unsub) { _unsub(); _unsub = null; }
-	if (_guard) { _guard.remove(); _guard = null; }
+function release() {
+	window.removeEventListener('keydown', blockKeys, true);
+	pending = null;
+	cancelOnDisconnect?.();
+	cancelOnDisconnect = null;
+	unsubscribe?.();
+	unsubscribe = null;
+	overlay?.remove();
+	overlay = null;
 }
 
-export default { init, destroy };
+function requireLandscape(proceed) {
+	if (!Platform.isMobile) { proceed(); return; }
+	if (overlay) return;
+	overlay = document.createElement('div');
+	overlay.id = 'ro-rotation-guard';
+	overlay.setAttribute('role', 'dialog');
+	overlay.setAttribute('aria-modal', 'true');
+	overlay.setAttribute('aria-label', '请将设备旋转至横屏');
+	overlay.innerHTML = `<style>
+		#ro-rotation-guard { position:fixed; inset:0; z-index:99999; background:#0f1923;
+			color:#e8edf4; display:flex; flex-direction:column; align-items:center;
+			justify-content:center; gap:20px; padding:24px; text-align:center;
+			font:18px/1.5 system-ui,sans-serif; touch-action:none; }
+		#ro-rotation-guard[hidden], #ro-rotation-guard button[hidden] { display:none; }
+		#ro-rotation-guard button { min-height:44px; padding:8px 24px; border:1px solid #8a9bb0;
+			border-radius:10px; background:transparent; color:inherit; font:inherit; }
+	</style><span>请将设备旋转至横屏</span><button type="button">返回选角</button>`;
+	for (const type of ['touchstart', 'touchmove', 'touchend', 'pointerdown', 'pointerup', 'click', 'wheel']) {
+		overlay.addEventListener(type, event => event.stopPropagation(), { passive: true });
+	}
+	overlay.addEventListener('keydown', event => event.stopPropagation());
+	overlay.querySelector('button').addEventListener('click', release);
+	document.body.appendChild(overlay);
+	window.addEventListener('keydown', blockKeys, true);
+	pending = proceed;
+	cancelOnDisconnect = onConnectionEnd(() => { if (pending) release(); });
+	unsubscribe = Platform.onOrientationChange(update);
+	update();
+}
+
+export default { requireLandscape, release };

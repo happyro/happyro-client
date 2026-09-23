@@ -1,0 +1,37 @@
+<!-- UI/Mobile/auth/CharSelect.html -->
+<!-- Canvas slots are injected by CharSelect.js at build time. -->
+<div class="page">
+	<header class="top-bar">
+		<h1 class="screen-title">选择角色</h1>
+		<button class="cancel" type="button">返回</button>
+	</header>
+	<div class="layout">
+		<div class="char_list">CHAR_SLOTS_PLACEHOLDER</div>
+		<aside class="detail-panel">
+			<h2 class="selection-label"></h2>
+			<div class="charinfo">
+				<div class="job"  data-label="职业"></div>
+				<div class="lvl"  data-label="等级"></div>
+				<div class="map"  data-label="地图"></div>
+				<div class="exp"  data-label="经验"></div>
+				<div class="hp"   data-label="HP"></div>
+				<div class="sp"   data-label="SP"></div>
+				<div class="str"  data-label="力量"></div>
+				<div class="agi"  data-label="敏捷"></div>
+				<div class="vit"  data-label="体力"></div>
+				<div class="int"  data-label="智力"></div>
+				<div class="dex"  data-label="灵巧"></div>
+				<div class="luk"  data-label="幸运"></div>
+			</div>
+			<div class="action-group">
+				<button class="ok"          type="button">进入游戏</button>
+				<button class="make"        type="button">创建角色</button>
+				<div class="danger-row">
+					<button class="delete"      type="button">预约删除</button>
+					<button class="canceldelete" type="button">取消删除</button>
+					<button class="finaldelete"  type="button">删除角色</button>
+				</div>
+			</div>
+		</aside>
+	</div>
+</div>

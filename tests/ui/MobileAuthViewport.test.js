@@ -1,0 +1,60 @@
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
+vi.mock('UI/GUIComponent.js', () => ({ default: { MouseMode: { FREEZE: 2 } } }));
+
+vi.mock('Renderer/Renderer.js', () => ({ default: { resize: vi.fn() } }));
+
+afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); document.body.replaceChildren(); });
+
+describe('mobile auth keyboard viewport', () => {
+	it('tracks the visible keyboard area, reveals the input, and removes all listeners on exit', async () => {
+		vi.resetModules();
+		const visual = Object.assign(new EventTarget(), { width: 390, height: 844, offsetTop: 0, offsetLeft: 0 });
+		vi.stubGlobal('visualViewport', visual);
+		const added = vi.spyOn(visual, 'addEventListener');
+		const removed = vi.spyOn(visual, 'removeEventListener');
+		let frame;
+		vi.stubGlobal('requestAnimationFrame', callback => { frame = callback; return 1; });
+		vi.stubGlobal('cancelAnimationFrame', vi.fn());
+		const { withMobileShell } = await import('../../src/UI/Mobile/Shell.js');
+		const { default: renderer } = await import('Renderer/Renderer.js');
+		const scroll = vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
+		const host = document.createElement('div');
+		document.body.append(host);
+		const shadow = host.attachShadow({ mode: 'open' });
+		shadow.innerHTML = '<input type="text">';
+		const input = shadow.querySelector('input');
+		input.scrollIntoView = vi.fn();
+		vi.spyOn(host, 'getBoundingClientRect').mockReturnValue({ top: 120, bottom: 480 });
+		vi.spyOn(input, 'getBoundingClientRect').mockReturnValue({ top: 490, bottom: 538 });
+		const component = withMobileShell({ _host: host, _shadow: shadow });
+		document.documentElement.style.setProperty('overflow', 'auto', 'important');
+		component.init(); component.onAppend();
+		expect(component.nativeScrolling).toBe(true);
+		expect(document.documentElement.style.overflow).toBe('hidden');
+		input.focus();
+		Object.assign(visual, { height: 360, offsetTop: 120 });
+		visual.dispatchEvent(new Event('resize'));
+		frame();
+		expect(host.style.getPropertyValue('--auth-height')).toBe('360px');
+		expect(host.style.getPropertyValue('--auth-top')).toBe('120px');
+		expect(input.scrollIntoView).not.toHaveBeenCalled();
+		expect(host.scrollTop).toBe(70);
+		expect(scroll).not.toHaveBeenCalled();
+		component.onRemove();
+		await Promise.resolve();
+		frame();
+		frame();
+		expect(scroll).toHaveBeenLastCalledWith(0, 0);
+		expect(renderer.resize).toHaveBeenCalledOnce();
+		expect(shadow.activeElement).toBeNull();
+		expect(document.querySelector('meta[name=viewport]')).toBeNull();
+		expect(document.documentElement.style.overflow).toBe('auto');
+		expect(document.documentElement.style.getPropertyPriority('overflow')).toBe('important');
+		document.documentElement.style.removeProperty('overflow');
+		expect(removed.mock.calls).toEqual(added.mock.calls);
+		visual.height = 700;
+		visual.dispatchEvent(new Event('resize'));
+		expect(host.style.getPropertyValue('--auth-height')).toBe('360px');
+	});
+});

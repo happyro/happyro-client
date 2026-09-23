@@ -1,0 +1,313 @@
+/*
+ * UI/Mobile/auth/CharCreate.css
+ * Mobile character-creation screen — compose with tokens.css + Shell.css via ?raw.
+ */
+
+:host {
+	overflow: auto;
+}
+
+.page {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	padding:
+		max(16px, env(safe-area-inset-top))
+		max(16px, env(safe-area-inset-right))
+		max(24px, env(safe-area-inset-bottom))
+		max(16px, env(safe-area-inset-left));
+	gap: 16px;
+}
+
+/* ── Top bar ── */
+.top-bar {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.screen-title,
+.title {
+	font-size: 22px;
+	font-weight: 700;
+	margin: 0;
+	letter-spacing: -0.3px;
+}
+
+.return {
+	background: none;
+	border: none;
+	color: var(--m-text-muted);
+	font: 15px/1 system-ui, sans-serif;
+	padding: 8px 4px;
+	min-height: 44px;
+	cursor: pointer;
+	touch-action: manipulation;
+	border-radius: var(--m-r-sm);
+	transition: color 150ms;
+}
+.return:hover { color: var(--m-text); }
+.return:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }
+
+/* ── Name field ── */
+.name-field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.field-label {
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--m-text-muted);
+	letter-spacing: 0.3px;
+}
+
+#char_name {
+	width: 100%;
+	height: 48px;
+	padding: 0 14px;
+	background: var(--m-surface);
+	border: 1px solid var(--m-border);
+	border-radius: var(--m-r-sm);
+	color: var(--m-text);
+	font: 16px/1 system-ui, sans-serif;
+	outline: none;
+	-webkit-user-select: text;
+	user-select: text;
+	transition: border-color 150ms, box-shadow 150ms;
+}
+
+#char_name::placeholder { color: rgba(138, 155, 176, 0.5); }
+#char_name:focus { border-color: var(--m-accent); box-shadow: 0 0 0 3px rgba(74,158,255,0.2); }
+
+/* ── Section header ── */
+.section-title {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--m-text-muted);
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	margin: 0 0 10px;
+}
+
+/* ── Race cards ── */
+.races {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+}
+
+.races > div { position: relative; }
+
+.races input[type='radio'] {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+}
+
+.races label {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	padding: 14px 10px;
+	background: var(--m-surface);
+	border: 1.5px solid var(--m-border);
+	border-radius: var(--m-r-md);
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: border-color 150ms, background 150ms;
+}
+
+.races input:checked + label {
+	border-color: var(--m-border-active);
+	background: var(--m-surface-active);
+}
+
+.races input:focus-visible + label { outline: 2px solid var(--m-accent); outline-offset: 2px; }
+
+.races canvas { display: block; pointer-events: none; }
+.races strong { font-size: 14px; font-weight: 600; }
+
+.human_desc,
+.doram_desc {
+	font-size: 12px;
+	color: var(--m-text-muted);
+	text-align: center;
+	line-height: 1.4;
+}
+
+/* ── Appearance section ── */
+.style-section { display: flex; flex-direction: column; gap: 14px; }
+
+/* Gender toggle */
+.gender-row { display: flex; gap: 8px; }
+
+.gender-row span { position: relative; flex: 1; }
+
+.gender-row input[type='radio'] {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+}
+
+.gender-row label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 44px;
+	border: 1.5px solid var(--m-border);
+	border-radius: var(--m-r-sm);
+	background: var(--m-surface);
+	cursor: pointer;
+	font: 15px/1 system-ui, sans-serif;
+	touch-action: manipulation;
+	transition: border-color 150ms, background 150ms;
+}
+
+.gender-row input:checked + label {
+	border-color: var(--m-border-active);
+	background: var(--m-surface-active);
+	color: var(--m-accent);
+	font-weight: 600;
+}
+
+.gender-row input:focus-visible + label { outline: 2px solid var(--m-accent); outline-offset: 2px; }
+
+/* Model preview */
+.model-row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+}
+
+.rot_left,
+.rot_right {
+	width: 44px;
+	height: 44px;
+	flex-shrink: 0;
+	background: var(--m-surface);
+	border: 1px solid var(--m-border);
+	border-radius: 50%;
+	color: var(--m-text-muted);
+	font-size: 18px;
+	cursor: pointer;
+	touch-action: manipulation;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 150ms, color 150ms;
+	padding: 0;
+}
+.rot_left:hover, .rot_right:hover { background: var(--m-surface-raised); color: var(--m-text); }
+.rot_left:focus-visible, .rot_right:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }
+
+#style_model { display: block; pointer-events: none; }
+
+/* Hairstyle grid — .hair-style class required by CharCreateCommon.js */
+.hair-style {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.styleCol { position: relative; }
+
+.styleCol input[type='radio'] {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+}
+
+.hstyle_button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border: 1.5px solid var(--m-border);
+	border-radius: var(--m-r-sm);
+	background: var(--m-surface);
+	font-size: 13px;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: border-color 150ms, background 150ms, color 150ms;
+}
+
+.styleCol input:checked + .hstyle_button {
+	border-color: var(--m-border-active);
+	background: var(--m-surface-active);
+	color: var(--m-accent);
+	font-weight: 600;
+}
+
+.styleCol input:focus-visible + .hstyle_button { outline: 2px solid var(--m-accent); outline-offset: 2px; }
+
+/* Hair color */
+.color-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.colorCol { position: relative; }
+
+.colorCol input[type='radio'] {
+	position: absolute;
+	opacity: 0;
+	width: 1px;
+	height: 1px;
+}
+
+.hcolor_button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border: 1.5px solid var(--m-border);
+	border-radius: var(--m-r-sm);
+	background: var(--m-surface);
+	font-size: 13px;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: border-color 150ms, background 150ms, color 150ms;
+}
+
+.colorCol input:checked + .hcolor_button {
+	border-color: var(--m-border-active);
+	background: var(--m-surface-active);
+	color: var(--m-accent);
+	font-weight: 600;
+}
+
+.colorCol input:focus-visible + .hcolor_button { outline: 2px solid var(--m-accent); outline-offset: 2px; }
+
+/* Create button */
+.make {
+	display: block;
+	width: 100%;
+	height: 52px;
+	background: var(--m-accent);
+	color: var(--m-accent-fg);
+	border: none;
+	border-radius: var(--m-r-sm);
+	font: 600 17px/1 system-ui, sans-serif;
+	cursor: pointer;
+	touch-action: manipulation;
+	transition: opacity 150ms, transform 80ms;
+	margin-top: 4px;
+}
+.make:hover { opacity: 0.9; }
+.make:active { transform: scale(0.98); }
+.make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 3px; box-shadow: 0 0 0 5px rgba(74,158,255,0.2); }
+
+[hidden] { display: none !important; }
+
+@media (min-width: 640px) {
+	.page { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+	.top-bar, .name-field, .page > .make { grid-column: 1 / -1; }
+	.style-section { grid-column: 2; grid-row: 3; }
+}

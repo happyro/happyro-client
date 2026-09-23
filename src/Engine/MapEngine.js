@@ -9,6 +9,7 @@
  * @author Vincent Thibault
  */
 
+import RotationGuard from 'UI/RotationGuard.js';
 import DB from 'DB/DBManager.js';
 import Configs from 'Core/Configs.js';
 import SoundManager from 'Audio/SoundManager.js';
@@ -172,6 +173,7 @@ class MapEngine {
 
 				// Fail to connect...
 				if (!success) {
+					RotationGuard.release();
 					UIManager.showErrorBox(DB.getMessage(1));
 					return;
 				}
@@ -661,6 +663,7 @@ function onConnectionAccepted(pkt) {
  * @param {object} pkt - PACKET.ZC.REFUSE_ENTER
  */
 function onConnectionRefused(pkt) {
+	RotationGuard.release();
 	UIManager.showErrorBox(DB.getMessage(9)); // MSI_ACCESS_DENIED = Rejected from Server.
 }
 
@@ -858,6 +861,7 @@ function onExitFail(pkt) {
  * @param {object} pkt - PACKET.ZC.REFUSE_QUIT
  */
 function onExitSuccess() {
+	RotationGuard.release();
 	if (PACKETVER.value >= 20170315 && Session.WebToken) {
 		ShortCut.saveToServer();
 	}

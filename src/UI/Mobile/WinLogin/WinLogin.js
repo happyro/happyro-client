@@ -15,8 +15,10 @@ import MobileGUIComponent from 'UI/MobileGUIComponent.js';
 import { normalizeRememberedAccount } from 'UI/Components/WinLogin/RememberedAccount.js';
 import htmlText from './WinLogin.html?raw';
 import cssText from './WinLogin.css?raw';
+import shellCSS from '../Shell.css?raw';
+import { withMobileShell } from '../Shell.js';
 
-const MobileWinLogin = new MobileGUIComponent('MobileWinLogin', cssText);
+const MobileWinLogin = new MobileGUIComponent('MobileWinLogin', cssText + shellCSS);
 
 MobileWinLogin.render = () => htmlText;
 
@@ -52,11 +54,6 @@ MobileWinLogin.onAppend = function onAppend() {
 	_inputPass.value = '';
 	_updateSave();
 
-	if (_preferences.ID.length) {
-		_inputPass.focus();
-	} else {
-		_inputUser.focus();
-	}
 };
 
 function _toggleSave() {
@@ -79,6 +76,8 @@ function _connect() {
 	}
 	_preferences.save();
 
+	_inputUser.blur();
+	_inputPass.blur();
 	MobileWinLogin.onConnectionRequest(user, pass);
 }
 
@@ -113,4 +112,4 @@ MobileWinLogin.onExitRequest = function onExitRequest() {};
 
 UIManager.addComponent(MobileWinLogin);
 
-export default MobileWinLogin;
+export default withMobileShell(MobileWinLogin);

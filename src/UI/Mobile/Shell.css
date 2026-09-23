@@ -1,0 +1,48 @@
+/*
+ * UI/Mobile/Shell.css
+ *
+ * Host positioning for all mobile auth panels.
+ * Provides the fixed-fullscreen shell and base resets only.
+ * Colors come from tokens.css — this file has no hardcoded values.
+ */
+
+:host {
+	position: fixed !important;
+	top: var(--auth-top, 0px) !important;
+	left: var(--auth-left, 0px) !important;
+	width: var(--auth-width, 100vw) !important;
+	height: var(--auth-height, 100dvh) !important;
+	box-sizing: border-box;
+	overflow: auto;
+	overscroll-behavior: contain;
+	touch-action: pan-y pinch-zoom;
+	background: var(--m-bg);
+	color: var(--m-text);
+	font: 16px/1.5 system-ui, sans-serif;
+	-webkit-text-size-adjust: 100%;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+button,
+input,
+select,
+label,
+textarea {
+	font: inherit;
+	color: inherit;
+}
+
+input,
+select {
+	/* Prevent iOS auto-zoom on inputs smaller than 16px */
+	font-size: 16px !important;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.ui-component-root { height: 100%; min-height: 0; }

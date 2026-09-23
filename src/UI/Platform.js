@@ -14,19 +14,28 @@ const _coarse = window.matchMedia('(pointer: coarse)');
  */
 const isMobile = _coarse.matches;
 
-let _orientation = window.innerWidth >= window.innerHeight ? 'landscape' : 'portrait';
+function readOrientation() {
+	// Screen orientation is unaffected by the software keyboard shrinking the viewport.
+	const type = screen.orientation?.type;
+	if (type) return type.startsWith('landscape') ? 'landscape' : 'portrait';
+	if (typeof window.orientation === 'number') return Math.abs(window.orientation) === 90 ? 'landscape' : 'portrait';
+	return screen.width >= screen.height ? 'landscape' : 'portrait';
+}
+
+let _orientation = readOrientation();
 
 /** @type {Set<function>} */
 const _listeners = new Set();
 
 function _update() {
-	const next = window.innerWidth >= window.innerHeight ? 'landscape' : 'portrait';
+	const next = readOrientation();
 	if (next === _orientation) return;
 	_orientation = next;
 	for (const fn of _listeners) fn(_orientation);
 }
 
 window.addEventListener('resize', _update);
+window.addEventListener('orientationchange', _update);
 if (screen.orientation) {
 	screen.orientation.addEventListener('change', _update);
 }

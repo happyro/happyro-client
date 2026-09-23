@@ -1,0 +1,38 @@
+/*
+ * UI/Mobile/tokens.css
+ *
+ * Shared design tokens for all mobile screens.
+ * Import via ?raw and concatenate into component CSS strings.
+ * Never import directly into desktop components.
+ */
+
+:host {
+	/* ── Surfaces ── */
+	--m-bg:             #0f1923;
+	--m-surface:        rgba(255, 255, 255, 0.06);
+	--m-surface-raised: rgba(255, 255, 255, 0.10);
+	--m-surface-active: rgba(74, 158, 255, 0.14);
+
+	/* ── Borders ── */
+	--m-border:         rgba(255, 255, 255, 0.10);
+	--m-border-active:  rgba(74, 158, 255, 0.55);
+
+	/* ── Accent (primary action) ── */
+	--m-accent:         #4a9eff;
+	--m-accent-hover:   #6ab2ff;
+	--m-accent-fg:      #ffffff;
+
+	/* ── Text ── */
+	--m-text:           #e8edf4;
+	--m-text-muted:     #8a9bb0;
+
+	/* ── Semantic ── */
+	--m-danger:         #ff6b6b;
+	--m-danger-bg:      rgba(255, 107, 107, 0.12);
+	--m-danger-border:  rgba(255, 107, 107, 0.30);
+
+	/* ── Radii ── */
+	--m-r-sm:  10px;
+	--m-r-md:  14px;
+	--m-r-lg:  20px;
+}
