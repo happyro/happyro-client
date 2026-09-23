@@ -14,6 +14,7 @@
 /**
  * Import dependencies
  */
+import Platform from 'UI/Platform.js';
 import Context from 'Core/Context.js';
 import Events from 'Core/Events.js';
 import Camera from 'Renderer/Camera.js';
@@ -167,6 +168,7 @@ const onTouchStart = (function onTouchStartClosure() {
 	}
 
 	return function (event) {
+		if (Platform.isMobile && Session.Playing) return;
 		remoteAutoFocus();
 		_touches = event.touches;
 
@@ -209,6 +211,7 @@ const onTouchStart = (function onTouchStartClosure() {
  * process OnMouseUp if no gesture detected
  */
 function onTouchEnd(event) {
+	if (Platform.isMobile && Session.Playing) return;
 	if (_processGesture) {
 		_processGesture = false;
 		KEYS.SHIFT = false;
@@ -233,6 +236,7 @@ function onTouchEnd(event) {
  * Else move.
  */
 function onTouchMove(event) {
+	if (Platform.isMobile && Session.Playing) return;
 	event.stopImmediatePropagation();
 
 	const touches = event.touches;

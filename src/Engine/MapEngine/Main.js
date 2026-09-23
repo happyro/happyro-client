@@ -11,6 +11,7 @@
 /**
  * Load dependencies
  */
+import { retryOwnedAttack } from 'Controls/AttackIntent.js';
 import DB from 'DB/DBManager.js';
 import StatusProperty from 'DB/Status/StatusProperty.js';
 import EffectConst from 'DB/Effects/EffectConst.js';
@@ -83,6 +84,7 @@ function onPlayerMessage(pkt) {
  * @param {object} pkt - PACKET.ZC.ATTACK_FAILURE_FOR_DISTANCE
  */
 function onPlayerTooFarToAttack(pkt) {
+	if (retryOwnedAttack(pkt.targetAID)) return;
 	const entity = EntityManager.get(pkt.targetAID);
 	if (entity) {
 		entity.onFocus();

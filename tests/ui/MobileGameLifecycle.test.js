@@ -1,3 +1,6 @@
+vi.mock('Renderer/Renderer.js', () => ({ default: { canvas: document.createElement('canvas') } }));
+vi.mock('UI/Game/GameCommands.js', () => ({ adjustCamera: vi.fn(), targetSnapshot: () => ({}), moveDirection: vi.fn(), stopAttack: vi.fn(), attackSelected: vi.fn(), tapScene: vi.fn(), interactSelected: vi.fn() }));
+vi.mock('../../src/UI/Mobile/game/PointerControls.js', () => ({ bindPointerControls: () => ({ cancel: vi.fn(), destroy: vi.fn() }) }));
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 const state = vi.hoisted(() => ({
 	Session: { FreezeUI: false, Entity: { display: { name: '角色' }, job: 0, clevel: 1, joblevel: 1, money: 0, life: { hp: 10, hp_max: 10, sp: 2, sp_max: 3 }, position: [1, 2] } },

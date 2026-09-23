@@ -12,6 +12,7 @@ import Session from 'Engine/SessionStorage.js';
 import EntityManager from 'Renderer/EntityManager.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
+import { clearAttackIntent } from 'Controls/AttackIntent.js';
 import PACKETVER from 'Network/PacketVerManager.js';
 import glMatrix from 'Vendors/gl-matrix.js';
 import Camera from 'Renderer/Camera.js';
@@ -46,6 +47,7 @@ function move(x, y) {
 }
 
 function attack() {
+	clearAttackIntent();
 	const Player = Session.Entity;
 	if (!Player) {
 		return;

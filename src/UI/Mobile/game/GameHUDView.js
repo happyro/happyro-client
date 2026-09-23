@@ -37,7 +37,10 @@ export function createGameHUDView(root, actions) {
 			event.stopPropagation();
 		});
 	}
-	listen(root, 'pointerdown', () => actions.cancelSceneInput());
+	listen(root, 'pointerdown', event => {
+		if (!event.target.closest('.joystick, .combat')) actions.cancelSceneInput();
+	});
+	listen($('[data-interact]'), 'click', () => actions.interact());
 	const text = (selector, value) => {
 		$(selector).textContent = value ?? '';
 	};
@@ -116,7 +119,10 @@ export function createGameHUDView(root, actions) {
 		currentPanel = panel;
 		backdrop.hidden = false;
 		actions.setModal(true);
-		text('h2', { profile: '人物信息', status: '状态效果', map: '地图', menu: '菜单', chat: '聊天' }[panel]);
+		text(
+			'h2',
+			{ profile: '人物信息', status: '状态效果', map: '地图', menu: '菜单', chat: '聊天', camera: '镜头' }[panel]
+		);
 		body.replaceChildren();
 		body.classList.toggle('chat-body', panel === 'chat');
 		$('.panel').classList.toggle('chat-panel', panel === 'chat');
@@ -138,6 +144,7 @@ export function createGameHUDView(root, actions) {
 				['地图', 'map'],
 				['聊天', 'chat'],
 				['状态', 'status'],
+				['镜头', 'camera'],
 				['背包'],
 				['装备'],
 				['技能'],
@@ -157,6 +164,25 @@ export function createGameHUDView(root, actions) {
 				actions.returnToCharacters();
 			};
 			grid.append(exit);
+			body.append(grid);
+		}
+		if (panel === 'camera') {
+			const grid = document.createElement('div');
+			grid.className = 'menu-grid';
+			for (const [label, action] of [
+				['左转', 'left'],
+				['右转', 'right'],
+				['拉近', 'zoomIn'],
+				['拉远', 'zoomOut'],
+				['抬高', 'up'],
+				['降低', 'down'],
+				['重置', 'reset']
+			]) {
+				const button = document.createElement('button');
+				button.textContent = label;
+				button.onclick = () => actions.camera(action);
+				grid.append(button);
+			}
 			body.append(grid);
 		}
 		if (panel === 'chat') {
@@ -197,6 +223,10 @@ export function createGameHUDView(root, actions) {
 	return {
 		update(next) {
 			snapshot = next;
+			text('[data-target]', next.target?.name || '点击目标进行选择');
+			$('[data-interact]').hidden = !next.target?.interaction;
+			text('[data-interact]', next.target?.interaction);
+			$('.attack').setAttribute('aria-disabled', String(!next.target?.attack));
 			text('[data-name]', next.name);
 			text('[data-job]', `Lv.${next.level} ${next.job}`);
 			for (const type of ['hp', 'sp']) {

@@ -1,3 +1,7 @@
+import { clearAttackIntent } from 'Controls/AttackIntent.js';
+import Renderer from 'Renderer/Renderer.js';
+import * as Commands from 'UI/Game/GameCommands.js';
+import { bindPointerControls } from './PointerControls.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import UIManager from 'UI/UIManager.js';
 import Session from 'Engine/SessionStorage.js';
@@ -20,6 +24,7 @@ HUD.mouseMode = GUIComponent.MouseMode.CROSS;
 HUD.needFocus = false;
 HUD.nativeScrolling = true;
 let view;
+let controls;
 let timer;
 let unsubscribe;
 let unsubscribeOrientation;
@@ -30,6 +35,8 @@ let modal = false;
 HUD.actions = {};
 
 function cancelSceneInput() {
+	controls?.cancel();
+	Session.moveAction = null;
 	Mobile.cancelInteraction();
 	MapControl.onRequestStopWalk();
 }
@@ -60,7 +67,8 @@ function snapshot() {
 		maxSp: entity.life.sp_max,
 		position: [entity.position[0], entity.position[1]],
 		mapName: DB.getMapName(MapRenderer.currentMap, MapRenderer.currentMap),
-		statuses: StatusIcons.getSnapshot()
+		statuses: StatusIcons.getSnapshot(),
+		target: Commands.targetSnapshot()
 	});
 }
 /** Render the actual walkability grid once per map, rather than sample a desktop canvas. */
@@ -101,8 +109,28 @@ HUD.onAppend = function () {
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
 		setModal,
+		interact: Commands.interactSelected,
+		camera: Commands.adjustCamera,
 		sendChat: message => HUD.actions.sendChat(message),
 		returnToCharacters: () => HUD.actions.returnToCharacters()
+	});
+	controls = bindPointerControls(HUD.getRoot(), Renderer.canvas, {
+		enabled: () =>
+			!Session.FreezeUI &&
+			Session.Playing &&
+			Platform.orientation === 'landscape' &&
+			Session.Entity?.action !== Session.Entity?.ACTION.DIE,
+		move: Commands.moveDirection,
+		stopMove: () => {
+			MapControl.onRequestStopWalk();
+			Session.moveAction = null;
+		},
+		attack: Commands.attackSelected,
+		stopAttack: Commands.stopAttack,
+		tap: (x, y) => {
+			Commands.tapScene(x, y);
+			snapshot();
+		}
 	});
 	view.setMap(createMap());
 	snapshot();
@@ -136,6 +164,9 @@ HUD.onAppend = function () {
 	updateViewport();
 };
 HUD.onRemove = function () {
+	controls?.destroy();
+	controls = null;
+	clearAttackIntent();
 	clearInterval(timer);
 	timer = null;
 	unsubscribe?.();

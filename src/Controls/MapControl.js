@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import { clearAttackIntent } from 'Controls/AttackIntent.js';
 import DB from 'DB/DBManager.js';
 import UIManager from 'UI/UIManager.js';
 import Cursor from 'UI/CursorManager.js';
@@ -86,6 +87,7 @@ function onMouseDown(event) {
 		return;
 	}
 
+	clearAttackIntent();
 	const entityFocus = EntityManager.getFocusEntity();
 	const entityOver = EntityManager.getOverEntity();
 
@@ -373,7 +375,7 @@ function onAutoFollow() {
  * @param {number} range
  * @param {array} out
  */
-function checkFreeCell(x, y, range, out) {
+export function checkFreeCell(x, y, range, out) {
 	let _x, _y, r;
 	const d_x = Session.Entity.position[0] < x ? -1 : 1;
 	const d_y = Session.Entity.position[1] < y ? -1 : 1;

@@ -7,6 +7,7 @@
 	<button class="statuses surface" data-panel="status">
 		<span data-status-icons></span>状态 <span data-status-count>0</span>
 	</button>
+	<div class="target surface"><span data-target>点击目标进行选择</span><button data-interact hidden></button></div>
 	<div class="top-right">
 		<button class="map surface" data-panel="map" aria-label="展开地图">
 			<canvas width="128" height="128" data-mini-map></canvas><span data-map-name></span
@@ -14,15 +15,15 @@
 		</button>
 		<button class="surface menu-button" data-panel="menu">菜单</button>
 	</div>
-	<div class="joystick reserved" role="img" aria-label="移动摇杆预留区"><span></span><small>移动</small></div>
+	<div class="joystick reserved" role="group" aria-label="移动摇杆"><span></span><small>移动</small></div>
 	<button class="chat-preview surface" data-panel="chat" aria-label="打开聊天">
 		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>
 	</button>
-	<div class="combat reserved" aria-label="战斗按钮预留区">
+	<div class="combat reserved" aria-label="战斗按钮">
 		<button class="skill skill-one" disabled aria-label="技能槽位 1">＋</button
 		><button class="skill skill-two" disabled aria-label="技能槽位 2">＋</button
 		><button class="skill skill-three" disabled aria-label="技能槽位 3">＋</button>
-		<button class="attack" disabled>攻击</button>
+		<button class="attack">攻击</button>
 	</div>
 	<div class="backdrop" hidden>
 		<section class="panel surface" role="dialog" aria-modal="true" aria-labelledby="mobile-game-panel-title">
