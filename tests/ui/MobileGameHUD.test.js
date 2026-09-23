@@ -97,3 +97,14 @@ it('opens independent equipment navigation and updates it without affecting the 
  expect(actions.setModal).toHaveBeenLastCalledWith(false);
  click('[data-panel="profile"]'); expect(root.querySelector('.panel').classList.contains('equipment-panel')).toBe(false);
 });
+
+it('keeps server input and focus during a portrait update and prevents unsupported cancellation', () => {
+ const token = {}; const close = vi.fn();
+ const npc = { kind: 'npc', token, mode: 'text', canClose: false, lines: ['输入'], close, respond: vi.fn() };
+ view.showInteraction(npc); const input = root.querySelector('input'); input.value = '正在输入'; input.focus();
+ view.showInteraction({ ...npc, image: 'portrait.bmp' });
+ expect(root.querySelector('input')).toBe(input); expect(root.activeElement).toBe(input); expect(input.value).toBe('正在输入');
+ view.close(); expect(close).not.toHaveBeenCalled(); expect(root.querySelector('.backdrop').hidden).toBe(false);
+ view.showInteraction({ kind: 'npc', token: {}, mode: 'menu', canClose: true, options: [], close });
+ click('[data-close]'); expect(close).toHaveBeenCalledOnce(); expect(root.querySelector('.backdrop').hidden).toBe(true);
+});

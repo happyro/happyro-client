@@ -1,3 +1,6 @@
+import { createGameContainers } from 'UI/Game/GameContainers.js';
+import { subscribeInteraction, clearInteraction } from 'UI/Game/ServerInteraction.js';
+import { createGameSkills } from 'UI/Game/GameSkills.js';
 import { createEquipmentController } from 'UI/Game/GameEquipment.js';
 import { characterStats } from 'UI/Game/CharacterStats.js';
 import { clearAttackIntent } from 'Controls/AttackIntent.js';
@@ -32,10 +35,13 @@ let controls;
 let shortcuts;
 let inventory;
 let equipment;
+let containers;
+let skills;
 let timer;
 let unsubscribe;
 let unsubscribeOrientation;
 let unsubscribeConnection;
+let unsubscribeInteraction;
 let abort;
 let previousFreeze;
 let modal = false;
@@ -113,10 +119,12 @@ function updateViewport() {
 }
 HUD.onAppend = function () {
 	// Repeated map mounting must not duplicate subscriptions or timers.
-	HUD.onRemove();
+	HUD.onRemove(false);
 	abort = new AbortController();
 	shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
 	inventory = createGameInventory(() => modal && !previousFreeze);
+	containers = createGameContainers(() => modal && !previousFreeze);
+	skills = createGameSkills(() => modal && !previousFreeze, shortcuts);
 	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity));
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
@@ -127,9 +135,16 @@ HUD.onAppend = function () {
 			shortcuts.turn(delta);
 			snapshot();
 		},
+		canOperate: () => modal && !previousFreeze,
+		containerSnapshot: source => containers.snapshot(source),
+		transferItem: (...args) => containers.transfer(...args),
+		skillsSnapshot: () => skills.snapshot(),
+		skillsLearn: (...args) => skills.learn(...args),
+		skillsBind: (...args) => skills.bind(...args),
 		equipmentSnapshot: () => equipment.snapshot(),
 		equipmentAct: (...args) => equipment.act(...args),
 		inventorySnapshot: () => inventory.snapshot(),
+		inventoryDrop: (...args) => inventory.drop(...args),
 		inventoryAct: (...args) => inventory.act(...args),
 		bindInventory: (index, id, slot) =>
 			inventory.canBind(index, id) && shortcuts.configure(slot, { isSkill: false, ID: id }),
@@ -148,6 +163,7 @@ HUD.onAppend = function () {
 		sendChat: message => HUD.actions.sendChat(message),
 		returnToCharacters: () => HUD.actions.returnToCharacters()
 	});
+	unsubscribeInteraction = subscribeInteraction(state => view.showInteraction(state));
 	controls = bindPointerControls(HUD.getRoot(), Renderer.canvas, {
 		enabled: () =>
 			!Session.FreezeUI &&
@@ -210,13 +226,18 @@ HUD.onAppend = function () {
 	window.addEventListener('resize', updateViewport, { signal: abort.signal });
 	updateViewport();
 };
-HUD.onRemove = function () {
+HUD.onRemove = function (resetInteraction = true) {
+	unsubscribeInteraction?.();
+	unsubscribeInteraction = null;
+	if (resetInteraction) clearInteraction();
 	controls?.destroy();
 	controls = null;
 	shortcuts?.cancel();
 	shortcuts = null;
 	inventory = null;
 	equipment = null;
+	skills = null;
+	containers = null;
 	clearAttackIntent();
 	clearInterval(timer);
 	timer = null;

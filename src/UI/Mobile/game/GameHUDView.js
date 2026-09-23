@@ -1,3 +1,7 @@
+import { createContainerPanel } from './ContainerPanel.js';
+import { createShopPanel } from './ShopPanel.js';
+import { createNPCPanel, updateNPCCutin } from './NPCPanel.js';
+import { createSkillsPanel } from './SkillsPanel.js';
 import { createEquipmentPanel } from './EquipmentPanel.js';
 import { createInventoryPanel } from './InventoryPanel.js';
 import { createShortcutPanel } from './ShortcutPanel.js';
@@ -10,9 +14,13 @@ export function createGameHUDView(root, actions) {
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
+	let serverState = null;
 	let shortcutPanel = null;
 	let inventoryPanel = null;
 	let equipmentPanel = null;
+	let skillsPanel = null;
+	let shopPanel = null;
+	let containerPanel = null;
 	let noticeUntil = 0;
 	let backdropPointer = null;
 	let dismissBackdrop = false;
@@ -71,15 +79,21 @@ export function createGameHUDView(root, actions) {
 		ctx.arc(x, y, 3, 0, Math.PI * 2);
 		ctx.fill();
 	}
-	function close() {
-		if (!currentPanel) return;
+	function close(notify = true) {
+		if (!currentPanel || (notify && serverState?.canClose === false)) return;
+		const interaction = serverState;
+		serverState = null;
 		currentPanel = null;
 		shortcutPanel = null;
 		inventoryPanel = null;
 		equipmentPanel = null;
+		skillsPanel = null;
+		shopPanel = null;
+		containerPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
+		if (notify) interaction?.close?.();
 	}
 	function updateMessages() {
 		text('[data-chat-preview]', messages.slice(-2).join('\n') || '暂无消息');
@@ -148,16 +162,26 @@ export function createGameHUDView(root, actions) {
 				camera: '镜头',
 				shortcuts: '快捷配置',
 				inventory: '背包',
-				equipment: '装备'
+				equipment: '装备',
+				skills: '技能',
+				cart: '手推车',
+				storage: serverState?.title || '仓库',
+				shop: serverState?.title,
+				npc: serverState?.title || 'NPC 对话'
 			}[panel]
 		);
+		$('[data-close]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
 		body.classList.toggle('equipment-body', panel === 'equipment');
 		$('.panel').classList.toggle('equipment-panel', panel === 'equipment');
-		body.classList.toggle('inventory-body', panel === 'inventory');
-		$('.panel').classList.toggle('inventory-panel', panel === 'inventory');
+		body.classList.toggle('inventory-body', ['inventory', 'skills', 'shop', 'storage', 'cart'].includes(panel));
+		$('.panel').classList.toggle(
+			'inventory-panel',
+			['inventory', 'skills', 'shop', 'storage', 'cart'].includes(panel)
+		);
 		body.classList.toggle('chat-body', panel === 'chat');
 		$('.panel').classList.toggle('chat-panel', panel === 'chat');
+		if (panel === 'npc') createNPCPanel(body, serverState);
 		if (panel === 'profile' || panel === 'status') renderDetails();
 		if (panel === 'map') {
 			const canvas = document.createElement('canvas');
@@ -180,7 +204,8 @@ export function createGameHUDView(root, actions) {
 				['快捷配置', 'shortcuts'],
 				['背包', 'inventory'],
 				['装备', 'equipment'],
-				['技能'],
+				['技能', 'skills'],
+				['手推车', 'cart'],
 				['任务'],
 				['社交']
 			]) {
@@ -202,6 +227,27 @@ export function createGameHUDView(root, actions) {
 		shortcutPanel = null;
 		inventoryPanel = null;
 		equipmentPanel = null;
+		skillsPanel = null;
+		shopPanel = null;
+		containerPanel = null;
+		if (panel === 'storage' || panel === 'cart')
+			containerPanel = createContainerPanel(
+				body,
+				{ snapshot: actions.containerSnapshot, transfer: actions.transferItem },
+				panel
+			);
+		if (panel === 'shop') {
+			serverState.service.setOperationGuard(actions.canOperate);
+			shopPanel = createShopPanel(body, serverState.service);
+		}
+		if (panel === 'skills')
+			skillsPanel = createSkillsPanel(body, {
+				snapshot: actions.skillsSnapshot,
+				learn: actions.skillsLearn,
+				bind: actions.skillsBind,
+				shortcuts: actions.shortcutSnapshot,
+				slotName: actions.shortcutName
+			});
 		if (panel === 'equipment')
 			equipmentPanel = createEquipmentPanel(body, {
 				snapshot: actions.equipmentSnapshot,
@@ -211,6 +257,7 @@ export function createGameHUDView(root, actions) {
 			inventoryPanel = createInventoryPanel(body, {
 				snapshot: actions.inventorySnapshot,
 				act: actions.inventoryAct,
+				drop: actions.inventoryDrop,
 				shortcuts: actions.shortcutSnapshot,
 				slotName: actions.shortcutName,
 				bind: actions.bindInventory
@@ -260,7 +307,7 @@ export function createGameHUDView(root, actions) {
 	}
 	for (const button of root.querySelectorAll('[data-panel]'))
 		listen(button, 'click', () => open(button.dataset.panel));
-	listen($('[data-close]'), 'click', close);
+	listen($('[data-close]'), 'click', () => close());
 	// A touch held before opening the panel must not dismiss it on release.
 	listen(backdrop, 'pointerdown', event => {
 		backdropPointer = event.target === backdrop ? event.pointerId : null;
@@ -330,6 +377,9 @@ export function createGameHUDView(root, actions) {
 			renderDetails();
 			inventoryPanel?.update();
 			equipmentPanel?.update();
+			skillsPanel?.update();
+			shopPanel?.update();
+			containerPanel?.update();
 		},
 		setMap(image) {
 			mapImage = image;
@@ -338,6 +388,19 @@ export function createGameHUDView(root, actions) {
 		setMessages(next) {
 			messages = next;
 			updateMessages();
+		},
+		showInteraction(state) {
+			if (!state) {
+				if (serverState) close(false);
+				return;
+			}
+			if (serverState?.token === state.token && currentPanel === 'npc') {
+				serverState = state;
+				updateNPCCutin(body, state);
+				return;
+			}
+			serverState = state;
+			open(['shop', 'storage'].includes(state.kind) ? state.kind : 'npc');
 		},
 		openShortcuts: index => open('shortcuts', index),
 		updateShortcuts(state) {
@@ -391,7 +454,7 @@ export function createGameHUDView(root, actions) {
 		},
 		close,
 		destroy() {
-			close();
+			close(false);
 			abort.abort();
 			root.replaceChildren();
 		}

@@ -714,3 +714,46 @@ dd {
 	margin: 0;
 	font-size: 12px;
 }
+.skills-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	flex-shrink: 0;
+}
+.skills-toolbar select {
+	font-size: 16px;
+	min-height: 42px;
+}
+.inventory-detail > select {
+	margin: 6px 0;
+}
+[data-skill-status] {
+	flex-shrink: 0;
+}
+.npc-lines {
+	white-space: pre-line;
+	font-size: 16px;
+	line-height: 1.7;
+}
+.npc-cutin {
+	max-width: 32%;
+	max-height: 130px;
+	object-fit: contain;
+	float: right;
+	pointer-events: none;
+}
+.panel-body > button {
+	margin: 6px 6px 0 0;
+}
+.panel-body form input {
+	font-size: 16px;
+	min-height: 44px;
+	max-width: 100%;
+}
+.container-toolbar { display: flex; gap: 8px; flex-shrink: 0; }
+.container-toolbar select, .inventory-body > select, .inventory-detail input, .inventory-detail select {
+ font-size: 16px; min-height: 44px; max-width: 100%; box-sizing: border-box;
+}
+.shop-summary, .shop-footer, .container-capacity { flex-shrink: 0; margin: 0; }
+.inventory-detail > button { margin: 6px 6px 0 0; }

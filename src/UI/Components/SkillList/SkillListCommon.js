@@ -77,12 +77,17 @@ export function createSkillList({
 		for (const element of root.querySelectorAll('.skill[data-index]')) {
 			const remaining = remainingCooldown(Number(element.dataset.index));
 			let label = element.querySelector('.skill-cooldown-time');
-			if (!remaining) { label?.remove(); continue; }
+			if (!remaining) {
+				label?.remove();
+				continue;
+			}
 			if (!label) {
 				label = document.createElement('span');
 				label.className = 'skill-cooldown-time';
 				label.style.cssText = 'color:#b44;font-size:11px;margin-left:4px';
-				(element.querySelector('.name') || element.querySelector('td:last-child') || element).appendChild(label);
+				(element.querySelector('.name') || element.querySelector('td:last-child') || element).appendChild(
+					label
+				);
 			}
 			const seconds = Math.ceil(remaining / 1000);
 			label.textContent = `冷却 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
@@ -90,6 +95,7 @@ export function createSkillList({
 	}
 	let _btnIncSkill;
 	let _points = 0;
+	let skillRevision = 0;
 	let totalCounter = 0;
 	let _btnLevelUp;
 	let _lArrow, _rArrow;
@@ -679,6 +685,7 @@ export function createSkillList({
 	}
 
 	Component.addSkill = function addSkill(skill) {
+		skillRevision++;
 		if (!(skill.SKID in SkillInfo)) {
 			return;
 		}
@@ -986,6 +993,7 @@ export function createSkillList({
 	Component.removeSkill = function removeSkill() {};
 
 	Component.updateSkill = function updateSkill(skill) {
+		skillRevision++;
 		let target = getSkillById(skill.SKID);
 
 		const root = this.getRoot();
@@ -1057,6 +1065,7 @@ export function createSkillList({
 	};
 
 	Component.setPoints = function setPoints(amount) {
+		skillRevision++;
 		const root = this.getRoot();
 		const el = root.querySelector('.skpoints_count');
 		if (el) {
@@ -1437,6 +1446,8 @@ export function createSkillList({
 	Component.onIncreaseSkill = function onIncreaseSkill() {};
 	Component.onUpdateSkill = function onUpdateSkill() {};
 	Component.getSkillById = getSkillById;
+	Component.getSkillPoints = () => _points;
+	Component.getSkillRevision = () => skillRevision;
 	Component.getSkills = () => _list.map(skill => ({ ...skill }));
 
 	return UIManager.addComponent(Component);

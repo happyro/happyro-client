@@ -1,3 +1,5 @@
+vi.mock('UI/Game/GameContainers.js', () => ({ createGameContainers: () => ({ snapshot: () => ({ items: [] }) }) }));
+vi.mock('UI/Game/GameSkills.js', () => ({ createGameSkills: () => ({ snapshot: () => ({ skills: [] }) }) }));
 vi.mock('UI/Game/GameInventory.js', () => ({ createGameInventory: canOperate => { state.inventoryAllowed = canOperate; return { snapshot: () => [], act: vi.fn() }; } }));
 vi.mock('UI/Game/GameShortcuts.js', () => ({ createGameShortcuts: () => ({ snapshot: () => ({}), cancel: vi.fn() }) }));
 vi.mock('Renderer/Renderer.js', () => ({ default: { canvas: document.createElement('canvas') } }));
@@ -7,7 +9,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 const state = vi.hoisted(() => ({
 	Session: { FreezeUI: false, Entity: { display: { name: '角色' }, job: 0, clevel: 1, joblevel: 1, money: 0, life: { hp: 10, hp_max: 10, sp: 2, sp_max: 3 }, position: [1, 2] } },
 	cancel: vi.fn(), stopWalk: vi.fn(), feed: new Set(), orientation: new Set(), connection: new Set(), actions: null,
-	view: { updateShortcuts: vi.fn(), update: vi.fn(), setMap: vi.fn(), setMessages: vi.fn(), close: vi.fn(), destroy: vi.fn() }
+	view: { showInteraction: vi.fn(), updateShortcuts: vi.fn(), update: vi.fn(), setMap: vi.fn(), setMessages: vi.fn(), close: vi.fn(), destroy: vi.fn() }
 }));
 vi.mock('UI/GUIComponent.js', () => ({ default: class {
 	static MouseMode = { CROSS: 0 };
@@ -65,4 +67,13 @@ it('allows inventory actions only while its own modal is open, without bypassing
  state.actions.setModal(false); expect(state.inventoryAllowed()).toBe(false);
  state.Session.FreezeUI = true; state.actions.setModal(true); expect(state.inventoryAllowed()).toBe(false);
  state.actions.setModal(false); expect(state.Session.FreezeUI).toBe(true);
+});
+
+import { showInteraction, interactionSnapshot } from '../../src/UI/Game/ServerInteraction.js';
+it('preserves a server window received before mounting and clears it when leaving the map', () => {
+ showInteraction({ kind: 'npc', id: 42 });
+ HUD.onAppend();
+ expect(state.view.showInteraction).toHaveBeenLastCalledWith(expect.objectContaining({ kind: 'npc', id: 42 }));
+ HUD.onRemove();
+ expect(interactionSnapshot()).toBeNull();
 });

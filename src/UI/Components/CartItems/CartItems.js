@@ -41,6 +41,11 @@ CartItems.render = () => htmlText;
  * Store inventory items
  */
 CartItems.list = [];
+CartItems.clearItems = function clearItems() {
+	this.list.length = 0;
+	this.capacity = undefined;
+	this.getRoot().querySelector('.container .content')?.replaceChildren();
+};
 
 /**
  * @var {number} used to remember the window height
@@ -292,6 +297,7 @@ CartItems.setItems = function SetItems(items) {
 };
 
 CartItems.setCartInfo = function SetCartInfo(curCount, maxCount, curWeight, maxWeight) {
+	this.capacity = { current: curCount, limit: maxCount, weight: curWeight / 10, maxWeight: maxWeight / 10 };
 	const root = this.getRoot();
 	const ncnt = root.querySelector('.ncnt');
 	const mcnt = root.querySelector('.mcnt');

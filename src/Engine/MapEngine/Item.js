@@ -1,3 +1,4 @@
+import Platform from 'UI/Platform.js';
 /**
  * Engine/MapEngine/Item.js
  *
@@ -599,7 +600,9 @@ function onItemListNormal(pkt) {
 			CartItems.setItems(pkt.itemInfo || pkt.ItemInfo);
 			break;
 		case 2:
-			Storage.getUI().append();
+		case 3:
+			if (Platform.isMobile) Storage.getUI().prepare();
+			else Storage.getUI().append();
 			Storage.getUI().setItems(pkt.itemInfo || pkt.ItemInfo);
 			break;
 		default:
@@ -621,6 +624,7 @@ function onItemListEquip(pkt) {
 			CartItems.setItems(pkt.itemInfo || pkt.ItemInfo);
 			break;
 		case 2:
+		case 3:
 			Storage.getUI().setItems(pkt.itemInfo || pkt.ItemInfo);
 			break;
 		default:

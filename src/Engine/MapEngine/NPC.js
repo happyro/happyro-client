@@ -1,3 +1,5 @@
+import Platform from 'UI/Platform.js';
+import { mobileNPC } from './MobileNPC.js';
 /**
  * Engine/MapEngine/NPC.js
  *
@@ -36,7 +38,10 @@ function onMessage(pkt) {
 	NpcBox.append();
 	// Every page is a separate packet. Localize the bracketed speaker title
 	// here so a later `next` response cannot restore the server's English name.
-	const message = typeof pkt.msg === 'string' ? pkt.msg.replace(/^\[([^\]]+)\]/, (_, name) => `[${DB.getNpcName(name)}]`) : pkt.msg;
+	const message =
+		typeof pkt.msg === 'string'
+			? pkt.msg.replace(/^\[([^\]]+)\]/, (_, name) => `[${DB.getNpcName(name)}]`)
+			: pkt.msg;
 	NpcBox.setText(message, pkt.NAID);
 }
 
@@ -90,16 +95,16 @@ function onDynamicNPCCreateRequest(pkt) {
 		case 0:
 			break;
 		case 1:
-				ChatBox.addText('[动态 NPC] 未知错误', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+			ChatBox.addText('[动态 NPC] 未知错误', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 2:
-				ChatBox.addText('[动态 NPC] 未知 NPC', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+			ChatBox.addText('[动态 NPC] 未知 NPC', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 3:
-				ChatBox.addText('[动态 NPC] NPC 重复', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+			ChatBox.addText('[动态 NPC] NPC 重复', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 		case 4:
-				ChatBox.addText('[动态 NPC] 已超时', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
+			ChatBox.addText('[动态 NPC] 已超时', ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 			break;
 	}
 }
@@ -405,20 +410,20 @@ NpcBox.onClosePressed = function onClosePressed(NAID) {
  * Initialize
  */
 export default function NPCEngine() {
-	Network.hookPacket(PACKET.ZC.SAY_DIALOG, onMessage);
-	Network.hookPacket(PACKET.ZC.WAIT_DIALOG, onNextAppear);
-	Network.hookPacket(PACKET.ZC.CLOSE_DIALOG, onCloseAppear);
-	Network.hookPacket(PACKET.ZC.OPEN_EDITDLG, onInputAppear);
-	Network.hookPacket(PACKET.ZC.OPEN_EDITDLGSTR, onInputAppear);
-	Network.hookPacket(PACKET.ZC.MENU_LIST, onMenuAppear);
-	Network.hookPacket(PACKET.ZC.SELECT_DEALTYPE, onDealSelection);
-	Network.hookPacket(PACKET.ZC.SHOW_IMAGE, onCutin);
-	Network.hookPacket(PACKET.ZC.SHOW_IMAGE2, onCutin);
+	Network.hookPacket(PACKET.ZC.SAY_DIALOG, Platform.isMobile ? mobileNPC.message : onMessage);
+	Network.hookPacket(PACKET.ZC.WAIT_DIALOG, Platform.isMobile ? mobileNPC.next : onNextAppear);
+	Network.hookPacket(PACKET.ZC.CLOSE_DIALOG, Platform.isMobile ? mobileNPC.closeButton : onCloseAppear);
+	Network.hookPacket(PACKET.ZC.OPEN_EDITDLG, Platform.isMobile ? mobileNPC.input : onInputAppear);
+	Network.hookPacket(PACKET.ZC.OPEN_EDITDLGSTR, Platform.isMobile ? mobileNPC.input : onInputAppear);
+	Network.hookPacket(PACKET.ZC.MENU_LIST, Platform.isMobile ? mobileNPC.menu : onMenuAppear);
+	Network.hookPacket(PACKET.ZC.SELECT_DEALTYPE, Platform.isMobile ? mobileNPC.deal : onDealSelection);
+	Network.hookPacket(PACKET.ZC.SHOW_IMAGE, Platform.isMobile ? mobileNPC.cutin : onCutin);
+	Network.hookPacket(PACKET.ZC.SHOW_IMAGE2, Platform.isMobile ? mobileNPC.cutin : onCutin);
 	Network.hookPacket(PACKET.ZC.COMPASS, onMinimapMarker);
 	Network.hookPacket(PACKET.ZC.PROGRESS, onProgressBar);
 	Network.hookPacket(PACKET.ZC.PROGRESS_CANCEL, onProgressBarStop);
 	Network.hookPacket(PACKET.ZC.SOUND, onSound);
 	Network.hookPacket(PACKET.ZC.PLAY_NPC_BGM, onBGM);
-	Network.hookPacket(PACKET.ZC.CLOSE_SCRIPT, onCloseScript);
+	Network.hookPacket(PACKET.ZC.CLOSE_SCRIPT, Platform.isMobile ? mobileNPC.closeScript : onCloseScript);
 	Network.hookPacket(PACKET.ZC.DYNAMICNPC_CREATE_RESULT, onDynamicNPCCreateRequest);
 }

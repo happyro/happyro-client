@@ -56,6 +56,15 @@ export function createStorage(config) {
 	};
 
 	const _list = [];
+	let capacity = { current: 0, limit: 0 };
+	Component.getItems = () => _list.map(item => ({ ...item }));
+	Component.getCapacity = () => ({ ...capacity });
+	Component.clearItems = () => {
+		_list.length = 0;
+		capacity = { current: 0, limit: 0 };
+		const content = Component.getRoot().querySelector('.container .content');
+		if (content) content.replaceChildren();
+	};
 
 	let _openFilters = {};
 
@@ -368,6 +377,7 @@ export function createStorage(config) {
 	};
 
 	Component.setItemInfo = function setItemInfo(current, limit) {
+		capacity = { current, limit };
 		const root = this.getRoot();
 		const currentEl = root.querySelector('.footer .current');
 		const limitEl = root.querySelector('.footer .limit');

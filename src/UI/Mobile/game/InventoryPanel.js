@@ -11,6 +11,17 @@ export function createInventoryPanel(body, actions) {
 		detailKey = '',
 		binding = false;
 	const buttons = new Map();
+	const sort = document.createElement('select');
+	sort.setAttribute('aria-label', '背包排序');
+	for (const [key, name] of [
+		['index', '原始顺序'],
+		['name', '名称排序'],
+		['count', '数量排序'],
+		['category', '分类排序']
+	])
+		sort.add(new Option(name, key));
+	sort.onchange = () => render();
+	body.prepend(sort);
 	const status = message => {
 		$('.inventory-status').textContent = message;
 	};
@@ -65,9 +76,34 @@ export function createInventoryPanel(body, actions) {
 			ops.append(use);
 		}
 		if (item.shortcut) ops.append(button('设置快捷槽', () => chooseBinding(item)));
+		if (!item.worn) ops.append(button('丢弃', () => chooseDrop(item)));
 		const reason = document.createElement('p');
 		reason.textContent = item.reason;
 		detail.replaceChildren(title, count, ops, reason, description);
+	}
+	function chooseDrop(item) {
+		binding = true;
+		const warning = document.createElement('p');
+		warning.textContent = `丢弃 ${item.name} 后物品将落到地上，可能被其他玩家拾取。`;
+		const input = document.createElement('input');
+		input.type = 'number';
+		input.min = '1';
+		input.max = String(Math.min(item.count, 65535));
+		input.step = '1';
+		input.value = '1';
+		input.setAttribute('aria-label', '丢弃数量');
+		const confirm = button('确认丢弃', () => {
+			status(actions.drop(item.index, item.ID, Number(input.value)));
+			binding = false;
+			detailKey = '';
+			update();
+		});
+		const cancel = button('取消丢弃', () => {
+			binding = false;
+			detailKey = '';
+			renderDetail();
+		});
+		detail.replaceChildren(warning, input, confirm, cancel);
 	}
 	function chooseBinding(item) {
 		binding = true;
@@ -104,6 +140,15 @@ export function createInventoryPanel(body, actions) {
 		const filtered = state.filter(
 			item => category === 'all' || (category === 'worn' ? item.worn : item.category === category)
 		);
+		filtered.sort((a, b) =>
+			sort.value === 'name'
+				? a.name.localeCompare(b.name, 'zh-CN')
+				: sort.value === 'count'
+					? b.count - a.count || a.index - b.index
+					: sort.value === 'category'
+						? a.category.localeCompare(b.category) || a.name.localeCompare(b.name, 'zh-CN')
+						: a.index - b.index
+		);
 		const keys = new Set(filtered.map(item => `${item.index}:${item.ID}`));
 		for (const [key, node] of buttons)
 			if (!keys.has(key)) {
@@ -116,7 +161,7 @@ export function createInventoryPanel(body, actions) {
 			empty.textContent = '该分类暂无物品';
 			list.append(empty);
 		}
-		for (const item of filtered) {
+		for (const [position, item] of filtered.entries()) {
 			const key = `${item.index}:${item.ID}`;
 			let node = buttons.get(key);
 			if (!node) {
@@ -134,6 +179,7 @@ export function createInventoryPanel(body, actions) {
 				buttons.set(key, node);
 				list.append(node);
 			}
+			if (list.children[position] !== node) list.insertBefore(node, list.children[position] || null);
 			const image = node.querySelector('img');
 			image.alt = '';
 			if (item.icon && image.getAttribute('src') !== item.icon) image.src = item.icon;

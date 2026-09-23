@@ -1,3 +1,4 @@
+import MapControl from 'Controls/MapControl.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
 import Equipment from 'UI/Components/Equipment/Equipment.js';
 import { consumables, equipment, itemQuantity } from './InventoryItems.js';
@@ -64,6 +65,7 @@ export function createGameInventory(canOperate) {
 	}
 	return {
 		snapshot: () => entries().map(describe),
+		describe: item => describe({ item, worn: false }),
 		act(index, id, action, location) {
 			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
 			if (!entry) return '物品已经变化，请重新选择';
@@ -83,6 +85,21 @@ export function createGameInventory(canOperate) {
 				Inventory.getUI().onEquipItem(index, location ?? entry.item.location);
 			} else if (Inventory.getUI().onUseItem(index) === false) return '当前无法使用此物品';
 			return '已发送请求，结果以服务器回复为准';
+		},
+		drop(index, id, count) {
+			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
+			if (!available()) return '当前无法丢弃物品';
+			if (
+				!entry ||
+				entry.worn ||
+				!Number.isInteger(count) ||
+				count < 1 ||
+				count > 65535 ||
+				count > itemQuantity(entry.item)
+			)
+				return '物品或数量已经变化，请重新选择';
+			MapControl.onRequestDropItem(index, count);
+			return '已请求丢弃，等待服务器更新';
 		},
 		canBind(index, id) {
 			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);

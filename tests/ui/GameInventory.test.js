@@ -1,3 +1,5 @@
+vi.mock('Controls/MapControl.js', () => ({ default: { onRequestDropItem: vi.fn() } }));
+import MapControl from 'Controls/MapControl.js';
 import { beforeEach, expect, it, vi } from 'vitest';
 const s = vi.hoisted(() => ({ items: [], equipped: [], allowed: true, session: { Playing: true, Entity: { action: 0, ACTION: { DIE: 99 } } }, use: vi.fn(), equip: vi.fn(), unequip: vi.fn() }));
 vi.mock('UI/Components/Inventory/Inventory.js', () => ({ default: { getUI: () => ({ list: s.items, onUseItem: s.use, onEquipItem: s.equip }) } }));
@@ -54,4 +56,13 @@ it('sends a chosen valid equipment bit while preserving desktop-style default lo
  expect(s.equip).toHaveBeenCalledTimes(1);
  service.act(3, 501, 'equip'); expect(s.equip).toHaveBeenLastCalledWith(3, 136);
  s.equipped = [{ ...s.items.pop(), equipped: 128 }]; expect(service.snapshot().find(i => i.index === 3).wearLocation).toBe(128);
+});
+
+it('revalidates discard quantity and identity and never discards worn equipment', () => {
+ const inventory = createGameInventory(() => s.allowed);
+ for (const count of [0, -1, 1.5, 4, 65536]) inventory.drop(2, 501, count);
+ inventory.drop(2, 502, 1); expect(MapControl.onRequestDropItem).not.toHaveBeenCalled();
+ inventory.drop(2, 501, 2); expect(MapControl.onRequestDropItem).toHaveBeenCalledExactlyOnceWith(2, 2);
+ expect(s.items[0].count).toBe(3);
+ s.equipped = [s.items.pop()]; inventory.drop(3, 501, 1); expect(MapControl.onRequestDropItem).toHaveBeenCalledTimes(1);
 });
