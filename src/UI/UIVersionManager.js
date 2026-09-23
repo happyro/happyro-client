@@ -15,10 +15,17 @@ import Platform from 'UI/Platform.js';
 const _UIAliases = {};
 
 /**
- * Platform overrides: { publicName -> { desktop: string, mobile: string } }
- * Populated by registerPlatform() during bootstrap.
+ * Platform overrides via UIManager.getComponent() path.
+ * { publicName -> { desktop: string, mobile: string } }
  */
 const _platformMap = {};
+
+/**
+ * Mobile component overrides via UIController.getUI() path.
+ * { publicName -> GUIComponent }
+ * Populated by registerMobileComponent() during bootstrap.
+ */
+const _mobileComponents = {};
 class UIVersionManager {
 	static getUIAlias(name) {
 		// Platform override takes priority over version aliases.
@@ -76,6 +83,17 @@ class UIVersionManager {
 		return SelectedUI;
 	}
 
+	/**
+	 * Register a mobile component for the UIController (.getUI()) path.
+	 * Call during mobile bootstrap before selectUIVersion() is invoked.
+	 *
+	 * @param {string} publicName - matches the name used in WinLogin.js / CharSelect.js etc.
+	 * @param {GUIComponent} component - the mobile component instance
+	 */
+	static registerMobileComponent(publicName, component) {
+		_mobileComponents[publicName] = component;
+	}
+
 	static getUIController(publicName, versionInfo) {
 		let _selectedUI;
 
@@ -83,6 +101,11 @@ class UIVersionManager {
 
 		UIController.selectUIVersion = function () {
 			_selectedUI = UIVersionManager.selectUIVersion(publicName, versionInfo);
+			if (Platform.isMobile && publicName in _mobileComponents) {
+				_selectedUI = _mobileComponents[publicName];
+				_UIAliases[publicName] = _selectedUI.name;
+				console.log('%c[UIVersion] ' + publicName + ' (mobile): ', 'color:#007000', _selectedUI.name);
+			}
 		};
 
 		UIController.selectUIVersionWithJob = function (job) {

@@ -31,6 +31,7 @@ import WinList from 'UI/Components/WinList/WinList.js';
 import ConsoleManager from 'Utils/ConsoleManager.js';
 import TextEncoding from 'Utils/CodepageManager.js';
 import { roInitSpinner } from 'App/PreLoader.js';
+import Platform from 'UI/Platform.js';
 
 /**
  * @var {Array} Login server list
@@ -123,6 +124,13 @@ class GameEngine {
 		// Enable/Disable console based on settings
 		ConsoleManager.init();
 		ConsoleManager.toggle();
+
+		// Run platform-specific UI bootstrap before any UI is accessed.
+		if (Platform.isMobile) {
+			import('UI/Bootstrap/bootstrap-mobile.js').then(m => m.init());
+		} else {
+			import('UI/Bootstrap/bootstrap-desktop.js').then(m => m.init());
+		}
 
 		const q = new Queue();
 
