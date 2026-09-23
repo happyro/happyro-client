@@ -305,7 +305,7 @@ export function createGameHUDView(root, actions) {
 				['人物', 'profile'],
 				['地图', 'map'],
 				['导航', 'navigation'],
-				['聊天', 'chat'],
+				// ['聊天', 'chat'], // 聊天 UI 暂时隐藏。
 				['状态', 'status'],
 				['镜头', 'camera'],
 				['快捷配置', 'shortcuts'],

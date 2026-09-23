@@ -7,7 +7,7 @@
 	z-index: 1000 !important;
 	color: #f5f2e9;
 	font:
-		14px/1.4 system-ui,
+		12px/1.4 system-ui,
 		sans-serif;
 }
 * {
@@ -16,7 +16,7 @@
 .hud {
 	position: absolute;
 	inset: 0;
-	--edge: 12px;
+	--edge: 16px;
 	padding: var(--edge);
 }
 button,
@@ -47,55 +47,74 @@ button.surface,
 .backdrop {
 	pointer-events: auto;
 }
-.profile {
+.top-left {
 	position: absolute;
 	left: max(12px, env(safe-area-inset-left));
-	top: max(10px, env(safe-area-inset-top));
-	width: 218px;
-	padding: 9px 12px;
+	top: calc(16px + env(safe-area-inset-top));
+	width: 188px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.profile {
+	display: grid;
+	gap: 5px;
+	width: 100%;
+	padding: 7px 9px;
 	text-align: left;
 }
-.profile strong {
-	display: inline-block;
-	max-width: 110px;
+.profile-heading {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	gap: 6px;
+}
+.profile-heading strong,
+.profile-heading > span {
+	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	vertical-align: middle;
 }
-.profile > span {
-	float: right;
-	font-size: 11px;
-	max-width: 90px;
+.profile-heading > span {
+	font-size: 10px;
+	max-width: 76px;
 	text-align: right;
 }
 .profile label {
-	display: flex;
+	display: grid;
+	grid-template-columns: 18px minmax(0, 1fr) auto;
 	align-items: center;
-	gap: 5px;
+	gap: 4px;
 	font-size: 10px;
-	margin-top: 5px;
+	margin: 0;
 }
-meter {
-	width: 70px;
+.profile meter {
+	width: 100%;
+	min-width: 0;
 	height: 10px;
-	flex: 1;
 }
 .profile label span {
-	min-width: 74px;
+	min-width: 64px;
 	text-align: right;
 }
+.profile-actions {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+}
+.profile-actions button {
+	min-height: 30px;
+	padding: 4px 9px;
+}
 .statuses {
-	position: absolute;
-	top: 98px;
-	left: max(12px, env(safe-area-inset-left));
-	min-height: 36px;
-	padding: 5px 12px;
+	min-width: 0;
+	overflow-wrap: anywhere;
 }
 .top-right {
 	position: absolute;
 	right: max(12px, env(safe-area-inset-right));
-	top: max(10px, env(safe-area-inset-top));
+	top: calc(16px + env(safe-area-inset-top));
 	display: flex;
 	align-items: flex-start;
 	gap: 8px;
@@ -105,11 +124,11 @@ meter {
 	flex-direction: column;
 	align-items: center;
 	padding: 5px;
-	width: 116px;
+	width: 94px;
 }
 .map canvas {
-	width: 82px;
-	height: 82px;
+	width: 64px;
+	height: 64px;
 }
 .map span {
 	max-width: 100%;
@@ -123,8 +142,8 @@ meter {
 	color: #c6d0db;
 }
 .menu-button {
-	padding: 8px 12px;
-	min-height: 44px;
+	padding: 6px 10px;
+	min-height: 36px;
 }
 .reserved {
 	touch-action: none;
@@ -134,8 +153,8 @@ meter {
 	position: absolute;
 	left: max(24px, env(safe-area-inset-left));
 	bottom: max(20px, env(safe-area-inset-bottom));
-	width: 108px;
-	height: 108px;
+	width: 88px;
+	height: 88px;
 	border-radius: 50%;
 	background: #17233066;
 	border: 2px solid #d9e4ee88;
@@ -143,8 +162,8 @@ meter {
 	place-items: center;
 }
 .joystick span {
-	width: 46px;
-	height: 46px;
+	width: 40px;
+	height: 40px;
 	border-radius: 50%;
 	background: #cbd5df77;
 	border: 1px solid #e8eef5aa;
@@ -158,8 +177,8 @@ meter {
 	position: absolute;
 	bottom: max(14px, env(safe-area-inset-bottom));
 	right: max(16px, env(safe-area-inset-right));
-	width: 188px;
-	height: 152px;
+	width: 160px;
+	height: 130px;
 }
 .combat button {
 	position: absolute;
@@ -168,16 +187,16 @@ meter {
 	background: #483a25dd;
 }
 .attack {
-	width: 76px;
-	height: 76px;
+	width: 64px;
+	height: 64px;
 	right: 4px;
 	bottom: 0;
-	font-size: 18px;
+	font-size: 14px;
 }
 .skill {
-	width: 46px;
-	height: 46px;
-	font-size: 22px;
+	width: 40px;
+	height: 40px;
+	font-size: 18px;
 }
 .skill-one {
 	left: 12px;
@@ -229,7 +248,7 @@ meter {
 .panel {
 	display: flex;
 	flex-direction: column;
-	width: min(520px, 100%);
+	width: min(460px, 100%);
 	max-height: 100%;
 	overflow: hidden;
 }
@@ -241,15 +260,15 @@ header {
 	border-bottom: 1px solid #64707c;
 }
 h2 {
-	font-size: 17px;
+	font-size: 14px;
 	margin: 0;
 }
 .panel button {
-	min-height: 42px;
+	min-height: 34px;
 	border: 1px solid #7e8c99;
 	border-radius: 8px;
 	background: #394753;
-	padding: 6px 12px;
+	padding: 5px 9px;
 }
 .panel-body {
 	padding: 12px;
@@ -274,7 +293,7 @@ dd {
 .menu-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 10px;
+	gap: 8px;
 }
 .chat-log {
 	height: clamp(70px, 36vh, 200px);
@@ -308,16 +327,13 @@ dd {
 		height: 60px;
 	}
 	.joystick {
-		width: 92px;
-		height: 92px;
+		width: 80px;
+		height: 80px;
 		bottom: 12px;
 	}
 	.combat {
 		transform: scale(0.86);
 		transform-origin: bottom right;
-	}
-	.statuses {
-		top: 88px;
 	}
 }
 
@@ -365,9 +381,9 @@ dd {
 }
 .target {
 	position: absolute;
-	top: 10px;
-	left: 240px;
-	right: 206px;
+	top: calc(16px + env(safe-area-inset-top));
+	left: 212px;
+	right: 118px;
 	padding: 6px;
 	text-align: center;
 	font-size: 12px;
@@ -390,16 +406,16 @@ dd {
 .shortcut-tools {
 	position: absolute;
 	right: max(16px, env(safe-area-inset-right));
-	bottom: 174px;
-	width: 188px;
+	bottom: 152px;
+	width: 160px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	pointer-events: auto;
 }
 .shortcut-tools button {
-	min-width: 38px;
-	min-height: 38px;
+	min-width: 32px;
+	min-height: 32px;
 	padding: 4px;
 	border: 0;
 	background: transparent;
@@ -408,6 +424,7 @@ dd {
 	font-size: 11px;
 }
 .combat .skill {
+	border-radius: 6px;
 	overflow: hidden;
 	touch-action: none;
 }
@@ -446,14 +463,14 @@ dd {
 .skill-prompt {
 	position: absolute;
 	top: 70px;
-	left: 240px;
-	right: 206px;
+	left: 212px;
+	right: 118px;
 	padding: 6px;
 	pointer-events: auto;
 	font-size: 12px;
 }
 .skill-prompt button {
-	min-height: 38px;
+	min-height: 32px;
 	background: #483a25;
 	border: 1px solid #ecce94;
 	border-radius: 8px;
@@ -575,7 +592,7 @@ dd {
 	padding-left: 12px;
 }
 .inventory-detail h3 {
-	font-size: 16px;
+	font-size: 13px;
 	margin: 0 0 8px;
 	overflow-wrap: anywhere;
 }
@@ -587,7 +604,7 @@ dd {
 .inventory-detail select {
 	font: inherit;
 	font-size: 16px;
-	min-height: 42px;
+	min-height: 34px;
 	width: 100%;
 }
 .inventory-detail > button {
@@ -653,7 +670,7 @@ dd {
 	padding: 8px;
 	text-align: left;
 	min-width: 0;
-	min-height: 76px;
+	min-height: 64px;
 }
 .equipment-slot strong,
 .equipment-slot span {
@@ -682,7 +699,7 @@ dd {
 	padding-left: 12px;
 }
 .equipment-detail h3 {
-	font-size: 15px;
+	font-size: 13px;
 	margin: 0 0 8px;
 	overflow-wrap: anywhere;
 }
@@ -723,7 +740,7 @@ dd {
 }
 .skills-toolbar select {
 	font-size: 16px;
-	min-height: 42px;
+	min-height: 34px;
 }
 .inventory-detail > select {
 	margin: 6px 0;
@@ -748,7 +765,7 @@ dd {
 }
 .panel-body form input {
 	font-size: 16px;
-	min-height: 44px;
+	min-height: 36px;
 	max-width: 100%;
 }
 .container-toolbar {
@@ -761,7 +778,7 @@ dd {
 .inventory-detail input,
 .inventory-detail select {
 	font-size: 16px;
-	min-height: 44px;
+	min-height: 36px;
 	max-width: 100%;
 	box-sizing: border-box;
 }
