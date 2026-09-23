@@ -3,7 +3,9 @@
     <head>    
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
         <meta charset="UTF-8">    
-        <meta name="happyro-build-id" content="mue8d6nv">
+        <meta name="happyro-build-id" content="muefp3ym">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <title>HappyRO</title>    
         <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
         <link rel="apple-touch-icon" href="./icon.png">    
@@ -61,8 +63,8 @@
                 #ro-preloader .pre-spinner { animation: none; }
             }
         </style>    
-        <script src="debug.js?v=mue8d6nv"></script>
-        <script src="api.js?v=mue8d6nv"></script>
+        <script src="debug.js?v=muefp3ym"></script>
+        <script src="api.js?v=muefp3ym"></script>
     </head>    
     <body>    
         <div id="ro-preloader">    
@@ -72,9 +74,9 @@
             </p>    
         </div>    
     
-        <script src="Config.js?v=mue8d6nv"></script>
-        <script src="Config.runtime.js?v=mue8d6nv"></script>
-        <script src="Config.happyro.js?v=mue8d6nv"></script>
+        <script src="Config.js?v=muefp3ym"></script>
+        <script src="Config.runtime.js?v=muefp3ym"></script>
+        <script src="Config.happyro.js?v=muefp3ym"></script>
         <script>    
             function deepMerge(target, source) {    
                 for (var key in source) {    
@@ -107,7 +109,7 @@
                 if (window.ROConfigLocal) { config = deepMerge(config, window.ROConfigLocal); }    
                 if (extraConfig) { config = deepMerge(config, extraConfig); }    
                 window.ROConfig = config;    
-                import('./' + scriptFile + '?v=mue8d6nv').then(function() {
+                import('./' + scriptFile + '?v=muefp3ym').then(function() {
                     var preloader = document.getElementById('ro-preloader');    
                     if (preloader) { preloader.remove(); }    
                 }).catch(function(err) { console.error('Failed to load app:', scriptFile, err); });    

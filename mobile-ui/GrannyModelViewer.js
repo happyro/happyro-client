@@ -78015,7 +78015,7 @@ var init_MessageDialog = __esmMin((() => {
 //#region src/UI/Common.css?raw
 var Common_default$1;
 var init_Common$1 = __esmMin((() => {
-	Common_default$1 = "/* Avoid input focus border */\r\n:focus {\r\n	outline: none;\r\n}\r\n::-moz-focus-inner {\r\n	border: 0;\r\n}\r\n\r\n* {\r\n	-moz-user-select: none;\r\n}\r\n\r\nhtml,\r\nbody {\r\n	touch-action: manipulation;\r\n	margin: 0;\r\n}\r\n\r\n/* Prevent mobile browser auto-zoom on input focus and double-tap */\r\n:host {\r\n	touch-action: manipulation;\r\n}\r\n\r\ninput,\r\ntextarea,\r\nselect {\r\n	touch-action: manipulation;\r\n}\r\n\r\ncanvas {\r\n	touch-action: none;\r\n}\r\n\r\nbody {\r\n	background-color: black;\r\n	font-size: 12px;\r\n	/* 'SCDream' first: wins only when the server actually serves the client font (loaded via\r\n	   @font-face in DBManager). When it isn't served it resolves to Arial — the official client's\r\n	   window UI font for intl/america servicetype (Ragexe draws window text with CreateFontA on the\r\n	   Gulim/Arial face table). Liberation Sans / Arimo provide Arial metrics on Linux. */\r\n	font-family: 'SCDream', Arial, 'Liberation Sans', Arimo, sans-serif;\r\n	/* Normalize any resolved font's x-height to Arial's (sxHeight 1062 / unitsPerEm 2048 = 0.5186),\r\n	   so text keeps Arial's apparent size on every OS/font. It's inherited and crosses Shadow DOM\r\n	   hosts, so it also rescales elements that use a non-Arial face; those opt out with\r\n	   `font-size-adjust: none` on the selector declaring that font (Intro, GrfViewer, JoystickUI\r\n	   header). SCDream, when a server serves it, is normalized to Arial on purpose.\r\n	   Progressive enhancement: engines that don't support the numeric form ignore it\r\n	   and render at the resolved font's native x-height (no JS fallback needed — Arial\r\n	   / Liberation Sans already carry correct metrics, only annex fonts degrade). */\r\n	font-size-adjust: 0.5186;\r\n	overflow: hidden;\r\n	-webkit-user-select: none;\r\n	user-select: none;\r\n	min-width: 100vw;\r\n	min-height: 100vh;\r\n	letter-spacing: 0;\r\n	line-height: 1.2;\r\n}\r\n\r\n.title {\r\n	font-size: 12px;\r\n}\r\n\r\nbutton,\r\nui-button {\r\n	padding: 0;\r\n}\r\n\r\nui-button {\r\n	display: inline-block;\r\n}\r\n\r\n.ui-btn {\r\n	-webkit-appearance: none;\r\n	appearance: none;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n\r\n	height: 20px;\r\n	min-width: 52px;\r\n	padding: 0 10px;\r\n\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	color: #3f3f3f;\r\n	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.85);\r\n\r\n	border-radius: 4px;\r\n	border: 1px solid;\r\n\r\n	/* 3D border: top right bottom left */\r\n	border-color: #cfcfcf #a9a9a9 #5f5f5f #bdbdbd;\r\n\r\n	/* glossy + subtle depth */\r\n	background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 35%, #dcdcdc 55%, #f9f9f9 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		/* top highlight */ inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		/* bottom inner edge */ 0 1px 0 rgba(0, 0, 0, 0.12); /* outer bottom shadow */\r\n\r\n	cursor: pointer;\r\n}\r\n\r\n/* Hover: hơi xanh nhẹ giống button Reset */\r\n.ui-btn:hover {\r\n	border-color: #c9d1dd #8ea2c4 #4d5f86 #b1bfd5;\r\n	background: linear-gradient(to bottom, #f7fbff 0%, #dfe8f6 35%, #c0d0ee 55%, #f0f6ff 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		0 1px 0 rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* Active: giống \"ấn xuống\" */\r\n.ui-btn:active {\r\n	border-color: #9fb0c9 #6f86a6 #3b4b67 #7f96b6;\r\n\r\n	background: linear-gradient(to bottom, #cdd8eb 0%, #b7c8e5 45%, #dfe9fb 100%);\r\n\r\n	box-shadow:\r\n		inset 0 2px 3px rgba(0, 0, 0, 0.18),\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.35);\r\n\r\n	transform: translateY(1px); /* cảm giác bị nhấn */\r\n}\r\n\r\n/* Disabled */\r\n.ui-btn:disabled,\r\n.ui-btn.is-disabled {\r\n	cursor: default;\r\n	color: #8f8f8f;\r\n	text-shadow: none;\r\n\r\n	border-color: #d3d3d3 #bdbdbd #9b9b9b #c9c9c9;\r\n\r\n	background: linear-gradient(to bottom, #f6f6f6 0%, #e7e7e7 55%, #fafafa 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.9),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.08),\r\n		0 1px 0 rgba(0, 0, 0, 0.08);\r\n\r\n	transform: none;\r\n}\r\n\r\n.ui-btn.localized-control {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	border: 1px solid #8b9690 !important;\r\n	background: #f4f7f5 !important;\r\n	color: #202622;\r\n}\r\n\r\n.ui-btn.localized-control:hover {\r\n	background: #dcebe3 !important;\r\n}\r\n\r\n.ui-btn.localized-control:active {\r\n	background: #c8ded2 !important;\r\n}\r\n\r\n/* Hide native cursor inside Shadow DOM when custom cursor is active */\r\n:host-context(.custom-cursor) * {\r\n	cursor: none !important;\r\n}\r\n";
+	Common_default$1 = "/* Avoid input focus border */\r\n:focus {\r\n	outline: none;\r\n}\r\n::-moz-focus-inner {\r\n	border: 0;\r\n}\r\n\r\n* {\r\n	-moz-user-select: none;\r\n}\r\n\r\nhtml,\r\nbody {\r\n	touch-action: manipulation;\r\n	margin: 0;\r\n}\r\n\r\n/* Prevent mobile browser auto-zoom on input focus and double-tap */\r\n:host {\r\n	touch-action: manipulation;\r\n}\r\n\r\ninput,\r\ntextarea,\r\nselect {\r\n	touch-action: manipulation;\r\n}\r\n\r\ncanvas {\r\n	touch-action: none;\r\n}\r\n\r\nbody {\r\n	background-color: black;\r\n	font-size: 12px;\r\n	/* 'SCDream' first: wins only when the server actually serves the client font (loaded via\r\n	   @font-face in DBManager). When it isn't served it resolves to Arial — the official client's\r\n	   window UI font for intl/america servicetype (Ragexe draws window text with CreateFontA on the\r\n	   Gulim/Arial face table). Liberation Sans / Arimo provide Arial metrics on Linux. */\r\n	font-family: 'SCDream', Arial, 'Liberation Sans', Arimo, sans-serif;\r\n	/* Normalize any resolved font's x-height to Arial's (sxHeight 1062 / unitsPerEm 2048 = 0.5186),\r\n	   so text keeps Arial's apparent size on every OS/font. It's inherited and crosses Shadow DOM\r\n	   hosts, so it also rescales elements that use a non-Arial face; those opt out with\r\n	   `font-size-adjust: none` on the selector declaring that font (Intro, GrfViewer, JoystickUI\r\n	   header). SCDream, when a server serves it, is normalized to Arial on purpose.\r\n	   Progressive enhancement: engines that don't support the numeric form ignore it\r\n	   and render at the resolved font's native x-height (no JS fallback needed — Arial\r\n	   / Liberation Sans already carry correct metrics, only annex fonts degrade). */\r\n	font-size-adjust: 0.5186;\r\n	overflow: hidden;\r\n	-webkit-user-select: none;\r\n	user-select: none;\r\n	min-width: 100vw;\r\n	min-height: 100vh;\r\n	letter-spacing: 0;\r\n	line-height: 1.2;\r\n}\r\n\r\n.title {\r\n	font-size: 12px;\r\n}\r\n\r\nbutton,\r\nui-button {\r\n	padding: 0;\r\n}\r\n\r\nui-button {\r\n	display: inline-block;\r\n}\r\n\r\n.ui-btn {\r\n	-webkit-appearance: none;\r\n	appearance: none;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n\r\n	height: 20px;\r\n	min-width: 52px;\r\n	padding: 0 10px;\r\n\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	color: #3f3f3f;\r\n	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.85);\r\n\r\n	border-radius: 4px;\r\n	border: 1px solid;\r\n\r\n	/* 3D border: top right bottom left */\r\n	border-color: #cfcfcf #a9a9a9 #5f5f5f #bdbdbd;\r\n\r\n	/* glossy + subtle depth */\r\n	background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 35%, #dcdcdc 55%, #f9f9f9 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		/* top highlight */ inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		/* bottom inner edge */ 0 1px 0 rgba(0, 0, 0, 0.12); /* outer bottom shadow */\r\n\r\n	cursor: pointer;\r\n}\r\n\r\n/* Hover: hơi xanh nhẹ giống button Reset */\r\n.ui-btn:hover {\r\n	border-color: #c9d1dd #8ea2c4 #4d5f86 #b1bfd5;\r\n	background: linear-gradient(to bottom, #f7fbff 0%, #dfe8f6 35%, #c0d0ee 55%, #f0f6ff 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.95),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.12),\r\n		0 1px 0 rgba(0, 0, 0, 0.12);\r\n}\r\n\r\n/* Active: giống \"ấn xuống\" */\r\n.ui-btn:active {\r\n	border-color: #9fb0c9 #6f86a6 #3b4b67 #7f96b6;\r\n\r\n	background: linear-gradient(to bottom, #cdd8eb 0%, #b7c8e5 45%, #dfe9fb 100%);\r\n\r\n	box-shadow:\r\n		inset 0 2px 3px rgba(0, 0, 0, 0.18),\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.35);\r\n\r\n	transform: translateY(1px); /* cảm giác bị nhấn */\r\n}\r\n\r\n/* Disabled */\r\n.ui-btn:disabled,\r\n.ui-btn.is-disabled {\r\n	cursor: default;\r\n	color: #8f8f8f;\r\n	text-shadow: none;\r\n\r\n	border-color: #d3d3d3 #bdbdbd #9b9b9b #c9c9c9;\r\n\r\n	background: linear-gradient(to bottom, #f6f6f6 0%, #e7e7e7 55%, #fafafa 100%);\r\n\r\n	box-shadow:\r\n		inset 0 1px 0 rgba(255, 255, 255, 0.9),\r\n		inset 0 -1px 0 rgba(0, 0, 0, 0.08),\r\n		0 1px 0 rgba(0, 0, 0, 0.08);\r\n\r\n	transform: none;\r\n}\r\n\r\n.ui-btn.localized-control {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	box-sizing: border-box;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	padding: 0 8px;\r\n	font-size: 12px;\r\n	line-height: 1;\r\n	border: 1px solid #8b9690 !important;\r\n	background: #f4f7f5 !important;\r\n	color: #202622;\r\n}\r\n\r\n.ui-btn.localized-control:hover {\r\n	background: #dcebe3 !important;\r\n}\r\n\r\n.ui-btn.localized-control:active {\r\n	background: #c8ded2 !important;\r\n}\r\n\r\n/* Hide native cursor inside Shadow DOM when custom cursor is active */\r\n:host-context(.custom-cursor) * {\r\n	cursor: none !important;\r\n}\r\n\r\n/* Touch-primary screens do not display a mouse cursor, including inside UI roots. */\r\n@media (pointer: coarse) {\r\n	*,\r\n	:host {\r\n		cursor: none !important;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/Controls/MouseEventHandler.js
@@ -241479,12 +241479,15 @@ var init_KeyEventHandler = __esmMin((() => {
 }));
 //#endregion
 //#region src/Preferences/Camera.js
-var Camera_default;
+var DEFAULT_CAMERA_ZOOM, Camera_default;
 var init_Camera$1 = __esmMin((() => {
 	init_Preferences$1();
+	init_Platform();
+	DEFAULT_CAMERA_ZOOM = Platform.isMobile ? 110 : 125;
 	Camera_default = Preferences.get("Camera", {
 		smooth: true,
-		zoom: 125
+		zoom: DEFAULT_CAMERA_ZOOM,
+		indoorZoom: DEFAULT_CAMERA_ZOOM
 	}, 1.1);
 }));
 //#endregion
@@ -308232,10 +308235,10 @@ var init_Camera = __esmMin((() => {
 			__vitePreload(() => Promise.resolve().then(() => (init_MapRenderer(), MapRenderer_exports)).then((MapRenderer) => {
 				this.currentMap = MapRenderer.default.currentMap;
 				if (DB.isIndoor(this.currentMap)) {
-					this.zoomFinal = Camera_default.indoorZoom || 125;
+					this.zoomFinal = Camera_default.indoorZoom ?? DEFAULT_CAMERA_ZOOM;
 					this.angleFinal[0] = 230;
 					this.angleFinal[1] = -40;
-				} else this.zoomFinal = Camera_default.zoom || 125;
+				} else this.zoomFinal = Camera_default.zoom ?? DEFAULT_CAMERA_ZOOM;
 			}), void 0, import.meta.url);
 		}
 		/**
@@ -308255,7 +308258,7 @@ var init_Camera = __esmMin((() => {
 					if (DB.isIndoor(this.currentMap)) this.angleFinal[0] = +this.indoorRange;
 					else this.angleFinal[0] = +this.range;
 				}
-				if (KEYS.CTRL) this.zoomFinal = 125;
+				if (KEYS.CTRL) this.zoomFinal = DEFAULT_CAMERA_ZOOM;
 				else if (DB.isIndoor(this.currentMap)) this.angleFinal[1] = this.indoorRotationTo;
 				else this.angleFinal[1] = 0;
 			}
@@ -355605,6 +355608,7 @@ function createSpriteSheet() {
 }
 var _tick, _norepeat, _animation, _play, _lastStyleId, _lastX, _lastY, _compiledStyle, _sprite$2, _action$2, _selector, Cursor, _type$4, ActionInformations;
 var init_CursorManager = __esmMin((() => {
+	init_Platform();
 	init_Client();
 	init_MemoryManager();
 	init_Graphics();
@@ -355716,7 +355720,7 @@ var init_CursorManager = __esmMin((() => {
 		* Render the cursor (update)
 		*/
 		static render(tick) {
-			if (!GraphicsSettings.cursor || !_compiledStyle.length) {
+			if (Platform.isMobile || !GraphicsSettings.cursor || !_compiledStyle.length) {
 				if (_selector) _selector.style.display = "none";
 				return;
 			}
@@ -357233,12 +357237,13 @@ function requireLandscape(proceed) {
 	overlay.setAttribute("aria-modal", "true");
 	overlay.setAttribute("aria-label", "请将设备旋转至横屏");
 	overlay.innerHTML = `<style>
-		#ro-rotation-guard { position:fixed; inset:0; z-index:99999; background:#f8f9fb;
+		#ro-rotation-guard { position:fixed; inset:0; width:100%; height:100dvh; box-sizing:border-box; z-index:99999; background:#f8f9fb;
 			color:#242830; display:flex; flex-direction:column; align-items:center;
-			justify-content:center; gap:20px; padding:24px; text-align:center;
-			font:18px/1.5 system-ui,sans-serif; touch-action:none; }
+			justify-content:center; gap:16px; margin:0; padding:24px; text-align:center;
+			font:16px/1.5 system-ui,sans-serif; touch-action:none; }
 		#ro-rotation-guard[hidden], #ro-rotation-guard button[hidden] { display:none; }
-		#ro-rotation-guard button { min-height:44px; padding:8px 24px; border:1px solid #dce1e8;
+		#ro-rotation-guard > span { flex:0 0 auto; }
+		#ro-rotation-guard button { flex:0 0 auto; min-height:38px; padding:8px 24px; border:1px solid #dce1e8;
 			border-radius:10px; background:transparent; color:inherit; font:inherit; }
 	</style><span>请将设备旋转至横屏</span><button type="button">返回选角</button>`;
 	for (const type of [
@@ -358430,6 +358435,399 @@ var init_GameVending = __esmMin((() => {
 	ownedStore = null;
 }));
 //#endregion
+//#region src/UI/Game/GameCommands.js
+function selectedTarget() {
+	const target = EntityManager.getFocusEntity();
+	return target && EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE ? target : null;
+}
+function canAttack(target) {
+	if (!target || target === SessionStorage_default.Entity) return false;
+	const T = target.constructor;
+	return [
+		T.TYPE_MOB,
+		T.TYPE_UNIT,
+		T.TYPE_NPC_ABR,
+		T.TYPE_NPC_BIONIC
+	].includes(target.objecttype) || [
+		T.TYPE_PC,
+		T.TYPE_ELEM,
+		T.TYPE_HOM
+	].includes(target.objecttype) && target.canAttackEntity();
+}
+function stopAttack() {
+	releaseAttack();
+	SessionStorage_default.moveAction = null;
+	if (SessionStorage_default.Playing) Network.sendPacket(new PACKET.CZ.CANCEL_LOCKON());
+}
+function attackSelected(moving = false) {
+	const target = selectedTarget();
+	if (canAttack(target)) {
+		ownAttack(target.GID, () => {
+			if (!SessionStorage_default.FreezeUI && selectedTarget() === target) target.onFocus({
+				attack: true,
+				allowMove: !moving
+			});
+		});
+		target.onFocus({
+			attack: true,
+			allowMove: !moving
+		});
+	}
+}
+function moveDirection(x, y) {
+	const player = SessionStorage_default.Entity;
+	if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
+	Navigation_default.stopAutoWalk();
+	MapControl.onRequestStopWalk();
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	const angle = -Camera.direction * Math.PI / 4;
+	const dx = x * Math.cos(angle) - y * Math.sin(angle);
+	const dy = x * Math.sin(angle) + y * Math.cos(angle);
+	const dest = [];
+	if (!checkFreeCell$1(Math.round(player.position[0] + dx * 3), Math.round(player.position[1] + dy * 3), 1, dest)) return;
+	const packet = new PACKET.CZ.REQUEST_MOVE2();
+	packet.dest[0] = dest[0];
+	packet.dest[1] = dest[1];
+	Network.sendPacket(packet);
+}
+function pickSceneEntity(x, y) {
+	Mouse.screen.x = x;
+	Mouse.screen.y = y;
+	return EntityManager.intersect();
+}
+function tapScene(x, y) {
+	Mouse.screen.x = x;
+	Mouse.screen.y = y;
+	const pos = [];
+	const ground = Altitude.intersect(Camera.modelView, Camera.projection, pos);
+	Mouse.world.x = ground ? pos[0] : -1;
+	Mouse.world.y = ground ? pos[1] : -1;
+	const target = EntityManager.intersect();
+	const previous = EntityManager.getFocusEntity();
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	if (target && target !== SessionStorage_default.Entity) {
+		if (previous && previous !== target) previous.onFocusEnd();
+		EntityManager.setFocusEntity(target);
+		EntityManager.setOverEntity(target);
+		target.onFocus({ attack: false });
+		if ([
+			target.constructor.TYPE_ITEM,
+			target.constructor.TYPE_NPC,
+			target.constructor.TYPE_NPC2
+		].includes(target.objecttype)) interactSelected();
+		return;
+	}
+	if (ground) {
+		MapControl.onRequestWalk();
+		MapControl.onRequestStopWalk();
+	}
+}
+function interactSelected() {
+	const target = selectedTarget();
+	if (!target) return;
+	const T = target.constructor;
+	if (target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)) {
+		target.onRoomEnter();
+		return;
+	}
+	if (target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity) {
+		UIManager.showPromptBox(`向 ${target.display.name} 发起交易？`, "ok", "cancel", () => {
+			if (SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && selectedTarget() === target) Trade_default.reqExchange(target.GID, target.display.name);
+		});
+		return;
+	}
+	if (![
+		T.TYPE_NPC,
+		T.TYPE_NPC2,
+		T.TYPE_ITEM,
+		T.TYPE_WARP
+	].includes(target.objecttype)) return;
+	Mouse.world.x = Math.round(target.position[0]);
+	Mouse.world.y = Math.round(target.position[1]);
+	target.onMouseDown();
+}
+function targetSnapshot() {
+	const target = selectedTarget();
+	if (!target) return {
+		name: "点击目标进行选择",
+		attack: false,
+		interaction: ""
+	};
+	const T = target.constructor;
+	return {
+		name: target.display.name || "已选目标",
+		attack: canAttack(target),
+		interaction: target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type) ? "查看摊位" : target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? "交易" : target.objecttype === T.TYPE_WARP ? "进入" : ""
+	};
+}
+function adjustCamera(action) {
+	const indoor = DB.isIndoor(Camera.currentMap);
+	if (action === "zoomIn" || action === "zoomOut") Camera.setZoom(action === "zoomIn" ? -1 : 1);
+	else if (action === "reset") {
+		Camera.angleFinal[0] = indoor ? Camera.indoorRange : Camera.range;
+		Camera.angleFinal[1] = indoor ? Camera.indoorRotationTo : 0;
+		Camera.zoomFinal = DEFAULT_CAMERA_ZOOM;
+	} else {
+		const tilt = action === "up" || action === "down";
+		const index = tilt ? 0 : 1;
+		const min = tilt ? indoor ? Camera.MIN_ALTITUDE_INDOOR : Camera.MIN_V_ANGLE : indoor ? Camera.indoorRotationFrom : Camera.rotationFrom;
+		const max = tilt ? indoor ? Camera.MAX_ALTITUDE_INDOOR : Camera.MAX_V_ANGLE : indoor ? Camera.indoorRotationTo : Camera.rotationTo;
+		const delta = tilt ? action === "up" ? 5 : -5 : action === "left" ? -15 : 15;
+		Camera.angleFinal[index] = Math.max(min, Math.min(max, Camera.angleFinal[index] + delta));
+	}
+	Camera.save();
+}
+var init_GameCommands = __esmMin((() => {
+	init_Trade$1();
+	init_UIManager();
+	init_AttackIntent();
+	init_DBManager();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Camera();
+	init_Camera$1();
+	init_Altitude();
+	init_MouseEventHandler();
+	init_MapControl();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_Navigation();
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatController.js
+/** Nearby combat policy. Runtime adapters own pathfinding, packets and live skill checks. */
+function createAutoCombatController(data) {
+	let active = false, continuous = false, preferred = null, species = [], selected = [], target = null, nextAction = 0;
+	let origin, lastDistance = Infinity, progressAt = 0, status = "自动战斗已停止";
+	const skipped = /* @__PURE__ */ new Map();
+	const distance = (a, b) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]));
+	function stop(message = "自动战斗已停止") {
+		if (active || target) data.stop();
+		active = false;
+		continuous = false;
+		preferred = null;
+		target = null;
+		status = message;
+	}
+	function snapshot() {
+		return {
+			active,
+			species: species.map((entry) => ({ ...entry })),
+			skills: [...selected],
+			status,
+			target: target?.name || ""
+		};
+	}
+	function tick() {
+		if (!active) return;
+		if (!data.enabled()) {
+			stop("自动战斗已停止");
+			return;
+		}
+		const now = data.now(), player = data.position();
+		for (const [id, until] of skipped) if (until <= now) skipped.delete(id);
+		const targets = data.targets().filter((entity) => (entity.id === preferred || continuous && (!species.length || species.some((entry) => entity.species === entry.id))) && distance(player, entity.position) <= 14 && distance(origin, entity.position) <= 20 && (skipped.get(entity.id) || 0) <= now);
+		const current = target && targets.find((entity) => entity.id === target.id);
+		if (target && !current) {
+			if (!continuous) {
+				stop("目标已结束或离开，攻击已停止");
+				return;
+			}
+			preferred = null;
+			data.stop();
+			target = null;
+			nextAction = 0;
+		}
+		if (!target) {
+			targets.sort((a, b) => distance(player, a.position) - distance(player, b.position));
+			target = targets.find((entity) => data.reachable(entity)) || null;
+			if (!target) {
+				status = "等待附近目标";
+				return;
+			}
+			data.select(target);
+			lastDistance = Infinity;
+			progressAt = now;
+		} else target = current;
+		const range = distance(player, target.position);
+		if (range < lastDistance || !data.chasing()) {
+			progressAt = now;
+			lastDistance = range;
+		}
+		if (now - progressAt >= 8e3) {
+			if (!continuous) {
+				stop("目标无法接近，攻击已停止");
+				return;
+			}
+			preferred = null;
+			skipped.set(target.id, now + 3e4);
+			data.stop();
+			target = null;
+			nextAction = 0;
+			status = "目标无法接近，寻找其他目标";
+			return;
+		}
+		status = `${data.chasing() ? "接近" : "攻击"}：${target.name}`;
+		if (now < nextAction || data.busy()) return;
+		const skills = data.skills().filter((skill) => selected.includes(skill.id) && skill.available);
+		const skill = skills.length ? skills[Math.floor(data.random() * skills.length)] : null;
+		if (data.act(target, skill) === false) {
+			if (!continuous) {
+				stop("无法攻击目标");
+				return;
+			}
+			preferred = null;
+			skipped.set(target.id, now + 3e4);
+			data.stop();
+			target = null;
+		}
+		nextAction = now + 900;
+	}
+	return {
+		snapshot,
+		tick,
+		stop,
+		start() {
+			if (!data.enabled()) return false;
+			data.stop();
+			origin = [...data.position()];
+			active = true;
+			continuous = true;
+			preferred = null;
+			target = null;
+			nextAction = 0;
+			skipped.clear();
+			status = "寻找附近目标";
+			tick();
+			return true;
+		},
+		attackTarget(id) {
+			if (!data.enabled()) return false;
+			const choice = data.targets().find((entity) => entity.id === id);
+			if (!choice || !data.reachable(choice)) return false;
+			continuous = active && continuous;
+			data.stop();
+			active = true;
+			preferred = id;
+			target = choice;
+			origin = [...data.position()];
+			nextAction = 0;
+			lastDistance = Infinity;
+			progressAt = data.now();
+			skipped.delete(id);
+			data.select(target);
+			tick();
+			return true;
+		},
+		configure(nextSpecies, ids) {
+			stop();
+			species = [...new Map(nextSpecies.map((entry) => [entry.id, {
+				id: entry.id,
+				name: entry.name
+			}])).values()];
+			const learned = new Set(data.skills().map((skill) => skill.id));
+			selected = [...new Set(ids)].filter((id) => learned.has(id));
+		},
+		skills: () => data.skills(),
+		targets: () => data.targets()
+	};
+}
+var init_AutoCombatController = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Game/GameAutoCombat.js
+function createGameAutoCombat(enabled) {
+	function targets() {
+		const result = [];
+		EntityManager.forEach((entity) => {
+			if (entity.objecttype !== entity.constructor.TYPE_MOB || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return;
+			result.push({
+				id: entity.GID,
+				species: entity.job,
+				name: DB.getMonsterName(entity.job) || entity.display.name,
+				position: [...entity.position]
+			});
+		});
+		return result;
+	}
+	function skills() {
+		return Controller$4.getUI().getSkills().filter((skill) => canExecuteSkill(skill) && skill.type & (SKILL_INF.ENEMY | SKILL_INF.PLACE)).map((skill) => {
+			const reason = remainingCooldown(skill.SKID) > 0 ? "冷却中" : skill.spcost > SessionStorage_default.Entity.life.sp ? "SP 不足" : "";
+			return {
+				id: skill.SKID,
+				name: SkillInfo_generated_default[skill.SKID]?.SkillName || `技能 ${skill.SKID}`,
+				level: skill.level,
+				type: skill.type,
+				available: !reason,
+				reason
+			};
+		});
+	}
+	function stop() {
+		const chasing = Boolean(SessionStorage_default.moveAction);
+		stopAttack();
+		if (chasing && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE) {
+			const packet = new PACKET.CZ.REQUEST_MOVE2();
+			packet.dest[0] = Math.round(SessionStorage_default.Entity.position[0]);
+			packet.dest[1] = Math.round(SessionStorage_default.Entity.position[1]);
+			Network.sendPacket(packet);
+		}
+		MapControl.onRequestStopWalk();
+		SessionStorage_default.autoFollow = false;
+	}
+	return createAutoCombatController({
+		enabled: () => enabled() && !SessionStorage_default.Entity?.isOverWeight && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.SIT,
+		now: () => performance.now(),
+		random: Math.random,
+		position: () => SessionStorage_default.Entity.position,
+		targets,
+		skills,
+		stop,
+		chasing: () => Boolean(SessionStorage_default.moveAction),
+		busy: () => Boolean(SessionStorage_default.moveAction || SessionStorage_default.Entity.cast?.display || SessionStorage_default.Entity.amotionTick > Renderer.tick),
+		reachable: (target) => PathFinding_default.search(SessionStorage_default.Entity.position[0] | 0, SessionStorage_default.Entity.position[1] | 0, target.position[0] | 0, target.position[1] | 0, 1, [], Altitude.TYPE.WALKABLE) > 0,
+		select: (target) => {
+			const entity = EntityManager.get(target.id), previous = EntityManager.getFocusEntity();
+			if (previous && previous !== entity) previous.onFocusEnd();
+			EntityManager.setFocusEntity(entity);
+			EntityManager.setOverEntity(entity);
+			entity.onFocus({ attack: false });
+		},
+		act: (target, skill) => {
+			const entity = EntityManager.get(target.id);
+			if (!entity || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return false;
+			if (!skill) {
+				attackSelected();
+				return true;
+			}
+			const current = skills().find((entry) => entry.id === skill.id && entry.available);
+			if (!current) return false;
+			stopAttack();
+			if (current.type & SKILL_INF.PLACE) return SkillTargetSelection_default.onUseSkillToPos(current.id, current.level, entity.position[0], entity.position[1]);
+			return SkillTargetSelection_default.onUseSkillToId(current.id, current.level, target.id);
+		}
+	});
+}
+var init_GameAutoCombat = __esmMin((() => {
+	init_NetworkManager();
+	init_PacketStructure();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Renderer();
+	init_MapControl();
+	init_PathFinding();
+	init_Altitude();
+	init_SkillList();
+	init_SkillTargetSelection();
+	init_SkillUse();
+	init_SkillInfo_generated();
+	init_DBManager();
+	init_SkillCooldowns();
+	init_GameCommands();
+	init_AutoCombatController();
+}));
+//#endregion
 //#region src/UI/Game/GameSettings.js
 function settingsSnapshot(defaults = false) {
 	return {
@@ -359397,8 +359795,16 @@ var init_CharacterStats = __esmMin((() => {
 function createShortcutController(data) {
 	let page = 0, pending = null, message = "";
 	const count = () => Math.min(36, data.bindings().length);
-	const pages = () => Math.max(1, Math.ceil(count() / 3));
+	const pages = () => Math.max(1, Math.ceil(count() / 6));
 	function describe(index) {
+		if (index >= count()) return {
+			index,
+			empty: true,
+			name: "无槽位",
+			available: false,
+			reason: "无槽位",
+			unavailable: true
+		};
 		const binding = data.bindings()[index];
 		if (!binding?.ID) return {
 			index,
@@ -359449,8 +359855,13 @@ function createShortcutController(data) {
 	}
 	function use(index) {
 		message = "";
+		if (pending?.index === index) {
+			cancel();
+			return {};
+		}
 		cancel();
 		const entry = describe(index);
+		if (entry.unavailable) return {};
 		if (entry.empty) return { configure: index };
 		if (!entry.available) return { message: entry.reason };
 		const binding = entry.binding;
@@ -359469,7 +359880,6 @@ function createShortcutController(data) {
 					caster: data.self(binding.ID)
 				};
 				data.supportPicking(Boolean(inf & SKILL_INF.FRIEND));
-				if (!(inf & SKILL_INF.PLACE)) castTarget(data.target());
 			}
 		});
 		return { message };
@@ -359484,8 +359894,10 @@ function createShortcutController(data) {
 			return {
 				page,
 				pages: pages(),
-				slots: Array.from({ length: Math.min(3, Math.max(0, count() - page * 3)) }, (_, i) => describe(page * 3 + i)),
+				total: count(),
+				slots: Array.from({ length: 6 }, (_, i) => describe(page * 6 + i)),
 				pending: pending ? {
+					index: pending.index,
 					name: pending.name,
 					ground: Boolean(pending.inf & SKILL_INF.PLACE),
 					self: Boolean(pending.inf & SKILL_INF.FRIEND)
@@ -359585,10 +359997,9 @@ function createGameShortcuts(moving = () => false) {
 		cooldown: remainingCooldown,
 		describe,
 		canUse: () => Boolean(SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE),
-		target: () => EntityManager.getFocusEntity(),
 		self: (id) => caster(id),
 		supportPicking: (value) => EntityManager.setSupportPicking(value),
-		canTarget: (target, flag, id) => Boolean(target && EntityManager.get(target.GID) === target && canTargetSkill(target, flag, {
+		canTarget: (target, flag, id) => Boolean(target && EntityManager.get(target.GID) === target && (!(flag & SKILL_INF.ENEMY) || target.action !== target.ACTION.DIE) && target.remove_tick <= 0 && canTargetSkill(target, flag, {
 			self: caster(id),
 			canAttack: SkillTargetSelection_default.checkMapState
 		})),
@@ -359659,166 +360070,13 @@ var init_GameShortcuts = __esmMin((() => {
 	init_SkillTargets();
 }));
 //#endregion
-//#region src/UI/Game/GameCommands.js
-function selectedTarget() {
-	const target = EntityManager.getFocusEntity();
-	return target && EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE ? target : null;
-}
-function canAttack(target) {
-	if (!target || target === SessionStorage_default.Entity) return false;
-	const T = target.constructor;
-	return [
-		T.TYPE_MOB,
-		T.TYPE_UNIT,
-		T.TYPE_NPC_ABR,
-		T.TYPE_NPC_BIONIC
-	].includes(target.objecttype) || [
-		T.TYPE_PC,
-		T.TYPE_ELEM,
-		T.TYPE_HOM
-	].includes(target.objecttype) && target.canAttackEntity();
-}
-function stopAttack() {
-	releaseAttack();
-	SessionStorage_default.moveAction = null;
-	if (SessionStorage_default.Playing) Network.sendPacket(new PACKET.CZ.CANCEL_LOCKON());
-}
-function attackSelected(moving = false) {
-	const target = selectedTarget();
-	if (canAttack(target)) {
-		ownAttack(target.GID, () => {
-			if (!SessionStorage_default.FreezeUI && selectedTarget() === target) target.onFocus({
-				attack: true,
-				allowMove: !moving
-			});
-		});
-		target.onFocus({
-			attack: true,
-			allowMove: !moving
-		});
-	}
-}
-function moveDirection(x, y) {
-	const player = SessionStorage_default.Entity;
-	if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
-	Navigation_default.stopAutoWalk();
-	MapControl.onRequestStopWalk();
-	SessionStorage_default.moveAction = null;
-	SessionStorage_default.autoFollow = false;
-	const angle = -Camera.direction * Math.PI / 4;
-	const dx = x * Math.cos(angle) - y * Math.sin(angle);
-	const dy = x * Math.sin(angle) + y * Math.cos(angle);
-	const dest = [];
-	if (!checkFreeCell$1(Math.round(player.position[0] + dx * 3), Math.round(player.position[1] + dy * 3), 1, dest)) return;
-	const packet = new PACKET.CZ.REQUEST_MOVE2();
-	packet.dest[0] = dest[0];
-	packet.dest[1] = dest[1];
-	Network.sendPacket(packet);
-}
-function tapScene(x, y) {
-	Mouse.screen.x = x;
-	Mouse.screen.y = y;
-	const pos = [];
-	const ground = Altitude.intersect(Camera.modelView, Camera.projection, pos);
-	Mouse.world.x = ground ? pos[0] : -1;
-	Mouse.world.y = ground ? pos[1] : -1;
-	const target = EntityManager.intersect();
-	const previous = EntityManager.getFocusEntity();
-	SessionStorage_default.moveAction = null;
-	SessionStorage_default.autoFollow = false;
-	if (target && target !== SessionStorage_default.Entity) {
-		if (previous && previous !== target) previous.onFocusEnd();
-		EntityManager.setFocusEntity(target);
-		EntityManager.setOverEntity(target);
-		target.onFocus({ attack: false });
-		return;
-	}
-	if (ground) {
-		MapControl.onRequestWalk();
-		MapControl.onRequestStopWalk();
-	}
-}
-function interactSelected() {
-	const target = selectedTarget();
-	if (!target) return;
-	const T = target.constructor;
-	if (target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)) {
-		target.onRoomEnter();
-		return;
-	}
-	if (target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity) {
-		UIManager.showPromptBox(`向 ${target.display.name} 发起交易？`, "ok", "cancel", () => {
-			if (SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && selectedTarget() === target) Trade_default.reqExchange(target.GID, target.display.name);
-		});
-		return;
-	}
-	if (![
-		T.TYPE_NPC,
-		T.TYPE_NPC2,
-		T.TYPE_ITEM,
-		T.TYPE_WARP
-	].includes(target.objecttype)) return;
-	Mouse.world.x = Math.round(target.position[0]);
-	Mouse.world.y = Math.round(target.position[1]);
-	target.onMouseDown();
-}
-function targetSnapshot() {
-	const target = selectedTarget();
-	if (!target) return {
-		name: "点击目标进行选择",
-		attack: false,
-		interaction: ""
-	};
-	const T = target.constructor;
-	return {
-		name: target.display.name || "已选目标",
-		attack: canAttack(target),
-		interaction: target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type) ? "查看摊位" : target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? "交易" : target.objecttype === T.TYPE_ITEM ? "拾取" : target.objecttype === T.TYPE_WARP ? "进入" : [T.TYPE_NPC, T.TYPE_NPC2].includes(target.objecttype) ? "交谈" : ""
-	};
-}
-function adjustCamera(action) {
-	const indoor = DB.isIndoor(Camera.currentMap);
-	if (action === "zoomIn" || action === "zoomOut") Camera.setZoom(action === "zoomIn" ? 1 : -1);
-	else if (action === "reset") {
-		Camera.angleFinal[0] = indoor ? Camera.indoorRange : Camera.range;
-		Camera.angleFinal[1] = indoor ? Camera.indoorRotationTo : 0;
-		Camera.zoomFinal = 125;
-	} else {
-		const tilt = action === "up" || action === "down";
-		const index = tilt ? 0 : 1;
-		const min = tilt ? indoor ? Camera.MIN_ALTITUDE_INDOOR : Camera.MIN_V_ANGLE : indoor ? Camera.indoorRotationFrom : Camera.rotationFrom;
-		const max = tilt ? indoor ? Camera.MAX_ALTITUDE_INDOOR : Camera.MAX_V_ANGLE : indoor ? Camera.indoorRotationTo : Camera.rotationTo;
-		const delta = tilt ? action === "up" ? 5 : -5 : action === "left" ? -15 : 15;
-		Camera.angleFinal[index] = Math.max(min, Math.min(max, Camera.angleFinal[index] + delta));
-	}
-	Camera.save();
-}
-var init_GameCommands = __esmMin((() => {
-	init_Trade$1();
-	init_UIManager();
-	init_AttackIntent();
-	init_DBManager();
-	init_SessionStorage();
-	init_EntityManager();
-	init_Camera();
-	init_Altitude();
-	init_MouseEventHandler();
-	init_MapControl();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_Navigation();
-}));
-//#endregion
 //#region src/UI/Mobile/game/PointerControls.js
-/** Each control owns one pointer; releasing a button never releases the joystick. */
+/** A left-side canvas drag owns movement; each skill keeps its own pointer. */
 function bindPointerControls(root, scene, actions) {
 	const abort = new AbortController();
-	const joystick = root.querySelector(".joystick");
-	const attack = root.querySelector(".attack");
 	const skills = [...root.querySelectorAll("[data-shortcut]")];
-	const knob = joystick.querySelector("span");
 	const owners = /* @__PURE__ */ new Map();
-	let vector = [0, 0], timer, sceneStart, attackTicks = 0;
+	let vector = [0, 0], timer, sceneStart;
 	const listen = (node, type, fn) => node.addEventListener(type, fn, { signal: abort.signal });
 	const moving = () => vector[0] !== 0 || vector[1] !== 0;
 	function tick() {
@@ -359827,68 +360085,50 @@ function bindPointerControls(root, scene, actions) {
 			return;
 		}
 		if (moving()) actions.move(...vector);
-		if (owners.has(attack) && moving() && ++attackTicks % 3 === 0) actions.attack(true);
+	}
+	function startTimer() {
+		if (!timer) timer = setInterval(tick, 200);
+	}
+	function clearIdleTimer() {
+		if (!owners.size && !sceneStart) {
+			clearInterval(timer);
+			timer = null;
+		}
 	}
 	function update(event) {
-		const rect = joystick.getBoundingClientRect(), radius = rect.width * .3;
-		let x = event.clientX - rect.left - rect.width / 2;
-		let y = event.clientY - rect.top - rect.height / 2;
+		const x = event.clientX - sceneStart.x, y = event.clientY - sceneStart.y;
 		const distance = Math.hypot(x, y);
-		if (distance > radius) {
-			x *= radius / distance;
-			y *= radius / distance;
-		}
-		knob.style.transform = `translate(${x}px, ${y}px)`;
-		vector = distance < radius * .2 ? [0, 0] : [x / Math.max(1, Math.hypot(x, y)), -y / Math.max(1, Math.hypot(x, y))];
+		vector = distance < 8 ? [0, 0] : [x / distance, -y / distance];
 	}
-	function release(node) {
+	function releaseSkill(node) {
 		const id = owners.get(node);
 		if (id === void 0) return;
 		owners.delete(node);
 		if (node.hasPointerCapture(id)) node.releasePointerCapture(id);
 		node.classList.remove("held");
-		if (!owners.size) {
-			clearInterval(timer);
-			timer = null;
-		}
-		if (node === joystick) {
-			vector = [0, 0];
-			knob.style.transform = "";
-			actions.stopMove();
-		} else if (node === attack) actions.stopAttack();
+		clearIdleTimer();
+	}
+	function releaseScene() {
+		const start = sceneStart;
+		sceneStart = null;
+		if (start && scene.hasPointerCapture(start.id)) scene.releasePointerCapture(start.id);
+		vector = [0, 0];
+		if (start?.dragging) actions.stopMove();
+		clearIdleTimer();
+		return start;
 	}
 	function cancel() {
-		release(joystick);
-		release(attack);
-		for (const skill of skills) release(skill);
-		if (sceneStart && scene.hasPointerCapture(sceneStart.id)) scene.releasePointerCapture(sceneStart.id);
-		sceneStart = null;
+		releaseScene();
+		for (const skill of skills) releaseSkill(skill);
 	}
-	for (const node of [
-		joystick,
-		attack,
-		...skills
-	]) {
+	for (const node of skills) {
 		listen(node, "pointerdown", (event) => {
 			event.preventDefault();
 			if (!actions.enabled() || owners.has(node) || event.button !== 0) return;
 			owners.set(node, event.pointerId);
 			node.setPointerCapture(event.pointerId);
 			node.classList.add("held");
-			if (node === joystick) {
-				actions.startMove?.();
-				actions.stopMove();
-				update(event);
-				tick();
-				if (owners.has(attack)) actions.attack(moving());
-			} else if (node === attack) {
-				attackTicks = 0;
-				actions.attack(moving());
-			}
-			if (!timer) timer = setInterval(tick, 200);
-		});
-		listen(node, "pointermove", (event) => {
-			if (node === joystick && owners.get(node) === event.pointerId) update(event);
+			startTimer();
 		});
 		for (const type of [
 			"pointerup",
@@ -359897,8 +360137,8 @@ function bindPointerControls(root, scene, actions) {
 		]) listen(node, type, (event) => {
 			if (owners.get(node) !== event.pointerId) return;
 			const rect = node.getBoundingClientRect();
-			const activate = skills.includes(node) && type === "pointerup" && actions.enabled() && event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
-			release(node);
+			const activate = type === "pointerup" && actions.enabled() && event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+			releaseSkill(node);
 			if (activate) actions.shortcut(Number(node.dataset.shortcut));
 		});
 	}
@@ -359917,30 +360157,49 @@ function bindPointerControls(root, scene, actions) {
 		event.stopPropagation();
 	});
 	listen(scene, "pointerdown", (event) => {
-		if (!actions.enabled() || owners.size || sceneStart || event.button !== 0) return;
+		if (!actions.enabled() || sceneStart || event.button !== 0) return;
+		const rect = scene.getBoundingClientRect();
+		const left = event.clientX < rect.left + rect.width / 2;
+		if (!left && owners.size) return;
 		sceneStart = {
 			id: event.pointerId,
 			x: event.clientX,
-			y: event.clientY
+			y: event.clientY,
+			left,
+			cancelled: owners.size > 0
 		};
 		scene.setPointerCapture(event.pointerId);
+		startTimer();
 	});
 	listen(scene, "pointermove", (event) => {
-		if (sceneStart?.id === event.pointerId && Math.hypot(event.clientX - sceneStart.x, event.clientY - sceneStart.y) > 12) sceneStart.cancelled = true;
+		if (sceneStart?.id !== event.pointerId) return;
+		if (!actions.enabled()) {
+			cancel();
+			return;
+		}
+		const distance = Math.hypot(event.clientX - sceneStart.x, event.clientY - sceneStart.y);
+		if (!sceneStart.left) {
+			if (distance > 12) sceneStart.cancelled = true;
+			return;
+		}
+		if (!sceneStart.dragging && distance >= 8) {
+			sceneStart.dragging = true;
+			sceneStart.cancelled = true;
+			actions.startMove();
+			actions.stopMove();
+			update(event);
+			tick();
+		} else if (sceneStart.dragging) update(event);
 	});
 	listen(scene, "pointerup", (event) => {
 		if (sceneStart?.id !== event.pointerId) return;
-		const start = sceneStart;
-		sceneStart = null;
-		if (scene.hasPointerCapture(event.pointerId)) scene.releasePointerCapture(event.pointerId);
-		if (!start.cancelled && actions.enabled() && !owners.size) actions.tap(event.clientX, event.clientY);
+		if (!releaseScene().cancelled && actions.enabled() && !owners.size) actions.tap(event.clientX, event.clientY);
 	});
 	for (const type of ["pointercancel", "lostpointercapture"]) listen(scene, type, (event) => {
-		if (sceneStart?.id === event.pointerId) sceneStart = null;
+		if (sceneStart?.id === event.pointerId) releaseScene();
 	});
 	return {
 		cancel,
-		releaseAttack: () => release(attack),
 		isMoving: moving,
 		destroy() {
 			cancel();
@@ -360232,6 +360491,142 @@ var init_StatusIcons = __esmMin((() => {
 	};
 	StatusIcons_default = UIManager.addComponent(StatusIcons);
 }));
+//#endregion
+//#region src/UI/Mobile/game/AutoCombatPanel.js
+/** Auto combat configuration is independent of the manual shortcut slots. */
+function createAutoCombatPanel(body, actions) {
+	const state = actions.snapshot();
+	body.innerHTML = `
+		<div class="auto-layout">
+			<section class="auto-target-section" aria-labelledby="auto-target-title">
+				<h3 id="auto-target-title">攻击目标</h3>
+				<button type="button" data-all-species>全部魔物</button>
+				<p class="auto-help">可多选种类；未勾选时攻击全部魔物。</p>
+				<div class="auto-species-list" data-auto-species aria-label="自动战斗目标"></div>
+				<p class="auto-help">击败后继续寻找附近目标，没有目标时原地等待。</p>
+				<p class="auto-help">手动移动或施法会停止自动战斗。</p>
+			</section>
+			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
+				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
+				<button type="button" data-normal-attack>普通攻击</button>
+				<p class="auto-help">勾选技能后随机释放，使用已学最高等级；均不可用时使用普攻。</p>
+				<div class="auto-skill-list" data-auto-skills></div>
+			</section>
+		</div>
+		<div class="auto-config-footer"><div><strong data-auto-summary></strong><span role="status" data-auto-feedback>修改后点击保存生效</span></div><button type="button" data-save-auto>保存配置</button></div>`;
+	const $ = (selector) => body.querySelector(selector);
+	const species = new Map(state.species.map((entry) => [entry.id, entry.name]));
+	for (const target of actions.targets()) species.set(target.species, target.name);
+	const chosenSpecies = new Set(state.species.map((entry) => entry.id));
+	for (const [id, name] of species) {
+		const button = document.createElement("button");
+		button.type = "button";
+		button.className = "auto-species-card";
+		button.dataset.species = String(id);
+		button.setAttribute("role", "checkbox");
+		button.setAttribute("aria-checked", String(chosenSpecies.has(id)));
+		const check = document.createElement("span");
+		check.className = "auto-species-check";
+		check.setAttribute("aria-hidden", "true");
+		const title = document.createElement("span");
+		title.textContent = name;
+		button.append(check, title);
+		const toggle = () => {
+			if (chosenSpecies.has(id)) chosenSpecies.delete(id);
+			else chosenSpecies.add(id);
+			updateSummary(true);
+		};
+		let press = null;
+		const scroller = $(".auto-target-section");
+		button.onpointerdown = (event) => {
+			if (event.button !== 0 || press) return;
+			event.preventDefault();
+			press = {
+				id: event.pointerId,
+				x: event.clientX,
+				y: event.clientY,
+				scroll: scroller.scrollTop,
+				moved: false
+			};
+			button.setPointerCapture(event.pointerId);
+		};
+		button.onpointermove = (event) => {
+			if (press?.id === event.pointerId && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) press.moved = true;
+		};
+		button.onpointerup = (event) => {
+			if (press?.id !== event.pointerId) return;
+			const start = press;
+			press = null;
+			const bounds = button.getBoundingClientRect();
+			if (button.hasPointerCapture(event.pointerId)) button.releasePointerCapture(event.pointerId);
+			if (!start.moved && Math.hypot(event.clientX - start.x, event.clientY - start.y) <= 8 && scroller.scrollTop === start.scroll && event.clientX >= bounds.left && event.clientX <= bounds.right && event.clientY >= bounds.top && event.clientY <= bounds.bottom) toggle();
+		};
+		button.onpointercancel = button.onlostpointercapture = () => {
+			press = null;
+		};
+		button.onclick = (event) => {
+			if (event.detail === 0) toggle();
+		};
+		$("[data-auto-species]").append(button);
+	}
+	if (!species.size) $("[data-auto-species]").textContent = "附近暂无魔物，发现后可在这里选择。";
+	const selectedSpecies = () => [...chosenSpecies].map((id) => ({
+		id,
+		name: species.get(id)
+	}));
+	const entries = actions.skills();
+	for (const skill of entries) {
+		const label = document.createElement("label");
+		label.className = "auto-skill-card";
+		const input = document.createElement("input");
+		input.type = "checkbox";
+		input.value = String(skill.id);
+		input.checked = state.skills.includes(skill.id);
+		const detail = document.createElement("span");
+		const name = document.createElement("strong");
+		name.textContent = skill.name;
+		const level = document.createElement("small");
+		level.textContent = `Lv.${skill.level}`;
+		detail.append(name, level);
+		if (skill.reason) {
+			const reason = document.createElement("small");
+			reason.className = "auto-skill-reason";
+			reason.textContent = skill.reason;
+			detail.append(reason);
+		}
+		label.append(input, detail);
+		$("[data-auto-skills]").append(label);
+	}
+	if (!entries.length) $("[data-auto-skills]").textContent = "暂无可自动释放的技能，使用普通攻击。";
+	const selectedSkills = () => [...body.querySelectorAll("[data-auto-skills] input:checked")].map((input) => Number(input.value));
+	function updateSummary(changed = false) {
+		const count = selectedSkills().length;
+		const targets = selectedSpecies();
+		for (const button of body.querySelectorAll("[data-species]")) button.setAttribute("aria-checked", String(chosenSpecies.has(Number(button.dataset.species))));
+		const targetLabel = targets.length > 1 ? `${targets.length} 种魔物` : targets[0]?.name || "全部魔物";
+		$("[data-all-species]").setAttribute("aria-pressed", String(!targets.length));
+		$("[data-normal-attack]").setAttribute("aria-pressed", String(count === 0));
+		$("[data-skill-count]").textContent = count ? `已选 ${count} 项` : "未选技能";
+		$("[data-auto-summary]").textContent = `${targetLabel} · ${count ? `${count} 个技能` : "普通攻击"}`;
+		if (changed) $("[data-auto-feedback]").textContent = "有未保存的修改";
+	}
+	$("[data-all-species]").onclick = () => {
+		chosenSpecies.clear();
+		updateSummary(true);
+	};
+	$("[data-auto-skills]").onchange = () => updateSummary(true);
+	$("[data-normal-attack]").onclick = () => {
+		for (const input of body.querySelectorAll("[data-auto-skills] input")) input.checked = false;
+		updateSummary(true);
+	};
+	function save() {
+		actions.configure(selectedSpecies(), selectedSkills());
+		actions.close();
+	}
+	$("[data-save-auto]").onclick = save;
+	updateSummary();
+}
+var init_AutoCombatPanel = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Game/GameNavigation.js
 function createGameNavigation(canOperate) {
@@ -362556,8 +362951,8 @@ function createSkillsPanel(body, actions) {
 			const slot = document.createElement("select");
 			slot.setAttribute("aria-label", "技能快捷槽");
 			const page = actions.shortcuts();
-			for (let i = 0; i < page.pages * 3; i++) slot.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
-			slot.value = String(page.page * 3);
+			for (let i = 0; i < page.total; i++) slot.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
+			slot.value = String(page.slots[0].index);
 			detail.append(level, slot, button("确认设置快捷槽", () => status(actions.bind(skill.id, Number(level.value), Number(slot.value)) ? "快捷槽已设置" : "设置失败，请重新选择")));
 		}
 		const requirements = document.createElement("p");
@@ -362914,8 +363309,8 @@ function createInventoryPanel(body, actions) {
 		const select = document.createElement("select");
 		select.setAttribute("aria-label", "目标快捷槽");
 		const page = actions.shortcuts();
-		for (let i = 0; i < page.pages * 3; i++) select.add(new Option(`槽位 ${i + 1}`, String(i)));
-		select.value = String(page.page * 3);
+		for (let i = 0; i < page.total; i++) select.add(new Option(`槽位 ${i + 1}`, String(i)));
+		select.value = String(page.slots[0].index);
 		const preview = document.createElement("p");
 		function describeSlot() {
 			preview.textContent = `当前内容：${actions.slotName(Number(select.value))}`;
@@ -362991,67 +363386,139 @@ function createInventoryPanel(body, actions) {
 var init_InventoryPanel = __esmMin((() => {}));
 //#endregion
 //#region src/UI/Mobile/game/ShortcutPanel.js
-/** Tap-only configuration; the chosen level remains stable during live HUD refreshes. */
+/** Separate slot selection, candidate browsing and editing without jumping scroll position. */
 function createShortcutPanel(body, actions) {
 	let index, selected;
-	body.innerHTML = "<p>与桌面快捷栏共享配置。选择槽位，再选择技能或道具。</p><div class=\"slot-picker\"></div><div class=\"shortcut-choices\"></div><form class=\"shortcut-config\" hidden><span data-choice></span><label>等级 <select aria-label=\"技能等级\"></select></label><button type=\"submit\">保存</button></form><button type=\"button\" data-clear-slot>清空槽位</button><p role=\"status\" data-config-status></p>";
-	const $ = (s) => body.querySelector(s);
+	body.innerHTML = `
+		<div class="slot-picker" role="group" aria-label="选择快捷槽"></div>
+		<div class="shortcut-layout">
+			<section class="shortcut-browser"><div class="shortcut-choices"></div></section>
+			<section class="shortcut-editor" aria-label="编辑快捷槽">
+				<div class="shortcut-current"><strong data-slot-title></strong><span data-current></span></div>
+				<p data-choice-hint>从左侧选择技能或道具，再保存到当前槽位。</p>
+				<form class="shortcut-config" hidden>
+					<div class="shortcut-selected"><img alt="" data-choice-icon><strong data-choice></strong></div>
+					<label class="shortcut-level">施放等级 <select aria-label="技能等级"></select></label>
+					<button type="submit" data-save-slot></button>
+					<button type="button" data-cancel-choice>取消选择</button>
+				</form>
+				<div class="shortcut-clear"><button type="button" data-clear-slot>清空当前槽位</button>
+					<div data-clear-confirm hidden><p data-clear-question></p><div class="shortcut-clear-actions"><button type="button" data-confirm-clear>确认清空</button><button type="button" data-cancel-clear>取消</button></div></div>
+				</div>
+				<p role="status" data-config-status></p>
+			</section>
+		</div>`;
+	const $ = (selector) => body.querySelector(selector);
 	const picker = $(".slot-picker"), choices = $(".shortcut-choices"), form = $("form");
-	form.after($("[data-clear-slot]"), choices);
-	function chooseSlot(next) {
-		index = next;
+	const status = (message) => {
+		$("[data-config-status]").textContent = message;
+	};
+	const slots = () => actions.snapshot().slots.filter((entry) => !entry.unavailable);
+	function updateSlotLabels() {
+		for (const slot of slots()) {
+			const button = picker.querySelector(`[data-index="${slot.index}"]`);
+			if (button) {
+				button.querySelector("span").textContent = slot.name;
+				button.setAttribute("aria-pressed", String(slot.index === index));
+			}
+			if (slot.index === index) {
+				$("[data-slot-title]").textContent = `槽位 ${index + 1}`;
+				$("[data-current]").textContent = `当前：${slot.name}${slot.amount ? ` · ${slot.amount}` : ""}`;
+				$("[data-clear-slot]").disabled = slot.empty;
+			}
+		}
+	}
+	function highlightChoices() {
+		for (const button of choices.children) button.setAttribute("aria-pressed", String(Boolean(selected && button.dataset.key === `${selected.isSkill}:${selected.ID}`)));
+	}
+	function cancelChoice() {
 		selected = null;
 		form.hidden = true;
-		for (const button of picker.children) button.setAttribute("aria-pressed", String(Number(button.dataset.index) === index));
-		$("[data-config-status]").textContent = `正在配置槽位 ${index + 1}`;
+		$("[data-choice-hint]").hidden = false;
+		highlightChoices();
 	}
-	for (const slot of actions.snapshot().slots) {
+	function chooseSlot(next) {
+		index = next;
+		cancelChoice();
+		$("[data-clear-confirm]").hidden = true;
+		$("[data-clear-slot]").hidden = false;
+		status("");
+		updateSlotLabels();
+	}
+	for (const slot of slots()) {
 		const button = document.createElement("button");
 		button.type = "button";
 		button.dataset.index = slot.index;
-		button.textContent = `${slot.index + 1} · ${slot.name}`;
+		const title = document.createElement("strong"), name = document.createElement("span");
+		title.textContent = `槽位 ${slot.index + 1}`;
+		button.append(title, name);
 		button.onclick = () => chooseSlot(slot.index);
 		picker.append(button);
 	}
-	function renderChoices() {
-		const entries = actions.candidates();
-		for (const entry of entries) {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.className = "shortcut-choice";
-			button.dataset.key = `${entry.isSkill}:${entry.ID}`;
-			const img = document.createElement("img");
-			img.alt = "";
-			if (entry.icon) img.src = entry.icon;
-			const label = document.createElement("span");
-			label.textContent = `${entry.name} · ${entry.amount}`;
-			button.append(img, label);
-			button.onclick = () => {
-				selected = entry;
-				form.hidden = false;
-				$("[data-choice]").textContent = entry.name;
-				$("label").hidden = !entry.isSkill;
-				const select = $("select");
-				select.replaceChildren();
-				if (entry.isSkill) for (let level = 1; level <= entry.level; level++) select.add(new Option(String(level), String(level)));
-				select.value = String(entry.level || 1);
-				body.scrollTop = 0;
-			};
-			choices.append(button);
-		}
-		if (!entries.length) choices.textContent = "当前没有可配置的主动技能或可用道具";
+	for (const entry of actions.candidates()) {
+		const button = document.createElement("button");
+		button.type = "button";
+		button.className = "shortcut-choice";
+		button.dataset.key = `${entry.isSkill}:${entry.ID}`;
+		button.setAttribute("aria-pressed", "false");
+		const img = document.createElement("img"), label = document.createElement("span");
+		img.alt = "";
+		if (entry.icon) img.src = entry.icon;
+		label.textContent = `${entry.name} · ${entry.amount}`;
+		button.append(img, label);
+		button.onclick = () => {
+			selected = entry;
+			form.hidden = false;
+			$("[data-choice-hint]").hidden = true;
+			$("[data-clear-confirm]").hidden = true;
+			$("[data-clear-slot]").hidden = false;
+			$("[data-choice]").textContent = entry.name;
+			$("[data-choice-icon]").hidden = !entry.icon;
+			if (entry.icon) $("[data-choice-icon]").src = entry.icon;
+			$(".shortcut-level").hidden = !entry.isSkill;
+			const select = $("select");
+			select.replaceChildren();
+			if (entry.isSkill) for (let level = 1; level <= entry.level; level++) select.add(new Option(`Lv.${level}`, String(level)));
+			const current = slots().find((slot) => slot.index === index)?.binding;
+			select.value = String(entry.isSkill && current?.isSkill && current.ID === entry.ID ? Math.min(current.count, entry.level) : entry.level || 1);
+			$("[data-save-slot]").textContent = `保存到槽位 ${index + 1}`;
+			highlightChoices();
+			status("");
+		};
+		choices.append(button);
 	}
+	if (!choices.children.length) choices.textContent = "暂无可配置的技能或道具";
 	form.onsubmit = (event) => {
 		event.preventDefault();
-		if (selected && actions.configure(index, selected, Number($("select").value))) actions.saved();
-		else $("[data-config-status]").textContent = "配置失败，请重新选择；技能或物品可能已经变化";
+		if (selected && actions.configure(index, selected, Number($("select").value))) {
+			updateSlotLabels();
+			status(`已保存到槽位 ${index + 1}`);
+		} else status("保存失败，技能或物品已变化，请重新选择。");
+	};
+	$("[data-cancel-choice]").onclick = () => {
+		cancelChoice();
+		status("");
 	};
 	$("[data-clear-slot]").onclick = () => {
-		if (actions.configure(index, null)) actions.saved();
+		cancelChoice();
+		status("");
+		$("[data-clear-question]").textContent = `清空槽位 ${index + 1} 的「${slots().find((slot) => slot.index === index)?.name}」？`;
+		$("[data-clear-confirm]").hidden = false;
+		$("[data-clear-slot]").hidden = true;
 	};
-	renderChoices();
-	chooseSlot(actions.index ?? actions.snapshot().slots[0]?.index ?? 0);
+	$("[data-cancel-clear]").onclick = () => {
+		$("[data-clear-confirm]").hidden = true;
+		$("[data-clear-slot]").hidden = false;
+	};
+	$("[data-confirm-clear]").onclick = () => {
+		if (actions.configure(index, null)) {
+			chooseSlot(index);
+			status(`槽位 ${index + 1} 已清空`);
+		} else status("清空失败，请重新选择槽位。");
+	};
+	chooseSlot(actions.index ?? slots()[0]?.index ?? 0);
 	return { updateIcons(entries) {
+		updateSlotLabels();
 		const byKey = new Map(entries.map((entry) => [`${entry.isSkill}:${entry.ID}`, entry]));
 		for (const button of choices.children) {
 			const entry = byKey.get(button.dataset.key);
@@ -363059,6 +363526,10 @@ function createShortcutPanel(body, actions) {
 			const img = button.querySelector("img");
 			if (entry.icon && img.getAttribute("src") !== entry.icon) img.src = entry.icon;
 			button.querySelector("span").textContent = `${entry.name} · ${entry.amount}`;
+			if (selected && button.dataset.key === `${selected.isSkill}:${selected.ID}` && entry.icon) {
+				$("[data-choice-icon]").src = entry.icon;
+				$("[data-choice-icon]").hidden = false;
+			}
 		}
 	} };
 }
@@ -363067,13 +363538,13 @@ var init_ShortcutPanel = __esmMin((() => {}));
 //#region src/UI/Mobile/game/GameHUD.html?raw
 var GameHUD_default$2;
 var init_GameHUD$2 = __esmMin((() => {
-	GameHUD_default$2 = "<div class=\"hud\">\r\n	<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n		<strong data-name></strong><span data-job></span>\r\n		<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n		<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n	</button>\r\n	<button class=\"statuses surface\" data-panel=\"status\">\r\n		<span data-status-icons></span>状态 <span data-status-count>0</span>\r\n	</button>\r\n	<div class=\"target surface\"><span data-target>点击目标进行选择</span><button data-interact hidden></button></div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map surface\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n		<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n	</div>\r\n	<div class=\"joystick reserved\" role=\"group\" aria-label=\"移动摇杆\"><span></span><small>移动</small></div>\r\n	<button class=\"chat-preview surface\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>\r\n	</button>\r\n	<div class=\"shortcut-tools surface\">\r\n		<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷槽\">‹</button><span data-shortcut-page-label></span\r\n		><button data-shortcut-page=\"1\" aria-label=\"下一组快捷槽\">›</button><button data-panel=\"shortcuts\">配置</button>\r\n	</div>\r\n	<div class=\"skill-prompt surface\" hidden>\r\n		<span data-skill-prompt></span><button data-skill-self hidden>对自己施放</button\r\n		><button data-skill-cancel>取消施法</button>\r\n	</div>\r\n	<div class=\"combat reserved\" aria-label=\"战斗按钮\">\r\n		<button class=\"skill skill-one\" data-shortcut=\"0\" aria-label=\"技能槽位 1\">＋</button\r\n		><button class=\"skill skill-two\" data-shortcut=\"1\" aria-label=\"技能槽位 2\">＋</button\r\n		><button class=\"skill skill-three\" data-shortcut=\"2\" aria-label=\"技能槽位 3\">＋</button>\r\n		<button class=\"attack\">攻击</button>\r\n	</div>\r\n	<div class=\"backdrop\" hidden>\r\n		<section class=\"panel surface\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mobile-game-panel-title\">\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<button data-close aria-label=\"关闭面板\">关闭</button>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
+	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<!-- 聊天 UI 暂时隐藏，保留消息订阅与面板实现。 -->\r\n	<button hidden class=\"chat-preview surface\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>\r\n	</button>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-status surface\">\r\n			<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n		</div>\r\n		<div class=\"skill-prompt surface\" hidden>\r\n			<span data-skill-prompt role=\"status\"></span>\r\n		</div>\r\n		<div class=\"battle-tools\">\r\n			<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n			<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n		</div>\r\n		<div class=\"shortcut-tools surface\">\r\n			<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷槽\">‹</button><span data-shortcut-page-label></span\r\n			><button data-shortcut-page=\"1\" aria-label=\"下一组快捷槽\">›</button\r\n			><button data-panel=\"shortcuts\">配置槽位</button>\r\n		</div>\r\n		<div class=\"skill-actions\" hidden>\r\n			<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n			<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能槽位 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能槽位 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能槽位 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能槽位 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能槽位 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能槽位 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop\" hidden>\r\n		<section class=\"panel surface\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mobile-game-panel-title\">\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<button data-close aria-label=\"关闭面板\">关闭</button>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		14px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 12px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.profile {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(10px, env(safe-area-inset-top));\r\n	width: 218px;\r\n	padding: 9px 12px;\r\n	text-align: left;\r\n}\r\n.profile strong {\r\n	display: inline-block;\r\n	max-width: 110px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n	vertical-align: middle;\r\n}\r\n.profile > span {\r\n	float: right;\r\n	font-size: 11px;\r\n	max-width: 90px;\r\n	text-align: right;\r\n}\r\n.profile label {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 5px;\r\n	font-size: 10px;\r\n	margin-top: 5px;\r\n}\r\nmeter {\r\n	width: 70px;\r\n	height: 10px;\r\n	flex: 1;\r\n}\r\n.profile label span {\r\n	min-width: 74px;\r\n	text-align: right;\r\n}\r\n.statuses {\r\n	position: absolute;\r\n	top: 98px;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	min-height: 36px;\r\n	padding: 5px 12px;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(10px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 5px;\r\n	width: 116px;\r\n}\r\n.map canvas {\r\n	width: 82px;\r\n	height: 82px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 8px 12px;\r\n	min-height: 44px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.joystick {\r\n	position: absolute;\r\n	left: max(24px, env(safe-area-inset-left));\r\n	bottom: max(20px, env(safe-area-inset-bottom));\r\n	width: 108px;\r\n	height: 108px;\r\n	border-radius: 50%;\r\n	background: #17233066;\r\n	border: 2px solid #d9e4ee88;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.joystick span {\r\n	width: 46px;\r\n	height: 46px;\r\n	border-radius: 50%;\r\n	background: #cbd5df77;\r\n	border: 1px solid #e8eef5aa;\r\n}\r\n.joystick small {\r\n	position: absolute;\r\n	bottom: 5px;\r\n	color: #eff4f9;\r\n}\r\n.combat {\r\n	position: absolute;\r\n	bottom: max(14px, env(safe-area-inset-bottom));\r\n	right: max(16px, env(safe-area-inset-right));\r\n	width: 188px;\r\n	height: 152px;\r\n}\r\n.combat button {\r\n	position: absolute;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 50%;\r\n	background: #483a25dd;\r\n}\r\n.attack {\r\n	width: 76px;\r\n	height: 76px;\r\n	right: 4px;\r\n	bottom: 0;\r\n	font-size: 18px;\r\n}\r\n.skill {\r\n	width: 46px;\r\n	height: 46px;\r\n	font-size: 22px;\r\n}\r\n.skill-one {\r\n	left: 12px;\r\n	bottom: 5px;\r\n}\r\n.skill-two {\r\n	left: 38px;\r\n	top: 24px;\r\n}\r\n.skill-three {\r\n	right: 3px;\r\n	top: 0;\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(520px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 17px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 42px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 6px 12px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 10px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 60px;\r\n		height: 60px;\r\n	}\r\n	.joystick {\r\n		width: 92px;\r\n		height: 92px;\r\n		bottom: 12px;\r\n	}\r\n	.combat {\r\n		transform: scale(0.86);\r\n		transform-origin: bottom right;\r\n	}\r\n	.statuses {\r\n		top: 88px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.joystick,\r\n.attack {\r\n	touch-action: none;\r\n}\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.attack[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.target {\r\n	position: absolute;\r\n	top: 10px;\r\n	left: 240px;\r\n	right: 206px;\r\n	padding: 6px;\r\n	text-align: center;\r\n	font-size: 12px;\r\n}\r\n.target span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.target button {\r\n	pointer-events: auto;\r\n	min-height: 40px;\r\n	margin-top: 4px;\r\n	background: #483a25;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 8px;\r\n}\r\n\r\n.shortcut-tools {\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: 174px;\r\n	width: 188px;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 38px;\r\n	min-height: 38px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.combat .skill {\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.skill img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 5px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-prompt {\r\n	position: absolute;\r\n	top: 70px;\r\n	left: 240px;\r\n	right: 206px;\r\n	padding: 6px;\r\n	pointer-events: auto;\r\n	font-size: 12px;\r\n}\r\n.skill-prompt button {\r\n	min-height: 38px;\r\n	background: #483a25;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 8px;\r\n	margin: 3px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	margin-bottom: 10px;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.slot-picker [aria-pressed='true'] {\r\n	outline: 2px solid #ffca67;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 6px;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n}\r\n.shortcut-choice img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n}\r\n.shortcut-config {\r\n	display: flex;\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 40px;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n@media (max-height: 360px) {\r\n	.shortcut-tools {\r\n		bottom: 150px;\r\n	}\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 16px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 42px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 76px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 15px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 42px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 44px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 44px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n";
+	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr) max-content;\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 10px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	pointer-events: auto;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.battle-dock > .battle-status,\r\n.battle-dock > .skill-prompt,\r\n.battle-dock > .battle-tools,\r\n.battle-dock > .shortcut-tools,\r\n.battle-dock > .skill-actions {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25dd;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card:has(input:checked) {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card input {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDView.js
@@ -363137,8 +363608,9 @@ function createGameHUDView(root, actions) {
 		event.stopPropagation();
 	});
 	listen(root, "pointerdown", (event) => {
-		if (!event.target.closest(".joystick, .combat, .skill-prompt")) actions.cancelSceneInput();
+		if (!event.target.closest(".combat, .battle-dock")) actions.cancelSceneInput();
 	});
+	listen($("[data-auto-toggle]"), "click", () => actions.toggleAutoCombat());
 	listen($("[data-interact]"), "click", () => actions.interact());
 	for (const button of root.querySelectorAll("[data-shortcut-page]")) listen(button, "click", () => actions.shortcutPage(Number(button.dataset.shortcutPage)));
 	listen($("[data-skill-cancel]"), "click", () => actions.cancelSkill());
@@ -363233,6 +363705,7 @@ function createGameHUDView(root, actions) {
 		backdrop.hidden = false;
 		actions.setModal(true);
 		text("h2", {
+			autoCombat: "自动战斗设置",
 			settings: "设置",
 			profile: "人物信息",
 			status: "状态效果",
@@ -363307,6 +363780,10 @@ function createGameHUDView(root, actions) {
 			"equipmentSets",
 			"materials"
 		].includes(panel));
+		body.classList.toggle("shortcut-body", panel === "shortcuts");
+		body.classList.toggle("auto-config-body", panel === "autoCombat");
+		$(".panel").classList.toggle("auto-config-panel", panel === "autoCombat");
+		$(".panel").classList.toggle("shortcut-panel", panel === "shortcuts");
 		body.classList.toggle("chat-body", panel === "chat");
 		$(".panel").classList.toggle("chat-panel", panel === "chat");
 		if (panel === "information") {
@@ -363319,6 +363796,10 @@ function createGameHUDView(root, actions) {
 			}
 			body.append(list);
 		}
+		if (panel === "autoCombat") createAutoCombatPanel(body, {
+			...actions.autoCombat,
+			close
+		});
 		if (panel === "settings") createSettingsPanel(body, actions.settings);
 		if (panel === "npc") createNPCPanel(body, serverState);
 		if (panel === "profile" || panel === "status") renderDetails();
@@ -363330,7 +363811,6 @@ function createGameHUDView(root, actions) {
 				["人物", "profile"],
 				["地图", "map"],
 				["导航", "navigation"],
-				["聊天", "chat"],
 				["状态", "status"],
 				["镜头", "camera"],
 				["快捷配置", "shortcuts"],
@@ -363487,8 +363967,7 @@ function createGameHUDView(root, actions) {
 			index: slotIndex,
 			snapshot: actions.shortcutSnapshot,
 			candidates: actions.shortcutCandidates,
-			configure: actions.configureShortcut,
-			saved: close
+			configure: actions.configureShortcut
 		});
 		if (panel === "camera") {
 			const grid = document.createElement("div");
@@ -363550,10 +364029,15 @@ function createGameHUDView(root, actions) {
 		update(next) {
 			snapshot = next;
 			text("[data-panel=menu]", next.unreadMail ? "菜单 · 新邮件" : "菜单");
-			if (performance.now() >= noticeUntil) text("[data-target]", next.target?.name || "点击目标进行选择");
+			if (performance.now() >= noticeUntil) text("[data-target]", next.autoCombat?.status || "自动战斗已停止");
+			const species = next.autoCombat?.species || [];
+			const targetLabel = species.length > 1 ? `${species.length} 种魔物` : species[0]?.name || "全部魔物";
+			text("[data-auto-target]", `${targetLabel} ▾`);
+			$("[data-auto-target]").title = species.map((entry) => entry.name).join("、") || "全部魔物";
+			text("[data-auto-toggle]", next.autoCombat?.active ? "停止战斗" : "自动战斗");
+			$("[data-auto-toggle]").setAttribute("aria-pressed", String(Boolean(next.autoCombat?.active)));
 			$("[data-interact]").hidden = !next.target?.interaction;
 			text("[data-interact]", next.target?.interaction);
-			$(".attack").setAttribute("aria-disabled", String(!next.target?.attack));
 			text("[data-name]", next.name);
 			text("[data-job]", `Lv.${next.level} ${next.job}`);
 			for (const type of ["hp", "sp"]) {
@@ -363564,7 +364048,6 @@ function createGameHUDView(root, actions) {
 			}
 			text("[data-map-name]", next.mapName);
 			text("[data-coordinates]", next.position?.map(Math.floor).join(", "));
-			text("[data-status-count]", next.statuses?.length || 0);
 			const icons = $("[data-status-icons]");
 			const iconKey = JSON.stringify(next.statuses?.map((status) => [status.id, status.icon]));
 			if (icons.dataset.key !== iconKey) {
@@ -363641,6 +364124,8 @@ function createGameHUDView(root, actions) {
 			for (const button of root.querySelectorAll("[data-shortcut]")) {
 				const slot = state.slots[Number(button.dataset.shortcut)];
 				button.hidden = !slot;
+				button.disabled = Boolean(slot?.unavailable);
+				button.classList.toggle("selected-skill", Boolean(slot && state.pending?.index === slot.index));
 				if (!slot) continue;
 				button.setAttribute("aria-label", `槽位 ${slot.index + 1}：${slot.name}${slot.reason ? "，" + slot.reason : ""}`);
 				button.setAttribute("aria-disabled", String(!slot.available));
@@ -363670,7 +364155,10 @@ function createGameHUDView(root, actions) {
 					}
 				}
 			}
+			$(".battle-status").hidden = Boolean(state.pending);
 			$(".skill-prompt").hidden = !state.pending;
+			$(".skill-actions").hidden = !state.pending;
+			$(".shortcut-tools").hidden = Boolean(state.pending);
 			text("[data-skill-prompt]", state.pending ? `${state.pending.name}：${state.pending.ground ? "点击地面施放" : "点击有效目标"}` : "");
 			$("[data-skill-self]").hidden = !state.pending?.self;
 		},
@@ -363687,6 +364175,7 @@ function createGameHUDView(root, actions) {
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_AutoCombatPanel();
 	init_NavigationPanel();
 	init_CompanionsPanel();
 	init_PetPanel();
@@ -363717,6 +364206,7 @@ var init_GameHUDView = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.js
 function cancelSceneInput() {
+	autoCombat?.stop();
 	shortcuts?.cancel();
 	controls?.cancel();
 	SessionStorage_default.moveAction = null;
@@ -363734,10 +364224,12 @@ function setModal(value) {
 	} else SessionStorage_default.FreezeUI = previousFreeze;
 }
 function snapshot() {
+	autoCombat?.tick();
 	const entity = SessionStorage_default.Entity;
 	if (!entity) return;
 	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
+		autoCombat: autoCombat.snapshot(),
 		unreadMail: gameMailUnread(),
 		name: entity.display.name,
 		job: getJobDisplayName(entity.job),
@@ -363785,8 +364277,9 @@ function updateViewport() {
 	HUD._host.style.top = `${viewport?.offsetTop || 0}px`;
 	HUD._host.style.left = `${viewport?.offsetLeft || 0}px`;
 }
-var HUD, view, controls, shortcuts, inventory, equipment, containers, skills, quests, chat, social, timer$1, unsubscribe, unsubscribeOrientation, unsubscribeConnection, unsubscribeInteraction, abort, previousFreeze, modal, GameHUD_default;
+var HUD, view, controls, shortcuts, autoCombat, inventory, equipment, containers, skills, quests, chat, social, timer$1, unsubscribe, unsubscribeOrientation, unsubscribeConnection, unsubscribeInteraction, abort, previousFreeze, modal, GameHUD_default;
 var init_GameHUD = __esmMin((() => {
+	init_GameAutoCombat();
 	init_GameCompanions();
 	init_GamePet();
 	init_GameMail();
@@ -363834,6 +364327,8 @@ var init_GameHUD = __esmMin((() => {
 	HUD.onAppend = function() {
 		HUD.onRemove(false);
 		abort = new AbortController();
+		const enabled = () => Boolean(!SessionStorage_default.FreezeUI && SessionStorage_default.Playing && !document.hidden && Platform.orientation === "landscape" && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
+		autoCombat = createGameAutoCombat(enabled);
 		shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
 		inventory = createGameInventory(() => modal && !previousFreeze);
 		containers = createGameContainers(() => modal && !previousFreeze);
@@ -363845,7 +364340,25 @@ var init_GameHUD = __esmMin((() => {
 		view = createGameHUDView(HUD.getRoot(), {
 			cancelSceneInput,
 			setModal,
-			interact: interactSelected,
+			interact: () => {
+				autoCombat.stop();
+				interactSelected();
+			},
+			toggleAutoCombat: () => {
+				if (autoCombat.snapshot().active) autoCombat.stop();
+				else {
+					shortcuts.cancel();
+					controls.cancel();
+					if (!autoCombat.start()) view.notice("当前不能开始自动战斗");
+				}
+				snapshot();
+			},
+			autoCombat: {
+				snapshot: () => autoCombat.snapshot(),
+				targets: () => autoCombat.targets(),
+				skills: () => autoCombat.skills(),
+				configure: (...args) => autoCombat.configure(...args)
+			},
 			camera: adjustCamera,
 			shortcutPage: (delta) => {
 				shortcuts.turn(delta);
@@ -363898,29 +364411,44 @@ var init_GameHUD = __esmMin((() => {
 		});
 		unsubscribeInteraction = subscribeInteraction((state) => view.showInteraction(state));
 		controls = bindPointerControls(HUD.getRoot(), Renderer.canvas, {
-			enabled: () => !SessionStorage_default.FreezeUI && SessionStorage_default.Playing && Platform.orientation === "landscape" && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE,
-			startMove: () => shortcuts.cancel(),
+			enabled,
+			startMove: () => {
+				autoCombat.stop("手动移动，自动战斗已停止");
+				shortcuts.cancel();
+			},
 			move: moveDirection,
 			stopMove: () => {
 				MapControl.onRequestStopWalk();
 				SessionStorage_default.moveAction = null;
 			},
-			attack: (moving) => {
-				shortcuts.cancel();
-				attackSelected(moving);
-			},
 			shortcut: (slot) => {
-				controls.releaseAttack();
-				const index = shortcuts.snapshot().page * 3 + slot;
+				autoCombat.stop("手动施法，自动战斗已停止");
+				stopAttack();
+				const index = shortcuts.snapshot().slots[slot].index;
 				const result = shortcuts.use(index);
-				if (shortcuts.snapshot().pending?.ground) controls.cancel();
 				snapshot();
 				if (result.configure !== void 0) view.openShortcuts(result.configure);
 				if (result.message) view.notice(result.message);
 			},
-			stopAttack,
 			tap: (x, y) => {
-				if (!shortcuts.pick(x, y)) tapScene(x, y);
+				const hit = pickSceneEntity(x, y);
+				if (hit && [
+					hit.constructor.TYPE_ITEM,
+					hit.constructor.TYPE_NPC,
+					hit.constructor.TYPE_NPC2
+				].includes(hit.objecttype)) {
+					autoCombat.stop("手动操作，自动战斗已停止");
+					shortcuts.cancel();
+					tapScene(x, y);
+				} else if (shortcuts.snapshot().pending) {
+					autoCombat.stop("手动施法，自动战斗已停止");
+					shortcuts.pick(x, y);
+				} else if (hit && hit.objecttype === hit.constructor.TYPE_MOB) {
+					if (!autoCombat.attackTarget(hit.GID)) view.notice("当前无法攻击这只魔物");
+				} else {
+					autoCombat.stop("手动操作，自动战斗已停止");
+					tapScene(x, y);
+				}
 				snapshot();
 			}
 		});
@@ -363954,6 +364482,8 @@ var init_GameHUD = __esmMin((() => {
 		updateViewport();
 	};
 	HUD.onRemove = function(resetInteraction = true) {
+		autoCombat?.stop();
+		autoCombat = null;
 		unsubscribeInteraction?.();
 		unsubscribeInteraction = null;
 		if (resetInteraction) clearInteraction();
@@ -378972,6 +379502,16 @@ function onIncreaseSkill(SKID) {
 	pkt.SKID = SKID;
 	Network.sendPacket(pkt);
 }
+/** Re-evaluate a queued targeted cast after walking, rather than send a stale request. */
+function resumeQueuedTargetSkill(packet) {
+	const queued = queuedTargetSkills.get(packet);
+	if (!queued) return false;
+	queuedTargetSkills.delete(packet);
+	const { caster, target } = queued;
+	if (!SessionStorage_default.Playing || SessionStorage_default.Entity !== caster || caster.action === caster.ACTION.DIE || EntityManager.get(target.GID) !== target || target.action === target.ACTION.DIE && packet.SKID !== SkillConst_default.ALL_RESURRECTION || target.remove_tick > 0) return true;
+	onUseSkill(packet.SKID, packet.selectedLevel, packet.targetID);
+	return true;
+}
 /**
 * Cast a skill on someone
 *
@@ -379011,7 +379551,13 @@ function onUseSkill(id, level, targetID, { allowMove = true } = {}) {
 		return;
 	}
 	if (isHomun || isMerc) queueCompanionSkill(entity, pkt, out.slice((count - 1) * 2, count * 2), () => EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE && PathFinding_default.search(entity.position[0] | 0, entity.position[1] | 0, target.position[0] | 0, target.position[1] | 0, range, [], Altitude.TYPE.WALKABLE) === 1);
-	else SessionStorage_default.moveAction = pkt;
+	else {
+		queuedTargetSkills.set(pkt, {
+			caster: entity,
+			target
+		});
+		SessionStorage_default.moveAction = pkt;
+	}
 	if (isHomun) {
 		pkt = new PACKET.CZ.REQUEST_MOVENPC();
 		pkt.GID = SessionStorage_default.homunId;
@@ -379140,6 +379686,7 @@ function SkillEngine() {
 	Network.hookPacket(PACKET.ZC.DEVOTIONLIST, onDevotionList);
 	Network.hookPacket(PACKET.ZC.SELECTCART, (pkt) => CartDecoration_default.onSelectCart(pkt));
 }
+var queuedTargetSkills;
 var init_Skill = __esmMin((() => {
 	init_GameMonsterInformation();
 	init_Platform();
@@ -379199,6 +379746,7 @@ var init_Skill = __esmMin((() => {
 		Network.sendPacket(pkt);
 	};
 	Guild_default.onIncreaseSkill = SkillListMH_default.homunculus.onIncreaseSkill = SkillListMH_default.mercenary.onIncreaseSkill = onIncreaseSkill;
+	queuedTargetSkills = /* @__PURE__ */ new WeakMap();
 	Guild_default.onUseSkill = SkillListMH_default.homunculus.onUseSkill = SkillListMH_default.mercenary.onUseSkill = SkillTargetSelection_default.onUseSkillToId = onUseSkill;
 	/**
 	* Cast a skill on the ground
@@ -384616,11 +385164,12 @@ function isFreeCell(x, y) {
 * If the character moved to attack, once it finished to move ask to attack
 */
 function onWalkEnd() {
-	if (SessionStorage_default.moveAction) Events.setTimeout(() => {
-		if (SessionStorage_default.moveAction) {
-			Network.sendPacket(SessionStorage_default.moveAction);
-			SessionStorage_default.moveAction = null;
-		}
+	const action = SessionStorage_default.moveAction;
+	if (!action) return;
+	Events.setTimeout(() => {
+		if (SessionStorage_default.moveAction !== action) return;
+		SessionStorage_default.moveAction = null;
+		if (!resumeQueuedTargetSkill(action)) Network.sendPacket(action);
 	}, 50);
 }
 /**
@@ -393268,13 +393817,13 @@ var init_ConsoleManager = __esmMin((() => {
 //#region src/UI/Mobile/WinLogin/WinLogin.html?raw
 var WinLogin_default$2;
 var init_WinLogin$2 = __esmMin((() => {
-	WinLogin_default$2 = "<div class=\"m-login\">\r\n	<div class=\"m-login__card\">\r\n		<h1 class=\"m-login__title\">HappyRO</h1>\r\n		<form class=\"m-login__form\" autocomplete=\"on\" onsubmit=\"return false\">\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-user\">账号</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-user\"\r\n					name=\"username\"\r\n					type=\"text\"\r\n					autocomplete=\"username\"\r\n					inputmode=\"text\"\r\n					enterkeyhint=\"next\"\r\n					placeholder=\"请输入账号\"\r\n				/>\r\n			</div>\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-pass\">密码</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-pass\"\r\n					name=\"password\"\r\n					type=\"password\"\r\n					autocomplete=\"current-password\"\r\n					enterkeyhint=\"go\"\r\n					placeholder=\"请输入密码\"\r\n				/>\r\n			</div>\r\n			<button\r\n				class=\"m-login__save\"\r\n				type=\"button\"\r\n				role=\"checkbox\"\r\n				aria-checked=\"false\"\r\n				aria-label=\"记住账号\"\r\n			>\r\n				<span class=\"m-login__check\" aria-hidden=\"true\"></span>\r\n				记住账号\r\n			</button>\r\n		</form>\r\n		<div class=\"m-login__actions\">\r\n			<button class=\"m-login__btn m-login__btn--secondary m-login__signup\" type=\"button\">注册</button>\r\n			<button class=\"m-login__btn m-login__btn--primary m-login__connect\" type=\"button\">登录</button>\r\n		</div>\r\n	</div>\r\n</div>\r\n\r\n<dialog class=\"m-signup\" aria-labelledby=\"m-signup-title\" aria-describedby=\"m-signup-description\">\r\n	<h2 id=\"m-signup-title\">注册账号</h2>\r\n	<div id=\"m-signup-description\">\r\n		<div class=\"m-signup__automatic\">\r\n			<p>在登录页即可创建账号：</p>\r\n			<ol>\r\n				<li>账号末尾加 <strong>_M</strong>（男）或 <strong>_F</strong>（女）。</li>\r\n				<li>输入要设置的密码，点击“登录”。</li>\r\n			</ol>\r\n			<p class=\"m-signup__example\">例如：<strong>happyro_M</strong><br>下次登录使用 <strong>happyro</strong> 即可。</p>\r\n		</div>\r\n		<p class=\"m-signup__external\" hidden>即将在新页面打开账号注册。</p>\r\n	</div>\r\n	<div class=\"m-signup__actions\">\r\n		<button class=\"m-login__btn m-login__btn--secondary m-signup__cancel\" type=\"button\">取消</button>\r\n		<button class=\"m-login__btn m-login__btn--primary m-signup__confirm\" type=\"button\" autofocus>知道了</button>\r\n	</div>\r\n</dialog>\r\n";
+	WinLogin_default$2 = "<div class=\"m-login\">\r\n	<div class=\"m-login__card\">\r\n		<h1 class=\"m-login__title\">HappyRO</h1>\r\n		<form class=\"m-login__form\" autocomplete=\"on\" onsubmit=\"return false\">\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-user\">账号</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-user\"\r\n					name=\"username\"\r\n					type=\"text\"\r\n					autocomplete=\"username\"\r\n					inputmode=\"text\"\r\n					enterkeyhint=\"next\"\r\n					placeholder=\"请输入账号\"\r\n				/>\r\n			</div>\r\n			<div class=\"m-login__field\">\r\n				<label class=\"m-login__label\" for=\"m-login-pass\">密码</label>\r\n				<input\r\n					class=\"m-login__input\"\r\n					id=\"m-login-pass\"\r\n					name=\"password\"\r\n					type=\"password\"\r\n					autocomplete=\"current-password\"\r\n					enterkeyhint=\"go\"\r\n					placeholder=\"请输入密码\"\r\n				/>\r\n			</div>\r\n			<button\r\n				class=\"m-login__save\"\r\n				type=\"button\"\r\n				role=\"checkbox\"\r\n				aria-checked=\"false\"\r\n				aria-label=\"记住账号\"\r\n			>\r\n				<span class=\"m-login__check\" aria-hidden=\"true\"></span>\r\n				记住账号\r\n			</button>\r\n		</form>\r\n		<div class=\"m-login__actions\">\r\n			<button class=\"m-login__btn m-login__btn--primary m-login__connect\" type=\"button\">登录</button>\r\n			<button class=\"m-login__btn m-login__btn--secondary m-login__signup\" type=\"button\">注册</button>\r\n		</div>\r\n	</div>\r\n</div>\r\n\r\n<dialog class=\"m-signup\" aria-labelledby=\"m-signup-title\" aria-describedby=\"m-signup-description\">\r\n	<h2 id=\"m-signup-title\">注册账号</h2>\r\n	<div id=\"m-signup-description\">\r\n		<div class=\"m-signup__automatic\">\r\n			<p>在登录页即可创建账号：</p>\r\n			<ol>\r\n				<li>账号末尾加 <strong>_M</strong>（男）或 <strong>_F</strong>（女）。</li>\r\n				<li>输入要设置的密码，点击“登录”。</li>\r\n			</ol>\r\n			<p class=\"m-signup__example\">例如：<strong>happyro_M</strong><br>下次登录使用 <strong>happyro</strong> 即可。</p>\r\n		</div>\r\n		<p class=\"m-signup__external\" hidden>即将在新页面打开账号注册。</p>\r\n	</div>\r\n	<div class=\"m-signup__actions\">\r\n		<button class=\"m-login__btn m-login__btn--secondary m-signup__cancel\" type=\"button\">取消</button>\r\n		<button class=\"m-login__btn m-login__btn--primary m-signup__confirm\" type=\"button\" autofocus>知道了</button>\r\n	</div>\r\n</dialog>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/WinLogin/WinLogin.css?raw
 var WinLogin_default$1;
 var init_WinLogin$1 = __esmMin((() => {
-	WinLogin_default$1 = ":host {\r\n	all: initial;\r\n	display: block;\r\n	position: fixed;\r\n	inset: 0;\r\n	z-index: 200;\r\n	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;\r\n\r\n	/* Neutral ramp — light mode */\r\n	--n-0:   oklch(100% 0 0);\r\n	--n-50:  oklch(98% 0.004 250);\r\n	--n-100: oklch(95% 0.006 250);\r\n	--n-200: oklch(90% 0.008 250);\r\n	--n-300: oklch(82% 0.010 250);\r\n	--n-500: oklch(55% 0.012 250);\r\n	--n-700: oklch(32% 0.012 250);\r\n	--n-900: oklch(14% 0.010 250);\r\n\r\n	/* Accent: warm amber */\r\n	--a-400: oklch(72% 0.16 52);\r\n	--a-500: oklch(62% 0.18 52);\r\n	--a-600: oklch(52% 0.17 52);\r\n	--a-100: oklch(95% 0.06 52);\r\n\r\n	/* Semantic roles */\r\n	--c-bg:      var(--n-50);\r\n	--c-surface: var(--n-0);\r\n	--c-border:  var(--n-200);\r\n	--c-text:    var(--n-900);\r\n	--c-muted:   var(--n-500);\r\n	--c-accent:  var(--a-600);\r\n	--c-accent-hover: var(--a-500);\r\n	--c-accent-ring:  oklch(62% 0.18 52 / 0.22);\r\n\r\n	/* Rhythm */\r\n	--sp-1: 4px;\r\n	--sp-2: 8px;\r\n	--sp-3: 12px;\r\n	--sp-4: 16px;\r\n	--sp-5: 20px;\r\n	--sp-6: 24px;\r\n\r\n	/* Radii */\r\n	--r-sm: 6px;\r\n	--r-md: 10px;\r\n}\r\n\r\n* {\r\n	box-sizing: border-box;\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n\r\n/* ── Page shell ─────────────────────────────────────── */\r\n\r\n.m-login {\r\n	width: 100%;\r\n	min-height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	background: var(--c-bg);\r\n	padding: var(--sp-4);\r\n	overflow-y: auto;\r\n	-webkit-overflow-scrolling: touch;\r\n}\r\n\r\n/* ── Card ───────────────────────────────────────────── */\r\n\r\n.m-login__card {\r\n	width: 100%;\r\n	max-width: 380px;\r\n	background: var(--c-surface);\r\n	border: 1px solid var(--c-border);\r\n	border-radius: var(--r-md);\r\n	box-shadow: 0 1px 3px oklch(0% 0 0 / 0.06), 0 4px 16px oklch(0% 0 0 / 0.04);\r\n	padding: var(--sp-6) var(--sp-6) var(--sp-5);\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--sp-5);\r\n}\r\n\r\n/* Landscape: two columns to keep card vertically compact */\r\n@media (min-width: 600px) {\r\n	.m-login__card {\r\n		max-width: 600px;\r\n		display: grid;\r\n		grid-template-columns: 1fr 1fr;\r\n		grid-template-rows: auto 1fr;\r\n		column-gap: var(--sp-6);\r\n		row-gap: 0;\r\n		padding: var(--sp-5) var(--sp-6);\r\n	}\r\n	.m-login__title    { grid-column: 1 / -1; margin-bottom: var(--sp-2); }\r\n	.m-login__form     { grid-column: 1; grid-row: 2; }\r\n	.m-login__actions  { grid-column: 2; grid-row: 2; justify-content: center; }\r\n}\r\n\r\n/* ── Title ──────────────────────────────────────────── */\r\n\r\n.m-login__title {\r\n	margin: 0;\r\n	font-size: 20px;\r\n	font-weight: 700;\r\n	color: var(--c-accent);\r\n	text-align: center;\r\n	letter-spacing: 0.04em;\r\n}\r\n\r\n/* ── Form ───────────────────────────────────────────── */\r\n\r\n.m-login__form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--sp-3);\r\n}\r\n\r\n.m-login__field {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--sp-1);\r\n}\r\n\r\n.m-login__label {\r\n	font-size: 13px;\r\n	font-weight: 500;\r\n	color: var(--c-muted);\r\n}\r\n\r\n.m-login__input {\r\n	height: 44px;\r\n	padding: 0 var(--sp-3);\r\n	background: var(--n-50);\r\n	border: 1.5px solid var(--c-border);\r\n	border-radius: var(--r-sm);\r\n	color: var(--c-text);\r\n	/* min 16px to suppress iOS auto-zoom on focus */\r\n	font-size: max(16px, 1em);\r\n	outline: none;\r\n	transition: border-color 150ms ease, box-shadow 150ms ease;\r\n	-webkit-appearance: none;\r\n	appearance: none;\r\n}\r\n\r\n.m-login__input:focus {\r\n	border-color: var(--c-accent);\r\n	box-shadow: 0 0 0 3px var(--c-accent-ring);\r\n	background: var(--n-0);\r\n}\r\n\r\n.m-login__input::placeholder {\r\n	color: var(--n-300);\r\n}\r\n\r\n/* Suppress autofill yellow wash */\r\n.m-login__input:-webkit-autofill,\r\n.m-login__input:-webkit-autofill:focus {\r\n	-webkit-text-fill-color: var(--c-text);\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000s ease-in-out 0s;\r\n}\r\n\r\n/* ── Save checkbox ──────────────────────────────────── */\r\n\r\n.m-login__save {\r\n	all: unset;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	gap: var(--sp-2);\r\n	min-height: 44px;\r\n	padding: var(--sp-1) 0;\r\n	font-size: 13px;\r\n	color: var(--c-muted);\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n\r\n.m-login__check {\r\n	flex-shrink: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	border: 1.5px solid var(--c-border);\r\n	border-radius: 4px;\r\n	background: var(--n-0);\r\n	position: relative;\r\n	transition: background 150ms ease, border-color 150ms ease;\r\n}\r\n\r\n.m-login__save[aria-checked=\"true\"] .m-login__check {\r\n	background: var(--c-accent);\r\n	border-color: var(--c-accent);\r\n}\r\n\r\n.m-login__save[aria-checked=\"true\"] .m-login__check::after {\r\n	content: '';\r\n	position: absolute;\r\n	inset: 0;\r\n	background: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") center/10px no-repeat;\r\n}\r\n\r\n/* ── Actions ────────────────────────────────────────── */\r\n\r\n.m-login__actions {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--sp-2);\r\n}\r\n\r\n/* Base button */\r\n.m-login__btn {\r\n	all: unset;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	height: 44px;\r\n	padding: 0 var(--sp-4);\r\n	border-radius: var(--r-sm);\r\n	font-size: 16px;\r\n	font-weight: 600;\r\n	cursor: pointer;\r\n	transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease, opacity 150ms ease;\r\n	user-select: none;\r\n}\r\n\r\n.m-login__btn:active  { opacity: 0.72; }\r\n\r\n.m-login__btn:focus-visible {\r\n	outline: 2px solid var(--c-accent);\r\n	outline-offset: 2px;\r\n}\r\n\r\n/* Primary — filled accent */\r\n.m-login__btn--primary {\r\n	background: var(--c-accent);\r\n	color: var(--n-0);\r\n	box-shadow: 0 1px 2px oklch(0% 0 0 / 0.10);\r\n}\r\n\r\n/* Secondary — outlined accent */\r\n.m-login__btn--secondary {\r\n	border: 1.5px solid var(--c-accent);\r\n	color: var(--c-accent);\r\n}\r\n\r\n/* Touch taps can leave :hover active while a dialog is open. */\r\n@media (hover: hover) and (pointer: fine) {\r\n	.m-login__btn--primary:hover {\r\n		background: var(--c-accent-hover);\r\n		box-shadow: 0 2px 6px oklch(0% 0 0 / 0.14);\r\n	}\r\n\r\n	.m-login__btn--secondary:hover {\r\n		background: var(--a-100);\r\n	}\r\n}\r\n\r\n.m-login { padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }\r\n\r\n\r\n.m-signup {\r\n	width: min(400px, calc(100% - 32px));\r\n	max-height: calc(100% - 32px);\r\n	margin: auto;\r\n	padding: var(--sp-6);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	border: 1px solid var(--c-border);\r\n	border-radius: var(--r-md);\r\n	background: var(--c-surface);\r\n	color: var(--c-text);\r\n	box-shadow: 0 12px 40px oklch(0% 0 0 / 0.18);\r\n	font: 16px/1.6 system-ui, sans-serif;\r\n}\r\n\r\n.m-signup::backdrop { background: oklch(14% 0.01 250 / 0.38); }\r\n.m-signup h2 { margin: 0 0 var(--sp-4); font-size: 20px; color: var(--c-accent); }\r\n.m-signup p { margin: 0 0 var(--sp-3); }\r\n.m-signup ol { margin: 0 0 var(--sp-4); padding-left: 24px; }\r\n.m-signup li + li { margin-top: var(--sp-2); }\r\n.m-signup__example { padding: var(--sp-3); border-radius: var(--r-sm); background: var(--n-50); color: var(--c-muted); }\r\n.m-signup__actions { display: flex; gap: var(--sp-2); margin-top: var(--sp-5); }\r\n.m-signup__actions .m-login__btn { flex: 1; min-width: 0; }\r\n";
+	WinLogin_default$1 = ":host {\r\n	all: initial;\r\n	display: block;\r\n	position: fixed;\r\n	inset: 0;\r\n	z-index: 200;\r\n	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;\r\n\r\n	/* Neutral ramp — light mode */\r\n	--n-0: oklch(100% 0 0);\r\n	--n-50: oklch(98% 0.004 250);\r\n	--n-100: oklch(95% 0.006 250);\r\n	--n-200: oklch(90% 0.008 250);\r\n	--n-300: oklch(82% 0.01 250);\r\n	--n-500: oklch(55% 0.012 250);\r\n	--n-700: oklch(32% 0.012 250);\r\n	--n-900: oklch(14% 0.01 250);\r\n\r\n	/* Accent: warm amber */\r\n	--a-400: oklch(72% 0.16 52);\r\n	--a-500: oklch(62% 0.18 52);\r\n	--a-600: oklch(52% 0.17 52);\r\n	--a-100: oklch(95% 0.06 52);\r\n\r\n	/* Semantic roles */\r\n	--c-bg: var(--n-50);\r\n	--c-surface: var(--n-0);\r\n	--c-border: var(--n-200);\r\n	--c-text: var(--n-900);\r\n	--c-muted: var(--n-500);\r\n	--c-accent: var(--a-600);\r\n	--c-accent-hover: var(--a-500);\r\n	--c-accent-ring: oklch(62% 0.18 52 / 0.22);\r\n\r\n	/* Rhythm */\r\n	--sp-1: 4px;\r\n	--sp-2: 8px;\r\n	--sp-3: 12px;\r\n	--sp-4: 16px;\r\n	--sp-5: 20px;\r\n	--sp-6: 24px;\r\n\r\n	/* Radii */\r\n	--r-sm: 6px;\r\n	--r-md: 10px;\r\n}\r\n\r\n* {\r\n	box-sizing: border-box;\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n\r\n/* ── Page shell ─────────────────────────────────────── */\r\n\r\n.m-login {\r\n	width: 100%;\r\n	min-height: 100%;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	background: var(--c-bg);\r\n	padding: var(--sp-4);\r\n	overflow-y: auto;\r\n	-webkit-overflow-scrolling: touch;\r\n}\r\n\r\n/* ── Card ───────────────────────────────────────────── */\r\n\r\n.m-login__card {\r\n	width: 100%;\r\n	max-width: 380px;\r\n	min-width: 0;\r\n	flex-shrink: 0;\r\n	background: var(--c-surface);\r\n	border: 1px solid var(--c-border);\r\n	border-radius: var(--r-md);\r\n	box-shadow:\r\n		0 1px 3px oklch(0% 0 0 / 0.06),\r\n		0 4px 16px oklch(0% 0 0 / 0.04);\r\n	padding: var(--sp-6) var(--sp-6) var(--sp-5);\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--sp-5);\r\n}\r\n\r\n/* ── Title ──────────────────────────────────────────── */\r\n\r\n.m-login__title {\r\n	margin: 0;\r\n	font-size: 20px;\r\n	font-weight: 700;\r\n	color: var(--c-accent);\r\n	text-align: center;\r\n	letter-spacing: 0.04em;\r\n}\r\n\r\n/* ── Form ───────────────────────────────────────────── */\r\n\r\n.m-login__form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--sp-3);\r\n}\r\n\r\n.m-login__field {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--sp-1);\r\n}\r\n\r\n.m-login__label {\r\n	font-size: 13px;\r\n	font-weight: 500;\r\n	color: var(--c-muted);\r\n}\r\n\r\n.m-login__input {\r\n	width: 100%;\r\n	min-width: 0;\r\n	flex-shrink: 0;\r\n	height: 44px;\r\n	padding: 0 var(--sp-3);\r\n	background: var(--n-50);\r\n	border: 1.5px solid var(--c-border);\r\n	border-radius: var(--r-sm);\r\n	color: var(--c-text);\r\n	/* min 16px to suppress iOS auto-zoom on focus */\r\n	font-size: max(16px, 1em);\r\n	outline: none;\r\n	transition:\r\n		border-color 150ms ease,\r\n		box-shadow 150ms ease;\r\n	-webkit-appearance: none;\r\n	appearance: none;\r\n}\r\n\r\n.m-login__input:focus {\r\n	border-color: var(--c-accent);\r\n	box-shadow: 0 0 0 3px var(--c-accent-ring);\r\n	background: var(--n-0);\r\n}\r\n\r\n.m-login__input::placeholder {\r\n	color: var(--n-300);\r\n}\r\n\r\n/* Suppress autofill yellow wash */\r\n.m-login__input:-webkit-autofill,\r\n.m-login__input:-webkit-autofill:focus {\r\n	-webkit-text-fill-color: var(--c-text);\r\n	-webkit-background-clip: text;\r\n	transition: background-color 5000s ease-in-out 0s;\r\n}\r\n\r\n/* ── Save checkbox ──────────────────────────────────── */\r\n\r\n.m-login__save {\r\n	all: unset;\r\n	display: inline-flex;\r\n	align-items: center;\r\n	gap: var(--sp-2);\r\n	min-height: 44px;\r\n	padding: var(--sp-1) 0;\r\n	font-size: 13px;\r\n	color: var(--c-muted);\r\n	cursor: pointer;\r\n	user-select: none;\r\n}\r\n\r\n.m-login__check {\r\n	flex-shrink: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	border: 1.5px solid var(--c-border);\r\n	border-radius: 4px;\r\n	background: var(--n-0);\r\n	position: relative;\r\n	transition:\r\n		background 150ms ease,\r\n		border-color 150ms ease;\r\n}\r\n\r\n.m-login__save[aria-checked='true'] .m-login__check {\r\n	background: var(--c-accent);\r\n	border-color: var(--c-accent);\r\n}\r\n\r\n.m-login__save[aria-checked='true'] .m-login__check::after {\r\n	content: '';\r\n	position: absolute;\r\n	inset: 0;\r\n	background: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")\r\n		center/10px no-repeat;\r\n}\r\n\r\n/* ── Actions ────────────────────────────────────────── */\r\n\r\n.m-login__actions {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--sp-2);\r\n}\r\n\r\n/* Base button */\r\n.m-login__btn {\r\n	all: unset;\r\n	box-sizing: border-box;\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	height: 44px;\r\n	padding: 0 var(--sp-4);\r\n	border-radius: var(--r-sm);\r\n	font-size: 16px;\r\n	font-weight: 600;\r\n	cursor: pointer;\r\n	transition:\r\n		background 150ms ease,\r\n		color 150ms ease,\r\n		box-shadow 150ms ease,\r\n		opacity 150ms ease;\r\n	user-select: none;\r\n}\r\n\r\n.m-login__btn:active {\r\n	opacity: 0.72;\r\n}\r\n\r\n.m-login__btn:focus-visible {\r\n	outline: 2px solid var(--c-accent);\r\n	outline-offset: 2px;\r\n}\r\n\r\n/* Primary — filled accent */\r\n.m-login__btn--primary {\r\n	background: var(--c-accent);\r\n	color: var(--n-0);\r\n	box-shadow: 0 1px 2px oklch(0% 0 0 / 0.1);\r\n}\r\n\r\n/* Secondary — outlined accent */\r\n.m-login__btn--secondary {\r\n	border: 1.5px solid var(--c-accent);\r\n	color: var(--c-accent);\r\n}\r\n\r\n/* Touch taps can leave :hover active while a dialog is open. */\r\n@media (hover: hover) and (pointer: fine) {\r\n	.m-login__btn--primary:hover {\r\n		background: var(--c-accent-hover);\r\n		box-shadow: 0 2px 6px oklch(0% 0 0 / 0.14);\r\n	}\r\n\r\n	.m-login__btn--secondary:hover {\r\n		background: var(--a-100);\r\n	}\r\n}\r\n\r\n.m-login {\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n\r\n.m-signup {\r\n	width: min(400px, calc(100% - 32px));\r\n	max-height: calc(100% - 32px);\r\n	margin: auto;\r\n	padding: var(--sp-6);\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	border: 1px solid var(--c-border);\r\n	border-radius: var(--r-md);\r\n	background: var(--c-surface);\r\n	color: var(--c-text);\r\n	box-shadow: 0 12px 40px oklch(0% 0 0 / 0.18);\r\n	font:\r\n		16px/1.6 system-ui,\r\n		sans-serif;\r\n}\r\n\r\n.m-signup::backdrop {\r\n	background: oklch(14% 0.01 250 / 0.38);\r\n}\r\n.m-signup h2 {\r\n	margin: 0 0 var(--sp-4);\r\n	font-size: 20px;\r\n	color: var(--c-accent);\r\n}\r\n.m-signup p {\r\n	margin: 0 0 var(--sp-3);\r\n}\r\n.m-signup ol {\r\n	margin: 0 0 var(--sp-4);\r\n	padding-left: 24px;\r\n}\r\n.m-signup li + li {\r\n	margin-top: var(--sp-2);\r\n}\r\n.m-signup__example {\r\n	padding: var(--sp-3);\r\n	border-radius: var(--r-sm);\r\n	background: var(--n-50);\r\n	color: var(--c-muted);\r\n}\r\n.m-signup__actions {\r\n	display: flex;\r\n	gap: var(--sp-2);\r\n	margin-top: var(--sp-5);\r\n}\r\n.m-signup__actions .m-login__btn {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n\r\n/* Landscape uses the available width; fields must not retain their intrinsic input width. */\r\n@media (orientation: landscape) and (min-width: 480px) {\r\n	.m-login {\r\n		align-items: safe center;\r\n	}\r\n	.m-login__card {\r\n		max-width: 640px;\r\n		display: grid;\r\n		grid-template-columns: minmax(0, 1fr) minmax(0, 0.65fr);\r\n		grid-template-rows: auto auto;\r\n		gap: 12px 24px;\r\n		padding: 16px 20px;\r\n	}\r\n	.m-login__title {\r\n		grid-column: 1;\r\n		grid-row: 1;\r\n		margin: 0;\r\n		font-size: 18px;\r\n	}\r\n	.m-login__form {\r\n		grid-column: 1;\r\n		grid-row: 2;\r\n		min-width: 0;\r\n		gap: 8px;\r\n	}\r\n	.m-login__field {\r\n		min-width: 0;\r\n	}\r\n	.m-login__input {\r\n		height: 40px;\r\n	}\r\n	.m-login__save {\r\n		min-height: 36px;\r\n	}\r\n	.m-login__actions {\r\n		grid-column: 2;\r\n		grid-row: 1 / 3;\r\n		align-self: stretch;\r\n		min-width: 0;\r\n		justify-content: center;\r\n		gap: 12px;\r\n		border-left: 1px solid var(--c-border);\r\n		padding-left: 24px;\r\n	}\r\n	.m-login__actions .m-login__btn {\r\n		flex-shrink: 0;\r\n		min-width: 0;\r\n		padding: 0 12px;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/WinLogin/WinLogin.js
