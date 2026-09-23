@@ -10,14 +10,14 @@
  */
 
 import UIVersionManager from 'UI/UIVersionManager.js';
+import { lockMobileViewport } from 'UI/Mobile/Viewport.js';
 import MobileWinLogin from 'UI/Mobile/WinLogin/WinLogin.js';
 
 import MobileCharSelect from 'UI/Mobile/auth/CharSelect.js';
 import MobileCharCreate from 'UI/Mobile/auth/CharCreate.js';
 
 export function init() {
-	// Keep the previous game canvas size from expanding the viewport after rotation.
-	document.body.style.contain = 'strict';
+	lockMobileViewport();
 
 	// WinLogin — mobile component is ready, override the controller path.
 	UIVersionManager.registerMobileComponent('WinLogin', MobileWinLogin);

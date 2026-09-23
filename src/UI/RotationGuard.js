@@ -47,12 +47,12 @@ function requireLandscape(proceed) {
 	overlay.setAttribute('aria-modal', 'true');
 	overlay.setAttribute('aria-label', '请将设备旋转至横屏');
 	overlay.innerHTML = `<style>
-		#ro-rotation-guard { position:fixed; inset:0; z-index:99999; background:#0f1923;
-			color:#e8edf4; display:flex; flex-direction:column; align-items:center;
+		#ro-rotation-guard { position:fixed; inset:0; z-index:99999; background:#f8f9fb;
+			color:#242830; display:flex; flex-direction:column; align-items:center;
 			justify-content:center; gap:20px; padding:24px; text-align:center;
 			font:18px/1.5 system-ui,sans-serif; touch-action:none; }
 		#ro-rotation-guard[hidden], #ro-rotation-guard button[hidden] { display:none; }
-		#ro-rotation-guard button { min-height:44px; padding:8px 24px; border:1px solid #8a9bb0;
+		#ro-rotation-guard button { min-height:44px; padding:8px 24px; border:1px solid #dce1e8;
 			border-radius:10px; background:transparent; color:inherit; font:inherit; }
 	</style><span>请将设备旋转至横屏</span><button type="button">返回选角</button>`;
 	for (const type of ['touchstart', 'touchmove', 'touchend', 'pointerdown', 'pointerup', 'click', 'wheel']) {

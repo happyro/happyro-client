@@ -11,6 +11,8 @@ describe('mobile auth keyboard viewport', () => {
 		vi.resetModules();
 		const visual = Object.assign(new EventTarget(), { width: 390, height: 844, offsetTop: 0, offsetLeft: 0 });
 		vi.stubGlobal('visualViewport', visual);
+		vi.stubGlobal('innerWidth', 390);
+		vi.stubGlobal('innerHeight', 844);
 		const added = vi.spyOn(visual, 'addEventListener');
 		const removed = vi.spyOn(visual, 'removeEventListener');
 		let frame;
@@ -41,6 +43,16 @@ describe('mobile auth keyboard viewport', () => {
 		expect(input.scrollIntoView).not.toHaveBeenCalled();
 		expect(host.scrollTop).toBe(70);
 		expect(scroll).not.toHaveBeenCalled();
+		Object.assign(visual, { width: 220, offsetLeft: 60 });
+		visual.dispatchEvent(new Event('scroll'));
+		expect(host.style.getPropertyValue('--auth-width')).toBe('390px');
+		expect(host.style.getPropertyValue('--auth-left')).toBe('0px');
+		input.blur();
+		await Promise.resolve();
+		expect(host.style.getPropertyValue('--auth-top')).toBe('0px');
+		Object.assign(visual, { height: 844 });
+		visual.dispatchEvent(new Event('resize'));
+		expect(host.style.getPropertyValue('--auth-height')).toBe('844px');
 		component.onRemove();
 		await Promise.resolve();
 		frame();
@@ -55,6 +67,6 @@ describe('mobile auth keyboard viewport', () => {
 		expect(removed.mock.calls).toEqual(added.mock.calls);
 		visual.height = 700;
 		visual.dispatchEvent(new Event('resize'));
-		expect(host.style.getPropertyValue('--auth-height')).toBe('360px');
+		expect(host.style.getPropertyValue('--auth-height')).toBe('844px');
 	});
 });

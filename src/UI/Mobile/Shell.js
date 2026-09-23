@@ -1,5 +1,6 @@
 import GUIComponent from 'UI/GUIComponent.js';
 import Renderer from 'Renderer/Renderer.js';
+import { MOBILE_VIEWPORT_CONTENT, resetPagePosition } from './Viewport.js';
 
 let owners = 0;
 let viewport;
@@ -12,7 +13,8 @@ let restoreFrame;
 function acquireViewport() {
 	cancelAnimationFrame(restoreFrame);
 	if (owners++ || viewport) return;
-	documentScroll = { left: window.scrollX, top: window.scrollY };
+	documentScroll = { left: 0, top: 0 };
+	resetPagePosition();
 	const style = document.documentElement.style;
 	documentStyles = ['overflow', 'overscroll-behavior'].map(property => [
 		property,
@@ -31,7 +33,7 @@ function acquireViewport() {
 		document.head.appendChild(viewport);
 	}
 	originalContent = viewport.getAttribute('content');
-	viewport.setAttribute('content', 'width=device-width, initial-scale=1, viewport-fit=cover');
+	viewport.setAttribute('content', MOBILE_VIEWPORT_CONTENT);
 }
 
 function releaseViewport() {
@@ -87,10 +89,15 @@ export function withMobileShell(component) {
 	const visual = window.visualViewport;
 	const resize = () => {
 		const host = component._host;
-		host.style.setProperty('--auth-top', `${visual?.offsetTop || 0}px`);
-		host.style.setProperty('--auth-left', `${visual?.offsetLeft || 0}px`);
-		host.style.setProperty('--auth-width', `${visual?.width || window.innerWidth}px`);
-		host.style.setProperty('--auth-height', `${visual?.height || window.innerHeight}px`);
+		resetPagePosition();
+		const width = document.documentElement.clientWidth || window.innerWidth;
+		const height = document.documentElement.clientHeight || window.innerHeight;
+		const editing = component._shadow.activeElement?.matches('input, select, textarea');
+		const keyboardVisible = editing && visual && visual.height < height;
+		host.style.setProperty('--auth-top', `${keyboardVisible ? Math.max(0, visual.offsetTop) : 0}px`);
+		host.style.setProperty('--auth-left', '0px');
+		host.style.setProperty('--auth-width', `${width}px`);
+		host.style.setProperty('--auth-height', `${Math.min(visual?.height || height, height)}px`);
 		cancelAnimationFrame(frame);
 		frame = requestAnimationFrame(() => {
 			const input = component._shadow.activeElement;
@@ -106,6 +113,11 @@ export function withMobileShell(component) {
 	};
 	component.init = function () {
 		init?.call(this);
+		for (const type of ['focusin', 'focusout']) {
+			this._shadow.addEventListener(type, () => queueMicrotask(() => {
+				if (attached) resize();
+			}));
+		}
 		this._shadow.addEventListener('keydown', event => {
 			if (event.key !== 'Enter' || event.isComposing) return;
 			const input = event.target;

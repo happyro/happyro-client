@@ -8,28 +8,29 @@
 
 :host {
 	/* ── Surfaces ── */
-	--m-bg:             #0f1923;
-	--m-surface:        rgba(255, 255, 255, 0.06);
-	--m-surface-raised: rgba(255, 255, 255, 0.10);
-	--m-surface-active: rgba(74, 158, 255, 0.14);
+	--m-bg:             #f8f9fb;
+	--m-surface:        #ffffff;
+	--m-surface-raised: #eef1f5;
+	--m-surface-active: #fff3e8;
 
 	/* ── Borders ── */
-	--m-border:         rgba(255, 255, 255, 0.10);
-	--m-border-active:  rgba(74, 158, 255, 0.55);
+	--m-border:         #dce1e8;
+	--m-border-active:  #b44800;
 
 	/* ── Accent (primary action) ── */
-	--m-accent:         #4a9eff;
-	--m-accent-hover:   #6ab2ff;
+	--m-accent:         #b44800;
+	--m-accent-hover:   #c55a0a;
+	--m-accent-ring:    rgba(180, 72, 0, 0.18);
 	--m-accent-fg:      #ffffff;
 
 	/* ── Text ── */
-	--m-text:           #e8edf4;
-	--m-text-muted:     #8a9bb0;
+	--m-text:           #242830;
+	--m-text-muted:     #68727f;
 
 	/* ── Semantic ── */
-	--m-danger:         #ff6b6b;
-	--m-danger-bg:      rgba(255, 107, 107, 0.12);
-	--m-danger-border:  rgba(255, 107, 107, 0.30);
+	--m-danger:         #b42318;
+	--m-danger-bg:      #fff3f2;
+	--m-danger-border:  #efc5c0;
 
 	/* ── Radii ── */
 	--m-r-sm:  10px;

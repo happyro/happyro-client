@@ -79,8 +79,8 @@
 	transition: border-color 150ms, box-shadow 150ms;
 }
 
-#char_name::placeholder { color: rgba(138, 155, 176, 0.5); }
-#char_name:focus { border-color: var(--m-accent); box-shadow: 0 0 0 3px rgba(74,158,255,0.2); }
+#char_name::placeholder { color: var(--m-text-muted); }
+#char_name:focus { border-color: var(--m-accent); box-shadow: 0 0 0 3px var(--m-accent-ring); }
 
 /* ── Section header ── */
 .section-title {
@@ -302,7 +302,7 @@
 }
 .make:hover { opacity: 0.9; }
 .make:active { transform: scale(0.98); }
-.make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 3px; box-shadow: 0 0 0 5px rgba(74,158,255,0.2); }
+.make:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 3px; box-shadow: 0 0 0 5px var(--m-accent-ring); }
 
 [hidden] { display: none !important; }
 

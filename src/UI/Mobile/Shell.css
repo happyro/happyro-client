@@ -14,8 +14,8 @@
 	height: var(--auth-height, 100dvh) !important;
 	box-sizing: border-box;
 	overflow: auto;
-	overscroll-behavior: contain;
-	touch-action: pan-y pinch-zoom;
+	overscroll-behavior: none;
+	touch-action: pan-y;
 	background: var(--m-bg);
 	color: var(--m-text);
 	font: 16px/1.5 system-ui, sans-serif;
