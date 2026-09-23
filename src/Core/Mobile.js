@@ -159,7 +159,13 @@ const onTouchStart = (function onTouchStartClosure() {
 	return function (event) {
 		remoteAutoFocus();
 		_touches = event.touches;
-		event.preventDefault();
+
+		// Don't preventDefault on form inputs — it suppresses the soft keyboard.
+		const target = event.target;
+		const isFormInput = target && /^(input|textarea|select)$/i.test(target.tagName);
+		if (!isFormInput) {
+			event.preventDefault();
+		}
 		event.stopImmediatePropagation();
 
 		// Delayed click (to detect gesture)

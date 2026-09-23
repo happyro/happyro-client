@@ -10,6 +10,7 @@
 import Configs from 'Core/Configs.js';
 import Preferences from 'Core/Preferences.js';
 import UIManager from 'UI/UIManager.js';
+import GUIComponent from 'UI/GUIComponent.js';
 import MobileGUIComponent from 'UI/MobileGUIComponent.js';
 import { normalizeRememberedAccount } from 'UI/Components/WinLogin/RememberedAccount.js';
 import htmlText from './WinLogin.html?raw';
@@ -18,6 +19,10 @@ import cssText from './WinLogin.css?raw';
 const MobileWinLogin = new MobileGUIComponent('MobileWinLogin', cssText);
 
 MobileWinLogin.render = () => htmlText;
+
+// FREEZE mode: blocks all game touch/mouse input while login screen is active,
+// which is required for the soft keyboard to appear on mobile.
+MobileWinLogin.mouseMode = GUIComponent.MouseMode.FREEZE;
 
 const _preferences = Preferences.get('WinLogin', { saveID: true, ID: '' }, 1.0);
 
