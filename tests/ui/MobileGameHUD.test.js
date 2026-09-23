@@ -6,7 +6,7 @@ let host, root, view, actions;
 const state = { name: '测试角色', job: '初心者', level: 10, jobLevel: 5, money: 123, hp: 80, maxHp: 100, sp: 20, maxSp: 40, position: [12, 34], mapName: '普隆德拉', statuses: [{ id: 1, description: '加速术 10秒', icon: 'data:image/png;base64,AA==' }] };
 beforeEach(() => {
 	host = document.createElement('div'); document.body.append(host); root = host.attachShadow({ mode: 'open' });
-	actions = { inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
+	actions = { equipmentSnapshot: () => ({ slots: [], stats: [] }), inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
 	view = createGameHUDView(root, actions); view.update(state);
 });
 afterEach(() => { view.destroy(); host.remove(); clearChatFeed(); vi.restoreAllMocks(); });
@@ -86,4 +86,14 @@ it('does not dismiss a panel from a pre-existing touch release, but accepts a ne
  pointer('pointerup'); backdrop.click(); expect(backdrop.hidden).toBe(false);
  pointer('pointerdown'); pointer('pointercancel'); backdrop.click(); expect(backdrop.hidden).toBe(false);
  pointer('pointerdown'); pointer('pointerup'); backdrop.click(); expect(backdrop.hidden).toBe(true);
+});
+
+it('opens independent equipment navigation and updates it without affecting the other panels', () => {
+ click('[data-panel="menu"]');
+ [...root.querySelectorAll('.menu-grid button')].find(button => button.textContent === '装备').click();
+ expect(root.querySelector('h2').textContent).toBe('装备');
+ expect(root.querySelectorAll('.equipment-tabs button')).toHaveLength(4);
+ view.update(state); click('[data-close]');
+ expect(actions.setModal).toHaveBeenLastCalledWith(false);
+ click('[data-panel="profile"]'); expect(root.querySelector('.panel').classList.contains('equipment-panel')).toBe(false);
 });

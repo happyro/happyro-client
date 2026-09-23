@@ -1,3 +1,4 @@
+import { createEquipmentPanel } from './EquipmentPanel.js';
 import { createInventoryPanel } from './InventoryPanel.js';
 import { createShortcutPanel } from './ShortcutPanel.js';
 import html from './GameHUD.html?raw';
@@ -11,6 +12,7 @@ export function createGameHUDView(root, actions) {
 	let currentPanel = null;
 	let shortcutPanel = null;
 	let inventoryPanel = null;
+	let equipmentPanel = null;
 	let noticeUntil = 0;
 	let backdropPointer = null;
 	let dismissBackdrop = false;
@@ -74,6 +76,7 @@ export function createGameHUDView(root, actions) {
 		currentPanel = null;
 		shortcutPanel = null;
 		inventoryPanel = null;
+		equipmentPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
@@ -144,10 +147,13 @@ export function createGameHUDView(root, actions) {
 				chat: '聊天',
 				camera: '镜头',
 				shortcuts: '快捷配置',
-				inventory: '背包'
+				inventory: '背包',
+				equipment: '装备'
 			}[panel]
 		);
 		body.replaceChildren();
+		body.classList.toggle('equipment-body', panel === 'equipment');
+		$('.panel').classList.toggle('equipment-panel', panel === 'equipment');
 		body.classList.toggle('inventory-body', panel === 'inventory');
 		$('.panel').classList.toggle('inventory-panel', panel === 'inventory');
 		body.classList.toggle('chat-body', panel === 'chat');
@@ -173,7 +179,7 @@ export function createGameHUDView(root, actions) {
 				['镜头', 'camera'],
 				['快捷配置', 'shortcuts'],
 				['背包', 'inventory'],
-				['装备'],
+				['装备', 'equipment'],
 				['技能'],
 				['任务'],
 				['社交']
@@ -195,6 +201,12 @@ export function createGameHUDView(root, actions) {
 		}
 		shortcutPanel = null;
 		inventoryPanel = null;
+		equipmentPanel = null;
+		if (panel === 'equipment')
+			equipmentPanel = createEquipmentPanel(body, {
+				snapshot: actions.equipmentSnapshot,
+				act: actions.equipmentAct
+			});
 		if (panel === 'inventory')
 			inventoryPanel = createInventoryPanel(body, {
 				snapshot: actions.inventorySnapshot,
@@ -317,6 +329,7 @@ export function createGameHUDView(root, actions) {
 			drawMap($('.large-map'));
 			renderDetails();
 			inventoryPanel?.update();
+			equipmentPanel?.update();
 		},
 		setMap(image) {
 			mapImage = image;

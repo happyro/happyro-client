@@ -1,3 +1,5 @@
+import { createEquipmentController } from 'UI/Game/GameEquipment.js';
+import { characterStats } from 'UI/Game/CharacterStats.js';
 import { clearAttackIntent } from 'Controls/AttackIntent.js';
 import { createGameInventory } from 'UI/Game/GameInventory.js';
 import { createGameShortcuts } from 'UI/Game/GameShortcuts.js';
@@ -29,6 +31,7 @@ let view;
 let controls;
 let shortcuts;
 let inventory;
+let equipment;
 let timer;
 let unsubscribe;
 let unsubscribeOrientation;
@@ -114,6 +117,7 @@ HUD.onAppend = function () {
 	abort = new AbortController();
 	shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
 	inventory = createGameInventory(() => modal && !previousFreeze);
+	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity));
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
 		setModal,
@@ -123,6 +127,8 @@ HUD.onAppend = function () {
 			shortcuts.turn(delta);
 			snapshot();
 		},
+		equipmentSnapshot: () => equipment.snapshot(),
+		equipmentAct: (...args) => equipment.act(...args),
 		inventorySnapshot: () => inventory.snapshot(),
 		inventoryAct: (...args) => inventory.act(...args),
 		bindInventory: (index, id, slot) =>
@@ -210,6 +216,7 @@ HUD.onRemove = function () {
 	shortcuts?.cancel();
 	shortcuts = null;
 	inventory = null;
+	equipment = null;
 	clearAttackIntent();
 	clearInterval(timer);
 	timer = null;

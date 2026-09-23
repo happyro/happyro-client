@@ -47,3 +47,11 @@ it('keeps non-stackable equipment visible when packet data has no count or a zer
  expect(inventory.snapshot().find(i => i.index === 3).action).toBe('equip');
  inventory.act(3, 501, 'equip'); expect(s.equip).toHaveBeenCalledExactlyOnceWith(3, 16);
 });
+it('sends a chosen valid equipment bit while preserving desktop-style default locations and revalidating masks', () => {
+ const service = createGameInventory(() => true); s.items[1].location = 8 | 128;
+ service.act(3, 501, 'equip', 128); expect(s.equip).toHaveBeenCalledExactlyOnceWith(3, 128);
+ for (const location of [0, 16, 136, -1, 1.5]) service.act(3, 501, 'equip', location);
+ expect(s.equip).toHaveBeenCalledTimes(1);
+ service.act(3, 501, 'equip'); expect(s.equip).toHaveBeenLastCalledWith(3, 136);
+ s.equipped = [{ ...s.items.pop(), equipped: 128 }]; expect(service.snapshot().find(i => i.index === 3).wearLocation).toBe(128);
+});

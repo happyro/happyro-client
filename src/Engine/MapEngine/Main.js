@@ -11,6 +11,7 @@
 /**
  * Load dependencies
  */
+import { updateCharacterStat } from 'UI/Game/CharacterStats.js';
 import { retryOwnedAttack } from 'Controls/AttackIntent.js';
 import DB from 'DB/DBManager.js';
 import StatusProperty from 'DB/Status/StatusProperty.js';
@@ -100,38 +101,43 @@ function onAttackRangeUpdate(pkt) {
 	Session.Entity.attack_range = pkt.currentAttRange;
 }
 
+function updateStats(type, value) {
+	updateCharacterStat(Session.Entity, type, value);
+	WinStats.getUI().update(type, value);
+}
+
 /**
  * Update status parameters
  *
  * @param {object} pkt - PACKET.ZC.STATUS
  */
 function onStatusParameterChange(pkt) {
-	WinStats.getUI().update('str', pkt.str);
-	WinStats.getUI().update('agi', pkt.agi);
-	WinStats.getUI().update('vit', pkt.vit);
-	WinStats.getUI().update('int', pkt.Int);
-	WinStats.getUI().update('dex', pkt.dex);
-	WinStats.getUI().update('luk', pkt.luk);
-	WinStats.getUI().update('str3', pkt.standardStr);
-	WinStats.getUI().update('agi3', pkt.standardAgi);
-	WinStats.getUI().update('vit3', pkt.standardVit);
-	WinStats.getUI().update('int3', pkt.standardInt);
-	WinStats.getUI().update('dex3', pkt.standardDex);
-	WinStats.getUI().update('luk3', pkt.standardLuk);
-	WinStats.getUI().update('aspd', (pkt.ASPD + pkt.plusASPD) / 4);
-	WinStats.getUI().update('atak', pkt.attPower);
-	WinStats.getUI().update('atak2', pkt.refiningPower);
-	WinStats.getUI().update('matak', pkt.min_mattPower);
-	WinStats.getUI().update('matak2', pkt.max_mattPower);
-	WinStats.getUI().update('flee', pkt.avoidSuccessValue);
-	WinStats.getUI().update('flee2', pkt.plusAvoidSuccessValue);
-	WinStats.getUI().update('critical', pkt.criticalSuccessValue);
-	WinStats.getUI().update('hit', pkt.hitSuccessValue);
-	WinStats.getUI().update('def', pkt.itemdefPower);
-	WinStats.getUI().update('def2', pkt.plusdefPower);
-	WinStats.getUI().update('mdef', pkt.mdefPower);
-	WinStats.getUI().update('mdef2', pkt.plusmdefPower);
-	WinStats.getUI().update('statuspoint', pkt.point);
+	updateStats('str', pkt.str);
+	updateStats('agi', pkt.agi);
+	updateStats('vit', pkt.vit);
+	updateStats('int', pkt.Int);
+	updateStats('dex', pkt.dex);
+	updateStats('luk', pkt.luk);
+	updateStats('str3', pkt.standardStr);
+	updateStats('agi3', pkt.standardAgi);
+	updateStats('vit3', pkt.standardVit);
+	updateStats('int3', pkt.standardInt);
+	updateStats('dex3', pkt.standardDex);
+	updateStats('luk3', pkt.standardLuk);
+	updateStats('aspd', (pkt.ASPD + pkt.plusASPD) / 4);
+	updateStats('atak', pkt.attPower);
+	updateStats('atak2', pkt.refiningPower);
+	updateStats('matak', pkt.min_mattPower);
+	updateStats('matak2', pkt.max_mattPower);
+	updateStats('flee', pkt.avoidSuccessValue);
+	updateStats('flee2', pkt.plusAvoidSuccessValue);
+	updateStats('critical', pkt.criticalSuccessValue);
+	updateStats('hit', pkt.hitSuccessValue);
+	updateStats('def', pkt.itemdefPower);
+	updateStats('def2', pkt.plusdefPower);
+	updateStats('mdef', pkt.mdefPower);
+	updateStats('mdef2', pkt.plusmdefPower);
+	updateStats('statuspoint', pkt.point);
 }
 
 /**
@@ -147,51 +153,51 @@ function onStatusParameterUpdateAnswer(pkt) {
 
 	switch (pkt.statusID) {
 		case StatusProperty.STR:
-			WinStats.getUI().update('str', pkt.value);
+			updateStats('str', pkt.value);
 			break;
 
 		case StatusProperty.AGI:
-			WinStats.getUI().update('agi', pkt.value);
+			updateStats('agi', pkt.value);
 			break;
 
 		case StatusProperty.VIT:
-			WinStats.getUI().update('vit', pkt.value);
+			updateStats('vit', pkt.value);
 			break;
 
 		case StatusProperty.INT:
-			WinStats.getUI().update('int', pkt.value);
+			updateStats('int', pkt.value);
 			break;
 
 		case StatusProperty.DEX:
-			WinStats.getUI().update('dex', pkt.value);
+			updateStats('dex', pkt.value);
 			break;
 
 		case StatusProperty.LUK:
-			WinStats.getUI().update('luk', pkt.value);
+			updateStats('luk', pkt.value);
 			break;
 
 		case StatusProperty.VAR_SP_POW:
-			WinStats.getUI().update('pow', pkt.value);
+			updateStats('pow', pkt.value);
 			break;
 
 		case StatusProperty.VAR_SP_STA:
-			WinStats.getUI().update('sta', pkt.value);
+			updateStats('sta', pkt.value);
 			break;
 
 		case StatusProperty.VAR_SP_WIS:
-			WinStats.getUI().update('wis', pkt.value);
+			updateStats('wis', pkt.value);
 			break;
 
 		case StatusProperty.VAR_SP_SPL:
-			WinStats.getUI().update('spl', pkt.value);
+			updateStats('spl', pkt.value);
 			break;
 
 		case StatusProperty.VAR_SP_CON:
-			WinStats.getUI().update('con', pkt.value);
+			updateStats('con', pkt.value);
 			break;
 
 		case StatusProperty.VAR_SP_CRT:
-			WinStats.getUI().update('crt', pkt.value);
+			updateStats('crt', pkt.value);
 			break;
 	}
 }
@@ -329,7 +335,7 @@ function onParameterChange(pkt) {
 			break;
 
 		case StatusProperty.POINT:
-			WinStats.getUI().update('statuspoint', amount);
+			updateStats('statuspoint', amount);
 			break;
 
 		case StatusProperty.CLEVEL:
@@ -357,33 +363,33 @@ function onParameterChange(pkt) {
 			break;
 
 		case StatusProperty.STR:
-			WinStats.getUI().update('str', pkt.defaultStatus);
-			WinStats.getUI().update('str2', pkt.plusStatus);
+			updateStats('str', pkt.defaultStatus);
+			updateStats('str2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.AGI:
-			WinStats.getUI().update('agi', pkt.defaultStatus);
-			WinStats.getUI().update('agi2', pkt.plusStatus);
+			updateStats('agi', pkt.defaultStatus);
+			updateStats('agi2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.VIT:
-			WinStats.getUI().update('vit', pkt.defaultStatus);
-			WinStats.getUI().update('vit2', pkt.plusStatus);
+			updateStats('vit', pkt.defaultStatus);
+			updateStats('vit2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.INT:
-			WinStats.getUI().update('int', pkt.defaultStatus);
-			WinStats.getUI().update('int2', pkt.plusStatus);
+			updateStats('int', pkt.defaultStatus);
+			updateStats('int2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.DEX:
-			WinStats.getUI().update('dex', pkt.defaultStatus);
-			WinStats.getUI().update('dex2', pkt.plusStatus);
+			updateStats('dex', pkt.defaultStatus);
+			updateStats('dex2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.LUK:
-			WinStats.getUI().update('luk', pkt.defaultStatus);
-			WinStats.getUI().update('luk2', pkt.plusStatus);
+			updateStats('luk', pkt.defaultStatus);
+			updateStats('luk2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.MONEY:
@@ -420,79 +426,79 @@ function onParameterChange(pkt) {
 			break;
 
 		case StatusProperty.STANDARD_STR:
-			WinStats.getUI().update('str3', amount);
+			updateStats('str3', amount);
 			break;
 
 		case StatusProperty.STANDARD_AGI:
-			WinStats.getUI().update('agi3', amount);
+			updateStats('agi3', amount);
 			break;
 
 		case StatusProperty.STANDARD_VIT:
-			WinStats.getUI().update('vit3', amount);
+			updateStats('vit3', amount);
 			break;
 
 		case StatusProperty.STANDARD_INT:
-			WinStats.getUI().update('int3', amount);
+			updateStats('int3', amount);
 			break;
 
 		case StatusProperty.STANDARD_DEX:
-			WinStats.getUI().update('dex3', amount);
+			updateStats('dex3', amount);
 			break;
 
 		case StatusProperty.STANDARD_LUK:
-			WinStats.getUI().update('luk3', amount);
+			updateStats('luk3', amount);
 			break;
 
 		case StatusProperty.ATTPOWER:
-			WinStats.getUI().update('atak', amount);
+			updateStats('atak', amount);
 			break;
 
 		case StatusProperty.REFININGPOWER:
-			WinStats.getUI().update('atak2', amount);
+			updateStats('atak2', amount);
 			break;
 
 		case StatusProperty.MAX_MATTPOWER:
-			WinStats.getUI().update('matak', amount);
+			updateStats('matak', amount);
 			break;
 
 		case StatusProperty.MIN_MATTPOWER:
-			WinStats.getUI().update('matak2', amount);
+			updateStats('matak2', amount);
 			break;
 
 		case StatusProperty.ITEMDEFPOWER:
-			WinStats.getUI().update('def', amount);
+			updateStats('def', amount);
 			break;
 
 		case StatusProperty.PLUSDEFPOWER:
-			WinStats.getUI().update('def2', amount);
+			updateStats('def2', amount);
 			break;
 
 		case StatusProperty.MDEFPOWER:
-			WinStats.getUI().update('mdef', amount);
+			updateStats('mdef', amount);
 			break;
 
 		case StatusProperty.PLUSMDEFPOWER:
-			WinStats.getUI().update('mdef2', amount);
+			updateStats('mdef2', amount);
 			break;
 
 		case StatusProperty.HITSUCCESSVALUE:
-			WinStats.getUI().update('hit', amount);
+			updateStats('hit', amount);
 			break;
 
 		case StatusProperty.AVOIDSUCCESSVALUE:
-			WinStats.getUI().update('flee', amount);
+			updateStats('flee', amount);
 			break;
 
 		case StatusProperty.PLUSAVOIDSUCCESSVALUE:
-			WinStats.getUI().update('flee2', amount);
+			updateStats('flee2', amount);
 			break;
 
 		case StatusProperty.CRITICALSUCCESSVALUE:
-			WinStats.getUI().update('critical', amount);
+			updateStats('critical', amount);
 			break;
 
 		case StatusProperty.ASPD:
-			WinStats.getUI().update('aspd', amount);
+			updateStats('aspd', amount);
 			break;
 
 		case StatusProperty.JOBLEVEL:
@@ -501,61 +507,61 @@ function onParameterChange(pkt) {
 			break;
 
 		case StatusProperty.VAR_SP_POW:
-			WinStats.getUI().update('pow', pkt.defaultStatus);
-			WinStats.getUI().update('pow2', pkt.plusStatus);
+			updateStats('pow', pkt.defaultStatus);
+			updateStats('pow2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.VAR_SP_STA:
-			WinStats.getUI().update('sta', pkt.defaultStatus);
-			WinStats.getUI().update('sta2', pkt.plusStatus);
+			updateStats('sta', pkt.defaultStatus);
+			updateStats('sta2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.VAR_SP_WIS:
-			WinStats.getUI().update('wis', pkt.defaultStatus);
-			WinStats.getUI().update('wis2', pkt.plusStatus);
+			updateStats('wis', pkt.defaultStatus);
+			updateStats('wis2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.VAR_SP_SPL:
-			WinStats.getUI().update('spl', pkt.defaultStatus);
-			WinStats.getUI().update('spl2', pkt.plusStatus);
+			updateStats('spl', pkt.defaultStatus);
+			updateStats('spl2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.VAR_SP_CON:
-			WinStats.getUI().update('con', pkt.defaultStatus);
-			WinStats.getUI().update('con2', pkt.plusStatus);
+			updateStats('con', pkt.defaultStatus);
+			updateStats('con2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.VAR_SP_CRT:
-			WinStats.getUI().update('crt', pkt.defaultStatus);
-			WinStats.getUI().update('crt2', pkt.plusStatus);
+			updateStats('crt', pkt.defaultStatus);
+			updateStats('crt2', pkt.plusStatus);
 			break;
 
 		case StatusProperty.VAR_SP_PATK:
-			WinStats.getUI().update('patk', amount);
+			updateStats('patk', amount);
 			break;
 
 		case StatusProperty.VAR_SP_SMATK:
-			WinStats.getUI().update('smatk', amount);
+			updateStats('smatk', amount);
 			break;
 
 		case StatusProperty.VAR_SP_RES:
-			WinStats.getUI().update('res', amount);
+			updateStats('res', amount);
 			break;
 
 		case StatusProperty.VAR_SP_MRES:
-			WinStats.getUI().update('mres', amount);
+			updateStats('mres', amount);
 			break;
 
 		case StatusProperty.VAR_SP_HPLUS:
-			WinStats.getUI().update('hplus', amount);
+			updateStats('hplus', amount);
 			break;
 
 		case StatusProperty.VAR_SP_CRATE:
-			WinStats.getUI().update('crate', amount);
+			updateStats('crate', amount);
 			break;
 
 		case StatusProperty.VAR_SP_TRAITPOINT:
-			WinStats.getUI().update('trait_point', amount);
+			updateStats('trait_point', amount);
 			break;
 
 		case StatusProperty.VAR_SP_AP:
@@ -577,27 +583,27 @@ function onParameterChange(pkt) {
 			break;
 
 		case StatusProperty.VAR_SP_UPOW:
-			WinStats.getUI().update('pow3', amount);
+			updateStats('pow3', amount);
 			break;
 
 		case StatusProperty.VAR_SP_USTA:
-			WinStats.getUI().update('sta3', amount);
+			updateStats('sta3', amount);
 			break;
 
 		case StatusProperty.VAR_SP_UWIS:
-			WinStats.getUI().update('wis3', amount);
+			updateStats('wis3', amount);
 			break;
 
 		case StatusProperty.VAR_SP_USPL:
-			WinStats.getUI().update('spl3', amount);
+			updateStats('spl3', amount);
 			break;
 
 		case StatusProperty.VAR_SP_UCON:
-			WinStats.getUI().update('con3', amount);
+			updateStats('con3', amount);
 			break;
 
 		case StatusProperty.VAR_SP_UCRT:
-			WinStats.getUI().update('crt3', amount);
+			updateStats('crt3', amount);
 			break;
 
 		default:
@@ -771,7 +777,7 @@ function onRankDisplay(pkt) {
 			message += DB.getMessage(2389);
 		} // "PK"
 		else {
-				message += '未知';
+			message += '未知';
 		}
 	} else {
 		// Old per-type ranking packets

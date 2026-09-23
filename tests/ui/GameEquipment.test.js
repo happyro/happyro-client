@@ -1,0 +1,25 @@
+import { expect, it, vi } from 'vitest';
+import { createEquipmentController } from '../../src/UI/Game/GameEquipment.js';
+import Location from '../../src/DB/Items/EquipmentLocation.js';
+
+it('maps actual worn masks, multi-slot equipment and separate left/right accessories without duplicating candidates', () => {
+ const items = [
+  { index: 1, ID: 100, worn: true, wearLocation: Location.HEAD_TOP | Location.HEAD_MID },
+  { index: 2, ID: 200, worn: true, wearLocation: Location.ACCESSORY2, location: Location.ACCESSORY1 | Location.ACCESSORY2 },
+  { index: 3, ID: 200, worn: false, category: 'equipment', location: Location.ACCESSORY1 | Location.ACCESSORY2 },
+  { index: 4, ID: 300, worn: false, category: 'other', location: Location.HEAD_TOP }
+ ];
+ const act = vi.fn(); const service = createEquipmentController({ snapshot: () => items, act }, () => []);
+ const state = service.snapshot(); const slot = key => state.slots.find(s => s.key === key);
+ expect(slot('HEAD_TOP').item.index).toBe(1); expect(slot('HEAD_MID').item.index).toBe(1);
+ expect(slot('ACCESSORY1').item).toBeUndefined(); expect(slot('ACCESSORY2').item.index).toBe(2);
+ expect(slot('ACCESSORY2').candidates.map(i => i.index)).toEqual([3]); expect(slot('HEAD_TOP').candidates).toEqual([]);
+ service.act('ACCESSORY2', 3, 200, 'equip'); expect(act).toHaveBeenCalledExactlyOnceWith(3, 200, 'equip', Location.ACCESSORY2);
+ service.act('HEAD_MID', 1, 100, 'unequip'); expect(act).toHaveBeenLastCalledWith(1, 100, 'unequip', undefined);
+});
+it('rejects stale indices, changed IDs, wrong slots and unsupported actions using a fresh snapshot', () => {
+ let items = [{ index: 4, ID: 300, worn: false, category: 'equipment', location: Location.ARMOR }];
+ const act = vi.fn(); const service = createEquipmentController({ snapshot: () => items, act }, () => []);
+ service.act('HEAD_TOP', 4, 300, 'equip'); service.act('ARMOR', 4, 301, 'equip'); service.act('ARMOR', 4, 300, 'use');
+ items = []; service.act('ARMOR', 4, 300, 'equip'); expect(act).not.toHaveBeenCalled();
+});

@@ -49,6 +49,8 @@ export function createGameInventory(canOperate) {
 			count: itemQuantity(item),
 			icon: icons.get(file) || '',
 			worn,
+			location: item.location,
+			wearLocation: worn ? item.equipped : 0,
 			category: equippable ? 'equipment' : usable ? 'usable' : 'other',
 			description: toPlainRagnarokText(
 				item.IsIdentified ? info.identifiedDescriptionName : info.unidentifiedDescriptionName
@@ -62,15 +64,24 @@ export function createGameInventory(canOperate) {
 	}
 	return {
 		snapshot: () => entries().map(describe),
-		act(index, id, action) {
+		act(index, id, action, location) {
 			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
 			if (!entry) return '物品已经变化，请重新选择';
 			const state = describe(entry);
 			if (state.reason) return state.reason;
 			if (state.action !== action) return '穿戴状态已经变化，请重新选择操作';
 			if (action === 'unequip') Equipment.getUI().onUnEquip(index);
-			else if (action === 'equip') Inventory.getUI().onEquipItem(index, entry.item.location);
-			else if (Inventory.getUI().onUseItem(index) === false) return '当前无法使用此物品';
+			else if (action === 'equip') {
+				if (
+					location !== undefined &&
+					(!Number.isInteger(location) ||
+						location <= 0 ||
+						(location & (location - 1)) !== 0 ||
+						!(entry.item.location & location))
+				)
+					return '装备不适用于此部位';
+				Inventory.getUI().onEquipItem(index, location ?? entry.item.location);
+			} else if (Inventory.getUI().onUseItem(index) === false) return '当前无法使用此物品';
 			return '已发送请求，结果以服务器回复为准';
 		},
 		canBind(index, id) {
