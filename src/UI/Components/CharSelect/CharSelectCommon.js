@@ -43,13 +43,13 @@ export function createCharSelect(config) {
 		defaultMaxSlots = 3 * 9,
 		deleteReservation = false,
 		deletionEnabled = true,
+		resetSelectionOnLogin = false,
 		packetverGatedDelete = false,
 		pageBalls = false,
 		activationEvent = 'mousedown',
 		bitmapSkin = true,
 		onSelectionChange = () => {},
-		onSlotChange = () => {},
-		confirmExit = (message, onConfirm) => UIManager.showPromptBox(message, 'ok', 'cancel', onConfirm, null)
+		onSlotChange = () => {}
 	} = config;
 	function loadSkin(path, callback) {
 		if (bitmapSkin) Client.loadFile(path, callback);
@@ -344,6 +344,7 @@ export function createCharSelect(config) {
 	 * @param {object} pkt - packet structure
 	 */
 	Component.setInfo = function setInfo(pkt) {
+		if (resetSelectionOnLogin) _index = 0;
 		if (gridLayout) {
 			Component.clearAllSlots();
 
@@ -665,7 +666,7 @@ export function createCharSelect(config) {
 	 */
 	function cancel() {
 		if (isUIBlocked()) return;
-		confirmExit(DB.getMessage(17), () => {
+		UIManager.showPromptBox(DB.getMessage(17), 'ok', 'cancel', () => {
 			if (gridLayout) stopCountdownInterval();
 			Component.onExitRequest();
 			if (gridLayout) Component.clearAllSlots();

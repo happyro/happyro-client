@@ -85,6 +85,16 @@ afterEach(async () => {
 });
 
 describe('mobile authentication', () => {
+	it('resets the selection on a new login after an empty slot was selected', () => {
+		const root = mount(Select);
+		const packet = { TotalSlotNum: 3, PremiumStartSlot: 0, sex: 1, charInfo: [character()] };
+		Select.setInfo(packet);
+		root.querySelector('#slot1').click();
+		expect(root.querySelector('#slot1').getAttribute('aria-pressed')).toBe('true');
+		Select.setInfo(packet);
+		expect(root.querySelector('#slot0').getAttribute('aria-pressed')).toBe('true');
+		expect(root.querySelector('.make').hidden).toBe(true);
+	});
 	it('omits all deletion controls for normal and reserved mobile characters', () => {
 		const root = mount(Select);
 		Select.setInfo({ TotalSlotNum: 3, PremiumStartSlot: 0, sex: 1, charInfo: [character()] });

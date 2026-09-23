@@ -8,6 +8,8 @@
  * @author Vincent Thibault
  */
 
+import Platform from 'UI/Platform.js';
+import { showMobileDialog, removeMobileDialogs } from 'UI/Mobile/MessageDialog.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import CommonCSS from 'UI/Common.css?raw';
 import UIVersionManager from 'UI/UIVersionManager.js';
@@ -163,6 +165,7 @@ class UIManager {
 	 * Remove all components in screen
 	 */
 	static removeComponents() {
+		if (Platform.isMobile) removeMobileDialogs();
 		const keys = Object.keys(this.components);
 		const count = keys.length;
 
@@ -198,6 +201,10 @@ class UIManager {
 	 * @param {string} error message
 	 */
 	static showErrorBox(text) {
+		if (Platform.isMobile) return showMobileDialog({
+			text, title: '错误', keyboardAccept: true,
+			buttons: [{ name: 'ok', primary: true, callback: () => import('Engine/GameEngine.js').then(m => m.default.reload()) }]
+		});
 		const WinError = this.getComponent('WinPopup').clone('WinError');
 		// eslint-disable-next-line
 		let overlay;
@@ -243,6 +250,10 @@ class UIManager {
 	 * @param {function} callback once the button is pressed
 	 */
 	static showMessageBox(text, btn_name, callback, keydown) {
+		if (Platform.isMobile) return showMobileDialog({
+			text, keyboardAccept: !!keydown,
+			buttons: btn_name ? [{ name: btn_name, callback, primary: true }] : []
+		});
 		const WinMSG = this.getComponent('WinPopup').clone('WinMSG');
 
 		WinMSG.init = function Init() {
@@ -291,6 +302,10 @@ class UIManager {
 	 * @param {boolean} preserveLineBreaks - whether to preserve line breaks in message text
 	 */
 	static showPromptBox(text, btn_yes, btn_no, onYes, onNo, preserveLineBreaks = false) {
+		if (Platform.isMobile) return showMobileDialog({
+			text, title: '确认', preserveLineBreaks, onCancel: onNo || (() => {}),
+			buttons: [{ name: btn_no, callback: onNo }, { name: btn_yes, callback: onYes, primary: true }]
+		});
 		const WinPrompt = this.getComponent('WinPopup').clone('WinPrompt');
 
 		WinPrompt.init = function Init() {
