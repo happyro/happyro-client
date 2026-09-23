@@ -13,6 +13,7 @@
  */
 
 import { createCharCreate } from 'UI/Components/CharCreate/CharCreateCommon.js';
+import { createAppearancePreviews } from './AppearancePreviews.js';
 import { withMobileShell } from '../Shell.js';
 import tokens from '../tokens.css?raw';
 import shellCSS from '../Shell.css?raw';
@@ -28,7 +29,7 @@ const hairstyles = ['human', 'doram']
 			(_, i) => `
 			<span class="styleCol style${i + 1}">
 				<input type="radio" name="hstyle" id="${i + 1}_${race}_${gender}" class="hstyle" />
-				<label for="${i + 1}_${race}_${gender}" class="hstyle_button">${i + 1}</label>
+				<label for="${i + 1}_${race}_${gender}" class="hstyle_button" aria-label="发型 ${i + 1}"><canvas class="hair-preview" data-hair="${i + 1}" width="64" height="64" aria-hidden="true"></canvas></label>
 			</span>`
 		).join('')}
 	</div>`
@@ -41,7 +42,7 @@ const colors = Array.from(
 	(_, i) => `
 	<span class="colorCol cstyle0${i}">
 		<input type="radio" name="hcolor" id="${i}_color" class="hcolor" />
-		<label for="${i}_color" class="hcolor_button">${i + 1}</label>
+		<label for="${i}_color" class="hcolor_button" aria-label="发色 ${i + 1}"><canvas class="color-preview" data-color="${i}" width="64" height="64" aria-hidden="true"></canvas></label>
 	</span>`
 ).join('');
 
@@ -112,6 +113,8 @@ const htmlText = `<div class="page">
 	<button class="make" type="button">创建角色</button>
 </div>`;
 
+const previews = createAppearancePreviews();
+
 export default withMobileShell(
 	createCharCreate({
 		name: 'MobileCharCreate',
@@ -131,7 +134,9 @@ export default withMobileShell(
 		activationEvent: 'click',
 		nativeControls: true,
 		bitmapSkin: false,
+		onAppearanceRender: previews.render,
 		onAppearanceChange(root, { race, gender, hair, color }) {
+			previews.update(root, { race, gender, hair, color });
 			root.querySelectorAll('.hstyle').forEach(input => {
 				input.checked = input.id === `${hair}_${race}_${gender}`;
 			});

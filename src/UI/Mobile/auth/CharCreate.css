@@ -36,18 +36,22 @@
 }
 
 .return {
-	background: none;
-	border: none;
-	color: var(--m-text-muted);
+	background: var(--m-surface);
+	border: 1px solid var(--m-border);
+	color: var(--m-text);
 	font: 15px/1 system-ui, sans-serif;
-	padding: 8px 4px;
+	padding: 8px 16px;
+	min-width: 72px;
 	min-height: 44px;
 	cursor: pointer;
 	touch-action: manipulation;
 	border-radius: var(--m-r-sm);
 	transition: color 150ms;
 }
-.return:hover { color: var(--m-text); }
+@media (hover: hover) and (pointer: fine) {
+	.return:hover { background: var(--m-surface-raised); }
+}
+.return:active { background: var(--m-surface-active); }
 .return:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 2px; }
 
 /* ── Name field ── */
@@ -99,7 +103,7 @@
 	gap: 10px;
 }
 
-.races > div { position: relative; }
+.races > div { position: relative; display: flex; }
 
 .races input[type='radio'] {
 	position: absolute;
@@ -109,6 +113,7 @@
 }
 
 .races label {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -311,3 +316,7 @@
 	.top-bar, .name-field, .page > .make { grid-column: 1 / -1; }
 	.style-section { grid-column: 2; grid-row: 3; }
 }
+
+/* Sprite portraits use the selected race, gender, hairstyle and real palette. */
+.hstyle_button, .hcolor_button { width: 64px; height: 64px; overflow: hidden; }
+.hair-preview, .color-preview { display: block; width: 64px; height: 64px; pointer-events: none; }

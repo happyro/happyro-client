@@ -106,7 +106,8 @@ export function createCharCreate(config) {
 		activationEvent = 'mousedown',
 		nativeControls = false,
 		bitmapSkin = true,
-		onAppearanceChange = () => {}
+		onAppearanceChange = () => {},
+		onAppearanceRender = () => {}
 	} = config;
 	function loadSkin(path, callback) {
 		if (bitmapSkin) Client.loadFile(path, callback);
@@ -610,6 +611,7 @@ export function createCharCreate(config) {
 		SpriteRenderer.bind2DContext(_model.ctx, 32, 115);
 		_model.ctx.clearRect(0, 0, _model.ctx.canvas.width, _model.ctx.canvas.height);
 		_model.entity.renderEntity();
+		onAppearanceRender();
 
 		if (autofocus) root.querySelector(nameInputSelector).focus();
 
