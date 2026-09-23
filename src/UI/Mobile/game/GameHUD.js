@@ -84,9 +84,10 @@ function setModal(value) {
 	}
 }
 function snapshot() {
-	autoCombat?.tick();
 	const entity = Session.Entity;
 	if (!entity) return;
+	if (!controls?.isMoving() && entity.action !== entity.ACTION.WALK) autoCombat?.resumeAfterMovement();
+	autoCombat?.tick();
 	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
 		autoCombat: autoCombat.snapshot(),
@@ -232,10 +233,13 @@ HUD.onAppend = function () {
 	controls = bindPointerControls(HUD.getRoot(), Renderer.canvas, {
 		enabled,
 		startMove: () => {
-			autoCombat.stop('手动移动，自动战斗已停止');
+			autoCombat.pauseForMovement();
 			shortcuts.cancel();
 		},
-		move: Commands.moveDirection,
+		move: (x, y) => {
+			autoCombat.pauseForMovement();
+			Commands.moveDirection(x, y);
+		},
 		stopMove: () => {
 			MapControl.onRequestStopWalk();
 			Session.moveAction = null;

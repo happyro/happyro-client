@@ -14,8 +14,10 @@ import DB from 'DB/DBManager.js';
 import { remainingCooldown } from 'Network/SkillCooldowns.js';
 import * as Commands from './GameCommands.js';
 import { createAutoCombatController } from './AutoCombatController.js';
+import { loadAutoCombatSettings, saveAutoCombatSettings } from './AutoCombatSettings.js';
 
 export function createGameAutoCombat(enabled) {
+	const settingsKey = `HappyRO.AutoCombat:${JSON.stringify([Session.ServerName, Session.AID, Session.GID])}`;
 	function targets() {
 		const result = [];
 		EntityManager.forEach(entity => {
@@ -67,54 +69,71 @@ export function createGameAutoCombat(enabled) {
 		MapControl.onRequestStopWalk();
 		Session.autoFollow = false;
 	}
-	return createAutoCombatController({
-		enabled: () =>
-			enabled() && !Session.Entity?.isOverWeight && Session.Entity?.action !== Session.Entity?.ACTION.SIT,
-		now: () => performance.now(),
-		random: Math.random,
-		position: () => Session.Entity.position,
-		targets,
-		skills,
-		stop,
-		chasing: () => Boolean(Session.moveAction),
-		busy: () =>
-			Boolean(Session.moveAction || Session.Entity.cast?.display || Session.Entity.amotionTick > Renderer.tick),
-		reachable: target =>
-			PathFinding.search(
-				Session.Entity.position[0] | 0,
-				Session.Entity.position[1] | 0,
-				target.position[0] | 0,
-				target.position[1] | 0,
-				1,
-				[],
-				Altitude.TYPE.WALKABLE
-			) > 0,
-		select: target => {
-			const entity = EntityManager.get(target.id),
-				previous = EntityManager.getFocusEntity();
-			if (previous && previous !== entity) previous.onFocusEnd();
-			EntityManager.setFocusEntity(entity);
-			EntityManager.setOverEntity(entity);
-			entity.onFocus({ attack: false });
-		},
-		act: (target, skill) => {
-			const entity = EntityManager.get(target.id);
-			if (!entity || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return false;
-			if (!skill) {
-				Commands.attackSelected();
-				return true;
+	const controller = createAutoCombatController(
+		{
+			enabled: () =>
+				enabled() && !Session.Entity?.isOverWeight && Session.Entity?.action !== Session.Entity?.ACTION.SIT,
+			now: () => performance.now(),
+			random: Math.random,
+			position: () => Session.Entity.position,
+			targets,
+			skills,
+			stop,
+			chasing: () => Boolean(Session.moveAction),
+			busy: () =>
+				Boolean(
+					Session.moveAction || Session.Entity.cast?.display || Session.Entity.amotionTick > Renderer.tick
+				),
+			reachable: target =>
+				PathFinding.search(
+					Session.Entity.position[0] | 0,
+					Session.Entity.position[1] | 0,
+					target.position[0] | 0,
+					target.position[1] | 0,
+					1,
+					[],
+					Altitude.TYPE.WALKABLE
+				) > 0,
+			select: target => {
+				const entity = EntityManager.get(target.id),
+					previous = EntityManager.getFocusEntity();
+				if (previous && previous !== entity) previous.onFocusEnd();
+				EntityManager.setFocusEntity(entity);
+				EntityManager.setOverEntity(entity);
+				entity.onFocus({ attack: false });
+			},
+			act: (target, skill) => {
+				const entity = EntityManager.get(target.id);
+				if (!entity || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return false;
+				if (!skill) {
+					Commands.attackSelected();
+					return true;
+				}
+				const current = skills().find(entry => entry.id === skill.id && entry.available);
+				if (!current) return false;
+				Commands.stopAttack();
+				if (current.type & SKILL_INF.PLACE)
+					return SkillTargetSelection.onUseSkillToPos(
+						current.id,
+						current.level,
+						entity.position[0],
+						entity.position[1]
+					);
+				return SkillTargetSelection.onUseSkillToId(current.id, current.level, target.id);
 			}
-			const current = skills().find(entry => entry.id === skill.id && entry.available);
-			if (!current) return false;
-			Commands.stopAttack();
-			if (current.type & SKILL_INF.PLACE)
-				return SkillTargetSelection.onUseSkillToPos(
-					current.id,
-					current.level,
-					entity.position[0],
-					entity.position[1]
-				);
-			return SkillTargetSelection.onUseSkillToId(current.id, current.level, target.id);
+		},
+		loadAutoCombatSettings(settingsKey)
+	);
+	return {
+		...controller,
+		configure(species, ids, ranges) {
+			if (!controller.configure(species, ids, ranges)) return false;
+			const saved = controller.snapshot();
+			return saveAutoCombatSettings(settingsKey, {
+				species: saved.species,
+				skills: saved.skills,
+				ranges: saved.ranges
+			});
 		}
-	});
+	};
 }

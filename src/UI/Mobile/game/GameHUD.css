@@ -1146,3 +1146,47 @@ dd {
 	flex: 1;
 	font-size: 16px;
 }
+
+.auto-range-settings {
+	border: 1px solid #65717b;
+	border-radius: 8px;
+	padding: 8px;
+	margin: 8px 0;
+	font-size: 11px;
+}
+.auto-range-settings summary {
+	cursor: pointer;
+	min-height: 28px;
+	line-height: 28px;
+}
+[data-range-summary] {
+	color: #ceaa70;
+	margin-left: 4px;
+	white-space: nowrap;
+}
+.auto-range-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 6px;
+	margin-top: 8px;
+}
+.auto-range-stepper {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+.auto-range-stepper button {
+	width: 34px;
+	height: 34px;
+	border: 1px solid #65717b;
+	border-radius: 6px;
+	background: #18212b;
+	font-size: 16px;
+}
+.auto-range-stepper output {
+	min-width: 44px;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+}

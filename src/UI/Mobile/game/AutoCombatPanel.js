@@ -1,6 +1,9 @@
+import { AUTO_COMBAT_RANGE_LIMITS } from 'UI/Game/AutoCombatController.js';
+
 /** Auto combat configuration is independent of the manual shortcut slots. */
 export function createAutoCombatPanel(body, actions) {
 	const state = actions.snapshot();
+	const ranges = { ...state.ranges };
 	body.innerHTML = `
 		<div class="auto-layout">
 			<section class="auto-target-section" aria-labelledby="auto-target-title">
@@ -8,8 +11,11 @@ export function createAutoCombatPanel(body, actions) {
 				<button type="button" data-all-species>全部魔物</button>
 				<p class="auto-help">可多选种类；未勾选时攻击全部魔物。</p>
 				<div class="auto-species-list" data-auto-species aria-label="自动战斗目标"></div>
-				<p class="auto-help">击败后继续寻找附近目标，没有目标时原地等待。</p>
-				<p class="auto-help">手动移动或施法会停止自动战斗。</p>
+				<details class="auto-range-settings">
+					<summary>范围设置 <span data-range-summary></span></summary>
+					<div data-range-controls></div>
+					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。范围内没有魔物时原地等待。</p>
+				</details>
 			</section>
 			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
 				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
@@ -20,6 +26,41 @@ export function createAutoCombatPanel(body, actions) {
 		</div>
 		<div class="auto-config-footer"><div><strong data-auto-summary></strong><span role="status" data-auto-feedback>修改后点击保存生效</span></div><button type="button" data-save-auto>保存配置</button></div>`;
 	const $ = selector => body.querySelector(selector);
+	const limits = AUTO_COMBAT_RANGE_LIMITS;
+	for (const [key, title, maximum] of [
+		['search', '搜怪范围', limits.searchMax],
+		['activity', '活动范围', limits.activityMax]
+	]) {
+		const row = document.createElement('div');
+		row.className = 'auto-range-row';
+		const label = document.createElement('span');
+		label.textContent = title;
+		const stepper = document.createElement('div');
+		stepper.className = 'auto-range-stepper';
+		stepper.setAttribute('role', 'group');
+		stepper.setAttribute('aria-label', title);
+		const output = document.createElement('output');
+		output.dataset.rangeValue = key;
+		output.setAttribute('aria-live', 'polite');
+		for (const delta of [-1, 1]) {
+			const button = document.createElement('button');
+			button.type = 'button';
+			button.textContent = delta < 0 ? '−' : '＋';
+			button.dataset.range = key;
+			button.dataset.delta = String(delta);
+			button.setAttribute('aria-label', `${delta < 0 ? '减小' : '增大'}${title}`);
+			button.onclick = () => {
+				ranges[key] = Math.max(limits.min, Math.min(maximum, ranges[key] + delta));
+				if (key === 'search') ranges.activity = Math.max(ranges.activity, ranges.search);
+				else ranges.search = Math.min(ranges.search, ranges.activity);
+				updateSummary(true);
+			};
+			stepper.append(button);
+			if (delta < 0) stepper.append(output);
+		}
+		row.append(label, stepper);
+		$('[data-range-controls]').append(row);
+	}
 	const species = new Map(state.species.map(entry => [entry.id, entry.name]));
 	for (const target of actions.targets()) species.set(target.species, target.name);
 	const chosenSpecies = new Set(state.species.map(entry => entry.id));
@@ -116,6 +157,16 @@ export function createAutoCombatPanel(body, actions) {
 	const selectedSkills = () =>
 		[...body.querySelectorAll('[data-auto-skills] input:checked')].map(input => Number(input.value));
 	function updateSummary(changed = false) {
+		$('[data-range-summary]').textContent = `${ranges.search} / ${ranges.activity} 格`;
+		for (const output of body.querySelectorAll('[data-range-value]'))
+			output.value = `${ranges[output.dataset.rangeValue]} 格`;
+		for (const button of body.querySelectorAll('[data-range]')) {
+			const key = button.dataset.range;
+			button.disabled =
+				Number(button.dataset.delta) < 0
+					? ranges[key] <= limits.min
+					: ranges[key] >= (key === 'search' ? limits.searchMax : limits.activityMax);
+		}
 		const count = selectedSkills().length;
 		const targets = selectedSpecies();
 		for (const button of body.querySelectorAll('[data-species]'))
@@ -137,7 +188,10 @@ export function createAutoCombatPanel(body, actions) {
 		updateSummary(true);
 	};
 	function save() {
-		actions.configure(selectedSpecies(), selectedSkills());
+		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }) === false) {
+			$('[data-auto-feedback]').textContent = '配置保存失败，请检查范围或重试';
+			return;
+		}
 		actions.close();
 	}
 	$('[data-save-auto]').onclick = save;
