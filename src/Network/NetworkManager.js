@@ -173,7 +173,6 @@ function sendPacket(Packet) {
 		);
 	}
 
-	console.log('%c[Network] Send:', 'color:#007070', Packet);
 
 	// Encrypt packet
 	if (_socket && _socket.isZone) {
@@ -351,7 +350,6 @@ function receive(buf) {
 			//	packet.Struct.call(packet.instance, fp, offset); //this causes packet conflicts where the same type of packets following eachother copy the previous packet's variables with the previous values
 			//}
 
-			console.log('%c[Network] Recv:', 'color:#900090', packet.instance, packet.callback ? '' : '(no callback)');
 
 			// Call controller
 			if (packet.callback) {

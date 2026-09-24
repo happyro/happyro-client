@@ -29,7 +29,7 @@
 		return text;
 	}
 	function argument(value) {
-		if (value instanceof Error) return scrub(value.stack || `${value.name}: ${value.message}`);
+		if (value instanceof Error) return scrub(`${value.name}: ${value.message}\n${value.stack || ''}`);
 		if (value === null || ['string', 'number', 'boolean', 'undefined'].includes(typeof value)) return scrub(value);
 		// Never serialize arbitrary objects, headers, configurations or packet contents.
 		if (value instanceof ArrayBuffer || ArrayBuffer.isView(value)) return `[binary ${value.byteLength} bytes]`;
