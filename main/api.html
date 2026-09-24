@@ -1,10 +1,13 @@
 <!DOCTYPE html>    
 <html>    
     <head>    
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
         <meta charset="UTF-8">    
-        <meta name="happyro-build-id" content="muckg8k0">
+        <meta name="happyro-build-id" content="mueyap45">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <title>HappyRO</title>    
-        <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
+        <link rel="icon" type="image/png" href="./favicon.png?v=happyro-icon-2">    
         <link rel="apple-touch-icon" href="./icon.png">    
         <style>    
             html, body {    
@@ -50,116 +53,46 @@
                 0%, 100% { opacity: 0.4; transform: translateY(0); }    
                 50% { opacity: 1; transform: translateY(-4px); }    
             }    
+            #ro-preloader .pre-poring { display: none; }
+            @media (pointer: coarse) {
+                #ro-preloader { box-sizing: border-box; background: #f8f9fb; gap: 16px; padding: 24px; text-align: center; }
+                #ro-preloader .pre-poring { display: block; width: min(80px, 18vh); height: auto; aspect-ratio: 1; object-fit: contain; image-rendering: pixelated; }
+                #ro-preloader .pre-spinner { width: 32px; height: 32px; border: 3px solid #e2e5e9; border-top-color: #b44800; }
+                #ro-preloader .pre-text { display: none; }
+                #ro-preloader::after { content: '正在启动…'; color: #34383d; font: 16px/1.5 system-ui, sans-serif; }
+            }
+            @media (pointer: coarse) and (prefers-reduced-motion: reduce) {
+                #ro-preloader .pre-spinner { animation: none; }
+            }
         </style>    
+        <script src="debug.js?v=mueyap45"></script>
+        <script src="api.js?v=mueyap45"></script>
     </head>    
     <body>    
         <div id="ro-preloader">    
+            <img class="pre-poring" src="./ro-poring-1.webp" alt="">
             <div class="pre-spinner"></div>    
             <p class="pre-text">    
                 <span style="--i:0">L</span><span style="--i:1">o</span><span style="--i:2">a</span><span style="--i:3">d</span><span style="--i:4">i</span><span style="--i:5">n</span><span style="--i:6">g</span><span style="--i:7">.</span><span style="--i:8">.</span><span style="--i:9">.</span>    
             </p>    
         </div>    
     
-        <script>
-            var startApplication = (function createStartupLoader({ buildId, importModule = url => import(url) }) {
-	let started = false;
-	function fail(message) {
-		window.happyroDiagnostic?.('startup.failed', { message });
-		window.happyroDiagnosticFlush?.();
-		let panel = document.getElementById('ro-preloader');
-		if (!panel) {
-			panel = document.createElement('div');
-			panel.id = 'ro-preloader';
-			document.body.appendChild(panel);
-		}
-		panel.replaceChildren();
-		// An import can fail after the game has already installed touch handlers.
-		for (const type of ['touchstart', 'touchmove', 'touchend']) {
-			panel.addEventListener(type, event => event.stopPropagation(), { passive: true });
-		}
-		const text = document.createElement('p');
-		text.textContent = message;
-		text.style.cssText = 'color:white;font:16px sans-serif;padding:20px;text-align:center';
-		text.setAttribute('role', 'alert');
-		const retry = document.createElement('button');
-		retry.textContent = '重新加载';
-		retry.style.cssText = 'font-size:16px;padding:12px 24px';
-		retry.onclick = () => window.location.reload();
-		panel.append(text, retry);
-	}
-	function loadScript(file, globalName) {
-		return new Promise((resolve, reject) => {
-			const script = document.createElement('script');
-			let timer;
-			const finish = error => {
-				clearTimeout(timer);
-				script.onload = script.onerror = null;
-				if (error) {
-					script.remove();
-					reject(error);
-				} else resolve();
-			};
-			script.onload = () => {
-				const value = window[globalName];
-				const valid = value !== null && (typeof value === 'object' || typeof value === 'function');
-				finish(valid ? null : new Error(file + ' 未提供有效配置，请重新加载。'));
-			};
-			script.onerror = () => finish(new Error(file + ' 加载失败，请检查连接后重新加载。'));
-			timer = setTimeout(() => finish(new Error(file + ' 加载超时，请重新加载。')), 15000);
-			script.src = file + '?v=' + encodeURIComponent(buildId);
-			document.head.appendChild(script);
-		});
-	}
-	function merge(target, source) {
-		for (const key of Object.keys(source)) {
-			if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue;
-			const value = source[key];
-			if (value && typeof value === 'object' && !Array.isArray(value)) {
-				target[key] = merge(target[key] || {}, value);
-			} else target[key] = value;
-		}
-		return target;
-	}
-	return async function load(scriptFile, extraConfig) {
-		if (started) return false;
-		started = true;
-		try {
-			// GRF previews embed other viewers through ROBrowser; the game does not.
-			if (scriptFile === 'GrfViewer.js') await loadScript('api.js', 'ROBrowser');
-			// Runtime overrides must execute before HappyRO reads them.
-			for (const [file, globalName] of [
-				['Config.js', 'ROConfigBase'],
-				['Config.runtime.js', 'ROConfigRuntime'],
-				['Config.happyro.js', 'ROConfigHappyRO']
-			]) await loadScript(file, globalName);
-			const config = merge(merge({}, window.ROConfigBase), window.ROConfigHappyRO);
-			if (window.ROConfigLocal) merge(config, window.ROConfigLocal);
-			if (extraConfig) merge(config, extraConfig);
-			window.happyroDiagnosticConfig?.('launcher.merged', config);
-			if (typeof config.remoteClient !== 'string' || !config.remoteClient.trim()) {
-				throw new Error('资源服务器配置缺失，请重新加载。');
-			}
-			if (scriptFile === 'Online.js' && (!Array.isArray(config.servers) || !config.servers.length)) {
-				throw new Error('游戏服务器配置缺失，请重新加载。');
-			}
-			window.ROConfig = config;
-		} catch (error) {
-			fail(error.message);
-			return false;
-		}
-		window.happyroDiagnostic?.('startup.import', { target: scriptFile, message: buildId });
-		try {
-			await importModule('./' + scriptFile + '?v=' + encodeURIComponent(buildId));
-			window.happyroDiagnostic?.('startup.import.complete', { target: scriptFile, success: true });
-			document.getElementById('ro-preloader')?.remove();
-			return true;
-		} catch (error) {
-			window.happyroDiagnostic?.('startup.import.complete', { target: scriptFile, success: false, message: error?.name || 'unknown' });
-			fail('游戏程序加载失败，请检查连接后重新加载。');
-			return false;
-		}
-	};
-})({ buildId: 'muckg8k0' });
+        <script src="Config.js?v=mueyap45"></script>
+        <script src="Config.runtime.js?v=mueyap45"></script>
+        <script src="Config.happyro.js?v=mueyap45"></script>
+        <script>    
+            function deepMerge(target, source) {    
+                for (var key in source) {    
+                    if (source.hasOwnProperty(key)) {    
+                        if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {    
+                            target[key] = deepMerge(target[key] || {}, source[key]);    
+                        } else {    
+                            target[key] = source[key];    
+                        }    
+                    }    
+                }    
+                return target;    
+            }    
     
             var APP_SCRIPTS = {    
                 ONLINE: 'Online.js',    
@@ -174,7 +107,15 @@
     
             function loadApp(appName, extraConfig) {    
                 var scriptFile = APP_SCRIPTS[appName] || 'Online.js';    
-                return startApplication(scriptFile, extraConfig);
+                var config = deepMerge({}, window.ROConfigBase || {});    
+                config = deepMerge(config, window.ROConfigHappyRO || {});
+                if (window.ROConfigLocal) { config = deepMerge(config, window.ROConfigLocal); }    
+                if (extraConfig) { config = deepMerge(config, extraConfig); }    
+                window.ROConfig = config;    
+                import('./' + scriptFile + '?v=mueyap45').then(function() {
+                    var preloader = document.getElementById('ro-preloader');    
+                    if (preloader) { preloader.remove(); }    
+                }).catch(function(err) { console.error('Failed to load app:', scriptFile, err); });    
             }    
     
             window.addEventListener('load', function() {    
@@ -188,9 +129,8 @@
                         if (!event.data.application) return;    
                         window.removeEventListener('message', onMsg, false);    
                         var name = APP_IDS[event.data.application] || 'ONLINE';    
-                        loadApp(name, event.data).then(function(ready) {
-                            if (ready && event.source) { event.source.postMessage('ready', event.origin); }
-                        });
+                        loadApp(name, event.data);    
+                        if (event.source) { event.source.postMessage('ready', '*'); }    
                     }, false);    
                 }    
             });    
