@@ -3,7 +3,7 @@
     <head>    
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
         <meta charset="UTF-8">    
-        <meta name="happyro-build-id" content="mueyap45">
+        <meta name="happyro-build-id" content="mufurp4y">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <title>HappyRO</title>    
@@ -65,8 +65,8 @@
                 #ro-preloader .pre-spinner { animation: none; }
             }
         </style>    
-        <script src="debug.js?v=mueyap45"></script>
-        <script src="api.js?v=mueyap45"></script>
+        <script src="debug.js?v=mufurp4y"></script>
+        <script src="api.js?v=mufurp4y"></script>
     </head>    
     <body>    
         <div id="ro-preloader">    
@@ -77,9 +77,9 @@
             </p>    
         </div>    
     
-        <script src="Config.js?v=mueyap45"></script>
-        <script src="Config.runtime.js?v=mueyap45"></script>
-        <script src="Config.happyro.js?v=mueyap45"></script>
+        <script src="Config.js?v=mufurp4y"></script>
+        <script src="Config.runtime.js?v=mufurp4y"></script>
+        <script src="Config.happyro.js?v=mufurp4y"></script>
         <script>    
             function deepMerge(target, source) {    
                 for (var key in source) {    
@@ -112,7 +112,7 @@
                 if (window.ROConfigLocal) { config = deepMerge(config, window.ROConfigLocal); }    
                 if (extraConfig) { config = deepMerge(config, extraConfig); }    
                 window.ROConfig = config;    
-                import('./' + scriptFile + '?v=mueyap45').then(function() {
+                import('./' + scriptFile + '?v=mufurp4y').then(function() {
                     var preloader = document.getElementById('ro-preloader');    
                     if (preloader) { preloader.remove(); }    
                 }).catch(function(err) { console.error('Failed to load app:', scriptFile, err); });    

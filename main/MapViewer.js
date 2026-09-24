@@ -11211,15 +11211,258 @@ var init_MemoryItem = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/Core/CombatDiagnostics.js
+/** Synchronous elapsed timings and actual game-frame intervals; debug pages only. */
+function createCombatDiagnostics({ sink, now = () => performance.now(), visible = () => !document.hidden }) {
+	let lastFrame = null;
+	let summaryAt = null;
+	let intervals = [];
+	let cpu = [];
+	let spans = {};
+	let counters = {};
+	let recent = [];
+	let detailCount = 0;
+	let omitted = 0;
+	let sequence = 0;
+	let combatSequence = 0;
+	let inFrame = false;
+	let frameId = 0;
+	let frameCpuMs = 0;
+	const frameSpans = {};
+	const outsideSpans = {};
+	const frameCounters = {};
+	const outsideCounters = {};
+	const enabled = () => Boolean(sink()?.enabled);
+	const round = (value) => Math.round(value * 100) / 100;
+	function clear(bucket) {
+		for (const key in bucket) {
+			const stat = bucket[key];
+			if (typeof stat === "number") bucket[key] = 0;
+			else {
+				stat.count = 0;
+				stat.totalMs = 0;
+				stat.maxMs = 0;
+				delete stat.details;
+			}
+		}
+	}
+	function reset() {
+		lastFrame = summaryAt = null;
+		intervals = [];
+		cpu = [];
+		spans = {};
+		counters = {};
+		recent = [];
+		detailCount = omitted = 0;
+		inFrame = false;
+		frameCpuMs = 0;
+		clear(frameSpans);
+		clear(outsideSpans);
+		clear(frameCounters);
+		clear(outsideCounters);
+	}
+	function emit(event, details) {
+		sink()?.recordPerformance(event, details);
+	}
+	function detail(event, details) {
+		if (detailCount >= 20) {
+			omitted++;
+			return;
+		}
+		detailCount++;
+		emit(event, typeof details === "function" ? details() : details);
+	}
+	function nearby(at) {
+		return recent.filter((item) => at - item.at <= 1e3).slice(-8).map(({ at: tick, ...item }) => ({
+			...item,
+			agoMs: round(at - tick)
+		}));
+	}
+	function mark(event, details = {}) {
+		if (!enabled()) return;
+		const at = now();
+		const combatId = ++combatSequence;
+		recent.push({
+			event,
+			at,
+			combatId,
+			...details
+		});
+		if (recent.length > 16) recent.shift();
+		emit(event, {
+			...details,
+			combatId,
+			frameId: inFrame ? frameId : null
+		});
+	}
+	function begin() {
+		return enabled() ? now() : null;
+	}
+	function addSpan(bucket, name, duration, details) {
+		if (!bucket[name] && Object.keys(bucket).length >= 40) return;
+		const stat = bucket[name] ||= {
+			count: 0,
+			totalMs: 0,
+			maxMs: 0
+		};
+		stat.count++;
+		stat.totalMs += duration;
+		if (duration >= stat.maxMs) {
+			stat.maxMs = duration;
+			if (duration >= 8 && details) stat.details = typeof details === "function" ? details() : details;
+		}
+	}
+	function end(name, start, details) {
+		if (start === null || !enabled()) return null;
+		const at = now();
+		const duration = at - start;
+		addSpan(spans, name, duration);
+		if (!name.endsWith(".wait")) {
+			addSpan(inFrame ? frameSpans : outsideSpans, name, duration, details);
+			if (duration >= 8 && !inFrame) detail("perf.slow", () => ({
+				name,
+				durationMs: round(duration),
+				afterFrameId: lastFrame === null ? null : frameId,
+				...typeof details === "function" ? details() : details
+			}));
+		}
+		return at;
+	}
+	function addCount(bucket, name, amount) {
+		if (!(name in bucket) && Object.keys(bucket).length >= 20) return;
+		bucket[name] = (bucket[name] || 0) + amount;
+	}
+	function count(name, amount = 1) {
+		if (!enabled()) return;
+		addCount(counters, name, amount);
+		addCount(inFrame ? frameCounters : outsideCounters, name, amount);
+	}
+	function hotSpans(bucket) {
+		return Object.entries(bucket).filter(([, stat]) => stat.count && stat.totalMs > 0).sort((a, b) => b[1].totalMs - a[1].totalMs).slice(0, 8).map(([name, stat]) => ({
+			name,
+			count: stat.count,
+			totalMs: round(stat.totalMs),
+			maxMs: round(stat.maxMs),
+			...stat.details ? { details: stat.details } : {}
+		}));
+	}
+	function activeCounts(bucket) {
+		return Object.fromEntries(Object.entries(bucket).filter(([, value]) => value));
+	}
+	function frameSnapshot() {
+		return {
+			frameId,
+			cpuMs: round(frameCpuMs),
+			spans: hotSpans(frameSpans),
+			counters: activeCounts(frameCounters)
+		};
+	}
+	function beginFrame(playing) {
+		if (!enabled() || !playing || !visible()) {
+			reset();
+			return null;
+		}
+		const at = now();
+		if (summaryAt === null) summaryAt = at;
+		if (lastFrame !== null) {
+			const gap = at - lastFrame;
+			if (intervals.length < 1200) intervals.push(gap);
+			if (gap >= 50) detail("perf.frame-gap", () => ({
+				frameId: sequence + 1,
+				intervalMs: round(gap),
+				previousFrame: frameSnapshot(),
+				outsideRenderMs: round(Math.max(0, gap - frameCpuMs)),
+				betweenFrames: {
+					spans: hotSpans(outsideSpans),
+					counters: activeCounts(outsideCounters)
+				},
+				recent: nearby(at)
+			}));
+		}
+		clear(frameSpans);
+		clear(outsideSpans);
+		clear(frameCounters);
+		clear(outsideCounters);
+		lastFrame = at;
+		frameId = ++sequence;
+		frameCpuMs = 0;
+		inFrame = true;
+		return at;
+	}
+	function stats(values) {
+		if (!values.length) return { count: 0 };
+		const sorted = [...values].sort((a, b) => a - b);
+		return {
+			count: values.length,
+			p50: round(sorted[Math.ceil(sorted.length * .5) - 1]),
+			p95: round(sorted[Math.ceil(sorted.length * .95) - 1]),
+			p99: round(sorted[Math.ceil(sorted.length * .99) - 1]),
+			max: round(sorted.at(-1)),
+			over50: values.filter((value) => value >= 50).length
+		};
+	}
+	function endFrame(start, settings) {
+		if (start === null || !enabled()) {
+			inFrame = false;
+			return;
+		}
+		const at = now();
+		frameCpuMs = at - start;
+		inFrame = false;
+		if (cpu.length < 1200) cpu.push(frameCpuMs);
+		if (frameCpuMs >= 32) detail("perf.frame", () => ({
+			...frameSnapshot(),
+			recent: nearby(at)
+		}));
+		if (at - summaryAt < 5e3) return;
+		for (const stat of Object.values(spans)) {
+			stat.totalMs = round(stat.totalMs);
+			stat.maxMs = round(stat.maxMs);
+		}
+		emit("perf.summary", {
+			profileVersion: 2,
+			frameId,
+			windowMs: round(at - summaryAt),
+			intervalMs: stats(intervals),
+			cpuMs: stats(cpu),
+			spans,
+			counters,
+			settings,
+			omittedSlowEvents: omitted
+		});
+		intervals = [];
+		cpu = [];
+		spans = {};
+		counters = {};
+		detailCount = omitted = 0;
+		summaryAt = at;
+	}
+	return {
+		begin,
+		end,
+		count,
+		mark,
+		beginFrame,
+		endFrame,
+		enabled,
+		reset
+	};
+}
+var diagnostics;
+var init_CombatDiagnostics = __esmMin((() => {
+	diagnostics = createCombatDiagnostics({ sink: () => window.happyroDebug });
+	document.addEventListener("visibilitychange", diagnostics.reset);
+}));
+//#endregion
 //#region src/Core/MemoryManager.js
-var _memory, _rememberTime, _lastCheckTick, _cleanUpInterval, _cleaningInProgress, _cleanIndex, _filesToClean, MemoryManager;
+var _memory, _rememberTime, _lastCheckTick, _cleanUpInterval, _cleanIndex, _filesToClean, MemoryManager;
 var init_MemoryManager = __esmMin((() => {
 	init_MemoryItem();
+	init_CombatDiagnostics();
 	_memory = {};
 	_rememberTime = 3e4;
 	_lastCheckTick = 0;
 	_cleanUpInterval = 1e4;
-	_cleaningInProgress = false;
 	_cleanIndex = 0;
 	_filesToClean = [];
 	MemoryManager = class MemoryManager {
@@ -11266,39 +11509,36 @@ var init_MemoryManager = __esmMin((() => {
 		* @param {number} now - game tick
 		*/
 		static clean = (gl, now) => {
-			if (_lastCheckTick + _cleanUpInterval > now || _cleaningInProgress) return;
-			const files = [];
-			_filesToClean = [];
-			const keys = Object.keys(_memory);
-			const count = keys.length;
-			const tick = now - _rememberTime;
-			for (let i = 0; i < count; ++i) {
-				const item = _memory[keys[i]];
-				if (item.complete && item.lastTimeUsed < tick) _filesToClean.push(keys[i]);
-			}
-			if (_filesToClean.length === 0) {
+			if (!_filesToClean.length) {
+				if (_lastCheckTick + _cleanUpInterval > now) return;
+				const scanStart = diagnostics.begin();
+				_filesToClean = Object.keys(_memory);
+				diagnostics.end("memory.scan", scanStart);
+				diagnostics.count("memory.scanned", _filesToClean.length);
+				_cleanIndex = 0;
 				_lastCheckTick = now;
-				return;
 			}
-			_cleaningInProgress = true;
-			_cleanIndex = 0;
-			requestIdleCallback(function cleanChunk(deadline) {
-				let processed = 0;
-				const maxProcess = Math.min(5, _filesToClean.length - _cleanIndex);
-				while (_cleanIndex < _filesToClean.length && processed < maxProcess && deadline.timeRemaining() > 0) {
-					MemoryManager.remove(gl, _filesToClean[_cleanIndex]);
-					files.push(_filesToClean[_cleanIndex]);
-					_cleanIndex++;
+			const started = performance.now();
+			let processed = 0;
+			try {
+				while (_cleanIndex < _filesToClean.length && processed < 5 && performance.now() - started < 2) {
+					const key = _filesToClean[_cleanIndex++];
+					const item = _memory[key];
 					processed++;
+					if (item?.complete && item.lastTimeUsed < now - _rememberTime) {
+						const releaseStart = diagnostics.begin();
+						try {
+							MemoryManager.remove(gl, key);
+							diagnostics.count("memory.released");
+						} finally {
+							if (releaseStart !== null) diagnostics.end("memory.release", releaseStart, () => ({ extension: key.slice(-4) }));
+						}
+					}
 				}
-				if (_cleanIndex < _filesToClean.length) requestIdleCallback(cleanChunk);
-				else {
-					_cleaningInProgress = false;
-					_lastCheckTick = now;
-					_filesToClean = [];
-					if (files.length) console.log("%c[MemoryManager] - Removed " + files.length + " unused elements from memory.", "color:#d35111", { files });
-				}
-			});
+			} finally {
+				diagnostics.count("memory.checked", processed);
+				if (_cleanIndex >= _filesToClean.length) _filesToClean = [];
+			}
 		};
 		/**
 		* Force immediate cleanup of memory entries matching an optional regex.
@@ -83412,6 +83652,10 @@ var init_Texture = __esmMin((() => {
 		const img = new Image();
 		img.decoding = "async";
 		img.src = data;
+		img.onerror = function() {
+			args.unshift(false);
+			oncomplete.apply(null, args);
+		};
 		img.onload = function OnLoadClosure() {
 			if (data.match(/^blob:/)) URL.revokeObjectURL(data);
 			const canvas = document.createElement("canvas");
@@ -83623,27 +83867,42 @@ function texture(gl, url, callback) {
 			return;
 		}
 		try {
-			const enableMipmap = Configs.get("enableMipmap");
-			const canvas = document.createElement("canvas");
-			canvas.width = toPowerOfTwo(this.width);
-			canvas.height = toPowerOfTwo(this.height);
-			canvas.getContext("2d").drawImage(this, 0, 0, canvas.width, canvas.height);
-			const _texture = gl.createTexture();
-			gl.bindTexture(gl.TEXTURE_2D, _texture);
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-			if (enableMipmap) {
-				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-				gl.generateMipmap(gl.TEXTURE_2D);
-			} else gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-			args.unshift(_texture);
+			const resource = imageTexture(gl, this, Boolean(Configs.get("enableMipmap")));
+			args.unshift(resource.texture);
 			callback.apply(null, args);
 		} catch (e) {
 			console.error("WebGL::texture creation error:", e);
 		}
 	});
+}
+/** Create one image texture; the caller owns its lifetime and memory accounting. */
+function imageTexture(gl, image, mipmap) {
+	const start = diagnostics.begin();
+	let handle;
+	try {
+		const canvas = document.createElement("canvas");
+		canvas.width = toPowerOfTwo(image.width);
+		canvas.height = toPowerOfTwo(image.height);
+		canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+		handle = gl.createTexture();
+		if (!handle) throw new Error("Unable to allocate image texture");
+		gl.bindTexture(gl.TEXTURE_2D, handle);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mipmap ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+		if (mipmap) gl.generateMipmap(gl.TEXTURE_2D);
+		return {
+			texture: handle,
+			bytes: Math.ceil(canvas.width * canvas.height * 4 * (mipmap ? 4 / 3 : 1))
+		};
+	} catch (error) {
+		if (handle) gl.deleteTexture(handle);
+		throw error;
+	} finally {
+		diagnostics.end("texture.imageUpload", start);
+	}
 }
 /**
 * Detect Post-Processing can be Enabled (Bad Combination of Chrome+SoftwareOnly+IntelXE(block-listed by WebGL- crbug.com/41479539))
@@ -83678,6 +83937,7 @@ var WebGL_default;
 var init_WebGL = __esmMin((() => {
 	init_Texture();
 	init_Configs();
+	init_CombatDiagnostics();
 	WebGL_default = {
 		getContext,
 		compileShader,
@@ -240592,7 +240852,6 @@ function sendPacket(Packet) {
 		const id = new BinaryReader(pkt.buffer).readUShort();
 		console.log("%c[Network] Dump Send: \n%cPacket ID: 0x%s\nPacket Name: %s\nLength: %d\nContent:\n%s", "color:#007070", "color:inherit", id.toString(16), Packet.constructor.name, pkt.buffer.byteLength, utilsBufferToHexString(pkt.buffer).toUpperCase());
 	}
-	console.log("%c[Network] Send:", "color:#007070", Packet);
 	if (_socket && _socket.isZone) PacketCrypt_default.process(pkt.view);
 	return send$5(pkt.buffer);
 }
@@ -240706,7 +240965,6 @@ function receive(buf) {
 				failProtocol(`Cannot decode packet 0x${id.toString(16)}: ${error.message}`);
 				return;
 			}
-			console.log("%c[Network] Recv:", "color:#900090", packet.instance, packet.callback ? "" : "(no callback)");
 			if (packet.callback) packet.callback(packet.instance);
 		} else {
 			if (packetDump) {
@@ -240872,6 +241130,22 @@ var init_NetworkManager = __esmMin((() => {
 			utils: { longToIP: utilsLongToIP }
 		};
 	})();
+}));
+//#endregion
+//#region src/Preferences/Audio.js
+var Audio_default;
+var init_Audio = __esmMin((() => {
+	init_Preferences$1();
+	Audio_default = Preferences.get("Audio", {
+		BGM: {
+			play: true,
+			volume: .5
+		},
+		Sound: {
+			play: true,
+			volume: .5
+		}
+	}, 1);
 }));
 //#endregion
 //#region src/Core/Events.js
@@ -241528,260 +241802,267 @@ var init_Camera$1 = __esmMin((() => {
 	}, 1.1);
 }));
 //#endregion
-//#region src/Preferences/Audio.js
-var Audio_default;
-var init_Audio = __esmMin((() => {
-	init_Preferences$1();
-	Audio_default = Preferences.get("Audio", {
-		BGM: {
-			play: true,
-			volume: .5
-		},
-		Sound: {
-			play: true,
-			volume: .5
+//#region src/Audio/BufferSoundPlayer.js
+var CACHE_BYTES, CACHE_ENTRIES, MAX_LOADS, MAX_VOICES, MAX_SOUND_VOICES, SAME_SOUND_MS, MAX_START_AGE_MS, BufferSoundPlayer;
+var init_BufferSoundPlayer = __esmMin((() => {
+	CACHE_BYTES = 33554432;
+	CACHE_ENTRIES = 128;
+	MAX_LOADS = 4;
+	MAX_VOICES = 32;
+	MAX_SOUND_VOICES = 8;
+	SAME_SOUND_MS = 30;
+	MAX_START_AGE_MS = 250;
+	BufferSoundPlayer = class {
+		constructor({ load, diagnostics, now = () => performance.now() }) {
+			this.load = load;
+			this.diagnostics = diagnostics;
+			this.now = now;
+			this.context = null;
+			this.output = null;
+			this.volume = 1;
+			this.cache = /* @__PURE__ */ new Map();
+			this.cacheBytes = 0;
+			this.voices = /* @__PURE__ */ new Set();
+			this.loading = 0;
 		}
-	}, 1);
+		/** Called from a user gesture, and again after a page/audio interruption. */
+		activate() {
+			if (!this.context) {
+				this.context = new AudioContext({ latencyHint: "interactive" });
+				this.output = this.context.createGain();
+				this.output.gain.value = this.volume;
+				this.output.connect(this.context.destination);
+				this.context.onstatechange = () => {
+					if (this.context.state !== "running") this.stop();
+					this.diagnostics.mark("audio.context", {
+						engine: "webaudio",
+						state: this.context.state,
+						sampleRate: this.context.sampleRate
+					});
+				};
+			}
+			if (this.context.state !== "running") return this.context.resume().catch((error) => {
+				this.diagnostics.mark("audio.resume-rejected", { name: error.name });
+			});
+			return Promise.resolve();
+		}
+		setVolume(volume) {
+			this.volume = volume;
+			if (this.output) this.output.gain.value = volume;
+		}
+		preload(filename) {
+			if (!filename || filename === "atk" || !this.context) return;
+			this.entry(filename);
+			this.pump();
+		}
+		play(filename, volume = 1, priority = false) {
+			if (!filename || volume <= 0 || this.volume <= 0 || this.context?.state !== "running") return;
+			const entry = this.entry(filename);
+			if (!entry) return;
+			const request = {
+				volume,
+				priority,
+				at: this.now()
+			};
+			if (entry.buffer) this.start(entry, request);
+			else {
+				if (!entry.pending?.priority || priority) entry.pending = request;
+				this.pump();
+			}
+		}
+		entry(filename) {
+			let entry = this.cache.get(filename);
+			if (entry) {
+				this.cache.delete(filename);
+				this.cache.set(filename, entry);
+				return entry;
+			}
+			if (!this.makeRoom(0, true)) return null;
+			entry = {
+				filename,
+				buffer: null,
+				bytes: 0,
+				loading: false,
+				retryAt: 0,
+				pending: null,
+				lastStart: -Infinity,
+				lastPriorityStart: -Infinity,
+				voices: /* @__PURE__ */ new Set()
+			};
+			this.cache.set(filename, entry);
+			return entry;
+		}
+		makeRoom(bytes, addingEntry = false, keep = null) {
+			for (const [filename, entry] of this.cache) {
+				if (this.cacheBytes + bytes <= CACHE_BYTES && this.cache.size + Number(addingEntry) <= CACHE_ENTRIES) return true;
+				if (entry === keep || entry.loading || entry.pending || entry.voices.size) continue;
+				this.cache.delete(filename);
+				this.cacheBytes -= entry.bytes;
+			}
+			return this.cacheBytes + bytes <= CACHE_BYTES && this.cache.size + Number(addingEntry) <= CACHE_ENTRIES;
+		}
+		pump() {
+			const entries = [...this.cache.values()].sort((a, b) => Number(!!b.pending) - Number(!!a.pending));
+			for (const entry of entries) {
+				if (this.loading >= MAX_LOADS) break;
+				if (entry.buffer || entry.loading || entry.retryAt > this.now()) continue;
+				entry.loading = true;
+				this.loading++;
+				this.prepare(entry);
+			}
+		}
+		async prepare(entry) {
+			try {
+				const loadAt = this.diagnostics.begin();
+				const data = await this.load(entry.filename);
+				this.diagnostics.end("audio.load.wait", loadAt);
+				const decodeAt = this.diagnostics.begin();
+				const buffer = await this.context.decodeAudioData(data);
+				this.diagnostics.end("audio.decode.wait", decodeAt);
+				const bytes = buffer.length * buffer.numberOfChannels * 4;
+				if (bytes > CACHE_BYTES || !this.makeRoom(bytes, false, entry)) throw new Error("Decoded sound cache is full");
+				entry.buffer = buffer;
+				entry.bytes = bytes;
+				this.cacheBytes += bytes;
+				if (entry.pending && this.now() - entry.pending.at <= MAX_START_AGE_MS) this.start(entry, entry.pending);
+			} catch (error) {
+				entry.retryAt = this.now() + 3e4;
+				console.warn("[SoundManager] Cannot prepare sound:", entry.filename, error);
+			} finally {
+				entry.pending = null;
+				entry.loading = false;
+				this.loading--;
+				this.pump();
+			}
+		}
+		start(entry, request) {
+			if (this.context.state !== "running" || this.volume <= 0) return;
+			const at = this.now();
+			if (at - (request.priority ? entry.lastPriorityStart : entry.lastStart) < SAME_SOUND_MS) return;
+			const candidates = entry.voices.size >= MAX_SOUND_VOICES ? entry.voices : this.voices;
+			if (entry.voices.size >= MAX_SOUND_VOICES || this.voices.size >= MAX_VOICES) {
+				const victim = [...candidates].find((voice) => !voice.priority);
+				if (!request.priority || !victim) return;
+				this.release(victim, true);
+			}
+			const startAt = this.diagnostics.begin();
+			const source = this.context.createBufferSource();
+			const gain = this.context.createGain();
+			const voice = {
+				source,
+				gain,
+				entry,
+				priority: request.priority
+			};
+			try {
+				source.buffer = entry.buffer;
+				gain.gain.value = request.volume;
+				source.connect(gain);
+				gain.connect(this.output);
+				source.onended = () => this.release(voice);
+				source.start();
+				entry.lastStart = at;
+				if (request.priority) entry.lastPriorityStart = at;
+				entry.voices.add(voice);
+				this.voices.add(voice);
+			} catch (error) {
+				source.disconnect();
+				gain.disconnect();
+				console.warn("[SoundManager] Cannot start sound:", error);
+			} finally {
+				this.diagnostics.end("audio.start", startAt);
+			}
+		}
+		release(voice, stop = false) {
+			voice.source.onended = null;
+			if (stop) voice.source.stop();
+			voice.source.disconnect();
+			voice.gain.disconnect();
+			voice.source.buffer = null;
+			voice.entry.voices.delete(voice);
+			this.voices.delete(voice);
+		}
+		stop(filename) {
+			for (const entry of this.cache.values()) if (!filename || filename === entry.filename) {
+				entry.pending = null;
+				entry.lastStart = entry.lastPriorityStart = -Infinity;
+				for (const voice of entry.voices) this.release(voice, true);
+			}
+		}
+		suspend() {
+			this.stop();
+			if (this.context && this.context.state !== "closed") return this.context.suspend().catch((error) => {
+				this.diagnostics.mark("audio.suspend-rejected", { name: error.name });
+			});
+			return Promise.resolve();
+		}
+	};
 }));
 //#endregion
 //#region src/Audio/SoundManager.js
-/**
-* Move sound to cache.
-* ff we have a request to play the same sound again, get it back
-* Will avoid to re-create sound object at each request (re-usable object)
-*/
-function onSoundEnded() {
-	if (_sounds[this.filename]) {
-		const pos = _sounds[this.filename].instances.indexOf(this);
-		if (pos !== -1) {
-			_sounds[this.filename].instances.splice(pos, 1);
-			if (_sounds[this.filename].instances.length === 0) delete _sounds[this.filename];
-		}
-		addSoundToCache(this);
+async function loadAudio(filename) {
+	const url = await new Promise((resolve, reject) => Client.loadFile(`data/wav/${filename}`, resolve, reject));
+	const controller = new AbortController();
+	const timeout = setTimeout(() => controller.abort(), 15e3);
+	try {
+		const response = await fetch(url, { signal: controller.signal });
+		if (!response.ok) throw new Error(`Sound HTTP ${response.status}`);
+		return await response.arrayBuffer();
+	} finally {
+		clearTimeout(timeout);
 	}
 }
-/**
-* Clear sound from dom on error
-*/
-function onSoundError() {
-	const entry = _sounds[this.filename];
-	if (entry) {
-		const pos = entry.instances.indexOf(this);
-		if (pos !== -1) {
-			entry.instances.splice(pos, 1);
-			if (entry.instances.length === 0) delete _sounds[this.filename];
-		}
-	}
-	this.remove();
-	mediaPlayerCount--;
-}
-/**
-* Add sound to cache and set associated vars
-*
-* @param {Audio} sound element
-*/
-function addSoundToCache(sound) {
-	if (sound.filename) {
-		if (!(sound.filename in _cache$1)) {
-			_cache$1[sound.filename] = /* @__PURE__ */ new Object();
-			_cache$1[sound.filename].instances = new Array();
-		}
-		if (_cache$1[sound.filename].instances.length < balancedMax(C_MAX_CACHED_SOUND_INSTANCES)) {
-			sound.currentTime = 0;
-			sound.cleanupHandle = setTimeout(() => {
-				cleanupCache(sound);
-			}, C_CACHE_CLEANUP_TIME);
-			_cache$1[sound.filename].instances.push(sound);
-		} else {
-			sound.remove();
-			mediaPlayerCount--;
-		}
+function activate() {
+	if (Audio_default.Sound.play && !document.hidden) {
+		player.setVolume(Audio_default.Sound.volume);
+		player.activate();
 	}
 }
-/**
-* Remove sound from cache and return it
-* Check at the same time to remove sound not used since some times.
-*
-* @param {string} filename
-* @param {Audio} sound element
-*/
-function getSoundFromCache(filename) {
-	let out = null;
-	if (filename in _cache$1) {
-		if (_cache$1[filename].instances.length > 0) {
-			out = _cache$1[filename].instances.pop();
-			if (out.cleanupHandle) clearTimeout(out.cleanupHandle);
-		}
-	}
-	return out;
-}
-/**
-* Remove sound from cache if it was sitting there for too long
-*
-* @param {Audio} sound element
-*/
-function cleanupCache(sound) {
-	if (sound.filename && sound.filename in _cache$1 && _cache$1[sound.filename].instances.length > 0) {
-		const pos = _cache$1[sound.filename].instances.indexOf(sound);
-		if (pos !== -1) {
-			_cache$1[sound.filename].instances.splice(pos, 1);
-			sound.remove();
-			mediaPlayerCount--;
-		}
-	}
-}
-/**
-* Returns a balanced value for max audio instance number based on the currently existing HTML Media players in the DOM
-*
-* @param {CONST} max instance const value
-*/
-function balancedMax(maxConst) {
-	return Math.ceil(maxConst * (1 - mediaPlayerCount / C_MAX_MEDIA_PLAYERS));
-}
-var C_MAX_SOUND_INSTANCES, C_MAX_CACHED_SOUND_INSTANCES, C_MAX_MEDIA_PLAYERS, C_SAME_SOUND_DELAY, C_CACHE_CLEANUP_TIME, _sounds, _cache$1, mediaPlayerCount, _playGen, SoundManager;
+var player, SoundManager;
 var init_SoundManager = __esmMin((() => {
 	init_Client();
+	init_CombatDiagnostics();
 	init_Audio();
-	init_MemoryManager();
 	init_gl_matrix();
 	init_SessionStorage();
-	C_MAX_SOUND_INSTANCES = 10;
-	C_MAX_CACHED_SOUND_INSTANCES = 30;
-	C_MAX_MEDIA_PLAYERS = 800;
-	C_SAME_SOUND_DELAY = 100;
-	C_CACHE_CLEANUP_TIME = 3e4;
-	_sounds = {};
-	_cache$1 = {};
-	mediaPlayerCount = 0;
-	_playGen = 0;
-	SoundManager = class SoundManager {
-		/**
-		* @var {float} sound volume
-		*
-		*/
-		static volume = Audio_default.Sound.volume;
-		/**
-		* Play a wav sound
-		*
-		* @param {string} filename
-		* @param {optional|number} vol (volume)
-		*/
-		static play(filename, vol) {
-			let volume;
-			if (vol) volume = vol * this.volume;
-			else volume = this.volume;
-			if (volume <= 0 || !Audio_default.Sound.play) return;
-			if (!(filename in _sounds)) {
-				_sounds[filename] = {};
-				_sounds[filename].instances = [];
-				_sounds[filename].lastTick = 0;
-			}
-			const sound = getSoundFromCache(filename);
-			if (sound) {
-				sound.volume = Math.min(volume, 1);
-				sound._volume = volume;
-				const playPromise = sound.play();
-				if (playPromise) playPromise.catch((err) => {
-					if (err.name === "NotSupportedError" || err.name === "AbortError") {
-						const idx = _sounds[filename]?.instances.indexOf(sound);
-						if (idx !== void 0 && idx !== -1) _sounds[filename].instances.splice(idx, 1);
-						sound.remove();
-						mediaPlayerCount--;
-						SoundManager.play(filename, vol);
-						return;
-					}
-					console.warn("Failed to play sound:", err);
-				});
-				_sounds[filename].instances.push(sound);
-				_sounds[filename].lastTick = Date.now();
-				return;
-			}
-			const myGen = _playGen;
-			Client.loadFile(`data/wav/${filename}`, (url) => {
-				if (myGen !== _playGen || !(filename in _sounds)) return;
-				if (_sounds[filename].lastTick > Date.now() - C_SAME_SOUND_DELAY || _sounds[filename].instances.length > balancedMax(C_MAX_SOUND_INSTANCES)) return;
-				const audio = document.createElement("audio");
-				mediaPlayerCount++;
-				audio.filename = filename;
-				audio.src = url;
-				audio.volume = Math.min(volume, 1);
-				audio._volume = volume;
-				audio.addEventListener("error", onSoundError, false);
-				audio.addEventListener("ended", onSoundEnded, false);
-				audio.play().catch((err) => {
-					if (err.name !== "AbortError") console.warn("Failed to play sound:", err);
-				});
-				_sounds[filename].instances.push(audio);
-				_sounds[filename].lastTick = Date.now();
-			});
+	init_BufferSoundPlayer();
+	player = new BufferSoundPlayer({
+		load: loadAudio,
+		diagnostics
+	});
+	player.setVolume(Audio_default.Sound.volume);
+	SoundManager = class {
+		static play(filename, volume = 1, priority = false) {
+			if (Audio_default.Sound.play && !document.hidden) player.play(filename, volume, priority);
 		}
-		/**
-		* Play a wav sound with calculated position for volume
-		*
-		* @param {string} filename
-		* @param {optional|number} vol (volume)
-		*/
-		static playPosition(filename, srcPosition) {
-			const dist = Math.floor(gl_matrix_default.vec2.dist(srcPosition, SessionStorage_default.Entity.position));
-			const vol = Math.max(1 - Math.abs((dist - 1) * .99 / 24 + .01), .1);
-			SoundManager.play(filename, vol);
+		static preload(filenames) {
+			if (!Audio_default.Sound.play) return;
+			for (const filename of Array.isArray(filenames) ? filenames : [filenames]) player.preload(filename);
 		}
-		/**
-		* Stop a specify sound, or all sounds.
-		*
-		* @param {optional|string} filename to stop
-		*/
+		static playPosition(filename, position) {
+			const dist = Math.floor(gl_matrix_default.vec2.dist(position, SessionStorage_default.Entity.position));
+			const volume = Math.max(1 - Math.abs((dist - 1) * .99 / 24 + .01), .1);
+			this.play(filename, volume, position === SessionStorage_default.Entity.position);
+		}
 		static stop(filename) {
-			if (filename) {
-				if (filename in _sounds) {
-					while (_sounds[filename].instances.length > 0) {
-						const s = _sounds[filename].instances.shift();
-						s.pause();
-						s.remove();
-						mediaPlayerCount--;
-					}
-					delete _sounds[filename];
-				}
-				return;
-			}
-			_playGen++;
-			Object.keys(_sounds).forEach((key) => {
-				while (_sounds[key].instances.length > 0) {
-					const s = _sounds[key].instances.shift();
-					s.pause();
-					s.remove();
-					mediaPlayerCount--;
-				}
-				delete _sounds[key];
-			});
-			Object.keys(_cache$1).forEach((key) => {
-				_cache$1[key].instances.forEach((s) => {
-					if (s.cleanupHandle) clearTimeout(s.cleanupHandle);
-					s.remove();
-					mediaPlayerCount--;
-				});
-				delete _cache$1[key];
-			});
-			MemoryManager.search(/\.wav$/).forEach((key) => {
-				MemoryManager.remove(key);
-			});
+			player.stop(filename);
 		}
-		/**
-		* Change volume of all sounds
-		*
-		* @param {number} volume
-		*/
 		static setVolume(volume) {
-			this.volume = Math.min(volume, 1);
-			Audio_default.Sound.volume = this.volume;
+			Audio_default.Sound.volume = Math.max(0, Math.min(volume, 1));
 			Audio_default.save();
-			Object.keys(_sounds).forEach((key) => {
-				_sounds[key].instances.forEach((sound) => {
-					sound.volume = Math.min(sound._volume * this.volume, 1);
-				});
-			});
+			player.setVolume(Audio_default.Sound.play ? Audio_default.Sound.volume : 0);
 		}
 	};
+	document.addEventListener("pointerup", activate, true);
+	document.addEventListener("keydown", activate, true);
+	document.addEventListener("visibilitychange", () => {
+		if (document.hidden) player.suspend();
+		else if (player.context) activate();
+	});
+	window.addEventListener("pagehide", () => player.suspend());
+	window.addEventListener("pageshow", () => {
+		if (player.context) activate();
+	});
 }));
 //#endregion
 //#region src/Audio/BGM.js
@@ -267848,20 +268129,12 @@ var init_SoundOption$1 = __esmMin((() => {
 //#endregion
 //#region src/UI/Components/SoundOption/SoundOption.js
 function onSoundVolumeUpdate() {
-	Audio_default.Sound.volume = parseInt(this.value, 10) / 100;
-	Audio_default.save();
-	SoundManager.setVolume(Audio_default.Sound.volume);
+	SoundManager.setVolume(parseInt(this.value, 10) / 100);
 }
 function onToggleSound() {
-	const oldVolume = Audio_default.Sound.volume;
 	Audio_default.Sound.play = this.checked;
-	if (Audio_default.Sound.play) SoundManager.setVolume(Audio_default.Sound.volume);
-	else {
-		SoundManager.setVolume(0);
-		SoundManager.stop();
-	}
-	Audio_default.Sound.volume = oldVolume;
-	Audio_default.save();
+	SoundManager.setVolume(Audio_default.Sound.volume);
+	if (!Audio_default.Sound.play) SoundManager.stop();
 }
 function onBGMVolumeUpdate() {
 	Audio_default.BGM.volume = parseInt(this.value, 10) / 100;
@@ -298810,8 +299083,8 @@ var init_ProcessCommand = __esmMin((() => {
 			callback: function() {
 				this.addText(DB.getMessage(27 + Audio_default.Sound.play), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 				Audio_default.Sound.play = !Audio_default.Sound.play;
-				Audio_default.save();
-				if (Audio_default.Sound.play) SoundManager.stop();
+				SoundManager.setVolume(Audio_default.Sound.volume);
+				if (!Audio_default.Sound.play) SoundManager.stop();
 			}
 		},
 		bgm: {
@@ -301399,6 +301672,128 @@ var init_RsmEffect = __esmMin((() => {
 	};
 }));
 //#endregion
+//#region src/Renderer/EffectTextureCache.js
+/** Shared image textures for 2D/3D effects. Live leases are never evicted. */
+function createEffectTextureCache({ maxBytes = 16777216, maxEntries = 128 } = {}) {
+	const contexts = /* @__PURE__ */ new WeakMap();
+	function remove(state, entry, failed = false) {
+		state.entries.delete(entry.key);
+		state.bytes -= entry.bytes;
+		if (entry.texture && !state.gl.isContextLost()) state.gl.deleteTexture(entry.texture);
+		entry.texture = null;
+		entry.bytes = 0;
+		for (const lease of entry.leases) {
+			lease.active = false;
+			if (failed) lease.onerror();
+		}
+		entry.leases.clear();
+	}
+	function trim(state) {
+		if (state.entries.size <= maxEntries && state.bytes <= maxBytes) return;
+		for (const entry of state.entries.values()) {
+			if (entry.leases.size) continue;
+			remove(state, entry);
+			diagnostics.count("texture.effectEvict");
+			if (state.entries.size <= maxEntries && state.bytes <= maxBytes) break;
+		}
+	}
+	function clear(gl) {
+		const state = contexts.get(gl);
+		if (!state) return;
+		for (const entry of state.entries.values()) remove(state, entry, true);
+	}
+	function context(gl) {
+		let state = contexts.get(gl);
+		if (!state) {
+			state = {
+				gl,
+				entries: /* @__PURE__ */ new Map(),
+				bytes: 0
+			};
+			contexts.set(gl, state);
+			gl.canvas.addEventListener("webglcontextlost", () => clear(gl));
+		}
+		return state;
+	}
+	function request(gl, filename, lease) {
+		const state = context(gl);
+		const mipmap = Boolean(Configs.get("enableMipmap"));
+		const key = `${mipmap ? 1 : 0}:${filename}`;
+		let entry = state.entries.get(key);
+		const cached = Boolean(entry);
+		if (!entry) entry = {
+			key,
+			texture: null,
+			bytes: 0,
+			leases: /* @__PURE__ */ new Set()
+		};
+		state.entries.delete(key);
+		state.entries.set(key, entry);
+		if (lease) entry.leases.add(lease);
+		diagnostics.count(cached ? "texture.effectHit" : "texture.effectMiss");
+		const current = () => state.entries.get(key) === entry;
+		const fail = () => {
+			if (current()) remove(state, entry, true);
+		};
+		if (gl.isContextLost()) fail();
+		else if (cached) {
+			if (entry.texture && lease) lease.onload(entry.texture);
+		} else Client.loadFile(filename, (buffer) => {
+			if (!current()) return;
+			if (gl.isContextLost()) return fail();
+			const start = diagnostics.begin();
+			Texture.load(buffer, function(success) {
+				diagnostics.end(buffer instanceof ArrayBuffer ? "texture.effectDecode" : "texture.effectDecode.wait", start);
+				if (!current()) return;
+				if (!success || gl.isContextLost()) return fail();
+				let resource;
+				try {
+					resource = imageTexture(gl, this, mipmap);
+				} catch (error) {
+					console.error("Effect texture creation failed:", filename, error);
+					fail();
+					return;
+				}
+				entry.texture = resource.texture;
+				entry.bytes = resource.bytes;
+				state.bytes += resource.bytes;
+				diagnostics.count("texture.effectUpload");
+				for (const consumer of entry.leases) consumer.onload(entry.texture);
+				trim(state);
+			});
+		}, fail);
+		trim(state);
+		return () => {
+			if (!lease?.active) return;
+			lease.active = false;
+			entry.leases.delete(lease);
+			trim(state);
+		};
+	}
+	return {
+		acquire(gl, filename, onload, onerror) {
+			return request(gl, filename, {
+				active: true,
+				onload,
+				onerror
+			});
+		},
+		preload(gl, filename) {
+			request(gl, filename);
+		},
+		clear
+	};
+}
+var EffectTextureCache_default;
+var init_EffectTextureCache = __esmMin((() => {
+	init_Client();
+	init_Configs();
+	init_CombatDiagnostics();
+	init_Texture();
+	init_WebGL();
+	EffectTextureCache_default = createEffectTextureCache();
+}));
+//#endregion
 //#region src/Renderer/Effects/TwoDEffect.js
 function getRandomIntInclusive(min, max) {
 	min = Math.ceil(min);
@@ -301407,8 +301802,7 @@ function getRandomIntInclusive(min, max) {
 }
 var blendMode$2, shadow_index, TwoDEffect;
 var init_TwoDEffect = __esmMin((() => {
-	init_WebGL();
-	init_Client();
+	init_EffectTextureCache();
 	init_SpriteRenderer();
 	init_Camera();
 	blendMode$2 = {};
@@ -301643,14 +302037,19 @@ var init_TwoDEffect = __esmMin((() => {
 			this.endTick = endTick;
 		}
 		init(gl) {
-			Client.loadFile(`data/texture/${this.textureName}`, (buffer) => {
-				WebGL_default.texture(gl, buffer, (texture) => {
-					this.texture = texture;
-					this.ready = true;
-				});
+			this.releaseTexture = EffectTextureCache_default.acquire(gl, `data/texture/${this.textureName}`, (texture) => {
+				this.texture = texture;
+				this.ready = true;
+			}, () => {
+				this.texture = null;
+				this.ready = false;
+				this.needCleanUp = true;
 			});
 		}
 		free(gl) {
+			this.releaseTexture?.();
+			this.releaseTexture = null;
+			this.texture = null;
 			this.ready = false;
 		}
 		render(gl, tick) {
@@ -301847,7 +302246,7 @@ function randBetween(minimum, maximum) {
 }
 var blendMode$1, _soulStrikeFirstEffect, ThreeDEffect;
 var init_ThreeDEffect = __esmMin((() => {
-	init_WebGL();
+	init_EffectTextureCache();
 	init_Client();
 	init_SpriteRenderer();
 	init_EntityManager();
@@ -302122,24 +302521,26 @@ var init_ThreeDEffect = __esmMin((() => {
 		init(gl) {
 			this.loadedTextures = 0;
 			this.textureList = [];
-			if (this.textureNameList.length > 0) {
-				const textureCount = this.textureNameList.length;
-				for (let i = 0; i < textureCount; i++) Client.loadFile(`data/texture/${this.textureNameList[i]}`, (buffer) => {
-					WebGL_default.texture(gl, buffer, (texture) => {
-						this.textureList[i] = texture;
-						this.loadedTextures++;
-						if (this.loadedTextures == textureCount) this.ready = true;
-					});
-				});
-			} else if (this.textureName) Client.loadFile(`data/texture/${this.textureName}`, (buffer) => {
-				WebGL_default.texture(gl, buffer, (texture) => {
-					this.texture = texture;
-					this.ready = true;
-				});
+			this.releaseTextures = [];
+			const files = this.textureNameList.length ? this.textureNameList : this.textureName ? [this.textureName] : [];
+			this.ready = files.length === 0;
+			files.forEach((file, index) => {
+				this.releaseTextures.push(EffectTextureCache_default.acquire(gl, `data/texture/${file}`, (texture) => {
+					if (this.textureNameList.length) this.textureList[index] = texture;
+					else this.texture = texture;
+					this.loadedTextures++;
+					this.ready = this.loadedTextures === files.length && !this.needCleanUp;
+				}, () => {
+					this.ready = false;
+					this.needCleanUp = true;
+				}));
 			});
-			else this.ready = true;
 		}
 		free(gl) {
+			for (const release of this.releaseTextures || []) release();
+			this.releaseTextures = [];
+			this.textureList = [];
+			this.texture = null;
 			this.ready = false;
 		}
 		render(gl, tick) {
@@ -302830,6 +303231,8 @@ var init_EffectManager = __esmMin((() => {
 	init_QuadHorn();
 	init_SessionStorage();
 	init_Graphics();
+	init_CombatDiagnostics();
+	init_EffectTextureCache();
 	_list$4 = {};
 	_uniqueId = 1;
 	targetableUnits = [SkillUnitConst_default.UNT_ICEWALL, SkillUnitConst_default.UNT_REVERBERATION];
@@ -302861,6 +303264,7 @@ var init_EffectManager = __esmMin((() => {
 		*/
 		static init(gl) {
 			_gl = gl;
+			for (const effectId of [0, 1]) for (const file of new Set(EffectTable_default[effectId].map((effect) => effect.file))) EffectTextureCache_default.preload(gl, `data/texture/${file}`);
 			if (Configs.get("development")) ProcessCommand_default.add("d_effectmanager", "Print EffectManager list to console.", function() {
 				EffectManager.debug();
 			}, ["d_em"], true);
@@ -302908,6 +303312,7 @@ var init_EffectManager = __esmMin((() => {
 				if (constructor.free) constructor.free(gl);
 				delete _list$4[key];
 			});
+			EffectTextureCache_default.clear(gl);
 		}
 		/**
 		* Renderering all effects
@@ -302941,7 +303346,9 @@ var init_EffectManager = __esmMin((() => {
 				}
 				constructor = list[0].constructor;
 				if (!constructor.ready && constructor.needInit) {
+					const diagnosticStart = diagnostics.begin();
 					constructor.init(gl);
+					if (diagnosticStart !== null) diagnostics.end("effect.classInit", diagnosticStart, () => ({ type: constructor.name }));
 					constructor.needInit = false;
 				}
 				if (constructor.ready) {
@@ -302966,10 +303373,16 @@ var init_EffectManager = __esmMin((() => {
 						}
 						if (!culled) {
 							if (!effect.ready && effect.needInit) {
+								const diagnosticStart = diagnostics.begin();
 								effect.init(gl);
+								if (diagnosticStart !== null) diagnostics.end("effect.init", diagnosticStart, () => ({ type: constructor.name }));
 								effect.needInit = false;
 							}
-							if (effect.ready) effect.render(gl, tick);
+							if (effect.ready) {
+								const diagnosticStart = diagnostics.begin();
+								effect.render(gl, tick);
+								if (diagnosticStart !== null) diagnostics.end("effect.render", diagnosticStart, () => ({ type: constructor.name }));
+							}
 						}
 						size += repeatEffect(effect);
 						if (effect.needCleanUp) {
@@ -304375,6 +304788,7 @@ var init_Sky = __esmMin((() => {
 //#region src/Renderer/Effects/Damage.js
 var EndureSound, dpr$1, procCanvas$1, procCtx$1, _skin, _damageSkins, _loadedSkinsData, _enableSuffix, _msgNames, _list$2, prevCombo, Damage;
 var init_Damage = __esmMin((() => {
+	init_CombatDiagnostics();
 	init_WebGL();
 	init_Client();
 	init_Configs();
@@ -304664,6 +305078,7 @@ var init_Damage = __esmMin((() => {
 				}
 				return;
 			}
+			const diagnosticStart = diagnostics.begin();
 			for (i = 0, count = numbers.length; i < count; ++i) {
 				frame = numbersData[numbers[i]];
 				width += frame.width + PADDING;
@@ -304690,6 +305105,10 @@ var init_Damage = __esmMin((() => {
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			if (enableMipmap) gl.generateMipmap(gl.TEXTURE_2D);
+			diagnostics.end("damage.texture", diagnosticStart, {
+				width: finalWidth,
+				height: finalHeight
+			});
 			obj.texture = texture;
 			obj.width = finalWidth;
 			obj.height = finalHeight;
@@ -307812,6 +308231,7 @@ var mat4$11, _pos$6, MapRenderer;
 var init_MapRenderer = __esmMin((() => {
 	init_Thread();
 	init_SoundManager();
+	init_CombatDiagnostics();
 	init_BGM();
 	init_DBManager();
 	init_UIManager();
@@ -307977,6 +308397,7 @@ var init_MapRenderer = __esmMin((() => {
 		* @param {object} gl context
 		*/
 		static onRender(tick, gl) {
+			let diagnosticStage = diagnostics.begin();
 			PostProcess.prepare(gl);
 			const fog = MapRenderer.fog;
 			fog.use = Map_default.fog;
@@ -307990,6 +308411,7 @@ var init_MapRenderer = __esmMin((() => {
 			const projection = Camera.projection;
 			const normalMat = Camera.normalMat;
 			Ground_default.render(gl, modelView, projection, normalMat, fog, light);
+			diagnosticStage = diagnostics.end("map.ground", diagnosticStage);
 			Effects_default.spam(SessionStorage_default.Entity.position, tick);
 			if (Mouse.intersect && Altitude.intersect(modelView, projection, _pos$6)) {
 				x = _pos$6[0];
@@ -308012,26 +308434,38 @@ var init_MapRenderer = __esmMin((() => {
 					if (Cursor.getActualType() === Cursor.ACTION.DEFAULT && !isWalkable) Cursor.setType(Cursor.ACTION.NOWALK, false);
 				}
 			}
+			diagnosticStage = diagnostics.end("map.environment", diagnosticStage);
 			Sky_default.render(gl, modelView, projection, fog, tick);
 			Models_default.render(gl, modelView, projection, normalMat, fog, light);
 			AnimatedModels_default.render(gl, modelView, projection, normalMat, fog, light, tick);
 			GR2ModelRenderer_default.render(gl, modelView, projection, normalMat, fog, light, tick);
+			diagnosticStage = diagnostics.end("map.models", diagnosticStage);
 			ScreenEffectManager.render(gl, modelView, projection, fog, tick, true);
 			EffectManager.render(gl, modelView, projection, fog, tick, true);
+			diagnosticStage = diagnostics.end("map.effects.before", diagnosticStage);
 			EntityManager.render(gl, modelView, projection, fog, false);
+			diagnosticStage = diagnostics.end("map.entities", diagnosticStage);
 			Water_default.render(gl, modelView, projection, fog, light, tick);
+			diagnosticStage = diagnostics.end("map.water", diagnosticStage);
 			EffectManager.render(gl, modelView, projection, fog, tick, false);
+			diagnosticStage = diagnostics.end("map.effects.after", diagnosticStage);
 			EntityManager.render(gl, modelView, projection, fog, true);
+			diagnosticStage = diagnostics.end("map.effectEntities", diagnosticStage);
 			Damage.render(gl, modelView, projection, fog, tick);
+			diagnosticStage = diagnostics.end("map.damage", diagnosticStage);
 			SignboardManager.render(gl, modelView, projection);
 			ScreenEffectManager.render(gl, modelView, projection, fog, tick);
 			Sounds_default.render(SessionStorage_default.Entity.position, tick);
+			diagnosticStage = diagnostics.end("map.overlays", diagnosticStage);
 			if (Mouse.intersect) {
 				const entity = EntityManager.intersect();
 				EntityManager.setOverEntity(entity);
 			}
+			diagnosticStage = diagnostics.end("map.picking", diagnosticStage);
 			MemoryManager.clean(gl, tick);
+			diagnosticStage = diagnostics.end("map.cleanup", diagnosticStage);
 			PostProcess.render(gl);
+			diagnostics.end("map.postprocess", diagnosticStage);
 		}
 		/**
 		* Callback to execute once the map is loaded
@@ -308437,6 +308871,8 @@ var init_Camera = __esmMin((() => {
 var Renderer_exports = /* @__PURE__ */ __exportAll({ default: () => Renderer });
 var mat4$9, _requestAnimationFrame, _cancelAnimationFrame, Renderer;
 var init_Renderer = __esmMin((() => {
+	init_CombatDiagnostics();
+	init_Audio();
 	init_WebGL();
 	init_gl_matrix();
 	init_Configs();
@@ -308657,10 +309093,13 @@ var init_Renderer = __esmMin((() => {
 				}
 				this._lastFrameTime = now - elapsed % interval;
 			} else this._lastFrameTime = now;
+			const diagnosticStart = diagnostics.beginFrame(SessionStorage_default.Playing);
 			const newTick = Date.now();
 			SessionStorage_default.serverTick += newTick - this.tick;
 			this.tick = newTick;
+			let diagnosticStage = diagnosticStart;
 			Events.process(this.tick);
+			diagnosticStage = diagnostics.end("render.events", diagnosticStage);
 			let i, count;
 			for (i = 0, count = this.renderCallbacks.length; i < count; ++i) try {
 				this.renderCallbacks[i](this.tick, this.gl);
@@ -308672,7 +309111,20 @@ var init_Renderer = __esmMin((() => {
 					GraphicsSettings.bloom = false;
 				}
 			}
+			diagnosticStage = diagnostics.end("render.callbacks", diagnosticStage);
 			Cursor.render(this.tick);
+			diagnostics.end("render.cursor", diagnosticStage);
+			if (diagnosticStart !== null) diagnostics.endFrame(diagnosticStart, {
+				canvasWidth: this.canvas.width,
+				canvasHeight: this.canvas.height,
+				dpr: window.devicePixelRatio,
+				quality: Configs.get("quality", 100),
+				fpsLimit: this.frameLimit,
+				sound: Audio_default.Sound.play,
+				bloom: GraphicsSettings.bloom,
+				blur: GraphicsSettings.blur,
+				fxaa: GraphicsSettings.fxaaEnabled
+			});
 			this.updateId = _requestAnimationFrame(this._renderBound);
 		}
 		/**
@@ -351090,6 +351542,7 @@ function init$7() {
 var Sound;
 var init_EntitySound = __esmMin((() => {
 	init_SoundManager();
+	init_SessionStorage();
 	Sound = class {
 		constructor() {
 			this._lastActionId = -1;
@@ -351097,6 +351550,16 @@ var init_EntitySound = __esmMin((() => {
 			this._lastFileName = null;
 			this._animCounter = -1;
 			this.attackFile = null;
+		}
+		set attackFile(filename) {
+			this._attackFile = filename;
+			SoundManager.preload(filename);
+		}
+		get attackFile() {
+			return this._attackFile;
+		}
+		preload(filenames) {
+			if (this.entity === SessionStorage_default.Entity) SoundManager.preload(filenames);
 		}
 		/**
 		* Play a sound attached to an entity
@@ -351896,7 +352359,7 @@ function UpdateBody(job) {
 		this.gr2 = null;
 		path = DB.getBodyPath(GR2_FALLBACK_JOB, this._sex);
 	} else this.gr2 = null;
-	Client.loadFile(path + ".act");
+	Client.loadFile(path + ".act", (act) => this.sound.preload(act.sounds));
 	Client.loadFile(path + ".spr", function() {
 		const isStaleCallback = this._transformationSeq && this._transformationSeq > transformationSeq;
 		const currentJob = getEffectiveJob.call(this);
@@ -352051,7 +352514,7 @@ function UpdateBodyStyle(look) {
 		}
 		path = this.isAdmin ? DB.getAdminPath(this._sex) : DB.getBodyPath(job, this._sex, look, cashMountCostume);
 		Entity = this.constructor;
-		Client.loadFile(path + ".act");
+		Client.loadFile(path + ".act", (act) => this.sound.preload(act.sounds));
 		Client.loadFile(path + ".spr", function() {
 			this.files.body.spr = path + ".spr";
 			this.files.body.act = path + ".act";
@@ -352084,7 +352547,7 @@ function UpdateHead(head) {
 	if (head < 0) return;
 	this._head = head;
 	const path = DB.getHeadPath(head, this.job, this._sex, this.isOrcish);
-	Client.loadFile(path + ".act");
+	Client.loadFile(path + ".act", (act) => this.sound.preload(act.sounds));
 	Client.loadFile(path + ".spr", function() {
 		if (!shouldSuppressHead.call(this)) {
 			this.files.head.spr = path + ".spr";
@@ -352140,7 +352603,7 @@ function UpdateGeneric(type, func, fallback) {
 			return;
 		}
 		function LoadView(filepath, final) {
-			Client.loadFile(filepath + ".act");
+			Client.loadFile(filepath + ".act", (act) => _this.sound.preload(act.sounds));
 			Client.loadFile(filepath + ".spr", function() {
 				_this["_" + type] = _val;
 				if (!(type === "accessory" || type === "accessory2" || type === "accessory3") || !shouldSuppressHead.call(_this)) {
@@ -352148,7 +352611,7 @@ function UpdateGeneric(type, func, fallback) {
 					_this.files[type].act = filepath + ".act";
 				}
 				if (type === "weapon") {
-					_this.attackFile = DB.getWeaponSound(_val);
+					_this.sound.attackFile = DB.getWeaponSound(_val);
 					const trail_file = DB.getWeaponTrail(_val, _this.job, _this._sex);
 					if (trail_file) {
 						Client.loadFile(trail_file + ".act");
@@ -352947,6 +353410,7 @@ function getAnimationDelay(type, entity, act) {
 * Calculate animations
 */
 function calcAnimation(entity, act, type, tick) {
+	tick = Math.max(0, tick);
 	if (type === "shadow" || type === "cartshadow") return 0;
 	const ACTION = entity.ACTION;
 	const action = entity.action;
@@ -353093,6 +353557,7 @@ var init_EntityRender = __esmMin((() => {
 	init_gl_matrix();
 	init_Camera();
 	init_Client();
+	init_CombatDiagnostics();
 	init_StatusState();
 	init_SpriteRenderer();
 	init_Ground();
@@ -353350,7 +353815,13 @@ var init_EntityRender = __esmMin((() => {
 			if (!spr || !act) return;
 			const pal = files.pal && Client.loadFile(files.pal) || spr;
 			const action = act.actions[(entity.action * 8 + (Camera.direction + entity.direction + 8) % 8) % act.actions.length];
+			const animationStart = diagnostics.begin();
 			const animation_id = calcAnimation(entity, action, type, renderTick - entity.animation.tick);
+			if (animationStart !== null) diagnostics.end("entity.animation", animationStart, () => ({
+				part: type,
+				action: entity.action,
+				self: entity === SessionStorage_default.Entity
+			}));
 			const animation = action.animations[animation_id];
 			const layers = animation.layers;
 			if (animation.sound > -1) entity.sound.play(act.sounds[animation.sound], entity.action, animation_id);
@@ -353908,7 +354379,7 @@ function updateEffectState(value) {
 			this._effectStateColor[1] = .2;
 			this._effectStateColor[2] = .2;
 			this._effectStateColor[3] = .2;
-			SoundManager.play("effect/assasin_cloaking.wav", this.position);
+			SoundManager.playPosition("effect/assasin_cloaking.wav", this.position);
 		}
 	}
 	if (value & StatusState_default.EffectState.ORCISH) this.isOrcish = true;
@@ -358947,7 +359418,7 @@ function saveGameSettings(draft) {
 	}
 	document.body.classList.toggle("custom-cursor", GraphicsSettings.cursor);
 	if (previous.audio.Sound.play !== Audio_default.Sound.play || previous.audio.Sound.volume !== Audio_default.Sound.volume) {
-		SoundManager.setVolume(Audio_default.Sound.play ? Audio_default.Sound.volume : 0);
+		SoundManager.setVolume(Audio_default.Sound.volume);
 		if (!Audio_default.Sound.play) SoundManager.stop();
 	}
 	if (previous.audio.BGM.volume !== Audio_default.BGM.volume) BGM.setVolume(Audio_default.BGM.volume);
@@ -360590,11 +361061,11 @@ function createAutoCombatPanel(body, actions) {
 				<button type="button" data-all-species>全部魔物</button>
 				<p class="auto-help">可多选种类；未勾选时攻击全部魔物。</p>
 				<div class="auto-species-list" data-auto-species aria-label="自动战斗目标"></div>
-				<details class="auto-range-settings">
-					<summary>范围设置 <span data-range-summary></span></summary>
+				<section class="auto-range-settings" aria-labelledby="auto-range-title">
+					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
 					<div data-range-controls></div>
 					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。范围内没有魔物时原地等待。</p>
-				</details>
+				</section>
 			</section>
 			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
 				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
@@ -360629,7 +361100,7 @@ function createAutoCombatPanel(body, actions) {
 		for (const delta of [-1, 1]) {
 			const button = document.createElement("button");
 			button.type = "button";
-			button.textContent = delta < 0 ? "−" : "＋";
+			button.textContent = delta < 0 ? "−" : "+";
 			button.dataset.range = key;
 			button.dataset.delta = String(delta);
 			button.setAttribute("aria-label", `${delta < 0 ? "减小" : "增大"}${title}`);
@@ -361384,24 +361855,69 @@ var init_MailPanel = __esmMin((() => {
 /** Draft-only inputs: closing or cancelling leaves runtime and preferences untouched. */
 function createSettingsPanel(body, service) {
 	let draft = service.snapshot();
+	let activeSection = "画面";
 	function render() {
 		body.replaceChildren();
 		const form = document.createElement("form");
-		form.className = "social-form";
+		form.className = "settings-form";
 		form.onsubmit = (event) => event.preventDefault();
 		const status = document.createElement("p");
 		status.role = "status";
-		const heading = (label) => {
-			const h = document.createElement("h3");
-			h.textContent = label;
-			form.append(h);
-		};
-		const field = (label, input) => {
+		status.className = "settings-status";
+		status.textContent = "关闭面板会放弃尚未保存的修改。";
+		const tabs = document.createElement("div");
+		tabs.className = "settings-tabs";
+		tabs.setAttribute("role", "group");
+		tabs.setAttribute("aria-label", "设置分类");
+		const content = document.createElement("div");
+		content.className = "settings-content";
+		const sections = /* @__PURE__ */ new Map();
+		for (const name of [
+			"画面",
+			"特效",
+			"声音"
+		]) {
+			const section = document.createElement("section");
+			section.className = "settings-section";
+			section.setAttribute("aria-label", name);
+			section.hidden = name !== activeSection;
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = name;
+			button.setAttribute("aria-pressed", String(name === activeSection));
+			button.onclick = () => {
+				activeSection = name;
+				for (const [label, entry] of sections) {
+					entry.section.hidden = label !== name;
+					entry.button.setAttribute("aria-pressed", String(label === name));
+				}
+				content.scrollTop = 0;
+			};
+			sections.set(name, {
+				section,
+				button
+			});
+			tabs.append(button);
+			content.append(section);
+		}
+		form.append(tabs, content);
+		const field = (section, label, input) => {
 			const row = document.createElement("label");
-			row.append(document.createTextNode(label), input);
-			form.append(row);
+			row.className = "settings-field";
+			const caption = document.createElement("span");
+			caption.textContent = label;
+			row.append(caption, input);
+			sections.get(section).section.append(row);
+			return row;
 		};
-		heading("画面");
+		const displayKeys = [
+			"quality",
+			"fpslimit",
+			"performanceMode",
+			"viewArea",
+			"cursor",
+			"pixelPerfectSprites"
+		];
 		for (const [key, label, range, max, step] of service.fields) {
 			const input = document.createElement(Array.isArray(range) ? "select" : "input");
 			input.dataset.setting = key;
@@ -361428,9 +361944,8 @@ function createSettingsPanel(body, service) {
 				draft.graphics[key] = input.type === "checkbox" ? input.checked : Number(input.value);
 				status.textContent = "修改尚未保存";
 			};
-			field(label, input);
+			field(displayKeys.includes(key) ? "画面" : "特效", key === "quality" ? "渲染比例（%）" : label, input);
 		}
-		heading("声音");
 		for (const [key, name] of [["BGM", "背景音乐"], ["Sound", "音效"]]) {
 			const enabled = document.createElement("input");
 			enabled.type = "checkbox";
@@ -361440,7 +361955,7 @@ function createSettingsPanel(body, service) {
 				draft.audio[key].play = enabled.checked;
 				status.textContent = "修改尚未保存";
 			};
-			field(name, enabled);
+			field("声音", name, enabled);
 			const volume = document.createElement("input");
 			volume.type = "range";
 			volume.min = 0;
@@ -361451,11 +361966,20 @@ function createSettingsPanel(body, service) {
 				draft.audio[key].volume = Number(volume.value) / 100;
 				status.textContent = "修改尚未保存";
 			};
-			field(name + "音量", volume);
+			const row = field("声音", name + "音量", volume);
+			row.classList.add("settings-volume");
+			const value = document.createElement("span");
+			value.className = "settings-volume-value";
+			value.textContent = `${volume.value}%`;
+			volume.addEventListener("input", () => {
+				value.textContent = `${volume.value}%`;
+			});
+			row.append(value);
 		}
-		const note = document.createElement("p");
-		note.textContent = "移动端尺寸随横屏窗口自适应。关闭面板会放弃尚未保存的修改。";
-		form.append(note);
+		const footer = document.createElement("div");
+		footer.className = "settings-footer";
+		const buttons = document.createElement("div");
+		buttons.className = "settings-actions";
 		for (const [label, action] of [
 			["保存", () => {
 				status.textContent = service.save(draft);
@@ -361472,10 +361996,15 @@ function createSettingsPanel(body, service) {
 			const button = document.createElement("button");
 			button.type = "button";
 			button.textContent = label;
-			button.onclick = action;
-			form.append(button);
+			button.onclick = () => {
+				action();
+				if (!form.isConnected) body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
+			};
+			if (label === "保存") button.className = "settings-save";
+			buttons.append(button);
 		}
-		form.append(status);
+		footer.append(buttons, status);
+		form.append(footer);
 		body.append(form);
 	}
 	render();
@@ -363540,7 +364069,7 @@ function createShortcutPanel(body, actions) {
 				<form class="shortcut-config" hidden>
 					<div class="shortcut-selected"><img alt="" data-choice-icon><strong data-choice></strong></div>
 					<label class="shortcut-level">施放等级 <select aria-label="技能等级"></select></label>
-					<button type="submit" data-save-slot></button>
+					<button type="submit" data-save-slot aria-live="polite"></button>
 					<button type="button" data-cancel-choice>取消选择</button>
 				</form>
 				<div class="shortcut-clear"><button type="button" data-clear-slot>清空当前槽位</button>
@@ -363553,6 +364082,15 @@ function createShortcutPanel(body, actions) {
 	const picker = $(".slot-picker"), choices = $(".shortcut-choices"), form = $("form");
 	const status = (message) => {
 		$("[data-config-status]").textContent = message;
+	};
+	function resetSaveFeedback() {
+		const button = $("[data-save-slot]");
+		button.textContent = `保存到槽位 ${index + 1}`;
+		delete button.dataset.saveState;
+	}
+	form.oninput = () => {
+		resetSaveFeedback();
+		status("有未保存的修改");
 	};
 	const slots = () => actions.snapshot().slots.filter((entry) => !entry.unavailable);
 	function updateSlotLabels() {
@@ -363574,6 +364112,7 @@ function createShortcutPanel(body, actions) {
 	}
 	function cancelChoice() {
 		selected = null;
+		resetSaveFeedback();
 		form.hidden = true;
 		$("[data-choice-hint]").hidden = false;
 		highlightChoices();
@@ -363622,7 +364161,7 @@ function createShortcutPanel(body, actions) {
 			if (entry.isSkill) for (let level = 1; level <= entry.level; level++) select.add(new Option(`Lv.${level}`, String(level)));
 			const current = slots().find((slot) => slot.index === index)?.binding;
 			select.value = String(entry.isSkill && current?.isSkill && current.ID === entry.ID ? Math.min(current.count, entry.level) : entry.level || 1);
-			$("[data-save-slot]").textContent = `保存到槽位 ${index + 1}`;
+			resetSaveFeedback();
 			highlightChoices();
 			status("");
 		};
@@ -363634,7 +364173,13 @@ function createShortcutPanel(body, actions) {
 		if (selected && actions.configure(index, selected, Number($("select").value))) {
 			updateSlotLabels();
 			status(`已保存到槽位 ${index + 1}`);
-		} else status("保存失败，技能或物品已变化，请重新选择。");
+			$("[data-save-slot]").textContent = `✓ 已保存到槽位 ${index + 1}`;
+			$("[data-save-slot]").dataset.saveState = "saved";
+		} else {
+			status("保存失败，技能或物品已变化，请重新选择。");
+			$("[data-save-slot]").textContent = "保存失败，点击重试";
+			$("[data-save-slot]").dataset.saveState = "error";
+		}
 	};
 	$("[data-cancel-choice]").onclick = () => {
 		cancelChoice();
@@ -363685,13 +364230,27 @@ var init_GameHUD$2 = __esmMin((() => {
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr) max-content;\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 10px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	pointer-events: auto;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.battle-dock > .battle-status,\r\n.battle-dock > .skill-prompt,\r\n.battle-dock > .battle-tools,\r\n.battle-dock > .shortcut-tools,\r\n.battle-dock > .skill-actions {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25dd;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card:has(input:checked) {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card input {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n\r\n.auto-range-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings summary {\r\n	cursor: pointer;\r\n	min-height: 28px;\r\n	line-height: 28px;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n";
+	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr) max-content;\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 10px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	pointer-events: auto;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.battle-dock > .battle-status,\r\n.battle-dock > .skill-prompt,\r\n.battle-dock > .battle-tools,\r\n.battle-dock > .shortcut-tools,\r\n.battle-dock > .skill-actions {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25dd;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card:has(input:checked) {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card input {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n\r\n.auto-range-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/GameHUDResponsive.css?raw
+var GameHUDResponsive_default;
+var init_GameHUDResponsive = __esmMin((() => {
+	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.panel.settings-panel {\r\n	width: min(760px, 100%);\r\n	height: 100%;\r\n}\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'],\r\n.settings-actions .settings-save {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #384653;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1ae;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.panel.profile-panel {\r\n	width: min(600px, 100%);\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	:host {\r\n		font-size: 15px;\r\n	}\r\n	.top-left {\r\n		width: 260px;\r\n		gap: 14px;\r\n	}\r\n	.profile {\r\n		padding: 10px 12px;\r\n		gap: 8px;\r\n	}\r\n	.profile-heading > span {\r\n		font-size: 12px;\r\n		max-width: 112px;\r\n	}\r\n	.profile-bars {\r\n		grid-template-columns: 24px minmax(0, 1fr) max-content;\r\n		gap: 7px 6px;\r\n	}\r\n	.profile label {\r\n		font-size: 12px;\r\n	}\r\n	.profile meter {\r\n		height: 14px;\r\n	}\r\n	.profile label span {\r\n		min-width: 82px;\r\n	}\r\n	.profile-actions button {\r\n		min-height: 44px;\r\n		padding: 8px 14px;\r\n	}\r\n	[data-status-icons] img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.map {\r\n		width: 144px;\r\n		gap: 3px;\r\n	}\r\n	.map canvas {\r\n		width: 128px;\r\n		height: 128px;\r\n	}\r\n	.map span {\r\n		font-size: 14px;\r\n	}\r\n	.map small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-dock {\r\n		width: 366px;\r\n		gap: 8px;\r\n	}\r\n	.combat {\r\n		gap: 8px;\r\n	}\r\n	.combat .skill {\r\n		font-size: 24px;\r\n		border-radius: 8px;\r\n	}\r\n	.skill img {\r\n		width: 40px;\r\n		height: 40px;\r\n		bottom: 5px;\r\n	}\r\n	.skill small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-status {\r\n		min-height: 40px;\r\n		font-size: 14px;\r\n		padding: 7px 10px;\r\n	}\r\n	.battle-tools button,\r\n	.battle-status button {\r\n		min-height: 44px;\r\n		font-size: 14px;\r\n		padding: 6px 8px;\r\n	}\r\n	.shortcut-tools,\r\n	.skill-actions {\r\n		height: 44px;\r\n	}\r\n	.shortcut-tools button {\r\n		min-width: 40px;\r\n		min-height: 44px;\r\n	}\r\n	.shortcut-tools span,\r\n	.skill-actions button {\r\n		font-size: 14px;\r\n	}\r\n	.skill-prompt {\r\n		height: 40px;\r\n		font-size: 14px;\r\n	}\r\n	.panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel header {\r\n		padding: 12px 18px;\r\n	}\r\n	.panel h2 {\r\n		font-size: 18px;\r\n	}\r\n	.panel button {\r\n		min-height: 44px;\r\n		padding: 8px 12px;\r\n	}\r\n	.panel-body {\r\n		padding: 18px;\r\n	}\r\n	.menu-grid {\r\n		gap: 12px;\r\n	}\r\n	.menu-grid button {\r\n		min-height: 56px;\r\n		font-size: 16px;\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n		height: 100%;\r\n	}\r\n	.auto-layout,\r\n	.shortcut-layout {\r\n		gap: 20px;\r\n	}\r\n	.auto-layout h3 {\r\n		font-size: 16px;\r\n	}\r\n	.auto-species-list,\r\n	.auto-skill-list {\r\n		gap: 10px;\r\n		font-size: 14px;\r\n	}\r\n	.auto-species-card,\r\n	.auto-skill-card {\r\n		min-height: 58px;\r\n		padding: 12px;\r\n	}\r\n	.auto-skill-card strong {\r\n		font-size: 14px;\r\n	}\r\n	.auto-skill-card small,\r\n	.auto-help,\r\n	[data-skill-count],\r\n	[data-auto-summary],\r\n	[data-auto-feedback],\r\n	[data-config-status],\r\n	.shortcut-current span,\r\n	[data-choice-hint] {\r\n		font-size: 13px;\r\n	}\r\n	.auto-species-check {\r\n		width: 20px;\r\n		height: 20px;\r\n	}\r\n	.auto-range-settings {\r\n		font-size: 14px;\r\n	}\r\n	.auto-config-footer {\r\n		padding-top: 14px;\r\n	}\r\n	.slot-picker {\r\n		gap: 10px;\r\n	}\r\n	.slot-picker strong,\r\n	.shortcut-choice span {\r\n		font-size: 14px;\r\n	}\r\n	.slot-picker span {\r\n		font-size: 13px;\r\n	}\r\n	.shortcut-choice img,\r\n	.shortcut-selected img {\r\n		width: 36px;\r\n		height: 36px;\r\n	}\r\n	.shortcut-editor {\r\n		padding: 16px;\r\n	}\r\n	.settings-form {\r\n		gap: 14px;\r\n	}\r\n	.settings-field {\r\n		min-height: 62px;\r\n	}\r\n	.settings-field small,\r\n	.settings-footer p {\r\n		font-size: 13px;\r\n	}\r\n	.character-details dt,\r\n	.character-details dd {\r\n		padding: 16px 0;\r\n	}\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/MenuPanels.css?raw
+var MenuPanels_default;
+var init_MenuPanels = __esmMin((() => {
+	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	--panel-gap: 8px;\r\n	--panel-control: 34px;\r\n	--panel-label: 12px;\r\n	--panel-heading: 13px;\r\n	width: min(600px, 100%);\r\n	background: rgba(25, 31, 38, 0.97);\r\n}\r\n.panel.inventory-panel,\r\n.panel.equipment-panel,\r\n.panel.auto-config-panel,\r\n.panel.shortcut-panel,\r\n.panel.settings-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='status'] .panel-body > p {\r\n	margin: 0 0 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.panel[data-view='camera'] .menu-grid button {\r\n	min-height: var(--panel-control);\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel .map-detail .large-map {\r\n	width: min(100%, 360px);\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	.panel {\r\n		--panel-gap: 16px;\r\n		--panel-control: 44px;\r\n		--panel-label: 14px;\r\n		--panel-heading: 16px;\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		min-height: 52px;\r\n		padding: 12px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {\r\n		width: 40px;\r\n		height: 40px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 80px;\r\n	}\r\n	.panel .inventory-tabs,\r\n	.panel .equipment-tabs {\r\n		gap: 10px;\r\n	}\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.panel:is(\r\n		[data-view='menu'],\r\n		[data-view='camera'],\r\n		[data-view='status'],\r\n		[data-view='bank'],\r\n		[data-view='pet'],\r\n		[data-view='companions']\r\n	) {\r\n		width: min(420px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(400px, 100%);\r\n	}\r\n	.panel.settings-panel {\r\n		width: min(600px, 100%);\r\n	}\r\n	.panel {\r\n		--panel-gap: 6px;\r\n		--panel-control: 30px;\r\n		--panel-label: 11px;\r\n		--panel-heading: 12px;\r\n		font-size: 11px;\r\n	}\r\n	.panel button {\r\n		min-height: 30px;\r\n		padding: 3px 7px;\r\n		font-size: 11px;\r\n	}\r\n	.panel header {\r\n		padding: 4px 10px;\r\n	}\r\n	.panel-body {\r\n		padding: 8px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) {\r\n		flex-wrap: nowrap;\r\n		gap: 4px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n		padding: 3px 5px;\r\n	}\r\n	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n		gap: 4px;\r\n	}\r\n	.panel .inventory-actions {\r\n		gap: 4px;\r\n		margin-top: 6px;\r\n	}\r\n	.panel .inventory-actions button {\r\n		flex: 0 1 auto;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label {\r\n		flex-direction: row;\r\n		flex-wrap: wrap;\r\n		align-items: center;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n		flex: 1 1 120px;\r\n		width: 0;\r\n	}\r\n	.panel .social-form label > input[type='checkbox'] {\r\n		flex: 0 0 18px;\r\n		width: 18px;\r\n	}\r\n	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n		padding: 3px 6px;\r\n		line-height: 1.25;\r\n	}\r\n	.panel-body textarea {\r\n		min-height: 60px;\r\n	}\r\n	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n	.panel .character-details :is(dt, dd) {\r\n		padding: 6px 0;\r\n	}\r\n	.panel .settings-form {\r\n		gap: 4px;\r\n	}\r\n	.panel .settings-section {\r\n		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n		gap: 0 12px;\r\n		padding: 2px 10px;\r\n	}\r\n	.panel .settings-field {\r\n		min-height: 38px;\r\n		gap: 6px;\r\n		padding: 3px 0;\r\n	}\r\n	.panel .settings-footer {\r\n		padding-top: 6px;\r\n	}\r\n	.panel .settings-footer p {\r\n		margin: 4px 0 0;\r\n	}\r\n	.panel .settings-actions {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-range-stepper button {\r\n		padding: 0;\r\n		font-size: 18px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		padding: 3px 6px;\r\n		line-height: 1.3;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 52px;\r\n		padding: 6px;\r\n	}\r\n	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n		font-size: 11px;\r\n	}\r\n	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {\r\n		min-height: 30px;\r\n		padding: 3px 6px;\r\n	}\r\n	.panel .settings-form .settings-field input[type='range'] {\r\n		padding: 0;\r\n	}\r\n	.panel .shortcut-choices {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-auto-rows: minmax(44px, max-content);\r\n		gap: 6px;\r\n	}\r\n	.panel .shortcut-choice {\r\n		min-height: 44px;\r\n		padding: 6px 8px;\r\n		gap: 8px;\r\n	}\r\n	.panel .shortcut-choice span {\r\n		min-width: 0;\r\n		font-size: 12px;\r\n	}\r\n	.panel .shortcut-choice img {\r\n		position: static;\r\n		flex: 0 0 28px;\r\n		width: 28px;\r\n		height: 28px;\r\n		object-fit: contain;\r\n	}\r\n	.panel .shortcut-editor .shortcut-current {\r\n		display: none;\r\n	}\r\n	.panel .shortcut-config {\r\n		margin-top: 0;\r\n	}\r\n	.panel .shortcut-selected img {\r\n		display: none;\r\n	}\r\n	.panel .auto-skill-list {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-skill-card {\r\n		min-height: 32px;\r\n		padding: 4px 6px;\r\n		gap: 5px;\r\n	}\r\n	.panel .auto-skill-card input {\r\n		width: 16px;\r\n		height: 16px;\r\n	}\r\n	.panel .auto-skill-card span {\r\n		gap: 2px 4px;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDView.js
 /** DOM-only view; no packets, desktop windows or map event handlers. */
 function createGameHUDView(root, actions) {
-	root.innerHTML = `<style>${GameHUD_default$1}</style>${GameHUD_default$2}`;
+	root.innerHTML = `<style>${GameHUD_default$1}
+${GameHUDResponsive_default}
+${MenuPanels_default}</style>${GameHUD_default$2}`;
 	const $ = (selector) => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
@@ -363820,6 +364379,7 @@ function createGameHUDView(root, actions) {
 			dd.textContent = value;
 			dl.append(dt, dd);
 		}
+		dl.className = "character-details";
 		body.replaceChildren(dl);
 	}
 	function renderDetails() {
@@ -363841,6 +364401,7 @@ function createGameHUDView(root, actions) {
 	function open(panel, slotIndex) {
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
+		$(".panel").dataset.view = panel;
 		backdropPointer = null;
 		dismissBackdrop = false;
 		backdrop.hidden = false;
@@ -363881,10 +364442,14 @@ function createGameHUDView(root, actions) {
 		}[panel]);
 		$("[data-close]").disabled = serverState?.canClose === false;
 		body.replaceChildren();
+		body.classList.toggle("settings-body", panel === "settings");
+		$(".panel").classList.toggle("settings-panel", panel === "settings");
+		$(".panel").classList.toggle("profile-panel", panel === "profile");
 		body.classList.toggle("equipment-body", panel === "equipment");
 		$(".panel").classList.toggle("equipment-panel", panel === "equipment");
 		body.classList.toggle("inventory-body", [
 			"mail",
+			"navigation",
 			"inventory",
 			"skills",
 			"shop",
@@ -363904,6 +364469,7 @@ function createGameHUDView(root, actions) {
 		].includes(panel));
 		$(".panel").classList.toggle("inventory-panel", [
 			"mail",
+			"navigation",
 			"inventory",
 			"skills",
 			"shop",
@@ -364160,7 +364726,7 @@ function createGameHUDView(root, actions) {
 			close();
 		}
 		if (event.key === "Tab") {
-			const items = [...backdrop.querySelectorAll("button:not(:disabled), input, select")];
+			const items = [...backdrop.querySelectorAll("button, input, select, textarea, [tabindex]")].filter((item) => !item.disabled && item.tabIndex >= 0 && item.getClientRects().length > 0);
 			const index = items.indexOf(root.activeElement);
 			event.preventDefault();
 			items[(index + (event.shiftKey ? -1 : 1) + items.length) % items.length]?.focus();
@@ -364343,6 +364909,8 @@ var init_GameHUDView = __esmMin((() => {
 	init_ShortcutPanel();
 	init_GameHUD$2();
 	init_GameHUD$1();
+	init_GameHUDResponsive();
+	init_MenuPanels();
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.js
@@ -364367,6 +364935,7 @@ function setModal(value) {
 function snapshot() {
 	const entity = SessionStorage_default.Entity;
 	if (!entity) return;
+	const diagnosticStart = diagnostics.begin();
 	if (!controls?.isMoving() && entity.action !== entity.ACTION.WALK) autoCombat?.resumeAfterMovement();
 	autoCombat?.tick();
 	view.updateShortcuts(shortcuts.snapshot());
@@ -364387,6 +364956,7 @@ function snapshot() {
 		statuses: StatusIcons_default.getSnapshot(),
 		target: targetSnapshot()
 	});
+	diagnostics.end("mobile.hud", diagnosticStart);
 }
 /** Render the actual walkability grid once per map, rather than sample a desktop canvas. */
 function createMap() {
@@ -364421,6 +364991,7 @@ function updateViewport() {
 }
 var HUD, view, controls, shortcuts, autoCombat, inventory, equipment, containers, skills, quests, chat, social, timer$1, unsubscribe, unsubscribeOrientation, unsubscribeConnection, unsubscribeInteraction, abort, previousFreeze, modal, GameHUD_default;
 var init_GameHUD = __esmMin((() => {
+	init_CombatDiagnostics();
 	init_GameAutoCombat();
 	init_GameCompanions();
 	init_GamePet();
@@ -374003,6 +374574,12 @@ function onEntityAction(pkt) {
 		case 10:
 		case 11:
 		case 13: {
+			if (diagnostics.enabled()) diagnostics.mark("combat.attack", {
+				self: srcEntity === SessionStorage_default.Entity,
+				attackMs: pkt.attackMT,
+				hits: pkt.count,
+				kind: pkt.action
+			});
 			if (pkt.attackMT > MAX_ATTACKMT) pkt.attackMT = MAX_ATTACKMT;
 			srcEntity.attack_speed = pkt.attackMT;
 			let animSpeed = 0;
@@ -374565,6 +375142,11 @@ function onSkillDisapear(pkt) {
 * @param {object} pkt - PACKET.ZC.NOTIFY_SKILL
 */
 function onEntityUseSkillToAttack(pkt) {
+	if (diagnostics.enabled()) diagnostics.mark("combat.skill", {
+		self: pkt.AID === SessionStorage_default.Entity?.GID,
+		skill: pkt.SKID,
+		attackMs: pkt.attackMT
+	});
 	const SkillAction$1 = {};
 	SkillAction$1.NORMAL = 0;
 	SkillAction$1.PICKUP_ITEM = 1;
@@ -375575,6 +376157,7 @@ function EntityEngine() {
 }
 var SkillNameDisplayExclude, SkillBlueCombo, C_MULTIHIT_DELAY, AVG_ATTACK_SPEED, MAX_ATTACKMT, clanEmblems;
 var init_Entity = __esmMin((() => {
+	init_CombatDiagnostics();
 	init_DBManager();
 	init_GuildPositionName();
 	init_SkillConst();
@@ -395123,10 +395706,14 @@ function onFileGetted(data, error, input) {
 async function onFileLoaded(data, error, input) {
 	let i, count, j, size;
 	let gl, frames, texture, layers, palette;
-	let precision;
+	let precision, diagnosticStart;
 	if (data && !error) switch (input.filename.substr(-3)) {
 		case "bmp":
-			Texture.load(data, function() {
+			Texture.load(data, function(success) {
+				if (!success) {
+					MemoryManager.set(input.filename, null, "Unable to decode image: " + input.filename);
+					return;
+				}
 				MemoryManager.set(input.filename, this.toDataURL(), error);
 			});
 			return;
@@ -395155,6 +395742,7 @@ async function onFileLoaded(data, error, input) {
 			}, void 0, import.meta.url)).default.getContext();
 			frames = data.frames;
 			count = frames.length;
+			diagnosticStart = diagnostics.begin();
 			for (i = 0; i < count; i++) {
 				frames[i].texture = gl.createTexture();
 				precision = GraphicsSettings.pixelPerfectSprites ? gl.NEAREST : frames[i].type ? gl.LINEAR : gl.NEAREST;
@@ -395174,6 +395762,8 @@ async function onFileLoaded(data, error, input) {
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
 			}
+			diagnostics.end("texture.spriteUpload", diagnosticStart);
+			diagnostics.count("texture.spriteFrames", count);
 			MemoryManager.set(input.filename, data, error);
 			return;
 		case "pal": {
@@ -395182,6 +395772,7 @@ async function onFileLoaded(data, error, input) {
 				const { default: __vite_default__ } = await Promise.resolve().then(() => (init_Renderer(), Renderer_exports));
 				return { default: __vite_default__ };
 			}, void 0, import.meta.url)).default.getContext();
+			diagnosticStart = diagnostics.begin();
 			texture = gl.createTexture();
 			palette = new Uint8Array(data);
 			gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -395189,6 +395780,7 @@ async function onFileLoaded(data, error, input) {
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
 			if (enableMipmap) gl.generateMipmap(gl.TEXTURE_2D);
+			diagnostics.end("texture.paletteUpload", diagnosticStart);
 			MemoryManager.set(input.filename, {
 				palette,
 				texture
@@ -395208,6 +395800,7 @@ var init_Client = __esmMin((() => {
 	init_Texture();
 	init_WebGL();
 	init_Graphics();
+	init_CombatDiagnostics();
 	init_preload_helper();
 	Client = class Client {
 		/**
