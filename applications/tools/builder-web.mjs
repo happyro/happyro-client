@@ -318,6 +318,34 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
                 background: rgba(232, 184, 75, 0.15);    
                 border-color: #e8b84b;    
             }    
+            @media (orientation: portrait) and (max-width: 600px) {
+                .app-launcher {
+                    justify-content: flex-start;
+                    padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(44px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+                }
+                .app-launcher h1 {
+                    flex-shrink: 0;
+                    margin: auto 0 20px;
+                    font: 600 21px/1.3 system-ui, sans-serif;
+                    letter-spacing: 0;
+                    text-align: center;
+                }
+                .button-grid {
+                    display: grid;
+                    grid-template-columns: minmax(0, 1fr);
+                    width: min(100%, 360px);
+                    gap: 10px;
+                    flex-shrink: 0;
+                    margin-bottom: auto;
+                }
+                .app-btn {
+                    width: 100%;
+                    min-height: 46px;
+                    padding: 10px 16px;
+                    font: 600 15px/1.2 system-ui, sans-serif;
+                    letter-spacing: 0;
+                }
+            }
             .build-id { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); color: #8b8f98; font: 12px monospace; }
         </style>    
     </head>    
