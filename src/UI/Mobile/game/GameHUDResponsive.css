@@ -1,0 +1,385 @@
+/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */
+.panel.settings-panel {
+	width: min(760px, 100%);
+	height: 100%;
+}
+.settings-body {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+.settings-form {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+	min-height: 0;
+	gap: 10px;
+}
+.settings-tabs {
+	display: flex;
+	gap: 8px;
+	flex-shrink: 0;
+}
+.settings-tabs button {
+	flex: 1;
+}
+.settings-tabs [aria-pressed='true'],
+.settings-actions .settings-save {
+	background: #57452c;
+	border-color: #ceaa70;
+	color: #ffe1ae;
+}
+.settings-content {
+	flex: 1;
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+.settings-section {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+	gap: 0 20px;
+	padding: 4px 14px;
+	border: 1px solid #52606d;
+	border-radius: 10px;
+	background: #19212a;
+}
+.settings-field {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-width: 0;
+	min-height: 54px;
+	padding: 8px 0;
+	border-bottom: 1px solid #35414d;
+}
+.settings-field > span {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.settings-field small {
+	display: block;
+	color: #bac4cd;
+	font-size: 11px;
+}
+.settings-form .settings-field input,
+.settings-form .settings-field select {
+	flex: 0 0 auto;
+	width: 100px;
+	max-width: 45%;
+	min-height: 36px;
+	margin: 0;
+	padding: 6px;
+	border: 1px solid #7e8c99;
+	border-radius: 6px;
+	background: #283541;
+	color: #f5f2e9;
+	font: inherit;
+	font-size: 16px;
+	color-scheme: dark;
+}
+.settings-form .settings-field input[type='checkbox'] {
+	appearance: none;
+	width: 42px;
+	height: 26px;
+	min-height: 26px;
+	padding: 3px;
+	border-radius: 20px;
+	background: #384653;
+}
+.settings-field input[type='checkbox']::before {
+	content: '';
+	display: block;
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: #d2dae1;
+}
+.settings-form .settings-field input[type='checkbox']:checked {
+	background: #806334;
+	border-color: #ceaa70;
+}
+.settings-field input[type='checkbox']:checked::before {
+	transform: translateX(16px);
+	background: #ffe1ae;
+}
+.settings-field input:focus-visible,
+.settings-field select:focus-visible {
+	outline: 2px solid #ffd27f;
+	outline-offset: 2px;
+}
+.settings-field.settings-volume {
+	flex-wrap: wrap;
+}
+.settings-form .settings-field input[type='range'] {
+	flex: 1;
+	min-width: 80px;
+	max-width: none;
+	padding: 0;
+	border: 0;
+	accent-color: #ceaa70;
+	background: transparent;
+}
+.settings-volume-value {
+	width: 38px;
+	text-align: right;
+	font-variant-numeric: tabular-nums;
+}
+.settings-footer {
+	flex-shrink: 0;
+	border-top: 1px solid #52606d;
+	padding-top: 8px;
+}
+.settings-footer p {
+	color: #ceaa70;
+	font-size: 11px;
+}
+.settings-actions {
+	display: flex;
+	gap: 8px;
+}
+.settings-actions button {
+	flex: 1;
+}
+.panel.profile-panel {
+	width: min(600px, 100%);
+}
+.profile-panel .character-details {
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 0;
+	padding: 4px 14px;
+	border: 1px solid #52606d;
+	border-radius: 10px;
+	background: #19212a;
+}
+.character-details dt,
+.character-details dd {
+	padding: 12px 0;
+	border-bottom: 1px solid #35414d;
+	align-content: center;
+}
+.character-details dt {
+	color: #bac4cd;
+}
+.character-details dd {
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	overflow-wrap: anywhere;
+}
+.character-details dt:first-child,
+.character-details dd:nth-child(2) {
+	color: #ffe1ae;
+	font-size: 18px;
+}
+.character-details dt:nth-last-child(-n + 2),
+.character-details dd:last-child {
+	border-bottom: 0;
+}
+/* Use available viewport space, not device names; phone landscape stays compact. */
+@media (min-width: 768px) and (min-height: 560px) {
+	:host {
+		font-size: 15px;
+	}
+	.top-left {
+		width: 260px;
+		gap: 14px;
+	}
+	.profile {
+		padding: 10px 12px;
+		gap: 8px;
+	}
+	.profile-heading > span {
+		font-size: 12px;
+		max-width: 112px;
+	}
+	.profile-bars {
+		grid-template-columns: 24px minmax(0, 1fr) max-content;
+		gap: 7px 6px;
+	}
+	.profile label {
+		font-size: 12px;
+	}
+	.profile meter {
+		height: 14px;
+	}
+	.profile label span {
+		min-width: 82px;
+	}
+	.profile-actions button {
+		min-height: 44px;
+		padding: 8px 14px;
+	}
+	[data-status-icons] img {
+		width: 28px;
+		height: 28px;
+	}
+	.map {
+		width: 144px;
+		gap: 3px;
+	}
+	.map canvas {
+		width: 128px;
+		height: 128px;
+	}
+	.map span {
+		font-size: 14px;
+	}
+	.map small {
+		font-size: 12px;
+	}
+	.battle-dock {
+		width: 366px;
+		gap: 8px;
+	}
+	.combat {
+		gap: 8px;
+	}
+	.combat .skill {
+		font-size: 24px;
+		border-radius: 8px;
+	}
+	.skill img {
+		width: 40px;
+		height: 40px;
+		bottom: 5px;
+	}
+	.skill small {
+		font-size: 12px;
+	}
+	.battle-status {
+		min-height: 40px;
+		font-size: 14px;
+		padding: 7px 10px;
+	}
+	.battle-tools button,
+	.battle-status button {
+		min-height: 44px;
+		font-size: 14px;
+		padding: 6px 8px;
+	}
+	.shortcut-tools,
+	.skill-actions {
+		height: 44px;
+	}
+	.shortcut-tools button {
+		min-width: 40px;
+		min-height: 44px;
+	}
+	.shortcut-tools span,
+	.skill-actions button {
+		font-size: 14px;
+	}
+	.skill-prompt {
+		height: 40px;
+		font-size: 14px;
+	}
+	.panel {
+		width: min(640px, 100%);
+	}
+	.panel.profile-panel {
+		width: min(640px, 100%);
+	}
+	.panel header {
+		padding: 12px 18px;
+	}
+	.panel h2 {
+		font-size: 18px;
+	}
+	.panel button {
+		min-height: 44px;
+		padding: 8px 12px;
+	}
+	.panel-body {
+		padding: 18px;
+	}
+	.menu-grid {
+		gap: 12px;
+	}
+	.menu-grid button {
+		min-height: 56px;
+		font-size: 16px;
+	}
+	.panel.inventory-panel,
+	.panel.equipment-panel,
+	.panel.auto-config-panel,
+	.panel.shortcut-panel,
+	.panel.settings-panel {
+		width: min(1000px, 100%);
+		height: 100%;
+	}
+	.auto-layout,
+	.shortcut-layout {
+		gap: 20px;
+	}
+	.auto-layout h3 {
+		font-size: 16px;
+	}
+	.auto-species-list,
+	.auto-skill-list {
+		gap: 10px;
+		font-size: 14px;
+	}
+	.auto-species-card,
+	.auto-skill-card {
+		min-height: 58px;
+		padding: 12px;
+	}
+	.auto-skill-card strong {
+		font-size: 14px;
+	}
+	.auto-skill-card small,
+	.auto-help,
+	[data-skill-count],
+	[data-auto-summary],
+	[data-auto-feedback],
+	[data-config-status],
+	.shortcut-current span,
+	[data-choice-hint] {
+		font-size: 13px;
+	}
+	.auto-species-check {
+		width: 20px;
+		height: 20px;
+	}
+	.auto-range-settings {
+		font-size: 14px;
+	}
+	.auto-config-footer {
+		padding-top: 14px;
+	}
+	.slot-picker {
+		gap: 10px;
+	}
+	.slot-picker strong,
+	.shortcut-choice span {
+		font-size: 14px;
+	}
+	.slot-picker span {
+		font-size: 13px;
+	}
+	.shortcut-choice img,
+	.shortcut-selected img {
+		width: 36px;
+		height: 36px;
+	}
+	.shortcut-editor {
+		padding: 16px;
+	}
+	.settings-form {
+		gap: 14px;
+	}
+	.settings-field {
+		min-height: 62px;
+	}
+	.settings-field small,
+	.settings-footer p {
+		font-size: 13px;
+	}
+	.character-details dt,
+	.character-details dd {
+		padding: 16px 0;
+	}
+}

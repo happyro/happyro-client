@@ -1,0 +1,444 @@
+/* Shared dialog styling; HUD sizes remain independent. */
+.panel {
+	--panel-gap: 8px;
+	--panel-control: 34px;
+	--panel-label: 12px;
+	--panel-heading: 13px;
+	width: min(600px, 100%);
+	background: rgba(25, 31, 38, 0.97);
+}
+.panel.inventory-panel,
+.panel.equipment-panel,
+.panel.auto-config-panel,
+.panel.shortcut-panel,
+.panel.settings-panel {
+	width: min(780px, 100%);
+	height: 100%;
+}
+.panel-body {
+	min-height: 0;
+}
+.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {
+	gap: var(--panel-gap);
+}
+.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: var(--panel-gap);
+}
+.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {
+	gap: 8px;
+	padding: 2px;
+	scroll-padding: 8px;
+}
+.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {
+	min-width: 0;
+	padding: var(--panel-gap);
+	border: 1px solid #52606d;
+	border-radius: 10px;
+	background: #19212a;
+	overflow-wrap: anywhere;
+}
+.panel :is(.inventory-detail, .equipment-detail) > :first-child {
+	margin-top: 0;
+}
+.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {
+	font-size: var(--panel-heading);
+	color: #f6d9a5;
+	line-height: 1.5;
+}
+.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {
+	min-width: 0;
+	min-height: var(--panel-control);
+	padding: 5px 8px;
+	border-color: #52606d;
+	background: #24313d;
+	line-height: 1.5;
+	overflow-wrap: anywhere;
+}
+.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],
+.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {
+	color: #ffe1ae;
+	border-color: #ceaa70;
+	background: #57452c;
+}
+.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {
+	font-size: var(--panel-label);
+}
+.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {
+	gap: 8px;
+	flex-wrap: wrap;
+	align-items: center;
+	flex-shrink: 0;
+}
+.panel :is(.inventory-tabs, .equipment-tabs) button {
+	flex: 1 1 80px;
+}
+.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {
+	flex: 1 1 120px;
+	width: 0;
+}
+.panel .skills-toolbar > input {
+	flex-basis: 180px;
+}
+.panel :is(.skills-toolbar, .container-toolbar) > button {
+	flex-shrink: 0;
+}
+.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {
+	min-width: 0;
+	max-width: 100%;
+	min-height: var(--panel-control);
+	padding: 7px 9px;
+	border: 1px solid #657584;
+	border-radius: 7px;
+	background: #283541;
+	color: #f5f2e9;
+	font: inherit;
+	font-size: 16px;
+	color-scheme: dark;
+}
+.panel-body :is(input[type='checkbox'], input[type='radio']) {
+	flex: 0 0 auto;
+	min-height: 0;
+	width: 18px;
+	height: 18px;
+	accent-color: #ceaa70;
+}
+.panel-body textarea {
+	min-height: 88px;
+	resize: vertical;
+}
+.panel-body :is(input, select, textarea):focus-visible {
+	outline: 2px solid #ffd27f;
+	outline-offset: 2px;
+}
+.panel :is(.social-form, .bank-form) {
+	display: flex;
+	flex-direction: column;
+	gap: var(--panel-gap);
+	margin: var(--panel-gap) 0;
+}
+.panel :is(.social-form, .bank-form) > label {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 6px;
+	color: #bac4cd;
+}
+.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {
+	flex: none;
+	width: 100%;
+}
+.panel .social-form label:has(input[type='checkbox']) {
+	flex-direction: row;
+	align-items: center;
+}
+.panel .social-form label > input[type='checkbox'] {
+	width: 18px;
+}
+.panel .inventory-actions {
+	gap: 8px;
+	margin-top: 10px;
+}
+.panel .inventory-actions button {
+	flex: 1 1 100px;
+}
+.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {
+	font-size: var(--panel-label);
+	color: #ceaa70;
+	line-height: 1.5;
+}
+.panel-body > [role='status'] {
+	flex-shrink: 0;
+	margin: 0;
+	font-size: var(--panel-label);
+	color: #ceaa70;
+}
+.panel-body > [role='status']:not(:empty) {
+	padding-top: 10px;
+	border-top: 1px solid #52606d;
+}
+.panel[data-view='status'] .panel-body > p {
+	margin: 0 0 8px;
+	padding: var(--panel-gap);
+	border: 1px solid #52606d;
+	border-radius: 10px;
+	background: #19212a;
+}
+.panel[data-view='camera'] .menu-grid button {
+	min-height: var(--panel-control);
+}
+.panel[data-view='pet'] .panel-body > *,
+.panel[data-view='companions'] .panel-body > * {
+	margin-bottom: var(--panel-gap);
+}
+.panel :is([data-info], .bank-form dl, .equipment-stats) {
+	padding: 4px var(--panel-gap);
+	border: 1px solid #52606d;
+	border-radius: 10px;
+	background: #19212a;
+	gap: 0 12px;
+}
+.panel :is([data-info], .bank-form dl) {
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {
+	padding: 10px 0;
+	border-bottom: 1px solid #35414d;
+	overflow-wrap: anywhere;
+}
+.panel :is([data-info], .bank-form dl, .equipment-stats) dt {
+	color: #bac4cd;
+}
+.panel :is([data-info], .bank-form dl, .equipment-stats) dd {
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+}
+.panel .map-detail .large-map {
+	width: min(100%, 360px);
+}
+.panel [data-path] {
+	padding-left: 24px;
+	line-height: 1.8;
+}
+.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {
+	display: grid;
+	gap: 10px;
+	margin-bottom: var(--panel-gap);
+}
+.panel[data-view='vending'] label {
+	display: grid;
+	gap: 6px;
+}
+.panel .auto-range-settings {
+	background: #19212a;
+}
+.panel .auto-range-stepper {
+	flex-shrink: 0;
+}
+.panel .auto-range-stepper button {
+	display: grid;
+	place-items: center;
+	flex: 0 0 var(--panel-control);
+	width: var(--panel-control);
+	height: var(--panel-control);
+	min-height: var(--panel-control);
+	padding: 0;
+	font-size: 20px;
+	line-height: 1;
+	text-align: center;
+}
+.panel [data-save-slot][data-save-state='saved'] {
+	background: #284b3c;
+	border-color: #83bb9a;
+	color: #d2f4df;
+}
+.panel [data-save-slot][data-save-state='error'] {
+	background: #593331;
+	border-color: #da9990;
+	color: #ffe0db;
+}
+@media (min-width: 768px) and (min-height: 560px) {
+	.panel {
+		--panel-gap: 16px;
+		--panel-control: 44px;
+		--panel-label: 14px;
+		--panel-heading: 16px;
+		width: min(640px, 100%);
+	}
+	.panel.inventory-panel,
+	.panel.equipment-panel,
+	.panel.auto-config-panel,
+	.panel.shortcut-panel,
+	.panel.settings-panel {
+		width: min(1000px, 100%);
+	}
+	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {
+		min-height: 52px;
+		padding: 12px;
+	}
+	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {
+		width: 40px;
+		height: 40px;
+	}
+	.panel .equipment-slot {
+		min-height: 80px;
+	}
+	.panel .inventory-tabs,
+	.panel .equipment-tabs {
+		gap: 10px;
+	}
+}
+
+/* Compact controls for phone landscape and narrow tablet windows. */
+@media (max-width: 767px), (max-height: 559px) {
+	.panel:is(
+		[data-view='menu'],
+		[data-view='camera'],
+		[data-view='status'],
+		[data-view='bank'],
+		[data-view='pet'],
+		[data-view='companions']
+	) {
+		width: min(420px, 100%);
+	}
+	.panel.profile-panel {
+		width: min(400px, 100%);
+	}
+	.panel.settings-panel {
+		width: min(600px, 100%);
+	}
+	.panel {
+		--panel-gap: 6px;
+		--panel-control: 30px;
+		--panel-label: 11px;
+		--panel-heading: 12px;
+		font-size: 11px;
+	}
+	.panel button {
+		min-height: 30px;
+		padding: 3px 7px;
+		font-size: 11px;
+	}
+	.panel header {
+		padding: 4px 10px;
+	}
+	.panel-body {
+		padding: 8px;
+	}
+	.panel :is(.inventory-tabs, .equipment-tabs) {
+		flex-wrap: nowrap;
+		gap: 4px;
+	}
+	.panel :is(.inventory-tabs, .equipment-tabs) button {
+		flex: 1 1 0;
+		min-width: 0;
+		padding: 3px 5px;
+	}
+	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {
+		gap: 4px;
+	}
+	.panel .inventory-actions {
+		gap: 4px;
+		margin-top: 6px;
+	}
+	.panel .inventory-actions button {
+		flex: 0 1 auto;
+	}
+	.panel :is(.social-form, .bank-form) > label {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {
+		flex: 1 1 120px;
+		width: 0;
+	}
+	.panel .social-form label > input[type='checkbox'] {
+		flex: 0 0 18px;
+		width: 18px;
+	}
+	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {
+		padding: 3px 6px;
+		line-height: 1.25;
+	}
+	.panel-body textarea {
+		min-height: 60px;
+	}
+	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),
+	.panel .character-details :is(dt, dd) {
+		padding: 6px 0;
+	}
+	.panel .settings-form {
+		gap: 4px;
+	}
+	.panel .settings-section {
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+		gap: 0 12px;
+		padding: 2px 10px;
+	}
+	.panel .settings-field {
+		min-height: 38px;
+		gap: 6px;
+		padding: 3px 0;
+	}
+	.panel .settings-footer {
+		padding-top: 6px;
+	}
+	.panel .settings-footer p {
+		margin: 4px 0 0;
+	}
+	.panel .settings-actions {
+		gap: 4px;
+	}
+	.panel .auto-range-stepper button {
+		padding: 0;
+		font-size: 18px;
+	}
+	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {
+		padding: 3px 6px;
+		line-height: 1.3;
+	}
+	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {
+		width: 28px;
+		height: 28px;
+	}
+	.panel .equipment-slot {
+		min-height: 52px;
+		padding: 6px;
+	}
+	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {
+		font-size: 11px;
+	}
+	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {
+		min-height: 30px;
+		padding: 3px 6px;
+	}
+	.panel .settings-form .settings-field input[type='range'] {
+		padding: 0;
+	}
+	.panel .shortcut-choices {
+		grid-template-columns: minmax(0, 1fr);
+		grid-auto-rows: minmax(44px, max-content);
+		gap: 6px;
+	}
+	.panel .shortcut-choice {
+		min-height: 44px;
+		padding: 6px 8px;
+		gap: 8px;
+	}
+	.panel .shortcut-choice span {
+		min-width: 0;
+		font-size: 12px;
+	}
+	.panel .shortcut-choice img {
+		position: static;
+		flex: 0 0 28px;
+		width: 28px;
+		height: 28px;
+		object-fit: contain;
+	}
+	.panel .shortcut-editor .shortcut-current {
+		display: none;
+	}
+	.panel .shortcut-config {
+		margin-top: 0;
+	}
+	.panel .shortcut-selected img {
+		display: none;
+	}
+	.panel .auto-skill-list {
+		gap: 4px;
+	}
+	.panel .auto-skill-card {
+		min-height: 32px;
+		padding: 4px 6px;
+		gap: 5px;
+	}
+	.panel .auto-skill-card input {
+		width: 16px;
+		height: 16px;
+	}
+	.panel .auto-skill-card span {
+		gap: 2px 4px;
+	}
+}

@@ -11,11 +11,11 @@ export function createAutoCombatPanel(body, actions) {
 				<button type="button" data-all-species>全部魔物</button>
 				<p class="auto-help">可多选种类；未勾选时攻击全部魔物。</p>
 				<div class="auto-species-list" data-auto-species aria-label="自动战斗目标"></div>
-				<details class="auto-range-settings">
-					<summary>范围设置 <span data-range-summary></span></summary>
+				<section class="auto-range-settings" aria-labelledby="auto-range-title">
+					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
 					<div data-range-controls></div>
 					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。范围内没有魔物时原地等待。</p>
-				</details>
+				</section>
 			</section>
 			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
 				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
@@ -45,7 +45,7 @@ export function createAutoCombatPanel(body, actions) {
 		for (const delta of [-1, 1]) {
 			const button = document.createElement('button');
 			button.type = 'button';
-			button.textContent = delta < 0 ? '−' : '＋';
+			button.textContent = delta < 0 ? '−' : '+';
 			button.dataset.range = key;
 			button.dataset.delta = String(delta);
 			button.setAttribute('aria-label', `${delta < 0 ? '减小' : '增大'}${title}`);

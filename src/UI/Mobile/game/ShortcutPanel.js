@@ -11,7 +11,7 @@ export function createShortcutPanel(body, actions) {
 				<form class="shortcut-config" hidden>
 					<div class="shortcut-selected"><img alt="" data-choice-icon><strong data-choice></strong></div>
 					<label class="shortcut-level">施放等级 <select aria-label="技能等级"></select></label>
-					<button type="submit" data-save-slot></button>
+					<button type="submit" data-save-slot aria-live="polite"></button>
 					<button type="button" data-cancel-choice>取消选择</button>
 				</form>
 				<div class="shortcut-clear"><button type="button" data-clear-slot>清空当前槽位</button>
@@ -26,6 +26,15 @@ export function createShortcutPanel(body, actions) {
 		form = $('form');
 	const status = message => {
 		$('[data-config-status]').textContent = message;
+	};
+	function resetSaveFeedback() {
+		const button = $('[data-save-slot]');
+		button.textContent = `保存到槽位 ${index + 1}`;
+		delete button.dataset.saveState;
+	}
+	form.oninput = () => {
+		resetSaveFeedback();
+		status('有未保存的修改');
 	};
 	const slots = () => actions.snapshot().slots.filter(entry => !entry.unavailable);
 	function updateSlotLabels() {
@@ -51,6 +60,7 @@ export function createShortcutPanel(body, actions) {
 	}
 	function cancelChoice() {
 		selected = null;
+		resetSaveFeedback();
 		form.hidden = true;
 		$('[data-choice-hint]').hidden = false;
 		highlightChoices();
@@ -106,7 +116,7 @@ export function createShortcutPanel(body, actions) {
 					? Math.min(current.count, entry.level)
 					: entry.level || 1
 			);
-			$('[data-save-slot]').textContent = `保存到槽位 ${index + 1}`;
+			resetSaveFeedback();
 			highlightChoices();
 			status('');
 		};
@@ -118,7 +128,13 @@ export function createShortcutPanel(body, actions) {
 		if (selected && actions.configure(index, selected, Number($('select').value))) {
 			updateSlotLabels();
 			status(`已保存到槽位 ${index + 1}`);
-		} else status('保存失败，技能或物品已变化，请重新选择。');
+			$('[data-save-slot]').textContent = `✓ 已保存到槽位 ${index + 1}`;
+			$('[data-save-slot]').dataset.saveState = 'saved';
+		} else {
+			status('保存失败，技能或物品已变化，请重新选择。');
+			$('[data-save-slot]').textContent = '保存失败，点击重试';
+			$('[data-save-slot]').dataset.saveState = 'error';
+		}
 	};
 	$('[data-cancel-choice]').onclick = () => {
 		cancelChoice();

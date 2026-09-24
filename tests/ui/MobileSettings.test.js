@@ -12,3 +12,27 @@ beforeEach(()=>{vi.clearAllMocks();for(const [key,,range] of graphicsFields)s.gr
 it('rejects the entire invalid draft without applying partial values',()=>{const draft=settingsSnapshot();draft.graphics.quality=100;draft.audio.Sound.volume=2;expect(saveGameSettings(draft)).toContain('未保存');expect(s.graphics.quality).toBe(25);expect(s.graphics.save).not.toHaveBeenCalled();});
 it('applies graphics and audio once without restarting BGM or a renderer loop on an unrelated save',()=>{const draft=settingsSnapshot();draft.graphics.quality=100;draft.graphics.fpslimit=30;draft.audio.Sound.play=false;draft.audio.BGM.volume=.8;expect(saveGameSettings(draft)).toContain('已保存');expect(s.resize).toHaveBeenCalledOnce();expect(s.config).toHaveBeenCalledWith('quality',100);expect(s.sound.setVolume).toHaveBeenCalledWith(.5);expect(s.sound.stop).toHaveBeenCalledOnce();expect(s.bgm.setVolume).toHaveBeenCalledWith(.8);expect(s.bgm.play).not.toHaveBeenCalled();expect(s.graphics.screensize).toBe('1024x768');saveGameSettings(draft);expect(s.resize).toHaveBeenCalledOnce();expect(s.bgm.setVolume).toHaveBeenCalledOnce();});
 it('keeps edits in the panel until save and can cancel or reset without changing shared preferences',()=>{const body=document.createElement('div');createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings});const input=body.querySelector('[data-setting=quality]');input.value=100;input.dispatchEvent(new Event('input'));expect(s.graphics.quality).toBe(25);const click=text=>[...body.querySelectorAll('button')].find(x=>x.textContent===text).click();click('取消修改');expect(body.querySelector('[data-setting=quality]').value).toBe('25');const check=body.querySelector('[data-audio=BGM]');check.checked=false;check.dispatchEvent(new Event('input'));click('保存');expect(s.bgm.stop).toHaveBeenCalledOnce();click('恢复默认（待保存）');expect(s.audio.BGM.play).toBe(false);click('保存');expect(s.bgm.play).toHaveBeenCalledWith('test.mp3');});
+
+it('keeps changes across setting categories and applies them together only on save', () => {
+	const body = document.createElement('div');
+	createSettingsPanel(body, { fields: graphicsFields, snapshot: settingsSnapshot, save: saveGameSettings });
+	const click = text => [...body.querySelectorAll('button')].find(button => button.textContent === text).click();
+	const quality = body.querySelector('[data-setting=quality]');
+	quality.value = '100';
+	quality.dispatchEvent(new Event('input'));
+	click('声音');
+	expect(body.querySelector('section[aria-label="画面"]').hidden).toBe(true);
+	expect(body.querySelector('section[aria-label="声音"]').hidden).toBe(false);
+	const sound = body.querySelector('[data-audio=Sound]');
+	sound.checked = false;
+	sound.dispatchEvent(new Event('input'));
+	click('特效');
+	click('画面');
+	expect(body.querySelector('[data-setting=quality]')).toBe(quality);
+	expect(quality.value).toBe('100');
+	expect(s.graphics.save).not.toHaveBeenCalled();
+	expect(s.audio.Sound.play).toBe(true);
+	click('保存');
+	expect(s.graphics.quality).toBe(100);
+	expect(s.audio.Sound.play).toBe(false);
+});

@@ -25,10 +25,14 @@ import { createInventoryPanel } from './InventoryPanel.js';
 import { createShortcutPanel } from './ShortcutPanel.js';
 import html from './GameHUD.html?raw';
 import css from './GameHUD.css?raw';
+import responsiveCSS from './GameHUDResponsive.css?raw';
+import panelsCSS from './MenuPanels.css?raw';
 
 /** DOM-only view; no packets, desktop windows or map event handlers. */
 export function createGameHUDView(root, actions) {
-	root.innerHTML = `<style>${css}</style>${html}`;
+	root.innerHTML = `<style>${css}
+${responsiveCSS}
+${panelsCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
@@ -167,6 +171,7 @@ export function createGameHUDView(root, actions) {
 			dd.textContent = value;
 			dl.append(dt, dd);
 		}
+		dl.className = 'character-details';
 		body.replaceChildren(dl);
 	}
 	function renderDetails() {
@@ -195,6 +200,7 @@ export function createGameHUDView(root, actions) {
 	function open(panel, slotIndex) {
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
+		$('.panel').dataset.view = panel;
 		backdropPointer = null;
 		dismissBackdrop = false;
 		backdrop.hidden = false;
@@ -238,12 +244,16 @@ export function createGameHUDView(root, actions) {
 		);
 		$('[data-close]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
+		body.classList.toggle('settings-body', panel === 'settings');
+		$('.panel').classList.toggle('settings-panel', panel === 'settings');
+		$('.panel').classList.toggle('profile-panel', panel === 'profile');
 		body.classList.toggle('equipment-body', panel === 'equipment');
 		$('.panel').classList.toggle('equipment-panel', panel === 'equipment');
 		body.classList.toggle(
 			'inventory-body',
 			[
 				'mail',
+				'navigation',
 				'inventory',
 				'skills',
 				'shop',
@@ -266,6 +276,7 @@ export function createGameHUDView(root, actions) {
 			'inventory-panel',
 			[
 				'mail',
+				'navigation',
 				'inventory',
 				'skills',
 				'shop',
@@ -534,7 +545,9 @@ export function createGameHUDView(root, actions) {
 			close();
 		}
 		if (event.key === 'Tab') {
-			const items = [...backdrop.querySelectorAll('button:not(:disabled), input, select')];
+			const items = [...backdrop.querySelectorAll('button, input, select, textarea, [tabindex]')].filter(
+				item => !item.disabled && item.tabIndex >= 0 && item.getClientRects().length > 0
+			);
 			const index = items.indexOf(root.activeElement);
 			event.preventDefault();
 			items[(index + (event.shiftKey ? -1 : 1) + items.length) % items.length]?.focus();

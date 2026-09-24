@@ -1154,10 +1154,11 @@ dd {
 	margin: 8px 0;
 	font-size: 11px;
 }
-.auto-range-settings summary {
-	cursor: pointer;
-	min-height: 28px;
-	line-height: 28px;
+.auto-range-settings h4 {
+	margin: 0;
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.5;
 }
 [data-range-summary] {
 	color: #ceaa70;
