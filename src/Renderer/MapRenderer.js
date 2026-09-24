@@ -10,6 +10,7 @@
 
 import Thread from 'Core/Thread.js';
 import SoundManager from 'Audio/SoundManager.js';
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import BGM from 'Audio/BGM.js';
 import DB from 'DB/DBManager.js';
 import UIManager from 'UI/UIManager.js';
@@ -215,6 +216,7 @@ class MapRenderer {
 	 * @param {object} gl context
 	 */
 	static onRender(tick, gl) {
+		let diagnosticStage = CombatDiagnostics.begin();
 		PostProcess.prepare(gl);
 
 		const fog = MapRenderer.fog;
@@ -237,6 +239,7 @@ class MapRenderer {
 
 		// Render Ground
 		Ground.render(gl, modelView, projection, normalMat, fog, light);
+		diagnosticStage = CombatDiagnostics.end('map.ground', diagnosticStage);
 
 		// Spam map effects
 		Effects.spam(Session.Entity.position, tick);
@@ -276,6 +279,7 @@ class MapRenderer {
 			}
 		}
 
+		diagnosticStage = CombatDiagnostics.end('map.environment', diagnosticStage);
 		// Display zone effects and entities
 		Sky.render(gl, modelView, projection, fog, tick);
 
@@ -285,22 +289,29 @@ class MapRenderer {
 		// -- hence the 1-frame lag documented in GR2ModelRenderer.render (syncFromEntity reads the
 		// entity pose one frame stale). Ordering is intentional (opaque geometry pass).
 		GR2ModelRenderer.render(gl, modelView, projection, normalMat, fog, light, tick);
+		diagnosticStage = CombatDiagnostics.end('map.models', diagnosticStage);
 
 		// Render transparent elements before ground
 		ScreenEffectManager.render(gl, modelView, projection, fog, tick, true);
 
 		EffectManager.render(gl, modelView, projection, fog, tick, true);
+		diagnosticStage = CombatDiagnostics.end('map.effects.before', diagnosticStage);
 
 		//Render Entities (no effects)
 		EntityManager.render(gl, modelView, projection, fog, false);
+		diagnosticStage = CombatDiagnostics.end('map.entities', diagnosticStage);
 
 		// Rendering water (after sprites, billboard projection pushes it to back)
 		Water.render(gl, modelView, projection, fog, light, tick);
+		diagnosticStage = CombatDiagnostics.end('map.water', diagnosticStage);
 
 		EffectManager.render(gl, modelView, projection, fog, tick, false);
+		diagnosticStage = CombatDiagnostics.end('map.effects.after', diagnosticStage);
 		EntityManager.render(gl, modelView, projection, fog, true);
+		diagnosticStage = CombatDiagnostics.end('map.effectEntities', diagnosticStage);
 
 		Damage.render(gl, modelView, projection, fog, tick);
+		diagnosticStage = CombatDiagnostics.end('map.damage', diagnosticStage);
 
 		// Render signboards
 		SignboardManager.render(gl, modelView, projection);
@@ -310,6 +321,7 @@ class MapRenderer {
 
 		// Play sounds
 		Sounds.render(Session.Entity.position, tick);
+		diagnosticStage = CombatDiagnostics.end('map.overlays', diagnosticStage);
 
 		// Find entity over the cursor
 		if (Mouse.intersect) {
@@ -317,11 +329,14 @@ class MapRenderer {
 			EntityManager.setOverEntity(entity);
 		}
 
+		diagnosticStage = CombatDiagnostics.end('map.picking', diagnosticStage);
 		// Clean up
 		MemoryManager.clean(gl, tick);
+		diagnosticStage = CombatDiagnostics.end('map.cleanup', diagnosticStage);
 
 		// Finalize frame with post-processing effects
 		PostProcess.render(gl);
+		CombatDiagnostics.end('map.postprocess', diagnosticStage);
 	}
 
 	/**

@@ -23,6 +23,7 @@
 import glMatrix from 'Utils/gl-matrix.js';
 import Camera from 'Renderer/Camera.js';
 import Client from 'Core/Client.js';
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import StatusConst from 'DB/Status/StatusState.js';
 import SpriteRenderer from 'Renderer/SpriteRenderer.js';
 import Ground from 'Renderer/Map/Ground.js';
@@ -743,7 +744,10 @@ const renderElement = (function renderElementClosure() {
 			]; // Avoid overflow on action (ex: if there is just one action)
 
 		// Find animation
+		const animationStart = CombatDiagnostics.begin();
 		const animation_id = calcAnimation(entity, action, type, renderTick - entity.animation.tick);
+		if (animationStart !== null)
+			CombatDiagnostics.end('entity.animation', animationStart, () => ({ part: type, action: entity.action, self: entity === Session.Entity }));
 		const animation = action.animations[animation_id];
 		const layers = animation.layers;
 
@@ -878,7 +882,9 @@ function getAnimationDelay(type, entity, act) {
 /**
  * Calculate animations
  */
-function calcAnimation(entity, act, type, tick) {
+export function calcAnimation(entity, act, type, tick) {
+	// A preceding body layer can start a new action after this entity's render tick.
+	tick = Math.max(0, tick);
 	// Fix for shadow
 	if (type === 'shadow' || type === 'cartshadow') {
 		return 0;

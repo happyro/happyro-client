@@ -9,6 +9,7 @@
  * @author Vincent Thibault
  */
 
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import WebGL from 'Utils/WebGL.js';
 import Client from 'Core/Client.js';
 import Configs from 'Core/Configs.js';
@@ -427,6 +428,7 @@ class Damage {
 			return;
 		}
 
+		const diagnosticStart = CombatDiagnostics.begin();
 		// Calculate canvas width and height
 		for (i = 0, count = numbers.length; i < count; ++i) {
 			frame = numbersData[numbers[i]];
@@ -468,6 +470,7 @@ class Damage {
 			gl.generateMipmap(gl.TEXTURE_2D);
 		}
 
+		CombatDiagnostics.end('damage.texture', diagnosticStart, { width: finalWidth, height: finalHeight });
 		obj.texture = texture;
 		obj.width = finalWidth;
 		obj.height = finalHeight;

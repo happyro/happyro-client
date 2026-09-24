@@ -32,6 +32,8 @@ import Preferences from 'Preferences/Map.js';
 import QuadHorn from 'Renderer/Effects/QuadHorn.js';
 import Session from 'Engine/SessionStorage.js';
 import GraphicsSettings from 'Preferences/Graphics.js';
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
+import EffectTextureCache from 'Renderer/EffectTextureCache.js';
 
 /**
  * @type {object} saved webgl context
@@ -314,6 +316,12 @@ class EffectManager {
 	 */
 	static init(gl) {
 		_gl = gl;
+		// Prepare common hit images while the map loading screen is still visible.
+		for (const effectId of [0, 1]) {
+			for (const file of new Set(EffectDB[effectId].map(effect => effect.file))) {
+				EffectTextureCache.preload(gl, `data/texture/${file}`);
+			}
+		}
 
 		if (Configs.get('development')) {
 			Commands.add(
@@ -398,6 +406,7 @@ class EffectManager {
 
 			delete _list[key];
 		});
+		EffectTextureCache.clear(gl);
 	}
 
 	/**
@@ -438,7 +447,10 @@ class EffectManager {
 
 			// Initialize constructor if needed
 			if (!constructor.ready && constructor.needInit) {
+				const diagnosticStart = CombatDiagnostics.begin();
 				constructor.init(gl);
+				if (diagnosticStart !== null)
+					CombatDiagnostics.end('effect.classInit', diagnosticStart, () => ({ type: constructor.name }));
 				constructor.needInit = false;
 			}
 
@@ -492,12 +504,18 @@ class EffectManager {
 
 					if (!culled) {
 						if (!effect.ready && effect.needInit) {
+							const diagnosticStart = CombatDiagnostics.begin();
 							effect.init(gl);
+							if (diagnosticStart !== null)
+								CombatDiagnostics.end('effect.init', diagnosticStart, () => ({ type: constructor.name }));
 							effect.needInit = false;
 						}
 
 						if (effect.ready) {
+							const diagnosticStart = CombatDiagnostics.begin();
 							effect.render(gl, tick);
+							if (diagnosticStart !== null)
+								CombatDiagnostics.end('effect.render', diagnosticStart, () => ({ type: constructor.name }));
 						}
 					}
 

@@ -18,6 +18,7 @@ async function setup(enabled = true) {
  w.fetch = vi.fn(() => Promise.resolve({ status: 200 }));
  w.console.log = vi.fn();
  const originalFetch = w.fetch; const originalConsole = w.console.log;
+ w.matchMedia = vi.fn(() => ({ matches: false }));
  w.eval(source);
  await new Promise(resolve => w.addEventListener('load', resolve));
  return { w, instances, Socket, originalFetch, originalConsole, root: w.document.querySelector('#happyro-debug')?.shadowRoot };
@@ -48,7 +49,7 @@ it('observes native sockets immediately without delays, payloads or URL credenti
  socket.send('secret-packet');
  socket.dispatchEvent(new w.MessageEvent('message',{data:'secret-response'}));
  const log=w.happyroDebug.export();
- expect(log).toContain('ws.create');expect(log).toContain('ws.open');expect(log).toContain('ws.send');expect(log).toContain('ws.receive');
+ expect(log).toContain('ws.create');expect(log).toContain('ws.open');expect(log).not.toContain('ws.send');expect(log).not.toContain('ws.receive');
  for(const secret of ['secret-packet','secret-response','private','user:password']) expect(log).not.toContain(secret);
 });
 it('captures early errors, console and fetch metadata and redacts input values', async () => {
@@ -98,4 +99,23 @@ it('uses selection copy if Clipboard API rejects permission', async () => {
  await Promise.resolve();
  await vi.waitFor(() => expect(w.document.execCommand).toHaveBeenCalledWith('copy'));
  expect(root.querySelector('[role=status]').textContent).toContain('已复制全部日志');
+});
+
+it('includes the error name and message when Safari only supplies frames in the stack', async () => {
+ const {w}=await setup(true);
+ const error=new w.Error('requestIdleCallback is not defined');
+ error.name='ReferenceError';error.stack='@http://example.test/Online.js:11285:23';
+ w.console.error(error);
+ const log=w.happyroDebug.export();
+ expect(log).toContain('ReferenceError: requestIdleCallback is not defined');
+ expect(log).toContain('Online.js:11285:23');
+});
+
+it('exports complete structured performance events larger than the text field limit', async () => {
+ const {w}=await setup(true);
+ const spans=Object.fromEntries(Array.from({length:40},(_,i)=>[`stage${i}`,{count:300,totalMs:1234.56,maxMs:12.34}]));
+ w.happyroDebug.recordPerformance('perf.summary',{profileVersion:2,spans,settings:{sound:true},padding:'a'.repeat(1500)});
+ const row=w.happyroDebug.export().split('\n').map(line=>JSON.parse(line)).find(entry=>entry.event==='perf.summary');
+ expect(row.spans.stage39).toEqual(spans.stage39);
+ expect(row.settings.sound).toBe(true);
 });

@@ -56,6 +56,10 @@ Texture.load = function load(data, oncomplete) {
 	const img = new Image();
 	img.decoding = 'async';
 	img.src = data;
+	img.onerror = function () {
+		args.unshift(false);
+		oncomplete.apply(null, args);
+	};
 	img.onload = function OnLoadClosure() {
 		// Clean up blob
 		if (data.match(/^blob:/)) {

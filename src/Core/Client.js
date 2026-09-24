@@ -18,6 +18,7 @@ import PACKETVER from 'Network/PacketVerManager.js';
 import Texture from 'Utils/Texture.js';
 import WebGL from 'Utils/WebGL.js';
 import GraphicsSettings from 'Preferences/Graphics.js';
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 
 class Client {
 	/**
@@ -276,13 +277,17 @@ function onFileGetted(data, error, input) {
 async function onFileLoaded(data, error, input) {
 	let i, count, j, size;
 	let gl, frames, texture, layers, palette;
-	let precision;
+	let precision, diagnosticStart;
 
 	if (data && !error) {
 		switch (input.filename.substr(-3)) {
 			// Remove magenta on textures
 			case 'bmp':
-				Texture.load(data, function () {
+				Texture.load(data, function (success) {
+					if (!success) {
+						Memory.set(input.filename, null, 'Unable to decode image: ' + input.filename);
+						return;
+					}
 					Memory.set(input.filename, this.toDataURL(), error);
 				});
 				return;
@@ -314,6 +319,7 @@ async function onFileLoaded(data, error, input) {
 				frames = data.frames;
 				count = frames.length;
 
+				diagnosticStart = CombatDiagnostics.begin();
 				// Send sprites to GPU
 				for (i = 0; i < count; i++) {
 					frames[i].texture = gl.createTexture();
@@ -351,6 +357,8 @@ async function onFileLoaded(data, error, input) {
 					gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
 				}
 
+				CombatDiagnostics.end('texture.spriteUpload', diagnosticStart);
+				CombatDiagnostics.count('texture.spriteFrames', count);
 				Memory.set(input.filename, data, error);
 				return;
 
@@ -358,6 +366,7 @@ async function onFileLoaded(data, error, input) {
 			case 'pal': {
 				const enableMipmap = Configs.get('enableMipmap');
 				gl = (await import('Renderer/Renderer.js')).default.getContext();
+				diagnosticStart = CombatDiagnostics.begin();
 				texture = gl.createTexture();
 				palette = new Uint8Array(data);
 
@@ -369,6 +378,7 @@ async function onFileLoaded(data, error, input) {
 					gl.generateMipmap(gl.TEXTURE_2D);
 				}
 
+				CombatDiagnostics.end('texture.paletteUpload', diagnosticStart);
 				Memory.set(input.filename, { palette: palette, texture: texture }, error);
 				return;
 			}

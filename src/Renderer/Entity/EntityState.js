@@ -473,7 +473,7 @@ function updateEffectState(value) {
 			this._effectStateColor[1] = 0.2;
 			this._effectStateColor[2] = 0.2;
 			this._effectStateColor[3] = 0.2;
-			Sound.play('effect/assasin_cloaking.wav', this.position);
+			Sound.playPosition('effect/assasin_cloaking.wav', this.position);
 		}
 	}
 

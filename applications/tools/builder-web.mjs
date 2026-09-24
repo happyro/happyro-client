@@ -695,6 +695,7 @@ function createApiHTML() {
 	fs.writeFileSync(dist + platform + '/api.html', apiHtml, { encoding: 'utf8' });
 	fs.copyFileSync('./applications/api/api.js', dist + platform + '/api.js');
 	fs.copyFileSync('./applications/api/debug.js', dist + platform + '/debug.js');
+	fs.copyFileSync('./applications/api/debug-upload.js', dist + platform + '/debug-upload.js');
 }
 
 function writeBuildInfo() {
@@ -704,6 +705,7 @@ function writeBuildInfo() {
 		'api.html',
 		'api.js',
 		'debug.js',
+		'debug-upload.js',
 		'Online.js',
 		'Config.js',
 		'Config.happyro.js',

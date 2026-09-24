@@ -1,7 +1,10 @@
-/* Early, local-only diagnostics. Loaded before configuration and application modules. */
+/* Early, opt-in diagnostics. Loaded before configuration and application modules. */
 (function () {
 	'use strict';
 	if (new URLSearchParams(location.search).get('debug') !== '1' || window.happyroDebug) return;
+	const nativeFetch = window.fetch.bind(window);
+	let upload;
+	let uploadState = '正在连接本机日志接收端';
 	const LIMIT = 1000;
 	const entries = [];
 	const secrets = new Map();
@@ -26,13 +29,13 @@
 		return text;
 	}
 	function argument(value) {
-		if (value instanceof Error) return scrub(value.stack || `${value.name}: ${value.message}`);
+		if (value instanceof Error) return scrub(`${value.name}: ${value.message}\n${value.stack || ''}`);
 		if (value === null || ['string', 'number', 'boolean', 'undefined'].includes(typeof value)) return scrub(value);
 		// Never serialize arbitrary objects, headers, configurations or packet contents.
 		if (value instanceof ArrayBuffer || ArrayBuffer.isView(value)) return `[binary ${value.byteLength} bytes]`;
 		return Array.isArray(value) ? `[array ${value.length}]` : '[object]';
 	}
-	function text() { return entries.map(entry => scrub(JSON.stringify(entry))).join('\n'); }
+	function text() { return entries.map(entry => JSON.stringify(entry, (_key, value) => typeof value === 'string' ? scrub(value) : value)).join('\n'); }
 	function render() {
 		renderTimer = undefined;
 		if (!panel || panel.hidden) return;
@@ -43,6 +46,7 @@
 		if (!enabled) return;
 		entries.push({ time: new Date().toISOString(), elapsedMs: Math.round(performance.now()), event, ...details });
 		if (entries.length > LIMIT) entries.shift();
+		upload?.enqueue(entries.at(-1));
 		if (panel && !panel.hidden && !renderTimer) renderTimer = setTimeout(render, 250);
 	}
 	function snapshot(event) {
@@ -55,7 +59,7 @@
 		});
 	}
 	function environment() {
-		record('debug.enabled', { build: document.querySelector('meta[name="happyro-build-id"]')?.content || 'development', userAgent: navigator.userAgent, page: safeURL(location.href), secureContext: window.isSecureContext });
+		record('debug.enabled', { build: document.querySelector('meta[name="happyro-build-id"]')?.content || 'development', userAgent: navigator.userAgent, page: safeURL(location.href), secureContext: window.isSecureContext, dpr: window.devicePixelRatio, coarsePointer: matchMedia('(pointer: coarse)').matches });
 		snapshot('page.snapshot');
 	}
 	function setEnabled(value) {
@@ -65,7 +69,8 @@
 		if (value) environment();
 		render();
 	}
-	window.happyroDebug = { setEnabled, export: text };
+	window.happyroDebug = { setEnabled, export: text, get enabled() { return enabled; },
+		recordPerformance: (event, details) => record(event, details) };
 	window.happyroDiagnostic = (event, details = {}) => record('app.stage', {
 		name: scrub(event), stage: scrub(details.stage || ''), message: scrub(details.message || '')
 	});
@@ -112,11 +117,11 @@
 			socket.addEventListener('error', () => record('ws.error', { id, state: socket.readyState }));
 			socket.addEventListener('close', event => { record('ws.close', { id, code: event.code, clean: event.wasClean, sent: item.sent, received: item.received }); sockets.delete(id); });
 			const size = data => typeof data === 'string' ? new Blob([data]).size : data?.byteLength ?? data?.size ?? 0;
-			socket.addEventListener('message', event => { const bytes = size(event.data); item.received += bytes; record('ws.receive', { id, bytes }); });
+			socket.addEventListener('message', event => { const bytes = size(event.data); item.received += bytes; });
 			const send = socket.send;
 			socket.send = function (data) {
 				const result = send.call(this, data);
-				const bytes = size(data); item.sent += bytes; record('ws.send', { id, bytes }); return result;
+				const bytes = size(data); item.sent += bytes; return result;
 			};
 			return socket;
 		}
@@ -167,13 +172,15 @@
 		const root = host.attachShadow({ mode: 'open' });
 		root.innerHTML = `<style>
 			:host{font:14px/1.5 system-ui;color:#263547}*{box-sizing:border-box}button,input,textarea{font:inherit}button{border:1px solid #bdcbd8;border-radius:8px;background:#fff;color:#263547;padding:9px 12px;touch-action:manipulation}button:active{background:#e5edf5}.tab{pointer-events:auto;position:absolute;right:0;top:50%;transform:translateY(-50%);border-radius:10px 0 0 10px;padding:14px 7px;writing-mode:vertical-rl;letter-spacing:2px;box-shadow:0 2px 10px #0002}section{pointer-events:auto;position:absolute;right:0;top:50%;transform:translateY(-50%);width:min(440px,100%);max-height:90%;overflow:auto;background:#f5f8fc;border:1px solid #bdcbd8;border-radius:14px 0 0 14px;padding:14px;padding-right:max(14px,env(safe-area-inset-right));box-shadow:0 4px 30px #0003}section[hidden],button[hidden]{display:none}header,nav{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}label{display:flex;align-items:center;gap:8px}input{width:20px;height:20px}textarea{width:100%;height:34vh;min-height:80px;resize:none;overflow:auto;font:12px/1.4 monospace;margin:8px 0;white-space:pre}p{margin:8px 0;font-size:12px}strong{font-size:16px}
-		</style><button class="tab" aria-label="打开日志侧栏">日志</button><section hidden aria-label="前端日志"><header><strong>前端日志</strong><label><input type="checkbox">记录日志</label><button data-hide>收起</button></header><p data-count></p><p>调试模式已启用；取消勾选可暂停记录，移除网址 debug 参数并刷新可关闭工具。仅本页保存，不上传；自动隐藏输入值，不记录封包正文。</p><textarea readonly aria-label="日志内容" spellcheck="false"></textarea><nav><button data-copy>复制日志</button><button data-save>下载日志</button><button data-snapshot>记录当前状态</button><button data-clear>清空</button></nav><p role="status" aria-live="polite"></p></section>`;
+		</style><button class="tab" aria-label="打开日志侧栏">日志</button><section hidden aria-label="前端日志"><header><strong>前端日志</strong><label><input type="checkbox">记录日志</label><button data-hide>收起</button></header><p data-count></p><p>调试模式已启用；取消勾选可暂停记录，移除网址 debug 参数并刷新可关闭工具。启用接收端时自动回传到本机；自动隐藏输入值，不记录封包正文。</p><p data-upload></p><textarea readonly aria-label="日志内容" spellcheck="false"></textarea><nav><button data-copy>复制日志</button><button data-save>下载日志</button><button data-snapshot>记录当前状态</button><button data-mark>标记卡顿</button><button data-clear>清空</button></nav><p role="status" aria-live="polite"></p></section>`;
 		panel = root.querySelector('section'); output = root.querySelector('textarea'); toggle = root.querySelector('input'); status = root.querySelector('[role=status]'); tab = root.querySelector('.tab'); counter = root.querySelector('[data-count]');
+		root.querySelector('[data-upload]').textContent = uploadState;
 		toggle.checked = enabled; tab.textContent = enabled ? '日志 · 开' : '日志';
 		tab.onclick = () => { panel.hidden = false; tab.hidden = true; render(); };
 		root.querySelector('[data-hide]').onclick = () => { panel.hidden = true; tab.hidden = false; };
 		toggle.onchange = () => { setEnabled(toggle.checked); status.textContent = enabled ? '已开启，日志立即显示。' : '已停止记录，已有日志仍可复制。'; };
 		root.querySelector('[data-snapshot]').onclick = () => { snapshot('manual.snapshot'); render(); status.textContent = enabled ? '已记录当前状态。' : '请先开启记录日志。'; };
+		root.querySelector('[data-mark]').onclick = () => { record('perf.manual-stutter'); status.textContent = '已标记卡顿时间'; };
 		root.querySelector('[data-clear]').onclick = () => { entries.length = 0; if (enabled) environment(); render(); };
 		output.addEventListener('blur', () => setTimeout(render, 0));
 		root.querySelector('[data-copy]').onclick = async () => {
@@ -218,4 +225,17 @@
 	}
 	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount, { once: true }); else mount();
 	if (enabled) environment();
+	import('./debug-upload.js').then(({ createDiagnosticsUpload }) => {
+		upload = createDiagnosticsUpload({ fetch: nativeFetch, beacon: navigator.sendBeacon?.bind(navigator), sanitize: value => JSON.stringify(JSON.parse(value), (_key, item) => typeof item === 'string' ? scrub(item) : item),
+			onState: value => {
+				uploadState = value;
+				const label = panel?.querySelector('[data-upload]');
+				if (label) label.textContent = value;
+			} });
+		for (const entry of entries) upload.enqueue(entry);
+		void upload.flush();
+		setInterval(() => { void upload.flush(); }, 2000);
+		window.addEventListener('pagehide', () => upload.pagehide());
+		document.addEventListener('visibilitychange', () => { if (document.hidden) upload.pagehide(); });
+	}).catch(() => { uploadState = '回传模块加载失败'; });
 })();

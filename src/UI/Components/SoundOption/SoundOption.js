@@ -90,24 +90,15 @@ SoundOption.onRemove = function onRemove() {
 };
 
 function onSoundVolumeUpdate() {
-	AudioSettings.Sound.volume = parseInt(this.value, 10) / 100;
-	AudioSettings.save();
-	SoundManager.setVolume(AudioSettings.Sound.volume);
+	SoundManager.setVolume(parseInt(this.value, 10) / 100);
 }
 
 function onToggleSound() {
-	const oldVolume = AudioSettings.Sound.volume;
 	AudioSettings.Sound.play = this.checked;
-
-	if (AudioSettings.Sound.play) {
-		SoundManager.setVolume(AudioSettings.Sound.volume);
-	} else {
-		SoundManager.setVolume(0);
+	SoundManager.setVolume(AudioSettings.Sound.volume);
+	if (!AudioSettings.Sound.play) {
 		SoundManager.stop();
 	}
-
-	AudioSettings.Sound.volume = oldVolume;
-	AudioSettings.save();
 }
 
 function onBGMVolumeUpdate() {

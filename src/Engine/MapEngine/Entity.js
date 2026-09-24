@@ -9,6 +9,7 @@
 /**
  * Load dependencies
  */
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import DB from 'DB/DBManager.js';
 import { localizeGuildPositionName } from 'DB/GuildPositionName.js';
 import SkillId from 'DB/Skills/SkillConst.js';
@@ -535,6 +536,13 @@ function onEntityAction(pkt) {
 		case 11: // lucky
 		case 13: {
 			// multi-hit critical
+			if (CombatDiagnostics.enabled())
+				CombatDiagnostics.mark('combat.attack', {
+					self: srcEntity === Session.Entity,
+					attackMs: pkt.attackMT,
+					hits: pkt.count,
+					kind: pkt.action
+				});
 			if (pkt.attackMT > MAX_ATTACKMT) {
 				pkt.attackMT = MAX_ATTACKMT;
 			}
@@ -1461,6 +1469,12 @@ function onSkillDisapear(pkt) {
  * @param {object} pkt - PACKET.ZC.NOTIFY_SKILL
  */
 function onEntityUseSkillToAttack(pkt) {
+	if (CombatDiagnostics.enabled())
+		CombatDiagnostics.mark('combat.skill', {
+			self: pkt.AID === Session.Entity?.GID,
+			skill: pkt.SKID,
+			attackMs: pkt.attackMT
+		});
 	const SkillAction = {}; //Corresponds to e_damage_type in clif.hpp
 	SkillAction.NORMAL = 0; /// damage [ damage: total damage, div: amount of hits, damage2: assassin dual-wield damage ]
 	SkillAction.PICKUP_ITEM = 1; /// pick up item
