@@ -192,7 +192,7 @@ function createHTML(includeManifest = false, buildArgs = {}, isAllBuild = false)
         <meta charset="UTF-8">    
         <meta name="happyro-build-id" content="${buildId}">
         <title>HappyRO</title>    
-        <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
+        <link rel="icon" type="image/png" href="./favicon.png?v=happyro-icon-2">    
     
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">    
         <meta name="HandheldFriendly" content="true">    
@@ -533,7 +533,7 @@ function createApiHTML() {
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <title>HappyRO</title>    
-        <link rel="icon" type="image/x-icon" href="./favicon.ico?v=ro-icon-1">    
+        <link rel="icon" type="image/png" href="./favicon.png?v=happyro-icon-2">    
         <link rel="apple-touch-icon" href="./icon.png">    
         <style>    
             html, body {    
@@ -700,7 +700,7 @@ async function copyPwaFiles() {
 	const start = Date.now();
 	const sharp = (await import('sharp')).default;
 	const bgPath = './src/UI/Components/Intro/images/background.jpg';
-	fs.copyFileSync('./applications/pwa/favicon.ico', dist + platform + '/favicon.ico');
+	fs.copyFileSync('./applications/pwa/favicon.png', dist + platform + '/favicon.png');
 	fs.copyFileSync('./applications/pwa/icon.png', dist + platform + '/icon.png');
 	fs.copyFileSync('./applications/pwa/icon-512.png', dist + platform + '/icon-512.png');
 	fs.copyFileSync('./applications/pwa/manifest.webmanifest', dist + platform + '/manifest.webmanifest');
