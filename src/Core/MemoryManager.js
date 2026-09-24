@@ -36,14 +36,9 @@ let _lastCheckTick = 0;
  */
 const _cleanUpInterval = 10 * 1000;
 
-/**
- * Async cleanup state tracking.
- * These variables are used to split memory cleanup into small chunks
- * to avoid blocking the main thread during large clean operations.
- */
-let _cleaningInProgress = false; // Prevents multiple clean cycles running at the same time
-let _cleanIndex = 0; // Tracks the current cleanup position
-let _filesToClean = []; // List of memory entries scheduled for removal
+// Cleanup advances a bounded amount in each rendered frame on every browser.
+let _cleanIndex = 0;
+let _filesToClean = [];
 class MemoryManager {
 	/**
 	 * Get back data from memory
@@ -109,65 +104,32 @@ class MemoryManager {
 	 * @param {number} now - game tick
 	 */
 	static clean = (gl, now) => {
-		// Skip cleanup if interval has not elapsed or if an async cleanup is already running
-		if (_lastCheckTick + _cleanUpInterval > now || _cleaningInProgress) {
-			return;
-		}
-
-		const files = [];
-		_filesToClean = []; // Reset pending cleanup list
-
-		const keys = Object.keys(_memory);
-		const count = keys.length;
-		const tick = now - _rememberTime;
-
-		for (let i = 0; i < count; ++i) {
-			const item = _memory[keys[i]];
-			if (item.complete && item.lastTimeUsed < tick) {
-				_filesToClean.push(keys[i]); // Collect unused memory entries instead of removing them immediately
+		if (!_filesToClean.length) {
+			if (_lastCheckTick + _cleanUpInterval > now) {
+				return;
 			}
-		}
-		// If nothing needs to be cleaned, just update the last check timestamp
-		if (_filesToClean.length === 0) {
+			_filesToClean = Object.keys(_memory);
+			_cleanIndex = 0;
 			_lastCheckTick = now;
-			return;
 		}
 
-		// Mark cleanup as running to avoid re-entry
-		_cleaningInProgress = true;
-		_cleanIndex = 0;
-
-		// Perform cleanup incrementally during idle time to reduce frame drops
-		requestIdleCallback(function cleanChunk(deadline) {
-			let processed = 0;
-			// Limit the number of removals per idle callback
-			const maxProcess = Math.min(5, _filesToClean.length - _cleanIndex);
-
-			while (_cleanIndex < _filesToClean.length && processed < maxProcess && deadline.timeRemaining() > 0) {
-				MemoryManager.remove(gl, _filesToClean[_cleanIndex]);
-				files.push(_filesToClean[_cleanIndex]);
-				_cleanIndex++;
+		const started = performance.now();
+		let processed = 0;
+		try {
+			while (_cleanIndex < _filesToClean.length && processed < 5 && performance.now() - started < 2) {
+				const key = _filesToClean[_cleanIndex++];
+				const item = _memory[key];
 				processed++;
-			}
-
-			if (_cleanIndex < _filesToClean.length) {
-				// Continue cleanup in the next idle period
-				requestIdleCallback(cleanChunk);
-			} else {
-				// Cleanup finished
-				_cleaningInProgress = false;
-				_lastCheckTick = now;
-				_filesToClean = [];
-
-				if (files.length) {
-					console.log(
-						'%c[MemoryManager] - Removed ' + files.length + ' unused elements from memory.',
-						'color:#d35111',
-						{ files }
-					);
+				// A queued entry may have been used or replaced since the scan started.
+				if (item?.complete && item.lastTimeUsed < now - _rememberTime) {
+					MemoryManager.remove(gl, key);
 				}
 			}
-		});
+		} finally {
+			if (_cleanIndex >= _filesToClean.length) {
+				_filesToClean = [];
+			}
+		}
 	};
 
 	/**
