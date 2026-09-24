@@ -240940,7 +240940,7 @@ var init_Events = __esmMin((() => {
 //#region src/UI/Mobile/Loading.css?raw
 var Loading_default;
 var init_Loading = __esmMin((() => {
-	Loading_default = ":host {\r\n	--m-bg: oklch(98% 0.004 250);\r\n	--m-text: oklch(14% 0.01 250);\r\n	--loading-accent: oklch(52% 0.17 52);\r\n	position: fixed;\r\n	inset: 0;\r\n	background: var(--m-bg);\r\n	color: var(--m-text);\r\n	font: 16px/1.5 system-ui, sans-serif;\r\n}\r\n* { box-sizing: border-box; }\r\n[hidden] { display: none !important; }\r\n.mobile-loading {\r\n	min-height: 100%;\r\n	display: grid;\r\n	place-content: center;\r\n	padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));\r\n	text-align: center;\r\n}\r\n.loading-card { width: min(320px, 100%); margin: auto; }\r\n.loading-brand { margin: 0 0 24px; font-size: 26px; font-weight: 700; color: var(--loading-accent); }\r\n.loading-title { margin: 0 0 16px; font-size: 16px; font-weight: 500; }\r\nprogress {\r\n	appearance: none;\r\n	-webkit-appearance: none;\r\n	display: block;\r\n	width: 100%;\r\n	min-width: 200px;\r\n	height: 8px;\r\n	border: none;\r\n	border-radius: 8px;\r\n	overflow: hidden;\r\n	background: oklch(90% 0.008 250);\r\n	accent-color: var(--loading-accent);\r\n}\r\nprogress::-webkit-progress-bar { background: oklch(90% 0.008 250); border-radius: 8px; }\r\nprogress::-webkit-progress-value { background: var(--loading-accent); border-radius: 8px; }\r\nprogress::-moz-progress-bar { background: var(--loading-accent); border-radius: 8px; }\r\n.loading-percent { margin: 12px 0 0; font-size: 14px; color: oklch(55% 0.012 250); font-variant-numeric: tabular-nums; }\r\n.loading-spinner { width: 32px; height: 32px; margin: 0 auto 20px; border: 3px solid oklch(90% 0.008 250); border-top-color: var(--loading-accent); border-radius: 50%; animation: mobile-loading-spin 1s linear infinite; }\r\n@keyframes mobile-loading-spin { to { transform: rotate(360deg); } }\r\n@media (prefers-reduced-motion: reduce) { .loading-spinner { animation: none; } }\r\n";
+	Loading_default = ":host {\r\n	--m-bg: oklch(98% 0.004 250);\r\n	--m-text: oklch(14% 0.01 250);\r\n	--loading-accent: oklch(52% 0.17 52);\r\n	position: fixed;\r\n	inset: 0;\r\n	background: var(--m-bg);\r\n	color: var(--m-text);\r\n	font: 16px/1.5 system-ui, sans-serif;\r\n}\r\n* { box-sizing: border-box; }\r\n[hidden] { display: none !important; }\r\n.mobile-loading {\r\n	min-height: 100%;\r\n	display: grid;\r\n	place-content: center;\r\n	padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));\r\n	text-align: center;\r\n}\r\n.loading-card { width: min(320px, 100%); margin: auto; }\r\n.loading-poring { display: block; width: min(80px, 18vh); aspect-ratio: 1; height: auto; margin: 0 auto 16px; object-fit: contain; image-rendering: pixelated; }\r\n.loading-title { margin: 0 0 16px; font-size: 16px; font-weight: 500; }\r\nprogress {\r\n	appearance: none;\r\n	-webkit-appearance: none;\r\n	display: block;\r\n	width: 100%;\r\n	min-width: 200px;\r\n	height: 8px;\r\n	border: none;\r\n	border-radius: 8px;\r\n	overflow: hidden;\r\n	background: oklch(90% 0.008 250);\r\n	accent-color: var(--loading-accent);\r\n}\r\nprogress::-webkit-progress-bar { background: oklch(90% 0.008 250); border-radius: 8px; }\r\nprogress::-webkit-progress-value { background: var(--loading-accent); border-radius: 8px; }\r\nprogress::-moz-progress-bar { background: var(--loading-accent); border-radius: 8px; }\r\n.loading-percent { margin: 12px 0 0; font-size: 14px; color: oklch(55% 0.012 250); font-variant-numeric: tabular-nums; }\r\n.loading-spinner { width: 32px; height: 32px; margin: 0 auto 20px; border: 3px solid oklch(90% 0.008 250); border-top-color: var(--loading-accent); border-radius: 50%; animation: mobile-loading-spin 1s linear infinite; }\r\n@keyframes mobile-loading-spin { to { transform: rotate(360deg); } }\r\n@media (prefers-reduced-motion: reduce) { .loading-spinner { animation: none; } }\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/Background.js
@@ -240950,7 +240950,7 @@ function mount$6(title) {
 		host.id = "MobileBackground";
 		root = host.attachShadow({ mode: "open" });
 		root.innerHTML = `<style>${Loading_default}</style><div class="mobile-loading"><section class="loading-card">
-			<p class="loading-brand">HappyRO</p><h1 class="loading-title"></h1>
+			<img class="loading-poring" src="./ro-poring-1.webp" alt="" /><h1 class="loading-title"></h1>
 			<progress max="100" value="0"></progress><p class="loading-percent" aria-hidden="true">0%</p>
 		</section></div>`;
 		for (const type of [
@@ -389494,7 +389494,7 @@ var init_WinLoading$1 = __esmMin((() => {
 	init_Loading();
 	loading$1 = new MobileGUIComponent("WinLoading", Loading_default + Shell_default);
 	loading$1.render = () => `<div class="mobile-loading" role="status" aria-live="polite">
-	<div class="loading-card"><p class="loading-brand">HappyRO</p>
+	<div class="loading-card"><img class="loading-poring" src="./ro-poring-1.webp" alt="" />
 	<div class="loading-spinner" aria-hidden="true"></div>
 	<p class="loading-title">正在连接服务器…</p></div>
 </div>`;
