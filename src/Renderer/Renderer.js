@@ -11,6 +11,8 @@
 /**
  * Load dependencies
  */
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
+import AudioSettings from 'Preferences/Audio.js';
 import WebGL from 'Utils/WebGL.js';
 import glMatrix from 'Utils/gl-matrix.js';
 import Configs from 'Core/Configs.js';
@@ -366,6 +368,8 @@ class Renderer {
 			this._lastFrameTime = now;
 		}
 
+		const diagnosticStart = CombatDiagnostics.beginFrame(Session.Playing);
+
 		// Use Date.now for serverTick and Events processing, to keep existing behavior intact
 		const newTick = Date.now();
 
@@ -404,6 +408,19 @@ class Renderer {
 		}
 
 		Cursor.render(this.tick);
+		if (diagnosticStart !== null) {
+			CombatDiagnostics.endFrame(diagnosticStart, {
+				canvasWidth: this.canvas.width,
+				canvasHeight: this.canvas.height,
+				dpr: window.devicePixelRatio,
+				quality: Configs.get('quality', 100),
+				fpsLimit: this.frameLimit,
+				sound: AudioSettings.Sound.play,
+				bloom: GraphicsSettings.bloom,
+				blur: GraphicsSettings.blur,
+				fxaa: GraphicsSettings.fxaaEnabled
+			});
+		}
 
 		// Schedule next frame
 		this.updateId = _requestAnimationFrame(this._renderBound);

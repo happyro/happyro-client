@@ -1,3 +1,4 @@
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import { createGameAutoCombat } from 'UI/Game/GameAutoCombat.js';
 import { openGameCompanions } from 'UI/Game/GameCompanions.js';
 import { openGamePet } from 'UI/Game/GamePet.js';
@@ -86,6 +87,7 @@ function setModal(value) {
 function snapshot() {
 	const entity = Session.Entity;
 	if (!entity) return;
+	const diagnosticStart = CombatDiagnostics.begin();
 	if (!controls?.isMoving() && entity.action !== entity.ACTION.WALK) autoCombat?.resumeAfterMovement();
 	autoCombat?.tick();
 	view.updateShortcuts(shortcuts.snapshot());
@@ -106,6 +108,7 @@ function snapshot() {
 		statuses: StatusIcons.getSnapshot(),
 		target: Commands.targetSnapshot()
 	});
+	CombatDiagnostics.end('mobile.hud', diagnosticStart);
 }
 /** Render the actual walkability grid once per map, rather than sample a desktop canvas. */
 function createMap() {

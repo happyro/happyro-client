@@ -12,6 +12,7 @@
  */
 
 import Client from 'Core/Client.js';
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import Preferences from 'Preferences/Audio.js';
 import Memory from 'Core/MemoryManager.js';
 import glMatrix from 'Utils/gl-matrix.js';
@@ -75,7 +76,7 @@ class SoundManager {
 		if (sound) {
 			sound.volume = Math.min(volume, 1.0);
 			sound._volume = volume;
-			const playPromise = sound.play();
+			const playPromise = CombatDiagnostics.playSound(sound, true);
 			if (playPromise) {
 				playPromise.catch(err => {
 					// blob revogado / src inválido → descarta e recarrega do zero
@@ -115,7 +116,7 @@ class SoundManager {
 			audio._volume = volume;
 			audio.addEventListener('error', onSoundError, false);
 			audio.addEventListener('ended', onSoundEnded, false);
-			audio.play().catch(err => {
+			CombatDiagnostics.playSound(audio, false).catch(err => {
 				if (err.name !== 'AbortError') {
 					console.warn('Failed to play sound:', err);
 				}
