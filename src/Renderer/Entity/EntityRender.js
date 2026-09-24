@@ -878,7 +878,9 @@ function getAnimationDelay(type, entity, act) {
 /**
  * Calculate animations
  */
-function calcAnimation(entity, act, type, tick) {
+export function calcAnimation(entity, act, type, tick) {
+	// A preceding body layer can start a new action after this entity's render tick.
+	tick = Math.max(0, tick);
 	// Fix for shadow
 	if (type === 'shadow' || type === 'cartshadow') {
 		return 0;
