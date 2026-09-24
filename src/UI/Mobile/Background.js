@@ -10,7 +10,7 @@ function mount(title) {
 		host.id = 'MobileBackground';
 		root = host.attachShadow({ mode: 'open' });
 		root.innerHTML = `<style>${css}</style><div class="mobile-loading"><section class="loading-card">
-			<p class="loading-brand">HappyRO</p><h1 class="loading-title"></h1>
+			<img class="loading-poring" src="./ro-poring-1.webp" alt="" /><h1 class="loading-title"></h1>
 			<progress max="100" value="0"></progress><p class="loading-percent" aria-hidden="true">0%</p>
 		</section></div>`;
 		for (const type of ['touchstart', 'touchmove', 'touchend']) {

@@ -7,7 +7,7 @@ afterEach(() => Background.remove());
 const root = () => document.querySelector('#MobileBackground').shadowRoot;
 
 describe('mobile loading lifecycle', () => {
-	it('shows actual resource progress without a desktop image or canvas', () => {
+	it('shows the Poring image and actual resource progress without a desktop canvas', () => {
 		const ready = vi.fn();
 		Background.init();
 		Background.setImage('bgi_temp.bmp', ready);
@@ -15,7 +15,8 @@ describe('mobile loading lifecycle', () => {
 		expect(ready).toHaveBeenCalledOnce();
 		expect(root().querySelector('progress').value).toBe(42);
 		expect(root().querySelector('.loading-percent').textContent).toBe('42%');
-		expect(root().querySelector('canvas, img')).toBeNull();
+		expect(root().querySelector('.loading-poring').getAttribute('src')).toBe('./ro-poring-1.webp');
+		expect(root().querySelector('canvas')).toBeNull();
 		Background.resize(844, 390);
 		expect(root().querySelector('progress').value).toBe(42);
 	});
@@ -26,6 +27,7 @@ describe('mobile loading lifecycle', () => {
 		expect(root().querySelector('.loading-card').hidden).toBe(true);
 		Background.setLoading(() => {
 			expect(root().querySelector('.loading-title').textContent).toBe('正在加载地图');
+			expect(root().querySelector('.loading-poring').hidden).toBe(false);
 			expect(root().querySelector('progress').value).toBe(0);
 		});
 		Background.setPercent(73);

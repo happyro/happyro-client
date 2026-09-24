@@ -607,11 +607,13 @@ function createApiHTML() {
                 0%, 100% { opacity: 0.4; transform: translateY(0); }    
                 50% { opacity: 1; transform: translateY(-4px); }    
             }    
-                    @media (pointer: coarse) {
-                #ro-preloader { box-sizing: border-box; background: #f8f9fb; gap: 20px; padding: 24px; text-align: center; }
+            #ro-preloader .pre-poring { display: none; }
+            @media (pointer: coarse) {
+                #ro-preloader { box-sizing: border-box; background: #f8f9fb; gap: 16px; padding: 24px; text-align: center; }
+                #ro-preloader .pre-poring { display: block; width: min(80px, 18vh); height: auto; aspect-ratio: 1; object-fit: contain; image-rendering: pixelated; }
                 #ro-preloader .pre-spinner { width: 32px; height: 32px; border: 3px solid #e2e5e9; border-top-color: #b44800; }
                 #ro-preloader .pre-text { display: none; }
-                #ro-preloader::after { content: '正在启动 HappyRO…'; color: #34383d; font: 16px/1.5 system-ui, sans-serif; }
+                #ro-preloader::after { content: '正在启动…'; color: #34383d; font: 16px/1.5 system-ui, sans-serif; }
             }
             @media (pointer: coarse) and (prefers-reduced-motion: reduce) {
                 #ro-preloader .pre-spinner { animation: none; }
@@ -622,6 +624,7 @@ function createApiHTML() {
     </head>    
     <body>    
         <div id="ro-preloader">    
+            <img class="pre-poring" src="./ro-poring-1.webp" alt="">
             <div class="pre-spinner"></div>    
             <p class="pre-text">    
                 <span style="--i:0">L</span><span style="--i:1">o</span><span style="--i:2">a</span><span style="--i:3">d</span><span style="--i:4">i</span><span style="--i:5">n</span><span style="--i:6">g</span><span style="--i:7">.</span><span style="--i:8">.</span><span style="--i:9">.</span>    
@@ -731,6 +734,7 @@ async function copyPwaFiles() {
 	fs.copyFileSync('./applications/pwa/favicon.png', dist + platform + '/favicon.png');
 	fs.copyFileSync('./applications/pwa/icon.png', dist + platform + '/icon.png');
 	fs.copyFileSync('./applications/pwa/icon-512.png', dist + platform + '/icon-512.png');
+	fs.copyFileSync('./applications/pwa/ro-poring-1.webp', dist + platform + '/ro-poring-1.webp');
 	fs.copyFileSync('./applications/pwa/manifest.webmanifest', dist + platform + '/manifest.webmanifest');
 	copyFolder('./applications/pwa/data', dist + platform + '/data');
 	await sharp(bgPath)
