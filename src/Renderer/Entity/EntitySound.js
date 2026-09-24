@@ -9,6 +9,7 @@
  */
 
 import SoundManager from 'Audio/SoundManager.js';
+import Session from 'Engine/SessionStorage.js';
 
 /**
  * Sound class — spatial sound playback attached to entity actions
@@ -29,6 +30,21 @@ class Sound {
 		this._animCounter = -1;
 
 		this.attackFile = null;
+	}
+
+	set attackFile(filename) {
+		this._attackFile = filename;
+		SoundManager.preload(filename);
+	}
+
+	get attackFile() {
+		return this._attackFile;
+	}
+
+	preload(filenames) {
+		if (this.entity === Session.Entity) {
+			SoundManager.preload(filenames);
+		}
 	}
 
 	/**

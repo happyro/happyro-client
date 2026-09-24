@@ -368,7 +368,7 @@ function UpdateBody(job) {
 	}
 
 	// Loading
-	Client.loadFile(path + '.act');
+	Client.loadFile(path + '.act', act => this.sound.preload(act.sounds));
 	Client.loadFile(
 		path + '.spr',
 		function () {
@@ -564,7 +564,7 @@ function UpdateBodyStyle(look) {
 			Entity = this.constructor;
 
 			// Loading
-			Client.loadFile(path + '.act');
+			Client.loadFile(path + '.act', act => this.sound.preload(act.sounds));
 			Client.loadFile(
 				path + '.spr',
 				function () {
@@ -621,7 +621,7 @@ function UpdateHead(head) {
 	this._head = head;
 	const path = DB.getHeadPath(head, this.job, this._sex, this.isOrcish);
 
-	Client.loadFile(path + '.act');
+	Client.loadFile(path + '.act', act => this.sound.preload(act.sounds));
 	Client.loadFile(
 		path + '.spr',
 		function () {
@@ -704,7 +704,7 @@ function UpdateGeneric(type, func, fallback) {
 		}
 
 		function LoadView(filepath, final) {
-			Client.loadFile(filepath + '.act');
+			Client.loadFile(filepath + '.act', act => _this.sound.preload(act.sounds));
 			Client.loadFile(
 				filepath + '.spr',
 				function () {
@@ -720,7 +720,7 @@ function UpdateGeneric(type, func, fallback) {
 
 					// Load weapon sound
 					if (type === 'weapon') {
-						_this.attackFile = DB.getWeaponSound(_val);
+						_this.sound.attackFile = DB.getWeaponSound(_val);
 
 						//Load weapon trail effect
 						const trail_file = DB.getWeaponTrail(_val, _this.job, _this._sex);

@@ -79,7 +79,7 @@ export function saveGameSettings(draft) {
 	// Renderer reads fpslimit on every frame. Do not start a second render loop.
 	document.body.classList.toggle('custom-cursor', Graphics.cursor);
 	if (previous.audio.Sound.play !== Audio.Sound.play || previous.audio.Sound.volume !== Audio.Sound.volume) {
-		Sound.setVolume(Audio.Sound.play ? Audio.Sound.volume : 0);
+		Sound.setVolume(Audio.Sound.volume);
 		if (!Audio.Sound.play) Sound.stop();
 	}
 	if (previous.audio.BGM.volume !== Audio.BGM.volume) BGM.setVolume(Audio.BGM.volume);

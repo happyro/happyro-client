@@ -54,8 +54,8 @@ const CommandStore = {
 		callback: function () {
 			this.addText(DB.getMessage(27 + AudioPreferences.Sound.play), this.TYPE.INFO, this.FILTER.PUBLIC_LOG);
 			AudioPreferences.Sound.play = !AudioPreferences.Sound.play;
-			AudioPreferences.save();
-			if (AudioPreferences.Sound.play) {
+			Sound.setVolume(AudioPreferences.Sound.volume);
+			if (!AudioPreferences.Sound.play) {
 				Sound.stop();
 			}
 		}

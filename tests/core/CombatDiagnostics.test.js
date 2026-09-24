@@ -1,14 +1,12 @@
 import { expect, it, vi } from 'vitest';
 import { createCombatDiagnostics } from '../../src/Core/CombatDiagnostics.js';
 
-it('does no timing work with diagnostics disabled and preserves audio promises', async () => {
+it('does no timing work with diagnostics disabled', async () => {
 	const now = vi.fn();
 	const profiler = createCombatDiagnostics({ sink: () => undefined, now });
-	const promise = Promise.resolve();
-	const audio = { play: vi.fn(() => promise) };
 	expect(profiler.begin()).toBeNull();
 	expect(profiler.beginFrame(true)).toBeNull();
-	expect(profiler.playSound(audio, true)).toBe(promise);
+	profiler.end('audio.start', null);
 	expect(now).not.toHaveBeenCalled();
 });
 

@@ -96,19 +96,8 @@ export function createCombatDiagnostics({ sink, now = () => performance.now(), v
 		slowCount = 0;
 		summaryAt = at;
 	}
-	function playSound(sound, reused) {
-		const start = begin();
-		const result = sound.play();
-		if (start !== null) {
-			end(reused ? 'audio.play.cached' : 'audio.play.new', start);
-			result?.then(
-				() => end('audio.play.ready', start),
-				() => end('audio.play.rejected', start)
-			);
-		}
-		return result;
-	}
-	return { begin, end, mark, beginFrame, endFrame, playSound, enabled, reset };
+
+	return { begin, end, mark, beginFrame, endFrame, enabled, reset };
 }
 
 const diagnostics = createCombatDiagnostics({ sink: () => window.happyroDebug });
