@@ -199,35 +199,40 @@ export function texture(gl, url, callback) {
 			return;
 		}
 		try {
-			const diagnosticStart = CombatDiagnostics.begin();
-			const enableMipmap = Configs.get('enableMipmap');
-
-			const canvas = document.createElement('canvas');
-			canvas.width = toPowerOfTwo(this.width);
-			canvas.height = toPowerOfTwo(this.height);
-			const ctx = canvas.getContext('2d');
-			ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
-
-			const _texture = gl.createTexture();
-			gl.bindTexture(gl.TEXTURE_2D, _texture);
-			gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-			if (enableMipmap) {
-				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-				gl.generateMipmap(gl.TEXTURE_2D);
-			} else {
-				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-			}
-
-			CombatDiagnostics.end('texture.imageUpload', diagnosticStart);
-			args.unshift(_texture);
+			const resource = imageTexture(gl, this, Boolean(Configs.get('enableMipmap')));
+			args.unshift(resource.texture);
 			callback.apply(null, args);
 		} catch (e) {
 			console.error('WebGL::texture creation error:', e);
 		}
 	});
+}
+
+/** Create one image texture; the caller owns its lifetime and memory accounting. */
+export function imageTexture(gl, image, mipmap) {
+	const start = CombatDiagnostics.begin();
+	let handle;
+	try {
+		const canvas = document.createElement('canvas');
+		canvas.width = toPowerOfTwo(image.width);
+		canvas.height = toPowerOfTwo(image.height);
+		canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+		handle = gl.createTexture();
+		if (!handle) throw new Error('Unable to allocate image texture');
+		gl.bindTexture(gl.TEXTURE_2D, handle);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mipmap ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+		if (mipmap) gl.generateMipmap(gl.TEXTURE_2D);
+		return { texture: handle, bytes: Math.ceil(canvas.width * canvas.height * 4 * (mipmap ? 4 / 3 : 1)) };
+	} catch (error) {
+		if (handle) gl.deleteTexture(handle);
+		throw error;
+	} finally {
+		CombatDiagnostics.end('texture.imageUpload', start);
+	}
 }
 
 /**

@@ -1,4 +1,4 @@
-import WebGL from 'Utils/WebGL.js';
+import EffectTextureCache from 'Renderer/EffectTextureCache.js';
 import Client from 'Core/Client.js';
 import SpriteRenderer from 'Renderer/SpriteRenderer.js';
 import EntityManager from 'Renderer/EntityManager.js';
@@ -379,34 +379,27 @@ class ThreeDEffect {
 	init(gl) {
 		this.loadedTextures = 0;
 		this.textureList = [];
-		if (this.textureNameList.length > 0) {
-			const textureCount = this.textureNameList.length;
-
-			for (let i = 0; i < textureCount; i++) {
-				Client.loadFile(`data/texture/${this.textureNameList[i]}`, buffer => {
-					WebGL.texture(gl, buffer, texture => {
-						this.textureList[i] = texture;
-						this.loadedTextures++;
-
-						if (this.loadedTextures == textureCount) {
-							this.ready = true;
-						}
-					});
-				});
-			}
-		} else if (this.textureName) {
-			Client.loadFile(`data/texture/${this.textureName}`, buffer => {
-				WebGL.texture(gl, buffer, texture => {
-					this.texture = texture;
-					this.ready = true;
-				});
-			});
-		} else {
-			this.ready = true;
-		}
+		this.releaseTextures = [];
+		const files = this.textureNameList.length ? this.textureNameList : this.textureName ? [this.textureName] : [];
+		this.ready = files.length === 0;
+		files.forEach((file, index) => {
+			this.releaseTextures.push(EffectTextureCache.acquire(gl, `data/texture/${file}`, texture => {
+				if (this.textureNameList.length) this.textureList[index] = texture;
+				else this.texture = texture;
+				this.loadedTextures++;
+				this.ready = this.loadedTextures === files.length && !this.needCleanUp;
+			}, () => {
+				this.ready = false;
+				this.needCleanUp = true;
+			}));
+		});
 	}
 
 	free(gl) {
+		for (const release of this.releaseTextures || []) release();
+		this.releaseTextures = [];
+		this.textureList = [];
+		this.texture = null;
 		this.ready = false;
 	}
 

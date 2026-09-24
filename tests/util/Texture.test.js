@@ -176,3 +176,16 @@ describe('Texture.removeMagenta', () => {
         expect(mockCtx.putImageData).toHaveBeenCalledWith(imgData, 0, 0);  
     });  
 });
+
+it('reports image loading failures to the texture consumer', () => {
+    let image;
+    vi.stubGlobal('Image', class { constructor() { image = this; } });
+    try {
+        const complete = vi.fn();
+        Texture.load('missing.png', complete, 'request');
+        image.onerror();
+        expect(complete).toHaveBeenCalledExactlyOnceWith(false, 'request');
+    } finally {
+        vi.unstubAllGlobals();
+    }
+});

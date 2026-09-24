@@ -1,5 +1,4 @@
-import WebGL from 'Utils/WebGL.js';
-import Client from 'Core/Client.js';
+import EffectTextureCache from 'Renderer/EffectTextureCache.js';
 import SpriteRenderer from 'Renderer/SpriteRenderer.js';
 import Camera from 'Renderer/Camera.js';
 
@@ -417,15 +416,20 @@ class TwoDEffect {
 	}
 
 	init(gl) {
-		Client.loadFile(`data/texture/${this.textureName}`, buffer => {
-			WebGL.texture(gl, buffer, texture => {
-				this.texture = texture;
-				this.ready = true;
-			});
+		this.releaseTexture = EffectTextureCache.acquire(gl, `data/texture/${this.textureName}`, texture => {
+			this.texture = texture;
+			this.ready = true;
+		}, () => {
+			this.texture = null;
+			this.ready = false;
+			this.needCleanUp = true;
 		});
 	}
 
 	free(gl) {
+		this.releaseTexture?.();
+		this.releaseTexture = null;
+		this.texture = null;
 		this.ready = false;
 	}
 
