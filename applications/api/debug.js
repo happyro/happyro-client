@@ -35,7 +35,7 @@
 		if (value instanceof ArrayBuffer || ArrayBuffer.isView(value)) return `[binary ${value.byteLength} bytes]`;
 		return Array.isArray(value) ? `[array ${value.length}]` : '[object]';
 	}
-	function text() { return entries.map(entry => scrub(JSON.stringify(entry))).join('\n'); }
+	function text() { return entries.map(entry => JSON.stringify(entry, (_key, value) => typeof value === 'string' ? scrub(value) : value)).join('\n'); }
 	function render() {
 		renderTimer = undefined;
 		if (!panel || panel.hidden) return;

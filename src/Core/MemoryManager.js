@@ -11,6 +11,7 @@
  */
 
 import MemoryItem from 'Core/MemoryItem.js';
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 
 /**
  * List of files in memory
@@ -108,7 +109,10 @@ class MemoryManager {
 			if (_lastCheckTick + _cleanUpInterval > now) {
 				return;
 			}
+			const scanStart = CombatDiagnostics.begin();
 			_filesToClean = Object.keys(_memory);
+			CombatDiagnostics.end('memory.scan', scanStart);
+			CombatDiagnostics.count('memory.scanned', _filesToClean.length);
 			_cleanIndex = 0;
 			_lastCheckTick = now;
 		}
@@ -122,10 +126,18 @@ class MemoryManager {
 				processed++;
 				// A queued entry may have been used or replaced since the scan started.
 				if (item?.complete && item.lastTimeUsed < now - _rememberTime) {
-					MemoryManager.remove(gl, key);
+					const releaseStart = CombatDiagnostics.begin();
+					try {
+						MemoryManager.remove(gl, key);
+						CombatDiagnostics.count('memory.released');
+					} finally {
+						if (releaseStart !== null)
+							CombatDiagnostics.end('memory.release', releaseStart, () => ({ extension: key.slice(-4) }));
+					}
 				}
 			}
 		} finally {
+			CombatDiagnostics.count('memory.checked', processed);
 			if (_cleanIndex >= _filesToClean.length) {
 				_filesToClean = [];
 			}

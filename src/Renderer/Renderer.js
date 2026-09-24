@@ -380,7 +380,9 @@ class Renderer {
 		this.tick = newTick;
 
 		// Execute events
+		let diagnosticStage = diagnosticStart;
 		Events.process(this.tick);
+		diagnosticStage = CombatDiagnostics.end('render.events', diagnosticStage);
 
 		// Execute render callbacks
 		let i, count;
@@ -407,7 +409,9 @@ class Renderer {
 			}
 		}
 
+		diagnosticStage = CombatDiagnostics.end('render.callbacks', diagnosticStage);
 		Cursor.render(this.tick);
+		CombatDiagnostics.end('render.cursor', diagnosticStage);
 		if (diagnosticStart !== null) {
 			CombatDiagnostics.endFrame(diagnosticStart, {
 				canvasWidth: this.canvas.width,

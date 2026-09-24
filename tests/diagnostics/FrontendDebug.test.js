@@ -110,3 +110,12 @@ it('includes the error name and message when Safari only supplies frames in the 
  expect(log).toContain('ReferenceError: requestIdleCallback is not defined');
  expect(log).toContain('Online.js:11285:23');
 });
+
+it('exports complete structured performance events larger than the text field limit', async () => {
+ const {w}=await setup(true);
+ const spans=Object.fromEntries(Array.from({length:40},(_,i)=>[`stage${i}`,{count:300,totalMs:1234.56,maxMs:12.34}]));
+ w.happyroDebug.recordPerformance('perf.summary',{profileVersion:2,spans,settings:{sound:true},padding:'a'.repeat(1500)});
+ const row=w.happyroDebug.export().split('\n').map(line=>JSON.parse(line)).find(entry=>entry.event==='perf.summary');
+ expect(row.spans.stage39).toEqual(spans.stage39);
+ expect(row.settings.sound).toBe(true);
+});

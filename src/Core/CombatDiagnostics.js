@@ -1,44 +1,140 @@
-/** CPU timings and actual game-frame intervals, enabled only by the debug page. */
+/** Synchronous elapsed timings and actual game-frame intervals; debug pages only. */
 export function createCombatDiagnostics({ sink, now = () => performance.now(), visible = () => !document.hidden }) {
-	let lastFrame = 0;
-	let summaryAt = 0;
+	let lastFrame = null;
+	let summaryAt = null;
 	let intervals = [];
 	let cpu = [];
 	let spans = {};
+	let counters = {};
 	let recent = [];
-	let slowCount = 0;
+	let detailCount = 0;
+	let omitted = 0;
+	let sequence = 0;
+	let combatSequence = 0;
+	let inFrame = false;
+	let frameId = 0;
+	let frameCpuMs = 0;
+	const frameSpans = {};
+	const outsideSpans = {};
+	const frameCounters = {};
+	const outsideCounters = {};
 	const enabled = () => Boolean(sink()?.enabled);
+	const round = value => Math.round(value * 100) / 100;
+	function clear(bucket) {
+		for (const key in bucket) {
+			const stat = bucket[key];
+			if (typeof stat === 'number') bucket[key] = 0;
+			else {
+				stat.count = 0;
+				stat.totalMs = 0;
+				stat.maxMs = 0;
+				delete stat.details;
+			}
+		}
+	}
 	function reset() {
-		lastFrame = 0;
-		summaryAt = 0;
+		lastFrame = summaryAt = null;
 		intervals = [];
 		cpu = [];
 		spans = {};
+		counters = {};
 		recent = [];
-		slowCount = 0;
+		detailCount = omitted = 0;
+		inFrame = false;
+		frameCpuMs = 0;
+		clear(frameSpans);
+		clear(outsideSpans);
+		clear(frameCounters);
+		clear(outsideCounters);
 	}
-	const round = value => Math.round(value * 100) / 100;
 	function emit(event, details) {
 		sink()?.recordPerformance(event, details);
+	}
+	function detail(event, details) {
+		if (detailCount >= 20) {
+			omitted++;
+			return;
+		}
+		detailCount++;
+		emit(event, typeof details === 'function' ? details() : details);
+	}
+	function nearby(at) {
+		return recent
+			.filter(item => at - item.at <= 1000)
+			.slice(-8)
+			.map(({ at: tick, ...item }) => ({ ...item, agoMs: round(at - tick) }));
 	}
 	function mark(event, details = {}) {
 		if (!enabled()) return;
 		const at = now();
-		recent.push({ event, at });
+		const combatId = ++combatSequence;
+		recent.push({ event, at, combatId, ...details });
 		if (recent.length > 16) recent.shift();
-		emit(event, details);
+		emit(event, { ...details, combatId, frameId: inFrame ? frameId : null });
 	}
 	function begin() {
 		return enabled() ? now() : null;
 	}
-	function end(name, start, details = {}) {
-		if (start === null || !enabled()) return;
-		const duration = now() - start;
-		const stat = (spans[name] ||= { count: 0, totalMs: 0, maxMs: 0 });
+	function addSpan(bucket, name, duration, details) {
+		if (!bucket[name] && Object.keys(bucket).length >= 40) return;
+		const stat = (bucket[name] ||= { count: 0, totalMs: 0, maxMs: 0 });
 		stat.count++;
 		stat.totalMs += duration;
-		stat.maxMs = Math.max(stat.maxMs, duration);
-		if (duration >= 8 && slowCount++ < 20) emit('perf.slow', { name, durationMs: round(duration), ...details });
+		if (duration >= stat.maxMs) {
+			stat.maxMs = duration;
+			if (duration >= 8 && details) stat.details = typeof details === 'function' ? details() : details;
+		}
+	}
+	function end(name, start, details) {
+		if (start === null || !enabled()) return null;
+		const at = now();
+		const duration = at - start;
+		addSpan(spans, name, duration);
+		// Promise completion measures waiting, not synchronous work in this frame.
+		if (!name.endsWith('.wait')) {
+			addSpan(inFrame ? frameSpans : outsideSpans, name, duration, details);
+			if (duration >= 8 && !inFrame)
+				detail('perf.slow', () => ({
+					name,
+					durationMs: round(duration),
+					afterFrameId: lastFrame === null ? null : frameId,
+					...(typeof details === 'function' ? details() : details)
+				}));
+		}
+		return at;
+	}
+	function addCount(bucket, name, amount) {
+		if (!(name in bucket) && Object.keys(bucket).length >= 20) return;
+		bucket[name] = (bucket[name] || 0) + amount;
+	}
+	function count(name, amount = 1) {
+		if (!enabled()) return;
+		addCount(counters, name, amount);
+		addCount(inFrame ? frameCounters : outsideCounters, name, amount);
+	}
+	function hotSpans(bucket) {
+		return Object.entries(bucket)
+			.filter(([, stat]) => stat.count && stat.totalMs > 0)
+			.sort((a, b) => b[1].totalMs - a[1].totalMs)
+			.slice(0, 8)
+			.map(([name, stat]) => ({
+				name,
+				count: stat.count,
+				totalMs: round(stat.totalMs),
+				maxMs: round(stat.maxMs),
+				...(stat.details ? { details: stat.details } : {})
+			}));
+	}
+	function activeCounts(bucket) {
+		return Object.fromEntries(Object.entries(bucket).filter(([, value]) => value));
+	}
+	function frameSnapshot() {
+		return {
+			frameId,
+			cpuMs: round(frameCpuMs),
+			spans: hotSpans(frameSpans),
+			counters: activeCounts(frameCounters)
+		};
 	}
 	function beginFrame(playing) {
 		if (!enabled() || !playing || !visible()) {
@@ -46,19 +142,28 @@ export function createCombatDiagnostics({ sink, now = () => performance.now(), v
 			return null;
 		}
 		const at = now();
-		if (!summaryAt) summaryAt = at;
-		if (lastFrame) {
+		if (summaryAt === null) summaryAt = at;
+		if (lastFrame !== null) {
 			const gap = at - lastFrame;
 			if (intervals.length < 1200) intervals.push(gap);
-			if (gap >= 50 && slowCount++ < 20)
-				emit('perf.frame-gap', {
+			if (gap >= 50)
+				detail('perf.frame-gap', () => ({
+					frameId: sequence + 1,
 					intervalMs: round(gap),
-					recent: recent
-						.filter(item => at - item.at <= 1000)
-						.map(item => ({ event: item.event, agoMs: round(at - item.at) }))
-				});
+					previousFrame: frameSnapshot(),
+					outsideRenderMs: round(Math.max(0, gap - frameCpuMs)),
+					betweenFrames: { spans: hotSpans(outsideSpans), counters: activeCounts(outsideCounters) },
+					recent: nearby(at)
+				}));
 		}
+		clear(frameSpans);
+		clear(outsideSpans);
+		clear(frameCounters);
+		clear(outsideCounters);
 		lastFrame = at;
+		frameId = ++sequence;
+		frameCpuMs = 0;
+		inFrame = true;
 		return at;
 	}
 	function stats(values) {
@@ -74,30 +179,39 @@ export function createCombatDiagnostics({ sink, now = () => performance.now(), v
 		};
 	}
 	function endFrame(start, settings) {
-		if (start === null || !enabled()) return;
+		if (start === null || !enabled()) {
+			inFrame = false;
+			return;
+		}
 		const at = now();
-		if (cpu.length < 1200) cpu.push(at - start);
+		frameCpuMs = at - start;
+		inFrame = false;
+		if (cpu.length < 1200) cpu.push(frameCpuMs);
+		if (frameCpuMs >= 32) detail('perf.frame', () => ({ ...frameSnapshot(), recent: nearby(at) }));
 		if (at - summaryAt < 5000) return;
 		for (const stat of Object.values(spans)) {
 			stat.totalMs = round(stat.totalMs);
 			stat.maxMs = round(stat.maxMs);
 		}
 		emit('perf.summary', {
+			profileVersion: 2,
+			frameId,
 			windowMs: round(at - summaryAt),
 			intervalMs: stats(intervals),
 			cpuMs: stats(cpu),
 			spans,
+			counters,
 			settings,
-			omittedSlowEvents: Math.max(0, slowCount - 20)
+			omittedSlowEvents: omitted
 		});
 		intervals = [];
 		cpu = [];
 		spans = {};
-		slowCount = 0;
+		counters = {};
+		detailCount = omitted = 0;
 		summaryAt = at;
 	}
-
-	return { begin, end, mark, beginFrame, endFrame, enabled, reset };
+	return { begin, end, count, mark, beginFrame, endFrame, enabled, reset };
 }
 
 const diagnostics = createCombatDiagnostics({ sink: () => window.happyroDebug });

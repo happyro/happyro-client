@@ -12,6 +12,7 @@
 
 import Texture from 'Utils/Texture.js';
 import Configs from 'Core/Configs.js';
+import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 
 /**
  * Get WebGL Context
@@ -198,6 +199,7 @@ export function texture(gl, url, callback) {
 			return;
 		}
 		try {
+			const diagnosticStart = CombatDiagnostics.begin();
 			const enableMipmap = Configs.get('enableMipmap');
 
 			const canvas = document.createElement('canvas');
@@ -219,6 +221,7 @@ export function texture(gl, url, callback) {
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			}
 
+			CombatDiagnostics.end('texture.imageUpload', diagnosticStart);
 			args.unshift(_texture);
 			callback.apply(null, args);
 		} catch (e) {
