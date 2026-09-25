@@ -203684,6 +203684,12 @@ var init_PacketStructure = __esmMin((() => {
 		pkt_buf.writeShort(this.yPos);
 		return pkt_buf;
 	};
+	PACKET.CZ.HAPPYRO_STOP_MOVE = function PACKET_CZ_HAPPYRO_STOP_MOVE() {};
+	PACKET.CZ.HAPPYRO_STOP_MOVE.prototype.build = function() {
+		const packet = new BinaryWriter(2);
+		packet.writeShort(3331);
+		return packet;
+	};
 	PACKET.CZ.HAPPYRO_MONSTER_SPAWN = function PACKET_CZ_HAPPYRO_MONSTER_SPAWN() {
 		this.monsterId = 0;
 	};
@@ -252557,7 +252563,7 @@ var init_ItemEffect = __esmMin((() => {
 }));
 //#endregion
 //#region src/DB/Emotions.js
-var list, i, j, count, size, commands, names, indexes, order, Emotions_default;
+var list, i, j, count, size, commands$1, names, indexes, order, Emotions_default;
 var init_Emotions = __esmMin((() => {
 	list = [
 		[
@@ -253002,19 +253008,19 @@ var init_Emotions = __esmMin((() => {
 		[85, -1],
 		[86, -1]
 	];
-	commands = {};
+	commands$1 = {};
 	names = {};
 	indexes = {};
 	order = {};
 	for (i = 0, count = list.length; i < count; ++i) {
 		size = list[i].length;
-		for (j = 2; j < size; ++j) commands[list[i][j]] = i;
+		for (j = 2; j < size; ++j) commands$1[list[i][j]] = i;
 		if (size > 0) indexes[i] = list[i][0];
 		if (size > 1 && list[i][1] > -1) order[list[i][1]] = list[i][0];
 		if (size > 2) names[list[i][0]] = list[i][2];
 	}
 	Emotions_default = {
-		commands,
+		commands: commands$1,
 		names,
 		indexes,
 		order
@@ -278344,29 +278350,29 @@ function trackTabView(container) {
 			container.removeEventListener("input", capture);
 			container.removeEventListener("change", capture);
 			container.removeEventListener("scroll", onScroll, true);
-			states$1.delete(container);
+			states$2.delete(container);
 		}
 	};
-	states$1.set(container, state);
+	states$2.set(container, state);
 	return state;
 }
 function clearTabDrafts(container, names) {
-	const drafts = states$1.get(container)?.drafts;
+	const drafts = states$2.get(container)?.drafts;
 	if (!drafts) return;
 	for (const key of drafts.keys()) if (!names || names.includes(key.slice(key.indexOf(":") + 1))) drafts.delete(key);
 }
 function resetTabScroll(container, region) {
 	if (!region) return;
-	const scrolls = states$1.get(container)?.scrolls;
+	const scrolls = states$2.get(container)?.scrolls;
 	for (const node of [region, ...region.querySelectorAll("[class]")]) {
 		scrolls?.delete(scrollKey(node));
 		node.scrollLeft = 0;
 		node.scrollTop = 0;
 	}
 }
-var states$1, scrollKey, fields;
+var states$2, scrollKey, fields;
 var init_TabViewState = __esmMin((() => {
-	states$1 = /* @__PURE__ */ new WeakMap();
+	states$2 = /* @__PURE__ */ new WeakMap();
 	scrollKey = (node) => `${node.tagName}.${node.className}`;
 	fields = "input[type=\"number\"], form .game-select-value";
 }));
@@ -280358,7 +280364,7 @@ function mount$2(container) {
 					<div class="management-form-actions"><button type="submit">应用</button><button type="button" data-action="stats-reset">重置</button></div>
 				</form></section>
 				${snapshot.traits.enabled ? `<section><h4>四转特性 <small>剩余 ${snapshot.traits.points} 点</small></h4><form data-form="traits" class="management-form stat-form">
-					${traitFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="0" max="${snapshot.traits.maximums[key]}" value="${snapshot.traits.values[key]}" required></label>`).join("")}
+					${traitFields$1.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="0" max="${snapshot.traits.maximums[key]}" value="${snapshot.traits.values[key]}" required></label>`).join("")}
 					<div class="management-form-actions"><button type="submit">应用</button><button type="button" data-action="traits-reset">重置</button></div>
 					<small>直接设置特性值，不受当前特性点限制，不消耗剩余点数。</small>
 				</form></section>` : ""}
@@ -280465,7 +280471,7 @@ function mount$2(container) {
 		container.removeEventListener("game-tools-reset-feedback", clearFeedback);
 	};
 }
-var statFields, traitFields, CharacterMaintenanceTab_default;
+var statFields, traitFields$1, CharacterMaintenanceTab_default;
 var init_CharacterMaintenanceTab = __esmMin((() => {
 	init_TabViewState();
 	init_GameToolsToast();
@@ -280484,7 +280490,7 @@ var init_CharacterMaintenanceTab = __esmMin((() => {
 		["dex", "灵巧"],
 		["luk", "幸运"]
 	];
-	traitFields = [
+	traitFields$1 = [
 		["pow", "力量 POW"],
 		["sta", "耐力 STA"],
 		["wis", "智慧 WIS"],
@@ -308200,6 +308206,7 @@ var init_MapRenderer = __esmMin((() => {
 	init_UIManager();
 	init_Background();
 	init_CursorManager();
+	init_Platform();
 	init_SessionStorage();
 	init_MemoryManager();
 	init_MouseEventHandler();
@@ -308383,7 +308390,7 @@ var init_MapRenderer = __esmMin((() => {
 				Mouse.world.x = x;
 				Mouse.world.y = y;
 				Mouse.world.z = Altitude.getCellHeight(x, y);
-				if (isWalkable) {
+				if (isWalkable && (!Platform.isMobile || SessionStorage_default.captchaGetIdOnFloorClick)) {
 					if (SessionStorage_default.captchaGetIdOnFloorClick) {
 						const range = SessionStorage_default.captchaGetIdOnFloorRange;
 						Altitude.getCellsInSquareRange(x, y, range).forEach((cell) => {
@@ -357776,7 +357783,7 @@ var init_CompanionSkillAction = __esmMin((() => {
 //#region src/UI/Game/GameCompanions.js
 function resetGameCompanions() {
 	owner = SessionStorage_default.Entity;
-	states = Object.fromEntries(["homunculus", "mercenary"].map((kind) => [kind, {
+	states$1 = Object.fromEntries(["homunculus", "mercenary"].map((kind) => [kind, {
 		gid: 0,
 		info: null,
 		pending: null,
@@ -357785,8 +357792,8 @@ function resetGameCompanions() {
 	}]));
 }
 function state$1(kind) {
-	if (!states || owner !== SessionStorage_default.Entity) resetGameCompanions();
-	return states[kind];
+	if (!states$1 || owner !== SessionStorage_default.Entity) resetGameCompanions();
+	return states$1[kind];
 }
 function entity(kind) {
 	const s = state$1(kind);
@@ -357801,7 +357808,7 @@ function updateGameCompanion(kind, values, gid) {
 	let s = state$1(kind);
 	if (gid && gid !== s.gid) {
 		cancelCompanionSkill(entity(kind));
-		s = states[kind] = {
+		s = states$1[kind] = {
 			gid,
 			info: s.gid ? null : s.info,
 			pending: null,
@@ -357957,7 +357964,7 @@ function openGameCompanions(kind, canOperate = () => true) {
 	});
 	return service;
 }
-var owner, states;
+var owner, states$1;
 var init_GameCompanions = __esmMin((() => {
 	init_SessionStorage();
 	init_EntityManager();
@@ -358950,6 +358957,15 @@ function moveDirection(x, y) {
 	packet.dest[0] = dest[0];
 	packet.dest[1] = dest[1];
 	Network.sendPacket(packet);
+	directionalMovementPlayer = player;
+}
+function stopDirectionalMovement() {
+	MapControl.onRequestStopWalk();
+	SessionStorage_default.moveAction = null;
+	const player = directionalMovementPlayer;
+	directionalMovementPlayer = null;
+	if (!player || player !== SessionStorage_default.Entity || !SessionStorage_default.Playing || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
+	Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
 }
 function pickSceneEntity(x, y) {
 	Mouse.screen.x = x;
@@ -359039,6 +359055,7 @@ function adjustCamera(action) {
 	}
 	Camera.save();
 }
+var directionalMovementPlayer;
 var init_GameCommands = __esmMin((() => {
 	init_Trade$1();
 	init_UIManager();
@@ -359054,6 +359071,7 @@ var init_GameCommands = __esmMin((() => {
 	init_NetworkManager();
 	init_PacketStructure();
 	init_Navigation();
+	directionalMovementPlayer = null;
 }));
 //#endregion
 //#region src/UI/Game/AutoCombatController.js
@@ -359311,12 +359329,7 @@ function createGameAutoCombat(enabled) {
 	function stop() {
 		const chasing = Boolean(SessionStorage_default.moveAction);
 		stopAttack();
-		if (chasing && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE) {
-			const packet = new PACKET.CZ.REQUEST_MOVE2();
-			packet.dest[0] = Math.round(SessionStorage_default.Entity.position[0]);
-			packet.dest[1] = Math.round(SessionStorage_default.Entity.position[1]);
-			Network.sendPacket(packet);
-		}
+		if (chasing && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE) Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
 		MapControl.onRequestStopWalk();
 		SessionStorage_default.autoFollow = false;
 	}
@@ -360229,81 +360242,18 @@ var init_GameContainers = __esmMin((() => {
 	init_ServerInteraction();
 }));
 //#endregion
-//#region src/UI/Game/GameSkills.js
-function createGameSkills(canOperate, shortcuts) {
-	const icons = /* @__PURE__ */ new Map();
-	let pending = null;
-	function snapshot() {
-		const ui = Controller$4.getUI();
-		const learned = new Map(ui.getSkills().map((skill) => [skill.SKID, skill]));
-		const ids = new Set(learned.keys());
-		let job = SessionStorage_default.Entity?._job ?? SessionStorage_default.Entity?.job;
-		while (job !== null && SkillTreeView_generated_default[job]) {
-			const tree = SkillTreeView_generated_default[job];
-			for (const key of Object.keys(tree)) if (/^\d+$/.test(key)) ids.add(Number(key));
-			job = tree.beforeJob;
-		}
-		if (pending && pending.revision !== ui.getSkillRevision()) pending = null;
-		const points = ui.getSkillPoints();
-		const allowed = Boolean(canOperate() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
-		return {
-			points,
-			allowed,
-			skills: [...ids].filter((id) => SkillInfo_generated_default[id]).map((id) => {
-				const info = SkillInfo_generated_default[id], skill = learned.get(id), level = skill?.level || 0;
-				if (!icons.has(id)) {
-					icons.set(id, "");
-					Client.loadFile(`${DB.INTERFACE_PATH}item/${info.Name}.bmp`, (url) => icons.set(id, url));
-				}
-				const requirements = (info._NeedSkillList || []).map(([need, required]) => `${SkillInfo_generated_default[need]?.SkillName || need} ${learned.get(need)?.level || 0}/${required}`);
-				const reason = !allowed ? "当前不能学习技能" : pending ? "等待服务器更新技能" : !points ? "技能点不足" : !skill?.upgradable ? "尚未满足学习条件，或已达到可学习上限" : "";
-				return {
-					id,
-					name: info.SkillName,
-					icon: icons.get(id),
-					description: toPlainRagnarokText(DB.getSkillDescription(id)),
-					level,
-					max: Math.max(info.MaxLv, level),
-					active: canExecuteSkill(skill),
-					kind: level ? skill.type === 0 ? "被动" : "主动" : "未学习",
-					requirements,
-					reason,
-					learnable: !reason
-				};
-			})
-		};
-	}
-	return {
-		snapshot,
-		learn(id, expectedLevel) {
-			const skill = snapshot().skills.find((entry) => entry.id === id);
-			if (!skill || !skill.learnable || skill.level + 1 !== expectedLevel) return "技能状态已经变化，请重新确认";
-			pending = { revision: Controller$4.getUI().getSkillRevision() };
-			Controller$4.getUI().onIncreaseSkill(id);
-			return "已请求学习一级，等待服务器更新";
-		},
-		bind(id, level, slot) {
-			const state = snapshot();
-			const skill = state.skills.find((entry) => entry.id === id);
-			return Boolean(state.allowed && skill?.active && Number.isInteger(level) && level > 0 && level <= skill.level && shortcuts.configure(slot, {
-				isSkill: true,
-				ID: id
-			}, level));
-		}
-	};
-}
-var init_GameSkills = __esmMin((() => {
-	init_SkillList();
-	init_SkillInfo_generated();
-	init_SkillTreeView_generated();
-	init_SkillUse();
-	init_DBManager();
-	init_Client();
-	init_SessionStorage();
-	init_RagnarokText();
-}));
-//#endregion
 //#region src/UI/Game/CharacterStats.js
+function characterStatValues(entity) {
+	return { ...values.get(entity) };
+}
+function recordCharacterStatResult(entity, type, success) {
+	if (!entity) return;
+	if (!results.has(entity)) results.set(entity, /* @__PURE__ */ new Map());
+	results.get(entity).set(type, { success: Boolean(success) });
+}
+function characterStatResult(entity, type) {
+	return results.get(entity)?.get(type);
+}
 function updateCharacterStat(entity, type, value) {
 	if (!entity) return;
 	if (!values.has(entity)) values.set(entity, {});
@@ -360342,9 +360292,322 @@ function characterStats(entity) {
 		}
 	];
 }
-var values;
+var values, results;
 var init_CharacterStats = __esmMin((() => {
 	values = /* @__PURE__ */ new WeakMap();
+	results = /* @__PURE__ */ new WeakMap();
+}));
+//#endregion
+//#region src/UI/Game/GamePointReset.js
+function pointResetState(entity) {
+	return states.get(entity) || {
+		pending: false,
+		message: ""
+	};
+}
+async function resetCharacterPoints(kind, entity) {
+	if (!commands[kind] || !entity || entity !== SessionStorage_default.Entity || !SessionStorage_default.Playing || entity.action === entity.ACTION.DIE) return "当前不能重置点数";
+	if (pointResetState(entity).pending) return "正在重置，请稍候";
+	const [command, label] = commands[kind];
+	const state = {
+		pending: true,
+		message: `正在重置${label}…`
+	};
+	states.set(entity, state);
+	try {
+		await maintainCurrentCharacter(command, {});
+		state.message = `${label}已重置`;
+	} catch (error) {
+		state.message = error.message;
+	} finally {
+		state.pending = false;
+	}
+	return entity === SessionStorage_default.Entity && SessionStorage_default.Playing ? state.message : "角色会话已变更";
+}
+var states, commands;
+var init_GamePointReset = __esmMin((() => {
+	init_SessionStorage();
+	init_AdventureControlService();
+	states = /* @__PURE__ */ new WeakMap();
+	commands = {
+		base: ["character.stats.reset", "基础素质点"],
+		traits: ["character.traits.reset", "四转素质点"],
+		skills: ["character.skills.reset", "技能点"]
+	};
+}));
+//#endregion
+//#region src/UI/Game/GameAttributes.js
+function createGameAttributes(canOperate) {
+	let owner, pending = null, message = "", previous = null;
+	function snapshot() {
+		const entity = SessionStorage_default.Entity;
+		if (owner !== entity) {
+			owner = entity;
+			pending = previous = null;
+			message = "";
+		}
+		if (pending) {
+			const result = characterStatResult(entity, pending.id);
+			if (result !== pending.result) {
+				message = result.success ? `${pending.label}已增加 1 点` : "加点未成功，请检查剩余点数和素质上限";
+				pending = null;
+			} else if (performance.now() - pending.at >= 8e3) {
+				message = "暂未收到服务器确认，请核对当前数值后重试";
+				pending = null;
+			}
+		}
+		const values = characterStatValues(entity);
+		const reset = pointResetState(entity);
+		const allowed = Boolean(canOperate() && SessionStorage_default.Playing && entity && entity.action !== entity.ACTION.DIE);
+		const traits = Boolean(JPT[entity?._job ?? entity?.job]?.isFourthClass);
+		const section = (fields, points, enabled) => ({
+			points: values[points] ?? null,
+			enabled,
+			rows: fields.map(([key, label, id]) => {
+				const value = values[key], bonus = values[key + "2"] || 0, cost = values[key + "3"];
+				return {
+					key,
+					label,
+					id,
+					value: value ?? null,
+					bonus,
+					cost: cost ?? null,
+					canAdd: Boolean(allowed && enabled && !pending && !reset.pending && value !== void 0 && cost > 0 && values[points] >= cost)
+				};
+			})
+		});
+		const related = {
+			base: [
+				{
+					key: "maxHp",
+					label: "最大 HP",
+					value: entity?.life?.hp_max ?? "—"
+				},
+				{
+					key: "maxSp",
+					label: "最大 SP",
+					value: entity?.life?.sp_max ?? "—"
+				},
+				...characterStats(entity).filter((stat) => !baseFields.some(([key]) => key === stat.key))
+			],
+			traits: [
+				["patk", "物理攻击倍率 P.ATK"],
+				["smatk", "魔法攻击倍率 S.MATK"],
+				["res", "物理抗性 RES"],
+				["mres", "魔法抗性 MRES"],
+				["hplus", "治疗加成 H.PLUS"],
+				["crate", "暴击伤害 C.RATE"]
+			].map(([key, label]) => ({
+				key,
+				label,
+				value: values[key] ?? "—"
+			}))
+		};
+		return {
+			base: section(baseFields, "statuspoint", true),
+			traits: section(traitFields, "trait_point", traits),
+			allowed: allowed && !pending && !reset.pending,
+			pending: Boolean(pending || reset.pending),
+			message: reset.pending ? reset.message : message,
+			related: Object.fromEntries(Object.entries(related).map(([kind, rows]) => [kind, rows.map((row) => ({
+				...row,
+				previous: previous?.[kind]?.find((entry) => entry.key === row.key)?.value
+			}))]))
+		};
+	}
+	return {
+		snapshot,
+		increase(kind, key) {
+			const state = snapshot();
+			const row = state[kind]?.rows?.find((entry) => entry.key === key);
+			if (!row?.canAdd) return "当前不能增加这项素质";
+			previous = state.related;
+			pending = {
+				id: row.id,
+				label: row.label,
+				result: characterStatResult(owner, row.id),
+				at: performance.now()
+			};
+			message = "正在加点…";
+			const packet = new PACKET.CZ.STATUS_CHANGE();
+			packet.statusID = row.id;
+			packet.changeAmount = 1;
+			Network.sendPacket(packet);
+			return message;
+		},
+		async reset(kind) {
+			const state = snapshot();
+			if (!state.allowed || !["base", "traits"].includes(kind) || !state[kind].enabled) return "当前不能重置素质点";
+			previous = state.related;
+			const entity = owner;
+			const result = await resetCharacterPoints(kind, entity);
+			if (entity === SessionStorage_default.Entity) message = result;
+			return result;
+		}
+	};
+}
+var baseFields, traitFields;
+var init_GameAttributes = __esmMin((() => {
+	init_SessionStorage();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_JobPropertyTable();
+	init_CharacterStats();
+	init_GamePointReset();
+	baseFields = [
+		[
+			"str",
+			"力量 STR",
+			13
+		],
+		[
+			"agi",
+			"敏捷 AGI",
+			14
+		],
+		[
+			"vit",
+			"体力 VIT",
+			15
+		],
+		[
+			"int",
+			"智力 INT",
+			16
+		],
+		[
+			"dex",
+			"灵巧 DEX",
+			17
+		],
+		[
+			"luk",
+			"幸运 LUK",
+			18
+		]
+	];
+	traitFields = [
+		[
+			"pow",
+			"力量 POW",
+			219
+		],
+		[
+			"sta",
+			"耐力 STA",
+			220
+		],
+		[
+			"wis",
+			"智慧 WIS",
+			221
+		],
+		[
+			"spl",
+			"法力 SPL",
+			222
+		],
+		[
+			"con",
+			"专注 CON",
+			223
+		],
+		[
+			"crt",
+			"创造 CRT",
+			224
+		]
+	];
+}));
+//#endregion
+//#region src/UI/Game/GameSkills.js
+function createGameSkills(canOperate, shortcuts) {
+	const icons = /* @__PURE__ */ new Map();
+	let pending = null, owner, message = "";
+	function snapshot() {
+		if (owner !== SessionStorage_default.Entity) {
+			owner = SessionStorage_default.Entity;
+			pending = null;
+			message = "";
+		}
+		const reset = pointResetState(owner);
+		const ui = Controller$4.getUI();
+		const learned = new Map(ui.getSkills().map((skill) => [skill.SKID, skill]));
+		const ids = new Set(learned.keys());
+		let job = SessionStorage_default.Entity?._job ?? SessionStorage_default.Entity?.job;
+		while (job !== null && SkillTreeView_generated_default[job]) {
+			const tree = SkillTreeView_generated_default[job];
+			for (const key of Object.keys(tree)) if (/^\d+$/.test(key)) ids.add(Number(key));
+			job = tree.beforeJob;
+		}
+		if (pending && pending.revision !== ui.getSkillRevision()) pending = null;
+		const points = ui.getSkillPoints();
+		const allowed = Boolean(canOperate() && !reset.pending && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
+		return {
+			points,
+			canReset: allowed && !pending,
+			message: reset.pending ? reset.message : message,
+			allowed,
+			skills: [...ids].filter((id) => SkillInfo_generated_default[id]).map((id) => {
+				const info = SkillInfo_generated_default[id], skill = learned.get(id), level = skill?.level || 0;
+				if (!icons.has(id)) {
+					icons.set(id, "");
+					Client.loadFile(`${DB.INTERFACE_PATH}item/${info.Name}.bmp`, (url) => icons.set(id, url));
+				}
+				const requirements = (info._NeedSkillList || []).map(([need, required]) => `${SkillInfo_generated_default[need]?.SkillName || need} ${learned.get(need)?.level || 0}/${required}`);
+				const reason = !allowed ? "当前不能学习技能" : pending ? "等待服务器更新技能" : !points ? "技能点不足" : !skill?.upgradable ? "尚未满足学习条件，或已达到可学习上限" : "";
+				return {
+					id,
+					name: info.SkillName,
+					icon: icons.get(id),
+					description: toPlainRagnarokText(DB.getSkillDescription(id)),
+					level,
+					max: Math.max(info.MaxLv, level),
+					active: canExecuteSkill(skill),
+					kind: level ? skill.type === 0 ? "被动" : "主动" : "未学习",
+					requirements,
+					reason,
+					learnable: !reason
+				};
+			})
+		};
+	}
+	return {
+		snapshot,
+		learn(id, expectedLevel) {
+			const skill = snapshot().skills.find((entry) => entry.id === id);
+			if (!skill || !skill.learnable || skill.level + 1 !== expectedLevel) return "技能状态已经变化，请重新确认";
+			pending = { revision: Controller$4.getUI().getSkillRevision() };
+			Controller$4.getUI().onIncreaseSkill(id);
+			return "已请求学习一级，等待服务器更新";
+		},
+		async reset() {
+			if (!snapshot().canReset) return "当前不能重置技能点";
+			const entity = owner;
+			const result = await resetCharacterPoints("skills", entity);
+			if (entity === SessionStorage_default.Entity) message = result;
+			return result;
+		},
+		bind(id, level, slot) {
+			const state = snapshot();
+			const skill = state.skills.find((entry) => entry.id === id);
+			return Boolean(state.allowed && skill?.active && Number.isInteger(level) && level > 0 && level <= skill.level && shortcuts.configure(slot, {
+				isSkill: true,
+				ID: id
+			}, level));
+		}
+	};
+}
+var init_GameSkills = __esmMin((() => {
+	init_GamePointReset();
+	init_SkillList();
+	init_SkillInfo_generated();
+	init_SkillTreeView_generated();
+	init_SkillUse();
+	init_DBManager();
+	init_Client();
+	init_SessionStorage();
+	init_RagnarokText();
 }));
 //#endregion
 //#region src/UI/Game/ShortcutController.js
@@ -361852,7 +362115,7 @@ var init_MailPanel = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Mobile/game/SettingsPanel.js
-/** Draft-only inputs: closing or cancelling leaves runtime and preferences untouched. */
+/** Graphics/audio use a draft; camera adjustments take effect immediately. */
 function createSettingsPanel(body, service) {
 	let draft = service.snapshot();
 	let activeSection = "画面";
@@ -361875,7 +362138,8 @@ function createSettingsPanel(body, service) {
 		for (const name of [
 			"画面",
 			"特效",
-			"声音"
+			"声音",
+			"镜头"
 		]) {
 			const section = document.createElement("section");
 			section.className = "settings-section";
@@ -361892,6 +362156,7 @@ function createSettingsPanel(body, service) {
 					entry.button.setAttribute("aria-pressed", String(label === name));
 				}
 				content.scrollTop = 0;
+				footer.hidden = name === "镜头";
 			};
 			sections.set(name, {
 				section,
@@ -361976,8 +362241,31 @@ function createSettingsPanel(body, service) {
 			});
 			row.append(value);
 		}
+		const camera = sections.get("镜头").section;
+		camera.classList.add("camera-section");
+		const hint = document.createElement("p");
+		hint.textContent = "镜头调整立即生效，无需保存。";
+		const controls = document.createElement("div");
+		controls.className = "camera-controls";
+		for (const [label, action] of [
+			["左转", "left"],
+			["右转", "right"],
+			["拉近", "zoomIn"],
+			["拉远", "zoomOut"],
+			["抬高", "up"],
+			["降低", "down"],
+			["重置镜头", "reset"]
+		]) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = label;
+			button.onclick = () => service.camera(action);
+			controls.append(button);
+		}
+		camera.append(hint, controls);
 		const footer = document.createElement("div");
 		footer.className = "settings-footer";
+		footer.hidden = activeSection === "镜头";
 		const buttons = document.createElement("div");
 		buttons.className = "settings-actions";
 		for (const [label, action] of [
@@ -363565,12 +363853,164 @@ function updateNPCCutin(body, state) {
 }
 var init_NPCPanel = __esmMin((() => {}));
 //#endregion
+//#region src/UI/Mobile/game/PointResetControl.js
+/** Inline confirmation shared by the attribute and skill menus. */
+function createPointResetControl(container, { label, description, reset, canReset, changed }) {
+	const trigger = document.createElement("button");
+	trigger.type = "button";
+	trigger.textContent = label;
+	trigger.className = "point-reset-button";
+	const confirmation = document.createElement("div");
+	confirmation.className = "point-reset-confirm";
+	confirmation.hidden = true;
+	const text = document.createElement("p");
+	text.textContent = description;
+	const confirm = document.createElement("button");
+	confirm.type = "button";
+	confirm.textContent = `确认${label}`;
+	const cancel = document.createElement("button");
+	cancel.type = "button";
+	cancel.textContent = "取消";
+	let submitting = false;
+	trigger.onclick = () => {
+		if (!canReset()) return;
+		confirmation.hidden = false;
+		trigger.hidden = true;
+	};
+	cancel.onclick = () => {
+		confirmation.hidden = true;
+		trigger.hidden = false;
+	};
+	confirm.onclick = async () => {
+		if (submitting || !canReset()) return;
+		submitting = true;
+		confirm.disabled = cancel.disabled = true;
+		const request = reset();
+		changed();
+		await request;
+		submitting = false;
+		confirmation.hidden = true;
+		trigger.hidden = false;
+		changed();
+	};
+	confirmation.append(text, confirm, cancel);
+	container.append(trigger, confirmation);
+	return {
+		update() {
+			trigger.disabled = confirm.disabled = submitting || !canReset();
+			cancel.disabled = submitting;
+		},
+		cancel() {
+			if (!submitting) cancel.click();
+		}
+	};
+}
+var init_PointResetControl = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Mobile/game/AttributesPanel.js
+function createAttributesPanel(body, actions) {
+	body.innerHTML = "<div class=\"attribute-toolbar\"><div class=\"attribute-tabs\" role=\"group\" aria-label=\"素质分类\"></div><strong data-attribute-points></strong></div><div class=\"attribute-layout\"><section class=\"attribute-allocation\" aria-label=\"素质加点\"></section><section class=\"attribute-results\" aria-label=\"相关数值\"><h3>相关数值</h3><p>加点后实时更新，箭头显示本次变化。</p><dl></dl></section></div><div class=\"attribute-footer\"><p role=\"status\" data-attribute-status></p></div>";
+	const $ = (selector) => body.querySelector(selector);
+	const toolbar = $(".attribute-toolbar");
+	let active = "base", state, rowKind;
+	const rows = /* @__PURE__ */ new Map(), results = /* @__PURE__ */ new Map();
+	const tabs = /* @__PURE__ */ new Map();
+	for (const [kind, label] of [["base", "基础素质"], ["traits", "四转素质"]]) {
+		const tab = document.createElement("button");
+		tab.type = "button";
+		tab.textContent = label;
+		tab.onclick = () => {
+			reset.cancel();
+			active = kind;
+			update();
+		};
+		tabs.set(kind, tab);
+		$(".attribute-tabs").append(tab);
+	}
+	const reset = createPointResetControl($(".attribute-footer"), {
+		label: "重置素质点",
+		description: "确认重置当前标签页的六项素质并返还该类点数？另一类素质不受影响。",
+		canReset: () => actions.snapshot().allowed,
+		reset: () => actions.reset(active),
+		changed: () => update()
+	});
+	function update() {
+		if (!body.contains(toolbar)) return;
+		state = actions.snapshot();
+		if (!state.traits.enabled) active = "base";
+		tabs.get("traits").hidden = !state.traits.enabled;
+		for (const [kind, tab] of tabs) {
+			tab.setAttribute("aria-pressed", String(kind === active));
+			tab.disabled = state.pending;
+		}
+		const section = state[active];
+		$("[data-attribute-points]").textContent = `剩余${active === "traits" ? "四转" : ""}素质点：${section.points ?? "—"}`;
+		$("[data-attribute-status]").textContent = state.message;
+		if (rowKind !== active) {
+			rowKind = active;
+			rows.clear();
+			results.clear();
+			$(".attribute-allocation").replaceChildren();
+			$(".attribute-results dl").replaceChildren();
+		}
+		for (const stat of section.rows) {
+			let row = rows.get(stat.key);
+			if (!row) {
+				row = document.createElement("div");
+				row.className = "attribute-row";
+				row.dataset.attribute = stat.key;
+				row.innerHTML = "<strong></strong><span class=\"attribute-value\"></span><small></small><button type=\"button\">＋1</button>";
+				row.querySelector("strong").textContent = stat.label;
+				const button = row.querySelector("button");
+				button.setAttribute("aria-label", `${stat.label}增加 1 点`);
+				button.onclick = () => {
+					actions.increase(active, stat.key);
+					update();
+				};
+				rows.set(stat.key, row);
+				$(".attribute-allocation").append(row);
+			}
+			row.querySelector(".attribute-value").textContent = `${stat.value ?? "—"}${stat.bonus ? ` ${stat.bonus > 0 ? "+" : "−"} ${Math.abs(stat.bonus)}` : ""}`;
+			row.querySelector("small").textContent = stat.cost === null ? "读取中" : stat.cost === 0 ? "已达上限" : `消耗 ${stat.cost} 点`;
+			row.querySelector("button").disabled = !stat.canAdd;
+		}
+		for (const stat of state.related[active]) {
+			let pair = results.get(stat.key);
+			if (!pair) {
+				const term = document.createElement("dt"), value = document.createElement("dd");
+				term.textContent = stat.label;
+				value.dataset.result = stat.key;
+				$(".attribute-results dl").append(term, value);
+				pair = value;
+				results.set(stat.key, pair);
+			}
+			const changed = stat.previous !== void 0 && stat.previous !== stat.value;
+			pair.textContent = changed ? `${stat.previous} → ${stat.value}` : String(stat.value);
+			pair.classList.toggle("attribute-changed", changed);
+		}
+		reset.update();
+	}
+	update();
+	return { update };
+}
+var init_AttributesPanel = __esmMin((() => {
+	init_PointResetControl();
+}));
+//#endregion
 //#region src/UI/Mobile/game/SkillsPanel.js
 function createSkillsPanel(body, actions) {
 	body.innerHTML = "<div class=\"skills-toolbar\"><strong data-skill-points></strong><select aria-label=\"技能分类\"><option value=\"all\">全部技能</option><option value=\"active\">已学主动</option><option value=\"passive\">已学被动</option><option value=\"locked\">未学习</option></select></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"技能列表\"></div><section class=\"inventory-detail\" aria-label=\"技能详情\"></section></div><p role=\"status\" data-skill-status></p>";
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, key = "", state;
 	const nodes = /* @__PURE__ */ new Map();
+	let resetMessage = "";
+	const reset = createPointResetControl($(".skills-toolbar"), {
+		label: "重置技能点",
+		description: "确认重置已学技能并返还技能点？不可重置的技能将保留，其余需重新学习。",
+		canReset: () => actions.snapshot().canReset,
+		reset: () => actions.reset(),
+		changed: () => update()
+	});
 	function button(text, fn) {
 		const b = document.createElement("button");
 		b.type = "button";
@@ -363667,13 +364107,21 @@ function createSkillsPanel(body, actions) {
 	}
 	$("select").onchange = render;
 	function update() {
+		if (!body.contains(list)) return;
 		state = actions.snapshot();
+		if (state.message !== resetMessage) {
+			resetMessage = state.message;
+			status(resetMessage || "");
+		}
+		reset.update();
 		render();
 	}
 	update();
 	return { update };
 }
-var init_SkillsPanel = __esmMin((() => {}));
+var init_SkillsPanel = __esmMin((() => {
+	init_PointResetControl();
+}));
 //#endregion
 //#region src/UI/Mobile/game/EquipmentPanel.js
 /** Independent touch equipment view; server snapshots own all item and stat values. */
@@ -364224,25 +364672,25 @@ var init_ShortcutPanel = __esmMin((() => {}));
 //#region src/UI/Mobile/game/GameHUD.html?raw
 var GameHUD_default$2;
 var init_GameHUD$2 = __esmMin((() => {
-	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<!-- 聊天 UI 暂时隐藏，保留消息订阅与面板实现。 -->\r\n	<button hidden class=\"chat-preview surface\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>\r\n	</button>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-status surface\">\r\n			<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n		</div>\r\n		<div class=\"skill-prompt surface\" hidden>\r\n			<span data-skill-prompt role=\"status\"></span>\r\n		</div>\r\n		<div class=\"battle-tools\">\r\n			<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n			<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n		</div>\r\n		<div class=\"shortcut-tools surface\">\r\n			<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷槽\">‹</button><span data-shortcut-page-label></span\r\n			><button data-shortcut-page=\"1\" aria-label=\"下一组快捷槽\">›</button\r\n			><button data-panel=\"shortcuts\">配置槽位</button>\r\n		</div>\r\n		<div class=\"skill-actions\" hidden>\r\n			<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n			<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能槽位 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能槽位 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能槽位 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能槽位 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能槽位 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能槽位 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop\" hidden>\r\n		<section class=\"panel surface\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mobile-game-panel-title\">\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<button data-close aria-label=\"关闭面板\">关闭</button>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
+	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<!-- 聊天 UI 暂时隐藏，保留消息订阅与面板实现。 -->\r\n	<button hidden class=\"chat-preview surface\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>\r\n	</button>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷槽\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷槽\">›</button\r\n				><button data-panel=\"shortcuts\">配置槽位</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能槽位 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能槽位 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能槽位 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能槽位 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能槽位 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能槽位 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop\" hidden>\r\n		<section class=\"panel surface\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mobile-game-panel-title\">\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<button data-close aria-label=\"关闭面板\">关闭</button>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr) max-content;\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 10px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	pointer-events: auto;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.battle-dock > .battle-status,\r\n.battle-dock > .skill-prompt,\r\n.battle-dock > .battle-tools,\r\n.battle-dock > .shortcut-tools,\r\n.battle-dock > .skill-actions {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25dd;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card:has(input:checked) {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card input {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n\r\n.auto-range-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n";
+	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr) max-content;\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 10px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25dd;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card:has(input:checked) {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card input {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n\r\n.auto-range-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDResponsive.css?raw
 var GameHUDResponsive_default;
 var init_GameHUDResponsive = __esmMin((() => {
-	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.panel.settings-panel {\r\n	width: min(760px, 100%);\r\n	height: 100%;\r\n}\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'],\r\n.settings-actions .settings-save {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #384653;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1ae;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.panel.profile-panel {\r\n	width: min(600px, 100%);\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	:host {\r\n		font-size: 15px;\r\n	}\r\n	.top-left {\r\n		width: 260px;\r\n		gap: 14px;\r\n	}\r\n	.profile {\r\n		padding: 10px 12px;\r\n		gap: 8px;\r\n	}\r\n	.profile-heading > span {\r\n		font-size: 12px;\r\n		max-width: 112px;\r\n	}\r\n	.profile-bars {\r\n		grid-template-columns: 24px minmax(0, 1fr) max-content;\r\n		gap: 7px 6px;\r\n	}\r\n	.profile label {\r\n		font-size: 12px;\r\n	}\r\n	.profile meter {\r\n		height: 14px;\r\n	}\r\n	.profile label span {\r\n		min-width: 82px;\r\n	}\r\n	.profile-actions button {\r\n		min-height: 44px;\r\n		padding: 8px 14px;\r\n	}\r\n	[data-status-icons] img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.map {\r\n		width: 144px;\r\n		gap: 3px;\r\n	}\r\n	.map canvas {\r\n		width: 128px;\r\n		height: 128px;\r\n	}\r\n	.map span {\r\n		font-size: 14px;\r\n	}\r\n	.map small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-dock {\r\n		width: 366px;\r\n		gap: 8px;\r\n	}\r\n	.combat {\r\n		gap: 8px;\r\n	}\r\n	.combat .skill {\r\n		font-size: 24px;\r\n		border-radius: 8px;\r\n	}\r\n	.skill img {\r\n		width: 40px;\r\n		height: 40px;\r\n		bottom: 5px;\r\n	}\r\n	.skill small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-status {\r\n		min-height: 40px;\r\n		font-size: 14px;\r\n		padding: 7px 10px;\r\n	}\r\n	.battle-tools button,\r\n	.battle-status button {\r\n		min-height: 44px;\r\n		font-size: 14px;\r\n		padding: 6px 8px;\r\n	}\r\n	.shortcut-tools,\r\n	.skill-actions {\r\n		height: 44px;\r\n	}\r\n	.shortcut-tools button {\r\n		min-width: 40px;\r\n		min-height: 44px;\r\n	}\r\n	.shortcut-tools span,\r\n	.skill-actions button {\r\n		font-size: 14px;\r\n	}\r\n	.skill-prompt {\r\n		height: 40px;\r\n		font-size: 14px;\r\n	}\r\n	.panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel header {\r\n		padding: 12px 18px;\r\n	}\r\n	.panel h2 {\r\n		font-size: 18px;\r\n	}\r\n	.panel button {\r\n		min-height: 44px;\r\n		padding: 8px 12px;\r\n	}\r\n	.panel-body {\r\n		padding: 18px;\r\n	}\r\n	.menu-grid {\r\n		gap: 12px;\r\n	}\r\n	.menu-grid button {\r\n		min-height: 56px;\r\n		font-size: 16px;\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n		height: 100%;\r\n	}\r\n	.auto-layout,\r\n	.shortcut-layout {\r\n		gap: 20px;\r\n	}\r\n	.auto-layout h3 {\r\n		font-size: 16px;\r\n	}\r\n	.auto-species-list,\r\n	.auto-skill-list {\r\n		gap: 10px;\r\n		font-size: 14px;\r\n	}\r\n	.auto-species-card,\r\n	.auto-skill-card {\r\n		min-height: 58px;\r\n		padding: 12px;\r\n	}\r\n	.auto-skill-card strong {\r\n		font-size: 14px;\r\n	}\r\n	.auto-skill-card small,\r\n	.auto-help,\r\n	[data-skill-count],\r\n	[data-auto-summary],\r\n	[data-auto-feedback],\r\n	[data-config-status],\r\n	.shortcut-current span,\r\n	[data-choice-hint] {\r\n		font-size: 13px;\r\n	}\r\n	.auto-species-check {\r\n		width: 20px;\r\n		height: 20px;\r\n	}\r\n	.auto-range-settings {\r\n		font-size: 14px;\r\n	}\r\n	.auto-config-footer {\r\n		padding-top: 14px;\r\n	}\r\n	.slot-picker {\r\n		gap: 10px;\r\n	}\r\n	.slot-picker strong,\r\n	.shortcut-choice span {\r\n		font-size: 14px;\r\n	}\r\n	.slot-picker span {\r\n		font-size: 13px;\r\n	}\r\n	.shortcut-choice img,\r\n	.shortcut-selected img {\r\n		width: 36px;\r\n		height: 36px;\r\n	}\r\n	.shortcut-editor {\r\n		padding: 16px;\r\n	}\r\n	.settings-form {\r\n		gap: 14px;\r\n	}\r\n	.settings-field {\r\n		min-height: 62px;\r\n	}\r\n	.settings-field small,\r\n	.settings-footer p {\r\n		font-size: 13px;\r\n	}\r\n	.character-details dt,\r\n	.character-details dd {\r\n		padding: 16px 0;\r\n	}\r\n}\r\n";
+	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.panel.settings-panel {\r\n	width: min(760px, 100%);\r\n	height: 100%;\r\n}\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'],\r\n.settings-actions .settings-save {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #384653;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1ae;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.panel.profile-panel {\r\n	width: min(600px, 100%);\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	:host {\r\n		font-size: 15px;\r\n	}\r\n	.top-left {\r\n		width: 260px;\r\n		gap: 14px;\r\n	}\r\n	.profile {\r\n		padding: 10px 12px;\r\n		gap: 8px;\r\n	}\r\n	.profile-heading > span {\r\n		font-size: 12px;\r\n		max-width: 112px;\r\n	}\r\n	.profile-bars {\r\n		grid-template-columns: 24px minmax(0, 1fr) max-content;\r\n		gap: 7px 6px;\r\n	}\r\n	.profile label {\r\n		font-size: 12px;\r\n	}\r\n	.profile meter {\r\n		height: 14px;\r\n	}\r\n	.profile label span {\r\n		min-width: 82px;\r\n	}\r\n	.profile-actions button {\r\n		min-height: 44px;\r\n		padding: 8px 14px;\r\n	}\r\n	[data-status-icons] img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.map {\r\n		width: 144px;\r\n		gap: 3px;\r\n	}\r\n	.map canvas {\r\n		width: 128px;\r\n		height: 128px;\r\n	}\r\n	.map span {\r\n		font-size: 14px;\r\n	}\r\n	.map small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-dock {\r\n		--battle-gap: 8px;\r\n		width: 366px;\r\n	}\r\n	.combat {\r\n		gap: 8px;\r\n	}\r\n	.combat .skill {\r\n		font-size: 24px;\r\n		border-radius: 8px;\r\n	}\r\n	.skill img {\r\n		width: 40px;\r\n		height: 40px;\r\n		bottom: 5px;\r\n	}\r\n	.skill small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-status {\r\n		min-height: 40px;\r\n		font-size: 14px;\r\n		padding: 7px 10px;\r\n	}\r\n	.battle-tools button,\r\n	.battle-status button {\r\n		min-height: 44px;\r\n		font-size: 14px;\r\n		padding: 6px 8px;\r\n	}\r\n	.shortcut-tools,\r\n	.skill-actions {\r\n		height: 44px;\r\n	}\r\n	.shortcut-tools button {\r\n		min-width: 40px;\r\n		min-height: 44px;\r\n	}\r\n	.shortcut-tools span,\r\n	.skill-actions button {\r\n		font-size: 14px;\r\n	}\r\n	.skill-prompt {\r\n		height: 40px;\r\n		font-size: 14px;\r\n	}\r\n	.panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel header {\r\n		padding: 12px 18px;\r\n	}\r\n	.panel h2 {\r\n		font-size: 18px;\r\n	}\r\n	.panel button {\r\n		min-height: 44px;\r\n		padding: 8px 12px;\r\n	}\r\n	.panel-body {\r\n		padding: 18px;\r\n	}\r\n	.menu-grid {\r\n		gap: 12px;\r\n	}\r\n	.menu-grid button {\r\n		min-height: 56px;\r\n		font-size: 16px;\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n		height: 100%;\r\n	}\r\n	.auto-layout,\r\n	.shortcut-layout {\r\n		gap: 20px;\r\n	}\r\n	.auto-layout h3 {\r\n		font-size: 16px;\r\n	}\r\n	.auto-species-list,\r\n	.auto-skill-list {\r\n		gap: 10px;\r\n		font-size: 14px;\r\n	}\r\n	.auto-species-card,\r\n	.auto-skill-card {\r\n		min-height: 58px;\r\n		padding: 12px;\r\n	}\r\n	.auto-skill-card strong {\r\n		font-size: 14px;\r\n	}\r\n	.auto-skill-card small,\r\n	.auto-help,\r\n	[data-skill-count],\r\n	[data-auto-summary],\r\n	[data-auto-feedback],\r\n	[data-config-status],\r\n	.shortcut-current span,\r\n	[data-choice-hint] {\r\n		font-size: 13px;\r\n	}\r\n	.auto-species-check {\r\n		width: 20px;\r\n		height: 20px;\r\n	}\r\n	.auto-range-settings {\r\n		font-size: 14px;\r\n	}\r\n	.auto-config-footer {\r\n		padding-top: 14px;\r\n	}\r\n	.slot-picker {\r\n		gap: 10px;\r\n	}\r\n	.slot-picker strong,\r\n	.shortcut-choice span {\r\n		font-size: 14px;\r\n	}\r\n	.slot-picker span {\r\n		font-size: 13px;\r\n	}\r\n	.shortcut-choice img,\r\n	.shortcut-selected img {\r\n		width: 36px;\r\n		height: 36px;\r\n	}\r\n	.shortcut-editor {\r\n		padding: 16px;\r\n	}\r\n	.settings-form {\r\n		gap: 14px;\r\n	}\r\n	.settings-field {\r\n		min-height: 62px;\r\n	}\r\n	.settings-field small,\r\n	.settings-footer p {\r\n		font-size: 13px;\r\n	}\r\n	.character-details dt,\r\n	.character-details dd {\r\n		padding: 16px 0;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuPanels.css?raw
 var MenuPanels_default;
 var init_MenuPanels = __esmMin((() => {
-	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	--panel-gap: 8px;\r\n	--panel-control: 34px;\r\n	--panel-label: 12px;\r\n	--panel-heading: 13px;\r\n	width: min(600px, 100%);\r\n	background: rgba(25, 31, 38, 0.97);\r\n}\r\n.panel.inventory-panel,\r\n.panel.equipment-panel,\r\n.panel.auto-config-panel,\r\n.panel.shortcut-panel,\r\n.panel.settings-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='status'] .panel-body > p {\r\n	margin: 0 0 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.panel[data-view='camera'] .menu-grid button {\r\n	min-height: var(--panel-control);\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel .map-detail .large-map {\r\n	width: min(100%, 360px);\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	.panel {\r\n		--panel-gap: 16px;\r\n		--panel-control: 44px;\r\n		--panel-label: 14px;\r\n		--panel-heading: 16px;\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		min-height: 52px;\r\n		padding: 12px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {\r\n		width: 40px;\r\n		height: 40px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 80px;\r\n	}\r\n	.panel .inventory-tabs,\r\n	.panel .equipment-tabs {\r\n		gap: 10px;\r\n	}\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.panel:is(\r\n		[data-view='menu'],\r\n		[data-view='camera'],\r\n		[data-view='status'],\r\n		[data-view='bank'],\r\n		[data-view='pet'],\r\n		[data-view='companions']\r\n	) {\r\n		width: min(420px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(400px, 100%);\r\n	}\r\n	.panel.settings-panel {\r\n		width: min(600px, 100%);\r\n	}\r\n	.panel {\r\n		--panel-gap: 6px;\r\n		--panel-control: 30px;\r\n		--panel-label: 11px;\r\n		--panel-heading: 12px;\r\n		font-size: 11px;\r\n	}\r\n	.panel button {\r\n		min-height: 30px;\r\n		padding: 3px 7px;\r\n		font-size: 11px;\r\n	}\r\n	.panel header {\r\n		padding: 4px 10px;\r\n	}\r\n	.panel-body {\r\n		padding: 8px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) {\r\n		flex-wrap: nowrap;\r\n		gap: 4px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n		padding: 3px 5px;\r\n	}\r\n	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n		gap: 4px;\r\n	}\r\n	.panel .inventory-actions {\r\n		gap: 4px;\r\n		margin-top: 6px;\r\n	}\r\n	.panel .inventory-actions button {\r\n		flex: 0 1 auto;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label {\r\n		flex-direction: row;\r\n		flex-wrap: wrap;\r\n		align-items: center;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n		flex: 1 1 120px;\r\n		width: 0;\r\n	}\r\n	.panel .social-form label > input[type='checkbox'] {\r\n		flex: 0 0 18px;\r\n		width: 18px;\r\n	}\r\n	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n		padding: 3px 6px;\r\n		line-height: 1.25;\r\n	}\r\n	.panel-body textarea {\r\n		min-height: 60px;\r\n	}\r\n	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n	.panel .character-details :is(dt, dd) {\r\n		padding: 6px 0;\r\n	}\r\n	.panel .settings-form {\r\n		gap: 4px;\r\n	}\r\n	.panel .settings-section {\r\n		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n		gap: 0 12px;\r\n		padding: 2px 10px;\r\n	}\r\n	.panel .settings-field {\r\n		min-height: 38px;\r\n		gap: 6px;\r\n		padding: 3px 0;\r\n	}\r\n	.panel .settings-footer {\r\n		padding-top: 6px;\r\n	}\r\n	.panel .settings-footer p {\r\n		margin: 4px 0 0;\r\n	}\r\n	.panel .settings-actions {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-range-stepper button {\r\n		padding: 0;\r\n		font-size: 18px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		padding: 3px 6px;\r\n		line-height: 1.3;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 52px;\r\n		padding: 6px;\r\n	}\r\n	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n		font-size: 11px;\r\n	}\r\n	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {\r\n		min-height: 30px;\r\n		padding: 3px 6px;\r\n	}\r\n	.panel .settings-form .settings-field input[type='range'] {\r\n		padding: 0;\r\n	}\r\n	.panel .shortcut-choices {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-auto-rows: minmax(44px, max-content);\r\n		gap: 6px;\r\n	}\r\n	.panel .shortcut-choice {\r\n		min-height: 44px;\r\n		padding: 6px 8px;\r\n		gap: 8px;\r\n	}\r\n	.panel .shortcut-choice span {\r\n		min-width: 0;\r\n		font-size: 12px;\r\n	}\r\n	.panel .shortcut-choice img {\r\n		position: static;\r\n		flex: 0 0 28px;\r\n		width: 28px;\r\n		height: 28px;\r\n		object-fit: contain;\r\n	}\r\n	.panel .shortcut-editor .shortcut-current {\r\n		display: none;\r\n	}\r\n	.panel .shortcut-config {\r\n		margin-top: 0;\r\n	}\r\n	.panel .shortcut-selected img {\r\n		display: none;\r\n	}\r\n	.panel .auto-skill-list {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-skill-card {\r\n		min-height: 32px;\r\n		padding: 4px 6px;\r\n		gap: 5px;\r\n	}\r\n	.panel .auto-skill-card input {\r\n		width: 16px;\r\n		height: 16px;\r\n	}\r\n	.panel .auto-skill-card span {\r\n		gap: 2px 4px;\r\n	}\r\n}\r\n";
+	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	--panel-gap: 8px;\r\n	--panel-control: 34px;\r\n	--panel-label: 12px;\r\n	--panel-heading: 13px;\r\n	width: min(600px, 100%);\r\n	background: rgba(25, 31, 38, 0.97);\r\n}\r\n.panel.inventory-panel,\r\n.panel.equipment-panel,\r\n.panel.auto-config-panel,\r\n.panel.shortcut-panel,\r\n.panel.settings-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='status'] .panel-body > p {\r\n	margin: 0 0 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel .map-detail .large-map {\r\n	width: min(100%, 360px);\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	.panel {\r\n		--panel-gap: 16px;\r\n		--panel-control: 44px;\r\n		--panel-label: 14px;\r\n		--panel-heading: 16px;\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		min-height: 52px;\r\n		padding: 12px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {\r\n		width: 40px;\r\n		height: 40px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 80px;\r\n	}\r\n	.panel .inventory-tabs,\r\n	.panel .equipment-tabs {\r\n		gap: 10px;\r\n	}\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.panel:is(\r\n		[data-view='menu'],\r\n		[data-view='status'],\r\n		[data-view='bank'],\r\n		[data-view='pet'],\r\n		[data-view='companions']\r\n	) {\r\n		width: min(420px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(400px, 100%);\r\n	}\r\n	.panel.settings-panel {\r\n		width: min(600px, 100%);\r\n	}\r\n	.panel {\r\n		--panel-gap: 6px;\r\n		--panel-control: 30px;\r\n		--panel-label: 11px;\r\n		--panel-heading: 12px;\r\n		font-size: 11px;\r\n	}\r\n	.panel button {\r\n		min-height: 30px;\r\n		padding: 3px 7px;\r\n		font-size: 11px;\r\n	}\r\n	.panel header {\r\n		padding: 4px 10px;\r\n	}\r\n	.panel-body {\r\n		padding: 8px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) {\r\n		flex-wrap: nowrap;\r\n		gap: 4px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n		padding: 3px 5px;\r\n	}\r\n	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n		gap: 4px;\r\n	}\r\n	.panel .inventory-actions {\r\n		gap: 4px;\r\n		margin-top: 6px;\r\n	}\r\n	.panel .inventory-actions button {\r\n		flex: 0 1 auto;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label {\r\n		flex-direction: row;\r\n		flex-wrap: wrap;\r\n		align-items: center;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n		flex: 1 1 120px;\r\n		width: 0;\r\n	}\r\n	.panel .social-form label > input[type='checkbox'] {\r\n		flex: 0 0 18px;\r\n		width: 18px;\r\n	}\r\n	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n		padding: 3px 6px;\r\n		line-height: 1.25;\r\n	}\r\n	.panel-body textarea {\r\n		min-height: 60px;\r\n	}\r\n	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n	.panel .character-details :is(dt, dd) {\r\n		padding: 6px 0;\r\n	}\r\n	.panel .settings-form {\r\n		gap: 4px;\r\n	}\r\n	.panel .settings-section {\r\n		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n		gap: 0 12px;\r\n		padding: 2px 10px;\r\n	}\r\n	.panel .settings-field {\r\n		min-height: 38px;\r\n		gap: 6px;\r\n		padding: 3px 0;\r\n	}\r\n	.panel .settings-footer {\r\n		padding-top: 6px;\r\n	}\r\n	.panel .settings-footer p {\r\n		margin: 4px 0 0;\r\n	}\r\n	.panel .settings-actions {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-range-stepper button {\r\n		padding: 0;\r\n		font-size: 18px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		padding: 3px 6px;\r\n		line-height: 1.3;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 52px;\r\n		padding: 6px;\r\n	}\r\n	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n		font-size: 11px;\r\n	}\r\n	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {\r\n		min-height: 30px;\r\n		padding: 3px 6px;\r\n	}\r\n	.panel .settings-form .settings-field input[type='range'] {\r\n		padding: 0;\r\n	}\r\n	.panel .shortcut-choices {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-auto-rows: minmax(44px, max-content);\r\n		gap: 6px;\r\n	}\r\n	.panel .shortcut-choice {\r\n		min-height: 44px;\r\n		padding: 6px 8px;\r\n		gap: 8px;\r\n	}\r\n	.panel .shortcut-choice span {\r\n		min-width: 0;\r\n		font-size: 12px;\r\n	}\r\n	.panel .shortcut-choice img {\r\n		position: static;\r\n		flex: 0 0 28px;\r\n		width: 28px;\r\n		height: 28px;\r\n		object-fit: contain;\r\n	}\r\n	.panel .shortcut-editor .shortcut-current {\r\n		display: none;\r\n	}\r\n	.panel .shortcut-config {\r\n		margin-top: 0;\r\n	}\r\n	.panel .shortcut-selected img {\r\n		display: none;\r\n	}\r\n	.panel .auto-skill-list {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-skill-card {\r\n		min-height: 32px;\r\n		padding: 4px 6px;\r\n		gap: 5px;\r\n	}\r\n	.panel .auto-skill-card input {\r\n		width: 16px;\r\n		height: 16px;\r\n	}\r\n	.panel .auto-skill-card span {\r\n		gap: 2px 4px;\r\n	}\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results h3 {\r\n	margin: 0;\r\n}\r\n.attribute-results p {\r\n	margin: 4px 0 8px;\r\n	font-size: 11px;\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.attribute-changed {\r\n	color: #a2e4b5;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	flex-basis: 100%;\r\n	padding: 6px 8px;\r\n	border: 1px solid #b98b64;\r\n	border-radius: 8px;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.settings-section.camera-section {\r\n	display: block;\r\n}\r\n.camera-section p {\r\n	margin-top: 0;\r\n	color: #bac4cd;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.attribute-allocation {\r\n		gap: 3px;\r\n	}\r\n	.attribute-row {\r\n		padding-bottom: 0;\r\n	}\r\n	.attribute-results dl {\r\n		gap: 4px 8px;\r\n		line-height: 1.3;\r\n	}\r\n	.attribute-results p {\r\n		margin: 2px 0 6px;\r\n		font-size: 10px;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDView.js
@@ -364259,6 +364707,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 	let inventoryPanel = null;
 	let equipmentPanel = null;
 	let skillsPanel = null;
+	let attributesPanel = null;
 	let questsPanel = null;
 	let mapsPanel = null;
 	let navigationPanel = null;
@@ -364341,6 +364790,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 		inventoryPanel = null;
 		equipmentPanel = null;
 		skillsPanel = null;
+		attributesPanel = null;
 		petPanel = null;
 		companionsPanel = null;
 		mailPanel = null;
@@ -364415,7 +364865,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			navigation: "导航",
 			menu: "菜单",
 			chat: "聊天",
-			camera: "镜头",
+			attributes: "素质",
 			shortcuts: "快捷配置",
 			inventory: "背包",
 			equipment: "装备",
@@ -364452,6 +364902,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			"navigation",
 			"inventory",
 			"skills",
+			"attributes",
 			"shop",
 			"trade",
 			"vending",
@@ -364472,6 +364923,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			"navigation",
 			"inventory",
 			"skills",
+			"attributes",
 			"shop",
 			"trade",
 			"vending",
@@ -364519,7 +364971,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 				["地图", "map"],
 				["导航", "navigation"],
 				["状态", "status"],
-				["镜头", "camera"],
+				["素质", "attributes"],
 				["快捷配置", "shortcuts"],
 				["背包", "inventory"],
 				["装备", "equipment"],
@@ -364574,6 +365026,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 		inventoryPanel = null;
 		equipmentPanel = null;
 		skillsPanel = null;
+		attributesPanel = null;
 		petPanel = null;
 		companionsPanel = null;
 		mailPanel = null;
@@ -364651,9 +365104,11 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			serverState.service.setOperationGuard(actions.canOperate);
 			shopPanel = createShopPanel(body, serverState.service);
 		}
+		if (panel === "attributes") attributesPanel = createAttributesPanel(body, actions.attributes);
 		if (panel === "skills") skillsPanel = createSkillsPanel(body, {
 			snapshot: actions.skillsSnapshot,
 			learn: actions.skillsLearn,
+			reset: actions.skillsReset,
 			bind: actions.skillsBind,
 			shortcuts: actions.shortcutSnapshot,
 			slotName: actions.shortcutName
@@ -364676,25 +365131,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			candidates: actions.shortcutCandidates,
 			configure: actions.configureShortcut
 		});
-		if (panel === "camera") {
-			const grid = document.createElement("div");
-			grid.className = "menu-grid";
-			for (const [label, action] of [
-				["左转", "left"],
-				["右转", "right"],
-				["拉近", "zoomIn"],
-				["拉远", "zoomOut"],
-				["抬高", "up"],
-				["降低", "down"],
-				["重置", "reset"]
-			]) {
-				const button = document.createElement("button");
-				button.textContent = label;
-				button.onclick = () => actions.camera(action);
-				grid.append(button);
-			}
-			body.append(grid);
-		}
 		if (panel === "chat") {
 			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
 			updateMessages();
@@ -364772,6 +365208,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			inventoryPanel?.update();
 			equipmentPanel?.update();
 			skillsPanel?.update();
+			attributesPanel?.update();
 			petPanel?.update();
 			companionsPanel?.update();
 			mailPanel?.update();
@@ -364903,6 +365340,7 @@ var init_GameHUDView = __esmMin((() => {
 	init_ContainerPanel();
 	init_ShopPanel();
 	init_NPCPanel();
+	init_AttributesPanel();
 	init_SkillsPanel();
 	init_EquipmentPanel();
 	init_InventoryPanel();
@@ -364989,7 +365427,7 @@ function updateViewport() {
 	HUD._host.style.top = `${viewport?.offsetTop || 0}px`;
 	HUD._host.style.left = `${viewport?.offsetLeft || 0}px`;
 }
-var HUD, view, controls, shortcuts, autoCombat, inventory, equipment, containers, skills, quests, chat, social, timer$1, unsubscribe, unsubscribeOrientation, unsubscribeConnection, unsubscribeInteraction, abort, previousFreeze, modal, GameHUD_default;
+var HUD, view, controls, shortcuts, autoCombat, inventory, equipment, containers, skills, attributes, quests, chat, social, timer$1, unsubscribe, unsubscribeOrientation, unsubscribeConnection, unsubscribeInteraction, abort, previousFreeze, modal, GameHUD_default;
 var init_GameHUD = __esmMin((() => {
 	init_CombatDiagnostics();
 	init_GameAutoCombat();
@@ -365006,6 +365444,7 @@ var init_GameHUD = __esmMin((() => {
 	init_GameMaps();
 	init_GameContainers();
 	init_ServerInteraction();
+	init_GameAttributes();
 	init_GameSkills();
 	init_GameEquipment();
 	init_CharacterStats();
@@ -365048,6 +365487,7 @@ var init_GameHUD = __esmMin((() => {
 		social = createGameSocial(() => modal && !previousFreeze, shortcuts);
 		chat = createGameChat((...args) => HUD.actions.sendChat(...args), () => modal && !previousFreeze);
 		quests = createGameQuests(() => modal && !previousFreeze);
+		attributes = createGameAttributes(() => modal && !previousFreeze);
 		skills = createGameSkills(() => modal && !previousFreeze, shortcuts);
 		equipment = createEquipmentController(inventory, () => characterStats(SessionStorage_default.Entity));
 		view = createGameHUDView(HUD.getRoot(), {
@@ -365072,7 +365512,6 @@ var init_GameHUD = __esmMin((() => {
 				skills: () => autoCombat.skills(),
 				configure: (...args) => autoCombat.configure(...args)
 			},
-			camera: adjustCamera,
 			shortcutPage: (delta) => {
 				shortcuts.turn(delta);
 				snapshot();
@@ -365080,7 +365519,8 @@ var init_GameHUD = __esmMin((() => {
 			settings: {
 				fields: graphicsFields,
 				snapshot: settingsSnapshot,
-				save: saveGameSettings
+				save: saveGameSettings,
+				camera: adjustCamera
 			},
 			openCompanion: (kind) => openGameCompanions(kind, () => modal && !previousFreeze),
 			openPet: () => openGamePet(() => modal && !previousFreeze),
@@ -365095,6 +365535,8 @@ var init_GameHUD = __esmMin((() => {
 			questToggle: (...args) => quests.toggle(...args),
 			containerSnapshot: (source) => containers.snapshot(source),
 			transferItem: (...args) => containers.transfer(...args),
+			attributes,
+			skillsReset: () => skills.reset(),
 			skillsSnapshot: () => skills.snapshot(),
 			skillsLearn: (...args) => skills.learn(...args),
 			skillsBind: (...args) => skills.bind(...args),
@@ -365133,10 +365575,7 @@ var init_GameHUD = __esmMin((() => {
 				autoCombat.pauseForMovement();
 				moveDirection(x, y);
 			},
-			stopMove: () => {
-				MapControl.onRequestStopWalk();
-				SessionStorage_default.moveAction = null;
-			},
+			stopMove: stopDirectionalMovement,
 			shortcut: (slot) => {
 				autoCombat.stop("手动施法，自动战斗已停止");
 				stopAttack();
@@ -365210,6 +365649,7 @@ var init_GameHUD = __esmMin((() => {
 		inventory = null;
 		equipment = null;
 		skills = null;
+		attributes = null;
 		quests = null;
 		chat = null;
 		social = null;
@@ -372490,6 +372930,7 @@ function onStatusParameterChange(pkt) {
 * @param {object} pkt - PACKET.ZC.STATUS_CHANGE_ACK
 */
 function onStatusParameterUpdateAnswer(pkt) {
+	recordCharacterStatResult(SessionStorage_default.Entity, pkt.statusID, pkt.result);
 	if (!pkt.result) return;
 	switch (pkt.statusID) {
 		case StatusProperty_default.STR:
