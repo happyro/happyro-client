@@ -13,6 +13,7 @@ import { createGameQuests } from 'UI/Game/GameQuests.js';
 import { createGameMaps } from 'UI/Game/GameMaps.js';
 import { createGameContainers } from 'UI/Game/GameContainers.js';
 import { subscribeInteraction, clearInteraction } from 'UI/Game/ServerInteraction.js';
+import { createGameAttributes } from 'UI/Game/GameAttributes.js';
 import { createGameSkills } from 'UI/Game/GameSkills.js';
 import { createEquipmentController } from 'UI/Game/GameEquipment.js';
 import { characterStats } from 'UI/Game/CharacterStats.js';
@@ -51,6 +52,7 @@ let inventory;
 let equipment;
 let containers;
 let skills;
+let attributes;
 let quests;
 let chat;
 let social;
@@ -164,6 +166,7 @@ HUD.onAppend = function () {
 		() => modal && !previousFreeze
 	);
 	quests = createGameQuests(() => modal && !previousFreeze);
+	attributes = createGameAttributes(() => modal && !previousFreeze);
 	skills = createGameSkills(() => modal && !previousFreeze, shortcuts);
 	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity));
 	view = createGameHUDView(HUD.getRoot(), {
@@ -211,6 +214,8 @@ HUD.onAppend = function () {
 		questToggle: (...args) => quests.toggle(...args),
 		containerSnapshot: source => containers.snapshot(source),
 		transferItem: (...args) => containers.transfer(...args),
+		attributes,
+		skillsReset: () => skills.reset(),
 		skillsSnapshot: () => skills.snapshot(),
 		skillsLearn: (...args) => skills.learn(...args),
 		skillsBind: (...args) => skills.bind(...args),
@@ -325,6 +330,7 @@ HUD.onRemove = function (resetInteraction = true) {
 	inventory = null;
 	equipment = null;
 	skills = null;
+	attributes = null;
 	quests = null;
 	chat = null;
 	social = null;

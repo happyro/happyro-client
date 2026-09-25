@@ -11,7 +11,7 @@
 /**
  * Load dependencies
  */
-import { updateCharacterStat } from 'UI/Game/CharacterStats.js';
+import { updateCharacterStat, recordCharacterStatResult } from 'UI/Game/CharacterStats.js';
 import { retryOwnedAttack } from 'Controls/AttackIntent.js';
 import DB from 'DB/DBManager.js';
 import StatusProperty from 'DB/Status/StatusProperty.js';
@@ -146,6 +146,7 @@ function onStatusParameterChange(pkt) {
  * @param {object} pkt - PACKET.ZC.STATUS_CHANGE_ACK
  */
 function onStatusParameterUpdateAnswer(pkt) {
+	recordCharacterStatResult(Session.Entity, pkt.statusID, pkt.result);
 	// Fail
 	if (!pkt.result) {
 		return;

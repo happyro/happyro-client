@@ -1,5 +1,17 @@
 /** Server status values, scoped to the current character entity rather than a desktop window. */
 const values = new WeakMap();
+const results = new WeakMap();
+export function characterStatValues(entity) {
+	return { ...values.get(entity) };
+}
+export function recordCharacterStatResult(entity, type, success) {
+	if (!entity) return;
+	if (!results.has(entity)) results.set(entity, new Map());
+	results.get(entity).set(type, { success: Boolean(success) });
+}
+export function characterStatResult(entity, type) {
+	return results.get(entity)?.get(type);
+}
 export function updateCharacterStat(entity, type, value) {
 	if (!entity) return;
 	if (!values.has(entity)) values.set(entity, {});

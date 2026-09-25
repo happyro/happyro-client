@@ -1,3 +1,4 @@
+import { pointResetState, resetCharacterPoints } from './GamePointReset.js';
 import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
 import SkillTree from 'DB/Skills/SkillTreeView.generated.js';
@@ -9,8 +10,17 @@ import { toPlainRagnarokText } from 'Utils/RagnarokText.js';
 
 export function createGameSkills(canOperate, shortcuts) {
 	const icons = new Map();
-	let pending = null;
+	let pending = null,
+		owner,
+		message = '';
+
 	function snapshot() {
+		if (owner !== Session.Entity) {
+			owner = Session.Entity;
+			pending = null;
+			message = '';
+		}
+		const reset = pointResetState(owner);
 		const ui = SkillWindow.getUI();
 		const learned = new Map(ui.getSkills().map(skill => [skill.SKID, skill]));
 		const ids = new Set(learned.keys());
@@ -23,10 +33,16 @@ export function createGameSkills(canOperate, shortcuts) {
 		if (pending && pending.revision !== ui.getSkillRevision()) pending = null;
 		const points = ui.getSkillPoints();
 		const allowed = Boolean(
-			canOperate() && Session.Playing && Session.Entity && Session.Entity.action !== Session.Entity.ACTION.DIE
+			canOperate() &&
+			!reset.pending &&
+			Session.Playing &&
+			Session.Entity &&
+			Session.Entity.action !== Session.Entity.ACTION.DIE
 		);
 		return {
 			points,
+			canReset: allowed && !pending,
+			message: reset.pending ? reset.message : message,
 			allowed,
 			skills: [...ids]
 				.filter(id => SkillInfo[id])
@@ -75,6 +91,13 @@ export function createGameSkills(canOperate, shortcuts) {
 			pending = { revision: SkillWindow.getUI().getSkillRevision() };
 			SkillWindow.getUI().onIncreaseSkill(id);
 			return '已请求学习一级，等待服务器更新';
+		},
+		async reset() {
+			if (!snapshot().canReset) return '当前不能重置技能点';
+			const entity = owner;
+			const result = await resetCharacterPoints('skills', entity);
+			if (entity === Session.Entity) message = result;
+			return result;
 		},
 		bind(id, level, slot) {
 			const state = snapshot();

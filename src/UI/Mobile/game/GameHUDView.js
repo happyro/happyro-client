@@ -19,6 +19,7 @@ import { createMapsPanel } from './MapsPanel.js';
 import { createContainerPanel } from './ContainerPanel.js';
 import { createShopPanel } from './ShopPanel.js';
 import { createNPCPanel, updateNPCCutin } from './NPCPanel.js';
+import { createAttributesPanel } from './AttributesPanel.js';
 import { createSkillsPanel } from './SkillsPanel.js';
 import { createEquipmentPanel } from './EquipmentPanel.js';
 import { createInventoryPanel } from './InventoryPanel.js';
@@ -41,6 +42,7 @@ ${panelsCSS}</style>${html}`;
 	let inventoryPanel = null;
 	let equipmentPanel = null;
 	let skillsPanel = null;
+	let attributesPanel = null;
 	let questsPanel = null;
 	let mapsPanel = null;
 	let navigationPanel = null;
@@ -127,6 +129,7 @@ ${panelsCSS}</style>${html}`;
 		inventoryPanel = null;
 		equipmentPanel = null;
 		skillsPanel = null;
+		attributesPanel = null;
 		petPanel = null;
 		companionsPanel = null;
 		mailPanel = null;
@@ -216,6 +219,7 @@ ${panelsCSS}</style>${html}`;
 				navigation: '导航',
 				menu: '菜单',
 				chat: '聊天',
+				attributes: '素质',
 				shortcuts: '快捷配置',
 				inventory: '背包',
 				equipment: '装备',
@@ -255,6 +259,7 @@ ${panelsCSS}</style>${html}`;
 				'navigation',
 				'inventory',
 				'skills',
+				'attributes',
 				'shop',
 				'trade',
 				'vending',
@@ -278,6 +283,7 @@ ${panelsCSS}</style>${html}`;
 				'navigation',
 				'inventory',
 				'skills',
+				'attributes',
 				'shop',
 				'trade',
 				'vending',
@@ -325,6 +331,7 @@ ${panelsCSS}</style>${html}`;
 				['导航', 'navigation'],
 				// ['聊天', 'chat'], // 聊天 UI 暂时隐藏。
 				['状态', 'status'],
+				['素质', 'attributes'],
 				['快捷配置', 'shortcuts'],
 				['背包', 'inventory'],
 				['装备', 'equipment'],
@@ -382,6 +389,7 @@ ${panelsCSS}</style>${html}`;
 		inventoryPanel = null;
 		equipmentPanel = null;
 		skillsPanel = null;
+		attributesPanel = null;
 		petPanel = null;
 		companionsPanel = null;
 		mailPanel = null;
@@ -462,10 +470,12 @@ ${panelsCSS}</style>${html}`;
 			serverState.service.setOperationGuard(actions.canOperate);
 			shopPanel = createShopPanel(body, serverState.service);
 		}
+		if (panel === 'attributes') attributesPanel = createAttributesPanel(body, actions.attributes);
 		if (panel === 'skills')
 			skillsPanel = createSkillsPanel(body, {
 				snapshot: actions.skillsSnapshot,
 				learn: actions.skillsLearn,
+				reset: actions.skillsReset,
 				bind: actions.skillsBind,
 				shortcuts: actions.shortcutSnapshot,
 				slotName: actions.shortcutName
@@ -577,6 +587,7 @@ ${panelsCSS}</style>${html}`;
 			inventoryPanel?.update();
 			equipmentPanel?.update();
 			skillsPanel?.update();
+			attributesPanel?.update();
 			petPanel?.update();
 			companionsPanel?.update();
 			mailPanel?.update();

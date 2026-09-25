@@ -1,3 +1,4 @@
+vi.mock('UI/Game/GameAttributes.js', () => ({ createGameAttributes: () => ({}) }));
 vi.mock('UI/Game/GameAutoCombat.js', () => ({ createGameAutoCombat: () => ({ tick: vi.fn(), stop: vi.fn(), resumeAfterMovement: vi.fn(), snapshot: () => ({ active: false }) }) }));
 vi.mock('UI/Game/GameCompanions.js',()=>({openGameCompanions:vi.fn()}));
 vi.mock('UI/Game/GamePet.js',()=>({openGamePet:vi.fn()}));
