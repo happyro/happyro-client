@@ -15370,6 +15370,14 @@ PACKET.CZ.MOVETO_MAP.prototype.build = function () {
 	return pkt_buf;
 };
 
+// 0xd03 - Shorten the current joystick route to its next safe stopping point.
+PACKET.CZ.HAPPYRO_STOP_MOVE = function PACKET_CZ_HAPPYRO_STOP_MOVE() {};
+PACKET.CZ.HAPPYRO_STOP_MOVE.prototype.build = function () {
+	const packet = new BinaryWriter(2);
+	packet.writeShort(0xd03);
+	return packet;
+};
+
 // 0xcfe - HappyRO in-game monster catalog summon request
 PACKET.CZ.HAPPYRO_MONSTER_SPAWN = function PACKET_CZ_HAPPYRO_MONSTER_SPAWN() {
 	this.monsterId = 0;

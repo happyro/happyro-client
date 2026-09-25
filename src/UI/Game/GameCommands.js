@@ -13,6 +13,8 @@ import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Navigation from 'UI/Components/Navigation/Navigation.js';
 
+let directionalMovementPlayer = null;
+
 export function selectedTarget() {
 	const target = EntityManager.getFocusEntity();
 	return target && EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE ? target : null;
@@ -56,6 +58,22 @@ export function moveDirection(x, y) {
 	packet.dest[0] = dest[0];
 	packet.dest[1] = dest[1];
 	Network.sendPacket(packet);
+	directionalMovementPlayer = player;
+}
+export function stopDirectionalMovement() {
+	MapControl.onRequestStopWalk();
+	Session.moveAction = null;
+	const player = directionalMovementPlayer;
+	directionalMovementPlayer = null;
+	if (
+		!player ||
+		player !== Session.Entity ||
+		!Session.Playing ||
+		player.action === player.ACTION.DIE ||
+		player.action === player.ACTION.SIT
+	)
+		return;
+	Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
 }
 export function pickSceneEntity(x, y) {
 	Mouse.screen.x = x;

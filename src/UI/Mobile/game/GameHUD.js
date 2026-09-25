@@ -243,10 +243,7 @@ HUD.onAppend = function () {
 			autoCombat.pauseForMovement();
 			Commands.moveDirection(x, y);
 		},
-		stopMove: () => {
-			MapControl.onRequestStopWalk();
-			Session.moveAction = null;
-		},
+		stopMove: Commands.stopDirectionalMovement,
 		shortcut: slot => {
 			autoCombat.stop('手动施法，自动战斗已停止');
 			Commands.stopAttack();

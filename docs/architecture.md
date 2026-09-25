@@ -21,3 +21,9 @@ HappyRO Client 在浏览器中渲染世界、处理输入，并把登录与地�
 - 根仓库：`Config.happyro.js`、导航覆盖、技能 / 导航生成器。
 
 静态数据与服务器权威的边界见根仓库 `docs/architecture/localization-runtime.md`。
+
+## 摇杆停止
+
+移动端摇杆松手或触摸取消时，`GameCommands.stopDirectionalMovement` 立即清除本地续走，并在本次拖动确实发送过方向移动时发送一次 `CZ_HAPPYRO_STOP_MOVE`（`0xd03`，仅 2 字节小端包头）。它不携带客户端坐标，也不改动持续行走的请求间隔、目标距离或动画。
+
+HappyRO Server 沿当前路线缩短剩余步程，通过现有移动确认同步终点；网络往返与格子步进仍会影响停止时间。客户端与服务端须配套部署，先更新支持 `0xd03` 的服务端，再更新客户端，`PACKETVER` 保持 `20211103`。
