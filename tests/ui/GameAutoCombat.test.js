@@ -15,8 +15,9 @@ vi.mock('DB/Skills/SkillInfo.generated.js', () => ({ default: {} }));
 vi.mock('DB/DBManager.js', () => ({ default: { getMonsterName: () => '波利' } }));
 vi.mock('Network/SkillCooldowns.js', () => ({ remainingCooldown: () => state.cooldown }));
 vi.mock('Network/NetworkManager.js', () => ({ default: { sendPacket: state.send } }));
-vi.mock('Network/PacketStructure.js', () => ({ default: { CZ: { REQUEST_MOVE2: class { dest = []; } } } }));
+vi.mock('Network/PacketStructure.js', () => ({ default: { CZ: { HAPPYRO_STOP_MOVE: class {} } } }));
 vi.mock('UI/Game/GameCommands.js', () => ({ attackSelected: state.attack, stopAttack: () => { state.stop(); state.session.moveAction = null; } }));
+import PACKET from '../../src/Network/PacketStructure.js';
 import { createGameAutoCombat } from '../../src/UI/Game/GameAutoCombat.js';
 beforeEach(() => {
 	localStorage.clear();
@@ -47,9 +48,40 @@ it('ignores dead, disappearing, non-monster and unreachable entities', () => {
 	state.entities[0].action = 0; state.entities[0].objecttype = 2; controller.tick(); expect(state.attack).not.toHaveBeenCalled();
 	state.entities[0].objecttype = 1; state.path = 0; controller.tick(); expect(state.attack).not.toHaveBeenCalled();
 });
-it('cancels a queued chase and requests a stop at the player position', () => {
-	const controller = createGameAutoCombat(() => true); controller.start(); state.session.moveAction = { targetID: 10 }; controller.stop();
-	expect(state.session.moveAction).toBeNull(); expect(state.send).toHaveBeenCalledWith(expect.objectContaining({ dest: [0, 0] }));
+it('cancels a queued chase without sending an outdated client coordinate', () => {
+	const controller = createGameAutoCombat(() => true);
+	controller.start();
+	state.session.moveAction = { targetID: 10 };
+	state.session.Entity.position = [10.2, 20.7];
+	state.session.autoFollow = true;
+	controller.stop();
+	expect(state.session.moveAction).toBeNull();
+	expect(state.session.autoFollow).toBe(false);
+	expect(state.send).toHaveBeenCalledExactlyOnceWith(expect.any(PACKET.CZ.HAPPYRO_STOP_MOVE));
+	expect(state.send.mock.calls[0][0]).not.toHaveProperty('dest');
+	controller.stop();
+	controller.tick();
+	expect(state.send).toHaveBeenCalledOnce();
+});
+it('stops attacks before stopping the chase and also uses it when manual movement pauses combat', () => {
+	const controller = createGameAutoCombat(() => true);
+	controller.start();
+	state.session.moveAction = { targetID: 10 };
+	vi.clearAllMocks();
+	controller.pauseForMovement();
+	expect(state.stop).toHaveBeenCalledOnce();
+	expect(state.send).toHaveBeenCalledExactlyOnceWith(expect.any(PACKET.CZ.HAPPYRO_STOP_MOVE));
+	expect(state.stop.mock.invocationCallOrder[0]).toBeLessThan(state.send.mock.invocationCallOrder[0]);
+	expect(controller.snapshot().pausedForMovement).toBe(true);
+});
+it.each(['idle', 'dead', 'disconnected'])('does not send a stop movement request while %s', mode => {
+	const controller = createGameAutoCombat(() => true);
+	controller.start();
+	if (mode !== 'idle') state.session.moveAction = { targetID: 10 };
+	if (mode === 'dead') state.session.Entity.action = state.session.Entity.ACTION.DIE;
+	if (mode === 'disconnected') state.session.Playing = false;
+	controller.stop();
+	expect(state.send).not.toHaveBeenCalled();
 });
 it('stops when the player becomes unavailable and never casts through a busy cast bar', () => {
 	const controller = createGameAutoCombat(() => true); state.session.Entity.cast.display = true; controller.start(); expect(state.attack).not.toHaveBeenCalled();
