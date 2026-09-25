@@ -231,8 +231,8 @@
 		font-size: 12px;
 	}
 	.battle-dock {
+		--battle-gap: 8px;
 		width: 366px;
-		gap: 8px;
 	}
 	.combat {
 		gap: 8px;

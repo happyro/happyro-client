@@ -166,6 +166,7 @@ button.surface,
 	user-select: none;
 }
 .battle-dock {
+	--battle-gap: 6px;
 	pointer-events: none;
 	touch-action: manipulation;
 	position: absolute;
@@ -174,15 +175,16 @@ button.surface,
 	width: 270px;
 	display: grid;
 	grid-template-columns: repeat(6, minmax(0, 1fr));
-	gap: 6px;
+	gap: 0 var(--battle-gap);
 }
-.battle-dock > .battle-status,
-.battle-dock > .skill-prompt,
-.battle-dock > .battle-tools,
-.battle-dock > .shortcut-tools,
-.battle-dock > .skill-actions {
+.battle-controls {
 	grid-column: 3 / -1;
 	min-width: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--battle-gap);
+	padding-bottom: var(--battle-gap);
+	pointer-events: auto;
 }
 .battle-status {
 	display: flex;
