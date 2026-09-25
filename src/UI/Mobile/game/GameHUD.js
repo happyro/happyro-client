@@ -233,7 +233,6 @@ HUD.onAppend = function () {
 		returnToCharacters: () => HUD.actions.returnToCharacters()
 	});
 	unsubscribeInteraction = subscribeInteraction(state => view.showInteraction(state));
-	const movement = Commands.createDirectionalMovement();
 	controls = bindPointerControls(HUD.getRoot(), Renderer.canvas, {
 		enabled,
 		startMove: () => {
@@ -242,9 +241,12 @@ HUD.onAppend = function () {
 		},
 		move: (x, y) => {
 			autoCombat.pauseForMovement();
-			movement.move(x, y);
+			Commands.moveDirection(x, y);
 		},
-		stopMove: () => movement.stop(),
+		stopMove: () => {
+			MapControl.onRequestStopWalk();
+			Session.moveAction = null;
+		},
 		shortcut: slot => {
 			autoCombat.stop('手动施法，自动战斗已停止');
 			Commands.stopAttack();

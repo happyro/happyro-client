@@ -1,7 +1,6 @@
 import Trade from 'UI/Components/Trade/Trade.js';
 import UIManager from 'UI/UIManager.js';
 import { ownAttack, releaseAttack } from 'Controls/AttackIntent.js';
-import { MOVE_REPEAT_MS, MOVE_TURN_MS, MOVE_RETRY_MS } from 'Controls/MovementTiming.js';
 import DB from 'DB/DBManager.js';
 import Session from 'Engine/SessionStorage.js';
 import EntityManager from 'Renderer/EntityManager.js';
@@ -40,53 +39,23 @@ export function attackSelected(moving = false) {
 		target.onFocus({ attack: true, allowMove: !moving });
 	}
 }
-export function createDirectionalMovement() {
-	let lastRequest = null;
-	return {
-		move(x, y) {
-			const player = Session.Entity;
-			if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
-			Navigation.stopAutoWalk();
-			MapControl.onRequestStopWalk();
-			Session.moveAction = null;
-			Session.autoFollow = false;
-			const angle = (-Camera.direction * Math.PI) / 4;
-			const dx = x * Math.cos(angle) - y * Math.sin(angle);
-			const dy = x * Math.sin(angle) + y * Math.cos(angle);
-			// Cover the next repeat, its possible rate-limit wait and the round trip, plus one cell.
-			const distance = Math.min(
-				6,
-				Math.max(2, 1 + (MOVE_REPEAT_MS + MOVE_TURN_MS + Math.max(0, Session.ping.value)) / player.walk.speed)
-			);
-			const dest = [];
-			if (
-				!checkFreeCell(
-					Math.round(player.position[0] + dx * distance),
-					Math.round(player.position[1] + dy * distance),
-					1,
-					dest
-				)
-			)
-				return;
-			const now = performance.now();
-			if (
-				lastRequest?.player === player &&
-				lastRequest.x === dest[0] &&
-				lastRequest.y === dest[1] &&
-				now - lastRequest.at < MOVE_RETRY_MS
-			)
-				return;
-			const packet = new PACKET.CZ.REQUEST_MOVE2();
-			packet.dest[0] = dest[0];
-			packet.dest[1] = dest[1];
-			if (Network.sendPacket(packet)) lastRequest = { player, x: dest[0], y: dest[1], at: now };
-		},
-		stop() {
-			lastRequest = null;
-			MapControl.onRequestStopWalk();
-			Session.moveAction = null;
-		}
-	};
+export function moveDirection(x, y) {
+	const player = Session.Entity;
+	if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
+	Navigation.stopAutoWalk();
+	MapControl.onRequestStopWalk();
+	Session.moveAction = null;
+	Session.autoFollow = false;
+	const angle = (-Camera.direction * Math.PI) / 4;
+	const dx = x * Math.cos(angle) - y * Math.sin(angle);
+	const dy = x * Math.sin(angle) + y * Math.cos(angle);
+	const dest = [];
+	if (!checkFreeCell(Math.round(player.position[0] + dx * 3), Math.round(player.position[1] + dy * 3), 1, dest))
+		return;
+	const packet = new PACKET.CZ.REQUEST_MOVE2();
+	packet.dest[0] = dest[0];
+	packet.dest[1] = dest[1];
+	Network.sendPacket(packet);
 }
 export function pickSceneEntity(x, y) {
 	Mouse.screen.x = x;

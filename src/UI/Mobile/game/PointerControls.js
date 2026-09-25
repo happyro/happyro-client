@@ -1,5 +1,3 @@
-import { MOVE_REPEAT_MS, MOVE_TURN_MS } from 'Controls/MovementTiming.js';
-
 /** A left-side canvas drag owns movement; each skill keeps its own pointer. */
 export function bindPointerControls(root, scene, actions) {
 	const abort = new AbortController();
@@ -7,9 +5,6 @@ export function bindPointerControls(root, scene, actions) {
 	const owners = new Map();
 	let vector = [0, 0],
 		timer,
-		pendingMove,
-		lastMoveAt = -Infinity,
-		lastVector = [0, 0],
 		sceneStart;
 	const listen = (node, type, fn) => node.addEventListener(type, fn, { signal: abort.signal });
 	const moving = () => vector[0] !== 0 || vector[1] !== 0;
@@ -18,30 +13,10 @@ export function bindPointerControls(root, scene, actions) {
 			cancel();
 			return;
 		}
-		if (moving()) requestMove();
-	}
-	function clearPendingMove() {
-		clearTimeout(pendingMove);
-		pendingMove = null;
-	}
-	function sendMove() {
-		clearPendingMove();
-		if (!actions.enabled()) {
-			cancel();
-			return;
-		}
-		if (!moving()) return;
-		lastMoveAt = performance.now();
-		lastVector = vector;
-		actions.move(...vector);
-	}
-	function requestMove() {
-		const wait = MOVE_TURN_MS - (performance.now() - lastMoveAt);
-		if (wait <= 0) sendMove();
-		else if (pendingMove == null) pendingMove = setTimeout(sendMove, wait);
+		if (moving()) actions.move(...vector);
 	}
 	function startTimer() {
-		if (!timer) timer = setInterval(tick, MOVE_REPEAT_MS);
+		if (!timer) timer = setInterval(tick, 200);
 	}
 	function clearIdleTimer() {
 		if (!owners.size && !sceneStart) {
@@ -50,22 +25,10 @@ export function bindPointerControls(root, scene, actions) {
 		}
 	}
 	function update(event) {
-		const wasMoving = moving();
 		const x = event.clientX - sceneStart.x,
 			y = event.clientY - sceneStart.y;
 		const distance = Math.hypot(x, y);
 		vector = distance < 8 ? [0, 0] : [x / distance, -y / distance];
-		if (!moving()) {
-			clearPendingMove();
-			lastMoveAt = -Infinity;
-			if (wasMoving) actions.stopMove();
-		} else if (!wasMoving) {
-			actions.startMove();
-			sendMove();
-		} else if (vector[0] * lastVector[0] + vector[1] * lastVector[1] < Math.cos(Math.PI / 36)) {
-			// Accumulate small changes against the last sent direction, filtering hand jitter.
-			requestMove();
-		}
 	}
 	function releaseSkill(node) {
 		const id = owners.get(node);
@@ -80,8 +43,6 @@ export function bindPointerControls(root, scene, actions) {
 		sceneStart = null;
 		if (start && scene.hasPointerCapture(start.id)) scene.releasePointerCapture(start.id);
 		vector = [0, 0];
-		clearPendingMove();
-		lastMoveAt = -Infinity;
 		if (start?.dragging) actions.stopMove();
 		clearIdleTimer();
 		return start;
@@ -145,7 +106,10 @@ export function bindPointerControls(root, scene, actions) {
 		if (!sceneStart.dragging && distance >= 8) {
 			sceneStart.dragging = true;
 			sceneStart.cancelled = true;
+			actions.startMove();
+			actions.stopMove();
 			update(event);
+			tick();
 		} else if (sceneStart.dragging) update(event);
 	});
 	listen(scene, 'pointerup', event => {

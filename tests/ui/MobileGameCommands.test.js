@@ -1,6 +1,6 @@
 vi.mock('UI/Components/Trade/Trade.js', () => ({default:{reqExchange:s.trade}}));
 vi.mock('UI/UIManager.js', () => ({default:{showPromptBox:s.prompt}}));
-import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { beforeEach, expect, it, vi } from 'vitest';
 const s = vi.hoisted(() => ({
 	session: { Playing: true, Entity: null },
 	trade: vi.fn(), prompt: vi.fn(),
@@ -28,7 +28,6 @@ vi.mock('Renderer/EntityManager.js', () => ({
 	}
 }));
 vi.mock('Renderer/Camera.js', () => ({ default: s.camera }));
-vi.mock('Preferences/Camera.js', () => ({ DEFAULT_CAMERA_ZOOM: 110 }));
 vi.mock('Renderer/Map/Altitude.js', () => ({
 	default: {
 		intersect: (a, b, out) => {
@@ -56,7 +55,7 @@ vi.mock('Network/PacketStructure.js', () => ({
 vi.mock('UI/Components/Navigation/Navigation.js', () => ({ default: { stopAutoWalk: vi.fn() } }));
 import {
 	tapScene,
-	createDirectionalMovement,
+	moveDirection,
 	attackSelected,
 	stopAttack,
 	interactSelected,
@@ -77,18 +76,11 @@ function entity(type = 1) {
 		canAttackEntity: () => false
 	};
 }
-let movement;
-const moveDirection = (...args) => movement.move(...args);
-afterEach(() => vi.useRealTimers());
 beforeEach(() => {
-	vi.useFakeTimers();
-	movement = createDirectionalMovement();
-	s.session.ping = { value: 0 };
-	s.send.mockReturnValue(true);
 	vi.clearAllMocks();
 	s.target = null;
 	s.over = null;
-	s.session.Entity = { position: [10, 10], walk: {speed: 150}, ACTION: { DIE: 99, SIT: 2 }, action: 0 };
+	s.session.Entity = { position: [10, 10], ACTION: { DIE: 99, SIT: 2 }, action: 0 };
 	s.session.moveAction = null;
 	s.camera.direction = 0;
 	s.free.mockImplementation((x, y, r, out) => {
@@ -128,10 +120,10 @@ it('does not auto acquire or attack friendly players or dead targets', () => {
 });
 it('rotates movement with the camera and respects blocked cells and sitting', () => {
 	moveDirection(1, 0);
-	expect(s.send.mock.calls.at(-1)[0].dest).toEqual([12, 10]);
+	expect(s.send.mock.calls.at(-1)[0].dest).toEqual([13, 10]);
 	s.camera.direction = 2;
 	moveDirection(1, 0);
-	expect(s.send.mock.calls.at(-1)[0].dest).toEqual([10, 8]);
+	expect(s.send.mock.calls.at(-1)[0].dest).toEqual([10, 7]);
 	s.free.mockReturnValue(false);
 	moveDirection(1, 0);
 	expect(s.send).toHaveBeenCalledTimes(2);
@@ -171,33 +163,4 @@ it.each([3, 5])('talks to NPC type %i on the first tap without an extra interact
  expect(s.over.onMouseDown).toHaveBeenCalledOnce();
  expect(targetSnapshot().interaction).toBe('');
  expect(s.walk).not.toHaveBeenCalled();
-});
-
-it('extends the movement horizon for fast walking and network round trips', () => {
- s.session.Entity.walk.speed = 50;
- moveDirection(1,0);expect(s.send.mock.calls.at(-1)[0].dest).toEqual([14,10]);
- s.session.ping.value = 100;
- moveDirection(1,0);expect(s.send.mock.calls.at(-1)[0].dest).toEqual([16,10]);
- s.session.ping.value = 1000;
- moveDirection(1,0);expect(s.send.mock.calls.at(-1)[0].dest).toEqual([16,10]);
-});
-
-it('deduplicates recent destinations but retries requests that the server may have rejected', () => {
- moveDirection(1,0);vi.advanceTimersByTime(100);moveDirection(1,0);
- expect(s.send).toHaveBeenCalledOnce();
- vi.advanceTimersByTime(100);moveDirection(1,0);expect(s.send).toHaveBeenCalledTimes(2);
- moveDirection(0,1);expect(s.send.mock.calls.at(-1)[0].dest).toEqual([10,12]);
- moveDirection(1,0);expect(s.send.mock.calls.at(-1)[0].dest).toEqual([12,10]);
- expect(s.send).toHaveBeenCalledTimes(4);
-});
-
-it('clears duplicate suppression on stop and does not remember a failed socket send', () => {
- moveDirection(1,0);movement.stop();moveDirection(1,0);expect(s.send).toHaveBeenCalledTimes(2);
- movement.stop();s.send.mockReturnValueOnce(false);
- moveDirection(1,0);moveDirection(1,0);expect(s.send).toHaveBeenCalledTimes(4);
-});
-
-it('does not suppress movement when the player entity is replaced', () => {
- moveDirection(1,0);s.session.Entity = {...s.session.Entity};moveDirection(1,0);
- expect(s.send).toHaveBeenCalledTimes(2);
 });
