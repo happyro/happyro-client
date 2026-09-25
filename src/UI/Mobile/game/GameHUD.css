@@ -166,7 +166,7 @@ button.surface,
 	user-select: none;
 }
 .battle-dock {
-	pointer-events: auto;
+	pointer-events: none;
 	touch-action: manipulation;
 	position: absolute;
 	right: max(16px, env(safe-area-inset-right));
@@ -193,6 +193,7 @@ button.surface,
 	font-size: 11px;
 }
 .battle-dock .surface {
+	pointer-events: auto;
 	border-radius: 8px;
 }
 .battle-status span {
