@@ -1,4 +1,4 @@
-vi.mock('UI/Game/GameAutoCombat.js', () => ({ createGameAutoCombat: () => ({ tick: vi.fn(), stop: vi.fn(), snapshot: () => ({ active: false }) }) }));
+vi.mock('UI/Game/GameAutoCombat.js', () => ({ createGameAutoCombat: () => ({ tick: vi.fn(), stop: vi.fn(), resumeAfterMovement: vi.fn(), snapshot: () => ({ active: false }) }) }));
 vi.mock('UI/Game/GameCompanions.js',()=>({openGameCompanions:vi.fn()}));
 vi.mock('UI/Game/GamePet.js',()=>({openGamePet:vi.fn()}));
 vi.mock('UI/Game/GameMail.js',()=>({openGameMail:vi.fn(),gameMailUnread:()=>false}));
@@ -13,11 +13,11 @@ vi.mock('UI/Game/GameSkills.js', () => ({ createGameSkills: () => ({ snapshot: (
 vi.mock('UI/Game/GameInventory.js', () => ({ createGameInventory: canOperate => { state.inventoryAllowed = canOperate; return { snapshot: () => [], act: vi.fn() }; } }));
 vi.mock('UI/Game/GameShortcuts.js', () => ({ createGameShortcuts: () => ({ snapshot: () => ({}), cancel: vi.fn() }) }));
 vi.mock('Renderer/Renderer.js', () => ({ default: { canvas: document.createElement('canvas') } }));
-vi.mock('UI/Game/GameCommands.js', () => ({ adjustCamera: vi.fn(), targetSnapshot: () => ({}), moveDirection: vi.fn(), stopAttack: vi.fn(), attackSelected: vi.fn(), tapScene: vi.fn(), interactSelected: vi.fn() }));
-vi.mock('../../src/UI/Mobile/game/PointerControls.js', () => ({ bindPointerControls: () => ({ cancel: vi.fn(), destroy: vi.fn() }) }));
+vi.mock('UI/Game/GameCommands.js', () => ({ adjustCamera: vi.fn(), targetSnapshot: () => ({}), createDirectionalMovement: () => ({move: vi.fn(), stop: vi.fn()}), stopAttack: vi.fn(), attackSelected: vi.fn(), tapScene: vi.fn(), interactSelected: vi.fn() }));
+vi.mock('../../src/UI/Mobile/game/PointerControls.js', () => ({ bindPointerControls: () => ({ isMoving: () => false, cancel: vi.fn(), destroy: vi.fn() }) }));
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 const state = vi.hoisted(() => ({
-	Session: { FreezeUI: false, Entity: { display: { name: '角色' }, job: 0, clevel: 1, joblevel: 1, money: 0, life: { hp: 10, hp_max: 10, sp: 2, sp_max: 3 }, position: [1, 2] } },
+	Session: { FreezeUI: false, Entity: { ACTION: {WALK: 1}, action: 0, display: { name: '角色' }, job: 0, clevel: 1, joblevel: 1, money: 0, life: { hp: 10, hp_max: 10, sp: 2, sp_max: 3 }, position: [1, 2] } },
 	cancel: vi.fn(), stopWalk: vi.fn(), feed: new Set(), orientation: new Set(), connection: new Set(), actions: null,
 	view: { showInteraction: vi.fn(), updateShortcuts: vi.fn(), update: vi.fn(), setMap: vi.fn(), setMessages: vi.fn(), close: vi.fn(), destroy: vi.fn() }
 }));
