@@ -216,7 +216,6 @@ ${panelsCSS}</style>${html}`;
 				navigation: '导航',
 				menu: '菜单',
 				chat: '聊天',
-				camera: '镜头',
 				shortcuts: '快捷配置',
 				inventory: '背包',
 				equipment: '装备',
@@ -326,7 +325,6 @@ ${panelsCSS}</style>${html}`;
 				['导航', 'navigation'],
 				// ['聊天', 'chat'], // 聊天 UI 暂时隐藏。
 				['状态', 'status'],
-				['镜头', 'camera'],
 				['快捷配置', 'shortcuts'],
 				['背包', 'inventory'],
 				['装备', 'equipment'],
@@ -493,25 +491,6 @@ ${panelsCSS}</style>${html}`;
 				candidates: actions.shortcutCandidates,
 				configure: actions.configureShortcut
 			});
-		if (panel === 'camera') {
-			const grid = document.createElement('div');
-			grid.className = 'menu-grid';
-			for (const [label, action] of [
-				['左转', 'left'],
-				['右转', 'right'],
-				['拉近', 'zoomIn'],
-				['拉远', 'zoomOut'],
-				['抬高', 'up'],
-				['降低', 'down'],
-				['重置', 'reset']
-			]) {
-				const button = document.createElement('button');
-				button.textContent = label;
-				button.onclick = () => actions.camera(action);
-				grid.append(button);
-			}
-			body.append(grid);
-		}
 		if (panel === 'chat') {
 			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
 			updateMessages();

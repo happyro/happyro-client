@@ -164,9 +164,6 @@
 	border-radius: 10px;
 	background: #19212a;
 }
-.panel[data-view='camera'] .menu-grid button {
-	min-height: var(--panel-control);
-}
 .panel[data-view='pet'] .panel-body > *,
 .panel[data-view='companions'] .panel-body > * {
 	margin-bottom: var(--panel-gap);
@@ -273,7 +270,6 @@
 @media (max-width: 767px), (max-height: 559px) {
 	.panel:is(
 		[data-view='menu'],
-		[data-view='camera'],
 		[data-view='status'],
 		[data-view='bank'],
 		[data-view='pet'],
@@ -441,4 +437,17 @@
 	.panel .auto-skill-card span {
 		gap: 2px 4px;
 	}
+}
+
+.settings-section.camera-section {
+	display: block;
+}
+.camera-section p {
+	margin-top: 0;
+	color: #bac4cd;
+}
+.camera-controls {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
 }

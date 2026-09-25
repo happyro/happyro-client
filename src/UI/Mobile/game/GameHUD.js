@@ -188,12 +188,16 @@ HUD.onAppend = function () {
 			skills: () => autoCombat.skills(),
 			configure: (...args) => autoCombat.configure(...args)
 		},
-		camera: Commands.adjustCamera,
 		shortcutPage: delta => {
 			shortcuts.turn(delta);
 			snapshot();
 		},
-		settings: { fields: graphicsFields, snapshot: settingsSnapshot, save: saveGameSettings },
+		settings: {
+			fields: graphicsFields,
+			snapshot: settingsSnapshot,
+			save: saveGameSettings,
+			camera: Commands.adjustCamera
+		},
 		openCompanion: kind => openGameCompanions(kind, () => modal && !previousFreeze),
 		openPet: () => openGamePet(() => modal && !previousFreeze),
 		openMail: () => openGameMail(() => modal && !previousFreeze),

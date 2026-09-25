@@ -1,4 +1,4 @@
-/** Draft-only inputs: closing or cancelling leaves runtime and preferences untouched. */
+/** Graphics/audio use a draft; camera adjustments take effect immediately. */
 export function createSettingsPanel(body, service) {
 	let draft = service.snapshot();
 	let activeSection = '画面';
@@ -18,7 +18,7 @@ export function createSettingsPanel(body, service) {
 		const content = document.createElement('div');
 		content.className = 'settings-content';
 		const sections = new Map();
-		for (const name of ['画面', '特效', '声音']) {
+		for (const name of ['画面', '特效', '声音', '镜头']) {
 			const section = document.createElement('section');
 			section.className = 'settings-section';
 			section.setAttribute('aria-label', name);
@@ -34,6 +34,7 @@ export function createSettingsPanel(body, service) {
 					entry.button.setAttribute('aria-pressed', String(label === name));
 				}
 				content.scrollTop = 0;
+				footer.hidden = name === '镜头';
 			};
 			sections.set(name, { section, button });
 			tabs.append(button);
@@ -111,8 +112,32 @@ export function createSettingsPanel(body, service) {
 			});
 			row.append(value);
 		}
+
+		const camera = sections.get('镜头').section;
+		camera.classList.add('camera-section');
+		const hint = document.createElement('p');
+		hint.textContent = '镜头调整立即生效，无需保存。';
+		const controls = document.createElement('div');
+		controls.className = 'camera-controls';
+		for (const [label, action] of [
+			['左转', 'left'],
+			['右转', 'right'],
+			['拉近', 'zoomIn'],
+			['拉远', 'zoomOut'],
+			['抬高', 'up'],
+			['降低', 'down'],
+			['重置镜头', 'reset']
+		]) {
+			const button = document.createElement('button');
+			button.type = 'button';
+			button.textContent = label;
+			button.onclick = () => service.camera(action);
+			controls.append(button);
+		}
+		camera.append(hint, controls);
 		const footer = document.createElement('div');
 		footer.className = 'settings-footer';
+		footer.hidden = activeSection === '镜头';
 		const buttons = document.createElement('div');
 		buttons.className = 'settings-actions';
 		for (const [label, action] of [

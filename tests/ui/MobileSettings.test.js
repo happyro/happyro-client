@@ -36,3 +36,16 @@ it('keeps changes across setting categories and applies them together only on sa
 	expect(s.graphics.quality).toBe(100);
 	expect(s.audio.Sound.play).toBe(false);
 });
+
+it('adjusts the camera immediately inside settings while preserving unsaved graphics', () => {
+ const body = document.createElement('div'), camera = vi.fn();
+ createSettingsPanel(body, { fields: graphicsFields, snapshot: settingsSnapshot, save: saveGameSettings, camera });
+ const click = text => [...body.querySelectorAll('button')].find(b => b.textContent === text).click();
+ const input = body.querySelector('[data-setting=quality]'); input.value = 100; input.dispatchEvent(new Event('input'));
+ click('镜头'); click('左转'); click('重置镜头');
+ expect(camera.mock.calls).toEqual([['left'], ['reset']]);
+ expect(body.querySelector('.settings-footer').hidden).toBe(true);
+ expect(s.graphics.save).not.toHaveBeenCalled();
+ click('画面'); expect(input.value).toBe('100'); expect(body.querySelector('.settings-footer').hidden).toBe(false);
+ click('保存'); expect(s.graphics.quality).toBe(100);
+});
