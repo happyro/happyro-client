@@ -1,3 +1,4 @@
+import Navigation from 'UI/Components/Navigation/Navigation.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Session from 'Engine/SessionStorage.js';
@@ -58,6 +59,8 @@ export function createGameAutoCombat(enabled) {
 			});
 	}
 	function stop() {
+		Navigation.stopAutoWalk();
+		SkillTargetSelection.remove();
 		const chasing = Boolean(Session.moveAction);
 		Commands.stopAttack();
 		if (chasing && Session.Playing && Session.Entity && Session.Entity.action !== Session.Entity.ACTION.DIE) {

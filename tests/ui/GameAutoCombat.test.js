@@ -10,10 +10,11 @@ vi.mock('Controls/MapControl.js', () => ({ default: { onRequestStopWalk: vi.fn()
 vi.mock('Utils/PathFinding.js', () => ({ default: { search: () => state.path } }));
 vi.mock('Renderer/Map/Altitude.js', () => ({ default: { TYPE: { WALKABLE: 1 } } }));
 vi.mock('UI/Components/SkillList/SkillList.js', () => ({ default: { getUI: () => ({ getSkills: () => state.skills }) } }));
-vi.mock('UI/Components/SkillTargetSelection/SkillTargetSelection.js', () => ({ default: { onUseSkillToId: state.cast, onUseSkillToPos: state.ground } }));
+vi.mock('UI/Components/SkillTargetSelection/SkillTargetSelection.js', () => ({ default: { remove: vi.fn(), onUseSkillToId: state.cast, onUseSkillToPos: state.ground } }));
 vi.mock('DB/Skills/SkillInfo.generated.js', () => ({ default: {} }));
 vi.mock('DB/DBManager.js', () => ({ default: { getMonsterName: () => '波利' } }));
 vi.mock('Network/SkillCooldowns.js', () => ({ remainingCooldown: () => state.cooldown }));
+vi.mock('UI/Components/Navigation/Navigation.js', () => ({ default: { stopAutoWalk: vi.fn() } }));
 vi.mock('Network/NetworkManager.js', () => ({ default: { sendPacket: state.send } }));
 vi.mock('Network/PacketStructure.js', () => ({ default: { CZ: { HAPPYRO_STOP_MOVE: class {} } } }));
 vi.mock('UI/Game/GameCommands.js', () => ({ attackSelected: state.attack, stopAttack: () => { state.stop(); state.session.moveAction = null; } }));

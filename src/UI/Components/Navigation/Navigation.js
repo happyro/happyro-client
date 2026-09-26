@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import { notifyGameInput } from 'Controls/GameInputIntent.js';
 import KEYS from 'Controls/KeyEventHandler.js';
 import Renderer from 'Renderer/Renderer.js';
 import MapRenderer from 'Renderer/MapRenderer.js';
@@ -1005,6 +1006,7 @@ Navigation.updateAutoWalkButtons = function updateAutoWalkButtons() {
 };
 
 Navigation.startAutoWalk = function startAutoWalk() {
+	notifyGameInput('action');
 	if (_autoWalkActive || !_targetData || _targetData.map !== getCurrentMap() || _pathUnavailable) return;
 	_autoWalkActive = true;
 	this.updateAutoWalkButtons();

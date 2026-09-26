@@ -1,4 +1,5 @@
-import { createAutoCombatPanel } from './AutoCombatPanel.js';
+import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
+import autoCombatCSS from 'UI/Game/AutoCombatPanel.css?raw';
 import { createNavigationPanel } from './NavigationPanel.js';
 import { createCompanionsPanel } from './CompanionsPanel.js';
 import { createPetPanel } from './PetPanel.js';
@@ -32,6 +33,7 @@ import panelsCSS from './MenuPanels.css?raw';
 /** DOM-only view; no packets, desktop windows or map event handlers. */
 export function createGameHUDView(root, actions) {
 	root.innerHTML = `<style>${css}
+${autoCombatCSS}
 ${responsiveCSS}
 ${panelsCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);

@@ -1,5 +1,5 @@
 import CombatDiagnostics from 'Core/CombatDiagnostics.js';
-import { createGameAutoCombat } from 'UI/Game/GameAutoCombat.js';
+import { createGameAutoCombatRuntime } from 'UI/Game/GameAutoCombatRuntime.js';
 import { openGameCompanions } from 'UI/Game/GameCompanions.js';
 import { openGamePet } from 'UI/Game/GamePet.js';
 import { openGameMail, gameMailUnread } from 'UI/Game/GameMail.js';
@@ -36,7 +36,6 @@ import DB from 'DB/DBManager.js';
 import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import StatusIcons from 'UI/Components/StatusIcons/StatusIcons.js';
 import { subscribeChatFeed } from 'UI/Game/ChatFeed.js';
-import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
 import { createGameHUDView } from './GameHUDView.js';
 
 const HUD = new GUIComponent('MobileGameHUD', '');
@@ -56,10 +55,8 @@ let attributes;
 let quests;
 let chat;
 let social;
-let timer;
 let unsubscribe;
 let unsubscribeOrientation;
-let unsubscribeConnection;
 let unsubscribeInteraction;
 let abort;
 let previousFreeze;
@@ -90,8 +87,6 @@ function snapshot() {
 	const entity = Session.Entity;
 	if (!entity) return;
 	const diagnosticStart = CombatDiagnostics.begin();
-	if (!controls?.isMoving() && entity.action !== entity.ACTION.WALK) autoCombat?.resumeAfterMovement();
-	autoCombat?.tick();
 	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
 		autoCombat: autoCombat.snapshot(),
@@ -156,7 +151,14 @@ HUD.onAppend = function () {
 			Session.Entity &&
 			Session.Entity.action !== Session.Entity.ACTION.DIE
 		);
-	autoCombat = createGameAutoCombat(enabled);
+	autoCombat = createGameAutoCombatRuntime({
+		enabled,
+		isMoving: () => controls?.isMoving() || false,
+		update: () => {
+			if (view) snapshot();
+		},
+		onDisconnect: () => HUD.remove()
+	});
 	shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
 	inventory = createGameInventory(() => modal && !previousFreeze);
 	containers = createGameContainers(() => modal && !previousFreeze);
@@ -297,7 +299,6 @@ HUD.onAppend = function () {
 			})
 		);
 	});
-	timer = window.setInterval(snapshot, 200);
 	const cancel = () => {
 		cancelSceneInput();
 		view.close();
@@ -311,14 +312,13 @@ HUD.onAppend = function () {
 		{ signal: abort.signal }
 	);
 	unsubscribeOrientation = Platform.onOrientationChange(() => cancel());
-	unsubscribeConnection = onConnectionEnd(() => HUD.remove());
 	for (const type of ['resize', 'scroll'])
 		window.visualViewport?.addEventListener(type, updateViewport, { signal: abort.signal });
 	window.addEventListener('resize', updateViewport, { signal: abort.signal });
 	updateViewport();
 };
 HUD.onRemove = function (resetInteraction = true) {
-	autoCombat?.stop();
+	autoCombat?.destroy();
 	autoCombat = null;
 	unsubscribeInteraction?.();
 	unsubscribeInteraction = null;
@@ -336,14 +336,10 @@ HUD.onRemove = function (resetInteraction = true) {
 	social = null;
 	containers = null;
 	clearAttackIntent();
-	clearInterval(timer);
-	timer = null;
 	unsubscribe?.();
 	unsubscribe = null;
 	unsubscribeOrientation?.();
 	unsubscribeOrientation = null;
-	unsubscribeConnection?.();
-	unsubscribeConnection = null;
 	abort?.abort();
 	abort = null;
 	if (view) {

@@ -1,0 +1,97 @@
+:host {
+	position: fixed !important;
+	right: 16px;
+	bottom: 24px;
+	pointer-events: none;
+	color: #f4f0e6;
+	font:
+		13px Arial,
+		sans-serif;
+}
+* {
+	box-sizing: border-box;
+}
+[hidden] {
+	display: none !important;
+}
+button {
+	color: inherit;
+	font: inherit;
+	border: 1px solid #65717b;
+	border-radius: 6px;
+	background: #18212b;
+	padding: 7px 12px;
+	cursor: pointer;
+}
+button:hover {
+	border-color: #ceaa70;
+}
+button:focus-visible,
+input:focus-visible {
+	outline: 2px solid #ffca67;
+	outline-offset: 2px;
+}
+button:disabled {
+	opacity: 0.45;
+	cursor: default;
+}
+.combat-bar {
+	width: 260px;
+	max-width: calc(100vw - 32px);
+	padding: 10px;
+	border: 1px solid #65717b;
+	border-radius: 10px;
+	background: #18212bf2;
+	box-shadow: 0 3px 12px #0005;
+	pointer-events: auto;
+}
+.combat-actions {
+	display: flex;
+	gap: 8px;
+}
+.combat-actions button {
+	flex: 1;
+}
+[data-toggle][aria-pressed='true'] {
+	border-color: #ceaa70;
+	background: #493c26;
+}
+.combat-status {
+	display: block;
+	margin-top: 8px;
+	color: #ceaa70;
+	overflow-wrap: anywhere;
+	font-size: 12px;
+}
+.combat-backdrop {
+	position: fixed;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	background: #0006;
+	pointer-events: auto;
+	padding: 16px;
+}
+.combat-dialog {
+	display: flex;
+	flex-direction: column;
+	width: min(760px, 100%);
+	height: min(560px, 100%);
+	max-height: calc(100dvh - 32px);
+	padding: 16px;
+	gap: 14px;
+	background: #18212b;
+	border: 1px solid #65717b;
+	border-radius: 12px;
+	box-shadow: 0 8px 32px #0008;
+}
+.combat-dialog header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+}
+.combat-dialog h2 {
+	margin: 0;
+	font-size: 17px;
+}
