@@ -240727,19 +240727,19 @@ var init_NodeSocket = __esmMin((() => {
 //#endregion
 //#region src/Network/ConnectionLifecycle.js
 function onConnectionEnd(listener) {
-	listeners$5.add(listener);
-	return () => listeners$5.delete(listener);
+	listeners$6.add(listener);
+	return () => listeners$6.delete(listener);
 }
 function endConnection() {
-	for (const listener of listeners$5) try {
+	for (const listener of listeners$6) try {
 		listener();
 	} catch (error) {
 		console.error("[Network] Connection cleanup failed", error);
 	}
 }
-var listeners$5;
+var listeners$6;
 var init_ConnectionLifecycle = __esmMin((() => {
-	listeners$5 = /* @__PURE__ */ new Set();
+	listeners$6 = /* @__PURE__ */ new Set();
 }));
 //#endregion
 //#region src/Network/NetworkManager.js
@@ -253579,21 +253579,21 @@ var init_Announce = __esmMin((() => {
 function publishChatMessage(message) {
 	messages.push(Object.freeze({ ...message }));
 	if (messages.length > 80) messages.shift();
-	for (const listener of listeners$4) listener(messages.slice());
+	for (const listener of listeners$5) listener(messages.slice());
 }
 function subscribeChatFeed(listener) {
-	listeners$4.add(listener);
+	listeners$5.add(listener);
 	listener(messages.slice());
-	return () => listeners$4.delete(listener);
+	return () => listeners$5.delete(listener);
 }
 function clearChatFeed() {
 	messages.length = 0;
-	for (const listener of listeners$4) listener([]);
+	for (const listener of listeners$5) listener([]);
 }
-var messages, listeners$4;
+var messages, listeners$5;
 var init_ChatFeed = __esmMin((() => {
 	messages = [];
-	listeners$4 = /* @__PURE__ */ new Set();
+	listeners$5 = /* @__PURE__ */ new Set();
 }));
 //#endregion
 //#region src/Preferences/ShortCutControls.js
@@ -258360,6 +258360,21 @@ var init_WorldMapPreview = __esmMin((() => {
 	NPC_MARKER_COLOR = "#a855f7";
 }));
 //#endregion
+//#region src/Controls/GameInputIntent.js
+function subscribeGameInput(listener) {
+	listeners$4.add(listener);
+	return () => listeners$4.delete(listener);
+}
+function notifyGameInput(kind, targetId) {
+	let handled = false;
+	for (const listener of listeners$4) handled = listener(kind, targetId) || handled;
+	return handled;
+}
+var listeners$4;
+var init_GameInputIntent = __esmMin((() => {
+	listeners$4 = /* @__PURE__ */ new Set();
+}));
+//#endregion
 //#region src/UI/Components/GameTools/WorldAssetService.js
 function loadNpcAssets() {
 	if (!npcAssetsPromise) npcAssetsPromise = fetch(new URL("./data/world/npc-assets.json", window.location.href)).then((response) => {
@@ -259240,6 +259255,7 @@ function getTeleportTarget() {
 }
 var Navigation, NAVIGATION_WIDTH, NAVIGATION_HEIGHT, MAP_WIDTH, MAP_HEIGHT, _toolDealer, _weaponDealer, _armorDealer, _blacksmith, _guide, _inn, _kafra, _map, _ctx$2, _towninfo, _markers, _path, _lastPathUpdate, _pathUpdateThrottle, _pathUpdateLock, _pathFindingWorker, _mapData, _mapTerrain, _mapLoadRequestId$1, _navigationRequestId, _mapImageMap, _targetData, _finalTargetData, _selectedTargetData, _autoWalkTimer, _autoWalkActive, _autoWalkRequested, _resumeAutoWalkAfterMapLoad, _dialogueWarp, _routeStateListeners, _teleportCooldownUntil, _teleportCooldownTimer, _npcTeleportPending, _npcTeleportRequestId, _npcTeleportTimer, _npcAvailabilityRequestId, _npcAvailabilityPending, _npcAvailabilityTimer, _searchRequestId, _unsubscribeAdventureActions, _isMapClickTarget, _pathUnavailable, _blinking, _fadeInterval, _originalColor, _documentClickHandler, Navigation_default;
 var init_Navigation = __esmMin((() => {
+	init_GameInputIntent();
 	init_KeyEventHandler();
 	init_Renderer();
 	init_MapRenderer();
@@ -259778,6 +259794,7 @@ var init_Navigation = __esmMin((() => {
 		stop.style.display = _autoWalkActive ? "inline-block" : "none";
 	};
 	Navigation.startAutoWalk = function startAutoWalk() {
+		notifyGameInput("action");
 		if (_autoWalkActive || !_targetData || _targetData.map !== getCurrentMap() || _pathUnavailable) return;
 		_autoWalkActive = true;
 		this.updateAutoWalkButtons();
@@ -266369,6 +266386,7 @@ function executeSkillUse(skill, level, { onUseSkill, onSelectTarget } = {}) {
 		});
 		return false;
 	}
+	notifyGameInput("skill");
 	const inf = skillInf(skill);
 	const useLevel = level ? level : skill.level;
 	if (inf & SKILL_INF.SELF) onUseSkill?.(skill.SKID, useLevel);
@@ -266383,6 +266401,7 @@ function useSkillID(getSkillById, id, level, hooks) {
 }
 var SKILL_INF;
 var init_SkillUse = __esmMin((() => {
+	init_GameInputIntent();
 	init_SkillCooldowns();
 	init_preload_helper();
 	SKILL_INF = {
@@ -278444,7 +278463,7 @@ function previewAdventureRoute(nextTarget) {
 }
 function startAdventureRoute(nextTarget) {
 	if (!nextTarget?.mapName || !Number.isFinite(nextTarget.x) || !Number.isFinite(nextTarget.y) || normalizeAdventureMap(nextTarget.mapName) !== getCurrentAdventureMap()) return false;
-	clearInterval(timer$2);
+	clearInterval(timer$1);
 	Navigation_default.stopAutoWalk();
 	target = { ...nextTarget };
 	navigationStarted = false;
@@ -278460,12 +278479,12 @@ function startAdventureRoute(nextTarget) {
 		displayName: target.mapDisplayName || target.mapName,
 		autoWalk: true
 	});
-	timer$2 = setInterval(monitorArrival, 500);
+	timer$1 = setInterval(monitorArrival, 500);
 	return true;
 }
 function stopAdventureRoute(message = "") {
-	clearInterval(timer$2);
-	timer$2 = null;
+	clearInterval(timer$1);
+	timer$1 = null;
 	navigationStarted = false;
 	update$1(false, message);
 	if (message === "已到达目的地") {
@@ -278487,12 +278506,12 @@ function clearAdventureRouteFeedback() {
 	};
 	notify();
 }
-var timer$2, target, navigationStarted, navigationState, status, listeners$1;
+var timer$1, target, navigationStarted, navigationState, status, listeners$1;
 var init_AdventureRouteService = __esmMin((() => {
 	init_Navigation();
 	init_NavigationAutoWalk();
 	init_AdventureActionService();
-	timer$2 = null;
+	timer$1 = null;
 	target = null;
 	navigationStarted = false;
 	navigationState = Navigation_default.getRouteState();
@@ -278512,8 +278531,8 @@ var init_AdventureRouteService = __esmMin((() => {
 		}
 		if (nextState.active) navigationStarted = true;
 		if (nextState.unavailable) {
-			clearInterval(timer$2);
-			timer$2 = null;
+			clearInterval(timer$1);
+			timer$1 = null;
 			navigationStarted = false;
 			update$1(false, "无法到达所选位置");
 			return;
@@ -285265,11 +285284,17 @@ var init_ScreenShot = __esmMin((() => {
 function onMouseDown(event) {
 	const action = event && event.which || 1;
 	if (!Mouse.intersect) return;
-	clearAttackIntent();
 	const entityFocus = EntityManager.getFocusEntity();
 	const entityOver = EntityManager.getOverEntity();
 	switch (action) {
 		case 1:
+			combatHandledClick = false;
+			if (!KEYS.ALT && !KEYS.SHIFT && !KEYS.CTRL && Mouse.state !== Mouse.MOUSE_STATE.USESKILL && entityOver?.objecttype === Entity.TYPE_MOB && notifyGameInput("attack-target", entityOver.GID)) {
+				combatHandledClick = true;
+				return;
+			}
+			clearAttackIntent();
+			if (entityOver || Mouse.state === Mouse.MOUSE_STATE.USESKILL) notifyGameInput("action");
 			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
 				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.mercId, "3," + entityOver.GID);
 				else AIDriver.setmsg(SessionStorage_default.mercId, "1," + Mouse.world.x + "," + Mouse.world.y);
@@ -285291,6 +285316,7 @@ function onMouseDown(event) {
 						if (stop) return;
 					}
 				}
+				notifyGameInput("move-start");
 				if (this.onRequestWalk) this.onRequestWalk();
 			}
 			break;
@@ -285305,10 +285331,13 @@ function onMouseDown(event) {
 			} else {
 				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) {
 					if (KEYS.SHIFT) {
+						notifyGameInput("action");
 						SessionStorage_default.autoFollowTarget = entityOver;
 						SessionStorage_default.autoFollow = true;
 						onAutoFollow();
 					}
+					notifyGameInput("action");
+					clearAttackIntent();
 					entityOver.onMouseDown();
 					entityOver.onFocus();
 					EntityManager.setFocusEntity(entityOver);
@@ -285324,6 +285353,13 @@ function onMouseDown(event) {
 function onMouseUp(event) {
 	let entity, ET;
 	const action = event && event.which || 1;
+	if (action === 1) {
+		notifyGameInput("move-end");
+		if (combatHandledClick) {
+			combatHandledClick = false;
+			return;
+		}
+	}
 	if (!Mouse.intersect) return;
 	switch (action) {
 		case 1:
@@ -285463,8 +285499,9 @@ function isFreeCell$1(x, y) {
 	});
 	return free;
 }
-var _rightClickPosition, MapControl;
+var combatHandledClick, _rightClickPosition, MapControl;
 var init_MapControl = __esmMin((() => {
+	init_GameInputIntent();
 	init_AttackIntent();
 	init_DBManager();
 	init_UIManager();
@@ -285491,6 +285528,7 @@ var init_MapControl = __esmMin((() => {
 	init_Events();
 	init_CaptchaSelector();
 	init_ScreenShot();
+	combatHandledClick = false;
 	_rightClickPosition = /* @__PURE__ */ new Int16Array(2);
 	MapControl = class {
 		/**
@@ -306474,6 +306512,7 @@ var init_JoystickTargetService = __esmMin((() => {
 //#endregion
 //#region src/UI/Components/JoystickUI/JoystickCharacterControl.js
 function move$1(x, y) {
+	notifyGameInput("move-pulse");
 	const player = SessionStorage_default.Entity;
 	if (!player) return;
 	direction[0] = x;
@@ -306489,6 +306528,7 @@ function move$1(x, y) {
 	Network.sendPacket(movePacket);
 }
 function attack() {
+	notifyGameInput("action");
 	clearAttackIntent();
 	const Player = SessionStorage_default.Entity;
 	if (!Player) return;
@@ -306517,6 +306557,7 @@ function attack() {
 	Network.sendPacket(pkt);
 }
 function pickUp() {
+	notifyGameInput("action");
 	const Player = SessionStorage_default.Entity;
 	if (!Player) return;
 	const item = EntityManager.getClosestEntity(Player, EntityManager.TYPE_ITEM);
@@ -306527,6 +306568,7 @@ function pickUp() {
 }
 var direction, rotate, JoystickCharacterControl_default;
 var init_JoystickCharacterControl = __esmMin((() => {
+	init_GameInputIntent();
 	init_SessionStorage();
 	init_EntityManager();
 	init_NetworkManager();
@@ -359338,6 +359380,8 @@ function createGameAutoCombat(enabled) {
 		});
 	}
 	function stop() {
+		Navigation_default.stopAutoWalk();
+		SkillTargetSelection_default.remove();
 		const chasing = Boolean(SessionStorage_default.moveAction);
 		stopAttack();
 		if (chasing && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE) Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
@@ -359390,6 +359434,7 @@ function createGameAutoCombat(enabled) {
 	};
 }
 var init_GameAutoCombat = __esmMin((() => {
+	init_Navigation();
 	init_NetworkManager();
 	init_PacketStructure();
 	init_SessionStorage();
@@ -359407,6 +359452,393 @@ var init_GameAutoCombat = __esmMin((() => {
 	init_GameCommands();
 	init_AutoCombatController();
 	init_AutoCombatSettings();
+}));
+//#endregion
+//#region src/UI/Game/GameAutoCombatRuntime.js
+/** One map-scoped runtime shared by desktop and touch presentations. */
+function createGameAutoCombatRuntime({ enabled = () => true, isMoving = () => false, update = () => {}, onDisconnect = () => {} } = {}) {
+	let destroyed = false;
+	let movementHeld = false;
+	let resumeAt = 0;
+	const canRun = () => Boolean(!destroyed && enabled() && SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && !document.hidden && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
+	const controller = createGameAutoCombat(canRun);
+	const abort = new AbortController();
+	const stop = (message) => {
+		movementHeld = false;
+		controller.stop(message);
+		update(controller.snapshot());
+	};
+	const pauseForMovement = () => {
+		controller.pauseForMovement();
+		resumeAt = performance.now() + 300;
+	};
+	const unsubscribeInput = subscribeGameInput((kind, targetId) => {
+		if (kind === "move-start") {
+			movementHeld = true;
+			pauseForMovement();
+		} else if (kind === "move-pulse") pauseForMovement();
+		else if (kind === "move-end") {
+			movementHeld = false;
+			resumeAt = performance.now() + 300;
+		} else if (kind === "attack-target") return controller.snapshot().active && controller.attackTarget(targetId);
+		else stop(kind === "skill" ? "手动施法，自动战斗已停止" : "手动操作，自动战斗已停止");
+		return false;
+	});
+	const timer = window.setInterval(() => {
+		if (canRun() && !movementHeld && !isMoving() && performance.now() >= resumeAt && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.WALK) controller.resumeAfterMovement();
+		controller.tick();
+		update(controller.snapshot());
+	}, 200);
+	window.addEventListener("blur", () => stop(), { signal: abort.signal });
+	document.addEventListener("visibilitychange", () => {
+		if (document.hidden) stop();
+	}, { signal: abort.signal });
+	const unsubscribeConnection = onConnectionEnd(() => {
+		destroy();
+		onDisconnect();
+	});
+	function destroy() {
+		if (destroyed) return;
+		destroyed = true;
+		clearInterval(timer);
+		abort.abort();
+		unsubscribeInput();
+		unsubscribeConnection();
+		stop();
+	}
+	return {
+		...controller,
+		stop,
+		pauseForMovement,
+		destroy
+	};
+}
+var init_GameAutoCombatRuntime = __esmMin((() => {
+	init_SessionStorage();
+	init_GameInputIntent();
+	init_ConnectionLifecycle();
+	init_GameAutoCombat();
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatPanel.js
+/** Auto combat configuration is independent of the manual shortcut slots. */
+function createAutoCombatPanel(body, actions) {
+	const state = actions.snapshot();
+	const ranges = { ...state.ranges };
+	body.innerHTML = `
+		<div class="auto-layout">
+			<section class="auto-target-section" aria-labelledby="auto-target-title">
+				<h3 id="auto-target-title">攻击目标</h3>
+				<button type="button" data-all-species>全部魔物</button>
+				<p class="auto-help">可多选种类；未勾选时攻击全部魔物。</p>
+				<div class="auto-species-list" data-auto-species aria-label="自动战斗目标"></div>
+				<section class="auto-range-settings" aria-labelledby="auto-range-title">
+					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
+					<div data-range-controls></div>
+					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。范围内没有魔物时原地等待。</p>
+				</section>
+			</section>
+			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
+				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
+				<button type="button" data-normal-attack>普通攻击</button>
+				<p class="auto-help">勾选技能后随机释放，使用已学最高等级；均不可用时使用普攻。</p>
+				<div class="auto-skill-list" data-auto-skills></div>
+			</section>
+		</div>
+		<div class="auto-config-footer"><div><strong data-auto-summary></strong><span role="status" data-auto-feedback>修改后点击保存生效</span></div><button type="button" data-save-auto>保存配置</button></div>`;
+	const $ = (selector) => body.querySelector(selector);
+	const limits = AUTO_COMBAT_RANGE_LIMITS;
+	for (const [key, title, maximum] of [[
+		"search",
+		"搜怪范围",
+		limits.searchMax
+	], [
+		"activity",
+		"活动范围",
+		limits.activityMax
+	]]) {
+		const row = document.createElement("div");
+		row.className = "auto-range-row";
+		const label = document.createElement("span");
+		label.textContent = title;
+		const stepper = document.createElement("div");
+		stepper.className = "auto-range-stepper";
+		stepper.setAttribute("role", "group");
+		stepper.setAttribute("aria-label", title);
+		const output = document.createElement("output");
+		output.dataset.rangeValue = key;
+		output.setAttribute("aria-live", "polite");
+		for (const delta of [-1, 1]) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = delta < 0 ? "−" : "+";
+			button.dataset.range = key;
+			button.dataset.delta = String(delta);
+			button.setAttribute("aria-label", `${delta < 0 ? "减小" : "增大"}${title}`);
+			button.onclick = () => {
+				ranges[key] = Math.max(limits.min, Math.min(maximum, ranges[key] + delta));
+				if (key === "search") ranges.activity = Math.max(ranges.activity, ranges.search);
+				else ranges.search = Math.min(ranges.search, ranges.activity);
+				updateSummary(true);
+			};
+			stepper.append(button);
+			if (delta < 0) stepper.append(output);
+		}
+		row.append(label, stepper);
+		$("[data-range-controls]").append(row);
+	}
+	const species = new Map(state.species.map((entry) => [entry.id, entry.name]));
+	for (const target of actions.targets()) species.set(target.species, target.name);
+	const chosenSpecies = new Set(state.species.map((entry) => entry.id));
+	for (const [id, name] of species) {
+		const button = document.createElement("button");
+		button.type = "button";
+		button.className = "auto-species-card";
+		button.dataset.species = String(id);
+		button.setAttribute("role", "checkbox");
+		button.setAttribute("aria-checked", String(chosenSpecies.has(id)));
+		const check = document.createElement("span");
+		check.className = "auto-species-check";
+		check.setAttribute("aria-hidden", "true");
+		const title = document.createElement("span");
+		title.textContent = name;
+		button.append(check, title);
+		const toggle = () => {
+			if (chosenSpecies.has(id)) chosenSpecies.delete(id);
+			else chosenSpecies.add(id);
+			updateSummary(true);
+		};
+		let press = null;
+		const scroller = $(".auto-target-section");
+		button.onpointerdown = (event) => {
+			if (event.button !== 0 || press) return;
+			event.preventDefault();
+			press = {
+				id: event.pointerId,
+				x: event.clientX,
+				y: event.clientY,
+				scroll: scroller.scrollTop,
+				moved: false
+			};
+			button.setPointerCapture(event.pointerId);
+		};
+		button.onpointermove = (event) => {
+			if (press?.id === event.pointerId && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) press.moved = true;
+		};
+		button.onpointerup = (event) => {
+			if (press?.id !== event.pointerId) return;
+			const start = press;
+			press = null;
+			const bounds = button.getBoundingClientRect();
+			if (button.hasPointerCapture(event.pointerId)) button.releasePointerCapture(event.pointerId);
+			if (!start.moved && Math.hypot(event.clientX - start.x, event.clientY - start.y) <= 8 && scroller.scrollTop === start.scroll && event.clientX >= bounds.left && event.clientX <= bounds.right && event.clientY >= bounds.top && event.clientY <= bounds.bottom) toggle();
+		};
+		button.onpointercancel = button.onlostpointercapture = () => {
+			press = null;
+		};
+		button.onclick = (event) => {
+			if (event.detail === 0) toggle();
+		};
+		$("[data-auto-species]").append(button);
+	}
+	if (!species.size) $("[data-auto-species]").textContent = "附近暂无魔物，发现后可在这里选择。";
+	const selectedSpecies = () => [...chosenSpecies].map((id) => ({
+		id,
+		name: species.get(id)
+	}));
+	const entries = actions.skills();
+	for (const skill of entries) {
+		const label = document.createElement("label");
+		label.className = "auto-skill-card";
+		const input = document.createElement("input");
+		input.type = "checkbox";
+		input.value = String(skill.id);
+		input.checked = state.skills.includes(skill.id);
+		const detail = document.createElement("span");
+		const name = document.createElement("strong");
+		name.textContent = skill.name;
+		const level = document.createElement("small");
+		level.textContent = `Lv.${skill.level}`;
+		detail.append(name, level);
+		if (skill.reason) {
+			const reason = document.createElement("small");
+			reason.className = "auto-skill-reason";
+			reason.textContent = skill.reason;
+			detail.append(reason);
+		}
+		label.append(input, detail);
+		$("[data-auto-skills]").append(label);
+	}
+	if (!entries.length) $("[data-auto-skills]").textContent = "暂无可自动释放的技能，使用普通攻击。";
+	const selectedSkills = () => [...body.querySelectorAll("[data-auto-skills] input:checked")].map((input) => Number(input.value));
+	function updateSummary(changed = false) {
+		$("[data-range-summary]").textContent = `${ranges.search} / ${ranges.activity} 格`;
+		for (const output of body.querySelectorAll("[data-range-value]")) output.value = `${ranges[output.dataset.rangeValue]} 格`;
+		for (const button of body.querySelectorAll("[data-range]")) {
+			const key = button.dataset.range;
+			button.disabled = Number(button.dataset.delta) < 0 ? ranges[key] <= limits.min : ranges[key] >= (key === "search" ? limits.searchMax : limits.activityMax);
+		}
+		const count = selectedSkills().length;
+		const targets = selectedSpecies();
+		for (const button of body.querySelectorAll("[data-species]")) button.setAttribute("aria-checked", String(chosenSpecies.has(Number(button.dataset.species))));
+		const targetLabel = targets.length > 1 ? `${targets.length} 种魔物` : targets[0]?.name || "全部魔物";
+		$("[data-all-species]").setAttribute("aria-pressed", String(!targets.length));
+		$("[data-normal-attack]").setAttribute("aria-pressed", String(count === 0));
+		$("[data-skill-count]").textContent = count ? `已选 ${count} 项` : "未选技能";
+		$("[data-auto-summary]").textContent = `${targetLabel} · ${count ? `${count} 个技能` : "普通攻击"}`;
+		if (changed) $("[data-auto-feedback]").textContent = "有未保存的修改";
+	}
+	$("[data-all-species]").onclick = () => {
+		chosenSpecies.clear();
+		updateSummary(true);
+	};
+	$("[data-auto-skills]").onchange = () => updateSummary(true);
+	$("[data-normal-attack]").onclick = () => {
+		for (const input of body.querySelectorAll("[data-auto-skills] input")) input.checked = false;
+		updateSummary(true);
+	};
+	function save() {
+		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }) === false) {
+			$("[data-auto-feedback]").textContent = "配置保存失败，请检查范围或重试";
+			return;
+		}
+		actions.close();
+	}
+	$("[data-save-auto]").onclick = save;
+	updateSummary();
+}
+var init_AutoCombatPanel$1 = __esmMin((() => {
+	init_AutoCombatController();
+}));
+//#endregion
+//#region src/UI/Components/AutoCombat/AutoCombatView.js
+/** Desktop presentation only; all combat and persisted settings belong to the shared runtime. */
+function createAutoCombatView(root, actions) {
+	root.innerHTML = `
+		<section class="combat-bar" aria-label="自动战斗">
+			<div class="combat-actions"><button type="button" data-toggle aria-pressed="false">自动战斗</button><button type="button" data-settings>战斗设置</button></div>
+			<span class="combat-status" role="status" data-status>自动战斗已停止</span>
+		</section>
+		<div class="combat-backdrop" hidden>
+			<section class="combat-dialog" role="dialog" aria-modal="true" aria-labelledby="combat-title">
+				<header><h2 id="combat-title">自动战斗设置</h2><button type="button" data-close aria-label="关闭自动战斗设置">关闭</button></header>
+				<div class="auto-config-body"></div>
+			</section>
+		</div>`;
+	const $ = (selector) => root.querySelector(selector);
+	const abort = new AbortController();
+	const backdrop = $(".combat-backdrop");
+	function close() {
+		if (backdrop.hidden) return;
+		backdrop.hidden = true;
+		$(".auto-config-body").replaceChildren();
+		$("[data-settings]").focus();
+	}
+	function open() {
+		actions.stop();
+		createAutoCombatPanel($(".auto-config-body"), {
+			...actions,
+			close
+		});
+		backdrop.hidden = false;
+		$("[data-close]").focus();
+	}
+	$("[data-toggle]").onclick = () => {
+		if (actions.snapshot().active) actions.stop();
+		else if (!actions.start()) {
+			actions.stop("当前不能开始自动战斗");
+			update(actions.snapshot());
+			return;
+		}
+		update(actions.snapshot());
+	};
+	$("[data-settings]").onclick = open;
+	$("[data-close]").onclick = close;
+	backdrop.addEventListener("click", (event) => {
+		if (event.target === backdrop) close();
+	}, { signal: abort.signal });
+	root.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") {
+			if (!backdrop.hidden) close();
+			else actions.stop();
+			event.preventDefault();
+			event.stopPropagation();
+		}
+		if (!backdrop.hidden) event.stopPropagation();
+		if (!backdrop.hidden && event.key === "Tab") {
+			const focusable = [...$(".combat-dialog").querySelectorAll(":is(button, input):not(:disabled)")];
+			const first = focusable[0], last = focusable.at(-1);
+			const active = root.getRootNode().activeElement || document.activeElement;
+			if (event.shiftKey && active === first) {
+				last.focus();
+				event.preventDefault();
+			} else if (!event.shiftKey && active === last) {
+				first.focus();
+				event.preventDefault();
+			}
+		}
+	}, { signal: abort.signal });
+	function update(state) {
+		$("[data-toggle]").textContent = state.active ? "停止战斗" : "自动战斗";
+		$("[data-toggle]").setAttribute("aria-pressed", String(state.active));
+		$("[data-status]").textContent = state.status;
+	}
+	return {
+		update,
+		close,
+		isOpen: () => !backdrop.hidden,
+		destroy() {
+			abort.abort();
+			root.replaceChildren();
+		}
+	};
+}
+var init_AutoCombatView = __esmMin((() => {
+	init_AutoCombatPanel$1();
+}));
+//#endregion
+//#region src/UI/Components/AutoCombat/AutoCombat.css?raw
+var AutoCombat_default$1;
+var init_AutoCombat$1 = __esmMin((() => {
+	AutoCombat_default$1 = ":host {\r\n	position: fixed !important;\r\n	right: 16px;\r\n	bottom: 24px;\r\n	pointer-events: none;\r\n	color: #f4f0e6;\r\n	font:\r\n		13px Arial,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	font: inherit;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	padding: 7px 12px;\r\n	cursor: pointer;\r\n}\r\nbutton:hover {\r\n	border-color: #ceaa70;\r\n}\r\nbutton:focus-visible,\r\ninput:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.combat-bar {\r\n	width: 260px;\r\n	max-width: calc(100vw - 32px);\r\n	padding: 10px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 10px;\r\n	background: #18212bf2;\r\n	box-shadow: 0 3px 12px #0005;\r\n	pointer-events: auto;\r\n}\r\n.combat-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.combat-actions button {\r\n	flex: 1;\r\n}\r\n[data-toggle][aria-pressed='true'] {\r\n	border-color: #ceaa70;\r\n	background: #493c26;\r\n}\r\n.combat-status {\r\n	display: block;\r\n	margin-top: 8px;\r\n	color: #ceaa70;\r\n	overflow-wrap: anywhere;\r\n	font-size: 12px;\r\n}\r\n.combat-backdrop {\r\n	position: fixed;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0006;\r\n	pointer-events: auto;\r\n	padding: 16px;\r\n}\r\n.combat-dialog {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(760px, 100%);\r\n	height: min(560px, 100%);\r\n	max-height: calc(100dvh - 32px);\r\n	padding: 16px;\r\n	gap: 14px;\r\n	background: #18212b;\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 8px 32px #0008;\r\n}\r\n.combat-dialog header {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.combat-dialog h2 {\r\n	margin: 0;\r\n	font-size: 17px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatPanel.css?raw
+var AutoCombatPanel_default;
+var init_AutoCombatPanel = __esmMin((() => {
+	AutoCombatPanel_default = ".auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card:has(input:checked) {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card input {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n.auto-range-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/AutoCombat/AutoCombat.js
+var AutoCombat, runtime, view$1, AutoCombat_default;
+var init_AutoCombat = __esmMin((() => {
+	init_GUIComponent();
+	init_UIManager();
+	init_GameAutoCombatRuntime();
+	init_AutoCombatView();
+	init_AutoCombat$1();
+	init_AutoCombatPanel();
+	AutoCombat = new GUIComponent("AutoCombat", AutoCombat_default$1 + AutoCombatPanel_default);
+	AutoCombat.render = () => "";
+	AutoCombat.needFocus = false;
+	AutoCombat.nativeScrolling = true;
+	AutoCombat.onAppend = function() {
+		this.onRemove();
+		runtime = createGameAutoCombatRuntime({
+			enabled: () => !view$1?.isOpen(),
+			update: (state) => view$1?.update(state),
+			onDisconnect: () => this.remove()
+		});
+		view$1 = createAutoCombatView(this._container, runtime);
+		view$1.update(runtime.snapshot());
+	};
+	AutoCombat.onRemove = function() {
+		runtime?.destroy();
+		runtime = null;
+		view$1?.destroy();
+		view$1 = null;
+	};
+	AutoCombat_default = UIManager.addComponent(AutoCombat);
 }));
 //#endregion
 //#region src/UI/Game/GameSettings.js
@@ -361321,197 +361753,6 @@ var init_StatusIcons = __esmMin((() => {
 		ScreenEffectManager.parseStatus(index);
 	};
 	StatusIcons_default = UIManager.addComponent(StatusIcons);
-}));
-//#endregion
-//#region src/UI/Mobile/game/AutoCombatPanel.js
-/** Auto combat configuration is independent of the manual shortcut slots. */
-function createAutoCombatPanel(body, actions) {
-	const state = actions.snapshot();
-	const ranges = { ...state.ranges };
-	body.innerHTML = `
-		<div class="auto-layout">
-			<section class="auto-target-section" aria-labelledby="auto-target-title">
-				<h3 id="auto-target-title">攻击目标</h3>
-				<button type="button" data-all-species>全部魔物</button>
-				<p class="auto-help">可多选种类；未勾选时攻击全部魔物。</p>
-				<div class="auto-species-list" data-auto-species aria-label="自动战斗目标"></div>
-				<section class="auto-range-settings" aria-labelledby="auto-range-title">
-					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
-					<div data-range-controls></div>
-					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。范围内没有魔物时原地等待。</p>
-				</section>
-			</section>
-			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
-				<div class="auto-section-heading"><h3 id="auto-skills-title">攻击方式</h3><span data-skill-count></span></div>
-				<button type="button" data-normal-attack>普通攻击</button>
-				<p class="auto-help">勾选技能后随机释放，使用已学最高等级；均不可用时使用普攻。</p>
-				<div class="auto-skill-list" data-auto-skills></div>
-			</section>
-		</div>
-		<div class="auto-config-footer"><div><strong data-auto-summary></strong><span role="status" data-auto-feedback>修改后点击保存生效</span></div><button type="button" data-save-auto>保存配置</button></div>`;
-	const $ = (selector) => body.querySelector(selector);
-	const limits = AUTO_COMBAT_RANGE_LIMITS;
-	for (const [key, title, maximum] of [[
-		"search",
-		"搜怪范围",
-		limits.searchMax
-	], [
-		"activity",
-		"活动范围",
-		limits.activityMax
-	]]) {
-		const row = document.createElement("div");
-		row.className = "auto-range-row";
-		const label = document.createElement("span");
-		label.textContent = title;
-		const stepper = document.createElement("div");
-		stepper.className = "auto-range-stepper";
-		stepper.setAttribute("role", "group");
-		stepper.setAttribute("aria-label", title);
-		const output = document.createElement("output");
-		output.dataset.rangeValue = key;
-		output.setAttribute("aria-live", "polite");
-		for (const delta of [-1, 1]) {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = delta < 0 ? "−" : "+";
-			button.dataset.range = key;
-			button.dataset.delta = String(delta);
-			button.setAttribute("aria-label", `${delta < 0 ? "减小" : "增大"}${title}`);
-			button.onclick = () => {
-				ranges[key] = Math.max(limits.min, Math.min(maximum, ranges[key] + delta));
-				if (key === "search") ranges.activity = Math.max(ranges.activity, ranges.search);
-				else ranges.search = Math.min(ranges.search, ranges.activity);
-				updateSummary(true);
-			};
-			stepper.append(button);
-			if (delta < 0) stepper.append(output);
-		}
-		row.append(label, stepper);
-		$("[data-range-controls]").append(row);
-	}
-	const species = new Map(state.species.map((entry) => [entry.id, entry.name]));
-	for (const target of actions.targets()) species.set(target.species, target.name);
-	const chosenSpecies = new Set(state.species.map((entry) => entry.id));
-	for (const [id, name] of species) {
-		const button = document.createElement("button");
-		button.type = "button";
-		button.className = "auto-species-card";
-		button.dataset.species = String(id);
-		button.setAttribute("role", "checkbox");
-		button.setAttribute("aria-checked", String(chosenSpecies.has(id)));
-		const check = document.createElement("span");
-		check.className = "auto-species-check";
-		check.setAttribute("aria-hidden", "true");
-		const title = document.createElement("span");
-		title.textContent = name;
-		button.append(check, title);
-		const toggle = () => {
-			if (chosenSpecies.has(id)) chosenSpecies.delete(id);
-			else chosenSpecies.add(id);
-			updateSummary(true);
-		};
-		let press = null;
-		const scroller = $(".auto-target-section");
-		button.onpointerdown = (event) => {
-			if (event.button !== 0 || press) return;
-			event.preventDefault();
-			press = {
-				id: event.pointerId,
-				x: event.clientX,
-				y: event.clientY,
-				scroll: scroller.scrollTop,
-				moved: false
-			};
-			button.setPointerCapture(event.pointerId);
-		};
-		button.onpointermove = (event) => {
-			if (press?.id === event.pointerId && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) press.moved = true;
-		};
-		button.onpointerup = (event) => {
-			if (press?.id !== event.pointerId) return;
-			const start = press;
-			press = null;
-			const bounds = button.getBoundingClientRect();
-			if (button.hasPointerCapture(event.pointerId)) button.releasePointerCapture(event.pointerId);
-			if (!start.moved && Math.hypot(event.clientX - start.x, event.clientY - start.y) <= 8 && scroller.scrollTop === start.scroll && event.clientX >= bounds.left && event.clientX <= bounds.right && event.clientY >= bounds.top && event.clientY <= bounds.bottom) toggle();
-		};
-		button.onpointercancel = button.onlostpointercapture = () => {
-			press = null;
-		};
-		button.onclick = (event) => {
-			if (event.detail === 0) toggle();
-		};
-		$("[data-auto-species]").append(button);
-	}
-	if (!species.size) $("[data-auto-species]").textContent = "附近暂无魔物，发现后可在这里选择。";
-	const selectedSpecies = () => [...chosenSpecies].map((id) => ({
-		id,
-		name: species.get(id)
-	}));
-	const entries = actions.skills();
-	for (const skill of entries) {
-		const label = document.createElement("label");
-		label.className = "auto-skill-card";
-		const input = document.createElement("input");
-		input.type = "checkbox";
-		input.value = String(skill.id);
-		input.checked = state.skills.includes(skill.id);
-		const detail = document.createElement("span");
-		const name = document.createElement("strong");
-		name.textContent = skill.name;
-		const level = document.createElement("small");
-		level.textContent = `Lv.${skill.level}`;
-		detail.append(name, level);
-		if (skill.reason) {
-			const reason = document.createElement("small");
-			reason.className = "auto-skill-reason";
-			reason.textContent = skill.reason;
-			detail.append(reason);
-		}
-		label.append(input, detail);
-		$("[data-auto-skills]").append(label);
-	}
-	if (!entries.length) $("[data-auto-skills]").textContent = "暂无可自动释放的技能，使用普通攻击。";
-	const selectedSkills = () => [...body.querySelectorAll("[data-auto-skills] input:checked")].map((input) => Number(input.value));
-	function updateSummary(changed = false) {
-		$("[data-range-summary]").textContent = `${ranges.search} / ${ranges.activity} 格`;
-		for (const output of body.querySelectorAll("[data-range-value]")) output.value = `${ranges[output.dataset.rangeValue]} 格`;
-		for (const button of body.querySelectorAll("[data-range]")) {
-			const key = button.dataset.range;
-			button.disabled = Number(button.dataset.delta) < 0 ? ranges[key] <= limits.min : ranges[key] >= (key === "search" ? limits.searchMax : limits.activityMax);
-		}
-		const count = selectedSkills().length;
-		const targets = selectedSpecies();
-		for (const button of body.querySelectorAll("[data-species]")) button.setAttribute("aria-checked", String(chosenSpecies.has(Number(button.dataset.species))));
-		const targetLabel = targets.length > 1 ? `${targets.length} 种魔物` : targets[0]?.name || "全部魔物";
-		$("[data-all-species]").setAttribute("aria-pressed", String(!targets.length));
-		$("[data-normal-attack]").setAttribute("aria-pressed", String(count === 0));
-		$("[data-skill-count]").textContent = count ? `已选 ${count} 项` : "未选技能";
-		$("[data-auto-summary]").textContent = `${targetLabel} · ${count ? `${count} 个技能` : "普通攻击"}`;
-		if (changed) $("[data-auto-feedback]").textContent = "有未保存的修改";
-	}
-	$("[data-all-species]").onclick = () => {
-		chosenSpecies.clear();
-		updateSummary(true);
-	};
-	$("[data-auto-skills]").onchange = () => updateSummary(true);
-	$("[data-normal-attack]").onclick = () => {
-		for (const input of body.querySelectorAll("[data-auto-skills] input")) input.checked = false;
-		updateSummary(true);
-	};
-	function save() {
-		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }) === false) {
-			$("[data-auto-feedback]").textContent = "配置保存失败，请检查范围或重试";
-			return;
-		}
-		actions.close();
-	}
-	$("[data-save-auto]").onclick = save;
-	updateSummary();
-}
-var init_AutoCombatPanel = __esmMin((() => {
-	init_AutoCombatController();
 }));
 //#endregion
 //#region src/UI/Game/GameNavigation.js
@@ -364689,7 +364930,7 @@ var init_GameHUD$2 = __esmMin((() => {
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr) max-content;\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 10px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25dd;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card:has(input:checked) {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card input {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n\r\n.auto-range-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n";
+	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.9);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr) max-content;\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 10px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25dd;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0007;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n.large-map {\r\n	width: min(250px, 48vh);\r\n	display: block;\r\n	margin: auto;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.map-preview {\r\n	display: block;\r\n	width: 100%;\r\n	height: auto;\r\n	object-fit: contain;\r\n}\r\n.map-detail .large-map {\r\n	max-width: 100%;\r\n	height: auto;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDResponsive.css?raw
@@ -364708,6 +364949,7 @@ var init_MenuPanels = __esmMin((() => {
 /** DOM-only view; no packets, desktop windows or map event handlers. */
 function createGameHUDView(root, actions) {
 	root.innerHTML = `<style>${GameHUD_default$1}
+${AutoCombatPanel_default}
 ${GameHUDResponsive_default}
 ${MenuPanels_default}</style>${GameHUD_default$2}`;
 	const $ = (selector) => root.querySelector(selector);
@@ -365330,6 +365572,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_AutoCombatPanel$1();
 	init_AutoCombatPanel();
 	init_NavigationPanel();
 	init_CompanionsPanel();
@@ -365385,8 +365628,6 @@ function snapshot() {
 	const entity = SessionStorage_default.Entity;
 	if (!entity) return;
 	const diagnosticStart = diagnostics.begin();
-	if (!controls?.isMoving() && entity.action !== entity.ACTION.WALK) autoCombat?.resumeAfterMovement();
-	autoCombat?.tick();
 	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
 		autoCombat: autoCombat.snapshot(),
@@ -365438,10 +365679,10 @@ function updateViewport() {
 	HUD._host.style.top = `${viewport?.offsetTop || 0}px`;
 	HUD._host.style.left = `${viewport?.offsetLeft || 0}px`;
 }
-var HUD, view, controls, shortcuts, autoCombat, inventory, equipment, containers, skills, attributes, quests, chat, social, timer$1, unsubscribe, unsubscribeOrientation, unsubscribeConnection, unsubscribeInteraction, abort, previousFreeze, modal, GameHUD_default;
+var HUD, view, controls, shortcuts, autoCombat, inventory, equipment, containers, skills, attributes, quests, chat, social, unsubscribe, unsubscribeOrientation, unsubscribeInteraction, abort, previousFreeze, modal, GameHUD_default;
 var init_GameHUD = __esmMin((() => {
 	init_CombatDiagnostics();
-	init_GameAutoCombat();
+	init_GameAutoCombatRuntime();
 	init_GameCompanions();
 	init_GamePet();
 	init_GameMail();
@@ -365478,7 +365719,6 @@ var init_GameHUD = __esmMin((() => {
 	init_JobDisplayNameTable();
 	init_StatusIcons();
 	init_ChatFeed();
-	init_ConnectionLifecycle();
 	init_GameHUDView();
 	HUD = new GUIComponent("MobileGameHUD", "");
 	HUD.render = () => "";
@@ -365491,7 +365731,14 @@ var init_GameHUD = __esmMin((() => {
 		HUD.onRemove(false);
 		abort = new AbortController();
 		const enabled = () => Boolean(!SessionStorage_default.FreezeUI && SessionStorage_default.Playing && !document.hidden && Platform.orientation === "landscape" && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
-		autoCombat = createGameAutoCombat(enabled);
+		autoCombat = createGameAutoCombatRuntime({
+			enabled,
+			isMoving: () => controls?.isMoving() || false,
+			update: () => {
+				if (view) snapshot();
+			},
+			onDisconnect: () => HUD.remove()
+		});
 		shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
 		inventory = createGameInventory(() => modal && !previousFreeze);
 		containers = createGameContainers(() => modal && !previousFreeze);
@@ -365632,7 +365879,6 @@ var init_GameHUD = __esmMin((() => {
 				};
 			}));
 		});
-		timer$1 = window.setInterval(snapshot, 200);
 		const cancel = () => {
 			cancelSceneInput();
 			view.close();
@@ -365642,13 +365888,12 @@ var init_GameHUD = __esmMin((() => {
 			if (document.hidden) cancel();
 		}, { signal: abort.signal });
 		unsubscribeOrientation = Platform.onOrientationChange(() => cancel());
-		unsubscribeConnection = onConnectionEnd(() => HUD.remove());
 		for (const type of ["resize", "scroll"]) window.visualViewport?.addEventListener(type, updateViewport, { signal: abort.signal });
 		window.addEventListener("resize", updateViewport, { signal: abort.signal });
 		updateViewport();
 	};
 	HUD.onRemove = function(resetInteraction = true) {
-		autoCombat?.stop();
+		autoCombat?.destroy();
 		autoCombat = null;
 		unsubscribeInteraction?.();
 		unsubscribeInteraction = null;
@@ -365666,14 +365911,10 @@ var init_GameHUD = __esmMin((() => {
 		social = null;
 		containers = null;
 		clearAttackIntent();
-		clearInterval(timer$1);
-		timer$1 = null;
 		unsubscribe?.();
 		unsubscribe = null;
 		unsubscribeOrientation?.();
 		unsubscribeOrientation = null;
-		unsubscribeConnection?.();
-		unsubscribeConnection = null;
 		abort?.abort();
 		abort = null;
 		if (view) {
@@ -365695,11 +365936,15 @@ function appendGameComponent(component) {
 	component.append();
 }
 function appendGameHUD(actions) {
-	if (!Platform.isMobile) return;
+	if (!Platform.isMobile) {
+		AutoCombat_default.append();
+		return;
+	}
 	GameHUD_default.actions = actions;
 	GameHUD_default.append();
 }
 var init_GamePresentation = __esmMin((() => {
+	init_AutoCombat();
 	init_Platform();
 	init_GameHUD();
 }));
