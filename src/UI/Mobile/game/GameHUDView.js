@@ -112,8 +112,6 @@ ${panelsCSS}</style>${html}`;
 		if (!canvas || !mapImage) return;
 		const ctx = canvas.getContext('2d');
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.fillStyle = '#17191c';
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		const fit = fittedMapRect(canvas.width, canvas.height, mapImage.width, mapImage.height);
 		if (mapImage.image) {
 			const image = mapImage.image;
