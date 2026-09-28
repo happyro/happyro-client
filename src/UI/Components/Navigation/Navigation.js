@@ -376,6 +376,7 @@ function initializePathFindingWorker() {
 			const data = e.data;
 			switch (data.type) {
 				case 'pathResult':
+					if (data.navigationRequestId !== _navigationRequestId || data.workerId !== _pathFindingWorker?.id) return;
 					_pathUpdateLock = false;
 					if (_finalTargetData && data.path && data.workerId === _pathFindingWorker.id) {
 						const mapName = getCurrentMap();
@@ -1746,6 +1747,7 @@ Navigation.findPath = async function findPath(startX, startY, endX, endY) {
 				warps
 			},
 			workerId: _pathFindingWorker.id,
+			navigationRequestId,
 			existingPath: _path
 		});
 	}

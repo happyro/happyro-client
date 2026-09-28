@@ -190,9 +190,6 @@
 	font-variant-numeric: tabular-nums;
 	font-weight: 600;
 }
-.panel .map-detail .large-map {
-	width: min(100%, 360px);
-}
 .panel [data-path] {
 	padding-left: 24px;
 	line-height: 1.8;

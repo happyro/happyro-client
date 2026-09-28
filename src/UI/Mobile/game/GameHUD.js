@@ -1,3 +1,6 @@
+import { loadCatalogMapImage } from 'UI/Components/GameTools/WorldAssetService.js';
+import { createMobileViewport } from './MobileViewport.js';
+import AdventureTools from './AdventureTools.js';
 import CombatDiagnostics from 'Core/CombatDiagnostics.js';
 import { createGameAutoCombatRuntime } from 'UI/Game/GameAutoCombatRuntime.js';
 import { openGameCompanions } from 'UI/Game/GameCompanions.js';
@@ -10,7 +13,6 @@ import { createGameEquipmentSets } from 'UI/Game/GameEquipmentSets.js';
 import { createGameSocial } from 'UI/Game/GameSocial.js';
 import { createGameChat, chatChannel } from 'UI/Game/GameChat.js';
 import { createGameQuests } from 'UI/Game/GameQuests.js';
-import { createGameMaps } from 'UI/Game/GameMaps.js';
 import { createGameContainers } from 'UI/Game/GameContainers.js';
 import { subscribeInteraction, clearInteraction } from 'UI/Game/ServerInteraction.js';
 import { createGameAttributes } from 'UI/Game/GameAttributes.js';
@@ -101,46 +103,18 @@ function snapshot() {
 		sp: entity.life.sp,
 		maxSp: entity.life.sp_max,
 		position: [entity.position[0], entity.position[1]],
+		direction: entity.direction,
 		mapName: DB.getMapName(MapRenderer.currentMap, MapRenderer.currentMap),
 		statuses: StatusIcons.getSnapshot(),
 		target: Commands.targetSnapshot()
 	});
 	CombatDiagnostics.end('mobile.hud', diagnosticStart);
 }
-/** Render the actual walkability grid once per map, rather than sample a desktop canvas. */
-function createMap() {
-	const width = Altitude.width,
-		height = Altitude.height;
-	const extent = Math.max(width, height);
-	const canvas = document.createElement('canvas');
-	canvas.width = canvas.height = 256;
-	const ctx = canvas.getContext('2d');
-	ctx.fillStyle = '#18232d';
-	ctx.fillRect(0, 0, 256, 256);
-	if (extent) {
-		for (let y = 0; y < 256; y++)
-			for (let x = 0; x < 256; x++) {
-				const cellX = Math.floor((x / 256) * extent - (extent - width) / 2);
-				const cellY = height - 1 - Math.floor((y / 256) * extent - (extent - height) / 2);
-				if (cellX < 0 || cellY < 0 || cellX >= width || cellY >= height) continue;
-				const type = Altitude.getCellType(cellX, cellY);
-				if (!(type & (Altitude.TYPE.WALKABLE | Altitude.TYPE.WATER))) continue;
-				ctx.fillStyle = type & Altitude.TYPE.WATER ? '#58899e' : '#bec9ce';
-				ctx.fillRect(x, y, 1, 1);
-			}
-	}
-	return { canvas, width, height };
-}
-function updateViewport() {
-	const viewport = window.visualViewport;
-	HUD._host.style.height = `${viewport?.height || window.innerHeight}px`;
-	HUD._host.style.width = `${viewport?.width || window.innerWidth}px`;
-	HUD._host.style.top = `${viewport?.offsetTop || 0}px`;
-	HUD._host.style.left = `${viewport?.offsetLeft || 0}px`;
-}
+let updateViewport;
 HUD.onAppend = function () {
 	// Repeated map mounting must not duplicate subscriptions or timers.
 	HUD.onRemove(false);
+	updateViewport = createMobileViewport(HUD._host);
 	abort = new AbortController();
 	const enabled = () =>
 		Boolean(
@@ -173,6 +147,8 @@ HUD.onAppend = function () {
 	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity));
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
+		openAdventureTools: () => AdventureTools.append(),
+		openAdventureMap: target => AdventureTools.openMap(target),
 		setModal,
 		interact: () => {
 			autoCombat.stop();
@@ -209,7 +185,6 @@ HUD.onAppend = function () {
 		openBank: () => requestGameBank(() => modal && !previousFreeze),
 		showOwnedVending,
 		canOperate: () => modal && !previousFreeze,
-		maps: createGameMaps(),
 		social,
 		equipmentSets: createGameEquipmentSets(() => modal && !previousFreeze),
 		questSnapshot: () => quests.snapshot(),
@@ -288,7 +263,22 @@ HUD.onAppend = function () {
 			snapshot();
 		}
 	});
-	view.setMap(createMap());
+	const mapView = view;
+	const mapSignal = abort.signal;
+	const grid = { width: Altitude.width, height: Altitude.height };
+	mapView.setMap({ ...grid, loading: true });
+	loadCatalogMapImage(MapRenderer.currentMap)
+		.then(source => new Promise(resolve => {
+			if (!source) return resolve(null);
+			const image = new Image();
+			image.onload = () => resolve(image);
+			image.onerror = () => resolve(null);
+			image.src = source;
+		}))
+		.catch(() => null)
+		.then(image => {
+			if (!mapSignal.aborted) mapView.setMap({ ...grid, image, loading: false });
+		});
 	snapshot();
 	unsubscribe = subscribeChatFeed(messages => {
 		view.setMessages(

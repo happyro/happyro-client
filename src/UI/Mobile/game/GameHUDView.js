@@ -1,3 +1,5 @@
+import { drawPlayerArrow } from 'UI/Components/GameTools/WorldMapPreview.js';
+import { fittedMapRect, mapImageSourceRect, mapPointToCanvas } from 'UI/Components/GameTools/MapPreviewLayout.js';
 import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
 import autoCombatCSS from 'UI/Game/AutoCombatPanel.css?raw';
 import { createNavigationPanel } from './NavigationPanel.js';
@@ -16,7 +18,6 @@ import { createSelectionPanel } from './SelectionPanel.js';
 import { createSocialPanel } from './SocialPanel.js';
 import { createChatPanel } from './ChatPanel.js';
 import { createQuestsPanel } from './QuestsPanel.js';
-import { createMapsPanel } from './MapsPanel.js';
 import { createContainerPanel } from './ContainerPanel.js';
 import { createShopPanel } from './ShopPanel.js';
 import { createNPCPanel, updateNPCCutin } from './NPCPanel.js';
@@ -46,7 +47,6 @@ ${panelsCSS}</style>${html}`;
 	let skillsPanel = null;
 	let attributesPanel = null;
 	let questsPanel = null;
-	let mapsPanel = null;
 	let navigationPanel = null;
 	let chatPanel = null;
 	let socialPanel = null;
@@ -112,15 +112,21 @@ ${panelsCSS}</style>${html}`;
 		if (!canvas || !mapImage) return;
 		const ctx = canvas.getContext('2d');
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.drawImage(mapImage.canvas, 0, 0, canvas.width, canvas.height);
-		const extent = Math.max(mapImage.width, mapImage.height);
-		if (!extent || !snapshot.position) return;
-		const x = ((snapshot.position[0] + (extent - mapImage.width) / 2) / extent) * canvas.width;
-		const y = ((extent - snapshot.position[1] - (extent - mapImage.height) / 2) / extent) * canvas.height;
-		ctx.fillStyle = '#ffca67';
-		ctx.beginPath();
-		ctx.arc(x, y, 3, 0, Math.PI * 2);
-		ctx.fill();
+		ctx.fillStyle = '#17191c';
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		const fit = fittedMapRect(canvas.width, canvas.height, mapImage.width, mapImage.height);
+		if (mapImage.image) {
+			const image = mapImage.image;
+			const source = mapImageSourceRect(image.naturalWidth, image.naturalHeight, mapImage);
+			ctx.drawImage(image, source.x, source.y, source.width, source.height, fit.x, fit.y, fit.width, fit.height);
+		} else {
+			ctx.fillStyle = '#c6d0db';
+			ctx.textAlign = 'center';
+			ctx.fillText(mapImage.loading ? '加载中' : '暂无图片', canvas.width / 2, canvas.height / 2);
+		}
+		if (!snapshot.position) return;
+		const point = mapPointToCanvas(fit, mapImage, { x: snapshot.position[0], y: snapshot.position[1] });
+		drawPlayerArrow(ctx, point, snapshot.direction ?? 0, 0.65);
 	}
 	function close(notify = true) {
 		if (!currentPanel || (notify && serverState?.canClose === false)) return;
@@ -148,10 +154,8 @@ ${panelsCSS}</style>${html}`;
 		refinementPanel = null;
 		enchantPanel = null;
 		equipmentSetsPanel = null;
-		mapsPanel?.destroy();
 		navigationPanel?.destroy();
 		navigationPanel = null;
-		mapsPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
@@ -203,6 +207,11 @@ ${panelsCSS}</style>${html}`;
 		}
 	}
 	function open(panel, slotIndex) {
+		if (panel === 'map') {
+			close();
+			actions.openAdventureMap(slotIndex);
+			return;
+		}
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
 		$('.panel').dataset.view = panel;
@@ -217,7 +226,6 @@ ${panelsCSS}</style>${html}`;
 				settings: '设置',
 				profile: '人物信息',
 				status: '状态效果',
-				map: '地图',
 				navigation: '导航',
 				menu: '菜单',
 				chat: '聊天',
@@ -268,7 +276,6 @@ ${panelsCSS}</style>${html}`;
 				'storage',
 				'cart',
 				'quests',
-				'map',
 				'social',
 				'selection',
 				'transformation',
@@ -292,7 +299,6 @@ ${panelsCSS}</style>${html}`;
 				'storage',
 				'cart',
 				'quests',
-				'map',
 				'social',
 				'selection',
 				'transformation',
@@ -349,6 +355,10 @@ ${panelsCSS}</style>${html}`;
 				if (panelName) button.onclick = () => open(panelName);
 				grid.append(button);
 			}
+			const adventureButton = document.createElement('button');
+			adventureButton.textContent = '冒险工具';
+			adventureButton.onclick = () => { close(); actions.openAdventureTools(); };
+			grid.prepend(adventureButton);
 			const petButton = document.createElement('button');
 			petButton.textContent = '宠物';
 			petButton.onclick = () => actions.openPet();
@@ -408,10 +418,8 @@ ${panelsCSS}</style>${html}`;
 		refinementPanel = null;
 		enchantPanel = null;
 		equipmentSetsPanel = null;
-		mapsPanel?.destroy();
 		navigationPanel?.destroy();
 		navigationPanel = null;
-		mapsPanel = null;
 		if (panel === 'social') socialPanel = createSocialPanel(body, actions.social, name => open('chat', name));
 		if (panel === 'quests')
 			questsPanel = createQuestsPanel(body, {
@@ -420,7 +428,6 @@ ${panelsCSS}</style>${html}`;
 				showMap: target => open('map', target)
 			});
 		if (panel === 'navigation') navigationPanel = createNavigationPanel(body, actions.canOperate);
-		if (panel === 'map') mapsPanel = createMapsPanel(body, actions.maps, drawMap, slotIndex);
 		if (panel === 'storage' || panel === 'cart')
 			containerPanel = createContainerPanel(
 				body,
@@ -584,7 +591,6 @@ ${panelsCSS}</style>${html}`;
 				);
 			}
 			drawMap($('[data-mini-map]'));
-			drawMap($('.large-map'));
 			renderDetails();
 			inventoryPanel?.update();
 			equipmentPanel?.update();

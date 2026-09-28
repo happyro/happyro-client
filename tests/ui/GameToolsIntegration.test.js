@@ -116,14 +116,10 @@ describe('game tools integration', () => {
 		expect(read('src/UI/Components/GameTools/MapCatalogTab.js')).toContain('searchAdventureMaps(');
 	});
 
-	it('registers independent NPC and map catalog tabs', () => {
+	it('uses the common feature registry while retaining the desktop initial tab', () => {
 		const source = read('src/UI/Components/GameTools/GameTools.js');
-		expect(source.indexOf('registerGameToolsTab(mapCatalogTab)')).toBeLessThan(
-			source.indexOf('registerGameToolsTab(monsterCatalogTab)')
-		);
+		expect(source).toContain("from './GameToolsTabs.js'");
 		expect(source).toContain("Preferences.get('GameTools', { tab: 'maps' }, 2.0)");
-		expect(source).toContain('registerGameToolsTab(npcCatalogTab)');
-		expect(source).toContain('registerGameToolsTab(itemCatalogTab)');
 	});
 
 	it('centers the adventure tools window from the current viewport dimensions', () => {

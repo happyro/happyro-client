@@ -1,0 +1,1270 @@
+:host {
+	position: fixed !important;
+	inset: 0;
+	z-index: 1100 !important;
+	color: #263746;
+	font:
+		12px/1.35 Arial,
+		sans-serif;
+	padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+		max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+	background: #101923b8;
+	box-sizing: border-box;
+}
+* {
+	box-sizing: border-box;
+}
+[hidden] {
+	display: none !important;
+}
+.ui-component-root,
+.adventure-mount {
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+}
+.mobile-adventure.game-tools-window {
+	font:
+		12px/1.35 Arial,
+		sans-serif;
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+	border-radius: 8px;
+	border: 1px solid #bec9d1;
+	background: #f2f5f7;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	box-shadow: 0 8px 28px #0005;
+}
+.mobile-adventure button,
+.mobile-adventure input,
+.mobile-adventure select {
+	font: inherit;
+	touch-action: manipulation;
+}
+.mobile-adventure button {
+	min-height: 30px;
+	height: auto;
+	padding: 4px 8px;
+	border-radius: 8px;
+	cursor: pointer;
+}
+.mobile-adventure input:not([type='checkbox']):not([type='hidden']) {
+	height: 30px;
+	font-size: 16px;
+	border-radius: 8px;
+	padding: 8px;
+}
+.mobile-adventure input[type='checkbox'] {
+	width: 20px;
+	height: 20px;
+}
+.mobile-adventure button:focus-visible,
+.mobile-adventure input:focus-visible {
+	outline: 2px solid #3a789d;
+	outline-offset: 2px;
+}
+.adventure-header {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 8px;
+	background: #213747;
+	color: white;
+	flex-shrink: 0;
+}
+.adventure-header h2 {
+	margin: 0;
+	font-size: 14px;
+	flex: 1;
+}
+.adventure-header button {
+	background: #344e60;
+	border: 1px solid #7691a2;
+	color: white;
+}
+.adventure-feedback {
+	margin: 0;
+	padding: 0 12px;
+	background: #e5f1e8;
+	color: #215a35;
+	flex-shrink: 0;
+}
+.adventure-feedback:not(:empty) {
+	padding: 4px 8px;
+}
+.adventure-feedback.error {
+	background: #fcebe7;
+	color: #973c2a;
+}
+.adventure-home {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 6px;
+	padding: 8px;
+	overflow: auto;
+	align-content: start;
+}
+.adventure-home button {
+	text-align: left;
+	display: grid;
+	gap: 5px;
+	min-height: 62px;
+	border: 1px solid #c7d5de;
+	background: white;
+	color: #263746;
+	box-shadow: 0 2px 3px #2437440a;
+}
+.adventure-home strong {
+	font-size: 14px;
+}
+.adventure-home span {
+	font-size: 13px;
+	color: #576f7f;
+}
+.adventure-content {
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+.adventure-content .game-tools-tab {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+}
+.mobile-adventure .catalog-toolbar,
+.mobile-adventure .monster-toolbar {
+	padding: 8px;
+	flex: 0 0 auto;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+.mobile-adventure .catalog-search,
+.mobile-adventure .monster-search {
+	flex: 1 1 170px;
+	width: 0;
+	min-width: 140px;
+}
+.mobile-adventure .game-select-trigger {
+	min-height: 30px;
+	font-size: 14px;
+}
+.mobile-adventure .game-select-option {
+	min-height: 30px;
+}
+.mobile-adventure .catalog-layout,
+.mobile-adventure .monster-layout,
+.mobile-adventure .character-layout {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+.mobile-adventure .catalog-browser,
+.mobile-adventure .monster-browser,
+.mobile-adventure .character-job-browser {
+	width: 100%;
+	flex: 1;
+	border: none;
+	min-height: 0;
+}
+.mobile-adventure .catalog-detail,
+.mobile-adventure .monster-detail,
+.mobile-adventure .character-detail {
+	display: none;
+}
+.mobile-adventure .show-detail .catalog-detail,
+.mobile-adventure .show-detail .monster-detail,
+.mobile-adventure .show-detail .character-detail {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	min-width: 0;
+	overflow: auto;
+	padding: 6px;
+	gap: 6px;
+}
+.mobile-adventure .show-detail .catalog-browser,
+.mobile-adventure .show-detail .monster-browser,
+.mobile-adventure .show-detail .character-job-browser,
+.mobile-adventure .show-detail .catalog-toolbar,
+.mobile-adventure .show-detail .monster-toolbar {
+	display: none;
+}
+.mobile-adventure .catalog-list,
+.mobile-adventure .monster-list,
+.mobile-adventure .character-job-list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 5px;
+	align-content: start;
+	padding: 8px;
+	overflow: auto;
+}
+.mobile-adventure .catalog-row,
+.mobile-adventure .monster-row,
+.mobile-adventure .character-job-row {
+	border: 1px solid #cad6dd;
+	background: white;
+	border-radius: 6px;
+	min-height: 38px;
+	height: auto;
+	padding: 6px;
+}
+.mobile-adventure .catalog-row.selected,
+.mobile-adventure .monster-row.selected,
+.mobile-adventure .character-job-row.selected {
+	background: #e6f1f7;
+	border-color: #4380a2;
+}
+.mobile-adventure .catalog-pagination,
+.mobile-adventure .monster-pagination {
+	min-height: 38px;
+	flex-shrink: 0;
+	padding: 6px 12px;
+}
+.mobile-adventure .catalog-pagination button,
+.mobile-adventure .monster-pagination button {
+	min-width: 64px;
+}
+.mobile-adventure .catalog-summary,
+.mobile-adventure .monster-summary,
+.mobile-adventure .character-job-summary {
+	padding: 4px 12px;
+}
+.mobile-adventure .catalog-action-panel,
+.mobile-adventure .monster-actions,
+.mobile-adventure .character-actions {
+	flex: 0 0 auto;
+	position: sticky;
+	bottom: -6px;
+	background: #edf3f6;
+	padding: 6px;
+	flex-wrap: wrap;
+	gap: 5px;
+	z-index: 1;
+}
+.mobile-adventure .catalog-action-panel button {
+	min-width: 90px;
+}
+.mobile-adventure .map-detail-body {
+	display: grid;
+	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+	min-height: 180px;
+	flex: 0 0 auto;
+	gap: 6px;
+}
+.mobile-adventure .catalog-map-picker {
+	min-width: 0;
+	width: 100%;
+	height: auto;
+	padding: 0;
+}
+.mobile-adventure .catalog-map,
+.mobile-adventure .npc-map-canvas {
+	width: 100%;
+	height: auto;
+	max-height: 280px;
+	object-fit: contain;
+}
+.mobile-adventure .map-npc-scroll {
+	max-height: 240px;
+	overflow: auto;
+}
+.mobile-adventure .map-npc-row {
+	min-height: 30px;
+	padding: 6px;
+}
+.mobile-adventure .map-heading,
+.mobile-adventure .selected-job {
+	flex-wrap: wrap;
+	gap: 6px;
+}
+.mobile-adventure .character-detail-scroll {
+	overflow: visible;
+	flex: 0 0 auto;
+}
+.mobile-adventure .management-form,
+.mobile-adventure .management-form.progression-form {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mobile-adventure .management-form > .management-form-actions {
+	display: flex;
+	flex-wrap: wrap;
+}
+.mobile-adventure .management-form > .management-form-actions button {
+	width: auto;
+	flex: 1;
+	min-width: 76px;
+}
+.mobile-adventure .settings-form {
+	height: 100%;
+	min-height: 0;
+}
+.mobile-adventure .settings-grid {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mobile-adventure .settings-grid label {
+	white-space: normal;
+	flex-wrap: wrap;
+	padding: 8px;
+	border: 1px solid #d3dde4;
+	border-radius: 6px;
+	background: white;
+}
+.mobile-adventure .settings-footer {
+	flex: 0 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 8px;
+	gap: 5px;
+}
+.mobile-adventure .settings-footer .management-status {
+	display: block;
+	flex: 1;
+	text-align: left;
+}
+.mobile-adventure .settings-drop-table tbody {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 5px;
+}
+.mobile-adventure .settings-drop-table tr {
+	display: grid;
+	border: 1px solid #d3dde4;
+	border-radius: 6px;
+	padding: 8px;
+	background: white;
+}
+.mobile-adventure .settings-drop-table th {
+	font-weight: bold;
+}
+.mobile-adventure .settings-drop-table td {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 5px;
+}
+.mobile-adventure .settings-drop-table td::before {
+	content: '普通';
+}
+.mobile-adventure .settings-drop-table td:nth-of-type(2)::before {
+	content: 'Mini';
+}
+.mobile-adventure .settings-drop-table td:nth-of-type(3)::before {
+	content: 'MVP';
+}
+.mobile-adventure .game-tools-confirm {
+	position: absolute;
+	inset: 0;
+	z-index: 20;
+	padding: 8px;
+	background: #102332aa;
+}
+.mobile-adventure .game-tools-confirm-card {
+	max-width: 100%;
+	width: min(400px, 100%);
+	border-radius: 12px;
+	padding: 18px;
+	font-size: 16px;
+}
+.mobile-adventure .game-tools-confirm-card button {
+	min-width: 76px;
+}
+.mobile-adventure .item-description {
+	font-size: 12px;
+	line-height: 1.5;
+}
+.adventure-loading {
+	background: #f2f5f7;
+	padding: 24px;
+	border-radius: 8px;
+}
+.adventure-loading button {
+	min-height: 30px;
+}
+@media (max-width: 560px) {
+	.adventure-home,
+	.mobile-adventure .catalog-list,
+	.mobile-adventure .monster-list,
+	.mobile-adventure .character-job-list,
+	.mobile-adventure .settings-grid,
+	.mobile-adventure .settings-drop-table tbody,
+	.mobile-adventure .map-detail-body {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.adventure-home button {
+		min-height: 58px;
+	}
+	.mobile-adventure .catalog-toolbar > .game-select {
+		flex: 1;
+	}
+	.mobile-adventure .monster-info-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+.mobile-adventure .game-select {
+	height: auto;
+	min-height: 30px;
+}
+.mobile-adventure .summon-panel {
+	flex: 0 0 auto;
+	position: sticky;
+	bottom: -6px;
+	background: #edf3f6;
+	padding: 6px;
+	gap: 5px;
+	flex-wrap: wrap;
+	z-index: 1;
+}
+.mobile-adventure .item-detail-content {
+	min-height: auto;
+	overflow: visible;
+	flex: 0 0 auto;
+}
+.mobile-adventure .monster-resources {
+	min-height: auto;
+	flex: 0 0 auto;
+}
+.mobile-adventure .monster-location-list {
+	max-height: 240px;
+	overflow: auto;
+}
+.mobile-adventure .monster-location {
+	padding: 6px;
+}
+.mobile-adventure .catalog-pagination,
+.mobile-adventure .monster-pagination,
+.mobile-adventure .character-actions,
+.mobile-adventure .settings-footer,
+.mobile-adventure .summon-panel,
+.mobile-adventure .catalog-action-panel {
+	height: auto;
+	min-height: 38px;
+}
+.mobile-adventure .catalog-status,
+.mobile-adventure .summon-panel span {
+	white-space: normal;
+	overflow: visible;
+}
+.mobile-adventure .monster-resources {
+	overflow: visible;
+}
+.mobile-adventure .map-detail-body,
+.mobile-adventure .npc-detail-body {
+	grid-template-rows: auto;
+}
+.mobile-adventure .game-tools-confirm-card {
+	max-height: 100%;
+	overflow: auto;
+}
+@media (max-width: 560px) {
+	.mobile-adventure .monster-resources {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.mobile-adventure .maintenance-actions {
+		flex-wrap: wrap;
+	}
+	.mobile-adventure .summon-panel {
+		margin: 0 -12px -12px;
+	}
+}
+
+/* Compact landscape workspace: keep navigation and details visible together. */
+.mobile-adventure .monster-heading h3,
+.mobile-adventure .catalog-heading h3 {
+	font-size: 15px;
+}
+.mobile-adventure .monster-portrait,
+.mobile-adventure .catalog-portrait {
+	width: 64px;
+	height: 64px;
+	flex: 0 0 64px;
+}
+.mobile-adventure .item-portrait img {
+	max-width: 60px;
+	max-height: 60px;
+}
+.mobile-adventure .catalog-thumb,
+.mobile-adventure .monster-thumb {
+	width: 32px;
+	height: 32px;
+	flex: 0 0 32px;
+}
+.mobile-adventure .catalog-action-panel,
+.mobile-adventure .summon-panel {
+	margin: auto -6px -6px;
+}
+.mobile-adventure .management-form {
+	gap: 5px 8px;
+}
+.mobile-adventure h4 {
+	margin: 8px 0 5px;
+}
+@media (min-width: 600px) {
+	.mobile-adventure .catalog-layout,
+	.mobile-adventure .monster-layout,
+	.mobile-adventure .character-layout {
+		display: grid;
+		grid-template-columns: minmax(170px, 30%) minmax(0, 1fr);
+	}
+	.mobile-adventure .catalog-browser,
+	.mobile-adventure .monster-browser,
+	.mobile-adventure .character-job-browser,
+	.mobile-adventure .show-detail .catalog-browser,
+	.mobile-adventure .show-detail .monster-browser,
+	.mobile-adventure .show-detail .character-job-browser {
+		display: flex;
+		flex-direction: column;
+		width: auto;
+		border-right: 1px solid #cad6dd;
+	}
+	.mobile-adventure .catalog-detail,
+	.mobile-adventure .monster-detail,
+	.mobile-adventure .character-detail {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		overflow: auto;
+		padding: 6px;
+		gap: 6px;
+	}
+	.mobile-adventure .show-detail .catalog-toolbar,
+	.mobile-adventure .show-detail .monster-toolbar {
+		display: flex;
+	}
+	.mobile-adventure .catalog-list,
+	.mobile-adventure .monster-list,
+	.mobile-adventure .character-job-list {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 3px;
+		padding: 4px;
+	}
+	.mobile-adventure .catalog-row,
+	.mobile-adventure .monster-row,
+	.mobile-adventure .character-job-row {
+		min-height: 42px;
+		padding: 4px;
+		border-radius: 4px;
+	}
+	.mobile-adventure .catalog-pagination,
+	.mobile-adventure .monster-pagination {
+		gap: 6px;
+		padding: 3px;
+	}
+	.mobile-adventure .catalog-pagination button,
+	.mobile-adventure .monster-pagination button {
+		min-width: 32px;
+	}
+	.mobile-adventure .map-detail-body {
+		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+		gap: 5px;
+		min-height: 145px;
+	}
+	.mobile-adventure .npc-detail-body {
+		flex: 0 0 auto;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		min-height: 150px;
+	}
+	.mobile-adventure .catalog-map-picker {
+		height: 170px;
+	}
+	.mobile-adventure .catalog-map,
+	.mobile-adventure .npc-map-canvas {
+		height: 100%;
+		max-height: 200px;
+	}
+	.mobile-adventure .map-npc-scroll {
+		max-height: 150px;
+	}
+	.mobile-adventure .map-npc-row {
+		min-height: 30px;
+		padding: 4px;
+	}
+	.mobile-adventure .character-detail-scroll {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 6px 12px;
+		padding: 0 8px;
+	}
+	.mobile-adventure .character-detail-scroll > section:first-child {
+		grid-column: 1 / -1;
+	}
+	.mobile-adventure .character-detail-scroll section + section {
+		border-top: 0;
+	}
+	.mobile-adventure .management-form > .management-form-actions button {
+		min-width: 64px;
+		padding-inline: 5px;
+	}
+	.mobile-adventure .settings-scroll {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-content: start;
+		gap: 8px 12px;
+		padding: 6px 10px;
+	}
+	.mobile-adventure .settings-scroll section + section {
+		border-top: 0;
+	}
+	.mobile-adventure .settings-scroll section:nth-child(2) {
+		grid-column: 2;
+		grid-row: 1 / span 3;
+	}
+	.mobile-adventure .settings-grid,
+	.mobile-adventure .settings-rate-columns {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.mobile-adventure .settings-grid label {
+		padding: 4px 6px;
+	}
+	.mobile-adventure .settings-drop-table tbody {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 5px;
+	}
+	.mobile-adventure .settings-drop-table tr {
+		padding: 5px;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 4px;
+	}
+	.mobile-adventure .settings-drop-table th {
+		grid-column: 1 / -1;
+		text-align: left;
+	}
+	.mobile-adventure .settings-drop-table td {
+		flex-direction: column;
+		gap: 2px;
+		padding: 0;
+	}
+	.mobile-adventure .settings-drop-table .setting-number {
+		width: 100%;
+		gap: 2px;
+	}
+	.mobile-adventure .settings-drop-table .setting-number input {
+		width: 100%;
+		min-width: 0;
+	}
+	.mobile-adventure .settings-drop-table .setting-number em {
+		flex-basis: 14px;
+	}
+}
+@media (min-width: 600px) {
+	.mobile-adventure .settings-drop-table .setting-number {
+		flex: 0 0 auto;
+		min-width: 0;
+	}
+	.mobile-adventure .settings-drop-table .setting-number input {
+		flex: 1 1 0;
+	}
+	.mobile-adventure .settings-drop-table td {
+		justify-content: flex-start;
+	}
+	.mobile-adventure .settings-rate-columns {
+		gap: 6px;
+	}
+	.mobile-adventure .settings-scroll > section {
+		min-width: 0;
+		align-self: start;
+	}
+}
+.mobile-adventure .map-heading h3 {
+	font-size: 15px;
+}
+.mobile-adventure .management-tab section {
+	padding: 4px 0;
+}
+.mobile-adventure .management-tab section h4 {
+	margin: 0 0 4px;
+	font-size: 12px;
+}
+.mobile-adventure .character-detail .character-summary {
+	padding: 6px 8px;
+}
+.mobile-adventure .selected-job {
+	padding: 4px 6px;
+}
+.mobile-adventure .character-actions:has(> .management-status:empty) {
+	display: none;
+}
+/* Match the mobile HUD surfaces, controls, text and selection accents. */
+.mobile-adventure.game-tools-window,
+.adventure-loading {
+	background: #191f26f5;
+	color: #f5f2e9;
+	border-color: #65717b;
+}
+.mobile-adventure .adventure-header {
+	background: #191f26;
+	border-bottom: 1px solid #64707c;
+}
+.mobile-adventure button,
+.mobile-adventure input:not([type='checkbox']),
+.mobile-adventure .game-select-trigger {
+	background: #394753;
+	color: #f5f2e9;
+	border-color: #7e8c99;
+}
+.mobile-adventure input::placeholder {
+	color: #c6d0db;
+}
+.mobile-adventure .adventure-home button,
+.mobile-adventure .catalog-row,
+.mobile-adventure .monster-row,
+.mobile-adventure .character-job-row,
+.mobile-adventure .monster-location,
+.mobile-adventure .selected-job,
+.mobile-adventure .game-select-menu,
+.mobile-adventure .game-select-option,
+.mobile-adventure .settings-grid label,
+.mobile-adventure .settings-drop-table tr {
+	background: #19212a;
+	color: #f5f2e9;
+	border-color: #65717b;
+}
+.mobile-adventure .catalog-row.selected,
+.mobile-adventure .monster-row.selected,
+.mobile-adventure .character-job-row.selected,
+.mobile-adventure .monster-location.selected,
+.mobile-adventure .game-select-option.selected {
+	background: #57452c;
+	border-color: #ffca67;
+}
+.mobile-adventure .catalog-row small,
+.mobile-adventure .monster-row small,
+.mobile-adventure .character-job-row small,
+.mobile-adventure .catalog-row-text small,
+.mobile-adventure .monster-location small,
+.mobile-adventure .adventure-home span,
+.mobile-adventure .catalog-summary,
+.mobile-adventure .monster-summary,
+.mobile-adventure .character-job-summary,
+.mobile-adventure .catalog-heading p,
+.mobile-adventure .monster-heading p,
+.mobile-adventure .monster-stats span,
+.mobile-adventure .catalog-metadata span,
+.mobile-adventure .catalog-status,
+.mobile-adventure .drop-group em,
+.mobile-adventure .character-summary p,
+.mobile-adventure .character-summary span,
+.mobile-adventure .management-tab small,
+.mobile-adventure .map-npc-row small,
+.mobile-adventure .summon-panel span {
+	color: #c6d0db;
+}
+.mobile-adventure .management-tab,
+.mobile-adventure .character-detail,
+.mobile-adventure .character-summary,
+.mobile-adventure .catalog-pagination,
+.mobile-adventure .monster-pagination,
+.mobile-adventure .catalog-action-panel,
+.mobile-adventure .summon-panel,
+.mobile-adventure .character-actions,
+.mobile-adventure .settings-footer {
+	background: #19212a;
+	border-color: #65717b;
+}
+.mobile-adventure .monster-stats,
+.mobile-adventure .catalog-metadata {
+	background: #65717b;
+	border-color: #65717b;
+}
+.mobile-adventure .monster-stats div,
+.mobile-adventure .catalog-metadata div,
+.mobile-adventure .item-description,
+.mobile-adventure .map-npc-list,
+.mobile-adventure .map-npc-row,
+.mobile-adventure .monster-badge {
+	background: #242e38;
+	color: #f5f2e9;
+	border-color: #65717b;
+}
+.mobile-adventure .map-npc-row.selected {
+	background: #57452c;
+}
+.mobile-adventure .monster-heading,
+.mobile-adventure .monster-resources section,
+.mobile-adventure .monster-resources h4 {
+	border-color: #65717b;
+}
+.mobile-adventure .catalog-portrait,
+.mobile-adventure .monster-portrait,
+.mobile-adventure .catalog-thumb,
+.mobile-adventure .item-thumb {
+	background-color: #19212a;
+	border-color: #65717b;
+}
+.mobile-adventure .game-tools-confirm-card {
+	background: #19212a;
+	color: #f5f2e9;
+	border-color: #65717b;
+}
+.mobile-adventure .error,
+.mobile-adventure .catalog-status.error,
+.mobile-adventure .summon-status.error {
+	color: #ffb5aa;
+}
+.mobile-adventure .adventure-feedback {
+	background: #263d32;
+	color: #cce8d2;
+}
+.mobile-adventure .adventure-feedback.error {
+	background: #4a2b2b;
+	color: #ffb5aa;
+}
+.mobile-adventure button:disabled {
+	opacity: 0.5;
+	color: #c6d0db;
+}
+.mobile-adventure .map-heading {
+	display: none;
+}
+.mobile-adventure .map-thumb {
+	flex: 0 0 48px;
+	width: 48px;
+	height: 36px;
+	min-width: 48px;
+	overflow: hidden;
+}
+.mobile-adventure .map-thumb img,
+.mobile-adventure .map-thumb canvas {
+	width: 48px;
+	height: 36px;
+	object-fit: contain;
+}
+.mobile-adventure .map-detail-body {
+	flex: 1 0 170px;
+	min-height: 170px;
+	align-items: stretch;
+	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr);
+}
+.mobile-adventure .catalog-map-picker {
+	height: 100%;
+	min-height: 0;
+}
+.mobile-adventure .catalog-map {
+	height: 100%;
+	max-height: none;
+}
+.mobile-adventure .map-npc-list {
+	height: 100%;
+	overflow: hidden;
+}
+.mobile-adventure .map-npc-scroll {
+	flex: 1;
+	min-height: 0;
+	max-height: none;
+}
+.mobile-adventure .monster-thumb {
+	width: 40px;
+	height: 40px;
+	flex: 0 0 40px;
+}
+.mobile-adventure .monster-overview {
+	display: grid;
+	flex: 0 0 auto;
+	grid-template-columns: 96px minmax(0, 1fr);
+	gap: 0 8px;
+	border: 1px solid #65717b;
+	padding: 5px;
+	background: #242e38;
+}
+.mobile-adventure .monster-heading {
+	display: contents;
+}
+.mobile-adventure .monster-heading .monster-portrait {
+	grid-column: 1;
+	grid-row: 1;
+	align-self: center;
+	width: 96px;
+	height: 96px;
+	border: 0;
+}
+.mobile-adventure .monster-stats {
+	grid-column: 2;
+	grid-row: 1;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	margin: 0;
+}
+.mobile-adventure .monster-stats div {
+	min-width: 0;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 4px;
+	gap: 4px;
+	font-size: 11px;
+}
+.mobile-adventure .monster-stats div > span {
+	flex-shrink: 0;
+}
+.mobile-adventure .monster-stats strong {
+	min-width: 0;
+	text-align: right;
+	overflow-wrap: anywhere;
+}
+.mobile-adventure .monster-portrait,
+.mobile-adventure .monster-thumb {
+	background-color: transparent;
+}
+.mobile-adventure .monster-location {
+	flex: 0 0 auto;
+	min-height: 46px;
+	height: auto;
+	padding: 5px 6px;
+}
+.mobile-adventure .monster-location strong,
+.mobile-adventure .monster-location small {
+	line-height: 16px;
+}
+.mobile-adventure .monster-resources > section > h4,
+.mobile-adventure .drop-group h4 {
+	padding: 5px 6px;
+	margin: 0;
+}
+.mobile-adventure .drop-group > div {
+	padding-inline: 6px;
+}
+:host(.keyboard-open) {
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+:host(.keyboard-open) .ui-component-root {
+	height: calc(var(--mobile-layout-height) - 16px);
+}
+.mobile-adventure .catalog-toolbar,
+.mobile-adventure .monster-toolbar,
+.mobile-adventure .character-job-toolbar,
+.mobile-adventure .catalog-summary,
+.mobile-adventure .monster-summary,
+.mobile-adventure .character-job-summary,
+.mobile-adventure .character-job-browser,
+.mobile-adventure .monster-resources > section > h4 {
+	background: #19212a;
+	border-color: #65717b;
+}
+.mobile-adventure .character-job-icon,
+.mobile-adventure .map-thumb {
+	background: #242e38;
+	color: #c6d0db;
+	border-color: #65717b;
+}
+.mobile-adventure .catalog-action-panel button:disabled,
+.mobile-adventure .summon-panel button:disabled {
+	background: #394753;
+}
+.mobile-adventure .monster-drops,
+.mobile-adventure .monster-locations {
+	padding-inline: 0;
+}
+.mobile-adventure .monster-location-list {
+	padding: 0;
+	gap: 0;
+}
+
+.mobile-adventure .game-select-trigger i {
+	border-top-color: #c6d0db;
+}
+.mobile-adventure .game-tools-toast,
+.mobile-adventure .game-tools-toast.info {
+	background: #263d32;
+	color: #cce8d2;
+	border-color: #65717b;
+}
+
+.mobile-adventure .npc-catalog-tab .catalog-thumb {
+	width: 40px;
+	height: 40px;
+	flex: 0 0 40px;
+	background-color: transparent;
+}
+.mobile-adventure .npc-catalog-tab .catalog-heading {
+	display: none;
+}
+.mobile-adventure .npc-detail-body {
+	flex: 1 0 170px;
+	min-height: 170px;
+	display: grid;
+	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr);
+	align-items: stretch;
+	gap: 6px;
+}
+.mobile-adventure .npc-map-picker,
+.mobile-adventure .npc-detail-info {
+	height: 100%;
+	min-height: 0;
+}
+.mobile-adventure .npc-map-canvas {
+	height: 100%;
+	max-height: none;
+}
+.mobile-adventure .npc-detail-info {
+	overflow: auto;
+	border: 1px solid #65717b;
+	background: #242e38;
+}
+.mobile-adventure .npc-detail-info .catalog-metadata {
+	grid-auto-rows: auto;
+	align-content: start;
+}
+.mobile-adventure .npc-detail-info .catalog-metadata div {
+	align-items: center;
+	gap: 6px;
+	padding: 6px;
+}
+.mobile-adventure .npc-detail-info .catalog-metadata strong {
+	min-width: 0;
+	overflow-wrap: anywhere;
+	text-align: right;
+}
+.mobile-adventure .npc-detail-info .catalog-metadata span {
+	flex-shrink: 0;
+}
+.mobile-adventure .item-overview {
+	display: grid;
+	grid-template-columns: 96px minmax(0, 1fr);
+	align-items: center;
+	gap: 8px;
+	padding: 5px;
+	border: 1px solid #65717b;
+	background: #242e38;
+}
+.mobile-adventure .item-heading {
+	display: contents;
+}
+.mobile-adventure .item-portrait {
+	width: 96px;
+	height: 96px;
+	background-color: transparent;
+	border: 0;
+}
+.mobile-adventure .item-portrait img {
+	max-width: 96px;
+	max-height: 96px;
+}
+.mobile-adventure .item-overview .catalog-metadata {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	margin: 0;
+}
+.mobile-adventure .item-overview .catalog-metadata div {
+	min-width: 0;
+	align-items: center;
+	padding: 5px 4px;
+	gap: 4px;
+	font-size: 11px;
+}
+.mobile-adventure .item-overview .catalog-metadata span {
+	flex-shrink: 0;
+}
+.mobile-adventure .item-overview .catalog-metadata strong {
+	min-width: 0;
+	text-align: right;
+	overflow-wrap: anywhere;
+}
+.mobile-adventure .character-job-emblem {
+	background: #242e38;
+	color: #c6d0db;
+	border-color: #65717b;
+}
+
+/* Touch scrolling must not leave a hover color on unselected entries. */
+.mobile-adventure .catalog-row,
+.mobile-adventure .monster-row,
+.mobile-adventure .character-job-row,
+.mobile-adventure .monster-location,
+.mobile-adventure .game-select-option {
+	-webkit-tap-highlight-color: transparent;
+}
+.mobile-adventure .catalog-row:hover,
+.mobile-adventure .monster-row:hover,
+.mobile-adventure .character-job-row:hover,
+.mobile-adventure .monster-location:hover,
+.mobile-adventure .game-select-option:hover {
+	background: #19212a;
+}
+.mobile-adventure .catalog-row.selected:hover,
+.mobile-adventure .monster-row.selected:hover,
+.mobile-adventure .character-job-row.selected:hover,
+.mobile-adventure .monster-location.selected:hover,
+.mobile-adventure .game-select-option.selected:hover {
+	background: #57452c;
+}
+.mobile-adventure:has(.adventure-content[data-feature='maps']:not([hidden])) .adventure-feedback {
+	display: none;
+}
+.mobile-adventure .catalog-pagination,
+.mobile-adventure .monster-pagination,
+.mobile-adventure .catalog-action-panel,
+.mobile-adventure .summon-panel,
+.mobile-adventure .character-actions,
+.mobile-adventure .settings-footer {
+	flex: 0 0 34px;
+	height: 34px;
+	min-height: 34px;
+	padding-block: 2px;
+}
+.mobile-adventure .drop-group > div {
+	padding-left: 14px;
+}
+.mobile-adventure .monster-locations,
+.mobile-adventure .monster-location-list {
+	height: auto;
+	max-height: none;
+	overflow: visible;
+}
+.mobile-adventure .monster-locations {
+	align-self: start;
+}
+
+.mobile-adventure .monster-locations > h4 {
+	position: static;
+}
+.mobile-adventure .map-npc-row,
+.mobile-adventure .monster-location {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 32px;
+}
+.mobile-adventure .monster-location strong {
+	flex: 1;
+	min-width: 0;
+	text-align: left;
+}
+.mobile-adventure .monster-location small {
+	flex: 0 0 auto;
+	margin-top: 0;
+	text-align: right;
+}
+
+.mobile-adventure .map-npc-row,
+.mobile-adventure .map-npc-row:hover,
+.mobile-adventure .monster-location,
+.mobile-adventure .monster-location:hover {
+	border: 0;
+	border-bottom: 1px solid #65717b;
+	border-radius: 0;
+	padding: 4px 8px;
+	background: #242e38;
+}
+.mobile-adventure .map-npc-row.selected,
+.mobile-adventure .map-npc-row.selected:hover,
+.mobile-adventure .monster-location.selected,
+.mobile-adventure .monster-location.selected:hover {
+	background: #57452c;
+	border-color: #65717b;
+}
+
+.mobile-adventure .map-npc-text {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.mobile-adventure .map-npc-text strong {
+	flex: 1;
+	min-width: 0;
+}
+.mobile-adventure .map-npc-text small {
+	flex: 0 0 auto;
+	text-align: right;
+}
+
+.adventure-tabs {
+	display: flex;
+	flex: 1;
+	min-width: 0;
+	gap: 4px;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+.adventure-tabs::-webkit-scrollbar {
+	display: none;
+}
+.mobile-adventure .adventure-tabs button {
+	flex: 0 0 auto;
+	min-width: 48px;
+	white-space: nowrap;
+}
+.mobile-adventure .adventure-tabs button[aria-selected='true'] {
+	background: #57452c;
+	border-color: #ffca67;
+	color: #ffd27f;
+}
+.adventure-header > button {
+	flex-shrink: 0;
+}
+
+.mobile-adventure .map-npc-text strong,
+.mobile-adventure .monster-location strong {
+	font-size: 12px;
+	line-height: 16px;
+}
+.mobile-adventure .map-npc-text small,
+.mobile-adventure .monster-location small {
+	font-size: 10px;
+	line-height: 16px;
+	margin-top: 0;
+}
+.mobile-adventure .map-npc-row {
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* Keep both location tables visually identical, including their headings. */
+.mobile-adventure .map-npc-list,
+.mobile-adventure .monster-locations {
+	border: 1px solid #65717b;
+	border-radius: 0;
+	background: #242e38;
+}
+.mobile-adventure .map-npc-list > h4,
+.mobile-adventure .monster-resources .monster-locations > h4 {
+	position: static;
+	flex: 0 0 auto;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 5px 6px;
+	min-height: 28px;
+	font-size: 12px;
+	line-height: 17px;
+	font-weight: 700;
+	color: #f5f2e9;
+	background: #19212a;
+	border: 0;
+	border-bottom: 1px solid #65717b;
+}
+.mobile-adventure .map-npc-row,
+.mobile-adventure .monster-location {
+	box-sizing: border-box;
+	height: 32px;
+	flex-shrink: 0;
+}
+
+.mobile-adventure .catalog-pagination button,
+.mobile-adventure .monster-pagination button,
+.mobile-adventure .catalog-action-panel button,
+.mobile-adventure .summon-panel button,
+.mobile-adventure .character-actions button,
+.mobile-adventure .settings-footer button {
+	min-height: 28px;
+	height: 28px;
+	padding-block: 2px;
+}
+.mobile-adventure .catalog-route:not(:disabled) {
+	background: #284c3b;
+	border-color: #6aa786;
+	color: #d9f4e5;
+}
+.mobile-adventure .catalog-route.is-active:not(:disabled) {
+	background: #643c31;
+	border-color: #d99573;
+	color: #ffe2cc;
+}
+.mobile-adventure .catalog-route[aria-busy='true'] {
+	background: #57452c;
+	border-color: #b39564;
+	color: #e7d4ae;
+}

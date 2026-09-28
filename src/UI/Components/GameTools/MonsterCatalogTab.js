@@ -110,7 +110,7 @@ function formatRate(rate) {
 	return `${(Number(rate || 0) / 100).toFixed(2).replace(/\.00$/, '')}%`;
 }
 
-function mount(container) {
+function mount(container, context = {}) {
 	container.classList.add('monster-tab');
 	let destroyed = false;
 	const state = {
@@ -236,7 +236,7 @@ function mount(container) {
 			.map(
 				monster => `
 			<button class="monster-row${state.selected?.id === monster.id ? ' selected' : ''}" type="button" data-id="${monster.id}">
-				<span class="monster-thumb${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, 48)}"></span>
+				<span class="monster-thumb${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, context.mobile ? 40 : 48)}"></span>
 				<span class="monster-row-text"><strong>${escapeHtml(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.kind === 'mvp' ? ' · MVP' : monster.kind === 'mini' ? ' · Mini' : ''}</small></span>
 			</button>`
 			)
@@ -330,17 +330,18 @@ function mount(container) {
 				? '后台未开放 Mini / MVP 召唤'
 				: '';
 		detail.innerHTML = `
-			<div class="monster-heading">
+			<div class="monster-overview"><div class="monster-heading">
 				<span class="monster-portrait${monster.atlas === null ? ' no-image' : ''}" style="${atlasStyle(state.catalog, monster, 96)}"></span>
-				<div><h3>${escapeHtml(monster.name)}</h3><p>${escapeHtml(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.kind === 'mvp' ? 'MVP' : monster.kind === 'mini' ? 'Mini' : '普通'}</span></div>
+				${context.mobile ? '' : `<div><h3>${escapeHtml(monster.name)}</h3><p>${escapeHtml(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.kind === 'mvp' ? 'MVP' : monster.kind === 'mini' ? 'Mini' : '普通'}</span></div>`}
 			</div>
 			<div class="monster-stats">
+                ${context.mobile ? `<div><span>名称</span><strong>${escapeHtml(monster.name)}</strong></div><div><span>英文名</span><strong>${escapeHtml(monster.nameEn)}</strong></div><div><span>编号</span><strong>${monster.id}</strong></div><div><span>类型</span><strong>${monster.kind === 'mvp' ? 'MVP' : monster.kind === 'mini' ? 'Mini' : '普通'}</strong></div>` : ''}
 				<div><span>等级</span><strong>${monster.level}</strong></div><div><span>HP</span><strong>${monster.hp}</strong></div>
 				<div><span>攻击</span><strong>${monster.attack.filter(Number.isFinite).join(' - ')}</strong></div><div><span>防御</span><strong>${monster.defense} / ${monster.magicDefense}</strong></div>
 				<div><span>种族</span><strong>${raceNames[monster.race] || monster.race}</strong></div><div><span>属性</span><strong>${elementNames[monster.element] || monster.element} ${monster.elementLevel}</strong></div>
 				<div><span>体型</span><strong>${sizeNames[monster.size] || monster.size}</strong></div><div><span>经验</span><strong>${monster.baseExp} / ${monster.jobExp}</strong></div>
 			</div>
-			<div class="monster-resources">
+			</div><div class="monster-resources">
 				<section class="monster-drops"><h4>掉落物品</h4>${
 					state.drops
 						? `${renderDrops(state.drops[monster.id]?.mvpDrops, 'MVP 奖励')}${renderDrops(state.drops[monster.id]?.drops, '普通掉落') || '<p>无掉落资料</p>'}`

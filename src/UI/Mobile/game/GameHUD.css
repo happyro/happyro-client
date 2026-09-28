@@ -366,11 +366,6 @@ dd {
 	padding: 8px;
 	font-size: 16px;
 }
-.large-map {
-	width: min(250px, 48vh);
-	display: block;
-	margin: auto;
-}
 @media (max-height: 360px) {
 	.map canvas {
 		width: 76px;
@@ -922,16 +917,6 @@ dd {
 	margin: 6px 6px 0 0;
 }
 
-.map-preview {
-	display: block;
-	width: 100%;
-	height: auto;
-	object-fit: contain;
-}
-.map-detail .large-map {
-	max-width: 100%;
-	height: auto;
-}
 
 .chat-form {
 	flex-wrap: wrap;
@@ -964,3 +949,6 @@ dd {
 	flex: 1;
 	font-size: 16px;
 }
+/* Preserve panel layout when the keyboard reduces only the visual viewport. */
+:host(.keyboard-open) .hud { height: var(--mobile-layout-height); }
+:host(.keyboard-open) .backdrop { overflow-y: auto; align-items: start; }

@@ -7,7 +7,7 @@ let host, root, view, actions;
 const state = { name: '测试角色', job: '初心者', level: 10, jobLevel: 5, money: 123, hp: 80, maxHp: 100, sp: 20, maxSp: 40, position: [12, 34], mapName: '普隆德拉', statuses: [{ id: 1, description: '加速术 10秒', icon: 'data:image/png;base64,AA==' }] };
 beforeEach(() => {
 	host = document.createElement('div'); document.body.append(host); root = host.attachShadow({ mode: 'open' });
-	actions = { equipmentSnapshot: () => ({ slots: [], stats: [] }), inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
+	actions = { openAdventureMap: vi.fn(), equipmentSnapshot: () => ({ slots: [], stats: [] }), inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
 	view = createGameHUDView(root, actions); view.update(state);
 });
 afterEach(() => { view.destroy(); host.remove(); clearChatFeed(); vi.restoreAllMocks(); });
@@ -126,4 +126,11 @@ it('groups six skills and combat controls at the bottom right and highlights onl
  expect(root.querySelector('.skill-actions').hidden).toBe(false);
  expect(root.querySelector('.shortcut-tools').hidden).toBe(true);
  expect(root.querySelector('.skill-actions [data-skill-cancel]')).not.toBeNull();
+});
+
+it('opens adventure maps directly from the minimap without mounting the old map panel', () => {
+ click('[data-panel="map"]');
+ expect(actions.openAdventureMap).toHaveBeenCalledOnce();
+ expect(actions.setModal).not.toHaveBeenCalledWith(true);
+ expect(root.querySelector('.map-preview')).toBeNull();
 });

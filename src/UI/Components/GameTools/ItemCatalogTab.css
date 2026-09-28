@@ -51,3 +51,5 @@
 	border: 1px solid #aeb2b7;
 	box-sizing: border-box;
 }
+
+.item-overview { display: contents; }

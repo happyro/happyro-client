@@ -57,3 +57,20 @@ describe('game-only landscape requirement', () => {
 		expect(document.getElementById('ro-rotation-guard')).toBeNull();
 	});
 });
+
+it('allows an open panel in portrait and restores the gameplay guard on close', () => {
+ const enter=vi.fn(); rotate('landscape'); Guard.requireLandscape(enter);
+ const panel=document.createElement('section'); document.body.append(panel);
+ const dispose=Guard.allowPortraitPanel(panel); rotate('portrait');
+ expect(document.getElementById('ro-rotation-guard').hidden).toBe(true);
+ dispose(); expect(document.getElementById('ro-rotation-guard').hidden).toBe(false);
+ panel.remove(); expect(enter).toHaveBeenCalledOnce();
+});
+it('does not bypass portrait entry when a panel is present', () => {
+ const panel=document.createElement('section'); document.body.append(panel);
+ const dispose=Guard.allowPortraitPanel(panel); const enter=vi.fn();
+ Guard.requireLandscape(enter);
+ expect(enter).not.toHaveBeenCalled();
+ expect(document.getElementById('ro-rotation-guard').hidden).toBe(false);
+ dispose(); panel.remove();
+});

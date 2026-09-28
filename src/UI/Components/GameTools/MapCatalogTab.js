@@ -41,7 +41,7 @@ function npcAvailabilityLabel(available) {
 	return '待校验';
 }
 
-function mount(container) {
+function mount(container, context = {}) {
 	container.classList.add('world-catalog-tab', 'map-catalog-tab');
 	let actionState = {};
 	let routeState = {};
@@ -105,6 +105,8 @@ function mount(container) {
 	const destroyBrowser = mountRemoteCatalogBrowser(container, {
 		placeholder: '搜索地图名称或代码',
 		searchLabel: '搜索地图',
+		initialQuery: context.initialMap?.id,
+		summarize: context.mobile ? state => `共 ${state.total} 张地图` : undefined,
 		emptyDetail: '选择一个地图查看详情',
 		pageSize: 35,
 		key: map => map.id,
@@ -126,7 +128,7 @@ function mount(container) {
 		},
 		renderRow(map, selected) {
 			return `<button class="catalog-row map-row${selected?.id === map.id ? ' selected' : ''}" type="button" data-catalog-key="${escapeCatalogHtml(map.id)}">
-				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>无图</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
+				<span class="map-thumb" data-map-thumb="${escapeCatalogHtml(map.id)}"><span>加载中</span></span><span class="catalog-row-text"><strong>${escapeCatalogHtml(map.name)}</strong><small>${escapeCatalogHtml(map.id)}</small></span>
 			</button>`;
 		},
 		onListRendered(list, maps) {
@@ -146,7 +148,8 @@ function mount(container) {
 					return;
 				}
 				const resource = await loadCatalogMap(map.mapName);
-				if (token !== thumbnailToken || !thumbnail.isConnected || !resource?.gat?.cells) return;
+				if (token !== thumbnailToken || !thumbnail.isConnected) return;
+				if (!resource?.gat?.cells) { thumbnail.textContent = '无图'; return; }
 				const preview = document.createElement('canvas');
 				preview.width = 112;
 				preview.height = 84;
@@ -175,7 +178,9 @@ function mount(container) {
 		renderDetail(detail, map, api) {
 			if (loadingMapName !== map.mapName) {
 				loadingMapName = map.mapName;
-				selectedCoordinate = { x: 0, y: 0, random: true };
+				selectedCoordinate = context.initialMap?.id === map.id && Number.isFinite(context.initialMap.x) && Number.isFinite(context.initialMap.y)
+					? { x: context.initialMap.x, y: context.initialMap.y }
+					: { x: 0, y: 0, random: true };
 				loadedMap = null;
 				selectedNpcKey = '';
 				npcAvailability = {};
@@ -203,6 +208,10 @@ function mount(container) {
 						api.refreshDetail();
 					});
 			}
+			const selectedNpc = mapNpcs.find(npc => npcCatalogKey(npc) === selectedNpcKey);
+			if (selectedNpc) {
+				selectedCoordinate = { x: selectedNpc.x, y: selectedNpc.y };
+			}
 			const target = selectedCoordinate ? { ...map, ...selectedCoordinate } : null;
 			const routeTarget = target && !target.random ? target : null;
 			const currentMap = getCurrentAdventureMap();
@@ -216,6 +225,7 @@ function mount(container) {
 				routeState.target.y === routeTarget.y
 			);
 			const routeActive = routeMatches && routeState.active;
+			const routePending = routeState.pending && !routeState.walking;
 			const targetActionState = getAdventureActionState(target);
 			const canTeleport =
 				target &&
@@ -228,10 +238,6 @@ function mount(container) {
 				DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
 			const routeMessage = routeMatches && routeState.message === '无法到达所选位置' ? routeState.message : '';
 			const npcListScrollTop = detail.querySelector('.map-npc-scroll')?.scrollTop || 0;
-			const selectedNpc = mapNpcs.find(npc => npcCatalogKey(npc) === selectedNpcKey);
-			if (selectedNpc) {
-				selectedCoordinate = { x: selectedNpc.x, y: selectedNpc.y };
-			}
 			const npcActionState = selectedNpc
 				? { ...actionState, ...getAdventureActionState(selectedNpc) }
 				: actionState;
@@ -263,7 +269,7 @@ function mount(container) {
 											const npcKey = npcCatalogKey(npc);
 											const available = npcAvailability[npcKey];
 											return `<li class="map-npc-row${selectedNpcKey === npcKey ? ' selected' : ''}" data-npc-key="${escapeCatalogHtml(npcKey)}">
-												<span class="map-npc-text"><strong>${escapeCatalogHtml(npc.name)}</strong><small>${npc.x}, ${npc.y} · ${escapeCatalogHtml(npcAvailabilityLabel(available))}</small></span>
+												<span class="map-npc-text"><strong>${escapeCatalogHtml(npc.name)}</strong><small>${npc.x}, ${npc.y}${context.mobile ? '' : ` · ${escapeCatalogHtml(npcAvailabilityLabel(available))}`}</small></span>
 											</li>`;
 										})
 										.join('')}</ul></div>`
@@ -272,7 +278,7 @@ function mount(container) {
 					</section>
 					</div>
 					<div class="catalog-action-panel">
-						<button class="catalog-route" title="${!sameMap ? '寻路仅支持角色当前所在地图' : !routeTarget ? '请先选择目标位置' : ''}" type="button" ${routeTarget && sameMap ? '' : 'disabled'}>${routeActive ? '停止寻路' : '开始寻路'}</button>
+						<button class="catalog-route${routeActive ? ' is-active' : ''}" aria-busy="${Boolean(routePending)}" title="${!sameMap ? '寻路仅支持角色当前所在地图' : !routeTarget ? '请先选择目标位置' : ''}" type="button" ${routeTarget && sameMap && !routePending ? '' : 'disabled'}>${routePending ? '计算中…' : routeActive ? '停止寻路' : '开始寻路'}</button>
 					<button class="catalog-teleport" type="button" ${canTeleportHere ? '' : 'disabled'}>${actionState.npcPending && selectedNpc ? '正在传送...' : '传送到这里'}</button>
 					<span class="catalog-status error">${escapeCatalogHtml(npcStatus || mapStatus)}</span>
 				</div>`;
@@ -319,6 +325,7 @@ function mount(container) {
 				if (!sameMap || !previewAdventureRoute(nextTarget)) api.refreshDetail();
 			});
 			detail.querySelector('.catalog-route').addEventListener('click', () => {
+				if (routeState.pending && !routeState.walking) return;
 				if (routeActive) stopAdventureRoute();
 				else if (routeTarget) startAdventureRoute(routeTarget);
 			});
@@ -332,8 +339,11 @@ function mount(container) {
 			});
 			for (const row of detail.querySelectorAll('.map-npc-row')) {
 				row.addEventListener('click', () => {
+					if (selectedNpcKey === row.dataset.npcKey) return;
 					selectedNpcKey = row.dataset.npcKey;
-					api.refreshDetail();
+					const npc = mapNpcs.find(npc => npcCatalogKey(npc) === selectedNpcKey);
+					selectedCoordinate = { x: npc.x, y: npc.y };
+					if (!sameMap || !previewAdventureRoute({ ...map, ...selectedCoordinate })) api.refreshDetail();
 				});
 			}
 		},

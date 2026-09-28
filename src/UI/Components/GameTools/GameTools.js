@@ -10,21 +10,10 @@ import htmlText from './GameTools.html?raw';
 import cssText from './GameTools.css?raw';
 import itemCatalogCssText from './ItemCatalogTab.css?raw';
 import gameSelectCssText from './GameSelect.css?raw';
-import { getGameToolsTabs, registerGameToolsTab } from './GameToolsRegistry.js';
+import { getGameToolsTabs } from './GameToolsRegistry.js';
+import { availableGameToolsTabs } from './GameToolsTabs.js';
 import { loadAdventureControlBootstrap } from './AdventureControlService.js';
-import monsterCatalogTab, { notifyMonsterSpawnConfig, notifyMonsterSpawnResult } from './MonsterCatalogTab.js';
-import npcCatalogTab from './NpcCatalogTab.js';
-import mapCatalogTab from './MapCatalogTab.js';
-import characterMaintenanceTab from './CharacterMaintenanceTab.js';
-import gameSettingsTab from './GameSettingsTab.js';
-import itemCatalogTab from './ItemCatalogTab.js';
-
-registerGameToolsTab(mapCatalogTab);
-registerGameToolsTab(monsterCatalogTab);
-registerGameToolsTab(npcCatalogTab);
-registerGameToolsTab(itemCatalogTab);
-registerGameToolsTab(characterMaintenanceTab);
-registerGameToolsTab(gameSettingsTab);
+import { notifyMonsterSpawnConfig, notifyMonsterSpawnResult } from './MonsterCatalogTab.js';
 
 const preferences = Preferences.get('GameTools', { tab: 'maps' }, 2.0);
 const GameTools = new GUIComponent('GameTools', cssText + itemCatalogCssText + gameSelectCssText);
@@ -89,7 +78,7 @@ GameTools.init = function init() {
 
 GameTools.renderTabs = function renderTabs({ reopening = false } = {}) {
 	const root = this.getRoot();
-	const tabs = getGameToolsTabs().filter(tab => !tab.capability || capabilities?.[tab.capability] === true);
+	const tabs = availableGameToolsTabs(capabilities);
 	for (const [id, entry] of mountedTabs) {
 		if (tabs.some(tab => tab.id === id)) continue;
 		entry.cleanup?.();
