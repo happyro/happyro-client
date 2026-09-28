@@ -161,7 +161,8 @@
 				self.postMessage({
 					type: "pathResult",
 					path,
-					workerId: data.workerId
+					workerId: data.workerId,
+					navigationRequestId: data.navigationRequestId
 				});
 				break;
 			}
