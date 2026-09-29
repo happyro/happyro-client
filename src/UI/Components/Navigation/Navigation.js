@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import { notifyGameInput } from 'Controls/GameInputIntent.js';
 import KEYS from 'Controls/KeyEventHandler.js';
 import Renderer from 'Renderer/Renderer.js';
 import MapRenderer from 'Renderer/MapRenderer.js';
@@ -375,6 +376,7 @@ function initializePathFindingWorker() {
 			const data = e.data;
 			switch (data.type) {
 				case 'pathResult':
+					if (data.navigationRequestId !== _navigationRequestId || data.workerId !== _pathFindingWorker?.id) return;
 					_pathUpdateLock = false;
 					if (_finalTargetData && data.path && data.workerId === _pathFindingWorker.id) {
 						const mapName = getCurrentMap();
@@ -1005,6 +1007,7 @@ Navigation.updateAutoWalkButtons = function updateAutoWalkButtons() {
 };
 
 Navigation.startAutoWalk = function startAutoWalk() {
+	notifyGameInput('action');
 	if (_autoWalkActive || !_targetData || _targetData.map !== getCurrentMap() || _pathUnavailable) return;
 	_autoWalkActive = true;
 	this.updateAutoWalkButtons();
@@ -1744,6 +1747,7 @@ Navigation.findPath = async function findPath(startX, startY, endX, endY) {
 				warps
 			},
 			workerId: _pathFindingWorker.id,
+			navigationRequestId,
 			existingPath: _path
 		});
 	}

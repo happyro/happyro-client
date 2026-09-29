@@ -8,6 +8,7 @@
  * @author Vincent Thibault
  */
 
+import { notifyGameInput } from 'Controls/GameInputIntent.js';
 import { clearAttackIntent } from 'Controls/AttackIntent.js';
 import DB from 'DB/DBManager.js';
 import UIManager from 'UI/UIManager.js';
@@ -38,6 +39,7 @@ import 'Controls/ScreenShot.js';
 /**
  * @var {int16[2]} screen position
  */
+let combatHandledClick = false;
 const _rightClickPosition = new Int16Array(2);
 
 /**
@@ -87,13 +89,26 @@ function onMouseDown(event) {
 		return;
 	}
 
-	clearAttackIntent();
 	const entityFocus = EntityManager.getFocusEntity();
 	const entityOver = EntityManager.getOverEntity();
 
 	switch (action) {
 		// Left click
 		case 1:
+			combatHandledClick = false;
+			if (
+				!KEYS.ALT &&
+				!KEYS.SHIFT &&
+				!KEYS.CTRL &&
+				Mouse.state !== Mouse.MOUSE_STATE.USESKILL &&
+				entityOver?.objecttype === Entity.TYPE_MOB &&
+				notifyGameInput('attack-target', entityOver.GID)
+			) {
+				combatHandledClick = true;
+				return;
+			}
+			clearAttackIntent();
+			if (entityOver || Mouse.state === Mouse.MOUSE_STATE.USESKILL) notifyGameInput('action');
 			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
 				if (
 					entityOver &&
@@ -132,6 +147,7 @@ function onMouseDown(event) {
 				}
 
 				// Start walking
+				notifyGameInput('move-start');
 				if (this.onRequestWalk) {
 					this.onRequestWalk();
 				}
@@ -169,12 +185,15 @@ function onMouseDown(event) {
 				) {
 					if (KEYS.SHIFT) {
 						// Shift + Right click on an entity
+						notifyGameInput('action');
 						Session.autoFollowTarget = entityOver;
 						Session.autoFollow = true;
 						onAutoFollow();
 					}
 
 					// Right click on a NPC/Mob/Unit
+					notifyGameInput('action');
+					clearAttackIntent();
 					entityOver.onMouseDown();
 					entityOver.onFocus();
 					EntityManager.setFocusEntity(entityOver);
@@ -193,6 +212,14 @@ function onMouseDown(event) {
 function onMouseUp(event) {
 	let entity, ET;
 	const action = (event && event.which) || 1;
+
+	if (action === 1) {
+		notifyGameInput('move-end');
+		if (combatHandledClick) {
+			combatHandledClick = false;
+			return;
+		}
+	}
 
 	// Not rendering yet
 	if (!Mouse.intersect) {

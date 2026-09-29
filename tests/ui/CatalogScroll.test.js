@@ -33,3 +33,25 @@ it('resets changed content but retains list position on selection and detail pos
  scroll(list,60); api.reload(); await tick();
  expect(list.scrollTop).toBe(0);
 });
+
+it('clears old search results and disables page entries while replacements load', async () => {
+ const container=document.createElement('div');document.body.append(container);
+ let api, resolve;
+ const load=() => new Promise(done => { resolve=done; });
+ cleanup=mountRemoteCatalogBrowser(container, {
+  placeholder:'',searchLabel:'Search',emptyDetail:'Choose',pageSize:1,
+  key:item=>item.id, load,
+  renderRow:item=>`<button data-catalog-key="${item.id}">${item.id}</button>`,
+  renderDetail:(detail,item)=>{detail.textContent=String(item.id);},
+  onReady:value=>{api=value;}
+ });
+ resolve({items:[{id:1}],total:2});await tick();
+ container.querySelector('.catalog-next').click();
+ expect(container.querySelector('[data-catalog-key]').disabled).toBe(true);
+ resolve({items:[{id:2}],total:2});await tick();
+ expect(container.querySelector('[data-catalog-key]').disabled).toBe(false);
+ api.reset();
+ expect(container.querySelector('[data-catalog-key]')).toBeNull();
+ resolve({items:[{id:3}],total:1});await tick();
+ expect(container.querySelector('.catalog-detail').textContent).toBe('3');
+});

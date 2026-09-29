@@ -18,7 +18,7 @@ import { npcCatalogKey, npcTeleportEnabled, toCatalogNpcs } from './WorldCatalog
 
 const key = npcCatalogKey;
 
-function mount(container) {
+function mount(container, context = {}) {
 	container.classList.add('world-catalog-tab', 'npc-catalog-tab');
 	let manifest = null;
 	let available = null;
@@ -53,7 +53,7 @@ function mount(container) {
 				scopeFilter.checked ? () => { scopeFilter.checked = false; browserApi.reload(); } : null);
 		},
 		renderRow(npc, selected) {
-			const style = npcAtlasStyle(manifest, npc.spriteId, 48);
+			const style = npcAtlasStyle(manifest, npc.spriteId, context.mobile ? 40 : 48);
 			return `<button class="catalog-row${key(selected || {}) === key(npc) ? ' selected' : ''}" type="button" data-catalog-key="${escapeCatalogHtml(key(npc))}">
 				<span class="catalog-thumb${style ? '' : ' no-image'}" style="${style}"></span>
 				<span class="catalog-row-text"><strong>${escapeCatalogHtml(npc.name)}</strong><small>${escapeCatalogHtml(npc.mapDisplayName)} · ${npc.x},${npc.y}</small></span>
@@ -79,7 +79,7 @@ function mount(container) {
 			<div class="npc-detail-body">
 				<div class="npc-map-picker" aria-label="${escapeCatalogHtml(npc.mapDisplayName)}中的 NPC 位置"><canvas class="catalog-map npc-map-canvas" width="480" height="360"></canvas></div>
 				<section class="npc-detail-info">
-					<div class="catalog-metadata"><div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
+					<div class="catalog-metadata">${context.mobile ? `<div><span>名称</span><strong>${escapeCatalogHtml(npc.name)}</strong></div>` : ''}<div><span>地图</span><strong>${escapeCatalogHtml(npc.mapDisplayName)}</strong></div><div><span>地图代码</span><strong>${escapeCatalogHtml(npc.mapName)}</strong></div><div><span>坐标</span><strong>${npc.x}, ${npc.y}</strong></div><div><span>在线状态</span><strong>${checking ? '校验中...' : available ? '可用' : available === false ? '不可用' : '待校验'}</strong></div></div>
 				</section>
 			</div>
 			<div class="catalog-action-panel">

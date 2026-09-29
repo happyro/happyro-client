@@ -8,6 +8,7 @@
  * @author AoShinHo
  */
 
+import { notifyGameInput } from 'Controls/GameInputIntent.js';
 import Session from 'Engine/SessionStorage.js';
 import EntityManager from 'Renderer/EntityManager.js';
 import Network from 'Network/NetworkManager.js';
@@ -23,6 +24,7 @@ const direction = glMatrix.vec2.create();
 const rotate = glMatrix.mat2.create();
 
 function move(x, y) {
+	notifyGameInput('move-pulse');
 	const player = Session.Entity;
 	if (!player) {
 		return;
@@ -47,6 +49,7 @@ function move(x, y) {
 }
 
 function attack() {
+	notifyGameInput('action');
 	clearAttackIntent();
 	const Player = Session.Entity;
 	if (!Player) {
@@ -106,6 +109,7 @@ function attack() {
 }
 
 function pickUp() {
+	notifyGameInput('action');
 	const Player = Session.Entity;
 	if (!Player) {
 		return;

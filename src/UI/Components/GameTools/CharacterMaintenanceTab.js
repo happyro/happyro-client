@@ -203,7 +203,7 @@ function mount(container) {
 					if (!selectedJob || selectedJobId === snapshot.job_id) return;
 					void submit(
 						'character.progression.update',
-						{ job_id: selectedJobId, base_level: Math.min(snapshot.base_level, selectedJob.max_base_level) },
+						{ job_id: selectedJobId },
 						`是否确认转职为"${selectedJob.name}"?`
 					);
 				}

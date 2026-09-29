@@ -1,3 +1,5 @@
+import { createPointResetControl } from './PointResetControl.js';
+
 export function createSkillsPanel(body, actions) {
 	body.innerHTML =
 		'<div class="skills-toolbar"><strong data-skill-points></strong><select aria-label="技能分类"><option value="all">全部技能</option><option value="active">已学主动</option><option value="passive">已学被动</option><option value="locked">未学习</option></select></div><div class="inventory-layout"><div class="inventory-list" aria-label="技能列表"></div><section class="inventory-detail" aria-label="技能详情"></section></div><p role="status" data-skill-status></p>';
@@ -8,6 +10,14 @@ export function createSkillsPanel(body, actions) {
 		key = '',
 		state;
 	const nodes = new Map();
+	let resetMessage = '';
+	const reset = createPointResetControl($('.skills-toolbar'), {
+		label: '重置技能点',
+		description: '确认重置已学技能并返还技能点？不可重置的技能将保留，其余需重新学习。',
+		canReset: () => actions.snapshot().canReset,
+		reset: () => actions.reset(),
+		changed: () => update()
+	});
 	function button(text, fn) {
 		const b = document.createElement('button');
 		b.type = 'button';
@@ -117,7 +127,13 @@ export function createSkillsPanel(body, actions) {
 	}
 	$('select').onchange = render;
 	function update() {
+		if (!body.contains(list)) return;
 		state = actions.snapshot();
+		if (state.message !== resetMessage) {
+			resetMessage = state.message;
+			status(resetMessage || '');
+		}
+		reset.update();
 		render();
 	}
 	update();

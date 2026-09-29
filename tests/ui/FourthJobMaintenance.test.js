@@ -125,9 +125,9 @@ it('sets traits above the normal cap and available budget without spending point
 	dispose();
 });
 
-it.each([200, 300])('uses default transfer level for Base %i without an extra input', async baseLevel => {
+it.each([99, 200, 300])('uses the server-normalized transfer level for Base %i', async baseLevel => {
 	loadCurrentCharacter.mockResolvedValue({...snapshot, base_level: baseLevel});
-	maintainCurrentCharacter.mockResolvedValue({...snapshot, job_id: 4252, base_level: Math.min(baseLevel, 275), job_level: 1,
+	maintainCurrentCharacter.mockResolvedValue({...snapshot, job_id: 4252, base_level: Math.max(200, Math.min(baseLevel, 275)), job_level: 1,
 		max_base_level: 275, max_job_level: 60, traits});
 	document.body.innerHTML = '<div id="test"></div>';
 	const root = document.getElementById('test');
@@ -139,9 +139,10 @@ it.each([200, 300])('uses default transfer level for Base %i without an extra in
 	expect(root.querySelector('[data-form="job-target"]')).toBeNull();
 	expect(root.querySelectorAll('[name="base_level"]')).toHaveLength(1);
 	root.querySelector('[data-action="apply-job"]').click();
-	await vi.waitFor(() => expect(maintainCurrentCharacter).toHaveBeenCalledWith('character.progression.update', {job_id: 4252, base_level: Math.min(baseLevel, 275)}));
+	await vi.waitFor(() => expect(maintainCurrentCharacter).toHaveBeenCalledWith('character.progression.update', {job_id: 4252}));
 	await vi.waitFor(() => expect(root.querySelector('[data-form="traits"]')).not.toBeNull());
 	expect(root.querySelector('[data-form="progression"] [name="base_level"]').max).toBe('275');
+	expect(root.querySelector('[name="base_level"]').value).toBe(String(Math.max(200, Math.min(baseLevel, 275))));
 	expect(root.querySelector('[data-form="progression"] [name="job_level"]').max).toBe('60');
 });
 

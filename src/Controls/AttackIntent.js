@@ -1,5 +1,5 @@
-// Track requests owned by the touch controller so delayed server failures cannot
-// restart a released attack. Desktop / gamepad requests keep their existing path.
+// Track requests owned by shared combat commands so delayed server failures cannot
+// restart a released attack. Unowned manual requests retain their existing path.
 const requested = new Set();
 let retry;
 export function ownAttack(gid, callback) {

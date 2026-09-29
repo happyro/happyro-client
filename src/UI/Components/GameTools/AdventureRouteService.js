@@ -1,3 +1,6 @@
+import Session from 'Engine/SessionStorage.js';
+import Network from 'Network/NetworkManager.js';
+import PACKET from 'Network/PacketStructure.js';
 import Navigation from 'UI/Components/Navigation/Navigation.js';
 import { remainingPathFromPosition } from 'UI/Components/Navigation/NavigationAutoWalk.js';
 import {
@@ -36,6 +39,7 @@ function getStatus() {
 		target: target ? { ...target } : null,
 		path,
 		pending: routeMatches && navigationState.pending,
+		walking: routeMatches && navigationState.active,
 		unavailable: routeMatches && navigationState.unavailable
 	};
 }
@@ -65,7 +69,10 @@ export function previewAdventureRoute(nextTarget) {
 		normalizeAdventureMap(nextTarget.mapName) !== getCurrentAdventureMap()
 	)
 		return false;
-	Navigation.stopAutoWalk();
+	if (status.active) stopAdventureRoute();
+	else Navigation.stopAutoWalk();
+	clearInterval(timer);
+	timer = null;
 	target = { ...nextTarget };
 	navigationStarted = false;
 	update(false, '正在计算路径...');
@@ -84,6 +91,9 @@ export function previewAdventureRoute(nextTarget) {
 }
 
 export function startAdventureRoute(nextTarget) {
+	if ((getStatus().pending || status.active) && target &&
+		normalizeAdventureMap(target.mapName) === normalizeAdventureMap(nextTarget?.mapName) &&
+		target.x === nextTarget?.x && target.y === nextTarget?.y) return false;
 	if (
 		!nextTarget?.mapName ||
 		!Number.isFinite(nextTarget.x) ||
@@ -92,7 +102,10 @@ export function startAdventureRoute(nextTarget) {
 	)
 		return false;
 	clearInterval(timer);
-	Navigation.stopAutoWalk();
+	if (status.active) stopAdventureRoute();
+	else Navigation.stopAutoWalk();
+	clearInterval(timer);
+	timer = null;
 	target = { ...nextTarget };
 	navigationStarted = false;
 	update(true, `正在前往 ${target.mapDisplayName || target.mapName} (${target.x}, ${target.y})`);
@@ -112,6 +125,7 @@ export function startAdventureRoute(nextTarget) {
 }
 
 export function stopAdventureRoute(message = '') {
+	const stopMovement = !message && status.active;
 	clearInterval(timer);
 	timer = null;
 	navigationStarted = false;
@@ -122,6 +136,9 @@ export function stopAdventureRoute(message = '') {
 		return;
 	}
 	Navigation.stopAutoWalk();
+	if (stopMovement && Session.Playing && Session.Entity && Session.Entity.action !== Session.Entity.ACTION.DIE) {
+		Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
+	}
 }
 
 export function subscribeAdventureRoute(listener) {

@@ -28,6 +28,7 @@ vi.mock('Renderer/EntityManager.js', () => ({
 	}
 }));
 vi.mock('Renderer/Camera.js', () => ({ default: s.camera }));
+vi.mock('Preferences/Camera.js', () => ({ DEFAULT_CAMERA_ZOOM: 110 }));
 vi.mock('Renderer/Map/Altitude.js', () => ({
 	default: {
 		intersect: (a, b, out) => {
@@ -46,6 +47,7 @@ vi.mock('Network/PacketStructure.js', () => ({
 	default: {
 		CZ: {
 			CANCEL_LOCKON: class {},
+			HAPPYRO_STOP_MOVE: class {},
 			REQUEST_MOVE2: class {
 				dest = [];
 			}
@@ -56,6 +58,7 @@ vi.mock('UI/Components/Navigation/Navigation.js', () => ({ default: { stopAutoWa
 import {
 	tapScene,
 	moveDirection,
+	stopDirectionalMovement,
 	attackSelected,
 	stopAttack,
 	interactSelected,
@@ -77,6 +80,9 @@ function entity(type = 1) {
 	};
 }
 beforeEach(() => {
+	s.session.Playing = false;
+	stopDirectionalMovement();
+	s.session.Playing = true;
 	vi.clearAllMocks();
 	s.target = null;
 	s.over = null;
@@ -163,4 +169,49 @@ it.each([3, 5])('talks to NPC type %i on the first tap without an extra interact
  expect(s.over.onMouseDown).toHaveBeenCalledOnce();
  expect(targetSnapshot().interaction).toBe('');
  expect(s.walk).not.toHaveBeenCalled();
+});
+
+import PACKET from '../../src/Network/PacketStructure.js';
+
+it('sends exactly one stop on release even before the first movement acknowledgement', () => {
+ moveDirection(1, 0);
+ stopDirectionalMovement();
+ expect(s.send).toHaveBeenCalledTimes(2);
+ expect(s.send.mock.calls[1][0]).toBeInstanceOf(PACKET.CZ.HAPPYRO_STOP_MOVE);
+ stopDirectionalMovement();
+ expect(s.send).toHaveBeenCalledTimes(2);
+ expect(s.session.moveAction).toBeNull();
+});
+
+it('does not send a stop for an idle drag start, a blocked direction or a ground tap', () => {
+ stopDirectionalMovement();
+ s.free.mockReturnValue(false);
+ moveDirection(1, 0);
+ stopDirectionalMovement();
+ tapScene(100, 200);
+ stopDirectionalMovement();
+ expect(s.send).not.toHaveBeenCalled();
+});
+
+it.each(['disconnect', 'replacement', 'death', 'sitting'])('discards movement ownership on %s', reason => {
+ moveDirection(1, 0);
+ if (reason === 'disconnect') s.session.Playing = false;
+ if (reason === 'replacement') s.session.Entity = { ...s.session.Entity };
+ if (reason === 'death') s.session.Entity.action = s.session.Entity.ACTION.DIE;
+ if (reason === 'sitting') s.session.Entity.action = s.session.Entity.ACTION.SIT;
+ stopDirectionalMovement();
+ expect(s.send).toHaveBeenCalledTimes(1);
+ s.session.Playing = true;
+ s.session.Entity.action = 0;
+ stopDirectionalMovement();
+ expect(s.send).toHaveBeenCalledTimes(1);
+});
+
+it('starts a fresh movement after release without retaining the previous stop', () => {
+ moveDirection(1, 0);
+ stopDirectionalMovement();
+ moveDirection(0, 1);
+ expect(s.send.mock.calls.at(-1)[0].dest).toEqual([10, 13]);
+ stopDirectionalMovement();
+ expect(s.send.mock.calls.filter(([packet]) => packet instanceof PACKET.CZ.HAPPYRO_STOP_MOVE)).toHaveLength(2);
 });

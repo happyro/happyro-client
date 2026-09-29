@@ -1,5 +1,8 @@
+import { loadCatalogMapImage } from 'UI/Components/GameTools/WorldAssetService.js';
+import { createMobileViewport } from './MobileViewport.js';
+import AdventureTools from './AdventureTools.js';
 import CombatDiagnostics from 'Core/CombatDiagnostics.js';
-import { createGameAutoCombat } from 'UI/Game/GameAutoCombat.js';
+import { createGameAutoCombatRuntime } from 'UI/Game/GameAutoCombatRuntime.js';
 import { openGameCompanions } from 'UI/Game/GameCompanions.js';
 import { openGamePet } from 'UI/Game/GamePet.js';
 import { openGameMail, gameMailUnread } from 'UI/Game/GameMail.js';
@@ -10,9 +13,9 @@ import { createGameEquipmentSets } from 'UI/Game/GameEquipmentSets.js';
 import { createGameSocial } from 'UI/Game/GameSocial.js';
 import { createGameChat, chatChannel } from 'UI/Game/GameChat.js';
 import { createGameQuests } from 'UI/Game/GameQuests.js';
-import { createGameMaps } from 'UI/Game/GameMaps.js';
 import { createGameContainers } from 'UI/Game/GameContainers.js';
 import { subscribeInteraction, clearInteraction } from 'UI/Game/ServerInteraction.js';
+import { createGameAttributes } from 'UI/Game/GameAttributes.js';
 import { createGameSkills } from 'UI/Game/GameSkills.js';
 import { createEquipmentController } from 'UI/Game/GameEquipment.js';
 import { characterStats } from 'UI/Game/CharacterStats.js';
@@ -35,7 +38,6 @@ import DB from 'DB/DBManager.js';
 import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import StatusIcons from 'UI/Components/StatusIcons/StatusIcons.js';
 import { subscribeChatFeed } from 'UI/Game/ChatFeed.js';
-import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
 import { createGameHUDView } from './GameHUDView.js';
 
 const HUD = new GUIComponent('MobileGameHUD', '');
@@ -51,13 +53,12 @@ let inventory;
 let equipment;
 let containers;
 let skills;
+let attributes;
 let quests;
 let chat;
 let social;
-let timer;
 let unsubscribe;
 let unsubscribeOrientation;
-let unsubscribeConnection;
 let unsubscribeInteraction;
 let abort;
 let previousFreeze;
@@ -88,8 +89,6 @@ function snapshot() {
 	const entity = Session.Entity;
 	if (!entity) return;
 	const diagnosticStart = CombatDiagnostics.begin();
-	if (!controls?.isMoving() && entity.action !== entity.ACTION.WALK) autoCombat?.resumeAfterMovement();
-	autoCombat?.tick();
 	view.updateShortcuts(shortcuts.snapshot());
 	view.update({
 		autoCombat: autoCombat.snapshot(),
@@ -103,47 +102,21 @@ function snapshot() {
 		maxHp: entity.life.hp_max,
 		sp: entity.life.sp,
 		maxSp: entity.life.sp_max,
+		ap: entity.life.ap,
+		maxAp: entity.life.ap_max,
 		position: [entity.position[0], entity.position[1]],
+		direction: entity.direction,
 		mapName: DB.getMapName(MapRenderer.currentMap, MapRenderer.currentMap),
 		statuses: StatusIcons.getSnapshot(),
 		target: Commands.targetSnapshot()
 	});
 	CombatDiagnostics.end('mobile.hud', diagnosticStart);
 }
-/** Render the actual walkability grid once per map, rather than sample a desktop canvas. */
-function createMap() {
-	const width = Altitude.width,
-		height = Altitude.height;
-	const extent = Math.max(width, height);
-	const canvas = document.createElement('canvas');
-	canvas.width = canvas.height = 256;
-	const ctx = canvas.getContext('2d');
-	ctx.fillStyle = '#18232d';
-	ctx.fillRect(0, 0, 256, 256);
-	if (extent) {
-		for (let y = 0; y < 256; y++)
-			for (let x = 0; x < 256; x++) {
-				const cellX = Math.floor((x / 256) * extent - (extent - width) / 2);
-				const cellY = height - 1 - Math.floor((y / 256) * extent - (extent - height) / 2);
-				if (cellX < 0 || cellY < 0 || cellX >= width || cellY >= height) continue;
-				const type = Altitude.getCellType(cellX, cellY);
-				if (!(type & (Altitude.TYPE.WALKABLE | Altitude.TYPE.WATER))) continue;
-				ctx.fillStyle = type & Altitude.TYPE.WATER ? '#58899e' : '#bec9ce';
-				ctx.fillRect(x, y, 1, 1);
-			}
-	}
-	return { canvas, width, height };
-}
-function updateViewport() {
-	const viewport = window.visualViewport;
-	HUD._host.style.height = `${viewport?.height || window.innerHeight}px`;
-	HUD._host.style.width = `${viewport?.width || window.innerWidth}px`;
-	HUD._host.style.top = `${viewport?.offsetTop || 0}px`;
-	HUD._host.style.left = `${viewport?.offsetLeft || 0}px`;
-}
+let updateViewport;
 HUD.onAppend = function () {
 	// Repeated map mounting must not duplicate subscriptions or timers.
 	HUD.onRemove(false);
+	updateViewport = createMobileViewport(HUD._host);
 	abort = new AbortController();
 	const enabled = () =>
 		Boolean(
@@ -154,7 +127,14 @@ HUD.onAppend = function () {
 			Session.Entity &&
 			Session.Entity.action !== Session.Entity.ACTION.DIE
 		);
-	autoCombat = createGameAutoCombat(enabled);
+	autoCombat = createGameAutoCombatRuntime({
+		enabled,
+		isMoving: () => controls?.isMoving() || false,
+		update: () => {
+			if (view) snapshot();
+		},
+		onDisconnect: () => HUD.remove()
+	});
 	shortcuts = createGameShortcuts(() => controls?.isMoving() || false);
 	inventory = createGameInventory(() => modal && !previousFreeze);
 	containers = createGameContainers(() => modal && !previousFreeze);
@@ -164,10 +144,13 @@ HUD.onAppend = function () {
 		() => modal && !previousFreeze
 	);
 	quests = createGameQuests(() => modal && !previousFreeze);
+	attributes = createGameAttributes(() => modal && !previousFreeze);
 	skills = createGameSkills(() => modal && !previousFreeze, shortcuts);
 	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity));
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
+		openAdventureTools: () => AdventureTools.append(),
+		openAdventureMap: target => AdventureTools.openMap(target),
 		setModal,
 		interact: () => {
 			autoCombat.stop();
@@ -188,25 +171,30 @@ HUD.onAppend = function () {
 			skills: () => autoCombat.skills(),
 			configure: (...args) => autoCombat.configure(...args)
 		},
-		camera: Commands.adjustCamera,
 		shortcutPage: delta => {
 			shortcuts.turn(delta);
 			snapshot();
 		},
-		settings: { fields: graphicsFields, snapshot: settingsSnapshot, save: saveGameSettings },
+		settings: {
+			fields: graphicsFields,
+			snapshot: settingsSnapshot,
+			save: saveGameSettings,
+			camera: Commands.adjustCamera
+		},
 		openCompanion: kind => openGameCompanions(kind, () => modal && !previousFreeze),
 		openPet: () => openGamePet(() => modal && !previousFreeze),
 		openMail: () => openGameMail(() => modal && !previousFreeze),
 		openBank: () => requestGameBank(() => modal && !previousFreeze),
 		showOwnedVending,
 		canOperate: () => modal && !previousFreeze,
-		maps: createGameMaps(),
 		social,
 		equipmentSets: createGameEquipmentSets(() => modal && !previousFreeze),
 		questSnapshot: () => quests.snapshot(),
 		questToggle: (...args) => quests.toggle(...args),
 		containerSnapshot: source => containers.snapshot(source),
 		transferItem: (...args) => containers.transfer(...args),
+		attributes,
+		skillsReset: () => skills.reset(),
 		skillsSnapshot: () => skills.snapshot(),
 		skillsLearn: (...args) => skills.learn(...args),
 		skillsBind: (...args) => skills.bind(...args),
@@ -243,10 +231,7 @@ HUD.onAppend = function () {
 			autoCombat.pauseForMovement();
 			Commands.moveDirection(x, y);
 		},
-		stopMove: () => {
-			MapControl.onRequestStopWalk();
-			Session.moveAction = null;
-		},
+		stopMove: Commands.stopDirectionalMovement,
 		shortcut: slot => {
 			autoCombat.stop('手动施法，自动战斗已停止');
 			Commands.stopAttack();
@@ -280,7 +265,22 @@ HUD.onAppend = function () {
 			snapshot();
 		}
 	});
-	view.setMap(createMap());
+	const mapView = view;
+	const mapSignal = abort.signal;
+	const grid = { width: Altitude.width, height: Altitude.height };
+	mapView.setMap({ ...grid, loading: true });
+	loadCatalogMapImage(MapRenderer.currentMap)
+		.then(source => new Promise(resolve => {
+			if (!source) return resolve(null);
+			const image = new Image();
+			image.onload = () => resolve(image);
+			image.onerror = () => resolve(null);
+			image.src = source;
+		}))
+		.catch(() => null)
+		.then(image => {
+			if (!mapSignal.aborted) mapView.setMap({ ...grid, image, loading: false });
+		});
 	snapshot();
 	unsubscribe = subscribeChatFeed(messages => {
 		view.setMessages(
@@ -291,7 +291,6 @@ HUD.onAppend = function () {
 			})
 		);
 	});
-	timer = window.setInterval(snapshot, 200);
 	const cancel = () => {
 		cancelSceneInput();
 		view.close();
@@ -305,14 +304,13 @@ HUD.onAppend = function () {
 		{ signal: abort.signal }
 	);
 	unsubscribeOrientation = Platform.onOrientationChange(() => cancel());
-	unsubscribeConnection = onConnectionEnd(() => HUD.remove());
 	for (const type of ['resize', 'scroll'])
 		window.visualViewport?.addEventListener(type, updateViewport, { signal: abort.signal });
 	window.addEventListener('resize', updateViewport, { signal: abort.signal });
 	updateViewport();
 };
 HUD.onRemove = function (resetInteraction = true) {
-	autoCombat?.stop();
+	autoCombat?.destroy();
 	autoCombat = null;
 	unsubscribeInteraction?.();
 	unsubscribeInteraction = null;
@@ -324,19 +322,16 @@ HUD.onRemove = function (resetInteraction = true) {
 	inventory = null;
 	equipment = null;
 	skills = null;
+	attributes = null;
 	quests = null;
 	chat = null;
 	social = null;
 	containers = null;
 	clearAttackIntent();
-	clearInterval(timer);
-	timer = null;
 	unsubscribe?.();
 	unsubscribe = null;
 	unsubscribeOrientation?.();
 	unsubscribeOrientation = null;
-	unsubscribeConnection?.();
-	unsubscribeConnection = null;
 	abort?.abort();
 	abort = null;
 	if (view) {

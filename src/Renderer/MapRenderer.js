@@ -16,6 +16,7 @@ import DB from 'DB/DBManager.js';
 import UIManager from 'UI/UIManager.js';
 import Background from 'UI/Background.js';
 import Cursor from 'UI/CursorManager.js';
+import Platform from 'UI/Platform.js';
 import Session from 'Engine/SessionStorage.js';
 import MemoryManager from 'Core/MemoryManager.js';
 import Mouse from 'Controls/MouseEventHandler.js';
@@ -253,7 +254,7 @@ class MapRenderer {
 			Mouse.world.y = y;
 			Mouse.world.z = Altitude.getCellHeight(x, y);
 
-			if (isWalkable) {
+			if (isWalkable && (!Platform.isMobile || Session.captchaGetIdOnFloorClick)) {
 				if (Session.captchaGetIdOnFloorClick) {
 					// render Grid Selector on floor range
 					const range = Session.captchaGetIdOnFloorRange;

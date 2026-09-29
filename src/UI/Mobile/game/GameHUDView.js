@@ -1,4 +1,7 @@
-import { createAutoCombatPanel } from './AutoCombatPanel.js';
+import { drawPlayerArrow } from 'UI/Components/GameTools/WorldMapPreview.js';
+import { fittedMapRect, mapImageSourceRect, mapPointToCanvas } from 'UI/Components/GameTools/MapPreviewLayout.js';
+import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
+import autoCombatCSS from 'UI/Game/AutoCombatPanel.css?raw';
 import { createNavigationPanel } from './NavigationPanel.js';
 import { createCompanionsPanel } from './CompanionsPanel.js';
 import { createPetPanel } from './PetPanel.js';
@@ -15,20 +18,25 @@ import { createSelectionPanel } from './SelectionPanel.js';
 import { createSocialPanel } from './SocialPanel.js';
 import { createChatPanel } from './ChatPanel.js';
 import { createQuestsPanel } from './QuestsPanel.js';
-import { createMapsPanel } from './MapsPanel.js';
 import { createContainerPanel } from './ContainerPanel.js';
 import { createShopPanel } from './ShopPanel.js';
 import { createNPCPanel, updateNPCCutin } from './NPCPanel.js';
+import { createAttributesPanel } from './AttributesPanel.js';
 import { createSkillsPanel } from './SkillsPanel.js';
 import { createEquipmentPanel } from './EquipmentPanel.js';
 import { createInventoryPanel } from './InventoryPanel.js';
 import { createShortcutPanel } from './ShortcutPanel.js';
 import html from './GameHUD.html?raw';
 import css from './GameHUD.css?raw';
+import responsiveCSS from './GameHUDResponsive.css?raw';
+import panelsCSS from './MenuPanels.css?raw';
 
 /** DOM-only view; no packets, desktop windows or map event handlers. */
 export function createGameHUDView(root, actions) {
-	root.innerHTML = `<style>${css}</style>${html}`;
+	root.innerHTML = `<style>${css}
+${autoCombatCSS}
+${responsiveCSS}
+${panelsCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
@@ -37,8 +45,8 @@ export function createGameHUDView(root, actions) {
 	let inventoryPanel = null;
 	let equipmentPanel = null;
 	let skillsPanel = null;
+	let attributesPanel = null;
 	let questsPanel = null;
-	let mapsPanel = null;
 	let navigationPanel = null;
 	let chatPanel = null;
 	let socialPanel = null;
@@ -104,15 +112,19 @@ export function createGameHUDView(root, actions) {
 		if (!canvas || !mapImage) return;
 		const ctx = canvas.getContext('2d');
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.drawImage(mapImage.canvas, 0, 0, canvas.width, canvas.height);
-		const extent = Math.max(mapImage.width, mapImage.height);
-		if (!extent || !snapshot.position) return;
-		const x = ((snapshot.position[0] + (extent - mapImage.width) / 2) / extent) * canvas.width;
-		const y = ((extent - snapshot.position[1] - (extent - mapImage.height) / 2) / extent) * canvas.height;
-		ctx.fillStyle = '#ffca67';
-		ctx.beginPath();
-		ctx.arc(x, y, 3, 0, Math.PI * 2);
-		ctx.fill();
+		const fit = fittedMapRect(canvas.width, canvas.height, mapImage.width, mapImage.height);
+		if (mapImage.image) {
+			const image = mapImage.image;
+			const source = mapImageSourceRect(image.naturalWidth, image.naturalHeight, mapImage);
+			ctx.drawImage(image, source.x, source.y, source.width, source.height, fit.x, fit.y, fit.width, fit.height);
+		} else {
+			ctx.fillStyle = '#c6d0db';
+			ctx.textAlign = 'center';
+			ctx.fillText(mapImage.loading ? '加载中' : '暂无图片', canvas.width / 2, canvas.height / 2);
+		}
+		if (!snapshot.position) return;
+		const point = mapPointToCanvas(fit, mapImage, { x: snapshot.position[0], y: snapshot.position[1] });
+		drawPlayerArrow(ctx, point, snapshot.direction ?? 0, 0.65);
 	}
 	function close(notify = true) {
 		if (!currentPanel || (notify && serverState?.canClose === false)) return;
@@ -123,6 +135,7 @@ export function createGameHUDView(root, actions) {
 		inventoryPanel = null;
 		equipmentPanel = null;
 		skillsPanel = null;
+		attributesPanel = null;
 		petPanel = null;
 		companionsPanel = null;
 		mailPanel = null;
@@ -139,10 +152,8 @@ export function createGameHUDView(root, actions) {
 		refinementPanel = null;
 		enchantPanel = null;
 		equipmentSetsPanel = null;
-		mapsPanel?.destroy();
 		navigationPanel?.destroy();
 		navigationPanel = null;
-		mapsPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
@@ -167,6 +178,7 @@ export function createGameHUDView(root, actions) {
 			dd.textContent = value;
 			dl.append(dt, dd);
 		}
+		dl.className = 'character-details';
 		body.replaceChildren(dl);
 	}
 	function renderDetails() {
@@ -193,8 +205,14 @@ export function createGameHUDView(root, actions) {
 		}
 	}
 	function open(panel, slotIndex) {
+		if (panel === 'map') {
+			close();
+			actions.openAdventureMap(slotIndex);
+			return;
+		}
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
+		$('.panel').dataset.view = panel;
 		backdropPointer = null;
 		dismissBackdrop = false;
 		backdrop.hidden = false;
@@ -206,11 +224,10 @@ export function createGameHUDView(root, actions) {
 				settings: '设置',
 				profile: '人物信息',
 				status: '状态效果',
-				map: '地图',
 				navigation: '导航',
 				menu: '菜单',
 				chat: '聊天',
-				camera: '镜头',
+				attributes: '素质',
 				shortcuts: '快捷配置',
 				inventory: '背包',
 				equipment: '装备',
@@ -238,21 +255,25 @@ export function createGameHUDView(root, actions) {
 		);
 		$('[data-close]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
+		body.classList.toggle('settings-body', panel === 'settings');
+		$('.panel').classList.toggle('settings-panel', panel === 'settings');
+		$('.panel').classList.toggle('profile-panel', panel === 'profile');
 		body.classList.toggle('equipment-body', panel === 'equipment');
 		$('.panel').classList.toggle('equipment-panel', panel === 'equipment');
 		body.classList.toggle(
 			'inventory-body',
 			[
 				'mail',
+				'navigation',
 				'inventory',
 				'skills',
+				'attributes',
 				'shop',
 				'trade',
 				'vending',
 				'storage',
 				'cart',
 				'quests',
-				'map',
 				'social',
 				'selection',
 				'transformation',
@@ -266,15 +287,16 @@ export function createGameHUDView(root, actions) {
 			'inventory-panel',
 			[
 				'mail',
+				'navigation',
 				'inventory',
 				'skills',
+				'attributes',
 				'shop',
 				'trade',
 				'vending',
 				'storage',
 				'cart',
 				'quests',
-				'map',
 				'social',
 				'selection',
 				'transformation',
@@ -315,7 +337,7 @@ export function createGameHUDView(root, actions) {
 				['导航', 'navigation'],
 				// ['聊天', 'chat'], // 聊天 UI 暂时隐藏。
 				['状态', 'status'],
-				['镜头', 'camera'],
+				['素质', 'attributes'],
 				['快捷配置', 'shortcuts'],
 				['背包', 'inventory'],
 				['装备', 'equipment'],
@@ -331,6 +353,10 @@ export function createGameHUDView(root, actions) {
 				if (panelName) button.onclick = () => open(panelName);
 				grid.append(button);
 			}
+			const adventureButton = document.createElement('button');
+			adventureButton.textContent = '冒险工具';
+			adventureButton.onclick = () => { close(); actions.openAdventureTools(); };
+			grid.prepend(adventureButton);
 			const petButton = document.createElement('button');
 			petButton.textContent = '宠物';
 			petButton.onclick = () => actions.openPet();
@@ -373,6 +399,7 @@ export function createGameHUDView(root, actions) {
 		inventoryPanel = null;
 		equipmentPanel = null;
 		skillsPanel = null;
+		attributesPanel = null;
 		petPanel = null;
 		companionsPanel = null;
 		mailPanel = null;
@@ -389,10 +416,8 @@ export function createGameHUDView(root, actions) {
 		refinementPanel = null;
 		enchantPanel = null;
 		equipmentSetsPanel = null;
-		mapsPanel?.destroy();
 		navigationPanel?.destroy();
 		navigationPanel = null;
-		mapsPanel = null;
 		if (panel === 'social') socialPanel = createSocialPanel(body, actions.social, name => open('chat', name));
 		if (panel === 'quests')
 			questsPanel = createQuestsPanel(body, {
@@ -401,7 +426,6 @@ export function createGameHUDView(root, actions) {
 				showMap: target => open('map', target)
 			});
 		if (panel === 'navigation') navigationPanel = createNavigationPanel(body, actions.canOperate);
-		if (panel === 'map') mapsPanel = createMapsPanel(body, actions.maps, drawMap, slotIndex);
 		if (panel === 'storage' || panel === 'cart')
 			containerPanel = createContainerPanel(
 				body,
@@ -453,10 +477,12 @@ export function createGameHUDView(root, actions) {
 			serverState.service.setOperationGuard(actions.canOperate);
 			shopPanel = createShopPanel(body, serverState.service);
 		}
+		if (panel === 'attributes') attributesPanel = createAttributesPanel(body, actions.attributes);
 		if (panel === 'skills')
 			skillsPanel = createSkillsPanel(body, {
 				snapshot: actions.skillsSnapshot,
 				learn: actions.skillsLearn,
+				reset: actions.skillsReset,
 				bind: actions.skillsBind,
 				shortcuts: actions.shortcutSnapshot,
 				slotName: actions.shortcutName
@@ -482,25 +508,6 @@ export function createGameHUDView(root, actions) {
 				candidates: actions.shortcutCandidates,
 				configure: actions.configureShortcut
 			});
-		if (panel === 'camera') {
-			const grid = document.createElement('div');
-			grid.className = 'menu-grid';
-			for (const [label, action] of [
-				['左转', 'left'],
-				['右转', 'right'],
-				['拉近', 'zoomIn'],
-				['拉远', 'zoomOut'],
-				['抬高', 'up'],
-				['降低', 'down'],
-				['重置', 'reset']
-			]) {
-				const button = document.createElement('button');
-				button.textContent = label;
-				button.onclick = () => actions.camera(action);
-				grid.append(button);
-			}
-			body.append(grid);
-		}
 		if (panel === 'chat') {
 			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
 			updateMessages();
@@ -534,7 +541,9 @@ export function createGameHUDView(root, actions) {
 			close();
 		}
 		if (event.key === 'Tab') {
-			const items = [...backdrop.querySelectorAll('button:not(:disabled), input, select')];
+			const items = [...backdrop.querySelectorAll('button, input, select, textarea, [tabindex]')].filter(
+				item => !item.disabled && item.tabIndex >= 0 && item.getClientRects().length > 0
+			);
 			const index = items.indexOf(root.activeElement);
 			event.preventDefault();
 			items[(index + (event.shiftKey ? -1 : 1) + items.length) % items.length]?.focus();
@@ -555,8 +564,10 @@ export function createGameHUDView(root, actions) {
 			text('[data-interact]', next.target?.interaction);
 			text('[data-name]', next.name);
 			text('[data-job]', `Lv.${next.level} ${next.job}`);
-			for (const type of ['hp', 'sp']) {
-				const max = type === 'hp' ? next.maxHp : next.maxSp;
+			$('[data-ap-row]').hidden = !(next.maxAp > 0);
+			$('[data-hp]').classList.toggle('low-hp', next.maxHp > 0 && next.hp / next.maxHp < 0.25);
+			for (const type of ['hp', 'sp', 'ap']) {
+				const max = next[{ hp: 'maxHp', sp: 'maxSp', ap: 'maxAp' }[type]];
 				$(`[data-${type}]`).max = Math.max(1, max || 0);
 				$(`[data-${type}]`).value = next[type] || 0;
 				text(`[data-${type}-text]`, `${next[type] ?? 0} / ${max ?? 0}`);
@@ -580,11 +591,11 @@ export function createGameHUDView(root, actions) {
 				);
 			}
 			drawMap($('[data-mini-map]'));
-			drawMap($('.large-map'));
 			renderDetails();
 			inventoryPanel?.update();
 			equipmentPanel?.update();
 			skillsPanel?.update();
+			attributesPanel?.update();
 			petPanel?.update();
 			companionsPanel?.update();
 			mailPanel?.update();

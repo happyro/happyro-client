@@ -1,3 +1,4 @@
+import AutoCombat from 'UI/Components/AutoCombat/AutoCombat.js';
 import Platform from 'UI/Platform.js';
 import MobileGameHUD from 'UI/Mobile/game/GameHUD.js';
 
@@ -11,7 +12,10 @@ export function appendGameComponent(component) {
 	component.append();
 }
 export function appendGameHUD(actions) {
-	if (!Platform.isMobile) return;
+	if (!Platform.isMobile) {
+		AutoCombat.append();
+		return;
+	}
 	MobileGameHUD.actions = actions;
 	MobileGameHUD.append();
 }

@@ -32,6 +32,7 @@ vi.mock('DB/DBManager.js', () => ({ default: {} }));
 vi.mock('UI/UIManager.js', () => ({ default: mocks.uiManager }));
 vi.mock('UI/Background.js', () => ({ default: mocks.background }));
 vi.mock('UI/CursorManager.js', () => ({ default: mocks.cursor }));
+vi.mock('UI/Platform.js', () => ({ default: { isMobile: false } }));
 vi.mock('Engine/SessionStorage.js', () => ({ default: {} }));
 vi.mock('Core/MemoryManager.js', () => ({ default: {} }));
 vi.mock('Controls/MouseEventHandler.js', () => ({ default: mocks.mouse }));

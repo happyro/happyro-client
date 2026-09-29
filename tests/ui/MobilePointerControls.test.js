@@ -71,3 +71,17 @@ it('cancellation and destruction remove held state and listeners without firing 
  controls.destroy();fire(scene,'pointerdown',3);
  expect(vi.getTimerCount()).toBe(0);
 });
+
+
+it.each(['pointerup', 'pointercancel', 'lostpointercapture'])('requests one immediate stop on %s without restarting the movement timer', type => {
+ const { scene, actions, fire, drag } = setup();
+ drag();
+ actions.stopMove.mockClear();
+ fire(scene, type, 1, 130, 200);
+ expect(actions.stopMove).toHaveBeenCalledOnce();
+ fire(scene, 'lostpointercapture', 1);
+ vi.advanceTimersByTime(1000);
+ expect(actions.stopMove).toHaveBeenCalledOnce();
+ expect(actions.move).toHaveBeenCalledOnce();
+ expect(vi.getTimerCount()).toBe(0);
+});

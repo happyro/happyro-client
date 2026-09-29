@@ -1,3 +1,4 @@
+import Navigation from 'UI/Components/Navigation/Navigation.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Session from 'Engine/SessionStorage.js';
@@ -58,13 +59,12 @@ export function createGameAutoCombat(enabled) {
 			});
 	}
 	function stop() {
+		Navigation.stopAutoWalk();
+		SkillTargetSelection.remove();
 		const chasing = Boolean(Session.moveAction);
 		Commands.stopAttack();
 		if (chasing && Session.Playing && Session.Entity && Session.Entity.action !== Session.Entity.ACTION.DIE) {
-			const packet = new PACKET.CZ.REQUEST_MOVE2();
-			packet.dest[0] = Math.round(Session.Entity.position[0]);
-			packet.dest[1] = Math.round(Session.Entity.position[1]);
-			Network.sendPacket(packet);
+			Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
 		}
 		MapControl.onRequestStopWalk();
 		Session.autoFollow = false;

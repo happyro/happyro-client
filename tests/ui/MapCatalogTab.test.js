@@ -31,7 +31,7 @@ vi.mock('../../src/UI/Components/GameTools/NpcAvailabilityService.js', () => ({
 }));
 vi.mock('../../src/UI/Components/GameTools/WorldAssetService.js', () => ({
 	loadNpcAssets: async () => ({ mapImages: ['payon'] }),
-	loadCatalogMapImage: async () => null,
+	loadCatalogMapImage: vi.fn(async () => null),
 	loadCatalogMap: async () => null,
 	canvasToMapCoordinate: vi.fn(),
 	findDefaultMapCoordinate: vi.fn(),
@@ -142,4 +142,26 @@ describe('map catalog current map updates', () => {
 		await vi.advanceTimersByTimeAsync(1000);
 		expect(searchAdventureMaps).toHaveBeenCalledTimes(2);
 	});
+});
+
+import { loadCatalogMapImage } from '../../src/UI/Components/GameTools/WorldAssetService.js';
+it('shows loading until the thumbnail resolves, and only then shows missing images', async () => {
+ let resolve;
+ const pending = new Promise(done => { resolve=done; });
+ loadCatalogMapImage.mockImplementation(() => pending);
+ container.querySelector('.catalog-next').click();await vi.advanceTimersByTimeAsync(0);
+ expect(container.querySelector('.map-thumb').textContent).toBe('加载中');
+ resolve('data:image/png;base64,AA==');await vi.advanceTimersByTimeAsync(0);
+ expect(container.querySelector('.map-thumb img')).not.toBeNull();
+ loadCatalogMapImage.mockResolvedValue(null);
+ container.querySelector('.catalog-prev').click();await vi.advanceTimersByTimeAsync(0);
+ expect(container.querySelector('.map-thumb').textContent).toBe('无图');
+});
+
+it('opens a map supplied by the quest entry using the catalog search', async () => {
+ cleanup();
+ cleanup = mapCatalog.mount(container, { mobile: true, initialMap: { id: 'geffen', x: 50, y: 60 } });
+ await vi.advanceTimersByTimeAsync(0);
+ expect(container.querySelector('.catalog-search').value).toBe('geffen');
+ expect(searchAdventureMaps).toHaveBeenLastCalledWith(expect.objectContaining({ query: 'geffen', page: 1 }));
 });

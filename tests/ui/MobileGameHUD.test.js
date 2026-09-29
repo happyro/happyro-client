@@ -7,7 +7,7 @@ let host, root, view, actions;
 const state = { name: '测试角色', job: '初心者', level: 10, jobLevel: 5, money: 123, hp: 80, maxHp: 100, sp: 20, maxSp: 40, position: [12, 34], mapName: '普隆德拉', statuses: [{ id: 1, description: '加速术 10秒', icon: 'data:image/png;base64,AA==' }] };
 beforeEach(() => {
 	host = document.createElement('div'); document.body.append(host); root = host.attachShadow({ mode: 'open' });
-	actions = { equipmentSnapshot: () => ({ slots: [], stats: [] }), inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
+	actions = { openAdventureMap: vi.fn(), equipmentSnapshot: () => ({ slots: [], stats: [] }), inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
 	view = createGameHUDView(root, actions); view.update(state);
 });
 afterEach(() => { view.destroy(); host.remove(); clearChatFeed(); vi.restoreAllMocks(); });
@@ -126,4 +126,29 @@ it('groups six skills and combat controls at the bottom right and highlights onl
  expect(root.querySelector('.skill-actions').hidden).toBe(false);
  expect(root.querySelector('.shortcut-tools').hidden).toBe(true);
  expect(root.querySelector('.skill-actions [data-skill-cancel]')).not.toBeNull();
+});
+
+it('opens adventure maps directly from the minimap without mounting the old map panel', () => {
+ click('[data-panel="map"]');
+ expect(actions.openAdventureMap).toHaveBeenCalledOnce();
+ expect(actions.setModal).not.toHaveBeenCalledWith(true);
+ expect(root.querySelector('.map-preview')).toBeNull();
+});
+
+it('updates AP with the character and hides it when unavailable', () => {
+ expect(root.querySelector('[data-ap-row]').hidden).toBe(true);
+ view.update({ ...state, ap: 75, maxAp: 200 });
+ expect(root.querySelector('[data-ap-row]').hidden).toBe(false);
+ expect(root.querySelector('[data-ap]').value).toBe(75);
+ expect(root.querySelector('[data-ap]').max).toBe(200);
+ expect(root.querySelector('[data-ap-text]').textContent).toBe('75 / 200');
+ view.update({ ...state, ap: 0, maxAp: 0 });
+ expect(root.querySelector('[data-ap-row]').hidden).toBe(true);
+});
+
+it('uses the same low HP threshold as the character gauge', () => {
+ view.update({ ...state, hp: 24, maxHp: 100 });
+ expect(root.querySelector('[data-hp]').classList.contains('low-hp')).toBe(true);
+ view.update({ ...state, hp: 25, maxHp: 100 });
+ expect(root.querySelector('[data-hp]').classList.contains('low-hp')).toBe(false);
 });

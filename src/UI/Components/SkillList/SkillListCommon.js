@@ -1,3 +1,4 @@
+import Platform from 'UI/Platform.js';
 /**
  * UI/Components/SkillList/SkillListCommon.js
  *
@@ -1089,6 +1090,10 @@ export function createSkillList({
 	};
 
 	Component.onLevelUp = function onLevelUp() {
+		if (Platform.isMobile) {
+			_btnLevelUp?.remove();
+			return;
+		}
 		if (_btnLevelUp) {
 			document.body.appendChild(_btnLevelUp);
 		}

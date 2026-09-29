@@ -6,10 +6,12 @@ let overlay;
 let unsubscribe;
 let cancelOnDisconnect;
 let pending;
+let portraitPanel;
 
 function update() {
+	if (!overlay) return;
 	const portrait = Platform.orientation === 'portrait';
-	overlay.hidden = !portrait;
+	overlay.hidden = !portrait || (!pending && Boolean(portraitPanel?.isConnected));
 	if (!portrait && pending) {
 		const proceed = pending;
 		pending = null;
@@ -39,7 +41,10 @@ function release() {
 }
 
 function requireLandscape(proceed) {
-	if (!Platform.isMobile) { proceed(); return; }
+	if (!Platform.isMobile) {
+		proceed();
+		return;
+	}
 	if (overlay) return;
 	overlay = document.createElement('div');
 	overlay.id = 'ro-rotation-guard';
@@ -64,9 +69,21 @@ function requireLandscape(proceed) {
 	document.body.appendChild(overlay);
 	window.addEventListener('keydown', blockKeys, true);
 	pending = proceed;
-	cancelOnDisconnect = onConnectionEnd(() => { if (pending) release(); });
+	cancelOnDisconnect = onConnectionEnd(() => {
+		if (pending) release();
+	});
 	unsubscribe = Platform.onOrientationChange(update);
 	update();
 }
 
-export default { requireLandscape, release };
+// Full-screen tools can be read in portrait while gameplay stays frozen by their owner.
+function allowPortraitPanel(element) {
+	portraitPanel = element;
+	update();
+	return () => {
+		if (portraitPanel === element) portraitPanel = null;
+		update();
+	};
+}
+
+export default { requireLandscape, release, allowPortraitPanel };

@@ -20,6 +20,7 @@ export function mountRemoteCatalogBrowser(container, options) {
 		</div>`;
 
 	const search = container.querySelector('.catalog-search');
+	search.value = options.initialQuery || '';
 	const filters = [...container.querySelectorAll('.catalog-filter.game-select-value')];
 	const list = container.querySelector('.catalog-list');
 	const detail = container.querySelector('.catalog-detail');
@@ -48,21 +49,21 @@ export function mountRemoteCatalogBrowser(container, options) {
 		const pageCount = Math.max(1, Math.ceil(state.total / options.pageSize));
 		container.querySelector('.catalog-summary').textContent = state.loading
 			? '正在加载资料...'
-			: state.error ||
-				(options.summarize ? options.summarize(state) : `共 ${state.total} 条资料`);
+			: state.error || (options.summarize ? options.summarize(state) : `共 ${state.total} 条资料`);
 		container.querySelector('.catalog-page').textContent = `${state.page} / ${pageCount}`;
 		container.querySelector('.catalog-prev').disabled = state.loading || state.page <= 1;
 		container.querySelector('.catalog-next').disabled = state.loading || state.page >= pageCount;
 		list.innerHTML = state.items.map(item => options.renderRow(item, state.selected)).join('');
 		if (!state.loading && !state.error && !state.items.length) options.renderEmptyList?.(list, search.value.trim());
-		list.querySelectorAll('[data-catalog-key]').forEach(button =>
+		list.querySelectorAll('[data-catalog-key]').forEach(button => {
+			button.disabled = state.loading;
 			button.addEventListener('click', () => {
 				state.selected =
 					state.items.find(item => String(options.key(item)) === button.dataset.catalogKey) || null;
 				renderList();
 				renderDetail();
-			})
-		);
+			});
+		});
 		options.onListRendered?.(list, state.items);
 	}
 
@@ -104,6 +105,7 @@ export function mountRemoteCatalogBrowser(container, options) {
 	}
 
 	function resetAndLoad() {
+		state.items = [];
 		state.selected = null;
 		renderDetail();
 		state.page = 1;
