@@ -196,14 +196,14 @@
 		max-width: 112px;
 	}
 	.profile-bars {
-		grid-template-columns: 24px minmax(0, 1fr) max-content;
+		grid-template-columns: 24px minmax(0, 1fr);
 		gap: 7px 6px;
 	}
 	.profile label {
 		font-size: 12px;
 	}
 	.profile meter {
-		height: 14px;
+		height: 12px;
 	}
 	.profile label span {
 		min-width: 82px;

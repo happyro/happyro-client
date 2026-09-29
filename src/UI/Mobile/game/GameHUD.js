@@ -102,6 +102,8 @@ function snapshot() {
 		maxHp: entity.life.hp_max,
 		sp: entity.life.sp,
 		maxSp: entity.life.sp_max,
+		ap: entity.life.ap,
+		maxAp: entity.life.ap_max,
 		position: [entity.position[0], entity.position[1]],
 		direction: entity.direction,
 		mapName: DB.getMapName(MapRenderer.currentMap, MapRenderer.currentMap),

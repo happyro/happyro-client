@@ -134,3 +134,21 @@ it('opens adventure maps directly from the minimap without mounting the old map 
  expect(actions.setModal).not.toHaveBeenCalledWith(true);
  expect(root.querySelector('.map-preview')).toBeNull();
 });
+
+it('updates AP with the character and hides it when unavailable', () => {
+ expect(root.querySelector('[data-ap-row]').hidden).toBe(true);
+ view.update({ ...state, ap: 75, maxAp: 200 });
+ expect(root.querySelector('[data-ap-row]').hidden).toBe(false);
+ expect(root.querySelector('[data-ap]').value).toBe(75);
+ expect(root.querySelector('[data-ap]').max).toBe(200);
+ expect(root.querySelector('[data-ap-text]').textContent).toBe('75 / 200');
+ view.update({ ...state, ap: 0, maxAp: 0 });
+ expect(root.querySelector('[data-ap-row]').hidden).toBe(true);
+});
+
+it('uses the same low HP threshold as the character gauge', () => {
+ view.update({ ...state, hp: 24, maxHp: 100 });
+ expect(root.querySelector('[data-hp]').classList.contains('low-hp')).toBe(true);
+ view.update({ ...state, hp: 25, maxHp: 100 });
+ expect(root.querySelector('[data-hp]').classList.contains('low-hp')).toBe(false);
+});

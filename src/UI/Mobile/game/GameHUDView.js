@@ -564,8 +564,10 @@ ${panelsCSS}</style>${html}`;
 			text('[data-interact]', next.target?.interaction);
 			text('[data-name]', next.name);
 			text('[data-job]', `Lv.${next.level} ${next.job}`);
-			for (const type of ['hp', 'sp']) {
-				const max = type === 'hp' ? next.maxHp : next.maxSp;
+			$('[data-ap-row]').hidden = !(next.maxAp > 0);
+			$('[data-hp]').classList.toggle('low-hp', next.maxHp > 0 && next.hp / next.maxHp < 0.25);
+			for (const type of ['hp', 'sp', 'ap']) {
+				const max = next[{ hp: 'maxHp', sp: 'maxSp', ap: 'maxAp' }[type]];
 				$(`[data-${type}]`).max = Math.max(1, max || 0);
 				$(`[data-${type}]`).value = next[type] || 0;
 				text(`[data-${type}-text]`, `${next[type] ?? 0} / ${max ?? 0}`);

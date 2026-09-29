@@ -83,7 +83,7 @@ button.surface,
 }
 .profile-bars {
 	display: grid;
-	grid-template-columns: 18px minmax(0, 1fr) max-content;
+	grid-template-columns: 18px minmax(0, 1fr);
 	gap: 5px 4px;
 }
 .profile label {
@@ -98,7 +98,7 @@ button.surface,
 .profile meter {
 	width: 100%;
 	min-width: 0;
-	height: 10px;
+	height: 12px;
 }
 .profile label span {
 	min-width: 64px;
@@ -952,3 +952,41 @@ dd {
 /* Preserve panel layout when the keyboard reduces only the visual viewport. */
 :host(.keyboard-open) .hud { height: var(--mobile-layout-height); }
 :host(.keyboard-open) .backdrop { overflow-y: auto; align-items: start; }
+
+.profile label > meter,
+.profile label > span {
+	grid-column: 2;
+	grid-row: 1;
+}
+.profile label > span {
+	min-width: 0;
+	text-align: center;
+	z-index: 1;
+	color: #fff;
+	font-size: 9px;
+	line-height: 12px;
+	text-shadow: 0 1px 2px #000, 0 0 2px #000;
+	pointer-events: none;
+}
+.profile meter {
+	appearance: none;
+	border: 0;
+	background: none;
+	--gauge-color: #589542;
+}
+.profile [data-sp] { --gauge-color: #4588ba; }
+.profile [data-ap] { --gauge-color: #b28c35; }
+.profile meter::-webkit-meter-bar {
+	background: #10192399;
+	border: 1px solid #75838d;
+	border-radius: 3px;
+	height: 100%;
+}
+.profile meter::-webkit-meter-optimum-value {
+	background: var(--gauge-color);
+}
+.profile meter::-moz-meter-bar {
+	background: var(--gauge-color);
+}
+
+.profile [data-hp].low-hp { --gauge-color: #ff0000; }
