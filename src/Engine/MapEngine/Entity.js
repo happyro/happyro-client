@@ -42,6 +42,7 @@ import MagicTarget from 'Renderer/Effects/MagicTarget.js';
 import LockOnTarget from 'Renderer/Effects/LockOnTarget.js';
 import MagicRing from 'Renderer/Effects/MagicRing.js';
 import BasicInfo from 'UI/Components/BasicInfo/BasicInfo.js';
+import Platform from 'UI/Platform.js';
 import ChatBox from 'UI/Components/ChatBox/ChatBox.js';
 import ChatRoom from 'UI/Components/ChatRoom/ChatRoom.js';
 import Escape from 'UI/Components/Escape/Escape.js';
@@ -1241,7 +1242,7 @@ function onEntityViewChange(pkt) {
 						BasicInfo.getUI().update('zeny', Session.Entity.money);
 						BasicInfo.getUI().update('name', Session.Entity.display.name);
 						BasicInfo.getUI().update('bexp', BasicInfo.getUI().base_exp, BasicInfo.getUI().base_exp_next);
-						BasicInfo.getUI().append();
+						if (!Platform.isMobile) BasicInfo.getUI().append();
 					}
 					// Update UI for all client versions
 					BasicInfo.getUI().update('job', pkt.value);

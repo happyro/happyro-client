@@ -1,3 +1,4 @@
+import Platform from 'UI/Platform.js';
 /**
  * UI/Components/Equipment/EquipmentCommon.js
  *
@@ -606,6 +607,10 @@ export function createEquipment({
 	};
 
 	Component.onLevelUp = function onLevelUp() {
+		if (Platform.isMobile) {
+			_btnLevelUp?.remove();
+			return;
+		}
 		if (UIVersionManager.getEquipmentVersion() > 0 && _btnLevelUp) {
 			document.body.appendChild(_btnLevelUp);
 		}
