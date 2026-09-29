@@ -8,7 +8,7 @@
 		sans-serif;
 	padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
 		max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
-	background: #101923b8;
+	background: #0003;
 	box-sizing: border-box;
 }
 * {
@@ -33,7 +33,7 @@
 	min-height: 0;
 	border-radius: 8px;
 	border: 1px solid #bec9d1;
-	background: #f2f5f7;
+	background: #f2f5f7b8;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -72,7 +72,7 @@
 	align-items: center;
 	gap: 6px;
 	padding: 4px 8px;
-	background: #213747;
+	background: #213747b8;
 	color: white;
 	flex-shrink: 0;
 }
@@ -82,14 +82,14 @@
 	flex: 1;
 }
 .adventure-header button {
-	background: #344e60;
+	background: #344e60b8;
 	border: 1px solid #7691a2;
 	color: white;
 }
 .adventure-feedback {
 	margin: 0;
 	padding: 0 12px;
-	background: #e5f1e8;
+	background: #e5f1e8b8;
 	color: #215a35;
 	flex-shrink: 0;
 }
@@ -97,7 +97,7 @@
 	padding: 4px 8px;
 }
 .adventure-feedback.error {
-	background: #fcebe7;
+	background: #fcebe7b8;
 	color: #973c2a;
 }
 .adventure-home {
@@ -217,7 +217,7 @@
 .mobile-adventure .catalog-row.selected,
 .mobile-adventure .monster-row.selected,
 .mobile-adventure .character-job-row.selected {
-	background: #e6f1f7;
+	background: #e6f1f7b8;
 	border-color: #4380a2;
 }
 .mobile-adventure .catalog-pagination,
@@ -241,7 +241,7 @@
 	flex: 0 0 auto;
 	position: sticky;
 	bottom: -6px;
-	background: #edf3f6;
+	background: #edf3f6b8;
 	padding: 6px;
 	flex-wrap: wrap;
 	gap: 5px;
@@ -379,7 +379,7 @@
 	line-height: 1.5;
 }
 .adventure-loading {
-	background: #f2f5f7;
+	background: #f2f5f7b8;
 	padding: 24px;
 	border-radius: 8px;
 }
@@ -414,7 +414,7 @@
 	flex: 0 0 auto;
 	position: sticky;
 	bottom: -6px;
-	background: #edf3f6;
+	background: #edf3f6b8;
 	padding: 6px;
 	gap: 5px;
 	flex-wrap: wrap;
@@ -692,18 +692,18 @@
 /* Match the mobile HUD surfaces, controls, text and selection accents. */
 .mobile-adventure.game-tools-window,
 .adventure-loading {
-	background: #191f26f5;
+	background: rgba(25, 31, 38, 0.72);
 	color: #f5f2e9;
 	border-color: #65717b;
 }
 .mobile-adventure .adventure-header {
-	background: #191f26;
+	background: #191f2699;
 	border-bottom: 1px solid #64707c;
 }
 .mobile-adventure button,
 .mobile-adventure input:not([type='checkbox']),
 .mobile-adventure .game-select-trigger {
-	background: #394753;
+	background: #39475399;
 	color: #f5f2e9;
 	border-color: #7e8c99;
 }
@@ -720,7 +720,7 @@
 .mobile-adventure .game-select-option,
 .mobile-adventure .settings-grid label,
 .mobile-adventure .settings-drop-table tr {
-	background: #19212a;
+	background: #19212a99;
 	color: #f5f2e9;
 	border-color: #65717b;
 }
@@ -729,7 +729,7 @@
 .mobile-adventure .character-job-row.selected,
 .mobile-adventure .monster-location.selected,
 .mobile-adventure .game-select-option.selected {
-	background: #57452c;
+	background: #57452cb8;
 	border-color: #ffca67;
 }
 .mobile-adventure .catalog-row small,
@@ -763,12 +763,12 @@
 .mobile-adventure .summon-panel,
 .mobile-adventure .character-actions,
 .mobile-adventure .settings-footer {
-	background: #19212a;
+	background: #19212a99;
 	border-color: #65717b;
 }
 .mobile-adventure .monster-stats,
 .mobile-adventure .catalog-metadata {
-	background: #65717b;
+	background: #65717bb8;
 	border-color: #65717b;
 }
 .mobile-adventure .monster-stats div,
@@ -777,12 +777,12 @@
 .mobile-adventure .map-npc-list,
 .mobile-adventure .map-npc-row,
 .mobile-adventure .monster-badge {
-	background: #242e38;
+	background: #242e3899;
 	color: #f5f2e9;
 	border-color: #65717b;
 }
 .mobile-adventure .map-npc-row.selected {
-	background: #57452c;
+	background: #57452cb8;
 }
 .mobile-adventure .monster-heading,
 .mobile-adventure .monster-resources section,
@@ -793,11 +793,11 @@
 .mobile-adventure .monster-portrait,
 .mobile-adventure .catalog-thumb,
 .mobile-adventure .item-thumb {
-	background-color: #19212a;
+	background-color: #19212a99;
 	border-color: #65717b;
 }
 .mobile-adventure .game-tools-confirm-card {
-	background: #19212a;
+	background: #19212a99;
 	color: #f5f2e9;
 	border-color: #65717b;
 }
@@ -807,11 +807,11 @@
 	color: #ffb5aa;
 }
 .mobile-adventure .adventure-feedback {
-	background: #263d32;
+	background: #263d32b8;
 	color: #cce8d2;
 }
 .mobile-adventure .adventure-feedback.error {
-	background: #4a2b2b;
+	background: #4a2b2bb8;
 	color: #ffb5aa;
 }
 .mobile-adventure button:disabled {
@@ -870,7 +870,7 @@
 	gap: 0 8px;
 	border: 1px solid #65717b;
 	padding: 5px;
-	background: #242e38;
+	background: #242e3899;
 }
 .mobile-adventure .monster-heading {
 	display: contents;
@@ -943,18 +943,18 @@
 .mobile-adventure .character-job-summary,
 .mobile-adventure .character-job-browser,
 .mobile-adventure .monster-resources > section > h4 {
-	background: #19212a;
+	background: #19212a99;
 	border-color: #65717b;
 }
 .mobile-adventure .character-job-icon,
 .mobile-adventure .map-thumb {
-	background: #242e38;
+	background: #242e3899;
 	color: #c6d0db;
 	border-color: #65717b;
 }
 .mobile-adventure .catalog-action-panel button:disabled,
 .mobile-adventure .summon-panel button:disabled {
-	background: #394753;
+	background: #39475399;
 }
 .mobile-adventure .monster-drops,
 .mobile-adventure .monster-locations {
@@ -970,7 +970,7 @@
 }
 .mobile-adventure .game-tools-toast,
 .mobile-adventure .game-tools-toast.info {
-	background: #263d32;
+	background: #263d32b8;
 	color: #cce8d2;
 	border-color: #65717b;
 }
@@ -1005,7 +1005,7 @@
 .mobile-adventure .npc-detail-info {
 	overflow: auto;
 	border: 1px solid #65717b;
-	background: #242e38;
+	background: #242e3899;
 }
 .mobile-adventure .npc-detail-info .catalog-metadata {
 	grid-auto-rows: auto;
@@ -1031,7 +1031,7 @@
 	gap: 8px;
 	padding: 5px;
 	border: 1px solid #65717b;
-	background: #242e38;
+	background: #242e3899;
 }
 .mobile-adventure .item-heading {
 	display: contents;
@@ -1066,7 +1066,7 @@
 	overflow-wrap: anywhere;
 }
 .mobile-adventure .character-job-emblem {
-	background: #242e38;
+	background: #242e3899;
 	color: #c6d0db;
 	border-color: #65717b;
 }
@@ -1084,14 +1084,14 @@
 .mobile-adventure .character-job-row:hover,
 .mobile-adventure .monster-location:hover,
 .mobile-adventure .game-select-option:hover {
-	background: #19212a;
+	background: #19212a99;
 }
 .mobile-adventure .catalog-row.selected:hover,
 .mobile-adventure .monster-row.selected:hover,
 .mobile-adventure .character-job-row.selected:hover,
 .mobile-adventure .monster-location.selected:hover,
 .mobile-adventure .game-select-option.selected:hover {
-	background: #57452c;
+	background: #57452cb8;
 }
 .mobile-adventure:has(.adventure-content[data-feature='maps']:not([hidden])) .adventure-feedback {
 	display: none;
@@ -1149,13 +1149,13 @@
 	border-bottom: 1px solid #65717b;
 	border-radius: 0;
 	padding: 4px 8px;
-	background: #242e38;
+	background: #242e3899;
 }
 .mobile-adventure .map-npc-row.selected,
 .mobile-adventure .map-npc-row.selected:hover,
 .mobile-adventure .monster-location.selected,
 .mobile-adventure .monster-location.selected:hover {
-	background: #57452c;
+	background: #57452cb8;
 	border-color: #65717b;
 }
 
@@ -1190,7 +1190,7 @@
 	white-space: nowrap;
 }
 .mobile-adventure .adventure-tabs button[aria-selected='true'] {
-	background: #57452c;
+	background: #57452cb8;
 	border-color: #ffca67;
 	color: #ffd27f;
 }
@@ -1218,7 +1218,7 @@
 .mobile-adventure .monster-locations {
 	border: 1px solid #65717b;
 	border-radius: 0;
-	background: #242e38;
+	background: #242e3899;
 }
 .mobile-adventure .map-npc-list > h4,
 .mobile-adventure .monster-resources .monster-locations > h4 {
@@ -1232,7 +1232,7 @@
 	line-height: 17px;
 	font-weight: 700;
 	color: #f5f2e9;
-	background: #19212a;
+	background: #19212a99;
 	border: 0;
 	border-bottom: 1px solid #65717b;
 }
@@ -1254,17 +1254,17 @@
 	padding-block: 2px;
 }
 .mobile-adventure .catalog-route:not(:disabled) {
-	background: #284c3b;
+	background: #284c3bb8;
 	border-color: #6aa786;
 	color: #d9f4e5;
 }
 .mobile-adventure .catalog-route.is-active:not(:disabled) {
-	background: #643c31;
+	background: #643c31b8;
 	border-color: #d99573;
 	color: #ffe2cc;
 }
 .mobile-adventure .catalog-route[aria-busy='true'] {
-	background: #57452c;
+	background: #57452cb8;
 	border-color: #b39564;
 	color: #e7d4ae;
 }

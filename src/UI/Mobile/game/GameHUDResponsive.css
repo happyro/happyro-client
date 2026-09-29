@@ -27,7 +27,7 @@
 }
 .settings-tabs [aria-pressed='true'],
 .settings-actions .settings-save {
-	background: #57452c;
+	background: #57452cb8;
 	border-color: #ceaa70;
 	color: #ffe1ae;
 }
@@ -44,7 +44,7 @@
 	padding: 4px 14px;
 	border: 1px solid #52606d;
 	border-radius: 10px;
-	background: #19212a;
+	background: #19212a99;
 }
 .settings-field {
 	display: flex;
@@ -75,7 +75,7 @@
 	padding: 6px;
 	border: 1px solid #7e8c99;
 	border-radius: 6px;
-	background: #283541;
+	background: #28354199;
 	color: #f5f2e9;
 	font: inherit;
 	font-size: 16px;
@@ -88,7 +88,7 @@
 	min-height: 26px;
 	padding: 3px;
 	border-radius: 20px;
-	background: #384653;
+	background: #38465399;
 }
 .settings-field input[type='checkbox']::before {
 	content: '';
@@ -96,15 +96,15 @@
 	width: 18px;
 	height: 18px;
 	border-radius: 50%;
-	background: #d2dae1;
+	background: #d2dae1b8;
 }
 .settings-form .settings-field input[type='checkbox']:checked {
-	background: #806334;
+	background: #806334b8;
 	border-color: #ceaa70;
 }
 .settings-field input[type='checkbox']:checked::before {
 	transform: translateX(16px);
-	background: #ffe1ae;
+	background: #ffe1aeb8;
 }
 .settings-field input:focus-visible,
 .settings-field select:focus-visible {
@@ -153,7 +153,7 @@
 	padding: 4px 14px;
 	border: 1px solid #52606d;
 	border-radius: 10px;
-	background: #19212a;
+	background: #19212a99;
 }
 .character-details dt,
 .character-details dd {

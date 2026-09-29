@@ -5,7 +5,7 @@
 	--panel-label: 12px;
 	--panel-heading: 13px;
 	width: min(600px, 100%);
-	background: rgba(25, 31, 38, 0.97);
+	background: rgba(25, 31, 38, 0.72);
 }
 .panel.inventory-panel,
 .panel.equipment-panel,
@@ -35,7 +35,7 @@
 	padding: var(--panel-gap);
 	border: 1px solid #52606d;
 	border-radius: 10px;
-	background: #19212a;
+	background: #19212a99;
 	overflow-wrap: anywhere;
 }
 .panel :is(.inventory-detail, .equipment-detail) > :first-child {
@@ -51,7 +51,7 @@
 	min-height: var(--panel-control);
 	padding: 5px 8px;
 	border-color: #52606d;
-	background: #24313d;
+	background: #24313d99;
 	line-height: 1.5;
 	overflow-wrap: anywhere;
 }
@@ -59,7 +59,7 @@
 .panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {
 	color: #ffe1ae;
 	border-color: #ceaa70;
-	background: #57452c;
+	background: #57452cb8;
 }
 .panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {
 	font-size: var(--panel-label);
@@ -90,7 +90,7 @@
 	padding: 7px 9px;
 	border: 1px solid #657584;
 	border-radius: 7px;
-	background: #283541;
+	background: #28354199;
 	color: #f5f2e9;
 	font: inherit;
 	font-size: 16px;
@@ -162,7 +162,7 @@
 	padding: var(--panel-gap);
 	border: 1px solid #52606d;
 	border-radius: 10px;
-	background: #19212a;
+	background: #19212a99;
 }
 .panel[data-view='pet'] .panel-body > *,
 .panel[data-view='companions'] .panel-body > * {
@@ -172,7 +172,7 @@
 	padding: 4px var(--panel-gap);
 	border: 1px solid #52606d;
 	border-radius: 10px;
-	background: #19212a;
+	background: #19212a99;
 	gap: 0 12px;
 }
 .panel :is([data-info], .bank-form dl) {
@@ -204,7 +204,7 @@
 	gap: 6px;
 }
 .panel .auto-range-settings {
-	background: #19212a;
+	background: #19212a99;
 }
 .panel .auto-range-stepper {
 	flex-shrink: 0;
@@ -222,12 +222,12 @@
 	text-align: center;
 }
 .panel [data-save-slot][data-save-state='saved'] {
-	background: #284b3c;
+	background: #284b3cb8;
 	border-color: #83bb9a;
 	color: #d2f4df;
 }
 .panel [data-save-slot][data-save-state='error'] {
-	background: #593331;
+	background: #593331b8;
 	border-color: #da9990;
 	color: #ffe0db;
 }
@@ -452,7 +452,7 @@
 .attribute-tabs [aria-pressed='true'] {
 	color: #ffe1ae;
 	border-color: #ceaa70;
-	background: #57452c;
+	background: #57452cb8;
 }
 .attribute-layout {
 	display: grid;
@@ -590,4 +590,15 @@
 		margin: 2px 0 6px;
 		font-size: 10px;
 	}
+}
+
+
+.panel .auto-species-card,
+.panel .auto-skill-card,
+.panel .auto-range-stepper button {
+ background: #18212b99;
+}
+.panel .auto-species-card[aria-pressed='true'],
+.panel .auto-skill-card:has(input:checked) {
+ background: #493c26b8;
 }

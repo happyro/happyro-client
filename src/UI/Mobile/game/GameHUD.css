@@ -37,7 +37,7 @@ button:disabled {
 	opacity: 0.55;
 }
 .surface {
-	background: rgba(25, 31, 38, 0.9);
+	background: rgba(25, 31, 38, 0.68);
 	border: 1px solid #65717b;
 	border-radius: 12px;
 	box-shadow: 0 3px 12px #0004;
@@ -213,7 +213,7 @@ button.surface,
 	min-height: 30px;
 	border: 1px solid #ecce94;
 	border-radius: 6px;
-	background: #483a25;
+	background: #483a25b8;
 }
 .battle-tools {
 	display: grid;
@@ -246,14 +246,14 @@ button.surface,
 	font-size: 18px;
 	border: 1px solid #ecce94;
 	border-radius: 6px;
-	background: #483a25dd;
+	background: #483a25ad;
 	overflow: hidden;
 	touch-action: none;
 }
 .combat .selected-skill {
 	outline: 2px solid #ffca67;
 	outline-offset: 1px;
-	background: #795923;
+	background: #795923b8;
 }
 .panel.auto-config-panel {
 	width: min(660px, 100%);
@@ -286,7 +286,7 @@ button.surface,
 .backdrop {
 	position: absolute;
 	inset: 0;
-	background: #0007;
+	background: #0003;
 	display: grid;
 	place-items: center;
 	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
@@ -317,7 +317,7 @@ h2 {
 	min-height: 34px;
 	border: 1px solid #7e8c99;
 	border-radius: 8px;
-	background: #394753;
+	background: #39475399;
 	padding: 5px 9px;
 }
 .panel-body {
@@ -361,7 +361,7 @@ dd {
 	flex: 1;
 	border-radius: 8px;
 	border: 1px solid #7e8c99;
-	background: #19212a;
+	background: #19212a99;
 	color: white;
 	padding: 8px;
 	font-size: 16px;
@@ -530,7 +530,7 @@ dd {
 .slot-picker [aria-pressed='true'],
 .shortcut-choice[aria-pressed='true'] {
 	border-color: #ffca67;
-	background: #57452c;
+	background: #57452cb8;
 }
 .shortcut-layout {
 	display: grid;
@@ -581,7 +581,7 @@ dd {
 	padding: 10px;
 	border: 1px solid #64707c;
 	border-radius: 8px;
-	background: #19212a;
+	background: #19212a99;
 }
 .shortcut-current {
 	display: grid;
@@ -618,12 +618,12 @@ dd {
 	max-width: 100%;
 	padding: 2px 6px;
 	color: inherit;
-	background: #394753;
+	background: #39475399;
 	border: 1px solid #7e8c99;
 	border-radius: 6px;
 }
 .panel [data-save-slot] {
-	background: #57452c;
+	background: #57452cb8;
 	border-color: #ceaa70;
 }
 .shortcut-clear {
@@ -675,7 +675,7 @@ dd {
 .inventory-tabs [aria-pressed='true'],
 .inventory-item[aria-pressed='true'] {
 	border-color: #ffca67;
-	background: #57452c;
+	background: #57452cb8;
 }
 .inventory-layout {
 	display: grid;
@@ -768,7 +768,7 @@ dd {
 .equipment-slot[aria-pressed='true'],
 .equipment-candidate[aria-pressed='true'] {
 	border-color: #ffca67;
-	background: #57452c;
+	background: #57452cb8;
 }
 .equipment-layout {
 	display: grid;
