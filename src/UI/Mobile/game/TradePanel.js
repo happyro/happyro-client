@@ -1,3 +1,5 @@
+import { setListItemText } from './ListItemText.js';
+
 export function createTradePanel(body, service) {
 	body.innerHTML =
 		'<div class="inventory-layout"><div class="inventory-list" aria-label="可交易物品"></div><section class="inventory-detail"><div data-picker></div><label>Zeny <input data-money type="number" min="0" step="1" value="0"></label><button data-send-money>设置金额</button><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div><p data-phase></p><button data-lock>锁定报价</button><button data-execute>确认成交</button><button data-cancel>取消交易</button></section></div><p role="status"></p>';
@@ -45,7 +47,7 @@ export function createTradePanel(body, service) {
 				nodes.set(item.index, node);
 				$('.inventory-list').append(node);
 			}
-			node.textContent = `${item.name} × ${item.count}`;
+			setListItemText(node, item.name, `× ${item.count}`);
 			node.setAttribute('aria-pressed', String(selected === item.index));
 		}
 		const item = preview
@@ -69,6 +71,9 @@ export function createTradePanel(body, service) {
 				button.textContent = '加入交易';
 				button.disabled = !active || state.ownLocked;
 				button.onclick = () => action(service.add(item.index, item.identity, Number(input.value)));
+				const title = document.createElement('h3');
+				title.textContent = item.name;
+				picker.append(title);
 				if (preview) picker.append(text);
 				else picker.append(text, input, button);
 			} else picker.textContent = '点击左侧物品设置数量';

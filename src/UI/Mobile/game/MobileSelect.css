@@ -1,0 +1,51 @@
+/* One dropdown theme for menus and adventure tools. */
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-trigger {
+	height: 28px;
+	min-height: 28px;
+	padding: 3px 7px;
+	border: 1px solid #7e8c99;
+	border-radius: 5px;
+	background: #394753;
+	color: #f5f2e9;
+	font-size: 12px;
+}
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-trigger i {
+	border-top-color: #bac4cd;
+}
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-menu {
+	padding: 3px;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid #657584;
+	border-radius: 5px;
+	background: #19212a;
+}
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option {
+	min-height: 28px;
+	padding: 4px 7px;
+	border: 0;
+	border-bottom: 1px solid #35414d;
+	border-radius: 0;
+	background: #19212a;
+	color: #f5f2e9;
+	font-size: 12px;
+}
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option.selected {
+	background: #57452c;
+	color: #ffe1ae;
+}
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option strong {
+	font-weight: normal;
+}
+:is(.panel .menu-select, .mobile-adventure .game-select) button:focus-visible {
+	outline: 2px solid #ceaa70;
+	outline-offset: -2px;
+}
+@media (hover: hover) {
+	:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option:not(:disabled):hover {
+		background: #35414d;
+	}
+	:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option.selected:hover {
+		background: #57452c;
+	}
+}

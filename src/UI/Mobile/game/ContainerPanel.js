@@ -1,3 +1,5 @@
+import { setListItemText } from './ListItemText.js';
+
 const labels = { inventory: '背包', storage: '仓库', cart: '手推车' };
 export function createContainerPanel(body, actions, initialSource) {
 	body.innerHTML =
@@ -109,7 +111,7 @@ export function createContainerPanel(body, actions, initialSource) {
 				nodes.set(key, node);
 				$('.inventory-list').append(node);
 			}
-			node.querySelector('span').textContent = `${item.name} ×${item.count}`;
+			setListItemText(node, item.name, `×${item.count}`);
 			if (item.icon && node.querySelector('img').getAttribute('src') !== item.icon)
 				node.querySelector('img').src = item.icon;
 			node.disabled = !state.allowed;

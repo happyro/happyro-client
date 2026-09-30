@@ -33,7 +33,7 @@
 	min-height: 0;
 	border-radius: 8px;
 	border: 1px solid #bec9d1;
-	background: #f2f5f7b8;
+	background: #f2f5f7;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -53,10 +53,12 @@
 	cursor: pointer;
 }
 .mobile-adventure input:not([type='checkbox']):not([type='hidden']) {
-	height: 30px;
-	font-size: 16px;
-	border-radius: 8px;
-	padding: 8px;
+	height: 28px;
+	min-height: 28px;
+	box-sizing: border-box;
+	font-size: 12px;
+	border-radius: 5px;
+	padding: 3px 6px;
 }
 .mobile-adventure input[type='checkbox'] {
 	width: 20px;
@@ -72,7 +74,7 @@
 	align-items: center;
 	gap: 6px;
 	padding: 4px 8px;
-	background: #213747b8;
+	background: #213747;
 	color: white;
 	flex-shrink: 0;
 }
@@ -82,14 +84,14 @@
 	flex: 1;
 }
 .adventure-header button {
-	background: #344e60b8;
+	background: #344e60;
 	border: 1px solid #7691a2;
 	color: white;
 }
 .adventure-feedback {
 	margin: 0;
 	padding: 0 12px;
-	background: #e5f1e8b8;
+	background: #e5f1e8;
 	color: #215a35;
 	flex-shrink: 0;
 }
@@ -97,7 +99,7 @@
 	padding: 4px 8px;
 }
 .adventure-feedback.error {
-	background: #fcebe7b8;
+	background: #fcebe7;
 	color: #973c2a;
 }
 .adventure-home {
@@ -217,7 +219,7 @@
 .mobile-adventure .catalog-row.selected,
 .mobile-adventure .monster-row.selected,
 .mobile-adventure .character-job-row.selected {
-	background: #e6f1f7b8;
+	background: #e6f1f7;
 	border-color: #4380a2;
 }
 .mobile-adventure .catalog-pagination,
@@ -241,7 +243,7 @@
 	flex: 0 0 auto;
 	position: sticky;
 	bottom: -6px;
-	background: #edf3f6b8;
+	background: #edf3f6;
 	padding: 6px;
 	flex-wrap: wrap;
 	gap: 5px;
@@ -362,7 +364,7 @@
 	inset: 0;
 	z-index: 20;
 	padding: 8px;
-	background: #102332aa;
+	background: #102332;
 }
 .mobile-adventure .game-tools-confirm-card {
 	max-width: 100%;
@@ -379,7 +381,7 @@
 	line-height: 1.5;
 }
 .adventure-loading {
-	background: #f2f5f7b8;
+	background: #f2f5f7;
 	padding: 24px;
 	border-radius: 8px;
 }
@@ -407,14 +409,14 @@
 	}
 }
 .mobile-adventure .game-select {
-	height: auto;
-	min-height: 30px;
+	height: 28px;
+	min-height: 28px;
 }
 .mobile-adventure .summon-panel {
 	flex: 0 0 auto;
 	position: sticky;
 	bottom: -6px;
-	background: #edf3f6b8;
+	background: #edf3f6;
 	padding: 6px;
 	gap: 5px;
 	flex-wrap: wrap;
@@ -692,18 +694,18 @@
 /* Match the mobile HUD surfaces, controls, text and selection accents. */
 .mobile-adventure.game-tools-window,
 .adventure-loading {
-	background: rgba(25, 31, 38, 0.72);
+	background: #191f26;
 	color: #f5f2e9;
 	border-color: #65717b;
 }
 .mobile-adventure .adventure-header {
-	background: #191f2699;
+	background: #191f26;
 	border-bottom: 1px solid #64707c;
 }
 .mobile-adventure button,
 .mobile-adventure input:not([type='checkbox']),
 .mobile-adventure .game-select-trigger {
-	background: #39475399;
+	background: #394753;
 	color: #f5f2e9;
 	border-color: #7e8c99;
 }
@@ -720,7 +722,7 @@
 .mobile-adventure .game-select-option,
 .mobile-adventure .settings-grid label,
 .mobile-adventure .settings-drop-table tr {
-	background: #19212a99;
+	background: #19212a;
 	color: #f5f2e9;
 	border-color: #65717b;
 }
@@ -729,7 +731,7 @@
 .mobile-adventure .character-job-row.selected,
 .mobile-adventure .monster-location.selected,
 .mobile-adventure .game-select-option.selected {
-	background: #57452cb8;
+	background: #57452c;
 	border-color: #ffca67;
 }
 .mobile-adventure .catalog-row small,
@@ -763,12 +765,12 @@
 .mobile-adventure .summon-panel,
 .mobile-adventure .character-actions,
 .mobile-adventure .settings-footer {
-	background: #19212a99;
+	background: #19212a;
 	border-color: #65717b;
 }
 .mobile-adventure .monster-stats,
 .mobile-adventure .catalog-metadata {
-	background: #65717bb8;
+	background: #65717b;
 	border-color: #65717b;
 }
 .mobile-adventure .monster-stats div,
@@ -777,12 +779,12 @@
 .mobile-adventure .map-npc-list,
 .mobile-adventure .map-npc-row,
 .mobile-adventure .monster-badge {
-	background: #242e3899;
+	background: #242e38;
 	color: #f5f2e9;
 	border-color: #65717b;
 }
 .mobile-adventure .map-npc-row.selected {
-	background: #57452cb8;
+	background: #57452c;
 }
 .mobile-adventure .monster-heading,
 .mobile-adventure .monster-resources section,
@@ -793,11 +795,11 @@
 .mobile-adventure .monster-portrait,
 .mobile-adventure .catalog-thumb,
 .mobile-adventure .item-thumb {
-	background-color: #19212a99;
+	background-color: #19212a;
 	border-color: #65717b;
 }
 .mobile-adventure .game-tools-confirm-card {
-	background: #19212a99;
+	background: #19212a;
 	color: #f5f2e9;
 	border-color: #65717b;
 }
@@ -807,11 +809,11 @@
 	color: #ffb5aa;
 }
 .mobile-adventure .adventure-feedback {
-	background: #263d32b8;
+	background: #263d32;
 	color: #cce8d2;
 }
 .mobile-adventure .adventure-feedback.error {
-	background: #4a2b2bb8;
+	background: #4a2b2b;
 	color: #ffb5aa;
 }
 .mobile-adventure button:disabled {
@@ -870,7 +872,7 @@
 	gap: 0 8px;
 	border: 1px solid #65717b;
 	padding: 5px;
-	background: #242e3899;
+	background: #242e38;
 }
 .mobile-adventure .monster-heading {
 	display: contents;
@@ -943,18 +945,18 @@
 .mobile-adventure .character-job-summary,
 .mobile-adventure .character-job-browser,
 .mobile-adventure .monster-resources > section > h4 {
-	background: #19212a99;
+	background: #19212a;
 	border-color: #65717b;
 }
 .mobile-adventure .character-job-icon,
 .mobile-adventure .map-thumb {
-	background: #242e3899;
+	background: #242e38;
 	color: #c6d0db;
 	border-color: #65717b;
 }
 .mobile-adventure .catalog-action-panel button:disabled,
 .mobile-adventure .summon-panel button:disabled {
-	background: #39475399;
+	background: #394753;
 }
 .mobile-adventure .monster-drops,
 .mobile-adventure .monster-locations {
@@ -970,7 +972,7 @@
 }
 .mobile-adventure .game-tools-toast,
 .mobile-adventure .game-tools-toast.info {
-	background: #263d32b8;
+	background: #263d32;
 	color: #cce8d2;
 	border-color: #65717b;
 }
@@ -1005,7 +1007,7 @@
 .mobile-adventure .npc-detail-info {
 	overflow: auto;
 	border: 1px solid #65717b;
-	background: #242e3899;
+	background: #242e38;
 }
 .mobile-adventure .npc-detail-info .catalog-metadata {
 	grid-auto-rows: auto;
@@ -1027,24 +1029,31 @@
 .mobile-adventure .item-overview {
 	display: grid;
 	grid-template-columns: 96px minmax(0, 1fr);
-	align-items: center;
+	align-items: stretch;
 	gap: 8px;
 	padding: 5px;
 	border: 1px solid #65717b;
-	background: #242e3899;
+	background: #242e38;
 }
 .mobile-adventure .item-heading {
 	display: contents;
 }
 .mobile-adventure .item-portrait {
 	width: 96px;
-	height: 96px;
+	height: auto;
+	min-height: 0;
+	position: relative;
 	background-color: transparent;
 	border: 0;
 }
 .mobile-adventure .item-portrait img {
-	max-width: 96px;
-	max-height: 96px;
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
 }
 .mobile-adventure .item-overview .catalog-metadata {
 	grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1066,7 +1075,7 @@
 	overflow-wrap: anywhere;
 }
 .mobile-adventure .character-job-emblem {
-	background: #242e3899;
+	background: #242e38;
 	color: #c6d0db;
 	border-color: #65717b;
 }
@@ -1084,14 +1093,14 @@
 .mobile-adventure .character-job-row:hover,
 .mobile-adventure .monster-location:hover,
 .mobile-adventure .game-select-option:hover {
-	background: #19212a99;
+	background: #19212a;
 }
 .mobile-adventure .catalog-row.selected:hover,
 .mobile-adventure .monster-row.selected:hover,
 .mobile-adventure .character-job-row.selected:hover,
 .mobile-adventure .monster-location.selected:hover,
 .mobile-adventure .game-select-option.selected:hover {
-	background: #57452cb8;
+	background: #57452c;
 }
 .mobile-adventure:has(.adventure-content[data-feature='maps']:not([hidden])) .adventure-feedback {
 	display: none;
@@ -1102,10 +1111,11 @@
 .mobile-adventure .summon-panel,
 .mobile-adventure .character-actions,
 .mobile-adventure .settings-footer {
-	flex: 0 0 34px;
-	height: 34px;
-	min-height: 34px;
-	padding-block: 2px;
+	flex: 0 0 38px;
+	height: 38px;
+	min-height: 38px;
+	padding: 4px 8px;
+	box-sizing: border-box;
 }
 .mobile-adventure .drop-group > div {
 	padding-left: 14px;
@@ -1149,13 +1159,13 @@
 	border-bottom: 1px solid #65717b;
 	border-radius: 0;
 	padding: 4px 8px;
-	background: #242e3899;
+	background: #242e38;
 }
 .mobile-adventure .map-npc-row.selected,
 .mobile-adventure .map-npc-row.selected:hover,
 .mobile-adventure .monster-location.selected,
 .mobile-adventure .monster-location.selected:hover {
-	background: #57452cb8;
+	background: #57452c;
 	border-color: #65717b;
 }
 
@@ -1190,7 +1200,7 @@
 	white-space: nowrap;
 }
 .mobile-adventure .adventure-tabs button[aria-selected='true'] {
-	background: #57452cb8;
+	background: #57452c;
 	border-color: #ffca67;
 	color: #ffd27f;
 }
@@ -1218,7 +1228,7 @@
 .mobile-adventure .monster-locations {
 	border: 1px solid #65717b;
 	border-radius: 0;
-	background: #242e3899;
+	background: #242e38;
 }
 .mobile-adventure .map-npc-list > h4,
 .mobile-adventure .monster-resources .monster-locations > h4 {
@@ -1232,7 +1242,7 @@
 	line-height: 17px;
 	font-weight: 700;
 	color: #f5f2e9;
-	background: #19212a99;
+	background: #19212a;
 	border: 0;
 	border-bottom: 1px solid #65717b;
 }
@@ -1254,17 +1264,65 @@
 	padding-block: 2px;
 }
 .mobile-adventure .catalog-route:not(:disabled) {
-	background: #284c3bb8;
+	background: #284c3b;
 	border-color: #6aa786;
 	color: #d9f4e5;
 }
 .mobile-adventure .catalog-route.is-active:not(:disabled) {
-	background: #643c31b8;
+	background: #643c31;
 	border-color: #d99573;
 	color: #ffe2cc;
 }
 .mobile-adventure .catalog-route[aria-busy='true'] {
-	background: #57452cb8;
+	background: #57452c;
 	border-color: #b39564;
 	color: #e7d4ae;
+}
+
+/* Footer fields fit the same 28px row as their action buttons. */
+.mobile-adventure .catalog-action-panel input[type='number'] {
+	width: 64px;
+	min-width: 0;
+	max-width: 100%;
+	height: 28px;
+	min-height: 28px;
+	padding: 2px 5px;
+	border-radius: 5px;
+	background: #283541;
+	font-size: 12px;
+	line-height: 22px;
+	box-sizing: border-box;
+}
+
+/* White detail plate; list thumbnails keep the row background visible. */
+.mobile-adventure .item-thumb {
+	background-color: transparent;
+}
+
+.mobile-adventure .item-portrait {
+	background-color: #fff;
+}
+.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {
+	font-family: Arial, sans-serif;
+	font-size: 22px;
+	line-height: 20px;
+}
+
+.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-block: 0;
+	line-height: 1;
+}
+.mobile-adventure :is(.catalog-pagination, .monster-pagination) button > span {
+	display: block;
+	font:
+		22px/1 Arial,
+		sans-serif;
+	transform: translateY(-1px);
+}
+.adventure-loading-message {
+	margin: auto;
+	color: #bac4cd;
 }

@@ -54,3 +54,18 @@ it('opens current character attributes before choosing another profession', () =
  root.querySelector('[data-back]').click();
  expect(root.querySelector('.show-detail')).toBeNull();
 });
+
+it('keeps the same window and close control while loading available tabs', () => {
+ const root = document.createElement('div'); document.body.append(root);
+ const close = vi.fn();
+ view = createAdventureToolsView(root, {tabs:[],context:{},close});
+ const window = root.querySelector('.game-tools-window');
+ const closeButton = root.querySelector('[data-close]');
+ expect(root.querySelector('.adventure-loading-message')).not.toBeNull();
+ view.setTabs([{id:'maps',label:'地图',mount: container => {container.textContent='地图内容';}}]);
+ expect(root.querySelector('.game-tools-window')).toBe(window);
+ expect(root.querySelector('[data-close]')).toBe(closeButton);
+ expect(root.querySelector('.adventure-loading-message')).toBeNull();
+ expect(root.textContent).toContain('地图内容');
+ closeButton.click(); expect(close).toHaveBeenCalledOnce();
+});

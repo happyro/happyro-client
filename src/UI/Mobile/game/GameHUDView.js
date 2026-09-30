@@ -1,3 +1,6 @@
+import mobileSelectCSS from './MobileSelect.css?raw';
+import { createMenuSelects } from './MenuSelects.js';
+import selectCSS from 'UI/Components/GameTools/GameSelect.css?raw';
 import { drawPlayerArrow } from 'UI/Components/GameTools/WorldMapPreview.js';
 import { fittedMapRect, mapImageSourceRect, mapPointToCanvas } from 'UI/Components/GameTools/MapPreviewLayout.js';
 import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
@@ -35,7 +38,9 @@ export function createGameHUDView(root, actions) {
 	root.innerHTML = `<style>${css}
 ${autoCombatCSS}
 ${responsiveCSS}
-${panelsCSS}</style>${html}`;
+${selectCSS}
+${panelsCSS}
+${mobileSelectCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
@@ -124,7 +129,9 @@ ${panelsCSS}</style>${html}`;
 		const point = mapPointToCanvas(fit, mapImage, { x: snapshot.position[0], y: snapshot.position[1] });
 		drawPlayerArrow(ctx, point, snapshot.direction ?? 0, 0.65);
 	}
+	const menuSelects = createMenuSelects(body);
 	function close(notify = true) {
+		menuSelects.close();
 		if (!currentPanel || (notify && serverState?.canClose === false)) return;
 		const interaction = serverState;
 		serverState = null;
@@ -348,7 +355,10 @@ ${panelsCSS}</style>${html}`;
 			}
 			const adventureButton = document.createElement('button');
 			adventureButton.textContent = '冒险工具';
-			adventureButton.onclick = () => { close(); actions.openAdventureTools(); };
+			adventureButton.onclick = () => {
+				close();
+				actions.openAdventureTools();
+			};
 			grid.prepend(adventureButton);
 			const petButton = document.createElement('button');
 			petButton.textContent = '宠物';
@@ -503,6 +513,7 @@ ${panelsCSS}</style>${html}`;
 			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
 			updateMessages();
 		}
+		menuSelects.sync();
 		$('h2').focus();
 	}
 	for (const button of root.querySelectorAll('[data-panel]'))
@@ -601,6 +612,7 @@ ${panelsCSS}</style>${html}`;
 			materialsPanel?.update();
 			refinementPanel?.update();
 			enchantPanel?.update();
+			menuSelects.sync();
 		},
 		setMap(image) {
 			mapImage = image;
@@ -699,6 +711,7 @@ ${panelsCSS}</style>${html}`;
 		},
 		close,
 		destroy() {
+			menuSelects.destroy();
 			close(false);
 			abort.abort();
 			root.replaceChildren();

@@ -1,3 +1,4 @@
+import mobileSelectCSS from './MobileSelect.css?raw';
 import { createMobileViewport } from './MobileViewport.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import UIManager from 'UI/UIManager.js';
@@ -7,7 +8,6 @@ import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
 import { availableGameToolsTabs } from 'UI/Components/GameTools/GameToolsTabs.js';
 import { loadAdventureControlBootstrap } from 'UI/Components/GameTools/AdventureControlService.js';
 import { subscribeAdventureActions } from 'UI/Components/GameTools/AdventureActionService.js';
-import { subscribeAdventureRoute } from 'UI/Components/GameTools/AdventureRouteService.js';
 import { notifyGameInput } from 'Controls/GameInputIntent.js';
 import { createAdventureToolsView } from './AdventureToolsView.js';
 import baseCSS from 'UI/Components/GameTools/GameTools.css?raw';
@@ -15,7 +15,7 @@ import itemCSS from 'UI/Components/GameTools/ItemCatalogTab.css?raw';
 import selectCSS from 'UI/Components/GameTools/GameSelect.css?raw';
 import mobileCSS from './AdventureTools.css?raw';
 
-const Tools = new GUIComponent('MobileAdventureTools', baseCSS + itemCSS + selectCSS + mobileCSS);
+const Tools = new GUIComponent('MobileAdventureTools', baseCSS + itemCSS + selectCSS + mobileCSS + mobileSelectCSS);
 Tools.render = () => '<div class="adventure-mount"></div>';
 Tools.needFocus = false;
 Tools.nativeScrolling = true;
@@ -42,9 +42,9 @@ Tools.onAppend = async function () {
 	disposers.push(RotationGuard.allowPortraitPanel(this._host));
 	abort = new AbortController();
 	const mount = this.getRoot().querySelector('.adventure-mount');
-	mount.innerHTML =
-		'<section class="adventure-loading"><p role="status">正在加载冒险工具…</p><button type="button">关闭</button></section>';
-	mount.querySelector('button').onclick = () => this.remove();
+	const context = { capabilities: {}, mobile: true, initialMap };
+	view = createAdventureToolsView(mount, { tabs: [], context, close: () => this.remove() });
+
 	disposers.push(onConnectionEnd(() => this.remove()));
 	const viewport = createMobileViewport(this._host);
 	window.visualViewport?.addEventListener('resize', viewport, { signal: abort.signal });
@@ -62,17 +62,9 @@ Tools.onAppend = async function () {
 		unavailable = true;
 	}
 	if (request !== generation || !Session.Playing) return;
-	view = createAdventureToolsView(mount, {
-		tabs: availableGameToolsTabs(capabilities),
-		context: { capabilities, mobile: true, initialMap },
-		close: () => this.remove()
-	});
+	context.capabilities = capabilities;
+	view.setTabs(availableGameToolsTabs(capabilities));
 	disposers.push(subscribeAdventureActions(state => view?.feedback(state.message, state.error)));
-	disposers.push(
-		subscribeAdventureRoute(state => {
-			if (state.message) view?.feedback(state.message);
-		})
-	);
 	if (unavailable) view.feedback('后台暂不可用，部分功能不可用；关闭后重试。', true);
 };
 Tools.onRemove = function () {

@@ -1,3 +1,5 @@
+import { setListItemText } from './ListItemText.js';
+
 /** Separate slot selection, candidate browsing and editing without jumping scroll position. */
 export function createShortcutPanel(body, actions) {
 	let index, selected;
@@ -96,6 +98,7 @@ export function createShortcutPanel(body, actions) {
 		if (entry.icon) img.src = entry.icon;
 		label.textContent = `${entry.name} · ${entry.amount}`;
 		button.append(img, label);
+		setListItemText(button, entry.name, String(entry.amount));
 		button.onclick = () => {
 			selected = entry;
 			form.hidden = false;
@@ -168,7 +171,7 @@ export function createShortcutPanel(body, actions) {
 				if (!entry) continue;
 				const img = button.querySelector('img');
 				if (entry.icon && img.getAttribute('src') !== entry.icon) img.src = entry.icon;
-				button.querySelector('span').textContent = `${entry.name} · ${entry.amount}`;
+				setListItemText(button, entry.name, String(entry.amount));
 				if (selected && button.dataset.key === `${selected.isSkill}:${selected.ID}` && entry.icon) {
 					$('[data-choice-icon]').src = entry.icon;
 					$('[data-choice-icon]').hidden = false;

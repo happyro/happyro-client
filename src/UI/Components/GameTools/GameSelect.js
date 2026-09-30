@@ -2,7 +2,7 @@ import escapeHtml from './escapeHtml.js';
 
 function optionMarkup(option, selectedValue) {
 	const value = String(option.value);
-	return `<button class="game-select-option${value === selectedValue ? ' selected' : ''}" type="button" role="option" aria-selected="${value === selectedValue}" data-value="${escapeHtml(value)}" data-search="${escapeHtml(`${option.label} ${option.search || ''}`.toLocaleLowerCase())}">
+	return `<button class="game-select-option${value === selectedValue ? ' selected' : ''}" type="button" role="option"${option.disabled ? ' disabled' : ''} aria-selected="${value === selectedValue}" data-value="${escapeHtml(value)}" data-search="${escapeHtml(`${option.label} ${option.search || ''}`.toLocaleLowerCase())}">
 		<strong>${escapeHtml(option.label)}</strong>${option.description ? `<small>${escapeHtml(option.description)}</small>` : ''}
 	</button>`;
 }
@@ -36,14 +36,17 @@ export function mountGameSelect(root) {
 	const menu = root.querySelector('.game-select-menu');
 	const search = root.querySelector('.game-select-search');
 	const empty = root.querySelector('.game-select-empty');
+	let closeTimer;
 
 	function close() {
+		clearTimeout(closeTimer);
 		menu.hidden = true;
 		trigger.setAttribute('aria-expanded', 'false');
 		root.classList.remove('open', 'drop-up');
 	}
 
 	function open() {
+		clearTimeout(closeTimer);
 		for (const select of root.getRootNode().querySelectorAll('.game-select.open')) {
 			if (select === root) continue;
 			select.querySelector('.game-select-menu').hidden = true;
@@ -77,19 +80,42 @@ export function mountGameSelect(root) {
 
 	trigger.addEventListener('click', () => (menu.hidden ? open() : close()));
 	root.addEventListener('focusout', () => {
-		setTimeout(() => {
+		// Safari blurs a focused button when it is tapped again. A closed menu
+		// must not schedule a dismissal of the next click's newly opened menu.
+		if (menu.hidden) return;
+		clearTimeout(closeTimer);
+		closeTimer = setTimeout(() => {
 			if (!root.contains(root.getRootNode().activeElement)) close();
 		}, 0);
 	});
 	root.addEventListener('keydown', event => {
-		if (event.key === 'Escape') {
+		if (event.key === 'Escape' && !menu.hidden) {
+			event.preventDefault();
+			event.stopPropagation();
 			close();
 			trigger.focus();
+		} else if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key) && event.target !== search) {
+			if (trigger.disabled) return;
+			event.preventDefault();
+			if (menu.hidden) open();
+			const options = currentOptions().filter(option => !option.disabled && !option.hidden);
+			const index = options.indexOf(root.getRootNode().activeElement);
+			const next =
+				event.key === 'Home'
+					? 0
+					: event.key === 'End'
+						? options.length - 1
+						: event.key === 'ArrowDown'
+							? Math.min(index + 1, options.length - 1)
+							: index < 0
+								? options.length - 1
+								: Math.max(0, index - 1);
+			options[next]?.focus();
 		}
 	});
 	root.querySelector('.game-select-options').addEventListener('click', event => {
 		const option = event.target.closest('.game-select-option');
-		if (!option || !root.contains(option)) return;
+		if (!option || option.disabled || !root.contains(option)) return;
 		selectOption(option);
 	});
 	search?.addEventListener('input', () => {

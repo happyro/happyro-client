@@ -1,3 +1,5 @@
+import { setListItemText } from './ListItemText.js';
+
 import { createPointResetControl } from './PointResetControl.js';
 
 export function createSkillsPanel(body, actions) {
@@ -118,7 +120,7 @@ export function createSkillsPanel(body, actions) {
 				list.append(node);
 			}
 			node.setAttribute('aria-pressed', String(selected === skill.id));
-			node.querySelector('span').textContent = `${skill.name} · ${skill.kind} Lv.${skill.level}`;
+			setListItemText(node, skill.name, `${skill.kind} Lv.${skill.level}`);
 			const img = node.querySelector('img');
 			img.alt = '';
 			if (skill.icon && img.getAttribute('src') !== skill.icon) img.src = skill.icon;

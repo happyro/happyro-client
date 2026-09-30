@@ -1,3 +1,5 @@
+import { setListItemText } from './ListItemText.js';
+
 /** Shop orders use explicit quantities and a separate review before sending. */
 export function createShopPanel(body, service) {
 	body.innerHTML =
@@ -123,8 +125,11 @@ export function createShopPanel(body, service) {
 				nodes.set(key, node);
 			}
 			node.disabled = !state.allowed;
-			node.querySelector('span').textContent =
-				`${item.name} · ${item.price} ${state.currency || 'Zeny'}${item.quantity ? ` · 已选 ${item.quantity}` : ''}`;
+			setListItemText(
+				node,
+				item.name,
+				`${item.price} ${state.currency || 'Zeny'}${item.quantity ? ` · 已选 ${item.quantity}` : ''}`
+			);
 			if (item.icon && node.querySelector('img').getAttribute('src') !== item.icon)
 				node.querySelector('img').src = item.icon;
 		}

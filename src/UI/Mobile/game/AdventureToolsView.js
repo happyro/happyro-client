@@ -62,15 +62,19 @@ export function createAdventureToolsView(root, { tabs, context, close }) {
 			back.hidden = Boolean(wide?.matches);
 		}
 	}
-	for (const tab of tabs) {
-		const button = document.createElement('button');
-		button.type = 'button';
-		button.dataset.tool = tab.id;
-		button.textContent = labels[tab.id] || tab.label;
-		button.setAttribute('role', 'tab');
-		button.setAttribute('aria-selected', 'false');
-		button.onclick = () => open(tab);
-		navigation.append(button);
+	function setTabs(nextTabs) {
+		navigation.replaceChildren();
+		for (const tab of nextTabs) {
+			const button = document.createElement('button');
+			button.type = 'button';
+			button.dataset.tool = tab.id;
+			button.textContent = labels[tab.id] || tab.label;
+			button.setAttribute('role', 'tab');
+			button.setAttribute('aria-selected', 'false');
+			button.onclick = () => open(tab);
+			navigation.append(button);
+		}
+		if (nextTabs.length) open(nextTabs[0]);
 	}
 	content.addEventListener(
 		'click',
@@ -98,8 +102,14 @@ export function createAdventureToolsView(root, { tabs, context, close }) {
 		{ signal: abort.signal }
 	);
 	$('[data-close]').onclick = close;
-	if (tabs.length) open(tabs[0]);
+	if (tabs.length) setTabs(tabs);
+	else {
+		navigation.textContent = '冒险工具';
+		content.hidden = false;
+		content.innerHTML = '<p class="adventure-loading-message" role="status">正在加载冒险工具…</p>';
+	}
 	return {
+		setTabs,
 		feedback(message, error = false) {
 			$('.adventure-feedback').textContent = message || '';
 			$('.adventure-feedback').classList.toggle('error', error);

@@ -21,9 +21,9 @@ describe('mobile game HUD', () => {
 		view.update({ ...state, hp: 45 });
 		expect(root.querySelector('.panel-body').textContent).toContain('45 / 100');
 		click('[data-close]'); click('[data-panel="chat"]');
-		const input = root.querySelector('input'); input.value = '正在输入'; input.focus();
+		const input = root.querySelector('[aria-label="聊天内容"]'); input.value = '正在输入'; input.focus();
 		view.update({ ...state, hp: 30 });
-		expect(root.querySelector('input')).toBe(input);
+		expect(root.querySelector('[aria-label="聊天内容"]')).toBe(input);
 		expect(root.activeElement).toBe(input);
 		expect(input.value).toBe('正在输入');
 	});

@@ -1,3 +1,5 @@
+import { setListItemText } from './ListItemText.js';
+
 export function createQuestsPanel(body, actions) {
 	body.innerHTML =
 		'<div class="skills-toolbar"><select aria-label="任务分类"><option value="all">全部任务</option><option value="1">进行中</option><option value="0">已暂停</option><option value="2">已完成</option></select></div><div class="inventory-layout"><div class="inventory-list" aria-label="任务列表"></div><section class="inventory-detail" aria-label="任务详情"></section></div><p role="status"></p>';
@@ -37,7 +39,7 @@ export function createQuestsPanel(body, actions) {
 				nodes.set(q.questID, node);
 				list.append(node);
 			}
-			node.textContent = q.title;
+			setListItemText(node, q.title);
 			node.setAttribute('aria-pressed', String(selected === q.questID));
 		}
 		let empty = list.querySelector('[data-empty]');

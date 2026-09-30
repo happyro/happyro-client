@@ -279,12 +279,13 @@ describe('game tools integration', () => {
 		expect(source).not.toContain('${spawn.count} 只');
 	});
 
-	it('shows combined prices and equipment slot counts in item details', () => {
+	it('shows separate mobile prices, weight and equipment slot counts', () => {
 		const source = read('src/UI/Components/GameTools/ItemCatalogTab.js');
-		expect(source).toContain('<span>买 / 卖</span>');
+		expect(source).toContain("['买价', item.Buy ?? '-']");
+		expect(source).toContain("['卖价', item.Sell ?? '-']");
+		expect(source).toContain("['重量', weight]");
 		expect(source).toContain('${item.Buy ?? \'-\'} / ${item.Sell ?? \'-\'}');
-		expect(source).toContain('<span>洞数</span>');
-		expect(source).toContain('${item.Slots ?? 0}');
+		expect(source).toContain("['洞数', item.Slots ?? 0]");
 		expect(source).toContain("ariaLabel: '子类'");
 		expect(source).toContain("pending ? '发放中...' : '发放到背包'");
 		expect(read('src/UI/Components/GameTools/RemoteCatalogBrowser.js')).toContain(

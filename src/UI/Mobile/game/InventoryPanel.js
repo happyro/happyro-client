@@ -1,12 +1,13 @@
+import { setListItemText } from './ListItemText.js';
+
 /** Touch-only inventory presentation. Actions receive inventory indices, never DOM-derived item data. */
 export function createInventoryPanel(body, actions) {
 	body.innerHTML =
-		'<nav class="inventory-tabs" aria-label="背包分类"></nav><div class="inventory-layout"><div class="inventory-list" aria-label="物品列表"></div><section class="inventory-detail" aria-label="物品详情"></section></div><p class="inventory-status" role="status"></p>';
+		'<div class="inventory-toolbar"></div><div class="inventory-layout"><div class="inventory-list" aria-label="物品列表"></div><section class="inventory-detail" aria-label="物品详情"></section></div><p class="inventory-status" role="status"></p>';
 	const $ = selector => body.querySelector(selector);
 	const list = $('.inventory-list'),
 		detail = $('.inventory-detail');
-	let category = 'all',
-		selected = null,
+	let selected = null,
 		state = [],
 		detailKey = '',
 		binding = false;
@@ -21,7 +22,7 @@ export function createInventoryPanel(body, actions) {
 	])
 		sort.add(new Option(name, key));
 	sort.onchange = () => render();
-	body.prepend(sort);
+
 	const status = message => {
 		$('.inventory-status').textContent = message;
 	};
@@ -32,20 +33,18 @@ export function createInventoryPanel(body, actions) {
 		node.onclick = fn;
 		return node;
 	}
+	const category = document.createElement('select');
+	category.setAttribute('aria-label', '背包分类');
 	for (const [key, label] of [
 		['all', '全部'],
 		['usable', '消耗品'],
 		['equipment', '装备'],
 		['other', '其他'],
 		['worn', '已穿戴']
-	]) {
-		const tab = button(label, () => {
-			category = key;
-			render();
-		});
-		tab.dataset.category = key;
-		$('.inventory-tabs').append(tab);
-	}
+	])
+		category.add(new Option(label, key));
+	category.onchange = () => render();
+	$('.inventory-toolbar').append(category, sort);
 	function renderDetail() {
 		const item = state.find(entry => entry.index === selected?.index && entry.ID === selected?.ID);
 		if (!item) {
@@ -135,10 +134,9 @@ export function createInventoryPanel(body, actions) {
 		detail.replaceChildren(title, select, preview, save, cancel);
 	}
 	function render() {
-		for (const tab of $('.inventory-tabs').children)
-			tab.setAttribute('aria-pressed', String(tab.dataset.category === category));
 		const filtered = state.filter(
-			item => category === 'all' || (category === 'worn' ? item.worn : item.category === category)
+			item =>
+				category.value === 'all' || (category.value === 'worn' ? item.worn : item.category === category.value)
 		);
 		filtered.sort((a, b) =>
 			sort.value === 'name'
@@ -183,7 +181,7 @@ export function createInventoryPanel(body, actions) {
 			const image = node.querySelector('img');
 			image.alt = '';
 			if (item.icon && image.getAttribute('src') !== item.icon) image.src = item.icon;
-			node.querySelector('span').textContent = `${item.name} ×${item.count}${item.worn ? ' · 已穿戴' : ''}`;
+			setListItemText(node, item.name, `×${item.count}${item.worn ? ' · 已穿戴' : ''}`);
 			node.setAttribute('aria-pressed', String(selected?.index === item.index && selected?.ID === item.ID));
 		}
 		renderDetail();

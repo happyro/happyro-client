@@ -1,3 +1,4 @@
+import { setListItemText } from './ListItemText.js';
 import { toPlainRagnarokText } from 'Utils/RagnarokText.js';
 /** Native scrolling and explicit actions replace mail attachment drag/drop. */
 export function createMailPanel(body, service) {
@@ -140,15 +141,17 @@ export function createMailPanel(body, service) {
 			const rows = state.list.filter(m => m.openType === tab && `${m.title} ${m.SenderName}`.includes(term));
 			const pages = Math.max(1, Math.ceil(rows.length / 8));
 			page = Math.min(page, pages - 1);
-			for (const mail of rows.slice(page * 8, page * 8 + 8))
-				button(
-					list,
-					`${mail.Isread ? '' : '未读 · '}${mail.title} — ${mail.SenderName}${mail.deleting ? '（请求删除中）' : ''}`,
-					() => {
-						review = null;
-						service.read(mailKey(mail));
-					}
+			for (const mail of rows.slice(page * 8, page * 8 + 8)) {
+				const row = button(list, '', () => {
+					review = null;
+					service.read(mailKey(mail));
+				});
+				setListItemText(
+					row,
+					mail.title,
+					`${mail.Isread ? '' : '未读 · '}${mail.SenderName}${mail.deleting ? '（请求删除中）' : ''}`
 				);
+			}
 			para(list, `${page + 1} / ${pages} 页，共 ${rows.length} 封`);
 			button(list, '上一页', () => {
 				page = Math.max(0, page - 1);

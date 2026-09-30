@@ -261,8 +261,14 @@ function mount(container, context = {}) {
 		renderDetail(detail, item, api) {
 			const name = item.names?.['zh-CN'] || item.names?.['en-US'] || item.AegisName;
 			const canGrant = context.capabilities?.itemGrantAllowed && item.grantable;
+			const type = typeNames[item.Type] || item.Type || '其他';
+			const weight = Number(item.Weight || 0) / 10;
+			const metadata = context.mobile
+				? [['名称', name], ['英文名', item.AegisName], ['编号', item.Id], ['类型', type],
+					['买价', item.Buy ?? '-'], ['卖价', item.Sell ?? '-'], ['重量', weight], ['洞数', item.Slots ?? 0]]
+				: [['类型', type], ['重量', weight], ['买 / 卖', `${item.Buy ?? '-'} / ${item.Sell ?? '-'}`], ['洞数', item.Slots ?? 0]];
 			detail.innerHTML = `<div class="item-detail-content"><div class="item-overview"><div class="catalog-heading item-heading"><span class="catalog-portrait item-portrait"><img alt="${escapeCatalogHtml(name)}"></span>${context.mobile ? '' : `<div><h3>${escapeCatalogHtml(name)}</h3><p>${escapeCatalogHtml(item.AegisName)} · ID ${item.Id}</p></div>`}</div>
-			<div class="catalog-metadata">${context.mobile ? `<div><span>名称</span><strong>${escapeCatalogHtml(name)}</strong></div><div><span>英文名</span><strong>${escapeCatalogHtml(item.AegisName)}</strong></div><div><span>编号</span><strong>${item.Id}</strong></div>` : ''}<div><span>类型</span><strong>${escapeCatalogHtml(typeNames[item.Type] || item.Type || '其他')}</strong></div>${context.mobile ? '' : `<div><span>重量</span><strong>${Number(item.Weight || 0) / 10}</strong></div>`}<div><span>买 / 卖</span><strong>${item.Buy ?? '-'} / ${item.Sell ?? '-'}</strong></div><div><span>洞数</span><strong>${item.Slots ?? 0}</strong></div></div>
+			<div class="catalog-metadata">${metadata.map(([label, value]) => `<div><span>${label}</span><strong>${escapeCatalogHtml(value)}</strong></div>`).join('')}</div>
 			</div><div class="item-description">${renderDescription(item.description)}</div></div>
 			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? 'disabled' : ''}>${pending ? '发放中...' : '发放到背包'}</button><span class="catalog-status error" role="status" aria-live="polite">${escapeCatalogHtml(status || (!item.grantable ? '该特殊物品暂不支持直接发放' : !context.capabilities?.itemGrantAllowed ? '当前账号没有发放权限' : ''))}</span></div>`;
 			loadImage(detail.querySelector('.item-portrait img'), item.illustration || item.icon, assetUrls);

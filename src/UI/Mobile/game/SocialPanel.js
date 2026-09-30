@@ -1,3 +1,5 @@
+import { setListItemText } from './ListItemText.js';
+
 export function createSocialPanel(body, service, whisper) {
 	body.innerHTML =
 		'<div class="skills-toolbar"><select aria-label="社交分类"><option value="friends">好友</option><option value="party">队伍</option><option value="guild">公会</option></select><button type="button" data-refresh>刷新公会</button></div><div class="inventory-layout"><div class="inventory-list" aria-label="社交列表"></div><section class="inventory-detail" aria-label="社交详情"></section></div><p role="status"></p>';
@@ -98,6 +100,7 @@ export function createSocialPanel(body, service, whisper) {
 					render();
 				});
 				b.className = 'inventory-item';
+				setListItemText(b, name);
 				list.append(b);
 			}
 			if (!members.length) list.append(paragraph('暂无成员'));

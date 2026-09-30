@@ -5,7 +5,7 @@
 	--panel-label: 12px;
 	--panel-heading: 13px;
 	width: min(600px, 100%);
-	background: rgba(25, 31, 38, 0.72);
+	background: #191f26;
 }
 .panel.inventory-panel,
 .panel.equipment-panel,
@@ -35,7 +35,7 @@
 	padding: var(--panel-gap);
 	border: 1px solid #52606d;
 	border-radius: 10px;
-	background: #19212a99;
+	background: #19212a;
 	overflow-wrap: anywhere;
 }
 .panel :is(.inventory-detail, .equipment-detail) > :first-child {
@@ -51,7 +51,7 @@
 	min-height: var(--panel-control);
 	padding: 5px 8px;
 	border-color: #52606d;
-	background: #24313d99;
+	background: #24313d;
 	line-height: 1.5;
 	overflow-wrap: anywhere;
 }
@@ -59,7 +59,7 @@
 .panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {
 	color: #ffe1ae;
 	border-color: #ceaa70;
-	background: #57452cb8;
+	background: #57452c;
 }
 .panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {
 	font-size: var(--panel-label);
@@ -90,10 +90,10 @@
 	padding: 7px 9px;
 	border: 1px solid #657584;
 	border-radius: 7px;
-	background: #28354199;
+	background: #283541;
 	color: #f5f2e9;
 	font: inherit;
-	font-size: 16px;
+	font-size: 12px;
 	color-scheme: dark;
 }
 .panel-body :is(input[type='checkbox'], input[type='radio']) {
@@ -162,7 +162,7 @@
 	padding: var(--panel-gap);
 	border: 1px solid #52606d;
 	border-radius: 10px;
-	background: #19212a99;
+	background: #19212a;
 }
 .panel[data-view='pet'] .panel-body > *,
 .panel[data-view='companions'] .panel-body > * {
@@ -172,7 +172,7 @@
 	padding: 4px var(--panel-gap);
 	border: 1px solid #52606d;
 	border-radius: 10px;
-	background: #19212a99;
+	background: #19212a;
 	gap: 0 12px;
 }
 .panel :is([data-info], .bank-form dl) {
@@ -204,7 +204,7 @@
 	gap: 6px;
 }
 .panel .auto-range-settings {
-	background: #19212a99;
+	background: #19212a;
 }
 .panel .auto-range-stepper {
 	flex-shrink: 0;
@@ -222,12 +222,12 @@
 	text-align: center;
 }
 .panel [data-save-slot][data-save-state='saved'] {
-	background: #284b3cb8;
+	background: #284b3c;
 	border-color: #83bb9a;
 	color: #d2f4df;
 }
 .panel [data-save-slot][data-save-state='error'] {
-	background: #593331b8;
+	background: #593331;
 	border-color: #da9990;
 	color: #ffe0db;
 }
@@ -452,7 +452,7 @@
 .attribute-tabs [aria-pressed='true'] {
 	color: #ffe1ae;
 	border-color: #ceaa70;
-	background: #57452cb8;
+	background: #57452c;
 }
 .attribute-layout {
 	display: grid;
@@ -592,13 +592,150 @@
 	}
 }
 
-
 .panel .auto-species-card,
 .panel .auto-skill-card,
 .panel .auto-range-stepper button {
- background: #18212b99;
+	background: #18212b;
 }
 .panel .auto-species-card[aria-pressed='true'],
 .panel .auto-skill-card:has(input:checked) {
- background: #493c26b8;
+	background: #493c26;
+}
+
+/* Compact forms and the shared catalog dropdown for every mobile menu. */
+.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {
+	height: 28px;
+	min-height: 28px;
+	font-size: 12px;
+	padding: 3px 6px;
+	box-sizing: border-box;
+}
+.panel-body textarea {
+	min-height: 60px;
+	padding: 5px 6px;
+}
+.panel .menu-select {
+	min-width: 0;
+	height: 28px;
+	flex: 0 0 auto;
+}
+.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {
+	flex: 1 1 120px;
+}
+.panel .social-form > label > .menu-select {
+	width: 100%;
+	flex: none;
+}
+.panel .menu-select .game-select-menu {
+	position: fixed;
+	right: auto;
+	bottom: auto;
+}
+.panel .menu-select .game-select-options {
+	max-height: none;
+	overflow: visible;
+}
+.panel :is([data-review], [data-evolution]):empty {
+	display: none;
+}
+.panel[data-view='bank'] .bank-form {
+	margin: 0;
+}
+.panel[data-view='bank'] .bank-form dl {
+	margin: 0;
+}
+.panel[data-view='bank'] .bank-form > label {
+	flex-direction: row;
+	align-items: center;
+}
+.panel[data-view='bank'] .bank-form > label > input {
+	width: min(240px, 75%);
+	flex: none;
+}
+.panel[data-view='mail'] .inventory-detail label,
+.panel[data-view='vending'] label {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin: 6px 0;
+}
+.panel[data-view='mail'] .inventory-detail label > :is(input, textarea),
+.panel[data-view='vending'] label > input {
+	flex: 1 1 120px;
+	width: 0;
+}
+
+.panel[data-view='inventory'] .inventory-toolbar {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px;
+	flex: 0 0 auto;
+}
+.panel[data-view='inventory'] .inventory-list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-auto-rows: min-content;
+	align-content: start;
+	gap: 6px;
+}
+.panel[data-view='inventory'] .inventory-item {
+	min-width: 0;
+	padding: 5px;
+	gap: 5px;
+}
+.panel[data-view='inventory'] .inventory-item img {
+	flex-shrink: 0;
+}
+.panel[data-view='inventory'] .inventory-list > p {
+	grid-column: 1 / -1;
+}
+
+/* Clamp list names only; quantities, status and full detail text stay separate. */
+.panel .list-item-text {
+	display: block;
+	min-width: 0;
+	flex: 1;
+}
+.panel .list-item-name,
+.panel .equipment-slot > span,
+.panel .equipment-candidate > span {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: var(--list-name-lines, 2);
+	overflow: hidden;
+	overflow-wrap: anywhere;
+	white-space: normal;
+	line-height: 1.4;
+	max-height: calc(var(--list-name-lines, 2) * 1.4em);
+	min-width: 0;
+}
+.panel .list-item-meta {
+	display: block;
+	margin-top: 2px;
+	font-size: 11px;
+	line-height: 1.4;
+	color: #bac4cd;
+	overflow-wrap: anywhere;
+}
+.panel .list-item-meta[hidden] {
+	display: none;
+}
+
+/* Compact selectors leave room for their icon and secondary information. */
+.panel[data-view='skills'] .list-item-name,
+.panel[data-view='social'] .list-item-name,
+.panel .shortcut-choice .list-item-name,
+.panel .equipment-slot > span {
+	--list-name-lines: 1;
+}
+
+/* A row with secondary information has one name line and one metadata line. */
+.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {
+	--list-name-lines: 1;
+}
+.panel .list-item-meta {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }

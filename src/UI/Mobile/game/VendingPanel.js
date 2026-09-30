@@ -1,3 +1,5 @@
+import { setListItemText } from './ListItemText.js';
+
 export function createVendingPanel(body, service) {
 	body.innerHTML =
 		'<div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"><div data-fields></div><div data-selected></div><div data-order></div><button data-submit></button><button data-cancel>取消开店</button><p data-message role="status"></p></section></div>';
@@ -52,7 +54,7 @@ export function createVendingPanel(body, service) {
 				nodes.set(item.index, node);
 				$('.inventory-list').append(node);
 			}
-			node.textContent = `${item.name} × ${item.count}${state.owned ? ' · ' + item.price + ' Zeny' : ''}`;
+			setListItemText(node, item.name, `× ${item.count}${state.owned ? ' · ' + item.price + ' Zeny' : ''}`);
 			node.setAttribute('aria-pressed', String(selected === item.index));
 		}
 		const item = state.items.find(row => row.index === selected),
@@ -65,7 +67,9 @@ export function createVendingPanel(body, service) {
 				const description = document.createElement('p');
 				description.className = 'item-description';
 				description.textContent = item.description;
-				panel.append(description);
+				const title = document.createElement('h3');
+				title.textContent = item.name;
+				panel.append(title, description);
 				if (!state.owned) {
 					const amount = document.createElement('input'),
 						price = document.createElement('input');
