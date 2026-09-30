@@ -202274,7 +202274,7 @@ var init_PacketStructure = __esmMin((() => {
 			for (let i = 0; i < count; ++i) {
 				out[i] = {};
 				out[i].index = fp.readShort();
-				out[i].position = fp.readULong();
+				out[i].location = fp.readULong();
 			}
 			return out;
 		})();
@@ -278551,7 +278551,7 @@ var init_AdventureRouteService = __esmMin((() => {
 			stopAdventureRoute(Math.abs(position.x - target.x) <= 1 && Math.abs(position.y - target.y) <= 1 ? "已到达目的地" : "寻路已停止");
 			return;
 		}
-		if (!status.active && nextState.path.length) status = {
+		if (!status.active && !nextState.pending) status = {
 			active: false,
 			message: ""
 		};
@@ -278652,7 +278652,7 @@ var init_escapeHtml = __esmMin((() => {}));
 //#region src/UI/Components/GameTools/GameSelect.js
 function optionMarkup(option, selectedValue) {
 	const value = String(option.value);
-	return `<button class="game-select-option${value === selectedValue ? " selected" : ""}" type="button" role="option" aria-selected="${value === selectedValue}" data-value="${escapeHtml$2(value)}" data-search="${escapeHtml$2(`${option.label} ${option.search || ""}`.toLocaleLowerCase())}">
+	return `<button class="game-select-option${value === selectedValue ? " selected" : ""}" type="button" role="option"${option.disabled ? " disabled" : ""} aria-selected="${value === selectedValue}" data-value="${escapeHtml$2(value)}" data-search="${escapeHtml$2(`${option.label} ${option.search || ""}`.toLocaleLowerCase())}">
 		<strong>${escapeHtml$2(option.label)}</strong>${option.description ? `<small>${escapeHtml$2(option.description)}</small>` : ""}
 	</button>`;
 }
@@ -278676,12 +278676,15 @@ function mountGameSelect(root) {
 	const menu = root.querySelector(".game-select-menu");
 	const search = root.querySelector(".game-select-search");
 	const empty = root.querySelector(".game-select-empty");
+	let closeTimer;
 	function close() {
+		clearTimeout(closeTimer);
 		menu.hidden = true;
 		trigger.setAttribute("aria-expanded", "false");
 		root.classList.remove("open", "drop-up");
 	}
 	function open() {
+		clearTimeout(closeTimer);
 		for (const select of root.getRootNode().querySelectorAll(".game-select.open")) {
 			if (select === root) continue;
 			select.querySelector(".game-select-menu").hidden = true;
@@ -278712,19 +278715,35 @@ function mountGameSelect(root) {
 	}
 	trigger.addEventListener("click", () => menu.hidden ? open() : close());
 	root.addEventListener("focusout", () => {
-		setTimeout(() => {
+		if (menu.hidden) return;
+		clearTimeout(closeTimer);
+		closeTimer = setTimeout(() => {
 			if (!root.contains(root.getRootNode().activeElement)) close();
 		}, 0);
 	});
 	root.addEventListener("keydown", (event) => {
-		if (event.key === "Escape") {
+		if (event.key === "Escape" && !menu.hidden) {
+			event.preventDefault();
+			event.stopPropagation();
 			close();
 			trigger.focus();
+		} else if ([
+			"ArrowDown",
+			"ArrowUp",
+			"Home",
+			"End"
+		].includes(event.key) && event.target !== search) {
+			if (trigger.disabled) return;
+			event.preventDefault();
+			if (menu.hidden) open();
+			const options = currentOptions().filter((option) => !option.disabled && !option.hidden);
+			const index = options.indexOf(root.getRootNode().activeElement);
+			options[event.key === "Home" ? 0 : event.key === "End" ? options.length - 1 : event.key === "ArrowDown" ? Math.min(index + 1, options.length - 1) : index < 0 ? options.length - 1 : Math.max(0, index - 1)]?.focus();
 		}
 	});
 	root.querySelector(".game-select-options").addEventListener("click", (event) => {
 		const option = event.target.closest(".game-select-option");
-		if (!option || !root.contains(option)) return;
+		if (!option || option.disabled || !root.contains(option)) return;
 		selectOption(option);
 	});
 	search?.addEventListener("input", () => {
@@ -278784,7 +278803,7 @@ function mountRemoteCatalogBrowser(container, options) {
 		<div class="catalog-layout">
 			<section class="catalog-browser">
 				<div class="catalog-summary">正在加载资料...</div><div class="catalog-list"></div>
-				<div class="catalog-pagination"><button class="catalog-prev" type="button" aria-label="上一页">&#9664;</button><span class="catalog-page"></span><button class="catalog-next" type="button" aria-label="下一页">&#9654;</button></div>
+				<div class="catalog-pagination"><button class="catalog-prev" type="button" aria-label="上一页"><span aria-hidden="true">‹</span></button><span class="catalog-page"></span><button class="catalog-next" type="button" aria-label="下一页"><span aria-hidden="true">›</span></button></div>
 			</section>
 			<section class="catalog-detail"><div class="empty-detail">${options.emptyDetail}</div></section>
 		</div>`;
@@ -279601,9 +279620,9 @@ function mount$4(container, context = {}) {
 				<div class="monster-summary">正在加载魔物资料...</div>
 				<div class="monster-list"></div>
 				<div class="monster-pagination">
-					<button class="page-prev" type="button" aria-label="上一页">&#9664;</button>
+					<button class="page-prev" type="button" aria-label="上一页"><span aria-hidden="true">‹</span></button>
 					<span class="page-label"></span>
-					<button class="page-next" type="button" aria-label="下一页">&#9654;</button>
+					<button class="page-next" type="button" aria-label="下一页"><span aria-hidden="true">›</span></button>
 				</div>
 			</section>
 			<section class="monster-detail"><div class="empty-detail">选择一个魔物查看详情</div></section>
@@ -280273,8 +280292,25 @@ function mount$2(container, context = {}) {
 		renderDetail(detail, item, api) {
 			const name = item.names?.["zh-CN"] || item.names?.["en-US"] || item.AegisName;
 			const canGrant = context.capabilities?.itemGrantAllowed && item.grantable;
+			const type = typeNames[item.Type] || item.Type || "其他";
+			const weight = Number(item.Weight || 0) / 10;
+			const metadata = context.mobile ? [
+				["名称", name],
+				["英文名", item.AegisName],
+				["编号", item.Id],
+				["类型", type],
+				["买价", item.Buy ?? "-"],
+				["卖价", item.Sell ?? "-"],
+				["重量", weight],
+				["洞数", item.Slots ?? 0]
+			] : [
+				["类型", type],
+				["重量", weight],
+				["买 / 卖", `${item.Buy ?? "-"} / ${item.Sell ?? "-"}`],
+				["洞数", item.Slots ?? 0]
+			];
 			detail.innerHTML = `<div class="item-detail-content"><div class="item-overview"><div class="catalog-heading item-heading"><span class="catalog-portrait item-portrait"><img alt="${escapeCatalogHtml(name)}"></span>${context.mobile ? "" : `<div><h3>${escapeCatalogHtml(name)}</h3><p>${escapeCatalogHtml(item.AegisName)} · ID ${item.Id}</p></div>`}</div>
-			<div class="catalog-metadata">${context.mobile ? `<div><span>名称</span><strong>${escapeCatalogHtml(name)}</strong></div><div><span>英文名</span><strong>${escapeCatalogHtml(item.AegisName)}</strong></div><div><span>编号</span><strong>${item.Id}</strong></div>` : ""}<div><span>类型</span><strong>${escapeCatalogHtml(typeNames[item.Type] || item.Type || "其他")}</strong></div>${context.mobile ? "" : `<div><span>重量</span><strong>${Number(item.Weight || 0) / 10}</strong></div>`}<div><span>买 / 卖</span><strong>${item.Buy ?? "-"} / ${item.Sell ?? "-"}</strong></div><div><span>洞数</span><strong>${item.Slots ?? 0}</strong></div></div>
+			<div class="catalog-metadata">${metadata.map(([label, value]) => `<div><span>${label}</span><strong>${escapeCatalogHtml(value)}</strong></div>`).join("")}</div>
 			</div><div class="item-description">${renderDescription(item.description)}</div></div>
 			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? "disabled" : ""}>${pending ? "发放中..." : "发放到背包"}</button><span class="catalog-status error" role="status" aria-live="polite">${escapeCatalogHtml(status || (!item.grantable ? "该特殊物品暂不支持直接发放" : !context.capabilities?.itemGrantAllowed ? "当前账号没有发放权限" : ""))}</span></div>`;
 			loadImage(detail.querySelector(".item-portrait img"), item.illustration || item.icon, assetUrls);
@@ -285725,7 +285761,7 @@ function interactionSnapshot() {
 function showInteraction(state) {
 	current$1 = {
 		...state,
-		revision: ++revision$1
+		revision: ++revision
 	};
 	for (const listener of listeners) listener(current$1);
 }
@@ -285739,10 +285775,10 @@ function subscribeInteraction(listener) {
 	listener(current$1);
 	return () => listeners.delete(listener);
 }
-var current$1, revision$1, listeners;
+var current$1, revision, listeners;
 var init_ServerInteraction = __esmMin((() => {
 	current$1 = null;
-	revision$1 = 0;
+	revision = 0;
 	listeners = /* @__PURE__ */ new Set();
 }));
 //#endregion
@@ -359929,6 +359965,12 @@ function createMobileViewport(host) {
 }
 var init_MobileViewport = __esmMin((() => {}));
 //#endregion
+//#region src/UI/Mobile/game/MobileSelect.css?raw
+var MobileSelect_default;
+var init_MobileSelect = __esmMin((() => {
+	MobileSelect_default = "/* One dropdown theme for menus and adventure tools. */\r\n:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-trigger {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	padding: 3px 7px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 5px;\r\n	background: #394753;\r\n	color: #f5f2e9;\r\n	font-size: 12px;\r\n}\r\n:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-trigger i {\r\n	border-top-color: #bac4cd;\r\n}\r\n:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-menu {\r\n	padding: 3px;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n	border: 1px solid #657584;\r\n	border-radius: 5px;\r\n	background: #19212a;\r\n}\r\n:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option {\r\n	min-height: 28px;\r\n	padding: 4px 7px;\r\n	border: 0;\r\n	border-bottom: 1px solid #35414d;\r\n	border-radius: 0;\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	font-size: 12px;\r\n}\r\n:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option.selected {\r\n	background: #57452c;\r\n	color: #ffe1ae;\r\n}\r\n:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option strong {\r\n	font-weight: normal;\r\n}\r\n:is(.panel .menu-select, .mobile-adventure .game-select) button:focus-visible {\r\n	outline: 2px solid #ceaa70;\r\n	outline-offset: -2px;\r\n}\r\n@media (hover: hover) {\r\n	:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option:not(:disabled):hover {\r\n		background: #35414d;\r\n	}\r\n	:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option.selected:hover {\r\n		background: #57452c;\r\n	}\r\n}\r\n";
+}));
+//#endregion
 //#region src/UI/Mobile/game/AdventureToolsView.js
 /** Mobile navigation owns presentation; registered features own data and actions. */
 function createAdventureToolsView(root, { tabs, context, close }) {
@@ -359982,15 +360024,19 @@ function createAdventureToolsView(root, { tabs, context, close }) {
 			back.hidden = Boolean(wide?.matches);
 		}
 	}
-	for (const tab of tabs) {
-		const button = document.createElement("button");
-		button.type = "button";
-		button.dataset.tool = tab.id;
-		button.textContent = labels$1[tab.id] || tab.label;
-		button.setAttribute("role", "tab");
-		button.setAttribute("aria-selected", "false");
-		button.onclick = () => open(tab);
-		navigation.append(button);
+	function setTabs(nextTabs) {
+		navigation.replaceChildren();
+		for (const tab of nextTabs) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.dataset.tool = tab.id;
+			button.textContent = labels$1[tab.id] || tab.label;
+			button.setAttribute("role", "tab");
+			button.setAttribute("aria-selected", "false");
+			button.onclick = () => open(tab);
+			navigation.append(button);
+		}
+		if (nextTabs.length) open(nextTabs[0]);
 	}
 	content.addEventListener("click", (event) => {
 		if (!event.target.closest("[data-catalog-key], .monster-row, [data-job-id]")) return;
@@ -360006,8 +360052,14 @@ function createAdventureToolsView(root, { tabs, context, close }) {
 		back.textContent = "返回列表";
 	}, { signal: abort.signal });
 	$("[data-close]").onclick = close;
-	if (tabs.length) open(tabs[0]);
+	if (tabs.length) setTabs(tabs);
+	else {
+		navigation.textContent = "冒险工具";
+		content.hidden = false;
+		content.innerHTML = "<p class=\"adventure-loading-message\" role=\"status\">正在加载冒险工具…</p>";
+	}
 	return {
+		setTabs,
 		feedback(message, error = false) {
 			$(".adventure-feedback").textContent = message || "";
 			$(".adventure-feedback").classList.toggle("error", error);
@@ -360036,12 +360088,13 @@ var init_AdventureToolsView = __esmMin((() => {
 //#region src/UI/Mobile/game/AdventureTools.css?raw
 var AdventureTools_default$1;
 var init_AdventureTools$1 = __esmMin((() => {
-	AdventureTools_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	z-index: 1100 !important;\r\n	color: #263746;\r\n	font:\r\n		12px/1.35 Arial,\r\n		sans-serif;\r\n	padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))\r\n		max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));\r\n	background: #0003;\r\n	box-sizing: border-box;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.ui-component-root,\r\n.adventure-mount {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure.game-tools-window {\r\n	font:\r\n		12px/1.35 Arial,\r\n		sans-serif;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	border-radius: 8px;\r\n	border: 1px solid #bec9d1;\r\n	background: #f2f5f7b8;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	box-shadow: 0 8px 28px #0005;\r\n}\r\n.mobile-adventure button,\r\n.mobile-adventure input,\r\n.mobile-adventure select {\r\n	font: inherit;\r\n	touch-action: manipulation;\r\n}\r\n.mobile-adventure button {\r\n	min-height: 30px;\r\n	height: auto;\r\n	padding: 4px 8px;\r\n	border-radius: 8px;\r\n	cursor: pointer;\r\n}\r\n.mobile-adventure input:not([type='checkbox']):not([type='hidden']) {\r\n	height: 30px;\r\n	font-size: 16px;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n}\r\n.mobile-adventure input[type='checkbox'] {\r\n	width: 20px;\r\n	height: 20px;\r\n}\r\n.mobile-adventure button:focus-visible,\r\n.mobile-adventure input:focus-visible {\r\n	outline: 2px solid #3a789d;\r\n	outline-offset: 2px;\r\n}\r\n.adventure-header {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	padding: 4px 8px;\r\n	background: #213747b8;\r\n	color: white;\r\n	flex-shrink: 0;\r\n}\r\n.adventure-header h2 {\r\n	margin: 0;\r\n	font-size: 14px;\r\n	flex: 1;\r\n}\r\n.adventure-header button {\r\n	background: #344e60b8;\r\n	border: 1px solid #7691a2;\r\n	color: white;\r\n}\r\n.adventure-feedback {\r\n	margin: 0;\r\n	padding: 0 12px;\r\n	background: #e5f1e8b8;\r\n	color: #215a35;\r\n	flex-shrink: 0;\r\n}\r\n.adventure-feedback:not(:empty) {\r\n	padding: 4px 8px;\r\n}\r\n.adventure-feedback.error {\r\n	background: #fcebe7b8;\r\n	color: #973c2a;\r\n}\r\n.adventure-home {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 6px;\r\n	padding: 8px;\r\n	overflow: auto;\r\n	align-content: start;\r\n}\r\n.adventure-home button {\r\n	text-align: left;\r\n	display: grid;\r\n	gap: 5px;\r\n	min-height: 62px;\r\n	border: 1px solid #c7d5de;\r\n	background: white;\r\n	color: #263746;\r\n	box-shadow: 0 2px 3px #2437440a;\r\n}\r\n.adventure-home strong {\r\n	font-size: 14px;\r\n}\r\n.adventure-home span {\r\n	font-size: 13px;\r\n	color: #576f7f;\r\n}\r\n.adventure-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.adventure-content .game-tools-tab {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-toolbar,\r\n.mobile-adventure .monster-toolbar {\r\n	padding: 8px;\r\n	flex: 0 0 auto;\r\n	flex-wrap: wrap;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .catalog-search,\r\n.mobile-adventure .monster-search {\r\n	flex: 1 1 170px;\r\n	width: 0;\r\n	min-width: 140px;\r\n}\r\n.mobile-adventure .game-select-trigger {\r\n	min-height: 30px;\r\n	font-size: 14px;\r\n}\r\n.mobile-adventure .game-select-option {\r\n	min-height: 30px;\r\n}\r\n.mobile-adventure .catalog-layout,\r\n.mobile-adventure .monster-layout,\r\n.mobile-adventure .character-layout {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .catalog-browser,\r\n.mobile-adventure .monster-browser,\r\n.mobile-adventure .character-job-browser {\r\n	width: 100%;\r\n	flex: 1;\r\n	border: none;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-detail,\r\n.mobile-adventure .monster-detail,\r\n.mobile-adventure .character-detail {\r\n	display: none;\r\n}\r\n.mobile-adventure .show-detail .catalog-detail,\r\n.mobile-adventure .show-detail .monster-detail,\r\n.mobile-adventure .show-detail .character-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: 100%;\r\n	min-width: 0;\r\n	overflow: auto;\r\n	padding: 6px;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .show-detail .catalog-browser,\r\n.mobile-adventure .show-detail .monster-browser,\r\n.mobile-adventure .show-detail .character-job-browser,\r\n.mobile-adventure .show-detail .catalog-toolbar,\r\n.mobile-adventure .show-detail .monster-toolbar {\r\n	display: none;\r\n}\r\n.mobile-adventure .catalog-list,\r\n.mobile-adventure .monster-list,\r\n.mobile-adventure .character-job-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 5px;\r\n	align-content: start;\r\n	padding: 8px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row {\r\n	border: 1px solid #cad6dd;\r\n	background: white;\r\n	border-radius: 6px;\r\n	min-height: 38px;\r\n	height: auto;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .catalog-row.selected,\r\n.mobile-adventure .monster-row.selected,\r\n.mobile-adventure .character-job-row.selected {\r\n	background: #e6f1f7b8;\r\n	border-color: #4380a2;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination {\r\n	min-height: 38px;\r\n	flex-shrink: 0;\r\n	padding: 6px 12px;\r\n}\r\n.mobile-adventure .catalog-pagination button,\r\n.mobile-adventure .monster-pagination button {\r\n	min-width: 64px;\r\n}\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary {\r\n	padding: 4px 12px;\r\n}\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .monster-actions,\r\n.mobile-adventure .character-actions {\r\n	flex: 0 0 auto;\r\n	position: sticky;\r\n	bottom: -6px;\r\n	background: #edf3f6b8;\r\n	padding: 6px;\r\n	flex-wrap: wrap;\r\n	gap: 5px;\r\n	z-index: 1;\r\n}\r\n.mobile-adventure .catalog-action-panel button {\r\n	min-width: 90px;\r\n}\r\n.mobile-adventure .map-detail-body {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);\r\n	min-height: 180px;\r\n	flex: 0 0 auto;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .catalog-map-picker {\r\n	min-width: 0;\r\n	width: 100%;\r\n	height: auto;\r\n	padding: 0;\r\n}\r\n.mobile-adventure .catalog-map,\r\n.mobile-adventure .npc-map-canvas {\r\n	width: 100%;\r\n	height: auto;\r\n	max-height: 280px;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .map-npc-scroll {\r\n	max-height: 240px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .map-npc-row {\r\n	min-height: 30px;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .map-heading,\r\n.mobile-adventure .selected-job {\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .character-detail-scroll {\r\n	overflow: visible;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .management-form,\r\n.mobile-adventure .management-form.progression-form {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n.mobile-adventure .management-form > .management-form-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n}\r\n.mobile-adventure .management-form > .management-form-actions button {\r\n	width: auto;\r\n	flex: 1;\r\n	min-width: 76px;\r\n}\r\n.mobile-adventure .settings-form {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .settings-grid {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n.mobile-adventure .settings-grid label {\r\n	white-space: normal;\r\n	flex-wrap: wrap;\r\n	padding: 8px;\r\n	border: 1px solid #d3dde4;\r\n	border-radius: 6px;\r\n	background: white;\r\n}\r\n.mobile-adventure .settings-footer {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	padding: 8px;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-footer .management-status {\r\n	display: block;\r\n	flex: 1;\r\n	text-align: left;\r\n}\r\n.mobile-adventure .settings-drop-table tbody {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-drop-table tr {\r\n	display: grid;\r\n	border: 1px solid #d3dde4;\r\n	border-radius: 6px;\r\n	padding: 8px;\r\n	background: white;\r\n}\r\n.mobile-adventure .settings-drop-table th {\r\n	font-weight: bold;\r\n}\r\n.mobile-adventure .settings-drop-table td {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-drop-table td::before {\r\n	content: '普通';\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(2)::before {\r\n	content: 'Mini';\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(3)::before {\r\n	content: 'MVP';\r\n}\r\n.mobile-adventure .game-tools-confirm {\r\n	position: absolute;\r\n	inset: 0;\r\n	z-index: 20;\r\n	padding: 8px;\r\n	background: #102332aa;\r\n}\r\n.mobile-adventure .game-tools-confirm-card {\r\n	max-width: 100%;\r\n	width: min(400px, 100%);\r\n	border-radius: 12px;\r\n	padding: 18px;\r\n	font-size: 16px;\r\n}\r\n.mobile-adventure .game-tools-confirm-card button {\r\n	min-width: 76px;\r\n}\r\n.mobile-adventure .item-description {\r\n	font-size: 12px;\r\n	line-height: 1.5;\r\n}\r\n.adventure-loading {\r\n	background: #f2f5f7b8;\r\n	padding: 24px;\r\n	border-radius: 8px;\r\n}\r\n.adventure-loading button {\r\n	min-height: 30px;\r\n}\r\n@media (max-width: 560px) {\r\n	.adventure-home,\r\n	.mobile-adventure .catalog-list,\r\n	.mobile-adventure .monster-list,\r\n	.mobile-adventure .character-job-list,\r\n	.mobile-adventure .settings-grid,\r\n	.mobile-adventure .settings-drop-table tbody,\r\n	.mobile-adventure .map-detail-body {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.adventure-home button {\r\n		min-height: 58px;\r\n	}\r\n	.mobile-adventure .catalog-toolbar > .game-select {\r\n		flex: 1;\r\n	}\r\n	.mobile-adventure .monster-info-grid {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n}\r\n.mobile-adventure .game-select {\r\n	height: auto;\r\n	min-height: 30px;\r\n}\r\n.mobile-adventure .summon-panel {\r\n	flex: 0 0 auto;\r\n	position: sticky;\r\n	bottom: -6px;\r\n	background: #edf3f6b8;\r\n	padding: 6px;\r\n	gap: 5px;\r\n	flex-wrap: wrap;\r\n	z-index: 1;\r\n}\r\n.mobile-adventure .item-detail-content {\r\n	min-height: auto;\r\n	overflow: visible;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .monster-resources {\r\n	min-height: auto;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .monster-location-list {\r\n	max-height: 240px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .monster-location {\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .catalog-action-panel {\r\n	height: auto;\r\n	min-height: 38px;\r\n}\r\n.mobile-adventure .catalog-status,\r\n.mobile-adventure .summon-panel span {\r\n	white-space: normal;\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .monster-resources {\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .map-detail-body,\r\n.mobile-adventure .npc-detail-body {\r\n	grid-template-rows: auto;\r\n}\r\n.mobile-adventure .game-tools-confirm-card {\r\n	max-height: 100%;\r\n	overflow: auto;\r\n}\r\n@media (max-width: 560px) {\r\n	.mobile-adventure .monster-resources {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .maintenance-actions {\r\n		flex-wrap: wrap;\r\n	}\r\n	.mobile-adventure .summon-panel {\r\n		margin: 0 -12px -12px;\r\n	}\r\n}\r\n\r\n/* Compact landscape workspace: keep navigation and details visible together. */\r\n.mobile-adventure .monster-heading h3,\r\n.mobile-adventure .catalog-heading h3 {\r\n	font-size: 15px;\r\n}\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .catalog-portrait {\r\n	width: 64px;\r\n	height: 64px;\r\n	flex: 0 0 64px;\r\n}\r\n.mobile-adventure .item-portrait img {\r\n	max-width: 60px;\r\n	max-height: 60px;\r\n}\r\n.mobile-adventure .catalog-thumb,\r\n.mobile-adventure .monster-thumb {\r\n	width: 32px;\r\n	height: 32px;\r\n	flex: 0 0 32px;\r\n}\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel {\r\n	margin: auto -6px -6px;\r\n}\r\n.mobile-adventure .management-form {\r\n	gap: 5px 8px;\r\n}\r\n.mobile-adventure h4 {\r\n	margin: 8px 0 5px;\r\n}\r\n@media (min-width: 600px) {\r\n	.mobile-adventure .catalog-layout,\r\n	.mobile-adventure .monster-layout,\r\n	.mobile-adventure .character-layout {\r\n		display: grid;\r\n		grid-template-columns: minmax(170px, 30%) minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .catalog-browser,\r\n	.mobile-adventure .monster-browser,\r\n	.mobile-adventure .character-job-browser,\r\n	.mobile-adventure .show-detail .catalog-browser,\r\n	.mobile-adventure .show-detail .monster-browser,\r\n	.mobile-adventure .show-detail .character-job-browser {\r\n		display: flex;\r\n		flex-direction: column;\r\n		width: auto;\r\n		border-right: 1px solid #cad6dd;\r\n	}\r\n	.mobile-adventure .catalog-detail,\r\n	.mobile-adventure .monster-detail,\r\n	.mobile-adventure .character-detail {\r\n		display: flex;\r\n		flex-direction: column;\r\n		min-width: 0;\r\n		overflow: auto;\r\n		padding: 6px;\r\n		gap: 6px;\r\n	}\r\n	.mobile-adventure .show-detail .catalog-toolbar,\r\n	.mobile-adventure .show-detail .monster-toolbar {\r\n		display: flex;\r\n	}\r\n	.mobile-adventure .catalog-list,\r\n	.mobile-adventure .monster-list,\r\n	.mobile-adventure .character-job-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		gap: 3px;\r\n		padding: 4px;\r\n	}\r\n	.mobile-adventure .catalog-row,\r\n	.mobile-adventure .monster-row,\r\n	.mobile-adventure .character-job-row {\r\n		min-height: 42px;\r\n		padding: 4px;\r\n		border-radius: 4px;\r\n	}\r\n	.mobile-adventure .catalog-pagination,\r\n	.mobile-adventure .monster-pagination {\r\n		gap: 6px;\r\n		padding: 3px;\r\n	}\r\n	.mobile-adventure .catalog-pagination button,\r\n	.mobile-adventure .monster-pagination button {\r\n		min-width: 32px;\r\n	}\r\n	.mobile-adventure .map-detail-body {\r\n		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n		gap: 5px;\r\n		min-height: 145px;\r\n	}\r\n	.mobile-adventure .npc-detail-body {\r\n		flex: 0 0 auto;\r\n		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n		min-height: 150px;\r\n	}\r\n	.mobile-adventure .catalog-map-picker {\r\n		height: 170px;\r\n	}\r\n	.mobile-adventure .catalog-map,\r\n	.mobile-adventure .npc-map-canvas {\r\n		height: 100%;\r\n		max-height: 200px;\r\n	}\r\n	.mobile-adventure .map-npc-scroll {\r\n		max-height: 150px;\r\n	}\r\n	.mobile-adventure .map-npc-row {\r\n		min-height: 30px;\r\n		padding: 4px;\r\n	}\r\n	.mobile-adventure .character-detail-scroll {\r\n		display: grid;\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		gap: 6px 12px;\r\n		padding: 0 8px;\r\n	}\r\n	.mobile-adventure .character-detail-scroll > section:first-child {\r\n		grid-column: 1 / -1;\r\n	}\r\n	.mobile-adventure .character-detail-scroll section + section {\r\n		border-top: 0;\r\n	}\r\n	.mobile-adventure .management-form > .management-form-actions button {\r\n		min-width: 64px;\r\n		padding-inline: 5px;\r\n	}\r\n	.mobile-adventure .settings-scroll {\r\n		display: grid;\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		align-content: start;\r\n		gap: 8px 12px;\r\n		padding: 6px 10px;\r\n	}\r\n	.mobile-adventure .settings-scroll section + section {\r\n		border-top: 0;\r\n	}\r\n	.mobile-adventure .settings-scroll section:nth-child(2) {\r\n		grid-column: 2;\r\n		grid-row: 1 / span 3;\r\n	}\r\n	.mobile-adventure .settings-grid,\r\n	.mobile-adventure .settings-rate-columns {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .settings-grid label {\r\n		padding: 4px 6px;\r\n	}\r\n	.mobile-adventure .settings-drop-table tbody {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		gap: 5px;\r\n	}\r\n	.mobile-adventure .settings-drop-table tr {\r\n		padding: 5px;\r\n		grid-template-columns: repeat(3, minmax(0, 1fr));\r\n		gap: 4px;\r\n	}\r\n	.mobile-adventure .settings-drop-table th {\r\n		grid-column: 1 / -1;\r\n		text-align: left;\r\n	}\r\n	.mobile-adventure .settings-drop-table td {\r\n		flex-direction: column;\r\n		gap: 2px;\r\n		padding: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number {\r\n		width: 100%;\r\n		gap: 2px;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number input {\r\n		width: 100%;\r\n		min-width: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number em {\r\n		flex-basis: 14px;\r\n	}\r\n}\r\n@media (min-width: 600px) {\r\n	.mobile-adventure .settings-drop-table .setting-number {\r\n		flex: 0 0 auto;\r\n		min-width: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number input {\r\n		flex: 1 1 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table td {\r\n		justify-content: flex-start;\r\n	}\r\n	.mobile-adventure .settings-rate-columns {\r\n		gap: 6px;\r\n	}\r\n	.mobile-adventure .settings-scroll > section {\r\n		min-width: 0;\r\n		align-self: start;\r\n	}\r\n}\r\n.mobile-adventure .map-heading h3 {\r\n	font-size: 15px;\r\n}\r\n.mobile-adventure .management-tab section {\r\n	padding: 4px 0;\r\n}\r\n.mobile-adventure .management-tab section h4 {\r\n	margin: 0 0 4px;\r\n	font-size: 12px;\r\n}\r\n.mobile-adventure .character-detail .character-summary {\r\n	padding: 6px 8px;\r\n}\r\n.mobile-adventure .selected-job {\r\n	padding: 4px 6px;\r\n}\r\n.mobile-adventure .character-actions:has(> .management-status:empty) {\r\n	display: none;\r\n}\r\n/* Match the mobile HUD surfaces, controls, text and selection accents. */\r\n.mobile-adventure.game-tools-window,\r\n.adventure-loading {\r\n	background: rgba(25, 31, 38, 0.72);\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .adventure-header {\r\n	background: #191f2699;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.mobile-adventure button,\r\n.mobile-adventure input:not([type='checkbox']),\r\n.mobile-adventure .game-select-trigger {\r\n	background: #39475399;\r\n	color: #f5f2e9;\r\n	border-color: #7e8c99;\r\n}\r\n.mobile-adventure input::placeholder {\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .adventure-home button,\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .selected-job,\r\n.mobile-adventure .game-select-menu,\r\n.mobile-adventure .game-select-option,\r\n.mobile-adventure .settings-grid label,\r\n.mobile-adventure .settings-drop-table tr {\r\n	background: #19212a99;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-row.selected,\r\n.mobile-adventure .monster-row.selected,\r\n.mobile-adventure .character-job-row.selected,\r\n.mobile-adventure .monster-location.selected,\r\n.mobile-adventure .game-select-option.selected {\r\n	background: #57452cb8;\r\n	border-color: #ffca67;\r\n}\r\n.mobile-adventure .catalog-row small,\r\n.mobile-adventure .monster-row small,\r\n.mobile-adventure .character-job-row small,\r\n.mobile-adventure .catalog-row-text small,\r\n.mobile-adventure .monster-location small,\r\n.mobile-adventure .adventure-home span,\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary,\r\n.mobile-adventure .catalog-heading p,\r\n.mobile-adventure .monster-heading p,\r\n.mobile-adventure .monster-stats span,\r\n.mobile-adventure .catalog-metadata span,\r\n.mobile-adventure .catalog-status,\r\n.mobile-adventure .drop-group em,\r\n.mobile-adventure .character-summary p,\r\n.mobile-adventure .character-summary span,\r\n.mobile-adventure .management-tab small,\r\n.mobile-adventure .map-npc-row small,\r\n.mobile-adventure .summon-panel span {\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .management-tab,\r\n.mobile-adventure .character-detail,\r\n.mobile-adventure .character-summary,\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer {\r\n	background: #19212a99;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .monster-stats,\r\n.mobile-adventure .catalog-metadata {\r\n	background: #65717bb8;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .monster-stats div,\r\n.mobile-adventure .catalog-metadata div,\r\n.mobile-adventure .item-description,\r\n.mobile-adventure .map-npc-list,\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-badge {\r\n	background: #242e3899;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .map-npc-row.selected {\r\n	background: #57452cb8;\r\n}\r\n.mobile-adventure .monster-heading,\r\n.mobile-adventure .monster-resources section,\r\n.mobile-adventure .monster-resources h4 {\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-portrait,\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .catalog-thumb,\r\n.mobile-adventure .item-thumb {\r\n	background-color: #19212a99;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .game-tools-confirm-card {\r\n	background: #19212a99;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .error,\r\n.mobile-adventure .catalog-status.error,\r\n.mobile-adventure .summon-status.error {\r\n	color: #ffb5aa;\r\n}\r\n.mobile-adventure .adventure-feedback {\r\n	background: #263d32b8;\r\n	color: #cce8d2;\r\n}\r\n.mobile-adventure .adventure-feedback.error {\r\n	background: #4a2b2bb8;\r\n	color: #ffb5aa;\r\n}\r\n.mobile-adventure button:disabled {\r\n	opacity: 0.5;\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .map-heading {\r\n	display: none;\r\n}\r\n.mobile-adventure .map-thumb {\r\n	flex: 0 0 48px;\r\n	width: 48px;\r\n	height: 36px;\r\n	min-width: 48px;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .map-thumb img,\r\n.mobile-adventure .map-thumb canvas {\r\n	width: 48px;\r\n	height: 36px;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .map-detail-body {\r\n	flex: 1 0 170px;\r\n	min-height: 170px;\r\n	align-items: stretch;\r\n	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n}\r\n.mobile-adventure .catalog-map-picker {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-map {\r\n	height: 100%;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .map-npc-list {\r\n	height: 100%;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .map-npc-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .monster-thumb {\r\n	width: 40px;\r\n	height: 40px;\r\n	flex: 0 0 40px;\r\n}\r\n.mobile-adventure .monster-overview {\r\n	display: grid;\r\n	flex: 0 0 auto;\r\n	grid-template-columns: 96px minmax(0, 1fr);\r\n	gap: 0 8px;\r\n	border: 1px solid #65717b;\r\n	padding: 5px;\r\n	background: #242e3899;\r\n}\r\n.mobile-adventure .monster-heading {\r\n	display: contents;\r\n}\r\n.mobile-adventure .monster-heading .monster-portrait {\r\n	grid-column: 1;\r\n	grid-row: 1;\r\n	align-self: center;\r\n	width: 96px;\r\n	height: 96px;\r\n	border: 0;\r\n}\r\n.mobile-adventure .monster-stats {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	margin: 0;\r\n}\r\n.mobile-adventure .monster-stats div {\r\n	min-width: 0;\r\n	flex-direction: row;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	padding: 5px 4px;\r\n	gap: 4px;\r\n	font-size: 11px;\r\n}\r\n.mobile-adventure .monster-stats div > span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .monster-stats strong {\r\n	min-width: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .monster-thumb {\r\n	background-color: transparent;\r\n}\r\n.mobile-adventure .monster-location {\r\n	flex: 0 0 auto;\r\n	min-height: 46px;\r\n	height: auto;\r\n	padding: 5px 6px;\r\n}\r\n.mobile-adventure .monster-location strong,\r\n.mobile-adventure .monster-location small {\r\n	line-height: 16px;\r\n}\r\n.mobile-adventure .monster-resources > section > h4,\r\n.mobile-adventure .drop-group h4 {\r\n	padding: 5px 6px;\r\n	margin: 0;\r\n}\r\n.mobile-adventure .drop-group > div {\r\n	padding-inline: 6px;\r\n}\r\n:host(.keyboard-open) {\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n:host(.keyboard-open) .ui-component-root {\r\n	height: calc(var(--mobile-layout-height) - 16px);\r\n}\r\n.mobile-adventure .catalog-toolbar,\r\n.mobile-adventure .monster-toolbar,\r\n.mobile-adventure .character-job-toolbar,\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary,\r\n.mobile-adventure .character-job-browser,\r\n.mobile-adventure .monster-resources > section > h4 {\r\n	background: #19212a99;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .character-job-icon,\r\n.mobile-adventure .map-thumb {\r\n	background: #242e3899;\r\n	color: #c6d0db;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-action-panel button:disabled,\r\n.mobile-adventure .summon-panel button:disabled {\r\n	background: #39475399;\r\n}\r\n.mobile-adventure .monster-drops,\r\n.mobile-adventure .monster-locations {\r\n	padding-inline: 0;\r\n}\r\n.mobile-adventure .monster-location-list {\r\n	padding: 0;\r\n	gap: 0;\r\n}\r\n\r\n.mobile-adventure .game-select-trigger i {\r\n	border-top-color: #c6d0db;\r\n}\r\n.mobile-adventure .game-tools-toast,\r\n.mobile-adventure .game-tools-toast.info {\r\n	background: #263d32b8;\r\n	color: #cce8d2;\r\n	border-color: #65717b;\r\n}\r\n\r\n.mobile-adventure .npc-catalog-tab .catalog-thumb {\r\n	width: 40px;\r\n	height: 40px;\r\n	flex: 0 0 40px;\r\n	background-color: transparent;\r\n}\r\n.mobile-adventure .npc-catalog-tab .catalog-heading {\r\n	display: none;\r\n}\r\n.mobile-adventure .npc-detail-body {\r\n	flex: 1 0 170px;\r\n	min-height: 170px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n	align-items: stretch;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .npc-map-picker,\r\n.mobile-adventure .npc-detail-info {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .npc-map-canvas {\r\n	height: 100%;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .npc-detail-info {\r\n	overflow: auto;\r\n	border: 1px solid #65717b;\r\n	background: #242e3899;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata {\r\n	grid-auto-rows: auto;\r\n	align-content: start;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata div {\r\n	align-items: center;\r\n	gap: 6px;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata strong {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n	text-align: right;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .item-overview {\r\n	display: grid;\r\n	grid-template-columns: 96px minmax(0, 1fr);\r\n	align-items: center;\r\n	gap: 8px;\r\n	padding: 5px;\r\n	border: 1px solid #65717b;\r\n	background: #242e3899;\r\n}\r\n.mobile-adventure .item-heading {\r\n	display: contents;\r\n}\r\n.mobile-adventure .item-portrait {\r\n	width: 96px;\r\n	height: 96px;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n.mobile-adventure .item-portrait img {\r\n	max-width: 96px;\r\n	max-height: 96px;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	margin: 0;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata div {\r\n	min-width: 0;\r\n	align-items: center;\r\n	padding: 5px 4px;\r\n	gap: 4px;\r\n	font-size: 11px;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata strong {\r\n	min-width: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .character-job-emblem {\r\n	background: #242e3899;\r\n	color: #c6d0db;\r\n	border-color: #65717b;\r\n}\r\n\r\n/* Touch scrolling must not leave a hover color on unselected entries. */\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .game-select-option {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n.mobile-adventure .catalog-row:hover,\r\n.mobile-adventure .monster-row:hover,\r\n.mobile-adventure .character-job-row:hover,\r\n.mobile-adventure .monster-location:hover,\r\n.mobile-adventure .game-select-option:hover {\r\n	background: #19212a99;\r\n}\r\n.mobile-adventure .catalog-row.selected:hover,\r\n.mobile-adventure .monster-row.selected:hover,\r\n.mobile-adventure .character-job-row.selected:hover,\r\n.mobile-adventure .monster-location.selected:hover,\r\n.mobile-adventure .game-select-option.selected:hover {\r\n	background: #57452cb8;\r\n}\r\n.mobile-adventure:has(.adventure-content[data-feature='maps']:not([hidden])) .adventure-feedback {\r\n	display: none;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer {\r\n	flex: 0 0 34px;\r\n	height: 34px;\r\n	min-height: 34px;\r\n	padding-block: 2px;\r\n}\r\n.mobile-adventure .drop-group > div {\r\n	padding-left: 14px;\r\n}\r\n.mobile-adventure .monster-locations,\r\n.mobile-adventure .monster-location-list {\r\n	height: auto;\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .monster-locations {\r\n	align-self: start;\r\n}\r\n\r\n.mobile-adventure .monster-locations > h4 {\r\n	position: static;\r\n}\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-location {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	min-height: 32px;\r\n}\r\n.mobile-adventure .monster-location strong {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.mobile-adventure .monster-location small {\r\n	flex: 0 0 auto;\r\n	margin-top: 0;\r\n	text-align: right;\r\n}\r\n\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .map-npc-row:hover,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .monster-location:hover {\r\n	border: 0;\r\n	border-bottom: 1px solid #65717b;\r\n	border-radius: 0;\r\n	padding: 4px 8px;\r\n	background: #242e3899;\r\n}\r\n.mobile-adventure .map-npc-row.selected,\r\n.mobile-adventure .map-npc-row.selected:hover,\r\n.mobile-adventure .monster-location.selected,\r\n.mobile-adventure .monster-location.selected:hover {\r\n	background: #57452cb8;\r\n	border-color: #65717b;\r\n}\r\n\r\n.mobile-adventure .map-npc-text {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.mobile-adventure .map-npc-text strong {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.mobile-adventure .map-npc-text small {\r\n	flex: 0 0 auto;\r\n	text-align: right;\r\n}\r\n\r\n.adventure-tabs {\r\n	display: flex;\r\n	flex: 1;\r\n	min-width: 0;\r\n	gap: 4px;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n}\r\n.adventure-tabs::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.mobile-adventure .adventure-tabs button {\r\n	flex: 0 0 auto;\r\n	min-width: 48px;\r\n	white-space: nowrap;\r\n}\r\n.mobile-adventure .adventure-tabs button[aria-selected='true'] {\r\n	background: #57452cb8;\r\n	border-color: #ffca67;\r\n	color: #ffd27f;\r\n}\r\n.adventure-header > button {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.mobile-adventure .map-npc-text strong,\r\n.mobile-adventure .monster-location strong {\r\n	font-size: 12px;\r\n	line-height: 16px;\r\n}\r\n.mobile-adventure .map-npc-text small,\r\n.mobile-adventure .monster-location small {\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n	margin-top: 0;\r\n}\r\n.mobile-adventure .map-npc-row {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n\r\n/* Keep both location tables visually identical, including their headings. */\r\n.mobile-adventure .map-npc-list,\r\n.mobile-adventure .monster-locations {\r\n	border: 1px solid #65717b;\r\n	border-radius: 0;\r\n	background: #242e3899;\r\n}\r\n.mobile-adventure .map-npc-list > h4,\r\n.mobile-adventure .monster-resources .monster-locations > h4 {\r\n	position: static;\r\n	flex: 0 0 auto;\r\n	box-sizing: border-box;\r\n	margin: 0;\r\n	padding: 5px 6px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	line-height: 17px;\r\n	font-weight: 700;\r\n	color: #f5f2e9;\r\n	background: #19212a99;\r\n	border: 0;\r\n	border-bottom: 1px solid #65717b;\r\n}\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-location {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	flex-shrink: 0;\r\n}\r\n\r\n.mobile-adventure .catalog-pagination button,\r\n.mobile-adventure .monster-pagination button,\r\n.mobile-adventure .catalog-action-panel button,\r\n.mobile-adventure .summon-panel button,\r\n.mobile-adventure .character-actions button,\r\n.mobile-adventure .settings-footer button {\r\n	min-height: 28px;\r\n	height: 28px;\r\n	padding-block: 2px;\r\n}\r\n.mobile-adventure .catalog-route:not(:disabled) {\r\n	background: #284c3bb8;\r\n	border-color: #6aa786;\r\n	color: #d9f4e5;\r\n}\r\n.mobile-adventure .catalog-route.is-active:not(:disabled) {\r\n	background: #643c31b8;\r\n	border-color: #d99573;\r\n	color: #ffe2cc;\r\n}\r\n.mobile-adventure .catalog-route[aria-busy='true'] {\r\n	background: #57452cb8;\r\n	border-color: #b39564;\r\n	color: #e7d4ae;\r\n}\r\n";
+	AdventureTools_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	z-index: 1100 !important;\r\n	color: #263746;\r\n	font:\r\n		12px/1.35 Arial,\r\n		sans-serif;\r\n	padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))\r\n		max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));\r\n	background: #0003;\r\n	box-sizing: border-box;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.ui-component-root,\r\n.adventure-mount {\r\n	width: 100%;\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure.game-tools-window {\r\n	font:\r\n		12px/1.35 Arial,\r\n		sans-serif;\r\n	width: 100%;\r\n	height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	border-radius: 8px;\r\n	border: 1px solid #bec9d1;\r\n	background: #f2f5f7;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n	box-shadow: 0 8px 28px #0005;\r\n}\r\n.mobile-adventure button,\r\n.mobile-adventure input,\r\n.mobile-adventure select {\r\n	font: inherit;\r\n	touch-action: manipulation;\r\n}\r\n.mobile-adventure button {\r\n	min-height: 30px;\r\n	height: auto;\r\n	padding: 4px 8px;\r\n	border-radius: 8px;\r\n	cursor: pointer;\r\n}\r\n.mobile-adventure input:not([type='checkbox']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	box-sizing: border-box;\r\n	font-size: 12px;\r\n	border-radius: 5px;\r\n	padding: 3px 6px;\r\n}\r\n.mobile-adventure input[type='checkbox'] {\r\n	width: 20px;\r\n	height: 20px;\r\n}\r\n.mobile-adventure button:focus-visible,\r\n.mobile-adventure input:focus-visible {\r\n	outline: 2px solid #3a789d;\r\n	outline-offset: 2px;\r\n}\r\n.adventure-header {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	padding: 4px 8px;\r\n	background: #213747;\r\n	color: white;\r\n	flex-shrink: 0;\r\n}\r\n.adventure-header h2 {\r\n	margin: 0;\r\n	font-size: 14px;\r\n	flex: 1;\r\n}\r\n.adventure-header button {\r\n	background: #344e60;\r\n	border: 1px solid #7691a2;\r\n	color: white;\r\n}\r\n.adventure-feedback {\r\n	margin: 0;\r\n	padding: 0 12px;\r\n	background: #e5f1e8;\r\n	color: #215a35;\r\n	flex-shrink: 0;\r\n}\r\n.adventure-feedback:not(:empty) {\r\n	padding: 4px 8px;\r\n}\r\n.adventure-feedback.error {\r\n	background: #fcebe7;\r\n	color: #973c2a;\r\n}\r\n.adventure-home {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 6px;\r\n	padding: 8px;\r\n	overflow: auto;\r\n	align-content: start;\r\n}\r\n.adventure-home button {\r\n	text-align: left;\r\n	display: grid;\r\n	gap: 5px;\r\n	min-height: 62px;\r\n	border: 1px solid #c7d5de;\r\n	background: white;\r\n	color: #263746;\r\n	box-shadow: 0 2px 3px #2437440a;\r\n}\r\n.adventure-home strong {\r\n	font-size: 14px;\r\n}\r\n.adventure-home span {\r\n	font-size: 13px;\r\n	color: #576f7f;\r\n}\r\n.adventure-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.adventure-content .game-tools-tab {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-toolbar,\r\n.mobile-adventure .monster-toolbar {\r\n	padding: 8px;\r\n	flex: 0 0 auto;\r\n	flex-wrap: wrap;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .catalog-search,\r\n.mobile-adventure .monster-search {\r\n	flex: 1 1 170px;\r\n	width: 0;\r\n	min-width: 140px;\r\n}\r\n.mobile-adventure .game-select-trigger {\r\n	min-height: 30px;\r\n	font-size: 14px;\r\n}\r\n.mobile-adventure .game-select-option {\r\n	min-height: 30px;\r\n}\r\n.mobile-adventure .catalog-layout,\r\n.mobile-adventure .monster-layout,\r\n.mobile-adventure .character-layout {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .catalog-browser,\r\n.mobile-adventure .monster-browser,\r\n.mobile-adventure .character-job-browser {\r\n	width: 100%;\r\n	flex: 1;\r\n	border: none;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-detail,\r\n.mobile-adventure .monster-detail,\r\n.mobile-adventure .character-detail {\r\n	display: none;\r\n}\r\n.mobile-adventure .show-detail .catalog-detail,\r\n.mobile-adventure .show-detail .monster-detail,\r\n.mobile-adventure .show-detail .character-detail {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: 100%;\r\n	min-width: 0;\r\n	overflow: auto;\r\n	padding: 6px;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .show-detail .catalog-browser,\r\n.mobile-adventure .show-detail .monster-browser,\r\n.mobile-adventure .show-detail .character-job-browser,\r\n.mobile-adventure .show-detail .catalog-toolbar,\r\n.mobile-adventure .show-detail .monster-toolbar {\r\n	display: none;\r\n}\r\n.mobile-adventure .catalog-list,\r\n.mobile-adventure .monster-list,\r\n.mobile-adventure .character-job-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 5px;\r\n	align-content: start;\r\n	padding: 8px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row {\r\n	border: 1px solid #cad6dd;\r\n	background: white;\r\n	border-radius: 6px;\r\n	min-height: 38px;\r\n	height: auto;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .catalog-row.selected,\r\n.mobile-adventure .monster-row.selected,\r\n.mobile-adventure .character-job-row.selected {\r\n	background: #e6f1f7;\r\n	border-color: #4380a2;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination {\r\n	min-height: 38px;\r\n	flex-shrink: 0;\r\n	padding: 6px 12px;\r\n}\r\n.mobile-adventure .catalog-pagination button,\r\n.mobile-adventure .monster-pagination button {\r\n	min-width: 64px;\r\n}\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary {\r\n	padding: 4px 12px;\r\n}\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .monster-actions,\r\n.mobile-adventure .character-actions {\r\n	flex: 0 0 auto;\r\n	position: sticky;\r\n	bottom: -6px;\r\n	background: #edf3f6;\r\n	padding: 6px;\r\n	flex-wrap: wrap;\r\n	gap: 5px;\r\n	z-index: 1;\r\n}\r\n.mobile-adventure .catalog-action-panel button {\r\n	min-width: 90px;\r\n}\r\n.mobile-adventure .map-detail-body {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);\r\n	min-height: 180px;\r\n	flex: 0 0 auto;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .catalog-map-picker {\r\n	min-width: 0;\r\n	width: 100%;\r\n	height: auto;\r\n	padding: 0;\r\n}\r\n.mobile-adventure .catalog-map,\r\n.mobile-adventure .npc-map-canvas {\r\n	width: 100%;\r\n	height: auto;\r\n	max-height: 280px;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .map-npc-scroll {\r\n	max-height: 240px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .map-npc-row {\r\n	min-height: 30px;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .map-heading,\r\n.mobile-adventure .selected-job {\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .character-detail-scroll {\r\n	overflow: visible;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .management-form,\r\n.mobile-adventure .management-form.progression-form {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n.mobile-adventure .management-form > .management-form-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n}\r\n.mobile-adventure .management-form > .management-form-actions button {\r\n	width: auto;\r\n	flex: 1;\r\n	min-width: 76px;\r\n}\r\n.mobile-adventure .settings-form {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .settings-grid {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n}\r\n.mobile-adventure .settings-grid label {\r\n	white-space: normal;\r\n	flex-wrap: wrap;\r\n	padding: 8px;\r\n	border: 1px solid #d3dde4;\r\n	border-radius: 6px;\r\n	background: white;\r\n}\r\n.mobile-adventure .settings-footer {\r\n	flex: 0 0 auto;\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	padding: 8px;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-footer .management-status {\r\n	display: block;\r\n	flex: 1;\r\n	text-align: left;\r\n}\r\n.mobile-adventure .settings-drop-table tbody {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-drop-table tr {\r\n	display: grid;\r\n	border: 1px solid #d3dde4;\r\n	border-radius: 6px;\r\n	padding: 8px;\r\n	background: white;\r\n}\r\n.mobile-adventure .settings-drop-table th {\r\n	font-weight: bold;\r\n}\r\n.mobile-adventure .settings-drop-table td {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 5px;\r\n}\r\n.mobile-adventure .settings-drop-table td::before {\r\n	content: '普通';\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(2)::before {\r\n	content: 'Mini';\r\n}\r\n.mobile-adventure .settings-drop-table td:nth-of-type(3)::before {\r\n	content: 'MVP';\r\n}\r\n.mobile-adventure .game-tools-confirm {\r\n	position: absolute;\r\n	inset: 0;\r\n	z-index: 20;\r\n	padding: 8px;\r\n	background: #102332;\r\n}\r\n.mobile-adventure .game-tools-confirm-card {\r\n	max-width: 100%;\r\n	width: min(400px, 100%);\r\n	border-radius: 12px;\r\n	padding: 18px;\r\n	font-size: 16px;\r\n}\r\n.mobile-adventure .game-tools-confirm-card button {\r\n	min-width: 76px;\r\n}\r\n.mobile-adventure .item-description {\r\n	font-size: 12px;\r\n	line-height: 1.5;\r\n}\r\n.adventure-loading {\r\n	background: #f2f5f7;\r\n	padding: 24px;\r\n	border-radius: 8px;\r\n}\r\n.adventure-loading button {\r\n	min-height: 30px;\r\n}\r\n@media (max-width: 560px) {\r\n	.adventure-home,\r\n	.mobile-adventure .catalog-list,\r\n	.mobile-adventure .monster-list,\r\n	.mobile-adventure .character-job-list,\r\n	.mobile-adventure .settings-grid,\r\n	.mobile-adventure .settings-drop-table tbody,\r\n	.mobile-adventure .map-detail-body {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.adventure-home button {\r\n		min-height: 58px;\r\n	}\r\n	.mobile-adventure .catalog-toolbar > .game-select {\r\n		flex: 1;\r\n	}\r\n	.mobile-adventure .monster-info-grid {\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	}\r\n}\r\n.mobile-adventure .game-select {\r\n	height: 28px;\r\n	min-height: 28px;\r\n}\r\n.mobile-adventure .summon-panel {\r\n	flex: 0 0 auto;\r\n	position: sticky;\r\n	bottom: -6px;\r\n	background: #edf3f6;\r\n	padding: 6px;\r\n	gap: 5px;\r\n	flex-wrap: wrap;\r\n	z-index: 1;\r\n}\r\n.mobile-adventure .item-detail-content {\r\n	min-height: auto;\r\n	overflow: visible;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .monster-resources {\r\n	min-height: auto;\r\n	flex: 0 0 auto;\r\n}\r\n.mobile-adventure .monster-location-list {\r\n	max-height: 240px;\r\n	overflow: auto;\r\n}\r\n.mobile-adventure .monster-location {\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .catalog-action-panel {\r\n	height: auto;\r\n	min-height: 38px;\r\n}\r\n.mobile-adventure .catalog-status,\r\n.mobile-adventure .summon-panel span {\r\n	white-space: normal;\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .monster-resources {\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .map-detail-body,\r\n.mobile-adventure .npc-detail-body {\r\n	grid-template-rows: auto;\r\n}\r\n.mobile-adventure .game-tools-confirm-card {\r\n	max-height: 100%;\r\n	overflow: auto;\r\n}\r\n@media (max-width: 560px) {\r\n	.mobile-adventure .monster-resources {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .maintenance-actions {\r\n		flex-wrap: wrap;\r\n	}\r\n	.mobile-adventure .summon-panel {\r\n		margin: 0 -12px -12px;\r\n	}\r\n}\r\n\r\n/* Compact landscape workspace: keep navigation and details visible together. */\r\n.mobile-adventure .monster-heading h3,\r\n.mobile-adventure .catalog-heading h3 {\r\n	font-size: 15px;\r\n}\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .catalog-portrait {\r\n	width: 64px;\r\n	height: 64px;\r\n	flex: 0 0 64px;\r\n}\r\n.mobile-adventure .item-portrait img {\r\n	max-width: 60px;\r\n	max-height: 60px;\r\n}\r\n.mobile-adventure .catalog-thumb,\r\n.mobile-adventure .monster-thumb {\r\n	width: 32px;\r\n	height: 32px;\r\n	flex: 0 0 32px;\r\n}\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel {\r\n	margin: auto -6px -6px;\r\n}\r\n.mobile-adventure .management-form {\r\n	gap: 5px 8px;\r\n}\r\n.mobile-adventure h4 {\r\n	margin: 8px 0 5px;\r\n}\r\n@media (min-width: 600px) {\r\n	.mobile-adventure .catalog-layout,\r\n	.mobile-adventure .monster-layout,\r\n	.mobile-adventure .character-layout {\r\n		display: grid;\r\n		grid-template-columns: minmax(170px, 30%) minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .catalog-browser,\r\n	.mobile-adventure .monster-browser,\r\n	.mobile-adventure .character-job-browser,\r\n	.mobile-adventure .show-detail .catalog-browser,\r\n	.mobile-adventure .show-detail .monster-browser,\r\n	.mobile-adventure .show-detail .character-job-browser {\r\n		display: flex;\r\n		flex-direction: column;\r\n		width: auto;\r\n		border-right: 1px solid #cad6dd;\r\n	}\r\n	.mobile-adventure .catalog-detail,\r\n	.mobile-adventure .monster-detail,\r\n	.mobile-adventure .character-detail {\r\n		display: flex;\r\n		flex-direction: column;\r\n		min-width: 0;\r\n		overflow: auto;\r\n		padding: 6px;\r\n		gap: 6px;\r\n	}\r\n	.mobile-adventure .show-detail .catalog-toolbar,\r\n	.mobile-adventure .show-detail .monster-toolbar {\r\n		display: flex;\r\n	}\r\n	.mobile-adventure .catalog-list,\r\n	.mobile-adventure .monster-list,\r\n	.mobile-adventure .character-job-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		gap: 3px;\r\n		padding: 4px;\r\n	}\r\n	.mobile-adventure .catalog-row,\r\n	.mobile-adventure .monster-row,\r\n	.mobile-adventure .character-job-row {\r\n		min-height: 42px;\r\n		padding: 4px;\r\n		border-radius: 4px;\r\n	}\r\n	.mobile-adventure .catalog-pagination,\r\n	.mobile-adventure .monster-pagination {\r\n		gap: 6px;\r\n		padding: 3px;\r\n	}\r\n	.mobile-adventure .catalog-pagination button,\r\n	.mobile-adventure .monster-pagination button {\r\n		min-width: 32px;\r\n	}\r\n	.mobile-adventure .map-detail-body {\r\n		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n		gap: 5px;\r\n		min-height: 145px;\r\n	}\r\n	.mobile-adventure .npc-detail-body {\r\n		flex: 0 0 auto;\r\n		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n		min-height: 150px;\r\n	}\r\n	.mobile-adventure .catalog-map-picker {\r\n		height: 170px;\r\n	}\r\n	.mobile-adventure .catalog-map,\r\n	.mobile-adventure .npc-map-canvas {\r\n		height: 100%;\r\n		max-height: 200px;\r\n	}\r\n	.mobile-adventure .map-npc-scroll {\r\n		max-height: 150px;\r\n	}\r\n	.mobile-adventure .map-npc-row {\r\n		min-height: 30px;\r\n		padding: 4px;\r\n	}\r\n	.mobile-adventure .character-detail-scroll {\r\n		display: grid;\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		gap: 6px 12px;\r\n		padding: 0 8px;\r\n	}\r\n	.mobile-adventure .character-detail-scroll > section:first-child {\r\n		grid-column: 1 / -1;\r\n	}\r\n	.mobile-adventure .character-detail-scroll section + section {\r\n		border-top: 0;\r\n	}\r\n	.mobile-adventure .management-form > .management-form-actions button {\r\n		min-width: 64px;\r\n		padding-inline: 5px;\r\n	}\r\n	.mobile-adventure .settings-scroll {\r\n		display: grid;\r\n		grid-template-columns: repeat(2, minmax(0, 1fr));\r\n		align-content: start;\r\n		gap: 8px 12px;\r\n		padding: 6px 10px;\r\n	}\r\n	.mobile-adventure .settings-scroll section + section {\r\n		border-top: 0;\r\n	}\r\n	.mobile-adventure .settings-scroll section:nth-child(2) {\r\n		grid-column: 2;\r\n		grid-row: 1 / span 3;\r\n	}\r\n	.mobile-adventure .settings-grid,\r\n	.mobile-adventure .settings-rate-columns {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n	.mobile-adventure .settings-grid label {\r\n		padding: 4px 6px;\r\n	}\r\n	.mobile-adventure .settings-drop-table tbody {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		gap: 5px;\r\n	}\r\n	.mobile-adventure .settings-drop-table tr {\r\n		padding: 5px;\r\n		grid-template-columns: repeat(3, minmax(0, 1fr));\r\n		gap: 4px;\r\n	}\r\n	.mobile-adventure .settings-drop-table th {\r\n		grid-column: 1 / -1;\r\n		text-align: left;\r\n	}\r\n	.mobile-adventure .settings-drop-table td {\r\n		flex-direction: column;\r\n		gap: 2px;\r\n		padding: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number {\r\n		width: 100%;\r\n		gap: 2px;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number input {\r\n		width: 100%;\r\n		min-width: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number em {\r\n		flex-basis: 14px;\r\n	}\r\n}\r\n@media (min-width: 600px) {\r\n	.mobile-adventure .settings-drop-table .setting-number {\r\n		flex: 0 0 auto;\r\n		min-width: 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table .setting-number input {\r\n		flex: 1 1 0;\r\n	}\r\n	.mobile-adventure .settings-drop-table td {\r\n		justify-content: flex-start;\r\n	}\r\n	.mobile-adventure .settings-rate-columns {\r\n		gap: 6px;\r\n	}\r\n	.mobile-adventure .settings-scroll > section {\r\n		min-width: 0;\r\n		align-self: start;\r\n	}\r\n}\r\n.mobile-adventure .map-heading h3 {\r\n	font-size: 15px;\r\n}\r\n.mobile-adventure .management-tab section {\r\n	padding: 4px 0;\r\n}\r\n.mobile-adventure .management-tab section h4 {\r\n	margin: 0 0 4px;\r\n	font-size: 12px;\r\n}\r\n.mobile-adventure .character-detail .character-summary {\r\n	padding: 6px 8px;\r\n}\r\n.mobile-adventure .selected-job {\r\n	padding: 4px 6px;\r\n}\r\n.mobile-adventure .character-actions:has(> .management-status:empty) {\r\n	display: none;\r\n}\r\n/* Match the mobile HUD surfaces, controls, text and selection accents. */\r\n.mobile-adventure.game-tools-window,\r\n.adventure-loading {\r\n	background: #191f26;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .adventure-header {\r\n	background: #191f26;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.mobile-adventure button,\r\n.mobile-adventure input:not([type='checkbox']),\r\n.mobile-adventure .game-select-trigger {\r\n	background: #394753;\r\n	color: #f5f2e9;\r\n	border-color: #7e8c99;\r\n}\r\n.mobile-adventure input::placeholder {\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .adventure-home button,\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .selected-job,\r\n.mobile-adventure .game-select-menu,\r\n.mobile-adventure .game-select-option,\r\n.mobile-adventure .settings-grid label,\r\n.mobile-adventure .settings-drop-table tr {\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-row.selected,\r\n.mobile-adventure .monster-row.selected,\r\n.mobile-adventure .character-job-row.selected,\r\n.mobile-adventure .monster-location.selected,\r\n.mobile-adventure .game-select-option.selected {\r\n	background: #57452c;\r\n	border-color: #ffca67;\r\n}\r\n.mobile-adventure .catalog-row small,\r\n.mobile-adventure .monster-row small,\r\n.mobile-adventure .character-job-row small,\r\n.mobile-adventure .catalog-row-text small,\r\n.mobile-adventure .monster-location small,\r\n.mobile-adventure .adventure-home span,\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary,\r\n.mobile-adventure .catalog-heading p,\r\n.mobile-adventure .monster-heading p,\r\n.mobile-adventure .monster-stats span,\r\n.mobile-adventure .catalog-metadata span,\r\n.mobile-adventure .catalog-status,\r\n.mobile-adventure .drop-group em,\r\n.mobile-adventure .character-summary p,\r\n.mobile-adventure .character-summary span,\r\n.mobile-adventure .management-tab small,\r\n.mobile-adventure .map-npc-row small,\r\n.mobile-adventure .summon-panel span {\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .management-tab,\r\n.mobile-adventure .character-detail,\r\n.mobile-adventure .character-summary,\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer {\r\n	background: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .monster-stats,\r\n.mobile-adventure .catalog-metadata {\r\n	background: #65717b;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .monster-stats div,\r\n.mobile-adventure .catalog-metadata div,\r\n.mobile-adventure .item-description,\r\n.mobile-adventure .map-npc-list,\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-badge {\r\n	background: #242e38;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .map-npc-row.selected {\r\n	background: #57452c;\r\n}\r\n.mobile-adventure .monster-heading,\r\n.mobile-adventure .monster-resources section,\r\n.mobile-adventure .monster-resources h4 {\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-portrait,\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .catalog-thumb,\r\n.mobile-adventure .item-thumb {\r\n	background-color: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .game-tools-confirm-card {\r\n	background: #19212a;\r\n	color: #f5f2e9;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .error,\r\n.mobile-adventure .catalog-status.error,\r\n.mobile-adventure .summon-status.error {\r\n	color: #ffb5aa;\r\n}\r\n.mobile-adventure .adventure-feedback {\r\n	background: #263d32;\r\n	color: #cce8d2;\r\n}\r\n.mobile-adventure .adventure-feedback.error {\r\n	background: #4a2b2b;\r\n	color: #ffb5aa;\r\n}\r\n.mobile-adventure button:disabled {\r\n	opacity: 0.5;\r\n	color: #c6d0db;\r\n}\r\n.mobile-adventure .map-heading {\r\n	display: none;\r\n}\r\n.mobile-adventure .map-thumb {\r\n	flex: 0 0 48px;\r\n	width: 48px;\r\n	height: 36px;\r\n	min-width: 48px;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .map-thumb img,\r\n.mobile-adventure .map-thumb canvas {\r\n	width: 48px;\r\n	height: 36px;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .map-detail-body {\r\n	flex: 1 0 170px;\r\n	min-height: 170px;\r\n	align-items: stretch;\r\n	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n}\r\n.mobile-adventure .catalog-map-picker {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .catalog-map {\r\n	height: 100%;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .map-npc-list {\r\n	height: 100%;\r\n	overflow: hidden;\r\n}\r\n.mobile-adventure .map-npc-scroll {\r\n	flex: 1;\r\n	min-height: 0;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .monster-thumb {\r\n	width: 40px;\r\n	height: 40px;\r\n	flex: 0 0 40px;\r\n}\r\n.mobile-adventure .monster-overview {\r\n	display: grid;\r\n	flex: 0 0 auto;\r\n	grid-template-columns: 96px minmax(0, 1fr);\r\n	gap: 0 8px;\r\n	border: 1px solid #65717b;\r\n	padding: 5px;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .monster-heading {\r\n	display: contents;\r\n}\r\n.mobile-adventure .monster-heading .monster-portrait {\r\n	grid-column: 1;\r\n	grid-row: 1;\r\n	align-self: center;\r\n	width: 96px;\r\n	height: 96px;\r\n	border: 0;\r\n}\r\n.mobile-adventure .monster-stats {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	margin: 0;\r\n}\r\n.mobile-adventure .monster-stats div {\r\n	min-width: 0;\r\n	flex-direction: row;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	padding: 5px 4px;\r\n	gap: 4px;\r\n	font-size: 11px;\r\n}\r\n.mobile-adventure .monster-stats div > span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .monster-stats strong {\r\n	min-width: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .monster-portrait,\r\n.mobile-adventure .monster-thumb {\r\n	background-color: transparent;\r\n}\r\n.mobile-adventure .monster-location {\r\n	flex: 0 0 auto;\r\n	min-height: 46px;\r\n	height: auto;\r\n	padding: 5px 6px;\r\n}\r\n.mobile-adventure .monster-location strong,\r\n.mobile-adventure .monster-location small {\r\n	line-height: 16px;\r\n}\r\n.mobile-adventure .monster-resources > section > h4,\r\n.mobile-adventure .drop-group h4 {\r\n	padding: 5px 6px;\r\n	margin: 0;\r\n}\r\n.mobile-adventure .drop-group > div {\r\n	padding-inline: 6px;\r\n}\r\n:host(.keyboard-open) {\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n:host(.keyboard-open) .ui-component-root {\r\n	height: calc(var(--mobile-layout-height) - 16px);\r\n}\r\n.mobile-adventure .catalog-toolbar,\r\n.mobile-adventure .monster-toolbar,\r\n.mobile-adventure .character-job-toolbar,\r\n.mobile-adventure .catalog-summary,\r\n.mobile-adventure .monster-summary,\r\n.mobile-adventure .character-job-summary,\r\n.mobile-adventure .character-job-browser,\r\n.mobile-adventure .monster-resources > section > h4 {\r\n	background: #19212a;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .character-job-icon,\r\n.mobile-adventure .map-thumb {\r\n	background: #242e38;\r\n	color: #c6d0db;\r\n	border-color: #65717b;\r\n}\r\n.mobile-adventure .catalog-action-panel button:disabled,\r\n.mobile-adventure .summon-panel button:disabled {\r\n	background: #394753;\r\n}\r\n.mobile-adventure .monster-drops,\r\n.mobile-adventure .monster-locations {\r\n	padding-inline: 0;\r\n}\r\n.mobile-adventure .monster-location-list {\r\n	padding: 0;\r\n	gap: 0;\r\n}\r\n\r\n.mobile-adventure .game-select-trigger i {\r\n	border-top-color: #c6d0db;\r\n}\r\n.mobile-adventure .game-tools-toast,\r\n.mobile-adventure .game-tools-toast.info {\r\n	background: #263d32;\r\n	color: #cce8d2;\r\n	border-color: #65717b;\r\n}\r\n\r\n.mobile-adventure .npc-catalog-tab .catalog-thumb {\r\n	width: 40px;\r\n	height: 40px;\r\n	flex: 0 0 40px;\r\n	background-color: transparent;\r\n}\r\n.mobile-adventure .npc-catalog-tab .catalog-heading {\r\n	display: none;\r\n}\r\n.mobile-adventure .npc-detail-body {\r\n	flex: 1 0 170px;\r\n	min-height: 170px;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);\r\n	grid-template-rows: minmax(0, 1fr);\r\n	align-items: stretch;\r\n	gap: 6px;\r\n}\r\n.mobile-adventure .npc-map-picker,\r\n.mobile-adventure .npc-detail-info {\r\n	height: 100%;\r\n	min-height: 0;\r\n}\r\n.mobile-adventure .npc-map-canvas {\r\n	height: 100%;\r\n	max-height: none;\r\n}\r\n.mobile-adventure .npc-detail-info {\r\n	overflow: auto;\r\n	border: 1px solid #65717b;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata {\r\n	grid-auto-rows: auto;\r\n	align-content: start;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata div {\r\n	align-items: center;\r\n	gap: 6px;\r\n	padding: 6px;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata strong {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n	text-align: right;\r\n}\r\n.mobile-adventure .npc-detail-info .catalog-metadata span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .item-overview {\r\n	display: grid;\r\n	grid-template-columns: 96px minmax(0, 1fr);\r\n	align-items: stretch;\r\n	gap: 8px;\r\n	padding: 5px;\r\n	border: 1px solid #65717b;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .item-heading {\r\n	display: contents;\r\n}\r\n.mobile-adventure .item-portrait {\r\n	width: 96px;\r\n	height: auto;\r\n	min-height: 0;\r\n	position: relative;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n.mobile-adventure .item-portrait img {\r\n	position: absolute;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	max-width: 100%;\r\n	max-height: 100%;\r\n	object-fit: contain;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata {\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	margin: 0;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata div {\r\n	min-width: 0;\r\n	align-items: center;\r\n	padding: 5px 4px;\r\n	gap: 4px;\r\n	font-size: 11px;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata span {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-adventure .item-overview .catalog-metadata strong {\r\n	min-width: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n}\r\n.mobile-adventure .character-job-emblem {\r\n	background: #242e38;\r\n	color: #c6d0db;\r\n	border-color: #65717b;\r\n}\r\n\r\n/* Touch scrolling must not leave a hover color on unselected entries. */\r\n.mobile-adventure .catalog-row,\r\n.mobile-adventure .monster-row,\r\n.mobile-adventure .character-job-row,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .game-select-option {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n.mobile-adventure .catalog-row:hover,\r\n.mobile-adventure .monster-row:hover,\r\n.mobile-adventure .character-job-row:hover,\r\n.mobile-adventure .monster-location:hover,\r\n.mobile-adventure .game-select-option:hover {\r\n	background: #19212a;\r\n}\r\n.mobile-adventure .catalog-row.selected:hover,\r\n.mobile-adventure .monster-row.selected:hover,\r\n.mobile-adventure .character-job-row.selected:hover,\r\n.mobile-adventure .monster-location.selected:hover,\r\n.mobile-adventure .game-select-option.selected:hover {\r\n	background: #57452c;\r\n}\r\n.mobile-adventure:has(.adventure-content[data-feature='maps']:not([hidden])) .adventure-feedback {\r\n	display: none;\r\n}\r\n.mobile-adventure .catalog-pagination,\r\n.mobile-adventure .monster-pagination,\r\n.mobile-adventure .catalog-action-panel,\r\n.mobile-adventure .summon-panel,\r\n.mobile-adventure .character-actions,\r\n.mobile-adventure .settings-footer {\r\n	flex: 0 0 38px;\r\n	height: 38px;\r\n	min-height: 38px;\r\n	padding: 4px 8px;\r\n	box-sizing: border-box;\r\n}\r\n.mobile-adventure .drop-group > div {\r\n	padding-left: 14px;\r\n}\r\n.mobile-adventure .monster-locations,\r\n.mobile-adventure .monster-location-list {\r\n	height: auto;\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.mobile-adventure .monster-locations {\r\n	align-self: start;\r\n}\r\n\r\n.mobile-adventure .monster-locations > h4 {\r\n	position: static;\r\n}\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-location {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	min-height: 32px;\r\n}\r\n.mobile-adventure .monster-location strong {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.mobile-adventure .monster-location small {\r\n	flex: 0 0 auto;\r\n	margin-top: 0;\r\n	text-align: right;\r\n}\r\n\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .map-npc-row:hover,\r\n.mobile-adventure .monster-location,\r\n.mobile-adventure .monster-location:hover {\r\n	border: 0;\r\n	border-bottom: 1px solid #65717b;\r\n	border-radius: 0;\r\n	padding: 4px 8px;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .map-npc-row.selected,\r\n.mobile-adventure .map-npc-row.selected:hover,\r\n.mobile-adventure .monster-location.selected,\r\n.mobile-adventure .monster-location.selected:hover {\r\n	background: #57452c;\r\n	border-color: #65717b;\r\n}\r\n\r\n.mobile-adventure .map-npc-text {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.mobile-adventure .map-npc-text strong {\r\n	flex: 1;\r\n	min-width: 0;\r\n}\r\n.mobile-adventure .map-npc-text small {\r\n	flex: 0 0 auto;\r\n	text-align: right;\r\n}\r\n\r\n.adventure-tabs {\r\n	display: flex;\r\n	flex: 1;\r\n	min-width: 0;\r\n	gap: 4px;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n}\r\n.adventure-tabs::-webkit-scrollbar {\r\n	display: none;\r\n}\r\n.mobile-adventure .adventure-tabs button {\r\n	flex: 0 0 auto;\r\n	min-width: 48px;\r\n	white-space: nowrap;\r\n}\r\n.mobile-adventure .adventure-tabs button[aria-selected='true'] {\r\n	background: #57452c;\r\n	border-color: #ffca67;\r\n	color: #ffd27f;\r\n}\r\n.adventure-header > button {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.mobile-adventure .map-npc-text strong,\r\n.mobile-adventure .monster-location strong {\r\n	font-size: 12px;\r\n	line-height: 16px;\r\n}\r\n.mobile-adventure .map-npc-text small,\r\n.mobile-adventure .monster-location small {\r\n	font-size: 10px;\r\n	line-height: 16px;\r\n	margin-top: 0;\r\n}\r\n.mobile-adventure .map-npc-row {\r\n	-webkit-tap-highlight-color: transparent;\r\n}\r\n\r\n/* Keep both location tables visually identical, including their headings. */\r\n.mobile-adventure .map-npc-list,\r\n.mobile-adventure .monster-locations {\r\n	border: 1px solid #65717b;\r\n	border-radius: 0;\r\n	background: #242e38;\r\n}\r\n.mobile-adventure .map-npc-list > h4,\r\n.mobile-adventure .monster-resources .monster-locations > h4 {\r\n	position: static;\r\n	flex: 0 0 auto;\r\n	box-sizing: border-box;\r\n	margin: 0;\r\n	padding: 5px 6px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	line-height: 17px;\r\n	font-weight: 700;\r\n	color: #f5f2e9;\r\n	background: #19212a;\r\n	border: 0;\r\n	border-bottom: 1px solid #65717b;\r\n}\r\n.mobile-adventure .map-npc-row,\r\n.mobile-adventure .monster-location {\r\n	box-sizing: border-box;\r\n	height: 32px;\r\n	flex-shrink: 0;\r\n}\r\n\r\n.mobile-adventure .catalog-pagination button,\r\n.mobile-adventure .monster-pagination button,\r\n.mobile-adventure .catalog-action-panel button,\r\n.mobile-adventure .summon-panel button,\r\n.mobile-adventure .character-actions button,\r\n.mobile-adventure .settings-footer button {\r\n	min-height: 28px;\r\n	height: 28px;\r\n	padding-block: 2px;\r\n}\r\n.mobile-adventure .catalog-route:not(:disabled) {\r\n	background: #284c3b;\r\n	border-color: #6aa786;\r\n	color: #d9f4e5;\r\n}\r\n.mobile-adventure .catalog-route.is-active:not(:disabled) {\r\n	background: #643c31;\r\n	border-color: #d99573;\r\n	color: #ffe2cc;\r\n}\r\n.mobile-adventure .catalog-route[aria-busy='true'] {\r\n	background: #57452c;\r\n	border-color: #b39564;\r\n	color: #e7d4ae;\r\n}\r\n\r\n/* Footer fields fit the same 28px row as their action buttons. */\r\n.mobile-adventure .catalog-action-panel input[type='number'] {\r\n	width: 64px;\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	height: 28px;\r\n	min-height: 28px;\r\n	padding: 2px 5px;\r\n	border-radius: 5px;\r\n	background: #283541;\r\n	font-size: 12px;\r\n	line-height: 22px;\r\n	box-sizing: border-box;\r\n}\r\n\r\n/* White detail plate; list thumbnails keep the row background visible. */\r\n.mobile-adventure .item-thumb {\r\n	background-color: transparent;\r\n}\r\n\r\n.mobile-adventure .item-portrait {\r\n	background-color: #fff;\r\n}\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	font-family: Arial, sans-serif;\r\n	font-size: 22px;\r\n	line-height: 20px;\r\n}\r\n\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {\r\n	display: inline-flex;\r\n	align-items: center;\r\n	justify-content: center;\r\n	padding-block: 0;\r\n	line-height: 1;\r\n}\r\n.mobile-adventure :is(.catalog-pagination, .monster-pagination) button > span {\r\n	display: block;\r\n	font:\r\n		22px/1 Arial,\r\n		sans-serif;\r\n	transform: translateY(-1px);\r\n}\r\n.adventure-loading-message {\r\n	margin: auto;\r\n	color: #bac4cd;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/AdventureTools.js
 var Tools, view$1, disposers, generation, abort$1, previousFreeze$1, inputOwned, AdventureTools_default;
 var init_AdventureTools = __esmMin((() => {
+	init_MobileSelect();
 	init_MobileViewport();
 	init_GUIComponent();
 	init_UIManager();
@@ -360051,14 +360104,13 @@ var init_AdventureTools = __esmMin((() => {
 	init_GameToolsTabs();
 	init_AdventureControlService();
 	init_AdventureActionService();
-	init_AdventureRouteService();
 	init_GameInputIntent();
 	init_AdventureToolsView();
 	init_GameTools$1();
 	init_ItemCatalogTab$1();
 	init_GameSelect$1();
 	init_AdventureTools$1();
-	Tools = new GUIComponent("MobileAdventureTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default + AdventureTools_default$1);
+	Tools = new GUIComponent("MobileAdventureTools", GameTools_default$1 + ItemCatalogTab_default$1 + GameSelect_default + AdventureTools_default$1 + MobileSelect_default);
 	Tools.render = () => "<div class=\"adventure-mount\"></div>";
 	Tools.needFocus = false;
 	Tools.nativeScrolling = true;
@@ -360081,8 +360133,16 @@ var init_AdventureTools = __esmMin((() => {
 		disposers.push(RotationGuard_default.allowPortraitPanel(this._host));
 		abort$1 = new AbortController();
 		const mount = this.getRoot().querySelector(".adventure-mount");
-		mount.innerHTML = "<section class=\"adventure-loading\"><p role=\"status\">正在加载冒险工具…</p><button type=\"button\">关闭</button></section>";
-		mount.querySelector("button").onclick = () => this.remove();
+		const context = {
+			capabilities: {},
+			mobile: true,
+			initialMap
+		};
+		view$1 = createAdventureToolsView(mount, {
+			tabs: [],
+			context,
+			close: () => this.remove()
+		});
 		disposers.push(onConnectionEnd(() => this.remove()));
 		const viewport = createMobileViewport(this._host);
 		window.visualViewport?.addEventListener("resize", viewport, { signal: abort$1.signal });
@@ -360102,19 +360162,9 @@ var init_AdventureTools = __esmMin((() => {
 			unavailable = true;
 		}
 		if (request !== generation || !SessionStorage_default.Playing) return;
-		view$1 = createAdventureToolsView(mount, {
-			tabs: availableGameToolsTabs(capabilities),
-			context: {
-				capabilities,
-				mobile: true,
-				initialMap
-			},
-			close: () => this.remove()
-		});
+		context.capabilities = capabilities;
+		view$1.setTabs(availableGameToolsTabs(capabilities));
 		disposers.push(subscribeAdventureActions((state) => view$1?.feedback(state.message, state.error)));
-		disposers.push(subscribeAdventureRoute((state) => {
-			if (state.message) view$1?.feedback(state.message);
-		}));
 		if (unavailable) view$1.feedback("后台暂不可用，部分功能不可用；关闭后重试。", true);
 	};
 	Tools.onRemove = function() {
@@ -360370,207 +360420,6 @@ var init_GameBank = __esmMin((() => {
 	init_PacketStructure();
 	init_ServerInteraction();
 	MAX = 2147483647;
-}));
-//#endregion
-//#region src/UI/Game/GameEquipment.js
-function createEquipmentController(inventory, stats) {
-	function snapshot() {
-		const items = inventory.snapshot();
-		return {
-			slots: equipmentSlots.map((slot) => ({
-				...slot,
-				item: items.find((item) => item.worn && item.wearLocation & slot.location),
-				candidates: items.filter((item) => !item.worn && item.category === "equipment" && item.location & slot.location)
-			})),
-			stats: stats()
-		};
-	}
-	return {
-		snapshot,
-		act(slotKey, index, id, action) {
-			const slot = snapshot().slots.find((entry) => entry.key === slotKey);
-			if (!slot) return "请选择装备部位";
-			const item = action === "unequip" ? slot.item : action === "equip" ? slot.candidates.find((entry) => entry.index === index && entry.ID === id) : null;
-			if (!item || item.index !== index || item.ID !== id) return "装备已经变化，请重新选择";
-			return inventory.act(index, id, action, action === "equip" ? slot.location : void 0);
-		}
-	};
-}
-var equipmentSlots;
-var init_GameEquipment = __esmMin((() => {
-	init_EquipmentLocation();
-	equipmentSlots = [
-		[
-			"HEAD_TOP",
-			"头饰（上）",
-			"normal"
-		],
-		[
-			"HEAD_MID",
-			"头饰（中）",
-			"normal"
-		],
-		[
-			"HEAD_BOTTOM",
-			"头饰（下）",
-			"normal"
-		],
-		[
-			"WEAPON",
-			"右手／武器",
-			"normal"
-		],
-		[
-			"SHIELD",
-			"左手／盾牌",
-			"normal"
-		],
-		[
-			"ARMOR",
-			"铠甲",
-			"normal"
-		],
-		[
-			"GARMENT",
-			"披肩",
-			"normal"
-		],
-		[
-			"SHOES",
-			"鞋子",
-			"normal"
-		],
-		[
-			"ACCESSORY1",
-			"饰品（右）",
-			"normal"
-		],
-		[
-			"ACCESSORY2",
-			"饰品（左）",
-			"normal"
-		],
-		[
-			"AMMO",
-			"弹药",
-			"normal"
-		],
-		[
-			"COSTUME_HEAD_TOP",
-			"时装头饰（上）",
-			"costume"
-		],
-		[
-			"COSTUME_HEAD_MID",
-			"时装头饰（中）",
-			"costume"
-		],
-		[
-			"COSTUME_HEAD_BOTTOM",
-			"时装头饰（下）",
-			"costume"
-		],
-		[
-			"COSTUME_ROBE",
-			"时装披肩",
-			"costume"
-		],
-		[
-			"COSTUME_FLOOR",
-			"时装地面",
-			"costume"
-		],
-		[
-			"SHADOW_WEAPON",
-			"影子武器",
-			"shadow"
-		],
-		[
-			"SHADOW_SHIELD",
-			"影子盾牌",
-			"shadow"
-		],
-		[
-			"SHADOW_ARMOR",
-			"影子铠甲",
-			"shadow"
-		],
-		[
-			"SHADOW_SHOES",
-			"影子鞋子",
-			"shadow"
-		],
-		[
-			"SHADOW_R_ACCESSORY_SHADOW",
-			"影子饰品（右）",
-			"shadow"
-		],
-		[
-			"SHADOW_L_ACCESSORY_SHADOW",
-			"影子饰品（左）",
-			"shadow"
-		]
-	].map(([key, label, group]) => ({
-		key,
-		label,
-		group,
-		location: EquipmentLocation_default[key]
-	}));
-}));
-//#endregion
-//#region src/UI/Game/GameEquipmentSets.js
-function notifyEquipmentSetResult() {
-	revision++;
-}
-function createGameEquipmentSets(canOperate) {
-	const inventory = createGameInventory(canOperate);
-	let pending = null, lastSwap = 0;
-	function snapshot() {
-		if (pending !== null && pending !== revision) pending = null;
-		const reserved = InventoryController.getUI().equipswitchlist;
-		return {
-			allowed: !!(canOperate() && SessionStorage_default.Playing && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE) && pending === null,
-			slots: equipmentSlots,
-			items: inventory.snapshot().filter((item) => !item.worn && item.category === "equipment").map((item) => ({
-				...item,
-				registered: reserved.some((row) => row.index === item.index),
-				registeredLocation: reserved.find((row) => row.index === item.index)?.location
-			})),
-			pending: pending !== null
-		};
-	}
-	return {
-		snapshot,
-		act(index, id, location, action) {
-			const state = snapshot(), item = state.items.find((row) => row.index === index && row.ID === id);
-			if (!state.allowed || !item) return "装备或状态已变化";
-			if (action === "add") {
-				if (item.registered || !item.identified || item.damaged || !equipmentSlots.some((slot) => slot.location === location && item.location & location)) return "请选择有效部位和可用装备";
-				pending = revision;
-				SwitchEquip_default.onAddSwitchEquip(index, location);
-			} else if (action === "remove") {
-				if (!item.registered) return "装备未加入方案";
-				pending = revision;
-				SwitchEquip_default.onRemoveSwitchEquip(index);
-			} else return "未知操作";
-			return "已请求，等待服务器更新";
-		},
-		swap() {
-			if (!snapshot().allowed || !InventoryController.getUI().equipswitchlist.length || Date.now() - lastSwap < 1e4) return "请等待后再切换";
-			lastSwap = Date.now();
-			SwitchEquip_default.RequestSwitch();
-			return "已请求切换，结果以服务器回复为准";
-		}
-	};
-}
-var revision;
-var init_GameEquipmentSets = __esmMin((() => {
-	init_Inventory();
-	init_SwitchEquip();
-	init_SessionStorage();
-	init_GameInventory();
-	init_GameEquipment();
-	revision = 0;
 }));
 //#endregion
 //#region src/UI/Game/GameSocial.js
@@ -361316,6 +361165,152 @@ var init_GameSkills = __esmMin((() => {
 	init_RagnarokText();
 }));
 //#endregion
+//#region src/UI/Game/GameEquipment.js
+function createEquipmentController(inventory, stats) {
+	function snapshot() {
+		const items = inventory.snapshot();
+		return {
+			slots: equipmentSlots.map((slot) => ({
+				...slot,
+				item: items.find((item) => item.worn && item.wearLocation & slot.location),
+				candidates: items.filter((item) => !item.worn && item.category === "equipment" && item.location & slot.location)
+			})),
+			stats: stats()
+		};
+	}
+	return {
+		snapshot,
+		act(slotKey, index, id, action) {
+			const slot = snapshot().slots.find((entry) => entry.key === slotKey);
+			if (!slot) return "请选择装备部位";
+			const item = action === "unequip" ? slot.item : action === "equip" ? slot.candidates.find((entry) => entry.index === index && entry.ID === id) : null;
+			if (!item || item.index !== index || item.ID !== id) return "装备已经变化，请重新选择";
+			return inventory.act(index, id, action, action === "equip" ? slot.location : void 0);
+		}
+	};
+}
+var equipmentSlots;
+var init_GameEquipment = __esmMin((() => {
+	init_EquipmentLocation();
+	equipmentSlots = [
+		[
+			"HEAD_TOP",
+			"头饰（上）",
+			"normal"
+		],
+		[
+			"HEAD_MID",
+			"头饰（中）",
+			"normal"
+		],
+		[
+			"HEAD_BOTTOM",
+			"头饰（下）",
+			"normal"
+		],
+		[
+			"WEAPON",
+			"右手／武器",
+			"normal"
+		],
+		[
+			"SHIELD",
+			"左手／盾牌",
+			"normal"
+		],
+		[
+			"ARMOR",
+			"铠甲",
+			"normal"
+		],
+		[
+			"GARMENT",
+			"披肩",
+			"normal"
+		],
+		[
+			"SHOES",
+			"鞋子",
+			"normal"
+		],
+		[
+			"ACCESSORY1",
+			"饰品（右）",
+			"normal"
+		],
+		[
+			"ACCESSORY2",
+			"饰品（左）",
+			"normal"
+		],
+		[
+			"AMMO",
+			"弹药",
+			"normal"
+		],
+		[
+			"COSTUME_HEAD_TOP",
+			"时装头饰（上）",
+			"costume"
+		],
+		[
+			"COSTUME_HEAD_MID",
+			"时装头饰（中）",
+			"costume"
+		],
+		[
+			"COSTUME_HEAD_BOTTOM",
+			"时装头饰（下）",
+			"costume"
+		],
+		[
+			"COSTUME_ROBE",
+			"时装披肩",
+			"costume"
+		],
+		[
+			"COSTUME_FLOOR",
+			"时装地面",
+			"costume"
+		],
+		[
+			"SHADOW_WEAPON",
+			"影子武器",
+			"shadow"
+		],
+		[
+			"SHADOW_SHIELD",
+			"影子盾牌",
+			"shadow"
+		],
+		[
+			"SHADOW_ARMOR",
+			"影子铠甲",
+			"shadow"
+		],
+		[
+			"SHADOW_SHOES",
+			"影子鞋子",
+			"shadow"
+		],
+		[
+			"SHADOW_R_ACCESSORY_SHADOW",
+			"影子饰品（右）",
+			"shadow"
+		],
+		[
+			"SHADOW_L_ACCESSORY_SHADOW",
+			"影子饰品（左）",
+			"shadow"
+		]
+	].map(([key, label, group]) => ({
+		key,
+		label,
+		group,
+		location: EquipmentLocation_default[key]
+	}));
+}));
+//#endregion
 //#region src/UI/Game/ShortcutController.js
 /** UI-independent shortcut flow. Reads current server-backed state again before every use. */
 function createShortcutController(data) {
@@ -362018,6 +362013,124 @@ var init_StatusIcons = __esmMin((() => {
 	StatusIcons_default = UIManager.addComponent(StatusIcons);
 }));
 //#endregion
+//#region src/UI/Mobile/game/MenuSelects.js
+/** Keep form values and existing change handlers while sharing the catalog dropdown UI. */
+function createMenuSelects(container) {
+	const entries = /* @__PURE__ */ new Map();
+	const abort = new AbortController();
+	function sync() {
+		for (const [select, entry] of entries) if (!container.contains(select)) {
+			entry.root.remove();
+			entries.delete(select);
+		}
+		for (const select of container.querySelectorAll("select")) {
+			let entry = entries.get(select);
+			const options = [...select.options].map((option) => ({
+				value: option.value,
+				label: option.textContent,
+				disabled: option.disabled || option.parentElement.disabled
+			}));
+			const ariaLabel = select.getAttribute("aria-label") || entry?.ariaLabel || select.labels?.[0]?.childNodes[0]?.textContent.trim() || "选择";
+			const state = {
+				options,
+				value: select.value,
+				disabled: select.disabled,
+				ariaLabel
+			};
+			const key = JSON.stringify(state);
+			if (!entry) {
+				const holder = document.createElement("div");
+				holder.innerHTML = renderGameSelect(state);
+				const root = holder.firstElementChild;
+				root.classList.add("menu-select");
+				select.after(root);
+				select.hidden = true;
+				const control = mountGameSelect(root);
+				entry = {
+					root,
+					control,
+					ariaLabel,
+					key: ""
+				};
+				entries.set(select, entry);
+				control.input.addEventListener("change", (event) => {
+					event.stopPropagation();
+					select.value = control.input.value;
+					select.dispatchEvent(new Event("input", { bubbles: true }));
+					select.dispatchEvent(new Event("change", { bubbles: true }));
+					sync();
+				});
+				const trigger = root.querySelector(".game-select-trigger");
+				const menu = root.querySelector(".game-select-menu");
+				function positionMenu() {
+					if (menu.hidden) return;
+					const rect = trigger.getBoundingClientRect();
+					const viewport = window.visualViewport;
+					const top = viewport?.offsetTop || 0;
+					const below = top + (viewport?.height || innerHeight) - rect.bottom - 8;
+					const above = rect.top - top - 8;
+					const up = below < 160 && above > below;
+					const height = Math.max(30, Math.min(240, up ? above : below));
+					root.classList.remove("drop-up");
+					Object.assign(menu.style, {
+						left: `${rect.left}px`,
+						width: `${rect.width}px`,
+						maxHeight: `${height}px`,
+						top: up ? `${rect.top - Math.min(height, menu.scrollHeight + 2) - 2}px` : `${rect.bottom + 2}px`
+					});
+				}
+				trigger.addEventListener("click", positionMenu);
+				root.addEventListener("keydown", positionMenu);
+			}
+			if (entry.key !== key) {
+				setGameSelectOptions(entry.root, state);
+				entry.key = key;
+			}
+		}
+	}
+	container.addEventListener("change", (event) => {
+		if (event.target.matches("select")) sync();
+	}, { signal: abort.signal });
+	const observer = new MutationObserver(sync);
+	observer.observe(container, {
+		childList: true,
+		subtree: true,
+		attributes: true,
+		attributeFilter: [
+			"disabled",
+			"selected",
+			"label"
+		],
+		characterData: true
+	});
+	function close() {
+		for (const entry of entries.values()) entry.control.close();
+	}
+	container.addEventListener("scroll", (event) => {
+		if (!event.target.closest?.(".game-select-menu")) close();
+	}, {
+		capture: true,
+		signal: abort.signal
+	});
+	container.addEventListener("pointerdown", (event) => {
+		if (!event.target.closest(".game-select")) close();
+	}, { signal: abort.signal });
+	window.addEventListener("resize", close, { signal: abort.signal });
+	sync();
+	return {
+		sync,
+		close,
+		destroy() {
+			observer.disconnect();
+			abort.abort();
+			entries.clear();
+		}
+	};
+}
+var init_MenuSelects = __esmMin((() => {
+	init_GameSelect();
+}));
+//#endregion
 //#region src/UI/Game/GameNavigation.js
 function createGameNavigation(canOperate) {
 	const owner = SessionStorage_default.Entity;
@@ -362441,6 +362554,35 @@ function createPetPanel(body, service) {
 }
 var init_PetPanel = __esmMin((() => {}));
 //#endregion
+//#region src/UI/Mobile/game/ListItemText.js
+/** Keep the full name in the DOM while each list controls its own line limit. */
+function setListItemText(node, name, metadata = "") {
+	let text = node.querySelector(":scope > span");
+	if (!text) {
+		for (const child of [...node.childNodes]) if (child.nodeType === Node.TEXT_NODE) child.remove();
+		text = document.createElement("span");
+		node.append(text);
+	}
+	if (!text.classList.contains("list-item-text")) {
+		text.className = "list-item-text";
+		const label = document.createElement("span");
+		label.className = "list-item-name";
+		const detail = document.createElement("small");
+		detail.className = "list-item-meta";
+		text.replaceChildren(label, detail);
+	}
+	const label = text.querySelector(".list-item-name");
+	const detail = text.querySelector(".list-item-meta");
+	const title = String(name ?? "");
+	if (label.textContent !== title) label.textContent = title;
+	const suffix = metadata ? ` ${metadata}` : "";
+	if (detail.textContent !== suffix) detail.textContent = suffix;
+	detail.hidden = !metadata;
+	node.title = `${title}${suffix}`;
+	detail.title = String(metadata);
+}
+var init_ListItemText = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Mobile/game/MailPanel.js
 /** Native scrolling and explicit actions replace mail attachment drag/drop. */
 function createMailPanel(body, service) {
@@ -362572,10 +362714,10 @@ function createMailPanel(body, service) {
 			const rows = state.list.filter((m) => m.openType === tab && `${m.title} ${m.SenderName}`.includes(term));
 			const pages = Math.max(1, Math.ceil(rows.length / 8));
 			page = Math.min(page, pages - 1);
-			for (const mail of rows.slice(page * 8, page * 8 + 8)) button(list, `${mail.Isread ? "" : "未读 · "}${mail.title} — ${mail.SenderName}${mail.deleting ? "（请求删除中）" : ""}`, () => {
+			for (const mail of rows.slice(page * 8, page * 8 + 8)) setListItemText(button(list, "", () => {
 				review = null;
 				service.read(mailKey(mail));
-			});
+			}), mail.title, `${mail.Isread ? "" : "未读 · "}${mail.SenderName}${mail.deleting ? "（请求删除中）" : ""}`);
 			para(list, `${page + 1} / ${pages} 页，共 ${rows.length} 封`);
 			button(list, "上一页", () => {
 				page = Math.max(0, page - 1);
@@ -362626,6 +362768,7 @@ function createMailPanel(body, service) {
 	return { update };
 }
 var init_MailPanel = __esmMin((() => {
+	init_ListItemText();
 	init_RagnarokText();
 }));
 //#endregion
@@ -362919,7 +363062,7 @@ function createVendingPanel(body, service) {
 				nodes.set(item.index, node);
 				$(".inventory-list").append(node);
 			}
-			node.textContent = `${item.name} × ${item.count}${state.owned ? " · " + item.price + " Zeny" : ""}`;
+			setListItemText(node, item.name, `× ${item.count}${state.owned ? " · " + item.price + " Zeny" : ""}`);
 			node.setAttribute("aria-pressed", String(selected === item.index));
 		}
 		const item = state.items.find((row) => row.index === selected), next = JSON.stringify([item && {
@@ -362934,7 +363077,9 @@ function createVendingPanel(body, service) {
 				const description = document.createElement("p");
 				description.className = "item-description";
 				description.textContent = item.description;
-				panel.append(description);
+				const title = document.createElement("h3");
+				title.textContent = item.name;
+				panel.append(title, description);
 				if (!state.owned) {
 					const amount = document.createElement("input"), price = document.createElement("input");
 					for (const input of [amount, price]) {
@@ -362965,7 +363110,9 @@ function createVendingPanel(body, service) {
 	update();
 	return { update };
 }
-var init_VendingPanel = __esmMin((() => {}));
+var init_VendingPanel = __esmMin((() => {
+	init_ListItemText();
+}));
 //#endregion
 //#region src/UI/Mobile/game/TradePanel.js
 function createTradePanel(body, service) {
@@ -363010,7 +363157,7 @@ function createTradePanel(body, service) {
 				nodes.set(item.index, node);
 				$(".inventory-list").append(node);
 			}
-			node.textContent = `${item.name} × ${item.count}`;
+			setListItemText(node, item.name, `× ${item.count}`);
 			node.setAttribute("aria-pressed", String(selected === item.index));
 		}
 		const item = preview ? state[preview.side].find((entry) => entry.index === preview.index) : state.items.find((entry) => entry.index === selected);
@@ -363040,6 +363187,9 @@ function createTradePanel(body, service) {
 				button.textContent = "加入交易";
 				button.disabled = !active || state.ownLocked;
 				button.onclick = () => action(service.add(item.index, item.identity, Number(input.value)));
+				const title = document.createElement("h3");
+				title.textContent = item.name;
+				picker.append(title);
 				if (preview) picker.append(text);
 				else picker.append(text, input, button);
 			} else picker.textContent = "点击左侧物品设置数量";
@@ -363091,78 +363241,9 @@ function createTradePanel(body, service) {
 	update();
 	return { update };
 }
-var init_TradePanel = __esmMin((() => {}));
-//#endregion
-//#region src/UI/Mobile/game/EquipmentSetsPanel.js
-function createEquipmentSetsPanel(body, service) {
-	body.innerHTML = "<div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"方案装备\"></div><section class=\"inventory-detail\" aria-label=\"装备方案详情\"></section></div><button type=\"button\" data-swap>切换装备方案</button><p role=\"status\"></p>";
-	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail"), nodes = /* @__PURE__ */ new Map();
-	let selected = null, key = "", swapReview = false;
-	function update() {
-		const state = service.snapshot();
-		$("[data-swap]").disabled = !state.allowed || !state.items.some((item) => item.registered);
-		const ids = new Set(state.items.map((item) => item.index));
-		for (const [id, node] of nodes) if (!ids.has(id)) {
-			node.remove();
-			nodes.delete(id);
-		}
-		for (const item of state.items) {
-			let button = nodes.get(item.index);
-			if (!button) {
-				button = document.createElement("button");
-				button.className = "inventory-item";
-				button.onclick = () => {
-					selected = item.index;
-					key = "";
-					update();
-				};
-				nodes.set(item.index, button);
-				list.append(button);
-			}
-			button.textContent = `${item.name}${item.registered ? " · 已加入方案" : ""}`;
-		}
-		const item = state.items.find((entry) => entry.index === selected);
-		const next = JSON.stringify([item && {
-			...item,
-			icon: void 0
-		}, state.allowed]);
-		if (key === next) return;
-		key = next;
-		detail.replaceChildren();
-		if (!item) {
-			detail.textContent = "点选背包装备，设置切换方案";
-			return;
-		}
-		const title = document.createElement("h3");
-		title.textContent = item.name;
-		const select = document.createElement("select");
-		select.setAttribute("aria-label", "方案装备部位");
-		for (const slot of state.slots.filter((entry) => item.location & entry.location)) select.add(new Option(slot.label, slot.location));
-		if (item.registeredLocation) select.value = item.registeredLocation;
-		const button = document.createElement("button");
-		button.textContent = item.registered ? "确认移出方案" : "确认加入方案";
-		button.disabled = !state.allowed || !item.registered && (!item.identified || item.damaged);
-		button.onclick = () => {
-			$("[role=status]").textContent = service.act(item.index, item.ID, Number(select.value), item.registered ? "remove" : "add");
-			key = "";
-			update();
-		};
-		detail.append(title, select, button);
-	}
-	$("[data-swap]").onclick = () => {
-		if (!swapReview) {
-			swapReview = true;
-			$("[data-swap]").textContent = "确认切换装备方案";
-			return;
-		}
-		swapReview = false;
-		$("[data-swap]").textContent = "切换装备方案";
-		$("[role=status]").textContent = service.swap();
-	};
-	update();
-	return { update };
-}
-var init_EquipmentSetsPanel = __esmMin((() => {}));
+var init_TradePanel = __esmMin((() => {
+	init_ListItemText();
+}));
 //#endregion
 //#region src/UI/Mobile/game/EnchantPanel.js
 function createEnchantPanel(body, service) {
@@ -363638,12 +363719,14 @@ function createSocialPanel(body, service, whisper) {
 				render();
 			}));
 			for (const member of members) {
-				const b = button(member.Name || member.characterName || member.CharName, () => {
+				const name = member.Name || member.characterName || member.CharName;
+				const b = button(name, () => {
 					selected = identity(member);
 					lastKey = "";
 					render();
 				});
 				b.className = "inventory-item";
+				setListItemText(b, name);
 				list.append(b);
 			}
 			if (!members.length) list.append(paragraph("暂无成员"));
@@ -363872,7 +363955,9 @@ function createSocialPanel(body, service, whisper) {
 	update();
 	return { update };
 }
-var init_SocialPanel = __esmMin((() => {}));
+var init_SocialPanel = __esmMin((() => {
+	init_ListItemText();
+}));
 //#endregion
 //#region src/UI/Mobile/game/ChatPanel.js
 function createChatPanel(body, send, initialReceiver = "") {
@@ -363943,7 +364028,7 @@ function createQuestsPanel(body, actions) {
 				nodes.set(q.questID, node);
 				list.append(node);
 			}
-			node.textContent = q.title;
+			setListItemText(node, q.title);
 			node.setAttribute("aria-pressed", String(selected === q.questID));
 		}
 		let empty = list.querySelector("[data-empty]");
@@ -363997,7 +364082,9 @@ function createQuestsPanel(body, actions) {
 	update();
 	return { update };
 }
-var init_QuestsPanel = __esmMin((() => {}));
+var init_QuestsPanel = __esmMin((() => {
+	init_ListItemText();
+}));
 //#endregion
 //#region src/UI/Mobile/game/ContainerPanel.js
 function createContainerPanel(body, actions, initialSource) {
@@ -364086,7 +364173,7 @@ function createContainerPanel(body, actions, initialSource) {
 				nodes.set(key, node);
 				$(".inventory-list").append(node);
 			}
-			node.querySelector("span").textContent = `${item.name} ×${item.count}`;
+			setListItemText(node, item.name, `×${item.count}`);
 			if (item.icon && node.querySelector("img").getAttribute("src") !== item.icon) node.querySelector("img").src = item.icon;
 			node.disabled = !state.allowed;
 		}
@@ -364108,6 +364195,7 @@ function createContainerPanel(body, actions, initialSource) {
 }
 var labels;
 var init_ContainerPanel = __esmMin((() => {
+	init_ListItemText();
 	labels = {
 		inventory: "背包",
 		storage: "仓库",
@@ -364212,7 +364300,7 @@ function createShopPanel(body, service) {
 				nodes.set(key, node);
 			}
 			node.disabled = !state.allowed;
-			node.querySelector("span").textContent = `${item.name} · ${item.price} ${state.currency || "Zeny"}${item.quantity ? ` · 已选 ${item.quantity}` : ""}`;
+			setListItemText(node, item.name, `${item.price} ${state.currency || "Zeny"}${item.quantity ? ` · 已选 ${item.quantity}` : ""}`);
 			if (item.icon && node.querySelector("img").getAttribute("src") !== item.icon) node.querySelector("img").src = item.icon;
 		}
 		for (const [key, node] of nodes) if (!keys.has(key)) {
@@ -364228,7 +364316,9 @@ function createShopPanel(body, service) {
 	update();
 	return { update };
 }
-var init_ShopPanel = __esmMin((() => {}));
+var init_ShopPanel = __esmMin((() => {
+	init_ListItemText();
+}));
 //#endregion
 //#region src/UI/Mobile/game/NPCPanel.js
 function createNPCPanel(body, state) {
@@ -364537,7 +364627,7 @@ function createSkillsPanel(body, actions) {
 				list.append(node);
 			}
 			node.setAttribute("aria-pressed", String(selected === skill.id));
-			node.querySelector("span").textContent = `${skill.name} · ${skill.kind} Lv.${skill.level}`;
+			setListItemText(node, skill.name, `${skill.kind} Lv.${skill.level}`);
 			const img = node.querySelector("img");
 			img.alt = "";
 			if (skill.icon && img.getAttribute("src") !== skill.icon) img.src = skill.icon;
@@ -364559,6 +364649,7 @@ function createSkillsPanel(body, actions) {
 	return { update };
 }
 var init_SkillsPanel = __esmMin((() => {
+	init_ListItemText();
 	init_PointResetControl();
 }));
 //#endregion
@@ -364756,10 +364847,10 @@ var init_EquipmentPanel = __esmMin((() => {}));
 //#region src/UI/Mobile/game/InventoryPanel.js
 /** Touch-only inventory presentation. Actions receive inventory indices, never DOM-derived item data. */
 function createInventoryPanel(body, actions) {
-	body.innerHTML = "<nav class=\"inventory-tabs\" aria-label=\"背包分类\"></nav><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"物品列表\"></div><section class=\"inventory-detail\" aria-label=\"物品详情\"></section></div><p class=\"inventory-status\" role=\"status\"></p>";
+	body.innerHTML = "<div class=\"inventory-toolbar\"></div><div class=\"inventory-layout\"><div class=\"inventory-list\" aria-label=\"物品列表\"></div><section class=\"inventory-detail\" aria-label=\"物品详情\"></section></div><p class=\"inventory-status\" role=\"status\"></p>";
 	const $ = (selector) => body.querySelector(selector);
 	const list = $(".inventory-list"), detail = $(".inventory-detail");
-	let category = "all", selected = null, state = [], detailKey = "", binding = false;
+	let selected = null, state = [], detailKey = "", binding = false;
 	const buttons = /* @__PURE__ */ new Map();
 	const sort = document.createElement("select");
 	sort.setAttribute("aria-label", "背包排序");
@@ -364770,7 +364861,6 @@ function createInventoryPanel(body, actions) {
 		["category", "分类排序"]
 	]) sort.add(new Option(name, key));
 	sort.onchange = () => render();
-	body.prepend(sort);
 	const status = (message) => {
 		$(".inventory-status").textContent = message;
 	};
@@ -364781,20 +364871,17 @@ function createInventoryPanel(body, actions) {
 		node.onclick = fn;
 		return node;
 	}
+	const category = document.createElement("select");
+	category.setAttribute("aria-label", "背包分类");
 	for (const [key, label] of [
 		["all", "全部"],
 		["usable", "消耗品"],
 		["equipment", "装备"],
 		["other", "其他"],
 		["worn", "已穿戴"]
-	]) {
-		const tab = button(label, () => {
-			category = key;
-			render();
-		});
-		tab.dataset.category = key;
-		$(".inventory-tabs").append(tab);
-	}
+	]) category.add(new Option(label, key));
+	category.onchange = () => render();
+	$(".inventory-toolbar").append(category, sort);
 	function renderDetail() {
 		const item = state.find((entry) => entry.index === selected?.index && entry.ID === selected?.ID);
 		if (!item) {
@@ -364889,8 +364976,7 @@ function createInventoryPanel(body, actions) {
 		detail.replaceChildren(title, select, preview, save, cancel);
 	}
 	function render() {
-		for (const tab of $(".inventory-tabs").children) tab.setAttribute("aria-pressed", String(tab.dataset.category === category));
-		const filtered = state.filter((item) => category === "all" || (category === "worn" ? item.worn : item.category === category));
+		const filtered = state.filter((item) => category.value === "all" || (category.value === "worn" ? item.worn : item.category === category.value));
 		filtered.sort((a, b) => sort.value === "name" ? a.name.localeCompare(b.name, "zh-CN") : sort.value === "count" ? b.count - a.count || a.index - b.index : sort.value === "category" ? a.category.localeCompare(b.category) || a.name.localeCompare(b.name, "zh-CN") : a.index - b.index);
 		const keys = new Set(filtered.map((item) => `${item.index}:${item.ID}`));
 		for (const [key, node] of buttons) if (!keys.has(key)) {
@@ -364928,7 +365014,7 @@ function createInventoryPanel(body, actions) {
 			const image = node.querySelector("img");
 			image.alt = "";
 			if (item.icon && image.getAttribute("src") !== item.icon) image.src = item.icon;
-			node.querySelector("span").textContent = `${item.name} ×${item.count}${item.worn ? " · 已穿戴" : ""}`;
+			setListItemText(node, item.name, `×${item.count}${item.worn ? " · 已穿戴" : ""}`);
 			node.setAttribute("aria-pressed", String(selected?.index === item.index && selected?.ID === item.ID));
 		}
 		renderDetail();
@@ -364940,7 +365026,9 @@ function createInventoryPanel(body, actions) {
 	update();
 	return { update };
 }
-var init_InventoryPanel = __esmMin((() => {}));
+var init_InventoryPanel = __esmMin((() => {
+	init_ListItemText();
+}));
 //#endregion
 //#region src/UI/Mobile/game/ShortcutPanel.js
 /** Separate slot selection, candidate browsing and editing without jumping scroll position. */
@@ -365033,6 +365121,7 @@ function createShortcutPanel(body, actions) {
 		if (entry.icon) img.src = entry.icon;
 		label.textContent = `${entry.name} · ${entry.amount}`;
 		button.append(img, label);
+		setListItemText(button, entry.name, String(entry.amount));
 		button.onclick = () => {
 			selected = entry;
 			form.hidden = false;
@@ -365098,7 +365187,7 @@ function createShortcutPanel(body, actions) {
 			if (!entry) continue;
 			const img = button.querySelector("img");
 			if (entry.icon && img.getAttribute("src") !== entry.icon) img.src = entry.icon;
-			button.querySelector("span").textContent = `${entry.name} · ${entry.amount}`;
+			setListItemText(button, entry.name, String(entry.amount));
 			if (selected && button.dataset.key === `${selected.isSkill}:${selected.ID}` && entry.icon) {
 				$("[data-choice-icon]").src = entry.icon;
 				$("[data-choice-icon]").hidden = false;
@@ -365106,7 +365195,9 @@ function createShortcutPanel(body, actions) {
 		}
 	} };
 }
-var init_ShortcutPanel = __esmMin((() => {}));
+var init_ShortcutPanel = __esmMin((() => {
+	init_ListItemText();
+}));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.html?raw
 var GameHUD_default$2;
@@ -365117,19 +365208,19 @@ var init_GameHUD$2 = __esmMin((() => {
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	inset: 0;\r\n	background: #0003;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #39475399;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a99;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452cb8;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a99;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #39475399;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452cb8;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452cb8;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452cb8;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud { height: var(--mobile-layout-height); }\r\n:host(.keyboard-open) .backdrop { overflow-y: auto; align-items: start; }\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow: 0 1px 2px #000, 0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] { --gauge-color: #4588ba; }\r\n.profile [data-ap] { --gauge-color: #b28c35; }\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp { --gauge-color: #ff0000; }\r\n";
+	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	z-index: 10;\r\n	inset: 0;\r\n	background: #0003;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 16px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.panel [data-save-slot] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 16px;\r\n	line-height: 1.7;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud { height: var(--mobile-layout-height); }\r\n:host(.keyboard-open) .backdrop { overflow-y: auto; align-items: start; }\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow: 0 1px 2px #000, 0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] { --gauge-color: #4588ba; }\r\n.profile [data-ap] { --gauge-color: #b28c35; }\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp { --gauge-color: #ff0000; }\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDResponsive.css?raw
 var GameHUDResponsive_default;
 var init_GameHUDResponsive = __esmMin((() => {
-	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.panel.settings-panel {\r\n	width: min(760px, 100%);\r\n	height: 100%;\r\n}\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'],\r\n.settings-actions .settings-save {\r\n	background: #57452cb8;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a99;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #28354199;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #38465399;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1b8;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334b8;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1aeb8;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.panel.profile-panel {\r\n	width: min(600px, 100%);\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a99;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	:host {\r\n		font-size: 15px;\r\n	}\r\n	.top-left {\r\n		width: 260px;\r\n		gap: 14px;\r\n	}\r\n	.profile {\r\n		padding: 10px 12px;\r\n		gap: 8px;\r\n	}\r\n	.profile-heading > span {\r\n		font-size: 12px;\r\n		max-width: 112px;\r\n	}\r\n	.profile-bars {\r\n		grid-template-columns: 24px minmax(0, 1fr);\r\n		gap: 7px 6px;\r\n	}\r\n	.profile label {\r\n		font-size: 12px;\r\n	}\r\n	.profile meter {\r\n		height: 12px;\r\n	}\r\n	.profile label span {\r\n		min-width: 82px;\r\n	}\r\n	.profile-actions button {\r\n		min-height: 44px;\r\n		padding: 8px 14px;\r\n	}\r\n	[data-status-icons] img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.map {\r\n		width: 144px;\r\n		gap: 3px;\r\n	}\r\n	.map canvas {\r\n		width: 128px;\r\n		height: 128px;\r\n	}\r\n	.map span {\r\n		font-size: 14px;\r\n	}\r\n	.map small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-dock {\r\n		--battle-gap: 8px;\r\n		width: 366px;\r\n	}\r\n	.combat {\r\n		gap: 8px;\r\n	}\r\n	.combat .skill {\r\n		font-size: 24px;\r\n		border-radius: 8px;\r\n	}\r\n	.skill img {\r\n		width: 40px;\r\n		height: 40px;\r\n		bottom: 5px;\r\n	}\r\n	.skill small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-status {\r\n		min-height: 40px;\r\n		font-size: 14px;\r\n		padding: 7px 10px;\r\n	}\r\n	.battle-tools button,\r\n	.battle-status button {\r\n		min-height: 44px;\r\n		font-size: 14px;\r\n		padding: 6px 8px;\r\n	}\r\n	.shortcut-tools,\r\n	.skill-actions {\r\n		height: 44px;\r\n	}\r\n	.shortcut-tools button {\r\n		min-width: 40px;\r\n		min-height: 44px;\r\n	}\r\n	.shortcut-tools span,\r\n	.skill-actions button {\r\n		font-size: 14px;\r\n	}\r\n	.skill-prompt {\r\n		height: 40px;\r\n		font-size: 14px;\r\n	}\r\n	.panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel header {\r\n		padding: 12px 18px;\r\n	}\r\n	.panel h2 {\r\n		font-size: 18px;\r\n	}\r\n	.panel button {\r\n		min-height: 44px;\r\n		padding: 8px 12px;\r\n	}\r\n	.panel-body {\r\n		padding: 18px;\r\n	}\r\n	.menu-grid {\r\n		gap: 12px;\r\n	}\r\n	.menu-grid button {\r\n		min-height: 56px;\r\n		font-size: 16px;\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n		height: 100%;\r\n	}\r\n	.auto-layout,\r\n	.shortcut-layout {\r\n		gap: 20px;\r\n	}\r\n	.auto-layout h3 {\r\n		font-size: 16px;\r\n	}\r\n	.auto-species-list,\r\n	.auto-skill-list {\r\n		gap: 10px;\r\n		font-size: 14px;\r\n	}\r\n	.auto-species-card,\r\n	.auto-skill-card {\r\n		min-height: 58px;\r\n		padding: 12px;\r\n	}\r\n	.auto-skill-card strong {\r\n		font-size: 14px;\r\n	}\r\n	.auto-skill-card small,\r\n	.auto-help,\r\n	[data-skill-count],\r\n	[data-auto-summary],\r\n	[data-auto-feedback],\r\n	[data-config-status],\r\n	.shortcut-current span,\r\n	[data-choice-hint] {\r\n		font-size: 13px;\r\n	}\r\n	.auto-species-check {\r\n		width: 20px;\r\n		height: 20px;\r\n	}\r\n	.auto-range-settings {\r\n		font-size: 14px;\r\n	}\r\n	.auto-config-footer {\r\n		padding-top: 14px;\r\n	}\r\n	.slot-picker {\r\n		gap: 10px;\r\n	}\r\n	.slot-picker strong,\r\n	.shortcut-choice span {\r\n		font-size: 14px;\r\n	}\r\n	.slot-picker span {\r\n		font-size: 13px;\r\n	}\r\n	.shortcut-choice img,\r\n	.shortcut-selected img {\r\n		width: 36px;\r\n		height: 36px;\r\n	}\r\n	.shortcut-editor {\r\n		padding: 16px;\r\n	}\r\n	.settings-form {\r\n		gap: 14px;\r\n	}\r\n	.settings-field {\r\n		min-height: 62px;\r\n	}\r\n	.settings-field small,\r\n	.settings-footer p {\r\n		font-size: 13px;\r\n	}\r\n	.character-details dt,\r\n	.character-details dd {\r\n		padding: 16px 0;\r\n	}\r\n}\r\n";
+	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.panel.settings-panel {\r\n	width: min(760px, 100%);\r\n	height: 100%;\r\n}\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'],\r\n.settings-actions .settings-save {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #384653;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1ae;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.panel.profile-panel {\r\n	width: min(600px, 100%);\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	:host {\r\n		font-size: 15px;\r\n	}\r\n	.top-left {\r\n		width: 260px;\r\n		gap: 14px;\r\n	}\r\n	.profile {\r\n		padding: 10px 12px;\r\n		gap: 8px;\r\n	}\r\n	.profile-heading > span {\r\n		font-size: 12px;\r\n		max-width: 112px;\r\n	}\r\n	.profile-bars {\r\n		grid-template-columns: 24px minmax(0, 1fr);\r\n		gap: 7px 6px;\r\n	}\r\n	.profile label {\r\n		font-size: 12px;\r\n	}\r\n	.profile meter {\r\n		height: 12px;\r\n	}\r\n	.profile label span {\r\n		min-width: 82px;\r\n	}\r\n	.profile-actions button {\r\n		min-height: 44px;\r\n		padding: 8px 14px;\r\n	}\r\n	[data-status-icons] img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.map {\r\n		width: 144px;\r\n		gap: 3px;\r\n	}\r\n	.map canvas {\r\n		width: 128px;\r\n		height: 128px;\r\n	}\r\n	.map span {\r\n		font-size: 14px;\r\n	}\r\n	.map small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-dock {\r\n		--battle-gap: 8px;\r\n		width: 366px;\r\n	}\r\n	.combat {\r\n		gap: 8px;\r\n	}\r\n	.combat .skill {\r\n		font-size: 24px;\r\n		border-radius: 8px;\r\n	}\r\n	.skill img {\r\n		width: 40px;\r\n		height: 40px;\r\n		bottom: 5px;\r\n	}\r\n	.skill small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-status {\r\n		min-height: 40px;\r\n		font-size: 14px;\r\n		padding: 7px 10px;\r\n	}\r\n	.battle-tools button,\r\n	.battle-status button {\r\n		min-height: 44px;\r\n		font-size: 14px;\r\n		padding: 6px 8px;\r\n	}\r\n	.shortcut-tools,\r\n	.skill-actions {\r\n		height: 44px;\r\n	}\r\n	.shortcut-tools button {\r\n		min-width: 40px;\r\n		min-height: 44px;\r\n	}\r\n	.shortcut-tools span,\r\n	.skill-actions button {\r\n		font-size: 14px;\r\n	}\r\n	.skill-prompt {\r\n		height: 40px;\r\n		font-size: 14px;\r\n	}\r\n	.panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel header {\r\n		padding: 12px 18px;\r\n	}\r\n	.panel h2 {\r\n		font-size: 18px;\r\n	}\r\n	.panel button {\r\n		min-height: 44px;\r\n		padding: 8px 12px;\r\n	}\r\n	.panel-body {\r\n		padding: 18px;\r\n	}\r\n	.menu-grid {\r\n		gap: 12px;\r\n	}\r\n	.menu-grid button {\r\n		min-height: 56px;\r\n		font-size: 16px;\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n		height: 100%;\r\n	}\r\n	.auto-layout,\r\n	.shortcut-layout {\r\n		gap: 20px;\r\n	}\r\n	.auto-layout h3 {\r\n		font-size: 16px;\r\n	}\r\n	.auto-species-list,\r\n	.auto-skill-list {\r\n		gap: 10px;\r\n		font-size: 14px;\r\n	}\r\n	.auto-species-card,\r\n	.auto-skill-card {\r\n		min-height: 58px;\r\n		padding: 12px;\r\n	}\r\n	.auto-skill-card strong {\r\n		font-size: 14px;\r\n	}\r\n	.auto-skill-card small,\r\n	.auto-help,\r\n	[data-skill-count],\r\n	[data-auto-summary],\r\n	[data-auto-feedback],\r\n	[data-config-status],\r\n	.shortcut-current span,\r\n	[data-choice-hint] {\r\n		font-size: 13px;\r\n	}\r\n	.auto-species-check {\r\n		width: 20px;\r\n		height: 20px;\r\n	}\r\n	.auto-range-settings {\r\n		font-size: 14px;\r\n	}\r\n	.auto-config-footer {\r\n		padding-top: 14px;\r\n	}\r\n	.slot-picker {\r\n		gap: 10px;\r\n	}\r\n	.slot-picker strong,\r\n	.shortcut-choice span {\r\n		font-size: 14px;\r\n	}\r\n	.slot-picker span {\r\n		font-size: 13px;\r\n	}\r\n	.shortcut-choice img,\r\n	.shortcut-selected img {\r\n		width: 36px;\r\n		height: 36px;\r\n	}\r\n	.shortcut-editor {\r\n		padding: 16px;\r\n	}\r\n	.settings-form {\r\n		gap: 14px;\r\n	}\r\n	.settings-field {\r\n		min-height: 62px;\r\n	}\r\n	.settings-field small,\r\n	.settings-footer p {\r\n		font-size: 13px;\r\n	}\r\n	.character-details dt,\r\n	.character-details dd {\r\n		padding: 16px 0;\r\n	}\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuPanels.css?raw
 var MenuPanels_default;
 var init_MenuPanels = __esmMin((() => {
-	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	--panel-gap: 8px;\r\n	--panel-control: 34px;\r\n	--panel-label: 12px;\r\n	--panel-heading: 13px;\r\n	width: min(600px, 100%);\r\n	background: rgba(25, 31, 38, 0.72);\r\n}\r\n.panel.inventory-panel,\r\n.panel.equipment-panel,\r\n.panel.auto-config-panel,\r\n.panel.shortcut-panel,\r\n.panel.settings-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a99;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d99;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452cb8;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #28354199;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='status'] .panel-body > p {\r\n	margin: 0 0 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a99;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a99;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a99;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3cb8;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331b8;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	.panel {\r\n		--panel-gap: 16px;\r\n		--panel-control: 44px;\r\n		--panel-label: 14px;\r\n		--panel-heading: 16px;\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		min-height: 52px;\r\n		padding: 12px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {\r\n		width: 40px;\r\n		height: 40px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 80px;\r\n	}\r\n	.panel .inventory-tabs,\r\n	.panel .equipment-tabs {\r\n		gap: 10px;\r\n	}\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.panel:is(\r\n		[data-view='menu'],\r\n		[data-view='status'],\r\n		[data-view='bank'],\r\n		[data-view='pet'],\r\n		[data-view='companions']\r\n	) {\r\n		width: min(420px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(400px, 100%);\r\n	}\r\n	.panel.settings-panel {\r\n		width: min(600px, 100%);\r\n	}\r\n	.panel {\r\n		--panel-gap: 6px;\r\n		--panel-control: 30px;\r\n		--panel-label: 11px;\r\n		--panel-heading: 12px;\r\n		font-size: 11px;\r\n	}\r\n	.panel button {\r\n		min-height: 30px;\r\n		padding: 3px 7px;\r\n		font-size: 11px;\r\n	}\r\n	.panel header {\r\n		padding: 4px 10px;\r\n	}\r\n	.panel-body {\r\n		padding: 8px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) {\r\n		flex-wrap: nowrap;\r\n		gap: 4px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n		padding: 3px 5px;\r\n	}\r\n	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n		gap: 4px;\r\n	}\r\n	.panel .inventory-actions {\r\n		gap: 4px;\r\n		margin-top: 6px;\r\n	}\r\n	.panel .inventory-actions button {\r\n		flex: 0 1 auto;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label {\r\n		flex-direction: row;\r\n		flex-wrap: wrap;\r\n		align-items: center;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n		flex: 1 1 120px;\r\n		width: 0;\r\n	}\r\n	.panel .social-form label > input[type='checkbox'] {\r\n		flex: 0 0 18px;\r\n		width: 18px;\r\n	}\r\n	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n		padding: 3px 6px;\r\n		line-height: 1.25;\r\n	}\r\n	.panel-body textarea {\r\n		min-height: 60px;\r\n	}\r\n	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n	.panel .character-details :is(dt, dd) {\r\n		padding: 6px 0;\r\n	}\r\n	.panel .settings-form {\r\n		gap: 4px;\r\n	}\r\n	.panel .settings-section {\r\n		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n		gap: 0 12px;\r\n		padding: 2px 10px;\r\n	}\r\n	.panel .settings-field {\r\n		min-height: 38px;\r\n		gap: 6px;\r\n		padding: 3px 0;\r\n	}\r\n	.panel .settings-footer {\r\n		padding-top: 6px;\r\n	}\r\n	.panel .settings-footer p {\r\n		margin: 4px 0 0;\r\n	}\r\n	.panel .settings-actions {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-range-stepper button {\r\n		padding: 0;\r\n		font-size: 18px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		padding: 3px 6px;\r\n		line-height: 1.3;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 52px;\r\n		padding: 6px;\r\n	}\r\n	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n		font-size: 11px;\r\n	}\r\n	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {\r\n		min-height: 30px;\r\n		padding: 3px 6px;\r\n	}\r\n	.panel .settings-form .settings-field input[type='range'] {\r\n		padding: 0;\r\n	}\r\n	.panel .shortcut-choices {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-auto-rows: minmax(44px, max-content);\r\n		gap: 6px;\r\n	}\r\n	.panel .shortcut-choice {\r\n		min-height: 44px;\r\n		padding: 6px 8px;\r\n		gap: 8px;\r\n	}\r\n	.panel .shortcut-choice span {\r\n		min-width: 0;\r\n		font-size: 12px;\r\n	}\r\n	.panel .shortcut-choice img {\r\n		position: static;\r\n		flex: 0 0 28px;\r\n		width: 28px;\r\n		height: 28px;\r\n		object-fit: contain;\r\n	}\r\n	.panel .shortcut-editor .shortcut-current {\r\n		display: none;\r\n	}\r\n	.panel .shortcut-config {\r\n		margin-top: 0;\r\n	}\r\n	.panel .shortcut-selected img {\r\n		display: none;\r\n	}\r\n	.panel .auto-skill-list {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-skill-card {\r\n		min-height: 32px;\r\n		padding: 4px 6px;\r\n		gap: 5px;\r\n	}\r\n	.panel .auto-skill-card input {\r\n		width: 16px;\r\n		height: 16px;\r\n	}\r\n	.panel .auto-skill-card span {\r\n		gap: 2px 4px;\r\n	}\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452cb8;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results h3 {\r\n	margin: 0;\r\n}\r\n.attribute-results p {\r\n	margin: 4px 0 8px;\r\n	font-size: 11px;\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.attribute-changed {\r\n	color: #a2e4b5;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	flex-basis: 100%;\r\n	padding: 6px 8px;\r\n	border: 1px solid #b98b64;\r\n	border-radius: 8px;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.settings-section.camera-section {\r\n	display: block;\r\n}\r\n.camera-section p {\r\n	margin-top: 0;\r\n	color: #bac4cd;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.attribute-allocation {\r\n		gap: 3px;\r\n	}\r\n	.attribute-row {\r\n		padding-bottom: 0;\r\n	}\r\n	.attribute-results dl {\r\n		gap: 4px 8px;\r\n		line-height: 1.3;\r\n	}\r\n	.attribute-results p {\r\n		margin: 2px 0 6px;\r\n		font-size: 10px;\r\n	}\r\n}\r\n\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n background: #18212b99;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card:has(input:checked) {\r\n background: #493c26b8;\r\n}\r\n";
+	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	--panel-gap: 8px;\r\n	--panel-control: 34px;\r\n	--panel-label: 12px;\r\n	--panel-heading: 13px;\r\n	width: min(600px, 100%);\r\n	background: #191f26;\r\n}\r\n.panel.inventory-panel,\r\n.panel.equipment-panel,\r\n.panel.auto-config-panel,\r\n.panel.shortcut-panel,\r\n.panel.settings-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='status'] .panel-body > p {\r\n	margin: 0 0 8px;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	.panel {\r\n		--panel-gap: 16px;\r\n		--panel-control: 44px;\r\n		--panel-label: 14px;\r\n		--panel-heading: 16px;\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		min-height: 52px;\r\n		padding: 12px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {\r\n		width: 40px;\r\n		height: 40px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 80px;\r\n	}\r\n	.panel .inventory-tabs,\r\n	.panel .equipment-tabs {\r\n		gap: 10px;\r\n	}\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.panel:is(\r\n		[data-view='menu'],\r\n		[data-view='status'],\r\n		[data-view='bank'],\r\n		[data-view='pet'],\r\n		[data-view='companions']\r\n	) {\r\n		width: min(420px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(400px, 100%);\r\n	}\r\n	.panel.settings-panel {\r\n		width: min(600px, 100%);\r\n	}\r\n	.panel {\r\n		--panel-gap: 6px;\r\n		--panel-control: 30px;\r\n		--panel-label: 11px;\r\n		--panel-heading: 12px;\r\n		font-size: 11px;\r\n	}\r\n	.panel button {\r\n		min-height: 30px;\r\n		padding: 3px 7px;\r\n		font-size: 11px;\r\n	}\r\n	.panel header {\r\n		padding: 4px 10px;\r\n	}\r\n	.panel-body {\r\n		padding: 8px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) {\r\n		flex-wrap: nowrap;\r\n		gap: 4px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n		padding: 3px 5px;\r\n	}\r\n	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n		gap: 4px;\r\n	}\r\n	.panel .inventory-actions {\r\n		gap: 4px;\r\n		margin-top: 6px;\r\n	}\r\n	.panel .inventory-actions button {\r\n		flex: 0 1 auto;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label {\r\n		flex-direction: row;\r\n		flex-wrap: wrap;\r\n		align-items: center;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n		flex: 1 1 120px;\r\n		width: 0;\r\n	}\r\n	.panel .social-form label > input[type='checkbox'] {\r\n		flex: 0 0 18px;\r\n		width: 18px;\r\n	}\r\n	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n		padding: 3px 6px;\r\n		line-height: 1.25;\r\n	}\r\n	.panel-body textarea {\r\n		min-height: 60px;\r\n	}\r\n	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n	.panel .character-details :is(dt, dd) {\r\n		padding: 6px 0;\r\n	}\r\n	.panel .settings-form {\r\n		gap: 4px;\r\n	}\r\n	.panel .settings-section {\r\n		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n		gap: 0 12px;\r\n		padding: 2px 10px;\r\n	}\r\n	.panel .settings-field {\r\n		min-height: 38px;\r\n		gap: 6px;\r\n		padding: 3px 0;\r\n	}\r\n	.panel .settings-footer {\r\n		padding-top: 6px;\r\n	}\r\n	.panel .settings-footer p {\r\n		margin: 4px 0 0;\r\n	}\r\n	.panel .settings-actions {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-range-stepper button {\r\n		padding: 0;\r\n		font-size: 18px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		padding: 3px 6px;\r\n		line-height: 1.3;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 52px;\r\n		padding: 6px;\r\n	}\r\n	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n		font-size: 11px;\r\n	}\r\n	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {\r\n		min-height: 30px;\r\n		padding: 3px 6px;\r\n	}\r\n	.panel .settings-form .settings-field input[type='range'] {\r\n		padding: 0;\r\n	}\r\n	.panel .shortcut-choices {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-auto-rows: minmax(44px, max-content);\r\n		gap: 6px;\r\n	}\r\n	.panel .shortcut-choice {\r\n		min-height: 44px;\r\n		padding: 6px 8px;\r\n		gap: 8px;\r\n	}\r\n	.panel .shortcut-choice span {\r\n		min-width: 0;\r\n		font-size: 12px;\r\n	}\r\n	.panel .shortcut-choice img {\r\n		position: static;\r\n		flex: 0 0 28px;\r\n		width: 28px;\r\n		height: 28px;\r\n		object-fit: contain;\r\n	}\r\n	.panel .shortcut-editor .shortcut-current {\r\n		display: none;\r\n	}\r\n	.panel .shortcut-config {\r\n		margin-top: 0;\r\n	}\r\n	.panel .shortcut-selected img {\r\n		display: none;\r\n	}\r\n	.panel .auto-skill-list {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-skill-card {\r\n		min-height: 32px;\r\n		padding: 4px 6px;\r\n		gap: 5px;\r\n	}\r\n	.panel .auto-skill-card input {\r\n		width: 16px;\r\n		height: 16px;\r\n	}\r\n	.panel .auto-skill-card span {\r\n		gap: 2px 4px;\r\n	}\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results h3 {\r\n	margin: 0;\r\n}\r\n.attribute-results p {\r\n	margin: 4px 0 8px;\r\n	font-size: 11px;\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.attribute-changed {\r\n	color: #a2e4b5;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	flex-basis: 100%;\r\n	padding: 6px 8px;\r\n	border: 1px solid #b98b64;\r\n	border-radius: 8px;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.settings-section.camera-section {\r\n	display: block;\r\n}\r\n.camera-section p {\r\n	margin-top: 0;\r\n	color: #bac4cd;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.attribute-allocation {\r\n		gap: 3px;\r\n	}\r\n	.attribute-row {\r\n		padding-bottom: 0;\r\n	}\r\n	.attribute-results dl {\r\n		gap: 4px 8px;\r\n		line-height: 1.3;\r\n	}\r\n	.attribute-results p {\r\n		margin: 2px 0 6px;\r\n		font-size: 10px;\r\n	}\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card:has(input:checked) {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	padding: 3px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n.panel[data-view='bank'] .bank-form {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form dl {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form > label {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel[data-view='bank'] .bank-form > label > input {\r\n	width: min(240px, 75%);\r\n	flex: none;\r\n}\r\n.panel[data-view='mail'] .inventory-detail label,\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='mail'] .inventory-detail label > :is(input, textarea),\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDView.js
@@ -365138,7 +365229,9 @@ function createGameHUDView(root, actions) {
 	root.innerHTML = `<style>${GameHUD_default$1}
 ${AutoCombatPanel_default}
 ${GameHUDResponsive_default}
-${MenuPanels_default}</style>${GameHUD_default$2}`;
+${GameSelect_default}
+${MenuPanels_default}
+${MobileSelect_default}</style>${GameHUD_default$2}`;
 	const $ = (selector) => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
@@ -365156,7 +365249,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 	let materialsPanel = null;
 	let refinementPanel = null;
 	let enchantPanel = null;
-	let equipmentSetsPanel = null;
 	let petPanel = null;
 	let companionsPanel = null;
 	let mailPanel = null;
@@ -365226,7 +365318,9 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			y: snapshot.position[1]
 		}), snapshot.direction ?? 0, .65);
 	}
+	const menuSelects = createMenuSelects(body);
 	function close(notify = true) {
+		menuSelects.close();
 		if (!currentPanel || notify && serverState?.canClose === false) return;
 		const interaction = serverState;
 		serverState = null;
@@ -365251,7 +365345,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 		materialsPanel = null;
 		refinementPanel = null;
 		enchantPanel = null;
-		equipmentSetsPanel = null;
 		navigationPanel?.destroy();
 		navigationPanel = null;
 		backdrop.hidden = true;
@@ -365316,7 +365409,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			shortcuts: "快捷配置",
 			inventory: "背包",
 			equipment: "装备",
-			equipmentSets: "装备方案",
 			skills: "技能",
 			quests: "任务",
 			social: "社交",
@@ -365361,7 +365453,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			"transformation",
 			"refinement",
 			"enchant",
-			"equipmentSets",
 			"materials"
 		].includes(panel));
 		$(".panel").classList.toggle("inventory-panel", [
@@ -365381,7 +365472,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			"transformation",
 			"refinement",
 			"enchant",
-			"equipmentSets",
 			"materials"
 		].includes(panel));
 		body.classList.toggle("shortcut-body", panel === "shortcuts");
@@ -365420,7 +365510,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 				["快捷配置", "shortcuts"],
 				["背包", "inventory"],
 				["装备", "equipment"],
-				["装备方案", "equipmentSets"],
 				["技能", "skills"],
 				["手推车", "cart"],
 				["任务", "quests"],
@@ -365494,7 +365583,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 		materialsPanel = null;
 		refinementPanel = null;
 		enchantPanel = null;
-		equipmentSetsPanel = null;
 		navigationPanel?.destroy();
 		navigationPanel = null;
 		if (panel === "social") socialPanel = createSocialPanel(body, actions.social, (name) => open("chat", name));
@@ -365508,7 +365596,6 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			snapshot: actions.containerSnapshot,
 			transfer: actions.transferItem
 		}, panel);
-		if (panel === "equipmentSets") equipmentSetsPanel = createEquipmentSetsPanel(body, actions.equipmentSets);
 		if (panel === "enchant") {
 			serverState.service.setOperationGuard(actions.canOperate);
 			enchantPanel = createEnchantPanel(body, serverState.service);
@@ -365584,6 +365671,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
 			updateMessages();
 		}
+		menuSelects.sync();
 		$("h2").focus();
 	}
 	for (const button of root.querySelectorAll("[data-panel]")) listen(button, "click", () => open(button.dataset.panel));
@@ -365681,7 +365769,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 			materialsPanel?.update();
 			refinementPanel?.update();
 			enchantPanel?.update();
-			equipmentSetsPanel?.update();
+			menuSelects.sync();
 		},
 		setMap(image) {
 			mapImage = image;
@@ -365770,6 +365858,7 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 		},
 		close,
 		destroy() {
+			menuSelects.destroy();
 			close(false);
 			abort.abort();
 			root.replaceChildren();
@@ -365777,6 +365866,9 @@ ${MenuPanels_default}</style>${GameHUD_default$2}`;
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_MobileSelect();
+	init_MenuSelects();
+	init_GameSelect$1();
 	init_WorldMapPreview();
 	init_MapPreviewLayout();
 	init_AutoCombatPanel$1();
@@ -365789,7 +365881,6 @@ var init_GameHUDView = __esmMin((() => {
 	init_BankPanel();
 	init_VendingPanel();
 	init_TradePanel();
-	init_EquipmentSetsPanel();
 	init_EnchantPanel();
 	init_RefinementPanel();
 	init_MaterialsPanel();
@@ -365870,7 +365961,6 @@ var init_GameHUD = __esmMin((() => {
 	init_GameSettings();
 	init_GameBank();
 	init_GameVending();
-	init_GameEquipmentSets();
 	init_GameSocial();
 	init_GameChat();
 	init_GameQuests();
@@ -365970,7 +366060,6 @@ var init_GameHUD = __esmMin((() => {
 			showOwnedVending,
 			canOperate: () => modal && !previousFreeze,
 			social,
-			equipmentSets: createGameEquipmentSets(() => modal && !previousFreeze),
 			questSnapshot: () => quests.snapshot(),
 			questToggle: (...args) => quests.toggle(...args),
 			containerSnapshot: (source) => containers.snapshot(source),
@@ -379076,7 +379165,6 @@ function onFavItemList(pkt) {
 * Received Switch Equip List
 */
 function onSwitchEquipList(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt && pkt.ItemInfo) pkt.ItemInfo.forEach(function(item) {
 		if (InventoryController.getUI().getItemByIndex(item.index)) InventoryController.getUI().addItemtoSwitch(item.index, item.location);
 	});
@@ -379085,7 +379173,6 @@ function onSwitchEquipList(pkt) {
 * Add item to Switch Equip
 */
 function onSwitchEquipAdd(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt) switch (pkt.flag) {
 		case 0:
 			InventoryController.getUI().addItemtoSwitch(pkt.index, pkt.location);
@@ -379099,7 +379186,6 @@ function onSwitchEquipAdd(pkt) {
 * Remove item to Switch Equip
 */
 function onSwitchEquipRemove(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt) switch (pkt.flag) {
 		case 0:
 			InventoryController.getUI().removeItemFromSwitch(pkt.index);
@@ -379184,7 +379270,6 @@ function ItemEngine() {
 }
 var _cardComposition;
 var init_Item = __esmMin((() => {
-	init_GameEquipmentSets();
 	init_GameRefinement();
 	init_GameMaterials();
 	init_GameSelection();
