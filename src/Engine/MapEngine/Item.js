@@ -1,4 +1,3 @@
-import { notifyEquipmentSetResult } from 'UI/Game/GameEquipmentSets.js';
 import { finishRefinement } from 'UI/Game/GameRefinement.js';
 import { openGameMaterials } from 'UI/Game/GameMaterials.js';
 import { openGameSelection, selectionEntries } from 'UI/Game/GameSelection.js';
@@ -716,7 +715,6 @@ function onFavItemList(pkt) {
  * Received Switch Equip List
  */
 function onSwitchEquipList(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt && pkt.ItemInfo) {
 		pkt.ItemInfo.forEach(function (item) {
 			if (Inventory.getUI().getItemByIndex(item.index)) {
@@ -730,7 +728,6 @@ function onSwitchEquipList(pkt) {
  * Add item to Switch Equip
  */
 function onSwitchEquipAdd(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt) {
 		switch (pkt.flag) {
 			case 0:
@@ -749,7 +746,6 @@ function onSwitchEquipAdd(pkt) {
  * Remove item to Switch Equip
  */
 function onSwitchEquipRemove(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt) {
 		switch (pkt.flag) {
 			case 0:

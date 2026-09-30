@@ -9,7 +9,6 @@ import { openGameMail, gameMailUnread } from 'UI/Game/GameMail.js';
 import { graphicsFields, settingsSnapshot, saveGameSettings } from 'UI/Game/GameSettings.js';
 import { requestGameBank } from 'UI/Game/GameBank.js';
 import { showOwnedVending } from 'UI/Game/GameVending.js';
-import { createGameEquipmentSets } from 'UI/Game/GameEquipmentSets.js';
 import { createGameSocial } from 'UI/Game/GameSocial.js';
 import { createGameChat, chatChannel } from 'UI/Game/GameChat.js';
 import { createGameQuests } from 'UI/Game/GameQuests.js';
@@ -188,7 +187,6 @@ HUD.onAppend = function () {
 		showOwnedVending,
 		canOperate: () => modal && !previousFreeze,
 		social,
-		equipmentSets: createGameEquipmentSets(() => modal && !previousFreeze),
 		questSnapshot: () => quests.snapshot(),
 		questToggle: (...args) => quests.toggle(...args),
 		containerSnapshot: source => containers.snapshot(source),

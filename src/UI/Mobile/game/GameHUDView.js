@@ -10,7 +10,6 @@ import { createSettingsPanel } from './SettingsPanel.js';
 import { createBankPanel } from './BankPanel.js';
 import { createVendingPanel } from './VendingPanel.js';
 import { createTradePanel } from './TradePanel.js';
-import { createEquipmentSetsPanel } from './EquipmentSetsPanel.js';
 import { createEnchantPanel } from './EnchantPanel.js';
 import { createRefinementPanel } from './RefinementPanel.js';
 import { createMaterialsPanel } from './MaterialsPanel.js';
@@ -54,7 +53,6 @@ ${panelsCSS}</style>${html}`;
 	let materialsPanel = null;
 	let refinementPanel = null;
 	let enchantPanel = null;
-	let equipmentSetsPanel = null;
 	let petPanel = null;
 	let companionsPanel = null;
 	let mailPanel = null;
@@ -151,7 +149,6 @@ ${panelsCSS}</style>${html}`;
 		materialsPanel = null;
 		refinementPanel = null;
 		enchantPanel = null;
-		equipmentSetsPanel = null;
 		navigationPanel?.destroy();
 		navigationPanel = null;
 		backdrop.hidden = true;
@@ -231,7 +228,6 @@ ${panelsCSS}</style>${html}`;
 				shortcuts: '快捷配置',
 				inventory: '背包',
 				equipment: '装备',
-				equipmentSets: '装备方案',
 				skills: '技能',
 				quests: '任务',
 				social: '社交',
@@ -279,7 +275,6 @@ ${panelsCSS}</style>${html}`;
 				'transformation',
 				'refinement',
 				'enchant',
-				'equipmentSets',
 				'materials'
 			].includes(panel)
 		);
@@ -302,7 +297,6 @@ ${panelsCSS}</style>${html}`;
 				'transformation',
 				'refinement',
 				'enchant',
-				'equipmentSets',
 				'materials'
 			].includes(panel)
 		);
@@ -341,7 +335,6 @@ ${panelsCSS}</style>${html}`;
 				['快捷配置', 'shortcuts'],
 				['背包', 'inventory'],
 				['装备', 'equipment'],
-				['装备方案', 'equipmentSets'],
 				['技能', 'skills'],
 				['手推车', 'cart'],
 				['任务', 'quests'],
@@ -415,7 +408,6 @@ ${panelsCSS}</style>${html}`;
 		materialsPanel = null;
 		refinementPanel = null;
 		enchantPanel = null;
-		equipmentSetsPanel = null;
 		navigationPanel?.destroy();
 		navigationPanel = null;
 		if (panel === 'social') socialPanel = createSocialPanel(body, actions.social, name => open('chat', name));
@@ -432,7 +424,6 @@ ${panelsCSS}</style>${html}`;
 				{ snapshot: actions.containerSnapshot, transfer: actions.transferItem },
 				panel
 			);
-		if (panel === 'equipmentSets') equipmentSetsPanel = createEquipmentSetsPanel(body, actions.equipmentSets);
 		if (panel === 'enchant') {
 			serverState.service.setOperationGuard(actions.canOperate);
 			enchantPanel = createEnchantPanel(body, serverState.service);
@@ -610,7 +601,6 @@ ${panelsCSS}</style>${html}`;
 			materialsPanel?.update();
 			refinementPanel?.update();
 			enchantPanel?.update();
-			equipmentSetsPanel?.update();
 		},
 		setMap(image) {
 			mapImage = image;
