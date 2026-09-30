@@ -13665,7 +13665,7 @@ PACKET.ZC.SEND_SWAP_EQUIPITEM_INFO = function PACKET_ZC_SEND_SWAP_EQUIPITEM_INFO
 		for (let i = 0; i < count; ++i) {
 			out[i] = {};
 			out[i].index = fp.readShort();
-			out[i].position = fp.readULong();
+			out[i].location = fp.readULong();
 		}
 		return out;
 	})();
