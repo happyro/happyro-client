@@ -919,7 +919,6 @@ dd {
 	margin: 6px 6px 0 0;
 }
 
-
 .chat-form {
 	flex-wrap: wrap;
 }
@@ -952,8 +951,18 @@ dd {
 	font-size: 16px;
 }
 /* Preserve panel layout when the keyboard reduces only the visual viewport. */
-:host(.keyboard-open) .hud { height: var(--mobile-layout-height); }
-:host(.keyboard-open) .backdrop { overflow-y: auto; align-items: start; }
+:host(.keyboard-open) .hud {
+	height: var(--mobile-layout-height);
+}
+:host(.keyboard-open) .backdrop {
+	height: var(--mobile-visible-height);
+	overflow-y: auto;
+	align-items: start;
+}
+:host(.keyboard-open) .panel {
+	height: var(--mobile-panel-height, calc(var(--mobile-layout-height) - 24px));
+	max-height: none;
+}
 
 .profile label > meter,
 .profile label > span {
@@ -967,7 +976,9 @@ dd {
 	color: #fff;
 	font-size: 9px;
 	line-height: 12px;
-	text-shadow: 0 1px 2px #000, 0 0 2px #000;
+	text-shadow:
+		0 1px 2px #000,
+		0 0 2px #000;
 	pointer-events: none;
 }
 .profile meter {
@@ -976,8 +987,12 @@ dd {
 	background: none;
 	--gauge-color: #589542;
 }
-.profile [data-sp] { --gauge-color: #4588ba; }
-.profile [data-ap] { --gauge-color: #b28c35; }
+.profile [data-sp] {
+	--gauge-color: #4588ba;
+}
+.profile [data-ap] {
+	--gauge-color: #b28c35;
+}
 .profile meter::-webkit-meter-bar {
 	background: #10192399;
 	border: 1px solid #75838d;
@@ -991,4 +1006,6 @@ dd {
 	background: var(--gauge-color);
 }
 
-.profile [data-hp].low-hp { --gauge-color: #ff0000; }
+.profile [data-hp].low-hp {
+	--gauge-color: #ff0000;
+}

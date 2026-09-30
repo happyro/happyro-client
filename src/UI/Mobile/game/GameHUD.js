@@ -1,3 +1,4 @@
+import { createMobileInputEditor } from './MobileInputEditor.js';
 import { loadCatalogMapImage } from 'UI/Components/GameTools/WorldAssetService.js';
 import { createMobileViewport } from './MobileViewport.js';
 import AdventureTools from './AdventureTools.js';
@@ -112,10 +113,12 @@ function snapshot() {
 	CombatDiagnostics.end('mobile.hud', diagnosticStart);
 }
 let updateViewport;
+let disposeInputEditor;
 HUD.onAppend = function () {
 	// Repeated map mounting must not duplicate subscriptions or timers.
 	HUD.onRemove(false);
 	updateViewport = createMobileViewport(HUD._host);
+	disposeInputEditor = createMobileInputEditor(HUD._host);
 	abort = new AbortController();
 	const enabled = () =>
 		Boolean(
@@ -268,13 +271,16 @@ HUD.onAppend = function () {
 	const grid = { width: Altitude.width, height: Altitude.height };
 	mapView.setMap({ ...grid, loading: true });
 	loadCatalogMapImage(MapRenderer.currentMap)
-		.then(source => new Promise(resolve => {
-			if (!source) return resolve(null);
-			const image = new Image();
-			image.onload = () => resolve(image);
-			image.onerror = () => resolve(null);
-			image.src = source;
-		}))
+		.then(
+			source =>
+				new Promise(resolve => {
+					if (!source) return resolve(null);
+					const image = new Image();
+					image.onload = () => resolve(image);
+					image.onerror = () => resolve(null);
+					image.src = source;
+				})
+		)
 		.catch(() => null)
 		.then(image => {
 			if (!mapSignal.aborted) mapView.setMap({ ...grid, image, loading: false });
@@ -305,9 +311,15 @@ HUD.onAppend = function () {
 	for (const type of ['resize', 'scroll'])
 		window.visualViewport?.addEventListener(type, updateViewport, { signal: abort.signal });
 	window.addEventListener('resize', updateViewport, { signal: abort.signal });
+	const viewport = updateViewport;
+	for (const type of ['focusin', 'focusout'])
+		HUD.getRoot().addEventListener(type, () => queueMicrotask(viewport), { signal: abort.signal });
 	updateViewport();
 };
 HUD.onRemove = function (resetInteraction = true) {
+	disposeInputEditor?.();
+	disposeInputEditor = null;
+	updateViewport?.destroy();
 	autoCombat?.destroy();
 	autoCombat = null;
 	unsubscribeInteraction?.();

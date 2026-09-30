@@ -1,0 +1,86 @@
+:host {
+	color: #f5f2e9;
+	font:
+		13px/1.4 system-ui,
+		sans-serif;
+}
+* {
+	box-sizing: border-box;
+}
+dialog {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	max-width: none;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: #191f26;
+	color: inherit;
+	font: inherit;
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+dialog::backdrop {
+	background: #191f26;
+}
+section {
+	position: absolute;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 6px max(8px, env(safe-area-inset-right)) max(48px, env(safe-area-inset-bottom))
+		max(8px, env(safe-area-inset-left));
+}
+#editor-title {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+button {
+	font: inherit;
+	color: inherit;
+	background: #303b48;
+	border: 1px solid #65717b;
+	border-radius: 6px;
+	padding: 4px 12px;
+	min-height: 36px;
+	flex: 0 0 auto;
+}
+[data-done] {
+	color: #ffd27f;
+	border-color: #aa8750;
+}
+main {
+	flex: 1;
+	min-height: 36px;
+	min-width: 0;
+	height: 100%;
+	overflow: auto;
+}
+input,
+textarea {
+	display: block;
+	width: 100%;
+	min-height: 36px;
+	height: 36px;
+	margin: 0;
+	padding: 6px 10px;
+	font:
+		16px/1.4 system-ui,
+		sans-serif;
+	color: #f5f2e9;
+	background: #222b35;
+	border: 1px solid #aa8750;
+	border-radius: 6px;
+	outline: none;
+}
+textarea {
+	height: 100%;
+	resize: none;
+}

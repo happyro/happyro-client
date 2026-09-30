@@ -1,3 +1,4 @@
+import { createMobileInputEditor } from './MobileInputEditor.js';
 import mobileSelectCSS from './MobileSelect.css?raw';
 import { createMobileViewport } from './MobileViewport.js';
 import GUIComponent from 'UI/GUIComponent.js';
@@ -47,6 +48,7 @@ Tools.onAppend = async function () {
 
 	disposers.push(onConnectionEnd(() => this.remove()));
 	const viewport = createMobileViewport(this._host);
+	disposers.push(viewport.destroy, createMobileInputEditor(this._host));
 	window.visualViewport?.addEventListener('resize', viewport, { signal: abort.signal });
 	window.visualViewport?.addEventListener('scroll', viewport, { signal: abort.signal });
 	window.addEventListener('resize', viewport, { signal: abort.signal });
