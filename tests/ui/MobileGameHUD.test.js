@@ -1,4 +1,3 @@
-vi.mock('UI/Game/GameNavigation.js', () => ({ createGameNavigation: vi.fn() }));
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createGameHUDView } from '../../src/UI/Mobile/game/GameHUDView.js';
 import { clearChatFeed, publishChatMessage, subscribeChatFeed } from '../../src/UI/Game/ChatFeed.js';

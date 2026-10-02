@@ -5,7 +5,6 @@ import { drawPlayerArrow } from 'UI/Components/GameTools/WorldMapPreview.js';
 import { fittedMapRect, mapImageSourceRect, mapPointToCanvas } from 'UI/Components/GameTools/MapPreviewLayout.js';
 import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
 import autoCombatCSS from 'UI/Game/AutoCombatPanel.css?raw';
-import { createNavigationPanel } from './NavigationPanel.js';
 import { createCompanionsPanel } from './CompanionsPanel.js';
 import { createPetPanel } from './PetPanel.js';
 import { createMailPanel } from './MailPanel.js';
@@ -51,7 +50,6 @@ ${mobileSelectCSS}</style>${html}`;
 	let skillsPanel = null;
 	let attributesPanel = null;
 	let questsPanel = null;
-	let navigationPanel = null;
 	let chatPanel = null;
 	let socialPanel = null;
 	let selectionPanel = null;
@@ -156,8 +154,6 @@ ${mobileSelectCSS}</style>${html}`;
 		materialsPanel = null;
 		refinementPanel = null;
 		enchantPanel = null;
-		navigationPanel?.destroy();
-		navigationPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
@@ -228,7 +224,6 @@ ${mobileSelectCSS}</style>${html}`;
 				settings: '设置',
 				profile: '人物信息',
 				status: '状态效果',
-				navigation: '导航',
 				menu: '菜单',
 				chat: '聊天',
 				attributes: '素质',
@@ -267,7 +262,6 @@ ${mobileSelectCSS}</style>${html}`;
 			'inventory-body',
 			[
 				'mail',
-				'navigation',
 				'inventory',
 				'skills',
 				'attributes',
@@ -289,7 +283,6 @@ ${mobileSelectCSS}</style>${html}`;
 			'inventory-panel',
 			[
 				'mail',
-				'navigation',
 				'inventory',
 				'skills',
 				'attributes',
@@ -335,7 +328,6 @@ ${mobileSelectCSS}</style>${html}`;
 				['设置', 'settings'],
 				['人物', 'profile'],
 				['地图', 'map'],
-				['导航', 'navigation'],
 				// ['聊天', 'chat'], // 聊天 UI 暂时隐藏。
 				['状态', 'status'],
 				['素质', 'attributes'],
@@ -418,8 +410,6 @@ ${mobileSelectCSS}</style>${html}`;
 		materialsPanel = null;
 		refinementPanel = null;
 		enchantPanel = null;
-		navigationPanel?.destroy();
-		navigationPanel = null;
 		if (panel === 'social') socialPanel = createSocialPanel(body, actions.social, name => open('chat', name));
 		if (panel === 'quests')
 			questsPanel = createQuestsPanel(body, {
@@ -427,7 +417,6 @@ ${mobileSelectCSS}</style>${html}`;
 				toggle: actions.questToggle,
 				showMap: target => open('map', target)
 			});
-		if (panel === 'navigation') navigationPanel = createNavigationPanel(body, actions.canOperate);
 		if (panel === 'storage' || panel === 'cart')
 			containerPanel = createContainerPanel(
 				body,
