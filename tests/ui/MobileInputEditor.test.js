@@ -51,14 +51,45 @@ it('follows the visible viewport and removes viewport listeners on close', () =>
 });
 it('leaves readonly fields alone', () => { expect(setup('<input readonly value="fixed">').overlay).toBeNull(); });
 
-it('opens on pointerdown before the original field receives focus', () => {
+it('opens on the completed click after a tap so compatibility mouse events cannot steal focus', () => {
  const host=document.createElement('div');const root=host.attachShadow({mode:'open'});
  root.innerHTML='<input>';document.body.append(host);dispose=createMobileInputEditor(host);
  const input=root.querySelector('input');const focused=vi.fn();input.addEventListener('focus',focused);
  const event=new MouseEvent('pointerdown',{bubbles:true,cancelable:true,button:0});input.dispatchEvent(event);
- expect(event.defaultPrevented).toBe(true);expect(focused).not.toHaveBeenCalled();
+ expect(event.defaultPrevented).toBe(false);expect(focused).not.toHaveBeenCalled();
+ expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();
+ input.dispatchEvent(new MouseEvent('pointerup',{bubbles:true,cancelable:true,button:0}));
+ expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();
+ input.click();
  const dialog=document.querySelector('[data-mobile-input-editor]').shadowRoot.querySelector('dialog');
  expect(dialog.open).toBe(true);
  const cancel=new Event('cancel',{cancelable:true});dialog.dispatchEvent(cancel);
  expect(cancel.defaultPrevented).toBe(true);expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();
+});
+
+it('allows dragging over a field and cancelled touch gestures without opening the editor', () => {
+ const host=document.createElement('div');const root=host.attachShadow({mode:'open'});
+ root.innerHTML='<input>';document.body.append(host);dispose=createMobileInputEditor(host);
+ const input=root.querySelector('input');
+ const pointer=(type,y)=>input.dispatchEvent(new MouseEvent(type,{bubbles:true,cancelable:true,button:0,clientX:20,clientY:y}));
+ pointer('pointerdown',100);pointer('pointermove',60);pointer('pointerup',60);
+ expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();
+ pointer('pointerdown',100);pointer('pointercancel',100);pointer('pointerup',100);
+ expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();
+ pointer('pointerdown',100);input.dispatchEvent(new Event('scroll'));pointer('pointerup',100);
+ expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();
+ pointer('pointerdown',100);pointer('pointerup',100);input.click();
+ expect(document.querySelector('[data-mobile-input-editor]')).not.toBeNull();
+});
+
+it('leaves focus on the parent prompt after the browser restores the original input', () => {
+ const host=document.createElement('div'),root=host.attachShadow({mode:'open'});
+ root.innerHTML='<dialog open><p tabindex="-1">确认丢弃？</p><input type="number" value="1"></dialog>';
+ document.body.append(host);dispose=createMobileInputEditor(host);
+ const input=root.querySelector('input');input.focus();
+ const editor=document.querySelector('[data-mobile-input-editor]').shadowRoot;
+ editor.querySelector('dialog').close=function(){this.removeAttribute('open');input.focus();};
+ editor.querySelector('input').value='2';editor.querySelector('[data-done]').click();
+ expect(input.value).toBe('2');expect(root.activeElement).toBe(root.querySelector('p'));
+ expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();
 });

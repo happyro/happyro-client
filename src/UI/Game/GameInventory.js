@@ -1,3 +1,4 @@
+import { beginItemOperation, finishItemOperation } from './ItemOperationFeedback.js';
 import ItemType from 'DB/Items/ItemType.js';
 import MapControl from 'Controls/MapControl.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
@@ -64,7 +65,10 @@ export function createGameInventory(canOperate) {
 			category: equippable ? 'equipment' : usable ? 'usable' : 'other',
 			description: toPlainRagnarokText(
 				item.IsIdentified ? info.identifiedDescriptionName : info.unidentifiedDescriptionName
-			),
+			)
+				.replace(/^[\t _-]+\r?$/gm, '')
+				.replace(/\n(?:[\t ]*\r?\n)+/g, '\n\n')
+				.trim(),
 			action,
 			reason,
 			shortcut: !worn && (equippable || usable),
@@ -81,8 +85,10 @@ export function createGameInventory(canOperate) {
 			const state = describe(entry);
 			if (state.reason) return state.reason;
 			if (state.action !== action) return '穿戴状态已经变化，请重新选择操作';
-			if (action === 'unequip') Equipment.getUI().onUnEquip(index);
-			else if (action === 'equip') {
+			if (action === 'unequip') {
+				beginItemOperation(Session.Entity, action, index);
+				Equipment.getUI().onUnEquip(index);
+			} else if (action === 'equip') {
 				if (
 					location !== undefined &&
 					(!Number.isInteger(location) ||
@@ -91,10 +97,17 @@ export function createGameInventory(canOperate) {
 						!(entry.item.location & location))
 				)
 					return '装备不适用于此部位';
+				beginItemOperation(Session.Entity, action, index);
 				Inventory.getUI().onEquipItem(index, location ?? entry.item.location);
-			} else if (action === 'card') Inventory.getUI().onUseCard(index);
-			else if (Inventory.getUI().onUseItem(index) === false) return '当前无法使用此物品';
-			return '已发送请求，结果以服务器回复为准';
+			} else {
+				beginItemOperation(Session.Entity, action, index);
+				if (action === 'card') Inventory.getUI().onUseCard(index);
+				else if (Inventory.getUI().onUseItem(index) === false) {
+					finishItemOperation(Session.Entity, action, index, null);
+					return '当前无法使用此物品';
+				}
+			}
+			return '';
 		},
 		drop(index, id, count) {
 			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
@@ -108,8 +121,9 @@ export function createGameInventory(canOperate) {
 				count > itemQuantity(entry.item)
 			)
 				return '物品或数量已经变化，请重新选择';
+			beginItemOperation(Session.Entity, 'drop', index);
 			MapControl.onRequestDropItem(index, count);
-			return '已请求丢弃，等待服务器更新';
+			return '';
 		},
 		canBind(index, id) {
 			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);

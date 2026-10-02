@@ -17,6 +17,28 @@ it('waits for server permission and attachment acknowledgments without reducing 
 it('requires validated recipient, exact review and UTF-8 byte lengths before sending once',()=>{const m=compose();m.change('receiver','收件人');m.change('title','中文标题');m.change('body','测试正文');expect(m.review().error).toContain('校验');m.validate();m.receive('validate',{CharID:42,name:'收件人',level:10});m.add(2,501,2);m.receive('add',{result:0,index:2,ITID:501,count:2,weight:10});const review=m.review();expect(review.fee).toBe(2500);m.change('zeny',100);m.send(review);expect(s.send.mock.calls.some(([p])=>p.packet==='REQ_SEND_RODEX2')).toBe(false);const next=m.review();m.send(next);m.send(next);const packets=s.send.mock.calls.filter(([p])=>p.packet==='REQ_SEND_RODEX2');expect(packets).toHaveLength(1);expect(packets[0][0]).toMatchObject({Titlelength:13,Bodylength:13,CharID:42,zeny:100});m.receive('send',{result:0});expect(m.snapshot().writing).toBe(false);expect(s.items[0].count).toBe(8);});
 it('rejects stale attachments, insufficient funds and oversized multibyte content',()=>{const m=compose();m.change('receiver','valid');m.validate();m.receive('validate',{CharID:1,name:'valid'});m.change('title','汉'.repeat(14));expect(m.review().error).toContain('字节');m.change('title','标题');m.add(2,501,2);m.receive('add',{result:0,index:2,ITID:501,count:2});s.session.zeny=1;expect(m.review().error).toContain('余额');s.session.zeny=100000;s.items[0].ITID=502;expect(m.review().error).toContain('附件');});
 it('invalidates close and disconnected operations and never reopens on delayed replies',()=>{const m=compose();m.close();m.close();expect(currentGameMail()).toBeNull();receiveGameMail('compose',{result:1});m.add(2,501,1);expect(s.send.mock.calls.filter(([p])=>p.packet==='CLOSE_RODEXBOX')).toHaveLength(1);expect(s.send.mock.calls.filter(([p])=>p.packet==='REQ_CANCEL_WRITE_RODEX')).toHaveLength(1);const other=open();s.session.Playing=false;other.compose();expect(other.snapshot().writing).toBe(false);});
-it('preserves composing input through periodic updates and requires an explicit send confirmation',()=>{const m=compose(),body=document.createElement('div'),panel=createMailPanel(body,m);const input=[...body.querySelectorAll('label')].find(x=>x.textContent.includes('标题')).querySelector('input');input.value='草稿';input.dispatchEvent(new Event('input'));panel.update();expect(body.contains(input)).toBe(true);expect(input.value).toBe('草稿');expect(m.snapshot().draft.title).toBe('草稿');expect(s.send.mock.calls.some(([p])=>p.packet==='REQ_SEND_RODEX2')).toBe(false);});
+it('preserves composing input through periodic updates and requires an explicit send confirmation',()=>{const m=compose(),body=document.body.appendChild(document.createElement('div')),panel=createMailPanel(body,m);const input=[...body.querySelectorAll('label')].find(x=>x.textContent.includes('标题')).querySelector('input');input.value='草稿';input.dispatchEvent(new Event('input'));panel.update();expect(body.contains(input)).toBe(true);expect(input.value).toBe('草稿');expect(m.snapshot().draft.title).toBe('草稿');expect(s.send.mock.calls.some(([p])=>p.packet==='REQ_SEND_RODEX2')).toBe(false);});
 
 it("rejects opening requests after death, disconnection or an existing modal restriction",()=>{expect(openGameMail(()=>false)).toBeNull();s.session.Playing=false;expect(openGameMail()).toBeNull();s.session.Playing=true;s.session.Entity.action=99;expect(openGameMail()).toBeNull();s.session.Entity.action=0;expect(s.send).not.toHaveBeenCalled();});
+
+it('keeps category selection, search and pagination separate from mail rows',()=>{
+ const m=open(),body=document.body.appendChild(document.createElement('div')),panel=createMailPanel(body,m);
+ expect(body.querySelector('select[aria-label="邮箱分类"]').value).toBe('0');
+ expect(body.querySelector('[aria-label="上一页"]').disabled).toBe(true);
+ expect(body.querySelector('[aria-label="下一页"]').disabled).toBe(true);
+ const search=body.querySelector('input[type="search"]');search.value='不存在';search.dispatchEvent(new Event('input'));
+ search.dispatchEvent(new Event('change'));
+ expect(body.querySelector('.mail-rows').textContent).toContain('没有匹配的邮件');
+ panel.update();expect(body.querySelector('[aria-label="下一页"]').disabled).toBe(true);
+ const category=body.querySelector('select');category.value='1';category.dispatchEvent(new Event('change'));
+ expect(body.querySelector('select').value).toBe('1');
+});
+it('hides reviewed send confirmation as soon as the draft changes',()=>{
+ const m=compose();m.change('receiver','收件人');m.validate();m.receive('validate',{CharID:42,name:'收件人'});m.change('title','标题');
+ const body=document.body.appendChild(document.createElement('div'));createMailPanel(body,m);
+ const button=text=>[...body.querySelectorAll('button')].find(node=>node.textContent===text);
+ button('发送邮件').click();expect(body.querySelector('dialog').open).toBe(true);
+ const input=[...body.querySelectorAll('label')].find(node=>node.textContent.includes('标题')).querySelector('input');
+ input.value='新标题';input.dispatchEvent(new Event('input'));
+ expect(body.querySelector('dialog')).toBeNull();
+});

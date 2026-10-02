@@ -49,3 +49,25 @@
 		background: #57452c;
 	}
 }
+
+/* Show the complete selected value and option labels; long names may wrap. */
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-trigger {
+	height: auto;
+}
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-trigger span,
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option strong,
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-option small {
+	white-space: normal;
+	overflow: visible;
+	text-overflow: clip;
+	overflow-wrap: anywhere;
+}
+:is(.panel .menu-select, .mobile-adventure .game-select) .game-select-trigger i {
+	flex-shrink: 0;
+}
+
+:is(.panel .menu-select, .mobile-adventure .game-select),
+.mobile-adventure .settings-form .game-select {
+	height: auto;
+	min-height: 28px;
+}

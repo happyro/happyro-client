@@ -1,14 +1,15 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 /** Independent touch equipment view; server snapshots own all item and stat values. */
 export function createEquipmentPanel(body, actions) {
 	body.innerHTML =
-		'<nav class="equipment-tabs" aria-label="装备分类"></nav><div class="equipment-layout"><div class="equipment-slots" aria-label="装备部位"></div><section class="equipment-detail" aria-label="装备详情"></section></div><dl class="equipment-stats" hidden></dl><p class="equipment-message" role="status"></p>';
+		'<nav class="equipment-tabs" aria-label="装备分类"></nav><div class="equipment-layout"><div class="equipment-slots" aria-label="装备部位"></div><section class="equipment-detail inventory-item-detail" aria-label="装备详情"></section></div><dl class="equipment-stats" hidden></dl>';
 	const $ = selector => body.querySelector(selector);
 	const slotsRoot = $('.equipment-slots'),
 		detail = $('.equipment-detail');
 	let group = 'normal',
 		selected = 'HEAD_TOP',
-		changing = false,
-		choice = null,
+		dismiss,
 		detailKey = '';
 	let state;
 	const slots = new Map(),
@@ -20,13 +21,11 @@ export function createEquipmentPanel(body, actions) {
 		node.onclick = fn;
 		return node;
 	}
-	function message(text) {
-		$('.equipment-message').textContent = text;
-	}
+	const message = createFeedback(body);
 	function select(slot) {
 		selected = slot.key;
-		changing = !slot.item;
-		choice = null;
+		dismiss?.();
+		dismiss = null;
 		detailKey = '';
 		message('');
 		render();
@@ -39,6 +38,7 @@ export function createEquipmentPanel(body, actions) {
 		['stats', '属性']
 	]) {
 		const tab = button(label, () => {
+			dismiss?.();
 			group = key;
 			const first = state.slots.find(slot => slot.group === group);
 			if (first) select(first);
@@ -61,85 +61,52 @@ export function createEquipmentPanel(body, actions) {
 		message(actions.act(slot.key, item.index, item.ID, action));
 		update();
 	}
-	function renderDetail() {
-		const slot = state.slots.find(entry => entry.key === selected);
-		if (!slot) return;
-		if (changing && choice && slot.item?.index === choice.index && slot.item?.ID === choice.ID) {
-			changing = false;
-			choice = null;
-		}
-		const key = JSON.stringify([slot, changing, choice]);
-		if (key === detailKey) return;
-		detailKey = key;
-		detail.replaceChildren();
-		const heading = document.createElement('h3');
-		heading.textContent = slot.label;
-		detail.append(heading);
-		if (!changing) {
-			if (!slot.item) detail.append(document.createTextNode('此部位未穿戴装备'));
-			else {
-				const remove = button('卸下', () => perform(slot, slot.item, 'unequip'));
-				remove.disabled = Boolean(slot.item.reason);
-				const [title, status, description] = itemDetails(slot.item);
-				detail.append(title, status, remove, description);
-				if (slot.item.reason) {
-					const reason = document.createElement('p');
-					reason.textContent = slot.item.reason;
-					detail.append(reason);
-				}
-			}
-			const change = button(slot.item ? '更换' : '选择装备', () => {
-				changing = true;
-				choice = null;
-				detailKey = '';
-				renderDetail();
-			});
-			const description = detail.querySelector('.item-description');
-			if (description) description.before(change);
-			else detail.append(change);
-			return;
-		}
-		detail.append(
-			button('返回部位详情', () => {
-				changing = false;
-				choice = null;
-				detailKey = '';
-				renderDetail();
-			})
-		);
-		const selectedItem = slot.candidates.find(item => item.index === choice?.index && item.ID === choice?.ID);
-		if (selectedItem) {
-			const equip = button('穿戴', () => perform(slot, selectedItem, 'equip'));
-			equip.disabled = Boolean(selectedItem.reason);
-			const [title, status, description] = itemDetails(selectedItem);
-			detail.append(title, status, equip, description);
-			if (selectedItem.reason) {
-				const reason = document.createElement('p');
-				reason.textContent = selectedItem.reason;
-				detail.append(reason);
-			}
-		}
-		const label = document.createElement('p');
-		label.textContent = slot.candidates.length ? '点击背包中的装备查看并穿戴' : '背包中没有此部位的装备';
-		detail.append(label);
+	function chooseEquipment(slot) {
+		const content = document.createElement('div');
+		const preview = document.createElement('div');
+		let choice = null;
+		if (!slot.candidates.length) content.textContent = '背包中没有此部位的装备';
 		for (const item of slot.candidates) {
-			const candidate = button('', () => {
-				choice = { index: item.index, ID: item.ID };
-				detailKey = '';
-				renderDetail();
-				detail.scrollTop = 0;
+			const candidate = button(item.name, () => {
+				choice = item;
+				preview.replaceChildren(...itemDetails(item));
+				for (const node of content.querySelectorAll('.equipment-candidate')) node.setAttribute('aria-pressed', String(node === candidate));
+				content.closest('dialog').querySelector('[data-confirm]').disabled = Boolean(item.reason);
 			});
 			candidate.className = 'equipment-candidate';
 			candidate.dataset.index = item.index;
-			candidate.setAttribute('aria-pressed', String(selectedItem?.index === item.index));
-			const image = document.createElement('img');
-			image.alt = '';
-			if (item.icon) image.src = item.icon;
-			const text = document.createElement('span');
-			text.textContent = item.name;
-			candidate.append(image, text);
-			detail.append(candidate);
+			content.append(candidate);
 		}
+		content.append(preview);
+		dismiss = confirmAction(body, `选择${slot.label}装备`, () => {
+			if (choice) perform(slot, choice, 'equip');
+		}, {content});
+		content.closest('dialog').querySelector('[data-confirm]').disabled = true;
+	}
+	function renderDetail() {
+		const slot = state.slots.find(entry => entry.key === selected);
+		if (!slot) return;
+		const key = JSON.stringify(slot);
+		if (key === detailKey) return;
+		detailKey = key;
+		const content = document.createElement('div');
+		content.className = 'inventory-item-description';
+		const heading = document.createElement('h3');
+		heading.textContent = slot.label;
+		content.append(heading);
+		const ops = document.createElement('div');
+		ops.className = 'inventory-actions';
+		if (slot.item) {
+			content.append(...itemDetails(slot.item));
+			const remove = button('卸下', () => perform(slot, slot.item, 'unequip'));
+			remove.disabled = Boolean(slot.item.reason);
+			ops.append(remove);
+			if (slot.item.reason) {
+				const reason = document.createElement('p');reason.textContent = slot.item.reason;content.append(reason);
+			}
+		} else content.append(document.createTextNode('此部位未穿戴装备'));
+		ops.append(button(slot.item ? '更换' : '选择装备', () => chooseEquipment(slot)));
+		detail.replaceChildren(content, ops);
 	}
 	function render() {
 		for (const tab of $('.equipment-tabs').children)

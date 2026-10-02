@@ -1,20 +1,16 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+
 export function requestGameToolsNumber(container, { title, label, value, min, max }) {
 	return new Promise(resolve => {
-		const overlay = document.createElement('div');
-		overlay.className = 'game-tools-confirm';
-		overlay.innerHTML = `<div class="game-tools-confirm-card"><p>${title}</p><label class="game-tools-number-prompt">${label}<input type="number" min="${min}" max="${max}" value="${value}" required></label><div><button type="button" data-cancel>取消</button><button type="button" data-confirm>确认</button></div></div>`;
-		container.closest('.game-tools-window').appendChild(overlay);
-		const input = overlay.querySelector('input');
-		const finish = result => {
-			overlay.remove();
-			resolve(result);
-		};
-		overlay.querySelector('[data-cancel]').addEventListener('click', () => finish(null));
-		overlay.querySelector('[data-confirm]').addEventListener('click', () => {
-			if (!input.reportValidity()) return;
-			finish(Number(input.value));
+		const content = document.createElement('label');
+		content.textContent = label;
+		const input = document.createElement('input');
+		Object.assign(input, { type: 'number', min, max, value, required: true });
+		input.setAttribute('aria-label', label);
+		content.append(input);
+		confirmAction(container, title, () => resolve(Number(input.value)), {
+			content,
+			cancelled: () => resolve(null)
 		});
-		input.focus();
-		input.select();
 	});
 }

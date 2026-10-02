@@ -1,0 +1,48 @@
+.ui-confirm {
+ position: fixed;
+ inset: 0;
+ margin: auto;
+ width: min(380px, calc(100% - 32px));
+ max-height: calc(100% - 32px);
+ overflow: auto;
+ box-sizing: border-box;
+ padding: 18px;
+ border: 1px solid #657584;
+ border-radius: 8px;
+ background: #19212a;
+ color: #f5f2e9;
+ font: 13px/1.6 Arial, sans-serif;
+ white-space: normal;
+}
+.ui-confirm::backdrop { background: #0008; }
+.ui-confirm > p { margin: 0 0 16px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ui-confirm > p:focus { outline: none; }
+.ui-confirm .ui-confirm-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.ui-confirm .ui-confirm-actions button {
+ width: auto; min-width: 64px; height: auto; min-height: 32px;
+ padding: 5px 12px; border: 1px solid #7e8c99; border-radius: 6px;
+ color: #f5f2e9; background: #394753; font: inherit; cursor: pointer;
+}
+.ui-confirm .ui-confirm-actions button:focus-visible { outline: 2px solid #ceaa70; outline-offset: 2px; }
+.ui-confirm input { box-sizing: border-box; max-width: 100%; }
+
+.ui-confirm .ui-confirm-field {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+}
+.ui-confirm .ui-confirm-field > span { flex: none; }
+.ui-confirm .ui-confirm-field > :is(input, select) {
+ flex: 1;
+ width: 100%;
+ min-width: 0;
+ min-height: 36px;
+ padding: 6px 10px;
+ border: 1px solid #7e8c99;
+ border-radius: 6px;
+ background: #25313b;
+ color: inherit;
+ font: 16px/1.5 Arial, sans-serif;
+}
+
+.ui-confirm .ui-confirm-field + .ui-confirm-field { margin-top: 12px; }

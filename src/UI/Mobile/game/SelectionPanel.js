@@ -1,6 +1,9 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 export function createSelectionPanel(body, service) {
 	body.innerHTML =
-		'<p data-warning></p><div class="inventory-layout"><div class="inventory-list" aria-label="可选列表"></div><section class="inventory-detail" aria-label="选项详情"></section></div><p role="status"></p>';
+		'<p data-warning></p><div class="inventory-layout"><div class="inventory-list" aria-label="可选列表"></div><section class="inventory-detail" aria-label="选项详情"></section></div>';
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		list = $('.inventory-list'),
 		detail = $('.inventory-detail');
@@ -64,9 +67,14 @@ export function createSelectionPanel(body, service) {
 		button.textContent = '确认选择';
 		button.disabled = !state.allowed;
 		button.onclick = () => {
-			$('[role=status]').textContent = service.choose(
-				entry.id,
-				materials.map(select => Number(select.value)).filter(Boolean)
+			const chosen = materials.map(select => Number(select.value)).filter(Boolean);
+			confirmAction(
+				body,
+				`确认选择「${entry.name}」？`,
+				() => {
+					feedback(service.choose(entry.id, chosen));
+				},
+				{}
 			);
 		};
 		if (entry.preview) {

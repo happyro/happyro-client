@@ -1,13 +1,13 @@
 import { resetTabScroll } from './TabViewState.js';
 import { clearTabDrafts } from './TabViewState.js';
-import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
+import { showToast } from 'UI/Components/Toast.js';
 import { getJobDisplayName } from 'DB/Jobs/JobDisplayNameTable.js';
 import DB from 'DB/DBManager.js';
 import JobPropertyTable from 'DB/Jobs/JobPropertyTable.js';
 import { renderGameSelect, mountGameSelect } from './GameSelect.js';
 import { loadCurrentCharacter, maintainCurrentCharacter } from './AdventureControlService.js';
 import escapeHtml from './escapeHtml.js';
-import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
+import { requestConfirmation } from 'UI/Components/Confirmation.js';
 
 const statFields = [
 	['str', '力量'],
@@ -17,8 +17,14 @@ const statFields = [
 	['dex', '灵巧'],
 	['luk', '幸运']
 ];
-const traitFields = [['pow', '力量 POW'], ['sta', '耐力 STA'], ['wis', '智慧 WIS'],
-	['spl', '法力 SPL'], ['con', '专注 CON'], ['crt', '创造 CRT']];
+const traitFields = [
+	['pow', '力量 POW'],
+	['sta', '耐力 STA'],
+	['wis', '智慧 WIS'],
+	['spl', '法力 SPL'],
+	['con', '专注 CON'],
+	['crt', '创造 CRT']
+];
 
 function jobGroup(job) {
 	const properties = JobPropertyTable[job.id];
@@ -40,7 +46,7 @@ function changedValues(form, current) {
 	);
 }
 
-function mount(container) {
+function mount(container, context = {}) {
 	container.classList.add('management-tab', 'character-attributes-tab');
 	let snapshot;
 	let jobs = [];
@@ -50,8 +56,6 @@ function mount(container) {
 	let search = '';
 	let group = '';
 	let pending = false;
-	let status = '';
-	let statusError = false;
 
 	async function load() {
 		const token = ++loadToken;
@@ -74,18 +78,17 @@ function mount(container) {
 
 	async function submitCommands(commands, confirmation) {
 		if (pending) return;
-		if (confirmation && !(await requestGameToolsConfirmation(container, confirmation))) return;
+		if (confirmation && !(await requestConfirmation(container, confirmation))) return;
 		if (!commands.length) {
-			status = '';
-			showGameToolsToast(container, '没有需要应用的修改', 'info');
-			statusError = false;
+			showToast(container, '暂无修改', 'info');
+
 			renderDetail();
 			return;
 		}
 		pending = true;
-		status = '';
-		showGameToolsToast(container, '正在提交...', 'info');
-		statusError = false;
+
+		showToast(container, '正在提交...', 'info');
+
 		renderDetail();
 		try {
 			for (const { type, payload } of commands) {
@@ -94,18 +97,13 @@ function mount(container) {
 				clearTabDrafts(container, Object.keys(payload));
 			}
 			selectedJobId = snapshot.job_id;
-			status = '';
+
 			const jobChange = commands.find(
 				command => command.type === 'character.progression.update' && command.payload.job_id !== undefined
 			);
-			showGameToolsToast(
-				container,
-				jobChange ? `已转职为${getJobDisplayName(snapshot.job_id, '当前职业')}` : '操作成功，已读取最新状态'
-			);
+			showToast(container, jobChange ? `已转职为${getJobDisplayName(snapshot.job_id, '当前职业')}` : '操作成功');
 		} catch (error) {
-			status = error.message;
-			clearGameToolsToast(container);
-			statusError = true;
+			showToast(container, error.message, 'error');
 		} finally {
 			pending = false;
 			renderJobs();
@@ -126,12 +124,16 @@ function mount(container) {
 
 	function filteredJobs() {
 		const term = search.trim().toLocaleLowerCase();
-		return jobs.filter(job => (!group || jobGroup(job) === group)
-			&& (!term || job.name.toLocaleLowerCase().includes(term) || String(job.id).includes(term)));
+		return jobs.filter(
+			job =>
+				(!group || jobGroup(job) === group) &&
+				(!term || job.name.toLocaleLowerCase().includes(term) || String(job.id).includes(term))
+		);
 	}
 
 	function updateJobs() {
-		jobs = snapshot.jobs.map(job => ({ ...job, name: getJobDisplayName(job.id, `职业 ${job.id}`) }))
+		jobs = snapshot.jobs
+			.map(job => ({ ...job, name: getJobDisplayName(job.id, `职业 ${job.id}`) }))
 			.sort((a, b) => a.id - b.id);
 	}
 
@@ -154,8 +156,7 @@ function mount(container) {
 					resetTabScroll(container, container.querySelector('.character-detail'));
 				}
 				selectedJobId = Number(button.dataset.jobId);
-				status = '';
-				statusError = false;
+
 				renderJobs();
 				renderDetail();
 			});
@@ -164,15 +165,21 @@ function mount(container) {
 
 	function renderDetail() {
 		const selectedJob = jobs.find(job => job.id === selectedJobId);
+		const displayedJobId = context.mobile ? snapshot.job_id : selectedJobId;
+		const displayedJobName = getJobDisplayName(displayedJobId, `职业 ${displayedJobId}`);
 		const mapName = DB.getMapInfo(`${snapshot.map}.rsw`)?.displayName || DB.getMapName(snapshot.map, snapshot.map);
 		const detail = container.querySelector('.character-detail');
 		detail.innerHTML = `
-			<header class="character-summary">
+			${
+				context.mobile
+					? ''
+					: `<header class="character-summary">
 				<div><h3>${escapeHtml(snapshot.name)}</h3><p>${escapeHtml(getJobDisplayName(snapshot.job_id, `职业 ${snapshot.job_id}`))} · ${escapeHtml(mapName)} (${snapshot.x}, ${snapshot.y})</p></div>
 				<div><strong>HP ${snapshot.hp} / ${snapshot.max_hp}</strong><span>SP ${snapshot.sp} / ${snapshot.max_sp}${snapshot.max_ap ? ` · AP ${snapshot.ap} / ${snapshot.max_ap}` : ''}</span></div>
-			</header>
+			</header>`
+			}
 			<div class="character-detail-scroll">
-				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml(selectedJob?.name || `职业 ${selectedJobId}`)}</strong><small>ID ${selectedJobId}</small></div><span class="management-form-actions"><button type="button" data-action="vitals">恢复状态</button><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? 'disabled' : ''}>转换职业</button></span></div>
+				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml(displayedJobName)}</strong><small>ID ${displayedJobId}</small></div><span class="management-form-actions"><button type="button" data-action="vitals">恢复状态</button><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? 'disabled' : ''}>${context.mobile && selectedJobId !== snapshot.job_id ? `转换为${escapeHtml(selectedJob?.name || `职业 ${selectedJobId}`)}` : '转换职业'}</button></span></div>
 				</section>
 				<section><h4>等级与点数</h4><form data-form="progression" class="management-form progression-form">
 					<label><span>基础等级</span><input name="base_level" type="number" min="1" max="${snapshot.max_base_level}" value="${snapshot.base_level}" required></label>
@@ -185,40 +192,41 @@ function mount(container) {
 					${statFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="1" max="${snapshot.max_stats?.[key] ?? snapshot.max_stat}" value="${snapshot[key]}" required></label>`).join('')}
 					<div class="management-form-actions"><button type="submit">应用</button><button type="button" data-action="stats-reset">重置</button></div>
 				</form></section>
-				${snapshot.traits.enabled ? `<section><h4>四转特性 <small>剩余 ${snapshot.traits.points} 点</small></h4><form data-form="traits" class="management-form stat-form">
+				${
+					snapshot.traits.enabled
+						? `<section><h4>${context.mobile ? '四转属性' : '四转特性'} <small>剩余 ${snapshot.traits.points} 点</small></h4><form data-form="traits" class="management-form stat-form">
 					${traitFields.map(([key, label]) => `<label><span>${label}</span><input name="${key}" type="number" min="0" max="${snapshot.traits.maximums[key]}" value="${snapshot.traits.values[key]}" required></label>`).join('')}
 					<div class="management-form-actions"><button type="submit">应用</button><button type="button" data-action="traits-reset">重置</button></div>
-					<small>直接设置特性值，不受当前特性点限制，不消耗剩余点数。</small>
-				</form></section>` : ''}
-			</div>
-			<footer class="character-actions">
-				<span class="management-status${statusError ? ' error' : status ? ' success' : ''}" role="status" aria-live="polite">${escapeHtml(status)}</span>
-			</footer>`;
-
-		detail
-			.querySelector('[data-action="apply-job"]')
-			.addEventListener(
-				'click',
-				() => {
-					if (!selectedJob || selectedJobId === snapshot.job_id) return;
-					void submit(
-						'character.progression.update',
-						{ job_id: selectedJobId },
-						`是否确认转职为"${selectedJob.name}"?`
-					);
+					${context.mobile ? '' : '<small>直接设置特性值，不受当前特性点限制，不消耗剩余点数。</small>'}
+				</form></section>`
+						: context.mobile
+							? '<section><h4>四转属性</h4><p class="character-traits-unavailable">当前职业尚未开放四转属性</p></section>'
+							: ''
 				}
+			</div>`;
+
+		detail.querySelector('[data-action="apply-job"]').addEventListener('click', () => {
+			if (!selectedJob || selectedJobId === snapshot.job_id) return;
+			void submit(
+				'character.progression.update',
+				{ job_id: selectedJobId },
+				`是否确认转职为"${selectedJob.name}"?`
 			);
+		});
 		detail.querySelector('[data-form="progression"]').addEventListener('submit', event => {
 			event.preventDefault();
 			if (!event.currentTarget.reportValidity()) return;
 			const changes = changedValues(event.currentTarget, snapshot);
-			const levels = Object.fromEntries(Object.entries(changes).filter(([key]) => ['base_level', 'job_level'].includes(key)));
-			const points = Object.fromEntries(Object.entries(changes).filter(([key]) => ['status_points', 'skill_points'].includes(key)));
+			const levels = Object.fromEntries(
+				Object.entries(changes).filter(([key]) => ['base_level', 'job_level'].includes(key))
+			);
+			const points = Object.fromEntries(
+				Object.entries(changes).filter(([key]) => ['status_points', 'skill_points'].includes(key))
+			);
 			const commands = [];
 			if (Object.keys(levels).length) commands.push({ type: 'character.progression.update', payload: levels });
 			if (Object.keys(points).length) commands.push({ type: 'character.points.update', payload: points });
-			void submitCommands(commands, levels.base_level < snapshot.base_level
-				? '确认降低基础等级？成长点数将被回收，点数不足时重置相应属性。' : undefined);
+			void submitCommands(commands, levels.base_level < snapshot.base_level ? '确认降低基础等级？' : undefined);
 		});
 		detail.querySelector('[data-form="stats"]').addEventListener('submit', event => {
 			event.preventDefault();
@@ -230,36 +238,49 @@ function mount(container) {
 			if (pending || !form.reportValidity()) return;
 			void submit('character.traits.update', changedValues(form, snapshot.traits.values));
 		});
-		detail.querySelector('[data-action="traits-reset"]')?.addEventListener('click', () =>
-			void submit('character.traits.reset', {}, '确认重置六项四转特性并返还特性点？基础属性不受影响。'));
+		detail
+			.querySelector('[data-action="traits-reset"]')
+			?.addEventListener('click', () => void submit('character.traits.reset', {}, '确认重置四转素质点？'));
 		detail
 			.querySelector('[data-action="vitals"]')
 			.addEventListener('click', () => void submit('character.vitals.restore', {}));
 		detail
 			.querySelector('[data-action="stats-reset"]')
-			.addEventListener(
-				'click',
-				() => void submit('character.stats.reset', {}, '确认重置当前角色的全部基础属性？')
-			);
+			.addEventListener('click', () => void submit('character.stats.reset', {}, '确认重置基础素质点？'));
 		detail
 			.querySelector('[data-action="skills-reset"]')
-			.addEventListener('click', () => void submit('character.skills.reset', {}, '确认重置当前角色的全部技能？'));
-		detail.querySelector('[data-action="skills-learn-all"]').addEventListener('click', () =>
-			void submit('character.skills.learn_all', {}, '确认学满当前职业及继承职业的技能树？不消耗技能点。'));
+			.addEventListener('click', () => void submit('character.skills.reset', {}, '确认重置技能点？'));
+		detail
+			.querySelector('[data-action="skills-learn-all"]')
+			.addEventListener('click', () => void submit('character.skills.learn_all', {}, '确认学满技能？'));
 		if (pending) detail.querySelectorAll('button, input').forEach(element => (element.disabled = true));
 	}
 
 	function render() {
-		container.innerHTML = `<div class="character-job-toolbar catalog-toolbar"><input class="catalog-search" type="search" placeholder="搜索职业名称或 ID" aria-label="搜索职业">${renderGameSelect({
-			className: 'catalog-filter', ariaLabel: '职业分组', value: group,
-			options: [{ value: '', label: '全部' }, ...['一转', '二转', '三转', '四转', '初心者', '扩展职业', '其它'].map(label => ({ value: label, label }))]
-		})}</div>
+		container.innerHTML = `<div class="character-job-toolbar catalog-toolbar"><input class="catalog-search" type="search" placeholder="搜索职业名称或 ID" aria-label="搜索职业">${renderGameSelect(
+			{
+				className: 'catalog-filter',
+				ariaLabel: '职业分组',
+				value: group,
+				options: [
+					{ value: '', label: '全部' },
+					...['一转', '二转', '三转', '四转', '初心者', '扩展职业', '其它'].map(label => ({
+						value: label,
+						label
+					}))
+				]
+			}
+		)}</div>
 			<div class="character-layout"><section class="character-job-browser">
 			<div class="character-job-summary"></div><div class="character-job-list"></div>
 		</section><section class="character-detail"></section></div>`;
 		const searchInput = container.querySelector('.character-job-toolbar .catalog-search');
 		const { input: groupInput } = mountGameSelect(container.querySelector('[data-game-select]'));
-		groupInput.addEventListener('change', () => { group = groupInput.value; resetTabScroll(container, container.querySelector('.character-job-list')); renderJobs(); });
+		groupInput.addEventListener('change', () => {
+			group = groupInput.value;
+			resetTabScroll(container, container.querySelector('.character-job-list'));
+			renderJobs();
+		});
 		searchInput.value = search;
 		searchInput.addEventListener('input', () => {
 			search = searchInput.value;
@@ -274,8 +295,6 @@ function mount(container) {
 		if (!pending) void load();
 	};
 	const clearFeedback = () => {
-		status = '';
-		statusError = false;
 		if (snapshot) renderDetail();
 	};
 	container.addEventListener('game-tools-activate', refresh);

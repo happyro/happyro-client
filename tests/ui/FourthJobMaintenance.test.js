@@ -1,7 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
 vi.mock('DB/DBManager.js', () => ({ default: { getMapInfo: () => ({ displayName: '普隆德拉' }) } }));
 vi.mock('../../src/UI/Components/GameTools/AdventureControlService.js', () => ({ loadCurrentCharacter: vi.fn(), maintainCurrentCharacter: vi.fn() }));
-vi.mock('../../src/UI/Components/GameTools/GameToolsConfirm.js', () => ({ requestGameToolsConfirmation: vi.fn().mockResolvedValue(true) }));
+vi.mock('../../src/UI/Components/Confirmation.js', () => ({ requestConfirmation: vi.fn().mockResolvedValue(true) }));
 import { loadCurrentCharacter, maintainCurrentCharacter } from '../../src/UI/Components/GameTools/AdventureControlService.js';
 import tab from '../../src/UI/Components/GameTools/CharacterMaintenanceTab.js';
 
@@ -104,7 +104,7 @@ it('applies changed levels before explicit point balances and stops when levels 
 	root.querySelector('[name="job_level"]').value = '50';
 	root.querySelector('[name="skill_points"]').value = '20';
 	root.querySelector('[data-form="progression"]').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
-	await vi.waitFor(() => expect(root.querySelector('.management-status.error').textContent).toBe('等级修改失败'));
+	await vi.waitFor(() => expect(document.querySelector('.ui-toast.error').textContent).toBe('等级修改失败'));
 	expect(maintainCurrentCharacter).toHaveBeenCalledTimes(1);
 	dispose();
 });

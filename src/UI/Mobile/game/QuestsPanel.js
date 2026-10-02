@@ -1,8 +1,10 @@
+import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 export function createQuestsPanel(body, actions) {
 	body.innerHTML =
-		'<div class="skills-toolbar"><select aria-label="任务分类"><option value="all">全部任务</option><option value="1">进行中</option><option value="0">已暂停</option><option value="2">已完成</option></select></div><div class="inventory-layout"><div class="inventory-list" aria-label="任务列表"></div><section class="inventory-detail" aria-label="任务详情"></section></div><p role="status"></p>';
+		'<div class="skills-toolbar"><select aria-label="任务分类"><option value="all">全部任务</option><option value="1">进行中</option><option value="0">已暂停</option><option value="2">已完成</option></select></div><div class="inventory-layout"><div class="inventory-list" aria-label="任务列表"></div><section class="inventory-detail" aria-label="任务详情"></section></div>';
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		list = $('.inventory-list'),
 		detail = $('.inventory-detail');
@@ -71,9 +73,7 @@ export function createQuestsPanel(body, actions) {
 			button.textContent = q.active === 1 ? '暂停任务' : '启用任务';
 			button.disabled = !state.allowed || state.pending !== undefined;
 			button.onclick = () => {
-				$('[role=status]').textContent = actions.toggle(q.questID, q.active)
-					? '已请求，等待服务器更新'
-					: '任务状态已变化';
+				feedback(actions.toggle(q.questID, q.active) ? '已请求，等待服务器更新' : '任务状态已变化');
 				update();
 			};
 			detail.append(button);

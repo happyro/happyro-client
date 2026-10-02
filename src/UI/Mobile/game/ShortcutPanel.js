@@ -1,8 +1,10 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 /** Separate slot selection, candidate browsing and editing without jumping scroll position. */
 export function createShortcutPanel(body, actions) {
-	let index, selected;
+	let index, selected, dismiss;
 	body.innerHTML = `
 		<div class="slot-picker" role="group" aria-label="选择快捷槽"></div>
 		<div class="shortcut-layout">
@@ -17,18 +19,15 @@ export function createShortcutPanel(body, actions) {
 					<button type="button" data-cancel-choice>取消选择</button>
 				</form>
 				<div class="shortcut-clear"><button type="button" data-clear-slot>清空当前槽位</button>
-					<div data-clear-confirm hidden><p data-clear-question></p><div class="shortcut-clear-actions"><button type="button" data-confirm-clear>确认清空</button><button type="button" data-cancel-clear>取消</button></div></div>
 				</div>
-				<p role="status" data-config-status></p>
+
 			</section>
 		</div>`;
 	const $ = selector => body.querySelector(selector);
 	const picker = $('.slot-picker'),
 		choices = $('.shortcut-choices'),
 		form = $('form');
-	const status = message => {
-		$('[data-config-status]').textContent = message;
-	};
+	const status = createFeedback(body);
 	function resetSaveFeedback() {
 		const button = $('[data-save-slot]');
 		button.textContent = `保存到槽位 ${index + 1}`;
@@ -68,9 +67,10 @@ export function createShortcutPanel(body, actions) {
 		highlightChoices();
 	}
 	function chooseSlot(next) {
+		dismiss?.();
+		dismiss = null;
 		index = next;
 		cancelChoice();
-		$('[data-clear-confirm]').hidden = true;
 		$('[data-clear-slot]').hidden = false;
 		status('');
 		updateSlotLabels();
@@ -103,7 +103,6 @@ export function createShortcutPanel(body, actions) {
 			selected = entry;
 			form.hidden = false;
 			$('[data-choice-hint]').hidden = true;
-			$('[data-clear-confirm]').hidden = true;
 			$('[data-clear-slot]').hidden = false;
 			$('[data-choice]').textContent = entry.name;
 			$('[data-choice-icon]').hidden = !entry.icon;
@@ -131,12 +130,8 @@ export function createShortcutPanel(body, actions) {
 		if (selected && actions.configure(index, selected, Number($('select').value))) {
 			updateSlotLabels();
 			status(`已保存到槽位 ${index + 1}`);
-			$('[data-save-slot]').textContent = `✓ 已保存到槽位 ${index + 1}`;
-			$('[data-save-slot]').dataset.saveState = 'saved';
 		} else {
 			status('保存失败，技能或物品已变化，请重新选择。');
-			$('[data-save-slot]').textContent = '保存失败，点击重试';
-			$('[data-save-slot]').dataset.saveState = 'error';
 		}
 	};
 	$('[data-cancel-choice]').onclick = () => {
@@ -144,22 +139,18 @@ export function createShortcutPanel(body, actions) {
 		status('');
 	};
 	$('[data-clear-slot]').onclick = () => {
-		cancelChoice();
-		status('');
-		$('[data-clear-question]').textContent =
-			`清空槽位 ${index + 1} 的「${slots().find(slot => slot.index === index)?.name}」？`;
-		$('[data-clear-confirm]').hidden = false;
-		$('[data-clear-slot]').hidden = true;
-	};
-	$('[data-cancel-clear]').onclick = () => {
-		$('[data-clear-confirm]').hidden = true;
-		$('[data-clear-slot]').hidden = false;
-	};
-	$('[data-confirm-clear]').onclick = () => {
-		if (actions.configure(index, null)) {
-			chooseSlot(index);
-			status(`槽位 ${index + 1} 已清空`);
-		} else status('清空失败，请重新选择槽位。');
+		const slotIndex = index;
+		dismiss = confirmAction(
+			body,
+			`清空槽位 ${slotIndex + 1} 的「${slots().find(slot => slot.index === slotIndex)?.name}」？`,
+			() => {
+				if (actions.configure(slotIndex, null)) {
+					chooseSlot(slotIndex);
+					status(`槽位 ${slotIndex + 1} 已清空`);
+				} else status('清空失败，请重新选择槽位。');
+			},
+			{}
+		);
 	};
 	chooseSlot(actions.index ?? slots()[0]?.index ?? 0);
 	return {

@@ -37,20 +37,33 @@ function mount(container, context = {}) {
 		searchLabel: '搜索 NPC',
 		filterHtml: renderCatalogScopeFilter({ name: 'npc-scope', ariaLabel: '当前地图', value: 'current' }),
 		emptyDetail: '选择一个 NPC 查看详情',
-		summarize: state =>
-			formatCatalogCount(state.total, '个 NPC', Boolean(scopeFilter?.checked)),
+		summarize: state => formatCatalogCount(state.total, '个 NPC', Boolean(scopeFilter?.checked)),
 		pageSize: 32,
 		key,
 		async load(query) {
 			const currentMap = getCurrentAdventureMap();
 			const onMap = scopeFilter.checked ? currentMap : '';
 			manifest ??= await loadNpcAssets();
-			const result = await searchAdventureNpcs({ query: query.query, currentMap, onMap, page: query.page, perPage: query.perPage });
+			const result = await searchAdventureNpcs({
+				query: query.query,
+				currentMap,
+				onMap,
+				page: query.page,
+				perPage: query.perPage
+			});
 			return { items: toCatalogNpcs(result.data), total: result.total };
 		},
 		renderEmptyList(list, query) {
-			renderCatalogEmptyState(list, query ? '没有匹配结果' : scopeFilter.checked ? '当前地图暂无 NPC' : '暂无 NPC 资料',
-				scopeFilter.checked ? () => { scopeFilter.checked = false; browserApi.reload(); } : null);
+			renderCatalogEmptyState(
+				list,
+				query ? '没有匹配结果' : scopeFilter.checked ? '当前地图暂无 NPC' : '暂无 NPC 资料',
+				scopeFilter.checked
+					? () => {
+							scopeFilter.checked = false;
+							browserApi.reload();
+						}
+					: null
+			);
 		},
 		renderRow(npc, selected) {
 			const style = npcAtlasStyle(manifest, npc.spriteId, context.mobile ? 40 : 48);
@@ -84,7 +97,7 @@ function mount(container, context = {}) {
 			</div>
 			<div class="catalog-action-panel">
 				<button class="catalog-teleport" type="button" ${canTeleport ? '' : 'disabled'}>${actionState.npcPending ? '正在传送...' : '传送到 NPC 附近'}</button>
-				<span class="catalog-status error">${escapeCatalogHtml((actionState.kind === 'npc' && actionState.error ? actionState.message : '') || (!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : ''))}</span>
+				<span class="catalog-status error">${escapeCatalogHtml(!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : '')}</span>
 			</div>`;
 			const canvas = detail.querySelector('.npc-map-canvas');
 			const paintNpcMap = () =>

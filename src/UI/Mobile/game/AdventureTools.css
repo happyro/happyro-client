@@ -88,20 +88,6 @@
 	border: 1px solid #7691a2;
 	color: white;
 }
-.adventure-feedback {
-	margin: 0;
-	padding: 0 12px;
-	background: #e5f1e8;
-	color: #215a35;
-	flex-shrink: 0;
-}
-.adventure-feedback:not(:empty) {
-	padding: 4px 8px;
-}
-.adventure-feedback.error {
-	background: #fcebe7;
-	color: #973c2a;
-}
 .adventure-home {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -359,23 +345,6 @@
 .mobile-adventure .settings-drop-table td:nth-of-type(3)::before {
 	content: 'MVP';
 }
-.mobile-adventure .game-tools-confirm {
-	position: absolute;
-	inset: 0;
-	z-index: 20;
-	padding: 8px;
-	background: #102332;
-}
-.mobile-adventure .game-tools-confirm-card {
-	max-width: 100%;
-	width: min(400px, 100%);
-	border-radius: 12px;
-	padding: 18px;
-	font-size: 16px;
-}
-.mobile-adventure .game-tools-confirm-card button {
-	min-width: 76px;
-}
 .mobile-adventure .item-description {
 	font-size: 12px;
 	line-height: 1.5;
@@ -458,10 +427,6 @@
 .mobile-adventure .map-detail-body,
 .mobile-adventure .npc-detail-body {
 	grid-template-rows: auto;
-}
-.mobile-adventure .game-tools-confirm-card {
-	max-height: 100%;
-	overflow: auto;
 }
 @media (max-width: 560px) {
 	.mobile-adventure .monster-resources {
@@ -585,18 +550,6 @@
 	.mobile-adventure .map-npc-row {
 		min-height: 30px;
 		padding: 4px;
-	}
-	.mobile-adventure .character-detail-scroll {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 6px 12px;
-		padding: 0 8px;
-	}
-	.mobile-adventure .character-detail-scroll > section:first-child {
-		grid-column: 1 / -1;
-	}
-	.mobile-adventure .character-detail-scroll section + section {
-		border-top: 0;
 	}
 	.mobile-adventure .management-form > .management-form-actions button {
 		min-width: 64px;
@@ -798,22 +751,9 @@
 	background-color: #19212a;
 	border-color: #65717b;
 }
-.mobile-adventure .game-tools-confirm-card {
-	background: #19212a;
-	color: #f5f2e9;
-	border-color: #65717b;
-}
 .mobile-adventure .error,
 .mobile-adventure .catalog-status.error,
 .mobile-adventure .summon-status.error {
-	color: #ffb5aa;
-}
-.mobile-adventure .adventure-feedback {
-	background: #263d32;
-	color: #cce8d2;
-}
-.mobile-adventure .adventure-feedback.error {
-	background: #4a2b2b;
 	color: #ffb5aa;
 }
 .mobile-adventure button:disabled {
@@ -970,12 +910,7 @@
 .mobile-adventure .game-select-trigger i {
 	border-top-color: #c6d0db;
 }
-.mobile-adventure .game-tools-toast,
-.mobile-adventure .game-tools-toast.info {
-	background: #263d32;
-	color: #cce8d2;
-	border-color: #65717b;
-}
+
 
 .mobile-adventure .npc-catalog-tab .catalog-thumb {
 	width: 40px;
@@ -1101,9 +1036,6 @@
 .mobile-adventure .monster-location.selected:hover,
 .mobile-adventure .game-select-option.selected:hover {
 	background: #57452c;
-}
-.mobile-adventure:has(.adventure-content[data-feature='maps']:not([hidden])) .adventure-feedback {
-	display: none;
 }
 .mobile-adventure .catalog-pagination,
 .mobile-adventure .monster-pagination,
@@ -1326,3 +1258,255 @@
 	margin: auto;
 	color: #bac4cd;
 }
+
+/* Compact character editor: four vertically stacked sections. */
+.mobile-adventure .zeny-grant-open {
+	height: 28px;
+	min-height: 28px;
+	padding: 3px 7px;
+	box-sizing: border-box;
+	align-self: center;
+}
+.mobile-adventure .character-job-emblem {
+	width: 32px;
+	height: 32px;
+	flex: 0 0 32px;
+	margin: 2px;
+	border: 1px solid #65717b;
+	border-radius: 6px;
+	background: #242e38;
+	color: #c6d0db;
+	font-size: 14px;
+}
+.mobile-adventure .character-detail-scroll {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	padding: 0 8px;
+}
+.mobile-adventure .character-detail-scroll > section {
+	width: 100%;
+	min-width: 0;
+	padding: 8px 0;
+}
+.mobile-adventure .character-detail-scroll section + section {
+	border-top: 1px solid #65717b;
+}
+.mobile-adventure .character-detail-scroll .management-form {
+	--character-form-columns: 3;
+	display: grid;
+	grid-template-columns: repeat(var(--character-form-columns), minmax(0, 1fr));
+	align-items: stretch;
+	gap: 6px 8px;
+}
+.mobile-adventure .character-detail-scroll .progression-form {
+	--character-form-columns: 4;
+}
+.mobile-adventure .character-detail-scroll .management-form > label {
+	min-width: 0;
+}
+.mobile-adventure .character-detail-scroll .management-form > .management-form-actions,
+.mobile-adventure .character-detail-scroll .management-form > small {
+	grid-column: 1 / -1;
+}
+.mobile-adventure .character-detail-scroll .management-form > .management-form-actions {
+	display: grid;
+	grid-template-columns: repeat(var(--character-form-columns), minmax(0, 1fr));
+	gap: 6px 8px;
+}
+.mobile-adventure .character-detail-scroll .management-form > .management-form-actions > button {
+	grid-column: auto;
+	width: 100%;
+	min-width: 0;
+	margin: 0;
+	white-space: normal;
+}
+.mobile-adventure .character-traits-unavailable {
+	margin: 4px 0;
+	color: #c6d0db;
+	font-size: 12px;
+}
+
+.mobile-adventure .character-detail-scroll > section > h4,
+.mobile-adventure .settings-scroll > section > h4 {
+	margin: 0 0 8px;
+	padding: 6px 8px;
+	border-left: 3px solid #ceaa70;
+	border-radius: 3px;
+	background: #2b3540;
+	color: #ffe1ae;
+	font-size: 13px;
+	font-weight: 600;
+}
+.mobile-adventure .character-detail-scroll > section > h4 small,
+.mobile-adventure .settings-scroll > section > h4 small {
+	color: #c6d0db;
+	font-size: 11px;
+	font-weight: normal;
+}
+
+/* Settings follow the character editor's stacked sections and aligned fields. */
+.mobile-adventure .settings-scroll {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	padding: 0 8px;
+}
+.mobile-adventure .settings-scroll > section {
+	flex: 0 0 auto;
+	width: 100%;
+	min-width: 0;
+	padding: 8px 0;
+}
+.mobile-adventure .settings-scroll section + section {
+	border-top: 1px solid #65717b;
+}
+.mobile-adventure .settings-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 6px 8px;
+}
+.mobile-adventure .settings-rate-columns {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 6px 8px;
+}
+.mobile-adventure :is(.settings-grid, .settings-rate-list) label {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-end;
+	gap: 5px;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	white-space: normal;
+	font-size: 12px;
+	color: #c6d0db;
+}
+.mobile-adventure .settings-form .setting-number,
+.mobile-adventure .settings-form .game-select {
+	width: 100%;
+	min-width: 0;
+	flex: none;
+	margin: 0;
+	gap: 4px;
+}
+.mobile-adventure .settings-form .setting-number input {
+	width: 100%;
+	min-width: 0;
+	flex: 1 1 0;
+	height: 28px;
+	min-height: 28px;
+	box-sizing: border-box;
+	padding: 3px 6px;
+}
+.mobile-adventure .settings-form .setting-number em {
+	width: auto;
+	flex: 0 0 auto;
+	color: #c6d0db;
+	font-size: 11px;
+}
+.mobile-adventure .settings-drop-table tbody {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 6px;
+}
+.mobile-adventure .settings-drop-table tr {
+	grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));
+	gap: 8px;
+	padding: 6px;
+	border: 1px solid #65717b;
+	border-radius: 4px;
+}
+.mobile-adventure .settings-drop-table th {
+	grid-column: auto;
+	align-self: center;
+	padding: 0;
+	white-space: normal;
+	font-size: 12px;
+}
+.mobile-adventure .settings-drop-table td {
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
+	gap: 4px;
+	min-width: 0;
+	padding: 0;
+	font-size: 11px;
+	color: #c6d0db;
+}
+.mobile-adventure .settings-footer {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 8px;
+}
+.mobile-adventure .settings-footer .management-status {
+	grid-column: span 3;
+	min-width: 0;
+}
+.mobile-adventure .settings-footer button {
+	width: 100%;
+	min-width: 0;
+	white-space: normal;
+	padding-inline: 4px;
+}
+@media (max-width: 599px) {
+	.mobile-adventure .settings-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.mobile-adventure .settings-drop-table tr {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.mobile-adventure .settings-drop-table th {
+		grid-column: 1 / -1;
+	}
+	.mobile-adventure .settings-footer {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.mobile-adventure .settings-footer .management-status {
+		grid-column: auto;
+	}
+}
+
+/* One shared header for drop rates, including narrow screens. */
+.mobile-adventure .settings-drop-table {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: collapse;
+}
+.mobile-adventure .settings-drop-table thead {
+	display: table-header-group;
+}
+.mobile-adventure .settings-drop-table tbody {
+	display: table-row-group;
+}
+.mobile-adventure .settings-drop-table tr {
+	display: table-row;
+	border: 0;
+	border-radius: 0;
+	padding: 0;
+	background: #19212a;
+}
+.mobile-adventure .settings-drop-table :is(th, td) {
+	display: table-cell;
+	padding: 6px 4px;
+	border-bottom: 0;
+	vertical-align: middle;
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+.mobile-adventure .settings-drop-table thead th {
+	background: transparent;
+	color: #c6d0db;
+	font-weight: normal;
+}
+.mobile-adventure .settings-drop-table th:first-child {
+	width: 28%;
+}
+.mobile-adventure .settings-drop-table td:nth-of-type(n)::before {
+	content: none;
+}
+
+.mobile-adventure .settings-footer button { grid-column: -2; }

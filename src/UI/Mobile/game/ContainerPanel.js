@@ -1,9 +1,11 @@
+import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 const labels = { inventory: '背包', storage: '仓库', cart: '手推车' };
 export function createContainerPanel(body, actions, initialSource) {
 	body.innerHTML =
-		'<div class="container-toolbar"></div><p class="container-capacity"></p><div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"></section></div><p class="inventory-status" role="status"></p>';
+		'<div class="container-toolbar"></div><p class="container-capacity"></p><div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"></section></div>';
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector);
 	const sourceSelect = document.createElement('select');
 	sourceSelect.setAttribute('aria-label', '物品所在位置');
@@ -60,13 +62,7 @@ export function createContainerPanel(body, actions, initialSource) {
 		count.className = 'container-item-count';
 		count.textContent = `当前数量：${item.count}`;
 		const transfer = button('确认转移', () => {
-			$('.inventory-status').textContent = actions.transfer(
-				source,
-				destination.value,
-				item.index,
-				item.ID,
-				Number(amount.value)
-			);
+			feedback(actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value)));
 			update();
 		});
 		$('.inventory-detail').replaceChildren(

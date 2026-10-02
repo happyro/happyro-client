@@ -1,8 +1,6 @@
-import { createPointResetControl } from './PointResetControl.js';
-
 export function createAttributesPanel(body, actions) {
 	body.innerHTML =
-		'<div class="attribute-toolbar"><div class="attribute-tabs" role="group" aria-label="素质分类"></div><strong data-attribute-points></strong></div><div class="attribute-layout"><section class="attribute-allocation" aria-label="素质加点"></section><section class="attribute-results" aria-label="相关数值"><h3>相关数值</h3><p>加点后实时更新，箭头显示本次变化。</p><dl></dl></section></div><div class="attribute-footer"><p role="status" data-attribute-status></p></div>';
+		'<div class="attribute-toolbar"><div class="attribute-tabs" role="group" aria-label="素质分类"></div><strong data-attribute-points></strong></div><div class="attribute-layout"><section class="attribute-allocation" aria-label="素质加点"></section><section class="attribute-results" aria-label="相关数值"><dl></dl></section></div>';
 	const $ = selector => body.querySelector(selector);
 	const toolbar = $('.attribute-toolbar');
 	let active = 'base',
@@ -19,20 +17,12 @@ export function createAttributesPanel(body, actions) {
 		tab.type = 'button';
 		tab.textContent = label;
 		tab.onclick = () => {
-			reset.cancel();
 			active = kind;
 			update();
 		};
 		tabs.set(kind, tab);
 		$('.attribute-tabs').append(tab);
 	}
-	const reset = createPointResetControl($('.attribute-footer'), {
-		label: '重置素质点',
-		description: '确认重置当前标签页的六项素质并返还该类点数？另一类素质不受影响。',
-		canReset: () => actions.snapshot().allowed,
-		reset: () => actions.reset(active),
-		changed: () => update()
-	});
 	function update() {
 		if (!body.contains(toolbar)) return;
 		state = actions.snapshot();
@@ -45,7 +35,6 @@ export function createAttributesPanel(body, actions) {
 		const section = state[active];
 		$('[data-attribute-points]').textContent =
 			`剩余${active === 'traits' ? '四转' : ''}素质点：${section.points ?? '—'}`;
-		$('[data-attribute-status]').textContent = state.message;
 		if (rowKind !== active) {
 			rowKind = active;
 			rows.clear();
@@ -92,7 +81,6 @@ export function createAttributesPanel(body, actions) {
 			pair.textContent = changed ? `${stat.previous} → ${stat.value}` : String(stat.value);
 			pair.classList.toggle('attribute-changed', changed);
 		}
-		reset.update();
 	}
 	update();
 	return { update };

@@ -1,28 +1,40 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 export function createTradePanel(body, service) {
 	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="可交易物品"></div><section class="inventory-detail"><div data-picker></div><label>Zeny <input data-money type="number" min="0" step="1" value="0"></label><button data-send-money>设置金额</button><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div><p data-phase></p><button data-lock>锁定报价</button><button data-execute>确认成交</button><button data-cancel>取消交易</button></section></div><p role="status"></p>';
+		'<div class="inventory-layout"><div class="inventory-list" aria-label="可交易物品"></div><section class="inventory-detail"><div data-picker></div><label>Zeny <input data-money type="number" min="0" step="1" value="0"></label><button data-send-money>设置金额</button><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div><p data-phase></p><button data-lock>锁定报价</button><button data-execute>确认成交</button><button data-cancel>取消交易</button></section></div>';
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		nodes = new Map();
 	let preview = null;
 	let selected = null,
-		pickerKey = '',
-		confirm = false;
+		pickerKey = '';
 	function action(result) {
-		$('[role=status]').textContent = result;
-		confirm = false;
+		feedback(result);
 		update();
 	}
 	$('[data-send-money]').onclick = () => action(service.setMoney(Number($('[data-money]').value)));
 	$('[data-lock]').onclick = () => action(service.lock());
 	$('[data-execute]').onclick = () => {
-		if (!confirm) {
-			confirm = true;
-			$('[data-execute]').textContent = '再次确认成交';
-			return;
-		}
-		action(service.execute());
+		const state = service.snapshot();
+		const signature = JSON.stringify([state.offered, state.received, state.money, state.peerMoney]);
+		confirmAction(
+			body,
+			'确认成交？',
+			() => {
+				const current = service.snapshot();
+				if (
+					JSON.stringify([current.offered, current.received, current.money, current.peerMoney]) !== signature
+				) {
+					feedback('报价已变化，请重新确认', 'error');
+					return;
+				}
+				action(service.execute());
+			},
+			{}
+		);
 	};
 	$('[data-cancel]').onclick = () => action(service.cancel());
 	function update() {
@@ -98,7 +110,6 @@ export function createTradePanel(body, service) {
 					preview = { side, index: entry.index };
 					selected = null;
 					pickerKey = '';
-					confirm = false;
 					update();
 					$('[data-picker]').scrollIntoView({ block: 'nearest' });
 				};
@@ -110,7 +121,7 @@ export function createTradePanel(body, service) {
 		$('[data-send-money]').disabled = !active || state.ownLocked;
 		$('[data-lock]').disabled = !active || state.ownLocked;
 		$('[data-execute]').disabled = !active || !state.ownLocked || !state.peerLocked;
-		if (!confirm) $('[data-execute]').textContent = '确认成交';
+		$('[data-execute]').textContent = '确认成交';
 		$('[data-cancel]').disabled = !state.allowed;
 	}
 	update();

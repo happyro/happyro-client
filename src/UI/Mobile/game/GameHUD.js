@@ -151,7 +151,7 @@ HUD.onAppend = function () {
 	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity));
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
-		openAdventureTools: () => AdventureTools.append(),
+		openAdventureTools: back => AdventureTools.openFromMenu(back),
 		openAdventureMap: target => AdventureTools.openMap(target),
 		setModal,
 		interact: () => {

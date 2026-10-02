@@ -25,8 +25,7 @@
 .settings-tabs button {
 	flex: 1;
 }
-.settings-tabs [aria-pressed='true'],
-.settings-actions .settings-save {
+.settings-tabs [aria-pressed='true'] {
 	background: #57452c;
 	border-color: #ceaa70;
 	color: #ffe1ae;

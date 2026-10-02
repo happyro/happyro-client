@@ -1,6 +1,9 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 export function createEnchantPanel(body, service) {
 	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="可附魔装备"></div><section class="inventory-detail" aria-label="附魔详情"></section></div><p role="status"></p>';
+		'<div class="inventory-layout"><div class="inventory-list" aria-label="可附魔装备"></div><section class="inventory-detail" aria-label="附魔详情"></section></div>';
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		list = $('.inventory-list'),
 		detail = $('.inventory-detail');
@@ -9,7 +12,7 @@ export function createEnchantPanel(body, service) {
 	const nodes = new Map();
 	function update() {
 		const state = service.snapshot();
-		$('[role=status]').textContent = state.message;
+		feedback.update(state.message);
 		const ids = new Set(state.items.map(item => item.index));
 		for (const [id, node] of nodes)
 			if (!ids.has(id)) {
@@ -24,7 +27,7 @@ export function createEnchantPanel(body, service) {
 				b.onclick = () => {
 					const error = service.select(item.index, item.ID);
 					if (error) {
-						$('[role=status]').textContent = error;
+						feedback(error);
 						return;
 					}
 					key = '';
@@ -42,7 +45,7 @@ export function createEnchantPanel(body, service) {
 		key = next;
 		detail.replaceChildren();
 		if (!state.selected) {
-			detail.textContent = state.message;
+			detail.textContent = '请选择装备';
 			return;
 		}
 		const select = document.createElement('select');
@@ -72,15 +75,16 @@ export function createEnchantPanel(body, service) {
 		const confirm = document.createElement('button');
 		confirm.textContent = '核对附魔';
 		confirm.disabled = !state.allowed;
-		let reviewed = false;
 		confirm.onclick = () => {
-			if (!reviewed) {
-				reviewed = true;
-				confirm.textContent = '确认消耗并附魔';
-				return;
-			}
-			const error = service.confirm(choice.key, JSON.stringify(choice));
-			if (error) $('[role=status]').textContent = error;
+			confirmAction(
+				body,
+				'确认附魔？',
+				() => {
+					const error = service.confirm(choice.key, JSON.stringify(choice));
+					if (error) feedback(error, 'error');
+				},
+				{}
+			);
 		};
 		detail.append(warning, confirm);
 	}

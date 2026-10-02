@@ -1,16 +1,19 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 /** Touch-only inventory presentation. Actions receive inventory indices, never DOM-derived item data. */
 export function createInventoryPanel(body, actions) {
 	body.innerHTML =
-		'<div class="inventory-toolbar"></div><div class="inventory-layout"><div class="inventory-list" aria-label="物品列表"></div><section class="inventory-detail" aria-label="物品详情"></section></div><p class="inventory-status" role="status"></p>';
+		'<div class="inventory-toolbar"></div><div class="inventory-layout"><div class="inventory-list" aria-label="物品列表"></div><section class="inventory-detail inventory-item-detail" aria-label="物品详情"></section></div>';
 	const $ = selector => body.querySelector(selector);
 	const list = $('.inventory-list'),
 		detail = $('.inventory-detail');
 	let selected = null,
 		state = [],
 		detailKey = '',
-		binding = false;
+		binding = false,
+		dismiss;
 	const buttons = new Map();
 	const sort = document.createElement('select');
 	sort.setAttribute('aria-label', '背包排序');
@@ -23,9 +26,7 @@ export function createInventoryPanel(body, actions) {
 		sort.add(new Option(name, key));
 	sort.onchange = () => render();
 
-	const status = message => {
-		$('.inventory-status').textContent = message;
-	};
+	const status = createFeedback(body);
 	function button(label, fn) {
 		const node = document.createElement('button');
 		node.type = 'button';
@@ -48,6 +49,8 @@ export function createInventoryPanel(body, actions) {
 	function renderDetail() {
 		const item = state.find(entry => entry.index === selected?.index && entry.ID === selected?.ID);
 		if (!item) {
+			dismiss?.();
+			dismiss = null;
 			selected = null;
 			binding = false;
 			detailKey = '';
@@ -67,9 +70,15 @@ export function createInventoryPanel(body, actions) {
 		const ops = document.createElement('div');
 		ops.className = 'inventory-actions';
 		if (item.action) {
-			const use = button({ use: '使用', equip: '穿戴', unequip: '卸下', card: '镶嵌卡片' }[item.action], () => {
-				status(actions.act(item.index, item.ID, item.action));
+			const label = { use: '使用', equip: '穿戴', unequip: '卸下', card: '镶嵌卡片' }[item.action];
+			const perform = () => {
+				const error = actions.act(item.index, item.ID, item.action);
+				if (error) status(error, 'error');
 				update();
+			};
+			const use = button(label, () => {
+				if (item.action === 'equip' || item.action === 'unequip') perform();
+				else dismiss = confirmAction(body, `确认${label}「${item.name}」？`, perform);
 			});
 			use.disabled = Boolean(item.reason);
 			ops.append(use);
@@ -78,12 +87,15 @@ export function createInventoryPanel(body, actions) {
 		if (!item.worn) ops.append(button('丢弃', () => chooseDrop(item)));
 		const reason = document.createElement('p');
 		reason.textContent = item.reason;
-		detail.replaceChildren(title, count, ops, reason, description);
+		const content = document.createElement('div');
+		content.className = 'inventory-item-description';
+		content.append(title, count, reason, description);
+		detail.replaceChildren(content, ops);
 	}
 	function chooseDrop(item) {
 		binding = true;
 		const warning = document.createElement('p');
-		warning.textContent = `丢弃 ${item.name} 后物品将落到地上，可能被其他玩家拾取。`;
+		warning.textContent = `确认丢弃「${item.name}」？`;
 		const input = document.createElement('input');
 		input.type = 'number';
 		input.min = '1';
@@ -91,23 +103,33 @@ export function createInventoryPanel(body, actions) {
 		input.step = '1';
 		input.value = '1';
 		input.setAttribute('aria-label', '丢弃数量');
-		const confirm = button('确认丢弃', () => {
-			status(actions.drop(item.index, item.ID, Number(input.value)));
-			binding = false;
-			detailKey = '';
-			update();
-		});
-		const cancel = button('取消丢弃', () => {
-			binding = false;
-			detailKey = '';
-			renderDetail();
-		});
-		detail.replaceChildren(warning, input, confirm, cancel);
+		const content = document.createElement('label');
+		content.className = 'ui-confirm-field';
+		const label = document.createElement('span');
+		label.textContent = '数量';
+		content.append(label, input);
+		dismiss = confirmAction(
+			body,
+			warning.textContent,
+			() => {
+				const error = actions.drop(item.index, item.ID, Number(input.value));
+				if (error) status(error, 'error');
+				binding = false;
+				detailKey = '';
+				update();
+			},
+			{
+				content,
+				cancelled: () => {
+					binding = false;
+					detailKey = '';
+					renderDetail();
+				}
+			}
+		);
 	}
 	function chooseBinding(item) {
 		binding = true;
-		const title = document.createElement('p');
-		title.textContent = `将 ${item.name} 设置到快捷槽；已有内容将被替换。`;
 		const select = document.createElement('select');
 		select.setAttribute('aria-label', '目标快捷槽');
 		const page = actions.shortcuts();
@@ -119,19 +141,27 @@ export function createInventoryPanel(body, actions) {
 		}
 		select.onchange = describeSlot;
 		describeSlot();
-		const save = button('确认设置', () => {
-			const success = actions.bind(item.index, item.ID, Number(select.value));
-			status(success ? `已设置到槽位 ${Number(select.value) + 1}` : '设置失败，物品或角色状态已经变化');
-			binding = false;
-			detailKey = '';
-			update();
-		});
-		const cancel = button('取消设置', () => {
-			binding = false;
-			detailKey = '';
-			renderDetail();
-		});
-		detail.replaceChildren(title, select, preview, save, cancel);
+		const content = document.createElement('div');
+		content.append(select, preview);
+		dismiss = confirmAction(
+			body,
+			`设置「${item.name}」的快捷槽？`,
+			() => {
+				const success = actions.bind(item.index, item.ID, Number(select.value));
+				status(success ? `已设置到槽位 ${Number(select.value) + 1}` : '设置失败，物品或角色状态已经变化');
+				binding = false;
+				detailKey = '';
+				update();
+			},
+			{
+				content,
+				cancelled: () => {
+					binding = false;
+					detailKey = '';
+					renderDetail();
+				}
+			}
+		);
 	}
 	function render() {
 		const filtered = state.filter(
@@ -164,12 +194,14 @@ export function createInventoryPanel(body, actions) {
 			let node = buttons.get(key);
 			if (!node) {
 				node = button('', () => {
+					dismiss?.();
+					dismiss = null;
 					selected = { index: item.index, ID: item.ID };
 					binding = false;
 					detailKey = '';
 					status('');
 					render();
-					detail.scrollTop = 0;
+					detail.querySelector('.inventory-item-description')?.scrollTo?.(0, 0);
 				});
 				node.className = 'inventory-item';
 				node.dataset.index = item.index;

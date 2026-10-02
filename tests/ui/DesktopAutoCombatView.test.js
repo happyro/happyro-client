@@ -42,7 +42,7 @@ it('reports a rejected start and retains unsaved settings after persistence fail
 	actions.start.mockReturnValue(false); click('[data-toggle]');
 	expect(root.querySelector('[data-status]').textContent).toBe('当前不能开始自动战斗');
 	click('[data-settings]'); actions.configure.mockReturnValue(false); click('[data-save-auto]');
-	expect(view.isOpen()).toBe(true); expect(root.querySelector('[data-auto-feedback]').textContent).toContain('保存失败');
+	expect(view.isOpen()).toBe(true); expect(document.querySelector('.ui-toast').textContent).toContain('保存失败');
 });
 
 it('does not forward dialog keystrokes to gameplay shortcuts', () => {

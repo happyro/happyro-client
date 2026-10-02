@@ -25,7 +25,7 @@ it('material conversion preserves source counts, rejects worn/stale quantities a
  openGameMaterials(1,s.send);interactionSnapshot().close();expect(s.send).toHaveBeenLastCalledWith({Type:1,Action:0,MaterialList:[]});
 });
 it('keeps an explicit choice and confirmation rather than submitting the first entry',()=>{
- const body=document.createElement('div'),service=openGameSelection('选择',[{id:7,name:'<script>测试</script>'}],s.send,s.cancel);service.setOperationGuard(()=>true);createSelectionPanel(body,service);expect(s.send).not.toHaveBeenCalled();expect(body.querySelector('script')).toBeNull();body.querySelector('.inventory-item').click();[...body.querySelectorAll('button')].find(b=>b.textContent==='确认选择').click();expect(s.send).toHaveBeenCalledOnce();
+ const body=document.body.appendChild(document.createElement('div')),service=openGameSelection('选择',[{id:7,name:'<script>测试</script>'}],s.send,s.cancel);service.setOperationGuard(()=>true);createSelectionPanel(body,service);expect(s.send).not.toHaveBeenCalled();expect(body.querySelector('script')).toBeNull();body.querySelector('.inventory-item').click();[...body.querySelectorAll('button')].find(b=>b.textContent==='确认选择').click();expect(s.send).not.toHaveBeenCalled();body.querySelector('dialog [data-confirm]').click();expect(s.send).toHaveBeenCalledOnce();
 });
 it('detects in-place equipment slot changes after opening an inventory selection',()=>{
  s.items[0].slot={card1:0};const service=openGameSelection('精炼',selectionEntries([2],'inventory'),s.send,s.cancel);service.setOperationGuard(()=>true);s.items[0].slot.card1=4001;expect(service.choose(2)).toContain('变化');expect(s.send).not.toHaveBeenCalled();

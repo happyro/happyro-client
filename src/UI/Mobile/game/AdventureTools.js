@@ -1,3 +1,6 @@
+import { createFeedback } from 'UI/Components/Feedback.js';
+import { subscribeAdventureActions } from 'UI/Components/GameTools/AdventureActionService.js';
+import { subscribeAdventureRoute } from 'UI/Components/GameTools/AdventureRouteService.js';
 import { createMobileInputEditor } from './MobileInputEditor.js';
 import mobileSelectCSS from './MobileSelect.css?raw';
 import { createMobileViewport } from './MobileViewport.js';
@@ -8,7 +11,6 @@ import Session from 'Engine/SessionStorage.js';
 import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
 import { availableGameToolsTabs } from 'UI/Components/GameTools/GameToolsTabs.js';
 import { loadAdventureControlBootstrap } from 'UI/Components/GameTools/AdventureControlService.js';
-import { subscribeAdventureActions } from 'UI/Components/GameTools/AdventureActionService.js';
 import { notifyGameInput } from 'Controls/GameInputIntent.js';
 import { createAdventureToolsView } from './AdventureToolsView.js';
 import baseCSS from 'UI/Components/GameTools/GameTools.css?raw';
@@ -27,12 +29,18 @@ let view,
 	previousFreeze,
 	inputOwned = false;
 
+Tools.openFromMenu = function (back) {
+	this.backToMenu = back;
+	this.append();
+};
 Tools.openMap = function (target) {
 	this.initialMap = target;
 	this.append();
 };
 Tools.onAppend = async function () {
 	const initialMap = this.initialMap;
+	const backToMenu = this.backToMenu;
+	this.backToMenu = null;
 	this.initialMap = null;
 	this.onRemove();
 	const request = ++generation;
@@ -44,8 +52,36 @@ Tools.onAppend = async function () {
 	abort = new AbortController();
 	const mount = this.getRoot().querySelector('.adventure-mount');
 	const context = { capabilities: {}, mobile: true, initialMap };
-	view = createAdventureToolsView(mount, { tabs: [], context, close: () => this.remove() });
+	view = createAdventureToolsView(mount, {
+		tabs: [],
+		context,
+		close: () => this.remove(),
+		backToMenu: backToMenu
+			? () => {
+					this.remove();
+					backToMenu();
+				}
+			: undefined
+	});
 
+	const feedback = createFeedback(mount.querySelector('.game-tools-window'));
+	let actionMessage = '',
+		routeMessage = '';
+	disposers.push(
+		subscribeAdventureActions(state => {
+			if (state.message && state.message !== actionMessage)
+				feedback(
+					state.message,
+					state.error ? 'error' : state.npcPending || state.mapPending ? 'info' : 'success'
+				);
+			actionMessage = state.message;
+		}),
+		subscribeAdventureRoute(state => {
+			if (state.message && state.message !== routeMessage)
+				feedback(state.message, state.message === '无法到达所选位置' ? 'error' : 'info');
+			routeMessage = state.message;
+		})
+	);
 	disposers.push(onConnectionEnd(() => this.remove()));
 	const viewport = createMobileViewport(this._host);
 	disposers.push(viewport.destroy, createMobileInputEditor(this._host));
@@ -55,19 +91,15 @@ Tools.onAppend = async function () {
 	this.getRoot().addEventListener('focusin', viewport, { signal: abort.signal });
 	this.getRoot().addEventListener('focusout', () => queueMicrotask(viewport), { signal: abort.signal });
 	viewport();
-	let capabilities,
-		unavailable = false;
+	let capabilities;
 	try {
 		capabilities = { ...(await loadAdventureControlBootstrap()), adminAvailable: true };
 	} catch {
 		capabilities = { adminAvailable: false };
-		unavailable = true;
 	}
 	if (request !== generation || !Session.Playing) return;
 	context.capabilities = capabilities;
 	view.setTabs(availableGameToolsTabs(capabilities));
-	disposers.push(subscribeAdventureActions(state => view?.feedback(state.message, state.error)));
-	if (unavailable) view.feedback('后台暂不可用，部分功能不可用；关闭后重试。', true);
 };
 Tools.onRemove = function () {
 	generation++;

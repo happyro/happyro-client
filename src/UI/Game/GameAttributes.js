@@ -95,6 +95,7 @@ export function createGameAttributes(canOperate) {
 			allowed: allowed && !pending && !reset.pending,
 			pending: Boolean(pending || reset.pending),
 			message: reset.pending ? reset.message : message,
+			resetMessage: reset.message,
 			related: Object.fromEntries(
 				Object.entries(related).map(([kind, rows]) => [
 					kind,

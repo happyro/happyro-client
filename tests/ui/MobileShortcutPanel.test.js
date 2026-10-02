@@ -2,7 +2,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 import { createShortcutPanel } from '../../src/UI/Mobile/game/ShortcutPanel.js';
 let body, entry, item, slots, actions, panel;
 beforeEach(() => {
- body = document.createElement('div');
+ body = document.body.appendChild(document.createElement('div'));
  entry = { isSkill: true, ID: 1, level: 5, name: '测试技能', amount: 'Lv.5', icon: '' };
  item = { isSkill: false, ID: 501, name: '红色药水', amount: 3 };
  slots = [{ index: 3, name: '空槽位', empty: true }, { index: 4, name: '测试技能', empty: false, binding: { isSkill: true, ID: 1, count: 3 } }];
@@ -20,21 +20,21 @@ it('preserves chosen level and list position while icons load, then saves withou
  body.querySelector('form').dispatchEvent(new Event('submit', { cancelable: true }));
  expect(actions.configure).toHaveBeenCalledWith(3, entry, 2);
  expect(body.querySelector('[data-current]').textContent).toContain(entry.name);
- expect(body.querySelector('[data-config-status]').textContent).toContain('已保存');
+ expect(document.querySelector('.ui-toast').textContent).toContain('已保存');
  expect(body.querySelector('form').hidden).toBe(false);
 });
 it('disables clearing empty slots, confirms occupied ones and allows cancelling', () => {
  expect(body.querySelector('[data-clear-slot]').disabled).toBe(true);
  body.querySelector('[data-index="4"]').click();body.querySelector('[data-clear-slot]').click();
- expect(actions.configure).not.toHaveBeenCalled();expect(body.querySelector('[data-clear-question]').textContent).toContain('槽位 5');
- body.querySelector('[data-cancel-clear]').click();expect(body.querySelector('[data-clear-confirm]').hidden).toBe(true);
- body.querySelector('[data-clear-slot]').click();body.querySelector('[data-confirm-clear]').click();
+ expect(actions.configure).not.toHaveBeenCalled();expect(body.querySelector('dialog p').textContent).toContain('槽位 5');
+ body.querySelector('dialog [data-cancel]').click();expect(body.querySelector('dialog')).toBeNull();
+ body.querySelector('[data-clear-slot]').click();body.querySelector('dialog [data-confirm]').click();
  expect(actions.configure).toHaveBeenCalledExactlyOnceWith(4, null);
  expect(body.querySelector('[data-clear-slot]').disabled).toBe(true);
 });
 it('switching slots cancels the pending edit and clear confirmation', () => {
  body.querySelector('[data-index="4"]').click();body.querySelector('[data-clear-slot]').click();
- body.querySelector('[data-index="3"]').click();expect(body.querySelector('[data-clear-confirm]').hidden).toBe(true);
+ body.querySelector('[data-index="3"]').click();expect(body.querySelector('dialog')).toBeNull();
  expect(body.querySelector('form').hidden).toBe(true);expect(actions.configure).not.toHaveBeenCalled();
 });
 it('editing an existing skill starts at the bound level and items hide the level selector', () => {
@@ -47,6 +47,6 @@ it('editing an existing skill starts at the bound level and items hide the level
 it('failed saves keep the draft and selected level for correction', () => {
  actions.configure.mockReturnValue(false);body.querySelector('.shortcut-choice').click();body.querySelector('select').value = '2';
  body.querySelector('form').dispatchEvent(new Event('submit', { cancelable: true }));
- expect(body.querySelector('[data-config-status]').textContent).toContain('保存失败');
+ expect(document.querySelector('.ui-toast').textContent).toContain('保存失败');
  expect(body.querySelector('select').value).toBe('2');expect(body.querySelector('form').hidden).toBe(false);
 });

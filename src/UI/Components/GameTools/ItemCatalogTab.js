@@ -1,4 +1,4 @@
-import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
+import { showToast } from 'UI/Components/Toast.js';
 import {
 	grantAdventureItem,
 	grantAdventureZeny,
@@ -7,7 +7,7 @@ import {
 } from './AdventureControlService.js';
 import { escapeCatalogHtml } from './CatalogData.js';
 import { toPlainRagnarokText } from '../../../Utils/RagnarokText.js';
-import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
+import { requestConfirmation } from 'UI/Components/Confirmation.js';
 import { requestGameToolsNumber } from './GameToolsNumberPrompt.js';
 import { renderGameSelect, setGameSelectOptions } from './GameSelect.js';
 import { mountRemoteCatalogBrowser } from './RemoteCatalogBrowser.js';
@@ -202,10 +202,7 @@ function mount(container, context = {}) {
 			browserApi = api;
 			const { container: root, refreshDetail } = api;
 			const button = root.querySelector('.zeny-grant-open');
-			const zenyError = document.createElement('span');
-			zenyError.className = 'catalog-status error zeny-grant-error';
-			zenyError.setAttribute('role', 'status');
-			button.after(zenyError);
+
 			button.addEventListener('click', async () => {
 				const amount = await requestGameToolsNumber(root, {
 					title: '向当前角色发放 Zeny',
@@ -217,24 +214,16 @@ function mount(container, context = {}) {
 				if (amount === null) return;
 				zenyPending = true;
 				button.disabled = true;
-				zenyError.textContent = '';
+
 				try {
 					await grantAdventureZeny(amount);
 					status = `已发放 ${amount.toLocaleString()} Zeny`;
 					statusError = false;
-					button.textContent = '发放成功';
 				} catch (error) {
 					status = error.code === 'zeny_amount_exceeded' ? '发放后会超过角色 Zeny 持有上限' : error.message;
 					statusError = true;
-					button.textContent = '发放失败';
 				}
-				if (!statusError) {
-					showGameToolsToast(container, status);
-					status = '';
-				} else {
-					clearGameToolsToast(container);
-				}
-				zenyError.textContent = statusError ? status : '';
+				showToast(container, status, statusError ? 'error' : 'success');
 				status = '';
 				statusError = false;
 				refreshDetail();
@@ -264,38 +253,47 @@ function mount(container, context = {}) {
 			const type = typeNames[item.Type] || item.Type || '其他';
 			const weight = Number(item.Weight || 0) / 10;
 			const metadata = context.mobile
-				? [['名称', name], ['英文名', item.AegisName], ['编号', item.Id], ['类型', type],
-					['买价', item.Buy ?? '-'], ['卖价', item.Sell ?? '-'], ['重量', weight], ['洞数', item.Slots ?? 0]]
-				: [['类型', type], ['重量', weight], ['买 / 卖', `${item.Buy ?? '-'} / ${item.Sell ?? '-'}`], ['洞数', item.Slots ?? 0]];
+				? [
+						['名称', name],
+						['英文名', item.AegisName],
+						['编号', item.Id],
+						['类型', type],
+						['买价', item.Buy ?? '-'],
+						['卖价', item.Sell ?? '-'],
+						['重量', weight],
+						['洞数', item.Slots ?? 0]
+					]
+				: [
+						['类型', type],
+						['重量', weight],
+						['买 / 卖', `${item.Buy ?? '-'} / ${item.Sell ?? '-'}`],
+						['洞数', item.Slots ?? 0]
+					];
 			detail.innerHTML = `<div class="item-detail-content"><div class="item-overview"><div class="catalog-heading item-heading"><span class="catalog-portrait item-portrait"><img alt="${escapeCatalogHtml(name)}"></span>${context.mobile ? '' : `<div><h3>${escapeCatalogHtml(name)}</h3><p>${escapeCatalogHtml(item.AegisName)} · ID ${item.Id}</p></div>`}</div>
 			<div class="catalog-metadata">${metadata.map(([label, value]) => `<div><span>${label}</span><strong>${escapeCatalogHtml(value)}</strong></div>`).join('')}</div>
 			</div><div class="item-description">${renderDescription(item.description)}</div></div>
-			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? 'disabled' : ''}>${pending ? '发放中...' : '发放到背包'}</button><span class="catalog-status error" role="status" aria-live="polite">${escapeCatalogHtml(status || (!item.grantable ? '该特殊物品暂不支持直接发放' : !context.capabilities?.itemGrantAllowed ? '当前账号没有发放权限' : ''))}</span></div>`;
+			<div class="catalog-action-panel item-grant-panel"><label>数量 <input class="item-grant-amount" type="number" min="1" max="30000" value="1"></label><button class="item-grant" type="button" ${pending || !canGrant ? 'disabled' : ''}>${pending ? '发放中...' : '发放到背包'}</button><span class="catalog-status error" role="status" aria-live="polite">${escapeCatalogHtml(!item.grantable ? '该特殊物品暂不支持直接发放' : !context.capabilities?.itemGrantAllowed ? '当前账号没有发放权限' : '')}</span></div>`;
 			loadImage(detail.querySelector('.item-portrait img'), item.illustration || item.icon, assetUrls);
 			detail.querySelector('.item-grant').addEventListener('click', async () => {
 				const amount = Number(detail.querySelector('.item-grant-amount').value);
 				if (!Number.isInteger(amount) || amount < 1 || amount > 30000) {
-					status = '请输入 1 至 30000 的整数';
+					showToast(container, '请输入 1 至 30000 的整数', 'error');
 					statusError = true;
 					api.refreshDetail();
 					return;
 				}
-				if (
-					!(await requestGameToolsConfirmation(container, `确认向当前角色发放 ${amount} 个“${name}”到背包？`))
-				)
-					return;
+				if (!(await requestConfirmation(container, `确认向当前角色发放 ${amount} 个“${name}”到背包？`))) return;
 				pending = true;
 				status = '';
 				statusError = false;
 				api.refreshDetail();
 				try {
 					await grantAdventureItem(item.Id, amount);
-					status = '';
+					showToast(container, `已发放 ${amount} 个${name}`);
 				} catch (error) {
-					status = errorMessages[error.code] || error.message;
+					showToast(container, errorMessages[error.code] || error.message, 'error');
 					statusError = true;
 				} finally {
-					clearGameToolsToast(container);
 					pending = false;
 					api.refreshDetail();
 				}

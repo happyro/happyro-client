@@ -1,3 +1,4 @@
+import { clearToast } from 'UI/Components/Toast.js';
 import mobileSelectCSS from './MobileSelect.css?raw';
 import { createMenuSelects } from './MenuSelects.js';
 import selectCSS from 'UI/Components/GameTools/GameSelect.css?raw';
@@ -31,6 +32,7 @@ import html from './GameHUD.html?raw';
 import css from './GameHUD.css?raw';
 import responsiveCSS from './GameHUDResponsive.css?raw';
 import panelsCSS from './MenuPanels.css?raw';
+import mailCSS from './MailPanel.css?raw';
 
 /** DOM-only view; no packets, desktop windows or map event handlers. */
 export function createGameHUDView(root, actions) {
@@ -39,7 +41,8 @@ ${autoCombatCSS}
 ${responsiveCSS}
 ${selectCSS}
 ${panelsCSS}
-${mobileSelectCSS}</style>${html}`;
+${mobileSelectCSS}
+${mailCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
@@ -131,6 +134,7 @@ ${mobileSelectCSS}</style>${html}`;
 	function close(notify = true) {
 		menuSelects.close();
 		if (!currentPanel || (notify && serverState?.canClose === false)) return;
+		clearToast(body);
 		const interaction = serverState;
 		serverState = null;
 		currentPanel = null;
@@ -205,6 +209,7 @@ ${mobileSelectCSS}</style>${html}`;
 		}
 	}
 	function open(panel, slotIndex) {
+		clearToast(body);
 		if (panel === 'map') {
 			close();
 			actions.openAdventureMap(slotIndex);
@@ -349,7 +354,7 @@ ${mobileSelectCSS}</style>${html}`;
 			adventureButton.textContent = '冒险工具';
 			adventureButton.onclick = () => {
 				close();
-				actions.openAdventureTools();
+				actions.openAdventureTools(() => open('menu'));
 			};
 			grid.prepend(adventureButton);
 			const petButton = document.createElement('button');

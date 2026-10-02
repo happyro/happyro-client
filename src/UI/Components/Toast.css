@@ -1,0 +1,39 @@
+:host {
+	all: initial;
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 2147483647;
+	display: flex;
+	align-items: center;
+	width: max-content;
+	max-width: calc(100% - 16px);
+	box-sizing: border-box;
+	padding: 8px 10px;
+	border: 1px solid #6aa786;
+	border-radius: 8px;
+	background: #263d32;
+	color: #d9f4e5;
+	box-shadow: 0 4px 16px #0006;
+	font:
+		13px/1.5 Arial,
+		sans-serif;
+	pointer-events: none;
+}
+:host(.info) {
+	border-color: #729cb8;
+	background: #253b4b;
+	color: #dceefa;
+}
+:host(.error) {
+	border-color: #d99573;
+	background: #643c31;
+	color: #ffe2cc;
+}
+.message {
+	min-width: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

@@ -624,10 +624,6 @@ dd {
 	border: 1px solid #7e8c99;
 	border-radius: 6px;
 }
-.panel [data-save-slot] {
-	background: #57452c;
-	border-color: #ceaa70;
-}
 .shortcut-clear {
 	margin-top: 12px;
 	padding-top: 10px;
@@ -877,8 +873,8 @@ dd {
 }
 .npc-lines {
 	white-space: pre-line;
-	font-size: 16px;
-	line-height: 1.7;
+	font-size: 12px;
+	line-height: 1.6;
 }
 .npc-cutin {
 	max-width: 32%;

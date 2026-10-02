@@ -1,6 +1,9 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 export function createRefinementPanel(body, service) {
 	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="可强化装备"></div><section class="inventory-detail" aria-label="强化详情"></section></div><p role="status"></p>';
+		'<div class="inventory-layout"><div class="inventory-list" aria-label="可强化装备"></div><section class="inventory-detail" aria-label="强化详情"></section></div>';
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		list = $('.inventory-list'),
 		detail = $('.inventory-detail'),
@@ -8,7 +11,7 @@ export function createRefinementPanel(body, service) {
 	let key = '';
 	function update() {
 		const state = service.snapshot();
-		$('[role=status]').textContent = state.message;
+		feedback.update(state.message);
 		const ids = new Set(state.items.map(item => item.index));
 		for (const [id, node] of nodes)
 			if (!ids.has(id)) {
@@ -23,7 +26,7 @@ export function createRefinementPanel(body, service) {
 				button.onclick = () => {
 					const current = service.snapshot().items.find(entry => entry.index === item.index);
 					const error = current ? service.select(current.index, current.ID) : '装备已经变化';
-					if (error) $('[role=status]').textContent = error;
+					if (error) feedback(error);
 					key = '';
 					update();
 				};
@@ -45,7 +48,7 @@ export function createRefinementPanel(body, service) {
 		key = next;
 		detail.replaceChildren();
 		if (!state.offer) {
-			detail.textContent = state.message;
+			detail.textContent = '请选择装备';
 			return;
 		}
 		const warning = document.createElement('p');
@@ -81,7 +84,6 @@ export function createRefinementPanel(body, service) {
 		label.append(blessing);
 		const confirm = document.createElement('button');
 		confirm.textContent = '核对强化';
-		let reviewed = '';
 		function selected() {
 			return {
 				material: Number(materials.value),
@@ -99,7 +101,6 @@ export function createRefinementPanel(body, service) {
 				state.kind === 'refine'
 					? `成功率：${material?.chance ?? 0}%`
 					: `成功率：${Math.min(10000, (state.offer.success_chance || 0) + Number(blessing.value) * (state.offer.blessing_info?.bonus || 0)) / 100}% · 失败降级：${material?.downgrade || 0} · 可能损坏：${material?.breakable ? '是' : '否'}`;
-			reviewed = '';
 			confirm.textContent = '核对强化';
 		}
 		materials.onchange = details;
@@ -107,20 +108,27 @@ export function createRefinementPanel(body, service) {
 		details();
 		confirm.disabled = !state.allowed || !state.materials.length;
 		confirm.onclick = () => {
-			const choice = selected(),
-				signature = JSON.stringify(choice);
-			if (reviewed !== signature) {
-				reviewed = signature;
-				confirm.textContent = '确认消耗并强化';
-				return;
-			}
-			const error = service.confirm(choice.material, choice.blessing);
-			if (error) {
-				$('[role=status]').textContent = error;
-				return;
-			}
-			key = '';
-			update();
+			const choice = selected();
+			const signature = JSON.stringify([state.selected, state.offer]);
+			confirmAction(
+				body,
+				'确认强化？',
+				() => {
+					const current = service.snapshot();
+					if (JSON.stringify([current.selected, current.offer]) !== signature) {
+						feedback('强化内容已变化，请重新核对', 'error');
+						return;
+					}
+					const error = service.confirm(choice.material, choice.blessing);
+					if (error) {
+						feedback(error, 'error');
+						return;
+					}
+					key = '';
+					update();
+				},
+				{}
+			);
 		};
 		detail.append(warning, materials, chance, label, confirm);
 	}

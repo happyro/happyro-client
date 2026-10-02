@@ -1,4 +1,4 @@
-import { beforeEach, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 const s = vi.hoisted(() => ({ session: {}, send: vi.fn(), maintain: vi.fn(), allowed: true }));
 vi.mock('Engine/SessionStorage.js', () => ({ default: s.session }));
 vi.mock('Network/NetworkManager.js', () => ({ default: { sendPacket: s.send } }));
@@ -9,7 +9,10 @@ import { createGameAttributes } from '../../src/UI/Game/GameAttributes.js';
 import { characterStatValues, updateCharacterStat, recordCharacterStatResult } from '../../src/UI/Game/CharacterStats.js';
 import { pointResetState, resetCharacterPoints } from '../../src/UI/Game/GamePointReset.js';
 import { createAttributesPanel } from '../../src/UI/Mobile/game/AttributesPanel.js';
+afterEach(() => document.body.replaceChildren());
 beforeEach(() => {
+ HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); };
+ HTMLDialogElement.prototype.close = function () { this.removeAttribute('open'); };
  vi.clearAllMocks(); s.allowed = true;
  s.session.Playing = true;
  s.session.Entity = { _job: 4258, action: 0, ACTION: { DIE: 99 }, life: { hp_max: 1000, sp_max: 100 } };
@@ -70,27 +73,29 @@ it('resets base and traits separately, prevents overlapping resets and reports A
  resolve({}); expect(await pending).toBe('角色会话已变更');
  expect(await resetCharacterPoints('base', old)).toContain('不能');
 });
-it('confirms resets, switches category safely and ignores late updates to a replaced panel', async () => {
- const body = document.createElement('div');
- const service = createGameAttributes(() => s.allowed);
- const reset = vi.spyOn(service, 'reset');
- const panel = createAttributesPanel(body, service);
- const click = text => [...body.querySelectorAll('button')].find(b => b.textContent === text).click();
- click('重置素质点'); expect(reset).not.toHaveBeenCalled();
- click('取消'); expect(body.querySelector('.point-reset-confirm').hidden).toBe(true);
- click('重置素质点'); click('四转素质');
- expect(body.querySelector('.point-reset-confirm').hidden).toBe(true);
+it('switches categories without a reset control and ignores updates after leaving', () => {
+ const body = document.body.appendChild(document.createElement('div'));
+ const panel = createAttributesPanel(body, createGameAttributes(() => s.allowed));
+ expect(body.querySelector('.point-reset-button')).toBeNull();
+ [...body.querySelectorAll('button')].find(b => b.textContent === '四转素质').click();
  expect(body.querySelector('[data-attribute=pow]')).not.toBeNull();
- let resolve; s.maintain.mockImplementationOnce(() => new Promise(r => { resolve = r; }));
- click('重置素质点'); click('确认重置素质点');
- expect(reset).toHaveBeenCalledExactlyOnceWith('traits');
- expect([...body.querySelectorAll('.attribute-tabs button')].every(b => b.disabled)).toBe(true);
- body.textContent = '新的菜单'; resolve({});
- await vi.waitFor(() => expect(pointResetState(s.session.Entity).pending).toBe(false));
- panel.update(); expect(body.textContent).toBe('新的菜单');
+ body.textContent = '新的菜单'; panel.update(); expect(body.textContent).toBe('新的菜单');
 });
 it('hides the fourth-job tab for earlier jobs', () => {
  s.session.Entity._job = 1;
- const body = document.createElement('div'); createAttributesPanel(body, createGameAttributes(() => true));
+ const body = document.body.appendChild(document.createElement('div')); createAttributesPanel(body, createGameAttributes(() => true));
  expect([...body.querySelectorAll('button')].find(b => b.textContent === '四转素质').hidden).toBe(true);
+});
+
+it('does not notify when allocating base or fourth-job points', () => {
+ const body = document.body.appendChild(document.createElement('div'));
+ const service = createGameAttributes(() => s.allowed);
+ const panel = createAttributesPanel(body, service);
+ body.querySelector('[data-attribute=str] button').click();
+ recordCharacterStatResult(s.session.Entity, 13, true);
+ panel.update(); expect(document.querySelector('.ui-toast')).toBeNull();
+ [...body.querySelectorAll('button')].find(b => b.textContent === '四转素质').click();
+ body.querySelector('[data-attribute=pow] button').click();
+ panel.update(); expect(document.querySelector('.ui-toast')).toBeNull();
+ expect(s.send).toHaveBeenCalledTimes(2);
 });

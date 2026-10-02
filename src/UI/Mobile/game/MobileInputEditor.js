@@ -7,10 +7,12 @@ const editable =
 export function createMobileInputEditor(host) {
 	const root = host.shadowRoot;
 	let close;
+	let gesture;
+	let tappedSource;
 	function open(focusEvent) {
 		const source = focusEvent.target;
 		if (close || !source.matches?.(editable) || source.disabled || source.readOnly) return;
-		if (focusEvent.type === 'pointerdown' && focusEvent.button !== 0) return;
+
 		focusEvent.preventDefault();
 		focusEvent.stopImmediatePropagation();
 		const overlay = document.createElement('div');
@@ -30,7 +32,7 @@ export function createMobileInputEditor(host) {
 		field.removeAttribute('name');
 		field.removeAttribute('style');
 		field.removeAttribute('class');
-		field.removeAttribute('autofocus');
+		field.setAttribute('autofocus', '');
 		field.setAttribute('aria-label', title);
 		if (!field.placeholder) field.placeholder = title;
 		field.setAttribute('enterkeyhint', field.tagName === 'TEXTAREA' ? 'enter' : 'done');
@@ -50,6 +52,10 @@ export function createMobileInputEditor(host) {
 			dialog.close();
 			overlay.remove();
 			host.inert = originalInert;
+			// Closing a nested dialog can restore focus to its original input.
+			// Move focus back to the parent prompt so the keyboard stays dismissed.
+			source.blur();
+			source.closest('dialog')?.querySelector('[tabindex="-1"]')?.focus({ preventScroll: true });
 			close = null;
 		};
 		function done() {
@@ -86,18 +92,89 @@ export function createMobileInputEditor(host) {
 		window.addEventListener('resize', resize, { signal: abort.signal });
 		resize();
 		document.body.append(overlay);
-		source.blur();
 		dialog.showModal();
 		// Focus synchronously within the user's gesture so iOS keeps its keyboard open.
 		field.focus({ preventScroll: true });
 		host.inert = true;
 		if (field.selectionStart !== null) field.setSelectionRange(field.value.length, field.value.length);
 	}
-	root.addEventListener('pointerdown', open, true);
-	root.addEventListener('focusin', open, true);
+	const listeners = new AbortController();
+	const options = { capture: true, signal: listeners.signal };
+	root.addEventListener(
+		'pointerdown',
+		event => {
+			if (event.button !== 0 || !event.target.matches?.(editable)) return;
+			tappedSource = null;
+			gesture = { source: event.target, id: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
+			// Touch keeps its native scrolling; mouse focus waits for release as well.
+			if (event.pointerType === 'mouse') event.preventDefault();
+		},
+		options
+	);
+	root.addEventListener(
+		'pointermove',
+		event => {
+			if (
+				gesture &&
+				gesture.id === event.pointerId &&
+				Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) > 8
+			)
+				gesture.moved = true;
+		},
+		options
+	);
+	root.addEventListener(
+		'scroll',
+		() => {
+			if (gesture) gesture.moved = true;
+		},
+		options
+	);
+	root.addEventListener(
+		'pointercancel',
+		() => {
+			gesture = null;
+		},
+		options
+	);
+	root.addEventListener(
+		'pointerup',
+		event => {
+			const tap = gesture;
+			gesture = null;
+			if (
+				!tap ||
+				tap.id !== event.pointerId ||
+				tap.moved ||
+				event.target !== tap.source ||
+				Math.hypot(event.clientX - tap.x, event.clientY - tap.y) > 8
+			)
+				return;
+			tappedSource = tap.source;
+		},
+		options
+	);
+	// Open on the completed click: opening on pointerup lets the same touch's
+	// compatibility mouse events land on the new dialog and steal input focus.
+	root.addEventListener(
+		'click',
+		event => {
+			const source = tappedSource;
+			tappedSource = null;
+			if (event.target === source) open(event);
+		},
+		options
+	);
+	root.addEventListener(
+		'focusin',
+		event => {
+			if (!gesture && !tappedSource) open(event);
+		},
+		options
+	);
 	return () => {
-		root.removeEventListener('pointerdown', open, true);
-		root.removeEventListener('focusin', open, true);
+		listeners.abort();
+		gesture = null;
 		close?.();
 	};
 }

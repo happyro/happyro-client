@@ -1,8 +1,8 @@
 import { clearTabDrafts } from './TabViewState.js';
-import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
+import { showToast } from 'UI/Components/Toast.js';
 import { applyAdventureGameSettings, loadAdventureGameSettings } from './AdventureControlService.js';
 import escapeHtml from './escapeHtml.js';
-import { requestGameToolsConfirmation } from './GameToolsConfirm.js';
+import { requestConfirmation } from 'UI/Components/Confirmation.js';
 import { mountGameSelects, renderGameSelect } from './GameSelect.js';
 
 const groups = [
@@ -99,7 +99,7 @@ function control(key, value, definition) {
 	return `<span class="setting-number"><input name="${key}" aria-label="${labels[key]}" type="number" min="${displayValue(key, definition.minimum)}" max="${displayValue(key, definition.maximum)}" step="${isRate ? '0.01' : '1'}" value="${displayValue(key, value)}" required><em>${suffix}</em></span>`;
 }
 
-function mount(container) {
+function mount(container, context = {}) {
 	container.classList.add('management-tab');
 	let settings;
 	let disposed = false;
@@ -120,10 +120,12 @@ function mount(container) {
 	}
 
 	function render(message = '', error = false) {
+		if (message) showToast(container, message, error ? 'error' : 'success');
 		container.innerHTML = `<form class="settings-form">
 			<div class="settings-scroll">
 				<section><h4>经验倍率</h4><div class="settings-rate-columns">${groups[0].keys.map(key => `<div class="settings-rate-list"><label><span>${labels[key]}</span>${control(key, settings.values[key], settings.definitions[key])}</label></div>`).join('')}</div></section>
-				<section><h4>掉落倍率（普通魔物 &amp; Mini &amp; MVP）</h4><div class="settings-drop-scroll"><table class="settings-drop-table">
+				<section><h4>${context.mobile ? '掉落倍率' : '掉落倍率（普通魔物 &amp; Mini &amp; MVP）'}</h4><div class="settings-drop-scroll"><table class="settings-drop-table">
+					${context.mobile ? '<thead><tr><th scope="col">物品类型</th><th scope="col">普通</th><th scope="col">Mini</th><th scope="col">MVP</th></tr></thead>' : ''}
 					<tbody>${dropTypes
 						.map(
 							type =>
@@ -145,7 +147,7 @@ function mount(container) {
 					.join('')}
 			</div>
 			<footer class="settings-footer">
-				<span class="management-status${error ? ' error' : ''}">${escapeHtml(message)}</span>
+
 				<button type="submit">应用全服设置</button>
 			</footer>
 		</form>`;
@@ -161,16 +163,11 @@ function mount(container) {
 			}
 			if (!Object.keys(changes).length) {
 				render();
-				showGameToolsToast(container, '没有需要应用的修改', 'info');
+				showToast(container, '暂无修改', 'info');
 				return;
 			}
 			form.querySelectorAll('button, input').forEach(element => (element.disabled = true));
-			if (
-				!(await requestGameToolsConfirmation(
-					container,
-					`确认将 ${Object.keys(changes).length} 项修改应用到全服？`
-				))
-			) {
+			if (!(await requestConfirmation(container, `确认将 ${Object.keys(changes).length} 项修改应用到全服？`))) {
 				form.querySelectorAll('button, input').forEach(element => (element.disabled = false));
 				return;
 			}
@@ -179,9 +176,8 @@ function mount(container) {
 				clearTabDrafts(container);
 				settings.values = result.values;
 				render();
-				showGameToolsToast(container, '游戏设置已保存');
+				showToast(container, '游戏设置已保存');
 			} catch (requestError) {
-				clearGameToolsToast(container);
 				render(requestError.message, true);
 			}
 		});

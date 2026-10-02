@@ -1,19 +1,18 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 export function createMaterialsPanel(body, service) {
 	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="材料列表"></div><section class="inventory-detail" aria-label="材料详情"></section></div><div class="skills-toolbar"><button type="button" data-review>核对材料</button><button type="button" data-clear>清空材料</button></div><p role="status"></p>';
+		'<div class="inventory-layout"><div class="inventory-list" aria-label="材料列表"></div><section class="inventory-detail" aria-label="材料详情"></section></div><div class="skills-toolbar"><button type="button" data-review>核对材料</button><button type="button" data-clear>清空材料</button></div>';
 	const $ = selector => body.querySelector(selector),
 		list = $('.inventory-list'),
 		detail = $('.inventory-detail');
 	let selected = null,
-		key = '',
-		review = false;
+		key = '';
 	const nodes = new Map();
-	function status(text) {
-		$('[role=status]').textContent = text;
-	}
+	const status = createFeedback(body);
 	function update() {
 		const state = service.snapshot();
-		if (state.message) status(state.message);
+		status.update(state.message);
 		$('[data-clear]').disabled = !state.allowed;
 		const ids = new Set(state.items.map(item => item.index));
 		for (const [id, node] of nodes)
@@ -28,7 +27,6 @@ export function createMaterialsPanel(body, service) {
 				b.className = 'inventory-item';
 				b.onclick = () => {
 					selected = item.index;
-					review = false;
 					key = '';
 					update();
 				};
@@ -38,27 +36,10 @@ export function createMaterialsPanel(body, service) {
 			b.textContent = `${item.name} × ${item.count}`;
 		}
 		const item = state.items.find(entry => entry.index === selected);
-		const next = JSON.stringify([
-			review,
-			review ? state.order : item && { ...item, icon: undefined },
-			state.allowed
-		]);
+		const next = JSON.stringify([item && { ...item, icon: undefined }, state.allowed]);
 		if (next === key) return;
 		key = next;
 		detail.replaceChildren();
-		if (review) {
-			for (const row of state.order) {
-				const p = document.createElement('p');
-				p.textContent = `${row.name} × ${row.count}${row.description ? '\n' + row.description : ''}`;
-				detail.append(p);
-			}
-			const confirm = document.createElement('button');
-			confirm.textContent = '确认消耗材料';
-			confirm.disabled = !state.allowed || !state.order.length;
-			confirm.onclick = () => status(service.confirm());
-			detail.append(confirm);
-			return;
-		}
 		if (!item) {
 			detail.textContent = state.instruction || '点选物品，输入转换数量';
 			return;
@@ -87,13 +68,28 @@ export function createMaterialsPanel(body, service) {
 		detail.append(name, form);
 	}
 	$('[data-review]').onclick = () => {
-		review = true;
-		key = '';
-		update();
+		const state = service.snapshot();
+		if (!state.allowed || !state.order.length) {
+			status('请先选择材料', 'info');
+			return;
+		}
+		const signature = JSON.stringify(state.order);
+		confirmAction(
+			body,
+			'确认提交材料？',
+			() => {
+				if (JSON.stringify(service.snapshot().order) !== signature) {
+					status('材料已变化，请重新核对', 'error');
+					return;
+				}
+				status(service.confirm());
+				update();
+			},
+			{}
+		);
 	};
 	$('[data-clear]').onclick = () => {
 		service.clear();
-		review = false;
 		key = '';
 		update();
 	};

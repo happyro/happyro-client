@@ -1,3 +1,4 @@
+import { createFeedback } from 'UI/Components/Feedback.js';
 import { AUTO_COMBAT_RANGE_LIMITS } from 'UI/Game/AutoCombatController.js';
 
 /** Auto combat configuration is independent of the manual shortcut slots. */
@@ -24,7 +25,8 @@ export function createAutoCombatPanel(body, actions) {
 				<div class="auto-skill-list" data-auto-skills></div>
 			</section>
 		</div>
-		<div class="auto-config-footer"><div><strong data-auto-summary></strong><span role="status" data-auto-feedback>修改后点击保存生效</span></div><button type="button" data-save-auto>保存配置</button></div>`;
+		<div class="auto-config-footer"><div><strong data-auto-summary></strong></div><button type="button" data-save-auto>保存配置</button></div>`;
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector);
 	const limits = AUTO_COMBAT_RANGE_LIMITS;
 	for (const [key, title, maximum] of [
@@ -176,7 +178,7 @@ export function createAutoCombatPanel(body, actions) {
 		$('[data-normal-attack]').setAttribute('aria-pressed', String(count === 0));
 		$('[data-skill-count]').textContent = count ? `已选 ${count} 项` : '未选技能';
 		$('[data-auto-summary]').textContent = `${targetLabel} · ${count ? `${count} 个技能` : '普通攻击'}`;
-		if (changed) $('[data-auto-feedback]').textContent = '有未保存的修改';
+		if (changed) feedback.update('有未保存的修改');
 	}
 	$('[data-all-species]').onclick = () => {
 		chosenSpecies.clear();
@@ -189,7 +191,7 @@ export function createAutoCombatPanel(body, actions) {
 	};
 	function save() {
 		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }) === false) {
-			$('[data-auto-feedback]').textContent = '配置保存失败，请检查范围或重试';
+			feedback('配置保存失败，请检查范围或重试', 'error');
 			return;
 		}
 		actions.close();

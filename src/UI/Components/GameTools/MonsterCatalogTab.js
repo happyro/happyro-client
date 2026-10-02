@@ -1,6 +1,6 @@
 import { renderCatalogEmptyState } from './CatalogEmptyState.js';
 import { resetTabScroll } from './TabViewState.js';
-import { showGameToolsToast, clearGameToolsToast } from './GameToolsToast.js';
+import { showToast } from 'UI/Components/Toast.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
 import Session from 'Engine/SessionStorage.js';
@@ -140,10 +140,10 @@ function mount(container, context = {}) {
 			state.status = resultMessages[result] || '召唤失败';
 			state.statusError = result !== 0;
 			if (result === 0) {
-				showGameToolsToast(container, `已召唤 ${state.requestedMonsterName}`);
+				showToast(container, `已召唤 ${state.requestedMonsterName}`);
 				state.status = '';
 			} else {
-				clearGameToolsToast(container);
+				showToast(container, state.status, 'error');
 			}
 			if (result === 0 && Session.GameToolsMonsterSpawnCooldown > 0) {
 				state.cooldownUntil = Date.now() + Session.GameToolsMonsterSpawnCooldown * 1000;
@@ -242,9 +242,20 @@ function mount(container, context = {}) {
 			)
 			.join('');
 		if (!page.items.length) {
-			renderCatalogEmptyState(list,
-				search.value.trim() || filter.value !== 'all' ? '没有匹配结果' : scopeFilter.checked ? '当前地图暂无魔物' : '暂无魔物资料',
-				scopeFilter.checked ? () => { scopeFilter.checked = false; applyFilter(); } : null);
+			renderCatalogEmptyState(
+				list,
+				search.value.trim() || filter.value !== 'all'
+					? '没有匹配结果'
+					: scopeFilter.checked
+						? '当前地图暂无魔物'
+						: '暂无魔物资料',
+				scopeFilter.checked
+					? () => {
+							scopeFilter.checked = false;
+							applyFilter();
+						}
+					: null
+			);
 		}
 		list.querySelectorAll('.monster-row').forEach(button => {
 			button.addEventListener('click', () => {
@@ -370,7 +381,7 @@ function mount(container, context = {}) {
 			<div class="summon-panel">
 				<button class="summon-button" type="button" ${disabled ? 'disabled' : ''}>${state.pending ? '召唤中...' : '召唤'}</button>
 				<button class="monster-map-teleport" type="button" ${teleportTarget && teleportState.canTeleport ? '' : 'disabled'}>传送到地图</button>
-				<span class="summon-status error" role="status" aria-live="polite">${escapeHtml((teleportState.kind === 'coordinate' && teleportState.error ? teleportState.message : '') || (state.statusError ? state.status : '') || summonConstraintText || (!teleportState.allowed ? '当前账号没有传送权限' : ''))}</span>
+				<span class="summon-status error" role="status" aria-live="polite">${escapeHtml(summonConstraintText || (!teleportState.allowed ? '当前账号没有传送权限' : ''))}</span>
 			</div>`;
 		const summonButton = detail.querySelector('.summon-button');
 		const locations = detail.querySelector('.monster-locations');
@@ -393,13 +404,13 @@ function mount(container, context = {}) {
 			state.requestedMonsterName = monster.name;
 			state.statusError = false;
 			state.status = '';
-			showGameToolsToast(container, '正在等待服务器确认...', 'info');
+			showToast(container, '等待服务器确认…', 'info');
 			clearTimeout(state.requestTimer);
 			state.requestTimer = setTimeout(() => {
 				state.pending = false;
 				state.statusError = true;
 				state.status = '服务器响应超时，请稍后重试';
-				clearGameToolsToast(container);
+				showToast(container, state.status, 'error');
 				renderDetail();
 			}, 8000);
 			const packet = new PACKET.CZ.HAPPYRO_MONSTER_SPAWN();

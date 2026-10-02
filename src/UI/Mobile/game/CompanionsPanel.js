@@ -1,8 +1,12 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 export function createCompanionsPanel(body, service) {
 	body.innerHTML =
-		'<dl data-info></dl><div class="social-form"><label>生命体名称<input data-companion-name maxlength="23"></label><div class="inventory-actions" data-actions></div></div><h3>技能</h3><p>主动技能可从战斗快捷栏的配置入口绑定。</p><div class="inventory-list" data-skills></div><p data-review></p><button data-confirm hidden>确认</button><button data-cancel hidden>取消</button><p role="status"></p>';
+		'<dl data-info></dl><div class="social-form"><label>生命体名称<input data-companion-name maxlength="23"></label><div class="inventory-actions" data-actions></div></div><h3>技能</h3><p>主动技能可从战斗快捷栏的配置入口绑定。</p><div class="inventory-list" data-skills></div>';
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector);
-	let gid,
+	let dismiss,
+		gid,
 		nameDirty = false,
 		learning = null,
 		skillKey = '',
@@ -16,14 +20,36 @@ export function createCompanionsPanel(body, service) {
 		aggressive: '切换主动攻击'
 	};
 	function cancel() {
+		dismiss?.();
+		dismiss = null;
 		learning = null;
 		service.cancel();
-		$('[data-review]').textContent = '';
-		$('[data-confirm]').hidden = $('[data-cancel]').hidden = true;
 	}
 	function review(text) {
-		$('[data-review]').textContent = text;
-		$('[data-confirm]').hidden = $('[data-cancel]').hidden = false;
+		dismiss = confirmAction(
+			body,
+			text,
+			() => {
+				dismiss = null;
+				const requested = learning;
+				learning = null;
+				feedback(
+					requested
+						? requested.gid === service.snapshot().gid
+							? service.learn(requested.id, requested.level)
+							: '伴侣已变化，请重新确认'
+						: service.confirm()
+				);
+				service.cancel();
+				update();
+			},
+			{
+				cancelled: () => {
+					learning = null;
+					service.cancel();
+				}
+			}
+		);
 	}
 	for (const [action, label] of Object.entries(labels)) {
 		if (service.snapshot().kind === 'mercenary' && ['feed', 'rename', 'autofeed'].includes(action)) continue;
@@ -34,15 +60,15 @@ export function createCompanionsPanel(body, service) {
 			cancel();
 			const error = service.prepare(action, action === 'rename' ? $('[data-companion-name]').value : undefined);
 			if (error) {
-				$('[role=status]').textContent = error;
+				feedback(error);
 				return;
 			}
 			review(
 				action === 'dismiss'
 					? service.snapshot().kind === 'homunculus'
-						? '永久删除当前生命体？此操作无法撤销。'
+						? '确认删除当前生命体？'
 						: '提前解除佣兵契约？'
-					: `确认${label}？${action === 'feed' ? '将消耗食物，过度喂食可能降低亲密度。' : ''}`
+					: `确认${label}？`
 			);
 		};
 		$('[data-actions]').append(button);
@@ -50,18 +76,6 @@ export function createCompanionsPanel(body, service) {
 	$('[data-companion-name]').oninput = () => {
 		nameDirty = true;
 		cancel();
-	};
-	$('[data-cancel]').onclick = cancel;
-	$('[data-confirm]').onclick = () => {
-		const requested = learning;
-		learning = null;
-		$('[role=status]').textContent = requested
-			? requested.gid === service.snapshot().gid
-				? service.learn(requested.id, requested.level)
-				: '伴侣已变化，请重新确认'
-			: service.confirm();
-		cancel();
-		update();
 	};
 	function update() {
 		const s = service.snapshot(),
@@ -124,7 +138,7 @@ export function createCompanionsPanel(body, service) {
 				button.onclick = () => {
 					cancel();
 					learning = { id: skill.SKID, level: skill.level + 1, gid: s.gid };
-					review(`消耗 1 点技能点，将「${skill.name}」提升至 Lv.${skill.level + 1}？`);
+					review(`确认将「${skill.name}」升至 Lv.${skill.level + 1}？`);
 				};
 				entry.append(button);
 				$('[data-skills]').append(entry);
@@ -132,7 +146,7 @@ export function createCompanionsPanel(body, service) {
 		}
 		if (lastMessage !== s.message) {
 			lastMessage = s.message;
-			$('[role=status]').textContent = s.message;
+			feedback.update(s.message);
 		}
 	}
 	update();

@@ -144,7 +144,7 @@ describe('game tools integration', () => {
 		expect(npcSource).toContain('class="npc-detail-body"');
 		expect(npcSource).toContain('renderCatalogScopeFilter');
 		expect(npcSource).toContain('const onMap = scopeFilter.checked ? currentMap : \'\'');
-		expect(npcSource).toContain("scopeFilter.checked ? () => { scopeFilter.checked = false; browserApi.reload(); } : null");
+		expect(npcSource.replace(/\s/g, '')).toContain("scopeFilter.checked?()=>{scopeFilter.checked=false;browserApi.reload();}:null");
 		expect(npcSource).not.toContain("value: 'all'");
 	});
 
@@ -272,7 +272,7 @@ describe('game tools integration', () => {
 		expect(source).toContain('>传送到地图</button>');
 		expect(source).toContain('renderCatalogScopeFilter');
 		expect(source).toContain("value: 'current'");
-		expect(source).toContain("scopeFilter.checked ? () => { scopeFilter.checked = false; applyFilter(); } : null");
+		expect(source.replace(/\s/g, '')).toContain("scopeFilter.checked?()=>{scopeFilter.checked=false;applyFilter();}:null");
 		expect(source).not.toContain('if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false');
 		expect(source).toContain('if (!state.selected) {');
 		expect(source).toContain('state.selected = state.filtered[0] || null');
