@@ -55,7 +55,7 @@ export function createAutoCombatPanel(body, actions) {
 				ranges[key] = Math.max(limits.min, Math.min(maximum, ranges[key] + delta));
 				if (key === 'search') ranges.activity = Math.max(ranges.activity, ranges.search);
 				else ranges.search = Math.min(ranges.search, ranges.activity);
-				updateSummary(true);
+				updateSummary();
 			};
 			stepper.append(button);
 			if (delta < 0) stepper.append(output);
@@ -83,7 +83,7 @@ export function createAutoCombatPanel(body, actions) {
 		const toggle = () => {
 			if (chosenSpecies.has(id)) chosenSpecies.delete(id);
 			else chosenSpecies.add(id);
-			updateSummary(true);
+			updateSummary();
 		};
 		let press = null;
 		const scroller = $('.auto-target-section');
@@ -133,13 +133,17 @@ export function createAutoCombatPanel(body, actions) {
 	if (!species.size) $('[data-auto-species]').textContent = '附近暂无魔物，发现后可在这里选择。';
 	const selectedSpecies = () => [...chosenSpecies].map(id => ({ id, name: species.get(id) }));
 	const entries = actions.skills();
+	const chosenSkills = new Set(state.skills);
 	for (const skill of entries) {
-		const label = document.createElement('label');
+		const label = document.createElement('button');
+		label.type = 'button';
 		label.className = 'auto-skill-card';
-		const input = document.createElement('input');
-		input.type = 'checkbox';
-		input.value = String(skill.id);
-		input.checked = state.skills.includes(skill.id);
+		label.dataset.skill = skill.id;
+		label.setAttribute('role', 'checkbox');
+		label.setAttribute('aria-checked', String(chosenSkills.has(skill.id)));
+		const input = document.createElement('i');
+		input.className = 'auto-species-check';
+		input.setAttribute('aria-hidden', 'true');
 		const detail = document.createElement('span');
 		const name = document.createElement('strong');
 		name.textContent = skill.name;
@@ -153,12 +157,38 @@ export function createAutoCombatPanel(body, actions) {
 			detail.append(reason);
 		}
 		label.append(input, detail);
+		const scroller = $('[data-auto-skills]');
+		let press,
+			cancelled = false;
+		label.onpointerdown = event => {
+			if (event.button !== 0) return;
+			cancelled = false;
+			press = { x: event.clientX, y: event.clientY, scroll: scroller.scrollTop };
+		};
+		label.onpointermove = event => {
+			if (press && Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8) cancelled = true;
+		};
+		label.onpointercancel = () => {
+			cancelled = true;
+		};
+		label.onclick = event => {
+			if (
+				event.detail !== 0 &&
+				(cancelled ||
+					(press &&
+						(scroller.scrollTop !== press.scroll ||
+							Math.hypot(event.clientX - press.x, event.clientY - press.y) > 8)))
+			)
+				return;
+			if (chosenSkills.has(skill.id)) chosenSkills.delete(skill.id);
+			else chosenSkills.add(skill.id);
+			updateSummary();
+		};
 		$('[data-auto-skills]').append(label);
 	}
 	if (!entries.length) $('[data-auto-skills]').textContent = '暂无可自动释放的技能，使用普通攻击。';
-	const selectedSkills = () =>
-		[...body.querySelectorAll('[data-auto-skills] input:checked')].map(input => Number(input.value));
-	function updateSummary(changed = false) {
+	const selectedSkills = () => entries.filter(skill => chosenSkills.has(skill.id)).map(skill => skill.id);
+	function updateSummary() {
 		$('[data-range-summary]').textContent = `${ranges.search} / ${ranges.activity} 格`;
 		for (const output of body.querySelectorAll('[data-range-value]'))
 			output.value = `${ranges[output.dataset.rangeValue]} 格`;
@@ -169,6 +199,8 @@ export function createAutoCombatPanel(body, actions) {
 					? ranges[key] <= limits.min
 					: ranges[key] >= (key === 'search' ? limits.searchMax : limits.activityMax);
 		}
+		for (const button of body.querySelectorAll('[data-auto-skills] [data-skill]'))
+			button.setAttribute('aria-checked', String(chosenSkills.has(Number(button.dataset.skill))));
 		const count = selectedSkills().length;
 		const targets = selectedSpecies();
 		for (const button of body.querySelectorAll('[data-species]'))
@@ -178,16 +210,14 @@ export function createAutoCombatPanel(body, actions) {
 		$('[data-normal-attack]').setAttribute('aria-pressed', String(count === 0));
 		$('[data-skill-count]').textContent = count ? `已选 ${count} 项` : '未选技能';
 		$('[data-auto-summary]').textContent = `${targetLabel} · ${count ? `${count} 个技能` : '普通攻击'}`;
-		if (changed) feedback.update('有未保存的修改');
 	}
 	$('[data-all-species]').onclick = () => {
 		chosenSpecies.clear();
-		updateSummary(true);
+		updateSummary();
 	};
-	$('[data-auto-skills]').onchange = () => updateSummary(true);
 	$('[data-normal-attack]').onclick = () => {
-		for (const input of body.querySelectorAll('[data-auto-skills] input')) input.checked = false;
-		updateSummary(true);
+		chosenSkills.clear();
+		updateSummary();
 	};
 	function save() {
 		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }) === false) {
