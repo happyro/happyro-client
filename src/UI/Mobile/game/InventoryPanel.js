@@ -103,11 +103,26 @@ export function createInventoryPanel(body, actions) {
 		input.step = '1';
 		input.value = '1';
 		input.setAttribute('aria-label', '丢弃数量');
-		const content = document.createElement('label');
-		content.className = 'ui-confirm-field';
-		const label = document.createElement('span');
-		label.textContent = '数量';
-		content.append(label, input);
+		const content = document.createElement('div');
+		content.className = 'ui-confirm-field drop-quantity';
+		content.append(input);
+		const controls = document.createElement('div');
+		controls.className = 'drop-quantity-buttons';
+		const maximum = Number(input.max);
+		function changeQuantity(delta) {
+			const value = Number.isFinite(input.valueAsNumber) ? Math.trunc(input.valueAsNumber) : 1;
+			input.value = String(Math.max(1, Math.min(maximum, delta === 'max' ? maximum : value + delta)));
+			input.dispatchEvent(new Event('input', { bubbles: true }));
+			input.dispatchEvent(new Event('change', { bubbles: true }));
+		}
+		const increase = button('+', () => changeQuantity(1));
+		increase.setAttribute('aria-label', '增加数量');
+		const decrease = button('−', () => changeQuantity(-1));
+		decrease.setAttribute('aria-label', '减少数量');
+		const max = button('MAX', () => changeQuantity('max'));
+		max.setAttribute('aria-label', '最大数量');
+		controls.append(increase, decrease, max);
+		content.append(controls);
 		dismiss = confirmAction(
 			body,
 			warning.textContent,
@@ -131,18 +146,17 @@ export function createInventoryPanel(body, actions) {
 	function chooseBinding(item) {
 		binding = true;
 		const select = document.createElement('select');
-		select.setAttribute('aria-label', '目标快捷槽');
+		select.setAttribute('aria-label', '槽位');
 		const page = actions.shortcuts();
-		for (let i = 0; i < page.total; i++) select.add(new Option(`槽位 ${i + 1}`, String(i)));
+		for (let i = 0; i < page.total; i++)
+			select.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
 		select.value = String(page.slots[0].index);
-		const preview = document.createElement('p');
-		function describeSlot() {
-			preview.textContent = `当前内容：${actions.slotName(Number(select.value))}`;
-		}
-		select.onchange = describeSlot;
-		describeSlot();
 		const content = document.createElement('div');
-		content.append(select, preview);
+		content.className = 'shortcut-fields';
+		const field = document.createElement('div');
+		field.className = 'ui-confirm-field';
+		field.append(select);
+		content.append(field);
 		dismiss = confirmAction(
 			body,
 			`设置「${item.name}」的快捷槽？`,

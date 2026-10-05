@@ -6,16 +6,17 @@ import { createPointResetControl } from './PointResetControl.js';
 
 export function createSkillsPanel(body, actions) {
 	body.innerHTML =
-		'<div class="skills-toolbar"><strong data-skill-points></strong><select aria-label="技能分类"><option value="all">全部技能</option><option value="active">已学主动</option><option value="passive">已学被动</option><option value="locked">未学习</option></select></div><div class="inventory-layout"><div class="inventory-list" aria-label="技能列表"></div><section class="inventory-detail inventory-item-detail" aria-label="技能详情"></section></div>';
+		'<div class="skills-toolbar"><select aria-label="转职分类"><option value="all">全部转职</option></select><select aria-label="技能分类"><option value="all">全部技能</option><option value="active">已学主动</option><option value="passive">已学被动</option><option value="locked">未学习</option></select></div><div class="inventory-layout"><section class="skills-browser"><div class="inventory-list" aria-label="技能列表"></div><div class="skills-footer"><div class="skills-reset"></div><strong data-skill-points></strong></div></section><section class="inventory-detail inventory-item-detail" aria-label="技能详情"></section></div>';
 	const $ = selector => body.querySelector(selector),
 		list = $('.inventory-list'),
 		detail = $('.inventory-detail');
 	let selected = null,
 		key = '',
-		state, dismiss;
+		state,
+		dismiss;
 	const nodes = new Map();
 	let resetMessage = '';
-	const reset = createPointResetControl($('.skills-toolbar'), {
+	const reset = createPointResetControl($('.skills-reset'), {
 		label: '重置技能点',
 		description: '确认重置技能点？',
 		canReset: () => actions.snapshot().canReset,
@@ -60,25 +61,33 @@ export function createSkillsPanel(body, actions) {
 		ops.append(learn);
 		if (skill.active) {
 			const bind = button('设置快捷槽', () => {
-			const level = document.createElement('select');
-			level.setAttribute('aria-label', '施放等级');
-			for (let i = 1; i <= skill.level; i++) level.add(new Option(`Lv.${i}`, String(i)));
-			level.value = String(skill.level);
-			const slot = document.createElement('select');
-			slot.setAttribute('aria-label', '技能快捷槽');
-			const page = actions.shortcuts();
-			for (let i = 0; i < page.total; i++)
-				slot.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
-			slot.value = String(page.slots[0].index);
-			const fields = document.createElement('div');
-			for (const [text, input] of [['施放等级', level], ['快捷槽', slot]]) {
-				const label = document.createElement('label');label.className = 'ui-confirm-field';
-				const name = document.createElement('span');name.textContent = text;label.append(name, input);fields.append(label);
-			}
-			dismiss = confirmAction(body, `设置「${skill.name}」的快捷槽？`, () => {
-				const success = actions.bind(skill.id, Number(level.value), Number(slot.value));
-				status(success ? '快捷槽已设置' : '设置失败，请重新选择', success ? 'success' : 'error');
-			}, {content: fields});
+				const level = document.createElement('select');
+				level.setAttribute('aria-label', '等级');
+				for (let i = 1; i <= skill.level; i++) level.add(new Option(`Lv.${i}`, String(i)));
+				level.value = String(skill.level);
+				const slot = document.createElement('select');
+				slot.setAttribute('aria-label', '槽位');
+				const page = actions.shortcuts();
+				for (let i = 0; i < page.total; i++)
+					slot.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
+				slot.value = String(page.slots[0].index);
+				const fields = document.createElement('div');
+				fields.className = 'shortcut-fields';
+				for (const input of [level, slot]) {
+					const field = document.createElement('div');
+					field.className = 'ui-confirm-field';
+					field.append(input);
+					fields.append(field);
+				}
+				dismiss = confirmAction(
+					body,
+					`设置「${skill.name}」的快捷槽？`,
+					() => {
+						const success = actions.bind(skill.id, Number(level.value), Number(slot.value));
+						status(success ? '快捷槽已设置' : '设置失败，请重新选择', success ? 'success' : 'error');
+					},
+					{ content: fields }
+				);
 			});
 			bind.disabled = skill.level < 1;
 			ops.append(bind);
@@ -93,13 +102,39 @@ export function createSkillsPanel(body, actions) {
 	}
 	function render() {
 		$('[data-skill-points]').textContent = `剩余技能点：${state.points}`;
-		const category = $('select').value;
+		const tierSelect = $('[aria-label="转职分类"]');
+		const availableTiers = ['初心者', '一转', '二转', '三转', '四转', '其它'].filter(tier =>
+			state.skills.some(skill => (skill.tier || '其它') === tier)
+		);
+		const tierKey = availableTiers.join(',');
+		if (tierSelect.dataset.tiers !== tierKey) {
+			const value = tierSelect.value;
+			tierSelect.replaceChildren(
+				new Option('全部转职', 'all'),
+				...availableTiers.map(tier => new Option(tier, tier))
+			);
+			tierSelect.value = availableTiers.includes(value) ? value : 'all';
+			tierSelect.dataset.tiers = tierKey;
+		}
+		const category = $('[aria-label="技能分类"]').value;
+		const tier = tierSelect.value;
 		const filtered = state.skills.filter(
 			skill =>
-				category === 'all' ||
-				(category === 'active' ? skill.active : category === 'passive' ? skill.kind === '被动' : !skill.level)
+				(tier === 'all' || (skill.tier || '其它') === tier) &&
+				(category === 'all' ||
+					(category === 'active'
+						? skill.active
+						: category === 'passive'
+							? skill.kind === '被动'
+							: !skill.level))
 		);
 		const ids = new Set(filtered.map(skill => skill.id));
+		if (selected !== null && !ids.has(selected)) {
+			dismiss?.();
+			dismiss = null;
+			selected = null;
+			key = '';
+		}
 		for (const [id, node] of nodes)
 			if (!ids.has(id)) {
 				node.remove();
@@ -131,7 +166,8 @@ export function createSkillsPanel(body, actions) {
 		}
 		renderDetail();
 	}
-	$('select').onchange = render;
+	$('[aria-label="技能分类"]').onchange = render;
+	$('[aria-label="转职分类"]').onchange = render;
 	function update() {
 		if (!body.contains(list)) return;
 		state = actions.snapshot();

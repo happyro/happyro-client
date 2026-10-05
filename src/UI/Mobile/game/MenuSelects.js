@@ -54,10 +54,19 @@ export function createMenuSelects(container) {
 					const above = rect.top - top - 8;
 					const up = below < 160 && above > below;
 					const height = Math.max(30, Math.min(240, up ? above : below));
+					const fitOptions = Boolean(root.closest('.shortcut-fields'));
+					const left = (viewport?.offsetLeft || 0) + 8;
+					const availableWidth = (viewport?.width || innerWidth) - 16;
+					if (fitOptions) {
+						menu.style.width = 'max-content';
+						menu.style.minWidth = `${Math.min(rect.width, availableWidth)}px`;
+						menu.style.maxWidth = `${availableWidth}px`;
+					}
+					const width = fitOptions ? menu.getBoundingClientRect().width : rect.width;
 					root.classList.remove('drop-up');
 					Object.assign(menu.style, {
-						left: `${rect.left}px`,
-						width: `${rect.width}px`,
+						left: `${fitOptions ? Math.max(left, Math.min(rect.left, left + availableWidth - width)) : rect.left}px`,
+						width: `${width}px`,
 						maxHeight: `${height}px`,
 						top: up ? `${rect.top - Math.min(height, menu.scrollHeight + 2) - 2}px` : `${rect.bottom + 2}px`
 					});

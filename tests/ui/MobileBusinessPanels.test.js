@@ -8,9 +8,9 @@ it('keeps a chosen casting level through async icons and requires confirmation b
  const body = document.body.appendChild(document.createElement('div'));
  const skill = { id: 1, name: '技能', kind: '主动', level: 3, max: 10, active: true, learnable: true, requirements: [], description: '说明' };
  const actions = { snapshot: () => ({ points: 2, skills: [skill] }), learn: vi.fn(), bind: vi.fn(() => true), shortcuts: () => ({ pages: 8, page: 0, total: 36, slots: [{ index: 0 }] }), slotName: () => '空' };
- const panel = createSkillsPanel(body, actions); body.querySelector('[data-skill]').click();
+ const panel = createSkillsPanel(body, actions); expect(body.querySelector('.skills-toolbar [data-skill-points]')).toBeNull(); expect(body.querySelector('.skills-browser [data-skill-points]')).not.toBeNull(); body.querySelector('[data-skill]').click();
  const description = body.querySelector('.item-description'); click(body,'设置快捷槽'); expect(body.querySelector('.item-description')).toBe(description);
- const level = body.querySelector('[aria-label="施放等级"]'); level.value = '1'; skill.icon = 'icon.bmp'; panel.update(); expect(body.querySelector('[aria-label="施放等级"]')).toBe(level); expect(level.value).toBe('1');
+ const level = body.querySelector('[aria-label="等级"]'); level.value = '1'; skill.icon = 'icon.bmp'; panel.update(); expect(body.querySelector('[aria-label="等级"]')).toBe(level); expect(level.value).toBe('1');
  click(body,'确认'); expect(actions.bind).toHaveBeenCalledExactlyOnceWith(1,1,0);
  click(body,'升级一级'); expect(actions.learn).not.toHaveBeenCalled(); body.querySelector('dialog [data-confirm]').click(); expect(actions.learn).toHaveBeenCalledExactlyOnceWith(1,4);
 });
@@ -33,4 +33,18 @@ it('submits NPC form values only on explicit confirmation and renders server tex
  const body=document.body.appendChild(document.createElement('div')), respond=vi.fn(()=> '请输入有效的整数');
  createNPCPanel(body,{kind:'npc',mode:'number',lines:['<img src=x onerror=alert(1)>'],respond});expect(body.querySelector('img')).toBeNull();
  body.querySelector('input').value='1.5';body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));expect(respond).toHaveBeenCalledExactlyOnceWith('1.5');expect(document.querySelector('.ui-toast').textContent).toContain('请输入有效的整数');
+});
+
+it('filters skills by job tier and keeps points beneath the list', () => {
+ const body = document.body.appendChild(document.createElement('div'));
+ const skills = [{id:1,tier:'一转',kind:'主动',active:true,level:2}, {id:2,tier:'二转',kind:'被动',active:false,level:1}];
+ createSkillsPanel(body, {snapshot:()=>({points:5,skills,canReset:false})});
+ const tier = body.querySelector('[aria-label="转职分类"]');
+ expect([...tier.options].map(option=>option.textContent)).toEqual(['全部转职','一转','二转']);
+ tier.value='二转'; tier.dispatchEvent(new Event('change'));
+ expect([...body.querySelectorAll('[data-skill]')].map(node=>node.dataset.skill)).toEqual(['2']);
+ const category=body.querySelector('[aria-label="技能分类"]');category.value='active';category.dispatchEvent(new Event('change'));
+ expect(body.querySelectorAll('[data-skill]')).toHaveLength(0);
+ expect(body.querySelector('.skills-browser').lastElementChild).toBe(body.querySelector('.skills-footer'));
+ expect(body.querySelector('.skills-footer').firstElementChild.querySelector('button').textContent).toBe('重置技能点');
 });

@@ -105,10 +105,16 @@ StatusIcons.getSnapshot = function () {
 			const seconds = Number.isFinite(status.end)
 				? Math.max(0, Math.ceil((status.end - Renderer.tick) / 1000))
 				: null;
-			const description = (StatusTable[id].descript || [])
-				.map(line => toPlainRagnarokText(line[0]).replace('%s', seconds === null ? '持续' : `${seconds}秒`))
-				.join(' ');
-			return { id, description, icon: status.img?.src };
+			const lines = (StatusTable[id].descript || [])
+				.map(line => toPlainRagnarokText(line[0]))
+				.filter(line => !line.includes('%s'));
+			return {
+				id,
+				title: lines[0] || '未知状态',
+				description: lines.slice(1).join('\n'),
+				seconds,
+				icon: status.img?.src
+			};
 		});
 };
 

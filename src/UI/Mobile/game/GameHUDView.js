@@ -1,3 +1,6 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { showToast } from 'UI/Components/Toast.js';
+import { createStatusPanel } from './StatusPanel.js';
 import { clearToast } from 'UI/Components/Toast.js';
 import mobileSelectCSS from './MobileSelect.css?raw';
 import { createMenuSelects } from './MenuSelects.js';
@@ -46,6 +49,7 @@ ${mailCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	let currentPanel = null;
+	let statusPanel = null;
 	let serverState = null;
 	let shortcutPanel = null;
 	let inventoryPanel = null;
@@ -196,17 +200,7 @@ ${mailCSS}</style>${html}`;
 				['SP', `${snapshot.sp} / ${snapshot.maxSp}`],
 				['Zeny', snapshot.money]
 			]);
-		if (currentPanel === 'status') {
-			body.replaceChildren(
-				...(snapshot.statuses?.length
-					? snapshot.statuses.map(status => {
-							const p = document.createElement('p');
-							p.textContent = status.description;
-							return p;
-						})
-					: [document.createTextNode('当前没有状态效果')])
-			);
-		}
+		if (currentPanel === 'status') statusPanel?.update(snapshot.statuses || []);
 	}
 	function open(panel, slotIndex) {
 		clearToast(body);
@@ -257,7 +251,10 @@ ${mailCSS}</style>${html}`;
 			}[panel]
 		);
 		$('[data-close]').disabled = serverState?.canClose === false;
+		$('[data-back]').hidden = panel === 'menu';
+		$('[data-back]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
+		statusPanel = null;
 		body.classList.toggle('settings-body', panel === 'settings');
 		$('.panel').classList.toggle('settings-panel', panel === 'settings');
 		$('.panel').classList.toggle('profile-panel', panel === 'profile');
@@ -269,6 +266,7 @@ ${mailCSS}</style>${html}`;
 				'mail',
 				'inventory',
 				'skills',
+				'status',
 				'attributes',
 				'shop',
 				'trade',
@@ -290,6 +288,7 @@ ${mailCSS}</style>${html}`;
 				'mail',
 				'inventory',
 				'skills',
+				'status',
 				'attributes',
 				'shop',
 				'trade',
@@ -325,6 +324,7 @@ ${mailCSS}</style>${html}`;
 		if (panel === 'autoCombat') createAutoCombatPanel(body, { ...actions.autoCombat, close });
 		if (panel === 'settings') createSettingsPanel(body, actions.settings);
 		if (panel === 'npc') createNPCPanel(body, serverState);
+		if (panel === 'status') statusPanel = createStatusPanel(body);
 		if (panel === 'profile' || panel === 'status') renderDetails();
 		if (panel === 'menu') {
 			const grid = document.createElement('div');
@@ -383,15 +383,16 @@ ${mailCSS}</style>${html}`;
 			const storeButton = document.createElement('button');
 			storeButton.textContent = '我的摊位';
 			storeButton.onclick = () => {
-				if (!actions.showOwnedVending()) storeButton.textContent = '尚未开店：请先使用摆摊或收购技能';
+				if (!actions.showOwnedVending()) showToast(body, '尚未开店，请先使用摆摊或收购技能', 'info');
 			};
 			grid.append(storeButton);
 			const exit = document.createElement('button');
 			exit.textContent = '返回选角';
-			exit.onclick = () => {
-				close();
-				actions.returnToCharacters();
-			};
+			exit.onclick = () =>
+				confirmAction(body, '返回选角？', () => {
+					close();
+					actions.returnToCharacters();
+				});
 			grid.append(exit);
 			body.append(grid);
 		}
@@ -514,6 +515,11 @@ ${mailCSS}</style>${html}`;
 		listen(button, 'click', () => open(button.dataset.panel));
 	listen($('[data-close]'), 'click', () => close());
 	// A touch held before opening the panel must not dismiss it on release.
+	listen($('[data-back]'), 'click', () => {
+		if (serverState?.canClose === false) return;
+		close();
+		open('menu');
+	});
 	listen(backdrop, 'pointerdown', event => {
 		backdropPointer = event.target === backdrop ? event.pointerId : null;
 		dismissBackdrop = false;
@@ -663,12 +669,9 @@ ${mailCSS}</style>${html}`;
 					`槽位 ${slot.index + 1}：${slot.name}${slot.reason ? '，' + slot.reason : ''}`
 				);
 				button.setAttribute('aria-disabled', String(!slot.available));
-				const key = JSON.stringify([
-					slot.icon,
-					slot.amount,
-					slot.empty,
-					Math.ceil((slot.cooldown || 0) / 1000)
-				]);
+				const seconds = Math.ceil((slot.cooldown || 0) / 1000);
+				const cooldownText = seconds > 999 ? `${Math.min(999, Math.ceil(seconds / 60))}m` : String(seconds);
+				const key = JSON.stringify([slot.icon, slot.amount, slot.empty, cooldownText]);
 				if (button.dataset.content !== key) {
 					button.dataset.content = key;
 					button.replaceChildren();
@@ -683,7 +686,7 @@ ${mailCSS}</style>${html}`;
 						if (slot.cooldown > 0) {
 							const cooldown = document.createElement('b');
 							cooldown.className = 'slot-cooldown';
-							cooldown.textContent = Math.ceil(slot.cooldown / 1000);
+							cooldown.textContent = cooldownText;
 							button.append(cooldown);
 						}
 					}

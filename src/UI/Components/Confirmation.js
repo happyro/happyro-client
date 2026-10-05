@@ -3,7 +3,7 @@ import css from './Confirmation.css?raw';
 const active = new WeakMap();
 
 /** Modal confirmation shared by menus and adventure tools. Returns a cancellation function. */
-export function confirmAction(container, message, action, { content, cancelled = () => {} } = {}) {
+export function confirmAction(container, message, action, { content, bounds, cancelled = () => {} } = {}) {
 	active.get(container)?.();
 	const dialog = document.createElement('dialog');
 	dialog.className = 'ui-confirm';
@@ -24,11 +24,19 @@ export function confirmAction(container, message, action, { content, cancelled =
 	confirm.type = 'button';
 	confirm.dataset.confirm = '';
 	confirm.textContent = '确认';
+	const resize = bounds ? new ResizeObserver(() => fitBounds()) : null;
+	function fitBounds() {
+		if (!bounds) return;
+		const rect = bounds.getBoundingClientRect();
+		dialog.style.setProperty('--confirm-max-width', `${rect.width}px`);
+		dialog.style.setProperty('--confirm-max-height', `${rect.height}px`);
+	}
 	let finished = false;
 	const finish = accepted => {
 		if (finished) return;
 		finished = true;
 		observer.disconnect();
+		resize?.disconnect();
 		dialog.close();
 		dialog.remove();
 		if (active.get(container) === dismiss) active.delete(container);
@@ -65,6 +73,8 @@ export function confirmAction(container, message, action, { content, cancelled =
 	observer.observe(document.body, options);
 	const root = container.getRootNode();
 	if (root instanceof ShadowRoot) observer.observe(root, options);
+	fitBounds();
+	if (bounds) resize.observe(bounds);
 	dialog.showModal();
 	return dismiss;
 }

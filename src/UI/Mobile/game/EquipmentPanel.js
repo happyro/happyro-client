@@ -63,24 +63,48 @@ export function createEquipmentPanel(body, actions) {
 	}
 	function chooseEquipment(slot) {
 		const content = document.createElement('div');
+		content.className = 'equipment-picker-layout';
 		const preview = document.createElement('div');
+		preview.className = 'equipment-picker-preview';
+		preview.setAttribute('aria-label', '装备说明');
+		preview.textContent = '选择装备查看说明';
+		const list = document.createElement('div');
+		list.className = 'equipment-picker-list';
+		list.dataset.slot = slot.key;
+		list.setAttribute('aria-label', '可更换装备');
+		content.append(list);
 		let choice = null;
-		if (!slot.candidates.length) content.textContent = '背包中没有此部位的装备';
+		if (!slot.candidates.length) list.textContent = '背包中没有此部位的装备';
 		for (const item of slot.candidates) {
 			const candidate = button(item.name, () => {
 				choice = item;
 				preview.replaceChildren(...itemDetails(item));
-				for (const node of content.querySelectorAll('.equipment-candidate')) node.setAttribute('aria-pressed', String(node === candidate));
+				preview.scrollTop = 0;
+				for (const node of content.querySelectorAll('.equipment-candidate'))
+					node.setAttribute('aria-pressed', String(node === candidate));
 				content.closest('dialog').querySelector('[data-confirm]').disabled = Boolean(item.reason);
 			});
 			candidate.className = 'equipment-candidate';
 			candidate.dataset.index = item.index;
-			content.append(candidate);
+			candidate.dataset.id = item.ID;
+			const icon = document.createElement('img');
+			icon.alt = '';
+			icon.hidden = !item.icon;
+			if (item.icon) icon.src = item.icon;
+			const label = document.createElement('span');
+			label.textContent = item.name;
+			candidate.replaceChildren(icon, label);
+			list.append(candidate);
 		}
 		content.append(preview);
-		dismiss = confirmAction(body, `选择${slot.label}装备`, () => {
-			if (choice) perform(slot, choice, 'equip');
-		}, {content});
+		dismiss = confirmAction(
+			body,
+			`选择${slot.label}装备`,
+			() => {
+				if (choice) perform(slot, choice, 'equip');
+			},
+			{ content, bounds: body.closest('.panel') }
+		);
 		content.closest('dialog').querySelector('[data-confirm]').disabled = true;
 	}
 	function renderDetail() {
@@ -102,7 +126,9 @@ export function createEquipmentPanel(body, actions) {
 			remove.disabled = Boolean(slot.item.reason);
 			ops.append(remove);
 			if (slot.item.reason) {
-				const reason = document.createElement('p');reason.textContent = slot.item.reason;content.append(reason);
+				const reason = document.createElement('p');
+				reason.textContent = slot.item.reason;
+				content.append(reason);
 			}
 		} else content.append(document.createTextNode('此部位未穿戴装备'));
 		ops.append(button(slot.item ? '更换' : '选择装备', () => chooseEquipment(slot)));
@@ -146,6 +172,18 @@ export function createEquipmentPanel(body, actions) {
 				statNodes.set(stat.key, dd);
 			}
 			statNodes.get(stat.key).textContent = stat.value;
+		}
+		const picker = body.querySelector('.equipment-picker-list');
+		if (picker) {
+			const candidates = state.slots.find(slot => slot.key === picker.dataset.slot)?.candidates || [];
+			for (const node of picker.querySelectorAll('.equipment-candidate')) {
+				const item = candidates.find(
+					candidate => String(candidate.index) === node.dataset.index && String(candidate.ID) === node.dataset.id
+				);
+				const icon = node.querySelector('img');
+				icon.hidden = !item?.icon;
+				if (item?.icon && icon.getAttribute('src') !== item.icon) icon.src = item.icon;
+			}
 		}
 		renderDetail();
 	}

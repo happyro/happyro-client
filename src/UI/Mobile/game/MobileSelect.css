@@ -71,3 +71,12 @@
 	height: auto;
 	min-height: 28px;
 }
+
+/* Shortcut choices expand to their text instead of wrapping inside the field width. */
+.panel .shortcut-fields .game-select-option,
+.panel .shortcut-fields .game-select-option strong {
+ white-space: nowrap;
+ overflow-wrap: normal;
+}
+.panel .shortcut-fields .game-select-option { width: max-content; min-width: 100%; }
+.panel .shortcut-fields .game-select-menu { overflow-x: auto; }
