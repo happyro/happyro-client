@@ -1,4 +1,7 @@
 :host {
+	/* Keep text metrics stable when the mobile keyboard changes the viewport. */
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 	position: fixed !important;
 	inset: 0;
 	width: 100%;
@@ -57,6 +60,7 @@ button.surface,
 	gap: 12px;
 }
 .profile {
+	isolation: isolate;
 	display: grid;
 	gap: 5px;
 	width: 100%;
@@ -266,25 +270,45 @@ button.surface,
 	right: 214px;
 	padding: 7px 10px;
 	text-align: left;
-	min-height: 52px;
-	max-height: 80px;
+	height: 64px;
+	min-height: 64px;
+	max-height: 64px;
 }
 [data-chat-preview] {
 	display: block;
-	white-space: pre-line;
-	overflow: hidden;
-	max-height: 44px;
+	width: calc(100% - 48px);
+	height: 48px;
+	max-height: 48px;
+	line-height: 16px;
 	font-size: 11px;
+	white-space: normal;
+	overflow-wrap: anywhere;
+	overflow-y: auto;
+	scrollbar-width: none;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
+}
+[data-chat-preview]::-webkit-scrollbar { display: none; }
+.chat-preview-line {
+	display: block;
+	min-height: 16px;
+	white-space: normal;
 	overflow-wrap: anywhere;
 }
+.chat-preview small [data-chat-unread] { position: absolute; right: 0; bottom: 16px; }
 .chat-preview small {
+	position: absolute;
+	right: 10px;
+	bottom: 7px;
 	display: block;
 	text-align: right;
+	line-height: 16px;
 	color: #ffd27f;
 	font-size: 10px;
 }
 .backdrop {
 	position: absolute;
+	z-index: 10;
 	inset: 0;
 	background: #0003;
 	display: grid;
@@ -317,7 +341,7 @@ h2 {
 	min-height: 34px;
 	border: 1px solid #7e8c99;
 	border-radius: 8px;
-	background: #39475399;
+	background: #394753;
 	padding: 5px 9px;
 }
 .panel-body {
@@ -361,7 +385,7 @@ dd {
 	flex: 1;
 	border-radius: 8px;
 	border: 1px solid #7e8c99;
-	background: #19212a99;
+	background: #19212a;
 	color: white;
 	padding: 8px;
 	font-size: 16px;
@@ -461,7 +485,7 @@ dd {
 	place-items: center;
 	background: #0009;
 	color: white;
-	font-size: 16px;
+	font-size: 14px;
 	pointer-events: none;
 }
 .skill-actions {
@@ -530,7 +554,7 @@ dd {
 .slot-picker [aria-pressed='true'],
 .shortcut-choice[aria-pressed='true'] {
 	border-color: #ffca67;
-	background: #57452cb8;
+	background: #57452c;
 }
 .shortcut-layout {
 	display: grid;
@@ -581,7 +605,7 @@ dd {
 	padding: 10px;
 	border: 1px solid #64707c;
 	border-radius: 8px;
-	background: #19212a99;
+	background: #19212a;
 }
 .shortcut-current {
 	display: grid;
@@ -618,13 +642,9 @@ dd {
 	max-width: 100%;
 	padding: 2px 6px;
 	color: inherit;
-	background: #39475399;
+	background: #394753;
 	border: 1px solid #7e8c99;
 	border-radius: 6px;
-}
-.panel [data-save-slot] {
-	background: #57452cb8;
-	border-color: #ceaa70;
 }
 .shortcut-clear {
 	margin-top: 12px;
@@ -675,7 +695,7 @@ dd {
 .inventory-tabs [aria-pressed='true'],
 .inventory-item[aria-pressed='true'] {
 	border-color: #ffca67;
-	background: #57452cb8;
+	background: #57452c;
 }
 .inventory-layout {
 	display: grid;
@@ -768,7 +788,7 @@ dd {
 .equipment-slot[aria-pressed='true'],
 .equipment-candidate[aria-pressed='true'] {
 	border-color: #ffca67;
-	background: #57452cb8;
+	background: #57452c;
 }
 .equipment-layout {
 	display: grid;
@@ -875,8 +895,8 @@ dd {
 }
 .npc-lines {
 	white-space: pre-line;
-	font-size: 16px;
-	line-height: 1.7;
+	font-size: 12px;
+	line-height: 1.6;
 }
 .npc-cutin {
 	max-width: 32%;
@@ -917,7 +937,6 @@ dd {
 	margin: 6px 6px 0 0;
 }
 
-
 .chat-form {
 	flex-wrap: wrap;
 }
@@ -950,8 +969,18 @@ dd {
 	font-size: 16px;
 }
 /* Preserve panel layout when the keyboard reduces only the visual viewport. */
-:host(.keyboard-open) .hud { height: var(--mobile-layout-height); }
-:host(.keyboard-open) .backdrop { overflow-y: auto; align-items: start; }
+:host(.keyboard-open) .hud {
+	height: var(--mobile-layout-height);
+}
+:host(.keyboard-open) .backdrop {
+	height: var(--mobile-visible-height);
+	overflow-y: auto;
+	align-items: start;
+}
+:host(.keyboard-open) .panel {
+	height: var(--mobile-panel-height, calc(var(--mobile-layout-height) - 24px));
+	max-height: none;
+}
 
 .profile label > meter,
 .profile label > span {
@@ -965,7 +994,9 @@ dd {
 	color: #fff;
 	font-size: 9px;
 	line-height: 12px;
-	text-shadow: 0 1px 2px #000, 0 0 2px #000;
+	text-shadow:
+		0 1px 2px #000,
+		0 0 2px #000;
 	pointer-events: none;
 }
 .profile meter {
@@ -974,8 +1005,12 @@ dd {
 	background: none;
 	--gauge-color: #589542;
 }
-.profile [data-sp] { --gauge-color: #4588ba; }
-.profile [data-ap] { --gauge-color: #b28c35; }
+.profile [data-sp] {
+	--gauge-color: #4588ba;
+}
+.profile [data-ap] {
+	--gauge-color: #b28c35;
+}
 .profile meter::-webkit-meter-bar {
 	background: #10192399;
 	border: 1px solid #75838d;
@@ -989,4 +1024,6 @@ dd {
 	background: var(--gauge-color);
 }
 
-.profile [data-hp].low-hp { --gauge-color: #ff0000; }
+.profile [data-hp].low-hp {
+	--gauge-color: #ff0000;
+}

@@ -149,7 +149,10 @@ function mount(container, context = {}) {
 				}
 				const resource = await loadCatalogMap(map.mapName);
 				if (token !== thumbnailToken || !thumbnail.isConnected) return;
-				if (!resource?.gat?.cells) { thumbnail.textContent = '无图'; return; }
+				if (!resource?.gat?.cells) {
+					thumbnail.textContent = '无图';
+					return;
+				}
 				const preview = document.createElement('canvas');
 				preview.width = 112;
 				preview.height = 84;
@@ -178,9 +181,12 @@ function mount(container, context = {}) {
 		renderDetail(detail, map, api) {
 			if (loadingMapName !== map.mapName) {
 				loadingMapName = map.mapName;
-				selectedCoordinate = context.initialMap?.id === map.id && Number.isFinite(context.initialMap.x) && Number.isFinite(context.initialMap.y)
-					? { x: context.initialMap.x, y: context.initialMap.y }
-					: { x: 0, y: 0, random: true };
+				selectedCoordinate =
+					context.initialMap?.id === map.id &&
+					Number.isFinite(context.initialMap.x) &&
+					Number.isFinite(context.initialMap.y)
+						? { x: context.initialMap.x, y: context.initialMap.y }
+						: { x: 0, y: 0, random: true };
 				loadedMap = null;
 				selectedNpcKey = '';
 				npcAvailability = {};
@@ -208,7 +214,7 @@ function mount(container, context = {}) {
 						api.refreshDetail();
 					});
 			}
-			const selectedNpc = mapNpcs.find(npc => npcCatalogKey(npc) === selectedNpcKey);
+			const selectedNpc = mapNpcs.find(entry => npcCatalogKey(entry) === selectedNpcKey);
 			if (selectedNpc) {
 				selectedCoordinate = { x: selectedNpc.x, y: selectedNpc.y };
 			}
@@ -236,7 +242,7 @@ function mount(container, context = {}) {
 				targetActionState.canTeleport;
 			const currentMapName =
 				DB.getMapInfo(`${currentMap}.rsw`)?.displayName || DB.getMapName(currentMap, currentMap);
-			const routeMessage = routeMatches && routeState.message === '无法到达所选位置' ? routeState.message : '';
+
 			const npcListScrollTop = detail.querySelector('.map-npc-scroll')?.scrollTop || 0;
 			const npcActionState = selectedNpc
 				? { ...actionState, ...getAdventureActionState(selectedNpc) }
@@ -245,11 +251,7 @@ function mount(container, context = {}) {
 				? npcTeleportEnabled(selectedNpc, npcAvailability[npcCatalogKey(selectedNpc)], npcActionState)
 				: false;
 			const canTeleportHere = selectedNpc ? canTeleportNpc : canTeleport;
-			const npcStatus = actionState.kind === 'npc' && actionState.error ? actionState.message : '';
-			const mapStatus =
-				(actionState.kind === 'coordinate' && actionState.error ? actionState.message : '') ||
-				routeMessage ||
-				(!Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : '');
+			const mapStatus = !Session.NavigationTeleportAllowed ? '当前账号没有传送权限' : '';
 			const selectionLabel = selectedNpc
 				? `${selectedNpc.name} · ${selectedNpc.x}, ${selectedNpc.y}`
 				: selectedCoordinate?.random
@@ -280,7 +282,7 @@ function mount(container, context = {}) {
 					<div class="catalog-action-panel">
 						<button class="catalog-route${routeActive ? ' is-active' : ''}" aria-busy="${Boolean(routePending)}" title="${!sameMap ? '寻路仅支持角色当前所在地图' : !routeTarget ? '请先选择目标位置' : ''}" type="button" ${routeTarget && sameMap && !routePending ? '' : 'disabled'}>${routePending ? '计算中…' : routeActive ? '停止寻路' : '开始寻路'}</button>
 					<button class="catalog-teleport" type="button" ${canTeleportHere ? '' : 'disabled'}>${actionState.npcPending && selectedNpc ? '正在传送...' : '传送到这里'}</button>
-					<span class="catalog-status error">${escapeCatalogHtml(npcStatus || mapStatus)}</span>
+					<span class="catalog-status error">${escapeCatalogHtml(mapStatus)}</span>
 				</div>`;
 			const canvas = detail.querySelector('.catalog-map');
 			const picker = detail.querySelector('.catalog-map-picker');
@@ -341,7 +343,7 @@ function mount(container, context = {}) {
 				row.addEventListener('click', () => {
 					if (selectedNpcKey === row.dataset.npcKey) return;
 					selectedNpcKey = row.dataset.npcKey;
-					const npc = mapNpcs.find(npc => npcCatalogKey(npc) === selectedNpcKey);
+					const npc = mapNpcs.find(entry => npcCatalogKey(entry) === selectedNpcKey);
 					selectedCoordinate = { x: npc.x, y: npc.y };
 					if (!sameMap || !previewAdventureRoute({ ...map, ...selectedCoordinate })) api.refreshDetail();
 				});

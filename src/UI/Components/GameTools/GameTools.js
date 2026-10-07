@@ -2,7 +2,7 @@ import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
 import { trackTabView } from './TabViewState.js';
 import { subscribeAdventureActions, clearAdventureActionFeedback } from './AdventureActionService.js';
 import { subscribeAdventureRoute, clearAdventureRouteFeedback } from './AdventureRouteService.js';
-import { clearGameToolsToast, showGameToolsToast } from './GameToolsToast.js';
+import { clearToast, showToast } from 'UI/Components/Toast.js';
 import GUIComponent from 'UI/GUIComponent.js';
 import UIManager from 'UI/UIManager.js';
 import Preferences from 'Core/Preferences.js';
@@ -51,9 +51,12 @@ GameTools.init = function init() {
 		lastActionMessage = state.message;
 		if (this._host.style.display === 'none') return;
 		const window = root.querySelector('.game-tools-window');
-		if (state.error) clearGameToolsToast(window);
-		else if (state.message && state.message !== previous) {
-			showGameToolsToast(window, state.message, state.npcPending || state.mapPending ? 'info' : 'success');
+		if (state.message && state.message !== previous) {
+			showToast(
+				window,
+				state.message,
+				state.error ? 'error' : state.npcPending || state.mapPending ? 'info' : 'success'
+			);
 		}
 	});
 	let lastRouteMessage = '';
@@ -62,16 +65,19 @@ GameTools.init = function init() {
 		lastRouteMessage = state.message;
 		if (this._host.style.display === 'none') return;
 		const window = root.querySelector('.game-tools-window');
-		if (state.message === '无法到达所选位置') clearGameToolsToast(window);
-		else if (state.message && state.message !== previous) {
-			showGameToolsToast(window, state.message, state.message === '已到达目的地' ? 'success' : 'info');
+		if (state.message && state.message !== previous) {
+			showToast(
+				window,
+				state.message,
+				state.message === '无法到达所选位置' ? 'error' : state.message === '已到达目的地' ? 'success' : 'info'
+			);
 		}
 	});
 	root.addEventListener('invalid', event => event.target.setCustomValidity(validationMessage(event.target)), true);
 	root.addEventListener('input', event => event.target.setCustomValidity?.(''), true);
 	root.querySelector('.close').addEventListener('click', () => this.toggle());
 	root.querySelector('.close').addEventListener('mousedown', event => event.stopImmediatePropagation());
-	clearGameToolsToast(this.getRoot().querySelector('.game-tools-window'));
+	clearToast(this.getRoot().querySelector('.game-tools-window'));
 	this._host.style.display = 'none';
 	this.renderTabs();
 };
@@ -113,7 +119,7 @@ GameTools.mountTab = function mountTab(tab, reopening = false) {
 	const content = this.getRoot().querySelector('.tab-content');
 	const switching = activeTabId !== tab.id;
 	if (!switching && !reopening && mountedTabs.has(tab.id)) return;
-	clearGameToolsToast(content.closest('.game-tools-window'));
+	clearToast(content.closest('.game-tools-window'));
 	clearAdventureActionFeedback();
 	clearAdventureRouteFeedback();
 	for (const [id, entry] of mountedTabs) {
@@ -183,7 +189,7 @@ GameTools.centerInViewport = function centerInViewport() {
 
 GameTools.toggle = function toggle() {
 	if (this.__active && this._host.style.display !== 'none') {
-		clearGameToolsToast(this.getRoot().querySelector('.game-tools-window'));
+		clearToast(this.getRoot().querySelector('.game-tools-window'));
 		clearAdventureActionFeedback();
 		clearAdventureRouteFeedback();
 		for (const entry of mountedTabs.values()) {

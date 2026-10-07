@@ -11,9 +11,9 @@ export function createShortcutController(data) {
 	const pages = () => Math.max(1, Math.ceil(count() / SHORTCUT_PAGE_SIZE));
 	function describe(index) {
 		if (index >= count())
-			return { index, empty: true, name: '无槽位', available: false, reason: '无槽位', unavailable: true };
+			return { index, empty: true, name: '无位置', available: false, reason: '无位置', unavailable: true };
 		const binding = data.bindings()[index];
-		if (!binding?.ID) return { index, empty: true, name: '空槽位', available: true };
+		if (!binding?.ID) return { index, empty: true, name: '空位置', available: true };
 		const entry = data.describe(binding);
 		const cooldown = binding.isSkill ? data.cooldown(binding.ID) : 0;
 		let reason = entry.reason || '';

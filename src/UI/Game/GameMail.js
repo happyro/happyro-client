@@ -40,9 +40,14 @@ export function openGameMail(canOperate = () => true) {
 		writing = false,
 		attachments = [],
 		recipient = null,
+		messageKind = 'info',
 		message = '正在读取邮件',
 		revision = 0,
 		weight = 0;
+	const setMessage = (text, kind) => {
+		message = text;
+		messageKind = kind;
+	};
 	const alive = () =>
 		!closed &&
 		interactionSnapshot()?.token === token &&
@@ -54,7 +59,7 @@ export function openGameMail(canOperate = () => true) {
 	const inventory = createGameInventory(allowed);
 	const request = (name, fields, wait) => {
 		pending = wait;
-		message = '等待服务器回复';
+		setMessage('等待服务器回复', 'info');
 		send(name, fields);
 	};
 	const draft = { receiver: '', title: '', body: '', zeny: 0 };
@@ -79,6 +84,7 @@ export function openGameMail(canOperate = () => true) {
 			pending: Boolean(pending),
 			allowed: Boolean(allowed()),
 			message,
+			messageKind,
 			revision,
 			weight,
 			wallet: Session.zeny,
@@ -111,7 +117,7 @@ export function openGameMail(canOperate = () => true) {
 			if (!mail || mail.ItemList.length || mail.zeny || deleting.has(selected)) return;
 			deleting.add(selected);
 			send('REQ_DELETE_RODEX', mail);
-			message = '已请求删除；以列表更新为准，可刷新核对';
+			setMessage('已请求删除；以列表更新为准，可刷新核对', 'info');
 		},
 		compose() {
 			if (!allowed() || writing) return;
@@ -126,7 +132,7 @@ export function openGameMail(canOperate = () => true) {
 			if (!allowed() || !writing) return;
 			const name = draft.receiver.trim();
 			if (!name || bytes(name) > 23 || /[\0\t\r\n]/.test(name)) {
-				message = '收件人姓名无效（最多 23 字节）';
+				setMessage('收件人姓名无效（最多 23 字节）', 'error');
 				return;
 			}
 			recipient = null;
@@ -146,7 +152,7 @@ export function openGameMail(canOperate = () => true) {
 				count + (existing?.count || 0) > itemQuantity(item) ||
 				(!existing && attachments.length >= 5)
 			) {
-				message = '物品或数量无效，最多附加五种物品';
+				setMessage('物品或数量无效，最多附加五种物品', 'error');
 				return;
 			}
 			request('REQ_ADD_ITEM_RODEX', { index, count }, { kind: 'add', index, identity: identity(item) });
@@ -189,7 +195,7 @@ export function openGameMail(canOperate = () => true) {
 		send(review) {
 			const next = service.review();
 			if (next.error || JSON.stringify(next) !== JSON.stringify(review)) {
-				message = next.error || '内容已变化，请重新确认';
+				setMessage(next.error || '内容已变化，请重新确认', 'error');
 				return;
 			}
 			const title = draft.title + '\0',
@@ -217,7 +223,7 @@ export function openGameMail(canOperate = () => true) {
 			attachments = [];
 			recipient = null;
 			revision++;
-			message = '已取消写信';
+			setMessage('已取消写信', 'info');
 		},
 		close() {
 			if (closed || interactionSnapshot()?.token !== token) return;
@@ -235,14 +241,14 @@ export function openGameMail(canOperate = () => true) {
 				selected = null;
 				deleting.clear();
 				pending = null;
-				message = list.length ? '请选择邮件' : '暂无邮件';
+				setMessage(list.length ? '请选择邮件' : '暂无邮件', 'info');
 				revision++;
 				return;
 			}
 			if (kind === 'listFailed') {
 				if (pending?.kind === 'list') {
 					pending = null;
-					message = '邮件读取失败，可重新刷新';
+					setMessage('邮件读取失败，可重新刷新', 'error');
 				}
 				return;
 			}
@@ -252,7 +258,7 @@ export function openGameMail(canOperate = () => true) {
 				details.delete(id);
 				deleting.delete(id);
 				if (selected === id) selected = null;
-				message = '邮件已删除';
+				setMessage('邮件已删除', 'success');
 				revision++;
 				return;
 			}
@@ -265,7 +271,7 @@ export function openGameMail(canOperate = () => true) {
 				details.set(wait.key, { ...list.find(m => key(m) === wait.key), ...pkt });
 				const row = list.find(m => key(m) === wait.key);
 				if (row) row.Isread = 1;
-				message = '';
+				setMessage('', 'info');
 			}
 			if (kind === 'items' || kind === 'zeny') {
 				if (!pkt.result) {
@@ -274,8 +280,8 @@ export function openGameMail(canOperate = () => true) {
 						if (kind === 'items') mail.ItemList = [];
 						else mail.zeny = 0;
 					}
-					message = '领取成功';
-				} else message = '领取失败，请检查负重、空位和金额上限';
+					setMessage('领取成功', 'success');
+				} else setMessage('领取失败，请检查负重、空位和金额上限', 'error');
 			}
 			if (kind === 'compose') {
 				if (pkt.result) {
@@ -283,15 +289,15 @@ export function openGameMail(canOperate = () => true) {
 					attachments = [];
 					recipient = null;
 					Object.assign(draft, { receiver: pkt.receiveName || '', title: '', body: '', zeny: 0 });
-					message = '填写收件人并校验后发送';
-				} else message = '当前无法写信';
+					setMessage('填写收件人并校验后发送', 'info');
+				} else setMessage('当前无法写信', 'error');
 			}
 			if (kind === 'validate') {
 				if (pkt.CharID > 0 && pkt.name === wait.name) {
 					recipient = { ...pkt };
 					draft.receiver = pkt.name;
-					message = `收件人已确认：${pkt.name}（Lv${pkt.level}）`;
-				} else message = '收件人不存在或无法收信';
+					setMessage(`收件人已确认：${pkt.name}（Lv${pkt.level}）`, 'success');
+				} else setMessage('收件人不存在或无法收信', 'error');
 			}
 			if (kind === 'add') {
 				if (!pkt.result) {
@@ -299,8 +305,8 @@ export function openGameMail(canOperate = () => true) {
 					if (item) item.count += pkt.count;
 					else attachments.push({ ...pkt, identity: wait.identity });
 					weight = pkt.weight;
-					message = '附件已添加';
-				} else message = '无法附加该物品：请核对限制、数量及重量';
+					setMessage('附件已添加', 'success');
+				} else setMessage('无法附加该物品：请核对限制、数量及重量', 'error');
 			}
 			if (kind === 'remove') {
 				if (pkt.result) {
@@ -308,15 +314,18 @@ export function openGameMail(canOperate = () => true) {
 					if (item) item.count -= pkt.count;
 					attachments = attachments.filter(i => i.count > 0);
 					weight = pkt.weight;
-					message = '附件已移除';
-				} else message = '移除附件失败';
+					setMessage('附件已移除', 'success');
+				} else setMessage('移除附件失败', 'error');
 			}
 			if (kind === 'send') {
 				send('REQ_CANCEL_WRITE_RODEX');
 				writing = false;
 				attachments = [];
 				recipient = null;
-				message = pkt.result ? '发送失败，请检查服务器提示后重新写信' : '邮件已发送';
+				setMessage(
+					pkt.result ? '发送失败，请检查服务器提示后重新写信' : '邮件已发送',
+					pkt.result ? 'error' : 'success'
+				);
 			}
 			revision++;
 		}

@@ -1,10 +1,9 @@
-vi.mock('UI/Game/GameNavigation.js', () => ({ createGameNavigation: vi.fn() }));
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createGameHUDView } from '../../src/UI/Mobile/game/GameHUDView.js';
 import { clearChatFeed, publishChatMessage, subscribeChatFeed } from '../../src/UI/Game/ChatFeed.js';
 
 let host, root, view, actions;
-const state = { name: '测试角色', job: '初心者', level: 10, jobLevel: 5, money: 123, hp: 80, maxHp: 100, sp: 20, maxSp: 40, position: [12, 34], mapName: '普隆德拉', statuses: [{ id: 1, description: '加速术 10秒', icon: 'data:image/png;base64,AA==' }] };
+const state = { name: '测试角色', job: '初心者', level: 10, jobLevel: 5, money: 123, hp: 80, maxHp: 100, sp: 20, maxSp: 40, position: [12, 34], mapName: '普隆德拉', statuses: [{ id: 1, title: '加速术', description: '10秒', icon: 'data:image/png;base64,AA==' }] };
 beforeEach(() => {
 	host = document.createElement('div'); document.body.append(host); root = host.attachShadow({ mode: 'open' });
 	actions = { openAdventureMap: vi.fn(), equipmentSnapshot: () => ({ slots: [], stats: [] }), inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
@@ -21,9 +20,9 @@ describe('mobile game HUD', () => {
 		view.update({ ...state, hp: 45 });
 		expect(root.querySelector('.panel-body').textContent).toContain('45 / 100');
 		click('[data-close]'); click('[data-panel="chat"]');
-		const input = root.querySelector('input'); input.value = '正在输入'; input.focus();
+		const input = root.querySelector('[aria-label="聊天内容"]'); input.value = '正在输入'; input.focus();
 		view.update({ ...state, hp: 30 });
-		expect(root.querySelector('input')).toBe(input);
+		expect(root.querySelector('[aria-label="聊天内容"]')).toBe(input);
 		expect(root.activeElement).toBe(input);
 		expect(input.value).toBe('正在输入');
 	});
@@ -151,4 +150,103 @@ it('uses the same low HP threshold as the character gauge', () => {
  expect(root.querySelector('[data-hp]').classList.contains('low-hp')).toBe(true);
  view.update({ ...state, hp: 25, maxHp: 100 });
  expect(root.querySelector('[data-hp]').classList.contains('low-hp')).toBe(false);
+});
+
+it('shows status titles beside live descriptions and preserves selection until expiry', () => {
+ view.update({...state,statuses:[{id:1,title:'加速术',description:'提升移动速度',seconds:10},{id:2,title:'天使之赐福',description:'提升属性',seconds:20}]});
+ click('[data-panel="status"]');
+ expect(root.querySelector('.inventory-list').textContent).toBe('加速术10秒天使之赐福20秒');
+ click('[data-status="2"]');const node=root.querySelector('[data-status="2"]');
+ view.update({...state,statuses:[{id:1,title:'加速术',description:'提升移动速度',seconds:9},{id:2,title:'天使之赐福',description:'提升属性',seconds:19}]});
+ expect(root.querySelector('[data-status="2"]')).toBe(node);
+ expect(node.getAttribute('aria-pressed')).toBe('true');
+ expect(root.querySelector('.inventory-detail').textContent).toBe('提升属性');
+ view.update({...state,statuses:[{id:1,title:'加速术',description:'提升移动速度',seconds:8}]});
+ expect(root.querySelector('.inventory-detail').textContent).toBe('提升移动速度');
+ view.update({...state,statuses:[]});expect(root.querySelector('.inventory-detail').textContent).toBe('当前没有状态效果');
+});
+
+it.each([[2000000,'34m'],[1200000,'20m'],[1000000,'17m'],[999000,'999'],[1000,'1'],[1,'1'],[60000000,'999m'],[0,null]])('formats shortcut cooldown %s without overflowing', (cooldown, expected) => {
+ view.updateShortcuts({page:0,pages:1,slots:[{index:0,name:'技能',available:false,empty:false,cooldown}]});
+ const timer=root.querySelector('.slot-cooldown');
+ expect(timer?.textContent ?? null).toBe(expected);
+});
+
+it('returns from submenus and keeps shop messages out of menu buttons', () => {
+ click('[data-panel="status"]');expect(root.querySelector('[data-back]').hidden).toBe(false);
+ click('[data-back]');expect(root.querySelector('.panel').dataset.view).toBe('menu');expect(root.querySelector('[data-back]').hidden).toBe(true);
+ actions.showOwnedVending=()=>false;
+ const button=[...root.querySelectorAll('button')].find(b=>b.textContent==='我的摊位');button.click();
+ expect(button.textContent).toBe('我的摊位');expect(document.querySelector('.ui-toast').textContent).toContain('尚未开店');
+});
+it('confirms returning to characters with the shared modal', () => {
+ click('[data-panel="menu"]');
+ const button=[...root.querySelectorAll('button')].find(b=>b.textContent==='返回选角');button.click();
+ expect(actions.returnToCharacters).not.toHaveBeenCalled();expect(root.querySelector('dialog.ui-confirm').open).toBe(true);
+ root.querySelector('dialog [data-cancel]').click();expect(actions.returnToCharacters).not.toHaveBeenCalled();
+ button.click();root.querySelector('dialog [data-confirm]').click();expect(actions.returnToCharacters).toHaveBeenCalledOnce();
+});
+
+it('exposes chat preview and counts each private message once until chat is opened', () => {
+ expect(root.querySelector('.chat-preview').hidden).toBe(false);
+ const messages = [{id:1,text:'你好',channel:'private'}];
+ view.setMessages(messages); view.setMessages(messages);
+ expect(root.querySelector('[data-chat-unread]').textContent).toBe('1');
+ click('[data-panel="chat"]');
+ expect(root.querySelector('[data-chat-unread]').hidden).toBe(true);
+ expect(root.querySelector('.backdrop').classList.contains('chat-backdrop')).toBe(true);
+ expect(root.querySelector('[data-back]').hidden).toBe(true);
+ click('[data-close]'); click('[data-panel="menu"]');
+ expect(root.querySelector('.backdrop').classList.contains('chat-backdrop')).toBe(false);
+});
+
+it('closes chat after submission while retaining failed drafts', () => {
+ click('[data-panel="chat"]');
+ const input=root.querySelector('[aria-label="聊天内容"]'); input.value='你好';
+ actions.sendChat.mockReturnValueOnce('当前不能发送消息');
+ root.querySelector('form').requestSubmit();
+ expect(root.querySelector('.backdrop').hidden).toBe(false);
+ expect(input.value).toBe('你好');
+ actions.sendChat.mockReturnValueOnce('');
+ root.querySelector('form').requestSubmit();
+ expect(root.querySelector('.backdrop').hidden).toBe(true);
+ expect(actions.setModal).toHaveBeenLastCalledWith(false);
+});
+
+it('remembers collapsed chat previews and retains unread messages until chat opens', () => {
+ click('[data-chat-collapse]');
+ expect(root.querySelector('.chat-preview-open').hidden).toBe(true);
+ expect(root.querySelector('.backdrop').hidden).toBe(true);
+ view.setMessages([{id:1,text:'私聊消息',channel:'private'}]);
+ expect(root.querySelector('[data-chat-expand] [data-chat-unread]').textContent).toBe('1');
+ view.destroy(); view=createGameHUDView(root,actions);
+ expect(root.querySelector('[data-chat-expand]').hidden).toBe(false);
+ view.setMessages([{id:1,text:'私聊消息',channel:'private'}]);
+ click('[data-chat-expand]');
+ expect(root.querySelector('.chat-preview-open').hidden).toBe(false);
+ expect(root.querySelector('[data-chat-unread]').hidden).toBe(false);
+ expect(root.querySelector('[data-chat-preview]').textContent).toContain('私聊消息');
+ click('[data-panel="chat"]');
+ expect(root.querySelector('[data-chat-unread]').hidden).toBe(true);
+ localStorage.removeItem('ChatPreview');
+});
+
+it('shares the chat filter with the HUD preview and retains it when reopened', () => {
+ const messages = [{id:1,text:'附近消息',channel:'public'}, {id:2,text:'私聊消息',channel:'private'}];
+ view.setMessages(messages);
+ click('[data-panel="chat"]');
+ const choose = value => root.querySelector(`[data-chat-filter="${value}"]`).click();
+ choose('private');
+ expect(root.querySelector('[data-chat-preview]').textContent).toBe('[私聊] 私聊消息');
+ expect(root.querySelector('.chat-log').textContent).toBe('[私聊] 私聊消息');
+ click('[data-close]');
+ view.setMessages([...messages, {id:3,text:'新附近消息',channel:'public'}, {id:4,text:'新私聊消息',channel:'private'}]);
+ expect(root.querySelector('[data-chat-preview]').textContent).not.toContain('附近');
+ expect(root.querySelector('[data-chat-preview]').textContent).toContain('新私聊消息');
+ click('[data-panel="chat"]');
+ expect(root.querySelector('[data-chat-filter="private"]').getAttribute('aria-pressed')).toBe('true');
+ choose('guild');
+ expect(root.querySelector('[data-chat-preview]').textContent).toBe('暂无消息');
+ choose('all');
+ expect(root.querySelector('[data-chat-preview]').textContent).toContain('新附近消息');
 });

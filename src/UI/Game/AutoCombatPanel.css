@@ -98,7 +98,7 @@
 	flex-shrink: 0;
 }
 [data-normal-attack][aria-pressed='true'],
-.auto-skill-card:has(input:checked) {
+.auto-skill-card[aria-checked='true'] {
 	background: #493c26;
 	border-color: #ceaa70;
 }
@@ -122,7 +122,7 @@
 	background: #18212b;
 	cursor: pointer;
 }
-.auto-skill-card input {
+.auto-skill-card .auto-species-check {
 	margin: 0;
 	flex-shrink: 0;
 	accent-color: #ceaa70;
@@ -228,3 +228,9 @@
 	text-align: center;
 	font-variant-numeric: tabular-nums;
 }
+
+.auto-skill-list { touch-action: pan-y; }
+.auto-skill-card { width: 100%; text-align: left; touch-action: pan-y; user-select: none; }
+.auto-skill-card .auto-species-check { font-style: normal; }
+.auto-skill-card[aria-checked='true'] .auto-species-check { background: #ceaa70; border-color: #ceaa70; color: #18212b; }
+.auto-skill-card[aria-checked='true'] .auto-species-check::after { content: '✓'; }

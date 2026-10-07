@@ -25,7 +25,7 @@ it('offers a visible start/stop control with live status and accessible state', 
 });
 it('uses the shared species, skill and range editor and saves without starting combat', () => {
 	click('[data-settings]'); expect(view.isOpen()).toBe(true); expect(actions.stop).toHaveBeenCalledOnce();
-	click('[data-species="1002"]'); root.querySelector('input[value="5"]').checked = true;
+	click('[data-species="1002"]'); root.querySelector('[data-auto-skills] [data-skill="5"]').click();
 	click('[data-range="search"][data-delta="1"]'); click('[data-save-auto]');
 	expect(actions.configure).toHaveBeenCalledExactlyOnceWith([{ id: 1002, name: '波利' }], [5], { search: 21, activity: 30 });
 	expect(view.isOpen()).toBe(false); expect(actions.start).not.toHaveBeenCalled();
@@ -42,7 +42,7 @@ it('reports a rejected start and retains unsaved settings after persistence fail
 	actions.start.mockReturnValue(false); click('[data-toggle]');
 	expect(root.querySelector('[data-status]').textContent).toBe('当前不能开始自动战斗');
 	click('[data-settings]'); actions.configure.mockReturnValue(false); click('[data-save-auto]');
-	expect(view.isOpen()).toBe(true); expect(root.querySelector('[data-auto-feedback]').textContent).toContain('保存失败');
+	expect(view.isOpen()).toBe(true); expect(document.querySelector('.ui-toast').textContent).toContain('保存失败');
 });
 
 it('does not forward dialog keystrokes to gameplay shortcuts', () => {

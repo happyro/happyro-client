@@ -1,14 +1,16 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
+import { setListItemText } from './ListItemText.js';
+
 /** Shop orders use explicit quantities and a separate review before sending. */
 export function createShopPanel(body, service) {
 	body.innerHTML =
-		'<div class="shop-summary"></div><div class="inventory-layout"><div class="inventory-list" aria-label="商店物品"></div><section class="inventory-detail"></section></div><div class="shop-footer"></div><p class="inventory-status" role="status"></p>';
+		'<div class="shop-summary"></div><div class="inventory-layout"><div class="inventory-list" aria-label="商店物品"></div><section class="inventory-detail"></section></div><div class="shop-footer"></div>';
 	const $ = selector => body.querySelector(selector);
 	const nodes = new Map();
 	let selected = null;
 	let state;
-	const status = message => {
-		$('.inventory-status').textContent = message;
-	};
+	const status = createFeedback(body);
 	function button(label, fn) {
 		const node = document.createElement('button');
 		node.type = 'button';
@@ -46,11 +48,11 @@ export function createShopPanel(body, service) {
 			price,
 			input,
 			button('设置数量', () => {
-				status(service.set(item.index, item.ID, Number(input.value)));
+				status(service.set(item.index, item.ID, Number(input.value)), 'error');
 				update();
 			}),
 			button('移出订单', () => {
-				status(service.set(item.index, item.ID, 0));
+				status(service.set(item.index, item.ID, 0), 'error');
 				input.value = '0';
 				update();
 			}),
@@ -58,46 +60,28 @@ export function createShopPanel(body, service) {
 		);
 	}
 	function review() {
-		const reviewArea = $('.inventory-detail');
-		reviewArea.replaceChildren();
-		for (const item of state.items.filter(entry => entry.quantity)) {
-			const row = document.createElement('p');
-			row.textContent = `${item.name} ×${item.quantity} = ${item.price * item.quantity} ${state.currency || 'Zeny'}`;
-			if (item.materials?.length)
-				row.textContent +=
-					'\n消耗材料：' +
-					item.materials
-						.map(
-							material =>
-								`${material.name}${material.refine_level ? `（精炼 +${material.refine_level}）` : ''} ×${material.amount * item.quantity}`
-						)
-						.join('、');
-			reviewArea.append(row);
-		}
-		const total = document.createElement('p');
-		total.textContent = `${state.mode === 'buy' ? '支付' : '获得'}：${state.total} ${state.currency || 'Zeny'}`;
-		reviewArea.append(
-			total,
-			button(state.mode === 'buy' ? '确认购买' : '确认出售', () => {
-				status(service.submit());
+		const signature = JSON.stringify(state.items.filter(entry => entry.quantity));
+		confirmAction(
+			body,
+			state.mode === 'buy' ? '确认购买所选物品？' : '确认出售所选物品？',
+			() => {
+				if (JSON.stringify(service.snapshot().items.filter(entry => entry.quantity)) !== signature) {
+					status('订单已变化，请重新核对', 'error');
+					return;
+				}
+				const result = service.submit();
+				status(result, result === '已提交，等待服务器回复' ? 'info' : 'error');
 				update();
-			}),
-			button('返回修改', () => {
-				if (selected) detailItem();
-				else reviewArea.textContent = '请选择物品';
-			})
+			},
+			{}
 		);
-	}
-	function detailItem() {
-		const item = state.items.find(entry => entry.index === selected?.index && entry.ID === selected?.ID);
-		if (item) detail(item);
 	}
 	const reviewButton = button('核对订单', review);
 	const clearButton = button('清空订单', () => {
 		if (service.clear()) {
 			selected = null;
-			$('.inventory-detail').textContent = '订单已清空，请重新选择物品';
-			status('');
+			$('.inventory-detail').textContent = '请选择物品';
+			status('订单已清空', 'success');
 			update();
 		}
 	});
@@ -123,8 +107,11 @@ export function createShopPanel(body, service) {
 				nodes.set(key, node);
 			}
 			node.disabled = !state.allowed;
-			node.querySelector('span').textContent =
-				`${item.name} · ${item.price} ${state.currency || 'Zeny'}${item.quantity ? ` · 已选 ${item.quantity}` : ''}`;
+			setListItemText(
+				node,
+				item.name,
+				`${item.price} ${state.currency || 'Zeny'}${item.quantity ? ` · 已选 ${item.quantity}` : ''}`
+			);
 			if (item.icon && node.querySelector('img').getAttribute('src') !== item.icon)
 				node.querySelector('img').src = item.icon;
 		}

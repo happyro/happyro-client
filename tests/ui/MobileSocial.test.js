@@ -25,8 +25,8 @@ it('requires a nearby player of another guild and rejects stale relation removal
  service.act('removeGuildRelation',{GDID:21,relation:0});expect(state.relation).not.toHaveBeenCalled();service.act('removeGuildRelation',{GDID:20,relation:0});expect(state.relation).toHaveBeenCalledExactlyOnceWith(20,0);
 });
 it('renders rank management and requires a second confirmation without sending during initial render',()=>{
- const body=document.createElement('div');createSocialPanel(body,createGameSocial(()=>true,{slotName:()=> '空槽位',configure:state.configure}),vi.fn());const select=body.querySelector('select');select.value='guild';select.dispatchEvent(new Event('change'));
- const tax=body.querySelector('[aria-label="职位 1 经验税率（0–50）"]');expect(tax).not.toBeNull();tax.value='20';const form=tax.closest('form');form.dispatchEvent(new Event('submit',{cancelable:true}));expect(state.position).not.toHaveBeenCalled();form.dispatchEvent(new Event('submit',{cancelable:true}));expect(state.position).toHaveBeenCalledOnce();
+ const body=document.body.appendChild(document.createElement('div'));createSocialPanel(body,createGameSocial(()=>true,{slotName:()=> '空槽位',configure:state.configure}),vi.fn());const select=body.querySelector('select');select.value='guild';select.dispatchEvent(new Event('change'));
+ const tax=body.querySelector('[aria-label="职位 1 经验税率（0–50）"]');expect(tax).not.toBeNull();tax.value='20';const form=tax.closest('form');form.dispatchEvent(new Event('submit',{cancelable:true}));expect(state.position).not.toHaveBeenCalled();body.querySelector('dialog [data-confirm]').click();expect(state.position).toHaveBeenCalledOnce();
 });
 
 it('locks a guild skill upgrade until server state changes, then binds only an authorized learned level',()=>{
@@ -42,7 +42,7 @@ it('validates emblem bytes and rechecks the guild after asynchronous file readin
  await service.uploadEmblem(file);expect(state.emblem).toHaveBeenCalledOnce();
 });
 it('updates an asynchronously loaded emblem without replacing the notice draft',()=>{
- const body=document.createElement('div'),panel=createSocialPanel(body,createGameSocial(()=>true,{slotName:()=> '空槽位'}),vi.fn());const select=body.querySelector('select');select.value='guild';select.dispatchEvent(new Event('change'));const notice=body.querySelector('[aria-label="公告内容"]');notice.value='尚未提交的公告';state.guild.emblem='data:image/gif;base64,R0lGODlh';panel.update();expect(body.querySelector('[aria-label="公告内容"]')).toBe(notice);expect(notice.value).toBe('尚未提交的公告');expect(body.querySelector('[data-guild-emblem]').hidden).toBe(false);
+ const body=document.body.appendChild(document.createElement('div')),panel=createSocialPanel(body,createGameSocial(()=>true,{slotName:()=> '空槽位'}),vi.fn());const select=body.querySelector('select');select.value='guild';select.dispatchEvent(new Event('change'));const notice=body.querySelector('[aria-label="公告内容"]');notice.value='尚未提交的公告';state.guild.emblem='data:image/gif;base64,R0lGODlh';panel.update();expect(body.querySelector('[aria-label="公告内容"]')).toBe(notice);expect(notice.value).toBe('尚未提交的公告');expect(body.querySelector('[data-guild-emblem]').hidden).toBe(false);
 });
 
 it('resolves a friend by both server identifiers and denies stale or externally blocked actions',()=>{

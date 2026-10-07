@@ -2,8 +2,8 @@ vi.mock('UI/Components/GameTools/AdventureControlService.js', () => ({ maintainC
 import { beforeEach, expect, it, vi } from 'vitest';
 const s = vi.hoisted(() => ({ skills: [], revision: 0, points: 2, allowed: true, maintain: vi.fn(), learn: vi.fn(), configure: vi.fn(() => true), session: { Playing: true, Entity: { _job: 0, action: 0, ACTION: { DIE: 99 } } } }));
 vi.mock('UI/Components/SkillList/SkillList.js', () => ({ default: { getUI: () => ({ getSkills: () => s.skills, getSkillPoints: () => s.points, getSkillRevision: () => s.revision, onIncreaseSkill: s.learn }) } }));
-vi.mock('DB/Skills/SkillInfo.generated.js', () => ({ default: { 1: { Name: 'skill', SkillName: '主动技能', MaxLv: 10 }, 2: { Name: 'passive', SkillName: '被动技能', MaxLv: 10 }, 3: { Name: 'locked', SkillName: '未学习', MaxLv: 5, _NeedSkillList: [[1,5]] } } }));
-vi.mock('DB/Skills/SkillTreeView.generated.js', () => ({ default: { 0: { beforeJob: null, 1: {}, 2: {}, 3: {} } } }));
+vi.mock('DB/Skills/SkillInfo.generated.js', () => ({ default: { 4: {Name: 'first', SkillName: '一转技能', MaxLv: 10}, 5: {Name: 'second', SkillName: '二转技能', MaxLv: 10}, 1: { Name: 'skill', SkillName: '主动技能', MaxLv: 10 }, 2: { Name: 'passive', SkillName: '被动技能', MaxLv: 10 }, 3: { Name: 'locked', SkillName: '未学习', MaxLv: 5, _NeedSkillList: [[1,5]] } } }));
+vi.mock('DB/Skills/SkillTreeView.generated.js', () => ({ default: { 7: { beforeJob: 1, 5: 0 }, 1: { beforeJob: 0, 4: 0, 1: 1 }, 0: { beforeJob: null, 1: {}, 2: {}, 3: {} } } }));
 vi.mock('Core/Client.js', () => ({ default: { loadFile: vi.fn() } }));
 vi.mock('DB/DBManager.js', () => ({ default: { INTERFACE_PATH: '', getSkillDescription: () => '^ff0000技能说明' } }));
 vi.mock('Engine/SessionStorage.js', () => ({ default: s.session }));
@@ -38,4 +38,12 @@ it('blocks reset during learning, guards repeat resets and refreshes from server
  resolve({}); await request;
  expect(service.snapshot()).toMatchObject({ points: 5, canReset: true, message: '技能点已重置' });
  expect(service.snapshot().skills.find(x => x.id === 1).level).toBe(0);
+});
+
+it('classifies inherited skills by their original job tier', () => {
+ s.session.Entity._job = 7;
+ const skills = createGameSkills(() => true, { configure: s.configure }).snapshot().skills;
+ expect(skills.find(skill => skill.id === 1).tier).toBe('初心者');
+ expect(skills.find(skill => skill.id === 4).tier).toBe('一转');
+ expect(skills.find(skill => skill.id === 5).tier).toBe('二转');
 });

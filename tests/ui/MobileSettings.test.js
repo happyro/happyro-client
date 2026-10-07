@@ -1,4 +1,4 @@
-import {beforeEach,it,expect,vi} from 'vitest';
+import {afterEach,beforeEach,it,expect,vi} from 'vitest';
 const s=vi.hoisted(()=>({graphics:{save:vi.fn(),defaults:{}},audio:{save:vi.fn(),BGM:{play:true,volume:.5},Sound:{play:true,volume:.5}},resize:vi.fn(),config:vi.fn(),bgm:{setVolume:vi.fn(),stop:vi.fn(),play:vi.fn(),filename:'test.mp3'},sound:{setVolume:vi.fn(),stop:vi.fn()}}));
 vi.mock('Preferences/Graphics.js',()=>({default:s.graphics}));
 vi.mock('Preferences/Audio.js',()=>({default:s.audio}));
@@ -7,11 +7,28 @@ vi.mock('Renderer/Renderer.js',()=>({default:{resize:s.resize}}));
 vi.mock('Audio/BGM.js',()=>({default:s.bgm}));
 vi.mock('Audio/SoundManager.js',()=>({default:s.sound}));
 import {graphicsFields,settingsSnapshot,saveGameSettings} from '../../src/UI/Game/GameSettings.js';
+import Interface from '../../src/Preferences/Interface.js';
 import {createSettingsPanel} from '../../src/UI/Mobile/game/SettingsPanel.js';
-beforeEach(()=>{vi.clearAllMocks();for(const [key,,range] of graphicsFields)s.graphics[key]=range===undefined?false:Array.isArray(range)?60:range;s.graphics.screensize='1024x768';s.graphics.defaults=Object.fromEntries(graphicsFields.map(([key])=>[key,s.graphics[key]]));s.audio.BGM={play:true,volume:.5};s.audio.Sound={play:true,volume:.5};});
+afterEach(() => document.body.replaceChildren());
+beforeEach(()=>{HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','');};HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');};Interface.toastDuration=2;vi.clearAllMocks();for(const [key,,range] of graphicsFields)s.graphics[key]=range===undefined?false:Array.isArray(range)?60:range;s.graphics.screensize='1024x768';s.graphics.defaults=Object.fromEntries(graphicsFields.map(([key])=>[key,s.graphics[key]]));s.audio.BGM={play:true,volume:.5};s.audio.Sound={play:true,volume:.5};});
 it('rejects the entire invalid draft without applying partial values',()=>{const draft=settingsSnapshot();draft.graphics.quality=100;draft.audio.Sound.volume=2;expect(saveGameSettings(draft)).toContain('未保存');expect(s.graphics.quality).toBe(25);expect(s.graphics.save).not.toHaveBeenCalled();});
 it('applies graphics and audio once without restarting BGM or a renderer loop on an unrelated save',()=>{const draft=settingsSnapshot();draft.graphics.quality=100;draft.graphics.fpslimit=30;draft.audio.Sound.play=false;draft.audio.BGM.volume=.8;expect(saveGameSettings(draft)).toContain('已保存');expect(s.resize).toHaveBeenCalledOnce();expect(s.config).toHaveBeenCalledWith('quality',100);expect(s.sound.setVolume).toHaveBeenCalledWith(.5);expect(s.sound.stop).toHaveBeenCalledOnce();expect(s.bgm.setVolume).toHaveBeenCalledWith(.8);expect(s.bgm.play).not.toHaveBeenCalled();expect(s.graphics.screensize).toBe('1024x768');saveGameSettings(draft);expect(s.resize).toHaveBeenCalledOnce();expect(s.bgm.setVolume).toHaveBeenCalledOnce();});
-it('keeps edits in the panel until save and can cancel or reset without changing shared preferences',()=>{const body=document.createElement('div');createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings});const input=body.querySelector('[data-setting=quality]');input.value=100;input.dispatchEvent(new Event('input'));expect(s.graphics.quality).toBe(25);const click=text=>[...body.querySelectorAll('button')].find(x=>x.textContent===text).click();click('取消修改');expect(body.querySelector('[data-setting=quality]').value).toBe('25');const check=body.querySelector('[data-audio=BGM]');check.checked=false;check.dispatchEvent(new Event('input'));click('保存');expect(s.bgm.stop).toHaveBeenCalledOnce();click('恢复默认（待保存）');expect(s.audio.BGM.play).toBe(false);click('保存');expect(s.bgm.play).toHaveBeenCalledWith('test.mp3');});
+it('discards unsaved edits on reopen and confirms before immediately saving defaults', () => {
+ const body=document.createElement('div'); document.body.append(body);
+ const service={fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings};
+ createSettingsPanel(body,service);
+ const input=body.querySelector('[data-setting=quality]'); input.value=100; input.dispatchEvent(new Event('input'));
+ expect(body.textContent).not.toContain('取消修改');
+ createSettingsPanel(body,service);
+ expect(body.querySelector('[data-setting=quality]').value).toBe('25');
+ const click=text=>[...body.querySelectorAll('button')].find(x=>x.textContent===text).click();
+ const check=body.querySelector('[data-audio=BGM]');check.checked=false;check.dispatchEvent(new Event('input'));click('保存');
+ click('恢复默认'); expect(s.audio.BGM.play).toBe(false);
+ click('取消'); expect(s.audio.BGM.play).toBe(false);
+ click('恢复默认');click('确认');expect(s.audio.BGM.play).toBe(true);
+ expect(s.bgm.play).toHaveBeenCalledWith('test.mp3');
+ createSettingsPanel(body,service);expect(body.querySelector('[data-audio=BGM]').checked).toBe(true);
+});
 
 it('keeps changes across setting categories and applies them together only on save', () => {
 	const body = document.createElement('div');
@@ -48,4 +65,38 @@ it('adjusts the camera immediately inside settings while preserving unsaved grap
  expect(s.graphics.save).not.toHaveBeenCalled();
  click('画面'); expect(input.value).toBe('100'); expect(body.querySelector('.settings-footer').hidden).toBe(false);
  click('保存'); expect(s.graphics.quality).toBe(100);
+});
+
+it('replaces feedback with temporary toasts and removes static hints', () => {
+ vi.useFakeTimers();
+ try {
+  const body = document.createElement('div'); document.body.append(body);
+  createSettingsPanel(body, {fields:graphicsFields, snapshot:settingsSnapshot, save:saveGameSettings, camera:vi.fn()});
+  const click = label => [...body.querySelectorAll('button')].find(button => button.textContent === label).click();
+  expect(body.querySelector('.settings-status')).toBeNull();
+  expect(body.querySelector('.camera-section p')).toBeNull();
+  click('保存'); expect(document.querySelector('.ui-toast').textContent).toContain('已保存');
+  click('恢复默认'); click('确认'); expect(document.querySelector('.ui-toast').textContent).toContain('已保存');
+  vi.advanceTimersByTime(2000); expect(document.querySelector('.ui-toast')).toBeNull();
+  click('镜头'); click('重置镜头');
+  expect(document.querySelector('.ui-toast')).toBeNull();
+ } finally { vi.useRealTimers(); }
+});
+
+it('persists notification duration only on save and restores the two-second default', () => {
+ const body = document.createElement('div'); document.body.append(body);
+ createSettingsPanel(body, {fields:graphicsFields, snapshot:settingsSnapshot, save:saveGameSettings, camera:vi.fn()});
+ const duration = body.querySelector('[data-setting=toastDuration]');
+ expect(duration.closest('section').getAttribute('aria-label')).toBe('画面');
+ expect(duration.value).toBe('2');
+ duration.value = '4'; duration.dispatchEvent(new Event('input'));
+ expect(Interface.toastDuration).toBe(2);
+ const click = label => [...body.querySelectorAll('button')].find(button => button.textContent === label).click();
+ click('保存'); expect(Interface.toastDuration).toBe(4);
+ expect(JSON.parse(localStorage.getItem('Interface')).toastDuration).toBe(4);
+ click('恢复默认'); expect(Interface.toastDuration).toBe(4);
+ click('确认'); expect(body.querySelector('[data-setting=toastDuration]').value).toBe('2');
+ expect(Interface.toastDuration).toBe(2);
+ const draft = settingsSnapshot(); draft.interface.toastDuration = 0;
+ expect(saveGameSettings(draft)).toContain('1–10'); expect(Interface.toastDuration).toBe(2);
 });

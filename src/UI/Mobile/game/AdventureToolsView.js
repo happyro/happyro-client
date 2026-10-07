@@ -1,12 +1,12 @@
+import { clearToast } from 'UI/Components/Toast.js';
 import { trackTabView } from 'UI/Components/GameTools/TabViewState.js';
 
 const labels = { maps: '地图', monsters: '魔物', npcs: 'NPC', items: '物品', character: '角色', settings: '设置' };
 
 /** Mobile navigation owns presentation; registered features own data and actions. */
-export function createAdventureToolsView(root, { tabs, context, close }) {
+export function createAdventureToolsView(root, { tabs, context, close, backToMenu }) {
 	root.innerHTML = `<section class="game-tools-window mobile-adventure">
-		<header class="adventure-header"><button type="button" data-back hidden>返回</button><nav class="adventure-tabs" role="tablist" aria-label="冒险工具"></nav><button type="button" data-close>关闭</button></header>
-		<p class="adventure-feedback" role="status"></p>
+		<header class="adventure-header"><button type="button" data-back hidden>返回</button><nav class="adventure-tabs" role="tablist" aria-label="冒险工具"></nav><button type="button" data-menu-back>返回</button><button type="button" data-close>关闭</button></header>
 		<div class="adventure-content" hidden></div>
 	</section>`;
 	const $ = selector => root.querySelector(selector);
@@ -21,8 +21,9 @@ export function createAdventureToolsView(root, { tabs, context, close }) {
 		detail = false;
 	const scrolls = new Map();
 	function disposeTab() {
+		clearToast(content);
 		// Resolve outstanding confirmations before removing a feature view.
-		for (const button of root.querySelectorAll('.game-tools-confirm [data-cancel]')) button.click();
+		for (const button of root.querySelectorAll('.ui-confirm [data-cancel]')) button.click();
 		tabView?.destroy();
 		tabView = null;
 		cleanup?.();
@@ -62,15 +63,19 @@ export function createAdventureToolsView(root, { tabs, context, close }) {
 			back.hidden = Boolean(wide?.matches);
 		}
 	}
-	for (const tab of tabs) {
-		const button = document.createElement('button');
-		button.type = 'button';
-		button.dataset.tool = tab.id;
-		button.textContent = labels[tab.id] || tab.label;
-		button.setAttribute('role', 'tab');
-		button.setAttribute('aria-selected', 'false');
-		button.onclick = () => open(tab);
-		navigation.append(button);
+	function setTabs(nextTabs) {
+		navigation.replaceChildren();
+		for (const tab of nextTabs) {
+			const button = document.createElement('button');
+			button.type = 'button';
+			button.dataset.tool = tab.id;
+			button.textContent = labels[tab.id] || tab.label;
+			button.setAttribute('role', 'tab');
+			button.setAttribute('aria-selected', 'false');
+			button.onclick = () => open(tab);
+			navigation.append(button);
+		}
+		if (nextTabs.length) open(nextTabs[0]);
 	}
 	content.addEventListener(
 		'click',
@@ -97,13 +102,17 @@ export function createAdventureToolsView(root, { tabs, context, close }) {
 		},
 		{ signal: abort.signal }
 	);
+	$('[data-menu-back]').hidden = !backToMenu;
+	$('[data-menu-back]').onclick = backToMenu;
 	$('[data-close]').onclick = close;
-	if (tabs.length) open(tabs[0]);
+	if (tabs.length) setTabs(tabs);
+	else {
+		navigation.textContent = '冒险工具';
+		content.hidden = false;
+		content.innerHTML = '<p class="adventure-loading-message" role="status">正在加载冒险工具…</p>';
+	}
 	return {
-		feedback(message, error = false) {
-			$('.adventure-feedback').textContent = message || '';
-			$('.adventure-feedback').classList.toggle('error', error);
-		},
+		setTabs,
 		activeFeature: () => active?.id,
 		destroy() {
 			abort.abort();

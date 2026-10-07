@@ -1,3 +1,4 @@
+import { createMobileInputEditor } from './MobileInputEditor.js';
 import { loadCatalogMapImage } from 'UI/Components/GameTools/WorldAssetService.js';
 import { createMobileViewport } from './MobileViewport.js';
 import AdventureTools from './AdventureTools.js';
@@ -9,7 +10,6 @@ import { openGameMail, gameMailUnread } from 'UI/Game/GameMail.js';
 import { graphicsFields, settingsSnapshot, saveGameSettings } from 'UI/Game/GameSettings.js';
 import { requestGameBank } from 'UI/Game/GameBank.js';
 import { showOwnedVending } from 'UI/Game/GameVending.js';
-import { createGameEquipmentSets } from 'UI/Game/GameEquipmentSets.js';
 import { createGameSocial } from 'UI/Game/GameSocial.js';
 import { createGameChat, chatChannel } from 'UI/Game/GameChat.js';
 import { createGameQuests } from 'UI/Game/GameQuests.js';
@@ -113,10 +113,12 @@ function snapshot() {
 	CombatDiagnostics.end('mobile.hud', diagnosticStart);
 }
 let updateViewport;
+let disposeInputEditor;
 HUD.onAppend = function () {
 	// Repeated map mounting must not duplicate subscriptions or timers.
 	HUD.onRemove(false);
 	updateViewport = createMobileViewport(HUD._host);
+	disposeInputEditor = createMobileInputEditor(HUD._host);
 	abort = new AbortController();
 	const enabled = () =>
 		Boolean(
@@ -141,7 +143,8 @@ HUD.onAppend = function () {
 	social = createGameSocial(() => modal && !previousFreeze, shortcuts);
 	chat = createGameChat(
 		(...args) => HUD.actions.sendChat(...args),
-		() => modal && !previousFreeze
+		() => modal && !previousFreeze,
+		command => HUD.actions.sendEmotion(command)
 	);
 	quests = createGameQuests(() => modal && !previousFreeze);
 	attributes = createGameAttributes(() => modal && !previousFreeze);
@@ -149,7 +152,7 @@ HUD.onAppend = function () {
 	equipment = createEquipmentController(inventory, () => characterStats(Session.Entity));
 	view = createGameHUDView(HUD.getRoot(), {
 		cancelSceneInput,
-		openAdventureTools: () => AdventureTools.append(),
+		openAdventureTools: back => AdventureTools.openFromMenu(back),
 		openAdventureMap: target => AdventureTools.openMap(target),
 		setModal,
 		interact: () => {
@@ -188,7 +191,6 @@ HUD.onAppend = function () {
 		showOwnedVending,
 		canOperate: () => modal && !previousFreeze,
 		social,
-		equipmentSets: createGameEquipmentSets(() => modal && !previousFreeze),
 		questSnapshot: () => quests.snapshot(),
 		questToggle: (...args) => quests.toggle(...args),
 		containerSnapshot: source => containers.snapshot(source),
@@ -218,6 +220,7 @@ HUD.onAppend = function () {
 			snapshot();
 		},
 		sendChat: (...args) => chat.send(...args),
+		chatEmotionImages: () => import('UI/Game/ChatEmotionImages.js').then(module => module.loadChatEmotionImages()),
 		returnToCharacters: () => HUD.actions.returnToCharacters()
 	});
 	unsubscribeInteraction = subscribeInteraction(state => view.showInteraction(state));
@@ -270,13 +273,16 @@ HUD.onAppend = function () {
 	const grid = { width: Altitude.width, height: Altitude.height };
 	mapView.setMap({ ...grid, loading: true });
 	loadCatalogMapImage(MapRenderer.currentMap)
-		.then(source => new Promise(resolve => {
-			if (!source) return resolve(null);
-			const image = new Image();
-			image.onload = () => resolve(image);
-			image.onerror = () => resolve(null);
-			image.src = source;
-		}))
+		.then(
+			source =>
+				new Promise(resolve => {
+					if (!source) return resolve(null);
+					const image = new Image();
+					image.onload = () => resolve(image);
+					image.onerror = () => resolve(null);
+					image.src = source;
+				})
+		)
 		.catch(() => null)
 		.then(image => {
 			if (!mapSignal.aborted) mapView.setMap({ ...grid, image, loading: false });
@@ -285,9 +291,9 @@ HUD.onAppend = function () {
 	unsubscribe = subscribeChatFeed(messages => {
 		view.setMessages(
 			messages.map(message => {
-				if (!message.html) return { text: message.text, channel: chatChannel(message) };
+				if (!message.html) return { id: message.id, text: message.text, channel: chatChannel(message) };
 				const parsed = new DOMParser().parseFromString(message.text, 'text/html');
-				return { text: parsed.body.textContent || '', channel: chatChannel(message) };
+				return { id: message.id, text: parsed.body.textContent || '', channel: chatChannel(message) };
 			})
 		);
 	});
@@ -307,9 +313,15 @@ HUD.onAppend = function () {
 	for (const type of ['resize', 'scroll'])
 		window.visualViewport?.addEventListener(type, updateViewport, { signal: abort.signal });
 	window.addEventListener('resize', updateViewport, { signal: abort.signal });
+	const viewport = updateViewport;
+	for (const type of ['focusin', 'focusout'])
+		HUD.getRoot().addEventListener(type, () => queueMicrotask(viewport), { signal: abort.signal });
 	updateViewport();
 };
 HUD.onRemove = function (resetInteraction = true) {
+	disposeInputEditor?.();
+	disposeInputEditor = null;
+	updateViewport?.destroy();
 	autoCombat?.destroy();
 	autoCombat = null;
 	unsubscribeInteraction?.();

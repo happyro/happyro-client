@@ -1,3 +1,4 @@
+import Interface, { defaultInterfaceSettings } from 'Preferences/Interface.js';
 import Graphics from 'Preferences/Graphics.js';
 import Audio from 'Preferences/Audio.js';
 import Configs from 'Core/Configs.js';
@@ -36,6 +37,7 @@ export function settingsSnapshot(defaults = false) {
 	);
 	return {
 		graphics,
+		interface: { toastDuration: (defaults ? defaultInterfaceSettings : Interface).toastDuration },
 		audio: Object.fromEntries(
 			['BGM', 'Sound'].map(key => [
 				key,
@@ -45,6 +47,12 @@ export function settingsSnapshot(defaults = false) {
 	};
 }
 export function saveGameSettings(draft) {
+	if (
+		!Number.isInteger(draft?.interface?.toastDuration) ||
+		draft.interface.toastDuration < 1 ||
+		draft.interface.toastDuration > 10
+	)
+		return '通知时长须为 1–10 秒';
 	for (const [key, , range, max] of graphicsFields) {
 		const value = draft?.graphics?.[key];
 		if (
@@ -70,6 +78,8 @@ export function saveGameSettings(draft) {
 	const previous = settingsSnapshot();
 	for (const [key] of graphicsFields) Graphics[key] = draft.graphics[key];
 	for (const key of ['BGM', 'Sound']) Object.assign(Audio[key], draft.audio[key]);
+	Interface.toastDuration = draft.interface.toastDuration;
+	Interface.save();
 	Graphics.save();
 	Audio.save();
 	if (previous.graphics.quality !== Graphics.quality) {
@@ -89,6 +99,6 @@ export function saveGameSettings(draft) {
 		} else BGM.stop();
 	}
 	return previous.graphics.pixelPerfectSprites !== Graphics.pixelPerfectSprites
-		? '已保存；像素完美设置需重新加载页面后完全生效'
+		? '已保存，像素完美需刷新生效'
 		: '设置已保存';
 }

@@ -84,3 +84,25 @@ describe('game select', () => {
 		expect(root.querySelector('.game-select-trigger').disabled).toBe(false);
 	});
 });
+
+it('reopens on the first tap after Safari blurs the selected trigger', async () => {
+ document.body.innerHTML = renderGameSelect({ ariaLabel: '分类', value: 'a', options: [{value:'a',label:'全部'},{value:'b',label:'装备'}] });
+ const root = document.querySelector('[data-game-select]');
+ mountGameSelect(root);
+ const trigger = root.querySelector('.game-select-trigger');
+ const menu = root.querySelector('.game-select-menu');
+ for (let i = 0; i < 3; i++) {
+  // WebKit taps blur rather than focus buttons, unlike Chromium.
+  trigger.blur();
+  trigger.click();
+  await new Promise(resolve => setTimeout(resolve, 0));
+  expect(menu.hidden).toBe(false);
+  root.querySelector('[data-value="b"]').click();
+  expect(menu.hidden).toBe(true);
+  expect(document.activeElement).toBe(trigger);
+ }
+ trigger.click();
+ trigger.blur();
+ await new Promise(resolve => setTimeout(resolve, 0));
+ expect(menu.hidden).toBe(true);
+});

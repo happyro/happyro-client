@@ -822,7 +822,12 @@ function onMapChange(pkt) {
 				onRequestTalk(channel === 'private' ? receiver : '', text, ChatBox.TYPE[channel.toUpperCase()], {
 					literal: true
 				}),
-			returnToCharacters: () => UIManager.showPromptBox('确定返回选角？', '确定', '取消', onRestartRequest)
+			sendEmotion: type => {
+				const packet = new PACKET.CZ.REQ_EMOTION();
+				packet.type = type;
+				Network.sendPacket(packet);
+			},
+			returnToCharacters: onRestartRequest
 		});
 
 		// Reload plugins

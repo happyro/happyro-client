@@ -144,8 +144,8 @@ export function createGameSocial(canOperate, shortcuts) {
 					data.level > skill.level ||
 					!shortcuts.configure(data.slot, { isSkill: true, ID: data.id }, data.level)
 				)
-					return '技能、等级或快捷槽已变化';
-				return '已设置快捷槽，关闭面板后可施放';
+					return '技能、等级或快捷键已变化';
+				return '快捷键已设置';
 			}
 			case 'editGuildPosition': {
 				const position = state.guild?.positions.find(entry => entry.positionID === data.position);

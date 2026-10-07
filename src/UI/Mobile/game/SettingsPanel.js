@@ -1,16 +1,16 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { showToast } from 'UI/Components/Toast.js';
+
 /** Graphics/audio use a draft; camera adjustments take effect immediately. */
 export function createSettingsPanel(body, service) {
 	let draft = service.snapshot();
 	let activeSection = '画面';
+	const notify = message => showToast(body, message);
 	function render() {
 		body.replaceChildren();
 		const form = document.createElement('form');
 		form.className = 'settings-form';
 		form.onsubmit = event => event.preventDefault();
-		const status = document.createElement('p');
-		status.role = 'status';
-		status.className = 'settings-status';
-		status.textContent = '关闭面板会放弃尚未保存的修改。';
 		const tabs = document.createElement('div');
 		tabs.className = 'settings-tabs';
 		tabs.setAttribute('role', 'group');
@@ -75,10 +75,20 @@ export function createSettingsPanel(body, service) {
 			}
 			input.oninput = () => {
 				draft.graphics[key] = input.type === 'checkbox' ? input.checked : Number(input.value);
-				status.textContent = '修改尚未保存';
 			};
 			field(displayKeys.includes(key) ? '画面' : '特效', key === 'quality' ? '渲染比例（%）' : label, input);
 		}
+		const duration = document.createElement('input');
+		duration.type = 'number';
+		duration.min = 1;
+		duration.max = 10;
+		duration.step = 1;
+		duration.dataset.setting = 'toastDuration';
+		duration.value = draft.interface.toastDuration;
+		duration.oninput = () => {
+			draft.interface.toastDuration = Number(duration.value);
+		};
+		field('画面', '通知显示时长（秒）', duration);
 		for (const [key, name] of [
 			['BGM', '背景音乐'],
 			['Sound', '音效']
@@ -89,7 +99,6 @@ export function createSettingsPanel(body, service) {
 			enabled.dataset.audio = key;
 			enabled.oninput = () => {
 				draft.audio[key].play = enabled.checked;
-				status.textContent = '修改尚未保存';
 			};
 			field('声音', name, enabled);
 			const volume = document.createElement('input');
@@ -100,7 +109,6 @@ export function createSettingsPanel(body, service) {
 			volume.value = draft.audio[key].volume * 100;
 			volume.oninput = () => {
 				draft.audio[key].volume = Number(volume.value) / 100;
-				status.textContent = '修改尚未保存';
 			};
 			const row = field('声音', name + '音量', volume);
 			row.classList.add('settings-volume');
@@ -113,28 +121,62 @@ export function createSettingsPanel(body, service) {
 			row.append(value);
 		}
 
+		// Keep related numeric fields in their declared order, then collect switches.
+		// Start switches on a fresh grid row without adding visible category labels.
+		for (const name of ['画面', '特效', '声音']) {
+			const section = sections.get(name).section;
+			const rows = [...section.children];
+			const switches = rows.filter(row => row.querySelector('input[type="checkbox"]'));
+			const values = rows.filter(row => !row.querySelector('input[type="checkbox"]'));
+			switches[0]?.classList.add('settings-switch-start');
+			section.append(...values, ...switches);
+		}
+
 		const camera = sections.get('镜头').section;
 		camera.classList.add('camera-section');
-		const hint = document.createElement('p');
-		hint.textContent = '镜头调整立即生效，无需保存。';
-		const controls = document.createElement('div');
-		controls.className = 'camera-controls';
-		for (const [label, action] of [
-			['左转', 'left'],
-			['右转', 'right'],
-			['拉近', 'zoomIn'],
-			['拉远', 'zoomOut'],
-			['抬高', 'up'],
-			['降低', 'down'],
-			['重置镜头', 'reset']
-		]) {
+		const cameraButton = (label, action) => {
 			const button = document.createElement('button');
 			button.type = 'button';
 			button.textContent = label;
 			button.onclick = () => service.camera(action);
-			controls.append(button);
+			return button;
+		};
+		const reset = cameraButton('重置镜头', 'reset');
+		reset.className = 'camera-reset';
+		camera.append(reset);
+		for (const [name, actions] of [
+			[
+				'旋转',
+				[
+					['左转', 'left'],
+					['右转', 'right']
+				]
+			],
+			[
+				'缩放',
+				[
+					['拉近', 'zoomIn'],
+					['拉远', 'zoomOut']
+				]
+			],
+			[
+				'高度',
+				[
+					['抬高', 'up'],
+					['降低', 'down']
+				]
+			]
+		]) {
+			const group = document.createElement('div');
+			group.className = 'camera-group';
+			group.setAttribute('role', 'group');
+			group.setAttribute('aria-label', name);
+			const controls = document.createElement('div');
+			controls.className = 'camera-controls';
+			for (const [label, action] of actions) controls.append(cameraButton(label, action));
+			group.append(controls);
+			camera.append(group);
 		}
-		camera.append(hint, controls);
 		const footer = document.createElement('div');
 		footer.className = 'settings-footer';
 		footer.hidden = activeSection === '镜头';
@@ -144,21 +186,24 @@ export function createSettingsPanel(body, service) {
 			[
 				'保存',
 				() => {
-					status.textContent = service.save(draft);
+					notify(service.save(draft));
 				}
 			],
 			[
-				'取消修改',
+				'恢复默认',
 				() => {
-					draft = service.snapshot();
-					render();
-				}
-			],
-			[
-				'恢复默认（待保存）',
-				() => {
-					draft = service.snapshot(true);
-					render();
+					confirmAction(
+						body,
+						'确认恢复全部画面、特效和声音设置为默认值？',
+						() => {
+							const message = service.save(service.snapshot(true));
+							draft = service.snapshot();
+							render();
+							notify(message);
+							body.querySelector('.settings-tabs [aria-pressed=true]')?.focus();
+						},
+						{}
+					);
 				}
 			]
 		]) {
@@ -169,10 +214,9 @@ export function createSettingsPanel(body, service) {
 				action();
 				if (!form.isConnected) body.querySelector('.settings-tabs [aria-pressed=true]')?.focus();
 			};
-			if (label === '保存') button.className = 'settings-save';
 			buttons.append(button);
 		}
-		footer.append(buttons, status);
+		footer.append(buttons);
 		form.append(footer);
 		body.append(form);
 	}

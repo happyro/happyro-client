@@ -1,6 +1,10 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
+import { setListItemText } from './ListItemText.js';
+
 export function createSocialPanel(body, service, whisper) {
 	body.innerHTML =
-		'<div class="skills-toolbar"><select aria-label="社交分类"><option value="friends">好友</option><option value="party">队伍</option><option value="guild">公会</option></select><button type="button" data-refresh>刷新公会</button></div><div class="inventory-layout"><div class="inventory-list" aria-label="社交列表"></div><section class="inventory-detail" aria-label="社交详情"></section></div><p role="status"></p>';
+		'<div class="skills-toolbar"><select aria-label="社交分类"><option value="friends">好友</option><option value="party">队伍</option><option value="guild">公会</option></select><button type="button" data-refresh>刷新公会</button></div><div class="inventory-layout"><div class="inventory-list" aria-label="社交列表"></div><section class="inventory-detail" aria-label="社交详情"></section></div>';
 	const $ = selector => body.querySelector(selector),
 		detail = $('.inventory-detail'),
 		list = $('.inventory-list');
@@ -8,11 +12,19 @@ export function createSocialPanel(body, service, whisper) {
 		selected = null,
 		lastKey = '',
 		listKey = '';
-	const status = text => {
-		$('[role=status]').textContent = text;
-	};
+	const status = createFeedback(body);
 	const act = (action, data) => {
-		status(service.act(action, data));
+		const message = service.act(action, data);
+		status(
+			message,
+			action === 'bindGuildSkill'
+				? message === '快捷键已设置'
+					? 'success'
+					: 'error'
+				: message === '已请求，等待服务器回复'
+					? 'info'
+					: 'error'
+		);
 	};
 	function button(text, fn) {
 		const b = document.createElement('button');
@@ -49,18 +61,11 @@ export function createSocialPanel(body, service, whisper) {
 		send.type = 'submit';
 		send.textContent = title;
 		f.append(send);
-		let review = null;
 		f.onsubmit = e => {
 			e.preventDefault();
 			const values = Object.fromEntries(Object.entries(inputs).map(([name, node]) => [name, node.value]));
-			if (confirm && JSON.stringify(values) !== review) {
-				review = JSON.stringify(values);
-				send.textContent = `确认${title}`;
-				return;
-			}
-			review = null;
-			submit(values);
-			send.textContent = title;
+			if (confirm) confirmAction(f, `确认${title}？`, () => submit(values));
+			else submit(values);
 		};
 		detail.append(f);
 		return f;
@@ -98,6 +103,7 @@ export function createSocialPanel(body, service, whisper) {
 					render();
 				});
 				b.className = 'inventory-item';
+				setListItemText(b, name);
 				list.append(b);
 			}
 			if (!members.length) list.append(paragraph('暂无成员'));
@@ -279,18 +285,26 @@ export function createSocialPanel(body, service, whisper) {
 				file.setAttribute('aria-label', '公会徽章文件');
 				const send = document.createElement('button');
 				send.type = 'submit';
-				send.textContent = '确认上传徽章';
+				send.textContent = '上传徽章';
 				upload.append(paragraph('徽章：BMP 不超过 1783 字节、24 位或以下；GIF 不超过 50 KB'), file, send);
-				upload.onsubmit = async event => {
+				upload.onsubmit = event => {
 					event.preventDefault();
-					send.disabled = true;
-					try {
-						status(await service.uploadEmblem(file.files[0]));
-					} catch {
-						status('无法读取徽章文件，请重新选择');
-					} finally {
-						send.disabled = false;
+					const selectedFile = file.files[0];
+					if (!selectedFile) {
+						status('请选择徽章文件', 'error');
+						return;
 					}
+					confirmAction(upload, `确认上传徽章「${selectedFile.name}」？`, async () => {
+						send.disabled = true;
+						try {
+							const result = await service.uploadEmblem(selectedFile);
+							status(result, result === '已请求上传徽章，结果以服务器回复为准' ? 'info' : 'error');
+						} catch {
+							status('无法读取徽章文件，请重新选择', 'error');
+						} finally {
+							send.disabled = false;
+						}
+					});
 				};
 				detail.append(upload);
 			}

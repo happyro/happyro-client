@@ -1,7 +1,11 @@
+import { createFeedback } from 'UI/Components/Feedback.js';
+import { setListItemText } from './ListItemText.js';
+
 const labels = { inventory: '背包', storage: '仓库', cart: '手推车' };
 export function createContainerPanel(body, actions, initialSource) {
 	body.innerHTML =
-		'<div class="container-toolbar"></div><p class="container-capacity"></p><div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"></section></div><p class="inventory-status" role="status"></p>';
+		'<div class="container-toolbar"></div><div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"></section></div>';
+	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector);
 	const sourceSelect = document.createElement('select');
 	sourceSelect.setAttribute('aria-label', '物品所在位置');
@@ -14,7 +18,9 @@ export function createContainerPanel(body, actions, initialSource) {
 		['other', '其他']
 	])
 		category.add(new Option(text, key));
-	$('.container-toolbar').append(sourceSelect, category);
+	const capacityLabel = document.createElement('span');
+	capacityLabel.className = 'container-capacity';
+	$('.container-toolbar').append(sourceSelect, category, capacityLabel);
 	let source = initialSource,
 		selected = null,
 		state;
@@ -58,13 +64,8 @@ export function createContainerPanel(body, actions, initialSource) {
 		count.className = 'container-item-count';
 		count.textContent = `当前数量：${item.count}`;
 		const transfer = button('确认转移', () => {
-			$('.inventory-status').textContent = actions.transfer(
-				source,
-				destination.value,
-				item.index,
-				item.ID,
-				Number(amount.value)
-			);
+			const result = actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value));
+			feedback(result, result === '已请求转移，等待服务器更新' ? 'info' : 'error');
 			update();
 		});
 		$('.inventory-detail').replaceChildren(
@@ -90,11 +91,14 @@ export function createContainerPanel(body, actions, initialSource) {
 			sourceSelect.value = source;
 		}
 		const capacity = state.capacity;
-		$('.container-capacity').textContent = !state.containers.includes(source)
-			? `${labels[source]}当前不可用`
-			: capacity
+		const unavailable = !state.containers.includes(source);
+		capacityLabel.hidden = unavailable || !capacity;
+		capacityLabel.textContent =
+			capacity && !unavailable
 				? `格数：${capacity.current}/${capacity.limit}${capacity.weight === undefined ? '' : ` · 重量：${capacity.weight}/${capacity.maxWeight}`}`
-				: '已穿戴物品请先卸下再转移';
+				: '';
+		if (unavailable && source !== 'cart') feedback.update(`${labels[source]}当前不可用`);
+
 		const keys = new Set();
 		for (const item of state.items.filter(entry => category.value === 'all' || entry.category === category.value)) {
 			const key = `${source}:${item.index}:${item.ID}`;
@@ -109,7 +113,7 @@ export function createContainerPanel(body, actions, initialSource) {
 				nodes.set(key, node);
 				$('.inventory-list').append(node);
 			}
-			node.querySelector('span').textContent = `${item.name} ×${item.count}`;
+			setListItemText(node, item.name, `×${item.count}`);
 			if (item.icon && node.querySelector('img').getAttribute('src') !== item.icon)
 				node.querySelector('img').src = item.icon;
 			node.disabled = !state.allowed;

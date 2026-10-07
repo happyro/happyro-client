@@ -1,15 +1,19 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
+import { setListItemText } from './ListItemText.js';
+
 /** Touch-only inventory presentation. Actions receive inventory indices, never DOM-derived item data. */
 export function createInventoryPanel(body, actions) {
 	body.innerHTML =
-		'<nav class="inventory-tabs" aria-label="背包分类"></nav><div class="inventory-layout"><div class="inventory-list" aria-label="物品列表"></div><section class="inventory-detail" aria-label="物品详情"></section></div><p class="inventory-status" role="status"></p>';
+		'<div class="inventory-toolbar"></div><div class="inventory-layout"><div class="inventory-list" aria-label="物品列表"></div><section class="inventory-detail inventory-item-detail" aria-label="物品详情"></section></div>';
 	const $ = selector => body.querySelector(selector);
 	const list = $('.inventory-list'),
 		detail = $('.inventory-detail');
-	let category = 'all',
-		selected = null,
+	let selected = null,
 		state = [],
 		detailKey = '',
-		binding = false;
+		binding = false,
+		dismiss;
 	const buttons = new Map();
 	const sort = document.createElement('select');
 	sort.setAttribute('aria-label', '背包排序');
@@ -21,10 +25,8 @@ export function createInventoryPanel(body, actions) {
 	])
 		sort.add(new Option(name, key));
 	sort.onchange = () => render();
-	body.prepend(sort);
-	const status = message => {
-		$('.inventory-status').textContent = message;
-	};
+
+	const status = createFeedback(body);
 	function button(label, fn) {
 		const node = document.createElement('button');
 		node.type = 'button';
@@ -32,23 +34,23 @@ export function createInventoryPanel(body, actions) {
 		node.onclick = fn;
 		return node;
 	}
+	const category = document.createElement('select');
+	category.setAttribute('aria-label', '背包分类');
 	for (const [key, label] of [
 		['all', '全部'],
 		['usable', '消耗品'],
 		['equipment', '装备'],
 		['other', '其他'],
 		['worn', '已穿戴']
-	]) {
-		const tab = button(label, () => {
-			category = key;
-			render();
-		});
-		tab.dataset.category = key;
-		$('.inventory-tabs').append(tab);
-	}
+	])
+		category.add(new Option(label, key));
+	category.onchange = () => render();
+	$('.inventory-toolbar').append(category, sort);
 	function renderDetail() {
 		const item = state.find(entry => entry.index === selected?.index && entry.ID === selected?.ID);
 		if (!item) {
+			dismiss?.();
+			dismiss = null;
 			selected = null;
 			binding = false;
 			detailKey = '';
@@ -68,23 +70,32 @@ export function createInventoryPanel(body, actions) {
 		const ops = document.createElement('div');
 		ops.className = 'inventory-actions';
 		if (item.action) {
-			const use = button({ use: '使用', equip: '穿戴', unequip: '卸下', card: '镶嵌卡片' }[item.action], () => {
-				status(actions.act(item.index, item.ID, item.action));
+			const label = { use: '使用', equip: '穿戴', unequip: '卸下', card: '镶嵌卡片' }[item.action];
+			const perform = () => {
+				const error = actions.act(item.index, item.ID, item.action);
+				if (error) status(error, 'error');
 				update();
+			};
+			const use = button(label, () => {
+				if (item.action === 'equip' || item.action === 'unequip') perform();
+				else dismiss = confirmAction(body, `确认${label}「${item.name}」？`, perform);
 			});
 			use.disabled = Boolean(item.reason);
 			ops.append(use);
 		}
-		if (item.shortcut) ops.append(button('设置快捷槽', () => chooseBinding(item)));
+		if (item.shortcut) ops.append(button('设置快捷键', () => chooseBinding(item)));
 		if (!item.worn) ops.append(button('丢弃', () => chooseDrop(item)));
 		const reason = document.createElement('p');
 		reason.textContent = item.reason;
-		detail.replaceChildren(title, count, ops, reason, description);
+		const content = document.createElement('div');
+		content.className = 'inventory-item-description';
+		content.append(title, count, reason, description);
+		detail.replaceChildren(content, ops);
 	}
 	function chooseDrop(item) {
 		binding = true;
 		const warning = document.createElement('p');
-		warning.textContent = `丢弃 ${item.name} 后物品将落到地上，可能被其他玩家拾取。`;
+		warning.textContent = `确认丢弃「${item.name}」？`;
 		const input = document.createElement('input');
 		input.type = 'number';
 		input.min = '1';
@@ -92,53 +103,87 @@ export function createInventoryPanel(body, actions) {
 		input.step = '1';
 		input.value = '1';
 		input.setAttribute('aria-label', '丢弃数量');
-		const confirm = button('确认丢弃', () => {
-			status(actions.drop(item.index, item.ID, Number(input.value)));
-			binding = false;
-			detailKey = '';
-			update();
-		});
-		const cancel = button('取消丢弃', () => {
-			binding = false;
-			detailKey = '';
-			renderDetail();
-		});
-		detail.replaceChildren(warning, input, confirm, cancel);
+		const content = document.createElement('div');
+		content.className = 'ui-confirm-field drop-quantity';
+		content.append(input);
+		const controls = document.createElement('div');
+		controls.className = 'drop-quantity-buttons';
+		const maximum = Number(input.max);
+		function changeQuantity(delta) {
+			const value = Number.isFinite(input.valueAsNumber) ? Math.trunc(input.valueAsNumber) : 1;
+			input.value = String(Math.max(1, Math.min(maximum, delta === 'max' ? maximum : value + delta)));
+			input.dispatchEvent(new Event('input', { bubbles: true }));
+			input.dispatchEvent(new Event('change', { bubbles: true }));
+		}
+		const increase = button('+', () => changeQuantity(1));
+		increase.setAttribute('aria-label', '增加数量');
+		const decrease = button('−', () => changeQuantity(-1));
+		decrease.setAttribute('aria-label', '减少数量');
+		const max = button('MAX', () => changeQuantity('max'));
+		max.setAttribute('aria-label', '最大数量');
+		controls.append(increase, decrease, max);
+		content.append(controls);
+		dismiss = confirmAction(
+			body,
+			warning.textContent,
+			() => {
+				const error = actions.drop(item.index, item.ID, Number(input.value));
+				if (error) status(error, 'error');
+				binding = false;
+				detailKey = '';
+				update();
+			},
+			{
+				content,
+				cancelled: () => {
+					binding = false;
+					detailKey = '';
+					renderDetail();
+				}
+			}
+		);
 	}
 	function chooseBinding(item) {
 		binding = true;
-		const title = document.createElement('p');
-		title.textContent = `将 ${item.name} 设置到快捷槽；已有内容将被替换。`;
 		const select = document.createElement('select');
-		select.setAttribute('aria-label', '目标快捷槽');
+		select.setAttribute('aria-label', '位置');
 		const page = actions.shortcuts();
-		for (let i = 0; i < page.total; i++) select.add(new Option(`槽位 ${i + 1}`, String(i)));
+		for (let i = 0; i < page.total; i++)
+			select.add(new Option(`位置 ${i + 1} · ${actions.slotName(i)}`, String(i)));
 		select.value = String(page.slots[0].index);
-		const preview = document.createElement('p');
-		function describeSlot() {
-			preview.textContent = `当前内容：${actions.slotName(Number(select.value))}`;
-		}
-		select.onchange = describeSlot;
-		describeSlot();
-		const save = button('确认设置', () => {
-			const success = actions.bind(item.index, item.ID, Number(select.value));
-			status(success ? `已设置到槽位 ${Number(select.value) + 1}` : '设置失败，物品或角色状态已经变化');
-			binding = false;
-			detailKey = '';
-			update();
-		});
-		const cancel = button('取消设置', () => {
-			binding = false;
-			detailKey = '';
-			renderDetail();
-		});
-		detail.replaceChildren(title, select, preview, save, cancel);
+		const content = document.createElement('div');
+		content.className = 'shortcut-fields';
+		const field = document.createElement('div');
+		field.className = 'ui-confirm-field';
+		field.append(select);
+		content.append(field);
+		dismiss = confirmAction(
+			body,
+			`设置「${item.name}」的快捷键？`,
+			() => {
+				const success = actions.bind(item.index, item.ID, Number(select.value));
+				status(
+					success ? `已设置到位置 ${Number(select.value) + 1}` : '设置失败，物品或角色状态已经变化',
+					success ? 'success' : 'error'
+				);
+				binding = false;
+				detailKey = '';
+				update();
+			},
+			{
+				content,
+				cancelled: () => {
+					binding = false;
+					detailKey = '';
+					renderDetail();
+				}
+			}
+		);
 	}
 	function render() {
-		for (const tab of $('.inventory-tabs').children)
-			tab.setAttribute('aria-pressed', String(tab.dataset.category === category));
 		const filtered = state.filter(
-			item => category === 'all' || (category === 'worn' ? item.worn : item.category === category)
+			item =>
+				category.value === 'all' || (category.value === 'worn' ? item.worn : item.category === category.value)
 		);
 		filtered.sort((a, b) =>
 			sort.value === 'name'
@@ -166,12 +211,14 @@ export function createInventoryPanel(body, actions) {
 			let node = buttons.get(key);
 			if (!node) {
 				node = button('', () => {
+					dismiss?.();
+					dismiss = null;
 					selected = { index: item.index, ID: item.ID };
 					binding = false;
 					detailKey = '';
 					status('');
 					render();
-					detail.scrollTop = 0;
+					detail.querySelector('.inventory-item-description')?.scrollTo?.(0, 0);
 				});
 				node.className = 'inventory-item';
 				node.dataset.index = item.index;
@@ -183,7 +230,7 @@ export function createInventoryPanel(body, actions) {
 			const image = node.querySelector('img');
 			image.alt = '';
 			if (item.icon && image.getAttribute('src') !== item.icon) image.src = item.icon;
-			node.querySelector('span').textContent = `${item.name} ×${item.count}${item.worn ? ' · 已穿戴' : ''}`;
+			setListItemText(node, item.name, `×${item.count}${item.worn ? ' · 已穿戴' : ''}`);
 			node.setAttribute('aria-pressed', String(selected?.index === item.index && selected?.ID === item.ID));
 		}
 		renderDetail();

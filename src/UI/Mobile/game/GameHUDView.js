@@ -1,8 +1,16 @@
+import Preferences from 'Core/Preferences.js';
+import { chatChannelLabels } from './ChatChannels.js';
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { showToast } from 'UI/Components/Toast.js';
+import { createStatusPanel } from './StatusPanel.js';
+import { clearToast } from 'UI/Components/Toast.js';
+import mobileSelectCSS from './MobileSelect.css?raw';
+import { createMenuSelects } from './MenuSelects.js';
+import selectCSS from 'UI/Components/GameTools/GameSelect.css?raw';
 import { drawPlayerArrow } from 'UI/Components/GameTools/WorldMapPreview.js';
 import { fittedMapRect, mapImageSourceRect, mapPointToCanvas } from 'UI/Components/GameTools/MapPreviewLayout.js';
 import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
 import autoCombatCSS from 'UI/Game/AutoCombatPanel.css?raw';
-import { createNavigationPanel } from './NavigationPanel.js';
 import { createCompanionsPanel } from './CompanionsPanel.js';
 import { createPetPanel } from './PetPanel.js';
 import { createMailPanel } from './MailPanel.js';
@@ -10,7 +18,6 @@ import { createSettingsPanel } from './SettingsPanel.js';
 import { createBankPanel } from './BankPanel.js';
 import { createVendingPanel } from './VendingPanel.js';
 import { createTradePanel } from './TradePanel.js';
-import { createEquipmentSetsPanel } from './EquipmentSetsPanel.js';
 import { createEnchantPanel } from './EnchantPanel.js';
 import { createRefinementPanel } from './RefinementPanel.js';
 import { createMaterialsPanel } from './MaterialsPanel.js';
@@ -30,16 +37,22 @@ import html from './GameHUD.html?raw';
 import css from './GameHUD.css?raw';
 import responsiveCSS from './GameHUDResponsive.css?raw';
 import panelsCSS from './MenuPanels.css?raw';
+import mailCSS from './MailPanel.css?raw';
 
 /** DOM-only view; no packets, desktop windows or map event handlers. */
 export function createGameHUDView(root, actions) {
 	root.innerHTML = `<style>${css}
 ${autoCombatCSS}
 ${responsiveCSS}
-${panelsCSS}</style>${html}`;
+${selectCSS}
+${panelsCSS}
+${mobileSelectCSS}
+${mailCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
+	const chatDisplay = Preferences.get('ChatPreview', { collapsed: false }, 1.0);
 	let currentPanel = null;
+	let statusPanel = null;
 	let serverState = null;
 	let shortcutPanel = null;
 	let inventoryPanel = null;
@@ -47,14 +60,13 @@ ${panelsCSS}</style>${html}`;
 	let skillsPanel = null;
 	let attributesPanel = null;
 	let questsPanel = null;
-	let navigationPanel = null;
 	let chatPanel = null;
+	let chatFilter = 'all';
 	let socialPanel = null;
 	let selectionPanel = null;
 	let materialsPanel = null;
 	let refinementPanel = null;
 	let enchantPanel = null;
-	let equipmentSetsPanel = null;
 	let petPanel = null;
 	let companionsPanel = null;
 	let mailPanel = null;
@@ -69,6 +81,7 @@ ${panelsCSS}</style>${html}`;
 	let lastTrigger;
 	let snapshot = {};
 	let messages = [];
+	let unreadChat = 0;
 	let mapImage;
 	const backdrop = $('.backdrop');
 	const body = $('.panel-body');
@@ -126,8 +139,11 @@ ${panelsCSS}</style>${html}`;
 		const point = mapPointToCanvas(fit, mapImage, { x: snapshot.position[0], y: snapshot.position[1] });
 		drawPlayerArrow(ctx, point, snapshot.direction ?? 0, 0.65);
 	}
+	const menuSelects = createMenuSelects(body);
 	function close(notify = true) {
+		menuSelects.close();
 		if (!currentPanel || (notify && serverState?.canClose === false)) return;
+		clearToast(body);
 		const interaction = serverState;
 		serverState = null;
 		currentPanel = null;
@@ -151,22 +167,29 @@ ${panelsCSS}</style>${html}`;
 		materialsPanel = null;
 		refinementPanel = null;
 		enchantPanel = null;
-		equipmentSetsPanel = null;
-		navigationPanel?.destroy();
-		navigationPanel = null;
 		backdrop.hidden = true;
 		actions.setModal(false);
 		lastTrigger?.focus();
 		if (notify) interaction?.close?.();
 	}
 	function updateMessages() {
-		text(
-			'[data-chat-preview]',
-			messages
-				.slice(-2)
-				.map(message => message.text)
-				.join('\n') || '暂无消息'
+		if (currentPanel === 'chat') unreadChat = 0;
+		for (const badge of root.querySelectorAll('[data-chat-unread]')) {
+			badge.hidden = !unreadChat;
+			badge.textContent = unreadChat > 99 ? '99+' : String(unreadChat);
+		}
+		const preview = $('[data-chat-preview]');
+		const visibleMessages = messages.filter(message => chatFilter === 'all' || message.channel === chatFilter);
+		preview.replaceChildren(
+			...visibleMessages.slice(-3).map(message => {
+				const row = document.createElement('span');
+				row.className = 'chat-preview-line';
+				row.textContent = `[${chatChannelLabels[message.channel] || '系统'}] ${message.text.replace(/[\r\n]+/g, ' ')}`;
+				return row;
+			})
 		);
+		if (!visibleMessages.length) preview.textContent = '暂无消息';
+		preview.scrollTop = preview.scrollHeight;
 		chatPanel?.update(messages);
 	}
 	function details(entries) {
@@ -192,19 +215,10 @@ ${panelsCSS}</style>${html}`;
 				['SP', `${snapshot.sp} / ${snapshot.maxSp}`],
 				['Zeny', snapshot.money]
 			]);
-		if (currentPanel === 'status') {
-			body.replaceChildren(
-				...(snapshot.statuses?.length
-					? snapshot.statuses.map(status => {
-							const p = document.createElement('p');
-							p.textContent = status.description;
-							return p;
-						})
-					: [document.createTextNode('当前没有状态效果')])
-			);
-		}
+		if (currentPanel === 'status') statusPanel?.update(snapshot.statuses || []);
 	}
 	function open(panel, slotIndex) {
+		clearToast(body);
 		if (panel === 'map') {
 			close();
 			actions.openAdventureMap(slotIndex);
@@ -224,14 +238,12 @@ ${panelsCSS}</style>${html}`;
 				settings: '设置',
 				profile: '人物信息',
 				status: '状态效果',
-				navigation: '导航',
 				menu: '菜单',
 				chat: '聊天',
 				attributes: '素质',
-				shortcuts: '快捷配置',
+				shortcuts: '快捷键',
 				inventory: '背包',
 				equipment: '装备',
-				equipmentSets: '装备方案',
 				skills: '技能',
 				quests: '任务',
 				social: '社交',
@@ -254,7 +266,10 @@ ${panelsCSS}</style>${html}`;
 			}[panel]
 		);
 		$('[data-close]').disabled = serverState?.canClose === false;
+		$('[data-back]').hidden = panel === 'menu' || panel === 'chat';
+		$('[data-back]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
+		statusPanel = null;
 		body.classList.toggle('settings-body', panel === 'settings');
 		$('.panel').classList.toggle('settings-panel', panel === 'settings');
 		$('.panel').classList.toggle('profile-panel', panel === 'profile');
@@ -264,9 +279,9 @@ ${panelsCSS}</style>${html}`;
 			'inventory-body',
 			[
 				'mail',
-				'navigation',
 				'inventory',
 				'skills',
+				'status',
 				'attributes',
 				'shop',
 				'trade',
@@ -279,7 +294,6 @@ ${panelsCSS}</style>${html}`;
 				'transformation',
 				'refinement',
 				'enchant',
-				'equipmentSets',
 				'materials'
 			].includes(panel)
 		);
@@ -287,9 +301,9 @@ ${panelsCSS}</style>${html}`;
 			'inventory-panel',
 			[
 				'mail',
-				'navigation',
 				'inventory',
 				'skills',
+				'status',
 				'attributes',
 				'shop',
 				'trade',
@@ -302,7 +316,6 @@ ${panelsCSS}</style>${html}`;
 				'transformation',
 				'refinement',
 				'enchant',
-				'equipmentSets',
 				'materials'
 			].includes(panel)
 		);
@@ -312,6 +325,7 @@ ${panelsCSS}</style>${html}`;
 		$('.panel').classList.toggle('shortcut-panel', panel === 'shortcuts');
 		body.classList.toggle('chat-body', panel === 'chat');
 		$('.panel').classList.toggle('chat-panel', panel === 'chat');
+		backdrop.classList.toggle('chat-backdrop', panel === 'chat');
 		if (panel === 'information') {
 			const list = document.createElement('dl');
 			for (const [label, value] of serverState.rows) {
@@ -326,6 +340,7 @@ ${panelsCSS}</style>${html}`;
 		if (panel === 'autoCombat') createAutoCombatPanel(body, { ...actions.autoCombat, close });
 		if (panel === 'settings') createSettingsPanel(body, actions.settings);
 		if (panel === 'npc') createNPCPanel(body, serverState);
+		if (panel === 'status') statusPanel = createStatusPanel(body);
 		if (panel === 'profile' || panel === 'status') renderDetails();
 		if (panel === 'menu') {
 			const grid = document.createElement('div');
@@ -334,14 +349,12 @@ ${panelsCSS}</style>${html}`;
 				['设置', 'settings'],
 				['人物', 'profile'],
 				['地图', 'map'],
-				['导航', 'navigation'],
-				// ['聊天', 'chat'], // 聊天 UI 暂时隐藏。
+				['聊天', 'chat'],
 				['状态', 'status'],
 				['素质', 'attributes'],
-				['快捷配置', 'shortcuts'],
+				['快捷键', 'shortcuts'],
 				['背包', 'inventory'],
 				['装备', 'equipment'],
-				['装备方案', 'equipmentSets'],
 				['技能', 'skills'],
 				['手推车', 'cart'],
 				['任务', 'quests'],
@@ -355,7 +368,10 @@ ${panelsCSS}</style>${html}`;
 			}
 			const adventureButton = document.createElement('button');
 			adventureButton.textContent = '冒险工具';
-			adventureButton.onclick = () => { close(); actions.openAdventureTools(); };
+			adventureButton.onclick = () => {
+				close();
+				actions.openAdventureTools(() => open('menu'));
+			};
 			grid.prepend(adventureButton);
 			const petButton = document.createElement('button');
 			petButton.textContent = '宠物';
@@ -383,15 +399,16 @@ ${panelsCSS}</style>${html}`;
 			const storeButton = document.createElement('button');
 			storeButton.textContent = '我的摊位';
 			storeButton.onclick = () => {
-				if (!actions.showOwnedVending()) storeButton.textContent = '尚未开店：请先使用摆摊或收购技能';
+				if (!actions.showOwnedVending()) showToast(body, '尚未开店，请先使用摆摊或收购技能', 'info');
 			};
 			grid.append(storeButton);
 			const exit = document.createElement('button');
 			exit.textContent = '返回选角';
-			exit.onclick = () => {
-				close();
-				actions.returnToCharacters();
-			};
+			exit.onclick = () =>
+				confirmAction(body, '返回选角？', () => {
+					close();
+					actions.returnToCharacters();
+				});
 			grid.append(exit);
 			body.append(grid);
 		}
@@ -415,9 +432,6 @@ ${panelsCSS}</style>${html}`;
 		materialsPanel = null;
 		refinementPanel = null;
 		enchantPanel = null;
-		equipmentSetsPanel = null;
-		navigationPanel?.destroy();
-		navigationPanel = null;
 		if (panel === 'social') socialPanel = createSocialPanel(body, actions.social, name => open('chat', name));
 		if (panel === 'quests')
 			questsPanel = createQuestsPanel(body, {
@@ -425,14 +439,12 @@ ${panelsCSS}</style>${html}`;
 				toggle: actions.questToggle,
 				showMap: target => open('map', target)
 			});
-		if (panel === 'navigation') navigationPanel = createNavigationPanel(body, actions.canOperate);
 		if (panel === 'storage' || panel === 'cart')
 			containerPanel = createContainerPanel(
 				body,
 				{ snapshot: actions.containerSnapshot, transfer: actions.transferItem },
 				panel
 			);
-		if (panel === 'equipmentSets') equipmentSetsPanel = createEquipmentSetsPanel(body, actions.equipmentSets);
 		if (panel === 'enchant') {
 			serverState.service.setOperationGuard(actions.canOperate);
 			enchantPanel = createEnchantPanel(body, serverState.service);
@@ -504,20 +516,49 @@ ${panelsCSS}</style>${html}`;
 		if (panel === 'shortcuts')
 			shortcutPanel = createShortcutPanel(body, {
 				index: slotIndex,
+				turn: actions.shortcutPage,
 				snapshot: actions.shortcutSnapshot,
 				candidates: actions.shortcutCandidates,
 				configure: actions.configureShortcut
 			});
 		if (panel === 'chat') {
-			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
+			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, () => close(), chatFilter, value => {
+				chatFilter = value;
+				updateMessages();
+			});
 			updateMessages();
 		}
+		menuSelects.sync();
 		$('h2').focus();
 	}
+	function renderChatDisplay() {
+		$('.chat-preview').classList.toggle('collapsed', chatDisplay.collapsed);
+		$('.chat-preview-open').hidden = chatDisplay.collapsed;
+		$('[data-chat-collapse]').hidden = chatDisplay.collapsed;
+		$('[data-chat-expand]').hidden = !chatDisplay.collapsed;
+	}
+	for (const [selector, collapsed] of [
+		['[data-chat-collapse]', true],
+		['[data-chat-expand]', false]
+	]) {
+		listen($(selector), 'click', () => {
+			chatDisplay.collapsed = collapsed;
+			chatDisplay.save();
+			renderChatDisplay();
+			if (!collapsed) updateMessages();
+			$(collapsed ? '[data-chat-expand]' : '[data-chat-collapse]').focus();
+		});
+	}
+	renderChatDisplay();
 	for (const button of root.querySelectorAll('[data-panel]'))
 		listen(button, 'click', () => open(button.dataset.panel));
 	listen($('[data-close]'), 'click', () => close());
 	// A touch held before opening the panel must not dismiss it on release.
+	listen($('[data-back]'), 'click', () => {
+		if (serverState?.canClose === false) return;
+		close();
+		open('menu');
+	});
 	listen(backdrop, 'pointerdown', event => {
 		backdropPointer = event.target === backdrop ? event.pointerId : null;
 		dismissBackdrop = false;
@@ -610,13 +651,17 @@ ${panelsCSS}</style>${html}`;
 			materialsPanel?.update();
 			refinementPanel?.update();
 			enchantPanel?.update();
-			equipmentSetsPanel?.update();
+			menuSelects.sync();
 		},
 		setMap(image) {
 			mapImage = image;
 			drawMap($('[data-mini-map]'));
 		},
 		setMessages(next) {
+			if (!next.length) unreadChat = 0;
+			const lastId = messages.at(-1)?.id || 0;
+			if (currentPanel !== 'chat')
+				unreadChat += next.filter(m => m.id > lastId && m.channel === 'private').length;
 			messages = next;
 			updateMessages();
 		},
@@ -664,15 +709,12 @@ ${panelsCSS}</style>${html}`;
 				if (!slot) continue;
 				button.setAttribute(
 					'aria-label',
-					`槽位 ${slot.index + 1}：${slot.name}${slot.reason ? '，' + slot.reason : ''}`
+					`位置 ${slot.index + 1}：${slot.name}${slot.reason ? '，' + slot.reason : ''}`
 				);
 				button.setAttribute('aria-disabled', String(!slot.available));
-				const key = JSON.stringify([
-					slot.icon,
-					slot.amount,
-					slot.empty,
-					Math.ceil((slot.cooldown || 0) / 1000)
-				]);
+				const seconds = Math.ceil((slot.cooldown || 0) / 1000);
+				const cooldownText = seconds > 999 ? `${Math.min(999, Math.ceil(seconds / 60))}m` : String(seconds);
+				const key = JSON.stringify([slot.icon, slot.amount, slot.empty, cooldownText]);
 				if (button.dataset.content !== key) {
 					button.dataset.content = key;
 					button.replaceChildren();
@@ -687,7 +729,7 @@ ${panelsCSS}</style>${html}`;
 						if (slot.cooldown > 0) {
 							const cooldown = document.createElement('b');
 							cooldown.className = 'slot-cooldown';
-							cooldown.textContent = Math.ceil(slot.cooldown / 1000);
+							cooldown.textContent = cooldownText;
 							button.append(cooldown);
 						}
 					}
@@ -709,6 +751,7 @@ ${panelsCSS}</style>${html}`;
 		},
 		close,
 		destroy() {
+			menuSelects.destroy();
 			close(false);
 			abort.abort();
 			root.replaceChildren();

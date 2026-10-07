@@ -1,4 +1,4 @@
-import { notifyEquipmentSetResult } from 'UI/Game/GameEquipmentSets.js';
+import { finishItemOperation, receiveItemOperationResult } from 'UI/Game/ItemOperationFeedback.js';
 import { finishRefinement } from 'UI/Game/GameRefinement.js';
 import { openGameMaterials } from 'UI/Game/GameMaterials.js';
 import { openGameSelection, selectionEntries } from 'UI/Game/GameSelection.js';
@@ -110,6 +110,11 @@ function onInventorySetList(pkt) {
  *
  * @param {object} pkt - PACKET.ZC.ITEM_THROW_ACK
  */
+function onItemDropAnswer(pkt) {
+	receiveItemOperationResult(Session.Entity, 'drop', pkt);
+	onIventoryRemoveItem(pkt);
+}
+
 function onIventoryRemoveItem(pkt) {
 	Inventory.getUI().removeItem(pkt.Index, pkt.count || pkt.Count || 0);
 }
@@ -120,6 +125,7 @@ function onIventoryRemoveItem(pkt) {
  * @param {object} pkt - PACKET.ZC.REQ_TAKEOFF_EQUIP_ACK
  */
 function onEquipementTakeOff(pkt) {
+	receiveItemOperationResult(Session.Entity, 'unequip', pkt);
 	if (pkt.result) {
 		const item = Equipment.getUI().unEquip(pkt.index, pkt.wearLocation);
 
@@ -184,6 +190,7 @@ function onEquipementTakeOff(pkt) {
  * @param {object} pkt - PACKET.ZC.REQ_WEAR_EQUIP_ACK
  */
 function onItemEquip(pkt) {
+	receiveItemOperationResult(Session.Entity, 'equip', pkt);
 	if (pkt.result == 1) {
 		const item = Inventory.getUI().removeItem(pkt.index, 1);
 		Equipment.getUI().equip(item, pkt.wearLocation);
@@ -243,6 +250,7 @@ function onItemEquip(pkt) {
  */
 function onItemUseAnswer(pkt) {
 	if (!pkt.hasOwnProperty('AID') || Session.Entity.GID === pkt.AID) {
+		receiveItemOperationResult(Session.Entity, 'use', pkt);
 		if (pkt.result) {
 			Inventory.getUI().updateItem(pkt.index, pkt.count);
 		} else {
@@ -311,11 +319,17 @@ function onUseCard(index) {
  */
 function onItemCompositionList(pkt) {
 	if (!pkt.ITIDList.length) {
+		finishItemOperation(Session.Entity, 'card', _cardComposition, false);
+		_cardComposition = null;
 		return;
 	}
 
 	const card = Inventory.getUI().getItemByIndex(_cardComposition);
-	if (!card) return;
+	if (!card) {
+		finishItemOperation(Session.Entity, 'card', _cardComposition, false);
+		_cardComposition = null;
+		return;
+	}
 	const cardIndex = _cardComposition;
 
 	ItemSelection.onIndexSelected = function (index) {
@@ -324,8 +338,9 @@ function onItemCompositionList(pkt) {
 			_pkt.cardIndex = cardIndex;
 			_pkt.equipIndex = index;
 			Network.sendPacket(_pkt);
+		} else {
+			finishItemOperation(Session.Entity, 'card', cardIndex, index < 0 ? null : false);
 		}
-
 		_cardComposition = null;
 	};
 
@@ -350,6 +365,7 @@ function onItemCompositionList(pkt) {
  * @param {object} pkt - PACKET.ZC.ACK_ITEMCOMPOSITION
  */
 function onItemCompositionResult(pkt) {
+	receiveItemOperationResult(Session.Entity, 'card', pkt);
 	switch (pkt.result) {
 		case 0: {
 			// success
@@ -716,7 +732,6 @@ function onFavItemList(pkt) {
  * Received Switch Equip List
  */
 function onSwitchEquipList(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt && pkt.ItemInfo) {
 		pkt.ItemInfo.forEach(function (item) {
 			if (Inventory.getUI().getItemByIndex(item.index)) {
@@ -730,7 +745,6 @@ function onSwitchEquipList(pkt) {
  * Add item to Switch Equip
  */
 function onSwitchEquipAdd(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt) {
 		switch (pkt.flag) {
 			case 0:
@@ -749,7 +763,6 @@ function onSwitchEquipAdd(pkt) {
  * Remove item to Switch Equip
  */
 function onSwitchEquipRemove(pkt) {
-	notifyEquipmentSetResult();
 	if (pkt) {
 		switch (pkt.flag) {
 			case 0:
@@ -781,7 +794,7 @@ export default function ItemEngine() {
 	Network.hookPacket(PACKET.ZC.ITEM_PICKUP_ACK6, onItemPickAnswer);
 	Network.hookPacket(PACKET.ZC.ITEM_PICKUP_ACK7, onItemPickAnswer);
 	Network.hookPacket(PACKET.ZC.ITEM_PICKUP_ACK8, onItemPickAnswer);
-	Network.hookPacket(PACKET.ZC.ITEM_THROW_ACK, onIventoryRemoveItem);
+	Network.hookPacket(PACKET.ZC.ITEM_THROW_ACK, onItemDropAnswer);
 	Network.hookPacket(PACKET.ZC.NORMAL_ITEMLIST, onInventorySetList);
 	Network.hookPacket(PACKET.ZC.NORMAL_ITEMLIST2, onInventorySetList);
 	Network.hookPacket(PACKET.ZC.NORMAL_ITEMLIST3, onInventorySetList);

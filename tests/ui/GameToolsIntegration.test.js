@@ -144,7 +144,7 @@ describe('game tools integration', () => {
 		expect(npcSource).toContain('class="npc-detail-body"');
 		expect(npcSource).toContain('renderCatalogScopeFilter');
 		expect(npcSource).toContain('const onMap = scopeFilter.checked ? currentMap : \'\'');
-		expect(npcSource).toContain("scopeFilter.checked ? () => { scopeFilter.checked = false; browserApi.reload(); } : null");
+		expect(npcSource.replace(/\s/g, '')).toContain("scopeFilter.checked?()=>{scopeFilter.checked=false;browserApi.reload();}:null");
 		expect(npcSource).not.toContain("value: 'all'");
 	});
 
@@ -272,19 +272,20 @@ describe('game tools integration', () => {
 		expect(source).toContain('>传送到地图</button>');
 		expect(source).toContain('renderCatalogScopeFilter');
 		expect(source).toContain("value: 'current'");
-		expect(source).toContain("scopeFilter.checked ? () => { scopeFilter.checked = false; applyFilter(); } : null");
+		expect(source.replace(/\s/g, '')).toContain("scopeFilter.checked?()=>{scopeFilter.checked=false;applyFilter();}:null");
 		expect(source).not.toContain('if (scopeFilter && !currentMonsters.length) scopeFilter.checked = false');
 		expect(source).toContain('if (!state.selected) {');
 		expect(source).toContain('state.selected = state.filtered[0] || null');
 		expect(source).not.toContain('${spawn.count} 只');
 	});
 
-	it('shows combined prices and equipment slot counts in item details', () => {
+	it('shows separate mobile prices, weight and equipment slot counts', () => {
 		const source = read('src/UI/Components/GameTools/ItemCatalogTab.js');
-		expect(source).toContain('<span>买 / 卖</span>');
+		expect(source).toContain("['买价', item.Buy ?? '-']");
+		expect(source).toContain("['卖价', item.Sell ?? '-']");
+		expect(source).toContain("['重量', weight]");
 		expect(source).toContain('${item.Buy ?? \'-\'} / ${item.Sell ?? \'-\'}');
-		expect(source).toContain('<span>洞数</span>');
-		expect(source).toContain('${item.Slots ?? 0}');
+		expect(source).toContain("['洞数', item.Slots ?? 0]");
 		expect(source).toContain("ariaLabel: '子类'");
 		expect(source).toContain("pending ? '发放中...' : '发放到背包'");
 		expect(read('src/UI/Components/GameTools/RemoteCatalogBrowser.js')).toContain(

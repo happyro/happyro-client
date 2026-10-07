@@ -50,9 +50,9 @@ it('gates skill learning by points, server level, revision and companion type', 
 	expect(openGameCompanions('mercenary').snapshot().skills[0].learnable).toBe(false);
 });
 it('preserves the entered name while live information updates and requires explicit destructive confirmation', () => {
-	const service = openGameCompanions('homunculus'), body = document.createElement('div'); const panel = createCompanionsPanel(body, service);
+	const service = openGameCompanions('homunculus'), body = document.body.appendChild(document.createElement('div')); const panel = createCompanionsPanel(body, service);
 	const input = body.querySelector('input'); input.value = '输入中'; input.dispatchEvent(new Event('input')); updateGameCompanion('homunculus', { hp: 15 }); panel.update(); expect(input.value).toBe('输入中');
-	body.querySelector('[data-action=dismiss]').click(); expect(body.querySelector('[data-review]').textContent).toContain('永久删除'); expect(s.send).not.toHaveBeenCalled();
+	body.querySelector('[data-action=dismiss]').click(); expect(body.querySelector('dialog p').textContent).toBe('确认删除当前生命体？'); expect(s.send).not.toHaveBeenCalled();
 	body.querySelector('[data-confirm]').click(); expect(s.send).toHaveBeenCalledOnce();
 });
 

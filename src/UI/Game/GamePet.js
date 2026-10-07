@@ -15,6 +15,7 @@ export function resetGamePet() {
 		gid: 0,
 		info: null,
 		pending: null,
+		messageKind: 'info',
 		message: '',
 		autoFeed: false,
 		accessory: false
@@ -36,6 +37,7 @@ export function updateGamePetInfo(info) {
 	s.accessory = Boolean(info.ITID);
 	if (s.pending === 'rename' || s.pending === 'refresh') s.pending = null;
 	s.message = '宠物状态已更新';
+	s.messageKind = 'success';
 }
 export function updateGamePetState(pkt) {
 	const s = current();
@@ -46,6 +48,7 @@ export function updateGamePetState(pkt) {
 			s.accessory = false;
 			s.autoFeed = false;
 			s.message = '宠物已更换';
+			s.messageKind = 'info';
 		}
 		s.gid = pkt.GID;
 		return;
@@ -65,6 +68,7 @@ export function receiveGamePetResult(kind, result) {
 	const s = current();
 	if (s.pending !== kind) return;
 	s.pending = null;
+	s.messageKind = (kind === 'evolve' ? result === 6 : Boolean(result)) ? 'success' : 'error';
 	if (kind === 'feed') s.message = result ? '喂食成功' : '喂食失败，请检查宠物食物';
 	if (kind === 'evolve') s.message = result === 6 ? '进化成功' : '进化失败，请检查亲密度、宠物状态及材料';
 }
@@ -113,6 +117,7 @@ export function openGamePet(canOperate = () => true) {
 				pending: s.pending,
 				canRefresh: Boolean(active() && exists() && !s.pending),
 				message: s.message,
+				messageKind: s.messageKind,
 				autoFeed: s.autoFeed,
 				evolutions: exists() ? evolutions() : []
 			};
@@ -146,6 +151,7 @@ export function openGamePet(canOperate = () => true) {
 				if (action === 'feed') s.pending = 'feed';
 				send('COMMAND_PET', { cSub: command });
 			}
+			s.messageKind = 'info';
 			s.message = '已发送请求，以服务器状态为准';
 			return s.message;
 		},

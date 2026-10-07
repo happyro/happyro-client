@@ -175,7 +175,7 @@ Navigation.subscribeRouteState(nextState => {
 		stopAdventureRoute(arrived ? '已到达目的地' : '寻路已停止');
 		return;
 	}
-	if (!status.active && nextState.path.length) status = { active: false, message: '' };
+	if (!status.active && !nextState.pending) status = { active: false, message: '' };
 	notify();
 });
 
