@@ -17,11 +17,12 @@ export function createBankPanel(body, service) {
 				amount = Number($('[data-amount]').value),
 				action = button.dataset.action;
 			if (!state.allowed || !Number.isInteger(amount) || amount <= 0 || amount > state[action + 'Max']) {
-				feedback('请填写有效金额');
+				feedback('请填写有效金额', 'error');
 				return;
 			}
 			confirmAction(body, `${action === 'deposit' ? '存入' : '取出'} ${amount.toLocaleString()} Zeny？`, () => {
-				feedback(service.submit(action, amount));
+				const result = service.submit(action, amount);
+				feedback(result, result === '等待服务器回复' ? 'info' : 'error');
 				update();
 			});
 		};
@@ -34,7 +35,7 @@ export function createBankPanel(body, service) {
 		$('[data-amount]').disabled = !state.allowed;
 		if (state.message !== lastMessage) {
 			lastMessage = state.message;
-			feedback.update(state.message);
+			feedback.update(state.message, state.messageKind);
 		}
 	}
 	update();

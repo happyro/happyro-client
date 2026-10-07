@@ -11,7 +11,7 @@ export function createRefinementPanel(body, service) {
 	let key = '';
 	function update() {
 		const state = service.snapshot();
-		feedback.update(state.message);
+		feedback.update(state.message, state.messageKind);
 		const ids = new Set(state.items.map(item => item.index));
 		for (const [id, node] of nodes)
 			if (!ids.has(id)) {
@@ -26,7 +26,7 @@ export function createRefinementPanel(body, service) {
 				button.onclick = () => {
 					const current = service.snapshot().items.find(entry => entry.index === item.index);
 					const error = current ? service.select(current.index, current.ID) : '装备已经变化';
-					if (error) feedback(error);
+					if (error) feedback(error, 'error');
 					key = '';
 					update();
 				};

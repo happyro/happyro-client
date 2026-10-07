@@ -63,7 +63,7 @@ export function createMaterialsPanel(body, service) {
 		form.onsubmit = e => {
 			e.preventDefault();
 			const error = service.set(item.index, item.ID, Number(input.value));
-			status(error || '已更新材料，输入 0 可移除');
+			status(error || '材料已更新', error ? 'error' : 'success');
 		};
 		detail.append(name, form);
 	}
@@ -82,7 +82,7 @@ export function createMaterialsPanel(body, service) {
 					status('材料已变化，请重新核对', 'error');
 					return;
 				}
-				status(service.confirm());
+				status(service.confirm(), 'error');
 				update();
 			},
 			{}

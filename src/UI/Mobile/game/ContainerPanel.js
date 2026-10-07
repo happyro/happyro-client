@@ -64,7 +64,8 @@ export function createContainerPanel(body, actions, initialSource) {
 		count.className = 'container-item-count';
 		count.textContent = `当前数量：${item.count}`;
 		const transfer = button('确认转移', () => {
-			feedback(actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value)));
+			const result = actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value));
+			feedback(result, result === '已请求转移，等待服务器更新' ? 'info' : 'error');
 			update();
 		});
 		$('.inventory-detail').replaceChildren(

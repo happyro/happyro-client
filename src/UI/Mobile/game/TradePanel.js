@@ -12,7 +12,19 @@ export function createTradePanel(body, service) {
 	let selected = null,
 		pickerKey = '';
 	function action(result) {
-		feedback(result);
+		feedback(
+			result,
+			[
+				'等待服务器确认物品',
+				'金额已发送，请核对后锁定报价',
+				'等待服务器锁定报价',
+				'已确认，等待交易结果',
+				'正在等待交易结果',
+				'等待服务器取消交易'
+			].includes(result)
+				? 'info'
+				: 'error'
+		);
 		update();
 	}
 	$('[data-send-money]').onclick = () => action(service.setMoney(Number($('[data-money]').value)));

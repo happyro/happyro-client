@@ -72,7 +72,7 @@ export function createSelectionPanel(body, service) {
 				body,
 				`确认选择「${entry.name}」？`,
 				() => {
-					feedback(service.choose(entry.id, chosen));
+					feedback(service.choose(entry.id, chosen), 'error');
 				},
 				{}
 			);

@@ -48,11 +48,11 @@ export function createShopPanel(body, service) {
 			price,
 			input,
 			button('设置数量', () => {
-				status(service.set(item.index, item.ID, Number(input.value)));
+				status(service.set(item.index, item.ID, Number(input.value)), 'error');
 				update();
 			}),
 			button('移出订单', () => {
-				status(service.set(item.index, item.ID, 0));
+				status(service.set(item.index, item.ID, 0), 'error');
 				input.value = '0';
 				update();
 			}),
@@ -69,7 +69,8 @@ export function createShopPanel(body, service) {
 					status('订单已变化，请重新核对', 'error');
 					return;
 				}
-				status(service.submit());
+				const result = service.submit();
+				status(result, result === '已提交，等待服务器回复' ? 'info' : 'error');
 				update();
 			},
 			{}
@@ -80,7 +81,7 @@ export function createShopPanel(body, service) {
 		if (service.clear()) {
 			selected = null;
 			$('.inventory-detail').textContent = '请选择物品';
-			status('订单已清空');
+			status('订单已清空', 'success');
 			update();
 		}
 	});

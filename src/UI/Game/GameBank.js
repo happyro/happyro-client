@@ -27,6 +27,7 @@ export function openGameBank(balance) {
 		pending = false,
 		closed = false,
 		message = '',
+		messageKind = 'info',
 		guard = () => !Session.FreezeUI;
 	const allowed = () =>
 		!closed &&
@@ -46,6 +47,7 @@ export function openGameBank(balance) {
 			pending,
 			allowed: Boolean(allowed()),
 			message,
+			messageKind,
 			depositMax: Math.max(0, Math.min(Session.zeny, MAX - money)),
 			withdrawMax: Math.max(0, Math.min(money, MAX - Session.zeny))
 		}),
@@ -61,6 +63,7 @@ export function openGameBank(balance) {
 				return '金额无效、余额不足或超过持有上限';
 			pending = true;
 			message = '等待服务器回复';
+			messageKind = 'info';
 			send(action === 'deposit' ? PACKET.CZ.REQ_BANKING_DEPOSIT : PACKET.CZ.REQ_BANKING_WITHDRAW, amount);
 			return message;
 		},
@@ -68,6 +71,7 @@ export function openGameBank(balance) {
 			if (closed || interactionSnapshot()?.token !== token) return;
 			pending = false;
 			if (Number.isInteger(next) && next >= 0 && next <= MAX) money = next;
+			messageKind = reason === 0 ? 'success' : 'error';
 			message = reason === 0 ? '余额已更新' : '服务器拒绝存取，请核对余额、持有上限及当前位置';
 		},
 		close() {

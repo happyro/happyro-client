@@ -263,7 +263,7 @@ export function createMailPanel(body, service) {
 		if (version !== state.revision) render();
 		for (const [control, disabled] of controls) control.disabled = disabled || !state.allowed;
 		const message = ['暂无邮件', '请选择邮件'].includes(state.message) ? '' : state.message;
-		feedback.update(message);
+		feedback.update(message, state.messageKind);
 	}
 	render();
 	update();

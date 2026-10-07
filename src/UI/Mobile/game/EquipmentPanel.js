@@ -58,7 +58,7 @@ export function createEquipmentPanel(body, actions) {
 		return [title, status, description];
 	}
 	function perform(slot, item, action) {
-		message(actions.act(slot.key, item.index, item.ID, action));
+		message(actions.act(slot.key, item.index, item.ID, action), 'error');
 		update();
 	}
 	function chooseEquipment(slot) {
@@ -178,7 +178,8 @@ export function createEquipmentPanel(body, actions) {
 			const candidates = state.slots.find(slot => slot.key === picker.dataset.slot)?.candidates || [];
 			for (const node of picker.querySelectorAll('.equipment-candidate')) {
 				const item = candidates.find(
-					candidate => String(candidate.index) === node.dataset.index && String(candidate.ID) === node.dataset.id
+					candidate =>
+						String(candidate.index) === node.dataset.index && String(candidate.ID) === node.dataset.id
 				);
 				const icon = node.querySelector('img');
 				icon.hidden = !item?.icon;

@@ -26,6 +26,7 @@ export function openGameEnchant(groupId) {
 	let guard = () => false,
 		selected = null,
 		pending = null,
+		messageKind = group ? 'info' : 'error',
 		message = group ? '请选择装备' : `附魔组数据缺失：${groupId}`;
 	const current = () => Session.Playing && interactionSnapshot()?.token === token;
 	const allowed = () => current() && guard() && !pending && Session.Entity?.action !== Session.Entity?.ACTION.DIE;
@@ -118,6 +119,7 @@ export function openGameEnchant(groupId) {
 				choices: item && item.ITID === selected.ID ? choices(item) : [],
 				allowed: allowed(),
 				message,
+				messageKind,
 				pending: !!pending
 			};
 		},
@@ -169,6 +171,7 @@ export function openGameEnchant(groupId) {
 			if (choice.action === 'perfect') pkt.ITID = choice.ITID;
 			if (choice.action === 'upgrade') pkt.slot = choice.slot;
 			pending = { ...choice, item, index: selected.index, identity: identity(item) };
+			messageKind = 'info';
 			message = '等待附魔结果';
 			showInteraction({ kind: 'enchant', title: '装备附魔', token, service, canClose: false, close });
 			Network.sendPacket(pkt);
@@ -185,6 +188,7 @@ export function openGameEnchant(groupId) {
 			}
 			pending = null;
 			selected = null;
+			messageKind = pkt.msgId === 3857 ? 'success' : 'error';
 			message = DB.getMessage(pkt.msgId) || `附魔结果：${pkt.msgId}`;
 			const resultToken = Symbol('enchant-result');
 			showInteraction({

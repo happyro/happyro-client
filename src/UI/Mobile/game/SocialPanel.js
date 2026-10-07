@@ -14,7 +14,17 @@ export function createSocialPanel(body, service, whisper) {
 		listKey = '';
 	const status = createFeedback(body);
 	const act = (action, data) => {
-		status(service.act(action, data));
+		const message = service.act(action, data);
+		status(
+			message,
+			action === 'bindGuildSkill'
+				? message === '快捷键已设置'
+					? 'success'
+					: 'error'
+				: message === '已请求，等待服务器回复'
+					? 'info'
+					: 'error'
+		);
 	};
 	function button(text, fn) {
 		const b = document.createElement('button');
@@ -287,7 +297,8 @@ export function createSocialPanel(body, service, whisper) {
 					confirmAction(upload, `确认上传徽章「${selectedFile.name}」？`, async () => {
 						send.disabled = true;
 						try {
-							status(await service.uploadEmblem(selectedFile));
+							const result = await service.uploadEmblem(selectedFile);
+							status(result, result === '已请求上传徽章，结果以服务器回复为准' ? 'info' : 'error');
 						} catch {
 							status('无法读取徽章文件，请重新选择', 'error');
 						} finally {

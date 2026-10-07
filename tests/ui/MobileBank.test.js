@@ -17,3 +17,17 @@ it('handles rejection, close once, stale models and disabled or disconnected req
 it('reviews an amount, rechecks a changed wallet and preserves a draft during balance updates',()=>{
  const bank=openGameBank(50);bank.setOperationGuard(()=>true);const body=document.body.appendChild(document.createElement('div')),panel=createBankPanel(body,bank);const input=body.querySelector('[data-amount]');input.value='50';panel.update();expect(input.value).toBe('50');body.querySelector('[data-action="deposit"]').click();expect(s.send).not.toHaveBeenCalled();s.session.zeny=40;body.querySelector('[data-confirm]').click();expect(s.send).not.toHaveBeenCalled();expect(document.querySelector('.ui-toast').textContent).toContain('金额');
 });
+
+it('uses information while awaiting a reply and success or error only after the bank responds', () => {
+ const bank = openGameBank(1000);
+ bank.setOperationGuard(() => true);
+ const body = document.body.appendChild(document.createElement('div'));
+ const panel = createBankPanel(body, bank);
+ bank.submit('deposit', 20); panel.update();
+ expect(document.querySelector('.ui-toast').classList.contains('info')).toBe(true);
+ updateGameBank({money: 1020, zeny: 80, reason: 0}); panel.update();
+ expect(document.querySelector('.ui-toast').classList.contains('success')).toBe(true);
+ bank.submit('deposit', 20); panel.update();
+ updateGameBank({money: 1020, zeny: 80, reason: 2}); panel.update();
+ expect(document.querySelector('.ui-toast').classList.contains('error')).toBe(true);
+});

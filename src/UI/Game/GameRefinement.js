@@ -20,7 +20,8 @@ export function openGameRefinement(kind) {
 		selected = null,
 		offer = null,
 		pending = false,
-		message = '请选择装备';
+		message = '请选择装备',
+		messageKind = 'info';
 	const current = () => Session.Playing && interactionSnapshot()?.token === token;
 	const available = () => current() && guard() && !pending && Session.Entity?.action !== Session.Entity?.ACTION.DIE;
 	const count = id =>
@@ -54,6 +55,7 @@ export function openGameRefinement(kind) {
 				offer,
 				pending,
 				message,
+				messageKind,
 				allowed: available(),
 				zeny: Session.zeny,
 				materials:
@@ -73,6 +75,7 @@ export function openGameRefinement(kind) {
 			selected = { index, ID: id, refine: item.RefiningLevel, grade: item.enchantgrade };
 			offer = null;
 			pending = true;
+			messageKind = 'info';
 			message = '正在请求材料和费用';
 			const pkt =
 				kind === 'refine'
@@ -87,6 +90,7 @@ export function openGameRefinement(kind) {
 				return false;
 			offer = pkt;
 			pending = false;
+			messageKind = service.snapshot().materials.length ? 'info' : 'error';
 			message = service.snapshot().materials.length ? '请选择材料，核对费用与风险' : '此装备无法继续强化';
 			return true;
 		},
@@ -122,6 +126,7 @@ export function openGameRefinement(kind) {
 				pkt.protect_flag = 0;
 			}
 			pending = true;
+			messageKind = 'info';
 			message = '已请求强化，等待服务器结果';
 			Network.sendPacket(pkt);
 			return '';
@@ -132,6 +137,7 @@ export function openGameRefinement(kind) {
 			pending = false;
 			offer = null;
 			selected = null;
+			messageKind = pkt.result === 0 ? 'success' : 'error';
 			message =
 				['强化成功', '强化失败', '强化失败，精炼等级降低', '装备损坏', '装备受到保护'][pkt.result] ||
 				`强化结果：${pkt.result}`;

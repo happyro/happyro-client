@@ -47,7 +47,8 @@ export function createSkillsPanel(body, actions) {
 		summary.textContent = `${skill.kind} · 等级 ${skill.level}/${skill.max}`;
 		const learn = button(skill.level ? '升级一级' : '学习一级', () => {
 			dismiss = confirmAction(body, `确认将「${skill.name}」升至 ${skill.level + 1} 级？`, () => {
-				status(actions.learn(skill.id, skill.level + 1));
+				const result = actions.learn(skill.id, skill.level + 1);
+				status(result, result === '已请求学习一级，等待服务器更新' ? 'info' : 'error');
 				key = '';
 				update();
 			});
@@ -173,7 +174,7 @@ export function createSkillsPanel(body, actions) {
 		state = actions.snapshot();
 		if (state.message !== resetMessage) {
 			resetMessage = state.message;
-			status(resetMessage || '');
+			status(resetMessage || '', resetMessage?.endsWith('已重置') ? 'success' : 'error');
 		}
 		reset.update();
 		render();

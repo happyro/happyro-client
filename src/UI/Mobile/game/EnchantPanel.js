@@ -12,7 +12,7 @@ export function createEnchantPanel(body, service) {
 	const nodes = new Map();
 	function update() {
 		const state = service.snapshot();
-		feedback.update(state.message);
+		feedback.update(state.message, state.messageKind);
 		const ids = new Set(state.items.map(item => item.index));
 		for (const [id, node] of nodes)
 			if (!ids.has(id)) {
@@ -27,7 +27,7 @@ export function createEnchantPanel(body, service) {
 				b.onclick = () => {
 					const error = service.select(item.index, item.ID);
 					if (error) {
-						feedback(error);
+						feedback(error, 'error');
 						return;
 					}
 					key = '';

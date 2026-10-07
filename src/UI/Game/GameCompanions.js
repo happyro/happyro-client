@@ -14,7 +14,7 @@ export function resetGameCompanions() {
 	states = Object.fromEntries(
 		['homunculus', 'mercenary'].map(kind => [
 			kind,
-			{ gid: 0, info: null, pending: null, autoFeed: false, message: '' }
+			{ gid: 0, info: null, pending: null, autoFeed: false, messageKind: 'info', message: '' }
 		])
 	);
 }
@@ -40,6 +40,7 @@ export function updateGameCompanion(kind, values, gid) {
 			info: s.gid ? null : s.info,
 			pending: null,
 			autoFeed: s.gid ? false : s.autoFeed,
+			messageKind: 'info',
 			message: ''
 		};
 	}
@@ -52,6 +53,7 @@ export function receiveGameCompanionFeed(result) {
 	const s = state('homunculus');
 	if (s.pending !== 'feed') return;
 	s.pending = null;
+	s.messageKind = result ? 'success' : 'error';
 	s.message = result ? '喂食成功' : '喂食失败，请检查生命体食物';
 }
 export function openGameCompanions(kind, canOperate = () => true) {
@@ -119,6 +121,7 @@ export function openGameCompanions(kind, canOperate = () => true) {
 				allowed: allowed(),
 				pending: s.pending,
 				message: s.message,
+				messageKind: s.messageKind,
 				autoFeed: s.autoFeed,
 				aggressive: Boolean(AIDriver[aiKey]),
 				review,
@@ -177,6 +180,7 @@ export function openGameCompanions(kind, canOperate = () => true) {
 					localStorage.setItem(aiKey, AIDriver[aiKey] ? '1' : '0');
 					break;
 			}
+			s.messageKind = action === 'aggressive' ? 'success' : 'info';
 			s.message = action === 'aggressive' ? '攻击模式已更新' : '已发送请求，以服务器状态为准';
 			return s.message;
 		},

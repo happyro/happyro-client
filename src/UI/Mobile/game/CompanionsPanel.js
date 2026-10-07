@@ -33,12 +33,18 @@ export function createCompanionsPanel(body, service) {
 				dismiss = null;
 				const requested = learning;
 				learning = null;
+				const result = requested
+					? requested.gid === service.snapshot().gid
+						? service.learn(requested.id, requested.level)
+						: '伴侣已变化，请重新确认'
+					: service.confirm();
 				feedback(
-					requested
-						? requested.gid === service.snapshot().gid
-							? service.learn(requested.id, requested.level)
-							: '伴侣已变化，请重新确认'
-						: service.confirm()
+					result,
+					result === '攻击模式已更新'
+						? 'success'
+						: ['已发送请求，以服务器状态为准', '已请求学习一级，等待服务器更新'].includes(result)
+							? 'info'
+							: 'error'
 				);
 				service.cancel();
 				update();
@@ -60,7 +66,7 @@ export function createCompanionsPanel(body, service) {
 			cancel();
 			const error = service.prepare(action, action === 'rename' ? $('[data-companion-name]').value : undefined);
 			if (error) {
-				feedback(error);
+				feedback(error, 'error');
 				return;
 			}
 			review(
@@ -146,7 +152,7 @@ export function createCompanionsPanel(body, service) {
 		}
 		if (lastMessage !== s.message) {
 			lastMessage = s.message;
-			feedback.update(s.message);
+			feedback.update(s.message, s.messageKind);
 		}
 	}
 	update();

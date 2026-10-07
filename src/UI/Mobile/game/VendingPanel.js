@@ -34,7 +34,8 @@ export function createVendingPanel(body, service) {
 					feedback('订单已变化，请重新核对', 'error');
 					return;
 				}
-				feedback(snapshot.owned ? service.closeStore() : service.submit(title, budget));
+				const result = snapshot.owned ? service.closeStore() : service.submit(title, budget);
+				feedback(result, ['已请求关闭摊位', '等待服务器开店结果'].includes(result) ? 'info' : 'error');
 				update();
 			},
 			{}
@@ -93,7 +94,10 @@ export function createVendingPanel(body, service) {
 					button.textContent = '保存数量与单价（数量 0 移除）';
 					button.disabled = !state.allowed;
 					button.onclick = () => {
-						feedback(service.set(item.index, item.identity, Number(amount.value), Number(price.value)));
+						feedback(
+							service.set(item.index, item.identity, Number(amount.value), Number(price.value)),
+							'error'
+						);
 						update();
 					};
 					panel.append(amount, price, button);

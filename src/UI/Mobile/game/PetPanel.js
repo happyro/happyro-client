@@ -22,7 +22,8 @@ export function createPetPanel(body, service) {
 				feedback('宠物已变化，请重新确认', 'error');
 				return;
 			}
-			feedback(service.command(action, value));
+			const result = service.command(action, value);
+			feedback(result, result === '已发送请求，以服务器状态为准' ? 'info' : 'error');
 			update();
 		});
 	}
@@ -110,7 +111,7 @@ export function createPetPanel(body, service) {
 		$('[data-action=unequip]').disabled = !state.allowed || !state.accessory;
 		if (lastMessage !== state.message) {
 			lastMessage = state.message;
-			feedback.update(state.message);
+			feedback.update(state.message, state.messageKind);
 		}
 	}
 	update();
