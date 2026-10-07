@@ -9,7 +9,7 @@ it('keeps a chosen casting level through async icons and requires confirmation b
  const skill = { id: 1, name: '技能', kind: '主动', level: 3, max: 10, active: true, learnable: true, requirements: [], description: '说明' };
  const actions = { snapshot: () => ({ points: 2, skills: [skill] }), learn: vi.fn(), bind: vi.fn(() => true), shortcuts: () => ({ pages: 8, page: 0, total: 36, slots: [{ index: 0 }] }), slotName: () => '空' };
  const panel = createSkillsPanel(body, actions); expect(body.querySelector('.skills-toolbar [data-skill-points]')).toBeNull(); expect(body.querySelector('.skills-browser [data-skill-points]')).not.toBeNull(); body.querySelector('[data-skill]').click();
- const description = body.querySelector('.item-description'); click(body,'设置快捷槽'); expect(body.querySelector('.item-description')).toBe(description);
+ const description = body.querySelector('.item-description'); click(body,'设置快捷键'); expect(body.querySelector('.item-description')).toBe(description);
  const level = body.querySelector('[aria-label="等级"]'); level.value = '1'; skill.icon = 'icon.bmp'; panel.update(); expect(body.querySelector('[aria-label="等级"]')).toBe(level); expect(level.value).toBe('1');
  click(body,'确认'); expect(actions.bind).toHaveBeenCalledExactlyOnceWith(1,1,0);
  click(body,'升级一级'); expect(actions.learn).not.toHaveBeenCalled(); body.querySelector('dialog [data-confirm]').click(); expect(actions.learn).toHaveBeenCalledExactlyOnceWith(1,4);

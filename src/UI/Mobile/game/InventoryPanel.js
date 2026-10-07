@@ -83,7 +83,7 @@ export function createInventoryPanel(body, actions) {
 			use.disabled = Boolean(item.reason);
 			ops.append(use);
 		}
-		if (item.shortcut) ops.append(button('设置快捷槽', () => chooseBinding(item)));
+		if (item.shortcut) ops.append(button('设置快捷键', () => chooseBinding(item)));
 		if (!item.worn) ops.append(button('丢弃', () => chooseDrop(item)));
 		const reason = document.createElement('p');
 		reason.textContent = item.reason;
@@ -146,10 +146,10 @@ export function createInventoryPanel(body, actions) {
 	function chooseBinding(item) {
 		binding = true;
 		const select = document.createElement('select');
-		select.setAttribute('aria-label', '槽位');
+		select.setAttribute('aria-label', '位置');
 		const page = actions.shortcuts();
 		for (let i = 0; i < page.total; i++)
-			select.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
+			select.add(new Option(`位置 ${i + 1} · ${actions.slotName(i)}`, String(i)));
 		select.value = String(page.slots[0].index);
 		const content = document.createElement('div');
 		content.className = 'shortcut-fields';
@@ -159,10 +159,13 @@ export function createInventoryPanel(body, actions) {
 		content.append(field);
 		dismiss = confirmAction(
 			body,
-			`设置「${item.name}」的快捷槽？`,
+			`设置「${item.name}」的快捷键？`,
 			() => {
 				const success = actions.bind(item.index, item.ID, Number(select.value));
-				status(success ? `已设置到槽位 ${Number(select.value) + 1}` : '设置失败，物品或角色状态已经变化');
+				status(
+					success ? `已设置到位置 ${Number(select.value) + 1}` : '设置失败，物品或角色状态已经变化',
+					success ? 'success' : 'error'
+				);
 				binding = false;
 				detailKey = '';
 				update();

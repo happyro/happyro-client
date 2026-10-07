@@ -34,7 +34,7 @@ export function createSkillsPanel(body, actions) {
 	function renderDetail() {
 		const skill = state.skills.find(entry => entry.id === selected);
 		if (!skill) {
-			detail.textContent = '点击技能查看说明、学习或设置快捷槽';
+			detail.textContent = '点击技能查看说明、学习或设置快捷键';
 			return;
 		}
 		const next = JSON.stringify({ ...skill, icon: undefined });
@@ -60,16 +60,16 @@ export function createSkillsPanel(body, actions) {
 		ops.className = 'inventory-actions';
 		ops.append(learn);
 		if (skill.active) {
-			const bind = button('设置快捷槽', () => {
+			const bind = button('设置快捷键', () => {
 				const level = document.createElement('select');
 				level.setAttribute('aria-label', '等级');
 				for (let i = 1; i <= skill.level; i++) level.add(new Option(`Lv.${i}`, String(i)));
 				level.value = String(skill.level);
 				const slot = document.createElement('select');
-				slot.setAttribute('aria-label', '槽位');
+				slot.setAttribute('aria-label', '位置');
 				const page = actions.shortcuts();
 				for (let i = 0; i < page.total; i++)
-					slot.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
+					slot.add(new Option(`位置 ${i + 1} · ${actions.slotName(i)}`, String(i)));
 				slot.value = String(page.slots[0].index);
 				const fields = document.createElement('div');
 				fields.className = 'shortcut-fields';
@@ -81,10 +81,10 @@ export function createSkillsPanel(body, actions) {
 				}
 				dismiss = confirmAction(
 					body,
-					`设置「${skill.name}」的快捷槽？`,
+					`设置「${skill.name}」的快捷键？`,
 					() => {
 						const success = actions.bind(skill.id, Number(level.value), Number(slot.value));
-						status(success ? '快捷槽已设置' : '设置失败，请重新选择', success ? 'success' : 'error');
+						status(success ? '快捷键已设置' : '设置失败，请重新选择', success ? 'success' : 'error');
 					},
 					{ content: fields }
 				);

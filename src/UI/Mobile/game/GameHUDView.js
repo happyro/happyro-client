@@ -226,7 +226,7 @@ ${mailCSS}</style>${html}`;
 				menu: '菜单',
 				chat: '聊天',
 				attributes: '素质',
-				shortcuts: '快捷配置',
+				shortcuts: '快捷键',
 				inventory: '背包',
 				equipment: '装备',
 				skills: '技能',
@@ -336,7 +336,7 @@ ${mailCSS}</style>${html}`;
 				// ['聊天', 'chat'], // 聊天 UI 暂时隐藏。
 				['状态', 'status'],
 				['素质', 'attributes'],
-				['快捷配置', 'shortcuts'],
+				['快捷键', 'shortcuts'],
 				['背包', 'inventory'],
 				['装备', 'equipment'],
 				['技能', 'skills'],
@@ -500,6 +500,7 @@ ${mailCSS}</style>${html}`;
 		if (panel === 'shortcuts')
 			shortcutPanel = createShortcutPanel(body, {
 				index: slotIndex,
+				turn: actions.shortcutPage,
 				snapshot: actions.shortcutSnapshot,
 				candidates: actions.shortcutCandidates,
 				configure: actions.configureShortcut
@@ -666,7 +667,7 @@ ${mailCSS}</style>${html}`;
 				if (!slot) continue;
 				button.setAttribute(
 					'aria-label',
-					`槽位 ${slot.index + 1}：${slot.name}${slot.reason ? '，' + slot.reason : ''}`
+					`位置 ${slot.index + 1}：${slot.name}${slot.reason ? '，' + slot.reason : ''}`
 				);
 				button.setAttribute('aria-disabled', String(!slot.available));
 				const seconds = Math.ceil((slot.cooldown || 0) / 1000);
