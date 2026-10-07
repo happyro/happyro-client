@@ -1,13 +1,13 @@
 {
-  "buildId": "muvlugvm",
-  "builtAt": "2026-10-05T18:50:25.138Z",
+  "buildId": "muxlbvb3",
+  "builtAt": "2026-10-07T04:11:29.727Z",
   "artifacts": {
-    "index.html": "6f4ba4089030c3fa754a4e8013523bc3a8b06c04874b8ce9a87bcb95a9c949f2",
-    "api.html": "ec2431000fdb7a3f98ed9703eecd688cab84e9aa3d97685104a151600a997760",
+    "index.html": "0aebc7b53bac1aeb373f64cd4e60e32fcbf053bd7b9c19bc72690299bf990a97",
+    "api.html": "8362dbff2692e7c0b5cad9ebba3a4311a593cfd3fdba89c04e453efe674a67ce",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "debug.js": "c144a24aa6a8d67a8e4050ce169072260054025cf1b11f37f2b8b52ee325fbfe",
     "debug-upload.js": "01260bb90f2303ee1c9d6389821517f32052c506fd54d03de0cc15298230d34d",
-    "Online.js": "0380ea87ae13604f7ca252f23d1d7330e57b9dc29d4e4d5fbae19f70d7c68211",
+    "Online.js": "c6c05b76b5ed530407e492f678e9c5d37f34e1e4e0ba87875b6e8f772b4615ea",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
     "Config.happyro.js": "5df726d480d10561680248044c7f187e5d26bb1e0b0973f0193d4df236b6fd04",
     "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",

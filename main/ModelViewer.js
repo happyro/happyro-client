@@ -253578,7 +253578,10 @@ var init_Announce = __esmMin((() => {
 //#endregion
 //#region src/UI/Game/ChatFeed.js
 function publishChatMessage(message) {
-	messages.push(Object.freeze({ ...message }));
+	messages.push(Object.freeze({
+		...message,
+		id: ++sequence
+	}));
 	if (messages.length > 80) messages.shift();
 	for (const listener of listeners$5) listener(messages.slice());
 }
@@ -253591,9 +253594,10 @@ function clearChatFeed() {
 	messages.length = 0;
 	for (const listener of listeners$5) listener([]);
 }
-var messages, listeners$5;
+var messages, sequence, listeners$5;
 var init_ChatFeed = __esmMin((() => {
 	messages = [];
+	sequence = 0;
 	listeners$5 = /* @__PURE__ */ new Set();
 }));
 //#endregion
@@ -285924,7 +285928,7 @@ function finishRefinement(kind, pkt) {
 }
 function openGameRefinement(kind) {
 	const token = Symbol(kind), inventory = createGameInventory(() => true);
-	let guard = () => false, selected = null, offer = null, pending = false, message = "请选择装备";
+	let guard = () => false, selected = null, offer = null, pending = false, message = "请选择装备", messageKind = "info";
 	const current = () => SessionStorage_default.Playing && interactionSnapshot()?.token === token;
 	const available = () => current() && guard() && !pending && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE;
 	const count = (id) => InventoryController.getUI().list.filter((item) => item.ITID === id).reduce((sum, item) => sum + (item.count || 0), 0);
@@ -285945,6 +285949,7 @@ function openGameRefinement(kind) {
 				offer,
 				pending,
 				message,
+				messageKind,
 				allowed: available(),
 				zeny: SessionStorage_default.zeny,
 				materials: (kind === "refine" ? offer?.MaterialInfo : offer?.materialList)?.map((material, index) => ({
@@ -285967,6 +285972,7 @@ function openGameRefinement(kind) {
 			};
 			offer = null;
 			pending = true;
+			messageKind = "info";
 			message = "正在请求材料和费用";
 			const pkt = kind === "refine" ? new PACKET.CZ.REFINING_SELECT_ITEM() : new PACKET.CZ.GRADE_ENCHANT_SELECT_EQUIPMENT();
 			pkt.index = index;
@@ -285977,6 +285983,7 @@ function openGameRefinement(kind) {
 			if (type !== kind || !current() || !selected || (pkt.itemIndex ?? pkt.index) !== selected.index) return false;
 			offer = pkt;
 			pending = false;
+			messageKind = service.snapshot().materials.length ? "info" : "error";
 			message = service.snapshot().materials.length ? "请选择材料，核对费用与风险" : "此装备无法继续强化";
 			return true;
 		},
@@ -286005,6 +286012,7 @@ function openGameRefinement(kind) {
 				pkt.protect_flag = 0;
 			}
 			pending = true;
+			messageKind = "info";
 			message = "已请求强化，等待服务器结果";
 			Network.sendPacket(pkt);
 			return "";
@@ -286014,6 +286022,7 @@ function openGameRefinement(kind) {
 			pending = false;
 			offer = null;
 			selected = null;
+			messageKind = pkt.result === 0 ? "success" : "error";
 			message = [
 				"强化成功",
 				"强化失败",
@@ -286135,7 +286144,7 @@ function onRefineClose() {
 */
 function controlPhase$1(phase, shouldLoop, interval, callback) {
 	let currentImageIndex = 0;
-	const imageArray = images$1[phase];
+	const imageArray = images$2[phase];
 	if (!imageArray) {
 		console.error("Invalid phase:", phase);
 		return;
@@ -286831,7 +286840,7 @@ function onBroadcastRefineResult(pkt) {
 		Announce_default.set(message, "#FFB563");
 	}
 }
-var Refine, BSB_ITID, refiningMaterials, blacksmithBlessing, refine_item_index, refine_item_mat, refine_fee, refine_bsb, refine_result, refine_result_div, refine_can_cont, refine_no_mats, refine_no_zeny, refine_no_bsb, refine_item_broken, refine_new_mats, refine_ongoing, refine_current_chance, refine_current_zeny, initialsuccess, currentLoopHandle, itemMessageMapping, images$1, Refine_default;
+var Refine, BSB_ITID, refiningMaterials, blacksmithBlessing, refine_item_index, refine_item_mat, refine_fee, refine_bsb, refine_result, refine_result_div, refine_can_cont, refine_no_mats, refine_no_zeny, refine_no_bsb, refine_item_broken, refine_new_mats, refine_ongoing, refine_current_chance, refine_current_zeny, initialsuccess, currentLoopHandle, itemMessageMapping, images$2, Refine_default;
 var init_Refine = __esmMin((() => {
 	init_Platform();
 	init_GameRefinement();
@@ -286892,7 +286901,7 @@ var init_Refine = __esmMin((() => {
 		],
 		2990: [6223, 6624]
 	};
-	images$1 = {
+	images$2 = {
 		waiting: [
 			"bg_refining_wait_00.bmp",
 			"bg_refining_wait_01.bmp",
@@ -287207,7 +287216,7 @@ function controlPhase(phase, shouldLoop, interval, targetdiv, callback) {
 		EnchantGrade.imageLoopTimeout[phase] = null;
 	}
 	let currentImageIndex = 0;
-	const imageArray = images[phase];
+	const imageArray = images$1[phase];
 	if (!imageArray) {
 		console.error("Invalid phase:", phase);
 		return;
@@ -287697,7 +287706,7 @@ function playEffect$1(effectId, duration, onEnd) {
 	EffectManager.spam(EF_Init_Par);
 	if (onEnd) setTimeout(onEnd, duration);
 }
-var EnchantGrade, gradingMaterials, EnchantGrade_item_index, EnchantGrade_item_mat, EnchantGrade_result, EnchantGrade_can_cont, EnchantGrade_blessing_used, EnchantGrade_currentBlessing, EnchantGrade_current_success, materialNormal, materialOver, materialPick, startNormal, startDisable, _materialSlotAbort, GradeMapping, scenarioMsgMapping, images, EnchantGrade_default;
+var EnchantGrade, gradingMaterials, EnchantGrade_item_index, EnchantGrade_item_mat, EnchantGrade_result, EnchantGrade_can_cont, EnchantGrade_blessing_used, EnchantGrade_currentBlessing, EnchantGrade_current_success, materialNormal, materialOver, materialPick, startNormal, startDisable, _materialSlotAbort, GradeMapping, scenarioMsgMapping, images$1, EnchantGrade_default;
 var init_EnchantGrade = __esmMin((() => {
 	init_Platform();
 	init_GameRefinement();
@@ -287776,7 +287785,7 @@ var init_EnchantGrade = __esmMin((() => {
 			color: "#00ef5a"
 		}]
 	};
-	images = {
+	images$1 = {
 		idle: [
 			"bg_gradeitem1.bmp",
 			"bg_gradeitem2.bmp",
@@ -288036,7 +288045,7 @@ function finishGameEnchant(pkt) {
 }
 function openGameEnchant(groupId) {
 	const group = DB.getEnchantGroup(groupId), token = Symbol("enchant"), inventory = createGameInventory(() => true);
-	let guard = () => false, selected = null, pending = null, message = group ? "请选择装备" : `附魔组数据缺失：${groupId}`;
+	let guard = () => false, selected = null, pending = null, messageKind = group ? "info" : "error", message = group ? "请选择装备" : `附魔组数据缺失：${groupId}`;
 	const current = () => SessionStorage_default.Playing && interactionSnapshot()?.token === token;
 	const allowed = () => current() && guard() && !pending && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE;
 	const live = () => selected && InventoryController.getUI().getItemByIndex(selected.index);
@@ -288122,6 +288131,7 @@ function openGameEnchant(groupId) {
 				choices: item && item.ITID === selected.ID ? choices(item) : [],
 				allowed: allowed(),
 				message,
+				messageKind,
 				pending: !!pending
 			};
 		},
@@ -288168,6 +288178,7 @@ function openGameEnchant(groupId) {
 				index: selected.index,
 				identity: identity(item)
 			};
+			messageKind = "info";
 			message = "等待附魔结果";
 			showInteraction({
 				kind: "enchant",
@@ -288195,6 +288206,7 @@ function openGameEnchant(groupId) {
 			}
 			pending = null;
 			selected = null;
+			messageKind = pkt.msgId === 3857 ? "success" : "error";
 			message = DB.getMessage(pkt.msgId) || `附魔结果：${pkt.msgId}`;
 			const resultToken = Symbol("enchant-result");
 			showInteraction({
@@ -358069,6 +358081,7 @@ function resetGameCompanions() {
 		info: null,
 		pending: null,
 		autoFeed: false,
+		messageKind: "info",
 		message: ""
 	}]));
 }
@@ -358094,6 +358107,7 @@ function updateGameCompanion(kind, values, gid) {
 			info: s.gid ? null : s.info,
 			pending: null,
 			autoFeed: s.gid ? false : s.autoFeed,
+			messageKind: "info",
 			message: ""
 		};
 	}
@@ -358109,6 +358123,7 @@ function receiveGameCompanionFeed(result) {
 	const s = state$1("homunculus");
 	if (s.pending !== "feed") return;
 	s.pending = null;
+	s.messageKind = result ? "success" : "error";
 	s.message = result ? "喂食成功" : "喂食失败，请检查生命体食物";
 }
 function openGameCompanions(kind, canOperate = () => true) {
@@ -358156,6 +358171,7 @@ function openGameCompanions(kind, canOperate = () => true) {
 				allowed: allowed(),
 				pending: s.pending,
 				message: s.message,
+				messageKind: s.messageKind,
 				autoFeed: s.autoFeed,
 				aggressive: Boolean(AIDriver[aiKey]),
 				review,
@@ -358219,6 +358235,7 @@ function openGameCompanions(kind, canOperate = () => true) {
 					AIDriver[aiKey] = !AIDriver[aiKey];
 					localStorage.setItem(aiKey, AIDriver[aiKey] ? "1" : "0");
 			}
+			s.messageKind = action === "aggressive" ? "success" : "info";
 			s.message = action === "aggressive" ? "攻击模式已更新" : "已发送请求，以服务器状态为准";
 			return s.message;
 		},
@@ -358412,6 +358429,7 @@ function resetGamePet() {
 		gid: 0,
 		info: null,
 		pending: null,
+		messageKind: "info",
 		message: "",
 		autoFeed: false,
 		accessory: false
@@ -358433,6 +358451,7 @@ function updateGamePetInfo(info) {
 	s.accessory = Boolean(info.ITID);
 	if (s.pending === "rename" || s.pending === "refresh") s.pending = null;
 	s.message = "宠物状态已更新";
+	s.messageKind = "success";
 }
 function updateGamePetState(pkt) {
 	const s = current();
@@ -358443,6 +358462,7 @@ function updateGamePetState(pkt) {
 			s.accessory = false;
 			s.autoFeed = false;
 			s.message = "宠物已更换";
+			s.messageKind = "info";
 		}
 		s.gid = pkt.GID;
 		return;
@@ -358462,6 +358482,7 @@ function receiveGamePetResult(kind, result) {
 	const s = current();
 	if (s.pending !== kind) return;
 	s.pending = null;
+	s.messageKind = (kind === "evolve" ? result === 6 : Boolean(result)) ? "success" : "error";
 	if (kind === "feed") s.message = result ? "喂食成功" : "喂食失败，请检查宠物食物";
 	if (kind === "evolve") s.message = result === 6 ? "进化成功" : "进化失败，请检查亲密度、宠物状态及材料";
 }
@@ -358502,6 +358523,7 @@ function openGamePet(canOperate = () => true) {
 				pending: s.pending,
 				canRefresh: Boolean(active() && exists() && !s.pending),
 				message: s.message,
+				messageKind: s.messageKind,
 				autoFeed: s.autoFeed,
 				evolutions: exists() ? evolutions() : []
 			};
@@ -358535,6 +358557,7 @@ function openGamePet(canOperate = () => true) {
 				if (action === "feed") s.pending = "feed";
 				send$3("COMMAND_PET", { cSub: command });
 			}
+			s.messageKind = "info";
 			s.message = "已发送请求，以服务器状态为准";
 			return s.message;
 		},
@@ -358633,13 +358656,17 @@ function openGameMail(canOperate = () => true) {
 	if (!canOperate() || !SessionStorage_default.Playing || !SessionStorage_default.Entity || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.DIE) return null;
 	if (currentGameMail()) return currentGameMail();
 	const token = {}, details = /* @__PURE__ */ new Map(), deleting = /* @__PURE__ */ new Set();
-	let guard = () => !SessionStorage_default.FreezeUI, closed = false, pending = null, list = [], selected = null, writing = false, attachments = [], recipient = null, message = "正在读取邮件", revision = 0, weight = 0;
+	let guard = () => !SessionStorage_default.FreezeUI, closed = false, pending = null, list = [], selected = null, writing = false, attachments = [], recipient = null, messageKind = "info", message = "正在读取邮件", revision = 0, weight = 0;
+	const setMessage = (text, kind) => {
+		message = text;
+		messageKind = kind;
+	};
 	const alive = () => !closed && interactionSnapshot()?.token === token && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
 	const allowed = () => alive() && !pending;
 	const inventory = createGameInventory(allowed);
 	const request = (name, fields, wait) => {
 		pending = wait;
-		message = "等待服务器回复";
+		setMessage("等待服务器回复", "info");
 		send$2(name, fields);
 	};
 	const draft = {
@@ -358673,6 +358700,7 @@ function openGameMail(canOperate = () => true) {
 			pending: Boolean(pending),
 			allowed: Boolean(allowed()),
 			message,
+			messageKind,
 			revision,
 			weight,
 			wallet: SessionStorage_default.zeny,
@@ -358708,7 +358736,7 @@ function openGameMail(canOperate = () => true) {
 			if (!mail || mail.ItemList.length || mail.zeny || deleting.has(selected)) return;
 			deleting.add(selected);
 			send$2("REQ_DELETE_RODEX", mail);
-			message = "已请求删除；以列表更新为准，可刷新核对";
+			setMessage("已请求删除；以列表更新为准，可刷新核对", "info");
 		},
 		compose() {
 			if (!allowed() || writing) return;
@@ -358723,7 +358751,7 @@ function openGameMail(canOperate = () => true) {
 			if (!allowed() || !writing) return;
 			const name = draft.receiver.trim();
 			if (!name || bytes(name) > 23 || /[\0\t\r\n]/.test(name)) {
-				message = "收件人姓名无效（最多 23 字节）";
+				setMessage("收件人姓名无效（最多 23 字节）", "error");
 				return;
 			}
 			recipient = null;
@@ -358737,7 +358765,7 @@ function openGameMail(canOperate = () => true) {
 			const item = InventoryController.getUI().list.find((i) => i.index === index && i.ITID === id);
 			const existing = attachments.find((i) => i.index === index);
 			if (!item || item.equipped || item.equipSwitch || !Number.isInteger(count) || count <= 0 || count > 32767 || count + (existing?.count || 0) > itemQuantity(item) || !existing && attachments.length >= 5) {
-				message = "物品或数量无效，最多附加五种物品";
+				setMessage("物品或数量无效，最多附加五种物品", "error");
 				return;
 			}
 			request("REQ_ADD_ITEM_RODEX", {
@@ -358789,7 +358817,7 @@ function openGameMail(canOperate = () => true) {
 		send(review) {
 			const next = service.review();
 			if (next.error || JSON.stringify(next) !== JSON.stringify(review)) {
-				message = next.error || "内容已变化，请重新确认";
+				setMessage(next.error || "内容已变化，请重新确认", "error");
 				return;
 			}
 			const title = draft.title + "\0", body = draft.body + "\0";
@@ -358812,7 +358840,7 @@ function openGameMail(canOperate = () => true) {
 			attachments = [];
 			recipient = null;
 			revision++;
-			message = "已取消写信";
+			setMessage("已取消写信", "info");
 		},
 		close() {
 			if (closed || interactionSnapshot()?.token !== token) return;
@@ -358830,14 +358858,14 @@ function openGameMail(canOperate = () => true) {
 				selected = null;
 				deleting.clear();
 				pending = null;
-				message = list.length ? "请选择邮件" : "暂无邮件";
+				setMessage(list.length ? "请选择邮件" : "暂无邮件", "info");
 				revision++;
 				return;
 			}
 			if (kind === "listFailed") {
 				if (pending?.kind === "list") {
 					pending = null;
-					message = "邮件读取失败，可重新刷新";
+					setMessage("邮件读取失败，可重新刷新", "error");
 				}
 				return;
 			}
@@ -358847,7 +358875,7 @@ function openGameMail(canOperate = () => true) {
 				details.delete(id);
 				deleting.delete(id);
 				if (selected === id) selected = null;
-				message = "邮件已删除";
+				setMessage("邮件已删除", "success");
 				revision++;
 				return;
 			}
@@ -358867,7 +358895,7 @@ function openGameMail(canOperate = () => true) {
 				});
 				const row = list.find((m) => key(m) === wait.key);
 				if (row) row.Isread = 1;
-				message = "";
+				setMessage("", "info");
 			}
 			if (kind === "items" || kind === "zeny") {
 				if (!pkt.result) {
@@ -358876,8 +358904,8 @@ function openGameMail(canOperate = () => true) {
 						if (kind === "items") mail.ItemList = [];
 						else mail.zeny = 0;
 					}
-					message = "领取成功";
-				} else message = "领取失败，请检查负重、空位和金额上限";
+					setMessage("领取成功", "success");
+				} else setMessage("领取失败，请检查负重、空位和金额上限", "error");
 			}
 			if (kind === "compose") {
 				if (pkt.result) {
@@ -358890,15 +358918,15 @@ function openGameMail(canOperate = () => true) {
 						body: "",
 						zeny: 0
 					});
-					message = "填写收件人并校验后发送";
-				} else message = "当前无法写信";
+					setMessage("填写收件人并校验后发送", "info");
+				} else setMessage("当前无法写信", "error");
 			}
 			if (kind === "validate") {
 				if (pkt.CharID > 0 && pkt.name === wait.name) {
 					recipient = { ...pkt };
 					draft.receiver = pkt.name;
-					message = `收件人已确认：${pkt.name}（Lv${pkt.level}）`;
-				} else message = "收件人不存在或无法收信";
+					setMessage(`收件人已确认：${pkt.name}（Lv${pkt.level}）`, "success");
+				} else setMessage("收件人不存在或无法收信", "error");
 			}
 			if (kind === "add") {
 				if (!pkt.result) {
@@ -358909,8 +358937,8 @@ function openGameMail(canOperate = () => true) {
 						identity: wait.identity
 					});
 					weight = pkt.weight;
-					message = "附件已添加";
-				} else message = "无法附加该物品：请核对限制、数量及重量";
+					setMessage("附件已添加", "success");
+				} else setMessage("无法附加该物品：请核对限制、数量及重量", "error");
 			}
 			if (kind === "remove") {
 				if (pkt.result) {
@@ -358918,15 +358946,15 @@ function openGameMail(canOperate = () => true) {
 					if (item) item.count -= pkt.count;
 					attachments = attachments.filter((i) => i.count > 0);
 					weight = pkt.weight;
-					message = "附件已移除";
-				} else message = "移除附件失败";
+					setMessage("附件已移除", "success");
+				} else setMessage("移除附件失败", "error");
 			}
 			if (kind === "send") {
 				send$2("REQ_CANCEL_WRITE_RODEX");
 				writing = false;
 				attachments = [];
 				recipient = null;
-				message = pkt.result ? "发送失败，请检查服务器提示后重新写信" : "邮件已发送";
+				setMessage(pkt.result ? "发送失败，请检查服务器提示后重新写信" : "邮件已发送", pkt.result ? "error" : "success");
 			}
 			revision++;
 		}
@@ -360148,6 +360176,8 @@ function createMobileInputEditor(host) {
 		const content = editor.querySelector("section");
 		const title = source.getAttribute("aria-label") || source.labels?.[0]?.textContent.trim() || source.placeholder || "输入内容";
 		editor.querySelector("#editor-title").textContent = title;
+		const submitOnDone = source.hasAttribute("data-input-submit");
+		if (submitOnDone) editor.querySelector("[data-done]").textContent = "发送";
 		const field = source.cloneNode(true);
 		field.removeAttribute("id");
 		field.removeAttribute("name");
@@ -360156,7 +360186,7 @@ function createMobileInputEditor(host) {
 		field.setAttribute("autofocus", "");
 		field.setAttribute("aria-label", title);
 		if (!field.placeholder) field.placeholder = title;
-		field.setAttribute("enterkeyhint", field.tagName === "TEXTAREA" ? "enter" : "done");
+		field.setAttribute("enterkeyhint", submitOnDone ? "send" : field.tagName === "TEXTAREA" ? "enter" : "done");
 		field.value = source.value;
 		editor.querySelector("main").append(field);
 		const originalInert = host.inert;
@@ -360181,10 +360211,13 @@ function createMobileInputEditor(host) {
 			if (!field.reportValidity()) return;
 			const value = field.value;
 			close();
-			if (!source.isConnected || source.value === value) return;
-			source.value = value;
-			source.dispatchEvent(new Event("input", { bubbles: true }));
-			source.dispatchEvent(new Event("change", { bubbles: true }));
+			if (!source.isConnected) return;
+			if (source.value !== value) {
+				source.value = value;
+				source.dispatchEvent(new Event("input", { bubbles: true }));
+				source.dispatchEvent(new Event("change", { bubbles: true }));
+			}
+			if (submitOnDone) source.form.requestSubmit();
 		}
 		dialog.addEventListener("cancel", (event) => {
 			event.preventDefault();
@@ -360764,7 +360797,7 @@ function openGameBank(balance) {
 		return interactionSnapshot().service;
 	}
 	const token = {};
-	let money = balance, pending = false, closed = false, message = "", guard = () => !SessionStorage_default.FreezeUI;
+	let money = balance, pending = false, closed = false, message = "", messageKind = "info", guard = () => !SessionStorage_default.FreezeUI;
 	const allowed = () => !closed && !pending && interactionSnapshot()?.token === token && guard() && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE;
 	const service = {
 		setOperationGuard: (value) => {
@@ -360776,6 +360809,7 @@ function openGameBank(balance) {
 			pending,
 			allowed: Boolean(allowed()),
 			message,
+			messageKind,
 			depositMax: Math.max(0, Math.min(SessionStorage_default.zeny, MAX - money)),
 			withdrawMax: Math.max(0, Math.min(money, MAX - SessionStorage_default.zeny))
 		}),
@@ -360784,6 +360818,7 @@ function openGameBank(balance) {
 			if (!state.allowed || !["deposit", "withdraw"].includes(action) || !Number.isInteger(amount) || amount <= 0 || amount > (action === "deposit" ? state.depositMax : state.withdrawMax)) return "金额无效、余额不足或超过持有上限";
 			pending = true;
 			message = "等待服务器回复";
+			messageKind = "info";
 			send$1(action === "deposit" ? PACKET.CZ.REQ_BANKING_DEPOSIT : PACKET.CZ.REQ_BANKING_WITHDRAW, amount);
 			return message;
 		},
@@ -360791,6 +360826,7 @@ function openGameBank(balance) {
 			if (closed || interactionSnapshot()?.token !== token) return;
 			pending = false;
 			if (Number.isInteger(next) && next >= 0 && next <= MAX) money = next;
+			messageKind = reason === 0 ? "success" : "error";
 			message = reason === 0 ? "余额已更新" : "服务器拒绝存取，请核对余额、持有上限及当前位置";
 		},
 		close() {
@@ -360944,8 +360980,8 @@ function createGameSocial(canOperate, shortcuts) {
 				if (!state.master || !skill?.active || !Number.isInteger(data.level) || data.level < 1 || data.level > skill.level || !shortcuts.configure(data.slot, {
 					isSkill: true,
 					ID: data.id
-				}, data.level)) return "技能、等级或快捷槽已变化";
-				return "已设置快捷槽，关闭面板后可施放";
+				}, data.level)) return "技能、等级或快捷键已变化";
+				return "快捷键已设置";
 			}
 			case "editGuildPosition": {
 				const position = state.guild?.positions.find((entry) => entry.positionID === data.position);
@@ -361045,27 +361081,40 @@ function chatChannel(message) {
 	if (message.filterType === ChatBox_default.FILTER.PUBLIC_CHAT) return "public";
 	return "system";
 }
-function createGameChat(send, canOperate) {
-	return { send(text, channel, receiver = "") {
-		text = text.trim();
-		receiver = receiver.trim();
-		if (!canOperate() || !SessionStorage_default.Playing) return "当前不能发送消息";
-		if (!text || text.length > 120) return "请输入 1 至 120 个字符";
-		if (![
-			"public",
-			"private",
-			"party",
-			"guild",
-			"clan"
-		].includes(channel)) return "请选择聊天频道";
-		if (channel === "private" && (!receiver || receiver.length > 24)) return "请输入有效的私聊对象";
-		if (channel === "party" && !SessionStorage_default.hasParty) return "尚未加入队伍";
-		if (channel === "guild" && !SessionStorage_default.hasGuild) return "尚未加入公会";
-		send(text, channel, receiver);
-		return "";
-	} };
+function createGameChat(send, canOperate, sendEmotion) {
+	let lastEmotion = -Infinity;
+	return {
+		emote(command) {
+			if (!canOperate() || !SessionStorage_default.Playing) return "当前不能发送表情";
+			if (!Object.hasOwn(Emotions_default.commands, command)) return "请选择有效表情";
+			if (Date.now() - lastEmotion < 1e3) return "表情发送太快了";
+			sendEmotion(Emotions_default.commands[command]);
+			lastEmotion = Date.now();
+			return "";
+		},
+		send(text, channel, receiver = "") {
+			text = text.trim();
+			receiver = receiver.trim();
+			if (!canOperate() || !SessionStorage_default.Playing) return "当前不能发送消息";
+			if (!text || text.length > 120) return "请输入 1 至 120 个字符";
+			if (text.startsWith("/") && Object.hasOwn(Emotions_default.commands, text.slice(1))) return this.emote(text.slice(1));
+			if (![
+				"public",
+				"private",
+				"party",
+				"guild",
+				"clan"
+			].includes(channel)) return "请选择聊天频道";
+			if (channel === "private" && (!receiver || receiver.length > 24)) return "请输入有效的私聊对象";
+			if (channel === "party" && !SessionStorage_default.hasParty) return "尚未加入队伍";
+			if (channel === "guild" && !SessionStorage_default.hasGuild) return "尚未加入公会";
+			send(text, channel, receiver);
+			return "";
+		}
+	};
 }
 var init_GameChat = __esmMin((() => {
+	init_Emotions();
 	init_SessionStorage();
 	init_ChatBox();
 }));
@@ -361201,6 +361250,15 @@ var init_GameContainers = __esmMin((() => {
 	init_ServerInteraction();
 }));
 //#endregion
+//#region src/UI/Game/AttributeAllocation.js
+/** Renewal costs match pc_need_status_point / pc_need_trait_point on the server. */
+function allocationCost(kind, value, amount) {
+	let total = 0;
+	for (let current = value; current < value + amount; current++) total += kind === "traits" ? 1 : current < 100 ? 2 + Math.floor((current - 1) / 10) : 16 + 4 * Math.floor((current - 100) / 5);
+	return total;
+}
+var init_AttributeAllocation = __esmMin((() => {}));
+//#endregion
 //#region src/UI/Game/CharacterStats.js
 function characterStatValues(entity) {
 	return { ...values.get(entity) };
@@ -361297,18 +361355,20 @@ var init_GamePointReset = __esmMin((() => {
 //#endregion
 //#region src/UI/Game/GameAttributes.js
 function createGameAttributes(canOperate) {
-	let owner, pending = null, message = "", previous = null;
+	let limits = null, limitsJob, applying = false;
+	let owner, pending = null, message = "";
 	function snapshot() {
 		const entity = SessionStorage_default.Entity;
 		if (owner !== entity) {
 			owner = entity;
-			pending = previous = null;
+			pending = null;
 			message = "";
+			limits = null;
 		}
 		if (pending) {
 			const result = characterStatResult(entity, pending.id);
 			if (result !== pending.result) {
-				message = result.success ? `${pending.label}已增加 1 点` : "加点未成功，请检查剩余点数和素质上限";
+				message = result.success ? `${pending.label}已增加 ${pending.amount} 点` : "加点未成功，请检查剩余点数和素质上限";
 				pending = null;
 			} else if (performance.now() - pending.at >= 8e3) {
 				message = "暂未收到服务器确认，请核对当前数值后重试";
@@ -361317,6 +361377,7 @@ function createGameAttributes(canOperate) {
 		}
 		const values = characterStatValues(entity);
 		const reset = pointResetState(entity);
+		if (limitsJob !== (entity?._job ?? entity?.job)) limits = null;
 		const allowed = Boolean(canOperate() && SessionStorage_default.Playing && entity && entity.action !== entity.ACTION.DIE);
 		const traits = Boolean(JPT[entity?._job ?? entity?.job]?.isFourthClass);
 		const section = (fields, points, enabled) => ({
@@ -361331,7 +361392,8 @@ function createGameAttributes(canOperate) {
 					value: value ?? null,
 					bonus,
 					cost: cost ?? null,
-					canAdd: Boolean(allowed && enabled && !pending && !reset.pending && value !== void 0 && cost > 0 && values[points] >= cost)
+					maximum: enabled ? (fields === baseFields ? limits?.max_stats?.[key] : limits?.traits?.maximums?.[key]) ?? null : null,
+					canAdd: Boolean(allowed && enabled && !pending && !applying && !reset.pending && value !== void 0 && cost > 0 && values[points] >= cost)
 				};
 			})
 		});
@@ -361365,40 +361427,87 @@ function createGameAttributes(canOperate) {
 		return {
 			base: section(baseFields, "statuspoint", true),
 			traits: section(traitFields, "trait_point", traits),
-			allowed: allowed && !pending && !reset.pending,
-			pending: Boolean(pending || reset.pending),
+			allowed: allowed && !pending && !applying && !reset.pending,
+			pending: Boolean(pending || applying || reset.pending),
 			message: reset.pending ? reset.message : message,
 			resetMessage: reset.message,
-			related: Object.fromEntries(Object.entries(related).map(([kind, rows]) => [kind, rows.map((row) => ({
-				...row,
-				previous: previous?.[kind]?.find((entry) => entry.key === row.key)?.value
-			}))]))
+			related
 		};
+	}
+	function sendIncrease(row, amount) {
+		pending = {
+			id: row.id,
+			label: row.label,
+			amount,
+			result: characterStatResult(owner, row.id),
+			at: performance.now()
+		};
+		message = "正在加点…";
+		const packet = new PACKET.CZ.STATUS_CHANGE();
+		packet.statusID = row.id;
+		packet.changeAmount = amount;
+		Network.sendPacket(packet);
 	}
 	return {
 		snapshot,
+		async prepare() {
+			snapshot();
+			const entity = owner, job = entity?._job ?? entity?.job;
+			const data = await loadCurrentCharacter();
+			if (SessionStorage_default.Entity === entity && (entity?._job ?? entity?.job) === job) {
+				limits = data;
+				limitsJob = job;
+			}
+		},
+		async apply(kind, additions, expected) {
+			const initial = snapshot();
+			if (!initial.allowed || !["base", "traits"].includes(kind) || !initial[kind].enabled) throw new Error("当前不能加点");
+			const section = initial[kind];
+			if (section.points !== expected.points || section.rows.some((row) => row.value !== expected.rows.find((entry) => entry.key === row.key)?.value)) throw new Error("素质已变化，请重新预加点");
+			let total = 0;
+			const plan = Object.entries(additions).filter(([, amount]) => amount > 0).map(([key, amount]) => {
+				const row = section.rows.find((entry) => entry.key === key);
+				if (!row?.canAdd || !Number.isInteger(amount) || row.maximum === null || row.value + amount > row.maximum) throw new Error("预加点超出可用范围");
+				total += allocationCost(kind, row.value, amount);
+				return {
+					row,
+					amount
+				};
+			});
+			if (!plan.length || total > section.points) throw new Error("剩余素质点不足");
+			const entity = owner;
+			applying = true;
+			try {
+				for (const { row, amount } of plan) {
+					let remaining = amount;
+					while (remaining > 0) {
+						if (SessionStorage_default.Entity !== entity || !SessionStorage_default.Playing || !canOperate() || entity.action === entity.ACTION.DIE || pointResetState(entity).pending) throw new Error("角色状态已变化，加点已停止");
+						const count = Math.min(remaining, kind === "base" ? 255 : 65535);
+						const before = characterStatValues(entity)[row.key];
+						const resultBefore = characterStatResult(entity, row.id);
+						sendIncrease(row, count);
+						while (pending && SessionStorage_default.Entity === entity) {
+							await new Promise((resolve) => setTimeout(resolve, 50));
+							snapshot();
+						}
+						const result = characterStatResult(entity, row.id);
+						if (SessionStorage_default.Entity !== entity || result === resultBefore || !result?.success || characterStatValues(entity)[row.key] !== before + count) throw new Error("加点未全部完成，请核对当前数值");
+						remaining -= count;
+					}
+				}
+			} finally {
+				applying = false;
+			}
+		},
 		increase(kind, key) {
-			const state = snapshot();
-			const row = state[kind]?.rows?.find((entry) => entry.key === key);
+			const row = snapshot()[kind]?.rows?.find((entry) => entry.key === key);
 			if (!row?.canAdd) return "当前不能增加这项素质";
-			previous = state.related;
-			pending = {
-				id: row.id,
-				label: row.label,
-				result: characterStatResult(owner, row.id),
-				at: performance.now()
-			};
-			message = "正在加点…";
-			const packet = new PACKET.CZ.STATUS_CHANGE();
-			packet.statusID = row.id;
-			packet.changeAmount = 1;
-			Network.sendPacket(packet);
+			sendIncrease(row, 1);
 			return message;
 		},
 		async reset(kind) {
 			const state = snapshot();
 			if (!state.allowed || !["base", "traits"].includes(kind) || !state[kind].enabled) return "当前不能重置素质点";
-			previous = state.related;
 			const entity = owner;
 			const result = await resetCharacterPoints(kind, entity);
 			if (entity === SessionStorage_default.Entity) message = result;
@@ -361408,6 +361517,8 @@ function createGameAttributes(canOperate) {
 }
 var baseFields, traitFields;
 var init_GameAttributes = __esmMin((() => {
+	init_AttributeAllocation();
+	init_AdventureControlService();
 	init_SessionStorage();
 	init_NetworkManager();
 	init_PacketStructure();
@@ -361735,16 +361846,16 @@ function createShortcutController(data) {
 		if (index >= count()) return {
 			index,
 			empty: true,
-			name: "无槽位",
+			name: "无位置",
 			available: false,
-			reason: "无槽位",
+			reason: "无位置",
 			unavailable: true
 		};
 		const binding = data.bindings()[index];
 		if (!binding?.ID) return {
 			index,
 			empty: true,
-			name: "空槽位",
+			name: "空位置",
 			available: true
 		};
 		const entry = data.describe(binding);
@@ -362430,6 +362541,19 @@ var init_StatusIcons = __esmMin((() => {
 	StatusIcons_default = UIManager.addComponent(StatusIcons);
 }));
 //#endregion
+//#region src/UI/Mobile/game/ChatChannels.js
+var chatChannelLabels;
+var init_ChatChannels = __esmMin((() => {
+	chatChannelLabels = {
+		public: "附近",
+		private: "私聊",
+		party: "队伍",
+		guild: "公会",
+		clan: "氏族",
+		system: "系统"
+	};
+}));
+//#endregion
 //#region src/UI/Mobile/game/StatusPanel.js
 /** Keep selection and scroll positions while remaining durations update. */
 function createStatusPanel(body) {
@@ -362631,7 +362755,8 @@ function createCompanionsPanel(body, service) {
 			dismiss = null;
 			const requested = learning;
 			learning = null;
-			feedback(requested ? requested.gid === service.snapshot().gid ? service.learn(requested.id, requested.level) : "伴侣已变化，请重新确认" : service.confirm());
+			const result = requested ? requested.gid === service.snapshot().gid ? service.learn(requested.id, requested.level) : "伴侣已变化，请重新确认" : service.confirm();
+			feedback(result, result === "攻击模式已更新" ? "success" : ["已发送请求，以服务器状态为准", "已请求学习一级，等待服务器更新"].includes(result) ? "info" : "error");
 			service.cancel();
 			update();
 		}, { cancelled: () => {
@@ -362652,7 +362777,7 @@ function createCompanionsPanel(body, service) {
 			cancel();
 			const error = service.prepare(action, action === "rename" ? $("[data-companion-name]").value : void 0);
 			if (error) {
-				feedback(error);
+				feedback(error, "error");
 				return;
 			}
 			review(action === "dismiss" ? service.snapshot().kind === "homunculus" ? "确认删除当前生命体？" : "提前解除佣兵契约？" : `确认${label}？`);
@@ -362725,7 +362850,7 @@ function createCompanionsPanel(body, service) {
 		}
 		if (lastMessage !== s.message) {
 			lastMessage = s.message;
-			feedback.update(s.message);
+			feedback.update(s.message, s.messageKind);
 		}
 	}
 	update();
@@ -362754,7 +362879,8 @@ function createPetPanel(body, service) {
 				feedback("宠物已变化，请重新确认", "error");
 				return;
 			}
-			feedback(service.command(action, value));
+			const result = service.command(action, value);
+			feedback(result, result === "已发送请求，以服务器状态为准" ? "info" : "error");
 			update();
 		});
 	}
@@ -362834,7 +362960,7 @@ function createPetPanel(body, service) {
 		$("[data-action=unequip]").disabled = !state.allowed || !state.accessory;
 		if (lastMessage !== state.message) {
 			lastMessage = state.message;
-			feedback.update(state.message);
+			feedback.update(state.message, state.messageKind);
 		}
 	}
 	update();
@@ -363100,7 +363226,7 @@ function createMailPanel(body, service) {
 		if (version !== state.revision) render();
 		for (const [control, disabled] of controls) control.disabled = disabled || !state.allowed;
 		const message = ["暂无邮件", "请选择邮件"].includes(state.message) ? "" : state.message;
-		feedback.update(message);
+		feedback.update(message, state.messageKind);
 	}
 	render();
 	update();
@@ -363333,11 +363459,12 @@ function createBankPanel(body, service) {
 	for (const button of body.querySelectorAll("[data-action]")) button.onclick = () => {
 		const state = service.snapshot(), amount = Number($("[data-amount]").value), action = button.dataset.action;
 		if (!state.allowed || !Number.isInteger(amount) || amount <= 0 || amount > state[action + "Max"]) {
-			feedback("请填写有效金额");
+			feedback("请填写有效金额", "error");
 			return;
 		}
 		confirmAction(body, `${action === "deposit" ? "存入" : "取出"} ${amount.toLocaleString()} Zeny？`, () => {
-			feedback(service.submit(action, amount));
+			const result = service.submit(action, amount);
+			feedback(result, result === "等待服务器回复" ? "info" : "error");
 			update();
 		});
 	};
@@ -363350,7 +363477,7 @@ function createBankPanel(body, service) {
 		$("[data-amount]").disabled = !state.allowed;
 		if (state.message !== lastMessage) {
 			lastMessage = state.message;
-			feedback.update(state.message);
+			feedback.update(state.message, state.messageKind);
 		}
 	}
 	update();
@@ -363386,7 +363513,8 @@ function createVendingPanel(body, service) {
 				feedback("订单已变化，请重新核对", "error");
 				return;
 			}
-			feedback(snapshot.owned ? service.closeStore() : service.submit(title, budget));
+			const result = snapshot.owned ? service.closeStore() : service.submit(title, budget);
+			feedback(result, ["已请求关闭摊位", "等待服务器开店结果"].includes(result) ? "info" : "error");
 			update();
 		}, {});
 	};
@@ -363443,7 +363571,7 @@ function createVendingPanel(body, service) {
 					button.textContent = "保存数量与单价（数量 0 移除）";
 					button.disabled = !state.allowed;
 					button.onclick = () => {
-						feedback(service.set(item.index, item.identity, Number(amount.value), Number(price.value)));
+						feedback(service.set(item.index, item.identity, Number(amount.value), Number(price.value)), "error");
 						update();
 					};
 					panel.append(amount, price, button);
@@ -363471,7 +363599,14 @@ function createTradePanel(body, service) {
 	let preview = null;
 	let selected = null, pickerKey = "";
 	function action(result) {
-		feedback(result);
+		feedback(result, [
+			"等待服务器确认物品",
+			"金额已发送，请核对后锁定报价",
+			"等待服务器锁定报价",
+			"已确认，等待交易结果",
+			"正在等待交易结果",
+			"等待服务器取消交易"
+		].includes(result) ? "info" : "error");
 		update();
 	}
 	$("[data-send-money]").onclick = () => action(service.setMoney(Number($("[data-money]").value)));
@@ -363618,7 +363753,7 @@ function createEnchantPanel(body, service) {
 	const nodes = /* @__PURE__ */ new Map();
 	function update() {
 		const state = service.snapshot();
-		feedback.update(state.message);
+		feedback.update(state.message, state.messageKind);
 		const ids = new Set(state.items.map((item) => item.index));
 		for (const [id, node] of nodes) if (!ids.has(id)) {
 			node.remove();
@@ -363632,7 +363767,7 @@ function createEnchantPanel(body, service) {
 				b.onclick = () => {
 					const error = service.select(item.index, item.ID);
 					if (error) {
-						feedback(error);
+						feedback(error, "error");
 						return;
 					}
 					key = "";
@@ -363709,7 +363844,7 @@ function createRefinementPanel(body, service) {
 	let key = "";
 	function update() {
 		const state = service.snapshot();
-		feedback.update(state.message);
+		feedback.update(state.message, state.messageKind);
 		const ids = new Set(state.items.map((item) => item.index));
 		for (const [id, node] of nodes) if (!ids.has(id)) {
 			node.remove();
@@ -363723,7 +363858,7 @@ function createRefinementPanel(body, service) {
 				button.onclick = () => {
 					const current = service.snapshot().items.find((entry) => entry.index === item.index);
 					const error = current ? service.select(current.index, current.ID) : "装备已经变化";
-					if (error) feedback(error);
+					if (error) feedback(error, "error");
 					key = "";
 					update();
 				};
@@ -363880,7 +364015,7 @@ function createMaterialsPanel(body, service) {
 		form.onsubmit = (e) => {
 			e.preventDefault();
 			const error = service.set(item.index, item.ID, Number(input.value));
-			status(error || "已更新材料，输入 0 可移除");
+			status(error || "材料已更新", error ? "error" : "success");
 		};
 		detail.append(name, form);
 	}
@@ -363896,7 +364031,7 @@ function createMaterialsPanel(body, service) {
 				status("材料已变化，请重新核对", "error");
 				return;
 			}
-			status(service.confirm());
+			status(service.confirm(), "error");
 			update();
 		}, {});
 	};
@@ -363979,7 +364114,7 @@ function createSelectionPanel(body, service) {
 		button.onclick = () => {
 			const chosen = materials.map((select) => Number(select.value)).filter(Boolean);
 			confirmAction(body, `确认选择「${entry.name}」？`, () => {
-				feedback(service.choose(entry.id, chosen));
+				feedback(service.choose(entry.id, chosen), "error");
 			}, {});
 		};
 		if (entry.preview) {
@@ -364008,7 +364143,8 @@ function createSocialPanel(body, service, whisper) {
 	let state, selected = null, lastKey = "", listKey = "";
 	const status = createFeedback(body);
 	const act = (action, data) => {
-		status(service.act(action, data));
+		const message = service.act(action, data);
+		status(message, action === "bindGuildSkill" ? message === "快捷键已设置" ? "success" : "error" : message === "已请求，等待服务器回复" ? "info" : "error");
 	};
 	function button(text, fn) {
 		const b = document.createElement("button");
@@ -364232,7 +364368,8 @@ function createSocialPanel(body, service, whisper) {
 					confirmAction(upload, `确认上传徽章「${selectedFile.name}」？`, async () => {
 						send.disabled = true;
 						try {
-							status(await service.uploadEmblem(selectedFile));
+							const result = await service.uploadEmblem(selectedFile);
+							status(result, result === "已请求上传徽章，结果以服务器回复为准" ? "info" : "error");
 						} catch {
 							status("无法读取徽章文件，请重新选择", "error");
 						} finally {
@@ -364329,12 +364466,77 @@ var init_SocialPanel = __esmMin((() => {
 	init_ListItemText();
 }));
 //#endregion
+//#region src/UI/Game/ChatEmotions.js
+var chatEmotions;
+var init_ChatEmotions = __esmMin((() => {
+	chatEmotions = [
+		["!", "惊讶"],
+		["?", "疑问"],
+		["ho", "开心"],
+		["lv", "爱心"],
+		["swt", "流汗"],
+		["ic", "明白"],
+		["an", "烦恼"],
+		["ag", "生气"],
+		["$", "金钱"],
+		["...", "思考"],
+		["thx", "谢谢"],
+		["sry", "抱歉"],
+		["heh", "微笑"],
+		["no1", "赞"],
+		["rock", "石头"],
+		["scissors", "剪刀"],
+		["paper", "布"]
+	];
+}));
+//#endregion
 //#region src/UI/Mobile/game/ChatPanel.js
-function createChatPanel(body, send, initialReceiver = "") {
-	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"消息筛选\"><option value=\"all\">全部消息</option><option value=\"public\">公开</option><option value=\"private\">私聊</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option><option value=\"clan\">氏族</option><option value=\"system\">系统</option></select></div><div class=\"chat-log\" role=\"log\" aria-label=\"聊天消息\"></div><form class=\"chat-form\"><select aria-label=\"发送频道\"><option value=\"public\">公开</option><option value=\"private\">私聊</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option><option value=\"clan\">氏族</option></select><input aria-label=\"私聊对象\" maxlength=\"24\" placeholder=\"角色名\" hidden><input aria-label=\"聊天内容\" placeholder=\"输入消息\" maxlength=\"120\" autocomplete=\"off\"><button type=\"submit\">发送</button></form>";
+function createChatPanel(body, send, initialReceiver = "", loadEmotionImages, onSent) {
+	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"消息筛选\"><option value=\"all\">全部消息</option><option value=\"public\">附近</option><option value=\"private\">私聊</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option><option value=\"clan\">氏族</option><option value=\"system\">系统</option></select></div><div class=\"chat-log\" role=\"log\" aria-label=\"聊天消息\"></div><div class=\"chat-emotions\" hidden aria-label=\"RO 表情\"></div><form class=\"chat-form\"><select aria-label=\"发送频道\"><option value=\"public\">附近</option><option value=\"private\">私聊</option><option value=\"party\">队伍</option><option value=\"guild\">公会</option><option value=\"clan\">氏族</option></select><input aria-label=\"私聊对象\" maxlength=\"24\" placeholder=\"角色名\" hidden><input data-input-submit aria-label=\"聊天内容\" placeholder=\"输入消息\" maxlength=\"120\" autocomplete=\"off\" enterkeyhint=\"send\"><button type=\"button\" data-emotions aria-label=\"选择表情\" aria-expanded=\"false\">表情</button><button type=\"submit\">发送</button></form>";
 	const feedback = createFeedback(body);
 	const $ = (selector) => body.querySelector(selector), log = $(".chat-log"), channel = $("[aria-label=\"发送频道\"]"), receiver = $("[aria-label=\"私聊对象\"]"), input = $("[aria-label=\"聊天内容\"]");
 	let messages = [];
+	const palette = $(".chat-emotions"), toggle = $("[data-emotions]");
+	let loading;
+	async function ensureEmotions() {
+		if (loading) return loading;
+		palette.textContent = "正在加载表情…";
+		loading = loadEmotionImages().then((images) => {
+			if (!body.contains(palette)) return;
+			palette.replaceChildren();
+			for (const [command, label] of chatEmotions) {
+				const button = document.createElement("button");
+				button.type = "button";
+				button.title = `${label} /${command}`;
+				button.setAttribute("aria-label", label);
+				const icon = document.createElement("img");
+				icon.src = images[command];
+				icon.alt = "";
+				icon.width = icon.height = 40;
+				button.append(icon);
+				button.onclick = () => {
+					input.value = `/${command}`;
+					input.dispatchEvent(new Event("input", { bubbles: true }));
+					palette.hidden = true;
+					toggle.setAttribute("aria-expanded", "false");
+				};
+				palette.append(button);
+			}
+		}).catch(() => {
+			loading = null;
+			palette.textContent = "表情加载失败，请重新打开";
+			feedback("表情加载失败", "error");
+		});
+		return loading;
+	}
+	toggle.onclick = () => {
+		palette.hidden = !palette.hidden;
+		toggle.setAttribute("aria-expanded", String(!palette.hidden));
+		if (!palette.hidden) ensureEmotions();
+	};
+	for (const region of [$("form"), palette]) region.addEventListener("pointerdown", (event) => {
+		if (event.target.closest("button")) event.preventDefault();
+	});
 	channel.onchange = () => {
 		receiver.hidden = channel.value !== "private";
 	};
@@ -364349,21 +364551,38 @@ function createChatPanel(body, send, initialReceiver = "") {
 		const filter = $("[aria-label=\"消息筛选\"]").value;
 		log.replaceChildren(...messages.filter((m) => filter === "all" || m.channel === filter).map((m) => {
 			const p = document.createElement("p");
-			p.textContent = m.text;
+			p.dataset.channel = m.channel;
+			p.textContent = `[${chatChannelLabels[m.channel] || "系统"}] ${m.text}`;
 			return p;
 		}));
 		if (atBottom) log.scrollTop = log.scrollHeight;
 	}
 	$("[aria-label=\"消息筛选\"]").onchange = () => update();
+	let composing = false;
+	input.addEventListener("compositionstart", () => {
+		composing = true;
+	});
+	input.addEventListener("compositionend", () => {
+		composing = false;
+	});
 	$("form").onsubmit = (event) => {
 		event.preventDefault();
+		if (composing) return;
 		const error = send(input.value, channel.value, receiver.value);
-		feedback(error || "已发送");
-		if (!error) input.value = "";
+		if (error) feedback(error, "error");
+		if (!error) {
+			input.value = "";
+			input.blur();
+			palette.hidden = true;
+			toggle.setAttribute("aria-expanded", "false");
+			onSent?.();
+		}
 	};
 	return { update };
 }
 var init_ChatPanel = __esmMin((() => {
+	init_ChatChannels();
+	init_ChatEmotions();
 	init_Feedback();
 }));
 //#endregion
@@ -364437,7 +364656,8 @@ function createQuestsPanel(body, actions) {
 			button.textContent = q.active === 1 ? "暂停任务" : "启用任务";
 			button.disabled = !state.allowed || state.pending !== void 0;
 			button.onclick = () => {
-				feedback(actions.toggle(q.questID, q.active) ? "已请求，等待服务器更新" : "任务状态已变化");
+				const requested = actions.toggle(q.questID, q.active);
+				feedback(requested ? "已请求，等待服务器更新" : "任务状态已变化", requested ? "info" : "error");
 				update();
 			};
 			detail.append(button);
@@ -364522,7 +364742,8 @@ function createContainerPanel(body, actions, initialSource) {
 		count.className = "container-item-count";
 		count.textContent = `当前数量：${item.count}`;
 		const transfer = button("确认转移", () => {
-			feedback(actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value)));
+			const result = actions.transfer(source, destination.value, item.index, item.ID, Number(amount.value));
+			feedback(result, result === "已请求转移，等待服务器更新" ? "info" : "error");
 			update();
 		});
 		$(".inventory-detail").replaceChildren(title, count, destination, amount, button("全部数量", () => {
@@ -364619,10 +364840,10 @@ function createShopPanel(body, service) {
 		description.className = "item-description";
 		description.textContent = item.description;
 		$(".inventory-detail").replaceChildren(title, price, input, button("设置数量", () => {
-			status(service.set(item.index, item.ID, Number(input.value)));
+			status(service.set(item.index, item.ID, Number(input.value)), "error");
 			update();
 		}), button("移出订单", () => {
-			status(service.set(item.index, item.ID, 0));
+			status(service.set(item.index, item.ID, 0), "error");
 			input.value = "0";
 			update();
 		}), description);
@@ -364634,7 +364855,8 @@ function createShopPanel(body, service) {
 				status("订单已变化，请重新核对", "error");
 				return;
 			}
-			status(service.submit());
+			const result = service.submit();
+			status(result, result === "已提交，等待服务器回复" ? "info" : "error");
 			update();
 		}, {});
 	}
@@ -364643,7 +364865,7 @@ function createShopPanel(body, service) {
 		if (service.clear()) {
 			selected = null;
 			$(".inventory-detail").textContent = "请选择物品";
-			status("订单已清空");
+			status("订单已清空", "success");
 			update();
 		}
 	});
@@ -364752,9 +364974,85 @@ var init_NPCPanel = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/AttributesPanel.js
 function createAttributesPanel(body, actions) {
-	body.innerHTML = "<div class=\"attribute-toolbar\"><div class=\"attribute-tabs\" role=\"group\" aria-label=\"素质分类\"></div><strong data-attribute-points></strong></div><div class=\"attribute-layout\"><section class=\"attribute-allocation\" aria-label=\"素质加点\"></section><section class=\"attribute-results\" aria-label=\"相关数值\"><dl></dl></section></div>";
+	body.innerHTML = "<div class=\"attribute-toolbar\"><div class=\"attribute-tabs\" role=\"group\" aria-label=\"素质分类\"></div></div><div class=\"attribute-layout\"><section class=\"attribute-editor\"><div class=\"attribute-allocation\" aria-label=\"素质加点\"></div></section><section class=\"attribute-results\" aria-label=\"相关数值\"><dl></dl></section></div><div class=\"attribute-footer\"><strong data-attribute-points></strong><div class=\"attribute-plan-actions\"><button type=\"button\" class=\"point-reset-button\" data-reset-points>重置素质点</button><button type=\"button\" data-clear-plan>清除预加点</button><button type=\"button\" data-apply-plan>确认</button></div></div>";
 	const $ = (selector) => body.querySelector(selector);
 	const toolbar = $(".attribute-toolbar");
+	const feedback = createFeedback(body);
+	const drafts = {
+		base: {},
+		traits: {}
+	};
+	let baseline = "", submitting = false;
+	function signature(snapshot) {
+		return JSON.stringify(["base", "traits"].map((kind) => [
+			snapshot[kind].points,
+			snapshot[kind].enabled,
+			snapshot[kind].rows.map((row) => [
+				row.key,
+				row.value,
+				row.maximum
+			])
+		]));
+	}
+	function spent(kind) {
+		return state[kind].rows.reduce((sum, row) => sum + allocationCost(kind, row.value, drafts[kind][row.key] || 0), 0);
+	}
+	function add(key, amount) {
+		const section = state[active], row = section.rows.find((entry) => entry.key === key);
+		if (!row?.canAdd || row.maximum === null || submitting) return;
+		let value = row.value + (drafts[active][key] || 0), points = section.points - spent(active), added = 0;
+		while (added < amount && value < row.maximum) {
+			const cost = allocationCost(active, value, 1);
+			if (cost > points) break;
+			points -= cost;
+			value++;
+			added++;
+		}
+		drafts[active][key] = (drafts[active][key] || 0) + added;
+		update();
+	}
+	$("[data-reset-points]").onclick = () => {
+		const kind = active;
+		if (submitting || !actions.snapshot().allowed) return;
+		confirmAction(body, `确认重置${kind === "traits" ? "四转" : "基础"}素质点？`, async () => {
+			if (submitting || !actions.snapshot().allowed) return;
+			submitting = true;
+			try {
+				const request = actions.reset(kind);
+				update();
+				const message = await request;
+				feedback(message, message.endsWith("已重置") ? "success" : "error");
+			} catch (error) {
+				feedback(error.message, "error");
+			} finally {
+				drafts[kind] = {};
+				submitting = false;
+				baseline = "";
+				update();
+			}
+		});
+	};
+	$("[data-clear-plan]").onclick = () => {
+		drafts[active] = {};
+		update();
+	};
+	$("[data-apply-plan]").onclick = async () => {
+		if (submitting) return;
+		const kind = active, expected = state[kind], additions = { ...drafts[kind] };
+		submitting = true;
+		try {
+			const request = actions.apply(kind, additions, expected);
+			update();
+			await request;
+		} catch (error) {
+			feedback(error.message, "error");
+		} finally {
+			drafts[kind] = {};
+			submitting = false;
+			baseline = "";
+			update();
+		}
+	};
 	let active = "base", state, rowKind;
 	const rows = /* @__PURE__ */ new Map(), results = /* @__PURE__ */ new Map();
 	const tabs = /* @__PURE__ */ new Map();
@@ -364772,14 +365070,24 @@ function createAttributesPanel(body, actions) {
 	function update() {
 		if (!body.contains(toolbar)) return;
 		state = actions.snapshot();
+		const nextBaseline = signature(state);
+		if (baseline && baseline !== nextBaseline && !submitting) {
+			drafts.base = {};
+			drafts.traits = {};
+		}
+		baseline = nextBaseline;
 		if (!state.traits.enabled) active = "base";
 		tabs.get("traits").hidden = !state.traits.enabled;
 		for (const [kind, tab] of tabs) {
 			tab.setAttribute("aria-pressed", String(kind === active));
-			tab.disabled = state.pending;
+			tab.disabled = state.pending || submitting;
 		}
 		const section = state[active];
-		$("[data-attribute-points]").textContent = `剩余${active === "traits" ? "四转" : ""}素质点：${section.points ?? "—"}`;
+		const plannedCost = spent(active);
+		$("[data-attribute-points]").textContent = `剩余${active === "traits" ? "四转" : ""}素质点：${section.points === null ? "—" : section.points - (submitting ? 0 : plannedCost)}`;
+		$("[data-apply-plan]").disabled = submitting || !state.allowed || plannedCost === 0;
+		$("[data-reset-points]").disabled = submitting || !state.allowed;
+		$("[data-clear-plan]").disabled = submitting || state.pending || plannedCost === 0;
 		if (rowKind !== active) {
 			rowKind = active;
 			rows.clear();
@@ -364793,20 +365101,29 @@ function createAttributesPanel(body, actions) {
 				row = document.createElement("div");
 				row.className = "attribute-row";
 				row.dataset.attribute = stat.key;
-				row.innerHTML = "<strong></strong><span class=\"attribute-value\"></span><small></small><button type=\"button\">＋1</button>";
+				row.innerHTML = "<strong></strong><span class=\"attribute-value\"></span><small></small><div class=\"attribute-increments\"></div>";
 				row.querySelector("strong").textContent = stat.label;
-				const button = row.querySelector("button");
-				button.setAttribute("aria-label", `${stat.label}增加 1 点`);
-				button.onclick = () => {
-					actions.increase(active, stat.key);
-					update();
-				};
+				for (const [text, amount] of [
+					["+1", 1],
+					["+10", 10],
+					["MAX", Infinity]
+				]) {
+					const button = document.createElement("button");
+					button.type = "button";
+					button.textContent = text;
+					button.setAttribute("aria-label", `${stat.label}预加 ${text}`);
+					button.onclick = () => add(stat.key, amount);
+					row.querySelector(".attribute-increments").append(button);
+				}
 				rows.set(stat.key, row);
 				$(".attribute-allocation").append(row);
 			}
-			row.querySelector(".attribute-value").textContent = `${stat.value ?? "—"}${stat.bonus ? ` ${stat.bonus > 0 ? "+" : "−"} ${Math.abs(stat.bonus)}` : ""}`;
-			row.querySelector("small").textContent = stat.cost === null ? "读取中" : stat.cost === 0 ? "已达上限" : `消耗 ${stat.cost} 点`;
-			row.querySelector("button").disabled = !stat.canAdd;
+			const amount = submitting ? 0 : drafts[active][stat.key] || 0;
+			const value = stat.value === null ? null : stat.value + amount;
+			row.querySelector(".attribute-value").textContent = `${stat.value ?? "—"}${amount ? ` → ${value}` : ""}${stat.bonus ? ` ${stat.bonus > 0 ? "+" : "−"} ${Math.abs(stat.bonus)}` : ""}`;
+			const cost = value === null ? null : allocationCost(active, value, 1);
+			row.querySelector("small").textContent = stat.maximum === null || cost === null ? "读取中" : value >= stat.maximum || stat.cost === 0 ? "已达上限" : `消耗 ${cost} 点`;
+			for (const button of row.querySelectorAll("button")) button.disabled = submitting || !stat.canAdd || stat.maximum === null || value >= stat.maximum || cost > section.points - plannedCost;
 		}
 		for (const stat of state.related[active]) {
 			let pair = results.get(stat.key);
@@ -364818,15 +365135,20 @@ function createAttributesPanel(body, actions) {
 				pair = value;
 				results.set(stat.key, pair);
 			}
-			const changed = stat.previous !== void 0 && stat.previous !== stat.value;
-			pair.textContent = changed ? `${stat.previous} → ${stat.value}` : String(stat.value);
-			pair.classList.toggle("attribute-changed", changed);
+			pair.textContent = String(stat.value);
 		}
 	}
 	update();
+	actions.prepare().then(update).catch((error) => {
+		if (body.contains(toolbar)) feedback(error.message, "error");
+	});
 	return { update };
 }
-var init_AttributesPanel = __esmMin((() => {}));
+var init_AttributesPanel = __esmMin((() => {
+	init_Confirmation();
+	init_AttributeAllocation();
+	init_Feedback();
+}));
 //#endregion
 //#region src/UI/Mobile/game/PointResetControl.js
 /** Confirm before resetting, while callers own their live server feedback. */
@@ -364869,7 +365191,7 @@ var init_PointResetControl = __esmMin((() => {
 //#endregion
 //#region src/UI/Mobile/game/SkillsPanel.js
 function createSkillsPanel(body, actions) {
-	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"转职分类\"><option value=\"all\">全部转职</option></select><select aria-label=\"技能分类\"><option value=\"all\">全部技能</option><option value=\"active\">已学主动</option><option value=\"passive\">已学被动</option><option value=\"locked\">未学习</option></select></div><div class=\"inventory-layout\"><section class=\"skills-browser\"><div class=\"inventory-list\" aria-label=\"技能列表\"></div><div class=\"skills-footer\"><div class=\"skills-reset\"></div><strong data-skill-points></strong></div></section><section class=\"inventory-detail inventory-item-detail\" aria-label=\"技能详情\"></section></div>";
+	body.innerHTML = "<div class=\"skills-toolbar\"><select aria-label=\"转职分类\"><option value=\"all\">全部转职</option></select><select aria-label=\"技能分类\"><option value=\"all\">全部技能</option><option value=\"active\">已学主动</option><option value=\"passive\">已学被动</option><option value=\"locked\">未学习</option></select></div><div class=\"inventory-layout skills-layout\"><section class=\"skills-browser\"><div class=\"inventory-list\" aria-label=\"技能列表\"></div><div class=\"skills-footer\"><div class=\"skills-reset\"></div><strong data-skill-points></strong></div></section><section class=\"inventory-detail inventory-item-detail\" aria-label=\"技能详情\"></section></div>";
 	const $ = (selector) => body.querySelector(selector), list = $(".inventory-list"), detail = $(".inventory-detail");
 	let selected = null, key = "", state, dismiss;
 	const nodes = /* @__PURE__ */ new Map();
@@ -364892,7 +365214,7 @@ function createSkillsPanel(body, actions) {
 	function renderDetail() {
 		const skill = state.skills.find((entry) => entry.id === selected);
 		if (!skill) {
-			detail.textContent = "点击技能查看说明、学习或设置快捷槽";
+			detail.textContent = "点击技能查看说明、学习或设置快捷键";
 			return;
 		}
 		const next = JSON.stringify({
@@ -364908,7 +365230,8 @@ function createSkillsPanel(body, actions) {
 		summary.textContent = `${skill.kind} · 等级 ${skill.level}/${skill.max}`;
 		const learn = button(skill.level ? "升级一级" : "学习一级", () => {
 			dismiss = confirmAction(body, `确认将「${skill.name}」升至 ${skill.level + 1} 级？`, () => {
-				status(actions.learn(skill.id, skill.level + 1));
+				const result = actions.learn(skill.id, skill.level + 1);
+				status(result, result === "已请求学习一级，等待服务器更新" ? "info" : "error");
 				key = "";
 				update();
 			});
@@ -364921,15 +365244,15 @@ function createSkillsPanel(body, actions) {
 		ops.className = "inventory-actions";
 		ops.append(learn);
 		if (skill.active) {
-			const bind = button("设置快捷槽", () => {
+			const bind = button("设置快捷键", () => {
 				const level = document.createElement("select");
 				level.setAttribute("aria-label", "等级");
 				for (let i = 1; i <= skill.level; i++) level.add(new Option(`Lv.${i}`, String(i)));
 				level.value = String(skill.level);
 				const slot = document.createElement("select");
-				slot.setAttribute("aria-label", "槽位");
+				slot.setAttribute("aria-label", "位置");
 				const page = actions.shortcuts();
-				for (let i = 0; i < page.total; i++) slot.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
+				for (let i = 0; i < page.total; i++) slot.add(new Option(`位置 ${i + 1} · ${actions.slotName(i)}`, String(i)));
 				slot.value = String(page.slots[0].index);
 				const fields = document.createElement("div");
 				fields.className = "shortcut-fields";
@@ -364939,9 +365262,9 @@ function createSkillsPanel(body, actions) {
 					field.append(input);
 					fields.append(field);
 				}
-				dismiss = confirmAction(body, `设置「${skill.name}」的快捷槽？`, () => {
+				dismiss = confirmAction(body, `设置「${skill.name}」的快捷键？`, () => {
 					const success = actions.bind(skill.id, Number(level.value), Number(slot.value));
-					status(success ? "快捷槽已设置" : "设置失败，请重新选择", success ? "success" : "error");
+					status(success ? "快捷键已设置" : "设置失败，请重新选择", success ? "success" : "error");
 				}, { content: fields });
 			});
 			bind.disabled = skill.level < 1;
@@ -365020,7 +365343,7 @@ function createSkillsPanel(body, actions) {
 		state = actions.snapshot();
 		if (state.message !== resetMessage) {
 			resetMessage = state.message;
-			status(resetMessage || "");
+			status(resetMessage || "", resetMessage?.endsWith("已重置") ? "success" : "error");
 		}
 		reset.update();
 		render();
@@ -365092,7 +365415,7 @@ function createEquipmentPanel(body, actions) {
 		];
 	}
 	function perform(slot, item, action) {
-		message(actions.act(slot.key, item.index, item.ID, action));
+		message(actions.act(slot.key, item.index, item.ID, action), "error");
 		update();
 	}
 	function chooseEquipment(slot) {
@@ -365301,7 +365624,7 @@ function createInventoryPanel(body, actions) {
 			use.disabled = Boolean(item.reason);
 			ops.append(use);
 		}
-		if (item.shortcut) ops.append(button("设置快捷槽", () => chooseBinding(item)));
+		if (item.shortcut) ops.append(button("设置快捷键", () => chooseBinding(item)));
 		if (!item.worn) ops.append(button("丢弃", () => chooseDrop(item)));
 		const reason = document.createElement("p");
 		reason.textContent = item.reason;
@@ -365359,9 +365682,9 @@ function createInventoryPanel(body, actions) {
 	function chooseBinding(item) {
 		binding = true;
 		const select = document.createElement("select");
-		select.setAttribute("aria-label", "槽位");
+		select.setAttribute("aria-label", "位置");
 		const page = actions.shortcuts();
-		for (let i = 0; i < page.total; i++) select.add(new Option(`槽位 ${i + 1} · ${actions.slotName(i)}`, String(i)));
+		for (let i = 0; i < page.total; i++) select.add(new Option(`位置 ${i + 1} · ${actions.slotName(i)}`, String(i)));
 		select.value = String(page.slots[0].index);
 		const content = document.createElement("div");
 		content.className = "shortcut-fields";
@@ -365369,9 +365692,9 @@ function createInventoryPanel(body, actions) {
 		field.className = "ui-confirm-field";
 		field.append(select);
 		content.append(field);
-		dismiss = confirmAction(body, `设置「${item.name}」的快捷槽？`, () => {
+		dismiss = confirmAction(body, `设置「${item.name}」的快捷键？`, () => {
 			const success = actions.bind(item.index, item.ID, Number(select.value));
-			status(success ? `已设置到槽位 ${Number(select.value) + 1}` : "设置失败，物品或角色状态已经变化");
+			status(success ? `已设置到位置 ${Number(select.value) + 1}` : "设置失败，物品或角色状态已经变化", success ? "success" : "error");
 			binding = false;
 			detailKey = "";
 			update();
@@ -365448,19 +365771,19 @@ var init_InventoryPanel = __esmMin((() => {
 function createShortcutPanel(body, actions) {
 	let index, selected, dismiss;
 	body.innerHTML = `
-		<div class="slot-picker" role="group" aria-label="选择快捷槽"></div>
+		<div class="shortcut-pages"><button type="button" data-page-step="-1" aria-label="上一组快捷键">‹</button><div class="slot-picker" role="group" aria-label="选择快捷键"></div><button type="button" data-page-step="1" aria-label="下一组快捷键">›</button></div>
 		<div class="shortcut-layout">
 			<section class="shortcut-browser"><div class="shortcut-choices"></div></section>
-			<section class="shortcut-editor" aria-label="编辑快捷槽">
+			<section class="shortcut-editor" aria-label="编辑快捷键">
 				<div class="shortcut-current"><strong data-slot-title></strong><span data-current></span></div>
-				<p data-choice-hint>从左侧选择技能或道具，再保存到当前槽位。</p>
+				<p data-choice-hint>从左侧选择技能或道具，再保存到当前位置。</p>
 				<form class="shortcut-config" hidden>
 					<div class="shortcut-selected"><img alt="" data-choice-icon><strong data-choice></strong></div>
 					<label class="shortcut-level">施放等级 <select aria-label="技能等级"></select></label>
 					<button type="submit" data-save-slot aria-live="polite"></button>
 					<button type="button" data-cancel-choice>取消选择</button>
 				</form>
-				<div class="shortcut-clear"><button type="button" data-clear-slot>清空当前槽位</button>
+				<div class="shortcut-clear"><button type="button" data-clear-slot>清空当前位置</button>
 				</div>
 
 			</section>
@@ -365470,23 +365793,44 @@ function createShortcutPanel(body, actions) {
 	const status = createFeedback(body);
 	function resetSaveFeedback() {
 		const button = $("[data-save-slot]");
-		button.textContent = `保存到槽位 ${index + 1}`;
+		button.textContent = `保存到位置 ${index + 1}`;
 		delete button.dataset.saveState;
 	}
 	form.oninput = () => {
 		resetSaveFeedback();
-		status("有未保存的修改");
 	};
 	const slots = () => actions.snapshot().slots.filter((entry) => !entry.unavailable);
 	function updateSlotLabels() {
-		for (const slot of slots()) {
+		const snapshot = actions.snapshot();
+		const visible = snapshot.slots.filter((entry) => !entry.unavailable);
+		const key = visible.map((slot) => slot.index).join(",");
+		if (picker.dataset.slots !== key) {
+			dismiss?.();
+			dismiss = null;
+			picker.replaceChildren();
+			for (const slot of visible) {
+				const button = document.createElement("button");
+				button.type = "button";
+				button.dataset.index = slot.index;
+				const title = document.createElement("strong");
+				title.textContent = `位置 ${slot.index + 1}`;
+				button.append(title, document.createElement("span"));
+				button.onclick = () => chooseSlot(slot.index);
+				picker.append(button);
+			}
+			picker.dataset.slots = key;
+			if (!visible.some((slot) => slot.index === index)) index = visible[0]?.index ?? 0;
+			cancelChoice();
+		}
+		for (const button of body.querySelectorAll("[data-page-step]")) button.disabled = snapshot.pages <= 1;
+		for (const slot of visible) {
 			const button = picker.querySelector(`[data-index="${slot.index}"]`);
 			if (button) {
-				button.querySelector("span").textContent = slot.name;
+				button.querySelector("span").textContent = `${slot.name}${slot.binding?.isSkill ? ` · Lv.${slot.binding.count}` : ""}`;
 				button.setAttribute("aria-pressed", String(slot.index === index));
 			}
 			if (slot.index === index) {
-				$("[data-slot-title]").textContent = `槽位 ${index + 1}`;
+				$("[data-slot-title]").textContent = `位置 ${index + 1}`;
 				$("[data-current]").textContent = `当前：${slot.name}${slot.amount ? ` · ${slot.amount}` : ""}`;
 				$("[data-clear-slot]").disabled = slot.empty;
 			}
@@ -365511,16 +365855,10 @@ function createShortcutPanel(body, actions) {
 		status("");
 		updateSlotLabels();
 	}
-	for (const slot of slots()) {
-		const button = document.createElement("button");
-		button.type = "button";
-		button.dataset.index = slot.index;
-		const title = document.createElement("strong"), name = document.createElement("span");
-		title.textContent = `槽位 ${slot.index + 1}`;
-		button.append(title, name);
-		button.onclick = () => chooseSlot(slot.index);
-		picker.append(button);
-	}
+	for (const button of body.querySelectorAll("[data-page-step]")) button.onclick = () => {
+		actions.turn(Number(button.dataset.pageStep));
+		chooseSlot(slots()[0]?.index ?? 0);
+	};
 	for (const entry of actions.candidates()) {
 		const button = document.createElement("button");
 		button.type = "button";
@@ -365558,8 +365896,8 @@ function createShortcutPanel(body, actions) {
 		event.preventDefault();
 		if (selected && actions.configure(index, selected, Number($("select").value))) {
 			updateSlotLabels();
-			status(`已保存到槽位 ${index + 1}`);
-		} else status("保存失败，技能或物品已变化，请重新选择。");
+			status(`已保存到位置 ${index + 1}`, "success");
+		} else status("保存失败，技能或物品已变化，请重新选择。", "error");
 	};
 	$("[data-cancel-choice]").onclick = () => {
 		cancelChoice();
@@ -365567,11 +365905,11 @@ function createShortcutPanel(body, actions) {
 	};
 	$("[data-clear-slot]").onclick = () => {
 		const slotIndex = index;
-		dismiss = confirmAction(body, `清空槽位 ${slotIndex + 1} 的「${slots().find((slot) => slot.index === slotIndex)?.name}」？`, () => {
+		dismiss = confirmAction(body, `清空位置 ${slotIndex + 1} 的「${slots().find((slot) => slot.index === slotIndex)?.name}」？`, () => {
 			if (actions.configure(slotIndex, null)) {
 				chooseSlot(slotIndex);
-				status(`槽位 ${slotIndex + 1} 已清空`);
-			} else status("清空失败，请重新选择槽位。");
+				status(`位置 ${slotIndex + 1} 已清空`, "success");
+			} else status("清空失败，请重新选择位置。", "error");
 		}, {});
 	};
 	chooseSlot(actions.index ?? slots()[0]?.index ?? 0);
@@ -365600,13 +365938,13 @@ var init_ShortcutPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/GameHUD.html?raw
 var GameHUD_default$2;
 var init_GameHUD$2 = __esmMin((() => {
-	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<!-- 聊天 UI 暂时隐藏，保留消息订阅与面板实现。 -->\r\n	<button hidden class=\"chat-preview surface\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>\r\n	</button>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷槽\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷槽\">›</button\r\n				><button data-panel=\"shortcuts\">配置槽位</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能槽位 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能槽位 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能槽位 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能槽位 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能槽位 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能槽位 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop\" hidden>\r\n		<section class=\"panel surface\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mobile-game-panel-title\">\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\"><button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button></div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
+	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<button class=\"chat-preview surface\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n		<span data-chat-preview>暂无消息</span><small>聊天 <b data-chat-unread hidden></b> ›</small>\r\n	</button>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop\" hidden>\r\n		<section class=\"panel surface\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mobile-game-panel-title\">\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.css?raw
 var GameHUD_default$1;
 var init_GameHUD$1 = __esmMin((() => {
-	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	min-height: 52px;\r\n	max-height: 80px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: pre-line;\r\n	overflow: hidden;\r\n	max-height: 44px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small {\r\n	display: block;\r\n	text-align: right;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	z-index: 10;\r\n	inset: 0;\r\n	background: #0003;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 12px;\r\n	line-height: 1.6;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n:host(.keyboard-open) .backdrop {\r\n	height: var(--mobile-visible-height);\r\n	overflow-y: auto;\r\n	align-items: start;\r\n}\r\n:host(.keyboard-open) .panel {\r\n	height: var(--mobile-panel-height, calc(var(--mobile-layout-height) - 24px));\r\n	max-height: none;\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n";
+	GameHUD_default$1 = ":host {\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	height: 64px;\r\n	min-height: 64px;\r\n	max-height: 64px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	white-space: normal;\r\n	overflow: hidden;\r\n	height: 48px;\r\n	line-height: 16px;\r\n	max-height: 48px;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview-line {\r\n	display: block;\r\n	height: 16px;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n.chat-preview-line:nth-child(3) { padding-right: 48px; }\r\n.chat-preview:has([data-chat-unread]:not([hidden])) .chat-preview-line:nth-child(3) { padding-right: min(76px, 100%); }\r\n.chat-preview small {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 7px;\r\n	display: block;\r\n	text-align: right;\r\n	line-height: 16px;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	z-index: 10;\r\n	inset: 0;\r\n	background: #0003;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 12px;\r\n	line-height: 1.6;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n:host(.keyboard-open) .backdrop {\r\n	height: var(--mobile-visible-height);\r\n	overflow-y: auto;\r\n	align-items: start;\r\n}\r\n:host(.keyboard-open) .panel {\r\n	height: var(--mobile-panel-height, calc(var(--mobile-layout-height) - 24px));\r\n	max-height: none;\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUDResponsive.css?raw
@@ -365618,7 +365956,7 @@ var init_GameHUDResponsive = __esmMin((() => {
 //#region src/UI/Mobile/game/MenuPanels.css?raw
 var MenuPanels_default;
 var init_MenuPanels = __esmMin((() => {
-	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	--panel-gap: 8px;\r\n	--panel-control: 34px;\r\n	--panel-label: 12px;\r\n	--panel-heading: 13px;\r\n	width: min(600px, 100%);\r\n	background: #191f26;\r\n}\r\n.panel.inventory-panel,\r\n.panel.equipment-panel,\r\n.panel.auto-config-panel,\r\n.panel.shortcut-panel,\r\n.panel.settings-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	.panel {\r\n		--panel-gap: 16px;\r\n		--panel-control: 44px;\r\n		--panel-label: 14px;\r\n		--panel-heading: 16px;\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		min-height: 52px;\r\n		padding: 12px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {\r\n		width: 40px;\r\n		height: 40px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 80px;\r\n	}\r\n	.panel .inventory-tabs,\r\n	.panel .equipment-tabs {\r\n		gap: 10px;\r\n	}\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.panel:is(\r\n		[data-view='menu'],\r\n		[data-view='bank'],\r\n		[data-view='pet'],\r\n		[data-view='companions']\r\n	) {\r\n		width: min(420px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(400px, 100%);\r\n	}\r\n	.panel.settings-panel {\r\n		width: min(600px, 100%);\r\n	}\r\n	.panel {\r\n		--panel-gap: 6px;\r\n		--panel-control: 30px;\r\n		--panel-label: 11px;\r\n		--panel-heading: 12px;\r\n		font-size: 11px;\r\n	}\r\n	.panel button {\r\n		min-height: 30px;\r\n		padding: 3px 7px;\r\n		font-size: 11px;\r\n	}\r\n	.panel header {\r\n		padding: 4px 10px;\r\n	}\r\n	.panel-body {\r\n		padding: 8px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) {\r\n		flex-wrap: nowrap;\r\n		gap: 4px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n		padding: 3px 5px;\r\n	}\r\n	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n		gap: 4px;\r\n	}\r\n	.panel .inventory-actions {\r\n		gap: 4px;\r\n		margin-top: 6px;\r\n	}\r\n	.panel .inventory-actions button {\r\n		flex: 0 1 auto;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label {\r\n		flex-direction: row;\r\n		flex-wrap: wrap;\r\n		align-items: center;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n		flex: 1 1 120px;\r\n		width: 0;\r\n	}\r\n	.panel .social-form label > input[type='checkbox'] {\r\n		flex: 0 0 18px;\r\n		width: 18px;\r\n	}\r\n	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n		padding: 3px 6px;\r\n		line-height: 1.25;\r\n	}\r\n	.panel-body textarea {\r\n		min-height: 60px;\r\n	}\r\n	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n	.panel .character-details :is(dt, dd) {\r\n		padding: 6px 0;\r\n	}\r\n	.panel .settings-form {\r\n		gap: 4px;\r\n	}\r\n	.panel .settings-section {\r\n		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n		gap: 0 12px;\r\n		padding: 2px 10px;\r\n	}\r\n	.panel .settings-field {\r\n		min-height: 38px;\r\n		gap: 6px;\r\n		padding: 3px 0;\r\n	}\r\n	.panel .settings-footer {\r\n		padding-top: 6px;\r\n	}\r\n	.panel .settings-footer p {\r\n		margin: 4px 0 0;\r\n	}\r\n	.panel .settings-actions {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-range-stepper button {\r\n		padding: 0;\r\n		font-size: 18px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		padding: 3px 6px;\r\n		line-height: 1.3;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 52px;\r\n		padding: 6px;\r\n	}\r\n	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n		font-size: 11px;\r\n	}\r\n	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {\r\n		min-height: 30px;\r\n		padding: 3px 6px;\r\n	}\r\n	.panel .settings-form .settings-field input[type='range'] {\r\n		padding: 0;\r\n	}\r\n	.panel .shortcut-choices {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-auto-rows: minmax(44px, max-content);\r\n		gap: 6px;\r\n	}\r\n	.panel .shortcut-choice {\r\n		min-height: 44px;\r\n		padding: 6px 8px;\r\n		gap: 8px;\r\n	}\r\n	.panel .shortcut-choice span {\r\n		min-width: 0;\r\n		font-size: 12px;\r\n	}\r\n	.panel .shortcut-choice img {\r\n		position: static;\r\n		flex: 0 0 28px;\r\n		width: 28px;\r\n		height: 28px;\r\n		object-fit: contain;\r\n	}\r\n	.panel .shortcut-editor .shortcut-current {\r\n		display: none;\r\n	}\r\n	.panel .shortcut-config {\r\n		margin-top: 0;\r\n	}\r\n	.panel .shortcut-selected img {\r\n		display: none;\r\n	}\r\n	.panel .auto-skill-list {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-skill-card {\r\n		min-height: 32px;\r\n		padding: 4px 6px;\r\n		gap: 5px;\r\n	}\r\n	.panel .auto-skill-card .auto-species-check {\r\n		width: 16px;\r\n		height: 16px;\r\n	}\r\n	.panel .auto-skill-card span {\r\n		gap: 2px 4px;\r\n	}\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.attribute-changed {\r\n	color: #a2e4b5;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.settings-section.camera-section {\r\n	display: block;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.attribute-allocation {\r\n		gap: 3px;\r\n	}\r\n	.attribute-row {\r\n		padding-bottom: 0;\r\n	}\r\n	.attribute-results dl {\r\n		gap: 4px 8px;\r\n		line-height: 1.3;\r\n	}\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	padding: 3px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: auto;\r\n	min-height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n.panel[data-view='bank'] .bank-form {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form dl {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form > label {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel[data-view='bank'] .bank-form > label > input {\r\n	width: min(240px, 75%);\r\n	flex: none;\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n\r\n/* Keep category controls and section edges clear in every viewport. */\r\n.panel .settings-form {\r\n	position: relative;\r\n	gap: 12px;\r\n}\r\n.panel .settings-section {\r\n	padding: 10px 12px;\r\n}\r\n.panel .settings-footer {\r\n	padding-block: 8px;\r\n}\r\n\r\n/* Converted native selects need their own width, independent of hidden inputs. */\r\n.panel .settings-field > .menu-select {\r\n	width: 100px;\r\n	min-width: 100px;\r\n}\r\n\r\n.camera-reset {\r\n	width: 100%;\r\n	margin-bottom: 12px;\r\n}\r\n.camera-group {\r\n	min-width: 0;\r\n	margin: 0 0 12px;\r\n}\r\n.camera-group:last-child {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.panel .settings-switch-start {\r\n	grid-column: 1;\r\n}\r\n\r\n.panel .inventory-item-detail {\r\n display: flex;\r\n flex-direction: column;\r\n overflow: hidden;\r\n min-height: 0;\r\n}\r\n.inventory-item-description {\r\n flex: 1;\r\n min-height: 0;\r\n overflow-y: auto;\r\n overscroll-behavior: contain;\r\n}\r\n.panel .inventory-item-detail > .inventory-actions {\r\n flex-shrink: 0;\r\n padding-top: 10px;\r\n border-top: 1px solid #465461;\r\n}\r\n\r\n.panel[data-view='status'] .status-title { flex: 1; min-width: 0; }\r\n.panel[data-view='status'] .status-duration { flex: none; color: #bac4cd; font-variant-numeric: tabular-nums; white-space: nowrap; }\r\n\r\n.panel-navigation { display: flex; gap: 8px; align-items: center; }\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) { flex-direction: column; align-items: stretch; }\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) { flex: none; width: 100%; }\r\n.skills-browser { display: flex; flex-direction: column; min-height: 0; min-width: 0; gap: 8px; padding: var(--panel-gap); border: 1px solid #52606d; border-radius: 10px; background: #19212a; }\r\n.skills-footer { display: flex; align-items: center; gap: 8px; flex: none; padding: 10px 2px 4px; border-top: 1px solid #465461; }\r\n.skills-footer > strong { min-width: 0; color: #ceaa70; font-size: var(--panel-label); overflow-wrap: anywhere; }\r\n.skills-reset { flex: none; }\r\n.panel .skills-reset > button { width: auto; padding: 3px 6px; font-size: 11px; white-space: nowrap; }\r\n.skills-browser > .inventory-list { flex: 1; min-height: 0; }\r\n.container-toolbar .container-capacity { font-size: var(--panel-label); color: #bac4cd; }\r\n\r\n.panel .skills-browser > .inventory-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: min-content; align-content: start; gap: 6px; }\r\n.panel .skills-browser .inventory-item { padding: 5px; gap: 5px; }\r\n.panel .skills-browser .inventory-item img { width: 24px; height: 24px; flex-shrink: 0; }\r\n\r\n@media (max-width: 520px) {\r\n .panel .skills-browser .inventory-item { flex-direction: column; align-items: flex-start; }\r\n}\r\n";
+	MenuPanels_default = "/* Shared dialog styling; HUD sizes remain independent. */\r\n.panel {\r\n	--panel-gap: 8px;\r\n	--panel-control: 34px;\r\n	--panel-label: 12px;\r\n	--panel-heading: 13px;\r\n	width: min(600px, 100%);\r\n	background: #191f26;\r\n}\r\n.panel.inventory-panel,\r\n.panel.equipment-panel,\r\n.panel.auto-config-panel,\r\n.panel.shortcut-panel,\r\n.panel.settings-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.panel-body {\r\n	min-height: 0;\r\n}\r\n.panel :is(.inventory-body, .equipment-body, .shortcut-body, .auto-config-body) {\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-layout, .equipment-layout, .shortcut-layout) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n}\r\n.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n	gap: 8px;\r\n	padding: 2px;\r\n	scroll-padding: 8px;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail, .shortcut-editor) {\r\n	min-width: 0;\r\n	padding: var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-detail, .equipment-detail) > :first-child {\r\n	margin-top: 0;\r\n}\r\n.panel :is(h3, .inventory-detail h3, .equipment-detail h3) {\r\n	font-size: var(--panel-heading);\r\n	color: #f6d9a5;\r\n	line-height: 1.5;\r\n}\r\n.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n	min-width: 0;\r\n	min-height: var(--panel-control);\r\n	padding: 5px 8px;\r\n	border-color: #52606d;\r\n	background: #24313d;\r\n	line-height: 1.5;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is(.inventory-item, .equipment-slot, .equipment-candidate, .shortcut-choice)[aria-pressed='true'],\r\n.panel :is(.inventory-tabs, .equipment-tabs) [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.panel :is(.equipment-slot strong, .equipment-slot span, .shortcut-choice span) {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs, .container-toolbar, .skills-toolbar) {\r\n	gap: 8px;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	flex-shrink: 0;\r\n}\r\n.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n	flex: 1 1 80px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > :is(input, select) {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n.panel .skills-toolbar > input {\r\n	flex-basis: 180px;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar) > button {\r\n	flex-shrink: 0;\r\n}\r\n.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	min-height: var(--panel-control);\r\n	padding: 7px 9px;\r\n	border: 1px solid #657584;\r\n	border-radius: 7px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 12px;\r\n	color-scheme: dark;\r\n}\r\n.panel-body :is(input[type='checkbox'], input[type='radio']) {\r\n	flex: 0 0 auto;\r\n	min-height: 0;\r\n	width: 18px;\r\n	height: 18px;\r\n	accent-color: #ceaa70;\r\n}\r\n.panel-body textarea {\r\n	min-height: 88px;\r\n	resize: vertical;\r\n}\r\n.panel-body :is(input, select, textarea):focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.panel :is(.social-form, .bank-form) {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: var(--panel-gap);\r\n	margin: var(--panel-gap) 0;\r\n}\r\n.panel :is(.social-form, .bank-form) > label {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: stretch;\r\n	gap: 6px;\r\n	color: #bac4cd;\r\n}\r\n.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n	flex: none;\r\n	width: 100%;\r\n}\r\n.panel .social-form label:has(input[type='checkbox']) {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel .social-form label > input[type='checkbox'] {\r\n	width: 18px;\r\n}\r\n.panel .inventory-actions {\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.panel .inventory-actions button {\r\n	flex: 1 1 100px;\r\n}\r\n.panel-body :is(.inventory-status, .equipment-message, [data-skill-status], [data-config-status]) {\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n	line-height: 1.5;\r\n}\r\n.panel-body > [role='status'] {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: var(--panel-label);\r\n	color: #ceaa70;\r\n}\r\n.panel-body > [role='status']:not(:empty) {\r\n	padding-top: 10px;\r\n	border-top: 1px solid #52606d;\r\n}\r\n.panel[data-view='pet'] .panel-body > *,\r\n.panel[data-view='companions'] .panel-body > * {\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) {\r\n	padding: 4px var(--panel-gap);\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n	gap: 0 12px;\r\n}\r\n.panel :is([data-info], .bank-form dl) {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd) {\r\n	padding: 10px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dt {\r\n	color: #bac4cd;\r\n}\r\n.panel :is([data-info], .bank-form dl, .equipment-stats) dd {\r\n	font-variant-numeric: tabular-nums;\r\n	font-weight: 600;\r\n}\r\n.panel [data-path] {\r\n	padding-left: 24px;\r\n	line-height: 1.8;\r\n}\r\n.panel[data-view='vending'] :is([data-fields], [data-selected], [data-order]) {\r\n	display: grid;\r\n	gap: 10px;\r\n	margin-bottom: var(--panel-gap);\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: grid;\r\n	gap: 6px;\r\n}\r\n.panel .auto-range-settings {\r\n	background: #19212a;\r\n}\r\n.panel .auto-range-stepper {\r\n	flex-shrink: 0;\r\n}\r\n.panel .auto-range-stepper button {\r\n	display: grid;\r\n	place-items: center;\r\n	flex: 0 0 var(--panel-control);\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	padding: 0;\r\n	font-size: 20px;\r\n	line-height: 1;\r\n	text-align: center;\r\n}\r\n.panel [data-save-slot][data-save-state='saved'] {\r\n	background: #284b3c;\r\n	border-color: #83bb9a;\r\n	color: #d2f4df;\r\n}\r\n.panel [data-save-slot][data-save-state='error'] {\r\n	background: #593331;\r\n	border-color: #da9990;\r\n	color: #ffe0db;\r\n}\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	.panel {\r\n		--panel-gap: 16px;\r\n		--panel-control: 44px;\r\n		--panel-label: 14px;\r\n		--panel-heading: 16px;\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		min-height: 52px;\r\n		padding: 12px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {\r\n		width: 40px;\r\n		height: 40px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 80px;\r\n	}\r\n	.panel .inventory-tabs,\r\n	.panel .equipment-tabs {\r\n		gap: 10px;\r\n	}\r\n}\r\n\r\n/* Compact controls for phone landscape and narrow tablet windows. */\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.panel:is(\r\n		[data-view='menu'],\r\n		[data-view='bank'],\r\n		[data-view='pet'],\r\n		[data-view='companions']\r\n	) {\r\n		width: min(420px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(400px, 100%);\r\n	}\r\n	.panel.settings-panel {\r\n		width: min(600px, 100%);\r\n	}\r\n	.panel {\r\n		--panel-gap: 6px;\r\n		--panel-control: 30px;\r\n		--panel-label: 11px;\r\n		--panel-heading: 12px;\r\n		font-size: 11px;\r\n	}\r\n	.panel button {\r\n		min-height: 30px;\r\n		padding: 3px 7px;\r\n		font-size: 11px;\r\n	}\r\n	.panel header {\r\n		padding: 4px 10px;\r\n	}\r\n	.panel-body {\r\n		padding: 8px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) {\r\n		flex-wrap: nowrap;\r\n		gap: 4px;\r\n	}\r\n	.panel :is(.inventory-tabs, .equipment-tabs) button {\r\n		flex: 1 1 0;\r\n		min-width: 0;\r\n		padding: 3px 5px;\r\n	}\r\n	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {\r\n		gap: 4px;\r\n	}\r\n	.panel .inventory-actions {\r\n		gap: 4px;\r\n		margin-top: 6px;\r\n	}\r\n	.panel .inventory-actions button {\r\n		flex: 0 1 auto;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label {\r\n		flex-direction: row;\r\n		flex-wrap: wrap;\r\n		align-items: center;\r\n	}\r\n	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {\r\n		flex: 1 1 120px;\r\n		width: 0;\r\n	}\r\n	.panel .social-form label > input[type='checkbox'] {\r\n		flex: 0 0 18px;\r\n		width: 18px;\r\n	}\r\n	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {\r\n		padding: 3px 6px;\r\n		line-height: 1.25;\r\n	}\r\n	.panel-body textarea {\r\n		min-height: 60px;\r\n	}\r\n	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),\r\n	.panel .character-details :is(dt, dd) {\r\n		padding: 6px 0;\r\n	}\r\n	.panel .settings-form {\r\n		gap: 4px;\r\n	}\r\n	.panel .settings-section {\r\n		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));\r\n		gap: 0 12px;\r\n		padding: 2px 10px;\r\n	}\r\n	.panel .settings-field {\r\n		min-height: 38px;\r\n		gap: 6px;\r\n		padding: 3px 0;\r\n	}\r\n	.panel .settings-footer {\r\n		padding-top: 6px;\r\n	}\r\n	.panel .settings-footer p {\r\n		margin: 4px 0 0;\r\n	}\r\n	.panel .settings-actions {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-range-stepper button {\r\n		padding: 0;\r\n		font-size: 18px;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {\r\n		padding: 3px 6px;\r\n		line-height: 1.3;\r\n	}\r\n	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.panel .equipment-slot {\r\n		min-height: 52px;\r\n		padding: 6px;\r\n	}\r\n	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {\r\n		font-size: 11px;\r\n	}\r\n	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {\r\n		min-height: 30px;\r\n		padding: 3px 6px;\r\n	}\r\n	.panel .settings-form .settings-field input[type='range'] {\r\n		padding: 0;\r\n	}\r\n	.panel .shortcut-choices {\r\n		grid-template-columns: minmax(0, 1fr);\r\n		grid-auto-rows: minmax(44px, max-content);\r\n		gap: 6px;\r\n	}\r\n	.panel .shortcut-choice {\r\n		min-height: 44px;\r\n		padding: 6px 8px;\r\n		gap: 8px;\r\n	}\r\n	.panel .shortcut-choice span {\r\n		min-width: 0;\r\n		font-size: 12px;\r\n	}\r\n	.panel .shortcut-choice img {\r\n		position: static;\r\n		flex: 0 0 28px;\r\n		width: 28px;\r\n		height: 28px;\r\n		object-fit: contain;\r\n	}\r\n	.panel .shortcut-editor .shortcut-current {\r\n		display: none;\r\n	}\r\n	.panel .shortcut-config {\r\n		margin-top: 0;\r\n	}\r\n	.panel .shortcut-selected img {\r\n		display: none;\r\n	}\r\n	.panel .auto-skill-list {\r\n		gap: 4px;\r\n	}\r\n	.panel .auto-skill-card {\r\n		min-height: 32px;\r\n		padding: 4px 6px;\r\n		gap: 5px;\r\n	}\r\n	.panel .auto-skill-card .auto-species-check {\r\n		width: 16px;\r\n		height: 16px;\r\n	}\r\n	.panel .auto-skill-card span {\r\n		gap: 2px 4px;\r\n	}\r\n}\r\n\r\n/* Point allocation and reset controls share the mobile dialog scale. */\r\n.attribute-toolbar,\r\n.attribute-tabs,\r\n.attribute-footer {\r\n	display: flex;\r\n	gap: var(--panel-gap);\r\n	align-items: center;\r\n	flex-wrap: wrap;\r\n	flex-shrink: 0;\r\n}\r\n.attribute-toolbar {\r\n	justify-content: space-between;\r\n}\r\n.attribute-tabs [aria-pressed='true'] {\r\n	color: #ffe1ae;\r\n	border-color: #ceaa70;\r\n	background: #57452c;\r\n}\r\n.attribute-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);\r\n	gap: var(--panel-gap);\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.attribute-allocation,\r\n.attribute-results {\r\n	min-width: 0;\r\n	overflow-y: auto;\r\n}\r\n.attribute-allocation {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.attribute-row {\r\n	display: grid;\r\n	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;\r\n	grid-template-rows: minmax(var(--panel-control), auto);\r\n	gap: 6px;\r\n	align-items: center;\r\n	border-bottom: 1px solid #465461;\r\n	padding-bottom: 4px;\r\n}\r\n.attribute-row strong {\r\n	font-size: var(--panel-label);\r\n}\r\n.attribute-row small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n	text-align: right;\r\n}\r\n.panel .attribute-row button {\r\n	justify-self: center;\r\n	width: 32px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	min-width: 0;\r\n	padding: 2px 4px;\r\n	font-size: 11px;\r\n	line-height: 1;\r\n}\r\n.attribute-value {\r\n	font-variant-numeric: tabular-nums;\r\n	white-space: nowrap;\r\n}\r\n.attribute-results {\r\n	padding: 0 8px;\r\n	border-left: 1px solid #52606d;\r\n}\r\n.attribute-results dl {\r\n	display: grid;\r\n	grid-template-columns: auto minmax(0, 1fr);\r\n	gap: 6px 8px;\r\n	margin: 0;\r\n}\r\n.attribute-results dt {\r\n	color: #bac4cd;\r\n}\r\n.attribute-results dd {\r\n	margin: 0;\r\n	text-align: right;\r\n	overflow-wrap: anywhere;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n[data-attribute-status],\r\n[data-skill-status] {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n}\r\n[data-attribute-status]:empty,\r\n[data-skill-status]:empty {\r\n	display: none;\r\n}\r\n.point-reset-button {\r\n	color: #ffcab6;\r\n}\r\n.point-reset-confirm p {\r\n	flex: 1 1 180px;\r\n	margin: 0;\r\n}\r\n.settings-section.camera-section {\r\n	display: block;\r\n}\r\n.camera-controls {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 12px;\r\n}\r\n\r\n.attribute-footer [data-attribute-status] {\r\n	flex: 1;\r\n	order: 1;\r\n}\r\n@media (max-width: 767px), (max-height: 559px) {\r\n	.attribute-allocation {\r\n		gap: 3px;\r\n	}\r\n	.attribute-row {\r\n		padding-bottom: 0;\r\n	}\r\n	.attribute-results dl {\r\n		gap: 4px 8px;\r\n		line-height: 1.3;\r\n	}\r\n}\r\n\r\n.panel .auto-species-card,\r\n.panel .auto-skill-card,\r\n.panel .auto-range-stepper button {\r\n	background: #18212b;\r\n}\r\n.panel .auto-species-card[aria-pressed='true'],\r\n.panel .auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n}\r\n\r\n/* Compact forms and the shared catalog dropdown for every mobile menu. */\r\n.panel-body input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']) {\r\n	height: 28px;\r\n	min-height: 28px;\r\n	font-size: 12px;\r\n	padding: 3px 6px;\r\n	box-sizing: border-box;\r\n}\r\n.panel-body textarea {\r\n	min-height: 60px;\r\n	padding: 5px 6px;\r\n}\r\n.panel .menu-select {\r\n	min-width: 0;\r\n	height: auto;\r\n	min-height: 28px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel :is(.skills-toolbar, .container-toolbar, .chat-form) > .menu-select {\r\n	flex: 1 1 120px;\r\n}\r\n.panel .social-form > label > .menu-select {\r\n	width: 100%;\r\n	flex: none;\r\n}\r\n.panel .menu-select .game-select-menu {\r\n	position: fixed;\r\n	right: auto;\r\n	bottom: auto;\r\n}\r\n.panel .menu-select .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n.panel :is([data-review], [data-evolution]):empty {\r\n	display: none;\r\n}\r\n.panel[data-view='bank'] .bank-form {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form dl {\r\n	margin: 0;\r\n}\r\n.panel[data-view='bank'] .bank-form > label {\r\n	flex-direction: row;\r\n	align-items: center;\r\n}\r\n.panel[data-view='bank'] .bank-form > label > input {\r\n	width: min(240px, 75%);\r\n	flex: none;\r\n}\r\n.panel[data-view='vending'] label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	gap: 6px;\r\n	margin: 6px 0;\r\n}\r\n.panel[data-view='vending'] label > input {\r\n	flex: 1 1 120px;\r\n	width: 0;\r\n}\r\n\r\n.panel[data-view='inventory'] .inventory-toolbar {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 6px;\r\n	flex: 0 0 auto;\r\n}\r\n.panel[data-view='inventory'] .inventory-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	grid-auto-rows: min-content;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item {\r\n	min-width: 0;\r\n	padding: 5px;\r\n	gap: 5px;\r\n}\r\n.panel[data-view='inventory'] .inventory-item img {\r\n	flex-shrink: 0;\r\n}\r\n.panel[data-view='inventory'] .inventory-list > p {\r\n	grid-column: 1 / -1;\r\n}\r\n\r\n/* Clamp list names only; quantities, status and full detail text stay separate. */\r\n.panel .list-item-text {\r\n	display: block;\r\n	min-width: 0;\r\n	flex: 1;\r\n}\r\n.panel .list-item-name,\r\n.panel .equipment-slot > span,\r\n.panel .equipment-candidate > span {\r\n	display: -webkit-box;\r\n	-webkit-box-orient: vertical;\r\n	-webkit-line-clamp: var(--list-name-lines, 2);\r\n	overflow: hidden;\r\n	overflow-wrap: anywhere;\r\n	white-space: normal;\r\n	line-height: 1.4;\r\n	max-height: calc(var(--list-name-lines, 2) * 1.4em);\r\n	min-width: 0;\r\n}\r\n.panel .list-item-meta {\r\n	display: block;\r\n	margin-top: 2px;\r\n	font-size: 11px;\r\n	line-height: 1.4;\r\n	color: #bac4cd;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel .list-item-meta[hidden] {\r\n	display: none;\r\n}\r\n\r\n/* Compact selectors leave room for their icon and secondary information. */\r\n.panel[data-view='skills'] .list-item-name,\r\n.panel[data-view='social'] .list-item-name,\r\n.panel .shortcut-choice .list-item-name,\r\n.panel .equipment-slot > span {\r\n	--list-name-lines: 1;\r\n}\r\n\r\n/* A row with secondary information has one name line and one metadata line. */\r\n.panel .list-item-text:has(.list-item-meta:not([hidden])) .list-item-name {\r\n	--list-name-lines: 1;\r\n}\r\n.panel .list-item-meta {\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n\r\n/* Keep category controls and section edges clear in every viewport. */\r\n.panel .settings-form {\r\n	position: relative;\r\n	gap: 12px;\r\n}\r\n.panel .settings-section {\r\n	padding: 10px 12px;\r\n}\r\n.panel .settings-footer {\r\n	padding-block: 8px;\r\n}\r\n\r\n/* Converted native selects need their own width, independent of hidden inputs. */\r\n.panel .settings-field > .menu-select {\r\n	width: 100px;\r\n	min-width: 100px;\r\n}\r\n\r\n.camera-reset {\r\n	width: 100%;\r\n	margin-bottom: 12px;\r\n}\r\n.camera-group {\r\n	min-width: 0;\r\n	margin: 0 0 12px;\r\n}\r\n.camera-group:last-child {\r\n	margin-bottom: 0;\r\n}\r\n\r\n.panel .settings-switch-start {\r\n	grid-column: 1;\r\n}\r\n\r\n.panel .inventory-item-detail {\r\n display: flex;\r\n flex-direction: column;\r\n overflow: hidden;\r\n min-height: 0;\r\n}\r\n.inventory-item-description {\r\n flex: 1;\r\n min-height: 0;\r\n overflow-y: auto;\r\n overscroll-behavior: contain;\r\n}\r\n.panel .inventory-item-detail > .inventory-actions {\r\n flex-shrink: 0;\r\n padding-top: 10px;\r\n border-top: 1px solid #465461;\r\n}\r\n\r\n.panel[data-view='status'] .status-title { flex: 1; min-width: 0; }\r\n.panel[data-view='status'] .status-duration { flex: none; color: #bac4cd; font-variant-numeric: tabular-nums; white-space: nowrap; }\r\n\r\n.panel-navigation { display: flex; gap: 8px; align-items: center; }\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) { flex-direction: column; align-items: stretch; }\r\n.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) { flex: none; width: 100%; }\r\n.skills-browser { display: flex; flex-direction: column; min-height: 0; min-width: 0; gap: 8px; padding: var(--panel-gap); border: 1px solid #52606d; border-radius: 10px; background: #19212a; }\r\n.skills-footer { display: flex; align-items: center; gap: 8px; flex: none; padding: 10px 2px 4px; border-top: 1px solid #465461; }\r\n.skills-footer > strong { min-width: 0; color: #ceaa70; font-size: var(--panel-label); overflow-wrap: anywhere; }\r\n.skills-reset { flex: none; }\r\n.panel .skills-reset > button { width: auto; padding: 3px 6px; font-size: 11px; white-space: nowrap; }\r\n.skills-browser > .inventory-list { flex: 1; min-height: 0; }\r\n.container-toolbar .container-capacity { font-size: var(--panel-label); color: #bac4cd; }\r\n\r\n.panel .skills-browser > .inventory-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: min-content; align-content: start; gap: 6px; }\r\n.panel .skills-browser .inventory-item { padding: 5px; gap: 5px; }\r\n.panel .skills-browser .inventory-item img { width: 24px; height: 24px; flex-shrink: 0; }\r\n\r\n@media (max-width: 520px) {\r\n .panel .skills-browser .inventory-item { flex-direction: column; align-items: flex-start; }\r\n}\r\n\r\n.attribute-editor { min-width: 0; min-height: 0; overflow: auto; }\r\n.attribute-editor .attribute-allocation {\r\n display: grid; grid-template-columns: max-content minmax(100px, 1fr) max-content repeat(3, 32px);\r\n grid-auto-rows: min-content; align-content: start; column-gap: 6px; row-gap: 0; min-width: max-content;\r\n overflow: visible;\r\n}\r\n.panel .attribute-row {\r\n grid-column: 1 / -1; grid-template-columns: subgrid; min-height: 34px; gap: 6px; padding: 4px 0 3px;\r\n}\r\n.attribute-row > :is(strong, .attribute-value, small) { white-space: nowrap; }\r\n.attribute-row .attribute-value { text-align: right; }\r\n.attribute-increments { display: grid; grid-template-columns: subgrid; grid-column: span 3; }\r\n.panel .attribute-increments button { display: flex; align-items: center; justify-content: center; text-align: center; width: 32px; min-width: 32px; padding: 2px 0; }\r\n.attribute-layout > .attribute-results { min-height: 0; overflow: auto; }\r\n.attribute-results > dl { align-content: start; row-gap: 0; }\r\n.attribute-results > dl > :is(dt, dd) { min-height: 22px; box-sizing: border-box; padding: 1px 0; line-height: 1.3; display: flex; align-items: center; }\r\n.attribute-results > dl > dd { justify-content: flex-end; }\r\n.attribute-footer { justify-content: space-between; padding-top: 6px; border-top: 1px solid #465461; }\r\n.attribute-footer > strong { font-size: var(--panel-label); color: #ceaa70; }\r\n.attribute-plan-actions { display: flex; justify-content: flex-end; gap: 6px; margin-left: auto; }\r\n.panel .attribute-plan-actions button { width: auto; min-height: 28px; padding: 3px 8px; font-size: 12px; white-space: nowrap; }\r\n@media (max-width: 520px) {\r\n .attribute-editor .attribute-allocation, .panel .attribute-row { column-gap: 4px; }\r\n .attribute-footer { gap: 6px; }\r\n}\r\n\r\n@media (max-height: 450px) {\r\n .attribute-results > dl > :is(dt, dd) { min-height: 18px; padding: 0; font-size: 11px; }\r\n}\r\n\r\n.shortcut-pages { display: flex; align-items: stretch; gap: 6px; flex-shrink: 0; min-width: 0; }\r\n.shortcut-pages > .slot-picker { flex: 1; min-width: 0; }\r\n.panel .shortcut-pages > button { flex: 0 0 24px; width: 24px; min-width: 24px; padding: 0; font-size: 22px; display: flex; align-items: center; justify-content: center; }\r\n\r\n/* Share the footer row height without changing the original controls. */\r\n.panel .skills-layout { grid-template-rows: minmax(0, 1fr) auto; }\r\n.panel .skills-layout > section {\r\n display: grid; grid-row: 1 / span 2; grid-template-rows: subgrid; row-gap: 8px;\r\n}\r\n.panel .skills-layout :is(.skills-footer, .inventory-actions) {\r\n margin-top: 0; padding-top: 4px; padding-bottom: 0;\r\n}\r\n.panel .skills-layout :is(.skills-reset > button, .inventory-actions > button) {\r\n min-height: 28px; padding-top: 3px; padding-bottom: 3px;\r\n}\r\n\r\n/* Chat stays near its HUD preview and shrinks above the software keyboard. */\r\n.chat-preview { left: max(12px, env(safe-area-inset-left)); right: auto; width: min(300px, calc(100% - 224px)); min-width: 96px; }\r\n[data-chat-unread] { display: inline-block; border-radius: 8px; padding: 0 5px; background: #954b42; color: white; }\r\n.backdrop.chat-backdrop { place-items: end start; background: transparent; }\r\n.panel.chat-panel { width: min(480px, 100%); height: min(360px, 100%); background: #191f26f5; }\r\n.chat-body { gap: 8px; padding: 10px; }\r\n.chat-body .skills-toolbar { margin: 0; }\r\n.chat-body .chat-log { border: 1px solid #465461; border-radius: 8px; padding: 6px 8px; overscroll-behavior: contain; }\r\n.chat-log p { margin: 0 0 6px; overflow-wrap: anywhere; }\r\n.chat-log [data-channel='private'] { color: #e5b6e9; }\r\n.chat-log [data-channel='party'] { color: #a6d7ed; }\r\n.chat-log [data-channel='guild'] { color: #acd7a0; }\r\n.chat-log [data-channel='system'] { color: #b4bdc7; }\r\n.panel .chat-form { display: grid; grid-template-columns: 78px minmax(0, 1fr) 32px 48px; gap: 6px; margin: 0; }\r\n.panel .chat-form > [aria-label='私聊对象'] { grid-column: 1 / -1; grid-row: 1; width: 100%; }\r\n.panel .chat-form > :is(input, button, select, .menu-select) { min-width: 0; width: 100%; }\r\n.panel .chat-form > input { padding: 5px 7px; font-size: 16px; }\r\n.panel .chat-form > button { padding: 3px; }\r\n.panel .chat-form > [data-emotions] { font-size: 22px; }\r\n.chat-emotions { display: grid; grid-template-columns: repeat(auto-fill, minmax(36px, 1fr)); gap: 5px; max-height: 100px; overflow-y: auto; flex: none; }\r\n.panel .chat-emotions button { padding: 3px; font-size: 21px; }\r\n:host(.keyboard-open) .backdrop.chat-backdrop { height: var(--mobile-visible-height); overflow: hidden; place-items: end start; }\r\n:host(.keyboard-open) .panel.chat-panel { height: min(360px, 100%); min-height: 0; max-height: 100%; }\r\n@media (max-width: 600px) {\r\n .backdrop.chat-backdrop { padding: 6px; }\r\n .panel.chat-panel { width: 100%; }\r\n .chat-preview { width: min(200px, calc(100% - 224px)); bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px)); }\r\n}\r\n\r\n.panel .chat-form > :is(input, button), .panel .chat-form .menu-select > button {\r\n height: 32px; min-height: 32px;\r\n}\r\n\r\n/* Override compact generic inputs so iOS cannot zoom the chat composer. */\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label],\r\n.panel.chat-panel .chat-form > button,\r\n.panel.chat-panel .chat-form .game-select-trigger {\r\n box-sizing: border-box; height: 32px; min-height: 32px; max-height: 32px;\r\n}\r\n.panel.chat-panel .panel-body .chat-form > input[aria-label] { font-size: 16px; padding: 3px 6px; }\r\n.panel.chat-panel .chat-form > [data-emotions] { font-size: 11px; }\r\n.chat-emotions { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); min-height: 44px; }\r\n.panel .chat-emotions button { display: flex; align-items: center; justify-content: center; padding: 1px; min-height: 44px; }\r\n.chat-emotions img { display: block; width: 40px; height: 40px; image-rendering: pixelated; }\r\n\r\n.chat-body:has(.chat-emotions:not([hidden])) > :is(.chat-log, .skills-toolbar) { display: none; }\r\n.chat-body .chat-emotions { flex: 1; min-height: 0; max-height: none; grid-auto-rows: 44px; align-content: start; }\r\n\r\n:host(.keyboard-open) .chat-body > .skills-toolbar { display: none; }\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MailPanel.css?raw
@@ -365668,6 +366006,7 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 	let lastTrigger;
 	let snapshot = {};
 	let messages = [];
+	let unreadChat = 0;
 	let mapImage;
 	const backdrop = $(".backdrop");
 	const body = $(".panel-body");
@@ -365757,7 +366096,17 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 		if (notify) interaction?.close?.();
 	}
 	function updateMessages() {
-		text("[data-chat-preview]", messages.slice(-2).map((message) => message.text).join("\n") || "暂无消息");
+		if (currentPanel === "chat") unreadChat = 0;
+		$("[data-chat-unread]").hidden = !unreadChat;
+		text("[data-chat-unread]", unreadChat > 99 ? "99+" : String(unreadChat));
+		const preview = $("[data-chat-preview]");
+		preview.replaceChildren(...messages.slice(-3).map((message) => {
+			const row = document.createElement("span");
+			row.className = "chat-preview-line";
+			row.textContent = `[${chatChannelLabels[message.channel] || "系统"}] ${message.text.replace(/[\r\n]+/g, " ")}`;
+			return row;
+		}));
+		if (!messages.length) preview.textContent = "暂无消息";
 		chatPanel?.update(messages);
 	}
 	function details(entries) {
@@ -365806,7 +366155,7 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 			menu: "菜单",
 			chat: "聊天",
 			attributes: "素质",
-			shortcuts: "快捷配置",
+			shortcuts: "快捷键",
 			inventory: "背包",
 			equipment: "装备",
 			skills: "技能",
@@ -365883,6 +366232,7 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 		$(".panel").classList.toggle("shortcut-panel", panel === "shortcuts");
 		body.classList.toggle("chat-body", panel === "chat");
 		$(".panel").classList.toggle("chat-panel", panel === "chat");
+		backdrop.classList.toggle("chat-backdrop", panel === "chat");
 		if (panel === "information") {
 			const list = document.createElement("dl");
 			for (const [label, value] of serverState.rows) {
@@ -365908,9 +366258,10 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 				["设置", "settings"],
 				["人物", "profile"],
 				["地图", "map"],
+				["聊天", "chat"],
 				["状态", "status"],
 				["素质", "attributes"],
-				["快捷配置", "shortcuts"],
+				["快捷键", "shortcuts"],
 				["背包", "inventory"],
 				["装备", "equipment"],
 				["技能", "skills"],
@@ -366063,12 +366414,13 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 		});
 		if (panel === "shortcuts") shortcutPanel = createShortcutPanel(body, {
 			index: slotIndex,
+			turn: actions.shortcutPage,
 			snapshot: actions.shortcutSnapshot,
 			candidates: actions.shortcutCandidates,
 			configure: actions.configureShortcut
 		});
 		if (panel === "chat") {
-			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
+			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, () => close());
 			updateMessages();
 		}
 		menuSelects.sync();
@@ -366181,6 +366533,9 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 			drawMap($("[data-mini-map]"));
 		},
 		setMessages(next) {
+			if (!next.length) unreadChat = 0;
+			const lastId = messages.at(-1)?.id || 0;
+			if (currentPanel !== "chat") unreadChat += next.filter((m) => m.id > lastId && m.channel === "private").length;
 			messages = next;
 			updateMessages();
 		},
@@ -366222,7 +366577,7 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 				button.disabled = Boolean(slot?.unavailable);
 				button.classList.toggle("selected-skill", Boolean(slot && state.pending?.index === slot.index));
 				if (!slot) continue;
-				button.setAttribute("aria-label", `槽位 ${slot.index + 1}：${slot.name}${slot.reason ? "，" + slot.reason : ""}`);
+				button.setAttribute("aria-label", `位置 ${slot.index + 1}：${slot.name}${slot.reason ? "，" + slot.reason : ""}`);
 				button.setAttribute("aria-disabled", String(!slot.available));
 				const seconds = Math.ceil((slot.cooldown || 0) / 1e3);
 				const cooldownText = seconds > 999 ? `${Math.min(999, Math.ceil(seconds / 60))}m` : String(seconds);
@@ -366273,6 +366628,7 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_ChatChannels();
 	init_Confirmation();
 	init_Toast();
 	init_StatusPanel();
@@ -366310,6 +366666,40 @@ var init_GameHUDView = __esmMin((() => {
 	init_GameHUDResponsive();
 	init_MenuPanels();
 	init_MailPanel();
+}));
+//#endregion
+//#region src/UI/Game/ChatEmotionImages.js
+var ChatEmotionImages_exports = /* @__PURE__ */ __exportAll({ loadChatEmotionImages: () => loadChatEmotionImages });
+/** Render the same original sprite layers used by the RO expression window. */
+function loadChatEmotionImages() {
+	if (!images) {
+		const load = (extension) => new Promise((resolve, reject) => Client.loadFile(`data/sprite/\xc0\xcc\xc6\xd1\xc6\xae/emotion.${extension}`, resolve, reject));
+		images = Promise.all([load("act"), load("spr")]).then(([action, sprite]) => {
+			const entity = new Entity();
+			return Object.fromEntries(chatEmotions.map(([command]) => {
+				const frame = Emotions_default.indexes[Emotions_default.commands[command]];
+				const animations = action.actions[frame].animations;
+				const layers = animations[Math.floor(animations.length / 5)].layers;
+				const canvas = document.createElement("canvas");
+				canvas.width = canvas.height = 40;
+				SpriteRenderer.bind2DContext(canvas.getContext("2d"), 20 - layers[0].pos[0], 40 - layers[0].pos[1]);
+				for (const layer of layers) entity.renderLayer(layer, sprite, sprite, 1, [0, 0], false);
+				return [command, canvas.toDataURL("image/png")];
+			}));
+		}).catch((error) => {
+			images = null;
+			throw error;
+		});
+	}
+	return images;
+}
+var images;
+var init_ChatEmotionImages = __esmMin((() => {
+	init_Client();
+	init_Emotions();
+	init_Entity$1();
+	init_SpriteRenderer();
+	init_ChatEmotions();
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.js
@@ -366401,6 +366791,7 @@ var init_GameHUD = __esmMin((() => {
 	init_StatusIcons();
 	init_ChatFeed();
 	init_GameHUDView();
+	init_preload_helper();
 	HUD = new GUIComponent("MobileGameHUD", "");
 	HUD.render = () => "";
 	HUD.mouseMode = GUIComponent.MouseMode.CROSS;
@@ -366426,7 +366817,7 @@ var init_GameHUD = __esmMin((() => {
 		inventory = createGameInventory(() => modal && !previousFreeze);
 		containers = createGameContainers(() => modal && !previousFreeze);
 		social = createGameSocial(() => modal && !previousFreeze, shortcuts);
-		chat = createGameChat((...args) => HUD.actions.sendChat(...args), () => modal && !previousFreeze);
+		chat = createGameChat((...args) => HUD.actions.sendChat(...args), () => modal && !previousFreeze, (command) => HUD.actions.sendEmotion(command));
 		quests = createGameQuests(() => modal && !previousFreeze);
 		attributes = createGameAttributes(() => modal && !previousFreeze);
 		skills = createGameSkills(() => modal && !previousFreeze, shortcuts);
@@ -366503,6 +366894,7 @@ var init_GameHUD = __esmMin((() => {
 				snapshot();
 			},
 			sendChat: (...args) => chat.send(...args),
+			chatEmotionImages: () => __vitePreload(() => Promise.resolve().then(() => (init_ChatEmotionImages(), ChatEmotionImages_exports)).then((module) => module.loadChatEmotionImages()), void 0, import.meta.url),
 			returnToCharacters: () => HUD.actions.returnToCharacters()
 		});
 		unsubscribeInteraction = subscribeInteraction((state) => view.showInteraction(state));
@@ -366575,11 +366967,14 @@ var init_GameHUD = __esmMin((() => {
 		unsubscribe = subscribeChatFeed((messages) => {
 			view.setMessages(messages.map((message) => {
 				if (!message.html) return {
+					id: message.id,
 					text: message.text,
 					channel: chatChannel(message)
 				};
+				const parsed = new DOMParser().parseFromString(message.text, "text/html");
 				return {
-					text: new DOMParser().parseFromString(message.text, "text/html").body.textContent || "",
+					id: message.id,
+					text: parsed.body.textContent || "",
 					channel: chatChannel(message)
 				};
 			}));
@@ -387046,6 +387441,11 @@ function onMapChange(pkt) {
 		if (Configs.get("enableCheckAttendance") && PacketVerManager_default.value >= 20180307) appendGameComponent(CheckAttendance_default);
 		appendGameHUD({
 			sendChat: (text, channel, receiver) => onRequestTalk(channel === "private" ? receiver : "", text, ChatBox_default.TYPE[channel.toUpperCase()], { literal: true }),
+			sendEmotion: (type) => {
+				const packet = new PACKET.CZ.REQ_EMOTION();
+				packet.type = type;
+				Network.sendPacket(packet);
+			},
 			returnToCharacters: onRestartRequest
 		});
 		Plugins.init();
