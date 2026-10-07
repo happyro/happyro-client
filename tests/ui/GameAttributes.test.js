@@ -4,7 +4,7 @@ vi.mock('Engine/SessionStorage.js', () => ({ default: s.session }));
 vi.mock('Network/NetworkManager.js', () => ({ default: { sendPacket: s.send } }));
 vi.mock('Network/PacketStructure.js', () => ({ default: { CZ: { STATUS_CHANGE: class {} } } }));
 vi.mock('DB/Jobs/JobPropertyTable.js', () => ({ default: { 1: {}, 4258: { isFourthClass: true } } }));
-vi.mock('UI/Components/GameTools/AdventureControlService.js', () => ({ maintainCurrentCharacter: s.maintain }));
+vi.mock('UI/Components/GameTools/AdventureControlService.js', () => ({ maintainCurrentCharacter: s.maintain, loadCurrentCharacter: vi.fn(async () => ({max_stats:{str:32767,agi:32767,vit:32767}, traits:{maximums:{pow:110}}})) }));
 import { createGameAttributes } from '../../src/UI/Game/GameAttributes.js';
 import { characterStatValues, updateCharacterStat, recordCharacterStatResult } from '../../src/UI/Game/CharacterStats.js';
 import { pointResetState, resetCharacterPoints } from '../../src/UI/Game/GamePointReset.js';
@@ -32,7 +32,7 @@ it('spends only server-authorized costs and waits for its own acknowledgement wi
  recordCharacterStatResult(s.session.Entity, 13, true);
  const result = service.snapshot();
  expect(result.pending).toBe(false);
- expect(result.related.base.find(x => x.key === 'atak')).toMatchObject({ previous: '20 + 5', value: '21 + 5' });
+ expect(result.related.base.find(x => x.key === 'atak')).toEqual({ key: 'atak', label: '物理攻击', value: '21 + 5' });
  expect(result.base.rows[0].canAdd).toBe(false);
 });
 it('handles rejected allocation, connection/death guards and a different character', () => {
@@ -73,10 +73,10 @@ it('resets base and traits separately, prevents overlapping resets and reports A
  resolve({}); expect(await pending).toBe('角色会话已变更');
  expect(await resetCharacterPoints('base', old)).toContain('不能');
 });
-it('switches categories without a reset control and ignores updates after leaving', () => {
+it('switches categories with a footer reset control and ignores updates after leaving', () => {
  const body = document.body.appendChild(document.createElement('div'));
  const panel = createAttributesPanel(body, createGameAttributes(() => s.allowed));
- expect(body.querySelector('.point-reset-button')).toBeNull();
+ expect(body.querySelector('.attribute-footer .point-reset-button')).not.toBeNull();
  [...body.querySelectorAll('button')].find(b => b.textContent === '四转素质').click();
  expect(body.querySelector('[data-attribute=pow]')).not.toBeNull();
  body.textContent = '新的菜单'; panel.update(); expect(body.textContent).toBe('新的菜单');
@@ -87,9 +87,10 @@ it('hides the fourth-job tab for earlier jobs', () => {
  expect([...body.querySelectorAll('button')].find(b => b.textContent === '四转素质').hidden).toBe(true);
 });
 
-it('does not notify when allocating base or fourth-job points', () => {
+it('does not send or notify while previewing base or fourth-job points', async () => {
  const body = document.body.appendChild(document.createElement('div'));
  const service = createGameAttributes(() => s.allowed);
+ await service.prepare();
  const panel = createAttributesPanel(body, service);
  body.querySelector('[data-attribute=str] button').click();
  recordCharacterStatResult(s.session.Entity, 13, true);
@@ -97,5 +98,89 @@ it('does not notify when allocating base or fourth-job points', () => {
  [...body.querySelectorAll('button')].find(b => b.textContent === '四转素质').click();
  body.querySelector('[data-attribute=pow] button').click();
  panel.update(); expect(document.querySelector('.ui-toast')).toBeNull();
- expect(s.send).toHaveBeenCalledTimes(2);
+ expect(s.send).not.toHaveBeenCalled();
+});
+
+it('previews increasing costs and MAX without spending, and clears the draft', async () => {
+ updateCharacterStat(s.session.Entity, 'str', 99); updateCharacterStat(s.session.Entity, 'str3', 11); updateCharacterStat(s.session.Entity, 'statuspoint', 27);
+ const service = createGameAttributes(() => true); await service.prepare();
+ const body = document.body.appendChild(document.createElement('div'));
+ createAttributesPanel(body, service);
+ body.querySelector('[data-attribute=str] button:last-child').click();
+ expect(body.querySelector('[data-attribute=str] .attribute-value').textContent).toContain('99 → 101');
+ expect(body.querySelector('[data-attribute-points]').textContent).toContain('：0');
+ expect(characterStatValues(s.session.Entity).str).toBe(99);
+ expect(s.send).not.toHaveBeenCalled();
+ body.querySelector('[data-clear-plan]').click();
+ expect(body.querySelector('[data-attribute=str] .attribute-value').textContent).not.toContain('→');
+ expect(body.querySelector('[data-apply-plan]').disabled).toBe(true);
+});
+
+it('submits a confirmed plan in protocol-sized chunks after each acknowledgement', async () => {
+ updateCharacterStat(s.session.Entity,'statuspoint',1000000);
+ const service=createGameAttributes(()=>true);await service.prepare();
+ const expected=service.snapshot().base;
+ s.send.mockImplementation(packet=>{
+  const key=packet.statusID===13?'str':'vit';
+  updateCharacterStat(s.session.Entity,key,characterStatValues(s.session.Entity)[key]+packet.changeAmount);
+  recordCharacterStatResult(s.session.Entity,packet.statusID,true);
+ });
+ const request=service.apply('base',{str:300,vit:10},expected);
+ expect(s.send).toHaveBeenCalledTimes(1);
+ await expect(service.apply('base',{str:1},expected)).rejects.toThrow('当前不能');
+ await request;
+ expect(s.send.mock.calls.map(([packet])=>[packet.statusID,packet.changeAmount])).toEqual([[13,255],[13,45],[15,10]]);
+ expect(service.snapshot().pending).toBe(false);
+});
+
+it('rejects stale or unaffordable plans and stops on a failed acknowledgement', async () => {
+ const service=createGameAttributes(()=>true);await service.prepare();
+ const expected=service.snapshot().base;
+ await expect(service.apply('base',{str:10},expected)).rejects.toThrow('不足');
+ updateCharacterStat(s.session.Entity,'statuspoint',50);
+ await expect(service.apply('base',{str:1},expected)).rejects.toThrow('变化');
+ expect(s.send).not.toHaveBeenCalled();
+ s.send.mockImplementation(packet=>recordCharacterStatResult(s.session.Entity,packet.statusID,false));
+ await expect(service.apply('base',{str:1,vit:1},service.snapshot().base)).rejects.toThrow('未全部完成');
+ expect(s.send).toHaveBeenCalledTimes(1);
+});
+
+it('limits trait MAX by both the remaining budget and the server maximum', async () => {
+ updateCharacterStat(s.session.Entity,'pow',108); updateCharacterStat(s.session.Entity,'trait_point',100);
+ const service=createGameAttributes(()=>true);await service.prepare();
+ const body=document.body.appendChild(document.createElement('div'));createAttributesPanel(body,service);
+ [...body.querySelectorAll('button')].find(button=>button.textContent==='四转素质').click();
+ body.querySelector('[data-attribute=pow] button:last-child').click();
+ expect(body.querySelector('[data-attribute=pow] .attribute-value').textContent).toBe('108 → 110');
+ expect(body.querySelector('[data-attribute-points]').textContent).toContain('：98');
+ expect(s.send).not.toHaveBeenCalled();
+});
+
+it('confirms a footer reset for the selected category and reports the result', async () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ const service=createGameAttributes(()=>true);createAttributesPanel(body,service);
+ body.querySelector('[data-reset-points]').click();
+ expect(s.maintain).not.toHaveBeenCalled();
+ expect(body.querySelector('dialog p').textContent).toBe('确认重置基础素质点？');
+ body.querySelector('dialog [data-confirm]').click();
+ await vi.waitFor(()=>expect(body.querySelector('[data-reset-points]').disabled).toBe(false));
+ expect(s.maintain).toHaveBeenCalledExactlyOnceWith('character.stats.reset',{});
+ expect(document.querySelector('.ui-toast').textContent).toContain('基础素质点已重置');
+ [...body.querySelectorAll('button')].find(button=>button.textContent==='四转素质').click();
+ body.querySelector('[data-reset-points]').click();
+ expect(body.querySelector('dialog p').textContent).toBe('确认重置四转素质点？');
+ body.querySelector('dialog [data-confirm]').click();
+ await vi.waitFor(()=>expect(s.maintain).toHaveBeenLastCalledWith('character.traits.reset',{}));
+});
+
+it('shows only current related values while drafting and after server updates', async () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ const service=createGameAttributes(()=>true);await service.prepare();
+ const panel=createAttributesPanel(body,service);
+ body.querySelector('[data-attribute=str] button').click();
+ expect(body.querySelector('[data-result=atak]').textContent).toBe('20 + 5');
+ updateCharacterStat(s.session.Entity,'atak',21);panel.update();
+ expect(body.querySelector('[data-result=atak]').textContent).toBe('21 + 5');
+ body.querySelector('[data-clear-plan]').click();
+ expect(body.querySelector('.attribute-results').textContent).not.toContain('→');
 });

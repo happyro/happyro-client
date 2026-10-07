@@ -1,8 +1,92 @@
+import { confirmAction } from 'UI/Components/Confirmation.js';
+import { allocationCost } from 'UI/Game/AttributeAllocation.js';
+import { createFeedback } from 'UI/Components/Feedback.js';
 export function createAttributesPanel(body, actions) {
 	body.innerHTML =
-		'<div class="attribute-toolbar"><div class="attribute-tabs" role="group" aria-label="素质分类"></div><strong data-attribute-points></strong></div><div class="attribute-layout"><section class="attribute-allocation" aria-label="素质加点"></section><section class="attribute-results" aria-label="相关数值"><dl></dl></section></div>';
+		'<div class="attribute-toolbar"><div class="attribute-tabs" role="group" aria-label="素质分类"></div></div><div class="attribute-layout"><section class="attribute-editor"><div class="attribute-allocation" aria-label="素质加点"></div></section><section class="attribute-results" aria-label="相关数值"><dl></dl></section></div><div class="attribute-footer"><strong data-attribute-points></strong><div class="attribute-plan-actions"><button type="button" class="point-reset-button" data-reset-points>重置素质点</button><button type="button" data-clear-plan>清除预加点</button><button type="button" data-apply-plan>确认</button></div></div>';
 	const $ = selector => body.querySelector(selector);
 	const toolbar = $('.attribute-toolbar');
+	const feedback = createFeedback(body);
+	const drafts = { base: {}, traits: {} };
+	let baseline = '',
+		submitting = false;
+	function signature(snapshot) {
+		return JSON.stringify(
+			['base', 'traits'].map(kind => [
+				snapshot[kind].points,
+				snapshot[kind].enabled,
+				snapshot[kind].rows.map(row => [row.key, row.value, row.maximum])
+			])
+		);
+	}
+	function spent(kind) {
+		return state[kind].rows.reduce(
+			(sum, row) => sum + allocationCost(kind, row.value, drafts[kind][row.key] || 0),
+			0
+		);
+	}
+	function add(key, amount) {
+		const section = state[active],
+			row = section.rows.find(entry => entry.key === key);
+		if (!row?.canAdd || row.maximum === null || submitting) return;
+		let value = row.value + (drafts[active][key] || 0),
+			points = section.points - spent(active),
+			added = 0;
+		while (added < amount && value < row.maximum) {
+			const cost = allocationCost(active, value, 1);
+			if (cost > points) break;
+			points -= cost;
+			value++;
+			added++;
+		}
+		drafts[active][key] = (drafts[active][key] || 0) + added;
+		update();
+	}
+	$('[data-reset-points]').onclick = () => {
+		const kind = active;
+		if (submitting || !actions.snapshot().allowed) return;
+		confirmAction(body, `确认重置${kind === 'traits' ? '四转' : '基础'}素质点？`, async () => {
+			if (submitting || !actions.snapshot().allowed) return;
+			submitting = true;
+			try {
+				const request = actions.reset(kind);
+				update();
+				const message = await request;
+				feedback(message, message.endsWith('已重置') ? 'success' : 'error');
+			} catch (error) {
+				feedback(error.message, 'error');
+			} finally {
+				drafts[kind] = {};
+				submitting = false;
+				baseline = '';
+				update();
+			}
+		});
+	};
+	$('[data-clear-plan]').onclick = () => {
+		drafts[active] = {};
+		update();
+	};
+	$('[data-apply-plan]').onclick = async () => {
+		if (submitting) return;
+		const kind = active,
+			expected = state[kind],
+			additions = { ...drafts[kind] };
+		submitting = true;
+		try {
+			const request = actions.apply(kind, additions, expected);
+			update();
+			await request;
+		} catch (error) {
+			feedback(error.message, 'error');
+		} finally {
+			drafts[kind] = {};
+			submitting = false;
+			baseline = '';
+			update();
+		}
+	};
+
 	let active = 'base',
 		state,
 		rowKind;
@@ -26,15 +110,25 @@ export function createAttributesPanel(body, actions) {
 	function update() {
 		if (!body.contains(toolbar)) return;
 		state = actions.snapshot();
+		const nextBaseline = signature(state);
+		if (baseline && baseline !== nextBaseline && !submitting) {
+			drafts.base = {};
+			drafts.traits = {};
+		}
+		baseline = nextBaseline;
 		if (!state.traits.enabled) active = 'base';
 		tabs.get('traits').hidden = !state.traits.enabled;
 		for (const [kind, tab] of tabs) {
 			tab.setAttribute('aria-pressed', String(kind === active));
-			tab.disabled = state.pending;
+			tab.disabled = state.pending || submitting;
 		}
 		const section = state[active];
+		const plannedCost = spent(active);
 		$('[data-attribute-points]').textContent =
-			`剩余${active === 'traits' ? '四转' : ''}素质点：${section.points ?? '—'}`;
+			`剩余${active === 'traits' ? '四转' : ''}素质点：${section.points === null ? '—' : section.points - (submitting ? 0 : plannedCost)}`;
+		$('[data-apply-plan]').disabled = submitting || !state.allowed || plannedCost === 0;
+		$('[data-reset-points]').disabled = submitting || !state.allowed;
+		$('[data-clear-plan]').disabled = submitting || state.pending || plannedCost === 0;
 		if (rowKind !== active) {
 			rowKind = active;
 			rows.clear();
@@ -49,22 +143,41 @@ export function createAttributesPanel(body, actions) {
 				row.className = 'attribute-row';
 				row.dataset.attribute = stat.key;
 				row.innerHTML =
-					'<strong></strong><span class="attribute-value"></span><small></small><button type="button">＋1</button>';
+					'<strong></strong><span class="attribute-value"></span><small></small><div class="attribute-increments"></div>';
 				row.querySelector('strong').textContent = stat.label;
-				const button = row.querySelector('button');
-				button.setAttribute('aria-label', `${stat.label}增加 1 点`);
-				button.onclick = () => {
-					actions.increase(active, stat.key);
-					update();
-				};
+				for (const [text, amount] of [
+					['+1', 1],
+					['+10', 10],
+					['MAX', Infinity]
+				]) {
+					const button = document.createElement('button');
+					button.type = 'button';
+					button.textContent = text;
+					button.setAttribute('aria-label', `${stat.label}预加 ${text}`);
+					button.onclick = () => add(stat.key, amount);
+					row.querySelector('.attribute-increments').append(button);
+				}
 				rows.set(stat.key, row);
 				$('.attribute-allocation').append(row);
 			}
+			const amount = submitting ? 0 : drafts[active][stat.key] || 0;
+			const value = stat.value === null ? null : stat.value + amount;
 			row.querySelector('.attribute-value').textContent =
-				`${stat.value ?? '—'}${stat.bonus ? ` ${stat.bonus > 0 ? '+' : '−'} ${Math.abs(stat.bonus)}` : ''}`;
+				`${stat.value ?? '—'}${amount ? ` → ${value}` : ''}${stat.bonus ? ` ${stat.bonus > 0 ? '+' : '−'} ${Math.abs(stat.bonus)}` : ''}`;
+			const cost = value === null ? null : allocationCost(active, value, 1);
 			row.querySelector('small').textContent =
-				stat.cost === null ? '读取中' : stat.cost === 0 ? '已达上限' : `消耗 ${stat.cost} 点`;
-			row.querySelector('button').disabled = !stat.canAdd;
+				stat.maximum === null || cost === null
+					? '读取中'
+					: value >= stat.maximum || stat.cost === 0
+						? '已达上限'
+						: `消耗 ${cost} 点`;
+			for (const button of row.querySelectorAll('button'))
+				button.disabled =
+					submitting ||
+					!stat.canAdd ||
+					stat.maximum === null ||
+					value >= stat.maximum ||
+					cost > section.points - plannedCost;
 		}
 		for (const stat of state.related[active]) {
 			let pair = results.get(stat.key);
@@ -77,11 +190,15 @@ export function createAttributesPanel(body, actions) {
 				pair = value;
 				results.set(stat.key, pair);
 			}
-			const changed = stat.previous !== undefined && stat.previous !== stat.value;
-			pair.textContent = changed ? `${stat.previous} → ${stat.value}` : String(stat.value);
-			pair.classList.toggle('attribute-changed', changed);
+			pair.textContent = String(stat.value);
 		}
 	}
 	update();
+	actions
+		.prepare()
+		.then(update)
+		.catch(error => {
+			if (body.contains(toolbar)) feedback(error.message, 'error');
+		});
 	return { update };
 }
