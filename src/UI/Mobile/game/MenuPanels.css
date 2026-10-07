@@ -809,3 +809,15 @@
 .shortcut-pages { display: flex; align-items: stretch; gap: 6px; flex-shrink: 0; min-width: 0; }
 .shortcut-pages > .slot-picker { flex: 1; min-width: 0; }
 .panel .shortcut-pages > button { flex: 0 0 24px; width: 24px; min-width: 24px; padding: 0; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+
+/* Share the footer row height without changing the original controls. */
+.panel .skills-layout { grid-template-rows: minmax(0, 1fr) auto; }
+.panel .skills-layout > section {
+ display: grid; grid-row: 1 / span 2; grid-template-rows: subgrid; row-gap: 8px;
+}
+.panel .skills-layout :is(.skills-footer, .inventory-actions) {
+ margin-top: 0; padding-top: 4px; padding-bottom: 0;
+}
+.panel .skills-layout :is(.skills-reset > button, .inventory-actions > button) {
+ min-height: 28px; padding-top: 3px; padding-bottom: 3px;
+}
