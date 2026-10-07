@@ -11,7 +11,6 @@ import SkillWindow from 'UI/Components/SkillList/SkillList.js';
 import SkillTargetSelection from 'UI/Components/SkillTargetSelection/SkillTargetSelection.js';
 import { canExecuteSkill, SKILL_INF } from 'UI/Components/SkillList/SkillUse.js';
 import SkillInfo from 'DB/Skills/SkillInfo.generated.js';
-import DB from 'DB/DBManager.js';
 import { remainingCooldown } from 'Network/SkillCooldowns.js';
 import * as Commands from './GameCommands.js';
 import { createAutoCombatController } from './AutoCombatController.js';
@@ -31,7 +30,7 @@ export function createGameAutoCombat(enabled) {
 			result.push({
 				id: entity.GID,
 				species: entity.job,
-				name: DB.getMonsterName(entity.job) || entity.display.name,
+				name: entity.display.name,
 				position: [...entity.position]
 			});
 		});
