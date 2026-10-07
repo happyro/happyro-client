@@ -821,3 +821,53 @@
 .panel .skills-layout :is(.skills-reset > button, .inventory-actions > button) {
  min-height: 28px; padding-top: 3px; padding-bottom: 3px;
 }
+
+/* Chat stays near its HUD preview and shrinks above the software keyboard. */
+.chat-preview { left: max(12px, env(safe-area-inset-left)); right: auto; width: min(300px, calc(100% - 224px)); min-width: 96px; }
+[data-chat-unread] { display: inline-block; border-radius: 8px; padding: 0 5px; background: #954b42; color: white; }
+.backdrop.chat-backdrop { place-items: end start; background: transparent; }
+.panel.chat-panel { width: min(480px, 100%); height: min(360px, 100%); background: #191f26f5; }
+.chat-body { gap: 8px; padding: 10px; }
+.chat-body .skills-toolbar { margin: 0; }
+.chat-body .chat-log { border: 1px solid #465461; border-radius: 8px; padding: 6px 8px; overscroll-behavior: contain; }
+.chat-log p { margin: 0 0 6px; overflow-wrap: anywhere; }
+.chat-log [data-channel='private'] { color: #e5b6e9; }
+.chat-log [data-channel='party'] { color: #a6d7ed; }
+.chat-log [data-channel='guild'] { color: #acd7a0; }
+.chat-log [data-channel='system'] { color: #b4bdc7; }
+.panel .chat-form { display: grid; grid-template-columns: 78px minmax(0, 1fr) 32px 48px; gap: 6px; margin: 0; }
+.panel .chat-form > [aria-label='私聊对象'] { grid-column: 1 / -1; grid-row: 1; width: 100%; }
+.panel .chat-form > :is(input, button, select, .menu-select) { min-width: 0; width: 100%; }
+.panel .chat-form > input { padding: 5px 7px; font-size: 16px; }
+.panel .chat-form > button { padding: 3px; }
+.panel .chat-form > [data-emotions] { font-size: 22px; }
+.chat-emotions { display: grid; grid-template-columns: repeat(auto-fill, minmax(36px, 1fr)); gap: 5px; max-height: 100px; overflow-y: auto; flex: none; }
+.panel .chat-emotions button { padding: 3px; font-size: 21px; }
+:host(.keyboard-open) .backdrop.chat-backdrop { height: var(--mobile-visible-height); overflow: hidden; place-items: end start; }
+:host(.keyboard-open) .panel.chat-panel { height: min(360px, 100%); min-height: 0; max-height: 100%; }
+@media (max-width: 600px) {
+ .backdrop.chat-backdrop { padding: 6px; }
+ .panel.chat-panel { width: 100%; }
+ .chat-preview { width: min(200px, calc(100% - 224px)); bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px)); }
+}
+
+.panel .chat-form > :is(input, button), .panel .chat-form .menu-select > button {
+ height: 32px; min-height: 32px;
+}
+
+/* Override compact generic inputs so iOS cannot zoom the chat composer. */
+.panel.chat-panel .panel-body .chat-form > input[aria-label],
+.panel.chat-panel .chat-form > button,
+.panel.chat-panel .chat-form .game-select-trigger {
+ box-sizing: border-box; height: 32px; min-height: 32px; max-height: 32px;
+}
+.panel.chat-panel .panel-body .chat-form > input[aria-label] { font-size: 16px; padding: 3px 6px; }
+.panel.chat-panel .chat-form > [data-emotions] { font-size: 11px; }
+.chat-emotions { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); min-height: 44px; }
+.panel .chat-emotions button { display: flex; align-items: center; justify-content: center; padding: 1px; min-height: 44px; }
+.chat-emotions img { display: block; width: 40px; height: 40px; image-rendering: pixelated; }
+
+.chat-body:has(.chat-emotions:not([hidden])) > :is(.chat-log, .skills-toolbar) { display: none; }
+.chat-body .chat-emotions { flex: 1; min-height: 0; max-height: none; grid-auto-rows: 44px; align-content: start; }
+
+:host(.keyboard-open) .chat-body > .skills-toolbar { display: none; }

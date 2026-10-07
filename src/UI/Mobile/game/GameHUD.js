@@ -143,7 +143,8 @@ HUD.onAppend = function () {
 	social = createGameSocial(() => modal && !previousFreeze, shortcuts);
 	chat = createGameChat(
 		(...args) => HUD.actions.sendChat(...args),
-		() => modal && !previousFreeze
+		() => modal && !previousFreeze,
+		command => HUD.actions.sendEmotion(command)
 	);
 	quests = createGameQuests(() => modal && !previousFreeze);
 	attributes = createGameAttributes(() => modal && !previousFreeze);
@@ -219,6 +220,7 @@ HUD.onAppend = function () {
 			snapshot();
 		},
 		sendChat: (...args) => chat.send(...args),
+		chatEmotionImages: () => import('UI/Game/ChatEmotionImages.js').then(module => module.loadChatEmotionImages()),
 		returnToCharacters: () => HUD.actions.returnToCharacters()
 	});
 	unsubscribeInteraction = subscribeInteraction(state => view.showInteraction(state));
@@ -289,9 +291,9 @@ HUD.onAppend = function () {
 	unsubscribe = subscribeChatFeed(messages => {
 		view.setMessages(
 			messages.map(message => {
-				if (!message.html) return { text: message.text, channel: chatChannel(message) };
+				if (!message.html) return { id: message.id, text: message.text, channel: chatChannel(message) };
 				const parsed = new DOMParser().parseFromString(message.text, 'text/html');
-				return { text: parsed.body.textContent || '', channel: chatChannel(message) };
+				return { id: message.id, text: parsed.body.textContent || '', channel: chatChannel(message) };
 			})
 		);
 	});

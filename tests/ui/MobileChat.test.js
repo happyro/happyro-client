@@ -12,3 +12,61 @@ it('requires a recipient and channel membership, preserving literal text for the
 it('filters messages as text and retains drafts after validation failure',()=>{
  const body=document.body.appendChild(document.createElement('div'));const panel=createChatPanel(body,()=> '尚未加入队伍');panel.update([{text:'公开',channel:'public'},{text:'<img onerror=alert(1)>',channel:'private'}]);const filter=body.querySelector('[aria-label="消息筛选"]');filter.value='private';filter.dispatchEvent(new Event('change'));expect(body.querySelector('.chat-log').textContent).not.toContain('公开');expect(body.querySelector('img')).toBeNull();const input=body.querySelector('[aria-label="聊天内容"]');input.value='草稿';body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));expect(input.value).toBe('草稿');expect(document.querySelector('.ui-toast').textContent).toContain('尚未加入队伍');
 });
+
+it('sends native emotion IDs with validation and throttling', () => {
+ const emotion = vi.fn(), clock = vi.spyOn(Date, 'now').mockReturnValue(1000);
+ const service = createGameChat(s.send, () => true, emotion);
+ expect(service.emote('lv')).toBe('');
+ expect(emotion).toHaveBeenCalledExactlyOnceWith(3);
+ expect(service.emote('lv')).toContain('太快');
+ clock.mockReturnValue(2000);
+ expect(service.emote('invalid')).toContain('有效');
+ s.session.Playing = false;
+ expect(service.emote('lv')).toContain('当前不能');
+ expect(emotion).toHaveBeenCalledTimes(1);
+ clock.mockRestore();
+});
+it('selects native expression images without sending chat text and protects composing input', async () => {
+ const body = document.body.appendChild(document.createElement('div')), send = vi.fn(() => '');
+ createChatPanel(body, send, '', async () => ({lv: 'data:image/png;base64,AA=='}));
+ body.querySelector('[data-emotions]').click();
+ expect(body.querySelector('.chat-emotions').hidden).toBe(false);
+ await vi.waitFor(() => expect(body.querySelector('[aria-label=爱心] img')).not.toBeNull());
+ body.querySelector('[aria-label="爱心"]').click();
+ expect(send).not.toHaveBeenCalled();
+ expect(body.querySelector('[aria-label=聊天内容]').value).toBe('/lv');
+ body.querySelector('form').requestSubmit();
+ expect(send).toHaveBeenCalledExactlyOnceWith('/lv', 'public', '');
+ send.mockClear();
+ expect(body.querySelector('.chat-emotions').hidden).toBe(true);
+ const input = body.querySelector('[aria-label="聊天内容"]'); input.value = '你好';
+ input.dispatchEvent(new Event('compositionstart'));
+ body.querySelector('form').dispatchEvent(new Event('submit', {cancelable:true}));
+ expect(send).not.toHaveBeenCalled();
+ input.dispatchEvent(new Event('compositionend'));
+ body.querySelector('form').dispatchEvent(new Event('submit', {cancelable:true}));
+ expect(send).toHaveBeenCalledExactlyOnceWith('你好', 'public', '');
+ expect(input.value).toBe('');
+});
+
+it('reports native resource failures and retries on reopening the picker', async () => {
+ const body = document.body.appendChild(document.createElement('div'));
+ const load = vi.fn().mockRejectedValueOnce(new Error('missing')).mockResolvedValue({lv:'data:image/png;base64,AA=='});
+ createChatPanel(body, () => '', '', load);
+ const toggle = body.querySelector('[data-emotions]'); toggle.click();
+ await vi.waitFor(() => expect(body.querySelector('.chat-emotions').textContent).toContain('加载失败'));
+ toggle.click(); toggle.click();
+ await vi.waitFor(() => expect(body.querySelector('[aria-label=爱心] img')).not.toBeNull());
+ expect(load).toHaveBeenCalledTimes(2);
+});
+
+it('recognizes only complete native expression commands when Send is pressed', () => {
+ const emotion=vi.fn(),service=createGameChat(s.send,()=>true,emotion);
+ expect(service.send('/lv','public')).toBe('');
+ expect(emotion).toHaveBeenCalledExactlyOnceWith(3);
+ expect(s.send).not.toHaveBeenCalled();
+ expect(service.send('hello /lv','public')).toBe('');
+ expect(s.send).toHaveBeenLastCalledWith('hello /lv','public','');
+ service.send('/not-a-command','public');
+ expect(emotion).toHaveBeenCalledTimes(1);
+});

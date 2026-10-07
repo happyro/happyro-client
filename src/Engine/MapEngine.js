@@ -822,6 +822,11 @@ function onMapChange(pkt) {
 				onRequestTalk(channel === 'private' ? receiver : '', text, ChatBox.TYPE[channel.toUpperCase()], {
 					literal: true
 				}),
+			sendEmotion: type => {
+				const packet = new PACKET.CZ.REQ_EMOTION();
+				packet.type = type;
+				Network.sendPacket(packet);
+			},
 			returnToCharacters: onRestartRequest
 		});
 

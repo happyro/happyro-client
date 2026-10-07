@@ -27,6 +27,8 @@ export function createMobileInputEditor(host) {
 			source.placeholder ||
 			'输入内容';
 		editor.querySelector('#editor-title').textContent = title;
+		const submitOnDone = source.hasAttribute('data-input-submit');
+		if (submitOnDone) editor.querySelector('[data-done]').textContent = '发送';
 		const field = source.cloneNode(true);
 		field.removeAttribute('id');
 		field.removeAttribute('name');
@@ -35,7 +37,7 @@ export function createMobileInputEditor(host) {
 		field.setAttribute('autofocus', '');
 		field.setAttribute('aria-label', title);
 		if (!field.placeholder) field.placeholder = title;
-		field.setAttribute('enterkeyhint', field.tagName === 'TEXTAREA' ? 'enter' : 'done');
+		field.setAttribute('enterkeyhint', submitOnDone ? 'send' : field.tagName === 'TEXTAREA' ? 'enter' : 'done');
 		field.value = source.value;
 		editor.querySelector('main').append(field);
 		const originalInert = host.inert;
@@ -62,10 +64,13 @@ export function createMobileInputEditor(host) {
 			if (!field.reportValidity()) return;
 			const value = field.value;
 			close();
-			if (!source.isConnected || source.value === value) return;
-			source.value = value;
-			source.dispatchEvent(new Event('input', { bubbles: true }));
-			source.dispatchEvent(new Event('change', { bubbles: true }));
+			if (!source.isConnected) return;
+			if (source.value !== value) {
+				source.value = value;
+				source.dispatchEvent(new Event('input', { bubbles: true }));
+				source.dispatchEvent(new Event('change', { bubbles: true }));
+			}
+			if (submitOnDone) source.form.requestSubmit();
 		}
 		dialog.addEventListener('cancel', event => {
 			event.preventDefault();

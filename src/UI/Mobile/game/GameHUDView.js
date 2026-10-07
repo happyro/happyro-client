@@ -1,3 +1,4 @@
+import { chatChannelLabels } from './ChatChannels.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { showToast } from 'UI/Components/Toast.js';
 import { createStatusPanel } from './StatusPanel.js';
@@ -77,6 +78,7 @@ ${mailCSS}</style>${html}`;
 	let lastTrigger;
 	let snapshot = {};
 	let messages = [];
+	let unreadChat = 0;
 	let mapImage;
 	const backdrop = $('.backdrop');
 	const body = $('.panel-body');
@@ -168,13 +170,19 @@ ${mailCSS}</style>${html}`;
 		if (notify) interaction?.close?.();
 	}
 	function updateMessages() {
-		text(
-			'[data-chat-preview]',
-			messages
-				.slice(-2)
-				.map(message => message.text)
-				.join('\n') || '暂无消息'
+		if (currentPanel === 'chat') unreadChat = 0;
+		$('[data-chat-unread]').hidden = !unreadChat;
+		text('[data-chat-unread]', unreadChat > 99 ? '99+' : String(unreadChat));
+		const preview = $('[data-chat-preview]');
+		preview.replaceChildren(
+			...messages.slice(-3).map(message => {
+				const row = document.createElement('span');
+				row.className = 'chat-preview-line';
+				row.textContent = `[${chatChannelLabels[message.channel] || '系统'}] ${message.text.replace(/[\r\n]+/g, ' ')}`;
+				return row;
+			})
 		);
+		if (!messages.length) preview.textContent = '暂无消息';
 		chatPanel?.update(messages);
 	}
 	function details(entries) {
@@ -310,6 +318,7 @@ ${mailCSS}</style>${html}`;
 		$('.panel').classList.toggle('shortcut-panel', panel === 'shortcuts');
 		body.classList.toggle('chat-body', panel === 'chat');
 		$('.panel').classList.toggle('chat-panel', panel === 'chat');
+		backdrop.classList.toggle('chat-backdrop', panel === 'chat');
 		if (panel === 'information') {
 			const list = document.createElement('dl');
 			for (const [label, value] of serverState.rows) {
@@ -333,7 +342,7 @@ ${mailCSS}</style>${html}`;
 				['设置', 'settings'],
 				['人物', 'profile'],
 				['地图', 'map'],
-				// ['聊天', 'chat'], // 聊天 UI 暂时隐藏。
+				['聊天', 'chat'],
 				['状态', 'status'],
 				['素质', 'attributes'],
 				['快捷键', 'shortcuts'],
@@ -506,7 +515,7 @@ ${mailCSS}</style>${html}`;
 				configure: actions.configureShortcut
 			});
 		if (panel === 'chat') {
-			chatPanel = createChatPanel(body, actions.sendChat, slotIndex);
+			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, () => close());
 			updateMessages();
 		}
 		menuSelects.sync();
@@ -620,6 +629,10 @@ ${mailCSS}</style>${html}`;
 			drawMap($('[data-mini-map]'));
 		},
 		setMessages(next) {
+			if (!next.length) unreadChat = 0;
+			const lastId = messages.at(-1)?.id || 0;
+			if (currentPanel !== 'chat')
+				unreadChat += next.filter(m => m.id > lastId && m.channel === 'private').length;
 			messages = next;
 			updateMessages();
 		},

@@ -93,3 +93,15 @@ it('leaves focus on the parent prompt after the browser restores the original in
  expect(input.value).toBe('2');expect(root.activeElement).toBe(root.querySelector('p'));
  expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();
 });
+
+it('uses the shared fullscreen editor for chat and closes before submitting unchanged drafts', () => {
+ const {host,input,editor,field}=setup('<form class="chat-form"><input data-input-submit aria-label="聊天内容" value="/lv"></form>');
+ const submit=vi.fn(event=>{event.preventDefault();expect(host.inert).not.toBe(true);expect(document.querySelector('[data-mobile-input-editor]')).toBeNull();});
+ input.form.addEventListener('submit',submit);
+ expect(editor.querySelector('[data-done]').textContent).toBe('发送');
+ expect(field.getAttribute('enterkeyhint')).toBe('send');
+ editor.querySelector('[data-done]').click();
+ expect(submit).toHaveBeenCalledTimes(1);
+ expect(input.value).toBe('/lv');
+ expect(host.shadowRoot.activeElement).not.toBe(input);
+});

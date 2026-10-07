@@ -186,3 +186,28 @@ it('confirms returning to characters with the shared modal', () => {
  root.querySelector('dialog [data-cancel]').click();expect(actions.returnToCharacters).not.toHaveBeenCalled();
  button.click();root.querySelector('dialog [data-confirm]').click();expect(actions.returnToCharacters).toHaveBeenCalledOnce();
 });
+
+it('exposes chat preview and counts each private message once until chat is opened', () => {
+ expect(root.querySelector('.chat-preview').hidden).toBe(false);
+ const messages = [{id:1,text:'你好',channel:'private'}];
+ view.setMessages(messages); view.setMessages(messages);
+ expect(root.querySelector('[data-chat-unread]').textContent).toBe('1');
+ click('[data-panel="chat"]');
+ expect(root.querySelector('[data-chat-unread]').hidden).toBe(true);
+ expect(root.querySelector('.backdrop').classList.contains('chat-backdrop')).toBe(true);
+ click('[data-close]'); click('[data-panel="menu"]');
+ expect(root.querySelector('.backdrop').classList.contains('chat-backdrop')).toBe(false);
+});
+
+it('closes chat after submission while retaining failed drafts', () => {
+ click('[data-panel="chat"]');
+ const input=root.querySelector('[aria-label="聊天内容"]'); input.value='你好';
+ actions.sendChat.mockReturnValueOnce('当前不能发送消息');
+ root.querySelector('form').requestSubmit();
+ expect(root.querySelector('.backdrop').hidden).toBe(false);
+ expect(input.value).toBe('你好');
+ actions.sendChat.mockReturnValueOnce('');
+ root.querySelector('form').requestSubmit();
+ expect(root.querySelector('.backdrop').hidden).toBe(true);
+ expect(actions.setModal).toHaveBeenLastCalledWith(false);
+});

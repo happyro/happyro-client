@@ -267,20 +267,36 @@ button.surface,
 	right: 214px;
 	padding: 7px 10px;
 	text-align: left;
-	min-height: 52px;
-	max-height: 80px;
+	height: 64px;
+	min-height: 64px;
+	max-height: 64px;
 }
 [data-chat-preview] {
 	display: block;
-	white-space: pre-line;
+	white-space: normal;
 	overflow: hidden;
-	max-height: 44px;
+	height: 48px;
+	line-height: 16px;
+	max-height: 48px;
 	font-size: 11px;
 	overflow-wrap: anywhere;
 }
+.chat-preview-line {
+	display: block;
+	height: 16px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.chat-preview-line:nth-child(3) { padding-right: 48px; }
+.chat-preview:has([data-chat-unread]:not([hidden])) .chat-preview-line:nth-child(3) { padding-right: min(76px, 100%); }
 .chat-preview small {
+	position: absolute;
+	right: 10px;
+	bottom: 7px;
 	display: block;
 	text-align: right;
+	line-height: 16px;
 	color: #ffd27f;
 	font-size: 10px;
 }

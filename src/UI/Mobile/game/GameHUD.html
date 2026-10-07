@@ -19,9 +19,8 @@
 			><small data-coordinates></small>
 		</button>
 	</div>
-	<!-- 聊天 UI 暂时隐藏，保留消息订阅与面板实现。 -->
-	<button hidden class="chat-preview surface" data-panel="chat" aria-label="打开聊天">
-		<span data-chat-preview>暂无消息</span><small>聊天 ›</small>
+	<button class="chat-preview surface" data-panel="chat" aria-label="打开聊天">
+		<span data-chat-preview>暂无消息</span><small>聊天 <b data-chat-unread hidden></b> ›</small>
 	</button>
 	<div class="battle-dock">
 		<div class="battle-controls">
@@ -59,7 +58,9 @@
 		<section class="panel surface" role="dialog" aria-modal="true" aria-labelledby="mobile-game-panel-title">
 			<header>
 				<h2 id="mobile-game-panel-title" tabindex="-1"></h2>
-				<div class="panel-navigation"><button data-back hidden>返回</button><button data-close aria-label="关闭面板">关闭</button></div>
+				<div class="panel-navigation">
+					<button data-back hidden>返回</button><button data-close aria-label="关闭面板">关闭</button>
+				</div>
 			</header>
 			<div class="panel-body"></div>
 		</section>
