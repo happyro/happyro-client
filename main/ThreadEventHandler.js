@@ -18636,6 +18636,9 @@ if (typeof process !== "undefined" && process.versions?.electron) try {
 */
 var _batchQueue = [];
 var _batchTimer = null;
+function isMessageTable(filename) {
+	return /^data[\\/]msgstringtable\.(txt|csv)$/i.test(filename);
+}
 /**
 * FileManager namespace
 */
@@ -18753,6 +18756,10 @@ var FileManager = class FileManager {
 			callback(fs.readFileSync(filename));
 			return;
 		}
+		if (FileManager.remoteClient && isMessageTable(filename)) {
+			FileManager.getHTTP(filename, callback);
+			return;
+		}
 		FileSystem.getFile(filename, function onFound(file) {
 			const reader = new FileReader();
 			reader.onloadend = function onLoad(event) {
@@ -18785,7 +18792,7 @@ var FileManager = class FileManager {
 			return;
 		}
 		if (typeof fetch !== "undefined") {
-			fetch(url).then(function(response) {
+			fetch(url, isMessageTable(filename) ? { cache: "no-store" } : void 0).then(function(response) {
 				if (!response.ok) throw new Error("HTTP " + response.status);
 				if ((response.headers.get("content-type") || "").indexOf("text/html") !== -1) throw new Error("Received HTML instead of binary data (likely 404 page)");
 				return response.arrayBuffer();
@@ -18799,6 +18806,7 @@ var FileManager = class FileManager {
 		}
 		const xhr = new XMLHttpRequest();
 		xhr.open("GET", url, true);
+		if (isMessageTable(filename)) xhr.setRequestHeader("Cache-Control", "no-cache");
 		xhr.responseType = "arraybuffer";
 		xhr.onload = () => {
 			if (xhr.status == 200) {
