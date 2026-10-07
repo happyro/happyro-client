@@ -195,6 +195,7 @@ it('exposes chat preview and counts each private message once until chat is open
  click('[data-panel="chat"]');
  expect(root.querySelector('[data-chat-unread]').hidden).toBe(true);
  expect(root.querySelector('.backdrop').classList.contains('chat-backdrop')).toBe(true);
+ expect(root.querySelector('[data-back]').hidden).toBe(true);
  click('[data-close]'); click('[data-panel="menu"]');
  expect(root.querySelector('.backdrop').classList.contains('chat-backdrop')).toBe(false);
 });
@@ -210,4 +211,42 @@ it('closes chat after submission while retaining failed drafts', () => {
  root.querySelector('form').requestSubmit();
  expect(root.querySelector('.backdrop').hidden).toBe(true);
  expect(actions.setModal).toHaveBeenLastCalledWith(false);
+});
+
+it('remembers collapsed chat previews and retains unread messages until chat opens', () => {
+ click('[data-chat-collapse]');
+ expect(root.querySelector('.chat-preview-open').hidden).toBe(true);
+ expect(root.querySelector('.backdrop').hidden).toBe(true);
+ view.setMessages([{id:1,text:'私聊消息',channel:'private'}]);
+ expect(root.querySelector('[data-chat-expand] [data-chat-unread]').textContent).toBe('1');
+ view.destroy(); view=createGameHUDView(root,actions);
+ expect(root.querySelector('[data-chat-expand]').hidden).toBe(false);
+ view.setMessages([{id:1,text:'私聊消息',channel:'private'}]);
+ click('[data-chat-expand]');
+ expect(root.querySelector('.chat-preview-open').hidden).toBe(false);
+ expect(root.querySelector('[data-chat-unread]').hidden).toBe(false);
+ expect(root.querySelector('[data-chat-preview]').textContent).toContain('私聊消息');
+ click('[data-panel="chat"]');
+ expect(root.querySelector('[data-chat-unread]').hidden).toBe(true);
+ localStorage.removeItem('ChatPreview');
+});
+
+it('shares the chat filter with the HUD preview and retains it when reopened', () => {
+ const messages = [{id:1,text:'附近消息',channel:'public'}, {id:2,text:'私聊消息',channel:'private'}];
+ view.setMessages(messages);
+ click('[data-panel="chat"]');
+ const choose = value => root.querySelector(`[data-chat-filter="${value}"]`).click();
+ choose('private');
+ expect(root.querySelector('[data-chat-preview]').textContent).toBe('[私聊] 私聊消息');
+ expect(root.querySelector('.chat-log').textContent).toBe('[私聊] 私聊消息');
+ click('[data-close]');
+ view.setMessages([...messages, {id:3,text:'新附近消息',channel:'public'}, {id:4,text:'新私聊消息',channel:'private'}]);
+ expect(root.querySelector('[data-chat-preview]').textContent).not.toContain('附近');
+ expect(root.querySelector('[data-chat-preview]').textContent).toContain('新私聊消息');
+ click('[data-panel="chat"]');
+ expect(root.querySelector('[data-chat-filter="private"]').getAttribute('aria-pressed')).toBe('true');
+ choose('guild');
+ expect(root.querySelector('[data-chat-preview]').textContent).toBe('暂无消息');
+ choose('all');
+ expect(root.querySelector('[data-chat-preview]').textContent).toContain('新附近消息');
 });

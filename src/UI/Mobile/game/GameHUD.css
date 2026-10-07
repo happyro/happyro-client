@@ -1,4 +1,7 @@
 :host {
+	/* Keep text metrics stable when the mobile keyboard changes the viewport. */
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 	position: fixed !important;
 	inset: 0;
 	width: 100%;
@@ -273,23 +276,26 @@ button.surface,
 }
 [data-chat-preview] {
 	display: block;
-	white-space: normal;
-	overflow: hidden;
+	width: calc(100% - 48px);
 	height: 48px;
-	line-height: 16px;
 	max-height: 48px;
+	line-height: 16px;
 	font-size: 11px;
+	white-space: normal;
 	overflow-wrap: anywhere;
+	overflow-y: auto;
+	scrollbar-width: none;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
 }
+[data-chat-preview]::-webkit-scrollbar { display: none; }
 .chat-preview-line {
 	display: block;
-	height: 16px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	min-height: 16px;
+	white-space: normal;
+	overflow-wrap: anywhere;
 }
-.chat-preview-line:nth-child(3) { padding-right: 48px; }
-.chat-preview:has([data-chat-unread]:not([hidden])) .chat-preview-line:nth-child(3) { padding-right: min(76px, 100%); }
+.chat-preview small [data-chat-unread] { position: absolute; right: 0; bottom: 16px; }
 .chat-preview small {
 	position: absolute;
 	right: 10px;

@@ -1,3 +1,4 @@
+import Preferences from 'Core/Preferences.js';
 import { chatChannelLabels } from './ChatChannels.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { showToast } from 'UI/Components/Toast.js';
@@ -49,6 +50,7 @@ ${mobileSelectCSS}
 ${mailCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
+	const chatDisplay = Preferences.get('ChatPreview', { collapsed: false }, 1.0);
 	let currentPanel = null;
 	let statusPanel = null;
 	let serverState = null;
@@ -59,6 +61,7 @@ ${mailCSS}</style>${html}`;
 	let attributesPanel = null;
 	let questsPanel = null;
 	let chatPanel = null;
+	let chatFilter = 'all';
 	let socialPanel = null;
 	let selectionPanel = null;
 	let materialsPanel = null;
@@ -171,18 +174,22 @@ ${mailCSS}</style>${html}`;
 	}
 	function updateMessages() {
 		if (currentPanel === 'chat') unreadChat = 0;
-		$('[data-chat-unread]').hidden = !unreadChat;
-		text('[data-chat-unread]', unreadChat > 99 ? '99+' : String(unreadChat));
+		for (const badge of root.querySelectorAll('[data-chat-unread]')) {
+			badge.hidden = !unreadChat;
+			badge.textContent = unreadChat > 99 ? '99+' : String(unreadChat);
+		}
 		const preview = $('[data-chat-preview]');
+		const visibleMessages = messages.filter(message => chatFilter === 'all' || message.channel === chatFilter);
 		preview.replaceChildren(
-			...messages.slice(-3).map(message => {
+			...visibleMessages.slice(-3).map(message => {
 				const row = document.createElement('span');
 				row.className = 'chat-preview-line';
 				row.textContent = `[${chatChannelLabels[message.channel] || '系统'}] ${message.text.replace(/[\r\n]+/g, ' ')}`;
 				return row;
 			})
 		);
-		if (!messages.length) preview.textContent = '暂无消息';
+		if (!visibleMessages.length) preview.textContent = '暂无消息';
+		preview.scrollTop = preview.scrollHeight;
 		chatPanel?.update(messages);
 	}
 	function details(entries) {
@@ -259,7 +266,7 @@ ${mailCSS}</style>${html}`;
 			}[panel]
 		);
 		$('[data-close]').disabled = serverState?.canClose === false;
-		$('[data-back]').hidden = panel === 'menu';
+		$('[data-back]').hidden = panel === 'menu' || panel === 'chat';
 		$('[data-back]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
 		statusPanel = null;
@@ -515,12 +522,34 @@ ${mailCSS}</style>${html}`;
 				configure: actions.configureShortcut
 			});
 		if (panel === 'chat') {
-			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, () => close());
+			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, () => close(), chatFilter, value => {
+				chatFilter = value;
+				updateMessages();
+			});
 			updateMessages();
 		}
 		menuSelects.sync();
 		$('h2').focus();
 	}
+	function renderChatDisplay() {
+		$('.chat-preview').classList.toggle('collapsed', chatDisplay.collapsed);
+		$('.chat-preview-open').hidden = chatDisplay.collapsed;
+		$('[data-chat-collapse]').hidden = chatDisplay.collapsed;
+		$('[data-chat-expand]').hidden = !chatDisplay.collapsed;
+	}
+	for (const [selector, collapsed] of [
+		['[data-chat-collapse]', true],
+		['[data-chat-expand]', false]
+	]) {
+		listen($(selector), 'click', () => {
+			chatDisplay.collapsed = collapsed;
+			chatDisplay.save();
+			renderChatDisplay();
+			if (!collapsed) updateMessages();
+			$(collapsed ? '[data-chat-expand]' : '[data-chat-collapse]').focus();
+		});
+	}
+	renderChatDisplay();
 	for (const button of root.querySelectorAll('[data-panel]'))
 		listen(button, 'click', () => open(button.dataset.panel));
 	listen($('[data-close]'), 'click', () => close());

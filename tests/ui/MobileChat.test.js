@@ -10,7 +10,7 @@ it('requires a recipient and channel membership, preserving literal text for the
  expect(chatChannel({colorType:4})).toBe('private');expect(chatChannel({filterType:1})).toBe('public');
 });
 it('filters messages as text and retains drafts after validation failure',()=>{
- const body=document.body.appendChild(document.createElement('div'));const panel=createChatPanel(body,()=> '尚未加入队伍');panel.update([{text:'公开',channel:'public'},{text:'<img onerror=alert(1)>',channel:'private'}]);const filter=body.querySelector('[aria-label="消息筛选"]');filter.value='private';filter.dispatchEvent(new Event('change'));expect(body.querySelector('.chat-log').textContent).not.toContain('公开');expect(body.querySelector('img')).toBeNull();const input=body.querySelector('[aria-label="聊天内容"]');input.value='草稿';body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));expect(input.value).toBe('草稿');expect(document.querySelector('.ui-toast').textContent).toContain('尚未加入队伍');
+ const body=document.body.appendChild(document.createElement('div'));const panel=createChatPanel(body,()=> '尚未加入队伍');panel.update([{text:'公开',channel:'public'},{text:'<img onerror=alert(1)>',channel:'private'}]);body.querySelector('[data-chat-filter="private"]').click();expect(body.querySelector('.chat-log').textContent).not.toContain('公开');expect(body.querySelector('img')).toBeNull();const input=body.querySelector('[aria-label="聊天内容"]');input.value='草稿';body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));expect(input.value).toBe('草稿');expect(document.querySelector('.ui-toast').textContent).toContain('尚未加入队伍');
 });
 
 it('sends native emotion IDs with validation and throttling', () => {
@@ -26,16 +26,15 @@ it('sends native emotion IDs with validation and throttling', () => {
  expect(emotion).toHaveBeenCalledTimes(1);
  clock.mockRestore();
 });
-it('selects native expression images without sending chat text and protects composing input', async () => {
+it('sends an expression immediately, closes the panel and protects composing input', async () => {
  const body = document.body.appendChild(document.createElement('div')), send = vi.fn(() => '');
- createChatPanel(body, send, '', async () => ({lv: 'data:image/png;base64,AA=='}));
+ const onSent = vi.fn();
+ createChatPanel(body, send, '', async () => ({lv: 'data:image/png;base64,AA=='}), onSent);
  body.querySelector('[data-emotions]').click();
  expect(body.querySelector('.chat-emotions').hidden).toBe(false);
  await vi.waitFor(() => expect(body.querySelector('[aria-label=爱心] img')).not.toBeNull());
  body.querySelector('[aria-label="爱心"]').click();
- expect(send).not.toHaveBeenCalled();
- expect(body.querySelector('[aria-label=聊天内容]').value).toBe('/lv');
- body.querySelector('form').requestSubmit();
+ expect(onSent).toHaveBeenCalledOnce();
  expect(send).toHaveBeenCalledExactlyOnceWith('/lv', 'public', '');
  send.mockClear();
  expect(body.querySelector('.chat-emotions').hidden).toBe(true);
@@ -69,4 +68,16 @@ it('recognizes only complete native expression commands when Send is pressed', (
  expect(s.send).toHaveBeenLastCalledWith('hello /lv','public','');
  service.send('/not-a-command','public');
  expect(emotion).toHaveBeenCalledTimes(1);
+});
+
+it('keeps the expression picker and text draft when sending fails', async () => {
+ const body=document.body.appendChild(document.createElement('div')), closed=vi.fn();
+ createChatPanel(body,()=> '发送太快', '',async()=>({lv:'data:image/png;base64,AA=='}),closed);
+ body.querySelector('[aria-label=聊天内容]').value='草稿';
+ body.querySelector('[data-emotions]').click();
+ await vi.waitFor(()=>expect(body.querySelector('[aria-label=爱心]')).not.toBeNull());
+ body.querySelector('[aria-label=爱心]').click();
+ expect(closed).not.toHaveBeenCalled();
+ expect(body.querySelector('.chat-emotions').hidden).toBe(false);
+ expect(body.querySelector('[aria-label=聊天内容]').value).toBe('草稿');
 });

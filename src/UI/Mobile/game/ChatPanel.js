@@ -1,9 +1,9 @@
 import { chatChannelLabels } from './ChatChannels.js';
 import { chatEmotions } from 'UI/Game/ChatEmotions.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
-export function createChatPanel(body, send, initialReceiver = '', loadEmotionImages, onSent) {
+export function createChatPanel(body, send, initialReceiver = '', loadEmotionImages, onSent, initialFilter = 'all', onFilterChange) {
 	body.innerHTML =
-		'<div class="skills-toolbar"><select aria-label="消息筛选"><option value="all">全部消息</option><option value="public">附近</option><option value="private">私聊</option><option value="party">队伍</option><option value="guild">公会</option><option value="clan">氏族</option><option value="system">系统</option></select></div><div class="chat-log" role="log" aria-label="聊天消息"></div><div class="chat-emotions" hidden aria-label="RO 表情"></div><form class="chat-form"><select aria-label="发送频道"><option value="public">附近</option><option value="private">私聊</option><option value="party">队伍</option><option value="guild">公会</option><option value="clan">氏族</option></select><input aria-label="私聊对象" maxlength="24" placeholder="角色名" hidden><input data-input-submit aria-label="聊天内容" placeholder="输入消息" maxlength="120" autocomplete="off" enterkeyhint="send"><button type="button" data-emotions aria-label="选择表情" aria-expanded="false">表情</button><button type="submit">发送</button></form>';
+		'<div class="chat-conversation"><nav class="chat-filters" aria-label="消息筛选"></nav><div class="chat-content"><div class="chat-log" role="log" aria-label="聊天消息"></div><div class="chat-emotions" hidden aria-label="RO 表情"></div></div></div><form class="chat-form"><select aria-label="发送频道"><option value="public">附近</option><option value="private">私聊</option><option value="party">队伍</option><option value="guild">公会</option><option value="clan">氏族</option></select><input aria-label="私聊对象" maxlength="24" placeholder="角色名" hidden><input data-input-submit aria-label="聊天内容" placeholder="输入消息" maxlength="120" autocomplete="off" enterkeyhint="send"><button type="button" data-emotions aria-label="选择表情" aria-expanded="false">表情</button><button type="submit">发送</button></form>';
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		log = $('.chat-log'),
@@ -11,6 +11,23 @@ export function createChatPanel(body, send, initialReceiver = '', loadEmotionIma
 		receiver = $('[aria-label="私聊对象"]'),
 		input = $('[aria-label="聊天内容"]');
 	let messages = [];
+	let filter = initialFilter;
+	for (const [value, label] of Object.entries({ all: '全部消息', ...chatChannelLabels })) {
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.dataset.chatFilter = value;
+		button.textContent = label;
+		button.setAttribute('aria-pressed', String(value === filter));
+		button.onclick = () => {
+			filter = value;
+			for (const item of $('.chat-filters').children)
+				item.setAttribute('aria-pressed', String(item === button));
+			update();
+			log.scrollTop = log.scrollHeight;
+			onFilterChange?.(filter);
+		};
+		$('.chat-filters').append(button);
+	}
 	const palette = $('.chat-emotions'),
 		toggle = $('[data-emotions]');
 	let loading;
@@ -31,12 +48,7 @@ export function createChatPanel(body, send, initialReceiver = '', loadEmotionIma
 					icon.alt = '';
 					icon.width = icon.height = 40;
 					button.append(icon);
-					button.onclick = () => {
-						input.value = `/${command}`;
-						input.dispatchEvent(new Event('input', { bubbles: true }));
-						palette.hidden = true;
-						toggle.setAttribute('aria-expanded', 'false');
-					};
+					button.onclick = () => submit(`/${command}`);
 					palette.append(button);
 				}
 			})
@@ -67,7 +79,6 @@ export function createChatPanel(body, send, initialReceiver = '', loadEmotionIma
 	function update(next = messages) {
 		messages = next;
 		const atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
-		const filter = $('[aria-label="消息筛选"]').value;
 		log.replaceChildren(
 			...messages
 				.filter(m => filter === 'all' || m.channel === filter)
@@ -80,7 +91,6 @@ export function createChatPanel(body, send, initialReceiver = '', loadEmotionIma
 		);
 		if (atBottom) log.scrollTop = log.scrollHeight;
 	}
-	$('[aria-label="消息筛选"]').onchange = () => update();
 	let composing = false;
 	input.addEventListener('compositionstart', () => {
 		composing = true;
@@ -88,10 +98,8 @@ export function createChatPanel(body, send, initialReceiver = '', loadEmotionIma
 	input.addEventListener('compositionend', () => {
 		composing = false;
 	});
-	$('form').onsubmit = event => {
-		event.preventDefault();
-		if (composing) return;
-		const error = send(input.value, channel.value, receiver.value);
+	function submit(text) {
+		const error = send(text, channel.value, receiver.value);
 		if (error) feedback(error, 'error');
 		if (!error) {
 			input.value = '';
@@ -100,6 +108,10 @@ export function createChatPanel(body, send, initialReceiver = '', loadEmotionIma
 			toggle.setAttribute('aria-expanded', 'false');
 			onSent?.();
 		}
+	}
+	$('form').onsubmit = event => {
+		event.preventDefault();
+		if (!composing) submit(input.value);
 	};
 	return { update };
 }
