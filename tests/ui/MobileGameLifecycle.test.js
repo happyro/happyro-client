@@ -1,3 +1,4 @@
+vi.mock('UI/Game/AutoCombatTeleport.js', () => ({ cancelAutoCombatTeleport: vi.fn(), consumeAutoCombatTeleport: () => false }));
 vi.mock('UI/Components/GameTools/WorldAssetService.js', () => ({ loadCatalogMapImage: vi.fn(async () => null) }));
 vi.mock('UI/Mobile/game/AdventureTools.js', () => ({ default: { append: vi.fn(), openMap: vi.fn() } }));
 vi.mock('UI/Game/GameAttributes.js', () => ({ createGameAttributes: () => ({}) }));

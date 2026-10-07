@@ -1,4 +1,4 @@
-import { AUTO_COMBAT_RANGE_LIMITS } from './AutoCombatController.js';
+import { AUTO_COMBAT_RANGE_LIMITS, validAutoCombatTeleport } from './AutoCombatController.js';
 
 /** Only preferences are persisted, never an active battle or a temporary target. */
 export function loadAutoCombatSettings(key) {
@@ -23,7 +23,13 @@ export function loadAutoCombatSettings(key) {
 			activity > limits.activityMax
 		)
 			return;
-		return { species: saved.species, skills: saved.skills, ranges: { search, activity } };
+		if (saved.teleport !== undefined && !validAutoCombatTeleport(saved.teleport)) return;
+		return {
+			species: saved.species,
+			skills: saved.skills,
+			ranges: { search, activity },
+			...(saved.teleport ? { teleport: saved.teleport } : {})
+		};
 	} catch {
 		// A missing or unreadable preference must not block entering the map.
 		return;

@@ -32,13 +32,17 @@ export function stopAttack() {
 	Session.moveAction = null;
 	if (Session.Playing) Network.sendPacket(new PACKET.CZ.CANCEL_LOCKON());
 }
-export function attackSelected(moving = false) {
+export function attackSelected(moving = false, onRequest = null) {
 	const target = selectedTarget();
 	if (canAttack(target)) {
 		ownAttack(target.GID, () => {
-			if (!Session.FreezeUI && selectedTarget() === target) target.onFocus({ attack: true, allowMove: !moving });
+			if (!Session.FreezeUI && selectedTarget() === target) {
+				target.onFocus({ attack: true, allowMove: !moving });
+				onRequest?.();
+			}
 		});
 		target.onFocus({ attack: true, allowMove: !moving });
+		onRequest?.();
 	}
 }
 export function moveDirection(x, y) {

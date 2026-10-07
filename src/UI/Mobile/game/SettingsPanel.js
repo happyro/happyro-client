@@ -1,10 +1,11 @@
+import { createPickupSettingsPanel } from 'UI/Game/PickupSettingsPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { showToast } from 'UI/Components/Toast.js';
 
 /** Graphics/audio use a draft; camera adjustments take effect immediately. */
-export function createSettingsPanel(body, service) {
+export function createSettingsPanel(body, service, initialSection = '画面') {
 	let draft = service.snapshot();
-	let activeSection = '画面';
+	let activeSection = initialSection;
 	const notify = message => showToast(body, message);
 	function render() {
 		body.replaceChildren();
@@ -18,7 +19,7 @@ export function createSettingsPanel(body, service) {
 		const content = document.createElement('div');
 		content.className = 'settings-content';
 		const sections = new Map();
-		for (const name of ['画面', '特效', '声音', '镜头']) {
+		for (const name of ['画面', '特效', '声音', '镜头', '拾取']) {
 			const section = document.createElement('section');
 			section.className = 'settings-section';
 			section.setAttribute('aria-label', name);
@@ -132,6 +133,8 @@ export function createSettingsPanel(body, service) {
 			section.append(...values, ...switches);
 		}
 
+		createPickupSettingsPanel(sections.get('拾取').section, draft.pickup);
+
 		const camera = sections.get('镜头').section;
 		camera.classList.add('camera-section');
 		const cameraButton = (label, action) => {
@@ -194,7 +197,7 @@ export function createSettingsPanel(body, service) {
 				() => {
 					confirmAction(
 						body,
-						'确认恢复全部画面、特效和声音设置为默认值？',
+						'确认恢复全部画面、特效、声音和拾取设置为默认值？',
 						() => {
 							const message = service.save(service.snapshot(true));
 							draft = service.snapshot();

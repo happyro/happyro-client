@@ -93,3 +93,34 @@ it('does not resume after an explicit stop during movement or after moving away 
  controller.attackTarget(1); controller.pauseForMovement(); controller.resumeAfterMovement();
  expect(controller.snapshot().active).toBe(false);
 });
+
+it('waits continuously without targets, resets on pickup or movement, and teleports only when enabled', () => {
+ targets = []; data.teleport = vi.fn(() => '正在随机瞬移'); data.teleportBusy = () => false;
+ controller.start(); time = 10000; controller.tick(); expect(data.teleport).not.toHaveBeenCalled();
+ controller.configure([], [], { search: 20, activity: 30 }, { enabled: true, waitSeconds: 5, intervalSeconds: 10 });
+ controller.start(); time = 14999; controller.tick(); expect(data.teleport).not.toHaveBeenCalled();
+ busy = true; time = 15000; controller.tick(); busy = false; time = 16000; controller.tick();
+ time = 20999; controller.tick(); expect(data.teleport).not.toHaveBeenCalled();
+ time = 21000; controller.tick(); expect(data.teleport).toHaveBeenCalledWith(10);
+ controller.pauseForMovement(); time = 30000; controller.tick(); expect(data.teleport).toHaveBeenCalledOnce();
+ controller.resumeAfterMovement(); controller.tick(); time = 35000; controller.tick(); expect(data.teleport).toHaveBeenCalledTimes(2);
+});
+it('resets the idle countdown when a target appears and never teleports a manual-only attack', () => {
+ data.teleport = vi.fn(() => '正在随机瞬移'); targets = [];
+ controller.configure([], [], { search: 20, activity: 30 }, { enabled: true, waitSeconds: 5, intervalSeconds: 10 });
+ controller.start(); time = 4000; targets = [mob(1)]; controller.tick();
+ time = 5000; targets = []; controller.tick(); time = 9999; controller.tick(); expect(data.teleport).not.toHaveBeenCalled();
+ time = 10000; controller.tick(); expect(data.teleport).toHaveBeenCalledOnce();
+ controller.stop(); targets = [mob(1)]; controller.attackTarget(1); targets = []; controller.tick();
+ time = 20000; controller.tick(); expect(data.teleport).toHaveBeenCalledOnce();
+});
+it('rejects invalid teleport timing without altering the configuration', () => {
+ for (const teleport of [{ enabled: true, waitSeconds: 0, intervalSeconds: 10 }, { enabled: true, waitSeconds: 5, intervalSeconds: 0 }, { enabled: true, waitSeconds: 5.5, intervalSeconds: 10 }]) {
+  expect(controller.configure([], [], { search: 20, activity: 30 }, teleport)).toBe(false);
+ }
+ expect(controller.snapshot().teleport.enabled).toBe(false);
+});
+it('defaults to a two-second teleport interval and accepts one second', () => {
+ expect(controller.snapshot().teleport.intervalSeconds).toBe(2);
+ expect(controller.configure([], [], { search: 20, activity: 30 }, { enabled: true, waitSeconds: 5, intervalSeconds: 1 })).toBe(true);
+});

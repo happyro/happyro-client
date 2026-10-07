@@ -32,13 +32,15 @@ class ItemObject {
 	 * @param {number} dropeffectmode
 	 * @param {boolean} showdropeffect
 	 */
-	static add(gid, itemid, identify, count, x, y, z, dropeffectmode, showdropeffect) {
+	static add(gid, itemid, identify, count, x, y, z, dropeffectmode, showdropeffect, itemType) {
 		const it = DB.getItemInfo(itemid);
 		const path = DB.getItemPath(itemid, identify);
 		const entity = new Entity();
 		const name = identify ? it.identifiedDisplayName : it.unidentifiedDisplayName;
 		/*var dropEffectPostition = [x, y, z];*/ // UNUSED
 		entity.GID = gid;
+		entity.pickupItemId = itemid;
+		entity.pickupItemType = itemType;
 		entity.objecttype = Entity.TYPE_ITEM;
 		entity.position[0] = x;
 		entity.position[1] = y;

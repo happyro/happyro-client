@@ -41,6 +41,11 @@ if (isElectron) {
 const _batchQueue = [];
 let _batchTimer = null;
 
+// Message translations can change independently of the client build.
+function isMessageTable(filename) {
+	return /^data[\\/]msgstringtable\.(txt|csv)$/i.test(filename);
+}
+
 /**
  * FileManager namespace
  */
@@ -205,6 +210,12 @@ class FileManager {
 			return;
 		}
 
+		// Remote translations must not be shadowed by a previously saved copy.
+		if (FileManager.remoteClient && isMessageTable(filename)) {
+			FileManager.getHTTP(filename, callback);
+			return;
+		}
+
 		// Search in filesystem
 		FileSystem.getFile(
 			filename,
@@ -265,7 +276,7 @@ class FileManager {
 
 		// Use Fetch API for better performance and HTTP/2 multiplexing support
 		if (typeof fetch !== 'undefined') {
-			fetch(url)
+			fetch(url, isMessageTable(filename) ? { cache: 'no-store' } : undefined)
 				.then(function (response) {
 					if (!response.ok) {
 						throw new Error('HTTP ' + response.status);
@@ -292,6 +303,9 @@ class FileManager {
 		// Fallback to XMLHttpRequest for older environments
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', url, true);
+		if (isMessageTable(filename)) {
+			xhr.setRequestHeader('Cache-Control', 'no-cache');
+		}
 		xhr.responseType = 'arraybuffer';
 		xhr.onload = () => {
 			if (xhr.status == 200) {

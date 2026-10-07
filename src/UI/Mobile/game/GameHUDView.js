@@ -1,3 +1,4 @@
+import pickupCSS from 'UI/Game/PickupSettingsPanel.css?raw';
 import Preferences from 'Core/Preferences.js';
 import { chatChannelLabels } from './ChatChannels.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
@@ -46,6 +47,7 @@ ${autoCombatCSS}
 ${responsiveCSS}
 ${selectCSS}
 ${panelsCSS}
+${pickupCSS}
 ${mobileSelectCSS}
 ${mailCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
