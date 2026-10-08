@@ -78074,7 +78074,7 @@ var init_PacketLength = __esmMin((() => {
 }));
 //#endregion
 //#region \0vite/preload-helper.js
-var scriptRel, assetsURL, seen, isCssPreloadUrl, __vitePreload;
+var scriptRel, assetsURL, seen, isCssPreloadUrl, preloadOnce, __vitePreload;
 var init_preload_helper = __esmMin((() => {
 	scriptRel = "modulepreload";
 	assetsURL = function(dep, importerUrl) {
@@ -78083,6 +78083,22 @@ var init_preload_helper = __esmMin((() => {
 	seen = {};
 	isCssPreloadUrl = function isCssPreloadUrl(url) {
 		return url.pathname.endsWith(".css");
+	};
+	preloadOnce = function preloadOnce(seen, href, preload) {
+		if (href in seen) return seen[href];
+		const promise = preload();
+		if (!promise) {
+			seen[href] = void 0;
+			return;
+		}
+		const preloadPromise = promise.then(() => {
+			seen[href] = void 0;
+		}, (err) => {
+			seen[href] = void 0;
+			throw err;
+		});
+		seen[href] = preloadPromise;
+		return preloadPromise;
 	};
 	__vitePreload = function preload(baseModule, deps, importerUrl) {
 		let promise = Promise.resolve();
@@ -78110,32 +78126,32 @@ var init_preload_helper = __esmMin((() => {
 			promise = allSettled(deps.map((depString) => {
 				depString = assetsURL(depString, importerUrl);
 				const dep = importMetaResolve(depString);
-				if (dep.href in seen) return;
-				seen[dep.href] = true;
 				const isCss = isCssPreloadUrl(dep);
-				if (preloadedHrefs === void 0) {
-					preloadedHrefs = {
-						all: /* @__PURE__ */ new Set(),
-						styles: /* @__PURE__ */ new Set()
-					};
-					const links = document.getElementsByTagName("link");
-					for (let i = links.length - 1; i >= 0; i--) {
-						const link = links[i];
-						preloadedHrefs.all.add(link.href);
-						if (link.rel === "stylesheet") preloadedHrefs.styles.add(link.href);
+				return preloadOnce(seen, dep.href, () => {
+					if (preloadedHrefs === void 0) {
+						preloadedHrefs = {
+							all: /* @__PURE__ */ new Set(),
+							styles: /* @__PURE__ */ new Set()
+						};
+						const links = document.getElementsByTagName("link");
+						for (let i = links.length - 1; i >= 0; i--) {
+							const link = links[i];
+							preloadedHrefs.all.add(link.href);
+							if (link.rel === "stylesheet") preloadedHrefs.styles.add(link.href);
+						}
 					}
-				}
-				if ((isCss ? preloadedHrefs.styles : preloadedHrefs.all).has(dep.href)) return;
-				const link = document.createElement("link");
-				link.rel = isCss ? "stylesheet" : scriptRel;
-				if (!isCss) link.as = "script";
-				link.crossOrigin = "";
-				link.href = dep.href;
-				if (cspNonce) link.setAttribute("nonce", cspNonce);
-				document.head.appendChild(link);
-				if (isCss) return new Promise((res, rej) => {
-					link.addEventListener("load", res);
-					link.addEventListener("error", () => rej(/* @__PURE__ */ new Error(`Unable to preload CSS for ${dep}`)));
+					if ((isCss ? preloadedHrefs.styles : preloadedHrefs.all).has(dep.href)) return;
+					const link = document.createElement("link");
+					link.rel = isCss ? "stylesheet" : scriptRel;
+					if (!isCss) link.as = "script";
+					link.crossOrigin = "";
+					link.href = dep.href;
+					if (cspNonce) link.setAttribute("nonce", cspNonce);
+					document.head.appendChild(link);
+					if (isCss) return new Promise((res, rej) => {
+						link.addEventListener("load", res);
+						link.addEventListener("error", () => rej(/* @__PURE__ */ new Error(`Unable to preload CSS for ${dep}`)));
+					});
 				});
 			}).filter((p) => p !== void 0));
 		}
@@ -268750,7 +268766,11 @@ var init_Confirmation = __esmMin((() => {
 var defaultInterfaceSettings, Interface_default;
 var init_Interface = __esmMin((() => {
 	init_Preferences$1();
-	defaultInterfaceSettings = { toastDuration: 2 };
+	defaultInterfaceSettings = {
+		toastDuration: 2,
+		chatPreviewLines: 0,
+		chatPreviewTabs: true
+	};
 	Interface_default = Preferences.get("Interface", { ...defaultInterfaceSettings }, 1);
 }));
 //#endregion
@@ -268915,6 +268935,46 @@ function createSettingsPanel(body, service, initialSection = "画面") {
 			};
 			field(displayKeys.includes(key) ? "画面" : "特效", key === "quality" ? "渲染比例（%）" : label, input);
 		}
+		const interfaceHeading = document.createElement("h3");
+		interfaceHeading.className = "settings-interface-heading";
+		interfaceHeading.textContent = "游戏界面";
+		sections.get("画面").section.append(interfaceHeading);
+		const previewLines = document.createElement("select");
+		previewLines.dataset.setting = "chatPreviewLines";
+		for (const value of [
+			0,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+			8
+		]) {
+			const option = document.createElement("option");
+			option.value = value;
+			option.textContent = value === 0 ? "自动（手机 3 行／平板 5 行）" : `${value} 行`;
+			previewLines.append(option);
+		}
+		previewLines.value = String(draft.interface.chatPreviewLines);
+		previewLines.oninput = () => {
+			draft.interface.chatPreviewLines = Number(previewLines.value);
+			service.preview?.(draft.interface);
+		};
+		field("画面", "聊天预览行数", previewLines);
+		const previewTabs = document.createElement("input");
+		previewTabs.type = "checkbox";
+		previewTabs.dataset.setting = "chatPreviewTabs";
+		previewTabs.checked = draft.interface.chatPreviewTabs;
+		previewTabs.oninput = () => {
+			draft.interface.chatPreviewTabs = previewTabs.checked;
+			service.preview?.(draft.interface);
+		};
+		field("画面", "显示聊天分类标签", previewTabs);
+		const help = document.createElement("p");
+		help.className = "settings-chat-help";
+		help.textContent = "按换行后的实际行数显示。空间不足时自动限制高度，设置仅保存在当前浏览器。";
+		sections.get("画面").section.append(help);
 		const duration = document.createElement("input");
 		duration.type = "number";
 		duration.min = 1;
@@ -269024,6 +269084,7 @@ function createSettingsPanel(body, service, initialSection = "画面") {
 		body.append(form);
 	}
 	render();
+	return () => service.preview?.(service.snapshot().interface);
 }
 var init_SettingsPanel = __esmMin((() => {
 	init_PickupSettingsPanel$1();
@@ -269036,7 +269097,7 @@ function settingsSnapshot(defaults = false) {
 	return {
 		graphics: Object.fromEntries(graphicsFields.map(([key]) => [key, (defaults ? GraphicsSettings.defaults : GraphicsSettings)[key]])),
 		pickup: defaults ? pickupDefaults() : loadPickupSettings(),
-		interface: { toastDuration: (defaults ? defaultInterfaceSettings : Interface_default).toastDuration },
+		interface: Object.fromEntries(Object.keys(defaultInterfaceSettings).map((key) => [key, (defaults ? defaultInterfaceSettings : Interface_default)[key]])),
 		audio: Object.fromEntries(["BGM", "Sound"].map((key) => [key, defaults ? {
 			play: true,
 			volume: .5
@@ -269049,6 +269110,16 @@ function settingsSnapshot(defaults = false) {
 function saveGameSettings(draft) {
 	if (!validPickupSettings(draft?.pickup)) return "拾取设置无效，范围须为 1–15 格";
 	if (!Number.isInteger(draft?.interface?.toastDuration) || draft.interface.toastDuration < 1 || draft.interface.toastDuration > 10) return "通知时长须为 1–10 秒";
+	if (![
+		0,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8
+	].includes(draft.interface.chatPreviewLines) || typeof draft.interface.chatPreviewTabs !== "boolean") return "聊天预览设置无效";
 	for (const [key, , range, max] of graphicsFields) {
 		const value = draft?.graphics?.[key];
 		if (range === void 0 ? typeof value !== "boolean" : Array.isArray(range) ? !range.includes(value) : !Number.isFinite(value) || value < range || value > max) return "设置值无效，未保存";
@@ -269061,8 +269132,9 @@ function saveGameSettings(draft) {
 	const previous = settingsSnapshot();
 	for (const [key] of graphicsFields) GraphicsSettings[key] = draft.graphics[key];
 	for (const key of ["BGM", "Sound"]) Object.assign(Audio_default[key], draft.audio[key]);
-	Interface_default.toastDuration = draft.interface.toastDuration;
+	for (const key of Object.keys(defaultInterfaceSettings)) Interface_default[key] = draft.interface[key];
 	Interface_default.save();
+	window.dispatchEvent(new Event("interface-settings-change"));
 	GraphicsSettings.save();
 	Audio_default.save();
 	if (previous.graphics.quality !== GraphicsSettings.quality) {
@@ -362303,6 +362375,14 @@ var init_GameSocial = __esmMin((() => {
 //#endregion
 //#region src/UI/Game/GameChat.js
 function chatChannel(message) {
+	if ([
+		ChatBox_default.FILTER.BATTLE,
+		ChatBox_default.FILTER.PARTY_BATTLE,
+		ChatBox_default.FILTER.EXP,
+		ChatBox_default.FILTER.PARTY_EXP,
+		ChatBox_default.FILTER.ITEM,
+		ChatBox_default.FILTER.PARTY_ITEM
+	].includes(message.filterType)) return "battle";
 	const type = message.colorType || 0;
 	if (type & ChatBox_default.TYPE.PRIVATE) return "private";
 	if (type & ChatBox_default.TYPE.PARTY) return "party";
@@ -363772,7 +363852,18 @@ var init_StatusIcons = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Mobile/game/ChatChannels.js
-var chatChannelLabels;
+function matchesPreviewCategory(message, category) {
+	if (category === "all") return true;
+	if (category === "dialogue") return [
+		"public",
+		"private",
+		"party",
+		"guild",
+		"clan"
+	].includes(message.channel);
+	return message.channel === category;
+}
+var chatChannelLabels, previewCategories;
 var init_ChatChannels = __esmMin((() => {
 	chatChannelLabels = {
 		public: "附近",
@@ -363780,8 +363871,123 @@ var init_ChatChannels = __esmMin((() => {
 		party: "队伍",
 		guild: "公会",
 		clan: "氏族",
+		system: "系统",
+		battle: "战斗"
+	};
+	previewCategories = {
+		all: "全部",
+		dialogue: "对话",
+		battle: "战斗",
 		system: "系统"
 	};
+}));
+//#endregion
+//#region src/UI/Mobile/game/ChatPreview.js
+/** HUD-only filtering; never changes the send channel or the full chat filter. */
+function createChatPreview(root) {
+	const container = root.querySelector(".chat-preview");
+	const log = container.querySelector("[data-chat-preview]");
+	const tabs = container.querySelector("[data-chat-preview-tabs]");
+	const abort = new AbortController();
+	let messages = [], category = "all", lastId = 0, privateUnread = false;
+	let following = true, lastHeight = log.clientHeight;
+	const resize = new ResizeObserver(() => {
+		lastHeight = log.clientHeight;
+		if (following) log.scrollTop = log.scrollHeight;
+	});
+	resize.observe(log);
+	log.addEventListener("scroll", () => {
+		if (log.clientHeight === lastHeight) following = log.scrollHeight - log.clientHeight - log.scrollTop <= 4;
+	}, { signal: abort.signal });
+	const buttons = /* @__PURE__ */ new Map();
+	function updateTabs() {
+		for (const [key, button] of buttons) {
+			button.setAttribute("aria-pressed", String(key === category));
+			button.querySelector("b").hidden = key !== "dialogue" || !privateUnread;
+		}
+	}
+	function render(bottom = false) {
+		const pinned = bottom || (log.clientHeight !== lastHeight ? following : log.scrollHeight - log.clientHeight - log.scrollTop <= 4);
+		following = pinned;
+		const oldTop = log.scrollTop, bounds = log.getBoundingClientRect();
+		const anchor = [...log.children].find((row) => row.getBoundingClientRect().bottom > bounds.top);
+		const anchorId = anchor?.dataset.id, anchorTop = anchor?.getBoundingClientRect().top;
+		log.replaceChildren(...messages.filter((message) => matchesPreviewCategory(message, category)).map((message) => {
+			const row = document.createElement("span");
+			row.className = "chat-preview-line";
+			row.dataset.id = String(message.id);
+			row.textContent = `[${chatChannelLabels[message.channel] || "系统"}] ${message.text.replace(/[\r\n]+/g, " ")}`;
+			return row;
+		}));
+		if (!log.children.length) log.textContent = "暂无消息";
+		if (pinned) log.scrollTop = log.scrollHeight;
+		else {
+			log.scrollTop = oldTop;
+			const next = [...log.children].find((row) => row.dataset.id === anchorId);
+			if (next) log.scrollTop += next.getBoundingClientRect().top - anchorTop;
+		}
+	}
+	for (const [key, label] of Object.entries(previewCategories)) {
+		const button = document.createElement("button");
+		button.type = "button";
+		button.dataset.previewCategory = key;
+		button.append(document.createTextNode(label));
+		const dot = document.createElement("b");
+		dot.hidden = true;
+		dot.setAttribute("aria-label", "有新私聊");
+		dot.textContent = "•";
+		button.append(dot);
+		button.addEventListener("click", () => {
+			category = key;
+			if (key === "all" || key === "dialogue") privateUnread = false;
+			updateTabs();
+			render(true);
+		}, { signal: abort.signal });
+		buttons.set(key, button);
+		tabs.append(button);
+	}
+	function configure(settings) {
+		if (settings.chatPreviewLines) container.style.setProperty("--chat-preview-lines", settings.chatPreviewLines);
+		else container.style.removeProperty("--chat-preview-lines");
+		tabs.hidden = !settings.chatPreviewTabs;
+		if (!settings.chatPreviewTabs) {
+			category = "all";
+			privateUnread = false;
+			render(true);
+		}
+		updateTabs();
+	}
+	window.addEventListener("interface-settings-change", () => configure(Interface_default), { signal: abort.signal });
+	configure(Interface_default);
+	return {
+		configure,
+		update(next, { read = false } = {}) {
+			if (!next.length) {
+				lastId = 0;
+				privateUnread = false;
+			}
+			if (next.some((message) => message.id > lastId && message.channel === "private") && (category === "battle" || category === "system" || container.classList.contains("collapsed"))) privateUnread = true;
+			if (read || !container.classList.contains("collapsed") && (category === "all" || category === "dialogue")) privateUnread = false;
+			lastId = next.at(-1)?.id || 0;
+			messages = next;
+			updateTabs();
+			render();
+		},
+		destroy() {
+			abort.abort();
+			resize.disconnect();
+		}
+	};
+}
+var init_ChatPreview$1 = __esmMin((() => {
+	init_Interface();
+	init_ChatChannels();
+}));
+//#endregion
+//#region src/UI/Mobile/game/ChatPreview.css?raw
+var ChatPreview_default;
+var init_ChatPreview = __esmMin((() => {
+	ChatPreview_default = "/* Preview density follows the same viewport classification as game menus. */\r\n:host {\r\n	--chat-preview-auto-lines: 3;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--chat-preview-auto-lines: 5;\r\n}\r\n.chat-preview:not(.collapsed) {\r\n	height: auto;\r\n	min-height: 0;\r\n	max-height: none;\r\n}\r\n.chat-preview [data-chat-preview] {\r\n	height: min(\r\n		calc(var(--chat-preview-lines, var(--chat-preview-auto-lines)) * 16px),\r\n		max(16px, calc(var(--mobile-visible-height, 100dvh) * 0.35 - 48px))\r\n	);\r\n	max-height: none;\r\n}\r\n.chat-preview-tabs {\r\n	display: flex;\r\n	gap: 2px;\r\n	overflow-x: auto;\r\n	scrollbar-width: none;\r\n	padding-right: 18px;\r\n	margin-bottom: 4px;\r\n	touch-action: pan-x;\r\n}\r\n.chat-preview-tabs button {\r\n	position: relative;\r\n	flex: 1 0 auto;\r\n	min-height: 28px;\r\n	padding: 3px 5px;\r\n	border: 0;\r\n	border-radius: 4px;\r\n	background: transparent;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	white-space: nowrap;\r\n}\r\n.chat-preview-tabs button[aria-pressed='true'] {\r\n	background: #ceaa7030;\r\n	color: #ffe1ae;\r\n}\r\n.chat-preview-tabs b {\r\n	color: #ffcf76;\r\n	position: absolute;\r\n	right: 0;\r\n	top: -2px;\r\n}\r\n.chat-preview.collapsed .chat-preview-tabs {\r\n	display: none;\r\n}\r\n.settings-interface-heading {\r\n	margin: 12px 0 6px;\r\n	font-size: var(--panel-heading);\r\n}\r\n.settings-chat-help {\r\n	margin: 4px 0;\r\n	color: #b4bdc7;\r\n	font-size: var(--panel-label);\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/StatusPanel.js
@@ -366945,7 +367151,7 @@ var init_ShortcutPanel = __esmMin((() => {
 //#region src/UI/Mobile/game/GameHUD.html?raw
 var GameHUD_default$2;
 var init_GameHUD$2 = __esmMin((() => {
-	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<div class=\"chat-preview surface\">\r\n		<button class=\"chat-preview-open\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n			<span data-chat-preview>暂无消息</span><small>聊天 <b data-chat-unread hidden></b> ›</small>\r\n		</button>\r\n		<button data-chat-collapse aria-label=\"收起聊天预览\" title=\"收起聊天预览\">‹</button>\r\n		<button data-chat-expand aria-label=\"展开聊天预览\" title=\"展开聊天预览\" hidden>\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop mobile-menu-viewport\" hidden>\r\n		<section class=\"panel surface mobile-menu-window\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"mobile-game-panel-title\">\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
+	GameHUD_default$2 = "<div class=\"hud\">\r\n	<div class=\"top-left\">\r\n		<button class=\"profile surface\" data-panel=\"profile\" aria-label=\"人物信息\">\r\n			<span class=\"profile-heading\"><strong data-name></strong><span data-job></span></span>\r\n			<span class=\"profile-bars\">\r\n				<label>HP <meter data-hp min=\"0\" max=\"1\"></meter><span data-hp-text></span></label>\r\n				<label>SP <meter data-sp min=\"0\" max=\"1\"></meter><span data-sp-text></span></label>\r\n				<label data-ap-row hidden>AP <meter data-ap min=\"0\" max=\"1\"></meter><span data-ap-text></span></label>\r\n			</span>\r\n		</button>\r\n		<div class=\"profile-actions\">\r\n			<button class=\"surface menu-button\" data-panel=\"menu\">菜单</button>\r\n			<button class=\"statuses surface\" data-panel=\"status\"><span data-status-icons></span>状态</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"top-right\">\r\n		<button class=\"map\" data-panel=\"map\" aria-label=\"展开地图\">\r\n			<canvas width=\"128\" height=\"128\" data-mini-map></canvas><span data-map-name></span\r\n			><small data-coordinates></small>\r\n		</button>\r\n	</div>\r\n	<div class=\"chat-preview surface\">\r\n		<nav class=\"chat-preview-tabs\" data-chat-preview-tabs aria-label=\"聊天预览分类\"></nav>\r\n		<button class=\"chat-preview-open\" data-panel=\"chat\" aria-label=\"打开聊天\">\r\n			<span data-chat-preview>暂无消息</span><small>聊天 <b data-chat-unread hidden></b> ›</small>\r\n		</button>\r\n		<button data-chat-collapse aria-label=\"收起聊天预览\" title=\"收起聊天预览\">‹</button>\r\n		<button data-chat-expand aria-label=\"展开聊天预览\" title=\"展开聊天预览\" hidden>\r\n			<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\">\r\n				<path d=\"M4 4h16v12H9l-5 4V4Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" />\r\n				<path d=\"M8 8h8M8 12h5\" stroke=\"currentColor\" stroke-width=\"1.5\" /></svg\r\n			><b data-chat-unread hidden></b>\r\n		</button>\r\n	</div>\r\n	<div class=\"battle-dock\">\r\n		<div class=\"battle-controls\">\r\n			<div class=\"battle-status surface\">\r\n				<span data-target role=\"status\">自动战斗已停止</span><button data-interact hidden></button>\r\n			</div>\r\n			<div class=\"skill-prompt surface\" hidden>\r\n				<span data-skill-prompt role=\"status\"></span>\r\n			</div>\r\n			<div class=\"battle-tools\">\r\n				<button class=\"surface\" data-panel=\"autoCombat\" data-auto-target>目标：全部魔物</button>\r\n				<button class=\"surface\" data-auto-toggle aria-pressed=\"false\">自动战斗</button>\r\n			</div>\r\n			<div class=\"shortcut-tools surface\">\r\n				<button data-shortcut-page=\"-1\" aria-label=\"上一组快捷键\">‹</button\r\n				><span data-shortcut-page-label></span\r\n				><button data-shortcut-page=\"1\" aria-label=\"下一组快捷键\">›</button\r\n				><button data-panel=\"shortcuts\">快捷键</button>\r\n			</div>\r\n			<div class=\"skill-actions\" hidden>\r\n				<button class=\"surface\" data-skill-self hidden>对自己施放</button>\r\n				<button class=\"surface\" data-skill-cancel>取消施法</button>\r\n			</div>\r\n		</div>\r\n		<div class=\"combat reserved\" aria-label=\"技能快捷栏\">\r\n			<button class=\"skill\" data-shortcut=\"0\" aria-label=\"技能位置 1\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"1\" aria-label=\"技能位置 2\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"2\" aria-label=\"技能位置 3\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"3\" aria-label=\"技能位置 4\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"4\" aria-label=\"技能位置 5\">＋</button>\r\n			<button class=\"skill\" data-shortcut=\"5\" aria-label=\"技能位置 6\">＋</button>\r\n		</div>\r\n	</div>\r\n	<div class=\"backdrop mobile-menu-viewport\" hidden>\r\n		<section\r\n			class=\"panel surface mobile-menu-window\"\r\n			role=\"dialog\"\r\n			aria-modal=\"true\"\r\n			aria-labelledby=\"mobile-game-panel-title\"\r\n		>\r\n			<header>\r\n				<h2 id=\"mobile-game-panel-title\" tabindex=\"-1\"></h2>\r\n				<div class=\"panel-navigation\">\r\n					<button data-back hidden>返回</button><button data-close aria-label=\"关闭面板\">关闭</button>\r\n				</div>\r\n			</header>\r\n			<div class=\"panel-body\"></div>\r\n		</section>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/GameHUD.css?raw
@@ -366977,9 +367183,12 @@ ${MenuPanels_default}
 ${PickupSettingsPanel_default}
 ${MobileSelect_default}
 ${MailPanel_default}
-${MenuLayout_default}</style>${GameHUD_default$2}`;
+${MenuLayout_default}
+${ChatPreview_default}</style>${GameHUD_default$2}`;
 	const $ = (selector) => root.querySelector(selector);
 	const abort = new AbortController();
+	const chatPreview = createChatPreview(root);
+	let settingsCleanup;
 	const chatDisplay = Preferences.get("ChatPreview", { collapsed: false }, 1);
 	let currentPanel = null;
 	let statusPanel = null;
@@ -367071,6 +367280,8 @@ ${MenuLayout_default}</style>${GameHUD_default$2}`;
 	function close(notify = true) {
 		menuSelects.close();
 		if (!currentPanel || notify && serverState?.canClose === false) return;
+		settingsCleanup?.();
+		settingsCleanup = null;
 		clearToast(body);
 		const interaction = serverState;
 		serverState = null;
@@ -367106,16 +367317,7 @@ ${MenuLayout_default}</style>${GameHUD_default$2}`;
 			badge.hidden = !unreadChat;
 			badge.textContent = unreadChat > 99 ? "99+" : String(unreadChat);
 		}
-		const preview = $("[data-chat-preview]");
-		const visibleMessages = messages.filter((message) => chatFilter === "all" || message.channel === chatFilter);
-		preview.replaceChildren(...visibleMessages.slice(-3).map((message) => {
-			const row = document.createElement("span");
-			row.className = "chat-preview-line";
-			row.textContent = `[${chatChannelLabels[message.channel] || "系统"}] ${message.text.replace(/[\r\n]+/g, " ")}`;
-			return row;
-		}));
-		if (!visibleMessages.length) preview.textContent = "暂无消息";
-		preview.scrollTop = preview.scrollHeight;
+		chatPreview.update(messages, { read: currentPanel === "chat" });
 		chatPanel?.update(messages);
 	}
 	function details(entries) {
@@ -367143,6 +367345,8 @@ ${MenuLayout_default}</style>${GameHUD_default$2}`;
 		if (currentPanel === "status") statusPanel?.update(snapshot.statuses || []);
 	}
 	function open(panel, slotIndex) {
+		settingsCleanup?.();
+		settingsCleanup = null;
 		clearToast(body);
 		if (panel === "map") {
 			close();
@@ -367256,7 +367460,10 @@ ${MenuLayout_default}</style>${GameHUD_default$2}`;
 			...actions.autoCombat,
 			close
 		});
-		if (panel === "settings") createSettingsPanel(body, actions.settings);
+		if (panel === "settings") settingsCleanup = createSettingsPanel(body, {
+			...actions.settings,
+			preview: (settings) => chatPreview.configure(settings)
+		});
 		if (panel === "npc") createNPCPanel(body, serverState);
 		if (panel === "status") statusPanel = createStatusPanel(body);
 		if (panel === "profile" || panel === "status") renderDetails();
@@ -367646,6 +367853,7 @@ ${MenuLayout_default}</style>${GameHUD_default$2}`;
 		},
 		close,
 		destroy() {
+			chatPreview.destroy();
 			menuSelects.destroy();
 			close(false);
 			abort.abort();
@@ -367654,10 +367862,11 @@ ${MenuLayout_default}</style>${GameHUD_default$2}`;
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_ChatPreview$1();
+	init_ChatPreview();
 	init_MenuLayout$1();
 	init_PickupSettingsPanel();
 	init_Preferences$1();
-	init_ChatChannels();
 	init_Confirmation();
 	init_Toast();
 	init_StatusPanel();
