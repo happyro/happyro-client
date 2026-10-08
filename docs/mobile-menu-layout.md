@@ -23,7 +23,7 @@
 - 标题和操作栏不能收缩；可滚动内容必须设置 `min-height: 0`，滚动发生在内容内，不能让整个窗口超出视口。
 - 控件使用 `--panel-control`、`--panel-label`、`--panel-heading`、`--panel-gap`。需要调整统一尺寸时仅修改中心样式中的 token；手机特殊宽度也集中登记在这里。
 - 冒险工具内部列布局使用 `menu-content` 容器查询，逻辑通过 ResizeObserver 读取实际窗口宽度，不能根据设备宽度猜测内容宽度。
-- 菜单下拉框通过 `menuOverlayBounds` 同时限制在所属窗口和可视视口中。不要给普通菜单外框添加 CSS containment，否则固定定位下拉框的坐标系会变化。
+- 菜单和冒险工具下拉框共用 `GameSelectLayout.js`，使用 Popover 顶层显示，并同时限制在所属窗口和可视视口中，避免被滚动容器或 containment 裁切。视口平移／缩放、外部点击、父容器滚动及窗口销毁时关闭浮层；列表自身滚动保持展开。
 
 ## 验证
 

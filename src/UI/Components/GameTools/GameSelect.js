@@ -1,3 +1,4 @@
+import { openGameSelectOverlay } from './GameSelectLayout.js';
 import escapeHtml from './escapeHtml.js';
 
 function optionMarkup(option, selectedValue) {
@@ -36,10 +37,12 @@ export function mountGameSelect(root) {
 	const menu = root.querySelector('.game-select-menu');
 	const search = root.querySelector('.game-select-search');
 	const empty = root.querySelector('.game-select-empty');
-	let closeTimer;
+	let closeTimer, cleanupOverlay;
 
 	function close() {
 		clearTimeout(closeTimer);
+		cleanupOverlay?.();
+		cleanupOverlay = null;
 		menu.hidden = true;
 		trigger.setAttribute('aria-expanded', 'false');
 		root.classList.remove('open', 'drop-up');
@@ -49,15 +52,19 @@ export function mountGameSelect(root) {
 		clearTimeout(closeTimer);
 		for (const select of root.getRootNode().querySelectorAll('.game-select.open')) {
 			if (select === root) continue;
-			select.querySelector('.game-select-menu').hidden = true;
-			select.querySelector('.game-select-trigger').setAttribute('aria-expanded', 'false');
-			select.classList.remove('open', 'drop-up');
+			select.dispatchEvent(new Event('game-select-close'));
 		}
 		menu.hidden = false;
 		trigger.setAttribute('aria-expanded', 'true');
 		root.classList.add('open');
-		const windowBottom = root.closest('.game-tools-window')?.getBoundingClientRect().bottom || window.innerHeight;
-		root.classList.toggle('drop-up', menu.getBoundingClientRect().bottom > windowBottom);
+		if (root.closest('.mobile-menu-window')) {
+			cleanupOverlay = openGameSelectOverlay(root, close);
+		} else {
+			const windowBottom =
+				root.closest('.game-tools-window')?.getBoundingClientRect().bottom || window.innerHeight;
+			root.classList.toggle('drop-up', menu.getBoundingClientRect().bottom > windowBottom);
+		}
+		if (menu.hidden) return;
 		search?.focus();
 	}
 
@@ -78,6 +85,7 @@ export function mountGameSelect(root) {
 		input.dispatchEvent(new Event('change', { bubbles: true }));
 	}
 
+	root.addEventListener('game-select-close', close);
 	trigger.addEventListener('click', () => (menu.hidden ? open() : close()));
 	root.addEventListener('focusout', () => {
 		// Safari blurs a focused button when it is tapped again. A closed menu
@@ -144,6 +152,7 @@ export function setGameSelectOptions(root, { options, value = '', disabled = fal
 	root.querySelector('.game-select-options').innerHTML = options
 		.map(option => optionMarkup(option, selectedValue))
 		.join('');
+	root.dispatchEvent(new Event('game-select-close'));
 	root.querySelector('.game-select-menu').hidden = true;
 	root.classList.remove('open', 'drop-up');
 	trigger.setAttribute('aria-expanded', 'false');

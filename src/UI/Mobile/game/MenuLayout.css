@@ -204,3 +204,19 @@
 	max-height: none;
 	margin: 0;
 }
+
+/* One scroll area for every mobile select, including adventure tools. */
+.mobile-menu-window .game-select-menu[popover] {
+	overflow: auto;
+	color: inherit;
+}
+.mobile-menu-window .game-select-menu[popover] .game-select-options {
+	max-height: none;
+	overflow: visible;
+}
+:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > :is(input[aria-label], button),
+:host([data-menu-density='spacious']) .panel.chat-panel .chat-form .game-select-trigger {
+	height: var(--panel-control);
+	min-height: var(--panel-control);
+	max-height: none;
+}
