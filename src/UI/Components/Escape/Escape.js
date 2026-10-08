@@ -1,3 +1,4 @@
+import PickupSettings from 'UI/Components/PickupSettings/PickupSettings.js';
 /**
  * UI/Components/Escape/Escape.js
  *
@@ -54,6 +55,10 @@ Escape.init = function init() {
 		el.style.display = 'none';
 	});
 
+	root.querySelector('.pickup').addEventListener('click', () => {
+		this._host.style.display = 'none';
+		PickupSettings.append();
+	});
 	root.querySelector('.sound').addEventListener('click', onToggleSoundUI);
 	root.querySelector('.graphics').addEventListener('click', onToggleGraphicUI);
 	root.querySelector('.resurection').addEventListener('click', function () {
@@ -94,7 +99,7 @@ Escape.onRemove = function onRemove() {
 	root.querySelectorAll('.resurection, .savepoint').forEach(function (el) {
 		el.style.display = 'none';
 	});
-	root.querySelectorAll('.graphics, .sound, .hotkey').forEach(function (el) {
+	root.querySelectorAll('.graphics, .sound, .hotkey, .pickup').forEach(function (el) {
 		el.style.display = '';
 	});
 };
@@ -159,7 +164,7 @@ Escape.showDeathMenu = function showDeathMenu(hasSiegfried) {
 	if (hasSiegfried) {
 		root.querySelector('.resurection').style.display = '';
 	}
-	root.querySelectorAll('.graphics, .sound, .hotkey').forEach(function (el) {
+	root.querySelectorAll('.graphics, .sound, .hotkey, .pickup').forEach(function (el) {
 		el.style.display = 'none';
 	});
 };
@@ -173,7 +178,7 @@ Escape.resetMenu = function resetMenu() {
 	root.querySelectorAll('.resurection, .savepoint').forEach(function (el) {
 		el.style.display = 'none';
 	});
-	root.querySelectorAll('.graphics, .sound, .hotkey').forEach(function (el) {
+	root.querySelectorAll('.graphics, .sound, .hotkey, .pickup').forEach(function (el) {
 		el.style.display = '';
 	});
 };

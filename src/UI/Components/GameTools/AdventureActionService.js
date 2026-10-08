@@ -9,6 +9,7 @@ let nextNpcRequestId = 0x80000000;
 let nextMapRequestId = 0x40000000;
 let npcPending = false;
 let mapPending = false;
+let mapCompletion = null;
 let npcTimer = null;
 let mapTimer = null;
 let cooldownUntil = 0;
@@ -23,6 +24,8 @@ onConnectionEnd(() => {
 	clearTimeout(cooldownTimer);
 	clearTimeout(statusTimer);
 	npcPending = mapPending = false;
+	mapCompletion?.({ result: -1 });
+	mapCompletion = null;
 	cooldownUntil = 0;
 	status = { message: '', error: false, kind: null };
 	notify();
@@ -95,11 +98,12 @@ export function subscribeAdventureActions(listener) {
 	return () => listeners.delete(listener);
 }
 
-export function teleportToCoordinate(target) {
+export function teleportToCoordinate(target, onComplete = null) {
 	const state = getAdventureActionState(target);
 	if (!state.canTeleport || !target?.mapName || !Number.isFinite(target.x) || !Number.isFinite(target.y))
 		return false;
 	mapPending = true;
+	mapCompletion = onComplete;
 	const requestId = ++nextMapRequestId;
 	const packet = new PACKET.CZ.HAPPYRO_MAP_TELEPORT();
 	packet.requestId = requestId;
@@ -113,6 +117,9 @@ export function teleportToCoordinate(target) {
 		if (!mapPending || requestId !== nextMapRequestId) return;
 		mapPending = false;
 		setStatus('服务器响应超时，请稍后重试', true, 'coordinate');
+		const complete = mapCompletion;
+		mapCompletion = null;
+		complete?.({ result: -1 });
 	}, 8000);
 	return true;
 }
@@ -137,6 +144,9 @@ export function handleMapTeleportResult(packet) {
 		if (packet.result === 3) startCooldown(packet.cooldownRemaining);
 		setStatus(messages[packet.result] || '传送请求被服务器拒绝', true, 'coordinate');
 	}
+	const complete = mapCompletion;
+	mapCompletion = null;
+	complete?.(packet);
 	return true;
 }
 

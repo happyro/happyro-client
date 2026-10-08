@@ -215,3 +215,12 @@ it('starts a fresh movement after release without retaining the previous stop', 
  stopDirectionalMovement();
  expect(s.send.mock.calls.filter(([packet]) => packet instanceof PACKET.CZ.HAPPYRO_STOP_MOVE)).toHaveLength(2);
 });
+
+import { retryOwnedAttack } from '../../src/Controls/AttackIntent.js';
+it('notifies the action owner after both the initial attack and server retry', () => {
+ s.target = entity(); s.session.FreezeUI = false;
+ s.target.onFocus.mockImplementation(() => { s.session.moveAction = { targetGID: 42 }; });
+ const requests = []; attackSelected(false, () => requests.push(s.session.moveAction));
+ retryOwnedAttack(42); expect(requests).toHaveLength(2); expect(requests[0]).not.toBe(requests[1]);
+ stopAttack(); retryOwnedAttack(42); expect(requests).toHaveLength(2);
+});

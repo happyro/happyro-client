@@ -1,3 +1,5 @@
+import { prepareAutoCombatTeleportMap, completeAutoCombatTeleportMap } from 'UI/Game/AutoCombatTeleport.js';
+import { startAutoPickup, stopAutoPickup } from 'UI/Game/GameAutoPickup.js';
 import { resetGameCompanions, updateGameCompanionAutoFeed } from 'UI/Game/GameCompanions.js';
 import { resetGamePet, updateGamePetAutoFeed } from 'UI/Game/GamePet.js';
 import { setGameMailUnread } from 'UI/Game/GameMail.js';
@@ -693,6 +695,8 @@ function onConnectionRefused(pkt) {
  * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
  */
 function onMapChange(pkt) {
+	prepareAutoCombatTeleportMap(pkt.mapName);
+	stopAutoPickup();
 	GameTools.prepareMapTransition();
 	Navigation.prepareMapTransition();
 	MapRenderer.onLoad = () => {
@@ -830,6 +834,9 @@ function onMapChange(pkt) {
 			returnToCharacters: onRestartRequest
 		});
 
+		startAutoPickup();
+		completeAutoCombatTeleportMap();
+
 		// Reload plugins
 		PluginManager.init();
 
@@ -899,6 +906,7 @@ function onExitSuccess() {
 		ShortCut.saveToServer();
 	}
 
+	stopAutoPickup();
 	WhisperBox.clearAll();
 	UIManager.removeComponents();
 	Network.close();
@@ -945,6 +953,7 @@ function onRestartAnswer(pkt) {
 		// Have to wait 10sec
 		ChatBox.addText(DB.getMessage(502), ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
 	} else {
+		stopAutoPickup();
 		WhisperBox.clearAll();
 		GuildEngine.guild_id = 0;
 		BasicInfo.getUI().remove();
@@ -971,6 +980,7 @@ function onDisconnectAnswer(pkt) {
 	switch (pkt.result) {
 		// Disconnect
 		case 0:
+			stopAutoPickup();
 			WhisperBox.clearAll();
 			BasicInfo.getUI().remove();
 			PlayerViewEquip.getUI().remove();

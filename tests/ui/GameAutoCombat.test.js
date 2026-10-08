@@ -1,3 +1,4 @@
+vi.mock('UI/Components/GameTools/AdventureActionService.js', () => ({ getCurrentAdventureMap: () => 'izlude', normalizeAdventureMap: value => value, getAdventureActionState: () => ({ allowed: false }), teleportToCoordinate: vi.fn() }));
 import { beforeEach, expect, it, vi } from 'vitest';
 const state = vi.hoisted(() => ({ session: {}, entities: [], skills: [], focus: null, cast: vi.fn(), ground: vi.fn(), attack: vi.fn(), stop: vi.fn(), send: vi.fn(), cooldown: 0, path: 1 }));
 vi.mock('Engine/SessionStorage.js', () => ({ default: state.session }));
@@ -17,7 +18,7 @@ vi.mock('Network/SkillCooldowns.js', () => ({ remainingCooldown: () => state.coo
 vi.mock('UI/Components/Navigation/Navigation.js', () => ({ default: { stopAutoWalk: vi.fn() } }));
 vi.mock('Network/NetworkManager.js', () => ({ default: { sendPacket: state.send } }));
 vi.mock('Network/PacketStructure.js', () => ({ default: { CZ: { HAPPYRO_STOP_MOVE: class {} } } }));
-vi.mock('UI/Game/GameCommands.js', () => ({ attackSelected: state.attack, stopAttack: () => { state.stop(); state.session.moveAction = null; } }));
+vi.mock('UI/Game/GameCommands.js', () => ({ attackSelected: (moving, onRequest) => { state.attack(moving, onRequest); onRequest?.(); }, stopAttack: () => { state.stop(); state.session.moveAction = null; } }));
 import PACKET from '../../src/Network/PacketStructure.js';
 import { createGameAutoCombat } from '../../src/UI/Game/GameAutoCombat.js';
 beforeEach(() => {
@@ -50,9 +51,9 @@ it('ignores dead, disappearing, non-monster and unreachable entities', () => {
 	state.entities[0].objecttype = 1; state.path = 0; controller.tick(); expect(state.attack).not.toHaveBeenCalled();
 });
 it('cancels a queued chase without sending an outdated client coordinate', () => {
+	state.attack.mockImplementationOnce(() => { state.session.moveAction = { targetID: 10 }; });
 	const controller = createGameAutoCombat(() => true);
 	controller.start();
-	state.session.moveAction = { targetID: 10 };
 	state.session.Entity.position = [10.2, 20.7];
 	state.session.autoFollow = true;
 	controller.stop();
@@ -65,9 +66,9 @@ it('cancels a queued chase without sending an outdated client coordinate', () =>
 	expect(state.send).toHaveBeenCalledOnce();
 });
 it('stops attacks before stopping the chase and also uses it when manual movement pauses combat', () => {
+	state.attack.mockImplementationOnce(() => { state.session.moveAction = { targetID: 10 }; });
 	const controller = createGameAutoCombat(() => true);
 	controller.start();
-	state.session.moveAction = { targetID: 10 };
 	vi.clearAllMocks();
 	controller.pauseForMovement();
 	expect(state.stop).toHaveBeenCalledOnce();
@@ -87,4 +88,19 @@ it.each(['idle', 'dead', 'disconnected'])('does not send a stop movement request
 it('stops when the player becomes unavailable and never casts through a busy cast bar', () => {
 	const controller = createGameAutoCombat(() => true); state.session.Entity.cast.display = true; controller.start(); expect(state.attack).not.toHaveBeenCalled();
 	state.session.Entity.isOverWeight = true; controller.tick(); expect(controller.snapshot().active).toBe(false);
+});
+
+it('does not cancel pickup or newer manual movement when combat stops', () => {
+ for (const replacement of [{ ITAID: 123 }, { targetID: 20 }]) {
+  state.attack.mockImplementationOnce(() => { state.session.moveAction = { targetID: 10 }; });
+  const controller = createGameAutoCombat(() => true); state.session.moveAction = null; controller.start();
+  state.session.moveAction = replacement; vi.clearAllMocks(); controller.stop();
+  expect(state.session.moveAction).toBe(replacement); expect(state.stop).not.toHaveBeenCalled(); expect(state.send).not.toHaveBeenCalled();
+ }
+});
+it('tracks replacement chase requests created by a server attack retry', () => {
+ const controller = createGameAutoCombat(() => true); controller.start();
+ const capture = state.attack.mock.calls.at(-1)[1];
+ state.session.moveAction = { targetGID: 10 }; capture(); vi.clearAllMocks(); controller.stop();
+ expect(state.session.moveAction).toBeNull(); expect(state.send).toHaveBeenCalledOnce();
 });

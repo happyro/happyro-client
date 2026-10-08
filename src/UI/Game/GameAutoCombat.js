@@ -1,3 +1,5 @@
+import { takeAutomationPickupTurn, cancelAutomationPickup } from './GameAutomation.js';
+import { requestAutoCombatTeleport, isAutoCombatTeleportPending } from './AutoCombatTeleport.js';
 import Navigation from 'UI/Components/Navigation/Navigation.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
@@ -57,7 +59,13 @@ export function createGameAutoCombat(enabled) {
 				};
 			});
 	}
+	let ownsAction = false,
+		ownedMove = null;
 	function stop() {
+		if (!ownsAction) return;
+		ownsAction = false;
+		if (Session.moveAction && Session.moveAction !== ownedMove) return;
+		ownedMove = null;
 		Navigation.stopAutoWalk();
 		SkillTargetSelection.remove();
 		const chasing = Boolean(Session.moveAction);
@@ -78,6 +86,19 @@ export function createGameAutoCombat(enabled) {
 			targets,
 			skills,
 			stop,
+			pickupTurn: takeAutomationPickupTurn,
+			cancelPickup: cancelAutomationPickup,
+			teleport: requestAutoCombatTeleport,
+			teleportPending: isAutoCombatTeleportPending,
+			teleportBusy: () =>
+				Boolean(
+					Session.autoFollow ||
+					Session.Entity.action === Session.Entity.ACTION.WALK ||
+					Session.Entity.action === Session.Entity.ACTION.ATTACK ||
+					document.querySelector('#PickupSettings') ||
+					document.querySelector('#MobileGameHUD')?.shadowRoot?.querySelector('.backdrop:not([hidden])') ||
+					document.activeElement?.matches('input, textarea')
+				),
 			chasing: () => Boolean(Session.moveAction),
 			busy: () =>
 				Boolean(
@@ -105,33 +126,41 @@ export function createGameAutoCombat(enabled) {
 				const entity = EntityManager.get(target.id);
 				if (!entity || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return false;
 				if (!skill) {
-					Commands.attackSelected();
+					Commands.attackSelected(false, () => {
+						ownsAction = true;
+						ownedMove = Session.moveAction;
+					});
 					return true;
 				}
 				const current = skills().find(entry => entry.id === skill.id && entry.available);
 				if (!current) return false;
 				Commands.stopAttack();
+				let result;
 				if (current.type & SKILL_INF.PLACE)
-					return SkillTargetSelection.onUseSkillToPos(
+					result = SkillTargetSelection.onUseSkillToPos(
 						current.id,
 						current.level,
 						entity.position[0],
 						entity.position[1]
 					);
-				return SkillTargetSelection.onUseSkillToId(current.id, current.level, target.id);
+				else result = SkillTargetSelection.onUseSkillToId(current.id, current.level, target.id);
+				ownsAction = result !== false;
+				ownedMove = Session.moveAction;
+				return result;
 			}
 		},
 		loadAutoCombatSettings(settingsKey)
 	);
 	return {
 		...controller,
-		configure(species, ids, ranges) {
-			if (!controller.configure(species, ids, ranges)) return false;
+		configure(species, ids, ranges, teleport) {
+			if (!controller.configure(species, ids, ranges, teleport)) return false;
 			const saved = controller.snapshot();
 			return saveAutoCombatSettings(settingsKey, {
 				species: saved.species,
 				skills: saved.skills,
-				ranges: saved.ranges
+				ranges: saved.ranges,
+				teleport: saved.teleport
 			});
 		}
 	};

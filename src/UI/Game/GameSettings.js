@@ -1,3 +1,4 @@
+import { loadPickupSettings, savePickupSettings, pickupDefaults, validPickupSettings } from './PickupSettings.js';
 import Interface, { defaultInterfaceSettings } from 'Preferences/Interface.js';
 import Graphics from 'Preferences/Graphics.js';
 import Audio from 'Preferences/Audio.js';
@@ -37,6 +38,7 @@ export function settingsSnapshot(defaults = false) {
 	);
 	return {
 		graphics,
+		pickup: defaults ? pickupDefaults() : loadPickupSettings(),
 		interface: { toastDuration: (defaults ? defaultInterfaceSettings : Interface).toastDuration },
 		audio: Object.fromEntries(
 			['BGM', 'Sound'].map(key => [
@@ -47,6 +49,7 @@ export function settingsSnapshot(defaults = false) {
 	};
 }
 export function saveGameSettings(draft) {
+	if (!validPickupSettings(draft?.pickup)) return '拾取设置无效，范围须为 1–15 格';
 	if (
 		!Number.isInteger(draft?.interface?.toastDuration) ||
 		draft.interface.toastDuration < 1 ||
@@ -75,6 +78,7 @@ export function saveGameSettings(draft) {
 		)
 			return '音量无效，未保存';
 	}
+	if (!savePickupSettings(draft.pickup)) return '无法保存拾取设置，请检查浏览器存储权限';
 	const previous = settingsSnapshot();
 	for (const [key] of graphicsFields) Graphics[key] = draft.graphics[key];
 	for (const key of ['BGM', 'Sound']) Object.assign(Audio[key], draft.audio[key]);

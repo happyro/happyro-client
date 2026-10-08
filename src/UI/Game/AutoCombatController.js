@@ -1,5 +1,19 @@
 export const AUTO_COMBAT_RANGE_LIMITS = { min: 1, searchMax: 50, activityMax: 100 };
 
+export const AUTO_COMBAT_TELEPORT_DEFAULTS = { enabled: false, waitSeconds: 5, intervalSeconds: 2 };
+export function validAutoCombatTeleport(value) {
+	return (
+		value &&
+		typeof value.enabled === 'boolean' &&
+		Number.isInteger(value.waitSeconds) &&
+		value.waitSeconds >= 1 &&
+		value.waitSeconds <= 60 &&
+		Number.isInteger(value.intervalSeconds) &&
+		value.intervalSeconds >= 1 &&
+		value.intervalSeconds <= 300
+	);
+}
+
 /** Nearby combat policy. Runtime adapters own pathfinding, packets and live skill checks. */
 export function createAutoCombatController(
 	data,
@@ -14,6 +28,8 @@ export function createAutoCombatController(
 		selected = [...configuration.skills],
 		target = null,
 		nextAction = 0;
+	let teleport = { ...AUTO_COMBAT_TELEPORT_DEFAULTS, ...configuration.teleport };
+	let idleSince = null;
 	let origin,
 		lastDistance = Infinity,
 		progressAt = 0,
@@ -21,6 +37,8 @@ export function createAutoCombatController(
 	const skipped = new Map();
 	const distance = (a, b) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]));
 	function stop(message = '自动战斗已停止') {
+		data.cancelPickup?.();
+		idleSince = null;
 		if (active || target) data.stop();
 		active = false;
 		pausedForMovement = false;
@@ -33,6 +51,7 @@ export function createAutoCombatController(
 		return {
 			active,
 			ranges: { ...ranges },
+			teleport: { ...teleport },
 			pausedForMovement,
 			species: species.map(entry => ({ ...entry })),
 			skills: [...selected],
@@ -47,6 +66,10 @@ export function createAutoCombatController(
 			return;
 		}
 		if (pausedForMovement) return;
+		if (data.teleportPending?.()) {
+			status = '正在随机瞬移';
+			return;
+		}
 		const now = data.now(),
 			player = data.position();
 		for (const [id, until] of skipped) if (until <= now) skipped.delete(id);
@@ -72,16 +95,32 @@ export function createAutoCombatController(
 			nextAction = 0;
 		}
 		if (!target) {
+			if (continuous && data.pickupTurn?.()) {
+				idleSince = null;
+				status = '拾取本轮掉落物品';
+				return;
+			}
 			targets.sort((a, b) => distance(player, a.position) - distance(player, b.position));
 			target = targets.find(entity => data.reachable(entity)) || null;
 			if (!target) {
 				status = '等待附近目标';
+				if (!continuous || !teleport.enabled || data.busy() || data.teleportBusy?.()) {
+					idleSince = null;
+					return;
+				}
+				idleSince ??= now;
+				const remaining = teleport.waitSeconds * 1000 - (now - idleSince);
+				status =
+					remaining > 0
+						? `无目标，${Math.ceil(remaining / 1000)} 秒后随机瞬移`
+						: data.teleport(teleport.intervalSeconds);
 				return;
 			}
 			data.select(target);
 			lastDistance = Infinity;
 			progressAt = now;
 		} else target = current;
+		idleSince = null;
 		const range = distance(player, target.position);
 		if (range < lastDistance || !data.chasing()) {
 			progressAt = now;
@@ -121,12 +160,14 @@ export function createAutoCombatController(
 		tick,
 		stop,
 		pauseForMovement() {
+			data.cancelPickup?.();
 			if (!active || pausedForMovement) return;
 			if (!continuous) {
 				stop('手动移动，攻击已停止');
 				return;
 			}
 			data.stop();
+			idleSince = null;
 			pausedForMovement = true;
 			target = null;
 			preferred = null;
@@ -141,6 +182,8 @@ export function createAutoCombatController(
 			status = '寻找附近目标';
 		},
 		start() {
+			data.cancelPickup?.();
+			idleSince = null;
 			if (!data.enabled()) return false;
 			data.stop();
 			origin = [...data.position()];
@@ -156,6 +199,7 @@ export function createAutoCombatController(
 			return true;
 		},
 		attackTarget(id) {
+			data.cancelPickup?.();
 			if (!data.enabled()) return false;
 			const choice = data.targets().find(entity => entity.id === id);
 			if (!choice || !data.reachable(choice)) return false;
@@ -175,7 +219,8 @@ export function createAutoCombatController(
 			tick();
 			return true;
 		},
-		configure(nextSpecies, ids, nextRanges) {
+		configure(nextSpecies, ids, nextRanges, nextTeleport = teleport) {
+			if (!validAutoCombatTeleport(nextTeleport)) return false;
 			const limits = AUTO_COMBAT_RANGE_LIMITS;
 			if (
 				!Number.isInteger(nextRanges.search) ||
@@ -188,6 +233,7 @@ export function createAutoCombatController(
 				return false;
 			stop();
 			ranges = { ...nextRanges };
+			teleport = { ...nextTeleport };
 			species = [...new Map(nextSpecies.map(entry => [entry.id, { id: entry.id, name: entry.name }])).values()];
 			const learned = new Set(data.skills().map(skill => skill.id));
 			selected = [...new Set(ids)].filter(id => learned.has(id));

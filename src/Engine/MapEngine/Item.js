@@ -58,7 +58,18 @@ function onItemSpamInGround(pkt) {
 	const y = pkt.yPos - 0.5 + pkt.subY / 12;
 	const z = Altitude.getCellHeight(x, y) + 5.0;
 
-	ItemObject.add(pkt.ITAID, pkt.ITID, pkt.IsIdentified, pkt.count, x, y, z, pkt.dropeffectmode, pkt.showdropeffect);
+	ItemObject.add(
+		pkt.ITAID,
+		pkt.ITID,
+		pkt.IsIdentified,
+		pkt.count,
+		x,
+		y,
+		z,
+		pkt.dropeffectmode,
+		pkt.showdropeffect,
+		pkt.type
+	);
 }
 
 /**

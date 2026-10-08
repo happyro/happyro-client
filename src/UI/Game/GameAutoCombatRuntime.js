@@ -1,7 +1,17 @@
+import { registerAutomationCombat } from './GameAutomation.js';
+import { cancelAutoCombatTeleport, consumeAutoCombatTeleport } from './AutoCombatTeleport.js';
 import Session from 'Engine/SessionStorage.js';
 import { subscribeGameInput } from 'Controls/GameInputIntent.js';
 import { onConnectionEnd } from 'Network/ConnectionLifecycle.js';
 import { createGameAutoCombat } from './GameAutoCombat.js';
+
+const combatRuntimes = new Set();
+export function isAutoCombatEngaged() {
+	return [...combatRuntimes].some(controller => {
+		const state = controller.snapshot();
+		return state.active && !state.pausedForMovement && Boolean(state.target);
+	});
+}
 
 /** One map-scoped runtime shared by desktop and touch presentations. */
 export function createGameAutoCombatRuntime({
@@ -24,8 +34,11 @@ export function createGameAutoCombatRuntime({
 			Session.Entity.action !== Session.Entity.ACTION.DIE
 		);
 	const controller = createGameAutoCombat(canRun);
+	combatRuntimes.add(controller);
+	const unregisterAutomation = registerAutomationCombat(controller);
 	const abort = new AbortController();
 	const stop = message => {
+		cancelAutoCombatTeleport();
 		movementHeld = false;
 		controller.stop(message);
 		update(controller.snapshot());
@@ -52,6 +65,8 @@ export function createGameAutoCombatRuntime({
 		return false;
 	});
 	const timer = window.setInterval(() => {
+		if (Session.Entity?.action === Session.Entity?.ACTION.DIE) cancelAutoCombatTeleport();
+		if (canRun() && consumeAutoCombatTeleport()) controller.start();
 		if (
 			canRun() &&
 			!movementHeld &&
@@ -78,11 +93,13 @@ export function createGameAutoCombatRuntime({
 	function destroy() {
 		if (destroyed) return;
 		destroyed = true;
+		combatRuntimes.delete(controller);
+		unregisterAutomation();
 		clearInterval(timer);
 		abort.abort();
 		unsubscribeInput();
 		unsubscribeConnection();
-		stop();
+		controller.stop();
 	}
 	return { ...controller, stop, pauseForMovement, destroy };
 }

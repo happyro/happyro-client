@@ -1,10 +1,11 @@
 import { createFeedback } from 'UI/Components/Feedback.js';
-import { AUTO_COMBAT_RANGE_LIMITS } from 'UI/Game/AutoCombatController.js';
+import { AUTO_COMBAT_RANGE_LIMITS, AUTO_COMBAT_TELEPORT_DEFAULTS } from 'UI/Game/AutoCombatController.js';
 
 /** Auto combat configuration is independent of the manual shortcut slots. */
 export function createAutoCombatPanel(body, actions) {
 	const state = actions.snapshot();
 	const ranges = { ...state.ranges };
+	const teleport = { ...AUTO_COMBAT_TELEPORT_DEFAULTS, ...state.teleport };
 	body.innerHTML = `
 		<div class="auto-layout">
 			<section class="auto-target-section" aria-labelledby="auto-target-title">
@@ -15,7 +16,10 @@ export function createAutoCombatPanel(body, actions) {
 				<section class="auto-range-settings" aria-labelledby="auto-range-title">
 					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
 					<div data-range-controls></div>
-					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。范围内没有魔物时原地等待。</p>
+                        <label><input type="checkbox" data-auto-teleport> 无目标自动随机瞬移</label>
+                        <div data-teleport-controls></div>
+                        <p class="auto-help">使用冒险工具传送能力；按当前搜怪范围和目标种类判断。拾取、移动时暂缓，遵守地图限制和服务器冷却。</p>
+					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。开启无目标瞬移后，会在等待结束时随机传送并重设起点。</p>
 				</section>
 			</section>
 			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
@@ -63,6 +67,55 @@ export function createAutoCombatPanel(body, actions) {
 		row.append(label, stepper);
 		$('[data-range-controls]').append(row);
 	}
+	const teleportToggle = $('[data-auto-teleport]');
+	teleportToggle.checked = teleport.enabled;
+	const refreshTeleport = () => {
+		for (const button of body.querySelectorAll('[data-teleport-key]')) {
+			const key = button.dataset.teleportKey;
+			const min = 1;
+			const max = key === 'waitSeconds' ? 60 : 300;
+			button.disabled =
+				!teleport.enabled || (Number(button.dataset.delta) < 0 ? teleport[key] <= min : teleport[key] >= max);
+		}
+		for (const output of body.querySelectorAll('[data-teleport-value]'))
+			output.value = `${teleport[output.dataset.teleportValue]} 秒`;
+	};
+	teleportToggle.onchange = () => {
+		teleport.enabled = teleportToggle.checked;
+		refreshTeleport();
+	};
+	for (const [key, title, min, max] of [
+		['waitSeconds', '无目标等待', 1, 60],
+		['intervalSeconds', '最短瞬移间隔', 1, 300]
+	]) {
+		const row = document.createElement('div');
+		row.className = 'auto-range-row';
+		const label = document.createElement('span');
+		label.textContent = title;
+		const stepper = document.createElement('div');
+		stepper.className = 'auto-range-stepper';
+		stepper.setAttribute('role', 'group');
+		stepper.setAttribute('aria-label', title);
+		const output = document.createElement('output');
+		output.dataset.teleportValue = key;
+		for (const delta of [-1, 1]) {
+			const button = document.createElement('button');
+			button.type = 'button';
+			button.textContent = delta < 0 ? '−' : '+';
+			button.dataset.teleportKey = key;
+			button.dataset.delta = String(delta);
+			button.setAttribute('aria-label', `${delta < 0 ? '减小' : '增大'}${title}`);
+			button.onclick = () => {
+				teleport[key] = Math.max(min, Math.min(max, teleport[key] + delta));
+				refreshTeleport();
+			};
+			stepper.append(button);
+			if (delta < 0) stepper.append(output);
+		}
+		row.append(label, stepper);
+		$('[data-teleport-controls]').append(row);
+	}
+	refreshTeleport();
 	const species = new Map(state.species.map(entry => [entry.id, entry.name]));
 	for (const target of actions.targets()) species.set(target.species, target.name);
 	const chosenSpecies = new Set(state.species.map(entry => entry.id));
@@ -220,7 +273,7 @@ export function createAutoCombatPanel(body, actions) {
 		updateSummary();
 	};
 	function save() {
-		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }) === false) {
+		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }, { ...teleport }) === false) {
 			feedback('配置保存失败，请检查范围或重试', 'error');
 			return;
 		}

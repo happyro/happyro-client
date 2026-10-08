@@ -1,0 +1,22 @@
+import { afterEach, expect, it, vi } from 'vitest';
+vi.mock('UI/Components/GameTools/AdventureControlService.js', () => ({ searchAdventureItems: vi.fn() }));
+import { searchAdventureItems } from '../../src/UI/Components/GameTools/AdventureControlService.js';
+import { createPickupSettingsPanel } from '../../src/UI/Game/PickupSettingsPanel.js';
+import { pickupDefaults } from '../../src/UI/Game/PickupSettings.js';
+afterEach(() => { document.body.replaceChildren(); vi.clearAllMocks(); });
+it('disables filters while off, preserves them and searches/adds/removes exclusions', async () => {
+ const section = document.createElement('section'); document.body.append(section); const draft = pickupDefaults();
+ createPickupSettingsPanel(section, draft);
+ expect(section.querySelector('fieldset').disabled).toBe(true);
+ const toggle = section.querySelector('[data-pickup=enabled]'); toggle.checked = true; toggle.dispatchEvent(new Event('input'));
+ expect(draft.enabled).toBe(true); expect(section.querySelector('fieldset').disabled).toBe(false);
+ const range = section.querySelector('[data-pickup=range]'); range.value = '8'; range.dispatchEvent(new Event('input')); expect(draft.range).toBe(8);
+ const card = section.querySelector('[data-category=card]'); card.checked = false; card.dispatchEvent(new Event('input')); expect(draft.categories).not.toContain('card');
+ searchAdventureItems.mockResolvedValue({ data: [{ Id: 501, names: { 'zh-CN': '红色药水' } }], total: 1 });
+ section.querySelector('input[type=search]').value = '药水';
+ const click = text => [...section.querySelectorAll('button')].find(button => button.textContent === text).click();
+ click('搜索'); await vi.waitFor(() => expect(section.textContent).toContain('红色药水'));
+ click('排除'); expect(draft.excluded).toEqual([{ id: 501, name: '红色药水' }]);
+ toggle.checked = false; toggle.dispatchEvent(new Event('input')); expect(draft.range).toBe(8); expect(draft.excluded).toHaveLength(1);
+ toggle.checked = true; toggle.dispatchEvent(new Event('input')); click('移除'); expect(draft.excluded).toEqual([]);
+});

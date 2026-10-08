@@ -1,3 +1,4 @@
+vi.mock('UI/Components/GameTools/AdventureActionService.js', () => ({ getCurrentAdventureMap: () => 'izlude', normalizeAdventureMap: value => value, getAdventureActionState: () => ({ allowed: false }), teleportToCoordinate: vi.fn() }));
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 const state = vi.hoisted(() => ({ session: {}, act: vi.fn(), stop: vi.fn() }));
 vi.mock('Engine/SessionStorage.js', () => ({ default: state.session }));
