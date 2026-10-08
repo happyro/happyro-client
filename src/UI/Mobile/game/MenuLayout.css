@@ -1,6 +1,6 @@
 /* Sole owner of mobile menu outer dimensions. Features own only their contents. */
 :host {
-	--menu-standard-width: 840px;
+	--menu-standard-width: 1040px;
 	--menu-standard-height: 640px;
 	--menu-home-width: 560px;
 	--menu-dialog-width: 420px;
@@ -219,4 +219,50 @@
 	height: var(--panel-control);
 	min-height: var(--panel-control);
 	max-height: none;
+}
+
+/* All tablet form controls share one height, including feature-specific forms. */
+:host([data-menu-density='spacious'])
+	.mobile-menu-window
+	input:not([type='checkbox']):not([type='radio']):not([type='range']):not([type='hidden']),
+:host([data-menu-density='spacious']) .mobile-menu-window select:not([hidden]) {
+	height: var(--panel-control);
+	min-height: var(--panel-control);
+	max-height: none;
+	padding: 6px 8px;
+	font-size: 16px;
+	line-height: normal;
+	box-sizing: border-box;
+}
+:host([data-menu-density='spacious']) .mobile-menu-window textarea {
+	min-height: calc(var(--panel-control) * 2);
+	font-size: 16px;
+	padding: 8px;
+	box-sizing: border-box;
+}
+:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select, .game-select-trigger) {
+	height: auto;
+	min-height: var(--panel-control);
+	max-height: none;
+}
+:host([data-menu-density='spacious']) .mobile-menu-window :is(.game-select-trigger, .game-select-option) {
+	font-size: var(--panel-label);
+}
+
+/* Shared tablet typography for confirmations, pickers and number prompts. */
+:host([data-menu-density='spacious']) .ui-confirm {
+	font-size: 16px;
+	line-height: 1.6;
+}
+:host([data-menu-density='spacious']) .ui-confirm :is(button, input, select, textarea) {
+	font-size: 16px;
+}
+:host([data-menu-density='spacious']) .ui-confirm .ui-confirm-actions button,
+:host([data-menu-density='spacious']) .ui-confirm .drop-quantity-buttons button {
+	height: var(--panel-control);
+	min-height: var(--panel-control);
+}
+
+:host([data-menu-density='spacious']) .ui-confirm .game-tools-number-label {
+	display: none;
 }

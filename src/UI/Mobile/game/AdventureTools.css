@@ -1500,3 +1500,158 @@
 .mobile-adventure .settings-footer button {
 	grid-column: -2;
 }
+
+/* Keep tablet controls and their containing rows on the same density scale. */
+:host([data-menu-density='spacious']) .mobile-adventure {
+	font-size: var(--panel-label);
+	--adventure-padding: 12px;
+}
+:host([data-menu-density='spacious']) .adventure-header,
+:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-toolbar, .monster-toolbar) {
+	padding: var(--adventure-padding) 16px;
+	gap: 8px;
+}
+:host([data-menu-density='spacious']) .adventure-tabs {
+	gap: 8px;
+}
+:host([data-menu-density='spacious']) .mobile-adventure button {
+	height: auto;
+	min-height: var(--panel-control);
+	padding: 6px 10px;
+}
+
+:host([data-menu-density='spacious'])
+	.mobile-adventure
+	:is(
+		.catalog-pagination,
+		.monster-pagination,
+		.catalog-action-panel,
+		.summon-panel,
+		.character-actions,
+		.settings-footer
+	) {
+	flex: 0 0 auto;
+	height: auto;
+	min-height: calc(var(--panel-control) + 21px);
+	padding: 10px 12px;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-row, .monster-location) {
+	height: auto;
+	min-height: var(--panel-control);
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-text strong, .monster-location strong) {
+	font-size: 14px;
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-text small, .monster-location small) {
+	font-size: 12px;
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.management-form, .settings-grid) {
+	gap: 12px;
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.character-detail-scroll, .settings-scroll) {
+	padding-inline: 12px;
+}
+
+.mobile-adventure :is(.catalog-pagination, .monster-pagination) button {
+	width: 52px;
+	min-width: 52px;
+	flex: 0 0 52px;
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-pagination, .monster-pagination) button {
+	width: 64px;
+	min-width: 64px;
+	flex-basis: 64px;
+}
+
+/* Tablet reading scale, shared by all catalog and management pages. */
+:host([data-menu-density='spacious']) .mobile-adventure {
+	--adventure-text: 16px;
+	--adventure-meta: 14px;
+	font-size: var(--adventure-text);
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-row, .monster-row, .character-job-row) {
+	min-height: 60px;
+	padding: 8px;
+	font-size: var(--adventure-text);
+}
+:host([data-menu-density='spacious'])
+	.mobile-adventure
+	:is(
+		small,
+		label,
+		em,
+		th,
+		td,
+		.catalog-summary,
+		.monster-summary,
+		.character-job-summary,
+		.catalog-status,
+		.management-status,
+		.monster-stats div,
+		.catalog-metadata div
+	) {
+	font-size: var(--adventure-meta);
+	line-height: 1.5;
+}
+:host([data-menu-density='spacious'])
+	.mobile-adventure
+	:is(
+		.item-description,
+		.monster-description,
+		.settings-scroll,
+		.settings-scroll p,
+		.settings-scroll label,
+		.settings-grid label,
+		.settings-rate-list label,
+		.settings-drop-table th,
+		.settings-drop-table td
+	) {
+	font-size: var(--adventure-text);
+	line-height: 1.6;
+}
+:host([data-menu-density='spacious']) .mobile-adventure h3 {
+	font-size: 18px;
+	line-height: 1.4;
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.monster-overview, .item-overview) {
+	grid-template-columns: 128px minmax(0, 1fr);
+	gap: 12px;
+	padding: 8px;
+}
+:host([data-menu-density='spacious']) .mobile-adventure .monster-heading .monster-portrait {
+	/* Scale the atlas and its offset together, keeping the sprite's crop intact. */
+	width: 96px;
+	height: 96px;
+	margin: 32px;
+	transform: scale(1.666667);
+	justify-self: center;
+}
+:host([data-menu-density='spacious']) .mobile-adventure .item-portrait {
+	width: 128px;
+	min-height: 128px;
+}
+:host([data-menu-density='spacious']) .mobile-adventure .monster-stats {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+:host([data-menu-density='spacious']) .mobile-adventure :is(.character-traits-unavailable, .map-thumb span) {
+	font-size: var(--adventure-meta);
+	line-height: 1.3;
+}
+
+/* Section labels stay quieter than names and body content. */
+:host([data-menu-density='spacious']) .mobile-adventure h4 {
+	font-size: var(--adventure-meta);
+	line-height: 1.4;
+}
+:host([data-menu-density='spacious']) .mobile-adventure .monster-overview {
+	grid-template-columns: 160px minmax(0, 1fr);
+}
+:host([data-menu-density='spacious']) .mobile-adventure :is(.monster-thumb, .npc-catalog-tab .catalog-thumb) {
+	/* Preserve atlas cropping while reserving space for the enlarged 56px image. */
+	transform: scale(1.4);
+	margin: 8px;
+}

@@ -36,10 +36,10 @@ it('keeps history scroll position on arrivals but follows messages at the bottom
  log.scrollTop=144;log.dispatchEvent(new Event('scroll'));preview.update(Array.from({length:12},(_,i)=>({id:i+1,channel:'public',text:String(i)})));expect(log.scrollTop).toBe(192);
 });
 it('applies device preferences and resets filtering when tabs are disabled',()=>{
- preview.update(messages);choose('battle');preview.configure({chatPreviewLines:8,chatPreviewTabs:false});
- expect(root.querySelector('.chat-preview').style.getPropertyValue('--chat-preview-lines')).toBe('8');
+ preview.update(messages);choose('battle');preview.configure({chatPreviewCompactLines:3,chatPreviewSpaciousLines:8,chatPreviewTabs:false});
+ expect(root.querySelector('.chat-preview').style.getPropertyValue('--chat-preview-spacious-lines')).toBe('8');
  expect(root.querySelector('nav').hidden).toBe(true);expect(log.children.length).toBe(3);
- preview.configure(defaultInterfaceSettings);expect(root.querySelector('.chat-preview').style.getPropertyValue('--chat-preview-lines')).toBe('');expect(root.querySelector('nav').hidden).toBe(false);
+ preview.configure(defaultInterfaceSettings);expect(root.querySelector('.chat-preview').style.getPropertyValue('--chat-preview-spacious-lines')).toBe('5');expect(root.querySelector('nav').hidden).toBe(false);
 });
 
 it('keeps following the latest message when resizing changes the visible number of lines',()=>{

@@ -1036,7 +1036,7 @@
 }
 .panel .chat-form {
 	display: grid;
-	grid-template-columns: 78px minmax(0, 1fr) 48px 48px;
+	grid-template-columns: 78px minmax(0, 1fr) 56px 56px;
 	gap: 6px;
 	margin: 0;
 }
@@ -1097,9 +1097,7 @@
 	font-size: 16px;
 	padding: 3px 6px;
 }
-.panel.chat-panel .chat-form > [data-emotions] {
-	font-size: 11px;
-}
+
 .chat-emotions {
 	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
 	min-height: 44px;
@@ -1177,4 +1175,72 @@
 	top: -6px;
 	font-size: 10px;
 	line-height: 16px;
+}
+
+.chat-body .chat-log {
+	font-size: 14px;
+	line-height: 1.6;
+}
+.panel.chat-panel .chat-form > button {
+	font-size: 14px;
+	white-space: nowrap;
+	line-height: 1;
+	padding: 0 8px;
+}
+:host([data-menu-density='spacious']) .chat-body .chat-log {
+	font-size: 16px;
+}
+:host([data-menu-density='spacious']) .panel.chat-panel .chat-form {
+	grid-template-columns: 100px minmax(0, 1fr) 72px 72px;
+}
+:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > button {
+	font-size: 16px;
+	padding: 0 12px;
+}
+
+/* Center footer contents within equal top/bottom spacing, including subgrid rows. */
+:host([data-menu-density='spacious']) .panel .attribute-footer,
+:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {
+	align-items: center;
+	align-content: center;
+	padding-block: 8px;
+}
+:host([data-menu-density='spacious']) .panel :is(.skills-reset, .attribute-plan-actions) {
+	display: flex;
+	align-items: center;
+}
+:host([data-menu-density='spacious'])
+	.panel
+	:is(.attribute-footer, .skills-footer, .skills-layout .inventory-actions)
+	button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1.2;
+}
+
+/* Include the owning body's bottom space in the footer instead of padding it twice. */
+:host([data-menu-density='spacious']) .panel:is([data-view='attributes'], [data-view='skills']) > .panel-body {
+	padding-bottom: 0;
+}
+:host([data-menu-density='spacious']) .panel .skills-layout > section {
+	padding-bottom: 0;
+}
+:host([data-menu-density='spacious']) .panel .attribute-footer,
+:host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {
+	padding-block: 16px;
+}
+:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation {
+	grid-template-columns: max-content minmax(72px, 1fr) max-content repeat(3, 56px);
+}
+:host([data-menu-density='spacious']) .panel .attribute-increments button {
+	width: 56px;
+	min-width: 56px;
+	padding-inline: 4px;
+	font-size: 14px;
+}
+
+:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation,
+:host([data-menu-density='spacious']) .panel .attribute-results > dl {
+	row-gap: 4px;
 }

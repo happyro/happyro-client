@@ -105,3 +105,19 @@
 		flex-basis: 100%;
 	}
 }
+
+.pickup-limits {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 12px;
+}
+.pickup-limits .settings-field {
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-end;
+	gap: 6px;
+}
+.pickup-section .pickup-limits .settings-field input {
+	width: 100%;
+	max-width: none;
+}

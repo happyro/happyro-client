@@ -145,8 +145,8 @@
 	font-size: 11px;
 }
 .panel[data-view='mail'] :is(.mail-pagination, .mail-footer, .mail-browser-footer) {
-	height: 38px;
-	min-height: 38px;
+	height: auto;
+	min-height: calc(var(--panel-control) + 10px);
 	flex-shrink: 0;
 	padding: 4px 8px;
 	border-top: 1px solid #65717b;
@@ -167,7 +167,7 @@
 }
 .panel[data-view='mail'] .mail-pagination {
 	display: grid;
-	grid-template-columns: 32px minmax(0, 1fr) 32px;
+	grid-template-columns: var(--panel-control) minmax(0, 1fr) var(--panel-control);
 	align-items: center;
 	gap: 6px;
 	flex-shrink: 0;
@@ -259,4 +259,20 @@
 	.panel[data-view='mail'] .inventory-body {
 		overflow: auto;
 	}
+}
+
+:host([data-menu-density='spacious']) .panel[data-view='mail'] .mail-toolbar :is(.mail-category, .menu-select) {
+	width: 112px;
+	min-width: 112px;
+	flex-basis: 112px;
+}
+:host([data-menu-density='spacious'])
+	.panel[data-view='mail']
+	:is(.mail-pagination, .mail-footer, .mail-browser-footer) {
+	padding: 8px 12px;
+	min-height: calc(var(--panel-control) + 18px);
+}
+:host([data-menu-density='spacious']) .panel[data-view='mail'] .mail-footer {
+	flex-wrap: wrap;
+	overflow-x: visible;
 }

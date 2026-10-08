@@ -171,101 +171,114 @@
 	border-bottom: 0;
 }
 /* Use available viewport space, not device names; phone landscape stays compact. */
-@media (min-width: 768px) and (min-height: 560px) {
-	:host {
-		font-size: 15px;
-	}
-	.top-left {
-		width: 260px;
-		gap: 14px;
-	}
-	.profile {
-		padding: 10px 12px;
-		gap: 8px;
-	}
-	.profile-heading > span {
-		font-size: 12px;
-		max-width: 112px;
-	}
-	.profile-bars {
-		grid-template-columns: 24px minmax(0, 1fr);
-		gap: 7px 6px;
-	}
-	.profile label {
-		font-size: 12px;
-	}
-	.profile meter {
-		height: 12px;
-	}
-	.profile label span {
-		min-width: 82px;
-	}
-	.profile-actions button {
-		min-height: 44px;
-		padding: 8px 14px;
-	}
-	[data-status-icons] img {
-		width: 28px;
-		height: 28px;
-	}
-	.map {
-		width: 144px;
-		gap: 3px;
-	}
-	.map canvas {
-		width: 128px;
-		height: 128px;
-	}
-	.map span {
-		font-size: 14px;
-	}
-	.map small {
-		font-size: 12px;
-	}
-	.battle-dock {
-		--battle-gap: 8px;
-		width: 366px;
-	}
-	.combat {
-		gap: 8px;
-	}
-	.combat .skill {
-		font-size: 24px;
-		border-radius: 8px;
-	}
-	.skill img {
-		width: 40px;
-		height: 40px;
-		bottom: 5px;
-	}
-	.skill small {
-		font-size: 12px;
-	}
-	.battle-status {
-		min-height: 40px;
-		font-size: 14px;
-		padding: 7px 10px;
-	}
-	.battle-tools button,
-	.battle-status button {
-		min-height: 44px;
-		font-size: 14px;
-		padding: 6px 8px;
-	}
-	.shortcut-tools,
-	.skill-actions {
-		height: 44px;
-	}
-	.shortcut-tools button {
-		min-width: 40px;
-		min-height: 44px;
-	}
-	.shortcut-tools span,
-	.skill-actions button {
-		font-size: 14px;
-	}
-	.skill-prompt {
-		height: 40px;
-		font-size: 14px;
-	}
+
+:host([data-menu-density='spacious']) {
+	font-size: 15px;
+}
+:host([data-menu-density='spacious']) .top-left {
+	width: 320px;
+	gap: 14px;
+}
+:host([data-menu-density='spacious']) .profile {
+	padding: 12px 14px;
+	gap: 8px;
+}
+:host([data-menu-density='spacious']) .profile-heading > span {
+	font-size: 14px;
+	max-width: 145px;
+}
+:host([data-menu-density='spacious']) .profile-bars {
+	grid-template-columns: 28px minmax(0, 1fr);
+	gap: 7px 6px;
+}
+:host([data-menu-density='spacious']) .profile label {
+	font-size: 14px;
+}
+:host([data-menu-density='spacious']) .profile meter {
+	height: 18px;
+}
+:host([data-menu-density='spacious']) .profile label span {
+	min-width: 0;
+	font-size: 12px;
+	line-height: 18px;
+}
+:host([data-menu-density='spacious']) .profile-actions button {
+	min-height: 44px;
+	padding: 8px 14px;
+}
+:host([data-menu-density='spacious']) [data-status-icons] img {
+	width: 28px;
+	height: 28px;
+}
+:host([data-menu-density='spacious']) .map {
+	width: 144px;
+	gap: 3px;
+}
+:host([data-menu-density='spacious']) .map canvas {
+	width: 128px;
+	height: 128px;
+}
+:host([data-menu-density='spacious']) .map span {
+	font-size: 14px;
+}
+:host([data-menu-density='spacious']) .map small {
+	font-size: 12px;
+}
+:host([data-menu-density='spacious']) .battle-dock {
+	--battle-gap: 8px;
+	width: 366px;
+}
+:host([data-menu-density='spacious']) .combat {
+	gap: 8px;
+}
+:host([data-menu-density='spacious']) .combat .skill {
+	font-size: 24px;
+	border-radius: 8px;
+}
+:host([data-menu-density='spacious']) .skill img {
+	width: 40px;
+	height: 40px;
+	bottom: 5px;
+}
+:host([data-menu-density='spacious']) .skill small {
+	font-size: 12px;
+}
+:host([data-menu-density='spacious']) .battle-status {
+	min-height: 40px;
+	font-size: 14px;
+	padding: 7px 10px;
+}
+:host([data-menu-density='spacious']) .battle-tools button,
+:host([data-menu-density='spacious']) .battle-status button {
+	min-height: 44px;
+	font-size: 14px;
+	padding: 6px 8px;
+}
+:host([data-menu-density='spacious']) .shortcut-tools,
+:host([data-menu-density='spacious']) .skill-actions {
+	height: 44px;
+}
+:host([data-menu-density='spacious']) .shortcut-tools button {
+	min-width: 40px;
+	min-height: 44px;
+}
+:host([data-menu-density='spacious']) .shortcut-tools span,
+:host([data-menu-density='spacious']) .skill-actions button {
+	font-size: 14px;
+}
+:host([data-menu-density='spacious']) .skill-prompt {
+	height: 40px;
+	font-size: 14px;
+}
+
+:host([data-menu-density='spacious']) .profile-heading strong {
+	font-size: 18px;
+}
+:host([data-menu-density='spacious']) .profile meter::-webkit-meter-inner-element {
+	position: relative;
+	display: block;
+	height: 100%;
+}
+:host([data-menu-density='spacious']) .profile meter::-webkit-meter-bar {
+	top: 0;
 }

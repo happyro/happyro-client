@@ -85,8 +85,13 @@ export function createChatPreview(root) {
 		tabs.append(button);
 	}
 	function configure(settings) {
-		if (settings.chatPreviewLines) container.style.setProperty('--chat-preview-lines', settings.chatPreviewLines);
-		else container.style.removeProperty('--chat-preview-lines');
+		for (const [scene, key] of [
+			['compact', 'chatPreviewCompactLines'],
+			['spacious', 'chatPreviewSpaciousLines']
+		]) {
+			if (settings[key]) container.style.setProperty(`--chat-preview-${scene}-lines`, settings[key]);
+			else container.style.removeProperty(`--chat-preview-${scene}-lines`);
+		}
 		tabs.hidden = !settings.chatPreviewTabs;
 		if (!settings.chatPreviewTabs) {
 			category = 'all';

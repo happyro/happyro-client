@@ -24,6 +24,9 @@ export function createPickupSettingsPanel(section, draft) {
 		draft.enabled = enabled.checked;
 		controls.disabled = !draft.enabled;
 	};
+	const limits = document.createElement('div');
+	limits.className = 'pickup-limits';
+	controls.append(limits);
 	const range = document.createElement('input');
 	range.type = 'number';
 	range.min = 1;
@@ -34,7 +37,7 @@ export function createPickupSettingsPanel(section, draft) {
 	range.oninput = () => {
 		draft.range = Number(range.value);
 	};
-	controls.append(label('拾取范围（格）', range));
+	limits.append(label('拾取范围（格）', range));
 	const batchSeconds = document.createElement('input');
 	batchSeconds.type = 'number';
 	batchSeconds.min = 1;
@@ -45,7 +48,7 @@ export function createPickupSettingsPanel(section, draft) {
 	batchSeconds.oninput = () => {
 		draft.batchSeconds = Number(batchSeconds.value);
 	};
-	controls.append(label('每轮拾取最长时间（秒）', batchSeconds));
+	limits.append(label('每轮拾取最长时间（秒）', batchSeconds));
 	const batchHelp = document.createElement('p');
 	batchHelp.className = 'pickup-note';
 	batchHelp.textContent = '自动战斗时，打完当前目标再拾取本轮物品；达到时限后重新找怪，没有怪物则继续拾取。';

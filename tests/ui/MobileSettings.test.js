@@ -105,7 +105,25 @@ it('previews chat layout drafts and restores saved preferences when the panel cl
  const body=document.body.appendChild(document.createElement('div')),preview=vi.fn();
  const saved=settingsSnapshot();const dispose=createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings,preview});
  const input=body.querySelector('[data-setting=chatPreviewLines]');input.value='8';input.dispatchEvent(new Event('input'));
- expect(preview.mock.calls.at(-1)[0].chatPreviewLines).toBe(8);expect(Interface.chatPreviewLines).toBe(saved.interface.chatPreviewLines);
- dispose();expect(preview.mock.calls.at(-1)[0].chatPreviewLines).toBe(saved.interface.chatPreviewLines);
- const invalid=settingsSnapshot();invalid.interface.chatPreviewLines=9;expect(saveGameSettings(invalid)).toContain('无效');
+ expect(preview.mock.calls.at(-1)[0].chatPreviewSpaciousLines).toBe(8);expect(Interface.chatPreviewSpaciousLines).toBe(saved.interface.chatPreviewSpaciousLines);
+ dispose();expect(preview.mock.calls.at(-1)[0].chatPreviewSpaciousLines).toBe(saved.interface.chatPreviewSpaciousLines);
+ const invalid=settingsSnapshot();invalid.interface.chatPreviewSpaciousLines=9;expect(saveGameSettings(invalid)).toContain('无效');invalid.interface.chatPreviewSpaciousLines=0;expect(saveGameSettings(invalid)).toContain('无效');
+});
+
+
+it('keeps layout drafts independent and follows the host scene while settings are open', async () => {
+ const host=document.body.appendChild(document.createElement('div'));
+ host.dataset.menuDensity='spacious';
+ const root=host.attachShadow({mode:'open'}),body=root.appendChild(document.createElement('div'));
+ const dispose=createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings});
+ const input=body.querySelector('[data-setting=chatPreviewLines]');
+ input.value='8'; input.dispatchEvent(new Event('input'));
+ host.dataset.menuDensity='compact'; await Promise.resolve();
+ expect(input.value).toBe('3');expect(body.querySelector('[data-chat-scene]')).toBeNull();expect(input.closest('label').textContent).toContain('聊天行数');expect([...input.options].some(option=>option.textContent.includes('自动'))).toBe(false);
+ input.value='2'; input.dispatchEvent(new Event('input'));
+ host.dataset.menuDensity='spacious'; await Promise.resolve(); expect(input.value).toBe('8');
+ [...body.querySelectorAll('button')].find(button=>button.textContent==='保存').click();
+ const stored=JSON.parse(localStorage.getItem('Interface'));
+ expect(stored.chatPreviewCompactLines).toBe(2);expect(stored.chatPreviewSpaciousLines).toBe(8);
+ dispose();
 });

@@ -62,7 +62,9 @@ export function saveGameSettings(draft) {
 	)
 		return '通知时长须为 1–10 秒';
 	if (
-		![0, 2, 3, 4, 5, 6, 7, 8].includes(draft.interface.chatPreviewLines) ||
+		!['chatPreviewCompactLines', 'chatPreviewSpaciousLines'].every(key =>
+			[2, 3, 4, 5, 6, 7, 8].includes(draft.interface[key])
+		) ||
 		typeof draft.interface.chatPreviewTabs !== 'boolean'
 	)
 		return '聊天预览设置无效';

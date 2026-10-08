@@ -1,11 +1,19 @@
 import { createPickupSettingsPanel } from 'UI/Game/PickupSettingsPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
+import { menuDensity } from './MenuLayout.js';
 import { showToast } from 'UI/Components/Toast.js';
 
 /** Graphics/audio use a draft; camera adjustments take effect immediately. */
 export function createSettingsPanel(body, service, initialSection = '画面') {
 	let draft = service.snapshot();
 	let activeSection = initialSection;
+	const host = body.getRootNode().host;
+	const scene = () => host?.dataset.menuDensity || menuDensity(window.innerWidth, window.innerHeight);
+	let updateScene = () => {};
+	const observer = new MutationObserver(() => updateScene());
+	if (host) observer.observe(host, { attributes: true, attributeFilter: ['data-menu-density'] });
+	const resize = () => updateScene();
+	if (!host) window.addEventListener('resize', resize);
 	const notify = message => showToast(body, message);
 	function render() {
 		body.replaceChildren();
@@ -79,24 +87,24 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 			};
 			field(displayKeys.includes(key) ? '画面' : '特效', key === 'quality' ? '渲染比例（%）' : label, input);
 		}
-		const interfaceHeading = document.createElement('h3');
-		interfaceHeading.className = 'settings-interface-heading';
-		interfaceHeading.textContent = '游戏界面';
-		sections.get('画面').section.append(interfaceHeading);
 		const previewLines = document.createElement('select');
 		previewLines.dataset.setting = 'chatPreviewLines';
-		for (const value of [0, 2, 3, 4, 5, 6, 7, 8]) {
+		for (const value of [2, 3, 4, 5, 6, 7, 8]) {
 			const option = document.createElement('option');
 			option.value = value;
-			option.textContent = value === 0 ? '自动（手机 3 行／平板 5 行）' : `${value} 行`;
+			option.textContent = `${value} 行`;
 			previewLines.append(option);
 		}
-		previewLines.value = String(draft.interface.chatPreviewLines);
+		const settingKey = () => (scene() === 'spacious' ? 'chatPreviewSpaciousLines' : 'chatPreviewCompactLines');
+		updateScene = () => {
+			previewLines.value = String(draft.interface[settingKey()]);
+		};
+		updateScene();
 		previewLines.oninput = () => {
-			draft.interface.chatPreviewLines = Number(previewLines.value);
+			draft.interface[settingKey()] = Number(previewLines.value);
 			service.preview?.(draft.interface);
 		};
-		field('画面', '聊天预览行数', previewLines);
+		field('画面', '聊天行数', previewLines);
 		const previewTabs = document.createElement('input');
 		previewTabs.type = 'checkbox';
 		previewTabs.dataset.setting = 'chatPreviewTabs';
@@ -106,10 +114,6 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 			service.preview?.(draft.interface);
 		};
 		field('画面', '显示聊天分类标签', previewTabs);
-		const help = document.createElement('p');
-		help.className = 'settings-chat-help';
-		help.textContent = '按换行后的实际行数显示。空间不足时自动限制高度，设置仅保存在当前浏览器。';
-		sections.get('画面').section.append(help);
 		const duration = document.createElement('input');
 		duration.type = 'number';
 		duration.min = 1;
@@ -255,5 +259,9 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 		body.append(form);
 	}
 	render();
-	return () => service.preview?.(service.snapshot().interface);
+	return () => {
+		observer.disconnect();
+		window.removeEventListener('resize', resize);
+		service.preview?.(service.snapshot().interface);
+	};
 }
