@@ -39,7 +39,12 @@ export function settingsSnapshot(defaults = false) {
 	return {
 		graphics,
 		pickup: defaults ? pickupDefaults() : loadPickupSettings(),
-		interface: { toastDuration: (defaults ? defaultInterfaceSettings : Interface).toastDuration },
+		interface: Object.fromEntries(
+			Object.keys(defaultInterfaceSettings).map(key => [
+				key,
+				(defaults ? defaultInterfaceSettings : Interface)[key]
+			])
+		),
 		audio: Object.fromEntries(
 			['BGM', 'Sound'].map(key => [
 				key,
@@ -56,6 +61,11 @@ export function saveGameSettings(draft) {
 		draft.interface.toastDuration > 10
 	)
 		return '通知时长须为 1–10 秒';
+	if (
+		![0, 2, 3, 4, 5, 6, 7, 8].includes(draft.interface.chatPreviewLines) ||
+		typeof draft.interface.chatPreviewTabs !== 'boolean'
+	)
+		return '聊天预览设置无效';
 	for (const [key, , range, max] of graphicsFields) {
 		const value = draft?.graphics?.[key];
 		if (
@@ -82,8 +92,9 @@ export function saveGameSettings(draft) {
 	const previous = settingsSnapshot();
 	for (const [key] of graphicsFields) Graphics[key] = draft.graphics[key];
 	for (const key of ['BGM', 'Sound']) Object.assign(Audio[key], draft.audio[key]);
-	Interface.toastDuration = draft.interface.toastDuration;
+	for (const key of Object.keys(defaultInterfaceSettings)) Interface[key] = draft.interface[key];
 	Interface.save();
+	window.dispatchEvent(new Event('interface-settings-change'));
 	Graphics.save();
 	Audio.save();
 	if (previous.graphics.quality !== Graphics.quality) {

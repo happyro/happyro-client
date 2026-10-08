@@ -100,3 +100,12 @@ it('persists notification duration only on save and restores the two-second defa
  const draft = settingsSnapshot(); draft.interface.toastDuration = 0;
  expect(saveGameSettings(draft)).toContain('1–10'); expect(Interface.toastDuration).toBe(2);
 });
+
+it('previews chat layout drafts and restores saved preferences when the panel closes',()=>{
+ const body=document.body.appendChild(document.createElement('div')),preview=vi.fn();
+ const saved=settingsSnapshot();const dispose=createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings,preview});
+ const input=body.querySelector('[data-setting=chatPreviewLines]');input.value='8';input.dispatchEvent(new Event('input'));
+ expect(preview.mock.calls.at(-1)[0].chatPreviewLines).toBe(8);expect(Interface.chatPreviewLines).toBe(saved.interface.chatPreviewLines);
+ dispose();expect(preview.mock.calls.at(-1)[0].chatPreviewLines).toBe(saved.interface.chatPreviewLines);
+ const invalid=settingsSnapshot();invalid.interface.chatPreviewLines=9;expect(saveGameSettings(invalid)).toContain('无效');
+});

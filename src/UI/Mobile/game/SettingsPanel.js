@@ -79,6 +79,37 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 			};
 			field(displayKeys.includes(key) ? '画面' : '特效', key === 'quality' ? '渲染比例（%）' : label, input);
 		}
+		const interfaceHeading = document.createElement('h3');
+		interfaceHeading.className = 'settings-interface-heading';
+		interfaceHeading.textContent = '游戏界面';
+		sections.get('画面').section.append(interfaceHeading);
+		const previewLines = document.createElement('select');
+		previewLines.dataset.setting = 'chatPreviewLines';
+		for (const value of [0, 2, 3, 4, 5, 6, 7, 8]) {
+			const option = document.createElement('option');
+			option.value = value;
+			option.textContent = value === 0 ? '自动（手机 3 行／平板 5 行）' : `${value} 行`;
+			previewLines.append(option);
+		}
+		previewLines.value = String(draft.interface.chatPreviewLines);
+		previewLines.oninput = () => {
+			draft.interface.chatPreviewLines = Number(previewLines.value);
+			service.preview?.(draft.interface);
+		};
+		field('画面', '聊天预览行数', previewLines);
+		const previewTabs = document.createElement('input');
+		previewTabs.type = 'checkbox';
+		previewTabs.dataset.setting = 'chatPreviewTabs';
+		previewTabs.checked = draft.interface.chatPreviewTabs;
+		previewTabs.oninput = () => {
+			draft.interface.chatPreviewTabs = previewTabs.checked;
+			service.preview?.(draft.interface);
+		};
+		field('画面', '显示聊天分类标签', previewTabs);
+		const help = document.createElement('p');
+		help.className = 'settings-chat-help';
+		help.textContent = '按换行后的实际行数显示。空间不足时自动限制高度，设置仅保存在当前浏览器。';
+		sections.get('画面').section.append(help);
 		const duration = document.createElement('input');
 		duration.type = 'number';
 		duration.min = 1;
@@ -224,4 +255,5 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 		body.append(form);
 	}
 	render();
+	return () => service.preview?.(service.snapshot().interface);
 }
