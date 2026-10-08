@@ -30,3 +30,12 @@ it('keeps an explicit choice and confirmation rather than submitting the first e
 it('detects in-place equipment slot changes after opening an inventory selection',()=>{
  s.items[0].slot={card1:0};const service=openGameSelection('精炼',selectionEntries([2],'inventory'),s.send,s.cancel);service.setOperationGuard(()=>true);s.items[0].slot.card1=4001;expect(service.choose(2)).toContain('变化');expect(s.send).not.toHaveBeenCalled();
 });
+
+it('removes stale selection rows and disables the remaining rows while unavailable', () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ const state={entries:[{id:1,name:'旧选项'},{id:2,name:'保留选项'}],allowed:true};
+ const panel=createSelectionPanel(body,{snapshot:()=>state,choose:vi.fn()});
+ body.querySelector('.inventory-item').click();state.entries=state.entries.slice(1);state.allowed=false;panel.update();
+ expect(body.querySelectorAll('.inventory-item')).toHaveLength(1);expect(body.querySelector('.inventory-item').disabled).toBe(true);
+ expect(body.querySelector('.inventory-detail').textContent).toContain('点选条目');
+});

@@ -130,7 +130,9 @@
 	margin: 2% 1% 0% 2%;
 }
 #Mail .add_zeny {
-	width: 51px;
+	width: 68px;
+	min-width: 68px;
+	white-space: nowrap;
 	height: 21px;
 	border: none;
 	margin-left: 16%;
@@ -138,8 +140,6 @@
 }
 #zeny_ok {
 	display: none;
-	width: 43px !important;
-	margin-left: 19% !important;
 }
 #Mail .create_mail_btn {
 	width: 43px;

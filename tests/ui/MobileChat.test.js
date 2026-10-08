@@ -1,7 +1,7 @@
 import {beforeEach,expect,it,vi} from 'vitest';
 const s=vi.hoisted(()=>({session:{Playing:true,hasParty:false,hasGuild:false},send:vi.fn()}));
 vi.mock('Engine/SessionStorage.js',()=>({default:s.session}));
-vi.mock('UI/Components/ChatBox/ChatBox.js',()=>({default:{TYPE:{PRIVATE:4,PARTY:8,GUILD:16,CLAN:2048},FILTER:{PUBLIC_CHAT:1}}}));
+vi.mock('UI/Components/ChatBox/ChatBox.js',()=>({default:{TYPE:{PRIVATE:4,PARTY:8,GUILD:16,CLAN:2048},FILTER:{PUBLIC_CHAT:1,ITEM:5,PARTY_ITEM:8,BATTLE:15,PARTY_BATTLE:16,EXP:17,PARTY_EXP:18}}}));
 import {createGameChat,chatChannel} from '../../src/UI/Game/GameChat.js';
 import {createChatPanel} from '../../src/UI/Mobile/game/ChatPanel.js';
 beforeEach(()=>{vi.clearAllMocks();s.session.Playing=true;s.session.hasParty=false;s.session.hasGuild=false;});
@@ -80,4 +80,10 @@ it('keeps the expression picker and text draft when sending fails', async () => 
  expect(closed).not.toHaveBeenCalled();
  expect(body.querySelector('.chat-emotions').hidden).toBe(false);
  expect(body.querySelector('[aria-label=聊天内容]').value).toBe('草稿');
+});
+
+it('classifies combat, experience and loot using message filter metadata',()=>{
+ for(const filterType of [5,8,15,16,17,18])expect(chatChannel({filterType,colorType:8})).toBe('battle');
+ expect(chatChannel({filterType:0,text:'战斗经验物品'})).toBe('system');
+ expect(chatChannel({filterType:3,colorType:8})).toBe('party');
 });

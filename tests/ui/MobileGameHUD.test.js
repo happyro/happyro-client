@@ -5,11 +5,13 @@ import { clearChatFeed, publishChatMessage, subscribeChatFeed } from '../../src/
 let host, root, view, actions;
 const state = { name: '测试角色', job: '初心者', level: 10, jobLevel: 5, money: 123, hp: 80, maxHp: 100, sp: 20, maxSp: 40, position: [12, 34], mapName: '普隆德拉', statuses: [{ id: 1, title: '加速术', description: '10秒', icon: 'data:image/png;base64,AA==' }] };
 beforeEach(() => {
+ vi.stubGlobal('ResizeObserver', class { observe() {} disconnect() {} });
 	host = document.createElement('div'); document.body.append(host); root = host.attachShadow({ mode: 'open' });
 	actions = { openAdventureMap: vi.fn(), equipmentSnapshot: () => ({ slots: [], stats: [] }), inventorySnapshot: () => [], cancelSceneInput: vi.fn(), setModal: vi.fn(), sendChat: vi.fn(), returnToCharacters: vi.fn() };
 	view = createGameHUDView(root, actions); view.update(state);
 });
-afterEach(() => { view.destroy(); host.remove(); clearChatFeed(); vi.restoreAllMocks(); });
+afterEach(() => {
+ vi.unstubAllGlobals(); view.destroy(); host.remove(); clearChatFeed(); vi.restoreAllMocks(); });
 const click = selector => root.querySelector(selector).click();
 
 describe('mobile game HUD', () => {
@@ -231,22 +233,34 @@ it('remembers collapsed chat previews and retains unread messages until chat ope
  localStorage.removeItem('ChatPreview');
 });
 
-it('shares the chat filter with the HUD preview and retains it when reopened', () => {
+it('keeps full chat filtering independent from preview categories and remembers it on reopen', () => {
  const messages = [{id:1,text:'附近消息',channel:'public'}, {id:2,text:'私聊消息',channel:'private'}];
  view.setMessages(messages);
  click('[data-panel="chat"]');
  const choose = value => root.querySelector(`[data-chat-filter="${value}"]`).click();
  choose('private');
- expect(root.querySelector('[data-chat-preview]').textContent).toBe('[私聊] 私聊消息');
+ expect(root.querySelector('[data-chat-preview]').textContent).toContain('附近消息');
  expect(root.querySelector('.chat-log').textContent).toBe('[私聊] 私聊消息');
  click('[data-close]');
  view.setMessages([...messages, {id:3,text:'新附近消息',channel:'public'}, {id:4,text:'新私聊消息',channel:'private'}]);
- expect(root.querySelector('[data-chat-preview]').textContent).not.toContain('附近');
+ expect(root.querySelector('[data-chat-preview]').textContent).toContain('附近');
  expect(root.querySelector('[data-chat-preview]').textContent).toContain('新私聊消息');
  click('[data-panel="chat"]');
  expect(root.querySelector('[data-chat-filter="private"]').getAttribute('aria-pressed')).toBe('true');
  choose('guild');
- expect(root.querySelector('[data-chat-preview]').textContent).toBe('暂无消息');
+ expect(root.querySelector('.chat-log').textContent).not.toContain('新附近消息');
  choose('all');
  expect(root.querySelector('[data-chat-preview]').textContent).toContain('新附近消息');
+});
+
+it('keeps NPC close controls consistent and ignores backdrop dismissal', () => {
+ const close=vi.fn();
+ view.showInteraction({kind:'npc',mode:'next',token:{},lines:['你好'],respond:vi.fn(),canClose:false,close});
+ expect(root.querySelector('[data-close]').disabled).toBe(true);expect(root.querySelector('[data-back]').hidden).toBe(true);
+ view.showInteraction({kind:'npc',mode:'close',token:{},lines:['再见'],respond:vi.fn(),canClose:true,close});
+ expect(root.querySelector('[data-close]').disabled).toBe(false);
+ const backdrop=root.querySelector('.backdrop');
+ for(const type of ['pointerdown','pointerup'])backdrop.dispatchEvent(new MouseEvent(type,{bubbles:true}));
+ backdrop.click();expect(close).not.toHaveBeenCalled();expect(backdrop.hidden).toBe(false);
+ click('[data-close]');expect(close).toHaveBeenCalledOnce();
 });

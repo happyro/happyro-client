@@ -609,7 +609,7 @@ function updatePreviewButton(item) {
 		return;
 	}
 
-	previewButton.style.display = 'block';
+	previewButton.style.display = '';
 	// Remove old listener by cloning
 	const newBtn = previewButton.cloneNode(true);
 	previewButton.parentNode.replaceChild(newBtn, previewButton);

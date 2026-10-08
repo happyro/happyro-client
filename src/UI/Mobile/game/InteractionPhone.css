@@ -1,0 +1,91 @@
+/* Phone: compact two-column editing, short forms, fixed actions. */
+:host([data-menu-density='compact']) .panel.interaction-panel {
+	--menu-window-width: 780px;
+	--menu-window-height: 100%;
+	font-size: var(--interaction-text);
+}
+:host([data-menu-density='compact']) .interaction-panel .inventory-layout {
+	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+	gap: 8px;
+}
+:host([data-menu-density='compact']) .interaction-panel .inventory-detail {
+	padding: 8px;
+}
+:host([data-menu-density='compact']) .interaction-panel :is(button, h3, .inventory-item span, .ui-confirm) {
+	font-size: var(--interaction-text);
+}
+:host([data-menu-density='compact']) .interaction-panel h2 {
+	font-size: var(--interaction-title);
+}
+:host([data-menu-density='compact']) .interaction-panel button {
+	min-height: var(--interaction-control);
+	padding: 6px 8px;
+}
+:host([data-menu-density='compact']) .interaction-panel .inventory-item {
+	min-height: 44px;
+}
+:host([data-menu-density='compact'])
+	.interaction-panel
+	.panel-body
+	input:not([type='checkbox']):not([type='radio']):not([type='hidden']),
+:host([data-menu-density='compact']) .interaction-panel .panel-body select:not([hidden]) {
+	width: 100%;
+	height: var(--interaction-control);
+	min-height: var(--interaction-control);
+	font-size: 16px;
+	padding: 6px 8px;
+	box-sizing: border-box;
+}
+:host([data-menu-density='compact']) .interaction-panel .menu-select {
+	width: 100%;
+	min-width: 0;
+}
+:host([data-menu-density='compact']) .interaction-panel .game-select-trigger {
+	min-height: var(--interaction-control);
+	font-size: var(--interaction-text);
+}
+:host([data-menu-density='compact']) .interaction-panel .interaction-footer {
+	gap: 6px;
+	padding-top: 6px;
+}
+:host([data-menu-density='compact']) .interaction-panel .interaction-status {
+	font-size: var(--interaction-caption);
+	line-height: 1.4;
+}
+:host([data-menu-density='compact']) .interaction-panel .ui-confirm {
+	--menu-dialog-width: 440px;
+	padding: 12px;
+}
+:host([data-menu-density='compact']) .interaction-panel .ui-confirm-actions button {
+	height: var(--interaction-control);
+	font-size: var(--interaction-text);
+}
+:host([data-menu-density='compact']) .interaction-panel .interaction-warning {
+	font-size: var(--interaction-caption);
+	line-height: 1.4;
+}
+:host([data-menu-density='compact']) .interaction-panel[data-view='trade'] .trade-offers {
+	border-top: 1px solid #52606d;
+	margin-top: 12px;
+}
+:host([data-menu-density='compact']) .interaction-panel[data-view='vending'] [data-order] {
+	border-top: 1px solid #52606d;
+	margin-top: 12px;
+	padding-top: 8px;
+}
+:host([data-menu-density='compact']) .panel[data-view='information'] {
+	--menu-window-width: 520px;
+	--menu-window-height: auto;
+	max-height: 80%;
+	font-size: var(--interaction-text);
+}
+:host([data-menu-density='compact']) .interaction-information {
+	grid-template-columns: minmax(90px, 0.8fr) minmax(0, 1.2fr);
+}
+
+:host([data-menu-density='compact']) .panel .warehouse-body .storage-modes button {
+	min-width: 60px;
+}
+:host([data-menu-density='compact']) .panel .warehouse-body .container-toolbar {
+	gap: 6px;
+}

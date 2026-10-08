@@ -687,7 +687,7 @@ function onAddZenyInput(event) {
 	if (zenyAmt) zenyAmt.style.display = 'none';
 
 	const zenyOk = root.querySelector('#zeny_ok');
-	if (zenyOk) zenyOk.style.display = 'inline-block';
+	if (zenyOk) zenyOk.style.display = 'inline-flex';
 
 	const input = root.querySelector('.input_zeny_amt');
 	if (input) {
@@ -704,7 +704,7 @@ function onValidZenyInput(event) {
 	event.stopImmediatePropagation();
 
 	const zenyAmt = root.querySelector('#zeny_amt');
-	if (zenyAmt) zenyAmt.style.display = 'inline-block';
+	if (zenyAmt) zenyAmt.style.display = '';
 
 	const zenyOk = root.querySelector('#zeny_ok');
 	if (zenyOk) zenyOk.style.display = 'none';

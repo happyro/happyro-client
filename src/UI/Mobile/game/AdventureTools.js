@@ -1,3 +1,4 @@
+import menuLayoutCSS from './MenuLayout.css?raw';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { subscribeAdventureActions } from 'UI/Components/GameTools/AdventureActionService.js';
 import { subscribeAdventureRoute } from 'UI/Components/GameTools/AdventureRouteService.js';
@@ -18,8 +19,11 @@ import itemCSS from 'UI/Components/GameTools/ItemCatalogTab.css?raw';
 import selectCSS from 'UI/Components/GameTools/GameSelect.css?raw';
 import mobileCSS from './AdventureTools.css?raw';
 
-const Tools = new GUIComponent('MobileAdventureTools', baseCSS + itemCSS + selectCSS + mobileCSS + mobileSelectCSS);
-Tools.render = () => '<div class="adventure-mount"></div>';
+const Tools = new GUIComponent(
+	'MobileAdventureTools',
+	baseCSS + itemCSS + selectCSS + mobileCSS + mobileSelectCSS + menuLayoutCSS
+);
+Tools.render = () => '<div class="adventure-mount mobile-menu-viewport"></div>';
 Tools.needFocus = false;
 Tools.nativeScrolling = true;
 let view,

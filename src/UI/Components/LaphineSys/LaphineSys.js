@@ -552,7 +552,7 @@ function onUpdateSubmitList(item) {
 		root.querySelector('.submit_button_enabled').style.display = 'none';
 		root.querySelector('.submit_button_disabled').style.display = 'block';
 		root.querySelector('.make_disabled').style.display = 'none';
-		root.querySelector('.make_enabled').style.display = 'inline-block';
+		root.querySelector('.make_enabled').style.display = '';
 	}
 
 	adjustSubmittedMatList();

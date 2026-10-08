@@ -1,8 +1,8 @@
-import { createFeedback } from 'UI/Components/Feedback.js';
 import { AUTO_COMBAT_RANGE_LIMITS, AUTO_COMBAT_TELEPORT_DEFAULTS } from 'UI/Game/AutoCombatController.js';
 
 /** Auto combat configuration is independent of the manual shortcut slots. */
 export function createAutoCombatPanel(body, actions) {
+	let ready = false;
 	const state = actions.snapshot();
 	const ranges = { ...state.ranges };
 	const teleport = { ...AUTO_COMBAT_TELEPORT_DEFAULTS, ...state.teleport };
@@ -16,10 +16,14 @@ export function createAutoCombatPanel(body, actions) {
 				<section class="auto-range-settings" aria-labelledby="auto-range-title">
 					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
 					<div data-range-controls></div>
-                        <label><input type="checkbox" data-auto-teleport> 无目标自动随机瞬移</label>
-                        <div data-teleport-controls></div>
-                        <p class="auto-help">使用冒险工具传送能力；按当前搜怪范围和目标种类判断。拾取、移动时暂缓，遵守地图限制和服务器冷却。</p>
-					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。开启无目标瞬移后，会在等待结束时随机传送并重设起点。</p>
+					<p class="auto-help">搜怪：角色周围的搜索距离。活动：距本轮起点的最大距离；手动移动或瞬移后重设起点。</p>
+				</section>
+				<section class="auto-teleport-settings" aria-labelledby="auto-teleport-title">
+					<h4 id="auto-teleport-title">自动瞬移</h4>
+					<label class="auto-teleport-toggle"><span>无目标时随机瞬移</span><input type="checkbox" data-auto-teleport></label>
+					<div data-teleport-controls></div>
+					<p class="auto-help">使用冒险工具能力。没有战斗目标和可拾取物品时，等待后随机瞬移。</p>
+					<p class="auto-help">仍受地图限制和服务器冷却约束。</p>
 				</section>
 			</section>
 			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
@@ -29,8 +33,7 @@ export function createAutoCombatPanel(body, actions) {
 				<div class="auto-skill-list" data-auto-skills></div>
 			</section>
 		</div>
-		<div class="auto-config-footer"><div><strong data-auto-summary></strong></div><button type="button" data-save-auto>保存配置</button></div>`;
-	const feedback = createFeedback(body);
+		<div class="auto-config-footer"><div><strong data-auto-summary></strong></div><span data-auto-save-status role="status">修改后自动保存</span></div>`;
 	const $ = selector => body.querySelector(selector);
 	const limits = AUTO_COMBAT_RANGE_LIMITS;
 	for (const [key, title, maximum] of [
@@ -70,6 +73,7 @@ export function createAutoCombatPanel(body, actions) {
 	const teleportToggle = $('[data-auto-teleport]');
 	teleportToggle.checked = teleport.enabled;
 	const refreshTeleport = () => {
+		if (ready) save();
 		for (const button of body.querySelectorAll('[data-teleport-key]')) {
 			const key = button.dataset.teleportKey;
 			const min = 1;
@@ -242,6 +246,7 @@ export function createAutoCombatPanel(body, actions) {
 	if (!entries.length) $('[data-auto-skills]').textContent = '暂无可自动释放的技能，使用普通攻击。';
 	const selectedSkills = () => entries.filter(skill => chosenSkills.has(skill.id)).map(skill => skill.id);
 	function updateSummary() {
+		if (ready) save();
 		$('[data-range-summary]').textContent = `${ranges.search} / ${ranges.activity} 格`;
 		for (const output of body.querySelectorAll('[data-range-value]'))
 			output.value = `${ranges[output.dataset.rangeValue]} 格`;
@@ -273,12 +278,18 @@ export function createAutoCombatPanel(body, actions) {
 		updateSummary();
 	};
 	function save() {
-		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }, { ...teleport }) === false) {
-			feedback('配置保存失败，请检查范围或重试', 'error');
-			return;
-		}
-		actions.close();
+		const ok = actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }, { ...teleport }) !== false;
+		$('[data-auto-save-status]').textContent = ok ? '已保存' : '保存失败，请重试';
+		$('[data-auto-save-status]').dataset.error = String(!ok);
+		$('[data-auto-retry]').hidden = ok;
 	}
-	$('[data-save-auto]').onclick = save;
+	const retry = document.createElement('button');
+	retry.type = 'button';
+	retry.dataset.autoRetry = '';
+	retry.textContent = '重试';
+	retry.hidden = true;
+	retry.onclick = save;
+	$('.auto-config-footer').append(retry);
 	updateSummary();
+	ready = true;
 }

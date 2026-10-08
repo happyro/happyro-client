@@ -1,3 +1,5 @@
+import menuLayoutCSS from './MenuLayout.css?raw';
+import { updateMenuLayout } from './MenuLayout.js';
 import css from './MobileInputEditor.css?raw';
 
 const editable =
@@ -18,7 +20,7 @@ export function createMobileInputEditor(host) {
 		const overlay = document.createElement('div');
 		overlay.dataset.mobileInputEditor = '';
 		const editor = overlay.attachShadow({ mode: 'open' });
-		editor.innerHTML = `<style>${css}</style><dialog aria-labelledby="editor-title"><section><span id="editor-title"></span><button type="button" data-cancel>取消</button><main></main><button type="button" data-done>完成</button></section></dialog>`;
+		editor.innerHTML = `<style>${css}${menuLayoutCSS}</style><dialog class="mobile-menu-editor" aria-labelledby="editor-title"><section><span id="editor-title"></span><button type="button" data-cancel>取消</button><main></main><button type="button" data-done>完成</button></section></dialog>`;
 		const dialog = editor.querySelector('dialog');
 		const content = editor.querySelector('section');
 		const title =
@@ -42,8 +44,24 @@ export function createMobileInputEditor(host) {
 		editor.querySelector('main').append(field);
 		const originalInert = host.inert;
 		const abort = new AbortController();
+		let layoutWidth = window.innerWidth,
+			layoutHeight = window.innerHeight;
+		updateMenuLayout(overlay, layoutWidth, layoutHeight);
 		function resize() {
 			const visual = window.visualViewport;
+			if (window.innerWidth !== layoutWidth) {
+				layoutWidth = window.innerWidth;
+				layoutHeight = window.innerHeight;
+				updateMenuLayout(overlay, layoutWidth, layoutHeight);
+			}
+			overlay.style.setProperty('--mobile-visible-height', `${visual?.height || window.innerHeight}px`);
+			overlay.style.setProperty('--mobile-visual-top', `${visual?.offsetTop || 0}px`);
+			if (overlay.dataset.menuDensity === 'spacious') {
+				content.style.removeProperty('top');
+				content.style.removeProperty('height');
+				dialog.style.removeProperty('height');
+				return;
+			}
 			content.style.top = `${visual?.offsetTop || 0}px`;
 			content.style.height = `${visual?.height || window.innerHeight}px`;
 			dialog.style.height = `${Math.max(window.innerHeight, document.documentElement.clientHeight, (visual?.height || 0) + (visual?.offsetTop || 0))}px`;

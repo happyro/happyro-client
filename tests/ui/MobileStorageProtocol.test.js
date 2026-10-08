@@ -37,3 +37,26 @@ it('resets mobile container models at full-list boundaries without relying on de
  receive('SPLIT_SEND_ITEMLIST_SET',{invType:1,name:''});expect(s.cartClear).toHaveBeenCalledOnce();
  s.mobile=false;receive('SPLIT_SEND_ITEMLIST_SET',{invType:0,name:''});receive('SPLIT_SEND_ITEMLIST_SET',{invType:1,name:''});expect(s.inventoryClear).toHaveBeenCalledOnce();expect(s.cartClear).toHaveBeenCalledOnce();
 });
+
+it('keeps stored items on a zero-count rejection and resolves the pending request',()=>{
+ receive('STORE_NORMAL_ITEMLIST',{itemInfo:[{index:2,ITID:501,count:3}]});
+ receive('NOTIFY_STOREITEM_COUNTINFO',{curCount:1,maxCount:600});
+ interactionSnapshot().storageTransfer={source:'storage',destination:'inventory',index:2,id:501,count:1,pending:true};
+ receive('DELETE_ITEM_FROM_STORE',{index:2,count:0});
+ expect(s.items).toHaveLength(1);
+ expect(interactionSnapshot().storageTransfer.pending).toBe(false);
+ expect(interactionSnapshot().storageTransfer.message).toContain('未成功');
+});
+
+it('confirms deposits and withdrawals only after storage model updates',()=>{
+ receive('NOTIFY_STOREITEM_COUNTINFO',{curCount:0,maxCount:600});
+ const owner=interactionSnapshot();
+ owner.storageTransfer={source:'inventory',destination:'storage',index:4,id:501,count:3,pending:true};
+ receive('ADD_ITEM_TO_STORE',{index:2,ITID:501,count:3});
+ expect(s.items).toHaveLength(1);
+ expect(owner.storageTransfer.message).toContain('已存入');
+ owner.storageTransfer={source:'storage',destination:'cart',index:2,id:501,count:3,pending:true};
+ receive('DELETE_ITEM_FROM_STORE',{index:2,count:3});
+ expect(s.items).toHaveLength(0);
+ expect(owner.storageTransfer.message).toContain('已取出');
+});

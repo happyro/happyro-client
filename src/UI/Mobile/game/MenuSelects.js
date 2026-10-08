@@ -42,37 +42,6 @@ export function createMenuSelects(container) {
 					select.dispatchEvent(new Event('change', { bubbles: true }));
 					sync();
 				});
-				const trigger = root.querySelector('.game-select-trigger');
-				const menu = root.querySelector('.game-select-menu');
-				function positionMenu() {
-					if (menu.hidden) return;
-					const rect = trigger.getBoundingClientRect();
-					const viewport = window.visualViewport;
-					const top = viewport?.offsetTop || 0;
-					const bottom = top + (viewport?.height || innerHeight);
-					const below = bottom - rect.bottom - 8;
-					const above = rect.top - top - 8;
-					const up = below < 160 && above > below;
-					const height = Math.max(30, Math.min(240, up ? above : below));
-					const fitOptions = Boolean(root.closest('.shortcut-fields'));
-					const left = (viewport?.offsetLeft || 0) + 8;
-					const availableWidth = (viewport?.width || innerWidth) - 16;
-					if (fitOptions) {
-						menu.style.width = 'max-content';
-						menu.style.minWidth = `${Math.min(rect.width, availableWidth)}px`;
-						menu.style.maxWidth = `${availableWidth}px`;
-					}
-					const width = fitOptions ? menu.getBoundingClientRect().width : rect.width;
-					root.classList.remove('drop-up');
-					Object.assign(menu.style, {
-						left: `${fitOptions ? Math.max(left, Math.min(rect.left, left + availableWidth - width)) : rect.left}px`,
-						width: `${width}px`,
-						maxHeight: `${height}px`,
-						top: up ? `${rect.top - Math.min(height, menu.scrollHeight + 2) - 2}px` : `${rect.bottom + 2}px`
-					});
-				}
-				trigger.addEventListener('click', positionMenu);
-				root.addEventListener('keydown', positionMenu);
 			}
 			if (entry.key !== key) {
 				setGameSelectOptions(entry.root, state);
@@ -112,7 +81,6 @@ export function createMenuSelects(container) {
 		},
 		{ signal: abort.signal }
 	);
-	window.addEventListener('resize', close, { signal: abort.signal });
 	sync();
 	return {
 		sync,
@@ -120,6 +88,7 @@ export function createMenuSelects(container) {
 		destroy() {
 			observer.disconnect();
 			abort.abort();
+			close();
 			entries.clear();
 		}
 	};

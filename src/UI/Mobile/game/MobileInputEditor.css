@@ -8,12 +8,6 @@
 	box-sizing: border-box;
 }
 dialog {
-	position: fixed;
-	inset: 0;
-	width: 100%;
-	max-width: none;
-	max-height: none;
-	margin: 0;
 	padding: 0;
 	border: 0;
 	background: #191f26;

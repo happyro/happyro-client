@@ -1,0 +1,94 @@
+/* Dimensions and type scales are registered in MenuLayout.css. */
+:host([data-menu-density]) .panel[data-view='npc'] > .panel-body {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	overflow: hidden;
+	font-size: var(--npc-text);
+}
+:host([data-menu-density]) .panel[data-view='npc'] h2 {
+	font-size: var(--npc-title);
+}
+:host([data-menu-density]) .panel[data-view='npc'] button {
+	min-height: var(--npc-control);
+	font-size: var(--npc-text);
+	line-height: 1.4;
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+.npc-content {
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	flex: 1 1 auto;
+	display: flow-root;
+}
+.npc-lines {
+	white-space: pre-line;
+	font-size: inherit;
+	line-height: 1.6;
+	overflow-wrap: anywhere;
+}
+.npc-cutin {
+	float: right;
+	width: auto;
+	max-width: 30%;
+	max-height: var(--npc-image-height);
+	object-fit: contain;
+	margin: 0 0 8px 12px;
+	pointer-events: none;
+}
+.npc-options {
+	display: grid;
+	gap: 8px;
+	clear: both;
+	padding-top: 10px;
+}
+.npc-options button {
+	width: 100%;
+	text-align: left;
+	padding: 8px 12px;
+}
+.npc-actions {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 8px;
+	flex-shrink: 0;
+	border-top: 1px solid #52606d;
+	padding-top: 10px;
+}
+.npc-actions > button {
+	min-width: 88px;
+}
+.npc-status {
+	color: #bac4cd;
+	margin-right: auto;
+}
+.npc-input-form {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 8px;
+	width: 100%;
+}
+:host([data-menu-density]) .panel[data-view='npc'] .npc-input-form input {
+	width: 100%;
+	min-width: 0;
+	height: var(--npc-control);
+	min-height: var(--npc-control);
+	font-size: 16px;
+	color: inherit;
+	background: #111a23;
+	border: 1px solid #65717b;
+	border-radius: 6px;
+	padding: 6px 10px;
+	box-sizing: border-box;
+}
+.npc-input-form button {
+	min-width: 72px;
+}
+.npc-error {
+	grid-column: 1 / -1;
+	color: #ff9b8d;
+	font-size: var(--npc-text);
+}

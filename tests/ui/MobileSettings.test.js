@@ -100,3 +100,41 @@ it('persists notification duration only on save and restores the two-second defa
  const draft = settingsSnapshot(); draft.interface.toastDuration = 0;
  expect(saveGameSettings(draft)).toContain('1–10'); expect(Interface.toastDuration).toBe(2);
 });
+
+it('previews chat layout drafts and restores saved preferences when the panel closes',()=>{
+ const body=document.body.appendChild(document.createElement('div')),preview=vi.fn();
+ const saved=settingsSnapshot();const dispose=createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings,preview});
+ const input=body.querySelector('[data-setting=chatPreviewLines]');input.value='8';input.dispatchEvent(new Event('input'));
+ expect(preview.mock.calls.at(-1)[0].chatPreviewSpaciousLines).toBe(8);expect(Interface.chatPreviewSpaciousLines).toBe(saved.interface.chatPreviewSpaciousLines);
+ dispose();expect(preview.mock.calls.at(-1)[0].chatPreviewSpaciousLines).toBe(saved.interface.chatPreviewSpaciousLines);
+ const invalid=settingsSnapshot();invalid.interface.chatPreviewSpaciousLines=9;expect(saveGameSettings(invalid)).toContain('无效');invalid.interface.chatPreviewSpaciousLines=0;expect(saveGameSettings(invalid)).toContain('无效');
+});
+
+
+it('keeps layout drafts independent and follows the host scene while settings are open', async () => {
+ const host=document.body.appendChild(document.createElement('div'));
+ host.dataset.menuDensity='spacious';
+ const root=host.attachShadow({mode:'open'}),body=root.appendChild(document.createElement('div'));
+ const dispose=createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings});
+ const input=body.querySelector('[data-setting=chatPreviewLines]');
+ input.value='8'; input.dispatchEvent(new Event('input'));
+ host.dataset.menuDensity='compact'; await Promise.resolve();
+ expect(input.value).toBe('3');expect(body.querySelector('[data-chat-scene]')).toBeNull();expect(input.closest('label').textContent).toContain('聊天行数');expect([...input.options].some(option=>option.textContent.includes('自动'))).toBe(false);
+ input.value='2'; input.dispatchEvent(new Event('input'));
+ host.dataset.menuDensity='spacious'; await Promise.resolve(); expect(input.value).toBe('8');
+ [...body.querySelectorAll('button')].find(button=>button.textContent==='保存').click();
+ const stored=JSON.parse(localStorage.getItem('Interface'));
+ expect(stored.chatPreviewCompactLines).toBe(2);expect(stored.chatPreviewSpaciousLines).toBe(8);
+ dispose();
+});
+
+it('auto-saves pickup without applying graphics drafts and flushes pending numbers when closing', () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ const dispose=createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings},'拾取');
+ expect(body.querySelector('.settings-footer').hidden).toBe(true);
+ const quality=body.querySelector('[data-setting=quality]');quality.value='100';quality.dispatchEvent(new Event('input'));
+ const toggle=body.querySelector('[data-pickup=enabled]');toggle.checked=true;toggle.dispatchEvent(new Event('input'));
+ expect(settingsSnapshot().pickup.enabled).toBe(true);expect(s.graphics.quality).toBe(25);expect(s.graphics.save).not.toHaveBeenCalled();
+ const range=body.querySelector('[data-pickup=range]');range.value='12';range.dispatchEvent(new Event('input'));
+ dispose();expect(settingsSnapshot().pickup.range).toBe(12);expect(s.graphics.save).not.toHaveBeenCalled();
+});

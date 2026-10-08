@@ -203,6 +203,7 @@ HUD.onAppend = function () {
 		equipmentSnapshot: () => equipment.snapshot(),
 		equipmentAct: (...args) => equipment.act(...args),
 		inventorySnapshot: () => inventory.snapshot(),
+		inventoryPreview: (...args) => inventory.preview(...args),
 		inventoryDrop: (...args) => inventory.drop(...args),
 		inventoryAct: (...args) => inventory.act(...args),
 		bindInventory: (index, id, slot) =>

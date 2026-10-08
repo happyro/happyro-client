@@ -1,6 +1,11 @@
+import interactionCSS from './InteractionPanel.css?raw';
+import interactionPhoneCSS from './InteractionPhone.css?raw';
+import interactionTabletCSS from './InteractionTablet.css?raw';
+import { createChatPreview } from './ChatPreview.js';
+import chatPreviewCSS from './ChatPreview.css?raw';
+import menuLayoutCSS from './MenuLayout.css?raw';
 import pickupCSS from 'UI/Game/PickupSettingsPanel.css?raw';
 import Preferences from 'Core/Preferences.js';
-import { chatChannelLabels } from './ChatChannels.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { showToast } from 'UI/Components/Toast.js';
 import { createStatusPanel } from './StatusPanel.js';
@@ -27,7 +32,9 @@ import { createSocialPanel } from './SocialPanel.js';
 import { createChatPanel } from './ChatPanel.js';
 import { createQuestsPanel } from './QuestsPanel.js';
 import { createContainerPanel } from './ContainerPanel.js';
+import shopCSS from './ShopPanel.css?raw';
 import { createShopPanel } from './ShopPanel.js';
+import npcCSS from './NPCPanel.css?raw';
 import { createNPCPanel, updateNPCCutin } from './NPCPanel.js';
 import { createAttributesPanel } from './AttributesPanel.js';
 import { createSkillsPanel } from './SkillsPanel.js';
@@ -49,9 +56,18 @@ ${selectCSS}
 ${panelsCSS}
 ${pickupCSS}
 ${mobileSelectCSS}
-${mailCSS}</style>${html}`;
+${mailCSS}
+${menuLayoutCSS}
+${npcCSS}
+${shopCSS}
+${interactionCSS}
+${interactionPhoneCSS}
+${interactionTabletCSS}
+${chatPreviewCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
+	const chatPreview = createChatPreview(root);
+	let settingsCleanup;
 	const chatDisplay = Preferences.get('ChatPreview', { collapsed: false }, 1.0);
 	let currentPanel = null;
 	let statusPanel = null;
@@ -145,6 +161,8 @@ ${mailCSS}</style>${html}`;
 	function close(notify = true) {
 		menuSelects.close();
 		if (!currentPanel || (notify && serverState?.canClose === false)) return;
+		settingsCleanup?.();
+		settingsCleanup = null;
 		clearToast(body);
 		const interaction = serverState;
 		serverState = null;
@@ -180,18 +198,7 @@ ${mailCSS}</style>${html}`;
 			badge.hidden = !unreadChat;
 			badge.textContent = unreadChat > 99 ? '99+' : String(unreadChat);
 		}
-		const preview = $('[data-chat-preview]');
-		const visibleMessages = messages.filter(message => chatFilter === 'all' || message.channel === chatFilter);
-		preview.replaceChildren(
-			...visibleMessages.slice(-3).map(message => {
-				const row = document.createElement('span');
-				row.className = 'chat-preview-line';
-				row.textContent = `[${chatChannelLabels[message.channel] || '系统'}] ${message.text.replace(/[\r\n]+/g, ' ')}`;
-				return row;
-			})
-		);
-		if (!visibleMessages.length) preview.textContent = '暂无消息';
-		preview.scrollTop = preview.scrollHeight;
+		chatPreview.update(messages, { read: currentPanel === 'chat' });
 		chatPanel?.update(messages);
 	}
 	function details(entries) {
@@ -220,6 +227,8 @@ ${mailCSS}</style>${html}`;
 		if (currentPanel === 'status') statusPanel?.update(snapshot.statuses || []);
 	}
 	function open(panel, slotIndex) {
+		settingsCleanup?.();
+		settingsCleanup = null;
 		clearToast(body);
 		if (panel === 'map') {
 			close();
@@ -229,6 +238,20 @@ ${mailCSS}</style>${html}`;
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
 		$('.panel').dataset.view = panel;
+		$('.panel').classList.toggle(
+			'interaction-panel',
+			[
+				'materials',
+				'transformation',
+				'refinement',
+				'enchant',
+				'selection',
+				'trade',
+				'vending',
+				'storage',
+				'cart'
+			].includes(panel)
+		);
 		backdropPointer = null;
 		dismissBackdrop = false;
 		backdrop.hidden = false;
@@ -268,7 +291,8 @@ ${mailCSS}</style>${html}`;
 			}[panel]
 		);
 		$('[data-close]').disabled = serverState?.canClose === false;
-		$('[data-back]').hidden = panel === 'menu' || panel === 'chat';
+		$('[data-close]').title = panel === 'npc' && serverState?.canClose === false ? '请先完成当前对话步骤' : '关闭';
+		$('[data-back]').hidden = panel === 'menu' || panel === 'chat' || panel === 'npc';
 		$('[data-back]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
 		statusPanel = null;
@@ -330,6 +354,7 @@ ${mailCSS}</style>${html}`;
 		backdrop.classList.toggle('chat-backdrop', panel === 'chat');
 		if (panel === 'information') {
 			const list = document.createElement('dl');
+			list.className = 'interaction-information';
 			for (const [label, value] of serverState.rows) {
 				const term = document.createElement('dt'),
 					description = document.createElement('dd');
@@ -340,7 +365,11 @@ ${mailCSS}</style>${html}`;
 			body.append(list);
 		}
 		if (panel === 'autoCombat') createAutoCombatPanel(body, { ...actions.autoCombat, close });
-		if (panel === 'settings') createSettingsPanel(body, actions.settings);
+		if (panel === 'settings')
+			settingsCleanup = createSettingsPanel(body, {
+				...actions.settings,
+				preview: settings => chatPreview.configure(settings)
+			});
 		if (panel === 'npc') createNPCPanel(body, serverState);
 		if (panel === 'status') statusPanel = createStatusPanel(body);
 		if (panel === 'profile' || panel === 'status') renderDetails();
@@ -509,6 +538,7 @@ ${mailCSS}</style>${html}`;
 		if (panel === 'inventory')
 			inventoryPanel = createInventoryPanel(body, {
 				snapshot: actions.inventorySnapshot,
+				preview: actions.inventoryPreview,
 				act: actions.inventoryAct,
 				drop: actions.inventoryDrop,
 				shortcuts: actions.shortcutSnapshot,
@@ -524,10 +554,18 @@ ${mailCSS}</style>${html}`;
 				configure: actions.configureShortcut
 			});
 		if (panel === 'chat') {
-			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, () => close(), chatFilter, value => {
-				chatFilter = value;
-				updateMessages();
-			});
+			chatPanel = createChatPanel(
+				body,
+				actions.sendChat,
+				slotIndex,
+				actions.chatEmotionImages,
+				() => close(),
+				chatFilter,
+				value => {
+					chatFilter = value;
+					updateMessages();
+				}
+			);
 			updateMessages();
 		}
 		menuSelects.sync();
@@ -574,7 +612,7 @@ ${mailCSS}</style>${html}`;
 		dismissBackdrop = false;
 	});
 	listen(backdrop, 'click', event => {
-		if (event.target === backdrop && dismissBackdrop) close();
+		if (event.target === backdrop && dismissBackdrop && currentPanel !== 'npc') close();
 		dismissBackdrop = false;
 	});
 	listen(root, 'keydown', event => {
@@ -753,6 +791,7 @@ ${mailCSS}</style>${html}`;
 		},
 		close,
 		destroy() {
+			chatPreview.destroy();
 			menuSelects.destroy();
 			close(false);
 			abort.abort();

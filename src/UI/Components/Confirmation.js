@@ -64,8 +64,11 @@ export function confirmAction(container, message, action, { content, bounds, can
 		dismiss();
 	});
 	buttons.append(cancel, confirm);
-	dialog.append(style, text);
-	if (content) dialog.append(content);
+	const body = document.createElement('div');
+	body.className = 'ui-confirm-body';
+	body.append(text);
+	if (content) body.append(content);
+	dialog.append(style, body);
 	dialog.append(buttons);
 	container.append(dialog);
 	active.set(container, dismiss);

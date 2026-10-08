@@ -231,12 +231,16 @@ export function createAutoCombatController(
 				nextRanges.activity > limits.activityMax
 			)
 				return false;
-			stop();
-			ranges = { ...nextRanges };
-			teleport = { ...nextTeleport };
-			species = [...new Map(nextSpecies.map(entry => [entry.id, { id: entry.id, name: entry.name }])).values()];
-			const learned = new Set(data.skills().map(skill => skill.id));
-			selected = [...new Set(ids)].filter(id => learned.has(id));
+			const next = {
+				ranges: { ...nextRanges },
+				teleport: { ...nextTeleport },
+				species: [
+					...new Map(nextSpecies.map(entry => [entry.id, { id: entry.id, name: entry.name }])).values()
+				],
+				skills: [...new Set(ids)].filter(id => data.skills().some(skill => skill.id === id))
+			};
+			if (data.saveSettings?.(next) === false) return false;
+			({ ranges, teleport, species, skills: selected } = next);
 			return true;
 		},
 		skills: () => data.skills(),

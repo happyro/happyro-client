@@ -87,10 +87,30 @@ export function createInventoryPanel(body, actions) {
 		if (!item.worn) ops.append(button('丢弃', () => chooseDrop(item)));
 		const reason = document.createElement('p');
 		reason.textContent = item.reason;
+		reason.className = 'inventory-item-reason';
+		reason.hidden = !item.reason;
 		const content = document.createElement('div');
 		content.className = 'inventory-item-description';
-		content.append(title, count, reason, description);
+		const heading = document.createElement('div');
+		heading.className = 'inventory-item-overview';
+		const summary = document.createElement('div');
+		summary.className = 'inventory-item-summary';
+		summary.append(title, count, reason, description);
+		heading.append(summary);
+		content.append(heading);
 		detail.replaceChildren(content, ops);
+		void actions.preview(item.index, item.ID).then(preview => {
+			if (!content.isConnected || !preview) return;
+			const source = preview.art || preview.image || item.icon;
+			if (source) {
+				const image = document.createElement('img');
+				image.className = `inventory-item-picture${preview.art ? ' is-illustration' : ''}`;
+				image.alt = item.name;
+				image.src = source;
+				heading.prepend(image);
+				heading.classList.add('has-picture');
+			}
+		});
 	}
 	function chooseDrop(item) {
 		binding = true;

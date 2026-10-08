@@ -124,3 +124,15 @@ it('defaults to a two-second teleport interval and accepts one second', () => {
  expect(controller.snapshot().teleport.intervalSeconds).toBe(2);
  expect(controller.configure([], [], { search: 20, activity: 30 }, { enabled: true, waitSeconds: 5, intervalSeconds: 1 })).toBe(true);
 });
+
+it('persists configuration without stopping the active target and rejects storage failures atomically', () => {
+ controller.start(); const before = controller.snapshot(); data.stop.mockClear();
+ data.saveSettings = vi.fn(() => true);
+ expect(controller.configure([], [], { search: 25, activity: 35 })).toBe(true);
+ expect(controller.snapshot()).toMatchObject({ active: true, target: before.target, ranges: { search: 25, activity: 35 } });
+ expect(data.stop).not.toHaveBeenCalled();
+ data.saveSettings.mockReturnValue(false);
+ expect(controller.configure([], [], { search: 30, activity: 40 })).toBe(false);
+ expect(controller.snapshot().ranges).toEqual({ search: 25, activity: 35 });
+ expect(data.stop).not.toHaveBeenCalled();
+});

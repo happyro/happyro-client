@@ -3,6 +3,17 @@ import Session from 'Engine/SessionStorage.js';
 import ChatBox from 'UI/Components/ChatBox/ChatBox.js';
 
 export function chatChannel(message) {
+	if (
+		[
+			ChatBox.FILTER.BATTLE,
+			ChatBox.FILTER.PARTY_BATTLE,
+			ChatBox.FILTER.EXP,
+			ChatBox.FILTER.PARTY_EXP,
+			ChatBox.FILTER.ITEM,
+			ChatBox.FILTER.PARTY_ITEM
+		].includes(message.filterType)
+	)
+		return 'battle';
 	const type = message.colorType || 0;
 	if (type & ChatBox.TYPE.PRIVATE) return 'private';
 	if (type & ChatBox.TYPE.PARTY) return 'party';

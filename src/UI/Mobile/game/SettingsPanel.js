@@ -1,13 +1,23 @@
 import { createPickupSettingsPanel } from 'UI/Game/PickupSettingsPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
+import { menuDensity } from './MenuLayout.js';
 import { showToast } from 'UI/Components/Toast.js';
 
 /** Graphics/audio use a draft; camera adjustments take effect immediately. */
 export function createSettingsPanel(body, service, initialSection = '画面') {
+	let pickupEditor;
 	let draft = service.snapshot();
 	let activeSection = initialSection;
+	const host = body.getRootNode().host;
+	const scene = () => host?.dataset.menuDensity || menuDensity(window.innerWidth, window.innerHeight);
+	let updateScene = () => {};
+	const observer = new MutationObserver(() => updateScene());
+	if (host) observer.observe(host, { attributes: true, attributeFilter: ['data-menu-density'] });
+	const resize = () => updateScene();
+	if (!host) window.addEventListener('resize', resize);
 	const notify = message => showToast(body, message);
 	function render() {
+		pickupEditor?.destroy();
 		body.replaceChildren();
 		const form = document.createElement('form');
 		form.className = 'settings-form';
@@ -35,7 +45,8 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 					entry.button.setAttribute('aria-pressed', String(label === name));
 				}
 				content.scrollTop = 0;
-				footer.hidden = name === '镜头';
+				footer.hidden = name === '镜头' || name === '拾取';
+				pickupEditor.footer.hidden = name !== '拾取';
 			};
 			sections.set(name, { section, button });
 			tabs.append(button);
@@ -79,6 +90,33 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 			};
 			field(displayKeys.includes(key) ? '画面' : '特效', key === 'quality' ? '渲染比例（%）' : label, input);
 		}
+		const previewLines = document.createElement('select');
+		previewLines.dataset.setting = 'chatPreviewLines';
+		for (const value of [2, 3, 4, 5, 6, 7, 8]) {
+			const option = document.createElement('option');
+			option.value = value;
+			option.textContent = `${value} 行`;
+			previewLines.append(option);
+		}
+		const settingKey = () => (scene() === 'spacious' ? 'chatPreviewSpaciousLines' : 'chatPreviewCompactLines');
+		updateScene = () => {
+			previewLines.value = String(draft.interface[settingKey()]);
+		};
+		updateScene();
+		previewLines.oninput = () => {
+			draft.interface[settingKey()] = Number(previewLines.value);
+			service.preview?.(draft.interface);
+		};
+		field('画面', '聊天行数', previewLines);
+		const previewTabs = document.createElement('input');
+		previewTabs.type = 'checkbox';
+		previewTabs.dataset.setting = 'chatPreviewTabs';
+		previewTabs.checked = draft.interface.chatPreviewTabs;
+		previewTabs.oninput = () => {
+			draft.interface.chatPreviewTabs = previewTabs.checked;
+			service.preview?.(draft.interface);
+		};
+		field('画面', '显示聊天分类标签', previewTabs);
 		const duration = document.createElement('input');
 		duration.type = 'number';
 		duration.min = 1;
@@ -133,7 +171,7 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 			section.append(...values, ...switches);
 		}
 
-		createPickupSettingsPanel(sections.get('拾取').section, draft.pickup);
+		pickupEditor = createPickupSettingsPanel(sections.get('拾取').section, draft.pickup);
 
 		const camera = sections.get('镜头').section;
 		camera.classList.add('camera-section');
@@ -182,14 +220,14 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 		}
 		const footer = document.createElement('div');
 		footer.className = 'settings-footer';
-		footer.hidden = activeSection === '镜头';
+		footer.hidden = activeSection === '镜头' || activeSection === '拾取';
 		const buttons = document.createElement('div');
 		buttons.className = 'settings-actions';
 		for (const [label, action] of [
 			[
 				'保存',
 				() => {
-					notify(service.save(draft));
+					notify(service.save({ ...draft, pickup: service.snapshot().pickup }));
 				}
 			],
 			[
@@ -220,8 +258,16 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 			buttons.append(button);
 		}
 		footer.append(buttons);
-		form.append(footer);
+		pickupEditor.footer.hidden = activeSection !== '拾取';
+		form.append(footer, pickupEditor.footer);
 		body.append(form);
 	}
 	render();
+	return () => {
+		pickupEditor.flush();
+		pickupEditor.destroy();
+		observer.disconnect();
+		window.removeEventListener('resize', resize);
+		service.preview?.(service.snapshot().interface);
+	};
 }

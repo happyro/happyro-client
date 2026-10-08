@@ -3,9 +3,11 @@ import UIManager from 'UI/UIManager.js';
 import { createGameAutoCombatRuntime } from 'UI/Game/GameAutoCombatRuntime.js';
 import { createAutoCombatView } from './AutoCombatView.js';
 import css from './AutoCombat.css?raw';
+import { loadPickupSettings, savePickupSettings } from 'UI/Game/PickupSettings.js';
+import pickupCSS from 'UI/Game/PickupSettingsPanel.css?raw';
 import panelCSS from 'UI/Game/AutoCombatPanel.css?raw';
 
-const AutoCombat = new GUIComponent('AutoCombat', css + panelCSS);
+const AutoCombat = new GUIComponent('AutoCombat', panelCSS + pickupCSS + css);
 AutoCombat.render = () => '';
 AutoCombat.needFocus = false;
 AutoCombat.nativeScrolling = true;
@@ -14,13 +16,13 @@ let runtime, view;
 AutoCombat.onAppend = function () {
 	this.onRemove();
 	runtime = createGameAutoCombatRuntime({
-		enabled: () => !view?.isOpen(),
 		update: state => view?.update(state),
 		onDisconnect: () => this.remove()
 	});
-	view = createAutoCombatView(this._container, runtime);
+	view = createAutoCombatView(this._container, runtime, { load: loadPickupSettings, save: savePickupSettings });
 	view.update(runtime.snapshot());
 };
+AutoCombat.openSettings = () => view?.open();
 AutoCombat.onRemove = function () {
 	runtime?.destroy();
 	runtime = null;
