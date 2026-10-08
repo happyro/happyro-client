@@ -16,10 +16,14 @@ export function createAutoCombatPanel(body, actions) {
 				<section class="auto-range-settings" aria-labelledby="auto-range-title">
 					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
 					<div data-range-controls></div>
-                        <label><input type="checkbox" data-auto-teleport> 无目标自动随机瞬移</label>
-                        <div data-teleport-controls></div>
-                        <p class="auto-help">使用冒险工具传送能力；按当前搜怪范围和目标种类判断。拾取、移动时暂缓，遵守地图限制和服务器冷却。</p>
-					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。开启无目标瞬移后，会在等待结束时随机传送并重设起点。</p>
+					<p class="auto-help">搜怪：角色周围的搜索距离。活动：距本轮起点的最大距离；手动移动或瞬移后重设起点。</p>
+				</section>
+				<section class="auto-teleport-settings" aria-labelledby="auto-teleport-title">
+					<h4 id="auto-teleport-title">自动瞬移</h4>
+					<label class="auto-teleport-toggle"><span>无目标时随机瞬移</span><input type="checkbox" data-auto-teleport></label>
+					<div data-teleport-controls></div>
+					<p class="auto-help">使用冒险工具能力。没有战斗目标和可拾取物品时，等待后随机瞬移。</p>
+					<p class="auto-help">仍受地图限制和服务器冷却约束。</p>
 				</section>
 			</section>
 			<section class="auto-skill-section" aria-labelledby="auto-skills-title">

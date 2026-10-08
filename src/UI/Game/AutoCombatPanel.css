@@ -184,14 +184,16 @@
 	}
 }
 
-.auto-range-settings {
+.auto-range-settings,
+.auto-teleport-settings {
 	border: 1px solid #65717b;
 	border-radius: 8px;
 	padding: 8px;
 	margin: 8px 0;
 	font-size: 11px;
 }
-.auto-range-settings h4 {
+.auto-range-settings h4,
+.auto-teleport-settings h4 {
 	margin: 0;
 	font: inherit;
 	font-weight: 600;
@@ -229,8 +231,45 @@
 	font-variant-numeric: tabular-nums;
 }
 
-.auto-skill-list { touch-action: pan-y; }
-.auto-skill-card { width: 100%; text-align: left; touch-action: pan-y; user-select: none; }
-.auto-skill-card .auto-species-check { font-style: normal; }
-.auto-skill-card[aria-checked='true'] .auto-species-check { background: #ceaa70; border-color: #ceaa70; color: #18212b; }
-.auto-skill-card[aria-checked='true'] .auto-species-check::after { content: '✓'; }
+.auto-skill-list {
+	touch-action: pan-y;
+}
+.auto-skill-card {
+	width: 100%;
+	text-align: left;
+	touch-action: pan-y;
+	user-select: none;
+}
+.auto-skill-card .auto-species-check {
+	font-style: normal;
+}
+.auto-skill-card[aria-checked='true'] .auto-species-check {
+	background: #ceaa70;
+	border-color: #ceaa70;
+	color: #18212b;
+}
+.auto-skill-card[aria-checked='true'] .auto-species-check::after {
+	content: '✓';
+}
+
+.auto-teleport-settings {
+	margin-top: 12px;
+}
+.auto-teleport-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-height: 44px;
+	cursor: pointer;
+}
+.auto-teleport-toggle input {
+	width: 18px;
+	height: 18px;
+	margin: 0;
+	flex-shrink: 0;
+	accent-color: #ceaa70;
+}
+.auto-teleport-settings .auto-help {
+	margin-bottom: 0;
+}
