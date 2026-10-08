@@ -2,6 +2,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { createMobileInputEditor } from '../../src/UI/Mobile/game/MobileInputEditor.js';
 let dispose;
 beforeEach(() => {
+ vi.stubGlobal('innerWidth',844); vi.stubGlobal('innerHeight',390);
  // jsdom does not implement the dialog top layer; real browsers are checked separately.
  vi.stubGlobal('HTMLDialogElement', HTMLDialogElement);
  HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); };
@@ -104,4 +105,24 @@ it('uses the shared fullscreen editor for chat and closes before submitting unch
  expect(submit).toHaveBeenCalledTimes(1);
  expect(input.value).toBe('/lv');
  expect(host.shadowRoot.activeElement).not.toBe(input);
+});
+
+it('keeps the tablet editor bounded when the keyboard reduces visible space', () => {
+ vi.stubGlobal('innerWidth',1024); vi.stubGlobal('innerHeight',768);
+ const visual=new EventTarget();Object.assign(visual,{height:768,offsetTop:0});vi.stubGlobal('visualViewport',visual);
+ const {overlay,editor}=setup(); expect(overlay.dataset.menuDensity).toBe('spacious');
+ visual.height=320;visual.offsetTop=15;visual.dispatchEvent(new Event('resize'));
+ expect(overlay.dataset.menuDensity).toBe('spacious');
+ expect(overlay.style.getPropertyValue('--mobile-visible-height')).toBe('320px');
+ expect(editor.querySelector('dialog').style.height).toBe('');
+ editor.querySelector('[data-cancel]').click();
+});
+
+it('updates editor density for small split-view width changes across the breakpoint', () => {
+ vi.stubGlobal('innerWidth',800);vi.stubGlobal('innerHeight',768);
+ const {overlay}=setup();expect(overlay.dataset.menuDensity).toBe('spacious');
+ vi.stubGlobal('innerWidth',760);window.dispatchEvent(new Event('resize'));
+ expect(overlay.dataset.menuDensity).toBe('compact');
+ vi.stubGlobal('innerWidth',800);window.dispatchEvent(new Event('resize'));
+ expect(overlay.dataset.menuDensity).toBe('spacious');
 });

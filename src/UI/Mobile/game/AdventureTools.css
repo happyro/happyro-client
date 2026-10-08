@@ -6,8 +6,6 @@
 	font:
 		12px/1.35 Arial,
 		sans-serif;
-	padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
-		max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
 	background: #0003;
 	box-sizing: border-box;
 }
@@ -27,8 +25,6 @@
 	font:
 		12px/1.35 Arial,
 		sans-serif;
-	width: 100%;
-	height: 100%;
 	min-width: 0;
 	min-height: 0;
 	border-radius: 8px;
@@ -357,7 +353,7 @@
 .adventure-loading button {
 	min-height: 30px;
 }
-@media (max-width: 560px) {
+@container menu-content (max-width: 560px) {
 	.adventure-home,
 	.mobile-adventure .catalog-list,
 	.mobile-adventure .monster-list,
@@ -428,7 +424,7 @@
 .mobile-adventure .npc-detail-body {
 	grid-template-rows: auto;
 }
-@media (max-width: 560px) {
+@container menu-content (max-width: 560px) {
 	.mobile-adventure .monster-resources {
 		grid-template-columns: minmax(0, 1fr);
 	}
@@ -471,7 +467,7 @@
 .mobile-adventure h4 {
 	margin: 8px 0 5px;
 }
-@media (min-width: 600px) {
+@container menu-content (min-width: 600px) {
 	.mobile-adventure .catalog-layout,
 	.mobile-adventure .monster-layout,
 	.mobile-adventure .character-layout {
@@ -606,7 +602,7 @@
 		flex-basis: 14px;
 	}
 }
-@media (min-width: 600px) {
+@container menu-content (min-width: 600px) {
 	.mobile-adventure .settings-drop-table .setting-number {
 		flex: 0 0 auto;
 		min-width: 0;
@@ -870,13 +866,6 @@
 .mobile-adventure .drop-group > div {
 	padding-inline: 6px;
 }
-:host(.keyboard-open) {
-	overflow-y: auto;
-	overscroll-behavior: contain;
-}
-:host(.keyboard-open) .ui-component-root {
-	height: calc(var(--mobile-layout-height) - 16px);
-}
 .mobile-adventure .catalog-toolbar,
 .mobile-adventure .monster-toolbar,
 .mobile-adventure .character-job-toolbar,
@@ -910,7 +899,6 @@
 .mobile-adventure .game-select-trigger i {
 	border-top-color: #c6d0db;
 }
-
 
 .mobile-adventure .npc-catalog-tab .catalog-thumb {
 	width: 40px;
@@ -1451,7 +1439,7 @@
 	white-space: normal;
 	padding-inline: 4px;
 }
-@media (max-width: 599px) {
+@container menu-content (max-width: 599px) {
 	.mobile-adventure .settings-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -1509,4 +1497,6 @@
 	content: none;
 }
 
-.mobile-adventure .settings-footer button { grid-column: -2; }
+.mobile-adventure .settings-footer button {
+	grid-column: -2;
+}

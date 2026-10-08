@@ -39,3 +39,18 @@ it('scrolls only the overlay to reveal a focused input after the keyboard opens'
  visual.height=390;visual.offsetTop=0;update();expect(host.classList.contains('keyboard-open')).toBe(false);
  update.destroy();
 });
+
+it('keeps the tablet density during keyboard resizing and recomputes for split view', () => {
+ const host=document.createElement('div');const root=host.attachShadow({mode:'open'});root.innerHTML='<input>';document.body.append(host);
+ vi.stubGlobal('innerWidth',1024);vi.stubGlobal('innerHeight',768);const visual={height:768,offsetTop:0};vi.stubGlobal('visualViewport',visual);
+ const update=createMobileViewport(host);update();expect(host.dataset.menuDensity).toBe('spacious');
+ root.querySelector('input').focus();visual.height=320;update();expect(host.dataset.menuDensity).toBe('spacious');
+ vi.stubGlobal('innerWidth',600);vi.stubGlobal('innerHeight',768);visual.height=768;update();expect(host.dataset.menuDensity).toBe('compact');update.destroy();
+});
+
+it('recomputes density for small split-view changes even while a field is focused', () => {
+ const host=document.createElement('div'),root=host.attachShadow({mode:'open'});root.innerHTML='<input>';document.body.append(host);
+ vi.stubGlobal('innerWidth',800);vi.stubGlobal('innerHeight',768);const visual={height:768,offsetTop:0};vi.stubGlobal('visualViewport',visual);
+ const update=createMobileViewport(host);update();root.querySelector('input').focus();visual.height=320;update();
+ vi.stubGlobal('innerWidth',760);update();expect(host.dataset.menuDensity).toBe('compact');update.destroy();
+});

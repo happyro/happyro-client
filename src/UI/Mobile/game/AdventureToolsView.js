@@ -5,7 +5,7 @@ const labels = { maps: '地图', monsters: '魔物', npcs: 'NPC', items: '物品
 
 /** Mobile navigation owns presentation; registered features own data and actions. */
 export function createAdventureToolsView(root, { tabs, context, close, backToMenu }) {
-	root.innerHTML = `<section class="game-tools-window mobile-adventure">
+	root.innerHTML = `<section class="game-tools-window mobile-adventure mobile-menu-window">
 		<header class="adventure-header"><button type="button" data-back hidden>返回</button><nav class="adventure-tabs" role="tablist" aria-label="冒险工具"></nav><button type="button" data-menu-back>返回</button><button type="button" data-close>关闭</button></header>
 		<div class="adventure-content" hidden></div>
 	</section>`;
@@ -14,7 +14,12 @@ export function createAdventureToolsView(root, { tabs, context, close, backToMen
 		content = $('.adventure-content'),
 		back = $('[data-back]');
 	const abort = new AbortController();
-	const wide = window.matchMedia?.('(min-width: 600px)');
+	let wide = $('.mobile-adventure').clientWidth >= 600;
+	const resize = new ResizeObserver(entries => {
+		wide = entries[0].contentRect.width >= 600;
+		back.hidden = wide || !detail;
+	});
+	resize.observe($('.mobile-adventure'));
 	let active = null,
 		cleanup,
 		tabView,
@@ -60,7 +65,7 @@ export function createAdventureToolsView(root, { tabs, context, close, backToMen
 			detail = true;
 			content.classList.add('show-detail');
 			back.textContent = '选择职业';
-			back.hidden = Boolean(wide?.matches);
+			back.hidden = wide;
 		}
 	}
 	function setTabs(nextTabs) {
@@ -89,19 +94,12 @@ export function createAdventureToolsView(root, { tabs, context, close, backToMen
 			detail = true;
 			content.classList.add('show-detail');
 			back.textContent = '返回列表';
-			back.hidden = Boolean(wide?.matches);
+			back.hidden = wide;
 		},
 		{ signal: abort.signal }
 	);
 	back.onclick = showList;
-	wide?.addEventListener(
-		'change',
-		() => {
-			back.hidden = wide.matches || !detail;
-			back.textContent = '返回列表';
-		},
-		{ signal: abort.signal }
-	);
+
 	$('[data-menu-back]').hidden = !backToMenu;
 	$('[data-menu-back]').onclick = backToMenu;
 	$('[data-close]').onclick = close;
@@ -116,6 +114,7 @@ export function createAdventureToolsView(root, { tabs, context, close, backToMen
 		activeFeature: () => active?.id,
 		destroy() {
 			abort.abort();
+			resize.disconnect();
 			disposeTab();
 			root.replaceChildren();
 		}

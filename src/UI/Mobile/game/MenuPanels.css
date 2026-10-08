@@ -1,20 +1,6 @@
 /* Shared dialog styling; HUD sizes remain independent. */
 .panel {
-	--panel-gap: 8px;
-	--panel-control: 34px;
-	--panel-label: 12px;
-	--panel-heading: 13px;
-	width: min(600px, 100%);
 	background: #191f26;
-}
-.panel.inventory-panel,
-.panel.equipment-panel,
-.panel.auto-config-panel,
-.panel.shortcut-panel,
-.panel.settings-panel,
-.panel.chat-panel {
-	width: min(780px, 100%);
-	height: 100%;
 }
 .panel-body {
 	min-height: 0;
@@ -225,209 +211,172 @@
 	border-color: #da9990;
 	color: #ffe0db;
 }
-@media (min-width: 768px) and (min-height: 560px) {
-	.panel {
-		--panel-gap: 16px;
-		--panel-control: 44px;
-		--panel-label: 14px;
-		--panel-heading: 16px;
-		width: min(640px, 100%);
-	}
-	.panel.inventory-panel,
-	.panel.equipment-panel,
-	.panel.auto-config-panel,
-	.panel.shortcut-panel,
-	.panel.settings-panel,
-	.panel.chat-panel {
-		width: min(1000px, 100%);
-	}
-	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {
-		min-height: 52px;
-		padding: 12px;
-	}
-	.panel :is(.inventory-item, .equipment-slot, .equipment-candidate) img {
-		width: 40px;
-		height: 40px;
-	}
-	.panel .equipment-slot {
-		min-height: 80px;
-	}
-	.panel .inventory-tabs,
-	.panel .equipment-tabs {
-		gap: 10px;
-	}
-}
 
 /* Compact controls for phone landscape and narrow tablet windows. */
-@media (max-width: 767px), (max-height: 559px) {
-	.panel:is(
-		[data-view='menu'],
-		[data-view='bank'],
-		[data-view='pet'],
-		[data-view='companions']
-	) {
-		width: min(420px, 100%);
-	}
-	.panel.profile-panel {
-		width: min(400px, 100%);
-	}
-	.panel.settings-panel {
-		width: min(600px, 100%);
-	}
-	.panel {
-		--panel-gap: 6px;
-		--panel-control: 30px;
-		--panel-label: 11px;
-		--panel-heading: 12px;
-		font-size: 11px;
-	}
-	.panel button {
-		min-height: 30px;
-		padding: 3px 7px;
-		font-size: 11px;
-	}
-	.panel header {
-		padding: 4px 10px;
-	}
-	.panel-body {
-		padding: 8px;
-	}
-	.panel :is(.inventory-tabs, .equipment-tabs) {
-		flex-wrap: nowrap;
-		gap: 4px;
-	}
-	.panel :is(.inventory-tabs, .equipment-tabs) button {
-		flex: 1 1 0;
-		min-width: 0;
-		padding: 3px 5px;
-	}
-	.panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {
-		gap: 4px;
-	}
-	.panel .inventory-actions {
-		gap: 4px;
-		margin-top: 6px;
-	}
-	.panel .inventory-actions button {
-		flex: 0 1 auto;
-	}
-	.panel :is(.social-form, .bank-form) > label {
-		flex-direction: row;
-		flex-wrap: wrap;
-		align-items: center;
-	}
-	.panel :is(.social-form, .bank-form) > label > :is(input, select, textarea) {
-		flex: 1 1 120px;
-		width: 0;
-	}
-	.panel .social-form label > input[type='checkbox'] {
-		flex: 0 0 18px;
-		width: 18px;
-	}
-	.panel-body :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {
-		padding: 3px 6px;
-		line-height: 1.25;
-	}
-	.panel-body textarea {
-		min-height: 60px;
-	}
-	.panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),
-	.panel .character-details :is(dt, dd) {
-		padding: 6px 0;
-	}
-	.panel .settings-form {
-		gap: 4px;
-	}
-	.panel .settings-section {
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
-		gap: 0 12px;
-		padding: 2px 10px;
-	}
-	.panel .settings-field {
-		min-height: 38px;
-		gap: 6px;
-		padding: 3px 0;
-	}
-	.panel .settings-footer {
-		padding-top: 6px;
-	}
-	.panel .settings-footer p {
-		margin: 4px 0 0;
-	}
-	.panel .settings-actions {
-		gap: 4px;
-	}
-	.panel .auto-range-stepper button {
-		padding: 0;
-		font-size: 18px;
-	}
-	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {
-		padding: 3px 6px;
-		line-height: 1.3;
-	}
-	.panel :is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot) img {
-		width: 28px;
-		height: 28px;
-	}
-	.panel .equipment-slot {
-		min-height: 52px;
-		padding: 6px;
-	}
-	.panel :is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {
-		font-size: 11px;
-	}
-	.panel .settings-form .settings-field :is(input:not([type='checkbox']), select) {
-		min-height: 30px;
-		padding: 3px 6px;
-	}
-	.panel .settings-form .settings-field input[type='range'] {
-		padding: 0;
-	}
-	.panel .shortcut-choices {
-		grid-template-columns: minmax(0, 1fr);
-		grid-auto-rows: minmax(44px, max-content);
-		gap: 6px;
-	}
-	.panel .shortcut-choice {
-		min-height: 44px;
-		padding: 6px 8px;
-		gap: 8px;
-	}
-	.panel .shortcut-choice span {
-		min-width: 0;
-		font-size: 12px;
-	}
-	.panel .shortcut-choice img {
-		position: static;
-		flex: 0 0 28px;
-		width: 28px;
-		height: 28px;
-		object-fit: contain;
-	}
-	.panel .shortcut-editor .shortcut-current {
-		display: none;
-	}
-	.panel .shortcut-config {
-		margin-top: 0;
-	}
-	.panel .shortcut-selected img {
-		display: none;
-	}
-	.panel .auto-skill-list {
-		gap: 4px;
-	}
-	.panel .auto-skill-card {
-		min-height: 32px;
-		padding: 4px 6px;
-		gap: 5px;
-	}
-	.panel .auto-skill-card .auto-species-check {
-		width: 16px;
-		height: 16px;
-	}
-	.panel .auto-skill-card span {
-		gap: 2px 4px;
-	}
+:host(:not([data-menu-density='spacious'])) .panel {
+	font-size: 11px;
+}
+:host(:not([data-menu-density='spacious'])) .panel button {
+	min-height: 30px;
+	padding: 3px 7px;
+	font-size: 11px;
+}
+:host(:not([data-menu-density='spacious'])) .panel header {
+	padding: 4px 10px;
+}
+:host(:not([data-menu-density='spacious'])) .panel-body {
+	padding: 8px;
+}
+:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) {
+	flex-wrap: nowrap;
+	gap: 4px;
+}
+:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-tabs, .equipment-tabs) button {
+	flex: 1 1 0;
+	min-width: 0;
+	padding: 3px 5px;
+}
+:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-list, .equipment-slots, .shortcut-choices) {
+	gap: 4px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .inventory-actions {
+	gap: 4px;
+	margin-top: 6px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .inventory-actions button {
+	flex: 0 1 auto;
+}
+:host(:not([data-menu-density='spacious'])) .panel :is(.social-form, .bank-form) > label {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+:host(:not([data-menu-density='spacious']))
+	.panel
+	:is(.social-form, .bank-form)
+	> label
+	> :is(input, select, textarea) {
+	flex: 1 1 120px;
+	width: 0;
+}
+:host(:not([data-menu-density='spacious'])) .panel .social-form label > input[type='checkbox'] {
+	flex: 0 0 18px;
+	width: 18px;
+}
+:host(:not([data-menu-density='spacious']))
+	.panel-body
+	:is(input:not([type='checkbox']):not([type='radio']):not([type='range']), select, textarea) {
+	padding: 3px 6px;
+	line-height: 1.25;
+}
+:host(:not([data-menu-density='spacious'])) .panel-body textarea {
+	min-height: 60px;
+}
+:host(:not([data-menu-density='spacious'])) .panel :is([data-info], .bank-form dl, .equipment-stats) :is(dt, dd),
+:host(:not([data-menu-density='spacious'])) .panel .character-details :is(dt, dd) {
+	padding: 6px 0;
+}
+:host(:not([data-menu-density='spacious'])) .panel .settings-form {
+	gap: 4px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .settings-section {
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+	gap: 0 12px;
+	padding: 2px 10px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .settings-field {
+	min-height: 38px;
+	gap: 6px;
+	padding: 3px 0;
+}
+:host(:not([data-menu-density='spacious'])) .panel .settings-footer {
+	padding-top: 6px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .settings-footer p {
+	margin: 4px 0 0;
+}
+:host(:not([data-menu-density='spacious'])) .panel .settings-actions {
+	gap: 4px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .auto-range-stepper button {
+	padding: 0;
+	font-size: 18px;
+}
+:host(:not([data-menu-density='spacious'])) .panel :is(.inventory-item, .equipment-candidate, .shortcut-choice) {
+	padding: 3px 6px;
+	line-height: 1.3;
+}
+:host(:not([data-menu-density='spacious']))
+	.panel
+	:is(.inventory-item, .equipment-candidate, .shortcut-choice, .equipment-slot)
+	img {
+	width: 28px;
+	height: 28px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .equipment-slot {
+	min-height: 52px;
+	padding: 6px;
+}
+:host(:not([data-menu-density='spacious']))
+	.panel
+	:is(.slot-picker strong, .slot-picker span, .shortcut-current span, [data-choice-hint]) {
+	font-size: 11px;
+}
+:host(:not([data-menu-density='spacious']))
+	.panel
+	.settings-form
+	.settings-field
+	:is(input:not([type='checkbox']), select) {
+	min-height: 30px;
+	padding: 3px 6px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .settings-form .settings-field input[type='range'] {
+	padding: 0;
+}
+:host(:not([data-menu-density='spacious'])) .panel .shortcut-choices {
+	grid-template-columns: minmax(0, 1fr);
+	grid-auto-rows: minmax(44px, max-content);
+	gap: 6px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice {
+	min-height: 44px;
+	padding: 6px 8px;
+	gap: 8px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice span {
+	min-width: 0;
+	font-size: 12px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .shortcut-choice img {
+	position: static;
+	flex: 0 0 28px;
+	width: 28px;
+	height: 28px;
+	object-fit: contain;
+}
+:host(:not([data-menu-density='spacious'])) .panel .shortcut-editor .shortcut-current {
+	display: none;
+}
+:host(:not([data-menu-density='spacious'])) .panel .shortcut-config {
+	margin-top: 0;
+}
+:host(:not([data-menu-density='spacious'])) .panel .shortcut-selected img {
+	display: none;
+}
+:host(:not([data-menu-density='spacious'])) .panel .auto-skill-list {
+	gap: 4px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card {
+	min-height: 32px;
+	padding: 4px 6px;
+	gap: 5px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card .auto-species-check {
+	width: 16px;
+	height: 16px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .auto-skill-card span {
+	gap: 2px 4px;
 }
 
 /* Point allocation and reset controls share the mobile dialog scale. */
@@ -544,17 +493,15 @@
 	flex: 1;
 	order: 1;
 }
-@media (max-width: 767px), (max-height: 559px) {
-	.attribute-allocation {
-		gap: 3px;
-	}
-	.attribute-row {
-		padding-bottom: 0;
-	}
-	.attribute-results dl {
-		gap: 4px 8px;
-		line-height: 1.3;
-	}
+:host(:not([data-menu-density='spacious'])) .attribute-allocation {
+	gap: 3px;
+}
+:host(:not([data-menu-density='spacious'])) .attribute-row {
+	padding-bottom: 0;
+}
+:host(:not([data-menu-density='spacious'])) .attribute-results dl {
+	gap: 4px 8px;
+	line-height: 1.3;
 }
 
 .panel .auto-species-card,
@@ -739,146 +686,495 @@
 }
 
 .panel .inventory-item-detail {
- display: flex;
- flex-direction: column;
- overflow: hidden;
- min-height: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	min-height: 0;
 }
 .inventory-item-description {
- flex: 1;
- min-height: 0;
- overflow-y: auto;
- overscroll-behavior: contain;
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
 }
 .panel .inventory-item-detail > .inventory-actions {
- flex-shrink: 0;
- padding-top: 10px;
- border-top: 1px solid #465461;
+	flex-shrink: 0;
+	padding-top: 10px;
+	border-top: 1px solid #465461;
 }
 
-.panel[data-view='status'] .status-title { flex: 1; min-width: 0; }
-.panel[data-view='status'] .status-duration { flex: none; color: #bac4cd; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.panel[data-view='status'] .status-title {
+	flex: 1;
+	min-width: 0;
+}
+.panel[data-view='status'] .status-duration {
+	flex: none;
+	color: #bac4cd;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
 
-.panel-navigation { display: flex; gap: 8px; align-items: center; }
-.panel .social-form > label:not(:has(input[type='checkbox'])) { flex-direction: column; align-items: stretch; }
-.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) { flex: none; width: 100%; }
-.skills-browser { display: flex; flex-direction: column; min-height: 0; min-width: 0; gap: 8px; padding: var(--panel-gap); border: 1px solid #52606d; border-radius: 10px; background: #19212a; }
-.skills-footer { display: flex; align-items: center; gap: 8px; flex: none; padding: 10px 2px 4px; border-top: 1px solid #465461; }
-.skills-footer > strong { min-width: 0; color: #ceaa70; font-size: var(--panel-label); overflow-wrap: anywhere; }
-.skills-reset { flex: none; }
-.panel .skills-reset > button { width: auto; padding: 3px 6px; font-size: 11px; white-space: nowrap; }
-.skills-browser > .inventory-list { flex: 1; min-height: 0; }
-.container-toolbar .container-capacity { font-size: var(--panel-label); color: #bac4cd; }
+.panel-navigation {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+.panel .social-form > label:not(:has(input[type='checkbox'])) {
+	flex-direction: column;
+	align-items: stretch;
+}
+.panel .social-form > label:not(:has(input[type='checkbox'])) > :is(input, select, textarea, .menu-select) {
+	flex: none;
+	width: 100%;
+}
+.skills-browser {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	min-width: 0;
+	gap: 8px;
+	padding: var(--panel-gap);
+	border: 1px solid #52606d;
+	border-radius: 10px;
+	background: #19212a;
+}
+.skills-footer {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex: none;
+	padding: 10px 2px 4px;
+	border-top: 1px solid #465461;
+}
+.skills-footer > strong {
+	min-width: 0;
+	color: #ceaa70;
+	font-size: var(--panel-label);
+	overflow-wrap: anywhere;
+}
+.skills-reset {
+	flex: none;
+}
+.panel .skills-reset > button {
+	width: auto;
+	padding: 3px 6px;
+	font-size: 11px;
+	white-space: nowrap;
+}
+.skills-browser > .inventory-list {
+	flex: 1;
+	min-height: 0;
+}
+.container-toolbar .container-capacity {
+	font-size: var(--panel-label);
+	color: #bac4cd;
+}
 
-.panel .skills-browser > .inventory-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: min-content; align-content: start; gap: 6px; }
-.panel .skills-browser .inventory-item { padding: 5px; gap: 5px; }
-.panel .skills-browser .inventory-item img { width: 24px; height: 24px; flex-shrink: 0; }
+.panel .skills-browser > .inventory-list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-auto-rows: min-content;
+	align-content: start;
+	gap: 6px;
+}
+.panel .skills-browser .inventory-item {
+	padding: 5px;
+	gap: 5px;
+}
+.panel .skills-browser .inventory-item img {
+	width: 24px;
+	height: 24px;
+	flex-shrink: 0;
+}
 
 @media (max-width: 520px) {
- .panel .skills-browser .inventory-item { flex-direction: column; align-items: flex-start; }
+	.panel .skills-browser .inventory-item {
+		flex-direction: column;
+		align-items: flex-start;
+	}
 }
 
-.attribute-editor { min-width: 0; min-height: 0; overflow: auto; }
+.attribute-editor {
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
+}
 .attribute-editor .attribute-allocation {
- display: grid; grid-template-columns: max-content minmax(100px, 1fr) max-content repeat(3, 32px);
- grid-auto-rows: min-content; align-content: start; column-gap: 6px; row-gap: 0; min-width: max-content;
- overflow: visible;
+	display: grid;
+	grid-template-columns: max-content minmax(100px, 1fr) max-content repeat(3, 32px);
+	grid-auto-rows: min-content;
+	align-content: start;
+	column-gap: 6px;
+	row-gap: 0;
+	min-width: max-content;
+	overflow: visible;
 }
 .panel .attribute-row {
- grid-column: 1 / -1; grid-template-columns: subgrid; min-height: 34px; gap: 6px; padding: 4px 0 3px;
+	grid-column: 1 / -1;
+	grid-template-columns: subgrid;
+	min-height: 34px;
+	gap: 6px;
+	padding: 4px 0 3px;
 }
-.attribute-row > :is(strong, .attribute-value, small) { white-space: nowrap; }
-.attribute-row .attribute-value { text-align: right; }
-.attribute-increments { display: grid; grid-template-columns: subgrid; grid-column: span 3; }
-.panel .attribute-increments button { display: flex; align-items: center; justify-content: center; text-align: center; width: 32px; min-width: 32px; padding: 2px 0; }
-.attribute-layout > .attribute-results { min-height: 0; overflow: auto; }
-.attribute-results > dl { align-content: start; row-gap: 0; }
-.attribute-results > dl > :is(dt, dd) { min-height: 22px; box-sizing: border-box; padding: 1px 0; line-height: 1.3; display: flex; align-items: center; }
-.attribute-results > dl > dd { justify-content: flex-end; }
-.attribute-footer { justify-content: space-between; padding-top: 6px; border-top: 1px solid #465461; }
-.attribute-footer > strong { font-size: var(--panel-label); color: #ceaa70; }
-.attribute-plan-actions { display: flex; justify-content: flex-end; gap: 6px; margin-left: auto; }
-.panel .attribute-plan-actions button { width: auto; min-height: 28px; padding: 3px 8px; font-size: 12px; white-space: nowrap; }
+.attribute-row > :is(strong, .attribute-value, small) {
+	white-space: nowrap;
+}
+.attribute-row .attribute-value {
+	text-align: right;
+}
+.attribute-increments {
+	display: grid;
+	grid-template-columns: subgrid;
+	grid-column: span 3;
+}
+.panel .attribute-increments button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: 32px;
+	min-width: 32px;
+	padding: 2px 0;
+}
+.attribute-layout > .attribute-results {
+	min-height: 0;
+	overflow: auto;
+}
+.attribute-results > dl {
+	align-content: start;
+	row-gap: 0;
+}
+.attribute-results > dl > :is(dt, dd) {
+	min-height: 22px;
+	box-sizing: border-box;
+	padding: 1px 0;
+	line-height: 1.3;
+	display: flex;
+	align-items: center;
+}
+.attribute-results > dl > dd {
+	justify-content: flex-end;
+}
+.attribute-footer {
+	justify-content: space-between;
+	padding-top: 6px;
+	border-top: 1px solid #465461;
+}
+.attribute-footer > strong {
+	font-size: var(--panel-label);
+	color: #ceaa70;
+}
+.attribute-plan-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-left: auto;
+}
+.panel .attribute-plan-actions button {
+	width: auto;
+	min-height: 28px;
+	padding: 3px 8px;
+	font-size: 12px;
+	white-space: nowrap;
+}
 @media (max-width: 520px) {
- .attribute-editor .attribute-allocation, .panel .attribute-row { column-gap: 4px; }
- .attribute-footer { gap: 6px; }
+	.attribute-editor .attribute-allocation,
+	.panel .attribute-row {
+		column-gap: 4px;
+	}
+	.attribute-footer {
+		gap: 6px;
+	}
 }
 
 @media (max-height: 450px) {
- .attribute-results > dl > :is(dt, dd) { min-height: 18px; padding: 0; font-size: 11px; }
+	.attribute-results > dl > :is(dt, dd) {
+		min-height: 18px;
+		padding: 0;
+		font-size: 11px;
+	}
 }
 
-.shortcut-pages { display: flex; align-items: stretch; gap: 6px; flex-shrink: 0; min-width: 0; }
-.shortcut-pages > .slot-picker { flex: 1; min-width: 0; }
-.panel .shortcut-pages > button { flex: 0 0 24px; width: 24px; min-width: 24px; padding: 0; font-size: 22px; display: flex; align-items: center; justify-content: center; }
+.shortcut-pages {
+	display: flex;
+	align-items: stretch;
+	gap: 6px;
+	flex-shrink: 0;
+	min-width: 0;
+}
+.shortcut-pages > .slot-picker {
+	flex: 1;
+	min-width: 0;
+}
+.panel .shortcut-pages > button {
+	flex: 0 0 24px;
+	width: 24px;
+	min-width: 24px;
+	padding: 0;
+	font-size: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
 /* Share the footer row height without changing the original controls. */
-.panel .skills-layout { grid-template-rows: minmax(0, 1fr) auto; }
+.panel .skills-layout {
+	grid-template-rows: minmax(0, 1fr) auto;
+}
 .panel .skills-layout > section {
- display: grid; grid-row: 1 / span 2; grid-template-rows: subgrid; row-gap: 8px;
+	display: grid;
+	grid-row: 1 / span 2;
+	grid-template-rows: subgrid;
+	row-gap: 8px;
 }
 .panel .skills-layout :is(.skills-footer, .inventory-actions) {
- margin-top: 0; padding-top: 4px; padding-bottom: 0;
+	margin-top: 0;
+	padding-top: 4px;
+	padding-bottom: 0;
 }
 .panel .skills-layout :is(.skills-reset > button, .inventory-actions > button) {
- min-height: 28px; padding-top: 3px; padding-bottom: 3px;
+	min-height: 28px;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }
 
 /* Chat preview and conversation panel. */
-.chat-preview { left: max(12px, env(safe-area-inset-left)); right: auto; width: min(300px, calc(100% - 224px)); min-width: 96px; }
-[data-chat-unread] { display: inline-block; border-radius: 8px; padding: 0 5px; background: #954b42; color: white; }
-.chat-body { gap: 8px; padding: 10px; }
-.chat-conversation { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 8px; flex: 1; min-height: 0; padding: 8px; border: 1px solid #465461; border-radius: 8px; overflow: hidden; }
-.chat-filters { display: flex; flex-direction: column; gap: 0; min-height: 0; overflow-y: auto; padding-right: 8px; border-right: 1px solid #465461; }
-.panel .chat-filters > button { flex-shrink: 0; width: 100%; min-height: 32px; padding: 6px 8px; border: 0; border-radius: 0; background: transparent; box-shadow: none; text-align: left; font-size: var(--panel-label); white-space: nowrap; }
-.panel .chat-filters > button[aria-pressed='true'] { background: #ceaa701a; box-shadow: inset 2px 0 #ceaa70; color: #ffe1aa; }
-.chat-content { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; }
-.panel .chat-form { flex-shrink: 0; }
-@media (max-width: 520px) {
- .chat-conversation { grid-template-columns: 72px minmax(0, 1fr); gap: 6px; padding: 6px; }
- .chat-filters { padding-right: 6px; }
+.chat-preview {
+	left: max(12px, env(safe-area-inset-left));
+	right: auto;
+	width: min(300px, calc(100% - 224px));
+	min-width: 96px;
 }
-.chat-body .chat-log { padding: 2px 4px; overscroll-behavior: contain; }
-.chat-log p { margin: 0 0 6px; overflow-wrap: anywhere; }
-.chat-log [data-channel='private'] { color: #e5b6e9; }
-.chat-log [data-channel='party'] { color: #a6d7ed; }
-.chat-log [data-channel='guild'] { color: #acd7a0; }
-.chat-log [data-channel='system'] { color: #b4bdc7; }
-.panel .chat-form { display: grid; grid-template-columns: 78px minmax(0, 1fr) 48px 48px; gap: 6px; margin: 0; }
-.panel .chat-form > [aria-label='私聊对象'] { grid-column: 1 / -1; grid-row: 1; width: 100%; }
-.panel .chat-form > :is(input, button, select, .menu-select) { min-width: 0; width: 100%; }
-.panel .chat-form > input { padding: 5px 7px; font-size: 16px; }
-.panel .chat-form > button { padding: 3px; }
-.panel .chat-form > [data-emotions] { font-size: 22px; }
-.chat-emotions { display: grid; grid-template-columns: repeat(auto-fill, minmax(36px, 1fr)); gap: 5px; max-height: 100px; overflow-y: auto; flex: none; }
-.panel .chat-emotions button { padding: 3px; font-size: 21px; }
+[data-chat-unread] {
+	display: inline-block;
+	border-radius: 8px;
+	padding: 0 5px;
+	background: #954b42;
+	color: white;
+}
+.chat-body {
+	gap: 8px;
+	padding: 10px;
+}
+.chat-conversation {
+	display: grid;
+	grid-template-columns: 88px minmax(0, 1fr);
+	gap: 8px;
+	flex: 1;
+	min-height: 0;
+	padding: 8px;
+	border: 1px solid #465461;
+	border-radius: 8px;
+	overflow: hidden;
+}
+.chat-filters {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	min-height: 0;
+	overflow-y: auto;
+	padding-right: 8px;
+	border-right: 1px solid #465461;
+}
+.panel .chat-filters > button {
+	flex-shrink: 0;
+	width: 100%;
+	min-height: 32px;
+	padding: 6px 8px;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	text-align: left;
+	font-size: var(--panel-label);
+	white-space: nowrap;
+}
+.panel .chat-filters > button[aria-pressed='true'] {
+	background: #ceaa701a;
+	box-shadow: inset 2px 0 #ceaa70;
+	color: #ffe1aa;
+}
+.chat-content {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	overflow: hidden;
+}
+.panel .chat-form {
+	flex-shrink: 0;
+}
+@media (max-width: 520px) {
+	.chat-conversation {
+		grid-template-columns: 72px minmax(0, 1fr);
+		gap: 6px;
+		padding: 6px;
+	}
+	.chat-filters {
+		padding-right: 6px;
+	}
+}
+.chat-body .chat-log {
+	padding: 2px 4px;
+	overscroll-behavior: contain;
+}
+.chat-log p {
+	margin: 0 0 6px;
+	overflow-wrap: anywhere;
+}
+.chat-log [data-channel='private'] {
+	color: #e5b6e9;
+}
+.chat-log [data-channel='party'] {
+	color: #a6d7ed;
+}
+.chat-log [data-channel='guild'] {
+	color: #acd7a0;
+}
+.chat-log [data-channel='system'] {
+	color: #b4bdc7;
+}
+.panel .chat-form {
+	display: grid;
+	grid-template-columns: 78px minmax(0, 1fr) 48px 48px;
+	gap: 6px;
+	margin: 0;
+}
+.panel .chat-form > [aria-label='私聊对象'] {
+	grid-column: 1 / -1;
+	grid-row: 1;
+	width: 100%;
+}
+.panel .chat-form > :is(input, button, select, .menu-select) {
+	min-width: 0;
+	width: 100%;
+}
+.panel .chat-form > input {
+	padding: 5px 7px;
+	font-size: 16px;
+}
+.panel .chat-form > button {
+	padding: 3px;
+}
+.panel .chat-form > [data-emotions] {
+	font-size: 22px;
+}
+.chat-emotions {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+	gap: 5px;
+	max-height: 100px;
+	overflow-y: auto;
+	flex: none;
+}
+.panel .chat-emotions button {
+	padding: 3px;
+	font-size: 21px;
+}
 @media (max-width: 600px) {
- .chat-preview { width: min(200px, calc(100% - 224px)); bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px)); }
+	.chat-preview {
+		width: min(200px, calc(100% - 224px));
+		bottom: max(60px, calc(env(safe-area-inset-bottom) + 48px));
+	}
 }
 
-.panel .chat-form > :is(input, button), .panel .chat-form .menu-select > button {
- height: 32px; min-height: 32px;
+.panel .chat-form > :is(input, button),
+.panel .chat-form .menu-select > button {
+	height: 32px;
+	min-height: 32px;
 }
 
 /* Override compact generic inputs so iOS cannot zoom the chat composer. */
 .panel.chat-panel .panel-body .chat-form > input[aria-label],
 .panel.chat-panel .chat-form > button,
 .panel.chat-panel .chat-form .game-select-trigger {
- box-sizing: border-box; height: 32px; min-height: 32px; max-height: 32px;
+	box-sizing: border-box;
+	height: 32px;
+	min-height: 32px;
+	max-height: 32px;
 }
-.panel.chat-panel .panel-body .chat-form > input[aria-label] { font-size: 16px; padding: 3px 6px; }
-.panel.chat-panel .chat-form > [data-emotions] { font-size: 11px; }
-.chat-emotions { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); min-height: 44px; }
-.panel .chat-emotions button { display: flex; align-items: center; justify-content: center; padding: 1px; min-height: 44px; }
-.chat-emotions img { display: block; width: 40px; height: 40px; image-rendering: pixelated; }
+.panel.chat-panel .panel-body .chat-form > input[aria-label] {
+	font-size: 16px;
+	padding: 3px 6px;
+}
+.panel.chat-panel .chat-form > [data-emotions] {
+	font-size: 11px;
+}
+.chat-emotions {
+	grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+	min-height: 44px;
+}
+.panel .chat-emotions button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1px;
+	min-height: 44px;
+}
+.chat-emotions img {
+	display: block;
+	width: 40px;
+	height: 40px;
+	image-rendering: pixelated;
+}
 
-.chat-content:has(.chat-emotions:not([hidden])) > .chat-log { display: none; }
-.chat-body .chat-emotions { flex: 1; min-height: 0; max-height: none; grid-auto-rows: 44px; align-content: start; }
+.chat-content:has(.chat-emotions:not([hidden])) > .chat-log {
+	display: none;
+}
+.chat-body .chat-emotions {
+	flex: 1;
+	min-height: 0;
+	max-height: none;
+	grid-auto-rows: 44px;
+	align-content: start;
+}
 
-
-.chat-preview { pointer-events: auto; }
-.chat-preview-open { display: block; width: 100%; padding: 0; border: 0; background: transparent; text-align: left; }
-.chat-preview [data-chat-collapse] { position: absolute; right: 3px; top: 2px; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; color: #bac4cd; font-size: 20px; }
-.chat-preview.collapsed { width: 40px; min-width: 40px; height: 36px; min-height: 36px; padding: 0; }
-.chat-preview [data-chat-expand] { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; border-radius: inherit; color: #ffd27f; }
-[data-chat-expand] [data-chat-unread] { position: absolute; right: -5px; top: -6px; font-size: 10px; line-height: 16px; }
+.chat-preview {
+	pointer-events: auto;
+}
+.chat-preview-open {
+	display: block;
+	width: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	text-align: left;
+}
+.chat-preview [data-chat-collapse] {
+	position: absolute;
+	right: 3px;
+	top: 2px;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: #bac4cd;
+	font-size: 20px;
+}
+.chat-preview.collapsed {
+	width: 40px;
+	min-width: 40px;
+	height: 36px;
+	min-height: 36px;
+	padding: 0;
+}
+.chat-preview [data-chat-expand] {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	border-radius: inherit;
+	color: #ffd27f;
+}
+[data-chat-expand] [data-chat-unread] {
+	position: absolute;
+	right: -5px;
+	top: -6px;
+	font-size: 10px;
+	line-height: 16px;
+}

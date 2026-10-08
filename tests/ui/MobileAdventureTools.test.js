@@ -1,7 +1,8 @@
-import { afterEach, expect, it, vi } from 'vitest';
+import { beforeEach, afterEach, expect, it, vi } from 'vitest';
 import { createAdventureToolsView } from '../../src/UI/Mobile/game/AdventureToolsView.js';
 let view;
-afterEach(() => { view?.destroy(); document.body.replaceChildren(); });
+beforeEach(() => { vi.stubGlobal('ResizeObserver', class { observe() {} disconnect() {} }); });
+afterEach(() => { view?.destroy(); document.body.replaceChildren(); vi.unstubAllGlobals(); });
 function mount() {
 	const root = document.createElement('div'); document.body.append(root);
 	const cleanup = vi.fn(), context = { capabilities: { itemGrantAllowed: true } }, close = vi.fn();

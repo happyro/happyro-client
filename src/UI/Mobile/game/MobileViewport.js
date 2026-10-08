@@ -1,3 +1,4 @@
+import { updateMenuLayout } from './MenuLayout.js';
 const editable =
 	'input:not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=range]):not([type=button]):not([type=submit]), textarea, select';
 
@@ -36,15 +37,13 @@ export function createMobileViewport(host) {
 		const height = document.documentElement.clientHeight || window.innerHeight;
 		const input = host.shadowRoot?.activeElement;
 		const editing = input?.matches(editable);
-		const rotated = Math.abs(width - layoutWidth) > 80;
+		const rotated = width !== layoutWidth;
 		const visibleHeight = Math.min(visual?.height || height, height);
 		const keyboard = !rotated && (editing || keyboardOpen) && visibleHeight < layoutHeight - 80;
 		if (!keyboard) {
 			layoutHeight = height;
 			layoutWidth = width;
-			const panel = host.shadowRoot?.querySelector('.backdrop:not([hidden]) .panel');
-			const panelHeight = panel?.getBoundingClientRect().height;
-			if (panelHeight) host.style.setProperty('--mobile-panel-height', `${panelHeight}px`);
+			updateMenuLayout(host, width, height);
 		}
 		keyboardOpen = Boolean(keyboard);
 		Object.assign(host.style, {
@@ -53,6 +52,7 @@ export function createMobileViewport(host) {
 			left: '0px',
 			top: `${visual?.offsetTop || 0}px`
 		});
+		host.style.setProperty('--mobile-visual-top', `${visual?.offsetTop || 0}px`);
 		host.style.setProperty('--mobile-layout-height', `${keyboard ? layoutHeight : visibleHeight}px`);
 		host.style.setProperty('--mobile-visible-height', `${visibleHeight}px`);
 		host.classList.toggle('keyboard-open', keyboardOpen);
@@ -67,4 +67,18 @@ export function createMobileViewport(host) {
 		cancelAnimationFrame(frame);
 	};
 	return update;
+}
+
+/** Independent dialogs share the same viewport lifecycle as game windows. */
+export function bindMobileViewport(host) {
+	const update = createMobileViewport(host);
+	const abort = new AbortController();
+	for (const event of ['resize', 'scroll'])
+		window.visualViewport?.addEventListener(event, update, { signal: abort.signal });
+	window.addEventListener('resize', update, { signal: abort.signal });
+	update();
+	return () => {
+		abort.abort();
+		update.destroy();
+	};
 }

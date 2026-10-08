@@ -1,0 +1,206 @@
+/* Sole owner of mobile menu outer dimensions. Features own only their contents. */
+:host {
+	--menu-standard-width: 840px;
+	--menu-standard-height: 640px;
+	--menu-home-width: 560px;
+	--menu-dialog-width: 420px;
+	--menu-dialog-height: 480px;
+	--menu-picker-width: 640px;
+	--menu-editor-height: 160px;
+	--menu-edge-x: 16px;
+	--menu-edge-y: 12px;
+	--menu-dialog-inset: 32px;
+	--panel-gap: 6px;
+	--panel-control: 30px;
+	--panel-label: 11px;
+	--panel-heading: 12px;
+}
+:host([data-menu-density='spacious']) {
+	--menu-edge-x: 24px;
+	--menu-edge-y: 24px;
+	--panel-gap: 12px;
+	--panel-control: 44px;
+	--panel-label: 14px;
+	--panel-heading: 16px;
+}
+.mobile-menu-viewport {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))
+		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));
+	box-sizing: border-box;
+	min-width: 0;
+	min-height: 0;
+}
+.mobile-menu-window {
+	--menu-window-width: 600px;
+	--menu-window-height: auto;
+	width: min(var(--menu-window-width), 100%);
+	height: var(--menu-window-height);
+	max-height: 100%;
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+/* Preserve compact phone sizes, with every exception registered here. */
+.panel:is(.inventory-panel, .equipment-panel, .auto-config-panel, .shortcut-panel, .settings-panel, .chat-panel) {
+	--menu-window-width: 780px;
+	--menu-window-height: 100%;
+}
+.panel:is([data-view='menu'], [data-view='bank'], [data-view='pet'], [data-view='companions']) {
+	--menu-window-width: 420px;
+}
+.panel.profile-panel {
+	--menu-window-width: 400px;
+}
+.panel.settings-panel {
+	--menu-window-width: 600px;
+}
+.mobile-adventure {
+	container: menu-content / inline-size;
+	--menu-window-width: 100%;
+	--menu-window-height: 100%;
+}
+:host([data-menu-density='spacious']) .mobile-menu-window {
+	--menu-window-width: var(--menu-standard-width);
+	--menu-window-height: min(var(--menu-standard-height), 100%);
+}
+:host([data-menu-density='spacious']) .panel[data-view='menu'] {
+	--menu-window-width: var(--menu-home-width);
+	--menu-window-height: auto;
+	max-height: min(var(--menu-standard-height), 100%);
+}
+.mobile-menu-window > header,
+.mobile-menu-window > nav {
+	flex-shrink: 0;
+}
+.mobile-menu-window > .panel-body,
+.mobile-menu-window > .adventure-content {
+	min-height: 0;
+	flex: 1;
+}
+.panel-body {
+	padding: 8px;
+}
+.panel header {
+	padding: 4px 10px;
+}
+.panel {
+	font-size: var(--panel-label);
+}
+.panel button {
+	min-height: var(--panel-control);
+}
+:host([data-menu-density='spacious']) .panel header {
+	padding: 12px 16px;
+}
+:host([data-menu-density='spacious']) .panel-body {
+	padding: 16px;
+}
+:host([data-menu-density='spacious']) .panel h2 {
+	font-size: 18px;
+}
+:host([data-menu-density='spacious']) .panel button {
+	min-height: var(--panel-control);
+	padding: 8px 12px;
+}
+:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {
+	font-size: var(--panel-label);
+}
+:host([data-menu-density='spacious'])
+	.panel
+	:is(.auto-skill-card strong, .auto-help, [data-skill-count], [data-auto-summary]) {
+	font-size: var(--panel-label);
+}
+:host([data-menu-density='spacious']) .mobile-adventure button {
+	min-height: var(--panel-control);
+}
+/* Space-constrained keyboard layouts scroll content rather than hiding actions. */
+:host(.keyboard-open) .mobile-menu-viewport {
+	height: var(--mobile-visible-height);
+}
+:host(.keyboard-open) .mobile-menu-window {
+	max-height: 100%;
+}
+.mobile-menu-dialog {
+	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));
+	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));
+}
+.mobile-menu-dialog[open] {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+.mobile-menu-dialog .container {
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+.mobile-menu-dialog .btns {
+	flex-shrink: 0;
+}
+/* The editor remains full-screen on phones; tablets get a bounded nested dialog. */
+:host([data-menu-density='spacious']) .mobile-menu-editor {
+	inset: var(--mobile-visual-top, 0px) 0 auto;
+	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));
+	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));
+	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;
+	border: 1px solid #657584;
+	border-radius: 10px;
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor::backdrop {
+	background: #0006;
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor:has(textarea) {
+	--menu-editor-height: 320px;
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor section {
+	position: static;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: auto minmax(0, 1fr) auto;
+	padding: 12px;
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {
+	position: static;
+	width: auto;
+	height: auto;
+	clip-path: none;
+	grid-column: 1 / -1;
+	grid-row: 1;
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor main {
+	grid-column: 1 / -1;
+	grid-row: 2;
+	min-height: 0;
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor button {
+	grid-row: 3;
+	min-height: 44px;
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor [data-done] {
+	grid-column: 2;
+}
+:host([data-menu-density='spacious']) .panel .auto-range-stepper button {
+	width: var(--panel-control);
+	height: var(--panel-control);
+}
+.mobile-menu-dialog {
+	inset: var(--mobile-visual-top, 0px) 0
+		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));
+	margin: auto;
+}
+
+.mobile-menu-editor {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	max-width: none;
+	max-height: none;
+	margin: 0;
+}

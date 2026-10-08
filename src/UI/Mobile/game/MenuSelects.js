@@ -1,3 +1,4 @@
+import { MENU_SELECT, menuOverlayBounds } from './MenuLayout.js';
 import { mountGameSelect, renderGameSelect, setGameSelectOptions } from 'UI/Components/GameTools/GameSelect.js';
 
 /** Keep form values and existing change handlers while sharing the catalog dropdown UI. */
@@ -47,25 +48,26 @@ export function createMenuSelects(container) {
 				function positionMenu() {
 					if (menu.hidden) return;
 					const rect = trigger.getBoundingClientRect();
-					const viewport = window.visualViewport;
-					const top = viewport?.offsetTop || 0;
-					const bottom = top + (viewport?.height || innerHeight);
-					const below = bottom - rect.bottom - 8;
-					const above = rect.top - top - 8;
+					const bounds = menuOverlayBounds(root);
+					const { top, bottom } = bounds;
+					const below = bottom - rect.bottom - MENU_SELECT.edge;
+					const above = rect.top - top - MENU_SELECT.edge;
 					const up = below < 160 && above > below;
-					const height = Math.max(30, Math.min(240, up ? above : below));
+					const height = Math.max(MENU_SELECT.minHeight, Math.min(MENU_SELECT.maxHeight, up ? above : below));
 					const fitOptions = Boolean(root.closest('.shortcut-fields'));
-					const left = (viewport?.offsetLeft || 0) + 8;
-					const availableWidth = (viewport?.width || innerWidth) - 16;
+					const left = bounds.left + MENU_SELECT.edge;
+					const availableWidth = Math.max(0, bounds.right - bounds.left - MENU_SELECT.edge * 2);
 					if (fitOptions) {
 						menu.style.width = 'max-content';
 						menu.style.minWidth = `${Math.min(rect.width, availableWidth)}px`;
 						menu.style.maxWidth = `${availableWidth}px`;
 					}
-					const width = fitOptions ? menu.getBoundingClientRect().width : rect.width;
+					const width = fitOptions
+						? Math.min(menu.getBoundingClientRect().width, availableWidth)
+						: Math.min(rect.width, availableWidth);
 					root.classList.remove('drop-up');
 					Object.assign(menu.style, {
-						left: `${fitOptions ? Math.max(left, Math.min(rect.left, left + availableWidth - width)) : rect.left}px`,
+						left: `${Math.max(left, Math.min(rect.left, left + availableWidth - width))}px`,
 						width: `${width}px`,
 						maxHeight: `${height}px`,
 						top: up ? `${rect.top - Math.min(height, menu.scrollHeight + 2) - 2}px` : `${rect.bottom + 2}px`
@@ -113,6 +115,7 @@ export function createMenuSelects(container) {
 		{ signal: abort.signal }
 	);
 	window.addEventListener('resize', close, { signal: abort.signal });
+	window.visualViewport?.addEventListener('resize', close, { signal: abort.signal });
 	sync();
 	return {
 		sync,

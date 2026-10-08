@@ -1,3 +1,5 @@
+import menuLayoutCSS from './game/MenuLayout.css?raw';
+import { bindMobileViewport } from './game/MobileViewport.js';
 import tokens from './tokens.css?raw';
 import css from './MessageDialog.css?raw';
 
@@ -9,11 +11,18 @@ export function removeMobileDialogs() {
 const labels = { ok: '确定', yes: '确定', cancel: '取消', no: '取消', close: '关闭', next: '继续' };
 
 /** Shared mobile presentation for UIManager messages, confirmations and errors. */
-export function showMobileDialog({ text, title = '提示', buttons, onCancel, keyboardAccept = false, preserveLineBreaks = false }) {
+export function showMobileDialog({
+	text,
+	title = '提示',
+	buttons,
+	onCancel,
+	keyboardAccept = false,
+	preserveLineBreaks = false
+}) {
 	const host = document.createElement('div');
 	host.className = 'mobile-message-host';
 	const root = host.attachShadow({ mode: 'open' });
-	root.innerHTML = `<style>${tokens}${css}</style><dialog aria-labelledby="message-title" aria-describedby="message-text">
+	root.innerHTML = `<style>${tokens}${css}${menuLayoutCSS}</style><dialog class="mobile-menu-dialog" aria-labelledby="message-title" aria-describedby="message-text">
 		<div class="container"><h2 id="message-title" tabindex="-1" autofocus></h2><p id="message-text" class="text"></p></div>
 		<div class="btns"></div></dialog>`;
 	const dialog = root.querySelector('dialog');
@@ -22,18 +31,22 @@ export function showMobileDialog({ text, title = '提示', buttons, onCancel, ke
 	root.querySelector('.text').textContent = text;
 	root.querySelector('.text').classList.toggle('preserve-line-breaks', preserveLineBreaks);
 	let finished = false;
+	let unbindViewport;
 	const component = {
-		_host: host, _shadow: root,
+		_host: host,
+		_shadow: root,
 		append() {
 			if (dialog.open) return;
 			finished = false;
 			document.body.append(host);
 			activeDialogs.add(component);
+			unbindViewport = bindMobileViewport(host);
 			dialog.showModal();
 			heading.focus({ preventScroll: true });
 		},
 		remove() {
 			finished = true;
+			unbindViewport?.();
 			if (dialog.open) dialog.close();
 			host.remove();
 			activeDialogs.delete(component);

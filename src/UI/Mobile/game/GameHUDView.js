@@ -1,3 +1,4 @@
+import menuLayoutCSS from './MenuLayout.css?raw';
 import pickupCSS from 'UI/Game/PickupSettingsPanel.css?raw';
 import Preferences from 'Core/Preferences.js';
 import { chatChannelLabels } from './ChatChannels.js';
@@ -49,7 +50,8 @@ ${selectCSS}
 ${panelsCSS}
 ${pickupCSS}
 ${mobileSelectCSS}
-${mailCSS}</style>${html}`;
+${mailCSS}
+${menuLayoutCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	const chatDisplay = Preferences.get('ChatPreview', { collapsed: false }, 1.0);
@@ -524,10 +526,18 @@ ${mailCSS}</style>${html}`;
 				configure: actions.configureShortcut
 			});
 		if (panel === 'chat') {
-			chatPanel = createChatPanel(body, actions.sendChat, slotIndex, actions.chatEmotionImages, () => close(), chatFilter, value => {
-				chatFilter = value;
-				updateMessages();
-			});
+			chatPanel = createChatPanel(
+				body,
+				actions.sendChat,
+				slotIndex,
+				actions.chatEmotionImages,
+				() => close(),
+				chatFilter,
+				value => {
+					chatFilter = value;
+					updateMessages();
+				}
+			);
 			updateMessages();
 		}
 		menuSelects.sync();
