@@ -78204,41 +78204,18 @@ var init_Platform = __esmMin((() => {
 //#region src/UI/Mobile/game/MenuLayout.css?raw
 var MenuLayout_default;
 var init_MenuLayout$1 = __esmMin((() => {
-	MenuLayout_default = "/* Sole owner of mobile menu outer dimensions. Features own only their contents. */\r\n:host {\r\n	--menu-standard-width: 840px;\r\n	--menu-standard-height: 640px;\r\n	--menu-home-width: 560px;\r\n	--menu-dialog-width: 420px;\r\n	--menu-dialog-height: 480px;\r\n	--menu-picker-width: 640px;\r\n	--menu-editor-height: 160px;\r\n	--menu-edge-x: 16px;\r\n	--menu-edge-y: 12px;\r\n	--menu-dialog-inset: 32px;\r\n	--panel-gap: 6px;\r\n	--panel-control: 30px;\r\n	--panel-label: 11px;\r\n	--panel-heading: 12px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--menu-edge-x: 24px;\r\n	--menu-edge-y: 24px;\r\n	--panel-gap: 12px;\r\n	--panel-control: 44px;\r\n	--panel-label: 14px;\r\n	--panel-heading: 16px;\r\n}\r\n.mobile-menu-viewport {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))\r\n		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.mobile-menu-window {\r\n	--menu-window-width: 600px;\r\n	--menu-window-height: auto;\r\n	width: min(var(--menu-window-width), 100%);\r\n	height: var(--menu-window-height);\r\n	max-height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n/* Preserve compact phone sizes, with every exception registered here. */\r\n.panel:is(.inventory-panel, .equipment-panel, .auto-config-panel, .shortcut-panel, .settings-panel, .chat-panel) {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n}\r\n.panel:is([data-view='menu'], [data-view='bank'], [data-view='pet'], [data-view='companions']) {\r\n	--menu-window-width: 420px;\r\n}\r\n.panel.profile-panel {\r\n	--menu-window-width: 400px;\r\n}\r\n.panel.settings-panel {\r\n	--menu-window-width: 600px;\r\n}\r\n.mobile-adventure {\r\n	container: menu-content / inline-size;\r\n	--menu-window-width: 100%;\r\n	--menu-window-height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='menu'] {\r\n	--menu-window-width: var(--menu-home-width);\r\n	--menu-window-height: auto;\r\n	max-height: min(var(--menu-standard-height), 100%);\r\n}\r\n.mobile-menu-window > header,\r\n.mobile-menu-window > nav {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-menu-window > .panel-body,\r\n.mobile-menu-window > .adventure-content {\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.panel-body {\r\n	padding: 8px;\r\n}\r\n.panel header {\r\n	padding: 4px 10px;\r\n}\r\n.panel {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel button {\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .panel header {\r\n	padding: 12px 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel-body {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel h2 {\r\n	font-size: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .panel button {\r\n	min-height: var(--panel-control);\r\n	padding: 8px 12px;\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.auto-skill-card strong, .auto-help, [data-skill-count], [data-auto-summary]) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n}\r\n/* Space-constrained keyboard layouts scroll content rather than hiding actions. */\r\n:host(.keyboard-open) .mobile-menu-viewport {\r\n	height: var(--mobile-visible-height);\r\n}\r\n:host(.keyboard-open) .mobile-menu-window {\r\n	max-height: 100%;\r\n}\r\n.mobile-menu-dialog {\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n}\r\n.mobile-menu-dialog[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.mobile-menu-dialog .container {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.mobile-menu-dialog .btns {\r\n	flex-shrink: 0;\r\n}\r\n/* The editor remains full-screen on phones; tablets get a bounded nested dialog. */\r\n:host([data-menu-density='spacious']) .mobile-menu-editor {\r\n	inset: var(--mobile-visual-top, 0px) 0 auto;\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;\r\n	border: 1px solid #657584;\r\n	border-radius: 10px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor::backdrop {\r\n	background: #0006;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor:has(textarea) {\r\n	--menu-editor-height: 320px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor section {\r\n	position: static;\r\n	height: 100%;\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	padding: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {\r\n	position: static;\r\n	width: auto;\r\n	height: auto;\r\n	clip-path: none;\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor main {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	min-height: 0;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor button {\r\n	grid-row: 3;\r\n	min-height: 44px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor [data-done] {\r\n	grid-column: 2;\r\n}\r\n:host([data-menu-density='spacious']) .panel .auto-range-stepper button {\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n}\r\n.mobile-menu-dialog {\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n}\r\n\r\n.mobile-menu-editor {\r\n	position: fixed;\r\n	inset: 0;\r\n	width: 100%;\r\n	max-width: none;\r\n	max-height: none;\r\n	margin: 0;\r\n}\r\n";
+	MenuLayout_default = "/* Sole owner of mobile menu outer dimensions. Features own only their contents. */\r\n:host {\r\n	--menu-standard-width: 840px;\r\n	--menu-standard-height: 640px;\r\n	--menu-home-width: 560px;\r\n	--menu-dialog-width: 420px;\r\n	--menu-dialog-height: 480px;\r\n	--menu-picker-width: 640px;\r\n	--menu-editor-height: 160px;\r\n	--menu-edge-x: 16px;\r\n	--menu-edge-y: 12px;\r\n	--menu-dialog-inset: 32px;\r\n	--panel-gap: 6px;\r\n	--panel-control: 30px;\r\n	--panel-label: 11px;\r\n	--panel-heading: 12px;\r\n}\r\n:host([data-menu-density='spacious']) {\r\n	--menu-edge-x: 24px;\r\n	--menu-edge-y: 24px;\r\n	--panel-gap: 12px;\r\n	--panel-control: 44px;\r\n	--panel-label: 14px;\r\n	--panel-heading: 16px;\r\n}\r\n.mobile-menu-viewport {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(var(--menu-edge-y), env(safe-area-inset-top)) max(var(--menu-edge-x), env(safe-area-inset-right))\r\n		max(var(--menu-edge-y), env(safe-area-inset-bottom)) max(var(--menu-edge-x), env(safe-area-inset-left));\r\n	box-sizing: border-box;\r\n	min-width: 0;\r\n	min-height: 0;\r\n}\r\n.mobile-menu-window {\r\n	--menu-window-width: 600px;\r\n	--menu-window-height: auto;\r\n	width: min(var(--menu-window-width), 100%);\r\n	height: var(--menu-window-height);\r\n	max-height: 100%;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n/* Preserve compact phone sizes, with every exception registered here. */\r\n.panel:is(.inventory-panel, .equipment-panel, .auto-config-panel, .shortcut-panel, .settings-panel, .chat-panel) {\r\n	--menu-window-width: 780px;\r\n	--menu-window-height: 100%;\r\n}\r\n.panel:is([data-view='menu'], [data-view='bank'], [data-view='pet'], [data-view='companions']) {\r\n	--menu-window-width: 420px;\r\n}\r\n.panel.profile-panel {\r\n	--menu-window-width: 400px;\r\n}\r\n.panel.settings-panel {\r\n	--menu-window-width: 600px;\r\n}\r\n.mobile-adventure {\r\n	container: menu-content / inline-size;\r\n	--menu-window-width: 100%;\r\n	--menu-window-height: 100%;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-window {\r\n	--menu-window-width: var(--menu-standard-width);\r\n	--menu-window-height: min(var(--menu-standard-height), 100%);\r\n}\r\n:host([data-menu-density='spacious']) .panel[data-view='menu'] {\r\n	--menu-window-width: var(--menu-home-width);\r\n	--menu-window-height: auto;\r\n	max-height: min(var(--menu-standard-height), 100%);\r\n}\r\n.mobile-menu-window > header,\r\n.mobile-menu-window > nav {\r\n	flex-shrink: 0;\r\n}\r\n.mobile-menu-window > .panel-body,\r\n.mobile-menu-window > .adventure-content {\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.panel-body {\r\n	padding: 8px;\r\n}\r\n.panel header {\r\n	padding: 4px 10px;\r\n}\r\n.panel {\r\n	font-size: var(--panel-label);\r\n}\r\n.panel button {\r\n	min-height: var(--panel-control);\r\n}\r\n:host([data-menu-density='spacious']) .panel header {\r\n	padding: 12px 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel-body {\r\n	padding: 16px;\r\n}\r\n:host([data-menu-density='spacious']) .panel h2 {\r\n	font-size: 18px;\r\n}\r\n:host([data-menu-density='spacious']) .panel button {\r\n	min-height: var(--panel-control);\r\n	padding: 8px 12px;\r\n}\r\n:host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious'])\r\n	.panel\r\n	:is(.auto-skill-card strong, .auto-help, [data-skill-count], [data-auto-summary]) {\r\n	font-size: var(--panel-label);\r\n}\r\n:host([data-menu-density='spacious']) .mobile-adventure button {\r\n	min-height: var(--panel-control);\r\n}\r\n/* Space-constrained keyboard layouts scroll content rather than hiding actions. */\r\n:host(.keyboard-open) .mobile-menu-viewport {\r\n	height: var(--mobile-visible-height);\r\n}\r\n:host(.keyboard-open) .mobile-menu-window {\r\n	max-height: 100%;\r\n}\r\n.mobile-menu-dialog {\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	max-height: min(var(--menu-dialog-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n}\r\n.mobile-menu-dialog[open] {\r\n	display: flex;\r\n	flex-direction: column;\r\n	overflow: hidden;\r\n}\r\n.mobile-menu-dialog .container {\r\n	min-height: 0;\r\n	overflow-y: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.mobile-menu-dialog .btns {\r\n	flex-shrink: 0;\r\n}\r\n/* The editor remains full-screen on phones; tablets get a bounded nested dialog. */\r\n:host([data-menu-density='spacious']) .mobile-menu-editor {\r\n	inset: var(--mobile-visual-top, 0px) 0 auto;\r\n	width: min(var(--menu-dialog-width), calc(100% - var(--menu-dialog-inset)));\r\n	height: min(var(--menu-editor-height), calc(var(--mobile-visible-height, 100dvh) - var(--menu-dialog-inset)));\r\n	margin: max(12px, calc((var(--mobile-visible-height, 100dvh) - var(--menu-editor-height)) / 2)) auto 0;\r\n	border: 1px solid #657584;\r\n	border-radius: 10px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor::backdrop {\r\n	background: #0006;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor:has(textarea) {\r\n	--menu-editor-height: 320px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor section {\r\n	position: static;\r\n	height: 100%;\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	grid-template-rows: auto minmax(0, 1fr) auto;\r\n	padding: 12px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {\r\n	position: static;\r\n	width: auto;\r\n	height: auto;\r\n	clip-path: none;\r\n	grid-column: 1 / -1;\r\n	grid-row: 1;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor main {\r\n	grid-column: 1 / -1;\r\n	grid-row: 2;\r\n	min-height: 0;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor button {\r\n	grid-row: 3;\r\n	min-height: 44px;\r\n}\r\n:host([data-menu-density='spacious']) .mobile-menu-editor [data-done] {\r\n	grid-column: 2;\r\n}\r\n:host([data-menu-density='spacious']) .panel .auto-range-stepper button {\r\n	width: var(--panel-control);\r\n	height: var(--panel-control);\r\n}\r\n.mobile-menu-dialog {\r\n	inset: var(--mobile-visual-top, 0px) 0\r\n		max(0px, calc(100vh - var(--mobile-visible-height, 100vh) - var(--mobile-visual-top, 0px)));\r\n	margin: auto;\r\n}\r\n\r\n.mobile-menu-editor {\r\n	position: fixed;\r\n	inset: 0;\r\n	width: 100%;\r\n	max-width: none;\r\n	max-height: none;\r\n	margin: 0;\r\n}\r\n\r\n/* One scroll area for every mobile select, including adventure tools. */\r\n.mobile-menu-window .game-select-menu[popover] {\r\n	overflow: auto;\r\n	color: inherit;\r\n}\r\n.mobile-menu-window .game-select-menu[popover] .game-select-options {\r\n	max-height: none;\r\n	overflow: visible;\r\n}\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form > :is(input[aria-label], button),\r\n:host([data-menu-density='spacious']) .panel.chat-panel .chat-form .game-select-trigger {\r\n	height: var(--panel-control);\r\n	min-height: var(--panel-control);\r\n	max-height: none;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Mobile/game/MenuLayout.js
 function updateMenuLayout(host, width, height) {
 	host.dataset.menuDensity = width >= MENU_BREAKPOINT.width && height >= MENU_BREAKPOINT.height ? "spacious" : "compact";
 }
-/** Dropdowns stay inside their owning menu and the visible viewport. */
-function menuOverlayBounds(element) {
-	const visual = window.visualViewport;
-	const viewport = {
-		left: visual?.offsetLeft || 0,
-		top: visual?.offsetTop || 0
-	};
-	viewport.right = viewport.left + (visual?.width || window.innerWidth);
-	viewport.bottom = viewport.top + (visual?.height || window.innerHeight);
-	const rect = element.closest("dialog, .mobile-menu-window")?.getBoundingClientRect();
-	if (!rect?.width || !rect.height) return viewport;
-	return {
-		left: Math.max(viewport.left, rect.left),
-		top: Math.max(viewport.top, rect.top),
-		right: Math.min(viewport.right, rect.right),
-		bottom: Math.min(viewport.bottom, rect.bottom)
-	};
-}
-var MENU_BREAKPOINT, MENU_SELECT;
+var MENU_BREAKPOINT;
 var init_MenuLayout = __esmMin((() => {
 	MENU_BREAKPOINT = {
 		width: 768,
 		height: 560
-	};
-	MENU_SELECT = {
-		edge: 8,
-		maxHeight: 240,
-		minHeight: 30
 	};
 }));
 //#endregion
@@ -284026,6 +284003,97 @@ var init_GameToolsRegistry = __esmMin((() => {
 	tabs = /* @__PURE__ */ new Map();
 }));
 //#endregion
+//#region src/UI/Components/GameTools/GameSelectLayout.js
+/** Dropdowns stay inside their owning menu and the visible viewport. */
+function menuOverlayBounds(element) {
+	const visual = window.visualViewport;
+	const viewport = {
+		left: visual?.offsetLeft || 0,
+		top: visual?.offsetTop || 0
+	};
+	viewport.right = viewport.left + (visual?.width || window.innerWidth);
+	viewport.bottom = viewport.top + (visual?.height || window.innerHeight);
+	const rect = element.closest("dialog, .mobile-menu-window")?.getBoundingClientRect();
+	if (!rect?.width || !rect.height) return viewport;
+	return {
+		left: Math.max(viewport.left, rect.left),
+		top: Math.max(viewport.top, rect.top),
+		right: Math.min(viewport.right, rect.right),
+		bottom: Math.min(viewport.bottom, rect.bottom)
+	};
+}
+/** Place mobile selects in the top layer so scroll containers cannot clip choices. */
+function openGameSelectOverlay(root, close) {
+	const menu = root.querySelector(".game-select-menu");
+	const trigger = root.querySelector(".game-select-trigger");
+	const bounds = menuOverlayBounds(root);
+	const rect = trigger.getBoundingClientRect();
+	const below = bounds.bottom - rect.bottom - edge - 2;
+	const above = rect.top - bounds.top - edge - 2;
+	const up = below < maxHeight && above > below;
+	const height = Math.min(maxHeight, up ? above : below);
+	const width = bounds.right - bounds.left - 16;
+	if (height < minHeight || width <= 0) {
+		close();
+		return () => {};
+	}
+	root.classList.remove("drop-up");
+	menu.setAttribute("popover", "manual");
+	const fitOptions = Boolean(root.closest(".shortcut-fields"));
+	Object.assign(menu.style, {
+		position: "fixed",
+		inset: "auto",
+		margin: "0",
+		boxSizing: "border-box",
+		width: fitOptions ? "max-content" : `${Math.min(rect.width, width)}px`,
+		minWidth: fitOptions ? `${Math.min(rect.width, width)}px` : "0",
+		maxWidth: `${width}px`,
+		maxHeight: `${height}px`
+	});
+	menu.showPopover();
+	const size = menu.getBoundingClientRect();
+	Object.assign(menu.style, {
+		left: `${Math.max(bounds.left + edge, Math.min(rect.left, bounds.right - edge - size.width))}px`,
+		top: `${up ? rect.top - size.height - 2 : rect.bottom + 2}px`
+	});
+	const abort = new AbortController();
+	const options = { signal: abort.signal };
+	window.addEventListener("resize", close, options);
+	for (const type of ["resize", "scroll"]) window.visualViewport?.addEventListener(type, close, options);
+	const tree = root.getRootNode();
+	tree.addEventListener("scroll", (event) => {
+		if (!menu.contains(event.target)) close();
+	}, {
+		...options,
+		capture: true
+	});
+	document.addEventListener("pointerdown", (event) => {
+		if (!event.composedPath().includes(root)) close();
+	}, options);
+	const observer = new MutationObserver(() => {
+		if (!root.isConnected) close();
+	});
+	observer.observe(tree, {
+		childList: true,
+		subtree: true
+	});
+	if (tree !== document) observer.observe(document.body, {
+		childList: true,
+		subtree: true
+	});
+	return () => {
+		abort.abort();
+		observer.disconnect();
+		menu.hidePopover();
+	};
+}
+var edge, maxHeight, minHeight;
+var init_GameSelectLayout = __esmMin((() => {
+	edge = 8;
+	maxHeight = 240;
+	minHeight = 30;
+}));
+//#endregion
 //#region src/UI/Components/GameTools/escapeHtml.js
 function escapeHtml$1(value) {
 	return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
@@ -284059,9 +284127,11 @@ function mountGameSelect(root) {
 	const menu = root.querySelector(".game-select-menu");
 	const search = root.querySelector(".game-select-search");
 	const empty = root.querySelector(".game-select-empty");
-	let closeTimer;
+	let closeTimer, cleanupOverlay;
 	function close() {
 		clearTimeout(closeTimer);
+		cleanupOverlay?.();
+		cleanupOverlay = null;
 		menu.hidden = true;
 		trigger.setAttribute("aria-expanded", "false");
 		root.classList.remove("open", "drop-up");
@@ -284070,15 +284140,17 @@ function mountGameSelect(root) {
 		clearTimeout(closeTimer);
 		for (const select of root.getRootNode().querySelectorAll(".game-select.open")) {
 			if (select === root) continue;
-			select.querySelector(".game-select-menu").hidden = true;
-			select.querySelector(".game-select-trigger").setAttribute("aria-expanded", "false");
-			select.classList.remove("open", "drop-up");
+			select.dispatchEvent(new Event("game-select-close"));
 		}
 		menu.hidden = false;
 		trigger.setAttribute("aria-expanded", "true");
 		root.classList.add("open");
-		const windowBottom = root.closest(".game-tools-window")?.getBoundingClientRect().bottom || window.innerHeight;
-		root.classList.toggle("drop-up", menu.getBoundingClientRect().bottom > windowBottom);
+		if (root.closest(".mobile-menu-window")) cleanupOverlay = openGameSelectOverlay(root, close);
+		else {
+			const windowBottom = root.closest(".game-tools-window")?.getBoundingClientRect().bottom || window.innerHeight;
+			root.classList.toggle("drop-up", menu.getBoundingClientRect().bottom > windowBottom);
+		}
+		if (menu.hidden) return;
 		search?.focus();
 	}
 	function currentOptions() {
@@ -284096,6 +284168,7 @@ function mountGameSelect(root) {
 		trigger.focus();
 		input.dispatchEvent(new Event("change", { bubbles: true }));
 	}
+	root.addEventListener("game-select-close", close);
 	trigger.addEventListener("click", () => menu.hidden ? open() : close());
 	root.addEventListener("focusout", () => {
 		if (menu.hidden) return;
@@ -284154,6 +284227,7 @@ function setGameSelectOptions(root, { options, value = "", disabled = false, ari
 	trigger.querySelector("span").textContent = selected?.label || "";
 	if (ariaLabel) trigger.setAttribute("aria-label", ariaLabel);
 	root.querySelector(".game-select-options").innerHTML = options.map((option) => optionMarkup(option, selectedValue)).join("");
+	root.dispatchEvent(new Event("game-select-close"));
 	root.querySelector(".game-select-menu").hidden = true;
 	root.classList.remove("open", "drop-up");
 	trigger.setAttribute("aria-expanded", "false");
@@ -284162,6 +284236,7 @@ function mountGameSelects(container) {
 	return [...container.querySelectorAll("[data-game-select]")].map(mountGameSelect);
 }
 var init_GameSelect = __esmMin((() => {
+	init_GameSelectLayout();
 	init_escapeHtml();
 }));
 //#endregion
@@ -363772,36 +363847,6 @@ function createMenuSelects(container) {
 					select.dispatchEvent(new Event("change", { bubbles: true }));
 					sync();
 				});
-				const trigger = root.querySelector(".game-select-trigger");
-				const menu = root.querySelector(".game-select-menu");
-				function positionMenu() {
-					if (menu.hidden) return;
-					const rect = trigger.getBoundingClientRect();
-					const bounds = menuOverlayBounds(root);
-					const { top, bottom } = bounds;
-					const below = bottom - rect.bottom - MENU_SELECT.edge;
-					const above = rect.top - top - MENU_SELECT.edge;
-					const up = below < 160 && above > below;
-					const height = Math.max(MENU_SELECT.minHeight, Math.min(MENU_SELECT.maxHeight, up ? above : below));
-					const fitOptions = Boolean(root.closest(".shortcut-fields"));
-					const left = bounds.left + MENU_SELECT.edge;
-					const availableWidth = Math.max(0, bounds.right - bounds.left - MENU_SELECT.edge * 2);
-					if (fitOptions) {
-						menu.style.width = "max-content";
-						menu.style.minWidth = `${Math.min(rect.width, availableWidth)}px`;
-						menu.style.maxWidth = `${availableWidth}px`;
-					}
-					const width = fitOptions ? Math.min(menu.getBoundingClientRect().width, availableWidth) : Math.min(rect.width, availableWidth);
-					root.classList.remove("drop-up");
-					Object.assign(menu.style, {
-						left: `${Math.max(left, Math.min(rect.left, left + availableWidth - width))}px`,
-						width: `${width}px`,
-						maxHeight: `${height}px`,
-						top: up ? `${rect.top - Math.min(height, menu.scrollHeight + 2) - 2}px` : `${rect.bottom + 2}px`
-					});
-				}
-				trigger.addEventListener("click", positionMenu);
-				root.addEventListener("keydown", positionMenu);
 			}
 			if (entry.key !== key) {
 				setGameSelectOptions(entry.root, state);
@@ -363836,8 +363881,6 @@ function createMenuSelects(container) {
 	container.addEventListener("pointerdown", (event) => {
 		if (!event.target.closest(".game-select")) close();
 	}, { signal: abort.signal });
-	window.addEventListener("resize", close, { signal: abort.signal });
-	window.visualViewport?.addEventListener("resize", close, { signal: abort.signal });
 	sync();
 	return {
 		sync,
@@ -363845,12 +363888,12 @@ function createMenuSelects(container) {
 		destroy() {
 			observer.disconnect();
 			abort.abort();
+			close();
 			entries.clear();
 		}
 	};
 }
 var init_MenuSelects = __esmMin((() => {
-	init_MenuLayout();
 	init_GameSelect();
 }));
 //#endregion
