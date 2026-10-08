@@ -258904,9 +258904,10 @@ function subscribeAdventureActions(listener) {
 	listener(getAdventureActionState());
 	return () => listeners$3.delete(listener);
 }
-function teleportToCoordinate(target) {
+function teleportToCoordinate(target, onComplete = null) {
 	if (!getAdventureActionState(target).canTeleport || !target?.mapName || !Number.isFinite(target.x) || !Number.isFinite(target.y)) return false;
 	mapPending = true;
+	mapCompletion = onComplete;
 	const requestId = ++nextMapRequestId;
 	const packet = new PACKET.CZ.HAPPYRO_MAP_TELEPORT();
 	packet.requestId = requestId;
@@ -258920,6 +258921,9 @@ function teleportToCoordinate(target) {
 		if (!mapPending || requestId !== nextMapRequestId) return;
 		mapPending = false;
 		setStatus$1("服务器响应超时，请稍后重试", true, "coordinate");
+		const complete = mapCompletion;
+		mapCompletion = null;
+		complete?.({ result: -1 });
 	}, 8e3);
 	return true;
 }
@@ -258943,6 +258947,9 @@ function handleMapTeleportResult(packet) {
 		if (packet.result === 3) startCooldown(packet.cooldownRemaining);
 		setStatus$1(messages[packet.result] || "传送请求被服务器拒绝", true, "coordinate");
 	}
+	const complete = mapCompletion;
+	mapCompletion = null;
+	complete?.(packet);
 	return true;
 }
 function teleportToNpc(npc) {
@@ -258995,7 +259002,7 @@ function notifyAdventureConfigChanged() {
 function clearAdventureActionFeedback() {
 	setStatus$1("", false, null);
 }
-var nextNpcRequestId, nextMapRequestId, npcPending, mapPending, npcTimer, mapTimer, cooldownUntil, cooldownTimer, statusTimer, status$1, listeners$3;
+var nextNpcRequestId, nextMapRequestId, npcPending, mapPending, mapCompletion, npcTimer, mapTimer, cooldownUntil, cooldownTimer, statusTimer, status$1, listeners$3;
 var init_AdventureActionService = __esmMin((() => {
 	init_NetworkManager();
 	init_ConnectionLifecycle();
@@ -259007,6 +259014,7 @@ var init_AdventureActionService = __esmMin((() => {
 	nextMapRequestId = 1073741824;
 	npcPending = false;
 	mapPending = false;
+	mapCompletion = null;
 	npcTimer = null;
 	mapTimer = null;
 	cooldownUntil = 0;
@@ -259024,6 +259032,8 @@ var init_AdventureActionService = __esmMin((() => {
 		clearTimeout(cooldownTimer);
 		clearTimeout(statusTimer);
 		npcPending = mapPending = false;
+		mapCompletion?.({ result: -1 });
+		mapCompletion = null;
 		cooldownUntil = 0;
 		status$1 = {
 			message: "",
@@ -268155,214 +268165,1351 @@ var init_Bank$1 = __esmMin((() => {
 	Bank_default = UIManager.addComponent(Bank);
 }));
 //#endregion
-//#region src/UI/Components/SoundOption/SoundOption.html?raw
-var SoundOption_default$2;
-var init_SoundOption$2 = __esmMin((() => {
-	SoundOption_default$2 = "<div id=\"SoundOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"1485\">声音设置</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td data-text=\"1495\">BGM</td>\r\n				<td>\r\n					<input class=\"bgm\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"bgm_state\" />开\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td data-text=\"1496\">音效</td>\r\n				<td>\r\n					<input class=\"sound\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"sound_state\" />开\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
+//#region src/UI/Game/PickupSettings.js
+function pickupCategory(type) {
+	if ([
+		ItemType_default.ARMOR,
+		ItemType_default.WEAPON,
+		ItemType_default.PETARMOR,
+		ItemType_default.SHADOWGEAR
+	].includes(type)) return "equipment";
+	if ([
+		ItemType_default.HEALING,
+		ItemType_default.USABLE,
+		ItemType_default.DELAYCONSUME,
+		ItemType_default.CASH
+	].includes(type)) return "consumable";
+	if (type === ItemType_default.CARD) return "card";
+	return "other";
+}
+function validPickupSettings(value) {
+	return Boolean(value && typeof value.enabled === "boolean" && Number.isInteger(value.batchSeconds) && value.batchSeconds >= 1 && value.batchSeconds <= 30 && Number.isInteger(value.range) && value.range >= 1 && value.range <= 15 && Array.isArray(value.categories) && value.categories.every((id) => pickupCategories.some(([key]) => key === id)) && Array.isArray(value.excluded) && value.excluded.every((item) => Number.isInteger(item.id) && item.id > 0 && typeof item.name === "string"));
+}
+function loadPickupSettings() {
+	if (cachedKey === key$2() && cachedValue) return structuredClone(cachedValue);
+	let value;
+	try {
+		value = JSON.parse(localStorage.getItem(key$2()));
+	} catch {}
+	if (value) value = {
+		...pickupDefaults(),
+		...value
+	};
+	cachedKey = key$2();
+	cachedValue = validPickupSettings(value) ? value : pickupDefaults();
+	return structuredClone(cachedValue);
+}
+function savePickupSettings(value) {
+	if (!validPickupSettings(value)) return false;
+	try {
+		localStorage.setItem(key$2(), JSON.stringify(value));
+	} catch {
+		return false;
+	}
+	cachedKey = key$2();
+	cachedValue = structuredClone(value);
+	window.dispatchEvent(new Event("happyro-pickup-settings"));
+	return true;
+}
+var pickupCategories, pickupDefaults, key$2, cachedKey, cachedValue;
+var init_PickupSettings$1 = __esmMin((() => {
+	init_SessionStorage();
+	init_ItemType();
+	pickupCategories = [
+		["equipment", "装备"],
+		["consumable", "消耗品"],
+		["card", "卡片"],
+		["other", "其它"]
+	];
+	pickupDefaults = () => ({
+		enabled: false,
+		range: 5,
+		batchSeconds: 5,
+		categories: pickupCategories.map(([id]) => id),
+		excluded: []
+	});
+	key$2 = () => `HappyRO.Pickup:${JSON.stringify([
+		SessionStorage_default.ServerName,
+		SessionStorage_default.AID,
+		SessionStorage_default.GID
+	])}`;
 }));
 //#endregion
-//#region src/UI/Components/SoundOption/SoundOption.css?raw
-var SoundOption_default$1;
-var init_SoundOption$1 = __esmMin((() => {
-	SoundOption_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 250px;\r\n	height: 65px;\r\n}\r\n\r\n#SoundOption {\r\n	position: absolute;\r\n	background: white;\r\n	border-radius: 2px;\r\n}\r\n\r\n#SoundOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SoundOption .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SoundOption .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SoundOption .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#SoundOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SoundOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SoundOption .panel {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n}\r\n";
+//#region src/UI/Components/GameTools/AdventureControlService.js
+function headers() {
+	return {
+		Accept: "application/json",
+		"Content-Type": "application/json",
+		"X-HappyRO-Account-ID": String(SessionStorage_default.AID),
+		"X-HappyRO-Character-ID": String(SessionStorage_default.GID),
+		"X-HappyRO-Auth-Token": SessionStorage_default.WebToken || ""
+	};
+}
+async function requestBody(path, options = {}) {
+	const response = await fetch(`/api/adventure-tools${path}`, {
+		...options,
+		headers: headers()
+	});
+	const body = await response.json().catch(() => ({}));
+	if (!response.ok) {
+		const validation = body.errors ? Object.values(body.errors).flat()[0] : null;
+		const error = new Error(validation || body.message || body.error?.message || "操作失败，请稍后重试");
+		error.code = body.error?.code;
+		throw error;
+	}
+	return body;
+}
+async function request(path, options = {}) {
+	return (await requestBody(path, options)).data;
+}
+async function loadAdventureAsset(path) {
+	const response = await fetch(`/api/adventure-tools${path}`, { headers: headers() });
+	if (!response.ok) throw new Error("物品图片加载失败");
+	return URL.createObjectURL(await response.blob());
+}
+function createIdempotencyKey() {
+	const bytes = crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(16));
+	bytes[6] = bytes[6] & 15 | 64;
+	bytes[8] = bytes[8] & 63 | 128;
+	const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+	return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+function loadAdventureControlBootstrap() {
+	return request("/bootstrap");
+}
+function loadCurrentCharacter() {
+	return request("/character");
+}
+function maintainCurrentCharacter(type, payload) {
+	return request("/character/commands", {
+		method: "POST",
+		body: JSON.stringify({
+			idempotency_key: createIdempotencyKey(),
+			type,
+			payload
+		})
+	});
+}
+function loadAdventureGameSettings() {
+	return request("/game-settings");
+}
+function searchAdventureItems({ query = "", type = "", subtype = "", page = 1, perPage = 30 } = {}) {
+	const params = new URLSearchParams({
+		page,
+		perPage
+	});
+	if (query) params.set("query", query);
+	if (type) params.set("type", type);
+	if (subtype) params.set("subtype", subtype);
+	return requestBody(`/items?${params}`);
+}
+function searchAdventureNpcs({ query = "", onMap = "", currentMap = "", page = 1, perPage = 32 } = {}) {
+	const params = new URLSearchParams({
+		page,
+		perPage
+	});
+	if (query) params.set("query", query);
+	if (onMap) params.set("onMap", onMap);
+	if (currentMap) params.set("currentMap", currentMap);
+	return requestBody(`/npcs?${params}`);
+}
+/**
+* Every NPC on one map. The map preview places all markers at once, so this
+* stays unpaginated on purpose.
+*/
+function loadAdventureMapNpcs(map) {
+	return request(`/maps/${encodeURIComponent(map)}/npcs`);
+}
+function searchAdventureMaps({ query = "", onMap = "", currentMap = "", page = 1, perPage = 35 } = {}) {
+	const params = new URLSearchParams({
+		page,
+		perPage
+	});
+	if (query) params.set("query", query);
+	if (onMap) params.set("onMap", onMap);
+	if (currentMap) params.set("currentMap", currentMap);
+	return requestBody(`/maps?${params}`);
+}
+function grantAdventureZeny(amount) {
+	return request("/currency/zeny/grants", {
+		method: "POST",
+		body: JSON.stringify({
+			idempotency_key: createIdempotencyKey(),
+			amount
+		})
+	});
+}
+function grantAdventureItem(itemId, amount) {
+	return request("/items/grants", {
+		method: "POST",
+		body: JSON.stringify({
+			idempotency_key: createIdempotencyKey(),
+			target: { type: "self" },
+			item_id: itemId,
+			amount
+		})
+	});
+}
+function applyAdventureGameSettings(changes) {
+	return request("/game-settings", {
+		method: "PUT",
+		body: JSON.stringify({ changes })
+	});
+}
+var init_AdventureControlService = __esmMin((() => {
+	init_SessionStorage();
 }));
 //#endregion
-//#region src/UI/Components/SoundOption/SoundOption.js
-function onSoundVolumeUpdate() {
-	SoundManager.setVolume(parseInt(this.value, 10) / 100);
+//#region src/UI/Game/PickupSettingsPanel.js
+/** Edits the settings draft; saving is owned by the enclosing settings panel. */
+function createPickupSettingsPanel(section, draft) {
+	section.classList.add("pickup-section");
+	const label = (text, input) => {
+		const row = document.createElement("label");
+		row.className = "settings-field";
+		const caption = document.createElement("span");
+		caption.textContent = text;
+		row.append(caption, input);
+		return row;
+	};
+	const enabled = document.createElement("input");
+	enabled.type = "checkbox";
+	enabled.checked = draft.enabled;
+	enabled.dataset.pickup = "enabled";
+	section.append(label("自动拾取", enabled));
+	const controls = document.createElement("fieldset");
+	controls.className = "pickup-controls";
+	controls.disabled = !draft.enabled;
+	enabled.oninput = () => {
+		draft.enabled = enabled.checked;
+		controls.disabled = !draft.enabled;
+	};
+	const range = document.createElement("input");
+	range.type = "number";
+	range.min = 1;
+	range.max = 15;
+	range.step = 1;
+	range.value = draft.range;
+	range.dataset.pickup = "range";
+	range.oninput = () => {
+		draft.range = Number(range.value);
+	};
+	controls.append(label("拾取范围（格）", range));
+	const batchSeconds = document.createElement("input");
+	batchSeconds.type = "number";
+	batchSeconds.min = 1;
+	batchSeconds.max = 30;
+	batchSeconds.step = 1;
+	batchSeconds.value = draft.batchSeconds;
+	batchSeconds.dataset.pickup = "batchSeconds";
+	batchSeconds.oninput = () => {
+		draft.batchSeconds = Number(batchSeconds.value);
+	};
+	controls.append(label("每轮拾取最长时间（秒）", batchSeconds));
+	const batchHelp = document.createElement("p");
+	batchHelp.className = "pickup-note";
+	batchHelp.textContent = "自动战斗时，打完当前目标再拾取本轮物品；达到时限后重新找怪，没有怪物则继续拾取。";
+	controls.append(batchHelp);
+	const categories = document.createElement("div");
+	categories.className = "pickup-categories";
+	categories.setAttribute("role", "group");
+	categories.setAttribute("aria-label", "物品分类");
+	for (const [id, text] of pickupCategories) {
+		const input = document.createElement("input");
+		input.type = "checkbox";
+		input.checked = draft.categories.includes(id);
+		input.dataset.category = id;
+		input.oninput = () => {
+			draft.categories = pickupCategories.map(([key]) => key).filter((key) => categories.querySelector(`[data-category="${key}"]`).checked);
+		};
+		categories.append(label(text, input));
+	}
+	controls.append(categories);
+	const heading = document.createElement("h4");
+	heading.textContent = "排除物品";
+	controls.append(heading);
+	const columns = document.createElement("div");
+	columns.className = "pickup-columns";
+	const searchColumn = document.createElement("section");
+	searchColumn.className = "pickup-column pickup-search-column";
+	searchColumn.setAttribute("aria-label", "搜索物品");
+	const excludedColumn = document.createElement("section");
+	excludedColumn.className = "pickup-column pickup-excluded-column";
+	excludedColumn.setAttribute("aria-label", "已排除物品");
+	const searchTitle = document.createElement("h5");
+	searchTitle.textContent = "搜索物品";
+	const excludedTitle = document.createElement("h5");
+	excludedTitle.textContent = "已排除物品";
+	searchColumn.append(searchTitle);
+	excludedColumn.append(excludedTitle);
+	columns.append(searchColumn, excludedColumn);
+	controls.append(columns);
+	const excluded = document.createElement("div");
+	excluded.className = "pickup-excluded";
+	function button(text, action) {
+		const b = document.createElement("button");
+		b.type = "button";
+		b.textContent = text;
+		b.onclick = action;
+		return b;
+	}
+	function renderExcluded() {
+		excluded.replaceChildren();
+		excludedTitle.textContent = `已排除物品（${draft.excluded.length}）`;
+		for (const item of draft.excluded) {
+			const row = document.createElement("div");
+			row.className = "pickup-item";
+			const name = document.createElement("span");
+			name.textContent = `${item.name} · ${item.id}`;
+			row.append(name, button("移除", () => {
+				draft.excluded = draft.excluded.filter((entry) => entry.id !== item.id);
+				renderExcluded();
+			}));
+			excluded.append(row);
+		}
+		if (!draft.excluded.length) excluded.textContent = "暂无排除物品";
+		section.querySelectorAll("[data-exclude-id]").forEach((control) => {
+			control.disabled = draft.excluded.some((item) => item.id === Number(control.dataset.excludeId));
+		});
+	}
+	renderExcluded();
+	excludedColumn.append(excluded);
+	const searchRow = document.createElement("div");
+	searchRow.className = "pickup-search";
+	const input = document.createElement("input");
+	input.type = "search";
+	input.placeholder = "输入物品名称或 ID";
+	input.setAttribute("aria-label", "搜索排除物品");
+	const results = document.createElement("div");
+	results.className = "pickup-results";
+	results.setAttribute("aria-live", "polite");
+	results.textContent = "输入名称或 ID 搜索，将物品加入右侧排除列表。";
+	let requestId = 0;
+	async function search(page = 1) {
+		const query = input.value.trim(), token = ++requestId;
+		results.replaceChildren();
+		if (!query) return;
+		results.textContent = "搜索中…";
+		try {
+			const response = await searchAdventureItems({
+				query,
+				page,
+				perPage: 20
+			});
+			if (token !== requestId || !section.isConnected) return;
+			results.replaceChildren();
+			for (const item of response.data) {
+				const name = item.names?.["zh-CN"] || item.AegisName;
+				const row = document.createElement("div");
+				row.className = "pickup-item";
+				const title = document.createElement("span");
+				title.textContent = `${name} · ${item.Id}`;
+				const add = button("排除", () => {
+					if (!draft.excluded.some((entry) => entry.id === item.Id)) draft.excluded.push({
+						id: item.Id,
+						name
+					});
+					renderExcluded();
+					add.disabled = true;
+				});
+				add.dataset.excludeId = String(item.Id);
+				add.disabled = draft.excluded.some((entry) => entry.id === item.Id);
+				row.append(title, add);
+				results.append(row);
+			}
+			if (!response.data.length) results.textContent = "没有找到物品";
+			if (page > 1) results.append(button("上一页", () => search(page - 1)));
+			if (response.total > page * 20) results.append(button("下一页", () => search(page + 1)));
+		} catch {
+			if (token === requestId) results.textContent = "搜索失败，请重试";
+		}
+	}
+	input.oninput = () => {
+		requestId++;
+		results.replaceChildren();
+	};
+	input.onkeydown = (event) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			search();
+		}
+	};
+	searchRow.append(input, button("搜索", () => search()));
+	searchColumn.append(searchRow, results);
+	const note = document.createElement("p");
+	note.className = "pickup-note";
+	note.textContent = "自动走向并拾取符合配置的地面物品，包括自己丢弃的物品。手动拾取不受这些配置影响。设置保存在当前浏览器，按角色区分。";
+	section.append(controls, note);
 }
-function onToggleSound() {
-	Audio_default.Sound.play = this.checked;
-	SoundManager.setVolume(Audio_default.Sound.volume);
-	if (!Audio_default.Sound.play) SoundManager.stop();
+var init_PickupSettingsPanel$1 = __esmMin((() => {
+	init_PickupSettings$1();
+	init_AdventureControlService();
+}));
+//#endregion
+//#region src/UI/Components/Confirmation.css?raw
+var Confirmation_default;
+var init_Confirmation$1 = __esmMin((() => {
+	Confirmation_default = ".ui-confirm {\r\n position: fixed;\r\n inset: 0;\r\n margin: auto;\r\n width: min(380px, calc(100% - 32px));\r\n max-height: calc(100% - 32px);\r\n overflow: auto;\r\n box-sizing: border-box;\r\n padding: 18px;\r\n border: 1px solid #657584;\r\n border-radius: 8px;\r\n background: #19212a;\r\n color: #f5f2e9;\r\n font: 13px/1.6 Arial, sans-serif;\r\n white-space: normal;\r\n}\r\n.ui-confirm::backdrop { background: #0008; }\r\n.ui-confirm > p { margin: 0 0 16px; white-space: pre-wrap; overflow-wrap: anywhere; }\r\n.ui-confirm > p:focus { outline: none; }\r\n.ui-confirm .ui-confirm-actions { display: flex; justify-content: flex-end; gap: 6px; margin-top: 12px; }\r\n.ui-confirm .ui-confirm-actions button {\r\n flex: none; box-sizing: border-box; width: auto; min-width: 56px; height: 30px; min-height: 30px;\r\n padding: 3px 10px; border: 1px solid #7e8c99; border-radius: 6px;\r\n color: #f5f2e9; background: #394753; font: 12px/1.5 Arial, sans-serif; cursor: pointer;\r\n}\r\n.ui-confirm .ui-confirm-actions button:focus-visible { outline: 2px solid #ceaa70; outline-offset: 2px; }\r\n.ui-confirm input { box-sizing: border-box; max-width: 100%; }\r\n\r\n.ui-confirm .ui-confirm-field {\r\n display: flex;\r\n align-items: center;\r\n gap: 12px;\r\n}\r\n.ui-confirm .ui-confirm-field > span { flex: none; }\r\n.ui-confirm .ui-confirm-field > :is(input, select) {\r\n flex: 1;\r\n width: 100%;\r\n min-width: 0;\r\n min-height: 36px;\r\n padding: 6px 10px;\r\n border: 1px solid #7e8c99;\r\n border-radius: 6px;\r\n background: #25313b;\r\n color: inherit;\r\n font: 16px/1.5 Arial, sans-serif;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field + .ui-confirm-field { margin-top: 12px; }\r\n\r\n.ui-confirm .equipment-picker-list { display: flex; flex-direction: column; gap: 8px; max-height: min(40dvh, 280px); overflow-y: auto; overscroll-behavior: contain; }\r\n.ui-confirm .equipment-picker-list button { display: flex; align-items: center; gap: 8px; flex: none; width: 100%; text-align: left; }\r\n.ui-confirm .equipment-candidate img { width: 24px; height: 24px; flex: 0 0 24px; object-fit: contain; }\r\n.ui-confirm .equipment-candidate span { min-width: 0; overflow-wrap: anywhere; }\r\n\r\n.ui-confirm:has(.equipment-picker-layout) {\r\n width: min(640px, calc(100% - 32px), var(--confirm-max-width, 100vw));\r\n max-height: min(calc(100% - 32px), var(--confirm-max-height, 100dvh));\r\n overflow: hidden;\r\n}\r\n.ui-confirm[open]:has(.equipment-picker-layout) { display: flex; flex-direction: column; }\r\n.ui-confirm:has(.equipment-picker-layout) > p,\r\n.ui-confirm:has(.equipment-picker-layout) > .ui-confirm-actions { flex-shrink: 0; }\r\n.ui-confirm .equipment-picker-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 12px; height: min(50dvh, 380px); min-height: 0; flex: 0 1 auto; }\r\n.ui-confirm .equipment-picker-layout > .equipment-picker-list { max-height: none; min-width: 0; min-height: 0; }\r\n.ui-confirm .equipment-picker-preview { min-width: 0; overflow-y: auto; overscroll-behavior: contain; overflow-wrap: anywhere; padding-left: 12px; border-left: 1px solid #465461; }\r\n.ui-confirm .equipment-picker-preview > :first-child { margin-top: 0; }\r\n.ui-confirm .equipment-picker-preview .item-description { white-space: pre-line; }\r\n\r\n.ui-confirm .shortcut-fields .ui-confirm-field > .menu-select { flex: 1 1 0; width: 100%; min-width: 0; }\r\n.ui-confirm .drop-quantity { gap: 6px; }\r\n.ui-confirm .ui-confirm-field.drop-quantity > input { flex: 1 1 0; width: 100%; padding: 3px 6px; font-size: 12px; }\r\n.ui-confirm .drop-quantity > input,\r\n.panel .ui-confirm .ui-confirm-field.drop-quantity > input[type='number'],\r\n.ui-confirm .drop-quantity-buttons button { box-sizing: border-box; height: 28px; min-height: 28px; }\r\n.ui-confirm .drop-quantity-buttons { display: grid; grid-template-columns: repeat(3, 1fr); flex: none; gap: 4px; }\r\n.ui-confirm .drop-quantity-buttons button {\r\n flex: none; width: auto; min-width: 26px; padding: 3px 6px;\r\n border: 1px solid #7e8c99; border-radius: 6px; background: #394753; color: inherit; font: 12px/1.5 Arial, sans-serif;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Confirmation.js
+/** Modal confirmation shared by menus and adventure tools. Returns a cancellation function. */
+function confirmAction(container, message, action, { content, bounds, cancelled = () => {} } = {}) {
+	active$2.get(container)?.();
+	const dialog = document.createElement("dialog");
+	dialog.className = "ui-confirm";
+	dialog.setAttribute("aria-label", "操作确认");
+	const style = document.createElement("style");
+	style.textContent = Confirmation_default;
+	const text = document.createElement("p");
+	text.textContent = message;
+	text.tabIndex = -1;
+	text.autofocus = true;
+	const buttons = document.createElement("div");
+	buttons.className = "ui-confirm-actions";
+	const cancel = document.createElement("button");
+	cancel.type = "button";
+	cancel.dataset.cancel = "";
+	cancel.textContent = "取消";
+	const confirm = document.createElement("button");
+	confirm.type = "button";
+	confirm.dataset.confirm = "";
+	confirm.textContent = "确认";
+	const resize = bounds ? new ResizeObserver(() => fitBounds()) : null;
+	function fitBounds() {
+		if (!bounds) return;
+		const rect = bounds.getBoundingClientRect();
+		dialog.style.setProperty("--confirm-max-width", `${rect.width}px`);
+		dialog.style.setProperty("--confirm-max-height", `${rect.height}px`);
+	}
+	let finished = false;
+	const finish = (accepted) => {
+		if (finished) return;
+		finished = true;
+		observer.disconnect();
+		resize?.disconnect();
+		dialog.close();
+		dialog.remove();
+		if (active$2.get(container) === dismiss) active$2.delete(container);
+		if (accepted && container.isConnected) action();
+		else cancelled();
+	};
+	const dismiss = () => finish(false);
+	const visible = () => {
+		for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
+		return container.isConnected && dialog.isConnected;
+	};
+	const observer = new MutationObserver(() => {
+		if (!visible()) dismiss();
+	});
+	cancel.onclick = dismiss;
+	confirm.onclick = () => {
+		if (content && ![...content.querySelectorAll("input, select, textarea")].every((field) => field.reportValidity())) return;
+		finish(true);
+	};
+	dialog.addEventListener("cancel", (event) => {
+		event.preventDefault();
+		dismiss();
+	});
+	buttons.append(cancel, confirm);
+	dialog.append(style, text);
+	if (content) dialog.append(content);
+	dialog.append(buttons);
+	container.append(dialog);
+	active$2.set(container, dismiss);
+	const options = {
+		childList: true,
+		subtree: true,
+		attributes: true,
+		attributeFilter: ["hidden", "style"]
+	};
+	observer.observe(document.body, options);
+	const root = container.getRootNode();
+	if (root instanceof ShadowRoot) observer.observe(root, options);
+	fitBounds();
+	if (bounds) resize.observe(bounds);
+	dialog.showModal();
+	return dismiss;
 }
-function onBGMVolumeUpdate() {
-	Audio_default.BGM.volume = parseInt(this.value, 10) / 100;
-	Audio_default.save();
-	BGM.setVolume(Audio_default.BGM.volume);
+function requestConfirmation(container, message) {
+	return new Promise((resolve) => confirmAction(container, message, () => resolve(true), { cancelled: () => resolve(false) }));
 }
-function onToggleBGM() {
-	Audio_default.BGM.play = this.checked;
-	Audio_default.save();
-	if (Audio_default.BGM.play) BGM.play(BGM.filename);
-	else BGM.stop();
-}
-var SoundOption, _preferences$35, SoundOption_default;
-var init_SoundOption = __esmMin((() => {
+var active$2;
+var init_Confirmation = __esmMin((() => {
+	init_Confirmation$1();
+	active$2 = /* @__PURE__ */ new WeakMap();
+}));
+//#endregion
+//#region src/Preferences/Interface.js
+var defaultInterfaceSettings, Interface_default;
+var init_Interface = __esmMin((() => {
 	init_Preferences$1();
+	defaultInterfaceSettings = { toastDuration: 2 };
+	Interface_default = Preferences.get("Interface", { ...defaultInterfaceSettings }, 1);
+}));
+//#endregion
+//#region src/UI/Components/Toast.css?raw
+var Toast_default;
+var init_Toast$1 = __esmMin((() => {
+	Toast_default = ":host {\r\n	all: initial;\r\n	position: fixed;\r\n	top: 40%;\r\n	left: 50%;\r\n	transform: translate(-50%, -50%);\r\n	z-index: 2147483647;\r\n	display: flex;\r\n	align-items: center;\r\n	width: max-content;\r\n	max-width: calc(100% - 16px);\r\n	box-sizing: border-box;\r\n	padding: 8px 10px;\r\n	border: 1px solid #6aa786;\r\n	border-radius: 8px;\r\n	background: #263d32;\r\n	color: #d9f4e5;\r\n	box-shadow: 0 4px 16px #0006;\r\n	font:\r\n		13px/1.5 Arial,\r\n		sans-serif;\r\n	pointer-events: none;\r\n}\r\n:host(.info) {\r\n	border-color: #729cb8;\r\n	background: #253b4b;\r\n	color: #dceefa;\r\n}\r\n:host(.error) {\r\n	border-color: #d99573;\r\n	background: #643c31;\r\n	color: #ffe2cc;\r\n}\r\n.message {\r\n	min-width: 0;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Toast.js
+function ownerOf(container) {
+	return container?.closest(".game-tools-window, .panel-body") || container;
+}
+function visible(container) {
+	for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
+	return container?.isConnected;
+}
+/** One viewport-level notification shared by every UI, including shadow roots. */
+function showToast(container, message, kind = "success") {
+	if (!message || !visible(container)) return;
+	active$1?.dismiss();
+	const owner = ownerOf(container);
+	const element = document.createElement("div");
+	element.className = `ui-toast ${kind}`;
+	element.setAttribute("role", "status");
+	element.setAttribute("aria-live", "polite");
+	element.textContent = message;
+	const shadow = element.attachShadow({ mode: "open" });
+	const style = document.createElement("style");
+	style.textContent = Toast_default;
+	const content = document.createElement("span");
+	content.className = "message";
+	content.append(document.createElement("slot"));
+	const dismiss = () => {
+		clearTimeout(record.timer);
+		record.observer.disconnect();
+		element.remove();
+		if (active$1 === record) active$1 = null;
+	};
+	shadow.append(style, content);
+	const observer = new MutationObserver(() => {
+		if (!visible(owner) || !element.isConnected) dismiss();
+	});
+	const record = {
+		owner,
+		dismiss,
+		observer,
+		timer: setTimeout(dismiss, Interface_default.toastDuration * 1e3)
+	};
+	active$1 = record;
+	document.body.append(element);
+	const options = {
+		subtree: true,
+		childList: true,
+		attributes: true,
+		attributeFilter: ["hidden", "style"]
+	};
+	observer.observe(document.body, options);
+	const root = owner.getRootNode();
+	if (root instanceof ShadowRoot) observer.observe(root, options);
+}
+function clearToast(container) {
+	if (active$1?.owner === ownerOf(container)) active$1.dismiss();
+}
+var active$1;
+var init_Toast = __esmMin((() => {
+	init_Interface();
+	init_Toast$1();
+}));
+//#endregion
+//#region src/UI/Mobile/game/SettingsPanel.js
+/** Graphics/audio use a draft; camera adjustments take effect immediately. */
+function createSettingsPanel(body, service, initialSection = "画面") {
+	let draft = service.snapshot();
+	let activeSection = initialSection;
+	const notify = (message) => showToast(body, message);
+	function render() {
+		body.replaceChildren();
+		const form = document.createElement("form");
+		form.className = "settings-form";
+		form.onsubmit = (event) => event.preventDefault();
+		const tabs = document.createElement("div");
+		tabs.className = "settings-tabs";
+		tabs.setAttribute("role", "group");
+		tabs.setAttribute("aria-label", "设置分类");
+		const content = document.createElement("div");
+		content.className = "settings-content";
+		const sections = /* @__PURE__ */ new Map();
+		for (const name of [
+			"画面",
+			"特效",
+			"声音",
+			"镜头",
+			"拾取"
+		]) {
+			const section = document.createElement("section");
+			section.className = "settings-section";
+			section.setAttribute("aria-label", name);
+			section.hidden = name !== activeSection;
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = name;
+			button.setAttribute("aria-pressed", String(name === activeSection));
+			button.onclick = () => {
+				activeSection = name;
+				for (const [label, entry] of sections) {
+					entry.section.hidden = label !== name;
+					entry.button.setAttribute("aria-pressed", String(label === name));
+				}
+				content.scrollTop = 0;
+				footer.hidden = name === "镜头";
+			};
+			sections.set(name, {
+				section,
+				button
+			});
+			tabs.append(button);
+			content.append(section);
+		}
+		form.append(tabs, content);
+		const field = (section, label, input) => {
+			const row = document.createElement("label");
+			row.className = "settings-field";
+			const caption = document.createElement("span");
+			caption.textContent = label;
+			row.append(caption, input);
+			sections.get(section).section.append(row);
+			return row;
+		};
+		const displayKeys = [
+			"quality",
+			"fpslimit",
+			"performanceMode",
+			"viewArea",
+			"cursor",
+			"pixelPerfectSprites"
+		];
+		for (const [key, label, range, max, step] of service.fields) {
+			const input = document.createElement(Array.isArray(range) ? "select" : "input");
+			input.dataset.setting = key;
+			if (Array.isArray(range)) {
+				for (const value of range) {
+					const option = document.createElement("option");
+					option.value = String(value);
+					option.textContent = value === -1 ? "不限制" : String(value);
+					input.append(option);
+				}
+				input.value = String(draft.graphics[key]);
+			} else if (range === void 0) {
+				input.type = "checkbox";
+				input.checked = draft.graphics[key];
+			} else {
+				input.type = "number";
+				input.min = range;
+				input.max = max;
+				input.step = step;
+				input.value = draft.graphics[key];
+				input.inputMode = "decimal";
+			}
+			input.oninput = () => {
+				draft.graphics[key] = input.type === "checkbox" ? input.checked : Number(input.value);
+			};
+			field(displayKeys.includes(key) ? "画面" : "特效", key === "quality" ? "渲染比例（%）" : label, input);
+		}
+		const duration = document.createElement("input");
+		duration.type = "number";
+		duration.min = 1;
+		duration.max = 10;
+		duration.step = 1;
+		duration.dataset.setting = "toastDuration";
+		duration.value = draft.interface.toastDuration;
+		duration.oninput = () => {
+			draft.interface.toastDuration = Number(duration.value);
+		};
+		field("画面", "通知显示时长（秒）", duration);
+		for (const [key, name] of [["BGM", "背景音乐"], ["Sound", "音效"]]) {
+			const enabled = document.createElement("input");
+			enabled.type = "checkbox";
+			enabled.checked = draft.audio[key].play;
+			enabled.dataset.audio = key;
+			enabled.oninput = () => {
+				draft.audio[key].play = enabled.checked;
+			};
+			field("声音", name, enabled);
+			const volume = document.createElement("input");
+			volume.type = "range";
+			volume.min = 0;
+			volume.max = 100;
+			volume.step = 1;
+			volume.value = draft.audio[key].volume * 100;
+			volume.oninput = () => {
+				draft.audio[key].volume = Number(volume.value) / 100;
+			};
+			const row = field("声音", name + "音量", volume);
+			row.classList.add("settings-volume");
+			const value = document.createElement("span");
+			value.className = "settings-volume-value";
+			value.textContent = `${volume.value}%`;
+			volume.addEventListener("input", () => {
+				value.textContent = `${volume.value}%`;
+			});
+			row.append(value);
+		}
+		for (const name of [
+			"画面",
+			"特效",
+			"声音"
+		]) {
+			const section = sections.get(name).section;
+			const rows = [...section.children];
+			const switches = rows.filter((row) => row.querySelector("input[type=\"checkbox\"]"));
+			const values = rows.filter((row) => !row.querySelector("input[type=\"checkbox\"]"));
+			switches[0]?.classList.add("settings-switch-start");
+			section.append(...values, ...switches);
+		}
+		createPickupSettingsPanel(sections.get("拾取").section, draft.pickup);
+		const camera = sections.get("镜头").section;
+		camera.classList.add("camera-section");
+		const cameraButton = (label, action) => {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = label;
+			button.onclick = () => service.camera(action);
+			return button;
+		};
+		const reset = cameraButton("重置镜头", "reset");
+		reset.className = "camera-reset";
+		camera.append(reset);
+		for (const [name, actions] of [
+			["旋转", [["左转", "left"], ["右转", "right"]]],
+			["缩放", [["拉近", "zoomIn"], ["拉远", "zoomOut"]]],
+			["高度", [["抬高", "up"], ["降低", "down"]]]
+		]) {
+			const group = document.createElement("div");
+			group.className = "camera-group";
+			group.setAttribute("role", "group");
+			group.setAttribute("aria-label", name);
+			const controls = document.createElement("div");
+			controls.className = "camera-controls";
+			for (const [label, action] of actions) controls.append(cameraButton(label, action));
+			group.append(controls);
+			camera.append(group);
+		}
+		const footer = document.createElement("div");
+		footer.className = "settings-footer";
+		footer.hidden = activeSection === "镜头";
+		const buttons = document.createElement("div");
+		buttons.className = "settings-actions";
+		for (const [label, action] of [["保存", () => {
+			notify(service.save(draft));
+		}], ["恢复默认", () => {
+			confirmAction(body, "确认恢复全部画面、特效、声音和拾取设置为默认值？", () => {
+				const message = service.save(service.snapshot(true));
+				draft = service.snapshot();
+				render();
+				notify(message);
+				body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
+			}, {});
+		}]]) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = label;
+			button.onclick = () => {
+				action();
+				if (!form.isConnected) body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
+			};
+			buttons.append(button);
+		}
+		footer.append(buttons);
+		form.append(footer);
+		body.append(form);
+	}
+	render();
+}
+var init_SettingsPanel = __esmMin((() => {
+	init_PickupSettingsPanel$1();
+	init_Confirmation();
+	init_Toast();
+}));
+//#endregion
+//#region src/UI/Game/GameSettings.js
+function settingsSnapshot(defaults = false) {
+	return {
+		graphics: Object.fromEntries(graphicsFields.map(([key]) => [key, (defaults ? GraphicsSettings.defaults : GraphicsSettings)[key]])),
+		pickup: defaults ? pickupDefaults() : loadPickupSettings(),
+		interface: { toastDuration: (defaults ? defaultInterfaceSettings : Interface_default).toastDuration },
+		audio: Object.fromEntries(["BGM", "Sound"].map((key) => [key, defaults ? {
+			play: true,
+			volume: .5
+		} : {
+			play: Audio_default[key].play,
+			volume: Audio_default[key].volume
+		}]))
+	};
+}
+function saveGameSettings(draft) {
+	if (!validPickupSettings(draft?.pickup)) return "拾取设置无效，范围须为 1–15 格";
+	if (!Number.isInteger(draft?.interface?.toastDuration) || draft.interface.toastDuration < 1 || draft.interface.toastDuration > 10) return "通知时长须为 1–10 秒";
+	for (const [key, , range, max] of graphicsFields) {
+		const value = draft?.graphics?.[key];
+		if (range === void 0 ? typeof value !== "boolean" : Array.isArray(range) ? !range.includes(value) : !Number.isFinite(value) || value < range || value > max) return "设置值无效，未保存";
+	}
+	for (const key of ["BGM", "Sound"]) {
+		const value = draft?.audio?.[key];
+		if (!value || typeof value.play !== "boolean" || !Number.isFinite(value.volume) || value.volume < 0 || value.volume > 1) return "音量无效，未保存";
+	}
+	if (!savePickupSettings(draft.pickup)) return "无法保存拾取设置，请检查浏览器存储权限";
+	const previous = settingsSnapshot();
+	for (const [key] of graphicsFields) GraphicsSettings[key] = draft.graphics[key];
+	for (const key of ["BGM", "Sound"]) Object.assign(Audio_default[key], draft.audio[key]);
+	Interface_default.toastDuration = draft.interface.toastDuration;
+	Interface_default.save();
+	GraphicsSettings.save();
+	Audio_default.save();
+	if (previous.graphics.quality !== GraphicsSettings.quality) {
+		Configs.set("quality", GraphicsSettings.quality);
+		Renderer.resize();
+	}
+	document.body.classList.toggle("custom-cursor", GraphicsSettings.cursor);
+	if (previous.audio.Sound.play !== Audio_default.Sound.play || previous.audio.Sound.volume !== Audio_default.Sound.volume) {
+		SoundManager.setVolume(Audio_default.Sound.volume);
+		if (!Audio_default.Sound.play) SoundManager.stop();
+	}
+	if (previous.audio.BGM.volume !== Audio_default.BGM.volume) BGM.setVolume(Audio_default.BGM.volume);
+	if (previous.audio.BGM.play !== Audio_default.BGM.play) {
+		if (Audio_default.BGM.play) {
+			if (BGM.filename) BGM.play(BGM.filename);
+		} else BGM.stop();
+	}
+	return previous.graphics.pixelPerfectSprites !== GraphicsSettings.pixelPerfectSprites ? "已保存，像素完美需刷新生效" : "设置已保存";
+}
+var graphicsFields;
+var init_GameSettings = __esmMin((() => {
+	init_PickupSettings$1();
+	init_Interface();
+	init_Graphics();
 	init_Audio();
+	init_Configs();
+	init_Renderer();
 	init_BGM();
 	init_SoundManager();
-	init_UIManager();
-	init_GUIComponent();
-	init_Elements();
-	init_SoundOption$2();
-	init_SoundOption$1();
-	SoundOption = new GUIComponent("SoundOption", SoundOption_default$1);
-	SoundOption.render = () => SoundOption_default$2;
-	_preferences$35 = Preferences.get("SoundOption", {
-		x: 300,
-		y: 300
-	}, 1);
-	SoundOption.init = function init() {
-		const root = this.getRoot();
-		const baseBtn = root.querySelector(".base");
-		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
-			event.stopImmediatePropagation();
-		});
-		const closeBtn = root.querySelector(".close");
-		if (closeBtn) closeBtn.addEventListener("click", function() {
-			SoundOption.remove();
-		});
-		const soundSlider = root.querySelector(".sound");
-		if (soundSlider) soundSlider.addEventListener("change", onSoundVolumeUpdate);
-		const bgmSlider = root.querySelector(".bgm");
-		if (bgmSlider) bgmSlider.addEventListener("change", onBGMVolumeUpdate);
-		const soundState = root.querySelector(".sound_state");
-		if (soundState) soundState.addEventListener("change", onToggleSound);
-		const bgmState = root.querySelector(".bgm_state");
-		if (bgmState) bgmState.addEventListener("change", onToggleBGM);
-		this.draggable(".titlebar");
-	};
-	SoundOption.onAppend = function onAppend() {
-		this._host.style.top = _preferences$35.y + "px";
-		this._host.style.left = _preferences$35.x + "px";
-		const root = this.getRoot();
-		const soundSlider = root.querySelector(".sound");
-		if (soundSlider) soundSlider.value = Audio_default.Sound.volume * 100;
-		const bgmSlider = root.querySelector(".bgm");
-		if (bgmSlider) bgmSlider.value = Audio_default.BGM.volume * 100;
-		const soundState = root.querySelector(".sound_state");
-		if (soundState) soundState.checked = Audio_default.Sound.play;
-		const bgmState = root.querySelector(".bgm_state");
-		if (bgmState) bgmState.checked = Audio_default.BGM.play;
-	};
-	SoundOption.onRemove = function onRemove() {
-		_preferences$35.x = parseInt(this._host.style.left, 10);
-		_preferences$35.y = parseInt(this._host.style.top, 10);
-		_preferences$35.save();
-	};
-	SoundOption_default = UIManager.addComponent(SoundOption);
+	graphicsFields = [
+		[
+			"quality",
+			"渲染比例",
+			25,
+			100,
+			5
+		],
+		[
+			"fpslimit",
+			"帧率上限",
+			[
+				-1,
+				30,
+				60,
+				90,
+				120
+			]
+		],
+		["performanceMode", "性能模式"],
+		[
+			"viewArea",
+			"显示范围",
+			4,
+			20,
+			1
+		],
+		["cursor", "游戏光标"],
+		["pixelPerfectSprites", "像素完美（重新加载后完全生效）"],
+		["bloom", "泛光"],
+		[
+			"bloomIntensity",
+			"泛光强度",
+			.1,
+			3,
+			.05
+		],
+		["blur", "景深"],
+		[
+			"blurArea",
+			"景深范围",
+			3,
+			20,
+			1
+		],
+		[
+			"blurIntensity",
+			"景深强度",
+			2,
+			10,
+			.1
+		],
+		["fxaaEnabled", "抗锯齿"],
+		[
+			"fxaaSubpix",
+			"亚像素抗锯齿",
+			0,
+			1,
+			.05
+		],
+		[
+			"fxaaEdgeThreshold",
+			"边缘阈值",
+			.063,
+			.333,
+			.001
+		],
+		["vibranceEnabled", "自然饱和度"],
+		[
+			"vibrance",
+			"饱和强度",
+			-.9,
+			.9,
+			.1
+		],
+		["cartoonEnabled", "卡通效果"],
+		[
+			"cartoonPower",
+			"卡通强度",
+			.1,
+			9.9,
+			.1
+		],
+		[
+			"cartoonEdgeSlope",
+			"描边强度",
+			1.5,
+			5.9,
+			.1
+		],
+		["casEnabled", "锐化"],
+		[
+			"casContrast",
+			"锐化对比度",
+			0,
+			1,
+			.05
+		],
+		[
+			"casSharpening",
+			"锐化强度",
+			0,
+			1,
+			.05
+		]
+	];
 }));
 //#endregion
-//#region src/UI/Components/FPS/FPS.html?raw
-var FPS_default$2;
-var init_FPS$2 = __esmMin((() => {
-	FPS_default$2 = "<div id=\"FPS\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\"><span id=\"fpsCounter\">--</span> 帧/秒</div>\r\n	</div>\r\n</div>\r\n";
+//#region src/UI/Components/Trade/Trade.html?raw
+var Trade_default$2;
+var init_Trade$3 = __esmMin((() => {
+	Trade_default$2 = "<div id=\"Trade\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		交易：<span class=\"title\"></span>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"content\">\r\n		<ui-image src=\"basic_interface/exchange_bg2.bmp\"></ui-image>\r\n		<div class=\"box send\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n		<div class=\"box recv\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n\r\n		<input type=\"text\" class=\"zeny send\" value=\"0\" />\r\n		<div class=\"zeny recv disabled\">0</div>\r\n\r\n		<ui-button class=\"btn ok enabled\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn ok disabled\" bg=\"btn_ok_dis.bmp\"></ui-button>\r\n		<ui-button\r\n			class=\"btn trade enabled\"\r\n			bg=\"btn_exchange.bmp\"\r\n			hover=\"btn_exchange_a.bmp\"\r\n			down=\"btn_exchange_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn trade disabled\" bg=\"btn_exchange_dis.bmp\"></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
-//#region src/UI/Components/FPS/FPS.css?raw
-var FPS_default$1;
-var init_FPS$1 = __esmMin((() => {
-	FPS_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 80px;\r\n	height: 20px;\r\n}\r\n\r\n#FPS {\r\n	position: absolute;\r\n	background: white;\r\n	border-radius: 2px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#FPS .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#FPS .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n";
+//#region src/UI/Components/Trade/Trade.css?raw
+var Trade_default$1;
+var init_Trade$2 = __esmMin((() => {
+	Trade_default$1 = ":host {\r\n	width: 560px;\r\n	height: 380px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#Trade {\r\n	position: absolute;\r\n	width: 560px;\r\n	height: 380px;\r\n}\r\n\r\n#Trade .titlebar {\r\n	height: 14px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 5px 5px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n	position: relative;\r\n	padding-left: 15px;\r\n	padding-top: 3px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n/** When mouse over items **/\r\n\r\n#Trade .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#Trade .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/** Content **/\r\n\r\n#Trade .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 560px;\r\n	height: 360px;\r\n}\r\n\r\n#Trade .box {\r\n	position: absolute;\r\n	top: 3px;\r\n	width: 275px;\r\n	height: 305px;\r\n	background-repeat: repeat-y;\r\n	background-size: 32px 10%; /* 10% for 10 items */\r\n	background-position: 1px 0px;\r\n}\r\n\r\n#Trade .box.disabled {\r\n	background: #ccc !important;\r\n}\r\n\r\n#Trade .box.send {\r\n	left: 2px;\r\n}\r\n\r\n#Trade .box.recv {\r\n	right: 3px;\r\n}\r\n\r\n/** Items in box **/\r\n\r\n#Trade .box .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 26px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n\r\n#Trade .box .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Trade .box .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#Trade .box .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n/** Zeny input **/\r\n\r\n#Trade .zeny {\r\n	position: absolute;\r\n	top: 311px;\r\n	background-color: #ddd;\r\n	border: none;\r\n	width: 70px;\r\n	height: 13px;\r\n	padding: 2px;\r\n}\r\n\r\n#Trade .zeny.send {\r\n	left: 160px;\r\n}\r\n\r\n#Trade .zeny.recv {\r\n	left: 440px;\r\n}\r\n\r\n#Trade .zeny.disabled {\r\n	background-color: transparent;\r\n}\r\n\r\n/** Buttons **/\r\n\r\n#Trade .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: inline-flex;\r\n}\r\n#Trade .btn.disabled {\r\n	cursor: default;\r\n}\r\n#Trade .btn.ok {\r\n	left: 5px;\r\n}\r\n#Trade .btn.trade {\r\n	left: 260px;\r\n}\r\n#Trade .btn.cancel {\r\n	left: 510px;\r\n}\r\n";
 }));
 //#endregion
-//#region src/UI/Components/FPS/FPS.js
-var FPS, _maxFPSRegistered, _tickFn, _preferences$34, FPS_default;
-var init_FPS = __esmMin((() => {
-	init_Preferences$1();
+//#region src/UI/Components/Trade/Trade.js
+/**
+* Escape HTML special characters
+*
+* @param {string} text
+* @returns {string}
+*/
+function escapeHtml$2(text) {
+	const div = document.createElement("div");
+	div.appendChild(document.createTextNode(text));
+	return div.innerHTML;
+}
+/**
+* Reset the UI to its initial state
+*/
+function resetUI() {
+	_tmpCount = {};
+	_recv.length = 0;
+	_send.length = 0;
+	const root = Trade.getRoot();
+	const overlay = root.querySelector(".overlay");
+	if (overlay) overlay.style.display = "none";
+	const okDisabled = root.querySelector(".ok.disabled");
+	const tradeEnabled = root.querySelector(".trade.enabled");
+	if (okDisabled) okDisabled.style.display = "none";
+	if (tradeEnabled) tradeEnabled.style.display = "none";
+	const okEnabled = root.querySelector(".ok.enabled");
+	const tradeDisabled = root.querySelector(".trade.disabled");
+	if (okEnabled) okEnabled.style.display = "";
+	if (tradeDisabled) tradeDisabled.style.display = "";
+	root.querySelectorAll(".box").forEach((box) => {
+		box.classList.remove("disabled");
+		box.innerHTML = "";
+	});
+	const zenySend = root.querySelector(".zeny.send");
+	if (zenySend) {
+		zenySend.value = "0";
+		zenySend.classList.remove("disabled");
+		zenySend.disabled = false;
+	}
+	const zenyRecv = root.querySelector(".zeny.recv");
+	if (zenyRecv) zenyRecv.textContent = "0";
+}
+/**
+* Prettify number (15000 -> 15,000)
+*
+* @param {number} value
+* @return {string}
+*/
+function prettifyZeny$3(value) {
+	return Number(value).toLocaleString("en-US");
+}
+/**
+* Request to add an item to the trade UI
+*
+* @param {number} index - item index in inventory
+* @param {number} count - item count
+*/
+function onRequestAddItem(index, count) {
+	if (index in _tmpCount) {
+		ChatBox_default.addText(DB.getMessage(51), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		return;
+	}
+	if (_send.length >= 10) {
+		ChatBox_default.addText(DB.getMessage(297), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
+		return;
+	}
+	_tmpCount[index] = count;
+	Trade.reqAddItem(index, count);
+}
+/**
+* Cancel the deal
+*/
+function onCancel() {
+	Trade.remove();
+	Trade.onCancel();
+}
+/**
+* Conclude our part
+*/
+function onConclude() {
+	const zenySend = Trade.getRoot().querySelector(".zeny.send");
+	let zeny = parseInt(zenySend ? zenySend.value : "0", 10) || 0;
+	zeny = Math.min(Math.max(0, zeny), SessionStorage_default.zeny);
+	onRequestAddItem(0, zeny);
+	Trade.onConclude();
+}
+/**
+* Let's finish the trade
+*/
+function onTrade() {
+	Trade.onTradeSubmit();
+	const root = Trade.getRoot();
+	const tradeEnabled = root.querySelector(".trade.enabled");
+	const tradeDisabled = root.querySelector(".trade.disabled");
+	if (tradeEnabled) tradeEnabled.style.display = "none";
+	if (tradeDisabled) tradeDisabled.style.display = "";
+}
+/**
+* Drop from inventory to trade
+*/
+function onDrop$10(event) {
+	let data;
+	try {
+		data = JSON.parse(event.dataTransfer ? event.dataTransfer.getData("Text") : event.originalEvent.dataTransfer.getData("Text"));
+	} catch (_e) {}
+	event.stopImmediatePropagation();
+	event.preventDefault();
+	if (!data || data.type !== "item" || data.from !== "Inventory") return false;
+	const item = data.data;
+	if (item.count > 1) {
+		InputBox_default.append();
+		InputBox_default.setType("number", false, item.count);
+		InputBox_default.onSubmitRequest = function OnSubmitRequest(count) {
+			let value = parseInt(count, 10) || 0;
+			value = Math.min(Math.max(value, 0), item.count);
+			InputBox_default.remove();
+			if (value) onRequestAddItem(item.index, value);
+		};
+		return false;
+	}
+	onRequestAddItem(item.index, 1);
+	return false;
+}
+/**
+* When mouse is over an item, show title
+*
+* @param {HTMLElement} itemEl
+*/
+function onItemOver$12(itemEl) {
+	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
+	const item = itemEl.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
+	if (!item) return;
+	const overlay = Trade.getRoot().querySelector(".overlay");
+	if (!overlay) return;
+	const itemRect = itemEl.getBoundingClientRect();
+	const hostRect = Trade._host.getBoundingClientRect();
+	const posLeft = itemRect.left - hostRect.left;
+	const posTop = itemRect.top - hostRect.top;
+	overlay.style.display = "";
+	overlay.style.top = `${posTop + 5}px`;
+	overlay.style.left = `${posLeft + 30}px`;
+	overlay.textContent = DB.getItemName(item);
+	if (item.IsIdentified) overlay.classList.remove("grey");
+	else overlay.classList.add("grey");
+}
+/**
+* Hide the item title when mouse is not over anymore
+*/
+function onItemOut$13() {
+	const overlay = Trade.getRoot().querySelector(".overlay");
+	if (overlay) overlay.style.display = "none";
+}
+/**
+* Display ItemInfo UI
+*
+* @param {Event} event
+* @param {HTMLElement} itemEl
+*/
+function onItemInfo$16(event, itemEl) {
+	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
+	const item = itemEl.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
+	if (!item) {
+		event.stopImmediatePropagation();
+		event.preventDefault();
+		return;
+	}
+	if (ItemInfo_default.uid === item.ITID) ItemInfo_default.remove();
+	ItemInfo_default.append();
+	ItemInfo_default.uid = item.ITID;
+	ItemInfo_default.setItem(item);
+	event.stopImmediatePropagation();
+	event.preventDefault();
+}
+var Trade, _tmpCount, _send, _recv, Trade_default;
+var init_Trade$1 = __esmMin((() => {
+	init_DBManager();
+	init_Client();
+	init_SessionStorage();
 	init_Renderer();
-	init_UIManager();
 	init_GUIComponent();
+	init_UIManager();
 	init_Elements();
-	init_FPS$2();
-	init_FPS$1();
-	FPS = new GUIComponent("FPS", FPS_default$1);
-	FPS.render = () => FPS_default$2;
-	_maxFPSRegistered = 0;
-	_tickFn = null;
-	_preferences$34 = Preferences.get("FPS", {
-		show: false,
-		x: 100,
-		y: 100
-	}, 1.1);
+	init_InputBox();
+	init_ItemInfo();
+	init_Inventory();
+	init_ChatBox();
+	init_Trade$3();
+	init_Trade$2();
+	Trade = new GUIComponent("Trade", Trade_default$1);
+	/**
+	* HTML returned by render()
+	*/
+	Trade.render = () => Trade_default$2;
+	_tmpCount = {};
+	_send = [];
+	_recv = [];
+	/**
+	* @var {string} trade title
+	*/
+	Trade.title = "";
+	/**
+	* Capture key events so the zeny input field works inside Shadow DOM
+	*/
+	Trade.captureKeyEvents = true;
 	/**
 	* Initialize UI
 	*/
-	FPS.init = function init() {
+	Trade.init = function init() {
 		const root = this.getRoot();
-		const baseBtn = root.querySelector(".base");
-		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
-			event.stopImmediatePropagation();
+		const okBtn = root.querySelector(".ok.enabled");
+		if (okBtn) {
+			okBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			okBtn.addEventListener("click", () => onConclude());
+		}
+		const tradeBtn = root.querySelector(".trade.enabled");
+		if (tradeBtn) {
+			tradeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			tradeBtn.addEventListener("click", () => onTrade());
+		}
+		const cancelBtn = root.querySelector(".cancel");
+		if (cancelBtn) {
+			cancelBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
+			cancelBtn.addEventListener("click", () => onCancel());
+		}
+		root.addEventListener("mousedown", (e) => {
+			if (e.target.closest && e.target.closest(".disabled")) e.stopImmediatePropagation();
 		});
-		const closeBtn = root.querySelector(".close");
-		if (closeBtn) closeBtn.addEventListener("click", function() {
-			FPS.remove();
+		this._host.addEventListener("drop", (e) => onDrop$10(e));
+		this._host.addEventListener("dragover", (e) => {
+			e.preventDefault();
+			e.stopImmediatePropagation();
+		});
+		const zenyInput = root.querySelector(".zeny.send");
+		if (zenyInput) zenyInput.addEventListener("mousedown", function() {
+			this.select();
+		});
+		root.querySelectorAll(".box").forEach((box) => {
+			box.addEventListener("mouseover", (e) => {
+				const itemEl = e.target.closest(".item");
+				if (itemEl) onItemOver$12(itemEl);
+			});
+			box.addEventListener("mouseout", (e) => {
+				if (e.target.closest(".item")) onItemOut$13();
+			});
+			box.addEventListener("contextmenu", (e) => {
+				const itemEl = e.target.closest(".item");
+				if (itemEl) onItemInfo$16(e, itemEl);
+			});
 		});
 		this.draggable(".titlebar");
 	};
 	/**
-	* When appended to DOM
+	* Guard keyboard input for the zeny <input> inside Shadow DOM
 	*/
-	FPS.onAppend = function onAppend() {
-		this._host.style.top = _preferences$34.y + "px";
-		this._host.style.left = _preferences$34.x + "px";
-		this._host.style.display = _preferences$34.show ? "" : "none";
-		const root = this.getRoot();
-		const fpsEl = root.querySelector("#fpsCounter");
-		const fpsRoot = root.querySelector("#FPS");
-		let startTime = 0;
-		let frame = 0;
-		let lastValue = null;
-		let lastClass = null;
-		const FPS_COLORS = {
-			"fps-good": "#006400",
-			"fps-warn": "#ff9800",
-			"fps-bad": "#f44336"
-		};
-		function getFPSClass(value, frameLimit) {
-			const ratio = value / frameLimit;
-			if (ratio >= .7) return "fps-good";
-			if (ratio >= .4) return "fps-warn";
-			return "fps-bad";
+	Trade.onKeyDown = function onKeyDown(event) {
+		if (this.isEditableFocused()) {
+			event.stopImmediatePropagation();
+			return true;
 		}
-		function tick(time) {
-			frame++;
-			if (time - startTime < 1e3) return;
-			const value = +(frame / ((time - startTime) / 1e3)).toFixed(1);
-			if (value !== lastValue) {
-				fpsEl.textContent = value;
-				lastValue = value;
-			}
-			if (_maxFPSRegistered < value) _maxFPSRegistered = value;
-			const cls = getFPSClass(value, Renderer.frameLimit > 0 ? Renderer.frameLimit : _maxFPSRegistered);
-			if (cls !== lastClass) {
-				fpsRoot.style.color = FPS_COLORS[cls] || FPS_COLORS["fps-good"];
-				lastClass = cls;
-			}
-			startTime = time;
-			frame = 0;
-		}
-		if (_tickFn) Renderer.stop(_tickFn);
-		_tickFn = tick;
-		Renderer.render(tick);
+		return true;
 	};
 	/**
-	* Once remove, save preferences
+	* Initialize UI on append
 	*/
-	FPS.onRemove = function onRemove() {
-		if (_tickFn) {
-			Renderer.stop(_tickFn);
-			_tickFn = null;
-		}
-		_preferences$34.x = parseInt(this._host.style.left, 10);
-		_preferences$34.y = parseInt(this._host.style.top, 10);
-		_preferences$34.show = this._host.style.display !== "none";
-		_preferences$34.save();
+	Trade.onAppend = function onAppend() {
+		resetUI.call(this);
+		const titleEl = this.getRoot().querySelector(".titlebar .title");
+		if (titleEl) titleEl.textContent = this.title;
+		const width = this._host.getBoundingClientRect().width;
+		const height = this._host.getBoundingClientRect().height;
+		this._host.style.top = `${(Renderer.height - height) / 2}px`;
+		this._host.style.left = `${(Renderer.width - width) / 2}px`;
 	};
 	/**
-	* Show/Hide UI
+	* Clean UP UI
 	*/
-	FPS.toggle = function toggle(isVisible) {
-		_preferences$34.x = parseInt(this._host.style.left, 10);
-		_preferences$34.y = parseInt(this._host.style.top, 10);
-		if (typeof isVisible === "boolean") this._host.style.display = isVisible ? "" : "none";
-		else this._host.style.display = this._host.style.display === "none" ? "" : "none";
-		_preferences$34.show = this._host.style.display !== "none";
-		_preferences$34.save();
-		if (this._host.style.display !== "none") this.focus();
+	Trade.onRemove = function onRemove() {
+		resetUI.call(this);
 	};
-	FPS_default = UIManager.addComponent(FPS);
+	/**
+	* Add Item to the trade window from our inventory
+	*
+	* @param {number} item index in inventory
+	* @param {boolean} success ?
+	*/
+	Trade.addItemFromInventory = function addItemFromInventory(index, success) {
+		if (!success) {
+			delete _tmpCount[index];
+			return;
+		}
+		const root = Trade.getRoot();
+		if (index === 0) {
+			const zenySend = root.querySelector(".zeny.send");
+			if (zenySend) zenySend.value = prettifyZeny$3(_tmpCount[index]);
+			return;
+		}
+		const inventoryItem = InventoryController.getUI().removeItem(index, _tmpCount[index]);
+		const item = Object.assign({}, inventoryItem);
+		const it = DB.getItemInfo(item.ITID);
+		const idx = _send.push(item) - 1;
+		const box = root.querySelector(".box.send");
+		item.count = _tmpCount[index];
+		const itemDiv = document.createElement("div");
+		itemDiv.className = "item";
+		itemDiv.setAttribute("data-index", idx);
+		itemDiv.innerHTML = `<div class="icon"></div><div class="amount"><span class="count">${_tmpCount[index] || 1}</span></div><span class="name">${escapeHtml$2(DB.getItemName(item))}</span>`;
+		box.appendChild(itemDiv);
+		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
+			const icon = root.querySelector(`.item[data-index="${idx}"] .icon`);
+			if (icon && icon.closest(".box.send")) icon.style.backgroundImage = `url(${data})`;
+		});
+	};
+	/**
+	* Add item to the trade UI
+	*
+	* @param {object} item
+	*/
+	Trade.addItem = function addItem(item) {
+		const root = Trade.getRoot();
+		if (item.ITID === 0) {
+			const zenyRecv = root.querySelector(".zeny.recv");
+			if (zenyRecv) zenyRecv.textContent = prettifyZeny$3(item.count);
+			return;
+		}
+		const it = DB.getItemInfo(item.ITID);
+		const idx = _recv.push(item) - 1;
+		const box = root.querySelector(".box.recv");
+		const itemDiv = document.createElement("div");
+		itemDiv.className = "item";
+		itemDiv.setAttribute("data-index", idx);
+		itemDiv.innerHTML = `<div class="icon"></div><div class="amount">${item.count}</div><span class="name">${escapeHtml$2(DB.getItemName(item))}</span>`;
+		box.appendChild(itemDiv);
+		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
+			const icon = root.querySelector(`.item[data-index="${idx}"] .icon`);
+			if (icon && icon.closest(".box.recv")) icon.style.backgroundImage = `url(${data})`;
+		});
+	};
+	/**
+	* Conclude a part of the trade
+	*
+	* @param {string} element - 'send' or 'recv'
+	*/
+	Trade.conclude = function conclude(element) {
+		const root = Trade.getRoot();
+		const box = root.querySelector(`.box.${element}`);
+		if (box) box.classList.add("disabled");
+		if (element === "send") {
+			const okDisabled = root.querySelector(".ok.disabled");
+			const okEnabled = root.querySelector(".ok.enabled");
+			if (okDisabled) okDisabled.style.display = "";
+			if (okEnabled) okEnabled.style.display = "none";
+			const zenySend = root.querySelector(".zeny.send");
+			if (zenySend) {
+				zenySend.classList.add("disabled");
+				zenySend.disabled = true;
+			}
+		}
+		const recvDisabled = root.querySelector(".box.recv.disabled");
+		const sendDisabled = root.querySelector(".box.send.disabled");
+		if (recvDisabled && recvDisabled.style.display !== "none" && sendDisabled && sendDisabled.style.display !== "none") {
+			const tradeEnabled = root.querySelector(".trade.enabled");
+			const tradeDisabledBtn = root.querySelector(".trade.disabled");
+			if (tradeEnabled) tradeEnabled.style.display = "";
+			if (tradeDisabledBtn) tradeDisabledBtn.style.display = "none";
+		}
+	};
+	/**
+	* Callbacks
+	*/
+	Trade.onConclude = function onConclude() {};
+	Trade.onTradeSubmit = function onTradeSubmit() {};
+	Trade.reqAddItem = function reqAddItem() {};
+	Trade.onCancel = function onCancel() {};
+	/**
+	* Set mouse mode
+	*/
+	Trade.mouseMode = GUIComponent.MouseMode.STOP;
+	Trade_default = UIManager.addComponent(Trade);
+}));
+//#endregion
+//#region src/Controls/AttackIntent.js
+function ownAttack(gid, callback) {
+	requested.add(gid);
+	retry = {
+		gid,
+		callback
+	};
+}
+function releaseAttack() {
+	retry = null;
+}
+function clearAttackIntent() {
+	requested.clear();
+	retry = null;
+}
+function retryOwnedAttack(gid) {
+	if (!requested.has(gid)) return false;
+	if (retry?.gid === gid) retry.callback();
+	return true;
+}
+var requested, retry;
+var init_AttackIntent = __esmMin((() => {
+	requested = /* @__PURE__ */ new Set();
 }));
 //#endregion
 //#region src/Core/Context.js
@@ -268431,6 +269578,4100 @@ var init_Context = __esmMin((() => {
 			if (!window.DataView || !DataView.prototype.getFloat64) throw "Your web browser need to be updated, it does not support File API (DataView).";
 		}
 	};
+}));
+//#endregion
+//#region src/UI/Components/MobileUI/MobileUI.html?raw
+var MobileUI_default$2;
+var init_MobileUI$2 = __esmMin((() => {
+	MobileUI_default$2 = "<div id=\"MobileUI\">\r\n	<button id=\"toggleUIButton\" class=\"buttons\">🛠️</button>\r\n\r\n	<div id=\"topBar\" class=\"buttonBar disabled\">\r\n		<button id=\"fullscreenButton\" class=\"buttons mobileKeys secondary horizontal\">⛶</button>\r\n	</div>\r\n\r\n	<!-- Joystick -MicromeX -->\r\n	<div id=\"joystickContainer\" class=\"joystick-container disabled\">\r\n		<div id=\"joystickBase\" class=\"joystick-base\">\r\n			<div id=\"joystickThumb\" class=\"joystick-thumb\"></div>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- Functional Buttons -MicromeX -->\r\n	<div id=\"buttonContainer\" class=\"buttonContainer disabled\">\r\n		<!-- Functional Buttons -->\r\n		<button id=\"f1Button\" class=\"FButton mobileKeys vertical secondary disabled\">F1</button>\r\n		<button id=\"f2Button\" class=\"FButton mobileKeys vertical secondary disabled\">F2</button>\r\n		<button id=\"f3Button\" class=\"FButton mobileKeys vertical secondary disabled\">F3</button>\r\n		<button id=\"f4Button\" class=\"FButton mobileKeys vertical secondary disabled\">F4</button>\r\n		<button id=\"f5Button\" class=\"FButton mobileKeys vertical secondary disabled\">F5</button>\r\n		<button id=\"f6Button\" class=\"FButton mobileKeys vertical secondary disabled\">F6</button>\r\n		<button id=\"f7Button\" class=\"FButton mobileKeys vertical secondary disabled\">F7</button>\r\n		<button id=\"f8Button\" class=\"FButton mobileKeys vertical secondary disabled\">F8</button>\r\n		<button id=\"f9Button\" class=\"FButton mobileKeys vertical secondary disabled\">F9</button>\r\n\r\n		<button id=\"n1Button\" class=\"FButton mobileKeys vertical secondary disabled\">1</button>\r\n		<button id=\"n2Button\" class=\"FButton mobileKeys vertical secondary disabled\">2</button>\r\n		<button id=\"n3Button\" class=\"FButton mobileKeys vertical secondary disabled\">3</button>\r\n		<button id=\"n4Button\" class=\"FButton mobileKeys vertical secondary disabled\">4</button>\r\n		<button id=\"n5Button\" class=\"FButton mobileKeys vertical secondary disabled\">5</button>\r\n		<button id=\"n6Button\" class=\"FButton mobileKeys vertical secondary disabled\">6</button>\r\n		<button id=\"n7Button\" class=\"FButton mobileKeys vertical secondary disabled\">7</button>\r\n		<button id=\"n8Button\" class=\"FButton mobileKeys vertical secondary disabled\">8</button>\r\n		<button id=\"n9Button\" class=\"FButton mobileKeys vertical secondary disabled\">9</button>\r\n\r\n		<button id=\"qButton\" class=\"FButton mobileKeys vertical secondary disabled\">Q</button>\r\n		<button id=\"wButton\" class=\"FButton mobileKeys vertical secondary disabled\">W</button>\r\n		<button id=\"eButton\" class=\"FButton mobileKeys vertical secondary disabled\">E</button>\r\n		<button id=\"rButton\" class=\"FButton mobileKeys vertical secondary disabled\">R</button>\r\n		<button id=\"tButton\" class=\"FButton mobileKeys vertical secondary disabled\">T</button>\r\n		<button id=\"yButton\" class=\"FButton mobileKeys vertical secondary disabled\">Y</button>\r\n		<button id=\"uButton\" class=\"FButton mobileKeys vertical secondary disabled\">U</button>\r\n		<button id=\"iButton\" class=\"FButton mobileKeys vertical secondary disabled\">I</button>\r\n		<button id=\"oButton\" class=\"FButton mobileKeys vertical secondary disabled\">O</button>\r\n\r\n		<button id=\"aButton\" class=\"FButton mobileKeys vertical secondary disabled\">A</button>\r\n		<button id=\"sButton\" class=\"FButton mobileKeys vertical secondary disabled\">S</button>\r\n		<button id=\"dButton\" class=\"FButton mobileKeys vertical secondary disabled\">D</button>\r\n		<button id=\"fButton\" class=\"FButton mobileKeys vertical secondary disabled\">F</button>\r\n		<button id=\"gButton\" class=\"FButton mobileKeys vertical secondary disabled\">G</button>\r\n		<button id=\"hButton\" class=\"FButton mobileKeys vertical secondary disabled\">H</button>\r\n		<button id=\"jButton\" class=\"FButton mobileKeys vertical secondary disabled\">J</button>\r\n		<button id=\"kButton\" class=\"FButton mobileKeys vertical secondary disabled\">K</button>\r\n		<button id=\"lButton\" class=\"FButton mobileKeys vertical secondary disabled\">L</button>\r\n\r\n		<button id=\"pickupButton\" class=\"pickupButton mobileKeys vertical secondary disabled\">🖐</button>\r\n		<!-- Pick Up Button -MicromeX -->\r\n		<button id=\"talktonpcButton\" class=\"talktonpcButton mobileKeys vertical secondary disabled\">💬</button>\r\n		<!-- Talk to NPC Button -MicromeX -->\r\n		<button id=\"switchshorcutButton\" class=\"switchshorcutButton mobileKeys vertical secondary disabled\">🔄</button>\r\n		<!-- Auto Skill Button -MicromeX -->\r\n\r\n		<!-- Attack Button -MicromeX -->\r\n		<button id=\"attackButton\" class=\"atkButton mobileKeys vertical secondary disabled\">⚔️</button>\r\n	</div>\r\n\r\n	<div id=\"leftBar\" class=\"buttonBar disabled\">\r\n		<button id=\"f10Button\" class=\"buttons mobileKeys secondary vertical\">F10</button><br />\r\n		<button id=\"f12Button\" class=\"buttons mobileKeys secondary vertical\">F12</button><br />\r\n		<button id=\"insButton\" class=\"buttons mobileKeys secondary vertical\">🧎</button><br />\r\n	</div>\r\n\r\n	<div id=\"rightBar\" class=\"buttonBar disabled\">\r\n		<button id=\"toggleStatusButton\" class=\"buttons mobileKeys secondary vertical\">👀</button><br />\r\n		<button id=\"toggleTargetingButton\" class=\"buttons mobileKeys secondary vertical\">⚙️</button><br />\r\n		<button id=\"toggleAutoFollowButton\" class=\"buttons mobileKeys vertical secondary disabled\">👥</button><br />\r\n		<button id=\"toggleAutoTargetButton\" class=\"buttons mobileKeys vertical secondary disabled\">🎯</button><br />\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/MobileUI/MobileUI.css?raw
+var MobileUI_default$1;
+var init_MobileUI$1 = __esmMin((() => {
+	MobileUI_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#MobileUI {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#MobileUI button,\r\n#MobileUI .joystick-base {\r\n	pointer-events: auto;\r\n}\r\n\r\n#MobileUI * {\r\n	z-index: 1000;\r\n}\r\n\r\n#MobileUI .buttonBar,\r\n#MobileUI #toggleUIButton {\r\n	position: absolute;\r\n}\r\n\r\n#MobileUI #toggleUIButton {\r\n	top: 1%;\r\n	left: 1%;\r\n	width: 6.5vmin;\r\n	height: 6.5vmin;\r\n}\r\n\r\n#MobileUI .buttons {\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border-radius: 6px;\r\n	border: 1px solid grey;\r\n	font-size: 4vmin;\r\n	font-weight: bold;\r\n}\r\n\r\n#MobileUI .mobileKeys {\r\n	visibility: inherit;\r\n}\r\n\r\n#MobileUI .horizontal {\r\n	margin: 0 3.5vmin;\r\n}\r\n\r\n#MobileUI .vertical {\r\n	margin: 3.5vmin 0;\r\n}\r\n\r\n#MobileUI .disabled {\r\n	visibility: hidden;\r\n}\r\n\r\n#MobileUI #topBar {\r\n	left: 50%;\r\n	top: 1%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n#MobileUI #leftBar {\r\n	left: 1%;\r\n	bottom: 35%;\r\n	transform: translate(0, 50%);\r\n}\r\n\r\n#MobileUI #rightBar {\r\n	right: 1%;\r\n	bottom: 35%;\r\n	transform: translate(0, 50%);\r\n}\r\n\r\n#MobileUI #rightBar .buttons {\r\n	float: right;\r\n}\r\n\r\n#MobileUI .active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 8px;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #toggleUIButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 8px;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n@keyframes pulse {\r\n	0% {\r\n		box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	}\r\n	50% {\r\n		box-shadow: 0px 6px 12px rgba(144, 238, 144, 0.6);\r\n	}\r\n	100% {\r\n		box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	}\r\n}\r\n\r\n#MobileUI .pressed {\r\n	background: rgba(193, 255, 255, 0.33);\r\n}\r\n\r\n#MobileUI .primary {\r\n	width: 11vmin;\r\n	height: 11vmin;\r\n}\r\n\r\n#MobileUI .secondary {\r\n	width: 7.5vmin;\r\n	height: 7.5vmin;\r\n}\r\n\r\n/* Container for all buttons -MicromeX */\r\n#MobileUI #buttonContainer {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	position: absolute;\r\n	bottom: 10%;\r\n	right: 10%;\r\n	width: 37.5vmin;\r\n	height: 37.5vmin;\r\n	z-index: 1000;\r\n}\r\n\r\n/* Attack Button (center and larger) -MicromeX */\r\n#MobileUI .atkButton {\r\n	position: absolute;\r\n	width: 17.5vmin;\r\n	height: 17.5vmin;\r\n	background-color: #f44336;\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 7vmin;\r\n	color: white;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Functional Buttons (around the attack button) -MicromeX */\r\n#MobileUI .pickupButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n#MobileUI .talktonpcButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n#MobileUI .switchshorcutButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Functional Buttons (smaller and proportional) -MicromeX */\r\n#MobileUI .FButton {\r\n	position: absolute;\r\n	width: 7.5vmin;\r\n	height: 7.5vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 3.75vmin;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #f1Button {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f2Button {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f3Button {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f4Button {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f5Button {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f6Button {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f7Button {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f8Button {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f9Button {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #n1Button {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n2Button {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n3Button {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n4Button {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n5Button {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n6Button {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n7Button {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n8Button {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n9Button {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #qButton {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #wButton {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #eButton {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #rButton {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #tButton {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #yButton {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #uButton {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #iButton {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #oButton {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #aButton {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #sButton {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #dButton {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #fButton {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #gButton {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #hButton {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #jButton {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #kButton {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #lButton {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Pickup Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #attackButton {\r\n	bottom: -10%;\r\n	left: 60%;\r\n	transform: translate(-50%, 0);\r\n}\r\n/* Pickup Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #pickupButton {\r\n	bottom: 10%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n/* TalkToNpc Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #talktonpcButton {\r\n	bottom: -23%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n/* TalkToNpc Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #switchshorcutButton {\r\n	bottom: 43%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n/* Hover Effect for Buttons -MicromeX */\r\n#MobileUI #f1Button:active,\r\n#MobileUI #f2Button:active,\r\n#MobileUI #f3Button:active,\r\n#MobileUI #f4Button:active,\r\n#MobileUI #f5Button:active,\r\n#MobileUI #f6Button:active,\r\n#MobileUI #f7Button:active,\r\n#MobileUI #f8Button:active,\r\n#MobileUI #f9Button:active,\r\n#MobileUI #n1Button:active,\r\n#MobileUI #n2Button:active,\r\n#MobileUI #n3Button:active,\r\n#MobileUI #n4Button:active,\r\n#MobileUI #n5Button:active,\r\n#MobileUI #n6Button:active,\r\n#MobileUI #n7Button:active,\r\n#MobileUI #n8Button:active,\r\n#MobileUI #n9Button:active,\r\n#MobileUI #qButton:active,\r\n#MobileUI #wButton:active,\r\n#MobileUI #eButton:active,\r\n#MobileUI #rButton:active,\r\n#MobileUI #tButton:active,\r\n#MobileUI #yButton:active,\r\n#MobileUI #uButton:active,\r\n#MobileUI #iButton:active,\r\n#MobileUI #oButton:active,\r\n#MobileUI #aButton:active,\r\n#MobileUI #sButton:active,\r\n#MobileUI #dButton:active,\r\n#MobileUI #fButton:active,\r\n#MobileUI #gButton:active,\r\n#MobileUI #hButton:active,\r\n#MobileUI #jButton:active,\r\n#MobileUI #kButton:active,\r\n#MobileUI #lButton:active,\r\n#MobileUI #switchshorcutButton:active,\r\n#MobileUI #pickupButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 50%;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #talktonpcButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 50%;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #attackButton:active {\r\n	background-color: #4caf50;\r\n	box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);\r\n	border: 2px solid #388e3c;\r\n	transition:\r\n		transform 0.2s ease,\r\n		background-color 0.2s ease,\r\n		box-shadow 0.2s ease,\r\n		border 0.2s ease;\r\n}\r\n\r\n/* Joystick container -MicromeX */\r\n#MobileUI .joystick-container {\r\n	position: absolute;\r\n	bottom: 7%;\r\n	left: 10%;\r\n	width: 25vmin;\r\n	height: 25vmin;\r\n	z-index: 1000;\r\n}\r\n\r\n/* Joystick base -MicromeX */\r\n#MobileUI .joystick-base {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border-radius: 50%;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n/* Joystick thumb -MicromeX */\r\n#MobileUI .joystick-thumb {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: radial-gradient(circle, rgba(236, 240, 241, 1) 70%, rgba(189, 195, 199, 1) 100%);\r\n	border-radius: 50%;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);\r\n	touch-action: none;\r\n	cursor: grab;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/MobileUI/MobileUI.js
+/**
+* Helper to bind click+touchstart on an element
+*/
+function bindButton(root, selector, handler) {
+	const el = root.querySelector(selector);
+	if (el) {
+		let touchHandled = false;
+		let releaseTimer = null;
+		const clearGuard = () => {
+			if (releaseTimer !== null) {
+				clearTimeout(releaseTimer);
+				releaseTimer = null;
+			}
+		};
+		const releaseGuard = () => {
+			clearGuard();
+			releaseTimer = setTimeout(() => {
+				releaseTimer = null;
+				touchHandled = false;
+			}, C_TOUCH_CLICK_GUARD);
+		};
+		el.addEventListener("click", (event) => {
+			if (touchHandled) {
+				touchHandled = false;
+				clearGuard();
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				return;
+			}
+			handler(event);
+		});
+		el.addEventListener("touchstart", (event) => {
+			touchHandled = true;
+			clearGuard();
+			handler(event);
+		});
+		el.addEventListener("touchend", releaseGuard);
+		el.addEventListener("touchcancel", releaseGuard);
+	}
+}
+/**
+* Logs the key press to the console and performs the key press action.
+* @param {number} keyCode - The key code of the pressed key.
+*/
+function logKeyPress(keyCode) {
+	keyPress(keyCode);
+}
+/**
+* Toggles full screen display
+*/
+function toggleFullScreen() {
+	if (!Context.isFullScreen()) Context.requestFullScreen();
+	else Context.cancelFullScreen();
+}
+/**
+* Emulates a keypress event
+*
+* @param {number} keyId
+*/
+function keyPress(k) {
+	const roWindow = window;
+	roWindow.document.getElementsByTagName("body")[0].focus();
+	roWindow.dispatchEvent(new KeyboardEvent("keydown", {
+		keyCode: k,
+		which: k
+	}));
+}
+/**
+* Toggles MobileUI button bars visibility (and thus buttons)
+*/
+function toggleButtons() {
+	const root = MobileUI.getRoot();
+	if (showButtons) {
+		[
+			"#topBar",
+			"#leftBar",
+			"#rightBar",
+			"#joystickContainer",
+			"#buttonContainer",
+			"#attackButton",
+			"#pickupButton",
+			"#talktonpcButton",
+			"#switchshorcutButton"
+		].forEach((sel) => {
+			const el = root.querySelector(sel);
+			if (el) el.classList.add("disabled");
+		});
+		for (let i = 1; i <= 9; i++) {
+			const fBtn = root.querySelector(`#f${i}Button`);
+			if (fBtn) fBtn.classList.add("disabled");
+		}
+		[
+			"n",
+			"q",
+			"w",
+			"e",
+			"r",
+			"t",
+			"y",
+			"u",
+			"i",
+			"o",
+			"a",
+			"s",
+			"d",
+			"f",
+			"g",
+			"h",
+			"j",
+			"k",
+			"l"
+		].forEach((key) => {
+			const btn = root.querySelector(`#${key}Button`) || root.querySelector(`#${key}${key === "n" ? "" : "B"}utton`);
+			if (btn) btn.classList.add("disabled");
+		});
+		for (let i = 1; i <= 9; i++) {
+			const nBtn = root.querySelector(`#n${i}Button`);
+			if (nBtn) nBtn.classList.add("disabled");
+		}
+		[
+			"q",
+			"w",
+			"e",
+			"r",
+			"t",
+			"y",
+			"u",
+			"i",
+			"o",
+			"a",
+			"s",
+			"d",
+			"f",
+			"g",
+			"h",
+			"j",
+			"k",
+			"l"
+		].forEach((key) => {
+			const btn = root.querySelector(`#${key}Button`);
+			if (btn) btn.classList.add("disabled");
+		});
+		if (SessionStorage_default.TouchTargeting) toggleTouchTargeting();
+		showButtons = false;
+	} else {
+		[
+			"#topBar",
+			"#leftBar",
+			"#rightBar",
+			"#joystickContainer",
+			"#buttonContainer",
+			"#attackButton",
+			"#pickupButton",
+			"#talktonpcButton",
+			"#switchshorcutButton"
+		].forEach((sel) => {
+			const el = root.querySelector(sel);
+			if (el) el.classList.remove("disabled");
+		});
+		for (let i = 1; i <= 9; i++) {
+			const fBtn = root.querySelector(`#f${i}Button`);
+			if (fBtn) fBtn.classList.remove("disabled");
+		}
+		showButtons = true;
+	}
+}
+/**
+* Toggles switch skill
+*/
+function switchSkillButtons() {
+	const root = MobileUI.getRoot();
+	const skillSets = [
+		[
+			"#f1Button",
+			"#f2Button",
+			"#f3Button",
+			"#f4Button",
+			"#f5Button",
+			"#f6Button",
+			"#f7Button",
+			"#f8Button",
+			"#f9Button"
+		],
+		[
+			"#n1Button",
+			"#n2Button",
+			"#n3Button",
+			"#n4Button",
+			"#n5Button",
+			"#n6Button",
+			"#n7Button",
+			"#n8Button",
+			"#n9Button"
+		],
+		[
+			"#qButton",
+			"#wButton",
+			"#eButton",
+			"#rButton",
+			"#tButton",
+			"#yButton",
+			"#uButton",
+			"#iButton",
+			"#oButton"
+		],
+		[
+			"#aButton",
+			"#sButton",
+			"#dButton",
+			"#fButton",
+			"#gButton",
+			"#hButton",
+			"#jButton",
+			"#kButton",
+			"#lButton"
+		]
+	];
+	const nextSetIndex = ((switchSkillButtons.currentSetIndex || 0) + 1) % skillSets.length;
+	skillSets.flat().forEach((selector) => {
+		const el = root.querySelector(selector);
+		if (el) el.classList.add("disabled");
+	});
+	skillSets[nextSetIndex].forEach((selector) => {
+		const el = root.querySelector(selector);
+		if (el) el.classList.remove("disabled");
+	});
+	switchSkillButtons.currentSetIndex = nextSetIndex;
+}
+/**
+* Toggles status view
+*/
+function toggleStatus() {
+	const statusIcons = document.querySelector("#StatusIcons");
+	if (statusIcons) statusIcons.style.display = statusIcons.style.display === "none" ? "" : "none";
+}
+/**
+* Toggles touch targeting
+*/
+function toggleTouchTargeting() {
+	const root = MobileUI.getRoot();
+	if (SessionStorage_default.TouchTargeting) {
+		root.querySelector("#toggleTargetingButton").classList.remove("active");
+		root.querySelector("#toggleAutoFollowButton").classList.add("disabled");
+		root.querySelector("#toggleAutoTargetButton").classList.add("disabled");
+		if (SessionStorage_default.AutoTargeting) toggleAutoTargeting();
+		SessionStorage_default.TouchTargeting = false;
+	} else {
+		root.querySelector("#toggleTargetingButton").classList.add("active");
+		root.querySelector("#toggleAutoFollowButton").classList.remove("disabled");
+		root.querySelector("#toggleAutoTargetButton").classList.remove("disabled");
+		SessionStorage_default.TouchTargeting = true;
+	}
+}
+/**
+* Toggles automatic targeting
+*/
+function toggleAutoTargeting() {
+	const root = MobileUI.getRoot();
+	if (SessionStorage_default.AutoTargeting) {
+		root.querySelector("#toggleAutoTargetButton").classList.remove("active");
+		SessionStorage_default.AutoTargeting = false;
+	} else {
+		root.querySelector("#toggleAutoTargetButton").classList.add("active");
+		SessionStorage_default.AutoTargeting = true;
+		autoTarget();
+	}
+}
+/**
+* Toggles auto follow
+*/
+function toggleAutoFollow() {
+	const root = MobileUI.getRoot();
+	if (SessionStorage_default.autoFollow) {
+		root.querySelector("#toggleAutoFollowButton").classList.remove("active");
+		SessionStorage_default.autoFollow = false;
+	} else {
+		const entityFocus = EntityManager.getFocusEntity();
+		if (entityFocus) {
+			root.querySelector("#toggleAutoFollowButton").classList.add("active");
+			SessionStorage_default.autoFollow = true;
+			SessionStorage_default.autoFollowTarget = entityFocus;
+			onAutoFollow$1();
+		}
+	}
+}
+/**
+* Attacks a targeted enemy (if present)
+*/
+function attackTargeted() {
+	const main = SessionStorage_default.Entity;
+	let pkt;
+	let entityFocus = EntityManager.getFocusEntity();
+	if (!entityFocus || entityFocus.action === entityFocus.ACTION.DIE) {
+		autoTarget();
+		entityFocus = EntityManager.getFocusEntity();
+	}
+	if (entityFocus) {
+		const out = [];
+		const count = PathFinding_default.search(main.position[0] | 0, main.position[1] | 0, entityFocus.position[0] | 0, entityFocus.position[1] | 0, main.attack_range + 1, out);
+		if (!count) return true;
+		if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_ACT2();
+		else pkt = new PACKET.CZ.REQUEST_ACT();
+		pkt.action = 7;
+		pkt.targetGID = entityFocus.GID;
+		if (count < 2) {
+			Network.sendPacket(pkt);
+			return true;
+		}
+		SessionStorage_default.moveAction = pkt;
+		if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
+		else pkt = new PACKET.CZ.REQUEST_MOVE();
+		pkt.dest[0] = out[(count - 1) * 2 + 0];
+		pkt.dest[1] = out[(count - 1) * 2 + 1];
+		Network.sendPacket(pkt);
+	}
+}
+/**
+* Automatically targeting the closest enemy
+*/
+function autoTarget() {
+	const Player = SessionStorage_default.Entity;
+	const entityFocus = EntityManager.getFocusEntity();
+	const closestEntity = EntityManager.getClosestEntity(Player, SessionStorage_default.Entity.constructor.TYPE_MOB);
+	if (closestEntity) {
+		if (entityFocus && closestEntity.GID !== entityFocus.GID) {
+			entityFocus.onFocusEnd();
+			EntityManager.setFocusEntity(null);
+			closestEntity.onFocus();
+			EntityManager.setFocusEntity(closestEntity);
+		} else if (!entityFocus) {
+			closestEntity.onFocus();
+			EntityManager.setFocusEntity(closestEntity);
+		}
+	}
+	if (SessionStorage_default.AutoTargeting && SessionStorage_default.Playing) startAutoTarget();
+}
+/**
+* Starting automatic targeting cycle
+*/
+function startAutoTarget() {
+	window.setTimeout(autoTarget, C_AUTOTARGET_DELAY);
+}
+/**
+* Stop event propagation
+*/
+function stopPropagation$9(event) {
+	if (event && typeof event.preventDefault === "function") event.preventDefault();
+	event.stopImmediatePropagation();
+	return false;
+}
+/**
+* Auto follow logic
+*/
+function onAutoFollow$1() {
+	const root = MobileUI.getRoot();
+	if (SessionStorage_default.autoFollow) {
+		const player = SessionStorage_default.Entity;
+		const target = SessionStorage_default.autoFollowTarget;
+		const dx = Math.abs(player.position[0] - target.position[0]);
+		const dy = Math.abs(player.position[1] - target.position[1]);
+		if (dx > 1 || dy > 1) {
+			const dest = [0, 0];
+			if (checkFreeCell$2(Math.round(target.position[0]), Math.round(target.position[1]), 1, dest)) {
+				let pkt;
+				if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
+				else pkt = new PACKET.CZ.REQUEST_MOVE();
+				pkt.dest = dest;
+				Network.sendPacket(pkt);
+			}
+		}
+		Events.setTimeout(onAutoFollow$1, 500);
+	} else root.querySelector("#toggleAutoFollowButton").classList.remove("active");
+}
+/**
+* Picks up the nearest item - MicromeX
+*/
+function pickUpItem() {
+	const player = SessionStorage_default.Entity;
+	if (!player) return;
+	const closestItem = EntityManager.getClosestEntity(player, SessionStorage_default.Entity.constructor.TYPE_ITEM);
+	if (!closestItem) return;
+	let dx = Math.abs(player.position[0] - closestItem.position[0]);
+	let dy = Math.abs(player.position[1] - closestItem.position[1]);
+	if (dx < 0) dx = -dx;
+	if (dy < 0) dy = -dy;
+	if ((dx < dy ? dy : dx) > 2) {
+		const dest = [0, 0];
+		if (checkFreeCell$2(Math.round(closestItem.position[0]), Math.round(closestItem.position[1]), 1, dest)) {
+			let pkt;
+			if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
+			else pkt = new PACKET.CZ.REQUEST_MOVE();
+			pkt.dest = dest;
+			Network.sendPacket(pkt);
+		}
+	}
+	let pickUpPacket;
+	if (PacketVerManager_default.value >= 20180307) pickUpPacket = new PACKET.CZ.ITEM_PICKUP2();
+	else pickUpPacket = new PACKET.CZ.ITEM_PICKUP();
+	pickUpPacket.ITAID = closestItem.GID;
+	Network.sendPacket(pickUpPacket);
+}
+/**
+* Joystick handling for both mouse and touch input - MicromeX
+*/
+function setupJoystick() {
+	const root = MobileUI.getRoot();
+	_joystickBase = root.querySelector("#joystickBase");
+	_joystickThumb = root.querySelector("#joystickThumb");
+	maxDistance = _joystickBase.offsetWidth / 2;
+	_joystickThumb.addEventListener("mousedown", startDrag);
+	_joystickThumb.addEventListener("touchstart", startDrag);
+}
+function startDrag(event) {
+	event.preventDefault();
+	const touch = event.touches ? event.touches[0] : event;
+	const rect = _joystickBase.getBoundingClientRect();
+	centerX = rect.left + rect.width / 2;
+	centerY = rect.top + rect.height / 2;
+	document.addEventListener("mousemove", moveJoystick);
+	document.addEventListener("mouseup", stopDrag);
+	document.addEventListener("touchmove", moveJoystick);
+	document.addEventListener("touchend", stopDrag);
+	moveJoystick(touch);
+	startMovement();
+}
+function moveJoystick(event) {
+	const deadZone = 15;
+	const touch = event.touches ? event.touches[0] : event;
+	const deltaX = touch.clientX - centerX;
+	const deltaY = touch.clientY - centerY;
+	const distance = Math.min(Math.sqrt(deltaX ** 2 + deltaY ** 2), maxDistance);
+	const angle = Math.atan2(deltaY, deltaX);
+	const offsetX = Math.cos(angle) * distance;
+	const offsetY = Math.sin(angle) * distance;
+	_joystickThumb.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+	if (distance < deadZone) {
+		normalizedX = 0;
+		normalizedY = 0;
+		return;
+	}
+	normalizedX = offsetX / maxDistance;
+	normalizedY = -offsetY / maxDistance;
+}
+function stopDrag() {
+	_joystickThumb.style.transform = "translate(0, 0)";
+	normalizedX = 0;
+	normalizedY = 0;
+	stopMovement();
+	document.removeEventListener("mousemove", moveJoystick);
+	document.removeEventListener("mouseup", stopDrag);
+	document.removeEventListener("touchmove", moveJoystick);
+	document.removeEventListener("touchend", stopDrag);
+}
+function startMovement() {
+	const tileSize = 3;
+	if (movementTimer) clearInterval(movementTimer);
+	const executeMove = () => {
+		if (normalizedX !== 0 || normalizedY !== 0) moveCharacter(normalizedX, normalizedY, tileSize);
+	};
+	executeMove();
+	movementTimer = setInterval(executeMove, 100);
+}
+function stopMovement() {
+	if (movementTimer) {
+		clearInterval(movementTimer);
+		movementTimer = null;
+	}
+}
+/**
+* Moves the character to a new tile and waits for the movement to complete.
+* @param {number} x - Normalized x-axis input (-1 to 1)
+* @param {number} y - Normalized y-axis input (-1 to 1)
+* @param {number} tileSize - The size of each tile in the game world
+*/
+function moveCharacter(x, y, tileSize) {
+	const player = SessionStorage_default.Entity;
+	if (!player) return;
+	direction$1[0] = x;
+	direction$1[1] = y;
+	mat2.identity(rotate$1);
+	mat2.rotate(rotate$1, rotate$1, -Camera.direction * 45 / 180 * Math.PI);
+	vec2$2.transformMat2(direction$1, direction$1, rotate$1);
+	const newPos = [Math.round(player.position[0] + direction$1[0] * tileSize), Math.round(player.position[1] + direction$1[1] * tileSize)];
+	const dest = [0, 0];
+	if (checkFreeCell$2(newPos[0], newPos[1], 5, dest)) {
+		if (targetPos[0] !== dest[0] || targetPos[1] !== dest[1]) {
+			targetPos[0] = dest[0];
+			targetPos[1] = dest[1];
+			let movePacket;
+			if (PacketVerManager_default.value >= 20180307) movePacket = new PACKET.CZ.REQUEST_MOVE2();
+			else movePacket = new PACKET.CZ.REQUEST_MOVE();
+			movePacket.dest[0] = dest[0];
+			movePacket.dest[1] = dest[1];
+			Network.sendPacket(movePacket);
+		}
+	}
+}
+/**
+* Talk to NPC Button Function - MicromeX
+*/
+function setupTalkToNpcButton() {
+	const talkButton = MobileUI.getRoot().querySelector("#talktonpcButton");
+	function findNearestNpc() {
+		const player = SessionStorage_default.Entity;
+		if (!player) return null;
+		let nearestNpc = null;
+		let minDistance = 3;
+		EntityManager.forEach((entity) => {
+			if (entity.objecttype === entity.constructor.TYPE_NPC) {
+				const dx = entity.position[0] - player.position[0];
+				const dy = entity.position[1] - player.position[1];
+				const distance = Math.sqrt(dx ** 2 + dy ** 2);
+				if (distance <= minDistance) {
+					minDistance = distance;
+					nearestNpc = entity;
+				}
+			}
+		});
+		return nearestNpc;
+	}
+	function talkToNearestNpc() {
+		const nearestNpc = findNearestNpc();
+		if (!nearestNpc) return;
+		const talkPacket = new PACKET.CZ.CONTACTNPC();
+		talkPacket.NAID = nearestNpc.GID;
+		Network.sendPacket(talkPacket);
+	}
+	talkButton.addEventListener("click", talkToNearestNpc);
+}
+/**
+* Search free cells around a position
+*
+* @param {number} x
+* @param {number} y
+* @param {number} range
+* @param {array} out
+*/
+function checkFreeCell$2(x, y, range, out) {
+	let _x, _y, r;
+	const d_x = SessionStorage_default.Entity.position[0] < x ? -1 : 1;
+	const d_y = SessionStorage_default.Entity.position[1] < y ? -1 : 1;
+	for (r = 0; r <= range; ++r) for (_x = -r; _x <= r; ++_x) for (_y = -r; _y <= r; ++_y) if (isFreeCell$2(x + _x * d_x, y + _y * d_y)) {
+		out[0] = x + _x * d_x;
+		out[1] = y + _y * d_y;
+		return true;
+	}
+	return false;
+}
+/**
+* Does a cell is free (walkable, and no entity on)
+*
+* @param {number} x
+* @param {number} y
+* @param {returns} is free
+*/
+function isFreeCell$2(x, y) {
+	if (!(Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE)) return false;
+	let free = true;
+	EntityManager.forEach((entity) => {
+		if (entity.objecttype !== entity.constructor.TYPE_EFFECT && entity.objecttype !== entity.constructor.TYPE_UNIT && entity.objecttype !== entity.constructor.TYPE_TRAP && Math.round(entity.position[0]) === x && Math.round(entity.position[1]) === y) {
+			free = false;
+			return false;
+		}
+		return true;
+	});
+	return free;
+}
+var vec2$2, mat2, direction$1, rotate$1, targetPos, movementTimer, MobileUI, _preferences$35, showButtons, C_AUTOTARGET_DELAY, C_TOUCH_CLICK_GUARD, centerX, centerY, maxDistance, normalizedX, normalizedY, _joystickBase, _joystickThumb, MobileUI_default;
+var init_MobileUI = __esmMin((() => {
+	init_Platform();
+	init_Context();
+	init_UIManager();
+	init_GUIComponent();
+	init_Preferences$1();
+	init_SessionStorage();
+	init_Renderer();
+	init_PacketVerManager();
+	init_PacketStructure();
+	init_EntityManager();
+	init_NetworkManager();
+	init_PathFinding();
+	init_Altitude();
+	init_Events();
+	init_MobileUI$2();
+	init_MobileUI$1();
+	init_gl_matrix$1();
+	init_Camera();
+	init_KeyEventHandler();
+	vec2$2 = exports$3.vec2;
+	mat2 = exports$3.mat2;
+	direction$1 = vec2$2.create();
+	rotate$1 = mat2.create();
+	targetPos = [0, 0];
+	movementTimer = null;
+	MobileUI = new GUIComponent("MobileUI", MobileUI_default$1);
+	MobileUI.render = () => MobileUI_default$2;
+	_preferences$35 = Preferences.get("MobileUI", {
+		x: 0,
+		y: 0,
+		zIndex: 1e3,
+		width: window.innerWidth,
+		height: window.innerHeight,
+		show: false
+	}, 1);
+	showButtons = false;
+	C_AUTOTARGET_DELAY = 500;
+	C_TOUCH_CLICK_GUARD = 750;
+	maxDistance = 0;
+	normalizedX = 0;
+	normalizedY = 0;
+	_joystickBase = null;
+	_joystickThumb = null;
+	/**
+	* Initialize UI
+	*/
+	MobileUI.init = function init() {
+		const root = MobileUI.getRoot();
+		bindButton(root, "#toggleUIButton", (e) => {
+			toggleButtons();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#fullscreenButton", (e) => {
+			toggleFullScreen();
+			stopPropagation$9(e);
+		});
+		const fKeyMap = [
+			["#f1Button", 112],
+			["#f2Button", 113],
+			["#f3Button", 114],
+			["#f4Button", 115],
+			["#f5Button", 116],
+			["#f6Button", 117],
+			["#f7Button", 118],
+			["#f8Button", 119],
+			["#f9Button", 120]
+		];
+		const nKeyMap = [
+			["#n1Button", 49],
+			["#n2Button", 50],
+			["#n3Button", 51],
+			["#n4Button", 52],
+			["#n5Button", 53],
+			["#n6Button", 54],
+			["#n7Button", 55],
+			["#n8Button", 56],
+			["#n9Button", 57]
+		];
+		const letterKeyMap = [
+			["#qButton", 81],
+			["#wButton", 87],
+			["#eButton", 69],
+			["#rButton", 82],
+			["#tButton", 84],
+			["#yButton", 89],
+			["#uButton", 85],
+			["#iButton", 73],
+			["#oButton", 79],
+			["#aButton", 65],
+			["#sButton", 83],
+			["#dButton", 68],
+			["#fButton", 70],
+			["#gButton", 71],
+			["#hButton", 72],
+			["#jButton", 74],
+			["#kButton", 75],
+			["#lButton", 76]
+		];
+		[
+			...fKeyMap,
+			...nKeyMap,
+			...letterKeyMap
+		].forEach(([selector, keyCode]) => {
+			bindButton(root, selector, (e) => {
+				logKeyPress(keyCode);
+				stopPropagation$9(e);
+			});
+		});
+		bindButton(root, "#f10Button", (e) => {
+			logKeyPress(121);
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#f12Button", (e) => {
+			logKeyPress(123);
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#insButton", (e) => {
+			logKeyPress(45);
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#toggleStatusButton", (e) => {
+			toggleStatus();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#toggleTargetingButton", (e) => {
+			toggleTouchTargeting();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#toggleAutoFollowButton", (e) => {
+			toggleAutoFollow();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#toggleAutoTargetButton", (e) => {
+			toggleAutoTargeting();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#attackButton", (e) => {
+			attackTargeted();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#pickupButton", (e) => {
+			pickUpItem();
+			stopPropagation$9(e);
+		});
+		bindButton(root, "#switchshorcutButton", (e) => {
+			switchSkillButtons();
+			stopPropagation$9(e);
+		});
+		root.querySelectorAll(".buttons").forEach((btn) => {
+			btn.addEventListener("mousedown", (e) => e.target.classList.add("pressed"));
+			btn.addEventListener("touchstart", (e) => e.target.classList.add("pressed"));
+			btn.addEventListener("mouseup", (e) => e.target.classList.remove("pressed"));
+			btn.addEventListener("touchend", (e) => e.target.classList.remove("pressed"));
+		});
+		root.querySelectorAll(".FButton").forEach((btn) => {
+			btn.addEventListener("mousedown", (e) => e.target.classList.add("pressed"));
+			btn.addEventListener("touchstart", (e) => e.target.classList.add("pressed"));
+			btn.addEventListener("mouseup", (e) => e.target.classList.remove("pressed"));
+			btn.addEventListener("touchend", (e) => e.target.classList.remove("pressed"));
+		});
+		setupJoystick();
+		setupTalkToNpcButton();
+	};
+	/**
+	* Apply preferences once append to body
+	*/
+	MobileUI.onAppend = function onAppend() {
+		if (Platform.isMobile) {
+			this._host.style.display = "none";
+			return;
+		}
+		if (SessionStorage_default.isTouchDevice) this._host.style.display = "block";
+		else this._host.style.display = "none";
+		this._host.style.top = "0px";
+		this._host.style.left = "0px";
+		this._host.style.zIndex = "1000";
+	};
+	/**
+	* Process shortcut
+	*
+	* @param {object} key
+	*/
+	MobileUI.onShortCut = function onShortCut(key) {
+		if (Platform.isMobile) return;
+		switch (key.cmd) {
+			case "SHOW":
+				SessionStorage_default.isTouchDevice = true;
+				this.show();
+				break;
+			case "TOGGLE":
+				toggleButtons();
+				break;
+			case "TG":
+				toggleTouchTargeting();
+				break;
+			case "AT":
+				toggleAutoTargeting();
+				break;
+			case "ATK": attackTargeted();
+		}
+	};
+	/**
+	* Removes MobileUI
+	*/
+	MobileUI.onRemove = function onRemove() {
+		_preferences$35.y = 0;
+		_preferences$35.x = 0;
+		_preferences$35.zIndex = 1e3;
+		_preferences$35.width = Renderer.width;
+		_preferences$35.height = Renderer.height;
+		_preferences$35.save();
+		if (SessionStorage_default.AutoTargeting) toggleAutoTargeting();
+	};
+	/**
+	* Shows MobileUI
+	*/
+	MobileUI.show = function show() {
+		if (Platform.isMobile) return;
+		this._host.style.display = "block";
+	};
+	MobileUI_default = UIManager.addComponent(MobileUI);
+}));
+//#endregion
+//#region src/Core/Mobile.js
+/**
+* Return distance between touches
+*
+* @param {TouchList} touches
+* @return {number} distance
+*/
+function touchDistance(touches) {
+	const x = touches[0].pageX - touches[1].pageX;
+	const y = touches[0].pageY - touches[1].pageY;
+	return Math.sqrt(x * x + y * y);
+}
+/**
+* Get angle from touches
+*
+* @param {TouchList} touches
+* @return {number} rotation angle
+*/
+function touchAngle(touches) {
+	const x = touches[0].pageX - touches[1].pageX;
+	const y = touches[0].pageY - touches[1].pageY;
+	return Math.atan2(y, x) * 180 / Math.PI;
+}
+/**
+* Get translation size (width)
+*
+* @param {TouchList} old touches
+* @param {TouchList} new touches
+*/
+function touchTranslationX(oldTouches, touches) {
+	const x1 = touches[0].pageX - oldTouches[0].pageX;
+	const x2 = touches[1].pageX - oldTouches[1].pageX;
+	if (x1 && x2 && x1 < 0 === x2 < 0 && Math.abs(1 - x1 / x2) < .25) return x1 + x2 >> 1;
+	return 0;
+}
+/**
+* Get translation size (height)
+*
+* @param {TouchList} old touches
+* @param {TouchList} new touches
+*/
+function touchTranslationY(oldTouches, touches) {
+	const y1 = touches[0].pageY - oldTouches[0].pageY;
+	const y2 = touches[1].pageY - oldTouches[1].pageY;
+	if (y1 && y2 && y1 < 0 === y2 < 0 && Math.abs(1 - y1 / y2) < .25) return y1 + y2 >> 1;
+	return 0;
+}
+/**
+* Hook touch end to know when a gesture end
+* process OnMouseUp if no gesture detected
+*/
+function onTouchEnd(event) {
+	if (Platform.isMobile && SessionStorage_default.Playing) return;
+	if (_processGesture) {
+		_processGesture = false;
+		KEYS.SHIFT = false;
+		Camera.rotate(false);
+		return;
+	}
+	if (_timer$1 > -1) {
+		_intersect = false;
+		return;
+	}
+	if (Mobile.onTouchEnd) Mobile.onTouchEnd();
+	Mouse.intersect = false;
+}
+/**
+* Process gesture (scale, rotate)
+* Else move.
+*/
+function onTouchMove(event) {
+	if (Platform.isMobile && SessionStorage_default.Playing) return;
+	event.stopImmediatePropagation();
+	const touches = event.touches;
+	Mouse.screen.x = touches[0].pageX;
+	Mouse.screen.y = touches[0].pageY;
+	if (!_processGesture) return;
+	const scale = touchDistance(touches) - _scale;
+	const x = Math.abs(touchTranslationX(_touches, touches));
+	const y = Math.abs(touchTranslationY(_touches, touches));
+	if (!Camera.action.active && (x > 10 || y > 10)) {
+		KEYS.SHIFT = y > x;
+		Camera.rotate(true);
+		return;
+	}
+	if (Math.abs(scale) > 10) {
+		Camera.zoomFinal -= scale * .1;
+		Camera.zoomFinal = Math.min(Camera.zoomFinal, Math.abs(Camera.altitudeTo - Camera.altitudeFrom) * Camera.MAX_ZOOM);
+		Camera.zoomFinal = Math.max(Camera.zoomFinal, 2);
+	}
+}
+function touchDevice() {
+	SessionStorage_default.isTouchDevice = true;
+	if (SessionStorage_default.Playing) MobileUI_default.show();
+}
+var _processGesture, _scale, _touches, _intersect, _timer$1, Mobile, remoteAutoFocus, onTouchStart;
+var init_Mobile = __esmMin((() => {
+	init_Platform();
+	init_Context();
+	init_Events();
+	init_Camera();
+	init_SessionStorage();
+	init_MouseEventHandler();
+	init_KeyEventHandler();
+	init_MobileUI();
+	_processGesture = false;
+	_timer$1 = -1;
+	Mobile = class {
+		/**
+		* Initialize
+		*/
+		static init() {}
+		static cancelInteraction() {
+			if (_timer$1 > -1) Events.clearTimeout(_timer$1);
+			_timer$1 = -1;
+			if (_processGesture) KEYS.SHIFT = false;
+			_processGesture = false;
+			_intersect = false;
+			Camera.rotate(false);
+			Mouse.intersect = false;
+		}
+	};
+	remoteAutoFocus = (function removeAutoFocusClosure() {
+		let _done = false;
+		return function removeAutoFocus() {
+			if (_done) return;
+			_done = true;
+		};
+	})();
+	onTouchStart = (function onTouchStartClosure() {
+		function delayedClick() {
+			if (!_processGesture) {
+				_timer$1 = -1;
+				if (Mobile.onTouchStart) Mobile.onTouchStart();
+				if (!_intersect) {
+					if (Mobile.onTouchEnd) Mobile.onTouchEnd();
+				}
+				Mouse.intersect = _intersect;
+			}
+		}
+		return function(event) {
+			if (Platform.isMobile && SessionStorage_default.Playing) return;
+			remoteAutoFocus();
+			_touches = event.touches;
+			const target = event.target;
+			if (!(target && /^(input|textarea|select)$/i.test(target.tagName))) event.preventDefault();
+			event.stopImmediatePropagation();
+			if (_timer$1 > -1) {
+				Events.clearTimeout(_timer$1);
+				_timer$1 = -1;
+			}
+			if (_touches.length > 1) {
+				_scale = touchDistance(_touches);
+				touchAngle(_touches);
+				_processGesture = true;
+				return;
+			}
+			Mouse.screen.x = _touches[0].pageX;
+			Mouse.screen.y = _touches[0].pageY;
+			if (!SessionStorage_default.FreezeUI) {
+				Mouse.intersect = true;
+				_intersect = true;
+			}
+			_timer$1 = Events.setTimeout(delayedClick, 200);
+		};
+	})();
+	if (Math.max(screen.availHeight, screen.availWidth) <= 800) window.addEventListener("touchstart", () => {
+		if (!Context.isFullScreen()) Context.requestFullScreen();
+	});
+	window.addEventListener("touchstart", touchDevice, { once: true });
+	window.addEventListener("touchstart", onTouchStart, { passive: false });
+	window.addEventListener("touchend", onTouchEnd);
+	window.addEventListener("touchmove", onTouchMove);
+}));
+//#endregion
+//#region src/Core/AIDriver.js
+var msg, resMsg, AIDriver;
+var init_AIDriver = __esmMin((() => {
+	init_DBManager();
+	init_SessionStorage();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_PacketVerManager();
+	init_SkillInfo_generated();
+	init_EntityManager();
+	init_Client();
+	init_Configs();
+	init_UIManager();
+	init_CodepageManager();
+	msg = {};
+	resMsg = {};
+	AIDriver = class AIDriver {
+		static HOM_AGGRESSIVE = false;
+		static MER_AGGRESSIVE = false;
+		static HO_AI = null;
+		static MER_AI = null;
+		static default_HO_AI = null;
+		static default_MER_AI = null;
+		static ready = {
+			homunculus: false,
+			mercenary: false
+		};
+		static initialization = {
+			homunculus: null,
+			mercenary: null
+		};
+		static generation = {
+			homunculus: 0,
+			mercenary: 0
+		};
+		static init() {}
+		static setmsg(homId, str) {
+			if (!msg[homId]) msg[homId] = str;
+			else resMsg[homId] = str;
+		}
+		static addCTX(homunculus, defaultAI, customAI) {
+			const scriptStartTime = Date.now();
+			const Homun = UIManager.getComponent("HomunInformations");
+			const Mercenary = UIManager.getComponent("MercenaryInformations");
+			function addCTX(lua, isHoAI = true) {
+				const ctx = lua.ctx;
+				lua.doStringSync(`
+			function GetV(V_, id)
+				local res = GetVJS(V_, id)
+				if(V_ == 1 or V_ == 13) then
+					return res[1], res[2]
+				end
+				return res
+			end
+			function GetMsg(id)
+				local res = GetMsgJS(id)
+				local result = {}
+				local i = 0
+				while res[i] ~= nil do
+					result[i + 1] = res[i]
+					i = i + 1
+				end
+				return result
+			end
+			function GetResMsg(id)
+				local res = GetResMsgJS(id)
+				local result = {}
+				local i = 0
+				while res[i] ~= nil do
+					result[i + 1] = res[i]
+					i = i + 1
+				end
+				return result
+			end
+		`);
+				ctx.log = (logMessage) => {
+					if (Configs.get("debugAI", false)) console.log(typeof logMessage === "object" && logMessage.buffer ? CodepageManager.decode(logMessage) : logMessage);
+				};
+				ctx.MoveToOwner = (id) => {
+					if (isHoAI) Homun.reqMoveToOwner(id);
+					else Mercenary.reqMoveToOwner(id);
+				};
+				ctx.Move = (id, x, y) => {
+					if (isHoAI) Homun.reqMoveTo(id, x, y);
+					else Mercenary.reqMoveTo(id, x, y);
+				};
+				ctx.Attack = (id, targetGID) => {
+					if (isHoAI) Homun.reqAttack(id, targetGID);
+					else Mercenary.reqAttack(id, targetGID);
+				};
+				ctx.GetVJS = (V_, id) => {
+					const entity = EntityManager.get(Number(id));
+					switch (V_) {
+						case 0: return SessionStorage_default.AID;
+						case 1:
+						case 13: {
+							let posX = -1, posY = -1;
+							if (entity && entity.position) {
+								posX = parseInt(entity.position[0]);
+								posY = parseInt(entity.position[1]);
+							}
+							return [
+								V_,
+								posX,
+								posY
+							];
+						}
+						case 2: return 1;
+						case 3: return entity ? entity.action : 0;
+						case 4: return entity ? entity.attack_range : 1;
+						case 5: return entity && entity.targetGID && entity.targetGID > 0 ? entity.targetGID : -1;
+						case 6: return entity ? entity.attack_range : 1;
+						case 7: return entity ? entity.job % 6e3 : -1;
+						case 8: return entity.life.hp || -1;
+						case 9: return entity.life.sp || -1;
+						case 10: return entity.life.hp_max || -1;
+						case 11: return entity.life.sp_max || -1;
+						case 12:
+							if (entity === null) return 0;
+							return Number((entity.job + "").substring(1));
+						case 14:
+							if (entity !== null) return entity.attack_range || 1;
+							return 1;
+						default:
+							if (Configs.get("debugAI", false)) console.error("unknown V_ ", V_, entity);
+							return 0;
+					}
+				};
+				function distance(x1, y1, x2, y2) {
+					const dx = x2 - x1;
+					const dy = y2 - y1;
+					return Math.sqrt(dx * dx + dy * dy);
+				}
+				function canUseAISkill(entity) {
+					if (!entity || entity.action === entity.ACTION.DIE || entity.action === entity.ACTION.HURT) return false;
+					return [
+						entity.ACTION.IDLE,
+						entity.ACTION.WALK,
+						entity.ACTION.ATTACK,
+						entity.ACTION.ATTACK2,
+						entity.ACTION.ATTACK3
+					].some((action) => action >= 0 && action === entity.action);
+				}
+				ctx.GetActors = function() {
+					AIDriver.exec("status = MyState", isHoAI);
+					const res = [0];
+					EntityManager.forEach((item) => {
+						res.push(item.GID);
+					});
+					if (res.length > 3) {
+						if (isHoAI ? AIDriver.HOM_AGGRESSIVE : AIDriver.MER_AGGRESSIVE) {
+							let closest = 0;
+							let lastDist = 32;
+							const thisentity = EntityManager.get(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId);
+							for (const item of res) if (item !== 0 && item !== SessionStorage_default.AID && item !== SessionStorage_default.homunId && item !== SessionStorage_default.mercId) {
+								const entity = EntityManager.get(item);
+								if (entity && (entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_MOB || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_ABR || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_BIONIC) && !entity.isDead() && entity.action !== entity.ACTION.DIE && entity.isVisible()) {
+									const dist = distance(thisentity.position[0], thisentity.position[1], entity.position[0], entity.position[1]);
+									if (dist < lastDist) {
+										closest = item;
+										lastDist = dist;
+									}
+								}
+							}
+							if (closest > 0) AIDriver.setmsg(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId, "3," + closest);
+						}
+					}
+					return res;
+				};
+				ctx.GetTick = () => Date.now() - scriptStartTime;
+				ctx.GetMsgJS = (id) => {
+					let raw = "0";
+					if (id in msg) {
+						raw = msg[id];
+						delete msg[id];
+					}
+					return raw.split(",").map(Number);
+				};
+				ctx.GetResMsgJS = (id) => {
+					let raw = "0";
+					if (id in resMsg) {
+						raw = resMsg[id];
+						delete resMsg[id];
+					}
+					return raw.split(",").map(Number);
+				};
+				ctx.SkillObject = (homunId, level, skillId, targetID) => {
+					if (homunId === (isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId)) {
+						const homun = EntityManager.get(Number(homunId));
+						const target = EntityManager.get(Number(targetID));
+						if (!homun || !target) return 0;
+						const range = SkillInfo_generated_default[skillId].AttackRange[level - 1] + 1 || homun.attack_range || 1;
+						if (homun.position[0] > 0 && homun.position[1] > 0 && target.position[0] > 0 && target.position[1] > 0) {
+							if (range >= distance(homun.position[0], homun.position[1], target.position[0], target.position[1])) {
+								if (canUseAISkill(homun)) {
+									let pkt;
+									if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL2();
+									else pkt = new PACKET.CZ.USE_SKILL();
+									pkt.SKID = skillId;
+									pkt.selectedLevel = level;
+									pkt.targetID = targetID || SessionStorage_default.Entity.GID;
+									Network.sendPacket(pkt);
+								}
+							}
+						}
+					}
+					return 0;
+				};
+				ctx.SkillGround = (homunId, level, skillId, x, y) => {
+					if (homunId === (isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId)) {
+						const homun = EntityManager.get(Number(homunId));
+						if (homun && [
+							0,
+							1,
+							4
+						].includes(homun.action)) {
+							let pkt;
+							if (PacketVerManager_default.value >= 20190904) pkt = new PACKET.CZ.USE_SKILL_TOGROUND3();
+							else if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL_TOGROUND2();
+							else pkt = new PACKET.CZ.USE_SKILL_TOGROUND();
+							pkt.SKID = skillId;
+							pkt.selectedLevel = level;
+							pkt.xPos = x;
+							pkt.yPos = y;
+							Network.sendPacket(pkt);
+						}
+					}
+					return 0;
+				};
+				ctx.IsMonster = (id) => {
+					if (typeof id !== "number" || id <= 0) return 0;
+					const entity = EntityManager.get(Number(id));
+					if (entity && (entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_MOB || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_ABR || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_BIONIC) && !entity.isDead() && entity.action !== entity.ACTION.DIE && entity.isVisible()) return 1;
+					return 0;
+				};
+				ctx.TraceAI = (str) => {
+					if (Configs.get("debugAI", false)) console.log("TraceAI - ", typeof str === "object" && str.buffer ? CodepageManager.decode(str) : str);
+				};
+				ctx.status = null;
+				ctx.Trace = (logMessage) => {
+					if (Configs.get("debugAI", false)) console.debug(typeof logMessage === "object" && logMessage.buffer ? CodepageManager.decode(logMessage) : logMessage);
+				};
+				ctx.TraceValue = (val) => {
+					return val.toString();
+				};
+			}
+			if (homunculus) {
+				addCTX(defaultAI, true);
+				addCTX(customAI, true);
+				return;
+			}
+			addCTX(defaultAI, false);
+			addCTX(customAI, false);
+		}
+		static initAI = (homunculus) => {
+			const kind = homunculus ? "homunculus" : "mercenary";
+			if (AIDriver.ready[kind]) return Promise.resolve();
+			if (AIDriver.initialization[kind]) return AIDriver.initialization[kind];
+			const initialization = AIDriver.initializeAI(homunculus, AIDriver.generation[kind]);
+			AIDriver.initialization[kind] = initialization;
+			return initialization;
+		};
+		static initializeAI = async (homunculus, generation) => {
+			const kind = homunculus ? "homunculus" : "mercenary";
+			let loadedFiles = {};
+			let loadPromises = [];
+			let defaultAI;
+			let customAI;
+			function preloadFiles(fileList, lua) {
+				const ctx = lua.ctx;
+				function customRequire(modulePath, isJS = false) {
+					return new Promise((resolve, reject) => {
+						let filename;
+						if (!isJS) filename = CodepageManager.decode(modulePath);
+						else filename = modulePath;
+						filename = filename.replaceAll("\\\\", "/").replaceAll("\\", "/").replace("./", "").replace("pcall", "").replace("function", "").replace(".lua", "").trim();
+						if (filename.endsWith("end")) filename = filename.replace("end", "").trim();
+						filename = filename + ".lua";
+						if (filename.includes("Timeouts") || filename.includes("AggressiveRelogPath") || filename.startsWith("--")) {
+							resolve();
+							return;
+						}
+						if (loadedFiles[filename]) {
+							resolve();
+							return;
+						}
+						loadedFiles[filename] = filename;
+						Client.loadFile(filename, function(file) {
+							try {
+								if (Configs.get("debugAI", false)) console.log(`Loading file "${filename}"...`);
+								const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
+								const str = CodepageManager.decode(buffer);
+								const nestedPromises = [];
+								for (const line of str.split("\n")) if (line.includes("dofile")) {
+									const nestedPromise = customRequire(line.replace("dofile", "").replaceAll("(", "").replaceAll(")", "").replace(/['"]/g, "").trim(), true);
+									nestedPromises.push(nestedPromise);
+								}
+								Promise.all(nestedPromises).then(() => {
+									lua.mountFile("./" + filename, buffer);
+									resolve();
+								}).catch(reject);
+							} catch (error) {
+								console.error("[require] : ", error);
+								reject(error);
+							}
+						}, reject);
+					});
+				}
+				ctx.require = customRequire;
+				for (const filename of fileList) if (!loadedFiles[filename]) {
+					loadedFiles[filename] = filename;
+					const promise = new Promise((resolve, reject) => {
+						Client.loadFile(filename, function(file) {
+							try {
+								if (Configs.get("debugAI", false)) console.log("Loading file \"" + filename + "\"...");
+								const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
+								const text = CodepageManager.decode(buffer);
+								const nestedPromises = [];
+								for (const line of text.split("\n")) if (line.includes("dofile")) {
+									const nestedPromise = customRequire(line.replace("dofile", "").replaceAll("(", "").replaceAll(")", "").replace(/['"]/g, "").trim(), true);
+									nestedPromises.push(nestedPromise);
+								}
+								Promise.all(nestedPromises).then(() => {
+									lua.mountFile("./" + filename, buffer);
+									resolve();
+								}).catch(reject);
+							} catch (error) {
+								console.error("[prepareAIFiles] : ", error);
+								reject(error);
+							}
+						}, reject);
+					});
+					loadPromises.push(promise);
+				}
+			}
+			async function doFiles(fileList, lua) {
+				await Promise.all(loadPromises);
+				for (const key in fileList) await lua.doFileSync(fileList[key]);
+			}
+			try {
+				defaultAI = await DB.createLuaVM();
+				customAI = await DB.createLuaVM();
+				AIDriver.addCTX(homunculus, defaultAI, customAI);
+				let files = homunculus ? [
+					"AI/Util.lua",
+					"AI/Const.lua",
+					"AI/AI.lua"
+				] : [
+					"AI/Util.lua",
+					"AI/Const.lua",
+					"AI/AI_M.lua"
+				];
+				console.log(`Loading Default ${homunculus ? "HOAI" : "MERAI"}...`);
+				preloadFiles(files, defaultAI);
+				await doFiles(files, defaultAI);
+				loadedFiles = {};
+				loadPromises = [];
+				files = homunculus ? [
+					"AI/USER_AI/Util.lua",
+					"AI/USER_AI/Const.lua",
+					"AI/USER_AI/AI.lua"
+				] : [
+					"AI/USER_AI/Util.lua",
+					"AI/USER_AI/Const.lua",
+					"AI/USER_AI/AI_M.lua"
+				];
+				console.log(`Loading Custom ${homunculus ? "HOAI" : "MERAI"}...`);
+				preloadFiles(files, customAI);
+				await doFiles(files, customAI);
+			} catch (error) {
+				defaultAI?.global?.close?.();
+				customAI?.global?.close?.();
+				console.warn("[AIDriver] AI files not available, skipping AI initialization:", error.message || error);
+				throw error;
+			}
+			if (generation !== AIDriver.generation[kind]) {
+				defaultAI.global.close();
+				customAI.global.close();
+				return;
+			}
+			if (homunculus) {
+				AIDriver.default_HO_AI = defaultAI;
+				AIDriver.HO_AI = customAI;
+			} else {
+				AIDriver.default_MER_AI = defaultAI;
+				AIDriver.MER_AI = customAI;
+			}
+			AIDriver.ready[kind] = true;
+		};
+		static exec = (code, homunculus = true) => {
+			try {
+				const kind = homunculus ? "homunculus" : "mercenary";
+				if (!AIDriver.ready[kind]) {
+					AIDriver.initAI(homunculus).catch(() => {});
+					return;
+				}
+				let lua;
+				if (homunculus) {
+					if (SessionStorage_default.homCustomAI) lua = AIDriver.HO_AI;
+					else lua = AIDriver.default_HO_AI;
+				} else if (SessionStorage_default.merCustomAI) lua = AIDriver.MER_AI;
+				else lua = AIDriver.default_MER_AI;
+				lua.doStringSync(code);
+			} catch (e) {
+				console.error("%c[AI] %cAI Error: ", "color:#DD0078", "color:inherit", e);
+			}
+		};
+		static reset = (homunculus = null) => {
+			const kinds = homunculus === null ? [true, false] : [homunculus];
+			for (const isHomunculus of kinds) {
+				const kind = isHomunculus ? "homunculus" : "mercenary";
+				const instances = isHomunculus ? [AIDriver.HO_AI, AIDriver.default_HO_AI] : [AIDriver.MER_AI, AIDriver.default_MER_AI];
+				for (const lua of instances) lua?.global?.close?.();
+				if (isHomunculus) {
+					AIDriver.HO_AI = null;
+					AIDriver.default_HO_AI = null;
+				} else {
+					AIDriver.MER_AI = null;
+					AIDriver.default_MER_AI = null;
+				}
+				AIDriver.ready[kind] = false;
+				AIDriver.initialization[kind] = null;
+				AIDriver.generation[kind] += 1;
+			}
+		};
+	};
+}));
+//#endregion
+//#region src/UI/Components/Captcha/CaptchaSelector.html?raw
+var CaptchaSelector_default$2;
+var init_CaptchaSelector$2 = __esmMin((() => {
+	CaptchaSelector_default$2 = "<div id=\"CaptchaSelector\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"options\">\r\n			<input id=\"target_type_character\" type=\"radio\" name=\"target_type\" value=\"character\" checked />\r\n			<label for=\"target_type_character\"><ui-text msg=\"2887\"></ui-text></label>\r\n			<input id=\"target_type_range\" type=\"radio\" name=\"target_type\" value=\"range\" />\r\n			<label for=\"target_type_range\"><ui-text msg=\"2888\"></ui-text></label>\r\n			<input type=\"number\" class=\"range_val\" value=\"1\" min=\"1\" max=\"9\" />\r\n			<ui-button\r\n				class=\"btn btn_active\"\r\n				bg=\"btn_q_active.bmp\"\r\n				hover=\"btn_q_active_a.bmp\"\r\n				down=\"btn_q_active_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<ul class=\"player_list\">\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n		</ul>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n	<div class=\"character_info\">\r\n		<ui-button\r\n			class=\"base close-character\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n		<span class=\"character-name\"></span><br />\r\n		<span class=\"character-job\"></span>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Captcha/CaptchaSelector.css?raw
+var CaptchaSelector_default$1;
+var init_CaptchaSelector$1 = __esmMin((() => {
+	CaptchaSelector_default$1 = ":host {\r\n	position: absolute;\r\n	width: 210px;\r\n	height: 310px;\r\n	z-index: 50;\r\n}\r\n\r\n#CaptchaSelector {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #ffffff;\r\n	font-size: 12px;\r\n}\r\n\r\n#CaptchaSelector .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .titlebar {\r\n	width: 210px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaSelector .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaSelector .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaSelector .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaSelector .titlebar .right,\r\n#CaptchaSelector .character_info .close-character {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaSelector .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .container {\r\n	height: 293px;\r\n}\r\n\r\n#CaptchaSelector .options {\r\n	height: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaSelector .player_list {\r\n	height: 247px;\r\n	overflow-y: auto;\r\n	list-style: none;\r\n	margin: 0px 10px;\r\n	padding: 0;\r\n}\r\n\r\n#CaptchaSelector .player_list li {\r\n	width: 190px;\r\n	height: 24px;\r\n	margin: 2px 0;\r\n	background-color: #e5e5e5;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n\r\n#CaptchaSelector .footer {\r\n	display: flex;\r\n	justify-content: end;\r\n	align-items: center;\r\n	height: 24px;\r\n}\r\n\r\n#CaptchaSelector .range_val {\r\n	appearance: none;\r\n	width: 20px;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .range_val::-webkit-inner-spin-button,\r\n#CaptchaSelector .range_val::-webkit-outer-spin-button {\r\n	-webkit-appearance: none;\r\n	margin: 0;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .btn_active,\r\n#CaptchaSelector .footer .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n#CaptchaSelector .btn_active {\r\n	margin-left: 15px;\r\n}\r\n\r\n#CaptchaSelector .footer .btn {\r\n	margin-right: 10px;\r\n}\r\n\r\n#CaptchaSelector .character_info {\r\n	position: absolute;\r\n	bottom: 0;\r\n	left: 0;\r\n	width: 200px;\r\n	height: 35px;\r\n	background-color: #ffffff;\r\n	border-radius: 3px;\r\n	display: none;\r\n}\r\n\r\n#CaptchaSelector li a {\r\n	text-decoration: underline;\r\n	color: black;\r\n}\r\n\r\n#CaptchaSelector .player_list li .remove {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/Captcha/CaptchaSelector.js
+var CaptchaSelector, _preferences$34, _aidList, _aidInformation, _range, _active$2, CaptchaSelector_default;
+var init_CaptchaSelector = __esmMin((() => {
+	init_UIManager();
+	init_GUIComponent();
+	init_Preferences$1();
+	init_Renderer();
+	init_EntityManager();
+	init_SessionStorage();
+	init_DBManager();
+	init_JobDisplayNameTable();
+	init_Elements();
+	init_CaptchaSelector$2();
+	init_CaptchaSelector$1();
+	CaptchaSelector = new GUIComponent("CaptchaSelector", CaptchaSelector_default$1);
+	_preferences$34 = Preferences.get("CaptchaSelector", {
+		x: 230,
+		y: 295
+	}, 2);
+	_aidList = [];
+	_aidInformation = [];
+	_range = 1;
+	_active$2 = false;
+	CaptchaSelector.render = () => CaptchaSelector_default$2;
+	CaptchaSelector.captureKeyEvents = true;
+	/**
+	* Initialize GUI
+	*/
+	CaptchaSelector.init = function init() {
+		this.draggable(".titlebar");
+		const root = this.getRoot();
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) closeBtn.addEventListener("click", () => this.remove());
+		const activeBtn = root.querySelector(".btn_active");
+		if (activeBtn) activeBtn.addEventListener("click", () => {
+			_active$2 = !_active$2;
+			if (_active$2) {
+				const checked = root.querySelector("input[name=\"target_type\"]:checked");
+				const type = checked ? checked.value : "character";
+				const rangeInput = root.querySelector(".range_val");
+				_range = parseInt(rangeInput ? rangeInput.value : "1", 10) || 1;
+				_range = Math.min(Math.max(1, _range), 9);
+				if (type === "character") {
+					SessionStorage_default.captchaGetIdOnEntityClick = true;
+					SessionStorage_default.captchaGetIdOnFloorClick = false;
+				} else if (type === "range") {
+					SessionStorage_default.captchaGetIdOnFloorClick = true;
+					SessionStorage_default.captchaGetIdOnFloorRange = _range;
+					SessionStorage_default.captchaGetIdOnEntityClick = false;
+				}
+			} else {
+				SessionStorage_default.captchaGetIdOnEntityClick = false;
+				SessionStorage_default.captchaGetIdOnFloorClick = false;
+			}
+		});
+		const okBtn = root.querySelector(".ok");
+		if (okBtn) okBtn.addEventListener("click", () => {
+			if (_aidList.length > 0) UIManager.showPromptBox(DB.getMessage(2876).replace("%d", _aidList.length), "ok", "cancel", () => {
+				CaptchaSelector.sendCaptchaToPlayers();
+			}, () => {});
+		});
+		const closeCharBtn = root.querySelector(".close-character");
+		if (closeCharBtn) closeCharBtn.addEventListener("click", () => {
+			const charInfo = root.querySelector(".character_info");
+			if (charInfo) charInfo.style.display = "none";
+		});
+	};
+	CaptchaSelector.onKeyDown = function onKeyDown(event) {
+		if (CaptchaSelector.isEditableFocused()) {
+			event.stopImmediatePropagation();
+			return true;
+		}
+		return true;
+	};
+	/**
+	* Append to DOM
+	*/
+	CaptchaSelector.onAppend = function onAppend() {
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$34.y), Renderer.height - this._host.offsetHeight)}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$34.x), Renderer.width - this._host.offsetWidth)}px`;
+	};
+	/**
+	* Remove data from UI
+	*/
+	CaptchaSelector.onRemove = function onRemove() {
+		_preferences$34.y = parseInt(this._host.style.top, 10);
+		_preferences$34.x = parseInt(this._host.style.left, 10);
+		_preferences$34.save();
+		const charInfo = this.getRoot().querySelector(".character_info");
+		if (charInfo) charInfo.style.display = "none";
+		this.cleanUIList();
+		_aidList = [];
+		_aidInformation = [];
+		_range = 1;
+		_active$2 = false;
+		SessionStorage_default.captchaGetIdOnEntityClick = false;
+		SessionStorage_default.captchaGetIdOnFloorClick = false;
+		SessionStorage_default.captchaGetIdOnFloorRange = 1;
+	};
+	/**
+	* Set player list
+	* @param {Array} players - List of player AIDs
+	*/
+	CaptchaSelector.setPlayers = function setPlayers(players) {
+		this.cleanUIList();
+		_aidInformation = [];
+		const root = this.getRoot();
+		const liElements = root.querySelectorAll(".player_list li");
+		players = players.filter((aid) => SessionStorage_default.Entity.GID !== aid);
+		for (let i = 0; i < players.length && i < liElements.length; i++) {
+			const li = liElements[i];
+			const entity = EntityManager.get(players[i]);
+			const name = entity?.display?.name ?? "未知";
+			const aid = players[i];
+			li.classList.add("player");
+			li.dataset.aid = aid;
+			li.innerHTML = "";
+			const removeBtn = document.createElement("ui-button");
+			removeBtn.classList.add("base", "remove");
+			removeBtn.setAttribute("bg", "basic_interface/sys_close_off.bmp");
+			removeBtn.setAttribute("hover", "basic_interface/sys_close_on.bmp");
+			removeBtn.dataset.aid = aid;
+			removeBtn.addEventListener("click", () => {
+				_aidList = _aidList.filter((item) => item !== aid);
+				CaptchaSelector.setPlayers(_aidList);
+			});
+			li.appendChild(removeBtn);
+			const span = document.createElement("span");
+			const link = document.createElement("a");
+			link.dataset.aid = aid;
+			link.textContent = name;
+			link.addEventListener("click", () => {
+				const charEntity = EntityManager.get(aid);
+				const charName = charEntity?.display?.name ?? "未知";
+				const charJob = getJobDisplayName(charEntity?._job ?? 0);
+				const charInfo = root.querySelector(".character_info");
+				if (charInfo) {
+					const nameEl = charInfo.querySelector(".character-name");
+					if (nameEl) nameEl.textContent = charName;
+					const jobEl = charInfo.querySelector(".character-job");
+					if (jobEl) jobEl.textContent = charJob;
+					charInfo.style.top = `${li.offsetTop}px`;
+					charInfo.style.left = "0px";
+					charInfo.style.display = "block";
+				}
+			});
+			span.appendChild(link);
+			li.appendChild(document.createTextNode(" "));
+			li.appendChild(span);
+			_aidInformation.push({
+				aid,
+				name,
+				job: getJobDisplayName(entity?._job ?? 0)
+			});
+		}
+		_aidList = players;
+	};
+	CaptchaSelector.cleanUIList = function cleanList() {
+		this.getRoot().querySelectorAll(".player_list li").forEach((li) => {
+			li.innerHTML = "";
+			li.classList.remove("player");
+			delete li.dataset.aid;
+		});
+	};
+	CaptchaSelector.addPlayer = function addPlayer(aid) {
+		if (_aidList.includes(aid)) return;
+		_aidList.push(aid);
+		CaptchaSelector.setPlayers(_aidList);
+	};
+	CaptchaSelector.requestPlayersIds = function requestPlayersIds(xPos, yPos) {
+		if (CaptchaSelector.requestPlayersIdsInRange) CaptchaSelector.requestPlayersIdsInRange(xPos, yPos, _range);
+	};
+	CaptchaSelector.sendCaptchaToPlayers = function sendCaptchaToPlayers() {
+		_aidList.forEach((aid) => {
+			if (CaptchaSelector.sendCaptchaToPlayer) CaptchaSelector.sendCaptchaToPlayer(aid);
+		});
+		this.cleanUIList();
+		_aidList = [];
+	};
+	/**
+	* Callbacks
+	*/
+	CaptchaSelector.requestPlayersIdsInRange = null;
+	CaptchaSelector.sendCaptchaToPlayer = null;
+	CaptchaSelector_default = UIManager.addComponent(CaptchaSelector);
+}));
+//#endregion
+//#region src/Vendors/html2canvas.js
+var html2canvas, html2canvas_default;
+var init_html2canvas = __esmMin((() => {
+	/**
+	@license html2canvas v0.34 <http://html2canvas.hertzen.com>
+	Copyright (c) 2011 Niklas von Hertzen. All rights reserved.
+	http://www.twitter.com/niklasvh
+	
+	Released under MIT License
+	*/
+	(function(window, document, undefined) {
+		"use strict";
+		let _html2canvas = {}, previousElement, computedCSS;
+		function h2clog(a) {
+			if (_html2canvas.logging && window.console && window.console.log) window.console.log(a);
+		}
+		_html2canvas.Util = {};
+		_html2canvas.Util.backgroundImage = function(src) {
+			if (/data:image\/.*;base64,/i.test(src) || /^(-webkit|-moz|linear-gradient|-o-)/.test(src)) return src;
+			if (src.toLowerCase().substr(0, 5) === "url(\"") {
+				src = src.substr(5);
+				src = src.substr(0, src.length - 2);
+			} else {
+				src = src.substr(4);
+				src = src.substr(0, src.length - 1);
+			}
+			return src;
+		};
+		_html2canvas.Util.Bounds = function getBounds(el) {
+			let clientRect, bounds = {};
+			if (el.getBoundingClientRect) {
+				clientRect = el.getBoundingClientRect();
+				bounds.top = clientRect.top;
+				bounds.bottom = clientRect.bottom || clientRect.top + clientRect.height;
+				bounds.left = clientRect.left;
+				bounds.width = clientRect.width || clientRect.right - clientRect.left;
+				bounds.height = clientRect.height || clientRect.bottom - clientRect.top;
+				return bounds;
+			}
+		};
+		_html2canvas.Util.getCSS = function(el, attribute) {
+			let val;
+			function toPX(attribute, val) {
+				let rsLeft = el.runtimeStyle && el.runtimeStyle[attribute], left, style = el.style;
+				if (!/^-?[0-9]+\.?[0-9]*(?:px)?$/i.test(val) && /^-?\d/.test(val)) {
+					left = style.left;
+					if (rsLeft) el.runtimeStyle.left = el.currentStyle.left;
+					style.left = attribute === "fontSize" ? "1em" : val || 0;
+					val = style.pixelLeft + "px";
+					style.left = left;
+					if (rsLeft) el.runtimeStyle.left = rsLeft;
+				}
+				if (!/^(thin|medium|thick)$/i.test(val)) return Math.round(parseFloat(val)) + "px";
+				return val;
+			}
+			if (window.getComputedStyle) {
+				if (previousElement !== el) computedCSS = document.defaultView.getComputedStyle(el, null);
+				val = computedCSS[attribute];
+				if (attribute === "backgroundPosition") {
+					val = (val.split(",")[0] || "0 0").split(" ");
+					val[0] = val[0].indexOf("%") === -1 ? toPX(attribute + "X", val[0]) : val[0];
+					val[1] = val[1] === undefined ? val[0] : val[1];
+					val[1] = val[1].indexOf("%") === -1 ? toPX(attribute + "Y", val[1]) : val[1];
+				} else if (/border(Top|Bottom)(Left|Right)Radius/.test(attribute)) {
+					let arr = val.split(" ");
+					if (arr.length <= 1) arr[1] = arr[0];
+					arr[0] = parseInt(arr[0], 10);
+					arr[1] = parseInt(arr[1], 10);
+					val = arr;
+				}
+			} else if (el.currentStyle) {
+				if (attribute === "backgroundPosition") val = [toPX(attribute + "X", el.currentStyle[attribute + "X"]), toPX(attribute + "Y", el.currentStyle[attribute + "Y"])];
+				else {
+					val = toPX(attribute, el.currentStyle[attribute]);
+					if (/^(border)/i.test(attribute) && /^(medium|thin|thick)$/i.test(val)) switch (val) {
+						case "thin":
+							val = "1px";
+							break;
+						case "medium":
+							val = "0px";
+							break;
+						case "thick": val = "5px";
+					}
+				}
+			}
+			return val;
+		};
+		_html2canvas.Util.BackgroundPosition = function(el, bounds, image) {
+			let bgposition = _html2canvas.Util.getCSS(el, "backgroundPosition"), topPos, left, percentage, val;
+			if (bgposition.length === 1) {
+				val = bgposition;
+				bgposition = [];
+				bgposition[0] = val;
+				bgposition[1] = val;
+			}
+			if (bgposition[0].toString().indexOf("%") !== -1) {
+				percentage = parseFloat(bgposition[0]) / 100;
+				left = bounds.width * percentage - image.width * percentage;
+			} else left = parseInt(bgposition[0], 10);
+			if (bgposition[1].toString().indexOf("%") !== -1) {
+				percentage = parseFloat(bgposition[1]) / 100;
+				topPos = bounds.height * percentage - image.height * percentage;
+			} else topPos = parseInt(bgposition[1], 10);
+			return {
+				top: topPos,
+				left
+			};
+		};
+		_html2canvas.Util.Extend = function(options, defaults) {
+			for (var key in options) if (options.hasOwnProperty(key)) defaults[key] = options[key];
+			return defaults;
+		};
+		_html2canvas.Util.Children = function(elem) {
+			let children;
+			try {
+				children = elem.nodeName && elem.nodeName.toUpperCase() === "IFRAME" ? elem.contentDocument || elem.contentWindow.document : (function(array) {
+					let ret = [];
+					if (array !== null) (function(first, second) {
+						let i = first.length, j = 0;
+						if (typeof second.length === "number") for (var l = second.length; j < l; j++) first[i++] = second[j];
+						else while (second[j] !== undefined) first[i++] = second[j++];
+						first.length = i;
+						return first;
+					})(ret, array);
+					return ret;
+				})(elem.childNodes);
+			} catch (ex) {
+				h2clog("html2canvas.Util.Children failed with exception: " + ex.message);
+				children = [];
+			}
+			return children;
+		};
+		(function() {
+			_html2canvas.Generate = {};
+			let reGradients = [
+				/^(-webkit-linear-gradient)\(([a-z\s]+)([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-o-linear-gradient)\(([a-z\s]+)([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-webkit-gradient)\((linear|radial),\s((?:\d{1,3}%?)\s(?:\d{1,3}%?),\s(?:\d{1,3}%?)\s(?:\d{1,3}%?))([\w\d\.\s,%\(\)-]+)\)$/,
+				/^(-moz-linear-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?))([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-webkit-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s([a-z-]+)([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-moz-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s?([a-z-]*)([\w\d\.\s,%\(\)]+)\)$/,
+				/^(-o-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s([a-z-]+)([\w\d\.\s,%\(\)]+)\)$/
+			];
+			_html2canvas.Generate.parseGradient = function(css, bounds) {
+				let gradient, i, len = reGradients.length, m1, stop, m2, m2Len, step, m3;
+				for (i = 0; i < len; i += 1) {
+					m1 = css.match(reGradients[i]);
+					if (m1) break;
+				}
+				if (m1) switch (m1[1]) {
+					case "-webkit-linear-gradient":
+					case "-o-linear-gradient":
+						gradient = {
+							type: "linear",
+							x0: null,
+							y0: null,
+							x1: null,
+							y1: null,
+							colorStops: []
+						};
+						m2 = m1[2].match(/\w+/g);
+						if (m2) {
+							m2Len = m2.length;
+							for (i = 0; i < m2Len; i += 1) switch (m2[i]) {
+								case "top":
+									gradient.y0 = 0;
+									gradient.y1 = bounds.height;
+									break;
+								case "right":
+									gradient.x0 = bounds.width;
+									gradient.x1 = 0;
+									break;
+								case "bottom":
+									gradient.y0 = bounds.height;
+									gradient.y1 = 0;
+									break;
+								case "left":
+									gradient.x0 = 0;
+									gradient.x1 = bounds.width;
+							}
+						}
+						if (gradient.x0 === null && gradient.x1 === null) gradient.x0 = gradient.x1 = bounds.width / 2;
+						if (gradient.y0 === null && gradient.y1 === null) gradient.y0 = gradient.y1 = bounds.height / 2;
+						m2 = m1[3].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}(?:%|px))?)+/g);
+						if (m2) {
+							m2Len = m2.length;
+							step = 1 / Math.max(m2Len - 1, 1);
+							for (i = 0; i < m2Len; i += 1) {
+								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%|px)?/);
+								if (m3[2]) {
+									stop = parseFloat(m3[2]);
+									if (m3[3] === "%") stop /= 100;
+									else stop /= bounds.width;
+								} else stop = i * step;
+								gradient.colorStops.push({
+									color: m3[1],
+									stop
+								});
+							}
+						}
+						break;
+					case "-webkit-gradient":
+						gradient = {
+							type: m1[2] === "radial" ? "circle" : m1[2],
+							x0: 0,
+							y0: 0,
+							x1: 0,
+							y1: 0,
+							colorStops: []
+						};
+						m2 = m1[3].match(/(\d{1,3})%?\s(\d{1,3})%?,\s(\d{1,3})%?\s(\d{1,3})%?/);
+						if (m2) {
+							gradient.x0 = m2[1] * bounds.width / 100;
+							gradient.y0 = m2[2] * bounds.height / 100;
+							gradient.x1 = m2[3] * bounds.width / 100;
+							gradient.y1 = m2[4] * bounds.height / 100;
+						}
+						m2 = m1[4].match(/((?:from|to|color-stop)\((?:[0-9\.]+,\s)?(?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)\))+/g);
+						if (m2) {
+							m2Len = m2.length;
+							for (i = 0; i < m2Len; i += 1) {
+								m3 = m2[i].match(/(from|to|color-stop)\(([0-9\.]+)?(?:,\s)?((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\)/);
+								stop = parseFloat(m3[2]);
+								if (m3[1] === "from") stop = 0;
+								if (m3[1] === "to") stop = 1;
+								gradient.colorStops.push({
+									color: m3[3],
+									stop
+								});
+							}
+						}
+						break;
+					case "-moz-linear-gradient":
+						gradient = {
+							type: "linear",
+							x0: 0,
+							y0: 0,
+							x1: 0,
+							y1: 0,
+							colorStops: []
+						};
+						m2 = m1[2].match(/(\d{1,3})%?\s(\d{1,3})%?/);
+						if (m2) {
+							gradient.x0 = m2[1] * bounds.width / 100;
+							gradient.y0 = m2[2] * bounds.height / 100;
+							gradient.x1 = bounds.width - gradient.x0;
+							gradient.y1 = bounds.height - gradient.y0;
+						}
+						m2 = m1[3].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}%)?)+/g);
+						if (m2) {
+							m2Len = m2.length;
+							step = 1 / Math.max(m2Len - 1, 1);
+							for (i = 0; i < m2Len; i += 1) {
+								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%)?/);
+								if (m3[2]) {
+									stop = parseFloat(m3[2]);
+									if (m3[3]) stop /= 100;
+								} else stop = i * step;
+								gradient.colorStops.push({
+									color: m3[1],
+									stop
+								});
+							}
+						}
+						break;
+					case "-webkit-radial-gradient":
+					case "-moz-radial-gradient":
+					case "-o-radial-gradient":
+						gradient = {
+							type: "circle",
+							x0: 0,
+							y0: 0,
+							x1: bounds.width,
+							y1: bounds.height,
+							cx: 0,
+							cy: 0,
+							rx: 0,
+							ry: 0,
+							colorStops: []
+						};
+						m2 = m1[2].match(/(\d{1,3})%?\s(\d{1,3})%?/);
+						if (m2) {
+							gradient.cx = m2[1] * bounds.width / 100;
+							gradient.cy = m2[2] * bounds.height / 100;
+						}
+						m2 = m1[3].match(/\w+/);
+						m3 = m1[4].match(/[a-z-]*/);
+						if (m2 && m3) switch (m3[0]) {
+							case "farthest-corner":
+							case "cover":
+							case "":
+								let tl = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.cy, 2));
+								let tr = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
+								let br = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
+								let bl = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.cy, 2));
+								gradient.rx = gradient.ry = Math.max(tl, tr, br, bl);
+								break;
+							case "closest-corner":
+								let tl2 = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.cy, 2));
+								let tr2 = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
+								let br2 = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
+								let bl2 = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.cy, 2));
+								gradient.rx = gradient.ry = Math.min(tl2, tr2, br2, bl2);
+								break;
+							case "farthest-side":
+								if (m2[0] === "circle") gradient.rx = gradient.ry = Math.max(gradient.cx, gradient.cy, gradient.x1 - gradient.cx, gradient.y1 - gradient.cy);
+								else {
+									gradient.type = m2[0];
+									gradient.rx = Math.max(gradient.cx, gradient.x1 - gradient.cx);
+									gradient.ry = Math.max(gradient.cy, gradient.y1 - gradient.cy);
+								}
+								break;
+							case "closest-side":
+							case "contain": if (m2[0] === "circle") gradient.rx = gradient.ry = Math.min(gradient.cx, gradient.cy, gradient.x1 - gradient.cx, gradient.y1 - gradient.cy);
+							else {
+								gradient.type = m2[0];
+								gradient.rx = Math.min(gradient.cx, gradient.x1 - gradient.cx);
+								gradient.ry = Math.min(gradient.cy, gradient.y1 - gradient.cy);
+							}
+						}
+						m2 = m1[5].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}(?:%|px))?)+/g);
+						if (m2) {
+							m2Len = m2.length;
+							step = 1 / Math.max(m2Len - 1, 1);
+							for (i = 0; i < m2Len; i += 1) {
+								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%|px)?/);
+								if (m3[2]) {
+									stop = parseFloat(m3[2]);
+									if (m3[3] === "%") stop /= 100;
+									else stop /= bounds.width;
+								} else stop = i * step;
+								gradient.colorStops.push({
+									color: m3[1],
+									stop
+								});
+							}
+						}
+				}
+				return gradient;
+			};
+			_html2canvas.Generate.Gradient = function(src, bounds) {
+				let canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), gradient, grad, i, len, img;
+				canvas.width = bounds.width;
+				canvas.height = bounds.height;
+				gradient = _html2canvas.Generate.parseGradient(src, bounds);
+				img = new Image();
+				if (gradient) {
+					if (gradient.type === "linear") {
+						grad = ctx.createLinearGradient(gradient.x0, gradient.y0, gradient.x1, gradient.y1);
+						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
+							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
+						} catch (e) {
+							h2clog([
+								"failed to add color stop: ",
+								e,
+								"; tried to add: ",
+								gradient.colorStops[i],
+								"; stop: ",
+								i,
+								"; in: ",
+								src
+							]);
+						}
+						ctx.fillStyle = grad;
+						ctx.fillRect(0, 0, bounds.width, bounds.height);
+						img.src = canvas.toDataURL();
+					} else if (gradient.type === "circle") {
+						grad = ctx.createRadialGradient(gradient.cx, gradient.cy, 0, gradient.cx, gradient.cy, gradient.rx);
+						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
+							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
+						} catch (e) {
+							h2clog([
+								"failed to add color stop: ",
+								e,
+								"; tried to add: ",
+								gradient.colorStops[i],
+								"; stop: ",
+								i,
+								"; in: ",
+								src
+							]);
+						}
+						ctx.fillStyle = grad;
+						ctx.fillRect(0, 0, bounds.width, bounds.height);
+						img.src = canvas.toDataURL();
+					} else if (gradient.type === "ellipse") {
+						let canvasRadial = document.createElement("canvas"), ctxRadial = canvasRadial.getContext("2d"), ri = Math.max(gradient.rx, gradient.ry), di = ri * 2, imgRadial;
+						canvasRadial.width = canvasRadial.height = di;
+						grad = ctxRadial.createRadialGradient(gradient.rx, gradient.ry, 0, gradient.rx, gradient.ry, ri);
+						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
+							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
+						} catch (e) {
+							h2clog([
+								"failed to add color stop: ",
+								e,
+								"; tried to add: ",
+								gradient.colorStops[i],
+								"; stop: ",
+								i,
+								"; in: ",
+								src
+							]);
+						}
+						ctxRadial.fillStyle = grad;
+						ctxRadial.fillRect(0, 0, di, di);
+						ctx.fillStyle = gradient.colorStops[i - 1].color;
+						ctx.fillRect(0, 0, canvas.width, canvas.height);
+						imgRadial = new Image();
+						imgRadial.onload = function() {
+							ctx.drawImage(imgRadial, gradient.cx - gradient.rx, gradient.cy - gradient.ry, 2 * gradient.rx, 2 * gradient.ry);
+							img.src = canvas.toDataURL();
+						};
+						imgRadial.src = canvasRadial.toDataURL();
+					}
+				}
+				return img;
+			};
+			_html2canvas.Generate.ListAlpha = function(number) {
+				let tmp = "", modulus;
+				do {
+					modulus = number % 26;
+					tmp = String.fromCharCode(modulus + 64) + tmp;
+					number = number / 26;
+				} while (number * 26 > 26);
+				return tmp;
+			};
+			_html2canvas.Generate.ListRoman = function(number) {
+				let romanArray = [
+					"M",
+					"CM",
+					"D",
+					"CD",
+					"C",
+					"XC",
+					"L",
+					"XL",
+					"X",
+					"IX",
+					"V",
+					"IV",
+					"I"
+				], decimal = [
+					1e3,
+					900,
+					500,
+					400,
+					100,
+					90,
+					50,
+					40,
+					10,
+					9,
+					5,
+					4,
+					1
+				], roman = "", v, len = romanArray.length;
+				if (number <= 0 || number >= 4e3) return number;
+				for (v = 0; v < len; v += 1) while (number >= decimal[v]) {
+					number -= decimal[v];
+					roman += romanArray[v];
+				}
+				return roman;
+			};
+		})();
+		_html2canvas.Parse = function(images, options) {
+			window.scroll(0, 0);
+			let support = {
+				rangeBounds: false,
+				svgRendering: options.svgRendering && (function() {
+					let img = new Image(), canvas = document.createElement("canvas"), ctx = canvas.getContext === undefined ? false : canvas.getContext("2d");
+					if (ctx === false) return false;
+					canvas.width = canvas.height = 10;
+					img.src = [
+						"data:image/svg+xml,",
+						"<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'>",
+						"<foreignObject width='10' height='10'>",
+						"<div xmlns='http://www.w3.org/1999/xhtml' style='width:10;height:10;'>",
+						"sup",
+						"</div>",
+						"</foreignObject>",
+						"</svg>"
+					].join("");
+					try {
+						ctx.drawImage(img, 0, 0);
+						canvas.toDataURL();
+					} catch (e) {
+						return false;
+					}
+					h2clog("html2canvas: Parse: SVG powered rendering available");
+					return true;
+				})()
+			}, element = options.elements === undefined ? document.body : options.elements[0], numDraws = 0, fontData = {}, doc = element.ownerDocument, ignoreElementsRegExp = new RegExp("(" + options.ignoreElements + ")"), body = doc.body, r, testElement, rangeBounds, rangeHeight, stack, ctx, docDim, i, children, childrenLen;
+			function docSize() {
+				return {
+					width: Math.max(Math.max(doc.body.scrollWidth, doc.documentElement.scrollWidth), Math.max(doc.body.offsetWidth, doc.documentElement.offsetWidth), Math.max(doc.body.clientWidth, doc.documentElement.clientWidth)),
+					height: Math.max(Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight), Math.max(doc.body.offsetHeight, doc.documentElement.offsetHeight), Math.max(doc.body.clientHeight, doc.documentElement.clientHeight))
+				};
+			}
+			images = images || {};
+			if (doc.createRange) {
+				r = doc.createRange();
+				if (r.getBoundingClientRect) {
+					testElement = doc.createElement("boundtest");
+					testElement.style.height = "123px";
+					testElement.style.display = "block";
+					body.appendChild(testElement);
+					r.selectNode(testElement);
+					rangeBounds = r.getBoundingClientRect();
+					rangeHeight = rangeBounds.height;
+					if (rangeHeight === 123) support.rangeBounds = true;
+					body.removeChild(testElement);
+				}
+			}
+			let getCSS = _html2canvas.Util.getCSS;
+			function getCSSInt(element, attribute) {
+				let val = parseInt(getCSS(element, attribute), 10);
+				return isNaN(val) ? 0 : val;
+			}
+			function renderRect(ctx, x, y, w, h, bgcolor) {
+				if (bgcolor !== "transparent") {
+					ctx.setVariable("fillStyle", bgcolor);
+					ctx.fillRect(x, y, w, h);
+					numDraws += 1;
+				}
+			}
+			function textTransform(text, transform) {
+				switch (transform) {
+					case "lowercase": return text.toLowerCase();
+					case "capitalize": return text.replace(/(^|\s|:|-|\(|\))([a-z])/g, function(m, p1, p2) {
+						if (m.length > 0) return p1 + p2.toUpperCase();
+					});
+					case "uppercase": return text.toUpperCase();
+					default: return text;
+				}
+			}
+			function trimText(text) {
+				return text.replace(/^\s*/g, "").replace(/\s*$/g, "");
+			}
+			function fontMetrics(font, fontSize) {
+				if (fontData[font + "-" + fontSize] !== undefined) return fontData[font + "-" + fontSize];
+				let container = doc.createElement("div"), img = doc.createElement("img"), span = doc.createElement("span"), baseline, middle, metricsObj;
+				container.style.visibility = "hidden";
+				container.style.fontFamily = font;
+				container.style.fontSize = fontSize;
+				container.style.margin = 0;
+				container.style.padding = 0;
+				body.appendChild(container);
+				img.src = "data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACwAAAAAAQABAAACAkQBADs=";
+				img.width = 1;
+				img.height = 1;
+				img.style.margin = 0;
+				img.style.padding = 0;
+				img.style.verticalAlign = "baseline";
+				span.style.fontFamily = font;
+				span.style.fontSize = fontSize;
+				span.style.margin = 0;
+				span.style.padding = 0;
+				span.appendChild(doc.createTextNode("Hidden Text"));
+				container.appendChild(span);
+				container.appendChild(img);
+				baseline = img.offsetTop - span.offsetTop + 1;
+				container.removeChild(span);
+				container.appendChild(doc.createTextNode("Hidden Text"));
+				container.style.lineHeight = "normal";
+				img.style.verticalAlign = "super";
+				middle = img.offsetTop - container.offsetTop + 1;
+				metricsObj = {
+					baseline,
+					lineWidth: 1,
+					middle
+				};
+				fontData[font + "-" + fontSize] = metricsObj;
+				body.removeChild(container);
+				return metricsObj;
+			}
+			function drawText(currentText, x, y, ctx) {
+				if (trimText(currentText).length > 0) {
+					ctx.fillText(currentText, x, y);
+					numDraws += 1;
+				}
+			}
+			function renderText(el, textNode, stack) {
+				let ctx = stack.ctx, family = getCSS(el, "fontFamily"), size = getCSS(el, "fontSize"), color = getCSS(el, "color"), text_decoration = getCSS(el, "textDecoration"), text_align = getCSS(el, "textAlign"), letter_spacing = getCSS(el, "letterSpacing"), bounds, text, metrics, renderList, listLen, bold = getCSS(el, "fontWeight"), font_style = getCSS(el, "fontStyle"), font_variant = getCSS(el, "fontVariant"), newTextNode, textValue, textOffset = 0, oldTextNode, c, range, parent, wrapElement, backupText;
+				textNode.nodeValue = textTransform(textNode.nodeValue, getCSS(el, "textTransform"));
+				text = trimText(textNode.nodeValue);
+				if (text.length > 0) {
+					if (text_decoration !== "none") metrics = fontMetrics(family, size);
+					text_align = text_align.replace(["-webkit-auto"], ["auto"]);
+					if (options.letterRendering === false && /^(left|right|justify|auto)$/.test(text_align) && /^(normal|none)$/.test(letter_spacing)) renderList = textNode.nodeValue.split(/(\b| )/);
+					else renderList = textNode.nodeValue.split("");
+					switch (parseInt(bold, 10)) {
+						case 401:
+							bold = "bold";
+							break;
+						case 400: bold = "normal";
+					}
+					ctx.setVariable("fillStyle", color);
+					ctx.setVariable("font", font_style + " " + font_variant + " " + bold + " " + size + " " + family);
+					ctx.setVariable("textAlign", "left");
+					oldTextNode = textNode;
+					for (c = 0, listLen = renderList.length; c < listLen; c += 1) {
+						textValue = null;
+						if (support.rangeBounds) {
+							if (text_decoration !== "none" || trimText(renderList[c]).length !== 0) {
+								textValue = renderList[c];
+								if (doc.createRange) {
+									range = doc.createRange();
+									range.setStart(textNode, textOffset);
+									range.setEnd(textNode, textOffset + textValue.length);
+								} else range = body.createTextRange();
+								if (range.getBoundingClientRect()) bounds = range.getBoundingClientRect();
+								else bounds = {};
+							}
+						} else {
+							if (typeof oldTextNode.nodeValue !== "string") continue;
+							newTextNode = oldTextNode.splitText(renderList[c].length);
+							parent = oldTextNode.parentNode;
+							wrapElement = doc.createElement("wrapper");
+							backupText = oldTextNode.cloneNode(true);
+							wrapElement.appendChild(oldTextNode.cloneNode(true));
+							parent.replaceChild(wrapElement, oldTextNode);
+							bounds = _html2canvas.Util.Bounds(wrapElement);
+							textValue = oldTextNode.nodeValue;
+							oldTextNode = newTextNode;
+							parent.replaceChild(backupText, wrapElement);
+						}
+						if (textValue !== null) drawText(textValue, bounds.left, bounds.bottom, ctx);
+						switch (text_decoration) {
+							case "underline":
+								renderRect(ctx, bounds.left, Math.round(bounds.top + metrics.baseline + metrics.lineWidth), bounds.width, 1, color);
+								break;
+							case "overline":
+								renderRect(ctx, bounds.left, bounds.top, bounds.width, 1, color);
+								break;
+							case "line-through": renderRect(ctx, bounds.left, Math.ceil(bounds.top + metrics.middle + metrics.lineWidth), bounds.width, 1, color);
+						}
+						textOffset += renderList[c].length;
+					}
+				}
+			}
+			function listPosition(element, val) {
+				let boundElement = doc.createElement("boundelement"), type, bounds;
+				boundElement.style.display = "inline";
+				type = element.style.listStyleType;
+				element.style.listStyleType = "none";
+				boundElement.appendChild(doc.createTextNode(val));
+				element.insertBefore(boundElement, element.firstChild);
+				bounds = _html2canvas.Util.Bounds(boundElement);
+				element.removeChild(boundElement);
+				element.style.listStyleType = type;
+				return bounds;
+			}
+			function elementIndex(el) {
+				let i = -1, count = 1, childs = el.parentNode.childNodes;
+				if (el.parentNode) {
+					while (childs[++i] !== el) if (childs[i].nodeType === 1) count++;
+					return count;
+				} else return -1;
+			}
+			function renderListItem(element, stack, elBounds) {
+				let position = getCSS(element, "listStylePosition"), x, y, type = getCSS(element, "listStyleType"), currentIndex, text, listBounds, bold = getCSS(element, "fontWeight");
+				if (/^(decimal|decimal-leading-zero|upper-alpha|upper-latin|upper-roman|lower-alpha|lower-greek|lower-latin|lower-roman)$/i.test(type)) {
+					currentIndex = elementIndex(element);
+					switch (type) {
+						case "decimal":
+							text = currentIndex;
+							break;
+						case "decimal-leading-zero":
+							if (currentIndex.toString().length === 1) text = currentIndex = "0" + currentIndex.toString();
+							else text = currentIndex.toString();
+							break;
+						case "upper-roman":
+							text = _html2canvas.Generate.ListRoman(currentIndex);
+							break;
+						case "lower-roman":
+							text = _html2canvas.Generate.ListRoman(currentIndex).toLowerCase();
+							break;
+						case "lower-alpha":
+							text = _html2canvas.Generate.ListAlpha(currentIndex).toLowerCase();
+							break;
+						case "upper-alpha": text = _html2canvas.Generate.ListAlpha(currentIndex);
+					}
+					text += ". ";
+					listBounds = listPosition(element, text);
+					switch (bold) {
+						case 401:
+							bold = "bold";
+							break;
+						case 400: bold = "normal";
+					}
+					ctx.setVariable("fillStyle", getCSS(element, "color"));
+					ctx.setVariable("font", getCSS(element, "fontVariant") + " " + bold + " " + getCSS(element, "fontStyle") + " " + getCSS(element, "fontSize") + " " + getCSS(element, "fontFamily"));
+					if (position === "inside") {
+						ctx.setVariable("textAlign", "left");
+						x = elBounds.left;
+					} else return;
+					y = listBounds.bottom;
+					drawText(text, x, y, ctx);
+				}
+			}
+			function loadImage(src) {
+				let img = images[src];
+				if (img && img.succeeded === true) return img.img;
+				else return false;
+			}
+			function clipBounds(src, dst) {
+				let x = Math.max(src.left, dst.left), y = Math.max(src.top, dst.top), x2 = Math.min(src.left + src.width, dst.left + dst.width), y2 = Math.min(src.top + src.height, dst.top + dst.height);
+				return {
+					left: x,
+					top: y,
+					width: x2 - x,
+					height: y2 - y
+				};
+			}
+			function setZ(zIndex, parentZ) {
+				let newContext;
+				if (!parentZ) {
+					newContext = h2czContext(0);
+					return newContext;
+				}
+				if (zIndex !== "auto") {
+					newContext = h2czContext(zIndex);
+					parentZ.children.push(newContext);
+					return newContext;
+				}
+				return parentZ;
+			}
+			function renderBorders(el, ctx, bounds, clip) {
+				let x = bounds.left, y = bounds.top, w = bounds.width, h = bounds.height, borderSide, borderData, bx, by, bw, bh, i, borderArgs, borderBounds, borders = function(el) {
+					let borders = [], sides = [
+						"Top",
+						"Right",
+						"Bottom",
+						"Left"
+					], s = 0;
+					for (; s < 4; s += 1) borders.push({
+						width: getCSSInt(el, "border" + sides[s] + "Width"),
+						color: getCSS(el, "border" + sides[s] + "Color")
+					});
+					return borders;
+				}(el);
+				(function(el) {
+					let borders = [], sides = [
+						"TopLeft",
+						"TopRight",
+						"BottomRight",
+						"BottomLeft"
+					], s = 0;
+					for (; s < 4; s += 1) borders.push(getCSS(el, "border" + sides[s] + "Radius"));
+					return borders;
+				})(el);
+				for (borderSide = 0; borderSide < 4; borderSide += 1) {
+					borderData = borders[borderSide];
+					borderArgs = [];
+					if (borderData.width > 0) {
+						bx = x;
+						by = y;
+						bw = w;
+						bh = h - borders[2].width;
+						switch (borderSide) {
+							case 0:
+								bh = borders[0].width;
+								i = 0;
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw - borders[1].width,
+									by + bh
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + borders[3].width,
+									by + bh
+								];
+								break;
+							case 1:
+								bx = x + w - borders[1].width;
+								bw = borders[1].width;
+								i = 0;
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by + borders[0].width
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by + bh + borders[2].width
+								];
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by + bh
+								];
+								break;
+							case 2:
+								by = by + h - borders[2].width;
+								bh = borders[2].width;
+								i = 0;
+								borderArgs[i++] = [
+									"line",
+									bx + borders[3].width,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw - borders[2].width,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by + bh
+								];
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by + bh
+								];
+								break;
+							case 3:
+								bw = borders[3].width;
+								i = 0;
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by + borders[0].width
+								];
+								borderArgs[i++] = [
+									"line",
+									bx + bw,
+									by + bh
+								];
+								borderArgs[i++] = [
+									"line",
+									bx,
+									by + bh + borders[2].width
+								];
+						}
+						borderBounds = {
+							left: bx,
+							top: by,
+							width: bw,
+							height: bh
+						};
+						if (clip) borderBounds = clipBounds(borderBounds, clip);
+						if (borderBounds.width > 0 && borderBounds.height > 0) {
+							if (borderData.color !== "transparent") {
+								ctx.setVariable("fillStyle", borderData.color);
+								let shape = ctx.drawShape(), numBorderArgs = borderArgs.length;
+								for (i = 0; i < numBorderArgs; i++) shape[i === 0 ? "moveTo" : borderArgs[i][0] + "To"].apply(null, borderArgs[i].slice(1));
+								numDraws += 1;
+							}
+						}
+					}
+				}
+				return borders;
+			}
+			function renderFormValue(el, bounds, stack) {
+				let valueWrap = doc.createElement("valuewrap"), cssArr = [
+					"lineHeight",
+					"textAlign",
+					"fontFamily",
+					"color",
+					"fontSize",
+					"paddingLeft",
+					"paddingTop",
+					"width",
+					"height",
+					"border",
+					"borderLeftWidth",
+					"borderTopWidth"
+				], i, textValue, textNode, arrLen, style;
+				for (i = 0, arrLen = cssArr.length; i < arrLen; i += 1) {
+					style = cssArr[i];
+					try {
+						valueWrap.style[style] = getCSS(el, style);
+					} catch (e) {
+						h2clog("html2canvas: Parse: Exception caught in renderFormValue: " + e.message);
+					}
+				}
+				valueWrap.style.borderColor = "black";
+				valueWrap.style.borderStyle = "solid";
+				valueWrap.style.display = "block";
+				valueWrap.style.position = "absolute";
+				if (/^(submit|reset|button|text|password)$/.test(el.type) || el.nodeName === "SELECT") valueWrap.style.lineHeight = getCSS(el, "height");
+				valueWrap.style.top = bounds.top + "px";
+				valueWrap.style.left = bounds.left + "px";
+				if (el.nodeName === "SELECT") textValue = el.options[el.selectedIndex].text;
+				else textValue = el.value;
+				textNode = doc.createTextNode(textValue);
+				valueWrap.appendChild(textNode);
+				body.appendChild(valueWrap);
+				renderText(el, textNode, stack);
+				body.removeChild(valueWrap);
+			}
+			function renderImage(ctx, image, sx, sy, sw, sh, dx, dy, dw, dh) {
+				ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
+				numDraws += 1;
+			}
+			function renderBackgroundRepeat(ctx, image, x, y, width, height, elx, ely) {
+				let sourceX = 0, sourceY = 0;
+				if (elx - x > 0) sourceX = elx - x;
+				if (ely - y > 0) sourceY = ely - y;
+				renderImage(ctx, image, sourceX, sourceY, width - sourceX, height - sourceY, x + sourceX, y + sourceY, width - sourceX, height - sourceY);
+			}
+			function renderBackgroundRepeatY(ctx, image, bgp, x, y, w, h) {
+				let height, width = Math.min(image.width, w), bgy;
+				bgp.top = bgp.top - Math.ceil(bgp.top / image.height) * image.height;
+				for (bgy = y + bgp.top; bgy < h + y;) {
+					if (Math.floor(bgy + image.height) > h + y) height = h + y - bgy;
+					else height = image.height;
+					renderBackgroundRepeat(ctx, image, x + bgp.left, bgy, width, height, x, y);
+					bgy = Math.floor(bgy + image.height);
+				}
+			}
+			function renderBackgroundRepeatX(ctx, image, bgp, x, y, w, h) {
+				let height = Math.min(image.height, h), width, bgx;
+				bgp.left = bgp.left - Math.ceil(bgp.left / image.width) * image.width;
+				for (bgx = x + bgp.left; bgx < w + x;) {
+					if (Math.floor(bgx + image.width) > w + x) width = w + x - bgx;
+					else width = image.width;
+					renderBackgroundRepeat(ctx, image, bgx, y + bgp.top, width, height, x, y);
+					bgx = Math.floor(bgx + image.width);
+				}
+			}
+			function renderBackground(el, bounds, ctx) {
+				let background_image = getCSS(el, "backgroundImage"), background_repeat = getCSS(el, "backgroundRepeat").split(",")[0], image, bgp, bgy, bgw, bgsx, bgsy, bgdx, bgdy, bgh, h, height, add;
+				if (!/data:image\/.*;base64,/i.test(background_image) && !/^(-webkit|-moz|linear-gradient|-o-)/.test(background_image)) background_image = background_image.split(",")[0];
+				if (typeof background_image !== "undefined" && /^(1|none)$/.test(background_image) === false) {
+					background_image = _html2canvas.Util.backgroundImage(background_image);
+					image = loadImage(background_image);
+					bgp = _html2canvas.Util.BackgroundPosition(el, bounds, image);
+					if (image) switch (background_repeat) {
+						case "repeat-x":
+							renderBackgroundRepeatX(ctx, image, bgp, bounds.left, bounds.top, bounds.width, bounds.height);
+							break;
+						case "repeat-y":
+							renderBackgroundRepeatY(ctx, image, bgp, bounds.left, bounds.top, bounds.width, bounds.height);
+							break;
+						case "no-repeat":
+							bgw = bounds.width - bgp.left;
+							bgh = bounds.height - bgp.top;
+							bgsx = bgp.left;
+							bgsy = bgp.top;
+							bgdx = bgp.left + bounds.left;
+							bgdy = bgp.top + bounds.top;
+							if (bgsx < 0) {
+								bgsx = Math.abs(bgsx);
+								bgdx += bgsx;
+								bgw = Math.min(bounds.width, image.width - bgsx);
+							} else {
+								bgw = Math.min(bgw, image.width);
+								bgsx = 0;
+							}
+							if (bgsy < 0) {
+								bgsy = Math.abs(bgsy);
+								bgdy += bgsy;
+								bgh = Math.min(bounds.height, image.height - bgsy);
+							} else {
+								bgh = Math.min(bgh, image.height);
+								bgsy = 0;
+							}
+							if (bgh > 0 && bgw > 0) renderImage(ctx, image, bgsx, bgsy, bgw, bgh, bgdx, bgdy, bgw, bgh);
+							break;
+						default:
+							bgp.top = bgp.top - Math.ceil(bgp.top / image.height) * image.height;
+							for (bgy = bounds.top + bgp.top; bgy < bounds.height + bounds.top;) {
+								h = Math.min(image.height, bounds.height + bounds.top - bgy);
+								if (Math.floor(bgy + image.height) > h + bgy) height = h + bgy - bgy;
+								else height = image.height;
+								if (bgy < bounds.top) {
+									add = bounds.top - bgy;
+									bgy = bounds.top;
+								} else add = 0;
+								renderBackgroundRepeatX(ctx, image, bgp, bounds.left, bgy, bounds.width, height);
+								if (add > 0) bgp.top += add;
+								bgy = Math.floor(bgy + image.height) - add;
+							}
+					}
+					else h2clog("html2canvas: Error loading background:" + background_image);
+				}
+			}
+			function renderElement(el, parentStack) {
+				let bounds = _html2canvas.Util.Bounds(el), x = bounds.left, y = bounds.top, w = bounds.width, h = bounds.height, image, bgcolor = getCSS(el, "backgroundColor"), cssPosition = getCSS(el, "position"), zindex, opacity = getCSS(el, "opacity"), stack, stackLength, borders, ctx, bgbounds, imgSrc, paddingLeft, paddingTop, paddingRight, paddingBottom;
+				if (!parentStack) {
+					docDim = docSize();
+					parentStack = { opacity: 1 };
+				} else docDim = {};
+				zindex = setZ(getCSS(el, "zIndex"), parentStack.zIndex);
+				stack = {
+					ctx: h2cRenderContext(docDim.width || w, docDim.height || h),
+					zIndex: zindex,
+					opacity: opacity * parentStack.opacity,
+					cssPosition
+				};
+				if (parentStack.clip) stack.clip = _html2canvas.Util.Extend({}, parentStack.clip);
+				if (options.useOverflow === true && /(hidden|scroll|auto)/.test(getCSS(el, "overflow")) === true && /(BODY)/i.test(el.nodeName) === false) {
+					if (stack.clip) stack.clip = clipBounds(stack.clip, bounds);
+					else stack.clip = bounds;
+				}
+				stackLength = zindex.children.push(stack);
+				ctx = zindex.children[stackLength - 1].ctx;
+				ctx.setVariable("globalAlpha", stack.opacity);
+				borders = renderBorders(el, ctx, bounds, false);
+				stack.borders = borders;
+				if (ignoreElementsRegExp.test(el.nodeName) && options.iframeDefault !== "transparent") {
+					if (options.iframeDefault === "default") bgcolor = "#efefef";
+					else bgcolor = options.iframeDefault;
+				}
+				bgbounds = {
+					left: x + borders[3].width,
+					top: y + borders[0].width,
+					width: w - (borders[1].width + borders[3].width),
+					height: h - (borders[0].width + borders[2].width)
+				};
+				if (stack.clip) bgbounds = clipBounds(bgbounds, stack.clip);
+				if (bgbounds.height > 0 && bgbounds.width > 0) {
+					renderRect(ctx, bgbounds.left, bgbounds.top, bgbounds.width, bgbounds.height, bgcolor);
+					renderBackground(el, bgbounds, ctx);
+				}
+				switch (el.nodeName) {
+					case "IMG":
+						imgSrc = el.getAttribute("src");
+						image = loadImage(imgSrc);
+						if (image) {
+							paddingLeft = getCSSInt(el, "paddingLeft");
+							paddingTop = getCSSInt(el, "paddingTop");
+							paddingRight = getCSSInt(el, "paddingRight");
+							paddingBottom = getCSSInt(el, "paddingBottom");
+							renderImage(ctx, image, 0, 0, image.width, image.height, x + paddingLeft + borders[3].width, y + paddingTop + borders[0].width, bounds.width - (borders[1].width + borders[3].width + paddingLeft + paddingRight), bounds.height - (borders[0].width + borders[2].width + paddingTop + paddingBottom));
+						} else h2clog("html2canvas: Error loading <img>:" + imgSrc);
+						break;
+					case "INPUT":
+						if (/^(text|url|email|submit|button|reset)$/.test(el.type) && el.value.length > 0) renderFormValue(el, bounds, stack);
+						break;
+					case "TEXTAREA":
+						if (el.value.length > 0) renderFormValue(el, bounds, stack);
+						break;
+					case "SELECT":
+						if (el.options.length > 0) renderFormValue(el, bounds, stack);
+						break;
+					case "LI":
+						renderListItem(el, stack, bgbounds);
+						break;
+					case "CANVAS":
+						paddingLeft = getCSSInt(el, "paddingLeft");
+						paddingTop = getCSSInt(el, "paddingTop");
+						paddingRight = getCSSInt(el, "paddingRight");
+						paddingBottom = getCSSInt(el, "paddingBottom");
+						renderImage(ctx, el, 0, 0, el.width, el.height, x + paddingLeft + borders[3].width, y + paddingTop + borders[0].width, bounds.width - (borders[1].width + borders[3].width + paddingLeft + paddingRight), bounds.height - (borders[0].width + borders[2].width + paddingTop + paddingBottom));
+				}
+				return zindex.children[stackLength - 1];
+			}
+			function parseElement(el, stack) {
+				if (getCSS(el, "display") !== "none" && getCSS(el, "visibility") !== "hidden" && !el.hasAttribute("data-html2canvas-ignore")) {
+					stack = renderElement(el, stack) || stack;
+					ctx = stack.ctx;
+					if (!ignoreElementsRegExp.test(el.nodeName)) {
+						let elementChildren = _html2canvas.Util.Children(el), i, node, childrenLen;
+						for (i = 0, childrenLen = elementChildren.length; i < childrenLen; i += 1) {
+							node = elementChildren[i];
+							if (node.nodeType === 1) parseElement(node, stack);
+							else if (node.nodeType === 3) renderText(el, node, stack);
+						}
+					}
+				}
+			}
+			stack = renderElement(element, null);
+			if (support.svgRendering) (function(body) {
+				let img = new Image(), size = docSize(), html = "";
+				function parseDOM(el) {
+					let children = _html2canvas.Util.Children(el), len = children.length, attr, a, alen, elm, i = 0;
+					for (; i < len; i += 1) {
+						elm = children[i];
+						if (elm.nodeType === 3) html += elm.nodeValue.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
+						else if (elm.nodeType === 1) {
+							if (!/^(script|meta|title)$/.test(elm.nodeName.toLowerCase())) {
+								html += "<" + elm.nodeName.toLowerCase();
+								if (elm.hasAttributes()) {
+									attr = elm.attributes;
+									alen = attr.length;
+									for (a = 0; a < alen; a += 1) html += " " + attr[a].name + "=\"" + attr[a].value + "\"";
+								}
+								html += ">";
+								parseDOM(elm);
+								html += "</" + elm.nodeName.toLowerCase() + ">";
+							}
+						}
+					}
+				}
+				parseDOM(body);
+				img.src = [
+					"data:image/svg+xml,",
+					"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='" + size.width + "' height='" + size.height + "'>",
+					"<foreignObject width='" + size.width + "' height='" + size.height + "'>",
+					"<html xmlns='http://www.w3.org/1999/xhtml' style='margin:0;'>",
+					html.replace(/\#/g, "%23"),
+					"</html>",
+					"</foreignObject>",
+					"</svg>"
+				].join("");
+				img.onload = function() {
+					stack.svgRender = img;
+				};
+			})(document.documentElement);
+			for (i = 0, children = element.children, childrenLen = children.length; i < childrenLen; i += 1) parseElement(children[i], stack);
+			stack.backgroundColor = getCSS(document.documentElement, "backgroundColor");
+			return stack;
+		};
+		function h2czContext(zindex) {
+			return {
+				zindex,
+				children: []
+			};
+		}
+		_html2canvas.Preload = function(options) {
+			let images = {
+				numLoaded: 0,
+				numFailed: 0,
+				numTotal: 0,
+				cleanupDone: false
+			}, pageOrigin, methods, i, count = 0, element = options.elements[0] || document.body, doc = element.ownerDocument, domImages = doc.images, imgLen = domImages.length, link = doc.createElement("a"), supportCORS = (function(img) {
+				return img.crossOrigin !== undefined;
+			})(new Image()), timeoutTimer;
+			link.href = window.location.href;
+			pageOrigin = link.protocol + link.host;
+			function isSameOrigin(url) {
+				link.href = url;
+				link.href = link.href;
+				return link.protocol + link.host === pageOrigin;
+			}
+			function start() {
+				h2clog("html2canvas: start: images: " + images.numLoaded + " / " + images.numTotal + " (failed: " + images.numFailed + ")");
+				if (!images.firstRun && images.numLoaded >= images.numTotal) {
+					h2clog("Finished loading images: # " + images.numTotal + " (failed: " + images.numFailed + ")");
+					if (typeof options.complete === "function") options.complete(images);
+				}
+			}
+			function proxyGetImage(url, img, imageObj) {
+				let callback_name, scriptUrl = options.proxy, script;
+				link.href = url;
+				url = link.href;
+				callback_name = "html2canvas_" + count++;
+				imageObj.callbackname = callback_name;
+				if (scriptUrl.indexOf("?") > -1) scriptUrl += "&";
+				else scriptUrl += "?";
+				scriptUrl += "url=" + encodeURIComponent(url) + "&callback=" + callback_name;
+				script = doc.createElement("script");
+				window[callback_name] = function(a) {
+					if (a.substring(0, 6) === "error:") {
+						imageObj.succeeded = false;
+						images.numLoaded++;
+						images.numFailed++;
+						start();
+					} else {
+						setImageLoadHandlers(img, imageObj);
+						img.src = a;
+					}
+					window[callback_name] = undefined;
+					try {
+						delete window[callback_name];
+					} catch (ex) {}
+					script.parentNode.removeChild(script);
+					script = null;
+					delete imageObj.script;
+					delete imageObj.callbackname;
+				};
+				script.setAttribute("type", "text/javascript");
+				script.setAttribute("src", scriptUrl);
+				imageObj.script = script;
+				window.document.body.appendChild(script);
+			}
+			function getImages(el) {
+				let contents = _html2canvas.Util.Children(el), i, background_image, src, img, elNodeType = false;
+				try {
+					let contentsLen = contents.length;
+					for (i = 0; i < contentsLen; i += 1) getImages(contents[i]);
+				} catch (e) {}
+				try {
+					elNodeType = el.nodeType;
+				} catch (ex) {
+					elNodeType = false;
+					h2clog("html2canvas: failed to access some element's nodeType - Exception: " + ex.message);
+				}
+				if (elNodeType === 1 || elNodeType === undefined) {
+					try {
+						background_image = _html2canvas.Util.getCSS(el, "backgroundImage");
+					} catch (e) {
+						h2clog("html2canvas: failed to get background-image - Exception: " + e.message);
+					}
+					if (background_image && background_image !== "1" && background_image !== "none") {
+						if (/^(-webkit|-o|-moz|-ms|linear)-/.test(background_image)) {
+							img = _html2canvas.Generate.Gradient(background_image, _html2canvas.Util.Bounds(el));
+							if (img !== undefined) {
+								images[background_image] = {
+									img,
+									succeeded: true
+								};
+								images.numTotal++;
+								images.numLoaded++;
+								start();
+							}
+						} else {
+							src = _html2canvas.Util.backgroundImage(background_image.match(/data:image\/.*;base64,/i) ? background_image : background_image.split(",")[0]);
+							methods.loadImage(src);
+						}
+					}
+				}
+			}
+			function setImageLoadHandlers(img, imageObj) {
+				img.onload = function() {
+					if (imageObj.timer !== undefined) window.clearTimeout(imageObj.timer);
+					images.numLoaded++;
+					imageObj.succeeded = true;
+					img.onerror = img.onload = null;
+					start();
+				};
+				img.onerror = function() {
+					if (img.crossOrigin === "anonymous") {
+						window.clearTimeout(imageObj.timer);
+						if (options.proxy) {
+							let src = img.src;
+							img = new Image();
+							imageObj.img = img;
+							img.src = src;
+							proxyGetImage(img.src, img, imageObj);
+							return;
+						}
+					}
+					images.numLoaded++;
+					images.numFailed++;
+					imageObj.succeeded = false;
+					img.onerror = img.onload = null;
+					start();
+				};
+			}
+			methods = {
+				loadImage: function(src) {
+					let img, imageObj;
+					if (src && images[src] === undefined) {
+						img = new Image();
+						if (src.match(/data:image\/.*;base64,/i)) {
+							img.src = src.replace(/url\(['"]{0,}|['"]{0,}\)$/gi, "");
+							imageObj = images[src] = { img };
+							images.numTotal++;
+							setImageLoadHandlers(img, imageObj);
+						} else if (isSameOrigin(src) || options.allowTaint === true) {
+							imageObj = images[src] = { img };
+							images.numTotal++;
+							setImageLoadHandlers(img, imageObj);
+							img.src = src;
+						} else if (supportCORS && !options.allowTaint && options.useCORS) {
+							img.crossOrigin = "anonymous";
+							imageObj = images[src] = { img };
+							images.numTotal++;
+							setImageLoadHandlers(img, imageObj);
+							img.src = src;
+							img.customComplete = function() {
+								if (!this.img.complete) this.timer = window.setTimeout(this.img.customComplete, 100);
+								else this.img.onerror();
+							}.bind(imageObj);
+							img.customComplete();
+						} else if (options.proxy) {
+							imageObj = images[src] = { img };
+							images.numTotal++;
+							proxyGetImage(src, img, imageObj);
+						}
+					}
+				},
+				cleanupDOM: function(cause) {
+					let img, src;
+					if (!images.cleanupDone) {
+						if (cause && typeof cause === "string") h2clog("html2canvas: Cleanup because: " + cause);
+						else h2clog("html2canvas: Cleanup after timeout: " + options.timeout + " ms.");
+						for (src in images) if (images.hasOwnProperty(src)) {
+							img = images[src];
+							if (typeof img === "object" && img.callbackname && img.succeeded === undefined) {
+								window[img.callbackname] = undefined;
+								try {
+									delete window[img.callbackname];
+								} catch (ex) {}
+								if (img.script && img.script.parentNode) {
+									img.script.setAttribute("src", "about:blank");
+									img.script.parentNode.removeChild(img.script);
+								}
+								images.numLoaded++;
+								images.numFailed++;
+								h2clog("html2canvas: Cleaned up failed img: '" + src + "' Steps: " + images.numLoaded + " / " + images.numTotal);
+							}
+						}
+						if (window.stop !== undefined) window.stop();
+						else if (document.execCommand !== undefined) document.execCommand("Stop", false);
+						if (document.close !== undefined) document.close();
+						images.cleanupDone = true;
+						if (!(cause && typeof cause === "string")) start();
+					}
+				},
+				renderingDone: function() {
+					if (timeoutTimer) window.clearTimeout(timeoutTimer);
+				}
+			};
+			if (options.timeout > 0) timeoutTimer = window.setTimeout(methods.cleanupDOM, options.timeout);
+			h2clog("html2canvas: Preload starts: finding background-images");
+			images.firstRun = true;
+			getImages(element);
+			h2clog("html2canvas: Preload: Finding images");
+			for (i = 0; i < imgLen; i += 1) methods.loadImage(domImages[i].getAttribute("src"));
+			images.firstRun = false;
+			h2clog("html2canvas: Preload: Done.");
+			if (images.numTotal === images.numLoaded) start();
+			return methods;
+		};
+		function h2cRenderContext(width, height) {
+			let storage = [];
+			return {
+				storage,
+				width,
+				height,
+				fillRect: function() {
+					storage.push({
+						type: "function",
+						name: "fillRect",
+						"arguments": arguments
+					});
+				},
+				drawShape: function() {
+					let shape = [];
+					storage.push({
+						type: "function",
+						name: "drawShape",
+						"arguments": shape
+					});
+					return {
+						moveTo: function() {
+							shape.push({
+								name: "moveTo",
+								"arguments": arguments
+							});
+						},
+						lineTo: function() {
+							shape.push({
+								name: "lineTo",
+								"arguments": arguments
+							});
+						},
+						bezierCurveTo: function() {
+							shape.push({
+								name: "bezierCurveTo",
+								"arguments": arguments
+							});
+						},
+						quadraticCurveTo: function() {
+							shape.push({
+								name: "quadraticCurveTo",
+								"arguments": arguments
+							});
+						}
+					};
+				},
+				drawImage: function() {
+					storage.push({
+						type: "function",
+						name: "drawImage",
+						"arguments": arguments
+					});
+				},
+				fillText: function() {
+					storage.push({
+						type: "function",
+						name: "fillText",
+						"arguments": arguments
+					});
+				},
+				setVariable: function(variable, value) {
+					storage.push({
+						type: "variable",
+						name: variable,
+						"arguments": value
+					});
+				}
+			};
+		}
+		_html2canvas.Renderer = function(parseQueue, options) {
+			let queue = [];
+			function sortZ(zStack) {
+				let subStacks = [], stackValues = [], zStackChildren = zStack.children, s, i, stackLen, zValue, zLen, stackChild, b, subStackLen;
+				for (s = 0, zLen = zStackChildren.length; s < zLen; s += 1) {
+					stackChild = zStackChildren[s];
+					if (stackChild.children && stackChild.children.length > 0) {
+						subStacks.push(stackChild);
+						stackValues.push(stackChild.zindex);
+					} else queue.push(stackChild);
+				}
+				stackValues.sort(function(a, b) {
+					return a - b;
+				});
+				for (i = 0, stackLen = stackValues.length; i < stackLen; i += 1) {
+					zValue = stackValues[i];
+					for (b = 0, subStackLen = subStacks.length; b <= subStackLen; b += 1) if (subStacks[b].zindex === zValue) {
+						stackChild = subStacks.splice(b, 1);
+						sortZ(stackChild[0]);
+						break;
+					}
+				}
+			}
+			sortZ(parseQueue.zIndex);
+			if (typeof options._renderer._create !== "function") throw new Error("Invalid renderer defined");
+			return options._renderer._create(parseQueue, options, document, queue, _html2canvas);
+		};
+		html2canvas = function(elements, opts) {
+			let queue, canvas, options = {
+				logging: false,
+				elements,
+				proxy: "http://html2canvas.appspot.com/",
+				timeout: 0,
+				useCORS: false,
+				allowTaint: false,
+				svgRendering: false,
+				iframeDefault: "default",
+				ignoreElements: "IFRAME|OBJECT|PARAM",
+				useOverflow: true,
+				letterRendering: false,
+				flashcanvas: undefined,
+				width: null,
+				height: null,
+				taintTest: true,
+				renderer: "Canvas"
+			};
+			options = _html2canvas.Util.Extend(opts, options);
+			if (typeof options.renderer === "string" && _html2canvas.Renderer[options.renderer] !== undefined) options._renderer = _html2canvas.Renderer[options.renderer](options);
+			else if (typeof options.renderer === "function") options._renderer = options.renderer(options);
+			else throw "Unknown renderer";
+			_html2canvas.logging = options.logging;
+			options.complete = function(images) {
+				if (typeof options.onpreloaded === "function") {
+					if (options.onpreloaded(images) === false) return;
+				}
+				queue = _html2canvas.Parse(images, options);
+				if (typeof options.onparsed === "function") {
+					if (options.onparsed(queue) === false) return;
+				}
+				canvas = _html2canvas.Renderer(queue, options);
+				if (typeof options.onrendered === "function") options.onrendered(canvas);
+			};
+			window.setTimeout(function() {
+				_html2canvas.Preload(options);
+			}, 0);
+			return {
+				render: function(queue, opts) {
+					return _html2canvas.Renderer(queue, _html2canvas.Util.Extend(opts, options));
+				},
+				parse: function(images, opts) {
+					return _html2canvas.Parse(images, _html2canvas.Util.Extend(opts, options));
+				},
+				preload: function(opts) {
+					return _html2canvas.Preload(_html2canvas.Util.Extend(opts, options));
+				},
+				log: h2clog
+			};
+		};
+		html2canvas.log = h2clog;
+		html2canvas.Renderer = { Canvas: undefined };
+		_html2canvas.Renderer.Canvas = function(options) {
+			options = options || {};
+			let doc = document, canvas = options.canvas || doc.createElement("canvas"), usingFlashcanvas = false, _createCalled = false, canvasReadyToDraw = false, methods, flashMaxSize = 2880;
+			if (canvas.getContext) {
+				h2clog("html2canvas: Renderer: using canvas renderer");
+				canvasReadyToDraw = true;
+			} else if (options.flashcanvas !== undefined) {
+				usingFlashcanvas = true;
+				h2clog("html2canvas: Renderer: canvas not available, using flashcanvas");
+				let script = doc.createElement("script");
+				script.src = options.flashcanvas;
+				script.onload = (function(script, func) {
+					let intervalFunc;
+					if (script.onload === undefined) {
+						if (script.onreadystatechange !== undefined) {
+							intervalFunc = function() {
+								if (script.readyState !== "loaded" && script.readyState !== "complete") window.setTimeout(intervalFunc, 250);
+								else func();
+							};
+							window.setTimeout(intervalFunc, 250);
+						} else h2clog("html2canvas: Renderer: Can't track when flashcanvas is loaded");
+					} else return func;
+				})(script, function() {
+					if (typeof window.FlashCanvas !== "undefined") {
+						h2clog("html2canvas: Renderer: Flashcanvas initialized");
+						window.FlashCanvas.initElement(canvas);
+						canvasReadyToDraw = true;
+						if (_createCalled !== false) methods._create.apply(null, _createCalled);
+					}
+				});
+				doc.body.appendChild(script);
+			}
+			methods = { _create: function(zStack, options, doc, queue, _html2canvas) {
+				if (!canvasReadyToDraw) {
+					_createCalled = arguments;
+					return canvas;
+				}
+				let ctx = canvas.getContext("2d"), storageContext, i, queueLen, a, newCanvas, bounds, testCanvas = document.createElement("canvas"), hasCTX = testCanvas.getContext !== undefined, storageLen, renderItem, testctx = hasCTX ? testCanvas.getContext("2d") : {}, safeImages = [], fstyle;
+				canvas.width = canvas.style.width = !usingFlashcanvas ? options.width || zStack.ctx.width : Math.min(flashMaxSize, options.width || zStack.ctx.width);
+				canvas.height = canvas.style.height = !usingFlashcanvas ? options.height || zStack.ctx.height : Math.min(flashMaxSize, options.height || zStack.ctx.height);
+				fstyle = ctx.fillStyle;
+				ctx.fillStyle = zStack.backgroundColor;
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				ctx.fillStyle = fstyle;
+				if (options.svgRendering && zStack.svgRender !== undefined) ctx.drawImage(zStack.svgRender, 0, 0);
+				else for (i = 0, queueLen = queue.length; i < queueLen; i += 1) {
+					storageContext = queue.splice(0, 1)[0];
+					storageContext.canvasPosition = storageContext.canvasPosition || {};
+					ctx.textBaseline = "bottom";
+					if (storageContext.clip) {
+						ctx.save();
+						ctx.beginPath();
+						ctx.rect(storageContext.clip.left, storageContext.clip.top, storageContext.clip.width, storageContext.clip.height);
+						ctx.clip();
+					}
+					if (storageContext.ctx.storage) for (a = 0, storageLen = storageContext.ctx.storage.length; a < storageLen; a += 1) {
+						renderItem = storageContext.ctx.storage[a];
+						switch (renderItem.type) {
+							case "variable":
+								ctx[renderItem.name] = renderItem["arguments"];
+								break;
+							case "function": if (renderItem.name === "fillRect") {
+								if (!usingFlashcanvas || renderItem["arguments"][0] + renderItem["arguments"][2] < flashMaxSize && renderItem["arguments"][1] + renderItem["arguments"][3] < flashMaxSize) ctx.fillRect.apply(ctx, renderItem["arguments"]);
+							} else if (renderItem.name === "drawShape") (function(args) {
+								let i, len = args.length;
+								ctx.beginPath();
+								for (i = 0; i < len; i++) ctx[args[i].name].apply(ctx, args[i]["arguments"]);
+								ctx.closePath();
+								ctx.fill();
+							})(renderItem["arguments"]);
+							else if (renderItem.name === "fillText") {
+								if (!usingFlashcanvas || renderItem["arguments"][1] < flashMaxSize && renderItem["arguments"][2] < flashMaxSize) ctx.fillText.apply(ctx, renderItem["arguments"]);
+							} else if (renderItem.name === "drawImage") {
+								if (renderItem["arguments"][8] > 0 && renderItem["arguments"][7]) {
+									if (hasCTX && options.taintTest) {
+										if (safeImages.indexOf(renderItem["arguments"][0].src) === -1) {
+											testctx.drawImage(renderItem["arguments"][0], 0, 0);
+											try {
+												testctx.getImageData(0, 0, 1, 1);
+											} catch (e) {
+												testCanvas = doc.createElement("canvas");
+												testctx = testCanvas.getContext("2d");
+												continue;
+											}
+											safeImages.push(renderItem["arguments"][0].src);
+										}
+									}
+									ctx.drawImage.apply(ctx, renderItem["arguments"]);
+								}
+							}
+						}
+					}
+					if (storageContext.clip) ctx.restore();
+				}
+				h2clog("html2canvas: Renderer: Canvas renderer done - returning canvas obj");
+				queueLen = options.elements.length;
+				if (queueLen === 1) {
+					if (typeof options.elements[0] === "object" && options.elements[0].nodeName !== "BODY" && usingFlashcanvas === false) {
+						bounds = _html2canvas.Util.Bounds(options.elements[0]);
+						newCanvas = doc.createElement("canvas");
+						newCanvas.width = bounds.width;
+						newCanvas.height = bounds.height;
+						ctx = newCanvas.getContext("2d");
+						ctx.drawImage(canvas, bounds.left, bounds.top, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+						canvas = null;
+						return newCanvas;
+					}
+				}
+				return canvas;
+			} };
+			return methods;
+		};
+		_html2canvas.Renderer.SVG = function(options) {
+			options = options || {};
+			let doc = document, svgNS = "http://www.w3.org/2000/svg", svg = doc.createElementNS(svgNS, "svg"), xlinkNS = "http://www.w3.org/1999/xlink", defs = doc.createElementNS(svgNS, "defs"), i, a, queueLen, storageLen, storageContext, renderItem, el, settings = {}, text, fontStyle, clipId = 0;
+			return { _create: function(zStack, options, doc, queue, _html2canvas) {
+				svg.setAttribute("version", "1.1");
+				svg.setAttribute("baseProfile", "full");
+				svg.setAttribute("viewBox", "0 0 " + Math.max(zStack.ctx.width, options.width) + " " + Math.max(zStack.ctx.height, options.height));
+				svg.setAttribute("width", Math.max(zStack.ctx.width, options.width) + "px");
+				svg.setAttribute("height", Math.max(zStack.ctx.height, options.height) + "px");
+				svg.setAttribute("preserveAspectRatio", "none");
+				svg.appendChild(defs);
+				for (i = 0, queueLen = queue.length; i < queueLen; i += 1) {
+					storageContext = queue.splice(0, 1)[0];
+					storageContext.canvasPosition = storageContext.canvasPosition || {};
+					if (storageContext.ctx.storage) for (a = 0, storageLen = storageContext.ctx.storage.length; a < storageLen; a += 1) {
+						renderItem = storageContext.ctx.storage[a];
+						switch (renderItem.type) {
+							case "variable":
+								settings[renderItem.name] = renderItem["arguments"];
+								break;
+							case "function": if (renderItem.name === "fillRect") {
+								el = doc.createElementNS(svgNS, "rect");
+								el.setAttribute("x", renderItem["arguments"][0]);
+								el.setAttribute("y", renderItem["arguments"][1]);
+								el.setAttribute("width", renderItem["arguments"][2]);
+								el.setAttribute("height", renderItem["arguments"][3]);
+								el.setAttribute("fill", settings.fillStyle);
+								svg.appendChild(el);
+							} else if (renderItem.name === "fillText") {
+								el = doc.createElementNS(svgNS, "text");
+								fontStyle = settings.font.split(" ");
+								el.style.fontVariant = fontStyle.splice(0, 1)[0];
+								el.style.fontWeight = fontStyle.splice(0, 1)[0];
+								el.style.fontStyle = fontStyle.splice(0, 1)[0];
+								el.style.fontSize = fontStyle.splice(0, 1)[0];
+								el.setAttribute("x", renderItem["arguments"][1]);
+								el.setAttribute("y", renderItem["arguments"][2] - (parseInt(el.style.fontSize, 10) + 3));
+								el.setAttribute("fill", settings.fillStyle);
+								el.style.dominantBaseline = "text-before-edge";
+								el.style.fontFamily = fontStyle.join(" ");
+								text = doc.createTextNode(renderItem["arguments"][0]);
+								el.appendChild(text);
+								svg.appendChild(el);
+							} else if (renderItem.name === "drawImage") {
+								if (renderItem["arguments"][8] > 0 && renderItem["arguments"][7]) {
+									el = doc.createElementNS(svgNS, "clipPath");
+									el.setAttribute("id", "clipId" + clipId);
+									text = doc.createElementNS(svgNS, "rect");
+									text.setAttribute("x", renderItem["arguments"][5]);
+									text.setAttribute("y", renderItem["arguments"][6]);
+									text.setAttribute("width", renderItem["arguments"][3]);
+									text.setAttribute("height", renderItem["arguments"][4]);
+									el.appendChild(text);
+									defs.appendChild(el);
+									el = doc.createElementNS(svgNS, "image");
+									el.setAttributeNS(xlinkNS, "xlink:href", renderItem["arguments"][0].src);
+									el.setAttribute("width", renderItem["arguments"][7]);
+									el.setAttribute("height", renderItem["arguments"][8]);
+									el.setAttribute("x", renderItem["arguments"][5]);
+									el.setAttribute("y", renderItem["arguments"][6]);
+									el.setAttribute("clip-path", "url(#clipId" + clipId + ")");
+									el.setAttribute("preserveAspectRatio", "none");
+									svg.appendChild(el);
+									clipId += 1;
+								}
+							}
+						}
+					}
+				}
+				h2clog("html2canvas: Renderer: SVG Renderer done - returning SVG DOM obj");
+				return svg;
+			} };
+		};
+	})(window, document);
+	html2canvas_default = html2canvas;
+}));
+//#endregion
+//#region src/Controls/ScreenShot.js
+var ScreenShot;
+var init_ScreenShot = __esmMin((() => {
+	init_Client();
+	init_html2canvas();
+	init_KeyEventHandler();
+	init_ChatBox();
+	ScreenShot = class ScreenShot {
+		/**
+		* Take a ScreenShot
+		*/
+		static take() {
+			if (!ChatBox_default.ui) return;
+			html2canvas_default([document.body], { onrendered: this.process });
+		}
+		/**
+		* Process ScreenShot
+		*
+		* @param {canvasElement} canvas
+		*/
+		static process(canvas) {
+			let x, y;
+			const tzoffset = (/* @__PURE__ */ new Date()).getTimezoneOffset() * 6e4;
+			let localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
+			localISOTime = localISOTime.replace("T", " ");
+			const timezone = (/* @__PURE__ */ new Date()).getTimezoneOffset() / 60;
+			const date = `${localISOTime} (GMT ${timezone > 0 ? "-" : "+"}${Math.abs(timezone).toString()})`;
+			const context = canvas.getContext("2d");
+			context.fillStyle = "white";
+			context.strokeStyle = "black";
+			x = 20;
+			y = canvas.height - 5;
+			context.font = "bold 16px Arial";
+			context.fillText(date, x, y);
+			context.strokeText(date, x, y);
+			Client.loadFile("data/texture/scr_logo.bmp", (url) => {
+				const img = new Image();
+				img.decoding = "async";
+				img.src = url;
+				img.onload = () => {
+					x = canvas.width - img.width - 20;
+					y = canvas.height - img.height - 5;
+					context.drawImage(img, x, y);
+					ScreenShot.display(canvas, date);
+				};
+			}, () => {
+				ScreenShot.display(canvas, date);
+			});
+		}
+		/**
+		* Display the ScreenShot, this method is ment to be replaced by plugins if wanted.
+		*
+		* @param {canvasElement} canvas
+		* @param {string} date
+		*/
+		static display(canvas, date) {
+			let i;
+			const binary = atob(canvas.toDataURL("image/png").replace(/^data[^,]+,/, ""));
+			const count = binary.length;
+			const data = new Uint8Array(count);
+			for (i = 0; i < count; ++i) data[i] = binary.charCodeAt(i);
+			const url = window.URL.createObjectURL(new Blob([data], { type: "image/png" }));
+			ChatBox_default.addText(`截图 ${date} 可通过<a style="color:#F88" download="ScreenShot (${date.replace("/", "-")}).png" href="${url}" target="_blank">点击此处</a>保存。`, ChatBox_default.TYPE.PUBLIC, ChatBox_default.FILTER.PUBLIC_LOG, null, true);
+		}
+	};
+	/**
+	* Key Listener
+	*/
+	window.addEventListener("keydown", (event) => {
+		if (KEYS.ALT && event.which === KEYS.P) {
+			ScreenShot.take();
+			event.stopImmediatePropagation();
+			event.preventDefault();
+		}
+	});
+}));
+//#endregion
+//#region src/Controls/MapControl.js
+/**
+* What to do when clicking on the map ?
+*/
+function onMouseDown(event) {
+	const action = event && event.which || 1;
+	if (!Mouse.intersect) return;
+	const entityFocus = EntityManager.getFocusEntity();
+	const entityOver = EntityManager.getOverEntity();
+	switch (action) {
+		case 1:
+			combatHandledClick = false;
+			if (!KEYS.ALT && !KEYS.SHIFT && !KEYS.CTRL && Mouse.state !== Mouse.MOUSE_STATE.USESKILL && entityOver?.objecttype === Entity.TYPE_MOB && notifyGameInput("attack-target", entityOver.GID)) {
+				combatHandledClick = true;
+				return;
+			}
+			clearAttackIntent();
+			if (entityOver || Mouse.state === Mouse.MOUSE_STATE.USESKILL) notifyGameInput("action");
+			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
+				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.mercId, "3," + entityOver.GID);
+				else AIDriver.setmsg(SessionStorage_default.mercId, "1," + Mouse.world.x + "," + Mouse.world.y);
+			} else {
+				SessionStorage_default.moveAction = null;
+				SessionStorage_default.autoFollow = false;
+				let stop = false;
+				if (entityOver != SessionStorage_default.Entity) {
+					if (entityFocus && entityFocus != entityOver) {
+						if (!(SessionStorage_default.TouchTargeting && !entityOver)) {
+							entityFocus.onFocusEnd();
+							EntityManager.setFocusEntity(null);
+						}
+					}
+					if (entityOver) {
+						stop = stop || entityOver.onMouseDown();
+						stop = stop || entityOver.onFocus();
+						EntityManager.setFocusEntity(entityOver);
+						if (stop) return;
+					}
+				}
+				notifyGameInput("move-start");
+				if (this.onRequestWalk) this.onRequestWalk();
+			}
+			break;
+		case 3:
+			_rightClickPosition[0] = Mouse.screen.x;
+			_rightClickPosition[1] = Mouse.screen.y;
+			if (SessionStorage_default.captchaGetIdOnFloorClick) CaptchaSelector_default.requestPlayersIds(Mouse.world.x, Mouse.world.y);
+			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
+				Camera.rotate(false);
+				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.homunId, "3," + entityOver.GID);
+				else AIDriver.setmsg(SessionStorage_default.homunId, "1," + Mouse.world.x + "," + Mouse.world.y);
+			} else {
+				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) {
+					if (KEYS.SHIFT) {
+						notifyGameInput("action");
+						SessionStorage_default.autoFollowTarget = entityOver;
+						SessionStorage_default.autoFollow = true;
+						onAutoFollow();
+					}
+					notifyGameInput("action");
+					clearAttackIntent();
+					entityOver.onMouseDown();
+					entityOver.onFocus();
+					EntityManager.setFocusEntity(entityOver);
+				}
+				Cursor.setType(Cursor.ACTION.ROTATE);
+				Camera.rotate(true);
+			}
+	}
+}
+/**
+* What to do when stop clicking on the map ?
+*/
+function onMouseUp(event) {
+	let entity, ET;
+	const action = event && event.which || 1;
+	if (action === 1) {
+		notifyGameInput("move-end");
+		if (combatHandledClick) {
+			combatHandledClick = false;
+			return;
+		}
+	}
+	if (!Mouse.intersect) return;
+	switch (action) {
+		case 1:
+			entity = EntityManager.getFocusEntity();
+			if (entity) {
+				ET = entity.constructor;
+				entity.onMouseUp();
+				if (!SessionStorage_default.TouchTargeting && (Controls_default.noctrl === false || ![
+					ET.TYPE_MOB,
+					ET.TYPE_NPC_ABR,
+					ET.TYPE_NPC_BIONIC
+				].includes(entity.objecttype))) {
+					EntityManager.setFocusEntity(null);
+					entity.onFocusEnd();
+				}
+			}
+			if (this.onRequestStopWalk) this.onRequestStopWalk();
+			break;
+		case 3:
+			Cursor.setType(Cursor.ACTION.DEFAULT);
+			Camera.rotate(false);
+			if (_rightClickPosition[0] === Mouse.screen.x && _rightClickPosition[1] === Mouse.screen.y && !KEYS.SHIFT) {
+				entity = EntityManager.getOverEntity();
+				if (entity && entity !== SessionStorage_default.Entity) entity.onContextMenu();
+			}
+	}
+}
+/**
+* Zoom feature
+*/
+function onMouseWheel(event) {
+	if (Mouse.state === Mouse.MOUSE_STATE.USESKILL) {
+		if (event.deltaY < 0) SkillTargetSelection_default.setSkillLevelDelta(1);
+		else SkillTargetSelection_default.setSkillLevelDelta(-1);
+		return;
+	}
+	const delta = event.deltaY < 0 ? 1 : event.deltaY > 0 ? -1 : 0;
+	Camera.setZoom(delta);
+}
+/**
+* Allow dropping data
+*/
+function onDragOver(event) {
+	event.stopImmediatePropagation();
+	event.preventDefault();
+}
+/**
+* Drop items to the map
+*/
+function onDrop$9(event) {
+	let data;
+	try {
+		data = JSON.parse(event.dataTransfer.getData("Text"));
+	} catch (e) {
+		console.error(e);
+	}
+	event.preventDefault();
+	event.stopImmediatePropagation();
+	if (!data) return;
+	if (data.from) {
+		const comp = UIManager.getComponent(data.from);
+		if (comp && comp.ui) (comp.ui[0] || comp.ui).dispatchEvent(new MouseEvent("mouseleave", { bubbles: false }));
+	}
+	if (data.type !== "item" || data.from !== "Inventory") return;
+	if (EquipmentController.getUI().ui.is(":visible")) {
+		ChatBox_default.addText(DB.getMessage(189), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.ITEM);
+		return;
+	}
+	if (UIManager.getComponent("Inventory").name !== "InventoryV0" && InventoryController.getUI().itemlock === true) return;
+	const item = data.data;
+	if (item.count > 1) {
+		InputBox_default.append();
+		InputBox_default.setType("item", false, item.count, item.ITID);
+		InputBox_default.onSubmitRequest = function onSubmitRequest(count) {
+			InputBox_default.remove();
+			MapControl.onRequestDropItem(item.index, parseInt(count, 10));
+		};
+	} else MapControl.onRequestDropItem(item.index, 1);
+}
+/**
+* Auto follow logic
+*/
+function onAutoFollow() {
+	if (SessionStorage_default.autoFollow) {
+		const player = SessionStorage_default.Entity;
+		const target = SessionStorage_default.autoFollowTarget;
+		const dx = Math.abs(player.position[0] - target.position[0]);
+		const dy = Math.abs(player.position[1] - target.position[1]);
+		if (dx > 1 || dy > 1) {
+			const dest = [0, 0];
+			if (checkFreeCell$1(Math.round(target.position[0]), Math.round(target.position[1]), 1, dest)) {
+				let pkt;
+				if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
+				else pkt = new PACKET.CZ.REQUEST_MOVE();
+				pkt.dest = dest;
+				Network.sendPacket(pkt);
+			}
+		}
+		Events.setTimeout(onAutoFollow, 500);
+	}
+}
+/**
+* Search free cells around a position
+*
+* @param {number} x
+* @param {number} y
+* @param {number} range
+* @param {array} out
+*/
+function checkFreeCell$1(x, y, range, out) {
+	let _x, _y, r;
+	const d_x = SessionStorage_default.Entity.position[0] < x ? -1 : 1;
+	const d_y = SessionStorage_default.Entity.position[1] < y ? -1 : 1;
+	for (r = 0; r <= range; ++r) for (_x = -r; _x <= r; ++_x) for (_y = -r; _y <= r; ++_y) if (isFreeCell$1(x + _x * d_x, y + _y * d_y)) {
+		out[0] = x + _x * d_x;
+		out[1] = y + _y * d_y;
+		return true;
+	}
+	return false;
+}
+/**
+* Does a cell is free (walkable, and no entity on)
+*
+* @param {number} x
+* @param {number} y
+* @param {returns} is free
+*/
+function isFreeCell$1(x, y) {
+	if (!(Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE)) return false;
+	let free = true;
+	EntityManager.forEach(function(entity) {
+		if (entity.objecttype != entity.constructor.TYPE_EFFECT && entity.objecttype != entity.constructor.TYPE_UNIT && entity.objecttype != entity.constructor.TYPE_TRAP && Math.round(entity.position[0]) === x && Math.round(entity.position[1]) === y) {
+			free = false;
+			return false;
+		}
+		return true;
+	});
+	return free;
+}
+var combatHandledClick, _rightClickPosition, MapControl;
+var init_MapControl = __esmMin((() => {
+	init_GameInputIntent();
+	init_AttackIntent();
+	init_DBManager();
+	init_UIManager();
+	init_CursorManager();
+	init_Entity$1();
+	init_InputBox();
+	init_ChatBox();
+	init_Equipment();
+	init_Inventory();
+	init_SkillTargetSelection();
+	init_MouseEventHandler();
+	init_Mobile();
+	init_Renderer();
+	init_Camera();
+	init_EntityManager();
+	init_SessionStorage();
+	init_Controls();
+	init_KeyEventHandler();
+	init_AIDriver();
+	init_Altitude();
+	init_PacketVerManager();
+	init_PacketStructure();
+	init_NetworkManager();
+	init_Events();
+	init_CaptchaSelector();
+	init_ScreenShot();
+	combatHandledClick = false;
+	_rightClickPosition = /* @__PURE__ */ new Int16Array(2);
+	MapControl = class {
+		/**
+		* Callback used when requesting to move somewhere
+		*/
+		static onRequestWalk() {}
+		/**
+		* Callback used when request to stop move
+		*/
+		static onRequestStopWalk() {}
+		/**
+		* Callback used when dropping an item to the map
+		*/
+		static onRequestDropItem() {}
+		/**
+		* Initializing the controller
+		*/
+		static init() {
+			Mobile.init();
+			Mobile.onTouchStart = onMouseDown.bind(this);
+			Mobile.onTouchEnd = onMouseUp.bind(this);
+			Renderer.canvas.addEventListener("wheel", onMouseWheel);
+			Renderer.canvas.addEventListener("dragover", onDragOver);
+			Renderer.canvas.addEventListener("drop", onDrop$9.bind(this));
+			window.addEventListener("mousedown", onMouseDown.bind(this));
+			window.addEventListener("mouseup", onMouseUp.bind(this));
+		}
+	};
+}));
+//#endregion
+//#region src/UI/Game/GameCommands.js
+function selectedTarget() {
+	const target = EntityManager.getFocusEntity();
+	return target && EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE ? target : null;
+}
+function canAttack(target) {
+	if (!target || target === SessionStorage_default.Entity) return false;
+	const T = target.constructor;
+	return [
+		T.TYPE_MOB,
+		T.TYPE_UNIT,
+		T.TYPE_NPC_ABR,
+		T.TYPE_NPC_BIONIC
+	].includes(target.objecttype) || [
+		T.TYPE_PC,
+		T.TYPE_ELEM,
+		T.TYPE_HOM
+	].includes(target.objecttype) && target.canAttackEntity();
+}
+function stopAttack() {
+	releaseAttack();
+	SessionStorage_default.moveAction = null;
+	if (SessionStorage_default.Playing) Network.sendPacket(new PACKET.CZ.CANCEL_LOCKON());
+}
+function attackSelected(moving = false, onRequest = null) {
+	const target = selectedTarget();
+	if (canAttack(target)) {
+		ownAttack(target.GID, () => {
+			if (!SessionStorage_default.FreezeUI && selectedTarget() === target) {
+				target.onFocus({
+					attack: true,
+					allowMove: !moving
+				});
+				onRequest?.();
+			}
+		});
+		target.onFocus({
+			attack: true,
+			allowMove: !moving
+		});
+		onRequest?.();
+	}
+}
+function moveDirection(x, y) {
+	const player = SessionStorage_default.Entity;
+	if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
+	Navigation_default.stopAutoWalk();
+	MapControl.onRequestStopWalk();
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	const angle = -Camera.direction * Math.PI / 4;
+	const dx = x * Math.cos(angle) - y * Math.sin(angle);
+	const dy = x * Math.sin(angle) + y * Math.cos(angle);
+	const dest = [];
+	if (!checkFreeCell$1(Math.round(player.position[0] + dx * 3), Math.round(player.position[1] + dy * 3), 1, dest)) return;
+	const packet = new PACKET.CZ.REQUEST_MOVE2();
+	packet.dest[0] = dest[0];
+	packet.dest[1] = dest[1];
+	Network.sendPacket(packet);
+	directionalMovementPlayer = player;
+}
+function stopDirectionalMovement() {
+	MapControl.onRequestStopWalk();
+	SessionStorage_default.moveAction = null;
+	const player = directionalMovementPlayer;
+	directionalMovementPlayer = null;
+	if (!player || player !== SessionStorage_default.Entity || !SessionStorage_default.Playing || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
+	Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
+}
+function pickSceneEntity(x, y) {
+	Mouse.screen.x = x;
+	Mouse.screen.y = y;
+	return EntityManager.intersect();
+}
+function tapScene(x, y) {
+	Mouse.screen.x = x;
+	Mouse.screen.y = y;
+	const pos = [];
+	const ground = Altitude.intersect(Camera.modelView, Camera.projection, pos);
+	Mouse.world.x = ground ? pos[0] : -1;
+	Mouse.world.y = ground ? pos[1] : -1;
+	const target = EntityManager.intersect();
+	const previous = EntityManager.getFocusEntity();
+	SessionStorage_default.moveAction = null;
+	SessionStorage_default.autoFollow = false;
+	if (target && target !== SessionStorage_default.Entity) {
+		if (previous && previous !== target) previous.onFocusEnd();
+		EntityManager.setFocusEntity(target);
+		EntityManager.setOverEntity(target);
+		target.onFocus({ attack: false });
+		if ([
+			target.constructor.TYPE_ITEM,
+			target.constructor.TYPE_NPC,
+			target.constructor.TYPE_NPC2
+		].includes(target.objecttype)) interactSelected();
+		return;
+	}
+	if (ground) {
+		MapControl.onRequestWalk();
+		MapControl.onRequestStopWalk();
+	}
+}
+function interactSelected() {
+	const target = selectedTarget();
+	if (!target) return;
+	const T = target.constructor;
+	if (target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)) {
+		target.onRoomEnter();
+		return;
+	}
+	if (target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity) {
+		UIManager.showPromptBox(`向 ${target.display.name} 发起交易？`, "ok", "cancel", () => {
+			if (SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && selectedTarget() === target) Trade_default.reqExchange(target.GID, target.display.name);
+		});
+		return;
+	}
+	if (![
+		T.TYPE_NPC,
+		T.TYPE_NPC2,
+		T.TYPE_ITEM,
+		T.TYPE_WARP
+	].includes(target.objecttype)) return;
+	Mouse.world.x = Math.round(target.position[0]);
+	Mouse.world.y = Math.round(target.position[1]);
+	target.onMouseDown();
+}
+function targetSnapshot() {
+	const target = selectedTarget();
+	if (!target) return {
+		name: "点击目标进行选择",
+		attack: false,
+		interaction: ""
+	};
+	const T = target.constructor;
+	return {
+		name: target.display.name || "已选目标",
+		attack: canAttack(target),
+		interaction: target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type) ? "查看摊位" : target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? "交易" : target.objecttype === T.TYPE_WARP ? "进入" : ""
+	};
+}
+function adjustCamera(action) {
+	const indoor = DB.isIndoor(Camera.currentMap);
+	if (action === "zoomIn" || action === "zoomOut") Camera.setZoom(action === "zoomIn" ? -1 : 1);
+	else if (action === "reset") {
+		Camera.angleFinal[0] = indoor ? Camera.indoorRange : Camera.range;
+		Camera.angleFinal[1] = indoor ? Camera.indoorRotationTo : 0;
+		Camera.zoomFinal = DEFAULT_CAMERA_ZOOM;
+	} else {
+		const tilt = action === "up" || action === "down";
+		const index = tilt ? 0 : 1;
+		const min = tilt ? indoor ? Camera.MIN_ALTITUDE_INDOOR : Camera.MIN_V_ANGLE : indoor ? Camera.indoorRotationFrom : Camera.rotationFrom;
+		const max = tilt ? indoor ? Camera.MAX_ALTITUDE_INDOOR : Camera.MAX_V_ANGLE : indoor ? Camera.indoorRotationTo : Camera.rotationTo;
+		const delta = tilt ? action === "up" ? 5 : -5 : action === "left" ? -15 : 15;
+		Camera.angleFinal[index] = Math.max(min, Math.min(max, Camera.angleFinal[index] + delta));
+	}
+	Camera.save();
+}
+var directionalMovementPlayer;
+var init_GameCommands = __esmMin((() => {
+	init_Trade$1();
+	init_UIManager();
+	init_AttackIntent();
+	init_DBManager();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Camera();
+	init_Camera$1();
+	init_Altitude();
+	init_MouseEventHandler();
+	init_MapControl();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_Navigation();
+	directionalMovementPlayer = null;
+}));
+//#endregion
+//#region src/UI/Components/AutoCombat/AutoCombat.css?raw
+var AutoCombat_default$1;
+var init_AutoCombat$1 = __esmMin((() => {
+	AutoCombat_default$1 = ":host {\r\n	position: fixed !important;\r\n	right: 16px;\r\n	bottom: 24px;\r\n	pointer-events: none;\r\n	color: #f4f0e6;\r\n	font:\r\n		13px Arial,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	font: inherit;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	padding: 7px 12px;\r\n	cursor: pointer;\r\n}\r\nbutton:hover {\r\n	border-color: #ceaa70;\r\n}\r\nbutton:focus-visible,\r\ninput:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.combat-bar {\r\n	width: 260px;\r\n	max-width: calc(100vw - 32px);\r\n	padding: 10px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 10px;\r\n	background: #18212bf2;\r\n	box-shadow: 0 3px 12px #0005;\r\n	pointer-events: auto;\r\n}\r\n.combat-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.combat-actions button {\r\n	flex: 1;\r\n}\r\n[data-toggle][aria-pressed='true'] {\r\n	border-color: #ceaa70;\r\n	background: #493c26;\r\n}\r\n.combat-status {\r\n	display: block;\r\n	margin-top: 8px;\r\n	color: #ceaa70;\r\n	overflow-wrap: anywhere;\r\n	font-size: 12px;\r\n}\r\n.combat-backdrop {\r\n	position: fixed;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0006;\r\n	pointer-events: auto;\r\n	padding: 16px;\r\n}\r\n.combat-dialog {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(760px, 100%);\r\n	height: min(560px, 100%);\r\n	max-height: calc(100dvh - 32px);\r\n	padding: 16px;\r\n	gap: 14px;\r\n	background: #18212b;\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 8px 32px #0008;\r\n}\r\n.combat-dialog header {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.combat-dialog h2 {\r\n	margin: 0;\r\n	font-size: 17px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Mobile/game/GameHUDResponsive.css?raw
+var GameHUDResponsive_default;
+var init_GameHUDResponsive = __esmMin((() => {
+	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.panel.settings-panel {\r\n	width: min(760px, 100%);\r\n	height: 100%;\r\n}\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #384653;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1ae;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.panel.profile-panel {\r\n	width: min(600px, 100%);\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	:host {\r\n		font-size: 15px;\r\n	}\r\n	.top-left {\r\n		width: 260px;\r\n		gap: 14px;\r\n	}\r\n	.profile {\r\n		padding: 10px 12px;\r\n		gap: 8px;\r\n	}\r\n	.profile-heading > span {\r\n		font-size: 12px;\r\n		max-width: 112px;\r\n	}\r\n	.profile-bars {\r\n		grid-template-columns: 24px minmax(0, 1fr);\r\n		gap: 7px 6px;\r\n	}\r\n	.profile label {\r\n		font-size: 12px;\r\n	}\r\n	.profile meter {\r\n		height: 12px;\r\n	}\r\n	.profile label span {\r\n		min-width: 82px;\r\n	}\r\n	.profile-actions button {\r\n		min-height: 44px;\r\n		padding: 8px 14px;\r\n	}\r\n	[data-status-icons] img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.map {\r\n		width: 144px;\r\n		gap: 3px;\r\n	}\r\n	.map canvas {\r\n		width: 128px;\r\n		height: 128px;\r\n	}\r\n	.map span {\r\n		font-size: 14px;\r\n	}\r\n	.map small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-dock {\r\n		--battle-gap: 8px;\r\n		width: 366px;\r\n	}\r\n	.combat {\r\n		gap: 8px;\r\n	}\r\n	.combat .skill {\r\n		font-size: 24px;\r\n		border-radius: 8px;\r\n	}\r\n	.skill img {\r\n		width: 40px;\r\n		height: 40px;\r\n		bottom: 5px;\r\n	}\r\n	.skill small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-status {\r\n		min-height: 40px;\r\n		font-size: 14px;\r\n		padding: 7px 10px;\r\n	}\r\n	.battle-tools button,\r\n	.battle-status button {\r\n		min-height: 44px;\r\n		font-size: 14px;\r\n		padding: 6px 8px;\r\n	}\r\n	.shortcut-tools,\r\n	.skill-actions {\r\n		height: 44px;\r\n	}\r\n	.shortcut-tools button {\r\n		min-width: 40px;\r\n		min-height: 44px;\r\n	}\r\n	.shortcut-tools span,\r\n	.skill-actions button {\r\n		font-size: 14px;\r\n	}\r\n	.skill-prompt {\r\n		height: 40px;\r\n		font-size: 14px;\r\n	}\r\n	.panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel header {\r\n		padding: 12px 18px;\r\n	}\r\n	.panel h2 {\r\n		font-size: 18px;\r\n	}\r\n	.panel button {\r\n		min-height: 44px;\r\n		padding: 8px 12px;\r\n	}\r\n	.panel-body {\r\n		padding: 18px;\r\n	}\r\n	.menu-grid {\r\n		gap: 12px;\r\n	}\r\n	.menu-grid button {\r\n		min-height: 56px;\r\n		font-size: 16px;\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n		height: 100%;\r\n	}\r\n	.auto-layout,\r\n	.shortcut-layout {\r\n		gap: 20px;\r\n	}\r\n	.auto-layout h3 {\r\n		font-size: 16px;\r\n	}\r\n	.auto-species-list,\r\n	.auto-skill-list {\r\n		gap: 10px;\r\n		font-size: 14px;\r\n	}\r\n	.auto-species-card,\r\n	.auto-skill-card {\r\n		min-height: 58px;\r\n		padding: 12px;\r\n	}\r\n	.auto-skill-card strong {\r\n		font-size: 14px;\r\n	}\r\n	.auto-skill-card small,\r\n	.auto-help,\r\n	[data-skill-count],\r\n	[data-auto-summary],\r\n	[data-auto-feedback],\r\n	[data-config-status],\r\n	.shortcut-current span,\r\n	[data-choice-hint] {\r\n		font-size: 13px;\r\n	}\r\n	.auto-species-check {\r\n		width: 20px;\r\n		height: 20px;\r\n	}\r\n	.auto-range-settings {\r\n		font-size: 14px;\r\n	}\r\n	.auto-config-footer {\r\n		padding-top: 14px;\r\n	}\r\n	.slot-picker {\r\n		gap: 10px;\r\n	}\r\n	.slot-picker strong,\r\n	.shortcut-choice span {\r\n		font-size: 14px;\r\n	}\r\n	.slot-picker span {\r\n		font-size: 13px;\r\n	}\r\n	.shortcut-choice img,\r\n	.shortcut-selected img {\r\n		width: 36px;\r\n		height: 36px;\r\n	}\r\n	.shortcut-editor {\r\n		padding: 16px;\r\n	}\r\n	.settings-form {\r\n		gap: 14px;\r\n	}\r\n	.settings-field {\r\n		min-height: 62px;\r\n	}\r\n	.settings-field small,\r\n	.settings-footer p {\r\n		font-size: 13px;\r\n	}\r\n	.character-details dt,\r\n	.character-details dd {\r\n		padding: 16px 0;\r\n	}\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Game/PickupSettingsPanel.css?raw
+var PickupSettingsPanel_default;
+var init_PickupSettingsPanel = __esmMin((() => {
+	PickupSettingsPanel_default = ".settings-section.pickup-section {\r\n	display: block;\r\n}\r\n.pickup-controls {\r\n	border: 0;\r\n	padding: 0;\r\n	margin: 0;\r\n	min-width: 0;\r\n}\r\n.pickup-controls:disabled {\r\n	opacity: 0.5;\r\n}\r\n.pickup-categories {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	gap: 0 20px;\r\n}\r\n.pickup-search,\r\n.pickup-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 10px;\r\n	padding: 6px 0;\r\n}\r\n.pickup-search input {\r\n	flex: 1;\r\n	min-width: 0;\r\n	padding: 8px;\r\n	color: inherit;\r\n	background: #111a23;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n}\r\n.pickup-item span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.pickup-item button {\r\n	flex-shrink: 0;\r\n}\r\n.pickup-note {\r\n	font-size: 12px;\r\n	color: #b8c4cf;\r\n	line-height: 1.6;\r\n}\r\n.pickup-excluded {\r\n	color: #d7dfeb;\r\n}\r\n\r\n.pickup-columns {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	align-items: stretch;\r\n	margin-bottom: 10px;\r\n}\r\n.pickup-column {\r\n	min-width: 0;\r\n	padding: 10px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 8px;\r\n	background: #141d26;\r\n}\r\n.pickup-column h5 {\r\n	margin: 0 0 8px;\r\n	font: inherit;\r\n	font-weight: 600;\r\n}\r\n.pickup-results,\r\n.pickup-excluded {\r\n	max-height: 240px;\r\n	min-height: 80px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	font-size: 12px;\r\n}\r\n.pickup-item {\r\n	border-bottom: 1px solid #34414d;\r\n}\r\n.pickup-item:last-child {\r\n	border-bottom: 0;\r\n}\r\n.pickup-search {\r\n	padding-top: 0;\r\n}\r\n@media (max-width: 520px) {\r\n	.pickup-columns {\r\n		gap: 6px;\r\n	}\r\n	.pickup-column {\r\n		padding: 6px;\r\n	}\r\n	.pickup-search {\r\n		flex-wrap: wrap;\r\n	}\r\n	.pickup-search input {\r\n		flex-basis: 100%;\r\n	}\r\n	.pickup-item {\r\n		flex-wrap: wrap;\r\n		gap: 4px;\r\n	}\r\n	.pickup-item span {\r\n		flex-basis: 100%;\r\n	}\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/PickupSettings/PickupSettings.js
+function handleKeyDown(event) {
+	if (event.key === "Escape") {
+		this.remove();
+		event.preventDefault();
+	}
+	if (event.key === "Tab") {
+		const root = this.getRoot();
+		const controls = [...root.querySelectorAll("button, input, select")].filter((node) => !node.matches(":disabled") && node.getClientRects().length);
+		const first = controls[0], last = controls.at(-1), active = root.activeElement;
+		if (event.shiftKey && active === first) {
+			last?.focus();
+			event.preventDefault();
+		} else if (!event.shiftKey && active === last) {
+			first?.focus();
+			event.preventDefault();
+		}
+	}
+	event.stopPropagation();
+}
+var component, PickupSettings_default;
+var init_PickupSettings = __esmMin((() => {
+	init_GUIComponent();
+	init_UIManager();
+	init_SettingsPanel();
+	init_GameSettings();
+	init_GameCommands();
+	init_GameInputIntent();
+	init_AutoCombat$1();
+	init_GameHUDResponsive();
+	init_PickupSettingsPanel();
+	component = new GUIComponent("PickupSettings", AutoCombat_default$1 + GameHUDResponsive_default + PickupSettingsPanel_default + `
+:host { inset: 0; z-index: 1100 !important; }
+.combat-dialog { height: min(620px, calc(100dvh - 32px)); }
+.settings-body { min-height: 0; }
+`);
+	component.render = () => "<div class=\"combat-backdrop\"><section class=\"combat-dialog\" role=\"dialog\" aria-label=\"设置\"><header><h2>设置</h2><button type=\"button\" data-close>关闭</button></header><div class=\"settings-body\"></div></section></div>";
+	component.onAppend = function() {
+		notifyGameInput("action");
+		const root = this.getRoot();
+		this._container.onkeydown = handleKeyDown.bind(this);
+		root.querySelector("[data-close]").onclick = () => this.remove();
+		createSettingsPanel(root.querySelector(".settings-body"), {
+			fields: graphicsFields,
+			snapshot: settingsSnapshot,
+			save: saveGameSettings,
+			camera: adjustCamera
+		}, "拾取");
+		root.querySelector("[data-close]").focus();
+	};
+	PickupSettings_default = UIManager.addComponent(component);
+}));
+//#endregion
+//#region src/UI/Components/SoundOption/SoundOption.html?raw
+var SoundOption_default$2;
+var init_SoundOption$2 = __esmMin((() => {
+	SoundOption_default$2 = "<div id=\"SoundOption\">\r\n	<div class=\"titlebar\" data-background=\"basic_interface/titlebar_mid.bmp\">\r\n		<div class=\"left\">\r\n			<button\r\n				class=\"base\"\r\n				data-background=\"basic_interface/sys_base_off.bmp\"\r\n				data-hover=\"basic_interface/sys_base_on.bmp\"\r\n			></button>\r\n			<span class=\"text\" data-text=\"1485\">声音设置</span>\r\n		</div>\r\n		<div class=\"right\">\r\n			<button\r\n				class=\"base close\"\r\n				data-background=\"basic_interface/sys_close_off.bmp\"\r\n				data-hover=\"basic_interface/sys_close_on.bmp\"\r\n			></button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"panel\">\r\n		<table>\r\n			<tr>\r\n				<td data-text=\"1495\">BGM</td>\r\n				<td>\r\n					<input class=\"bgm\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"bgm_state\" />开\r\n				</td>\r\n			</tr>\r\n			<tr>\r\n				<td data-text=\"1496\">音效</td>\r\n				<td>\r\n					<input class=\"sound\" type=\"range\" value=\"50\" max=\"100\" min=\"0\" step=\"1\" />\r\n					<input type=\"checkbox\" class=\"sound_state\" />开\r\n				</td>\r\n			</tr>\r\n		</table>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/SoundOption/SoundOption.css?raw
+var SoundOption_default$1;
+var init_SoundOption$1 = __esmMin((() => {
+	SoundOption_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 250px;\r\n	height: 65px;\r\n}\r\n\r\n#SoundOption {\r\n	position: absolute;\r\n	background: white;\r\n	border-radius: 2px;\r\n}\r\n\r\n#SoundOption .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#SoundOption .titlebar .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n#SoundOption .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	/* chrome bug */\r\n	display: inline-block;\r\n	white-space: nowrap;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#SoundOption .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n#SoundOption .titlebar .right {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n#SoundOption .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#SoundOption .panel {\r\n	padding-left: 5px;\r\n	padding-right: 5px;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/SoundOption/SoundOption.js
+function onSoundVolumeUpdate() {
+	SoundManager.setVolume(parseInt(this.value, 10) / 100);
+}
+function onToggleSound() {
+	Audio_default.Sound.play = this.checked;
+	SoundManager.setVolume(Audio_default.Sound.volume);
+	if (!Audio_default.Sound.play) SoundManager.stop();
+}
+function onBGMVolumeUpdate() {
+	Audio_default.BGM.volume = parseInt(this.value, 10) / 100;
+	Audio_default.save();
+	BGM.setVolume(Audio_default.BGM.volume);
+}
+function onToggleBGM() {
+	Audio_default.BGM.play = this.checked;
+	Audio_default.save();
+	if (Audio_default.BGM.play) BGM.play(BGM.filename);
+	else BGM.stop();
+}
+var SoundOption, _preferences$33, SoundOption_default;
+var init_SoundOption = __esmMin((() => {
+	init_Preferences$1();
+	init_Audio();
+	init_BGM();
+	init_SoundManager();
+	init_UIManager();
+	init_GUIComponent();
+	init_Elements();
+	init_SoundOption$2();
+	init_SoundOption$1();
+	SoundOption = new GUIComponent("SoundOption", SoundOption_default$1);
+	SoundOption.render = () => SoundOption_default$2;
+	_preferences$33 = Preferences.get("SoundOption", {
+		x: 300,
+		y: 300
+	}, 1);
+	SoundOption.init = function init() {
+		const root = this.getRoot();
+		const baseBtn = root.querySelector(".base");
+		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
+			event.stopImmediatePropagation();
+		});
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) closeBtn.addEventListener("click", function() {
+			SoundOption.remove();
+		});
+		const soundSlider = root.querySelector(".sound");
+		if (soundSlider) soundSlider.addEventListener("change", onSoundVolumeUpdate);
+		const bgmSlider = root.querySelector(".bgm");
+		if (bgmSlider) bgmSlider.addEventListener("change", onBGMVolumeUpdate);
+		const soundState = root.querySelector(".sound_state");
+		if (soundState) soundState.addEventListener("change", onToggleSound);
+		const bgmState = root.querySelector(".bgm_state");
+		if (bgmState) bgmState.addEventListener("change", onToggleBGM);
+		this.draggable(".titlebar");
+	};
+	SoundOption.onAppend = function onAppend() {
+		this._host.style.top = _preferences$33.y + "px";
+		this._host.style.left = _preferences$33.x + "px";
+		const root = this.getRoot();
+		const soundSlider = root.querySelector(".sound");
+		if (soundSlider) soundSlider.value = Audio_default.Sound.volume * 100;
+		const bgmSlider = root.querySelector(".bgm");
+		if (bgmSlider) bgmSlider.value = Audio_default.BGM.volume * 100;
+		const soundState = root.querySelector(".sound_state");
+		if (soundState) soundState.checked = Audio_default.Sound.play;
+		const bgmState = root.querySelector(".bgm_state");
+		if (bgmState) bgmState.checked = Audio_default.BGM.play;
+	};
+	SoundOption.onRemove = function onRemove() {
+		_preferences$33.x = parseInt(this._host.style.left, 10);
+		_preferences$33.y = parseInt(this._host.style.top, 10);
+		_preferences$33.save();
+	};
+	SoundOption_default = UIManager.addComponent(SoundOption);
+}));
+//#endregion
+//#region src/UI/Components/FPS/FPS.html?raw
+var FPS_default$2;
+var init_FPS$2 = __esmMin((() => {
+	FPS_default$2 = "<div id=\"FPS\">\r\n	<div class=\"titlebar\">\r\n		<div class=\"left\"><span id=\"fpsCounter\">--</span> 帧/秒</div>\r\n	</div>\r\n</div>\r\n";
+}));
+//#endregion
+//#region src/UI/Components/FPS/FPS.css?raw
+var FPS_default$1;
+var init_FPS$1 = __esmMin((() => {
+	FPS_default$1 = ":host {\r\n	top: 100px;\r\n	left: 100px;\r\n	width: 80px;\r\n	height: 20px;\r\n}\r\n\r\n#FPS {\r\n	position: absolute;\r\n	background: white;\r\n	border-radius: 2px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n#FPS .titlebar {\r\n	width: 100%;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n#FPS .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n";
+}));
+//#endregion
+//#region src/UI/Components/FPS/FPS.js
+var FPS, _maxFPSRegistered, _tickFn, _preferences$32, FPS_default;
+var init_FPS = __esmMin((() => {
+	init_Preferences$1();
+	init_Renderer();
+	init_UIManager();
+	init_GUIComponent();
+	init_Elements();
+	init_FPS$2();
+	init_FPS$1();
+	FPS = new GUIComponent("FPS", FPS_default$1);
+	FPS.render = () => FPS_default$2;
+	_maxFPSRegistered = 0;
+	_tickFn = null;
+	_preferences$32 = Preferences.get("FPS", {
+		show: false,
+		x: 100,
+		y: 100
+	}, 1.1);
+	/**
+	* Initialize UI
+	*/
+	FPS.init = function init() {
+		const root = this.getRoot();
+		const baseBtn = root.querySelector(".base");
+		if (baseBtn) baseBtn.addEventListener("mousedown", function(event) {
+			event.stopImmediatePropagation();
+		});
+		const closeBtn = root.querySelector(".close");
+		if (closeBtn) closeBtn.addEventListener("click", function() {
+			FPS.remove();
+		});
+		this.draggable(".titlebar");
+	};
+	/**
+	* When appended to DOM
+	*/
+	FPS.onAppend = function onAppend() {
+		this._host.style.top = _preferences$32.y + "px";
+		this._host.style.left = _preferences$32.x + "px";
+		this._host.style.display = _preferences$32.show ? "" : "none";
+		const root = this.getRoot();
+		const fpsEl = root.querySelector("#fpsCounter");
+		const fpsRoot = root.querySelector("#FPS");
+		let startTime = 0;
+		let frame = 0;
+		let lastValue = null;
+		let lastClass = null;
+		const FPS_COLORS = {
+			"fps-good": "#006400",
+			"fps-warn": "#ff9800",
+			"fps-bad": "#f44336"
+		};
+		function getFPSClass(value, frameLimit) {
+			const ratio = value / frameLimit;
+			if (ratio >= .7) return "fps-good";
+			if (ratio >= .4) return "fps-warn";
+			return "fps-bad";
+		}
+		function tick(time) {
+			frame++;
+			if (time - startTime < 1e3) return;
+			const value = +(frame / ((time - startTime) / 1e3)).toFixed(1);
+			if (value !== lastValue) {
+				fpsEl.textContent = value;
+				lastValue = value;
+			}
+			if (_maxFPSRegistered < value) _maxFPSRegistered = value;
+			const cls = getFPSClass(value, Renderer.frameLimit > 0 ? Renderer.frameLimit : _maxFPSRegistered);
+			if (cls !== lastClass) {
+				fpsRoot.style.color = FPS_COLORS[cls] || FPS_COLORS["fps-good"];
+				lastClass = cls;
+			}
+			startTime = time;
+			frame = 0;
+		}
+		if (_tickFn) Renderer.stop(_tickFn);
+		_tickFn = tick;
+		Renderer.render(tick);
+	};
+	/**
+	* Once remove, save preferences
+	*/
+	FPS.onRemove = function onRemove() {
+		if (_tickFn) {
+			Renderer.stop(_tickFn);
+			_tickFn = null;
+		}
+		_preferences$32.x = parseInt(this._host.style.left, 10);
+		_preferences$32.y = parseInt(this._host.style.top, 10);
+		_preferences$32.show = this._host.style.display !== "none";
+		_preferences$32.save();
+	};
+	/**
+	* Show/Hide UI
+	*/
+	FPS.toggle = function toggle(isVisible) {
+		_preferences$32.x = parseInt(this._host.style.left, 10);
+		_preferences$32.y = parseInt(this._host.style.top, 10);
+		if (typeof isVisible === "boolean") this._host.style.display = isVisible ? "" : "none";
+		else this._host.style.display = this._host.style.display === "none" ? "" : "none";
+		_preferences$32.show = this._host.style.display !== "none";
+		_preferences$32.save();
+		if (this._host.style.display !== "none") this.focus();
+	};
+	FPS_default = UIManager.addComponent(FPS);
 }));
 //#endregion
 //#region src/UI/Components/GraphicsOption/GraphicsOption.html?raw
@@ -268613,7 +273854,7 @@ function onResetToDefaults() {
 	GraphicsSettings.save();
 	GraphicsOption.onAppend();
 }
-var GraphicsOption, _preferences$33, GraphicsOption_default;
+var GraphicsOption, _preferences$31, GraphicsOption_default;
 var init_GraphicsOption = __esmMin((() => {
 	init_FPS();
 	init_Configs();
@@ -268628,7 +273869,7 @@ var init_GraphicsOption = __esmMin((() => {
 	init_MemoryManager();
 	init_ChatBox();
 	GraphicsOption = new GUIComponent("GraphicsOption", GraphicsOption_default$1);
-	_preferences$33 = Preferences.get("GraphicsOption", {
+	_preferences$31 = Preferences.get("GraphicsOption", {
 		x: 300,
 		y: 300
 	}, 1.1);
@@ -268694,8 +273935,8 @@ var init_GraphicsOption = __esmMin((() => {
 	* When append the element to html
 	*/
 	GraphicsOption.onAppend = function onAppend() {
-		this._host.style.top = `${_preferences$33.y}px`;
-		this._host.style.left = `${_preferences$33.x}px`;
+		this._host.style.top = `${_preferences$31.y}px`;
+		this._host.style.left = `${_preferences$31.x}px`;
 		const root = this.getRoot();
 		root.querySelector(".details").value = GraphicsSettings.quality;
 		root.querySelector(".screensize").value = GraphicsSettings.screensize;
@@ -268726,9 +273967,9 @@ var init_GraphicsOption = __esmMin((() => {
 	* Once remove, save preferences
 	*/
 	GraphicsOption.onRemove = function onRemove() {
-		_preferences$33.x = parseInt(this._host.style.left, 10);
-		_preferences$33.y = parseInt(this._host.style.top, 10);
-		_preferences$33.save();
+		_preferences$31.x = parseInt(this._host.style.left, 10);
+		_preferences$31.y = parseInt(this._host.style.top, 10);
+		_preferences$31.save();
 	};
 	GraphicsOption.needFocus = true;
 	GraphicsOption.mouseMode = GUIComponent.MouseMode.STOP;
@@ -268915,7 +274156,7 @@ function onUpdateDisableVirtualMouse() {
 	Controls_default.joyDisableVirtualMouse = !!this.checked;
 	Controls_default.save();
 }
-var ShortCutOption, ShortCuts$1, ShortCutsTemp, _preferences$32, ShortCutOption_default;
+var ShortCutOption, ShortCuts$1, ShortCutsTemp, _preferences$30, ShortCutOption_default;
 var init_ShortCutOption = __esmMin((() => {
 	init_KeyEventHandler();
 	init_Preferences$1();
@@ -268931,7 +274172,7 @@ var init_ShortCutOption = __esmMin((() => {
 	ShortCuts$1 = preferences$1.ShortCuts;
 	ShortCutsTemp = {};
 	ShortCutOption.isCapturing = false;
-	_preferences$32 = Preferences.get("ShortCutOption", {
+	_preferences$30 = Preferences.get("ShortCutOption", {
 		x: 300,
 		y: 300
 	}, 1);
@@ -269017,17 +274258,17 @@ var init_ShortCutOption = __esmMin((() => {
 	* Apply preferences once append to body
 	*/
 	ShortCutOption.onAppend = function() {
-		this._host.style.left = _preferences$32.x + "px";
-		this._host.style.top = _preferences$32.y + "px";
+		this._host.style.left = _preferences$30.x + "px";
+		this._host.style.top = _preferences$30.y + "px";
 		this._host.style.zIndex = 100;
 	};
 	/**
 	* Remove from window (and so clean up)
 	*/
 	ShortCutOption.onRemove = function() {
-		_preferences$32.x = parseInt(this._host.style.left, 10);
-		_preferences$32.y = parseInt(this._host.style.top, 10);
-		_preferences$32.save();
+		_preferences$30.x = parseInt(this._host.style.left, 10);
+		_preferences$30.y = parseInt(this._host.style.top, 10);
+		_preferences$30.save();
 	};
 	/**
 	* Process key
@@ -269103,7 +274344,7 @@ var init_ShortCutOption = __esmMin((() => {
 //#region src/UI/Components/Escape/Escape.html?raw
 var Escape_default$2;
 var init_Escape$2 = __esmMin((() => {
-	Escape_default$2 = "<div id=\"Escape\" data-background=\"basic_interface/titlebar_fix.bmp\">\r\n	<div class=\"top\">\r\n		<button\r\n			class=\"node\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<div class=\"title\" data-text=\"1483\">选择选项</div>\r\n	</div>\r\n\r\n	<div class=\"container\">\r\n		<button\r\n			class=\"resurection\"\r\n			data-background=\"esc_05a.bmp\"\r\n			data-hover=\"esc_05b.bmp\"\r\n			data-down=\"esc_05c.bmp\"\r\n		>使用复活道具</button>\r\n		<button\r\n			class=\"savepoint\"\r\n			data-background=\"esc_04a.bmp\"\r\n			data-hover=\"esc_04b.bmp\"\r\n			data-down=\"esc_04c.bmp\"\r\n		>返回保存点</button>\r\n		<button\r\n			class=\"charselect\"\r\n			data-background=\"esc_01a.bmp\"\r\n			data-hover=\"esc_01b.bmp\"\r\n			data-down=\"esc_01c.bmp\"\r\n		>返回角色选择</button>\r\n		<button\r\n			class=\"graphics\"\r\n			data-background=\"esc_06a.bmp\"\r\n			data-hover=\"esc_06b.bmp\"\r\n			data-down=\"esc_06c.bmp\"\r\n		>画面设置</button>\r\n		<button class=\"sound\" data-background=\"esc_07a.bmp\" data-hover=\"esc_07b.bmp\" data-down=\"esc_07c.bmp\">声音设置</button>\r\n		<button class=\"hotkey\" data-background=\"esc_08a.bmp\" data-hover=\"esc_08b.bmp\" data-down=\"esc_08c.bmp\">快捷键设置</button>\r\n		<button class=\"exit\" data-background=\"esc_03a.bmp\" data-hover=\"esc_03b.bmp\" data-down=\"esc_03c.bmp\">退出游戏</button>\r\n		<button class=\"cancel\" data-background=\"esc_02a.bmp\" data-hover=\"esc_02b.bmp\" data-down=\"esc_02c.bmp\">返回游戏</button>\r\n	</div>\r\n</div>\r\n";
+	Escape_default$2 = "<div id=\"Escape\" data-background=\"basic_interface/titlebar_fix.bmp\">\r\n	<div class=\"top\">\r\n		<button\r\n			class=\"node\"\r\n			data-background=\"basic_interface/sys_base_off.bmp\"\r\n			data-hover=\"basic_interface/sys_base_on.bmp\"\r\n		></button>\r\n		<div class=\"title\" data-text=\"1483\">选择选项</div>\r\n	</div>\r\n\r\n	<div class=\"container\">\r\n		<button\r\n			class=\"resurection\"\r\n			data-background=\"esc_05a.bmp\"\r\n			data-hover=\"esc_05b.bmp\"\r\n			data-down=\"esc_05c.bmp\"\r\n		>使用复活道具</button>\r\n		<button\r\n			class=\"savepoint\"\r\n			data-background=\"esc_04a.bmp\"\r\n			data-hover=\"esc_04b.bmp\"\r\n			data-down=\"esc_04c.bmp\"\r\n		>返回保存点</button>\r\n		<button\r\n			class=\"charselect\"\r\n			data-background=\"esc_01a.bmp\"\r\n			data-hover=\"esc_01b.bmp\"\r\n			data-down=\"esc_01c.bmp\"\r\n		>返回角色选择</button>\r\n		<button\r\n			class=\"graphics\"\r\n			data-background=\"esc_06a.bmp\"\r\n			data-hover=\"esc_06b.bmp\"\r\n			data-down=\"esc_06c.bmp\"\r\n		>画面设置</button>\r\n		<button class=\"pickup\">拾取设置</button>\r\n		<button class=\"sound\" data-background=\"esc_07a.bmp\" data-hover=\"esc_07b.bmp\" data-down=\"esc_07c.bmp\">声音设置</button>\r\n		<button class=\"hotkey\" data-background=\"esc_08a.bmp\" data-hover=\"esc_08b.bmp\" data-down=\"esc_08c.bmp\">快捷键设置</button>\r\n		<button class=\"exit\" data-background=\"esc_03a.bmp\" data-hover=\"esc_03b.bmp\" data-down=\"esc_03c.bmp\">退出游戏</button>\r\n		<button class=\"cancel\" data-background=\"esc_02a.bmp\" data-hover=\"esc_02b.bmp\" data-down=\"esc_02c.bmp\">返回游戏</button>\r\n	</div>\r\n</div>\r\n";
 }));
 //#endregion
 //#region src/UI/Components/Escape/Escape.css?raw
@@ -269136,6 +274377,7 @@ function onToggleShortcutUI() {
 }
 var Escape, Escape_default;
 var init_Escape = __esmMin((() => {
+	init_PickupSettings();
 	init_KeyEventHandler();
 	init_Renderer();
 	init_UIManager();
@@ -269169,6 +274411,10 @@ var init_Escape = __esmMin((() => {
 		});
 		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
 			el.style.display = "none";
+		});
+		root.querySelector(".pickup").addEventListener("click", () => {
+			this._host.style.display = "none";
+			PickupSettings_default.append();
 		});
 		root.querySelector(".sound").addEventListener("click", onToggleSoundUI);
 		root.querySelector(".graphics").addEventListener("click", onToggleGraphicUI);
@@ -269206,7 +274452,7 @@ var init_Escape = __esmMin((() => {
 		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
 			el.style.display = "none";
 		});
-		root.querySelectorAll(".graphics, .sound, .hotkey").forEach(function(el) {
+		root.querySelectorAll(".graphics, .sound, .hotkey, .pickup").forEach(function(el) {
 			el.style.display = "";
 		});
 	};
@@ -269232,7 +274478,7 @@ var init_Escape = __esmMin((() => {
 		this._host.style.display = "";
 		root.querySelector(".savepoint").style.display = "";
 		if (hasSiegfried) root.querySelector(".resurection").style.display = "";
-		root.querySelectorAll(".graphics, .sound, .hotkey").forEach(function(el) {
+		root.querySelectorAll(".graphics, .sound, .hotkey, .pickup").forEach(function(el) {
 			el.style.display = "none";
 		});
 	};
@@ -269245,7 +274491,7 @@ var init_Escape = __esmMin((() => {
 		root.querySelectorAll(".resurection, .savepoint").forEach(function(el) {
 			el.style.display = "none";
 		});
-		root.querySelectorAll(".graphics, .sound, .hotkey").forEach(function(el) {
+		root.querySelectorAll(".graphics, .sound, .hotkey, .pickup").forEach(function(el) {
 			el.style.display = "";
 		});
 	};
@@ -269303,7 +274549,7 @@ function onClickAttendance(e) {
 	const _pkt = new PACKET.CZ.REQ_CHECK_ATTENDANCE();
 	Network.sendPacket(_pkt);
 }
-var CheckAttendance, _checkAttendanceData, _CheckAttendanceInfo, _preferences$31, CheckAttendance_default;
+var CheckAttendance, _checkAttendanceData, _CheckAttendanceInfo, _preferences$29, CheckAttendance_default;
 var init_CheckAttendance = __esmMin((() => {
 	init_DBManager();
 	init_Preferences$1();
@@ -269317,7 +274563,7 @@ var init_CheckAttendance = __esmMin((() => {
 	init_Elements();
 	CheckAttendance = new GUIComponent("CheckAttendance", CheckAttendance_default$1);
 	CheckAttendance.render = () => CheckAttendance_default$2;
-	_preferences$31 = Preferences.get("CheckAttendance", {
+	_preferences$29 = Preferences.get("CheckAttendance", {
 		x: 200,
 		y: 200
 	}, 1);
@@ -269342,10 +274588,10 @@ var init_CheckAttendance = __esmMin((() => {
 	*/
 	CheckAttendance.onAppend = function onAppend() {
 		Object.assign(this._host.style, {
-			top: `${Math.min(Math.max(0, _preferences$31.y), Renderer.height - this._host.getBoundingClientRect().height)}px`,
-			left: `${Math.min(Math.max(0, _preferences$31.x), Renderer.width - this._host.getBoundingClientRect().width)}px`
+			top: `${Math.min(Math.max(0, _preferences$29.y), Renderer.height - this._host.getBoundingClientRect().height)}px`,
+			left: `${Math.min(Math.max(0, _preferences$29.x), Renderer.width - this._host.getBoundingClientRect().width)}px`
 		});
-		if (!_preferences$31.show) this._host.style.display = "none";
+		if (!_preferences$29.show) this._host.style.display = "none";
 		if (_checkAttendanceData >= 0 && _CheckAttendanceInfo.Config) {
 			CheckAttendance.updateUI();
 			this.focus();
@@ -277104,14 +282350,14 @@ function isInCooldown(quest) {
 	if (quest.end_time > epoch_seconds) return true;
 	return false;
 }
-var _preferences$30, QuestWindow, QuestWindow_default;
+var _preferences$28, QuestWindow, QuestWindow_default;
 var init_QuestWindow = __esmMin((() => {
 	init_Preferences$1();
 	init_UIManager();
 	init_GUIComponent();
 	init_QuestWindow$2();
 	init_QuestWindow$1();
-	_preferences$30 = Preferences.get("Quest", {
+	_preferences$28 = Preferences.get("Quest", {
 		x: 200,
 		y: 200,
 		show: false,
@@ -277131,7 +282377,7 @@ var init_QuestWindow = __esmMin((() => {
 	* Once append to the DOM, start to position the UI
 	*/
 	QuestWindow.onAppend = function onAppend() {
-		if (!_preferences$30.showwindow) this.ui.hide();
+		if (!_preferences$28.showwindow) this.ui.hide();
 	};
 	/**
 	* Clean up UI
@@ -277299,7 +282545,7 @@ var init_Achievement$2 = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/Achievement/Achievement.js
-var _preferences$29, MAJOR_CATEGORIES, AchievementComponent, Achievement, Achievement_default;
+var _preferences$27, MAJOR_CATEGORIES, AchievementComponent, Achievement, Achievement_default;
 var init_Achievement$1 = __esmMin((() => {
 	init_GUIComponent();
 	init_UIManager();
@@ -277313,7 +282559,7 @@ var init_Achievement$1 = __esmMin((() => {
 	init_ItemInfo();
 	init_Achievement$3();
 	init_Achievement$2();
-	_preferences$29 = Preferences.get("Achievement", {
+	_preferences$27 = Preferences.get("Achievement", {
 		x: 100,
 		y: 100
 	}, 1);
@@ -277456,15 +282702,15 @@ var init_Achievement$1 = __esmMin((() => {
 			this._host.style.display = "none";
 		}
 		onAppend() {
-			this._host.style.left = `${_preferences$29.x}px`;
-			this._host.style.top = `${_preferences$29.y}px`;
+			this._host.style.left = `${_preferences$27.x}px`;
+			this._host.style.top = `${_preferences$27.y}px`;
 			this._fixPositionOverflow();
 			this.updateHeaderAndView();
 		}
 		onRemove() {
-			_preferences$29.x = parseInt(this._host.style.left, 10);
-			_preferences$29.y = parseInt(this._host.style.top, 10);
-			_preferences$29.save();
+			_preferences$27.x = parseInt(this._host.style.left, 10);
+			_preferences$27.y = parseInt(this._host.style.top, 10);
+			_preferences$27.save();
 		}
 		toggle() {
 			if (this.__active && this._host.style.display !== "none") this._host.style.display = "none";
@@ -278214,7 +283460,7 @@ function clearHighlights() {
 		el.dataset.highlight = "false";
 	});
 }
-var Reputation, _preferences$28, bg, bg_highlight, indicator_empty, indicator_blue, indicator_red, Reputation_default;
+var Reputation, _preferences$26, bg, bg_highlight, indicator_empty, indicator_blue, indicator_red, Reputation_default;
 var init_Reputation = __esmMin((() => {
 	init_DBManager();
 	init_NetworkManager();
@@ -278227,7 +283473,7 @@ var init_Reputation = __esmMin((() => {
 	init_Reputation$2();
 	init_Reputation$1();
 	Reputation = new GUIComponent("Reputation", Reputation_default$1);
-	_preferences$28 = Preferences.get("Reputation", {
+	_preferences$26 = Preferences.get("Reputation", {
 		x: 400,
 		y: 200,
 		show: true
@@ -278310,8 +283556,8 @@ var init_Reputation = __esmMin((() => {
 	* binding group selector events and rendering the default view.
 	*/
 	Reputation.onAppend = function onAppend() {
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$28.y), window.innerHeight - (this._host.offsetHeight || 0))}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$28.x), window.innerWidth - (this._host.offsetWidth || 0))}px`;
+		this._host.style.top = `${Math.min(Math.max(0, _preferences$26.y), window.innerHeight - (this._host.offsetHeight || 0))}px`;
+		this._host.style.left = `${Math.min(Math.max(0, _preferences$26.x), window.innerWidth - (this._host.offsetWidth || 0))}px`;
 		buildGroupSelector();
 		bindGroupSelector();
 		bindSearch();
@@ -278322,10 +283568,10 @@ var init_Reputation = __esmMin((() => {
 	* Once remove from body, save user preferences
 	*/
 	Reputation.onRemove = function onRemove() {
-		_preferences$28.show = this._host.style.display !== "none";
-		_preferences$28.y = parseInt(this._host.style.top, 10);
-		_preferences$28.x = parseInt(this._host.style.left, 10);
-		_preferences$28.save();
+		_preferences$26.show = this._host.style.display !== "none";
+		_preferences$26.y = parseInt(this._host.style.top, 10);
+		_preferences$26.x = parseInt(this._host.style.left, 10);
+		_preferences$26.save();
 	};
 	/**
 	* Request to toggle open/close reputation
@@ -278609,81 +283855,6 @@ var init_AdventureRouteService = __esmMin((() => {
 	});
 }));
 //#endregion
-//#region src/Preferences/Interface.js
-var defaultInterfaceSettings, Interface_default;
-var init_Interface = __esmMin((() => {
-	init_Preferences$1();
-	defaultInterfaceSettings = { toastDuration: 2 };
-	Interface_default = Preferences.get("Interface", { ...defaultInterfaceSettings }, 1);
-}));
-//#endregion
-//#region src/UI/Components/Toast.css?raw
-var Toast_default;
-var init_Toast$1 = __esmMin((() => {
-	Toast_default = ":host {\r\n	all: initial;\r\n	position: fixed;\r\n	top: 40%;\r\n	left: 50%;\r\n	transform: translate(-50%, -50%);\r\n	z-index: 2147483647;\r\n	display: flex;\r\n	align-items: center;\r\n	width: max-content;\r\n	max-width: calc(100% - 16px);\r\n	box-sizing: border-box;\r\n	padding: 8px 10px;\r\n	border: 1px solid #6aa786;\r\n	border-radius: 8px;\r\n	background: #263d32;\r\n	color: #d9f4e5;\r\n	box-shadow: 0 4px 16px #0006;\r\n	font:\r\n		13px/1.5 Arial,\r\n		sans-serif;\r\n	pointer-events: none;\r\n}\r\n:host(.info) {\r\n	border-color: #729cb8;\r\n	background: #253b4b;\r\n	color: #dceefa;\r\n}\r\n:host(.error) {\r\n	border-color: #d99573;\r\n	background: #643c31;\r\n	color: #ffe2cc;\r\n}\r\n.message {\r\n	min-width: 0;\r\n	white-space: nowrap;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Toast.js
-function ownerOf(container) {
-	return container?.closest(".game-tools-window, .panel-body") || container;
-}
-function visible(container) {
-	for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
-	return container?.isConnected;
-}
-/** One viewport-level notification shared by every UI, including shadow roots. */
-function showToast(container, message, kind = "success") {
-	if (!message || !visible(container)) return;
-	active$2?.dismiss();
-	const owner = ownerOf(container);
-	const element = document.createElement("div");
-	element.className = `ui-toast ${kind}`;
-	element.setAttribute("role", "status");
-	element.setAttribute("aria-live", "polite");
-	element.textContent = message;
-	const shadow = element.attachShadow({ mode: "open" });
-	const style = document.createElement("style");
-	style.textContent = Toast_default;
-	const content = document.createElement("span");
-	content.className = "message";
-	content.append(document.createElement("slot"));
-	const dismiss = () => {
-		clearTimeout(record.timer);
-		record.observer.disconnect();
-		element.remove();
-		if (active$2 === record) active$2 = null;
-	};
-	shadow.append(style, content);
-	const observer = new MutationObserver(() => {
-		if (!visible(owner) || !element.isConnected) dismiss();
-	});
-	const record = {
-		owner,
-		dismiss,
-		observer,
-		timer: setTimeout(dismiss, Interface_default.toastDuration * 1e3)
-	};
-	active$2 = record;
-	document.body.append(element);
-	const options = {
-		subtree: true,
-		childList: true,
-		attributes: true,
-		attributeFilter: ["hidden", "style"]
-	};
-	observer.observe(document.body, options);
-	const root = owner.getRootNode();
-	if (root instanceof ShadowRoot) observer.observe(root, options);
-}
-function clearToast(container) {
-	if (active$2?.owner === ownerOf(container)) active$2.dismiss();
-}
-var active$2;
-var init_Toast = __esmMin((() => {
-	init_Interface();
-	init_Toast$1();
-}));
-//#endregion
 //#region src/UI/Components/GameTools/GameTools.html?raw
 var GameTools_default$2;
 var init_GameTools$2 = __esmMin((() => {
@@ -278723,7 +283894,7 @@ var init_GameToolsRegistry = __esmMin((() => {
 }));
 //#endregion
 //#region src/UI/Components/GameTools/escapeHtml.js
-function escapeHtml$2(value) {
+function escapeHtml$1(value) {
 	return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
 }
 var init_escapeHtml = __esmMin((() => {}));
@@ -278731,18 +283902,18 @@ var init_escapeHtml = __esmMin((() => {}));
 //#region src/UI/Components/GameTools/GameSelect.js
 function optionMarkup(option, selectedValue) {
 	const value = String(option.value);
-	return `<button class="game-select-option${value === selectedValue ? " selected" : ""}" type="button" role="option"${option.disabled ? " disabled" : ""} aria-selected="${value === selectedValue}" data-value="${escapeHtml$2(value)}" data-search="${escapeHtml$2(`${option.label} ${option.search || ""}`.toLocaleLowerCase())}">
-		<strong>${escapeHtml$2(option.label)}</strong>${option.description ? `<small>${escapeHtml$2(option.description)}</small>` : ""}
+	return `<button class="game-select-option${value === selectedValue ? " selected" : ""}" type="button" role="option"${option.disabled ? " disabled" : ""} aria-selected="${value === selectedValue}" data-value="${escapeHtml$1(value)}" data-search="${escapeHtml$1(`${option.label} ${option.search || ""}`.toLocaleLowerCase())}">
+		<strong>${escapeHtml$1(option.label)}</strong>${option.description ? `<small>${escapeHtml$1(option.description)}</small>` : ""}
 	</button>`;
 }
 function renderGameSelect({ name = "", className = "", ariaLabel, value, options, searchable = false, disabled = false }) {
 	const selectedValue = String(value ?? "");
 	const selected = options.find((option) => String(option.value) === selectedValue) || options[0];
 	return `<div class="game-select ${className}" data-game-select>
-		<input class="game-select-value ${className}" type="hidden"${name ? ` name="${escapeHtml$2(name)}"` : ""} value="${escapeHtml$2(selectedValue)}">
-		<button class="game-select-trigger" type="button" aria-label="${escapeHtml$2(ariaLabel)}" aria-haspopup="listbox" aria-expanded="false"${disabled ? " disabled" : ""}><span>${escapeHtml$2(selected?.label || "")}</span><i></i></button>
+		<input class="game-select-value ${className}" type="hidden"${name ? ` name="${escapeHtml$1(name)}"` : ""} value="${escapeHtml$1(selectedValue)}">
+		<button class="game-select-trigger" type="button" aria-label="${escapeHtml$1(ariaLabel)}" aria-haspopup="listbox" aria-expanded="false"${disabled ? " disabled" : ""}><span>${escapeHtml$1(selected?.label || "")}</span><i></i></button>
 		<div class="game-select-menu" role="listbox" hidden>
-			${searchable ? `<input class="game-select-search" type="search" placeholder="搜索${escapeHtml$2(ariaLabel)}" aria-label="搜索${escapeHtml$2(ariaLabel)}">` : ""}
+			${searchable ? `<input class="game-select-search" type="search" placeholder="搜索${escapeHtml$1(ariaLabel)}" aria-label="搜索${escapeHtml$1(ariaLabel)}">` : ""}
 			<div class="game-select-options">${options.map((option) => optionMarkup(option, selectedValue)).join("")}</div>
 			<div class="game-select-empty" hidden>没有匹配项</div>
 		</div>
@@ -279043,131 +284214,6 @@ function formatCatalogCount(count, noun, currentMap) {
 	return `共 ${count} ${noun}（${catalogScopeLabel(currentMap)}）`;
 }
 var init_CatalogData = __esmMin((() => {}));
-//#endregion
-//#region src/UI/Components/GameTools/AdventureControlService.js
-function headers() {
-	return {
-		Accept: "application/json",
-		"Content-Type": "application/json",
-		"X-HappyRO-Account-ID": String(SessionStorage_default.AID),
-		"X-HappyRO-Character-ID": String(SessionStorage_default.GID),
-		"X-HappyRO-Auth-Token": SessionStorage_default.WebToken || ""
-	};
-}
-async function requestBody(path, options = {}) {
-	const response = await fetch(`/api/adventure-tools${path}`, {
-		...options,
-		headers: headers()
-	});
-	const body = await response.json().catch(() => ({}));
-	if (!response.ok) {
-		const validation = body.errors ? Object.values(body.errors).flat()[0] : null;
-		const error = new Error(validation || body.message || body.error?.message || "操作失败，请稍后重试");
-		error.code = body.error?.code;
-		throw error;
-	}
-	return body;
-}
-async function request(path, options = {}) {
-	return (await requestBody(path, options)).data;
-}
-async function loadAdventureAsset(path) {
-	const response = await fetch(`/api/adventure-tools${path}`, { headers: headers() });
-	if (!response.ok) throw new Error("物品图片加载失败");
-	return URL.createObjectURL(await response.blob());
-}
-function createIdempotencyKey() {
-	const bytes = crypto.getRandomValues(/* @__PURE__ */ new Uint8Array(16));
-	bytes[6] = bytes[6] & 15 | 64;
-	bytes[8] = bytes[8] & 63 | 128;
-	const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
-	return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
-}
-function loadAdventureControlBootstrap() {
-	return request("/bootstrap");
-}
-function loadCurrentCharacter() {
-	return request("/character");
-}
-function maintainCurrentCharacter(type, payload) {
-	return request("/character/commands", {
-		method: "POST",
-		body: JSON.stringify({
-			idempotency_key: createIdempotencyKey(),
-			type,
-			payload
-		})
-	});
-}
-function loadAdventureGameSettings() {
-	return request("/game-settings");
-}
-function searchAdventureItems({ query = "", type = "", subtype = "", page = 1, perPage = 30 } = {}) {
-	const params = new URLSearchParams({
-		page,
-		perPage
-	});
-	if (query) params.set("query", query);
-	if (type) params.set("type", type);
-	if (subtype) params.set("subtype", subtype);
-	return requestBody(`/items?${params}`);
-}
-function searchAdventureNpcs({ query = "", onMap = "", currentMap = "", page = 1, perPage = 32 } = {}) {
-	const params = new URLSearchParams({
-		page,
-		perPage
-	});
-	if (query) params.set("query", query);
-	if (onMap) params.set("onMap", onMap);
-	if (currentMap) params.set("currentMap", currentMap);
-	return requestBody(`/npcs?${params}`);
-}
-/**
-* Every NPC on one map. The map preview places all markers at once, so this
-* stays unpaginated on purpose.
-*/
-function loadAdventureMapNpcs(map) {
-	return request(`/maps/${encodeURIComponent(map)}/npcs`);
-}
-function searchAdventureMaps({ query = "", onMap = "", currentMap = "", page = 1, perPage = 35 } = {}) {
-	const params = new URLSearchParams({
-		page,
-		perPage
-	});
-	if (query) params.set("query", query);
-	if (onMap) params.set("onMap", onMap);
-	if (currentMap) params.set("currentMap", currentMap);
-	return requestBody(`/maps?${params}`);
-}
-function grantAdventureZeny(amount) {
-	return request("/currency/zeny/grants", {
-		method: "POST",
-		body: JSON.stringify({
-			idempotency_key: createIdempotencyKey(),
-			amount
-		})
-	});
-}
-function grantAdventureItem(itemId, amount) {
-	return request("/items/grants", {
-		method: "POST",
-		body: JSON.stringify({
-			idempotency_key: createIdempotencyKey(),
-			target: { type: "self" },
-			item_id: itemId,
-			amount
-		})
-	});
-}
-function applyAdventureGameSettings(changes) {
-	return request("/game-settings", {
-		method: "PUT",
-		body: JSON.stringify({ changes })
-	});
-}
-var init_AdventureControlService = __esmMin((() => {
-	init_SessionStorage();
-}));
 //#endregion
 //#region src/UI/Components/GameTools/MapCatalogTab.js
 function npcAvailabilityLabel(available) {
@@ -279745,7 +284791,7 @@ function mount$4(container, context = {}) {
 		list.innerHTML = page.items.map((monster) => `
 			<button class="monster-row${state.selected?.id === monster.id ? " selected" : ""}" type="button" data-id="${monster.id}">
 				<span class="monster-thumb${monster.atlas === null ? " no-image" : ""}" style="${atlasStyle(state.catalog, monster, context.mobile ? 40 : 48)}"></span>
-				<span class="monster-row-text"><strong>${escapeHtml$2(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.kind === "mvp" ? " · MVP" : monster.kind === "mini" ? " · Mini" : ""}</small></span>
+				<span class="monster-row-text"><strong>${escapeHtml$1(monster.name)}</strong><small>Lv.${monster.level} · ${monster.id}${monster.kind === "mvp" ? " · MVP" : monster.kind === "mini" ? " · Mini" : ""}</small></span>
 			</button>`).join("");
 		if (!page.items.length) renderCatalogEmptyState(list, search.value.trim() || filter.value !== "all" ? "没有匹配结果" : scopeFilter.checked ? "当前地图暂无魔物" : "暂无魔物资料", scopeFilter.checked ? () => {
 			scopeFilter.checked = false;
@@ -279776,7 +284822,7 @@ function mount$4(container, context = {}) {
 	}
 	function renderDrops(drops, title) {
 		if (!drops?.length) return "";
-		return `<div class="drop-group"><h4>${title}</h4>${drops.map((drop) => `<div><span title="${escapeHtml$2(drop.nameEn || drop.Item)}">${escapeHtml$2(drop.name || drop.Item)}</span><em>${formatRate$1(drop.Rate)}</em></div>`).join("")}</div>`;
+		return `<div class="drop-group"><h4>${title}</h4>${drops.map((drop) => `<div><span title="${escapeHtml$1(drop.nameEn || drop.Item)}">${escapeHtml$1(drop.name || drop.Item)}</span><em>${formatRate$1(drop.Rate)}</em></div>`).join("")}</div>`;
 	}
 	let detailMonsterId;
 	function renderDetail() {
@@ -279826,10 +284872,10 @@ function mount$4(container, context = {}) {
 		detail.innerHTML = `
 			<div class="monster-overview"><div class="monster-heading">
 				<span class="monster-portrait${monster.atlas === null ? " no-image" : ""}" style="${atlasStyle(state.catalog, monster, 96)}"></span>
-				${context.mobile ? "" : `<div><h3>${escapeHtml$2(monster.name)}</h3><p>${escapeHtml$2(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.kind === "mvp" ? "MVP" : monster.kind === "mini" ? "Mini" : "普通"}</span></div>`}
+				${context.mobile ? "" : `<div><h3>${escapeHtml$1(monster.name)}</h3><p>${escapeHtml$1(monster.nameEn)} · ${monster.id}</p><span class="monster-badge">${monster.kind === "mvp" ? "MVP" : monster.kind === "mini" ? "Mini" : "普通"}</span></div>`}
 			</div>
 			<div class="monster-stats">
-                ${context.mobile ? `<div><span>名称</span><strong>${escapeHtml$2(monster.name)}</strong></div><div><span>英文名</span><strong>${escapeHtml$2(monster.nameEn)}</strong></div><div><span>编号</span><strong>${monster.id}</strong></div><div><span>类型</span><strong>${monster.kind === "mvp" ? "MVP" : monster.kind === "mini" ? "Mini" : "普通"}</strong></div>` : ""}
+                ${context.mobile ? `<div><span>名称</span><strong>${escapeHtml$1(monster.name)}</strong></div><div><span>英文名</span><strong>${escapeHtml$1(monster.nameEn)}</strong></div><div><span>编号</span><strong>${monster.id}</strong></div><div><span>类型</span><strong>${monster.kind === "mvp" ? "MVP" : monster.kind === "mini" ? "Mini" : "普通"}</strong></div>` : ""}
 				<div><span>等级</span><strong>${monster.level}</strong></div><div><span>HP</span><strong>${monster.hp}</strong></div>
 				<div><span>攻击</span><strong>${monster.attack.filter(Number.isFinite).join(" - ")}</strong></div><div><span>防御</span><strong>${monster.defense} / ${monster.magicDefense}</strong></div>
 				<div><span>种族</span><strong>${raceNames[monster.race] || monster.race}</strong></div><div><span>属性</span><strong>${elementNames[monster.element] || monster.element} ${monster.elementLevel}</strong></div>
@@ -279841,14 +284887,14 @@ function mount$4(container, context = {}) {
 					<h4>出现地图</h4>
 					<div class="monster-location-list">${spawnMaps.length ? spawnMaps.map((spawn) => {
 			const displayName = getMapChannelDisplayName(spawn.mapName, spawnMapNames.get(spawn.mapName), SessionStorage_default.NavigationMapChannelsEnabled);
-			return `<button type="button" data-spawn-map="${escapeHtml$2(spawn.mapName)}" class="monster-location${state.selectedSpawn?.mapName === spawn.mapName ? " selected" : ""}"><strong>${escapeHtml$2(displayName)}</strong><small>${escapeHtml$2(spawn.mapName)}</small></button>`;
+			return `<button type="button" data-spawn-map="${escapeHtml$1(spawn.mapName)}" class="monster-location${state.selectedSpawn?.mapName === spawn.mapName ? " selected" : ""}"><strong>${escapeHtml$1(displayName)}</strong><small>${escapeHtml$1(spawn.mapName)}</small></button>`;
 		}).join("") : "<p>暂无常驻刷新地图</p>"}</div>
 				</section>
 			</div>
 			<div class="summon-panel">
 				<button class="summon-button" type="button" ${disabled ? "disabled" : ""}>${state.pending ? "召唤中..." : "召唤"}</button>
 				<button class="monster-map-teleport" type="button" ${teleportTarget && teleportState.canTeleport ? "" : "disabled"}>传送到地图</button>
-				<span class="summon-status error" role="status" aria-live="polite">${escapeHtml$2(summonConstraintText || (!teleportState.allowed ? "当前账号没有传送权限" : ""))}</span>
+				<span class="summon-status error" role="status" aria-live="polite">${escapeHtml$1(summonConstraintText || (!teleportState.allowed ? "当前账号没有传送权限" : ""))}</span>
 			</div>`;
 		const summonButton = detail.querySelector(".summon-button");
 		const locations = detail.querySelector(".monster-locations");
@@ -280153,100 +285199,6 @@ var init_NpcCatalogTab = __esmMin((() => {
 		label: "NPC 图鉴",
 		mount: mount$3
 	};
-}));
-//#endregion
-//#region src/UI/Components/Confirmation.css?raw
-var Confirmation_default;
-var init_Confirmation$1 = __esmMin((() => {
-	Confirmation_default = ".ui-confirm {\r\n position: fixed;\r\n inset: 0;\r\n margin: auto;\r\n width: min(380px, calc(100% - 32px));\r\n max-height: calc(100% - 32px);\r\n overflow: auto;\r\n box-sizing: border-box;\r\n padding: 18px;\r\n border: 1px solid #657584;\r\n border-radius: 8px;\r\n background: #19212a;\r\n color: #f5f2e9;\r\n font: 13px/1.6 Arial, sans-serif;\r\n white-space: normal;\r\n}\r\n.ui-confirm::backdrop { background: #0008; }\r\n.ui-confirm > p { margin: 0 0 16px; white-space: pre-wrap; overflow-wrap: anywhere; }\r\n.ui-confirm > p:focus { outline: none; }\r\n.ui-confirm .ui-confirm-actions { display: flex; justify-content: flex-end; gap: 6px; margin-top: 12px; }\r\n.ui-confirm .ui-confirm-actions button {\r\n flex: none; box-sizing: border-box; width: auto; min-width: 56px; height: 30px; min-height: 30px;\r\n padding: 3px 10px; border: 1px solid #7e8c99; border-radius: 6px;\r\n color: #f5f2e9; background: #394753; font: 12px/1.5 Arial, sans-serif; cursor: pointer;\r\n}\r\n.ui-confirm .ui-confirm-actions button:focus-visible { outline: 2px solid #ceaa70; outline-offset: 2px; }\r\n.ui-confirm input { box-sizing: border-box; max-width: 100%; }\r\n\r\n.ui-confirm .ui-confirm-field {\r\n display: flex;\r\n align-items: center;\r\n gap: 12px;\r\n}\r\n.ui-confirm .ui-confirm-field > span { flex: none; }\r\n.ui-confirm .ui-confirm-field > :is(input, select) {\r\n flex: 1;\r\n width: 100%;\r\n min-width: 0;\r\n min-height: 36px;\r\n padding: 6px 10px;\r\n border: 1px solid #7e8c99;\r\n border-radius: 6px;\r\n background: #25313b;\r\n color: inherit;\r\n font: 16px/1.5 Arial, sans-serif;\r\n}\r\n\r\n.ui-confirm .ui-confirm-field + .ui-confirm-field { margin-top: 12px; }\r\n\r\n.ui-confirm .equipment-picker-list { display: flex; flex-direction: column; gap: 8px; max-height: min(40dvh, 280px); overflow-y: auto; overscroll-behavior: contain; }\r\n.ui-confirm .equipment-picker-list button { display: flex; align-items: center; gap: 8px; flex: none; width: 100%; text-align: left; }\r\n.ui-confirm .equipment-candidate img { width: 24px; height: 24px; flex: 0 0 24px; object-fit: contain; }\r\n.ui-confirm .equipment-candidate span { min-width: 0; overflow-wrap: anywhere; }\r\n\r\n.ui-confirm:has(.equipment-picker-layout) {\r\n width: min(640px, calc(100% - 32px), var(--confirm-max-width, 100vw));\r\n max-height: min(calc(100% - 32px), var(--confirm-max-height, 100dvh));\r\n overflow: hidden;\r\n}\r\n.ui-confirm[open]:has(.equipment-picker-layout) { display: flex; flex-direction: column; }\r\n.ui-confirm:has(.equipment-picker-layout) > p,\r\n.ui-confirm:has(.equipment-picker-layout) > .ui-confirm-actions { flex-shrink: 0; }\r\n.ui-confirm .equipment-picker-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 12px; height: min(50dvh, 380px); min-height: 0; flex: 0 1 auto; }\r\n.ui-confirm .equipment-picker-layout > .equipment-picker-list { max-height: none; min-width: 0; min-height: 0; }\r\n.ui-confirm .equipment-picker-preview { min-width: 0; overflow-y: auto; overscroll-behavior: contain; overflow-wrap: anywhere; padding-left: 12px; border-left: 1px solid #465461; }\r\n.ui-confirm .equipment-picker-preview > :first-child { margin-top: 0; }\r\n.ui-confirm .equipment-picker-preview .item-description { white-space: pre-line; }\r\n\r\n.ui-confirm .shortcut-fields .ui-confirm-field > .menu-select { flex: 1 1 0; width: 100%; min-width: 0; }\r\n.ui-confirm .drop-quantity { gap: 6px; }\r\n.ui-confirm .ui-confirm-field.drop-quantity > input { flex: 1 1 0; width: 100%; padding: 3px 6px; font-size: 12px; }\r\n.ui-confirm .drop-quantity > input,\r\n.panel .ui-confirm .ui-confirm-field.drop-quantity > input[type='number'],\r\n.ui-confirm .drop-quantity-buttons button { box-sizing: border-box; height: 28px; min-height: 28px; }\r\n.ui-confirm .drop-quantity-buttons { display: grid; grid-template-columns: repeat(3, 1fr); flex: none; gap: 4px; }\r\n.ui-confirm .drop-quantity-buttons button {\r\n flex: none; width: auto; min-width: 26px; padding: 3px 6px;\r\n border: 1px solid #7e8c99; border-radius: 6px; background: #394753; color: inherit; font: 12px/1.5 Arial, sans-serif;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Confirmation.js
-/** Modal confirmation shared by menus and adventure tools. Returns a cancellation function. */
-function confirmAction(container, message, action, { content, bounds, cancelled = () => {} } = {}) {
-	active$1.get(container)?.();
-	const dialog = document.createElement("dialog");
-	dialog.className = "ui-confirm";
-	dialog.setAttribute("aria-label", "操作确认");
-	const style = document.createElement("style");
-	style.textContent = Confirmation_default;
-	const text = document.createElement("p");
-	text.textContent = message;
-	text.tabIndex = -1;
-	text.autofocus = true;
-	const buttons = document.createElement("div");
-	buttons.className = "ui-confirm-actions";
-	const cancel = document.createElement("button");
-	cancel.type = "button";
-	cancel.dataset.cancel = "";
-	cancel.textContent = "取消";
-	const confirm = document.createElement("button");
-	confirm.type = "button";
-	confirm.dataset.confirm = "";
-	confirm.textContent = "确认";
-	const resize = bounds ? new ResizeObserver(() => fitBounds()) : null;
-	function fitBounds() {
-		if (!bounds) return;
-		const rect = bounds.getBoundingClientRect();
-		dialog.style.setProperty("--confirm-max-width", `${rect.width}px`);
-		dialog.style.setProperty("--confirm-max-height", `${rect.height}px`);
-	}
-	let finished = false;
-	const finish = (accepted) => {
-		if (finished) return;
-		finished = true;
-		observer.disconnect();
-		resize?.disconnect();
-		dialog.close();
-		dialog.remove();
-		if (active$1.get(container) === dismiss) active$1.delete(container);
-		if (accepted && container.isConnected) action();
-		else cancelled();
-	};
-	const dismiss = () => finish(false);
-	const visible = () => {
-		for (let node = container; node; node = node.parentElement || node.getRootNode().host) if (node.hidden || node.style?.display === "none") return false;
-		return container.isConnected && dialog.isConnected;
-	};
-	const observer = new MutationObserver(() => {
-		if (!visible()) dismiss();
-	});
-	cancel.onclick = dismiss;
-	confirm.onclick = () => {
-		if (content && ![...content.querySelectorAll("input, select, textarea")].every((field) => field.reportValidity())) return;
-		finish(true);
-	};
-	dialog.addEventListener("cancel", (event) => {
-		event.preventDefault();
-		dismiss();
-	});
-	buttons.append(cancel, confirm);
-	dialog.append(style, text);
-	if (content) dialog.append(content);
-	dialog.append(buttons);
-	container.append(dialog);
-	active$1.set(container, dismiss);
-	const options = {
-		childList: true,
-		subtree: true,
-		attributes: true,
-		attributeFilter: ["hidden", "style"]
-	};
-	observer.observe(document.body, options);
-	const root = container.getRootNode();
-	if (root instanceof ShadowRoot) observer.observe(root, options);
-	fitBounds();
-	if (bounds) resize.observe(bounds);
-	dialog.showModal();
-	return dismiss;
-}
-function requestConfirmation(container, message) {
-	return new Promise((resolve) => confirmAction(container, message, () => resolve(true), { cancelled: () => resolve(false) }));
-}
-var active$1;
-var init_Confirmation = __esmMin((() => {
-	init_Confirmation$1();
-	active$1 = /* @__PURE__ */ new WeakMap();
 }));
 //#endregion
 //#region src/UI/Components/GameTools/GameToolsNumberPrompt.js
@@ -280821,7 +285773,7 @@ function mount$1(container, context = {}) {
 			} else render();
 		} catch (error) {
 			if (disposed || token !== loadToken) return;
-			container.innerHTML = `<div class="management-error">${escapeHtml$2(error.message)}</div>`;
+			container.innerHTML = `<div class="management-error">${escapeHtml$1(error.message)}</div>`;
 		}
 	}
 	async function submitCommands(commands, confirmation) {
@@ -280877,8 +285829,8 @@ function mount$1(container, context = {}) {
 		container.querySelector(".character-job-summary").textContent = `共 ${filtered.length} 个职业`;
 		container.querySelector(".character-job-list").innerHTML = filtered.map((job) => `
 			<button class="character-job-row${job.id === selectedJobId ? " selected" : ""}" type="button" data-job-id="${job.id}">
-				<span class="character-job-emblem">${escapeHtml$2(job.name.slice(0, 1))}</span>
-				<span class="monster-row-text"><strong>${escapeHtml$2(job.name)}</strong><small>${jobGroup(job)} · ID ${job.id}</small></span>
+				<span class="character-job-emblem">${escapeHtml$1(job.name.slice(0, 1))}</span>
+				<span class="monster-row-text"><strong>${escapeHtml$1(job.name)}</strong><small>${jobGroup(job)} · ID ${job.id}</small></span>
 			</button>`).join("") || "<div class=\"character-job-empty\">没有匹配的职业</div>";
 		container.querySelectorAll("[data-job-id]").forEach((button) => {
 			button.addEventListener("click", () => {
@@ -280897,11 +285849,11 @@ function mount$1(container, context = {}) {
 		const detail = container.querySelector(".character-detail");
 		detail.innerHTML = `
 			${context.mobile ? "" : `<header class="character-summary">
-				<div><h3>${escapeHtml$2(snapshot.name)}</h3><p>${escapeHtml$2(getJobDisplayName(snapshot.job_id, `职业 ${snapshot.job_id}`))} · ${escapeHtml$2(mapName)} (${snapshot.x}, ${snapshot.y})</p></div>
+				<div><h3>${escapeHtml$1(snapshot.name)}</h3><p>${escapeHtml$1(getJobDisplayName(snapshot.job_id, `职业 ${snapshot.job_id}`))} · ${escapeHtml$1(mapName)} (${snapshot.x}, ${snapshot.y})</p></div>
 				<div><strong>HP ${snapshot.hp} / ${snapshot.max_hp}</strong><span>SP ${snapshot.sp} / ${snapshot.max_sp}${snapshot.max_ap ? ` · AP ${snapshot.ap} / ${snapshot.max_ap}` : ""}</span></div>
 			</header>`}
 			<div class="character-detail-scroll">
-				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml$2(displayedJobName)}</strong><small>ID ${displayedJobId}</small></div><span class="management-form-actions"><button type="button" data-action="vitals">恢复状态</button><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? "disabled" : ""}>${context.mobile && selectedJobId !== snapshot.job_id ? `转换为${escapeHtml$2(selectedJob?.name || `职业 ${selectedJobId}`)}` : "转换职业"}</button></span></div>
+				<section><h4>职业</h4><div class="selected-job"><div><strong>${escapeHtml$1(displayedJobName)}</strong><small>ID ${displayedJobId}</small></div><span class="management-form-actions"><button type="button" data-action="vitals">恢复状态</button><button data-action="apply-job" type="button" ${pending || selectedJobId === snapshot.job_id ? "disabled" : ""}>${context.mobile && selectedJobId !== snapshot.job_id ? `转换为${escapeHtml$1(selectedJob?.name || `职业 ${selectedJobId}`)}` : "转换职业"}</button></span></div>
 				</section>
 				<section><h4>等级与点数</h4><form data-form="progression" class="management-form progression-form">
 					<label><span>基础等级</span><input name="base_level" type="number" min="1" max="${snapshot.max_base_level}" value="${snapshot.base_level}" required></label>
@@ -281108,7 +286060,7 @@ function mount(container, context = {}) {
 			render(message);
 		} catch (error) {
 			if (disposed || token !== loadToken) return;
-			container.innerHTML = `<div class="management-error">${escapeHtml$2(error.message)}</div>`;
+			container.innerHTML = `<div class="management-error">${escapeHtml$1(error.message)}</div>`;
 		}
 	}
 	function render(message = "", error = false) {
@@ -282106,12 +287058,12 @@ var init_BasicInfo = __esmMin((() => {
 //#region src/UI/Game/ItemOperationFeedback.js
 /** Only menu requests receive feedback; unrelated inventory updates are silent. */
 function beginItemOperation(entity, action, index) {
-	if (!pending$2.has(entity)) pending$2.set(entity, /* @__PURE__ */ new Map());
-	const requests = pending$2.get(entity), key = `${action}:${index}`;
+	if (!pending$3.has(entity)) pending$3.set(entity, /* @__PURE__ */ new Map());
+	const requests = pending$3.get(entity), key = `${action}:${index}`;
 	requests.set(key, (requests.get(key) || 0) + 1);
 }
 function finishItemOperation(entity, action, index, success) {
-	const requests = pending$2.get(entity), key = `${action}:${index}`;
+	const requests = pending$3.get(entity), key = `${action}:${index}`;
 	const count = requests?.get(key);
 	if (!count) return;
 	if (count === 1) requests.delete(key);
@@ -282123,11 +287075,11 @@ function finishItemOperation(entity, action, index, success) {
 function receiveItemOperationResult(entity, action, packet) {
 	finishItemOperation(entity, action, action === "drop" ? packet.Index : action === "card" ? packet.cardIndex : packet.index, action === "drop" ? packet.count > 0 : action === "card" ? packet.result === 0 : Number(packet.result) === 1);
 }
-var pending$2, labels$2;
+var pending$3, labels$2;
 var init_ItemOperationFeedback = __esmMin((() => {
 	init_Toast();
 	init_ConnectionLifecycle();
-	pending$2 = /* @__PURE__ */ new WeakMap();
+	pending$3 = /* @__PURE__ */ new WeakMap();
 	labels$2 = {
 		use: "使用",
 		equip: "穿戴",
@@ -282136,3670 +287088,8 @@ var init_ItemOperationFeedback = __esmMin((() => {
 		card: "镶嵌"
 	};
 	onConnectionEnd(() => {
-		pending$2 = /* @__PURE__ */ new WeakMap();
+		pending$3 = /* @__PURE__ */ new WeakMap();
 	});
-}));
-//#endregion
-//#region src/Controls/AttackIntent.js
-function ownAttack(gid, callback) {
-	requested.add(gid);
-	retry = {
-		gid,
-		callback
-	};
-}
-function releaseAttack() {
-	retry = null;
-}
-function clearAttackIntent() {
-	requested.clear();
-	retry = null;
-}
-function retryOwnedAttack(gid) {
-	if (!requested.has(gid)) return false;
-	if (retry?.gid === gid) retry.callback();
-	return true;
-}
-var requested, retry;
-var init_AttackIntent = __esmMin((() => {
-	requested = /* @__PURE__ */ new Set();
-}));
-//#endregion
-//#region src/UI/Components/MobileUI/MobileUI.html?raw
-var MobileUI_default$2;
-var init_MobileUI$2 = __esmMin((() => {
-	MobileUI_default$2 = "<div id=\"MobileUI\">\r\n	<button id=\"toggleUIButton\" class=\"buttons\">🛠️</button>\r\n\r\n	<div id=\"topBar\" class=\"buttonBar disabled\">\r\n		<button id=\"fullscreenButton\" class=\"buttons mobileKeys secondary horizontal\">⛶</button>\r\n	</div>\r\n\r\n	<!-- Joystick -MicromeX -->\r\n	<div id=\"joystickContainer\" class=\"joystick-container disabled\">\r\n		<div id=\"joystickBase\" class=\"joystick-base\">\r\n			<div id=\"joystickThumb\" class=\"joystick-thumb\"></div>\r\n		</div>\r\n	</div>\r\n\r\n	<!-- Functional Buttons -MicromeX -->\r\n	<div id=\"buttonContainer\" class=\"buttonContainer disabled\">\r\n		<!-- Functional Buttons -->\r\n		<button id=\"f1Button\" class=\"FButton mobileKeys vertical secondary disabled\">F1</button>\r\n		<button id=\"f2Button\" class=\"FButton mobileKeys vertical secondary disabled\">F2</button>\r\n		<button id=\"f3Button\" class=\"FButton mobileKeys vertical secondary disabled\">F3</button>\r\n		<button id=\"f4Button\" class=\"FButton mobileKeys vertical secondary disabled\">F4</button>\r\n		<button id=\"f5Button\" class=\"FButton mobileKeys vertical secondary disabled\">F5</button>\r\n		<button id=\"f6Button\" class=\"FButton mobileKeys vertical secondary disabled\">F6</button>\r\n		<button id=\"f7Button\" class=\"FButton mobileKeys vertical secondary disabled\">F7</button>\r\n		<button id=\"f8Button\" class=\"FButton mobileKeys vertical secondary disabled\">F8</button>\r\n		<button id=\"f9Button\" class=\"FButton mobileKeys vertical secondary disabled\">F9</button>\r\n\r\n		<button id=\"n1Button\" class=\"FButton mobileKeys vertical secondary disabled\">1</button>\r\n		<button id=\"n2Button\" class=\"FButton mobileKeys vertical secondary disabled\">2</button>\r\n		<button id=\"n3Button\" class=\"FButton mobileKeys vertical secondary disabled\">3</button>\r\n		<button id=\"n4Button\" class=\"FButton mobileKeys vertical secondary disabled\">4</button>\r\n		<button id=\"n5Button\" class=\"FButton mobileKeys vertical secondary disabled\">5</button>\r\n		<button id=\"n6Button\" class=\"FButton mobileKeys vertical secondary disabled\">6</button>\r\n		<button id=\"n7Button\" class=\"FButton mobileKeys vertical secondary disabled\">7</button>\r\n		<button id=\"n8Button\" class=\"FButton mobileKeys vertical secondary disabled\">8</button>\r\n		<button id=\"n9Button\" class=\"FButton mobileKeys vertical secondary disabled\">9</button>\r\n\r\n		<button id=\"qButton\" class=\"FButton mobileKeys vertical secondary disabled\">Q</button>\r\n		<button id=\"wButton\" class=\"FButton mobileKeys vertical secondary disabled\">W</button>\r\n		<button id=\"eButton\" class=\"FButton mobileKeys vertical secondary disabled\">E</button>\r\n		<button id=\"rButton\" class=\"FButton mobileKeys vertical secondary disabled\">R</button>\r\n		<button id=\"tButton\" class=\"FButton mobileKeys vertical secondary disabled\">T</button>\r\n		<button id=\"yButton\" class=\"FButton mobileKeys vertical secondary disabled\">Y</button>\r\n		<button id=\"uButton\" class=\"FButton mobileKeys vertical secondary disabled\">U</button>\r\n		<button id=\"iButton\" class=\"FButton mobileKeys vertical secondary disabled\">I</button>\r\n		<button id=\"oButton\" class=\"FButton mobileKeys vertical secondary disabled\">O</button>\r\n\r\n		<button id=\"aButton\" class=\"FButton mobileKeys vertical secondary disabled\">A</button>\r\n		<button id=\"sButton\" class=\"FButton mobileKeys vertical secondary disabled\">S</button>\r\n		<button id=\"dButton\" class=\"FButton mobileKeys vertical secondary disabled\">D</button>\r\n		<button id=\"fButton\" class=\"FButton mobileKeys vertical secondary disabled\">F</button>\r\n		<button id=\"gButton\" class=\"FButton mobileKeys vertical secondary disabled\">G</button>\r\n		<button id=\"hButton\" class=\"FButton mobileKeys vertical secondary disabled\">H</button>\r\n		<button id=\"jButton\" class=\"FButton mobileKeys vertical secondary disabled\">J</button>\r\n		<button id=\"kButton\" class=\"FButton mobileKeys vertical secondary disabled\">K</button>\r\n		<button id=\"lButton\" class=\"FButton mobileKeys vertical secondary disabled\">L</button>\r\n\r\n		<button id=\"pickupButton\" class=\"pickupButton mobileKeys vertical secondary disabled\">🖐</button>\r\n		<!-- Pick Up Button -MicromeX -->\r\n		<button id=\"talktonpcButton\" class=\"talktonpcButton mobileKeys vertical secondary disabled\">💬</button>\r\n		<!-- Talk to NPC Button -MicromeX -->\r\n		<button id=\"switchshorcutButton\" class=\"switchshorcutButton mobileKeys vertical secondary disabled\">🔄</button>\r\n		<!-- Auto Skill Button -MicromeX -->\r\n\r\n		<!-- Attack Button -MicromeX -->\r\n		<button id=\"attackButton\" class=\"atkButton mobileKeys vertical secondary disabled\">⚔️</button>\r\n	</div>\r\n\r\n	<div id=\"leftBar\" class=\"buttonBar disabled\">\r\n		<button id=\"f10Button\" class=\"buttons mobileKeys secondary vertical\">F10</button><br />\r\n		<button id=\"f12Button\" class=\"buttons mobileKeys secondary vertical\">F12</button><br />\r\n		<button id=\"insButton\" class=\"buttons mobileKeys secondary vertical\">🧎</button><br />\r\n	</div>\r\n\r\n	<div id=\"rightBar\" class=\"buttonBar disabled\">\r\n		<button id=\"toggleStatusButton\" class=\"buttons mobileKeys secondary vertical\">👀</button><br />\r\n		<button id=\"toggleTargetingButton\" class=\"buttons mobileKeys secondary vertical\">⚙️</button><br />\r\n		<button id=\"toggleAutoFollowButton\" class=\"buttons mobileKeys vertical secondary disabled\">👥</button><br />\r\n		<button id=\"toggleAutoTargetButton\" class=\"buttons mobileKeys vertical secondary disabled\">🎯</button><br />\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/MobileUI/MobileUI.css?raw
-var MobileUI_default$1;
-var init_MobileUI$1 = __esmMin((() => {
-	MobileUI_default$1 = ":host {\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#MobileUI {\r\n	position: absolute;\r\n	top: 0;\r\n	left: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n}\r\n\r\n#MobileUI button,\r\n#MobileUI .joystick-base {\r\n	pointer-events: auto;\r\n}\r\n\r\n#MobileUI * {\r\n	z-index: 1000;\r\n}\r\n\r\n#MobileUI .buttonBar,\r\n#MobileUI #toggleUIButton {\r\n	position: absolute;\r\n}\r\n\r\n#MobileUI #toggleUIButton {\r\n	top: 1%;\r\n	left: 1%;\r\n	width: 6.5vmin;\r\n	height: 6.5vmin;\r\n}\r\n\r\n#MobileUI .buttons {\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border-radius: 6px;\r\n	border: 1px solid grey;\r\n	font-size: 4vmin;\r\n	font-weight: bold;\r\n}\r\n\r\n#MobileUI .mobileKeys {\r\n	visibility: inherit;\r\n}\r\n\r\n#MobileUI .horizontal {\r\n	margin: 0 3.5vmin;\r\n}\r\n\r\n#MobileUI .vertical {\r\n	margin: 3.5vmin 0;\r\n}\r\n\r\n#MobileUI .disabled {\r\n	visibility: hidden;\r\n}\r\n\r\n#MobileUI #topBar {\r\n	left: 50%;\r\n	top: 1%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n#MobileUI #leftBar {\r\n	left: 1%;\r\n	bottom: 35%;\r\n	transform: translate(0, 50%);\r\n}\r\n\r\n#MobileUI #rightBar {\r\n	right: 1%;\r\n	bottom: 35%;\r\n	transform: translate(0, 50%);\r\n}\r\n\r\n#MobileUI #rightBar .buttons {\r\n	float: right;\r\n}\r\n\r\n#MobileUI .active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 8px;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #toggleUIButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 8px;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n@keyframes pulse {\r\n	0% {\r\n		box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	}\r\n	50% {\r\n		box-shadow: 0px 6px 12px rgba(144, 238, 144, 0.6);\r\n	}\r\n	100% {\r\n		box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	}\r\n}\r\n\r\n#MobileUI .pressed {\r\n	background: rgba(193, 255, 255, 0.33);\r\n}\r\n\r\n#MobileUI .primary {\r\n	width: 11vmin;\r\n	height: 11vmin;\r\n}\r\n\r\n#MobileUI .secondary {\r\n	width: 7.5vmin;\r\n	height: 7.5vmin;\r\n}\r\n\r\n/* Container for all buttons -MicromeX */\r\n#MobileUI #buttonContainer {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	position: absolute;\r\n	bottom: 10%;\r\n	right: 10%;\r\n	width: 37.5vmin;\r\n	height: 37.5vmin;\r\n	z-index: 1000;\r\n}\r\n\r\n/* Attack Button (center and larger) -MicromeX */\r\n#MobileUI .atkButton {\r\n	position: absolute;\r\n	width: 17.5vmin;\r\n	height: 17.5vmin;\r\n	background-color: #f44336;\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 7vmin;\r\n	color: white;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Functional Buttons (around the attack button) -MicromeX */\r\n#MobileUI .pickupButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n#MobileUI .talktonpcButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n#MobileUI .switchshorcutButton {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 6.25vmin;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Functional Buttons (smaller and proportional) -MicromeX */\r\n#MobileUI .FButton {\r\n	position: absolute;\r\n	width: 7.5vmin;\r\n	height: 7.5vmin;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border: 1px solid #666;\r\n	border-radius: 50%;\r\n	font-size: 3.75vmin;\r\n	font-weight: bold;\r\n	color: rgb(0, 0, 0);\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);\r\n	cursor: pointer;\r\n}\r\n\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #f1Button {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f2Button {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f3Button {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f4Button {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f5Button {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f6Button {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f7Button {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f8Button {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #f9Button {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #n1Button {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n2Button {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n3Button {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n4Button {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n5Button {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n6Button {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n7Button {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n8Button {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #n9Button {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #qButton {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #wButton {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #eButton {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #rButton {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #tButton {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #yButton {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #uButton {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #iButton {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #oButton {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Positioning Buttons Around Attack Button -MicromeX */\r\n#MobileUI #aButton {\r\n	top: 97%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #sButton {\r\n	top: 78%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #dButton {\r\n	top: 56%;\r\n	left: 24%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #fButton {\r\n	top: 37%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #gButton {\r\n	top: 30%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #hButton {\r\n	top: 37%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #jButton {\r\n	top: 7%;\r\n	left: 35%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #kButton {\r\n	top: 7%;\r\n	left: 57%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n#MobileUI #lButton {\r\n	top: 7%;\r\n	left: 80%;\r\n	transform: translate(-50%, -50%);\r\n}\r\n/* Pickup Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #attackButton {\r\n	bottom: -10%;\r\n	left: 60%;\r\n	transform: translate(-50%, 0);\r\n}\r\n/* Pickup Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #pickupButton {\r\n	bottom: 10%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n/* TalkToNpc Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #talktonpcButton {\r\n	bottom: -23%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n/* TalkToNpc Button (slightly below attackButton) -MicromeX */\r\n#MobileUI #switchshorcutButton {\r\n	bottom: 43%;\r\n	left: 105%;\r\n	transform: translate(-50%, 0);\r\n}\r\n\r\n/* Hover Effect for Buttons -MicromeX */\r\n#MobileUI #f1Button:active,\r\n#MobileUI #f2Button:active,\r\n#MobileUI #f3Button:active,\r\n#MobileUI #f4Button:active,\r\n#MobileUI #f5Button:active,\r\n#MobileUI #f6Button:active,\r\n#MobileUI #f7Button:active,\r\n#MobileUI #f8Button:active,\r\n#MobileUI #f9Button:active,\r\n#MobileUI #n1Button:active,\r\n#MobileUI #n2Button:active,\r\n#MobileUI #n3Button:active,\r\n#MobileUI #n4Button:active,\r\n#MobileUI #n5Button:active,\r\n#MobileUI #n6Button:active,\r\n#MobileUI #n7Button:active,\r\n#MobileUI #n8Button:active,\r\n#MobileUI #n9Button:active,\r\n#MobileUI #qButton:active,\r\n#MobileUI #wButton:active,\r\n#MobileUI #eButton:active,\r\n#MobileUI #rButton:active,\r\n#MobileUI #tButton:active,\r\n#MobileUI #yButton:active,\r\n#MobileUI #uButton:active,\r\n#MobileUI #iButton:active,\r\n#MobileUI #oButton:active,\r\n#MobileUI #aButton:active,\r\n#MobileUI #sButton:active,\r\n#MobileUI #dButton:active,\r\n#MobileUI #fButton:active,\r\n#MobileUI #gButton:active,\r\n#MobileUI #hButton:active,\r\n#MobileUI #jButton:active,\r\n#MobileUI #kButton:active,\r\n#MobileUI #lButton:active,\r\n#MobileUI #switchshorcutButton:active,\r\n#MobileUI #pickupButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 50%;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #talktonpcButton:active {\r\n	background: linear-gradient(135deg, rgba(144, 238, 144, 0.5), rgba(193, 255, 193, 0.8));\r\n	border: 2px solid rgba(144, 238, 144, 0.8);\r\n	box-shadow: 0px 4px 8px rgba(144, 238, 144, 0.4);\r\n	border-radius: 50%;\r\n	animation: pulse 1.5s infinite;\r\n	transition:\r\n		background 0.3s ease,\r\n		box-shadow 0.3s ease,\r\n		transform 0.3s ease;\r\n}\r\n\r\n#MobileUI #attackButton:active {\r\n	background-color: #4caf50;\r\n	box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.4);\r\n	border: 2px solid #388e3c;\r\n	transition:\r\n		transform 0.2s ease,\r\n		background-color 0.2s ease,\r\n		box-shadow 0.2s ease,\r\n		border 0.2s ease;\r\n}\r\n\r\n/* Joystick container -MicromeX */\r\n#MobileUI .joystick-container {\r\n	position: absolute;\r\n	bottom: 7%;\r\n	left: 10%;\r\n	width: 25vmin;\r\n	height: 25vmin;\r\n	z-index: 1000;\r\n}\r\n\r\n/* Joystick base -MicromeX */\r\n#MobileUI .joystick-base {\r\n	position: relative;\r\n	width: 100%;\r\n	height: 100%;\r\n	background: rgba(193, 193, 193, 0.33);\r\n	border-radius: 50%;\r\n	display: flex;\r\n	justify-content: center;\r\n	align-items: center;\r\n}\r\n\r\n/* Joystick thumb -MicromeX */\r\n#MobileUI .joystick-thumb {\r\n	position: absolute;\r\n	width: 10vmin;\r\n	height: 10vmin;\r\n	background: radial-gradient(circle, rgba(236, 240, 241, 1) 70%, rgba(189, 195, 199, 1) 100%);\r\n	border-radius: 50%;\r\n	box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4);\r\n	touch-action: none;\r\n	cursor: grab;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/MobileUI/MobileUI.js
-/**
-* Helper to bind click+touchstart on an element
-*/
-function bindButton(root, selector, handler) {
-	const el = root.querySelector(selector);
-	if (el) {
-		let touchHandled = false;
-		let releaseTimer = null;
-		const clearGuard = () => {
-			if (releaseTimer !== null) {
-				clearTimeout(releaseTimer);
-				releaseTimer = null;
-			}
-		};
-		const releaseGuard = () => {
-			clearGuard();
-			releaseTimer = setTimeout(() => {
-				releaseTimer = null;
-				touchHandled = false;
-			}, C_TOUCH_CLICK_GUARD);
-		};
-		el.addEventListener("click", (event) => {
-			if (touchHandled) {
-				touchHandled = false;
-				clearGuard();
-				event.preventDefault();
-				event.stopImmediatePropagation();
-				return;
-			}
-			handler(event);
-		});
-		el.addEventListener("touchstart", (event) => {
-			touchHandled = true;
-			clearGuard();
-			handler(event);
-		});
-		el.addEventListener("touchend", releaseGuard);
-		el.addEventListener("touchcancel", releaseGuard);
-	}
-}
-/**
-* Logs the key press to the console and performs the key press action.
-* @param {number} keyCode - The key code of the pressed key.
-*/
-function logKeyPress(keyCode) {
-	keyPress(keyCode);
-}
-/**
-* Toggles full screen display
-*/
-function toggleFullScreen() {
-	if (!Context.isFullScreen()) Context.requestFullScreen();
-	else Context.cancelFullScreen();
-}
-/**
-* Emulates a keypress event
-*
-* @param {number} keyId
-*/
-function keyPress(k) {
-	const roWindow = window;
-	roWindow.document.getElementsByTagName("body")[0].focus();
-	roWindow.dispatchEvent(new KeyboardEvent("keydown", {
-		keyCode: k,
-		which: k
-	}));
-}
-/**
-* Toggles MobileUI button bars visibility (and thus buttons)
-*/
-function toggleButtons() {
-	const root = MobileUI.getRoot();
-	if (showButtons) {
-		[
-			"#topBar",
-			"#leftBar",
-			"#rightBar",
-			"#joystickContainer",
-			"#buttonContainer",
-			"#attackButton",
-			"#pickupButton",
-			"#talktonpcButton",
-			"#switchshorcutButton"
-		].forEach((sel) => {
-			const el = root.querySelector(sel);
-			if (el) el.classList.add("disabled");
-		});
-		for (let i = 1; i <= 9; i++) {
-			const fBtn = root.querySelector(`#f${i}Button`);
-			if (fBtn) fBtn.classList.add("disabled");
-		}
-		[
-			"n",
-			"q",
-			"w",
-			"e",
-			"r",
-			"t",
-			"y",
-			"u",
-			"i",
-			"o",
-			"a",
-			"s",
-			"d",
-			"f",
-			"g",
-			"h",
-			"j",
-			"k",
-			"l"
-		].forEach((key) => {
-			const btn = root.querySelector(`#${key}Button`) || root.querySelector(`#${key}${key === "n" ? "" : "B"}utton`);
-			if (btn) btn.classList.add("disabled");
-		});
-		for (let i = 1; i <= 9; i++) {
-			const nBtn = root.querySelector(`#n${i}Button`);
-			if (nBtn) nBtn.classList.add("disabled");
-		}
-		[
-			"q",
-			"w",
-			"e",
-			"r",
-			"t",
-			"y",
-			"u",
-			"i",
-			"o",
-			"a",
-			"s",
-			"d",
-			"f",
-			"g",
-			"h",
-			"j",
-			"k",
-			"l"
-		].forEach((key) => {
-			const btn = root.querySelector(`#${key}Button`);
-			if (btn) btn.classList.add("disabled");
-		});
-		if (SessionStorage_default.TouchTargeting) toggleTouchTargeting();
-		showButtons = false;
-	} else {
-		[
-			"#topBar",
-			"#leftBar",
-			"#rightBar",
-			"#joystickContainer",
-			"#buttonContainer",
-			"#attackButton",
-			"#pickupButton",
-			"#talktonpcButton",
-			"#switchshorcutButton"
-		].forEach((sel) => {
-			const el = root.querySelector(sel);
-			if (el) el.classList.remove("disabled");
-		});
-		for (let i = 1; i <= 9; i++) {
-			const fBtn = root.querySelector(`#f${i}Button`);
-			if (fBtn) fBtn.classList.remove("disabled");
-		}
-		showButtons = true;
-	}
-}
-/**
-* Toggles switch skill
-*/
-function switchSkillButtons() {
-	const root = MobileUI.getRoot();
-	const skillSets = [
-		[
-			"#f1Button",
-			"#f2Button",
-			"#f3Button",
-			"#f4Button",
-			"#f5Button",
-			"#f6Button",
-			"#f7Button",
-			"#f8Button",
-			"#f9Button"
-		],
-		[
-			"#n1Button",
-			"#n2Button",
-			"#n3Button",
-			"#n4Button",
-			"#n5Button",
-			"#n6Button",
-			"#n7Button",
-			"#n8Button",
-			"#n9Button"
-		],
-		[
-			"#qButton",
-			"#wButton",
-			"#eButton",
-			"#rButton",
-			"#tButton",
-			"#yButton",
-			"#uButton",
-			"#iButton",
-			"#oButton"
-		],
-		[
-			"#aButton",
-			"#sButton",
-			"#dButton",
-			"#fButton",
-			"#gButton",
-			"#hButton",
-			"#jButton",
-			"#kButton",
-			"#lButton"
-		]
-	];
-	const nextSetIndex = ((switchSkillButtons.currentSetIndex || 0) + 1) % skillSets.length;
-	skillSets.flat().forEach((selector) => {
-		const el = root.querySelector(selector);
-		if (el) el.classList.add("disabled");
-	});
-	skillSets[nextSetIndex].forEach((selector) => {
-		const el = root.querySelector(selector);
-		if (el) el.classList.remove("disabled");
-	});
-	switchSkillButtons.currentSetIndex = nextSetIndex;
-}
-/**
-* Toggles status view
-*/
-function toggleStatus() {
-	const statusIcons = document.querySelector("#StatusIcons");
-	if (statusIcons) statusIcons.style.display = statusIcons.style.display === "none" ? "" : "none";
-}
-/**
-* Toggles touch targeting
-*/
-function toggleTouchTargeting() {
-	const root = MobileUI.getRoot();
-	if (SessionStorage_default.TouchTargeting) {
-		root.querySelector("#toggleTargetingButton").classList.remove("active");
-		root.querySelector("#toggleAutoFollowButton").classList.add("disabled");
-		root.querySelector("#toggleAutoTargetButton").classList.add("disabled");
-		if (SessionStorage_default.AutoTargeting) toggleAutoTargeting();
-		SessionStorage_default.TouchTargeting = false;
-	} else {
-		root.querySelector("#toggleTargetingButton").classList.add("active");
-		root.querySelector("#toggleAutoFollowButton").classList.remove("disabled");
-		root.querySelector("#toggleAutoTargetButton").classList.remove("disabled");
-		SessionStorage_default.TouchTargeting = true;
-	}
-}
-/**
-* Toggles automatic targeting
-*/
-function toggleAutoTargeting() {
-	const root = MobileUI.getRoot();
-	if (SessionStorage_default.AutoTargeting) {
-		root.querySelector("#toggleAutoTargetButton").classList.remove("active");
-		SessionStorage_default.AutoTargeting = false;
-	} else {
-		root.querySelector("#toggleAutoTargetButton").classList.add("active");
-		SessionStorage_default.AutoTargeting = true;
-		autoTarget();
-	}
-}
-/**
-* Toggles auto follow
-*/
-function toggleAutoFollow() {
-	const root = MobileUI.getRoot();
-	if (SessionStorage_default.autoFollow) {
-		root.querySelector("#toggleAutoFollowButton").classList.remove("active");
-		SessionStorage_default.autoFollow = false;
-	} else {
-		const entityFocus = EntityManager.getFocusEntity();
-		if (entityFocus) {
-			root.querySelector("#toggleAutoFollowButton").classList.add("active");
-			SessionStorage_default.autoFollow = true;
-			SessionStorage_default.autoFollowTarget = entityFocus;
-			onAutoFollow$1();
-		}
-	}
-}
-/**
-* Attacks a targeted enemy (if present)
-*/
-function attackTargeted() {
-	const main = SessionStorage_default.Entity;
-	let pkt;
-	let entityFocus = EntityManager.getFocusEntity();
-	if (!entityFocus || entityFocus.action === entityFocus.ACTION.DIE) {
-		autoTarget();
-		entityFocus = EntityManager.getFocusEntity();
-	}
-	if (entityFocus) {
-		const out = [];
-		const count = PathFinding_default.search(main.position[0] | 0, main.position[1] | 0, entityFocus.position[0] | 0, entityFocus.position[1] | 0, main.attack_range + 1, out);
-		if (!count) return true;
-		if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_ACT2();
-		else pkt = new PACKET.CZ.REQUEST_ACT();
-		pkt.action = 7;
-		pkt.targetGID = entityFocus.GID;
-		if (count < 2) {
-			Network.sendPacket(pkt);
-			return true;
-		}
-		SessionStorage_default.moveAction = pkt;
-		if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
-		else pkt = new PACKET.CZ.REQUEST_MOVE();
-		pkt.dest[0] = out[(count - 1) * 2 + 0];
-		pkt.dest[1] = out[(count - 1) * 2 + 1];
-		Network.sendPacket(pkt);
-	}
-}
-/**
-* Automatically targeting the closest enemy
-*/
-function autoTarget() {
-	const Player = SessionStorage_default.Entity;
-	const entityFocus = EntityManager.getFocusEntity();
-	const closestEntity = EntityManager.getClosestEntity(Player, SessionStorage_default.Entity.constructor.TYPE_MOB);
-	if (closestEntity) {
-		if (entityFocus && closestEntity.GID !== entityFocus.GID) {
-			entityFocus.onFocusEnd();
-			EntityManager.setFocusEntity(null);
-			closestEntity.onFocus();
-			EntityManager.setFocusEntity(closestEntity);
-		} else if (!entityFocus) {
-			closestEntity.onFocus();
-			EntityManager.setFocusEntity(closestEntity);
-		}
-	}
-	if (SessionStorage_default.AutoTargeting && SessionStorage_default.Playing) startAutoTarget();
-}
-/**
-* Starting automatic targeting cycle
-*/
-function startAutoTarget() {
-	window.setTimeout(autoTarget, C_AUTOTARGET_DELAY);
-}
-/**
-* Stop event propagation
-*/
-function stopPropagation$9(event) {
-	if (event && typeof event.preventDefault === "function") event.preventDefault();
-	event.stopImmediatePropagation();
-	return false;
-}
-/**
-* Auto follow logic
-*/
-function onAutoFollow$1() {
-	const root = MobileUI.getRoot();
-	if (SessionStorage_default.autoFollow) {
-		const player = SessionStorage_default.Entity;
-		const target = SessionStorage_default.autoFollowTarget;
-		const dx = Math.abs(player.position[0] - target.position[0]);
-		const dy = Math.abs(player.position[1] - target.position[1]);
-		if (dx > 1 || dy > 1) {
-			const dest = [0, 0];
-			if (checkFreeCell$2(Math.round(target.position[0]), Math.round(target.position[1]), 1, dest)) {
-				let pkt;
-				if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
-				else pkt = new PACKET.CZ.REQUEST_MOVE();
-				pkt.dest = dest;
-				Network.sendPacket(pkt);
-			}
-		}
-		Events.setTimeout(onAutoFollow$1, 500);
-	} else root.querySelector("#toggleAutoFollowButton").classList.remove("active");
-}
-/**
-* Picks up the nearest item - MicromeX
-*/
-function pickUpItem() {
-	const player = SessionStorage_default.Entity;
-	if (!player) return;
-	const closestItem = EntityManager.getClosestEntity(player, SessionStorage_default.Entity.constructor.TYPE_ITEM);
-	if (!closestItem) return;
-	let dx = Math.abs(player.position[0] - closestItem.position[0]);
-	let dy = Math.abs(player.position[1] - closestItem.position[1]);
-	if (dx < 0) dx = -dx;
-	if (dy < 0) dy = -dy;
-	if ((dx < dy ? dy : dx) > 2) {
-		const dest = [0, 0];
-		if (checkFreeCell$2(Math.round(closestItem.position[0]), Math.round(closestItem.position[1]), 1, dest)) {
-			let pkt;
-			if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
-			else pkt = new PACKET.CZ.REQUEST_MOVE();
-			pkt.dest = dest;
-			Network.sendPacket(pkt);
-		}
-	}
-	let pickUpPacket;
-	if (PacketVerManager_default.value >= 20180307) pickUpPacket = new PACKET.CZ.ITEM_PICKUP2();
-	else pickUpPacket = new PACKET.CZ.ITEM_PICKUP();
-	pickUpPacket.ITAID = closestItem.GID;
-	Network.sendPacket(pickUpPacket);
-}
-/**
-* Joystick handling for both mouse and touch input - MicromeX
-*/
-function setupJoystick() {
-	const root = MobileUI.getRoot();
-	_joystickBase = root.querySelector("#joystickBase");
-	_joystickThumb = root.querySelector("#joystickThumb");
-	maxDistance = _joystickBase.offsetWidth / 2;
-	_joystickThumb.addEventListener("mousedown", startDrag);
-	_joystickThumb.addEventListener("touchstart", startDrag);
-}
-function startDrag(event) {
-	event.preventDefault();
-	const touch = event.touches ? event.touches[0] : event;
-	const rect = _joystickBase.getBoundingClientRect();
-	centerX = rect.left + rect.width / 2;
-	centerY = rect.top + rect.height / 2;
-	document.addEventListener("mousemove", moveJoystick);
-	document.addEventListener("mouseup", stopDrag);
-	document.addEventListener("touchmove", moveJoystick);
-	document.addEventListener("touchend", stopDrag);
-	moveJoystick(touch);
-	startMovement();
-}
-function moveJoystick(event) {
-	const deadZone = 15;
-	const touch = event.touches ? event.touches[0] : event;
-	const deltaX = touch.clientX - centerX;
-	const deltaY = touch.clientY - centerY;
-	const distance = Math.min(Math.sqrt(deltaX ** 2 + deltaY ** 2), maxDistance);
-	const angle = Math.atan2(deltaY, deltaX);
-	const offsetX = Math.cos(angle) * distance;
-	const offsetY = Math.sin(angle) * distance;
-	_joystickThumb.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-	if (distance < deadZone) {
-		normalizedX = 0;
-		normalizedY = 0;
-		return;
-	}
-	normalizedX = offsetX / maxDistance;
-	normalizedY = -offsetY / maxDistance;
-}
-function stopDrag() {
-	_joystickThumb.style.transform = "translate(0, 0)";
-	normalizedX = 0;
-	normalizedY = 0;
-	stopMovement();
-	document.removeEventListener("mousemove", moveJoystick);
-	document.removeEventListener("mouseup", stopDrag);
-	document.removeEventListener("touchmove", moveJoystick);
-	document.removeEventListener("touchend", stopDrag);
-}
-function startMovement() {
-	const tileSize = 3;
-	if (movementTimer) clearInterval(movementTimer);
-	const executeMove = () => {
-		if (normalizedX !== 0 || normalizedY !== 0) moveCharacter(normalizedX, normalizedY, tileSize);
-	};
-	executeMove();
-	movementTimer = setInterval(executeMove, 100);
-}
-function stopMovement() {
-	if (movementTimer) {
-		clearInterval(movementTimer);
-		movementTimer = null;
-	}
-}
-/**
-* Moves the character to a new tile and waits for the movement to complete.
-* @param {number} x - Normalized x-axis input (-1 to 1)
-* @param {number} y - Normalized y-axis input (-1 to 1)
-* @param {number} tileSize - The size of each tile in the game world
-*/
-function moveCharacter(x, y, tileSize) {
-	const player = SessionStorage_default.Entity;
-	if (!player) return;
-	direction$1[0] = x;
-	direction$1[1] = y;
-	mat2.identity(rotate$1);
-	mat2.rotate(rotate$1, rotate$1, -Camera.direction * 45 / 180 * Math.PI);
-	vec2$2.transformMat2(direction$1, direction$1, rotate$1);
-	const newPos = [Math.round(player.position[0] + direction$1[0] * tileSize), Math.round(player.position[1] + direction$1[1] * tileSize)];
-	const dest = [0, 0];
-	if (checkFreeCell$2(newPos[0], newPos[1], 5, dest)) {
-		if (targetPos[0] !== dest[0] || targetPos[1] !== dest[1]) {
-			targetPos[0] = dest[0];
-			targetPos[1] = dest[1];
-			let movePacket;
-			if (PacketVerManager_default.value >= 20180307) movePacket = new PACKET.CZ.REQUEST_MOVE2();
-			else movePacket = new PACKET.CZ.REQUEST_MOVE();
-			movePacket.dest[0] = dest[0];
-			movePacket.dest[1] = dest[1];
-			Network.sendPacket(movePacket);
-		}
-	}
-}
-/**
-* Talk to NPC Button Function - MicromeX
-*/
-function setupTalkToNpcButton() {
-	const talkButton = MobileUI.getRoot().querySelector("#talktonpcButton");
-	function findNearestNpc() {
-		const player = SessionStorage_default.Entity;
-		if (!player) return null;
-		let nearestNpc = null;
-		let minDistance = 3;
-		EntityManager.forEach((entity) => {
-			if (entity.objecttype === entity.constructor.TYPE_NPC) {
-				const dx = entity.position[0] - player.position[0];
-				const dy = entity.position[1] - player.position[1];
-				const distance = Math.sqrt(dx ** 2 + dy ** 2);
-				if (distance <= minDistance) {
-					minDistance = distance;
-					nearestNpc = entity;
-				}
-			}
-		});
-		return nearestNpc;
-	}
-	function talkToNearestNpc() {
-		const nearestNpc = findNearestNpc();
-		if (!nearestNpc) return;
-		const talkPacket = new PACKET.CZ.CONTACTNPC();
-		talkPacket.NAID = nearestNpc.GID;
-		Network.sendPacket(talkPacket);
-	}
-	talkButton.addEventListener("click", talkToNearestNpc);
-}
-/**
-* Search free cells around a position
-*
-* @param {number} x
-* @param {number} y
-* @param {number} range
-* @param {array} out
-*/
-function checkFreeCell$2(x, y, range, out) {
-	let _x, _y, r;
-	const d_x = SessionStorage_default.Entity.position[0] < x ? -1 : 1;
-	const d_y = SessionStorage_default.Entity.position[1] < y ? -1 : 1;
-	for (r = 0; r <= range; ++r) for (_x = -r; _x <= r; ++_x) for (_y = -r; _y <= r; ++_y) if (isFreeCell$2(x + _x * d_x, y + _y * d_y)) {
-		out[0] = x + _x * d_x;
-		out[1] = y + _y * d_y;
-		return true;
-	}
-	return false;
-}
-/**
-* Does a cell is free (walkable, and no entity on)
-*
-* @param {number} x
-* @param {number} y
-* @param {returns} is free
-*/
-function isFreeCell$2(x, y) {
-	if (!(Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE)) return false;
-	let free = true;
-	EntityManager.forEach((entity) => {
-		if (entity.objecttype !== entity.constructor.TYPE_EFFECT && entity.objecttype !== entity.constructor.TYPE_UNIT && entity.objecttype !== entity.constructor.TYPE_TRAP && Math.round(entity.position[0]) === x && Math.round(entity.position[1]) === y) {
-			free = false;
-			return false;
-		}
-		return true;
-	});
-	return free;
-}
-var vec2$2, mat2, direction$1, rotate$1, targetPos, movementTimer, MobileUI, _preferences$27, showButtons, C_AUTOTARGET_DELAY, C_TOUCH_CLICK_GUARD, centerX, centerY, maxDistance, normalizedX, normalizedY, _joystickBase, _joystickThumb, MobileUI_default;
-var init_MobileUI = __esmMin((() => {
-	init_Platform();
-	init_Context();
-	init_UIManager();
-	init_GUIComponent();
-	init_Preferences$1();
-	init_SessionStorage();
-	init_Renderer();
-	init_PacketVerManager();
-	init_PacketStructure();
-	init_EntityManager();
-	init_NetworkManager();
-	init_PathFinding();
-	init_Altitude();
-	init_Events();
-	init_MobileUI$2();
-	init_MobileUI$1();
-	init_gl_matrix$1();
-	init_Camera();
-	init_KeyEventHandler();
-	vec2$2 = exports$3.vec2;
-	mat2 = exports$3.mat2;
-	direction$1 = vec2$2.create();
-	rotate$1 = mat2.create();
-	targetPos = [0, 0];
-	movementTimer = null;
-	MobileUI = new GUIComponent("MobileUI", MobileUI_default$1);
-	MobileUI.render = () => MobileUI_default$2;
-	_preferences$27 = Preferences.get("MobileUI", {
-		x: 0,
-		y: 0,
-		zIndex: 1e3,
-		width: window.innerWidth,
-		height: window.innerHeight,
-		show: false
-	}, 1);
-	showButtons = false;
-	C_AUTOTARGET_DELAY = 500;
-	C_TOUCH_CLICK_GUARD = 750;
-	maxDistance = 0;
-	normalizedX = 0;
-	normalizedY = 0;
-	_joystickBase = null;
-	_joystickThumb = null;
-	/**
-	* Initialize UI
-	*/
-	MobileUI.init = function init() {
-		const root = MobileUI.getRoot();
-		bindButton(root, "#toggleUIButton", (e) => {
-			toggleButtons();
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#fullscreenButton", (e) => {
-			toggleFullScreen();
-			stopPropagation$9(e);
-		});
-		const fKeyMap = [
-			["#f1Button", 112],
-			["#f2Button", 113],
-			["#f3Button", 114],
-			["#f4Button", 115],
-			["#f5Button", 116],
-			["#f6Button", 117],
-			["#f7Button", 118],
-			["#f8Button", 119],
-			["#f9Button", 120]
-		];
-		const nKeyMap = [
-			["#n1Button", 49],
-			["#n2Button", 50],
-			["#n3Button", 51],
-			["#n4Button", 52],
-			["#n5Button", 53],
-			["#n6Button", 54],
-			["#n7Button", 55],
-			["#n8Button", 56],
-			["#n9Button", 57]
-		];
-		const letterKeyMap = [
-			["#qButton", 81],
-			["#wButton", 87],
-			["#eButton", 69],
-			["#rButton", 82],
-			["#tButton", 84],
-			["#yButton", 89],
-			["#uButton", 85],
-			["#iButton", 73],
-			["#oButton", 79],
-			["#aButton", 65],
-			["#sButton", 83],
-			["#dButton", 68],
-			["#fButton", 70],
-			["#gButton", 71],
-			["#hButton", 72],
-			["#jButton", 74],
-			["#kButton", 75],
-			["#lButton", 76]
-		];
-		[
-			...fKeyMap,
-			...nKeyMap,
-			...letterKeyMap
-		].forEach(([selector, keyCode]) => {
-			bindButton(root, selector, (e) => {
-				logKeyPress(keyCode);
-				stopPropagation$9(e);
-			});
-		});
-		bindButton(root, "#f10Button", (e) => {
-			logKeyPress(121);
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#f12Button", (e) => {
-			logKeyPress(123);
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#insButton", (e) => {
-			logKeyPress(45);
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#toggleStatusButton", (e) => {
-			toggleStatus();
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#toggleTargetingButton", (e) => {
-			toggleTouchTargeting();
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#toggleAutoFollowButton", (e) => {
-			toggleAutoFollow();
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#toggleAutoTargetButton", (e) => {
-			toggleAutoTargeting();
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#attackButton", (e) => {
-			attackTargeted();
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#pickupButton", (e) => {
-			pickUpItem();
-			stopPropagation$9(e);
-		});
-		bindButton(root, "#switchshorcutButton", (e) => {
-			switchSkillButtons();
-			stopPropagation$9(e);
-		});
-		root.querySelectorAll(".buttons").forEach((btn) => {
-			btn.addEventListener("mousedown", (e) => e.target.classList.add("pressed"));
-			btn.addEventListener("touchstart", (e) => e.target.classList.add("pressed"));
-			btn.addEventListener("mouseup", (e) => e.target.classList.remove("pressed"));
-			btn.addEventListener("touchend", (e) => e.target.classList.remove("pressed"));
-		});
-		root.querySelectorAll(".FButton").forEach((btn) => {
-			btn.addEventListener("mousedown", (e) => e.target.classList.add("pressed"));
-			btn.addEventListener("touchstart", (e) => e.target.classList.add("pressed"));
-			btn.addEventListener("mouseup", (e) => e.target.classList.remove("pressed"));
-			btn.addEventListener("touchend", (e) => e.target.classList.remove("pressed"));
-		});
-		setupJoystick();
-		setupTalkToNpcButton();
-	};
-	/**
-	* Apply preferences once append to body
-	*/
-	MobileUI.onAppend = function onAppend() {
-		if (Platform.isMobile) {
-			this._host.style.display = "none";
-			return;
-		}
-		if (SessionStorage_default.isTouchDevice) this._host.style.display = "block";
-		else this._host.style.display = "none";
-		this._host.style.top = "0px";
-		this._host.style.left = "0px";
-		this._host.style.zIndex = "1000";
-	};
-	/**
-	* Process shortcut
-	*
-	* @param {object} key
-	*/
-	MobileUI.onShortCut = function onShortCut(key) {
-		if (Platform.isMobile) return;
-		switch (key.cmd) {
-			case "SHOW":
-				SessionStorage_default.isTouchDevice = true;
-				this.show();
-				break;
-			case "TOGGLE":
-				toggleButtons();
-				break;
-			case "TG":
-				toggleTouchTargeting();
-				break;
-			case "AT":
-				toggleAutoTargeting();
-				break;
-			case "ATK": attackTargeted();
-		}
-	};
-	/**
-	* Removes MobileUI
-	*/
-	MobileUI.onRemove = function onRemove() {
-		_preferences$27.y = 0;
-		_preferences$27.x = 0;
-		_preferences$27.zIndex = 1e3;
-		_preferences$27.width = Renderer.width;
-		_preferences$27.height = Renderer.height;
-		_preferences$27.save();
-		if (SessionStorage_default.AutoTargeting) toggleAutoTargeting();
-	};
-	/**
-	* Shows MobileUI
-	*/
-	MobileUI.show = function show() {
-		if (Platform.isMobile) return;
-		this._host.style.display = "block";
-	};
-	MobileUI_default = UIManager.addComponent(MobileUI);
-}));
-//#endregion
-//#region src/Core/Mobile.js
-/**
-* Return distance between touches
-*
-* @param {TouchList} touches
-* @return {number} distance
-*/
-function touchDistance(touches) {
-	const x = touches[0].pageX - touches[1].pageX;
-	const y = touches[0].pageY - touches[1].pageY;
-	return Math.sqrt(x * x + y * y);
-}
-/**
-* Get angle from touches
-*
-* @param {TouchList} touches
-* @return {number} rotation angle
-*/
-function touchAngle(touches) {
-	const x = touches[0].pageX - touches[1].pageX;
-	const y = touches[0].pageY - touches[1].pageY;
-	return Math.atan2(y, x) * 180 / Math.PI;
-}
-/**
-* Get translation size (width)
-*
-* @param {TouchList} old touches
-* @param {TouchList} new touches
-*/
-function touchTranslationX(oldTouches, touches) {
-	const x1 = touches[0].pageX - oldTouches[0].pageX;
-	const x2 = touches[1].pageX - oldTouches[1].pageX;
-	if (x1 && x2 && x1 < 0 === x2 < 0 && Math.abs(1 - x1 / x2) < .25) return x1 + x2 >> 1;
-	return 0;
-}
-/**
-* Get translation size (height)
-*
-* @param {TouchList} old touches
-* @param {TouchList} new touches
-*/
-function touchTranslationY(oldTouches, touches) {
-	const y1 = touches[0].pageY - oldTouches[0].pageY;
-	const y2 = touches[1].pageY - oldTouches[1].pageY;
-	if (y1 && y2 && y1 < 0 === y2 < 0 && Math.abs(1 - y1 / y2) < .25) return y1 + y2 >> 1;
-	return 0;
-}
-/**
-* Hook touch end to know when a gesture end
-* process OnMouseUp if no gesture detected
-*/
-function onTouchEnd(event) {
-	if (Platform.isMobile && SessionStorage_default.Playing) return;
-	if (_processGesture) {
-		_processGesture = false;
-		KEYS.SHIFT = false;
-		Camera.rotate(false);
-		return;
-	}
-	if (_timer$1 > -1) {
-		_intersect = false;
-		return;
-	}
-	if (Mobile.onTouchEnd) Mobile.onTouchEnd();
-	Mouse.intersect = false;
-}
-/**
-* Process gesture (scale, rotate)
-* Else move.
-*/
-function onTouchMove(event) {
-	if (Platform.isMobile && SessionStorage_default.Playing) return;
-	event.stopImmediatePropagation();
-	const touches = event.touches;
-	Mouse.screen.x = touches[0].pageX;
-	Mouse.screen.y = touches[0].pageY;
-	if (!_processGesture) return;
-	const scale = touchDistance(touches) - _scale;
-	const x = Math.abs(touchTranslationX(_touches, touches));
-	const y = Math.abs(touchTranslationY(_touches, touches));
-	if (!Camera.action.active && (x > 10 || y > 10)) {
-		KEYS.SHIFT = y > x;
-		Camera.rotate(true);
-		return;
-	}
-	if (Math.abs(scale) > 10) {
-		Camera.zoomFinal -= scale * .1;
-		Camera.zoomFinal = Math.min(Camera.zoomFinal, Math.abs(Camera.altitudeTo - Camera.altitudeFrom) * Camera.MAX_ZOOM);
-		Camera.zoomFinal = Math.max(Camera.zoomFinal, 2);
-	}
-}
-function touchDevice() {
-	SessionStorage_default.isTouchDevice = true;
-	if (SessionStorage_default.Playing) MobileUI_default.show();
-}
-var _processGesture, _scale, _touches, _intersect, _timer$1, Mobile, remoteAutoFocus, onTouchStart;
-var init_Mobile = __esmMin((() => {
-	init_Platform();
-	init_Context();
-	init_Events();
-	init_Camera();
-	init_SessionStorage();
-	init_MouseEventHandler();
-	init_KeyEventHandler();
-	init_MobileUI();
-	_processGesture = false;
-	_timer$1 = -1;
-	Mobile = class {
-		/**
-		* Initialize
-		*/
-		static init() {}
-		static cancelInteraction() {
-			if (_timer$1 > -1) Events.clearTimeout(_timer$1);
-			_timer$1 = -1;
-			if (_processGesture) KEYS.SHIFT = false;
-			_processGesture = false;
-			_intersect = false;
-			Camera.rotate(false);
-			Mouse.intersect = false;
-		}
-	};
-	remoteAutoFocus = (function removeAutoFocusClosure() {
-		let _done = false;
-		return function removeAutoFocus() {
-			if (_done) return;
-			_done = true;
-		};
-	})();
-	onTouchStart = (function onTouchStartClosure() {
-		function delayedClick() {
-			if (!_processGesture) {
-				_timer$1 = -1;
-				if (Mobile.onTouchStart) Mobile.onTouchStart();
-				if (!_intersect) {
-					if (Mobile.onTouchEnd) Mobile.onTouchEnd();
-				}
-				Mouse.intersect = _intersect;
-			}
-		}
-		return function(event) {
-			if (Platform.isMobile && SessionStorage_default.Playing) return;
-			remoteAutoFocus();
-			_touches = event.touches;
-			const target = event.target;
-			if (!(target && /^(input|textarea|select)$/i.test(target.tagName))) event.preventDefault();
-			event.stopImmediatePropagation();
-			if (_timer$1 > -1) {
-				Events.clearTimeout(_timer$1);
-				_timer$1 = -1;
-			}
-			if (_touches.length > 1) {
-				_scale = touchDistance(_touches);
-				touchAngle(_touches);
-				_processGesture = true;
-				return;
-			}
-			Mouse.screen.x = _touches[0].pageX;
-			Mouse.screen.y = _touches[0].pageY;
-			if (!SessionStorage_default.FreezeUI) {
-				Mouse.intersect = true;
-				_intersect = true;
-			}
-			_timer$1 = Events.setTimeout(delayedClick, 200);
-		};
-	})();
-	if (Math.max(screen.availHeight, screen.availWidth) <= 800) window.addEventListener("touchstart", () => {
-		if (!Context.isFullScreen()) Context.requestFullScreen();
-	});
-	window.addEventListener("touchstart", touchDevice, { once: true });
-	window.addEventListener("touchstart", onTouchStart, { passive: false });
-	window.addEventListener("touchend", onTouchEnd);
-	window.addEventListener("touchmove", onTouchMove);
-}));
-//#endregion
-//#region src/Core/AIDriver.js
-var msg, resMsg, AIDriver;
-var init_AIDriver = __esmMin((() => {
-	init_DBManager();
-	init_SessionStorage();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_PacketVerManager();
-	init_SkillInfo_generated();
-	init_EntityManager();
-	init_Client();
-	init_Configs();
-	init_UIManager();
-	init_CodepageManager();
-	msg = {};
-	resMsg = {};
-	AIDriver = class AIDriver {
-		static HOM_AGGRESSIVE = false;
-		static MER_AGGRESSIVE = false;
-		static HO_AI = null;
-		static MER_AI = null;
-		static default_HO_AI = null;
-		static default_MER_AI = null;
-		static ready = {
-			homunculus: false,
-			mercenary: false
-		};
-		static initialization = {
-			homunculus: null,
-			mercenary: null
-		};
-		static generation = {
-			homunculus: 0,
-			mercenary: 0
-		};
-		static init() {}
-		static setmsg(homId, str) {
-			if (!msg[homId]) msg[homId] = str;
-			else resMsg[homId] = str;
-		}
-		static addCTX(homunculus, defaultAI, customAI) {
-			const scriptStartTime = Date.now();
-			const Homun = UIManager.getComponent("HomunInformations");
-			const Mercenary = UIManager.getComponent("MercenaryInformations");
-			function addCTX(lua, isHoAI = true) {
-				const ctx = lua.ctx;
-				lua.doStringSync(`
-			function GetV(V_, id)
-				local res = GetVJS(V_, id)
-				if(V_ == 1 or V_ == 13) then
-					return res[1], res[2]
-				end
-				return res
-			end
-			function GetMsg(id)
-				local res = GetMsgJS(id)
-				local result = {}
-				local i = 0
-				while res[i] ~= nil do
-					result[i + 1] = res[i]
-					i = i + 1
-				end
-				return result
-			end
-			function GetResMsg(id)
-				local res = GetResMsgJS(id)
-				local result = {}
-				local i = 0
-				while res[i] ~= nil do
-					result[i + 1] = res[i]
-					i = i + 1
-				end
-				return result
-			end
-		`);
-				ctx.log = (logMessage) => {
-					if (Configs.get("debugAI", false)) console.log(typeof logMessage === "object" && logMessage.buffer ? CodepageManager.decode(logMessage) : logMessage);
-				};
-				ctx.MoveToOwner = (id) => {
-					if (isHoAI) Homun.reqMoveToOwner(id);
-					else Mercenary.reqMoveToOwner(id);
-				};
-				ctx.Move = (id, x, y) => {
-					if (isHoAI) Homun.reqMoveTo(id, x, y);
-					else Mercenary.reqMoveTo(id, x, y);
-				};
-				ctx.Attack = (id, targetGID) => {
-					if (isHoAI) Homun.reqAttack(id, targetGID);
-					else Mercenary.reqAttack(id, targetGID);
-				};
-				ctx.GetVJS = (V_, id) => {
-					const entity = EntityManager.get(Number(id));
-					switch (V_) {
-						case 0: return SessionStorage_default.AID;
-						case 1:
-						case 13: {
-							let posX = -1, posY = -1;
-							if (entity && entity.position) {
-								posX = parseInt(entity.position[0]);
-								posY = parseInt(entity.position[1]);
-							}
-							return [
-								V_,
-								posX,
-								posY
-							];
-						}
-						case 2: return 1;
-						case 3: return entity ? entity.action : 0;
-						case 4: return entity ? entity.attack_range : 1;
-						case 5: return entity && entity.targetGID && entity.targetGID > 0 ? entity.targetGID : -1;
-						case 6: return entity ? entity.attack_range : 1;
-						case 7: return entity ? entity.job % 6e3 : -1;
-						case 8: return entity.life.hp || -1;
-						case 9: return entity.life.sp || -1;
-						case 10: return entity.life.hp_max || -1;
-						case 11: return entity.life.sp_max || -1;
-						case 12:
-							if (entity === null) return 0;
-							return Number((entity.job + "").substring(1));
-						case 14:
-							if (entity !== null) return entity.attack_range || 1;
-							return 1;
-						default:
-							if (Configs.get("debugAI", false)) console.error("unknown V_ ", V_, entity);
-							return 0;
-					}
-				};
-				function distance(x1, y1, x2, y2) {
-					const dx = x2 - x1;
-					const dy = y2 - y1;
-					return Math.sqrt(dx * dx + dy * dy);
-				}
-				function canUseAISkill(entity) {
-					if (!entity || entity.action === entity.ACTION.DIE || entity.action === entity.ACTION.HURT) return false;
-					return [
-						entity.ACTION.IDLE,
-						entity.ACTION.WALK,
-						entity.ACTION.ATTACK,
-						entity.ACTION.ATTACK2,
-						entity.ACTION.ATTACK3
-					].some((action) => action >= 0 && action === entity.action);
-				}
-				ctx.GetActors = function() {
-					AIDriver.exec("status = MyState", isHoAI);
-					const res = [0];
-					EntityManager.forEach((item) => {
-						res.push(item.GID);
-					});
-					if (res.length > 3) {
-						if (isHoAI ? AIDriver.HOM_AGGRESSIVE : AIDriver.MER_AGGRESSIVE) {
-							let closest = 0;
-							let lastDist = 32;
-							const thisentity = EntityManager.get(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId);
-							for (const item of res) if (item !== 0 && item !== SessionStorage_default.AID && item !== SessionStorage_default.homunId && item !== SessionStorage_default.mercId) {
-								const entity = EntityManager.get(item);
-								if (entity && (entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_MOB || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_ABR || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_BIONIC) && !entity.isDead() && entity.action !== entity.ACTION.DIE && entity.isVisible()) {
-									const dist = distance(thisentity.position[0], thisentity.position[1], entity.position[0], entity.position[1]);
-									if (dist < lastDist) {
-										closest = item;
-										lastDist = dist;
-									}
-								}
-							}
-							if (closest > 0) AIDriver.setmsg(isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId, "3," + closest);
-						}
-					}
-					return res;
-				};
-				ctx.GetTick = () => Date.now() - scriptStartTime;
-				ctx.GetMsgJS = (id) => {
-					let raw = "0";
-					if (id in msg) {
-						raw = msg[id];
-						delete msg[id];
-					}
-					return raw.split(",").map(Number);
-				};
-				ctx.GetResMsgJS = (id) => {
-					let raw = "0";
-					if (id in resMsg) {
-						raw = resMsg[id];
-						delete resMsg[id];
-					}
-					return raw.split(",").map(Number);
-				};
-				ctx.SkillObject = (homunId, level, skillId, targetID) => {
-					if (homunId === (isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId)) {
-						const homun = EntityManager.get(Number(homunId));
-						const target = EntityManager.get(Number(targetID));
-						if (!homun || !target) return 0;
-						const range = SkillInfo_generated_default[skillId].AttackRange[level - 1] + 1 || homun.attack_range || 1;
-						if (homun.position[0] > 0 && homun.position[1] > 0 && target.position[0] > 0 && target.position[1] > 0) {
-							if (range >= distance(homun.position[0], homun.position[1], target.position[0], target.position[1])) {
-								if (canUseAISkill(homun)) {
-									let pkt;
-									if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL2();
-									else pkt = new PACKET.CZ.USE_SKILL();
-									pkt.SKID = skillId;
-									pkt.selectedLevel = level;
-									pkt.targetID = targetID || SessionStorage_default.Entity.GID;
-									Network.sendPacket(pkt);
-								}
-							}
-						}
-					}
-					return 0;
-				};
-				ctx.SkillGround = (homunId, level, skillId, x, y) => {
-					if (homunId === (isHoAI ? SessionStorage_default.homunId : SessionStorage_default.mercId)) {
-						const homun = EntityManager.get(Number(homunId));
-						if (homun && [
-							0,
-							1,
-							4
-						].includes(homun.action)) {
-							let pkt;
-							if (PacketVerManager_default.value >= 20190904) pkt = new PACKET.CZ.USE_SKILL_TOGROUND3();
-							else if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.USE_SKILL_TOGROUND2();
-							else pkt = new PACKET.CZ.USE_SKILL_TOGROUND();
-							pkt.SKID = skillId;
-							pkt.selectedLevel = level;
-							pkt.xPos = x;
-							pkt.yPos = y;
-							Network.sendPacket(pkt);
-						}
-					}
-					return 0;
-				};
-				ctx.IsMonster = (id) => {
-					if (typeof id !== "number" || id <= 0) return 0;
-					const entity = EntityManager.get(Number(id));
-					if (entity && (entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_MOB || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_ABR || entity.objecttype === SessionStorage_default.Entity.constructor.TYPE_NPC_BIONIC) && !entity.isDead() && entity.action !== entity.ACTION.DIE && entity.isVisible()) return 1;
-					return 0;
-				};
-				ctx.TraceAI = (str) => {
-					if (Configs.get("debugAI", false)) console.log("TraceAI - ", typeof str === "object" && str.buffer ? CodepageManager.decode(str) : str);
-				};
-				ctx.status = null;
-				ctx.Trace = (logMessage) => {
-					if (Configs.get("debugAI", false)) console.debug(typeof logMessage === "object" && logMessage.buffer ? CodepageManager.decode(logMessage) : logMessage);
-				};
-				ctx.TraceValue = (val) => {
-					return val.toString();
-				};
-			}
-			if (homunculus) {
-				addCTX(defaultAI, true);
-				addCTX(customAI, true);
-				return;
-			}
-			addCTX(defaultAI, false);
-			addCTX(customAI, false);
-		}
-		static initAI = (homunculus) => {
-			const kind = homunculus ? "homunculus" : "mercenary";
-			if (AIDriver.ready[kind]) return Promise.resolve();
-			if (AIDriver.initialization[kind]) return AIDriver.initialization[kind];
-			const initialization = AIDriver.initializeAI(homunculus, AIDriver.generation[kind]);
-			AIDriver.initialization[kind] = initialization;
-			return initialization;
-		};
-		static initializeAI = async (homunculus, generation) => {
-			const kind = homunculus ? "homunculus" : "mercenary";
-			let loadedFiles = {};
-			let loadPromises = [];
-			let defaultAI;
-			let customAI;
-			function preloadFiles(fileList, lua) {
-				const ctx = lua.ctx;
-				function customRequire(modulePath, isJS = false) {
-					return new Promise((resolve, reject) => {
-						let filename;
-						if (!isJS) filename = CodepageManager.decode(modulePath);
-						else filename = modulePath;
-						filename = filename.replaceAll("\\\\", "/").replaceAll("\\", "/").replace("./", "").replace("pcall", "").replace("function", "").replace(".lua", "").trim();
-						if (filename.endsWith("end")) filename = filename.replace("end", "").trim();
-						filename = filename + ".lua";
-						if (filename.includes("Timeouts") || filename.includes("AggressiveRelogPath") || filename.startsWith("--")) {
-							resolve();
-							return;
-						}
-						if (loadedFiles[filename]) {
-							resolve();
-							return;
-						}
-						loadedFiles[filename] = filename;
-						Client.loadFile(filename, function(file) {
-							try {
-								if (Configs.get("debugAI", false)) console.log(`Loading file "${filename}"...`);
-								const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
-								const str = CodepageManager.decode(buffer);
-								const nestedPromises = [];
-								for (const line of str.split("\n")) if (line.includes("dofile")) {
-									const nestedPromise = customRequire(line.replace("dofile", "").replaceAll("(", "").replaceAll(")", "").replace(/['"]/g, "").trim(), true);
-									nestedPromises.push(nestedPromise);
-								}
-								Promise.all(nestedPromises).then(() => {
-									lua.mountFile("./" + filename, buffer);
-									resolve();
-								}).catch(reject);
-							} catch (error) {
-								console.error("[require] : ", error);
-								reject(error);
-							}
-						}, reject);
-					});
-				}
-				ctx.require = customRequire;
-				for (const filename of fileList) if (!loadedFiles[filename]) {
-					loadedFiles[filename] = filename;
-					const promise = new Promise((resolve, reject) => {
-						Client.loadFile(filename, function(file) {
-							try {
-								if (Configs.get("debugAI", false)) console.log("Loading file \"" + filename + "\"...");
-								const buffer = file instanceof ArrayBuffer ? new Uint8Array(file) : file;
-								const text = CodepageManager.decode(buffer);
-								const nestedPromises = [];
-								for (const line of text.split("\n")) if (line.includes("dofile")) {
-									const nestedPromise = customRequire(line.replace("dofile", "").replaceAll("(", "").replaceAll(")", "").replace(/['"]/g, "").trim(), true);
-									nestedPromises.push(nestedPromise);
-								}
-								Promise.all(nestedPromises).then(() => {
-									lua.mountFile("./" + filename, buffer);
-									resolve();
-								}).catch(reject);
-							} catch (error) {
-								console.error("[prepareAIFiles] : ", error);
-								reject(error);
-							}
-						}, reject);
-					});
-					loadPromises.push(promise);
-				}
-			}
-			async function doFiles(fileList, lua) {
-				await Promise.all(loadPromises);
-				for (const key in fileList) await lua.doFileSync(fileList[key]);
-			}
-			try {
-				defaultAI = await DB.createLuaVM();
-				customAI = await DB.createLuaVM();
-				AIDriver.addCTX(homunculus, defaultAI, customAI);
-				let files = homunculus ? [
-					"AI/Util.lua",
-					"AI/Const.lua",
-					"AI/AI.lua"
-				] : [
-					"AI/Util.lua",
-					"AI/Const.lua",
-					"AI/AI_M.lua"
-				];
-				console.log(`Loading Default ${homunculus ? "HOAI" : "MERAI"}...`);
-				preloadFiles(files, defaultAI);
-				await doFiles(files, defaultAI);
-				loadedFiles = {};
-				loadPromises = [];
-				files = homunculus ? [
-					"AI/USER_AI/Util.lua",
-					"AI/USER_AI/Const.lua",
-					"AI/USER_AI/AI.lua"
-				] : [
-					"AI/USER_AI/Util.lua",
-					"AI/USER_AI/Const.lua",
-					"AI/USER_AI/AI_M.lua"
-				];
-				console.log(`Loading Custom ${homunculus ? "HOAI" : "MERAI"}...`);
-				preloadFiles(files, customAI);
-				await doFiles(files, customAI);
-			} catch (error) {
-				defaultAI?.global?.close?.();
-				customAI?.global?.close?.();
-				console.warn("[AIDriver] AI files not available, skipping AI initialization:", error.message || error);
-				throw error;
-			}
-			if (generation !== AIDriver.generation[kind]) {
-				defaultAI.global.close();
-				customAI.global.close();
-				return;
-			}
-			if (homunculus) {
-				AIDriver.default_HO_AI = defaultAI;
-				AIDriver.HO_AI = customAI;
-			} else {
-				AIDriver.default_MER_AI = defaultAI;
-				AIDriver.MER_AI = customAI;
-			}
-			AIDriver.ready[kind] = true;
-		};
-		static exec = (code, homunculus = true) => {
-			try {
-				const kind = homunculus ? "homunculus" : "mercenary";
-				if (!AIDriver.ready[kind]) {
-					AIDriver.initAI(homunculus).catch(() => {});
-					return;
-				}
-				let lua;
-				if (homunculus) {
-					if (SessionStorage_default.homCustomAI) lua = AIDriver.HO_AI;
-					else lua = AIDriver.default_HO_AI;
-				} else if (SessionStorage_default.merCustomAI) lua = AIDriver.MER_AI;
-				else lua = AIDriver.default_MER_AI;
-				lua.doStringSync(code);
-			} catch (e) {
-				console.error("%c[AI] %cAI Error: ", "color:#DD0078", "color:inherit", e);
-			}
-		};
-		static reset = (homunculus = null) => {
-			const kinds = homunculus === null ? [true, false] : [homunculus];
-			for (const isHomunculus of kinds) {
-				const kind = isHomunculus ? "homunculus" : "mercenary";
-				const instances = isHomunculus ? [AIDriver.HO_AI, AIDriver.default_HO_AI] : [AIDriver.MER_AI, AIDriver.default_MER_AI];
-				for (const lua of instances) lua?.global?.close?.();
-				if (isHomunculus) {
-					AIDriver.HO_AI = null;
-					AIDriver.default_HO_AI = null;
-				} else {
-					AIDriver.MER_AI = null;
-					AIDriver.default_MER_AI = null;
-				}
-				AIDriver.ready[kind] = false;
-				AIDriver.initialization[kind] = null;
-				AIDriver.generation[kind] += 1;
-			}
-		};
-	};
-}));
-//#endregion
-//#region src/UI/Components/Captcha/CaptchaSelector.html?raw
-var CaptchaSelector_default$2;
-var init_CaptchaSelector$2 = __esmMin((() => {
-	CaptchaSelector_default$2 = "<div id=\"CaptchaSelector\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		<div class=\"left\">\r\n			<ui-button\r\n				class=\"base\"\r\n				bg=\"basic_interface/sys_base_off.bmp\"\r\n				hover=\"basic_interface/sys_base_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"right\">\r\n			<ui-button\r\n				class=\"base close\"\r\n				bg=\"basic_interface/sys_close_off.bmp\"\r\n				hover=\"basic_interface/sys_close_on.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<div class=\"clear\"></div>\r\n	</div>\r\n	<div class=\"container\">\r\n		<div class=\"options\">\r\n			<input id=\"target_type_character\" type=\"radio\" name=\"target_type\" value=\"character\" checked />\r\n			<label for=\"target_type_character\"><ui-text msg=\"2887\"></ui-text></label>\r\n			<input id=\"target_type_range\" type=\"radio\" name=\"target_type\" value=\"range\" />\r\n			<label for=\"target_type_range\"><ui-text msg=\"2888\"></ui-text></label>\r\n			<input type=\"number\" class=\"range_val\" value=\"1\" min=\"1\" max=\"9\" />\r\n			<ui-button\r\n				class=\"btn btn_active\"\r\n				bg=\"btn_q_active.bmp\"\r\n				hover=\"btn_q_active_a.bmp\"\r\n				down=\"btn_q_active_b.bmp\"\r\n			></ui-button>\r\n		</div>\r\n		<ul class=\"player_list\">\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n			<li class=\"player\"></li>\r\n		</ul>\r\n		<div class=\"footer\">\r\n			<ui-image src=\"basic_interface/btnbar_mid2.bmp\"></ui-image>\r\n			<ui-button class=\"btn ok\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		</div>\r\n	</div>\r\n	<div class=\"character_info\">\r\n		<ui-button\r\n			class=\"base close-character\"\r\n			bg=\"basic_interface/sys_close_off.bmp\"\r\n			hover=\"basic_interface/sys_close_on.bmp\"\r\n		></ui-button>\r\n		<span class=\"character-name\"></span><br />\r\n		<span class=\"character-job\"></span>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Captcha/CaptchaSelector.css?raw
-var CaptchaSelector_default$1;
-var init_CaptchaSelector$1 = __esmMin((() => {
-	CaptchaSelector_default$1 = ":host {\r\n	position: absolute;\r\n	width: 210px;\r\n	height: 310px;\r\n	z-index: 50;\r\n}\r\n\r\n#CaptchaSelector {\r\n	width: 100%;\r\n	height: 100%;\r\n	background-color: #ffffff;\r\n	font-size: 12px;\r\n}\r\n\r\n#CaptchaSelector .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .titlebar {\r\n	width: 210px;\r\n	height: 17px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 3px 3px 0px 0px;\r\n}\r\n\r\n#CaptchaSelector .base {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n\r\n#CaptchaSelector .titlebar .text {\r\n	text-shadow: 1px 1px white;\r\n	vertical-align: -2px;\r\n	white-space: nowrap;\r\n	display: inline-block;\r\n	width: 32px;\r\n	height: 13px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n#CaptchaSelector .titlebar .left {\r\n	margin-left: 3px;\r\n	float: left;\r\n}\r\n\r\n#CaptchaSelector .titlebar .right,\r\n#CaptchaSelector .character_info .close-character {\r\n	float: right;\r\n	margin-right: 3px;\r\n}\r\n\r\n#CaptchaSelector .titlebar .clear {\r\n	clear: both;\r\n}\r\n\r\n#CaptchaSelector .container {\r\n	height: 293px;\r\n}\r\n\r\n#CaptchaSelector .options {\r\n	height: 22px;\r\n	display: flex;\r\n	align-items: center;\r\n}\r\n\r\n#CaptchaSelector .player_list {\r\n	height: 247px;\r\n	overflow-y: auto;\r\n	list-style: none;\r\n	margin: 0px 10px;\r\n	padding: 0;\r\n}\r\n\r\n#CaptchaSelector .player_list li {\r\n	width: 190px;\r\n	height: 24px;\r\n	margin: 2px 0;\r\n	background-color: #e5e5e5;\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 5px;\r\n}\r\n\r\n#CaptchaSelector .footer {\r\n	display: flex;\r\n	justify-content: end;\r\n	align-items: center;\r\n	height: 24px;\r\n}\r\n\r\n#CaptchaSelector .range_val {\r\n	appearance: none;\r\n	width: 20px;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .range_val::-webkit-inner-spin-button,\r\n#CaptchaSelector .range_val::-webkit-outer-spin-button {\r\n	-webkit-appearance: none;\r\n	margin: 0;\r\n	border: 1px solid;\r\n	margin-left: 3px;\r\n}\r\n\r\n#CaptchaSelector .btn_active,\r\n#CaptchaSelector .footer .btn {\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	border: 0;\r\n}\r\n\r\n#CaptchaSelector .btn_active {\r\n	margin-left: 15px;\r\n}\r\n\r\n#CaptchaSelector .footer .btn {\r\n	margin-right: 10px;\r\n}\r\n\r\n#CaptchaSelector .character_info {\r\n	position: absolute;\r\n	bottom: 0;\r\n	left: 0;\r\n	width: 200px;\r\n	height: 35px;\r\n	background-color: #ffffff;\r\n	border-radius: 3px;\r\n	display: none;\r\n}\r\n\r\n#CaptchaSelector li a {\r\n	text-decoration: underline;\r\n	color: black;\r\n}\r\n\r\n#CaptchaSelector .player_list li .remove {\r\n	width: 11px;\r\n	height: 11px;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n	vertical-align: middle;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Captcha/CaptchaSelector.js
-var CaptchaSelector, _preferences$26, _aidList, _aidInformation, _range, _active$2, CaptchaSelector_default;
-var init_CaptchaSelector = __esmMin((() => {
-	init_UIManager();
-	init_GUIComponent();
-	init_Preferences$1();
-	init_Renderer();
-	init_EntityManager();
-	init_SessionStorage();
-	init_DBManager();
-	init_JobDisplayNameTable();
-	init_Elements();
-	init_CaptchaSelector$2();
-	init_CaptchaSelector$1();
-	CaptchaSelector = new GUIComponent("CaptchaSelector", CaptchaSelector_default$1);
-	_preferences$26 = Preferences.get("CaptchaSelector", {
-		x: 230,
-		y: 295
-	}, 2);
-	_aidList = [];
-	_aidInformation = [];
-	_range = 1;
-	_active$2 = false;
-	CaptchaSelector.render = () => CaptchaSelector_default$2;
-	CaptchaSelector.captureKeyEvents = true;
-	/**
-	* Initialize GUI
-	*/
-	CaptchaSelector.init = function init() {
-		this.draggable(".titlebar");
-		const root = this.getRoot();
-		const closeBtn = root.querySelector(".close");
-		if (closeBtn) closeBtn.addEventListener("click", () => this.remove());
-		const activeBtn = root.querySelector(".btn_active");
-		if (activeBtn) activeBtn.addEventListener("click", () => {
-			_active$2 = !_active$2;
-			if (_active$2) {
-				const checked = root.querySelector("input[name=\"target_type\"]:checked");
-				const type = checked ? checked.value : "character";
-				const rangeInput = root.querySelector(".range_val");
-				_range = parseInt(rangeInput ? rangeInput.value : "1", 10) || 1;
-				_range = Math.min(Math.max(1, _range), 9);
-				if (type === "character") {
-					SessionStorage_default.captchaGetIdOnEntityClick = true;
-					SessionStorage_default.captchaGetIdOnFloorClick = false;
-				} else if (type === "range") {
-					SessionStorage_default.captchaGetIdOnFloorClick = true;
-					SessionStorage_default.captchaGetIdOnFloorRange = _range;
-					SessionStorage_default.captchaGetIdOnEntityClick = false;
-				}
-			} else {
-				SessionStorage_default.captchaGetIdOnEntityClick = false;
-				SessionStorage_default.captchaGetIdOnFloorClick = false;
-			}
-		});
-		const okBtn = root.querySelector(".ok");
-		if (okBtn) okBtn.addEventListener("click", () => {
-			if (_aidList.length > 0) UIManager.showPromptBox(DB.getMessage(2876).replace("%d", _aidList.length), "ok", "cancel", () => {
-				CaptchaSelector.sendCaptchaToPlayers();
-			}, () => {});
-		});
-		const closeCharBtn = root.querySelector(".close-character");
-		if (closeCharBtn) closeCharBtn.addEventListener("click", () => {
-			const charInfo = root.querySelector(".character_info");
-			if (charInfo) charInfo.style.display = "none";
-		});
-	};
-	CaptchaSelector.onKeyDown = function onKeyDown(event) {
-		if (CaptchaSelector.isEditableFocused()) {
-			event.stopImmediatePropagation();
-			return true;
-		}
-		return true;
-	};
-	/**
-	* Append to DOM
-	*/
-	CaptchaSelector.onAppend = function onAppend() {
-		this._host.style.top = `${Math.min(Math.max(0, _preferences$26.y), Renderer.height - this._host.offsetHeight)}px`;
-		this._host.style.left = `${Math.min(Math.max(0, _preferences$26.x), Renderer.width - this._host.offsetWidth)}px`;
-	};
-	/**
-	* Remove data from UI
-	*/
-	CaptchaSelector.onRemove = function onRemove() {
-		_preferences$26.y = parseInt(this._host.style.top, 10);
-		_preferences$26.x = parseInt(this._host.style.left, 10);
-		_preferences$26.save();
-		const charInfo = this.getRoot().querySelector(".character_info");
-		if (charInfo) charInfo.style.display = "none";
-		this.cleanUIList();
-		_aidList = [];
-		_aidInformation = [];
-		_range = 1;
-		_active$2 = false;
-		SessionStorage_default.captchaGetIdOnEntityClick = false;
-		SessionStorage_default.captchaGetIdOnFloorClick = false;
-		SessionStorage_default.captchaGetIdOnFloorRange = 1;
-	};
-	/**
-	* Set player list
-	* @param {Array} players - List of player AIDs
-	*/
-	CaptchaSelector.setPlayers = function setPlayers(players) {
-		this.cleanUIList();
-		_aidInformation = [];
-		const root = this.getRoot();
-		const liElements = root.querySelectorAll(".player_list li");
-		players = players.filter((aid) => SessionStorage_default.Entity.GID !== aid);
-		for (let i = 0; i < players.length && i < liElements.length; i++) {
-			const li = liElements[i];
-			const entity = EntityManager.get(players[i]);
-			const name = entity?.display?.name ?? "未知";
-			const aid = players[i];
-			li.classList.add("player");
-			li.dataset.aid = aid;
-			li.innerHTML = "";
-			const removeBtn = document.createElement("ui-button");
-			removeBtn.classList.add("base", "remove");
-			removeBtn.setAttribute("bg", "basic_interface/sys_close_off.bmp");
-			removeBtn.setAttribute("hover", "basic_interface/sys_close_on.bmp");
-			removeBtn.dataset.aid = aid;
-			removeBtn.addEventListener("click", () => {
-				_aidList = _aidList.filter((item) => item !== aid);
-				CaptchaSelector.setPlayers(_aidList);
-			});
-			li.appendChild(removeBtn);
-			const span = document.createElement("span");
-			const link = document.createElement("a");
-			link.dataset.aid = aid;
-			link.textContent = name;
-			link.addEventListener("click", () => {
-				const charEntity = EntityManager.get(aid);
-				const charName = charEntity?.display?.name ?? "未知";
-				const charJob = getJobDisplayName(charEntity?._job ?? 0);
-				const charInfo = root.querySelector(".character_info");
-				if (charInfo) {
-					const nameEl = charInfo.querySelector(".character-name");
-					if (nameEl) nameEl.textContent = charName;
-					const jobEl = charInfo.querySelector(".character-job");
-					if (jobEl) jobEl.textContent = charJob;
-					charInfo.style.top = `${li.offsetTop}px`;
-					charInfo.style.left = "0px";
-					charInfo.style.display = "block";
-				}
-			});
-			span.appendChild(link);
-			li.appendChild(document.createTextNode(" "));
-			li.appendChild(span);
-			_aidInformation.push({
-				aid,
-				name,
-				job: getJobDisplayName(entity?._job ?? 0)
-			});
-		}
-		_aidList = players;
-	};
-	CaptchaSelector.cleanUIList = function cleanList() {
-		this.getRoot().querySelectorAll(".player_list li").forEach((li) => {
-			li.innerHTML = "";
-			li.classList.remove("player");
-			delete li.dataset.aid;
-		});
-	};
-	CaptchaSelector.addPlayer = function addPlayer(aid) {
-		if (_aidList.includes(aid)) return;
-		_aidList.push(aid);
-		CaptchaSelector.setPlayers(_aidList);
-	};
-	CaptchaSelector.requestPlayersIds = function requestPlayersIds(xPos, yPos) {
-		if (CaptchaSelector.requestPlayersIdsInRange) CaptchaSelector.requestPlayersIdsInRange(xPos, yPos, _range);
-	};
-	CaptchaSelector.sendCaptchaToPlayers = function sendCaptchaToPlayers() {
-		_aidList.forEach((aid) => {
-			if (CaptchaSelector.sendCaptchaToPlayer) CaptchaSelector.sendCaptchaToPlayer(aid);
-		});
-		this.cleanUIList();
-		_aidList = [];
-	};
-	/**
-	* Callbacks
-	*/
-	CaptchaSelector.requestPlayersIdsInRange = null;
-	CaptchaSelector.sendCaptchaToPlayer = null;
-	CaptchaSelector_default = UIManager.addComponent(CaptchaSelector);
-}));
-//#endregion
-//#region src/Vendors/html2canvas.js
-var html2canvas, html2canvas_default;
-var init_html2canvas = __esmMin((() => {
-	/**
-	@license html2canvas v0.34 <http://html2canvas.hertzen.com>
-	Copyright (c) 2011 Niklas von Hertzen. All rights reserved.
-	http://www.twitter.com/niklasvh
-	
-	Released under MIT License
-	*/
-	(function(window, document, undefined) {
-		"use strict";
-		let _html2canvas = {}, previousElement, computedCSS;
-		function h2clog(a) {
-			if (_html2canvas.logging && window.console && window.console.log) window.console.log(a);
-		}
-		_html2canvas.Util = {};
-		_html2canvas.Util.backgroundImage = function(src) {
-			if (/data:image\/.*;base64,/i.test(src) || /^(-webkit|-moz|linear-gradient|-o-)/.test(src)) return src;
-			if (src.toLowerCase().substr(0, 5) === "url(\"") {
-				src = src.substr(5);
-				src = src.substr(0, src.length - 2);
-			} else {
-				src = src.substr(4);
-				src = src.substr(0, src.length - 1);
-			}
-			return src;
-		};
-		_html2canvas.Util.Bounds = function getBounds(el) {
-			let clientRect, bounds = {};
-			if (el.getBoundingClientRect) {
-				clientRect = el.getBoundingClientRect();
-				bounds.top = clientRect.top;
-				bounds.bottom = clientRect.bottom || clientRect.top + clientRect.height;
-				bounds.left = clientRect.left;
-				bounds.width = clientRect.width || clientRect.right - clientRect.left;
-				bounds.height = clientRect.height || clientRect.bottom - clientRect.top;
-				return bounds;
-			}
-		};
-		_html2canvas.Util.getCSS = function(el, attribute) {
-			let val;
-			function toPX(attribute, val) {
-				let rsLeft = el.runtimeStyle && el.runtimeStyle[attribute], left, style = el.style;
-				if (!/^-?[0-9]+\.?[0-9]*(?:px)?$/i.test(val) && /^-?\d/.test(val)) {
-					left = style.left;
-					if (rsLeft) el.runtimeStyle.left = el.currentStyle.left;
-					style.left = attribute === "fontSize" ? "1em" : val || 0;
-					val = style.pixelLeft + "px";
-					style.left = left;
-					if (rsLeft) el.runtimeStyle.left = rsLeft;
-				}
-				if (!/^(thin|medium|thick)$/i.test(val)) return Math.round(parseFloat(val)) + "px";
-				return val;
-			}
-			if (window.getComputedStyle) {
-				if (previousElement !== el) computedCSS = document.defaultView.getComputedStyle(el, null);
-				val = computedCSS[attribute];
-				if (attribute === "backgroundPosition") {
-					val = (val.split(",")[0] || "0 0").split(" ");
-					val[0] = val[0].indexOf("%") === -1 ? toPX(attribute + "X", val[0]) : val[0];
-					val[1] = val[1] === undefined ? val[0] : val[1];
-					val[1] = val[1].indexOf("%") === -1 ? toPX(attribute + "Y", val[1]) : val[1];
-				} else if (/border(Top|Bottom)(Left|Right)Radius/.test(attribute)) {
-					let arr = val.split(" ");
-					if (arr.length <= 1) arr[1] = arr[0];
-					arr[0] = parseInt(arr[0], 10);
-					arr[1] = parseInt(arr[1], 10);
-					val = arr;
-				}
-			} else if (el.currentStyle) {
-				if (attribute === "backgroundPosition") val = [toPX(attribute + "X", el.currentStyle[attribute + "X"]), toPX(attribute + "Y", el.currentStyle[attribute + "Y"])];
-				else {
-					val = toPX(attribute, el.currentStyle[attribute]);
-					if (/^(border)/i.test(attribute) && /^(medium|thin|thick)$/i.test(val)) switch (val) {
-						case "thin":
-							val = "1px";
-							break;
-						case "medium":
-							val = "0px";
-							break;
-						case "thick": val = "5px";
-					}
-				}
-			}
-			return val;
-		};
-		_html2canvas.Util.BackgroundPosition = function(el, bounds, image) {
-			let bgposition = _html2canvas.Util.getCSS(el, "backgroundPosition"), topPos, left, percentage, val;
-			if (bgposition.length === 1) {
-				val = bgposition;
-				bgposition = [];
-				bgposition[0] = val;
-				bgposition[1] = val;
-			}
-			if (bgposition[0].toString().indexOf("%") !== -1) {
-				percentage = parseFloat(bgposition[0]) / 100;
-				left = bounds.width * percentage - image.width * percentage;
-			} else left = parseInt(bgposition[0], 10);
-			if (bgposition[1].toString().indexOf("%") !== -1) {
-				percentage = parseFloat(bgposition[1]) / 100;
-				topPos = bounds.height * percentage - image.height * percentage;
-			} else topPos = parseInt(bgposition[1], 10);
-			return {
-				top: topPos,
-				left
-			};
-		};
-		_html2canvas.Util.Extend = function(options, defaults) {
-			for (var key in options) if (options.hasOwnProperty(key)) defaults[key] = options[key];
-			return defaults;
-		};
-		_html2canvas.Util.Children = function(elem) {
-			let children;
-			try {
-				children = elem.nodeName && elem.nodeName.toUpperCase() === "IFRAME" ? elem.contentDocument || elem.contentWindow.document : (function(array) {
-					let ret = [];
-					if (array !== null) (function(first, second) {
-						let i = first.length, j = 0;
-						if (typeof second.length === "number") for (var l = second.length; j < l; j++) first[i++] = second[j];
-						else while (second[j] !== undefined) first[i++] = second[j++];
-						first.length = i;
-						return first;
-					})(ret, array);
-					return ret;
-				})(elem.childNodes);
-			} catch (ex) {
-				h2clog("html2canvas.Util.Children failed with exception: " + ex.message);
-				children = [];
-			}
-			return children;
-		};
-		(function() {
-			_html2canvas.Generate = {};
-			let reGradients = [
-				/^(-webkit-linear-gradient)\(([a-z\s]+)([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-o-linear-gradient)\(([a-z\s]+)([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-webkit-gradient)\((linear|radial),\s((?:\d{1,3}%?)\s(?:\d{1,3}%?),\s(?:\d{1,3}%?)\s(?:\d{1,3}%?))([\w\d\.\s,%\(\)-]+)\)$/,
-				/^(-moz-linear-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?))([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-webkit-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s([a-z-]+)([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-moz-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s?([a-z-]*)([\w\d\.\s,%\(\)]+)\)$/,
-				/^(-o-radial-gradient)\(((?:\d{1,3}%?)\s(?:\d{1,3}%?)),\s(\w+)\s([a-z-]+)([\w\d\.\s,%\(\)]+)\)$/
-			];
-			_html2canvas.Generate.parseGradient = function(css, bounds) {
-				let gradient, i, len = reGradients.length, m1, stop, m2, m2Len, step, m3;
-				for (i = 0; i < len; i += 1) {
-					m1 = css.match(reGradients[i]);
-					if (m1) break;
-				}
-				if (m1) switch (m1[1]) {
-					case "-webkit-linear-gradient":
-					case "-o-linear-gradient":
-						gradient = {
-							type: "linear",
-							x0: null,
-							y0: null,
-							x1: null,
-							y1: null,
-							colorStops: []
-						};
-						m2 = m1[2].match(/\w+/g);
-						if (m2) {
-							m2Len = m2.length;
-							for (i = 0; i < m2Len; i += 1) switch (m2[i]) {
-								case "top":
-									gradient.y0 = 0;
-									gradient.y1 = bounds.height;
-									break;
-								case "right":
-									gradient.x0 = bounds.width;
-									gradient.x1 = 0;
-									break;
-								case "bottom":
-									gradient.y0 = bounds.height;
-									gradient.y1 = 0;
-									break;
-								case "left":
-									gradient.x0 = 0;
-									gradient.x1 = bounds.width;
-							}
-						}
-						if (gradient.x0 === null && gradient.x1 === null) gradient.x0 = gradient.x1 = bounds.width / 2;
-						if (gradient.y0 === null && gradient.y1 === null) gradient.y0 = gradient.y1 = bounds.height / 2;
-						m2 = m1[3].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}(?:%|px))?)+/g);
-						if (m2) {
-							m2Len = m2.length;
-							step = 1 / Math.max(m2Len - 1, 1);
-							for (i = 0; i < m2Len; i += 1) {
-								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%|px)?/);
-								if (m3[2]) {
-									stop = parseFloat(m3[2]);
-									if (m3[3] === "%") stop /= 100;
-									else stop /= bounds.width;
-								} else stop = i * step;
-								gradient.colorStops.push({
-									color: m3[1],
-									stop
-								});
-							}
-						}
-						break;
-					case "-webkit-gradient":
-						gradient = {
-							type: m1[2] === "radial" ? "circle" : m1[2],
-							x0: 0,
-							y0: 0,
-							x1: 0,
-							y1: 0,
-							colorStops: []
-						};
-						m2 = m1[3].match(/(\d{1,3})%?\s(\d{1,3})%?,\s(\d{1,3})%?\s(\d{1,3})%?/);
-						if (m2) {
-							gradient.x0 = m2[1] * bounds.width / 100;
-							gradient.y0 = m2[2] * bounds.height / 100;
-							gradient.x1 = m2[3] * bounds.width / 100;
-							gradient.y1 = m2[4] * bounds.height / 100;
-						}
-						m2 = m1[4].match(/((?:from|to|color-stop)\((?:[0-9\.]+,\s)?(?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)\))+/g);
-						if (m2) {
-							m2Len = m2.length;
-							for (i = 0; i < m2Len; i += 1) {
-								m3 = m2[i].match(/(from|to|color-stop)\(([0-9\.]+)?(?:,\s)?((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\)/);
-								stop = parseFloat(m3[2]);
-								if (m3[1] === "from") stop = 0;
-								if (m3[1] === "to") stop = 1;
-								gradient.colorStops.push({
-									color: m3[3],
-									stop
-								});
-							}
-						}
-						break;
-					case "-moz-linear-gradient":
-						gradient = {
-							type: "linear",
-							x0: 0,
-							y0: 0,
-							x1: 0,
-							y1: 0,
-							colorStops: []
-						};
-						m2 = m1[2].match(/(\d{1,3})%?\s(\d{1,3})%?/);
-						if (m2) {
-							gradient.x0 = m2[1] * bounds.width / 100;
-							gradient.y0 = m2[2] * bounds.height / 100;
-							gradient.x1 = bounds.width - gradient.x0;
-							gradient.y1 = bounds.height - gradient.y0;
-						}
-						m2 = m1[3].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}%)?)+/g);
-						if (m2) {
-							m2Len = m2.length;
-							step = 1 / Math.max(m2Len - 1, 1);
-							for (i = 0; i < m2Len; i += 1) {
-								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%)?/);
-								if (m3[2]) {
-									stop = parseFloat(m3[2]);
-									if (m3[3]) stop /= 100;
-								} else stop = i * step;
-								gradient.colorStops.push({
-									color: m3[1],
-									stop
-								});
-							}
-						}
-						break;
-					case "-webkit-radial-gradient":
-					case "-moz-radial-gradient":
-					case "-o-radial-gradient":
-						gradient = {
-							type: "circle",
-							x0: 0,
-							y0: 0,
-							x1: bounds.width,
-							y1: bounds.height,
-							cx: 0,
-							cy: 0,
-							rx: 0,
-							ry: 0,
-							colorStops: []
-						};
-						m2 = m1[2].match(/(\d{1,3})%?\s(\d{1,3})%?/);
-						if (m2) {
-							gradient.cx = m2[1] * bounds.width / 100;
-							gradient.cy = m2[2] * bounds.height / 100;
-						}
-						m2 = m1[3].match(/\w+/);
-						m3 = m1[4].match(/[a-z-]*/);
-						if (m2 && m3) switch (m3[0]) {
-							case "farthest-corner":
-							case "cover":
-							case "":
-								let tl = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.cy, 2));
-								let tr = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
-								let br = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
-								let bl = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.cy, 2));
-								gradient.rx = gradient.ry = Math.max(tl, tr, br, bl);
-								break;
-							case "closest-corner":
-								let tl2 = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.cy, 2));
-								let tr2 = Math.sqrt(Math.pow(gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
-								let br2 = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.y1 - gradient.cy, 2));
-								let bl2 = Math.sqrt(Math.pow(gradient.x1 - gradient.cx, 2) + Math.pow(gradient.cy, 2));
-								gradient.rx = gradient.ry = Math.min(tl2, tr2, br2, bl2);
-								break;
-							case "farthest-side":
-								if (m2[0] === "circle") gradient.rx = gradient.ry = Math.max(gradient.cx, gradient.cy, gradient.x1 - gradient.cx, gradient.y1 - gradient.cy);
-								else {
-									gradient.type = m2[0];
-									gradient.rx = Math.max(gradient.cx, gradient.x1 - gradient.cx);
-									gradient.ry = Math.max(gradient.cy, gradient.y1 - gradient.cy);
-								}
-								break;
-							case "closest-side":
-							case "contain": if (m2[0] === "circle") gradient.rx = gradient.ry = Math.min(gradient.cx, gradient.cy, gradient.x1 - gradient.cx, gradient.y1 - gradient.cy);
-							else {
-								gradient.type = m2[0];
-								gradient.rx = Math.min(gradient.cx, gradient.x1 - gradient.cx);
-								gradient.ry = Math.min(gradient.cy, gradient.y1 - gradient.cy);
-							}
-						}
-						m2 = m1[5].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\)(?:\s\d{1,3}(?:%|px))?)+/g);
-						if (m2) {
-							m2Len = m2.length;
-							step = 1 / Math.max(m2Len - 1, 1);
-							for (i = 0; i < m2Len; i += 1) {
-								m3 = m2[i].match(/((?:rgb|rgba)\(\d{1,3},\s\d{1,3},\s\d{1,3}(?:,\s[0-9\.]+)?\))\s*(\d{1,3})?(%|px)?/);
-								if (m3[2]) {
-									stop = parseFloat(m3[2]);
-									if (m3[3] === "%") stop /= 100;
-									else stop /= bounds.width;
-								} else stop = i * step;
-								gradient.colorStops.push({
-									color: m3[1],
-									stop
-								});
-							}
-						}
-				}
-				return gradient;
-			};
-			_html2canvas.Generate.Gradient = function(src, bounds) {
-				let canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), gradient, grad, i, len, img;
-				canvas.width = bounds.width;
-				canvas.height = bounds.height;
-				gradient = _html2canvas.Generate.parseGradient(src, bounds);
-				img = new Image();
-				if (gradient) {
-					if (gradient.type === "linear") {
-						grad = ctx.createLinearGradient(gradient.x0, gradient.y0, gradient.x1, gradient.y1);
-						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
-							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
-						} catch (e) {
-							h2clog([
-								"failed to add color stop: ",
-								e,
-								"; tried to add: ",
-								gradient.colorStops[i],
-								"; stop: ",
-								i,
-								"; in: ",
-								src
-							]);
-						}
-						ctx.fillStyle = grad;
-						ctx.fillRect(0, 0, bounds.width, bounds.height);
-						img.src = canvas.toDataURL();
-					} else if (gradient.type === "circle") {
-						grad = ctx.createRadialGradient(gradient.cx, gradient.cy, 0, gradient.cx, gradient.cy, gradient.rx);
-						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
-							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
-						} catch (e) {
-							h2clog([
-								"failed to add color stop: ",
-								e,
-								"; tried to add: ",
-								gradient.colorStops[i],
-								"; stop: ",
-								i,
-								"; in: ",
-								src
-							]);
-						}
-						ctx.fillStyle = grad;
-						ctx.fillRect(0, 0, bounds.width, bounds.height);
-						img.src = canvas.toDataURL();
-					} else if (gradient.type === "ellipse") {
-						let canvasRadial = document.createElement("canvas"), ctxRadial = canvasRadial.getContext("2d"), ri = Math.max(gradient.rx, gradient.ry), di = ri * 2, imgRadial;
-						canvasRadial.width = canvasRadial.height = di;
-						grad = ctxRadial.createRadialGradient(gradient.rx, gradient.ry, 0, gradient.rx, gradient.ry, ri);
-						for (i = 0, len = gradient.colorStops.length; i < len; i += 1) try {
-							grad.addColorStop(gradient.colorStops[i].stop, gradient.colorStops[i].color);
-						} catch (e) {
-							h2clog([
-								"failed to add color stop: ",
-								e,
-								"; tried to add: ",
-								gradient.colorStops[i],
-								"; stop: ",
-								i,
-								"; in: ",
-								src
-							]);
-						}
-						ctxRadial.fillStyle = grad;
-						ctxRadial.fillRect(0, 0, di, di);
-						ctx.fillStyle = gradient.colorStops[i - 1].color;
-						ctx.fillRect(0, 0, canvas.width, canvas.height);
-						imgRadial = new Image();
-						imgRadial.onload = function() {
-							ctx.drawImage(imgRadial, gradient.cx - gradient.rx, gradient.cy - gradient.ry, 2 * gradient.rx, 2 * gradient.ry);
-							img.src = canvas.toDataURL();
-						};
-						imgRadial.src = canvasRadial.toDataURL();
-					}
-				}
-				return img;
-			};
-			_html2canvas.Generate.ListAlpha = function(number) {
-				let tmp = "", modulus;
-				do {
-					modulus = number % 26;
-					tmp = String.fromCharCode(modulus + 64) + tmp;
-					number = number / 26;
-				} while (number * 26 > 26);
-				return tmp;
-			};
-			_html2canvas.Generate.ListRoman = function(number) {
-				let romanArray = [
-					"M",
-					"CM",
-					"D",
-					"CD",
-					"C",
-					"XC",
-					"L",
-					"XL",
-					"X",
-					"IX",
-					"V",
-					"IV",
-					"I"
-				], decimal = [
-					1e3,
-					900,
-					500,
-					400,
-					100,
-					90,
-					50,
-					40,
-					10,
-					9,
-					5,
-					4,
-					1
-				], roman = "", v, len = romanArray.length;
-				if (number <= 0 || number >= 4e3) return number;
-				for (v = 0; v < len; v += 1) while (number >= decimal[v]) {
-					number -= decimal[v];
-					roman += romanArray[v];
-				}
-				return roman;
-			};
-		})();
-		_html2canvas.Parse = function(images, options) {
-			window.scroll(0, 0);
-			let support = {
-				rangeBounds: false,
-				svgRendering: options.svgRendering && (function() {
-					let img = new Image(), canvas = document.createElement("canvas"), ctx = canvas.getContext === undefined ? false : canvas.getContext("2d");
-					if (ctx === false) return false;
-					canvas.width = canvas.height = 10;
-					img.src = [
-						"data:image/svg+xml,",
-						"<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'>",
-						"<foreignObject width='10' height='10'>",
-						"<div xmlns='http://www.w3.org/1999/xhtml' style='width:10;height:10;'>",
-						"sup",
-						"</div>",
-						"</foreignObject>",
-						"</svg>"
-					].join("");
-					try {
-						ctx.drawImage(img, 0, 0);
-						canvas.toDataURL();
-					} catch (e) {
-						return false;
-					}
-					h2clog("html2canvas: Parse: SVG powered rendering available");
-					return true;
-				})()
-			}, element = options.elements === undefined ? document.body : options.elements[0], numDraws = 0, fontData = {}, doc = element.ownerDocument, ignoreElementsRegExp = new RegExp("(" + options.ignoreElements + ")"), body = doc.body, r, testElement, rangeBounds, rangeHeight, stack, ctx, docDim, i, children, childrenLen;
-			function docSize() {
-				return {
-					width: Math.max(Math.max(doc.body.scrollWidth, doc.documentElement.scrollWidth), Math.max(doc.body.offsetWidth, doc.documentElement.offsetWidth), Math.max(doc.body.clientWidth, doc.documentElement.clientWidth)),
-					height: Math.max(Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight), Math.max(doc.body.offsetHeight, doc.documentElement.offsetHeight), Math.max(doc.body.clientHeight, doc.documentElement.clientHeight))
-				};
-			}
-			images = images || {};
-			if (doc.createRange) {
-				r = doc.createRange();
-				if (r.getBoundingClientRect) {
-					testElement = doc.createElement("boundtest");
-					testElement.style.height = "123px";
-					testElement.style.display = "block";
-					body.appendChild(testElement);
-					r.selectNode(testElement);
-					rangeBounds = r.getBoundingClientRect();
-					rangeHeight = rangeBounds.height;
-					if (rangeHeight === 123) support.rangeBounds = true;
-					body.removeChild(testElement);
-				}
-			}
-			let getCSS = _html2canvas.Util.getCSS;
-			function getCSSInt(element, attribute) {
-				let val = parseInt(getCSS(element, attribute), 10);
-				return isNaN(val) ? 0 : val;
-			}
-			function renderRect(ctx, x, y, w, h, bgcolor) {
-				if (bgcolor !== "transparent") {
-					ctx.setVariable("fillStyle", bgcolor);
-					ctx.fillRect(x, y, w, h);
-					numDraws += 1;
-				}
-			}
-			function textTransform(text, transform) {
-				switch (transform) {
-					case "lowercase": return text.toLowerCase();
-					case "capitalize": return text.replace(/(^|\s|:|-|\(|\))([a-z])/g, function(m, p1, p2) {
-						if (m.length > 0) return p1 + p2.toUpperCase();
-					});
-					case "uppercase": return text.toUpperCase();
-					default: return text;
-				}
-			}
-			function trimText(text) {
-				return text.replace(/^\s*/g, "").replace(/\s*$/g, "");
-			}
-			function fontMetrics(font, fontSize) {
-				if (fontData[font + "-" + fontSize] !== undefined) return fontData[font + "-" + fontSize];
-				let container = doc.createElement("div"), img = doc.createElement("img"), span = doc.createElement("span"), baseline, middle, metricsObj;
-				container.style.visibility = "hidden";
-				container.style.fontFamily = font;
-				container.style.fontSize = fontSize;
-				container.style.margin = 0;
-				container.style.padding = 0;
-				body.appendChild(container);
-				img.src = "data:image/gif;base64,R0lGODlhAQABAIABAP///wAAACwAAAAAAQABAAACAkQBADs=";
-				img.width = 1;
-				img.height = 1;
-				img.style.margin = 0;
-				img.style.padding = 0;
-				img.style.verticalAlign = "baseline";
-				span.style.fontFamily = font;
-				span.style.fontSize = fontSize;
-				span.style.margin = 0;
-				span.style.padding = 0;
-				span.appendChild(doc.createTextNode("Hidden Text"));
-				container.appendChild(span);
-				container.appendChild(img);
-				baseline = img.offsetTop - span.offsetTop + 1;
-				container.removeChild(span);
-				container.appendChild(doc.createTextNode("Hidden Text"));
-				container.style.lineHeight = "normal";
-				img.style.verticalAlign = "super";
-				middle = img.offsetTop - container.offsetTop + 1;
-				metricsObj = {
-					baseline,
-					lineWidth: 1,
-					middle
-				};
-				fontData[font + "-" + fontSize] = metricsObj;
-				body.removeChild(container);
-				return metricsObj;
-			}
-			function drawText(currentText, x, y, ctx) {
-				if (trimText(currentText).length > 0) {
-					ctx.fillText(currentText, x, y);
-					numDraws += 1;
-				}
-			}
-			function renderText(el, textNode, stack) {
-				let ctx = stack.ctx, family = getCSS(el, "fontFamily"), size = getCSS(el, "fontSize"), color = getCSS(el, "color"), text_decoration = getCSS(el, "textDecoration"), text_align = getCSS(el, "textAlign"), letter_spacing = getCSS(el, "letterSpacing"), bounds, text, metrics, renderList, listLen, bold = getCSS(el, "fontWeight"), font_style = getCSS(el, "fontStyle"), font_variant = getCSS(el, "fontVariant"), newTextNode, textValue, textOffset = 0, oldTextNode, c, range, parent, wrapElement, backupText;
-				textNode.nodeValue = textTransform(textNode.nodeValue, getCSS(el, "textTransform"));
-				text = trimText(textNode.nodeValue);
-				if (text.length > 0) {
-					if (text_decoration !== "none") metrics = fontMetrics(family, size);
-					text_align = text_align.replace(["-webkit-auto"], ["auto"]);
-					if (options.letterRendering === false && /^(left|right|justify|auto)$/.test(text_align) && /^(normal|none)$/.test(letter_spacing)) renderList = textNode.nodeValue.split(/(\b| )/);
-					else renderList = textNode.nodeValue.split("");
-					switch (parseInt(bold, 10)) {
-						case 401:
-							bold = "bold";
-							break;
-						case 400: bold = "normal";
-					}
-					ctx.setVariable("fillStyle", color);
-					ctx.setVariable("font", font_style + " " + font_variant + " " + bold + " " + size + " " + family);
-					ctx.setVariable("textAlign", "left");
-					oldTextNode = textNode;
-					for (c = 0, listLen = renderList.length; c < listLen; c += 1) {
-						textValue = null;
-						if (support.rangeBounds) {
-							if (text_decoration !== "none" || trimText(renderList[c]).length !== 0) {
-								textValue = renderList[c];
-								if (doc.createRange) {
-									range = doc.createRange();
-									range.setStart(textNode, textOffset);
-									range.setEnd(textNode, textOffset + textValue.length);
-								} else range = body.createTextRange();
-								if (range.getBoundingClientRect()) bounds = range.getBoundingClientRect();
-								else bounds = {};
-							}
-						} else {
-							if (typeof oldTextNode.nodeValue !== "string") continue;
-							newTextNode = oldTextNode.splitText(renderList[c].length);
-							parent = oldTextNode.parentNode;
-							wrapElement = doc.createElement("wrapper");
-							backupText = oldTextNode.cloneNode(true);
-							wrapElement.appendChild(oldTextNode.cloneNode(true));
-							parent.replaceChild(wrapElement, oldTextNode);
-							bounds = _html2canvas.Util.Bounds(wrapElement);
-							textValue = oldTextNode.nodeValue;
-							oldTextNode = newTextNode;
-							parent.replaceChild(backupText, wrapElement);
-						}
-						if (textValue !== null) drawText(textValue, bounds.left, bounds.bottom, ctx);
-						switch (text_decoration) {
-							case "underline":
-								renderRect(ctx, bounds.left, Math.round(bounds.top + metrics.baseline + metrics.lineWidth), bounds.width, 1, color);
-								break;
-							case "overline":
-								renderRect(ctx, bounds.left, bounds.top, bounds.width, 1, color);
-								break;
-							case "line-through": renderRect(ctx, bounds.left, Math.ceil(bounds.top + metrics.middle + metrics.lineWidth), bounds.width, 1, color);
-						}
-						textOffset += renderList[c].length;
-					}
-				}
-			}
-			function listPosition(element, val) {
-				let boundElement = doc.createElement("boundelement"), type, bounds;
-				boundElement.style.display = "inline";
-				type = element.style.listStyleType;
-				element.style.listStyleType = "none";
-				boundElement.appendChild(doc.createTextNode(val));
-				element.insertBefore(boundElement, element.firstChild);
-				bounds = _html2canvas.Util.Bounds(boundElement);
-				element.removeChild(boundElement);
-				element.style.listStyleType = type;
-				return bounds;
-			}
-			function elementIndex(el) {
-				let i = -1, count = 1, childs = el.parentNode.childNodes;
-				if (el.parentNode) {
-					while (childs[++i] !== el) if (childs[i].nodeType === 1) count++;
-					return count;
-				} else return -1;
-			}
-			function renderListItem(element, stack, elBounds) {
-				let position = getCSS(element, "listStylePosition"), x, y, type = getCSS(element, "listStyleType"), currentIndex, text, listBounds, bold = getCSS(element, "fontWeight");
-				if (/^(decimal|decimal-leading-zero|upper-alpha|upper-latin|upper-roman|lower-alpha|lower-greek|lower-latin|lower-roman)$/i.test(type)) {
-					currentIndex = elementIndex(element);
-					switch (type) {
-						case "decimal":
-							text = currentIndex;
-							break;
-						case "decimal-leading-zero":
-							if (currentIndex.toString().length === 1) text = currentIndex = "0" + currentIndex.toString();
-							else text = currentIndex.toString();
-							break;
-						case "upper-roman":
-							text = _html2canvas.Generate.ListRoman(currentIndex);
-							break;
-						case "lower-roman":
-							text = _html2canvas.Generate.ListRoman(currentIndex).toLowerCase();
-							break;
-						case "lower-alpha":
-							text = _html2canvas.Generate.ListAlpha(currentIndex).toLowerCase();
-							break;
-						case "upper-alpha": text = _html2canvas.Generate.ListAlpha(currentIndex);
-					}
-					text += ". ";
-					listBounds = listPosition(element, text);
-					switch (bold) {
-						case 401:
-							bold = "bold";
-							break;
-						case 400: bold = "normal";
-					}
-					ctx.setVariable("fillStyle", getCSS(element, "color"));
-					ctx.setVariable("font", getCSS(element, "fontVariant") + " " + bold + " " + getCSS(element, "fontStyle") + " " + getCSS(element, "fontSize") + " " + getCSS(element, "fontFamily"));
-					if (position === "inside") {
-						ctx.setVariable("textAlign", "left");
-						x = elBounds.left;
-					} else return;
-					y = listBounds.bottom;
-					drawText(text, x, y, ctx);
-				}
-			}
-			function loadImage(src) {
-				let img = images[src];
-				if (img && img.succeeded === true) return img.img;
-				else return false;
-			}
-			function clipBounds(src, dst) {
-				let x = Math.max(src.left, dst.left), y = Math.max(src.top, dst.top), x2 = Math.min(src.left + src.width, dst.left + dst.width), y2 = Math.min(src.top + src.height, dst.top + dst.height);
-				return {
-					left: x,
-					top: y,
-					width: x2 - x,
-					height: y2 - y
-				};
-			}
-			function setZ(zIndex, parentZ) {
-				let newContext;
-				if (!parentZ) {
-					newContext = h2czContext(0);
-					return newContext;
-				}
-				if (zIndex !== "auto") {
-					newContext = h2czContext(zIndex);
-					parentZ.children.push(newContext);
-					return newContext;
-				}
-				return parentZ;
-			}
-			function renderBorders(el, ctx, bounds, clip) {
-				let x = bounds.left, y = bounds.top, w = bounds.width, h = bounds.height, borderSide, borderData, bx, by, bw, bh, i, borderArgs, borderBounds, borders = function(el) {
-					let borders = [], sides = [
-						"Top",
-						"Right",
-						"Bottom",
-						"Left"
-					], s = 0;
-					for (; s < 4; s += 1) borders.push({
-						width: getCSSInt(el, "border" + sides[s] + "Width"),
-						color: getCSS(el, "border" + sides[s] + "Color")
-					});
-					return borders;
-				}(el);
-				(function(el) {
-					let borders = [], sides = [
-						"TopLeft",
-						"TopRight",
-						"BottomRight",
-						"BottomLeft"
-					], s = 0;
-					for (; s < 4; s += 1) borders.push(getCSS(el, "border" + sides[s] + "Radius"));
-					return borders;
-				})(el);
-				for (borderSide = 0; borderSide < 4; borderSide += 1) {
-					borderData = borders[borderSide];
-					borderArgs = [];
-					if (borderData.width > 0) {
-						bx = x;
-						by = y;
-						bw = w;
-						bh = h - borders[2].width;
-						switch (borderSide) {
-							case 0:
-								bh = borders[0].width;
-								i = 0;
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw - borders[1].width,
-									by + bh
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + borders[3].width,
-									by + bh
-								];
-								break;
-							case 1:
-								bx = x + w - borders[1].width;
-								bw = borders[1].width;
-								i = 0;
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by + borders[0].width
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by + bh + borders[2].width
-								];
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by + bh
-								];
-								break;
-							case 2:
-								by = by + h - borders[2].width;
-								bh = borders[2].width;
-								i = 0;
-								borderArgs[i++] = [
-									"line",
-									bx + borders[3].width,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw - borders[2].width,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by + bh
-								];
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by + bh
-								];
-								break;
-							case 3:
-								bw = borders[3].width;
-								i = 0;
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by + borders[0].width
-								];
-								borderArgs[i++] = [
-									"line",
-									bx + bw,
-									by + bh
-								];
-								borderArgs[i++] = [
-									"line",
-									bx,
-									by + bh + borders[2].width
-								];
-						}
-						borderBounds = {
-							left: bx,
-							top: by,
-							width: bw,
-							height: bh
-						};
-						if (clip) borderBounds = clipBounds(borderBounds, clip);
-						if (borderBounds.width > 0 && borderBounds.height > 0) {
-							if (borderData.color !== "transparent") {
-								ctx.setVariable("fillStyle", borderData.color);
-								let shape = ctx.drawShape(), numBorderArgs = borderArgs.length;
-								for (i = 0; i < numBorderArgs; i++) shape[i === 0 ? "moveTo" : borderArgs[i][0] + "To"].apply(null, borderArgs[i].slice(1));
-								numDraws += 1;
-							}
-						}
-					}
-				}
-				return borders;
-			}
-			function renderFormValue(el, bounds, stack) {
-				let valueWrap = doc.createElement("valuewrap"), cssArr = [
-					"lineHeight",
-					"textAlign",
-					"fontFamily",
-					"color",
-					"fontSize",
-					"paddingLeft",
-					"paddingTop",
-					"width",
-					"height",
-					"border",
-					"borderLeftWidth",
-					"borderTopWidth"
-				], i, textValue, textNode, arrLen, style;
-				for (i = 0, arrLen = cssArr.length; i < arrLen; i += 1) {
-					style = cssArr[i];
-					try {
-						valueWrap.style[style] = getCSS(el, style);
-					} catch (e) {
-						h2clog("html2canvas: Parse: Exception caught in renderFormValue: " + e.message);
-					}
-				}
-				valueWrap.style.borderColor = "black";
-				valueWrap.style.borderStyle = "solid";
-				valueWrap.style.display = "block";
-				valueWrap.style.position = "absolute";
-				if (/^(submit|reset|button|text|password)$/.test(el.type) || el.nodeName === "SELECT") valueWrap.style.lineHeight = getCSS(el, "height");
-				valueWrap.style.top = bounds.top + "px";
-				valueWrap.style.left = bounds.left + "px";
-				if (el.nodeName === "SELECT") textValue = el.options[el.selectedIndex].text;
-				else textValue = el.value;
-				textNode = doc.createTextNode(textValue);
-				valueWrap.appendChild(textNode);
-				body.appendChild(valueWrap);
-				renderText(el, textNode, stack);
-				body.removeChild(valueWrap);
-			}
-			function renderImage(ctx, image, sx, sy, sw, sh, dx, dy, dw, dh) {
-				ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
-				numDraws += 1;
-			}
-			function renderBackgroundRepeat(ctx, image, x, y, width, height, elx, ely) {
-				let sourceX = 0, sourceY = 0;
-				if (elx - x > 0) sourceX = elx - x;
-				if (ely - y > 0) sourceY = ely - y;
-				renderImage(ctx, image, sourceX, sourceY, width - sourceX, height - sourceY, x + sourceX, y + sourceY, width - sourceX, height - sourceY);
-			}
-			function renderBackgroundRepeatY(ctx, image, bgp, x, y, w, h) {
-				let height, width = Math.min(image.width, w), bgy;
-				bgp.top = bgp.top - Math.ceil(bgp.top / image.height) * image.height;
-				for (bgy = y + bgp.top; bgy < h + y;) {
-					if (Math.floor(bgy + image.height) > h + y) height = h + y - bgy;
-					else height = image.height;
-					renderBackgroundRepeat(ctx, image, x + bgp.left, bgy, width, height, x, y);
-					bgy = Math.floor(bgy + image.height);
-				}
-			}
-			function renderBackgroundRepeatX(ctx, image, bgp, x, y, w, h) {
-				let height = Math.min(image.height, h), width, bgx;
-				bgp.left = bgp.left - Math.ceil(bgp.left / image.width) * image.width;
-				for (bgx = x + bgp.left; bgx < w + x;) {
-					if (Math.floor(bgx + image.width) > w + x) width = w + x - bgx;
-					else width = image.width;
-					renderBackgroundRepeat(ctx, image, bgx, y + bgp.top, width, height, x, y);
-					bgx = Math.floor(bgx + image.width);
-				}
-			}
-			function renderBackground(el, bounds, ctx) {
-				let background_image = getCSS(el, "backgroundImage"), background_repeat = getCSS(el, "backgroundRepeat").split(",")[0], image, bgp, bgy, bgw, bgsx, bgsy, bgdx, bgdy, bgh, h, height, add;
-				if (!/data:image\/.*;base64,/i.test(background_image) && !/^(-webkit|-moz|linear-gradient|-o-)/.test(background_image)) background_image = background_image.split(",")[0];
-				if (typeof background_image !== "undefined" && /^(1|none)$/.test(background_image) === false) {
-					background_image = _html2canvas.Util.backgroundImage(background_image);
-					image = loadImage(background_image);
-					bgp = _html2canvas.Util.BackgroundPosition(el, bounds, image);
-					if (image) switch (background_repeat) {
-						case "repeat-x":
-							renderBackgroundRepeatX(ctx, image, bgp, bounds.left, bounds.top, bounds.width, bounds.height);
-							break;
-						case "repeat-y":
-							renderBackgroundRepeatY(ctx, image, bgp, bounds.left, bounds.top, bounds.width, bounds.height);
-							break;
-						case "no-repeat":
-							bgw = bounds.width - bgp.left;
-							bgh = bounds.height - bgp.top;
-							bgsx = bgp.left;
-							bgsy = bgp.top;
-							bgdx = bgp.left + bounds.left;
-							bgdy = bgp.top + bounds.top;
-							if (bgsx < 0) {
-								bgsx = Math.abs(bgsx);
-								bgdx += bgsx;
-								bgw = Math.min(bounds.width, image.width - bgsx);
-							} else {
-								bgw = Math.min(bgw, image.width);
-								bgsx = 0;
-							}
-							if (bgsy < 0) {
-								bgsy = Math.abs(bgsy);
-								bgdy += bgsy;
-								bgh = Math.min(bounds.height, image.height - bgsy);
-							} else {
-								bgh = Math.min(bgh, image.height);
-								bgsy = 0;
-							}
-							if (bgh > 0 && bgw > 0) renderImage(ctx, image, bgsx, bgsy, bgw, bgh, bgdx, bgdy, bgw, bgh);
-							break;
-						default:
-							bgp.top = bgp.top - Math.ceil(bgp.top / image.height) * image.height;
-							for (bgy = bounds.top + bgp.top; bgy < bounds.height + bounds.top;) {
-								h = Math.min(image.height, bounds.height + bounds.top - bgy);
-								if (Math.floor(bgy + image.height) > h + bgy) height = h + bgy - bgy;
-								else height = image.height;
-								if (bgy < bounds.top) {
-									add = bounds.top - bgy;
-									bgy = bounds.top;
-								} else add = 0;
-								renderBackgroundRepeatX(ctx, image, bgp, bounds.left, bgy, bounds.width, height);
-								if (add > 0) bgp.top += add;
-								bgy = Math.floor(bgy + image.height) - add;
-							}
-					}
-					else h2clog("html2canvas: Error loading background:" + background_image);
-				}
-			}
-			function renderElement(el, parentStack) {
-				let bounds = _html2canvas.Util.Bounds(el), x = bounds.left, y = bounds.top, w = bounds.width, h = bounds.height, image, bgcolor = getCSS(el, "backgroundColor"), cssPosition = getCSS(el, "position"), zindex, opacity = getCSS(el, "opacity"), stack, stackLength, borders, ctx, bgbounds, imgSrc, paddingLeft, paddingTop, paddingRight, paddingBottom;
-				if (!parentStack) {
-					docDim = docSize();
-					parentStack = { opacity: 1 };
-				} else docDim = {};
-				zindex = setZ(getCSS(el, "zIndex"), parentStack.zIndex);
-				stack = {
-					ctx: h2cRenderContext(docDim.width || w, docDim.height || h),
-					zIndex: zindex,
-					opacity: opacity * parentStack.opacity,
-					cssPosition
-				};
-				if (parentStack.clip) stack.clip = _html2canvas.Util.Extend({}, parentStack.clip);
-				if (options.useOverflow === true && /(hidden|scroll|auto)/.test(getCSS(el, "overflow")) === true && /(BODY)/i.test(el.nodeName) === false) {
-					if (stack.clip) stack.clip = clipBounds(stack.clip, bounds);
-					else stack.clip = bounds;
-				}
-				stackLength = zindex.children.push(stack);
-				ctx = zindex.children[stackLength - 1].ctx;
-				ctx.setVariable("globalAlpha", stack.opacity);
-				borders = renderBorders(el, ctx, bounds, false);
-				stack.borders = borders;
-				if (ignoreElementsRegExp.test(el.nodeName) && options.iframeDefault !== "transparent") {
-					if (options.iframeDefault === "default") bgcolor = "#efefef";
-					else bgcolor = options.iframeDefault;
-				}
-				bgbounds = {
-					left: x + borders[3].width,
-					top: y + borders[0].width,
-					width: w - (borders[1].width + borders[3].width),
-					height: h - (borders[0].width + borders[2].width)
-				};
-				if (stack.clip) bgbounds = clipBounds(bgbounds, stack.clip);
-				if (bgbounds.height > 0 && bgbounds.width > 0) {
-					renderRect(ctx, bgbounds.left, bgbounds.top, bgbounds.width, bgbounds.height, bgcolor);
-					renderBackground(el, bgbounds, ctx);
-				}
-				switch (el.nodeName) {
-					case "IMG":
-						imgSrc = el.getAttribute("src");
-						image = loadImage(imgSrc);
-						if (image) {
-							paddingLeft = getCSSInt(el, "paddingLeft");
-							paddingTop = getCSSInt(el, "paddingTop");
-							paddingRight = getCSSInt(el, "paddingRight");
-							paddingBottom = getCSSInt(el, "paddingBottom");
-							renderImage(ctx, image, 0, 0, image.width, image.height, x + paddingLeft + borders[3].width, y + paddingTop + borders[0].width, bounds.width - (borders[1].width + borders[3].width + paddingLeft + paddingRight), bounds.height - (borders[0].width + borders[2].width + paddingTop + paddingBottom));
-						} else h2clog("html2canvas: Error loading <img>:" + imgSrc);
-						break;
-					case "INPUT":
-						if (/^(text|url|email|submit|button|reset)$/.test(el.type) && el.value.length > 0) renderFormValue(el, bounds, stack);
-						break;
-					case "TEXTAREA":
-						if (el.value.length > 0) renderFormValue(el, bounds, stack);
-						break;
-					case "SELECT":
-						if (el.options.length > 0) renderFormValue(el, bounds, stack);
-						break;
-					case "LI":
-						renderListItem(el, stack, bgbounds);
-						break;
-					case "CANVAS":
-						paddingLeft = getCSSInt(el, "paddingLeft");
-						paddingTop = getCSSInt(el, "paddingTop");
-						paddingRight = getCSSInt(el, "paddingRight");
-						paddingBottom = getCSSInt(el, "paddingBottom");
-						renderImage(ctx, el, 0, 0, el.width, el.height, x + paddingLeft + borders[3].width, y + paddingTop + borders[0].width, bounds.width - (borders[1].width + borders[3].width + paddingLeft + paddingRight), bounds.height - (borders[0].width + borders[2].width + paddingTop + paddingBottom));
-				}
-				return zindex.children[stackLength - 1];
-			}
-			function parseElement(el, stack) {
-				if (getCSS(el, "display") !== "none" && getCSS(el, "visibility") !== "hidden" && !el.hasAttribute("data-html2canvas-ignore")) {
-					stack = renderElement(el, stack) || stack;
-					ctx = stack.ctx;
-					if (!ignoreElementsRegExp.test(el.nodeName)) {
-						let elementChildren = _html2canvas.Util.Children(el), i, node, childrenLen;
-						for (i = 0, childrenLen = elementChildren.length; i < childrenLen; i += 1) {
-							node = elementChildren[i];
-							if (node.nodeType === 1) parseElement(node, stack);
-							else if (node.nodeType === 3) renderText(el, node, stack);
-						}
-					}
-				}
-			}
-			stack = renderElement(element, null);
-			if (support.svgRendering) (function(body) {
-				let img = new Image(), size = docSize(), html = "";
-				function parseDOM(el) {
-					let children = _html2canvas.Util.Children(el), len = children.length, attr, a, alen, elm, i = 0;
-					for (; i < len; i += 1) {
-						elm = children[i];
-						if (elm.nodeType === 3) html += elm.nodeValue.replace(/\</g, "&lt;").replace(/\>/g, "&gt;");
-						else if (elm.nodeType === 1) {
-							if (!/^(script|meta|title)$/.test(elm.nodeName.toLowerCase())) {
-								html += "<" + elm.nodeName.toLowerCase();
-								if (elm.hasAttributes()) {
-									attr = elm.attributes;
-									alen = attr.length;
-									for (a = 0; a < alen; a += 1) html += " " + attr[a].name + "=\"" + attr[a].value + "\"";
-								}
-								html += ">";
-								parseDOM(elm);
-								html += "</" + elm.nodeName.toLowerCase() + ">";
-							}
-						}
-					}
-				}
-				parseDOM(body);
-				img.src = [
-					"data:image/svg+xml,",
-					"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='" + size.width + "' height='" + size.height + "'>",
-					"<foreignObject width='" + size.width + "' height='" + size.height + "'>",
-					"<html xmlns='http://www.w3.org/1999/xhtml' style='margin:0;'>",
-					html.replace(/\#/g, "%23"),
-					"</html>",
-					"</foreignObject>",
-					"</svg>"
-				].join("");
-				img.onload = function() {
-					stack.svgRender = img;
-				};
-			})(document.documentElement);
-			for (i = 0, children = element.children, childrenLen = children.length; i < childrenLen; i += 1) parseElement(children[i], stack);
-			stack.backgroundColor = getCSS(document.documentElement, "backgroundColor");
-			return stack;
-		};
-		function h2czContext(zindex) {
-			return {
-				zindex,
-				children: []
-			};
-		}
-		_html2canvas.Preload = function(options) {
-			let images = {
-				numLoaded: 0,
-				numFailed: 0,
-				numTotal: 0,
-				cleanupDone: false
-			}, pageOrigin, methods, i, count = 0, element = options.elements[0] || document.body, doc = element.ownerDocument, domImages = doc.images, imgLen = domImages.length, link = doc.createElement("a"), supportCORS = (function(img) {
-				return img.crossOrigin !== undefined;
-			})(new Image()), timeoutTimer;
-			link.href = window.location.href;
-			pageOrigin = link.protocol + link.host;
-			function isSameOrigin(url) {
-				link.href = url;
-				link.href = link.href;
-				return link.protocol + link.host === pageOrigin;
-			}
-			function start() {
-				h2clog("html2canvas: start: images: " + images.numLoaded + " / " + images.numTotal + " (failed: " + images.numFailed + ")");
-				if (!images.firstRun && images.numLoaded >= images.numTotal) {
-					h2clog("Finished loading images: # " + images.numTotal + " (failed: " + images.numFailed + ")");
-					if (typeof options.complete === "function") options.complete(images);
-				}
-			}
-			function proxyGetImage(url, img, imageObj) {
-				let callback_name, scriptUrl = options.proxy, script;
-				link.href = url;
-				url = link.href;
-				callback_name = "html2canvas_" + count++;
-				imageObj.callbackname = callback_name;
-				if (scriptUrl.indexOf("?") > -1) scriptUrl += "&";
-				else scriptUrl += "?";
-				scriptUrl += "url=" + encodeURIComponent(url) + "&callback=" + callback_name;
-				script = doc.createElement("script");
-				window[callback_name] = function(a) {
-					if (a.substring(0, 6) === "error:") {
-						imageObj.succeeded = false;
-						images.numLoaded++;
-						images.numFailed++;
-						start();
-					} else {
-						setImageLoadHandlers(img, imageObj);
-						img.src = a;
-					}
-					window[callback_name] = undefined;
-					try {
-						delete window[callback_name];
-					} catch (ex) {}
-					script.parentNode.removeChild(script);
-					script = null;
-					delete imageObj.script;
-					delete imageObj.callbackname;
-				};
-				script.setAttribute("type", "text/javascript");
-				script.setAttribute("src", scriptUrl);
-				imageObj.script = script;
-				window.document.body.appendChild(script);
-			}
-			function getImages(el) {
-				let contents = _html2canvas.Util.Children(el), i, background_image, src, img, elNodeType = false;
-				try {
-					let contentsLen = contents.length;
-					for (i = 0; i < contentsLen; i += 1) getImages(contents[i]);
-				} catch (e) {}
-				try {
-					elNodeType = el.nodeType;
-				} catch (ex) {
-					elNodeType = false;
-					h2clog("html2canvas: failed to access some element's nodeType - Exception: " + ex.message);
-				}
-				if (elNodeType === 1 || elNodeType === undefined) {
-					try {
-						background_image = _html2canvas.Util.getCSS(el, "backgroundImage");
-					} catch (e) {
-						h2clog("html2canvas: failed to get background-image - Exception: " + e.message);
-					}
-					if (background_image && background_image !== "1" && background_image !== "none") {
-						if (/^(-webkit|-o|-moz|-ms|linear)-/.test(background_image)) {
-							img = _html2canvas.Generate.Gradient(background_image, _html2canvas.Util.Bounds(el));
-							if (img !== undefined) {
-								images[background_image] = {
-									img,
-									succeeded: true
-								};
-								images.numTotal++;
-								images.numLoaded++;
-								start();
-							}
-						} else {
-							src = _html2canvas.Util.backgroundImage(background_image.match(/data:image\/.*;base64,/i) ? background_image : background_image.split(",")[0]);
-							methods.loadImage(src);
-						}
-					}
-				}
-			}
-			function setImageLoadHandlers(img, imageObj) {
-				img.onload = function() {
-					if (imageObj.timer !== undefined) window.clearTimeout(imageObj.timer);
-					images.numLoaded++;
-					imageObj.succeeded = true;
-					img.onerror = img.onload = null;
-					start();
-				};
-				img.onerror = function() {
-					if (img.crossOrigin === "anonymous") {
-						window.clearTimeout(imageObj.timer);
-						if (options.proxy) {
-							let src = img.src;
-							img = new Image();
-							imageObj.img = img;
-							img.src = src;
-							proxyGetImage(img.src, img, imageObj);
-							return;
-						}
-					}
-					images.numLoaded++;
-					images.numFailed++;
-					imageObj.succeeded = false;
-					img.onerror = img.onload = null;
-					start();
-				};
-			}
-			methods = {
-				loadImage: function(src) {
-					let img, imageObj;
-					if (src && images[src] === undefined) {
-						img = new Image();
-						if (src.match(/data:image\/.*;base64,/i)) {
-							img.src = src.replace(/url\(['"]{0,}|['"]{0,}\)$/gi, "");
-							imageObj = images[src] = { img };
-							images.numTotal++;
-							setImageLoadHandlers(img, imageObj);
-						} else if (isSameOrigin(src) || options.allowTaint === true) {
-							imageObj = images[src] = { img };
-							images.numTotal++;
-							setImageLoadHandlers(img, imageObj);
-							img.src = src;
-						} else if (supportCORS && !options.allowTaint && options.useCORS) {
-							img.crossOrigin = "anonymous";
-							imageObj = images[src] = { img };
-							images.numTotal++;
-							setImageLoadHandlers(img, imageObj);
-							img.src = src;
-							img.customComplete = function() {
-								if (!this.img.complete) this.timer = window.setTimeout(this.img.customComplete, 100);
-								else this.img.onerror();
-							}.bind(imageObj);
-							img.customComplete();
-						} else if (options.proxy) {
-							imageObj = images[src] = { img };
-							images.numTotal++;
-							proxyGetImage(src, img, imageObj);
-						}
-					}
-				},
-				cleanupDOM: function(cause) {
-					let img, src;
-					if (!images.cleanupDone) {
-						if (cause && typeof cause === "string") h2clog("html2canvas: Cleanup because: " + cause);
-						else h2clog("html2canvas: Cleanup after timeout: " + options.timeout + " ms.");
-						for (src in images) if (images.hasOwnProperty(src)) {
-							img = images[src];
-							if (typeof img === "object" && img.callbackname && img.succeeded === undefined) {
-								window[img.callbackname] = undefined;
-								try {
-									delete window[img.callbackname];
-								} catch (ex) {}
-								if (img.script && img.script.parentNode) {
-									img.script.setAttribute("src", "about:blank");
-									img.script.parentNode.removeChild(img.script);
-								}
-								images.numLoaded++;
-								images.numFailed++;
-								h2clog("html2canvas: Cleaned up failed img: '" + src + "' Steps: " + images.numLoaded + " / " + images.numTotal);
-							}
-						}
-						if (window.stop !== undefined) window.stop();
-						else if (document.execCommand !== undefined) document.execCommand("Stop", false);
-						if (document.close !== undefined) document.close();
-						images.cleanupDone = true;
-						if (!(cause && typeof cause === "string")) start();
-					}
-				},
-				renderingDone: function() {
-					if (timeoutTimer) window.clearTimeout(timeoutTimer);
-				}
-			};
-			if (options.timeout > 0) timeoutTimer = window.setTimeout(methods.cleanupDOM, options.timeout);
-			h2clog("html2canvas: Preload starts: finding background-images");
-			images.firstRun = true;
-			getImages(element);
-			h2clog("html2canvas: Preload: Finding images");
-			for (i = 0; i < imgLen; i += 1) methods.loadImage(domImages[i].getAttribute("src"));
-			images.firstRun = false;
-			h2clog("html2canvas: Preload: Done.");
-			if (images.numTotal === images.numLoaded) start();
-			return methods;
-		};
-		function h2cRenderContext(width, height) {
-			let storage = [];
-			return {
-				storage,
-				width,
-				height,
-				fillRect: function() {
-					storage.push({
-						type: "function",
-						name: "fillRect",
-						"arguments": arguments
-					});
-				},
-				drawShape: function() {
-					let shape = [];
-					storage.push({
-						type: "function",
-						name: "drawShape",
-						"arguments": shape
-					});
-					return {
-						moveTo: function() {
-							shape.push({
-								name: "moveTo",
-								"arguments": arguments
-							});
-						},
-						lineTo: function() {
-							shape.push({
-								name: "lineTo",
-								"arguments": arguments
-							});
-						},
-						bezierCurveTo: function() {
-							shape.push({
-								name: "bezierCurveTo",
-								"arguments": arguments
-							});
-						},
-						quadraticCurveTo: function() {
-							shape.push({
-								name: "quadraticCurveTo",
-								"arguments": arguments
-							});
-						}
-					};
-				},
-				drawImage: function() {
-					storage.push({
-						type: "function",
-						name: "drawImage",
-						"arguments": arguments
-					});
-				},
-				fillText: function() {
-					storage.push({
-						type: "function",
-						name: "fillText",
-						"arguments": arguments
-					});
-				},
-				setVariable: function(variable, value) {
-					storage.push({
-						type: "variable",
-						name: variable,
-						"arguments": value
-					});
-				}
-			};
-		}
-		_html2canvas.Renderer = function(parseQueue, options) {
-			let queue = [];
-			function sortZ(zStack) {
-				let subStacks = [], stackValues = [], zStackChildren = zStack.children, s, i, stackLen, zValue, zLen, stackChild, b, subStackLen;
-				for (s = 0, zLen = zStackChildren.length; s < zLen; s += 1) {
-					stackChild = zStackChildren[s];
-					if (stackChild.children && stackChild.children.length > 0) {
-						subStacks.push(stackChild);
-						stackValues.push(stackChild.zindex);
-					} else queue.push(stackChild);
-				}
-				stackValues.sort(function(a, b) {
-					return a - b;
-				});
-				for (i = 0, stackLen = stackValues.length; i < stackLen; i += 1) {
-					zValue = stackValues[i];
-					for (b = 0, subStackLen = subStacks.length; b <= subStackLen; b += 1) if (subStacks[b].zindex === zValue) {
-						stackChild = subStacks.splice(b, 1);
-						sortZ(stackChild[0]);
-						break;
-					}
-				}
-			}
-			sortZ(parseQueue.zIndex);
-			if (typeof options._renderer._create !== "function") throw new Error("Invalid renderer defined");
-			return options._renderer._create(parseQueue, options, document, queue, _html2canvas);
-		};
-		html2canvas = function(elements, opts) {
-			let queue, canvas, options = {
-				logging: false,
-				elements,
-				proxy: "http://html2canvas.appspot.com/",
-				timeout: 0,
-				useCORS: false,
-				allowTaint: false,
-				svgRendering: false,
-				iframeDefault: "default",
-				ignoreElements: "IFRAME|OBJECT|PARAM",
-				useOverflow: true,
-				letterRendering: false,
-				flashcanvas: undefined,
-				width: null,
-				height: null,
-				taintTest: true,
-				renderer: "Canvas"
-			};
-			options = _html2canvas.Util.Extend(opts, options);
-			if (typeof options.renderer === "string" && _html2canvas.Renderer[options.renderer] !== undefined) options._renderer = _html2canvas.Renderer[options.renderer](options);
-			else if (typeof options.renderer === "function") options._renderer = options.renderer(options);
-			else throw "Unknown renderer";
-			_html2canvas.logging = options.logging;
-			options.complete = function(images) {
-				if (typeof options.onpreloaded === "function") {
-					if (options.onpreloaded(images) === false) return;
-				}
-				queue = _html2canvas.Parse(images, options);
-				if (typeof options.onparsed === "function") {
-					if (options.onparsed(queue) === false) return;
-				}
-				canvas = _html2canvas.Renderer(queue, options);
-				if (typeof options.onrendered === "function") options.onrendered(canvas);
-			};
-			window.setTimeout(function() {
-				_html2canvas.Preload(options);
-			}, 0);
-			return {
-				render: function(queue, opts) {
-					return _html2canvas.Renderer(queue, _html2canvas.Util.Extend(opts, options));
-				},
-				parse: function(images, opts) {
-					return _html2canvas.Parse(images, _html2canvas.Util.Extend(opts, options));
-				},
-				preload: function(opts) {
-					return _html2canvas.Preload(_html2canvas.Util.Extend(opts, options));
-				},
-				log: h2clog
-			};
-		};
-		html2canvas.log = h2clog;
-		html2canvas.Renderer = { Canvas: undefined };
-		_html2canvas.Renderer.Canvas = function(options) {
-			options = options || {};
-			let doc = document, canvas = options.canvas || doc.createElement("canvas"), usingFlashcanvas = false, _createCalled = false, canvasReadyToDraw = false, methods, flashMaxSize = 2880;
-			if (canvas.getContext) {
-				h2clog("html2canvas: Renderer: using canvas renderer");
-				canvasReadyToDraw = true;
-			} else if (options.flashcanvas !== undefined) {
-				usingFlashcanvas = true;
-				h2clog("html2canvas: Renderer: canvas not available, using flashcanvas");
-				let script = doc.createElement("script");
-				script.src = options.flashcanvas;
-				script.onload = (function(script, func) {
-					let intervalFunc;
-					if (script.onload === undefined) {
-						if (script.onreadystatechange !== undefined) {
-							intervalFunc = function() {
-								if (script.readyState !== "loaded" && script.readyState !== "complete") window.setTimeout(intervalFunc, 250);
-								else func();
-							};
-							window.setTimeout(intervalFunc, 250);
-						} else h2clog("html2canvas: Renderer: Can't track when flashcanvas is loaded");
-					} else return func;
-				})(script, function() {
-					if (typeof window.FlashCanvas !== "undefined") {
-						h2clog("html2canvas: Renderer: Flashcanvas initialized");
-						window.FlashCanvas.initElement(canvas);
-						canvasReadyToDraw = true;
-						if (_createCalled !== false) methods._create.apply(null, _createCalled);
-					}
-				});
-				doc.body.appendChild(script);
-			}
-			methods = { _create: function(zStack, options, doc, queue, _html2canvas) {
-				if (!canvasReadyToDraw) {
-					_createCalled = arguments;
-					return canvas;
-				}
-				let ctx = canvas.getContext("2d"), storageContext, i, queueLen, a, newCanvas, bounds, testCanvas = document.createElement("canvas"), hasCTX = testCanvas.getContext !== undefined, storageLen, renderItem, testctx = hasCTX ? testCanvas.getContext("2d") : {}, safeImages = [], fstyle;
-				canvas.width = canvas.style.width = !usingFlashcanvas ? options.width || zStack.ctx.width : Math.min(flashMaxSize, options.width || zStack.ctx.width);
-				canvas.height = canvas.style.height = !usingFlashcanvas ? options.height || zStack.ctx.height : Math.min(flashMaxSize, options.height || zStack.ctx.height);
-				fstyle = ctx.fillStyle;
-				ctx.fillStyle = zStack.backgroundColor;
-				ctx.fillRect(0, 0, canvas.width, canvas.height);
-				ctx.fillStyle = fstyle;
-				if (options.svgRendering && zStack.svgRender !== undefined) ctx.drawImage(zStack.svgRender, 0, 0);
-				else for (i = 0, queueLen = queue.length; i < queueLen; i += 1) {
-					storageContext = queue.splice(0, 1)[0];
-					storageContext.canvasPosition = storageContext.canvasPosition || {};
-					ctx.textBaseline = "bottom";
-					if (storageContext.clip) {
-						ctx.save();
-						ctx.beginPath();
-						ctx.rect(storageContext.clip.left, storageContext.clip.top, storageContext.clip.width, storageContext.clip.height);
-						ctx.clip();
-					}
-					if (storageContext.ctx.storage) for (a = 0, storageLen = storageContext.ctx.storage.length; a < storageLen; a += 1) {
-						renderItem = storageContext.ctx.storage[a];
-						switch (renderItem.type) {
-							case "variable":
-								ctx[renderItem.name] = renderItem["arguments"];
-								break;
-							case "function": if (renderItem.name === "fillRect") {
-								if (!usingFlashcanvas || renderItem["arguments"][0] + renderItem["arguments"][2] < flashMaxSize && renderItem["arguments"][1] + renderItem["arguments"][3] < flashMaxSize) ctx.fillRect.apply(ctx, renderItem["arguments"]);
-							} else if (renderItem.name === "drawShape") (function(args) {
-								let i, len = args.length;
-								ctx.beginPath();
-								for (i = 0; i < len; i++) ctx[args[i].name].apply(ctx, args[i]["arguments"]);
-								ctx.closePath();
-								ctx.fill();
-							})(renderItem["arguments"]);
-							else if (renderItem.name === "fillText") {
-								if (!usingFlashcanvas || renderItem["arguments"][1] < flashMaxSize && renderItem["arguments"][2] < flashMaxSize) ctx.fillText.apply(ctx, renderItem["arguments"]);
-							} else if (renderItem.name === "drawImage") {
-								if (renderItem["arguments"][8] > 0 && renderItem["arguments"][7]) {
-									if (hasCTX && options.taintTest) {
-										if (safeImages.indexOf(renderItem["arguments"][0].src) === -1) {
-											testctx.drawImage(renderItem["arguments"][0], 0, 0);
-											try {
-												testctx.getImageData(0, 0, 1, 1);
-											} catch (e) {
-												testCanvas = doc.createElement("canvas");
-												testctx = testCanvas.getContext("2d");
-												continue;
-											}
-											safeImages.push(renderItem["arguments"][0].src);
-										}
-									}
-									ctx.drawImage.apply(ctx, renderItem["arguments"]);
-								}
-							}
-						}
-					}
-					if (storageContext.clip) ctx.restore();
-				}
-				h2clog("html2canvas: Renderer: Canvas renderer done - returning canvas obj");
-				queueLen = options.elements.length;
-				if (queueLen === 1) {
-					if (typeof options.elements[0] === "object" && options.elements[0].nodeName !== "BODY" && usingFlashcanvas === false) {
-						bounds = _html2canvas.Util.Bounds(options.elements[0]);
-						newCanvas = doc.createElement("canvas");
-						newCanvas.width = bounds.width;
-						newCanvas.height = bounds.height;
-						ctx = newCanvas.getContext("2d");
-						ctx.drawImage(canvas, bounds.left, bounds.top, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
-						canvas = null;
-						return newCanvas;
-					}
-				}
-				return canvas;
-			} };
-			return methods;
-		};
-		_html2canvas.Renderer.SVG = function(options) {
-			options = options || {};
-			let doc = document, svgNS = "http://www.w3.org/2000/svg", svg = doc.createElementNS(svgNS, "svg"), xlinkNS = "http://www.w3.org/1999/xlink", defs = doc.createElementNS(svgNS, "defs"), i, a, queueLen, storageLen, storageContext, renderItem, el, settings = {}, text, fontStyle, clipId = 0;
-			return { _create: function(zStack, options, doc, queue, _html2canvas) {
-				svg.setAttribute("version", "1.1");
-				svg.setAttribute("baseProfile", "full");
-				svg.setAttribute("viewBox", "0 0 " + Math.max(zStack.ctx.width, options.width) + " " + Math.max(zStack.ctx.height, options.height));
-				svg.setAttribute("width", Math.max(zStack.ctx.width, options.width) + "px");
-				svg.setAttribute("height", Math.max(zStack.ctx.height, options.height) + "px");
-				svg.setAttribute("preserveAspectRatio", "none");
-				svg.appendChild(defs);
-				for (i = 0, queueLen = queue.length; i < queueLen; i += 1) {
-					storageContext = queue.splice(0, 1)[0];
-					storageContext.canvasPosition = storageContext.canvasPosition || {};
-					if (storageContext.ctx.storage) for (a = 0, storageLen = storageContext.ctx.storage.length; a < storageLen; a += 1) {
-						renderItem = storageContext.ctx.storage[a];
-						switch (renderItem.type) {
-							case "variable":
-								settings[renderItem.name] = renderItem["arguments"];
-								break;
-							case "function": if (renderItem.name === "fillRect") {
-								el = doc.createElementNS(svgNS, "rect");
-								el.setAttribute("x", renderItem["arguments"][0]);
-								el.setAttribute("y", renderItem["arguments"][1]);
-								el.setAttribute("width", renderItem["arguments"][2]);
-								el.setAttribute("height", renderItem["arguments"][3]);
-								el.setAttribute("fill", settings.fillStyle);
-								svg.appendChild(el);
-							} else if (renderItem.name === "fillText") {
-								el = doc.createElementNS(svgNS, "text");
-								fontStyle = settings.font.split(" ");
-								el.style.fontVariant = fontStyle.splice(0, 1)[0];
-								el.style.fontWeight = fontStyle.splice(0, 1)[0];
-								el.style.fontStyle = fontStyle.splice(0, 1)[0];
-								el.style.fontSize = fontStyle.splice(0, 1)[0];
-								el.setAttribute("x", renderItem["arguments"][1]);
-								el.setAttribute("y", renderItem["arguments"][2] - (parseInt(el.style.fontSize, 10) + 3));
-								el.setAttribute("fill", settings.fillStyle);
-								el.style.dominantBaseline = "text-before-edge";
-								el.style.fontFamily = fontStyle.join(" ");
-								text = doc.createTextNode(renderItem["arguments"][0]);
-								el.appendChild(text);
-								svg.appendChild(el);
-							} else if (renderItem.name === "drawImage") {
-								if (renderItem["arguments"][8] > 0 && renderItem["arguments"][7]) {
-									el = doc.createElementNS(svgNS, "clipPath");
-									el.setAttribute("id", "clipId" + clipId);
-									text = doc.createElementNS(svgNS, "rect");
-									text.setAttribute("x", renderItem["arguments"][5]);
-									text.setAttribute("y", renderItem["arguments"][6]);
-									text.setAttribute("width", renderItem["arguments"][3]);
-									text.setAttribute("height", renderItem["arguments"][4]);
-									el.appendChild(text);
-									defs.appendChild(el);
-									el = doc.createElementNS(svgNS, "image");
-									el.setAttributeNS(xlinkNS, "xlink:href", renderItem["arguments"][0].src);
-									el.setAttribute("width", renderItem["arguments"][7]);
-									el.setAttribute("height", renderItem["arguments"][8]);
-									el.setAttribute("x", renderItem["arguments"][5]);
-									el.setAttribute("y", renderItem["arguments"][6]);
-									el.setAttribute("clip-path", "url(#clipId" + clipId + ")");
-									el.setAttribute("preserveAspectRatio", "none");
-									svg.appendChild(el);
-									clipId += 1;
-								}
-							}
-						}
-					}
-				}
-				h2clog("html2canvas: Renderer: SVG Renderer done - returning SVG DOM obj");
-				return svg;
-			} };
-		};
-	})(window, document);
-	html2canvas_default = html2canvas;
-}));
-//#endregion
-//#region src/Controls/ScreenShot.js
-var ScreenShot;
-var init_ScreenShot = __esmMin((() => {
-	init_Client();
-	init_html2canvas();
-	init_KeyEventHandler();
-	init_ChatBox();
-	ScreenShot = class ScreenShot {
-		/**
-		* Take a ScreenShot
-		*/
-		static take() {
-			if (!ChatBox_default.ui) return;
-			html2canvas_default([document.body], { onrendered: this.process });
-		}
-		/**
-		* Process ScreenShot
-		*
-		* @param {canvasElement} canvas
-		*/
-		static process(canvas) {
-			let x, y;
-			const tzoffset = (/* @__PURE__ */ new Date()).getTimezoneOffset() * 6e4;
-			let localISOTime = new Date(Date.now() - tzoffset).toISOString().slice(0, -1);
-			localISOTime = localISOTime.replace("T", " ");
-			const timezone = (/* @__PURE__ */ new Date()).getTimezoneOffset() / 60;
-			const date = `${localISOTime} (GMT ${timezone > 0 ? "-" : "+"}${Math.abs(timezone).toString()})`;
-			const context = canvas.getContext("2d");
-			context.fillStyle = "white";
-			context.strokeStyle = "black";
-			x = 20;
-			y = canvas.height - 5;
-			context.font = "bold 16px Arial";
-			context.fillText(date, x, y);
-			context.strokeText(date, x, y);
-			Client.loadFile("data/texture/scr_logo.bmp", (url) => {
-				const img = new Image();
-				img.decoding = "async";
-				img.src = url;
-				img.onload = () => {
-					x = canvas.width - img.width - 20;
-					y = canvas.height - img.height - 5;
-					context.drawImage(img, x, y);
-					ScreenShot.display(canvas, date);
-				};
-			}, () => {
-				ScreenShot.display(canvas, date);
-			});
-		}
-		/**
-		* Display the ScreenShot, this method is ment to be replaced by plugins if wanted.
-		*
-		* @param {canvasElement} canvas
-		* @param {string} date
-		*/
-		static display(canvas, date) {
-			let i;
-			const binary = atob(canvas.toDataURL("image/png").replace(/^data[^,]+,/, ""));
-			const count = binary.length;
-			const data = new Uint8Array(count);
-			for (i = 0; i < count; ++i) data[i] = binary.charCodeAt(i);
-			const url = window.URL.createObjectURL(new Blob([data], { type: "image/png" }));
-			ChatBox_default.addText(`截图 ${date} 可通过<a style="color:#F88" download="ScreenShot (${date.replace("/", "-")}).png" href="${url}" target="_blank">点击此处</a>保存。`, ChatBox_default.TYPE.PUBLIC, ChatBox_default.FILTER.PUBLIC_LOG, null, true);
-		}
-	};
-	/**
-	* Key Listener
-	*/
-	window.addEventListener("keydown", (event) => {
-		if (KEYS.ALT && event.which === KEYS.P) {
-			ScreenShot.take();
-			event.stopImmediatePropagation();
-			event.preventDefault();
-		}
-	});
-}));
-//#endregion
-//#region src/Controls/MapControl.js
-/**
-* What to do when clicking on the map ?
-*/
-function onMouseDown(event) {
-	const action = event && event.which || 1;
-	if (!Mouse.intersect) return;
-	const entityFocus = EntityManager.getFocusEntity();
-	const entityOver = EntityManager.getOverEntity();
-	switch (action) {
-		case 1:
-			combatHandledClick = false;
-			if (!KEYS.ALT && !KEYS.SHIFT && !KEYS.CTRL && Mouse.state !== Mouse.MOUSE_STATE.USESKILL && entityOver?.objecttype === Entity.TYPE_MOB && notifyGameInput("attack-target", entityOver.GID)) {
-				combatHandledClick = true;
-				return;
-			}
-			clearAttackIntent();
-			if (entityOver || Mouse.state === Mouse.MOUSE_STATE.USESKILL) notifyGameInput("action");
-			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
-				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.mercId, "3," + entityOver.GID);
-				else AIDriver.setmsg(SessionStorage_default.mercId, "1," + Mouse.world.x + "," + Mouse.world.y);
-			} else {
-				SessionStorage_default.moveAction = null;
-				SessionStorage_default.autoFollow = false;
-				let stop = false;
-				if (entityOver != SessionStorage_default.Entity) {
-					if (entityFocus && entityFocus != entityOver) {
-						if (!(SessionStorage_default.TouchTargeting && !entityOver)) {
-							entityFocus.onFocusEnd();
-							EntityManager.setFocusEntity(null);
-						}
-					}
-					if (entityOver) {
-						stop = stop || entityOver.onMouseDown();
-						stop = stop || entityOver.onFocus();
-						EntityManager.setFocusEntity(entityOver);
-						if (stop) return;
-					}
-				}
-				notifyGameInput("move-start");
-				if (this.onRequestWalk) this.onRequestWalk();
-			}
-			break;
-		case 3:
-			_rightClickPosition[0] = Mouse.screen.x;
-			_rightClickPosition[1] = Mouse.screen.y;
-			if (SessionStorage_default.captchaGetIdOnFloorClick) CaptchaSelector_default.requestPlayersIds(Mouse.world.x, Mouse.world.y);
-			if (!KEYS.SHIFT && KEYS.ALT && !KEYS.CTRL) {
-				Camera.rotate(false);
-				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) AIDriver.setmsg(SessionStorage_default.homunId, "3," + entityOver.GID);
-				else AIDriver.setmsg(SessionStorage_default.homunId, "1," + Mouse.world.x + "," + Mouse.world.y);
-			} else {
-				if (entityOver && entityOver != SessionStorage_default.Entity && entityOver.objecttype != Entity.TYPE_EFFECT && entityOver.objecttype != Entity.TYPE_TRAP) {
-					if (KEYS.SHIFT) {
-						notifyGameInput("action");
-						SessionStorage_default.autoFollowTarget = entityOver;
-						SessionStorage_default.autoFollow = true;
-						onAutoFollow();
-					}
-					notifyGameInput("action");
-					clearAttackIntent();
-					entityOver.onMouseDown();
-					entityOver.onFocus();
-					EntityManager.setFocusEntity(entityOver);
-				}
-				Cursor.setType(Cursor.ACTION.ROTATE);
-				Camera.rotate(true);
-			}
-	}
-}
-/**
-* What to do when stop clicking on the map ?
-*/
-function onMouseUp(event) {
-	let entity, ET;
-	const action = event && event.which || 1;
-	if (action === 1) {
-		notifyGameInput("move-end");
-		if (combatHandledClick) {
-			combatHandledClick = false;
-			return;
-		}
-	}
-	if (!Mouse.intersect) return;
-	switch (action) {
-		case 1:
-			entity = EntityManager.getFocusEntity();
-			if (entity) {
-				ET = entity.constructor;
-				entity.onMouseUp();
-				if (!SessionStorage_default.TouchTargeting && (Controls_default.noctrl === false || ![
-					ET.TYPE_MOB,
-					ET.TYPE_NPC_ABR,
-					ET.TYPE_NPC_BIONIC
-				].includes(entity.objecttype))) {
-					EntityManager.setFocusEntity(null);
-					entity.onFocusEnd();
-				}
-			}
-			if (this.onRequestStopWalk) this.onRequestStopWalk();
-			break;
-		case 3:
-			Cursor.setType(Cursor.ACTION.DEFAULT);
-			Camera.rotate(false);
-			if (_rightClickPosition[0] === Mouse.screen.x && _rightClickPosition[1] === Mouse.screen.y && !KEYS.SHIFT) {
-				entity = EntityManager.getOverEntity();
-				if (entity && entity !== SessionStorage_default.Entity) entity.onContextMenu();
-			}
-	}
-}
-/**
-* Zoom feature
-*/
-function onMouseWheel(event) {
-	if (Mouse.state === Mouse.MOUSE_STATE.USESKILL) {
-		if (event.deltaY < 0) SkillTargetSelection_default.setSkillLevelDelta(1);
-		else SkillTargetSelection_default.setSkillLevelDelta(-1);
-		return;
-	}
-	const delta = event.deltaY < 0 ? 1 : event.deltaY > 0 ? -1 : 0;
-	Camera.setZoom(delta);
-}
-/**
-* Allow dropping data
-*/
-function onDragOver(event) {
-	event.stopImmediatePropagation();
-	event.preventDefault();
-}
-/**
-* Drop items to the map
-*/
-function onDrop$10(event) {
-	let data;
-	try {
-		data = JSON.parse(event.dataTransfer.getData("Text"));
-	} catch (e) {
-		console.error(e);
-	}
-	event.preventDefault();
-	event.stopImmediatePropagation();
-	if (!data) return;
-	if (data.from) {
-		const comp = UIManager.getComponent(data.from);
-		if (comp && comp.ui) (comp.ui[0] || comp.ui).dispatchEvent(new MouseEvent("mouseleave", { bubbles: false }));
-	}
-	if (data.type !== "item" || data.from !== "Inventory") return;
-	if (EquipmentController.getUI().ui.is(":visible")) {
-		ChatBox_default.addText(DB.getMessage(189), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.ITEM);
-		return;
-	}
-	if (UIManager.getComponent("Inventory").name !== "InventoryV0" && InventoryController.getUI().itemlock === true) return;
-	const item = data.data;
-	if (item.count > 1) {
-		InputBox_default.append();
-		InputBox_default.setType("item", false, item.count, item.ITID);
-		InputBox_default.onSubmitRequest = function onSubmitRequest(count) {
-			InputBox_default.remove();
-			MapControl.onRequestDropItem(item.index, parseInt(count, 10));
-		};
-	} else MapControl.onRequestDropItem(item.index, 1);
-}
-/**
-* Auto follow logic
-*/
-function onAutoFollow() {
-	if (SessionStorage_default.autoFollow) {
-		const player = SessionStorage_default.Entity;
-		const target = SessionStorage_default.autoFollowTarget;
-		const dx = Math.abs(player.position[0] - target.position[0]);
-		const dy = Math.abs(player.position[1] - target.position[1]);
-		if (dx > 1 || dy > 1) {
-			const dest = [0, 0];
-			if (checkFreeCell$1(Math.round(target.position[0]), Math.round(target.position[1]), 1, dest)) {
-				let pkt;
-				if (PacketVerManager_default.value >= 20180307) pkt = new PACKET.CZ.REQUEST_MOVE2();
-				else pkt = new PACKET.CZ.REQUEST_MOVE();
-				pkt.dest = dest;
-				Network.sendPacket(pkt);
-			}
-		}
-		Events.setTimeout(onAutoFollow, 500);
-	}
-}
-/**
-* Search free cells around a position
-*
-* @param {number} x
-* @param {number} y
-* @param {number} range
-* @param {array} out
-*/
-function checkFreeCell$1(x, y, range, out) {
-	let _x, _y, r;
-	const d_x = SessionStorage_default.Entity.position[0] < x ? -1 : 1;
-	const d_y = SessionStorage_default.Entity.position[1] < y ? -1 : 1;
-	for (r = 0; r <= range; ++r) for (_x = -r; _x <= r; ++_x) for (_y = -r; _y <= r; ++_y) if (isFreeCell$1(x + _x * d_x, y + _y * d_y)) {
-		out[0] = x + _x * d_x;
-		out[1] = y + _y * d_y;
-		return true;
-	}
-	return false;
-}
-/**
-* Does a cell is free (walkable, and no entity on)
-*
-* @param {number} x
-* @param {number} y
-* @param {returns} is free
-*/
-function isFreeCell$1(x, y) {
-	if (!(Altitude.getCellType(x, y) & Altitude.TYPE.WALKABLE)) return false;
-	let free = true;
-	EntityManager.forEach(function(entity) {
-		if (entity.objecttype != entity.constructor.TYPE_EFFECT && entity.objecttype != entity.constructor.TYPE_UNIT && entity.objecttype != entity.constructor.TYPE_TRAP && Math.round(entity.position[0]) === x && Math.round(entity.position[1]) === y) {
-			free = false;
-			return false;
-		}
-		return true;
-	});
-	return free;
-}
-var combatHandledClick, _rightClickPosition, MapControl;
-var init_MapControl = __esmMin((() => {
-	init_GameInputIntent();
-	init_AttackIntent();
-	init_DBManager();
-	init_UIManager();
-	init_CursorManager();
-	init_Entity$1();
-	init_InputBox();
-	init_ChatBox();
-	init_Equipment();
-	init_Inventory();
-	init_SkillTargetSelection();
-	init_MouseEventHandler();
-	init_Mobile();
-	init_Renderer();
-	init_Camera();
-	init_EntityManager();
-	init_SessionStorage();
-	init_Controls();
-	init_KeyEventHandler();
-	init_AIDriver();
-	init_Altitude();
-	init_PacketVerManager();
-	init_PacketStructure();
-	init_NetworkManager();
-	init_Events();
-	init_CaptchaSelector();
-	init_ScreenShot();
-	combatHandledClick = false;
-	_rightClickPosition = /* @__PURE__ */ new Int16Array(2);
-	MapControl = class {
-		/**
-		* Callback used when requesting to move somewhere
-		*/
-		static onRequestWalk() {}
-		/**
-		* Callback used when request to stop move
-		*/
-		static onRequestStopWalk() {}
-		/**
-		* Callback used when dropping an item to the map
-		*/
-		static onRequestDropItem() {}
-		/**
-		* Initializing the controller
-		*/
-		static init() {
-			Mobile.init();
-			Mobile.onTouchStart = onMouseDown.bind(this);
-			Mobile.onTouchEnd = onMouseUp.bind(this);
-			Renderer.canvas.addEventListener("wheel", onMouseWheel);
-			Renderer.canvas.addEventListener("dragover", onDragOver);
-			Renderer.canvas.addEventListener("drop", onDrop$10.bind(this));
-			window.addEventListener("mousedown", onMouseDown.bind(this));
-			window.addEventListener("mouseup", onMouseUp.bind(this));
-		}
-	};
 }));
 //#endregion
 //#region src/UI/Game/InventoryItems.js
@@ -286442,7 +287732,7 @@ function selectMaterial(material, item) {
 /**
 * Show item name when mouse is over
 */
-function onItemOver$12(event) {
+function onItemOver$11(event) {
 	const root = _root$11();
 	const idx = parseInt(this.getAttribute("data-index"), 10);
 	const it = DB.getItemInfo(idx);
@@ -286471,7 +287761,7 @@ function onItemOver$12(event) {
 /**
 * Hide the item name
 */
-function onItemOut$13() {
+function onItemOut$12() {
 	const overlay = _root$11().querySelector(".overlay");
 	if (overlay) overlay.style.display = "none";
 }
@@ -286818,7 +288108,7 @@ function onCancelContRefine() {
 /**
 * Get item info (open description window)
 */
-function onItemInfo$16(event) {
+function onItemInfo$15(event) {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 	const ITID = parseInt(this.getAttribute("data-index"), 10);
@@ -287074,30 +288364,30 @@ var init_Refine = __esmMin((() => {
 			});
 			itemToRefine.addEventListener("contextmenu", (event) => {
 				const item = event.target.closest(".item");
-				if (item) onItemInfo$16.call(item, event);
+				if (item) onItemInfo$15.call(item, event);
 			});
 		}
 		const materials = root.querySelector(".materials");
 		if (materials) {
 			materials.addEventListener("mouseover", (event) => {
 				const item = event.target.closest(".item");
-				if (item) onItemOver$12.call(item, event);
+				if (item) onItemOver$11.call(item, event);
 			});
 			materials.addEventListener("mouseout", () => {
-				onItemOut$13();
+				onItemOut$12();
 			});
 			materials.addEventListener("contextmenu", (event) => {
 				const item = event.target.closest(".item");
-				if (item) onItemInfo$16.call(item, event);
+				if (item) onItemInfo$15.call(item, event);
 			});
 		}
 		const refineCont = root.querySelector(".refine_cont");
 		if (refineCont) {
 			refineCont.addEventListener("mouseover", (event) => {
-				onItemOver$12.call(refineCont, event);
+				onItemOver$11.call(refineCont, event);
 			});
 			refineCont.addEventListener("mouseout", () => {
-				onItemOut$13();
+				onItemOut$12();
 			});
 		}
 		const refineEnabled = root.querySelector(".refine_enabled");
@@ -287670,7 +288960,7 @@ function setMessages(...scenarioKeys) {
 /**
 * Get item info (open description window)
 */
-function onItemInfo$15(event) {
+function onItemInfo$14(event) {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 	const ITID = parseInt(this.getAttribute("data-index"), 10);
@@ -287863,7 +289153,7 @@ var init_EnchantGrade = __esmMin((() => {
 			});
 			enchantContainer.addEventListener("contextmenu", (e) => {
 				const item = e.target.closest(".item");
-				if (item) onItemInfo$15.call(item, e);
+				if (item) onItemInfo$14.call(item, e);
 			});
 			enchantContainer.addEventListener("dblclick", (e) => {
 				if (e.target.closest(".item")) onRemoveItem();
@@ -287872,13 +289162,13 @@ var init_EnchantGrade = __esmMin((() => {
 		root.querySelectorAll(".material_slot").forEach((slot) => {
 			slot.addEventListener("contextmenu", (e) => {
 				const item = e.target.closest(".item");
-				if (item) onItemInfo$15.call(item, e);
+				if (item) onItemInfo$14.call(item, e);
 			});
 		});
 		const bedContainer = root.querySelector(".BED_container");
 		if (bedContainer) bedContainer.addEventListener("contextmenu", (e) => {
 			const item = e.target.closest(".item");
-			if (item) onItemInfo$15.call(item, e);
+			if (item) onItemInfo$14.call(item, e);
 		});
 		Client.loadFile(DB.INTERFACE_PATH + "grade_enchant/btn_material.bmp", (d) => {
 			materialNormal = d;
@@ -290077,7 +291367,7 @@ function onClickSend(e) {
 	WriteRodex.requestSendRodex(receiver, sender, zeny, Titlelength, Bodylength, CharID, title, body);
 	WriteRodex.requestCancelWriteRodex();
 }
-function prettifyZeny$3(value) {
+function prettifyZeny$2(value) {
 	const num = String(value);
 	let i = 0;
 	const len = num.length;
@@ -290099,7 +291389,7 @@ function onClickValidateName(e) {
 *
 * @param {event}
 */
-function onDrop$9(event) {
+function onDrop$8(event) {
 	let item, data;
 	event.stopImmediatePropagation();
 	event.preventDefault();
@@ -290135,7 +291425,7 @@ function stopPropagation$7(event) {
 /**
 * Show item name when mouse is over
 */
-function onItemOver$11(event) {
+function onItemOver$10(event) {
 	const el = event.currentTarget;
 	const idx = parseInt(el.getAttribute("data-index"), 10);
 	const item = WriteRodex.getItemByIndex(idx);
@@ -290156,7 +291446,7 @@ function onItemOver$11(event) {
 /**
 * Hide the item name
 */
-function onItemOut$12() {
+function onItemOut$11() {
 	const overlay = _root$8().querySelector(".overlay");
 	if (overlay) overlay.style.display = "none";
 }
@@ -290178,7 +291468,7 @@ function onItemDragStart$6(event) {
 		from: "WriteRodex",
 		data: item
 	}));
-	onItemOut$12();
+	onItemOut$11();
 }
 /**
 * Stop dragging an item
@@ -290190,7 +291480,7 @@ function onItemDragEnd$7() {
 /**
 * Get item info (open description window)
 */
-function onItemInfo$14(event) {
+function onItemInfo$13(event) {
 	event.stopImmediatePropagation();
 	event.preventDefault();
 	const el = event.currentTarget;
@@ -290260,7 +291550,7 @@ var init_WriteRodex = __esmMin((() => {
 		baloon.style.display = "none";
 		root.querySelector(".title-text").value = DB.getMessage(3575);
 		root.querySelector(".content-text").value = "";
-		root.querySelector(".character-zeny").textContent = `${prettifyZeny$3(SessionStorage_default.zeny)} Zeny`;
+		root.querySelector(".character-zeny").textContent = `${prettifyZeny$2(SessionStorage_default.zeny)} Zeny`;
 		validateBtn.addEventListener("click", onClickValidateName);
 		root.querySelector(".weigth-text").textContent = "0  2000";
 		root.querySelector(".tax-text").textContent = "0";
@@ -290269,7 +291559,7 @@ var init_WriteRodex = __esmMin((() => {
 		valueInput.max = SessionStorage_default.zeny;
 		root.querySelector(".item-list").innerHTML = "";
 		const itemsEl = root.querySelector(".items");
-		itemsEl.addEventListener("drop", onDrop$9);
+		itemsEl.addEventListener("drop", onDrop$8);
 		itemsEl.addEventListener("dragover", stopPropagation$7);
 		this._host.style.display = "";
 		this.focus();
@@ -290316,11 +291606,11 @@ var init_WriteRodex = __esmMin((() => {
 		});
 		const itemDiv = root.querySelector(`.item[data-index="${item.index}"]`);
 		if (itemDiv) {
-			itemDiv.addEventListener("mouseover", onItemOver$11);
-			itemDiv.addEventListener("mouseout", onItemOut$12);
+			itemDiv.addEventListener("mouseover", onItemOver$10);
+			itemDiv.addEventListener("mouseout", onItemOut$11);
 			itemDiv.addEventListener("dragstart", onItemDragStart$6);
 			itemDiv.addEventListener("dragend", onItemDragEnd$7);
-			itemDiv.addEventListener("contextmenu", onItemInfo$14);
+			itemDiv.addEventListener("contextmenu", onItemInfo$13);
 		}
 		WriteRodex.updateWeight(item.weight);
 		WriteRodex.updateTax();
@@ -292550,7 +293840,7 @@ function onToggleReduction() {
 *
 * @param {event}
 */
-function onDrop$8(event) {
+function onDrop$7(event) {
 	let item, data;
 	event.stopImmediatePropagation();
 	try {
@@ -292596,7 +293886,7 @@ function onScroll$5(event) {
 /**
 * Show item name when mouse is over
 */
-function onItemOver$10(_e) {
+function onItemOver$9(_e) {
 	const idx = parseInt(this.getAttribute("data-index"), 10);
 	const item = CartItems.getItemByIndex(idx);
 	if (!item) return;
@@ -292619,7 +293909,7 @@ function onItemOver$10(_e) {
 /**
 * Hide the item name
 */
-function onItemOut$11() {
+function onItemOut$10() {
 	const overlay = CartItems.getRoot().querySelector(".overlay");
 	if (overlay) overlay.style.display = "none";
 }
@@ -292641,7 +293931,7 @@ function onItemDragStart$5(event) {
 		from: "CartItems",
 		data: item
 	}));
-	onItemOut$11();
+	onItemOut$10();
 }
 /**
 * Stop dragging an item
@@ -292653,7 +293943,7 @@ function onItemDragEnd$6() {
 /**
 * Get item info (open description window)
 */
-function onItemInfo$13(event) {
+function onItemInfo$12(event) {
 	event.stopImmediatePropagation();
 	const index = parseInt(this.getAttribute("data-index"), 10);
 	const item = CartItems.getItemByIndex(index);
@@ -292703,7 +293993,7 @@ function onItemUsed$1(event) {
 	const item = CartItems.getItemByIndex(index);
 	if (item) {
 		CartItems.useItem(item);
-		onItemOut$11();
+		onItemOut$10();
 	}
 	event.stopImmediatePropagation();
 	event.preventDefault();
@@ -292764,17 +294054,17 @@ var init_CartItems = __esmMin((() => {
 		if (closeBtn) closeBtn.addEventListener("click", () => {
 			CartItems._host.style.display = "none";
 		});
-		this._host.addEventListener("drop", onDrop$8);
+		this._host.addEventListener("drop", onDrop$7);
 		this._host.addEventListener("dragover", (e) => e.stopImmediatePropagation());
 		const content = root.querySelector(".container .content");
 		if (content) {
 			content.addEventListener("wheel", onScroll$5);
 			content.addEventListener("mouseover", (e) => {
 				const item = e.target.closest(".item");
-				if (item) onItemOver$10.call(item, e);
+				if (item) onItemOver$9.call(item, e);
 			});
 			content.addEventListener("mouseout", (e) => {
-				if (e.target.closest(".item")) onItemOut$11();
+				if (e.target.closest(".item")) onItemOut$10();
 			});
 			content.addEventListener("dragstart", (e) => {
 				const item = e.target.closest(".item");
@@ -292786,7 +294076,7 @@ var init_CartItems = __esmMin((() => {
 			content.addEventListener("contextmenu", (e) => {
 				e.preventDefault();
 				const item = e.target.closest(".item");
-				if (item) onItemInfo$13.call(item, e);
+				if (item) onItemInfo$12.call(item, e);
 			});
 			content.addEventListener("dblclick", (e) => {
 				const item = e.target.closest(".item");
@@ -305772,7 +307062,7 @@ function setDelayOnIndex(index, delay) {
 * Does the client allow other source than shortcut, inventory
 * and skill window to save to shortcut ?
 */
-function onDrop$7(event, target) {
+function onDrop$6(event, target) {
 	let data, element;
 	const index = parseInt(target.getAttribute("data-index"), 10);
 	const row = Math.floor(index / 9);
@@ -306116,7 +307406,7 @@ var init_ShortCut = __esmMin((() => {
 		const container = root.querySelector("#ShortCut");
 		container.addEventListener("drop", (e) => {
 			const target = e.target.closest(".container");
-			if (target) onDrop$7(e, target);
+			if (target) onDrop$6(e, target);
 		});
 		container.addEventListener("dragover", (e) => {
 			if (e.target.closest(".container")) {
@@ -350233,399 +351523,6 @@ var init_PetInformations = __esmMin((() => {
 	PetInformations_default = UIManager.addComponent(PetInformations);
 }));
 //#endregion
-//#region src/UI/Components/Trade/Trade.html?raw
-var Trade_default$2;
-var init_Trade$3 = __esmMin((() => {
-	Trade_default$2 = "<div id=\"Trade\">\r\n	<div class=\"titlebar\">\r\n		<ui-image src=\"basic_interface/titlebar_mid.bmp\"></ui-image>\r\n		交易：<span class=\"title\"></span>\r\n	</div>\r\n	<div class=\"overlay\"></div>\r\n	<div class=\"content\">\r\n		<ui-image src=\"basic_interface/exchange_bg2.bmp\"></ui-image>\r\n		<div class=\"box send\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n		<div class=\"box recv\" data-background=\"basic_interface/itemwin_mid.bmp\"></div>\r\n\r\n		<input type=\"text\" class=\"zeny send\" value=\"0\" />\r\n		<div class=\"zeny recv disabled\">0</div>\r\n\r\n		<ui-button class=\"btn ok enabled\" bg=\"btn_ok.bmp\" hover=\"btn_ok_a.bmp\" down=\"btn_ok_b.bmp\"></ui-button>\r\n		<ui-button class=\"btn ok disabled\" bg=\"btn_ok_dis.bmp\"></ui-button>\r\n		<ui-button\r\n			class=\"btn trade enabled\"\r\n			bg=\"btn_exchange.bmp\"\r\n			hover=\"btn_exchange_a.bmp\"\r\n			down=\"btn_exchange_b.bmp\"\r\n		></ui-button>\r\n		<ui-button class=\"btn trade disabled\" bg=\"btn_exchange_dis.bmp\"></ui-button>\r\n		<ui-button class=\"btn cancel\" bg=\"btn_cancel.bmp\" hover=\"btn_cancel_a.bmp\" down=\"btn_cancel_b.bmp\"></ui-button>\r\n	</div>\r\n</div>\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Trade/Trade.css?raw
-var Trade_default$1;
-var init_Trade$2 = __esmMin((() => {
-	Trade_default$1 = ":host {\r\n	width: 560px;\r\n	height: 380px;\r\n	top: 0px;\r\n	left: 0px;\r\n}\r\n\r\n#Trade {\r\n	position: absolute;\r\n	width: 560px;\r\n	height: 380px;\r\n}\r\n\r\n#Trade .titlebar {\r\n	height: 14px;\r\n	background-color: white;\r\n	background-repeat: repeat-x;\r\n	border-radius: 5px 5px 0px 0px;\r\n	text-shadow: 1px 1px white;\r\n	white-space: nowrap;\r\n	position: relative;\r\n	padding-left: 15px;\r\n	padding-top: 3px;\r\n	font-size: 11px;\r\n	font-weight: bold;\r\n}\r\n\r\n/** When mouse over items **/\r\n\r\n#Trade .overlay {\r\n	position: absolute;\r\n	display: none;\r\n	white-space: nowrap;\r\n	z-index: 900;\r\n	height: 13px;\r\n	padding: 5px;\r\n	background: rgba(0, 0, 0, 0.7);\r\n	color: white;\r\n	text-shadow: 1px 1px black;\r\n}\r\n\r\n#Trade .overlay.grey {\r\n	color: #aaa;\r\n}\r\n\r\n/** Content **/\r\n\r\n#Trade .content {\r\n	background-repeat: no-repeat;\r\n	position: relative;\r\n	width: 560px;\r\n	height: 360px;\r\n}\r\n\r\n#Trade .box {\r\n	position: absolute;\r\n	top: 3px;\r\n	width: 275px;\r\n	height: 305px;\r\n	background-repeat: repeat-y;\r\n	background-size: 32px 10%; /* 10% for 10 items */\r\n	background-position: 1px 0px;\r\n}\r\n\r\n#Trade .box.disabled {\r\n	background: #ccc !important;\r\n}\r\n\r\n#Trade .box.send {\r\n	left: 2px;\r\n}\r\n\r\n#Trade .box.recv {\r\n	right: 3px;\r\n}\r\n\r\n/** Items in box **/\r\n\r\n#Trade .box .item {\r\n	display: block;\r\n	width: 24px;\r\n	height: 26px;\r\n	margin: 4px 0px 0px 4px;\r\n	position: relative;\r\n}\r\n\r\n#Trade .box .item .icon {\r\n	width: 24px;\r\n	height: 24px;\r\n	border: none;\r\n	background-color: transparent;\r\n	background-repeat: no-repeat;\r\n}\r\n\r\n#Trade .box .item .amount {\r\n	position: relative;\r\n	bottom: 9px;\r\n	right: 0px;\r\n	text-align: right;\r\n	text-shadow: -1px -1px white;\r\n}\r\n\r\n#Trade .box .name {\r\n	position: absolute;\r\n	top: 7px;\r\n	left: 30px;\r\n	width: 190px;\r\n}\r\n\r\n/** Zeny input **/\r\n\r\n#Trade .zeny {\r\n	position: absolute;\r\n	top: 311px;\r\n	background-color: #ddd;\r\n	border: none;\r\n	width: 70px;\r\n	height: 13px;\r\n	padding: 2px;\r\n}\r\n\r\n#Trade .zeny.send {\r\n	left: 160px;\r\n}\r\n\r\n#Trade .zeny.recv {\r\n	left: 440px;\r\n}\r\n\r\n#Trade .zeny.disabled {\r\n	background-color: transparent;\r\n}\r\n\r\n/** Buttons **/\r\n\r\n#Trade .btn {\r\n	position: absolute;\r\n	bottom: 4px;\r\n	border: 0;\r\n	width: auto;\r\n	min-width: 42px;\r\n	height: 20px;\r\n	background-repeat: no-repeat;\r\n	background-color: transparent;\r\n	display: inline-flex;\r\n}\r\n#Trade .btn.disabled {\r\n	cursor: default;\r\n}\r\n#Trade .btn.ok {\r\n	left: 5px;\r\n}\r\n#Trade .btn.trade {\r\n	left: 260px;\r\n}\r\n#Trade .btn.cancel {\r\n	left: 510px;\r\n}\r\n";
-}));
-//#endregion
-//#region src/UI/Components/Trade/Trade.js
-/**
-* Escape HTML special characters
-*
-* @param {string} text
-* @returns {string}
-*/
-function escapeHtml$1(text) {
-	const div = document.createElement("div");
-	div.appendChild(document.createTextNode(text));
-	return div.innerHTML;
-}
-/**
-* Reset the UI to its initial state
-*/
-function resetUI() {
-	_tmpCount = {};
-	_recv.length = 0;
-	_send.length = 0;
-	const root = Trade.getRoot();
-	const overlay = root.querySelector(".overlay");
-	if (overlay) overlay.style.display = "none";
-	const okDisabled = root.querySelector(".ok.disabled");
-	const tradeEnabled = root.querySelector(".trade.enabled");
-	if (okDisabled) okDisabled.style.display = "none";
-	if (tradeEnabled) tradeEnabled.style.display = "none";
-	const okEnabled = root.querySelector(".ok.enabled");
-	const tradeDisabled = root.querySelector(".trade.disabled");
-	if (okEnabled) okEnabled.style.display = "";
-	if (tradeDisabled) tradeDisabled.style.display = "";
-	root.querySelectorAll(".box").forEach((box) => {
-		box.classList.remove("disabled");
-		box.innerHTML = "";
-	});
-	const zenySend = root.querySelector(".zeny.send");
-	if (zenySend) {
-		zenySend.value = "0";
-		zenySend.classList.remove("disabled");
-		zenySend.disabled = false;
-	}
-	const zenyRecv = root.querySelector(".zeny.recv");
-	if (zenyRecv) zenyRecv.textContent = "0";
-}
-/**
-* Prettify number (15000 -> 15,000)
-*
-* @param {number} value
-* @return {string}
-*/
-function prettifyZeny$2(value) {
-	return Number(value).toLocaleString("en-US");
-}
-/**
-* Request to add an item to the trade UI
-*
-* @param {number} index - item index in inventory
-* @param {number} count - item count
-*/
-function onRequestAddItem(index, count) {
-	if (index in _tmpCount) {
-		ChatBox_default.addText(DB.getMessage(51), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
-		return;
-	}
-	if (_send.length >= 10) {
-		ChatBox_default.addText(DB.getMessage(297), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
-		return;
-	}
-	_tmpCount[index] = count;
-	Trade.reqAddItem(index, count);
-}
-/**
-* Cancel the deal
-*/
-function onCancel() {
-	Trade.remove();
-	Trade.onCancel();
-}
-/**
-* Conclude our part
-*/
-function onConclude() {
-	const zenySend = Trade.getRoot().querySelector(".zeny.send");
-	let zeny = parseInt(zenySend ? zenySend.value : "0", 10) || 0;
-	zeny = Math.min(Math.max(0, zeny), SessionStorage_default.zeny);
-	onRequestAddItem(0, zeny);
-	Trade.onConclude();
-}
-/**
-* Let's finish the trade
-*/
-function onTrade() {
-	Trade.onTradeSubmit();
-	const root = Trade.getRoot();
-	const tradeEnabled = root.querySelector(".trade.enabled");
-	const tradeDisabled = root.querySelector(".trade.disabled");
-	if (tradeEnabled) tradeEnabled.style.display = "none";
-	if (tradeDisabled) tradeDisabled.style.display = "";
-}
-/**
-* Drop from inventory to trade
-*/
-function onDrop$6(event) {
-	let data;
-	try {
-		data = JSON.parse(event.dataTransfer ? event.dataTransfer.getData("Text") : event.originalEvent.dataTransfer.getData("Text"));
-	} catch (_e) {}
-	event.stopImmediatePropagation();
-	event.preventDefault();
-	if (!data || data.type !== "item" || data.from !== "Inventory") return false;
-	const item = data.data;
-	if (item.count > 1) {
-		InputBox_default.append();
-		InputBox_default.setType("number", false, item.count);
-		InputBox_default.onSubmitRequest = function OnSubmitRequest(count) {
-			let value = parseInt(count, 10) || 0;
-			value = Math.min(Math.max(value, 0), item.count);
-			InputBox_default.remove();
-			if (value) onRequestAddItem(item.index, value);
-		};
-		return false;
-	}
-	onRequestAddItem(item.index, 1);
-	return false;
-}
-/**
-* When mouse is over an item, show title
-*
-* @param {HTMLElement} itemEl
-*/
-function onItemOver$9(itemEl) {
-	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
-	const item = itemEl.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
-	if (!item) return;
-	const overlay = Trade.getRoot().querySelector(".overlay");
-	if (!overlay) return;
-	const itemRect = itemEl.getBoundingClientRect();
-	const hostRect = Trade._host.getBoundingClientRect();
-	const posLeft = itemRect.left - hostRect.left;
-	const posTop = itemRect.top - hostRect.top;
-	overlay.style.display = "";
-	overlay.style.top = `${posTop + 5}px`;
-	overlay.style.left = `${posLeft + 30}px`;
-	overlay.textContent = DB.getItemName(item);
-	if (item.IsIdentified) overlay.classList.remove("grey");
-	else overlay.classList.add("grey");
-}
-/**
-* Hide the item title when mouse is not over anymore
-*/
-function onItemOut$10() {
-	const overlay = Trade.getRoot().querySelector(".overlay");
-	if (overlay) overlay.style.display = "none";
-}
-/**
-* Display ItemInfo UI
-*
-* @param {Event} event
-* @param {HTMLElement} itemEl
-*/
-function onItemInfo$12(event, itemEl) {
-	const idx = parseInt(itemEl.getAttribute("data-index"), 10);
-	const item = itemEl.parentNode.className.match(/send/i) ? _send[idx] : _recv[idx];
-	if (!item) {
-		event.stopImmediatePropagation();
-		event.preventDefault();
-		return;
-	}
-	if (ItemInfo_default.uid === item.ITID) ItemInfo_default.remove();
-	ItemInfo_default.append();
-	ItemInfo_default.uid = item.ITID;
-	ItemInfo_default.setItem(item);
-	event.stopImmediatePropagation();
-	event.preventDefault();
-}
-var Trade, _tmpCount, _send, _recv, Trade_default;
-var init_Trade$1 = __esmMin((() => {
-	init_DBManager();
-	init_Client();
-	init_SessionStorage();
-	init_Renderer();
-	init_GUIComponent();
-	init_UIManager();
-	init_Elements();
-	init_InputBox();
-	init_ItemInfo();
-	init_Inventory();
-	init_ChatBox();
-	init_Trade$3();
-	init_Trade$2();
-	Trade = new GUIComponent("Trade", Trade_default$1);
-	/**
-	* HTML returned by render()
-	*/
-	Trade.render = () => Trade_default$2;
-	_tmpCount = {};
-	_send = [];
-	_recv = [];
-	/**
-	* @var {string} trade title
-	*/
-	Trade.title = "";
-	/**
-	* Capture key events so the zeny input field works inside Shadow DOM
-	*/
-	Trade.captureKeyEvents = true;
-	/**
-	* Initialize UI
-	*/
-	Trade.init = function init() {
-		const root = this.getRoot();
-		const okBtn = root.querySelector(".ok.enabled");
-		if (okBtn) {
-			okBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			okBtn.addEventListener("click", () => onConclude());
-		}
-		const tradeBtn = root.querySelector(".trade.enabled");
-		if (tradeBtn) {
-			tradeBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			tradeBtn.addEventListener("click", () => onTrade());
-		}
-		const cancelBtn = root.querySelector(".cancel");
-		if (cancelBtn) {
-			cancelBtn.addEventListener("mousedown", (e) => e.stopImmediatePropagation());
-			cancelBtn.addEventListener("click", () => onCancel());
-		}
-		root.addEventListener("mousedown", (e) => {
-			if (e.target.closest && e.target.closest(".disabled")) e.stopImmediatePropagation();
-		});
-		this._host.addEventListener("drop", (e) => onDrop$6(e));
-		this._host.addEventListener("dragover", (e) => {
-			e.preventDefault();
-			e.stopImmediatePropagation();
-		});
-		const zenyInput = root.querySelector(".zeny.send");
-		if (zenyInput) zenyInput.addEventListener("mousedown", function() {
-			this.select();
-		});
-		root.querySelectorAll(".box").forEach((box) => {
-			box.addEventListener("mouseover", (e) => {
-				const itemEl = e.target.closest(".item");
-				if (itemEl) onItemOver$9(itemEl);
-			});
-			box.addEventListener("mouseout", (e) => {
-				if (e.target.closest(".item")) onItemOut$10();
-			});
-			box.addEventListener("contextmenu", (e) => {
-				const itemEl = e.target.closest(".item");
-				if (itemEl) onItemInfo$12(e, itemEl);
-			});
-		});
-		this.draggable(".titlebar");
-	};
-	/**
-	* Guard keyboard input for the zeny <input> inside Shadow DOM
-	*/
-	Trade.onKeyDown = function onKeyDown(event) {
-		if (this.isEditableFocused()) {
-			event.stopImmediatePropagation();
-			return true;
-		}
-		return true;
-	};
-	/**
-	* Initialize UI on append
-	*/
-	Trade.onAppend = function onAppend() {
-		resetUI.call(this);
-		const titleEl = this.getRoot().querySelector(".titlebar .title");
-		if (titleEl) titleEl.textContent = this.title;
-		const width = this._host.getBoundingClientRect().width;
-		const height = this._host.getBoundingClientRect().height;
-		this._host.style.top = `${(Renderer.height - height) / 2}px`;
-		this._host.style.left = `${(Renderer.width - width) / 2}px`;
-	};
-	/**
-	* Clean UP UI
-	*/
-	Trade.onRemove = function onRemove() {
-		resetUI.call(this);
-	};
-	/**
-	* Add Item to the trade window from our inventory
-	*
-	* @param {number} item index in inventory
-	* @param {boolean} success ?
-	*/
-	Trade.addItemFromInventory = function addItemFromInventory(index, success) {
-		if (!success) {
-			delete _tmpCount[index];
-			return;
-		}
-		const root = Trade.getRoot();
-		if (index === 0) {
-			const zenySend = root.querySelector(".zeny.send");
-			if (zenySend) zenySend.value = prettifyZeny$2(_tmpCount[index]);
-			return;
-		}
-		const inventoryItem = InventoryController.getUI().removeItem(index, _tmpCount[index]);
-		const item = Object.assign({}, inventoryItem);
-		const it = DB.getItemInfo(item.ITID);
-		const idx = _send.push(item) - 1;
-		const box = root.querySelector(".box.send");
-		item.count = _tmpCount[index];
-		const itemDiv = document.createElement("div");
-		itemDiv.className = "item";
-		itemDiv.setAttribute("data-index", idx);
-		itemDiv.innerHTML = `<div class="icon"></div><div class="amount"><span class="count">${_tmpCount[index] || 1}</span></div><span class="name">${escapeHtml$1(DB.getItemName(item))}</span>`;
-		box.appendChild(itemDiv);
-		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
-			const icon = root.querySelector(`.item[data-index="${idx}"] .icon`);
-			if (icon && icon.closest(".box.send")) icon.style.backgroundImage = `url(${data})`;
-		});
-	};
-	/**
-	* Add item to the trade UI
-	*
-	* @param {object} item
-	*/
-	Trade.addItem = function addItem(item) {
-		const root = Trade.getRoot();
-		if (item.ITID === 0) {
-			const zenyRecv = root.querySelector(".zeny.recv");
-			if (zenyRecv) zenyRecv.textContent = prettifyZeny$2(item.count);
-			return;
-		}
-		const it = DB.getItemInfo(item.ITID);
-		const idx = _recv.push(item) - 1;
-		const box = root.querySelector(".box.recv");
-		const itemDiv = document.createElement("div");
-		itemDiv.className = "item";
-		itemDiv.setAttribute("data-index", idx);
-		itemDiv.innerHTML = `<div class="icon"></div><div class="amount">${item.count}</div><span class="name">${escapeHtml$1(DB.getItemName(item))}</span>`;
-		box.appendChild(itemDiv);
-		Client.loadFile(`${DB.INTERFACE_PATH}item/${item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName}.bmp`, (data) => {
-			const icon = root.querySelector(`.item[data-index="${idx}"] .icon`);
-			if (icon && icon.closest(".box.recv")) icon.style.backgroundImage = `url(${data})`;
-		});
-	};
-	/**
-	* Conclude a part of the trade
-	*
-	* @param {string} element - 'send' or 'recv'
-	*/
-	Trade.conclude = function conclude(element) {
-		const root = Trade.getRoot();
-		const box = root.querySelector(`.box.${element}`);
-		if (box) box.classList.add("disabled");
-		if (element === "send") {
-			const okDisabled = root.querySelector(".ok.disabled");
-			const okEnabled = root.querySelector(".ok.enabled");
-			if (okDisabled) okDisabled.style.display = "";
-			if (okEnabled) okEnabled.style.display = "none";
-			const zenySend = root.querySelector(".zeny.send");
-			if (zenySend) {
-				zenySend.classList.add("disabled");
-				zenySend.disabled = true;
-			}
-		}
-		const recvDisabled = root.querySelector(".box.recv.disabled");
-		const sendDisabled = root.querySelector(".box.send.disabled");
-		if (recvDisabled && recvDisabled.style.display !== "none" && sendDisabled && sendDisabled.style.display !== "none") {
-			const tradeEnabled = root.querySelector(".trade.enabled");
-			const tradeDisabledBtn = root.querySelector(".trade.disabled");
-			if (tradeEnabled) tradeEnabled.style.display = "";
-			if (tradeDisabledBtn) tradeDisabledBtn.style.display = "none";
-		}
-	};
-	/**
-	* Callbacks
-	*/
-	Trade.onConclude = function onConclude() {};
-	Trade.onTradeSubmit = function onTradeSubmit() {};
-	Trade.reqAddItem = function reqAddItem() {};
-	Trade.onCancel = function onCancel() {};
-	/**
-	* Set mouse mode
-	*/
-	Trade.mouseMode = GUIComponent.MouseMode.STOP;
-	Trade_default = UIManager.addComponent(Trade);
-}));
-//#endregion
 //#region src/Controls/EntityControl.js
 /**
 * Export
@@ -357950,10 +358847,10 @@ var init_GUIComponent = __esmMin((() => {
 function update() {
 	if (!overlay) return;
 	const portrait = Platform.orientation === "portrait";
-	overlay.hidden = !portrait || !pending$1 && Boolean(portraitPanel?.isConnected);
-	if (!portrait && pending$1) {
-		const proceed = pending$1;
-		pending$1 = null;
+	overlay.hidden = !portrait || !pending$2 && Boolean(portraitPanel?.isConnected);
+	if (!portrait && pending$2) {
+		const proceed = pending$2;
+		pending$2 = null;
 		cancelOnDisconnect?.();
 		cancelOnDisconnect = null;
 		overlay.querySelector("button").hidden = true;
@@ -357968,7 +358865,7 @@ function blockKeys(event) {
 }
 function release() {
 	window.removeEventListener("keydown", blockKeys, true);
-	pending$1 = null;
+	pending$2 = null;
 	cancelOnDisconnect?.();
 	cancelOnDisconnect = null;
 	unsubscribe$1?.();
@@ -358010,9 +358907,9 @@ function requireLandscape(proceed) {
 	overlay.querySelector("button").addEventListener("click", release);
 	document.body.appendChild(overlay);
 	window.addEventListener("keydown", blockKeys, true);
-	pending$1 = proceed;
+	pending$2 = proceed;
 	cancelOnDisconnect = onConnectionEnd(() => {
-		if (pending$1) release();
+		if (pending$2) release();
 	});
 	unsubscribe$1 = Platform.onOrientationChange(update);
 	update();
@@ -358025,7 +358922,7 @@ function allowPortraitPanel(element) {
 		update();
 	};
 }
-var overlay, unsubscribe$1, cancelOnDisconnect, pending$1, portraitPanel, RotationGuard_default;
+var overlay, unsubscribe$1, cancelOnDisconnect, pending$2, portraitPanel, RotationGuard_default;
 var init_RotationGuard = __esmMin((() => {
 	init_Platform();
 	init_ConnectionLifecycle();
@@ -358034,6 +358931,820 @@ var init_RotationGuard = __esmMin((() => {
 		release,
 		allowPortraitPanel
 	};
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatTeleport.js
+function cancelAutoCombatTeleport() {
+	ticket = null;
+}
+function isAutoCombatTeleportPending() {
+	return Boolean(ticket && ticket.expires > Date.now());
+}
+function requestAutoCombatTeleport(intervalSeconds) {
+	if (ticket && ticket.expires <= Date.now()) ticket = null;
+	if (ticket) return "正在随机瞬移";
+	const state = getAdventureActionState();
+	if (!state.allowed) return "无法随机瞬移：没有冒险工具传送权限";
+	if (Date.now() < nextAllowed) return feedback || `等待瞬移间隔：${Math.ceil((nextAllowed - Date.now()) / 1e3)} 秒`;
+	if (!state.canTeleport || state.npcPending) return state.cooldownRemaining ? `传送冷却：${state.cooldownRemaining} 秒` : "等待冒险工具传送完成";
+	const attempt = {
+		identity: identity$4(),
+		map: getCurrentAdventureMap(),
+		expires: Date.now() + 15e3,
+		transitioned: false,
+		ready: false,
+		success: false
+	};
+	ticket = attempt;
+	if (!teleportToCoordinate({
+		mapName: attempt.map,
+		x: 0,
+		y: 0
+	}, (packet) => {
+		if (ticket !== attempt) return;
+		if (packet.result !== 0) {
+			ticket = null;
+			feedback = getAdventureActionState().message || "随机瞬移失败";
+		} else attempt.success = true;
+	})) {
+		ticket = null;
+		return "随机瞬移暂不可用";
+	}
+	nextAllowed = Date.now() + intervalSeconds * 1e3;
+	feedback = "";
+	return "正在随机瞬移";
+}
+function prepareAutoCombatTeleportMap(mapName) {
+	if (!ticket) {
+		feedback = "";
+		return;
+	}
+	if (ticket.transitioned || ticket.identity !== identity$4() || ticket.map !== normalizeAdventureMap(mapName) || ticket.expires <= Date.now()) {
+		ticket = null;
+		return;
+	}
+	ticket.transitioned = true;
+}
+function completeAutoCombatTeleportMap() {
+	if (ticket?.transitioned) ticket.ready = true;
+}
+function consumeAutoCombatTeleport() {
+	if (!ticket) return false;
+	if (ticket.identity !== identity$4() || ticket.expires <= Date.now() || ticket.map !== getCurrentAdventureMap()) {
+		ticket = null;
+		return false;
+	}
+	if (!ticket.success || !ticket.ready) return false;
+	ticket = null;
+	return true;
+}
+var ticket, nextAllowed, feedback, identity$4;
+var init_AutoCombatTeleport = __esmMin((() => {
+	init_SessionStorage();
+	init_ConnectionLifecycle();
+	init_GameInputIntent();
+	init_AdventureActionService();
+	ticket = null;
+	nextAllowed = 0;
+	feedback = "";
+	identity$4 = () => JSON.stringify([
+		SessionStorage_default.ServerName,
+		SessionStorage_default.AID,
+		SessionStorage_default.GID
+	]);
+	subscribeGameInput(() => {
+		cancelAutoCombatTeleport();
+		return false;
+	});
+	window.addEventListener("blur", cancelAutoCombatTeleport);
+	document.addEventListener("visibilitychange", () => {
+		if (document.hidden) cancelAutoCombatTeleport();
+	});
+	onConnectionEnd(() => {
+		ticket = null;
+		nextAllowed = 0;
+		feedback = "";
+	});
+}));
+//#endregion
+//#region src/UI/Game/GameAutomation.js
+function registerAutomationCombat(controller) {
+	combats.add(controller);
+	return () => combats.delete(controller);
+}
+function hasAutomationCombat() {
+	return [...combats].some((controller) => controller.snapshot().active);
+}
+function registerAutomationPickup(controller) {
+	pickup = controller;
+	return () => {
+		if (pickup === controller) pickup = null;
+	};
+}
+function takeAutomationPickupTurn() {
+	return pickup?.takeTurn() || false;
+}
+function cancelAutomationPickup() {
+	pickup?.cancel();
+}
+var combats, pickup;
+var init_GameAutomation = __esmMin((() => {
+	combats = /* @__PURE__ */ new Set();
+	pickup = null;
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatController.js
+function validAutoCombatTeleport(value) {
+	return value && typeof value.enabled === "boolean" && Number.isInteger(value.waitSeconds) && value.waitSeconds >= 1 && value.waitSeconds <= 60 && Number.isInteger(value.intervalSeconds) && value.intervalSeconds >= 1 && value.intervalSeconds <= 300;
+}
+/** Nearby combat policy. Runtime adapters own pathfinding, packets and live skill checks. */
+function createAutoCombatController(data, configuration = {
+	species: [],
+	skills: [],
+	ranges: {
+		search: 20,
+		activity: 30
+	}
+}) {
+	let active = false, pausedForMovement = false, continuous = false, preferred = null, species = configuration.species.map((entry) => ({ ...entry })), ranges = { ...configuration.ranges }, selected = [...configuration.skills], target = null, nextAction = 0;
+	let teleport = {
+		...AUTO_COMBAT_TELEPORT_DEFAULTS,
+		...configuration.teleport
+	};
+	let idleSince = null;
+	let origin, lastDistance = Infinity, progressAt = 0, status = "自动战斗已停止";
+	const skipped = /* @__PURE__ */ new Map();
+	const distance = (a, b) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]));
+	function stop(message = "自动战斗已停止") {
+		data.cancelPickup?.();
+		idleSince = null;
+		if (active || target) data.stop();
+		active = false;
+		pausedForMovement = false;
+		continuous = false;
+		preferred = null;
+		target = null;
+		status = message;
+	}
+	function snapshot() {
+		return {
+			active,
+			ranges: { ...ranges },
+			teleport: { ...teleport },
+			pausedForMovement,
+			species: species.map((entry) => ({ ...entry })),
+			skills: [...selected],
+			status,
+			target: target?.name || ""
+		};
+	}
+	function tick() {
+		if (!active) return;
+		if (!data.enabled()) {
+			stop("自动战斗已停止");
+			return;
+		}
+		if (pausedForMovement) return;
+		if (data.teleportPending?.()) {
+			status = "正在随机瞬移";
+			return;
+		}
+		const now = data.now(), player = data.position();
+		for (const [id, until] of skipped) if (until <= now) skipped.delete(id);
+		const targets = data.targets().filter((entity) => (entity.id === preferred || continuous && (!species.length || species.some((entry) => entity.species === entry.id))) && distance(player, entity.position) <= ranges.search && distance(origin, entity.position) <= ranges.activity && (skipped.get(entity.id) || 0) <= now);
+		const current = target && targets.find((entity) => entity.id === target.id);
+		if (target && !current) {
+			if (!continuous) {
+				stop("目标已结束或离开，攻击已停止");
+				return;
+			}
+			preferred = null;
+			data.stop();
+			target = null;
+			nextAction = 0;
+		}
+		if (!target) {
+			if (continuous && data.pickupTurn?.()) {
+				idleSince = null;
+				status = "拾取本轮掉落物品";
+				return;
+			}
+			targets.sort((a, b) => distance(player, a.position) - distance(player, b.position));
+			target = targets.find((entity) => data.reachable(entity)) || null;
+			if (!target) {
+				status = "等待附近目标";
+				if (!continuous || !teleport.enabled || data.busy() || data.teleportBusy?.()) {
+					idleSince = null;
+					return;
+				}
+				idleSince ??= now;
+				const remaining = teleport.waitSeconds * 1e3 - (now - idleSince);
+				status = remaining > 0 ? `无目标，${Math.ceil(remaining / 1e3)} 秒后随机瞬移` : data.teleport(teleport.intervalSeconds);
+				return;
+			}
+			data.select(target);
+			lastDistance = Infinity;
+			progressAt = now;
+		} else target = current;
+		idleSince = null;
+		const range = distance(player, target.position);
+		if (range < lastDistance || !data.chasing()) {
+			progressAt = now;
+			lastDistance = range;
+		}
+		if (now - progressAt >= 8e3) {
+			if (!continuous) {
+				stop("目标无法接近，攻击已停止");
+				return;
+			}
+			preferred = null;
+			skipped.set(target.id, now + 3e4);
+			data.stop();
+			target = null;
+			nextAction = 0;
+			status = "目标无法接近，寻找其他目标";
+			return;
+		}
+		status = `${data.chasing() ? "接近" : "攻击"}：${target.name}`;
+		if (now < nextAction || data.busy()) return;
+		const skills = data.skills().filter((skill) => selected.includes(skill.id) && skill.available);
+		const skill = skills.length ? skills[Math.floor(data.random() * skills.length)] : null;
+		if (data.act(target, skill) === false) {
+			if (!continuous) {
+				stop("无法攻击目标");
+				return;
+			}
+			preferred = null;
+			skipped.set(target.id, now + 3e4);
+			data.stop();
+			target = null;
+		}
+		nextAction = now + 900;
+	}
+	return {
+		snapshot,
+		tick,
+		stop,
+		pauseForMovement() {
+			data.cancelPickup?.();
+			if (!active || pausedForMovement) return;
+			if (!continuous) {
+				stop("手动移动，攻击已停止");
+				return;
+			}
+			data.stop();
+			idleSince = null;
+			pausedForMovement = true;
+			target = null;
+			preferred = null;
+			status = "移动中，停止移动后继续自动战斗";
+		},
+		resumeAfterMovement() {
+			if (!active || !pausedForMovement) return;
+			pausedForMovement = false;
+			origin = [...data.position()];
+			nextAction = 0;
+			skipped.clear();
+			status = "寻找附近目标";
+		},
+		start() {
+			data.cancelPickup?.();
+			idleSince = null;
+			if (!data.enabled()) return false;
+			data.stop();
+			origin = [...data.position()];
+			active = true;
+			pausedForMovement = false;
+			continuous = true;
+			preferred = null;
+			target = null;
+			nextAction = 0;
+			skipped.clear();
+			status = "寻找附近目标";
+			tick();
+			return true;
+		},
+		attackTarget(id) {
+			data.cancelPickup?.();
+			if (!data.enabled()) return false;
+			const choice = data.targets().find((entity) => entity.id === id);
+			if (!choice || !data.reachable(choice)) return false;
+			continuous = active && continuous;
+			data.stop();
+			active = true;
+			pausedForMovement = false;
+			preferred = id;
+			target = choice;
+			origin = [...data.position()];
+			nextAction = 0;
+			lastDistance = Infinity;
+			progressAt = data.now();
+			skipped.delete(id);
+			data.select(target);
+			tick();
+			return true;
+		},
+		configure(nextSpecies, ids, nextRanges, nextTeleport = teleport) {
+			if (!validAutoCombatTeleport(nextTeleport)) return false;
+			const limits = AUTO_COMBAT_RANGE_LIMITS;
+			if (!Number.isInteger(nextRanges.search) || !Number.isInteger(nextRanges.activity) || nextRanges.search < limits.min || nextRanges.search > limits.searchMax || nextRanges.activity < nextRanges.search || nextRanges.activity > limits.activityMax) return false;
+			stop();
+			ranges = { ...nextRanges };
+			teleport = { ...nextTeleport };
+			species = [...new Map(nextSpecies.map((entry) => [entry.id, {
+				id: entry.id,
+				name: entry.name
+			}])).values()];
+			const learned = new Set(data.skills().map((skill) => skill.id));
+			selected = [...new Set(ids)].filter((id) => learned.has(id));
+			return true;
+		},
+		skills: () => data.skills(),
+		targets: () => data.targets()
+	};
+}
+var AUTO_COMBAT_RANGE_LIMITS, AUTO_COMBAT_TELEPORT_DEFAULTS;
+var init_AutoCombatController = __esmMin((() => {
+	AUTO_COMBAT_RANGE_LIMITS = {
+		min: 1,
+		searchMax: 50,
+		activityMax: 100
+	};
+	AUTO_COMBAT_TELEPORT_DEFAULTS = {
+		enabled: false,
+		waitSeconds: 5,
+		intervalSeconds: 2
+	};
+}));
+//#endregion
+//#region src/UI/Game/AutoCombatSettings.js
+/** Only preferences are persisted, never an active battle or a temporary target. */
+function loadAutoCombatSettings(key) {
+	try {
+		const saved = JSON.parse(localStorage.getItem(key));
+		const limits = AUTO_COMBAT_RANGE_LIMITS;
+		if (!saved || !Array.isArray(saved.species) || !Array.isArray(saved.skills) || !saved.ranges) return;
+		if (!saved.species.every((entry) => entry && Number.isInteger(entry.id) && entry.id > 0 && typeof entry.name === "string")) return;
+		if (!saved.skills.every((id) => Number.isInteger(id) && id > 0)) return;
+		const { search, activity } = saved.ranges;
+		if (!Number.isInteger(search) || !Number.isInteger(activity) || search < limits.min || search > limits.searchMax || activity < search || activity > limits.activityMax) return;
+		if (saved.teleport !== void 0 && !validAutoCombatTeleport(saved.teleport)) return;
+		return {
+			species: saved.species,
+			skills: saved.skills,
+			ranges: {
+				search,
+				activity
+			},
+			...saved.teleport ? { teleport: saved.teleport } : {}
+		};
+	} catch {
+		return;
+	}
+}
+function saveAutoCombatSettings(key, settings) {
+	try {
+		localStorage.setItem(key, JSON.stringify(settings));
+		return true;
+	} catch {
+		return false;
+	}
+}
+var init_AutoCombatSettings = __esmMin((() => {
+	init_AutoCombatController();
+}));
+//#endregion
+//#region src/UI/Game/GameAutoCombat.js
+function createGameAutoCombat(enabled) {
+	const settingsKey = `HappyRO.AutoCombat:${JSON.stringify([
+		SessionStorage_default.ServerName,
+		SessionStorage_default.AID,
+		SessionStorage_default.GID
+	])}`;
+	function targets() {
+		const result = [];
+		EntityManager.forEach((entity) => {
+			if (entity.objecttype !== entity.constructor.TYPE_MOB || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return;
+			result.push({
+				id: entity.GID,
+				species: entity.job,
+				name: entity.display.name,
+				position: [...entity.position]
+			});
+		});
+		return result;
+	}
+	function skills() {
+		return Controller$4.getUI().getSkills().filter((skill) => canExecuteSkill(skill) && skill.type & (SKILL_INF.ENEMY | SKILL_INF.PLACE)).map((skill) => {
+			const reason = remainingCooldown(skill.SKID) > 0 ? "冷却中" : skill.spcost > SessionStorage_default.Entity.life.sp ? "SP 不足" : "";
+			return {
+				id: skill.SKID,
+				name: SkillInfo_generated_default[skill.SKID]?.SkillName || `技能 ${skill.SKID}`,
+				level: skill.level,
+				type: skill.type,
+				available: !reason,
+				reason
+			};
+		});
+	}
+	let ownsAction = false, ownedMove = null;
+	function stop() {
+		if (!ownsAction) return;
+		ownsAction = false;
+		if (SessionStorage_default.moveAction && SessionStorage_default.moveAction !== ownedMove) return;
+		ownedMove = null;
+		Navigation_default.stopAutoWalk();
+		SkillTargetSelection_default.remove();
+		const chasing = Boolean(SessionStorage_default.moveAction);
+		stopAttack();
+		if (chasing && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE) Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
+		MapControl.onRequestStopWalk();
+		SessionStorage_default.autoFollow = false;
+	}
+	const controller = createAutoCombatController({
+		enabled: () => enabled() && !SessionStorage_default.Entity?.isOverWeight && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.SIT,
+		now: () => performance.now(),
+		random: Math.random,
+		position: () => SessionStorage_default.Entity.position,
+		targets,
+		skills,
+		stop,
+		pickupTurn: takeAutomationPickupTurn,
+		cancelPickup: cancelAutomationPickup,
+		teleport: requestAutoCombatTeleport,
+		teleportPending: isAutoCombatTeleportPending,
+		teleportBusy: () => Boolean(SessionStorage_default.autoFollow || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.WALK || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.ATTACK || document.querySelector("#PickupSettings") || document.querySelector("#MobileGameHUD")?.shadowRoot?.querySelector(".backdrop:not([hidden])") || document.activeElement?.matches("input, textarea")),
+		chasing: () => Boolean(SessionStorage_default.moveAction),
+		busy: () => Boolean(SessionStorage_default.moveAction || SessionStorage_default.Entity.cast?.display || SessionStorage_default.Entity.amotionTick > Renderer.tick),
+		reachable: (target) => PathFinding_default.search(SessionStorage_default.Entity.position[0] | 0, SessionStorage_default.Entity.position[1] | 0, target.position[0] | 0, target.position[1] | 0, 1, [], Altitude.TYPE.WALKABLE) > 0,
+		select: (target) => {
+			const entity = EntityManager.get(target.id), previous = EntityManager.getFocusEntity();
+			if (previous && previous !== entity) previous.onFocusEnd();
+			EntityManager.setFocusEntity(entity);
+			EntityManager.setOverEntity(entity);
+			entity.onFocus({ attack: false });
+		},
+		act: (target, skill) => {
+			const entity = EntityManager.get(target.id);
+			if (!entity || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return false;
+			if (!skill) {
+				attackSelected(false, () => {
+					ownsAction = true;
+					ownedMove = SessionStorage_default.moveAction;
+				});
+				return true;
+			}
+			const current = skills().find((entry) => entry.id === skill.id && entry.available);
+			if (!current) return false;
+			stopAttack();
+			let result;
+			if (current.type & SKILL_INF.PLACE) result = SkillTargetSelection_default.onUseSkillToPos(current.id, current.level, entity.position[0], entity.position[1]);
+			else result = SkillTargetSelection_default.onUseSkillToId(current.id, current.level, target.id);
+			ownsAction = result !== false;
+			ownedMove = SessionStorage_default.moveAction;
+			return result;
+		}
+	}, loadAutoCombatSettings(settingsKey));
+	return {
+		...controller,
+		configure(species, ids, ranges, teleport) {
+			if (!controller.configure(species, ids, ranges, teleport)) return false;
+			const saved = controller.snapshot();
+			return saveAutoCombatSettings(settingsKey, {
+				species: saved.species,
+				skills: saved.skills,
+				ranges: saved.ranges,
+				teleport: saved.teleport
+			});
+		}
+	};
+}
+var init_GameAutoCombat = __esmMin((() => {
+	init_GameAutomation();
+	init_AutoCombatTeleport();
+	init_Navigation();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Renderer();
+	init_MapControl();
+	init_PathFinding();
+	init_Altitude();
+	init_SkillList();
+	init_SkillTargetSelection();
+	init_SkillUse();
+	init_SkillInfo_generated();
+	init_SkillCooldowns();
+	init_GameCommands();
+	init_AutoCombatController();
+	init_AutoCombatSettings();
+}));
+//#endregion
+//#region src/UI/Game/GameAutoCombatRuntime.js
+function isAutoCombatEngaged() {
+	return [...combatRuntimes].some((controller) => {
+		const state = controller.snapshot();
+		return state.active && !state.pausedForMovement && Boolean(state.target);
+	});
+}
+/** One map-scoped runtime shared by desktop and touch presentations. */
+function createGameAutoCombatRuntime({ enabled = () => true, isMoving = () => false, update = () => {}, onDisconnect = () => {} } = {}) {
+	let destroyed = false;
+	let movementHeld = false;
+	let resumeAt = 0;
+	const canRun = () => Boolean(!destroyed && enabled() && SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && !document.hidden && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
+	const controller = createGameAutoCombat(canRun);
+	combatRuntimes.add(controller);
+	const unregisterAutomation = registerAutomationCombat(controller);
+	const abort = new AbortController();
+	const stop = (message) => {
+		cancelAutoCombatTeleport();
+		movementHeld = false;
+		controller.stop(message);
+		update(controller.snapshot());
+	};
+	const pauseForMovement = () => {
+		controller.pauseForMovement();
+		resumeAt = performance.now() + 300;
+	};
+	const unsubscribeInput = subscribeGameInput((kind, targetId) => {
+		if (kind === "move-start") {
+			movementHeld = true;
+			pauseForMovement();
+		} else if (kind === "move-pulse") pauseForMovement();
+		else if (kind === "move-end") {
+			movementHeld = false;
+			resumeAt = performance.now() + 300;
+		} else if (kind === "attack-target") return controller.snapshot().active && controller.attackTarget(targetId);
+		else stop(kind === "skill" ? "手动施法，自动战斗已停止" : "手动操作，自动战斗已停止");
+		return false;
+	});
+	const timer = window.setInterval(() => {
+		if (SessionStorage_default.Entity?.action === SessionStorage_default.Entity?.ACTION.DIE) cancelAutoCombatTeleport();
+		if (canRun() && consumeAutoCombatTeleport()) controller.start();
+		if (canRun() && !movementHeld && !isMoving() && performance.now() >= resumeAt && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.WALK) controller.resumeAfterMovement();
+		controller.tick();
+		update(controller.snapshot());
+	}, 200);
+	window.addEventListener("blur", () => stop(), { signal: abort.signal });
+	document.addEventListener("visibilitychange", () => {
+		if (document.hidden) stop();
+	}, { signal: abort.signal });
+	const unsubscribeConnection = onConnectionEnd(() => {
+		destroy();
+		onDisconnect();
+	});
+	function destroy() {
+		if (destroyed) return;
+		destroyed = true;
+		combatRuntimes.delete(controller);
+		unregisterAutomation();
+		clearInterval(timer);
+		abort.abort();
+		unsubscribeInput();
+		unsubscribeConnection();
+		controller.stop();
+	}
+	return {
+		...controller,
+		stop,
+		pauseForMovement,
+		destroy
+	};
+}
+var combatRuntimes;
+var init_GameAutoCombatRuntime = __esmMin((() => {
+	init_GameAutomation();
+	init_AutoCombatTeleport();
+	init_SessionStorage();
+	init_GameInputIntent();
+	init_ConnectionLifecycle();
+	init_GameAutoCombat();
+	combatRuntimes = /* @__PURE__ */ new Set();
+}));
+//#endregion
+//#region src/UI/Game/PickupCatalog.js
+/** Re-entering view uses ITEM_ENTRY, which has no type. Resolve it from the existing item catalog. */
+function matchesPickupCategory(item, categories) {
+	if (!categories.length) return false;
+	if (categories.length === 4) return true;
+	if (Number.isInteger(item.type) && item.type !== ItemType_default.ARMOR) return categories.includes(pickupCategory(item.type));
+	const entry = cache.get(item.itemId);
+	if (entry?.category) return categories.includes(entry.category);
+	if (!pending$1 && (!entry || entry.retryAt <= Date.now())) {
+		pending$1 = true;
+		cache.set(item.itemId, { retryAt: Date.now() + 1e4 });
+		searchAdventureItems({
+			query: String(item.itemId),
+			perPage: 30
+		}).then((result) => {
+			const found = result.data.find((row) => row.Id === item.itemId);
+			if (found) cache.set(item.itemId, { category: types[found.Type] || "other" });
+		}).catch(() => {}).finally(() => {
+			pending$1 = false;
+		});
+	}
+	return false;
+}
+var types, cache, pending$1;
+var init_PickupCatalog = __esmMin((() => {
+	init_ItemType();
+	init_AdventureControlService();
+	init_PickupSettings$1();
+	types = {
+		Healing: "consumable",
+		Usable: "consumable",
+		DelayConsume: "consumable",
+		Cash: "consumable",
+		Weapon: "equipment",
+		Armor: "equipment",
+		ShadowGear: "equipment",
+		PetArmor: "equipment",
+		Card: "card"
+	};
+	cache = /* @__PURE__ */ new Map();
+	pending$1 = false;
+}));
+//#endregion
+//#region src/UI/Game/AutoPickupController.js
+/** Select targets only. Movement, packets and pickup rules belong to the existing interaction path. */
+function createAutoPickupController(io) {
+	let active = null, started = 0, resumeAt = 0, held = false, batch = null, deadline = 0;
+	const skipped = /* @__PURE__ */ new Map();
+	function cancelActive() {
+		if (active) io.cancel(active);
+		active = null;
+	}
+	function cancel() {
+		cancelActive();
+		batch = null;
+	}
+	function manual(kind) {
+		cancel();
+		if (kind === "move-start") held = true;
+		if (kind === "move-end") held = false;
+		resumeAt = io.now() + 1e3;
+	}
+	function candidates(items, settings, now) {
+		const position = io.position();
+		return items.filter((item) => {
+			item.distance = Math.hypot(item.position[0] - position[0], item.position[1] - position[1]);
+			return item.distance <= settings.range && (skipped.get(item.id) || 0) <= now && !settings.excluded.some((excluded) => excluded.id === item.itemId) && io.matches(item, settings.categories);
+		}).sort((a, b) => a.distance - b.distance || a.id - b.id);
+	}
+	function tick(batched = false) {
+		const now = io.now(), settings = io.settings();
+		if (!settings.enabled || !io.available()) {
+			cancel();
+			return false;
+		}
+		if (held || now < resumeAt) return false;
+		const items = io.items();
+		for (const [id, until] of skipped) if (until <= now) skipped.delete(id);
+		if (batched && !batch) {
+			batch = new Set(candidates(items, settings, now).map((item) => item.id));
+			deadline = now + settings.batchSeconds * 1e3;
+		}
+		if (batched && now >= deadline) {
+			cancel();
+			return false;
+		}
+		if (active) {
+			if (!items.some((item) => item.id === active.id)) {
+				batch?.delete(active.id);
+				cancelActive();
+				return true;
+			}
+			if (now - started < 5e3 && io.chasing(active)) return true;
+			if (now - started < 1e3) return true;
+			skipped.set(active.id, now + 5e3);
+			batch?.delete(active.id);
+			cancelActive();
+		}
+		const targets = candidates(items, settings, now).filter((item) => !batched || batch.has(item.id));
+		if (!targets.length) {
+			batch = null;
+			return false;
+		}
+		if (io.busy()) return true;
+		for (const item of targets) {
+			if (!io.reachable(item)) {
+				skipped.set(item.id, now + 5e3);
+				batch?.delete(item.id);
+				continue;
+			}
+			active = item;
+			started = now;
+			io.pick(item);
+			return true;
+		}
+		batch = null;
+		return false;
+	}
+	return {
+		tick: () => tick(false),
+		takeTurn: () => tick(true),
+		manual,
+		cancel,
+		destroy: cancel
+	};
+}
+var init_AutoPickupController = __esmMin((() => {}));
+//#endregion
+//#region src/UI/Game/GameAutoPickup.js
+function stopAutoPickup() {
+	runtime$1?.destroy();
+	runtime$1 = null;
+}
+function startAutoPickup() {
+	stopAutoPickup();
+	let queued, destroyed = false;
+	const controller = createAutoPickupController({
+		now: () => performance.now(),
+		settings: loadPickupSettings,
+		available: () => Boolean(SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && !isAutoCombatEngaged() && !isAutoCombatTeleportPending() && !document.querySelector("#PickupSettings") && !document.hidden && SessionStorage_default.Entity && ![SessionStorage_default.Entity.ACTION.DIE, SessionStorage_default.Entity.ACTION.SIT].includes(SessionStorage_default.Entity.action)),
+		position: () => SessionStorage_default.Entity.position,
+		items: () => {
+			const result = [];
+			EntityManager.forEach((entity) => {
+				if (entity.objecttype === entity.constructor.TYPE_ITEM && entity.pickupItemId && !entity.remove_tick) result.push({
+					id: entity.GID,
+					itemId: entity.pickupItemId,
+					type: entity.pickupItemType,
+					position: [...entity.position]
+				});
+			});
+			return result;
+		},
+		matches: matchesPickupCategory,
+		busy: () => Boolean(SessionStorage_default.moveAction || SessionStorage_default.autoFollow || isAutoCombatEngaged() || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.WALK || SessionStorage_default.Entity.action === SessionStorage_default.Entity.ACTION.ATTACK || SessionStorage_default.Entity.cast?.display || SessionStorage_default.Entity.amotionTick > Renderer.tick || document.querySelector("#PickupSettings") || document.querySelector("#MobileGameHUD")?.shadowRoot?.querySelector(".backdrop:not([hidden])") || document.activeElement?.matches("input, textarea")),
+		chasing: () => Boolean(queued && SessionStorage_default.moveAction === queued),
+		reachable: (item) => item.distance <= 2 || PathFinding_default.search(SessionStorage_default.Entity.position[0] | 0, SessionStorage_default.Entity.position[1] | 0, Math.round(item.position[0]), Math.round(item.position[1]), 1, [], Altitude.TYPE.WALKABLE) > 0,
+		pick: (item) => {
+			const entity = EntityManager.get(item.id);
+			if (!entity) return;
+			const previous = { ...Mouse.world };
+			try {
+				Mouse.world.x = Math.round(entity.position[0]);
+				Mouse.world.y = Math.round(entity.position[1]);
+				entity.onMouseDown();
+				queued = SessionStorage_default.moveAction?.ITAID === item.id ? SessionStorage_default.moveAction : null;
+			} finally {
+				Object.assign(Mouse.world, previous);
+			}
+		},
+		cancel: () => {
+			if (queued && SessionStorage_default.moveAction === queued) {
+				SessionStorage_default.moveAction = null;
+				if (SessionStorage_default.Playing && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.DIE) Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
+			}
+			queued = null;
+		}
+	});
+	const unsubscribe = subscribeGameInput((kind) => {
+		controller.manual(kind);
+		return false;
+	});
+	const unregisterAutomation = registerAutomationPickup(controller);
+	const timer = window.setInterval(() => {
+		if (!hasAutomationCombat()) controller.tick();
+	}, 200);
+	const settingsChanged = () => controller.cancel();
+	const blur = () => controller.manual("action");
+	window.addEventListener("happyro-pickup-settings", settingsChanged);
+	window.addEventListener("blur", blur);
+	const disconnect = onConnectionEnd(stopAutoPickup);
+	runtime$1 = { destroy() {
+		if (destroyed) return;
+		destroyed = true;
+		clearInterval(timer);
+		controller.destroy();
+		unregisterAutomation();
+		unsubscribe();
+		disconnect();
+		window.removeEventListener("happyro-pickup-settings", settingsChanged);
+		window.removeEventListener("blur", blur);
+	} };
+}
+var runtime$1;
+var init_GameAutoPickup = __esmMin((() => {
+	init_GameAutomation();
+	init_AutoCombatTeleport();
+	init_SessionStorage();
+	init_EntityManager();
+	init_Renderer();
+	init_MouseEventHandler();
+	init_NetworkManager();
+	init_PacketStructure();
+	init_PathFinding();
+	init_Altitude();
+	init_GameInputIntent();
+	init_ConnectionLifecycle();
+	init_GameAutoCombatRuntime();
+	init_PickupSettings$1();
+	init_PickupCatalog();
+	init_AutoPickupController();
 }));
 //#endregion
 //#region src/Engine/MapEngine/CompanionSkillAction.js
@@ -359211,570 +360922,6 @@ var init_GameVending = __esmMin((() => {
 	ownedStore = null;
 }));
 //#endregion
-//#region src/UI/Game/GameCommands.js
-function selectedTarget() {
-	const target = EntityManager.getFocusEntity();
-	return target && EntityManager.get(target.GID) === target && target.action !== target.ACTION.DIE ? target : null;
-}
-function canAttack(target) {
-	if (!target || target === SessionStorage_default.Entity) return false;
-	const T = target.constructor;
-	return [
-		T.TYPE_MOB,
-		T.TYPE_UNIT,
-		T.TYPE_NPC_ABR,
-		T.TYPE_NPC_BIONIC
-	].includes(target.objecttype) || [
-		T.TYPE_PC,
-		T.TYPE_ELEM,
-		T.TYPE_HOM
-	].includes(target.objecttype) && target.canAttackEntity();
-}
-function stopAttack() {
-	releaseAttack();
-	SessionStorage_default.moveAction = null;
-	if (SessionStorage_default.Playing) Network.sendPacket(new PACKET.CZ.CANCEL_LOCKON());
-}
-function attackSelected(moving = false) {
-	const target = selectedTarget();
-	if (canAttack(target)) {
-		ownAttack(target.GID, () => {
-			if (!SessionStorage_default.FreezeUI && selectedTarget() === target) target.onFocus({
-				attack: true,
-				allowMove: !moving
-			});
-		});
-		target.onFocus({
-			attack: true,
-			allowMove: !moving
-		});
-	}
-}
-function moveDirection(x, y) {
-	const player = SessionStorage_default.Entity;
-	if (!player || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
-	Navigation_default.stopAutoWalk();
-	MapControl.onRequestStopWalk();
-	SessionStorage_default.moveAction = null;
-	SessionStorage_default.autoFollow = false;
-	const angle = -Camera.direction * Math.PI / 4;
-	const dx = x * Math.cos(angle) - y * Math.sin(angle);
-	const dy = x * Math.sin(angle) + y * Math.cos(angle);
-	const dest = [];
-	if (!checkFreeCell$1(Math.round(player.position[0] + dx * 3), Math.round(player.position[1] + dy * 3), 1, dest)) return;
-	const packet = new PACKET.CZ.REQUEST_MOVE2();
-	packet.dest[0] = dest[0];
-	packet.dest[1] = dest[1];
-	Network.sendPacket(packet);
-	directionalMovementPlayer = player;
-}
-function stopDirectionalMovement() {
-	MapControl.onRequestStopWalk();
-	SessionStorage_default.moveAction = null;
-	const player = directionalMovementPlayer;
-	directionalMovementPlayer = null;
-	if (!player || player !== SessionStorage_default.Entity || !SessionStorage_default.Playing || player.action === player.ACTION.DIE || player.action === player.ACTION.SIT) return;
-	Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
-}
-function pickSceneEntity(x, y) {
-	Mouse.screen.x = x;
-	Mouse.screen.y = y;
-	return EntityManager.intersect();
-}
-function tapScene(x, y) {
-	Mouse.screen.x = x;
-	Mouse.screen.y = y;
-	const pos = [];
-	const ground = Altitude.intersect(Camera.modelView, Camera.projection, pos);
-	Mouse.world.x = ground ? pos[0] : -1;
-	Mouse.world.y = ground ? pos[1] : -1;
-	const target = EntityManager.intersect();
-	const previous = EntityManager.getFocusEntity();
-	SessionStorage_default.moveAction = null;
-	SessionStorage_default.autoFollow = false;
-	if (target && target !== SessionStorage_default.Entity) {
-		if (previous && previous !== target) previous.onFocusEnd();
-		EntityManager.setFocusEntity(target);
-		EntityManager.setOverEntity(target);
-		target.onFocus({ attack: false });
-		if ([
-			target.constructor.TYPE_ITEM,
-			target.constructor.TYPE_NPC,
-			target.constructor.TYPE_NPC2
-		].includes(target.objecttype)) interactSelected();
-		return;
-	}
-	if (ground) {
-		MapControl.onRequestWalk();
-		MapControl.onRequestStopWalk();
-	}
-}
-function interactSelected() {
-	const target = selectedTarget();
-	if (!target) return;
-	const T = target.constructor;
-	if (target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type)) {
-		target.onRoomEnter();
-		return;
-	}
-	if (target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity) {
-		UIManager.showPromptBox(`向 ${target.display.name} 发起交易？`, "ok", "cancel", () => {
-			if (SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && selectedTarget() === target) Trade_default.reqExchange(target.GID, target.display.name);
-		});
-		return;
-	}
-	if (![
-		T.TYPE_NPC,
-		T.TYPE_NPC2,
-		T.TYPE_ITEM,
-		T.TYPE_WARP
-	].includes(target.objecttype)) return;
-	Mouse.world.x = Math.round(target.position[0]);
-	Mouse.world.y = Math.round(target.position[1]);
-	target.onMouseDown();
-}
-function targetSnapshot() {
-	const target = selectedTarget();
-	if (!target) return {
-		name: "点击目标进行选择",
-		attack: false,
-		interaction: ""
-	};
-	const T = target.constructor;
-	return {
-		name: target.display.name || "已选目标",
-		attack: canAttack(target),
-		interaction: target.room?.display && [target.room.constructor.Type.BUY_SHOP, target.room.constructor.Type.SELL_SHOP].includes(target.room.type) ? "查看摊位" : target.objecttype === T.TYPE_PC && target !== SessionStorage_default.Entity ? "交易" : target.objecttype === T.TYPE_WARP ? "进入" : ""
-	};
-}
-function adjustCamera(action) {
-	const indoor = DB.isIndoor(Camera.currentMap);
-	if (action === "zoomIn" || action === "zoomOut") Camera.setZoom(action === "zoomIn" ? -1 : 1);
-	else if (action === "reset") {
-		Camera.angleFinal[0] = indoor ? Camera.indoorRange : Camera.range;
-		Camera.angleFinal[1] = indoor ? Camera.indoorRotationTo : 0;
-		Camera.zoomFinal = DEFAULT_CAMERA_ZOOM;
-	} else {
-		const tilt = action === "up" || action === "down";
-		const index = tilt ? 0 : 1;
-		const min = tilt ? indoor ? Camera.MIN_ALTITUDE_INDOOR : Camera.MIN_V_ANGLE : indoor ? Camera.indoorRotationFrom : Camera.rotationFrom;
-		const max = tilt ? indoor ? Camera.MAX_ALTITUDE_INDOOR : Camera.MAX_V_ANGLE : indoor ? Camera.indoorRotationTo : Camera.rotationTo;
-		const delta = tilt ? action === "up" ? 5 : -5 : action === "left" ? -15 : 15;
-		Camera.angleFinal[index] = Math.max(min, Math.min(max, Camera.angleFinal[index] + delta));
-	}
-	Camera.save();
-}
-var directionalMovementPlayer;
-var init_GameCommands = __esmMin((() => {
-	init_Trade$1();
-	init_UIManager();
-	init_AttackIntent();
-	init_DBManager();
-	init_SessionStorage();
-	init_EntityManager();
-	init_Camera();
-	init_Camera$1();
-	init_Altitude();
-	init_MouseEventHandler();
-	init_MapControl();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_Navigation();
-	directionalMovementPlayer = null;
-}));
-//#endregion
-//#region src/UI/Game/AutoCombatController.js
-/** Nearby combat policy. Runtime adapters own pathfinding, packets and live skill checks. */
-function createAutoCombatController(data, configuration = {
-	species: [],
-	skills: [],
-	ranges: {
-		search: 20,
-		activity: 30
-	}
-}) {
-	let active = false, pausedForMovement = false, continuous = false, preferred = null, species = configuration.species.map((entry) => ({ ...entry })), ranges = { ...configuration.ranges }, selected = [...configuration.skills], target = null, nextAction = 0;
-	let origin, lastDistance = Infinity, progressAt = 0, status = "自动战斗已停止";
-	const skipped = /* @__PURE__ */ new Map();
-	const distance = (a, b) => Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1]));
-	function stop(message = "自动战斗已停止") {
-		if (active || target) data.stop();
-		active = false;
-		pausedForMovement = false;
-		continuous = false;
-		preferred = null;
-		target = null;
-		status = message;
-	}
-	function snapshot() {
-		return {
-			active,
-			ranges: { ...ranges },
-			pausedForMovement,
-			species: species.map((entry) => ({ ...entry })),
-			skills: [...selected],
-			status,
-			target: target?.name || ""
-		};
-	}
-	function tick() {
-		if (!active) return;
-		if (!data.enabled()) {
-			stop("自动战斗已停止");
-			return;
-		}
-		if (pausedForMovement) return;
-		const now = data.now(), player = data.position();
-		for (const [id, until] of skipped) if (until <= now) skipped.delete(id);
-		const targets = data.targets().filter((entity) => (entity.id === preferred || continuous && (!species.length || species.some((entry) => entity.species === entry.id))) && distance(player, entity.position) <= ranges.search && distance(origin, entity.position) <= ranges.activity && (skipped.get(entity.id) || 0) <= now);
-		const current = target && targets.find((entity) => entity.id === target.id);
-		if (target && !current) {
-			if (!continuous) {
-				stop("目标已结束或离开，攻击已停止");
-				return;
-			}
-			preferred = null;
-			data.stop();
-			target = null;
-			nextAction = 0;
-		}
-		if (!target) {
-			targets.sort((a, b) => distance(player, a.position) - distance(player, b.position));
-			target = targets.find((entity) => data.reachable(entity)) || null;
-			if (!target) {
-				status = "等待附近目标";
-				return;
-			}
-			data.select(target);
-			lastDistance = Infinity;
-			progressAt = now;
-		} else target = current;
-		const range = distance(player, target.position);
-		if (range < lastDistance || !data.chasing()) {
-			progressAt = now;
-			lastDistance = range;
-		}
-		if (now - progressAt >= 8e3) {
-			if (!continuous) {
-				stop("目标无法接近，攻击已停止");
-				return;
-			}
-			preferred = null;
-			skipped.set(target.id, now + 3e4);
-			data.stop();
-			target = null;
-			nextAction = 0;
-			status = "目标无法接近，寻找其他目标";
-			return;
-		}
-		status = `${data.chasing() ? "接近" : "攻击"}：${target.name}`;
-		if (now < nextAction || data.busy()) return;
-		const skills = data.skills().filter((skill) => selected.includes(skill.id) && skill.available);
-		const skill = skills.length ? skills[Math.floor(data.random() * skills.length)] : null;
-		if (data.act(target, skill) === false) {
-			if (!continuous) {
-				stop("无法攻击目标");
-				return;
-			}
-			preferred = null;
-			skipped.set(target.id, now + 3e4);
-			data.stop();
-			target = null;
-		}
-		nextAction = now + 900;
-	}
-	return {
-		snapshot,
-		tick,
-		stop,
-		pauseForMovement() {
-			if (!active || pausedForMovement) return;
-			if (!continuous) {
-				stop("手动移动，攻击已停止");
-				return;
-			}
-			data.stop();
-			pausedForMovement = true;
-			target = null;
-			preferred = null;
-			status = "移动中，停止移动后继续自动战斗";
-		},
-		resumeAfterMovement() {
-			if (!active || !pausedForMovement) return;
-			pausedForMovement = false;
-			origin = [...data.position()];
-			nextAction = 0;
-			skipped.clear();
-			status = "寻找附近目标";
-		},
-		start() {
-			if (!data.enabled()) return false;
-			data.stop();
-			origin = [...data.position()];
-			active = true;
-			pausedForMovement = false;
-			continuous = true;
-			preferred = null;
-			target = null;
-			nextAction = 0;
-			skipped.clear();
-			status = "寻找附近目标";
-			tick();
-			return true;
-		},
-		attackTarget(id) {
-			if (!data.enabled()) return false;
-			const choice = data.targets().find((entity) => entity.id === id);
-			if (!choice || !data.reachable(choice)) return false;
-			continuous = active && continuous;
-			data.stop();
-			active = true;
-			pausedForMovement = false;
-			preferred = id;
-			target = choice;
-			origin = [...data.position()];
-			nextAction = 0;
-			lastDistance = Infinity;
-			progressAt = data.now();
-			skipped.delete(id);
-			data.select(target);
-			tick();
-			return true;
-		},
-		configure(nextSpecies, ids, nextRanges) {
-			const limits = AUTO_COMBAT_RANGE_LIMITS;
-			if (!Number.isInteger(nextRanges.search) || !Number.isInteger(nextRanges.activity) || nextRanges.search < limits.min || nextRanges.search > limits.searchMax || nextRanges.activity < nextRanges.search || nextRanges.activity > limits.activityMax) return false;
-			stop();
-			ranges = { ...nextRanges };
-			species = [...new Map(nextSpecies.map((entry) => [entry.id, {
-				id: entry.id,
-				name: entry.name
-			}])).values()];
-			const learned = new Set(data.skills().map((skill) => skill.id));
-			selected = [...new Set(ids)].filter((id) => learned.has(id));
-			return true;
-		},
-		skills: () => data.skills(),
-		targets: () => data.targets()
-	};
-}
-var AUTO_COMBAT_RANGE_LIMITS;
-var init_AutoCombatController = __esmMin((() => {
-	AUTO_COMBAT_RANGE_LIMITS = {
-		min: 1,
-		searchMax: 50,
-		activityMax: 100
-	};
-}));
-//#endregion
-//#region src/UI/Game/AutoCombatSettings.js
-/** Only preferences are persisted, never an active battle or a temporary target. */
-function loadAutoCombatSettings(key) {
-	try {
-		const saved = JSON.parse(localStorage.getItem(key));
-		const limits = AUTO_COMBAT_RANGE_LIMITS;
-		if (!saved || !Array.isArray(saved.species) || !Array.isArray(saved.skills) || !saved.ranges) return;
-		if (!saved.species.every((entry) => entry && Number.isInteger(entry.id) && entry.id > 0 && typeof entry.name === "string")) return;
-		if (!saved.skills.every((id) => Number.isInteger(id) && id > 0)) return;
-		const { search, activity } = saved.ranges;
-		if (!Number.isInteger(search) || !Number.isInteger(activity) || search < limits.min || search > limits.searchMax || activity < search || activity > limits.activityMax) return;
-		return {
-			species: saved.species,
-			skills: saved.skills,
-			ranges: {
-				search,
-				activity
-			}
-		};
-	} catch {
-		return;
-	}
-}
-function saveAutoCombatSettings(key, settings) {
-	try {
-		localStorage.setItem(key, JSON.stringify(settings));
-		return true;
-	} catch {
-		return false;
-	}
-}
-var init_AutoCombatSettings = __esmMin((() => {
-	init_AutoCombatController();
-}));
-//#endregion
-//#region src/UI/Game/GameAutoCombat.js
-function createGameAutoCombat(enabled) {
-	const settingsKey = `HappyRO.AutoCombat:${JSON.stringify([
-		SessionStorage_default.ServerName,
-		SessionStorage_default.AID,
-		SessionStorage_default.GID
-	])}`;
-	function targets() {
-		const result = [];
-		EntityManager.forEach((entity) => {
-			if (entity.objecttype !== entity.constructor.TYPE_MOB || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return;
-			result.push({
-				id: entity.GID,
-				species: entity.job,
-				name: entity.display.name,
-				position: [...entity.position]
-			});
-		});
-		return result;
-	}
-	function skills() {
-		return Controller$4.getUI().getSkills().filter((skill) => canExecuteSkill(skill) && skill.type & (SKILL_INF.ENEMY | SKILL_INF.PLACE)).map((skill) => {
-			const reason = remainingCooldown(skill.SKID) > 0 ? "冷却中" : skill.spcost > SessionStorage_default.Entity.life.sp ? "SP 不足" : "";
-			return {
-				id: skill.SKID,
-				name: SkillInfo_generated_default[skill.SKID]?.SkillName || `技能 ${skill.SKID}`,
-				level: skill.level,
-				type: skill.type,
-				available: !reason,
-				reason
-			};
-		});
-	}
-	function stop() {
-		Navigation_default.stopAutoWalk();
-		SkillTargetSelection_default.remove();
-		const chasing = Boolean(SessionStorage_default.moveAction);
-		stopAttack();
-		if (chasing && SessionStorage_default.Playing && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE) Network.sendPacket(new PACKET.CZ.HAPPYRO_STOP_MOVE());
-		MapControl.onRequestStopWalk();
-		SessionStorage_default.autoFollow = false;
-	}
-	const controller = createAutoCombatController({
-		enabled: () => enabled() && !SessionStorage_default.Entity?.isOverWeight && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.SIT,
-		now: () => performance.now(),
-		random: Math.random,
-		position: () => SessionStorage_default.Entity.position,
-		targets,
-		skills,
-		stop,
-		chasing: () => Boolean(SessionStorage_default.moveAction),
-		busy: () => Boolean(SessionStorage_default.moveAction || SessionStorage_default.Entity.cast?.display || SessionStorage_default.Entity.amotionTick > Renderer.tick),
-		reachable: (target) => PathFinding_default.search(SessionStorage_default.Entity.position[0] | 0, SessionStorage_default.Entity.position[1] | 0, target.position[0] | 0, target.position[1] | 0, 1, [], Altitude.TYPE.WALKABLE) > 0,
-		select: (target) => {
-			const entity = EntityManager.get(target.id), previous = EntityManager.getFocusEntity();
-			if (previous && previous !== entity) previous.onFocusEnd();
-			EntityManager.setFocusEntity(entity);
-			EntityManager.setOverEntity(entity);
-			entity.onFocus({ attack: false });
-		},
-		act: (target, skill) => {
-			const entity = EntityManager.get(target.id);
-			if (!entity || entity.action === entity.ACTION.DIE || entity.remove_tick > 0) return false;
-			if (!skill) {
-				attackSelected();
-				return true;
-			}
-			const current = skills().find((entry) => entry.id === skill.id && entry.available);
-			if (!current) return false;
-			stopAttack();
-			if (current.type & SKILL_INF.PLACE) return SkillTargetSelection_default.onUseSkillToPos(current.id, current.level, entity.position[0], entity.position[1]);
-			return SkillTargetSelection_default.onUseSkillToId(current.id, current.level, target.id);
-		}
-	}, loadAutoCombatSettings(settingsKey));
-	return {
-		...controller,
-		configure(species, ids, ranges) {
-			if (!controller.configure(species, ids, ranges)) return false;
-			const saved = controller.snapshot();
-			return saveAutoCombatSettings(settingsKey, {
-				species: saved.species,
-				skills: saved.skills,
-				ranges: saved.ranges
-			});
-		}
-	};
-}
-var init_GameAutoCombat = __esmMin((() => {
-	init_Navigation();
-	init_NetworkManager();
-	init_PacketStructure();
-	init_SessionStorage();
-	init_EntityManager();
-	init_Renderer();
-	init_MapControl();
-	init_PathFinding();
-	init_Altitude();
-	init_SkillList();
-	init_SkillTargetSelection();
-	init_SkillUse();
-	init_SkillInfo_generated();
-	init_SkillCooldowns();
-	init_GameCommands();
-	init_AutoCombatController();
-	init_AutoCombatSettings();
-}));
-//#endregion
-//#region src/UI/Game/GameAutoCombatRuntime.js
-/** One map-scoped runtime shared by desktop and touch presentations. */
-function createGameAutoCombatRuntime({ enabled = () => true, isMoving = () => false, update = () => {}, onDisconnect = () => {} } = {}) {
-	let destroyed = false;
-	let movementHeld = false;
-	let resumeAt = 0;
-	const canRun = () => Boolean(!destroyed && enabled() && SessionStorage_default.Playing && !SessionStorage_default.FreezeUI && !document.hidden && SessionStorage_default.Entity && SessionStorage_default.Entity.action !== SessionStorage_default.Entity.ACTION.DIE);
-	const controller = createGameAutoCombat(canRun);
-	const abort = new AbortController();
-	const stop = (message) => {
-		movementHeld = false;
-		controller.stop(message);
-		update(controller.snapshot());
-	};
-	const pauseForMovement = () => {
-		controller.pauseForMovement();
-		resumeAt = performance.now() + 300;
-	};
-	const unsubscribeInput = subscribeGameInput((kind, targetId) => {
-		if (kind === "move-start") {
-			movementHeld = true;
-			pauseForMovement();
-		} else if (kind === "move-pulse") pauseForMovement();
-		else if (kind === "move-end") {
-			movementHeld = false;
-			resumeAt = performance.now() + 300;
-		} else if (kind === "attack-target") return controller.snapshot().active && controller.attackTarget(targetId);
-		else stop(kind === "skill" ? "手动施法，自动战斗已停止" : "手动操作，自动战斗已停止");
-		return false;
-	});
-	const timer = window.setInterval(() => {
-		if (canRun() && !movementHeld && !isMoving() && performance.now() >= resumeAt && SessionStorage_default.Entity?.action !== SessionStorage_default.Entity?.ACTION.WALK) controller.resumeAfterMovement();
-		controller.tick();
-		update(controller.snapshot());
-	}, 200);
-	window.addEventListener("blur", () => stop(), { signal: abort.signal });
-	document.addEventListener("visibilitychange", () => {
-		if (document.hidden) stop();
-	}, { signal: abort.signal });
-	const unsubscribeConnection = onConnectionEnd(() => {
-		destroy();
-		onDisconnect();
-	});
-	function destroy() {
-		if (destroyed) return;
-		destroyed = true;
-		clearInterval(timer);
-		abort.abort();
-		unsubscribeInput();
-		unsubscribeConnection();
-		stop();
-	}
-	return {
-		...controller,
-		stop,
-		pauseForMovement,
-		destroy
-	};
-}
-var init_GameAutoCombatRuntime = __esmMin((() => {
-	init_SessionStorage();
-	init_GameInputIntent();
-	init_ConnectionLifecycle();
-	init_GameAutoCombat();
-}));
-//#endregion
 //#region src/UI/Components/Feedback.js
 /** Explicit actions may repeat; polling must not replay or erase their notification. */
 function createFeedback(container) {
@@ -359805,6 +360952,10 @@ var init_Feedback = __esmMin((() => {
 function createAutoCombatPanel(body, actions) {
 	const state = actions.snapshot();
 	const ranges = { ...state.ranges };
+	const teleport = {
+		...AUTO_COMBAT_TELEPORT_DEFAULTS,
+		...state.teleport
+	};
 	body.innerHTML = `
 		<div class="auto-layout">
 			<section class="auto-target-section" aria-labelledby="auto-target-title">
@@ -359815,7 +360966,14 @@ function createAutoCombatPanel(body, actions) {
 				<section class="auto-range-settings" aria-labelledby="auto-range-title">
 					<h4 id="auto-range-title">范围设置 <span data-range-summary></span></h4>
 					<div data-range-controls></div>
-					<p class="auto-help">搜怪：角色周围距离。活动：距本轮起点的最大距离，手动移动后重设起点。范围内没有魔物时原地等待。</p>
+					<p class="auto-help">搜怪：角色周围的搜索距离。活动：距本轮起点的最大距离；手动移动或瞬移后重设起点。</p>
+				</section>
+				<section class="auto-teleport-settings" aria-labelledby="auto-teleport-title">
+					<h4 id="auto-teleport-title">自动瞬移</h4>
+					<label class="auto-teleport-toggle"><span>无目标时随机瞬移</span><input type="checkbox" data-auto-teleport></label>
+					<div data-teleport-controls></div>
+					<p class="auto-help">使用冒险工具能力。没有战斗目标和可拾取物品时，等待后随机瞬移。</p>
+					<p class="auto-help">仍受地图限制和服务器冷却约束。</p>
 				</section>
 			</section>
 			<section class="auto-skill-section" aria-labelledby="auto-skills-title">
@@ -359868,6 +361026,60 @@ function createAutoCombatPanel(body, actions) {
 		row.append(label, stepper);
 		$("[data-range-controls]").append(row);
 	}
+	const teleportToggle = $("[data-auto-teleport]");
+	teleportToggle.checked = teleport.enabled;
+	const refreshTeleport = () => {
+		for (const button of body.querySelectorAll("[data-teleport-key]")) {
+			const key = button.dataset.teleportKey;
+			const min = 1;
+			const max = key === "waitSeconds" ? 60 : 300;
+			button.disabled = !teleport.enabled || (Number(button.dataset.delta) < 0 ? teleport[key] <= min : teleport[key] >= max);
+		}
+		for (const output of body.querySelectorAll("[data-teleport-value]")) output.value = `${teleport[output.dataset.teleportValue]} 秒`;
+	};
+	teleportToggle.onchange = () => {
+		teleport.enabled = teleportToggle.checked;
+		refreshTeleport();
+	};
+	for (const [key, title, min, max] of [[
+		"waitSeconds",
+		"无目标等待",
+		1,
+		60
+	], [
+		"intervalSeconds",
+		"最短瞬移间隔",
+		1,
+		300
+	]]) {
+		const row = document.createElement("div");
+		row.className = "auto-range-row";
+		const label = document.createElement("span");
+		label.textContent = title;
+		const stepper = document.createElement("div");
+		stepper.className = "auto-range-stepper";
+		stepper.setAttribute("role", "group");
+		stepper.setAttribute("aria-label", title);
+		const output = document.createElement("output");
+		output.dataset.teleportValue = key;
+		for (const delta of [-1, 1]) {
+			const button = document.createElement("button");
+			button.type = "button";
+			button.textContent = delta < 0 ? "−" : "+";
+			button.dataset.teleportKey = key;
+			button.dataset.delta = String(delta);
+			button.setAttribute("aria-label", `${delta < 0 ? "减小" : "增大"}${title}`);
+			button.onclick = () => {
+				teleport[key] = Math.max(min, Math.min(max, teleport[key] + delta));
+				refreshTeleport();
+			};
+			stepper.append(button);
+			if (delta < 0) stepper.append(output);
+		}
+		row.append(label, stepper);
+		$("[data-teleport-controls]").append(row);
+	}
+	refreshTeleport();
 	const species = new Map(state.species.map((entry) => [entry.id, entry.name]));
 	for (const target of actions.targets()) species.set(target.species, target.name);
 	const chosenSpecies = new Set(state.species.map((entry) => entry.id));
@@ -360005,7 +361217,7 @@ function createAutoCombatPanel(body, actions) {
 		updateSummary();
 	};
 	function save() {
-		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }) === false) {
+		if (actions.configure(selectedSpecies(), selectedSkills(), { ...ranges }, { ...teleport }) === false) {
 			feedback("配置保存失败，请检查范围或重试", "error");
 			return;
 		}
@@ -360105,16 +361317,10 @@ var init_AutoCombatView = __esmMin((() => {
 	init_AutoCombatPanel$1();
 }));
 //#endregion
-//#region src/UI/Components/AutoCombat/AutoCombat.css?raw
-var AutoCombat_default$1;
-var init_AutoCombat$1 = __esmMin((() => {
-	AutoCombat_default$1 = ":host {\r\n	position: fixed !important;\r\n	right: 16px;\r\n	bottom: 24px;\r\n	pointer-events: none;\r\n	color: #f4f0e6;\r\n	font:\r\n		13px Arial,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	font: inherit;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	padding: 7px 12px;\r\n	cursor: pointer;\r\n}\r\nbutton:hover {\r\n	border-color: #ceaa70;\r\n}\r\nbutton:focus-visible,\r\ninput:focus-visible {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	opacity: 0.45;\r\n	cursor: default;\r\n}\r\n.combat-bar {\r\n	width: 260px;\r\n	max-width: calc(100vw - 32px);\r\n	padding: 10px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 10px;\r\n	background: #18212bf2;\r\n	box-shadow: 0 3px 12px #0005;\r\n	pointer-events: auto;\r\n}\r\n.combat-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.combat-actions button {\r\n	flex: 1;\r\n}\r\n[data-toggle][aria-pressed='true'] {\r\n	border-color: #ceaa70;\r\n	background: #493c26;\r\n}\r\n.combat-status {\r\n	display: block;\r\n	margin-top: 8px;\r\n	color: #ceaa70;\r\n	overflow-wrap: anywhere;\r\n	font-size: 12px;\r\n}\r\n.combat-backdrop {\r\n	position: fixed;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0006;\r\n	pointer-events: auto;\r\n	padding: 16px;\r\n}\r\n.combat-dialog {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(760px, 100%);\r\n	height: min(560px, 100%);\r\n	max-height: calc(100dvh - 32px);\r\n	padding: 16px;\r\n	gap: 14px;\r\n	background: #18212b;\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 8px 32px #0008;\r\n}\r\n.combat-dialog header {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n}\r\n.combat-dialog h2 {\r\n	margin: 0;\r\n	font-size: 17px;\r\n}\r\n";
-}));
-//#endregion
 //#region src/UI/Game/AutoCombatPanel.css?raw
 var AutoCombatPanel_default;
 var init_AutoCombatPanel = __esmMin((() => {
-	AutoCombatPanel_default = ".auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n.auto-range-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.auto-skill-list { touch-action: pan-y; }\r\n.auto-skill-card { width: 100%; text-align: left; touch-action: pan-y; user-select: none; }\r\n.auto-skill-card .auto-species-check { font-style: normal; }\r\n.auto-skill-card[aria-checked='true'] .auto-species-check { background: #ceaa70; border-color: #ceaa70; color: #18212b; }\r\n.auto-skill-card[aria-checked='true'] .auto-species-check::after { content: '✓'; }\r\n";
+	AutoCombatPanel_default = ".auto-config-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	gap: 12px;\r\n}\r\n.auto-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr);\r\n	gap: 14px;\r\n	flex: 1;\r\n	min-height: 0;\r\n}\r\n.auto-target-section {\r\n	overflow: auto;\r\n	min-width: 0;\r\n}\r\n.auto-layout h3 {\r\n	font-size: 12px;\r\n	margin: 0;\r\n}\r\n.auto-species-list {\r\n	display: grid;\r\n	gap: 6px;\r\n	margin-bottom: 8px;\r\n	font-size: 11px;\r\n}\r\n.auto-species-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	width: 100%;\r\n	min-height: 44px;\r\n	padding: 8px;\r\n	text-align: left;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-species-check {\r\n	width: 16px;\r\n	height: 16px;\r\n	flex-shrink: 0;\r\n	border: 1px solid #bac4cd;\r\n	border-radius: 3px;\r\n	display: grid;\r\n	place-items: center;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-species-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n.auto-species-card span {\r\n	overflow-wrap: anywhere;\r\n	min-width: 0;\r\n}\r\n[data-all-species] {\r\n	margin-top: 10px;\r\n}\r\n.auto-target-section > button {\r\n	width: 100%;\r\n	min-height: 36px;\r\n}\r\n.auto-help {\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n	line-height: 1.5;\r\n	margin: 8px 0;\r\n}\r\n.auto-skill-section {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	min-width: 0;\r\n}\r\n.auto-section-heading {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 8px;\r\n	margin-bottom: 10px;\r\n}\r\n[data-skill-count] {\r\n	font-size: 10px;\r\n	color: #bac4cd;\r\n}\r\n[data-normal-attack] {\r\n	min-height: 34px;\r\n	flex-shrink: 0;\r\n}\r\n[data-normal-attack][aria-pressed='true'],\r\n.auto-skill-card[aria-checked='true'] {\r\n	background: #493c26;\r\n	border-color: #ceaa70;\r\n}\r\n.auto-skill-list {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	min-height: 0;\r\n	font-size: 11px;\r\n}\r\n.auto-skill-card {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 7px;\r\n	padding: 8px;\r\n	min-height: 48px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	background: #18212b;\r\n	cursor: pointer;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-skill-card span {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) max-content;\r\n	align-items: baseline;\r\n	gap: 3px 6px;\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.auto-skill-reason {\r\n	grid-column: 1 / -1;\r\n}\r\n.auto-skill-card strong {\r\n	font-size: 11px;\r\n	font-weight: 500;\r\n}\r\n.auto-skill-card small {\r\n	color: #bac4cd;\r\n	font-size: 10px;\r\n}\r\n.auto-config-footer {\r\n	display: flex;\r\n	justify-content: space-between;\r\n	align-items: center;\r\n	gap: 12px;\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #65717b;\r\n	padding-top: 10px;\r\n}\r\n.auto-config-footer > div {\r\n	display: grid;\r\n	gap: 3px;\r\n	min-width: 0;\r\n}\r\n[data-auto-summary] {\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n[data-auto-feedback] {\r\n	font-size: 10px;\r\n	color: #ceaa70;\r\n}\r\n[data-save-auto] {\r\n	min-height: 36px;\r\n	flex-shrink: 0;\r\n	background: #493c26;\r\n	border: 1px solid #ceaa70;\r\n	border-radius: 6px;\r\n	padding: 6px 14px;\r\n}\r\n@media (max-width: 520px) {\r\n	.auto-skill-list {\r\n		grid-template-columns: minmax(0, 1fr);\r\n	}\r\n}\r\n\r\n.auto-range-settings,\r\n.auto-teleport-settings {\r\n	border: 1px solid #65717b;\r\n	border-radius: 8px;\r\n	padding: 8px;\r\n	margin: 8px 0;\r\n	font-size: 11px;\r\n}\r\n.auto-range-settings h4,\r\n.auto-teleport-settings h4 {\r\n	margin: 0;\r\n	font: inherit;\r\n	font-weight: 600;\r\n	line-height: 1.5;\r\n}\r\n[data-range-summary] {\r\n	color: #ceaa70;\r\n	margin-left: 4px;\r\n	white-space: nowrap;\r\n}\r\n.auto-range-row {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 6px;\r\n	margin-top: 8px;\r\n}\r\n.auto-range-stepper {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 4px;\r\n}\r\n.auto-range-stepper button {\r\n	width: 34px;\r\n	height: 34px;\r\n	border: 1px solid #65717b;\r\n	border-radius: 6px;\r\n	background: #18212b;\r\n	font-size: 16px;\r\n}\r\n.auto-range-stepper output {\r\n	min-width: 44px;\r\n	text-align: center;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n\r\n.auto-skill-list {\r\n	touch-action: pan-y;\r\n}\r\n.auto-skill-card {\r\n	width: 100%;\r\n	text-align: left;\r\n	touch-action: pan-y;\r\n	user-select: none;\r\n}\r\n.auto-skill-card .auto-species-check {\r\n	font-style: normal;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check {\r\n	background: #ceaa70;\r\n	border-color: #ceaa70;\r\n	color: #18212b;\r\n}\r\n.auto-skill-card[aria-checked='true'] .auto-species-check::after {\r\n	content: '✓';\r\n}\r\n\r\n.auto-teleport-settings {\r\n	margin-top: 12px;\r\n}\r\n.auto-teleport-toggle {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-height: 44px;\r\n	cursor: pointer;\r\n}\r\n.auto-teleport-toggle input {\r\n	width: 18px;\r\n	height: 18px;\r\n	margin: 0;\r\n	flex-shrink: 0;\r\n	accent-color: #ceaa70;\r\n}\r\n.auto-teleport-settings .auto-help {\r\n	margin-bottom: 0;\r\n}\r\n";
 }));
 //#endregion
 //#region src/UI/Components/AutoCombat/AutoCombat.js
@@ -360610,171 +361816,6 @@ var init_AdventureTools = __esmMin((() => {
 		view$1 = null;
 	};
 	AdventureTools_default = UIManager.addComponent(Tools);
-}));
-//#endregion
-//#region src/UI/Game/GameSettings.js
-function settingsSnapshot(defaults = false) {
-	return {
-		graphics: Object.fromEntries(graphicsFields.map(([key]) => [key, (defaults ? GraphicsSettings.defaults : GraphicsSettings)[key]])),
-		interface: { toastDuration: (defaults ? defaultInterfaceSettings : Interface_default).toastDuration },
-		audio: Object.fromEntries(["BGM", "Sound"].map((key) => [key, defaults ? {
-			play: true,
-			volume: .5
-		} : {
-			play: Audio_default[key].play,
-			volume: Audio_default[key].volume
-		}]))
-	};
-}
-function saveGameSettings(draft) {
-	if (!Number.isInteger(draft?.interface?.toastDuration) || draft.interface.toastDuration < 1 || draft.interface.toastDuration > 10) return "通知时长须为 1–10 秒";
-	for (const [key, , range, max] of graphicsFields) {
-		const value = draft?.graphics?.[key];
-		if (range === void 0 ? typeof value !== "boolean" : Array.isArray(range) ? !range.includes(value) : !Number.isFinite(value) || value < range || value > max) return "设置值无效，未保存";
-	}
-	for (const key of ["BGM", "Sound"]) {
-		const value = draft?.audio?.[key];
-		if (!value || typeof value.play !== "boolean" || !Number.isFinite(value.volume) || value.volume < 0 || value.volume > 1) return "音量无效，未保存";
-	}
-	const previous = settingsSnapshot();
-	for (const [key] of graphicsFields) GraphicsSettings[key] = draft.graphics[key];
-	for (const key of ["BGM", "Sound"]) Object.assign(Audio_default[key], draft.audio[key]);
-	Interface_default.toastDuration = draft.interface.toastDuration;
-	Interface_default.save();
-	GraphicsSettings.save();
-	Audio_default.save();
-	if (previous.graphics.quality !== GraphicsSettings.quality) {
-		Configs.set("quality", GraphicsSettings.quality);
-		Renderer.resize();
-	}
-	document.body.classList.toggle("custom-cursor", GraphicsSettings.cursor);
-	if (previous.audio.Sound.play !== Audio_default.Sound.play || previous.audio.Sound.volume !== Audio_default.Sound.volume) {
-		SoundManager.setVolume(Audio_default.Sound.volume);
-		if (!Audio_default.Sound.play) SoundManager.stop();
-	}
-	if (previous.audio.BGM.volume !== Audio_default.BGM.volume) BGM.setVolume(Audio_default.BGM.volume);
-	if (previous.audio.BGM.play !== Audio_default.BGM.play) {
-		if (Audio_default.BGM.play) {
-			if (BGM.filename) BGM.play(BGM.filename);
-		} else BGM.stop();
-	}
-	return previous.graphics.pixelPerfectSprites !== GraphicsSettings.pixelPerfectSprites ? "已保存，像素完美需刷新生效" : "设置已保存";
-}
-var graphicsFields;
-var init_GameSettings = __esmMin((() => {
-	init_Interface();
-	init_Graphics();
-	init_Audio();
-	init_Configs();
-	init_Renderer();
-	init_BGM();
-	init_SoundManager();
-	graphicsFields = [
-		[
-			"quality",
-			"渲染比例",
-			25,
-			100,
-			5
-		],
-		[
-			"fpslimit",
-			"帧率上限",
-			[
-				-1,
-				30,
-				60,
-				90,
-				120
-			]
-		],
-		["performanceMode", "性能模式"],
-		[
-			"viewArea",
-			"显示范围",
-			4,
-			20,
-			1
-		],
-		["cursor", "游戏光标"],
-		["pixelPerfectSprites", "像素完美（重新加载后完全生效）"],
-		["bloom", "泛光"],
-		[
-			"bloomIntensity",
-			"泛光强度",
-			.1,
-			3,
-			.05
-		],
-		["blur", "景深"],
-		[
-			"blurArea",
-			"景深范围",
-			3,
-			20,
-			1
-		],
-		[
-			"blurIntensity",
-			"景深强度",
-			2,
-			10,
-			.1
-		],
-		["fxaaEnabled", "抗锯齿"],
-		[
-			"fxaaSubpix",
-			"亚像素抗锯齿",
-			0,
-			1,
-			.05
-		],
-		[
-			"fxaaEdgeThreshold",
-			"边缘阈值",
-			.063,
-			.333,
-			.001
-		],
-		["vibranceEnabled", "自然饱和度"],
-		[
-			"vibrance",
-			"饱和强度",
-			-.9,
-			.9,
-			.1
-		],
-		["cartoonEnabled", "卡通效果"],
-		[
-			"cartoonPower",
-			"卡通强度",
-			.1,
-			9.9,
-			.1
-		],
-		[
-			"cartoonEdgeSlope",
-			"描边强度",
-			1.5,
-			5.9,
-			.1
-		],
-		["casEnabled", "锐化"],
-		[
-			"casContrast",
-			"锐化对比度",
-			0,
-			1,
-			.05
-		],
-		[
-			"casSharpening",
-			"锐化强度",
-			0,
-			1,
-			.05
-		]
-	];
 }));
 //#endregion
 //#region src/UI/Game/GameBank.js
@@ -363236,213 +364277,6 @@ var init_MailPanel$1 = __esmMin((() => {
 	init_Confirmation();
 	init_ListItemText();
 	init_RagnarokText();
-}));
-//#endregion
-//#region src/UI/Mobile/game/SettingsPanel.js
-/** Graphics/audio use a draft; camera adjustments take effect immediately. */
-function createSettingsPanel(body, service) {
-	let draft = service.snapshot();
-	let activeSection = "画面";
-	const notify = (message) => showToast(body, message);
-	function render() {
-		body.replaceChildren();
-		const form = document.createElement("form");
-		form.className = "settings-form";
-		form.onsubmit = (event) => event.preventDefault();
-		const tabs = document.createElement("div");
-		tabs.className = "settings-tabs";
-		tabs.setAttribute("role", "group");
-		tabs.setAttribute("aria-label", "设置分类");
-		const content = document.createElement("div");
-		content.className = "settings-content";
-		const sections = /* @__PURE__ */ new Map();
-		for (const name of [
-			"画面",
-			"特效",
-			"声音",
-			"镜头"
-		]) {
-			const section = document.createElement("section");
-			section.className = "settings-section";
-			section.setAttribute("aria-label", name);
-			section.hidden = name !== activeSection;
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = name;
-			button.setAttribute("aria-pressed", String(name === activeSection));
-			button.onclick = () => {
-				activeSection = name;
-				for (const [label, entry] of sections) {
-					entry.section.hidden = label !== name;
-					entry.button.setAttribute("aria-pressed", String(label === name));
-				}
-				content.scrollTop = 0;
-				footer.hidden = name === "镜头";
-			};
-			sections.set(name, {
-				section,
-				button
-			});
-			tabs.append(button);
-			content.append(section);
-		}
-		form.append(tabs, content);
-		const field = (section, label, input) => {
-			const row = document.createElement("label");
-			row.className = "settings-field";
-			const caption = document.createElement("span");
-			caption.textContent = label;
-			row.append(caption, input);
-			sections.get(section).section.append(row);
-			return row;
-		};
-		const displayKeys = [
-			"quality",
-			"fpslimit",
-			"performanceMode",
-			"viewArea",
-			"cursor",
-			"pixelPerfectSprites"
-		];
-		for (const [key, label, range, max, step] of service.fields) {
-			const input = document.createElement(Array.isArray(range) ? "select" : "input");
-			input.dataset.setting = key;
-			if (Array.isArray(range)) {
-				for (const value of range) {
-					const option = document.createElement("option");
-					option.value = String(value);
-					option.textContent = value === -1 ? "不限制" : String(value);
-					input.append(option);
-				}
-				input.value = String(draft.graphics[key]);
-			} else if (range === void 0) {
-				input.type = "checkbox";
-				input.checked = draft.graphics[key];
-			} else {
-				input.type = "number";
-				input.min = range;
-				input.max = max;
-				input.step = step;
-				input.value = draft.graphics[key];
-				input.inputMode = "decimal";
-			}
-			input.oninput = () => {
-				draft.graphics[key] = input.type === "checkbox" ? input.checked : Number(input.value);
-			};
-			field(displayKeys.includes(key) ? "画面" : "特效", key === "quality" ? "渲染比例（%）" : label, input);
-		}
-		const duration = document.createElement("input");
-		duration.type = "number";
-		duration.min = 1;
-		duration.max = 10;
-		duration.step = 1;
-		duration.dataset.setting = "toastDuration";
-		duration.value = draft.interface.toastDuration;
-		duration.oninput = () => {
-			draft.interface.toastDuration = Number(duration.value);
-		};
-		field("画面", "通知显示时长（秒）", duration);
-		for (const [key, name] of [["BGM", "背景音乐"], ["Sound", "音效"]]) {
-			const enabled = document.createElement("input");
-			enabled.type = "checkbox";
-			enabled.checked = draft.audio[key].play;
-			enabled.dataset.audio = key;
-			enabled.oninput = () => {
-				draft.audio[key].play = enabled.checked;
-			};
-			field("声音", name, enabled);
-			const volume = document.createElement("input");
-			volume.type = "range";
-			volume.min = 0;
-			volume.max = 100;
-			volume.step = 1;
-			volume.value = draft.audio[key].volume * 100;
-			volume.oninput = () => {
-				draft.audio[key].volume = Number(volume.value) / 100;
-			};
-			const row = field("声音", name + "音量", volume);
-			row.classList.add("settings-volume");
-			const value = document.createElement("span");
-			value.className = "settings-volume-value";
-			value.textContent = `${volume.value}%`;
-			volume.addEventListener("input", () => {
-				value.textContent = `${volume.value}%`;
-			});
-			row.append(value);
-		}
-		for (const name of [
-			"画面",
-			"特效",
-			"声音"
-		]) {
-			const section = sections.get(name).section;
-			const rows = [...section.children];
-			const switches = rows.filter((row) => row.querySelector("input[type=\"checkbox\"]"));
-			const values = rows.filter((row) => !row.querySelector("input[type=\"checkbox\"]"));
-			switches[0]?.classList.add("settings-switch-start");
-			section.append(...values, ...switches);
-		}
-		const camera = sections.get("镜头").section;
-		camera.classList.add("camera-section");
-		const cameraButton = (label, action) => {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = label;
-			button.onclick = () => service.camera(action);
-			return button;
-		};
-		const reset = cameraButton("重置镜头", "reset");
-		reset.className = "camera-reset";
-		camera.append(reset);
-		for (const [name, actions] of [
-			["旋转", [["左转", "left"], ["右转", "right"]]],
-			["缩放", [["拉近", "zoomIn"], ["拉远", "zoomOut"]]],
-			["高度", [["抬高", "up"], ["降低", "down"]]]
-		]) {
-			const group = document.createElement("div");
-			group.className = "camera-group";
-			group.setAttribute("role", "group");
-			group.setAttribute("aria-label", name);
-			const controls = document.createElement("div");
-			controls.className = "camera-controls";
-			for (const [label, action] of actions) controls.append(cameraButton(label, action));
-			group.append(controls);
-			camera.append(group);
-		}
-		const footer = document.createElement("div");
-		footer.className = "settings-footer";
-		footer.hidden = activeSection === "镜头";
-		const buttons = document.createElement("div");
-		buttons.className = "settings-actions";
-		for (const [label, action] of [["保存", () => {
-			notify(service.save(draft));
-		}], ["恢复默认", () => {
-			confirmAction(body, "确认恢复全部画面、特效和声音设置为默认值？", () => {
-				const message = service.save(service.snapshot(true));
-				draft = service.snapshot();
-				render();
-				notify(message);
-				body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
-			}, {});
-		}]]) {
-			const button = document.createElement("button");
-			button.type = "button";
-			button.textContent = label;
-			button.onclick = () => {
-				action();
-				if (!form.isConnected) body.querySelector(".settings-tabs [aria-pressed=true]")?.focus();
-			};
-			buttons.append(button);
-		}
-		footer.append(buttons);
-		form.append(footer);
-		body.append(form);
-	}
-	render();
-}
-var init_SettingsPanel = __esmMin((() => {
-	init_Confirmation();
-	init_Toast();
 }));
 //#endregion
 //#region src/UI/Mobile/game/BankPanel.js
@@ -365960,12 +366794,6 @@ var init_GameHUD$1 = __esmMin((() => {
 	GameHUD_default$1 = ":host {\r\n	/* Keep text metrics stable when the mobile keyboard changes the viewport. */\r\n	-webkit-text-size-adjust: 100%;\r\n	text-size-adjust: 100%;\r\n	position: fixed !important;\r\n	inset: 0;\r\n	width: 100%;\r\n	height: 100%;\r\n	pointer-events: none;\r\n	z-index: 1000 !important;\r\n	color: #f5f2e9;\r\n	font:\r\n		12px/1.4 system-ui,\r\n		sans-serif;\r\n}\r\n* {\r\n	box-sizing: border-box;\r\n}\r\n.hud {\r\n	position: absolute;\r\n	inset: 0;\r\n	--edge: 16px;\r\n	padding: var(--edge);\r\n}\r\nbutton,\r\ninput {\r\n	font: inherit;\r\n}\r\nbutton {\r\n	color: inherit;\r\n	cursor: pointer;\r\n	touch-action: manipulation;\r\n}\r\nbutton:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\nbutton:disabled {\r\n	cursor: default;\r\n	opacity: 0.55;\r\n}\r\n.surface {\r\n	background: rgba(25, 31, 38, 0.68);\r\n	border: 1px solid #65717b;\r\n	border-radius: 12px;\r\n	box-shadow: 0 3px 12px #0004;\r\n}\r\nbutton.surface,\r\n.reserved,\r\n.backdrop {\r\n	pointer-events: auto;\r\n}\r\n.top-left {\r\n	position: absolute;\r\n	left: max(12px, env(safe-area-inset-left));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	width: 188px;\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 12px;\r\n}\r\n.profile {\r\n	isolation: isolate;\r\n	display: grid;\r\n	gap: 5px;\r\n	width: 100%;\r\n	padding: 7px 9px;\r\n	text-align: left;\r\n}\r\n.profile-heading {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	align-items: center;\r\n	gap: 6px;\r\n}\r\n.profile-heading strong,\r\n.profile-heading > span {\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.profile-heading > span {\r\n	font-size: 10px;\r\n	max-width: 76px;\r\n	text-align: right;\r\n}\r\n.profile-bars {\r\n	display: grid;\r\n	grid-template-columns: 18px minmax(0, 1fr);\r\n	gap: 5px 4px;\r\n}\r\n.profile label {\r\n	display: grid;\r\n	grid-column: 1 / -1;\r\n	grid-template-columns: subgrid;\r\n	align-items: center;\r\n	gap: 4px;\r\n	font-size: 10px;\r\n	margin: 0;\r\n}\r\n.profile meter {\r\n	width: 100%;\r\n	min-width: 0;\r\n	height: 12px;\r\n}\r\n.profile label span {\r\n	min-width: 64px;\r\n	font-variant-numeric: tabular-nums;\r\n	text-align: right;\r\n}\r\n.profile-actions {\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.profile-actions button {\r\n	min-height: 30px;\r\n	padding: 4px 9px;\r\n}\r\n.statuses {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.top-right {\r\n	position: absolute;\r\n	right: max(12px, env(safe-area-inset-right));\r\n	top: max(16px, env(safe-area-inset-top));\r\n	display: flex;\r\n	align-items: flex-start;\r\n	gap: 8px;\r\n}\r\n.map {\r\n	display: flex;\r\n	flex-direction: column;\r\n	align-items: center;\r\n	padding: 0;\r\n	width: 96px;\r\n	border: 0;\r\n	background: transparent;\r\n	pointer-events: auto;\r\n}\r\n.map span,\r\n.map small {\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 4px #000;\r\n}\r\n.map canvas {\r\n	width: 88px;\r\n	height: 88px;\r\n}\r\n.map span {\r\n	max-width: 100%;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n	font-size: 11px;\r\n}\r\n.map small {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.menu-button {\r\n	padding: 6px 10px;\r\n	min-height: 36px;\r\n}\r\n.reserved {\r\n	touch-action: none;\r\n	user-select: none;\r\n}\r\n.battle-dock {\r\n	--battle-gap: 6px;\r\n	pointer-events: none;\r\n	touch-action: manipulation;\r\n	position: absolute;\r\n	right: max(16px, env(safe-area-inset-right));\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	width: 270px;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 0 var(--battle-gap);\r\n}\r\n.battle-controls {\r\n	grid-column: 3 / -1;\r\n	min-width: 0;\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr);\r\n	gap: var(--battle-gap);\r\n	padding-bottom: var(--battle-gap);\r\n	pointer-events: auto;\r\n}\r\n.battle-status {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	min-height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.battle-dock .surface {\r\n	pointer-events: auto;\r\n	border-radius: 8px;\r\n}\r\n.battle-status span {\r\n	flex: 1;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.battle-dock button {\r\n	pointer-events: auto;\r\n}\r\n.battle-status button {\r\n	flex-shrink: 0;\r\n	min-height: 30px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25b8;\r\n}\r\n.battle-tools {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1fr) auto;\r\n	gap: 6px;\r\n}\r\n.battle-tools button {\r\n	min-height: 32px;\r\n	padding: 4px 5px;\r\n	font-size: 11px;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n[data-auto-toggle] {\r\n	font-weight: 600;\r\n}\r\n.combat {\r\n	grid-column: 1 / -1;\r\n	display: grid;\r\n	grid-template-columns: repeat(6, minmax(0, 1fr));\r\n	gap: 6px;\r\n}\r\n.combat .skill {\r\n	position: relative;\r\n	width: 100%;\r\n	aspect-ratio: 1;\r\n	min-width: 0;\r\n	padding: 0;\r\n	font-size: 18px;\r\n	border: 1px solid #ecce94;\r\n	border-radius: 6px;\r\n	background: #483a25ad;\r\n	overflow: hidden;\r\n	touch-action: none;\r\n}\r\n.combat .selected-skill {\r\n	outline: 2px solid #ffca67;\r\n	outline-offset: 1px;\r\n	background: #795923b8;\r\n}\r\n.panel.auto-config-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.chat-preview {\r\n	position: absolute;\r\n	bottom: max(12px, env(safe-area-inset-bottom));\r\n	left: 150px;\r\n	right: 214px;\r\n	padding: 7px 10px;\r\n	text-align: left;\r\n	height: 64px;\r\n	min-height: 64px;\r\n	max-height: 64px;\r\n}\r\n[data-chat-preview] {\r\n	display: block;\r\n	width: calc(100% - 48px);\r\n	height: 48px;\r\n	max-height: 48px;\r\n	line-height: 16px;\r\n	font-size: 11px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n	overflow-y: auto;\r\n	scrollbar-width: none;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n[data-chat-preview]::-webkit-scrollbar { display: none; }\r\n.chat-preview-line {\r\n	display: block;\r\n	min-height: 16px;\r\n	white-space: normal;\r\n	overflow-wrap: anywhere;\r\n}\r\n.chat-preview small [data-chat-unread] { position: absolute; right: 0; bottom: 16px; }\r\n.chat-preview small {\r\n	position: absolute;\r\n	right: 10px;\r\n	bottom: 7px;\r\n	display: block;\r\n	text-align: right;\r\n	line-height: 16px;\r\n	color: #ffd27f;\r\n	font-size: 10px;\r\n}\r\n.backdrop {\r\n	position: absolute;\r\n	z-index: 10;\r\n	inset: 0;\r\n	background: #0003;\r\n	display: grid;\r\n	place-items: center;\r\n	padding: max(12px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))\r\n		max(12px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));\r\n}\r\n[hidden] {\r\n	display: none !important;\r\n}\r\n.panel {\r\n	display: flex;\r\n	flex-direction: column;\r\n	width: min(460px, 100%);\r\n	max-height: 100%;\r\n	overflow: hidden;\r\n}\r\nheader {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	padding: 8px 14px;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\nh2 {\r\n	font-size: 14px;\r\n	margin: 0;\r\n}\r\n.panel button {\r\n	min-height: 34px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 8px;\r\n	background: #394753;\r\n	padding: 5px 9px;\r\n}\r\n.panel-body {\r\n	padding: 12px;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.panel-body p {\r\n	margin: 8px 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.panel-body dl {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 8px;\r\n	margin: 0;\r\n}\r\ndd {\r\n	margin: 0;\r\n	text-align: right;\r\n}\r\n.menu-grid {\r\n	display: grid;\r\n	grid-template-columns: repeat(3, 1fr);\r\n	gap: 8px;\r\n}\r\n.chat-log {\r\n	height: clamp(70px, 36vh, 200px);\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	font-size: 13px;\r\n}\r\n.chat-form {\r\n	display: flex;\r\n	gap: 8px;\r\n	margin-top: 10px;\r\n}\r\n.chat-form input {\r\n	min-width: 0;\r\n	flex: 1;\r\n	border-radius: 8px;\r\n	border: 1px solid #7e8c99;\r\n	background: #19212a;\r\n	color: white;\r\n	padding: 8px;\r\n	font-size: 16px;\r\n}\r\n@media (max-height: 360px) {\r\n	.map canvas {\r\n		width: 76px;\r\n		height: 76px;\r\n	}\r\n}\r\n\r\n[data-status-icons] {\r\n	display: inline-flex;\r\n	vertical-align: middle;\r\n	gap: 3px;\r\n}\r\n[data-status-icons] img {\r\n	width: 22px;\r\n	height: 22px;\r\n}\r\n\r\n.panel.chat-panel {\r\n	height: min(310px, 100%);\r\n}\r\n.panel header {\r\n	flex-shrink: 0;\r\n}\r\n.chat-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.chat-body .chat-log {\r\n	flex: 1;\r\n	height: auto;\r\n	min-height: 0;\r\n}\r\n.chat-body .chat-form {\r\n	flex-shrink: 0;\r\n}\r\n\r\n.held {\r\n	filter: brightness(1.3);\r\n}\r\n.shortcut-tools,\r\n.skill-actions {\r\n	height: 34px;\r\n}\r\n.shortcut-tools {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	pointer-events: auto;\r\n}\r\n.shortcut-tools button {\r\n	min-width: 32px;\r\n	min-height: 32px;\r\n	padding: 4px;\r\n	border: 0;\r\n	background: transparent;\r\n}\r\n.shortcut-tools span {\r\n	font-size: 11px;\r\n}\r\n.skill img {\r\n	position: absolute;\r\n	left: 50%;\r\n	bottom: 3px;\r\n	transform: translateX(-50%);\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n	pointer-events: none;\r\n}\r\n.skill small {\r\n	position: absolute;\r\n	bottom: 1px;\r\n	left: 0;\r\n	right: 0;\r\n	text-align: center;\r\n	text-shadow: 0 1px 2px black;\r\n	font-size: 10px;\r\n	background: transparent;\r\n	line-height: 1.1;\r\n	pointer-events: none;\r\n}\r\n.skill[aria-disabled='true'] {\r\n	opacity: 0.55;\r\n}\r\n.slot-cooldown {\r\n	position: absolute;\r\n	inset: 0;\r\n	display: grid;\r\n	place-items: center;\r\n	background: #0009;\r\n	color: white;\r\n	font-size: 14px;\r\n	pointer-events: none;\r\n}\r\n.skill-actions {\r\n	display: flex;\r\n	justify-content: flex-end;\r\n	gap: 6px;\r\n}\r\n.skill-actions button {\r\n	flex: 1;\r\n	height: 100%;\r\n	min-height: 0;\r\n	padding: 4px;\r\n	white-space: nowrap;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt {\r\n	display: flex;\r\n	align-items: center;\r\n	height: 30px;\r\n	padding: 5px 8px;\r\n	font-size: 11px;\r\n}\r\n.skill-prompt span {\r\n	display: block;\r\n	min-width: 0;\r\n	overflow: hidden;\r\n	text-overflow: ellipsis;\r\n	white-space: nowrap;\r\n}\r\n.panel.shortcut-panel {\r\n	width: min(660px, 100%);\r\n	height: min(380px, 100%);\r\n}\r\n.shortcut-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	flex: 1;\r\n	overflow: hidden;\r\n	gap: 10px;\r\n}\r\n.slot-picker {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.slot-picker button {\r\n	flex: 1;\r\n	min-width: 0;\r\n	text-align: left;\r\n}\r\n.slot-picker strong,\r\n.slot-picker span {\r\n	display: block;\r\n	overflow: hidden;\r\n	white-space: nowrap;\r\n	text-overflow: ellipsis;\r\n}\r\n.slot-picker strong {\r\n	font-size: 11px;\r\n}\r\n.slot-picker span {\r\n	font-size: 10px;\r\n	color: #c6d0db;\r\n}\r\n.slot-picker [aria-pressed='true'],\r\n.shortcut-choice[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.shortcut-layout {\r\n	display: grid;\r\n	grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.shortcut-browser {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n}\r\n.shortcut-choices {\r\n	display: grid;\r\n	grid-template-columns: repeat(2, minmax(0, 1fr));\r\n	align-content: start;\r\n	gap: 6px;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	min-height: 0;\r\n}\r\n.shortcut-choice {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	text-align: left;\r\n	min-width: 0;\r\n}\r\n.shortcut-choice span {\r\n	overflow-wrap: anywhere;\r\n	font-size: 11px;\r\n}\r\n.shortcut-choice img,\r\n.shortcut-selected img {\r\n	width: 28px;\r\n	height: 28px;\r\n	flex-shrink: 0;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.shortcut-editor {\r\n	min-height: 0;\r\n	overflow: auto;\r\n	touch-action: pan-y;\r\n	overscroll-behavior: contain;\r\n	padding: 10px;\r\n	border: 1px solid #64707c;\r\n	border-radius: 8px;\r\n	background: #19212a;\r\n}\r\n.shortcut-current {\r\n	display: grid;\r\n	gap: 4px;\r\n	padding-bottom: 8px;\r\n	border-bottom: 1px solid #64707c;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-current span,\r\n[data-choice-hint] {\r\n	color: #c6d0db;\r\n	font-size: 11px;\r\n}\r\n.shortcut-config {\r\n	display: grid;\r\n	gap: 8px;\r\n	margin: 10px 0;\r\n}\r\n.shortcut-selected,\r\n.shortcut-level {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n}\r\n.shortcut-selected strong {\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-level {\r\n	justify-content: space-between;\r\n}\r\n.shortcut-config select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	max-width: 100%;\r\n	padding: 2px 6px;\r\n	color: inherit;\r\n	background: #394753;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n}\r\n.shortcut-clear {\r\n	margin-top: 12px;\r\n	padding-top: 10px;\r\n	border-top: 1px solid #64707c;\r\n}\r\n.shortcut-clear > button {\r\n	width: 100%;\r\n}\r\n.shortcut-clear-actions {\r\n	display: flex;\r\n	gap: 6px;\r\n}\r\n.shortcut-clear-actions button {\r\n	flex: 1;\r\n}\r\n[data-config-status] {\r\n	color: #ffca67;\r\n	font-size: 11px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.shortcut-config[hidden],\r\n.skill-prompt[hidden] {\r\n	display: none;\r\n}\r\n\r\n.panel.inventory-panel {\r\n	width: min(780px, 100%);\r\n	height: 100%;\r\n}\r\n.inventory-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.inventory-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-tabs button {\r\n	flex: 1;\r\n	padding: 6px;\r\n}\r\n.inventory-tabs [aria-pressed='true'],\r\n.inventory-item[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.inventory-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.inventory-list,\r\n.inventory-detail {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.inventory-list {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 6px;\r\n}\r\n.inventory-item {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 8px;\r\n	text-align: left;\r\n	flex-shrink: 0;\r\n}\r\n.inventory-item img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.inventory-item span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.inventory-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.inventory-actions {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 6px;\r\n}\r\n.inventory-detail select {\r\n	font: inherit;\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n	width: 100%;\r\n}\r\n.inventory-detail > button {\r\n	margin: 4px 4px 0 0;\r\n}\r\n.item-description {\r\n	white-space: pre-line;\r\n}\r\n.inventory-body .inventory-status {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n\r\n.panel.equipment-panel {\r\n	width: min(800px, 100%);\r\n	height: 100%;\r\n}\r\n.equipment-body {\r\n	display: flex;\r\n	flex-direction: column;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n	flex: 1;\r\n	gap: 8px;\r\n}\r\n.equipment-tabs {\r\n	display: flex;\r\n	gap: 6px;\r\n	flex-shrink: 0;\r\n}\r\n.equipment-tabs button {\r\n	flex: 1;\r\n}\r\n.equipment-tabs [aria-pressed='true'],\r\n.equipment-slot[aria-pressed='true'],\r\n.equipment-candidate[aria-pressed='true'] {\r\n	border-color: #ffca67;\r\n	background: #57452c;\r\n}\r\n.equipment-layout {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	gap: 12px;\r\n	min-height: 0;\r\n	flex: 1;\r\n}\r\n.equipment-slots,\r\n.equipment-detail,\r\n.equipment-stats {\r\n	overflow: auto;\r\n	min-width: 0;\r\n	overscroll-behavior: contain;\r\n	touch-action: pan-y;\r\n}\r\n.equipment-slots {\r\n	display: grid;\r\n	grid-template-columns: 1fr 1fr;\r\n	align-content: start;\r\n	gap: 6px;\r\n}\r\n.panel .equipment-slot {\r\n	padding: 8px;\r\n	text-align: left;\r\n	min-width: 0;\r\n	min-height: 64px;\r\n}\r\n.equipment-slot strong,\r\n.equipment-slot span {\r\n	display: block;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-slot strong {\r\n	font-size: 12px;\r\n	color: #f6d9a5;\r\n}\r\n.equipment-slot span {\r\n	font-size: 12px;\r\n}\r\n.equipment-slot img,\r\n.equipment-candidate img {\r\n	width: 32px;\r\n	height: 32px;\r\n	object-fit: contain;\r\n	image-rendering: pixelated;\r\n}\r\n.equipment-slot img {\r\n	float: right;\r\n}\r\n.equipment-detail {\r\n	border-left: 1px solid #64707c;\r\n	padding-left: 12px;\r\n}\r\n.equipment-detail h3 {\r\n	font-size: 13px;\r\n	margin: 0 0 8px;\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-detail button {\r\n	margin: 4px 6px 4px 0;\r\n}\r\n.equipment-candidate {\r\n	display: flex;\r\n	align-items: center;\r\n	gap: 6px;\r\n	width: 100%;\r\n	text-align: left;\r\n}\r\n.equipment-candidate span {\r\n	overflow-wrap: anywhere;\r\n}\r\n.equipment-body .equipment-stats {\r\n	grid-template-columns: 1fr 1fr 1fr 1fr;\r\n	padding-right: 8px;\r\n	gap: 0 12px;\r\n}\r\n.equipment-stats dt,\r\n.equipment-stats dd {\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #64707c;\r\n}\r\n.equipment-body .equipment-message {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n	font-size: 12px;\r\n}\r\n.skills-toolbar {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.skills-toolbar select {\r\n	font-size: 16px;\r\n	min-height: 34px;\r\n}\r\n.inventory-detail > select {\r\n	margin: 6px 0;\r\n}\r\n[data-skill-status] {\r\n	flex-shrink: 0;\r\n}\r\n.npc-lines {\r\n	white-space: pre-line;\r\n	font-size: 12px;\r\n	line-height: 1.6;\r\n}\r\n.npc-cutin {\r\n	max-width: 32%;\r\n	max-height: 130px;\r\n	object-fit: contain;\r\n	float: right;\r\n	pointer-events: none;\r\n}\r\n.panel-body > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n.panel-body form input {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n}\r\n.container-toolbar {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.container-toolbar select,\r\n.inventory-body > select,\r\n.inventory-detail input,\r\n.inventory-detail select {\r\n	font-size: 16px;\r\n	min-height: 36px;\r\n	max-width: 100%;\r\n	box-sizing: border-box;\r\n}\r\n.shop-summary,\r\n.shop-footer,\r\n.container-capacity {\r\n	flex-shrink: 0;\r\n	margin: 0;\r\n}\r\n.inventory-detail > button {\r\n	margin: 6px 6px 0 0;\r\n}\r\n\r\n.chat-form {\r\n	flex-wrap: wrap;\r\n}\r\n.chat-form select,\r\n.chat-form input {\r\n	min-width: 0;\r\n}\r\n.chat-form input[aria-label='私聊对象'] {\r\n	flex: 0 1 120px;\r\n}\r\n\r\n.social-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	gap: 8px;\r\n	margin: 12px 0;\r\n}\r\n.social-form label {\r\n	display: flex;\r\n	flex-wrap: wrap;\r\n	gap: 8px;\r\n	align-items: center;\r\n}\r\n.social-form input,\r\n.social-form textarea,\r\n.social-form select {\r\n	min-width: 0;\r\n	max-width: 100%;\r\n	flex: 1;\r\n	font-size: 16px;\r\n}\r\n/* Preserve panel layout when the keyboard reduces only the visual viewport. */\r\n:host(.keyboard-open) .hud {\r\n	height: var(--mobile-layout-height);\r\n}\r\n:host(.keyboard-open) .backdrop {\r\n	height: var(--mobile-visible-height);\r\n	overflow-y: auto;\r\n	align-items: start;\r\n}\r\n:host(.keyboard-open) .panel {\r\n	height: var(--mobile-panel-height, calc(var(--mobile-layout-height) - 24px));\r\n	max-height: none;\r\n}\r\n\r\n.profile label > meter,\r\n.profile label > span {\r\n	grid-column: 2;\r\n	grid-row: 1;\r\n}\r\n.profile label > span {\r\n	min-width: 0;\r\n	text-align: center;\r\n	z-index: 1;\r\n	color: #fff;\r\n	font-size: 9px;\r\n	line-height: 12px;\r\n	text-shadow:\r\n		0 1px 2px #000,\r\n		0 0 2px #000;\r\n	pointer-events: none;\r\n}\r\n.profile meter {\r\n	appearance: none;\r\n	border: 0;\r\n	background: none;\r\n	--gauge-color: #589542;\r\n}\r\n.profile [data-sp] {\r\n	--gauge-color: #4588ba;\r\n}\r\n.profile [data-ap] {\r\n	--gauge-color: #b28c35;\r\n}\r\n.profile meter::-webkit-meter-bar {\r\n	background: #10192399;\r\n	border: 1px solid #75838d;\r\n	border-radius: 3px;\r\n	height: 100%;\r\n}\r\n.profile meter::-webkit-meter-optimum-value {\r\n	background: var(--gauge-color);\r\n}\r\n.profile meter::-moz-meter-bar {\r\n	background: var(--gauge-color);\r\n}\r\n\r\n.profile [data-hp].low-hp {\r\n	--gauge-color: #ff0000;\r\n}\r\n";
 }));
 //#endregion
-//#region src/UI/Mobile/game/GameHUDResponsive.css?raw
-var GameHUDResponsive_default;
-var init_GameHUDResponsive = __esmMin((() => {
-	GameHUDResponsive_default = "/* Panel layouts shared by phones and tablets. HUD enlargement is tablet-only below. */\r\n.panel.settings-panel {\r\n	width: min(760px, 100%);\r\n	height: 100%;\r\n}\r\n.settings-body {\r\n	display: flex;\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: hidden;\r\n}\r\n.settings-form {\r\n	display: flex;\r\n	flex-direction: column;\r\n	flex: 1;\r\n	min-width: 0;\r\n	min-height: 0;\r\n	gap: 10px;\r\n}\r\n.settings-tabs {\r\n	display: flex;\r\n	gap: 8px;\r\n	flex-shrink: 0;\r\n}\r\n.settings-tabs button {\r\n	flex: 1;\r\n}\r\n.settings-tabs [aria-pressed='true'] {\r\n	background: #57452c;\r\n	border-color: #ceaa70;\r\n	color: #ffe1ae;\r\n}\r\n.settings-content {\r\n	flex: 1;\r\n	min-height: 0;\r\n	overflow: auto;\r\n	overscroll-behavior: contain;\r\n}\r\n.settings-section {\r\n	display: grid;\r\n	grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));\r\n	gap: 0 20px;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.settings-field {\r\n	display: flex;\r\n	align-items: center;\r\n	justify-content: space-between;\r\n	gap: 12px;\r\n	min-width: 0;\r\n	min-height: 54px;\r\n	padding: 8px 0;\r\n	border-bottom: 1px solid #35414d;\r\n}\r\n.settings-field > span {\r\n	min-width: 0;\r\n	overflow-wrap: anywhere;\r\n}\r\n.settings-field small {\r\n	display: block;\r\n	color: #bac4cd;\r\n	font-size: 11px;\r\n}\r\n.settings-form .settings-field input,\r\n.settings-form .settings-field select {\r\n	flex: 0 0 auto;\r\n	width: 100px;\r\n	max-width: 45%;\r\n	min-height: 36px;\r\n	margin: 0;\r\n	padding: 6px;\r\n	border: 1px solid #7e8c99;\r\n	border-radius: 6px;\r\n	background: #283541;\r\n	color: #f5f2e9;\r\n	font: inherit;\r\n	font-size: 16px;\r\n	color-scheme: dark;\r\n}\r\n.settings-form .settings-field input[type='checkbox'] {\r\n	appearance: none;\r\n	width: 42px;\r\n	height: 26px;\r\n	min-height: 26px;\r\n	padding: 3px;\r\n	border-radius: 20px;\r\n	background: #384653;\r\n}\r\n.settings-field input[type='checkbox']::before {\r\n	content: '';\r\n	display: block;\r\n	width: 18px;\r\n	height: 18px;\r\n	border-radius: 50%;\r\n	background: #d2dae1;\r\n}\r\n.settings-form .settings-field input[type='checkbox']:checked {\r\n	background: #806334;\r\n	border-color: #ceaa70;\r\n}\r\n.settings-field input[type='checkbox']:checked::before {\r\n	transform: translateX(16px);\r\n	background: #ffe1ae;\r\n}\r\n.settings-field input:focus-visible,\r\n.settings-field select:focus-visible {\r\n	outline: 2px solid #ffd27f;\r\n	outline-offset: 2px;\r\n}\r\n.settings-field.settings-volume {\r\n	flex-wrap: wrap;\r\n}\r\n.settings-form .settings-field input[type='range'] {\r\n	flex: 1;\r\n	min-width: 80px;\r\n	max-width: none;\r\n	padding: 0;\r\n	border: 0;\r\n	accent-color: #ceaa70;\r\n	background: transparent;\r\n}\r\n.settings-volume-value {\r\n	width: 38px;\r\n	text-align: right;\r\n	font-variant-numeric: tabular-nums;\r\n}\r\n.settings-footer {\r\n	flex-shrink: 0;\r\n	border-top: 1px solid #52606d;\r\n	padding-top: 8px;\r\n}\r\n.settings-footer p {\r\n	color: #ceaa70;\r\n	font-size: 11px;\r\n}\r\n.settings-actions {\r\n	display: flex;\r\n	gap: 8px;\r\n}\r\n.settings-actions button {\r\n	flex: 1;\r\n}\r\n.panel.profile-panel {\r\n	width: min(600px, 100%);\r\n}\r\n.profile-panel .character-details {\r\n	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);\r\n	gap: 0;\r\n	padding: 4px 14px;\r\n	border: 1px solid #52606d;\r\n	border-radius: 10px;\r\n	background: #19212a;\r\n}\r\n.character-details dt,\r\n.character-details dd {\r\n	padding: 12px 0;\r\n	border-bottom: 1px solid #35414d;\r\n	align-content: center;\r\n}\r\n.character-details dt {\r\n	color: #bac4cd;\r\n}\r\n.character-details dd {\r\n	font-weight: 600;\r\n	font-variant-numeric: tabular-nums;\r\n	overflow-wrap: anywhere;\r\n}\r\n.character-details dt:first-child,\r\n.character-details dd:nth-child(2) {\r\n	color: #ffe1ae;\r\n	font-size: 18px;\r\n}\r\n.character-details dt:nth-last-child(-n + 2),\r\n.character-details dd:last-child {\r\n	border-bottom: 0;\r\n}\r\n/* Use available viewport space, not device names; phone landscape stays compact. */\r\n@media (min-width: 768px) and (min-height: 560px) {\r\n	:host {\r\n		font-size: 15px;\r\n	}\r\n	.top-left {\r\n		width: 260px;\r\n		gap: 14px;\r\n	}\r\n	.profile {\r\n		padding: 10px 12px;\r\n		gap: 8px;\r\n	}\r\n	.profile-heading > span {\r\n		font-size: 12px;\r\n		max-width: 112px;\r\n	}\r\n	.profile-bars {\r\n		grid-template-columns: 24px minmax(0, 1fr);\r\n		gap: 7px 6px;\r\n	}\r\n	.profile label {\r\n		font-size: 12px;\r\n	}\r\n	.profile meter {\r\n		height: 12px;\r\n	}\r\n	.profile label span {\r\n		min-width: 82px;\r\n	}\r\n	.profile-actions button {\r\n		min-height: 44px;\r\n		padding: 8px 14px;\r\n	}\r\n	[data-status-icons] img {\r\n		width: 28px;\r\n		height: 28px;\r\n	}\r\n	.map {\r\n		width: 144px;\r\n		gap: 3px;\r\n	}\r\n	.map canvas {\r\n		width: 128px;\r\n		height: 128px;\r\n	}\r\n	.map span {\r\n		font-size: 14px;\r\n	}\r\n	.map small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-dock {\r\n		--battle-gap: 8px;\r\n		width: 366px;\r\n	}\r\n	.combat {\r\n		gap: 8px;\r\n	}\r\n	.combat .skill {\r\n		font-size: 24px;\r\n		border-radius: 8px;\r\n	}\r\n	.skill img {\r\n		width: 40px;\r\n		height: 40px;\r\n		bottom: 5px;\r\n	}\r\n	.skill small {\r\n		font-size: 12px;\r\n	}\r\n	.battle-status {\r\n		min-height: 40px;\r\n		font-size: 14px;\r\n		padding: 7px 10px;\r\n	}\r\n	.battle-tools button,\r\n	.battle-status button {\r\n		min-height: 44px;\r\n		font-size: 14px;\r\n		padding: 6px 8px;\r\n	}\r\n	.shortcut-tools,\r\n	.skill-actions {\r\n		height: 44px;\r\n	}\r\n	.shortcut-tools button {\r\n		min-width: 40px;\r\n		min-height: 44px;\r\n	}\r\n	.shortcut-tools span,\r\n	.skill-actions button {\r\n		font-size: 14px;\r\n	}\r\n	.skill-prompt {\r\n		height: 40px;\r\n		font-size: 14px;\r\n	}\r\n	.panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel.profile-panel {\r\n		width: min(640px, 100%);\r\n	}\r\n	.panel header {\r\n		padding: 12px 18px;\r\n	}\r\n	.panel h2 {\r\n		font-size: 18px;\r\n	}\r\n	.panel button {\r\n		min-height: 44px;\r\n		padding: 8px 12px;\r\n	}\r\n	.panel-body {\r\n		padding: 18px;\r\n	}\r\n	.menu-grid {\r\n		gap: 12px;\r\n	}\r\n	.menu-grid button {\r\n		min-height: 56px;\r\n		font-size: 16px;\r\n	}\r\n	.panel.inventory-panel,\r\n	.panel.equipment-panel,\r\n	.panel.auto-config-panel,\r\n	.panel.shortcut-panel,\r\n	.panel.settings-panel {\r\n		width: min(1000px, 100%);\r\n		height: 100%;\r\n	}\r\n	.auto-layout,\r\n	.shortcut-layout {\r\n		gap: 20px;\r\n	}\r\n	.auto-layout h3 {\r\n		font-size: 16px;\r\n	}\r\n	.auto-species-list,\r\n	.auto-skill-list {\r\n		gap: 10px;\r\n		font-size: 14px;\r\n	}\r\n	.auto-species-card,\r\n	.auto-skill-card {\r\n		min-height: 58px;\r\n		padding: 12px;\r\n	}\r\n	.auto-skill-card strong {\r\n		font-size: 14px;\r\n	}\r\n	.auto-skill-card small,\r\n	.auto-help,\r\n	[data-skill-count],\r\n	[data-auto-summary],\r\n	[data-auto-feedback],\r\n	[data-config-status],\r\n	.shortcut-current span,\r\n	[data-choice-hint] {\r\n		font-size: 13px;\r\n	}\r\n	.auto-species-check {\r\n		width: 20px;\r\n		height: 20px;\r\n	}\r\n	.auto-range-settings {\r\n		font-size: 14px;\r\n	}\r\n	.auto-config-footer {\r\n		padding-top: 14px;\r\n	}\r\n	.slot-picker {\r\n		gap: 10px;\r\n	}\r\n	.slot-picker strong,\r\n	.shortcut-choice span {\r\n		font-size: 14px;\r\n	}\r\n	.slot-picker span {\r\n		font-size: 13px;\r\n	}\r\n	.shortcut-choice img,\r\n	.shortcut-selected img {\r\n		width: 36px;\r\n		height: 36px;\r\n	}\r\n	.shortcut-editor {\r\n		padding: 16px;\r\n	}\r\n	.settings-form {\r\n		gap: 14px;\r\n	}\r\n	.settings-field {\r\n		min-height: 62px;\r\n	}\r\n	.settings-field small,\r\n	.settings-footer p {\r\n		font-size: 13px;\r\n	}\r\n	.character-details dt,\r\n	.character-details dd {\r\n		padding: 16px 0;\r\n	}\r\n}\r\n";
-}));
-//#endregion
 //#region src/UI/Mobile/game/MenuPanels.css?raw
 var MenuPanels_default;
 var init_MenuPanels = __esmMin((() => {
@@ -365986,6 +366814,7 @@ ${AutoCombatPanel_default}
 ${GameHUDResponsive_default}
 ${GameSelect_default}
 ${MenuPanels_default}
+${PickupSettingsPanel_default}
 ${MobileSelect_default}
 ${MailPanel_default}</style>${GameHUD_default$2}`;
 	const $ = (selector) => root.querySelector(selector);
@@ -366664,6 +367493,7 @@ ${MailPanel_default}</style>${GameHUD_default$2}`;
 	};
 }
 var init_GameHUDView = __esmMin((() => {
+	init_PickupSettingsPanel();
 	init_Preferences$1();
 	init_ChatChannels();
 	init_Confirmation();
@@ -378191,12 +379021,14 @@ var init_ItemObject = __esmMin((() => {
 		* @param {number} dropeffectmode
 		* @param {boolean} showdropeffect
 		*/
-		static add(gid, itemid, identify, count, x, y, z, dropeffectmode, showdropeffect) {
+		static add(gid, itemid, identify, count, x, y, z, dropeffectmode, showdropeffect, itemType) {
 			const it = DB.getItemInfo(itemid);
 			const path = DB.getItemPath(itemid, identify);
 			const entity = new Entity();
 			const name = identify ? it.identifiedDisplayName : it.unidentifiedDisplayName;
 			entity.GID = gid;
+			entity.pickupItemId = itemid;
+			entity.pickupItemType = itemType;
 			entity.objecttype = Entity.TYPE_ITEM;
 			entity.position[0] = x;
 			entity.position[1] = y;
@@ -379620,7 +380452,7 @@ function onItemSpamInGround(pkt) {
 	const x = pkt.xPos - .5 + pkt.subX / 12;
 	const y = pkt.yPos - .5 + pkt.subY / 12;
 	const z = Altitude.getCellHeight(x, y) + 5;
-	ItemObject.add(pkt.ITAID, pkt.ITID, pkt.IsIdentified, pkt.count, x, y, z, pkt.dropeffectmode, pkt.showdropeffect);
+	ItemObject.add(pkt.ITAID, pkt.ITID, pkt.IsIdentified, pkt.count, x, y, z, pkt.dropeffectmode, pkt.showdropeffect, pkt.type);
 }
 /**
 * Spam a new item on the map
@@ -387398,6 +388230,8 @@ function onConnectionRefused$2(pkt) {
 * @param {object} pkt - PACKET.ZC.NPCACK_MAPMOVE
 */
 function onMapChange(pkt) {
+	prepareAutoCombatTeleportMap(pkt.mapName);
+	stopAutoPickup();
 	GameTools_default.prepareMapTransition();
 	Navigation_default.prepareMapTransition();
 	MapRenderer.onLoad = () => {
@@ -387505,6 +388339,8 @@ function onMapChange(pkt) {
 			},
 			returnToCharacters: onRestartRequest
 		});
+		startAutoPickup();
+		completeAutoCombatTeleportMap();
 		Plugins.init();
 		Network.sendPacket(new PACKET.CZ.NOTIFY_ACTORINIT());
 		if (SessionStorage_default.ratesInfo) {
@@ -387553,6 +388389,7 @@ function onExitFail(pkt) {
 function onExitSuccess() {
 	RotationGuard_default.release();
 	if (PacketVerManager_default.value >= 20170315 && SessionStorage_default.WebToken) ShortCut_default.saveToServer();
+	stopAutoPickup();
 	WhisperBox.clearAll();
 	UIManager.removeComponents();
 	Network.close();
@@ -387593,6 +388430,7 @@ function onResurectionRequest() {
 function onRestartAnswer(pkt) {
 	if (!pkt.type) ChatBox_default.addText(DB.getMessage(502), ChatBox_default.TYPE.ERROR, ChatBox_default.FILTER.PUBLIC_LOG);
 	else {
+		stopAutoPickup();
 		WhisperBox.clearAll();
 		GuildEngine.guild_id = 0;
 		BasicInfoController.getUI().remove();
@@ -387617,6 +388455,7 @@ function onRestartAnswer(pkt) {
 function onDisconnectAnswer(pkt) {
 	switch (pkt.result) {
 		case 0:
+			stopAutoPickup();
 			WhisperBox.clearAll();
 			BasicInfoController.getUI().remove();
 			PlayerViewEquipController.getUI().remove();
@@ -387890,6 +388729,8 @@ function onReassemblyAuth(pkt) {
 }
 var _mapName, _isInitialised, snCounter, chatLines, packetMap, MapEngine, _walkTimer, _walkLastTick;
 var init_MapEngine = __esmMin((() => {
+	init_AutoCombatTeleport();
+	init_GameAutoPickup();
 	init_GameCompanions();
 	init_GamePet();
 	init_GameMail();
