@@ -1,5 +1,6 @@
 import Interface from 'Preferences/Interface.js';
 import css from './Toast.css?raw';
+import desktopCSS from './ToastDesktop.css?raw';
 
 let active;
 
@@ -27,7 +28,8 @@ export function showToast(container, message, kind = 'success') {
 	element.textContent = message;
 	const shadow = element.attachShadow({ mode: 'open' });
 	const style = document.createElement('style');
-	style.textContent = css;
+	const desktopOwner = container.closest('[data-feedback-theme="desktop"]');
+	style.textContent = desktopOwner ? desktopCSS : css;
 	const content = document.createElement('span');
 	content.className = 'message';
 	content.append(document.createElement('slot'));
@@ -43,7 +45,7 @@ export function showToast(container, message, kind = 'success') {
 	});
 	const record = { owner, dismiss, observer, timer: setTimeout(dismiss, Interface.toastDuration * 1000) };
 	active = record;
-	document.body.append(element);
+	(desktopOwner || document.body).append(element);
 	const options = { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden', 'style'] };
 	observer.observe(document.body, options);
 	const root = owner.getRootNode();
