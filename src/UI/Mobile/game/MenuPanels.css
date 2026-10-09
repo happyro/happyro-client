@@ -841,7 +841,7 @@
 	grid-template-columns: max-content minmax(0, 1fr) max-content repeat(3, var(--panel-attribute-width));
 	grid-auto-rows: min-content;
 	align-content: start;
-	column-gap: 6px;
+	column-gap: 8px;
 	row-gap: 0;
 	min-width: 0;
 	overflow: visible;
@@ -1289,6 +1289,7 @@
 	font-size: 11px;
 }
 :host(:not([data-menu-density='spacious'])) .panel .attribute-editor .attribute-allocation {
+	column-gap: 5px;
 	row-gap: 0;
 }
 
