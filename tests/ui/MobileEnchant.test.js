@@ -31,3 +31,16 @@ it('uses the chosen item ID for perfect enchant and the existing slot for upgrad
  state.group.slots[0].upgrade={'4002':{result:{id:4003},zeny:100,materials:[{id:501,count:2}]}};
  service=ready();choice=service.snapshot().choices.find(row=>row.action==='upgrade');expect(service.confirm(choice.key,JSON.stringify(choice))).toBe('');expect(state.send).toHaveBeenLastCalledWith(expect.objectContaining({type:'REQUEST_UPGRADE_ENCHANT',slot:0,index:2,enchant_group:123}));finishGameEnchant({msgId:3857,ITID:4003});expect(state.items[0].slot.card1).toBe(4003);
 });
+
+it('uses the researcher OSAD group and sends its real perfect enchant choice', async () => {
+ const {default:catalog}=await import('../../src/DB/Items/ItemServices.json');
+ state.group=catalog.enchant['33'];state.session.zeny=500000;
+ state.items=[{index:10,ITID:610039,IsIdentified:true,RefiningLevel:0,enchantgrade:0,slot:{card1:0,card2:0,card3:0,card4:0},Options:[]},{index:11,ITID:25669,count:20}];
+ const service=openGameEnchant(33);service.setOperationGuard(()=>true);
+ expect(service.select(10,610039)).toBe('');
+ const choice=service.snapshot().choices.find(entry=>entry.type==='perfect'||entry.key.includes('perfect'));
+ expect(choice).toBeDefined();
+ expect(service.confirm(choice.key,JSON.stringify(choice))).toBe('');
+ expect(state.send).toHaveBeenLastCalledWith(expect.objectContaining({type:'REQUEST_PERFECT_ENCHANT',enchant_group:33,index:10}));
+ expect(state.items[1].count).toBe(20);
+});

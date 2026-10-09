@@ -1,3 +1,4 @@
+import BundledItemImages from './BundledItemImages.json';
 /**
  * Core/Client.js
  *
@@ -114,6 +115,9 @@ class Client {
 	 * @param {Array} args - optional
 	 */
 	static loadFile(filename, onload, onerror, args = {}) {
+		const imageKey = filename.replace(/\\/g, '/').toLowerCase().match(/(?:^|\/)((?:item|collection)\/[^/]+\.bmp)$/)?.[1];
+		const bundled = BundledItemImages[imageKey];
+		if (bundled && !Memory.exist(filename)) Memory.set(filename, bundled.image);
 		if (!Memory.exist(filename)) {
 			Thread.send('LOAD_FILE', { filename, args: args || null }, onFileLoaded);
 		}

@@ -548,6 +548,8 @@ function resize(height) {
 	if (description) {
 		description.style.height = `${containerHeight - 45}px`;
 	}
+	// Content may grow after append restored the previous window position.
+	ItemInfo._fixPositionOverflow();
 }
 
 function addEvent(item) {
