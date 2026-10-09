@@ -24,3 +24,15 @@ export function setListItemText(node, name, metadata = '') {
 	node.title = `${title}${suffix}`;
 	detail.title = String(metadata);
 }
+
+/** Refresh asynchronously loaded inventory icons without rebuilding the list row. */
+export function setListItemIcon(node, item) {
+ let icon = node.querySelector(':scope > img');
+ if (!icon) {
+  icon = document.createElement('img');
+  icon.alt = '';
+  node.prepend(icon);
+ }
+ icon.hidden = !item.icon;
+ if (item.icon && icon.getAttribute('src') !== item.icon) icon.src = item.icon;
+}

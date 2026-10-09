@@ -36,3 +36,9 @@ describe('HappyRO runtime endpoints', () => {
 		expect(config.servers[0].socketProxy).toBe('wss://ws.example.com/ws/');
 	});
 });
+
+ test('enables the refinement UI supported by the HappyRO server', () => {
+  const config = loadConfig();
+  expect(config.enableRefineUI).toBe(true);
+  expect(config.servers[0].packetver).toBe(20211103);
+ });

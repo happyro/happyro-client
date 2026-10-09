@@ -3,6 +3,10 @@
 	height: 350px;
 }
 
+.ui-component-root {
+	height: 100%;
+}
+
 #Refine {
 	position: relative;
 	height: 100%;

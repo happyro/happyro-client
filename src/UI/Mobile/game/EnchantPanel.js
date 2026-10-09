@@ -1,3 +1,4 @@
+import { setListItemText, setListItemIcon } from './ListItemText.js';
 import { interactionColumns, interactionReview, interactionFooter } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
@@ -44,7 +45,8 @@ export function createEnchantPanel(body, service) {
 				nodes.set(item.index, b);
 				list.append(b);
 			}
-			b.textContent = item.name;
+			setListItemText(b, item.name);
+			setListItemIcon(b, item);
 			b.disabled = !state.allowed;
 			b.setAttribute('aria-pressed', String(state.selected?.index === item.index));
 		}

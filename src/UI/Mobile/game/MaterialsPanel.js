@@ -1,3 +1,4 @@
+import { setListItemText, setListItemIcon } from './ListItemText.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { interactionColumns, interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
@@ -97,7 +98,7 @@ export function createMaterialsPanel(body, service) {
 	function update() {
 		state = service.snapshot();
 		const order = $('.material-order');
-		const orderKey = JSON.stringify([state.order, state.allowed]);
+		const orderKey = JSON.stringify([state.order, state.allowed, state.items.map(item => item.icon)]);
 		if (order.dataset.key !== orderKey) {
 			order.dataset.key = orderKey;
 			order.replaceChildren();
@@ -110,6 +111,8 @@ export function createMaterialsPanel(body, service) {
 					if (item) select(item);
 				});
 				entry.className = 'interaction-order-item';
+				setListItemText(entry, row.name, `× ${row.count}`);
+				setListItemIcon(entry, state.items.find(item => item.index === row.index && item.ID === row.ID) || row);
 				entry.disabled = !state.allowed;
 				order.append(entry);
 			}
@@ -140,7 +143,8 @@ export function createMaterialsPanel(body, service) {
 				$('.inventory-list').append(node);
 			}
 			const count = state.order.find(row => row.index === item.index)?.count;
-			node.textContent = `${item.name} × ${item.count}${count ? ' · 已选 ' + count : ''}`;
+			setListItemText(node, item.name, `× ${item.count}${count ? ' · 已选 ' + count : ''}`);
+			setListItemIcon(node, item);
 			node.disabled = !state.allowed;
 			node.setAttribute('aria-pressed', String(selected === key));
 		}

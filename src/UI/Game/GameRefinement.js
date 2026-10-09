@@ -16,6 +16,7 @@ export function finishRefinement(kind, pkt) {
 export function openGameRefinement(kind) {
 	const token = Symbol(kind),
 		inventory = createGameInventory(() => true);
+	let resultId = 0;
 	let guard = () => false,
 		selected = null,
 		offer = null,
@@ -56,6 +57,7 @@ export function openGameRefinement(kind) {
 				pending,
 				message,
 				messageKind,
+				resultId,
 				allowed: available(),
 				zeny: Session.zeny,
 				materials:
@@ -137,6 +139,7 @@ export function openGameRefinement(kind) {
 			pending = false;
 			offer = null;
 			selected = null;
+			resultId++;
 			messageKind = pkt.result === 0 ? 'success' : 'error';
 			message =
 				['强化成功', '强化失败', '强化失败，精炼等级降低', '装备损坏', '装备受到保护'][pkt.result] ||

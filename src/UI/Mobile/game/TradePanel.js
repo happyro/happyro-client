@@ -1,7 +1,7 @@
 import { interactionColumns, interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
-import { setListItemText } from './ListItemText.js';
+import { setListItemText, setListItemIcon } from './ListItemText.js';
 
 export function createTradePanel(body, service) {
 	interactionColumns(body, [
@@ -137,6 +137,7 @@ export function createTradePanel(body, service) {
 				$('.inventory-list').append(node);
 			}
 			node.disabled = !active || state.ownLocked;
+			setListItemIcon(node, item);
 			setListItemText(node, item.name, `× ${item.count}`);
 			node.setAttribute('aria-pressed', String(selected === item.index));
 		}
@@ -202,7 +203,7 @@ export function createTradePanel(body, service) {
 				rows = state[side];
 			const signature = JSON.stringify([
 				money,
-				rows.map(({ index, name, count, description }) => ({ index, name, count, description }))
+				rows.map(({ index, name, count, description, icon }) => ({ index, name, count, description, icon }))
 			]);
 			if (parent.dataset.signature === signature) continue;
 			parent.dataset.signature = signature;
@@ -211,7 +212,8 @@ export function createTradePanel(body, service) {
 			parent.replaceChildren(balance);
 			for (const entry of rows) {
 				const button = document.createElement('button');
-				button.textContent = `${entry.name} × ${entry.count}`;
+				setListItemText(button, entry.name, `× ${entry.count}`);
+				setListItemIcon(button, entry);
 				button.className = 'interaction-order-item';
 				button.onclick = () => {
 					if (!ready()) return;
