@@ -82,7 +82,7 @@ Tools.onAppend = async function () {
 		}),
 		subscribeAdventureRoute(state => {
 			if (state.message && state.message !== routeMessage)
-				feedback(state.message, state.message === '无法到达所选位置' ? 'error' : 'info');
+				feedback(state.message, 'info');
 			routeMessage = state.message;
 		})
 	);

@@ -69,7 +69,7 @@ GameTools.init = function init() {
 			showToast(
 				window,
 				state.message,
-				state.message === '无法到达所选位置' ? 'error' : state.message === '已到达目的地' ? 'success' : 'info'
+				state.message === '已到达目的地' ? 'success' : 'info'
 			);
 		}
 	});
