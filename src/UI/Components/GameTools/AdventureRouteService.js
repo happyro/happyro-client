@@ -108,7 +108,7 @@ export function startAdventureRoute(nextTarget) {
 	timer = null;
 	target = { ...nextTarget };
 	navigationStarted = false;
-	update(true, `正在前往 ${target.mapDisplayName || target.mapName} (${target.x}, ${target.y})`);
+	update(true, '');
 	const position = getCurrentAdventurePosition();
 	Navigation.navigateTo({
 		startMap: getCurrentAdventureMap(),

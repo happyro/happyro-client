@@ -53,3 +53,41 @@ it('renders successful purchase entries as text with quantities',()=>{
  expect(body.querySelector('.npc-result-items').textContent).toContain('× 3');
  expect(body.querySelector('b')).toBeNull();
 });
+
+
+it('hides only a matching opening NPC speaker without mutating the source lines', () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ const lines=['[助理阿隆佐]','我是阿隆佐，欢迎。','[玩家]','你好。','[助理阿隆佐]','再见。'];
+ createNPCPanel(body,{kind:'npc',title:'助理阿隆佐',lines});
+ expect(body.querySelector('.npc-lines').textContent).toBe(lines.slice(1).join('\n'));
+ expect(lines[0]).toBe('[助理阿隆佐]');
+});
+it('matches localized names and cosmetic formatting in the opening label', () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ createNPCPanel(body,{kind:'npc',title:'助理阿隆佐',lines:['  ','<b>^FF0000[ Assistant   Alonzo#prt ]^000000</b>','<i>欢迎</i>']});
+ expect(body.querySelector('.npc-lines').textContent).toBe('欢迎');
+ expect(body.querySelector('i').textContent).toBe('欢迎');
+});
+it.each([
+ ['卡普拉员工',['[卡普拉·莱拉]','欢迎。']],
+ ['助理阿隆佐',['[玩家名字]','你好。']],
+ ['助理阿隆佐',['[???]','你好。']],
+ ['助理阿隆佐',['[警告]','请注意。']],
+ ['助理阿隆佐',['[助理阿隆佐] 你好。']],
+ ['助理阿隆佐',['这是旁白。','[助理阿隆佐]','你好。']],
+ ['对话',['[对话]','你好。']],
+ ['', ['[助理阿隆佐]','你好。']]
+])('retains nonredundant or ambiguous dialogue for title %s', (title,lines) => {
+ const body=document.body.appendChild(document.createElement('div'));
+ createNPCPanel(body,{kind:'npc',title,lines});
+ expect(body.querySelector('.npc-lines').textContent).toBe(lines.join('\n'));
+});
+it('rechecks each page and keeps non-NPC result headings', () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ createNPCPanel(body,{kind:'npc',title:'助理阿隆佐',lines:['[助理阿隆佐]']});
+ expect(body.querySelector('.npc-lines').hidden).toBe(true);
+ createNPCPanel(body,{kind:'npc',title:'助理阿隆佐',lines:['[玩家]','你好。']});
+ expect(body.querySelector('.npc-lines').textContent).toContain('[玩家]');
+ createNPCPanel(body,{kind:'notice',title:'助理阿隆佐',lines:['[助理阿隆佐]']});
+ expect(body.querySelector('.npc-lines').textContent).toBe('[助理阿隆佐]');
+});
