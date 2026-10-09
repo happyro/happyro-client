@@ -1026,7 +1026,7 @@ function updateActionButton(enabled) {
 		return;
 	}
 	const label = EnchantState.action === 'reset' ? '重置' : '附魔';
-	button.textContent = '';
+	button.textContent = label;
 	button.title = label;
 	button.classList.toggle('disabled', !enabled);
 	updateActionButtonSkin(button, enabled);
@@ -1838,7 +1838,9 @@ Enchant.onOpenEnchantUI = function onOpenEnchantUI(groupId) {
 	EnchantState.groupId = Number(groupId);
 	EnchantState.group = DB.getEnchantGroup(EnchantState.groupId);
 	if (!EnchantState.group) {
+		onRequestClose();
 		UIManager.showErrorBox('附魔组数据缺失：' + groupId + '。');
+		return;
 	}
 	Enchant.append();
 	Enchant.ui.show();

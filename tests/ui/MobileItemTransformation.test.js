@@ -30,3 +30,20 @@ it('previews reform consequences, checks materials and handles failed result wit
 it('does not let an old close affect the replacement modal and sends the current close exactly once',()=>{
  open('upgrade');const old=interactionSnapshot();open('synthesis');old.close();expect(state.send).not.toHaveBeenCalled();const current=interactionSnapshot();current.close();current.close();expect(state.send).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({type:'RANDOM_COMBINE_ITEM_UI_CLOSE'}));
 });
+
+it('opens the researcher OS recipe without owning its trigger box and requires a clean +7 weapon', async () => {
+ const {default:catalog}=await import('../../src/DB/Items/ItemServices.json');
+ const previous=state.reform;
+ try {
+  state.reform=catalog.reform.ReformInfo['OS_Weapon_Reform:Meuchler_OS'];
+  const weapon={index:10,ITID:28038,count:1,IsIdentified:true,RefiningLevel:7,slot:{card1:0,card2:0,card3:0,card4:0},Options:[]};
+  state.items=[weapon,{index:11,ITID:1000430,count:70},{index:12,ITID:25669,count:200},{index:13,ITID:25723,count:40}];
+  const service=openItemTransformation('reform',101355);service.setOperationGuard(()=>true);
+  expect(service.snapshot().items).toHaveLength(1);
+  weapon.RefiningLevel=6;expect(service.snapshot().items).toHaveLength(0);
+  weapon.RefiningLevel=7;weapon.slot.card1=4001;expect(service.snapshot().items).toHaveLength(0);
+  weapon.slot.card1=0;expect(service.set(10,28038,1)).toBe('');
+  expect(service.confirm()).toBe('');
+  expect(state.send).toHaveBeenLastCalledWith(expect.objectContaining({type:'ITEM_REFORM',ITID:101355,index:10}));
+ } finally {state.reform=previous;}
+});

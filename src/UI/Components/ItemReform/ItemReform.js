@@ -65,7 +65,7 @@ function _root() {
  */
 ItemReform.onKeyDown = function onKeyDown(event) {
 	if (event.which === KEYS.ESCAPE || event.key === 'Escape') {
-		ItemReform.remove();
+		onRequestReformClose();
 		event.preventDefault();
 		event.stopImmediatePropagation();
 	}
@@ -274,12 +274,6 @@ function onOpenReformUI(pkt) {
 
 		const reformids = DB.findReformListByItemID(pkt.ITID);
 
-		const item = Inventory.getUI().getItemById(pkt.ITID);
-
-		if (!item) {
-			return false;
-		}
-
 		ReformUIState.itemId = pkt.ITID;
 
 		if (reformids) {
@@ -290,10 +284,11 @@ function onOpenReformUI(pkt) {
 			const root = _root();
 			const itemText = root.querySelector('.item_text');
 			if (itemText) {
-				itemText.textContent = DB.getItemName(item);
+				itemText.textContent = DB.getItemInfo(pkt.ITID).identifiedDisplayName;
 			}
 		} else {
-			console.warn('Item with ID', pkt.itemId, 'not found in Reform List.');
+			onRequestReformClose();
+			UIManager.showErrorBox('改造配置缺失：' + pkt.ITID + '。');
 		}
 	}
 }

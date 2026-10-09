@@ -1,0 +1,175 @@
+{
+  "610039": {
+    "source": "happyro-server/db/re/item_db_equip.yml:Meuchler_AD",
+    "description": [
+      "OS 系列拳刃的改造版。可在雷肯贝尔研究所进行 OS 武器附魔。",
+      "物理攻击力 +5%。",
+      "精炼 +7 时，远距离物理伤害 +10%，攻击后延迟 -7%。",
+      "精炼 +9 时，技能后延迟 -15%，十字撕裂斩伤害 +45%。",
+      "精炼 +11 时，对小型、中型敌人的物理伤害 +20%。",
+      "上述精炼效果达到对应等级后累计生效。",
+      "系列：拳刃",
+      "攻击：190",
+      "武器等级：5",
+      "装备等级：170",
+      "装备职业：刺客系",
+      "卡槽：2",
+      "重量：130"
+    ],
+    "resourceName": "Meuchler_AD",
+    "ClassNum": 16
+  },
+  "311384": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Fighter1",
+    "description": [
+      "近距离物理伤害 +2%。",
+      "系列：附魔"
+    ]
+  },
+  "311385": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Fighter2",
+    "description": [
+      "近距离物理伤害 +4%。",
+      "系列：附魔"
+    ]
+  },
+  "311386": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Fighter3",
+    "description": [
+      "近距离物理伤害 +6%。",
+      "系列：附魔"
+    ]
+  },
+  "311387": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Fighter4",
+    "description": [
+      "近距离物理伤害 +8%。",
+      "系列：附魔"
+    ]
+  },
+  "311388": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Fighter5",
+    "description": [
+      "近距离物理伤害 +10%。",
+      "系列：附魔"
+    ]
+  },
+  "311389": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Magician1",
+    "description": [
+      "所有属性魔法伤害 +2%。",
+      "系列：附魔"
+    ]
+  },
+  "311390": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Magician2",
+    "description": [
+      "所有属性魔法伤害 +4%。",
+      "系列：附魔"
+    ]
+  },
+  "311391": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Magician3",
+    "description": [
+      "所有属性魔法伤害 +6%。",
+      "系列：附魔"
+    ]
+  },
+  "311392": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Magician4",
+    "description": [
+      "所有属性魔法伤害 +8%。",
+      "系列：附魔"
+    ]
+  },
+  "311393": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Expert_Magician5",
+    "description": [
+      "所有属性魔法伤害 +10%。",
+      "系列：附魔"
+    ]
+  },
+  "311400": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Caster1",
+    "description": [
+      "可变咏唱时间 -2%。",
+      "系列：附魔"
+    ]
+  },
+  "311401": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Caster2",
+    "description": [
+      "可变咏唱时间 -4%。",
+      "系列：附魔"
+    ]
+  },
+  "311402": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Caster3",
+    "description": [
+      "可变咏唱时间 -6%。",
+      "系列：附魔"
+    ]
+  },
+  "311403": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Caster4",
+    "description": [
+      "可变咏唱时间 -8%。",
+      "系列：附魔"
+    ]
+  },
+  "311404": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Caster5",
+    "description": [
+      "可变咏唱时间 -10%。",
+      "系列：附魔"
+    ]
+  },
+  "311395": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Hit_Plus1",
+    "description": [
+      "必中攻击率 +3%。",
+      "命中 +5。",
+      "系列：附魔"
+    ]
+  },
+  "311396": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Hit_Plus2",
+    "description": [
+      "必中攻击率 +6%。",
+      "命中 +10。",
+      "系列：附魔"
+    ]
+  },
+  "311397": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Hit_Plus3",
+    "description": [
+      "必中攻击率 +9%。",
+      "命中 +15。",
+      "系列：附魔"
+    ]
+  },
+  "311398": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Hit_Plus4",
+    "description": [
+      "必中攻击率 +12%。",
+      "命中 +20。",
+      "系列：附魔"
+    ]
+  },
+  "311399": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Hit_Plus5",
+    "description": [
+      "必中攻击率 +15%。",
+      "命中 +25。",
+      "系列：附魔"
+    ]
+  },
+  "311394": {
+    "source": "happyro-server/db/re/item_db_etc.yml:Attack_Delay_5",
+    "description": [
+      "攻击后延迟 -10%。",
+      "攻击速度 +1。",
+      "系列：附魔"
+    ]
+  }
+}

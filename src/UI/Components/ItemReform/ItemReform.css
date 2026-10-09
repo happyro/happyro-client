@@ -267,3 +267,8 @@
 	text-shadow: -1px -1px white;
 	color: gray;
 }
+
+/* The shadow root must fill the fixed desktop window. */
+.ui-component-root, #ItemReform {
+	height: 100%;
+}

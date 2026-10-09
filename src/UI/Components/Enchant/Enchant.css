@@ -584,3 +584,17 @@
 #Enchant .status.error {
 	color: #b13b3b;
 }
+
+/* The shadow root must fill the fixed desktop window. */
+.ui-component-root, #Enchant {
+	height: 100%;
+}
+
+#Enchant .action_btn {
+	font-size: 12px;
+	color: #2d3a55;
+	text-shadow: 0 1px white;
+}
+#Enchant .action_btn.disabled {
+	color: #8b91a0;
+}
