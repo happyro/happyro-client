@@ -263,3 +263,10 @@
 	padding: 3px 5px;
 	font-size: 11px;
 }
+
+/* Keep translated footer labels on one line inside the compact buttons. */
+#Storage .footer .search-button,
+#Storage .footer .close {
+	padding: 0 4px;
+	white-space: nowrap;
+}

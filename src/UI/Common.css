@@ -70,6 +70,20 @@ ui-button {
 	display: inline-block;
 }
 
+/* Text over a bitmap skin: keep typography centered without changing the skin. */
+.ui-button-text {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 0;
+	font-family: inherit;
+	font-size: 12px;
+	line-height: 1;
+	text-align: center;
+	white-space: nowrap;
+}
+
 .ui-btn {
 	-webkit-appearance: none;
 	appearance: none;
