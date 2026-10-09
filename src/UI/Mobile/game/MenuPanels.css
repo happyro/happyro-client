@@ -1332,6 +1332,11 @@
 	display: block;
 	width: var(--inventory-picture-width);
 	height: var(--inventory-picture-height);
+	box-sizing: border-box;
+	border: 1px solid #65717b;
+	border-radius: 4px;
+	background: #19212a;
+	box-shadow: 0 2px 6px #0005;
 	object-fit: contain;
 	object-position: left top;
 	margin: 0;
