@@ -1,3 +1,4 @@
+import { setListItemText, setListItemIcon } from './ListItemText.js';
 import { interactionColumns, interactionReview, interactionFooter } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
@@ -13,10 +14,15 @@ export function createRefinementPanel(body, service) {
 		detail = $('.inventory-detail'),
 		nodes = new Map();
 	const { footer, status } = interactionFooter(body);
+	let lastResultId = 0;
 	let key = '',
 		editingId = '';
 	function update() {
 		const state = service.snapshot();
+		if (state.resultId && state.resultId !== lastResultId) {
+			lastResultId = state.resultId;
+			feedback(state.message, state.messageKind);
+		}
 
 		status.textContent = state.message || `余额：${state.zeny ?? 0} Z`;
 		const ids = new Set(state.items.map(item => item.index));
@@ -40,7 +46,8 @@ export function createRefinementPanel(body, service) {
 				nodes.set(item.index, button);
 				list.append(button);
 			}
-			button.textContent = item.name;
+			setListItemText(button, item.name);
+			setListItemIcon(button, item);
 			button.disabled = !state.allowed;
 			button.setAttribute('aria-pressed', String(state.selected?.index === item.index));
 		}
@@ -115,7 +122,7 @@ export function createRefinementPanel(body, service) {
 		label.textContent = protection;
 		label.append(blessing);
 		const confirm = document.createElement('button');
-		confirm.textContent = '核对强化';
+		confirm.textContent = '下一步';
 		function selected() {
 			return {
 				material: Number(materials.value),
@@ -134,7 +141,7 @@ export function createRefinementPanel(body, service) {
 				state.kind === 'refine'
 					? `成功率：${material?.chance ?? 0}%`
 					: `成功率：${Math.min(10000, (state.offer.success_chance || 0) + Number(blessing.value) * (state.offer.blessing_info?.bonus || 0)) / 100}% · 失败降级：${material?.downgrade || 0} · 可能损坏：${material?.breakable ? '是' : '否'}`;
-			confirm.textContent = '核对强化';
+			confirm.textContent = '下一步';
 		}
 		materials.onchange = details;
 		blessing.onchange = details;

@@ -294,7 +294,7 @@
 .interaction-column-content > :first-child {
 	margin-top: 0;
 }
-.interaction-panel .interaction-column-content.inventory-list {
+:host([data-menu-density]) .interaction-panel .interaction-column-content.inventory-list {
 	display: flex;
 	flex-direction: column;
 	gap: var(--panel-gap);
@@ -411,4 +411,16 @@
 :host([data-menu-density]) .panel .warehouse-body:has(.interaction-columns-two) .container-toolbar {
 	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
 	gap: var(--panel-gap);
+}
+
+.interaction-order-item:has(> img) {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.interaction-order-item > img {
+	width: 32px;
+	height: 32px;
+	object-fit: contain;
+	flex: none;
 }

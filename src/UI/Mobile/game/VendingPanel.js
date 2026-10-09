@@ -1,7 +1,7 @@
 import { interactionColumns, interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
-import { setListItemText } from './ListItemText.js';
+import { setListItemText, setListItemIcon } from './ListItemText.js';
 
 export function createVendingPanel(body, service) {
 	const initial = service.snapshot();
@@ -116,6 +116,7 @@ export function createVendingPanel(body, service) {
 				$('.inventory-list').append(node);
 			}
 			node.disabled = !state.allowed;
+			setListItemIcon(node, item);
 			setListItemText(node, item.name, `× ${item.count}${state.owned ? ' · ' + item.price + ' Z' : ''}`);
 			node.setAttribute('aria-pressed', String(selected === item.index));
 		}

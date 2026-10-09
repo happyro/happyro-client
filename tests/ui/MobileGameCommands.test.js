@@ -1,6 +1,7 @@
 vi.mock('UI/Components/Trade/Trade.js', () => ({default:{reqExchange:s.trade}}));
 vi.mock('UI/UIManager.js', () => ({default:{showPromptBox:s.prompt}}));
 import { beforeEach, expect, it, vi } from 'vitest';
+import glMatrix from '../../src/Utils/gl-matrix.js';
 const s = vi.hoisted(() => ({
 	session: { Playing: true, Entity: null },
 	trade: vi.fn(), prompt: vi.fn(),
@@ -10,7 +11,7 @@ const s = vi.hoisted(() => ({
 	walk: vi.fn(),
 	stop: vi.fn(),
 	free: vi.fn(),
-	camera: { direction: 0 },
+	camera: { direction: 0, angle: [240, 0], angleFinal: [240, 0] },
 	mouse: { screen: {}, world: {} },
 	types: { TYPE_MOB: 1, TYPE_PC: 2, TYPE_NPC: 3, TYPE_ITEM: 4, TYPE_NPC2: 5 }
 }));
@@ -89,6 +90,8 @@ beforeEach(() => {
 	s.session.Entity = { position: [10, 10], ACTION: { DIE: 99, SIT: 2 }, action: 0 };
 	s.session.moveAction = null;
 	s.camera.direction = 0;
+	s.camera.angle = [240, 0];
+	s.camera.angleFinal = [240, 0];
 	s.free.mockImplementation((x, y, r, out) => {
 		out.push(x, y);
 		return true;
@@ -128,8 +131,9 @@ it('rotates movement with the camera and respects blocked cells and sitting', ()
 	moveDirection(1, 0);
 	expect(s.send.mock.calls.at(-1)[0].dest).toEqual([13, 10]);
 	s.camera.direction = 2;
+	s.camera.angle[1] = 90;
 	moveDirection(1, 0);
-	expect(s.send.mock.calls.at(-1)[0].dest).toEqual([10, 7]);
+	expect(s.send.mock.calls.at(-1)[0].dest).toEqual([10, 13]);
 	s.free.mockReturnValue(false);
 	moveDirection(1, 0);
 	expect(s.send).toHaveBeenCalledTimes(2);
@@ -228,4 +232,39 @@ it('notifies the action owner after both the initial attack and server retry', (
 it('interacts with the NPC pressed at touch start even when its sprite moves before release', () => {
  const npc=entity(3);s.over=null;tapScene(100,200,npc);
  expect(npc.onMouseDown).toHaveBeenCalledOnce();expect(s.walk).not.toHaveBeenCalled();
+});
+
+// Project map displacement through the same X-then-Y camera rotation used by
+// Camera.update: screen-right must remain right and screen-up must remain up.
+it.each([0, 15, 45, 90, 135, 180, 270, -90, -165])(
+ 'keeps joystick axes aligned with the rendered camera at %i degrees', yaw => {
+  s.camera.angle[1] = yaw;
+  s.camera.angleFinal[1] = yaw + 45; // Camera is still interpolating.
+  const radians = yaw * Math.PI / 180;
+  const matrix = glMatrix.mat4.create();
+  glMatrix.mat4.rotateX(matrix, matrix, 240 * Math.PI / 180);
+  glMatrix.mat4.rotateY(matrix, matrix, radians);
+  for (const [x, y] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+   moveDirection(x, y);
+   const [destX, destY] = s.send.mock.calls.at(-1)[0].dest;
+   const dx = destX - 10, dy = destY - 10;
+   const projected = glMatrix.vec3.create();
+   glMatrix.vec3.transformMat4(projected, [dx, 0, dy], matrix);
+   const right = projected[0];
+   const up = projected[1] / -Math.sin(240 * Math.PI / 180);
+   expect(right * x + up * y).toBeGreaterThan(2.4);
+   // Integer map cells impose at most half a cell error per axis.
+   expect(Math.abs(right * y - up * x)).toBeLessThanOrEqual(Math.SQRT1_2);
+  }
+ });
+
+it('updates a held joystick from the current camera angle on every movement tick', () => {
+ moveDirection(1, 0);
+ expect(s.send.mock.calls.at(-1)[0].dest).toEqual([13, 10]);
+ s.camera.angle[1] = 15;
+ moveDirection(1, 0);
+ expect(s.send.mock.calls.at(-1)[0].dest).toEqual([13, 11]);
+ s.camera.angle[1] = 90;
+ moveDirection(1, 0);
+ expect(s.send.mock.calls.at(-1)[0].dest).toEqual([10, 13]);
 });

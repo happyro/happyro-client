@@ -74,3 +74,18 @@ it('ignores pending requests without replacing actual results or errors',()=>{
  showToast(body,'已提交，等待服务器回复','pending');expect(document.querySelector('.ui-toast')).toBe(error);
  showToast(body,'操作完成','success');expect(document.querySelector('.ui-toast').textContent).toBe('操作完成');
 });
+
+it('keeps desktop adventure feedback in its window and mobile feedback in the viewport', () => {
+ const owner = document.createElement('section');
+ owner.dataset.feedbackTheme = 'desktop';
+ const container = owner.appendChild(document.createElement('div'));
+ document.body.append(owner);
+ showToast(container, '已发放');
+ const desktop = owner.querySelector('.ui-toast');
+ expect(desktop).not.toBeNull();
+ clearToast(container);
+ delete owner.dataset.feedbackTheme;
+ showToast(container, '已发放');
+ expect(owner.querySelector('.ui-toast')).toBeNull();
+ clearToast(container);
+});

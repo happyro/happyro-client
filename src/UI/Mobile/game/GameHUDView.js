@@ -17,9 +17,11 @@ import { drawPlayerArrow } from 'UI/Components/GameTools/WorldMapPreview.js';
 import { fittedMapRect, mapImageSourceRect, mapPointToCanvas } from 'UI/Components/GameTools/MapPreviewLayout.js';
 import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
 import autoCombatCSS from 'UI/Game/AutoCombatPanel.css?raw';
+import switchCSS from 'UI/Components/GameSwitch.css?raw';
 import { createCompanionsPanel } from './CompanionsPanel.js';
 import { createPetPanel } from './PetPanel.js';
 import { createMailPanel } from './MailPanel.js';
+import { createCameraPanel } from './CameraPanel.js';
 import { createSettingsPanel } from './SettingsPanel.js';
 import { createBankPanel } from './BankPanel.js';
 import { createVendingPanel } from './VendingPanel.js';
@@ -63,7 +65,8 @@ ${shopCSS}
 ${interactionCSS}
 ${interactionPhoneCSS}
 ${interactionTabletCSS}
-${chatPreviewCSS}</style>${html}`;
+${chatPreviewCSS}
+${switchCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	const chatPreview = createChatPreview(root);
@@ -174,7 +177,7 @@ ${chatPreviewCSS}</style>${html}`;
 		const fit = fittedMapRect(canvas.width, canvas.height, mapImage.width, mapImage.height);
 		if (mapImage.image) {
 			const image = mapImage.image;
-			const source = mapImageSourceRect(image.naturalWidth, image.naturalHeight, mapImage);
+			const source = mapImageSourceRect(image.naturalWidth || image.width, image.naturalHeight || image.height, mapImage);
 			ctx.drawImage(image, source.x, source.y, source.width, source.height, fit.x, fit.y, fit.width, fit.height);
 		} else {
 			ctx.fillStyle = '#c6d0db';
@@ -289,6 +292,7 @@ ${chatPreviewCSS}</style>${html}`;
 			{
 				autoCombat: '自动战斗设置',
 				settings: '设置',
+				camera: '镜头',
 				profile: '人物信息',
 				status: '状态效果',
 				menu: '菜单',
@@ -321,7 +325,7 @@ ${chatPreviewCSS}</style>${html}`;
 		$('[data-close]').hidden = serverState?.canClose === false;
 		$('[data-close]').disabled = serverState?.canClose === false;
 		$('[data-close]').title = panel === 'npc' && serverState?.canClose === false ? '请先完成当前对话步骤' : '关闭';
-		$('[data-back]').hidden = Boolean(serverState) || panel === 'menu' || panel === 'chat' || panel === 'npc';
+		$('[data-back]').hidden = Boolean(serverState) || panel === 'menu' || panel === 'chat' || panel === 'camera' || panel === 'npc';
 		$('[data-back]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
 		statusPanel = null;
@@ -381,6 +385,7 @@ ${chatPreviewCSS}</style>${html}`;
 		body.classList.toggle('chat-body', panel === 'chat');
 		$('.panel').classList.toggle('chat-panel', panel === 'chat');
 		backdrop.classList.toggle('chat-backdrop', panel === 'chat');
+		backdrop.classList.toggle('camera-backdrop', panel === 'camera');
 		if (panel === 'information') {
 			const list = document.createElement('dl');
 			list.className = 'interaction-information';
@@ -400,6 +405,7 @@ ${chatPreviewCSS}</style>${html}`;
 				preview: settings => chatPreview.configure(settings)
 			});
 		if (panel === 'npc') createNPCPanel(body, serverState);
+		if (panel === 'camera') createCameraPanel(body, actions.camera);
 		if (panel === 'status') statusPanel = createStatusPanel(body);
 		if (panel === 'profile' || panel === 'status') renderDetails();
 		if (panel === 'menu') {

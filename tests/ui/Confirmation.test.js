@@ -32,3 +32,23 @@ it('accepts once and cancels with Escape', async () => {
  body.querySelector('dialog').dispatchEvent(new Event('cancel', {cancelable:true}));
  await expect(cancelled).resolves.toBe(false);
 });
+
+it('selects the original desktop card only for desktop adventure tools', async () => {
+ const original = globalThis.ResizeObserver;
+ globalThis.ResizeObserver = class { observe() {} disconnect() {} };
+ try {
+  const owner = document.createElement('section');
+  owner.dataset.feedbackTheme = 'desktop';
+  const container = owner.appendChild(document.createElement('div'));
+  document.body.append(owner);
+  const desktop = requestConfirmation(container, '确认发放？');
+  expect(container.querySelector('dialog').style.getPropertyValue('--confirm-center-x')).toBe('0px');
+  container.querySelector('[data-cancel]').click();
+  await expect(desktop).resolves.toBe(false);
+  delete owner.dataset.feedbackTheme;
+  const mobile = requestConfirmation(container, '确认发放？');
+  expect(container.querySelector('dialog').style.getPropertyValue('--confirm-center-x')).toBe('');
+  container.querySelector('[data-cancel]').click();
+  await expect(mobile).resolves.toBe(false);
+ } finally { globalThis.ResizeObserver = original; }
+});

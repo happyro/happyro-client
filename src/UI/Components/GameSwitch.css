@@ -1,0 +1,48 @@
+/* Shared binary controls for combat and pickup settings. */
+:is(.panel, .combat-dialog) .game-switch[role='switch'] {
+ appearance: none;
+ -webkit-appearance: none;
+ position: relative;
+ display: inline-block;
+ flex: 0 0 42px;
+ width: 42px;
+ min-width: 42px;
+ height: 24px;
+ min-height: 24px;
+ margin: 0;
+ padding: 2px;
+ border: 1px solid #7f8b97;
+ border-radius: 999px;
+ background: #34414d;
+ vertical-align: middle;
+ cursor: pointer;
+}
+:is(.panel, .combat-dialog) .game-switch[role='switch']::before {
+ content: '';
+ position: absolute;
+ width: 18px;
+ height: 18px;
+ left: 2px;
+ top: 2px;
+ border-radius: 50%;
+ background: #edf1f4;
+ transition: transform 120ms ease;
+}
+:is(.panel, .combat-dialog) .game-switch[role='switch']:is(:checked, [aria-checked='true']) {
+ background: #a7803b;
+ border-color: #e6c17d;
+}
+:is(.panel, .combat-dialog) .game-switch[role='switch']:is(:checked, [aria-checked='true'])::before {
+ transform: translateX(18px);
+}
+:is(.panel, .combat-dialog) .game-switch[role='switch']:focus-visible {
+ outline: 2px solid #ffca67;
+ outline-offset: 3px;
+}
+:is(.panel, .combat-dialog) .game-switch[role='switch']:disabled {
+ opacity: 0.45;
+ cursor: default;
+}
+@media (prefers-reduced-motion: reduce) {
+ .game-switch[role='switch']::before { transition: none; }
+}

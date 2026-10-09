@@ -80,11 +80,11 @@ it('keeps refinement material and optional protection through refresh without re
 	expect(body.querySelector('select').value).toBe('1');
 	expect(body.querySelector('input').checked).toBe(true);
 	body.querySelector('input').checked = false;
-	button(body, '核对强化').click();
+	button(body, '下一步').click();
 	expect(body.querySelector('dialog').textContent).toContain('1000 Z');
 	body.querySelector('[data-confirm]').click();
 	expect(service.confirm).toHaveBeenCalledWith(1, 0);
-	button(body, '核对强化').click();
+	button(body, '下一步').click();
 	state.materials[1].zeny = 2000;
 	body.querySelector('[data-confirm]').click();
 	expect(service.confirm).toHaveBeenCalledTimes(1);
@@ -326,4 +326,28 @@ it('moves cart quantities from the footer in both directions without offering un
  body.querySelector('[aria-label="存入数量"]').value='5';button(body,'确认存入').click();
  expect(service.transfer).toHaveBeenLastCalledWith('inventory','cart',1,501,5,'one');
  expect(body.querySelector('.container-capacity').textContent).toContain('手推车格数：1/100');
+});
+
+it('loads refinement list icons and announces every result once including repeated outcomes', () => {
+ const body = mount();
+ const state = { items: [{ ...item, icon: '' }], allowed: true, selected: null, materials: [], resultId: 0 };
+ const panel = createRefinementPanel(body, { snapshot: () => state });
+ expect(body.querySelector('.inventory-item img').hidden).toBe(true);
+ state.items[0].icon = 'data:image/png;base64,a';
+ panel.update();
+ expect(body.querySelector('.inventory-item img').hidden).toBe(false);
+ expect(body.querySelector('.inventory-item img').getAttribute('src')).toBe(state.items[0].icon);
+ state.resultId = 1; state.message = '强化成功'; state.messageKind = 'success';
+ panel.update();
+ const first = document.querySelector('.ui-toast');
+ expect(first.textContent).toBe('强化成功');
+ panel.update();
+ expect(document.querySelector('.ui-toast')).toBe(first);
+ state.resultId = 2;
+ panel.update();
+ expect(document.querySelector('.ui-toast')).not.toBe(first);
+ state.resultId = 3; state.message = '强化失败'; state.messageKind = 'error';
+ panel.update();
+ expect(document.querySelector('.ui-toast').textContent).toBe('强化失败');
+ expect(document.querySelector('.ui-toast').classList.contains('error')).toBe(true);
 });

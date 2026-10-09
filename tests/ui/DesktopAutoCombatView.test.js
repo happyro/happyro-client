@@ -22,10 +22,10 @@ afterEach(() => { view.destroy(); document.body.replaceChildren(); });
 const click = selector => root.querySelector(selector).click();
 it('offers a visible start/stop control with live status and accessible state', () => {
 	click('[data-settings]'); click('[data-toggle]'); expect(actions.start).toHaveBeenCalledOnce();
-	expect(root.querySelector('[data-toggle]').getAttribute('aria-pressed')).toBe('true');
+	expect(root.querySelector('[data-toggle]').getAttribute('aria-checked')).toBe('true');
 	expect(root.querySelector('[data-status]').textContent).toBe('寻找附近目标');
 	click('[data-toggle]'); expect(actions.stop).toHaveBeenCalledOnce();
-	expect(root.querySelector('[data-toggle]').textContent).toBe('开始战斗');
+	expect(root.querySelector('[data-toggle]').getAttribute('aria-checked')).toBe('false');
 });
 it('uses the shared species, skill and range editor and saves without starting combat', () => {
 	click('[data-settings]'); expect(view.isOpen()).toBe(true); expect(actions.stop).not.toHaveBeenCalled();
@@ -38,7 +38,8 @@ it('uses the shared species, skill and range editor and saves without starting c
 });
 it('cancels unsaved settings with Escape and keeps keyboard focus inside the dialog', () => {
 	click('[data-settings]');
-	root.querySelector('[data-close]').dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true, cancelable: true }));
+	root.querySelector('[data-tab="combat"]').focus();
+	root.querySelector('[data-tab="combat"]').dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true, cancelable: true }));
 	expect(root.activeElement).toBe(root.querySelector('[data-skill="5"]'));
 	root.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
 	expect(view.isOpen()).toBe(false); expect(actions.configure).not.toHaveBeenCalled();
@@ -77,4 +78,22 @@ it('flushes numeric changes on close and preserves the last valid value for inva
  expect(saved.range).toBe(5); expect(range.getAttribute('aria-invalid')).toBe('true');
  range.value='8'; range.dispatchEvent(new Event('input')); click('[data-close]'); expect(saved.range).toBe(8);
  expect(actions.configure).not.toHaveBeenCalled(); expect(view.isOpen()).toBe(false);
+});
+
+it('keeps combat controls inside their tab across closing and reopening', () => {
+ click('[data-settings]');
+ const toggle = root.querySelector('[data-toggle]');
+ expect(toggle.closest('[role="tabpanel"]').id).toBe('combat-panel');
+ click('[data-toggle]');
+ click('[data-tab="pickup"]');
+ expect(toggle.closest('[hidden]')).not.toBeNull();
+ expect(root.querySelector('#pickup-panel').hidden).toBe(false);
+ expect(root.querySelector('.combat-indicator')).toBeNull();
+ expect(actions.stop).not.toHaveBeenCalled();
+ click('[data-close]'); click('[data-settings]');
+ expect(root.querySelector('[data-toggle]')).toBe(toggle);
+ expect(toggle.closest('[hidden]')).toBeNull();
+ expect(toggle.getAttribute('aria-checked')).toBe('true');
+ click('[data-toggle]');
+ expect(actions.stop).toHaveBeenCalledOnce();
 });

@@ -336,3 +336,26 @@
 :host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {
 	font-size: var(--panel-title);
 }
+
+/* Camera controls stay compact and let players see the scene while adjusting it. */
+.hud:has(> .camera-backdrop:not([hidden])) > :is(.top-left, .chat-preview, .battle-dock) {
+	display: none;
+}
+.backdrop.camera-backdrop {
+	background: transparent;
+	justify-items: start;
+}
+:host .panel[data-view='camera'] {
+	--menu-window-width: 280px;
+	--menu-window-height: auto;
+	background: rgb(25 31 38 / 75%);
+}
+:host([data-menu-density='spacious']) .panel[data-view='camera'] {
+	--menu-window-width: 320px;
+}
+.panel[data-view='camera'] button {
+	background: rgb(35 47 58 / 80%);
+}
+.panel[data-view='camera'] button:active {
+	background: rgb(67 92 110 / 95%);
+}

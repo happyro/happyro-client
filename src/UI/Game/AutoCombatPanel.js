@@ -20,7 +20,7 @@ export function createAutoCombatPanel(body, actions) {
 				</section>
 				<section class="auto-teleport-settings" aria-labelledby="auto-teleport-title">
 					<h4 id="auto-teleport-title">自动瞬移</h4>
-					<label class="auto-teleport-toggle"><span>无目标时随机瞬移</span><input type="checkbox" data-auto-teleport></label>
+					<label class="auto-teleport-toggle"><span>无目标时随机瞬移</span><input type="checkbox" class="game-switch" role="switch" data-auto-teleport></label>
 					<div data-teleport-controls></div>
 					<p class="auto-help">使用冒险工具能力。没有战斗目标和可拾取物品时，等待后随机瞬移。</p>
 					<p class="auto-help">仍受地图限制和服务器冷却约束。</p>

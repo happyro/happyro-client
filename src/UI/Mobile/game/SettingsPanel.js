@@ -3,7 +3,7 @@ import { confirmAction } from 'UI/Components/Confirmation.js';
 import { menuDensity } from './MenuLayout.js';
 import { showToast } from 'UI/Components/Toast.js';
 
-/** Graphics/audio use a draft; camera adjustments take effect immediately. */
+/** Graphics/audio use a draft; pickup settings save automatically. */
 export function createSettingsPanel(body, service, initialSection = '画面') {
 	let pickupEditor;
 	let draft = service.snapshot();
@@ -29,7 +29,7 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 		const content = document.createElement('div');
 		content.className = 'settings-content';
 		const sections = new Map();
-		for (const name of ['画面', '特效', '声音', '镜头', '拾取']) {
+		for (const name of ['画面', '特效', '声音', '拾取']) {
 			const section = document.createElement('section');
 			section.className = 'settings-section';
 			section.setAttribute('aria-label', name);
@@ -45,7 +45,7 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 					entry.button.setAttribute('aria-pressed', String(label === name));
 				}
 				content.scrollTop = 0;
-				footer.hidden = name === '镜头' || name === '拾取';
+				footer.hidden = name === '拾取';
 				pickupEditor.footer.hidden = name !== '拾取';
 			};
 			sections.set(name, { section, button });
@@ -173,54 +173,9 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 
 		pickupEditor = createPickupSettingsPanel(sections.get('拾取').section, draft.pickup);
 
-		const camera = sections.get('镜头').section;
-		camera.classList.add('camera-section');
-		const cameraButton = (label, action) => {
-			const button = document.createElement('button');
-			button.type = 'button';
-			button.textContent = label;
-			button.onclick = () => service.camera(action);
-			return button;
-		};
-		const reset = cameraButton('重置镜头', 'reset');
-		reset.className = 'camera-reset';
-		camera.append(reset);
-		for (const [name, actions] of [
-			[
-				'旋转',
-				[
-					['左转', 'left'],
-					['右转', 'right']
-				]
-			],
-			[
-				'缩放',
-				[
-					['拉近', 'zoomIn'],
-					['拉远', 'zoomOut']
-				]
-			],
-			[
-				'高度',
-				[
-					['抬高', 'up'],
-					['降低', 'down']
-				]
-			]
-		]) {
-			const group = document.createElement('div');
-			group.className = 'camera-group';
-			group.setAttribute('role', 'group');
-			group.setAttribute('aria-label', name);
-			const controls = document.createElement('div');
-			controls.className = 'camera-controls';
-			for (const [label, action] of actions) controls.append(cameraButton(label, action));
-			group.append(controls);
-			camera.append(group);
-		}
 		const footer = document.createElement('div');
 		footer.className = 'settings-footer';
-		footer.hidden = activeSection === '镜头' || activeSection === '拾取';
+		footer.hidden = activeSection === '拾取';
 		const buttons = document.createElement('div');
 		buttons.className = 'settings-actions';
 		for (const [label, action] of [

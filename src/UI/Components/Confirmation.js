@@ -1,4 +1,5 @@
 import css from './Confirmation.css?raw';
+import desktopCSS from './ConfirmationDesktop.css?raw';
 
 const active = new WeakMap();
 
@@ -9,7 +10,8 @@ export function confirmAction(container, message, action, { content, bounds, can
 	dialog.className = 'ui-confirm';
 	dialog.setAttribute('aria-label', '操作确认');
 	const style = document.createElement('style');
-	style.textContent = css;
+	const desktopOwner = container.closest('[data-feedback-theme="desktop"]');
+	style.textContent = desktopOwner ? desktopCSS : css;
 	const text = document.createElement('p');
 	text.textContent = message;
 	text.tabIndex = -1;
@@ -24,10 +26,18 @@ export function confirmAction(container, message, action, { content, bounds, can
 	confirm.type = 'button';
 	confirm.dataset.confirm = '';
 	confirm.textContent = '确认';
-	const resize = bounds ? new ResizeObserver(() => fitBounds()) : null;
+	const resize = bounds || desktopOwner ? new ResizeObserver(() => fitBounds()) : null;
 	function fitBounds() {
-		if (!bounds) return;
-		const rect = bounds.getBoundingClientRect();
+		if (!bounds && !desktopOwner) return;
+		const rect = (bounds || desktopOwner).getBoundingClientRect();
+		if (desktopOwner) {
+			dialog.style.setProperty('--confirm-center-x', `${rect.left + rect.width / 2}px`);
+			dialog.style.setProperty('--confirm-center-y', `${rect.top + rect.height / 2}px`);
+			dialog.style.setProperty(
+				'--confirm-owner-clip',
+				`inset(${rect.top}px ${Math.max(0, window.innerWidth - rect.right)}px ${Math.max(0, window.innerHeight - rect.bottom)}px ${rect.left}px)`
+			);
+		}
 		dialog.style.setProperty('--confirm-max-width', `${rect.width}px`);
 		dialog.style.setProperty('--confirm-max-height', `${rect.height}px`);
 	}
@@ -77,7 +87,7 @@ export function confirmAction(container, message, action, { content, bounds, can
 	const root = container.getRootNode();
 	if (root instanceof ShadowRoot) observer.observe(root, options);
 	fitBounds();
-	if (bounds) resize.observe(bounds);
+	if (bounds || desktopOwner) resize.observe(bounds || desktopOwner);
 	dialog.showModal();
 	return dismiss;
 }

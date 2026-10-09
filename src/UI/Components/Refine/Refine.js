@@ -206,7 +206,7 @@ Refine.init = function init() {
 	// Update success div text
 	const successdiv = root.querySelector('.success');
 	const initialValue = 0;
-	const successtext = DB.getMessage(3724);
+	const successtext = '成功率：%d%%';
 	initialsuccess = successtext.replace('%d%', `<span class="number">${initialValue}</span>`);
 	if (successdiv) {
 		successdiv.innerHTML = initialsuccess;
@@ -703,7 +703,7 @@ function onPopulateMaterials() {
 					}
 					const chanceRate = root.querySelector('.chance_rate');
 					if (chanceRate) {
-						chanceRate.textContent = DB.getMessage(3285).replace('%d%', material.chance);
+						chanceRate.textContent = `成功率：${material.chance}%`;
 					}
 					const refineZeny = root.querySelector('.refine_zeny');
 					if (refineZeny) {
@@ -863,7 +863,7 @@ function selectMaterial(material, item) {
 
 	const chanceRate = root.querySelector('.chance_rate');
 	if (chanceRate) {
-		chanceRate.textContent = DB.getMessage(3285).replace('%d%', material.chance);
+		chanceRate.textContent = `成功率：${material.chance}%`;
 	}
 	const refineZenyCont = root.querySelector('.refine_zeny_cont');
 	if (refineZenyCont) {
@@ -1346,7 +1346,7 @@ function onUpdateRefineUI(result) {
 	if (refine_can_cont && !refine_new_mats && !refine_item_broken) {
 		const chanceRate = root.querySelector('.chance_rate');
 		if (chanceRate) {
-			chanceRate.textContent = DB.getMessage(3285).replace('%d%', refine_current_chance);
+			chanceRate.textContent = `成功率：${refine_current_chance}%`;
 			chanceRate.style.display = 'block';
 		}
 		const refineZenyCont = root.querySelector('.refine_zeny_cont');

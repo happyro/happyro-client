@@ -52,7 +52,9 @@ export function moveDirection(x, y) {
 	MapControl.onRequestStopWalk();
 	Session.moveAction = null;
 	Session.autoFollow = false;
-	const angle = (-Camera.direction * Math.PI) / 4;
+	// Invert the camera yaw on the map X/Z plane using its rendered angle.
+	// Camera.direction is rounded to sprite octants and cannot steer movement.
+	const angle = (Camera.angle[1] * Math.PI) / 180;
 	const dx = x * Math.cos(angle) - y * Math.sin(angle);
 	const dy = x * Math.sin(angle) + y * Math.cos(angle);
 	const dest = [];

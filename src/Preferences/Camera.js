@@ -10,8 +10,15 @@
 
 import Preferences from 'Core/Preferences.js';
 import Platform from 'UI/Platform.js';
+import { menuDensity } from 'UI/Mobile/game/MenuLayout.js';
 
-export const DEFAULT_CAMERA_ZOOM = Platform.isMobile ? 110 : 125;
+// Classify the landscape play area even when the launch page is still portrait.
+const spacious = menuDensity(
+	Math.max(window.innerWidth, window.innerHeight),
+	Math.min(window.innerWidth, window.innerHeight)
+) === 'spacious';
+// Two normal zoom-out steps (15 each) beyond the phone default.
+export const DEFAULT_CAMERA_ZOOM = Platform.isMobile ? (spacious ? 140 : 110) : 125;
 
 /**
  * Export

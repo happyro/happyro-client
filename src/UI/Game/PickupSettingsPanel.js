@@ -52,6 +52,10 @@ export function createPickupSettingsPanel(section, draft, persist = savePickupSe
 	const label = (text, input) => {
 		const row = document.createElement('label');
 		row.className = 'settings-field';
+		if (input.type === 'checkbox') {
+			input.classList.add('game-switch');
+			input.setAttribute('role', 'switch');
+		}
 		const caption = document.createElement('span');
 		caption.textContent = text;
 		row.append(caption, input);
