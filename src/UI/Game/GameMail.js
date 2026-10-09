@@ -59,7 +59,7 @@ export function openGameMail(canOperate = () => true) {
 	const inventory = createGameInventory(allowed);
 	const request = (name, fields, wait) => {
 		pending = wait;
-		setMessage('等待服务器回复', 'info');
+		setMessage('等待服务器回复', 'pending');
 		send(name, fields);
 	};
 	const draft = { receiver: '', title: '', body: '', zeny: 0 };
@@ -117,7 +117,7 @@ export function openGameMail(canOperate = () => true) {
 			if (!mail || mail.ItemList.length || mail.zeny || deleting.has(selected)) return;
 			deleting.add(selected);
 			send('REQ_DELETE_RODEX', mail);
-			setMessage('已请求删除；以列表更新为准，可刷新核对', 'info');
+			setMessage('已请求删除；以列表更新为准，可刷新核对', 'pending');
 		},
 		compose() {
 			if (!allowed() || writing) return;

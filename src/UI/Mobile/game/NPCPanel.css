@@ -2,7 +2,7 @@
 :host([data-menu-density]) .panel[data-view='npc'] > .panel-body {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: var(--panel-gap);
 	overflow: hidden;
 	font-size: var(--npc-text);
 }
@@ -11,6 +11,7 @@
 }
 :host([data-menu-density]) .panel[data-view='npc'] button {
 	min-height: var(--npc-control);
+	padding: var(--panel-control-padding);
 	font-size: var(--npc-text);
 	line-height: 1.4;
 	white-space: normal;
@@ -47,7 +48,7 @@
 .npc-options button {
 	width: 100%;
 	text-align: left;
-	padding: 8px 12px;
+	padding: var(--panel-control-padding);
 }
 .npc-actions {
 	display: flex;
@@ -56,16 +57,13 @@
 	gap: 8px;
 	flex-shrink: 0;
 	border-top: 1px solid #52606d;
-	padding-top: 10px;
+	padding: 10px 0;
 }
 .npc-actions > button {
 	min-width: 88px;
 }
-.npc-status {
-	color: #bac4cd;
-	margin-right: auto;
-}
 .npc-input-form {
+	margin: 0;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
 	gap: 8px;
@@ -87,8 +85,60 @@
 .npc-input-form button {
 	min-width: 72px;
 }
+.npc-error:empty {
+	display: none;
+}
 .npc-error {
 	grid-column: 1 / -1;
 	color: #ff9b8d;
 	font-size: var(--npc-text);
+}
+
+:host([data-menu-density='compact']) .panel[data-view='npc'] > header {
+	box-sizing: border-box;
+	min-height: var(--npc-bar-height);
+	padding: 4px 10px;
+}
+:host([data-menu-density='compact']) .panel[data-view='npc'] .npc-actions > button {
+	min-width: 72px;
+	height: var(--npc-control);
+	padding: 3px 8px;
+}
+
+:host([data-menu-density='compact']) .panel[data-view='npc'] .npc-actions {
+	box-sizing: border-box;
+	min-height: var(--npc-bar-height);
+	padding: 4px 0;
+}
+
+:host([data-menu-density]) .panel[data-view='npc'] > .panel-body {
+	padding-bottom: 0;
+}
+
+.npc-result-items {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.npc-result-items li {
+	display: flex;
+	align-items: baseline;
+	justify-content: flex-start;
+	gap: 6px;
+	padding: 8px 0;
+}
+.npc-result-items li > :first-child {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.npc-result-items li > :last-child {
+	flex-shrink: 0;
+}
+
+:host([data-menu-density]) .panel[data-view='npc'] > .panel-body:has(.npc-actions[hidden]) {
+	padding-bottom: var(--panel-gap);
+}
+
+.npc-lines[hidden] + .npc-options {
+	padding-top: 0;
 }

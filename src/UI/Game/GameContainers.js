@@ -43,7 +43,7 @@ export function createGameContainers(canOperate) {
 				transferStatus: storageTransferStatus(),
 				items: containers.includes(source)
 					? raw(source)
-							.map(item => ({ ...inventory.describe(item), identity: identity(item) }))
+							.map(item => ({ ...inventory.describe(item), type: item.type, identity: identity(item) }))
 							.filter(item => item.count > 0)
 					: [],
 				capacity:

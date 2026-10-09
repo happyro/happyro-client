@@ -35,14 +35,14 @@ export function toPlainRagnarokText(value) {
 		.replace(/(?:\\n|\^n)/gi, '\n');
 }
 
-export function formatRagnarokMarkup(value) {
+export function formatRagnarokMarkup(value, formatText = escapeHtml) {
 	const text = markupSource(value).replace(/(?:\\n|\^n)/gi, '\n');
 	const parts = [];
 	let lastIndex = 0;
 	for (const match of text.matchAll(markupTag())) {
-		parts.push(applyColorCodes(escapeHtml(text.slice(lastIndex, match.index))));
+		parts.push(applyColorCodes(formatText(text.slice(lastIndex, match.index))));
 		const [, tag, label, info] = match;
-		const inner = applyColorCodes(escapeHtml(label));
+		const inner = applyColorCodes(formatText(label));
 		if (tag.toUpperCase() === 'NAVI') {
 			parts.push(
 				`<span class="navi-link" data-navi-info="${escapeHtml(info)}" data-navi-name="${escapeHtml(toPlainRagnarokText(label))}">${inner}</span>`
@@ -52,6 +52,30 @@ export function formatRagnarokMarkup(value) {
 		}
 		lastIndex = match.index + match[0].length;
 	}
-	parts.push(applyColorCodes(escapeHtml(text.slice(lastIndex))));
+	parts.push(applyColorCodes(formatText(text.slice(lastIndex))));
 	return parts.join('');
+}
+
+/** Shared NPC formatting: text-only tags and constrained font attributes. */
+export function formatNPCMarkup(value) {
+	const tags =
+		/&lt;(\/?)(b|i|u|strong|em|s|strike|del|ins|small|big|sub|sup|br|hr|p|div|span|ul|ol|li|blockquote|pre|code|font|h[1-6])(?=\s|\/?&gt;)([\s\S]*?)&gt;/gi;
+	const formatText = text =>
+		escapeHtml(text).replace(tags, (_, closing, tag, attributes) => {
+			tag = tag.toLowerCase();
+			if (closing) return ['br', 'hr'].includes(tag) ? '' : `</${tag}>`;
+			let safeAttributes = '';
+			if (tag === 'font') {
+				const color = attributes.match(
+					/(?:^|\s)color\s*=\s*(?:&quot;|&#39;)?(#[a-f\d]{3,8}|[a-z]+)(?:&quot;|&#39;)?(?=\s|\/?$)/i
+				)?.[1];
+				const size = attributes.match(
+					/(?:^|\s)size\s*=\s*(?:&quot;|&#39;)?([1-7])(?:&quot;|&#39;)?(?=\s|\/?$)/i
+				)?.[1];
+				if (color) safeAttributes += ` color="${color}"`;
+				if (size) safeAttributes += ` size="${size}"`;
+			}
+			return `<${tag}${safeAttributes}>`;
+		});
+	return formatRagnarokMarkup(value, formatText).replace(/style="color:#000000"/g, 'style="color:inherit"');
 }

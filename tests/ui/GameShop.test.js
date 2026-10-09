@@ -14,7 +14,7 @@ it('checks quantity, order total and blocks duplicates without changing money or
  shop.set(0, 501, 2); shop.submit(); shop.submit();
  expect(send).toHaveBeenCalledExactlyOnceWith([{ index: 0, ITID: 501, count: 2 }]);
  expect(s.session.zeny).toBe(100); expect(s.items[0].count).toBe(5);
- expect(shop.snapshot().pending).toBe(true); finishGameShop('成功'); expect(interactionSnapshot().kind).toBe('notice');
+ expect(shop.snapshot().pending).toBe(true); finishGameShop('成功', true); expect(interactionSnapshot()).toMatchObject({title:'购买成功',resultItems:[{name:'物品',count:2}]});
 });
 it('revalidates sold identities, counts and sale locks at final confirmation', () => {
  const send = vi.fn(); const shop = openGameShop('sell', [{ index: 3, price: 10, overchargeprice: 12 }], send, vi.fn());
@@ -37,7 +37,7 @@ it('honors finite market stock including zero and cash balances independently of
  shop=openGameShop('buy',[{ITID:501,price:20}],send,quit,{type:'cash',currency:'商店点数',balance:30,closeAfterResult:true});
  shop.set(0,501,2);expect(shop.submit()).toContain('金额');shop.set(0,501,1);shop.submit();
  expect(send).toHaveBeenCalledExactlyOnceWith([expect.objectContaining({ITID:501,count:1,price:20})]);
- finishGameShop('完成');expect(quit).toHaveBeenCalledOnce();
+ finishGameShop('完成', true);expect(quit).toHaveBeenCalledOnce();
 });
 it('aggregates exchange materials across order lines and preserves shop indices in requests', () => {
  const send=vi.fn();const shop=openGameShop('buy',[{index:7,ITID:502,amount:0xffffffff,currencyITID:501,currencyamount:2},{index:9,ITID:503,amount:3,price:0,currencyList:[{ITID:501,amount:2,refine_level:0}]}],send,vi.fn(),{type:'barter'});
@@ -53,7 +53,15 @@ it('caps sales to a buying store across inventory stacks and acknowledges every 
  t.set(3,501,2);t.set(4,501,2);expect(t.submit()).toContain('数量');t.set(4,501,1);expect(t.submit()).toContain('金额');t.set(3,501,1);t.submit();expect(send).toHaveBeenCalledExactlyOnceWith([{index:3,ITID:501,count:1},{index:4,ITID:501,count:1}]);expect(t.acknowledgeSale(3,1)).toBe(false);expect(t.acknowledgeSale(4,1)).toBe(true);
 });
 it('does not wait for a nonexistent success acknowledgement when buying from a player vendor',()=>{
- const send=vi.fn(),t=openGameShop('buy',[{ITID:501,price:10,qty:2}],send,vi.fn(),{type:'player-vending',requestOnly:true});t.set(0,501,1);t.submit();expect(send).toHaveBeenCalledOnce();expect(interactionSnapshot()).toMatchObject({kind:'notice',title:'购买请求已发送'});t.submit();expect(send).toHaveBeenCalledOnce();
+ const send=vi.fn(),t=openGameShop('buy',[{ITID:501,price:10,qty:2}],send,vi.fn(),{type:'player-vending',requestOnly:true});t.set(0,501,1);t.submit();expect(send).toHaveBeenCalledOnce();expect(interactionSnapshot()).toBeNull();t.submit();expect(send).toHaveBeenCalledOnce();
 });
 
 it('keeps the NPC sale lock from excluding items requested by a player buying store',()=>{s.lock=true;s.items[0].PlaceETCTab=1;const send=vi.fn(),t=openGameShop('sell',[{index:3,ITID:501,price:1,qty:2}],send,vi.fn(),{type:'player-buying',limitToOffer:true,maxTotal:100});expect(t.set(3,501,1)).toBe('');t.submit();expect(send).toHaveBeenCalledOnce();});
+
+it('keeps failure results visible',()=>{openGameShop('buy',[],vi.fn(),vi.fn());finishGameShop('余额不足',false);expect(interactionSnapshot()).toMatchObject({kind:'notice',lines:['余额不足']});});
+
+it('retains sold item details after the server removes inventory entries',()=>{
+ const shop=openGameShop('sell',[{index:3,ITID:501,price:10}],vi.fn(),vi.fn());
+ shop.set(3,501,5);shop.submit();s.items=[];finishGameShop('成功',true);
+ expect(interactionSnapshot()).toMatchObject({title:'出售成功',resultItems:[{name:'物品',count:5}]});
+});

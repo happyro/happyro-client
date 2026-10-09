@@ -1,6 +1,7 @@
 import { beforeEach, expect, it, vi } from 'vitest';
 const s = vi.hoisted(() => ({ send: vi.fn() }));
 vi.mock('Network/NetworkManager.js', () => ({ default: { sendPacket: s.send } }));
+vi.mock('Renderer/EntityManager.js', () => ({ default: { get: id => id === 7 ? { display: { name: '卡普拉服务人员#test' } } : null } }));
 vi.mock('DB/DBManager.js', () => ({ default: { getNpcName: name => name } }));
 vi.mock('Core/Client.js', () => ({ default: { loadFile: vi.fn() } }));
 vi.mock('Network/PacketStructure.js', () => ({ default: {
@@ -63,4 +64,35 @@ it('does not let the old NPC cleanup close packet replace a newly opened warehou
   mobileNPC.closeButton({ NAID: 7 }); expect(interactionSnapshot()).toBe(state);
  }
  clearInteraction(); mobileNPC.closeButton({ NAID: 7 }); expect(interactionSnapshot()).toBeNull();
+});
+
+it('uses the NPC display name for both conversations and shop selection', () => {
+ mobileNPC.message({ NAID: 7, msg: '你好' }); expect(interactionSnapshot().title).toBe('卡普拉服务人员');
+ mobileNPC.deal({ NAID: 7 }); expect(interactionSnapshot().title).toBe('卡普拉服务人员');
+});
+
+it('preserves script formatting for the NPC renderer',()=>{mobileNPC.message({NAID:7,msg:'<b>碳酸水</b>^2ECCFA清爽^000000'});expect(interactionSnapshot().lines).toEqual(['<b>碳酸水</b>^2ECCFA清爽^000000']);});
+
+it.each([false,true])('clears the previous page before a direct menu and rejects late portrait loads (loaded=%s)', loaded => {
+ const callbacks=[];Client.loadFile.mockImplementation((file,done)=>callbacks.push(done));
+ mobileNPC.cutin({imageName:'kafra_01',type:2});
+ mobileNPC.message({NAID:7,msg:'欢迎使用卡普拉服务。'});
+ if(loaded)callbacks[0]('kafra.bmp');
+ mobileNPC.next({NAID:7});interactionSnapshot().respond();
+ expect(interactionSnapshot()).toMatchObject({lines:[],image:'',mode:'waiting'});
+ mobileNPC.menu({NAID:7,msg:'保存位置:使用仓库:取消'});
+ callbacks[0]('kafra.bmp');
+ expect(interactionSnapshot()).toMatchObject({lines:[],image:'',mode:'menu'});
+ expect(interactionSnapshot().options).toHaveLength(3);
+ interactionSnapshot().respond(2);
+ expect(s.send).toHaveBeenLastCalledWith(expect.objectContaining({typeName:'CHOOSE_MENU',num:2,NAID:7}));
+});
+
+it('keeps new page instructions and newly requested portraits after next', () => {
+ mobileNPC.message({NAID:7,msg:'上一页'});mobileNPC.next({NAID:7});interactionSnapshot().respond();
+ mobileNPC.message({NAID:7,msg:'请选择目的地：'});
+ Client.loadFile.mockImplementation((file,done)=>done('new.bmp'));
+ mobileNPC.cutin({imageName:'new',type:2});
+ mobileNPC.menu({NAID:7,msg:'普隆德拉:艾尔贝塔'});
+ expect(interactionSnapshot()).toMatchObject({lines:['请选择目的地：'],image:'new.bmp',mode:'menu'});
 });

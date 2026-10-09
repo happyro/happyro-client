@@ -81,7 +81,7 @@ it('keeps refinement material and optional protection through refresh without re
 	expect(body.querySelector('input').checked).toBe(true);
 	body.querySelector('input').checked = false;
 	button(body, '核对强化').click();
-	expect(body.querySelector('dialog').textContent).toContain('1000 Zeny');
+	expect(body.querySelector('dialog').textContent).toContain('1000 Z');
 	body.querySelector('[data-confirm]').click();
 	expect(service.confirm).toHaveBeenCalledWith(1, 0);
 	button(body, '核对强化').click();
@@ -201,7 +201,7 @@ it('preserves vending price drafts and requires saving before opening a store', 
 	button(body, '保存数量与单价').click();
 	expect(service.set).toHaveBeenCalledWith(1, 'one', 2, 30);
 	body.querySelector('[data-submit]').click();
-	expect(body.querySelector('.interaction-review-summary').textContent).toContain('20 Zeny');
+	expect(body.querySelector('.interaction-review-summary').textContent).toContain('20 Z');
 });
 it('updates transfer limits and destinations without discarding quantity edits', () => {
 	const body = mount(),
@@ -215,22 +215,25 @@ it('updates transfer limits and destinations without discarding quantity edits',
 	const service = { snapshot: () => state, transfer: vi.fn() };
 	const panel = createContainerPanel(body, service, 'storage');
 	body.querySelector('.inventory-item').click();
-	const field = body.querySelector('[aria-label="转移数量"]');
+	const field = body.querySelector('.interaction-footer [aria-label="取出数量"]');
+	expect(field).not.toBeNull();
 	input(field, '15');
 	state.items[0] = { ...item, count: 10 };
 	state.containers = ['storage', 'cart'];
 	panel.update();
+	expect(body.querySelector('.inventory-detail select').parentElement.hidden).toBe(true);
+	expect(body.querySelector('.interaction-footer .container-capacity').textContent).toBe('仓库格数：1/600');
 	expect(field.value).toBe('15');
 	expect(field.max).toBe('10');
 	expect(body.querySelector('.inventory-detail select').value).toBe('cart');
-	button(body, '确认转移').click();
+	button(body, '确认取出').click();
 	expect(service.transfer).not.toHaveBeenCalled();
 	button(body, '全部数量').click();
-	button(body, '确认转移').click();
+	button(body, '确认取出').click();
 	expect(service.transfer).toHaveBeenCalledWith('storage', 'cart', 1, 501, 10, item.identity);
 	state.allowed = false;
 	panel.update();
-	expect(button(body, '确认转移').disabled).toBe(true);
+	expect(button(body, '确认取出').disabled).toBe(true);
 });
 
 it('rejects an enchant confirmation when the selected equipment changed', () => {
@@ -261,15 +264,66 @@ it('filters warehouse selection and separates deposits from withdrawals', () => 
  expect(body.querySelector('.inventory-item').getAttribute('aria-pressed')).toBe('true');
  input(body.querySelector('[type=search]'),'不存在');
  expect(body.querySelector('.inventory-item')).toBeNull();
- expect(body.querySelector('.inventory-detail input')).toBeNull();
+ expect(body.querySelector('.container-amount')).toBeNull();
  expect(body.querySelector('.container-empty').textContent).toContain('没有符合');
  input(body.querySelector('[type=search]'),'501');
  button(body,'存入').click();
  expect(service.snapshot).toHaveBeenCalledWith('inventory');
  body.querySelector('.inventory-item').click();
  expect([...body.querySelector('.inventory-detail select').options].map(o=>o.value)).toEqual(['storage']);
+ expect(body.querySelector('.inventory-detail select').parentElement.hidden).toBe(true);
+ expect(body.querySelector('[aria-label="存入数量"]')).not.toBeNull();
  state.pending=true; panel.update();
- expect(button(body,'确认转移').disabled).toBe(true);
+ expect(button(body,'确认存入').disabled).toBe(true);
  state.pending=false; state.items[0].identity='b'; panel.update();
- expect(body.querySelector('.inventory-detail input')).toBeNull();
+ expect(body.querySelector('.container-amount')).toBeNull();
+});
+
+it('filters container item types together with search and clears stale quantity controls', () => {
+ const body=mount();
+ const types=[5,4,6,10,7,8,12];
+ const state={allowed:true,containers:['inventory','storage'],items:types.map((type,index)=>({...item,index,type,ID:500+index,name:`物品${index}`,category:'other'}))};
+ createContainerPanel(body,{snapshot:()=>state,transfer:vi.fn()},'storage');
+ const category=body.querySelector('[aria-label="物品分类"]');
+ for(const [key,count] of [['weapon',1],['armor',1],['card',1],['ammo',1],['pet',2],['shadow',1]]) {
+  body.querySelector('.inventory-list').scrollTop=200;
+  category.value=key; category.dispatchEvent(new Event('change'));
+  expect(body.querySelector('.inventory-list').scrollTop).toBe(0);
+  expect(body.querySelectorAll('.inventory-item')).toHaveLength(count);
+ }
+ body.querySelector('.inventory-item').click();
+ expect(body.querySelector('.interaction-footer .container-amount')).not.toBeNull();
+ input(body.querySelector('[type=search]'),'没有匹配');
+ expect(body.querySelectorAll('.inventory-item')).toHaveLength(0);
+ expect(body.querySelector('.container-amount')).toBeNull();
+});
+
+it('keeps selected material rows stable and protects drafts when selecting from the order', () => {
+ const body=mount();
+ const state={items:[item,{...item,index:2,ID:502}],order:[{...item,index:2,ID:502,count:4}],allowed:true};
+ const service={snapshot:()=>state,set:vi.fn(()=>''),clear:vi.fn(),confirm:vi.fn()};
+ const panel=createMaterialsPanel(body,service);
+ const row=body.querySelector('.interaction-order-item');
+ panel.update();expect(body.querySelector('.interaction-order-item')).toBe(row);
+ row.click();expect(body.querySelector('input').value).toBe('4');
+ input(body.querySelector('input'),'6');
+ body.querySelector('.inventory-item').click();
+ expect(body.querySelector('input').value).toBe('6');
+ state.allowed=false;panel.update();expect(body.querySelector('.interaction-order-item').disabled).toBe(true);
+});
+
+it('moves cart quantities from the footer in both directions without offering unrelated storage', () => {
+ const body=mount();
+ const service={snapshot:source=>({items:[item],containers:['inventory','cart','storage'],allowed:true,capacity:source==='cart'?{current:1,limit:100,weight:10,maxWeight:8000}:null}),transfer:vi.fn(()=> '')};
+ createContainerPanel(body,service,'cart');
+ body.querySelector('.inventory-item').click();
+ const field=body.querySelector('[aria-label="取出数量"]');
+ expect(field.closest('.interaction-footer')).not.toBeNull();
+ expect([...body.querySelector('[aria-label="转移到"]').options].map(option=>option.value)).toEqual(['inventory']);
+ field.value='3';button(body,'确认取出').click();
+ expect(service.transfer).toHaveBeenLastCalledWith('cart','inventory',1,501,3,'one');
+ button(body,'存入').click();body.querySelector('.inventory-item').click();
+ body.querySelector('[aria-label="存入数量"]').value='5';button(body,'确认存入').click();
+ expect(service.transfer).toHaveBeenLastCalledWith('inventory','cart',1,501,5,'one');
+ expect(body.querySelector('.container-capacity').textContent).toContain('手推车格数：1/100');
 });

@@ -151,7 +151,7 @@ export function openGamePet(canOperate = () => true) {
 				if (action === 'feed') s.pending = 'feed';
 				send('COMMAND_PET', { cSub: command });
 			}
-			s.messageKind = 'info';
+			s.messageKind = 'pending';
 			s.message = '已发送请求，以服务器状态为准';
 			return s.message;
 		},

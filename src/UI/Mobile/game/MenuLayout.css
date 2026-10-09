@@ -1,14 +1,16 @@
 /* Shared mobile menu dimensions, typography and control density. */
 :host {
-	--interaction-text: 14px;
-	--interaction-title: 16px;
-	--interaction-control: 40px;
-	--interaction-caption: 12px;
+	--interaction-text: var(--panel-text);
+	--interaction-title: var(--panel-title);
+	--interaction-control: var(--panel-control);
+	--interaction-caption: var(--panel-caption);
 	--npc-width: 520px;
 	--npc-max-height: 80%;
+	--npc-min-height: 220px;
 	--npc-text: var(--interaction-text);
 	--npc-title: var(--interaction-title);
 	--npc-control: var(--interaction-control);
+	--npc-bar-height: calc(var(--npc-control) + 9px);
 	--npc-image-height: 140px;
 	--menu-standard-width: 1040px;
 	--menu-standard-height: 640px;
@@ -36,12 +38,9 @@
 	--panel-item-image: 96px;
 }
 :host([data-menu-density='spacious']) {
-	--interaction-text: 16px;
-	--interaction-title: 18px;
-	--interaction-control: 44px;
-	--interaction-caption: 14px;
 	--npc-width: 640px;
 	--npc-max-height: min(520px, 80%);
+	--npc-min-height: 320px;
 	--npc-text: var(--interaction-text);
 	--npc-title: var(--interaction-title);
 	--npc-control: var(--interaction-control);
@@ -231,7 +230,8 @@
 }
 :host([data-menu-density='spacious']) .mobile-menu-editor button {
 	grid-row: 3;
-	min-height: 44px;
+	min-height: var(--panel-control);
+	font-size: var(--panel-text);
 }
 :host([data-menu-density='spacious']) .mobile-menu-editor [data-done] {
 	grid-column: 2;
@@ -321,5 +321,18 @@
 :host .panel[data-view='npc'] {
 	--menu-window-width: var(--npc-width);
 	--menu-window-height: auto;
+	min-height: min(var(--npc-min-height), var(--npc-max-height));
 	max-height: var(--npc-max-height);
+}
+
+:host([data-menu-density='spacious']) .mobile-menu-editor input {
+	height: var(--panel-control);
+	min-height: var(--panel-control);
+	font-size: var(--panel-text);
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor textarea {
+	font-size: var(--panel-text);
+}
+:host([data-menu-density='spacious']) .mobile-menu-editor #editor-title {
+	font-size: var(--panel-title);
 }

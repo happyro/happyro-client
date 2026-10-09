@@ -134,8 +134,7 @@
 
 /* Storage shares control tokens with the other interaction menus. */
 .panel .warehouse-body .container-toolbar {
-	display: flex;
-	flex-wrap: wrap;
+	display: grid;
 	align-items: center;
 	gap: var(--panel-gap);
 	flex-shrink: 0;
@@ -158,10 +157,18 @@
 	min-width: 0;
 }
 .panel .warehouse-body .container-capacity {
-	margin-left: auto;
+	flex: 1;
+	min-width: 0;
+}
+.panel .warehouse-body .interaction-footer {
+	box-sizing: content-box;
+	min-height: var(--interaction-control);
+}
+.panel .container-form > label[hidden] {
+	display: none;
 }
 .panel .warehouse-body .container-toolbar > input[type='search'] {
-	flex: 1 1 100%;
+	width: 100%;
 	min-width: 0;
 	margin: 0;
 }
@@ -183,4 +190,225 @@
 	padding: var(--panel-gap);
 	color: #bac4cd;
 	line-height: 1.6;
+}
+
+.panel .warehouse-body .container-quantity {
+	width: clamp(120px, 15vw, 180px);
+	display: flex;
+	align-items: center;
+	gap: var(--panel-gap);
+	flex: 0 0 auto;
+	white-space: nowrap;
+	font-size: var(--interaction-caption);
+}
+.panel .warehouse-body .container-quantity input {
+	box-sizing: border-box;
+	width: 100%;
+	min-width: 0;
+	height: var(--interaction-control);
+	margin: 0;
+}
+
+.panel .container-item-heading {
+	display: flex;
+	align-items: baseline;
+	gap: var(--panel-gap);
+}
+.panel .container-item-heading h3 {
+	flex: 1;
+	min-width: 0;
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+.panel .container-item-heading .container-item-count {
+	flex: 0 0 auto;
+	margin: 0;
+	font-size: var(--interaction-text);
+	white-space: nowrap;
+}
+
+.panel .warehouse-body .container-filters > :is(select, .menu-select) {
+	flex: 1 1 90px;
+	min-width: 90px;
+}
+.panel .warehouse-body .container-source {
+	flex: 0 1 100px;
+}
+
+.panel .warehouse-body .container-filters {
+	padding-right: 2px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+}
+
+:host([data-menu-density]) .panel .warehouse-body .container-item-heading h3 {
+	font-size: var(--panel-title);
+	line-height: 1.4;
+}
+
+/* Shared frames: headings and scroll areas belong to the same bordered column. */
+.interaction-panel .interaction-columns {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.25fr);
+	gap: var(--panel-gap);
+	flex: 1;
+	min-height: 0;
+	min-width: 0;
+}
+.interaction-panel .interaction-column {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+	border: 1px solid #52606d;
+	border-radius: 6px;
+	overflow: hidden;
+	background: #19212a;
+}
+.interaction-panel .interaction-column-title {
+	margin: 0;
+	padding: 6px 8px;
+	border-bottom: 1px solid #52606d;
+	background: #24313d;
+	flex: 0 0 auto;
+	color: #f5f2e9;
+}
+:host([data-menu-density]) .interaction-panel .interaction-column-content {
+	display: block;
+	flex: 1;
+	min-height: 0;
+	min-width: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+	padding: var(--panel-gap);
+	border: 0;
+	border-radius: 0;
+	margin: 0;
+	overflow-wrap: anywhere;
+	scrollbar-color: #65717b #19212a;
+	scrollbar-width: thin;
+}
+.interaction-column-content > :first-child {
+	margin-top: 0;
+}
+.interaction-panel .interaction-column-content.inventory-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--panel-gap);
+}
+.interaction-panel .interaction-column-content .inventory-item {
+	flex-shrink: 0;
+	width: 100%;
+	text-align: left;
+}
+.interaction-panel .interaction-order-item {
+	display: block;
+	width: 100%;
+	margin: 0 0 var(--panel-gap);
+	text-align: left;
+	overflow-wrap: anywhere;
+	background: #24313d;
+	border: 1px solid #52606d;
+}
+.interaction-panel .interaction-order-item span {
+	display: block;
+}
+.interaction-panel .interaction-columns .interaction-field,
+.interaction-panel .interaction-toolbar > label {
+	display: grid;
+	gap: 4px;
+	align-items: start;
+	min-width: 0;
+	margin: 0 0 var(--panel-gap);
+}
+.interaction-panel .interaction-field:has(input[type='checkbox']) {
+	display: flex;
+	align-items: center;
+}
+.interaction-panel .interaction-inline-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--panel-gap);
+}
+.interaction-panel .trade-offers > section + section {
+	border-top: 1px solid #52606d;
+	margin-top: var(--panel-gap);
+	padding-top: var(--panel-gap);
+}
+.interaction-panel .trade-offers h3 {
+	margin: 0 0 var(--panel-gap);
+}
+.interaction-panel .trade-offers p {
+	margin: 0 0 var(--panel-gap);
+}
+.interaction-panel .interaction-toolbar {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: var(--panel-gap);
+	flex-shrink: 0;
+}
+.interaction-panel .interaction-toolbar[hidden] {
+	display: none;
+}
+.interaction-panel .interaction-toolbar > label {
+	margin: 0;
+}
+.interaction-panel .interaction-toolbar > label[hidden] {
+	display: none;
+}
+.interaction-panel .interaction-toolbar:not(:has([data-budget-label]:not([hidden]))) {
+	grid-template-columns: minmax(0, 1fr);
+}
+:host([data-menu-density]) .interaction-panel .interaction-columns [data-order] {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+:host([data-menu-density]) .interaction-panel .interaction-footer {
+	min-height: var(--interaction-control);
+	padding-block: var(--panel-gap);
+	box-sizing: content-box;
+}
+:host([data-menu-density]) .panel.interaction-panel > .panel-body {
+	padding-bottom: 0;
+}
+
+.interaction-panel .interaction-columns.interaction-columns-two {
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+}
+
+.interaction-panel .interaction-pricing {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: var(--panel-gap);
+}
+
+:host([data-menu-density]) .interaction-panel .interaction-column-content.trade-offers {
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+	gap: var(--panel-gap);
+	overflow: hidden;
+}
+.interaction-panel .trade-offers > section {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	min-width: 0;
+}
+.interaction-panel .trade-offers > section > div {
+	min-height: 0;
+	overflow: auto;
+	scrollbar-width: thin;
+	scrollbar-color: #65717b #19212a;
+}
+.interaction-panel .trade-offers > section + section {
+	margin-top: 0;
+}
+
+:host([data-menu-density]) .panel .warehouse-body:has(.interaction-columns-two) .container-toolbar {
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+	gap: var(--panel-gap);
 }

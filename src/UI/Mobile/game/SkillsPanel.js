@@ -48,7 +48,7 @@ export function createSkillsPanel(body, actions) {
 		const learn = button(skill.level ? '升级一级' : '学习一级', () => {
 			dismiss = confirmAction(body, `确认将「${skill.name}」升至 ${skill.level + 1} 级？`, () => {
 				const result = actions.learn(skill.id, skill.level + 1);
-				status(result, result === '已请求学习一级，等待服务器更新' ? 'info' : 'error');
+				status(result, result === '已请求学习一级，等待服务器更新' ? 'pending' : 'error');
 				key = '';
 				update();
 			});

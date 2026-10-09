@@ -23,7 +23,7 @@ export function createPetPanel(body, service) {
 				return;
 			}
 			const result = service.command(action, value);
-			feedback(result, result === '已发送请求，以服务器状态为准' ? 'info' : 'error');
+			feedback(result, result === '已发送请求，以服务器状态为准' ? 'pending' : 'error');
 			update();
 		});
 	}

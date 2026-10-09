@@ -14,6 +14,7 @@ import { createGameSocial } from 'UI/Game/GameSocial.js';
 import { createGameChat, chatChannel } from 'UI/Game/GameChat.js';
 import { createGameQuests } from 'UI/Game/GameQuests.js';
 import { createGameContainers } from 'UI/Game/GameContainers.js';
+import EntityManager from 'Renderer/EntityManager.js';
 import { subscribeInteraction, clearInteraction } from 'UI/Game/ServerInteraction.js';
 import { createGameAttributes } from 'UI/Game/GameAttributes.js';
 import { createGameSkills } from 'UI/Game/GameSkills.js';
@@ -245,8 +246,13 @@ HUD.onAppend = function () {
 			if (result.configure !== undefined) view.openShortcuts(result.configure);
 			if (result.message) view.notice(result.message);
 		},
-		tap: (x, y) => {
+		pickTapTarget: (x, y) => {
 			const hit = Commands.pickSceneEntity(x, y);
+			return hit && [hit.constructor.TYPE_NPC, hit.constructor.TYPE_NPC2].includes(hit.objecttype) ? hit : null;
+		},
+		tap: (x, y, pressedNPC) => {
+			if (pressedNPC && EntityManager.get(pressedNPC.GID) !== pressedNPC) return;
+			const hit = pressedNPC || Commands.pickSceneEntity(x, y);
 			if (
 				hit &&
 				[hit.constructor.TYPE_ITEM, hit.constructor.TYPE_NPC, hit.constructor.TYPE_NPC2].includes(
@@ -255,7 +261,7 @@ HUD.onAppend = function () {
 			) {
 				autoCombat.stop('手动操作，自动战斗已停止');
 				shortcuts.cancel();
-				Commands.tapScene(x, y);
+				Commands.tapScene(x, y, hit);
 			} else if (shortcuts.snapshot().pending) {
 				autoCombat.stop('手动施法，自动战斗已停止');
 				shortcuts.pick(x, y);
@@ -300,7 +306,7 @@ HUD.onAppend = function () {
 	});
 	const cancel = () => {
 		cancelSceneInput();
-		view.close();
+		view.suspend();
 	};
 	window.addEventListener('blur', cancel, { signal: abort.signal });
 	document.addEventListener(

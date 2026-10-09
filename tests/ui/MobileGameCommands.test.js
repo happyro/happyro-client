@@ -224,3 +224,8 @@ it('notifies the action owner after both the initial attack and server retry', (
  retryOwnedAttack(42); expect(requests).toHaveLength(2); expect(requests[0]).not.toBe(requests[1]);
  stopAttack(); retryOwnedAttack(42); expect(requests).toHaveLength(2);
 });
+
+it('interacts with the NPC pressed at touch start even when its sprite moves before release', () => {
+ const npc=entity(3);s.over=null;tapScene(100,200,npc);
+ expect(npc.onMouseDown).toHaveBeenCalledOnce();expect(s.walk).not.toHaveBeenCalled();
+});

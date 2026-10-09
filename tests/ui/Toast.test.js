@@ -66,3 +66,11 @@ it('uses the configured notification duration', () => {
  vi.advanceTimersByTime(3999); expect(document.querySelector('.ui-toast')).not.toBeNull();
  vi.advanceTimersByTime(1); expect(document.querySelector('.ui-toast')).toBeNull();
 });
+
+it('ignores pending requests without replacing actual results or errors',()=>{
+ const body=document.body.appendChild(document.createElement('div'));
+ showToast(body,'等待服务器回复','pending');expect(document.querySelector('.ui-toast')).toBeNull();
+ showToast(body,'容量不足','error');const error=document.querySelector('.ui-toast');
+ showToast(body,'已提交，等待服务器回复','pending');expect(document.querySelector('.ui-toast')).toBe(error);
+ showToast(body,'操作完成','success');expect(document.querySelector('.ui-toast').textContent).toBe('操作完成');
+});

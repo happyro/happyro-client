@@ -54,3 +54,23 @@ export function inputDraft(fields, changed = () => {}) {
 		}
 	};
 }
+
+/** Create consistent framed columns for item workflows. Content nodes remain stable during updates. */
+export function interactionColumns(body, columns) {
+	const layout = document.createElement('div');
+	layout.className = 'interaction-columns';
+	for (const { title, className, content } of columns) {
+		const column = document.createElement('section');
+		column.className = 'interaction-column';
+		const heading = document.createElement('h3');
+		heading.className = 'interaction-column-title';
+		heading.textContent = title;
+		const area = document.createElement('div');
+		area.className = `interaction-column-content ${className || ''}`;
+		if (content) area.innerHTML = content;
+		column.append(heading, area);
+		layout.append(column);
+	}
+	body.replaceChildren(layout);
+	return layout;
+}

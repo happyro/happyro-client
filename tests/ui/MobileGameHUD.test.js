@@ -264,3 +264,30 @@ it('keeps NPC close controls consistent and ignores backdrop dismissal', () => {
  backdrop.click();expect(close).not.toHaveBeenCalled();expect(backdrop.hidden).toBe(false);
  click('[data-close]');expect(close).toHaveBeenCalledOnce();
 });
+
+it('rejects a trailing scene click but accepts a fresh press on the NPC close button', () => {
+ const close=vi.fn();view.showInteraction({kind:'npc',token:{},mode:'close',canClose:true,lines:['你好'],close});
+ const button=root.querySelector('[data-close]');
+ button.dispatchEvent(new MouseEvent('click',{bubbles:true,detail:1,cancelable:true}));
+ expect(close).not.toHaveBeenCalled();expect(root.querySelector('.backdrop').hidden).toBe(false);
+ button.dispatchEvent(new Event('pointerdown',{bubbles:true}));
+ button.dispatchEvent(new MouseEvent('click',{bubbles:true,detail:1,cancelable:true}));
+ expect(close).toHaveBeenCalledOnce();
+});
+it('hides menu navigation for NPC-owned information and selection windows', () => {
+ view.showInteraction({kind:'information',token:{},title:'测试 NPC',rows:[]});
+ expect(root.querySelector('[data-back]').hidden).toBe(true);
+});
+
+it('hides the close button while the server requires a response and restores it afterwards', () => {
+ view.showInteraction({kind:'npc',token:{},mode:'next',canClose:false,lines:['继续'],respond:vi.fn()});
+ expect(root.querySelector('[data-close]').hidden).toBe(true);
+ view.showInteraction({kind:'npc',token:{},mode:'close',canClose:true,lines:['结束'],respond:vi.fn()});
+ expect(root.querySelector('[data-close]').hidden).toBe(false);
+});
+
+it('preserves server dialogs across browser suspension while closing local menus', () => {
+ const close=vi.fn();view.showInteraction({kind:'npc',token:{},mode:'menu',options:[],canClose:true,lines:['选择'],close});
+ view.suspend();expect(close).not.toHaveBeenCalled();expect(root.querySelector('.backdrop').hidden).toBe(false);
+ view.showInteraction(null);click('[data-panel="menu"]');view.suspend();expect(root.querySelector('.backdrop').hidden).toBe(true);
+});

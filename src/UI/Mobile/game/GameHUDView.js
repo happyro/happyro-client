@@ -97,6 +97,7 @@ ${chatPreviewCSS}</style>${html}`;
 	let backdropPointer = null;
 	let dismissBackdrop = false;
 	let lastTrigger;
+	let interactionPress = null;
 	let snapshot = {};
 	let messages = [];
 	let unreadChat = 0;
@@ -104,6 +105,33 @@ ${chatPreviewCSS}</style>${html}`;
 	const backdrop = $('.backdrop');
 	const body = $('.panel-body');
 	const listen = (node, type, handler) => node.addEventListener(type, handler, { signal: abort.signal });
+	// A scene tap or a press on the previous dialog cannot activate newly rendered controls.
+	listen(root, 'pointerdown', event => {
+		interactionPress =
+			serverState && backdrop.contains(event.target)
+				? event.target.closest('button, input, select, textarea, a') || event.target
+				: null;
+	});
+	listen(root, 'pointercancel', () => {
+		interactionPress = null;
+	});
+	root.addEventListener(
+		'click',
+		event => {
+			if (!serverState || !backdrop.contains(event.target) || event.detail === 0) return;
+			const pressed = interactionPress;
+			interactionPress = null;
+			if (
+				!pressed ||
+				!pressed.isConnected ||
+				!(pressed === event.target || pressed.contains(event.target) || event.target.contains(pressed))
+			) {
+				event.preventDefault();
+				event.stopImmediatePropagation();
+			}
+		},
+		{ capture: true, signal: abort.signal }
+	);
 	// Bubble only: inner controls keep native clicks, selection and scrolling.
 	for (const type of [
 		'pointerdown',
@@ -290,9 +318,10 @@ ${chatPreviewCSS}</style>${html}`;
 				npc: serverState?.title || 'NPC 对话'
 			}[panel]
 		);
+		$('[data-close]').hidden = serverState?.canClose === false;
 		$('[data-close]').disabled = serverState?.canClose === false;
 		$('[data-close]').title = panel === 'npc' && serverState?.canClose === false ? '请先完成当前对话步骤' : '关闭';
-		$('[data-back]').hidden = panel === 'menu' || panel === 'chat' || panel === 'npc';
+		$('[data-back]').hidden = Boolean(serverState) || panel === 'menu' || panel === 'chat' || panel === 'npc';
 		$('[data-back]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
 		statusPanel = null;
@@ -631,6 +660,10 @@ ${chatPreviewCSS}</style>${html}`;
 		}
 	});
 	return {
+		suspend() {
+			// Browser focus and orientation changes must not send NPC cancellation packets.
+			if (!serverState) close();
+		},
 		update(next) {
 			snapshot = next;
 			text('[data-panel=menu]', next.unreadMail ? '菜单 · 新邮件' : '菜单');
@@ -715,6 +748,7 @@ ${chatPreviewCSS}</style>${html}`;
 				updateNPCCutin(body, state);
 				return;
 			}
+			interactionPress = null;
 			serverState = state;
 			open(
 				[

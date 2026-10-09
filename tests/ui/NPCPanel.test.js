@@ -4,15 +4,15 @@ afterEach(() => document.body.replaceChildren());
 it('separates scrollable choices from actions and retains protocol option values', () => {
  const body=document.body.appendChild(document.createElement('div'));const respond=vi.fn();
  createNPCPanel(body,{mode:'menu',lines:['<b>你好</b>'],options:[{text:'选项一',value:3},{text:'选项二',value:7}],respond});
- expect(body.querySelector('.npc-lines').textContent).toBe('<b>你好</b>');expect(body.querySelector('b')).toBeNull();
+ expect(body.querySelector('.npc-lines').textContent).toBe('你好');expect(body.querySelector('b').textContent).toBe('你好');
  body.querySelectorAll('.npc-options button')[1].click();expect(respond).toHaveBeenCalledWith(7);
  expect(body.querySelector('.npc-actions').hidden).toBe(true);
  updateNPCCutin(body,{image:'npc.bmp'});expect(body.querySelector('.npc-content > img')).not.toBeNull();
  updateNPCCutin(body,{});expect(body.querySelector('img')).toBeNull();
 });
-it('shows waiting and input validation inside the dialog without a toast', () => {
+it('omits the waiting indicator and retains inline input validation', () => {
  const body=document.body.appendChild(document.createElement('div'));
- createNPCPanel(body,{mode:'waiting'});expect(body.querySelector('[role=status]').textContent).toContain('等待 NPC');expect(document.querySelector('.ui-toast')).toBeNull();
+ createNPCPanel(body,{mode:'waiting'});expect(body.textContent).not.toContain('等待 NPC');expect(body.querySelector('.npc-actions').hidden).toBe(true);expect(document.querySelector('.ui-toast')).toBeNull();
  const respond=vi.fn(()=> '请输入有效的整数');createNPCPanel(body,{mode:'number',respond});
  const input=body.querySelector('input');input.value='abc';body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));
  expect(respond).toHaveBeenCalledWith('abc');expect(input.getAttribute('aria-invalid')).toBe('true');expect(body.querySelector('.npc-error').hidden).toBe(false);
@@ -23,4 +23,33 @@ it('keeps buy/sell choice semantics and omits an empty action bar on result noti
  createNPCPanel(body,{kind:'deal',respond});const buttons=body.querySelectorAll('.npc-actions button');
  buttons[0].click();buttons[1].click();expect(respond.mock.calls).toEqual([[0],[1]]);
  createNPCPanel(body,{kind:'notice',lines:['交易完成']});expect(body.querySelector('.npc-actions').hidden).toBe(true);expect(body.textContent).toContain('交易完成');
+});
+
+it('renders vending-machine emphasis and colors without allowing arbitrary HTML', () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ createNPCPanel(body,{mode:'next',lines:['喝一杯<i>清爽</i>的<b>碳酸水</b>，^2ECCFA清理^000000肚子。<br>下一行','<img src=x onerror=alert(1)><b onclick="alert(1)">危险</b><script>alert(1)</script>']});
+ expect(body.querySelector('i').textContent).toBe('清爽');
+ expect(body.querySelector('b').textContent).toBe('碳酸水');
+ expect(body.querySelector('br')).not.toBeNull();
+ expect(body.querySelector('span').style.color).toBe('rgb(46, 204, 250)');
+ expect(body.querySelector('img,script,[onclick]')).toBeNull();
+});
+
+it('supports shared paragraph, list, font and inline formats while stripping attributes',()=>{
+ const body=document.body.appendChild(document.createElement('div'));
+ createNPCPanel(body,{lines:['<p>段落 <u>下划线</u><s>删除</s><sub>下标</sub><sup>上标</sup></p><ul><li>列表</li></ul><font color="#ff8800" size="4" onclick="alert(1)">颜色</font><b onclick="alert(1)">粗体</b><iframe src="x"></iframe>']});
+ expect(body.querySelector('p u').textContent).toBe('下划线');
+ expect(body.querySelector('ul li').textContent).toBe('列表');
+ expect(body.querySelector('font').getAttribute('color')).toBe('#ff8800');
+ expect(body.querySelector('font').getAttribute('size')).toBe('4');
+ expect(body.querySelector('b').textContent).toBe('粗体');
+ expect(body.querySelector('[onclick],iframe')).toBeNull();
+});
+
+it('renders successful purchase entries as text with quantities',()=>{
+ const body=document.body.appendChild(document.createElement('div'));
+ createNPCPanel(body,{kind:'notice',resultItems:[{name:'<b>红色药水</b>',count:3},{name:'蓝色药水',count:2}]});
+ expect(body.querySelectorAll('.npc-result-items li')).toHaveLength(2);
+ expect(body.querySelector('.npc-result-items').textContent).toContain('× 3');
+ expect(body.querySelector('b')).toBeNull();
 });

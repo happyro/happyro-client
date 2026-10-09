@@ -1,9 +1,12 @@
-import { interactionReview, interactionFooter } from './InteractionPanel.js';
+import { interactionColumns, interactionReview, interactionFooter } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 export function createRefinementPanel(body, service) {
-	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="可强化装备"></div><section class="inventory-detail" aria-label="强化详情"></section></div>';
+	interactionColumns(body, [
+		{ title: '可强化装备', className: 'inventory-list' },
+		{ title: '强化配置', className: 'inventory-detail' },
+		{ title: '装备与结果', className: 'interaction-result' }
+	]);
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		list = $('.inventory-list'),
@@ -14,7 +17,8 @@ export function createRefinementPanel(body, service) {
 		editingId = '';
 	function update() {
 		const state = service.snapshot();
-		status.textContent = state.message || (state.pending ? '等待服务器结果…' : '请选择装备和材料');
+
+		status.textContent = state.message || `余额：${state.zeny ?? 0} Z`;
 		const ids = new Set(state.items.map(item => item.index));
 		for (const [id, node] of nodes)
 			if (!ids.has(id)) {
@@ -50,6 +54,15 @@ export function createRefinementPanel(body, service) {
 		]);
 		if (key === next) return;
 		key = next;
+		const result = $('.interaction-result');
+		result.replaceChildren();
+		const selectedItem = state.items.find(item => item.index === state.selected?.index);
+		const title = document.createElement('h3');
+		title.textContent = selectedItem?.name || '请选择装备';
+		const description = document.createElement('p');
+		description.className = 'item-description';
+		description.textContent = selectedItem?.description || '';
+		result.append(title, description);
 		const identity = JSON.stringify(state.selected);
 		const previous =
 			identity === editingId
@@ -67,16 +80,12 @@ export function createRefinementPanel(body, service) {
 			return;
 		}
 		const warning = document.createElement('p');
-		warning.textContent = '强化会消耗材料与 Zeny，失败可能降低等级或损坏装备。';
+		warning.textContent = '强化会消耗材料与 Z，失败可能降低等级或损坏装备。';
 		const materials = document.createElement('select');
 		materials.setAttribute('aria-label', '强化材料');
-		for (const material of state.materials)
-			materials.add(
-				new Option(
-					`${material.name} × ${material.amount ?? 1} · ${material.zeny ?? material.price} Zeny · 持有 ${material.owned}`,
-					material.index
-				)
-			);
+		for (const material of state.materials) materials.add(new Option(material.name, material.index));
+		const cost = document.createElement('p');
+		cost.className = 'item-description';
 		if ([...materials.options].some(option => option.value === previous.material))
 			materials.value = previous.material;
 		materials.disabled = !state.allowed;
@@ -99,7 +108,7 @@ export function createRefinementPanel(body, service) {
 		} else {
 			blessing.max = state.offer.blessing_info?.max_blessing || 0;
 			blessing.disabled = !state.allowed;
-			protection = `祝福次数（每次消耗 ${state.offer.blessing_info?.amount || 0} 个，最多 ${blessing.max} 次）`;
+			protection = `祝福次数（每次消耗 ${state.offer.blessing_info?.amount || 0} 个）`;
 		}
 		const label = document.createElement('label');
 		label.className = 'interaction-field';
@@ -120,6 +129,7 @@ export function createRefinementPanel(body, service) {
 		}
 		function details() {
 			const material = state.materials.find(row => row.index === Number(materials.value));
+			cost.textContent = `材料：${material?.name || '—'} × ${material?.amount ?? 1}\n持有：${material?.owned ?? 0}\n费用：${material?.zeny ?? material?.price ?? 0} Z`;
 			chance.textContent =
 				state.kind === 'refine'
 					? `成功率：${material?.chance ?? 0}%`
@@ -144,7 +154,7 @@ export function createRefinementPanel(body, service) {
 					`祝福：${choice.blessing}`,
 					chance.textContent
 				],
-				`费用：${material?.zeny ?? material?.price ?? 0} Zeny`,
+				`费用：${material?.zeny ?? material?.price ?? 0} Z`,
 				warning.textContent
 			);
 			confirmAction(
@@ -167,7 +177,10 @@ export function createRefinementPanel(body, service) {
 				{ content }
 			);
 		};
-		detail.append(warning, materials, chance, label);
+		detail.append(materials, cost, label);
+		warning.className = 'interaction-warning';
+		result.insertBefore(chance, description);
+		result.insertBefore(warning, description);
 		footer.append(confirm);
 	}
 	update();

@@ -1,67 +1,114 @@
 :host([data-menu-density]) .panel[data-view='shop'] {
-	--shop-text: var(--interaction-text);
-	--shop-control: var(--interaction-control);
+	--shop-text: var(--panel-text);
+	--shop-control: var(--panel-control);
 	font-size: var(--shop-text);
-}
-:host([data-menu-density]) .panel[data-view='shop'] .inventory-layout {
-	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
 }
 :host([data-menu-density]) .panel[data-view='shop'] :is(button, h3, .inventory-item strong, .inventory-item span) {
 	font-size: var(--shop-text);
 }
 :host([data-menu-density]) .panel[data-view='shop'] button {
 	min-height: var(--shop-control);
+	padding: var(--panel-control-padding);
 }
 .shop-summary {
 	line-height: 1.5;
 	overflow-wrap: anywhere;
+	flex-shrink: 0;
+}
+.shop-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) minmax(0, 1fr);
+	gap: var(--panel-gap);
+	flex: 1;
+	min-height: 0;
+}
+.shop-catalog,
+.shop-order {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	min-width: 0;
+}
+.shop-catalog,
+.shop-order {
+	border: 1px solid #65717b;
+	border-radius: 8px;
+	padding: 6px;
+	overflow: hidden;
+}
+.shop-layout h3 {
+	margin: 0 0 6px;
+	flex-shrink: 0;
+}
+.shop-layout .inventory-list {
+	flex: 1;
+	min-height: 0;
+	padding: 0;
+}
+.shop-layout > .inventory-detail {
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
+	padding: 8px;
+}
+.shop-transfer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: var(--panel-gap);
+}
+:host([data-menu-density]) .panel[data-view='shop'] .shop-transfer button {
+	width: var(--shop-control);
+	padding: 0;
+	font-size: 18px;
 }
 .shop-footer {
 	display: flex;
 	align-items: center;
-	flex-wrap: wrap;
-	gap: 8px;
-	padding-top: 8px;
+	gap: var(--panel-gap);
+	padding-top: 6px;
 	border-top: 1px solid #52606d;
+	flex-shrink: 0;
 }
-.shop-status {
-	flex: 1 1 100px;
+.shop-footer .shop-summary {
+	flex: 1;
+	min-width: 0;
 	color: #bac4cd;
 	font-size: var(--panel-label);
 }
 .shop-footer button {
 	flex-shrink: 0;
 }
-.shop-quantity {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: end;
-	gap: 8px;
+.shop-quantity-steps {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--panel-gap);
 }
-.shop-quantity label {
-	display: flex;
+.shop-quantity {
+	display: grid;
+	grid-template-columns: auto minmax(64px, 1fr) auto;
 	align-items: center;
-	gap: 8px;
-	width: 100%;
+	gap: 6px;
+}
+.shop-quantity-steps button {
+	min-width: 36px;
 }
 :host([data-menu-density]) .panel[data-view='shop'] .shop-quantity input[aria-label] {
 	width: 100%;
 	min-width: 0;
-	flex: 1;
 	height: var(--shop-control);
 	min-height: var(--shop-control);
 	font-size: 16px;
 	border: 1px solid #65717b;
 	border-radius: 6px;
-	padding: 6px 8px;
+	padding: 4px 8px;
 	background: #111a23;
 	color: inherit;
 }
-.shop-price,
-.shop-review p {
+.shop-price {
 	white-space: pre-line;
 	overflow-wrap: anywhere;
-	line-height: 1.6;
+	line-height: 1.5;
 }
 .shop-empty {
 	color: #bac4cd;
@@ -73,33 +120,35 @@
 	height: var(--shop-control);
 	font-size: var(--shop-text);
 }
-.shop-review > strong {
-	display: block;
-	border-top: 1px solid #52606d;
-	padding-top: 10px;
+
+:host([data-menu-density='spacious']) .panel[data-view='shop'] .ui-confirm:has(.shop-quantity) {
+	--menu-dialog-width: 532.4px;
+}
+:host([data-menu-density='spacious']) .shop-quantity {
+	grid-template-columns: calc(var(--panel-control) * 2 + var(--panel-gap)) minmax(0, 1fr) calc(
+			var(--panel-control) * 2 + var(--panel-gap)
+		);
+	gap: var(--panel-gap);
+}
+:host([data-menu-density='spacious']) .panel[data-view='shop'] .shop-quantity-steps button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: var(--panel-control);
+	min-width: 0;
+	height: var(--panel-control);
+	padding: 0;
+	margin: 0;
+}
+:host([data-menu-density='spacious']) .panel[data-view='shop'] .shop-quantity input[aria-label] {
+	margin: 0;
+	box-sizing: border-box;
 }
 
-/* Only order lines scroll; the question, total and confirmation remain visible. */
-.panel[data-view='shop'] .ui-confirm-body:has(.shop-review) {
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-}
-.panel[data-view='shop'] .ui-confirm-body:has(.shop-review) > p {
-	flex-shrink: 0;
-}
-.shop-review {
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
-	gap: 10px;
-}
-.shop-review-lines {
-	min-height: 0;
-	overflow: auto;
-	overscroll-behavior: contain;
-}
-.shop-review > strong {
-	flex-shrink: 0;
-	overflow-wrap: anywhere;
+:host([data-menu-density]) .panel[data-view='shop'] .shop-quantity-steps button {
+	height: var(--shop-control);
+	min-height: var(--shop-control);
+	padding-block: 0;
+	box-sizing: border-box;
 }

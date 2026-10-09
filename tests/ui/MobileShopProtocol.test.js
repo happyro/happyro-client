@@ -23,7 +23,7 @@ it('shares ordinary purchase and sale packet construction while keeping desktop 
  const offers=[{ITID:501,price:50}];receive('PC_PURCHASE_ITEMLIST2',{itemList:offers});expect(s.open).toHaveBeenLastCalledWith('buy',offers,expect.any(Function),expect.any(Function));
  let [, ,submit,quit]=s.open.mock.calls.at(-1);submit([{ITID:501,index:0,count:2}]);expect(s.send).toHaveBeenLastCalledWith(expect.objectContaining({packetName:'PC_PURCHASE_ITEMLIST',itemList:[{ITID:501,count:2}]}));quit();expect(s.send).toHaveBeenLastCalledWith(expect.objectContaining({packetName:'NPC_TRADE_QUIT'}));
  receive('PC_SELL_ITEMLIST',{itemList:[{index:4,price:10}]});[, ,submit]=s.open.mock.calls.at(-1);submit([{index:4,ITID:501,count:1}]);expect(s.send).toHaveBeenLastCalledWith(expect.objectContaining({packetName:'PC_SELL_ITEMLIST',itemList:[{index:4,count:1}]}));expect(s.store.append).not.toHaveBeenCalled();
- receive('PC_PURCHASE_RESULT',{result:2});expect(s.finish).toHaveBeenLastCalledWith('56');receive('PC_SELL_RESULT',{result:0});expect(s.finish).toHaveBeenLastCalledWith('54');
+ receive('PC_PURCHASE_RESULT',{result:2});expect(s.finish).toHaveBeenLastCalledWith('56',false);receive('PC_SELL_RESULT',{result:0});expect(s.finish).toHaveBeenLastCalledWith('54',true);
 });
 it('preserves desktop window presentation and the existing submit callback',()=>{
  s.mobile=false;const offers=[{ITID:501,price:50}];receive('PC_PURCHASE_ITEMLIST2',{itemList:offers});expect(s.store.append).toHaveBeenCalledOnce();expect(s.store.setList).toHaveBeenCalledWith(offers);expect(s.open).not.toHaveBeenCalled();s.store.onSubmit([{ITID:501,count:1}]);expect(s.send).toHaveBeenCalledOnce();
@@ -38,7 +38,7 @@ it('routes cash, limited-stock and both barter shop types through mobile orders 
  ]) {
   receive(hook,{itemList:[],...fields});const [, ,submit,quit,options]=s.open.mock.calls.at(-1);expect(options.type).toBe(type);submit([entry]);expect(s.send).toHaveBeenLastCalledWith(expect.objectContaining({packetName:request}));quit();expect(s.send).toHaveBeenLastCalledWith(expect.objectContaining({packetName:closePacket}));
  }
- expect(s.store.append).not.toHaveBeenCalled();receive('PC_CASH_POINT_UPDATE',{Error:1});expect(s.finish).toHaveBeenLastCalledWith('1227');receive('NPC_MARKET_PURCHASE_RESULT2',{result:0});expect(s.finish).toHaveBeenLastCalledWith('54');receive('PC_PURCHASE_RESULT',{result:14});expect(s.finish).toHaveBeenLastCalledWith('3556');
+ expect(s.store.append).not.toHaveBeenCalled();receive('PC_CASH_POINT_UPDATE',{Error:1});expect(s.finish).toHaveBeenLastCalledWith('1227',false);receive('NPC_MARKET_PURCHASE_RESULT2',{result:0});expect(s.finish).toHaveBeenLastCalledWith('54',true);receive('PC_PURCHASE_RESULT',{result:14});expect(s.finish).toHaveBeenLastCalledWith('3556',false);
 });
 
 it('opens a player sale with its store identity and updates inventory from buying-store receipts',()=>{

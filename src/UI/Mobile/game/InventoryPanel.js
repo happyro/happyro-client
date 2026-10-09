@@ -1,6 +1,16 @@
+import ItemType from 'DB/Items/ItemType.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
+
+const itemTypes = {
+	weapon: [ItemType.WEAPON],
+	armor: [ItemType.ARMOR],
+	card: [ItemType.CARD],
+	ammo: [ItemType.AMMO],
+	pet: [ItemType.PETEGG, ItemType.PETARMOR],
+	shadow: [ItemType.SHADOWGEAR]
+};
 
 /** Touch-only inventory presentation. Actions receive inventory indices, never DOM-derived item data. */
 export function createInventoryPanel(body, actions) {
@@ -40,11 +50,20 @@ export function createInventoryPanel(body, actions) {
 		['all', '全部'],
 		['usable', '消耗品'],
 		['equipment', '装备'],
+		['weapon', '武器'],
+		['armor', '防具'],
+		['card', '卡片'],
+		['ammo', '弹药'],
+		['pet', '宠物用品'],
+		['shadow', '影子装备'],
 		['other', '其他'],
 		['worn', '已穿戴']
 	])
 		category.add(new Option(label, key));
-	category.onchange = () => render();
+	category.onchange = () => {
+		render();
+		list.scrollTop = 0;
+	};
 	$('.inventory-toolbar').append(category, sort);
 	function renderDetail() {
 		const item = state.find(entry => entry.index === selected?.index && entry.ID === selected?.ID);
@@ -62,11 +81,37 @@ export function createInventoryPanel(body, actions) {
 		detailKey = key;
 		const title = document.createElement('h3');
 		title.textContent = item.name;
-		const count = document.createElement('p');
-		count.textContent = `数量：${item.count}${item.worn ? ' · 已穿戴' : ''}${!item.identified ? ' · 未鉴定' : ''}${item.damaged ? ' · 已损坏' : ''}`;
+
+		const flags = document.createElement('p');
+		flags.textContent = [item.worn && '已穿戴', !item.identified && '未鉴定', item.damaged && '已损坏']
+			.filter(Boolean)
+			.join(' · ');
+		flags.hidden = !flags.textContent;
+		let weight = '—';
 		const description = document.createElement('p');
 		description.className = 'item-description';
-		description.textContent = item.description || '暂无物品说明';
+		description.textContent =
+			(item.description || '')
+				.split(/\r?\n/)
+				.filter(line => {
+					const field = line.match(/^\s*(重量|Weight|数量|Quantity|Amount)\s*[:：]\s*(\d+(?:\.\d+)?)\s*$/i);
+					if (!field) return true;
+					if (/^(重量|Weight)$/i.test(field[1])) weight = field[2];
+					return false;
+				})
+				.join('\n')
+				.replace(/\n(?:[\t ]*\n)+/g, '\n\n')
+				.trim() || '暂无物品说明';
+		const media = document.createElement('div');
+		media.className = 'inventory-item-media';
+		const metadata = document.createElement('div');
+		metadata.className = 'inventory-item-metadata';
+		for (const text of [`数量：${item.count}`, `重量：${weight}`]) {
+			const line = document.createElement('p');
+			line.textContent = text;
+			metadata.append(line);
+		}
+		media.append(metadata);
 		const ops = document.createElement('div');
 		ops.className = 'inventory-actions';
 		if (item.action) {
@@ -86,17 +131,17 @@ export function createInventoryPanel(body, actions) {
 		if (item.shortcut) ops.append(button('设置快捷键', () => chooseBinding(item)));
 		if (!item.worn) ops.append(button('丢弃', () => chooseDrop(item)));
 		const reason = document.createElement('p');
-		reason.textContent = item.reason;
+		reason.textContent = item.reason === '此物品没有直接使用操作' ? '' : item.reason || '';
 		reason.className = 'inventory-item-reason';
-		reason.hidden = !item.reason;
+		reason.hidden = !reason.textContent;
 		const content = document.createElement('div');
 		content.className = 'inventory-item-description';
 		const heading = document.createElement('div');
 		heading.className = 'inventory-item-overview';
 		const summary = document.createElement('div');
 		summary.className = 'inventory-item-summary';
-		summary.append(title, count, reason, description);
-		heading.append(summary);
+		summary.append(title, flags, reason, description);
+		heading.append(media, summary);
 		content.append(heading);
 		detail.replaceChildren(content, ops);
 		void actions.preview(item.index, item.ID).then(preview => {
@@ -107,8 +152,7 @@ export function createInventoryPanel(body, actions) {
 				image.className = `inventory-item-picture${preview.art ? ' is-illustration' : ''}`;
 				image.alt = item.name;
 				image.src = source;
-				heading.prepend(image);
-				heading.classList.add('has-picture');
+				media.prepend(image);
 			}
 		});
 	}
@@ -203,7 +247,9 @@ export function createInventoryPanel(body, actions) {
 	function render() {
 		const filtered = state.filter(
 			item =>
-				category.value === 'all' || (category.value === 'worn' ? item.worn : item.category === category.value)
+				category.value === 'all' ||
+				(category.value === 'worn' ? item.worn : item.category === category.value) ||
+				itemTypes[category.value]?.includes(item.type)
 		);
 		filtered.sort((a, b) =>
 			sort.value === 'name'

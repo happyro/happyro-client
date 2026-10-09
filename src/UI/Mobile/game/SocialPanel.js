@@ -22,7 +22,7 @@ export function createSocialPanel(body, service, whisper) {
 					? 'success'
 					: 'error'
 				: message === '已请求，等待服务器回复'
-					? 'info'
+					? 'pending'
 					: 'error'
 		);
 	};
@@ -298,7 +298,7 @@ export function createSocialPanel(body, service, whisper) {
 						send.disabled = true;
 						try {
 							const result = await service.uploadEmblem(selectedFile);
-							status(result, result === '已请求上传徽章，结果以服务器回复为准' ? 'info' : 'error');
+							status(result, result === '已请求上传徽章，结果以服务器回复为准' ? 'pending' : 'error');
 						} catch {
 							status('无法读取徽章文件，请重新选择', 'error');
 						} finally {

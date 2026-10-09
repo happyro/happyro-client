@@ -84,14 +84,14 @@ export function pickSceneEntity(x, y) {
 	Mouse.screen.y = y;
 	return EntityManager.intersect();
 }
-export function tapScene(x, y) {
+export function tapScene(x, y, pressedTarget) {
 	Mouse.screen.x = x;
 	Mouse.screen.y = y;
 	const pos = [];
 	const ground = Altitude.intersect(Camera.modelView, Camera.projection, pos);
 	Mouse.world.x = ground ? pos[0] : -1;
 	Mouse.world.y = ground ? pos[1] : -1;
-	const target = EntityManager.intersect();
+	const target = pressedTarget || EntityManager.intersect();
 	const previous = EntityManager.getFocusEntity();
 	Session.moveAction = null;
 	Session.autoFollow = false;

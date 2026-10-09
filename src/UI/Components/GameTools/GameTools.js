@@ -55,7 +55,7 @@ GameTools.init = function init() {
 			showToast(
 				window,
 				state.message,
-				state.error ? 'error' : state.npcPending || state.mapPending ? 'info' : 'success'
+				state.error ? 'error' : state.npcPending || state.mapPending ? 'pending' : 'success'
 			);
 		}
 	});

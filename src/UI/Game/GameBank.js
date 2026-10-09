@@ -63,7 +63,7 @@ export function openGameBank(balance) {
 				return '金额无效、余额不足或超过持有上限';
 			pending = true;
 			message = '等待服务器回复';
-			messageKind = 'info';
+			messageKind = 'pending';
 			send(action === 'deposit' ? PACKET.CZ.REQ_BANKING_DEPOSIT : PACKET.CZ.REQ_BANKING_WITHDRAW, amount);
 			return message;
 		},

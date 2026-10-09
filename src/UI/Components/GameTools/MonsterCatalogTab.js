@@ -404,7 +404,6 @@ function mount(container, context = {}) {
 			state.requestedMonsterName = monster.name;
 			state.statusError = false;
 			state.status = '';
-			showToast(container, '等待服务器确认…', 'info');
 			clearTimeout(state.requestTimer);
 			state.requestTimer = setTimeout(() => {
 				state.pending = false;

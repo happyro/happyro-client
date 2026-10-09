@@ -1,3 +1,4 @@
+import DB from '../../src/DB/DBManager.js';
 import Client from 'Core/Client.js';
 vi.mock('Controls/MapControl.js', () => ({ default: { onRequestDropItem: vi.fn() } }));
 import MapControl from 'Controls/MapControl.js';
@@ -78,4 +79,10 @@ it('loads selected item art lazily without revealing unidentified resources', as
  s.items[1].IsIdentified = false;
  expect(await inventory.preview(3, 501)).toEqual({ image: 'image', art: '' });
  expect(Client.loadFile.mock.calls.map(call => call[0])).toEqual(['collection/unknown.bmp']);
+});
+
+it.each(['说明\n重量：7','说明\n\n重量：7','说明\n________\n重量：7','说明\r\n \r\n重量：7'])('normalizes spacing before item weight: %s', description=>{
+ const spy=vi.spyOn(DB,'getItemInfo').mockReturnValue({identifiedDescriptionName:description});
+ expect(createGameInventory(()=>true).snapshot()[0].description).toBe('说明\n重量：7');
+ spy.mockRestore();
 });
