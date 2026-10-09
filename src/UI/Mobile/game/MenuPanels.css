@@ -1344,8 +1344,7 @@
 	padding-block: 8px;
 }
 .inventory-item-overview {
-	--inventory-picture-width: 79.2px;
-	--inventory-picture-height: 105.6px;
+	--inventory-picture-width: 87.12px;
 	display: grid;
 	gap: 10px;
 	align-items: start;
@@ -1368,7 +1367,7 @@
 .inventory-item-picture {
 	display: block;
 	width: var(--inventory-picture-width);
-	height: var(--inventory-picture-height);
+	height: auto;
 	box-sizing: border-box;
 	border: 1px solid #65717b;
 	border-radius: 4px;
@@ -1389,8 +1388,7 @@
 	color: #ceaa70;
 }
 :host([data-menu-density='spacious']) .inventory-item-overview {
-	--inventory-picture-width: 105.6px;
-	--inventory-picture-height: 140.8px;
+	--inventory-picture-width: 116.16px;
 	gap: 12px;
 }
 
