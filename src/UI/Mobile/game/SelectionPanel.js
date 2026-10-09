@@ -32,7 +32,14 @@ export function createSelectionPanel(body, service) {
 			if (entry.icon) b.querySelector('img').src = entry.icon;
 			b.setAttribute('aria-pressed', String(selected === entry.id));
 		}
+		for (const [id, node] of nodes) {
+			if (!state.entries.some(entry => entry.id === id)) {
+				node.remove();
+				nodes.delete(id);
+			} else node.disabled = !state.allowed;
+		}
 		const entry = state.entries.find(e => e.id === selected);
+		if (!entry) selected = null;
 		const preview = detail.querySelector('.selection-preview');
 		if (preview && entry) {
 			preview.hidden = !entry.icon;

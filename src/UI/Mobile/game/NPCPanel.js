@@ -73,6 +73,7 @@ export function createNPCPanel(body, state) {
 		};
 		footer.append(form);
 	}
+	footer.hidden = !footer.childElementCount;
 }
 
 export function updateNPCCutin(body, state) {

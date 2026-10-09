@@ -2,78 +2,121 @@ import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
-/** Shop orders use explicit quantities and a separate review before sending. */
+/** Edit an order locally and revalidate the reviewed terms before submission. */
 export function createShopPanel(body, service) {
 	body.innerHTML =
-		'<div class="shop-summary"></div><div class="inventory-layout"><div class="inventory-list" aria-label="商店物品"></div><section class="inventory-detail"></section></div><div class="shop-footer"></div>';
+		'<div class="shop-summary"></div><div class="inventory-layout"><div class="inventory-list" aria-label="商店物品"></div><section class="inventory-detail" aria-label="物品详情">请选择物品</section></div><div class="shop-footer"><span class="shop-status" role="status"></span></div>';
 	const $ = selector => body.querySelector(selector);
 	const nodes = new Map();
-	let selected = null;
-	let state;
-	const status = createFeedback(body);
-	function button(label, fn) {
+	let selected = null,
+		state,
+		input,
+		price,
+		title,
+		description;
+	const feedback = createFeedback(body);
+	const keyOf = item => `${item.index}:${item.ID}`;
+	const currency = () => state.currency || 'Zeny';
+	const signature = snapshot =>
+		JSON.stringify([
+			snapshot.mode,
+			snapshot.currency,
+			snapshot.total,
+			snapshot.items
+				.filter(item => item.quantity)
+				.map(({ index, ID, name, quantity, price, limit, materials }) => ({
+					index,
+					ID,
+					name,
+					quantity,
+					price,
+					limit,
+					materials
+				}))
+		]);
+	function button(label, action) {
 		const node = document.createElement('button');
 		node.type = 'button';
 		node.textContent = label;
-		node.onclick = fn;
+		node.onclick = action;
 		return node;
 	}
 	function detail(item) {
-		selected = item;
-		const title = document.createElement('h3');
-		title.textContent = item.name;
-		const price = document.createElement('p');
-		price.textContent = `单价：${item.price} ${state.currency || 'Zeny'} · 数量上限：${item.limit}`;
-		if (item.materials?.length)
-			price.textContent +=
-				'\n材料：' +
-				item.materials
-					.map(
-						material =>
-							`${material.name}${material.refine_level ? `（精炼 +${material.refine_level}）` : ''} ×${material.amount}`
-					)
-					.join('、');
-		const input = document.createElement('input');
+		selected = keyOf(item);
+		title = document.createElement('h3');
+		price = document.createElement('p');
+		price.className = 'shop-price';
+		const form = document.createElement('form');
+		form.className = 'shop-quantity';
+		const label = document.createElement('label');
+		label.textContent = '数量';
+		input = document.createElement('input');
 		input.type = 'number';
+		input.required = true;
 		input.min = '0';
-		input.max = String(item.limit);
 		input.step = '1';
-		input.value = String(item.quantity || 1);
+		input.value = String(item.quantity || Math.min(1, item.limit));
 		input.setAttribute('aria-label', '交易数量');
-		const description = document.createElement('p');
+		label.append(input);
+		const set = button('设置数量', () => {});
+		set.type = 'submit';
+		form.onsubmit = event => {
+			event.preventDefault();
+			if (!input.reportValidity()) return;
+			const message = service.set(item.index, item.ID, Number(input.value));
+			if (message) feedback(message, 'error');
+			else feedback('订单数量已更新', 'success');
+			update();
+		};
+		const remove = button('移出订单', () => {
+			const message = service.set(item.index, item.ID, 0);
+			if (message) feedback(message, 'error');
+			else input.value = '0';
+			update();
+		});
+		form.append(label, set, remove);
+		description = document.createElement('p');
 		description.className = 'item-description';
-		description.textContent = item.description;
-		$('.inventory-detail').replaceChildren(
-			title,
-			price,
-			input,
-			button('设置数量', () => {
-				status(service.set(item.index, item.ID, Number(input.value)), 'error');
-				update();
-			}),
-			button('移出订单', () => {
-				status(service.set(item.index, item.ID, 0), 'error');
-				input.value = '0';
-				update();
-			}),
-			description
-		);
+		$('.inventory-detail').replaceChildren(title, price, form, description);
+		update();
 	}
 	function review() {
-		const signature = JSON.stringify(state.items.filter(entry => entry.quantity));
+		update();
+		if (!state.allowed || !state.items.some(item => item.quantity)) return;
+		const reviewed = signature(state);
+		const content = document.createElement('div');
+		content.className = 'shop-review';
+		for (const item of state.items.filter(item => item.quantity)) {
+			const line = document.createElement('p');
+			line.textContent = `${item.name} × ${item.quantity} · ${item.price * item.quantity} ${currency()}`;
+			if (item.materials?.length)
+				line.textContent +=
+					'\n材料：' +
+					item.materials
+						.map(
+							m =>
+								`${m.name}${m.refine_level ? `（精炼 +${m.refine_level}）` : ''} × ${m.amount * item.quantity}`
+						)
+						.join('、');
+			content.append(line);
+		}
+		const total = document.createElement('strong');
+		total.textContent = `${state.mode === 'buy' ? '支付' : '获得'}合计：${state.total} ${currency()}`;
+		content.append(total);
 		confirmAction(
 			body,
-			state.mode === 'buy' ? '确认购买所选物品？' : '确认出售所选物品？',
+			state.mode === 'buy' ? '确认购买以下物品？' : '确认出售以下物品？',
 			() => {
-				if (JSON.stringify(service.snapshot().items.filter(entry => entry.quantity)) !== signature) {
-					status('订单已变化，请重新核对', 'error');
+				if (signature(service.snapshot()) !== reviewed) {
+					feedback('订单已变化，请重新核对', 'error');
+					update();
 					return;
 				}
 				const result = service.submit();
-				status(result, result === '已提交，等待服务器回复' ? 'info' : 'error');
+				feedback(result, result === '已提交，等待服务器回复' ? 'info' : 'error');
 				update();
 			},
-			{}
+			{ content }
 		);
 	}
 	const reviewButton = button('核对订单', review);
@@ -81,48 +124,74 @@ export function createShopPanel(body, service) {
 		if (service.clear()) {
 			selected = null;
 			$('.inventory-detail').textContent = '请选择物品';
-			status('订单已清空', 'success');
+			feedback('订单已清空', 'success');
 			update();
 		}
 	});
 	$('.shop-footer').append(reviewButton, clearButton);
+	const empty = document.createElement('p');
+	empty.className = 'shop-empty';
+	$('.inventory-list').append(empty);
 	function update() {
 		state = service.snapshot();
 		$('.shop-summary').textContent =
-			`持有：${state.money} ${state.currency || 'Zeny'} · 订单合计：${state.total} ${state.currency || 'Zeny'}`;
+			`持有：${state.money} ${currency()} · ${state.mode === 'buy' ? '支付' : '获得'}合计：${state.total} ${currency()}`;
+		$('.shop-status').textContent = state.pending
+			? '等待服务器回复…'
+			: `已选 ${state.items.filter(item => item.quantity).length} 种物品`;
 		clearButton.disabled = !state.allowed;
 		reviewButton.disabled = !state.allowed || !state.items.some(item => item.quantity);
+		empty.hidden = state.items.length > 0;
+		empty.textContent = state.mode === 'sell' ? '没有可出售的物品' : '商店暂无商品';
 		const keys = new Set();
 		for (const item of state.items) {
-			const key = `${item.index}:${item.ID}`;
+			const key = keyOf(item);
 			keys.add(key);
 			let node = nodes.get(key);
 			if (!node) {
 				node = button('', () => {
-					detail(state.items.find(entry => entry.index === item.index && entry.ID === item.ID));
+					const current = state.items.find(entry => keyOf(entry) === key);
+					if (current) detail(current);
 				});
 				node.className = 'inventory-item';
-				node.append(document.createElement('img'), document.createElement('span'));
+				const image = document.createElement('img');
+				image.alt = '';
+				node.append(image, document.createElement('span'));
 				$('.inventory-list').append(node);
 				nodes.set(key, node);
 			}
 			node.disabled = !state.allowed;
+			node.setAttribute('aria-pressed', String(selected === key));
 			setListItemText(
 				node,
 				item.name,
-				`${item.price} ${state.currency || 'Zeny'}${item.quantity ? ` · 已选 ${item.quantity}` : ''}`
+				`${item.price} ${currency()}${item.limit === 0 ? ' · 无库存' : ''}${item.quantity ? ` · 已选 ${item.quantity}` : ''}`
 			);
-			if (item.icon && node.querySelector('img').getAttribute('src') !== item.icon)
-				node.querySelector('img').src = item.icon;
+			const image = node.querySelector('img');
+			image.hidden = !item.icon;
+			if (item.icon && image.getAttribute('src') !== item.icon) image.src = item.icon;
 		}
 		for (const [key, node] of nodes)
 			if (!keys.has(key)) {
 				node.remove();
 				nodes.delete(key);
 			}
-		if (selected && !state.items.some(item => item.index === selected.index && item.ID === selected.ID)) {
+		const item = state.items.find(entry => keyOf(entry) === selected);
+		if (selected && !item) {
 			selected = null;
 			$('.inventory-detail').textContent = '物品已经变化，请重新选择';
+		}
+		if (item) {
+			title.textContent = item.name;
+			description.textContent = item.description || '';
+			price.textContent = `单价：${item.price} ${currency()} · 数量上限：${item.limit}`;
+			if (item.materials?.length)
+				price.textContent +=
+					'\n材料：' +
+					item.materials
+						.map(m => `${m.name}${m.refine_level ? `（精炼 +${m.refine_level}）` : ''} × ${m.amount}`)
+						.join('、');
+			input.max = String(item.limit);
 		}
 		for (const node of $('.inventory-detail').querySelectorAll('button,input')) node.disabled = !state.allowed;
 	}

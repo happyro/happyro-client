@@ -29,6 +29,7 @@ import { createSocialPanel } from './SocialPanel.js';
 import { createChatPanel } from './ChatPanel.js';
 import { createQuestsPanel } from './QuestsPanel.js';
 import { createContainerPanel } from './ContainerPanel.js';
+import shopCSS from './ShopPanel.css?raw';
 import { createShopPanel } from './ShopPanel.js';
 import npcCSS from './NPCPanel.css?raw';
 import { createNPCPanel, updateNPCCutin } from './NPCPanel.js';
@@ -55,6 +56,7 @@ ${mobileSelectCSS}
 ${mailCSS}
 ${menuLayoutCSS}
 ${npcCSS}
+${shopCSS}
 ${chatPreviewCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();

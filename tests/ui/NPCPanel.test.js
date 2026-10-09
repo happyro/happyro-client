@@ -17,3 +17,10 @@ it('shows waiting and input validation inside the dialog without a toast', () =>
  const input=body.querySelector('input');input.value='abc';body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));
  expect(respond).toHaveBeenCalledWith('abc');expect(input.getAttribute('aria-invalid')).toBe('true');expect(body.querySelector('.npc-error').hidden).toBe(false);
 });
+
+it('keeps buy/sell choice semantics and omits an empty action bar on result notices', () => {
+ const body=document.body.appendChild(document.createElement('div'));const respond=vi.fn();
+ createNPCPanel(body,{kind:'deal',respond});const buttons=body.querySelectorAll('.npc-actions button');
+ buttons[0].click();buttons[1].click();expect(respond.mock.calls).toEqual([[0],[1]]);
+ createNPCPanel(body,{kind:'notice',lines:['交易完成']});expect(body.querySelector('.npc-actions').hidden).toBe(true);expect(body.textContent).toContain('交易完成');
+});
