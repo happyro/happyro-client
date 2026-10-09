@@ -1,48 +1,77 @@
-import { createFeedback } from 'UI/Components/Feedback.js';
+/** Shared presentation for NPC text, choices, input and buy/sell prompts. */
 export function createNPCPanel(body, state) {
 	body.replaceChildren();
-	const feedback = createFeedback(body);
+	const content = document.createElement('div');
+	content.className = 'npc-content';
 	const text = document.createElement('div');
 	text.className = 'npc-lines';
 	text.textContent = (state.lines || []).join('\n');
-	body.append(text);
+	text.hidden = !text.textContent;
+	content.append(text);
+	const footer = document.createElement('div');
+	footer.className = 'npc-actions';
+	body.append(content, footer);
 	updateNPCCutin(body, state);
-	function button(label, respond) {
+	function button(parent, label, respond) {
 		const node = document.createElement('button');
 		node.type = 'button';
 		node.textContent = label;
 		node.onclick = respond;
-		body.append(node);
+		parent.append(node);
 	}
 	if (state.kind === 'deal') {
-		button('购买', () => state.respond(0));
-		button('出售', () => state.respond(1));
+		text.hidden = false;
+		text.textContent ||= '请选择购买或出售物品。';
+		button(footer, '购买', () => state.respond(0));
+		button(footer, '出售', () => state.respond(1));
 		return;
 	}
-	if (state.mode === 'menu')
-		for (const option of state.options) button(option.text, () => state.respond(option.value));
-	if (state.mode === 'next') button('下一步', () => state.respond());
-	if (state.mode === 'close') button('结束对话', () => state.respond());
+	if (state.mode === 'menu') {
+		const options = document.createElement('div');
+		options.className = 'npc-options';
+		options.setAttribute('role', 'group');
+		options.setAttribute('aria-label', '对话选项');
+		for (const option of state.options) button(options, option.text, () => state.respond(option.value));
+		content.append(options);
+		footer.hidden = true;
+	}
+	if (state.mode === 'next') button(footer, '下一步', () => state.respond());
+	if (state.mode === 'close') button(footer, '结束对话', () => state.respond());
 	if (state.mode === 'waiting') {
-		feedback('等待 NPC 回复…');
+		const status = document.createElement('span');
+		status.className = 'npc-status';
+		status.setAttribute('role', 'status');
+		status.textContent = '等待 NPC 回复…';
+		footer.append(status);
 	}
 	if (['number', 'text'].includes(state.mode)) {
-		const form = document.createElement('form'),
-			input = document.createElement('input'),
-			submit = document.createElement('button');
+		const form = document.createElement('form');
+		form.className = 'npc-input-form';
+		const input = document.createElement('input');
 		input.type = 'text';
 		input.inputMode = state.mode === 'number' ? 'numeric' : 'text';
 		input.setAttribute('aria-label', state.mode === 'number' ? '输入数字' : '输入文字');
+		input.placeholder = state.mode === 'number' ? '请输入数字' : '请输入文字';
 		input.maxLength = state.mode === 'text' ? 255 : 11;
+		const submit = document.createElement('button');
 		submit.type = 'submit';
 		submit.textContent = '确定';
-		form.append(input, submit);
+		const error = document.createElement('span');
+		error.className = 'npc-error';
+		error.id = 'npc-input-error';
+		error.setAttribute('role', 'status');
+		error.hidden = true;
+		input.setAttribute('aria-describedby', error.id);
+		form.append(input, submit, error);
 		form.onsubmit = event => {
 			event.preventDefault();
 			const result = state.respond(input.value);
-			if (typeof result === 'string') feedback(result, 'error');
+			const invalid = typeof result === 'string';
+			error.textContent = invalid ? result : '';
+			error.hidden = !invalid;
+			input.setAttribute('aria-invalid', String(invalid));
 		};
-		body.append(form);
+		footer.append(form);
 	}
 }
 
@@ -56,7 +85,7 @@ export function updateNPCCutin(body, state) {
 		image = document.createElement('img');
 		image.alt = '';
 		image.className = 'npc-cutin';
-		body.prepend(image);
+		body.querySelector('.npc-content').prepend(image);
 	}
 	if (image.getAttribute('src') !== state.image) image.src = state.image;
 }

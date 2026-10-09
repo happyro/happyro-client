@@ -30,6 +30,7 @@ import { createChatPanel } from './ChatPanel.js';
 import { createQuestsPanel } from './QuestsPanel.js';
 import { createContainerPanel } from './ContainerPanel.js';
 import { createShopPanel } from './ShopPanel.js';
+import npcCSS from './NPCPanel.css?raw';
 import { createNPCPanel, updateNPCCutin } from './NPCPanel.js';
 import { createAttributesPanel } from './AttributesPanel.js';
 import { createSkillsPanel } from './SkillsPanel.js';
@@ -53,6 +54,7 @@ ${pickupCSS}
 ${mobileSelectCSS}
 ${mailCSS}
 ${menuLayoutCSS}
+${npcCSS}
 ${chatPreviewCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
@@ -267,7 +269,8 @@ ${chatPreviewCSS}</style>${html}`;
 			}[panel]
 		);
 		$('[data-close]').disabled = serverState?.canClose === false;
-		$('[data-back]').hidden = panel === 'menu' || panel === 'chat';
+		$('[data-close]').title = panel === 'npc' && serverState?.canClose === false ? '请先完成当前对话步骤' : '关闭';
+		$('[data-back]').hidden = panel === 'menu' || panel === 'chat' || panel === 'npc';
 		$('[data-back]').disabled = serverState?.canClose === false;
 		body.replaceChildren();
 		statusPanel = null;
@@ -586,7 +589,7 @@ ${chatPreviewCSS}</style>${html}`;
 		dismissBackdrop = false;
 	});
 	listen(backdrop, 'click', event => {
-		if (event.target === backdrop && dismissBackdrop) close();
+		if (event.target === backdrop && dismissBackdrop && currentPanel !== 'npc') close();
 		dismissBackdrop = false;
 	});
 	listen(root, 'keydown', event => {

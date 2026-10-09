@@ -869,18 +869,6 @@ dd {
 [data-skill-status] {
 	flex-shrink: 0;
 }
-.npc-lines {
-	white-space: pre-line;
-	font-size: 12px;
-	line-height: 1.6;
-}
-.npc-cutin {
-	max-width: 32%;
-	max-height: 130px;
-	object-fit: contain;
-	float: right;
-	pointer-events: none;
-}
 .panel-body > button {
 	margin: 6px 6px 0 0;
 }

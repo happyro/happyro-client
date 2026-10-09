@@ -1,5 +1,11 @@
 /* Shared mobile menu dimensions, typography and control density. */
 :host {
+	--npc-width: 520px;
+	--npc-max-height: 80%;
+	--npc-text: 14px;
+	--npc-title: 16px;
+	--npc-control: 40px;
+	--npc-image-height: 140px;
 	--menu-standard-width: 1040px;
 	--menu-standard-height: 640px;
 	--menu-home-width: 560px;
@@ -26,6 +32,12 @@
 	--panel-item-image: 96px;
 }
 :host([data-menu-density='spacious']) {
+	--npc-width: 640px;
+	--npc-max-height: min(520px, 80%);
+	--npc-text: 16px;
+	--npc-title: 18px;
+	--npc-control: 44px;
+	--npc-image-height: 200px;
 	--menu-edge-x: 24px;
 	--menu-edge-y: 24px;
 	--panel-gap: 12px;
@@ -295,4 +307,11 @@
 
 :host([data-menu-density='spacious']) .ui-confirm .game-tools-number-label {
 	display: none;
+}
+
+/* NPC conversations remain compact on both phones and tablets. */
+:host .panel[data-view='npc'] {
+	--menu-window-width: var(--npc-width);
+	--menu-window-height: auto;
+	max-height: var(--npc-max-height);
 }

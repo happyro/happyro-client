@@ -252,3 +252,15 @@ it('keeps full chat filtering independent from preview categories and remembers 
  choose('all');
  expect(root.querySelector('[data-chat-preview]').textContent).toContain('新附近消息');
 });
+
+it('keeps NPC close controls consistent and ignores backdrop dismissal', () => {
+ const close=vi.fn();
+ view.showInteraction({kind:'npc',mode:'next',token:{},lines:['你好'],respond:vi.fn(),canClose:false,close});
+ expect(root.querySelector('[data-close]').disabled).toBe(true);expect(root.querySelector('[data-back]').hidden).toBe(true);
+ view.showInteraction({kind:'npc',mode:'close',token:{},lines:['再见'],respond:vi.fn(),canClose:true,close});
+ expect(root.querySelector('[data-close]').disabled).toBe(false);
+ const backdrop=root.querySelector('.backdrop');
+ for(const type of ['pointerdown','pointerup'])backdrop.dispatchEvent(new MouseEvent(type,{bubbles:true}));
+ backdrop.click();expect(close).not.toHaveBeenCalled();expect(backdrop.hidden).toBe(false);
+ click('[data-close]');expect(close).toHaveBeenCalledOnce();
+});
