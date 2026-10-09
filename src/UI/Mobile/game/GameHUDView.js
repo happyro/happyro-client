@@ -177,7 +177,7 @@ ${switchCSS}</style>${html}`;
 		const fit = fittedMapRect(canvas.width, canvas.height, mapImage.width, mapImage.height);
 		if (mapImage.image) {
 			const image = mapImage.image;
-			const source = mapImageSourceRect(image.naturalWidth, image.naturalHeight, mapImage);
+			const source = mapImageSourceRect(image.naturalWidth || image.width, image.naturalHeight || image.height, mapImage);
 			ctx.drawImage(image, source.x, source.y, source.width, source.height, fit.x, fit.y, fit.width, fit.height);
 		} else {
 			ctx.fillStyle = '#c6d0db';

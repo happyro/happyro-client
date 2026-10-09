@@ -1,3 +1,5 @@
+vi.mock('Renderer/EntityManager.js', () => ({ default: {get:vi.fn(),forEach:vi.fn()} }));
+vi.mock('UI/Components/MiniMap/MiniMapImage.js', () => ({ hasVisiblePixels: () => true, createAltitudeFallback: () => null }));
 vi.mock('UI/Game/AutoCombatTeleport.js', () => ({ cancelAutoCombatTeleport: vi.fn(), consumeAutoCombatTeleport: () => false }));
 vi.mock('UI/Components/GameTools/WorldAssetService.js', () => ({ loadCatalogMapImage: vi.fn(async () => null) }));
 vi.mock('UI/Mobile/game/AdventureTools.js', () => ({ default: { append: vi.fn(), openMap: vi.fn() } }));
@@ -21,7 +23,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 const state = vi.hoisted(() => ({
 	Session: { FreezeUI: false, Entity: { ACTION: {WALK: 1}, action: 0, display: { name: '角色' }, job: 0, clevel: 1, joblevel: 1, money: 0, life: { hp: 10, hp_max: 10, sp: 2, sp_max: 3 }, position: [1, 2] } },
 	cancel: vi.fn(), stopWalk: vi.fn(), feed: new Set(), orientation: new Set(), connection: new Set(), actions: null,
-	view: { showInteraction: vi.fn(), updateShortcuts: vi.fn(), update: vi.fn(), setMap: vi.fn(), setMessages: vi.fn(), close: vi.fn(), destroy: vi.fn() }
+	view: { suspend: vi.fn(), showInteraction: vi.fn(), updateShortcuts: vi.fn(), update: vi.fn(), setMap: vi.fn(), setMessages: vi.fn(), close: vi.fn(), destroy: vi.fn() }
 }));
 vi.mock('UI/GUIComponent.js', () => ({ default: class {
 	static MouseMode = { CROSS: 0 };
@@ -65,7 +67,7 @@ it('replaces subscriptions and timers on repeat mounting and releases all on map
 it('cancels scene input on blur, orientation changes, and disconnect', () => {
 	HUD.onAppend(); state.actions.setModal(true);
 	window.dispatchEvent(new Event('blur'));
-	expect(state.Session.FreezeUI).toBe(false); expect(state.stopWalk).toHaveBeenCalled();
+	expect(state.view.suspend).toHaveBeenCalledOnce(); expect(state.Session.FreezeUI).toBe(true); expect(state.stopWalk).toHaveBeenCalled();
 	const count = state.cancel.mock.calls.length;
 	for (const fn of state.orientation) fn('portrait');
 	expect(state.cancel.mock.calls.length).toBeGreaterThan(count);

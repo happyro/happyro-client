@@ -1,3 +1,4 @@
+import { hasVisiblePixels, createAltitudeFallback } from 'UI/Components/MiniMap/MiniMapImage.js';
 import { createMobileInputEditor } from './MobileInputEditor.js';
 import { loadCatalogMapImage } from 'UI/Components/GameTools/WorldAssetService.js';
 import { createMobileViewport } from './MobileViewport.js';
@@ -292,7 +293,9 @@ HUD.onAppend = function () {
 		)
 		.catch(() => null)
 		.then(image => {
-			if (!mapSignal.aborted) mapView.setMap({ ...grid, image, loading: false });
+			if (mapSignal.aborted) return;
+			const map = image && hasVisiblePixels(image) ? image : createAltitudeFallback();
+			mapView.setMap({ ...grid, image: map, loading: false });
 		});
 	snapshot();
 	unsubscribe = subscribeChatFeed(messages => {

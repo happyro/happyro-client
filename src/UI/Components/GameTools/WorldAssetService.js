@@ -33,7 +33,7 @@ export function npcAtlasStyle(manifest, npcClass, displaySize) {
 }
 
 function loadClientFile(path) {
-	return new Promise(resolve => Client.loadFile(path, data => resolve(data || null)));
+	return new Promise(resolve => Client.loadFile(path, data => resolve(data || null), () => resolve(null)));
 }
 
 function getMapPaths(mapName) {
