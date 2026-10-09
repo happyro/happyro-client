@@ -179,11 +179,11 @@ HUD.onAppend = function () {
 			shortcuts.turn(delta);
 			snapshot();
 		},
+		camera: Commands.adjustCamera,
 		settings: {
 			fields: graphicsFields,
 			snapshot: settingsSnapshot,
-			save: saveGameSettings,
-			camera: Commands.adjustCamera
+			save: saveGameSettings
 		},
 		openCompanion: kind => openGameCompanions(kind, () => modal && !previousFreeze),
 		openPet: () => openGamePet(() => modal && !previousFreeze),

@@ -54,17 +54,15 @@ it('keeps changes across setting categories and applies them together only on sa
 	expect(s.audio.Sound.play).toBe(false);
 });
 
-it('adjusts the camera immediately inside settings while preserving unsaved graphics', () => {
- const body = document.createElement('div'), camera = vi.fn();
- createSettingsPanel(body, { fields: graphicsFields, snapshot: settingsSnapshot, save: saveGameSettings, camera });
- const click = text => [...body.querySelectorAll('button')].find(b => b.textContent === text).click();
- const input = body.querySelector('[data-setting=quality]'); input.value = 100; input.dispatchEvent(new Event('input'));
- click('镜头'); click('左转'); click('重置镜头');
- expect(camera.mock.calls).toEqual([['left'], ['reset']]);
- expect(body.querySelector('.settings-footer').hidden).toBe(true);
- expect(s.graphics.save).not.toHaveBeenCalled();
- click('画面'); expect(input.value).toBe('100'); expect(body.querySelector('.settings-footer').hidden).toBe(false);
- click('保存'); expect(s.graphics.quality).toBe(100);
+it('removes the camera tab while retaining graphics drafts across settings tabs', () => {
+ const body=document.createElement('div');
+ createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings});
+ const click=text=>[...body.querySelectorAll('button')].find(b=>b.textContent===text).click();
+ expect([...body.querySelectorAll('.settings-tabs button')].map(b=>b.textContent)).toEqual(['画面','特效','声音','拾取']);
+ expect(body.querySelector('.camera-section')).toBeNull();
+ const input=body.querySelector('[data-setting=quality]');input.value=100;input.dispatchEvent(new Event('input'));
+ click('声音');click('画面');expect(input.value).toBe('100');
+ expect(s.graphics.save).not.toHaveBeenCalled();click('保存');expect(s.graphics.quality).toBe(100);
 });
 
 it('replaces feedback with temporary toasts and removes static hints', () => {
@@ -78,8 +76,6 @@ it('replaces feedback with temporary toasts and removes static hints', () => {
   click('保存'); expect(document.querySelector('.ui-toast').textContent).toContain('已保存');
   click('恢复默认'); click('确认'); expect(document.querySelector('.ui-toast').textContent).toContain('已保存');
   vi.advanceTimersByTime(2000); expect(document.querySelector('.ui-toast')).toBeNull();
-  click('镜头'); click('重置镜头');
-  expect(document.querySelector('.ui-toast')).toBeNull();
  } finally { vi.useRealTimers(); }
 });
 

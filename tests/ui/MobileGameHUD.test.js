@@ -291,3 +291,20 @@ it('preserves server dialogs across browser suspension while closing local menus
  view.suspend();expect(close).not.toHaveBeenCalled();expect(root.querySelector('.backdrop').hidden).toBe(false);
  view.showInteraction(null);click('[data-panel="menu"]');view.suspend();expect(root.querySelector('.backdrop').hidden).toBe(true);
 });
+
+
+it('opens standalone camera controls next to status and clears transparent styling on other panels', () => {
+ actions.camera=vi.fn();
+ expect(root.querySelector('[data-panel=status]').nextElementSibling.dataset.panel).toBe('camera');
+ click('[data-panel=camera]');
+ expect(root.querySelector('h2').textContent).toBe('镜头');
+ expect(root.querySelector('.backdrop').classList.contains('camera-backdrop')).toBe(true);
+ expect(root.querySelector('[data-back]').hidden).toBe(true);
+ const buttons=[...root.querySelectorAll('.camera-section button')];
+ for(const button of buttons)button.click();
+ expect(actions.camera.mock.calls).toEqual([['reset'],['left'],['right'],['zoomIn'],['zoomOut'],['up'],['down']]);
+ expect(actions.setModal).toHaveBeenLastCalledWith(true);
+ click('[data-close]');expect(actions.setModal).toHaveBeenLastCalledWith(false);
+ click('[data-panel=status]');expect(root.querySelector('.backdrop').classList.contains('camera-backdrop')).toBe(false);
+ expect(root.querySelector('.camera-section')).toBeNull();
+});
