@@ -89,6 +89,7 @@ EntitySignboard.onRemove = function onRemove() {
 EntitySignboard.setTitle = function setTitle(title, icon_location) {
 	const root = this.getRoot();
 	const signboard = root.querySelector('.EntitySignboard');
+	this._host.removeAttribute('data-icon-only');
 
 	// Load signboard background
 	Client.loadFile(`${DB.INTERFACE_PATH}signboard/bg_signboard.bmp`, url => {
@@ -132,12 +133,13 @@ EntitySignboard.setTitle = function setTitle(title, icon_location) {
  */
 EntitySignboard.setIconOnly = function setIconOnly(icon_location) {
 	const root = this.getRoot();
+	// Decorative icons must not intercept clicks anywhere in the host box.
+	this._host.setAttribute('data-icon-only', '');
 	root.querySelector('.title').style.display = 'none';
 	root.querySelector('.overlay').style.display = 'none';
 
 	Client.loadFile(icon_location, url => {
 		const btn = root.querySelector('button');
-		btn.classList.add('icon-only');
 		btn.style.backgroundImage = `url('${url}')`;
 	});
 };
