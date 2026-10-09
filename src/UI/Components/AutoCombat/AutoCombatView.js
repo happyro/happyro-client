@@ -6,17 +6,20 @@ export function createAutoCombatView(root, actions, pickup) {
 	root.innerHTML = `
 		<button type="button" class="combat-launcher" data-settings aria-label="战斗辅助" title="战斗辅助" aria-haspopup="dialog" aria-expanded="false">
 			<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.7 2.4-2 .9L4 5.7 2 9l1.8 1.8v2.4L2 15l2 3.3 2.3-.6 2 .9L9 21h6l.7-2.4 2-.9 2.3.6 2-3.3-1.8-1.8v-2.4L22 9l-2-3.3-2.3.6-2-.9L15 3Z"/><circle cx="12" cy="12" r="3.5"/></svg>
-			<span class="combat-indicator" hidden></span>
 		</button>
 		<div class="combat-backdrop" hidden>
-			<section class="combat-dialog" role="dialog" aria-modal="true" aria-labelledby="combat-title">
-				<header><div><h2 id="combat-title">战斗辅助</h2><span class="combat-subtitle">自动战斗与地面物品拾取</span></div><button type="button" data-close aria-label="关闭战斗辅助">关闭</button></header>
-				<div class="combat-runtime"><div><strong>自动战斗</strong><span class="combat-status" role="status" data-status></span></div><button type="button" data-toggle aria-pressed="false">开始战斗</button></div>
+			<section class="combat-dialog" role="dialog" aria-modal="true" aria-label="战斗辅助配置">
+				<header>
 				<div class="combat-tabs" role="tablist" aria-label="战斗辅助配置">
 					<button type="button" role="tab" id="combat-tab" aria-controls="combat-panel" aria-selected="true" data-tab="combat">自动战斗</button>
 					<button type="button" role="tab" id="pickup-tab" aria-controls="pickup-panel" aria-selected="false" tabindex="-1" data-tab="pickup">自动拾取</button>
 				</div>
-				<div id="combat-panel" role="tabpanel" aria-labelledby="combat-tab" class="auto-config-body"></div>
+				<button type="button" data-close aria-label="关闭战斗辅助">关闭</button>
+				</header>
+				<div id="combat-panel" role="tabpanel" aria-labelledby="combat-tab" class="desktop-combat-panel">
+				<div class="combat-runtime"><div><strong>自动战斗</strong><span class="combat-status" role="status" data-status></span></div><button type="button" class="game-switch" role="switch" aria-label="自动战斗" data-toggle aria-checked="false"></button></div>
+					<div class="auto-config-body"></div>
+				</div>
 				<div id="pickup-panel" role="tabpanel" aria-labelledby="pickup-tab" class="desktop-pickup-panel" hidden>
 					<div class="desktop-pickup-scroll"></div>
 				</div>
@@ -32,6 +35,7 @@ export function createAutoCombatView(root, actions, pickup) {
 		pickupEditor?.destroy();
 		pickupEditor?.footer.remove();
 		backdrop.hidden = true;
+		root.getRootNode().host?.removeAttribute('data-settings-open');
 
 		$('.auto-config-body').replaceChildren();
 		$('.desktop-pickup-scroll').replaceChildren();
@@ -61,6 +65,7 @@ export function createAutoCombatView(root, actions, pickup) {
 		$('#pickup-panel').append(pickupEditor.footer);
 		selectTab('combat');
 		backdrop.hidden = false;
+		root.getRootNode().host?.setAttribute('data-settings-open', '');
 		$('[data-settings]').setAttribute('aria-expanded', 'true');
 		update(actions.snapshot());
 		$('[data-close]').focus();
@@ -132,11 +137,9 @@ export function createAutoCombatView(root, actions, pickup) {
 		{ signal: abort.signal }
 	);
 	function update(state) {
-		$('[data-toggle]').textContent = state.active ? '停止战斗' : '开始战斗';
-		$('[data-toggle]').setAttribute('aria-pressed', String(state.active));
+		$('[data-toggle]').setAttribute('aria-checked', String(state.active));
 		$('[data-status]').textContent = state.status;
 		const picking = pickup.load().enabled;
-		$('.combat-indicator').hidden = !state.active && !picking;
 		$('[data-settings]').title =
 			`战斗辅助 · 战斗${state.active ? '开启' : '关闭'} · 拾取${picking ? '开启' : '关闭'}`;
 	}
@@ -146,6 +149,7 @@ export function createAutoCombatView(root, actions, pickup) {
 		close,
 		isOpen: () => !backdrop.hidden,
 		destroy() {
+			root.getRootNode().host?.removeAttribute('data-settings-open');
 			pickupEditor?.destroy();
 			pickupEditor?.footer.remove();
 			abort.abort();

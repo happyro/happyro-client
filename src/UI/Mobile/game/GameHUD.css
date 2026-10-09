@@ -171,6 +171,7 @@ button.surface,
 }
 .battle-dock {
 	--battle-gap: 6px;
+	--battle-button-padding: 5px;
 	pointer-events: none;
 	touch-action: manipulation;
 	position: absolute;
@@ -226,7 +227,7 @@ button.surface,
 }
 .battle-tools button {
 	min-height: 32px;
-	padding: 4px 5px;
+	padding: 4px var(--battle-button-padding);
 	font-size: 11px;
 	overflow: hidden;
 	white-space: nowrap;
@@ -435,7 +436,7 @@ dd {
 .shortcut-tools button {
 	min-width: 32px;
 	min-height: 32px;
-	padding: 4px;
+	padding: 4px var(--battle-button-padding);
 	border: 0;
 	background: transparent;
 }

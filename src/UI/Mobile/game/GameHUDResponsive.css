@@ -226,6 +226,7 @@
 }
 :host([data-menu-density='spacious']) .battle-dock {
 	--battle-gap: 8px;
+	--battle-button-padding: 8px;
 	width: 366px;
 }
 :host([data-menu-density='spacious']) .combat {
@@ -252,7 +253,7 @@
 :host([data-menu-density='spacious']) .battle-status button {
 	min-height: 44px;
 	font-size: 14px;
-	padding: 6px 8px;
+	padding: 6px var(--battle-button-padding);
 }
 :host([data-menu-density='spacious']) .shortcut-tools,
 :host([data-menu-density='spacious']) .skill-actions {

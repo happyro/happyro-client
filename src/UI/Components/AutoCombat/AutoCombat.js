@@ -6,8 +6,9 @@ import css from './AutoCombat.css?raw';
 import { loadPickupSettings, savePickupSettings } from 'UI/Game/PickupSettings.js';
 import pickupCSS from 'UI/Game/PickupSettingsPanel.css?raw';
 import panelCSS from 'UI/Game/AutoCombatPanel.css?raw';
+import switchCSS from 'UI/Components/GameSwitch.css?raw';
 
-const AutoCombat = new GUIComponent('AutoCombat', panelCSS + pickupCSS + css);
+const AutoCombat = new GUIComponent('AutoCombat', panelCSS + pickupCSS + css + switchCSS);
 AutoCombat.render = () => '';
 AutoCombat.needFocus = false;
 AutoCombat.nativeScrolling = true;

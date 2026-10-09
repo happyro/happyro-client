@@ -17,6 +17,7 @@ import { drawPlayerArrow } from 'UI/Components/GameTools/WorldMapPreview.js';
 import { fittedMapRect, mapImageSourceRect, mapPointToCanvas } from 'UI/Components/GameTools/MapPreviewLayout.js';
 import { createAutoCombatPanel } from 'UI/Game/AutoCombatPanel.js';
 import autoCombatCSS from 'UI/Game/AutoCombatPanel.css?raw';
+import switchCSS from 'UI/Components/GameSwitch.css?raw';
 import { createCompanionsPanel } from './CompanionsPanel.js';
 import { createPetPanel } from './PetPanel.js';
 import { createMailPanel } from './MailPanel.js';
@@ -64,7 +65,8 @@ ${shopCSS}
 ${interactionCSS}
 ${interactionPhoneCSS}
 ${interactionTabletCSS}
-${chatPreviewCSS}</style>${html}`;
+${chatPreviewCSS}
+${switchCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
 	const chatPreview = createChatPreview(root);
