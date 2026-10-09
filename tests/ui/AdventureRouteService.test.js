@@ -44,7 +44,11 @@ it('clears active state when delayed calculation cannot find a path', () => {
  service.startAdventureRoute(target);
  mock.listener({ ...mock.state, pending: false, unavailable: true });
  expect(state.active).toBe(false);
- expect(state.message).toBe('无法到达所选位置');
+ expect(state.message).toBe('');
+ expect(state.unavailable).toBe(true);
+ expect(service.startAdventureRoute(target)).toBe(false);
+ expect(service.previewAdventureRoute({...target,x:40})).toBe(true);
+ expect(state.unavailable).toBe(false);
 });
 
 it('stops movement immediately and previews a different NPC before restarting', () => {

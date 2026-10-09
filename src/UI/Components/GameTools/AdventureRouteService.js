@@ -91,7 +91,7 @@ export function previewAdventureRoute(nextTarget) {
 }
 
 export function startAdventureRoute(nextTarget) {
-	if ((getStatus().pending || status.active) && target &&
+	if ((getStatus().pending || getStatus().unavailable || status.active) && target &&
 		normalizeAdventureMap(target.mapName) === normalizeAdventureMap(nextTarget?.mapName) &&
 		target.x === nextTarget?.x && target.y === nextTarget?.y) return false;
 	if (
@@ -166,7 +166,7 @@ Navigation.subscribeRouteState(nextState => {
 		clearInterval(timer);
 		timer = null;
 		navigationStarted = false;
-		update(false, '无法到达所选位置');
+		update(false, '');
 		return;
 	}
 	if (status.active && navigationStarted && !nextState.active && !nextState.pending) {

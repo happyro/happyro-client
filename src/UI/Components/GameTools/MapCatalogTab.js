@@ -231,7 +231,8 @@ function mount(container, context = {}) {
 				routeState.target.y === routeTarget.y
 			);
 			const routeActive = routeMatches && routeState.active;
-			const routePending = routeState.pending && !routeState.walking;
+			const routePending = routeMatches && routeState.pending && !routeState.walking;
+			const routeUnavailable = routeMatches && routeState.unavailable;
 			const targetActionState = getAdventureActionState(target);
 			const canTeleport =
 				target &&
@@ -280,7 +281,7 @@ function mount(container, context = {}) {
 					</section>
 					</div>
 					<div class="catalog-action-panel">
-						<button class="catalog-route${routeActive ? ' is-active' : ''}" aria-busy="${Boolean(routePending)}" title="${!sameMap ? '寻路仅支持角色当前所在地图' : !routeTarget ? '请先选择目标位置' : ''}" type="button" ${routeTarget && sameMap && !routePending ? '' : 'disabled'}>${routePending ? '计算中…' : routeActive ? '停止寻路' : '开始寻路'}</button>
+						<button class="catalog-route${routeActive ? ' is-active' : ''}" aria-busy="${Boolean(routePending)}" title="${!sameMap ? '寻路仅支持角色当前所在地图' : !routeTarget ? '请先选择目标位置' : routeUnavailable ? '无法寻路到所选位置' : ''}" type="button" ${routeTarget && sameMap && !routePending && !routeUnavailable ? '' : 'disabled'}>${routePending ? '计算中…' : routeActive ? '停止寻路' : '开始寻路'}</button>
 					<button class="catalog-teleport" type="button" ${canTeleportHere ? '' : 'disabled'}>${actionState.npcPending && selectedNpc ? '正在传送...' : '传送到这里'}</button>
 					<span class="catalog-status error">${escapeCatalogHtml(mapStatus)}</span>
 				</div>`;
@@ -327,7 +328,7 @@ function mount(container, context = {}) {
 				if (!sameMap || !previewAdventureRoute(nextTarget)) api.refreshDetail();
 			});
 			detail.querySelector('.catalog-route').addEventListener('click', () => {
-				if (routeState.pending && !routeState.walking) return;
+				if (routePending || routeUnavailable) return;
 				if (routeActive) stopAdventureRoute();
 				else if (routeTarget) startAdventureRoute(routeTarget);
 			});
