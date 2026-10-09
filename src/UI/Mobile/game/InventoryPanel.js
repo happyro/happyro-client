@@ -141,6 +141,26 @@ export function createInventoryPanel(body, actions) {
 		const summary = document.createElement('div');
 		summary.className = 'inventory-item-summary';
 		summary.append(title, flags, reason, description);
+		for (const [kind, label] of [['card', '已插卡片'], ['enchant', '附魔']]) {
+			const entries = item.sockets?.filter(entry => entry.kind === kind) || [];
+			if (!entries.length) continue;
+			const section = document.createElement('section');
+			section.className = 'inventory-sockets';
+			const heading = document.createElement('h4');
+			heading.textContent = label;
+			section.append(heading);
+			for (const entry of entries) {
+				const details = document.createElement('details');
+				const name = document.createElement('summary');
+				name.textContent = `${entry.name} · 槽位 ${entry.slot}`;
+				const text = document.createElement('p');
+				text.className = 'item-description';
+				text.textContent = entry.description;
+				details.append(name, text);
+				section.append(details);
+			}
+			summary.append(section);
+		}
 		heading.append(media, summary);
 		content.append(heading);
 		detail.replaceChildren(content, ops);

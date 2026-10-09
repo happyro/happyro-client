@@ -227,12 +227,16 @@ ItemInfo.setItem = function setItem(item) {
 	const optionContainer = root.querySelector('.option-container');
 
 	this.item = it;
+	const imageRequest = {};
+	this.imageRequest = imageRequest;
+	root.querySelector('.collection').style.backgroundImage = 'none';
 	Client.loadFile(
 		DB.INTERFACE_PATH +
 			'collection/' +
 			(item.IsIdentified ? it.identifiedResourceName : it.unidentifiedResourceName) +
 			'.bmp',
 		data => {
+			if (this.imageRequest !== imageRequest) return;
 			const collection = root.querySelector('.collection');
 			if (collection) {
 				collection.style.backgroundImage = `url(${data})`;
@@ -575,7 +579,7 @@ function addEvent(item) {
 
 	switch (item.type) {
 		case ItemType.CARD:
-			if (viewBtn) {
+			if (viewBtn && DB.getItemInfo(item.ITID).illustResourcesName) {
 				viewBtn.style.display = 'inline-flex';
 			}
 			break;

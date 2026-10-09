@@ -82,3 +82,14 @@ it('filters detailed item types and resets scroll when switching categories', ()
   expect(list.scrollTop).toBe(0);
  }
 });
+
+it('shows inserted cards and enchants and refreshes them from the equipment state',()=>{
+ const body=document.body.appendChild(document.createElement('div'));
+ const item={index:1,ID:100,name:'装备',count:1,identified:true,worn:true,sockets:[{kind:'card',slot:1,name:'卡片',description:'攻击 +10'},{kind:'enchant',slot:4,name:'锐利',description:'暴击 +6'}]};
+ const panel=createInventoryPanel(body,{snapshot:()=>[item],preview:async()=>null});
+ body.querySelector('[data-index="1"]').click();
+ expect([...body.querySelectorAll('.inventory-sockets h4')].map(e=>e.textContent)).toEqual(['已插卡片','附魔']);
+ expect(body.querySelectorAll('.inventory-sockets details')).toHaveLength(2);
+ expect(body.querySelector('.inventory-sockets details p').textContent).toBe('攻击 +10');
+ item.sockets=[];panel.update();expect(body.querySelector('.inventory-sockets')).toBeNull();
+});

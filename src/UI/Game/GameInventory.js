@@ -1,3 +1,4 @@
+import { equipmentSockets } from './EquipmentSockets.js';
 import { beginItemOperation, finishItemOperation } from './ItemOperationFeedback.js';
 import ItemType from 'DB/Items/ItemType.js';
 import MapControl from 'Controls/MapControl.js';
@@ -61,6 +62,7 @@ export function createGameInventory(canOperate) {
 						? '此物品没有直接使用操作'
 						: '';
 		return {
+			sockets: equippable ? equipmentSockets(item) : [],
 			index: item.index,
 			ID: item.ITID,
 			name: DB.getItemName(item),
