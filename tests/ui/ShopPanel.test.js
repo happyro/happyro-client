@@ -28,3 +28,23 @@ it('labels proceeds for sales, supports empty shops and never submits a cancelle
  state.mode='sell';panel.update();expect(body.querySelector('.shop-summary').textContent).toContain('获得合计');click('核对订单');click('取消');expect(service.submit).not.toHaveBeenCalled();
  state.items=[];panel.update();expect(body.querySelector('.shop-empty').textContent).toBe('没有可出售的物品');expect([...body.querySelectorAll('button')].find(el=>el.textContent==='核对订单').disabled).toBe(true);
 });
+
+it('blocks reviewing or changing items with unapplied quantities and allows explicit revert',()=>{
+ state.items.push({...state.items[0],index:1,ID:502,name:'蓝色药水'});panel.update();
+ body.querySelector('.inventory-item').click();const input=body.querySelector('input');input.value='8';input.dispatchEvent(new Event('input'));
+ click('核对订单');expect(body.querySelector('dialog')).toBeNull();expect(service.submit).not.toHaveBeenCalled();
+ expect(body.querySelector('.shop-status').textContent).toContain('尚未应用');
+ body.querySelectorAll('.inventory-item')[1].click();expect(body.querySelector('input')).toBe(input);
+ click('撤销修改');expect(input.value).toBe('2');click('核对订单');expect(body.querySelector('dialog')).not.toBeNull();
+});
+it('reviews applied quantities and places the total outside the scrollable item list',()=>{
+ service.set.mockImplementation((index,id,count)=>{state.items[0].quantity=count;state.total=count*10;return '';});
+ body.querySelector('.inventory-item').click();const input=body.querySelector('input');input.value='8';input.dispatchEvent(new Event('input'));
+ body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));click('核对订单');
+ expect(body.querySelector('.shop-review-lines').textContent).toContain('红色药水 × 8');expect(body.querySelector('.shop-review > strong').textContent).toContain('80 Zeny');
+ expect(body.querySelector('.shop-review-lines strong')).toBeNull();
+});
+it('keeps an unapplied quantity after persistence rejects an update',()=>{
+ service.set.mockReturnValue('物品状态已变化');body.querySelector('.inventory-item').click();const input=body.querySelector('input');input.value='8';input.dispatchEvent(new Event('input'));
+ body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));click('核对订单');expect(body.querySelector('dialog')).toBeNull();expect(input.value).toBe('8');
+});

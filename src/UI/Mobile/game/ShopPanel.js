@@ -13,7 +13,8 @@ export function createShopPanel(body, service) {
 		input,
 		price,
 		title,
-		description;
+		description,
+		appliedQuantity;
 	const feedback = createFeedback(body);
 	const keyOf = item => `${item.index}:${item.ID}`;
 	const currency = () => state.currency || 'Zeny';
@@ -24,12 +25,12 @@ export function createShopPanel(body, service) {
 			snapshot.total,
 			snapshot.items
 				.filter(item => item.quantity)
-				.map(({ index, ID, name, quantity, price, limit, materials }) => ({
+				.map(({ index, ID, name, quantity, price: unitPrice, limit, materials }) => ({
 					index,
 					ID,
 					name,
 					quantity,
-					price,
+					price: unitPrice,
 					limit,
 					materials
 				}))
@@ -41,7 +42,15 @@ export function createShopPanel(body, service) {
 		node.onclick = action;
 		return node;
 	}
+	const hasQuantityDraft = () => selected && input && input.value !== appliedQuantity;
+	function requireAppliedQuantity() {
+		if (!hasQuantityDraft()) return true;
+		feedback('数量尚未应用，请先点击“设置数量”或“撤销修改”', 'error');
+		input.focus();
+		return false;
+	}
 	function detail(item) {
+		if (!requireAppliedQuantity()) return;
 		selected = keyOf(item);
 		title = document.createElement('h3');
 		price = document.createElement('p');
@@ -57,6 +66,8 @@ export function createShopPanel(body, service) {
 		input.step = '1';
 		input.value = String(item.quantity || Math.min(1, item.limit));
 		input.setAttribute('aria-label', '交易数量');
+		appliedQuantity = input.value;
+		input.oninput = update;
 		label.append(input);
 		const set = button('设置数量', () => {});
 		set.type = 'submit';
@@ -65,16 +76,24 @@ export function createShopPanel(body, service) {
 			if (!input.reportValidity()) return;
 			const message = service.set(item.index, item.ID, Number(input.value));
 			if (message) feedback(message, 'error');
-			else feedback('订单数量已更新', 'success');
+			else {
+				appliedQuantity = input.value;
+				feedback('订单数量已更新', 'success');
+			}
 			update();
 		};
 		const remove = button('移出订单', () => {
 			const message = service.set(item.index, item.ID, 0);
 			if (message) feedback(message, 'error');
-			else input.value = '0';
+			else input.value = appliedQuantity = '0';
 			update();
 		});
-		form.append(label, set, remove);
+		const revert = button('撤销修改', () => {
+			input.value = appliedQuantity;
+			update();
+		});
+		revert.dataset.revertQuantity = '';
+		form.append(label, set, remove, revert);
 		description = document.createElement('p');
 		description.className = 'item-description';
 		$('.inventory-detail').replaceChildren(title, price, form, description);
@@ -82,11 +101,14 @@ export function createShopPanel(body, service) {
 	}
 	function review() {
 		update();
-		if (!state.allowed || !state.items.some(item => item.quantity)) return;
+		if (!state.allowed || !requireAppliedQuantity() || !state.items.some(item => item.quantity)) return;
 		const reviewed = signature(state);
 		const content = document.createElement('div');
 		content.className = 'shop-review';
-		for (const item of state.items.filter(item => item.quantity)) {
+		const lines = document.createElement('div');
+		lines.className = 'shop-review-lines';
+		content.append(lines);
+		for (const item of state.items.filter(entry => entry.quantity)) {
 			const line = document.createElement('p');
 			line.textContent = `${item.name} × ${item.quantity} · ${item.price * item.quantity} ${currency()}`;
 			if (item.materials?.length)
@@ -98,7 +120,7 @@ export function createShopPanel(body, service) {
 								`${m.name}${m.refine_level ? `（精炼 +${m.refine_level}）` : ''} × ${m.amount * item.quantity}`
 						)
 						.join('、');
-			content.append(line);
+			lines.append(line);
 		}
 		const total = document.createElement('strong');
 		total.textContent = `${state.mode === 'buy' ? '支付' : '获得'}合计：${state.total} ${currency()}`;
@@ -138,9 +160,11 @@ export function createShopPanel(body, service) {
 			`持有：${state.money} ${currency()} · ${state.mode === 'buy' ? '支付' : '获得'}合计：${state.total} ${currency()}`;
 		$('.shop-status').textContent = state.pending
 			? '等待服务器回复…'
-			: `已选 ${state.items.filter(item => item.quantity).length} 种物品`;
+			: hasQuantityDraft()
+				? '数量已修改，尚未应用'
+				: `已选 ${state.items.filter(item => item.quantity).length} 种物品`;
 		clearButton.disabled = !state.allowed;
-		reviewButton.disabled = !state.allowed || !state.items.some(item => item.quantity);
+		reviewButton.disabled = !state.allowed || (!hasQuantityDraft() && !state.items.some(item => item.quantity));
 		empty.hidden = state.items.length > 0;
 		empty.textContent = state.mode === 'sell' ? '没有可出售的物品' : '商店暂无商品';
 		const keys = new Set();
@@ -193,6 +217,8 @@ export function createShopPanel(body, service) {
 						.join('、');
 			input.max = String(item.limit);
 		}
+		const revert = $('[data-revert-quantity]');
+		if (revert) revert.hidden = !hasQuantityDraft();
 		for (const node of $('.inventory-detail').querySelectorAll('button,input')) node.disabled = !state.allowed;
 	}
 	update();

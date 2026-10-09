@@ -82,3 +82,28 @@
 	border-top: 1px solid #52606d;
 	padding-top: 10px;
 }
+
+/* Only order lines scroll; the question, total and confirmation remain visible. */
+.panel[data-view='shop'] .ui-confirm-body:has(.shop-review) {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+.panel[data-view='shop'] .ui-confirm-body:has(.shop-review) > p {
+	flex-shrink: 0;
+}
+.shop-review {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	gap: 10px;
+}
+.shop-review-lines {
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+.shop-review > strong {
+	flex-shrink: 0;
+	overflow-wrap: anywhere;
+}
