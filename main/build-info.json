@@ -1,18 +1,18 @@
 {
-  "buildId": "mv0zmycr",
-  "builtAt": "2026-10-09T13:15:20.043Z",
+  "buildId": "mv1gm6ky",
+  "builtAt": "2026-10-09T21:10:37.522Z",
   "artifacts": {
-    "index.html": "d14e243540a5584293e7a0f9c9713e68190fdba471f5ce18dd38dc8f833ade72",
-    "api.html": "0fffea9e5b57e058522384c1865fe0c7f19b80b298af6c1b691812786d21e497",
+    "index.html": "15ab9ada353dcd1888cd7ad765cee68e9ff21f95b3118f2312e37c7e2438932c",
+    "api.html": "d5a2c3e2b9c459bed3b86cf6fb3b38848316c6c6a81294636b50dd2a15e5620d",
     "api.js": "b3469e0f93108830cf34d6cae8752083810b98d1a7c41c2c5349c51331cdf13e",
     "debug.js": "c144a24aa6a8d67a8e4050ce169072260054025cf1b11f37f2b8b52ee325fbfe",
     "debug-upload.js": "01260bb90f2303ee1c9d6389821517f32052c506fd54d03de0cc15298230d34d",
-    "Online.js": "bb0b57bd8010ca2fa2dbe30dd19be4cdda2ba12e9aacd71129e2aa1acfbd957c",
+    "Online.js": "69b8d113095c6486cf7c975af1fbe6b728d27aa6902c0225a1802949e3507bc4",
     "Config.js": "d327923d76b148c94efca1c90f0b81918484689730f42d33dfcfe8f7fa02cd63",
-    "Config.happyro.js": "5df726d480d10561680248044c7f187e5d26bb1e0b0973f0193d4df236b6fd04",
+    "Config.happyro.js": "734d9684bbef5d6a7ad793e59ac84723cfd9c3428bee98519e19105202b76b46",
     "data/navigation/catalog.json": "1d776db02d792659dcba74cb8ecaf971de767c7ecab39724d245d39f177f4279",
     "data/navigation/graph.json": "faa9ce30aae5a71f41660ff9cafcc8b4c8c0730ac2350a50bf529a36d2a8267b",
     "data/monsters/catalog.json": "0bd0f3ea9bf043d5a92b1ad0e5064a03ea7ea91ed0585559cfc95bb0718ab46f",
-    "data/world/npc-assets.json": "06877d060d891b9cf1d313b312252ad5f0e373e1c2dd5b49717057bbae78bdcf"
+    "data/world/npc-assets.json": "aab8e4aeb64f2afaf4354e2cf90db2413343763b9922a6856aa76ec5c1103da4"
   }
 }
