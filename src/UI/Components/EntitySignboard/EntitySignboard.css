@@ -34,7 +34,7 @@
 	cursor: inherit;
 }
 
-.EntitySignboard button.icon-only {
+:host([data-icon-only]) {
 	pointer-events: none;
 }
 
