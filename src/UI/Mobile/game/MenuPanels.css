@@ -1406,7 +1406,7 @@
 	line-height: 1.5;
 }
 
-.inventory-sockets { margin-top: 12px; border-top: 1px solid var(--panel-border, #a99b87); padding-top: 8px; }
+.inventory-sockets { margin-top: 1em; }
 .inventory-sockets h4 { margin: 0 0 6px; font: inherit; font-weight: 700; }
 .inventory-sockets details { margin-top: 4px; border: 1px solid var(--panel-border, #a99b87); border-radius: 4px; }
 .inventory-sockets summary { padding: 8px; cursor: pointer; overflow-wrap: anywhere; }
