@@ -4,7 +4,7 @@
 	z-index: 1100 !important;
 	color: #263746;
 	font:
-		12px/1.35 Arial,
+		var(--panel-text)/1.35 Arial,
 		sans-serif;
 	background: #0003;
 	box-sizing: border-box;
@@ -23,7 +23,7 @@
 }
 .mobile-adventure.game-tools-window {
 	font:
-		12px/1.35 Arial,
+		var(--panel-text)/1.35 Arial,
 		sans-serif;
 	min-width: 0;
 	min-height: 0;
@@ -42,9 +42,9 @@
 	touch-action: manipulation;
 }
 .mobile-adventure button {
-	min-height: 30px;
+	min-height: var(--panel-control);
 	height: auto;
-	padding: 4px 8px;
+	padding: var(--panel-control-padding);
 	border-radius: 8px;
 	cursor: pointer;
 }
@@ -52,7 +52,7 @@
 	height: 28px;
 	min-height: 28px;
 	box-sizing: border-box;
-	font-size: 12px;
+	font-size: var(--panel-text);
 	border-radius: 5px;
 	padding: 3px 6px;
 }
@@ -76,7 +76,7 @@
 }
 .adventure-header h2 {
 	margin: 0;
-	font-size: 14px;
+	font-size: var(--panel-heading);
 	flex: 1;
 }
 .adventure-header button {
@@ -103,10 +103,10 @@
 	box-shadow: 0 2px 3px #2437440a;
 }
 .adventure-home strong {
-	font-size: 14px;
+	font-size: var(--panel-heading);
 }
 .adventure-home span {
-	font-size: 13px;
+	font-size: var(--panel-heading);
 	color: #576f7f;
 }
 .adventure-content {
@@ -133,11 +133,11 @@
 	min-width: 140px;
 }
 .mobile-adventure .game-select-trigger {
-	min-height: 30px;
-	font-size: 14px;
+	min-height: var(--panel-control);
+	font-size: var(--panel-heading);
 }
 .mobile-adventure .game-select-option {
-	min-height: 30px;
+	min-height: var(--panel-control);
 }
 .mobile-adventure .catalog-layout,
 .mobile-adventure .monster-layout,
@@ -259,7 +259,7 @@
 	overflow: auto;
 }
 .mobile-adventure .map-npc-row {
-	min-height: 30px;
+	min-height: var(--panel-control);
 	padding: 6px;
 }
 .mobile-adventure .map-heading,
@@ -342,7 +342,7 @@
 	content: 'MVP';
 }
 .mobile-adventure .item-description {
-	font-size: 12px;
+	font-size: var(--panel-text);
 	line-height: 1.5;
 }
 .adventure-loading {
@@ -351,7 +351,7 @@
 	border-radius: 8px;
 }
 .adventure-loading button {
-	min-height: 30px;
+	min-height: var(--panel-control);
 }
 @container menu-content (max-width: 560px) {
 	.adventure-home,
@@ -439,7 +439,7 @@
 /* Compact landscape workspace: keep navigation and details visible together. */
 .mobile-adventure .monster-heading h3,
 .mobile-adventure .catalog-heading h3 {
-	font-size: 15px;
+	font-size: var(--panel-title);
 }
 .mobile-adventure .monster-portrait,
 .mobile-adventure .catalog-portrait {
@@ -544,7 +544,7 @@
 		max-height: 150px;
 	}
 	.mobile-adventure .map-npc-row {
-		min-height: 30px;
+		min-height: var(--panel-control);
 		padding: 4px;
 	}
 	.mobile-adventure .management-form > .management-form-actions button {
@@ -556,7 +556,8 @@
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		align-content: start;
 		gap: 8px 12px;
-		padding: 6px 10px;
+		padding: var(--panel-control-padding);
+		font-size: var(--panel-label);
 	}
 	.mobile-adventure .settings-scroll section + section {
 		border-top: 0;
@@ -622,14 +623,14 @@
 	}
 }
 .mobile-adventure .map-heading h3 {
-	font-size: 15px;
+	font-size: var(--panel-title);
 }
 .mobile-adventure .management-tab section {
 	padding: 4px 0;
 }
 .mobile-adventure .management-tab section h4 {
 	margin: 0 0 4px;
-	font-size: 12px;
+	font-size: var(--panel-text);
 }
 .mobile-adventure .character-detail .character-summary {
 	padding: 6px 8px;
@@ -834,7 +835,7 @@
 	align-items: center;
 	padding: 5px 4px;
 	gap: 4px;
-	font-size: 11px;
+	font-size: var(--panel-label);
 }
 .mobile-adventure .monster-stats div > span {
 	flex-shrink: 0;
@@ -987,7 +988,7 @@
 	align-items: center;
 	padding: 5px 4px;
 	gap: 4px;
-	font-size: 11px;
+	font-size: var(--panel-label);
 }
 .mobile-adventure .item-overview .catalog-metadata span {
 	flex-shrink: 0;
@@ -1130,12 +1131,12 @@
 
 .mobile-adventure .map-npc-text strong,
 .mobile-adventure .monster-location strong {
-	font-size: 12px;
+	font-size: var(--panel-text);
 	line-height: 16px;
 }
 .mobile-adventure .map-npc-text small,
 .mobile-adventure .monster-location small {
-	font-size: 10px;
+	font-size: var(--panel-caption);
 	line-height: 16px;
 	margin-top: 0;
 }
@@ -1158,7 +1159,7 @@
 	margin: 0;
 	padding: 5px 6px;
 	min-height: 28px;
-	font-size: 12px;
+	font-size: var(--panel-text);
 	line-height: 17px;
 	font-weight: 700;
 	color: #f5f2e9;
@@ -1209,7 +1210,7 @@
 	padding: 2px 5px;
 	border-radius: 5px;
 	background: #283541;
-	font-size: 12px;
+	font-size: var(--panel-text);
 	line-height: 22px;
 	box-sizing: border-box;
 }
@@ -1264,7 +1265,7 @@
 	border-radius: 6px;
 	background: #242e38;
 	color: #c6d0db;
-	font-size: 14px;
+	font-size: var(--panel-heading);
 }
 .mobile-adventure .character-detail-scroll {
 	display: flex;
@@ -1312,7 +1313,7 @@
 .mobile-adventure .character-traits-unavailable {
 	margin: 4px 0;
 	color: #c6d0db;
-	font-size: 12px;
+	font-size: var(--panel-text);
 }
 
 .mobile-adventure .character-detail-scroll > section > h4,
@@ -1323,13 +1324,13 @@
 	border-radius: 3px;
 	background: #2b3540;
 	color: #ffe1ae;
-	font-size: 13px;
+	font-size: var(--panel-heading);
 	font-weight: 600;
 }
 .mobile-adventure .character-detail-scroll > section > h4 small,
 .mobile-adventure .settings-scroll > section > h4 small {
 	color: #c6d0db;
-	font-size: 11px;
+	font-size: var(--panel-label);
 	font-weight: normal;
 }
 
@@ -1369,7 +1370,7 @@
 	border-radius: 0;
 	background: transparent;
 	white-space: normal;
-	font-size: 12px;
+	font-size: var(--panel-text);
 	color: #c6d0db;
 }
 .mobile-adventure .settings-form .setting-number,
@@ -1393,7 +1394,7 @@
 	width: auto;
 	flex: 0 0 auto;
 	color: #c6d0db;
-	font-size: 11px;
+	font-size: var(--panel-label);
 }
 .mobile-adventure .settings-drop-table tbody {
 	display: grid;
@@ -1412,7 +1413,7 @@
 	align-self: center;
 	padding: 0;
 	white-space: normal;
-	font-size: 12px;
+	font-size: var(--panel-text);
 }
 .mobile-adventure .settings-drop-table td {
 	flex-direction: column;
@@ -1421,23 +1422,23 @@
 	gap: 4px;
 	min-width: 0;
 	padding: 0;
-	font-size: 11px;
+	font-size: var(--panel-label);
 	color: #c6d0db;
 }
 .mobile-adventure .settings-footer {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-columns: minmax(0, 1fr) auto;
 	gap: 8px;
 }
 .mobile-adventure .settings-footer .management-status {
-	grid-column: span 3;
+	grid-column: 1;
 	min-width: 0;
 }
 .mobile-adventure .settings-footer button {
-	width: 100%;
+	width: auto;
 	min-width: 0;
-	white-space: normal;
-	padding-inline: 4px;
+	white-space: nowrap;
+	padding-inline: 12px;
 }
 @container menu-content (max-width: 599px) {
 	.mobile-adventure .settings-grid {
@@ -1448,12 +1449,6 @@
 	}
 	.mobile-adventure .settings-drop-table th {
 		grid-column: 1 / -1;
-	}
-	.mobile-adventure .settings-footer {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-	.mobile-adventure .settings-footer .management-status {
-		grid-column: auto;
 	}
 }
 
@@ -1498,7 +1493,7 @@
 }
 
 .mobile-adventure .settings-footer button {
-	grid-column: -2;
+	grid-column: 2;
 }
 
 /* Keep tablet controls and their containing rows on the same density scale. */
@@ -1517,7 +1512,8 @@
 :host([data-menu-density='spacious']) .mobile-adventure button {
 	height: auto;
 	min-height: var(--panel-control);
-	padding: 6px 10px;
+	padding: var(--panel-control-padding);
+	font-size: var(--panel-label);
 }
 
 :host([data-menu-density='spacious'])
@@ -1543,10 +1539,10 @@
 	min-height: var(--panel-control);
 }
 :host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-text strong, .monster-location strong) {
-	font-size: 14px;
+	font-size: var(--panel-heading);
 }
 :host([data-menu-density='spacious']) .mobile-adventure :is(.map-npc-text small, .monster-location small) {
-	font-size: 12px;
+	font-size: var(--panel-label);
 }
 :host([data-menu-density='spacious']) .mobile-adventure :is(.management-form, .settings-grid) {
 	gap: 12px;
@@ -1556,9 +1552,9 @@
 }
 
 .mobile-adventure :is(.catalog-pagination, .monster-pagination) button {
-	width: 52px;
-	min-width: 52px;
-	flex: 0 0 52px;
+	width: 36px;
+	min-width: 36px;
+	flex: 0 0 36px;
 }
 :host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-pagination, .monster-pagination) button {
 	width: 64px;
@@ -1566,16 +1562,14 @@
 	flex-basis: 64px;
 }
 
-/* Tablet reading scale, shared by all catalog and management pages. */
+/* Content roles consume the same typography tokens as every other submenu. */
 :host([data-menu-density='spacious']) .mobile-adventure {
-	--adventure-text: 16px;
-	--adventure-meta: 14px;
-	font-size: var(--adventure-text);
+	font-size: var(--panel-text);
 }
 :host([data-menu-density='spacious']) .mobile-adventure :is(.catalog-row, .monster-row, .character-job-row) {
 	min-height: 60px;
 	padding: 8px;
-	font-size: var(--adventure-text);
+	font-size: var(--panel-text);
 }
 :host([data-menu-density='spacious'])
 	.mobile-adventure
@@ -1593,7 +1587,7 @@
 		.monster-stats div,
 		.catalog-metadata div
 	) {
-	font-size: var(--adventure-meta);
+	font-size: var(--panel-label);
 	line-height: 1.5;
 }
 :host([data-menu-density='spacious'])
@@ -1603,21 +1597,18 @@
 		.monster-description,
 		.settings-scroll,
 		.settings-scroll p,
-		.settings-scroll label,
-		.settings-grid label,
-		.settings-rate-list label,
 		.settings-drop-table th,
 		.settings-drop-table td
 	) {
-	font-size: var(--adventure-text);
+	font-size: var(--panel-text);
 	line-height: 1.6;
 }
 :host([data-menu-density='spacious']) .mobile-adventure h3 {
-	font-size: 18px;
+	font-size: var(--panel-title);
 	line-height: 1.4;
 }
 :host([data-menu-density='spacious']) .mobile-adventure :is(.monster-overview, .item-overview) {
-	grid-template-columns: 128px minmax(0, 1fr);
+	grid-template-columns: var(--panel-item-image) minmax(0, 1fr);
 	gap: 12px;
 	padding: 8px;
 }
@@ -1625,33 +1616,33 @@
 	/* Scale the atlas and its offset together, keeping the sprite's crop intact. */
 	width: 96px;
 	height: 96px;
-	margin: 32px;
-	transform: scale(1.666667);
+	margin: calc((var(--panel-detail-image) - 96px) / 2);
+	transform: scale(var(--panel-detail-image-scale));
 	justify-self: center;
 }
 :host([data-menu-density='spacious']) .mobile-adventure .item-portrait {
-	width: 128px;
-	min-height: 128px;
+	width: var(--panel-item-image);
+	min-height: var(--panel-item-image);
 }
 :host([data-menu-density='spacious']) .mobile-adventure .monster-stats {
-	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 :host([data-menu-density='spacious']) .mobile-adventure :is(.character-traits-unavailable, .map-thumb span) {
-	font-size: var(--adventure-meta);
+	font-size: var(--panel-label);
 	line-height: 1.3;
 }
 
-/* Section labels stay quieter than names and body content. */
+/* Section headings share the same scale as inventory and equipment headings. */
 :host([data-menu-density='spacious']) .mobile-adventure h4 {
-	font-size: var(--adventure-meta);
+	font-size: var(--panel-heading);
 	line-height: 1.4;
 }
 :host([data-menu-density='spacious']) .mobile-adventure .monster-overview {
-	grid-template-columns: 160px minmax(0, 1fr);
+	grid-template-columns: var(--panel-detail-image) minmax(0, 1fr);
 }
 :host([data-menu-density='spacious']) .mobile-adventure :is(.monster-thumb, .npc-catalog-tab .catalog-thumb) {
 	/* Preserve atlas cropping while reserving space for the enlarged 56px image. */
-	transform: scale(1.4);
-	margin: 8px;
+	transform: scale(var(--panel-list-image-scale));
+	margin: calc(20px * (var(--panel-list-image-scale) - 1));
 }

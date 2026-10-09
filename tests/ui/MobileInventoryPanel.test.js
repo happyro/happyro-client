@@ -3,7 +3,7 @@ import { createInventoryPanel } from '../../src/UI/Mobile/game/InventoryPanel.js
 it('supports category dropdowns, exact-index actions, live server updates and shortcut confirmation without losing selection', () => {
  const body = document.body.appendChild(document.createElement('div'));
  let items = [{ index: 2, ID: 501, name: '药水', count: 3, category: 'usable', description: '<img onerror=alert(1)>', action: 'use', reason: '', identified: true, shortcut: true }, { index: 3, ID: 1201, name: '短剑', count: 1, category: 'equipment', action: 'equip', reason: '', identified: true, shortcut: true }];
- const actions = { snapshot: () => items, act: vi.fn(() => ''), bind: vi.fn(() => true), shortcuts: () => ({ page: 1, pages: 8, total: 36, slots: [{ index: 5 }] }), slotName: () => '旧技能' };
+ const actions = { preview: vi.fn(async () => ({ image: '', art: '' })), snapshot: () => items, act: vi.fn(() => ''), bind: vi.fn(() => true), shortcuts: () => ({ page: 1, pages: 8, total: 36, slots: [{ index: 5 }] }), slotName: () => '旧技能' };
  const panel = createInventoryPanel(body, actions);
  const category = value => { const select = body.querySelector('[aria-label="背包分类"]'); select.value = value; select.dispatchEvent(new Event('change')); };
  const click = text => [...body.querySelectorAll('button')].find(b => b.textContent === text).click();
@@ -20,7 +20,7 @@ it('supports category dropdowns, exact-index actions, live server updates and sh
 it('adjusts discard quantity within the stack and packet limits before confirming', () => {
  const body = document.body.appendChild(document.createElement('div'));
  const item = { index: 2, ID: 501, name: '药水', count: 70000, category: 'usable', identified: true };
- const actions = { snapshot: () => [item], drop: vi.fn(() => '') };
+ const actions = { preview: vi.fn(async () => ({ image: '', art: '' })), snapshot: () => [item], drop: vi.fn(() => '') };
  createInventoryPanel(body, actions);
  body.querySelector('[data-index="2"]').click();
  [...body.querySelectorAll('button')].find(b => b.textContent === '丢弃').click();
@@ -34,4 +34,24 @@ it('adjusts discard quantity within the stack and packet limits before confirmin
  quantity.value = '8'; press('减少数量'); expect(quantity.value).toBe('7');
  body.querySelector('[data-confirm]').click();
  expect(actions.drop).toHaveBeenCalledExactlyOnceWith(2, 501, 7);
+});
+
+it('ignores stale image loads and displays the selected illustration directly without item actions', async () => {
+ const body = document.body.appendChild(document.createElement('div'));
+ const items = [1,2].map(index => ({ index, ID: index, name: `物品${index}`, count: 1, identified: true, worn: true }));
+ const pending = [];
+ createInventoryPanel(body, { snapshot: () => items, preview: () => new Promise(resolve => pending.push(resolve)) });
+ body.querySelector('[data-index="1"]').click();
+ body.querySelector('[data-index="2"]').click();
+ pending[0]({ image: 'old.bmp', art: 'old-card.bmp' });
+ await Promise.resolve();
+ expect(body.querySelector('.inventory-item-picture')).toBeNull();
+ pending[1]({ image: 'new.bmp', art: 'new-card.bmp' });
+ await Promise.resolve();
+ expect(body.querySelector('.inventory-item-picture').getAttribute('src')).toBe('new-card.bmp');
+ expect(body.querySelector('.inventory-item-picture').classList.contains('is-illustration')).toBe(true);
+ expect(body.querySelector('.inventory-picture-action')).toBeNull();
+ expect(body.querySelector('dialog')).toBeNull();
+ body.querySelector('[data-index="1"]').click();
+ expect(body.querySelector('.inventory-item-picture')).toBeNull();
 });

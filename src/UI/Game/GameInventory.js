@@ -12,6 +12,13 @@ import { toPlainRagnarokText } from 'Utils/RagnarokText.js';
 /** Read live inventory identities; never optimistically mutate server-owned counts or equipment. */
 export function createGameInventory(canOperate) {
 	const icons = new Map();
+	const previewImages = new Map();
+	function loadPreviewImage(path) {
+		if (!previewImages.has(path)) {
+			previewImages.set(path, new Promise(resolve => Client.loadFile(path, resolve, () => resolve(''))));
+		}
+		return previewImages.get(path);
+	}
 	function entries() {
 		const items = new Map(
 			Inventory.getUI()
@@ -78,6 +85,19 @@ export function createGameInventory(canOperate) {
 	}
 	return {
 		snapshot: () => entries().map(describe),
+		async preview(index, id) {
+			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);
+			if (!entry) return null;
+			const { item } = entry;
+			const info = DB.getItemInfo(id);
+			const resource = item.IsIdentified ? info.identifiedResourceName : info.unidentifiedResourceName;
+			const illustration = item.IsIdentified && info.illustResourcesName;
+			const [image, art] = await Promise.all([
+				resource ? loadPreviewImage(`${DB.INTERFACE_PATH}collection/${resource}.bmp`) : '',
+				illustration ? loadPreviewImage(`${DB.INTERFACE_PATH}cardbmp/${illustration}.bmp`) : ''
+			]);
+			return { image, art };
+		},
 		describe: item => describe({ item, worn: false }),
 		act(index, id, action, location) {
 			const entry = entries().find(({ item }) => item.index === index && item.ITID === id);

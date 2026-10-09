@@ -512,6 +512,7 @@ ${chatPreviewCSS}</style>${html}`;
 		if (panel === 'inventory')
 			inventoryPanel = createInventoryPanel(body, {
 				snapshot: actions.inventorySnapshot,
+				preview: actions.inventoryPreview,
 				act: actions.inventoryAct,
 				drop: actions.inventoryDrop,
 				shortcuts: actions.shortcutSnapshot,

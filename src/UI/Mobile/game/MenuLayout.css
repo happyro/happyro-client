@@ -1,4 +1,4 @@
-/* Sole owner of mobile menu outer dimensions. Features own only their contents. */
+/* Shared mobile menu dimensions, typography and control density. */
 :host {
 	--menu-standard-width: 1040px;
 	--menu-standard-height: 640px;
@@ -12,16 +12,36 @@
 	--menu-dialog-inset: 32px;
 	--panel-gap: 6px;
 	--panel-control: 30px;
+	--panel-attribute-control: 26px;
+	--panel-attribute-width: 32px;
 	--panel-label: 11px;
 	--panel-heading: 12px;
+	--panel-text: 12px;
+	--panel-title: 14px;
+	--panel-caption: 10px;
+	--panel-control-padding: 4px 8px;
+	--panel-list-image-scale: 1;
+	--panel-detail-image: 96px;
+	--panel-detail-image-scale: 1;
+	--panel-item-image: 96px;
 }
 :host([data-menu-density='spacious']) {
 	--menu-edge-x: 24px;
 	--menu-edge-y: 24px;
 	--panel-gap: 12px;
 	--panel-control: 44px;
+	--panel-attribute-control: 44px;
+	--panel-attribute-width: 56px;
 	--panel-label: 14px;
 	--panel-heading: 16px;
+	--panel-text: 16px;
+	--panel-title: 18px;
+	--panel-caption: 14px;
+	--panel-control-padding: 8px 12px;
+	--panel-list-image-scale: 1.4;
+	--panel-detail-image: 112px;
+	--panel-detail-image-scale: 1.166667;
+	--panel-item-image: 128px;
 }
 .mobile-menu-viewport {
 	position: absolute;
@@ -47,11 +67,21 @@
 	overflow: hidden;
 }
 /* Preserve compact phone sizes, with every exception registered here. */
-.panel:is(.inventory-panel, .equipment-panel, .auto-config-panel, .shortcut-panel, .settings-panel, .chat-panel) {
+.panel:is(
+	.inventory-panel,
+	.equipment-panel,
+	.auto-config-panel,
+	.shortcut-panel,
+	.settings-panel,
+	.chat-panel,
+	[data-view='bank'],
+	[data-view='pet'],
+	[data-view='companions']
+) {
 	--menu-window-width: 780px;
 	--menu-window-height: 100%;
 }
-.panel:is([data-view='menu'], [data-view='bank'], [data-view='pet'], [data-view='companions']) {
+.panel[data-view='menu'] {
 	--menu-window-width: 420px;
 }
 .panel.profile-panel {
@@ -102,11 +132,11 @@
 	padding: 16px;
 }
 :host([data-menu-density='spacious']) .panel h2 {
-	font-size: 18px;
+	font-size: var(--panel-title);
 }
 :host([data-menu-density='spacious']) .panel button {
 	min-height: var(--panel-control);
-	padding: 8px 12px;
+	padding: var(--panel-control-padding);
 }
 :host([data-menu-density='spacious']) .panel :is(.auto-range-settings, .auto-teleport-settings) {
 	font-size: var(--panel-label);
@@ -230,13 +260,13 @@
 	min-height: var(--panel-control);
 	max-height: none;
 	padding: 6px 8px;
-	font-size: 16px;
+	font-size: var(--panel-text);
 	line-height: normal;
 	box-sizing: border-box;
 }
 :host([data-menu-density='spacious']) .mobile-menu-window textarea {
 	min-height: calc(var(--panel-control) * 2);
-	font-size: 16px;
+	font-size: var(--panel-text);
 	padding: 8px;
 	box-sizing: border-box;
 }
@@ -251,11 +281,11 @@
 
 /* Shared tablet typography for confirmations, pickers and number prompts. */
 :host([data-menu-density='spacious']) .ui-confirm {
-	font-size: 16px;
+	font-size: var(--panel-text);
 	line-height: 1.6;
 }
 :host([data-menu-density='spacious']) .ui-confirm :is(button, input, select, textarea) {
-	font-size: 16px;
+	font-size: var(--panel-text);
 }
 :host([data-menu-density='spacious']) .ui-confirm .ui-confirm-actions button,
 :host([data-menu-density='spacious']) .ui-confirm .drop-quantity-buttons button {

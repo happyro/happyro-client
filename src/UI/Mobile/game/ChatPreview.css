@@ -6,8 +6,8 @@
 }
 :host([data-menu-density='spacious']) {
 	--chat-preview-line-height: 22px;
-	--chat-preview-tab-height: 24px;
-	--chat-preview-overhead: 54px;
+	--chat-preview-tab-height: 30px;
+	--chat-preview-overhead: 60px;
 }
 .chat-preview {
 	--chat-preview-lines: var(--chat-preview-compact-lines, 3);
@@ -16,6 +16,8 @@
 	--chat-preview-lines: var(--chat-preview-spacious-lines, 5);
 }
 :host([data-menu-density='spacious']) .chat-preview:not(.collapsed) {
+	display: grid;
+	grid-template-columns: minmax(0, max-content) 28px minmax(0, 1fr);
 	width: min(420px, calc(100% - 410px));
 	padding: 0;
 }
@@ -24,10 +26,12 @@
 }
 :host([data-menu-density='spacious']) .chat-preview-tabs button,
 :host([data-menu-density='spacious']) .chat-preview [data-chat-collapse] {
-	min-height: 24px;
-	font-size: 12px;
+	min-height: var(--chat-preview-tab-height);
+	font-size: 14px;
 }
 .chat-preview:not(.collapsed) {
+	display: grid;
+	grid-template-columns: minmax(0, max-content) 28px minmax(0, 1fr);
 	height: auto;
 	min-height: 0;
 	max-height: none;
@@ -52,11 +56,16 @@
 }
 .chat-preview-tabs {
 	display: flex;
-	gap: 6px;
+	gap: 0;
 	overflow-x: auto;
 	scrollbar-width: none;
-	padding-right: 34px;
-	margin-bottom: 6px;
+	padding-right: 0;
+	grid-column: 1;
+	grid-row: 1;
+	min-width: 0;
+	margin-bottom: -1px;
+	position: relative;
+	z-index: 1;
 	touch-action: pan-x;
 }
 .chat-preview-tabs button,
@@ -73,9 +82,18 @@
 	font-size: 11px;
 	white-space: nowrap;
 }
+.chat-preview-tabs button {
+	border-radius: 0;
+}
+.chat-preview-tabs button:first-child {
+	border-top-left-radius: 6px;
+}
+.chat-preview-tabs button + button {
+	border-left: 0;
+}
 .chat-preview-tabs button[aria-pressed='true'] {
-	background: #57452c;
-	border-color: #ceaa70;
+	background: rgba(25, 31, 38, 0.68);
+	border-bottom-color: transparent;
 	color: #ffe1ae;
 }
 .chat-preview-tabs b {
@@ -88,8 +106,10 @@
 	display: none;
 }
 
-/* Each tab and the message area has its own border and background. */
+/* Folder tabs overlap the message border by one pixel to join the active page. */
 .chat-preview-open {
+	grid-column: 1 / -1;
+	grid-row: 2;
 	padding: 7px 10px;
 	border: 1px solid #65717b;
 	border-radius: 8px;
@@ -112,4 +132,30 @@
 }
 .chat-preview:has(.chat-preview-tabs[hidden]) .chat-preview-open {
 	padding-right: 38px;
+}
+
+.chat-preview:has(.chat-preview-tabs:not([hidden])) .chat-preview-open {
+	border-top-left-radius: 0;
+}
+.chat-preview:has(.chat-preview-tabs:not([hidden])) [data-chat-collapse] {
+	position: relative;
+	grid-column: 2;
+	grid-row: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	margin-bottom: -1px;
+	border-left: 0;
+	border-radius: 0 6px 0 0;
+	z-index: 1;
+}
+.chat-preview [data-chat-collapse] svg {
+	width: 14px;
+	height: 14px;
+	display: block;
+}
+
+:host([data-menu-density='spacious']) .chat-preview-tabs button {
+	padding-inline: 10px;
 }

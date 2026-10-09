@@ -417,7 +417,7 @@
 .attribute-row {
 	display: grid;
 	grid-template-columns: minmax(72px, 1fr) auto 58px 42px;
-	grid-template-rows: minmax(var(--panel-control), auto);
+	grid-template-rows: minmax(var(--panel-attribute-control), auto);
 	gap: 6px;
 	align-items: center;
 	border-bottom: 1px solid #465461;
@@ -801,12 +801,12 @@
 }
 .attribute-editor .attribute-allocation {
 	display: grid;
-	grid-template-columns: max-content minmax(100px, 1fr) max-content repeat(3, 32px);
+	grid-template-columns: max-content minmax(0, 1fr) max-content repeat(3, var(--panel-attribute-width));
 	grid-auto-rows: min-content;
 	align-content: start;
 	column-gap: 6px;
 	row-gap: 0;
-	min-width: max-content;
+	min-width: 0;
 	overflow: visible;
 }
 .panel .attribute-row {
@@ -907,9 +907,9 @@
 	min-width: 0;
 }
 .panel .shortcut-pages > button {
-	flex: 0 0 24px;
-	width: 24px;
-	min-width: 24px;
+	flex: 0 0 30px;
+	width: 30px;
+	min-width: 30px;
 	padding: 0;
 	font-size: 22px;
 	display: flex;
@@ -1178,11 +1178,11 @@
 }
 
 .chat-body .chat-log {
-	font-size: 14px;
-	line-height: 1.6;
+	font-size: var(--panel-text);
+	line-height: 1.5;
 }
 .panel.chat-panel .chat-form > button {
-	font-size: 14px;
+	font-size: var(--panel-text);
 	white-space: nowrap;
 	line-height: 1;
 	padding: 0 8px;
@@ -1230,9 +1230,6 @@
 :host([data-menu-density='spacious']) .panel .skills-layout :is(.skills-footer, .inventory-actions) {
 	padding-block: 16px;
 }
-:host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation {
-	grid-template-columns: max-content minmax(72px, 1fr) max-content repeat(3, 56px);
-}
 :host([data-menu-density='spacious']) .panel .attribute-increments button {
 	width: 56px;
 	min-width: 56px;
@@ -1243,4 +1240,114 @@
 :host([data-menu-density='spacious']) .panel .attribute-editor .attribute-allocation,
 :host([data-menu-density='spacious']) .panel .attribute-results > dl {
 	row-gap: 4px;
+}
+
+/* Attribute increments retain their own compact scale, independent of form controls. */
+:host(:not([data-menu-density='spacious'])) .panel .attribute-increments button {
+	width: var(--panel-attribute-width);
+	min-width: var(--panel-attribute-width);
+	height: var(--panel-attribute-control);
+	min-height: var(--panel-attribute-control);
+	padding: 2px 0;
+	font-size: 11px;
+}
+:host(:not([data-menu-density='spacious'])) .panel .attribute-editor .attribute-allocation {
+	row-gap: 0;
+}
+
+:host(:not([data-menu-density='spacious'])) .panel .attribute-row {
+	min-height: 36px;
+	grid-template-rows: 28px;
+	padding: 4px 0 3px;
+	align-items: center;
+}
+:host(:not([data-menu-density='spacious'])) .panel .attribute-increments {
+	align-items: center;
+}
+
+/* Keep the last row's geometry while removing the trailing divider. */
+.panel .attribute-row:last-child {
+	border-bottom-color: transparent;
+}
+
+/* Subgrids must use their parent's gutters or edge tracks can spill outward. */
+.panel .attribute-row,
+.panel .attribute-increments {
+	column-gap: inherit;
+}
+
+/* Phone chat uses the shared compact reading scale; inputs retain 16px to prevent iOS zoom. */
+:host(:not([data-menu-density='spacious']))
+	.panel.chat-panel
+	:is(.chat-filters > button, .game-select-trigger, .game-select-option) {
+	font-size: var(--panel-text);
+}
+:host(:not([data-menu-density='spacious'])) .panel.chat-panel header h2 {
+	font-size: var(--panel-title);
+}
+:host(:not([data-menu-density='spacious'])) .chat-log p {
+	margin-bottom: 4px;
+}
+
+/* Footer padding owns the full space below the divider, including the outer edge. */
+:host([data-menu-density='spacious']) .panel.settings-panel > .panel-body {
+	padding-bottom: 0;
+}
+:host([data-menu-density='spacious']) .panel .settings-footer {
+	padding-block: 16px;
+}
+:host([data-menu-density='spacious']) .panel .settings-actions,
+:host([data-menu-density='spacious']) .panel .settings-actions button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+:host([data-menu-density='spacious']) .panel .attribute-row {
+	min-height: 62px;
+	padding-block: 8px;
+}
+.inventory-item-overview {
+	--inventory-picture-width: 72px;
+	--inventory-picture-height: 96px;
+	display: grid;
+	gap: 10px;
+	align-items: start;
+	margin-bottom: 10px;
+}
+.inventory-item-overview.has-picture {
+	grid-template-columns: var(--inventory-picture-width) minmax(0, 1fr);
+}
+.inventory-item-summary {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+.panel .inventory-item-summary h3 {
+	margin: 0 0 8px;
+}
+.inventory-item-summary p {
+	margin: 0;
+	line-height: 1.5;
+}
+.inventory-item-picture {
+	display: block;
+	width: var(--inventory-picture-width);
+	height: var(--inventory-picture-height);
+	object-fit: contain;
+	object-position: left top;
+	margin: 0;
+}
+.inventory-item-summary > .item-description {
+	border-top: 1px solid #465461;
+	padding-top: 10px;
+	margin-top: 10px;
+	line-height: 1.5;
+}
+.inventory-item-summary > .inventory-item-reason {
+	margin: 8px 0 0;
+	color: #ceaa70;
+}
+:host([data-menu-density='spacious']) .inventory-item-overview {
+	--inventory-picture-width: 96px;
+	--inventory-picture-height: 128px;
+	gap: 12px;
 }

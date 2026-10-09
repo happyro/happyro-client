@@ -75,7 +75,7 @@ export function previewAdventureRoute(nextTarget) {
 	timer = null;
 	target = { ...nextTarget };
 	navigationStarted = false;
-	update(false, '正在计算路径...');
+	update(false, '');
 	const position = getCurrentAdventurePosition();
 	Navigation.navigateTo({
 		startMap: getCurrentAdventureMap(),

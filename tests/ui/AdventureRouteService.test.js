@@ -75,7 +75,7 @@ it('only sends one stop packet for repeated explicit stops and none for arrival'
 
 it('clears calculation feedback when a preview completes without movement', () => {
  service.previewAdventureRoute(target);
- expect(state.message).toBe('正在计算路径...');
+ expect(state.message).toBe('');
  mock.listener({ ...mock.state, pending: false, path: [] });
  expect(state.pending).toBe(false);
  expect(state.message).toBe('');
