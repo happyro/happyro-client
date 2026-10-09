@@ -1,4 +1,25 @@
+import NpcNameTable from 'DB/NpcNameTable.js';
 import { formatNPCMarkup } from 'Utils/RagnarokText.js';
+
+/** Hide only a redundant opening speaker label; keep the original dialogue state intact. */
+function dialogueLines(state) {
+	const lines = state.lines || [];
+	if (state.kind !== 'npc' || !state.title || state.title === '对话') return lines;
+	const plainText = value => {
+		const template = document.createElement('template');
+		template.innerHTML = formatNPCMarkup(value);
+		return template.content.textContent.trim();
+	};
+	const first = lines.findIndex(line => plainText(line));
+	if (first < 0) return lines;
+	const speaker = plainText(lines[first]).match(/^\[([^\[\]\r\n]+)\]$/)?.[1];
+	if (!speaker) return lines;
+	const name = value => {
+		const clean = value.split('#')[0].split('::')[0].replace(/\s+/g, ' ').trim();
+		return NpcNameTable[clean] || clean;
+	};
+	return name(speaker) === name(plainText(state.title)) ? lines.slice(first + 1) : lines;
+}
 
 /** Shared presentation for NPC text, choices, input and buy/sell prompts. */
 export function createNPCPanel(body, state) {
@@ -7,7 +28,7 @@ export function createNPCPanel(body, state) {
 	content.className = 'npc-content';
 	const text = document.createElement('div');
 	text.className = 'npc-lines';
-	text.innerHTML = formatNPCMarkup(state.lines || []);
+	text.innerHTML = formatNPCMarkup(dialogueLines(state));
 	text.hidden = !text.textContent;
 	content.append(text);
 	if (state.resultItems?.length) {
