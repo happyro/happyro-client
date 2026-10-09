@@ -15,19 +15,32 @@ it('handles rejection, close once, stale models and disabled or disconnected req
  const bank=openGameBank(0);bank.setOperationGuard(()=>true);bank.submit('deposit',1);updateGameBank({money:0,zeny:100,reason:2});expect(bank.snapshot().message).toContain('拒绝');bank.close();bank.close();expect(s.send.mock.calls.filter(([p])=>p.packet==='REQ_BANK_CLOSE')).toHaveLength(1);expect(interactionSnapshot()).toBeNull();bank.submit('deposit',1);s.enabled=false;expect(requestGameBank(()=>true)).toContain('未启用');s.enabled=true;s.session.Playing=false;requestGameBank(()=>true);expect(s.send).toHaveBeenCalledTimes(2);closeGameBank();
 });
 it('reviews an amount, rechecks a changed wallet and preserves a draft during balance updates',()=>{
- const bank=openGameBank(50);bank.setOperationGuard(()=>true);const body=document.body.appendChild(document.createElement('div')),panel=createBankPanel(body,bank);const input=body.querySelector('[data-amount]');input.value='50';panel.update();expect(input.value).toBe('50');body.querySelector('[data-action="deposit"]').click();expect(s.send).not.toHaveBeenCalled();s.session.zeny=40;body.querySelector('[data-confirm]').click();expect(s.send).not.toHaveBeenCalled();expect(document.querySelector('.ui-toast').textContent).toContain('金额');
+ const bank=openGameBank(50);bank.setOperationGuard(()=>true);const body=document.body.appendChild(document.createElement('div')),panel=createBankPanel(body,bank);body.querySelector('[data-action="deposit"]').click();const input=body.querySelector('[data-amount]');input.value='50';panel.update();expect(input.value).toBe('50');body.querySelector('[data-action="deposit"]').click();expect(s.send).not.toHaveBeenCalled();s.session.zeny=40;body.querySelector('[data-confirm]').click();expect(s.send).not.toHaveBeenCalled();expect(document.querySelector('.ui-toast').textContent).toContain('金额');
 });
 
-it('uses information while awaiting a reply and success or error only after the bank responds', () => {
+it('stays silent while awaiting a reply and shows success or error after the bank responds', () => {
  const bank = openGameBank(1000);
  bank.setOperationGuard(() => true);
  const body = document.body.appendChild(document.createElement('div'));
  const panel = createBankPanel(body, bank);
  bank.submit('deposit', 20); panel.update();
- expect(document.querySelector('.ui-toast').classList.contains('info')).toBe(true);
+ expect(document.querySelector('.ui-toast')).toBeNull();
  updateGameBank({money: 1020, zeny: 80, reason: 0}); panel.update();
  expect(document.querySelector('.ui-toast').classList.contains('success')).toBe(true);
  bank.submit('deposit', 20); panel.update();
  updateGameBank({money: 1020, zeny: 80, reason: 2}); panel.update();
  expect(document.querySelector('.ui-toast').classList.contains('error')).toBe(true);
+});
+
+it('supports min/max amounts in the transfer dialog and locks arrows until the server responds',()=>{
+ const bank=openGameBank(50);bank.setOperationGuard(()=>true);
+ const body=document.body.appendChild(document.createElement('div')),panel=createBankPanel(body,bank);
+ body.querySelector('[data-action="withdraw"]').click();
+ const input=body.querySelector('[data-amount]');
+ body.querySelector('[aria-label="最大金额"]').click();expect(input.value).toBe('50');
+ body.querySelector('[aria-label="最小金额"]').click();expect(input.value).toBe('1');
+ body.querySelector('[data-confirm]').click();
+ expect(s.send).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({packet:'REQ_BANKING_WITHDRAW',money:1}));
+ expect(body.querySelector('dialog')).toBeNull();expect(body.querySelector('[data-action="deposit"]').disabled).toBe(true);
+ updateGameBank({money:49,zeny:101,reason:0});panel.update();expect(body.querySelector('[data-action="deposit"]').disabled).toBe(false);
 });

@@ -48,13 +48,13 @@ it('distinguishes invalid input, pending requests, failed claims and confirmed s
  m.validate();
  expect(m.snapshot().messageKind).toBe('error');
  m.change('receiver', '收件人'); m.validate();
- expect(m.snapshot().messageKind).toBe('info');
+ expect(m.snapshot().messageKind).toBe('pending');
  m.receive('validate', {CharID: 42, name: '收件人', level: 10});
  expect(m.snapshot().messageKind).toBe('success');
  m.cancelCompose(); m.read('0:4294967300');
  m.receive('read', {...mail, zeny: 10, ItemList: [], Textcontent: '正文'});
  m.claim('zeny');
- expect(m.snapshot().messageKind).toBe('info');
+ expect(m.snapshot().messageKind).toBe('pending');
  m.receive('zeny', {...mail, result: 2});
  expect(m.snapshot().messageKind).toBe('error');
  m.claim('zeny'); m.receive('zeny', {...mail, result: 0});

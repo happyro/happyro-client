@@ -69,12 +69,14 @@ export function createGameInventory(canOperate) {
 			worn,
 			location: item.location,
 			wearLocation: worn ? item.equipped : 0,
+			type: item.type,
 			category: equippable ? 'equipment' : usable ? 'usable' : 'other',
 			description: toPlainRagnarokText(
 				item.IsIdentified ? info.identifiedDescriptionName : info.unidentifiedDescriptionName
 			)
 				.replace(/^[\t _-]+\r?$/gm, '')
 				.replace(/\n(?:[\t ]*\r?\n)+/g, '\n\n')
+				.replace(/\r?\n(?:[\t ]*\r?\n)*(?=[\t ]*(?:重量|Weight)\s*[:：])/gi, '\n')
 				.trim(),
 			action,
 			reason,

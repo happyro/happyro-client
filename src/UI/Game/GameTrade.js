@@ -22,9 +22,7 @@ export function openGameTrade(name, callbacks) {
 		owned() && guard() && Session.Playing && Session.Entity && Session.Entity.action !== Session.Entity.ACTION.DIE;
 	const inventory = createGameInventory(allowed);
 	const eligible = item =>
-		item &&
-		!item.equipped &&
-		!Inventory.getUI().equipswitchlist.some(entry => entry.index === item.index);
+		item && !item.equipped && !Inventory.getUI().equipswitchlist.some(entry => entry.index === item.index);
 	const service = {
 		setOperationGuard: value => {
 			guard = value;
@@ -127,8 +125,12 @@ export function openGameTrade(name, callbacks) {
 			callbacks.cancel();
 			return '等待服务器取消交易';
 		},
-		finish(message) {
+		finish(message, success) {
 			if (!owned()) return;
+			if (success) {
+				clearInteraction('trade');
+				return;
+			}
 			showInteraction({
 				kind: 'notice',
 				title: '交易结果',

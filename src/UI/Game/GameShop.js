@@ -14,6 +14,7 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 	let pending = false;
 	let canOperate = () => !Session.FreezeUI;
 	let finished = false;
+	let submittedItems = [];
 	const order = new Map();
 	const original = offers.map((offer, index) => ({
 		...offer,
@@ -117,6 +118,9 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 				(options.maxTotal !== undefined && state.total > options.maxTotal)
 			)
 				return '持有金额不足或订单金额无效';
+			submittedItems = state.items
+				.filter(item => item.quantity)
+				.map(item => ({ name: item.name, count: item.quantity }));
 			pending = true;
 			submit(
 				[...order.values()].map(entry => ({
@@ -129,12 +133,7 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 			);
 			if (options.requestOnly) {
 				finished = true;
-				showInteraction({
-					kind: 'notice',
-					title: '购买请求已发送',
-					lines: ['购买结果以服务器返回的背包、金额和消息为准。'],
-					close: () => clearInteraction('notice')
-				});
+				clearInteraction('shop');
 			}
 			return '已提交，等待服务器回复';
 		},
@@ -149,6 +148,7 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 		finish() {
 			finished = true;
 			if (options.closeAfterResult) quit();
+			return { mode, items: submittedItems };
 		},
 		close() {
 			if (interactionSnapshot()?.token !== token) return;
@@ -167,13 +167,14 @@ export function openGameShop(mode, offers, submit, quit, options = {}) {
 	});
 	return service;
 }
-export function finishGameShop(message) {
+export function finishGameShop(message, success) {
 	if (interactionSnapshot()?.kind !== 'shop') return false;
-	interactionSnapshot().service.finish();
+	const receipt = interactionSnapshot().service.finish();
 	showInteraction({
 		kind: 'notice',
-		title: '交易结果',
-		lines: [toPlainRagnarokText(message)],
+		title: success ? (receipt.mode === 'sell' ? '出售成功' : '购买成功') : '交易失败',
+		lines: success ? [] : [toPlainRagnarokText(message)],
+		resultItems: success ? receipt.items : [],
 		close: () => clearInteraction('notice')
 	});
 	return true;

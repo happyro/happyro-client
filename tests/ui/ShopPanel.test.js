@@ -1,50 +1,56 @@
-import {afterEach,beforeEach,expect,it,vi} from 'vitest';
-import {createShopPanel} from '../../src/UI/Mobile/game/ShopPanel.js';
+import { beforeEach, afterEach, expect, it, vi } from 'vitest';
+import { createShopPanel } from '../../src/UI/Mobile/game/ShopPanel.js';
 let body,state,service,panel;
+const click=text=>[...body.querySelectorAll('button')].find(n=>n.textContent===text).click();
 beforeEach(()=>{
- HTMLDialogElement.prototype.showModal=function(){this.open=true;};HTMLDialogElement.prototype.close=function(){this.open=false;};
  body=document.body.appendChild(document.createElement('div'));
- state={mode:'buy',currency:'Zeny',money:1000,total:20,allowed:true,items:[{index:0,ID:501,name:'红色药水',price:10,limit:10,quantity:2,description:'恢复 HP',materials:[]}]};
- service={snapshot:()=>structuredClone(state),set:vi.fn(()=>''),submit:vi.fn(()=>{state.pending=true;state.allowed=false;return '已提交，等待服务器回复';}),clear:vi.fn(()=>true)};
+ state={mode:'buy',money:1000,currency:'Zeny',total:20,allowed:true,pending:false,items:[{index:0,ID:501,name:'红色药水',price:10,limit:10,quantity:2,description:'恢复 HP\n重量：7',materials:[]}]};
+ service={snapshot:()=>state,set:vi.fn((index,id,count)=>{state.items[0].quantity=count;state.total=count*10;return ''; }),clear:vi.fn(()=>{state.items[0].quantity=0;state.total=0;return true;}),submit:vi.fn(()=>{state.pending=true;state.allowed=false;return '已提交，等待服务器回复';})};
  panel=createShopPanel(body,service);
 });
-afterEach(()=>{document.body.replaceChildren();vi.restoreAllMocks();});
-const click=text=>[...body.querySelectorAll('button')].find(el=>el.textContent===text).click();
-it('refreshes stock limits without overwriting an in-progress quantity and marks selected items',()=>{
- body.querySelector('.inventory-item').click();const input=body.querySelector('input');input.value='8';state.items[0].limit=3;panel.update();
- expect(input.value).toBe('8');expect(input.max).toBe('3');expect(input.checkValidity()).toBe(false);expect(body.querySelector('.shop-price').textContent).toContain('上限：3');expect(body.querySelector('.inventory-item').getAttribute('aria-pressed')).toBe('true');
- state.items=[];panel.update();expect(body.querySelector('.inventory-item')).toBeNull();expect(body.querySelector('.shop-empty').hidden).toBe(false);expect(body.querySelector('.inventory-detail').textContent).toContain('变化');
+afterEach(()=>document.body.replaceChildren());
+const select=()=>body.querySelector('.shop-catalog-list .inventory-item').click();
+it('moves entered quantities in both directions and keeps the description below the order',()=>{
+ select();expect(body.querySelector('.shop-layout > .inventory-detail').textContent).toContain('恢复 HP');
+ click('→');const input=body.querySelector('input');expect(input.max).toBe('8');input.value='3';click('确认');
+ expect(service.set).toHaveBeenLastCalledWith(0,501,5);expect(body.querySelector('.shop-order-list').textContent).toContain('× 5');
+ click('←');body.querySelector('input').value='2';click('确认');expect(service.set).toHaveBeenLastCalledWith(0,501,3);
 });
-it('reviews quantities, totals and materials then locks controls while awaiting the server',()=>{
- state.items[0].materials=[{name:'材料',amount:3,refine_level:5}];panel.update();click('核对订单');
- expect(body.querySelector('.shop-review').textContent).toContain('红色药水 × 2');expect(body.querySelector('.shop-review').textContent).toContain('精炼 +5');expect(body.querySelector('.shop-review').textContent).toContain('× 6');expect(body.querySelector('.shop-review').textContent).toContain('20 Zeny');
- click('确认');expect(service.submit).toHaveBeenCalledOnce();expect(body.querySelector('.shop-status').textContent).toContain('等待');expect(body.querySelector('.inventory-item').disabled).toBe(true);click('核对订单');expect(service.submit).toHaveBeenCalledOnce();
+it('submits directly once and locks the window while waiting',()=>{
+ click('购买');expect(service.submit).toHaveBeenCalledOnce();expect(body.querySelector('dialog')).toBeNull();
+ click('购买');expect(service.submit).toHaveBeenCalledOnce();expect(body.querySelector('.shop-status')).toBeNull();expect(body.querySelector('.shop-footer .shop-summary').textContent).toBe('余额：1000 Z · 购买合计：20 Z');expect(document.querySelector('.ui-toast')).toBeNull();
+ expect(body.querySelector('.shop-catalog-list button').disabled).toBe(true);
 });
-it('rejects changed order terms but tolerates asynchronous item icon loads',()=>{
- click('核对订单');state.items[0].limit=1;click('确认');expect(service.submit).not.toHaveBeenCalled();
- state.items[0].limit=10;panel.update();click('核对订单');state.items[0].icon='icon.bmp';click('确认');expect(service.submit).toHaveBeenCalledOnce();
+it('retains an entered quantity when limits change and prevents invalid transfers',()=>{
+ select();click('→');const input=body.querySelector('input');input.value='8';state.items[0].limit=4;panel.update();
+ expect(input.value).toBe('8');expect(input.max).toBe('2');click('确认');expect(service.set).not.toHaveBeenCalled();expect(body.querySelector('dialog')).not.toBeNull();
+ click('取消');expect(state.items[0].quantity).toBe(2);
 });
-it('labels proceeds for sales, supports empty shops and never submits a cancelled review',()=>{
- state.mode='sell';panel.update();expect(body.querySelector('.shop-summary').textContent).toContain('获得合计');click('核对订单');click('取消');expect(service.submit).not.toHaveBeenCalled();
- state.items=[];panel.update();expect(body.querySelector('.shop-empty').textContent).toBe('没有可出售的物品');expect([...body.querySelectorAll('button')].find(el=>el.textContent==='核对订单').disabled).toBe(true);
+it('cancels quantity input if the selected item disappears',()=>{
+ select();click('→');state.items=[];panel.update();expect(body.querySelector('dialog')).toBeNull();expect(service.set).not.toHaveBeenCalled();
+ expect(body.querySelector('.shop-catalog-list').textContent).toContain('暂无');
+});
+it('shows sales proceeds, material requirements, and clears the order without submitting',()=>{
+ state.mode='sell';state.items[0].materials=[{name:'材料',refine_level:5,amount:3}];panel.update();select();
+ expect(body.querySelector('.shop-summary').textContent).toContain('出售合计');expect(body.querySelector('.shop-price').textContent).toContain('精炼 +5');
+ click('清空');expect(body.querySelector('.shop-order-list button')).toBeNull();expect(service.submit).not.toHaveBeenCalled();
+ expect([...body.querySelectorAll('button')].find(n=>n.textContent==='出售').disabled).toBe(true);
+});
+it('does not overwrite a replacement result view after synchronous submission',()=>{
+ service.submit.mockImplementation(()=>{body.innerHTML='<p>购买请求已发送</p>';return '已提交，等待服务器回复';});
+ click('购买');expect(body.textContent).toBe('购买请求已发送');expect(()=>panel.update()).not.toThrow();
 });
 
-it('blocks reviewing or changing items with unapplied quantities and allows explicit revert',()=>{
- state.items.push({...state.items[0],index:1,ID:502,name:'蓝色药水'});panel.update();
- body.querySelector('.inventory-item').click();const input=body.querySelector('input');input.value='8';input.dispatchEvent(new Event('input'));
- click('核对订单');expect(body.querySelector('dialog')).toBeNull();expect(service.submit).not.toHaveBeenCalled();
- expect(body.querySelector('.shop-status').textContent).toContain('尚未应用');
- body.querySelectorAll('.inventory-item')[1].click();expect(body.querySelector('input')).toBe(input);
- click('撤销修改');expect(input.value).toBe('2');click('核对订单');expect(body.querySelector('dialog')).not.toBeNull();
+it('adjusts quantity with bounded step buttons and omits the quantity label and stock metadata',()=>{
+ state.items[0].limit=65535;panel.update();select();
+ expect(body.querySelector('.shop-catalog-list').textContent).not.toContain('可选');
+ click('→');expect(body.querySelector('dialog').textContent).not.toContain('加入数量');
+ const input=body.querySelector('input');click('+1');expect(input.value).toBe('2');click('+10');expect(input.value).toBe('12');click('-1');expect(input.value).toBe('11');click('-10');expect(input.value).toBe('1');
+ expect([...body.querySelectorAll('button')].find(n=>n.textContent==='-1').disabled).toBe(true);
+ state.items[0].limit=5;panel.update();click('+10');expect(input.value).toBe('3');click('确认');expect(service.set).toHaveBeenLastCalledWith(0,501,5);
 });
-it('reviews applied quantities and places the total outside the scrollable item list',()=>{
- service.set.mockImplementation((index,id,count)=>{state.items[0].quantity=count;state.total=count*10;return '';});
- body.querySelector('.inventory-item').click();const input=body.querySelector('input');input.value='8';input.dispatchEvent(new Event('input'));
- body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));click('核对订单');
- expect(body.querySelector('.shop-review-lines').textContent).toContain('红色药水 × 8');expect(body.querySelector('.shop-review > strong').textContent).toContain('80 Zeny');
- expect(body.querySelector('.shop-review-lines strong')).toBeNull();
-});
-it('keeps an unapplied quantity after persistence rejects an update',()=>{
- service.set.mockReturnValue('物品状态已变化');body.querySelector('.inventory-item').click();const input=body.querySelector('input');input.value='8';input.dispatchEvent(new Event('input'));
- body.querySelector('form').dispatchEvent(new Event('submit',{cancelable:true}));click('核对订单');expect(body.querySelector('dialog')).toBeNull();expect(input.value).toBe('8');
+
+it('keeps weight in the description and places step controls beside the input',()=>{
+ select();expect(body.querySelector('.shop-price').textContent).toBe('单价：10 Z');expect(body.querySelector('.item-description').textContent).toContain('重量：7');expect(body.textContent).not.toContain('数量上限');click('→');
+ const input=body.querySelector('input');expect(input.previousElementSibling.textContent).toBe('-10-1');expect(input.nextElementSibling.textContent).toBe('+1+10');
 });

@@ -63,36 +63,6 @@
 	font-size: var(--interaction-caption);
 	line-height: 1.5;
 }
-:host([data-menu-density='spacious']) .interaction-panel[data-view='trade'] .inventory-layout {
-	grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.55fr);
-}
-:host([data-menu-density='spacious']) .interaction-panel[data-view='trade'] .inventory-detail {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-	gap: 16px;
-	overflow: hidden;
-}
-:host([data-menu-density='spacious']) .interaction-panel[data-view='trade'] :is(.trade-editor, .trade-offers) {
-	min-width: 0;
-	overflow: auto;
-}
-:host([data-menu-density='spacious']) .interaction-panel[data-view='trade'] .trade-offers {
-	border-left: 1px solid #52606d;
-	padding-left: 12px;
-}
-:host([data-menu-density='spacious']) .interaction-panel[data-view='vending'] .inventory-detail {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-	align-content: start;
-	gap: 16px;
-}
-:host([data-menu-density='spacious']) .interaction-panel[data-view='vending'] [data-fields] {
-	grid-column: 1 / -1;
-}
-:host([data-menu-density='spacious']) .interaction-panel[data-view='vending'] [data-order] {
-	border-left: 1px solid #52606d;
-	padding-left: 12px;
-}
 :host([data-menu-density='spacious']) .panel[data-view='information'] {
 	--menu-window-width: 640px;
 	--menu-window-height: auto;
@@ -104,13 +74,11 @@
 	gap: 12px 20px;
 }
 
-:host([data-menu-density='spacious']) .panel .warehouse-body .container-toolbar > input[type='search'] {
-	flex: 1 1 180px;
-	width: 180px;
-}
 :host([data-menu-density='spacious']) .panel .warehouse-body .storage-modes button {
 	min-width: 88px;
 }
-:host([data-menu-density='spacious']) .panel .warehouse-body .inventory-layout {
+:host([data-menu-density='spacious']) .panel .warehouse-body .inventory-layout,
+:host([data-menu-density='spacious']) .panel .warehouse-body .container-toolbar {
 	grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+	gap: 16px;
 }

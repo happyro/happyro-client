@@ -1,13 +1,34 @@
-import { interactionFooter } from './InteractionPanel.js';
+import ItemType from 'DB/Items/ItemType.js';
+import { interactionColumns, interactionFooter } from './InteractionPanel.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
+
+const itemTypes = {
+	weapon: [ItemType.WEAPON],
+	armor: [ItemType.ARMOR],
+	card: [ItemType.CARD],
+	ammo: [ItemType.AMMO],
+	pet: [ItemType.PETEGG, ItemType.PETARMOR],
+	shadow: [ItemType.SHADOWGEAR]
+};
 
 const labels = { inventory: '背包', storage: '仓库', cart: '手推车' };
 export function createContainerPanel(body, actions, initialSource) {
 	body.innerHTML =
 		'<div class="container-toolbar"></div><div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"></section></div>';
-	const warehouse = initialSource === 'storage';
-	body.classList.toggle('warehouse-body', warehouse);
+	const primary = initialSource;
+	const isCart = primary === 'cart';
+	if (isCart) {
+		interactionColumns(body, [
+			{ title: '物品列表', className: 'inventory-list' },
+			{ title: '物品说明', className: 'inventory-detail' }
+		]);
+		body.querySelector('.interaction-columns').classList.add('interaction-columns-two');
+		const toolbar = document.createElement('div');
+		toolbar.className = 'container-toolbar';
+		body.prepend(toolbar);
+	}
+	body.classList.add('warehouse-body');
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector);
 	const { footer, status } = interactionFooter(body);
@@ -19,6 +40,12 @@ export function createContainerPanel(body, actions, initialSource) {
 		['all', '全部'],
 		['usable', '消耗品'],
 		['equipment', '装备'],
+		['weapon', '武器'],
+		['armor', '防具'],
+		['card', '卡片'],
+		['ammo', '弹药'],
+		['pet', '宠物用品'],
+		['shadow', '影子装备'],
 		['other', '其他']
 	])
 		category.add(new Option(text, key));
@@ -30,12 +57,12 @@ export function createContainerPanel(body, actions, initialSource) {
 	const search = document.createElement('input');
 	search.type = 'search';
 	search.placeholder = '搜索名称或物品 ID';
-	search.setAttribute('aria-label', '搜索仓库物品');
+	search.setAttribute('aria-label', `搜索${labels[primary]}物品`);
 	const modes = document.createElement('div');
 	modes.className = 'storage-modes';
-	if (warehouse) {
+	{
 		for (const [value, title] of [
-			['storage', '取出'],
+			[primary, '取出'],
 			['inventory', '存入']
 		]) {
 			const tab = button(title, () => {
@@ -47,8 +74,12 @@ export function createContainerPanel(body, actions, initialSource) {
 			modes.append(tab);
 		}
 	}
-	$('.container-toolbar').append(...(warehouse ? [modes] : []), sourceField, category, capacityLabel);
-	if (warehouse) $('.container-toolbar').append(search);
+	const filters = document.createElement('div');
+	filters.className = 'container-filters';
+	filters.append(modes, sourceField, category);
+	$('.container-toolbar').append(filters, search);
+	footer.prepend(capacityLabel);
+	status.hidden = true;
 	let source = initialSource,
 		selected = null,
 		state;
@@ -62,24 +93,30 @@ export function createContainerPanel(body, actions, initialSource) {
 	}
 	function reset() {
 		selected = null;
-		footer.querySelectorAll('button').forEach(node => node.remove());
-		$('.inventory-detail').textContent = '点击物品选择转移位置和数量';
+		footer.querySelectorAll('button, .container-quantity').forEach(node => node.remove());
+		$('.inventory-detail').textContent = '点击物品选择数量';
 	}
 	sourceSelect.onchange = () => {
 		source = sourceSelect.value;
 		reset();
 		update();
 	};
-	category.onchange = () => update();
+	category.onchange = () => {
+		update();
+		$('.inventory-list').scrollTop = 0;
+	};
 	search.oninput = () => update();
 	function targets() {
 		return state.containers.filter(
-			entry => entry !== source && (!warehouse || source === 'storage' || entry === 'storage')
+			entry =>
+				entry !== source &&
+				(!isCart || ['inventory', 'cart'].includes(entry)) &&
+				(source === primary || entry === primary)
 		);
 	}
 	function select(item) {
 		if (!item) return;
-		footer.querySelectorAll('button').forEach(node => node.remove());
+		footer.querySelectorAll('button, .container-quantity').forEach(node => node.remove());
 		selected = { index: item.index, ID: item.ID, identity: item.identity };
 		const title = document.createElement('h3');
 		title.textContent = item.name;
@@ -88,19 +125,22 @@ export function createContainerPanel(body, actions, initialSource) {
 		description.className = 'item-description';
 		const amount = document.createElement('input');
 		amount.type = 'number';
+		amount.inputMode = 'numeric';
+		amount.className = 'container-amount';
 		amount.required = true;
 		amount.min = '1';
 		amount.max = String(item.count);
 		amount.step = '1';
 		amount.value = '1';
-		amount.setAttribute('aria-label', '转移数量');
+		const operation = source === primary ? '取出' : '存入';
+		amount.setAttribute('aria-label', `${operation}数量`);
 		const destination = document.createElement('select');
 		destination.setAttribute('aria-label', '转移到');
 		for (const target of targets()) destination.add(new Option(labels[target], target));
 		const count = document.createElement('p');
 		count.className = 'container-item-count';
-		count.textContent = `当前数量：${item.count}`;
-		const transfer = button('确认转移', () => {
+		count.textContent = `数量：${item.count}`;
+		const transfer = button(`确认${operation}`, () => {
 			if (!amount.reportValidity() || !destination.value) return;
 			const result = actions.transfer(
 				source,
@@ -110,20 +150,27 @@ export function createContainerPanel(body, actions, initialSource) {
 				Number(amount.value),
 				item.identity
 			);
-			feedback(result, result === '已请求转移，等待服务器更新' ? 'info' : 'error');
+			feedback(result, result === '已请求转移，等待服务器更新' ? 'pending' : 'error');
 			update();
 		});
 		const form = document.createElement('div');
 		form.className = 'container-form';
 		for (const [text, control] of [
 			['转移到', destination],
-			['转移数量', amount]
+			[`${operation}数量`, amount]
 		]) {
 			const label = document.createElement('label');
-			label.append(document.createTextNode(text), control);
-			form.append(label);
+			if (control === amount) label.append(control);
+			else label.append(document.createTextNode(text), control);
+			if (control === amount) {
+				label.className = 'container-quantity';
+				footer.append(label);
+			} else form.append(label);
 		}
-		$('.inventory-detail').replaceChildren(title, count, form, description);
+		const heading = document.createElement('div');
+		heading.className = 'container-item-heading';
+		heading.append(title, count);
+		$('.inventory-detail').replaceChildren(heading, form, description);
 		footer.append(
 			button('全部数量', () => {
 				amount.value = String(
@@ -136,35 +183,20 @@ export function createContainerPanel(body, actions, initialSource) {
 	}
 	function update() {
 		state = actions.snapshot(source);
-		if (
-			warehouse &&
-			source !== 'storage' &&
-			!state.containers.includes(source) &&
-			state.containers.includes('inventory')
-		) {
+		if (source !== primary && !state.containers.includes(source) && state.containers.includes('inventory')) {
 			source = 'inventory';
 			reset();
 			state = actions.snapshot(source);
 		}
-		status.textContent =
-			state.transferStatus ||
-			(state.allowed
-				? warehouse
-					? `${labels[source]} → ${
-							source === 'storage'
-								? targets()
-										.map(key => labels[key])
-										.join(' / ')
-								: '仓库'
-						}`
-					: '选择物品、位置和数量后转移'
-				: '当前不可操作，请等待服务器更新');
+		feedback.update(state.transferStatus, state.pending ? 'pending' : 'error');
 		for (const tab of modes.children) {
-			tab.setAttribute('aria-pressed', String((source === 'storage') === (tab.dataset.mode === 'storage')));
+			tab.setAttribute('aria-pressed', String((source === primary) === (tab.dataset.mode === primary)));
 			tab.disabled = !state.allowed || state.pending;
 		}
-		sourceField.hidden = warehouse && source === 'storage';
-		const sources = state.containers.filter(entry => !warehouse || entry !== 'storage');
+		sourceField.hidden =
+			source === primary ||
+			state.containers.filter(entry => entry !== primary && (!isCart || entry === 'inventory')).length < 2;
+		const sources = state.containers.filter(entry => entry !== primary && (!isCart || entry === 'inventory'));
 		const optionsKey = sources.join(',');
 		if (sourceSelect.dataset.options !== optionsKey) {
 			sourceSelect.replaceChildren(...sources.map(key => new Option(labels[key], key)));
@@ -172,12 +204,12 @@ export function createContainerPanel(body, actions, initialSource) {
 		}
 		sourceSelect.value = source;
 		sourceSelect.disabled = !state.allowed || state.pending;
-		const capacity = warehouse ? state.storageCapacity : state.capacity;
+		const capacity = isCart ? actions.snapshot('cart').capacity : state.storageCapacity;
 		const unavailable = !state.containers.includes(source);
 		capacityLabel.hidden = unavailable || !capacity;
 		capacityLabel.textContent =
 			capacity && !unavailable
-				? `${warehouse ? '仓库' : ''}格数：${capacity.current}/${capacity.limit}${capacity.weight === undefined ? '' : ` · 重量：${capacity.weight}/${capacity.maxWeight}`}`
+				? `${labels[primary]}格数：${capacity.current}/${capacity.limit}${capacity.weight === undefined ? '' : ` · 重量：${capacity.weight}/${capacity.maxWeight}`}`
 				: '';
 		if (unavailable && source !== 'cart') feedback.update(`${labels[source]}当前不可用`);
 
@@ -185,11 +217,10 @@ export function createContainerPanel(body, actions, initialSource) {
 		const query = search.value.trim().toLocaleLowerCase();
 		const visible = state.items.filter(
 			entry =>
-				(category.value === 'all' || entry.category === category.value) &&
-				(!warehouse ||
-					!query ||
-					entry.name.toLocaleLowerCase().includes(query) ||
-					String(entry.ID).includes(query))
+				(category.value === 'all' ||
+					entry.category === category.value ||
+					itemTypes[category.value]?.includes(entry.type)) &&
+				(!query || entry.name.toLocaleLowerCase().includes(query) || String(entry.ID).includes(query))
 		);
 		for (const item of visible) {
 			const key = `${source}:${item.index}:${item.ID}`;
@@ -241,11 +272,12 @@ export function createContainerPanel(body, actions, initialSource) {
 		);
 		if (selected && !item) reset();
 		else if (item) {
-			$('.container-item-count').textContent = `当前数量：${item.count}`;
-			$('.inventory-detail input').max = String(item.count);
+			$('.container-item-count').textContent = `数量：${item.count}`;
+			$('.container-amount').max = String(item.count);
 			const destination = $('.inventory-detail select'),
 				value = destination.value;
 			const destinations = targets();
+			destination.parentElement.hidden = destinations.length < 2;
 			if ([...destination.options].map(option => option.value).join(',') !== destinations.join(',')) {
 				destination.replaceChildren(...destinations.map(key => new Option(labels[key], key)));
 				if (destinations.includes(value)) destination.value = value;
@@ -253,7 +285,9 @@ export function createContainerPanel(body, actions, initialSource) {
 		}
 		for (const node of footer.querySelectorAll('button'))
 			node.disabled = !state.allowed || state.pending || unavailable || !$('.inventory-detail select')?.value;
-		for (const node of $('.inventory-detail').querySelectorAll('button,input,select'))
+		for (const node of body.querySelectorAll(
+			'.inventory-detail button, .inventory-detail input, .inventory-detail select, .container-amount'
+		))
 			node.disabled = !state.allowed || state.pending || unavailable;
 	}
 	reset();

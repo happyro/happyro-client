@@ -43,7 +43,7 @@ export function createCompanionsPanel(body, service) {
 					result === '攻击模式已更新'
 						? 'success'
 						: ['已发送请求，以服务器状态为准', '已请求学习一级，等待服务器更新'].includes(result)
-							? 'info'
+							? 'pending'
 							: 'error'
 				);
 				service.cancel();

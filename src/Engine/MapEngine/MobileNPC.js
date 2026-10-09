@@ -1,4 +1,5 @@
 import DB from 'DB/DBManager.js';
+import EntityManager from 'Renderer/EntityManager.js';
 import Client from 'Core/Client.js';
 import Network from 'Network/NetworkManager.js';
 import PACKET from 'Network/PacketStructure.js';
@@ -23,11 +24,14 @@ function send(Packet, id, fields = {}) {
 	Object.assign(packet, fields, { NAID: id });
 	Network.sendPacket(packet);
 }
+function npcTitle(id) {
+	return EntityManager.get(id)?.display.name?.split('#')[0] || '对话';
+}
 function stateFor(id) {
 	const current = interactionSnapshot();
 	return current?.kind === 'npc' && current.id === id
 		? current
-		: { kind: 'npc', id, title: 'NPC 对话', lines: [], mode: 'waiting', image: cutinImage };
+		: { kind: 'npc', id, title: npcTitle(id), lines: [], mode: 'waiting', image: cutinImage };
 }
 function close(id) {
 	send(PACKET.CZ.CLOSE_DIALOG, id);
@@ -55,7 +59,12 @@ function present(state) {
 			)
 				return '请输入有效的整数';
 			if (mode === 'menu' && !state.options.some(option => option.value === value)) return '请选择有效选项';
-			present({ ...state, mode: 'waiting', awaiting: true });
+			if (mode === 'next') {
+				// A new page must not inherit text or a late-loading portrait from the previous page.
+				cutinImage = '';
+				cutinGeneration++;
+				present({ ...state, lines: [], image: '', options: [], mode: 'waiting', awaiting: true });
+			} else present({ ...state, mode: 'waiting', awaiting: true });
 			if (mode === 'next') send(PACKET.CZ.REQ_NEXT_SCRIPT, state.id);
 			if (mode === 'close') close(state.id);
 			if (mode === 'menu') send(PACKET.CZ.CHOOSE_MENU, state.id, { num: value });
@@ -68,7 +77,7 @@ function present(state) {
 export const mobileNPC = {
 	message(pkt) {
 		const state = stateFor(pkt.NAID);
-		const text = toPlainRagnarokText(pkt.msg).replace(/^\[([^\]]+)\]/, (_, name) => `[${DB.getNpcName(name)}]`);
+		const text = String(pkt.msg ?? '').replace(/^\[([^\]]+)\]/, (_, name) => `[${DB.getNpcName(name)}]`);
 		present({ ...state, lines: [...(state.awaiting ? [] : state.lines), text], awaiting: false, mode: 'waiting' });
 	},
 	next: pkt => present({ ...stateFor(pkt.NAID), mode: 'next' }),
@@ -94,7 +103,7 @@ export const mobileNPC = {
 		const token = {};
 		showInteraction({
 			kind: 'deal',
-			title: '商店',
+			title: npcTitle(pkt.NAID),
 			token,
 			close: () => clearInteraction('deal'),
 			respond: type => {

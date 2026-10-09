@@ -234,7 +234,8 @@ function onBuyResult(pkt) {
 			DB.getMessage(
 				{ 0: 54, 1: 55, 2: 56, 4: 230, 5: 281, 7: 1797, 11: 3554, 12: 3555, 13: 3557, 14: 3556 }[pkt.result] ??
 					57
-			)
+			),
+			pkt.result === 0
 		)
 	)
 		return;
@@ -293,7 +294,8 @@ function onBuyCashResult(pkt) {
 	if (
 		Platform.isMobile &&
 		finishGameShop(
-			DB.getMessage({ 0: 54, 1: 1227, 2: 1228, 4: 1229, 5: 1230, 6: 1254, 7: 1813 }[pkt.Error] ?? 1814)
+			DB.getMessage({ 0: 54, 1: 1227, 2: 1228, 4: 1229, 5: 1230, 6: 1254, 7: 1813 }[pkt.Error] ?? 1814),
+			pkt.Error === 0
 		)
 	)
 		return;
@@ -341,7 +343,10 @@ function onBuyCashResult(pkt) {
  */
 
 function onSellToBuyingStoreResult(pkt) {
-	if (Platform.isMobile && finishGameShop('收购交易未全部完成，请检查物品数量和对方预算；已成交部分以背包更新为准。'))
+	if (
+		Platform.isMobile &&
+		finishGameShop('收购交易未全部完成，请检查物品数量和对方预算；已成交部分以背包更新为准。', false)
+	)
 		return;
 	switch (pkt.Result) {
 		case 6:
@@ -391,7 +396,7 @@ function onSellList(pkt) {
  * @param {object} pkt - PACKET_ZC.PC.SELL_RESULT
  */
 function onSellResult(pkt) {
-	if (Platform.isMobile && finishGameShop(DB.getMessage(pkt.result === 0 ? 54 : 57))) return;
+	if (Platform.isMobile && finishGameShop(DB.getMessage(pkt.result === 0 ? 54 : 57), pkt.result === 0)) return;
 	NpcStore.setClosePacketSent(true);
 	NpcStore.remove();
 
@@ -628,7 +633,7 @@ function onMarketShop(pkt) {
  * @param {PACKET.ZC.NPC_MARKET_PURCHASE_RESULT2} pkt
  */
 function onMarketShopResult(pkt) {
-	if (Platform.isMobile && finishGameShop(DB.getMessage(pkt.result === 0 ? 54 : 57))) return;
+	if (Platform.isMobile && finishGameShop(DB.getMessage(pkt.result === 0 ? 54 : 57), pkt.result === 0)) return;
 	if (pkt) {
 		switch (pkt.result) {
 			case 0: // PACKETVER.value >= 20190807 success
@@ -645,7 +650,7 @@ function onMarketShopResult(pkt) {
 function onBuyingItemDeleted(pkt) {
 	Inventory.getUI().removeItem(pkt.index, pkt.count);
 	if (Platform.isMobile && interactionSnapshot()?.shopType === 'player-buying') {
-		if (interactionSnapshot().service.acknowledgeSale(pkt.index, pkt.count)) finishGameShop('订单已成交');
+		if (interactionSnapshot().service.acknowledgeSale(pkt.index, pkt.count)) finishGameShop('订单已成交', true);
 	}
 }
 function onBuyingStoreUpdated(pkt) {

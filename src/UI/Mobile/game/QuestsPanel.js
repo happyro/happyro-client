@@ -74,7 +74,7 @@ export function createQuestsPanel(body, actions) {
 			button.disabled = !state.allowed || state.pending !== undefined;
 			button.onclick = () => {
 				const requested = actions.toggle(q.questID, q.active);
-				feedback(requested ? '已请求，等待服务器更新' : '任务状态已变化', requested ? 'info' : 'error');
+				feedback(requested ? '已请求，等待服务器更新' : '任务状态已变化', requested ? 'pending' : 'error');
 				update();
 			};
 			detail.append(button);

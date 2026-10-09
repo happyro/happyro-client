@@ -16,7 +16,8 @@ function visible(container) {
 
 /** One viewport-level notification shared by every UI, including shadow roots. */
 export function showToast(container, message, kind = 'success') {
-	if (!message || !visible(container)) return;
+	// Pending requests keep their control locks without transient notifications.
+	if (kind === 'pending' || !message || !visible(container)) return;
 	active?.dismiss();
 	const owner = ownerOf(container);
 	const element = document.createElement('div');

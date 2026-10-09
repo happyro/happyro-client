@@ -1,3 +1,5 @@
+import { formatNPCMarkup } from 'Utils/RagnarokText.js';
+
 /** Shared presentation for NPC text, choices, input and buy/sell prompts. */
 export function createNPCPanel(body, state) {
 	body.replaceChildren();
@@ -5,9 +7,23 @@ export function createNPCPanel(body, state) {
 	content.className = 'npc-content';
 	const text = document.createElement('div');
 	text.className = 'npc-lines';
-	text.textContent = (state.lines || []).join('\n');
+	text.innerHTML = formatNPCMarkup(state.lines || []);
 	text.hidden = !text.textContent;
 	content.append(text);
+	if (state.resultItems?.length) {
+		const list = document.createElement('ul');
+		list.className = 'npc-result-items';
+		for (const item of state.resultItems) {
+			const row = document.createElement('li');
+			const name = document.createElement('span');
+			const count = document.createElement('span');
+			name.textContent = item.name;
+			count.textContent = `× ${item.count}`;
+			row.append(name, count);
+			list.append(row);
+		}
+		content.append(list);
+	}
 	const footer = document.createElement('div');
 	footer.className = 'npc-actions';
 	body.append(content, footer);
@@ -37,13 +53,7 @@ export function createNPCPanel(body, state) {
 	}
 	if (state.mode === 'next') button(footer, '下一步', () => state.respond());
 	if (state.mode === 'close') button(footer, '结束对话', () => state.respond());
-	if (state.mode === 'waiting') {
-		const status = document.createElement('span');
-		status.className = 'npc-status';
-		status.setAttribute('role', 'status');
-		status.textContent = '等待 NPC 回复…';
-		footer.append(status);
-	}
+
 	if (['number', 'text'].includes(state.mode)) {
 		const form = document.createElement('form');
 		form.className = 'npc-input-form';

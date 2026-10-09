@@ -171,7 +171,7 @@ Trade.onCancel = function onCancel() {
  */
 function onTradeCancel(pkt) {
 	if (Platform.isMobile) {
-		currentGameTrade()?.finish(DB.getMessage(74));
+		currentGameTrade()?.finish(DB.getMessage(74), false);
 		return;
 	}
 	ChatBox.addText(DB.getMessage(74), ChatBox.TYPE.ERROR, ChatBox.FILTER.PUBLIC_LOG);
@@ -214,7 +214,7 @@ Trade.onTradeSubmit = function onTradeSubmit() {
  */
 function onTradeSubmitAnswer(pkt) {
 	if (Platform.isMobile) {
-		currentGameTrade()?.finish(DB.getMessage(pkt.result === 1 ? 76 : 75));
+		currentGameTrade()?.finish(DB.getMessage(pkt.result === 1 ? 76 : 75), pkt.result !== 1);
 		return;
 	}
 	// Fail

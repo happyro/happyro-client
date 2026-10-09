@@ -1,11 +1,19 @@
-import { interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
+import { interactionColumns, interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 export function createVendingPanel(body, service) {
-	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"><div data-fields></div><div data-selected></div><div data-order></div></section></div>';
+	const initial = service.snapshot();
+	interactionColumns(body, [
+		{ title: initial.owned ? '在售商品' : '可选商品', className: 'inventory-list' },
+		{ title: initial.owned ? '成交记录' : '摊位清单', content: '<div data-order></div>' },
+		{ title: '物品说明与定价', className: 'inventory-detail', content: '<div data-selected></div>' }
+	]);
+	const fields = document.createElement('div');
+	fields.dataset.fields = '';
+	fields.className = 'interaction-toolbar';
+	body.prepend(fields);
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		nodes = new Map();
@@ -29,7 +37,6 @@ export function createVendingPanel(body, service) {
 	}
 	let selected = null,
 		key = '';
-	const initial = service.snapshot();
 	$('[data-cancel]').hidden = Boolean(initial.owned);
 	$('[data-cancel]').onclick = () => service.close();
 	if (!initial.owned) {
@@ -57,10 +64,10 @@ export function createVendingPanel(body, service) {
 			budget = Number($('[data-budget]')?.value);
 		const rows = snapshot.owned ? snapshot.items : snapshot.order;
 		const content = interactionReview(
-			rows.map(row => `${row.name} × ${row.count} · 单价 ${row.price} Zeny`),
+			rows.map(row => `${row.name} × ${row.count} · 单价 ${row.price} Z`),
 			snapshot.owned
 				? '关闭后停止摆摊'
-				: `合计：${snapshot.total} Zeny${snapshot.mode === 'buy' ? '\n收购预算：' + budget + ' Zeny' : ''}`
+				: `合计：${snapshot.total} Z${snapshot.mode === 'buy' ? '\n收购预算：' + budget + ' Z' : ''}`
 		);
 		confirmAction(
 			body,
@@ -71,7 +78,7 @@ export function createVendingPanel(body, service) {
 					return;
 				}
 				const result = snapshot.owned ? service.closeStore() : service.submit(title, budget);
-				feedback(result, ['已请求关闭摊位', '等待服务器开店结果'].includes(result) ? 'info' : 'error');
+				feedback(result, ['已请求关闭摊位', '等待服务器开店结果'].includes(result) ? 'pending' : 'error');
 				update();
 			},
 			{ content }
@@ -109,7 +116,7 @@ export function createVendingPanel(body, service) {
 				$('.inventory-list').append(node);
 			}
 			node.disabled = !state.allowed;
-			setListItemText(node, item.name, `× ${item.count}${state.owned ? ' · ' + item.price + ' Zeny' : ''}`);
+			setListItemText(node, item.name, `× ${item.count}${state.owned ? ' · ' + item.price + ' Z' : ''}`);
 			node.setAttribute('aria-pressed', String(selected === item.index));
 		}
 		const item = state.items.find(row => row.index === selected),
@@ -127,6 +134,9 @@ export function createVendingPanel(body, service) {
 				title.textContent = item.name;
 				panel.append(title);
 				if (!state.owned) {
+					const pricing = document.createElement('div');
+					pricing.className = 'interaction-pricing';
+					panel.append(pricing);
 					const amount = document.createElement('input'),
 						price = document.createElement('input');
 					amountInput = amount;
@@ -163,12 +173,12 @@ export function createVendingPanel(body, service) {
 					revert.onclick = () => draft.reset();
 					for (const [text, field] of [
 						['数量', amount],
-						['单价（Zeny）', price]
+						['单价（Z）', price]
 					]) {
 						const label = document.createElement('label');
 						label.className = 'interaction-field';
 						label.append(text, field);
-						panel.append(label);
+						pricing.append(label);
 					}
 					panel.append(button, revert, hint);
 					draft = inputDraft([amount, price], update);
@@ -182,10 +192,44 @@ export function createVendingPanel(body, service) {
 		}
 		for (const control of $('[data-selected]').querySelectorAll('input,button')) control.disabled = !state.allowed;
 		if ($('[data-revert-vending]')) $('[data-revert-vending]').hidden = !draft?.dirty();
-		$('[data-order]').textContent = state.owned
-			? `剩余预算：${state.budget ?? '—'}\n${state.log.join('\n')}`
-			: `${state.order.length}/${state.slots} 栏 · 合计 ${state.total} Zeny\n` +
-				state.order.map(row => `${row.name} × ${row.count} · 单价 ${row.price}`).join('\n');
+		const order = $('[data-order]');
+		const orderKey = JSON.stringify([
+			state.owned,
+			state.order,
+			state.owned ? state.items : null,
+			state.allowed,
+			state.log,
+			state.budget
+		]);
+		if (order.dataset.key !== orderKey) {
+			order.dataset.key = orderKey;
+			order.replaceChildren();
+			if (state.owned) {
+				const log = document.createElement('p');
+				log.textContent =
+					state.mode === 'buy'
+						? `剩余预算：${state.budget ?? '—'} Z\n${state.log.join('\n')}`
+						: state.log.join('\n');
+				order.append(log);
+			}
+			for (const row of state.owned ? [] : state.order) {
+				const entry = document.createElement('button');
+				entry.className = 'interaction-order-item';
+				setListItemText(entry, row.name, `× ${row.count} · 单价 ${row.price} Z`);
+				entry.disabled = !state.allowed;
+				entry.onclick = () => {
+					if (!ready()) return;
+					selected = row.index;
+					key = '';
+					update();
+				};
+				order.append(entry);
+			}
+			if (!state.owned && !state.order.length) order.textContent = '尚未选择商品';
+		}
+		if (!state.pending && !draft?.dirty() && !state.owned)
+			status.textContent = `摊位：${state.order.length}/${state.slots} · 合计：${state.total} Z`;
+		fields.hidden = Boolean(state.owned);
 		$('[data-submit]').textContent = state.owned ? '关闭摊位' : '核对开店';
 		$('[data-submit]').disabled = !state.allowed;
 	}

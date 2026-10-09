@@ -4,7 +4,8 @@
 	--menu-window-height: 100%;
 	font-size: var(--interaction-text);
 }
-:host([data-menu-density='compact']) .interaction-panel .inventory-layout {
+:host([data-menu-density='compact']) .interaction-panel .inventory-layout,
+:host([data-menu-density='compact']) .panel .warehouse-body .container-toolbar {
 	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
 	gap: 8px;
 }
@@ -64,15 +65,6 @@
 	font-size: var(--interaction-caption);
 	line-height: 1.4;
 }
-:host([data-menu-density='compact']) .interaction-panel[data-view='trade'] .trade-offers {
-	border-top: 1px solid #52606d;
-	margin-top: 12px;
-}
-:host([data-menu-density='compact']) .interaction-panel[data-view='vending'] [data-order] {
-	border-top: 1px solid #52606d;
-	margin-top: 12px;
-	padding-top: 8px;
-}
 :host([data-menu-density='compact']) .panel[data-view='information'] {
 	--menu-window-width: 520px;
 	--menu-window-height: auto;
@@ -85,7 +77,4 @@
 
 :host([data-menu-density='compact']) .panel .warehouse-body .storage-modes button {
 	min-width: 60px;
-}
-:host([data-menu-density='compact']) .panel .warehouse-body .container-toolbar {
-	gap: 6px;
 }

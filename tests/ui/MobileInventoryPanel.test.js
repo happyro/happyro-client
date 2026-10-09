@@ -55,3 +55,30 @@ it('ignores stale image loads and displays the selected illustration directly wi
  body.querySelector('[data-index="1"]').click();
  expect(body.querySelector('.inventory-item-picture')).toBeNull();
 });
+
+it('moves numeric weight and count below the picture without removing descriptive text',async()=>{
+ const body=document.body.appendChild(document.createElement('div'));
+ const item={index:1,ID:1,name:'材料',count:12,identified:true,worn:true,reason:'此物品没有直接使用操作',description:'制作材料\n数量：999\n重量 : 3.5\n携带重量增加 10%。'};
+ createInventoryPanel(body,{snapshot:()=>[item],preview:async()=>({image:'material.bmp'})});
+ body.querySelector('[data-index="1"]').click();await Promise.resolve();
+ const media=body.querySelector('.inventory-item-media');
+ expect(media.firstElementChild.tagName).toBe('IMG');
+ expect(media.textContent).toBe('数量：12重量：3.5');
+ expect(body.querySelector('.item-description').textContent).toBe('制作材料\n携带重量增加 10%。');
+ expect(body.textContent).not.toContain('此物品没有直接使用操作');
+ expect(body.querySelector('.inventory-item-summary').textContent).toContain('已穿戴');
+});
+
+it('filters detailed item types and resets scroll when switching categories', () => {
+ const body = document.body.appendChild(document.createElement('div'));
+ const types = [5,4,6,10,7,8,12,3];
+ const items = types.map((type,index)=>({index,ID:index+1,type,name:`物品${index}`,count:1,category:'other'}));
+ createInventoryPanel(body,{snapshot:()=>items});
+ const select=body.querySelector('[aria-label="背包分类"]');
+ const list=body.querySelector('.inventory-list');
+ for(const [category,indices] of [['weapon',[0]],['armor',[1]],['card',[2]],['ammo',[3]],['pet',[4,5]],['shadow',[6]],['all',[0,1,2,3,4,5,6,7]]]) {
+  list.scrollTop=100;select.value=category;select.dispatchEvent(new Event('change'));
+  expect([...list.querySelectorAll('[data-index]')].map(node=>Number(node.dataset.index))).toEqual(indices);
+  expect(list.scrollTop).toBe(0);
+ }
+});

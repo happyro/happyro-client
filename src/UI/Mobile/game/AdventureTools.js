@@ -76,7 +76,7 @@ Tools.onAppend = async function () {
 			if (state.message && state.message !== actionMessage)
 				feedback(
 					state.message,
-					state.error ? 'error' : state.npcPending || state.mapPending ? 'info' : 'success'
+					state.error ? 'error' : state.npcPending || state.mapPending ? 'pending' : 'success'
 				);
 			actionMessage = state.message;
 		}),

@@ -88,7 +88,14 @@ export function bindPointerControls(root, scene, actions) {
 		// Target taps stay unobstructed; a left-side drag can still take over movement.
 		const left = event.clientX < rect.left + rect.width / 2;
 		if (!left && owners.size) return;
-		sceneStart = { id: event.pointerId, x: event.clientX, y: event.clientY, left, cancelled: owners.size > 0 };
+		sceneStart = {
+			id: event.pointerId,
+			x: event.clientX,
+			y: event.clientY,
+			left,
+			cancelled: owners.size > 0,
+			target: actions.pickTapTarget?.(event.clientX, event.clientY)
+		};
 		scene.setPointerCapture(event.pointerId);
 		startTimer();
 	});
@@ -103,7 +110,7 @@ export function bindPointerControls(root, scene, actions) {
 			if (distance > 12) sceneStart.cancelled = true;
 			return;
 		}
-		if (!sceneStart.dragging && distance >= 8) {
+		if (!sceneStart.dragging && distance >= (sceneStart.target ? 12 : 8)) {
 			sceneStart.dragging = true;
 			sceneStart.cancelled = true;
 			actions.startMove();
@@ -115,7 +122,10 @@ export function bindPointerControls(root, scene, actions) {
 	listen(scene, 'pointerup', event => {
 		if (sceneStart?.id !== event.pointerId) return;
 		const start = releaseScene();
-		if (!start.cancelled && actions.enabled() && !owners.size) actions.tap(event.clientX, event.clientY);
+		if (!start.cancelled && actions.enabled() && !owners.size) {
+			if (start.target) actions.tap(event.clientX, event.clientY, start.target);
+			else actions.tap(event.clientX, event.clientY);
+		}
 	});
 	for (const type of ['pointercancel', 'lostpointercapture'])
 		listen(scene, type, event => {

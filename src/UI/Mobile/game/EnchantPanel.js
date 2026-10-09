@@ -1,9 +1,12 @@
-import { interactionReview, interactionFooter } from './InteractionPanel.js';
+import { interactionColumns, interactionReview, interactionFooter } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 export function createEnchantPanel(body, service) {
-	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="可附魔装备"></div><section class="inventory-detail" aria-label="附魔详情"></section></div>';
+	interactionColumns(body, [
+		{ title: '可附魔装备', className: 'inventory-list' },
+		{ title: '附魔配置', className: 'inventory-detail' },
+		{ title: '装备与结果', className: 'interaction-result' }
+	]);
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		list = $('.inventory-list'),
@@ -51,6 +54,15 @@ export function createEnchantPanel(body, service) {
 		const next = JSON.stringify([state.selected, state.choices, state.allowed, choiceKey]);
 		if (next === key) return;
 		key = next;
+		const result = $('.interaction-result');
+		result.replaceChildren();
+		const selectedItem = state.items.find(row => row.index === state.selected?.index);
+		const title = document.createElement('h3');
+		title.textContent = selectedItem?.name || '请选择装备';
+		const description = document.createElement('p');
+		description.className = 'item-description';
+		description.textContent = selectedItem?.description || '';
+		result.append(title, description);
 		detail.replaceChildren();
 		footer.querySelector('button')?.remove();
 		if (!state.selected) {
@@ -73,13 +85,13 @@ export function createEnchantPanel(body, service) {
 		const choice = state.choices.find(entry => entry.key === choiceKey);
 		if (!choice) return;
 		const summary = document.createElement('p');
-		summary.textContent = `成功率：${choice.rate / 1000}% · 费用：${choice.zeny} Zeny\n${choice.materials.map(material => `${material.name} × ${material.count}`).join('\n')}`;
+		summary.textContent = `成功率：${choice.rate / 1000}% · 费用：${choice.zeny} Z\n${choice.materials.map(material => `${material.name} × ${material.count}`).join('\n')}`;
 		summary.className = 'item-description';
 		detail.append(summary);
 		if (choice.results?.length) {
 			const outcomes = document.createElement('p');
 			outcomes.textContent = `可能获得：${choice.results.join('、')}`;
-			detail.append(outcomes);
+			result.insertBefore(outcomes, description);
 		}
 		const warning = document.createElement('p');
 		warning.textContent = '附魔会消耗费用与材料，重置会清除现有附魔。';
@@ -96,7 +108,7 @@ export function createEnchantPanel(body, service) {
 					summary.textContent,
 					...(choice.results?.length ? [`可能获得：${choice.results.join('、')}`] : [])
 				],
-				`费用：${choice.zeny} Zeny`,
+				`费用：${choice.zeny} Z`,
 				warning.textContent
 			);
 			confirmAction(
@@ -113,7 +125,8 @@ export function createEnchantPanel(body, service) {
 				{ content }
 			);
 		};
-		detail.append(warning);
+		warning.className = 'interaction-warning';
+		result.insertBefore(warning, description);
 		footer.append(confirm);
 	}
 	update();

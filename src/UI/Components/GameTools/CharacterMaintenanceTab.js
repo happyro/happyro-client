@@ -87,7 +87,6 @@ function mount(container, context = {}) {
 		}
 		pending = true;
 
-		showToast(container, '正在提交...', 'info');
 
 		renderDetail();
 		try {

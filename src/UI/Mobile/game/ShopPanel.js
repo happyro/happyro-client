@@ -2,39 +2,18 @@ import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
-/** Edit an order locally and revalidate the reviewed terms before submission. */
+/** Move quantities between the catalogue and order; submit through the original service. */
 export function createShopPanel(body, service) {
 	body.innerHTML =
-		'<div class="shop-summary"></div><div class="inventory-layout"><div class="inventory-list" aria-label="商店物品"></div><section class="inventory-detail" aria-label="物品详情">请选择物品</section></div><div class="shop-footer"><span class="shop-status" role="status"></span></div>';
+		'<div class="shop-layout"><section class="shop-catalog"><h3>商品列表</h3><div class="inventory-list shop-catalog-list" aria-label="商店物品"></div></section><div class="shop-transfer"></div><section class="shop-order"><h3>待购买物品</h3><div class="inventory-list shop-order-list" aria-label="待交易物品"></div></section><section class="inventory-detail" aria-label="物品详情">请选择物品查看说明</section></div><div class="shop-footer"><span class="shop-summary"></span></div>';
 	const $ = selector => body.querySelector(selector);
-	const nodes = new Map();
-	let selected = null,
-		state,
-		input,
-		price,
-		title,
-		description,
-		appliedQuantity;
 	const feedback = createFeedback(body);
+	const lists = [new Map(), new Map()];
+	let state,
+		selected = null,
+		quantityDialog = null;
 	const keyOf = item => `${item.index}:${item.ID}`;
-	const currency = () => state.currency || 'Zeny';
-	const signature = snapshot =>
-		JSON.stringify([
-			snapshot.mode,
-			snapshot.currency,
-			snapshot.total,
-			snapshot.items
-				.filter(item => item.quantity)
-				.map(({ index, ID, name, quantity, price: unitPrice, limit, materials }) => ({
-					index,
-					ID,
-					name,
-					quantity,
-					price: unitPrice,
-					limit,
-					materials
-				}))
-		]);
+	const currency = () => (!state.currency || state.currency === 'Zeny' ? 'Z' : state.currency);
 	function button(label, action) {
 		const node = document.createElement('button');
 		node.type = 'button';
@@ -42,154 +21,141 @@ export function createShopPanel(body, service) {
 		node.onclick = action;
 		return node;
 	}
-	const hasQuantityDraft = () => selected && input && input.value !== appliedQuantity;
-	function requireAppliedQuantity() {
-		if (!hasQuantityDraft()) return true;
-		feedback('数量尚未应用，请先点击“设置数量”或“撤销修改”', 'error');
-		input.focus();
-		return false;
-	}
-	function detail(item) {
-		if (!requireAppliedQuantity()) return;
-		selected = keyOf(item);
-		title = document.createElement('h3');
-		price = document.createElement('p');
-		price.className = 'shop-price';
-		const form = document.createElement('form');
-		form.className = 'shop-quantity';
-		const label = document.createElement('label');
-		label.textContent = '数量';
-		input = document.createElement('input');
-		input.type = 'number';
-		input.required = true;
-		input.min = '0';
-		input.step = '1';
-		input.value = String(item.quantity || Math.min(1, item.limit));
-		input.setAttribute('aria-label', '交易数量');
-		appliedQuantity = input.value;
-		input.oninput = update;
-		label.append(input);
-		const set = button('设置数量', () => {});
-		set.type = 'submit';
-		form.onsubmit = event => {
-			event.preventDefault();
-			if (!input.reportValidity()) return;
-			const message = service.set(item.index, item.ID, Number(input.value));
-			if (message) feedback(message, 'error');
-			else {
-				appliedQuantity = input.value;
-				feedback('订单数量已更新', 'success');
-			}
-			update();
-		};
-		const remove = button('移出订单', () => {
-			const message = service.set(item.index, item.ID, 0);
-			if (message) feedback(message, 'error');
-			else input.value = appliedQuantity = '0';
-			update();
-		});
-		const revert = button('撤销修改', () => {
-			input.value = appliedQuantity;
-			update();
-		});
-		revert.dataset.revertQuantity = '';
-		form.append(label, set, remove, revert);
-		description = document.createElement('p');
-		description.className = 'item-description';
-		$('.inventory-detail').replaceChildren(title, price, form, description);
+	const selectedItem = () => state.items.find(item => keyOf(item) === selected);
+	const capacity = (item, direction) => Math.max(0, direction === 1 ? item.limit - item.quantity : item.quantity);
+	function transfer(direction) {
 		update();
-	}
-	function review() {
-		update();
-		if (!state.allowed || !requireAppliedQuantity() || !state.items.some(item => item.quantity)) return;
-		const reviewed = signature(state);
+		const item = selectedItem();
+		if (!state.allowed || !item || !capacity(item, direction) || quantityDialog) return;
+		const key = selected;
 		const content = document.createElement('div');
-		content.className = 'shop-review';
-		const lines = document.createElement('div');
-		lines.className = 'shop-review-lines';
-		content.append(lines);
-		for (const item of state.items.filter(entry => entry.quantity)) {
-			const line = document.createElement('p');
-			line.textContent = `${item.name} × ${item.quantity} · ${item.price * item.quantity} ${currency()}`;
-			if (item.materials?.length)
-				line.textContent +=
-					'\n材料：' +
-					item.materials
-						.map(
-							m =>
-								`${m.name}${m.refine_level ? `（精炼 +${m.refine_level}）` : ''} × ${m.amount * item.quantity}`
-						)
-						.join('、');
-			lines.append(line);
+		content.className = 'shop-quantity';
+		const input = document.createElement('input');
+		input.type = 'number';
+		input.inputMode = 'numeric';
+		input.required = true;
+		input.min = '1';
+		input.max = String(capacity(item, direction));
+		input.step = '1';
+		input.value = '1';
+		input.setAttribute('aria-label', '交易数量');
+		const decreases = document.createElement('div');
+		const increases = document.createElement('div');
+		decreases.className = increases.className = 'shop-quantity-steps';
+		const stepButtons = [-10, -1, 1, 10].map(delta => {
+			const node = button(delta > 0 ? `+${delta}` : String(delta), () => {
+				update();
+				if (!quantityDialog) return;
+				const count = Number(input.value);
+				input.value = String(
+					Math.max(1, Math.min(Number(input.max), (Number.isInteger(count) ? count : 0) + delta))
+				);
+				updateSteps();
+			});
+			(delta < 0 ? decreases : increases).append(node);
+			return { node, delta };
+		});
+		function updateSteps() {
+			const count = Number(input.value);
+			for (const { node, delta } of stepButtons)
+				node.disabled = delta > 0 ? count >= Number(input.max) : count <= 1;
 		}
-		const total = document.createElement('strong');
-		total.textContent = `${state.mode === 'buy' ? '支付' : '获得'}合计：${state.total} ${currency()}`;
-		content.append(total);
-		confirmAction(
+		input.addEventListener('input', updateSteps);
+		content.append(decreases, input, increases);
+		const dismiss = confirmAction(
 			body,
-			state.mode === 'buy' ? '确认购买以下物品？' : '确认出售以下物品？',
+			item.name,
 			() => {
-				if (signature(service.snapshot()) !== reviewed) {
-					feedback('订单已变化，请重新核对', 'error');
+				quantityDialog = null;
+				state = service.snapshot();
+				const current = state.items.find(entry => keyOf(entry) === key);
+				const count = Number(input.value);
+				if (
+					!state.allowed ||
+					!current ||
+					!Number.isInteger(count) ||
+					count < 1 ||
+					count > capacity(current, direction)
+				) {
+					feedback('数量或物品状态已变化，请重新选择', 'error');
 					update();
 					return;
 				}
-				const result = service.submit();
-				feedback(result, result === '已提交，等待服务器回复' ? 'info' : 'error');
+				const error = service.set(current.index, current.ID, current.quantity + direction * count);
+				if (error) feedback(error, 'error');
 				update();
 			},
-			{ content }
+			{
+				content,
+				cancelled: () => {
+					quantityDialog = null;
+					update();
+				}
+			}
 		);
+		quantityDialog = { key, direction, input, dismiss, updateSteps };
+		// Native form submission also supports the mobile keyboard's Done key.
+		input.addEventListener('keydown', event => {
+			if (event.key !== 'Enter') return;
+			event.preventDefault();
+			body.querySelector('dialog [data-confirm]')?.click();
+		});
+		update();
 	}
-	const reviewButton = button('核对订单', review);
-	const clearButton = button('清空订单', () => {
-		if (service.clear()) {
-			selected = null;
-			$('.inventory-detail').textContent = '请选择物品';
-			feedback('订单已清空', 'success');
-			update();
-		}
+	const add = button('→', () => transfer(1));
+	add.setAttribute('aria-label', '加入待交易列表');
+	add.title = '加入待交易列表';
+	const remove = button('←', () => transfer(-1));
+	remove.setAttribute('aria-label', '移回商品列表');
+	remove.title = '移回商品列表';
+	$('.shop-transfer').append(add, remove);
+	const submit = button('购买', () => {
+		update();
+		if (!state.allowed || quantityDialog || !state.items.some(item => item.quantity)) return;
+		const result = service.submit();
+		// Submission can synchronously replace the shop with a result window.
+		if (!body.querySelector('.shop-layout')) return;
+		feedback(result, result === '已提交，等待服务器回复' ? 'pending' : 'error');
+		update();
 	});
-	$('.shop-footer').append(reviewButton, clearButton);
-	const empty = document.createElement('p');
-	empty.className = 'shop-empty';
-	$('.inventory-list').append(empty);
-	function update() {
-		state = service.snapshot();
-		$('.shop-summary').textContent =
-			`持有：${state.money} ${currency()} · ${state.mode === 'buy' ? '支付' : '获得'}合计：${state.total} ${currency()}`;
-		$('.shop-status').textContent = state.pending
-			? '等待服务器回复…'
-			: hasQuantityDraft()
-				? '数量已修改，尚未应用'
-				: `已选 ${state.items.filter(item => item.quantity).length} 种物品`;
-		clearButton.disabled = !state.allowed;
-		reviewButton.disabled = !state.allowed || (!hasQuantityDraft() && !state.items.some(item => item.quantity));
-		empty.hidden = state.items.length > 0;
-		empty.textContent = state.mode === 'sell' ? '没有可出售的物品' : '商店暂无商品';
+	const clear = button('清空', () => {
+		if (service.clear()) update();
+	});
+	$('.shop-footer').append(submit, clear);
+	const emptyNodes = ['商店暂无商品', '尚未选择物品'].map((label, index) => {
+		const empty = document.createElement('p');
+		empty.className = 'shop-empty';
+		empty.textContent = label;
+		$(index ? '.shop-order-list' : '.shop-catalog-list').append(empty);
+		return empty;
+	});
+	function updateList(items, index) {
+		const nodes = lists[index];
 		const keys = new Set();
-		for (const item of state.items) {
+		for (const item of items) {
 			const key = keyOf(item);
 			keys.add(key);
 			let node = nodes.get(key);
 			if (!node) {
 				node = button('', () => {
-					const current = state.items.find(entry => keyOf(entry) === key);
-					if (current) detail(current);
+					selected = key;
+					update();
 				});
 				node.className = 'inventory-item';
 				const image = document.createElement('img');
 				image.alt = '';
 				node.append(image, document.createElement('span'));
-				$('.inventory-list').append(node);
+				$(index ? '.shop-order-list' : '.shop-catalog-list').append(node);
 				nodes.set(key, node);
 			}
-			node.disabled = !state.allowed;
+			node.disabled = !state.allowed || Boolean(quantityDialog);
 			node.setAttribute('aria-pressed', String(selected === key));
 			setListItemText(
 				node,
 				item.name,
-				`${item.price} ${currency()}${item.limit === 0 ? ' · 无库存' : ''}${item.quantity ? ` · 已选 ${item.quantity}` : ''}`
+				index
+					? `× ${item.quantity} · ${item.price * item.quantity} ${currency()}`
+					: `${item.price} ${currency()}`
 			);
 			const image = node.querySelector('img');
 			image.hidden = !item.icon;
@@ -200,26 +166,51 @@ export function createShopPanel(body, service) {
 				node.remove();
 				nodes.delete(key);
 			}
-		const item = state.items.find(entry => keyOf(entry) === selected);
-		if (selected && !item) {
-			selected = null;
-			$('.inventory-detail').textContent = '物品已经变化，请重新选择';
+		emptyNodes[index].hidden = items.length > 0;
+	}
+	function update() {
+		if (!body.querySelector('.shop-layout')) return;
+		state = service.snapshot();
+		const order = state.items.filter(item => item.quantity);
+		const selling = state.mode === 'sell';
+		$('.shop-summary').textContent =
+			`余额：${state.money} ${currency()} · ${selling ? '出售' : '购买'}合计：${state.total} ${currency()}`;
+		$('.shop-catalog h3').textContent = selling ? '可出售物品' : '商品列表';
+		$('.shop-order h3').textContent = selling ? '待出售物品' : '待购买物品';
+		submit.textContent = selling ? '出售' : '购买';
+		submit.disabled = clear.disabled = !state.allowed || !order.length || Boolean(quantityDialog);
+		emptyNodes[0].textContent = selling ? '没有可出售的物品' : '商店暂无商品';
+		updateList(state.items, 0);
+		updateList(order, 1);
+		const item = selectedItem();
+		if (selected && !item) selected = null;
+		add.disabled = !state.allowed || !item || !capacity(item, 1) || Boolean(quantityDialog);
+		remove.disabled = !state.allowed || !item || !capacity(item, -1) || Boolean(quantityDialog);
+		const detail = $('.inventory-detail');
+		if (!item) detail.textContent = '请选择物品查看说明';
+		else {
+			if (!detail.querySelector('h3'))
+				detail.innerHTML = '<h3></h3><p class="shop-price"></p><p class="item-description"></p>';
+			detail.querySelector('h3').textContent = item.name;
+			detail.querySelector('.shop-price').textContent =
+				`单价：${item.price} ${currency()}` +
+				(item.materials?.length
+					? '\n每件材料：' +
+						item.materials
+							.map(m => `${m.name}${m.refine_level ? `（精炼 +${m.refine_level}）` : ''} × ${m.amount}`)
+							.join('、')
+					: '');
+			detail.querySelector('.item-description').textContent = item.description || '';
 		}
-		if (item) {
-			title.textContent = item.name;
-			description.textContent = item.description || '';
-			price.textContent = `单价：${item.price} ${currency()} · 数量上限：${item.limit}`;
-			if (item.materials?.length)
-				price.textContent +=
-					'\n材料：' +
-					item.materials
-						.map(m => `${m.name}${m.refine_level ? `（精炼 +${m.refine_level}）` : ''} × ${m.amount}`)
-						.join('、');
-			input.max = String(item.limit);
+		if (quantityDialog) {
+			const current = state.items.find(entry => keyOf(entry) === quantityDialog.key);
+			if (!state.allowed || !current || !capacity(current, quantityDialog.direction)) {
+				quantityDialog.dismiss();
+				return;
+			}
+			quantityDialog.input.max = String(capacity(current, quantityDialog.direction));
+			quantityDialog.updateSteps();
 		}
-		const revert = $('[data-revert-quantity]');
-		if (revert) revert.hidden = !hasQuantityDraft();
-		for (const node of $('.inventory-detail').querySelectorAll('button,input')) node.disabled = !state.allowed;
 	}
 	update();
 	return { update };

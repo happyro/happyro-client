@@ -180,7 +180,7 @@ export function openGameCompanions(kind, canOperate = () => true) {
 					localStorage.setItem(aiKey, AIDriver[aiKey] ? '1' : '0');
 					break;
 			}
-			s.messageKind = action === 'aggressive' ? 'success' : 'info';
+			s.messageKind = action === 'aggressive' ? 'success' : 'pending';
 			s.message = action === 'aggressive' ? '攻击模式已更新' : '已发送请求，以服务器状态为准';
 			return s.message;
 		},

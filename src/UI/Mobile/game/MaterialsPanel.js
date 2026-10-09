@@ -1,9 +1,12 @@
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
-import { interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
+import { interactionColumns, interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
 export function createMaterialsPanel(body, service) {
-	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="材料列表"></div><section class="inventory-detail" aria-label="材料详情"></section></div>';
+	interactionColumns(body, [
+		{ title: '可用材料', className: 'inventory-list' },
+		{ title: '已选材料', className: 'material-order' },
+		{ title: '物品说明', className: 'inventory-detail' }
+	]);
 	const $ = selector => body.querySelector(selector);
 	const { footer, status } = interactionFooter(body);
 	const feedback = createFeedback(body),
@@ -63,7 +66,7 @@ export function createMaterialsPanel(body, service) {
 		const form = document.createElement('form');
 		form.className = 'interaction-form';
 		const label = document.createElement('label');
-		label.textContent = '材料数量';
+		label.textContent = '数量';
 		input = document.createElement('input');
 		input.type = 'number';
 		input.min = 0;
@@ -93,6 +96,24 @@ export function createMaterialsPanel(body, service) {
 	}
 	function update() {
 		state = service.snapshot();
+		const order = $('.material-order');
+		const orderKey = JSON.stringify([state.order, state.allowed]);
+		if (order.dataset.key !== orderKey) {
+			order.dataset.key = orderKey;
+			order.replaceChildren();
+			if (!state.order.length) order.textContent = '尚未选择材料';
+			for (const row of state.order) {
+				const entry = button(`${row.name} × ${row.count}`, () => {
+					const item = service
+						.snapshot()
+						.items.find(candidate => candidate.index === row.index && candidate.ID === row.ID);
+					if (item) select(item);
+				});
+				entry.className = 'interaction-order-item';
+				entry.disabled = !state.allowed;
+				order.append(entry);
+			}
+		}
 		status.textContent = state.pending
 			? '等待服务器回复…'
 			: draft?.dirty()

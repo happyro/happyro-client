@@ -1,11 +1,24 @@
-import { interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
+import { interactionColumns, interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 export function createTradePanel(body, service) {
-	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="可交易物品"></div><section class="inventory-detail"><div class="trade-editor"><label class="interaction-field">Zeny <input data-money type="number" min="0" step="1" value="0"></label><button data-send-money>设置金额</button><button data-revert-money>撤销金额</button><div data-picker></div></div><div class="trade-offers"><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div></div></section></div>';
+	interactionColumns(body, [
+		{ title: '可交易物品', className: 'inventory-list' },
+		{
+			title: '双方报价',
+			className: 'trade-offers',
+			content:
+				'<section><h3>我方物品</h3><div data-own></div></section><section><h3>对方物品</h3><div data-peer></div></section>'
+		},
+		{
+			title: '物品与金额',
+			className: 'inventory-detail trade-editor',
+			content:
+				'<label class="interaction-field">交易金额<input data-money type="number" min="0" step="1" value="0"></label><div class="interaction-inline-actions"><button data-send-money>设置金额</button><button data-revert-money>撤销金额</button></div><div data-picker></div>'
+		}
+	]);
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		nodes = new Map();
@@ -58,7 +71,7 @@ export function createTradePanel(body, service) {
 				'正在等待交易结果',
 				'等待服务器取消交易'
 			].includes(result)
-				? 'info'
+				? 'pending'
 				: 'error'
 		);
 		update();
@@ -79,7 +92,7 @@ export function createTradePanel(body, service) {
 				'对方物品：',
 				...state.received.map(row => `${row.name} × ${row.count}`)
 			],
-			`我方金额：${state.money} Zeny\n对方金额：${state.peerMoney} Zeny`,
+			`我方金额：${state.money} Z\n对方金额：${state.peerMoney} Z`,
 			'请核对双方物品和金额，确认后等待服务器完成交易。'
 		);
 		const signature = JSON.stringify([state.offered, state.received, state.money, state.peerMoney]);
@@ -193,10 +206,13 @@ export function createTradePanel(body, service) {
 			]);
 			if (parent.dataset.signature === signature) continue;
 			parent.dataset.signature = signature;
-			parent.textContent = `${money} Zeny`;
+			const balance = document.createElement('p');
+			balance.textContent = `金额：${money} Z`;
+			parent.replaceChildren(balance);
 			for (const entry of rows) {
 				const button = document.createElement('button');
-				button.textContent = `查看：${entry.name} × ${entry.count}`;
+				button.textContent = `${entry.name} × ${entry.count}`;
+				button.className = 'interaction-order-item';
 				button.onclick = () => {
 					if (!ready()) return;
 					preview = { side, index: entry.index };
