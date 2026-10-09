@@ -1,13 +1,49 @@
+import { interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 export function createTradePanel(body, service) {
 	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list" aria-label="可交易物品"></div><section class="inventory-detail"><div data-picker></div><label>Zeny <input data-money type="number" min="0" step="1" value="0"></label><button data-send-money>设置金额</button><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div><p data-phase></p><button data-lock>锁定报价</button><button data-execute>确认成交</button><button data-cancel>取消交易</button></section></div>';
+		'<div class="inventory-layout"><div class="inventory-list" aria-label="可交易物品"></div><section class="inventory-detail"><div class="trade-editor"><label class="interaction-field">Zeny <input data-money type="number" min="0" step="1" value="0"></label><button data-send-money>设置金额</button><button data-revert-money>撤销金额</button><div data-picker></div></div><div class="trade-offers"><h3>我方报价</h3><div data-own></div><h3>对方报价</h3><div data-peer></div></div></section></div>';
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		nodes = new Map();
+	const { footer, status } = interactionFooter(body);
+	status.dataset.phase = '';
+	for (const [key, text] of [
+		['lock', '锁定报价'],
+		['execute', '确认成交'],
+		['cancel', '取消交易']
+	]) {
+		const button = document.createElement('button');
+		button.type = 'button';
+		button.dataset[key] = '';
+		button.textContent = text;
+		footer.append(button);
+	}
+	let quantityDraft, quantityInput;
+	$('[data-money]').required = true;
+	$('[data-money]').setAttribute('aria-label', '交易金额');
+	$('[data-money]').value = String(service.snapshot().money);
+	$('[data-money]').oninput = () => update();
+	$('[data-revert-money]').onclick = () => {
+		$('[data-money]').value = String(service.snapshot().money);
+		update();
+	};
+	function ready() {
+		if (Number($('[data-money]').value) !== service.snapshot().money || !$('[data-money]').checkValidity()) {
+			feedback('金额尚未设置，请先设置或撤销金额', 'error');
+			$('[data-money]').focus();
+			return false;
+		}
+		if (quantityDraft?.dirty()) {
+			feedback('物品数量尚未加入交易，请先加入或撤销修改', 'error');
+			quantityDraft.focus();
+			return false;
+		}
+		return true;
+	}
 	let preview = null;
 	let selected = null,
 		pickerKey = '';
@@ -27,10 +63,25 @@ export function createTradePanel(body, service) {
 		);
 		update();
 	}
-	$('[data-send-money]').onclick = () => action(service.setMoney(Number($('[data-money]').value)));
-	$('[data-lock]').onclick = () => action(service.lock());
+	$('[data-send-money]').onclick = () => {
+		if ($('[data-money]').reportValidity()) action(service.setMoney(Number($('[data-money]').value)));
+	};
+	$('[data-lock]').onclick = () => {
+		if (ready()) action(service.lock());
+	};
 	$('[data-execute]').onclick = () => {
+		if (!ready()) return;
 		const state = service.snapshot();
+		const content = interactionReview(
+			[
+				'我方物品：',
+				...state.offered.map(row => `${row.name} × ${row.count}`),
+				'对方物品：',
+				...state.received.map(row => `${row.name} × ${row.count}`)
+			],
+			`我方金额：${state.money} Zeny\n对方金额：${state.peerMoney} Zeny`,
+			'请核对双方物品和金额，确认后等待服务器完成交易。'
+		);
 		const signature = JSON.stringify([state.offered, state.received, state.money, state.peerMoney]);
 		confirmAction(
 			body,
@@ -45,7 +96,7 @@ export function createTradePanel(body, service) {
 				}
 				action(service.execute());
 			},
-			{}
+			{ content }
 		);
 	};
 	$('[data-cancel]').onclick = () => action(service.cancel());
@@ -63,6 +114,7 @@ export function createTradePanel(body, service) {
 				node = document.createElement('button');
 				node.className = 'inventory-item';
 				node.onclick = () => {
+					if (!ready()) return;
 					selected = item.index;
 					preview = null;
 					pickerKey = '';
@@ -71,22 +123,27 @@ export function createTradePanel(body, service) {
 				nodes.set(item.index, node);
 				$('.inventory-list').append(node);
 			}
+			node.disabled = !active || state.ownLocked;
 			setListItemText(node, item.name, `× ${item.count}`);
 			node.setAttribute('aria-pressed', String(selected === item.index));
 		}
 		const item = preview
 			? state[preview.side].find(entry => entry.index === preview.index)
 			: state.items.find(entry => entry.index === selected);
-		const key = JSON.stringify([item && { ...item, icon: undefined }, active, state.ownLocked, preview]);
+		const key = JSON.stringify([item?.index, item?.ID, item?.identity, preview]);
 		if (key !== pickerKey) {
 			pickerKey = key;
 			const picker = $('[data-picker]');
 			picker.replaceChildren();
+			quantityDraft = null;
 			if (item) {
 				const text = document.createElement('p');
 				text.textContent = item.description;
 				const input = document.createElement('input');
+				quantityInput = input;
 				input.type = 'number';
+				input.required = true;
+				input.step = '1';
 				input.min = '1';
 				input.max = String(item.count);
 				input.value = '1';
@@ -94,14 +151,36 @@ export function createTradePanel(body, service) {
 				const button = document.createElement('button');
 				button.textContent = '加入交易';
 				button.disabled = !active || state.ownLocked;
-				button.onclick = () => action(service.add(item.index, item.identity, Number(input.value)));
+				button.onclick = () => {
+					if (!input.reportValidity()) return;
+					const result = service.add(item.index, item.identity, Number(input.value));
+					if (result === '等待服务器确认物品') quantityDraft.accept();
+					action(result);
+				};
 				const title = document.createElement('h3');
 				title.textContent = item.name;
 				picker.append(title);
 				if (preview) picker.append(text);
-				else picker.append(text, input, button);
+				else {
+					const revert = document.createElement('button');
+					revert.type = 'button';
+					revert.textContent = '撤销修改';
+					revert.dataset.revertQuantity = '';
+					revert.onclick = () => quantityDraft.reset();
+					picker.append(input, button, revert, text);
+					quantityDraft = inputDraft([input], update);
+				}
 			} else picker.textContent = '点击左侧物品设置数量';
 		}
+		if (item && !preview && quantityInput) quantityInput.max = String(item.count);
+		for (const control of $('[data-picker]').querySelectorAll('input,button'))
+			control.disabled = !active || state.ownLocked;
+		const revert = $('[data-revert-quantity]');
+		if (revert) revert.hidden = !quantityDraft?.dirty();
+		$('[data-revert-money]').hidden =
+			Number($('[data-money]').value) === state.money && $('[data-money]').checkValidity();
+		$('[data-revert-money]').disabled = !active || state.ownLocked;
+		$('[data-money]').max = String(Math.min(state.balance ?? 2147483647, 2147483647));
 		for (const [selector, side, money] of [
 			['[data-own]', 'offered', state.money],
 			['[data-peer]', 'received', state.peerMoney]
@@ -119,6 +198,7 @@ export function createTradePanel(body, service) {
 				const button = document.createElement('button');
 				button.textContent = `查看：${entry.name} × ${entry.count}`;
 				button.onclick = () => {
+					if (!ready()) return;
 					preview = { side, index: entry.index };
 					selected = null;
 					pickerKey = '';

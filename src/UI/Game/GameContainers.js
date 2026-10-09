@@ -4,7 +4,11 @@ import Equipment from 'UI/Components/Equipment/Equipment.js';
 import Storage from 'UI/Components/Storage/Storage.js';
 import Cart from 'UI/Components/CartItems/CartItems.js';
 import { createGameInventory } from './GameInventory.js';
+import { storageTransferStatus } from './StorageTransfer.js';
 import { interactionSnapshot } from './ServerInteraction.js';
+
+const identity = item =>
+	JSON.stringify([item.ITID, item.RefiningLevel, item.enchantgrade, item.slot, item.Options, item.IsIdentified]);
 
 export function createGameContainers(canOperate) {
 	const inventory = createGameInventory(canOperate);
@@ -33,18 +37,22 @@ export function createGameContainers(canOperate) {
 			const containers = sources();
 			return {
 				containers,
-				allowed: Boolean(available()),
+				storageCapacity: containers.includes('storage') ? Storage.getUI().getCapacity() : null,
+				allowed: Boolean(available() && containers.includes(source)),
+				pending: Boolean(interactionSnapshot()?.storageTransfer?.pending),
+				transferStatus: storageTransferStatus(),
 				items: containers.includes(source)
 					? raw(source)
-							.map(inventory.describe)
+							.map(item => ({ ...inventory.describe(item), identity: identity(item) }))
 							.filter(item => item.count > 0)
 					: [],
 				capacity:
 					source === 'storage' ? Storage.getUI().getCapacity() : source === 'cart' ? Cart.capacity : null
 			};
 		},
-		transfer(source, destination, index, id, count) {
+		transfer(source, destination, index, id, count, expectedIdentity) {
 			const containers = sources();
+			if (interactionSnapshot()?.storageTransfer?.pending) return storageTransferStatus();
 			if (
 				!available() ||
 				source === destination ||
@@ -55,6 +63,7 @@ export function createGameContainers(canOperate) {
 			const item = raw(source).find(entry => entry.index === index && entry.ITID === id);
 			if (
 				!item ||
+				identity(item) !== expectedIdentity ||
 				!Number.isInteger(count) ||
 				count < 1 ||
 				count > 2147483647 ||
@@ -69,6 +78,17 @@ export function createGameContainers(canOperate) {
 				'inventory:cart': Inventory.getUI().reqMoveItemToCart,
 				'cart:inventory': Cart.reqRemoveItem
 			};
+			if (source === 'storage' || destination === 'storage') {
+				interactionSnapshot().storageTransfer = {
+					source,
+					destination,
+					index,
+					id,
+					count,
+					pending: true,
+					started: Date.now()
+				};
+			}
 			routes[`${source}:${destination}`](index, count);
 			return '已请求转移，等待服务器更新';
 		}

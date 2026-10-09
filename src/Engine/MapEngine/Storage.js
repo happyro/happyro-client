@@ -1,3 +1,4 @@
+import { acknowledgeStorageTransfer } from 'UI/Game/StorageTransfer.js';
 import Inventory from 'UI/Components/Inventory/Inventory.js';
 import Equipment from 'UI/Components/Equipment/Equipment.js';
 import CartItems from 'UI/Components/CartItems/CartItems.js';
@@ -87,6 +88,7 @@ function onStorageList(pkt) {
  */
 function onStorageItemAdded(pkt) {
 	Storage.getUI().addItem(Object.assign({}, pkt));
+	acknowledgeStorageTransfer('add', pkt);
 }
 
 /**
@@ -95,7 +97,8 @@ function onStorageItemAdded(pkt) {
  * @param {object} pkt - PACKET.ZC.DELETE_ITEM_FROM_STORE
  */
 function onStorageItemRemoved(pkt) {
-	Storage.getUI().removeItem(pkt.index, pkt.count);
+	if (pkt.count > 0) Storage.getUI().removeItem(pkt.index, pkt.count);
+	acknowledgeStorageTransfer('remove', pkt);
 }
 
 /**

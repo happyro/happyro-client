@@ -1,13 +1,32 @@
+import { interactionReview, interactionFooter, inputDraft } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 import { setListItemText } from './ListItemText.js';
 
 export function createVendingPanel(body, service) {
 	body.innerHTML =
-		'<div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"><div data-fields></div><div data-selected></div><div data-order></div><button data-submit></button><button data-cancel>取消开店</button></section></div>';
+		'<div class="inventory-layout"><div class="inventory-list"></div><section class="inventory-detail"><div data-fields></div><div data-selected></div><div data-order></div></section></div>';
 	const feedback = createFeedback(body);
 	const $ = selector => body.querySelector(selector),
 		nodes = new Map();
+	const { footer, status } = interactionFooter(body);
+	for (const [key, text] of [
+		['submit', '核对开店'],
+		['cancel', '取消开店']
+	]) {
+		const b = document.createElement('button');
+		b.type = 'button';
+		b.dataset[key] = '';
+		b.textContent = text;
+		footer.append(b);
+	}
+	let draft, amountInput, priceInput;
+	function ready() {
+		if (!draft?.dirty()) return true;
+		feedback('数量或单价尚未保存，请先保存或撤销修改', 'error');
+		draft.focus();
+		return false;
+	}
 	let selected = null,
 		key = '';
 	const initial = service.snapshot();
@@ -17,15 +36,32 @@ export function createVendingPanel(body, service) {
 		$('[data-fields]').innerHTML =
 			'<label>摊位名称<input data-title maxlength="24"></label><label data-budget-label>收购预算<input data-budget type="number" min="1" step="1"></label>';
 		$('[data-budget-label]').hidden = initial.mode !== 'buy';
+		$('[data-title]').required = true;
+		$('[data-budget]').required = initial.mode === 'buy';
+		$('[data-budget]').setAttribute('aria-label', '收购预算');
+		$('[data-title]').setAttribute('aria-label', '摊位名称');
 		$('[data-fields]').oninput = () => {
 			update();
 		};
 	}
 	$('[data-submit]').onclick = () => {
+		if (!ready()) return;
 		const snapshot = service.snapshot();
+		if (
+			!snapshot.owned &&
+			(!$('[data-title]').reportValidity() || (snapshot.mode === 'buy' && !$('[data-budget]').reportValidity()))
+		)
+			return;
 		const signature = JSON.stringify(snapshot.order);
 		const title = $('[data-title]')?.value,
 			budget = Number($('[data-budget]')?.value);
+		const rows = snapshot.owned ? snapshot.items : snapshot.order;
+		const content = interactionReview(
+			rows.map(row => `${row.name} × ${row.count} · 单价 ${row.price} Zeny`),
+			snapshot.owned
+				? '关闭后停止摆摊'
+				: `合计：${snapshot.total} Zeny${snapshot.mode === 'buy' ? '\n收购预算：' + budget + ' Zeny' : ''}`
+		);
 		confirmAction(
 			body,
 			snapshot.owned ? '确认关闭摊位？' : `确认开店「${title}」？`,
@@ -38,12 +74,21 @@ export function createVendingPanel(body, service) {
 				feedback(result, ['已请求关闭摊位', '等待服务器开店结果'].includes(result) ? 'info' : 'error');
 				update();
 			},
-			{}
+			{ content }
 		);
 	};
 	function update() {
 		const state = service.snapshot();
 		$('[data-cancel]').disabled = Boolean(state.pending);
+		status.textContent = state.pending
+			? '等待服务器回复…'
+			: draft?.dirty()
+				? '数量或单价已修改，尚未保存'
+				: state.owned
+					? '摊位营业中'
+					: `已选 ${state.order.length}/${state.slots} 栏`;
+		for (const field of $('[data-fields]').querySelectorAll('input')) field.disabled = !state.allowed;
+		if ($('[data-budget]')) $('[data-budget]').max = String(Math.min(state.money ?? 2147483647, 2147483647));
 		for (const [id, node] of nodes)
 			if (!state.items.some(item => item.index === id)) {
 				node.remove();
@@ -55,6 +100,7 @@ export function createVendingPanel(body, service) {
 				node = document.createElement('button');
 				node.className = 'inventory-item';
 				node.onclick = () => {
+					if (!ready()) return;
 					selected = item.index;
 					key = '';
 					update();
@@ -62,26 +108,31 @@ export function createVendingPanel(body, service) {
 				nodes.set(item.index, node);
 				$('.inventory-list').append(node);
 			}
+			node.disabled = !state.allowed;
 			setListItemText(node, item.name, `× ${item.count}${state.owned ? ' · ' + item.price + ' Zeny' : ''}`);
 			node.setAttribute('aria-pressed', String(selected === item.index));
 		}
 		const item = state.items.find(row => row.index === selected),
-			next = JSON.stringify([item && { ...item, icon: undefined }, state.allowed]);
+			next = JSON.stringify([item?.index, item?.ID, item?.identity, state.owned]);
 		if (next !== key) {
 			key = next;
 			const panel = $('[data-selected]');
 			panel.replaceChildren();
+			draft = null;
 			if (item) {
 				const description = document.createElement('p');
 				description.className = 'item-description';
 				description.textContent = item.description;
 				const title = document.createElement('h3');
 				title.textContent = item.name;
-				panel.append(title, description);
+				panel.append(title);
 				if (!state.owned) {
 					const amount = document.createElement('input'),
 						price = document.createElement('input');
+					amountInput = amount;
+					priceInput = price;
 					for (const input of [amount, price]) {
+						input.required = true;
 						input.type = 'number';
 						input.min = '0';
 						input.step = '1';
@@ -91,19 +142,46 @@ export function createVendingPanel(body, service) {
 					price.value = String(item.price);
 					price.setAttribute('aria-label', '单价');
 					const button = document.createElement('button');
-					button.textContent = '保存数量与单价（数量 0 移除）';
+					button.textContent = '保存数量与单价';
+					const hint = document.createElement('p');
+					hint.textContent = '数量设为 0 可移除商品';
 					button.disabled = !state.allowed;
 					button.onclick = () => {
-						feedback(
-							service.set(item.index, item.identity, Number(amount.value), Number(price.value)),
-							'error'
-						);
+						if (!amount.reportValidity() || !price.reportValidity()) return;
+						const error = service.set(item.index, item.identity, Number(amount.value), Number(price.value));
+						if (error) feedback(error, 'error');
+						else {
+							draft.accept();
+							feedback('数量与单价已保存', 'success');
+						}
 						update();
 					};
-					panel.append(amount, price, button);
+					const revert = document.createElement('button');
+					revert.type = 'button';
+					revert.textContent = '撤销修改';
+					revert.dataset.revertVending = '';
+					revert.onclick = () => draft.reset();
+					for (const [text, field] of [
+						['数量', amount],
+						['单价（Zeny）', price]
+					]) {
+						const label = document.createElement('label');
+						label.className = 'interaction-field';
+						label.append(text, field);
+						panel.append(label);
+					}
+					panel.append(button, revert, hint);
+					draft = inputDraft([amount, price], update);
 				}
+				panel.append(description);
 			} else panel.textContent = '点选物品查看详情';
 		}
+		if (item && !state.owned && amountInput) {
+			amountInput.max = String(state.mode === 'sell' ? Math.min(item.count, 32767) : 9999);
+			priceInput.max = '2147483647';
+		}
+		for (const control of $('[data-selected]').querySelectorAll('input,button')) control.disabled = !state.allowed;
+		if ($('[data-revert-vending]')) $('[data-revert-vending]').hidden = !draft?.dirty();
 		$('[data-order]').textContent = state.owned
 			? `剩余预算：${state.budget ?? '—'}\n${state.log.join('\n')}`
 			: `${state.order.length}/${state.slots} 栏 · 合计 ${state.total} Zeny\n` +

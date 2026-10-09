@@ -1,11 +1,7 @@
 :host([data-menu-density]) .panel[data-view='shop'] {
-	--shop-text: 14px;
-	--shop-control: 40px;
+	--shop-text: var(--interaction-text);
+	--shop-control: var(--interaction-control);
 	font-size: var(--shop-text);
-}
-:host([data-menu-density='spacious']) .panel[data-view='shop'] {
-	--shop-text: 16px;
-	--shop-control: 44px;
 }
 :host([data-menu-density]) .panel[data-view='shop'] .inventory-layout {
 	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);

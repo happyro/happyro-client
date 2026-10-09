@@ -1,3 +1,4 @@
+import { interactionReview, interactionFooter } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 export function createSelectionPanel(body, service) {
@@ -8,11 +9,15 @@ export function createSelectionPanel(body, service) {
 		list = $('.inventory-list'),
 		detail = $('.inventory-detail');
 	let selected = null,
-		key = '';
+		key = '',
+		editingId = null;
 	const nodes = new Map();
+	const { footer, status } = interactionFooter(body);
 	function update() {
 		const state = service.snapshot();
-		$('[data-warning]').textContent = state.warning;
+		$('[data-warning]').textContent = state.warning || '';
+		$('[data-warning]').hidden = !state.warning;
+		status.textContent = state.allowed ? '选择条目后核对确认' : '当前不可操作，请等待服务器回复';
 		for (const entry of state.entries) {
 			let b = nodes.get(entry.id);
 			if (!b) {
@@ -45,10 +50,14 @@ export function createSelectionPanel(body, service) {
 			preview.hidden = !entry.icon;
 			if (entry.icon) preview.src = entry.icon;
 		}
-		const next = JSON.stringify([entry && { ...entry, icon: undefined }, state.allowed]);
+		const next = JSON.stringify([entry && { ...entry, icon: undefined }, state.allowed, state.materials]);
 		if (next === key) return;
 		key = next;
+		const previous =
+			editingId === selected ? [...detail.querySelectorAll('select')].map(select => select.value) : [];
+		editingId = selected;
 		detail.replaceChildren();
+		footer.querySelector('button')?.remove();
 		if (!entry) {
 			detail.textContent = state.entries.length ? '点选条目后确认' : '没有可选条目';
 			return;
@@ -66,6 +75,9 @@ export function createSelectionPanel(body, service) {
 				select.add(new Option('不使用附加材料', '0'));
 				for (const material of state.materials)
 					select.add(new Option(`${material.name} × ${material.count}`, material.id));
+				if ([...select.options].some(option => option.value === previous[index]))
+					select.value = previous[index];
+				select.disabled = !state.allowed;
 				materials.push(select);
 				detail.append(select);
 			}
@@ -75,13 +87,23 @@ export function createSelectionPanel(body, service) {
 		button.disabled = !state.allowed;
 		button.onclick = () => {
 			const chosen = materials.map(select => Number(select.value)).filter(Boolean);
+			const content = interactionReview(
+				[
+					entry.description || entry.name,
+					...materials
+						.filter(select => select.value !== '0')
+						.map(select => select.selectedOptions[0].textContent)
+				],
+				`选择：${entry.name}`,
+				state.warning || ''
+			);
 			confirmAction(
 				body,
 				`确认选择「${entry.name}」？`,
 				() => {
 					feedback(service.choose(entry.id, chosen), 'error');
 				},
-				{}
+				{ content }
 			);
 		};
 		if (entry.preview) {
@@ -93,7 +115,9 @@ export function createSelectionPanel(body, service) {
 			if (entry.icon) img.src = entry.icon;
 			detail.append(img);
 		}
-		detail.append(title, description, button);
+		detail.prepend(title);
+		detail.append(description);
+		footer.append(button);
 	}
 	update();
 	return { update };

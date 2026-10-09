@@ -1,3 +1,4 @@
+import { interactionReview, interactionFooter } from './InteractionPanel.js';
 import { confirmAction } from 'UI/Components/Confirmation.js';
 import { createFeedback } from 'UI/Components/Feedback.js';
 export function createRefinementPanel(body, service) {
@@ -8,10 +9,12 @@ export function createRefinementPanel(body, service) {
 		list = $('.inventory-list'),
 		detail = $('.inventory-detail'),
 		nodes = new Map();
-	let key = '';
+	const { footer, status } = interactionFooter(body);
+	let key = '',
+		editingId = '';
 	function update() {
 		const state = service.snapshot();
-		feedback.update(state.message, state.messageKind);
+		status.textContent = state.message || (state.pending ? '等待服务器结果…' : '请选择装备和材料');
 		const ids = new Set(state.items.map(item => item.index));
 		for (const [id, node] of nodes)
 			if (!ids.has(id)) {
@@ -35,6 +38,7 @@ export function createRefinementPanel(body, service) {
 			}
 			button.textContent = item.name;
 			button.disabled = !state.allowed;
+			button.setAttribute('aria-pressed', String(state.selected?.index === item.index));
 		}
 		const next = JSON.stringify([
 			state.selected,
@@ -46,7 +50,18 @@ export function createRefinementPanel(body, service) {
 		]);
 		if (key === next) return;
 		key = next;
+		const identity = JSON.stringify(state.selected);
+		const previous =
+			identity === editingId
+				? {
+						material: detail.querySelector('select')?.value,
+						blessing: detail.querySelector('input')?.value,
+						checked: detail.querySelector('input')?.checked
+					}
+				: {};
+		editingId = identity;
 		detail.replaceChildren();
+		footer.querySelector('button')?.remove();
 		if (!state.offer) {
 			detail.textContent = '请选择装备';
 			return;
@@ -62,24 +77,32 @@ export function createRefinementPanel(body, service) {
 					material.index
 				)
 			);
+		if ([...materials.options].some(option => option.value === previous.material))
+			materials.value = previous.material;
+		materials.disabled = !state.allowed;
 		const chance = document.createElement('p');
 		const blessing = document.createElement('input');
 		blessing.type = 'number';
 		blessing.min = '0';
 		blessing.step = '1';
-		blessing.value = '0';
+		blessing.value = previous.blessing ?? '0';
+		blessing.required = true;
 		blessing.setAttribute('aria-label', '祝福次数');
 		let protection;
 		if (state.kind === 'refine') {
 			blessing.type = 'checkbox';
+			blessing.required = false;
 			blessing.setAttribute('aria-label', '使用铁匠的祝福');
-			blessing.disabled = !state.offer.blacksmithBlessing;
+			blessing.checked = Boolean(previous.checked && state.offer.blacksmithBlessing);
+			blessing.disabled = !state.allowed || !state.offer.blacksmithBlessing;
 			protection = `使用铁匠的祝福：${state.offer.blacksmithBlessing || 0} 个`;
 		} else {
 			blessing.max = state.offer.blessing_info?.max_blessing || 0;
+			blessing.disabled = !state.allowed;
 			protection = `祝福次数（每次消耗 ${state.offer.blessing_info?.amount || 0} 个，最多 ${blessing.max} 次）`;
 		}
 		const label = document.createElement('label');
+		label.className = 'interaction-field';
 		label.textContent = protection;
 		label.append(blessing);
 		const confirm = document.createElement('button');
@@ -108,14 +131,28 @@ export function createRefinementPanel(body, service) {
 		details();
 		confirm.disabled = !state.allowed || !state.materials.length;
 		confirm.onclick = () => {
+			if (!blessing.reportValidity()) return;
 			const choice = selected();
-			const signature = JSON.stringify([state.selected, state.offer]);
+			const terms = value => [value.selected, value.offer, value.materials.map(({ owned, ...row }) => row)];
+			const signature = JSON.stringify(terms(state));
+			const material = state.materials.find(row => row.index === choice.material);
+			const item = state.items.find(row => row.index === state.selected?.index);
+			const content = interactionReview(
+				[
+					`装备：${item?.name || '已选装备'}`,
+					`材料：${material?.name} × ${material?.amount ?? 1}`,
+					`祝福：${choice.blessing}`,
+					chance.textContent
+				],
+				`费用：${material?.zeny ?? material?.price ?? 0} Zeny`,
+				warning.textContent
+			);
 			confirmAction(
 				body,
 				'确认强化？',
 				() => {
 					const current = service.snapshot();
-					if (JSON.stringify([current.selected, current.offer]) !== signature) {
+					if (JSON.stringify(terms(current)) !== signature) {
 						feedback('强化内容已变化，请重新核对', 'error');
 						return;
 					}
@@ -127,10 +164,11 @@ export function createRefinementPanel(body, service) {
 					key = '';
 					update();
 				},
-				{}
+				{ content }
 			);
 		};
-		detail.append(warning, materials, chance, label, confirm);
+		detail.append(warning, materials, chance, label);
+		footer.append(confirm);
 	}
 	update();
 	return { update };

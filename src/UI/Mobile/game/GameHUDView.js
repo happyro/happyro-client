@@ -1,3 +1,6 @@
+import interactionCSS from './InteractionPanel.css?raw';
+import interactionPhoneCSS from './InteractionPhone.css?raw';
+import interactionTabletCSS from './InteractionTablet.css?raw';
 import { createChatPreview } from './ChatPreview.js';
 import chatPreviewCSS from './ChatPreview.css?raw';
 import menuLayoutCSS from './MenuLayout.css?raw';
@@ -57,6 +60,9 @@ ${mailCSS}
 ${menuLayoutCSS}
 ${npcCSS}
 ${shopCSS}
+${interactionCSS}
+${interactionPhoneCSS}
+${interactionTabletCSS}
 ${chatPreviewCSS}</style>${html}`;
 	const $ = selector => root.querySelector(selector);
 	const abort = new AbortController();
@@ -232,6 +238,20 @@ ${chatPreviewCSS}</style>${html}`;
 		if (!currentPanel) lastTrigger = root.activeElement;
 		currentPanel = panel;
 		$('.panel').dataset.view = panel;
+		$('.panel').classList.toggle(
+			'interaction-panel',
+			[
+				'materials',
+				'transformation',
+				'refinement',
+				'enchant',
+				'selection',
+				'trade',
+				'vending',
+				'storage',
+				'cart'
+			].includes(panel)
+		);
 		backdropPointer = null;
 		dismissBackdrop = false;
 		backdrop.hidden = false;
@@ -334,6 +354,7 @@ ${chatPreviewCSS}</style>${html}`;
 		backdrop.classList.toggle('chat-backdrop', panel === 'chat');
 		if (panel === 'information') {
 			const list = document.createElement('dl');
+			list.className = 'interaction-information';
 			for (const [label, value] of serverState.rows) {
 				const term = document.createElement('dt'),
 					description = document.createElement('dd');

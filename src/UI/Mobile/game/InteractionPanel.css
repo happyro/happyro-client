@@ -1,0 +1,186 @@
+/* Structure and colors only. Phone and tablet geometry live in separate files. */
+.interaction-footer {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-shrink: 0;
+	border-top: 1px solid #52606d;
+	padding-top: 10px;
+}
+.interaction-status {
+	flex: 1;
+	min-width: 0;
+	color: #bac4cd;
+	overflow-wrap: anywhere;
+}
+.interaction-footer > button {
+	flex-shrink: 0;
+}
+.interaction-panel .inventory-detail {
+	overflow-wrap: anywhere;
+}
+.interaction-panel .interaction-form {
+	display: flex;
+	align-items: end;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.interaction-panel .interaction-form > label {
+	flex-basis: 100%;
+	display: grid;
+	gap: var(--panel-gap);
+}
+.interaction-panel .interaction-field,
+.interaction-panel [data-fields] > label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 10px 0;
+}
+.interaction-panel label > input:not([type='checkbox']) {
+	flex: 1;
+	min-width: 0;
+}
+.interaction-panel [data-order],
+.interaction-panel [data-picker] p {
+	white-space: pre-line;
+	line-height: 1.6;
+}
+.trade-offers > div {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.trade-offers button {
+	text-align: left;
+	overflow-wrap: anywhere;
+}
+.interaction-panel [data-warning] {
+	flex-shrink: 0;
+	max-height: 22%;
+	overflow: auto;
+}
+.interaction-information {
+	display: grid;
+	margin: 0;
+	gap: 8px 12px;
+}
+.interaction-information dt {
+	overflow-wrap: anywhere;
+	color: #bac4cd;
+}
+.interaction-information dd {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+.interaction-panel .ui-confirm-body:has(.interaction-review) {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+.interaction-panel .ui-confirm-body:has(.interaction-review) > p {
+	flex-shrink: 0;
+	margin-bottom: 8px;
+	max-height: 30%;
+	overflow: auto;
+}
+.interaction-review {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	gap: 10px;
+}
+.interaction-review-lines {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: auto;
+	overscroll-behavior: contain;
+}
+.interaction-review-lines p {
+	white-space: pre-line;
+	overflow-wrap: anywhere;
+}
+.interaction-review-summary {
+	flex-shrink: 0;
+	white-space: pre-line;
+	border-top: 1px solid #52606d;
+	padding-top: 8px;
+	overflow-wrap: anywhere;
+}
+.interaction-warning {
+	color: #e6c28b;
+	margin: 6px 0 0;
+}
+.interaction-panel [data-revert-vending],
+.interaction-panel [data-revert-quantity],
+.interaction-panel [data-revert-money] {
+	color: #ceaa70;
+}
+
+:host([data-menu-density]) .panel[data-view='information'] h2 {
+	font-size: var(--interaction-title);
+}
+:host([data-menu-density]) .panel[data-view='information'] button {
+	font-size: var(--interaction-text);
+	min-height: var(--interaction-control);
+}
+
+.interaction-panel .inventory-detail .menu-select + .menu-select,
+.interaction-panel .inventory-detail .menu-select + input,
+.interaction-panel .inventory-detail input:not([type='hidden']) + button,
+.interaction-panel .trade-editor [data-picker] {
+	margin-top: var(--panel-gap);
+}
+
+/* Storage shares control tokens with the other interaction menus. */
+.panel .warehouse-body .container-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--panel-gap);
+	flex-shrink: 0;
+}
+.panel .warehouse-body .storage-modes {
+	display: flex;
+	gap: 4px;
+	flex: 0 0 auto;
+}
+.panel .warehouse-body .storage-modes button[aria-pressed='true'] {
+	background: #47647a;
+	border-color: #91b8d5;
+	color: #fff;
+}
+.panel .warehouse-body .container-source[hidden] {
+	display: none;
+}
+.panel .container-toolbar .container-source {
+	flex: 1 1 90px;
+	min-width: 0;
+}
+.panel .warehouse-body .container-capacity {
+	margin-left: auto;
+}
+.panel .warehouse-body .container-toolbar > input[type='search'] {
+	flex: 1 1 100%;
+	min-width: 0;
+	margin: 0;
+}
+.panel .container-form {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--panel-gap);
+	margin: 10px 0;
+}
+.panel .container-form > label {
+	display: grid;
+	align-content: start;
+	gap: 6px;
+	min-width: 0;
+	font-size: var(--interaction-caption);
+	color: #bac4cd;
+}
+.panel .container-empty {
+	padding: var(--panel-gap);
+	color: #bac4cd;
+	line-height: 1.6;
+}

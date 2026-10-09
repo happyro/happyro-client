@@ -1,10 +1,14 @@
 /* Shared mobile menu dimensions, typography and control density. */
 :host {
+	--interaction-text: 14px;
+	--interaction-title: 16px;
+	--interaction-control: 40px;
+	--interaction-caption: 12px;
 	--npc-width: 520px;
 	--npc-max-height: 80%;
-	--npc-text: 14px;
-	--npc-title: 16px;
-	--npc-control: 40px;
+	--npc-text: var(--interaction-text);
+	--npc-title: var(--interaction-title);
+	--npc-control: var(--interaction-control);
 	--npc-image-height: 140px;
 	--menu-standard-width: 1040px;
 	--menu-standard-height: 640px;
@@ -32,11 +36,15 @@
 	--panel-item-image: 96px;
 }
 :host([data-menu-density='spacious']) {
+	--interaction-text: 16px;
+	--interaction-title: 18px;
+	--interaction-control: 44px;
+	--interaction-caption: 14px;
 	--npc-width: 640px;
 	--npc-max-height: min(520px, 80%);
-	--npc-text: 16px;
-	--npc-title: 18px;
-	--npc-control: 44px;
+	--npc-text: var(--interaction-text);
+	--npc-title: var(--interaction-title);
+	--npc-control: var(--interaction-control);
 	--npc-image-height: 200px;
 	--menu-edge-x: 24px;
 	--menu-edge-y: 24px;
