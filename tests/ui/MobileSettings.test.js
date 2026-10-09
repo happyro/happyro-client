@@ -127,3 +127,14 @@ it('keeps layout drafts independent and follows the host scene while settings ar
  expect(stored.chatPreviewCompactLines).toBe(2);expect(stored.chatPreviewSpaciousLines).toBe(8);
  dispose();
 });
+
+it('auto-saves pickup without applying graphics drafts and flushes pending numbers when closing', () => {
+ const body=document.body.appendChild(document.createElement('div'));
+ const dispose=createSettingsPanel(body,{fields:graphicsFields,snapshot:settingsSnapshot,save:saveGameSettings},'拾取');
+ expect(body.querySelector('.settings-footer').hidden).toBe(true);
+ const quality=body.querySelector('[data-setting=quality]');quality.value='100';quality.dispatchEvent(new Event('input'));
+ const toggle=body.querySelector('[data-pickup=enabled]');toggle.checked=true;toggle.dispatchEvent(new Event('input'));
+ expect(settingsSnapshot().pickup.enabled).toBe(true);expect(s.graphics.quality).toBe(25);expect(s.graphics.save).not.toHaveBeenCalled();
+ const range=body.querySelector('[data-pickup=range]');range.value='12';range.dispatchEvent(new Event('input'));
+ dispose();expect(settingsSnapshot().pickup.range).toBe(12);expect(s.graphics.save).not.toHaveBeenCalled();
+});

@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+vi.mock('../../src/UI/Components/GameTools/AdventureControlService.js', () => ({ searchAdventureItems: vi.fn() }));
+import { pickupDefaults, validPickupSettings } from '../../src/UI/Game/PickupSettings.js';
 import { createAutoCombatView } from '../../src/UI/Components/AutoCombat/AutoCombatView.js';
-let view, root, state, actions;
+let view, root, state, actions, pickup, saved;
 beforeEach(() => {
 	const host = document.createElement('div'); document.body.append(host);
 	root = host.attachShadow({ mode: 'open' });
@@ -12,37 +14,40 @@ beforeEach(() => {
 		targets: () => [{ species: 1002, name: '波利' }],
 		skills: () => [{ id: 5, name: '狂击', level: 3 }], configure: vi.fn(() => true)
 	};
-	view = createAutoCombatView(root, actions);
+	saved = pickupDefaults();
+ pickup = { load: () => structuredClone(saved), save: vi.fn(value => { if (!validPickupSettings(value)) return false; saved = structuredClone(value); return true; }) };
+ view = createAutoCombatView(root, actions, pickup);
 });
 afterEach(() => { view.destroy(); document.body.replaceChildren(); });
 const click = selector => root.querySelector(selector).click();
 it('offers a visible start/stop control with live status and accessible state', () => {
-	click('[data-toggle]'); expect(actions.start).toHaveBeenCalledOnce();
+	click('[data-settings]'); click('[data-toggle]'); expect(actions.start).toHaveBeenCalledOnce();
 	expect(root.querySelector('[data-toggle]').getAttribute('aria-pressed')).toBe('true');
 	expect(root.querySelector('[data-status]').textContent).toBe('寻找附近目标');
 	click('[data-toggle]'); expect(actions.stop).toHaveBeenCalledOnce();
-	expect(root.querySelector('[data-toggle]').textContent).toBe('自动战斗');
+	expect(root.querySelector('[data-toggle]').textContent).toBe('开始战斗');
 });
 it('uses the shared species, skill and range editor and saves without starting combat', () => {
-	click('[data-settings]'); expect(view.isOpen()).toBe(true); expect(actions.stop).toHaveBeenCalledOnce();
+	click('[data-settings]'); expect(view.isOpen()).toBe(true); expect(actions.stop).not.toHaveBeenCalled();
 	click('[data-species="1002"]'); root.querySelector('[data-auto-skills] [data-skill="5"]').click();
-	click('[data-range="search"][data-delta="1"]'); click('[data-save-auto]');
-	expect(actions.configure).toHaveBeenCalledExactlyOnceWith([{ id: 1002, name: '波利' }], [5], { search: 21, activity: 30 }, { enabled: false, waitSeconds: 5, intervalSeconds: 2 });
-	expect(view.isOpen()).toBe(false); expect(actions.start).not.toHaveBeenCalled();
+	click('[data-range="search"][data-delta="1"]');
+	expect(actions.configure).toHaveBeenLastCalledWith([{ id: 1002, name: '波利' }], [5], { search: 21, activity: 30 }, { enabled: false, waitSeconds: 5, intervalSeconds: 2 });
+	expect(view.isOpen()).toBe(true); expect(actions.start).not.toHaveBeenCalled();
+ click('[data-close]');
 	expect(root.activeElement).toBe(root.querySelector('[data-settings]'));
 });
 it('cancels unsaved settings with Escape and keeps keyboard focus inside the dialog', () => {
 	click('[data-settings]');
 	root.querySelector('[data-close]').dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true, cancelable: true }));
-	expect(root.activeElement).toBe(root.querySelector('[data-save-auto]'));
+	expect(root.activeElement).toBe(root.querySelector('[data-skill="5"]'));
 	root.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
 	expect(view.isOpen()).toBe(false); expect(actions.configure).not.toHaveBeenCalled();
 });
 it('reports a rejected start and retains unsaved settings after persistence failure', () => {
-	actions.start.mockReturnValue(false); click('[data-toggle]');
+	actions.start.mockReturnValue(false); click('[data-settings]'); click('[data-toggle]');
 	expect(root.querySelector('[data-status]').textContent).toBe('当前不能开始自动战斗');
-	click('[data-settings]'); actions.configure.mockReturnValue(false); click('[data-save-auto]');
-	expect(view.isOpen()).toBe(true); expect(document.querySelector('.ui-toast').textContent).toContain('保存失败');
+	click('[data-settings]'); actions.configure.mockReturnValue(false); click('[data-range="search"][data-delta="1"]');
+	expect(view.isOpen()).toBe(true); expect(root.querySelector('[data-auto-save-status]').textContent).toContain('保存失败');
 });
 
 it('does not forward dialog keystrokes to gameplay shortcuts', () => {
@@ -53,4 +58,23 @@ it('does not forward dialog keystrokes to gameplay shortcuts', () => {
 		root.querySelector('[data-close]').dispatchEvent(new KeyboardEvent('keydown', { key: 'F1', bubbles: true, composed: true }));
 		expect(gameplay).not.toHaveBeenCalled();
 	} finally { window.removeEventListener('keydown', gameplay); }
+});
+
+it('keeps combat running when opening the editor', () => {
+ actions.start(); view.open(); expect(state.active).toBe(true); expect(actions.stop).not.toHaveBeenCalled();
+});
+it('saves changes immediately and closes without confirmation', () => {
+ view.open(); click('[data-range="search"][data-delta="1"]');
+ click('[data-tab="pickup"]');
+ const toggle=root.querySelector('[data-pickup="enabled"]'); toggle.checked=true; toggle.dispatchEvent(new Event('input'));
+ expect(saved.enabled).toBe(true); click('[data-close]'); expect(view.isOpen()).toBe(false);
+ view.open(); expect(root.querySelector('[data-pickup="enabled"]').checked).toBe(true);
+});
+it('flushes numeric changes on close and preserves the last valid value for invalid input', () => {
+ view.open(); click('[data-tab="pickup"]');
+ const toggle=root.querySelector('[data-pickup="enabled"]'); toggle.checked=true; toggle.dispatchEvent(new Event('input'));
+ const range=root.querySelector('[data-pickup="range"]'); range.value='99'; range.dispatchEvent(new Event('input'));
+ expect(saved.range).toBe(5); expect(range.getAttribute('aria-invalid')).toBe('true');
+ range.value='8'; range.dispatchEvent(new Event('input')); click('[data-close]'); expect(saved.range).toBe(8);
+ expect(actions.configure).not.toHaveBeenCalled(); expect(view.isOpen()).toBe(false);
 });

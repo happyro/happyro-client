@@ -1,9 +1,54 @@
-import { pickupCategories } from './PickupSettings.js';
+import { pickupCategories, savePickupSettings, validPickupSettings } from './PickupSettings.js';
 import { searchAdventureItems } from 'UI/Components/GameTools/AdventureControlService.js';
 
-/** Edits the settings draft; saving is owned by the enclosing settings panel. */
-export function createPickupSettingsPanel(section, draft) {
+/** Shared pickup editor with immediate switches and debounced numeric persistence. */
+export function createPickupSettingsPanel(section, draft, persist = savePickupSettings) {
 	section.classList.add('pickup-section');
+	let timer;
+	const status = document.createElement('span');
+	status.className = 'pickup-save-status';
+	status.setAttribute('role', 'status');
+	status.textContent = '修改后自动保存';
+	const retry = document.createElement('button');
+	retry.type = 'button';
+	retry.textContent = '重试';
+	retry.hidden = true;
+	function save() {
+		clearTimeout(timer);
+		timer = undefined;
+		const valid = validPickupSettings(draft);
+		const ok = valid && persist(structuredClone(draft)) !== false;
+		const invalidInput = section.querySelector('[aria-invalid="true"]');
+		status.textContent = ok
+			? invalidInput
+				? '数值无效，保留上次有效配置'
+				: '已保存'
+			: valid
+				? '保存失败，请重试'
+				: '数值无效，保留上次有效配置';
+		status.dataset.error = String(!ok || !!invalidInput);
+		retry.hidden = ok || !valid;
+		return ok;
+	}
+	retry.onclick = save;
+	function numeric(input) {
+		const changed = input.oninput;
+		input.oninput = () => {
+			clearTimeout(timer);
+			if (input.validity.valid) changed();
+			input.setAttribute('aria-invalid', String(!input.validity.valid));
+			status.textContent = input.validity.valid ? '等待保存…' : '数值无效，保留上次有效配置';
+			status.dataset.error = String(!input.validity.valid);
+			if (input.validity.valid) timer = setTimeout(save, 400);
+		};
+		input.onblur = save;
+		input.onkeydown = event => {
+			if (event.key === 'Enter') {
+				event.preventDefault();
+				save();
+			}
+		};
+	}
 	const label = (text, input) => {
 		const row = document.createElement('label');
 		row.className = 'settings-field';
@@ -23,6 +68,7 @@ export function createPickupSettingsPanel(section, draft) {
 	enabled.oninput = () => {
 		draft.enabled = enabled.checked;
 		controls.disabled = !draft.enabled;
+		save();
 	};
 	const limits = document.createElement('div');
 	limits.className = 'pickup-limits';
@@ -37,6 +83,8 @@ export function createPickupSettingsPanel(section, draft) {
 	range.oninput = () => {
 		draft.range = Number(range.value);
 	};
+	range.required = true;
+	numeric(range);
 	limits.append(label('拾取范围（格）', range));
 	const batchSeconds = document.createElement('input');
 	batchSeconds.type = 'number';
@@ -48,6 +96,8 @@ export function createPickupSettingsPanel(section, draft) {
 	batchSeconds.oninput = () => {
 		draft.batchSeconds = Number(batchSeconds.value);
 	};
+	batchSeconds.required = true;
+	numeric(batchSeconds);
 	limits.append(label('每轮拾取最长时间（秒）', batchSeconds));
 	const batchHelp = document.createElement('p');
 	batchHelp.className = 'pickup-note';
@@ -66,6 +116,7 @@ export function createPickupSettingsPanel(section, draft) {
 			draft.categories = pickupCategories
 				.map(([key]) => key)
 				.filter(key => categories.querySelector(`[data-category="${key}"]`).checked);
+			save();
 		};
 		categories.append(label(text, input));
 	}
@@ -111,6 +162,7 @@ export function createPickupSettingsPanel(section, draft) {
 				button('移除', () => {
 					draft.excluded = draft.excluded.filter(entry => entry.id !== item.id);
 					renderExcluded();
+					save();
 				})
 			);
 			excluded.append(row);
@@ -152,6 +204,7 @@ export function createPickupSettingsPanel(section, draft) {
 				const add = button('排除', () => {
 					if (!draft.excluded.some(entry => entry.id === item.Id)) draft.excluded.push({ id: item.Id, name });
 					renderExcluded();
+					save();
 					add.disabled = true;
 				});
 				add.dataset.excludeId = String(item.Id);
@@ -185,5 +238,18 @@ export function createPickupSettingsPanel(section, draft) {
 	note.className = 'pickup-note';
 	note.textContent =
 		'自动走向并拾取符合配置的地面物品，包括自己丢弃的物品。手动拾取不受这些配置影响。设置保存在当前浏览器，按角色区分。';
-	section.append(controls, note);
+	const footer = document.createElement('div');
+	footer.className = 'pickup-save-footer';
+	footer.append(status, retry);
+	section.append(controls, note, footer);
+	return {
+		footer,
+		flush: () => {
+			if (timer) save();
+		},
+		destroy: () => {
+			clearTimeout(timer);
+			requestId++;
+		}
+	};
 }

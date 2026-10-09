@@ -78,6 +78,7 @@ export function createGameAutoCombat(enabled) {
 	}
 	const controller = createAutoCombatController(
 		{
+			saveSettings: settings => saveAutoCombatSettings(settingsKey, settings),
 			enabled: () =>
 				enabled() && !Session.Entity?.isOverWeight && Session.Entity?.action !== Session.Entity?.ACTION.SIT,
 			now: () => performance.now(),
@@ -151,17 +152,5 @@ export function createGameAutoCombat(enabled) {
 		},
 		loadAutoCombatSettings(settingsKey)
 	);
-	return {
-		...controller,
-		configure(species, ids, ranges, teleport) {
-			if (!controller.configure(species, ids, ranges, teleport)) return false;
-			const saved = controller.snapshot();
-			return saveAutoCombatSettings(settingsKey, {
-				species: saved.species,
-				skills: saved.skills,
-				ranges: saved.ranges,
-				teleport: saved.teleport
-			});
-		}
-	};
+	return controller;
 }

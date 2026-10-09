@@ -121,3 +121,24 @@
 	width: 100%;
 	max-width: none;
 }
+
+.pickup-save-footer {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-top: 12px;
+	padding: 10px 0;
+	border-top: 1px solid #52606d;
+}
+.pickup-save-status {
+	font-size: 12px;
+	color: #bac4cd;
+}
+.pickup-save-status[data-error='true'] {
+	color: #ff9b8d;
+}
+.pickup-section input[aria-invalid='true'] {
+	border-color: #ff9b8d;
+	outline: 1px solid #ff9b8d;
+}

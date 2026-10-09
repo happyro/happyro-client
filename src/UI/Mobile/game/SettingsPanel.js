@@ -5,6 +5,7 @@ import { showToast } from 'UI/Components/Toast.js';
 
 /** Graphics/audio use a draft; camera adjustments take effect immediately. */
 export function createSettingsPanel(body, service, initialSection = '画面') {
+	let pickupEditor;
 	let draft = service.snapshot();
 	let activeSection = initialSection;
 	const host = body.getRootNode().host;
@@ -16,6 +17,7 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 	if (!host) window.addEventListener('resize', resize);
 	const notify = message => showToast(body, message);
 	function render() {
+		pickupEditor?.destroy();
 		body.replaceChildren();
 		const form = document.createElement('form');
 		form.className = 'settings-form';
@@ -43,7 +45,8 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 					entry.button.setAttribute('aria-pressed', String(label === name));
 				}
 				content.scrollTop = 0;
-				footer.hidden = name === '镜头';
+				footer.hidden = name === '镜头' || name === '拾取';
+				pickupEditor.footer.hidden = name !== '拾取';
 			};
 			sections.set(name, { section, button });
 			tabs.append(button);
@@ -168,7 +171,7 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 			section.append(...values, ...switches);
 		}
 
-		createPickupSettingsPanel(sections.get('拾取').section, draft.pickup);
+		pickupEditor = createPickupSettingsPanel(sections.get('拾取').section, draft.pickup);
 
 		const camera = sections.get('镜头').section;
 		camera.classList.add('camera-section');
@@ -217,14 +220,14 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 		}
 		const footer = document.createElement('div');
 		footer.className = 'settings-footer';
-		footer.hidden = activeSection === '镜头';
+		footer.hidden = activeSection === '镜头' || activeSection === '拾取';
 		const buttons = document.createElement('div');
 		buttons.className = 'settings-actions';
 		for (const [label, action] of [
 			[
 				'保存',
 				() => {
-					notify(service.save(draft));
+					notify(service.save({ ...draft, pickup: service.snapshot().pickup }));
 				}
 			],
 			[
@@ -255,11 +258,14 @@ export function createSettingsPanel(body, service, initialSection = '画面') {
 			buttons.append(button);
 		}
 		footer.append(buttons);
-		form.append(footer);
+		pickupEditor.footer.hidden = activeSection !== '拾取';
+		form.append(footer, pickupEditor.footer);
 		body.append(form);
 	}
 	render();
 	return () => {
+		pickupEditor.flush();
+		pickupEditor.destroy();
 		observer.disconnect();
 		window.removeEventListener('resize', resize);
 		service.preview?.(service.snapshot().interface);

@@ -35,23 +35,6 @@ button:disabled {
 	opacity: 0.45;
 	cursor: default;
 }
-.combat-bar {
-	width: 260px;
-	max-width: calc(100vw - 32px);
-	padding: 10px;
-	border: 1px solid #65717b;
-	border-radius: 10px;
-	background: #18212bf2;
-	box-shadow: 0 3px 12px #0005;
-	pointer-events: auto;
-}
-.combat-actions {
-	display: flex;
-	gap: 8px;
-}
-.combat-actions button {
-	flex: 1;
-}
 [data-toggle][aria-pressed='true'] {
 	border-color: #ceaa70;
 	background: #493c26;
@@ -94,4 +77,176 @@ button:disabled {
 .combat-dialog h2 {
 	margin: 0;
 	font-size: 17px;
+}
+
+:host {
+	--assist-surface: #18212b;
+	--assist-border: #52606d;
+	--assist-accent: #ceaa70;
+	color-scheme: dark;
+}
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #65717b #111a23;
+}
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+::-webkit-scrollbar-track {
+	background: #111a23;
+}
+::-webkit-scrollbar-thumb {
+	background: #65717b;
+	border: 2px solid #111a23;
+	border-radius: 6px;
+}
+.combat-launcher {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	padding: 9px;
+	pointer-events: auto;
+	background: #18212be8;
+	box-shadow: 0 2px 8px #0005;
+}
+.combat-launcher svg {
+	width: 22px;
+	height: 22px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.5;
+}
+.combat-indicator {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #ceaa70;
+}
+.combat-dialog {
+	width: min(820px, 100%);
+	height: min(600px, 100%);
+	gap: 12px;
+	background: var(--assist-surface);
+	border-color: var(--assist-border);
+}
+.combat-dialog > header {
+	flex-shrink: 0;
+}
+.combat-subtitle {
+	display: block;
+	margin-top: 5px;
+	font-size: 12px;
+	color: #bac4cd;
+}
+.combat-runtime {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 10px 12px;
+	border: 1px solid var(--assist-border);
+	border-radius: 8px;
+	background: #111a23;
+}
+.combat-status {
+	margin-top: 4px;
+}
+.combat-runtime button {
+	flex-shrink: 0;
+	min-width: 100px;
+}
+.combat-tabs {
+	display: flex;
+	flex-shrink: 0;
+	border-bottom: 1px solid var(--assist-border);
+	gap: 6px;
+}
+.combat-tabs button {
+	min-width: 112px;
+	border-radius: 6px 6px 0 0;
+	border-bottom: 0;
+	padding: 10px 16px;
+	color: #bac4cd;
+}
+.combat-tabs [aria-selected='true'] {
+	color: #f4f0e6;
+	background: #33404c;
+	border-color: var(--assist-accent);
+	box-shadow: inset 0 2px var(--assist-accent);
+}
+.desktop-pickup-panel {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+	gap: 12px;
+}
+.desktop-pickup-scroll {
+	overflow: auto;
+	min-height: 0;
+	flex: 1;
+	padding-right: 8px;
+}
+.combat-dialog .settings-field {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 38px;
+	gap: 12px;
+}
+.combat-dialog input {
+	font: inherit;
+	color: inherit;
+	accent-color: var(--assist-accent);
+}
+.combat-dialog input[type='number'],
+.combat-dialog input[type='search'] {
+	min-height: 34px;
+	padding: 6px 8px;
+	background: #111a23;
+	border: 1px solid var(--assist-border);
+	border-radius: 6px;
+}
+.combat-dialog input[type='checkbox'] {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+.combat-dialog .pickup-limits .settings-field {
+	flex-direction: column;
+	align-items: stretch;
+	gap: 6px;
+}
+.combat-dialog h3,
+.combat-dialog h4 {
+	font-size: 13px;
+}
+.combat-dialog .auto-species-list,
+.combat-dialog .auto-skill-list,
+.combat-dialog .auto-skill-card strong,
+.combat-dialog .auto-range-settings,
+.combat-dialog .auto-teleport-settings {
+	font-size: 13px;
+}
+.combat-dialog .auto-help,
+.combat-dialog .auto-skill-card small,
+.combat-dialog [data-skill-count],
+.combat-dialog [data-auto-summary] {
+	font-size: 12px;
+}
+.combat-dialog .auto-range-stepper button {
+	padding: 0;
+}
+.combat-dialog .auto-target-section {
+	padding-right: 8px;
+}
+.combat-dialog .auto-config-footer {
+	min-height: 48px;
+	font-size: 12px;
 }

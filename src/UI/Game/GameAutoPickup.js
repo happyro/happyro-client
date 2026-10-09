@@ -33,7 +33,6 @@ export function startAutoPickup() {
 				!Session.FreezeUI &&
 				!isAutoCombatEngaged() &&
 				!isAutoCombatTeleportPending() &&
-				!document.querySelector('#PickupSettings') &&
 				!document.hidden &&
 				Session.Entity &&
 				![Session.Entity.ACTION.DIE, Session.Entity.ACTION.SIT].includes(Session.Entity.action)
@@ -62,7 +61,6 @@ export function startAutoPickup() {
 				Session.Entity.action === Session.Entity.ACTION.ATTACK ||
 				Session.Entity.cast?.display ||
 				Session.Entity.amotionTick > Renderer.tick ||
-				document.querySelector('#PickupSettings') ||
 				document.querySelector('#MobileGameHUD')?.shadowRoot?.querySelector('.backdrop:not([hidden])') ||
 				document.activeElement?.matches('input, textarea')
 			),

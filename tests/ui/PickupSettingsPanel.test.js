@@ -20,3 +20,22 @@ it('disables filters while off, preserves them and searches/adds/removes exclusi
  toggle.checked = false; toggle.dispatchEvent(new Event('input')); expect(draft.range).toBe(8); expect(draft.excluded).toHaveLength(1);
  toggle.checked = true; toggle.dispatchEvent(new Event('input')); click('移除'); expect(draft.excluded).toEqual([]);
 });
+
+it('debounces valid numbers, ignores invalid values, retries failures and cancels timers on destroy', () => {
+ vi.useFakeTimers();
+ try {
+ const section=document.body.appendChild(document.createElement('section'));
+ const save=vi.fn(() => true);
+ const editor=createPickupSettingsPanel(section,{...pickupDefaults(),enabled:true},save);
+ const range=section.querySelector('[data-pickup=range]');
+ const input=value=>{range.value=value;range.dispatchEvent(new Event('input'));};
+ input('8'); vi.advanceTimersByTime(200); input('9'); vi.advanceTimersByTime(399); expect(save).not.toHaveBeenCalled();
+ vi.advanceTimersByTime(1); expect(save).toHaveBeenLastCalledWith(expect.objectContaining({range:9}));
+ input('99'); vi.advanceTimersByTime(500); expect(save).toHaveBeenCalledOnce();
+ input('10'); save.mockReturnValue(false); range.dispatchEvent(new Event('blur'));
+ expect(section.querySelector('.pickup-save-status').textContent).toContain('保存失败');
+ save.mockReturnValue(true); [...section.querySelectorAll('button')].find(x=>x.textContent==='重试').click();
+ expect(section.querySelector('.pickup-save-status').textContent).toBe('已保存');
+ const count=save.mock.calls.length; input('11'); editor.destroy(); vi.advanceTimersByTime(500); expect(save).toHaveBeenCalledTimes(count);
+ } finally {vi.useRealTimers();}
+});
